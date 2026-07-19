@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
+
+@theme inline {
+  --color-brand-50: #eff8f5;
+  --color-brand-100: #d9eee7;
+  --color-brand-200: #b5ded1;
+  --color-brand-300: #86c7b5;
+  --color-brand-400: #55aa94;
+  --color-brand-500: #358d78;
+  --color-brand-600: #297160;
+  --color-brand-700: #255b50;
+  --color-brand-800: #214a42;
+  --color-brand-900: #1e3e38;
+  --color-neutral-50: #f7f8f8;
+  --color-neutral-100: #eef0f0;
+  --color-neutral-200: #dfe3e3;
+  --color-neutral-300: #c7cdcd;
+  --color-neutral-400: #98a2a2;
+  --color-neutral-500: #697575;
+  --color-neutral-600: #4e5959;
+  --color-neutral-700: #3c4545;
+  --color-neutral-800: #252c2c;
+  --color-neutral-900: #151a1a;
+  --color-surface: #ffffff;
+  --color-line: #e4e8e7;
+  --color-strong: #17201e;
+  --color-muted: #5f6b68;
+  --color-rise: #d92d20;
+  --color-fall: #2563eb;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+  background: var(--color-surface);
+  color: var(--color-strong);
+  font-synthesis: none;
+}
+
+* { border-color: var(--color-line); }
+html { min-width: 320px; scroll-behavior: smooth; }
+body { min-height: 100vh; background: var(--color-surface); font-family: var(--font-sans); }
+button, input, select { font: inherit; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+@utility page-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) { padding-inline: 2rem; }
+}
+
+@utility eyebrow {
+  color: var(--color-brand-700);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@utility chip {
+  border: 1px solid var(--color-brand-200);
+  border-radius: 9999px;
+  background: var(--color-brand-50);
+  padding: 0.45rem 0.75rem;
+  color: var(--color-brand-800);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+

@@ -27,3 +27,7 @@ D:\ETFCampus
 
 - 공개 저장소 전환 전 검토: API 키 등 비밀값은 코드·이력에 절대 포함 금지 (GitHub Secrets 사용)
 - 데이터 기준일: data/ 파일 내 bas_dt 컬럼 참조 (현재 2026-07-15 기준 시험 산출본)
+
+## 출시 전 교체 대상 샘플
+
+- `content/briefings/[SAMPLE]_2026-07-15.md` — 브리핑 렌더링 검증용 중립 fixture. 실제 운영자 검수 콘텐츠로 출시 전 교체

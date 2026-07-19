@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
+import { loadBriefings } from "@/lib/content/briefings";
 import { loadEtfs } from "@/lib/data/etf-repository";
 
 export const dynamic = "force-static";
@@ -21,5 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "daily" as const,
     priority: 0.8,
   }));
-  return [...pages, ...detailPages];
+  const briefingPages = loadBriefings().map((briefing) => ({ url: `${baseUrl}/briefing/${briefing.date}`, lastModified: new Date(`${briefing.date}T00:00:00+09:00`), changeFrequency: "never" as const, priority: 0.7 }));
+  return [...pages, ...detailPages, ...briefingPages];
 }

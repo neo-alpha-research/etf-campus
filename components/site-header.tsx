@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { siteConfig } from "@/config/site";
+import { StyleChip } from "@/components/onboarding/style-chip";
 
 const navigation = [
   { href: "/", label: "대시보드" },
@@ -24,7 +25,7 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <button className="chip" type="button">내 스타일</button>
+        <StyleChip />
       </div>
       <nav aria-label="모바일 주요 메뉴" className="scrollbar-none flex gap-5 overflow-x-auto border-t border-line px-5 py-3 text-sm font-semibold text-muted md:hidden">
         {navigation.map((item) => (
@@ -34,4 +35,3 @@ export function SiteHeader() {
     </header>
   );
 }
-

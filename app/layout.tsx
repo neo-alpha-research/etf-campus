@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { StyleOnboarding } from "@/components/onboarding/style-onboarding";
 import { siteConfig } from "@/config/site";
 
 import "./globals.css";
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader />
         {children}
         <SiteFooter />
+        <StyleOnboarding />
       </body>
     </html>
   );

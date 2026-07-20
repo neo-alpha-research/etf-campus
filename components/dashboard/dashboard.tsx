@@ -53,7 +53,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const asOfDate = etfs[0]?.asOfDate;
 
   return (
-    <section aria-labelledby="dashboard-title" className="page-shell flex-1 py-8 sm:py-12">
+    <main aria-labelledby="dashboard-title" className="page-shell flex-1 py-8 sm:py-12">
       <div className="max-w-3xl">
         <p className="eyebrow">ETF Dashboard</p>
         <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.04em] text-strong sm:text-4xl" id="dashboard-title">
@@ -114,7 +114,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
       <div className="mt-3 overflow-hidden rounded-2xl border border-line bg-surface">
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-left text-sm">
+          <table className="w-full border-collapse text-left text-sm"><caption className="sr-only">ETF 목록과 기간별 가격 수익률</caption>
             <thead className="bg-neutral-50 text-xs font-bold text-muted">
               <tr>
                 <th className="min-w-44 px-4 py-3 sm:px-5" scope="col">종목명</th>
@@ -153,7 +153,6 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </div>
       </div>
       <p className="mt-3 text-xs leading-5 text-muted">과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다</p>
-    </section>
+    </main>
   );
 }
-

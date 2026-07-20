@@ -62,7 +62,7 @@ export function EtfDetail({ etf }: { etf: Etf }) {
       <section aria-labelledby="returns-title" className="border-t border-line py-8">
         <div className="flex flex-wrap items-end justify-between gap-3"><h2 className="text-xl font-extrabold text-strong" id="returns-title">기간 수익률</h2><p className="text-xs font-semibold text-muted">가격 기준·분배금 미포함</p></div>
         <div className="mt-4 overflow-hidden rounded-2xl border border-line">
-          <table className="w-full table-fixed text-center text-sm">
+          <table className="w-full table-fixed text-center text-sm"><caption className="sr-only">{etf.name} 기간별 가격 수익률</caption>
             <thead className="bg-neutral-50 text-xs font-bold text-muted"><tr>{RETURN_PERIODS.map((period) => <th className="px-2 py-3" key={period} scope="col">{periodLabels[period]}</th>)}</tr></thead>
             <tbody><tr>{RETURN_PERIODS.map((period) => <td className="px-2 py-5" key={period}><ReturnCell value={etf.returns[period]} /></td>)}</tr></tbody>
           </table>

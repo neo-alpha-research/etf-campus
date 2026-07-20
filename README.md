@@ -33,3 +33,10 @@ D:\ETFCampus
 - `content/briefings/[SAMPLE]_2026-07-15.md` — 브리핑 렌더링 검증용 중립 fixture. 실제 운영자 검수 콘텐츠로 출시 전 교체
 - `content/guides/[SAMPLE]_*.mdx` 4건 — 자산군 가이드 화면·스타일 연결 검증용 중립 fixture. 출시 전 전량 교체
 - `content/books/[SAMPLE]_*.mdx` 3건 — 북 큐레이션 화면·제휴 표기 구조 검증용 중립 fixture. 출시 전 전량 교체
+
+## 공개 배포 전 게이트
+
+1. 운영자·Navigator가 공급한 실 콘텐츠로 모든 `[SAMPLE]_` 파일을 교체한다.
+2. `npm run check:release`가 성공하는지 확인한다. 샘플이 한 건이라도 남으면 실패한다.
+3. 서비스명·상표·도메인 확정과 Phase 1 법률 검토 완료를 운영자가 확인한다.
+4. `NEXT_PUBLIC_SITE_URL`을 실제 공개 URL로 설정하고 `npm run lint`, `npm test`, `npm run build`를 다시 실행한다.

@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { GuidesIndex } from "@/components/learning/guides-index";
 import { loadGuides } from "@/lib/content/learning-content";
 
-export const metadata: Metadata = { title: "자산군 가이드", description: "특정 종목 조합이 아닌 자산군의 역할과 판단 기준을 배웁니다." };
+export const metadata: Metadata = { title: "자산군 가이드", description: "특정 종목 조합이 아닌 자산군의 역할과 판단 기준을 배웁니다.", alternates: { canonical: "/guides" } };
 
 export default function GuidesPage() {
   return <main className="page-shell flex-1 py-8 sm:py-12">

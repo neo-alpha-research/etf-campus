@@ -42,7 +42,13 @@
 html { min-width: 320px; scroll-behavior: smooth; }
 body { min-height: 100vh; background: var(--color-surface); font-family: var(--font-sans); }
 button, input, select { font: inherit; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--color-brand-300); outline-offset: 3px; }
 .tabular-nums { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
 
 @utility page-shell {
   margin-inline: auto;
@@ -69,4 +75,3 @@ button, input, select { font: inherit; }
   font-size: 0.75rem;
   font-weight: 700;
 }
-

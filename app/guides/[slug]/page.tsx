@@ -11,7 +11,7 @@ type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() { return loadGuides().map(({ slug }) => ({ slug })); }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const guide = findGuide((await params).slug);
-  return guide ? { title: guide.title, description: guide.summary } : {};
+  return guide ? { title: guide.title, description: guide.summary, alternates: { canonical: `/guides/${guide.slug}` } } : {};
 }
 
 export default async function GuidePage({ params }: Props) {

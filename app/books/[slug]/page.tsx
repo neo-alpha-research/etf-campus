@@ -8,7 +8,7 @@ import { findBook, loadBooks } from "@/lib/content/learning-content";
 
 type Props = { params: Promise<{ slug: string }> };
 export function generateStaticParams() { return loadBooks().map(({ slug }) => ({ slug })); }
-export async function generateMetadata({ params }: Props): Promise<Metadata> { const book = findBook((await params).slug); return book ? { title: book.title, description: book.summary } : {}; }
+export async function generateMetadata({ params }: Props): Promise<Metadata> { const book = findBook((await params).slug); return book ? { title: book.title, description: book.summary, alternates: { canonical: `/books/${book.slug}` } } : {}; }
 
 export default async function BookPage({ params }: Props) {
   const book = findBook((await params).slug);

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { BooksIndex } from "@/components/learning/books-index";
 import { loadBooks } from "@/lib/content/learning-content";
 
-export const metadata: Metadata = { title: "북 큐레이션", description: "투자 상품이 아니라 기준과 원칙을 배우는 읽을거리를 선별합니다." };
+export const metadata: Metadata = { title: "북 큐레이션", description: "투자 상품이 아니라 기준과 원칙을 배우는 읽을거리를 선별합니다.", alternates: { canonical: "/books" } };
 
 export default function BooksPage() {
   return <main className="page-shell flex-1 py-8 sm:py-12">

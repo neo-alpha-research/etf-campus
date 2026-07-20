@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "check:release": "node scripts/check-release-readiness.mjs",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest"

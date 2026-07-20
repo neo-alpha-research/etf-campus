@@ -1,6 +1,9 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { loadBriefings } from "@/lib/content/briefings";
+
+export const metadata: Metadata = { title: "시황 브리핑", description: "공시 데이터에 근거한 ETF 시장 기록을 날짜별로 확인합니다.", alternates: { canonical: "/briefing" } };
 
 export default function BriefingPage() {
   const briefings = loadBriefings();

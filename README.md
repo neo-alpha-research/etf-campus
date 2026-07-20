@@ -31,3 +31,5 @@ D:\ETFCampus
 ## 출시 전 교체 대상 샘플
 
 - `content/briefings/[SAMPLE]_2026-07-15.md` — 브리핑 렌더링 검증용 중립 fixture. 실제 운영자 검수 콘텐츠로 출시 전 교체
+- `content/guides/[SAMPLE]_*.mdx` 4건 — 자산군 가이드 화면·스타일 연결 검증용 중립 fixture. 출시 전 전량 교체
+- `content/books/[SAMPLE]_*.mdx` 3건 — 북 큐레이션 화면·제휴 표기 구조 검증용 중립 fixture. 출시 전 전량 교체

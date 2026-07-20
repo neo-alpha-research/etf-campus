@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
 import { loadBriefings } from "@/lib/content/briefings";
+import { loadBooks, loadGuides } from "@/lib/content/learning-content";
 import { loadEtfs } from "@/lib/data/etf-repository";
 
 export const dynamic = "force-static";
@@ -23,5 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
   const briefingPages = loadBriefings().map((briefing) => ({ url: `${baseUrl}/briefing/${briefing.date}`, lastModified: new Date(`${briefing.date}T00:00:00+09:00`), changeFrequency: "never" as const, priority: 0.7 }));
-  return [...pages, ...detailPages, ...briefingPages];
+  const guidePages = loadGuides().map((guide) => ({ url: `${baseUrl}/guides/${guide.slug}`, lastModified, changeFrequency: "monthly" as const, priority: 0.7 }));
+  const bookPages = loadBooks().map((book) => ({ url: `${baseUrl}/books/${book.slug}`, lastModified, changeFrequency: "monthly" as const, priority: 0.6 }));
+  return [...pages, ...detailPages, ...briefingPages, ...guidePages, ...bookPages];
 }

@@ -8,6 +8,7 @@ describe("sitemap", () => {
     const etfEntries = entries.filter((entry) => entry.url.includes("/etf/"));
     expect(etfEntries).toHaveLength(1_147);
     expect(entries.every((entry) => entry.url.startsWith("https://"))).toBe(true);
+    expect(entries.some((entry) => entry.url.endsWith("/guides/foundation-first"))).toBe(true);
+    expect(entries.some((entry) => entry.url.endsWith("/books/principles-before-products"))).toBe(true);
   });
 });
-

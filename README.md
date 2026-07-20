@@ -40,3 +40,10 @@ D:\ETFCampus
 2. `npm run check:release`가 성공하는지 확인한다. 샘플이 한 건이라도 남으면 실패한다.
 3. 서비스명·상표·도메인 확정과 Phase 1 법률 검토 완료를 운영자가 확인한다.
 4. `NEXT_PUBLIC_SITE_URL`을 실제 공개 URL로 설정하고 `npm run lint`, `npm test`, `npm run build`를 다시 실행한다.
+5. Vercel 프로젝트의 Analytics 메뉴에서 Web Analytics를 활성화한 뒤 프로덕션을 재배포한다.
+
+## 방문 계측
+
+- `@vercel/analytics` v2의 자동 페이지뷰만 사용한다. 로그인 정보·사용자 식별자·사용자 입력값을 수집하는 커스텀 이벤트는 만들지 않는다.
+- Vercel Web Analytics는 제3자 쿠키 없이 집계 데이터를 기록하므로 Phase 1에는 별도 쿠키 배너를 두지 않는다. 법률 검토 결과가 달라지면 공개 전에 반영한다.
+- Threads 발행 링크의 UTM 부착은 코드가 아니라 발행 SOP에서 관리한다. 필터와 스타일 값 외에 개인정보를 URL 쿼리에 넣지 않는다.

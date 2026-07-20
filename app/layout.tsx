@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <div className="flex flex-1 flex-col" id="main-content">{children}</div>
         <SiteFooter />
         <StyleOnboarding />
+        <Analytics debug={false} />
       </body>
     </html>
   );

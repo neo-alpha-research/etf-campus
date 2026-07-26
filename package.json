@@ -13,7 +13,6 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@vercel/analytics": "^2.0.1",
     "csv-parse": "^7.0.1",
     "next": "16.2.10",
     "pretendard": "1.3.9",

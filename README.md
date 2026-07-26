@@ -48,12 +48,12 @@ D:\ETFCampus
 2. `npm run check:release`가 성공하는지 확인한다. 샘플이 한 건이라도 남으면 실패한다.
 3. 서비스명·상표·도메인 확정과 Phase 1 법률 검토 완료를 운영자가 확인한다.
 4. `NEXT_PUBLIC_SITE_URL`을 실제 공개 URL로 설정하고 `npm run lint`, `npm test`, `npm run build`를 다시 실행한다.
-5. Vercel 프로젝트의 Analytics 메뉴에서 Web Analytics를 활성화한 뒤 프로덕션을 재배포한다.
+5. Cloudflare Pages의 Metrics 메뉴에서 Web Analytics를 활성화한 뒤 프로덕션을 재배포한다.
 
 ## 방문 계측
 
-- `@vercel/analytics` v2의 자동 페이지뷰만 사용한다. 로그인 정보·사용자 식별자·사용자 입력값을 수집하는 커스텀 이벤트는 만들지 않는다.
-- Vercel Web Analytics는 제3자 쿠키 없이 집계 데이터를 기록하므로 Phase 1에는 별도 쿠키 배너를 두지 않는다. 법률 검토 결과가 달라지면 공개 전에 반영한다.
+- Cloudflare Pages의 무료 Web Analytics에서 자동 페이지뷰만 확인한다. 로그인 정보·사용자 식별자·사용자 입력값을 수집하는 커스텀 이벤트는 만들지 않는다.
+- 방문 통계는 Cloudflare의 기본 집계 설정만 사용한다. 별도 광고 픽셀·세션 녹화·사용자 프로파일링은 도입하지 않으며, 법률 검토 결과가 달라지면 공개 전에 반영한다.
 - Threads 발행 링크의 UTM 부착은 코드가 아니라 발행 SOP에서 관리한다. 필터와 스타일 값 외에 개인정보를 URL 쿼리에 넣지 않는다.
 
 ## 상장일·확장 수익률 배치
@@ -61,6 +61,14 @@ D:\ETFCampus
 - `scripts/enrich_listing_and_returns.py`는 기존 ETF 시세 API로 `listing_date`, 정확한 `new_90d`, 1일·1주·2주·2년·3년·상장 후(ITD) 가격수익률을 보강한다.
 - ITD는 첫 거래일 종가 대비이며, 배치 원천이 없거나 상장 기간이 부족한 값은 비워 둔다. 프론트에서는 이를 `-`로 표시한다.
 - API 키는 `DATA_GO_KR_SERVICE_KEY` GitHub Secret 환경변수로만 전달하고 저장소나 명령행 인자에 기록하지 않는다.
+
+## 일일 데이터 자동 갱신
+
+- `.github/workflows/daily-data.yml`은 월~토 오전 9시 30분(KST)에 실행한다. 토요일 실행에서 금요일 종가를 반영한다.
+- 목표일 데이터가 없으면 공식 API에서 그 이전 최근 거래일을 찾아 사용한다.
+- CSV 3종을 갱신한 뒤 전체 테스트와 정적 빌드가 성공한 경우에만 `main`에 자동 커밋한다.
+- Cloudflare Pages는 이 커밋을 감지해 `https://etf-campus.pages.dev`를 자동 재배포한다.
+- 수동 실행은 GitHub `Actions → Daily ETF data refresh → Run workflow`에서 할 수 있으며, 선택적으로 `YYYYMMDD` 목표일을 입력할 수 있다.
 
 ## 주간 뉴스레터 시제품
 

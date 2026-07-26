@@ -34,6 +34,19 @@ function assertCompleteJoin(index: Map<string, CsvRow>, tickers: Set<string>, so
   }
 }
 
+function parseOptionalNullableNumber(row: CsvRow, field: string, source: string): number | null {
+  const raw = row[field];
+  if (raw === undefined || raw === "") return null;
+  const value = Number(raw);
+  if (!Number.isFinite(value)) throw new Error(`${source}: ${field} 값이 숫자가 아닙니다: ${raw}`);
+  return value;
+}
+
+function optionalText(row: CsvRow, field: string): string | null {
+  const value = row[field]?.trim();
+  return value || null;
+}
+
 export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const masterRows = readCsv(path.join(dataDirectory, "etf_master_draft.csv"));
   const returnRows = readCsv(path.join(dataDirectory, "etf_returns_draft.csv"));
@@ -52,13 +65,15 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
     const returns = returnsByTicker.get(ticker)!;
     const pension = pensionByTicker.get(ticker)!;
 
+    const changePct = parseNumberField(master, "change_pct", `master:${ticker}`);
+
     return {
       isin: requireField(master, "isin_cd", `master:${ticker}`),
       ticker,
       name: requireField(master, "name", `master:${ticker}`),
       baseIndex: requireField(master, "base_index", `master:${ticker}`),
       close: parseNumberField(master, "close", `master:${ticker}`),
-      changePct: parseNumberField(master, "change_pct", `master:${ticker}`),
+      changePct,
       tradeValue: parseNumberField(master, "trade_value", `master:${ticker}`),
       aum: parseNumberField(master, "aum", `master:${ticker}`),
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
@@ -67,15 +82,23 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       pensionSource: requireField(pension, "final_src", `pension:${ticker}`),
       liquidity: requireField(master, "liquidity", `master:${ticker}`),
       asOfDate: requireField(master, "bas_dt", `master:${ticker}`),
+      listingDate: optionalText(master, "listing_date"),
+      listingDateSource: optionalText(master, "listing_date_source"),
       returns: {
+        "1d": returns.r_1d === undefined ? changePct : parseOptionalNullableNumber(returns, "r_1d", `returns:${ticker}`),
+        "1w": parseOptionalNullableNumber(returns, "r_1w", `returns:${ticker}`),
+        "2w": parseOptionalNullableNumber(returns, "r_2w", `returns:${ticker}`),
         "1m": parseNullableNumber(returns, "r_1m", `returns:${ticker}`),
         "2m": parseNullableNumber(returns, "r_2m", `returns:${ticker}`),
         "3m": parseNullableNumber(returns, "r_3m", `returns:${ticker}`),
         "6m": parseNullableNumber(returns, "r_6m", `returns:${ticker}`),
         "12m": parseNullableNumber(returns, "r_12m", `returns:${ticker}`),
+        "24m": parseOptionalNullableNumber(returns, "r_24m", `returns:${ticker}`),
+        "36m": parseOptionalNullableNumber(returns, "r_36m", `returns:${ticker}`),
+        itd: parseOptionalNullableNumber(returns, "r_itd", `returns:${ticker}`),
       },
+      isNew90d: returns.new_90d === undefined || returns.new_90d === "" ? null : returns.new_90d === "Y",
       isNew3m: returns.new_3m === "Y",
     };
   });
 }
-

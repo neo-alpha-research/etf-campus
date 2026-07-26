@@ -7,6 +7,8 @@
     "build": "next build",
     "check:release": "node scripts/check-release-readiness.mjs",
     "lint": "eslint .",
+    "newsletter:snapshot": "node scripts/newsletter/create-weekly-snapshot.mjs",
+    "newsletter:build": "node scripts/newsletter/generate-weekly-newsletter.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
   },

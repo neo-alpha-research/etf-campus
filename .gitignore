@@ -8,4 +8,12 @@ coverage/
 .vercel/
 .DS_Store
 npm-debug.log*
+*.log
 
+# Local Python cache
+__pycache__/
+*.py[cod]
+
+# Generated review artifacts and local data backups
+artifacts/
+data/backups/

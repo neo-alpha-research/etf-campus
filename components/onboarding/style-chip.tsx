@@ -11,6 +11,20 @@ export function StyleChip() {
     () => null,
   );
   const stored = parseStoredDiagnosis(raw);
-  const label = stored?.status === "completed" ? STYLE_PROFILES[stored.style].name : "내 스타일";
-  return <button className="chip max-w-36 truncate" onClick={() => window.dispatchEvent(new CustomEvent(STYLE_CHANGE_EVENT, { detail: { open: true } }))} type="button">{label}</button>;
+  const completed = stored?.status === "completed";
+  const profile = completed ? STYLE_PROFILES[stored.style] : null;
+
+  return <button
+    aria-label={profile ? `투자 동물 진단 결과 보기: ${profile.name}` : "ETF 동물 투자 스타일 진단 시작하기"}
+    className="group inline-flex min-h-11 max-w-[12rem] items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-left text-brand-900 transition-all hover:border-brand-400 hover:bg-brand-100 hover:shadow-sm sm:max-w-60"
+    onClick={() => window.dispatchEvent(new CustomEvent(STYLE_CHANGE_EVENT, { detail: { open: true } }))}
+    type="button"
+  >
+    <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-700 text-base text-white">{profile?.emoji ?? "🐾"}</span>
+    <span className="min-w-0">
+      <span className="block text-[10px] font-extrabold tracking-[0.04em] text-brand-700">{profile ? "내 ETF 탐색 동물" : "약 2분 · 10문항"}</span>
+      <span className="block truncate text-xs font-extrabold sm:text-sm">{profile ? `${profile.animal} 유형` : "동물 투자 스타일 진단"}</span>
+    </span>
+    <span aria-hidden="true" className="hidden shrink-0 text-brand-600 transition-transform group-hover:translate-x-0.5 sm:block">›</span>
+  </button>;
 }

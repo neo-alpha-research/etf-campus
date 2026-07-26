@@ -45,6 +45,59 @@ button, input, select { font: inherit; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--color-brand-300); outline-offset: 3px; }
 .tabular-nums { font-variant-numeric: tabular-nums; }
 
+.etf-style-slider {
+  --slider-position: 50%;
+  width: 100%;
+  height: 2.75rem;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.etf-style-slider::-webkit-slider-runnable-track {
+  height: 0.625rem;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to right,
+    var(--color-brand-700) 0 var(--slider-position),
+    var(--color-neutral-200) var(--slider-position) 100%
+  );
+}
+
+.etf-style-slider::-webkit-slider-thumb {
+  width: 2rem;
+  height: 2rem;
+  margin-top: -0.6875rem;
+  appearance: none;
+  border: 0.25rem solid var(--color-surface);
+  border-radius: 9999px;
+  background: var(--color-brand-700);
+  box-shadow: 0 2px 8px rgb(23 32 30 / 22%);
+}
+
+.etf-style-slider::-moz-range-track {
+  height: 0.625rem;
+  border-radius: 9999px;
+  background: var(--color-neutral-200);
+}
+
+.etf-style-slider::-moz-range-progress {
+  height: 0.625rem;
+  border-radius: 9999px;
+  background: var(--color-brand-700);
+}
+
+.etf-style-slider::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0.25rem solid var(--color-surface);
+  border-radius: 9999px;
+  background: var(--color-brand-700);
+  box-shadow: 0 2px 8px rgb(23 32 30 / 22%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

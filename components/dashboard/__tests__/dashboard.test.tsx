@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import type { Etf } from "@/lib/domain/etf-types";
 import { Dashboard } from "../dashboard";
@@ -13,51 +13,76 @@ function etf(overrides: Partial<Etf>): Etf {
     close: 10_000,
     changePct: 1.2,
     tradeValue: 2_000_000_000,
-    aum: 50_000_000_000,
+    aum: 100_000_000_000,
     riskType: "normal",
     assetClass: "주식-국내",
     pension: "가능",
     pensionSource: "공식확인",
     liquidity: "pass",
     asOfDate: "20260715",
-    returns: { "1m": 1, "2m": 2, "3m": 3, "6m": 6, "12m": 12 },
+    listingDate: null,
+    listingDateSource: null,
+    returns: { "1d": 1.2, "1w": 1, "2w": 2, "1m": 3, "2m": 4, "3m": 5, "6m": 6, "12m": 12, "24m": 24, "36m": 36, itd: 7 },
+    isNew90d: null,
     isNew3m: false,
     ...overrides,
   };
 }
 
 const items = [
-  etf({ ticker: "A", name: "기본 ETF", tradeValue: 3_000_000_000 }),
-  etf({ ticker: "B", name: "신규 ETF", aum: 20_000_000_000, isNew3m: true }),
-  etf({ ticker: "C", name: "소규모 ETF", aum: 5_000_000_000 }),
+  etf({ ticker: "A", name: "대형 일반 ETF", aum: 100_000_000_000, tradeValue: 3_000_000_000 }),
+  etf({ ticker: "B", name: "중형 일반 ETF", aum: 50_000_000_000 }),
+  etf({ ticker: "C", name: "소규모 신규 ETF", aum: 5_000_000_000, isNew3m: true }),
+  etf({ ticker: "D", name: "레버리지 ETF", riskType: "leverage", pension: "불가" }),
 ];
 
 describe("Dashboard", () => {
-  it("기본 화면은 500억원 이상 종목만 보여준다", () => {
+  beforeEach(() => window.history.replaceState(null, "", "/"));
+
+  it("일반 계좌 기본 화면은 일반형·1,000억원 이상 종목만 보여준다", () => {
     render(<Dashboard etfs={items} />);
     expect(screen.getByText("1종목")).toBeInTheDocument();
-    expect(screen.getByText("기본 ETF")).toBeInTheDocument();
-    expect(screen.queryByText("소규모 ETF")).not.toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "종가" })).toHaveClass("text-center");
+    expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
+    expect(screen.queryByText("레버리지 ETF")).not.toBeInTheDocument();
   });
 
-  it("전체 보기에서 전 종목과 소규모 유의 표시를 보여준다", () => {
+  it("500억과 전체 범위를 전환하고 소규모 유의를 표시한다", () => {
     render(<Dashboard etfs={items} />);
-    fireEvent.click(screen.getByRole("button", { name: "전체 보기" }));
+    fireEvent.click(screen.getByRole("button", { name: "500억+" }));
+    expect(screen.getByText("2종목")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "전체" }));
     expect(screen.getByText("3종목")).toBeInTheDocument();
     expect(screen.getByText("소규모 유의")).toBeInTheDocument();
   });
 
-  it("신규 상장 메뉴는 3개월 미만·100억원 이상만 보여준다", () => {
+  it("일반 계좌는 활용도가 낮은 2년과 3년을 제외한다", () => {
     render(<Dashboard etfs={items} />);
-    fireEvent.click(screen.getByRole("button", { name: "신규 상장" }));
-    expect(screen.getByText("1종목")).toBeInTheDocument();
-    expect(screen.getByText("신규 ETF")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "2년" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "3년" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: "2년 수익률" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: "3년 수익률" })).not.toBeInTheDocument();
   });
 
-  it("모바일 수익률 기간을 전환하고 필수 고지를 표시한다", () => {
+  it("신규 상장은 2주와 상장 후 ITD를 표시하고 3개월은 제외한다", async () => {
+    window.history.replaceState(null, "", "/?mode=new");
     render(<Dashboard etfs={items} />);
-    fireEvent.click(screen.getByRole("button", { name: "6개월" }));
-    expect(screen.getByRole("columnheader", { name: "6개월 수익률" })).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole("heading", { name: "상장 후 90일 이내 신규 ETF" })).toBeInTheDocument());
+    expect(screen.getByRole("button", { name: "2주" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "상장 후(ITD)" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "3개월" })).not.toBeInTheDocument();
+    expect(screen.getByText("소규모 신규 ETF")).toBeInTheDocument();
+  });
+
+  it("검색과 필수 수익률 고지를 제공한다", () => {
+    render(<Dashboard etfs={items} />);
+    const search = screen.getByRole("combobox", { name: "종목명 또는 티커 검색" });
+    fireEvent.focus(search);
+    fireEvent.change(search, { target: { value: "대형" } });
+    expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: /대형 일반 ETF/ })).toBeInTheDocument();
     expect(screen.getByText(/가격 기준·분배금 미포함/)).toBeInTheDocument();
     expect(screen.getByText("과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다")).toBeInTheDocument();
   });

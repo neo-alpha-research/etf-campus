@@ -2,8 +2,11 @@ name: Daily ETF data refresh
 
 on:
   schedule:
-    # 09:30 KST, Monday-Saturday. Saturday run picks up Friday's close.
-    - cron: "30 0 * * 1-6"
+    # 13:30 KST, Monday-Saturday: reconcile the latest available prior close.
+    - cron: "30 4 * * 1-6"
+    # 16:30 and 18:00 KST, Monday-Friday: publish today's close when available.
+    - cron: "30 7 * * 1-5"
+    - cron: "0 9 * * 1-5"
   workflow_dispatch:
     inputs:
       target:
@@ -36,9 +39,13 @@ jobs:
         env:
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
           TARGET_DATE: ${{ inputs.target }}
+          SCHEDULE: ${{ github.event.schedule }}
         run: |
           if [ -n "$TARGET_DATE" ]; then
-            python scripts/update_daily_data.py --target "$TARGET_DATE"
+            python scripts/update_daily_data.py --target "$TARGET_DATE" --require-exact-date
+          elif [ "$SCHEDULE" = "30 7 * * 1-5" ] || [ "$SCHEDULE" = "0 9 * * 1-5" ]; then
+            TODAY_KST="$(TZ=Asia/Seoul date +%Y%m%d)"
+            python scripts/update_daily_data.py --target "$TODAY_KST" --require-exact-date
           else
             python scripts/update_daily_data.py
           fi
@@ -56,6 +63,7 @@ jobs:
         env:
           NEXT_PUBLIC_SITE_URL: https://etf-campus.pages.dev
         run: |
+          python -m unittest discover -s scripts/tests
           npm test
           npm run build
 

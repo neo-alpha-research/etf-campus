@@ -20,7 +20,10 @@ import json
 from datetime import date, datetime, timedelta
 from pathlib import Path
 
-from phase0_collect_and_tag import classify, pension_rule
+try:
+    from .phase0_collect_and_tag import classify, pension_rule
+except ImportError:
+    from phase0_collect_and_tag import classify, pension_rule
 
 
 BASE_URL = "https://apis.data.go.kr/1160100/service/GetSecuritiesProductInfoService/getETFPriceInfo"
@@ -97,6 +100,23 @@ def on_or_before(service_key: str, target: date, cache: dict[str, dict[str, dict
     raise RuntimeError(f"{target:%Y%m%d} 이전 거래일 데이터를 찾지 못했습니다.")
 
 
+def resolve_snapshot(
+    service_key: str,
+    target: date,
+    cache: dict[str, dict[str, dict]],
+    require_exact_date: bool,
+) -> tuple[str, dict[str, dict]] | None:
+    if not require_exact_date:
+        return on_or_before(service_key, target, cache)
+
+    day_text = target.strftime("%Y%m%d")
+    if day_text not in cache:
+        cache[day_text] = fetch_snapshot(service_key, day_text)
+    if not cache[day_text]:
+        return None
+    return day_text, cache[day_text]
+
+
 def subtract_months(value: date, months: int) -> date:
     month_index = value.year * 12 + value.month - 1 - months
     year, month_zero = divmod(month_index, 12)
@@ -124,6 +144,11 @@ def snapshot_value(row: dict, key: str, default: object = "") -> object:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-dir", default="data")
+    parser.add_argument(
+        "--require-exact-date",
+        action="store_true",
+        help="Do not fall back to a prior trading day when the requested date is unavailable.",
+    )
     parser.add_argument("--target", help="YYYYMMDD, 기본값은 어제")
     args = parser.parse_args()
     service_key = os.environ.get("DATA_GO_KR_SERVICE_KEY")
@@ -133,7 +158,11 @@ def main() -> None:
     data_dir = Path(args.data_dir)
     target = datetime.strptime(args.target, "%Y%m%d").date() if args.target else date.today() - timedelta(days=1)
     cache: dict[str, dict[str, dict]] = {}
-    as_of_text, current = on_or_before(service_key, target, cache)
+    resolved = resolve_snapshot(service_key, target, cache, args.require_exact_date)
+    if resolved is None:
+        print(f"No data for requested date {target:%Y%m%d}; exiting without changes.")
+        return
+    as_of_text, current = resolved
     as_of = datetime.strptime(as_of_text, "%Y%m%d").date()
     print(f"공식 API 기준일 {as_of_text} · {len(current)}종목")
 

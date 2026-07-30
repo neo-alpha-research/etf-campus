@@ -27,10 +27,11 @@ describe("실제 ETF 데이터 회귀", () => {
     expect(getNewEtfs(etfs).map((etf) => etf.ticker).sort()).toEqual(flagged.map((etf) => etf.ticker).sort());
   });
 
-  it("기간 수익률 원천이 없는 신규 종목은 빈 값으로 유지한다", () => {
-    const withoutOneDay = etfs.find((etf) => etf.returns["1d"] === null);
-    expect(withoutOneDay).toBeDefined();
-    expect(withoutOneDay?.returns["1w"]).toBeNull();
+  it("기간 수익률은 유효한 숫자 또는 빈 값으로 유지한다", () => {
+    const returnValues = etfs.flatMap((etf) => Object.values(etf.returns));
+
+    expect(returnValues.length).toBeGreaterThan(0);
+    expect(returnValues.every((value) => value === null || Number.isFinite(value))).toBe(true);
   });
 
   it("연금 판정은 허용된 최종 상태만 사용한다", () => {

@@ -1,4 +1,4 @@
-# ETF 분류 작업 기준 v0.1 — 2026-07-31
+# ETF 분류 작업 기준 v0.2 — 2026-07-31
 
 > 상태: Navigator 반영 전 작업 초안. 기존 `docs/` SSOT 원문은 변경하지 않는다.
 
@@ -82,10 +82,11 @@ Morningstar·MSCI·FnGuide의 분류 체계는 자체 규칙 설계와 교차검
 - 환헤지 미실시 명시: `환노출`
 - 일정 비율만 헤지: `부분헤지`
 - 시장 상황에 따라 헤지 비율 조정: `탄력헤지`
-- 공식 근거 미확보: `미확인`
+- 국내 상장 ETF 종목명에 `(H)` 표시가 없고 부분·탄력 헤지 문구도 없음: `환노출`
+- 시장 노출 자체가 불명확하여 명명 규칙을 적용할 수 없음: `미확인`
 - 국내 기초자산: `해당없음`
 
-종목명에 `(H)`가 없는 사실만으로 `환노출`을 확정하지 않는다. 자동 초안은 공식 문서 검수 전까지 확정값이 아니다.
+부분·탄력 헤지 문구를 가장 먼저 판정하고, 그다음 `(H)` 표시를 판정한다. 그 외 해외 노출 상품은 국내 ETF 명명 관행에 따라 `환노출`로 판정한다. 이 규칙은 미래에셋 TIGER ETF 공식 교육자료의 “명칭 끝에 (H)가 있으면 환헤지형, 표시가 없으면 환노출형” 안내를 근거로 한다.
 
 ## 5. 화면 표시
 
@@ -102,7 +103,7 @@ Morningstar·MSCI·FnGuide의 분류 체계는 자체 규칙 설계와 교차검
 - 기존 자산군과 새 제안 자산군이 충돌한 종목
 - 혼합자산·리츠/인프라·원자재·통화
 - 국가·지역을 한 가지로 판정하기 어려운 상품
-- 해외 노출인데 환헤지 공식 근거가 없는 상품
+- 시장 노출 자체가 불명확해 환헤지 명명 규칙을 적용할 수 없는 상품
 - 커버드콜·버퍼·합성·복수 기초자산 상품
 
 최종 확정 시에는 검수자, 검수일, 공식 출처 URL, 근거 요약을 반드시 남긴다.
@@ -112,6 +113,7 @@ Morningstar·MSCI·FnGuide의 분류 체계는 자체 규칙 설계와 교차검
 - 한국거래소 ETF 제도: https://regulation.krx.co.kr/contents/RGL/03/03060106/RGL03060106.jsp
 - 한국거래소 환헤지 안내: https://pdf.krx.co.kr/ebook_new/access/ecatalogt.jsp?Dir=23&callmode=normal&catimage=&eclang=ko&start=41&um=s
 - KIND ETF 공시: https://kind.krx.co.kr/disclosure/disclosurebystocktype.do?method=searchDisclosureByStockTypeEtf
+- 미래에셋 TIGER ETF 환헤지 명명 안내: https://www.tigeretf.com/ko/academy/intermediate/content.do
 - 자본시장법 제229조: https://www.law.go.kr/LSW/lsLawLinkInfo.do?chrClsCd=010202&lsId=010513&lsJoLnkSeq=900425010&print=print
 - Morningstar 글로벌 분류 방법론: https://www.morningstar.com/content/dam/marketing/shared/research/methodology/860250-GlobalCategoryClassifications.pdf
 - MSCI 시장 분류: https://www.msci.com/indexes/index-resources/market-classification

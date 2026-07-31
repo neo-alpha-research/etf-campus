@@ -144,7 +144,9 @@ def suggest_fx(row: dict[str, str], market: str) -> tuple[str, str]:
         return "환헤지", "종목명 (H) 또는 헤지 명시"
     if re.search(r"환노출|UNHEDGED|\(\s*UH\s*\)", text, re.I):
         return "환노출", "종목명·기초지수명 명시"
-    return "미확인", "공식 문서 확인 필요"
+    if market != "검수 필요":
+        return "환노출", "국내 ETF 명명 규칙: (H) 표시 없음"
+    return "미확인", "시장 노출과 공식 문서 확인 필요"
 
 
 def normalized_risk(value: str) -> str:
@@ -168,14 +170,14 @@ def review_status(
         notes.append("복합·대체자산 확인")
     if strategy != "일반":
         notes.append(f"전략 {strategy}")
-    if fx == "미확인" and market not in {"국내", "해당없음"}:
+    if fx == "미확인" and market != "국내":
         notes.append("환헤지 공식문서 필요")
 
     if existing != asset:
         status = "자산군 우선 검수"
     elif market == "검수 필요":
         status = "시장 우선 검수"
-    elif fx == "미확인" and market not in {"국내", "해당없음"}:
+    elif fx == "미확인" and market != "국내":
         status = "환헤지 검수"
     elif asset in {"혼합자산", "리츠/인프라", "원자재", "통화"} or strategy != "일반":
         status = "구조 검수"
@@ -224,7 +226,7 @@ def confidence_assessment(
         score += 10
         basis.append("자산 명시")
 
-    if market in {"국내", "해당없음"}:
+    if market == "국내":
         score += 20
         basis.append("환헤지 비적용")
     elif fx != "미확인":

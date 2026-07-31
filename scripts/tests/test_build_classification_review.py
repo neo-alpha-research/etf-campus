@@ -44,7 +44,7 @@ class ClassificationDraftTest(TestCase):
 
         self.assertEqual((market, asset), ("해당없음", "원자재"))
 
-    def test_unknown_fx_policy_is_preserved_for_manual_review(self) -> None:
+    def test_foreign_etf_without_h_mark_is_classified_as_unhedged(self) -> None:
         row = {
             "name": "미국S&P500",
             "base_index": "S&P 500",
@@ -53,8 +53,31 @@ class ClassificationDraftTest(TestCase):
         fx, _ = suggest_fx(row, "미국")
         status, _ = review_status(row, "미국", "주식", fx, "일반")
 
-        self.assertEqual(fx, "미확인")
-        self.assertEqual(status, "환헤지 검수")
+        self.assertEqual(fx, "환노출")
+        self.assertEqual(status, "자동 초안")
+
+    def test_partial_and_dynamic_hedge_override_name_convention(self) -> None:
+        partial, _ = suggest_fx(
+            {"name": "글로벌채권 부분환헤지", "base_index": ""},
+            "글로벌",
+        )
+        dynamic, _ = suggest_fx(
+            {"name": "글로벌채권 탄력적 환헤지", "base_index": ""},
+            "글로벌",
+        )
+
+        self.assertEqual(partial, "부분헤지")
+        self.assertEqual(dynamic, "탄력헤지")
+
+    def test_direct_foreign_commodity_without_h_mark_is_unhedged(self) -> None:
+        row = {
+            "name": "금선물",
+            "base_index": "S&P GSCI Gold Index",
+            "asset_class": "원자재",
+        }
+        fx, _ = suggest_fx(row, "해당없음")
+
+        self.assertEqual(fx, "환노출")
 
     def test_plus_brand_is_not_mistaken_for_us_market(self) -> None:
         row = {
@@ -106,24 +129,25 @@ class ClassificationDraftTest(TestCase):
         self.assertGreaterEqual(score, 85)
         self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
 
-    def test_unknown_foreign_fx_is_never_auto_confirmed(self) -> None:
+    def test_unknown_market_is_never_auto_confirmed(self) -> None:
         row = {
-            "name": "KODEX 미국S&P500",
-            "base_index": "S&P 500",
+            "name": "테마성장",
+            "base_index": "Theme Growth Index",
             "asset_class": "주식-해외",
             "risk_type": "normal",
         }
         score, decision, reason, _ = confidence_assessment(
             row,
-            "미국",
-            "미국 시장 키워드",
+            "검수 필요",
+            "시장 단서 부족",
             "주식",
             "주식 기본값·기존 분류 참고",
             "미확인",
-            "공식 문서 확인 필요",
+            "시장 노출과 공식 문서 확인 필요",
             "일반",
         )
 
         self.assertGreater(score, 0)
         self.assertEqual(decision, "검수필요")
+        self.assertIn("MARKET_UNKNOWN", reason)
         self.assertIn("FX_UNKNOWN", reason)

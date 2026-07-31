@@ -58,17 +58,20 @@ function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
 function parseClassification(row: CsvRow | undefined): EtfClassification | null {
   if (!row) return null;
 
+  const reviewStatus = optionalText(row, "review_status") ?? "미검수";
+  const published = ["자동확정", "수기확정"].includes(reviewStatus);
   const resolved = (finalField: string, suggestedField: string) =>
-    optionalText(row, finalField) ?? optionalText(row, suggestedField);
+    optionalText(row, finalField) ?? (published ? optionalText(row, suggestedField) : null);
   const fxHedge = resolved("final_fx_hedge", "suggested_fx_hedge");
 
   return {
+    published,
     marketScope: resolved("final_market_scope", "suggested_market_scope"),
     assetClass: resolved("final_asset_class", "suggested_asset_class"),
     assetDetail: resolved("final_asset_detail", "suggested_asset_detail"),
     strategy: optionalText(row, "suggested_strategy"),
     fxHedge: fxHedge && !["미확인", "해당없음"].includes(fxHedge) ? fxHedge : null,
-    reviewStatus: optionalText(row, "review_status") ?? "미검수",
+    reviewStatus,
     reviewPriority: optionalText(row, "review_priority") ?? "",
     sourceUrl: optionalText(row, "official_source_url"),
     evidenceSummary: optionalText(row, "evidence_summary"),

@@ -25,6 +25,7 @@ const item: Etf = {
   isNew90d: null,
   isNew3m: false,
   classification: {
+    published: false,
     marketScope: "미국",
     assetClass: "주식",
     assetDetail: "반도체",
@@ -44,8 +45,8 @@ describe("EtfDetail", () => {
     expect(screen.getByText("테스트 기초지수")).toBeInTheDocument();
     expect(screen.getAllByText("연금 확인중")).toHaveLength(2);
     expect(screen.getByText("기준일 2026.07.15")).toBeInTheDocument();
-    expect(screen.getAllByLabelText("분류: 미국, 주식, 반도체, 환노출").length).toBeGreaterThan(0);
-    expect(screen.getByText("자동 분류 초안")).toBeInTheDocument();
+    expect(screen.getAllByLabelText("분류: 주식").length).toBeGreaterThan(0);
+    expect(screen.getByText("자동 검수 대기")).toBeInTheDocument();
     expect(screen.getAllByRole("cell", { name: "-, 가격 기준·분배금 미포함" }).length).toBeGreaterThan(0);
   });
 

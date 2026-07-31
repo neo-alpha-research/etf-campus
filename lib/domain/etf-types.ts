@@ -33,6 +33,7 @@ export type ReturnPeriod = (typeof RETURN_PERIODS)[number];
 export type EtfReturns = Record<ReturnPeriod, number | null>;
 
 export type EtfClassification = {
+  published: boolean;
   marketScope: string | null;
   assetClass: string | null;
   assetDetail: string | null;

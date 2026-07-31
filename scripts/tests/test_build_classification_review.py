@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from scripts.build_classification_review import (
+    confidence_assessment,
     review_status,
     suggest_asset,
     suggest_fx,
@@ -87,3 +88,42 @@ class ClassificationDraftTest(TestCase):
         market, _ = suggest_market(row, asset)
 
         self.assertEqual(market, "미국")
+
+    def test_domestic_plain_equity_can_be_auto_confirmed(self) -> None:
+        row = {
+            "name": "KODEX 코스피200",
+            "base_index": "KOSPI 200",
+            "asset_class": "주식-국내",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        score, decision, reason, _ = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "일반"
+        )
+
+        self.assertGreaterEqual(score, 85)
+        self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
+
+    def test_unknown_foreign_fx_is_never_auto_confirmed(self) -> None:
+        row = {
+            "name": "KODEX 미국S&P500",
+            "base_index": "S&P 500",
+            "asset_class": "주식-해외",
+            "risk_type": "normal",
+        }
+        score, decision, reason, _ = confidence_assessment(
+            row,
+            "미국",
+            "미국 시장 키워드",
+            "주식",
+            "주식 기본값·기존 분류 참고",
+            "미확인",
+            "공식 문서 확인 필요",
+            "일반",
+        )
+
+        self.assertGreater(score, 0)
+        self.assertEqual(decision, "검수필요")
+        self.assertIn("FX_UNKNOWN", reason)

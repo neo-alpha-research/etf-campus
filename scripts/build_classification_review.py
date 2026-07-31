@@ -1,6 +1,6 @@
 """현재 ETF 마스터를 기반으로 분류 검수용 자동 초안 CSV를 만든다.
 
-자동 제안은 확정값이 아니다. 공식 문서 검수 전에는 기존 서비스 데이터에 덮어쓰지 않는다.
+명시적인 규칙 근거가 서로 일치하는 경우만 자동확정하고 나머지는 검수 대기열로 보낸다.
 """
 
 from __future__ import annotations
@@ -183,8 +183,80 @@ def review_status(
         status = "자동 초안"
     return status, " | ".join(notes)
 
+def confidence_assessment(
+    row: dict[str, str],
+    market: str,
+    market_basis: str,
+    asset: str,
+    asset_basis: str,
+    fx: str,
+    fx_basis: str,
+    strategy: str,
+) -> tuple[int, str, str, str]:
+    """판정 신뢰도와 자동 처리 여부를 반환한다.
 
-def build_rows(source: Path) -> list[dict[str, str]]:
+    점수는 검수 순서를 정하기 위한 보조 지표다. 자동확정은 아래의 필수
+    조건을 모두 충족할 때만 허용한다.
+    """
+
+    existing = CURRENT_ASSET_MAP.get(row.get("asset_class", ""), "검수 필요")
+    score = 20  # 기존 risk_type을 그대로 사용하는 구조 판정
+    basis: list[str] = ["기존 위험유형"]
+    blockers: list[str] = []
+
+    if market == "검수 필요":
+        blockers.append("MARKET_UNKNOWN")
+    elif "키워드" in market_basis or market == "해당없음":
+        score += 25
+        basis.append("시장 명시")
+    else:
+        score += 15
+        basis.append("기존 시장 보조")
+
+    if existing == asset:
+        score += 25
+        basis.append("기존 자산군 일치")
+    else:
+        score += 5
+        blockers.append("ASSET_CONFLICT")
+
+    if "키워드" in asset_basis or asset in {"원자재", "통화"}:
+        score += 10
+        basis.append("자산 명시")
+
+    if market in {"국내", "해당없음"}:
+        score += 20
+        basis.append("환헤지 비적용")
+    elif fx != "미확인":
+        score += 20
+        basis.append("환헤지 명시")
+    else:
+        blockers.append("FX_UNKNOWN")
+
+    if strategy != "일반":
+        score += 5
+        basis.append("전략 명시")
+        if asset in {"혼합자산", "리츠/인프라", "원자재", "통화"}:
+            blockers.append("STRUCTURE_COMPLEX")
+
+    score = min(score, 100)
+    if blockers:
+        decision = "검수필요"
+        reason_code = "|".join(dict.fromkeys(blockers))
+    elif score >= 85:
+        decision = "자동확정"
+        reason_code = "RULES_AGREE"
+    else:
+        decision = "표본검수"
+        reason_code = "CONFIDENCE_BELOW_85"
+
+    return score, decision, reason_code, " · ".join(basis)
+
+
+def build_rows(
+    source: Path,
+    existing_reviews: dict[str, dict[str, str]] | None = None,
+) -> list[dict[str, str]]:
     with source.open(encoding="utf-8-sig", newline="") as handle:
         rows = list(csv.DictReader(handle))
 
@@ -197,6 +269,27 @@ def build_rows(source: Path) -> list[dict[str, str]]:
         strategy = suggest_strategy(text)
         fx, fx_basis = suggest_fx(row, market)
         status, note = review_status(row, market, asset, fx, strategy)
+        score, decision, reason_code, confidence_basis = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, strategy
+        )
+        previous = (existing_reviews or {}).get(row.get("ticker", ""), {})
+        has_manual_review = previous.get("review_status") == "수기확정"
+        final_values = {
+            "final_market_scope": previous.get("final_market_scope", ""),
+            "final_asset_class": previous.get("final_asset_class", ""),
+            "final_asset_detail": previous.get("final_asset_detail", ""),
+            "final_risk_type": previous.get("final_risk_type", ""),
+            "final_fx_hedge": previous.get("final_fx_hedge", ""),
+        }
+        if decision == "자동확정" and not has_manual_review:
+            final_values = {
+                "final_market_scope": market,
+                "final_asset_class": asset,
+                "final_asset_detail": detail,
+                "final_risk_type": normalized_risk(row.get("risk_type", "")),
+                "final_fx_hedge": fx,
+            }
+
         output.append({
             "ticker": row.get("ticker", ""),
             "name": row.get("name", ""),
@@ -214,34 +307,49 @@ def build_rows(source: Path) -> list[dict[str, str]]:
             "fx_basis": fx_basis,
             "review_priority": status,
             "auto_review_note": note,
-            "final_market_scope": "",
-            "final_asset_class": "",
-            "final_asset_detail": "",
-            "final_risk_type": "",
-            "final_fx_hedge": "",
-            "review_status": "미검수",
-            "official_source_url": "",
-            "evidence_summary": "",
-            "reviewer": "",
-            "reviewed_at": "",
+            "confidence_score": str(score),
+            "auto_decision": decision,
+            "reason_code": reason_code,
+            "confidence_basis": confidence_basis,
+            **final_values,
+            "review_status": previous.get("review_status", "") if has_manual_review else ("자동확정" if decision == "자동확정" else "미검수"),
+            "official_source_url": previous.get("official_source_url", ""),
+            "evidence_summary": previous.get("evidence_summary", ""),
+            "reviewer": previous.get("reviewer", ""),
+            "reviewed_at": previous.get("reviewed_at", ""),
         })
     return output
+
+
+def read_existing_reviews(path: Path) -> dict[str, dict[str, str]]:
+    if not path.exists():
+        return {}
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        return {row["ticker"]: row for row in csv.DictReader(handle)}
+
+
+def write_csv(path: Path, rows: list[dict[str, str]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", default="data/etf_master_draft.csv")
     parser.add_argument("--output", default="data/classification/etf_classification_review_draft.csv")
+    parser.add_argument("--queue-output", default="data/classification/etf_classification_review_queue.csv")
     args = parser.parse_args()
 
     output = Path(args.output)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    rows = build_rows(Path(args.source))
-    with output.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
-        writer.writeheader()
-        writer.writerows(rows)
-    print(f"{len(rows)} rows -> {output}")
+    rows = build_rows(Path(args.source), read_existing_reviews(output))
+    queue = [row for row in rows if row["auto_decision"] != "자동확정"]
+    write_csv(output, rows)
+    write_csv(Path(args.queue_output), queue)
+    confirmed = len(rows) - len(queue)
+    print(f"{len(rows)} rows: 자동확정 {confirmed}, 검수대기 {len(queue)} -> {output}")
 
 
 if __name__ == "__main__":

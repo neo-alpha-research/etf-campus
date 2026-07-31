@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 import { formatMoney, formatWon } from "@/lib/domain/etf-format";
 import { getReturnPeriods, isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf } from "@/lib/domain/etf-types";
-import { getEtfCautions, isClassificationReviewed } from "@/lib/domain/etf-classification";
+import { getClassificationStatusLabel, getEtfCautions } from "@/lib/domain/etf-classification";
 
 function getPensionDescription(etf: Etf, newListing: boolean): string {
   if (etf.pension === "가능") {
@@ -81,7 +81,7 @@ export function EtfDetail({ etf }: { etf: Etf }) {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-xl font-extrabold text-strong" id="classification-title">ETF 한눈에 보기</h2>
           <span className="text-xs font-semibold text-muted">
-            {isClassificationReviewed(etf) ? "분류 검수 완료" : "자동 분류 초안"}
+            {getClassificationStatusLabel(etf)}
           </span>
         </div>
         <div className="mt-4 rounded-2xl border border-line bg-neutral-50 p-5">
@@ -96,8 +96,8 @@ export function EtfDetail({ etf }: { etf: Etf }) {
           <details className="mt-4 text-xs leading-5 text-muted">
             <summary className="cursor-pointer font-bold text-brand-700">분류 기준 보기</summary>
             <p className="mt-2">기초지수와 상품명, 공식 상품 문서를 기준으로 지역·자산·상품 구조·환헤지를 서로 나누어 확인합니다.</p>
-            {etf.classification?.evidenceSummary ? <p className="mt-1">{etf.classification.evidenceSummary}</p> : null}
-            {etf.classification?.sourceUrl ? <a className="mt-1 inline-block font-bold text-brand-700" href={etf.classification.sourceUrl} rel="noreferrer" target="_blank">공식 자료 확인</a> : null}
+            {etf.classification?.published && etf.classification.evidenceSummary ? <p className="mt-1">{etf.classification.evidenceSummary}</p> : null}
+            {etf.classification?.published && etf.classification.sourceUrl ? <a className="mt-1 inline-block font-bold text-brand-700" href={etf.classification.sourceUrl} rel="noreferrer" target="_blank">공식 자료 확인</a> : null}
           </details>
         </div>
       </section>

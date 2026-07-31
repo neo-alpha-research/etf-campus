@@ -9,7 +9,7 @@ const ASSET_LABELS: Record<string, string> = {
 };
 
 export function getClassificationParts(etf: Etf, detailed = false): string[] {
-  const classification = etf.classification;
+  const classification = etf.classification?.published ? etf.classification : null;
   const parts = [
     classification?.marketScope,
     classification?.assetClass ?? ASSET_LABELS[etf.assetClass] ?? etf.assetClass,
@@ -39,5 +39,11 @@ export function getEtfCautions(etf: Etf): string[] {
 }
 
 export function isClassificationReviewed(etf: Etf): boolean {
-  return Boolean(etf.classification && etf.classification.reviewStatus !== "미검수");
+  return etf.classification?.reviewStatus === "수기확정";
+}
+
+export function getClassificationStatusLabel(etf: Etf): string {
+  if (isClassificationReviewed(etf)) return "공식 자료 검수 완료";
+  if (etf.classification?.reviewStatus === "자동확정") return "분류 규칙 자동확정";
+  return "자동 검수 대기";
 }

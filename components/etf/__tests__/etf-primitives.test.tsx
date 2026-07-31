@@ -13,6 +13,7 @@ const classifiedEtf = {
   assetClass: "주식-해외",
   riskType: "normal",
   classification: {
+    published: true,
     marketScope: "미국",
     assetClass: "주식",
     assetDetail: "반도체",

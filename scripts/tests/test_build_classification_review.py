@@ -90,7 +90,7 @@ class ClassificationDraftTest(TestCase):
         self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
         self.assertIn("명시적 자산 재분류", basis)
 
-    def test_structured_mix_stays_in_manual_queue(self) -> None:
+    def test_structured_mix_keeps_explicit_core_asset_classification(self) -> None:
         row = {
             "name": "미국S&P500미국채커버드콜혼합",
             "base_index": "S&P 500 and Treasury Covered Call Blend Index",
@@ -100,13 +100,48 @@ class ClassificationDraftTest(TestCase):
         asset, asset_basis = suggest_asset(row)
         market, market_basis = suggest_market(row, asset)
         fx, fx_basis = suggest_fx(row, market)
-        _, decision, reason, _ = confidence_assessment(
+        _, decision, reason, basis = confidence_assessment(
             row, market, market_basis, asset, asset_basis, fx, fx_basis, "커버드콜"
         )
 
         self.assertEqual(asset, "혼합자산")
+        self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
+        self.assertIn("명시적 자산 재분류", basis)
+
+    def test_active_reit_can_confirm_core_class_when_market_and_fx_are_clear(self) -> None:
+        row = {
+            "name": "미국데이터센터리츠액티브",
+            "base_index": "US Data Center REIT Index",
+            "asset_class": "리츠·인프라",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        _, decision, reason, _ = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "액티브"
+        )
+
+        self.assertEqual((market, asset, fx), ("미국", "리츠/인프라", "환노출"))
+        self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
+
+    def test_complex_product_with_unknown_market_stays_manual(self) -> None:
+        row = {
+            "name": "테마인프라액티브",
+            "base_index": "Theme Infrastructure Index",
+            "asset_class": "리츠·인프라",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        _, decision, reason, _ = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "액티브"
+        )
+
+        self.assertEqual(market, "검수 필요")
         self.assertEqual(decision, "검수필요")
-        self.assertIn("ASSET_CONFLICT", reason)
+        self.assertIn("MARKET_UNKNOWN", reason)
 
     def test_direct_gold_future_has_no_country_scope(self) -> None:
         row = {

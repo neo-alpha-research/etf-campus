@@ -225,14 +225,17 @@ def confidence_assessment(
         score += 15
         basis.append("기존 시장 보조")
 
-    explicit_asset_override = (
-        strategy == "일반"
-        and "키워드" in asset_basis
-        and (
-            (existing == "채권" and asset == "혼합자산")
-            or (existing == "주식" and asset == "통화")
-            or (existing == "원자재" and asset == "주식")
-            or (existing == "주식" and asset == "원자재")
+    explicit_asset_override = "키워드" in asset_basis and (
+        # 혼합 키워드는 커버드콜·합성·액티브 여부와 무관하게 자산 결합을 직접 뜻한다.
+        (existing == "채권" and asset == "혼합자산")
+        # 아래 직접 노출 판정은 운용 전략이 없는 일반형만 자동 승격한다.
+        or (
+            strategy == "일반"
+            and (
+                (existing == "주식" and asset == "통화")
+                or (existing == "원자재" and asset == "주식")
+                or (existing == "주식" and asset == "원자재")
+            )
         )
     )
     if existing == asset:
@@ -261,7 +264,12 @@ def confidence_assessment(
     if strategy != "일반":
         score += 5
         basis.append("전략 명시")
-        if asset in {"혼합자산", "리츠/인프라", "원자재", "통화"}:
+        core_classification_unclear = (
+            market == "검수 필요"
+            or fx == "미확인"
+            or (existing != asset and not explicit_asset_override)
+        )
+        if asset in {"혼합자산", "리츠/인프라", "원자재", "통화"} and core_classification_unclear:
             blockers.append("STRUCTURE_COMPLEX")
 
     score = min(score, 100)

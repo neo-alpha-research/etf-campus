@@ -19,12 +19,15 @@ permissions:
 
 concurrency:
   group: daily-etf-data
-  cancel-in-progress: false
+  # A newer manual retry must not wait behind an API-stalled older run.
+  cancel-in-progress: true
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # The collector is bounded to a small set of snapshot requests. Fail fast
+    # rather than holding an Actions runner for most of an hour on API delays.
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository

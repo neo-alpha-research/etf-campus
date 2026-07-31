@@ -37,12 +37,12 @@ PERIODS = {
     "r_3m": ("months", 3),
     "r_6m": ("months", 6),
     "r_12m": ("months", 12),
-    "r_24m": ("months", 24),
-    "r_36m": ("months", 36),
 }
 AVAILABLE_HISTORY_PERIODS = {
     "r_1d", "r_1w", "r_2w", "r_1m", "r_2m", "r_3m", "r_6m", "r_12m"
 }
+REQUEST_TIMEOUT_SECONDS = 15
+MAX_REQUEST_ATTEMPTS = 2
 
 
 def read_csv(path: Path) -> tuple[list[dict[str, str]], list[str]]:
@@ -70,9 +70,9 @@ def fetch_snapshot(service_key: str, day_text: str) -> dict[str, dict]:
             "pageNo": page,
         })
         last_error: Exception | None = None
-        for attempt in range(3):
+        for attempt in range(MAX_REQUEST_ATTEMPTS):
             try:
-                with urllib.request.urlopen(f"{BASE_URL}?{query}", timeout=40) as response:
+                with urllib.request.urlopen(f"{BASE_URL}?{query}", timeout=REQUEST_TIMEOUT_SECONDS) as response:
                     payload = json.loads(response.read().decode("utf-8"))
                 body = payload["response"]["body"]
                 items = (body.get("items") or {}).get("item") or []
@@ -83,8 +83,8 @@ def fetch_snapshot(service_key: str, day_text: str) -> dict[str, dict]:
                 break
             except Exception as error:
                 last_error = error
-                if attempt < 2:
-                    time.sleep(2 ** attempt)
+                if attempt < MAX_REQUEST_ATTEMPTS - 1:
+                    time.sleep(1)
         else:
             raise RuntimeError(f"API 조회 실패: {day_text}, page {page}") from last_error
         if not items or len(rows) >= total:
@@ -112,9 +112,9 @@ def fetch_ticker_history(
             "pageNo": page,
         })
         last_error: Exception | None = None
-        for attempt in range(3):
+        for attempt in range(MAX_REQUEST_ATTEMPTS):
             try:
-                with urllib.request.urlopen(f"{BASE_URL}?{query}", timeout=40) as response:
+                with urllib.request.urlopen(f"{BASE_URL}?{query}", timeout=REQUEST_TIMEOUT_SECONDS) as response:
                     payload = json.loads(response.read().decode("utf-8"))
                 body = payload["response"]["body"]
                 items = (body.get("items") or {}).get("item") or []
@@ -125,8 +125,8 @@ def fetch_ticker_history(
                 break
             except Exception as error:
                 last_error = error
-                if attempt < 2:
-                    time.sleep(2 ** attempt)
+                if attempt < MAX_REQUEST_ATTEMPTS - 1:
+                    time.sleep(1)
         else:
             raise RuntimeError(f"ETF 가격 이력 조회 실패: {ticker}, page {page}") from last_error
         if not items or len(rows) >= total:
@@ -289,7 +289,13 @@ def main() -> None:
             if as_float((anchors[field].get(ticker) or {}).get("clpr")) is None
         ]
         ticker_history: list[tuple[date, float]] = []
-        if missing_fields:
+        api_listing = api_listing_date(api.get("lstgDt"))
+        # A full history request for every ticker absent from an older snapshot
+        # makes the daily job exceed the Actions budget. Existing ETFs already
+        # retain their returns; only confirmed recent listings need a first close
+        # to calculate ITD and their short-period returns.
+        needs_recent_history = old_return.get("new_90d") == "Y" or bool(api_listing)
+        if missing_fields and needs_recent_history:
             oldest_target = min(anchor_dates[field] for field in missing_fields)
             ticker_history = fetch_ticker_history(
                 service_key,
@@ -299,9 +305,8 @@ def main() -> None:
             )
         first = ticker_history[0] if ticker_history else None
         if not existing.get("listing_date"):
-            listing_date = api_listing_date(api.get("lstgDt"))
-            if listing_date:
-                existing["listing_date"] = listing_date
+            if api_listing:
+                existing["listing_date"] = api_listing
                 existing["listing_date_source"] = "price_api_listing_date"
             elif first:
                 existing["listing_date"] = first[0].strftime("%Y%m%d")

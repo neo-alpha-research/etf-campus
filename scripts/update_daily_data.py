@@ -40,6 +40,9 @@ PERIODS = {
     "r_24m": ("months", 24),
     "r_36m": ("months", 36),
 }
+AVAILABLE_HISTORY_PERIODS = {
+    "r_1d", "r_1w", "r_2w", "r_1m", "r_2m", "r_3m", "r_6m", "r_12m"
+}
 
 
 def read_csv(path: Path) -> tuple[list[dict[str, str]], list[str]]:
@@ -88,6 +91,64 @@ def fetch_snapshot(service_key: str, day_text: str) -> dict[str, dict]:
             break
         page += 1
     return {str(row.get("srtnCd", "")): row for row in rows if row.get("srtnCd")}
+
+
+def fetch_ticker_history(
+    service_key: str,
+    ticker: str,
+    begin: date,
+    end: date,
+) -> list[tuple[date, float]]:
+    rows: list[dict] = []
+    page = 1
+    while True:
+        query = urllib.parse.urlencode({
+            "serviceKey": service_key,
+            "resultType": "json",
+            "srtnCd": ticker,
+            "beginBasDt": begin.strftime("%Y%m%d"),
+            "endBasDt": end.strftime("%Y%m%d"),
+            "numOfRows": 1000,
+            "pageNo": page,
+        })
+        last_error: Exception | None = None
+        for attempt in range(3):
+            try:
+                with urllib.request.urlopen(f"{BASE_URL}?{query}", timeout=40) as response:
+                    payload = json.loads(response.read().decode("utf-8"))
+                body = payload["response"]["body"]
+                items = (body.get("items") or {}).get("item") or []
+                if isinstance(items, dict):
+                    items = [items]
+                total = int(body.get("totalCount", 0))
+                rows.extend(items)
+                break
+            except Exception as error:
+                last_error = error
+                if attempt < 2:
+                    time.sleep(2 ** attempt)
+        else:
+            raise RuntimeError(f"ETF 가격 이력 조회 실패: {ticker}, page {page}") from last_error
+        if not items or len(rows) >= total:
+            break
+        page += 1
+
+    history: list[tuple[date, float]] = []
+    for row in rows:
+        day_text = str(row.get("basDt") or "")
+        close = as_float(row.get("clpr"))
+        if len(day_text) == 8 and close is not None:
+            history.append((datetime.strptime(day_text, "%Y%m%d").date(), close))
+    return sorted(history)
+
+
+def select_period_anchor(history: list[tuple[date, float]], target: date) -> float | None:
+    """기간 시작일 종가를 고르되 상장 전이면 최초 거래일 종가를 사용한다."""
+    on_or_before = [item for item in history if item[0] <= target]
+    if on_or_before:
+        return on_or_before[-1][1]
+    after = [item for item in history if item[0] > target]
+    return after[0][1] if after else None
 
 
 def on_or_before(service_key: str, target: date, cache: dict[str, dict[str, dict]], backtrack: int = 10) -> tuple[str, dict[str, dict]]:
@@ -174,8 +235,10 @@ def main() -> None:
     pension_by_ticker = {row["ticker"]: row for row in old_pension}
 
     anchors: dict[str, dict[str, dict]] = {}
+    anchor_dates: dict[str, date] = {}
     for field, (unit, amount) in PERIODS.items():
         target_day = as_of - timedelta(days=amount) if unit == "days" else subtract_months(as_of, amount)
+        anchor_dates[field] = target_day
         anchor_text, anchor = on_or_before(service_key, target_day, cache)
         anchors[field] = anchor
         print(f"{field}: {anchor_text}")
@@ -235,8 +298,25 @@ def main() -> None:
         current_close = as_float(api.get("clpr"))
         old_return = dict(returns_by_ticker.get(ticker, {}))
         old_return.update({"ticker": ticker, "name": name, close_field: snapshot_value(api, "clpr", "")})
+        missing_fields = [
+            field
+            for field in AVAILABLE_HISTORY_PERIODS
+            if as_float((anchors[field].get(ticker) or {}).get("clpr")) is None
+        ]
+        ticker_history: list[tuple[date, float]] = []
+        if missing_fields:
+            oldest_target = min(anchor_dates[field] for field in missing_fields)
+            ticker_history = fetch_ticker_history(
+                service_key,
+                ticker,
+                oldest_target - timedelta(days=10),
+                as_of,
+            )
         for field, snapshot in anchors.items():
-            old_return[field] = pct(current_close, as_float((snapshot.get(ticker) or {}).get("clpr")))
+            anchor_close = as_float((snapshot.get(ticker) or {}).get("clpr"))
+            if anchor_close is None and field in AVAILABLE_HISTORY_PERIODS:
+                anchor_close = select_period_anchor(ticker_history, anchor_dates[field])
+            old_return[field] = pct(current_close, anchor_close)
         listing_date = str(existing.get("listing_date") or "")
         is_new = bool(listing_date and 0 <= (as_of - datetime.strptime(listing_date, "%Y%m%d").date()).days <= 90)
         old_return["new_90d"] = "Y" if is_new else "N"

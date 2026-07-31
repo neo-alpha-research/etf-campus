@@ -46,3 +46,28 @@ class ResolveSnapshotTest(TestCase):
 
         self.assertEqual(result, ("20260729", snapshot))
         fallback.assert_called_once()
+
+
+class PeriodAnchorTest(TestCase):
+    def test_uses_the_latest_trading_close_on_or_before_the_period_start(self) -> None:
+        history = [
+            (date(2026, 6, 28), 9_800.0),
+            (date(2026, 6, 30), 10_000.0),
+            (date(2026, 7, 1), 10_100.0),
+        ]
+
+        self.assertEqual(
+            update_daily_data.select_period_anchor(history, date(2026, 6, 30)),
+            10_000.0,
+        )
+
+    def test_uses_the_first_trading_close_when_the_period_start_predates_listing(self) -> None:
+        history = [
+            (date(2026, 7, 8), 10_000.0),
+            (date(2026, 7, 9), 10_200.0),
+        ]
+
+        self.assertEqual(
+            update_daily_data.select_period_anchor(history, date(2026, 6, 30)),
+            10_000.0,
+        )

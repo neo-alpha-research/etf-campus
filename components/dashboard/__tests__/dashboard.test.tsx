@@ -86,8 +86,11 @@ describe("Dashboard", () => {
     fireEvent.change(search, { target: { value: "대형" } });
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: /대형 일반 ETF/ })).toBeInTheDocument();
-    expect(screen.getByText(/가격 기준·분배금 미포함/)).toBeInTheDocument();
+    expect(screen.getByText(/상장 전 기간은 최초 거래일 종가/)).toBeInTheDocument();
     expect(screen.getByText("과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다")).toBeInTheDocument();
-    expect(screen.getByText(/수익률 산정 기준:/)).toHaveClass("border-t");
+    expect(screen.getByText(/기간 수익률은 기준일 종가/)).toHaveClass("border-t");
+    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveTextContent("종가(원)");
+    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveTextContent("거래대금(억원)");
+    expect(screen.getByRole("columnheader", { name: "1개월 수익률, 단위 퍼센트" })).toHaveTextContent("1개월(%)");
   });
 });

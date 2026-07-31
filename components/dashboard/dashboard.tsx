@@ -286,17 +286,11 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="min-w-44 px-4 py-3 text-center sm:px-5 md:sticky md:left-0 md:z-20 md:w-[14.5%] md:bg-neutral-50" scope="col">종목명</th>
                 <th className="w-24 px-2 py-3 text-right md:hidden" scope="col">등락률</th>
                 <th className="w-28 px-4 py-3 text-right md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
-                <th aria-label="종가, 단위 원" className="hidden w-[7%] px-2 py-2.5 text-center md:table-cell" scope="col">
-                  <span className="block">종가</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">원</span>
-                </th>
-                <th aria-label="거래대금, 단위 억원" className="hidden w-[7%] px-2 py-2.5 text-right md:table-cell" scope="col">
-                  <span className="block">거래대금</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">억원</span>
-                </th>
-                <th aria-label="순자산, 단위 억원" className="hidden w-[7%] px-2 py-2.5 text-right md:table-cell" scope="col">
-                  <span className="block">순자산</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">억원</span>
-                </th>
+                <th aria-label="종가, 단위 원" className="hidden w-[7%] whitespace-nowrap px-2 py-3 text-center md:table-cell" scope="col">종가(원)</th>
+                <th aria-label="거래대금, 단위 억원" className="hidden w-[7%] whitespace-nowrap px-2 py-3 text-right md:table-cell" scope="col">거래대금(억원)</th>
+                <th aria-label="순자산, 단위 억원" className="hidden w-[7%] whitespace-nowrap px-2 py-3 text-right md:table-cell" scope="col">순자산(억원)</th>
                 {state.mode === "new" ? <th className="hidden px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
-                {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[5.5%] px-1 py-2.5 text-center md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col"><span className="block">{RETURN_PERIOD_LABELS[period]}</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">%</span></th>)}
+                {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[5.5%] whitespace-nowrap px-1 py-3 text-center md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col">{RETURN_PERIOD_LABELS[period]}(%)</th>)}
                 <th className="hidden w-[12%] bg-brand-50 px-2 py-3 text-center text-brand-800 md:table-cell" scope="col">분류</th>
                 <th className="hidden w-[8%] px-2 py-3 text-center md:table-cell" scope="col">연금</th>
               </tr>
@@ -323,7 +317,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
       <p className="mt-3 text-xs leading-5 text-muted">과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다</p>
       {pageCount > 1 ? <nav aria-label="ETF 목록 페이지" className="mt-5 flex items-center justify-center gap-4"><button className="min-h-11 rounded-lg border border-line px-4 text-sm font-bold disabled:opacity-40" disabled={currentPage === 1} onClick={() => setExplorerState({ page: currentPage - 1 }, false)} type="button">이전</button><span className="tabular-nums text-sm font-bold text-muted">{currentPage} / {pageCount}</span><button className="min-h-11 rounded-lg border border-line px-4 text-sm font-bold disabled:opacity-40" disabled={currentPage === pageCount} onClick={() => setExplorerState({ page: currentPage + 1 }, false)} type="button">다음</button></nav> : null}
-      <p className="mt-5 border-t border-line pt-4 text-[11px] leading-5 text-neutral-500">수익률 산정 기준: 가격 기준·분배금 미포함 · 1일은 직전 거래일, 주·개월은 기준일에서 해당 달력 기간 전 날짜의 당일 또는 직전 거래일 종가 대비 · 값이 없으면 추정하지 않고 -로 표시{state.mode === "new" ? " · 상장 후(ITD)는 첫 거래일 종가 대비" : ""}</p>
+      <p className="mt-5 border-t border-line pt-4 text-[11px] leading-5 text-neutral-500">기간 수익률은 기준일 종가와 기간 시작일 종가를 비교합니다. 휴장일은 직전 거래일, 상장 전 기간은 최초 거래일 종가를 사용하며 분배금은 포함하지 않습니다.{state.mode === "new" ? " 상장 후(ITD)는 최초 거래일 종가 대비 수익률입니다." : ""}</p>
     </main>
   );
 }

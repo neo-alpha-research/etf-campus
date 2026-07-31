@@ -16,6 +16,7 @@ import tempfile
 import time
 import urllib.parse
 import urllib.request
+import urllib.error
 import json
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -92,7 +93,13 @@ def fetch_krx_snapshot(auth_key: str, day_text: str) -> dict[str, dict]:
             last_error = error
             if attempt < MAX_REQUEST_ATTEMPTS - 1:
                 time.sleep(1)
-    raise RuntimeError(f"KRX ETF API lookup failed: {day_text}") from last_error
+    if isinstance(last_error, urllib.error.HTTPError):
+        detail = f"HTTP {last_error.code}"
+    elif isinstance(last_error, urllib.error.URLError):
+        detail = f"network error ({type(last_error.reason).__name__})"
+    else:
+        detail = type(last_error).__name__ if last_error else "unknown error"
+    raise RuntimeError(f"KRX ETF API lookup failed: {day_text} / {detail}") from last_error
 
 
 def read_csv(path: Path) -> tuple[list[dict[str, str]], list[str]]:
@@ -300,8 +307,8 @@ def main() -> None:
     )
     parser.add_argument("--target", help="YYYYMMDD, 기본값은 어제")
     args = parser.parse_args()
-    service_key = os.environ.get("DATA_GO_KR_SERVICE_KEY")
-    krx_auth_key = os.environ.get("KRX_OPEN_API_KEY")
+    service_key = (os.environ.get("DATA_GO_KR_SERVICE_KEY") or "").strip()
+    krx_auth_key = (os.environ.get("KRX_OPEN_API_KEY") or "").strip()
     if not service_key and not krx_auth_key:
         raise SystemExit("DATA_GO_KR_SERVICE_KEY 또는 KRX_OPEN_API_KEY 환경변수가 필요합니다.")
 

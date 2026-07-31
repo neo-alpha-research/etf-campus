@@ -10,9 +10,10 @@ describe("StyleOnboarding", () => {
   it("첫 방문에 10문항 안내와 건너뛰기를 제공한다", async () => {
     render(<StyleOnboarding />);
 
-    expect(await screen.findByRole("dialog", { name: "ETF 동물 투자 스타일 진단" })).toBeInTheDocument();
-    expect(screen.getByText(/약 2분 · 10장면/)).toBeInTheDocument();
-    expect(screen.getByText("나는 어떤 ETF 탐색 동물일까?")).toBeInTheDocument();
+    expect(await screen.findByRole("dialog", { name: "ETF 투자 스타일 점검" })).toBeInTheDocument();
+    expect(screen.getByText(/약 2분 · 10문항/)).toBeInTheDocument();
+    expect(screen.getByText("나의 ETF 투자 스타일 점검")).toBeInTheDocument();
+    expect(screen.queryByLabelText("10가지 동물 유형 미리보기")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "건너뛰기" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
@@ -22,7 +23,7 @@ describe("StyleOnboarding", () => {
   it("1~10 슬라이더로 10문항에 답하면 동물 결과와 두 계좌 동선을 저장한다", async () => {
     render(<StyleOnboarding />);
     await screen.findByRole("dialog");
-    fireEvent.click(screen.getByRole("button", { name: "내 동물 유형 찾기" }));
+    fireEvent.click(screen.getByRole("button", { name: "투자 스타일 점검 시작" }));
 
     for (const [index] of DIAGNOSIS_QUESTIONS.entries()) {
       fireEvent.change(screen.getByRole("slider", { name: "A와 B 사이의 위치" }), { target: { value: "1" } });

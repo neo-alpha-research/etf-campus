@@ -151,13 +151,15 @@ export function StyleOnboarding() {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-neutral-900/55 p-0 backdrop-blur-[2px] sm:items-center sm:p-5" role="presentation">
       <section
-        aria-label="ETF 동물 투자 스타일 진단"
+        aria-label="ETF 투자 스타일 점검"
         aria-modal="true"
-        className="max-h-[94vh] w-full overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl sm:max-w-2xl sm:rounded-3xl sm:p-8"
+        className={`w-full rounded-t-3xl bg-surface p-5 shadow-2xl sm:max-w-2xl sm:rounded-3xl sm:p-7 ${
+          screen === "welcome" ? "overflow-hidden" : "max-h-[94vh] overflow-y-auto"
+        }`}
         role="dialog"
       >
         <div className="flex items-center justify-between gap-4">
-          <p className="eyebrow">ETF CAMPUS ANIMAL TEST</p>
+          <p className="eyebrow">ETF CAMPUS STYLE CHECK</p>
           <button
             aria-label="닫기"
             className="grid size-10 place-items-center rounded-full text-xl text-muted hover:bg-neutral-100"
@@ -169,30 +171,29 @@ export function StyleOnboarding() {
         </div>
 
         {screen === "welcome" ? (
-          <div className="pb-5 pt-3 text-center">
-            <Tickery className="mx-auto h-24 w-24" pose="welcome" priority sizes="96px" />
-            <p className="mt-3 text-sm font-extrabold text-brand-700">약 2분 · 10장면 · 정답 없음</p>
-            <h2 className="mt-2 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">나는 어떤 ETF 탐색 동물일까?</h2>
-            <p className="mx-auto mt-4 max-w-lg text-sm leading-6 text-muted sm:text-base">
-              ETF를 찾고 비교하는 짧은 상황을 따라가 보세요. 다섯 가지 탐색 축을 바탕으로 나와 닮은 동물을 알려드립니다.
+          <div className="pb-2 pt-1 text-center">
+            <Tickery className="mx-auto h-20 w-20" pose="welcome" priority sizes="80px" />
+            <p className="mt-2 text-sm font-extrabold text-brand-700">약 2분 · 10문항 · 정답 없음</p>
+            <h2 className="mt-1.5 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">나의 ETF 투자 스타일 점검</h2>
+            <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-muted sm:text-base">
+              ETF를 고르고 운용할 때 내가 어떤 기준을 먼저 보는지 확인해 보세요. 답변을 마치면 투자 습관과 닮은 동물 유형으로 알기 쉽게 풀어드립니다.
             </p>
-            <div className="mx-auto mt-6 grid max-w-lg grid-cols-5 gap-2" aria-label="10가지 동물 유형 미리보기">
-              {Object.values(STYLE_PROFILES).map((item) => (
-                <div className="rounded-2xl border border-neutral-100 bg-neutral-50 px-1.5 py-3" key={item.animal}>
-                  <span aria-hidden="true" className="text-3xl">{item.emoji}</span>
-                  <p className="mt-1 text-[11px] font-extrabold text-neutral-700">{item.animal}</p>
+            <div className="mx-auto mt-4 grid max-w-lg grid-cols-3 gap-2" aria-label="투자 스타일 점검 영역">
+              {["위험 대응", "정보 탐색", "운용 습관"].map((label) => (
+                <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-2 py-2.5 text-xs font-extrabold text-neutral-700" key={label}>
+                  {label}
                 </div>
               ))}
             </div>
             <button
-              className="mt-7 w-full rounded-xl bg-brand-700 px-5 py-3.5 font-extrabold text-white shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-brand-800"
+              className="mt-5 w-full rounded-xl bg-brand-700 px-5 py-3.5 font-extrabold text-white shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-brand-800"
               onClick={begin}
               type="button"
             >
-              내 동물 유형 찾기
+              투자 스타일 점검 시작
             </button>
-            <p className="mt-3 text-xs text-muted">로그인 없음 · 응답은 이 기기에만 저장</p>
-            <button className="mt-3 min-h-10 text-sm font-bold text-muted underline-offset-4 hover:underline" onClick={skip} type="button">
+            <p className="mt-2 text-xs text-muted">로그인 없이 · 응답은 이 기기에만 저장</p>
+            <button className="mt-1 min-h-9 text-sm font-bold text-muted underline-offset-4 hover:underline" onClick={skip} type="button">
               건너뛰기
             </button>
           </div>
@@ -310,7 +311,7 @@ export function StyleOnboarding() {
               <div className="mx-auto grid size-24 place-items-center rounded-full border-4 border-surface bg-brand-100 text-6xl shadow-sm" aria-hidden="true">
                 {profile.emoji}
               </div>
-              <p className="mt-4 text-xs font-extrabold tracking-[0.08em] text-brand-700">나의 ETF 탐색 동물</p>
+              <p className="mt-4 text-xs font-extrabold tracking-[0.08em] text-brand-700">나의 ETF 투자 스타일</p>
               <h2 className="mt-2 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">{profile.name}</h2>
               <p className="mt-2 text-sm font-bold text-brand-800">{profile.tagline}</p>
               <div className="mt-4 flex flex-wrap justify-center gap-2">

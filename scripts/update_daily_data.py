@@ -191,6 +191,12 @@ def as_float(value: object) -> float | None:
     return float(str(value))
 
 
+def api_listing_date(value: object) -> str:
+    """Return an API listing date only when it is an unambiguous YYYYMMDD value."""
+    text = str(value or "").strip()
+    return text if len(text) == 8 and text.isdigit() else ""
+
+
 def pct(current: float | None, anchor: float | None) -> str:
     if current is None or anchor in (None, 0):
         return ""
@@ -243,28 +249,13 @@ def main() -> None:
         anchors[field] = anchor
         print(f"{field}: {anchor_text}")
 
-    daily: list[tuple[str, dict[str, dict]]] = []
-    for offset in range(90, -1, -1):
-        day_text = (as_of - timedelta(days=offset)).strftime("%Y%m%d")
-        if day_text not in cache:
-            cache[day_text] = fetch_snapshot(service_key, day_text)
-        if cache[day_text]:
-            daily.append((day_text, cache[day_text]))
-    earliest = daily[0][0]
-    first_seen: dict[str, tuple[str, float]] = {}
-    for day_text, snapshot in daily:
-        for ticker, row in snapshot.items():
-            close = as_float(row.get("clpr"))
-            if close is not None:
-                first_seen.setdefault(ticker, (day_text, close))
-
     new_master: list[dict[str, object]] = []
     new_returns: list[dict[str, object]] = []
     new_pension: list[dict[str, object]] = []
     close_field = f"close_{as_of_text}"
     return_fields = [field for field in return_fields if not field.startswith("close_")]
     return_fields = ["ticker", "name", close_field] + [field for field in return_fields if field not in ("ticker", "name")]
-    for addition in list(PERIODS) + ["r_itd", "new_90d", "new_3m"]:
+    for addition in list(PERIODS) + ["r_itd", "itd_anchor_close", "new_90d", "new_3m"]:
         if addition not in return_fields:
             return_fields.append(addition)
     for addition in ("listing_date", "listing_date_source"):
@@ -289,12 +280,6 @@ def main() -> None:
             "liquidity": "pass" if float(snapshot_value(api, "nPptTotAmt", 0)) >= 10_000_000_000 else "fail",
             "bas_dt": as_of_text,
         })
-        first = first_seen.get(ticker)
-        if not existing.get("listing_date") and first and first[0] != earliest:
-            existing["listing_date"] = first[0]
-            existing["listing_date_source"] = "price_api_first_seen"
-        new_master.append(existing)
-
         current_close = as_float(api.get("clpr"))
         old_return = dict(returns_by_ticker.get(ticker, {}))
         old_return.update({"ticker": ticker, "name": name, close_field: snapshot_value(api, "clpr", "")})
@@ -312,6 +297,16 @@ def main() -> None:
                 oldest_target - timedelta(days=10),
                 as_of,
             )
+        first = ticker_history[0] if ticker_history else None
+        if not existing.get("listing_date"):
+            listing_date = api_listing_date(api.get("lstgDt"))
+            if listing_date:
+                existing["listing_date"] = listing_date
+                existing["listing_date_source"] = "price_api_listing_date"
+            elif first:
+                existing["listing_date"] = first[0].strftime("%Y%m%d")
+                existing["listing_date_source"] = "price_api_first_seen"
+        new_master.append(existing)
         for field, snapshot in anchors.items():
             anchor_close = as_float((snapshot.get(ticker) or {}).get("clpr"))
             if anchor_close is None and field in AVAILABLE_HISTORY_PERIODS:
@@ -321,7 +316,11 @@ def main() -> None:
         is_new = bool(listing_date and 0 <= (as_of - datetime.strptime(listing_date, "%Y%m%d").date()).days <= 90)
         old_return["new_90d"] = "Y" if is_new else "N"
         old_return["new_3m"] = "Y" if is_new else "N"
-        old_return["r_itd"] = pct(current_close, first[1] if is_new and first else None)
+        itd_anchor = as_float(old_return.get("itd_anchor_close"))
+        if is_new and itd_anchor is None and first:
+            itd_anchor = first[1]
+            old_return["itd_anchor_close"] = first[1]
+        old_return["r_itd"] = pct(current_close, itd_anchor) if is_new else ""
         new_returns.append(old_return)
 
         pension = dict(pension_by_ticker.get(ticker, {}))

@@ -71,3 +71,10 @@ class PeriodAnchorTest(TestCase):
             update_daily_data.select_period_anchor(history, date(2026, 6, 30)),
             10_000.0,
         )
+
+
+class ListingDateTest(TestCase):
+    def test_accepts_only_api_listing_dates_in_yyyymmdd_format(self) -> None:
+        self.assertEqual(update_daily_data.api_listing_date("20260731"), "20260731")
+        self.assertEqual(update_daily_data.api_listing_date("2026-07-31"), "")
+        self.assertEqual(update_daily_data.api_listing_date(None), "")

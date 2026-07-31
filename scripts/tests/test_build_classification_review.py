@@ -8,6 +8,7 @@ from scripts.build_classification_review import (
     suggest_asset,
     suggest_fx,
     suggest_market,
+    write_csv,
 )
 
 
@@ -341,6 +342,57 @@ class ClassificationDraftTest(TestCase):
         self.assertEqual(row["official_source_url"], "https://issuer.example/0079X0")
         self.assertEqual(row["source_status"], "공식 자료 연결")
         self.assertEqual(row["review_status"], "미검수")
+
+    def test_current_official_source_can_auto_confirm_a_complex_product(self) -> None:
+        source_rows = build_rows(Path("data/etf_master_draft.csv"))
+        target = next(item for item in source_rows if item["ticker"] == "0086B0")
+        rows = build_rows(
+            Path("data/etf_master_draft.csv"),
+            official_sources={
+                "0086B0": {
+                    "auto_confirm": "Y",
+                    "name_snapshot": target["name"],
+                    "base_index_snapshot": target["base_index"],
+                    "final_market_scope": "국내",
+                    "final_asset_class": "리츠/인프라",
+                    "final_asset_detail": "리츠/인프라",
+                    "final_fx_hedge": "해당없음",
+                }
+            },
+        )
+        row = next(item for item in rows if item["ticker"] == "0086B0")
+
+        self.assertEqual(row["auto_decision"], "자동확정")
+        self.assertEqual(row["reason_code"], "OFFICIAL_SOURCE_CONFIRMED")
+        self.assertEqual(row["review_status"], "자동확정")
+        self.assertEqual(row["final_asset_class"], "리츠/인프라")
+
+    def test_changed_benchmark_disables_official_source_auto_confirm(self) -> None:
+        rows = build_rows(
+            Path("data/etf_master_draft.csv"),
+            official_sources={
+                "0086B0": {
+                    "auto_confirm": "Y",
+                    "name_snapshot": "TIGER 리츠부동산인프라TOP10액티브",
+                    "base_index_snapshot": "changed benchmark",
+                    "final_market_scope": "국내",
+                    "final_asset_class": "리츠/인프라",
+                    "final_asset_detail": "리츠/인프라",
+                    "final_fx_hedge": "해당없음",
+                }
+            },
+        )
+        row = next(item for item in rows if item["ticker"] == "0086B0")
+
+        self.assertNotEqual(row["reason_code"], "OFFICIAL_SOURCE_CONFIRMED")
+
+    def test_empty_review_queue_can_be_written_with_headers(self) -> None:
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "queue.csv"
+            write_csv(path, [], ["ticker", "name"])
+            self.assertEqual(path.read_text(encoding="utf-8-sig").strip(), "ticker,name")
 
     def test_infrastructure_industries_are_equity_not_reit(self) -> None:
         row = {

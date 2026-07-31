@@ -303,6 +303,29 @@ def confidence_assessment(
     return score, decision, reason_code, " · ".join(basis)
 
 
+OFFICIAL_CLASSIFICATION_FIELDS = (
+    "final_market_scope",
+    "final_asset_class",
+    "final_fx_hedge",
+)
+
+
+def official_source_is_current(row: dict[str, str], source: dict[str, str]) -> bool:
+    """Return whether an official-source classification still matches the product.
+
+    The source registry is a curated record of issuer disclosures.  Its automatic
+    value must never survive a product rename or benchmark replacement silently.
+    """
+    if source.get("auto_confirm") != "Y":
+        return False
+    if any(not source.get(field, "") for field in OFFICIAL_CLASSIFICATION_FIELDS):
+        return False
+    return (
+        source.get("name_snapshot") == row.get("name", "")
+        and source.get("base_index_snapshot") == row.get("base_index", "")
+    )
+
+
 def build_rows(
     source: Path,
     existing_reviews: dict[str, dict[str, str]] | None = None,
@@ -326,6 +349,7 @@ def build_rows(
         previous = (existing_reviews or {}).get(row.get("ticker", ""), {})
         source_evidence = (official_sources or {}).get(row.get("ticker", ""), {})
         has_manual_review = previous.get("review_status") == "수기확정"
+        has_current_official_source = official_source_is_current(row, source_evidence)
         final_values = {
             "final_market_scope": previous.get("final_market_scope", ""),
             "final_asset_class": previous.get("final_asset_class", ""),
@@ -333,7 +357,19 @@ def build_rows(
             "final_risk_type": previous.get("final_risk_type", ""),
             "final_fx_hedge": previous.get("final_fx_hedge", ""),
         }
-        if decision == "자동확정" and not has_manual_review:
+        if has_current_official_source and not has_manual_review:
+            final_values = {
+                "final_market_scope": source_evidence["final_market_scope"],
+                "final_asset_class": source_evidence["final_asset_class"],
+                "final_asset_detail": source_evidence["final_asset_detail"],
+                "final_risk_type": normalized_risk(row.get("risk_type", "")),
+                "final_fx_hedge": source_evidence["final_fx_hedge"],
+            }
+            score = 100
+            decision = "자동확정"
+            reason_code = "OFFICIAL_SOURCE_CONFIRMED"
+            confidence_basis = "운용사 공식 상품자료 확인 · 상품명/기초지수 일치"
+        elif decision == "자동확정" and not has_manual_review:
             final_values = {
                 "final_market_scope": market,
                 "final_asset_class": asset,
@@ -393,10 +429,14 @@ def read_official_sources(path: Path) -> dict[str, dict[str, str]]:
         return {row["ticker"]: row for row in csv.DictReader(handle)}
 
 
-def write_csv(path: Path, rows: list[dict[str, str]]) -> None:
+def write_csv(
+    path: Path,
+    rows: list[dict[str, str]],
+    fieldnames: list[str] | None = None,
+) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer = csv.DictWriter(handle, fieldnames=fieldnames or list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
 
@@ -416,8 +456,9 @@ def main() -> None:
         read_official_sources(Path(args.official_sources)),
     )
     queue = [row for row in rows if row["auto_decision"] != "자동확정"]
-    write_csv(output, rows)
-    write_csv(Path(args.queue_output), queue)
+    fields = list(rows[0])
+    write_csv(output, rows, fields)
+    write_csv(Path(args.queue_output), queue, fields)
     confirmed = len(rows) - len(queue)
     print(f"{len(rows)} rows: 자동확정 {confirmed}, 검수대기 {len(queue)} -> {output}")
 

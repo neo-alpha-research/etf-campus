@@ -78,3 +78,46 @@ class ListingDateTest(TestCase):
         self.assertEqual(update_daily_data.api_listing_date("20260731"), "20260731")
         self.assertEqual(update_daily_data.api_listing_date("2026-07-31"), "")
         self.assertEqual(update_daily_data.api_listing_date(None), "")
+
+
+class KrxSnapshotTest(TestCase):
+    def test_normalizes_krx_etf_daily_trade_fields(self) -> None:
+        payload = {
+            "OutBlock_1": [
+                {
+                    "BAS_DD": "20260731",
+                    "ISU_CD": "069500",
+                    "ISU_NM": "SAMPLE ETF",
+                    "TDD_CLSPRC": "12,345",
+                    "FLUC_RT": "1.25",
+                    "ACC_TRDVAL": "9,876,543",
+                    "INVSTASST_NETASST_TOTAMT": "123,456,789",
+                    "IDX_IND_NM": "Sample Index",
+                }
+            ]
+        }
+
+        snapshot = update_daily_data.normalize_krx_snapshot(payload)
+
+        self.assertEqual(
+            snapshot["069500"],
+            {
+                "srtnCd": "069500",
+                "itmsNm": "SAMPLE ETF",
+                "clpr": "12345",
+                "fltRt": "1.25",
+                "trPrc": "9876543",
+                "nPptTotAmt": "123456789",
+                "bssIdxIdxNm": "Sample Index",
+                "basDt": "20260731",
+            },
+        )
+
+    def test_rejects_a_snapshot_that_is_materially_incomplete(self) -> None:
+        self.assertFalse(update_daily_data.snapshot_is_complete({"A": {}}, 10))
+        self.assertTrue(
+            update_daily_data.snapshot_is_complete(
+                {str(index): {} for index in range(9)},
+                10,
+            )
+        )

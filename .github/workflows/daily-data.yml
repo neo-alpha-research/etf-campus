@@ -4,9 +4,9 @@ on:
   schedule:
     # 13:30 KST, Monday-Saturday: reconcile the latest available prior close.
     - cron: "30 4 * * 1-6"
-    # Recheck after the close because the public source can publish late.
+    # KRX EOD checks after the close and after the second official close feed.
     - cron: "30 7 * * 1-5"
-    - cron: "0 9 * * 1-5"
+    - cron: "20 9 * * 1-5"
     - cron: "30 11 * * 1-5"
   workflow_dispatch:
     inputs:
@@ -42,12 +42,13 @@ jobs:
       - name: Refresh official ETF data
         env:
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+          KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           TARGET_DATE: ${{ inputs.target }}
           SCHEDULE: ${{ github.event.schedule }}
         run: |
           if [ -n "$TARGET_DATE" ]; then
             python scripts/update_daily_data.py --target "$TARGET_DATE" --require-exact-date
-          elif [ "$SCHEDULE" = "30 7 * * 1-5" ] || [ "$SCHEDULE" = "0 9 * * 1-5" ] || [ "$SCHEDULE" = "30 11 * * 1-5" ]; then
+          elif [ "$SCHEDULE" = "30 7 * * 1-5" ] || [ "$SCHEDULE" = "20 9 * * 1-5" ] || [ "$SCHEDULE" = "30 11 * * 1-5" ]; then
             TODAY_KST="$(TZ=Asia/Seoul date +%Y%m%d)"
             python scripts/update_daily_data.py --target "$TODAY_KST" --require-exact-date
           else

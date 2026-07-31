@@ -27,6 +27,7 @@ except ImportError:
 
 
 BASE_URL = "https://apis.data.go.kr/1160100/service/GetSecuritiesProductInfoService/getETFPriceInfo"
+KRX_ETF_DAILY_URL = "https://data-dbg.krx.co.kr/svc/apis/etp/etf_bydd_trd"
 FILES = ("etf_master_draft.csv", "etf_returns_draft.csv", "pension_verify_sheet.csv")
 PERIODS = {
     "r_1d": ("days", 1),
@@ -43,6 +44,55 @@ AVAILABLE_HISTORY_PERIODS = {
 }
 REQUEST_TIMEOUT_SECONDS = 15
 MAX_REQUEST_ATTEMPTS = 2
+
+
+def compact_number(value: object) -> str:
+    return str(value or "").replace(",", "").strip()
+
+
+def normalize_krx_snapshot(payload: dict) -> dict[str, dict]:
+    rows = payload.get("OutBlock_1") or []
+    if isinstance(rows, dict):
+        rows = [rows]
+    snapshot: dict[str, dict] = {}
+    for row in rows:
+        ticker = str(row.get("ISU_SRT_CD") or row.get("ISU_CD") or "").strip()
+        if not ticker:
+            continue
+        snapshot[ticker] = {
+            "srtnCd": ticker,
+            "itmsNm": str(row.get("ISU_NM") or "").strip(),
+            "clpr": compact_number(row.get("TDD_CLSPRC")),
+            "fltRt": compact_number(row.get("FLUC_RT")),
+            "trPrc": compact_number(row.get("ACC_TRDVAL")),
+            "nPptTotAmt": compact_number(row.get("INVSTASST_NETASST_TOTAMT")),
+            "bssIdxIdxNm": str(row.get("IDX_IND_NM") or "").strip(),
+            "basDt": str(row.get("BAS_DD") or "").strip(),
+        }
+    return snapshot
+
+
+def snapshot_is_complete(snapshot: dict[str, dict], expected_count: int) -> bool:
+    return bool(snapshot) and len(snapshot) >= max(1, int(expected_count * 0.9))
+
+
+def fetch_krx_snapshot(auth_key: str, day_text: str) -> dict[str, dict]:
+    query = urllib.parse.urlencode({"basDd": day_text})
+    request = urllib.request.Request(
+        f"{KRX_ETF_DAILY_URL}?{query}",
+        headers={"AUTH_KEY": auth_key},
+    )
+    last_error: Exception | None = None
+    for attempt in range(MAX_REQUEST_ATTEMPTS):
+        try:
+            with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+            return normalize_krx_snapshot(payload)
+        except Exception as error:
+            last_error = error
+            if attempt < MAX_REQUEST_ATTEMPTS - 1:
+                time.sleep(1)
+    raise RuntimeError(f"KRX ETF API lookup failed: {day_text}") from last_error
 
 
 def read_csv(path: Path) -> tuple[list[dict[str, str]], list[str]]:
@@ -178,6 +228,38 @@ def resolve_snapshot(
     return day_text, cache[day_text]
 
 
+def krx_on_or_before(
+    auth_key: str,
+    target: date,
+    cache: dict[str, dict[str, dict]],
+    backtrack: int = 10,
+) -> tuple[str, dict[str, dict]]:
+    for offset in range(backtrack + 1):
+        day_text = (target - timedelta(days=offset)).strftime("%Y%m%d")
+        if day_text not in cache:
+            cache[day_text] = fetch_krx_snapshot(auth_key, day_text)
+        if cache[day_text]:
+            return day_text, cache[day_text]
+    raise RuntimeError(f"No KRX ETF data on or before {target:%Y%m%d}.")
+
+
+def resolve_krx_snapshot(
+    auth_key: str,
+    target: date,
+    cache: dict[str, dict[str, dict]],
+    require_exact_date: bool,
+) -> tuple[str, dict[str, dict]] | None:
+    if not require_exact_date:
+        return krx_on_or_before(auth_key, target, cache)
+
+    day_text = target.strftime("%Y%m%d")
+    if day_text not in cache:
+        cache[day_text] = fetch_krx_snapshot(auth_key, day_text)
+    if not cache[day_text]:
+        return None
+    return day_text, cache[day_text]
+
+
 def subtract_months(value: date, months: int) -> date:
     month_index = value.year * 12 + value.month - 1 - months
     year, month_zero = divmod(month_index, 12)
@@ -188,7 +270,7 @@ def subtract_months(value: date, months: int) -> date:
 def as_float(value: object) -> float | None:
     if value in (None, ""):
         return None
-    return float(str(value))
+    return float(compact_number(value))
 
 
 def api_listing_date(value: object) -> str:
@@ -219,13 +301,45 @@ def main() -> None:
     parser.add_argument("--target", help="YYYYMMDD, 기본값은 어제")
     args = parser.parse_args()
     service_key = os.environ.get("DATA_GO_KR_SERVICE_KEY")
-    if not service_key:
-        raise SystemExit("DATA_GO_KR_SERVICE_KEY 환경변수가 필요합니다.")
+    krx_auth_key = os.environ.get("KRX_OPEN_API_KEY")
+    if not service_key and not krx_auth_key:
+        raise SystemExit("DATA_GO_KR_SERVICE_KEY 또는 KRX_OPEN_API_KEY 환경변수가 필요합니다.")
 
     data_dir = Path(args.data_dir)
+    old_master, master_fields = read_csv(data_dir / FILES[0])
+    old_returns, return_fields = read_csv(data_dir / FILES[1])
+    old_pension, pension_fields = read_csv(data_dir / FILES[2])
+    master_by_ticker = {row["ticker"]: row for row in old_master}
+    returns_by_ticker = {row["ticker"]: row for row in old_returns}
+    pension_by_ticker = {row["ticker"]: row for row in old_pension}
+
     target = datetime.strptime(args.target, "%Y%m%d").date() if args.target else date.today() - timedelta(days=1)
-    cache: dict[str, dict[str, dict]] = {}
-    resolved = resolve_snapshot(service_key, target, cache, args.require_exact_date)
+    public_cache: dict[str, dict[str, dict]] = {}
+    krx_cache: dict[str, dict[str, dict]] = {}
+    resolved: tuple[str, dict[str, dict]] | None = None
+    source = ""
+    if krx_auth_key:
+        try:
+            krx_resolved = resolve_krx_snapshot(
+                krx_auth_key,
+                target,
+                krx_cache,
+                args.require_exact_date,
+            )
+            if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
+                resolved = krx_resolved
+                source = "KRX Open API"
+            elif krx_resolved:
+                print(
+                    f"KRX snapshot incomplete: {len(krx_resolved[1])}/{len(old_master)}; "
+                    "trying the reconciliation source."
+                )
+        except Exception as error:
+            print(f"KRX lookup unavailable: {error}; trying the reconciliation source.")
+    if resolved is None and service_key:
+        resolved = resolve_snapshot(service_key, target, public_cache, args.require_exact_date)
+        if resolved:
+            source = "Financial Services Commission public API"
     if resolved is None:
         message = f"No official ETF data for requested date {target:%Y%m%d}."
         if args.require_exact_date:
@@ -234,21 +348,20 @@ def main() -> None:
         return
     as_of_text, current = resolved
     as_of = datetime.strptime(as_of_text, "%Y%m%d").date()
+    print(f"Official source: {source} / {as_of_text} / {len(current)} ETFs")
     print(f"공식 API 기준일 {as_of_text} · {len(current)}종목")
-
-    old_master, master_fields = read_csv(data_dir / FILES[0])
-    old_returns, return_fields = read_csv(data_dir / FILES[1])
-    old_pension, pension_fields = read_csv(data_dir / FILES[2])
-    master_by_ticker = {row["ticker"]: row for row in old_master}
-    returns_by_ticker = {row["ticker"]: row for row in old_returns}
-    pension_by_ticker = {row["ticker"]: row for row in old_pension}
 
     anchors: dict[str, dict[str, dict]] = {}
     anchor_dates: dict[str, date] = {}
     for field, (unit, amount) in PERIODS.items():
         target_day = as_of - timedelta(days=amount) if unit == "days" else subtract_months(as_of, amount)
         anchor_dates[field] = target_day
-        anchor_text, anchor = on_or_before(service_key, target_day, cache)
+        if source == "KRX Open API" and krx_auth_key:
+            anchor_text, anchor = krx_on_or_before(krx_auth_key, target_day, krx_cache)
+        elif service_key:
+            anchor_text, anchor = on_or_before(service_key, target_day, public_cache)
+        else:
+            raise RuntimeError(f"No historical source available for {field}.")
         anchors[field] = anchor
         print(f"{field}: {anchor_text}")
 
@@ -274,13 +387,13 @@ def main() -> None:
         if asset == "기타":
             asset = "주식-국내"
         existing.update({
-            "isin_cd": snapshot_value(api, "isinCd"), "ticker": ticker, "name": name,
+            "isin_cd": snapshot_value(api, "isinCd", existing.get("isin_cd", "")), "ticker": ticker, "name": name,
             "base_index": base_index, "close": snapshot_value(api, "clpr", 0),
             "change_pct": snapshot_value(api, "fltRt", 0), "trade_value": snapshot_value(api, "trPrc", 0),
             "aum": snapshot_value(api, "nPptTotAmt", 0), "risk_type": existing.get("risk_type") or risk,
             "asset_class": existing.get("asset_class") or asset,
             "pension_eligible": existing.get("pension_eligible") or pension_rule(risk, name, base_index),
-            "liquidity": "pass" if float(snapshot_value(api, "nPptTotAmt", 0)) >= 10_000_000_000 else "fail",
+            "liquidity": "pass" if (as_float(snapshot_value(api, "nPptTotAmt", 0)) or 0) >= 10_000_000_000 else "fail",
             "bas_dt": as_of_text,
         })
         current_close = as_float(api.get("clpr"))
@@ -298,7 +411,7 @@ def main() -> None:
         # retain their returns; only confirmed recent listings need a first close
         # to calculate ITD and their short-period returns.
         needs_recent_history = old_return.get("new_90d") == "Y" or bool(api_listing)
-        if missing_fields and needs_recent_history:
+        if missing_fields and needs_recent_history and service_key:
             oldest_target = min(anchor_dates[field] for field in missing_fields)
             ticker_history = fetch_ticker_history(
                 service_key,

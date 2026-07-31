@@ -6,6 +6,24 @@ import { AssetClassTag } from "../asset-class-tag";
 import { PensionBadge } from "../pension-badge";
 import { ReturnCell } from "../return-cell";
 import { RiskBadge } from "../risk-badge";
+import { ClassificationSummary } from "../classification-summary";
+import type { Etf } from "@/lib/domain/etf-types";
+
+const classifiedEtf = {
+  assetClass: "주식-해외",
+  riskType: "normal",
+  classification: {
+    marketScope: "미국",
+    assetClass: "주식",
+    assetDetail: "반도체",
+    strategy: "일반",
+    fxHedge: "환노출",
+    reviewStatus: "미검수",
+    reviewPriority: "",
+    sourceUrl: null,
+    evidenceSummary: null,
+  },
+} as Etf;
 
 describe("ETF 공용 표시 컴포넌트", () => {
   it("빈 수익률을 대시로 표시하고 수익률 기준을 접근성 라벨에 포함한다", () => {
@@ -33,5 +51,11 @@ describe("ETF 공용 표시 컴포넌트", () => {
   it("기준일을 명시한다", () => {
     render(<AsOfDate value="20260715" />);
     expect(screen.getByText("기준일 2026.07.15")).toBeInTheDocument();
+  });
+
+  it("목록 분류는 지역·자산·환율만 한 줄로 요약한다", () => {
+    render(<ClassificationSummary etf={classifiedEtf} />);
+    expect(screen.getByLabelText("분류: 미국, 주식, 환노출")).toBeInTheDocument();
+    expect(screen.queryByText("반도체")).not.toBeInTheDocument();
   });
 });

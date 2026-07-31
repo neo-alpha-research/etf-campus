@@ -32,6 +32,18 @@ export type PensionStatus = (typeof PENSION_STATUSES)[number];
 export type ReturnPeriod = (typeof RETURN_PERIODS)[number];
 export type EtfReturns = Record<ReturnPeriod, number | null>;
 
+export type EtfClassification = {
+  marketScope: string | null;
+  assetClass: string | null;
+  assetDetail: string | null;
+  strategy: string | null;
+  fxHedge: string | null;
+  reviewStatus: string;
+  reviewPriority: string;
+  sourceUrl: string | null;
+  evidenceSummary: string | null;
+};
+
 export type Etf = {
   isin: string;
   ticker: string;
@@ -52,4 +64,5 @@ export type Etf = {
   returns: EtfReturns;
   isNew90d: boolean | null;
   isNew3m: boolean;
+  classification?: EtfClassification | null;
 };

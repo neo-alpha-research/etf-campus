@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import path from "node:path";
 
 import {
@@ -6,6 +7,7 @@ import {
   RISK_TYPES,
   type AssetClass,
   type Etf,
+  type EtfClassification,
   type PensionStatus,
   type RiskType,
 } from "../domain/etf-types";
@@ -47,6 +49,32 @@ function optionalText(row: CsvRow, field: string): string | null {
   return value || null;
 }
 
+function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
+  const classificationPath = path.join(dataDirectory, "classification", "etf_classification_review_draft.csv");
+  if (!fs.existsSync(classificationPath)) return new Map();
+  return indexUnique(readCsv(classificationPath), "ticker", "etf_classification_review_draft.csv");
+}
+
+function parseClassification(row: CsvRow | undefined): EtfClassification | null {
+  if (!row) return null;
+
+  const resolved = (finalField: string, suggestedField: string) =>
+    optionalText(row, finalField) ?? optionalText(row, suggestedField);
+  const fxHedge = resolved("final_fx_hedge", "suggested_fx_hedge");
+
+  return {
+    marketScope: resolved("final_market_scope", "suggested_market_scope"),
+    assetClass: resolved("final_asset_class", "suggested_asset_class"),
+    assetDetail: resolved("final_asset_detail", "suggested_asset_detail"),
+    strategy: optionalText(row, "suggested_strategy"),
+    fxHedge: fxHedge && !["미확인", "해당없음"].includes(fxHedge) ? fxHedge : null,
+    reviewStatus: optionalText(row, "review_status") ?? "미검수",
+    reviewPriority: optionalText(row, "review_priority") ?? "",
+    sourceUrl: optionalText(row, "official_source_url"),
+    evidenceSummary: optionalText(row, "evidence_summary"),
+  };
+}
+
 export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const masterRows = readCsv(path.join(dataDirectory, "etf_master_draft.csv"));
   const returnRows = readCsv(path.join(dataDirectory, "etf_returns_draft.csv"));
@@ -55,6 +83,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const masterByTicker = indexUnique(masterRows, "ticker", "etf_master_draft.csv");
   const returnsByTicker = indexUnique(returnRows, "ticker", "etf_returns_draft.csv");
   const pensionByTicker = indexUnique(pensionRows, "ticker", "pension_verify_sheet.csv");
+  const classificationByTicker = loadClassificationIndex(dataDirectory);
   const tickers = new Set(masterByTicker.keys());
 
   assertCompleteJoin(returnsByTicker, tickers, "etf_returns_draft.csv");
@@ -99,6 +128,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       },
       isNew90d: returns.new_90d === undefined || returns.new_90d === "" ? null : returns.new_90d === "Y",
       isNew3m: returns.new_3m === "Y",
+      classification: parseClassification(classificationByTicker.get(ticker)),
     };
   });
 }

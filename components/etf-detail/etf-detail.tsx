@@ -1,10 +1,11 @@
 import Link from "next/link";
 
-import { AsOfDate, AssetClassTag, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
+import { AsOfDate, ClassificationSummary, PensionBadge, ReturnCell } from "@/components/etf";
 import { siteConfig } from "@/config/site";
 import { formatMoney, formatWon } from "@/lib/domain/etf-format";
 import { getReturnPeriods, isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf } from "@/lib/domain/etf-types";
+import { getEtfCautions, isClassificationReviewed } from "@/lib/domain/etf-classification";
 
 function getPensionDescription(etf: Etf, newListing: boolean): string {
   if (etf.pension === "가능") {
@@ -34,6 +35,7 @@ export function EtfDetail({ etf }: { etf: Etf }) {
   const newListing = isNewListing(etf);
   const returnPeriods = getReturnPeriods(newListing ? "new" : etf.riskType === "normal" ? "general" : "derivatives");
   const canonicalUrl = `${siteConfig.url.replace(/\/$/, "")}/etf/${etf.ticker}`;
+  const cautions = getEtfCautions(etf);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
@@ -57,7 +59,10 @@ export function EtfDetail({ etf }: { etf: Etf }) {
           <p className="tabular-nums text-sm font-bold text-muted">{etf.ticker} · {etf.isin}</p>
           <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.04em] text-strong sm:text-4xl">{etf.name}</h1>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-muted">{etf.baseIndex}</p>
-          <div className="mt-4 flex flex-wrap gap-2"><AssetClassTag assetClass={etf.assetClass} /><RiskBadge riskType={etf.riskType} /><PensionBadge status={etf.pension} /></div>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="rounded-lg border border-brand-100 bg-brand-50 px-3 py-2"><ClassificationSummary detailed etf={etf} /></span>
+            <PensionBadge status={etf.pension} />
+          </div>
         </div>
         <AsOfDate value={etf.asOfDate} />
       </div>
@@ -70,6 +75,31 @@ export function EtfDetail({ etf }: { etf: Etf }) {
           <div className="bg-surface p-5"><dt className="text-xs font-bold text-muted">거래대금</dt><dd className="tabular-nums mt-2 text-lg font-extrabold">{formatMoney(etf.tradeValue)}</dd></div>
           <div className="bg-surface p-5"><dt className="text-xs font-bold text-muted">순자산</dt><dd className="tabular-nums mt-2 text-lg font-extrabold">{formatMoney(etf.aum)}</dd></div>
         </dl>
+      </section>
+
+      <section aria-labelledby="classification-title" className="border-t border-line py-8">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-xl font-extrabold text-strong" id="classification-title">ETF 한눈에 보기</h2>
+          <span className="text-xs font-semibold text-muted">
+            {isClassificationReviewed(etf) ? "분류 검수 완료" : "자동 분류 초안"}
+          </span>
+        </div>
+        <div className="mt-4 rounded-2xl border border-line bg-neutral-50 p-5">
+          <ClassificationSummary detailed etf={etf} />
+          {cautions.length ? (
+            <div aria-label="살펴볼 특성" className="mt-4 flex flex-wrap gap-2">
+              {cautions.map((caution) => (
+                <span className="rounded-md bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800" key={caution}>{caution}</span>
+              ))}
+            </div>
+          ) : null}
+          <details className="mt-4 text-xs leading-5 text-muted">
+            <summary className="cursor-pointer font-bold text-brand-700">분류 기준 보기</summary>
+            <p className="mt-2">기초지수와 상품명, 공식 상품 문서를 기준으로 지역·자산·상품 구조·환헤지를 서로 나누어 확인합니다.</p>
+            {etf.classification?.evidenceSummary ? <p className="mt-1">{etf.classification.evidenceSummary}</p> : null}
+            {etf.classification?.sourceUrl ? <a className="mt-1 inline-block font-bold text-brand-700" href={etf.classification.sourceUrl} rel="noreferrer" target="_blank">공식 자료 확인</a> : null}
+          </details>
+        </div>
       </section>
 
       <section aria-labelledby="returns-title" className="border-t border-line py-8">

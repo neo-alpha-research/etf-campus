@@ -38,4 +38,9 @@ describe("실제 ETF 데이터 회귀", () => {
     expect(etfs.every((etf) => ["가능", "불가", "확인중"].includes(etf.pension))).toBe(true);
     expect(etfs.filter((etf) => etf.pension === "확인중").length).toBeGreaterThan(0);
   });
+
+  it("분류 검수 초안을 별도 속성으로 연결하고 미확인 환헤지는 숨긴다", () => {
+    expect(etfs.every((etf) => etf.classification)).toBe(true);
+    expect(etfs.every((etf) => etf.classification?.fxHedge !== "미확인")).toBe(true);
+  });
 });

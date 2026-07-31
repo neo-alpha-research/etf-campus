@@ -129,6 +129,46 @@ class ClassificationDraftTest(TestCase):
         self.assertGreaterEqual(score, 85)
         self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
 
+    def test_existing_domestic_equity_class_is_explicit_market_evidence(self) -> None:
+        row = {
+            "name": "PLUS 한화그룹주",
+            "base_index": "FnGuide 한화그룹주 지수",
+            "asset_class": "주식-국내",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        score, decision, reason, confidence_basis = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "일반"
+        )
+
+        self.assertEqual((market, market_basis), ("국내", "기존 국내주식 분류"))
+        self.assertEqual(score, 90)
+        self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
+        self.assertIn("시장 명시", confidence_basis)
+
+    def test_foreign_asset_class_cannot_borrow_domestic_market_confidence(self) -> None:
+        row = {
+            "name": "테마성장",
+            "base_index": "Theme Growth Index",
+            "asset_class": "주식-해외",
+            "risk_type": "normal",
+        }
+        score, decision, reason, _ = confidence_assessment(
+            row,
+            "국내",
+            "기존 국내주식 분류",
+            "주식",
+            "주식 기본값·기존 분류 참고",
+            "해당없음",
+            "국내 기초자산",
+            "일반",
+        )
+
+        self.assertEqual(score, 80)
+        self.assertEqual((decision, reason), ("표본검수", "CONFIDENCE_BELOW_85"))
+
     def test_unknown_market_is_never_auto_confirmed(self) -> None:
         row = {
             "name": "테마성장",

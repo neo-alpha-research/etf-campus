@@ -208,7 +208,15 @@ def confidence_assessment(
 
     if market == "검수 필요":
         blockers.append("MARKET_UNKNOWN")
-    elif "키워드" in market_basis or market == "해당없음":
+    elif (
+        "키워드" in market_basis
+        or market == "해당없음"
+        or (
+            row.get("asset_class") == "주식-국내"
+            and market == "국내"
+            and market_basis == "기존 국내주식 분류"
+        )
+    ):
         score += 25
         basis.append("시장 명시")
     else:

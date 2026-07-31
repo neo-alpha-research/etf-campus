@@ -1,6 +1,8 @@
 from unittest import TestCase
+from pathlib import Path
 
 from scripts.build_classification_review import (
+    build_rows,
     confidence_assessment,
     review_status,
     suggest_asset,
@@ -301,3 +303,41 @@ class ClassificationDraftTest(TestCase):
         self.assertEqual(decision, "검수필요")
         self.assertIn("MARKET_UNKNOWN", reason)
         self.assertIn("FX_UNKNOWN", reason)
+
+    def test_english_korea_index_is_treated_as_domestic_market(self) -> None:
+        row = {
+            "name": "KODEX TDF2060액티브",
+            "base_index": "Samsung Korea Target Date 2060 Index",
+            "asset_class": "혼합·자산배분",
+        }
+        asset, _ = suggest_asset(row)
+        market, _ = suggest_market(row, asset)
+
+        self.assertEqual((market, asset), ("국내", "혼합자산"))
+
+    def test_special_bond_is_not_mistaken_for_equity(self) -> None:
+        row = {
+            "name": "BNK 27-12 특수채(AAA이상)액티브",
+            "base_index": "KAP 27-12 특수채 총수익 지수(AAA이상)",
+            "asset_class": "채권",
+        }
+        asset, _ = suggest_asset(row)
+
+        self.assertEqual(asset, "채권")
+
+    def test_official_source_registry_enriches_without_confirming_by_itself(self) -> None:
+        rows = build_rows(
+            Path("data/etf_master_draft.csv"),
+            official_sources={
+                "0079X0": {
+                    "official_source_url": "https://issuer.example/0079X0",
+                    "evidence_summary": "공식 자료 연결",
+                    "source_status": "공식 자료 연결",
+                }
+            },
+        )
+        row = next(item for item in rows if item["ticker"] == "0079X0")
+
+        self.assertEqual(row["official_source_url"], "https://issuer.example/0079X0")
+        self.assertEqual(row["source_status"], "공식 자료 연결")
+        self.assertEqual(row["review_status"], "미검수")

@@ -28,11 +28,11 @@ MARKET_RULES: list[tuple[str, re.Pattern[str]]] = [
     ("유럽", re.compile(r"유럽|EUROPE|EUROSTOXX|EURO\s*STOXX|STOXX\s*EUROPE|DAX|독일|프랑스", re.I)),
     ("아시아", re.compile(r"아시아|ASIA|ASEAN|아세안|대만|TAIWAN", re.I)),
     ("미국", re.compile(r"미국|\bU\.?S\.?\b|\bUSA\b|S&P\s*\d|NASDAQ|나스닥|DOW\s*JONES|다우존스|NYSE|RUSSELL|미국채|\bUS\s+TREASURY|테슬라|TESLA|TSLA|엔비디아|NVIDIA|팔란티어|PALANTIR|브로드컴|BROADCOM|구글|GOOGLE|일라이릴리|ELI\s*LILLY", re.I)),
-    ("국내", re.compile(r"코스피|KOSPI|코스닥|KOSDAQ|\bKRX\b|S&P\s*KOREA|코리아|한국", re.I)),
+    ("국내", re.compile(r"코스피|KOSPI|코스닥|KOSDAQ|\bKRX\b|S&P\s*KOREA|\bKOREA\b|코리아|한국", re.I)),
 ]
 
 DIRECT_COMMODITY = re.compile(
-    r"금현물|은현물|금은선물|골드선물|실버선물|원유선물|WTI선물|천연가스선물|구리선물|"
+    r"금현물|은현물|금은선물|골드선물|실버선물|원유선물|WTI선물|천연가스선물|구리선물|구리실물|팔라듐선물|"
     r"농산물선물|콩선물|옥수수선물|커피선물|원자재선물|금커버드콜|골드커버드콜|"
     r"\bGOLD\b|\bSILVER\b|\bWTI\b",
     re.I,
@@ -43,7 +43,7 @@ PARKING = re.compile(r"머니마켓|MMF|KOFR|CD금리|SOFR|파킹|초단기|통�
 MIXED = re.compile(r"혼합|자산배분|TDF|TRF|밸런스|멀티에셋|EMP", re.I)
 REIT_INFRA = re.compile(r"리츠|REIT|인프라|맥쿼리", re.I)
 BOND = re.compile(
-    r"채권|국고채|회사채|국채|금융채|은행채|여전채|단기채|중기채|장기채|"
+    r"채권|국고채|회사채|국채|금융채|은행채|여전채|특수채|단기채|중기채|장기채|"
     r"크레딧|하이일드|TIPS|물가채|미국채|전단채|만기매칭|듀레이션",
     re.I,
 )
@@ -104,6 +104,7 @@ def asset_detail(text: str, asset: str) -> str:
             ("원유", r"원유|\bWTI\b"),
             ("천연가스", r"천연가스"),
             ("구리", r"구리"),
+            ("팔라듐", r"팔라듐|PALLADIUM"),
             ("농산물", r"농산물|콩|옥수수|커피"),
         ],
         "통화": [("달러", r"달러"), ("엔", r"엔선물|엔화"), ("유로", r"유로"), ("위안", r"위안")],
@@ -289,6 +290,7 @@ def confidence_assessment(
 def build_rows(
     source: Path,
     existing_reviews: dict[str, dict[str, str]] | None = None,
+    official_sources: dict[str, dict[str, str]] | None = None,
 ) -> list[dict[str, str]]:
     with source.open(encoding="utf-8-sig", newline="") as handle:
         rows = list(csv.DictReader(handle))
@@ -306,6 +308,7 @@ def build_rows(
             row, market, market_basis, asset, asset_basis, fx, fx_basis, strategy
         )
         previous = (existing_reviews or {}).get(row.get("ticker", ""), {})
+        source_evidence = (official_sources or {}).get(row.get("ticker", ""), {})
         has_manual_review = previous.get("review_status") == "수기확정"
         final_values = {
             "final_market_scope": previous.get("final_market_scope", ""),
@@ -346,8 +349,9 @@ def build_rows(
             "confidence_basis": confidence_basis,
             **final_values,
             "review_status": previous.get("review_status", "") if has_manual_review else ("자동확정" if decision == "자동확정" else "미검수"),
-            "official_source_url": previous.get("official_source_url", ""),
-            "evidence_summary": previous.get("evidence_summary", ""),
+            "official_source_url": previous.get("official_source_url", "") or source_evidence.get("official_source_url", ""),
+            "evidence_summary": previous.get("evidence_summary", "") or source_evidence.get("evidence_summary", ""),
+            "source_status": previous.get("source_status", "") or source_evidence.get("source_status", ""),
             "reviewer": previous.get("reviewer", ""),
             "reviewed_at": previous.get("reviewed_at", ""),
         })
@@ -355,6 +359,18 @@ def build_rows(
 
 
 def read_existing_reviews(path: Path) -> dict[str, dict[str, str]]:
+    if not path.exists():
+        return {}
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        return {row["ticker"]: row for row in csv.DictReader(handle)}
+
+
+def read_official_sources(path: Path) -> dict[str, dict[str, str]]:
+    """공식 상품 페이지를 찾은 종목의 출처 메타데이터를 읽는다.
+
+    이 파일은 최종 분류를 덮어쓰지 않는다. 출처와 요약만 보강하여
+    자동 규칙으로 확정되지 않은 항목을 사람이 짧게 검수할 수 있게 한다.
+    """
     if not path.exists():
         return {}
     with path.open(encoding="utf-8-sig", newline="") as handle:
@@ -374,10 +390,15 @@ def main() -> None:
     parser.add_argument("--source", default="data/etf_master_draft.csv")
     parser.add_argument("--output", default="data/classification/etf_classification_review_draft.csv")
     parser.add_argument("--queue-output", default="data/classification/etf_classification_review_queue.csv")
+    parser.add_argument("--official-sources", default="data/classification/official_source_registry.csv")
     args = parser.parse_args()
 
     output = Path(args.output)
-    rows = build_rows(Path(args.source), read_existing_reviews(output))
+    rows = build_rows(
+        Path(args.source),
+        read_existing_reviews(output),
+        read_official_sources(Path(args.official_sources)),
+    )
     queue = [row for row in rows if row["auto_decision"] != "자동확정"]
     write_csv(output, rows)
     write_csv(Path(args.queue_output), queue)

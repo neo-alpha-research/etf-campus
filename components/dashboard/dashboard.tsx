@@ -315,9 +315,11 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </div>
       </div>
 
-      <p className="mt-3 text-xs leading-5 text-muted">과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다</p>
       {pageCount > 1 ? <nav aria-label="ETF 목록 페이지" className="mt-5 flex items-center justify-center gap-4"><button className="min-h-11 rounded-lg border border-line px-4 text-sm font-bold disabled:opacity-40" disabled={currentPage === 1} onClick={() => setExplorerState({ page: currentPage - 1 }, false)} type="button">이전</button><span className="tabular-nums text-sm font-bold text-muted">{currentPage} / {pageCount}</span><button className="min-h-11 rounded-lg border border-line px-4 text-sm font-bold disabled:opacity-40" disabled={currentPage === pageCount} onClick={() => setExplorerState({ page: currentPage + 1 }, false)} type="button">다음</button></nav> : null}
-      <p className="mt-5 border-t border-line pt-4 text-[11px] leading-5 text-neutral-500">기간 수익률은 기준일 종가와 기간 시작일 종가를 비교합니다. 휴장일은 직전 거래일, 상장 전 기간은 최초 거래일 종가를 사용하며 분배금은 포함하지 않습니다.{state.mode === "new" ? " 상장 후(ITD)는 최초 거래일 종가 대비 수익률입니다." : ""}</p>
+      <aside aria-label="수익률 안내" className="mt-5 border-t border-line pt-4 text-[11px] leading-5 text-neutral-500">
+        <p>과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다.</p>
+        <p className="mt-1">기간 수익률은 기준일 종가와 기간 시작일 종가를 비교합니다. 휴장일은 직전 거래일, 상장 전 기간은 최초 거래일 종가를 사용하며 분배금은 포함하지 않습니다.{state.mode === "new" ? " 상장 후(ITD)는 최초 거래일 종가 대비 수익률입니다." : ""}</p>
+      </aside>
     </main>
   );
 }

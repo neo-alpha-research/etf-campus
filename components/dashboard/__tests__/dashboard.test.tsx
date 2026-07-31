@@ -45,6 +45,7 @@ describe("Dashboard", () => {
     expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
     expect(screen.getByRole("columnheader", { name: "종가" })).toHaveClass("text-center");
+    expect(screen.getByLabelText("표 단위")).toHaveTextContent("종가 원 · 거래대금/순자산 억원 · 수익률 %");
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
     expect(screen.queryByText("레버리지 ETF")).not.toBeInTheDocument();
   });

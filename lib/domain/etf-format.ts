@@ -11,6 +11,10 @@ export function formatReturn(value: number | null): string {
   return `${sign}${value.toFixed(2)}%`;
 }
 
+export function formatReturnNumber(value: number | null): string {
+  return formatReturn(value).replace("%", "");
+}
+
 export function formatMoney(value: number): string {
   const eok = value / 100_000_000;
   const fractionDigits = eok < 100 ? 1 : 0;
@@ -20,12 +24,19 @@ export function formatMoney(value: number): string {
   }).format(eok)}억원`;
 }
 
+export function formatMoneyNumber(value: number): string {
+  return formatMoney(value).replace("억원", "");
+}
+
 export function formatWon(value: number): string {
   return `${new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 }).format(value)}원`;
+}
+
+export function formatWonNumber(value: number): string {
+  return formatWon(value).replace("원", "");
 }
 
 export function formatAsOfDate(value: string): string {
   if (!/^\d{8}$/.test(value)) throw new Error(`잘못된 기준일 형식: ${value}`);
   return `${value.slice(0, 4)}.${value.slice(4, 6)}.${value.slice(6, 8)}`;
 }
-

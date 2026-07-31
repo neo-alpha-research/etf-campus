@@ -5,7 +5,7 @@ import { useEffect, useState, type KeyboardEvent } from "react";
 
 import { Tickery } from "@/components/brand/tickery";
 import { AsOfDate, AssetClassTag, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
-import { formatAsOfDate, formatMoney, formatWon } from "@/lib/domain/etf-format";
+import { formatAsOfDate, formatMoneyNumber, formatWonNumber } from "@/lib/domain/etf-format";
 import {
   DEFAULT_EXPLORER_STATE,
   applyExplorerFilters,
@@ -280,6 +280,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
       <p className="mt-5 text-xs font-semibold leading-5 text-muted">수익률: 가격 기준·분배금 미포함 · 1일은 직전 거래일, 주·개월은 기준일에서 해당 달력 기간 전 날짜의 당일 또는 직전 거래일 종가 대비 · 값이 없으면 추정하지 않고 -로 표시{state.mode === "new" ? " · 상장 후(ITD)는 첫 거래일 종가 대비" : ""}</p>
 
       <div className="mt-3 overflow-hidden rounded-2xl border border-line bg-surface">
+        <div aria-label="표 단위" className="hidden border-b border-line bg-neutral-50/70 px-4 py-2 text-right text-[11px] font-semibold text-muted md:block">
+          단위: 종가 원 · 거래대금/순자산 억원 · 수익률 %
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm md:min-w-[1120px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             <thead className="sticky top-0 z-10 bg-neutral-50 text-xs font-bold text-muted">
@@ -303,11 +306,11 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="max-w-0 bg-surface px-4 py-3 text-center font-normal sm:px-5 md:sticky md:left-0 md:z-[1]" scope="row"><div className="flex min-w-0 items-center gap-2 whitespace-nowrap"><Link className="min-w-0 flex-1 truncate text-center font-bold leading-5 text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>{state.mode === "new" ? <span className="hidden shrink-0 text-xs text-muted xl:inline">{listingSummary(etf)}</span> : null}{isSmallEtf(etf) ? <span className="hidden shrink-0 rounded bg-amber-50 px-1.5 py-0.5 text-xs font-bold text-amber-800 lg:inline">소규모 유의</span> : null}</div></th>
                 <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                 <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
-                <td className="tabular-nums hidden px-2 py-3 text-center font-semibold md:table-cell">{formatWon(etf.close)}</td>
-                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoney(etf.tradeValue)}</td>
-                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoney(etf.aum)}</td>
+                <td className="tabular-nums hidden px-2 py-3 text-center font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
+                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoneyNumber(etf.tradeValue)}</td>
+                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoneyNumber(etf.aum)}</td>
                 {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-4 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
-                {periods.map((period) => <td className={`hidden px-1 py-4 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell value={etf.returns[period]} /></td>)}
+                {periods.map((period) => <td className={`hidden px-1 py-4 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}
                 <td className="hidden px-2 py-4 text-center md:table-cell"><div className="flex flex-col items-center justify-center gap-1"><AssetClassTag assetClass={etf.assetClass} /><RiskBadge riskType={etf.riskType} /></div></td>
                 <td className="hidden px-2 py-4 text-center md:table-cell"><PensionBadge status={etf.pension} /></td>
               </tr>)}

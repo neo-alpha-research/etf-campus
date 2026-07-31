@@ -16,4 +16,6 @@ __pycache__/
 
 # Generated review artifacts and local data backups
 artifacts/
+outputs/
+.tmp/
 data/backups/

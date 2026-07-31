@@ -277,9 +277,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </aside>
       </> : null}
 
-      <p className="mt-5 text-xs font-semibold leading-5 text-muted">수익률: 가격 기준·분배금 미포함 · 1일은 직전 거래일, 주·개월은 기준일에서 해당 달력 기간 전 날짜의 당일 또는 직전 거래일 종가 대비 · 값이 없으면 추정하지 않고 -로 표시{state.mode === "new" ? " · 상장 후(ITD)는 첫 거래일 종가 대비" : ""}</p>
-
-      <div className="mt-3 overflow-hidden rounded-2xl border border-line bg-surface">
+      <div className="mt-5 overflow-hidden rounded-2xl border border-line bg-surface">
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm md:min-w-[1120px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             <thead className="sticky top-0 z-10 bg-neutral-50 text-xs font-bold text-muted">
@@ -299,7 +297,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 </th>
                 {state.mode === "new" ? <th className="hidden px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
                 {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[5.5%] px-1 py-2.5 text-center md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col"><span className="block">{RETURN_PERIOD_LABELS[period]}</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">%</span></th>)}
-                <th className="hidden w-[12%] px-2 py-3 text-center md:table-cell" scope="col">분류</th>
+                <th className="hidden w-[12%] bg-brand-50 px-2 py-3 text-center text-brand-800 md:table-cell" scope="col">분류</th>
                 <th className="hidden w-[8%] px-2 py-3 text-center md:table-cell" scope="col">연금</th>
               </tr>
             </thead>
@@ -314,7 +312,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoneyNumber(etf.aum)}</td>
                 {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-4 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                 {periods.map((period) => <td className={`hidden px-1 py-4 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}
-                <td className="hidden px-2 py-4 text-center md:table-cell"><div className="flex flex-col items-center justify-center gap-1"><AssetClassTag assetClass={etf.assetClass} /><RiskBadge riskType={etf.riskType} /></div></td>
+                <td className="hidden px-2 py-4 text-center md:table-cell"><div className="inline-flex flex-nowrap items-center justify-center gap-1 whitespace-nowrap rounded-lg border border-brand-100 bg-brand-50/70 p-1"><AssetClassTag assetClass={etf.assetClass} /><RiskBadge riskType={etf.riskType} /></div></td>
                 <td className="hidden px-2 py-4 text-center md:table-cell"><PensionBadge status={etf.pension} /></td>
               </tr>)}
             </tbody>
@@ -323,8 +321,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </div>
       </div>
 
+      <p className="mt-3 text-xs leading-5 text-muted">과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다</p>
       {pageCount > 1 ? <nav aria-label="ETF 목록 페이지" className="mt-5 flex items-center justify-center gap-4"><button className="min-h-11 rounded-lg border border-line px-4 text-sm font-bold disabled:opacity-40" disabled={currentPage === 1} onClick={() => setExplorerState({ page: currentPage - 1 }, false)} type="button">이전</button><span className="tabular-nums text-sm font-bold text-muted">{currentPage} / {pageCount}</span><button className="min-h-11 rounded-lg border border-line px-4 text-sm font-bold disabled:opacity-40" disabled={currentPage === pageCount} onClick={() => setExplorerState({ page: currentPage + 1 }, false)} type="button">다음</button></nav> : null}
-      <p className="mt-4 text-xs leading-5 text-muted">과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다</p>
+      <p className="mt-5 border-t border-line pt-4 text-[11px] leading-5 text-neutral-500">수익률 산정 기준: 가격 기준·분배금 미포함 · 1일은 직전 거래일, 주·개월은 기준일에서 해당 달력 기간 전 날짜의 당일 또는 직전 거래일 종가 대비 · 값이 없으면 추정하지 않고 -로 표시{state.mode === "new" ? " · 상장 후(ITD)는 첫 거래일 종가 대비" : ""}</p>
     </main>
   );
 }

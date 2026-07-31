@@ -88,5 +88,6 @@ describe("Dashboard", () => {
     expect(screen.getByRole("option", { name: /대형 일반 ETF/ })).toBeInTheDocument();
     expect(screen.getByText(/가격 기준·분배금 미포함/)).toBeInTheDocument();
     expect(screen.getByText("과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다")).toBeInTheDocument();
+    expect(screen.getByText(/수익률 산정 기준:/)).toHaveClass("border-t");
   });
 });

@@ -50,6 +50,9 @@ jobs:
             python scripts/update_daily_data.py
           fi
 
+      - name: Refresh classification review draft
+        run: python scripts/build_classification_review.py
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -69,12 +72,12 @@ jobs:
 
       - name: Commit changed data
         run: |
-          if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv; then
+          if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification; then
             echo "No data changes to commit."
             exit 0
           fi
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv
+          git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification
           git commit -m "data: refresh ETF snapshot"
           git push

@@ -19,6 +19,7 @@ MARKET_RULES: list[tuple[str, re.Pattern[str]]] = [
     ("중남미", re.compile(r"라틴|LATIN\s*AMERICA", re.I)),
     ("대만", re.compile(r"대만|TAIWAN|TSMC", re.I)),
     ("필리핀", re.compile(r"필리핀|PHILIPPINES", re.I)),
+    ("싱가포르", re.compile(r"싱가포르|SINGAPORE", re.I)),
     ("멕시코", re.compile(r"멕시코|MEXICO", re.I)),
     ("러시아", re.compile(r"러시아|RUSSIA", re.I)),
     ("중국", re.compile(r"중국|차이나|CHINA|CSI\s*\d|항셍|HANG\s*SENG|홍콩|과창판|심천|CHINEXT", re.I)),
@@ -37,11 +38,20 @@ DIRECT_COMMODITY = re.compile(
     r"\bGOLD\b|\bSILVER\b|\bWTI\b",
     re.I,
 )
-COMMODITY_EQUITY = re.compile(r"기업|밸류체인|생산|채굴|광산|에너지기업|원자력|우라늄기업", re.I)
+COMMODITY_EQUITY = re.compile(
+    r"기업|밸류체인|생산|채굴|광산|에너지기업|원자력|우라늄기업|EXPLORATION|PRODUCTION|MINING",
+    re.I,
+)
+INFRA_EQUITY = re.compile(
+    r"(?:AI|반도체|광통신|위성|수소|전력|ESS|네트워크|메타버스|천연가스|데이터센터|글로벌).*인프라|"
+    r"인프라.*(?:AI|반도체|광통신|위성|수소|전력|ESS|네트워크|메타버스|천연가스|데이터센터|글로벌)",
+    re.I,
+)
 CURRENCY_DIRECT = re.compile(r"미국달러선물|달러선물|엔선물|유로선물|위안화|통화선물", re.I)
 PARKING = re.compile(r"머니마켓|MMF|KOFR|CD금리|SOFR|파킹|초단기|통안채|금리액티브", re.I)
 MIXED = re.compile(r"혼합|자산배분|TDF|TRF|밸런스|멀티에셋|EMP", re.I)
-REIT_INFRA = re.compile(r"리츠|REIT|인프라|맥쿼리", re.I)
+REIT_BOND_MIXED = re.compile(r"리츠.*채권|채권.*리츠", re.I)
+REIT_INFRA = re.compile(r"리츠|REIT|맥쿼리", re.I)
 BOND = re.compile(
     r"채권|국고채|회사채|국채|금융채|은행채|여전채|특수채|단기채|중기채|장기채|"
     r"크레딧|하이일드|TIPS|물가채|미국채|전단채|만기매칭|듀레이션",
@@ -69,8 +79,12 @@ def suggest_asset(row: dict[str, str]) -> tuple[str, str]:
         return "금리·파킹", "금리·파킹 키워드"
     if MIXED.search(text):
         return "혼합자산", "혼합·자산배분 키워드"
+    if REIT_BOND_MIXED.search(text):
+        return "혼합자산", "리츠·채권 복합 키워드"
     if CURRENCY_DIRECT.search(text):
         return "통화", "통화 선물·지수 키워드"
+    if INFRA_EQUITY.search(text):
+        return "주식", "산업 인프라 기업 키워드"
     if REIT_INFRA.search(text):
         return "리츠/인프라", "리츠·인프라 키워드"
     if COMMODITY_EQUITY.search(text):
@@ -227,14 +241,16 @@ def confidence_assessment(
         basis.append("기존 시장 보조")
 
     explicit_asset_override = "키워드" in asset_basis and (
-        # 혼합 키워드는 커버드콜·합성·액티브 여부와 무관하게 자산 결합을 직접 뜻한다.
-        (existing == "채권" and asset == "혼합자산")
-        # 아래 직접 노출 판정은 운용 전략이 없는 일반형만 자동 승격한다.
+        # 혼합, 특수채, 산업 인프라는 운용 전략과 별개로 기초자산 성격을 직접 뜻한다.
+        asset == "혼합자산"
+        or (existing == "주식" and asset == "채권" and "채권 키워드" in asset_basis)
+        or (existing == "원자재" and asset == "주식" and "원자재 밸류체인" in asset_basis)
+        or (asset == "주식" and "산업 인프라" in asset_basis)
+        # 통화·직접 원자재 전환은 일반형에 한정한다.
         or (
             strategy == "일반"
             and (
                 (existing == "주식" and asset == "통화")
-                or (existing == "원자재" and asset == "주식")
                 or (existing == "주식" and asset == "원자재")
             )
         )

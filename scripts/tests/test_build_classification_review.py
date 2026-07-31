@@ -341,3 +341,67 @@ class ClassificationDraftTest(TestCase):
         self.assertEqual(row["official_source_url"], "https://issuer.example/0079X0")
         self.assertEqual(row["source_status"], "공식 자료 연결")
         self.assertEqual(row["review_status"], "미검수")
+
+    def test_infrastructure_industries_are_equity_not_reit(self) -> None:
+        row = {
+            "name": "KoAct 미국천연가스인프라액티브",
+            "base_index": "Solactive 미국천연가스인프라 PR 지수",
+            "asset_class": "원자재",
+        }
+        asset, _ = suggest_asset(row)
+        market, _ = suggest_market(row, asset)
+
+        self.assertEqual((market, asset), ("미국", "주식"))
+
+    def test_reit_bond_combination_is_mixed_asset(self) -> None:
+        row = {
+            "name": "TIGER 리츠부동산인프라채권",
+            "base_index": "KIS 리츠부동산인프라채권PR 지수",
+            "asset_class": "채권",
+        }
+        asset, _ = suggest_asset(row)
+
+        self.assertEqual(asset, "혼합자산")
+
+    def test_singapore_reit_has_explicit_market_scope(self) -> None:
+        row = {
+            "name": "ACE 싱가포르리츠",
+            "base_index": "Morningstar Singapore REIT Yield Focus Index(PR)",
+            "asset_class": "리츠·인프라",
+        }
+        asset, _ = suggest_asset(row)
+        market, _ = suggest_market(row, asset)
+
+        self.assertEqual((market, asset), ("싱가포르", "리츠/인프라"))
+
+    def test_explicit_industry_infrastructure_can_override_commodity_even_when_active(self) -> None:
+        row = {
+            "name": "KoAct 미국천연가스인프라액티브",
+            "base_index": "Solactive 미국천연가스인프라 PR 지수",
+            "asset_class": "원자재",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        _, decision, reason, _ = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "액티브"
+        )
+
+        self.assertEqual((asset, decision, reason), ("주식", "자동확정", "RULES_AGREE"))
+
+    def test_special_bond_can_override_noisy_legacy_equity_tag(self) -> None:
+        row = {
+            "name": "마이티 5월만기자동연장특수채(AAA)액티브",
+            "base_index": "KAP 5월 만기자동연장 특수채(AAA) 총수익 지수",
+            "asset_class": "주식-국내",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        _, decision, reason, _ = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "액티브"
+        )
+
+        self.assertEqual((asset, decision, reason), ("채권", "자동확정", "RULES_AGREE"))

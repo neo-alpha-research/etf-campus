@@ -33,6 +33,81 @@ class ClassificationDraftTest(TestCase):
 
         self.assertEqual((market, asset), ("미국", "주식"))
 
+    def test_commodity_value_chain_records_explicit_equity_basis(self) -> None:
+        row = {
+            "name": "미국천연가스밸류체인",
+            "base_index": "US Natural Gas Value Chain Equity Index",
+            "asset_class": "원자재",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        score, decision, reason, basis = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "일반"
+        )
+
+        self.assertEqual(asset_basis, "원자재 밸류체인·생산기업 주식 키워드")
+        self.assertGreaterEqual(score, 85)
+        self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
+        self.assertIn("명시적 자산 재분류", basis)
+
+    def test_plain_bond_equity_mix_can_override_single_bond_source_class(self) -> None:
+        row = {
+            "name": "미국S&P500미국채혼합50",
+            "base_index": "S&P 500 and U.S. Treasury 50/50 Blend Index",
+            "asset_class": "채권",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        score, decision, reason, basis = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "일반"
+        )
+
+        self.assertEqual((market, asset, fx), ("미국", "혼합자산", "환노출"))
+        self.assertGreaterEqual(score, 85)
+        self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
+        self.assertIn("명시적 자산 재분류", basis)
+
+    def test_currency_future_can_override_stock_source_class(self) -> None:
+        row = {
+            "name": "KIWOOM 미국달러선물",
+            "base_index": "미국달러선물지수",
+            "asset_class": "주식-해외",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        score, decision, reason, basis = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "일반"
+        )
+
+        self.assertEqual((market, asset, fx), ("해당없음", "통화", "환노출"))
+        self.assertGreaterEqual(score, 85)
+        self.assertEqual((decision, reason), ("자동확정", "RULES_AGREE"))
+        self.assertIn("명시적 자산 재분류", basis)
+
+    def test_structured_mix_stays_in_manual_queue(self) -> None:
+        row = {
+            "name": "미국S&P500미국채커버드콜혼합",
+            "base_index": "S&P 500 and Treasury Covered Call Blend Index",
+            "asset_class": "채권",
+            "risk_type": "normal",
+        }
+        asset, asset_basis = suggest_asset(row)
+        market, market_basis = suggest_market(row, asset)
+        fx, fx_basis = suggest_fx(row, market)
+        _, decision, reason, _ = confidence_assessment(
+            row, market, market_basis, asset, asset_basis, fx, fx_basis, "커버드콜"
+        )
+
+        self.assertEqual(asset, "혼합자산")
+        self.assertEqual(decision, "검수필요")
+        self.assertIn("ASSET_CONFLICT", reason)
+
     def test_direct_gold_future_has_no_country_scope(self) -> None:
         row = {
             "name": "KODEX 골드선물(H)",

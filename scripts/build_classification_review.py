@@ -73,6 +73,8 @@ def suggest_asset(row: dict[str, str]) -> tuple[str, str]:
         return "통화", "통화 선물·지수 키워드"
     if REIT_INFRA.search(text):
         return "리츠/인프라", "리츠·인프라 키워드"
+    if COMMODITY_EQUITY.search(text):
+        return "주식", "원자재 밸류체인·생산기업 주식 키워드"
     if DIRECT_COMMODITY.search(text) and not COMMODITY_EQUITY.search(text):
         return "원자재", "원자재 현물·선물 직접 노출 키워드"
     if BOND.search(text):
@@ -223,9 +225,22 @@ def confidence_assessment(
         score += 15
         basis.append("기존 시장 보조")
 
+    explicit_asset_override = (
+        strategy == "일반"
+        and "키워드" in asset_basis
+        and (
+            (existing == "채권" and asset == "혼합자산")
+            or (existing == "주식" and asset == "통화")
+            or (existing == "원자재" and asset == "주식")
+            or (existing == "주식" and asset == "원자재")
+        )
+    )
     if existing == asset:
         score += 25
         basis.append("기존 자산군 일치")
+    elif explicit_asset_override:
+        score += 25
+        basis.append("명시적 자산 재분류")
     else:
         score += 5
         blockers.append("ASSET_CONFLICT")

@@ -280,9 +280,6 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
       <p className="mt-5 text-xs font-semibold leading-5 text-muted">수익률: 가격 기준·분배금 미포함 · 1일은 직전 거래일, 주·개월은 기준일에서 해당 달력 기간 전 날짜의 당일 또는 직전 거래일 종가 대비 · 값이 없으면 추정하지 않고 -로 표시{state.mode === "new" ? " · 상장 후(ITD)는 첫 거래일 종가 대비" : ""}</p>
 
       <div className="mt-3 overflow-hidden rounded-2xl border border-line bg-surface">
-        <div aria-label="표 단위" className="hidden border-b border-line bg-neutral-50/70 px-4 py-2 text-right text-[11px] font-semibold text-muted md:block">
-          단위: 종가 원 · 거래대금/순자산 억원 · 수익률 %
-        </div>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm md:min-w-[1120px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             <thead className="sticky top-0 z-10 bg-neutral-50 text-xs font-bold text-muted">
@@ -291,11 +288,17 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="min-w-44 px-4 py-3 text-center sm:px-5 md:sticky md:left-0 md:z-20 md:w-[14.5%] md:bg-neutral-50" scope="col">종목명</th>
                 <th className="w-24 px-2 py-3 text-right md:hidden" scope="col">등락률</th>
                 <th className="w-28 px-4 py-3 text-right md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
-                <th className="hidden w-[7%] px-2 py-3 text-center md:table-cell" scope="col">종가</th>
-                <th className="hidden w-[7%] px-2 py-3 text-right md:table-cell" scope="col">거래대금</th>
-                <th className="hidden w-[7%] px-2 py-3 text-right md:table-cell" scope="col">순자산</th>
+                <th aria-label="종가, 단위 원" className="hidden w-[7%] px-2 py-2.5 text-center md:table-cell" scope="col">
+                  <span className="block">종가</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">원</span>
+                </th>
+                <th aria-label="거래대금, 단위 억원" className="hidden w-[7%] px-2 py-2.5 text-right md:table-cell" scope="col">
+                  <span className="block">거래대금</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">억원</span>
+                </th>
+                <th aria-label="순자산, 단위 억원" className="hidden w-[7%] px-2 py-2.5 text-right md:table-cell" scope="col">
+                  <span className="block">순자산</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">억원</span>
+                </th>
                 {state.mode === "new" ? <th className="hidden px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
-                {periods.map((period) => <th className={`hidden w-[5.5%] px-1 py-3 text-center md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}
+                {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[5.5%] px-1 py-2.5 text-center md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col"><span className="block">{RETURN_PERIOD_LABELS[period]}</span><span className="mt-0.5 block text-[10px] font-medium text-neutral-400">%</span></th>)}
                 <th className="hidden w-[12%] px-2 py-3 text-center md:table-cell" scope="col">분류</th>
                 <th className="hidden w-[8%] px-2 py-3 text-center md:table-cell" scope="col">연금</th>
               </tr>

@@ -227,7 +227,10 @@ def main() -> None:
     cache: dict[str, dict[str, dict]] = {}
     resolved = resolve_snapshot(service_key, target, cache, args.require_exact_date)
     if resolved is None:
-        print(f"No data for requested date {target:%Y%m%d}; exiting without changes.")
+        message = f"No official ETF data for requested date {target:%Y%m%d}."
+        if args.require_exact_date:
+            raise RuntimeError(message)
+        print(f"{message} Exiting without changes.")
         return
     as_of_text, current = resolved
     as_of = datetime.strptime(as_of_text, "%Y%m%d").date()

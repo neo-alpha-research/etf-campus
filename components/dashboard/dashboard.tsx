@@ -58,10 +58,10 @@ const modeCopy: Record<InvestorMode, { eyebrow: string; title: string; descripti
   },
 };
 
-const scopeOptions: { value: AumScope; label: string }[] = [
-  { value: "1000plus", label: "1,000억+" },
-  { value: "500plus", label: "500억+" },
-  { value: "all", label: "전체" },
+const scopeOptions: { value: AumScope; label: string; summary: string }[] = [
+  { value: "1000plus", label: "1,000억 이상", summary: "1,000억 이상" },
+  { value: "500plus", label: "500억 이상", summary: "500억 이상" },
+  { value: "all", label: "전체", summary: "전체" },
 ];
 
 const riskLabels: Record<RiskType, string> = { normal: "일반", leverage: "레버리지", inverse: "인버스" };
@@ -172,6 +172,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const activeRiskTypes = state.riskTypes.filter((value) => allowedRiskTypes.includes(value));
   const periods = getReturnPeriods(state.mode);
   const normalizedPeriod = periods.includes(state.period) ? state.period : getDefaultPeriod(state.mode);
+  const selectedScope = scopeOptions.find((option) => option.value === state.scope) ?? scopeOptions[0];
 
   const scopedEtfs = state.mode === "new" ? modeEtfs : getEtfsByAumScope(modeEtfs, state.scope);
   const searchedEtfs = searchEtfs(scopedEtfs, state.query);
@@ -279,14 +280,17 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               </div>
             ) : null}
           </div>
-          <div className="flex shrink-0 items-center justify-between gap-3 px-1 sm:justify-end sm:px-2"><span className="tabular-nums text-sm font-extrabold text-strong">{results.length.toLocaleString("ko-KR")}종목</span>{asOfDate ? <AsOfDate value={asOfDate} /> : null}</div>
+          <div className="flex shrink-0 items-center justify-between gap-3 px-1 sm:justify-end sm:px-2"><span className="tabular-nums text-sm font-extrabold text-strong">{state.mode !== "new" ? `순자산 ${selectedScope.summary} · ` : ""}{results.length.toLocaleString("ko-KR")}종목</span>{asOfDate ? <AsOfDate value={asOfDate} /> : null}</div>
         </div>
 
         <div className="mt-3 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
             {state.mode !== "new" ? (
-              <div aria-label="순자산 목록 범위" className="flex shrink-0 rounded-xl bg-surface p-1 shadow-sm" role="group">
-                {scopeOptions.map((option) => <button aria-pressed={state.scope === option.value} className={`min-h-10 rounded-lg px-3 py-1.5 text-sm font-bold transition-colors ${state.scope === option.value ? "bg-brand-700 text-white" : "text-muted hover:text-strong"}`} key={option.value} onClick={() => setExplorerState({ scope: option.value })} type="button">{option.label}</button>)}
+              <div className="flex shrink-0 flex-wrap items-center gap-2">
+                <span className="whitespace-nowrap text-xs font-extrabold text-strong">순자산 기준</span>
+                <div aria-label="순자산 목록 범위" className="flex rounded-xl bg-surface p-1 shadow-sm" role="group">
+                  {scopeOptions.map((option) => <button aria-pressed={state.scope === option.value} className={`min-h-10 rounded-lg px-3 py-1.5 text-sm font-bold transition-colors ${state.scope === option.value ? "bg-brand-700 text-white" : "text-muted hover:text-strong"}`} key={option.value} onClick={() => setExplorerState({ scope: option.value })} type="button">{option.label}</button>)}
+                </div>
               </div>
             ) : <span className="w-fit shrink-0 rounded-full bg-brand-100 px-3 py-2 text-xs font-extrabold text-brand-800">0~90일 · 규모 제한 없음</span>}
             <span aria-hidden="true" className="hidden h-7 w-px shrink-0 bg-line sm:block" />

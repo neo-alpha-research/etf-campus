@@ -41,7 +41,8 @@ describe("Dashboard", () => {
 
   it("일반 계좌 기본 화면은 일반형·1,000억원 이상 종목만 보여준다", () => {
     render(<Dashboard etfs={items} />);
-    expect(screen.getByText("1종목")).toBeInTheDocument();
+    expect(screen.getByText("순자산 1,000억 이상 · 1종목")).toBeInTheDocument();
+    expect(screen.getByText("순자산 기준")).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
     expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-center");
@@ -55,10 +56,10 @@ describe("Dashboard", () => {
 
   it("500억과 전체 범위를 전환하고 소규모 ETF를 순자산 옆에 표시한다", () => {
     render(<Dashboard etfs={items} />);
-    fireEvent.click(screen.getByRole("button", { name: "500억+" }));
-    expect(screen.getByText("2종목")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "500억 이상" }));
+    expect(screen.getByText("순자산 500억 이상 · 2종목")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "전체" }));
-    expect(screen.getByText("3종목")).toBeInTheDocument();
+    expect(screen.getByText("순자산 전체 · 3종목")).toBeInTheDocument();
     expect(screen.getByText("50")).toBeInTheDocument();
     expect(screen.queryByText("50.0")).not.toBeInTheDocument();
     expect(screen.queryByText("소규모 유의")).not.toBeInTheDocument();
@@ -147,7 +148,7 @@ describe("Dashboard", () => {
     render(<Dashboard etfs={items} />);
     const explorer = screen.getByRole("region", { name: "ETF 검색과 정렬" });
     const search = screen.getByRole("combobox", { name: "종목명 또는 티커 검색" });
-    const scope = screen.getByRole("button", { name: "1,000억+" });
+    const scope = screen.getByRole("button", { name: "1,000억 이상" });
     expect(search.compareDocumentPosition(scope) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(explorer).toContainElement(search);
     fireEvent.focus(search);

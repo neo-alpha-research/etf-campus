@@ -283,7 +283,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           <div className="flex shrink-0 items-center justify-between gap-3 px-1 sm:justify-end sm:px-2"><span className="tabular-nums text-sm font-extrabold text-strong">{state.mode !== "new" ? `순자산 ${selectedScope.summary} · ` : ""}{results.length.toLocaleString("ko-KR")}종목</span>{asOfDate ? <AsOfDate value={asOfDate} /> : null}</div>
         </div>
 
-        <div className="mt-3 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+        <div className="mt-3 flex flex-col gap-3 xl:flex-row xl:flex-wrap xl:items-center xl:justify-between">
           <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
             {state.mode !== "new" ? (
               <div className="flex shrink-0 flex-wrap items-center gap-2">
@@ -314,7 +314,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             </div>
             <button className="min-h-11 rounded-lg border border-brand-200 bg-brand-50 px-3 text-sm font-bold text-brand-800" onClick={() => setFiltersOpen(true)} type="button">필터{activeFilterCount ? ` ${activeFilterCount}` : ""}</button>
           </div>
-          <p className="mt-2 text-[11px] font-semibold text-muted">정렬 기준: 기간 수익률은 선택 기간, 거래대금은 최근일, 순자산은 기준일 데이터입니다.</p>
+          <p className="mt-0 w-full text-[11px] font-semibold leading-5 text-muted xl:mt-1">정렬 기준: 기간 수익률은 선택 기간, 거래대금은 최근일, 순자산은 기준일 데이터입니다.</p>
         </div>
 
         {activeFilterCount ? <div className="mt-4 flex flex-wrap items-center gap-2"><span className="text-xs font-bold text-muted">적용 중</span>{state.assetClasses.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ assetClasses: toggleValue<AssetClass>(state.assetClasses, value) })} type="button">{value} ×</button>)}{activeRiskTypes.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ riskTypes: toggleValue<RiskType>(state.riskTypes, value) })} type="button">{riskLabels[value]} ×</button>)}<button className="text-xs font-bold text-brand-700" onClick={clearFilters} type="button">모두 해제</button></div> : null}

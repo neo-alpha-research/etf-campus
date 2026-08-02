@@ -128,15 +128,3 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   font-size: 0.75rem;
   font-weight: 700;
 }
-
-/* 1년 수익률은 한 자리 더 넓게 확보합니다. */
-@media (width >= 48rem) {
-  table.md-period-table thead th:nth-child(15),
-  table.md-period-table tbody td:nth-child(15) {
-    width: 5%;
-  }
-  table.md-period-table.is-new thead th:nth-child(16),
-  table.md-period-table.is-new tbody td:nth-child(16) {
-    width: 5%;
-  }
-}

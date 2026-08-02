@@ -334,7 +334,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
       <div className="mt-5 rounded-2xl border border-line bg-surface">
         <div className="overflow-x-auto min-[1244px]:overflow-x-visible">
-          <table className={`md-period-table w-full border-collapse text-left text-sm md:w-[1180px] md:min-w-[1180px] md:table-fixed ${state.mode === "new" ? "is-new" : ""}`}><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
+          <table className="w-full border-collapse text-left text-sm md:w-[1180px] md:min-w-[1180px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             <thead className="border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-extrabold text-neutral-700">
               <tr>
                 <th className="sticky top-0 z-10 hidden w-[52px] whitespace-nowrap bg-neutral-100 px-0 py-3 text-center md:table-cell" scope="col">종목코드</th>

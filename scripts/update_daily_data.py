@@ -349,6 +349,18 @@ def as_float(value: object) -> float | None:
     return float(compact_number(value))
 
 
+def resolve_aum_value(api: dict, existing: dict) -> str:
+    """Use a positive current net-asset value, otherwise retain the last verified value."""
+    for candidate in (api.get("nPptTotAmt"), existing.get("aum")):
+        text = compact_number(candidate)
+        try:
+            if text and float(text) > 0:
+                return text
+        except ValueError:
+            continue
+    return "0"
+
+
 def api_listing_date(value: object) -> str:
     """Return an API listing date only when it is an unambiguous YYYYMMDD value."""
     text = str(value or "").strip()
@@ -480,6 +492,7 @@ def main() -> None:
         existing = dict(master_by_ticker.get(ticker, {}))
         name = str(snapshot_value(api, "itmsNm"))
         base_index = str(snapshot_value(api, "bssIdxIdxNm"))
+        aum_value = resolve_aum_value(api, existing)
         risk, asset = classify(name, base_index)
         if asset == "기타":
             asset = "주식-국내"
@@ -487,10 +500,10 @@ def main() -> None:
             "isin_cd": snapshot_value(api, "isinCd", existing.get("isin_cd", "")), "ticker": ticker, "name": name,
             "base_index": base_index, "close": snapshot_value(api, "clpr", 0),
             "change_pct": snapshot_value(api, "fltRt", 0), "trade_value": snapshot_value(api, "trPrc", 0),
-            "aum": snapshot_value(api, "nPptTotAmt", 0), "risk_type": existing.get("risk_type") or risk,
+            "aum": aum_value, "risk_type": existing.get("risk_type") or risk,
             "asset_class": existing.get("asset_class") or asset,
             "pension_eligible": existing.get("pension_eligible") or pension_rule(risk, name, base_index),
-            "liquidity": "pass" if (as_float(snapshot_value(api, "nPptTotAmt", 0)) or 0) >= 10_000_000_000 else "fail",
+            "liquidity": "pass" if (as_float(aum_value) or 0) >= 10_000_000_000 else "fail",
             "bas_dt": as_of_text,
         })
         current_close = as_float(api.get("clpr"))
@@ -534,6 +547,11 @@ def main() -> None:
             pension = {"official_src": "", "issuer_official": "", "verify_status": "신규 확인 필요", "final_pension": "확인중", "final_src": "pending"}
         pension.update({key: existing.get(key, "") for key in master_fields if key in pension_fields})
         new_pension.append(pension)
+
+    default_count = sum((as_float(row.get("aum")) or 0) >= 100_000_000_000 for row in new_master)
+    if default_count == 0:
+        raise RuntimeError("Data quality check failed: no ETFs have at least KRW 100bn in net assets.")
+    print(f"AUM quality check: {default_count} ETFs at or above KRW 100bn")
 
     stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     backup = data_dir / "backups" / stamp

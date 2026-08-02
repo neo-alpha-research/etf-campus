@@ -165,3 +165,21 @@ class KrxSnapshotTest(TestCase):
                 10,
             )
         )
+
+    def test_preserves_the_verified_aum_when_krx_net_assets_are_blank(self) -> None:
+        self.assertEqual(
+            update_daily_data.resolve_aum_value(
+                {"nPptTotAmt": ""},
+                {"aum": "123456789000"},
+            ),
+            "123456789000",
+        )
+
+    def test_uses_the_current_krx_aum_when_it_is_valid(self) -> None:
+        self.assertEqual(
+            update_daily_data.resolve_aum_value(
+                {"nPptTotAmt": "234,567,890,000"},
+                {"aum": "123456789000"},
+            ),
+            "234567890000",
+        )

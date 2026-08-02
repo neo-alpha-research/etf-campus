@@ -302,9 +302,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           <div className="flex flex-wrap items-center gap-2">
             <label className="flex items-center gap-2 text-xs font-semibold text-muted">정렬
               <select className="min-h-11 rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-strong" onChange={(event) => setExplorerState({ sort: event.target.value as ExplorerState["sort"] })} value={state.sort}>
-                <option value="return">기간 수익률</option>
-                <option value="tradeValue">거래대금</option>
-                <option value="aum">순자산</option>
+                <option value="return">기간 수익률 · 선택 기간</option>
+                <option value="tradeValue">거래대금 · 최근일</option>
+                <option value="aum">순자산 · 기준일</option>
                 {state.mode === "new" ? <option value="listingDate">상장일</option> : null}
               </select>
             </label>
@@ -314,6 +314,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             </div>
             <button className="min-h-11 rounded-lg border border-brand-200 bg-brand-50 px-3 text-sm font-bold text-brand-800" onClick={() => setFiltersOpen(true)} type="button">필터{activeFilterCount ? ` ${activeFilterCount}` : ""}</button>
           </div>
+          <p className="mt-2 text-[11px] font-semibold text-muted">정렬 기준: 기간 수익률은 선택 기간, 거래대금은 최근일, 순자산은 기준일 데이터입니다.</p>
         </div>
 
         {activeFilterCount ? <div className="mt-4 flex flex-wrap items-center gap-2"><span className="text-xs font-bold text-muted">적용 중</span>{state.assetClasses.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ assetClasses: toggleValue<AssetClass>(state.assetClasses, value) })} type="button">{value} ×</button>)}{activeRiskTypes.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ riskTypes: toggleValue<RiskType>(state.riskTypes, value) })} type="button">{riskLabels[value]} ×</button>)}<button className="text-xs font-bold text-brand-700" onClick={clearFilters} type="button">모두 해제</button></div> : null}

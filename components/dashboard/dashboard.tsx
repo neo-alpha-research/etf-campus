@@ -340,7 +340,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="sticky top-0 z-20 min-w-[180px] w-[180px] bg-neutral-100 px-2 py-3 text-center md:left-0 md:w-[180px]" scope="col">종목명</th>
                 <th className="sticky top-0 z-10 w-24 bg-neutral-100 px-2 py-3 text-center md:hidden" scope="col">등락률</th>
                 <th className="sticky top-0 z-10 w-28 bg-neutral-100 px-4 py-3 text-center md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
-                <th aria-label="종가, 단위 원" className="sticky top-0 z-10 hidden w-[72px] whitespace-nowrap bg-neutral-100 px-0.5 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
+                <th aria-label="종가, 단위 원" className="sticky top-0 z-10 hidden w-[60px] whitespace-nowrap bg-neutral-100 px-0 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
                 <th aria-label="거래대금, 단위 억원" className="sticky top-0 z-10 hidden w-[6%] whitespace-nowrap bg-neutral-100 px-1 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
                 <th aria-label="순자산, 단위 억원" className="sticky top-0 z-10 hidden w-[6%] whitespace-nowrap bg-neutral-100 px-1 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
                 {state.mode === "new" ? <th className="sticky top-0 z-10 hidden bg-neutral-100 px-3 py-3 text-center md:table-cell" scope="col">상장일</th> : null}
@@ -357,7 +357,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="max-w-0 w-[180px] bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="line-clamp-2 [overflow-wrap:anywhere] [word-break:keep-all] text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
                 <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                 <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
-                <td className="tabular-nums hidden w-[72px] px-0.5 py-2.5 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
+                <td className="tabular-nums hidden w-[60px] whitespace-nowrap px-0 py-2.5 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
                 <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
                 <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell"><span className="flex w-full items-center justify-end gap-1.5"><span>{formatAumNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
                 {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-2.5 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}

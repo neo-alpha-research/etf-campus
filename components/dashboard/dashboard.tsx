@@ -283,7 +283,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           <div className="flex shrink-0 items-center justify-between gap-3 px-1 sm:justify-end sm:px-2"><span className="tabular-nums text-sm font-extrabold text-strong">{state.mode !== "new" ? `순자산 ${selectedScope.summary} · ` : ""}{results.length.toLocaleString("ko-KR")}종목</span>{asOfDate ? <AsOfDate value={asOfDate} /> : null}</div>
         </div>
 
-        <div className="mt-3 flex flex-col gap-3 xl:flex-row xl:flex-wrap xl:items-center xl:justify-between">
+        <div className="mt-3 grid gap-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
           <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
             {state.mode !== "new" ? (
               <div className="flex shrink-0 flex-wrap items-center gap-2">
@@ -299,7 +299,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               {periods.map((period) => <button aria-pressed={normalizedPeriod === period} className={`min-h-10 shrink-0 rounded-lg px-3 py-2 text-xs font-bold ${normalizedPeriod === period ? "bg-brand-100 text-brand-800" : "text-muted hover:bg-surface"}`} key={period} onClick={() => setExplorerState({ period })} type="button">{RETURN_PERIOD_LABELS[period]}</button>)}
             </div>
           </div>
-          <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
+          <div className="ml-auto flex flex-wrap items-center justify-end gap-2 xl:self-start">
             <label className="flex items-center gap-2 text-xs font-semibold text-muted">정렬
               <select className="min-h-11 rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-strong" onChange={(event) => setExplorerState({ sort: event.target.value as ExplorerState["sort"] })} value={state.sort}>
                 <option value="return">기간 수익률 · 선택 기간</option>
@@ -312,9 +312,18 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               <button aria-pressed={state.direction === "desc"} className={`min-h-9 rounded-md px-3 text-xs font-bold ${state.direction === "desc" ? "bg-neutral-800 text-white" : "text-muted"}`} onClick={() => setExplorerState({ direction: "desc" })} type="button">높은순</button>
               <button aria-pressed={state.direction === "asc"} className={`min-h-9 rounded-md px-3 text-xs font-bold ${state.direction === "asc" ? "bg-neutral-800 text-white" : "text-muted"}`} onClick={() => setExplorerState({ direction: "asc" })} type="button">낮은순</button>
             </div>
-            <button className="min-h-11 rounded-lg border border-brand-200 bg-brand-50 px-3 text-sm font-bold text-brand-800" onClick={() => setFiltersOpen(true)} type="button">필터{activeFilterCount ? ` ${activeFilterCount}` : ""}</button>
+            <button
+              aria-controls="etf-filter-panel"
+              aria-expanded={filtersOpen}
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border-2 border-brand-700 bg-brand-700 px-3.5 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
+              onClick={() => setFiltersOpen(true)}
+              type="button"
+            >
+              <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeLinecap="round" strokeWidth="2" /></svg>
+              필터{activeFilterCount ? ` ${activeFilterCount}` : ""}
+            </button>
           </div>
-          <p className="mt-0 w-full text-[11px] font-semibold leading-5 text-muted xl:mt-1">정렬 기준: 기간 수익률은 선택 기간, 거래대금은 최근일, 순자산은 기준일 데이터입니다.</p>
+          <p className="mt-0 text-[11px] font-semibold leading-5 text-muted xl:col-start-2 xl:max-w-[520px] xl:text-right">정렬 기준: 기간 수익률은 선택 기간, 거래대금은 최근일, 순자산은 기준일 데이터입니다.</p>
         </div>
 
         {activeFilterCount ? <div className="mt-4 flex flex-wrap items-center gap-2"><span className="text-xs font-bold text-muted">적용 중</span>{state.assetClasses.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ assetClasses: toggleValue<AssetClass>(state.assetClasses, value) })} type="button">{value} ×</button>)}{activeRiskTypes.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ riskTypes: toggleValue<RiskType>(state.riskTypes, value) })} type="button">{riskLabels[value]} ×</button>)}<button className="text-xs font-bold text-brand-700" onClick={clearFilters} type="button">모두 해제</button></div> : null}
@@ -322,7 +331,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
       {filtersOpen ? <>
         <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" />
-        <aside aria-label="ETF 필터" className="fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl md:static md:mt-4 md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:shadow-none">
+        <aside aria-label="ETF 필터" className="fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl md:static md:mt-4 md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:shadow-none" id="etf-filter-panel">
           <div className="flex items-center justify-between gap-4"><h2 className="text-lg font-extrabold">목록 필터</h2><div className="flex gap-3"><button className="text-xs font-bold text-brand-700" onClick={clearFilters} type="button">초기화</button><button aria-label="필터 닫기" className="rounded-lg px-2 text-xl text-muted" onClick={() => setFiltersOpen(false)} type="button">×</button></div></div>
           <div className="mt-5 grid gap-6 md:grid-cols-2">
             <fieldset><legend className="text-sm font-extrabold">자산군</legend><div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">{ASSET_CLASSES.map((value) => <label className="flex min-h-11 items-center gap-2 rounded-lg border border-line bg-surface px-3 text-sm text-muted" key={value}><input checked={state.assetClasses.includes(value)} className="size-4 accent-brand-700" onChange={() => setExplorerState({ assetClasses: toggleValue<AssetClass>(state.assetClasses, value) })} type="checkbox" />{value}</label>)}</div></fieldset>

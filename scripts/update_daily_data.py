@@ -74,12 +74,22 @@ def normalize_krx_snapshot(payload: dict) -> dict[str, dict]:
 
 
 def snapshot_is_complete(snapshot: dict[str, dict], expected_count: int) -> bool:
-    return bool(snapshot) and len(snapshot) >= max(1, int(expected_count * 0.9))
+    valid_closes = sum(as_float(row.get("clpr")) is not None for row in snapshot.values())
+    return (
+        bool(snapshot)
+        and len(snapshot) >= max(1, int(expected_count * 0.9))
+        and valid_closes >= max(1, int(expected_count * 0.9))
+    )
 
 
 def historical_snapshot_is_complete(snapshot: dict[str, dict], expected_count: int) -> bool:
     """Reject weekend/error placeholders while allowing for a smaller past ETF universe."""
-    return bool(snapshot) and len(snapshot) >= max(1, int(expected_count * 0.8))
+    valid_closes = sum(as_float(row.get("clpr")) is not None for row in snapshot.values())
+    return (
+        bool(snapshot)
+        and len(snapshot) >= max(1, int(expected_count * 0.8))
+        and valid_closes >= max(1, int(expected_count * 0.8))
+    )
 
 
 def fetch_krx_snapshot(auth_key: str, day_text: str) -> dict[str, dict]:
@@ -604,7 +614,7 @@ def main() -> None:
         populated = sum(str(row.get(field) or "").strip() != "" for row in new_returns)
         coverage = populated / len(new_returns) if new_returns else 0
         print(f"Return coverage {field}: {populated}/{len(new_returns)} ({coverage:.1%})")
-        if field in {"r_2m", "r_6m"} and coverage < 0.8:
+        if field in {"r_2w", "r_2m", "r_6m"} and coverage < 0.8:
             raise RuntimeError(
                 f"Data quality check failed: {field} return coverage is only {coverage:.1%}."
             )

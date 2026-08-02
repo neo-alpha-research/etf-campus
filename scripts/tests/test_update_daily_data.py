@@ -79,7 +79,13 @@ class PeriodAnchorTest(TestCase):
         self.assertEqual(fetch.call_count, 2)
 
     def test_skips_a_sparse_non_trading_day_snapshot(self) -> None:
-        sparse = {"NOTICE": {"srtnCd": "NOTICE"}}
+        sparse = {
+            f"{index:06d}": {
+                "srtnCd": f"{index:06d}",
+                "clpr": "10000" if index == 0 else "",
+            }
+            for index in range(100)
+        }
         complete = {
             f"{index:06d}": {"srtnCd": f"{index:06d}", "clpr": "10000"}
             for index in range(80)
@@ -183,9 +189,20 @@ class KrxSnapshotTest(TestCase):
         self.assertFalse(update_daily_data.snapshot_is_complete({"A": {}}, 10))
         self.assertTrue(
             update_daily_data.snapshot_is_complete(
-                {str(index): {} for index in range(9)},
+                {str(index): {"clpr": "10000"} for index in range(9)},
                 10,
             )
+        )
+
+    def test_rejects_rows_without_valid_closing_prices(self) -> None:
+        snapshot = {
+            str(index): {"clpr": "10000" if index == 0 else ""}
+            for index in range(10)
+        }
+
+        self.assertFalse(update_daily_data.snapshot_is_complete(snapshot, 10))
+        self.assertFalse(
+            update_daily_data.historical_snapshot_is_complete(snapshot, 10)
         )
 
     def test_preserves_the_verified_aum_when_krx_net_assets_are_blank(self) -> None:

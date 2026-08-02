@@ -77,6 +77,11 @@ def snapshot_is_complete(snapshot: dict[str, dict], expected_count: int) -> bool
     return bool(snapshot) and len(snapshot) >= max(1, int(expected_count * 0.9))
 
 
+def historical_snapshot_is_complete(snapshot: dict[str, dict], expected_count: int) -> bool:
+    """Reject weekend/error placeholders while allowing for a smaller past ETF universe."""
+    return bool(snapshot) and len(snapshot) >= max(1, int(expected_count * 0.8))
+
+
 def fetch_krx_snapshot(auth_key: str, day_text: str) -> dict[str, dict]:
     query = urllib.parse.urlencode({"basDd": day_text})
     request = urllib.request.Request(
@@ -240,12 +245,16 @@ def krx_on_or_before(
     target: date,
     cache: dict[str, dict[str, dict]],
     backtrack: int = 10,
+    expected_count: int = 0,
 ) -> tuple[str, dict[str, dict]]:
     for offset in range(backtrack + 1):
         day_text = (target - timedelta(days=offset)).strftime("%Y%m%d")
         if day_text not in cache:
             cache[day_text] = fetch_krx_snapshot(auth_key, day_text)
-        if cache[day_text]:
+        if cache[day_text] and (
+            expected_count <= 0
+            or historical_snapshot_is_complete(cache[day_text], expected_count)
+        ):
             return day_text, cache[day_text]
     raise RuntimeError(f"No KRX ETF data on or before {target:%Y%m%d}.")
 
@@ -437,6 +446,21 @@ def main() -> None:
     as_of_text, current = resolved
     as_of = datetime.strptime(as_of_text, "%Y%m%d").date()
     print(f"Official source: {source} / {as_of_text} / {len(current)} ETFs")
+
+    listing_metadata = current if source == "Financial Services Commission public API" else {}
+    if service_key and source == "KRX Open API":
+        try:
+            listing_metadata_text, listing_metadata = on_or_before(
+                service_key,
+                as_of,
+                public_cache,
+            )
+            print(
+                f"Listing metadata: {listing_metadata_text} / "
+                f"{len(listing_metadata)} ETFs"
+            )
+        except Exception as error:
+            print(f"Listing metadata unavailable: {error}")
     print(f"공식 API 기준일 {as_of_text} · {len(current)}종목")
 
     anchors: dict[str, dict[str, dict]] = {}
@@ -445,7 +469,12 @@ def main() -> None:
         target_day = as_of - timedelta(days=amount) if unit == "days" else subtract_months(as_of, amount)
         anchor_dates[field] = target_day
         if source == "KRX Open API" and krx_auth_key:
-            anchor_text, anchor = krx_on_or_before(krx_auth_key, target_day, krx_cache)
+            anchor_text, anchor = krx_on_or_before(
+                krx_auth_key,
+                target_day,
+                krx_cache,
+                expected_count=len(old_master),
+            )
         elif service_key:
             anchor_text, anchor = on_or_before(service_key, target_day, public_cache)
         else:
@@ -453,16 +482,28 @@ def main() -> None:
         anchors[field] = anchor
         print(f"{field}: {anchor_text}")
 
-    recent_listing_dates: dict[str, date] = {}
-    for ticker, existing in master_by_ticker.items():
-        listing_text = str(existing.get("listing_date") or "")
-        if len(listing_text) != 8 or not listing_text.isdigit() or ticker not in current:
+    period_listing_dates: dict[str, date] = {}
+    oldest_anchor_date = min(anchor_dates.values())
+    for ticker, api in current.items():
+        existing = master_by_ticker.get(ticker, {})
+        metadata = listing_metadata.get(ticker) or {}
+        listing_text = str(
+            existing.get("listing_date")
+            or api.get("lstgDt")
+            or metadata.get("lstgDt")
+            or ""
+        )
+        if len(listing_text) != 8 or not listing_text.isdigit():
             continue
         listing_day = datetime.strptime(listing_text, "%Y%m%d").date()
-        if 0 <= (as_of - listing_day).days <= 90:
-            recent_listing_dates[ticker] = listing_day
+        missing_period_anchor = any(
+            as_float((snapshot.get(ticker) or {}).get("clpr")) is None
+            for snapshot in anchors.values()
+        )
+        if oldest_anchor_date < listing_day <= as_of and missing_period_anchor:
+            period_listing_dates[ticker] = listing_day
     listing_closes = resolve_listing_closes(
-        recent_listing_dates,
+        period_listing_dates,
         source,
         krx_auth_key,
         service_key,
@@ -470,8 +511,8 @@ def main() -> None:
         public_cache,
     )
     print(
-        f"Listing closes: {len(listing_closes)}/{len(recent_listing_dates)} ETFs "
-        f"across {len(set(recent_listing_dates.values()))} listing dates"
+        f"Listing closes: {len(listing_closes)}/{len(period_listing_dates)} ETFs "
+        f"across {len(set(period_listing_dates.values()))} listing dates"
     )
 
     new_master: list[dict[str, object]] = []
@@ -509,7 +550,8 @@ def main() -> None:
         current_close = as_float(api.get("clpr"))
         old_return = dict(returns_by_ticker.get(ticker, {}))
         old_return.update({"ticker": ticker, "name": name, close_field: snapshot_value(api, "clpr", "")})
-        api_listing = api_listing_date(api.get("lstgDt"))
+        metadata = listing_metadata.get(ticker) or {}
+        api_listing = api_listing_date(api.get("lstgDt") or metadata.get("lstgDt"))
         if not existing.get("listing_date"):
             if api_listing:
                 existing["listing_date"] = api_listing
@@ -545,8 +587,27 @@ def main() -> None:
         pension = dict(pension_by_ticker.get(ticker, {}))
         if not pension:
             pension = {"official_src": "", "issuer_official": "", "verify_status": "신규 확인 필요", "final_pension": "확인중", "final_src": "pending"}
+        structural_pension = pension_rule(risk, name, base_index)
+        if (
+            str(pension.get("final_pension") or "") == "확인중"
+            and str(structural_pension).startswith("불가")
+        ):
+            pension.update({
+                "verify_status": "구조 규칙 자동 판정",
+                "final_pension": "불가",
+                "final_src": "구조규칙",
+            })
         pension.update({key: existing.get(key, "") for key in master_fields if key in pension_fields})
         new_pension.append(pension)
+
+    for field in PERIODS:
+        populated = sum(str(row.get(field) or "").strip() != "" for row in new_returns)
+        coverage = populated / len(new_returns) if new_returns else 0
+        print(f"Return coverage {field}: {populated}/{len(new_returns)} ({coverage:.1%})")
+        if field in {"r_2m", "r_6m"} and coverage < 0.8:
+            raise RuntimeError(
+                f"Data quality check failed: {field} return coverage is only {coverage:.1%}."
+            )
 
     default_count = sum((as_float(row.get("aum")) or 0) >= 100_000_000_000 for row in new_master)
     if default_count == 0:

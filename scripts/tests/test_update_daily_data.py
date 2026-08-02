@@ -78,6 +78,28 @@ class PeriodAnchorTest(TestCase):
         self.assertEqual(result, ("20260727", snapshot))
         self.assertEqual(fetch.call_count, 2)
 
+    def test_skips_a_sparse_non_trading_day_snapshot(self) -> None:
+        sparse = {"NOTICE": {"srtnCd": "NOTICE"}}
+        complete = {
+            f"{index:06d}": {"srtnCd": f"{index:06d}", "clpr": "10000"}
+            for index in range(80)
+        }
+
+        with patch.object(
+            update_daily_data,
+            "fetch_krx_snapshot",
+            side_effect=[sparse, sparse, complete],
+        ) as fetch:
+            result = update_daily_data.krx_on_or_before(
+                "secret",
+                date(2026, 5, 31),
+                {},
+                expected_count=100,
+            )
+
+        self.assertEqual(result, ("20260529", complete))
+        self.assertEqual(fetch.call_count, 3)
+
     def test_groups_listing_close_queries_by_listing_date(self) -> None:
         snapshot = {
             "069500": {"srtnCd": "069500", "clpr": "10000"},

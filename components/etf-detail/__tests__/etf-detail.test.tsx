@@ -45,7 +45,7 @@ describe("EtfDetail", () => {
     expect(screen.getByText("테스트 기초지수")).toBeInTheDocument();
     expect(screen.getAllByText("연금 확인중")).toHaveLength(2);
     expect(screen.getByText("기준일 2026.07.15")).toBeInTheDocument();
-    expect(screen.getAllByLabelText("분류: 주식").length).toBeGreaterThan(0);
+    expect(screen.getAllByLabelText("분류: 국내, 주식").length).toBeGreaterThan(0);
     expect(screen.getByText("자동 검수 대기")).toBeInTheDocument();
     expect(screen.getAllByRole("cell", { name: "-, 가격 기준·분배금 미포함" }).length).toBeGreaterThan(0);
   });

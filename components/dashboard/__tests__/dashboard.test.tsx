@@ -61,12 +61,22 @@ describe("Dashboard", () => {
     expect(screen.getByText("소규모 유의")).toBeInTheDocument();
   });
 
-  it("일반 계좌는 활용도가 낮은 2년과 3년을 제외한다", () => {
+  it("일반 계좌에 2주를 포함하고 활용도가 낮은 2년과 3년을 제외한다", () => {
     render(<Dashboard etfs={items} />);
+    expect(screen.getByRole("button", { name: "2주" })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "2년" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "3년" })).not.toBeInTheDocument();
     expect(screen.queryByRole("columnheader", { name: "2년 수익률" })).not.toBeInTheDocument();
     expect(screen.queryByRole("columnheader", { name: "3년 수익률" })).not.toBeInTheDocument();
+  });
+
+  it("긴 종목명과 분류·연금 정보를 검색하기 쉽게 분리한다", () => {
+    render(<Dashboard etfs={items} />);
+    expect(screen.getByRole("columnheader", { name: "지역" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "자산" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "환헤지" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toHaveClass("line-clamp-2");
+    expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
   });
 
   it("신규 상장은 2주와 상장 후 ITD를 표시하고 3개월은 제외한다", async () => {
@@ -86,6 +96,9 @@ describe("Dashboard", () => {
     fireEvent.change(search, { target: { value: "대형" } });
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: /대형 일반 ETF/ })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "검색어 지우기" }));
+    expect(search).toHaveValue("");
+    expect(screen.queryByRole("listbox", { name: "ETF 검색 자동완성" })).not.toBeInTheDocument();
     expect(screen.getByText(/상장 전 기간은 최초 거래일 종가/)).toBeInTheDocument();
     expect(screen.getByText(/기간 수익률은 기준일 종가.*과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다/)).toBeInTheDocument();
     expect(screen.getByRole("complementary", { name: "수익률 안내" })).toHaveClass("border-t");

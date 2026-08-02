@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useState, type KeyboardEvent } from "react";
 
 import { Tickery } from "@/components/brand/tickery";
-import { AsOfDate, ClassificationSummary, PensionBadge, ReturnCell } from "@/components/etf";
+import { AsOfDate, PensionBadge, ReturnCell } from "@/components/etf";
+import { getClassificationFields } from "@/lib/domain/etf-classification";
 import { formatAsOfDate, formatMoneyNumber, formatWonNumber } from "@/lib/domain/etf-format";
 import {
   DEFAULT_EXPLORER_STATE,
@@ -13,7 +14,6 @@ import {
   getDefaultPeriod,
   getEtfSearchSuggestions,
   getEtfsByAumScope,
-  getListingAgeDays,
   getReturnPeriods,
   parseExplorerQuery,
   searchEtfs,
@@ -81,10 +81,26 @@ function getAllowedRiskTypes(mode: InvestorMode): readonly RiskType[] {
   return [];
 }
 
-function listingSummary(etf: Etf): string {
-  if (!etf.listingDate) return "상장일 확인 중";
-  const age = getListingAgeDays(etf.listingDate, etf.asOfDate);
-  return `${formatAsOfDate(etf.listingDate)} 상장${age === null ? "" : ` · D+${age}`}`;
+function SearchSuggestionMeta({ etf }: { etf: Etf }) {
+  const fields = getClassificationFields(etf);
+  return <span className="hidden shrink-0 text-xs text-muted sm:inline">{fields.marketScope} · {fields.assetClass}</span>;
+}
+
+function ClassificationCells({ etf }: { etf: Etf }) {
+  const fields = getClassificationFields(etf);
+  return (
+    <>
+      <td className="hidden whitespace-nowrap px-1.5 py-4 text-center text-xs font-semibold text-muted md:table-cell">{fields.marketScope}</td>
+      <td className="hidden px-1.5 py-4 text-center md:table-cell">
+        <div className="flex flex-wrap items-center justify-center gap-1">
+          <span className="whitespace-nowrap text-xs font-bold text-strong">{fields.assetClass}</span>
+          {fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}
+          {isSmallEtf(etf) ? <span className="select-none rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] font-bold text-neutral-600" title="순자산 100억원 미만">소규모 유의</span> : null}
+        </div>
+      </td>
+      <td className="hidden whitespace-nowrap px-1 py-4 text-center text-xs font-bold text-muted md:table-cell">{fields.fxHedge ?? ""}</td>
+    </>
+  );
 }
 
 export function Dashboard({ etfs }: { etfs: Etf[] }) {
@@ -200,7 +216,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               aria-autocomplete="list"
               aria-controls="etf-search-suggestions"
               aria-expanded={showSearchSuggestions}
-              className="min-h-11 w-full rounded-xl border border-line bg-surface px-4 text-sm text-strong placeholder:text-neutral-400"
+              className="min-h-11 w-full rounded-xl border border-line bg-surface px-4 pr-12 text-sm text-strong placeholder:text-neutral-400"
               onChange={(event) => {
                 setExplorerState({ query: event.target.value });
                 setActiveSuggestion(-1);
@@ -213,6 +229,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               value={state.query}
             />
           </label>
+          {state.query ? <button aria-label="검색어 지우기" className="absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-lg text-lg text-muted hover:bg-neutral-100" onClick={() => { setExplorerState({ query: "" }); setActiveSuggestion(-1); }} type="button">×</button> : null}
           {showSearchSuggestions ? (
             <div className="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-xl border border-line bg-surface shadow-xl">
               <ul aria-label="ETF 검색 자동완성" id="etf-search-suggestions" role="listbox">
@@ -227,9 +244,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                       role="option"
                     >
                       <span className="tabular-nums w-14 shrink-0 text-xs font-semibold text-muted">{etf.ticker}</span>
-                      <span className="min-w-0 flex-1 truncate text-sm font-bold text-strong">{etf.name}</span>
-                      <span className="hidden shrink-0 text-xs text-muted sm:inline">{etf.assetClass}</span>
-                      <PensionBadge status={etf.pension} />
+                      <span className="line-clamp-2 min-w-0 flex-1 text-sm font-bold leading-5 text-strong [overflow-wrap:anywhere]">{etf.name}</span>
+                      <SearchSuggestionMeta etf={etf} />
+                      <PensionBadge compact status={etf.pension} />
                     </Link>
                   </li>
                 ))}
@@ -279,26 +296,28 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
       <div className="mt-5 overflow-hidden rounded-2xl border border-line bg-surface">
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-left text-sm md:min-w-[1120px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
+          <table className="w-full border-collapse text-left text-sm md:min-w-[1180px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             <thead className="sticky top-0 z-10 bg-neutral-50 text-xs font-bold text-muted">
               <tr>
-                <th className="hidden w-[5.5%] px-2 py-3 text-center md:table-cell" scope="col">종목코드</th>
-                <th className="min-w-44 px-4 py-3 text-center sm:px-5 md:sticky md:left-0 md:z-20 md:w-[14.5%] md:bg-neutral-50" scope="col">종목명</th>
+                <th className="hidden w-[4.5%] px-1 py-3 text-center md:table-cell" scope="col">종목코드</th>
+                <th className="min-w-52 px-4 py-3 text-center sm:px-5 md:sticky md:left-0 md:z-20 md:w-[17%] md:bg-neutral-50" scope="col">종목명</th>
                 <th className="w-24 px-2 py-3 text-right md:hidden" scope="col">등락률</th>
                 <th className="w-28 px-4 py-3 text-right md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
-                <th aria-label="종가, 단위 원" className="hidden w-[7%] whitespace-nowrap px-2 py-3 text-center md:table-cell" scope="col">종가(원)</th>
-                <th aria-label="거래대금, 단위 억원" className="hidden w-[7%] whitespace-nowrap px-2 py-3 text-right md:table-cell" scope="col">거래대금(억원)</th>
-                <th aria-label="순자산, 단위 억원" className="hidden w-[7%] whitespace-nowrap px-2 py-3 text-right md:table-cell" scope="col">순자산(억원)</th>
+                <th aria-label="종가, 단위 원" className="hidden w-[5.5%] whitespace-nowrap px-1 py-3 text-center md:table-cell" scope="col">종가(원)</th>
+                <th aria-label="거래대금, 단위 억원" className="hidden w-[6%] whitespace-nowrap px-1 py-3 text-right md:table-cell" scope="col">거래대금(억원)</th>
+                <th aria-label="순자산, 단위 억원" className="hidden w-[6%] whitespace-nowrap px-1 py-3 text-right md:table-cell" scope="col">순자산(억원)</th>
                 {state.mode === "new" ? <th className="hidden px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
-                {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[5.5%] whitespace-nowrap px-1 py-3 text-center md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col">{RETURN_PERIOD_LABELS[period]}(%)</th>)}
-                <th className="hidden w-[12%] bg-brand-50 px-2 py-3 text-center text-brand-800 md:table-cell" scope="col">분류</th>
-                <th className="hidden w-[8%] px-2 py-3 text-center md:table-cell" scope="col">연금</th>
+                {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[4.25%] whitespace-nowrap px-0.5 py-3 text-center text-[11px] md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col">{RETURN_PERIOD_LABELS[period]}(%)</th>)}
+                <th className="hidden w-[5.5%] bg-brand-50 px-1 py-3 text-center text-brand-800 md:table-cell" scope="col">지역</th>
+                <th className="hidden w-[8%] bg-brand-50 px-1.5 py-3 text-center text-brand-800 md:table-cell" scope="col">자산</th>
+                <th className="hidden w-[4.5%] bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">환헤지</th>
+                <th className="hidden w-[3.5%] px-0.5 py-3 text-center md:table-cell" scope="col">연금</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
               {visibleEtfs.map((etf) => <tr className="transition-colors hover:bg-brand-50/50" key={etf.ticker}>
                 <td className="tabular-nums hidden px-2 py-3 text-center text-xs text-muted md:table-cell">{etf.ticker}</td>
-                <th className="max-w-0 bg-surface px-4 py-3 text-center font-normal sm:px-5 md:sticky md:left-0 md:z-[1]" scope="row"><div className="flex min-w-0 items-center gap-2 whitespace-nowrap"><Link className="min-w-0 flex-1 truncate text-center font-bold leading-5 text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>{state.mode === "new" ? <span className="hidden shrink-0 text-xs text-muted xl:inline">{listingSummary(etf)}</span> : null}{isSmallEtf(etf) ? <span className="hidden shrink-0 rounded bg-amber-50 px-1.5 py-0.5 text-xs font-bold text-amber-800 lg:inline">소규모 유의</span> : null}</div></th>
+                <th className="max-w-0 bg-surface px-4 py-3 text-center font-normal sm:px-5 md:sticky md:left-0 md:z-[1]" scope="row"><Link className="line-clamp-2 [overflow-wrap:anywhere] text-center font-bold leading-5 text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
                 <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                 <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
                 <td className="tabular-nums hidden px-2 py-3 text-center font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
@@ -306,8 +325,8 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoneyNumber(etf.aum)}</td>
                 {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-4 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                 {periods.map((period) => <td className={`hidden px-1 py-4 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}
-                <td className="hidden px-2 py-4 text-center md:table-cell"><ClassificationSummary etf={etf} /></td>
-                <td className="hidden px-2 py-4 text-center md:table-cell"><PensionBadge status={etf.pension} /></td>
+                <ClassificationCells etf={etf} />
+                <td className="hidden px-1 py-4 text-center md:table-cell"><PensionBadge compact status={etf.pension} /></td>
               </tr>)}
             </tbody>
           </table>

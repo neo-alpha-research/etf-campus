@@ -54,9 +54,16 @@ describe("ETF 공용 표시 컴포넌트", () => {
     expect(screen.getByText("기준일 2026.07.15")).toBeInTheDocument();
   });
 
-  it("목록 분류는 지역·자산·환율만 한 줄로 요약한다", () => {
+  it("목록 분류는 지역·자산·환헤지만 한 줄로 요약한다", () => {
     render(<ClassificationSummary etf={classifiedEtf} />);
-    expect(screen.getByLabelText("분류: 미국, 주식, 환노출")).toBeInTheDocument();
+    expect(screen.getByLabelText("분류: 미국, 주식, 노출")).toBeInTheDocument();
     expect(screen.queryByText("반도체")).not.toBeInTheDocument();
+  });
+
+  it("목록 연금 표시는 O·X로 줄이고 확인 중은 시각적으로 비워 둔다", () => {
+    render(<><PensionBadge compact status="가능" /><PensionBadge compact status="불가" /><PensionBadge compact status="확인중" /></>);
+    expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
+    expect(screen.getByLabelText("연금 불가")).toHaveTextContent("X");
+    expect(screen.getByLabelText("연금 확인 필요")).toBeEmptyDOMElement();
   });
 });

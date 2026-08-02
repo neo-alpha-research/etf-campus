@@ -50,7 +50,7 @@ function etf(overrides: Partial<Etf> = {}): Etf {
 
 describe("ETF 찾기 도메인", () => {
   it("일반·연금·신규 메뉴에 필요한 기간을 구분한다", () => {
-    expect(GENERAL_RETURN_PERIODS).toEqual(["1d", "1w", "1m", "2m", "3m", "6m", "12m"]);
+    expect(GENERAL_RETURN_PERIODS).toEqual(["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m"]);
     expect(NEW_RETURN_PERIODS).toEqual(["1d", "1w", "2w", "1m", "2m", "itd"]);
   });
 

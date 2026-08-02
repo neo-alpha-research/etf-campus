@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  formatAumNumber,
   formatAsOfDate,
   formatMoney,
   formatMoneyNumber,
@@ -28,6 +29,8 @@ describe("ETF 표시 포맷", () => {
     expect(formatMoneyNumber(987_654_321)).toBe("9.9");
     expect(formatTradeValueNumber(23_456_789_000)).toBe("234.6");
     expect(formatTradeValueNumber(3_000_000_000)).toBe("30.0");
+    expect(formatAumNumber(9_876_543_210)).toBe("99");
+    expect(formatAumNumber(9_840_000_000)).toBe("98");
     expect(formatWonNumber(12_345)).toBe("12,345");
   });
 

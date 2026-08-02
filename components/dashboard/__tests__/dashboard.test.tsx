@@ -59,6 +59,8 @@ describe("Dashboard", () => {
     expect(screen.getByText("2종목")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "전체" }));
     expect(screen.getByText("3종목")).toBeInTheDocument();
+    expect(screen.getByText("50")).toBeInTheDocument();
+    expect(screen.queryByText("50.0")).not.toBeInTheDocument();
     expect(screen.queryByText("소규모 유의")).not.toBeInTheDocument();
     expect(screen.getByLabelText("소규모 ETF: 순자산 100억원 미만")).toBeInTheDocument();
   });

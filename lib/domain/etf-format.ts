@@ -35,6 +35,13 @@ export function formatTradeValueNumber(value: number): string {
   }).format(value / 100_000_000);
 }
 
+export function formatAumNumber(value: number): string {
+  return new Intl.NumberFormat("ko-KR", {
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(value / 100_000_000);
+}
+
 export function formatWon(value: number): string {
   return `${new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 }).format(value)}원`;
 }

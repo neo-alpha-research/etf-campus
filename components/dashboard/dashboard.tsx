@@ -86,6 +86,16 @@ function SearchSuggestionMeta({ etf }: { etf: Etf }) {
   return <span className="hidden shrink-0 text-xs text-muted sm:inline">{fields.marketScope} · {fields.assetClass}</span>;
 }
 
+function CompactAssetClassLabel({ value }: { value: string }) {
+  if (value === "금리/파킹" || value === "금리·파킹") {
+    return <span aria-label="금리(파킹)" className="inline-flex flex-col whitespace-nowrap text-xs font-bold leading-4 text-strong" title="금리(파킹)"><span aria-hidden="true">금리</span><span aria-hidden="true">(파킹)</span></span>;
+  }
+  if (value === "리츠/인프라" || value === "리츠·인프라") {
+    return <span aria-label="리츠/인프라" className="inline-flex flex-col whitespace-nowrap text-xs font-bold leading-4 text-strong" title="리츠/인프라"><span aria-hidden="true">리츠/</span><span aria-hidden="true">인프라</span></span>;
+  }
+  return <span className="whitespace-nowrap text-xs font-bold text-strong">{value}</span>;
+}
+
 function ClassificationCells({ etf }: { etf: Etf }) {
   const fields = getClassificationFields(etf);
   return (
@@ -93,7 +103,7 @@ function ClassificationCells({ etf }: { etf: Etf }) {
       <td className="hidden whitespace-nowrap px-1.5 py-4 text-center text-xs font-semibold text-muted md:table-cell">{fields.marketScope}</td>
       <td className="hidden px-1.5 py-4 text-center md:table-cell">
         <div className="flex flex-wrap items-center justify-center gap-1">
-          <span className="whitespace-nowrap text-xs font-bold text-strong">{fields.assetClass}</span>
+          <CompactAssetClassLabel value={fields.assetClass} />
           {fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}
           {isSmallEtf(etf) ? <span className="select-none rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] font-bold text-neutral-600" title="순자산 100억원 미만">소규모 유의</span> : null}
         </div>
@@ -209,7 +219,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 aria-autocomplete="list"
                 aria-controls="etf-search-suggestions"
                 aria-expanded={showSearchSuggestions}
-                className="min-h-12 w-full rounded-xl border border-line bg-surface pl-12 pr-12 text-base font-semibold text-strong shadow-sm outline-none placeholder:font-normal placeholder:text-neutral-400 focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                className="min-h-12 w-full appearance-none rounded-xl border border-line bg-surface pl-12 pr-12 text-base font-semibold text-strong shadow-sm outline-none placeholder:font-normal placeholder:text-neutral-400 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 [&::-webkit-search-cancel-button]:hidden"
                 onChange={(event) => {
                   setExplorerState({ query: event.target.value });
                   setActiveSuggestion(-1);
@@ -301,7 +311,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             <thead className="sticky top-0 z-10 bg-neutral-50 text-xs font-bold text-muted">
               <tr>
                 <th className="hidden w-[4.5%] px-1 py-3 text-center md:table-cell" scope="col">종목코드</th>
-                <th className="min-w-52 px-4 py-3 text-center sm:px-5 md:sticky md:left-0 md:z-20 md:w-[17%] md:bg-neutral-50" scope="col">종목명</th>
+                <th className="min-w-52 px-4 py-3 text-center sm:px-5 md:sticky md:left-0 md:z-20 md:w-[18.5%] md:bg-neutral-50" scope="col">종목명</th>
                 <th className="w-24 px-2 py-3 text-right md:hidden" scope="col">등락률</th>
                 <th className="w-28 px-4 py-3 text-right md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
                 <th aria-label="종가, 단위 원" className="hidden w-[5.5%] whitespace-nowrap px-1 py-3 text-center md:table-cell" scope="col">종가(원)</th>
@@ -310,7 +320,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 {state.mode === "new" ? <th className="hidden px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
                 {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[4.25%] whitespace-nowrap px-0.5 py-3 text-center text-[11px] md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col">{RETURN_PERIOD_LABELS[period]}(%)</th>)}
                 <th className="hidden w-[5.5%] bg-brand-50 px-1 py-3 text-center text-brand-800 md:table-cell" scope="col">지역</th>
-                <th className="hidden w-[8%] bg-brand-50 px-1.5 py-3 text-center text-brand-800 md:table-cell" scope="col">자산</th>
+                <th className="hidden w-[6.5%] bg-brand-50 px-1 py-3 text-center text-brand-800 md:table-cell" scope="col">자산</th>
                 <th className="hidden w-[4.5%] bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">환헤지</th>
                 <th className="hidden w-[3.5%] px-0.5 py-3 text-center md:table-cell" scope="col">연금</th>
               </tr>

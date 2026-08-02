@@ -250,6 +250,75 @@ def krx_on_or_before(
     raise RuntimeError(f"No KRX ETF data on or before {target:%Y%m%d}.")
 
 
+def on_or_after(
+    service_key: str,
+    target: date,
+    cache: dict[str, dict[str, dict]],
+    forward: int = 10,
+) -> tuple[str, dict[str, dict]]:
+    for offset in range(forward + 1):
+        day_text = (target + timedelta(days=offset)).strftime("%Y%m%d")
+        if day_text not in cache:
+            cache[day_text] = fetch_snapshot(service_key, day_text)
+        if cache[day_text]:
+            return day_text, cache[day_text]
+    raise RuntimeError(f"No official ETF data on or after {target:%Y%m%d}.")
+
+
+def krx_on_or_after(
+    auth_key: str,
+    target: date,
+    cache: dict[str, dict[str, dict]],
+    forward: int = 10,
+) -> tuple[str, dict[str, dict]]:
+    for offset in range(forward + 1):
+        day_text = (target + timedelta(days=offset)).strftime("%Y%m%d")
+        if day_text not in cache:
+            cache[day_text] = fetch_krx_snapshot(auth_key, day_text)
+        if cache[day_text]:
+            return day_text, cache[day_text]
+    raise RuntimeError(f"No KRX ETF data on or after {target:%Y%m%d}.")
+
+
+def resolve_listing_closes(
+    listing_dates: dict[str, date],
+    source: str,
+    krx_auth_key: str,
+    service_key: str,
+    krx_cache: dict[str, dict[str, dict]],
+    public_cache: dict[str, dict[str, dict]],
+) -> dict[str, float]:
+    """Resolve first closes with one market snapshot per unique listing date."""
+    tickers_by_date: dict[date, list[str]] = {}
+    for ticker, listing_day in listing_dates.items():
+        tickers_by_date.setdefault(listing_day, []).append(ticker)
+
+    closes: dict[str, float] = {}
+    for listing_day, tickers in sorted(tickers_by_date.items()):
+        snapshot: dict[str, dict] = {}
+        try:
+            if source == "KRX Open API" and krx_auth_key:
+                _, snapshot = krx_on_or_after(krx_auth_key, listing_day, krx_cache)
+            elif service_key:
+                _, snapshot = on_or_after(service_key, listing_day, public_cache)
+        except Exception as error:
+            print(f"Listing close lookup unavailable for {listing_day:%Y%m%d}: {error}")
+            if source == "KRX Open API" and service_key:
+                try:
+                    _, snapshot = on_or_after(service_key, listing_day, public_cache)
+                except Exception as fallback_error:
+                    print(
+                        f"Listing close fallback unavailable for {listing_day:%Y%m%d}: "
+                        f"{fallback_error}"
+                    )
+
+        for ticker in tickers:
+            close = as_float((snapshot.get(ticker) or {}).get("clpr"))
+            if close is not None:
+                closes[ticker] = close
+    return closes
+
+
 def resolve_krx_snapshot(
     auth_key: str,
     target: date,
@@ -372,6 +441,27 @@ def main() -> None:
         anchors[field] = anchor
         print(f"{field}: {anchor_text}")
 
+    recent_listing_dates: dict[str, date] = {}
+    for ticker, existing in master_by_ticker.items():
+        listing_text = str(existing.get("listing_date") or "")
+        if len(listing_text) != 8 or not listing_text.isdigit() or ticker not in current:
+            continue
+        listing_day = datetime.strptime(listing_text, "%Y%m%d").date()
+        if 0 <= (as_of - listing_day).days <= 90:
+            recent_listing_dates[ticker] = listing_day
+    listing_closes = resolve_listing_closes(
+        recent_listing_dates,
+        source,
+        krx_auth_key,
+        service_key,
+        krx_cache,
+        public_cache,
+    )
+    print(
+        f"Listing closes: {len(listing_closes)}/{len(recent_listing_dates)} ETFs "
+        f"across {len(set(recent_listing_dates.values()))} listing dates"
+    )
+
     new_master: list[dict[str, object]] = []
     new_returns: list[dict[str, object]] = []
     new_pension: list[dict[str, object]] = []
@@ -406,48 +496,36 @@ def main() -> None:
         current_close = as_float(api.get("clpr"))
         old_return = dict(returns_by_ticker.get(ticker, {}))
         old_return.update({"ticker": ticker, "name": name, close_field: snapshot_value(api, "clpr", "")})
-        missing_fields = [
-            field
-            for field in AVAILABLE_HISTORY_PERIODS
-            if as_float((anchors[field].get(ticker) or {}).get("clpr")) is None
-        ]
-        ticker_history: list[tuple[date, float]] = []
         api_listing = api_listing_date(api.get("lstgDt"))
-        # A full history request for every ticker absent from an older snapshot
-        # makes the daily job exceed the Actions budget. Existing ETFs already
-        # retain their returns; only confirmed recent listings need a first close
-        # to calculate ITD and their short-period returns.
-        needs_recent_history = old_return.get("new_90d") == "Y" or bool(api_listing)
-        if missing_fields and needs_recent_history and service_key:
-            oldest_target = min(anchor_dates[field] for field in missing_fields)
-            ticker_history = fetch_ticker_history(
-                service_key,
-                ticker,
-                oldest_target - timedelta(days=10),
-                as_of,
-            )
-        first = ticker_history[0] if ticker_history else None
         if not existing.get("listing_date"):
             if api_listing:
                 existing["listing_date"] = api_listing
                 existing["listing_date_source"] = "price_api_listing_date"
-            elif first:
-                existing["listing_date"] = first[0].strftime("%Y%m%d")
-                existing["listing_date_source"] = "price_api_first_seen"
         new_master.append(existing)
+        listing_text = str(existing.get("listing_date") or "")
+        listing_day = (
+            datetime.strptime(listing_text, "%Y%m%d").date()
+            if len(listing_text) == 8 and listing_text.isdigit()
+            else None
+        )
+        listing_close = listing_closes.get(ticker)
         for field, snapshot in anchors.items():
             anchor_close = as_float((snapshot.get(ticker) or {}).get("clpr"))
-            if anchor_close is None and field in AVAILABLE_HISTORY_PERIODS:
-                anchor_close = select_period_anchor(ticker_history, anchor_dates[field])
+            if (
+                anchor_close is None
+                and listing_close is not None
+                and listing_day is not None
+                and anchor_dates[field] < listing_day
+            ):
+                anchor_close = listing_close
             old_return[field] = pct(current_close, anchor_close)
-        listing_date = str(existing.get("listing_date") or "")
-        is_new = bool(listing_date and 0 <= (as_of - datetime.strptime(listing_date, "%Y%m%d").date()).days <= 90)
+        is_new = bool(listing_day and 0 <= (as_of - listing_day).days <= 90)
         old_return["new_90d"] = "Y" if is_new else "N"
         old_return["new_3m"] = "Y" if is_new else "N"
         itd_anchor = as_float(old_return.get("itd_anchor_close"))
-        if is_new and itd_anchor is None and first:
-            itd_anchor = first[1]
-            old_return["itd_anchor_close"] = first[1]
+        if is_new and itd_anchor is None and listing_close is not None:
+            itd_anchor = listing_close
+            old_return["itd_anchor_close"] = listing_close
         old_return["r_itd"] = pct(current_close, itd_anchor) if is_new else ""
         new_returns.append(old_return)
 

@@ -20,8 +20,9 @@ permissions:
 
 concurrency:
   group: daily-etf-data
-  # A newer manual retry must not wait behind an API-stalled older run.
-  cancel-in-progress: true
+  # Keep one refresh at a time. A manual retry must not cancel a nearly
+  # completed data commit; the job-level timeout still bounds stalled runs.
+  cancel-in-progress: false
 
 jobs:
   refresh:

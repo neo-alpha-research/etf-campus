@@ -61,6 +61,50 @@ class PeriodAnchorTest(TestCase):
             10_000.0,
         )
 
+    def test_finds_the_first_snapshot_on_or_after_listing_date(self) -> None:
+        snapshot = {"069500": {"srtnCd": "069500", "clpr": "10000"}}
+
+        with patch.object(
+            update_daily_data,
+            "fetch_krx_snapshot",
+            side_effect=[{}, snapshot],
+        ) as fetch:
+            result = update_daily_data.krx_on_or_after(
+                "secret",
+                date(2026, 7, 26),
+                {},
+            )
+
+        self.assertEqual(result, ("20260727", snapshot))
+        self.assertEqual(fetch.call_count, 2)
+
+    def test_groups_listing_close_queries_by_listing_date(self) -> None:
+        snapshot = {
+            "069500": {"srtnCd": "069500", "clpr": "10000"},
+            "114800": {"srtnCd": "114800", "clpr": "20000"},
+        }
+        listing_dates = {
+            "069500": date(2026, 7, 27),
+            "114800": date(2026, 7, 27),
+        }
+
+        with patch.object(
+            update_daily_data,
+            "krx_on_or_after",
+            return_value=("20260727", snapshot),
+        ) as fetch:
+            closes = update_daily_data.resolve_listing_closes(
+                listing_dates,
+                source="KRX Open API",
+                krx_auth_key="secret",
+                service_key="",
+                krx_cache={},
+                public_cache={},
+            )
+
+        self.assertEqual(closes, {"069500": 10_000.0, "114800": 20_000.0})
+        fetch.assert_called_once()
+
     def test_uses_the_first_trading_close_when_the_period_start_predates_listing(self) -> None:
         history = [
             (date(2026, 7, 8), 10_000.0),

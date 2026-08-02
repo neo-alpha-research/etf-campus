@@ -37,4 +37,10 @@ describe("ETF 분류 표시", () => {
     expect(fields.fxHedge).toBeNull();
     expect(fields.riskLabel).toBe("인버스");
   });
+
+  it("혼합자산은 화면에서 혼합으로 짧게 표시한다", () => {
+    const etf = classified(null);
+    if (etf.classification) etf.classification.assetClass = "혼합자산";
+    expect(getClassificationFields(etf).assetClass).toBe("혼합");
+  });
 });

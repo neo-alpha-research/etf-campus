@@ -52,13 +52,14 @@ describe("Dashboard", () => {
     expect(screen.queryByText("레버리지 ETF")).not.toBeInTheDocument();
   });
 
-  it("500억과 전체 범위를 전환하고 소규모 유의를 표시한다", () => {
+  it("500억과 전체 범위를 전환하고 소규모 ETF를 순자산 옆에 표시한다", () => {
     render(<Dashboard etfs={items} />);
     fireEvent.click(screen.getByRole("button", { name: "500억+" }));
     expect(screen.getByText("2종목")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "전체" }));
     expect(screen.getByText("3종목")).toBeInTheDocument();
-    expect(screen.getByText("소규모 유의")).toBeInTheDocument();
+    expect(screen.queryByText("소규모 유의")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("소규모 ETF: 순자산 100억원 미만")).toBeInTheDocument();
   });
 
   it("일반 계좌에 2주를 포함하고 활용도가 낮은 2년과 3년을 제외한다", () => {

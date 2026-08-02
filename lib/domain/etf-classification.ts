@@ -5,7 +5,7 @@ const ASSET_LABELS: Record<string, string> = {
   "주식-해외": "주식",
   "금리·파킹": "금리/파킹",
   "리츠·인프라": "리츠/인프라",
-  "혼합·자산배분": "혼합자산",
+  "혼합·자산배분": "혼합",
 };
 
 export type ClassificationFields = {
@@ -32,11 +32,16 @@ function compactFxHedge(value: string | null | undefined): string | null {
   return null;
 }
 
+function compactAssetClass(value: string): string {
+  if (value === "혼합자산" || value === "혼합·자산배분") return "혼합";
+  return value;
+}
+
 export function getClassificationFields(etf: Etf): ClassificationFields {
   const classification = etf.classification?.published ? etf.classification : null;
   return {
     marketScope: classification?.marketScope ?? fallbackMarketScope(etf.assetClass),
-    assetClass: classification?.assetClass ?? ASSET_LABELS[etf.assetClass] ?? etf.assetClass,
+    assetClass: compactAssetClass(classification?.assetClass ?? ASSET_LABELS[etf.assetClass] ?? etf.assetClass),
     fxHedge: compactFxHedge(classification?.fxHedge),
     riskLabel: etf.riskType === "leverage" ? "레버리지" : etf.riskType === "inverse" ? "인버스" : null,
   };

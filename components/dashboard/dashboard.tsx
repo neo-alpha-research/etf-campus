@@ -105,7 +105,6 @@ function ClassificationCells({ etf }: { etf: Etf }) {
         <div className="flex flex-wrap items-center justify-center gap-1">
           <CompactAssetClassLabel value={fields.assetClass} />
           {fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}
-          {isSmallEtf(etf) ? <span className="select-none rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] font-bold text-neutral-600" title="순자산 100억원 미만">소규모 유의</span> : null}
         </div>
       </td>
       <td className="hidden whitespace-nowrap px-1 py-4 text-center text-xs font-bold text-muted md:table-cell">{fields.fxHedge ?? ""}</td>
@@ -333,7 +332,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
                 <td className="tabular-nums hidden px-2 py-3 text-center font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
                 <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoneyNumber(etf.tradeValue)}</td>
-                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoneyNumber(etf.aum)}</td>
+                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell"><span className="inline-flex items-center justify-end gap-1.5"><span>{formatMoneyNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
                 {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-4 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                 {periods.map((period) => <td className={`hidden px-1 py-4 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}
                 <ClassificationCells etf={etf} />

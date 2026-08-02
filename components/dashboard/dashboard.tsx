@@ -233,7 +233,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             }
           }}
         >
-          <div className="relative min-w-0 w-full flex-1 sm:w-[600px] sm:max-w-full sm:flex-none">
+          <div className="relative min-w-0 w-full flex-1 sm:w-[760px] sm:max-w-full sm:flex-none">
             <label className="block">
               <span className="sr-only">종목명 또는 티커 검색</span>
               <svg aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-brand-700" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" /><path d="m16.5 16.5 4 4" stroke="currentColor" strokeLinecap="round" strokeWidth="2" /></svg>
@@ -337,8 +337,8 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           <table className="w-full border-collapse text-left text-sm md:w-[1180px] md:min-w-[1180px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             <thead className="border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-extrabold text-neutral-700">
               <tr>
-                <th className="sticky top-0 z-10 hidden w-[52px] whitespace-nowrap bg-neutral-100 px-0 py-3 text-center md:table-cell" scope="col">종목코드</th>
-                <th className="sticky top-0 z-20 min-w-[174px] w-[174px] bg-neutral-100 px-2 py-3 text-center md:left-0 md:w-[174px]" scope="col">종목명</th>
+                <th className="sticky top-0 z-10 hidden w-[56px] bg-neutral-100 px-0 py-3 text-center md:table-cell" scope="col">종목코드</th>
+                <th className="sticky top-0 z-20 min-w-[190px] w-[190px] bg-neutral-100 px-2 py-3 text-center md:left-0 md:w-[190px]" scope="col">종목명</th>
                 <th className="sticky top-0 z-10 w-24 bg-neutral-100 px-2 py-3 text-center md:hidden" scope="col">등락률</th>
                 <th className="sticky top-0 z-10 w-28 bg-neutral-100 px-4 py-3 text-center md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
                 <th aria-label="종가, 단위 원" className="sticky top-0 z-10 hidden w-[56px] whitespace-nowrap bg-neutral-100 px-0 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
@@ -354,7 +354,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             </thead>
             <tbody className="divide-y divide-line">
               {visibleEtfs.map((etf) => <tr className="transition-colors hover:bg-brand-50/50" key={etf.ticker}>
-                <td className="tabular-nums hidden w-[52px] whitespace-nowrap px-0 py-2.5 text-center text-xs text-muted md:table-cell">{etf.ticker}</td>
+                <td className="tabular-nums hidden w-[56px] px-0 py-2.5 text-center text-xs text-muted md:table-cell">{etf.ticker}</td>
                 <th className="max-w-0 w-[180px] bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="line-clamp-2 [overflow-wrap:anywhere] [word-break:keep-all] text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
                 <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                 <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>

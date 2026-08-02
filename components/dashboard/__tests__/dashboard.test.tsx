@@ -43,10 +43,10 @@ describe("Dashboard", () => {
     render(<Dashboard etfs={items} />);
     expect(screen.getByText("1종목")).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-left");
-    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-right");
-    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-right");
-    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-right");
+    expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-center");
     expect(screen.getByRole("columnheader", { name: "1일 수익률, 단위 퍼센트" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
     expect(screen.getByText("30.0")).toBeInTheDocument();
@@ -80,7 +80,7 @@ describe("Dashboard", () => {
     const classificationHeaders = ["지역", "자산", "환헤지", "연금"].map((name) => screen.getByRole("columnheader", { name }));
     const nameLink = screen.getByRole("link", { name: "대형 일반 ETF" });
 
-    expect(nameHeader).toHaveClass("md:w-[22.5%]", "text-left");
+    expect(nameHeader).toHaveClass("md:w-[22.5%]", "text-center");
     classificationHeaders.forEach((header) => expect(header).toHaveClass("w-[4%]"));
     expect(nameLink).toHaveClass("line-clamp-2", "text-left", "text-[13px]");
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
@@ -92,8 +92,10 @@ describe("Dashboard", () => {
     const oneMonthHeader = screen.getByRole("columnheader", { name: "1개월 수익률, 단위 퍼센트" });
 
     expect(closeHeader).toHaveClass("sticky", "top-0");
-    expect(within(closeHeader).getByText("(원)")).toHaveClass("block");
-    expect(within(oneMonthHeader).getByText("(%)")).toHaveClass("block");
+    expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-extrabold", "text-neutral-700");
+    screen.getAllByRole("columnheader").forEach((header) => expect(header).toHaveClass("text-center"));
+    expect(within(closeHeader).getByText("(원)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
+    expect(within(oneMonthHeader).getByText("(%)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
   });
 
   it("환노출과 환헤지는 X와 O로 표시하고 부분·탄력 헤지는 유지한다", () => {

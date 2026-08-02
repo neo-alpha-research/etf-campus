@@ -81,7 +81,7 @@ describe("Dashboard", () => {
     const classificationHeaders = ["지역", "자산", "환헤지", "연금"].map((name) => screen.getByRole("columnheader", { name }));
     const nameLink = screen.getByRole("link", { name: "대형 일반 ETF" });
 
-    expect(nameHeader).toHaveClass("md:w-[240px]", "text-center");
+    expect(nameHeader).toHaveClass("md:w-[160px]", "text-center");
     classificationHeaders.forEach((header) => expect(header).toHaveClass("w-[4%]"));
     expect(nameLink).toHaveClass("line-clamp-2", "text-left", "text-[13px]");
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");

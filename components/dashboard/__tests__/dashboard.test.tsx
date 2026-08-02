@@ -91,7 +91,11 @@ describe("Dashboard", () => {
 
   it("검색과 필수 수익률 고지를 제공한다", () => {
     render(<Dashboard etfs={items} />);
+    const explorer = screen.getByRole("region", { name: "ETF 검색과 정렬" });
     const search = screen.getByRole("combobox", { name: "종목명 또는 티커 검색" });
+    const scope = screen.getByRole("button", { name: "1,000억+" });
+    expect(search.compareDocumentPosition(scope) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(explorer).toContainElement(search);
     fireEvent.focus(search);
     fireEvent.change(search, { target: { value: "대형" } });
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();

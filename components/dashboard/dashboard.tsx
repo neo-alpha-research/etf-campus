@@ -176,32 +176,23 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   };
 
   return (
-    <main aria-labelledby="dashboard-title" className="page-shell flex-1 py-8 sm:py-12">
-      <div className="flex items-center justify-between gap-4 rounded-3xl bg-gradient-to-br from-brand-50/80 to-surface px-5 py-5 sm:px-7">
-        <div className="max-w-3xl">
+    <main aria-labelledby="dashboard-title" className="page-shell flex-1 py-4 sm:py-6">
+      <header className="flex items-center justify-between gap-3 rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-50/80 to-surface px-4 py-3 sm:px-5">
+        <div className="min-w-0 max-w-5xl">
           <p className="eyebrow">{copy.eyebrow}</p>
-          <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.04em] text-strong sm:text-4xl" id="dashboard-title">{copy.title}</h1>
-          <p className="mt-3 text-sm leading-6 text-muted sm:text-base">{copy.description}</p>
+          <h1 className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-strong sm:text-3xl" id="dashboard-title">{copy.title}</h1>
+          <p className="mt-1 line-clamp-2 text-xs leading-5 text-muted sm:text-sm">{copy.description}</p>
         </div>
-        <Tickery className="h-24 w-24 shrink-0 sm:h-32 sm:w-32" pose={state.mode === "pension" ? "pension" : "search"} priority sizes="(max-width: 640px) 96px, 128px" />
-      </div>
+        <Tickery className="h-16 w-16 shrink-0 sm:h-20 sm:w-20" pose={state.mode === "pension" ? "pension" : "search"} priority sizes="(max-width: 640px) 64px, 80px" />
+      </header>
 
-      {state.mode === "pension" ? <p className="mt-5 rounded-xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm font-semibold leading-6 text-brand-900">DC·IRP 편입 가능 여부는 금융회사별 매매 가능 목록과 위험자산 한도에 따라 달라질 수 있습니다.</p> : null}
-      {state.mode === "derivatives" ? <p className="mt-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold leading-6 text-amber-900">레버리지·인버스 ETF는 일간 수익률의 배수를 목표로 하므로 보유 기간이 길어질수록 기초지수 누적수익률과 차이가 커질 수 있습니다.</p> : null}
-      {pendingListingDates ? <p className="mt-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold leading-6 text-amber-900">정확한 상장일 백필 전인 {pendingListingDates.toLocaleString("ko-KR")}종목은 기존 3개월 플래그로 표시하며 상장일은 확인 중입니다.</p> : null}
+      {state.mode === "pension" ? <p className="mt-3 rounded-xl border border-brand-200 bg-brand-50 px-4 py-2.5 text-sm font-semibold leading-6 text-brand-900">DC·IRP 편입 가능 여부는 금융회사별 매매 가능 목록과 위험자산 한도에 따라 달라질 수 있습니다.</p> : null}
+      {state.mode === "derivatives" ? <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold leading-6 text-amber-900">레버리지·인버스 ETF는 일간 수익률의 배수를 목표로 하므로 보유 기간이 길어질수록 기초지수 누적수익률과 차이가 커질 수 있습니다.</p> : null}
+      {pendingListingDates ? <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold leading-6 text-amber-900">정확한 상장일 백필 전인 {pendingListingDates.toLocaleString("ko-KR")}종목은 기존 3개월 플래그로 표시하며 상장일은 확인 중입니다.</p> : null}
 
-      <section aria-label="ETF 검색과 정렬" className="mt-8 rounded-2xl border border-line bg-neutral-50 p-3 sm:p-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          {state.mode !== "new" ? (
-            <div aria-label="순자산 목록 범위" className="flex rounded-xl bg-surface p-1 shadow-sm" role="group">
-              {scopeOptions.map((option) => <button aria-pressed={state.scope === option.value} className={`min-h-11 rounded-lg px-3 py-2 text-sm font-bold transition-colors ${state.scope === option.value ? "bg-brand-700 text-white" : "text-muted hover:text-strong"}`} key={option.value} onClick={() => setExplorerState({ scope: option.value })} type="button">{option.label}</button>)}
-            </div>
-          ) : <span className="rounded-full bg-brand-100 px-3 py-2 text-xs font-extrabold text-brand-800">0~90일 · 규모 제한 없음</span>}
-          <div className="flex items-center gap-3"><span className="tabular-nums text-sm font-extrabold text-strong">{results.length.toLocaleString("ko-KR")}종목</span>{asOfDate ? <AsOfDate value={asOfDate} /> : null}</div>
-        </div>
-
+      <section aria-label="ETF 검색과 정렬" className="mt-3 rounded-2xl border border-line bg-neutral-50 p-3 sm:p-4">
         <div
-          className="relative mt-4"
+          className="flex flex-col gap-2 sm:flex-row sm:items-center"
           onBlur={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
               setSearchFocused(false);
@@ -209,56 +200,66 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             }
           }}
         >
-          <label className="block">
-            <span className="sr-only">종목명 또는 티커 검색</span>
-            <input
-              aria-activedescendant={activeSuggestion >= 0 ? `etf-suggestion-${activeSuggestion}` : undefined}
-              aria-autocomplete="list"
-              aria-controls="etf-search-suggestions"
-              aria-expanded={showSearchSuggestions}
-              className="min-h-11 w-full rounded-xl border border-line bg-surface px-4 pr-12 text-sm text-strong placeholder:text-neutral-400"
-              onChange={(event) => {
-                setExplorerState({ query: event.target.value });
-                setActiveSuggestion(-1);
-              }}
-              onFocus={() => setSearchFocused(true)}
-              onKeyDown={handleSearchKeyDown}
-              placeholder="종목명·티커·기초지수 검색"
-              role="combobox"
-              type="search"
-              value={state.query}
-            />
-          </label>
-          {state.query ? <button aria-label="검색어 지우기" className="absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-lg text-lg text-muted hover:bg-neutral-100" onClick={() => { setExplorerState({ query: "" }); setActiveSuggestion(-1); }} type="button">×</button> : null}
-          {showSearchSuggestions ? (
-            <div className="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-xl border border-line bg-surface shadow-xl">
-              <ul aria-label="ETF 검색 자동완성" id="etf-search-suggestions" role="listbox">
-                {searchSuggestions.map((etf, index) => (
-                  <li key={etf.ticker}>
-                    <Link
-                      aria-selected={activeSuggestion === index}
-                      className={`flex min-h-14 items-center gap-3 border-b border-line px-4 py-2.5 last:border-b-0 hover:bg-brand-50 ${activeSuggestion === index ? "bg-brand-50" : ""}`}
-                      href={`/etf/${etf.ticker}`}
-                      id={`etf-suggestion-${index}`}
-                      onMouseEnter={() => setActiveSuggestion(index)}
-                      role="option"
-                    >
-                      <span className="tabular-nums w-14 shrink-0 text-xs font-semibold text-muted">{etf.ticker}</span>
-                      <span className="line-clamp-2 min-w-0 flex-1 text-sm font-bold leading-5 text-strong [overflow-wrap:anywhere]">{etf.name}</span>
-                      <SearchSuggestionMeta etf={etf} />
-                      <PensionBadge compact status={etf.pension} />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
+          <div className="relative min-w-0 flex-1">
+            <label className="block">
+              <span className="sr-only">종목명 또는 티커 검색</span>
+              <svg aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-brand-700" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" /><path d="m16.5 16.5 4 4" stroke="currentColor" strokeLinecap="round" strokeWidth="2" /></svg>
+              <input
+                aria-activedescendant={activeSuggestion >= 0 ? `etf-suggestion-${activeSuggestion}` : undefined}
+                aria-autocomplete="list"
+                aria-controls="etf-search-suggestions"
+                aria-expanded={showSearchSuggestions}
+                className="min-h-12 w-full rounded-xl border border-line bg-surface pl-12 pr-12 text-base font-semibold text-strong shadow-sm outline-none placeholder:font-normal placeholder:text-neutral-400 focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                onChange={(event) => {
+                  setExplorerState({ query: event.target.value });
+                  setActiveSuggestion(-1);
+                }}
+                onFocus={() => setSearchFocused(true)}
+                onKeyDown={handleSearchKeyDown}
+                placeholder="ETF 종목명·티커·기초지수 검색"
+                role="combobox"
+                type="search"
+                value={state.query}
+              />
+            </label>
+            {state.query ? <button aria-label="검색어 지우기" className="absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-lg text-lg text-muted hover:bg-neutral-100" onClick={() => { setExplorerState({ query: "" }); setActiveSuggestion(-1); }} type="button">×</button> : null}
+            {showSearchSuggestions ? (
+              <div className="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-xl border border-line bg-surface shadow-xl">
+                <ul aria-label="ETF 검색 자동완성" id="etf-search-suggestions" role="listbox">
+                  {searchSuggestions.map((etf, index) => (
+                    <li key={etf.ticker}>
+                      <Link
+                        aria-selected={activeSuggestion === index}
+                        className={`flex min-h-14 items-center gap-3 border-b border-line px-4 py-2.5 last:border-b-0 hover:bg-brand-50 ${activeSuggestion === index ? "bg-brand-50" : ""}`}
+                        href={`/etf/${etf.ticker}`}
+                        id={`etf-suggestion-${index}`}
+                        onMouseEnter={() => setActiveSuggestion(index)}
+                        role="option"
+                      >
+                        <span className="tabular-nums w-14 shrink-0 text-xs font-semibold text-muted">{etf.ticker}</span>
+                        <span className="line-clamp-2 min-w-0 flex-1 text-sm font-bold leading-5 text-strong [overflow-wrap:anywhere]">{etf.name}</span>
+                        <SearchSuggestionMeta etf={etf} />
+                        <PensionBadge compact status={etf.pension} />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+          <div className="flex shrink-0 items-center justify-between gap-3 px-1 sm:justify-end sm:px-2"><span className="tabular-nums text-sm font-extrabold text-strong">{results.length.toLocaleString("ko-KR")}종목</span>{asOfDate ? <AsOfDate value={asOfDate} /> : null}</div>
         </div>
 
-        <div className="mt-4 flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between">
-          <div>
-            <p className="mb-2 text-xs font-bold text-muted">표시 수익률</p>
-            <div aria-label="수익률 기간" className="scrollbar-none flex gap-1 overflow-x-auto" role="group">
+        <div className="mt-3 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
+            {state.mode !== "new" ? (
+              <div aria-label="순자산 목록 범위" className="flex shrink-0 rounded-xl bg-surface p-1 shadow-sm" role="group">
+                {scopeOptions.map((option) => <button aria-pressed={state.scope === option.value} className={`min-h-10 rounded-lg px-3 py-1.5 text-sm font-bold transition-colors ${state.scope === option.value ? "bg-brand-700 text-white" : "text-muted hover:text-strong"}`} key={option.value} onClick={() => setExplorerState({ scope: option.value })} type="button">{option.label}</button>)}
+              </div>
+            ) : <span className="w-fit shrink-0 rounded-full bg-brand-100 px-3 py-2 text-xs font-extrabold text-brand-800">0~90일 · 규모 제한 없음</span>}
+            <span aria-hidden="true" className="hidden h-7 w-px shrink-0 bg-line sm:block" />
+            <div aria-label="수익률 기간" className="scrollbar-none flex min-w-0 items-center gap-1 overflow-x-auto" role="group">
+              <span className="mr-1 shrink-0 text-xs font-bold text-muted">기간</span>
               {periods.map((period) => <button aria-pressed={normalizedPeriod === period} className={`min-h-10 shrink-0 rounded-lg px-3 py-2 text-xs font-bold ${normalizedPeriod === period ? "bg-brand-100 text-brand-800" : "text-muted hover:bg-surface"}`} key={period} onClick={() => setExplorerState({ period })} type="button">{RETURN_PERIOD_LABELS[period]}</button>)}
             </div>
           </div>

@@ -46,7 +46,7 @@ describe("Dashboard", () => {
     expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
     expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-right");
     expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-right");
-    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-right");
     expect(screen.getByRole("columnheader", { name: "1일 수익률, 단위 퍼센트" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
     expect(screen.getByText("30.0")).toBeInTheDocument();

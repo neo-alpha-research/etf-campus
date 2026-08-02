@@ -332,7 +332,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
                 <td className="tabular-nums hidden px-2 py-3 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
                 <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
-                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell"><span className="inline-flex items-center justify-end gap-1.5"><span>{formatAumNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
+                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell"><span className="flex w-full items-center justify-end gap-1.5"><span>{formatAumNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
                 {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-4 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                 {periods.map((period) => <td className={`hidden px-1 py-4 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}
                 <ClassificationCells etf={etf} />

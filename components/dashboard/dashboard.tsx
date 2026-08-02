@@ -96,6 +96,29 @@ function CompactAssetClassLabel({ value }: { value: string }) {
   return <span className="whitespace-nowrap text-[11px] font-bold text-strong">{value}</span>;
 }
 
+function UnitHeaderLabel({ label, unit, align = "center" }: { label: string; unit: string; align?: "center" | "right" }) {
+  return (
+    <span className={`inline-flex flex-col leading-tight ${align === "right" ? "items-end" : "items-center"}`}>
+      <span>{label}</span>
+      <span className="block pt-0.5 text-[9px] font-semibold text-neutral-400">({unit})</span>
+    </span>
+  );
+}
+
+function FxHedgeMarker({ value }: { value: string | null }) {
+  if (!value) return null;
+
+  if (value === "노출") {
+    return <span aria-label="환노출: 환헤지 없음" className="inline-flex min-h-6 min-w-6 select-none items-center justify-center rounded-full border border-neutral-300 bg-neutral-50 px-1 text-[11px] font-extrabold text-neutral-700" title="환노출(환헤지 없음)">X</span>;
+  }
+  if (value === "헤지") {
+    return <span aria-label="환헤지 적용" className="inline-flex min-h-6 min-w-6 select-none items-center justify-center rounded-full border border-brand-200 bg-brand-50 px-1 text-[11px] font-extrabold text-brand-800" title="환헤지 적용">O</span>;
+  }
+
+  const accessibleLabel = value === "부분" ? "부분 헤지" : "탄력적 헤지";
+  return <span aria-label={accessibleLabel} className="inline-flex min-h-6 select-none items-center justify-center rounded border border-amber-200 bg-amber-50 px-1 text-[10px] font-extrabold text-amber-800" title={accessibleLabel}>{value}</span>;
+}
+
 function ClassificationCells({ etf }: { etf: Etf }) {
   const fields = getClassificationFields(etf);
   return (
@@ -107,7 +130,7 @@ function ClassificationCells({ etf }: { etf: Etf }) {
           {fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}
         </div>
       </td>
-      <td className="hidden whitespace-nowrap px-0.5 py-4 text-center text-[11px] font-bold text-muted md:table-cell">{fields.fxHedge ?? ""}</td>
+      <td className="hidden whitespace-nowrap px-0.5 py-4 text-center text-[11px] font-bold text-muted md:table-cell"><FxHedgeMarker value={fields.fxHedge} /></td>
     </>
   );
 }
@@ -304,24 +327,24 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </aside>
       </> : null}
 
-      <div className="mt-5 overflow-hidden rounded-2xl border border-line bg-surface">
-        <div className="overflow-x-auto">
+      <div className="mt-5 rounded-2xl border border-line bg-surface">
+        <div className="overflow-x-auto min-[1244px]:overflow-x-visible">
           <table className="w-full border-collapse text-left text-sm md:min-w-[1180px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
-            <thead className="sticky top-0 z-10 bg-neutral-50 text-xs font-bold text-muted">
+            <thead className="text-xs font-bold text-muted">
               <tr>
-                <th className="hidden w-[4.5%] px-1 py-3 text-center md:table-cell" scope="col">종목코드</th>
-                <th className="min-w-52 px-3 py-3 text-left md:sticky md:left-0 md:z-20 md:w-[22.5%] md:bg-neutral-50" scope="col">종목명</th>
-                <th className="w-24 px-2 py-3 text-right md:hidden" scope="col">등락률</th>
-                <th className="w-28 px-4 py-3 text-right md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
-                <th aria-label="종가, 단위 원" className="hidden w-[5.5%] whitespace-nowrap px-2 py-3 text-right md:table-cell" scope="col">종가(원)</th>
-                <th aria-label="거래대금, 단위 억원" className="hidden w-[6%] whitespace-nowrap px-1 py-3 text-right md:table-cell" scope="col">거래대금(억원)</th>
-                <th aria-label="순자산, 단위 억원" className="hidden w-[6%] whitespace-nowrap px-1 py-3 text-right md:table-cell" scope="col">순자산(억원)</th>
-                {state.mode === "new" ? <th className="hidden px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
-                {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[4.25%] whitespace-nowrap px-0.5 py-3 text-center text-[11px] md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col">{RETURN_PERIOD_LABELS[period]}(%)</th>)}
-                <th className="hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">지역</th>
-                <th className="hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">자산</th>
-                <th className="hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">환헤지</th>
-                <th className="hidden w-[4%] whitespace-nowrap px-0.5 py-3 text-center md:table-cell" scope="col">연금</th>
+                <th className="sticky top-0 z-10 hidden w-[4.5%] bg-neutral-50 px-1 py-3 text-center md:table-cell" scope="col">종목코드</th>
+                <th className="sticky top-0 z-20 min-w-52 bg-neutral-50 px-3 py-3 text-left md:left-0 md:w-[22.5%]" scope="col">종목명</th>
+                <th className="sticky top-0 z-10 w-24 bg-neutral-50 px-2 py-3 text-right md:hidden" scope="col">등락률</th>
+                <th className="sticky top-0 z-10 w-28 bg-neutral-50 px-4 py-3 text-right md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
+                <th aria-label="종가, 단위 원" className="sticky top-0 z-10 hidden w-[5.5%] whitespace-nowrap bg-neutral-50 px-2 py-2 text-right md:table-cell" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                <th aria-label="거래대금, 단위 억원" className="sticky top-0 z-10 hidden w-[6%] whitespace-nowrap bg-neutral-50 px-1 py-2 text-right md:table-cell" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
+                <th aria-label="순자산, 단위 억원" className="sticky top-0 z-10 hidden w-[6%] whitespace-nowrap bg-neutral-50 px-1 py-2 text-right md:table-cell" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
+                {state.mode === "new" ? <th className="sticky top-0 z-10 hidden bg-neutral-50 px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
+                {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`sticky top-0 z-10 hidden w-[4.25%] whitespace-nowrap px-0.5 py-2 text-center text-[11px] md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : "bg-neutral-50"}`} key={period} scope="col"><UnitHeaderLabel label={RETURN_PERIOD_LABELS[period]} unit="%" /></th>)}
+                <th className="sticky top-0 z-10 hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">지역</th>
+                <th className="sticky top-0 z-10 hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">자산</th>
+                <th className="sticky top-0 z-10 hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">환헤지</th>
+                <th className="sticky top-0 z-10 hidden w-[4%] whitespace-nowrap bg-neutral-50 px-0.5 py-3 text-center md:table-cell" scope="col">연금</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line">

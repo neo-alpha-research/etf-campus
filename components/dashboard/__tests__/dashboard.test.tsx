@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import type { Etf } from "@/lib/domain/etf-types";
@@ -84,6 +84,42 @@ describe("Dashboard", () => {
     classificationHeaders.forEach((header) => expect(header).toHaveClass("w-[4%]"));
     expect(nameLink).toHaveClass("line-clamp-2", "text-left", "text-[13px]");
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
+  });
+
+  it("표 헤더를 고정하고 단위를 두 번째 줄에 표시한다", () => {
+    render(<Dashboard etfs={items} />);
+    const closeHeader = screen.getByRole("columnheader", { name: "종가, 단위 원" });
+    const oneMonthHeader = screen.getByRole("columnheader", { name: "1개월 수익률, 단위 퍼센트" });
+
+    expect(closeHeader).toHaveClass("sticky", "top-0");
+    expect(within(closeHeader).getByText("(원)")).toHaveClass("block");
+    expect(within(oneMonthHeader).getByText("(%)")).toHaveClass("block");
+  });
+
+  it("환노출과 환헤지는 X와 O로 표시하고 부분·탄력 헤지는 유지한다", () => {
+    const classification = (fxHedge: string) => ({
+      published: true,
+      marketScope: "미국",
+      assetClass: "주식",
+      assetDetail: null,
+      strategy: null,
+      fxHedge,
+      reviewStatus: "자동확정",
+      reviewPriority: "",
+      sourceUrl: null,
+      evidenceSummary: null,
+    });
+    render(<Dashboard etfs={[
+      etf({ ticker: "FX1", name: "환노출 ETF", classification: classification("환노출") }),
+      etf({ ticker: "FX2", name: "환헤지 ETF", classification: classification("환헤지") }),
+      etf({ ticker: "FX3", name: "부분헤지 ETF", classification: classification("부분 헤지") }),
+      etf({ ticker: "FX4", name: "탄력헤지 ETF", classification: classification("탄력적 헤지") }),
+    ]} />);
+
+    expect(screen.getByLabelText("환노출: 환헤지 없음")).toHaveTextContent("X");
+    expect(screen.getByLabelText("환헤지 적용")).toHaveTextContent("O");
+    expect(screen.getByLabelText("부분 헤지")).toHaveTextContent("부분");
+    expect(screen.getByLabelText("탄력적 헤지")).toHaveTextContent("탄력");
   });
 
   it("긴 자산 분류는 좁은 열에서 의미 단위로 두 줄 표시한다", () => {

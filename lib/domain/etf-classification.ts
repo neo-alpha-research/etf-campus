@@ -69,6 +69,20 @@ export function getClassificationParts(etf: Etf, detailed = false): string[] {
   return [...new Set(parts.filter((value): value is string => Boolean(value)))];
 }
 
+/** 해외 상품에만 환율 영향 안내를 표시하기 위한 조건부 문구입니다. */
+export function getFxImpactNotice(etf: Etf): string | null {
+  const fields = getClassificationFields(etf);
+  if (fields.marketScope !== "해외" || !fields.fxHedge) return null;
+  if (fields.fxHedge === "헤지") return null;
+  if (fields.fxHedge === "부분" || fields.fxHedge === "탄력") {
+    return "부분 헤지 상품으로 환율 영향이 일부 발생할 수 있습니다.";
+  }
+  if (fields.fxHedge === "노출") {
+    return "환헤지가 없어 환율 변동의 영향을 받을 수 있습니다.";
+  }
+  return null;
+}
+
 export function getEtfCautions(etf: Etf): string[] {
   const text = `${etf.name} ${etf.baseIndex} ${etf.classification?.strategy ?? ""}`;
   const cautions: string[] = [];

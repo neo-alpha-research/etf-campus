@@ -88,7 +88,7 @@ function SearchSuggestionMeta({ etf }: { etf: Etf }) {
 
 function CompactAssetClassLabel({ value }: { value: string }) {
   if (value === "금리/파킹" || value === "금리·파킹") {
-    return <span aria-label="금리(파킹)" className="inline-flex flex-col whitespace-nowrap text-[11px] font-bold leading-4 text-strong" title="금리(파킹)"><span aria-hidden="true">금리</span><span aria-hidden="true">(파킹)</span></span>;
+    return <span aria-label="금리" className="whitespace-nowrap text-[11px] font-bold text-strong" title="금리">금리</span>;
   }
   if (value === "리츠/인프라" || value === "리츠·인프라") {
     return <span aria-label="리츠/인프라" className="inline-flex flex-col whitespace-nowrap text-[11px] font-bold leading-4 text-strong" title="리츠/인프라"><span aria-hidden="true">리츠/</span><span aria-hidden="true">인프라</span></span>;

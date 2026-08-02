@@ -143,7 +143,7 @@ describe("Dashboard", () => {
       etf({ ticker: "P", name: "파킹 ETF", assetClass: "금리·파킹" }),
       etf({ ticker: "R", name: "리츠 ETF", assetClass: "리츠·인프라" }),
     ]} />);
-    expect(screen.getByLabelText("금리(파킹)")).toHaveTextContent("금리(파킹)");
+    expect(screen.getByLabelText("금리")).toHaveTextContent("금리");
     expect(screen.getByLabelText("리츠/인프라")).toHaveTextContent("리츠/인프라");
   });
 

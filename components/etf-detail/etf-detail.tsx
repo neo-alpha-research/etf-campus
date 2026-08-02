@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 import { formatMoney, formatWon } from "@/lib/domain/etf-format";
 import { getReturnPeriods, isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf } from "@/lib/domain/etf-types";
-import { getClassificationStatusLabel, getEtfCautions } from "@/lib/domain/etf-classification";
+import { getClassificationStatusLabel, getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
 
 function getPensionDescription(etf: Etf, newListing: boolean): string {
   if (etf.pension === "가능") {
@@ -36,6 +36,7 @@ export function EtfDetail({ etf }: { etf: Etf }) {
   const returnPeriods = getReturnPeriods(newListing ? "new" : etf.riskType === "normal" ? "general" : "derivatives");
   const canonicalUrl = `${siteConfig.url.replace(/\/$/, "")}/etf/${etf.ticker}`;
   const cautions = getEtfCautions(etf);
+  const fxImpactNotice = getFxImpactNotice(etf);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
@@ -86,6 +87,7 @@ export function EtfDetail({ etf }: { etf: Etf }) {
         </div>
         <div className="mt-4 rounded-2xl border border-line bg-neutral-50 p-5">
           <ClassificationSummary detailed etf={etf} />
+          {fxImpactNotice ? <p className="mt-3 text-xs leading-5 text-muted">{fxImpactNotice}</p> : null}
           {cautions.length ? (
             <div aria-label="살펴볼 특성" className="mt-4 flex flex-wrap gap-2">
               {cautions.map((caution) => (

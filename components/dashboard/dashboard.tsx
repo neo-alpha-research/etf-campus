@@ -233,7 +233,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             }
           }}
         >
-          <div className="relative min-w-0 flex-1">
+          <div className="relative min-w-0 w-full flex-1 sm:w-[760px] sm:max-w-full sm:flex-none">
             <label className="block">
               <span className="sr-only">종목명 또는 티커 검색</span>
               <svg aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-brand-700" fill="none" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" /><path d="m16.5 16.5 4 4" stroke="currentColor" strokeLinecap="round" strokeWidth="2" /></svg>

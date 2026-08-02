@@ -299,7 +299,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               {periods.map((period) => <button aria-pressed={normalizedPeriod === period} className={`min-h-10 shrink-0 rounded-lg px-3 py-2 text-xs font-bold ${normalizedPeriod === period ? "bg-brand-100 text-brand-800" : "text-muted hover:bg-surface"}`} key={period} onClick={() => setExplorerState({ period })} type="button">{RETURN_PERIOD_LABELS[period]}</button>)}
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+          <div className="ml-auto flex flex-wrap items-center justify-end gap-2">
             <label className="flex items-center gap-2 text-xs font-semibold text-muted">정렬
               <select className="min-h-11 rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-strong" onChange={(event) => setExplorerState({ sort: event.target.value as ExplorerState["sort"] })} value={state.sort}>
                 <option value="return">기간 수익률 · 선택 기간</option>

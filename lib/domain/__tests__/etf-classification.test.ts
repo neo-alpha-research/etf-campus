@@ -43,4 +43,10 @@ describe("ETF 분류 표시", () => {
     if (etf.classification) etf.classification.assetClass = "혼합자산";
     expect(getClassificationFields(etf).assetClass).toBe("혼합");
   });
+
+  it.each(["해당없음", "미확인", "확인필요", "-"])("지역 %s는 화면에서 비운다", (source) => {
+    const etf = classified(null);
+    if (etf.classification) etf.classification.marketScope = source;
+    expect(getClassificationFields(etf).marketScope).toBeNull();
+  });
 });

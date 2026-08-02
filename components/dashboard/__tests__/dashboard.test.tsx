@@ -43,7 +43,7 @@ describe("Dashboard", () => {
     render(<Dashboard etfs={items} />);
     expect(screen.getByText("1종목")).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-left");
     expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-right");
     expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-right");
     expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-right");
@@ -76,10 +76,13 @@ describe("Dashboard", () => {
 
   it("긴 종목명과 분류·연금 정보를 검색하기 쉽게 분리한다", () => {
     render(<Dashboard etfs={items} />);
-    expect(screen.getByRole("columnheader", { name: "지역" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "자산" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "환헤지" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toHaveClass("line-clamp-2");
+    const nameHeader = screen.getByRole("columnheader", { name: "종목명" });
+    const classificationHeaders = ["지역", "자산", "환헤지", "연금"].map((name) => screen.getByRole("columnheader", { name }));
+    const nameLink = screen.getByRole("link", { name: "대형 일반 ETF" });
+
+    expect(nameHeader).toHaveClass("md:w-[22.5%]", "text-left");
+    classificationHeaders.forEach((header) => expect(header).toHaveClass("w-[4%]"));
+    expect(nameLink).toHaveClass("line-clamp-2", "text-left", "text-[13px]");
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
   });
 

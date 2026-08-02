@@ -83,31 +83,31 @@ function getAllowedRiskTypes(mode: InvestorMode): readonly RiskType[] {
 
 function SearchSuggestionMeta({ etf }: { etf: Etf }) {
   const fields = getClassificationFields(etf);
-  return <span className="hidden shrink-0 text-xs text-muted sm:inline">{fields.marketScope} · {fields.assetClass}</span>;
+  return <span className="hidden shrink-0 text-xs text-muted sm:inline">{[fields.marketScope, fields.assetClass].filter(Boolean).join(" · ")}</span>;
 }
 
 function CompactAssetClassLabel({ value }: { value: string }) {
   if (value === "금리/파킹" || value === "금리·파킹") {
-    return <span aria-label="금리(파킹)" className="inline-flex flex-col whitespace-nowrap text-xs font-bold leading-4 text-strong" title="금리(파킹)"><span aria-hidden="true">금리</span><span aria-hidden="true">(파킹)</span></span>;
+    return <span aria-label="금리(파킹)" className="inline-flex flex-col whitespace-nowrap text-[11px] font-bold leading-4 text-strong" title="금리(파킹)"><span aria-hidden="true">금리</span><span aria-hidden="true">(파킹)</span></span>;
   }
   if (value === "리츠/인프라" || value === "리츠·인프라") {
-    return <span aria-label="리츠/인프라" className="inline-flex flex-col whitespace-nowrap text-xs font-bold leading-4 text-strong" title="리츠/인프라"><span aria-hidden="true">리츠/</span><span aria-hidden="true">인프라</span></span>;
+    return <span aria-label="리츠/인프라" className="inline-flex flex-col whitespace-nowrap text-[11px] font-bold leading-4 text-strong" title="리츠/인프라"><span aria-hidden="true">리츠/</span><span aria-hidden="true">인프라</span></span>;
   }
-  return <span className="whitespace-nowrap text-xs font-bold text-strong">{value}</span>;
+  return <span className="whitespace-nowrap text-[11px] font-bold text-strong">{value}</span>;
 }
 
 function ClassificationCells({ etf }: { etf: Etf }) {
   const fields = getClassificationFields(etf);
   return (
     <>
-      <td className="hidden whitespace-nowrap px-1.5 py-4 text-center text-xs font-semibold text-muted md:table-cell">{fields.marketScope}</td>
-      <td className="hidden px-1.5 py-4 text-center md:table-cell">
+      <td className="hidden whitespace-nowrap px-0.5 py-4 text-center text-[11px] font-semibold text-muted md:table-cell">{fields.marketScope ?? ""}</td>
+      <td className="hidden px-0.5 py-4 text-center md:table-cell">
         <div className="flex flex-wrap items-center justify-center gap-1">
           <CompactAssetClassLabel value={fields.assetClass} />
           {fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}
         </div>
       </td>
-      <td className="hidden whitespace-nowrap px-1 py-4 text-center text-xs font-bold text-muted md:table-cell">{fields.fxHedge ?? ""}</td>
+      <td className="hidden whitespace-nowrap px-0.5 py-4 text-center text-[11px] font-bold text-muted md:table-cell">{fields.fxHedge ?? ""}</td>
     </>
   );
 }
@@ -310,7 +310,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             <thead className="sticky top-0 z-10 bg-neutral-50 text-xs font-bold text-muted">
               <tr>
                 <th className="hidden w-[4.5%] px-1 py-3 text-center md:table-cell" scope="col">종목코드</th>
-                <th className="min-w-52 px-4 py-3 text-center sm:px-5 md:sticky md:left-0 md:z-20 md:w-[18.5%] md:bg-neutral-50" scope="col">종목명</th>
+                <th className="min-w-52 px-3 py-3 text-left md:sticky md:left-0 md:z-20 md:w-[22.5%] md:bg-neutral-50" scope="col">종목명</th>
                 <th className="w-24 px-2 py-3 text-right md:hidden" scope="col">등락률</th>
                 <th className="w-28 px-4 py-3 text-right md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
                 <th aria-label="종가, 단위 원" className="hidden w-[5.5%] whitespace-nowrap px-2 py-3 text-right md:table-cell" scope="col">종가(원)</th>
@@ -318,16 +318,16 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th aria-label="순자산, 단위 억원" className="hidden w-[6%] whitespace-nowrap px-1 py-3 text-right md:table-cell" scope="col">순자산(억원)</th>
                 {state.mode === "new" ? <th className="hidden px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
                 {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`hidden w-[4.25%] whitespace-nowrap px-0.5 py-3 text-center text-[11px] md:table-cell ${normalizedPeriod === period ? "bg-brand-50 text-brand-800" : ""}`} key={period} scope="col">{RETURN_PERIOD_LABELS[period]}(%)</th>)}
-                <th className="hidden w-[5.5%] bg-brand-50 px-1 py-3 text-center text-brand-800 md:table-cell" scope="col">지역</th>
-                <th className="hidden w-[6.5%] bg-brand-50 px-1 py-3 text-center text-brand-800 md:table-cell" scope="col">자산</th>
-                <th className="hidden w-[4.5%] bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">환헤지</th>
-                <th className="hidden w-[3.5%] px-0.5 py-3 text-center md:table-cell" scope="col">연금</th>
+                <th className="hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">지역</th>
+                <th className="hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">자산</th>
+                <th className="hidden w-[4%] whitespace-nowrap bg-brand-50 px-0.5 py-3 text-center text-brand-800 md:table-cell" scope="col">환헤지</th>
+                <th className="hidden w-[4%] whitespace-nowrap px-0.5 py-3 text-center md:table-cell" scope="col">연금</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
               {visibleEtfs.map((etf) => <tr className="transition-colors hover:bg-brand-50/50" key={etf.ticker}>
                 <td className="tabular-nums hidden px-2 py-3 text-center text-xs text-muted md:table-cell">{etf.ticker}</td>
-                <th className="max-w-0 bg-surface px-4 py-3 text-center font-normal sm:px-5 md:sticky md:left-0 md:z-[1]" scope="row"><Link className="line-clamp-2 [overflow-wrap:anywhere] text-center font-bold leading-5 text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
+                <th className="max-w-0 bg-surface px-3 py-3 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="line-clamp-2 [overflow-wrap:anywhere] [word-break:keep-all] text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
                 <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                 <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
                 <td className="tabular-nums hidden px-2 py-3 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>

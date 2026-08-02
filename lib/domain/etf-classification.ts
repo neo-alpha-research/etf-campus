@@ -9,7 +9,7 @@ const ASSET_LABELS: Record<string, string> = {
 };
 
 export type ClassificationFields = {
-  marketScope: string;
+  marketScope: string | null;
   assetClass: string;
   fxHedge: string | null;
   riskLabel: "레버리지" | "인버스" | null;
@@ -19,6 +19,13 @@ function fallbackMarketScope(assetClass: string): string {
   if (assetClass === "주식-국내") return "국내";
   if (assetClass === "주식-해외") return "해외";
   return "-";
+}
+
+function compactMarketScope(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const normalized = value.trim();
+  if (["해당없음", "미확인", "확인필요", "-"].includes(normalized.replace(/\s+/g, ""))) return null;
+  return normalized;
 }
 
 function compactFxHedge(value: string | null | undefined): string | null {
@@ -40,7 +47,7 @@ function compactAssetClass(value: string): string {
 export function getClassificationFields(etf: Etf): ClassificationFields {
   const classification = etf.classification?.published ? etf.classification : null;
   return {
-    marketScope: classification?.marketScope ?? fallbackMarketScope(etf.assetClass),
+    marketScope: compactMarketScope(classification?.marketScope ?? fallbackMarketScope(etf.assetClass)),
     assetClass: compactAssetClass(classification?.assetClass ?? ASSET_LABELS[etf.assetClass] ?? etf.assetClass),
     fxHedge: compactFxHedge(classification?.fxHedge),
     riskLabel: etf.riskType === "leverage" ? "레버리지" : etf.riskType === "inverse" ? "인버스" : null,

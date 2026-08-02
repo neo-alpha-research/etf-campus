@@ -6,7 +6,7 @@ import { useEffect, useState, type KeyboardEvent } from "react";
 import { Tickery } from "@/components/brand/tickery";
 import { AsOfDate, PensionBadge, ReturnCell } from "@/components/etf";
 import { getClassificationFields } from "@/lib/domain/etf-classification";
-import { formatAsOfDate, formatMoneyNumber, formatWonNumber } from "@/lib/domain/etf-format";
+import { formatAsOfDate, formatMoneyNumber, formatTradeValueNumber, formatWonNumber } from "@/lib/domain/etf-format";
 import {
   DEFAULT_EXPLORER_STATE,
   applyExplorerFilters,
@@ -313,7 +313,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="min-w-52 px-4 py-3 text-center sm:px-5 md:sticky md:left-0 md:z-20 md:w-[18.5%] md:bg-neutral-50" scope="col">종목명</th>
                 <th className="w-24 px-2 py-3 text-right md:hidden" scope="col">등락률</th>
                 <th className="w-28 px-4 py-3 text-right md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
-                <th aria-label="종가, 단위 원" className="hidden w-[5.5%] whitespace-nowrap px-1 py-3 text-center md:table-cell" scope="col">종가(원)</th>
+                <th aria-label="종가, 단위 원" className="hidden w-[5.5%] whitespace-nowrap px-2 py-3 text-right md:table-cell" scope="col">종가(원)</th>
                 <th aria-label="거래대금, 단위 억원" className="hidden w-[6%] whitespace-nowrap px-1 py-3 text-right md:table-cell" scope="col">거래대금(억원)</th>
                 <th aria-label="순자산, 단위 억원" className="hidden w-[6%] whitespace-nowrap px-1 py-3 text-right md:table-cell" scope="col">순자산(억원)</th>
                 {state.mode === "new" ? <th className="hidden px-3 py-3 md:table-cell" scope="col">상장일</th> : null}
@@ -330,8 +330,8 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="max-w-0 bg-surface px-4 py-3 text-center font-normal sm:px-5 md:sticky md:left-0 md:z-[1]" scope="row"><Link className="line-clamp-2 [overflow-wrap:anywhere] text-center font-bold leading-5 text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
                 <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                 <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
-                <td className="tabular-nums hidden px-2 py-3 text-center font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
-                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatMoneyNumber(etf.tradeValue)}</td>
+                <td className="tabular-nums hidden px-2 py-3 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
+                <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
                 <td className="tabular-nums hidden px-2 py-4 text-right md:table-cell"><span className="inline-flex items-center justify-end gap-1.5"><span>{formatMoneyNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
                 {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-4 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                 {periods.map((period) => <td className={`hidden px-1 py-4 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}

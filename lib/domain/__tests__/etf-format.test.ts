@@ -6,6 +6,7 @@ import {
   formatMoneyNumber,
   formatReturn,
   formatReturnNumber,
+  formatTradeValueNumber,
   formatWonNumber,
 } from "../etf-format";
 
@@ -25,6 +26,8 @@ describe("ETF 표시 포맷", () => {
     expect(formatMoney(123_456_000_000)).toBe("1,235억원");
     expect(formatMoney(987_654_321)).toBe("9.9억원");
     expect(formatMoneyNumber(987_654_321)).toBe("9.9");
+    expect(formatTradeValueNumber(23_456_789_000)).toBe("234.6");
+    expect(formatTradeValueNumber(3_000_000_000)).toBe("30.0");
     expect(formatWonNumber(12_345)).toBe("12,345");
   });
 

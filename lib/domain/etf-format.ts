@@ -28,6 +28,13 @@ export function formatMoneyNumber(value: number): string {
   return formatMoney(value).replace("억원", "");
 }
 
+export function formatTradeValueNumber(value: number): string {
+  return new Intl.NumberFormat("ko-KR", {
+    maximumFractionDigits: 1,
+    minimumFractionDigits: 1,
+  }).format(value / 100_000_000);
+}
+
 export function formatWon(value: number): string {
   return `${new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 }).format(value)}원`;
 }

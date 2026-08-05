@@ -1,7 +1,8 @@
 "use client";
 
+import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import Link from "next/link";
-import { useEffect, useState, type KeyboardEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { Tickery } from "@/components/brand/tickery";
 import { AsOfDate, PensionBadge, ReturnCell } from "@/components/etf";
@@ -57,8 +58,8 @@ const modeCopy: Record<InvestorMode, { eyebrow: string; title: string; descripti
 };
 
 const scopeOptions: { value: AumScope; label: string; summary: string }[] = [
-  { value: "1000plus", label: "1,000억+", summary: "1,000억+" },
-  { value: "500plus", label: "500억+", summary: "500억+" },
+  { value: "1000plus", label: "1,000억 이상", summary: "1,000억 이상" },
+  { value: "500plus", label: "500억 이상", summary: "500억 이상" },
   { value: "all", label: "전체", summary: "전체" },
 ];
 
@@ -183,6 +184,24 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const copy = modeCopy[state.mode];
   const pendingListingDates = state.mode === "new" ? modeEtfs.filter((etf) => !etf.listingDate).length : 0;
 
+  const tableWrapperRef = useRef<HTMLDivElement>(null);
+  const [tableScrollMargin, setTableScrollMargin] = useState(0);
+  useLayoutEffect(() => {
+    setTableScrollMargin(tableWrapperRef.current?.offsetTop ?? 0);
+  }, [state.mode, filtersOpen, activeFilterCount, pendingListingDates, results.length]);
+
+  const rowVirtualizer = useWindowVirtualizer({
+    count: visibleEtfs.length,
+    estimateSize: () => 52,
+    overscan: 12,
+    scrollMargin: tableScrollMargin,
+    getItemKey: (index) => visibleEtfs[index]?.ticker ?? index,
+  });
+  const virtualRows = rowVirtualizer.getVirtualItems();
+  const virtualPaddingTop = virtualRows.length > 0 ? virtualRows[0].start - tableScrollMargin : 0;
+  const virtualPaddingBottom = virtualRows.length > 0 ? rowVirtualizer.getTotalSize() - virtualRows[virtualRows.length - 1].end : 0;
+  const tableColumnCount = 4 + 3 + (state.mode === "new" ? 1 : 0) + periods.length + 3 + 1;
+
   const clearFilters = () => setExplorerState({ assetClasses: [], riskTypes: [] });
 
   const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -276,7 +295,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               </div>
             ) : null}
           </div>
-          <div className="flex shrink-0 items-center justify-between gap-3 px-1 sm:justify-end sm:px-2"><span className="tabular-nums text-sm font-extrabold text-strong">{state.mode !== "new" ? `순자산 ${selectedScope.summary} · ` : ""}{results.length.toLocaleString("ko-KR")}종목</span>{asOfDate ? <AsOfDate value={asOfDate} /> : null}</div>
+          <div className="flex shrink-0 items-center justify-between gap-3 px-1 sm:ml-auto sm:justify-end sm:px-2"><span className="tabular-nums text-sm font-extrabold text-strong">{state.mode !== "new" ? `순자산 ${selectedScope.summary} · ` : ""}{results.length.toLocaleString("ko-KR")}종목</span>{asOfDate ? <AsOfDate value={asOfDate} /> : null}</div>
         </div>
 
         <div className="mt-3 grid gap-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
@@ -337,7 +356,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </aside>
       </> : null}
 
-      <div className="mt-5 rounded-2xl border border-line bg-surface">
+      <div className="mt-5 rounded-2xl border border-line bg-surface" ref={tableWrapperRef}>
         <div className="overflow-x-auto min-[1244px]:overflow-x-visible">
           <table className="w-full border-collapse text-left text-sm md:w-[1180px] md:min-w-[1180px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             <thead className="border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-extrabold text-neutral-700">
@@ -358,19 +377,27 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
-              {visibleEtfs.map((etf) => <tr className="transition-colors hover:bg-brand-50/50" key={etf.ticker}>
-                <td className="tabular-nums hidden w-[56px] px-0 py-2.5 text-center text-xs text-muted md:table-cell">{etf.ticker}</td>
-                <th className="max-w-0 w-[180px] bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="line-clamp-2 [overflow-wrap:anywhere] [word-break:keep-all] text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
-                <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
-                <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
-                <td className="tabular-nums hidden w-[56px] whitespace-nowrap px-0 py-2.5 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
-                <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
-                <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell"><span className="flex w-full items-center justify-end gap-1.5"><span>{formatAumNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
-                {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-2.5 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
-                {periods.map((period) => <td className={`hidden px-1 py-2.5 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}
-                <ClassificationCells etf={etf} />
-                <td className="hidden px-1 py-2.5 text-center md:table-cell"><PensionBadge compact status={etf.pension} /></td>
-              </tr>)}
+              {virtualPaddingTop > 0 ? <tr aria-hidden="true" style={{ height: virtualPaddingTop }}><td colSpan={tableColumnCount} /></tr> : null}
+              {virtualRows.map((virtualRow) => {
+                const etf = visibleEtfs[virtualRow.index];
+                if (!etf) return null;
+                return (
+                  <tr className="transition-colors hover:bg-brand-50/50" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
+                    <td className="tabular-nums hidden w-[56px] px-0 py-2.5 text-center text-xs text-muted md:table-cell">{etf.ticker}</td>
+                    <th className="max-w-0 w-[180px] bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="line-clamp-2 [overflow-wrap:anywhere] [word-break:keep-all] text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
+                    <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
+                    <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
+                    <td className="tabular-nums hidden w-[56px] whitespace-nowrap px-0 py-2.5 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
+                    <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
+                    <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell"><span className="flex w-full items-center justify-end gap-1.5"><span>{formatAumNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
+                    {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-2.5 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
+                    {periods.map((period) => <td className={`hidden px-1 py-2.5 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}
+                    <ClassificationCells etf={etf} />
+                    <td className="hidden px-1 py-2.5 text-center md:table-cell"><PensionBadge compact status={etf.pension} /></td>
+                  </tr>
+                );
+              })}
+              {virtualPaddingBottom > 0 ? <tr aria-hidden="true" style={{ height: virtualPaddingBottom }}><td colSpan={tableColumnCount} /></tr> : null}
             </tbody>
           </table>
           {!visibleEtfs.length ? <div className="px-5 py-16 text-center"><p className="font-extrabold text-strong">조건에 맞는 ETF가 없습니다</p><p className="mt-2 text-sm text-muted">검색어나 필터, 순자산 범위를 조정해 보세요.</p></div> : null}

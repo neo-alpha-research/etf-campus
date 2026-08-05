@@ -37,7 +37,7 @@ export type ExplorerState = ExplorerFilters & {
 export const DEFAULT_EXPLORER_STATE: ExplorerState = {
   mode: "general",
   scope: "1000plus",
-  period: "1m",
+  period: "1d",
   sort: "return",
   direction: "desc",
   query: "",
@@ -82,7 +82,7 @@ export function getReturnPeriods(mode: InvestorMode): readonly ReturnPeriod[] {
 }
 
 export function getDefaultPeriod(mode: InvestorMode): ReturnPeriod {
-  return mode === "derivatives" ? "1d" : mode === "new" ? "1m" : "1m";
+  return mode === "new" ? "1m" : "1d";
 }
 
 export function filterEtfsByMode(etfs: readonly Etf[], mode: InvestorMode): Etf[] {

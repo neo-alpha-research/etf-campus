@@ -298,9 +298,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           <div className="ml-auto flex flex-wrap items-center justify-end gap-2 xl:self-start">
             <label className="flex items-center gap-2 text-xs font-semibold text-muted">정렬
               <select className="min-h-11 rounded-lg border border-line bg-surface px-3 text-sm font-semibold text-strong" onChange={(event) => setExplorerState({ sort: event.target.value as ExplorerState["sort"] })} value={state.sort}>
-                <option value="return">기간 수익률 · 선택 기간</option>
-                <option value="tradeValue">거래대금 · 최근일</option>
-                <option value="aum">순자산 · 기준일</option>
+                <option value="return">기간 수익률</option>
+                <option value="aum">순자산</option>
+                <option value="tradeValue">거래대금</option>
                 {state.mode === "new" ? <option value="listingDate">상장일</option> : null}
               </select>
             </label>
@@ -319,7 +319,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               필터{activeFilterCount ? ` ${activeFilterCount}` : ""}
             </button>
           </div>
-          <p className="mt-0 text-[11px] font-semibold leading-5 text-muted xl:col-start-2 xl:max-w-[520px] xl:text-right">정렬 기준: 기간 수익률은 선택 기간, 거래대금은 최근일, 순자산은 기준일 데이터입니다.</p>
+          <p className="mt-0 text-[11px] font-semibold leading-5 text-muted xl:col-start-2 xl:max-w-[520px] xl:text-right">정렬 기준: 기간 수익률은 선택 기간, 순자산·거래대금은 기준일 데이터입니다.</p>
         </div>
 
         {activeFilterCount ? <div className="mt-4 flex flex-wrap items-center gap-2"><span className="text-xs font-bold text-muted">적용 중</span>{state.assetClasses.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ assetClasses: toggleValue<AssetClass>(state.assetClasses, value) })} type="button">{value} ×</button>)}{activeRiskTypes.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ riskTypes: toggleValue<RiskType>(state.riskTypes, value) })} type="button">{riskLabels[value]} ×</button>)}<button className="text-xs font-bold text-brand-700" onClick={clearFilters} type="button">모두 해제</button></div> : null}

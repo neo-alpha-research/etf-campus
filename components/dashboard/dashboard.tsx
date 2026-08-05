@@ -33,8 +33,6 @@ import {
 } from "@/lib/domain/etf-types";
 import { isSmallEtf } from "@/lib/domain/etf-visibility";
 
-const PAGE_SIZE = 50;
-
 const modeCopy: Record<InvestorMode, { eyebrow: string; title: string; description: string }> = {
   general: {
     eyebrow: "General Account",
@@ -179,9 +177,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const filteredEtfs = applyExplorerFilters(searchedEtfs, { assetClasses: state.assetClasses, riskTypes: activeRiskTypes });
   const results = sortExplorerEtfs(filteredEtfs, state.sort, state.direction, normalizedPeriod);
 
-  const pageCount = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
-  const currentPage = Math.min(state.page, pageCount);
-  const visibleEtfs = results.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const visibleEtfs = results;
   const activeFilterCount = state.assetClasses.length + activeRiskTypes.length;
   const asOfDate = etfs[0]?.asOfDate;
   const copy = modeCopy[state.mode];
@@ -284,19 +280,19 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </div>
 
         <div className="mt-3 grid gap-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
-          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
             {state.mode !== "new" ? (
-              <div className="flex shrink-0 flex-wrap items-center gap-2">
+              <div className="flex shrink-0 flex-wrap items-center gap-1.5">
                 <span className="whitespace-nowrap text-xs font-extrabold text-strong">순자산 기준</span>
-                <div aria-label="순자산 목록 범위" className="flex rounded-xl bg-surface p-1 shadow-sm" role="group">
-                  {scopeOptions.map((option) => <button aria-pressed={state.scope === option.value} className={`min-h-10 rounded-lg px-3 py-1.5 text-sm font-bold transition-colors ${state.scope === option.value ? "bg-brand-700 text-white" : "text-muted hover:text-strong"}`} key={option.value} onClick={() => setExplorerState({ scope: option.value })} type="button">{option.label}</button>)}
+                <div aria-label="순자산 목록 범위" className="flex rounded-xl bg-surface p-0.5 shadow-sm" role="group">
+                  {scopeOptions.map((option) => <button aria-pressed={state.scope === option.value} className={`min-h-10 rounded-lg px-2 py-1.5 text-sm font-bold transition-colors ${state.scope === option.value ? "bg-brand-700 text-white" : "text-muted hover:text-strong"}`} key={option.value} onClick={() => setExplorerState({ scope: option.value })} type="button">{option.label}</button>)}
                 </div>
               </div>
             ) : <span className="w-fit shrink-0 rounded-full bg-brand-100 px-3 py-2 text-xs font-extrabold text-brand-800">0~90일 · 규모 제한 없음</span>}
             <span aria-hidden="true" className="hidden h-7 w-px shrink-0 bg-line sm:block" />
-            <div aria-label="수익률 기간" className="scrollbar-none flex min-w-0 items-center gap-1 overflow-x-auto" role="group">
+            <div aria-label="수익률 기간" className="scrollbar-none flex min-w-0 items-center gap-0.5 overflow-x-auto" role="group">
               <span className="mr-1 shrink-0 text-xs font-bold text-muted">기간</span>
-              {periods.map((period) => <button aria-pressed={normalizedPeriod === period} className={`min-h-10 shrink-0 rounded-lg px-3 py-2 text-xs font-bold ${normalizedPeriod === period ? "bg-brand-100 text-brand-800" : "text-muted hover:bg-surface"}`} key={period} onClick={() => setExplorerState({ period })} type="button">{RETURN_PERIOD_LABELS[period]}</button>)}
+              {periods.map((period) => <button aria-pressed={normalizedPeriod === period} className={`min-h-10 shrink-0 rounded-lg px-2 py-2 text-xs font-bold ${normalizedPeriod === period ? "bg-brand-100 text-brand-800" : "text-muted hover:bg-surface"}`} key={period} onClick={() => setExplorerState({ period })} type="button">{RETURN_PERIOD_LABELS[period]}</button>)}
             </div>
           </div>
           <div className="ml-auto flex flex-wrap items-center justify-end gap-2 xl:self-start">
@@ -381,7 +377,6 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </div>
       </div>
 
-      {pageCount > 1 ? <nav aria-label="ETF 목록 페이지" className="mt-5 flex items-center justify-center gap-4"><button className="min-h-11 rounded-lg border border-line px-4 text-sm font-bold disabled:opacity-40" disabled={currentPage === 1} onClick={() => setExplorerState({ page: currentPage - 1 }, false)} type="button">이전</button><span className="tabular-nums text-sm font-bold text-muted">{currentPage} / {pageCount}</span><button className="min-h-11 rounded-lg border border-line px-4 text-sm font-bold disabled:opacity-40" disabled={currentPage === pageCount} onClick={() => setExplorerState({ page: currentPage + 1 }, false)} type="button">다음</button></nav> : null}
       <aside aria-label="수익률 안내" className="mt-5 border-t border-line pt-4 text-[11px] leading-5 text-neutral-500">
         <p>기간 수익률은 기준일 종가와 기간 시작일 종가를 비교합니다. 휴장일은 직전 거래일, 상장 전 기간은 최초 거래일 종가를 사용하며 분배금은 포함하지 않습니다.{state.mode === "new" ? " 상장 후(ITD)는 최초 거래일 종가 대비 수익률입니다." : ""} 과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다.</p>
       </aside>

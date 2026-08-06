@@ -557,6 +557,13 @@ def main() -> None:
             "liquidity": "pass" if (as_float(aum_value) or 0) >= 10_000_000_000 else "fail",
             "bas_dt": as_of_text,
         })
+        if not str(existing.get("isin_cd") or "").strip():
+            print(
+                f"Skipping {ticker} ({name}): isin_cd missing from both today's API "
+                "response and prior data (likely a very recent listing). Will retry "
+                "on the next run once the source publishes it."
+            )
+            continue
         current_close = as_float(api.get("clpr"))
         old_return = dict(returns_by_ticker.get(ticker, {}))
         old_return.update({"ticker": ticker, "name": name, close_field: snapshot_value(api, "clpr", "")})

@@ -19,6 +19,7 @@ const finderNavigation = [
   { href: "/?mode=pension", label: "연금 계좌" },
   { href: "/?mode=derivatives", label: "레버리지·인버스" },
   { href: "/?mode=new", label: "신규 상장" },
+  { href: "/screener", label: "상세 스크리너" },
 ] as const;
 
 export function SiteHeader() {
@@ -59,9 +60,17 @@ export function SiteHeader() {
         <nav aria-label="ETF 찾기 메뉴" className="page-shell scrollbar-none flex items-center gap-2 overflow-x-auto py-3 text-sm">
           <span className="mr-2 shrink-0 border-r border-brand-200 pr-4 text-xs font-extrabold tracking-[0.06em] text-brand-800">계좌·상품 유형</span>
           {finderNavigation.map((item) => {
-            const mode = new URL(item.href, "https://local.invalid").searchParams.get("mode");
-            const active = pathname === "/" && activeMode === mode;
-            return <a aria-current={active ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`} href={item.href} key={item.href}>{item.label}</a>;
+            let active = false;
+            if (item.href.startsWith("/?")) {
+              const mode = new URL(item.href, "https://local.invalid").searchParams.get("mode");
+              active = pathname === "/" && activeMode === mode;
+            } else {
+              active = pathname === item.href;
+            }
+            const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`;
+            return item.href.startsWith("/?")
+              ? <a aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</a>
+              : <Link aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</Link>;
           })}
         </nav>
       </div>

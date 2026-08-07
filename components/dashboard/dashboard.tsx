@@ -341,7 +341,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               필터{activeFilterCount ? ` ${activeFilterCount}` : ""}
             </button>
           </div>
-          <p className="mt-0 text-[11px] font-semibold leading-5 text-muted xl:col-start-2 xl:max-w-[520px] xl:text-right">정렬 기준: 기간 수익률은 선택 기간, 순자산·거래대금은 기준일 데이터입니다.</p>
+          <p className="mt-0 text-[11px] font-semibold leading-5 text-muted xl:col-start-2 xl:max-w-[520px] xl:text-right">기간 수익률: 기준일 대비 선택 기간 / 순자산·거래대금: 기준일</p>
         </div>
 
         {activeFilterCount ? <div className="mt-4 flex flex-wrap items-center gap-2"><span className="text-xs font-bold text-muted">적용 중</span>{state.assetClasses.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ assetClasses: toggleValue<AssetClass>(state.assetClasses, value) })} type="button">{value} ×</button>)}{activeRiskTypes.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ riskTypes: toggleValue<RiskType>(state.riskTypes, value) })} type="button">{riskLabels[value]} ×</button>)}<button className="text-xs font-bold text-brand-700" onClick={clearFilters} type="button">모두 해제</button></div> : null}

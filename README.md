@@ -20,7 +20,7 @@ D:\ETFCampus
 
 ## 문서 규칙 (SSOT)
 
-- 전략·구조 결정의 원본은 `D:\Econ View Studio\Brand_Command\EVS Navigator\ETF_Platform_Design_Baseline_20260716.md` (결정 대장 포함)이며 Navigator가 관리한다
+- 전략·구조 결정의 원본은 `D:\Brand_Command\EVS Navigator\04_ETF_데이터\ETF_Platform_Design_Baseline_20260716.md` (결정 대장 포함, 2026-08-03 폴더 재편으로 경로 변경)이며 Navigator가 관리한다
 - 본 저장소 `docs/`는 구현 기준 사본이다. 설계 변경은 반드시 운영자 → Navigator 원본 갱신 → `docs/` 사본 동기화 순서를 지킨다. 사본 직접 수정 금지
 - 구현 담당(ChatGPT)은 `docs/Handover_Prompt_ChatGPT_20260718.md`의 규칙을 따르며, 문서에 없는 결정은 운영자에게 질문한다
 

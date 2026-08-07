@@ -10,6 +10,8 @@ export const ASSET_CLASSES = [
 
 export const RISK_TYPES = ["normal", "leverage", "inverse"] as const;
 export const PENSION_STATUSES = ["가능", "불가", "확인중"] as const;
+export const DIVIDEND_FREQUENCIES = ["월배당", "분기/반기/연배당", "미지급(TR 등)"] as const;
+export const AMC_TYPES = ["삼성", "미래에셋", "KB", "한국투자", "신한", "기타"] as const;
 export const RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "ytd", "12m", "24m", "36m", "itd"] as const;
 
 export const RETURN_PERIOD_LABELS = {
@@ -30,6 +32,8 @@ export const RETURN_PERIOD_LABELS = {
 export type AssetClass = (typeof ASSET_CLASSES)[number];
 export type RiskType = (typeof RISK_TYPES)[number];
 export type PensionStatus = (typeof PENSION_STATUSES)[number];
+export type DividendFrequency = (typeof DIVIDEND_FREQUENCIES)[number];
+export type AmcType = (typeof AMC_TYPES)[number];
 export type ReturnPeriod = (typeof RETURN_PERIODS)[number];
 export type EtfReturns = Record<ReturnPeriod, number | null>;
 
@@ -55,6 +59,9 @@ export type Etf = {
   changePct: number;
   tradeValue: number;
   aum: number;
+  ter: number;
+  dividendFrequency: DividendFrequency;
+  amc: AmcType;
   riskType: RiskType;
   assetClass: AssetClass;
   pension: PensionStatus;

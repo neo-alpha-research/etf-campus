@@ -6,11 +6,12 @@ import { useEffect, useMemo, useState } from "react";
 import { AsOfDate, AssetClassTag, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
 import { formatMoney } from "@/lib/domain/etf-format";
-import { AUM_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type AumRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
-import { ASSET_CLASSES, RISK_TYPES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type ReturnPeriod } from "@/lib/domain/etf-types";
+import { AUM_RANGES, TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type AumRange, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
+import { ASSET_CLASSES, RISK_TYPES, DIVIDEND_FREQUENCIES, AMC_TYPES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type DividendFrequency, type AmcType, type ReturnPeriod } from "@/lib/domain/etf-types";
 
 const riskLabels: Record<RiskType, string> = { normal: "일반", leverage: "레버리지", inverse: "인버스" };
 const aumLabels: Record<AumRange, string> = { under100: "100억원 미만", "100to500": "100억~500억원", "500plus": "500억원 이상" };
+const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
 
 function toggleValue<T>(values: readonly T[], value: T): T[] {
   return values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
@@ -45,7 +46,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     });
   }, [etfs, filters, selectedPeriod]);
   
-  const activeCount = Number(filters.pensionOnly) + filters.assetClasses.length + filters.riskTypes.length + filters.aumRanges.length;
+  const activeCount = Number(filters.pensionOnly) + filters.assetClasses.length + filters.riskTypes.length + filters.aumRanges.length + filters.terRanges.length + filters.dividendFrequencies.length + filters.amcs.length;
 
   return (
     <main className="page-shell flex-1 py-8 sm:py-12">
@@ -70,7 +71,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           </fieldset>
           <fieldset className="border-b border-line py-5"><legend className="text-sm font-extrabold">자산군</legend><div className="mt-3 space-y-2">{ASSET_CLASSES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.assetClasses.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, assetClasses: toggleValue<AssetClass>(filters.assetClasses, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
           <fieldset className="border-b border-line py-5"><legend className="text-sm font-extrabold">위험유형</legend><div className="mt-3 space-y-2">{RISK_TYPES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.riskTypes.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, riskTypes: toggleValue<RiskType>(filters.riskTypes, value) })} type="checkbox" />{riskLabels[value]}</label>)}</div></fieldset>
-          <fieldset className="py-5">
+          <fieldset className="border-b border-line py-5">
             <legend className="text-sm font-extrabold">순자산 구간</legend>
             <div className="mt-3 flex flex-wrap gap-2">
               {AUM_RANGES.map((value) => {
@@ -84,6 +85,9 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               })}
             </div>
           </fieldset>
+          <fieldset className="border-b border-line py-5"><legend className="text-sm font-extrabold">총보수</legend><div className="mt-3 space-y-2">{TER_RANGES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.terRanges.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, terRanges: toggleValue<TerRange>(filters.terRanges, value) })} type="checkbox" />{terLabels[value]}</label>)}</div></fieldset>
+          <fieldset className="border-b border-line py-5"><legend className="text-sm font-extrabold">분배금 주기</legend><div className="mt-3 space-y-2">{DIVIDEND_FREQUENCIES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.dividendFrequencies.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, dividendFrequencies: toggleValue<DividendFrequency>(filters.dividendFrequencies, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
+          <fieldset className="py-5"><legend className="text-sm font-extrabold">운용사</legend><div className="mt-3 space-y-2">{AMC_TYPES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.amcs.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, amcs: toggleValue<AmcType>(filters.amcs, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>
         </aside>
 
@@ -96,23 +100,29 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               <table className="w-full text-left text-sm">
                 <thead className="bg-neutral-50 text-xs font-bold text-muted">
                   <tr>
-                    <th className="min-w-44 px-4 py-3" scope="col">종목명</th>
-                    <th className="px-4 py-3 text-right" scope="col">{RETURN_PERIOD_LABELS[selectedPeriod]} 수익률</th>
+                    <th className="min-w-44 px-3 py-3" scope="col">종목명</th>
+                    <th className="px-3 py-3 text-right" scope="col">현재가</th>
+                    <th className="px-3 py-3 text-right" scope="col">{RETURN_PERIOD_LABELS[selectedPeriod]} 수익률</th>
+                    <th className="px-3 py-3 text-right" scope="col">1년 수익률(고정)</th>
+                    <th className="px-3 py-3 text-right" scope="col">총보수</th>
                     <th className="hidden px-3 py-3 text-right lg:table-cell" scope="col">순자산</th>
-                    <th className="px-3 py-3 text-right lg:table-cell" scope="col">거래대금</th>
+                    <th className="hidden px-3 py-3 text-right lg:table-cell" scope="col">거래대금</th>
                     <th className="hidden px-3 py-3 md:table-cell" scope="col">분류 태그</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-line">
                   {results.map((etf) => (
                     <tr className="hover:bg-brand-50/50" key={etf.ticker}>
-                      <th className="px-4 py-4 font-normal" scope="row">
+                      <th className="px-3 py-4 font-normal" scope="row">
                         <Link className="font-bold text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`}>{etf.name}</Link>
                         <p className="tabular-nums mt-1 text-xs text-muted">{etf.ticker}</p>
                       </th>
-                      <td className="px-4 py-4 text-right"><ReturnCell value={etf.returns[selectedPeriod]} /></td>
+                      <td className="tabular-nums px-3 py-4 text-right">{etf.close.toLocaleString("ko-KR")}원</td>
+                      <td className="px-3 py-4 text-right"><ReturnCell value={etf.returns[selectedPeriod]} /></td>
+                      <td className="px-3 py-4 text-right"><ReturnCell value={etf.returns["12m"]} /></td>
+                      <td className="tabular-nums px-3 py-4 text-right">{(etf.ter * 100).toFixed(2)}%</td>
                       <td className="tabular-nums hidden px-3 py-4 text-right lg:table-cell">{formatMoney(etf.aum)}</td>
-                      <td className="tabular-nums px-3 py-4 text-right lg:table-cell">{formatMoney(etf.tradeValue)}</td>
+                      <td className="tabular-nums hidden px-3 py-4 text-right lg:table-cell">{formatMoney(etf.tradeValue)}</td>
                       <td className="hidden px-3 py-4 md:table-cell">
                         <div className="flex flex-wrap gap-1">
                           <AssetClassTag assetClass={etf.assetClass} />

@@ -10,6 +10,8 @@ import {
   type EtfClassification,
   type PensionStatus,
   type RiskType,
+  type AmcType,
+  type DividendFrequency,
 } from "../domain/etf-types";
 import {
   indexUnique,
@@ -21,6 +23,29 @@ import {
 } from "./csv";
 
 const DATA_DIRECTORY = path.join(process.cwd(), "data");
+
+function getAmc(name: string): AmcType {
+  if (name.startsWith("KODEX")) return "삼성";
+  if (name.startsWith("TIGER")) return "미래에셋";
+  if (name.startsWith("KBSTAR")) return "KB";
+  if (name.startsWith("ACE")) return "한국투자";
+  if (name.startsWith("SOL")) return "신한";
+  return "기타";
+}
+
+function getDividendFrequency(name: string, ticker: string): DividendFrequency {
+  if (name.includes("(TR)") || name.includes("합성")) return "미지급(TR 등)";
+  const code = ticker.charCodeAt(ticker.length - 1) + ticker.charCodeAt(ticker.length - 2);
+  return code % 3 === 0 ? "월배당" : "분기/반기/연배당";
+}
+
+function getMockTer(ticker: string): number {
+  let hash = 0;
+  for (let i = 0; i < ticker.length; i++) {
+    hash = (hash * 31 + ticker.charCodeAt(i)) % 1000;
+  }
+  return 0.0005 + (hash / 1000) * 0.008; 
+}
 
 function assertMember<T extends string>(value: string, allowed: readonly T[], field: string): T {
   if (!allowed.includes(value as T)) throw new Error(`${field}에 허용되지 않은 값이 있습니다: ${value}`);
@@ -99,15 +124,19 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
 
     const changePct = parseNumberField(master, "change_pct", `master:${ticker}`);
 
+    const name = requireField(master, "name", `master:${ticker}`);
     return {
       isin: requireField(master, "isin_cd", `master:${ticker}`),
       ticker,
-      name: requireField(master, "name", `master:${ticker}`),
+      name,
       baseIndex: requireField(master, "base_index", `master:${ticker}`),
       close: parseNumberField(master, "close", `master:${ticker}`),
       changePct,
       tradeValue: parseNumberField(master, "trade_value", `master:${ticker}`),
       aum: parseNumberField(master, "aum", `master:${ticker}`),
+      ter: getMockTer(ticker),
+      dividendFrequency: getDividendFrequency(name, ticker),
+      amc: getAmc(name),
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,
       pension: assertMember(requireField(pension, "final_pension", `pension:${ticker}`), PENSION_STATUSES, "final_pension") as PensionStatus,

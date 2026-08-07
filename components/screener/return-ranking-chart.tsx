@@ -35,24 +35,20 @@ export function ReturnRankingChart({
           <p className="mt-1 text-xs text-muted">선택한 조건 내에서 {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률이 가장 높은 5개 종목입니다.</p>
         </div>
         
-        {/* 기간 선택 컨트롤러 (가로 스크롤 칩) */}
-        <div className="scrollbar-none flex -mx-1 overflow-x-auto px-1 pb-1">
-          <div className="flex gap-1.5 rounded-xl bg-neutral-100 p-1">
+        {/* 기간 선택 컨트롤러 (Select 드롭다운) */}
+        <div className="shrink-0">
+          <select
+            value={selectedPeriod}
+            onChange={(e) => onPeriodChange(e.target.value as ReturnPeriod)}
+            className="block w-full rounded-lg border border-line bg-white py-1.5 pl-3 pr-8 text-sm font-bold text-strong focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 sm:w-auto"
+            aria-label="차트 기간 선택"
+          >
             {GENERAL_RETURN_PERIODS.map((period) => (
-              <button
-                key={period}
-                type="button"
-                onClick={() => onPeriodChange(period)}
-                className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
-                  selectedPeriod === period 
-                    ? "bg-white text-brand-700 shadow-sm ring-1 ring-black/5" 
-                    : "text-muted hover:bg-neutral-200/50 hover:text-strong"
-                }`}
-              >
+              <option key={period} value={period}>
                 {RETURN_PERIOD_LABELS[period]}
-              </button>
+              </option>
             ))}
-          </div>
+          </select>
         </div>
       </div>
       

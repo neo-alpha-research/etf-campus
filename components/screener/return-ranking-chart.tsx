@@ -1,10 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
+import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS, RETURN_PERIODS } from "@/lib/domain/etf-types";
 import { formatReturn } from "@/lib/domain/etf-format";
-
-const ALLOWED_PERIODS: ReturnPeriod[] = ["1d", "1w", "1m", "3m", "6m", "12m", "24m", "36m", "itd"];
 
 export function ReturnRankingChart({ 
   etfs, 
@@ -39,7 +37,7 @@ export function ReturnRankingChart({
         {/* 기간 선택 컨트롤러 (가로 스크롤 칩) */}
         <div className="scrollbar-none flex -mx-1 overflow-x-auto px-1 pb-1">
           <div className="flex gap-1.5 rounded-xl bg-neutral-100 p-1">
-            {ALLOWED_PERIODS.map((period) => (
+            {RETURN_PERIODS.map((period) => (
               <button
                 key={period}
                 type="button"

@@ -11,8 +11,8 @@ export const AUM_SCOPES = ["1000plus", "500plus", "all"] as const;
 export const SORT_KEYS = ["return", "tradeValue", "aum", "listingDate"] as const;
 export const SORT_DIRECTIONS = ["desc", "asc"] as const;
 
-export const GENERAL_RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m"] as const satisfies readonly ReturnPeriod[];
-export const NEW_RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "itd"] as const satisfies readonly ReturnPeriod[];
+export const GENERAL_RETURN_PERIODS = [...RETURN_PERIODS] as const satisfies readonly ReturnPeriod[];
+export const NEW_RETURN_PERIODS = [...RETURN_PERIODS] as const satisfies readonly ReturnPeriod[];
 
 export type InvestorMode = (typeof INVESTOR_MODES)[number];
 export type AumScope = (typeof AUM_SCOPES)[number];

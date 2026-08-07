@@ -7,7 +7,7 @@ import { AsOfDate, AssetClassTag, PensionBadge, ReturnCell, RiskBadge } from "@/
 import { ReturnRankingChart } from "./return-ranking-chart";
 import { formatMoney } from "@/lib/domain/etf-format";
 import { AUM_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type AumRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
-import { ASSET_CLASSES, RISK_TYPES, type AssetClass, type Etf, type RiskType } from "@/lib/domain/etf-types";
+import { ASSET_CLASSES, RISK_TYPES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type ReturnPeriod } from "@/lib/domain/etf-types";
 
 const riskLabels: Record<RiskType, string> = { normal: "일반", leverage: "레버리지", inverse: "인버스" };
 const aumLabels: Record<AumRange, string> = { under100: "100억원 미만", "100to500": "100억~500억원", "500plus": "500억원 이상" };
@@ -19,6 +19,7 @@ function toggleValue<T>(values: readonly T[], value: T): T[] {
 export function Screener({ etfs }: { etfs: Etf[] }) {
   const [filters, setFilters] = useState<ScreenerFilters>(DEFAULT_SCREENER_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");
 
   useEffect(() => {
     const syncFromUrl = () => setFilters(parseScreenerQuery(new URLSearchParams(window.location.search)));
@@ -33,7 +34,17 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     window.history.replaceState(null, "", `${window.location.pathname}${query ? `?${query}` : ""}`);
   };
 
-  const results = useMemo(() => filterEtfs(etfs, filters).sort((a, b) => b.tradeValue - a.tradeValue), [etfs, filters]);
+  const results = useMemo(() => {
+    return filterEtfs(etfs, filters).sort((a, b) => {
+      const returnA = a.returns[selectedPeriod] ?? -Infinity;
+      const returnB = b.returns[selectedPeriod] ?? -Infinity;
+      if (returnA !== returnB) {
+        return returnB - returnA; // Descending return
+      }
+      return b.tradeValue - a.tradeValue; // Fallback
+    });
+  }, [etfs, filters, selectedPeriod]);
+  
   const activeCount = Number(filters.pensionOnly) + filters.assetClasses.length + filters.riskTypes.length + filters.aumRanges.length;
 
   return (
@@ -77,11 +88,44 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         </aside>
 
         <section aria-labelledby="results-title" className="min-w-0">
-          <ReturnRankingChart etfs={results} />
+          <ReturnRankingChart etfs={results} selectedPeriod={selectedPeriod} onPeriodChange={setSelectedPeriod} />
           <div className="flex items-center justify-between gap-3"><h2 className="text-lg font-extrabold" id="results-title">검색 결과 <span className="tabular-nums text-brand-700">{results.length.toLocaleString("ko-KR")}</span></h2>{etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}</div>
-          <p className="mt-2 text-xs font-semibold text-muted">수익률: 1개월 가격 기준·분배금 미포함 · 거래대금순</p>
-          <div className="mt-4 overflow-hidden rounded-2xl border border-line"><div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead className="bg-neutral-50 text-xs font-bold text-muted"><tr><th className="min-w-44 px-4 py-3" scope="col">종목명</th><th className="px-3 py-3 text-right" scope="col">등락률</th><th className="px-4 py-3 text-right" scope="col">1개월 수익률</th><th className="hidden px-3 py-3 text-right lg:table-cell" scope="col">순자산</th><th className="hidden px-3 py-3 md:table-cell" scope="col">분류</th><th className="hidden px-4 py-3 md:table-cell" scope="col">연금</th></tr></thead>
-          <tbody className="divide-y divide-line">{results.map((etf) => <tr className="hover:bg-brand-50/50" key={etf.ticker}><th className="px-4 py-4 font-normal" scope="row"><Link className="font-bold text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`}>{etf.name}</Link><p className="tabular-nums mt-1 text-xs text-muted">{etf.ticker}</p></th><td className="px-3 py-4 text-right"><ReturnCell value={etf.changePct} /></td><td className="px-4 py-4 text-right"><ReturnCell value={etf.returns["1m"]} /></td><td className="tabular-nums hidden px-3 py-4 text-right lg:table-cell">{formatMoney(etf.aum)}</td><td className="hidden px-3 py-4 md:table-cell"><div className="flex flex-wrap gap-1"><AssetClassTag assetClass={etf.assetClass} /><RiskBadge riskType={etf.riskType} /></div></td><td className="hidden px-4 py-4 md:table-cell"><PensionBadge status={etf.pension} /></td></tr>)}</tbody></table></div></div>
+          <p className="mt-2 text-xs font-semibold text-muted">수익률: {RETURN_PERIOD_LABELS[selectedPeriod]} 기준 · 분배금 미포함</p>
+          <div className="mt-4 overflow-hidden rounded-2xl border border-line">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-neutral-50 text-xs font-bold text-muted">
+                  <tr>
+                    <th className="min-w-44 px-4 py-3" scope="col">종목명</th>
+                    <th className="px-4 py-3 text-right" scope="col">{RETURN_PERIOD_LABELS[selectedPeriod]} 수익률</th>
+                    <th className="hidden px-3 py-3 text-right lg:table-cell" scope="col">순자산</th>
+                    <th className="px-3 py-3 text-right lg:table-cell" scope="col">거래대금</th>
+                    <th className="hidden px-3 py-3 md:table-cell" scope="col">분류 태그</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line">
+                  {results.map((etf) => (
+                    <tr className="hover:bg-brand-50/50" key={etf.ticker}>
+                      <th className="px-4 py-4 font-normal" scope="row">
+                        <Link className="font-bold text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`}>{etf.name}</Link>
+                        <p className="tabular-nums mt-1 text-xs text-muted">{etf.ticker}</p>
+                      </th>
+                      <td className="px-4 py-4 text-right"><ReturnCell value={etf.returns[selectedPeriod]} /></td>
+                      <td className="tabular-nums hidden px-3 py-4 text-right lg:table-cell">{formatMoney(etf.aum)}</td>
+                      <td className="tabular-nums px-3 py-4 text-right lg:table-cell">{formatMoney(etf.tradeValue)}</td>
+                      <td className="hidden px-3 py-4 md:table-cell">
+                        <div className="flex flex-wrap gap-1">
+                          <AssetClassTag assetClass={etf.assetClass} />
+                          <RiskBadge riskType={etf.riskType} />
+                          <PensionBadge status={etf.pension} />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </section>
       </div>
     </main>

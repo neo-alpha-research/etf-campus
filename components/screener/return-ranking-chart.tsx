@@ -1,33 +1,65 @@
 "use client";
 
 import Link from "next/link";
-import { type Etf } from "@/lib/domain/etf-types";
+import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
 import { formatReturn } from "@/lib/domain/etf-format";
 
-export function ReturnRankingChart({ etfs }: { etfs: readonly Etf[] }) {
-  // 1년 수익률(12m)이 있는 종목만 필터링하고 내림차순 정렬하여 상위 5개 추출
+const ALLOWED_PERIODS: ReturnPeriod[] = ["1d", "1w", "1m", "3m", "6m", "12m", "24m", "36m", "itd"];
+
+export function ReturnRankingChart({ 
+  etfs, 
+  selectedPeriod, 
+  onPeriodChange 
+}: { 
+  etfs: readonly Etf[]; 
+  selectedPeriod: ReturnPeriod;
+  onPeriodChange: (period: ReturnPeriod) => void;
+}) {
+  // 선택된 기간 수익률이 있는 종목만 필터링하고 내림차순 정렬하여 상위 5개 추출
   const top10 = [...etfs]
-    .filter((etf) => etf.returns["12m"] !== null)
-    .sort((a, b) => (b.returns["12m"] as number) - (a.returns["12m"] as number))
+    .filter((etf) => etf.returns[selectedPeriod] !== null)
+    .sort((a, b) => (b.returns[selectedPeriod] as number) - (a.returns[selectedPeriod] as number))
     .slice(0, 5);
 
   if (top10.length === 0) return null;
 
   // 가장 큰 절대 수익률을 기준으로 막대 최대 너비(100%) 비율 계산
-  const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns["12m"] as number)), 1);
+  const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns[selectedPeriod] as number)), 1);
 
   return (
     <section aria-labelledby="ranking-chart-title" className="mb-8 overflow-hidden rounded-2xl border border-line bg-surface p-5 md:p-6 shadow-sm">
-      <div className="mb-6">
-        <h2 id="ranking-chart-title" className="text-lg font-extrabold text-strong">
-          1년 수익률 상위 TOP 5
-        </h2>
-        <p className="mt-1 text-xs text-muted">선택한 필터 조건 내에서 최근 1년 수익률이 가장 높은 5개 종목입니다.</p>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h2 id="ranking-chart-title" className="text-lg font-extrabold text-strong">
+            수익률 상위 TOP 5
+          </h2>
+          <p className="mt-1 text-xs text-muted">선택한 조건 내에서 {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률이 가장 높은 5개 종목입니다.</p>
+        </div>
+        
+        {/* 기간 선택 컨트롤러 (가로 스크롤 칩) */}
+        <div className="scrollbar-none flex -mx-1 overflow-x-auto px-1 pb-1">
+          <div className="flex gap-1.5 rounded-xl bg-neutral-100 p-1">
+            {ALLOWED_PERIODS.map((period) => (
+              <button
+                key={period}
+                type="button"
+                onClick={() => onPeriodChange(period)}
+                className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
+                  selectedPeriod === period 
+                    ? "bg-white text-brand-700 shadow-sm ring-1 ring-black/5" 
+                    : "text-muted hover:bg-neutral-200/50 hover:text-strong"
+                }`}
+              >
+                {RETURN_PERIOD_LABELS[period]}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
       
       <div className="space-y-4">
         {top10.map((etf, index) => {
-          const ret = etf.returns["12m"] as number;
+          const ret = etf.returns[selectedPeriod] as number;
           const widthPct = Math.max((Math.abs(ret) / maxAbsReturn) * 100, 1); // 최소 1% 너비
           const isPositive = ret > 0;
           

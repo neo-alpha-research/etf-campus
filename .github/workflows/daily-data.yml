@@ -5,21 +5,22 @@ on:
     # Retry ladder on the morning AFTER each trading day (KST), so the prior
     # close lands as early as the official feed publishes it. The first run
     # that finds new data commits; later runs that day exit early as no-ops.
-    # Minute :07 avoids the on-the-hour congestion that delays GitHub schedules.
+    # On-the-hour slots are the most congested on GitHub, so any single run may
+    # fire late; the ladder is what absorbs that.
     #
     #   UTC (cron)      KST (local)          covers
-    #   Mon-Fri 21:07   Tue-Sat 06:07        previous trading day close
-    #   Mon-Fri 22:07   Tue-Sat 07:07
-    #   Mon-Fri 23:07   Tue-Sat 08:07
-    #   Tue-Sat 00:07   Tue-Sat 09:07
-    #   Tue-Sat 02:07   Tue-Sat 11:07
-    #   Tue-Sat 04:07   Tue-Sat 13:07        safety net
-    - cron: "7 21 * * 1-5"
-    - cron: "7 22 * * 1-5"
-    - cron: "7 23 * * 1-5"
-    - cron: "7 0 * * 2-6"
-    - cron: "7 2 * * 2-6"
-    - cron: "7 4 * * 2-6"
+    #   Mon-Fri 21:00   Tue-Sat 06:00        previous trading day close
+    #   Mon-Fri 22:00   Tue-Sat 07:00
+    #   Mon-Fri 23:00   Tue-Sat 08:00
+    #   Tue-Sat 00:00   Tue-Sat 09:00
+    #   Tue-Sat 02:00   Tue-Sat 11:00
+    #   Tue-Sat 04:00   Tue-Sat 13:00        safety net
+    - cron: "0 21 * * 1-5"
+    - cron: "0 22 * * 1-5"
+    - cron: "0 23 * * 1-5"
+    - cron: "0 0 * * 2-6"
+    - cron: "0 2 * * 2-6"
+    - cron: "0 4 * * 2-6"
   workflow_dispatch:
     inputs:
       target:
@@ -113,3 +114,16 @@ jobs:
           git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification
           git commit -m "data: refresh ETF snapshot"
           git push
+
+      # A run can end green while the site quietly serves stale prices: if the
+      # feed has not published, the collector falls back to the previous close
+      # and reports no change. After the last rung of the ladder there is no
+      # excuse left, so one missed trading day fails the job. GitHub emails the
+      # repository owner when a scheduled workflow fails, which is the alert.
+      #
+      # Weekday market holidays live in data/market_holidays.txt. The first
+      # unlisted holiday will trip this check once; add the date and it is
+      # accurate again.
+      - name: Assert data freshness
+        if: github.event.schedule == '0 4 * * 2-6'
+        run: python scripts/check_data_freshness.py

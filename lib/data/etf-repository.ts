@@ -128,6 +128,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
         "12m": parseNullableNumber(returns, "r_12m", `returns:${ticker}`),
         "24m": parseOptionalNullableNumber(returns, "r_24m", `returns:${ticker}`),
         "36m": parseOptionalNullableNumber(returns, "r_36m", `returns:${ticker}`),
+        itd: parseOptionalNullableNumber(returns, "r_itd", `returns:${ticker}`),
       },
       isNew90d: returns.new_90d === undefined || returns.new_90d === "" ? null : returns.new_90d === "Y",
       isNew3m: returns.new_3m === "Y",

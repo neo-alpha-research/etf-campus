@@ -10,7 +10,7 @@ export const ASSET_CLASSES = [
 
 export const RISK_TYPES = ["normal", "leverage", "inverse"] as const;
 export const PENSION_STATUSES = ["가능", "불가", "확인중"] as const;
-export const RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "ytd", "12m", "24m", "36m"] as const;
+export const RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "ytd", "12m", "24m", "36m", "itd"] as const;
 
 export const RETURN_PERIOD_LABELS = {
   "1d": "1일",
@@ -24,6 +24,7 @@ export const RETURN_PERIOD_LABELS = {
   "12m": "1년",
   "24m": "2년",
   "36m": "3년",
+  itd: "상장 후(ITD)",
 } as const;
 
 export type AssetClass = (typeof ASSET_CLASSES)[number];

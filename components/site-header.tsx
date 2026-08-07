@@ -15,11 +15,11 @@ const navigation = [
 ] as const;
 
 const finderNavigation = [
-  { href: "/?mode=general", label: "일반 계좌" },
-  { href: "/?mode=pension", label: "연금 계좌" },
-  { href: "/?mode=derivatives", label: "레버리지·인버스" },
-  { href: "/?mode=new", label: "신규 상장" },
-  { href: "/screener", label: "상세 스크리너" },
+  { href: "/", label: "종합 ETF 랭킹" },
+  { href: "/quick?mode=general", label: "일반 계좌" },
+  { href: "/quick?mode=pension", label: "연금 계좌" },
+  { href: "/quick?mode=derivatives", label: "레버리지·인버스" },
+  { href: "/quick?mode=new", label: "신규 상장" },
 ] as const;
 
 export function SiteHeader() {
@@ -28,7 +28,7 @@ export function SiteHeader() {
   const activeMode = searchParams.get("mode") ?? "general";
 
   const isPrimaryActive = (href: string) => {
-    if (href.startsWith("/?")) return pathname === "/" || pathname === "/screener";
+    if (href.startsWith("/?")) return pathname === "/" || pathname === "/quick";
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
@@ -61,14 +61,14 @@ export function SiteHeader() {
           <span className="mr-2 shrink-0 border-r border-brand-200 pr-4 text-xs font-extrabold tracking-[0.06em] text-brand-800">계좌·상품 유형</span>
           {finderNavigation.map((item) => {
             let active = false;
-            if (item.href.startsWith("/?")) {
+            if (item.href.startsWith("/quick?")) {
               const mode = new URL(item.href, "https://local.invalid").searchParams.get("mode");
-              active = pathname === "/" && activeMode === mode;
+              active = pathname === "/quick" && activeMode === mode;
             } else {
               active = pathname === item.href;
             }
             const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`;
-            return item.href.startsWith("/?")
+            return item.href.startsWith("/quick?")
               ? <a aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</a>
               : <Link aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</Link>;
           })}

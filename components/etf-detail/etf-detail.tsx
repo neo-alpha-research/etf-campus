@@ -54,7 +54,7 @@ export function EtfDetail({ etf }: { etf: Etf }) {
 
   return (
     <main className="page-shell flex-1 py-8 sm:py-12">
-      <Link className="text-sm font-bold text-brand-700" href="/?mode=general">← ETF 찾기</Link>
+      <Link className="text-sm font-bold text-brand-700" href="/">← 목록으로 돌아가기</Link>
       <div className="mt-7 flex flex-col gap-5 border-b border-line pb-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="tabular-nums text-sm font-bold text-muted">{etf.ticker} · {etf.isin}</p>

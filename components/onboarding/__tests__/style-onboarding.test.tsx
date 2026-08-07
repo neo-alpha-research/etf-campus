@@ -34,8 +34,8 @@ describe("StyleOnboarding", () => {
 
     expect(screen.getByRole("heading", { name: "원칙을 지키는 거북이" })).toBeInTheDocument();
     expect(screen.getByText("5가지 탐색 축")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "연금 계좌에서 ETF 찾기" })).toHaveAttribute("href", "/?mode=pension");
-    expect(screen.getByRole("link", { name: "일반 계좌에서 ETF 찾기" })).toHaveAttribute("href", "/?mode=general");
+    expect(screen.getByRole("link", { name: "연금 계좌에서 ETF 찾기" })).toHaveAttribute("href", "/quick?mode=pension");
+    expect(screen.getByRole("link", { name: "일반 계좌에서 ETF 찾기" })).toHaveAttribute("href", "/quick?mode=general");
     expect(screen.getByRole("link", { name: "내 스타일 가이드 보기" })).toHaveAttribute("href", "/guides?style=turtle");
 
     const stored = JSON.parse(localStorage.getItem(STYLE_STORAGE_KEY)!);

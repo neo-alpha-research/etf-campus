@@ -348,14 +348,14 @@ export function StyleOnboarding() {
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               <Link
                 className="rounded-xl bg-brand-700 px-5 py-3 text-center text-sm font-extrabold text-white"
-                href="/?mode=pension"
+                href="/quick?mode=pension"
                 onClick={() => setOpenIntent(false)}
               >
                 연금 계좌에서 ETF 찾기
               </Link>
               <Link
                 className="rounded-xl border border-brand-300 bg-brand-50 px-5 py-3 text-center text-sm font-extrabold text-brand-800"
-                href="/?mode=general"
+                href="/quick?mode=general"
                 onClick={() => setOpenIntent(false)}
               >
                 일반 계좌에서 ETF 찾기

@@ -148,7 +148,7 @@ describe("Dashboard", () => {
   });
 
   it("신규 상장은 2주와 상장 후 ITD를 표시하고 3개월은 제외한다", async () => {
-    window.history.replaceState(null, "", "/?mode=new");
+    window.history.replaceState(null, "", "/quick?mode=new");
     render(<Dashboard etfs={items} />);
     await waitFor(() => expect(screen.getByRole("heading", { name: "상장 후 90일 이내 신규 ETF" })).toBeInTheDocument());
     expect(screen.getByRole("button", { name: "2주" })).toBeInTheDocument();

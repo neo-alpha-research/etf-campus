@@ -268,7 +268,7 @@ function rankingTable(section, universe, siteUrl) {
           <p class="eyebrow">${escapeHtml(section.label)}</p>
           <h3>1주 가격수익률 상위 5</h3>
         </div>
-        <a class="text-link" href="${escapeHtml(siteUrl)}/?mode=${mode}&scope=1000plus&period=1w&sort=return&direction=desc">전체 보기</a>
+        <a class="text-link" href="${escapeHtml(siteUrl)}/quick?mode=${mode}&scope=1000plus&period=1w&sort=return&direction=desc">전체 보기</a>
       </div>
       <div class="table-wrap">
         <table>
@@ -375,7 +375,7 @@ export function renderNewsletterHtml(model, options = {}) {
       <section class="cta">
         <h2>전체 ETF를 직접 정렬해 보세요</h2>
         <p>기간·계좌·순자산 기준을 바꿔 전체 목록을 확인할 수 있습니다.</p>
-        <a class="button" href="${escapeHtml(siteUrl)}/?mode=general&scope=1000plus&period=1w&sort=return&direction=desc">ETF 캠퍼스에서 보기</a>
+        <a class="button" href="${escapeHtml(siteUrl)}/quick?mode=general&scope=1000plus&period=1w&sort=return&direction=desc">ETF 캠퍼스에서 보기</a>
       </section>
 
       <div class="method">

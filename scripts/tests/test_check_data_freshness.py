@@ -58,6 +58,33 @@ class LoadHolidaysTest(TestCase):
                 load_holidays(path)
 
 
+class ShippedHolidayFileTest(TestCase):
+    """Guard the checked-in calendar against typos on the yearly update."""
+
+    PATH = Path("data/market_holidays.txt")
+
+    def test_parses_and_contains_no_weekend_entries(self) -> None:
+        holidays = load_holidays(self.PATH)
+        self.assertTrue(holidays, "휴장일 목록이 비어 있습니다.")
+        weekend = sorted(
+            d for d in holidays
+            if date(int(d[:4]), int(d[4:6]), int(d[6:])).weekday() >= 5
+        )
+        # Weekends are excluded automatically; listing one signals a wrong date.
+        self.assertEqual(weekend, [], f"주말 날짜가 섞여 있습니다: {weekend}")
+
+    def test_covers_the_2026_lunar_new_year_and_chuseok_closures(self) -> None:
+        holidays = load_holidays(self.PATH)
+        for expected in ("20260216", "20260217", "20260218", "20260924", "20260925"):
+            self.assertIn(expected, holidays)
+
+    def test_treats_2026_chuseok_monday_as_a_trading_day(self) -> None:
+        # 2026 추석 연휴는 토요일과만 겹쳐 대체공휴일이 없다.
+        holidays = load_holidays(self.PATH)
+        self.assertNotIn("20260928", holidays)
+        self.assertEqual(latest_trading_day(date(2026, 9, 29), holidays), date(2026, 9, 28))
+
+
 class ReadBasDtTest(TestCase):
     def test_reads_the_first_row(self) -> None:
         with TemporaryDirectory() as tmp:

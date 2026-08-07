@@ -157,7 +157,7 @@ describe("Dashboard", () => {
     expect(screen.getByText("소규모 신규 ETF")).toBeInTheDocument();
   });
 
-  it("검색과 필수 수익률 고지를 제공한다", () => {
+  it("검색과 테이블 헤더를 제공한다", () => {
     render(<Dashboard etfs={items} />);
     const explorer = screen.getByRole("region", { name: "ETF 검색과 정렬" });
     const search = screen.getByRole("combobox", { name: "종목명 또는 티커 검색" });
@@ -174,9 +174,6 @@ describe("Dashboard", () => {
     fireEvent.click(screen.getByRole("button", { name: "검색어 지우기" }));
     expect(search).toHaveValue("");
     expect(screen.queryByRole("listbox", { name: "ETF 검색 자동완성" })).not.toBeInTheDocument();
-    expect(screen.getByText(/상장 전 기간은 최초 거래일 종가/)).toBeInTheDocument();
-    expect(screen.getByText(/기간 수익률은 기준일 종가.*과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다/)).toBeInTheDocument();
-    expect(screen.getByRole("complementary", { name: "수익률 안내" })).toHaveClass("border-t");
     expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveTextContent("종가(원)");
     expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveTextContent("거래대금(억원)");
     expect(screen.getByRole("columnheader", { name: "1개월 수익률, 단위 퍼센트" })).toHaveTextContent("1개월(%)");

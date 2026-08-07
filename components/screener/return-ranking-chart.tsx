@@ -58,10 +58,6 @@ export function ReturnRankingChart({ etfs }: { etfs: readonly Etf[] }) {
         })}
       </div>
       
-      <div className="mt-6 border-t border-line pt-4 text-[11px] leading-5 text-muted">
-        <p>※ 과거 수익률은 미래 수익을 보장하지 않으며 추천이 아닙니다.</p>
-        <p>※ 수익률: 1년 수익률, 가격 기준·분배금 미포함</p>
-      </div>
     </section>
   );
 }

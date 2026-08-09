@@ -20,8 +20,6 @@ export function ReturnRankingChart({
     .sort((a, b) => (b.returns[selectedPeriod] as number) - (a.returns[selectedPeriod] as number))
     .slice(0, 5);
 
-  if (top10.length === 0) return null;
-
   // 가장 큰 절대 수익률을 기준으로 막대 최대 너비(100%) 비율 계산
   const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns[selectedPeriod] as number)), 1);
 
@@ -52,39 +50,44 @@ export function ReturnRankingChart({
         </div>
       </div>
       
-      <div className="space-y-2">
-        {top10.map((etf, index) => {
-          const ret = etf.returns[selectedPeriod] as number;
-          const widthPct = Math.max((Math.abs(ret) / maxAbsReturn) * 100, 1); // 최소 1% 너비
-          const isPositive = ret > 0;
-          
-          return (
-            <div key={etf.ticker} className="flex items-center gap-3 md:gap-4">
-              <div className="w-6 shrink-0 text-center text-sm font-bold text-muted md:w-8">
-                {index + 1}
-              </div>
-              <div className="w-28 shrink-0 truncate sm:w-40">
-                <Link href={`/etf/${etf.ticker}`} className="text-sm font-bold text-strong hover:text-brand-700">
-                  {etf.name}
-                </Link>
-                <div className="mt-0.5 text-[10px] text-muted">{etf.ticker}</div>
-              </div>
-              <div className="flex-1">
-                <div className="flex h-4 items-center md:h-5">
-                  <div
-                    className={`h-full rounded-sm transition-all duration-500 ${isPositive ? "bg-brand-500" : "bg-neutral-300"}`}
-                    style={{ width: `${widthPct}%` }}
-                  />
-                  <span className={`ml-2 whitespace-nowrap text-xs font-bold tabular-nums ${isPositive ? "text-rise" : ret < 0 ? "text-fall" : "text-muted"}`}>
-                    {formatReturn(ret)}
-                  </span>
+      {top10.length > 0 ? (
+        <div className="space-y-2">
+          {top10.map((etf, index) => {
+            const ret = etf.returns[selectedPeriod] as number;
+            const widthPct = Math.max((Math.abs(ret) / maxAbsReturn) * 100, 1); // 최소 1% 너비
+            const isPositive = ret > 0;
+            
+            return (
+              <div key={etf.ticker} className="flex items-center gap-3 md:gap-4">
+                <div className="w-6 shrink-0 text-center text-sm font-bold text-muted md:w-8">
+                  {index + 1}
+                </div>
+                <div className="w-28 shrink-0 truncate sm:w-40">
+                  <Link href={`/etf/${etf.ticker}`} className="text-sm font-bold text-strong hover:text-brand-700">
+                    {etf.name}
+                  </Link>
+                  <div className="mt-0.5 text-[10px] text-muted">{etf.ticker}</div>
+                </div>
+                <div className="flex-1">
+                  <div className="flex h-4 items-center md:h-5">
+                    <div
+                      className={`h-full rounded-sm transition-all duration-500 ${isPositive ? "bg-brand-500" : "bg-neutral-300"}`}
+                      style={{ width: `${widthPct}%` }}
+                    />
+                    <span className={`ml-2 whitespace-nowrap text-xs font-bold tabular-nums ${isPositive ? "text-rise" : ret < 0 ? "text-fall" : "text-muted"}`}>
+                      {formatReturn(ret)}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-      
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex h-32 items-center justify-center rounded-xl border border-dashed border-line bg-neutral-50">
+          <p className="text-sm font-semibold text-muted">해당 기간의 수익률 데이터가 없습니다.</p>
+        </div>
+      )}
     </section>
   );
 }

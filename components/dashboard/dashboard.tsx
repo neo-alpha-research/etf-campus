@@ -302,20 +302,26 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
         </div>
 
         <div className="mt-3 grid gap-2 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-start">
-          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
             {state.mode !== "new" ? (
-              <div className="flex shrink-0 flex-wrap items-center gap-1.5">
-                <span className="whitespace-nowrap text-xs font-extrabold text-strong">순자산 기준</span>
-                <div aria-label="순자산 목록 범위" className="flex rounded-xl bg-surface p-0.5 shadow-sm" role="group">
-                  {scopeOptions.map((option) => <button aria-pressed={state.scope === option.value} className={`min-h-10 rounded-lg px-2 py-1.5 text-sm font-bold transition-colors ${state.scope === option.value ? "bg-brand-700 text-white" : "text-muted hover:text-strong"}`} key={option.value} onClick={() => setExplorerState({ scope: option.value })} type="button">{option.label}</button>)}
-                </div>
-              </div>
+              <label className="flex items-center gap-2 text-xs font-bold text-strong">
+                순자산 기준
+                <select className="min-h-10 rounded-lg border border-line bg-surface px-2 py-1 text-sm font-semibold text-strong" onChange={(e) => setExplorerState({ scope: e.target.value as AumScope })} value={state.scope}>
+                  {scopeOptions.map((option) => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                  ))}
+                </select>
+              </label>
             ) : <span className="w-fit shrink-0 rounded-full bg-brand-100 px-3 py-2 text-xs font-extrabold text-brand-800">0~90일 · 규모 제한 없음</span>}
             <span aria-hidden="true" className="hidden h-7 w-px shrink-0 bg-line sm:block" />
-            <div aria-label="수익률 기간" className="scrollbar-none flex min-w-0 items-center gap-0.5 overflow-x-auto" role="group">
-              <span className="mr-1 shrink-0 text-xs font-bold text-muted">기간</span>
-              {periods.map((period) => <button aria-pressed={normalizedPeriod === period} className={`min-h-10 shrink-0 rounded-lg px-2 py-2 text-xs font-bold ${normalizedPeriod === period ? "bg-brand-100 text-brand-800" : "text-muted hover:bg-surface"}`} key={period} onClick={() => setExplorerState({ period })} type="button">{RETURN_PERIOD_LABELS[period]}</button>)}
-            </div>
+            <label className="flex items-center gap-2 text-xs font-bold text-muted">
+              기간
+              <select className="min-h-10 rounded-lg border border-line bg-surface px-2 py-1 text-sm font-semibold text-strong" onChange={(e) => setExplorerState({ period: e.target.value as any })} value={normalizedPeriod}>
+                {periods.map((period) => (
+                  <option key={period} value={period}>{RETURN_PERIOD_LABELS[period]}</option>
+                ))}
+              </select>
+            </label>
           </div>
           <div className="ml-auto flex flex-wrap items-center justify-end gap-2 xl:self-start">
             <label className="flex items-center gap-2 text-xs font-semibold text-muted">정렬
@@ -334,7 +340,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               aria-controls="etf-filter-panel"
               aria-expanded={filtersOpen}
               className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border-2 border-brand-700 bg-brand-700 px-3.5 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-brand-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"
-              onClick={() => setFiltersOpen(true)}
+              onClick={() => setFiltersOpen(!filtersOpen)}
               type="button"
             >
               <svg aria-hidden="true" className="size-4" fill="none" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4" stroke="currentColor" strokeLinecap="round" strokeWidth="2" /></svg>

@@ -114,7 +114,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                   {results.map((etf) => (
                     <tr className="hover:bg-brand-50/50" key={etf.ticker}>
                       <th className="px-3 py-4 font-normal" scope="row">
-                        <Link className="font-bold text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`}>{etf.name}</Link>
+                        <Link className="break-all whitespace-normal font-bold text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`}>{etf.name}</Link>
                         <p className="tabular-nums mt-1 text-xs text-muted">{etf.ticker}</p>
                       </th>
                       <td className="tabular-nums px-3 py-4 text-right">{etf.close.toLocaleString("ko-KR")}원</td>

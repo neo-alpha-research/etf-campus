@@ -87,7 +87,7 @@ describe("Dashboard", () => {
 
     expect(nameHeader).toHaveClass("w-[192px]", "text-center");
     classificationHeaders.forEach((header) => expect(header).toHaveClass("text-center"));
-    expect(nameLink).toHaveClass("line-clamp-2", "break-all", "whitespace-normal", "text-left", "text-[12px]");
+    expect(nameLink).toHaveClass("line-clamp-2", "break-all", "whitespace-normal", "text-left", "text-[13px]");
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
   });
 
@@ -109,7 +109,7 @@ describe("Dashboard", () => {
     const closeHeader = screen.getByRole("columnheader", { name: "종가, 단위 원" });
     const oneMonthHeader = screen.getByRole("columnheader", { name: "1개월 수익률, 단위 퍼센트" });
 
-    expect(closeHeader).toHaveClass("sticky", "top-[40px]");
+    expect(closeHeader).toHaveClass("sticky", "top-[32px]");
     expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-bold", "text-neutral-700");
     expect(closeHeader).toHaveClass("text-center");
     expect(oneMonthHeader).toHaveClass("text-center");

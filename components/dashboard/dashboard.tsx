@@ -397,20 +397,20 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             <thead className="hidden border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-bold text-neutral-700 md:table-header-group">
               {/* 1단 그룹 헤더 */}
               <tr className="border-b border-neutral-200">
-                <th className="sticky top-0 z-30 h-[40px] bg-neutral-100 px-2 py-0 text-center" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
-                <th className="sticky top-0 z-20 h-[40px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">수익률</th>
-                <th className="sticky top-0 z-20 h-[40px] bg-neutral-100 px-2 py-0 text-center border-l border-neutral-200" colSpan={costSizePriceColSpan} scope="colgroup">비용·규모·가격</th>
+                <th className="sticky top-0 z-30 h-[32px] bg-neutral-100 px-2 py-0 text-center" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
+                <th className="sticky top-0 z-20 h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">수익률</th>
+                <th className="sticky top-0 z-20 h-[32px] bg-neutral-100 px-2 py-0 text-center border-l border-neutral-200" colSpan={costSizePriceColSpan} scope="colgroup">비용·규모·가격</th>
               </tr>
               {/* 2단 세부 헤더 */}
               <tr className="text-[12px]">
-                <th className="sticky top-[40px] z-30 w-[56px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col" style={{ left: 0 }}>종목코드</th>
-                <th className="sticky top-[40px] z-30 w-[192px] h-[48px] bg-neutral-100 px-2 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col" style={{ left: 56 }}>종목명</th>
-                {isDeriv ? <th className="sticky top-[40px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">유형</th> : null}
-                {isNew ? <th className="sticky top-[40px] z-20 w-[56px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col">상장일</th> : null}
-                <th className="sticky top-[40px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">지역</th>
-                <th className="sticky top-[40px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">자산</th>
-                <th className="sticky top-[40px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">환헤지</th>
-                {!isPension && !isDeriv ? <th className="sticky top-[40px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">연금</th> : null}
+                <th className="sticky top-[32px] z-30 w-[56px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col" style={{ left: 0 }}>종목코드</th>
+                <th className="sticky top-[32px] z-30 w-[192px] h-[48px] bg-neutral-100 px-2 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col" style={{ left: 56 }}>종목명</th>
+                {isDeriv ? <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">유형</th> : null}
+                {isNew ? <th className="sticky top-[32px] z-20 w-[56px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col">상장일</th> : null}
+                <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">지역</th>
+                <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">자산</th>
+                <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">환헤지</th>
+                {!isPension && !isDeriv ? <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">연금</th> : null}
                 
                 {periods.map((period, index) => {
                   const isYtd = period === "ytd" || period === "itd";
@@ -418,17 +418,17 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                   const borderL = isYtd ? 'border-l-2 border-neutral-200' : index === 0 ? 'border-l border-neutral-200' : '';
                   const bg = normalizedPeriod === period && !isYtd ? "bg-brand-100 text-brand-900" : isYtd ? "bg-neutral-100/60" : "bg-neutral-50";
                   return (
-                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`sticky top-[40px] z-20 h-[48px] px-0.5 py-0 text-center ${borderL} ${bg}`} key={period} scope="col" style={{ width: `${width}px` }}>
+                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`sticky top-[32px] z-20 h-[48px] px-0.5 py-0 text-center ${borderL} ${bg}`} key={period} scope="col" style={{ width: `${width}px` }}>
                       <UnitHeaderLabel label={RETURN_PERIOD_LABELS[period]} unit="%" />
                     </th>
                   );
                 })}
                 
-                <th aria-label="총보수, 단위 퍼센트" className="sticky top-[40px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
-                <th aria-label="순자산, 단위 억원" className="sticky top-[40px] z-20 w-[64px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
-                <th aria-label="거래대금, 단위 억원" className="sticky top-[40px] z-20 w-[62px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
+                <th aria-label="총보수, 단위 퍼센트" className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
+                <th aria-label="순자산, 단위 억원" className="sticky top-[32px] z-20 w-[64px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
+                <th aria-label="거래대금, 단위 억원" className="sticky top-[32px] z-20 w-[62px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
                 
-                <th aria-label="종가, 단위 원" className="sticky top-[40px] z-20 w-[54px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
+                <th aria-label="종가, 단위 원" className="sticky top-[32px] z-20 w-[54px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line text-[12px]">
@@ -438,7 +438,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 if (!etf) return null;
                 const fields = getClassificationFields(etf);
                 return (
-                  <tr className="transition-colors hover:bg-neutral-50" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
+                  <tr className="transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
                     {/* 모바일 종목명 (이제 아래 공용 th를 사용하므로 삭제) */}
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right font-semibold tabular-nums md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
@@ -447,7 +447,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     {/* 데스크톱용 셀들 */}
                     <td className="tabular-nums hidden w-[56px] px-0 py-2 text-center text-[12px] font-normal text-muted bg-surface md:sticky md:table-cell md:z-10" style={{ left: 0 }}>{etf.ticker}</td>
                     <th className="w-[192px] bg-surface px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5] md:sticky md:z-10" scope="row" style={{ left: 56 }}>
-                      <Link className="line-clamp-2 break-all whitespace-normal text-left text-[12px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
+                      <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
                     </th>
                     
                     {isDeriv ? <td className="hidden px-0.5 py-2 text-center md:table-cell">{fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}</td> : null}
@@ -466,7 +466,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     {periods.map((period, index) => {
                       const isYtd = period === "ytd" || period === "itd";
                       const borderL = isYtd ? 'border-l-2 border-neutral-100' : index === 0 ? 'border-l border-neutral-100' : '';
-                      const bg = normalizedPeriod === period ? "bg-brand-50/60" : "";
+                      const bg = normalizedPeriod === period ? "bg-brand-50/80" : "";
                       return (
                         <td className={`hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell ${borderL} ${bg}`} key={period}>
                           <ReturnCell showUnit={false} value={etf.returns[period]} />

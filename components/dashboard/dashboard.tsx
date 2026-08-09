@@ -178,9 +178,8 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
   const productInfoColSpan = isGeneral ? 6 : isPension ? 5 : isDeriv ? 6 : isNew ? 7 : 6;
   const returnsColSpan = periods.length;
-  const costSizeColSpan = 3;
-  const priceColSpan = 1;
-  const desktopColumnCount = productInfoColSpan + returnsColSpan + costSizeColSpan + priceColSpan;
+  const costSizePriceColSpan = 4;
+  const desktopColumnCount = productInfoColSpan + returnsColSpan + costSizePriceColSpan;
 
   const tableWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -368,7 +367,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           <table className="w-full border-collapse text-left text-sm md:min-w-[1140px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             {/* 명시적 열 너비 제어 */}
             <colgroup className="hidden md:table-column-group">
-              <col style={{ width: 40 }} />
+              <col style={{ width: 56 }} />
               <col style={{ width: 192 }} />
               {isDeriv ? <col style={{ width: 40 }} /> : null}
               {isNew ? <col style={{ width: 40 }} /> : null}
@@ -400,13 +399,12 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               <tr className="border-b border-neutral-200">
                 <th className="sticky top-0 z-30 h-[40px] bg-neutral-100 px-2 py-0 text-center" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
                 <th className="sticky top-0 z-20 h-[40px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">수익률</th>
-                <th className="sticky top-0 z-20 h-[40px] bg-neutral-100 px-2 py-0 text-center border-l border-neutral-200" colSpan={costSizeColSpan} scope="colgroup">비용·규모</th>
-                <th className="sticky top-0 z-20 h-[40px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={priceColSpan} scope="colgroup">가격</th>
+                <th className="sticky top-0 z-20 h-[40px] bg-neutral-100 px-2 py-0 text-center border-l border-neutral-200" colSpan={costSizePriceColSpan} scope="colgroup">비용·규모·가격</th>
               </tr>
               {/* 2단 세부 헤더 */}
               <tr className="text-[12px]">
-                <th className="sticky top-[40px] z-30 w-[48px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col" style={{ left: 0 }}>종목코드</th>
-                <th className="sticky top-[40px] z-30 w-[192px] h-[48px] bg-neutral-100 px-2 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col" style={{ left: 48 }}>종목명</th>
+                <th className="sticky top-[40px] z-30 w-[56px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col" style={{ left: 0 }}>종목코드</th>
+                <th className="sticky top-[40px] z-30 w-[192px] h-[48px] bg-neutral-100 px-2 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col" style={{ left: 56 }}>종목명</th>
                 {isDeriv ? <th className="sticky top-[40px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">유형</th> : null}
                 {isNew ? <th className="sticky top-[40px] z-20 w-[56px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col">상장일</th> : null}
                 <th className="sticky top-[40px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">지역</th>
@@ -430,7 +428,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th aria-label="순자산, 단위 억원" className="sticky top-[40px] z-20 w-[64px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
                 <th aria-label="거래대금, 단위 억원" className="sticky top-[40px] z-20 w-[62px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
                 
-                <th aria-label="종가, 단위 원" className="sticky top-[40px] z-20 w-[54px] h-[48px] bg-neutral-50 px-0 py-0 text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
+                <th aria-label="종가, 단위 원" className="sticky top-[40px] z-20 w-[54px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line text-[12px]">
@@ -447,8 +445,8 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     <td className="tabular-nums px-2 py-4 text-right text-xs text-muted font-semibold md:hidden">{(etf.ter * 100).toFixed(2)}</td>
                     
                     {/* 데스크톱용 셀들 */}
-                    <td className="tabular-nums hidden w-[48px] px-0 py-2 text-center text-[12px] font-normal text-muted bg-surface md:sticky md:table-cell md:z-10" style={{ left: 0 }}>{etf.ticker}</td>
-                    <th className="w-[192px] bg-surface px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5] md:sticky md:z-10" scope="row" style={{ left: 48 }}>
+                    <td className="tabular-nums hidden w-[56px] px-0 py-2 text-center text-[12px] font-normal text-muted bg-surface md:sticky md:table-cell md:z-10" style={{ left: 0 }}>{etf.ticker}</td>
+                    <th className="w-[192px] bg-surface px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5] md:sticky md:z-10" scope="row" style={{ left: 56 }}>
                       <Link className="line-clamp-2 break-all whitespace-normal text-left text-[12px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
                     </th>
                     

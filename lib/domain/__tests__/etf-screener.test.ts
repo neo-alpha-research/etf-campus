@@ -26,18 +26,22 @@ describe("ETF 스크리너", () => {
   });
 
   it("자산군·위험유형·순자산 구간을 함께 적용한다", () => {
-    const result = filterEtfs(items, { pensionOnly: false, assetClasses: ["채권"], riskTypes: ["inverse"], aumRanges: ["100to500"] });
+    const result = filterEtfs(items, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, assetClasses: ["채권"], riskTypes: ["inverse"], aumScope: "all" });
     expect(result.map((item) => item.ticker)).toEqual(["B"]);
   });
 
   it("복수 선택 필터를 URL 쿼리로 왕복한다", () => {
-    const filters = { pensionOnly: true, assetClasses: ["채권", "주식-국내"] as const, riskTypes: ["normal"] as const, aumRanges: ["under100", "500plus"] as const };
-    const query = serializeScreenerQuery(filters);
-    expect(query).toBe("pension=eligible&asset=%EC%B1%84%EA%B6%8C&asset=%EC%A3%BC%EC%8B%9D-%EA%B5%AD%EB%82%B4&risk=normal&aum=under100&aum=500plus");
-    expect(parseScreenerQuery(new URLSearchParams(query))).toEqual(filters);
+    const filters = { ...DEFAULT_SCREENER_FILTERS, assetClasses: ["주식-해외", "채권"] as const, riskTypes: ["normal", "leverage"] as const };
+    const queryString = serializeScreenerQuery(filters);
+    const query = new URLSearchParams(queryString);
+    expect(query.getAll("asset")).toEqual(["주식-해외", "채권"]);
+    expect(parseScreenerQuery(query)).toEqual(filters);
   });
 
   it("알 수 없는 쿼리 값은 무시한다", () => {
-    expect(parseScreenerQuery(new URLSearchParams("asset=unknown&risk=other&aum=bad"))).toEqual(DEFAULT_SCREENER_FILTERS);
+    const query = new URLSearchParams("asset=주식-해외&asset=unknown&risk=unknown");
+    const filters = parseScreenerQuery(query);
+    expect(filters.assetClasses).toEqual(["주식-해외"]);
+    expect(filters.riskTypes).toEqual([]);
   });
 });

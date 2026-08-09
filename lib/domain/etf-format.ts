@@ -5,8 +5,8 @@ export function getValueTone(value: number | null): ValueTone {
   return value > 0 ? "rise" : "fall";
 }
 
-export function formatReturn(value: number | null): string {
-  if (value === null) return "-";
+export function formatReturn(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "-";
   const sign = value > 0 ? "+" : "";
   return `${sign}${value.toFixed(2)}%`;
 }

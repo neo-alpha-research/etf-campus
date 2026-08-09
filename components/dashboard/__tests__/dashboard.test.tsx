@@ -45,9 +45,9 @@ describe("Dashboard", () => {
     expect(screen.getByRole("combobox", { name: "순자산 기준" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-right");
-    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-right");
-    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-right");
+    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-center");
     expect(screen.getByRole("columnheader", { name: "1일 수익률, 단위 퍼센트" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
     expect(screen.getByText("30.0")).toBeInTheDocument();
@@ -85,9 +85,9 @@ describe("Dashboard", () => {
     const classificationHeaders = ["지역", "자산", "환헤지", "연금"].map((name) => screen.getByRole("columnheader", { name }));
     const nameLink = screen.getByRole("link", { name: "대형 일반 ETF" });
 
-    expect(nameHeader).toHaveClass("min-w-[150px]", "text-center");
-    classificationHeaders.forEach((header) => expect(header).toHaveClass("w-[4%]"));
-    expect(nameLink).toHaveClass("break-all", "whitespace-normal", "text-left", "text-[13px]");
+    expect(nameHeader).toHaveClass("w-[192px]", "text-center");
+    classificationHeaders.forEach((header) => expect(header).toHaveClass("text-center"));
+    expect(nameLink).toHaveClass("line-clamp-2", "break-all", "whitespace-normal", "text-left", "text-[13px]");
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
   });
 
@@ -97,11 +97,11 @@ describe("Dashboard", () => {
     const mobileChangeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ }).find((cell) => cell.classList.contains("md:hidden"));
     const desktopChangeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ }).find((cell) => cell.classList.contains("md:table-cell"));
 
-    expect(nameCell).toHaveClass("py-2.5");
+    expect(nameCell).toHaveClass("py-2");
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toHaveClass("whitespace-normal");
-    expect(desktopChangeCell).toHaveClass("py-2.5");
+    expect(desktopChangeCell).toHaveClass("py-2");
     expect(mobileChangeCell).toHaveClass("py-4");
-    expect(screen.getByRole("cell", { name: "국내" })).toHaveClass("py-2.5");
+    expect(screen.getByRole("cell", { name: "국내" })).toHaveClass("py-2");
   });
 
   it("표 헤더를 고정하고 단위를 두 번째 줄에 표시한다", () => {
@@ -109,10 +109,10 @@ describe("Dashboard", () => {
     const closeHeader = screen.getByRole("columnheader", { name: "종가, 단위 원" });
     const oneMonthHeader = screen.getByRole("columnheader", { name: "1개월 수익률, 단위 퍼센트" });
 
-    expect(closeHeader).toHaveClass("sticky", "top-[37px]");
-    expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-extrabold", "text-neutral-700");
-    expect(closeHeader).toHaveClass("text-right");
-    expect(oneMonthHeader).toHaveClass("text-right");
+    expect(closeHeader).toHaveClass("sticky", "top-[40px]");
+    expect(closeHeader.closest("thead")).toHaveClass("text-[14px]", "font-bold", "text-neutral-700");
+    expect(closeHeader).toHaveClass("text-center");
+    expect(oneMonthHeader).toHaveClass("text-center");
     expect(within(closeHeader).getByText("(원)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
     expect(within(oneMonthHeader).getByText("(%)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
   });

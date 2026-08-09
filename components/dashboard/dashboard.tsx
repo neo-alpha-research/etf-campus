@@ -200,7 +200,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const virtualRows = rowVirtualizer.getVirtualItems();
   const virtualPaddingTop = virtualRows.length > 0 ? virtualRows[0].start - tableScrollMargin : 0;
   const virtualPaddingBottom = virtualRows.length > 0 ? rowVirtualizer.getTotalSize() - virtualRows[virtualRows.length - 1].end : 0;
-  const tableColumnCount = 4 + 3 + (state.mode === "new" ? 1 : 0) + periods.length + 3 + 1;
+  const tableColumnCount = 5 + 3 + (state.mode === "new" ? 1 : 0) + periods.length + 3 + 1;
 
   const clearFilters = () => setExplorerState({ assetClasses: [], riskTypes: [] });
 
@@ -371,6 +371,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="sticky top-0 z-20 w-[150px] min-w-[150px] max-w-[150px] bg-neutral-100 px-2 py-3 text-center md:left-0" scope="col">종목명</th>
                 <th className="sticky top-0 z-10 w-24 bg-neutral-100 px-2 py-3 text-center md:hidden" scope="col">등락률</th>
                 <th className="sticky top-0 z-10 w-28 bg-neutral-100 px-4 py-3 text-center md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
+                <th aria-label="총보수, 단위 퍼센트" className="sticky top-0 z-10 w-16 bg-neutral-100 px-2 py-3 text-center md:hidden" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
                 <th aria-label="종가, 단위 원" className="sticky top-0 z-10 hidden w-[5%] whitespace-nowrap bg-neutral-100 px-0 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
                 <th aria-label="거래대금, 단위 억원" className="sticky top-0 z-10 hidden w-[6%] whitespace-nowrap bg-neutral-100 px-1 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
                 <th aria-label="순자산, 단위 억원" className="sticky top-0 z-10 hidden w-[6%] whitespace-nowrap bg-neutral-100 px-1 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
@@ -394,6 +395,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     <th className="w-[150px] min-w-[150px] max-w-[150px] bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
+                    <td className="tabular-nums px-2 py-4 text-right text-xs text-muted md:hidden">{(etf.ter * 100).toFixed(2)}</td>
                     <td className="tabular-nums hidden w-[5%] whitespace-nowrap px-0 py-2.5 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>
                     <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
                     <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell"><span className="flex w-full items-center justify-end gap-1.5"><span>{formatAumNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>

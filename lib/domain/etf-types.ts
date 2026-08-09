@@ -22,11 +22,11 @@ export const RETURN_PERIOD_LABELS = {
   "2m": "2개월",
   "3m": "3개월",
   "6m": "6개월",
-  "ytd": "YTD",
+  "ytd": "연초 후",
   "12m": "1년",
   "24m": "2년",
   "36m": "3년",
-  itd: "상장 후(ITD)",
+  itd: "상장 후",
 } as const;
 
 export type AssetClass = (typeof ASSET_CLASSES)[number];

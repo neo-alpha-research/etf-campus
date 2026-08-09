@@ -38,10 +38,11 @@ PERIODS = {
     "r_2m": ("months", 2),
     "r_3m": ("months", 3),
     "r_6m": ("months", 6),
+    "r_ytd": ("ytd", 0),
     "r_12m": ("months", 12),
 }
 AVAILABLE_HISTORY_PERIODS = {
-    "r_1d", "r_1w", "r_2w", "r_1m", "r_2m", "r_3m", "r_6m", "r_12m"
+    "r_1d", "r_1w", "r_2w", "r_1m", "r_2m", "r_3m", "r_6m", "r_ytd", "r_12m"
 }
 REQUEST_TIMEOUT_SECONDS = 15
 MAX_REQUEST_ATTEMPTS = 2
@@ -476,7 +477,15 @@ def main() -> None:
     anchors: dict[str, dict[str, dict]] = {}
     anchor_dates: dict[str, date] = {}
     for field, (unit, amount) in PERIODS.items():
-        target_day = as_of - timedelta(days=amount) if unit == "days" else subtract_months(as_of, amount)
+        if unit == "days":
+            target_day = as_of - timedelta(days=amount)
+        elif unit == "months":
+            target_day = subtract_months(as_of, amount)
+        elif unit == "ytd":
+            target_day = date(as_of.year - 1, 12, 31)
+        else:
+            raise ValueError(f"Unknown unit: {unit}")
+        
         anchor_dates[field] = target_day
         if source == "KRX Open API" and krx_auth_key:
             anchor_text, anchor = krx_on_or_before(

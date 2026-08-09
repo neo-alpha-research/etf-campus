@@ -82,7 +82,7 @@ export function getReturnPeriods(mode: InvestorMode): readonly ReturnPeriod[] {
 }
 
 export function getDefaultPeriod(mode: InvestorMode): ReturnPeriod {
-  return mode === "new" ? "1m" : "1d";
+  return "1d";
 }
 
 export function filterEtfsByMode(etfs: readonly Etf[], mode: InvestorMode): Etf[] {

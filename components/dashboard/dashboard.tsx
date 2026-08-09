@@ -201,9 +201,6 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const virtualPaddingTop = virtualRows.length > 0 ? virtualRows[0].start - tableScrollMargin : 0;
   const virtualPaddingBottom = virtualRows.length > 0 ? rowVirtualizer.getTotalSize() - virtualRows[virtualRows.length - 1].end : 0;
   const tableColumnCount = 4 + 3 + (state.mode === "new" ? 1 : 0) + periods.length + 3 + 1;
-  const listingDateColumnPercent = state.mode === "new" ? 8 : 0;
-  const otherColumnsPercent = 5 /* 종목코드 */ + 5 /* 종가 */ + listingDateColumnPercent + 6 /* 거래대금 */ + 6 /* 순자산 */ + 4 + 4 + 4 + 4 /* 지역·자산·환헤지·연금 */ + periods.length * 4.25;
-  const nameColumnWidth = `${100 - otherColumnsPercent}%`;
 
   const clearFilters = () => setExplorerState({ assetClasses: [], riskTypes: [] });
 
@@ -371,7 +368,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             <thead className="border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-extrabold text-neutral-700">
               <tr>
                 <th className="sticky top-0 z-10 hidden w-[5%] bg-neutral-100 px-0 py-3 text-center md:table-cell" scope="col">종목코드</th>
-                <th className="sticky top-0 z-20 min-w-[190px] bg-neutral-100 px-2 py-3 text-center md:left-0" scope="col" style={{ width: nameColumnWidth }}>종목명</th>
+                <th className="sticky top-0 z-20 w-[260px] min-w-[260px] max-w-[260px] bg-neutral-100 px-2 py-3 text-center md:left-0" scope="col">종목명</th>
                 <th className="sticky top-0 z-10 w-24 bg-neutral-100 px-2 py-3 text-center md:hidden" scope="col">등락률</th>
                 <th className="sticky top-0 z-10 w-28 bg-neutral-100 px-4 py-3 text-center md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
                 <th aria-label="종가, 단위 원" className="sticky top-0 z-10 hidden w-[5%] whitespace-nowrap bg-neutral-100 px-0 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
@@ -393,7 +390,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 return (
                   <tr className="transition-colors hover:bg-brand-50/50" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
                     <td className="tabular-nums hidden w-[5%] px-0 py-2.5 text-center text-xs text-muted md:table-cell">{etf.ticker}</td>
-                    <th className="max-w-0 bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row" style={{ width: nameColumnWidth }}><Link className="break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
+                    <th className="w-[260px] min-w-[260px] max-w-[260px] bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
                     <td className="tabular-nums hidden w-[5%] whitespace-nowrap px-0 py-2.5 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>

@@ -100,7 +100,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               <table className="w-full text-left text-sm">
                 <thead className="bg-neutral-50 text-xs font-bold text-muted">
                   <tr>
-                    <th className="min-w-44 px-3 py-3" scope="col">종목명</th>
+                    <th className="w-[260px] min-w-[260px] max-w-[260px] px-3 py-3" scope="col">종목명</th>
                     <th className="px-3 py-3 text-right" scope="col">현재가</th>
                     <th className="px-3 py-3 text-right" scope="col">{RETURN_PERIOD_LABELS[selectedPeriod]} 수익률</th>
                     <th className="px-3 py-3 text-right" scope="col">1년 수익률(고정)</th>
@@ -113,7 +113,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 <tbody className="divide-y divide-line">
                   {results.map((etf) => (
                     <tr className="hover:bg-brand-50/50" key={etf.ticker}>
-                      <th className="px-3 py-4 font-normal" scope="row">
+                      <th className="w-[260px] min-w-[260px] max-w-[260px] px-3 py-4 font-normal" scope="row">
                         <Link className="break-all whitespace-normal font-bold text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`}>{etf.name}</Link>
                         <p className="tabular-nums mt-1 text-xs text-muted">{etf.ticker}</p>
                       </th>

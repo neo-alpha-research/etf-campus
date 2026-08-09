@@ -67,13 +67,16 @@ describe("Dashboard", () => {
     expect(screen.getByLabelText("소규모 ETF: 순자산 100억원 미만")).toBeInTheDocument();
   });
 
-  it("일반 계좌에 2주를 포함하고 활용도가 낮은 2년과 3년을 제외한다", () => {
+  it("일반 계좌에 2주, 2년, 3년 수익률이 포함된다", () => {
+    const items = [
+      etf({ ticker: "000001", aum: 1100 }),
+    ];
     render(<Dashboard etfs={items} />);
     expect(screen.getByRole("option", { name: "2주" })).toBeInTheDocument();
-    expect(screen.queryByRole("option", { name: "2년" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("option", { name: "3년" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("columnheader", { name: "2년 수익률" })).not.toBeInTheDocument();
-    expect(screen.queryByRole("columnheader", { name: "3년 수익률" })).not.toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "2년" })).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "3년" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "2년 수익률, 단위 퍼센트" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "3년 수익률, 단위 퍼센트" })).toBeInTheDocument();
   });
 
   it("긴 종목명과 분류·연금 정보를 검색하기 쉽게 분리한다", () => {

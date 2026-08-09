@@ -26,8 +26,8 @@ export function ReturnRankingChart({
   const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns[selectedPeriod] as number)), 1);
 
   return (
-    <section aria-labelledby="ranking-chart-title" className="mb-8 overflow-hidden rounded-2xl border border-line bg-surface p-5 md:p-6 shadow-sm">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <section aria-labelledby="ranking-chart-title" className="mb-8 overflow-hidden rounded-2xl border border-line bg-surface p-4 md:p-5 shadow-sm">
+      <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 id="ranking-chart-title" className="text-lg font-extrabold text-strong">
             수익률 상위 TOP 5
@@ -52,7 +52,7 @@ export function ReturnRankingChart({
         </div>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-2">
         {top10.map((etf, index) => {
           const ret = etf.returns[selectedPeriod] as number;
           const widthPct = Math.max((Math.abs(ret) / maxAbsReturn) * 100, 1); // 최소 1% 너비
@@ -70,7 +70,7 @@ export function ReturnRankingChart({
                 <div className="mt-0.5 text-[10px] text-muted">{etf.ticker}</div>
               </div>
               <div className="flex-1">
-                <div className="flex h-5 items-center md:h-6">
+                <div className="flex h-4 items-center md:h-5">
                   <div
                     className={`h-full rounded-sm transition-all duration-500 ${isPositive ? "bg-brand-500" : "bg-neutral-300"}`}
                     style={{ width: `${widthPct}%` }}

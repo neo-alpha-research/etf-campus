@@ -6,11 +6,12 @@ import { useEffect, useMemo, useState } from "react";
 import { AsOfDate, AssetClassTag, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
 import { formatMoney } from "@/lib/domain/etf-format";
-import { AUM_RANGES, TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type AumRange, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
+import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
+import { AUM_SCOPES, type AumScope } from "@/lib/domain/etf-explorer";
 import { ASSET_CLASSES, RISK_TYPES, DIVIDEND_FREQUENCIES, AMC_TYPES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type DividendFrequency, type AmcType, type ReturnPeriod } from "@/lib/domain/etf-types";
 
 const riskLabels: Record<RiskType, string> = { normal: "일반", leverage: "레버리지", inverse: "인버스" };
-const aumLabels: Record<AumRange, string> = { under100: "100억원 미만", "100to500": "100억~500억원", "500plus": "500억원 이상" };
+const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억원 이상", "1000plus": "1,000억원 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
 
 function toggleValue<T>(values: readonly T[], value: T): T[] {
@@ -46,7 +47,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     });
   }, [etfs, filters, selectedPeriod]);
   
-  const activeCount = Number(filters.pensionOnly) + filters.assetClasses.length + filters.riskTypes.length + filters.aumRanges.length + filters.terRanges.length + filters.dividendFrequencies.length + filters.amcs.length;
+  const activeCount = Number(filters.pensionOnly) + filters.assetClasses.length + filters.riskTypes.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.dividendFrequencies.length + filters.amcs.length;
 
   return (
     <main className="page-shell flex-1 py-8 sm:py-12">
@@ -74,11 +75,11 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           <fieldset className="border-b border-line py-5">
             <legend className="text-sm font-extrabold">순자산 구간</legend>
             <div className="mt-3 flex flex-wrap gap-2">
-              {AUM_RANGES.map((value) => {
-                const isChecked = filters.aumRanges.includes(value);
+              {AUM_SCOPES.map((value) => {
+                const isChecked = filters.aumScope === value;
                 return (
                   <label key={value} className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line text-muted hover:bg-neutral-50"}`}>
-                    <input checked={isChecked} className="sr-only" onChange={() => updateFilters({ ...filters, aumRanges: toggleValue<AumRange>(filters.aumRanges, value) })} type="checkbox" />
+                    <input checked={isChecked} className="sr-only" onChange={() => updateFilters({ ...filters, aumScope: value })} type="radio" name="aumScope" />
                     {aumLabels[value]}
                   </label>
                 );

@@ -376,6 +376,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th aria-label="순자산, 단위 억원" className="sticky top-0 z-10 hidden w-[6%] whitespace-nowrap bg-neutral-100 px-1 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
                 {state.mode === "new" ? <th className="sticky top-0 z-10 hidden w-[8%] bg-neutral-100 px-3 py-3 text-center md:table-cell" scope="col">상장일</th> : null}
                 {periods.map((period) => <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`sticky top-0 z-10 hidden w-[4.25%] whitespace-nowrap px-0.5 py-2 text-center md:table-cell ${normalizedPeriod === period ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} key={period} scope="col"><UnitHeaderLabel label={RETURN_PERIOD_LABELS[period]} unit="%" /></th>)}
+                <th aria-label="총보수, 단위 퍼센트" className="sticky top-0 z-10 hidden w-[4.5%] whitespace-nowrap bg-neutral-100 px-0.5 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
                 <th className="sticky top-0 z-10 hidden w-[4%] whitespace-nowrap bg-neutral-100 px-0.5 py-3 text-center md:table-cell" scope="col">지역</th>
                 <th className="sticky top-0 z-10 hidden w-[4%] whitespace-nowrap bg-neutral-100 px-0.5 py-3 text-center md:table-cell" scope="col">자산</th>
                 <th className="sticky top-0 z-10 hidden w-[4%] whitespace-nowrap bg-neutral-100 px-0.5 py-3 text-center md:table-cell" scope="col">환헤지</th>
@@ -398,6 +399,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     <td className="tabular-nums hidden px-2 py-2.5 text-right md:table-cell"><span className="flex w-full items-center justify-end gap-1.5"><span>{formatAumNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
                     {state.mode === "new" ? <td className="tabular-nums hidden px-3 py-2.5 text-xs text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                     {periods.map((period) => <td className={`hidden px-1 py-2.5 text-center text-xs md:table-cell ${normalizedPeriod === period ? "bg-brand-50/60" : ""}`} key={period}><ReturnCell showUnit={false} value={etf.returns[period]} /></td>)}
+                    <td className="tabular-nums hidden px-1 py-2.5 text-center text-xs text-muted md:table-cell">{(etf.ter * 100).toFixed(2)}</td>
                     <ClassificationCells etf={etf} />
                     <td className="hidden px-1 py-2.5 text-center md:table-cell"><PensionBadge compact status={etf.pension} /></td>
                   </tr>

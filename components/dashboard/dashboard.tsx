@@ -368,7 +368,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             <thead className="border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-extrabold text-neutral-700">
               <tr>
                 <th className="sticky top-0 z-10 hidden w-[5%] bg-neutral-100 px-0 py-3 text-center md:table-cell" scope="col">종목코드</th>
-                <th className="sticky top-0 z-20 w-[200px] min-w-[200px] max-w-[200px] bg-neutral-100 px-2 py-3 text-center md:left-0" scope="col">종목명</th>
+                <th className="sticky top-0 z-20 w-[150px] min-w-[150px] max-w-[150px] bg-neutral-100 px-2 py-3 text-center md:left-0" scope="col">종목명</th>
                 <th className="sticky top-0 z-10 w-24 bg-neutral-100 px-2 py-3 text-center md:hidden" scope="col">등락률</th>
                 <th className="sticky top-0 z-10 w-28 bg-neutral-100 px-4 py-3 text-center md:hidden" scope="col">{RETURN_PERIOD_LABELS[normalizedPeriod]} 수익률</th>
                 <th aria-label="종가, 단위 원" className="sticky top-0 z-10 hidden w-[5%] whitespace-nowrap bg-neutral-100 px-0 py-2 text-center md:table-cell" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
@@ -390,7 +390,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 return (
                   <tr className="transition-colors hover:bg-brand-50/50" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
                     <td className="tabular-nums hidden w-[5%] px-0 py-2.5 text-center text-xs text-muted md:table-cell">{etf.ticker}</td>
-                    <th className="w-[200px] min-w-[200px] max-w-[200px] bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
+                    <th className="w-[150px] min-w-[150px] max-w-[150px] bg-surface px-2 py-2.5 text-left font-normal md:sticky md:left-0 md:z-[1]" scope="row"><Link className="break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link></th>
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
                     <td className="tabular-nums hidden w-[5%] whitespace-nowrap px-0 py-2.5 text-right font-semibold md:table-cell">{formatWonNumber(etf.close)}</td>

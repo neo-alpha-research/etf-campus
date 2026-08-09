@@ -366,6 +366,25 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           
           
           <table className="w-full border-collapse text-left text-sm md:min-w-[1240px] md:table-fixed"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
+            {/* 명시적 열 너비 제어 */}
+            <colgroup className="hidden md:table-column-group">
+              <col style={{ width: 54 }} />
+              <col style={{ width: 192 }} />
+              {isDeriv ? <col style={{ width: 48 }} /> : null}
+              {isNew ? <col style={{ width: 64 }} /> : null}
+              <col style={{ width: 42 }} />
+              <col style={{ width: 56 }} />
+              <col style={{ width: 48 }} />
+              {!isPension && !isDeriv ? <col style={{ width: 40 }} /> : null}
+              {periods.map((period) => (
+                <col key={period} style={{ width: period === "ytd" || period === "itd" ? 64 : 62 }} />
+              ))}
+              <col style={{ width: 46 }} />
+              <col style={{ width: 74 }} />
+              <col style={{ width: 70 }} />
+              <col style={{ width: 60 }} />
+            </colgroup>
+
             {/* 모바일 헤더 */}
             <thead className="border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-extrabold text-neutral-700 md:hidden">
               <tr>

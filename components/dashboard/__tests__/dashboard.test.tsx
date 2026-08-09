@@ -45,9 +45,9 @@ describe("Dashboard", () => {
     expect(screen.getByRole("combobox", { name: "순자산 기준" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-right");
+    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-right");
+    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-right");
     expect(screen.getByRole("columnheader", { name: "1일 수익률, 단위 퍼센트" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
     expect(screen.getByText("30.0")).toBeInTheDocument();
@@ -111,7 +111,8 @@ describe("Dashboard", () => {
 
     expect(closeHeader).toHaveClass("sticky", "top-0");
     expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-extrabold", "text-neutral-700");
-    screen.getAllByRole("columnheader").forEach((header) => expect(header).toHaveClass("text-center"));
+    expect(closeHeader).toHaveClass("text-right");
+    expect(oneMonthHeader).toHaveClass("text-right");
     expect(within(closeHeader).getByText("(원)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
     expect(within(oneMonthHeader).getByText("(%)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
   });

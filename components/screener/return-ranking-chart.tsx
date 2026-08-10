@@ -4,7 +4,9 @@ import Link from "next/link";
 import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
 import { formatReturn } from "@/lib/domain/etf-format";
 
-const RANKING_PERIODS: ReturnPeriod[] = ["1d", "1w", "1m", "3m", "12m"];
+import { GENERAL_RETURN_PERIODS } from "@/lib/domain/etf-explorer";
+
+const RANKING_PERIODS: ReturnPeriod[] = [...GENERAL_RETURN_PERIODS].filter(p => p !== "ytd");
 
 export function ReturnRankingChart({ 
   etfs, 
@@ -23,19 +25,18 @@ export function ReturnRankingChart({
   const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns[selectedPeriod] as number)), 1);
 
   return (
-    <section aria-labelledby="ranking-chart-title" className="mb-4 overflow-hidden rounded-xl border border-line bg-surface p-3 shadow-sm sm:p-4">
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <section aria-labelledby="ranking-chart-title" className="mb-4 overflow-hidden rounded-xl border border-line bg-surface p-2.5 shadow-sm sm:p-3">
+      <div className="mb-3 flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
         <div>
-          <h2 id="ranking-chart-title" className="text-lg font-extrabold text-strong">
+          <h2 id="ranking-chart-title" className="text-base font-extrabold text-strong">
             선택 조건 내 {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 TOP 5
           </h2>
-          <p className="mt-1 text-[11px] font-medium leading-relaxed text-muted sm:text-xs">
-            현재 필터를 통과한 ETF 안에서 선택 기간 가격수익률 기준으로 계산된 순위입니다.<br className="hidden sm:block"/>
-            (분배금 미포함, 투자 추천 아님)
+          <p className="text-[11px] font-medium leading-relaxed text-muted">
+            현재 필터를 통과한 ETF 안에서 선택 기간 가격수익률 기준으로 계산된 순위입니다. (분배금 미포함, 투자 추천 아님)
           </p>
         </div>
         
-        <div className="flex shrink-0 overflow-x-auto rounded-lg border border-line bg-neutral-50 p-1 sm:overflow-visible">
+        <div className="flex shrink-0 overflow-x-auto rounded-lg border border-line bg-neutral-50 p-0.5 scrollbar-none">
           {RANKING_PERIODS.map((period) => {
             const isActive = selectedPeriod === period;
             return (
@@ -44,7 +45,7 @@ export function ReturnRankingChart({
                 type="button"
                 onClick={() => onPeriodChange(period)}
                 aria-pressed={isActive}
-                className={`min-w-[48px] whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-bold transition-colors ${
+                className={`shrink-0 whitespace-nowrap rounded-md px-2.5 py-1 text-[11px] font-bold transition-colors ${
                   isActive ? "bg-white text-brand-700 shadow-sm" : "text-muted hover:text-strong"
                 }`}
               >
@@ -67,31 +68,31 @@ export function ReturnRankingChart({
               <Link 
                 key={etf.ticker} 
                 href={`/etf/${etf.ticker}`}
-                className="group flex items-center gap-2 rounded-lg p-1.5 transition-colors hover:bg-neutral-50"
+                className="group flex items-center gap-1.5 rounded-lg py-1 px-1.5 transition-colors hover:bg-neutral-50"
               >
-                <div className="w-5 shrink-0 text-center text-xs font-extrabold text-muted md:w-6">
+                <div className="w-4 shrink-0 text-center text-[11px] font-extrabold text-muted">
                   {index + 1}
                 </div>
-                <div className="flex w-[140px] shrink-0 flex-col justify-center sm:w-[180px]">
-                  <div className="truncate text-[13.5px] font-bold text-strong group-hover:text-brand-700">
+                <div className="flex w-[120px] shrink-0 flex-col justify-center sm:w-[150px]">
+                  <div className="truncate text-xs font-bold text-strong group-hover:text-brand-700">
                     {etf.name}
                   </div>
-                  <div className="mt-0.5 flex flex-wrap items-center gap-1 text-[10px] text-muted">
+                  <div className="mt-0.5 flex flex-wrap items-center gap-1 text-[9px] text-muted">
                     <span className="tabular-nums font-semibold">{etf.ticker}</span>
                     <span className="text-neutral-300">|</span>
                     <span className="truncate max-w-[60px] sm:max-w-[90px]">{etf.classification?.marketScope || etf.assetClass}</span>
                     {etf.pension === "가능" && (
-                      <span className="shrink-0 rounded-[4px] bg-brand-50 px-1 py-0.5 font-bold text-brand-700">연금O</span>
+                      <span className="shrink-0 rounded-[2px] bg-brand-50 px-0.5 font-bold text-brand-700">연금O</span>
                     )}
                   </div>
                 </div>
                 <div className="flex-1">
-                  <div className="flex h-3.5 items-center sm:h-4">
+                  <div className="flex h-2 items-center sm:h-2.5">
                     <div
                       className={`h-full rounded-sm transition-all duration-500 ${isPositive ? "bg-rise" : isZero ? "bg-neutral-300" : "bg-fall"}`}
                       style={{ width: `${widthPct}%` }}
                     />
-                    <span className={`ml-2 whitespace-nowrap text-xs font-bold tabular-nums ${isPositive ? "text-rise" : isZero ? "text-muted" : "text-fall"}`}>
+                    <span className={`ml-1.5 whitespace-nowrap text-[11px] font-bold tabular-nums ${isPositive ? "text-rise" : isZero ? "text-muted" : "text-fall"}`}>
                       {formatReturn(ret)}
                     </span>
                   </div>

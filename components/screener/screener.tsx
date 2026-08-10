@@ -7,7 +7,7 @@ import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf"
 import { ReturnRankingChart } from "./return-ranking-chart";
 import { formatMoney } from "@/lib/domain/etf-format";
 import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
-import { AUM_SCOPES, type AumScope } from "@/lib/domain/etf-explorer";
+import { AUM_SCOPES, GENERAL_RETURN_PERIODS, type AumScope } from "@/lib/domain/etf-explorer";
 import { ASSET_CLASSES, RISK_TYPES, DIVIDEND_FREQUENCIES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type DividendFrequency, type AmcType, type ReturnPeriod, type MarketScope, type Strategy, type FxHedge } from "@/lib/domain/etf-types";
 
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스" };
@@ -37,7 +37,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     const params = new URLSearchParams(window.location.search);
     setFilters(parseScreenerQuery(params));
     const p = params.get("period") as ReturnPeriod;
-    setSelectedPeriod(["1d", "1w", "1m", "3m", "12m"].includes(p) ? p : "1d");
+    setSelectedPeriod(GENERAL_RETURN_PERIODS.includes(p) ? p : "1d");
     const s = params.get("sort") as ScreenerSortKey;
     setSort(Object.keys(sortLabels).includes(s) ? s : "return");
   };

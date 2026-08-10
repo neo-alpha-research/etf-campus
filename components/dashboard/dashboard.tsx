@@ -394,7 +394,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               {isNew ? <col style={{ width: 80 }} /> : null}
               <col style={{ width: 36 }} />
               <col style={{ width: 56 }} />
-              <col style={{ width: 48 }} />
+              <col style={{ width: 40 }} />
               {!isPension && !isDeriv ? <col style={{ width: 36 }} /> : null}
               {periods.map((period) => (
                 <col key={period} style={{ width: period === "ytd" || period === "itd" ? 56 : 54 }} />
@@ -430,7 +430,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 {isNew ? <th className="sticky top-[32px] z-20 h-[48px] w-[80px] min-w-[80px] bg-neutral-100 px-1 py-0 text-center" scope="col">상장일</th> : null}
                 <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">지역</th>
                 <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">자산</th>
-                <th className="sticky top-[32px] z-20 w-[48px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">환헤지</th>
+                <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center text-[10px] tracking-tighter" scope="col">환헤지</th>
                 {!isPension && !isDeriv ? <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">연금</th> : null}
                 
                 {periods.map((period, index) => {

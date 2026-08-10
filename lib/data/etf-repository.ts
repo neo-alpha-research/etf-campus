@@ -36,7 +36,11 @@ function getAmc(name: string): AmcType {
 function getDividendFrequency(name: string, ticker: string): DividendFrequency {
   if (name.includes("(TR)") || name.includes("합성")) return "미지급(TR 등)";
   const code = ticker.charCodeAt(ticker.length - 1) + ticker.charCodeAt(ticker.length - 2);
-  return code % 3 === 0 ? "월배당" : "분기/반기/연배당";
+  const mod = code % 4;
+  if (mod === 0) return "월배당";
+  if (mod === 1) return "분기배당";
+  if (mod === 2) return "반기배당";
+  return "연배당";
 }
 
 function getMockTer(ticker: string): number {

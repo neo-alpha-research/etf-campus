@@ -523,10 +523,8 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1년</span>
                     </th>
                     
-                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">월배당</span>
-                    </th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
+
+                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>

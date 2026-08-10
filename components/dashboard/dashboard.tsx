@@ -397,12 +397,12 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               <col style={{ width: 40 }} />
               {!isPension && !isDeriv ? <col style={{ width: 36 }} /> : null}
               {periods.map((period) => (
-                <col key={period} style={{ width: 48 }} />
+                <col key={period} style={{ width: 54 }} />
               ))}
+              <col style={{ width: 48 }} />
+              <col style={{ width: 58 }} />
+              <col style={{ width: 66 }} />
               <col style={{ width: 46 }} />
-              <col style={{ width: 64 }} />
-              <col style={{ width: 62 }} />
-              <col style={{ width: 54 }} />
             </colgroup>
 
             {/* 모바일 헤더 */}
@@ -435,7 +435,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 
                 {periods.map((period, index) => {
                   const isYtd = period === "ytd" || period === "itd";
-                  const width = 48;
+                  const width = 54;
                   const borderL = isYtd ? 'border-l-2 border-neutral-200' : index === 0 ? 'border-l border-neutral-200' : '';
                   const bg = normalizedPeriod === period && !isYtd ? "bg-brand-100 text-brand-900" : isYtd ? "bg-neutral-100/60" : "bg-neutral-50";
                   return (
@@ -445,11 +445,19 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                   );
                 })}
                 
-                <th aria-label="총보수, 단위 퍼센트" className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
-                <th aria-label="순자산, 단위 억원" className="sticky top-[32px] z-20 w-[64px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
-                <th aria-label="거래대금, 단위 억원" className="sticky top-[32px] z-20 w-[62px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
+                <th aria-label="총보수, 단위 퍼센트" className="sticky top-[32px] z-20 w-[48px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center border-l border-neutral-200" scope="col">
+                  <span className="whitespace-nowrap text-[10px] tracking-tighter font-bold text-strong">총보수(%)</span>
+                </th>
+                <th aria-label="순자산, 단위 억원" className="sticky top-[32px] z-20 w-[58px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">
+                  <span className="whitespace-nowrap text-[10px] tracking-tighter font-bold text-strong">순자산(억원)</span>
+                </th>
+                <th aria-label="거래대금, 단위 억원" className="sticky top-[32px] z-20 w-[66px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">
+                  <span className="whitespace-nowrap text-[10px] tracking-tighter font-bold text-strong">거래대금(억원)</span>
+                </th>
                 
-                <th aria-label="종가, 단위 원" className="sticky top-[32px] z-20 w-[54px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
+                <th aria-label="종가, 단위 원" className="sticky top-[32px] z-20 w-[46px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">
+                  <span className="whitespace-nowrap text-[10px] tracking-tighter font-bold text-strong">종가(원)</span>
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line text-[12px]">

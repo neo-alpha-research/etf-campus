@@ -112,8 +112,6 @@ describe("Dashboard", () => {
     expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-bold", "text-neutral-700");
     expect(closeHeader).toHaveClass("text-center");
     expect(oneMonthHeader).toHaveClass("text-center");
-    expect(within(closeHeader).getByText("(원)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
-    expect(oneMonthHeader).toHaveClass("text-center");
   });
 
   it("환헤지 종목은 'O' 뱃지로 표시하고 미적용 종목은 비워둔다", () => {

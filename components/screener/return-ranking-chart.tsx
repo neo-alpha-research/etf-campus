@@ -117,7 +117,7 @@ export function ReturnRankingChart({
               </span>
             ) : (
               "전체 조건"
-            }{" — "}
+            )}{" — "}
             {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 {isTop ? "TOP 5" : "BOTTOM 5"}
           </h2>
         </div>

@@ -86,13 +86,24 @@ export function ReturnRankingChart({
           })}
         </div>
         <div className="flex items-center gap-2 ml-3">
-          <button
-            onClick={() => setIsTop(!isTop)}
-            className="shrink-0 flex items-center gap-1 rounded-lg bg-neutral-100 px-2.5 py-1.5 text-xs font-bold text-strong transition-colors hover:bg-neutral-200"
-            title={isTop ? "하위 5개 보기" : "상위 5개 보기"}
-          >
-            {isTop ? "📈 상위 5" : "📉 하위 5"}
-          </button>
+          <div className="flex shrink-0 items-center rounded-lg bg-neutral-100 p-1" role="group" aria-label="순위 방향 선택">
+            <button
+              onClick={() => setIsTop(true)}
+              className={`rounded-md px-2.5 py-1 text-[11px] font-bold transition-all ${
+                isTop ? "bg-white text-rise shadow-sm" : "text-muted hover:text-strong"
+              }`}
+            >
+              상위 5
+            </button>
+            <button
+              onClick={() => setIsTop(false)}
+              className={`rounded-md px-2.5 py-1 text-[11px] font-bold transition-all ${
+                !isTop ? "bg-white text-fall shadow-sm" : "text-muted hover:text-strong"
+              }`}
+            >
+              하위 5
+            </button>
+          </div>
           <button 
             onClick={handleDownload}
             className="shrink-0 flex items-center gap-1.5 rounded-lg bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"

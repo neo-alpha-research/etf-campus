@@ -13,11 +13,13 @@ const RANKING_PERIODS: ReturnPeriod[] = [...GENERAL_RETURN_PERIODS].filter(p => 
 export function ReturnRankingChart({ 
   etfs, 
   selectedPeriod, 
-  onPeriodChange 
+  onPeriodChange,
+  activeFilterLabels = []
 }: { 
   etfs: readonly Etf[]; 
   selectedPeriod: ReturnPeriod;
   onPeriodChange: (period: ReturnPeriod) => void;
+  activeFilterLabels?: string[];
 }) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [isCapturing, setIsCapturing] = useState(false);
@@ -94,7 +96,16 @@ export function ReturnRankingChart({
       <div ref={chartRef} className="bg-white p-3 sm:p-4">
         <div className="mb-4">
           <h2 id="ranking-chart-title" className="text-base font-extrabold tracking-tight text-strong sm:text-lg">
-            선택 조건 내 {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 TOP 5
+            {activeFilterLabels.length > 0 ? (
+              <span className="text-brand-700">
+                {activeFilterLabels.length <= 3 
+                  ? activeFilterLabels.join(", ") 
+                  : `${activeFilterLabels.slice(0, 3).join(", ")} 외 ${activeFilterLabels.length - 3}건`}
+              </span>
+            ) : (
+              "전체 조건"
+            )}{" "}
+            내 {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 TOP 5
           </h2>
           <p className="mt-1 text-xs font-medium leading-relaxed text-muted">
             현재 필터를 통과한 ETF 안에서 선택 기간 가격수익률 기준으로 계산된 순위입니다.

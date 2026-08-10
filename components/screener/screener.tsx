@@ -389,7 +389,12 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         </aside>
 
         <section aria-labelledby="results-title" className="min-w-0">
-          <ReturnRankingChart etfs={results} selectedPeriod={selectedPeriod} onPeriodChange={handlePeriodChange} />
+          <ReturnRankingChart 
+            etfs={results} 
+            selectedPeriod={selectedPeriod} 
+            onPeriodChange={handlePeriodChange} 
+            activeFilterLabels={activeFilters.map(f => f.label)}
+          />
           
           <div className="mt-8 mb-4 flex flex-col gap-4">
             <div className="flex flex-wrap items-center gap-2" aria-label="선택된 ETF 조건">

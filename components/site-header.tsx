@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { siteConfig } from "@/config/site";
 import { Tickery } from "@/components/brand/tickery";
@@ -25,10 +26,30 @@ const finderNavigation = [
 export function SiteHeader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const activeMode = searchParams.get("mode") ?? "general";
+
+  // Explicitly track active sub-tab href so highlighting updates
+  // immediately on both pathname and searchParam changes.
+  const [activeFinderHref, setActiveFinderHref] = useState(() => {
+    if (pathname === "/quick") {
+      const m = searchParams.get("mode") ?? "general";
+      return `/quick?mode=${m}`;
+    }
+    return "/";
+  });
+
+  useEffect(() => {
+    if (pathname === "/quick") {
+      const m = searchParams.get("mode") ?? "general";
+      setActiveFinderHref(`/quick?mode=${m}`);
+    } else if (pathname === "/") {
+      setActiveFinderHref("/");
+    }
+  }, [pathname, searchParams]);
+
+  const isEtfSection = pathname === "/" || pathname === "/quick";
 
   const isPrimaryActive = (href: string) => {
-    if (href.startsWith("/?")) return pathname === "/" || pathname === "/quick";
+    if (href.startsWith("/?")) return isEtfSection;
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
@@ -54,21 +75,15 @@ export function SiteHeader() {
           <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-lg px-3 py-2 ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted"}`} href={item.href} key={item.href}>{item.label}</Link>
         ))}
       </nav>
-      {isPrimaryActive("/?mode=general") ? (
+      {isEtfSection ? (
         <div className="border-t border-line bg-brand-50/55">
           <nav aria-label="ETF 찾기 메뉴" className="page-shell scrollbar-none flex items-center gap-2 overflow-x-auto py-3 text-sm">
             <span className="mr-2 shrink-0 border-r border-brand-200 pr-4 text-xs font-extrabold tracking-[0.06em] text-brand-800">ETF 탐색</span>
             {finderNavigation.map((item) => {
-              let active = false;
-              if (item.href.startsWith("/quick?")) {
-                const mode = new URL(item.href, "https://local.invalid").searchParams.get("mode");
-                active = pathname === "/quick" && activeMode === mode;
-              } else {
-                active = pathname === item.href;
-              }
+              const active = item.href === activeFinderHref;
               const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`;
               return (
-                <Link aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</Link>
+                <Link aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href} onClick={() => setActiveFinderHref(item.href)}>{item.label}</Link>
               );
             })}
           </nav>

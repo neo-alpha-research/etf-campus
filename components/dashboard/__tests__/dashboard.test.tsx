@@ -116,32 +116,31 @@ describe("Dashboard", () => {
     expect(oneMonthHeader).toHaveClass("text-center");
   });
 
-  it("환노출과 환헤지는 의미가 분명한 텍스트로 표시하고 부분·탄력 헤지는 유지한다", () => {
+  it("환헤지 종목은 'O' 뱃지로 표시하고 미적용 종목은 비워둔다", () => {
     const classification = (fxHedge: string) => ({
       published: true,
       marketScope: "미국",
       assetClass: "주식",
-      assetDetail: null,
-      strategy: null,
+      isSynthetic: false,
       fxHedge,
-      reviewStatus: "자동확정",
-      reviewPriority: "",
-      sourceUrl: null,
-      evidenceSummary: null,
+      theme: null,
+      capSize: null,
+      style: null,
     });
+
     render(<Dashboard etfs={[
-      etf({ ticker: "FX1", name: "환노출 ETF", classification: classification("환노출") }),
-      etf({ ticker: "FX2", name: "환헤지 ETF", classification: classification("환헤지") }),
-      etf({ ticker: "FX3", name: "부분헤지 ETF", classification: classification("부분 헤지") }),
+      etf({ ticker: "FX1", name: "환노출 ETF", classification: classification("노출") }),
+      etf({ ticker: "FX2", name: "환헤지 ETF", classification: classification("헤지") }),
+      etf({ ticker: "FX3", name: "부분헤지 ETF", classification: classification("부분") }),
       etf({ ticker: "FX4", name: "탄력헤지 ETF", classification: classification("탄력적 헤지") }),
     ]} />);
 
-    expect(screen.getByLabelText("환노출: 환헤지 없음")).toHaveTextContent("비헤지");
-    expect(screen.getByLabelText("환노출: 환헤지 없음")).toHaveClass("bg-neutral-100", "text-neutral-700");
-    expect(screen.getByLabelText("환헤지 적용")).toHaveTextContent("헤지");
-    expect(screen.getByLabelText("환헤지 적용")).toHaveClass("bg-sky-50", "text-sky-800");
-    expect(screen.getByLabelText("부분 헤지")).toHaveTextContent("부분");
-    expect(screen.getByLabelText("탄력적 헤지")).toHaveTextContent("탄력");
+    expect(screen.queryByLabelText("환노출: 환헤지 없음")).not.toBeInTheDocument();
+    
+    const hedgeBadges = screen.getAllByLabelText("환헤지 적용");
+    expect(hedgeBadges).toHaveLength(3);
+    expect(hedgeBadges[0]).toHaveTextContent("O");
+    expect(hedgeBadges[0]).toHaveClass("bg-sky-50", "text-sky-800");
   });
 
   it("긴 자산 분류는 좁은 열에서 의미 단위로 두 줄 표시한다", () => {

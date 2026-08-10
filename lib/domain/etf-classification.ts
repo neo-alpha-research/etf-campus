@@ -121,11 +121,12 @@ export function getEtfMarketScope(etf: Etf): MarketScope | null {
 
 export function getEtfStrategies(etf: Etf): Strategy[] {
   const strategyStr = etf.classification?.strategy;
-  if (!strategyStr) return [];
+  if (!strategyStr) return ["패시브"];
   const parts = strategyStr.split("·");
   const result: Strategy[] = [];
   if (parts.some(p => p.trim() === "액티브")) result.push("액티브");
   if (parts.some(p => p.trim() === "커버드콜")) result.push("커버드콜");
+  if (result.length === 0) result.push("패시브");
   return result;
 }
 

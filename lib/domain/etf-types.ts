@@ -9,7 +9,7 @@ export const ASSET_CLASSES = [
 ] as const;
 
 export const MARKET_SCOPES = ["국내", "미국", "중국", "일본", "인도", "유럽", "신흥국", "글로벌"] as const;
-export const STRATEGIES = ["액티브", "커버드콜"] as const;
+export const STRATEGIES = ["패시브", "액티브", "커버드콜"] as const;
 export const FX_HEDGES = ["비헤지", "헤지", "부분 헤지", "탄력 헤지"] as const;
 
 export const RISK_TYPES = ["normal", "leverage", "inverse"] as const;

@@ -98,9 +98,9 @@ export function ReturnRankingChart({
           <h2 id="ranking-chart-title" className="text-[13px] font-extrabold tracking-tight text-strong sm:text-sm">
             {activeFilterLabels.length > 0 ? (
               <span className="text-brand-700">
-                {activeFilterLabels.length <= 2 
+                {activeFilterLabels.length <= 3 
                   ? activeFilterLabels.join(", ") 
-                  : `${activeFilterLabels.slice(0, 2).join(", ")} 등 맞춤 조건`}
+                  : `${activeFilterLabels.slice(0, 3).join(", ")} 등`}
               </span>
             ) : (
               "전체 조건"
@@ -166,9 +166,15 @@ export function ReturnRankingChart({
           </div>
         )}
 
+        {activeFilterLabels.length > 3 && (
+          <div className="mt-2 text-[9px] font-medium text-neutral-500">
+            * 추가 적용 필터: {activeFilterLabels.slice(3).join(", ")}
+          </div>
+        )}
+
         {/* Watermark for captured image */}
         {isCapturing && (
-          <div className="mt-2.5 flex items-center justify-between border-t border-neutral-100 pt-2">
+          <div className="mt-2 flex items-center justify-between border-t border-neutral-100 pt-2">
             <p className="text-[9px] font-medium text-neutral-400">* 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.</p>
             <div className="flex items-center gap-1.5">
               <span className="text-xs font-black tracking-tighter text-brand-700">ETF Campus</span>

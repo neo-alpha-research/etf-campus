@@ -35,15 +35,15 @@ function FilterChips<T extends string>({
 }) {
   const isAll = selected.length === 0;
   return (
-    <div className="pt-2 flex flex-wrap gap-1.5">
-      <label className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+    <div className="pt-1.5 flex flex-wrap gap-1">
+      <label className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
         <input type="checkbox" checked={isAll} className="sr-only" onChange={() => onChange([])} />
         전체
       </label>
       {options.map((value) => {
         const isChecked = selected.includes(value);
         return (
-          <label key={value} className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+          <label key={value} className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
             <input type="checkbox" checked={isChecked} className="sr-only" onChange={() => {
               if (isChecked) {
                 onChange(selected.filter((v) => v !== value));
@@ -333,25 +333,25 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
           <div className="flex items-center justify-between"><h2 className="text-base font-extrabold">필터</h2><button className="text-xs font-bold text-brand-700" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">초기화</button></div>
-          <fieldset className="mt-4 border-b border-line pb-4">
+          <fieldset className="mt-2 border-b border-line pb-3">
             <legend className="text-[15px] font-extrabold text-strong">계좌 편입</legend>
-            <label className="pt-1 flex cursor-pointer items-center justify-between rounded-xl bg-brand-50 p-3 text-sm font-bold text-brand-800">
+            <label className="pt-1 flex cursor-pointer items-center justify-between rounded-xl bg-brand-50 p-2 text-xs font-bold text-brand-800">
               <span>DC·IRP 가능만</span>
-              <div className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
+              <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
                 <input aria-label="DC·IRP 가능만" checked={filters.pensionOnly} className="peer sr-only" onChange={(event) => updateFilters({ ...filters, pensionOnly: event.target.checked })} type="checkbox" role="switch" />
-                <span className={`inline-block size-4 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-6" : "translate-x-1"}`} />
+                <span className={`inline-block size-4 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-4" : "translate-x-1"}`} />
               </div>
             </label>
           </fieldset>
-          <fieldset className="border-b border-line py-4"><legend className="text-[15px] font-extrabold text-strong">자산군</legend><FilterChips options={ASSET_CLASSES} selected={filters.assetClasses} onChange={(v) => updateFilters({ ...filters, assetClasses: v })} /></fieldset>
-          <fieldset className="border-b border-line py-4"><legend className="text-[15px] font-extrabold text-strong">지역</legend><FilterChips options={MARKET_SCOPES} selected={filters.marketScopes} onChange={(v) => updateFilters({ ...filters, marketScopes: v })} /></fieldset>
-          <fieldset className="border-b border-line py-4">
+          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong">자산군</legend><FilterChips options={ASSET_CLASSES} selected={filters.assetClasses} onChange={(v) => updateFilters({ ...filters, assetClasses: v })} /></fieldset>
+          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong">지역</legend><FilterChips options={MARKET_SCOPES} selected={filters.marketScopes} onChange={(v) => updateFilters({ ...filters, marketScopes: v })} /></fieldset>
+          <fieldset className="border-b border-line py-3">
             <legend className="text-[15px] font-extrabold text-strong">순자산 구간</legend>
-            <div className="pt-1 flex flex-wrap gap-1.5">
+            <div className="pt-1 flex flex-wrap gap-1">
               {AUM_SCOPES.map((value) => {
                 const isChecked = filters.aumScope === value;
                 return (
-                  <label key={value} className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+                  <label key={value} className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
                     <input checked={isChecked} className="sr-only" onChange={() => updateFilters({ ...filters, aumScope: value })} type="radio" name="aumScope" />
                     {aumLabels[value]}
                   </label>
@@ -360,7 +360,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
             </div>
           </fieldset>
           
-          <div className="py-4">
+          <div className="py-3">
             <button 
               type="button" 
               onClick={() => setAdvancedOpen(!advancedOpen)} 
@@ -376,7 +376,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           </div>
 
           <div id="advanced-filters" className={advancedOpen ? "block" : "hidden"}>
-            <fieldset className="border-t border-line py-4">
+            <fieldset className="border-t border-line py-3">
               <legend className="text-[15px] font-extrabold text-strong">상품 구조</legend>
               <div className="pt-2">
                 <div className="mb-2 text-xs font-bold text-muted">배율 구조</div>
@@ -385,10 +385,10 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 <FilterChips options={STRATEGIES} selected={filters.strategies} onChange={(v) => updateFilters({ ...filters, strategies: v })} />
               </div>
             </fieldset>
-            <fieldset className="border-t border-line py-4"><legend className="text-[15px] font-extrabold text-strong">환헤지</legend><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></fieldset>
-            <fieldset className="border-t border-line py-4"><legend className="text-[15px] font-extrabold text-strong">총보수</legend><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></fieldset>
-            <fieldset className="border-t border-line py-4"><legend className="text-[15px] font-extrabold text-strong">분배 방식</legend><FilterChips options={DIVIDEND_FREQUENCIES} selected={filters.dividendFrequencies} onChange={(v) => updateFilters({ ...filters, dividendFrequencies: v })} /></fieldset>
-            <fieldset className="border-t border-line pt-4"><legend className="text-[15px] font-extrabold text-strong">운용사</legend><FilterChips options={AMC_TYPES} selected={filters.amcs} onChange={(v) => updateFilters({ ...filters, amcs: v })} /></fieldset>
+            <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">환헤지</legend><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></fieldset>
+            <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">총보수</legend><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></fieldset>
+            <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">분배 방식</legend><FilterChips options={DIVIDEND_FREQUENCIES} selected={filters.dividendFrequencies} onChange={(v) => updateFilters({ ...filters, dividendFrequencies: v })} /></fieldset>
+            <fieldset className="border-t border-line pt-3"><legend className="text-[15px] font-extrabold text-strong">운용사</legend><FilterChips options={AMC_TYPES} selected={filters.amcs} onChange={(v) => updateFilters({ ...filters, amcs: v })} /></fieldset>
           </div>
 
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>
@@ -405,7 +405,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           <div className="mt-8 mb-4 flex flex-col gap-4">
             <div className="flex flex-wrap items-center gap-2" aria-label="선택된 ETF 조건">
               {activeFilters.map(f => (
-                <button key={f.label} onClick={f.remove} aria-label={`${f.label} 조건 제거`} className="inline-flex items-center gap-1 rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-strong hover:bg-neutral-50">
+                <button key={f.label} onClick={f.remove} aria-label={`${f.label} 조건 제거`} className="inline-flex items-center gap-1 rounded-full border border-line bg-surface px-2.5 py-1 text-[11px] font-semibold text-strong hover:bg-neutral-50">
                   {f.label}
                   <svg className="size-3 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>

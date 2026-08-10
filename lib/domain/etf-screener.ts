@@ -6,6 +6,7 @@ export const TER_RANGES = ["under0.1", "0.1to0.5", "over0.5"] as const;
 export type TerRange = (typeof TER_RANGES)[number];
 
 export type ScreenerFilters = {
+  keyword: string;
   pensionOnly: boolean;
   marketScopes: readonly MarketScope[];
   assetClasses: readonly AssetClass[];
@@ -19,6 +20,7 @@ export type ScreenerFilters = {
 };
 
 export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
+  keyword: "",
   pensionOnly: false,
   marketScopes: [],
   assetClasses: [],
@@ -39,6 +41,10 @@ function inTerRange(ter: number, range: TerRange): boolean {
 
 export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[] {
   return etfs.filter((etf) => {
+    if (filters.keyword) {
+      const kw = filters.keyword.toLowerCase();
+      if (!etf.name.toLowerCase().includes(kw) && !etf.baseIndex.toLowerCase().includes(kw)) return false;
+    }
     if (filters.pensionOnly && etf.pension !== "가능") return false;
     
     if (filters.marketScopes.length > 0) {
@@ -68,7 +74,8 @@ export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[
 }
 
 export function serializeScreenerQuery(filters: ScreenerFilters): string {
-  const isDefault = filters.pensionOnly === DEFAULT_SCREENER_FILTERS.pensionOnly &&
+  const isDefault = filters.keyword === "" &&
+    filters.pensionOnly === DEFAULT_SCREENER_FILTERS.pensionOnly &&
     filters.marketScopes.length === 0 &&
     filters.assetClasses.length === 0 &&
     filters.riskTypes.length === 1 && filters.riskTypes[0] === "normal" &&
@@ -82,6 +89,7 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
   if (isDefault) return "";
 
   const query = new URLSearchParams();
+  if (filters.keyword) query.set("q", filters.keyword);
   if (filters.pensionOnly) query.set("pension", "eligible");
   filters.marketScopes.forEach((value) => query.append("market", value));
   filters.assetClasses.forEach((value) => query.append("asset", value));
@@ -116,6 +124,7 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
     return { ...DEFAULT_SCREENER_FILTERS };
   }
   return {
+    keyword: query.get("q") || "",
     pensionOnly: query.get("pension") === "eligible",
     marketScopes: validValues(query.getAll("market"), MARKET_SCOPES),
     assetClasses: validValues(query.getAll("asset"), ASSET_CLASSES),

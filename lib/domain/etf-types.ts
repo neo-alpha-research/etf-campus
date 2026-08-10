@@ -8,6 +8,10 @@ export const ASSET_CLASSES = [
   "혼합·자산배분",
 ] as const;
 
+export const MARKET_SCOPES = ["국내", "미국", "중국", "일본", "인도", "유럽", "신흥국", "글로벌"] as const;
+export const STRATEGIES = ["액티브", "커버드콜"] as const;
+export const FX_HEDGES = ["비헤지", "헤지", "부분 헤지", "탄력 헤지"] as const;
+
 export const RISK_TYPES = ["normal", "leverage", "inverse"] as const;
 export const PENSION_STATUSES = ["가능", "불가", "확인중"] as const;
 export const DIVIDEND_FREQUENCIES = ["월배당", "분기/반기/연배당", "미지급(TR 등)"] as const;
@@ -30,6 +34,9 @@ export const RETURN_PERIOD_LABELS = {
 } as const;
 
 export type AssetClass = (typeof ASSET_CLASSES)[number];
+export type MarketScope = (typeof MARKET_SCOPES)[number];
+export type Strategy = (typeof STRATEGIES)[number];
+export type FxHedge = (typeof FX_HEDGES)[number];
 export type RiskType = (typeof RISK_TYPES)[number];
 export type PensionStatus = (typeof PENSION_STATUSES)[number];
 export type DividendFrequency = (typeof DIVIDEND_FREQUENCIES)[number];

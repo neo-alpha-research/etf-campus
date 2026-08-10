@@ -1,4 +1,5 @@
-import type { Etf } from "./etf-types";
+import type { Etf, MarketScope, Strategy, FxHedge } from "./etf-types";
+import { MARKET_SCOPES } from "./etf-types";
 
 const ASSET_LABELS: Record<string, string> = {
   "주식-국내": "주식",
@@ -106,4 +107,33 @@ export function getClassificationStatusLabel(etf: Etf): string {
   if (isClassificationReviewed(etf)) return "공식 자료 검수 완료";
   if (etf.classification?.reviewStatus === "자동확정") return "분류 규칙 자동확정";
   return "자동 검수 대기";
+}
+
+export function getEtfMarketScope(etf: Etf): MarketScope | null {
+  if (!etf.classification?.published || !etf.classification.marketScope) return null;
+  const compact = compactMarketScope(etf.classification.marketScope);
+  if (!compact) return null;
+  if ((MARKET_SCOPES as readonly string[]).includes(compact)) {
+    return compact as MarketScope;
+  }
+  return null;
+}
+
+export function getEtfStrategies(etf: Etf): Strategy[] {
+  const strategyStr = etf.classification?.strategy;
+  if (!strategyStr) return [];
+  const parts = strategyStr.split("·");
+  const result: Strategy[] = [];
+  if (parts.some(p => p.trim() === "액티브")) result.push("액티브");
+  if (parts.some(p => p.trim() === "커버드콜")) result.push("커버드콜");
+  return result;
+}
+
+export function getEtfFxHedge(etf: Etf): FxHedge | null {
+  const compact = compactFxHedge(etf.classification?.fxHedge);
+  if (compact === "노출") return "비헤지";
+  if (compact === "헤지") return "헤지";
+  if (compact === "부분") return "부분 헤지";
+  if (compact === "탄력") return "탄력 헤지";
+  return null;
 }

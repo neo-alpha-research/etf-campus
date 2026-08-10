@@ -9,18 +9,18 @@ import { Tickery } from "@/components/brand/tickery";
 import { StyleChip } from "@/components/onboarding/style-chip";
 
 const navigation = [
-  { href: "/quick?mode=general", label: "ETF 탐색" },
-  { href: "/briefing", label: "시장 브리핑" },
-  { href: "/guides", label: "투자 가이드" },
-  { href: "/books", label: "북 큐레이션" },
+  { href: "/quick/?mode=general", label: "ETF 탐색" },
+  { href: "/briefing/", label: "시장 브리핑" },
+  { href: "/guides/", label: "투자 가이드" },
+  { href: "/books/", label: "북 큐레이션" },
 ] as const;
 
 const finderNavigation = [
   { href: "/", label: "ETF 찾기" },
-  { href: "/quick?mode=general", label: "일반 계좌" },
-  { href: "/quick?mode=pension", label: "연금 계좌" },
-  { href: "/quick?mode=derivatives", label: "레버리지·인버스" },
-  { href: "/quick?mode=new", label: "신규 상장" },
+  { href: "/quick/?mode=general", label: "일반 계좌" },
+  { href: "/quick/?mode=pension", label: "연금 계좌" },
+  { href: "/quick/?mode=derivatives", label: "레버리지·인버스" },
+  { href: "/quick/?mode=new", label: "신규 상장" },
 ] as const;
 
 export function SiteHeader() {
@@ -32,7 +32,7 @@ export function SiteHeader() {
   const [activeFinderHref, setActiveFinderHref] = useState(() => {
     if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
-      return `/quick?mode=${m}`;
+      return `/quick/?mode=${m}`;
     }
     return "/";
   });
@@ -40,7 +40,7 @@ export function SiteHeader() {
   useEffect(() => {
     if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
-      return setActiveFinderHref(`/quick?mode=${m}`);
+      setActiveFinderHref(`/quick/?mode=${m}`);
     } else if (pathname === "/") {
       setActiveFinderHref("/");
     }
@@ -52,8 +52,10 @@ export function SiteHeader() {
   const showFinderNav = pathname === "/quick" || pathname === "/quick/";
 
   const isPrimaryActive = (href: string) => {
-    if (href === "/quick?mode=general") return isEtfSection;
-    return pathname === href || pathname.startsWith(`${href}/`);
+    if (href === "/quick/?mode=general") return isEtfSection;
+    // Strip trailing slash for comparison if necessary, but hrefs now have it
+    const normalizedPath = pathname.endsWith("/") ? pathname : `${pathname}/`;
+    return normalizedPath === href || normalizedPath.startsWith(href);
   };
 
   return (

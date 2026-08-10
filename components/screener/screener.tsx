@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
-import { formatMoney } from "@/lib/domain/etf-format";
+import { formatAumNumber, formatWonNumber } from "@/lib/domain/etf-format";
 import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
 import { AUM_SCOPES, GENERAL_RETURN_PERIODS, type AumScope } from "@/lib/domain/etf-explorer";
 import { ASSET_CLASSES, RISK_TYPES, DIVIDEND_FREQUENCIES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type DividendFrequency, type AmcType, type ReturnPeriod, type MarketScope, type Strategy, type FxHedge } from "@/lib/domain/etf-types";
@@ -13,6 +13,28 @@ import { ASSET_CLASSES, RISK_TYPES, DIVIDEND_FREQUENCIES, AMC_TYPES, MARKET_SCOP
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스" };
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억원 이상", "1000plus": "1,000억원 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
+
+function FxHedgeMarker({ value }: { value: string | null }) {
+  if (!value || value === "노출" || value === "비헤지") return null;
+  return (
+    <span
+      aria-label="환헤지 적용"
+      className="inline-flex min-h-7 min-w-7 items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-1.5 text-xs font-extrabold text-sky-800"
+      title="환헤지 적용"
+    >
+      O
+    </span>
+  );
+}
+
+function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center leading-[1.2]">
+      <span className="text-[11px] font-bold text-strong">{label}</span>
+      <span className="text-[10px] font-bold text-neutral-500">({unit})</span>
+    </div>
+  );
+}
 
 type ScreenerSortKey = "return" | "aum" | "tradeValue" | "ter";
 const sortLabels: Record<ScreenerSortKey, string> = {
@@ -457,81 +479,71 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           
           <div className="overflow-hidden rounded-2xl border border-line">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-neutral-50 text-xs font-bold text-muted border-b border-line">
-                  <tr>
-                    <th className="px-3 py-3 text-left min-w-[200px]" scope="col">종목 및 특징</th>
-                    <th className="px-3 py-3 text-center whitespace-nowrap" scope="col">수익률 트렌드</th>
-                    <th className="px-3 py-3 text-right hidden sm:table-cell whitespace-nowrap" scope="col">자산규모 및 보수</th>
+              <table className="w-full text-left text-sm whitespace-nowrap">
+                <colgroup>
+                  <col style={{ width: 192 }} />
+                  <col style={{ width: 40 }} />
+                  <col style={{ width: 36 }} />
+                  <col style={{ width: 54 }} />
+                  <col style={{ width: 54 }} />
+                  <col style={{ width: 54 }} />
+                  <col style={{ width: 40 }} />
+                  <col style={{ width: 48 }} />
+                  <col style={{ width: 48 }} />
+                </colgroup>
+                <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
+                  <tr className="border-b border-neutral-200">
+                    <th className="px-2 py-0 h-[32px] text-center" colSpan={3} scope="colgroup">상품 정보</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={3} scope="colgroup">수익률(%)</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={3} scope="colgroup">비용·규모·가격</th>
+                  </tr>
+                  <tr className="text-[12px]">
+                    <th className="px-2 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목명</th>
+                    <th className="px-0.5 py-0 h-[48px] text-center text-[10px] tracking-tighter" scope="col">환헤지</th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">연금</th>
+                    
+                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">{RETURN_PERIOD_LABELS[selectedPeriod]}<br/><span className="text-[10px] text-brand-700 font-extrabold">(기준)</span></span>
+                    </th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1개월</span>
+                    </th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1년</span>
+                    </th>
+                    
+                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-line">
+                <tbody className="divide-y divide-line text-[12px]">
                   {results.map((etf) => (
-                    <tr className="hover:bg-brand-50/50" key={etf.ticker}>
-                      <th className="px-3 py-4 font-normal" scope="row">
-                        <div className="flex flex-col gap-1.5">
-                          <Link className="break-all whitespace-normal font-bold text-strong hover:text-brand-700 leading-snug" href={`/etf/${etf.ticker}`}>
-                            {etf.name}
-                          </Link>
-                          <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-muted">
-                            <span className="font-semibold text-strong">{etf.amc}</span>
-                            <span className="text-neutral-300">|</span>
-                            <span className="tabular-nums">{etf.ticker}</span>
-                            <span className="text-neutral-300">|</span>
-                            {etf.dividendFrequency === "월배당" && (
-                              <>
-                                <span className="font-bold text-brand-600">월배당</span>
-                                <span className="text-neutral-300">|</span>
-                              </>
-                            )}
-                            {etf.classification?.fxHedge && ["헤지", "부분 헤지", "탄력 헤지"].includes(etf.classification.fxHedge) && (
-                              <>
-                                <span className="font-semibold text-brand-600">환헤지 O</span>
-                                <span className="text-neutral-300">|</span>
-                              </>
-                            )}
-                            <span className="truncate">{etf.classification?.marketScope || etf.assetClass}</span>
-                          </div>
-                          <div className="flex flex-wrap gap-1 mt-0.5">
-                            {etf.riskType !== "normal" && <RiskBadge riskType={etf.riskType} />}
-                            <PensionBadge status={etf.pension} />
-                          </div>
+                    <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" key={etf.ticker}>
+                      <th className="w-[192px] px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                        <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
+                        <div className="mt-1 flex items-center gap-1.5 text-[11px] text-muted">
+                          <span className="font-semibold text-strong">{etf.amc}</span>
+                          <span className="text-neutral-300">|</span>
+                          <span className="tabular-nums">{etf.ticker}</span>
                         </div>
                       </th>
-                      <td className="px-3 py-4 align-top">
-                        <div className="flex items-center justify-center gap-3 sm:gap-5 mt-0.5">
-                          <div className="flex flex-col items-center gap-1">
-                            <span className="text-[10px] font-bold text-brand-700">{RETURN_PERIOD_LABELS[selectedPeriod]} (기준)</span>
-                            <div className="rounded-md bg-brand-50 px-2 py-0.5">
-                              <ReturnCell value={etf.returns[selectedPeriod]} />
-                            </div>
-                          </div>
-                          <div className="flex flex-col items-center gap-1">
-                            <span className="text-[10px] text-muted">3개월</span>
-                            <div className="py-0.5">
-                              <ReturnCell value={etf.returns["3m"]} />
-                            </div>
-                          </div>
-                          <div className="flex flex-col items-center gap-1">
-                            <span className="text-[10px] text-muted">1년</span>
-                            <div className="py-0.5">
-                              <ReturnCell value={etf.returns["12m"]} />
-                            </div>
-                          </div>
-                        </div>
+                      <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted"><FxHedgeMarker value={etf.classification?.fxHedge || null} /></td>
+                      <td className="px-0.5 py-2 text-center"><PensionBadge compact status={etf.pension} /></td>
+                      
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 bg-brand-50">
+                        <ReturnCell showUnit={false} value={etf.returns[selectedPeriod]} />
                       </td>
-                      <td className="hidden px-3 py-4 text-right align-top sm:table-cell">
-                        <div className="flex flex-col items-end gap-1.5 mt-0.5">
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[11px] font-medium text-muted">💰 순자산</span>
-                            <span className="text-[13px] font-bold tabular-nums text-strong">{formatMoney(etf.aum)}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-[11px] font-medium text-muted">💸 총보수</span>
-                            <span className="text-[13px] font-semibold tabular-nums text-muted">{(etf.ter * 100).toFixed(2)}%</span>
-                          </div>
-                        </div>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums">
+                        <ReturnCell showUnit={false} value={etf.returns["1m"]} />
                       </td>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums">
+                        <ReturnCell showUnit={false} value={etf.returns["12m"]} />
+                      </td>
+                      
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{(etf.ter * 100).toFixed(2)}</td>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
                     </tr>
                   ))}
                 </tbody>

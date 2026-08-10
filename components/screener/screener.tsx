@@ -491,7 +491,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                   <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
-                  <col style={{ width: 36 }} />
                   <col style={{ width: 40 }} />
                   <col style={{ width: 48 }} />
                   <col style={{ width: 52 }} />
@@ -501,7 +500,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                   <tr className="border-b border-neutral-200">
                     <th className="px-2 py-0 h-[32px] text-center" colSpan={6} scope="colgroup">상품 정보</th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">수익률(%)</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={5} scope="colgroup">비용·규모·가격</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">종목코드</th>
@@ -562,10 +561,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                         <ReturnCell showUnit={false} value={etf.returns["12m"]} />
                       </td>
                       
-                      <td className="px-0.5 py-2 text-center text-[11px] font-extrabold text-brand-600 border-l border-neutral-100">
-                        {etf.dividendFrequency === "월배당" ? "O" : ""}
-                      </td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted">{(etf.ter * 100).toFixed(2)}</td>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{(etf.ter * 100).toFixed(2)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatTradeValueNumber(etf.tradeValue)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>

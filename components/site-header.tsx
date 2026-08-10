@@ -9,7 +9,7 @@ import { Tickery } from "@/components/brand/tickery";
 import { StyleChip } from "@/components/onboarding/style-chip";
 
 const navigation = [
-  { href: "/quick?mode=general", label: "ETF 탐색" },
+  { href: "/", label: "ETF 탐색" },
   { href: "/briefing", label: "시장 브리핑" },
   { href: "/guides", label: "투자 가이드" },
   { href: "/books", label: "북 큐레이션" },
@@ -47,12 +47,11 @@ export function SiteHeader() {
   }, [pathname, searchParams]);
 
   // Main nav "ETF 탐색" highlights on both / and /quick.
-  // Sub-nav only shows on /quick so clicking ETF 찾기 (→ /) hides it.
+  // Sub-nav shows whenever ETF 탐색 is active so users always see sub-tabs.
   const isEtfSection = pathname === "/" || pathname === "/quick";
-  const showFinderNav = pathname === "/quick";
 
   const isPrimaryActive = (href: string) => {
-    if (href === "/quick?mode=general") return isEtfSection;
+    if (href === "/") return isEtfSection;
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
@@ -78,7 +77,7 @@ export function SiteHeader() {
           <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-lg px-3 py-2 ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted"}`} href={item.href} key={item.href}>{item.label}</Link>
         ))}
       </nav>
-      {showFinderNav ? (
+      {isEtfSection ? (
         <div className="border-t border-line bg-brand-50/55">
           <nav aria-label="ETF 찾기 메뉴" className="page-shell scrollbar-none flex items-center gap-2 overflow-x-auto py-3 text-sm">
             <span className="mr-2 shrink-0 border-r border-brand-200 pr-4 text-xs font-extrabold tracking-[0.06em] text-brand-800">ETF 탐색</span>

@@ -196,7 +196,19 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const isAum1000QuickActive = filters.aumScope === "1000plus";
   const toggleAum1000Quick = () => updateFilters({ ...filters, aumScope: isAum1000QuickActive ? "all" : "1000plus" });
 
+  const isSemiconductorQuickActive = filters.keyword === "반도체";
+  const toggleSemiconductorQuick = () => updateFilters({ ...filters, keyword: isSemiconductorQuickActive ? "" : "반도체" });
+
+  const isAiQuickActive = filters.keyword === "ai";
+  const toggleAiQuick = () => updateFilters({ ...filters, keyword: isAiQuickActive ? "" : "ai" });
+
+  const isDivGrowthQuickActive = filters.keyword === "배당성장";
+  const toggleDivGrowthQuick = () => updateFilters({ ...filters, keyword: isDivGrowthQuickActive ? "" : "배당성장" });
+
   const activeFilters: { label: string; remove: () => void }[] = [];
+  if (filters.keyword) {
+    activeFilters.push({ label: `키워드: ${filters.keyword}`, remove: () => updateFilters({ ...filters, keyword: "" }) });
+  }
   if (filters.pensionOnly) {
     activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false }) });
   }
@@ -245,7 +257,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           aria-pressed={isPensionQuickActive}
           onClick={togglePensionQuick}
           className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isPensionQuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+            isPensionQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
           }`}
         >
           연금 가능 ETF
@@ -255,7 +267,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           aria-pressed={isUsStockQuickActive}
           onClick={toggleUsStockQuick}
           className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isUsStockQuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+            isUsStockQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
           }`}
         >
           미국 주식
@@ -265,7 +277,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           aria-pressed={isMonthlyDivQuickActive}
           onClick={toggleMonthlyDivQuick}
           className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isMonthlyDivQuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+            isMonthlyDivQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
           }`}
         >
           월분배
@@ -275,17 +287,47 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           aria-pressed={isBondParkingQuickActive}
           onClick={toggleBondParkingQuick}
           className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isBondParkingQuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+            isBondParkingQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
           }`}
         >
           채권·파킹
         </button>
         <button
           type="button"
+          aria-pressed={isSemiconductorQuickActive}
+          onClick={toggleSemiconductorQuick}
+          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+            isSemiconductorQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
+          }`}
+        >
+          반도체
+        </button>
+        <button
+          type="button"
+          aria-pressed={isAiQuickActive}
+          onClick={toggleAiQuick}
+          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+            isAiQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
+          }`}
+        >
+          AI
+        </button>
+        <button
+          type="button"
+          aria-pressed={isDivGrowthQuickActive}
+          onClick={toggleDivGrowthQuick}
+          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+            isDivGrowthQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
+          }`}
+        >
+          배당성장
+        </button>
+        <button
+          type="button"
           aria-pressed={isAum1000QuickActive}
           onClick={toggleAum1000Quick}
           className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isAum1000QuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+            isAum1000QuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
           }`}
         >
           순자산 1,000억 이상

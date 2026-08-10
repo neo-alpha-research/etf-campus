@@ -512,7 +512,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">연금</th>
                     
                     <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">{RETURN_PERIOD_LABELS[selectedPeriod]}<br/><span className="text-[10px] text-brand-700 font-extrabold">(기준)</span></span>
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1일</span>
                     </th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1개월</span>
@@ -550,7 +550,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                       <td className="px-0.5 py-2 text-center"><PensionBadge compact status={etf.pension} /></td>
                       
                       <td className="px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 bg-brand-50">
-                        <ReturnCell showUnit={false} value={etf.returns[selectedPeriod]} />
+                        <ReturnCell showUnit={false} value={etf.returns["1d"]} />
                       </td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">
                         <ReturnCell showUnit={false} value={etf.returns["1m"]} />

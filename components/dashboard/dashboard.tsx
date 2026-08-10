@@ -122,11 +122,14 @@ function FxHedgeMarker({ value }: { value: string | null }) {
 
 function SearchParamsSync({ onSync }: { onSync: (searchParams: URLSearchParams) => void }) {
   const searchParams = useSearchParams();
+  const onSyncRef = useRef(onSync);
+  onSyncRef.current = onSync;
+
   useEffect(() => {
     if (searchParams) {
-      onSync(searchParams);
+      onSyncRef.current(searchParams);
     }
-  }, [searchParams, onSync]);
+  }, [searchParams]);
   return null;
 }
 

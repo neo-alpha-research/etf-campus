@@ -22,7 +22,7 @@ describe("ETF 스크리너", () => {
   ];
 
   it("연금 가능만 필터는 확인중과 불가를 제외한다", () => {
-    expect(filterEtfs(items, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: true }).map((item) => item.ticker)).toEqual(["A", "C"]);
+    expect(filterEtfs(items, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: true, aumScope: "all", riskTypes: [] }).map((item) => item.ticker)).toEqual(["A", "C"]);
   });
 
   it("자산군·위험유형·순자산 구간을 함께 적용한다", () => {
@@ -43,5 +43,10 @@ describe("ETF 스크리너", () => {
     const filters = parseScreenerQuery(query);
     expect(filters.assetClasses).toEqual(["주식-해외"]);
     expect(filters.riskTypes).toEqual([]);
+  });
+  
+  it("쿼리가 없으면 기본값을 반환한다", () => {
+    const filters = parseScreenerQuery(new URLSearchParams(""));
+    expect(filters).toEqual(DEFAULT_SCREENER_FILTERS);
   });
 });

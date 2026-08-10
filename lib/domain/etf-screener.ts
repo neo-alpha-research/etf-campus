@@ -15,10 +15,10 @@ export type ScreenerFilters = {
 };
 
 export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
-  pensionOnly: true,
+  pensionOnly: false,
   assetClasses: [],
-  riskTypes: [],
-  aumScope: "all",
+  riskTypes: ["normal"],
+  aumScope: "1000plus",
   terRanges: [],
   dividendFrequencies: [],
   amcs: [],
@@ -45,6 +45,16 @@ export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[
 }
 
 export function serializeScreenerQuery(filters: ScreenerFilters): string {
+  const isDefault = filters.pensionOnly === DEFAULT_SCREENER_FILTERS.pensionOnly &&
+    filters.assetClasses.length === 0 &&
+    filters.riskTypes.length === 1 && filters.riskTypes[0] === "normal" &&
+    filters.aumScope === "1000plus" &&
+    filters.terRanges.length === 0 &&
+    filters.dividendFrequencies.length === 0 &&
+    filters.amcs.length === 0;
+
+  if (isDefault) return "";
+
   const query = new URLSearchParams();
   if (filters.pensionOnly) query.set("pension", "eligible");
   filters.assetClasses.forEach((value) => query.append("asset", value));
@@ -53,6 +63,11 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
   filters.terRanges.forEach((value) => query.append("ter", value));
   filters.dividendFrequencies.forEach((value) => query.append("div", value));
   filters.amcs.forEach((value) => query.append("amc", value));
+
+  if (Array.from(query.keys()).length === 0) {
+    query.set("custom", "1");
+  }
+
   return query.toString();
 }
 
@@ -68,8 +83,11 @@ function validValue<T extends string>(value: string | null, allowed: readonly T[
 }
 
 export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
+  if (Array.from(query.keys()).length === 0) {
+    return { ...DEFAULT_SCREENER_FILTERS };
+  }
   return {
-    pensionOnly: query.has("pension") ? query.get("pension") === "eligible" : true, // 기본값 true로 파싱
+    pensionOnly: query.get("pension") === "eligible",
     assetClasses: validValues(query.getAll("asset"), ASSET_CLASSES),
     riskTypes: validValues(query.getAll("risk"), RISK_TYPES),
     aumScope: validValue(query.get("aum"), AUM_SCOPES, "all"),

@@ -507,7 +507,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatAumNumber(etf.aum)}</td>
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
                     
-                    <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell border-l border-neutral-100">{formatWonNumber(etf.close)}</td>
+                    <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatWonNumber(etf.close)}</td>
                   </tr>
                 );
               })}

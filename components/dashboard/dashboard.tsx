@@ -438,7 +438,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 if (!etf) return null;
                 const fields = getClassificationFields(etf);
                 return (
-                  <tr className="transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
+                  <tr className="transition-colors hover:bg-neutral-100 even:bg-neutral-50" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
                     {/* 모바일 종목명 (이제 아래 공용 th를 사용하므로 삭제) */}
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right font-semibold tabular-nums md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
@@ -466,7 +466,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     {periods.map((period, index) => {
                       const isYtd = period === "ytd" || period === "itd";
                       const borderL = isYtd ? 'border-l-2 border-neutral-100' : index === 0 ? 'border-l border-neutral-100' : '';
-                      const bg = normalizedPeriod === period ? "bg-brand-50/80" : "";
+                      const bg = normalizedPeriod === period ? "bg-brand-50" : "";
                       return (
                         <td className={`hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell ${borderL} ${bg}`} key={period}>
                           <ReturnCell showUnit={false} value={etf.returns[period]} />

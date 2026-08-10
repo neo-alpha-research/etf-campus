@@ -397,7 +397,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               <col style={{ width: 40 }} />
               {!isPension && !isDeriv ? <col style={{ width: 36 }} /> : null}
               {periods.map((period) => (
-                <col key={period} style={{ width: period === "ytd" || period === "itd" ? 56 : 54 }} />
+                <col key={period} style={{ width: 48 }} />
               ))}
               <col style={{ width: 46 }} />
               <col style={{ width: 64 }} />
@@ -419,7 +419,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               {/* 1단 그룹 헤더 */}
               <tr className="border-b border-neutral-200">
                 <th className="sticky top-0 z-30 h-[32px] bg-neutral-100 px-2 py-0 text-center" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
-                <th className="sticky top-0 z-20 h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">수익률</th>
+                <th className="sticky top-0 z-20 h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">수익률(%)</th>
                 <th className="sticky top-0 z-20 h-[32px] bg-neutral-100 px-2 py-0 text-center border-l border-neutral-200" colSpan={costSizePriceColSpan} scope="colgroup">비용·규모·가격</th>
               </tr>
               {/* 2단 세부 헤더 */}
@@ -435,12 +435,12 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 
                 {periods.map((period, index) => {
                   const isYtd = period === "ytd" || period === "itd";
-                  const width = isYtd ? 56 : 54;
+                  const width = 48;
                   const borderL = isYtd ? 'border-l-2 border-neutral-200' : index === 0 ? 'border-l border-neutral-200' : '';
                   const bg = normalizedPeriod === period && !isYtd ? "bg-brand-100 text-brand-900" : isYtd ? "bg-neutral-100/60" : "bg-neutral-50";
                   return (
-                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률, 단위 퍼센트`} className={`sticky top-[32px] z-20 h-[48px] px-0.5 py-0 text-center ${borderL} ${bg}`} key={period} scope="col" style={{ width: `${width}px` }}>
-                      <UnitHeaderLabel label={RETURN_PERIOD_LABELS[period]} unit="%" />
+                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률`} className={`sticky top-[32px] z-20 h-[48px] px-0.5 py-0 text-center ${borderL} ${bg}`} key={period} scope="col" style={{ width: `${width}px` }}>
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">{RETURN_PERIOD_LABELS[period]}</span>
                     </th>
                   );
                 })}

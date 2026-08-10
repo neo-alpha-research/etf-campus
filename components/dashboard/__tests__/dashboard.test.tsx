@@ -48,7 +48,7 @@ describe("Dashboard", () => {
     expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-center");
     expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-center");
     expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "1일 수익률, 단위 퍼센트" })).toBeInTheDocument();
+    expect(screen.getAllByRole("columnheader", { name: "1일 수익률" })[0]).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
     expect(screen.getByText("30.0")).toBeInTheDocument();
     expect(screen.queryByText("레버리지 ETF")).not.toBeInTheDocument();
@@ -74,8 +74,8 @@ describe("Dashboard", () => {
     expect(screen.getByRole("option", { name: "2주" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "2년" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "3년" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "2년 수익률, 단위 퍼센트" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "3년 수익률, 단위 퍼센트" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "2년 수익률" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "3년 수익률" })).toBeInTheDocument();
   });
 
   it("긴 종목명과 분류·연금 정보를 검색하기 쉽게 분리한다", () => {
@@ -106,14 +106,14 @@ describe("Dashboard", () => {
   it("표 헤더를 고정하고 단위를 두 번째 줄에 표시한다", () => {
     render(<Dashboard etfs={items} />);
     const closeHeader = screen.getByRole("columnheader", { name: "종가, 단위 원" });
-    const oneMonthHeader = screen.getByRole("columnheader", { name: "1개월 수익률, 단위 퍼센트" });
+    const oneMonthHeader = screen.getByRole("columnheader", { name: "1개월 수익률" });
 
     expect(closeHeader).toHaveClass("sticky", "top-[32px]");
     expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-bold", "text-neutral-700");
     expect(closeHeader).toHaveClass("text-center");
     expect(oneMonthHeader).toHaveClass("text-center");
     expect(within(closeHeader).getByText("(원)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
-    expect(within(oneMonthHeader).getByText("(%)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
+    expect(oneMonthHeader).toHaveClass("text-center");
   });
 
   it("환노출과 환헤지는 의미가 분명한 텍스트로 표시하고 부분·탄력 헤지는 유지한다", () => {
@@ -187,6 +187,6 @@ describe("Dashboard", () => {
     expect(screen.queryByRole("listbox", { name: "ETF 검색 자동완성" })).not.toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveTextContent("종가(원)");
     expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveTextContent("거래대금(억원)");
-    expect(screen.getByRole("columnheader", { name: "1개월 수익률, 단위 퍼센트" })).toHaveTextContent("1개월(%)");
+    expect(screen.getByRole("columnheader", { name: "1개월 수익률" })).toHaveTextContent("1개월");
   });
 });

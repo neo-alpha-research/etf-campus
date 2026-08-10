@@ -36,7 +36,8 @@ describe("실제 ETF 데이터 회귀", () => {
 
   it("연금 판정은 허용된 최종 상태만 사용한다", () => {
     expect(etfs.every((etf) => ["가능", "불가", "확인중"].includes(etf.pension))).toBe(true);
-    expect(etfs.filter((etf) => etf.pension === "확인중").length).toBeGreaterThan(0);
+    expect(etfs.filter((etf) => etf.pension === "가능").length).toBeGreaterThan(0);
+    expect(etfs.filter((etf) => etf.pension === "불가").length).toBeGreaterThan(0);
   });
 
   it("공식 근거 기반 분류를 연결하고 미확인 환헤지는 숨긴다", () => {

@@ -1,8 +1,9 @@
 "use client";
 
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
+import { Suspense, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { Tickery } from "@/components/brand/tickery";
 import { AsOfDate, PensionBadge, ReturnCell } from "@/components/etf";
@@ -119,6 +120,16 @@ function FxHedgeMarker({ value }: { value: string | null }) {
 
 
 
+function SearchParamsSync({ onSync }: { onSync: (searchParams: URLSearchParams) => void }) {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    if (searchParams) {
+      onSync(searchParams);
+    }
+  }, [searchParams, onSync]);
+  return null;
+}
+
 export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const [state, setState] = useState<ExplorerState>(DEFAULT_EXPLORER_STATE);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -126,6 +137,8 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const [searchFocused, setSearchFocused] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(-1);
 
+  // We handle initial load and popstate in a separate effect just to be safe,
+  // but SearchParamsSync handles Next.js router soft-navigations.
   useEffect(() => {
     const syncFromUrl = () => {
       setState(parseExplorerQuery(new URLSearchParams(window.location.search)));
@@ -222,6 +235,12 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
   return (
     <main aria-labelledby="dashboard-title" className="page-shell flex-1 py-4 sm:py-6">
+      <Suspense fallback={null}>
+        <SearchParamsSync onSync={(params) => {
+          setState(parseExplorerQuery(params));
+          setUrlReady(true);
+        }} />
+      </Suspense>
       <header className="flex items-center justify-between gap-3 rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-50/80 to-surface px-4 py-3 sm:px-5">
         <div className="min-w-0 max-w-5xl">
           <p className="eyebrow">{copy.eyebrow}</p>

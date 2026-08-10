@@ -59,10 +59,10 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
       <div className="mt-8 grid gap-6 md:grid-cols-[260px_minmax(0,1fr)]">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
-          <div className="flex items-center justify-between"><h2 className="text-lg font-extrabold">필터</h2><button className="text-xs font-bold text-brand-700" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">초기화</button></div>
-          <fieldset className="mt-5 border-b border-line pb-5">
+          <div className="flex items-center justify-between"><h2 className="text-base font-extrabold">필터</h2><button className="text-xs font-bold text-brand-700" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">초기화</button></div>
+          <fieldset className="mt-4 border-b border-line pb-4">
             <legend className="text-sm font-extrabold">계좌유형</legend>
-            <label className="mt-3 flex cursor-pointer items-center justify-between rounded-xl bg-brand-50 p-3 text-sm font-bold text-brand-800">
+            <label className="mt-2 flex cursor-pointer items-center justify-between rounded-xl bg-brand-50 p-3 text-sm font-bold text-brand-800">
               <span>연금 가능만</span>
               <div className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
                 <input checked={filters.pensionOnly} className="peer sr-only" onChange={(event) => updateFilters({ ...filters, pensionOnly: event.target.checked })} type="checkbox" role="switch" />
@@ -70,11 +70,11 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               </div>
             </label>
           </fieldset>
-          <fieldset className="border-b border-line py-5"><legend className="text-sm font-extrabold">자산군</legend><div className="mt-3 space-y-2">{ASSET_CLASSES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.assetClasses.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, assetClasses: toggleValue<AssetClass>(filters.assetClasses, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
-          <fieldset className="border-b border-line py-5"><legend className="text-sm font-extrabold">위험유형</legend><div className="mt-3 space-y-2">{RISK_TYPES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.riskTypes.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, riskTypes: toggleValue<RiskType>(filters.riskTypes, value) })} type="checkbox" />{riskLabels[value]}</label>)}</div></fieldset>
-          <fieldset className="border-b border-line py-5">
+          <fieldset className="border-b border-line py-4"><legend className="text-sm font-extrabold">자산군</legend><div className="mt-2 space-y-1">{ASSET_CLASSES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.assetClasses.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, assetClasses: toggleValue<AssetClass>(filters.assetClasses, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
+          <fieldset className="border-b border-line py-4"><legend className="text-sm font-extrabold">위험유형</legend><div className="mt-2 space-y-1">{RISK_TYPES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.riskTypes.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, riskTypes: toggleValue<RiskType>(filters.riskTypes, value) })} type="checkbox" />{riskLabels[value]}</label>)}</div></fieldset>
+          <fieldset className="border-b border-line py-4">
             <legend className="text-sm font-extrabold">순자산 구간</legend>
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-2 flex flex-wrap gap-1.5">
               {AUM_SCOPES.map((value) => {
                 const isChecked = filters.aumScope === value;
                 return (
@@ -86,9 +86,9 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               })}
             </div>
           </fieldset>
-          <fieldset className="border-b border-line py-5"><legend className="text-sm font-extrabold">총보수</legend><div className="mt-3 space-y-2">{TER_RANGES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.terRanges.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, terRanges: toggleValue<TerRange>(filters.terRanges, value) })} type="checkbox" />{terLabels[value]}</label>)}</div></fieldset>
-          <fieldset className="border-b border-line py-5"><legend className="text-sm font-extrabold">분배금 주기</legend><div className="mt-3 space-y-2">{DIVIDEND_FREQUENCIES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.dividendFrequencies.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, dividendFrequencies: toggleValue<DividendFrequency>(filters.dividendFrequencies, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
-          <fieldset className="py-5"><legend className="text-sm font-extrabold">운용사</legend><div className="mt-3 space-y-2">{AMC_TYPES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.amcs.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, amcs: toggleValue<AmcType>(filters.amcs, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
+          <fieldset className="border-b border-line py-4"><legend className="text-sm font-extrabold">총보수</legend><div className="mt-2 space-y-1">{TER_RANGES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.terRanges.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, terRanges: toggleValue<TerRange>(filters.terRanges, value) })} type="checkbox" />{terLabels[value]}</label>)}</div></fieldset>
+          <fieldset className="border-b border-line py-4"><legend className="text-sm font-extrabold">분배금 주기</legend><div className="mt-2 space-y-1">{DIVIDEND_FREQUENCIES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.dividendFrequencies.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, dividendFrequencies: toggleValue<DividendFrequency>(filters.dividendFrequencies, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
+          <fieldset className="py-4"><legend className="text-sm font-extrabold">운용사</legend><div className="mt-2 space-y-1">{AMC_TYPES.map((value) => <label className="flex items-center gap-2 text-sm text-muted" key={value}><input checked={filters.amcs.includes(value)} className="size-4 accent-brand-700" onChange={() => updateFilters({ ...filters, amcs: toggleValue<AmcType>(filters.amcs, value) })} type="checkbox" />{value}</label>)}</div></fieldset>
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>
         </aside>
 

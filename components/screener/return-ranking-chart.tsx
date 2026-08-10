@@ -93,7 +93,7 @@ export function ReturnRankingChart({
                 isTop ? "bg-white text-rise shadow-sm" : "text-muted hover:text-strong"
               }`}
             >
-              상위 5
+              상위
             </button>
             <button
               onClick={() => setIsTop(false)}
@@ -101,7 +101,7 @@ export function ReturnRankingChart({
                 !isTop ? "bg-white text-fall shadow-sm" : "text-muted hover:text-strong"
               }`}
             >
-              하위 5
+              하위
             </button>
           </div>
           <button 

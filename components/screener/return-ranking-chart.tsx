@@ -104,8 +104,8 @@ export function ReturnRankingChart({
               </span>
             ) : (
               "전체 조건"
-            )}{" "}
-            내 {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 TOP 5
+            )}{" - "}
+            {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 TOP 5
           </h2>
           <p className="mt-1 text-xs font-medium leading-relaxed text-muted">
             현재 필터를 통과한 ETF 안에서 선택 기간 가격수익률 기준으로 계산된 순위입니다.

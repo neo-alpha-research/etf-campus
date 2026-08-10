@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 
 import { siteConfig } from "@/config/site";
 import { Tickery } from "@/components/brand/tickery";
@@ -82,11 +82,14 @@ export function SiteHeader() {
       {showFinderNav ? (
         <div className="border-t border-line bg-brand-50/55">
           <nav aria-label="ETF 탐색 메뉴" className="page-shell scrollbar-none flex items-center gap-2 overflow-x-auto py-2.5 text-sm">
-            {finderNavigation.map((item) => {
+            {finderNavigation.map((item, index) => {
               const active = item.href === activeFinderHref;
               const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`;
               return (
-                <Link aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href} onClick={() => setActiveFinderHref(item.href)}>{item.label}</Link>
+                <Fragment key={item.href}>
+                  <Link aria-current={active ? "page" : undefined} className={className} href={item.href} onClick={() => setActiveFinderHref(item.href)}>{item.label}</Link>
+                  {index === 0 && <span aria-hidden="true" className="hidden h-5 w-px bg-brand-300 md:block ml-1 shrink-0" />}
+                </Fragment>
               );
             })}
           </nav>

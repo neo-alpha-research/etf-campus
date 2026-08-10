@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-import { AsOfDate, AssetClassTag, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
+import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
 import { formatMoney } from "@/lib/domain/etf-format";
 import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";

@@ -36,14 +36,14 @@ function FilterChips<T extends string>({
   const isAll = selected.length === 0;
   return (
     <div className="pt-2 flex flex-wrap gap-1.5">
-      <label className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line text-muted hover:bg-neutral-50"}`}>
+      <label className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
         <input type="checkbox" checked={isAll} className="sr-only" onChange={() => onChange([])} />
         전체
       </label>
       {options.map((value) => {
         const isChecked = selected.includes(value);
         return (
-          <label key={value} className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line text-muted hover:bg-neutral-50"}`}>
+          <label key={value} className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
             <input type="checkbox" checked={isChecked} className="sr-only" onChange={() => {
               if (isChecked) {
                 onChange(selected.filter((v) => v !== value));

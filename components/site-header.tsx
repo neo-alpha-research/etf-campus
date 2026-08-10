@@ -30,7 +30,7 @@ export function SiteHeader() {
   // Explicitly track active sub-tab href so highlighting updates
   // immediately on both pathname and searchParam changes.
   const [activeFinderHref, setActiveFinderHref] = useState(() => {
-    if (pathname === "/quick") {
+    if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
       return `/quick?mode=${m}`;
     }
@@ -38,9 +38,9 @@ export function SiteHeader() {
   });
 
   useEffect(() => {
-    if (pathname === "/quick") {
+    if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
-      setActiveFinderHref(`/quick?mode=${m}`);
+      return setActiveFinderHref(`/quick?mode=${m}`);
     } else if (pathname === "/") {
       setActiveFinderHref("/");
     }
@@ -48,8 +48,8 @@ export function SiteHeader() {
 
   // "ETF 탐색" highlighted on both / and /quick, but sub-nav only on /quick.
   // Clicking "ETF 찾기" sub-tab goes to / which hides sub-nav (consistent).
-  const isEtfSection = pathname === "/" || pathname === "/quick";
-  const showFinderNav = pathname === "/quick";
+  const isEtfSection = pathname === "/" || pathname === "/quick" || pathname === "/quick/";
+  const showFinderNav = pathname === "/quick" || pathname === "/quick/";
 
   const isPrimaryActive = (href: string) => {
     if (href === "/quick?mode=general") return isEtfSection;

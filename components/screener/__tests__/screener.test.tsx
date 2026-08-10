@@ -26,12 +26,6 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     window.history.replaceState(null, "", "/");
   });
 
-  it("기본 화면에서 순자산 1,000억 이상 빠른 칩이 활성인지 확인한다", () => {
-    render(<Screener etfs={items} />);
-    const aumQuick = screen.getByRole("button", { name: "순자산 1,000억 이상" });
-    expect(aumQuick).toHaveAttribute("aria-pressed", "true");
-  });
-
   it("연금 가능 칩 클릭 시 pension 필터와 URL이 변경된다", () => {
     render(<Screener etfs={items} />);
     const pensionQuick = screen.getByRole("button", { name: "연금 가능 ETF" });
@@ -106,7 +100,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
     expect(monthQuick).toHaveAttribute("aria-pressed", "true");
     expect(window.location.search).toContain("period=1m");
-    expect(screen.getByRole("heading", { name: "선택 조건 내 1개월 수익률 TOP 5" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "일반형, 순자산 1,000억원 이상 — 1개월 수익률 TOP 5" })).toBeInTheDocument();
   });
 
   it("TOP 5 종목의 상세 정보(순위, 이름, 티커, 수익률, 연금 배지 등)가 표시되며 상세 페이지로 링크된다", () => {

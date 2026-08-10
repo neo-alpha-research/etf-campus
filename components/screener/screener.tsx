@@ -484,6 +484,14 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                                 <span className="text-neutral-300">|</span>
                               </>
                             )}
+                            {etf.classification?.fxHedge && ["비헤지", "헤지", "부분 헤지", "탄력 헤지"].includes(etf.classification.fxHedge) && (
+                              <>
+                                <span className={`font-semibold ${["헤지", "부분 헤지", "탄력 헤지"].includes(etf.classification.fxHedge) ? "text-brand-600" : ""}`}>
+                                  환헤지 {["헤지", "부분 헤지", "탄력 헤지"].includes(etf.classification.fxHedge) ? "O" : "X"}
+                                </span>
+                                <span className="text-neutral-300">|</span>
+                              </>
+                            )}
                             <span className="truncate">{etf.classification?.marketScope || etf.assetClass}</span>
                           </div>
                           <div className="flex flex-wrap gap-1 mt-0.5">

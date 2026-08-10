@@ -104,7 +104,7 @@ export function ReturnRankingChart({
               </span>
             ) : (
               "전체 조건"
-            )}{" - "}
+            )}{" — "}
             {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 TOP 5
           </h2>
           <p className="mt-1 text-xs font-medium leading-relaxed text-muted">

@@ -36,9 +36,12 @@ function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
   );
 }
 
-type ScreenerSortKey = "return" | "aum" | "tradeValue" | "ter";
+type ScreenerSortKey = "return_1d" | "return_1m" | "return_3m" | "return_12m" | "aum" | "tradeValue" | "ter";
 const sortLabels: Record<ScreenerSortKey, string> = {
-  return: "선택 기간 수익률 높은순",
+  return_1d: "1일 수익률 높은순",
+  return_1m: "1개월 수익률 높은순",
+  return_3m: "3개월 수익률 높은순",
+  return_12m: "1년 수익률 높은순",
   aum: "순자산 높은순",
   tradeValue: "거래대금 높은순",
   ter: "총보수 낮은순",
@@ -90,7 +93,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");
-  const [sort, setSort] = useState<ScreenerSortKey>("return");
+  const [sort, setSort] = useState<ScreenerSortKey>("return_1d");
 
   const syncFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
@@ -98,7 +101,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     const p = params.get("period") as ReturnPeriod;
     setSelectedPeriod((GENERAL_RETURN_PERIODS as readonly string[]).includes(p) ? p : "1d");
     const s = params.get("sort") as ScreenerSortKey;
-    setSort(Object.keys(sortLabels).includes(s) ? s : "return");
+    setSort(Object.keys(sortLabels).includes(s) ? s : "return_1d");
   };
 
   useEffect(() => {
@@ -113,7 +116,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     setSort(nextSort);
     const query = new URLSearchParams(serializeScreenerQuery(nextFilters));
     if (nextPeriod !== "1d") query.set("period", nextPeriod);
-    if (nextSort !== "return") query.set("sort", nextSort);
+    if (nextSort !== "return_1d") query.set("sort", nextSort);
     const queryString = query.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
   };
@@ -124,9 +127,10 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
 
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
-      if (sort === "return") {
-        const ra = a.returns[selectedPeriod] ?? -Infinity;
-        const rb = b.returns[selectedPeriod] ?? -Infinity;
+      if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m") {
+        const period = sort === "return_1d" ? "1d" : sort === "return_1m" ? "1m" : sort === "return_3m" ? "3m" : "12m";
+        const ra = a.returns[period] ?? -Infinity;
+        const rb = b.returns[period] ?? -Infinity;
         if (ra !== rb) return rb - ra;
         if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
         if (a.aum !== b.aum) return b.aum - a.aum;
@@ -489,16 +493,16 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                     <th className="px-0.5 py-0 h-[48px] text-center text-[10px] tracking-tighter" scope="col">환헤지</th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">연금</th>
                     
-                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col">
+                    <th className={`px-0.5 py-0 h-[48px] text-center border-l border-neutral-200 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1일</span>
                     </th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
+                    <th className={`px-0.5 py-0 h-[48px] text-center ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1개월</span>
                     </th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
+                    <th className={`px-0.5 py-0 h-[48px] text-center ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">3개월</span>
                     </th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
+                    <th className={`px-0.5 py-0 h-[48px] text-center ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1년</span>
                     </th>
                     
@@ -525,16 +529,16 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                       <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted"><FxHedgeMarker value={etf.classification?.fxHedge || null} /></td>
                       <td className="px-0.5 py-2 text-center"><PensionBadge compact status={etf.pension} /></td>
                       
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 bg-brand-50">
+                      <td className={`px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["1d"]} />
                       </td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">
+                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["1m"]} />
                       </td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">
+                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["3m"]} />
                       </td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">
+                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["12m"]} />
                       </td>
                       

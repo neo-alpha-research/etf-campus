@@ -9,14 +9,14 @@ import { Tickery } from "@/components/brand/tickery";
 import { StyleChip } from "@/components/onboarding/style-chip";
 
 const navigation = [
-  { href: "/quick/?mode=general", label: "ETF 탐색" },
+  { href: "/", label: "ETF 탐색" },
   { href: "/briefing/", label: "시장 브리핑" },
   { href: "/guides/", label: "투자 가이드" },
   { href: "/books/", label: "북 큐레이션" },
 ] as const;
 
 const finderNavigation = [
-  { href: "/", label: "ETF 찾기" },
+  { href: "/", label: "조건별 찾기" },
   { href: "/quick/?mode=general", label: "일반 계좌" },
   { href: "/quick/?mode=pension", label: "연금 계좌" },
   { href: "/quick/?mode=derivatives", label: "레버리지·인버스" },
@@ -46,13 +46,12 @@ export function SiteHeader() {
     }
   }, [pathname, searchParams]);
 
-  // "ETF 탐색" highlighted on both / and /quick, but sub-nav only on /quick.
-  // Clicking "ETF 찾기" sub-tab goes to / which hides sub-nav (consistent).
+  // "ETF 탐색" owns both the screener and the preset ETF views.
   const isEtfSection = pathname === "/" || pathname === "/quick" || pathname === "/quick/";
-  const showFinderNav = pathname === "/quick" || pathname === "/quick/";
+  const showFinderNav = isEtfSection;
 
   const isPrimaryActive = (href: string) => {
-    if (href === "/quick/?mode=general") return isEtfSection;
+    if (href === "/") return isEtfSection;
     // Strip trailing slash for comparison if necessary, but hrefs now have it
     const normalizedPath = pathname.endsWith("/") ? pathname : `${pathname}/`;
     return normalizedPath === href || normalizedPath.startsWith(href);
@@ -82,8 +81,7 @@ export function SiteHeader() {
       </nav>
       {showFinderNav ? (
         <div className="border-t border-line bg-brand-50/55">
-          <nav aria-label="ETF 찾기 메뉴" className="page-shell scrollbar-none flex items-center gap-2 overflow-x-auto py-3 text-sm">
-            <span className="mr-2 shrink-0 border-r border-brand-200 pr-4 text-xs font-extrabold tracking-[0.06em] text-brand-800">ETF 탐색</span>
+          <nav aria-label="ETF 탐색 메뉴" className="page-shell scrollbar-none flex items-center gap-2 overflow-x-auto py-2.5 text-sm">
             {finderNavigation.map((item) => {
               const active = item.href === activeFinderHref;
               const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`;

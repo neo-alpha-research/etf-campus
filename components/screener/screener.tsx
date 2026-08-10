@@ -481,6 +481,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm whitespace-nowrap">
                 <colgroup>
+                  <col style={{ width: 56 }} />
                   <col style={{ width: 168 }} />
                   <col style={{ width: 40 }} />
                   <col style={{ width: 36 }} />
@@ -498,11 +499,12 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 </colgroup>
                 <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
                   <tr className="border-b border-neutral-200">
-                    <th className="px-2 py-0 h-[32px] text-center" colSpan={5} scope="colgroup">상품 정보</th>
+                    <th className="px-2 py-0 h-[32px] text-center" colSpan={6} scope="colgroup">상품 정보</th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">수익률(%)</th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={5} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">종목코드</th>
                     <th className="px-2 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목명</th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">자산</th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">지역</th>
@@ -534,13 +536,9 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 <tbody className="divide-y divide-line text-[12px]">
                   {results.map((etf) => (
                     <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" key={etf.ticker}>
+                      <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted tabular-nums">{etf.ticker}</td>
                       <th className="w-[168px] px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
                         <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
-                        <div className="mt-1 flex items-center gap-1.5 text-[11px] text-muted">
-                          <span className="font-semibold text-strong">{etf.amc}</span>
-                          <span className="text-neutral-300">|</span>
-                          <span className="tabular-nums">{etf.ticker}</span>
-                        </div>
                       </th>
                       <td className="px-0.5 py-2 text-center text-[11px] font-semibold text-muted">
                         {etf.assetClass}

@@ -42,18 +42,16 @@ export function SiteHeader() {
         <nav aria-label="주요 메뉴" className="hidden items-center gap-1 rounded-xl bg-neutral-50 p-1 text-sm font-bold md:flex">
           {navigation.map((item) => {
             const className = `inline-flex min-h-11 items-center rounded-lg px-3.5 py-2.5 transition-all ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted hover:bg-surface hover:text-strong"}`;
-            return item.href.startsWith("/?")
-              ? <a aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</a>
-              : <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</Link>;
+            return (
+              <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</Link>
+            );
           })}
         </nav>
         <StyleChip />
       </div>
       <nav aria-label="모바일 주요 메뉴" className="scrollbar-none flex gap-2 overflow-x-auto border-t border-line bg-neutral-50 px-5 py-2.5 text-sm font-bold md:hidden">
         {navigation.map((item) => (
-          item.href.startsWith("/?")
-            ? <a aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-lg px-3 py-2 ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted"}`} href={item.href} key={item.href}>{item.label}</a>
-            : <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-lg px-3 py-2 ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted"}`} href={item.href} key={item.href}>{item.label}</Link>
+          <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-lg px-3 py-2 ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted"}`} href={item.href} key={item.href}>{item.label}</Link>
         ))}
       </nav>
       {isPrimaryActive("/?mode=general") ? (
@@ -69,9 +67,9 @@ export function SiteHeader() {
                 active = pathname === item.href;
               }
               const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`;
-              return item.href.startsWith("/quick?")
-                ? <a aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</a>
-                : <Link aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</Link>;
+              return (
+                <Link aria-current={active ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</Link>
+              );
             })}
           </nav>
         </div>

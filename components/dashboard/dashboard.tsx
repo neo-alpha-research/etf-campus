@@ -32,7 +32,6 @@ import {
   type Etf,
   type RiskType,
 } from "@/lib/domain/etf-types";
-import { isSmallEtf } from "@/lib/domain/etf-visibility";
 
 const modeCopy: Record<InvestorMode, { eyebrow: string; title: string; description: string }> = {
   general: {
@@ -108,10 +107,10 @@ function FxHedgeMarker({ value }: { value: string | null }) {
   if (!value) return null;
 
   if (value === "노출") {
-    return <span aria-label="환노출: 환헤지 없음" className="inline-flex min-h-6 min-w-6 select-none items-center justify-center rounded-full border border-neutral-300 bg-neutral-50 px-1 text-[11px] font-extrabold text-neutral-700" title="환노출(환헤지 없음)">X</span>;
+    return <span aria-label="환노출: 환헤지 없음" className="inline-flex min-h-6 select-none items-center justify-center whitespace-nowrap rounded border border-neutral-300 bg-neutral-100 px-1 text-[10px] font-extrabold text-neutral-700" title="환노출(환헤지 없음)">비헤지</span>;
   }
   if (value === "헤지") {
-    return <span aria-label="환헤지 적용" className="inline-flex min-h-6 min-w-6 select-none items-center justify-center rounded-full border border-brand-200 bg-brand-50 px-1 text-[11px] font-extrabold text-brand-800" title="환헤지 적용">O</span>;
+    return <span aria-label="환헤지 적용" className="inline-flex min-h-6 select-none items-center justify-center whitespace-nowrap rounded border border-sky-200 bg-sky-50 px-1 text-[10px] font-extrabold text-sky-800" title="환헤지 적용">헤지</span>;
   }
 
   const accessibleLabel = value === "부분" ? "부분 헤지" : "탄력적 헤지";
@@ -406,10 +405,10 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 <th className="sticky top-[32px] z-30 w-[56px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col" style={{ left: 0 }}>종목코드</th>
                 <th className="sticky top-[32px] z-30 w-[192px] h-[48px] bg-neutral-100 px-2 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col" style={{ left: 56 }}>종목명</th>
                 {isDeriv ? <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">유형</th> : null}
-                {isNew ? <th className="sticky top-[32px] z-20 w-[56px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col">상장일</th> : null}
+                {isNew ? <th className="sticky top-[32px] z-20 h-[48px] w-[80px] min-w-[80px] bg-neutral-100 px-1 py-0 text-center" scope="col">상장일</th> : null}
                 <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">지역</th>
                 <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">자산</th>
-                <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">환헤지</th>
+                <th className="sticky top-[32px] z-20 w-[48px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">환헤지</th>
                 {!isPension && !isDeriv ? <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">연금</th> : null}
                 
                 {periods.map((period, index) => {
@@ -451,7 +450,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     </th>
                     
                     {isDeriv ? <td className="hidden px-0.5 py-2 text-center md:table-cell">{fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}</td> : null}
-                    {isNew ? <td className="tabular-nums hidden px-1 py-2 text-center text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
+                    {isNew ? <td className="tabular-nums hidden w-[80px] min-w-[80px] whitespace-nowrap px-1 py-2 text-center text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                     
                     <td className="hidden px-0.5 py-2 text-center text-[11px] font-semibold text-muted md:table-cell">{fields.marketScope ?? ""}</td>
                     <td className="hidden px-0.5 py-2 text-center md:table-cell">
@@ -475,7 +474,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     })}
                     
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums text-muted md:table-cell border-l border-neutral-100">{(etf.ter * 100).toFixed(2)}</td>
-                    <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell"><span className="flex w-full items-center justify-end gap-1.5"><span>{formatAumNumber(etf.aum)}</span>{isSmallEtf(etf) ? <span aria-label="소규모 ETF: 순자산 100억원 미만" className="size-2 shrink-0 rounded-full bg-amber-500" title="순자산 100억원 미만" /> : null}</span></td>
+                    <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatAumNumber(etf.aum)}</td>
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
                     
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell border-l border-neutral-100">{formatWonNumber(etf.close)}</td>

@@ -54,7 +54,7 @@ describe("Dashboard", () => {
     expect(screen.queryByText("레버리지 ETF")).not.toBeInTheDocument();
   });
 
-  it("500억과 전체 범위를 전환하고 소규모 ETF를 순자산 옆에 표시한다", () => {
+  it("500억과 전체 범위를 전환하고 순자산 수치를 그대로 표시한다", () => {
     render(<Dashboard etfs={items} />);
     const select = screen.getByRole("combobox", { name: "순자산 기준" });
     fireEvent.change(select, { target: { value: "500plus" } });
@@ -63,8 +63,7 @@ describe("Dashboard", () => {
     expect(screen.getByText("순자산 전체 · 3종목")).toBeInTheDocument();
     expect(screen.getByText("50")).toBeInTheDocument();
     expect(screen.queryByText("50.0")).not.toBeInTheDocument();
-    expect(screen.queryByText("소규모 유의")).not.toBeInTheDocument();
-    expect(screen.getByLabelText("소규모 ETF: 순자산 100억원 미만")).toBeInTheDocument();
+    expect(screen.queryByLabelText("소규모 ETF: 순자산 100억원 미만")).not.toBeInTheDocument();
   });
 
   it("일반 계좌에 2주, 2년, 3년 수익률이 포함된다", () => {
@@ -117,7 +116,7 @@ describe("Dashboard", () => {
     expect(within(oneMonthHeader).getByText("(%)")).toHaveClass("block", "text-[10px]", "font-bold", "text-neutral-500");
   });
 
-  it("환노출과 환헤지는 X와 O로 표시하고 부분·탄력 헤지는 유지한다", () => {
+  it("환노출과 환헤지는 의미가 분명한 텍스트로 표시하고 부분·탄력 헤지는 유지한다", () => {
     const classification = (fxHedge: string) => ({
       published: true,
       marketScope: "미국",
@@ -137,8 +136,10 @@ describe("Dashboard", () => {
       etf({ ticker: "FX4", name: "탄력헤지 ETF", classification: classification("탄력적 헤지") }),
     ]} />);
 
-    expect(screen.getByLabelText("환노출: 환헤지 없음")).toHaveTextContent("X");
-    expect(screen.getByLabelText("환헤지 적용")).toHaveTextContent("O");
+    expect(screen.getByLabelText("환노출: 환헤지 없음")).toHaveTextContent("비헤지");
+    expect(screen.getByLabelText("환노출: 환헤지 없음")).toHaveClass("bg-neutral-100", "text-neutral-700");
+    expect(screen.getByLabelText("환헤지 적용")).toHaveTextContent("헤지");
+    expect(screen.getByLabelText("환헤지 적용")).toHaveClass("bg-sky-50", "text-sky-800");
     expect(screen.getByLabelText("부분 헤지")).toHaveTextContent("부분");
     expect(screen.getByLabelText("탄력적 헤지")).toHaveTextContent("탄력");
   });
@@ -154,12 +155,17 @@ describe("Dashboard", () => {
 
   it("신규 상장은 2주와 상장 후 ITD를 표시하고 3개월은 제외한다", async () => {
     window.history.replaceState(null, "", "/quick?mode=new");
-    render(<Dashboard etfs={items} />);
+    render(<Dashboard etfs={[
+      etf({ ticker: "NEW", name: "소규모 신규 ETF", aum: 5_000_000_000, listingDate: "20260701", isNew3m: true }),
+    ]} />);
     await waitFor(() => expect(screen.getByRole("heading", { name: "상장 후 90일 이내 신규 ETF" })).toBeInTheDocument());
     expect(screen.getByRole("option", { name: "2주" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "상장 후" })).toBeInTheDocument();
     expect(screen.queryByRole("option", { name: "3개월" })).not.toBeInTheDocument();
     expect(screen.getByText("소규모 신규 ETF")).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "상장일" })).toHaveClass("w-[80px]", "min-w-[80px]");
+    expect(screen.getByText("2026.07.01")).toHaveClass("whitespace-nowrap");
+    expect(screen.queryByLabelText("소규모 ETF: 순자산 100억원 미만")).not.toBeInTheDocument();
   });
 
   it("검색과 테이블 헤더를 제공한다", () => {

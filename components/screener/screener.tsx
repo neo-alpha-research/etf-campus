@@ -50,10 +50,83 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.dividendFrequencies.length + filters.amcs.length;
 
-  const defaultConditionParts = [];
-  if (filters.riskTypes.length === 1 && filters.riskTypes[0] === "normal") defaultConditionParts.push("일반형");
-  if (filters.aumScope === "1000plus") defaultConditionParts.push("순자산 1,000억원 이상");
-  const defaultConditionsText = defaultConditionParts.length > 0 ? `기본 조건: ${defaultConditionParts.join(" · ")}` : null;
+  const isPensionQuickActive = filters.pensionOnly;
+  const togglePensionQuick = () => updateFilters({ ...filters, pensionOnly: !filters.pensionOnly });
+
+  const isUsStockQuickActive = filters.assetClasses.includes("주식-해외") && filters.marketScopes.includes("미국");
+  const toggleUsStockQuick = () => {
+    if (isUsStockQuickActive) {
+      updateFilters({
+        ...filters,
+        assetClasses: filters.assetClasses.filter(v => v !== "주식-해외"),
+        marketScopes: filters.marketScopes.filter(v => v !== "미국"),
+      });
+    } else {
+      updateFilters({
+        ...filters,
+        assetClasses: Array.from(new Set([...filters.assetClasses, "주식-해외"])),
+        marketScopes: Array.from(new Set([...filters.marketScopes, "미국"])),
+      });
+    }
+  };
+
+  const isMonthlyDivQuickActive = filters.dividendFrequencies.includes("월배당");
+  const toggleMonthlyDivQuick = () => {
+    updateFilters({
+      ...filters,
+      dividendFrequencies: isMonthlyDivQuickActive ? filters.dividendFrequencies.filter(v => v !== "월배당") : [...filters.dividendFrequencies, "월배당"]
+    });
+  };
+
+  const isBondParkingQuickActive = filters.assetClasses.includes("채권") && filters.assetClasses.includes("금리·파킹");
+  const toggleBondParkingQuick = () => {
+    if (isBondParkingQuickActive) {
+      updateFilters({
+        ...filters,
+        assetClasses: filters.assetClasses.filter(v => v !== "채권" && v !== "금리·파킹")
+      });
+    } else {
+      updateFilters({
+        ...filters,
+        assetClasses: Array.from(new Set([...filters.assetClasses, "채권", "금리·파킹"]))
+      });
+    }
+  };
+
+  const isAum1000QuickActive = filters.aumScope === "1000plus";
+  const toggleAum1000Quick = () => updateFilters({ ...filters, aumScope: isAum1000QuickActive ? "all" : "1000plus" });
+
+  const activeFilters: { label: string; remove: () => void }[] = [];
+  if (filters.pensionOnly) {
+    activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false }) });
+  }
+  filters.marketScopes.forEach(v => {
+    activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, marketScopes: filters.marketScopes.filter(i => i !== v) }) });
+  });
+  filters.assetClasses.forEach(v => {
+    activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, assetClasses: filters.assetClasses.filter(i => i !== v) }) });
+  });
+  filters.riskTypes.forEach(v => {
+    activeFilters.push({ label: riskLabels[v], remove: () => updateFilters({ ...filters, riskTypes: filters.riskTypes.filter(i => i !== v) }) });
+  });
+  filters.strategies.forEach(v => {
+    activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, strategies: filters.strategies.filter(i => i !== v) }) });
+  });
+  filters.fxHedges.forEach(v => {
+    activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, fxHedges: filters.fxHedges.filter(i => i !== v) }) });
+  });
+  if (filters.aumScope !== "all") {
+    activeFilters.push({ label: `순자산 ${aumLabels[filters.aumScope]}`, remove: () => updateFilters({ ...filters, aumScope: "all" }) });
+  }
+  filters.terRanges.forEach(v => {
+    activeFilters.push({ label: `총보수 ${terLabels[v]}`, remove: () => updateFilters({ ...filters, terRanges: filters.terRanges.filter(i => i !== v) }) });
+  });
+  filters.dividendFrequencies.forEach(v => {
+    activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, dividendFrequencies: filters.dividendFrequencies.filter(i => i !== v) }) });
+  });
+  filters.amcs.forEach(v => {
+    activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, amcs: filters.amcs.filter(i => i !== v) }) });
+  });
 
   return (
     <main className="page-shell flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
@@ -62,11 +135,61 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           <p className="eyebrow text-xs">ETF Screener</p>
           <h1 className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-strong sm:text-3xl">내 기준으로 ETF 찾기</h1>
           <p className="mt-1 text-[13px] leading-tight text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p>
-          {defaultConditionsText && (
-            <p className="mt-2 inline-block rounded-md bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-700">{defaultConditionsText}</p>
-          )}
         </div>
         <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
+      </div>
+
+      <div className="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="빠른 시작 조건">
+        <button
+          type="button"
+          aria-pressed={isPensionQuickActive}
+          onClick={togglePensionQuick}
+          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+            isPensionQuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+          }`}
+        >
+          연금 가능 ETF
+        </button>
+        <button
+          type="button"
+          aria-pressed={isUsStockQuickActive}
+          onClick={toggleUsStockQuick}
+          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+            isUsStockQuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+          }`}
+        >
+          미국 주식
+        </button>
+        <button
+          type="button"
+          aria-pressed={isMonthlyDivQuickActive}
+          onClick={toggleMonthlyDivQuick}
+          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+            isMonthlyDivQuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+          }`}
+        >
+          월분배
+        </button>
+        <button
+          type="button"
+          aria-pressed={isBondParkingQuickActive}
+          onClick={toggleBondParkingQuick}
+          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+            isBondParkingQuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+          }`}
+        >
+          채권·파킹
+        </button>
+        <button
+          type="button"
+          aria-pressed={isAum1000QuickActive}
+          onClick={toggleAum1000Quick}
+          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+            isAum1000QuickActive ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line bg-surface text-muted hover:bg-neutral-50"
+          }`}
+        >
+          순자산 1,000억 이상
+        </button>
       </div>
 
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">
@@ -140,7 +263,26 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
 
         <section aria-labelledby="results-title" className="min-w-0">
           <ReturnRankingChart etfs={results} selectedPeriod={selectedPeriod} onPeriodChange={setSelectedPeriod} />
-          <div className="flex items-center justify-between gap-3"><h2 className="text-lg font-extrabold" id="results-title">검색 결과 <span className="tabular-nums text-brand-700">{results.length.toLocaleString("ko-KR")}</span></h2>{etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}</div>
+          
+          <div className="mt-6 mb-4">
+            <div className="flex flex-wrap items-center gap-2 mb-3" aria-label="선택된 ETF 조건">
+              {activeFilters.map(f => (
+                <button key={f.label} onClick={f.remove} aria-label={`${f.label} 조건 제거`} className="inline-flex items-center gap-1 rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-strong hover:bg-neutral-50">
+                  {f.label}
+                  <svg className="size-3 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <h2 className="text-lg font-extrabold" id="results-title">검색 결과 <span className="tabular-nums text-brand-700">{results.length.toLocaleString("ko-KR")}</span></h2>
+                {activeFilters.length > 0 && (
+                  <button onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} className="text-sm font-bold text-muted hover:text-brand-700">조건 초기화</button>
+                )}
+              </div>
+              {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
+            </div>
+          </div>
           <p className="mt-2 text-xs font-semibold text-muted">수익률: {RETURN_PERIOD_LABELS[selectedPeriod]} 기준 · 분배금 미포함</p>
           <div className="mt-4 overflow-hidden rounded-2xl border border-line">
             <div className="overflow-x-auto">

@@ -8,7 +8,7 @@ import { formatReturn } from "@/lib/domain/etf-format";
 
 import { GENERAL_RETURN_PERIODS } from "@/lib/domain/etf-explorer";
 
-const RANKING_PERIODS: ReturnPeriod[] = [...GENERAL_RETURN_PERIODS].filter(p => p !== "ytd");
+const RANKING_PERIODS: ReturnPeriod[] = [...GENERAL_RETURN_PERIODS];
 
 export function ReturnRankingChart({ 
   etfs, 
@@ -76,7 +76,7 @@ export function ReturnRankingChart({
                 type="button"
                 onClick={() => onPeriodChange(period)}
                 aria-pressed={isActive}
-                className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
+                className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 transition-colors ${period === "ytd" ? "text-[10px] font-bold" : "text-xs font-bold"} ${
                   isActive ? "bg-neutral-900 text-white" : "text-muted hover:bg-neutral-100 hover:text-strong"
                 }`}
               >

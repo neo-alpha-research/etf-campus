@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
-import { formatAumNumber, formatWonNumber } from "@/lib/domain/etf-format";
+import { formatAumNumber, formatWonNumber, formatTradeValueNumber } from "@/lib/domain/etf-format";
 import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
 import { AUM_SCOPES, GENERAL_RETURN_PERIODS, type AumScope } from "@/lib/domain/etf-explorer";
 import { ASSET_CLASSES, RISK_TYPES, DIVIDEND_FREQUENCIES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type DividendFrequency, type AmcType, type ReturnPeriod, type MarketScope, type Strategy, type FxHedge } from "@/lib/domain/etf-types";
@@ -481,24 +481,31 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm whitespace-nowrap">
                 <colgroup>
-                  <col style={{ width: 192 }} />
+                  <col style={{ width: 168 }} />
+                  <col style={{ width: 40 }} />
+                  <col style={{ width: 36 }} />
                   <col style={{ width: 40 }} />
                   <col style={{ width: 36 }} />
                   <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
+                  <col style={{ width: 54 }} />
+                  <col style={{ width: 36 }} />
                   <col style={{ width: 40 }} />
                   <col style={{ width: 48 }} />
+                  <col style={{ width: 52 }} />
                   <col style={{ width: 48 }} />
                 </colgroup>
                 <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
                   <tr className="border-b border-neutral-200">
-                    <th className="px-2 py-0 h-[32px] text-center" colSpan={3} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={3} scope="colgroup">수익률(%)</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={3} scope="colgroup">비용·규모·가격</th>
+                    <th className="px-2 py-0 h-[32px] text-center" colSpan={5} scope="colgroup">상품 정보</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">수익률(%)</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={5} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
                     <th className="px-2 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목명</th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">자산</th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">지역</th>
                     <th className="px-0.5 py-0 h-[48px] text-center text-[10px] tracking-tighter" scope="col">환헤지</th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">연금</th>
                     
@@ -509,18 +516,25 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1개월</span>
                     </th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">3개월</span>
+                    </th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1년</span>
                     </th>
                     
-                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
+                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">월배당</span>
+                    </th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-line text-[12px]">
                   {results.map((etf) => (
                     <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" key={etf.ticker}>
-                      <th className="w-[192px] px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                      <th className="w-[168px] px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
                         <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
                         <div className="mt-1 flex items-center gap-1.5 text-[11px] text-muted">
                           <span className="font-semibold text-strong">{etf.amc}</span>
@@ -528,6 +542,12 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                           <span className="tabular-nums">{etf.ticker}</span>
                         </div>
                       </th>
+                      <td className="px-0.5 py-2 text-center text-[11px] font-semibold text-muted">
+                        {etf.assetClass}
+                      </td>
+                      <td className="px-0.5 py-2 text-center text-[11px] font-semibold text-muted">
+                        {etf.classification?.marketScope}
+                      </td>
                       <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted"><FxHedgeMarker value={etf.classification?.fxHedge || null} /></td>
                       <td className="px-0.5 py-2 text-center"><PensionBadge compact status={etf.pension} /></td>
                       
@@ -538,11 +558,18 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                         <ReturnCell showUnit={false} value={etf.returns["1m"]} />
                       </td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">
+                        <ReturnCell showUnit={false} value={etf.returns["3m"]} />
+                      </td>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums">
                         <ReturnCell showUnit={false} value={etf.returns["12m"]} />
                       </td>
                       
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{(etf.ter * 100).toFixed(2)}</td>
+                      <td className="px-0.5 py-2 text-center text-[11px] font-extrabold text-brand-600 border-l border-neutral-100">
+                        {etf.dividendFrequency === "월배당" ? "O" : ""}
+                      </td>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted">{(etf.ter * 100).toFixed(2)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatTradeValueNumber(etf.tradeValue)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
                     </tr>
                   ))}

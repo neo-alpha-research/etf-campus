@@ -15,7 +15,7 @@ const navigation = [
 ] as const;
 
 const finderNavigation = [
-  { href: "/", label: "종합 ETF 랭킹" },
+  { href: "/", label: "ETF 찾기" },
   { href: "/quick?mode=general", label: "일반 계좌" },
   { href: "/quick?mode=pension", label: "연금 계좌" },
   { href: "/quick?mode=derivatives", label: "레버리지·인버스" },
@@ -58,7 +58,7 @@ export function SiteHeader() {
       </nav>
       <div className="border-t border-line bg-brand-50/55">
         <nav aria-label="ETF 찾기 메뉴" className="page-shell scrollbar-none flex items-center gap-2 overflow-x-auto py-3 text-sm">
-          <span className="mr-2 shrink-0 border-r border-brand-200 pr-4 text-xs font-extrabold tracking-[0.06em] text-brand-800">계좌·상품 유형</span>
+          <span className="mr-2 shrink-0 border-r border-brand-200 pr-4 text-xs font-extrabold tracking-[0.06em] text-brand-800">ETF 탐색</span>
           {finderNavigation.map((item) => {
             let active = false;
             if (item.href.startsWith("/quick?")) {

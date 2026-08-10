@@ -314,7 +314,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               {AUM_SCOPES.map((value) => {
                 const isChecked = filters.aumScope === value;
                 return (
-                  <label key={value} className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-50 text-brand-700" : "border-line text-muted hover:bg-neutral-50"}`}>
+                  <label key={value} className={`cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
                     <input checked={isChecked} className="sr-only" onChange={() => updateFilters({ ...filters, aumScope: value })} type="radio" name="aumScope" />
                     {aumLabels[value]}
                   </label>

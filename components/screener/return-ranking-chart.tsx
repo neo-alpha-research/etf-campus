@@ -24,8 +24,8 @@ export function ReturnRankingChart({
   const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns[selectedPeriod] as number)), 1);
 
   return (
-    <section aria-labelledby="ranking-chart-title" className="mb-8 overflow-hidden rounded-2xl border border-line bg-surface p-4 md:p-5 shadow-sm">
-      <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <section aria-labelledby="ranking-chart-title" className="mb-6 overflow-hidden rounded-xl border border-line bg-surface p-4 shadow-sm">
+      <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 id="ranking-chart-title" className="text-lg font-extrabold text-strong">
             수익률 상위 TOP 5
@@ -51,14 +51,14 @@ export function ReturnRankingChart({
       </div>
       
       {top10.length > 0 ? (
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           {top10.map((etf, index) => {
             const ret = etf.returns[selectedPeriod] as number;
             const widthPct = Math.max((Math.abs(ret) / maxAbsReturn) * 100, 1); // 최소 1% 너비
             const isPositive = ret > 0;
             
             return (
-              <div key={etf.ticker} className="flex items-center gap-3 md:gap-4">
+              <div key={etf.ticker} className="flex items-center gap-2 md:gap-3">
                 <div className="w-6 shrink-0 text-center text-sm font-bold text-muted md:w-8">
                   {index + 1}
                 </div>

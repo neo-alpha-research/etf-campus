@@ -91,9 +91,9 @@ export function ReturnRankingChart({
         </button>
       </div>
 
-      <div ref={chartRef} className="bg-white p-4 sm:p-5">
-        <div className="mb-5">
-          <h2 id="ranking-chart-title" className="text-lg font-extrabold tracking-tight text-strong sm:text-xl">
+      <div ref={chartRef} className="bg-white p-3 sm:p-4">
+        <div className="mb-4">
+          <h2 id="ranking-chart-title" className="text-base font-extrabold tracking-tight text-strong sm:text-lg">
             선택 조건 내 {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 TOP 5
           </h2>
           <p className="mt-1 text-xs font-medium leading-relaxed text-muted">
@@ -112,10 +112,10 @@ export function ReturnRankingChart({
               return (
                 <div 
                   key={etf.ticker} 
-                  className="group flex flex-col gap-2 rounded-xl bg-neutral-50 p-3 sm:flex-row sm:items-center sm:gap-4 sm:p-3"
+                  className="group flex flex-col gap-1.5 rounded-xl bg-neutral-50 p-2.5 sm:flex-row sm:items-center sm:gap-3 sm:p-3"
                 >
-                  <div className="flex items-center gap-3 sm:w-[220px] sm:shrink-0">
-                    <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-extrabold text-neutral-400 shadow-sm">
+                  <div className="flex items-center gap-2.5 sm:w-[220px] sm:shrink-0">
+                    <div className="flex size-5 shrink-0 items-center justify-center rounded-full bg-white text-[11px] font-extrabold text-neutral-400 shadow-sm">
                       {index + 1}
                     </div>
                     <div className="flex min-w-0 flex-col">
@@ -133,16 +133,18 @@ export function ReturnRankingChart({
                     </div>
                   </div>
 
-                  <div className="flex flex-1 items-center gap-3">
+                  <div className="flex flex-1 items-center gap-2.5">
                     <div className="flex-1">
-                      <div className="flex h-3 items-center rounded-full bg-neutral-200/50 sm:h-4">
+                      <div className="flex h-2 items-center rounded-full bg-neutral-200/50 sm:h-2.5">
                         <div
-                          className={`h-full rounded-full transition-all duration-700 ${isPositive ? "bg-rise" : isZero ? "bg-neutral-300" : "bg-fall"}`}
+                          className={`h-full rounded-full transition-all duration-700 ${isPositive ? "bg-rise" : isZero ? "bg-neutral-300" : "bg-fall"} ${
+                            index === 0 ? "opacity-100" : index === 1 ? "opacity-90" : index === 2 ? "opacity-75" : index === 3 ? "opacity-60" : "opacity-40"
+                          }`}
                           style={{ width: `${widthPct}%` }}
                         />
                       </div>
                     </div>
-                    <div className={`w-[64px] shrink-0 text-right whitespace-nowrap text-sm font-extrabold tabular-nums sm:text-base ${isPositive ? "text-rise" : isZero ? "text-muted" : "text-fall"}`}>
+                    <div className={`w-[56px] shrink-0 text-right whitespace-nowrap text-[13px] font-extrabold tabular-nums sm:text-sm ${isPositive ? "text-rise" : isZero ? "text-muted" : "text-fall"}`}>
                       {formatReturn(ret)}
                     </div>
                   </div>
@@ -158,11 +160,11 @@ export function ReturnRankingChart({
 
         {/* Watermark for captured image */}
         {isCapturing && (
-          <div className="mt-6 flex items-center justify-between border-t border-neutral-100 pt-4">
+          <div className="mt-4 flex items-center justify-between border-t border-neutral-100 pt-3">
             <p className="text-[10px] font-medium text-neutral-400">* 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.</p>
             <div className="flex items-center gap-1.5">
-              <span className="text-base font-black tracking-tighter text-brand-700">ETF Campus</span>
-              <span className="text-[11px] font-semibold text-neutral-400">etfcampus.com</span>
+              <span className="text-[13px] font-black tracking-tighter text-brand-700">ETF Campus</span>
+              <span className="text-[10px] font-semibold text-neutral-400">https://etf-campus.pages.dev/</span>
             </div>
           </div>
         )}

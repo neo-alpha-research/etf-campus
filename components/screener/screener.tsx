@@ -29,7 +29,7 @@ function FxHedgeMarker({ value }: { value: string | null }) {
 
 function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
   return (
-    <div className="flex flex-col items-end justify-center pr-1 leading-[1.2]">
+    <div className="flex flex-col items-center justify-center leading-[1.2]">
       <span className="text-[11px] font-bold text-strong">{label}</span>
       <span className="text-[10px] font-bold text-neutral-500">({unit})</span>
     </div>
@@ -510,16 +510,16 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                     <th className="px-0.5 py-0 h-[48px] text-center text-[10px] tracking-tighter" scope="col">환헤지</th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">연금</th>
                     
-                    <th className="px-0.5 py-0 h-[48px] text-right pr-1 border-l border-neutral-200" scope="col">
+                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1일</span>
                     </th>
-                    <th className="px-0.5 py-0 h-[48px] text-right pr-1" scope="col">
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1개월</span>
                     </th>
-                    <th className="px-0.5 py-0 h-[48px] text-right pr-1" scope="col">
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">3개월</span>
                     </th>
-                    <th className="px-0.5 py-0 h-[48px] text-right pr-1" scope="col">
+                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1년</span>
                     </th>
                     

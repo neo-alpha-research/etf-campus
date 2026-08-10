@@ -14,6 +14,14 @@ const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "�
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억원 이상", "1000plus": "1,000억원 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
 
+type ScreenerSortKey = "return" | "aum" | "tradeValue" | "ter";
+const sortLabels: Record<ScreenerSortKey, string> = {
+  return: "선택 기간 수익률 높은순",
+  aum: "순자산 높은순",
+  tradeValue: "거래대금 높은순",
+  ter: "총보수 낮은순",
+};
+
 function toggleValue<T>(values: readonly T[], value: T): T[] {
   return values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
 }
@@ -23,12 +31,15 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");
+  const [sort, setSort] = useState<ScreenerSortKey>("return");
 
   const syncFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
     setFilters(parseScreenerQuery(params));
     const p = params.get("period") as ReturnPeriod;
     setSelectedPeriod(["1d", "1w", "1m", "3m", "12m"].includes(p) ? p : "1d");
+    const s = params.get("sort") as ScreenerSortKey;
+    setSort(Object.keys(sortLabels).includes(s) ? s : "return");
   };
 
   useEffect(() => {
@@ -37,30 +48,70 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     return () => window.removeEventListener("popstate", syncFromUrl);
   }, []);
 
-  const updateStateAndUrl = (nextFilters: ScreenerFilters, nextPeriod: ReturnPeriod) => {
+  const updateStateAndUrl = (nextFilters: ScreenerFilters, nextPeriod: ReturnPeriod, nextSort: ScreenerSortKey) => {
     setFilters(nextFilters);
     setSelectedPeriod(nextPeriod);
+    setSort(nextSort);
     const query = new URLSearchParams(serializeScreenerQuery(nextFilters));
     if (nextPeriod !== "1d") query.set("period", nextPeriod);
+    if (nextSort !== "return") query.set("sort", nextSort);
     const queryString = query.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
   };
 
-  const updateFilters = (next: ScreenerFilters) => updateStateAndUrl(next, selectedPeriod);
-  const handlePeriodChange = (nextPeriod: ReturnPeriod) => updateStateAndUrl(filters, nextPeriod);
+  const updateFilters = (next: ScreenerFilters) => updateStateAndUrl(next, selectedPeriod, sort);
+  const handlePeriodChange = (nextPeriod: ReturnPeriod) => updateStateAndUrl(filters, nextPeriod, sort);
+  const handleSortChange = (nextSort: ScreenerSortKey) => updateStateAndUrl(filters, selectedPeriod, nextSort);
 
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
-      const returnA = a.returns[selectedPeriod] ?? -Infinity;
-      const returnB = b.returns[selectedPeriod] ?? -Infinity;
-      if (returnA !== returnB) {
-        return returnB - returnA; // Descending return
+      if (sort === "return") {
+        const ra = a.returns[selectedPeriod] ?? -Infinity;
+        const rb = b.returns[selectedPeriod] ?? -Infinity;
+        if (ra !== rb) return rb - ra;
+        if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
+        if (a.aum !== b.aum) return b.aum - a.aum;
+      } else if (sort === "aum") {
+        if (a.aum !== b.aum) return b.aum - a.aum;
+        if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
+      } else if (sort === "tradeValue") {
+        if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
+        if (a.aum !== b.aum) return b.aum - a.aum;
+      } else if (sort === "ter") {
+        if (a.ter !== b.ter) return a.ter - b.ter; // asc
+        if (a.aum !== b.aum) return b.aum - a.aum;
       }
-      return b.tradeValue - a.tradeValue; // Fallback
+      return a.ticker.localeCompare(b.ticker);
     });
-  }, [etfs, filters, selectedPeriod]);
+  }, [etfs, filters, selectedPeriod, sort]);
   
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.dividendFrequencies.length + filters.amcs.length;
+
+  const quickQuery = useMemo(() => {
+    let quickMode = "general";
+    if (filters.pensionOnly) {
+      quickMode = "pension";
+    } else if (filters.riskTypes.length > 0 && !filters.riskTypes.includes("normal")) {
+      quickMode = "derivatives";
+    }
+    
+    const q = new URLSearchParams();
+    q.set("mode", quickMode);
+    if (filters.aumScope !== "all") {
+      q.set("scope", filters.aumScope);
+    }
+    if (selectedPeriod !== "1d") {
+      q.set("period", selectedPeriod);
+    }
+    filters.assetClasses.forEach(v => q.append("asset", v));
+    
+    if (quickMode === "derivatives") {
+      filters.riskTypes.forEach(v => q.append("risk", v));
+    }
+    return q;
+  }, [filters, selectedPeriod]);
+
+  const hasUnsupportedFilters = filters.marketScopes.length > 0 || filters.strategies.length > 0 || filters.fxHedges.length > 0 || filters.terRanges.length > 0 || filters.dividendFrequencies.length > 0 || filters.amcs.length > 0;
 
   const isPensionQuickActive = filters.pensionOnly;
   const togglePensionQuick = () => updateFilters({ ...filters, pensionOnly: !filters.pensionOnly });
@@ -276,8 +327,8 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         <section aria-labelledby="results-title" className="min-w-0">
           <ReturnRankingChart etfs={results} selectedPeriod={selectedPeriod} onPeriodChange={handlePeriodChange} />
           
-          <div className="mt-6 mb-4">
-            <div className="flex flex-wrap items-center gap-2 mb-3" aria-label="선택된 ETF 조건">
+          <div className="mt-8 mb-4 flex flex-col gap-4">
+            <div className="flex flex-wrap items-center gap-2" aria-label="선택된 ETF 조건">
               {activeFilters.map(f => (
                 <button key={f.label} onClick={f.remove} aria-label={`${f.label} 조건 제거`} className="inline-flex items-center gap-1 rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-strong hover:bg-neutral-50">
                   {f.label}
@@ -285,30 +336,62 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 </button>
               ))}
             </div>
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <h2 className="text-lg font-extrabold" id="results-title">검색 결과 <span className="tabular-nums text-brand-700">{results.length.toLocaleString("ko-KR")}</span></h2>
-                {activeFilters.length > 0 && (
-                  <button onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} className="text-sm font-bold text-muted hover:text-brand-700">조건 초기화</button>
+            
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3">
+                  <h2 className="text-xl font-extrabold" id="results-title">검색 결과 <span className="tabular-nums text-brand-700">{results.length.toLocaleString("ko-KR")}</span></h2>
+                  {activeFilters.length > 0 && (
+                    <button onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} className="text-sm font-bold text-muted hover:text-brand-700">조건 초기화</button>
+                  )}
+                </div>
+                
+                {results.length > 0 && (
+                  <div className="flex flex-col gap-1.5 sm:flex-row sm:items-center sm:gap-3">
+                    <Link href={`/quick?${quickQuery.toString()}`} className="inline-flex w-fit items-center gap-1 rounded-lg border border-line bg-white px-3 py-1.5 text-sm font-bold text-strong hover:border-brand-700 hover:text-brand-700">
+                      이 조건으로 상세 표 보기
+                      <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </Link>
+                    {hasUnsupportedFilters && (
+                      <p className="text-[11px] text-muted sm:text-xs">계좌·자산·순자산·기간 조건을 이어서 봅니다.</p>
+                    )}
+                  </div>
                 )}
               </div>
-              {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
+
+              <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+                <label htmlFor="results-sort" className="sr-only">정렬 기준</label>
+                <select
+                  id="results-sort"
+                  value={sort}
+                  onChange={(e) => handleSortChange(e.target.value as ScreenerSortKey)}
+                  className="rounded-lg border border-line bg-white py-2 pl-3 pr-8 text-sm font-bold text-strong focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                >
+                  {(Object.keys(sortLabels) as ScreenerSortKey[]).map((key) => (
+                    <option key={key} value={key}>{sortLabels[key]}</option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
-          <p className="mt-2 text-xs font-semibold text-muted">수익률: {RETURN_PERIOD_LABELS[selectedPeriod]} 기준 · 분배금 미포함</p>
-          <div className="mt-4 overflow-hidden rounded-2xl border border-line">
+          
+          <div className="flex items-center justify-between mt-2 mb-4">
+            <p className="text-xs font-semibold text-muted">수익률: {RETURN_PERIOD_LABELS[selectedPeriod]} 기준 · 분배금 미포함</p>
+            {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
+          </div>
+          
+          <div className="overflow-hidden rounded-2xl border border-line">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead className="bg-neutral-50 text-xs font-bold text-muted">
                   <tr>
                     <th className="w-[150px] min-w-[150px] max-w-[150px] px-3 py-3" scope="col">종목명</th>
-                    <th className="px-3 py-3 text-right" scope="col">현재가</th>
                     <th className="px-3 py-3 text-right" scope="col">{RETURN_PERIOD_LABELS[selectedPeriod]} 수익률</th>
-                    <th className="px-3 py-3 text-right" scope="col">1년 수익률(고정)</th>
+                    <th className="px-3 py-3 text-right" scope="col" title="선택 기간과 별도로 보는 장기 참고 수익률">1년 수익률</th>
                     <th className="px-3 py-3 text-right" scope="col">총보수</th>
                     <th className="hidden px-3 py-3 text-right lg:table-cell" scope="col">순자산</th>
                     <th className="hidden px-3 py-3 text-right lg:table-cell" scope="col">거래대금</th>
-                    <th className="hidden px-3 py-3 md:table-cell" scope="col">분류 태그</th>
+                    <th className="hidden px-3 py-3 md:table-cell" scope="col">태그</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-line">
@@ -316,9 +399,12 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                     <tr className="hover:bg-brand-50/50" key={etf.ticker}>
                       <th className="w-[150px] min-w-[150px] max-w-[150px] px-3 py-4 font-normal" scope="row">
                         <Link className="break-all whitespace-normal font-bold text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`}>{etf.name}</Link>
-                        <p className="tabular-nums mt-1 text-xs text-muted">{etf.ticker}</p>
+                        <div className="mt-1 flex items-center gap-1.5 text-[11px] text-muted">
+                          <span className="tabular-nums">{etf.ticker}</span>
+                          <span className="text-neutral-300">|</span>
+                          <span className="truncate">{etf.classification?.marketScope || etf.assetClass}</span>
+                        </div>
                       </th>
-                      <td className="tabular-nums px-3 py-4 text-right">{etf.close.toLocaleString("ko-KR")}원</td>
                       <td className="px-3 py-4 text-right"><ReturnCell value={etf.returns[selectedPeriod]} /></td>
                       <td className="px-3 py-4 text-right"><ReturnCell value={etf.returns["12m"]} /></td>
                       <td className="tabular-nums px-3 py-4 text-right">{(etf.ter * 100).toFixed(2)}%</td>
@@ -326,7 +412,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                       <td className="tabular-nums hidden px-3 py-4 text-right lg:table-cell">{formatMoney(etf.tradeValue)}</td>
                       <td className="hidden px-3 py-4 md:table-cell">
                         <div className="flex flex-wrap gap-1">
-                          <AssetClassTag assetClass={etf.assetClass} />
                           <RiskBadge riskType={etf.riskType} />
                           <PensionBadge status={etf.pension} />
                         </div>

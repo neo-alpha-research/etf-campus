@@ -18,6 +18,7 @@ function etf(overrides: Partial<Etf>): Etf {
 
 const items = [
   etf({ ticker: "A", name: "대형 일반 ETF", aum: 100_000_000_000, classification: { published: true, marketScope: "미국", assetClass: "주식-해외", assetDetail: null, strategy: "액티브", fxHedge: "환노출", reviewStatus: "자동확정", reviewPriority: "", sourceUrl: null, evidenceSummary: null } }),
+  etf({ ticker: "B", name: "레버리지 ETF", riskType: "leverage", aum: 100_000_000_000, classification: { published: true, marketScope: "국내", assetClass: "주식-국내", assetDetail: null, strategy: "패시브", fxHedge: "환노출", reviewStatus: "자동확정", reviewPriority: "", sourceUrl: null, evidenceSummary: null } }),
 ];
 
 describe("Screener - 빠른 시작 및 선택 조건", () => {
@@ -124,5 +125,37 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     // 지역 정보 확인 (미국)
     const regions = screen.getAllByText("미국");
     expect(regions.length).toBeGreaterThan(0);
+  });
+
+  it("정렬 기준을 순자산으로 변경하면 URL에 동기화된다", () => {
+    render(<Screener etfs={items} />);
+    const sortSelect = screen.getByLabelText("정렬 기준");
+    fireEvent.change(sortSelect, { target: { value: "aum" } });
+    
+    expect(sortSelect).toHaveValue("aum");
+    expect(window.location.search).toContain("sort=aum");
+  });
+
+  it("CTA 버튼은 펜션 모드일 때 mode=pension을 포함한다", () => {
+    render(<Screener etfs={items} />);
+    fireEvent.click(screen.getByRole("button", { name: "연금 가능 ETF" }));
+    
+    const cta = screen.getByRole("link", { name: /이 조건으로 상세 표 보기/ });
+    expect(cta).toHaveAttribute("href", expect.stringContaining("mode=pension"));
+  });
+
+  it("CTA 버튼은 레버리지/인버스만 선택 시 mode=derivatives를 포함한다", () => {
+    render(<Screener etfs={items} />);
+    // 레버리지 선택
+    const leverageLabel = screen.getByLabelText("레버리지");
+    fireEvent.click(leverageLabel);
+    
+    // 일반형 해제
+    const normalLabel = screen.getByLabelText("일반형");
+    fireEvent.click(normalLabel);
+
+    const cta = screen.getByRole("link", { name: /이 조건으로 상세 표 보기/ });
+    expect(cta).toHaveAttribute("href", expect.stringContaining("mode=derivatives"));
+    expect(cta).toHaveAttribute("href", expect.stringContaining("risk=leverage"));
   });
 });

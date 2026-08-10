@@ -93,9 +93,9 @@ export function ReturnRankingChart({
         </button>
       </div>
 
-      <div ref={chartRef} className="bg-white p-2.5 sm:p-3">
-        <div className="mb-2.5">
-          <h2 id="ranking-chart-title" className="text-sm font-extrabold tracking-tight text-strong sm:text-base">
+      <div ref={chartRef} className="bg-white p-2 sm:p-2.5">
+        <div className="mb-2">
+          <h2 id="ranking-chart-title" className="text-[13px] font-extrabold tracking-tight text-strong sm:text-sm">
             {activeFilterLabels.length > 0 ? (
               <span className="text-brand-700">
                 {activeFilterLabels.length <= 2 
@@ -110,7 +110,7 @@ export function ReturnRankingChart({
         </div>
         
         {top10.length > 0 ? (
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             {top10.map((etf, index) => {
               const ret = etf.returns[selectedPeriod] as number;
               const widthPct = Math.max((Math.abs(ret) / maxAbsReturn) * 100, 1);
@@ -120,14 +120,14 @@ export function ReturnRankingChart({
               return (
                 <div 
                   key={etf.ticker} 
-                  className="group flex flex-col gap-1 rounded-lg bg-neutral-50 p-2 sm:flex-row sm:items-center sm:gap-2 sm:p-2"
+                  className="group flex items-center gap-1.5 rounded-lg bg-neutral-50 py-1.5 px-2 sm:gap-2"
                 >
-                  <div className="flex items-center gap-2 sm:w-[180px] sm:shrink-0">
+                  <div className="flex items-center gap-1.5 sm:w-[150px] sm:shrink-0">
                     <div className="flex size-4 shrink-0 items-center justify-center rounded-full bg-white text-[10px] font-extrabold text-neutral-400 shadow-sm">
                       {index + 1}
                     </div>
                     <div className="flex min-w-0 flex-col">
-                      <div className="truncate text-[13px] font-extrabold text-strong">
+                      <div className="truncate text-xs font-bold text-strong">
                         {etf.name}
                       </div>
                       <div className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[9px] text-muted">
@@ -143,7 +143,7 @@ export function ReturnRankingChart({
 
                   <div className="flex flex-1 items-center gap-2">
                     <div className="flex-1">
-                      <div className="flex h-1.5 items-center rounded-full bg-neutral-200/50 sm:h-2">
+                      <div className="flex h-1.5 items-center rounded-full bg-neutral-200/50 sm:h-1.5">
                         <div
                           className={`h-full rounded-full transition-all duration-700 ${isPositive ? "bg-rise" : isZero ? "bg-neutral-300" : "bg-fall"} ${
                             index === 0 ? "opacity-100" : index === 1 ? "opacity-90" : index === 2 ? "opacity-75" : index === 3 ? "opacity-60" : "opacity-40"
@@ -152,7 +152,7 @@ export function ReturnRankingChart({
                         />
                       </div>
                     </div>
-                    <div className={`w-[50px] shrink-0 text-right whitespace-nowrap text-xs font-extrabold tabular-nums sm:text-[13px] ${isPositive ? "text-rise" : isZero ? "text-muted" : "text-fall"}`}>
+                    <div className={`w-[48px] shrink-0 text-right whitespace-nowrap text-[11px] font-bold tabular-nums ${isPositive ? "text-rise" : isZero ? "text-muted" : "text-fall"}`}>
                       {formatReturn(ret)}
                     </div>
                   </div>

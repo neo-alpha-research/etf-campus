@@ -369,7 +369,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               <col style={{ width: 56 }} />
               <col style={{ width: 192 }} />
               {isDeriv ? <col style={{ width: 40 }} /> : null}
-              {isNew ? <col style={{ width: 40 }} /> : null}
+              {isNew ? <col style={{ width: 80 }} /> : null}
               <col style={{ width: 36 }} />
               <col style={{ width: 56 }} />
               <col style={{ width: 48 }} />

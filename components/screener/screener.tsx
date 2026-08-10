@@ -24,18 +24,30 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");
 
+  const syncFromUrl = () => {
+    const params = new URLSearchParams(window.location.search);
+    setFilters(parseScreenerQuery(params));
+    const p = params.get("period") as ReturnPeriod;
+    setSelectedPeriod(["1d", "1w", "1m", "3m", "12m"].includes(p) ? p : "1d");
+  };
+
   useEffect(() => {
-    const syncFromUrl = () => setFilters(parseScreenerQuery(new URLSearchParams(window.location.search)));
     syncFromUrl();
     window.addEventListener("popstate", syncFromUrl);
     return () => window.removeEventListener("popstate", syncFromUrl);
   }, []);
 
-  const updateFilters = (next: ScreenerFilters) => {
-    setFilters(next);
-    const query = serializeScreenerQuery(next);
-    window.history.replaceState(null, "", `${window.location.pathname}${query ? `?${query}` : ""}`);
+  const updateStateAndUrl = (nextFilters: ScreenerFilters, nextPeriod: ReturnPeriod) => {
+    setFilters(nextFilters);
+    setSelectedPeriod(nextPeriod);
+    const query = new URLSearchParams(serializeScreenerQuery(nextFilters));
+    if (nextPeriod !== "1d") query.set("period", nextPeriod);
+    const queryString = query.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
   };
+
+  const updateFilters = (next: ScreenerFilters) => updateStateAndUrl(next, selectedPeriod);
+  const handlePeriodChange = (nextPeriod: ReturnPeriod) => updateStateAndUrl(filters, nextPeriod);
 
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
@@ -262,7 +274,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         </aside>
 
         <section aria-labelledby="results-title" className="min-w-0">
-          <ReturnRankingChart etfs={results} selectedPeriod={selectedPeriod} onPeriodChange={setSelectedPeriod} />
+          <ReturnRankingChart etfs={results} selectedPeriod={selectedPeriod} onPeriodChange={handlePeriodChange} />
           
           <div className="mt-6 mb-4">
             <div className="flex flex-wrap items-center gap-2 mb-3" aria-label="선택된 ETF 조건">

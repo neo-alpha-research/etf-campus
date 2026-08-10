@@ -97,4 +97,32 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getByRole("button", { name: "순자산 1,000억원 이상 조건 제거" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "일반형 조건 제거" })).toBeInTheDocument();
   });
+
+  it("1개월 선택 시 차트 제목과 선택 기간이 변경되며 URL이 동기화된다", () => {
+    render(<Screener etfs={items} />);
+    const monthQuick = screen.getByRole("button", { name: "1개월" });
+    fireEvent.click(monthQuick);
+
+    expect(monthQuick).toHaveAttribute("aria-pressed", "true");
+    expect(window.location.search).toContain("period=1m");
+    expect(screen.getByRole("heading", { name: "선택 조건 내 1개월 수익률 TOP 5" })).toBeInTheDocument();
+  });
+
+  it("TOP 5 종목의 상세 정보(순위, 이름, 티커, 수익률, 연금 배지 등)가 표시되며 상세 페이지로 링크된다", () => {
+    render(<Screener etfs={items} />);
+    // 1일 선택(기본)
+    const links = screen.getAllByRole("link", { name: /대형 일반 ETF/ });
+    expect(links[0]).toHaveAttribute("href", "/etf/A");
+    
+    // 수익률(1.2%) 표시 확인
+    const returns = screen.getAllByText("+1.20%");
+    expect(returns.length).toBeGreaterThan(0);
+    
+    // 연금 뱃지 확인
+    expect(screen.getByText("연금O")).toBeInTheDocument();
+    
+    // 지역 정보 확인 (미국)
+    const regions = screen.getAllByText("미국");
+    expect(regions.length).toBeGreaterThan(0);
+  });
 });

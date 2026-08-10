@@ -23,10 +23,14 @@ export function ReturnRankingChart({
 }) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [isTop, setIsTop] = useState(true);
 
   const top10 = [...etfs]
     .filter((etf) => etf.returns[selectedPeriod] !== null)
-    .sort((a, b) => (b.returns[selectedPeriod] as number) - (a.returns[selectedPeriod] as number))
+    .sort((a, b) => {
+      const diff = (b.returns[selectedPeriod] as number) - (a.returns[selectedPeriod] as number);
+      return isTop ? diff : -diff;
+    })
     .slice(0, 5);
 
   const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns[selectedPeriod] as number)), 1);
@@ -49,7 +53,7 @@ export function ReturnRankingChart({
       });
       
       const link = document.createElement('a');
-      link.download = `ETF_Campus_수익률_TOP5_${selectedPeriod}.png`;
+      link.download = `ETF_Campus_수익률_${isTop ? "TOP5" : "BOTTOM5"}_${selectedPeriod}.png`;
       link.href = dataUrl;
       link.click();
     } catch (err) {
@@ -81,16 +85,25 @@ export function ReturnRankingChart({
             );
           })}
         </div>
-        <button 
-          onClick={handleDownload}
-          className="shrink-0 ml-3 flex items-center gap-1.5 rounded-lg bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
-          title="이미지로 저장하여 공유하기"
-        >
-          <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-          </svg>
-          <span className="hidden sm:inline">저장</span>
-        </button>
+        <div className="flex items-center gap-2 ml-3">
+          <button
+            onClick={() => setIsTop(!isTop)}
+            className="shrink-0 flex items-center gap-1 rounded-lg bg-neutral-100 px-2.5 py-1.5 text-xs font-bold text-strong transition-colors hover:bg-neutral-200"
+            title={isTop ? "하위 5개 보기" : "상위 5개 보기"}
+          >
+            {isTop ? "📈 상위 5" : "📉 하위 5"}
+          </button>
+          <button 
+            onClick={handleDownload}
+            className="shrink-0 flex items-center gap-1.5 rounded-lg bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
+            title="이미지로 저장하여 공유하기"
+          >
+            <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+            </svg>
+            <span className="hidden sm:inline">저장</span>
+          </button>
+        </div>
       </div>
 
       <div ref={chartRef} className="bg-white p-2 sm:p-2.5">
@@ -104,8 +117,8 @@ export function ReturnRankingChart({
               </span>
             ) : (
               "전체 조건"
-            )}{" — "}
-            {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 TOP 5
+            }{" — "}
+            {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 {isTop ? "TOP 5" : "BOTTOM 5"}
           </h2>
         </div>
         

@@ -98,9 +98,9 @@ export function ReturnRankingChart({
           <h2 id="ranking-chart-title" className="text-base font-extrabold tracking-tight text-strong sm:text-lg">
             {activeFilterLabels.length > 0 ? (
               <span className="text-brand-700">
-                {activeFilterLabels.length <= 3 
+                {activeFilterLabels.length <= 2 
                   ? activeFilterLabels.join(", ") 
-                  : `${activeFilterLabels.slice(0, 3).join(", ")} 외 ${activeFilterLabels.length - 3}건`}
+                  : `${activeFilterLabels.slice(0, 2).join(", ")} 등 맞춤 조건`}
               </span>
             ) : (
               "전체 조건"

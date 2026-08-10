@@ -24,8 +24,8 @@ export function ReturnRankingChart({
   const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns[selectedPeriod] as number)), 1);
 
   return (
-    <section aria-labelledby="ranking-chart-title" className="mb-6 overflow-hidden rounded-xl border border-line bg-surface p-4 shadow-sm">
-      <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <section aria-labelledby="ranking-chart-title" className="mb-4 overflow-hidden rounded-xl border border-line bg-surface p-3 shadow-sm sm:p-4">
+      <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 id="ranking-chart-title" className="text-lg font-extrabold text-strong">
             수익률 상위 TOP 5
@@ -51,25 +51,25 @@ export function ReturnRankingChart({
       </div>
       
       {top10.length > 0 ? (
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           {top10.map((etf, index) => {
             const ret = etf.returns[selectedPeriod] as number;
             const widthPct = Math.max((Math.abs(ret) / maxAbsReturn) * 100, 1); // 최소 1% 너비
             const isPositive = ret > 0;
             
             return (
-              <div key={etf.ticker} className="flex items-center gap-2 md:gap-3">
-                <div className="w-6 shrink-0 text-center text-sm font-bold text-muted md:w-8">
+              <div key={etf.ticker} className="flex items-center gap-2">
+                <div className="w-5 shrink-0 text-center text-xs font-bold text-muted md:w-6">
                   {index + 1}
                 </div>
-                <div className="w-28 shrink-0 truncate sm:w-40">
-                  <Link href={`/etf/${etf.ticker}`} className="text-sm font-bold text-strong hover:text-brand-700">
+                <div className="w-24 shrink-0 truncate sm:w-36">
+                  <Link href={`/etf/${etf.ticker}`} className="text-[13px] font-bold text-strong hover:text-brand-700">
                     {etf.name}
                   </Link>
-                  <div className="mt-0.5 text-[10px] text-muted">{etf.ticker}</div>
+                  <div className="text-[9px] text-muted">{etf.ticker}</div>
                 </div>
                 <div className="flex-1">
-                  <div className="flex h-4 items-center md:h-5">
+                  <div className="flex h-3 items-center md:h-3.5">
                     <div
                       className={`h-full rounded-sm transition-all duration-500 ${isPositive ? "bg-brand-500" : "bg-neutral-300"}`}
                       style={{ width: `${widthPct}%` }}

@@ -50,13 +50,13 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const activeCount = Number(filters.pensionOnly) + filters.assetClasses.length + filters.riskTypes.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.dividendFrequencies.length + filters.amcs.length;
 
   return (
-    <main className="page-shell flex-1 pt-4 pb-8 sm:pt-6 sm:pb-12">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div><p className="eyebrow">ETF Screener</p><h1 className="mt-3 text-3xl font-extrabold tracking-[-0.04em] text-strong sm:text-4xl">내 기준으로 ETF 찾기</h1><p className="mt-2 text-sm leading-6 text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p></div>
-        <button className="rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
+    <main className="page-shell flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div><p className="eyebrow text-xs">ETF Screener</p><h1 className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-strong sm:text-3xl">내 기준으로 ETF 찾기</h1><p className="mt-1 text-[13px] leading-tight text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p></div>
+        <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
       </div>
 
-      <div className="mt-6 grid gap-6 md:grid-cols-[260px_minmax(0,1fr)]">
+      <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
           <div className="flex items-center justify-between"><h2 className="text-base font-extrabold">필터</h2><button className="text-xs font-bold text-brand-700" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">초기화</button></div>

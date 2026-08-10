@@ -1,4 +1,4 @@
-import { ASSET_CLASSES, RISK_TYPES, DIVIDEND_FREQUENCIES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, type AssetClass, type Etf, type RiskType, type DividendFrequency, type AmcType, type MarketScope, type Strategy, type FxHedge } from "./etf-types";
+import { ASSET_CLASSES, RISK_TYPES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, type AssetClass, type Etf, type RiskType, type AmcType, type MarketScope, type Strategy, type FxHedge } from "./etf-types";
 import { getEtfMarketScope, getEtfStrategies, getEtfFxHedge } from "./etf-classification";
 import { type AumScope, AUM_SCOPES } from "./etf-explorer";
 
@@ -15,7 +15,7 @@ export type ScreenerFilters = {
   fxHedges: readonly FxHedge[];
   aumScope: AumScope;
   terRanges: readonly TerRange[];
-  dividendFrequencies: readonly DividendFrequency[];
+
   amcs: readonly AmcType[];
 };
 
@@ -29,7 +29,7 @@ export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
   fxHedges: [],
   aumScope: "1000plus",
   terRanges: [],
-  dividendFrequencies: [],
+
   amcs: [],
 };
 
@@ -67,7 +67,7 @@ export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[
     if (filters.aumScope === "1000plus" && etf.aum < 100_000_000_000) return false;
     if (filters.aumScope === "500plus" && etf.aum < 50_000_000_000) return false;
     if (filters.terRanges.length && !filters.terRanges.some((range) => inTerRange(etf.ter, range))) return false;
-    if (filters.dividendFrequencies.length && !filters.dividendFrequencies.includes(etf.dividendFrequency)) return false;
+
     if (filters.amcs.length && !filters.amcs.includes(etf.amc)) return false;
     return true;
   });
@@ -83,7 +83,6 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
     filters.fxHedges.length === 0 &&
     filters.aumScope === "1000plus" &&
     filters.terRanges.length === 0 &&
-    filters.dividendFrequencies.length === 0 &&
     filters.amcs.length === 0;
 
   if (isDefault) return "";
@@ -98,7 +97,6 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
   filters.fxHedges.forEach((value) => query.append("fx", value));
   if (filters.aumScope !== "all") query.set("aum", filters.aumScope);
   filters.terRanges.forEach((value) => query.append("ter", value));
-  filters.dividendFrequencies.forEach((value) => query.append("div", value));
   filters.amcs.forEach((value) => query.append("amc", value));
 
   if (Array.from(query.keys()).length === 0) {
@@ -133,7 +131,6 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
     fxHedges: validValues(query.getAll("fx"), FX_HEDGES),
     aumScope: validValue(query.get("aum"), AUM_SCOPES, "all"),
     terRanges: validValues(query.getAll("ter"), TER_RANGES),
-    dividendFrequencies: validValues(query.getAll("div"), DIVIDEND_FREQUENCIES),
     amcs: validValues(query.getAll("amc"), AMC_TYPES),
   };
 }

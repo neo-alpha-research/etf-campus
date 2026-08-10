@@ -8,7 +8,7 @@ import { ReturnRankingChart } from "./return-ranking-chart";
 import { formatAumNumber, formatWonNumber, formatTradeValueNumber } from "@/lib/domain/etf-format";
 import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
 import { AUM_SCOPES, GENERAL_RETURN_PERIODS, type AumScope } from "@/lib/domain/etf-explorer";
-import { ASSET_CLASSES, RISK_TYPES, DIVIDEND_FREQUENCIES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type DividendFrequency, type AmcType, type ReturnPeriod, type MarketScope, type Strategy, type FxHedge } from "@/lib/domain/etf-types";
+import { ASSET_CLASSES, RISK_TYPES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type AmcType, type ReturnPeriod } from "@/lib/domain/etf-types";
 
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스" };
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억원 이상", "1000plus": "1,000억원 이상" };
@@ -144,7 +144,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     });
   }, [etfs, filters, selectedPeriod, sort]);
   
-  const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.dividendFrequencies.length + filters.amcs.length;
+  const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.amcs.length;
 
   const quickQuery = useMemo(() => {
     let quickMode = "general";
@@ -170,7 +170,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     return q;
   }, [filters, selectedPeriod]);
 
-  const hasUnsupportedFilters = filters.marketScopes.length > 0 || filters.strategies.length > 0 || filters.fxHedges.length > 0 || filters.terRanges.length > 0 || filters.dividendFrequencies.length > 0 || filters.amcs.length > 0;
+  const hasUnsupportedFilters = filters.marketScopes.length > 0 || filters.strategies.length > 0 || filters.fxHedges.length > 0 || filters.terRanges.length > 0 || filters.amcs.length > 0;
 
   const isPensionQuickActive = filters.pensionOnly;
   const togglePensionQuick = () => updateFilters({ ...filters, pensionOnly: !filters.pensionOnly });
@@ -192,13 +192,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     }
   };
 
-  const isMonthlyDivQuickActive = filters.dividendFrequencies.includes("월배당");
-  const toggleMonthlyDivQuick = () => {
-    updateFilters({
-      ...filters,
-      dividendFrequencies: isMonthlyDivQuickActive ? filters.dividendFrequencies.filter(v => v !== "월배당") : [...filters.dividendFrequencies, "월배당"]
-    });
-  };
 
   const isBondParkingQuickActive = filters.assetClasses.includes("채권") && filters.assetClasses.includes("금리·파킹");
   const toggleBondParkingQuick = () => {
@@ -259,9 +252,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   filters.fxHedges.forEach(v => {
     activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, fxHedges: filters.fxHedges.filter(i => i !== v) }) });
   });
-  filters.dividendFrequencies.forEach(v => {
-    activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, dividendFrequencies: filters.dividendFrequencies.filter(i => i !== v) }) });
-  });
   filters.amcs.forEach(v => {
     activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, amcs: filters.amcs.filter(i => i !== v) }) });
   });
@@ -297,16 +287,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           }`}
         >
           미국 주식
-        </button>
-        <button
-          type="button"
-          aria-pressed={isMonthlyDivQuickActive}
-          onClick={toggleMonthlyDivQuick}
-          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isMonthlyDivQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-          }`}
-        >
-          월분배
         </button>
         <button
           type="button"
@@ -409,7 +389,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
             </fieldset>
             <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">환헤지</legend><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></fieldset>
             <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">총보수</legend><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></fieldset>
-            <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">분배 방식</legend><FilterChips options={DIVIDEND_FREQUENCIES} selected={filters.dividendFrequencies} onChange={(v) => updateFilters({ ...filters, dividendFrequencies: v })} /></fieldset>
             <fieldset className="border-t border-line pt-3"><legend className="text-[15px] font-extrabold text-strong">운용사</legend><FilterChips options={AMC_TYPES} selected={filters.amcs} onChange={(v) => updateFilters({ ...filters, amcs: v })} /></fieldset>
           </div>
 

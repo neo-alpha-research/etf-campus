@@ -11,7 +11,7 @@ import {
   type PensionStatus,
   type RiskType,
   type AmcType,
-  type DividendFrequency,
+
 } from "../domain/etf-types";
 import {
   indexUnique,
@@ -33,15 +33,7 @@ function getAmc(name: string): AmcType {
   return "기타";
 }
 
-function getDividendFrequency(name: string, ticker: string): DividendFrequency {
-  if (name.includes("(TR)") || name.includes("합성")) return "미지급(TR 등)";
-  const code = ticker.charCodeAt(ticker.length - 1) + ticker.charCodeAt(ticker.length - 2);
-  const mod = code % 4;
-  if (mod === 0) return "월배당";
-  if (mod === 1) return "분기배당";
-  if (mod === 2) return "반기배당";
-  return "연배당";
-}
+
 
 function getMockTer(ticker: string): number {
   let hash = 0;
@@ -139,7 +131,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       tradeValue: parseNumberField(master, "trade_value", `master:${ticker}`),
       aum: parseNumberField(master, "aum", `master:${ticker}`),
       ter: getMockTer(ticker),
-      dividendFrequency: getDividendFrequency(name, ticker),
+
       amc: getAmc(name),
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,

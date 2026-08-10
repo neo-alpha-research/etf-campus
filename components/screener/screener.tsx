@@ -193,8 +193,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     }
   };
 
-  const isAum1000QuickActive = filters.aumScope === "1000plus";
-  const toggleAum1000Quick = () => updateFilters({ ...filters, aumScope: isAum1000QuickActive ? "all" : "1000plus" });
 
   const isSemiconductorQuickActive = filters.keyword === "반도체";
   const toggleSemiconductorQuick = () => updateFilters({ ...filters, keyword: isSemiconductorQuickActive ? "" : "반도체" });
@@ -322,16 +320,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         >
           배당성장
         </button>
-        <button
-          type="button"
-          aria-pressed={isAum1000QuickActive}
-          onClick={toggleAum1000Quick}
-          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isAum1000QuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-          }`}
-        >
-          순자산 1,000억 이상
-        </button>
+
       </div>
 
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">

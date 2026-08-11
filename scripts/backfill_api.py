@@ -46,12 +46,18 @@ def generate_sql_statements(snapshot: dict, date_str: str) -> list[str]:
             sql_statements.append(sql)
     return sql_statements
 
-def execute_d1_query(account_id: str, db_id: str, token: str, sql: str) -> dict:
+def execute_d1_query(account_id: str, db_id: str, token: str, sql: str, email: str = None, api_key: str = None) -> dict:
     url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/d1/database/{db_id}/query"
+    
     headers = {
-        "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }
+    if api_key and email:
+        headers["X-Auth-Email"] = email
+        headers["X-Auth-Key"] = api_key
+    else:
+        headers["Authorization"] = f"Bearer {token}"
+        
     data = json.dumps({"sql": sql}).encode("utf-8")
     
     req = urllib.request.Request(url, data=data, headers=headers, method="POST")
@@ -72,8 +78,10 @@ def main():
     cf_account_id = os.environ.get("CLOUDFLARE_ACCOUNT_ID")
     cf_db_id = os.environ.get("CLOUDFLARE_D1_ID")
     cf_token = os.environ.get("CLOUDFLARE_D1_TOKEN")
+    cf_email = os.environ.get("CLOUDFLARE_EMAIL")
+    cf_api_key = os.environ.get("CLOUDFLARE_API_KEY")
     
-    if not all([krx_key, cf_account_id, cf_db_id, cf_token]):
+    if not all([krx_key, cf_account_id, cf_db_id]) or (not cf_token and not (cf_email and cf_api_key)):
         print("Error: Missing required environment variables.")
         sys.exit(1)
 
@@ -93,7 +101,7 @@ def main():
     # Ensure table exists
     create_sql = "CREATE TABLE IF NOT EXISTS etf_prices (ticker TEXT, date TEXT, close REAL, PRIMARY KEY(ticker, date));"
     try:
-        execute_d1_query(cf_account_id, cf_db_id, cf_token, create_sql)
+        execute_d1_query(cf_account_id, cf_db_id, cf_token, create_sql, cf_email, cf_api_key)
         print("Ensured etf_prices table exists.")
     except Exception as e:
         print(f"Failed to create table: {e}")
@@ -111,7 +119,7 @@ def main():
                 
             sql_statements = generate_sql_statements(snapshot, sql_date)
             for sql in sql_statements:
-                execute_d1_query(cf_account_id, cf_db_id, cf_token, sql)
+                execute_d1_query(cf_account_id, cf_db_id, cf_token, sql, cf_email, cf_api_key)
                 time.sleep(0.5) # Rate limit protection for Cloudflare API
                 
         except Exception as e:

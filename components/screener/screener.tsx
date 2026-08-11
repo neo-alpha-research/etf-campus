@@ -192,7 +192,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     if (!defaultEndDate) return "";
     const d = new Date(defaultEndDate);
     if (isNaN(d.getTime())) return "";
-    d.setFullYear(d.getFullYear() - 5); // Default to 5 years prior (most common missing option)
+    d.setMonth(d.getMonth() - 4); // Default to 4 months prior
     return d.toISOString().slice(0, 10);
   })();
 

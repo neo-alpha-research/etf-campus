@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Cloudflare Pages Function: GET /api/returns
  *
  * Query params:
@@ -31,6 +31,35 @@ export async function onRequestGet(context) {
     return json({ error: "D1 binding ETF_PRICES not configured" }, 503);
 
   try {
+    if (ticker === "ALL") {
+      // Bulk query for all ETFs
+      const startRows = await db.prepare(
+        "SELECT ticker, MAX(date) as date, close FROM etf_prices WHERE date <= ? GROUP BY ticker"
+      ).bind(start).all();
+
+      const endRows = await db.prepare(
+        "SELECT ticker, MAX(date) as date, close FROM etf_prices WHERE date <= ? GROUP BY ticker"
+      ).bind(end).all();
+
+      const startMap = new Map(startRows.results.map(r => [r.ticker, r]));
+      
+      const results = {};
+      for (const endRow of endRows.results) {
+        const startRow = startMap.get(endRow.ticker);
+        if (!startRow) continue;
+        
+        let ret = null;
+        if (startRow.date === endRow.date) {
+          ret = 0;
+        } else {
+          ret = ((endRow.close / startRow.close) - 1) * 100;
+          ret = Math.round(ret * 100) / 100;
+        }
+        results[endRow.ticker] = ret;
+      }
+      return json({ start, end, returns: results }, 200);
+    }
+
     // Nearest close on or before start (handles pre-listing: falls back to IPO date)
     const startRow = await db
       .prepare("SELECT date, close FROM etf_prices WHERE ticker = ? AND date <= ? ORDER BY date DESC LIMIT 1")

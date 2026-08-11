@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
+import useSWR from "swr";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
@@ -13,6 +15,10 @@ import { ASSET_CLASSES, RISK_TYPES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HED
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스" };
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억원 이상", "1000plus": "1,000억원 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function FxHedgeMarker({ value }: { value: string | null }) {
   if (!value || value === "노출" || value === "비헤지") return null;
@@ -193,14 +199,25 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     return d.toISOString().slice(0, 10);
   })();
 
+  const { data: customReturnsData, isLoading: isCustomReturnsLoading } = useSWR<{ returns: Record<string, number | null> }>(
+    customDateRange ? `/api/returns?ticker=ALL&start=${customDateRange.start}&end=${customDateRange.end}` : null,
+    fetcher
+  );
 
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
       if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_custom") {
-        const period = sort === "return_1d" ? "1d" : sort === "return_1m" ? "1m" : sort === "return_3m" ? "3m" : sort === "return_12m" ? "12m" : (comparisonPeriod ?? "1d");
-        const ra = a.returns[period] ?? -Infinity;
-        const rb = b.returns[period] ?? -Infinity;
-        if (ra !== rb) return rb - ra;
+        let aVal = a.returns[sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")] ?? -Infinity;
+        let bVal = b.returns[sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")] ?? -Infinity;
+        
+        if (sort === "return_custom" && customDateRange && customReturnsData?.returns) {
+          const aCustom = customReturnsData.returns[a.ticker];
+          const bCustom = customReturnsData.returns[b.ticker];
+          aVal = aCustom !== undefined && aCustom !== null ? aCustom : -Infinity;
+          bVal = bCustom !== undefined && bCustom !== null ? bCustom : -Infinity;
+        }
+
+        if (aVal !== bVal) return bVal - aVal;
         if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
         if (a.aum !== b.aum) return b.aum - a.aum;
       } else if (sort === "aum") {
@@ -210,12 +227,12 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
         if (a.aum !== b.aum) return b.aum - a.aum;
       } else if (sort === "ter") {
-        if (a.ter !== b.ter) return a.ter - b.ter; // asc
+        if (a.ter !== b.ter) return a.ter - b.ter;
         if (a.aum !== b.aum) return b.aum - a.aum;
       }
       return a.ticker.localeCompare(b.ticker);
     });
-  }, [etfs, filters, selectedPeriod, sort, comparisonPeriod]);
+  }, [etfs, filters, sort, comparisonPeriod, customDateRange, customReturnsData]);
   
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.amcs.length;
 
@@ -265,7 +282,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     }
   };
 
-
   const isBondParkingQuickActive = filters.assetClasses.includes("채권") && filters.assetClasses.includes("금리·파킹");
   const toggleBondParkingQuick = () => {
     if (isBondParkingQuickActive) {
@@ -281,7 +297,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     }
   };
 
-
   const isSemiconductorQuickActive = filters.keyword === "반도체";
   const toggleSemiconductorQuick = () => updateFilters({ ...filters, keyword: isSemiconductorQuickActive ? "" : "반도체" });
 
@@ -293,7 +308,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
 
   const activeFilters: { label: string; remove: () => void }[] = [];
   
-  // 1순위: 아이덴티티
   if (filters.keyword) {
     activeFilters.push({ label: `키워드: ${filters.keyword}`, remove: () => updateFilters({ ...filters, keyword: "" }) });
   }
@@ -304,7 +318,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, assetClasses: filters.assetClasses.filter(i => i !== v) }) });
   });
 
-  // 2순위: 성격 및 전략
   filters.riskTypes.forEach(v => {
     activeFilters.push({ label: riskLabels[v], remove: () => updateFilters({ ...filters, riskTypes: filters.riskTypes.filter(i => i !== v) }) });
   });
@@ -315,7 +328,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false }) });
   }
 
-  // 3순위: 기타 스펙
   if (filters.aumScope !== "all") {
     activeFilters.push({ label: `순자산 ${aumLabels[filters.aumScope]}`, remove: () => updateFilters({ ...filters, aumScope: "all" }) });
   }
@@ -480,7 +492,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 </label>
               ))}
             </div>
-            {/* 직접 기간 입력 */}
             <div className="mt-3 border-t border-dashed border-neutral-200 pt-3">
               <p className="mb-1.5 text-[11px] font-bold text-muted">직접 기간 입력</p>
               <div className="flex flex-col gap-1.5">
@@ -511,9 +522,9 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 </button>
               </div>
               {customDateRange ? (
-                <p className="mt-1.5 text-[10px] text-brand-700 font-semibold">{customDateRange.start} ~ {customDateRange.end} 적용 중 <span className="text-muted font-normal">(일별 데이터 연동 시 수익률 계산)</span></p>
+                <p className="mt-1.5 text-[10px] text-brand-700 font-semibold">{customDateRange.start} ~ {customDateRange.end} 적용 중 {isCustomReturnsLoading && <span className="text-muted font-normal">(계산 중...)</span>}</p>
               ) : (
-                <p className="mt-1.5 text-[10px] text-muted">※ 일별 종가 데이터 연동 후 수익률 제공 예정</p>
+                <p className="mt-1.5 text-[10px] text-muted">※ 임의 날짜 지정 시 일별 데이터를 조회합니다</p>
               )}
             </div>
           </div>
@@ -595,6 +606,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                   <col style={{ width: 36 }} />
                   <col style={{ width: 40 }} />
                   <col style={{ width: 36 }} />
+                  <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
@@ -683,8 +695,14 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                         </td>
                       )}
                       {customDateRange && !comparisonPeriod && (
-                        <td className="px-1 py-2 text-center tabular-nums bg-amber-50" title="일별 종가 데이터 연동 후 제공 예정">
-                          <span className="text-[10px] text-amber-600 font-semibold">준비중</span>
+                        <td className="px-3 py-3 font-semibold text-right border-l-2 border-line bg-amber-50/30">
+                          {isCustomReturnsLoading ? (
+                            <span className="text-muted text-xs">...</span>
+                          ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
+                            <ReturnCell value={customReturnsData.returns[etf.ticker]} />
+                          ) : (
+                            <span className="text-muted text-[10px]">데이터 없음</span>
+                          )}
                         </td>
                       )}
                       

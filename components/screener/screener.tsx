@@ -96,6 +96,11 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");
   const [sort, setSort] = useState<ScreenerSortKey>("return_1d");
   const [comparisonPeriod, setComparisonPeriod] = useState<ReturnPeriod | null>(null);
+  const [customDateRange, setCustomDateRange] = useState<{ start: string; end: string } | null>(null);
+  // Inputs held as local state until user clicks 적용
+  const [customStart, setCustomStart] = useState<string>("");
+  const [customEnd, setCustomEnd] = useState<string>("");
+
 
   const syncFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
@@ -106,6 +111,13 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     setSort(Object.keys(sortLabels).includes(s) ? s : "return_1d");
     const cp = params.get("compare") as ReturnPeriod;
     setComparisonPeriod((GENERAL_RETURN_PERIODS as readonly string[]).includes(cp) ? cp : null);
+    const cstart = params.get("cstart") || "";
+    const cend = params.get("cend") || "";
+    if (cstart && cend) {
+      setCustomDateRange({ start: cstart, end: cend });
+      setCustomStart(cstart);
+      setCustomEnd(cend);
+    }
   };
 
   useEffect(() => {
@@ -123,6 +135,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     if (nextPeriod !== "1d") query.set("period", nextPeriod);
     if (nextSort !== "return_1d") query.set("sort", nextSort);
     if (nextComparePeriod) query.set("compare", nextComparePeriod);
+    if (customDateRange) { query.set("cstart", customDateRange.start); query.set("cend", customDateRange.end); }
     const queryString = query.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
   };
@@ -131,9 +144,50 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const handlePeriodChange = (nextPeriod: ReturnPeriod) => updateStateAndUrl(filters, nextPeriod, sort);
   const handleSortChange = (nextSort: ScreenerSortKey) => updateStateAndUrl(filters, selectedPeriod, nextSort);
   const handleComparisonPeriodChange = (next: ReturnPeriod | null) => {
+    setCustomDateRange(null); // clear custom date range when fixed period selected
     const nextSort = next ? "return_custom" : (sort === "return_custom" ? "return_1d" : sort);
     updateStateAndUrl(filters, selectedPeriod, nextSort, next);
   };
+  const handleApplyCustomDateRange = () => {
+    if (!customStart || !customEnd || customStart >= customEnd) return;
+    setCustomDateRange({ start: customStart, end: customEnd });
+    setComparisonPeriod(null); // clear fixed period when custom date range applied
+    // update URL
+    const query = new URLSearchParams(serializeScreenerQuery(filters));
+    if (selectedPeriod !== "1d") query.set("period", selectedPeriod);
+    if (sort !== "return_1d") query.set("sort", sort);
+    query.set("cstart", customStart);
+    query.set("cend", customEnd);
+    const qs = query.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+  };
+  const handleClearCustomDateRange = () => {
+    setCustomDateRange(null);
+    setCustomStart("");
+    setCustomEnd("");
+    const query = new URLSearchParams(serializeScreenerQuery(filters));
+    if (selectedPeriod !== "1d") query.set("period", selectedPeriod);
+    if (sort !== "return_1d") query.set("sort", sort);
+    const qs = query.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+  };
+  // Initialize date inputs from etf data on mount
+  // asOfDate may be "2026.08.07" or "20260807" — normalize to YYYY-MM-DD
+  const defaultEndDate = (() => {
+    const raw = etfs[0]?.asOfDate ?? "";
+    if (!raw) return "";
+    // "2026.08.07" → "2026-08-07", "20260807" → "2026-08-07"
+    const normalized = raw.replace(/\./g, "-").replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3");
+    return normalized;
+  })();
+  const defaultStartDate = (() => {
+    if (!defaultEndDate) return "";
+    const d = new Date(defaultEndDate);
+    if (isNaN(d.getTime())) return "";
+    d.setFullYear(d.getFullYear() - 1);
+    return d.toISOString().slice(0, 10);
+  })();
+
 
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
@@ -408,8 +462,8 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           <div className="border-t border-line pt-3 pb-2">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[15px] font-extrabold text-strong">비교 기간</span>
-              {comparisonPeriod && (
-                <button type="button" onClick={() => handleComparisonPeriodChange(null)} className="text-[11px] font-bold text-muted hover:text-brand-700">초기화</button>
+              {(comparisonPeriod || customDateRange) && (
+                <button type="button" onClick={() => { handleComparisonPeriodChange(null); handleClearCustomDateRange(); }} className="text-[11px] font-bold text-muted hover:text-brand-700">초기화</button>
               )}
             </div>
             <p className="mb-2 text-[11px] text-muted leading-snug">선택 시 결과표 마지막 열에 해당 기간 수익률이 추가됩니다.</p>
@@ -420,6 +474,42 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                   {RETURN_PERIOD_LABELS[period]}
                 </label>
               ))}
+            </div>
+            {/* 직접 기간 입력 */}
+            <div className="mt-3 border-t border-dashed border-neutral-200 pt-3">
+              <p className="mb-1.5 text-[11px] font-bold text-muted">직접 기간 입력</p>
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center gap-1.5">
+                  <label className="w-8 shrink-0 text-[11px] text-muted">시작</label>
+                  <input
+                    type="date"
+                    value={customStart || defaultStartDate}
+                    onChange={(e) => setCustomStart(e.target.value)}
+                    className="min-w-0 flex-1 rounded-lg border border-neutral-200 px-2 py-1 text-[11px] text-strong focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  />
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <label className="w-8 shrink-0 text-[11px] text-muted">종료</label>
+                  <input
+                    type="date"
+                    value={customEnd || defaultEndDate}
+                    onChange={(e) => setCustomEnd(e.target.value)}
+                    className="min-w-0 flex-1 rounded-lg border border-neutral-200 px-2 py-1 text-[11px] text-strong focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleApplyCustomDateRange}
+                  className="mt-0.5 w-full rounded-lg bg-brand-700 py-1.5 text-[11px] font-bold text-white hover:bg-brand-800 transition-colors"
+                >
+                  적용
+                </button>
+              </div>
+              {customDateRange ? (
+                <p className="mt-1.5 text-[10px] text-brand-700 font-semibold">{customDateRange.start} ~ {customDateRange.end} 적용 중 <span className="text-muted font-normal">(일별 데이터 연동 시 수익률 계산)</span></p>
+              ) : (
+                <p className="mt-1.5 text-[10px] text-muted">※ 일별 종가 데이터 연동 후 수익률 제공 예정</p>
+              )}
             </div>
           </div>
           </div>
@@ -512,7 +602,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
                   <tr className="border-b border-neutral-200">
                     <th className="px-2 py-0 h-[32px] text-center" colSpan={6} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={comparisonPeriod ? 5 : 4} scope="colgroup">수익률(%)</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={(comparisonPeriod || customDateRange) ? 5 : 4} scope="colgroup">수익률(%)</th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
@@ -538,6 +628,12 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                     {comparisonPeriod && (
                       <th className="px-0.5 py-0 h-[48px] text-center bg-brand-100" scope="col">
                         <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-brand-900">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
+                      </th>
+                    )}
+                    {customDateRange && !comparisonPeriod && (
+                      <th className="px-0.5 py-0 h-[48px] text-center bg-amber-50" scope="col">
+                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
+                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
                       </th>
                     )}
                     
@@ -579,6 +675,11 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                       {comparisonPeriod && (
                         <td className="px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
                           <ReturnCell showUnit={false} value={etf.returns[comparisonPeriod]} />
+                        </td>
+                      )}
+                      {customDateRange && !comparisonPeriod && (
+                        <td className="px-1 py-2 text-center tabular-nums bg-amber-50" title="일별 종가 데이터 연동 후 제공 예정">
+                          <span className="text-[10px] text-amber-600 font-semibold">준비중</span>
                         </td>
                       )}
                       

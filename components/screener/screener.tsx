@@ -204,8 +204,8 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
       if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_custom") {
-        let aVal = a.returns[sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")] ?? -Infinity;
-        let bVal = b.returns[sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")] ?? -Infinity;
+        let aVal = a.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
+        let bVal = b.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
         
         if (sort === "return_custom" && customDateRange && customReturnsData?.returns) {
           const aCustom = customReturnsData.returns[a.ticker];
@@ -698,7 +698,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                           {isCustomReturnsLoading ? (
                             <span className="text-muted text-xs">...</span>
                           ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
-                            <ReturnCell showUnit={false} value={customReturnsData.returns[etf.ticker]} bold />
+                            <ReturnCell showUnit={false} value={customReturnsData.returns[etf.ticker]} />
                           ) : (
                             <span className="text-muted text-[10px]">데이터 없음</span>
                           )}

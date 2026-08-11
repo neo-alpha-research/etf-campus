@@ -71,7 +71,7 @@ export function ReturnRankingChart({
   return (
     <section aria-labelledby="ranking-chart-title" className="mb-6 overflow-hidden rounded-2xl border border-line bg-surface shadow-sm">
       <div className="flex items-center justify-between border-b border-line px-3 py-2.5 sm:px-4 sm:py-3">
-        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-none">
           {RANKING_PERIODS.map((period) => {
             const isActive = selectedPeriod === period;
             return (
@@ -80,7 +80,7 @@ export function ReturnRankingChart({
                 type="button"
                 onClick={() => onPeriodChange(period)}
                 aria-pressed={isActive}
-                className={`shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 transition-colors ${period === "ytd" ? "text-[10px] font-bold" : "text-xs font-bold"} ${
+                className={`shrink-0 whitespace-nowrap rounded-lg px-2 py-1.5 transition-colors ${period === "ytd" ? "text-[10px] font-bold" : "text-xs font-bold"} ${
                   isActive ? "bg-neutral-900 text-white" : "text-muted hover:bg-neutral-100 hover:text-strong"
                 }`}
               >

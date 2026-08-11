@@ -149,15 +149,20 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     updateStateAndUrl(filters, selectedPeriod, nextSort, next);
   };
   const handleApplyCustomDateRange = () => {
-    if (!customStart || !customEnd || customStart >= customEnd) return;
-    setCustomDateRange({ start: customStart, end: customEnd });
+    // Use state value if changed by user, otherwise fall back to the computed defaults
+    const effectiveStart = customStart || defaultStartDate;
+    const effectiveEnd = customEnd || defaultEndDate;
+    if (!effectiveStart || !effectiveEnd || effectiveStart >= effectiveEnd) return;
+    setCustomStart(effectiveStart);
+    setCustomEnd(effectiveEnd);
+    setCustomDateRange({ start: effectiveStart, end: effectiveEnd });
     setComparisonPeriod(null); // clear fixed period when custom date range applied
     // update URL
     const query = new URLSearchParams(serializeScreenerQuery(filters));
     if (selectedPeriod !== "1d") query.set("period", selectedPeriod);
     if (sort !== "return_1d") query.set("sort", sort);
-    query.set("cstart", customStart);
-    query.set("cend", customEnd);
+    query.set("cstart", effectiveStart);
+    query.set("cend", effectiveEnd);
     const qs = query.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
   };

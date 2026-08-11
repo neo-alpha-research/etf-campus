@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       days:
-        description: 'Number of past days to fetch (Max 85 days per day for Free Tier)'
+        description: 'Number of past trading days to fetch'
         required: false
         default: '85'
         type: string
@@ -23,12 +23,8 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Execute SQL in Cloudflare D1
+      - name: Execute Backfill
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
-          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
-          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           python scripts/backfill_api.py --days ${{ inputs.days }}
-          npx wrangler d1 execute etf-prices --remote --file=backfill.sql

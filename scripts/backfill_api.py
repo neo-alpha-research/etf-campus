@@ -22,7 +22,7 @@ def get_market_holidays() -> set[str]:
     return holidays
 
 def is_trading_day(dt: datetime.date, holidays: set[str]) -> bool:
-    if dt.weekday() >= 5: # 5=Sat, 6=Sun
+    if dt.weekday() >= 5:  # 5=Sat, 6=Sun
         return False
     if dt.strftime("%Y%m%d") in holidays:
         return False
@@ -36,7 +36,7 @@ def generate_sql_statements(snapshot: dict, date_str: str) -> list[str]:
             if isinstance(close_price, str):
                 close_price = close_price.replace(",", "")
             values.append(f"('{ticker}', '{date_str}', {close_price})")
-            
+
     sql_statements = []
     if values:
         chunk_size = 500
@@ -46,13 +46,31 @@ def generate_sql_statements(snapshot: dict, date_str: str) -> list[str]:
             sql_statements.append(sql)
     return sql_statements
 
+def execute_via_api(sql: str, db_id: str) -> dict:
+    url = "https://etf-campus.pages.dev/api/admin/execute"
+    headers = {
+        "Content-Type": "application/json",
+        "X-Admin-Key": db_id
+    }
+    data = json.dumps({"sql": sql}).encode("utf-8")
+
+    req = urllib.request.Request(url, data=data, headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=30) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8")
+        print(f"API Error ({e.code}): {body}")
+        raise
+
 def main():
-    parser = argparse.ArgumentParser(description="Backfill D1 database via HTTP API")
-    parser.add_argument("--days", type=int, default=750, help="Number of past days to fetch")
+    parser = argparse.ArgumentParser(description="Backfill KRX ETF prices to D1 via internal API")
+    parser.add_argument("--days", type=int, default=85, help="Number of trading days to backfill.")
     args = parser.parse_args()
 
     krx_key = os.environ.get("KRX_OPEN_API_KEY")
-    
+    cf_db_id = "11c4e874-fba2-4e34-91d0-808892284c86"
+
     if not krx_key:
         print("Error: Missing KRX_OPEN_API_KEY environment variable.")
         sys.exit(1)
@@ -60,39 +78,44 @@ def main():
     holidays = get_market_holidays()
     current_date = datetime.date.today()
     trading_days = []
-    
+
     days_collected = 0
     while days_collected < args.days:
         if is_trading_day(current_date, holidays):
             trading_days.append(current_date)
             days_collected += 1
         current_date -= datetime.timedelta(days=1)
-        
-    print(f"Collected {len(trading_days)} trading days. Starting backfill file generation...")
-    
-    out_file = "backfill.sql"
-    with open(out_file, "w", encoding="utf-8") as f:
-        # Ensure table exists
-        f.write("CREATE TABLE IF NOT EXISTS etf_prices (ticker TEXT, date TEXT, close REAL, PRIMARY KEY(ticker, date));\n")
-        
-        for i, dt in enumerate(trading_days):
-            day_text = dt.strftime("%Y%m%d")
-            sql_date = dt.strftime("%Y-%m-%d")
-            print(f"[{i+1}/{len(trading_days)}] Fetching {sql_date}...")
-            
-            try:
-                snapshot = fetch_krx_snapshot(krx_key, day_text)
-                if not snapshot:
-                    continue
-                    
-                sql_statements = generate_sql_statements(snapshot, sql_date)
-                for sql in sql_statements:
-                    f.write(sql + "\n")
-                    
-            except Exception as e:
-                print(f"Failed on {sql_date}: {e}")
-                
-    print(f"SQL file generated at {out_file}")
+
+    print(f"Collected {len(trading_days)} trading days. Starting backfill via internal API...")
+
+    # Ensure table exists
+    create_sql = "CREATE TABLE IF NOT EXISTS etf_prices (ticker TEXT, date TEXT, close REAL, PRIMARY KEY(ticker, date))"
+    try:
+        execute_via_api(create_sql, cf_db_id)
+        print("Ensured etf_prices table exists.")
+    except Exception as e:
+        print(f"Failed to create table: {e}")
+        sys.exit(1)
+
+    for i, dt in enumerate(trading_days):
+        day_text = dt.strftime("%Y%m%d")
+        sql_date = dt.strftime("%Y-%m-%d")
+        print(f"[{i+1}/{len(trading_days)}] Fetching and saving {sql_date}...")
+
+        try:
+            snapshot = fetch_krx_snapshot(krx_key, day_text)
+            if not snapshot:
+                continue
+
+            sql_statements = generate_sql_statements(snapshot, sql_date)
+            for sql in sql_statements:
+                execute_via_api(sql, cf_db_id)
+                time.sleep(0.5)
+
+        except Exception as e:
+            print(f"Failed on {sql_date}: {e}")
+
+    print("Backfill completed successfully.")
 
 if __name__ == "__main__":
     main()

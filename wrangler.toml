@@ -1,0 +1,7 @@
+name = "etf-campus"
+pages_build_output_dir = "out"
+
+[[d1_databases]]
+binding = "ETF_PRICES"
+database_name = "etf-prices"
+database_id = "<YOUR-D1-DATABASE-ID>"

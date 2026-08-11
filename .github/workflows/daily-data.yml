@@ -115,6 +115,16 @@ jobs:
           git commit -m "data: refresh ETF snapshot"
           git push
 
+      - name: Update D1 with today's prices
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_D1_ID: ${{ secrets.CLOUDFLARE_D1_ID }}
+          CLOUDFLARE_D1_TOKEN: ${{ secrets.CLOUDFLARE_D1_TOKEN }}
+        run: python scripts/update_d1_prices.py
+
+
       # A run can end green while the site quietly serves stale prices: if the
       # feed has not published, the collector falls back to the previous close
       # and reports no change. After the last rung of the ladder there is no

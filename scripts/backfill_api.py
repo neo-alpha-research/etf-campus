@@ -46,43 +46,15 @@ def generate_sql_statements(snapshot: dict, date_str: str) -> list[str]:
             sql_statements.append(sql)
     return sql_statements
 
-def execute_d1_query(account_id: str, db_id: str, token: str, sql: str, email: str = None, api_key: str = None) -> dict:
-    url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/d1/database/{db_id}/query"
-    
-    headers = {
-        "Content-Type": "application/json"
-    }
-    if api_key and email:
-        headers["X-Auth-Email"] = email
-        headers["X-Auth-Key"] = api_key
-    else:
-        headers["Authorization"] = f"Bearer {token}"
-        
-    data = json.dumps({"sql": sql}).encode("utf-8")
-    
-    req = urllib.request.Request(url, data=data, headers=headers, method="POST")
-    try:
-        with urllib.request.urlopen(req) as response:
-            return json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8")
-        print(f"D1 API Error ({e.code}): {body}")
-        raise
-
 def main():
     parser = argparse.ArgumentParser(description="Backfill D1 database via HTTP API")
     parser.add_argument("--days", type=int, default=750, help="Number of past days to fetch")
     args = parser.parse_args()
 
     krx_key = os.environ.get("KRX_OPEN_API_KEY")
-    cf_account_id = os.environ.get("CLOUDFLARE_ACCOUNT_ID")
-    cf_db_id = os.environ.get("CLOUDFLARE_D1_ID")
-    cf_token = os.environ.get("CLOUDFLARE_D1_TOKEN")
-    cf_email = os.environ.get("CLOUDFLARE_EMAIL")
-    cf_api_key = os.environ.get("CLOUDFLARE_API_KEY")
     
-    if not all([krx_key, cf_account_id, cf_db_id]) or (not cf_token and not (cf_email and cf_api_key)):
-        print("Error: Missing required environment variables.")
+    if not krx_key:
+        print("Error: Missing KRX_OPEN_API_KEY environment variable.")
         sys.exit(1)
 
     holidays = get_market_holidays()
@@ -96,34 +68,31 @@ def main():
             days_collected += 1
         current_date -= datetime.timedelta(days=1)
         
-    print(f"Collected {len(trading_days)} trading days. Starting backfill via Cloudflare API...")
+    print(f"Collected {len(trading_days)} trading days. Starting backfill file generation...")
     
-    # Ensure table exists
-    create_sql = "CREATE TABLE IF NOT EXISTS etf_prices (ticker TEXT, date TEXT, close REAL, PRIMARY KEY(ticker, date));"
-    try:
-        execute_d1_query(cf_account_id, cf_db_id, cf_token, create_sql, cf_email, cf_api_key)
-        print("Ensured etf_prices table exists.")
-    except Exception as e:
-        print(f"Failed to create table: {e}")
-        sys.exit(1)
-    
-    for i, dt in enumerate(trading_days):
-        day_text = dt.strftime("%Y%m%d")
-        sql_date = dt.strftime("%Y-%m-%d")
-        print(f"[{i+1}/{len(trading_days)}] Fetching {sql_date}...")
+    out_file = "backfill.sql"
+    with open(out_file, "w", encoding="utf-8") as f:
+        # Ensure table exists
+        f.write("CREATE TABLE IF NOT EXISTS etf_prices (ticker TEXT, date TEXT, close REAL, PRIMARY KEY(ticker, date));\n")
         
-        try:
-            snapshot = fetch_krx_snapshot(krx_key, day_text)
-            if not snapshot:
-                continue
+        for i, dt in enumerate(trading_days):
+            day_text = dt.strftime("%Y%m%d")
+            sql_date = dt.strftime("%Y-%m-%d")
+            print(f"[{i+1}/{len(trading_days)}] Fetching {sql_date}...")
+            
+            try:
+                snapshot = fetch_krx_snapshot(krx_key, day_text)
+                if not snapshot:
+                    continue
+                    
+                sql_statements = generate_sql_statements(snapshot, sql_date)
+                for sql in sql_statements:
+                    f.write(sql + "\n")
+                    
+            except Exception as e:
+                print(f"Failed on {sql_date}: {e}")
                 
-            sql_statements = generate_sql_statements(snapshot, sql_date)
-            for sql in sql_statements:
-                execute_d1_query(cf_account_id, cf_db_id, cf_token, sql, cf_email, cf_api_key)
-                time.sleep(0.5) # Rate limit protection for Cloudflare API
-                
-        except Exception as e:
-            print(f"Failed on {sql_date}: {e}")
+    print(f"SQL file generated at {out_file}")
 
 if __name__ == "__main__":
     main()

@@ -99,7 +99,7 @@ export function ReturnRankingChart({
               </button>
             );
           })}
-          {comparisonPeriod && (
+          {comparisonPeriod && !RANKING_PERIODS.includes(comparisonPeriod) && (
             <>
               <span className="text-neutral-300 select-none">|</span>
               <button
@@ -119,24 +119,6 @@ export function ReturnRankingChart({
                 className="shrink-0 rounded-full p-0.5 text-muted hover:bg-neutral-100 hover:text-strong"
               >
                 <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
-            </>
-          )}
-          {customDateRange && (
-            <>
-              <span className="text-neutral-300 select-none">|</span>
-              <button
-                type="button"
-                onClick={() => onPeriodChange("custom")}
-                aria-pressed={selectedPeriod === "custom"}
-                className={`shrink-0 whitespace-nowrap rounded-lg border border-brand-200 px-2 py-1 transition-colors ${
-                  selectedPeriod === "custom" ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-50"
-                }`}
-              >
-                <div className="flex flex-col items-center leading-tight">
-                  <span className="text-[10px]">직접 입력</span>
-                  <span className="text-[10px] font-bold">{customDateRange.start.slice(2).replace(/-/g, '.')} ~ {customDateRange.end.slice(2).replace(/-/g, '.')}</span>
-                </div>
               </button>
             </>
           )}

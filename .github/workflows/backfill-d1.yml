@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       days:
-        description: 'Number of past days to fetch (approx 3 years of trading days)'
+        description: 'Number of past days to fetch (Max 85 days per day for Free Tier)'
         required: false
-        default: '750'
+        default: '85'
         type: string
 
 jobs:

@@ -192,7 +192,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     if (!defaultEndDate) return "";
     const d = new Date(defaultEndDate);
     if (isNaN(d.getTime())) return "";
-    d.setFullYear(d.getFullYear() - 1);
+    d.setDate(d.getDate() - 7); // Default to 7 days prior
     return d.toISOString().slice(0, 10);
   })();
 
@@ -490,30 +490,34 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               ))}
             </div>
             <div className="mt-3 border-t border-dashed border-neutral-200 pt-3">
-              <p className="mb-1.5 text-[11px] font-bold text-muted">직접 기간 입력</p>
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-[11px] font-extrabold text-strong">직접 기간 입력</p>
+                {customDateRange && (
+                  <button onClick={handleClearCustomDateRange} className="text-[10px] font-medium text-brand-600 hover:underline">
+                    초기화
+                  </button>
+                )}
+              </div>
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-1.5">
-                  <label className="w-8 shrink-0 text-[11px] text-muted">시작</label>
                   <input
                     type="date"
                     value={customStart || defaultStartDate}
                     onChange={(e) => setCustomStart(e.target.value)}
-                    className="min-w-0 flex-1 rounded-lg border border-neutral-200 px-2 py-1 text-[11px] text-strong focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                    className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
                   />
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <label className="w-8 shrink-0 text-[11px] text-muted">종료</label>
+                  <span className="text-muted text-[10px] font-bold">-</span>
                   <input
                     type="date"
                     value={customEnd || defaultEndDate}
                     onChange={(e) => setCustomEnd(e.target.value)}
-                    className="min-w-0 flex-1 rounded-lg border border-neutral-200 px-2 py-1 text-[11px] text-strong focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                    className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
                   />
                 </div>
                 <button
                   type="button"
                   onClick={handleApplyCustomDateRange}
-                  className="mt-0.5 w-full rounded-lg bg-brand-700 py-1.5 text-[11px] font-bold text-white hover:bg-brand-800 transition-colors"
+                  className="mt-1 w-full rounded-md bg-neutral-900 py-1.5 text-[11px] font-bold text-white transition-colors hover:bg-black"
                 >
                   적용
                 </button>

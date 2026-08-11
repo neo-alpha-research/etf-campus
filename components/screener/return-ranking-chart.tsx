@@ -17,27 +17,38 @@ export function ReturnRankingChart({
   activeFilterLabels = [],
   comparisonPeriod = null,
   onComparisonPeriodChange,
+  customDateRange = null,
+  customReturnsData = null,
 }: { 
   etfs: readonly Etf[]; 
-  selectedPeriod: ReturnPeriod;
-  onPeriodChange: (period: ReturnPeriod) => void;
+  selectedPeriod: ReturnPeriod | "custom";
+  onPeriodChange: (period: ReturnPeriod | "custom") => void;
   activeFilterLabels?: string[];
   comparisonPeriod?: ReturnPeriod | null;
   onComparisonPeriodChange?: (period: ReturnPeriod | null) => void;
+  customDateRange?: { start: string; end: string } | null;
+  customReturnsData?: { returns: Record<string, number | null> } | null;
 }) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [isCapturing, setIsCapturing] = useState(false);
   const [isTop, setIsTop] = useState(true);
 
+  const getReturn = (etf: Etf) => {
+    if (selectedPeriod === "custom") {
+      return customReturnsData?.returns?.[etf.ticker] ?? null;
+    }
+    return etf.returns[selectedPeriod as ReturnPeriod];
+  };
+
   const top10 = [...etfs]
-    .filter((etf) => etf.returns[selectedPeriod] !== null)
+    .filter((etf) => getReturn(etf) !== null)
     .sort((a, b) => {
-      const diff = (b.returns[selectedPeriod] as number) - (a.returns[selectedPeriod] as number);
+      const diff = (getReturn(b) as number) - (getReturn(a) as number);
       return isTop ? diff : -diff;
     })
     .slice(0, 5);
 
-  const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(etf.returns[selectedPeriod] as number)), 1);
+  const maxAbsReturn = Math.max(...top10.map(etf => Math.abs(getReturn(etf) as number)), 1);
 
   const handleDownload = async () => {
     if (!chartRef.current) return;
@@ -88,7 +99,6 @@ export function ReturnRankingChart({
               </button>
             );
           })}
-          {/* 비교 기간 버튼: 선택된 경우에만 표시, ytd 이후 */}
           {comparisonPeriod && (
             <>
               <span className="text-neutral-300 select-none">|</span>
@@ -112,9 +122,23 @@ export function ReturnRankingChart({
               </button>
             </>
           )}
-          {/* 비교 기간 미선택 시 공간 예약용 placeholder */}
-          {!comparisonPeriod && (
-            <span className="shrink-0 inline-block w-[70px]" aria-hidden="true" />
+          {customDateRange && (
+            <>
+              <span className="text-neutral-300 select-none">|</span>
+              <button
+                type="button"
+                onClick={() => onPeriodChange("custom")}
+                aria-pressed={selectedPeriod === "custom"}
+                className={`shrink-0 whitespace-nowrap rounded-lg border border-brand-200 px-2 py-1 transition-colors ${
+                  selectedPeriod === "custom" ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-50"
+                }`}
+              >
+                <div className="flex flex-col items-center leading-tight">
+                  <span className="text-[10px]">직접 입력</span>
+                  <span className="text-[10px] font-bold">{customDateRange.start.slice(2).replace(/-/g, '.')} ~ {customDateRange.end.slice(2).replace(/-/g, '.')}</span>
+                </div>
+              </button>
+            </>
           )}
         </div>
         <div className="flex items-center gap-2 ml-3">
@@ -161,16 +185,20 @@ export function ReturnRankingChart({
             ) : (
               "전체 조건"
             )}{" — "}
-            {RETURN_PERIOD_LABELS[selectedPeriod]} 수익률 {isTop ? "TOP 5" : "BOTTOM 5"}
+            <span className="font-semibold text-strong">
+              {selectedPeriod === "custom" && customDateRange ? `${customDateRange.start.slice(2).replace(/-/g, '.')} ~ ${customDateRange.end.slice(2).replace(/-/g, '.')}` : (selectedPeriod !== "custom" ? RETURN_PERIOD_LABELS[selectedPeriod] : "")} 수익률 {isTop ? "TOP" : "BOTTOM"} 5
+            </span>
           </h2>
         </div>
         
         {top10.length > 0 ? (
           <div className="space-y-1">
             {top10.map((etf, index) => {
-              const ret = etf.returns[selectedPeriod] as number;
-              const widthPct = Math.max((Math.abs(ret) / maxAbsReturn) * 100, 1);
+              const ret = getReturn(etf);
+              if (ret === null) return null;
+              const barWidth = Math.max(Math.abs(ret) / maxAbsReturn * 100, 1);
               const isPositive = ret > 0;
+              const isNegative = ret < 0;
               const isZero = ret === 0;
               
               return (
@@ -204,12 +232,14 @@ export function ReturnRankingChart({
                           className={`h-full rounded-full transition-all duration-700 ${isPositive ? "bg-rise" : isZero ? "bg-neutral-300" : "bg-fall"} ${
                             index === 0 ? "opacity-100" : index === 1 ? "opacity-90" : index === 2 ? "opacity-75" : index === 3 ? "opacity-60" : "opacity-40"
                           }`}
-                          style={{ width: `${widthPct}%` }}
+                          style={{ width: `${barWidth}%` }}
                         />
                       </div>
                     </div>
-                    <div className={`w-[48px] shrink-0 text-right whitespace-nowrap text-[11px] font-bold tabular-nums ${isPositive ? "text-rise" : isZero ? "text-muted" : "text-fall"}`}>
-                      {formatReturn(ret)}
+                    <div className="flex w-14 shrink-0 flex-col items-end pt-1">
+                      <span className={`text-xs font-bold tabular-nums tracking-tight ${getReturn(etf) === null ? 'text-muted' : getReturn(etf)! > 0 ? "text-rise" : getReturn(etf)! < 0 ? "text-fall" : "text-strong"}`}>
+                        {getReturn(etf) !== null ? formatReturn(getReturn(etf)!) : "N/A"}
+                      </span>
                     </div>
                   </div>
                 </div>

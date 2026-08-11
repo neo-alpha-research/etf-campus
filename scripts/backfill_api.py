@@ -90,6 +90,15 @@ def main():
         
     print(f"Collected {len(trading_days)} trading days. Starting backfill via Cloudflare API...")
     
+    # Ensure table exists
+    create_sql = "CREATE TABLE IF NOT EXISTS etf_prices (ticker TEXT, date TEXT, close REAL, PRIMARY KEY(ticker, date));"
+    try:
+        execute_d1_query(cf_account_id, cf_db_id, cf_token, create_sql)
+        print("Ensured etf_prices table exists.")
+    except Exception as e:
+        print(f"Failed to create table: {e}")
+        sys.exit(1)
+    
     for i, dt in enumerate(trading_days):
         day_text = dt.strftime("%Y%m%d")
         sql_date = dt.strftime("%Y-%m-%d")

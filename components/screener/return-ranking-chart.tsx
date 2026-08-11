@@ -14,12 +14,16 @@ export function ReturnRankingChart({
   etfs, 
   selectedPeriod, 
   onPeriodChange,
-  activeFilterLabels = []
+  activeFilterLabels = [],
+  comparisonPeriod = null,
+  onComparisonPeriodChange,
 }: { 
   etfs: readonly Etf[]; 
   selectedPeriod: ReturnPeriod;
   onPeriodChange: (period: ReturnPeriod) => void;
   activeFilterLabels?: string[];
+  comparisonPeriod?: ReturnPeriod | null;
+  onComparisonPeriodChange?: (period: ReturnPeriod | null) => void;
 }) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [isCapturing, setIsCapturing] = useState(false);
@@ -84,6 +88,34 @@ export function ReturnRankingChart({
               </button>
             );
           })}
+          {/* 비교 기간 버튼: 선택된 경우에만 표시, ytd 이후 */}
+          {comparisonPeriod && (
+            <>
+              <span className="text-neutral-300 select-none">|</span>
+              <button
+                type="button"
+                onClick={() => onPeriodChange(comparisonPeriod)}
+                aria-pressed={selectedPeriod === comparisonPeriod}
+                className={`shrink-0 whitespace-nowrap rounded-lg border border-dashed border-brand-400 px-3 py-1.5 text-xs font-bold transition-colors ${
+                  selectedPeriod === comparisonPeriod ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-50"
+                }`}
+              >
+                {RETURN_PERIOD_LABELS[comparisonPeriod]}
+              </button>
+              <button
+                type="button"
+                onClick={() => onComparisonPeriodChange?.(null)}
+                aria-label="비교 기간 해제"
+                className="shrink-0 rounded-full p-0.5 text-muted hover:bg-neutral-100 hover:text-strong"
+              >
+                <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </>
+          )}
+          {/* 비교 기간 미선택 시 공간 예약용 placeholder */}
+          {!comparisonPeriod && (
+            <span className="shrink-0 inline-block w-[70px]" aria-hidden="true" />
+          )}
         </div>
         <div className="flex items-center gap-2 ml-3">
           <div className="flex shrink-0 items-center rounded-lg bg-neutral-100 p-1" role="group" aria-label="순위 방향 선택">

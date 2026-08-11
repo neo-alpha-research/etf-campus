@@ -36,12 +36,13 @@ function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
   );
 }
 
-type ScreenerSortKey = "return_1d" | "return_1m" | "return_3m" | "return_12m" | "aum" | "tradeValue" | "ter";
+type ScreenerSortKey = "return_1d" | "return_1m" | "return_3m" | "return_12m" | "return_custom" | "aum" | "tradeValue" | "ter";
 const sortLabels: Record<ScreenerSortKey, string> = {
   return_1d: "1일 수익률 높은순",
   return_1m: "1개월 수익률 높은순",
   return_3m: "3개월 수익률 높은순",
   return_12m: "1년 수익률 높은순",
+  return_custom: "비교 기간 수익률 높은순",
   aum: "순자산 높은순",
   tradeValue: "거래대금 높은순",
   ter: "총보수 낮은순",
@@ -94,6 +95,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");
   const [sort, setSort] = useState<ScreenerSortKey>("return_1d");
+  const [comparisonPeriod, setComparisonPeriod] = useState<ReturnPeriod | null>(null);
 
   const syncFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
@@ -102,6 +104,8 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     setSelectedPeriod((GENERAL_RETURN_PERIODS as readonly string[]).includes(p) ? p : "1d");
     const s = params.get("sort") as ScreenerSortKey;
     setSort(Object.keys(sortLabels).includes(s) ? s : "return_1d");
+    const cp = params.get("compare") as ReturnPeriod;
+    setComparisonPeriod((GENERAL_RETURN_PERIODS as readonly string[]).includes(cp) ? cp : null);
   };
 
   useEffect(() => {
@@ -110,13 +114,15 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     return () => window.removeEventListener("popstate", syncFromUrl);
   }, []);
 
-  const updateStateAndUrl = (nextFilters: ScreenerFilters, nextPeriod: ReturnPeriod, nextSort: ScreenerSortKey) => {
+  const updateStateAndUrl = (nextFilters: ScreenerFilters, nextPeriod: ReturnPeriod, nextSort: ScreenerSortKey, nextComparePeriod: ReturnPeriod | null = comparisonPeriod) => {
     setFilters(nextFilters);
     setSelectedPeriod(nextPeriod);
     setSort(nextSort);
+    setComparisonPeriod(nextComparePeriod);
     const query = new URLSearchParams(serializeScreenerQuery(nextFilters));
     if (nextPeriod !== "1d") query.set("period", nextPeriod);
     if (nextSort !== "return_1d") query.set("sort", nextSort);
+    if (nextComparePeriod) query.set("compare", nextComparePeriod);
     const queryString = query.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
   };
@@ -124,11 +130,15 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const updateFilters = (next: ScreenerFilters) => updateStateAndUrl(next, selectedPeriod, sort);
   const handlePeriodChange = (nextPeriod: ReturnPeriod) => updateStateAndUrl(filters, nextPeriod, sort);
   const handleSortChange = (nextSort: ScreenerSortKey) => updateStateAndUrl(filters, selectedPeriod, nextSort);
+  const handleComparisonPeriodChange = (next: ReturnPeriod | null) => {
+    const nextSort = next ? "return_custom" : (sort === "return_custom" ? "return_1d" : sort);
+    updateStateAndUrl(filters, selectedPeriod, nextSort, next);
+  };
 
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
-      if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m") {
-        const period = sort === "return_1d" ? "1d" : sort === "return_1m" ? "1m" : sort === "return_3m" ? "3m" : "12m";
+      if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_custom") {
+        const period = sort === "return_1d" ? "1d" : sort === "return_1m" ? "1m" : sort === "return_3m" ? "3m" : sort === "return_12m" ? "12m" : (comparisonPeriod ?? "1d");
         const ra = a.returns[period] ?? -Infinity;
         const rb = b.returns[period] ?? -Infinity;
         if (ra !== rb) return rb - ra;
@@ -146,7 +156,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
       }
       return a.ticker.localeCompare(b.ticker);
     });
-  }, [etfs, filters, selectedPeriod, sort]);
+  }, [etfs, filters, selectedPeriod, sort, comparisonPeriod]);
   
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.amcs.length;
 
@@ -394,6 +404,24 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
             <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">환헤지</legend><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></fieldset>
             <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">총보수</legend><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></fieldset>
             <fieldset className="border-t border-line pt-3"><legend className="text-[15px] font-extrabold text-strong">운용사</legend><FilterChips options={AMC_TYPES} selected={filters.amcs} onChange={(v) => updateFilters({ ...filters, amcs: v })} /></fieldset>
+
+          <div className="border-t border-line pt-3 pb-2">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[15px] font-extrabold text-strong">비교 기간</span>
+              {comparisonPeriod && (
+                <button type="button" onClick={() => handleComparisonPeriodChange(null)} className="text-[11px] font-bold text-muted hover:text-brand-700">초기화</button>
+              )}
+            </div>
+            <p className="mb-2 text-[11px] text-muted leading-snug">선택 시 결과표 마지막 열에 해당 기간 수익률이 추가됩니다.</p>
+            <div className="pt-0.5 flex flex-wrap gap-1">
+              {(GENERAL_RETURN_PERIODS.filter(p => p !== "1d") as readonly ReturnPeriod[]).map((period) => (
+                <label key={period} className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${comparisonPeriod === period ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+                  <input type="radio" name="comparisonPeriod" className="sr-only" checked={comparisonPeriod === period} onChange={() => handleComparisonPeriodChange(period)} />
+                  {RETURN_PERIOD_LABELS[period]}
+                </label>
+              ))}
+            </div>
+          </div>
           </div>
 
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>
@@ -405,6 +433,8 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
             selectedPeriod={selectedPeriod} 
             onPeriodChange={handlePeriodChange} 
             activeFilterLabels={activeFilters.map(f => f.label)}
+            comparisonPeriod={comparisonPeriod}
+            onComparisonPeriodChange={handleComparisonPeriodChange}
           />
           
           <div className="mt-8 mb-4 flex flex-col gap-4">
@@ -447,7 +477,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                   onChange={(e) => handleSortChange(e.target.value as ScreenerSortKey)}
                   className="rounded-lg border border-line bg-white py-2 pl-3 pr-8 text-sm font-bold text-strong focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
                 >
-                  {(Object.keys(sortLabels) as ScreenerSortKey[]).map((key) => (
+                  {(Object.keys(sortLabels) as ScreenerSortKey[]).filter(key => key !== "return_custom" || comparisonPeriod !== null).map((key) => (
                     <option key={key} value={key}>{sortLabels[key]}</option>
                   ))}
                 </select>
@@ -482,7 +512,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                 <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
                   <tr className="border-b border-neutral-200">
                     <th className="px-2 py-0 h-[32px] text-center" colSpan={6} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">수익률(%)</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={comparisonPeriod ? 5 : 4} scope="colgroup">수익률(%)</th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
@@ -505,6 +535,11 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                     <th className={`px-0.5 py-0 h-[48px] text-center ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1년</span>
                     </th>
+                    {comparisonPeriod && (
+                      <th className="px-0.5 py-0 h-[48px] text-center bg-brand-100" scope="col">
+                        <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-brand-900">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
+                      </th>
+                    )}
                     
 
                     <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
@@ -541,6 +576,11 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                       <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["12m"]} />
                       </td>
+                      {comparisonPeriod && (
+                        <td className="px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
+                          <ReturnCell showUnit={false} value={etf.returns[comparisonPeriod]} />
+                        </td>
+                      )}
                       
                       <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{(etf.ter * 100).toFixed(2)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>

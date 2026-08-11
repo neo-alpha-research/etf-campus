@@ -50,7 +50,8 @@ def execute_via_api(sql: str, db_id: str) -> dict:
     url = "https://etf-campus.pages.dev/api/admin/execute"
     headers = {
         "Content-Type": "application/json",
-        "X-Admin-Key": db_id
+        "X-Admin-Key": db_id,
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
     }
     data = json.dumps({"sql": sql}).encode("utf-8")
 

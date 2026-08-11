@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
-import useSWR from "swr";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
@@ -15,8 +14,6 @@ import { ASSET_CLASSES, RISK_TYPES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HED
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스" };
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억원 이상", "1000plus": "1,000억원 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -536,11 +533,13 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         <section aria-labelledby="results-title" className="min-w-0">
           <ReturnRankingChart 
             etfs={results} 
-            selectedPeriod={selectedPeriod} 
-            onPeriodChange={handlePeriodChange} 
+            selectedPeriod={selectedPeriod as any} 
+            onPeriodChange={handlePeriodChange as any} 
             activeFilterLabels={activeFilters.map(f => f.label)}
             comparisonPeriod={comparisonPeriod}
             onComparisonPeriodChange={handleComparisonPeriodChange}
+            customDateRange={customDateRange}
+            customReturnsData={customReturnsData}
           />
           
           <div className="mt-8 mb-4 flex flex-col gap-4">
@@ -699,7 +698,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                           {isCustomReturnsLoading ? (
                             <span className="text-muted text-xs">...</span>
                           ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
-                            <ReturnCell value={customReturnsData.returns[etf.ticker]} />
+                            <ReturnCell showUnit={false} value={customReturnsData.returns[etf.ticker]} bold />
                           ) : (
                             <span className="text-muted text-[10px]">데이터 없음</span>
                           )}

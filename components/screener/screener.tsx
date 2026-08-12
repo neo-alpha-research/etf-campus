@@ -616,7 +616,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                   <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
                   <col style={{ width: 54 }} />
-                  <col style={{ width: 54 }} />
+                  {(comparisonPeriod || customDateRange) && <col style={{ width: 54 }} />}
                   <col style={{ width: 40 }} />
                   <col style={{ width: 48 }} />
                   <col style={{ width: 52 }} />

@@ -1,0 +1,6 @@
+﻿ticker,name,theme,region,reference_date,return_6m_pct,return_ytd_pct,return_1y_pct,mdd_1y_pct,six_month_anchor_date,ytd_anchor_date,one_year_anchor_date,observation_count_1y,distribution_count_1y,distribution_amount_1y,return_basis
+139260,TIGER 200 IT,ai_it_bigtech,한국,2026-08-10,61.98,113.55,273.14,-52.47,2026-02-10,2025-12-30,2025-08-08,244,4,470,KRW market-price total return; official cash distributions reinvested
+396500,TIGER 반도체TOP10,ai_semiconductor,한국,2026-08-10,8.89,54.78,163.10,-52.51,2026-02-10,2025-12-30,2025-08-08,244,2,75,KRW market-price total return; official cash distributions reinvested
+445290,KODEX 로봇액티브,ai_robotics_automation,한국,2026-08-10,-9.48,18.52,87.15,-50.27,2026-02-10,2025-12-30,2025-08-08,244,2,72,KRW market-price total return; official cash distributions reinvested
+456600,TIME 글로벌AI인공지능액티브,broad_ai_value_chain,글로벌,2026-08-10,42.93,70.27,81.91,-30.98,2026-02-10,2025-12-30,2025-08-08,245,1,27,KRW market-price total return; official cash distributions reinvested
+487240,KODEX AI전력핵심설비,ai_infrastructure_power,한국,2026-08-10,25.53,58.47,120.27,-60.03,2026-02-10,2025-12-30,2025-08-08,244,2,44,KRW market-price total return; official cash distributions reinvested

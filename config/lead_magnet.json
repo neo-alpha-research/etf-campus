@@ -1,0 +1,355 @@
+{
+  "schema_version": "1.0.0",
+  "status": "locked_for_implementation",
+  "locked_date": "2026-08-11",
+  "ssot_document": "docs/Lead_Magnet_Requirements_and_Classification_20260811.md",
+  "output": {
+    "path": "output/pdf/etf-campus-3-page-etf-lead-magnet.pdf",
+    "page_count": 3,
+    "page_size": "A4",
+    "orientation": "landscape",
+    "minimum_body_font_pt": 9.0,
+    "minimum_footnote_font_pt": 8.0
+  },
+  "as_of_policy": {
+    "price_and_aum": "previous_month_last_krx_trading_day",
+    "holdings_max_age_trading_days": 5,
+    "require_same_aum_date_for_ranking": true,
+    "show_as_of_date_on_every_page": true
+  },
+  "identity": {
+    "primary_key": "isin",
+    "secondary_key": "ticker",
+    "display_key": "name"
+  },
+  "aum": {
+    "ranking_field": "net_asset_value_total_krw",
+    "primary_source": "krx",
+    "require_direct_value": true,
+    "allow_market_cap_as_substitute": false,
+    "allow_nav_times_shares_as_substitute": false,
+    "use_unrounded_value_for_ranking": true,
+    "cross_check_nav_times_shares": true,
+    "cross_check_tolerance_pct": 1.0,
+    "tie_breakers": [
+      "average_trade_value_20d_desc",
+      "listing_date_asc",
+      "ticker_asc"
+    ]
+  },
+  "source_priority": {
+    "master_and_aum": ["krx", "issuer_official_cross_check"],
+    "prices": ["fsc_securities_product_price_api", "krx_csv"],
+    "distributions": ["krx_official", "issuer_official"],
+    "holdings": ["issuer_official_portfolio", "krx_portfolio"],
+    "costs": ["kofia_disclosure", "issuer_official"],
+    "tracking_error_and_premium_discount": ["krx"],
+    "strategy_changes": ["kind", "issuer_official", "index_methodology"]
+  },
+  "common_eligibility": {
+    "listing_country": "KR",
+    "product_type": "ETF",
+    "asset_class": "equity",
+    "allowed_risk_type": ["normal"],
+    "allowed_management_style": ["passive", "active"],
+    "require_active_listing": true,
+    "require_official_investment_objective": true,
+    "require_direct_aum": true,
+    "require_official_holdings": true,
+    "excluded_structures": [
+      "etn",
+      "leverage",
+      "inverse",
+      "covered_call",
+      "option_income",
+      "buffer",
+      "single_stock",
+      "bond_mix",
+      "cash_mix",
+      "multi_asset",
+      "direct_commodity",
+      "direct_currency",
+      "synthetic_without_look_through",
+      "fund_of_funds_without_look_through",
+      "delisting_scheduled",
+      "long_suspension"
+    ],
+    "classification_unknown_action": "manual_review",
+    "data_failure_action": "exclude_before_aum_ranking"
+  },
+  "performance": {
+    "basis": "krw_market_price_total_return",
+    "distribution_treatment": "reinvest_on_official_ex_date",
+    "allow_price_return_fallback": false,
+    "allow_mixed_sources_within_page": false,
+    "periods": {
+      "return_6m": "cumulative",
+      "return_ytd": "cumulative",
+      "return_1y": "cumulative",
+      "return_2y": "annualized",
+      "return_3y": "annualized",
+      "mdd_1y": "total_return_index"
+    },
+    "anchor_date_rule": "nearest_krx_trading_day_on_or_before_target",
+    "minimum_observation_ratio": 0.99,
+    "maximum_unexplained_consecutive_missing_trading_days": 2,
+    "abnormal_absolute_daily_return_review_threshold": 0.4,
+    "allow_interpolation": false,
+    "optional_period_column_min_coverage": 0.8,
+    "short_listing_label": "상장 이력 미충족"
+  },
+  "strategy_change_policy": {
+    "material_changes": [
+      "benchmark",
+      "core_investment_universe",
+      "option_overlay",
+      "leverage",
+      "investment_region",
+      "theme"
+    ],
+    "allow_brand_only_rename": true,
+    "page1_exclude_if_change_within_years": 3,
+    "page2_exclude_if_change_within_years": 1,
+    "page3_exclude_if_change_within_years": 1,
+    "suppress_2y_if_change_within_years": 2,
+    "suppress_3y_if_change_within_years": 3
+  },
+  "holdings": {
+    "top_count": 5,
+    "exclude_cash_and_receivables_from_names": true,
+    "renormalize_after_exclusions": false,
+    "require_look_through_for_derivatives_or_funds": true,
+    "concentration_denominator": "fund_nav",
+    "region_threshold_pct": 80.0
+  },
+  "pages": [
+    {
+      "id": "long_term_core",
+      "page_number": 1,
+      "title": "코스피200 vs S&P500 vs 나스닥100",
+      "selection_method": "top_aum_per_bucket_after_eligibility",
+      "rows_target": 3,
+      "management_style": ["passive"],
+      "foreign_fx_hedge": ["unhedged"],
+      "minimum_listing_history_years": 3,
+      "exclude_material_strategy_change_within_years": 3,
+      "buckets": [
+        {
+          "key": "kospi200",
+          "display_name": "코스피200",
+          "select_count": 1,
+          "allowed_standard_index_family": ["KOSPI 200"]
+        },
+        {
+          "key": "sp500",
+          "display_name": "S&P500",
+          "select_count": 1,
+          "allowed_standard_index_family": ["S&P 500"]
+        },
+        {
+          "key": "nasdaq100",
+          "display_name": "나스닥100",
+          "select_count": 1,
+          "allowed_standard_index_family": ["NASDAQ-100"]
+        }
+      ],
+      "excluded_index_variants": [
+        "equal_weight",
+        "growth",
+        "value",
+        "esg",
+        "low_carbon",
+        "quality",
+        "covered_call",
+        "concentrated_top_n"
+      ],
+      "required_metrics": [
+        "aum",
+        "return_6m",
+        "return_ytd",
+        "return_1y",
+        "return_2y",
+        "return_3y",
+        "mdd_1y",
+        "top5_holdings",
+        "top5_concentration"
+      ],
+      "optional_metrics": ["real_burden_cost", "tracking_error"]
+    },
+    {
+      "id": "dividend_income",
+      "page_number": 2,
+      "title": "국내 고배당 vs 미국 배당",
+      "selection_method": "top_aum_per_region_bucket_after_eligibility",
+      "rows_target": 6,
+      "minimum_listing_history_years": 1,
+      "exclude_material_strategy_change_within_years": 1,
+      "buckets": [
+        {
+          "key": "korea_dividend",
+          "display_name": "국내 배당",
+          "investment_region": "korea",
+          "select_count": 3
+        },
+        {
+          "key": "us_dividend",
+          "display_name": "미국 배당",
+          "investment_region": "us",
+          "select_count": 3
+        }
+      ],
+      "allowed_dividend_strategies": [
+        "high_dividend",
+        "dividend_growth",
+        "dividend_consistency",
+        "dividend_quality",
+        "dividend_weighted"
+      ],
+      "excluded_dividend_adjacent_strategies": [
+        "covered_call",
+        "option_income",
+        "generic_value",
+        "shareholder_value_without_dividend_mandate",
+        "reit_only",
+        "preferred_stock_only",
+        "bond_mix",
+        "multi_country_dividend"
+      ],
+      "allow_same_index_family_multiple_issuers": true,
+      "required_metrics": [
+        "aum",
+        "return_6m",
+        "return_ytd",
+        "return_1y",
+        "mdd_1y",
+        "ttm_distribution_yield",
+        "ttm_distribution_amount",
+        "distribution_count",
+        "top5_holdings",
+        "top5_concentration"
+      ],
+      "optional_metrics": ["return_2y", "return_3y"]
+    },
+    {
+      "id": "ai_momentum",
+      "page_number": 3,
+      "title": "국내 상장 AI ETF 5대 테마",
+      "selection_method": "top_aum_per_theme_then_top_aum_theme_representatives",
+      "rows_target": 5,
+      "minimum_listing_history_years": 1,
+      "exclude_material_strategy_change_within_years": 1,
+      "ai_candidate_requires_official_evidence": true,
+      "ai_candidate_evidence": [
+        "name_or_benchmark_explicit_ai",
+        "official_objective_explicit_ai_value_chain",
+        "index_methodology_explicit_ai_selection_rule",
+        "name_or_benchmark_explicit_ai_enabling_sector"
+      ],
+      "ai_scope_includes_enabling_sectors": true,
+      "ai_enabling_sectors": [
+        "information_technology",
+        "big_tech",
+        "cloud",
+        "software",
+        "platform",
+        "semiconductor",
+        "data_center",
+        "robotics_automation"
+      ],
+      "generic_tech_word_alone_is_sufficient": false,
+      "theme_assignment_mode": "exactly_one_or_manual_review",
+      "themes": [
+        {
+          "key": "ai_semiconductor",
+          "display_name": "AI 반도체",
+          "specialist_definition": "AI 반도체 설계·제조·HBM·장비 중심"
+        },
+        {
+          "key": "ai_it_bigtech",
+          "display_name": "AI IT·빅테크",
+          "specialist_definition": "정보기술 업종과 대형 기술 플랫폼 기업 중심"
+        },
+        {
+          "key": "ai_platform_software",
+          "display_name": "AI 클라우드·소프트웨어",
+          "specialist_definition": "클라우드·생성형 AI·소프트웨어·플랫폼 서비스 중심"
+        },
+        {
+          "key": "ai_infrastructure_power",
+          "display_name": "AI 전력·데이터센터",
+          "specialist_definition": "전력·냉각·데이터센터·네트워크 인프라 중심"
+        },
+        {
+          "key": "ai_robotics_automation",
+          "display_name": "AI 로봇·자동화",
+          "specialist_definition": "로봇·자동화 장비와 솔루션 중심"
+        },
+        {
+          "key": "ai_healthcare",
+          "display_name": "AI 헬스케어",
+          "specialist_definition": "AI 진단·신약개발·의료데이터 중심"
+        },
+        {
+          "key": "ai_mobility",
+          "display_name": "AI 모빌리티",
+          "specialist_definition": "자율주행·차량용 AI·센서 중심"
+        },
+        {
+          "key": "broad_ai_value_chain",
+          "display_name": "AI 종합 밸류체인",
+          "specialist_definition": "특정 전문 테마로 지배되지 않는 다계층 AI 포트폴리오"
+        }
+      ],
+      "theme_rules": {
+        "official_specialist_mandate_has_priority": true,
+        "specialist_holdings_share_threshold_pct": 50.0,
+        "broad_theme_multi_specialist_threshold_pct": 40.0,
+        "keyword_only_assignment_allowed": false,
+        "official_name_or_benchmark_enabling_sector_assignment_allowed": true,
+        "direct_ai_and_enabling_sector_statuses": ["confirmed", "confirmed_ecosystem"],
+        "conflict_action": "manual_review"
+      },
+      "region_rules": {
+        "threshold_pct": 80.0,
+        "allowed": ["korea", "us", "global", "other"],
+        "minimum_final_korea_count": 1,
+        "minimum_final_us_or_global_count": 1,
+        "coverage_failure_action": "block_release_without_silent_substitution"
+      },
+      "required_metrics": [
+        "aum",
+        "return_6m",
+        "return_ytd",
+        "return_1y",
+        "mdd_1y",
+        "top5_holdings",
+        "top5_concentration",
+        "investment_region",
+        "theme_key"
+      ],
+      "optional_metrics": ["return_2y", "return_3y"]
+    }
+  ],
+  "exclusion_codes": [
+    "AUM_MISSING",
+    "AUM_DATE_MISMATCH",
+    "ISIN_TICKER_MISMATCH",
+    "CLASSIFICATION_UNCONFIRMED",
+    "PRICE_HISTORY_INCOMPLETE",
+    "DISTRIBUTION_HISTORY_INCOMPLETE",
+    "STRATEGY_CHANGE_IN_WINDOW",
+    "HOLDINGS_MISSING_OR_STALE",
+    "LOOK_THROUGH_UNAVAILABLE",
+    "ABNORMAL_PRICE_UNRESOLVED",
+    "DELISTING_OR_LONG_SUSPENSION"
+  ],
+  "release_block_codes": [
+    "AUM_SELECTION_INVARIANT_FAIL",
+    "AI_THEME_DUPLICATE",
+    "AI_REGION_COVERAGE_FAIL",
+    "AUM_AS_OF_MIXED",
+    "RETURN_BASIS_MIXED",
+    "PDF_DATASET_MISMATCH",
+    "UNSOURCED_DISPLAY_VALUE"
+  ]
+}

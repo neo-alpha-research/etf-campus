@@ -1,0 +1,10 @@
+{
+  "as_of_date": "20260810",
+  "selected_page3_count": 5,
+  "all_selected_have_official_top5": true,
+  "all_holdings_within_5_weekdays": true,
+  "cash_excluded": true,
+  "concentration_sums_valid": true,
+  "all_selected_pass_strategy_change_review": true,
+  "status": "pass"
+}

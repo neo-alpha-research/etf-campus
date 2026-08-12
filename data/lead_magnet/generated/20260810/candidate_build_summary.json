@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "as_of_date": "20260810",
+  "status": "provisional_not_for_publication",
+  "candidate_count": 306,
+  "selected_count": 14,
+  "review_count": 25,
+  "excluded_count": 171,
+  "officially_validated_page3_count": 8,
+  "selected_by_page": {
+    "ai_momentum": 5,
+    "dividend_income": 6,
+    "long_term_core": 3
+  },
+  "selection_invariants": {
+    "page_counts_match": true,
+    "ai_themes_unique": true,
+    "ai_selection_ranks_valid": true,
+    "ai_region_coverage": true,
+    "aum_ranks_valid": true
+  },
+  "release_ready": false,
+  "remaining_gates": [
+    "raw official AUM and price response archive",
+    "official distribution history and total-return reconstruction",
+    "cost and tracking-error data where displayed",
+    "operator classification review"
+  ]
+}

@@ -26,5 +26,6 @@ jobs:
       - name: Execute Backfill
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
         run: |
           python scripts/backfill_api.py --days ${{ inputs.days }}

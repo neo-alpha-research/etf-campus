@@ -1,0 +1,6 @@
+﻿ticker,name,theme_key,holdings_date,top5_holdings,top5_concentration_pct,source_url,validation_status
+396500,TIGER 반도체TOP10,ai_semiconductor,2026-08-10,삼성전자 30.26% | SK하이닉스 24.25% | SK스퀘어 20.67% | 한미반도체 5.36% | 이수페타시스 4.53%,85.07,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7396500001,pass
+487240,KODEX AI전력핵심설비,ai_infrastructure_power,2026-08-11,LS ELECTRIC 21.15% | 효성중공업 21.04% | HD현대일렉트릭 17.22% | LS 14.10% | 대한전선 8.33%,81.84,https://www.samsungfund.com/etf/product/view.do?id=2ETFN7,pass
+139260,TIGER 200 IT,ai_it_bigtech,2026-08-10,SK스퀘어 22.51% | SK하이닉스 20.92% | 삼성전자 18.01% | 삼성전기 17.35% | 삼성SDI 5.94%,84.73,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7139260004,pass
+456600,TIME 글로벌AI인공지능액티브,broad_ai_value_chain,2026-08-11,Kioxia Holdings Corp 5.48% | Advanced Micro Devices Inc 5.10% | Seagate Technology Holdings PLC 4.73% | Amazon.com Inc 4.53% | Sandisk Corp 4.27%,24.11,https://www.timeetf.co.kr/m11_view.php?idx=6,pass
+445290,KODEX 로봇액티브,ai_robotics_automation,2026-08-11,로보티즈 9.22% | 현대모비스 8.31% | 삼성전자 8.27% | 레인보우로보틱스 7.59% | LG전자 7.46%,40.85,https://www.samsungfund.com/etf/product/view.do?id=2ETFH5,pass

@@ -1,0 +1,7 @@
+ticker,name,review_window_start,review_window_end,change_date,change_type,materiality,eligibility_result,official_source_url,evidence_summary
+396500,TIGER 반도체TOP10,2025-08-10,2026-08-10,,none_found_in_official_review,none_identified,pass,https://kind.krx.co.kr/disclosure/etfisudetail.do?method=searchEtfIsuSummary&strIsurCd=39650,KIND 현재 상품개요와 운용사 현재 전략이 일치하며 검토기간 내 중요 변경 공시가 확인되지 않음
+487240,KODEX AI전력핵심설비,2025-08-10,2026-08-10,,none_found_in_official_review,none_identified,pass,https://www.samsungfund.com/etf/product/view.do?id=2ETFN7,운용사 현재 투자목적·기초지수와 최근 변경 공지 검색 결과에서 중요 변경이 확인되지 않음
+139260,TIGER 200 IT,2025-08-10,2026-08-10,,none_found_in_official_review,none_identified,pass,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7139260004,운용사 현재 투자목적·KRX 정보기술 지수와 최근 변경 공지 검색 결과에서 중요 변경이 확인되지 않음
+445290,KODEX 로봇액티브,2025-08-10,2026-08-10,2025-05-16,brand_only_name_change_outside_window,non_material,pass,https://kind.krx.co.kr/external/2025/05/07/000146/20250507000303/68629.htm,KODEX K-로봇액티브에서 KODEX 로봇액티브로 접두사만 제거했으며 검토기간 이전 변경
+456600,TIME 글로벌AI인공지능액티브,2025-08-10,2026-08-10,2026-01-22,brand_only_name_change,non_material,pass,https://kind.krx.co.kr/external/2026/01/21/000319/20260121000895/68629.htm,TIMEFOLIO에서 TIME으로 운용사 브랜드명만 변경되어 허용
+395160,KODEX AI반도체TOP2플러스,2025-08-10,2026-08-10,2026-05-13,benchmark_methodology_and_name_change,material,exclude,https://www.samsungfund.com/etf/lounge/notice-view.do?no=75073,유니버스 기준·구성종목 수·TOP2 CAP 변경으로 최근 1년 중요 전략 변경에 해당

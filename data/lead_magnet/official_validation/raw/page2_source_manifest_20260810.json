@@ -1,0 +1,120 @@
+{
+  "as_of": "20260810",
+  "collected_at_utc": "2026-08-11T09:52:30.563306+00:00",
+  "sources": [
+    {
+      "ticker": "161510",
+      "kind": "consistent_daily_market_price",
+      "url": "https://fchart.stock.naver.com/sise.nhn?symbol=161510&timeframe=day&count=400&requestType=0",
+      "file": "data\\lead_magnet\\official_validation\\raw\\NAVER_161510_daily_20260810.xml",
+      "bytes": 26049
+    },
+    {
+      "ticker": "466940",
+      "kind": "consistent_daily_market_price",
+      "url": "https://fchart.stock.naver.com/sise.nhn?symbol=466940&timeframe=day&count=400&requestType=0",
+      "file": "data\\lead_magnet\\official_validation\\raw\\NAVER_466940_daily_20260810.xml",
+      "bytes": 25975
+    },
+    {
+      "ticker": "315960",
+      "kind": "consistent_daily_market_price",
+      "url": "https://fchart.stock.naver.com/sise.nhn?symbol=315960&timeframe=day&count=400&requestType=0",
+      "file": "data\\lead_magnet\\official_validation\\raw\\NAVER_315960_daily_20260810.xml",
+      "bytes": 25557
+    },
+    {
+      "ticker": "458730",
+      "kind": "consistent_daily_market_price",
+      "url": "https://fchart.stock.naver.com/sise.nhn?symbol=458730&timeframe=day&count=400&requestType=0",
+      "file": "data\\lead_magnet\\official_validation\\raw\\NAVER_458730_daily_20260810.xml",
+      "bytes": 26155
+    },
+    {
+      "ticker": "446720",
+      "kind": "consistent_daily_market_price",
+      "url": "https://fchart.stock.naver.com/sise.nhn?symbol=446720&timeframe=day&count=400&requestType=0",
+      "file": "data\\lead_magnet\\official_validation\\raw\\NAVER_446720_daily_20260810.xml",
+      "bytes": 25816
+    },
+    {
+      "ticker": "402970",
+      "kind": "consistent_daily_market_price",
+      "url": "https://fchart.stock.naver.com/sise.nhn?symbol=402970&timeframe=day&count=400&requestType=0",
+      "file": "data\\lead_magnet\\official_validation\\raw\\NAVER_402970_daily_20260810.xml",
+      "bytes": 25821
+    },
+    {
+      "ticker": "458730",
+      "kind": "official_distribution_history",
+      "url": "https://investments.miraeasset.com/tigeretf/ko/product/search/detail/refDivAjax.ajax",
+      "method": "POST",
+      "file": "data\\lead_magnet\\official_validation\\raw\\TIGER_458730_distributions_20260810.html",
+      "bytes": 4660
+    },
+    {
+      "ticker": "458730",
+      "kind": "official_monthly_report_holdings",
+      "url": "https://investments.miraeasset.com/tigeretf/upload/etf/20260805110958001428.pdf",
+      "file": "data\\lead_magnet\\official_validation\\raw\\TIGER_458730_factsheet_20260731.pdf",
+      "bytes": 276633
+    },
+    {
+      "ticker": "466940",
+      "kind": "official_distribution_history",
+      "url": "https://investments.miraeasset.com/tigeretf/ko/product/search/detail/refDivAjax.ajax",
+      "method": "POST",
+      "file": "data\\lead_magnet\\official_validation\\raw\\TIGER_466940_distributions_20260810.html",
+      "bytes": 3907
+    },
+    {
+      "ticker": "466940",
+      "kind": "official_monthly_report_holdings",
+      "url": "https://investments.miraeasset.com/tigeretf/upload/etf/20260805110958006317.pdf",
+      "file": "data\\lead_magnet\\official_validation\\raw\\TIGER_466940_factsheet_20260731.pdf",
+      "bytes": 281110
+    },
+    {
+      "ticker": "161510",
+      "kind": "official_product_distributions_holdings",
+      "url": "https://www.plusetf.co.kr/product/detail?n=006273",
+      "file": "data\\lead_magnet\\official_validation\\raw\\PRODUCT_161510_20260810.html",
+      "bytes": 262502
+    },
+    {
+      "ticker": "315960",
+      "kind": "official_product_distributions_holdings",
+      "url": "https://www.riseetf.co.kr/prod/finderDetail/4494",
+      "file": "data\\lead_magnet\\official_validation\\raw\\PRODUCT_315960_20260810.html",
+      "bytes": 711122
+    },
+    {
+      "ticker": "446720",
+      "kind": "official_distribution",
+      "url": "https://www.soletf.com/api/etf/pds/dividend/210942",
+      "file": "data\\lead_magnet\\official_validation\\raw\\SOL_446720_distribution_20260810.json",
+      "bytes": 7973
+    },
+    {
+      "ticker": "446720",
+      "kind": "official_holdings",
+      "url": "https://www.soletf.com/api/etf/pds/pdf/210942",
+      "file": "data\\lead_magnet\\official_validation\\raw\\SOL_446720_holdings_20260810.json",
+      "bytes": 18394
+    },
+    {
+      "ticker": "402970",
+      "kind": "official_distribution",
+      "url": "https://papi.aceetf.co.kr/api/funds/K55101DN4471/dividend?page=1&size=100",
+      "file": "data\\lead_magnet\\official_validation\\raw\\ACE_402970_distribution_20260810.json",
+      "bytes": 11505
+    },
+    {
+      "ticker": "402970",
+      "kind": "official_holdings",
+      "url": "https://papi.aceetf.co.kr/api/funds/K55101DN4471/pdf?page=1&size=100",
+      "file": "data\\lead_magnet\\official_validation\\raw\\ACE_402970_holdings_20260810.json",
+      "bytes": 14128
+    }
+  ]
+}

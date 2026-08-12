@@ -1,0 +1,58 @@
+{
+  "as_of": "2026-08-10",
+  "status": "pass",
+  "basis": "KRW market-price total return; official cash distributions reinvested",
+  "rows": [
+    {
+      "ticker": "069500",
+      "name": "KODEX 200",
+      "reference_date": "2026-08-10",
+      "return_6m_pct": "26.10",
+      "6m_anchor_date": "2026-02-10",
+      "return_ytd_pct": "62.59",
+      "ytd_anchor_date": "2025-12-30",
+      "return_1y_pct": "128.45",
+      "1y_anchor_date": "2025-08-08",
+      "return_2y_pct": "69.94",
+      "2y_anchor_date": "2024-08-09",
+      "return_3y_pct": "44.94",
+      "3y_anchor_date": "2023-08-10",
+      "mdd_1y_pct": "-40.81",
+      "return_basis": "KRW market-price total return; official cash distributions reinvested"
+    },
+    {
+      "ticker": "360750",
+      "name": "TIGER 미국S&P500",
+      "reference_date": "2026-08-10",
+      "return_6m_pct": "8.87",
+      "6m_anchor_date": "2026-02-10",
+      "return_ytd_pct": "11.03",
+      "ytd_anchor_date": "2025-12-30",
+      "return_1y_pct": "25.88",
+      "1y_anchor_date": "2025-08-08",
+      "return_2y_pct": "24.21",
+      "2y_anchor_date": "2024-08-09",
+      "return_3y_pct": "24.25",
+      "3y_anchor_date": "2023-08-10",
+      "mdd_1y_pct": "-9.35",
+      "return_basis": "KRW market-price total return; official cash distributions reinvested"
+    },
+    {
+      "ticker": "133690",
+      "name": "TIGER 미국나스닥100",
+      "reference_date": "2026-08-10",
+      "return_6m_pct": "15.04",
+      "6m_anchor_date": "2026-02-10",
+      "return_ytd_pct": "15.19",
+      "ytd_anchor_date": "2025-12-30",
+      "return_1y_pct": "30.20",
+      "1y_anchor_date": "2025-08-08",
+      "return_2y_pct": "30.04",
+      "2y_anchor_date": "2024-08-09",
+      "return_3y_pct": "28.77",
+      "3y_anchor_date": "2023-08-10",
+      "mdd_1y_pct": "-16.20",
+      "return_basis": "KRW market-price total return; official cash distributions reinvested"
+    }
+  ]
+}

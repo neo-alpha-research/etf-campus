@@ -1,0 +1,5 @@
+as_of_date,ticker,etf_name,strategy,issuer,distribution_source_url,price_nav_source_url,ttm_distribution_sum_krw,as_of_close_krw,ttm_distribution_yield_pct,nav_total_return_1y_pct,price_mdd_1y_pct,distribution_count_12m,frequency,status,notes
+2026-07-31,458730,TIGER 미국배당다우존스,배당성장,미래에셋자산운용,https://www.tigeretf.com/,https://www.tigeretf.com/,NA,15165,NA,NA,-4.50,NA,NA,부분완료,가격 MDD 확정; 공식 분배금 이력과 NAV 총수익률 수집 필요
+2026-07-31,402970,ACE 미국배당다우존스,배당성장,한국투자신탁운용,https://www.aceetf.co.kr/cs/notice/6162,https://www.aceetf.co.kr/,NA,15410,NA,NA,-4.85,NA,NA,부분완료,가격 MDD 확정; 월별 분배금 공지 12건과 NAV 총수익률 수집 필요
+2026-07-31,441640,KODEX 미국배당커버드콜액티브,커버드콜,삼성자산운용,https://www.samsungfund.com/etf/product/view.do?id=2ETFH4,https://www.samsungfund.com/etf/product/view.do?id=2ETFH4,NA,12825,NA,NA,-8.28,NA,NA,부분완료,가격 MDD 확정; 상품 페이지의 분배금 이력과 NAV 총수익률 수집 필요
+2026-07-31,490600,RISE 미국배당100데일리고정커버드콜,커버드콜,KB자산운용,https://www.riseetf.co.kr/prod/finderDetail/44H2,https://www.riseetf.co.kr/prod/finderDetail/44H2,1485,9410,15.78,NA,-5.59,12,월분배,부분완료,TTM 실제 분배율과 가격 MDD 확정; NAV 총수익률 수집 필요

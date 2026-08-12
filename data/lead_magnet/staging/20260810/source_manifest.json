@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "snapshot_kind": "processed_official_data_bootstrap",
+  "as_of_date": "20260810",
+  "created_at_utc": "2026-08-11T07:23:55+00:00",
+  "source_status": "inherited_processed_snapshot_not_raw_api_response",
+  "source_files": [
+    {
+      "source_path": "data/etf_master_draft.csv",
+      "snapshot_path": "data/lead_magnet/staging/20260810/etf_master_snapshot.csv",
+      "rows": 1160,
+      "sha256": "b2976abbfcbbbfb5e973f04db2f9047f7673bed158983f6f0534060dd7b2bc1f",
+      "purpose": "ETF master, current price, direct AUM field, classification baseline"
+    },
+    {
+      "source_path": "data/etf_returns_draft.csv",
+      "snapshot_path": "data/lead_magnet/staging/20260810/etf_returns_snapshot.csv",
+      "rows": 1160,
+      "sha256": "7e071177c50b26e3acc35ed35835e4fcf513d031a22638e0215794b11dd18a21",
+      "purpose": "Existing price-return history baseline only; not final total-return data"
+    }
+  ],
+  "quality_summary": {
+    "master_row_count": 1160,
+    "returns_row_count": 1160,
+    "direct_aum_nonzero_count": 1160,
+    "master_bas_dt_uniform": true
+  },
+  "limitations": [
+    "This bootstrap snapshot is copied from the current processed service data.",
+    "It is not a replacement for archived raw KRX or FSC API responses.",
+    "The returns file contains existing price-return fields and cannot satisfy the final total-return requirement by itself.",
+    "A later raw collection step must add official daily prices, distributions, holdings, costs, and strategy-change evidence."
+  ]
+}

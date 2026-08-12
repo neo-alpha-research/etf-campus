@@ -1,0 +1,26 @@
+ticker,name,holdings_date,rank,holding_code,holding_name,weight_pct,top5_concentration_pct,status,source_url,note
+396500,TIGER 반도체TOP10,2026-08-10,1,005930,삼성전자,30.26,85.07,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7396500001,운용사 구성종목 PDF 표
+396500,TIGER 반도체TOP10,2026-08-10,2,000660,SK하이닉스,24.25,85.07,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7396500001,운용사 구성종목 PDF 표
+396500,TIGER 반도체TOP10,2026-08-10,3,402340,SK스퀘어,20.67,85.07,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7396500001,운용사 구성종목 PDF 표
+396500,TIGER 반도체TOP10,2026-08-10,4,042700,한미반도체,5.36,85.07,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7396500001,운용사 구성종목 PDF 표
+396500,TIGER 반도체TOP10,2026-08-10,5,007660,이수페타시스,4.53,85.07,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7396500001,운용사 구성종목 PDF 표
+487240,KODEX AI전력핵심설비,2026-08-11,1,010120,LS ELECTRIC,21.15,81.84,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFN7,현금성 자산 제외 운용사 PDF 비중
+487240,KODEX AI전력핵심설비,2026-08-11,2,298040,효성중공업,21.04,81.84,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFN7,현금성 자산 제외 운용사 PDF 비중
+487240,KODEX AI전력핵심설비,2026-08-11,3,267260,HD현대일렉트릭,17.22,81.84,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFN7,현금성 자산 제외 운용사 PDF 비중
+487240,KODEX AI전력핵심설비,2026-08-11,4,006260,LS,14.10,81.84,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFN7,현금성 자산 제외 운용사 PDF 비중
+487240,KODEX AI전력핵심설비,2026-08-11,5,001440,대한전선,8.33,81.84,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFN7,현금성 자산 제외 운용사 PDF 비중
+139260,TIGER 200 IT,2026-08-10,1,402340,SK스퀘어,22.51,84.73,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7139260004,운용사 구성종목 PDF 표
+139260,TIGER 200 IT,2026-08-10,2,000660,SK하이닉스,20.92,84.73,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7139260004,운용사 구성종목 PDF 표
+139260,TIGER 200 IT,2026-08-10,3,005930,삼성전자,18.01,84.73,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7139260004,운용사 구성종목 PDF 표
+139260,TIGER 200 IT,2026-08-10,4,009150,삼성전기,17.35,84.73,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7139260004,운용사 구성종목 PDF 표
+139260,TIGER 200 IT,2026-08-10,5,006400,삼성SDI,5.94,84.73,official,https://www.tigeretf.com/ko/product/search/detail/index.do?ksdFund=KR7139260004,운용사 구성종목 PDF 표
+456600,TIME 글로벌AI인공지능액티브,2026-08-11,1,285A JP EQUITY,Kioxia Holdings Corp,5.48,24.11,official,https://www.timeetf.co.kr/m11_view.php?idx=6,현금 6.06%를 종목 순위에서 제외
+456600,TIME 글로벌AI인공지능액티브,2026-08-11,2,AMD US EQUITY,Advanced Micro Devices Inc,5.10,24.11,official,https://www.timeetf.co.kr/m11_view.php?idx=6,현금 제외 운용사 구성종목 표
+456600,TIME 글로벌AI인공지능액티브,2026-08-11,3,STX US EQUITY,Seagate Technology Holdings PLC,4.73,24.11,official,https://www.timeetf.co.kr/m11_view.php?idx=6,현금 제외 운용사 구성종목 표
+456600,TIME 글로벌AI인공지능액티브,2026-08-11,4,AMZN US EQUITY,Amazon.com Inc,4.53,24.11,official,https://www.timeetf.co.kr/m11_view.php?idx=6,현금 제외 운용사 구성종목 표
+456600,TIME 글로벌AI인공지능액티브,2026-08-11,5,SNDK US EQUITY,Sandisk Corp,4.27,24.11,official,https://www.timeetf.co.kr/m11_view.php?idx=6,현금 제외 운용사 구성종목 표
+445290,KODEX 로봇액티브,2026-08-11,1,108490,로보티즈,9.22,40.85,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFH5,현금성 자산 제외 운용사 PDF 비중
+445290,KODEX 로봇액티브,2026-08-11,2,012330,현대모비스,8.31,40.85,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFH5,현금성 자산 제외 운용사 PDF 비중
+445290,KODEX 로봇액티브,2026-08-11,3,005930,삼성전자,8.27,40.85,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFH5,현금성 자산 제외 운용사 PDF 비중
+445290,KODEX 로봇액티브,2026-08-11,4,277810,레인보우로보틱스,7.59,40.85,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFH5,현금성 자산 제외 운용사 PDF 비중
+445290,KODEX 로봇액티브,2026-08-11,5,066570,LG전자,7.46,40.85,official,https://www.samsungfund.com/etf/product/view.do?id=2ETFH5,현금성 자산 제외 운용사 PDF 비중

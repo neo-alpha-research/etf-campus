@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0.0",
+  "as_of_date": "2026-08-10",
+  "release_status": "ready_for_human_approval",
+  "block_codes": [],
+  "dataset_evidence": [
+    {
+      "page": "page1",
+      "status": "pass",
+      "metrics_rows": 3,
+      "validation_as_of": "2026-08-10",
+      "reference_dates": [
+        "2026-08-10"
+      ],
+      "validation_status": "pass",
+      "metrics_sha256": "0570301aa9943d028b603e629b61f309c03ee69f4ee8b303b9c50cae77953b92",
+      "validation_sha256": "85ab028cb5b9dffd1e9a0699b4cb2b16ada1c1d9d399a700a7d850bfe5c27534"
+    },
+    {
+      "page": "page2",
+      "status": "pass",
+      "metrics_rows": 6,
+      "validation_as_of": "2026-08-10",
+      "reference_dates": [
+        "2026-08-10"
+      ],
+      "validation_status": "pass",
+      "metrics_sha256": "33af1859d5baa8568bfdf2865bba593b31cce8eb2f903077cce7c09e477bb812",
+      "validation_sha256": "42592536e984479c9b0819d1a8d742a4d7024c2a9076c39157683f383baf8f81"
+    },
+    {
+      "page": "page3",
+      "status": "pass",
+      "metrics_rows": 5,
+      "validation_as_of": "2026-08-10",
+      "reference_dates": [
+        "2026-08-10"
+      ],
+      "validation_status": "pass",
+      "metrics_sha256": "45cf9d69cde980eef7f5db720b14c862dd87cc947d822f897505cbc58b18afcc",
+      "validation_sha256": "92ce63457fd98cc26ad6755dfde2096ae1aaaf81e963e2397d62196242039961"
+    }
+  ],
+  "pdf_evidence": [
+    {
+      "file": "etf-campus-lead-magnet-page-1.pdf",
+      "status": "pass",
+      "sha256": "6f503b2fb5c129160e3f30ec3569f0f189da42da1c5fb0602b86fb93199f51a6"
+    },
+    {
+      "file": "etf-campus-lead-magnet-page-2.pdf",
+      "status": "pass",
+      "sha256": "3b4df1e5e0afa983fd1e96be5f806bf7daad069650cea4dd9bfc6a6746cd6810"
+    },
+    {
+      "file": "etf-campus-lead-magnet-page-3.pdf",
+      "status": "pass",
+      "sha256": "47ded0b22d2f6aff0584221cc26df96cbf7b43481a7aa088a05bada9bfa965d1"
+    },
+    {
+      "file": "etf-campus-3-page-etf-lead-magnet.pdf",
+      "status": "pass",
+      "sha256": "2193aca31be5ee8b99a2474662fbf04c7ca023153dc2518accc25ed906fa6308"
+    }
+  ],
+  "notice": "This manifest validates the prepared release only. It does not collect external data or approve publication."
+}

@@ -1,3 +1,6 @@
+import base64
+import hashlib
+import hmac
 import io
 import json
 import urllib.error
@@ -7,126 +10,115 @@ from unittest.mock import MagicMock, patch
 from scripts import backfill_api
 
 
-class GenerateUpsertBatchesTest(TestCase):
-    def test_builds_parameterized_upsert_for_valid_prices(self) -> None:
-        batches = backfill_api.generate_upsert_batches(
+class NormalizePriceRecordsTest(TestCase):
+    def test_normalizes_only_valid_six_digit_ticker_prices(self) -> None:
+        records = backfill_api.normalize_price_records(
             {
                 "069500": {"TDD_CLSPRC": "12,345"},
                 "360750": {"close": 6789},
-                "INVALID": {"clpr": "not-a-price"},
-                "MISSING": {},
+                "INVALID": {"clpr": "1000"},
+                "123456": {"clpr": "not-a-price"},
+                "654321": {"close": "-1"},
             },
             "2026-08-11",
         )
 
-        self.assertEqual(len(batches), 1)
-        sql, params = batches[0]
-        self.assertIn("VALUES (?, ?, ?),(?, ?, ?)", sql)
-        self.assertIn("ON CONFLICT(ticker, date) DO UPDATE SET close=excluded.close", sql)
         self.assertEqual(
-            params,
-            ["069500", "2026-08-11", 12345.0, "360750", "2026-08-11", 6789.0],
-        )
-        self.assertNotIn("069500", sql)
-        self.assertNotIn("12,345", sql)
-
-    def test_rejects_negative_and_non_finite_prices(self) -> None:
-        batches = backfill_api.generate_upsert_batches(
-            {
-                "NEGATIVE": {"close": "-1"},
-                "NAN": {"close": "nan"},
-                "INFINITY": {"close": "inf"},
-            },
-            "2026-08-11",
+            records,
+            [
+                {"ticker": "069500", "date": "2026-08-11", "close": 12345.0},
+                {"ticker": "360750", "date": "2026-08-11", "close": 6789.0},
+            ],
         )
 
-        self.assertEqual(batches, [])
+    def test_chunks_records_with_a_fixed_maximum(self) -> None:
+        records = [{"ticker": f"{index:06d}", "date": "2026-08-11", "close": 1000.0} for index in range(501)]
+        chunks = backfill_api.chunk_records(records)
+
+        self.assertEqual([len(chunk) for chunk in chunks], [500, 1])
 
 
-class D1QueryTest(TestCase):
+class SignedPayloadTest(TestCase):
+    def test_builds_compact_json_and_expected_hmac_signature(self) -> None:
+        records = [{"ticker": "069500", "date": "2026-08-11", "close": 12345.0}]
+        body, signature = backfill_api.build_signed_payload(
+            records,
+            request_id="batch_20260811_0001",
+            timestamp=1_786_000_000,
+            secret="signing-secret",
+        )
+
+        self.assertEqual(
+            json.loads(body),
+            {"requestId": "batch_20260811_0001", "records": records},
+        )
+        expected = base64.b64encode(
+            hmac.new(
+                b"signing-secret",
+                b"POST\n1786000000\n" + body,
+                hashlib.sha256,
+            ).digest()
+        ).decode("ascii")
+        self.assertEqual(signature, expected)
+
+
+class SignedIngestionRequestTest(TestCase):
     @patch("scripts.backfill_api.urllib.request.urlopen")
-    def test_sends_bearer_token_and_parameterized_payload(self, mock_urlopen: MagicMock) -> None:
+    def test_sends_only_price_schema_and_hmac_headers(self, mock_urlopen: MagicMock) -> None:
         response = MagicMock()
-        response.read.return_value = json.dumps(
-            {"success": True, "result": [{"success": True, "results": []}]}
-        ).encode("utf-8")
+        response.read.return_value = json.dumps({"accepted": 1, "requestId": "batch_20260811_0002"}).encode("utf-8")
         mock_urlopen.return_value.__enter__.return_value = response
+        records = [{"ticker": "069500", "date": "2026-08-11", "close": 12345.0}]
 
-        result = backfill_api.d1_query(
-            "SELECT ?",
-            ["value"],
-            account_id="account-id",
-            database_id="database-id",
-            api_token="token-value",
+        accepted = backfill_api.send_price_batch(
+            records,
+            endpoint="https://etf-campus.pages.dev/api/internal/ingest-prices",
+            secret="secret-value",
+            request_id="batch_20260811_0002",
+            now=1_786_000_000,
         )
 
-        self.assertEqual(result, [{"success": True, "results": []}])
+        self.assertEqual(accepted, 1)
         request = mock_urlopen.call_args.args[0]
-        self.assertEqual(
-            request.full_url,
-            "https://api.cloudflare.com/client/v4/accounts/account-id/d1/database/database-id/query",
-        )
-        self.assertEqual(request.get_header("Authorization"), "Bearer token-value")
+        self.assertEqual(request.full_url, "https://etf-campus.pages.dev/api/internal/ingest-prices")
+        self.assertEqual(request.get_header("X-etf-ingest-timestamp"), "1786000000")
+        self.assertTrue(request.get_header("X-etf-ingest-signature"))
         self.assertEqual(
             json.loads(request.data.decode("utf-8")),
-            {"sql": "SELECT ?", "params": ["value"]},
+            {"requestId": "batch_20260811_0002", "records": records},
         )
+        self.assertNotIn("sql", request.data.decode("utf-8").lower())
 
     @patch("scripts.backfill_api.urllib.request.urlopen")
-    def test_reports_http_error_code_without_secret_value(self, mock_urlopen: MagicMock) -> None:
-        error = urllib.error.HTTPError(
-            "https://api.cloudflare.com/client/v4/accounts/account-id/d1/database/database-id/query",
+    def test_hides_hmac_secret_when_endpoint_rejects_request(self, mock_urlopen: MagicMock) -> None:
+        mock_urlopen.side_effect = urllib.error.HTTPError(
+            "https://etf-campus.pages.dev/api/internal/ingest-prices",
             401,
             "Unauthorized",
             {},
-            io.BytesIO(
-                json.dumps({"errors": [{"code": 10000, "message": "Authentication error"}]}).encode(
-                    "utf-8"
-                )
-            ),
+            io.BytesIO(b'{"error":"invalid_signature"}'),
         )
-        mock_urlopen.side_effect = error
 
-        with self.assertRaisesRegex(RuntimeError, "HTTP 401 \\(Cloudflare error 10000\\)") as caught:
-            backfill_api.d1_query(
-                "SELECT 1",
-                None,
-                account_id="account-id",
-                database_id="database-id",
-                api_token="token-value",
+        with self.assertRaisesRegex(RuntimeError, "HTTP 401") as caught:
+            backfill_api.send_price_batch(
+                [{"ticker": "069500", "date": "2026-08-11", "close": 12345.0}],
+                endpoint="https://etf-campus.pages.dev/api/internal/ingest-prices",
+                secret="secret-value",
+                request_id="batch_20260811_0003",
+                now=1_786_000_000,
             )
 
-        self.assertIn("Authentication error", str(caught.exception))
-        self.assertNotIn("token-value", str(caught.exception))
-
-    @patch("scripts.backfill_api.urllib.request.urlopen")
-    def test_rejects_unsuccessful_cloudflare_response(self, mock_urlopen: MagicMock) -> None:
-        response = MagicMock()
-        response.read.return_value = json.dumps({"success": False, "errors": [{"code": 1}]}).encode(
-            "utf-8"
-        )
-        mock_urlopen.return_value.__enter__.return_value = response
-
-        with self.assertRaisesRegex(RuntimeError, "was rejected"):
-            backfill_api.d1_query(
-                "SELECT 1",
-                None,
-                account_id="account-id",
-                database_id="database-id",
-                api_token="token-value",
-            )
+        self.assertNotIn("secret-value", str(caught.exception))
 
 
-class D1ConfigurationTest(TestCase):
+class ConfigurationTest(TestCase):
     def test_required_environment_strips_secret_whitespace(self) -> None:
-        with patch.dict("os.environ", {"CLOUDFLARE_D1_TOKEN": "  token-value\n"}, clear=True):
+        with patch.dict("os.environ", {"PRICE_INGEST_HMAC_SECRET": "  secret-value\n"}, clear=True):
             self.assertEqual(
-                backfill_api.required_environment("CLOUDFLARE_D1_TOKEN"), "token-value"
+                backfill_api.required_environment("PRICE_INGEST_HMAC_SECRET"), "secret-value"
             )
 
-    def test_required_environment_does_not_echo_missing_secret(self) -> None:
-        with patch.dict("os.environ", {}, clear=True):
-            with self.assertRaisesRegex(RuntimeError, "CLOUDFLARE_D1_TOKEN is required") as error:
-                backfill_api.required_environment("CLOUDFLARE_D1_TOKEN")
-
-        self.assertNotIn("token-value", str(error.exception))
+    def test_rejects_an_endpoint_outside_etf_campus(self) -> None:
+        with patch.dict("os.environ", {"PRICE_INGEST_ENDPOINT": "https://example.com/ingest"}, clear=True):
+            with self.assertRaisesRegex(RuntimeError, "must target the ETF Campus internal price endpoint"):
+                backfill_api.get_ingest_endpoint()

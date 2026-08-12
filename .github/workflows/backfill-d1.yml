@@ -1,4 +1,4 @@
-name: Backfill D1 ETF Prices
+name: Backfill ETF Price History
 
 on:
   workflow_dispatch:
@@ -23,42 +23,9 @@ jobs:
         with:
           python-version: "3.13"
 
-      - name: Validate direct D1 configuration
-        env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_D1_ID: ${{ secrets.CLOUDFLARE_D1_ID }}
-          CLOUDFLARE_D1_TOKEN: ${{ secrets.CLOUDFLARE_D1_TOKEN }}
-        run: |
-          test "$CLOUDFLARE_ACCOUNT_ID" = "d71905c19e313be635507cee431306d" || {
-            echo "::error::CLOUDFLARE_ACCOUNT_ID does not match the Neo Alpha Research account."
-            exit 1
-          }
-          test "$CLOUDFLARE_D1_ID" = "11c4e874-fba2-4e34-91d0-808892284c86" || {
-            echo "::error::CLOUDFLARE_D1_ID does not match the etf-prices database."
-            exit 1
-          }
-          case "$CLOUDFLARE_D1_TOKEN" in
-            cfat_*) echo "Account API Token format validated." ;;
-            *)
-              echo "::error::CLOUDFLARE_D1_TOKEN is not an Account API Token."
-              exit 1
-              ;;
-          esac
-
-      - name: Verify direct D1 access with Wrangler
-        env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_D1_TOKEN }}
-        run: |
-          npx --yes wrangler d1 execute etf-prices --remote \
-            --command "SELECT 1 AS direct_connection_check" --json
-
-      - name: Execute Backfill
+      - name: Execute signed price backfill
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_D1_ID: ${{ secrets.CLOUDFLARE_D1_ID }}
-          CLOUDFLARE_D1_TOKEN: ${{ secrets.CLOUDFLARE_D1_TOKEN }}
-        run: |
-          python scripts/backfill_api.py --days ${{ inputs.days }}
+          PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
+        run: python scripts/backfill_api.py --days ${{ inputs.days }}

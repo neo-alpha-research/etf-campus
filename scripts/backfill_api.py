@@ -1,13 +1,17 @@
 import argparse
+import base64
 import datetime
+import hashlib
+import hmac
 import json
 import math
 import os
 import sys
 import time
-import tomllib
 import urllib.error
+import urllib.parse
 import urllib.request
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -18,8 +22,8 @@ try:
 except ModuleNotFoundError:
     from update_daily_data import fetch_krx_snapshot, fetch_snapshot
 
-D1_API_BASE = "https://api.cloudflare.com/client/v4"
-D1_BATCH_SIZE = 500
+MAX_RECORDS_PER_REQUEST = 500
+DEFAULT_INGEST_ENDPOINT = "https://etf-campus.pages.dev/api/internal/ingest-prices"
 
 
 def get_market_holidays() -> set[str]:
@@ -42,29 +46,6 @@ def is_trading_day(dt: datetime.date, holidays: set[str]) -> bool:
     return True
 
 
-def get_d1_database_id() -> str:
-    """Return the configured D1 database ID without using it as a credential."""
-    database_id = os.environ.get("CLOUDFLARE_D1_ID") or os.environ.get(
-        "CLOUDFLARE_D1_DATABASE_ID"
-    )
-    if database_id and database_id.strip():
-        return database_id.strip()
-
-    wrangler_path = Path("wrangler.toml")
-    try:
-        config = tomllib.loads(wrangler_path.read_text(encoding="utf-8"))
-        databases = config.get("d1_databases", [])
-        for database in databases:
-            if database.get("binding") == "ETF_PRICES" and database.get("database_id"):
-                return database["database_id"]
-    except (OSError, tomllib.TOMLDecodeError) as error:
-        raise RuntimeError(f"Could not read D1 configuration from {wrangler_path}: {error}") from error
-
-    raise RuntimeError(
-        "D1 database ID is not configured. Set CLOUDFLARE_D1_ID or add ETF_PRICES to wrangler.toml."
-    )
-
-
 def required_environment(name: str) -> str:
     value = os.environ.get(name, "").strip()
     if not value:
@@ -74,27 +55,83 @@ def required_environment(name: str) -> str:
     return value
 
 
-def d1_query(
-    sql: str,
-    params: list[str | float] | None,
-    *,
-    account_id: str,
-    database_id: str,
-    api_token: str,
-) -> list[dict[str, Any]]:
-    """Execute one fixed, parameterized D1 query from a trusted CI runner."""
-    url = f"{D1_API_BASE}/accounts/{account_id}/d1/database/{database_id}/query"
-    payload: dict[str, Any] = {"sql": sql}
-    if params:
-        payload["params"] = params
+def get_ingest_endpoint() -> str:
+    """Return only the fixed production ingestion route; a secret must never be sent elsewhere."""
+    endpoint = os.environ.get("PRICE_INGEST_ENDPOINT", DEFAULT_INGEST_ENDPOINT).strip()
+    parsed = urllib.parse.urlparse(endpoint)
+    if (
+        parsed.scheme != "https"
+        or parsed.netloc != "etf-campus.pages.dev"
+        or parsed.path != "/api/internal/ingest-prices"
+        or parsed.params
+        or parsed.query
+        or parsed.fragment
+    ):
+        raise RuntimeError("PRICE_INGEST_ENDPOINT must target the ETF Campus internal price endpoint.")
+    return endpoint
 
+
+def normalize_price_records(snapshot: dict[str, dict[str, Any]], date_str: str) -> list[dict[str, str | float]]:
+    """Normalize only valid KRX-style ETF closing-price records for the fixed ingestion schema."""
+    records: list[dict[str, str | float]] = []
+    for ticker, data in snapshot.items():
+        if not isinstance(ticker, str) or not ticker.isdigit() or len(ticker) != 6:
+            continue
+        close_price = data.get("TDD_CLSPRC") or data.get("close") or data.get("clpr")
+        if close_price is None:
+            continue
+        try:
+            normalized_price = float(str(close_price).replace(",", ""))
+        except (TypeError, ValueError):
+            continue
+        if not math.isfinite(normalized_price) or normalized_price <= 0 or normalized_price > 100_000_000:
+            continue
+        records.append({"ticker": ticker, "date": date_str, "close": normalized_price})
+    return records
+
+
+def chunk_records(records: list[dict[str, str | float]]) -> list[list[dict[str, str | float]]]:
+    return [records[index : index + MAX_RECORDS_PER_REQUEST] for index in range(0, len(records), MAX_RECORDS_PER_REQUEST)]
+
+
+def build_signed_payload(
+    records: list[dict[str, str | float]],
+    *,
+    request_id: str,
+    timestamp: int,
+    secret: str,
+) -> tuple[bytes, str]:
+    """Build the exact compact JSON body and base64 HMAC-SHA256 signature expected by Pages."""
+    payload = {"requestId": request_id, "records": records}
+    body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    message = b"POST\n" + str(timestamp).encode("ascii") + b"\n" + body
+    signature = base64.b64encode(hmac.new(secret.encode("utf-8"), message, hashlib.sha256).digest()).decode("ascii")
+    return body, signature
+
+
+def send_price_batch(
+    records: list[dict[str, str | float]],
+    *,
+    endpoint: str,
+    secret: str,
+    request_id: str | None = None,
+    now: int | None = None,
+) -> int:
+    """Send one schema-limited, signed price batch. No SQL is ever sent by this client."""
+    if not records or len(records) > MAX_RECORDS_PER_REQUEST:
+        raise ValueError(f"records must contain 1 to {MAX_RECORDS_PER_REQUEST} items")
+
+    timestamp = now if now is not None else int(time.time())
+    generated_id = request_id or f"backfill_{uuid.uuid4().hex}"
+    body, signature = build_signed_payload(records, request_id=generated_id, timestamp=timestamp, secret=secret)
     request = urllib.request.Request(
-        url,
-        data=json.dumps(payload).encode("utf-8"),
+        endpoint,
+        data=body,
         headers={
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_token}",
-            "User-Agent": "etf-campus-d1-backfill/1.0",
+            "X-ETF-Ingest-Timestamp": str(timestamp),
+            "X-ETF-Ingest-Signature": signature,
+            "User-Agent": "etf-campus-price-backfill/2.0",
         },
         method="POST",
     )
@@ -103,156 +140,57 @@ def d1_query(
         with urllib.request.urlopen(request, timeout=30) as response:
             response_payload = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
-        cloudflare_code = "unknown"
-        cloudflare_message = ""
-        try:
-            error_payload = json.loads(error.read().decode("utf-8"))
-            errors = error_payload.get("errors", [])
-            if errors and isinstance(errors[0], dict):
-                cloudflare_code = str(errors[0].get("code", "unknown"))
-                message = errors[0].get("message")
-                if isinstance(message, str):
-                    # Cloudflare error messages help diagnose a malformed API path;
-                    # keep them bounded and never include request headers or tokens.
-                    cloudflare_message = f": {message[:200]}"
-        except (json.JSONDecodeError, UnicodeDecodeError):
-            pass
-        raise RuntimeError(
-            "Cloudflare D1 query failed with "
-            f"HTTP {error.code} (Cloudflare error {cloudflare_code}){cloudflare_message}."
-        ) from error
+        # Do not print request headers, the request body, or the HMAC signature.
+        raise RuntimeError(f"Signed price ingestion failed with HTTP {error.code}.") from error
     except urllib.error.URLError as error:
-        raise RuntimeError("Cloudflare D1 query could not reach the API.") from error
+        raise RuntimeError("Signed price ingestion could not reach the ETF Campus endpoint.") from error
     except json.JSONDecodeError as error:
-        raise RuntimeError("Cloudflare D1 query returned an invalid JSON response.") from error
+        raise RuntimeError("Signed price ingestion returned invalid JSON.") from error
 
-    if not response_payload.get("success"):
-        raise RuntimeError("Cloudflare D1 query was rejected.")
-
-    results = response_payload.get("result")
-    if not isinstance(results, list) or not results or not results[0].get("success"):
-        raise RuntimeError("Cloudflare D1 did not report a successful query result.")
-    return results
+    accepted = response_payload.get("accepted")
+    if not isinstance(accepted, int) or accepted != len(records):
+        raise RuntimeError("Signed price ingestion did not confirm the submitted record count.")
+    return accepted
 
 
-def get_max_date(
-    *, account_id: str, database_id: str, api_token: str
-) -> datetime.date | None:
-    results = d1_query(
-        "SELECT MAX(date) AS max_date FROM etf_prices",
-        None,
-        account_id=account_id,
-        database_id=database_id,
-        api_token=api_token,
-    )
-    rows = results[0].get("results", [])
-    max_date_str = rows[0].get("max_date") if rows else None
-    if max_date_str:
-        return datetime.datetime.strptime(max_date_str, "%Y-%m-%d").date()
-    return None
-
-
-def ensure_price_table(*, account_id: str, database_id: str, api_token: str) -> None:
-    d1_query(
-        "CREATE TABLE IF NOT EXISTS etf_prices "
-        "(ticker TEXT, date TEXT, close REAL, PRIMARY KEY(ticker, date))",
-        None,
-        account_id=account_id,
-        database_id=database_id,
-        api_token=api_token,
-    )
-
-
-def generate_upsert_batches(
-    snapshot: dict[str, dict[str, Any]], date_str: str
-) -> list[tuple[str, list[str | float]]]:
-    """Build fixed-shape, parameterized UPSERT batches from an ETF snapshot."""
-    records: list[tuple[str, str, float]] = []
-    for ticker, data in snapshot.items():
-        close_price = data.get("TDD_CLSPRC") or data.get("close") or data.get("clpr")
-        if close_price is None:
-            continue
-        try:
-            normalized_price = float(str(close_price).replace(",", ""))
-        except (TypeError, ValueError):
-            continue
-        if not math.isfinite(normalized_price) or normalized_price < 0:
-            continue
-        records.append((ticker, date_str, normalized_price))
-
-    batches: list[tuple[str, list[str | float]]] = []
-    for start in range(0, len(records), D1_BATCH_SIZE):
-        chunk = records[start : start + D1_BATCH_SIZE]
-        placeholders = ",".join(["(?, ?, ?)"] * len(chunk))
-        params: list[str | float] = []
-        for ticker, snapshot_date, close_price in chunk:
-            params.extend([ticker, snapshot_date, close_price])
-        sql = (
-            "INSERT INTO etf_prices (ticker, date, close) VALUES "
-            f"{placeholders} "
-            "ON CONFLICT(ticker, date) DO UPDATE SET close=excluded.close"
-        )
-        batches.append((sql, params))
-    return batches
+def missing_trading_days(days: int, holidays: set[str]) -> list[datetime.date]:
+    """Re-submit a small recent window; fixed UPSERT makes retries and corrections idempotent."""
+    trading_days: list[datetime.date] = []
+    current_date = datetime.date.today()
+    while len(trading_days) < days:
+        if is_trading_day(current_date, holidays):
+            trading_days.insert(0, current_date)
+        current_date -= datetime.timedelta(days=1)
+    return trading_days
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Backfill KRX ETF prices to D1 incrementally")
+    parser = argparse.ArgumentParser(description="Backfill KRX ETF prices through signed ingestion")
     parser.add_argument(
-        "--days", type=int, default=85, help="Number of trading days to backfill if DB is empty."
+        "--days",
+        type=int,
+        default=5,
+        help="Recent trading days to submit. UPSERT makes re-submission safe; use a larger value for backfill.",
     )
     args = parser.parse_args()
+    if args.days < 1 or args.days > 365:
+        parser.error("--days must be between 1 and 365")
 
     krx_key = os.environ.get("KRX_OPEN_API_KEY")
     go_kr_key = os.environ.get("DATA_GO_KR_SERVICE_KEY")
-    account_id = required_environment("CLOUDFLARE_ACCOUNT_ID")
-    api_token = required_environment("CLOUDFLARE_D1_TOKEN")
-    database_id = get_d1_database_id()
-
-    try:
-        ensure_price_table(
-            account_id=account_id, database_id=database_id, api_token=api_token
-        )
-        max_date = get_max_date(
-            account_id=account_id, database_id=database_id, api_token=api_token
-        )
-    except Exception as error:
-        print(f"Failed to initialize or query D1: {error}")
-        sys.exit(1)
+    secret = required_environment("PRICE_INGEST_HMAC_SECRET")
+    endpoint = get_ingest_endpoint()
 
     holidays = get_market_holidays()
-    print(f"Current max date in D1: {max_date}")
+    trading_days = missing_trading_days(args.days, holidays)
+    print(f"Submitting {len(trading_days)} trading days through signed price ingestion.")
 
-    trading_days = []
-    current_date = datetime.date.today()
-
-    if max_date:
-        # Incremental mode: find trading days from max_date+1 up to today.
-        temp_date = max_date + datetime.timedelta(days=1)
-        while temp_date <= current_date:
-            if is_trading_day(temp_date, holidays):
-                trading_days.append(temp_date)
-            temp_date += datetime.timedelta(days=1)
-    else:
-        # Full backfill mode based on args.days.
-        days_collected = 0
-        temp_date = current_date
-        while days_collected < args.days:
-            if is_trading_day(temp_date, holidays):
-                trading_days.insert(0, temp_date)  # oldest first
-                days_collected += 1
-            temp_date -= datetime.timedelta(days=1)
-
-    if not trading_days:
-        print("D1 is already up to date. No missing dates to fetch.")
-        return
-
-    print(f"Collected {len(trading_days)} missing trading days. Starting direct D1 backfill...")
-
+    accepted_total = 0
+    failed_days = 0
     for index, trading_date in enumerate(trading_days):
         day_text = trading_date.strftime("%Y%m%d")
         sql_date = trading_date.strftime("%Y-%m-%d")
-        print(f"[{index + 1}/{len(trading_days)}] Fetching and saving {sql_date}...")
+        print(f"[{index + 1}/{len(trading_days)}] Fetching and submitting {sql_date}...")
 
         snapshot = None
         if krx_key:
@@ -270,28 +208,35 @@ def main() -> None:
 
         if not snapshot:
             print(f"  Failed to get data for {sql_date} from any API. Skipping.")
+            failed_days += 1
             continue
 
-        batches = generate_upsert_batches(snapshot, sql_date)
-        if not batches:
+        records = normalize_price_records(snapshot, sql_date)
+        if not records:
             print(f"  No valid prices found in snapshot for {sql_date}.")
+            failed_days += 1
             continue
 
         try:
-            for sql, params in batches:
-                d1_query(
-                    sql,
-                    params,
-                    account_id=account_id,
-                    database_id=database_id,
-                    api_token=api_token,
+            accepted_for_day = 0
+            for batch_number, batch in enumerate(chunk_records(records), start=1):
+                request_id = f"backfill_{day_text}_{batch_number}_{uuid.uuid4().hex}"
+                accepted_for_day += send_price_batch(
+                    batch,
+                    endpoint=endpoint,
+                    secret=secret,
+                    request_id=request_id,
                 )
                 time.sleep(0.1)
-            print(f"  Saved {sql_date} successfully.")
+            accepted_total += accepted_for_day
+            print(f"  Accepted {accepted_for_day} prices for {sql_date}.")
         except Exception as error:
-            print(f"  Failed to save {sql_date} to D1: {error}")
+            print(f"  Failed to submit {sql_date}: {error}")
+            failed_days += 1
 
-    print("Direct D1 backfill completed.")
+    print(f"Signed price ingestion completed: {accepted_total} accepted records, {failed_days} failed dates.")
+    if failed_days:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

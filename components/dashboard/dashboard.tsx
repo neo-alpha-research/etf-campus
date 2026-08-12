@@ -390,7 +390,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             <colgroup className="hidden md:table-column-group">
               <col style={{ width: 56 }} />
               <col style={{ width: 192 }} />
-              {isDeriv ? <col style={{ width: 40 }} /> : null}
+              {isDeriv ? <col style={{ width: 44 }} /> : null}
               {isNew ? <col style={{ width: 80 }} /> : null}
               <col style={{ width: 36 }} />
               <col style={{ width: 56 }} />
@@ -426,7 +426,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
               <tr className="text-[12px]">
                 <th className="sticky top-[32px] z-30 w-[56px] h-[48px] bg-neutral-100 px-0 py-0 text-center" scope="col" style={{ left: 0 }}>종목코드</th>
                 <th className="sticky top-[32px] z-30 w-[192px] h-[48px] bg-neutral-100 px-2 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col" style={{ left: 56 }}>종목명</th>
-                {isDeriv ? <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">유형</th> : null}
+                {isDeriv ? <th className="sticky top-[32px] z-20 w-[44px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">유형</th> : null}
                 {isNew ? <th className="sticky top-[32px] z-20 h-[48px] w-[80px] min-w-[80px] bg-neutral-100 px-1 py-0 text-center" scope="col">상장일</th> : null}
                 <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">지역</th>
                 <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">자산</th>
@@ -471,7 +471,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                       <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
                     </th>
                     
-                    {isDeriv ? <td className="hidden px-0.5 py-2 text-center md:table-cell">{fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}</td> : null}
+                    {isDeriv ? <td className="hidden px-0.5 py-2 text-center md:table-cell">{fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-0.5 py-0.5 text-[9px] tracking-tighter font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}</td> : null}
                     {isNew ? <td className="tabular-nums hidden w-[80px] min-w-[80px] whitespace-nowrap px-1 py-2 text-center text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                     
                     <td className="hidden px-0.5 py-2 text-center text-[11px] font-semibold text-muted md:table-cell">{fields.marketScope ?? ""}</td>

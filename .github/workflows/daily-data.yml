@@ -115,14 +115,12 @@ jobs:
           git commit -m "data: refresh ETF snapshot"
           git push
 
-      - name: Update D1 with today's prices
+      - name: Update D1 with incremental backfill
         if: steps.changes.outputs.changed == 'true'
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_D1_ID: ${{ secrets.CLOUDFLARE_D1_ID }}
-          CLOUDFLARE_D1_TOKEN: ${{ secrets.CLOUDFLARE_D1_TOKEN }}
-        run: python scripts/update_d1_prices.py
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+        run: python scripts/backfill_api.py --days 10
 
 
       # A run can end green while the site quietly serves stale prices: if the

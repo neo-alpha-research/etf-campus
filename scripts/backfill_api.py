@@ -47,8 +47,8 @@ def get_d1_database_id() -> str:
     database_id = os.environ.get("CLOUDFLARE_D1_ID") or os.environ.get(
         "CLOUDFLARE_D1_DATABASE_ID"
     )
-    if database_id:
-        return database_id
+    if database_id and database_id.strip():
+        return database_id.strip()
 
     wrangler_path = Path("wrangler.toml")
     try:
@@ -66,7 +66,7 @@ def get_d1_database_id() -> str:
 
 
 def required_environment(name: str) -> str:
-    value = os.environ.get(name)
+    value = os.environ.get(name, "").strip()
     if not value:
         raise RuntimeError(
             f"{name} is required. Configure it as a GitHub Actions secret; do not store it in source code."

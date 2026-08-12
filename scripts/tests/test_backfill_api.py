@@ -113,6 +113,12 @@ class D1QueryTest(TestCase):
 
 
 class D1ConfigurationTest(TestCase):
+    def test_required_environment_strips_secret_whitespace(self) -> None:
+        with patch.dict("os.environ", {"CLOUDFLARE_D1_TOKEN": "  token-value\n"}, clear=True):
+            self.assertEqual(
+                backfill_api.required_environment("CLOUDFLARE_D1_TOKEN"), "token-value"
+            )
+
     def test_required_environment_does_not_echo_missing_secret(self) -> None:
         with patch.dict("os.environ", {}, clear=True):
             with self.assertRaisesRegex(RuntimeError, "CLOUDFLARE_D1_TOKEN is required") as error:

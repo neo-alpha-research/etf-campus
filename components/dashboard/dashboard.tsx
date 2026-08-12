@@ -109,7 +109,7 @@ function FxHedgeMarker({ value }: { value: string | null }) {
 
   const label = value === "헤지" ? "(H)" : `(${value} H)`;
   return (
-    <span aria-label="환헤지 적용" className="whitespace-nowrap text-[12px] font-extrabold text-blue-600" title="환헤지 적용">
+    <span aria-label="환헤지 적용" className="whitespace-nowrap text-[12px] font-extrabold text-brand-700" title="환헤지 적용">
       {label}
     </span>
   );

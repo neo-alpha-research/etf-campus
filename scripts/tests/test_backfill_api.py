@@ -79,7 +79,11 @@ class D1QueryTest(TestCase):
             401,
             "Unauthorized",
             {},
-            io.BytesIO(json.dumps({"errors": [{"code": 10000}]}).encode("utf-8")),
+            io.BytesIO(
+                json.dumps({"errors": [{"code": 10000, "message": "Authentication error"}]}).encode(
+                    "utf-8"
+                )
+            ),
         )
         mock_urlopen.side_effect = error
 
@@ -92,6 +96,7 @@ class D1QueryTest(TestCase):
                 api_token="token-value",
             )
 
+        self.assertIn("Authentication error", str(caught.exception))
         self.assertNotIn("token-value", str(caught.exception))
 
     @patch("scripts.backfill_api.urllib.request.urlopen")

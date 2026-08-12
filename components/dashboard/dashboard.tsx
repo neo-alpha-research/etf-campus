@@ -459,7 +459,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 if (!etf) return null;
                 const fields = getClassificationFields(etf);
                 return (
-                  <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
+                  <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40 h-[52px]" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
                     {/* 모바일 종목명 (이제 아래 공용 th를 사용하므로 삭제) */}
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right font-semibold tabular-nums md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>

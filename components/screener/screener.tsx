@@ -500,13 +500,16 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               </div>
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center gap-1.5">
+                  <span className="w-5 shrink-0 text-[10px] font-semibold text-muted">시작</span>
                   <input
                     type="date"
                     value={customStart || defaultStartDate}
                     onChange={(e) => setCustomStart(e.target.value)}
                     className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
                   />
-                  <span className="text-muted text-[10px] font-bold">-</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-5 shrink-0 text-[10px] font-semibold text-muted">종료</span>
                   <input
                     type="date"
                     value={customEnd || defaultEndDate}

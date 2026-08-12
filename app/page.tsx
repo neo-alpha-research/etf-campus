@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
-import { Screener } from "@/components/screener/screener";
+import { Dashboard } from "@/components/dashboard/dashboard";
 import { loadEtfs } from "@/lib/data/etf-repository";
 
-export const metadata: Metadata = { title: "ETF 찾기", description: "계좌유형·자산군·위험유형·순자산 기준으로 국내 상장 ETF를 살펴봅니다." };
+export const metadata: Metadata = { title: "ETF 탐색", description: "일반, 연금, 레버리지, 신규 상장 등 빠른 필터링을 제공합니다.", robots: { index: true, follow: true } };
 
 export default function HomePage() {
-  return <Screener etfs={loadEtfs()} />;
+  return <Dashboard etfs={loadEtfs()} />;
 }

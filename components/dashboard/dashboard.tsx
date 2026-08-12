@@ -105,17 +105,14 @@ function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
 }
 
 function FxHedgeMarker({ value }: { value: string | null }) {
-  if (!value) return null;
+  if (!value || value === "노출" || value === "비헤지") return null;
 
-  if (value === "노출") {
-    return <span aria-label="환노출: 환헤지 없음" className="inline-flex min-h-6 min-w-6 select-none items-center justify-center rounded-full border border-neutral-300 bg-neutral-50 px-1 text-[11px] font-extrabold text-neutral-700" title="환노출(환헤지 없음)">X</span>;
-  }
-  if (value === "헤지") {
-    return <span aria-label="환헤지 적용" className="inline-flex min-h-6 min-w-6 select-none items-center justify-center rounded-full border border-brand-200 bg-brand-50 px-1 text-[11px] font-extrabold text-brand-800" title="환헤지 적용">O</span>;
-  }
-
-  const accessibleLabel = value === "부분" ? "부분 헤지" : "탄력적 헤지";
-  return <span aria-label={accessibleLabel} className="inline-flex min-h-6 select-none items-center justify-center rounded border border-amber-200 bg-amber-50 px-1 text-[10px] font-extrabold text-amber-800" title={accessibleLabel}>{value}</span>;
+  const label = value === "헤지" ? "(H)" : `(${value} H)`;
+  return (
+    <span aria-label="환헤지 적용" className="whitespace-nowrap text-[12px] font-extrabold text-blue-600" title="환헤지 적용">
+      {label}
+    </span>
+  );
 }
 
 

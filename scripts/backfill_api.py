@@ -103,7 +103,17 @@ def d1_query(
         with urllib.request.urlopen(request, timeout=30) as response:
             response_payload = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
-        raise RuntimeError(f"Cloudflare D1 query failed with HTTP {error.code}.") from error
+        cloudflare_code = "unknown"
+        try:
+            error_payload = json.loads(error.read().decode("utf-8"))
+            errors = error_payload.get("errors", [])
+            if errors and isinstance(errors[0], dict) and "code" in errors[0]:
+                cloudflare_code = str(errors[0]["code"])
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            pass
+        raise RuntimeError(
+            f"Cloudflare D1 query failed with HTTP {error.code} (Cloudflare error {cloudflare_code})."
+        ) from error
     except urllib.error.URLError as error:
         raise RuntimeError("Cloudflare D1 query could not reach the API.") from error
     except json.JSONDecodeError as error:

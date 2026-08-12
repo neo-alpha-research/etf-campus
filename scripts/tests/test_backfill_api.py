@@ -1,4 +1,6 @@
+import io
 import json
+import urllib.error
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
@@ -69,6 +71,28 @@ class D1QueryTest(TestCase):
             json.loads(request.data.decode("utf-8")),
             {"sql": "SELECT ?", "params": ["value"]},
         )
+
+    @patch("scripts.backfill_api.urllib.request.urlopen")
+    def test_reports_http_error_code_without_secret_value(self, mock_urlopen: MagicMock) -> None:
+        error = urllib.error.HTTPError(
+            "https://api.cloudflare.com/client/v4/accounts/account-id/d1/database/database-id/query",
+            401,
+            "Unauthorized",
+            {},
+            io.BytesIO(json.dumps({"errors": [{"code": 10000}]}).encode("utf-8")),
+        )
+        mock_urlopen.side_effect = error
+
+        with self.assertRaisesRegex(RuntimeError, "HTTP 401 \\(Cloudflare error 10000\\)") as caught:
+            backfill_api.d1_query(
+                "SELECT 1",
+                None,
+                account_id="account-id",
+                database_id="database-id",
+                api_token="token-value",
+            )
+
+        self.assertNotIn("token-value", str(caught.exception))
 
     @patch("scripts.backfill_api.urllib.request.urlopen")
     def test_rejects_unsuccessful_cloudflare_response(self, mock_urlopen: MagicMock) -> None:

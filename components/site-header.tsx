@@ -40,8 +40,10 @@ export function SiteHeader() {
   useEffect(() => {
     if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveFinderHref(`/quick/?mode=${m}`);
     } else if (pathname === "/") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveFinderHref("/");
     }
   }, [pathname, searchParams]);

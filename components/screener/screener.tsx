@@ -22,10 +22,10 @@ function FxHedgeMarker({ value }: { value: string | null }) {
   return (
     <span
       aria-label="환헤지 적용"
-      className="inline-flex min-h-7 min-w-7 items-center justify-center rounded-full border border-sky-200 bg-sky-50 px-1.5 text-xs font-extrabold text-sky-800"
+      className="inline-flex min-h-6 min-w-6 items-center justify-center rounded border border-neutral-200 bg-neutral-50 px-1 text-[10px] font-bold text-neutral-500"
       title="환헤지 적용"
     >
-      O
+      (H)
     </span>
   );
 }
@@ -416,6 +416,66 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
+          <div className="pb-5 mb-5 border-b border-line">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[15px] font-extrabold text-strong">비교 수익률 추가</span>
+              {(comparisonPeriod || customDateRange) && (
+                <button type="button" onClick={() => { handleComparisonPeriodChange(null); handleClearCustomDateRange(); }} className="text-[11px] font-bold text-muted hover:text-brand-700">초기화</button>
+              )}
+            </div>
+            <p className="mb-2 text-[11px] text-muted leading-snug">선택 시 결과표에 해당 기간 수익률이 추가됩니다.</p>
+            <div className="pt-0.5 flex flex-wrap gap-1">
+              {(GENERAL_RETURN_PERIODS.filter(p => p !== "1d") as readonly ReturnPeriod[]).map((period) => (
+                <label key={period} className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${comparisonPeriod === period ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+                  <input type="radio" name="comparisonPeriod" className="sr-only" checked={comparisonPeriod === period} onChange={() => handleComparisonPeriodChange(period)} />
+                  {RETURN_PERIOD_LABELS[period]}
+                </label>
+              ))}
+            </div>
+            <div className="mt-3 border-t border-dashed border-neutral-200 pt-3">
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-[11px] font-extrabold text-strong">직접 기간 입력</p>
+                {customDateRange && (
+                  <button onClick={handleClearCustomDateRange} className="text-[10px] font-medium text-brand-600 hover:underline">
+                    초기화
+                  </button>
+                )}
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-5 shrink-0 text-[10px] font-semibold text-muted">시작</span>
+                  <input
+                    type="date"
+                    value={customStart || defaultStartDate}
+                    onChange={(e) => setCustomStart(e.target.value)}
+                    className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  />
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-5 shrink-0 text-[10px] font-semibold text-muted">종료</span>
+                  <input
+                    type="date"
+                    value={customEnd || defaultEndDate}
+                    onChange={(e) => setCustomEnd(e.target.value)}
+                    className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleApplyCustomDateRange}
+                  className="mt-1 w-full rounded-md bg-neutral-900 py-1.5 text-[11px] font-bold text-white transition-colors hover:bg-black"
+                >
+                  적용
+                </button>
+              </div>
+              {customDateRange ? (
+                <p className="mt-1.5 text-[10px] text-brand-700 font-semibold">{customDateRange.start} ~ {customDateRange.end} 적용 중 {isCustomReturnsLoading && <span className="text-muted font-normal">(계산 중...)</span>}</p>
+              ) : (
+                <p className="mt-1.5 text-[10px] text-muted">※ 임의 날짜 지정 시 일별 데이터를 조회합니다</p>
+              )}
+            </div>
+          </div>
+
           <div className="flex items-center justify-between"><h2 className="text-base font-extrabold">필터</h2><button className="text-xs font-bold text-brand-700" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">초기화</button></div>
           <fieldset className="mt-2 border-b border-line pb-3">
             <legend className="text-[15px] font-extrabold text-strong">계좌 편입</legend>
@@ -472,66 +532,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
             <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">환헤지</legend><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></fieldset>
             <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">총보수</legend><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></fieldset>
             <fieldset className="border-t border-line pt-3"><legend className="text-[15px] font-extrabold text-strong">운용사</legend><FilterChips options={AMC_TYPES} selected={filters.amcs} onChange={(v) => updateFilters({ ...filters, amcs: v })} /></fieldset>
-
-          <div className="border-t border-line pt-3 pb-2">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[15px] font-extrabold text-strong">비교 기간</span>
-              {(comparisonPeriod || customDateRange) && (
-                <button type="button" onClick={() => { handleComparisonPeriodChange(null); handleClearCustomDateRange(); }} className="text-[11px] font-bold text-muted hover:text-brand-700">초기화</button>
-              )}
-            </div>
-            <p className="mb-2 text-[11px] text-muted leading-snug">선택 시 결과표 마지막 열에 해당 기간 수익률이 추가됩니다.</p>
-            <div className="pt-0.5 flex flex-wrap gap-1">
-              {(GENERAL_RETURN_PERIODS.filter(p => p !== "1d") as readonly ReturnPeriod[]).map((period) => (
-                <label key={period} className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${comparisonPeriod === period ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
-                  <input type="radio" name="comparisonPeriod" className="sr-only" checked={comparisonPeriod === period} onChange={() => handleComparisonPeriodChange(period)} />
-                  {RETURN_PERIOD_LABELS[period]}
-                </label>
-              ))}
-            </div>
-            <div className="mt-3 border-t border-dashed border-neutral-200 pt-3">
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-[11px] font-extrabold text-strong">직접 기간 입력</p>
-                {customDateRange && (
-                  <button onClick={handleClearCustomDateRange} className="text-[10px] font-medium text-brand-600 hover:underline">
-                    초기화
-                  </button>
-                )}
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-5 shrink-0 text-[10px] font-semibold text-muted">시작</span>
-                  <input
-                    type="date"
-                    value={customStart || defaultStartDate}
-                    onChange={(e) => setCustomStart(e.target.value)}
-                    className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
-                  />
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-5 shrink-0 text-[10px] font-semibold text-muted">종료</span>
-                  <input
-                    type="date"
-                    value={customEnd || defaultEndDate}
-                    onChange={(e) => setCustomEnd(e.target.value)}
-                    className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={handleApplyCustomDateRange}
-                  className="mt-1 w-full rounded-md bg-neutral-900 py-1.5 text-[11px] font-bold text-white transition-colors hover:bg-black"
-                >
-                  적용
-                </button>
-              </div>
-              {customDateRange ? (
-                <p className="mt-1.5 text-[10px] text-brand-700 font-semibold">{customDateRange.start} ~ {customDateRange.end} 적용 중 {isCustomReturnsLoading && <span className="text-muted font-normal">(계산 중...)</span>}</p>
-              ) : (
-                <p className="mt-1.5 text-[10px] text-muted">※ 임의 날짜 지정 시 일별 데이터를 조회합니다</p>
-              )}
-            </div>
-          </div>
           </div>
 
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>
@@ -633,7 +633,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                     <th className="px-2 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목명</th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">자산</th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">지역</th>
-                    <th className="px-0.5 py-0 h-[48px] text-center text-[10px] tracking-tighter" scope="col">환헤지</th>
+                    <th className="px-0.5 py-0 h-[48px] text-center tracking-tighter" scope="col">환헤지</th>
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col">연금</th>
                     
                     <th className={`px-0.5 py-0 h-[48px] text-center border-l border-neutral-200 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">

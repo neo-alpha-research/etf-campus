@@ -227,7 +227,7 @@ export function ReturnRankingChart({
 
                   <div className="flex flex-1 items-center gap-2">
                     <div className="flex-1">
-                      <div className="flex h-1.5 items-center rounded-full bg-neutral-200/50 sm:h-1.5">
+                      <div className="flex h-2.5 items-center rounded-full bg-neutral-200/50 sm:h-3 overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-700 ${isPositive ? "bg-rise" : isZero ? "bg-neutral-300" : "bg-fall"} ${
                             index === 0 ? "opacity-100" : index === 1 ? "opacity-90" : index === 2 ? "opacity-75" : index === 3 ? "opacity-60" : "opacity-40"

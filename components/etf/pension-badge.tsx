@@ -2,13 +2,13 @@ import type { PensionStatus } from "@/lib/domain/etf-types";
 
 const statusClass: Record<PensionStatus, string> = {
   가능: "border-brand-200 bg-brand-50 text-brand-800",
-  불가: "border-rose-200 bg-rose-50 text-rose-700",
+  불가: "border-neutral-200 bg-neutral-50 text-neutral-400",
   확인중: "border-amber-200 bg-amber-50 text-amber-800",
 };
 
 const compactLabel: Record<PensionStatus, string> = {
   가능: "O",
-  불가: "X",
+  불가: "-",
   확인중: "",
 };
 

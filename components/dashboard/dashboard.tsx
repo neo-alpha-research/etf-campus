@@ -137,7 +137,7 @@ function SearchParamsSync({ onSync }: { onSync: (searchParams: URLSearchParams) 
 function RiskBadge({ label, compact = false }: { label?: string | null, compact?: boolean }) {
   if (!label) return null;
   const isInverse = label.includes("인버스");
-  const colorClass = isInverse ? "bg-purple-50 text-purple-700" : "bg-orange-50 text-orange-700";
+  const colorClass = isInverse ? "bg-purple-50 text-purple-700" : "bg-emerald-50 text-emerald-700";
   const sizeClass = compact 
     ? "px-0.5 py-0.5 text-[9px] tracking-tighter" 
     : "px-1.5 py-0.5 text-[10px]";

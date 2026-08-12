@@ -12,13 +12,9 @@ on:
     #   Mon-Fri 21:00   Tue-Sat 06:00        previous trading day close
     #   Mon-Fri 22:00   Tue-Sat 07:00
     #   Mon-Fri 23:00   Tue-Sat 08:00
-    #   Tue-Sat 00:00   Tue-Sat 09:00
-    #   Tue-Sat 01:00   Tue-Sat 10:00
-    #   Tue-Sat 02:00   Tue-Sat 11:00
-    #   Tue-Sat 03:00   Tue-Sat 12:00
-    #   Tue-Sat 04:00   Tue-Sat 13:00        final retry + stale alert
+    #   Tue-Sat 00:00   Tue-Sat 09:00        final retry + stale alert
     - cron: "0 21-23 * * 1-5"
-    - cron: "0 0-4 * * 2-6"
+    - cron: "0 0 * * 2-6"
   workflow_dispatch:
     inputs:
       target:

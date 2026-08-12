@@ -32,6 +32,7 @@ import {
   type AssetClass,
   type Etf,
   type RiskType,
+  type ReturnPeriod,
 } from "@/lib/domain/etf-types";
 
 const modeCopy: Record<InvestorMode, { eyebrow: string; title: string; description: string }> = {
@@ -120,7 +121,9 @@ function FxHedgeMarker({ value }: { value: string | null }) {
 function SearchParamsSync({ onSync }: { onSync: (searchParams: URLSearchParams) => void }) {
   const searchParams = useSearchParams();
   const onSyncRef = useRef(onSync);
-  onSyncRef.current = onSync;
+  useLayoutEffect(() => {
+    onSyncRef.current = onSync;
+  }, [onSync]);
 
   useEffect(() => {
     if (searchParams) {
@@ -344,7 +347,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             <span aria-hidden="true" className="hidden h-7 w-px shrink-0 bg-line sm:block" />
             <label className="flex items-center gap-2 text-xs font-bold text-muted">
               기간
-              <select className="min-h-10 rounded-lg border border-line bg-surface px-2 py-1 text-sm font-semibold text-strong" onChange={(e) => setExplorerState({ period: e.target.value as any })} value={normalizedPeriod}>
+              <select className="min-h-10 rounded-lg border border-line bg-surface px-2 py-1 text-sm font-semibold text-strong" onChange={(e) => setExplorerState({ period: e.target.value as ReturnPeriod })} value={normalizedPeriod}>
                 {periods.map((period) => (
                   <option key={period} value={period}>{RETURN_PERIOD_LABELS[period]}</option>
                 ))}

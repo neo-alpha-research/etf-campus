@@ -130,7 +130,22 @@ function SearchParamsSync({ onSync }: { onSync: (searchParams: URLSearchParams) 
       onSyncRef.current(searchParams);
     }
   }, [searchParams]);
+  
   return null;
+}
+
+function RiskBadge({ label, compact = false }: { label?: string, compact?: boolean }) {
+  if (!label) return null;
+  const isInverse = label.includes("인버스");
+  const colorClass = isInverse ? "bg-blue-50 text-blue-700" : "bg-rose-50 text-rose-700";
+  const sizeClass = compact 
+    ? "px-0.5 py-0.5 text-[9px] tracking-tighter" 
+    : "px-1.5 py-0.5 text-[10px]";
+  return (
+    <span aria-label={label} className={`select-none rounded font-extrabold ${colorClass} ${sizeClass}`} title={label}>
+      {label}
+    </span>
+  );
 }
 
 export function Dashboard({ etfs }: { etfs: Etf[] }) {
@@ -471,14 +486,14 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                       <Link className="line-clamp-2 break-all whitespace-normal text-left text-[12px] font-bold leading-[16px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
                     </th>
                     
-                    {isDeriv ? <td className="hidden px-0.5 py-2 text-center md:table-cell">{fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-0.5 py-0.5 text-[9px] tracking-tighter font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}</td> : null}
+                    {isDeriv ? <td className="hidden px-0.5 py-2 text-center md:table-cell"><RiskBadge compact label={fields.riskLabel} /></td> : null}
                     {isNew ? <td className="tabular-nums hidden w-[80px] min-w-[80px] whitespace-nowrap px-1 py-2 text-center text-muted md:table-cell">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
                     
                     <td className="hidden px-0.5 py-2 text-center text-[11px] font-semibold text-muted md:table-cell">{fields.marketScope ?? ""}</td>
                     <td className="hidden px-0.5 py-2 text-center md:table-cell">
                       <div className="flex flex-wrap items-center justify-center gap-1">
                         <CompactAssetClassLabel value={fields.assetClass} />
-                        {!isDeriv && fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}
+                        {!isDeriv ? <RiskBadge label={fields.riskLabel} /> : null}
                       </div>
                     </td>
                     <td className="hidden px-0.5 py-2 text-center text-[11px] font-bold text-muted md:table-cell"><FxHedgeMarker value={fields.fxHedge} /></td>

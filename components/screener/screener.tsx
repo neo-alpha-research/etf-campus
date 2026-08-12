@@ -707,7 +707,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                           ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
                             <ReturnCell showUnit={false} value={customReturnsData.returns[etf.ticker]} />
                           ) : (
-                            <span className="text-muted text-[10px]">데이터 없음</span>
+                            <span className="text-neutral-400 text-xs font-semibold">-</span>
                           )}
                         </td>
                       )}

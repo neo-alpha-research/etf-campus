@@ -205,7 +205,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
   const rowVirtualizer = useWindowVirtualizer({
     count: visibleEtfs.length,
-    estimateSize: () => 52,
+    estimateSize: () => 44,
     overscan: 12,
     scrollMargin: tableScrollMargin,
     getItemKey: (index) => visibleEtfs[index]?.ticker ?? index,
@@ -459,16 +459,16 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 if (!etf) return null;
                 const fields = getClassificationFields(etf);
                 return (
-                  <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40 h-[52px]" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
+                  <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40 h-[44px]" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
                     {/* 모바일 종목명 (이제 아래 공용 th를 사용하므로 삭제) */}
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right font-semibold tabular-nums md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
                     <td className="tabular-nums px-2 py-4 text-right text-xs text-muted font-semibold md:hidden">{(etf.ter * 100).toFixed(2)}</td>
                     
                     {/* 데스크톱용 셀들 */}
-                    <td className="tabular-nums hidden w-[56px] px-0 py-2 text-center text-[12px] font-normal text-muted bg-inherit md:sticky md:table-cell md:z-10" style={{ left: 0 }}>{etf.ticker}</td>
-                    <th className="w-[192px] bg-inherit px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5] md:sticky md:z-10" scope="row" style={{ left: 56 }}>
-                      <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
+                    <td className="tabular-nums hidden w-[56px] px-0 py-1.5 text-center text-[12px] font-normal text-muted bg-inherit md:sticky md:table-cell md:z-10" style={{ left: 0 }}>{etf.ticker}</td>
+                    <th className="w-[192px] bg-inherit px-2 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] md:sticky md:z-10" scope="row" style={{ left: 56 }}>
+                      <Link className="line-clamp-2 break-all whitespace-normal text-left text-[12px] font-bold leading-[16px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
                     </th>
                     
                     {isDeriv ? <td className="hidden px-0.5 py-2 text-center md:table-cell">{fields.riskLabel ? <span aria-label={fields.riskLabel} className="select-none rounded bg-amber-50 px-0.5 py-0.5 text-[9px] tracking-tighter font-extrabold text-amber-800" title={fields.riskLabel}>{fields.riskLabel}</span> : null}</td> : null}

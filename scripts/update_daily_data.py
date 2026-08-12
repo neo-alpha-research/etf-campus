@@ -18,7 +18,7 @@ import urllib.parse
 import urllib.request
 import urllib.error
 import json
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 try:
@@ -46,6 +46,13 @@ AVAILABLE_HISTORY_PERIODS = {
 }
 REQUEST_TIMEOUT_SECONDS = 15
 MAX_REQUEST_ATTEMPTS = 2
+KST = timezone(timedelta(hours=9))
+
+
+def default_target_date(now: datetime | None = None) -> date:
+    """Return yesterday in Korea, independent of the GitHub runner's UTC clock."""
+    current = now.astimezone(KST) if now else datetime.now(KST)
+    return current.date() - timedelta(days=1)
 
 
 def compact_number(value: object) -> str:
@@ -421,7 +428,11 @@ def main() -> None:
     returns_by_ticker = {row["ticker"]: row for row in old_returns}
     pension_by_ticker = {row["ticker"]: row for row in old_pension}
 
-    target = datetime.strptime(args.target, "%Y%m%d").date() if args.target else date.today() - timedelta(days=1)
+    target = (
+        datetime.strptime(args.target, "%Y%m%d").date()
+        if args.target
+        else default_target_date()
+    )
     public_cache: dict[str, dict[str, dict]] = {}
     krx_cache: dict[str, dict[str, dict]] = {}
     resolved: tuple[str, dict[str, dict]] | None = None

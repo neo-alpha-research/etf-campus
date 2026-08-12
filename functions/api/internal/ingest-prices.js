@@ -1,5 +1,7 @@
 const MAX_BODY_BYTES = 1_000_000;
-const MAX_RECORDS_PER_REQUEST = 500;
+// Three replay-protection statements plus one UPSERT per record must remain
+// under the D1 free-plan limit of 50 queries per Worker invocation.
+const MAX_RECORDS_PER_REQUEST = 40;
 const MAX_SIGNATURE_AGE_SECONDS = 300;
 const REPLAY_RETENTION_SECONDS = 600;
 const PRICE_UPSERT_SQL = [

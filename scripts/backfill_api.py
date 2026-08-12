@@ -22,8 +22,12 @@ try:
 except ModuleNotFoundError:
     from update_daily_data import fetch_krx_snapshot, fetch_snapshot
 
-MAX_RECORDS_PER_REQUEST = 500
+# A free D1 invocation permits 50 queries. The ingestion Function performs
+# three bookkeeping queries plus one UPSERT per record, so 40 keeps a safe
+# margin for one transactional batch.
+MAX_RECORDS_PER_REQUEST = 40
 DEFAULT_INGEST_ENDPOINT = "https://etf-campus.pages.dev/api/internal/ingest-prices"
+KST = datetime.timezone(datetime.timedelta(hours=9))
 
 
 def get_market_holidays() -> set[str]:
@@ -153,10 +157,17 @@ def send_price_batch(
     return accepted
 
 
-def missing_trading_days(days: int, holidays: set[str]) -> list[datetime.date]:
-    """Re-submit a small recent window; fixed UPSERT makes retries and corrections idempotent."""
+def missing_trading_days(
+    days: int,
+    holidays: set[str],
+    *,
+    today: datetime.date | None = None,
+) -> list[datetime.date]:
+    """Return recent *closed* sessions; never request today's unfinished close."""
     trading_days: list[datetime.date] = []
-    current_date = datetime.date.today()
+    current_date = (
+        today or datetime.datetime.now(KST).date()
+    ) - datetime.timedelta(days=1)
     while len(trading_days) < days:
         if is_trading_day(current_date, holidays):
             trading_days.insert(0, current_date)

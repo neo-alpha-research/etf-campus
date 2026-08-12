@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 
 import type { Etf } from "@/lib/domain/etf-types";
@@ -86,7 +86,7 @@ describe("Dashboard", () => {
 
     expect(nameHeader).toHaveClass("w-[192px]", "text-center");
     classificationHeaders.forEach((header) => expect(header).toHaveClass("text-center"));
-    expect(nameLink).toHaveClass("line-clamp-2", "break-all", "whitespace-normal", "text-left", "text-[13px]");
+    expect(nameLink).toHaveClass("line-clamp-2", "break-all", "whitespace-normal", "text-left", "text-[12px]");
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
   });
 
@@ -96,7 +96,7 @@ describe("Dashboard", () => {
     const mobileChangeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ }).find((cell) => cell.classList.contains("md:hidden"));
     const desktopChangeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ }).find((cell) => cell.classList.contains("md:table-cell"));
 
-    expect(nameCell).toHaveClass("py-2");
+    expect(nameCell).toHaveClass("py-1.5");
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toHaveClass("whitespace-normal");
     expect(desktopChangeCell).toHaveClass("py-2");
     expect(mobileChangeCell).toHaveClass("py-4");
@@ -114,7 +114,7 @@ describe("Dashboard", () => {
     expect(oneMonthHeader).toHaveClass("text-center");
   });
 
-  it("환헤지 종목은 'O' 뱃지로 표시하고 미적용 종목은 비워둔다", () => {
+  it("환헤지는 노출을 비우고 헤지·부분·탄력을 짧게 표기한다", () => {
     const classification = (fxHedge: string) => ({
       published: true,
       marketScope: "미국",
@@ -126,19 +126,20 @@ describe("Dashboard", () => {
       style: null,
     });
 
-    render(<Dashboard etfs={[
-      etf({ ticker: "FX1", name: "환노출 ETF", classification: classification("노출") }),
-      etf({ ticker: "FX2", name: "환헤지 ETF", classification: classification("헤지") }),
-      etf({ ticker: "FX3", name: "부분헤지 ETF", classification: classification("부분") }),
-      etf({ ticker: "FX4", name: "탄력헤지 ETF", classification: classification("탄력적 헤지") }),
-    ]} />);
+    render(<Dashboard etfs={[etf({ ticker: "FX1", name: "환노출 ETF", classification: classification("노출") })]} />);
+    expect(screen.queryByLabelText("환헤지 적용")).not.toBeInTheDocument();
 
-    expect(screen.queryByLabelText("환노출: 환헤지 없음")).not.toBeInTheDocument();
-    
-    const hedgeBadges = screen.getAllByLabelText("환헤지 적용");
-    expect(hedgeBadges).toHaveLength(3);
-    expect(hedgeBadges[0]).toHaveTextContent("O");
-    expect(hedgeBadges[0]).toHaveClass("bg-sky-50", "text-sky-800");
+    cleanup();
+    render(<Dashboard etfs={[etf({ ticker: "FX2", name: "환헤지 ETF", classification: classification("헤지") })]} />);
+    expect(screen.getByLabelText("환헤지 적용")).toHaveTextContent("(H)");
+
+    cleanup();
+    render(<Dashboard etfs={[etf({ ticker: "FX3", name: "부분헤지 ETF", classification: classification("부분") })]} />);
+    expect(screen.getByLabelText("환헤지 적용")).toHaveTextContent("(부분 H)");
+
+    cleanup();
+    render(<Dashboard etfs={[etf({ ticker: "FX4", name: "탄력헤지 ETF", classification: classification("탄력적 헤지") })]} />);
+    expect(screen.getByLabelText("환헤지 적용")).toHaveTextContent("(탄력 H)");
   });
 
   it("긴 자산 분류는 좁은 열에서 의미 단위로 두 줄 표시한다", () => {

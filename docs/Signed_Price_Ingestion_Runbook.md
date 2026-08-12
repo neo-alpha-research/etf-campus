@@ -53,7 +53,7 @@ POST\n<UNIX timestamp (seconds)>\n<원본 JSON body bytes>
 | HMAC | `HMAC-SHA256`, `X-ETF-Ingest-Signature` 헤더 |
 | 시간 제한 | `X-ETF-Ingest-Timestamp`가 현재 시각 기준 ±5분 이내 |
 | 재전송 방지 | `requestId`를 D1에 단일 저장, 동일 ID는 HTTP 409 |
-| 배치 제한 | 1~500개 레코드, 본문 최대 1MB |
+| 배치 제한 | 1~40개 레코드, 본문 최대 1MB |
 | 티커 | 숫자 6자리 |
 | 날짜 | 실제 달력상 유효한 `YYYY-MM-DD` |
 | 종가 | 유한한 양수, 1억 원 이하 |

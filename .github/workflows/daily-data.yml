@@ -13,14 +13,12 @@ on:
     #   Mon-Fri 22:00   Tue-Sat 07:00
     #   Mon-Fri 23:00   Tue-Sat 08:00
     #   Tue-Sat 00:00   Tue-Sat 09:00
+    #   Tue-Sat 01:00   Tue-Sat 10:00
     #   Tue-Sat 02:00   Tue-Sat 11:00
-    #   Tue-Sat 04:00   Tue-Sat 13:00        safety net
-    - cron: "0 21 * * 1-5"
-    - cron: "0 22 * * 1-5"
-    - cron: "0 23 * * 1-5"
-    - cron: "0 0 * * 2-6"
-    - cron: "0 2 * * 2-6"
-    - cron: "0 4 * * 2-6"
+    #   Tue-Sat 03:00   Tue-Sat 12:00
+    #   Tue-Sat 04:00   Tue-Sat 13:00        final retry + stale alert
+    - cron: "0 21-23 * * 1-5"
+    - cron: "0 0-4 * * 2-6"
   workflow_dispatch:
     inputs:
       target:
@@ -68,7 +66,37 @@ jobs:
             python scripts/update_daily_data.py
           fi
 
+      - name: Check snapshot freshness
+        id: freshness
+        shell: bash
+        env:
+          TARGET_DATE: ${{ inputs.target }}
+        run: |
+          if [ -n "$TARGET_DATE" ]; then
+            actual_date=$(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")
+            if [ "$actual_date" = "$TARGET_DATE" ]; then
+              freshness_exit=0
+            else
+              echo "::error::Requested ${TARGET_DATE}, but the snapshot contains ${actual_date}."
+              freshness_exit=1
+            fi
+          else
+            set +e
+            python scripts/check_data_freshness.py
+            freshness_exit=$?
+            set -e
+          fi
+          if [ "$freshness_exit" -eq 0 ]; then
+            echo "fresh=true" >> "$GITHUB_OUTPUT"
+            echo "Snapshot is current." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "fresh=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::The official close is not available yet. The next hourly schedule will retry."
+            echo "Snapshot is still stale; the next hourly schedule will retry." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Refresh classification review draft
+        if: steps.freshness.outputs.fresh == 'true'
         run: python scripts/build_classification_review.py
 
       # The retry ladder means most runs find nothing new. Detect that here so
@@ -116,22 +144,38 @@ jobs:
           git push
 
       - name: Update price history through signed ingestion
-        if: steps.changes.outputs.changed == 'true'
+        # Keep D1 history in sync when a new repository snapshot is committed.
+        # A separate manual backfill workflow remains available for repairs.
+        if: steps.freshness.outputs.fresh == 'true' && steps.changes.outputs.changed == 'true'
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
-        run: python scripts/backfill_api.py --days 10
+        run: python scripts/backfill_api.py --days 3
+
+      - name: Write refresh summary
+        if: always()
+        shell: bash
+        run: |
+          bas_dt=$(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")
+          {
+            echo "### ETF data refresh"
+            echo "- Snapshot date: ${bas_dt}"
+            echo "- Fresh: ${{ steps.freshness.outputs.fresh || 'unknown' }}"
+            echo "- Repository data changed: ${{ steps.changes.outputs.changed || 'unknown' }}"
+            echo "- Trigger: ${{ github.event_name }} / ${{ github.event.schedule || 'manual' }}"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # A run can end green while the site quietly serves stale prices: if the
       # feed has not published, the collector falls back to the previous close
-      # and reports no change. After the last rung of the ladder there is no
-      # excuse left, so one missed trading day fails the job. GitHub emails the
-      # repository owner when a scheduled workflow fails, which is the alert.
+      # and reports no change. Mark each stale rung as failed so Actions shows
+      # the actual state; the next hourly schedule still runs independently.
       #
       # Weekday market holidays live in data/market_holidays.txt. The first
       # unlisted holiday will trip this check once; add the date and it is
       # accurate again.
-      - name: Assert data freshness
-        if: github.event.schedule == '0 4 * * 2-6'
-        run: python scripts/check_data_freshness.py
+      - name: Mark stale attempt as failed and await next hourly retry
+        if: steps.freshness.outputs.fresh != 'true'
+        run: |
+          echo "Official ETF close is still unavailable. A later hourly schedule will retry." >&2
+          exit 1

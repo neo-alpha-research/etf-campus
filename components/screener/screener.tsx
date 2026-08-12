@@ -541,8 +541,10 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         <section aria-labelledby="results-title" className="min-w-0">
           <ReturnRankingChart 
             etfs={results} 
-            selectedPeriod={selectedPeriod as any} 
-            onPeriodChange={handlePeriodChange as any} 
+            selectedPeriod={selectedPeriod}
+            onPeriodChange={(period) => {
+              if (period !== "custom") handlePeriodChange(period);
+            }}
             activeFilterLabels={activeFilters.map(f => f.label)}
             comparisonPeriod={comparisonPeriod}
             onComparisonPeriodChange={handleComparisonPeriodChange}

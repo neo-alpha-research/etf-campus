@@ -4,6 +4,7 @@ import hmac
 import io
 import json
 import urllib.error
+from datetime import date
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
@@ -32,10 +33,28 @@ class NormalizePriceRecordsTest(TestCase):
         )
 
     def test_chunks_records_with_a_fixed_maximum(self) -> None:
-        records = [{"ticker": f"{index:06d}", "date": "2026-08-11", "close": 1000.0} for index in range(501)]
+        records = [{"ticker": f"{index:06d}", "date": "2026-08-11", "close": 1000.0} for index in range(81)]
         chunks = backfill_api.chunk_records(records)
 
-        self.assertEqual([len(chunk) for chunk in chunks], [500, 1])
+        self.assertEqual([len(chunk) for chunk in chunks], [40, 40, 1])
+
+
+class MissingTradingDaysTest(TestCase):
+    def test_excludes_today_before_the_market_has_closed(self) -> None:
+        self.assertEqual(
+            backfill_api.missing_trading_days(3, set(), today=date(2026, 8, 13)),
+            [date(2026, 8, 10), date(2026, 8, 11), date(2026, 8, 12)],
+        )
+
+    def test_skips_weekends_and_listed_holidays(self) -> None:
+        self.assertEqual(
+            backfill_api.missing_trading_days(
+                2,
+                {"20260814"},
+                today=date(2026, 8, 17),
+            ),
+            [date(2026, 8, 12), date(2026, 8, 13)],
+        )
 
 
 class SignedPayloadTest(TestCase):

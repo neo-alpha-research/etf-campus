@@ -8,7 +8,7 @@ const statusClass: Record<PensionStatus, string> = {
 
 const compactLabel: Record<PensionStatus, string> = {
   가능: "O",
-  불가: "-",
+  불가: "X",
   확인중: "",
 };
 

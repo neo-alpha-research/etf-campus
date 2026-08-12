@@ -87,6 +87,21 @@ describe("validatePayload", () => {
       }),
     ).toMatchObject({ ok: false, error: "unexpected_record_field" });
   });
+
+  it("rejects a batch that would exceed the D1 per-invocation query budget", () => {
+    const records = Array.from({ length: 41 }, (_, index) => ({
+      ticker: String(index).padStart(6, "0"),
+      date: "2026-08-12",
+      close: 10000 + index,
+    }));
+
+    expect(
+      __testables.validatePayload({
+        requestId: "batch_20260812_too_large",
+        records,
+      }),
+    ).toMatchObject({ ok: false, error: "invalid_record_count" });
+  });
 });
 
 describe("signed price ingestion", () => {

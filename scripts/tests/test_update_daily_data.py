@@ -1,8 +1,24 @@
-from datetime import date
+from datetime import date, datetime, timezone
 from unittest import TestCase
 from unittest.mock import patch
 
 from scripts import update_daily_data
+
+
+class DefaultTargetDateTest(TestCase):
+    def test_uses_korea_date_when_runner_is_still_on_the_previous_utc_day(self) -> None:
+        runner_time = datetime(2026, 8, 12, 21, 5, tzinfo=timezone.utc)
+        self.assertEqual(
+            update_daily_data.default_target_date(runner_time),
+            date(2026, 8, 12),
+        )
+
+    def test_uses_the_previous_korea_day_after_midnight_utc(self) -> None:
+        runner_time = datetime(2026, 8, 13, 1, 0, tzinfo=timezone.utc)
+        self.assertEqual(
+            update_daily_data.default_target_date(runner_time),
+            date(2026, 8, 12),
+        )
 
 
 class ResolveSnapshotTest(TestCase):

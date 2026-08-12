@@ -122,6 +122,24 @@ export function ReturnRankingChart({
               </button>
             </>
           )}
+          {customDateRange && (
+            <>
+              <span className="text-neutral-300 select-none">|</span>
+              <button
+                type="button"
+                onClick={() => onPeriodChange("custom")}
+                aria-pressed={selectedPeriod === "custom"}
+                className={`shrink-0 whitespace-nowrap rounded-lg border border-brand-200 px-2 py-1 transition-colors ${
+                  selectedPeriod === "custom" ? "bg-brand-700 text-white" : "text-brand-700 hover:bg-brand-50"
+                }`}
+              >
+                <div className="flex flex-col items-center leading-tight">
+                  <span className="text-[10px]">직접 입력</span>
+                  <span className="text-[10px] font-bold">{customDateRange.start.slice(2).replace(/-/g, '.')} ~ {customDateRange.end.slice(2).replace(/-/g, '.')}</span>
+                </div>
+              </button>
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2 ml-3">
           <div className="flex shrink-0 items-center rounded-lg bg-neutral-100 p-1" role="group" aria-label="순위 방향 선택">

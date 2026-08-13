@@ -23,6 +23,11 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install beautifulsoup4 xlrd
+
       - name: Execute signed price backfill
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}

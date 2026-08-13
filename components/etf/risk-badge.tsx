@@ -7,6 +7,18 @@ const labels: Record<RiskType, string> = {
 };
 
 export function RiskBadge({ riskType }: { riskType: RiskType }) {
-  return <span className="inline-flex rounded-md border border-neutral-200 px-2 py-1 text-xs font-semibold text-neutral-700">{labels[riskType]}</span>;
+  if (riskType === "normal") {
+    return <span className="inline-flex rounded-sm border border-neutral-300 bg-surface px-2 py-1 text-xs font-semibold text-neutral-700">{labels[riskType]}</span>;
+  }
+  
+  if (riskType === "leverage") {
+    return <span className="inline-flex rounded-sm border border-amber-300 bg-amber-100 px-2 py-1 text-xs font-bold text-amber-800">{labels[riskType]}</span>;
+  }
+  
+  if (riskType === "inverse") {
+    return <span className="inline-flex rounded-sm border border-red-300 bg-red-100 px-2 py-1 text-xs font-bold text-red-800">{labels[riskType]}</span>;
+  }
+
+  return null;
 }
 

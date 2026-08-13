@@ -2,12 +2,13 @@ import {
   RETURN_PERIODS,
   type AssetClass,
   type Etf,
+  type EtfSlim,
   type ReturnPeriod,
   type RiskType,
 } from "./etf-types";
 
 export const INVESTOR_MODES = ["general", "pension", "derivatives", "new"] as const;
-export const AUM_SCOPES = ["1000plus", "500plus", "all"] as const;
+export const AUM_SCOPES = ["all", "1000plus", "500plus"] as const;
 export const SORT_KEYS = ["return", "tradeValue", "aum", "listingDate"] as const;
 export const SORT_DIRECTIONS = ["desc", "asc"] as const;
 
@@ -112,7 +113,7 @@ export function searchEtfs(etfs: readonly Etf[], query: string): Etf[] {
   return etfs.filter((etf) => `${etf.name} ${etf.ticker} ${etf.baseIndex}`.toLocaleLowerCase("ko-KR").includes(normalized));
 }
 
-export function getEtfSearchSuggestions(etfs: readonly Etf[], query: string, limit = 8): Etf[] {
+export function getEtfSearchSuggestions(etfs: readonly EtfSlim[], query: string, limit = 8): EtfSlim[] {
   const normalized = query.trim().toLocaleLowerCase("ko-KR");
   if (!normalized) return [];
 

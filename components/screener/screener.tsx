@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import useSWR from "swr";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
@@ -12,7 +12,7 @@ import { AUM_SCOPES, GENERAL_RETURN_PERIODS, type AumScope } from "@/lib/domain/
 import { ASSET_CLASSES, RISK_TYPES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type AmcType, type ReturnPeriod } from "@/lib/domain/etf-types";
 
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스" };
-const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억원 이상", "1000plus": "1,000억원 이상" };
+const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억 이상", "1000plus": "1,000억 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -64,15 +64,15 @@ function FilterChips<T extends string>({
 }) {
   const isAll = selected.length === 0;
   return (
-    <div className="pt-1.5 flex flex-wrap gap-1">
-      <label className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+    <div className="flex flex-wrap gap-1">
+      <label className={`cursor-pointer rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
         <input type="checkbox" checked={isAll} className="sr-only" onChange={() => onChange([])} />
         전체
       </label>
       {options.map((value) => {
         const isChecked = selected.includes(value);
         return (
-          <label key={value} className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+          <label key={value} className={`cursor-pointer rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
             <input type="checkbox" checked={isChecked} className="sr-only" onChange={() => {
               if (isChecked) {
                 onChange(selected.filter((v) => v !== value));
@@ -95,7 +95,6 @@ function toggleValue<T>(values: readonly T[], value: T): T[] {
 export function Screener({ etfs }: { etfs: Etf[] }) {
   const [filters, setFilters] = useState<ScreenerFilters>(DEFAULT_SCREENER_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [advancedOpen, setAdvancedOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");
   const [sort, setSort] = useState<ScreenerSortKey>("return_1d");
   const [comparisonPeriod, setComparisonPeriod] = useState<ReturnPeriod | null>(null);
@@ -103,7 +102,6 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   // Inputs held as local state until user clicks 적용
   const [customStart, setCustomStart] = useState<string>("");
   const [customEnd, setCustomEnd] = useState<string>("");
-
 
   const syncFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
@@ -417,70 +415,19 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
-          <div className="pb-5 mb-5 border-b border-line">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[15px] font-extrabold text-strong">비교 수익률 추가</span>
-              {(comparisonPeriod || customDateRange) && (
-                <button type="button" onClick={() => { handleComparisonPeriodChange(null); handleClearCustomDateRange(); }} className="text-[11px] font-bold text-muted hover:text-brand-700">초기화</button>
-              )}
-            </div>
-            <p className="mb-2 text-[11px] text-muted leading-snug">선택 시 결과표에 해당 기간 수익률이 추가됩니다.</p>
-            <div className="pt-0.5 flex flex-wrap gap-1">
-              {(GENERAL_RETURN_PERIODS.filter(p => p !== "1d") as readonly ReturnPeriod[]).map((period) => (
-                <label key={period} className={`cursor-pointer rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition-colors ${comparisonPeriod === period ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
-                  <input type="radio" name="comparisonPeriod" className="sr-only" checked={comparisonPeriod === period} onChange={() => handleComparisonPeriodChange(period)} />
-                  {RETURN_PERIOD_LABELS[period]}
-                </label>
-              ))}
-            </div>
-            <div className="mt-3 border-t border-dashed border-neutral-200 pt-3">
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-[11px] font-extrabold text-strong">직접 기간 입력</p>
-                {customDateRange && (
-                  <button onClick={handleClearCustomDateRange} className="text-[10px] font-medium text-brand-600 hover:underline">
-                    초기화
-                  </button>
-                )}
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-5 shrink-0 text-[10px] font-semibold text-muted">시작</span>
-                  <input
-                    type="date"
-                    value={customStart || defaultStartDate}
-                    onChange={(e) => setCustomStart(e.target.value)}
-                    className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
-                  />
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-5 shrink-0 text-[10px] font-semibold text-muted">종료</span>
-                  <input
-                    type="date"
-                    value={customEnd || defaultEndDate}
-                    onChange={(e) => setCustomEnd(e.target.value)}
-                    className="w-full rounded-md border border-line bg-surface px-2 py-1 text-[11px] font-medium text-strong transition-colors focus:border-brand-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-500"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={handleApplyCustomDateRange}
-                  className="mt-1 w-full rounded-md bg-neutral-900 py-1.5 text-[11px] font-bold text-white transition-colors hover:bg-black"
-                >
-                  적용
-                </button>
-              </div>
-              {customDateRange ? (
-                <p className="mt-1.5 text-[10px] text-brand-700 font-semibold">{customDateRange.start} ~ {customDateRange.end} 적용 중 {isCustomReturnsLoading && <span className="text-muted font-normal">(계산 중...)</span>}</p>
-              ) : (
-                <p className="mt-1.5 text-[10px] text-muted">※ 임의 날짜 지정 시 일별 데이터를 조회합니다</p>
-              )}
-            </div>
-          </div>
 
-          <div className="flex items-center justify-between"><h2 className="text-base font-extrabold">필터</h2><button className="text-xs font-bold text-brand-700" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">초기화</button></div>
-          <fieldset className="mt-2 border-b border-line pb-3">
-            <legend className="text-[15px] font-extrabold text-strong">계좌 편입</legend>
-            <label className="pt-1 flex cursor-pointer items-center justify-between rounded-xl bg-brand-50 p-2 text-xs font-bold text-brand-800">
+
+          <fieldset className="border-b border-line pb-3">
+            <legend className="flex items-center justify-between w-full mb-1.5">
+              <span className="text-[15px] font-extrabold text-strong">계좌 편입</span>
+              <button className="flex items-center gap-1 rounded-md border border-brand-200 bg-brand-50 px-2 py-1 text-[11px] font-bold text-brand-700 shadow-sm transition-colors hover:bg-brand-100 hover:text-brand-900" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">
+                <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                초기화
+              </button>
+            </legend>
+            <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-brand-50 px-3 py-2 text-xs font-bold text-brand-800">
               <span>DC·IRP 가능만</span>
               <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
                 <input aria-label="DC·IRP 가능만" checked={filters.pensionOnly} className="peer sr-only" onChange={(event) => updateFilters({ ...filters, pensionOnly: event.target.checked })} type="checkbox" role="switch" />
@@ -488,11 +435,11 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               </div>
             </label>
           </fieldset>
-          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong">자산군</legend><FilterChips options={ASSET_CLASSES} selected={filters.assetClasses} onChange={(v) => updateFilters({ ...filters, assetClasses: v })} /></fieldset>
-          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong">지역</legend><FilterChips options={MARKET_SCOPES} selected={filters.marketScopes} onChange={(v) => updateFilters({ ...filters, marketScopes: v })} /></fieldset>
+          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">자산군</legend><FilterChips options={ASSET_CLASSES} selected={filters.assetClasses} onChange={(v) => updateFilters({ ...filters, assetClasses: v })} /></fieldset>
+          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">지역</legend><FilterChips options={MARKET_SCOPES} selected={filters.marketScopes} onChange={(v) => updateFilters({ ...filters, marketScopes: v })} /></fieldset>
           <fieldset className="border-b border-line py-3">
-            <legend className="text-[15px] font-extrabold text-strong">순자산 구간</legend>
-            <div className="pt-1 flex flex-wrap gap-1">
+            <legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">순자산 구간</legend>
+            <div className="flex flex-wrap gap-1">
               {AUM_SCOPES.map((value) => {
                 const isChecked = filters.aumScope === value;
                 return (
@@ -504,36 +451,78 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
               })}
             </div>
           </fieldset>
-          
-          <div className="py-3">
-            <button 
-              type="button" 
-              onClick={() => setAdvancedOpen(!advancedOpen)} 
-              aria-expanded={advancedOpen}
-              aria-controls="advanced-filters"
-              className="flex w-full items-center justify-between text-[15px] font-extrabold text-strong"
-            >
-              세부 조건
-              <svg className={`size-5 transform transition-transform ${advancedOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
 
-          <div id="advanced-filters" className={advancedOpen ? "block" : "hidden"}>
-            <fieldset className="border-t border-line py-3">
-              <legend className="text-[15px] font-extrabold text-strong">상품 구조</legend>
-              <div className="pt-2">
-                <div className="mb-2 text-xs font-bold text-muted">배율 구조</div>
-                <div className="mb-4"><FilterChips options={RISK_TYPES} selected={filters.riskTypes} labels={riskLabels} onChange={(v) => updateFilters({ ...filters, riskTypes: v })} /></div>
-                <div className="mb-2 text-xs font-bold text-muted">운용 전략</div>
-                <FilterChips options={STRATEGIES} selected={filters.strategies} onChange={(v) => updateFilters({ ...filters, strategies: v })} />
+          <div className="border-b border-line py-3">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[15px] font-extrabold text-strong">비교 수익률 추가</span>
+              {(comparisonPeriod || customDateRange) && (
+                <button type="button" onClick={() => { handleComparisonPeriodChange(null); handleClearCustomDateRange(); }} className="text-[11px] font-bold text-muted hover:text-brand-700">초기화</button>
+              )}
+            </div>
+            
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-wrap gap-1">
+                {(GENERAL_RETURN_PERIODS.filter(p => p !== "1d") as readonly ReturnPeriod[]).map((period) => (
+                  <label key={period} className={`cursor-pointer rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors ${comparisonPeriod === period && !customDateRange ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+                    <input type="radio" name="comparisonPeriod" className="sr-only" checked={comparisonPeriod === period && !customDateRange} onChange={() => handleComparisonPeriodChange(period)} />
+                    {RETURN_PERIOD_LABELS[period]}
+                  </label>
+                ))}
               </div>
-            </fieldset>
-            <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">환헤지</legend><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></fieldset>
-            <fieldset className="border-t border-line py-3"><legend className="text-[15px] font-extrabold text-strong">총보수</legend><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></fieldset>
-            <fieldset className="border-t border-line pt-3"><legend className="text-[15px] font-extrabold text-strong">운용사</legend><FilterChips options={AMC_TYPES} selected={filters.amcs} onChange={(v) => updateFilters({ ...filters, amcs: v })} /></fieldset>
+              <div className="mt-2 flex items-center gap-1.5">
+                <style dangerouslySetInnerHTML={{ __html: `
+                  .micro-date::-webkit-inner-spin-button, 
+                  .micro-date::-webkit-clear-button { 
+                    display: none; 
+                    -webkit-appearance: none; 
+                  }
+                  .micro-date::-webkit-calendar-picker-indicator { 
+                    margin-left: 2px;
+                    cursor: pointer;
+                    opacity: 0.6;
+                  }
+                `}} />
+
+                <div className="flex flex-1 flex-col gap-1 min-w-0">
+                  <div className="flex items-center justify-between rounded border border-line bg-neutral-50 px-1.5 py-0.5">
+                    <span className="shrink-0 text-[9px] font-bold text-muted mr-1">시작</span>
+                    <input
+                      type="date"
+                      value={customStart || defaultStartDate}
+                      onChange={(e) => setCustomStart(e.target.value)}
+                      className="micro-date w-full bg-transparent text-right text-[10px] tracking-tighter font-bold text-strong focus:outline-none"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between rounded border border-line bg-neutral-50 px-1.5 py-0.5">
+                    <span className="shrink-0 text-[9px] font-bold text-muted mr-1">종료</span>
+                    <input
+                      type="date"
+                      value={customEnd || defaultEndDate}
+                      onChange={(e) => setCustomEnd(e.target.value)}
+                      className="micro-date w-full bg-transparent text-right text-[10px] tracking-tighter font-bold text-strong focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleApplyCustomDateRange}
+                  className="shrink-0 rounded bg-neutral-800 px-2.5 py-2 text-[10px] font-bold text-white transition-colors hover:bg-black"
+                >
+                  적용
+                </button>
+              </div>
+            </div>
           </div>
+          <fieldset className="border-b border-line py-3">
+            <legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">상품 구조</legend>
+            <div><FilterChips options={RISK_TYPES} selected={filters.riskTypes} labels={riskLabels} onChange={(v) => updateFilters({ ...filters, riskTypes: v })} /></div>
+          </fieldset>
+          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">운용 전략</legend><div><FilterChips options={STRATEGIES} selected={filters.strategies} onChange={(v) => updateFilters({ ...filters, strategies: v })} /></div></fieldset>
+          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">환헤지</legend><div><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></div></fieldset>
+          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">총보수</legend><div><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></div></fieldset>
+          <fieldset className="py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">운용사</legend><div><FilterChips options={AMC_TYPES} selected={filters.amcs} onChange={(v) => updateFilters({ ...filters, amcs: v })} /></div></fieldset>
+          
 
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>
         </aside>

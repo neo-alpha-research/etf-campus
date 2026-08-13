@@ -16,16 +16,15 @@ export function formatReturnNumber(value: number | null): string {
 }
 
 export function formatMoney(value: number): string {
-  const eok = value / 100_000_000;
-  const fractionDigits = eok < 100 ? 1 : 0;
+  const eok = Math.round(value / 100_000_000);
   return `${new Intl.NumberFormat("ko-KR", {
-    maximumFractionDigits: fractionDigits,
-    minimumFractionDigits: fractionDigits,
-  }).format(eok)}억원`;
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(eok)}억 원`;
 }
 
 export function formatMoneyNumber(value: number): string {
-  return formatMoney(value).replace("억원", "");
+  return formatMoney(value).replace("억 원", "");
 }
 
 export function formatTradeValueNumber(value: number): string {

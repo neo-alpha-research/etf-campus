@@ -77,7 +77,7 @@ export function StyleOnboarding() {
     () => "__server__",
   );
   const stored = parseStoredDiagnosis(rawStored);
-  const open = openIntent ?? rawStored === null;
+  const open = openIntent ?? false;
 
   useEffect(() => {
     const onChange = (event: Event) => {

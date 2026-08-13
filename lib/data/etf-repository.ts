@@ -35,13 +35,7 @@ function getAmc(name: string): AmcType {
 
 
 
-function getMockTer(ticker: string): number {
-  let hash = 0;
-  for (let i = 0; i < ticker.length; i++) {
-    hash = (hash * 31 + ticker.charCodeAt(i)) % 1000;
-  }
-  return 0.0005 + (hash / 1000) * 0.008; 
-}
+
 
 function assertMember<T extends string>(value: string, allowed: readonly T[], field: string): T {
   if (!allowed.includes(value as T)) throw new Error(`${field}에 허용되지 않은 값이 있습니다: ${value}`);
@@ -130,7 +124,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       changePct,
       tradeValue: parseNumberField(master, "trade_value", `master:${ticker}`),
       aum: parseNumberField(master, "aum", `master:${ticker}`),
-      ter: getMockTer(ticker),
+      ter: 0,
 
       amc: getAmc(name),
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,

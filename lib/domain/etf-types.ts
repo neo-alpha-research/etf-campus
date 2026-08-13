@@ -82,3 +82,7 @@ export type Etf = {
   isNew3m: boolean;
   classification?: EtfClassification | null;
 };
+
+export type EtfSlim = Pick<Etf, "ticker" | "name" | "baseIndex" | "assetClass" | "riskType" | "pension" | "tradeValue"> & {
+  // We can include a pre-computed searchKey if we want, or just compute on the fly.
+};

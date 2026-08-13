@@ -81,9 +81,9 @@ function getAllowedRiskTypes(mode: InvestorMode): readonly RiskType[] {
   return [];
 }
 
-function SearchSuggestionMeta({ etf }: { etf: Etf }) {
-  const fields = getClassificationFields(etf);
-  return <span className="hidden shrink-0 text-xs text-muted sm:inline">{[fields.marketScope, fields.assetClass].filter(Boolean).join(" · ")}</span>;
+function SearchSuggestionMeta({ etf }: { etf: Pick<Etf, "assetClass" | "ticker"> }) {
+  const assetClass = etf.assetClass.replace("주식-", "");
+  return <span className="hidden shrink-0 text-xs text-muted sm:inline">{assetClass}</span>;
 }
 
 function CompactAssetClassLabel({ value }: { value: string }) {

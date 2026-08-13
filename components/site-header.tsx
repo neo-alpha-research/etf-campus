@@ -16,10 +16,11 @@ const navigation = [
 ] as const;
 
 const finderNavigation = [
-  { href: "/?mode=general", label: "일반 계좌" },
-  { href: "/?mode=pension", label: "연금 계좌" },
-  { href: "/?mode=derivatives", label: "레버리지·인버스" },
-  { href: "/?mode=new", label: "신규 상장" },
+  { href: "/", label: "조건별 찾기" },
+  { href: "/quick/?mode=general", label: "일반 계좌" },
+  { href: "/quick/?mode=pension", label: "연금 계좌" },
+  { href: "/quick/?mode=derivatives", label: "레버리지·인버스" },
+  { href: "/quick/?mode=new", label: "신규 상장" },
 ] as const;
 
 export function SiteHeader() {
@@ -29,23 +30,26 @@ export function SiteHeader() {
   // Explicitly track active sub-tab href so highlighting updates
   // immediately on both pathname and searchParam changes.
   const [activeFinderHref, setActiveFinderHref] = useState(() => {
-    if (pathname === "/") {
+    if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
-      return `/?mode=${m}`;
+      return `/quick/?mode=${m}`;
     }
-    return "/?mode=general";
+    return "/";
   });
 
   useEffect(() => {
-    if (pathname === "/") {
+    if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setActiveFinderHref(`/?mode=${m}`);
+      setActiveFinderHref(`/quick/?mode=${m}`);
+    } else if (pathname === "/") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setActiveFinderHref("/");
     }
   }, [pathname, searchParams]);
 
-  // "ETF 탐색" owns the preset ETF views.
-  const isEtfSection = pathname === "/";
+  // "ETF 탐색" owns both the screener and the preset ETF views.
+  const isEtfSection = pathname === "/" || pathname === "/quick" || pathname === "/quick/";
   const showFinderNav = isEtfSection;
 
   const isPrimaryActive = (href: string) => {

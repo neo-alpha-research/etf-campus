@@ -5,16 +5,15 @@ on:
     # Retry ladder on the morning AFTER each trading day (KST), so the prior
     # close lands as early as the official feed publishes it. The first run
     # that finds new data commits; later runs that day exit early as no-ops.
-    # On-the-hour slots are the most congested on GitHub, so any single run may
-    # fire late; the ladder is what absorbs that.
+    # GitHub's on-the-hour schedule queue is congested and can drop runs, so
+    # use minute 17 and let the retry ladder absorb a transient API delay.
     #
     #   UTC (cron)      KST (local)          covers
-    #   Mon-Fri 21:00   Tue-Sat 06:00        previous trading day close
-    #   Mon-Fri 22:00   Tue-Sat 07:00
-    #   Mon-Fri 23:00   Tue-Sat 08:00
-    #   Tue-Sat 00:00   Tue-Sat 09:00        final retry + stale alert
-    - cron: "0 21-23 * * 1-5"
-    - cron: "0 0 * * 2-6"
+    #   Mon-Fri 20:17   Tue-Sat 05:17        previous trading day close
+    #   Mon-Fri 21:17   Tue-Sat 06:17
+    #   Mon-Fri 22:17   Tue-Sat 07:17
+    #   Mon-Fri 23:17   Tue-Sat 08:17        final retry + stale alert
+    - cron: "17 20-23 * * 1-5"
   workflow_dispatch:
     inputs:
       target:

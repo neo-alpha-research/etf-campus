@@ -138,16 +138,6 @@ jobs:
           git commit -m "data: refresh ETF snapshot"
           git push
 
-      - name: Update price history through signed ingestion
-        # Keep D1 history in sync when a new repository snapshot is committed.
-        # A separate manual backfill workflow remains available for repairs.
-        if: steps.freshness.outputs.fresh == 'true' && steps.changes.outputs.changed == 'true'
-        env:
-          KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
-          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
-          PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
-        run: python scripts/backfill_api.py --days 3
-
       - name: Write refresh summary
         if: always()
         shell: bash

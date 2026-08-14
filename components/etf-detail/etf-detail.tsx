@@ -265,7 +265,7 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
                   <tr>
                     {defaultPeriods.map((period) => (
                       <td className="px-4 py-4 tabular-nums" key={period}>
-                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium text-lg">—</span> : <span className="font-bold text-lg tracking-tight"><ReturnCell value={etf.returns[period]!} /></span>}
+                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium text-base">—</span> : <span className="font-bold text-base tracking-tight"><ReturnCell value={etf.returns[period]!} /></span>}
                       </td>
                     ))}
                   </tr>

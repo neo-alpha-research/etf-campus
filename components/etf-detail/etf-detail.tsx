@@ -245,7 +245,7 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
         <section aria-labelledby="returns-title" className="scroll-mt-24 pt-6">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-extrabold text-strong" id="returns-title">과거 수익률 상세 분석</h2>
+              <h2 className="text-2xl font-extrabold text-strong" id="returns-title">과거 수익률</h2>
             </div>
           </div>
           <div className="mt-5">

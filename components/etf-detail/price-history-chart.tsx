@@ -122,8 +122,8 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
       
       {/* Settings Row */}
       <div className="flex justify-between items-start gap-4 mb-2">
-        <div className="flex-1 overflow-x-auto scrollbar-hide flex flex-col gap-2">
-          <div className="flex items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit">
+        <div className="flex-1 overflow-x-auto scrollbar-hide flex items-center gap-3">
+          <div className="flex items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit shrink-0">
             {PERIODS.map(p => (
               <button
                 key={p.id}
@@ -142,10 +142,10 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
           </div>
 
           {isCustom && (
-            <div className="flex items-center gap-1.5">
-              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white" />
+            <div className="flex items-center gap-1.5 shrink-0 animate-in fade-in slide-in-from-left-2 duration-200">
+              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow" />
               <span className="text-muted font-bold text-xs">~</span>
-              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white" />
+              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow" />
             </div>
           )}
         </div>
@@ -160,7 +160,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
       {/* Chart Header */}
       <div className="flex flex-wrap justify-between items-start gap-y-2 mb-2">
         <div>
-          <h3 className="font-bold flex items-center gap-2 flex-wrap tracking-tight" style={{ fontSize: '22px', color: '#312e81' }}>
+          <h3 className="font-bold flex items-center gap-2 flex-wrap tracking-tight" style={{ fontSize: '22px', color: '#3730a3' }}>
             {points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)}` : "데이터 없음"}
           </h3>
           {data?.actualEnd && asOfDate && asOfDate.length >= 8 && (

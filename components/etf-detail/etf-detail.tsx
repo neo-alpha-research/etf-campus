@@ -137,28 +137,104 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
         <section aria-labelledby="classification-title" className="scroll-mt-24 pt-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 className="text-2xl font-extrabold text-strong" id="classification-title">ETF 핵심 요약</h2>
-            <span className="text-xs font-semibold text-muted">
-              {etf.classification?.reviewStatus === "자동확정" ? "자동확정" : getClassificationStatusLabel(etf)}
-            </span>
           </div>
           <p className="mt-2 text-base font-medium text-strong">{oneLineDesc}</p>
           
-          <div className="mt-5 rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm">
-            <dl className="grid grid-cols-1 gap-x-6 gap-y-5 text-sm sm:grid-cols-2 lg:grid-cols-3">
-              <div><dt className="text-xs font-bold text-muted">기초지수</dt><dd className="mt-1.5 font-bold text-strong text-base">{etf.baseIndex || "-"}</dd></div>
-              <div><dt className="text-xs font-bold text-muted">투자 지역</dt><dd className="mt-1.5 font-bold text-strong text-base">{marketScope || "-"}</dd></div>
-              <div><dt className="text-xs font-bold text-muted">자산군</dt><dd className="mt-1.5 font-bold text-strong text-base">{assetClass || "-"}</dd></div>
-              {etf.classification?.assetDetail && <div><dt className="text-xs font-bold text-muted">세부 자산 분류</dt><dd className="mt-1.5 font-bold text-strong text-base">{etf.classification.assetDetail}</dd></div>}
-              {etf.classification?.strategy && <div><dt className="text-xs font-bold text-muted">운용 전략</dt><dd className="mt-1.5 font-bold text-strong text-base">{etf.classification.strategy}</dd></div>}
-              {marketScope && marketScope !== "국내" && etf.classification?.fxHedge && (
-                <div><dt className="text-xs font-bold text-muted">환헤지 여부</dt><dd className="mt-1.5 font-bold text-strong text-base">{etf.classification.fxHedge}</dd></div>
+          {/* 4대 핵심 투자 지표 */}
+          <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 rounded-2xl border border-line bg-surface shadow-sm">
+            <div className="flex flex-col justify-center">
+              <dt className="text-sm font-bold text-gray-500">순자산</dt>
+              <dd className="mt-1 text-lg font-bold text-strong">{formatMoney(etf.aum)}</dd>
+            </div>
+            <div className="flex flex-col justify-center">
+              <dt className="text-sm font-bold text-gray-500">거래대금</dt>
+              <dd className="mt-1 text-lg font-bold text-strong">{formatMoney(etf.tradeValue)}</dd>
+            </div>
+            <div className="flex flex-col justify-center group relative cursor-help">
+              <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
+                실질 부담 비용
+                <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </dt>
+              <dd className="mt-1 text-lg font-bold text-strong">
+                {isFeeVerified && fee?.totalFeePct !== null ? `${fee.totalFeePct}%` : <span className="text-sm font-semibold text-neutral-500">{getFeeStatusText(fee?.verificationStatus)}</span>}
+              </dd>
+              
+              {/* Tooltip */}
+              <div className="absolute left-0 sm:-left-12 top-full mt-2 w-64 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
+                <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700">
+                  <div className="font-bold mb-2 text-[13px] border-b border-neutral-600 pb-2">비용 상세 내역</div>
+                  <div className="space-y-1.5 font-medium">
+                    <div className="flex justify-between">
+                      <span className="text-neutral-300">총보수</span>
+                      <span>{isFeeVerified && fee?.totalFeePct !== null ? `${fee.totalFeePct}%` : getFeeStatusText(fee?.verificationStatus)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-300">기타비용</span>
+                      <span>{isFeeVerified && fee?.otherCostPct !== null ? `${fee.otherCostPct}%` : "-"}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-neutral-300">매매·중개 관련 비용</span>
+                      <span>{isFeeVerified && fee?.tradingCostPct !== null ? `${fee.tradingCostPct}%` : "-"}</span>
+                    </div>
+                  </div>
+                  {fee?.verifiedAt && <div className="mt-3 pt-2 border-t border-neutral-600 text-[10px] text-neutral-400">공식 검증일: {formatDate(fee.verifiedAt)}</div>}
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center">
+              <dt className="text-sm font-bold text-gray-500">연금 투자</dt>
+              <dd className="mt-1 text-lg font-bold text-strong">
+                <span className={`${etf.pension === "가능" ? "text-emerald-600" : etf.pension === "불가" ? "text-rose-600" : "text-neutral-500"}`}>{etf.pension}</span>
+              </dd>
+            </div>
+          </div>
+
+          {/* 상품 기본 속성 */}
+          <div className="mt-4 rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm">
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
+                <dt className="text-sm font-bold text-muted sm:w-28 shrink-0">기초지수</dt>
+                <dd className="font-bold text-strong leading-snug">{etf.baseIndex || "-"}</dd>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
+                <dt className="text-sm font-bold text-muted sm:w-28 shrink-0">투자 지역</dt>
+                <dd className="font-bold text-strong">{marketScope || "-"}</dd>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
+                <dt className="text-sm font-bold text-muted sm:w-28 shrink-0">자산군</dt>
+                <dd className="font-bold text-strong">{assetClass || "-"}</dd>
+              </div>
+              {etf.classification?.assetDetail && (
+                <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
+                  <dt className="text-sm font-bold text-muted sm:w-28 shrink-0">세부 자산 분류</dt>
+                  <dd className="font-bold text-strong">{etf.classification.assetDetail}</dd>
+                </div>
               )}
-              {etf.issuer.issuerStatus !== "needs_review" && <div><dt className="text-xs font-bold text-muted">운용사</dt><dd className="mt-1.5 font-bold text-strong text-base">{etf.issuer.issuerName}</dd></div>}
-              {etf.issuer.issuerStatus === "needs_review" && <div><dt className="text-xs font-bold text-muted">운용사</dt><dd className="mt-1.5 font-bold text-strong text-base">운용사 확인 필요</dd></div>}
-              <div><dt className="text-xs font-bold text-muted">상장일</dt><dd className="mt-1.5 font-bold text-strong text-base">{formatDate(etf.listingDate) || "-"}</dd></div>
+              {etf.classification?.strategy && (
+                <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
+                  <dt className="text-sm font-bold text-muted sm:w-28 shrink-0">운용 전략</dt>
+                  <dd className="font-bold text-strong">{etf.classification.strategy}</dd>
+                </div>
+              )}
+              {marketScope && marketScope !== "국내" && etf.classification?.fxHedge && (
+                <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
+                  <dt className="text-sm font-bold text-muted sm:w-28 shrink-0">환헤지 여부</dt>
+                  <dd className="font-bold text-strong">{etf.classification.fxHedge}</dd>
+                </div>
+              )}
+              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
+                <dt className="text-sm font-bold text-muted sm:w-28 shrink-0">운용사</dt>
+                <dd className="font-bold text-strong">{etf.issuer.issuerStatus !== "needs_review" ? etf.issuer.issuerName : "운용사 확인 필요"}</dd>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
+                <dt className="text-sm font-bold text-muted sm:w-28 shrink-0">상장일</dt>
+                <dd className="font-bold text-strong">{formatDate(etf.listingDate) || "-"}</dd>
+              </div>
               
               {etf.classification?.published && etf.classification.sourceUrl && (
-                <div className="sm:col-span-2 lg:col-span-3 pt-2">
+                <div className="sm:col-span-2 pt-2">
                   <a className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-700 hover:text-brand-800 transition-colors" href={etf.classification.sourceUrl} rel="noreferrer" target="_blank">
                     <span>공식 상품 페이지 열기</span>
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
@@ -166,82 +242,6 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
                 </div>
               )}
             </dl>
-          </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-xl border border-line bg-surface p-4 flex flex-col justify-center shadow-sm">
-              <dt className="text-xs font-bold text-muted">순자산</dt>
-              <dd className="mt-1.5 text-lg font-extrabold text-brand-800">{formatMoney(etf.aum)}</dd>
-            </div>
-            <div className="rounded-xl border border-line bg-surface p-4 flex flex-col justify-center shadow-sm">
-              <dt className="text-xs font-bold text-muted">거래대금</dt>
-              <dd className="mt-1.5 text-lg font-extrabold text-brand-800">{formatMoney(etf.tradeValue)}</dd>
-            </div>
-            <div className="rounded-xl border border-line bg-surface p-4 flex flex-col justify-center shadow-sm">
-              <dt className="text-xs font-bold text-muted">총보수</dt>
-              <dd className="mt-1.5 text-lg font-extrabold text-brand-800">
-                {isFeeVerified && fee?.totalFeePct !== null ? `${fee.totalFeePct}%` : <span className="text-sm font-semibold text-neutral-500">{getFeeStatusText(fee?.verificationStatus)}</span>}
-              </dd>
-            </div>
-            <div className="rounded-xl border border-line bg-surface p-4 flex flex-col justify-center shadow-sm">
-              <dt className="text-xs font-bold text-muted">연금 투자</dt>
-              <dd className="mt-1.5 text-lg font-extrabold">
-                <span className={`${etf.pension === "가능" ? "text-emerald-600" : etf.pension === "불가" ? "text-rose-600" : "text-neutral-500"}`}>{etf.pension}</span>
-              </dd>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. 비용 자세히 보기 */}
-        <section aria-labelledby="cost-title" className="scroll-mt-24 pt-4">
-          <h3 className="text-lg font-extrabold text-strong mb-4" id="cost-title">비용 자세히 보기</h3>
-          
-          <div className="rounded-2xl border border-line bg-surface overflow-hidden shadow-sm">
-            <table className="w-full text-left text-sm">
-              <caption className="sr-only">ETF 상세 비용 정보</caption>
-              <tbody className="divide-y divide-line">
-                <tr className="bg-neutral-50/50">
-                  <th scope="row" className="px-5 py-4 font-bold text-strong w-1/2">총보수</th>
-                  <td className="px-5 py-4 text-right font-extrabold text-brand-800">
-                    {isFeeVerified && fee?.totalFeePct !== null ? `${fee.totalFeePct}%` : <span className="text-muted font-semibold">{getFeeStatusText(fee?.verificationStatus)}</span>}
-                  </td>
-                </tr>
-                {isFeeVerified && fee?.totalFeePct !== null && (
-                  <tr className="bg-brand-50/30">
-                    <td colSpan={2} className="px-5 py-3 text-xs font-semibold text-brand-800 text-center">
-                      💡 1,000만원 투자 시 총보수만 단순 적용하면 연간 약 {formatWon(10000000 * (fee.totalFeePct / 100))}
-                    </td>
-                  </tr>
-                )}
-                <tr>
-                  <th scope="row" className="px-5 py-4 font-bold text-strong w-1/2">총보수 및 기타비용 (TER)</th>
-                  <td className="px-5 py-4 text-right font-bold text-strong">
-                    {isFeeVerified && fee?.terPct !== null ? `${fee.terPct}%` : <span className="text-muted font-medium">{getFeeStatusText(fee?.verificationStatus)}</span>}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" className="px-5 py-4 font-bold text-strong text-neutral-600 w-1/2 pl-8 relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 border-l border-b border-neutral-400"></span>
-                    기타비용
-                  </th>
-                  <td className="px-5 py-4 text-right font-semibold text-strong">
-                    {isFeeVerified && fee?.otherCostPct !== null ? `${fee.otherCostPct}%` : <span className="text-muted font-medium">{getFeeStatusText(fee?.verificationStatus)}</span>}
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row" className="px-5 py-4 font-bold text-strong w-1/2">매매·중개 관련 비용</th>
-                  <td className="px-5 py-4 text-right font-bold text-strong">
-                    {isFeeVerified && fee?.tradingCostPct !== null ? `${fee.tradingCostPct}%` : <span className="text-muted font-medium">{getFeeStatusText(fee?.verificationStatus)}</span>}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-[11px] font-medium text-muted">
-            <p>총보수만 단순 환산한 값으로, 실제 비용에는 기타비용과 매매·중개 관련 비용 등이 추가될 수 있습니다.</p>
-            {fee?.verifiedAt && <p>공식 검증일: {formatDate(fee.verifiedAt)}</p>}
-            {fee?.dartReceiptNo && <p>DART 접수번호: {fee.dartReceiptNo}</p>}
           </div>
         </section>
 

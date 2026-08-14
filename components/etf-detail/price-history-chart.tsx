@@ -206,11 +206,13 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
             <div className="flex flex-col items-end leading-tight">
               <div className="flex items-baseline gap-2">
                 <span className="font-bold text-strong" style={{ fontSize: '18px' }}>수익률</span>
-                <span className={`font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`} style={{ fontSize: '33px' }}>
-                  {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
+                <span className={`font-black font-mono tracking-tight leading-none ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`} style={{ fontSize: '33px' }}>
+                  {isShort ? '-' : `${points[points.length - 1].returnPct > 0 ? '+' : ''}${points[points.length - 1].returnPct.toFixed(2)}%`}
                 </span>
               </div>
-              <div className="text-[18px] text-gray-500 mt-1">(분배금 미포함)</div>
+              {!isShort && (
+                <div className="text-[18px] text-gray-500 mt-1">(분배금 미포함)</div>
+              )}
             </div>
           )}
         </div>

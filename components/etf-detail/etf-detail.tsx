@@ -260,16 +260,16 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
 
           <div className="mt-2 overflow-hidden rounded-xl border border-line bg-surface">
             <div className="overflow-x-auto scrollbar-hide">
-              <table className="w-full min-w-max text-right text-sm">
+              <table className="w-full min-w-[1000px] table-fixed text-center">
                 <caption className="sr-only">{etf.name} 기본 기간별 가격 수익률</caption>
-                <thead className="bg-neutral-50 text-[11px] font-bold text-muted border-b border-line">
-                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-1 whitespace-nowrap" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
+                <thead className="bg-neutral-50 text-base font-bold text-muted border-b border-line">
+                  <tr>{defaultPeriods.map((period) => <th className="px-4 py-3 whitespace-nowrap" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
                 </thead>
                 <tbody>
                   <tr>
                     {defaultPeriods.map((period) => (
-                      <td className="px-3 py-1.5 tabular-nums" key={period}>
-                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-[13px] tracking-tight"><ReturnCell value={etf.returns[period]!} /></span>}
+                      <td className="px-4 py-4 tabular-nums" key={period}>
+                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium text-lg">—</span> : <span className="font-bold text-lg tracking-tight"><ReturnCell value={etf.returns[period]!} /></span>}
                       </td>
                     ))}
                   </tr>

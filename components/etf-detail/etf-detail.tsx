@@ -194,44 +194,6 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
           </div>
         </section>
 
-        {/* 3. 수익률 차트 및 표 */}
-        <section aria-labelledby="returns-title" className="scroll-mt-24 pt-4">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <h2 className="text-2xl font-extrabold text-strong" id="returns-title">최근 성과 확인</h2>
-              <p className="mt-1.5 text-sm font-bold text-brand-700">가격수익률(PR) · 분배금 미포함</p>
-            </div>
-          </div>
-          <div className="mt-5">
-            <PriceHistoryChart ticker={etf.ticker} asOfDate={etf.asOfDate} />
-          </div>
-
-          <div className="mt-6 flex justify-end">
-            <p className="text-xs font-semibold leading-5 text-muted">1일은 직전 거래일, 주·개월은 기준일에서 해당 달력 기간 전 날짜의 당일 또는 직전 거래일 종가 대비{newListing ? " · 상장 후는 첫 거래일 종가 대비" : ""}</p>
-          </div>
-          <div className="mt-2 overflow-hidden rounded-2xl border border-line bg-surface">
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[600px] text-center text-sm">
-                <caption className="sr-only">{etf.name} 기본 기간별 가격 수익률</caption>
-                <thead className="bg-neutral-50 text-xs font-bold text-muted border-b border-line">
-                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-3.5 min-w-[60px]" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    {defaultPeriods.map((period) => (
-                      <td className="px-3 py-5" key={period}>
-                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-[15px]"><ReturnCell value={etf.returns[period]!} /></span>}
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-
-        </section>
-
         {/* 4. 비용 자세히 보기 */}
         <section aria-labelledby="cost-title" className="scroll-mt-24 pt-4">
           <h3 className="text-lg font-extrabold text-strong mb-4" id="cost-title">비용 자세히 보기</h3>
@@ -316,6 +278,42 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
             </div>
           </section>
         </div>
+
+        {/* 3. 수익률 차트 및 표 */}
+        <section aria-labelledby="returns-title" className="scroll-mt-24 pt-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <h2 className="text-2xl font-extrabold text-strong" id="returns-title">최근 성과 확인</h2>
+              <p className="mt-1.5 text-sm font-bold text-brand-700">가격수익률(PR) · 분배금 미포함</p>
+            </div>
+          </div>
+          <div className="mt-5">
+            <PriceHistoryChart ticker={etf.ticker} asOfDate={etf.asOfDate} />
+          </div>
+
+          <div className="mt-6 flex justify-end">
+            <p className="text-xs font-semibold leading-5 text-muted">1일은 직전 거래일, 주·개월은 기준일에서 해당 달력 기간 전 날짜의 당일 또는 직전 거래일 종가 대비{newListing ? " · 상장 후는 첫 거래일 종가 대비" : ""}</p>
+          </div>
+          <div className="mt-2 overflow-hidden rounded-2xl border border-line bg-surface">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[600px] text-center text-sm">
+                <caption className="sr-only">{etf.name} 기본 기간별 가격 수익률</caption>
+                <thead className="bg-neutral-50 text-xs font-bold text-muted border-b border-line">
+                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-3.5 min-w-[60px]" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {defaultPeriods.map((period) => (
+                      <td className="px-3 py-5" key={period}>
+                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-[15px]"><ReturnCell value={etf.returns[period]!} /></span>}
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
         
       </EtfDetailClient>
 

@@ -141,7 +141,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
   const zeroY = height - (0 - minReturn) * yScale;
 
   return (
-    <div className="relative w-full rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm overflow-hidden mb-8" onMouseLeave={() => setHoverIndex(null)}>
+    <div className="relative w-full rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm overflow-hidden" onMouseLeave={() => setHoverIndex(null)}>
       
       {/* Settings Row */}
       <div className="flex flex-wrap items-center gap-4 mb-6">

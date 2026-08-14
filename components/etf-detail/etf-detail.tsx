@@ -253,21 +253,21 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
             <PriceHistoryChart ticker={etf.ticker} asOfDate={etf.asOfDate} />
           </div>
 
-          <div className="mt-6 flex justify-end">
-            <p className="text-[12px] font-bold text-muted">기준일: {formatDate(etf.asOfDate)}</p>
+          <div className="mt-3 flex justify-end">
+            <p className="text-[11px] font-bold text-muted">기준일: {formatDate(etf.asOfDate)}</p>
           </div>
-          <div className="mt-2 overflow-hidden rounded-2xl border border-line bg-surface">
+          <div className="mt-1.5 overflow-hidden rounded-xl border border-line bg-surface">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[600px] text-center text-sm">
                 <caption className="sr-only">{etf.name} 기본 기간별 가격 수익률</caption>
-                <thead className="bg-neutral-50 text-xs font-bold text-muted border-b border-line">
-                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-3.5 min-w-[60px]" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
+                <thead className="bg-neutral-50 text-[11px] font-bold text-muted border-b border-line">
+                  <tr>{defaultPeriods.map((period) => <th className="px-2 py-2 min-w-[50px]" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
                 </thead>
                 <tbody>
                   <tr>
                     {defaultPeriods.map((period) => (
-                      <td className="px-3 py-5" key={period}>
-                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-[15px]"><ReturnCell value={etf.returns[period]!} /></span>}
+                      <td className="px-2 py-2.5" key={period}>
+                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-sm"><ReturnCell value={etf.returns[period]!} /></span>}
                       </td>
                     ))}
                   </tr>

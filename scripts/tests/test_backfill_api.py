@@ -6,6 +6,7 @@ import json
 import urllib.error
 from datetime import date
 from unittest import TestCase
+from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 from scripts import backfill_api
@@ -17,9 +18,13 @@ class NormalizePriceRecordsTest(TestCase):
             {
                 "069500": {"TDD_CLSPRC": "12,345"},
                 "360750": {"close": 6789},
+                "0182R0": {"clpr": "10490"},
+                "0093a0": {"clpr": "15000"},
                 "INVALID": {"clpr": "1000"},
                 "123456": {"clpr": "not-a-price"},
                 "654321": {"close": "-1"},
+                "ABC-01": {"TDD_CLSPRC": "20000"},
+                "한글01": {"TDD_CLSPRC": "40000"},
             },
             "2026-08-11",
         )
@@ -29,6 +34,8 @@ class NormalizePriceRecordsTest(TestCase):
             [
                 {"ticker": "069500", "date": "2026-08-11", "close": 12345.0},
                 {"ticker": "360750", "date": "2026-08-11", "close": 6789.0},
+                {"ticker": "0182R0", "date": "2026-08-11", "close": 10490.0},
+                {"ticker": "0093A0", "date": "2026-08-11", "close": 15000.0},
             ],
         )
 

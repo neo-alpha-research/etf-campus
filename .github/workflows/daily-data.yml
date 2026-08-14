@@ -135,6 +135,16 @@ jobs:
           npm test
           npm run build
 
+      - name: Backfill ETF prices to D1
+        if: steps.freshness.outputs.fresh == 'true'
+        env:
+          PRICE_INGEST_ENDPOINT: ${{ secrets.PRICE_INGEST_ENDPOINT }}
+          PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
+        run: |
+          BAS_DT=$(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")
+          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT" --source fsc
+          python scripts/validate_d1_status.py "$BAS_DT"
+
       - name: Commit changed data
         if: steps.changes.outputs.changed == 'true'
         run: |

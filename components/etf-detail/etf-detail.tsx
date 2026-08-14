@@ -6,8 +6,9 @@ import { formatMoney, formatWon } from "@/lib/domain/etf-format";
 import { getReturnPeriods, isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf, type ReturnPeriod } from "@/lib/domain/etf-types";
 import { getClassificationStatusLabel, getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
-import { EtfDetailClient, CompareActionButton } from "./etf-detail-client";
+import { EtfDetailClient } from "./etf-detail-client";
 import { PriceHistoryChart } from "./price-history-chart";
+import type { PeerComparison } from "@/lib/data/etf-peer-groups";
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
@@ -17,7 +18,12 @@ function formatDate(dateString: string | null): string {
   return dateString;
 }
 
-export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEtfs?: { ticker: string, name: string }[] }) {
+export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: PeerComparison }) {
+  const resolvedPeerComparison: PeerComparison = peerComparison ?? {
+    profile: null,
+    state: "unverified",
+    groups: [],
+  };
   const newListing = isNewListing(etf);
   const returnPeriods = getReturnPeriods(newListing ? "new" : etf.riskType === "normal" ? "general" : "derivatives");
   const canonicalUrl = `${siteConfig.url.replace(/\/$/, "")}/etf/${etf.ticker}`;
@@ -122,12 +128,11 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
             </div>
           </div>
           <div className="flex shrink-0 sm:justify-end">
-            <CompareActionButton etf={etf} />
           </div>
         </div>
       </section>
 
-      <EtfDetailClient etf={etf} similarTopEtfs={similarTopEtfs}>
+      <EtfDetailClient etf={etf} peerComparison={resolvedPeerComparison}>
         {/* 2. ETF 핵심 요약 */}
         <section aria-labelledby="classification-title" className="scroll-mt-24 pt-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -253,18 +258,18 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
           </div>
 
 
-          <div className="mt-1.5 overflow-hidden rounded-xl border border-line bg-surface">
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[600px] text-center text-sm">
+          <div className="mt-2 overflow-hidden rounded-xl border border-line bg-surface">
+            <div className="overflow-x-auto scrollbar-hide">
+              <table className="w-full min-w-max text-right text-sm">
                 <caption className="sr-only">{etf.name} 기본 기간별 가격 수익률</caption>
                 <thead className="bg-neutral-50 text-[11px] font-bold text-muted border-b border-line">
-                  <tr>{defaultPeriods.map((period) => <th className="px-2 py-2 min-w-[50px]" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
+                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-2" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
                 </thead>
                 <tbody>
                   <tr>
                     {defaultPeriods.map((period) => (
-                      <td className="px-2 py-2.5" key={period}>
-                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-sm"><ReturnCell value={etf.returns[period]!} /></span>}
+                      <td className="px-3 py-2.5 tabular-nums" key={period}>
+                        {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-[13px] tracking-tight"><ReturnCell value={etf.returns[period]!} /></span>}
                       </td>
                     ))}
                   </tr>

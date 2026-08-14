@@ -13,11 +13,11 @@ import type { PeerComparison } from "@/lib/data/etf-peer-groups";
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
   
-  const match = dateString.match(/^(\d{4}-?\d{2}-?\d{2})/);
+  const match = dateString.match(/^(\d{4}[-.]?\d{2}[-.]?\d{2})/);
   if (!match) return dateString;
 
   const datePart = match[1];
-  if (datePart.length === 8 && !datePart.includes("-")) {
+  if (datePart.length === 8 && !datePart.includes("-") && !datePart.includes(".")) {
     return `${datePart.slice(0, 4)}.${datePart.slice(4, 6)}.${datePart.slice(6, 8)}`;
   }
   return datePart.replace(/-/g, ".");

@@ -205,8 +205,8 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
           {points.length > 0 && (
             <div className="flex flex-col items-end leading-tight">
               <div className="flex items-baseline gap-2">
-                <span className="text-[72px] font-bold text-strong">수익률</span>
-                <span className={`text-[132px] font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
+                <span className="text-[36px] font-bold text-strong">수익률</span>
+                <span className={`text-[66px] font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
                   {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
                 </span>
               </div>

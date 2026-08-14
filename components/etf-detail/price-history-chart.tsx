@@ -144,30 +144,38 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
     <div className="relative w-full rounded-2xl border border-line bg-surface p-4 sm:p-5 shadow-sm overflow-hidden" onMouseLeave={() => setHoverIndex(null)}>
       
       {/* Settings Row */}
-      <div className="w-full overflow-x-auto scrollbar-hide mb-2">
-        <div className="flex items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit">
-          {PERIODS.map(p => (
+      <div className="flex justify-between items-start gap-4 mb-2">
+        <div className="flex-1 overflow-x-auto scrollbar-hide flex flex-col gap-2">
+          <div className="flex items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit">
+            {PERIODS.map(p => (
+              <button
+                key={p.id}
+                onClick={() => { setPeriod(p.id); setIsCustom(false); }}
+                className={`px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
+              >
+                {p.label}
+              </button>
+            ))}
             <button
-              key={p.id}
-              onClick={() => { setPeriod(p.id); setIsCustom(false); }}
-              className={`px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
+               onClick={() => setIsCustom(true)}
+               className={`px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors ${isCustom ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
             >
-              {p.label}
+              직접 입력
             </button>
-          ))}
-          <button
-             onClick={() => setIsCustom(true)}
-             className={`px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors ${isCustom ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
-          >
-            직접 입력
-          </button>
-        </div>
+          </div>
 
-        {isCustom && (
-          <div className="flex items-center gap-1.5">
-            <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white" />
-            <span className="text-muted font-bold text-xs">~</span>
-            <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white" />
+          {isCustom && (
+            <div className="flex items-center gap-1.5">
+              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white" />
+              <span className="text-muted font-bold text-xs">~</span>
+              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white" />
+            </div>
+          )}
+        </div>
+        
+        {points.length > 0 && (
+          <div className="text-[20px] font-bold text-gray-800 tracking-tight whitespace-nowrap mt-1">
+            기준일: {formatDate(points[points.length - 1].date)}
           </div>
         )}
       </div>
@@ -197,9 +205,6 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         <div className="text-right flex flex-col items-end">
           {points.length > 0 && (
             <div className="flex flex-col items-end leading-tight">
-              <div className="text-[20px] font-bold text-gray-800 mb-1 tracking-tight">
-                기준일: {formatDate(points[points.length - 1].date)}
-              </div>
               <div className="flex items-baseline gap-1">
                 <span className="text-[12px] font-bold text-strong">누적 수익률</span>
                 <span className={`text-[22px] font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>

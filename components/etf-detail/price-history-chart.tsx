@@ -144,39 +144,40 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
     <div className="relative w-full rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm overflow-hidden" onMouseLeave={() => setHoverIndex(null)}>
       
       {/* Settings Row */}
-      <div className="flex flex-wrap items-center gap-4 mb-6">
-        <div className="flex flex-wrap items-center gap-1.5 p-1 bg-neutral-100/80 rounded-lg w-fit">
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        <div className="flex flex-wrap items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit">
           {PERIODS.map(p => (
             <button
               key={p.id}
               onClick={() => { setPeriod(p.id); setIsCustom(false); }}
-              className={`px-3 py-1.5 text-[13px] font-bold rounded-md transition-colors ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
+              className={`px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
             >
               {p.label}
             </button>
           ))}
           <button
              onClick={() => setIsCustom(true)}
-             className={`px-3 py-1.5 text-[13px] font-bold rounded-md transition-colors ${isCustom ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
+             className={`px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors ${isCustom ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
           >
             직접 입력
           </button>
         </div>
 
         {isCustom && (
-          <div className="flex items-center gap-2">
-            <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-3 py-1.5 text-sm font-semibold border border-line rounded-lg bg-white" />
-            <span className="text-muted font-bold">~</span>
-            <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-3 py-1.5 text-sm font-semibold border border-line rounded-lg bg-white" />
+          <div className="flex items-center gap-1.5">
+            <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white" />
+            <span className="text-muted font-bold text-xs">~</span>
+            <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white" />
           </div>
         )}
       </div>
 
       {/* Chart Header */}
-      <div className="flex justify-between items-end mb-6">
+      <div className="flex flex-wrap justify-between items-end gap-y-3 mb-4">
         <div>
-          <h3 className="text-lg font-bold text-strong">
+          <h3 className="text-[15px] font-bold text-strong flex items-center gap-2 flex-wrap">
             {points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)} 수익률 추이` : "데이터 없음"}
+            {points.length > 0 && <span className="text-[11px] font-bold text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded">PR · 분배금 미포함</span>}
           </h3>
           {data?.actualEnd && asOfDate && asOfDate.length >= 8 && (
             (() => {
@@ -184,8 +185,8 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
               const actualEndFormatted = formatDate(data.actualEnd);
               if (formattedAsOf !== actualEndFormatted) {
                 return (
-                  <div className="mt-2 text-[12px] font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded px-2.5 py-1.5 w-fit">
-                    차트 데이터 갱신 중 (상품 정보 기준일 {formattedAsOf} / 차트 기준일 {actualEndFormatted})
+                  <div className="mt-1 text-[11px] font-bold text-amber-600">
+                    * 차트 데이터 갱신 중 (상품 정보 기준일 {formattedAsOf} / 차트 기준일 {actualEndFormatted})
                   </div>
                 );
               }
@@ -195,16 +196,17 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         </div>
         <div className="text-right flex flex-col items-end">
           {points.length > 0 && (
-            <>
-              <p className="text-[14px] font-extrabold text-strong mb-1">기준일: {formatDate(points[points.length - 1].date)}</p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-sm font-bold text-muted">누적 수익률</span>
-                <span className={`text-2xl font-black font-mono tracking-tight ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
+            <div className="flex flex-col items-end">
+              <div className="text-[12px] font-bold text-muted mb-0.5">
+                기준일: {formatDate(points[points.length - 1].date)}
+              </div>
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-[13px] font-bold text-strong">누적 수익률</span>
+                <span className={`text-2xl font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
                   {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
                 </span>
               </div>
-              <p className="text-[12px] font-bold text-brand-700 mt-1">가격수익률(PR) · 분배금 미포함</p>
-            </>
+            </div>
           )}
         </div>
       </div>
@@ -234,6 +236,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
           <svg viewBox={`0 0 ${width} ${height}`} className="absolute top-0 left-0 w-full h-full overflow-visible" preserveAspectRatio="none">
             {/* Zero Line */}
             <line x1="0" y1={zeroY} x2={width} y2={zeroY} stroke="#e5e7eb" strokeWidth="2" strokeDasharray="6 4" />
+            <text x="2" y={zeroY - 6} fontSize="11" fill="#9ca3af" fontWeight="600" style={{ pointerEvents: 'none' }}>0</text>
             
             {/* Main Line */}
             <path d={pathData} fill="none" stroke="#0ea5e9" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />

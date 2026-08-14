@@ -202,8 +202,8 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
                   {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
                 </span>
               </div>
-              <p className="text-[12px] font-bold text-brand-700 mt-1">가격수익률(PR) · 분배금 미포함</p>
-              <p className="text-[12px] font-extrabold text-muted mt-0.5">기준일: {formatDate(points[points.length - 1].date)}</p>
+              <p className="text-[14px] font-extrabold text-strong mt-1">기준일: {formatDate(points[points.length - 1].date)}</p>
+              <p className="text-[12px] font-bold text-brand-700 mt-0.5">가격수익률(PR) · 분배금 미포함</p>
             </>
           )}
         </div>

@@ -9,6 +9,7 @@ function etf(overrides: Partial<Etf>): Etf {
     close: 10_000, changePct: 0, tradeValue: 0, aum: 50_000_000_000,
     riskType: "normal", assetClass: "주식-국내", pension: "가능", pensionSource: "공식확인",
     liquidity: "pass", asOfDate: "20260715", listingDate: null, listingDateSource: null,
+    fee: null, issuer: { issuerId: "A", issuerName: "A", brand: "A", issuerStatus: "verified_official", issuerSourceUrl: null, issuerVerifiedAt: null }, classification: null,
     returns: { "1d": 0, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null, "12m": null, "24m": null, "36m": null, ytd: null, itd: null }, isNew90d: null, isNew3m: false,
     ...overrides,
   };

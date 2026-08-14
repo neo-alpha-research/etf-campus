@@ -22,7 +22,7 @@ function etf(overrides: Partial<Etf>): Etf {
     asOfDate: "20260715",
     listingDate: null,
     listingDateSource: null,
-    returns: { "1d": 1.2, "1w": 1, "2w": 2, "1m": 3, "2m": 4, "3m": 5, "6m": 6, "12m": 12, "24m": 24, "36m": 36, itd: 7 },
+    returns: { "1d": 1.2, "1w": 1, "2w": 2, "1m": 3, "2m": 4, "3m": 5, "6m": 6, "ytd": 8, "12m": 12, "24m": 24, "36m": 36, itd: 7 },
     isNew90d: null,
     isNew3m: false,
     ...overrides,
@@ -119,11 +119,13 @@ describe("Dashboard", () => {
       published: true,
       marketScope: "미국",
       assetClass: "주식",
-      isSynthetic: false,
+      assetDetail: null,
+      strategy: null,
       fxHedge,
-      theme: null,
-      capSize: null,
-      style: null,
+      reviewStatus: "미검수",
+      reviewPriority: "",
+      sourceUrl: null,
+      evidenceSummary: null,
     });
 
     render(<Dashboard etfs={[etf({ ticker: "FX1", name: "환노출 ETF", classification: classification("노출") })]} />);

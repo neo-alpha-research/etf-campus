@@ -144,7 +144,7 @@ jobs:
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
         run: |
           BAS_DT=$(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")
-          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT" --source fsc
+          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT"
           python scripts/validate_d1_status.py "$BAS_DT"
 
       - name: Commit changed data

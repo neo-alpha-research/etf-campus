@@ -56,7 +56,10 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
   const assetClass = etf.classification?.assetClass;
   const oneLineDesc = marketScope && assetClass ? `${etf.baseIndex}를 기준으로 운용되는 ${marketScope} ${assetClass} ETF입니다.` : etf.baseIndex;
 
-  const defaultPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"];
+  const defaultPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
+  if (etf.returns.itd !== null) {
+    defaultPeriods.push("itd");
+  }
 
   const fee = etf.fee;
   const isFeeVerified = fee?.verificationStatus === "verified_official";

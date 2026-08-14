@@ -37,6 +37,7 @@ function etf(overrides: Partial<Etf> = {}): Etf {
       "2m": null,
       "3m": null,
       "6m": null,
+      "ytd": null,
       "12m": null,
       "24m": null,
       "36m": null,

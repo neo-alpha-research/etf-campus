@@ -12,10 +12,11 @@ import type { PeerComparison } from "@/lib/data/etf-peer-groups";
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
-  if (dateString.length === 8) {
-    return `${dateString.slice(0, 4)}.${dateString.slice(4, 6)}.${dateString.slice(6, 8)}`;
+  const datePart = dateString.split(" ")[0];
+  if (datePart.length === 8 && !datePart.includes("-")) {
+    return `${datePart.slice(0, 4)}.${datePart.slice(4, 6)}.${datePart.slice(6, 8)}`;
   }
-  return dateString;
+  return datePart.replace(/-/g, ".");
 }
 
 export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: PeerComparison }) {

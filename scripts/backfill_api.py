@@ -79,7 +79,10 @@ def normalize_price_records(snapshot: dict[str, dict[str, Any]], date_str: str) 
     """Normalize only valid KRX-style ETF closing-price records for the fixed ingestion schema."""
     records: list[dict[str, str | float]] = []
     for ticker, data in snapshot.items():
-        if not isinstance(ticker, str) or not ticker.isdigit() or len(ticker) != 6:
+        if not isinstance(ticker, str):
+            continue
+        ticker = ticker.upper()
+        if len(ticker) != 6 or not ticker.isascii() or not ticker.isdigit():
             continue
         close_price = data.get("TDD_CLSPRC") or data.get("close") or data.get("clpr")
         if close_price is None:
@@ -145,7 +148,7 @@ def send_price_batch(
             response_payload = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         # Do not print request headers, the request body, or the HMAC signature.
-        raise RuntimeError(f"Signed price ingestion failed with HTTP {error.code}.") from error
+        raise RuntimeError(f"Signed price ingestion failed with HTTP {error.code}: {error.read().decode('utf-8')}") from error
     except urllib.error.URLError as error:
         raise RuntimeError("Signed price ingestion could not reach the ETF Campus endpoint.") from error
     except json.JSONDecodeError as error:
@@ -175,6 +178,16 @@ def missing_trading_days(
     return trading_days
 
 
+def get_trading_days_in_range(start_date: datetime.date, end_date: datetime.date, holidays: set[str]) -> list[datetime.date]:
+    trading_days: list[datetime.date] = []
+    current = start_date
+    while current <= end_date:
+        if is_trading_day(current, holidays):
+            trading_days.append(current)
+        current += datetime.timedelta(days=1)
+    return trading_days
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Backfill KRX ETF prices through signed ingestion")
     parser.add_argument(
@@ -183,21 +196,40 @@ def main() -> None:
         default=5,
         help="Recent trading days to submit. UPSERT makes re-submission safe; use a larger value for backfill.",
     )
+    parser.add_argument("--start-date", help="YYYYMMDD format for backfill start")
+    parser.add_argument("--end-date", help="YYYYMMDD format for backfill end")
+    parser.add_argument("--source", choices=["krx", "fsc"], help="Force specific API source")
     args = parser.parse_args()
-    if args.days < 1 or args.days > 365:
-        parser.error("--days must be between 1 and 365")
-
+    
     krx_key = os.environ.get("KRX_OPEN_API_KEY")
     go_kr_key = os.environ.get("DATA_GO_KR_SERVICE_KEY")
     secret = required_environment("PRICE_INGEST_HMAC_SECRET")
     endpoint = get_ingest_endpoint()
 
+    if args.source == "fsc":
+        krx_key = None
+    elif args.source == "krx":
+        go_kr_key = None
+
     holidays = get_market_holidays()
-    trading_days = missing_trading_days(args.days, holidays)
+    
+    if args.start_date and args.end_date:
+        start_dt = datetime.datetime.strptime(args.start_date, "%Y%m%d").date()
+        end_dt = datetime.datetime.strptime(args.end_date, "%Y%m%d").date()
+        trading_days = get_trading_days_in_range(start_dt, end_dt, holidays)
+        if len(trading_days) > 25:
+            print(f"Warning: Range contains {len(trading_days)} trading days. Limiting to first 25 to respect D1 limits.")
+            trading_days = trading_days[:25]
+    else:
+        if args.days < 1 or args.days > 365:
+            parser.error("--days must be between 1 and 365")
+        trading_days = missing_trading_days(args.days, holidays)
+
     print(f"Submitting {len(trading_days)} trading days through signed price ingestion.")
 
     accepted_total = 0
-    failed_days = 0
+    successful_dates: list[str] = []
+    failed_dates: list[str] = []
     for index, trading_date in enumerate(trading_days):
         day_text = trading_date.strftime("%Y%m%d")
         sql_date = trading_date.strftime("%Y-%m-%d")
@@ -219,13 +251,14 @@ def main() -> None:
 
         if not snapshot:
             print(f"  Failed to get data for {sql_date} from any API. Skipping.")
-            failed_days += 1
+            failed_dates.append(sql_date)
             continue
 
         records = normalize_price_records(snapshot, sql_date)
         if not records:
-            print(f"  No valid prices found in snapshot for {sql_date}.")
-            failed_days += 1
+            print(f"  No valid prices found in snapshot for {sql_date}. Skipping.")
+            # Treat as missing data / holiday not in text file, skip without failing entirely
+            failed_dates.append(sql_date)
             continue
 
         try:
@@ -240,13 +273,18 @@ def main() -> None:
                 )
                 time.sleep(0.1)
             accepted_total += accepted_for_day
-            print(f"  Accepted {accepted_for_day} prices for {sql_date}.")
+            print(f"  Accepted {accepted_for_day} prices for {sql_date}. Source: {'fsc' if not krx_key or (krx_key and not snapshot) else 'krx'}")
+            successful_dates.append(sql_date)
         except Exception as error:
             print(f"  Failed to submit {sql_date}: {error}")
-            failed_days += 1
+            failed_dates.append(sql_date)
 
-    print(f"Signed price ingestion completed: {accepted_total} accepted records, {failed_days} failed dates.")
-    if failed_days:
+    print(f"Signed price ingestion completed at {datetime.datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S KST')}:")
+    print(f"  Total accepted records: {accepted_total}")
+    print(f"  Successful dates: {len(successful_dates)} {successful_dates if successful_dates else ''}")
+    print(f"  Failed dates: {len(failed_dates)} {failed_dates if failed_dates else ''}")
+    
+    if failed_dates:
         sys.exit(1)
 
 

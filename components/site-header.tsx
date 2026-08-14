@@ -10,6 +10,7 @@ import { StyleChip } from "@/components/onboarding/style-chip";
 
 const navigation = [
   { href: "/", label: "ETF 탐색" },
+  { href: "/compare", label: "ETF 비교" },
   { href: "/briefing/", label: "시장 브리핑" },
   { href: "/guides/", label: "투자 가이드" },
   { href: "/books/", label: "북 큐레이션" },

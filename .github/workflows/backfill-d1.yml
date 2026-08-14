@@ -37,7 +37,6 @@ jobs:
             echo "::error::PRICE_INGEST_HMAC_SECRET is missing. Add the same secret to GitHub Actions and Cloudflare Pages production settings."
             exit 1
           fi
-
       - name: Execute signed price backfill
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}

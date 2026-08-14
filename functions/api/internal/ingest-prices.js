@@ -1,4 +1,4 @@
-const MAX_BODY_BYTES = 1_000_000;
+﻿const MAX_BODY_BYTES = 1_000_000;
 // Three replay-protection statements plus one UPSERT per record must remain
 // under the D1 free-plan limit of 50 queries per Worker invocation.
 const MAX_RECORDS_PER_REQUEST = 40;
@@ -152,7 +152,7 @@ function validatePayload(payload) {
     }
 
     const { ticker, date, close } = record;
-    if (typeof ticker !== "string" || !/^\d{6}$/.test(ticker)) {
+    if (typeof ticker !== "string" || !/^[0-9A-Z]{6}$/.test(ticker)) {
       return { ok: false, error: "invalid_ticker" };
     }
     if (typeof date !== "string" || !isValidIsoDate(date)) {

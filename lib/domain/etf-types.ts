@@ -13,10 +13,7 @@ export const STRATEGIES = ["패시브", "액티브", "커버드콜"] as const;
 export const FX_HEDGES = ["비헤지", "헤지", "부분 헤지", "탄력 헤지"] as const;
 
 export const RISK_TYPES = ["normal", "leverage", "inverse"] as const;
-export const PENSION_STATUSES = ["가능", "불가", "확인중"] as const;
-
-export const AMC_TYPES = ["삼성", "미래에셋", "KB", "한국투자", "신한", "기타"] as const;
-export const RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"] as const;
+export const PENSION_STATUSES = ["가능", "불가", "확인중"] as const;export const RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"] as const;
 
 export const RETURN_PERIOD_LABELS = {
   "1d": "1일",
@@ -38,9 +35,17 @@ export type MarketScope = (typeof MARKET_SCOPES)[number];
 export type Strategy = (typeof STRATEGIES)[number];
 export type FxHedge = (typeof FX_HEDGES)[number];
 export type RiskType = (typeof RISK_TYPES)[number];
-export type PensionStatus = (typeof PENSION_STATUSES)[number];
+export type PensionStatus = (typeof PENSION_STATUSES)[number];export type IssuerStatus = "verified_official" | "mapped_brand" | "mapped_legacy_brand" | "conflict" | "needs_review";
 
-export type AmcType = (typeof AMC_TYPES)[number];
+export type EtfIssuer = {
+  issuerId: string;
+  issuerName: string;
+  brand: string;
+  issuerStatus: IssuerStatus;
+  issuerSourceUrl: string | null;
+  issuerVerifiedAt: string | null;
+};
+
 export type ReturnPeriod = (typeof RETURN_PERIODS)[number];
 export type EtfReturns = Record<ReturnPeriod, number | null>;
 
@@ -88,7 +93,7 @@ export type Etf = {
   aum: number;
   fee: EtfFeeInfo | null;
 
-  amc: AmcType;
+  issuer: EtfIssuer;
   riskType: RiskType;
   assetClass: AssetClass;
   pension: PensionStatus;

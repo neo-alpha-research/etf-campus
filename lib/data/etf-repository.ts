@@ -10,9 +10,8 @@ import {
   type EtfClassification,
   type PensionStatus,
   type RiskType,
-  type AmcType,
-
 } from "../domain/etf-types";
+import { resolveIssuer } from "./etf-amc-mapping";
 import {
   indexUnique,
   parseNullableNumber,
@@ -23,17 +22,6 @@ import {
 } from "./csv";
 
 const DATA_DIRECTORY = path.join(process.cwd(), "data");
-
-function getAmc(name: string): AmcType {
-  if (name.startsWith("KODEX")) return "삼성";
-  if (name.startsWith("TIGER")) return "미래에셋";
-  if (name.startsWith("KBSTAR")) return "KB";
-  if (name.startsWith("ACE")) return "한국투자";
-  if (name.startsWith("SOL")) return "신한";
-  return "기타";
-}
-
-
 
 
 
@@ -126,7 +114,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       aum: parseNumberField(master, "aum", `master:${ticker}`),
       fee: null,
 
-      amc: getAmc(name),
+      issuer: resolveIssuer(ticker, requireField(master, "isin_cd", `master:${ticker}`), name),
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,
       pension: assertMember(requireField(pension, "final_pension", `pension:${ticker}`), PENSION_STATUSES, "final_pension") as PensionStatus,

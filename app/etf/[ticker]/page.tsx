@@ -33,5 +33,21 @@ export default async function EtfPage({ params }: Props) {
   const { ticker } = await params;
   const etf = etfByTicker.get(ticker);
   if (!etf) notFound();
-  return <EtfDetail etf={etf} />;
+
+  // Find similar ETFs by AUM
+  const marketScope = etf.classification?.marketScope;
+  const assetClass = etf.assetClass; // Always populated from master data
+  
+  const similarTopEtfs = etfs
+    .filter(e => {
+      if (e.ticker === etf.ticker) return false;
+      const scopeMatch = e.classification?.marketScope === marketScope;
+      const classMatch = e.assetClass === assetClass;
+      return scopeMatch && classMatch;
+    })
+    .sort((a, b) => (b.aum || 0) - (a.aum || 0))
+    .slice(0, 4)
+    .map(e => ({ ticker: e.ticker, name: e.name }));
+
+  return <EtfDetail etf={etf} similarTopEtfs={similarTopEtfs} />;
 }

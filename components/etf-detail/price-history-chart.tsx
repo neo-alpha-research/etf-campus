@@ -233,27 +233,11 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         </div>
       ) : (
         <div className="w-full relative touch-pan-x select-none" style={{ minHeight: "220px" }}>
-          {/* Axis Labels */}
-          <div className="absolute top-0 right-0 h-full w-[40px] flex flex-col justify-between text-[10px] text-gray-400 font-medium pb-[20px] items-end pointer-events-none">
-            <span>{maxReturn.toFixed(1)}%</span>
-            <span>{minReturn.toFixed(1)}%</span>
-          </div>
-          <div className="absolute bottom-0 left-0 w-[calc(100%-40px)] flex justify-between text-[10px] text-gray-400 font-medium pt-1 pointer-events-none">
-            <span>{formatDate(points[0].date).slice(2)}</span>
-            <span>{formatDate(points[Math.floor(points.length / 2)].date).slice(2)}</span>
-            <span>{formatDate(points[points.length - 1].date).slice(2)}</span>
-          </div>
-
           {/* Canvas SVG */}
-          <svg viewBox={`0 0 ${width} ${height}`} className="absolute top-0 left-0 w-[calc(100%-40px)] h-[calc(100%-20px)] overflow-visible" preserveAspectRatio="none">
-            {/* Gridlines */}
-            <line x1="0" y1="0" x2={width} y2="0" stroke="#f3f4f6" strokeWidth="1" />
-            <line x1="0" y1={height/2} x2={width} y2={height/2} stroke="#f3f4f6" strokeWidth="1" />
-            <line x1="0" y1={height} x2={width} y2={height} stroke="#f3f4f6" strokeWidth="1" />
-
+          <svg viewBox={`0 0 ${width} ${height}`} className="absolute top-0 left-0 w-full h-full overflow-visible" preserveAspectRatio="none">
             {/* Zero Line */}
             <line x1="0" y1={zeroY} x2={width} y2={zeroY} stroke="#e5e7eb" strokeWidth="2" strokeDasharray="6 4" />
-            <text x="2" y={zeroY - 6} fontSize="11" fill="#9ca3af" fontWeight="600" style={{ pointerEvents: 'none' }}>0</text>
+            <text x="-6" y={zeroY + 4} fontSize="11" fill="#9ca3af" fontWeight="600" textAnchor="end" style={{ pointerEvents: 'none' }}>0</text>
             
             {/* Main Line */}
             <path d={pathData} fill="none" stroke="#0ea5e9" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
@@ -294,7 +278,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
             <div 
               className="absolute top-0 pointer-events-none bg-neutral-900/90 text-white p-3 rounded-xl shadow-xl border border-neutral-700/50 backdrop-blur-md z-10 transition-all duration-75 ease-out flex flex-col gap-1 min-w-[120px]"
               style={{ 
-                left: `calc(${(hoverIndex / (points.length - 1 || 1)) * 100}% - ${(hoverIndex / (points.length - 1 || 1)) * 40}px)`,
+                left: `${(hoverIndex / (points.length - 1 || 1)) * 100}%`,
                 transform: `translateX(${hoverIndex > points.length / 2 ? 'calc(-100% - 16px)' : '16px'}) translateY(12px)`
               }}
             >

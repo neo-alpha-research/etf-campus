@@ -22,7 +22,7 @@ function calculateDates(period: string, asOfDate?: string) {
   }
   const start = new Date(end.getTime());
   
-  if (period === "1d") start.setDate(end.getDate() - 4);
+  if (period === "1d") start.setDate(end.getDate() - 4); // fetch extra days to guarantee at least 2 trading days
   else if (period === "1w") start.setDate(end.getDate() - 7);
   else if (period === "2w") start.setDate(end.getDate() - 14);
   else if (period === "1m") start.setMonth(end.getMonth() - 1);
@@ -52,8 +52,6 @@ const PERIODS = [
   { id: "36m", label: "3년" },
   { id: "ytd", label: "연초후" },
 ];
-
-const CORE_PERIODS = ["1m", "3m", "6m", "ytd", "12m", "36m"];
 
 export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDate?: string }) {
   const [period, setPeriod] = useState("12m");
@@ -111,77 +109,44 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
     const requestedStart = new Date(startStr);
     const actualStart = new Date(points[0].date);
     const diffDays = (actualStart.getTime() - requestedStart.getTime()) / (1000 * 3600 * 24);
-    return diffDays > 7; 
+    return diffDays > 7; // more than 7 days gap means the ETF is likely newer than the requested period
   }, [points, startStr]);
 
-  const { pathData, minReturn, maxReturn, xScale, yScale, height, width, padding, innerW, innerH, yTicks, xTicks } = useMemo(() => {
+  const { pathData, minReturn, maxReturn, xScale, yScale, height, width } = useMemo(() => {
     const w = 800;
-    const h = 240; 
-    const padding = { top: 20, right: 10, bottom: 30, left: 45 }; 
-    const innerW = w - padding.left - padding.right;
-    const innerH = h - padding.top - padding.bottom;
-    
-    if (points.length === 0) return { pathData: "", minReturn: 0, maxReturn: 0, xScale: 0, yScale: 0, height: h, width: w, padding, innerW: 0, innerH: 0, yTicks: [], xTicks: [] };
+    const h = 160; // Reduced height for better readability
+    if (points.length === 0) return { pathData: "", minReturn: 0, maxReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
     
     const returns = points.map((p: any) => p.returnPct);
     const minR = Math.min(...returns, 0);
     const maxR = Math.max(...returns, 0);
     
-    const pad = Math.max(Math.abs(maxR - minR) * 0.1, 1);
+    // add padding
+    const pad = Math.max(Math.abs(maxR - minR) * 0.15, 1);
     const min = minR - pad;
     const max = maxR + pad;
 
-    const xS = innerW / Math.max(points.length - 1, 1);
-    const yS = innerH / (max - min);
+    const xS = w / Math.max(points.length - 1, 1);
+    const yS = h / (max - min);
 
     const path = points.map((p: any, i: number) => {
-      const x = padding.left + i * xS;
-      const y = padding.top + innerH - (p.returnPct - min) * yS;
+      const x = i * xS;
+      const y = h - (p.returnPct - min) * yS;
       return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
     }).join(" ");
 
-    const range = max - min;
-    let step = 10;
-    if (range > 100) step = 50;
-    else if (range > 50) step = 20;
-    else if (range > 20) step = 10;
-    else if (range > 10) step = 5;
-    else step = 2;
-    
-    const yTicks = [];
-    const startTick = Math.ceil(min / step) * step;
-    const endTick = Math.floor(max / step) * step;
-    for (let i = startTick; i <= endTick; i += step) {
-      yTicks.push(i);
-    }
-
-    const xTicks = [];
-    if (points.length > 2) {
-      const numTicks = Math.min(6, points.length);
-      for (let i = 0; i < numTicks; i++) {
-        const index = Math.floor(i * (points.length - 1) / (numTicks - 1));
-        const dateStr = points[index].date;
-        const d = new Date(dateStr);
-        let label = `${String(d.getMonth()+1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
-        if (points.length > 200) { 
-           label = `${String(d.getFullYear()).slice(2)}.${String(d.getMonth()+1).padStart(2, '0')}`;
-        }
-        xTicks.push({ index, label, x: padding.left + index * xS });
-      }
-    }
-
-    return { pathData: path, minReturn: min, maxReturn: max, xScale: xS, yScale: yS, height: h, width: w, padding, innerW, innerH, yTicks, xTicks };
+    return { pathData: path, minReturn: min, maxReturn: max, xScale: xS, yScale: yS, height: h, width: w };
   }, [points]);
 
-  const zeroY = points.length > 0 ? padding.top + innerH - (0 - minReturn) * yScale : 0;
+  const zeroY = height - (0 - minReturn) * yScale;
 
   return (
     <div className="relative w-full rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm overflow-hidden" onMouseLeave={() => setHoverIndex(null)}>
       
       {/* Settings Row */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div className="flex flex-wrap items-center gap-4 mb-6">
         <div className="flex flex-wrap items-center gap-1.5 p-1 bg-neutral-100/80 rounded-lg w-fit">
-          {PERIODS.filter(p => CORE_PERIODS.includes(p.id)).map(p => (
+          {PERIODS.map(p => (
             <button
               key={p.id}
               onClick={() => { setPeriod(p.id); setIsCustom(false); }}
@@ -190,63 +155,29 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
               {p.label}
             </button>
           ))}
+          <button
+             onClick={() => setIsCustom(true)}
+             className={`px-3 py-1.5 text-[13px] font-bold rounded-md transition-colors ${isCustom ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
+          >
+            직접 입력
+          </button>
         </div>
 
-        <div className="flex items-center gap-2">
-          {isCustom && (
-            <div className="hidden sm:flex items-center gap-2 mr-2">
-              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-2 py-1.5 text-sm font-semibold border border-line rounded-lg bg-white" />
-              <span className="text-muted font-bold">~</span>
-              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-2 py-1.5 text-sm font-semibold border border-line rounded-lg bg-white" />
-            </div>
-          )}
-          <select 
-            className="px-3 py-1.5 text-[13px] font-bold border border-line rounded-lg bg-white text-neutral-600 outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer"
-            value={isCustom ? "custom" : (CORE_PERIODS.includes(period) ? "" : period)}
-            onChange={(e) => {
-              const val = e.target.value;
-              if (val === "custom") {
-                setIsCustom(true);
-              } else {
-                setPeriod(val);
-                setIsCustom(false);
-              }
-            }}
-          >
-            <option value="" disabled hidden>더보기</option>
-            <optgroup label="단기/기타 기간">
-              {PERIODS.filter(p => !CORE_PERIODS.includes(p.id)).map(p => (
-                <option key={p.id} value={p.id}>{p.label}</option>
-              ))}
-            </optgroup>
-            <option value="custom">직접 입력</option>
-          </select>
-        </div>
+        {isCustom && (
+          <div className="flex items-center gap-2">
+            <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-3 py-1.5 text-sm font-semibold border border-line rounded-lg bg-white" />
+            <span className="text-muted font-bold">~</span>
+            <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-3 py-1.5 text-sm font-semibold border border-line rounded-lg bg-white" />
+          </div>
+        )}
       </div>
 
       {/* Chart Header */}
-      <div className="mb-6 flex flex-col gap-2">
+      <div className="flex justify-between items-end mb-6">
         <div>
-          <div className="flex items-baseline gap-3 mb-1">
-            <h3 className="text-lg font-bold text-strong">
-              {points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)} 수익률 추이` : "데이터 없음"}
-            </h3>
-            {points.length > 0 && (
-              <div className="flex items-baseline gap-1.5">
-                <span className={`text-2xl font-black font-mono tracking-tight ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
-                  {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
-                </span>
-                <span className="text-sm font-bold text-muted">누적 수익률</span>
-              </div>
-            )}
-          </div>
-          {points.length > 0 && (
-             <div className="flex items-center gap-2 text-[13px] font-medium text-gray-500 mt-1">
-               <span>기준일: {formatDate(points[points.length - 1].date)}</span>
-               <span className="text-gray-300">|</span>
-               <span>가격수익률(PR) · 분배금 미포함</span>
-             </div>
-          )}
+          <h3 className="text-lg font-bold text-strong">
+            {points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)} 수익률 추이` : "데이터 없음"}
+          </h3>
           {data?.actualEnd && asOfDate && asOfDate.length >= 8 && (
             (() => {
               const formattedAsOf = `${asOfDate.slice(0, 4)}.${asOfDate.slice(4, 6)}.${asOfDate.slice(6, 8)}`;
@@ -260,6 +191,20 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
               }
               return null;
             })()
+          )}
+        </div>
+        <div className="text-right flex flex-col items-end">
+          {points.length > 0 && (
+            <>
+              <p className="text-[14px] font-extrabold text-strong mb-1">기준일: {formatDate(points[points.length - 1].date)}</p>
+              <div className="flex items-baseline gap-2">
+                <span className="text-sm font-bold text-muted">누적 수익률</span>
+                <span className={`text-2xl font-black font-mono tracking-tight ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
+                  {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
+                </span>
+              </div>
+              <p className="text-[12px] font-bold text-brand-700 mt-1">가격수익률(PR) · 분배금 미포함</p>
+            </>
           )}
         </div>
       </div>
@@ -287,44 +232,26 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
       ) : (
         <div className="w-full relative touch-pan-x select-none" style={{ minHeight: "220px" }}>
           <svg viewBox={`0 0 ${width} ${height}`} className="absolute top-0 left-0 w-full h-full overflow-visible" preserveAspectRatio="none">
-            {/* Y-axis Grid lines & labels */}
-            {yTicks.map((tick, i) => {
-              const y = padding.top + innerH - (tick - minReturn) * yScale;
-              return (
-                <g key={`y-${i}`}>
-                  <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="#f3f4f6" strokeWidth="1" />
-                  <text x={padding.left - 8} y={y + 3} fill="#9ca3af" fontSize="11" fontWeight="bold" textAnchor="end">{tick}%</text>
-                </g>
-              );
-            })}
-
             {/* Zero Line */}
-            <line x1={padding.left} y1={zeroY} x2={width - padding.right} y2={zeroY} stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" />
+            <line x1="0" y1={zeroY} x2={width} y2={zeroY} stroke="#e5e7eb" strokeWidth="2" strokeDasharray="6 4" />
             
             {/* Main Line */}
-            <path d={pathData} fill="none" stroke="#0ea5e9" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+            <path d={pathData} fill="none" stroke="#0ea5e9" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
             
-            {/* X-axis labels */}
-            {xTicks.map((tick, i) => (
-              <text key={`x-${i}`} x={tick.x} y={height - 5} fill="#9ca3af" fontSize="11" fontWeight="600" textAnchor="middle">
-                {tick.label}
-              </text>
-            ))}
-
             {/* Interactive Hover Layer */}
             {points.map((p: any, i: number) => {
-              const x = padding.left + i * xScale;
-              const y = padding.top + innerH - (p.returnPct - minReturn) * yScale;
+              const x = i * xScale;
+              const y = height - (p.returnPct - minReturn) * yScale;
               const isHover = hoverIndex === i;
 
               return (
                 <g key={i}>
                   {/* Transparent hover hit area */}
                   <rect 
-                    x={Math.max(padding.left, x - xScale / 2)} 
-                    y={padding.top} 
+                    x={Math.max(0, x - xScale / 2)} 
+                    y="0" 
                     width={xScale} 
-                    height={innerH} 
+                    height={height} 
                     fill="transparent" 
                     onMouseEnter={() => setHoverIndex(i)} 
                     onTouchStart={(e) => { e.preventDefault(); setHoverIndex(i); }}
@@ -333,11 +260,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
                   
                   {isHover && (
                     <>
-                      {/* Vertical Crosshair */}
-                      <line x1={x} y1={padding.top} x2={x} y2={height - padding.bottom} stroke="#9ca3af" strokeWidth="1.5" strokeDasharray="3 3" />
-                      {/* Horizontal Crosshair */}
-                      <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="#9ca3af" strokeWidth="1.5" strokeDasharray="3 3" />
-                      
+                      <line x1={x} y1="0" x2={x} y2={height} stroke="#9ca3af" strokeWidth="1.5" strokeDasharray="3 3" />
                       <circle cx={x} cy={y} r="5.5" fill="#0ea5e9" stroke="white" strokeWidth="2.5" className="drop-shadow-sm" />
                     </>
                   )}
@@ -349,11 +272,10 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
           {/* Tooltip Overlay (HTML) */}
           {hoverIndex !== null && points[hoverIndex] && (
             <div 
-              className="absolute pointer-events-none bg-neutral-900/90 text-white p-3 rounded-xl shadow-xl border border-neutral-700/50 backdrop-blur-md z-10 transition-all duration-75 ease-out flex flex-col gap-1 min-w-[120px]"
+              className="absolute top-0 pointer-events-none bg-neutral-900/90 text-white p-3 rounded-xl shadow-xl border border-neutral-700/50 backdrop-blur-md z-10 transition-all duration-75 ease-out flex flex-col gap-1 min-w-[120px]"
               style={{ 
-                left: `${((padding.left + hoverIndex * xScale) / width) * 100}%`,
-                top: `${padding.top}px`,
-                transform: `translateX(${hoverIndex > points.length / 2 ? 'calc(-100% - 16px)' : '16px'}) translateY(0)`
+                left: `${(hoverIndex / (points.length - 1 || 1)) * 100}%`,
+                transform: `translateX(${hoverIndex > points.length / 2 ? 'calc(-100% - 16px)' : '16px'}) translateY(12px)`
               }}
             >
               <div className="text-[12px] font-bold text-neutral-400 leading-none mb-1">{formatDate(points[hoverIndex].date)}</div>

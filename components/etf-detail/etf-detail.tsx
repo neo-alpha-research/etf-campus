@@ -43,7 +43,7 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
   const assetClass = etf.classification?.assetClass;
   const oneLineDesc = marketScope && assetClass ? `${etf.baseIndex}를 기준으로 운용되는 ${marketScope} ${assetClass} ETF입니다.` : etf.baseIndex;
 
-  const defaultPeriods: ReturnPeriod[] = ["1m", "3m", "6m", "ytd", "12m", "36m"];
+  const defaultPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
   if (etf.returns.itd !== null) {
     defaultPeriods.push("itd");
   }
@@ -258,12 +258,12 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
               <table className="w-full min-w-[600px] text-center text-sm">
                 <caption className="sr-only">{etf.name} 기본 기간별 가격 수익률</caption>
                 <thead className="bg-neutral-50 text-[11px] font-bold text-muted border-b border-line">
-                  <tr>{defaultPeriods.map((period) => <th className="px-2 py-2 min-w-[50px] text-right last:pr-4" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
+                  <tr>{defaultPeriods.map((period) => <th className="px-2 py-2 min-w-[50px]" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
                 </thead>
                 <tbody>
                   <tr>
                     {defaultPeriods.map((period) => (
-                      <td className="px-2 py-2.5 text-right tabular-nums last:pr-4" key={period}>
+                      <td className="px-2 py-2.5" key={period}>
                         {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-sm"><ReturnCell value={etf.returns[period]!} /></span>}
                       </td>
                     ))}

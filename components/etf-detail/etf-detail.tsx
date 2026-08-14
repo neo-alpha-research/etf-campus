@@ -56,8 +56,7 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
   const assetClass = etf.classification?.assetClass;
   const oneLineDesc = marketScope && assetClass ? `${etf.baseIndex}를 기준으로 운용되는 ${marketScope} ${assetClass} ETF입니다.` : etf.baseIndex;
 
-  const defaultPeriods: ReturnPeriod[] = ["1m", "3m", "6m", "ytd", "12m", "36m"];
-  const allPeriods = returnPeriods;
+  const defaultPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"];
 
   const fee = etf.fee;
   const isFeeVerified = fee?.verificationStatus === "verified_official";
@@ -181,7 +180,7 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
               <table className="w-full min-w-[600px] text-center text-sm">
                 <caption className="sr-only">{etf.name} 기본 기간별 가격 수익률</caption>
                 <thead className="bg-neutral-50 text-xs font-bold text-muted border-b border-line">
-                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-3.5 w-1/6" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
+                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-3.5 min-w-[60px]" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
                 </thead>
                 <tbody>
                   <tr>
@@ -196,28 +195,7 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
             </div>
           </div>
 
-          <details className="mt-4 group">
-            <summary className="cursor-pointer text-sm font-bold text-brand-700 hover:text-brand-800 transition-colors inline-flex items-center gap-1">전체 기간 보기 <svg className="w-4 h-4 transition-transform group-open:-rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></summary>
-            <div className="mt-3 overflow-hidden rounded-2xl border border-line bg-surface">
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[800px] text-center text-sm">
-                  <caption className="sr-only">{etf.name} 전체 기간별 가격 수익률</caption>
-                  <thead className="bg-neutral-50 text-xs font-bold text-muted border-b border-line">
-                    <tr>{allPeriods.map((period) => <th className="px-2 py-3 min-w-[60px]" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      {allPeriods.map((period) => (
-                        <td className="px-2 py-4" key={period}>
-                          {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted">—</span> : <span className="font-semibold"><ReturnCell value={etf.returns[period]!} /></span>}
-                        </td>
-                      ))}
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </details>
+
         </section>
 
         {/* 4. 투자 전 핵심 체크 */}

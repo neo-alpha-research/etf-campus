@@ -81,8 +81,9 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
   const startStr = isCustom ? customStart : defaultDates.start;
   const endStr = isCustom ? customEnd : defaultDates.end;
 
+  const baseUrl = process.env.NODE_ENV === "development" ? "https://etf-campus.pages.dev" : "";
   const { data, error, isLoading } = useSWR(
-    `/api/prices/history?ticker=${ticker}&start=${startStr}&end=${endStr}`,
+    `${baseUrl}/api/prices/history?ticker=${ticker}&start=${startStr}&end=${endStr}`,
     fetcher
   );
 

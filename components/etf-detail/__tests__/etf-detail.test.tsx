@@ -123,4 +123,12 @@ describe("EtfDetail", () => {
     expect(missingDataSpans.length).toBeGreaterThan(0);
     expect(missingDataSpans[0]).toHaveTextContent("—");
   });
+
+  it("상장일 출처 텍스트를 화면에 표시하지 않고, 날짜는 YYYY.MM.DD 포맷으로 표시한다", () => {
+    const listingItem = { ...item, listingDate: "2025-12-09", listingDateSource: "KRX KIND 신규상장 공시" };
+    render(<EtfDetail etf={listingItem} />);
+    
+    expect(screen.getByText(/상장일: 2025\.12\.09/)).toBeInTheDocument();
+    expect(screen.queryByText("KRX KIND 신규상장 공시")).not.toBeInTheDocument();
+  });
 });

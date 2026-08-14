@@ -12,11 +12,7 @@ import type { PeerComparison } from "@/lib/data/etf-peer-groups";
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
-  
-  const match = dateString.match(/^(\d{4}[-.]?\d{2}[-.]?\d{2})/);
-  if (!match) return dateString;
-
-  const datePart = match[1];
+  const datePart = dateString.split(" ")[0];
   if (datePart.length === 8 && !datePart.includes("-") && !datePart.includes(".")) {
     return `${datePart.slice(0, 4)}.${datePart.slice(4, 6)}.${datePart.slice(6, 8)}`;
   }
@@ -123,11 +119,6 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
                 <span className="h-3 w-px bg-neutral-300"></span>
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                   <span>상장일: {formatDate(etf.listingDate) || "-"}</span>
-                  {etf.listingDateSource && (
-                    <span className="text-[11px] font-semibold text-brand-700">
-                      {etf.listingDateSource}
-                    </span>
-                  )}
                 </div>
               </div>
             </div>

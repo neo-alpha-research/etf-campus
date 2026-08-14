@@ -81,8 +81,8 @@ def normalize_price_records(snapshot: dict[str, dict[str, Any]], date_str: str) 
     for ticker, data in snapshot.items():
         if not isinstance(ticker, str):
             continue
-        ticker = ticker.upper()
-        if len(ticker) != 6 or not ticker.isascii() or not ticker.isdigit():
+        ticker = ticker.strip().upper()
+        if len(ticker) != 6 or not ticker.isascii() or not ticker.isalnum():
             continue
         close_price = data.get("TDD_CLSPRC") or data.get("close") or data.get("clpr")
         if close_price is None:

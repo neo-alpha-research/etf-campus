@@ -263,12 +263,12 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
               <table className="w-full min-w-max text-right text-sm">
                 <caption className="sr-only">{etf.name} 기본 기간별 가격 수익률</caption>
                 <thead className="bg-neutral-50 text-[11px] font-bold text-muted border-b border-line">
-                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-1.5 whitespace-nowrap" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
+                  <tr>{defaultPeriods.map((period) => <th className="px-3 py-1 whitespace-nowrap" key={period} scope="col">{RETURN_PERIOD_LABELS[period]}</th>)}</tr>
                 </thead>
                 <tbody>
                   <tr>
                     {defaultPeriods.map((period) => (
-                      <td className="px-3 py-2 tabular-nums" key={period}>
+                      <td className="px-3 py-1.5 tabular-nums" key={period}>
                         {etf.returns[period] === null ? <span aria-label="데이터 없음" className="text-muted font-medium">—</span> : <span className="font-bold text-[13px] tracking-tight"><ReturnCell value={etf.returns[period]!} /></span>}
                       </td>
                     ))}

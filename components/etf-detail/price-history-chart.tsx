@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import useSWR from "swr";
+import { getPricePeriodRange, type PricePeriod } from "@/lib/domain/etf-price-period";
 
 const fetcher = (url: string) => fetch(url).then(async (res) => {
   if (!res.ok) return { points: [] };
@@ -13,30 +14,6 @@ const fetcher = (url: string) => fetch(url).then(async (res) => {
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
   return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
-}
-
-function calculateDates(period: string, asOfDate?: string) {
-  let end = new Date();
-  if (asOfDate && asOfDate.length >= 8) {
-    end = new Date(`${asOfDate.slice(0, 4)}-${asOfDate.slice(4, 6)}-${asOfDate.slice(6, 8)}T12:00:00Z`);
-  }
-  const start = new Date(end.getTime());
-  
-  if (period === "1d") start.setDate(end.getDate() - 4); // fetch extra days to guarantee at least 2 trading days
-  else if (period === "1w") start.setDate(end.getDate() - 7);
-  else if (period === "2w") start.setDate(end.getDate() - 14);
-  else if (period === "1m") start.setMonth(end.getMonth() - 1);
-  else if (period === "2m") start.setMonth(end.getMonth() - 2);
-  else if (period === "3m") start.setMonth(end.getMonth() - 3);
-  else if (period === "6m") start.setMonth(end.getMonth() - 6);
-  else if (period === "12m") start.setFullYear(end.getFullYear() - 1);
-  else if (period === "24m") start.setFullYear(end.getFullYear() - 2);
-  else if (period === "36m") start.setFullYear(end.getFullYear() - 3);
-  else if (period === "ytd") {
-    start.setMonth(0);
-    start.setDate(1);
-  }
-  return { start: start.toISOString().split("T")[0], end: end.toISOString().split("T")[0] };
 }
 
 const PERIODS = [
@@ -54,10 +31,10 @@ const PERIODS = [
 ];
 
 export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDate?: string }) {
-  const [period, setPeriod] = useState("12m");
+  const [period, setPeriod] = useState<PricePeriod>("12m");
   const [isCustom, setIsCustom] = useState(false);
   
-  const defaultDates = useMemo(() => calculateDates(period, asOfDate), [period, asOfDate]);
+  const defaultDates = useMemo(() => getPricePeriodRange(period, asOfDate), [period, asOfDate]);
   
   const initialCustomStart = useMemo(() => {
     let d = new Date();
@@ -150,7 +127,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
             {PERIODS.map(p => (
               <button
                 key={p.id}
-                onClick={() => { setPeriod(p.id); setIsCustom(false); }}
+                onClick={() => { setPeriod(p.id as PricePeriod); setIsCustom(false); }}
                 className={`px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
               >
                 {p.label}
@@ -183,7 +160,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
       {/* Chart Header */}
       <div className="flex flex-wrap justify-between items-start gap-y-2 mb-2">
         <div>
-          <h3 className="font-bold flex items-center gap-2 flex-wrap tracking-tight" style={{ fontSize: '22px', color: '#6d28d9' }}>
+          <h3 className="font-bold flex items-center gap-2 flex-wrap tracking-tight" style={{ fontSize: '22px', color: '#3730a3' }}>
             {points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)}` : "데이터 없음"}
           </h3>
           {data?.actualEnd && asOfDate && asOfDate.length >= 8 && (

@@ -197,7 +197,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         <div className="text-right flex flex-col items-end">
           {points.length > 0 && (
             <div className="flex flex-col items-end leading-tight">
-              <div className="text-[11px] font-medium text-gray-500 mb-0.5">
+              <div className="text-[20px] font-bold text-gray-800 mb-1 tracking-tight">
                 기준일: {formatDate(points[points.length - 1].date)}
               </div>
               <div className="flex items-baseline gap-1">

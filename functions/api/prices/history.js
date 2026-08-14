@@ -48,9 +48,24 @@ export async function onRequestGet(context) {
   }
 
   try {
-    const { results } = await db.prepare(
-      "SELECT date, close FROM etf_prices WHERE ticker = ? AND date >= ? AND date <= ? ORDER BY date ASC"
-    ).bind(ticker, start, end).all();
+    // Fixed-period returns use the latest trading close on or before the
+    // calendar target. Include that anchor before returning the visible
+    // window so the chart and the precomputed return table share one basis.
+    const { results } = await db.prepare(`
+      SELECT date, close
+      FROM (
+        SELECT date, close
+        FROM etf_prices
+        WHERE ticker = ? AND date <= ?
+        ORDER BY date DESC
+        LIMIT 1
+      ) AS anchor
+      UNION ALL
+      SELECT date, close
+      FROM etf_prices
+      WHERE ticker = ? AND date > ? AND date <= ?
+      ORDER BY date ASC
+    `).bind(ticker, start, ticker, start, end).all();
 
     if (!results || results.length === 0) {
       return json({
@@ -59,6 +74,7 @@ export async function onRequestGet(context) {
         requestedEnd: end,
         actualStart: null,
         actualEnd: null,
+        anchorPolicy: "latest_trading_close_on_or_before_requested_start",
         basis: "가격수익률",
         distributionIncluded: false,
         source: "금융위원회 증권상품시세정보 API 등",
@@ -86,6 +102,7 @@ export async function onRequestGet(context) {
       requestedEnd: end,
       actualStart: results[0].date,
       actualEnd: results[results.length - 1].date,
+      anchorPolicy: "latest_trading_close_on_or_before_requested_start",
       basis: "가격수익률",
       distributionIncluded: false,
       source: "금융위원회 증권상품시세정보 API 등",

@@ -58,7 +58,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
       <div className="flex justify-end pr-2">
         <AsOfDate value={compareList[0]?.asOfDate} />
       </div>
-      <div className="relative rounded-2xl border border-line bg-surface shadow-sm">
+      <div className="relative border border-line bg-surface">
         <div 
           ref={scrollRef}
           className="relative text-center overflow-x-auto overscroll-x-contain scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-webkit-overflow-scrolling:touch]" 

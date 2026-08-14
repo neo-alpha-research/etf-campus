@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { EtfDetail } from "@/components/etf-detail/etf-detail";
 import { siteConfig } from "@/config/site";
 import { loadEtfs } from "@/lib/data/etf-repository";
-import { getComparableEtfs } from "@/lib/data/etf-peer-groups";
+import { getPeerComparison } from "@/lib/data/etf-peer-groups";
 
 const etfs = loadEtfs();
 const etfByTicker = new Map(etfs.map((etf) => [etf.ticker, etf]));
@@ -35,12 +35,6 @@ export default async function EtfPage({ params }: Props) {
   const etf = etfByTicker.get(ticker);
   if (!etf) notFound();
 
-  // Expose only direct peers with identical verified comparison-group keys.
-  // Broad asset-class and market-scope fallbacks are intentionally prohibited.
-  const { peers } = getComparableEtfs(etf, etfs);
-  const similarTopEtfs = peers.map((peer) => ({
-    ticker: peer.ticker,
-    name: peer.name,
-  }));
-  return <EtfDetail etf={etf} similarTopEtfs={similarTopEtfs} />;
+  const peerComparison = getPeerComparison(etf, etfs);
+  return <EtfDetail etf={etf} peerComparison={peerComparison} />;
 }

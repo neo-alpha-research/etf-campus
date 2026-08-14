@@ -80,6 +80,12 @@ export function StyleOnboarding() {
   const open = openIntent ?? false;
 
   useEffect(() => {
+    if (openIntent === null && rawStored !== "__server__") {
+      setOpenIntent(stored === null);
+    }
+  }, [openIntent, rawStored, stored]);
+
+  useEffect(() => {
     const onChange = (event: Event) => {
       const latest = parseStoredDiagnosis(localStorage.getItem(STYLE_STORAGE_KEY));
       if ((event as CustomEvent).detail?.open) {

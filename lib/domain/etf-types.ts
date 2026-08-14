@@ -10,10 +10,11 @@ export const ASSET_CLASSES = [
 
 export const MARKET_SCOPES = ["국내", "미국", "중국", "일본", "인도", "유럽", "신흥국", "글로벌"] as const;
 export const STRATEGIES = ["패시브", "액티브", "커버드콜"] as const;
-export const FX_HEDGES = ["비헤지", "헤지", "부분 헤지", "탄력 헤지"] as const;
+export const FX_HEDGES = ["비헤지", "헤지"] as const;
 
 export const RISK_TYPES = ["normal", "leverage", "inverse"] as const;
-export const PENSION_STATUSES = ["가능", "불가", "확인중"] as const;export const RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"] as const;
+export const PENSION_STATUSES = ["가능", "불가", "확인중"] as const;
+export const RETURN_PERIODS = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"] as const;
 
 export const RETURN_PERIOD_LABELS = {
   "1d": "1일",

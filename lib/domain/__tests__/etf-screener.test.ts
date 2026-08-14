@@ -32,13 +32,21 @@ describe("ETF 스크리너", () => {
   });
 
   it("복수 선택 필터를 URL 쿼리로 왕복한다", () => {
-    const filters = { ...DEFAULT_SCREENER_FILTERS, assetClasses: ["주식-해외", "채권"] as const, riskTypes: ["normal", "leverage"] as const, marketScopes: ["미국", "유럽"] as const, strategies: ["액티브", "커버드콜"] as const, fxHedges: ["비헤지", "부분 헤지"] as const };
-    const queryString = serializeScreenerQuery(filters);
-    const query = new URLSearchParams(queryString);
+    const filters: ScreenerFilters = {
+      ...DEFAULT_SCREENER_FILTERS,
+      marketScopes: ["국내", "미국"],
+      assetClasses: ["주식-해외", "채권"],
+      riskTypes: ["leverage"],
+      strategies: ["액티브", "커버드콜"],
+      aumScope: "1000plus",
+      fxHedges: ["비헤지"],
+    };
+    const query = new URLSearchParams(serializeScreenerQuery(filters));
+    expect(query.getAll("market")).toEqual(["국내", "미국"]);
     expect(query.getAll("asset")).toEqual(["주식-해외", "채권"]);
-    expect(query.getAll("market")).toEqual(["미국", "유럽"]);
+    expect(query.getAll("risk")).toEqual(["leverage"]);
     expect(query.getAll("strategy")).toEqual(["액티브", "커버드콜"]);
-    expect(query.getAll("fx")).toEqual(["비헤지", "부분 헤지"]);
+    expect(query.getAll("fx")).toEqual(["비헤지"]);
     expect(parseScreenerQuery(query)).toEqual(filters);
   });
 

@@ -6,6 +6,7 @@ import useSWR from "swr";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
+import { IssuerMultiSelect } from "./issuer-multi-select";
 import { formatAumNumber, formatWonNumber, formatTradeValueNumber } from "@/lib/domain/etf-format";
 import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
 import { AUM_SCOPES, GENERAL_RETURN_PERIODS, type AumScope } from "@/lib/domain/etf-explorer";
@@ -41,14 +42,14 @@ function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
 
 type ScreenerSortKey = "return_1d" | "return_1m" | "return_3m" | "return_12m" | "return_custom" | "aum" | "tradeValue" | "ter";
 const sortLabels: Record<ScreenerSortKey, string> = {
-  return_1d: "1일 수익률 높은순",
-  return_1m: "1개월 수익률 높은순",
-  return_3m: "3개월 수익률 높은순",
-  return_12m: "1년 수익률 높은순",
-  return_custom: "비교 기간 수익률 높은순",
-  aum: "순자산 높은순",
-  tradeValue: "거래대금 높은순",
-  ter: "총보수 낮은순",
+  return_1d: "1일 수익률",
+  return_1m: "1개월 수익률",
+  return_3m: "3개월 수익률",
+  return_12m: "1년 수익률",
+  return_custom: "비교 기간 수익률",
+  aum: "순자산액",
+  tradeValue: "거래대금",
+  ter: "총보수",
 };
 
 function FilterChips<T extends string>({
@@ -56,15 +57,17 @@ function FilterChips<T extends string>({
   selected,
   onChange,
   labels,
+  className,
 }: {
   options: readonly T[];
   selected: readonly T[];
   onChange: (values: T[]) => void;
   labels?: Record<string, string>;
+  className?: string;
 }) {
   const isAll = selected.length === 0;
   return (
-    <div className="flex flex-wrap gap-1">
+    <div className={`flex flex-wrap gap-1 ${className || ""}`}>
       <label className={`cursor-pointer rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
         <input type="checkbox" checked={isAll} className="sr-only" onChange={() => onChange([])} />
         전체
@@ -97,6 +100,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");
   const [sort, setSort] = useState<ScreenerSortKey>("return_1d");
+  const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const [comparisonPeriod, setComparisonPeriod] = useState<ReturnPeriod | null>(null);
   const [customDateRange, setCustomDateRange] = useState<{ start: string; end: string } | null>(null);
   // Inputs held as local state until user clicks 적용
@@ -110,6 +114,8 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     setSelectedPeriod((GENERAL_RETURN_PERIODS as readonly string[]).includes(p) ? p : "1d");
     const s = params.get("sort") as ScreenerSortKey;
     setSort(Object.keys(sortLabels).includes(s) ? s : "return_1d");
+    const sd = params.get("dir") as "desc" | "asc";
+    setSortDir(sd === "asc" ? "asc" : "desc");
     const cp = params.get("compare") as ReturnPeriod;
     setComparisonPeriod((GENERAL_RETURN_PERIODS as readonly string[]).includes(cp) ? cp : null);
     const cstart = params.get("cstart") || "";
@@ -128,27 +134,35 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     return () => window.removeEventListener("popstate", syncFromUrl);
   }, []);
 
-  const updateStateAndUrl = (nextFilters: ScreenerFilters, nextPeriod: ReturnPeriod, nextSort: ScreenerSortKey, nextComparePeriod: ReturnPeriod | null = comparisonPeriod) => {
+  const updateStateAndUrl = (nextFilters: ScreenerFilters, nextPeriod: ReturnPeriod, nextSort: ScreenerSortKey, nextSortDir: "desc" | "asc" = sortDir, nextComparePeriod: ReturnPeriod | null = comparisonPeriod) => {
     setFilters(nextFilters);
     setSelectedPeriod(nextPeriod);
     setSort(nextSort);
+    setSortDir(nextSortDir);
     setComparisonPeriod(nextComparePeriod);
     const query = new URLSearchParams(serializeScreenerQuery(nextFilters));
     if (nextPeriod !== "1d") query.set("period", nextPeriod);
     if (nextSort !== "return_1d") query.set("sort", nextSort);
+    if (nextSortDir !== "desc") query.set("dir", nextSortDir);
     if (nextComparePeriod) query.set("compare", nextComparePeriod);
     if (customDateRange) { query.set("cstart", customDateRange.start); query.set("cend", customDateRange.end); }
     const queryString = query.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
   };
 
-  const updateFilters = (next: ScreenerFilters) => updateStateAndUrl(next, selectedPeriod, sort);
-  const handlePeriodChange = (nextPeriod: ReturnPeriod) => updateStateAndUrl(filters, nextPeriod, sort);
-  const handleSortChange = (nextSort: ScreenerSortKey) => updateStateAndUrl(filters, selectedPeriod, nextSort);
+  const updateFilters = (next: ScreenerFilters) => updateStateAndUrl(next, selectedPeriod, sort, sortDir);
+  const handlePeriodChange = (nextPeriod: ReturnPeriod) => updateStateAndUrl(filters, nextPeriod, sort, sortDir);
+  const handleSortChange = (nextSort: ScreenerSortKey) => {
+    // When changing sort key, reset direction if it's changing to/from TER, otherwise keep desc.
+    // Actually, usually users want desc for everything except TER.
+    let nextSortDir: "desc" | "asc" = "desc";
+    if (nextSort === "ter") nextSortDir = "asc";
+    updateStateAndUrl(filters, selectedPeriod, nextSort, nextSortDir);
+  };
   const handleComparisonPeriodChange = (next: ReturnPeriod | null) => {
-    setCustomDateRange(null); // clear custom date range when fixed period selected
+    setCustomDateRange(null);
     const nextSort = next ? "return_custom" : (sort === "return_custom" ? "return_1d" : sort);
-    updateStateAndUrl(filters, selectedPeriod, nextSort, next);
+    updateStateAndUrl(filters, selectedPeriod, nextSort, sortDir, next);
   };
   const handleApplyCustomDateRange = () => {
     // Use state value if changed by user, otherwise fall back to the computed defaults
@@ -163,6 +177,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     const query = new URLSearchParams(serializeScreenerQuery(filters));
     if (selectedPeriod !== "1d") query.set("period", selectedPeriod);
     if (sort !== "return_1d") query.set("sort", sort);
+    if (sortDir !== "desc") query.set("dir", sortDir);
     query.set("cstart", effectiveStart);
     query.set("cend", effectiveEnd);
     const qs = query.toString();
@@ -175,6 +190,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     const query = new URLSearchParams(serializeScreenerQuery(filters));
     if (selectedPeriod !== "1d") query.set("period", selectedPeriod);
     if (sort !== "return_1d") query.set("sort", sort);
+    if (sortDir !== "desc") query.set("dir", sortDir);
     const qs = query.toString();
     window.history.replaceState(null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
   };
@@ -202,6 +218,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
 
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
+      let cmp = 0;
       if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_custom") {
         let aVal = a.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
         let bVal = b.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
@@ -213,24 +230,27 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           bVal = bCustom !== undefined && bCustom !== null ? bCustom : -Infinity;
         }
 
-        if (aVal !== bVal) return bVal - aVal;
-        if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
-        if (a.aum !== b.aum) return b.aum - a.aum;
+        cmp = aVal - bVal;
+        if (cmp === 0) cmp = a.tradeValue - b.tradeValue;
+        if (cmp === 0) cmp = a.aum - b.aum;
       } else if (sort === "aum") {
-        if (a.aum !== b.aum) return b.aum - a.aum;
-        if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
+        cmp = a.aum - b.aum;
+        if (cmp === 0) cmp = a.tradeValue - b.tradeValue;
       } else if (sort === "tradeValue") {
-        if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
-        if (a.aum !== b.aum) return b.aum - a.aum;
+        cmp = a.tradeValue - b.tradeValue;
+        if (cmp === 0) cmp = a.aum - b.aum;
       } else if (sort === "ter") {
         const aFee = a.fee?.totalFeePct ?? 0;
         const bFee = b.fee?.totalFeePct ?? 0;
-        if (aFee !== bFee) return aFee - bFee;
-        if (a.aum !== b.aum) return b.aum - a.aum;
+        cmp = bFee - aFee;
+      }
+      
+      if (cmp !== 0) {
+        return sortDir === "desc" ? -cmp : cmp;
       }
       return a.ticker.localeCompare(b.ticker);
     });
-  }, [etfs, filters, sort, comparisonPeriod, customDateRange, customReturnsData]);
+  }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData]);
   
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
 
@@ -346,11 +366,20 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     return Array.from(map.values()).sort((a, b) => b.count - a.count);
   }, [etfs]);
 
-  filters.issuerIds.forEach(v => {
-    const issuer = allIssuers.find(i => i.id === v);
-    const label = issuer ? issuer.name : v;
-    activeFilters.push({ label, remove: () => updateFilters({ ...filters, issuerIds: filters.issuerIds.filter(i => i !== v) }) });
-  });
+  if (filters.issuerIds.length > 0) {
+    if (filters.issuerIds.length <= 2) {
+      filters.issuerIds.forEach(v => {
+        const issuer = allIssuers.find(i => i.id === v);
+        const label = issuer ? issuer.name : v;
+        activeFilters.push({ label, remove: () => updateFilters({ ...filters, issuerIds: filters.issuerIds.filter(i => i !== v) }) });
+      });
+    } else {
+      activeFilters.push({ 
+        label: `운용사 ${filters.issuerIds.length}곳`, 
+        remove: () => updateFilters({ ...filters, issuerIds: [] }) 
+      });
+    }
+  }
 
   return (
     <main className="page-shell flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
@@ -535,29 +564,14 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           </fieldset>
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">운용 전략</legend><div><FilterChips options={STRATEGIES} selected={filters.strategies} onChange={(v) => updateFilters({ ...filters, strategies: v })} /></div></fieldset>
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">환헤지</legend><div><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></div></fieldset>
-          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">총보수</legend><div><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></div></fieldset>
+          <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">총보수</legend><div><FilterChips className="!flex-nowrap *:flex-1 *:text-center *:whitespace-nowrap *:px-1" options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></div></fieldset>
           <fieldset className="py-3">
             <legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">운용사</legend>
-            <div className="max-h-56 overflow-y-auto pr-2 rounded-lg border border-line bg-neutral-50/50">
-              {allIssuers.map((issuer) => (
-                <label key={issuer.id} className="flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 cursor-pointer rounded">
-                  <input 
-                    type="checkbox" 
-                    className="w-4 h-4 rounded border-neutral-300 text-brand-600 focus:ring-brand-500"
-                    checked={filters.issuerIds.includes(issuer.id)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        updateFilters({ ...filters, issuerIds: [...filters.issuerIds, issuer.id] });
-                      } else {
-                        updateFilters({ ...filters, issuerIds: filters.issuerIds.filter(id => id !== issuer.id) });
-                      }
-                    }}
-                  />
-                  <span className="text-sm font-semibold text-strong">{issuer.name}</span>
-                  <span className="text-xs text-muted ml-auto">{issuer.count}</span>
-                </label>
-              ))}
-            </div>
+            <IssuerMultiSelect
+              allIssuers={allIssuers}
+              selectedIds={filters.issuerIds}
+              onChange={(ids) => updateFilters({ ...filters, issuerIds: ids })}
+            />
           </fieldset>
           
 
@@ -612,16 +626,37 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
 
               <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
                 <label htmlFor="results-sort" className="sr-only">정렬 기준</label>
-                <select
-                  id="results-sort"
-                  value={sort}
-                  onChange={(e) => handleSortChange(e.target.value as ScreenerSortKey)}
-                  className="rounded-lg border border-line bg-white py-2 pl-3 pr-8 text-sm font-bold text-strong focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
-                >
-                  {(Object.keys(sortLabels) as ScreenerSortKey[]).filter(key => key !== "return_custom" || comparisonPeriod !== null).map((key) => (
-                    <option key={key} value={key}>{sortLabels[key]}</option>
-                  ))}
-                </select>
+                <div className="flex items-center rounded-lg border border-line bg-white shadow-sm overflow-hidden focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-brand-500">
+                  <select
+                    id="results-sort"
+                    value={sort}
+                    onChange={(e) => handleSortChange(e.target.value as ScreenerSortKey)}
+                    className="appearance-none bg-transparent py-2 pl-3 pr-8 text-sm font-bold text-strong focus:outline-none"
+                    style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: `right 0.5rem center`, backgroundRepeat: `no-repeat`, backgroundSize: `1.5em 1.5em` }}
+                  >
+                    {(Object.keys(sortLabels) as ScreenerSortKey[]).filter(key => key !== "return_custom" || comparisonPeriod !== null).map((key) => (
+                      <option key={key} value={key}>{sortLabels[key]}</option>
+                    ))}
+                  </select>
+                  <div className="w-px h-5 bg-line mx-1"></div>
+                  <button
+                    type="button"
+                    onClick={() => updateStateAndUrl(filters, selectedPeriod, sort, sortDir === "desc" ? "asc" : "desc")}
+                    className="flex h-full min-w-10 items-center justify-center bg-transparent px-2 text-muted hover:bg-neutral-50 hover:text-strong focus:outline-none"
+                    aria-label={sortDir === "desc" ? "내림차순 (높은순) 정렬 중. 클릭하여 오름차순으로 변경" : "오름차순 (낮은순) 정렬 중. 클릭하여 내림차순으로 변경"}
+                    title={sortDir === "desc" ? "높은순 정렬" : "낮은순 정렬"}
+                  >
+                    {sortDir === "desc" ? (
+                      <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                      </svg>
+                    ) : (
+                      <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

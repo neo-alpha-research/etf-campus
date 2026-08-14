@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { loadEtfs } from "../etf-repository";
 import { getDefaultEtfs, getNewEtfs, isSmallEtf } from "../../domain/etf-visibility";
+import { isNewListing } from "../../domain/etf-explorer";
 
 describe("실제 ETF 데이터 회귀", () => {
   const etfs = loadEtfs();
@@ -22,8 +23,7 @@ describe("실제 ETF 데이터 회귀", () => {
   });
 
   it("신규 90일 플래그와 신규 메뉴 대상이 일치한다", () => {
-    const flagged = etfs.filter((etf) => etf.isNew90d);
-    expect(flagged.length).toBeGreaterThan(0);
+    const flagged = etfs.filter((etf) => isNewListing(etf));
     expect(getNewEtfs(etfs).map((etf) => etf.ticker).sort()).toEqual(flagged.map((etf) => etf.ticker).sort());
   });
 

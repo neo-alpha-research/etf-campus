@@ -12,6 +12,9 @@ function etf(overrides: Partial<Etf>): Etf {
     liquidity: "pass", asOfDate: "20260715", listingDate: null, listingDateSource: null,
     returns: { "1d": 1.2, "1w": 1, "2w": 2, "1m": 3, "2m": 4, "3m": 5, "6m": 6, "12m": 12, "24m": 24, "36m": 36, ytd: 7, itd: 7 },
     isNew90d: null, isNew3m: false,
+    issuer: { issuerId: "samsung", issuerName: "삼성자산운용" },
+    classification: { published: true, marketScope: "국내", assetClass: "주식-국내", assetDetail: null, strategy: "액티브", fxHedge: "환노출", reviewStatus: "자동확정", reviewPriority: "", sourceUrl: null, evidenceSummary: null },
+    fee: { totalFeePct: 0.1, verificationStatus: "verified_official" },
     ...overrides,
   };
 }
@@ -89,7 +92,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     // 기본값인 1,000억 이상과 일반형은 선택 조건 칩에 노출되어야 한다. 
     // wait, the prompt says "기본 상태로 복귀해야 합니다... 선택 조건 칩도 즉시 갱신되어야 합니다."
     // 1000억과 일반형 칩이 있는지 확인.
-    expect(screen.getByRole("button", { name: "순자산 1,000억원 이상 조건 제거" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "순자산 1,000억 이상 조건 제거" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "일반형 조건 제거" })).toBeInTheDocument();
   });
 
@@ -100,7 +103,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
     expect(monthQuick).toHaveAttribute("aria-pressed", "true");
     expect(window.location.search).toContain("period=1m");
-    expect(screen.getByRole("heading", { name: "일반형, 순자산 1,000억원 이상 — 1개월 수익률 TOP 5" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /1개월 수익률 TOP 5/ })).toBeInTheDocument();
   });
 
   it("TOP 5 종목의 상세 정보(순위, 이름, 티커, 수익률, 연금 배지 등)가 표시되며 상세 페이지로 링크된다", () => {

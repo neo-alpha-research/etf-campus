@@ -11,9 +11,29 @@ type Props = {
   comparison: PeerComparison;
 };
 
-function chipLabel(value: string): string | null {
-  if (!value || value === "unknown" || value === "해당없음") return null;
-  return value.replaceAll("_", " ");
+const INVALID_CODES = new Set(["unknown", "해당없음", "unspecified", "plain", "null"]);
+const CODE_TRANSLATIONS: Record<string, string> = {
+  "concentrated": "집중형",
+  "broad": "분산형",
+};
+
+function formatDisplayValue(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  const lower = trimmed.toLowerCase();
+  
+  if (!trimmed || INVALID_CODES.has(lower)) return null;
+
+  if (CODE_TRANSLATIONS[lower]) {
+    return CODE_TRANSLATIONS[lower];
+  }
+
+  // 만약 순수 영문/기호 조합인데 번역이 없다면 내부 코드로 간주하여 노출하지 않음
+  if (/^[a-z_-\s]+$/i.test(trimmed)) {
+    return null;
+  }
+
+  return trimmed.replaceAll("_", " ");
 }
 
 export function PeerComparisonPanel({ etf, comparison }: Props) {
@@ -24,14 +44,20 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
     [comparison.groups, primary, selectedGroupId],
   );
   const profile = comparison.profile;
-  const chips = [
-    profile?.regionPrimary,
-    profile?.assetFamily,
-    profile?.comparisonCategory,
-    profile?.comparisonSubtopic,
-    profile?.strategyStyle,
-    profile?.concentrationBucket,
-  ].map((val) => val ? chipLabel(val) : null).filter((value): value is string => Boolean(value));
+  
+  const chips = useMemo(() => {
+    const rawChips = [
+      profile?.regionPrimary,
+      profile?.assetFamily,
+      profile?.comparisonCategory,
+      profile?.comparisonSubtopic,
+      profile?.strategyStyle,
+      profile?.concentrationBucket,
+    ].map(formatDisplayValue).filter((val): val is string => Boolean(val));
+    
+    return Array.from(new Set(rawChips)); // 중복 제거
+  }, [profile]);
+
   const comparisonProfiles = useMemo(() => new Map([
     ...(profile ? [[etf.ticker, profile] as const] : []),
     ...(selected?.candidates ?? []).map((candidate) => [candidate.etf.ticker, candidate.profile] as const),
@@ -50,7 +76,36 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
 
   const displayedCount = 1 + selected.candidates.length;
   const comparisonHref = `/compare?base=${encodeURIComponent(etf.ticker)}&group=${encodeURIComponent(selected.id)}`;
-  const title = `${profile.regionPrimary} ${profile.comparisonSubtopic || profile.comparisonTopic} ${profile.concentrationBucket ? `${profile.concentrationBucket}형` : ""} ETF 비교`.replace(/\s+/g, " ").trim();
+  
+  // 제목 생성
+  let title = "동종 ETF 비교";
+  const region = formatDisplayValue(profile.regionPrimary) || "";
+  const subtopic = formatDisplayValue(profile.comparisonSubtopic) || "";
+  const topic = formatDisplayValue(profile.comparisonTopic) || "";
+  const concentration = formatDisplayValue(profile.concentrationBucket) || "";
+  
+  const mainTopic = subtopic || topic || selected.label;
+  const titleParts = [];
+  
+  if (region && !mainTopic.includes(region)) {
+    titleParts.push(region);
+  }
+  titleParts.push(mainTopic);
+  if (concentration) {
+    titleParts.push(concentration);
+  }
+  
+  const combinedTitle = titleParts.filter(Boolean).join(" ").trim();
+  if (combinedTitle) {
+    title = `${combinedTitle} ETF 비교`.replace(/\s+/g, " ");
+  }
+
+  // 보조 문구 생성
+  const totalPeerCount = Math.max(selected.totalCount - 1, 0);
+  const displayedPeerCount = selected.candidates.length;
+  const guideText = totalPeerCount > displayedPeerCount 
+    ? `동종 후보 ${totalPeerCount}개 중 유사도와 순자산을 우선해 상위 ${displayedPeerCount}개를 표시합니다.`
+    : `동종 후보 ${displayedPeerCount}개를 표시합니다.`;
 
   return (
     <section className="space-y-5" aria-labelledby="peer-comparison-title">
@@ -89,7 +144,7 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
       ) : (
         <>
           <div className="flex items-center justify-between gap-3 px-1">
-            <p className="text-xs font-medium text-muted">현재 ETF를 첫 번째 열에 고정했습니다. 후보는 유사도 우선, 순자산 순으로 정렬합니다.</p>
+            <p className="text-xs font-medium text-muted">현재 ETF를 첫 번째 열에 고정했습니다. {guideText}</p>
             <Link href={comparisonHref} className="shrink-0 text-sm font-bold text-brand-700 hover:text-brand-800">ETF 비교 화면에서 종목 직접 변경하기</Link>
           </div>
           <EtfCompareView mainEtf={etf} basket={selected.candidates.map((candidate) => candidate.etf)} mode="peer-readonly" selectionReasons={new Map(selected.candidates.map((candidate) => [candidate.etf.ticker, candidate.reasons]))} comparisonProfiles={comparisonProfiles} />

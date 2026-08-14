@@ -122,7 +122,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
       
       {/* Settings Row */}
       <div className="flex justify-between items-start gap-4 mb-2">
-        <div className="flex-1 overflow-x-auto scrollbar-hide flex items-center gap-3">
+        <div className="flex-1 overflow-x-auto scrollbar-hide flex items-center gap-1.5">
           <div className="flex items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit shrink-0">
             {PERIODS.map(p => (
               <button
@@ -142,10 +142,10 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
           </div>
 
           {isCustom && (
-            <div className="flex items-center gap-1.5 shrink-0 animate-in fade-in slide-in-from-left-2 duration-200">
-              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow" />
-              <span className="text-muted font-bold text-xs">~</span>
-              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="px-2 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow" />
+            <div className="flex items-center gap-1 shrink-0 animate-in fade-in slide-in-from-left-2 duration-200">
+              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="w-[105px] px-1.5 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow tracking-tighter" />
+              <span className="text-muted font-bold text-[10px]">~</span>
+              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="w-[105px] px-1.5 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow tracking-tighter" />
             </div>
           )}
         </div>

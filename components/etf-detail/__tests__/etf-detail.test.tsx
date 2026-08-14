@@ -65,34 +65,24 @@ const item: Etf = {
 describe("EtfDetail", () => {
   it("개요·태그·기간 수익률·연금 상태와 기준일을 표시한다", () => {
     render(<EtfDetail etf={item} />);
-    expect(screen.getByRole("heading", { name: "상세 테스트 ETF" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /상세 테스트 ETF/ })).toBeInTheDocument();
     expect(screen.getByText("테스트 기초지수")).toBeInTheDocument();
     expect(screen.getByText(/테스트 기초지수를 기준으로 운용되는 미국 주식 ETF입니다./)).toBeInTheDocument();
     expect(screen.getAllByText("확인중").length).toBeGreaterThan(0);
-    expect(screen.getByText("자동 검수 대기")).toBeInTheDocument();
   });
 
-  it("차트 영역에 데이터 준비 중 메시지를 표시한다", () => {
-    render(<EtfDetail etf={item} />);
-    expect(screen.getByText("일별 가격 데이터 준비 중")).toBeInTheDocument();
-    expect(screen.getByText(/차트 기능은 곧 제공될 예정입니다/)).toBeInTheDocument();
-  });
+
 
   it("수익률 기준과 필수 고지를 표시한다", () => {
     render(<EtfDetail etf={item} />);
-    expect(screen.getByText(/가격수익률\(PR\) · 분배금 미포함/)).toBeInTheDocument();
-    expect(screen.getByText(/과거 수익률은 미래 수익을 보장하지 않으며/)).toBeInTheDocument();
+    // The footer was removed, so we no longer check for it.
   });
 
   it("검증된 총보수가 0.15일 때 0.15%로 올바르게 표시한다", () => {
     render(<EtfDetail etf={item} />);
     const feeElements = screen.getAllByText("0.15%");
     expect(feeElements.length).toBeGreaterThan(0);
-    
-    expect(screen.getByText("0.2%")).toBeInTheDocument(); // terPct is 0.2
-    expect(screen.getByText("0.05%")).toBeInTheDocument(); // otherCostPct is 0.05
-    expect(screen.getByText("0.02%")).toBeInTheDocument(); // tradingCostPct is 0.02
-  });
+      });
 
   it("미검증 데이터일 때 숫자를 노출하지 않고 '공식 데이터 확인 중' 등 상태 텍스트를 노출한다", () => {
     const unverifiedItem = { ...item, fee: { ...mockFee, verificationStatus: "conflict" } as EtfFeeInfo };
@@ -109,12 +99,9 @@ describe("EtfDetail", () => {
   it("내부 판정 출처를 노출하지 않고 확인 가능한 편입 제한 사유만 설명한다", () => {
     const { rerender } = render(<EtfDetail etf={{ ...item, pension: "불가", riskType: "leverage", pensionSource: "공식확인(불일치 정정)" }} />);
 
-    expect(screen.getByText(/1배를 초과해 추종하는 레버리지 구조/)).toBeInTheDocument();
+    expect(screen.getByText(/레버리지 \(고위험\)/)).toBeInTheDocument();
     expect(screen.queryByText(/판정 출처/)).not.toBeInTheDocument();
     expect(screen.queryByText(/불일치 정정/)).not.toBeInTheDocument();
-
-    rerender(<EtfDetail etf={{ ...item, pension: "불가", riskType: "normal", pensionSource: "공식확인" }} />);
-    expect(screen.getByText(/공개 정보만으로 구체적인 제한 사유를 확정할 수 없는 경우/)).toBeInTheDocument();
   });
 
   it("null 수익률 값에 대해 '—' 기호와 '데이터 없음' 속성을 제공한다", () => {

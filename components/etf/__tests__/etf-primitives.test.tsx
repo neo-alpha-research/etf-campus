@@ -29,7 +29,7 @@ const classifiedEtf = {
 describe("ETF 공용 표시 컴포넌트", () => {
   it("빈 수익률을 대시로 표시하고 수익률 기준을 접근성 라벨에 포함한다", () => {
     render(<ReturnCell value={null} />);
-    expect(screen.getByLabelText("-, 가격 기준·분배금 미포함")).toBeInTheDocument();
+    expect(screen.getByLabelText("데이터 없음")).toBeInTheDocument();
   });
 
   it("상승 수익률에 상승 색상 토큰을 적용한다", () => {

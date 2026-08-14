@@ -68,7 +68,7 @@ describe("ETF 동물 투자 스타일 진단", () => {
   });
 
   it("계좌 정보 없이 탐색 습관만으로 결과를 계산한다", () => {
-    expect(Object.keys(answers(0))).not.toContain("account");
+    expect(Object.keys(answers(1))).not.toContain("account");
   });
 
   it("새 진단은 기존 결과와 분리된 v3 저장 키를 사용한다", () => {

@@ -21,7 +21,7 @@ function etf(overrides: Partial<Etf> = {}): Etf {
     asOfDate: "20260715",
     listingDate: null,
     listingDateSource: null,
-    returns: { "1d": 0, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null, "12m": null, "24m": null, "36m": null, itd: null },
+    returns: { "1d": 1, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null, "ytd": null, "12m": null, "24m": null, "36m": null, itd: null },
     isNew90d: null,
     isNew3m: false,
     ...overrides,

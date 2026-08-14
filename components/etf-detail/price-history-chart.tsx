@@ -174,7 +174,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         </div>
         
         {points.length > 0 && (
-          <div className="text-[16px] font-bold text-emerald-700 tracking-tight whitespace-nowrap mt-1">
+          <div className="text-[24px] font-bold text-emerald-700 tracking-tight whitespace-nowrap mt-1">
             기준일: {formatDate(points[points.length - 1].date)}
           </div>
         )}
@@ -205,12 +205,12 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
           {points.length > 0 && (
             <div className="flex flex-col items-end leading-tight">
               <div className="flex items-baseline gap-2">
-                <span className="text-[24px] font-bold text-strong">수익률</span>
-                <span className={`text-[44px] font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
+                <span className="text-[36px] font-bold text-strong">수익률</span>
+                <span className={`text-[66px] font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
                   {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
                 </span>
               </div>
-              <div className="text-xs text-gray-500 mt-1">(분배금 미포함)</div>
+              <div className="text-[18px] text-gray-500 mt-1">(분배금 미포함)</div>
             </div>
           )}
         </div>

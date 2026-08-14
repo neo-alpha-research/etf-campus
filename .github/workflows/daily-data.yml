@@ -140,6 +140,8 @@ jobs:
         env:
           PRICE_INGEST_ENDPOINT: ${{ secrets.PRICE_INGEST_ENDPOINT }}
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
+          KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
         run: |
           BAS_DT=$(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")
           python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT" --source fsc

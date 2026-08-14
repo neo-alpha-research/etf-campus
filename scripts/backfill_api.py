@@ -61,7 +61,9 @@ def required_environment(name: str) -> str:
 
 def get_ingest_endpoint() -> str:
     """Return only the fixed production ingestion route; a secret must never be sent elsewhere."""
-    endpoint = os.environ.get("PRICE_INGEST_ENDPOINT", DEFAULT_INGEST_ENDPOINT).strip()
+    endpoint = os.environ.get("PRICE_INGEST_ENDPOINT", "").strip()
+    if not endpoint:
+        endpoint = DEFAULT_INGEST_ENDPOINT
     parsed = urllib.parse.urlparse(endpoint)
     if (
         parsed.scheme != "https"

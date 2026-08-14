@@ -1,6 +1,15 @@
-import { ASSET_CLASSES, RISK_TYPES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, type AssetClass, type Etf, type RiskType, type AmcType, type MarketScope, type Strategy, type FxHedge } from "./etf-types";
+import { ASSET_CLASSES, RISK_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, type AssetClass, type Etf, type RiskType, type MarketScope, type Strategy, type FxHedge } from "./etf-types";
 import { getEtfMarketScope, getEtfStrategies, getEtfFxHedge } from "./etf-classification";
 import { type AumScope, AUM_SCOPES } from "./etf-explorer";
+
+const LEGACY_AMC_TO_ISSUER_ID: Record<string, string> = {
+  "삼성": "samsung",
+  "미래에셋": "miraeasset",
+  "KB": "kb",
+  "한국투자": "koreainvestment",
+  "신한": "shinhan",
+  "기타": "unknown"
+};
 
 export const TER_RANGES = ["under0.1", "0.1to0.5", "over0.5"] as const;
 export type TerRange = (typeof TER_RANGES)[number];
@@ -16,7 +25,7 @@ export type ScreenerFilters = {
   aumScope: AumScope;
   terRanges: readonly TerRange[];
 
-  amcs: readonly AmcType[];
+  issuerIds: readonly string[];
 };
 
 export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
@@ -30,7 +39,7 @@ export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
   aumScope: "1000plus",
   terRanges: [],
 
-  amcs: [],
+  issuerIds: [],
 };
 
 function inTerRange(ter: number, range: TerRange): boolean {
@@ -68,7 +77,7 @@ export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[
     if (filters.aumScope === "500plus" && etf.aum < 50_000_000_000) return false;
     if (filters.terRanges.length && !filters.terRanges.some((range) => inTerRange(etf.fee?.totalFeePct ?? 0, range))) return false;
 
-    if (filters.amcs.length && !filters.amcs.includes(etf.amc)) return false;
+    if (filters.issuerIds.length && !filters.issuerIds.includes(etf.issuer.issuerId)) return false;
     return true;
   });
 }
@@ -83,7 +92,7 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
     filters.fxHedges.length === 0 &&
     filters.aumScope === "1000plus" &&
     filters.terRanges.length === 0 &&
-    filters.amcs.length === 0;
+    filters.issuerIds.length === 0;
 
   if (isDefault) return "";
 
@@ -97,7 +106,7 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
   filters.fxHedges.forEach((value) => query.append("fx", value));
   if (filters.aumScope !== "all") query.set("aum", filters.aumScope);
   filters.terRanges.forEach((value) => query.append("ter", value));
-  filters.amcs.forEach((value) => query.append("amc", value));
+  filters.issuerIds.forEach((value) => query.append("issuer", value));
 
   if (Array.from(query.keys()).length === 0) {
     query.set("custom", "1");
@@ -131,6 +140,9 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
     fxHedges: validValues(query.getAll("fx"), FX_HEDGES),
     aumScope: validValue(query.get("aum"), AUM_SCOPES, "all"),
     terRanges: validValues(query.getAll("ter"), TER_RANGES),
-    amcs: validValues(query.getAll("amc"), AMC_TYPES),
+    issuerIds: Array.from(new Set([
+      ...query.getAll("amc").map(amc => LEGACY_AMC_TO_ISSUER_ID[amc] || amc),
+      ...query.getAll("issuer")
+    ])),
   };
 }

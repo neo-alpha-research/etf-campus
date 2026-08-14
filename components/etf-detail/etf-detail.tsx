@@ -7,6 +7,7 @@ import { getReturnPeriods, isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf, type ReturnPeriod } from "@/lib/domain/etf-types";
 import { getClassificationStatusLabel, getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
 import { EtfDetailClient, CompareActionButton } from "./etf-detail-client";
+import { PriceHistoryChart } from "./price-history-chart";
 
 function getPensionDescription(etf: Etf, newListing: boolean): string {
   if (etf.pension === "가능") {
@@ -29,7 +30,7 @@ function formatDate(dateString: string | null): string {
   return dateString;
 }
 
-export function EtfDetail({ etf }: { etf: Etf }) {
+export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEtfs?: { ticker: string, name: string }[] }) {
   const newListing = isNewListing(etf);
   const returnPeriods = getReturnPeriods(newListing ? "new" : etf.riskType === "normal" ? "general" : "derivatives");
   const canonicalUrl = `${siteConfig.url.replace(/\/$/, "")}/etf/${etf.ticker}`;
@@ -76,41 +77,45 @@ export function EtfDetail({ etf }: { etf: Etf }) {
       {/* 1. 상품 헤더 */}
       <section aria-labelledby="header-title">
         <h2 className="sr-only" id="header-title">상품 헤더</h2>
-        <Link className="inline-block text-sm font-bold text-brand-700 mb-5" href="/">← 목록으로 돌아가기</Link>
-        
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex-1 space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
-              {marketScope && <span className="rounded bg-neutral-100 px-2 py-1 text-xs font-semibold text-strong">{marketScope}</span>}
-              {assetClass && <span className="rounded bg-neutral-100 px-2 py-1 text-xs font-semibold text-strong">{assetClass}</span>}
-              {etf.classification?.fxHedge && <span className="rounded bg-neutral-100 px-2 py-1 text-xs font-semibold text-strong">{etf.classification.fxHedge}</span>}
-              <RiskBadge riskType={etf.riskType} />
-              <PensionBadge status={etf.pension} />
+          <div className="flex-1 space-y-4">
+            
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
+                <Link className="inline-flex items-center justify-center rounded-md bg-neutral-100 p-1.5 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors mr-1" href="/" aria-label="목록으로 돌아가기">
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                </Link>
+                {marketScope && <span className="rounded-md border border-sky-200 bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-700">{marketScope}</span>}
+                {assetClass && <span className="rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-700">{assetClass}</span>}
+                {etf.classification?.fxHedge && <span className="rounded-md border border-teal-200 bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-700">{etf.classification.fxHedge}</span>}
+                <RiskBadge riskType={etf.riskType} />
+                <PensionBadge status={etf.pension} />
+              </div>
+
+              <h1 className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-extrabold tracking-tight text-strong sm:text-4xl">
+                {etf.name}
+                <span className="text-lg font-bold text-neutral-400 tabular-nums tracking-normal">{etf.ticker}</span>
+              </h1>
             </div>
             
             {(etf.riskType === "leverage" || etf.riskType === "inverse") && (
               <div className="inline-flex items-center gap-2 rounded-lg bg-rose-50 px-3 py-1.5 text-sm font-bold text-rose-700">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                 {etf.riskType === "leverage" ? "레버리지 (고위험)" : "인버스 (고위험)"} 상품입니다. 투자 전 구조를 반드시 이해하세요.
               </div>
             )}
 
-            <div>
-              <p className="tabular-nums text-sm font-bold text-muted">{etf.ticker} · {etf.isin}</p>
-              <h1 className="mt-1 text-3xl font-extrabold tracking-[-0.04em] text-strong sm:text-4xl">{etf.name}</h1>
-            </div>
-
-            <div className="flex flex-wrap items-end gap-x-6 gap-y-2 pt-2">
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-muted">현재 기준 종가</span>
-                <div className="flex items-baseline gap-2 mt-1">
-                  <span className="text-2xl font-black text-strong tabular-nums">{formatWon(etf.close)}</span>
-                  <span className="text-base font-bold"><ReturnCell value={etf.changePct} /></span>
-                </div>
+            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 pt-1">
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-black text-brand-700 tabular-nums tracking-tight">{formatWon(etf.close)}</span>
+                <span className="text-lg font-bold"><ReturnCell value={etf.changePct} /></span>
               </div>
-              <div className="flex flex-col gap-1 pb-1">
+              <div className="flex flex-wrap items-center gap-2.5 text-xs font-semibold text-muted pb-1">
                 <AsOfDate value={etf.asOfDate} />
-                <span className="text-xs font-medium text-muted">운용사: {etf.amc} | 상장일: {formatDate(etf.listingDate) || "-"}</span>
+                <span className="h-3 w-px bg-neutral-300"></span>
+                <span>운용사: {etf.issuer.issuerName}</span>
+                <span className="h-3 w-px bg-neutral-300"></span>
+                <span>상장일: {formatDate(etf.listingDate) || "-"}</span>
               </div>
             </div>
           </div>
@@ -120,7 +125,7 @@ export function EtfDetail({ etf }: { etf: Etf }) {
         </div>
       </section>
 
-      <EtfDetailClient etf={etf}>
+      <EtfDetailClient etf={etf} similarTopEtfs={similarTopEtfs}>
         {/* 2. 이 ETF는 어떤 상품인가 */}
         <section aria-labelledby="classification-title" className="scroll-mt-24 pt-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -140,7 +145,8 @@ export function EtfDetail({ etf }: { etf: Etf }) {
               {marketScope && marketScope !== "국내" && etf.classification?.fxHedge && (
                 <div><dt className="text-xs font-bold text-muted">환헤지 여부</dt><dd className="mt-1.5 font-bold text-strong text-base">{etf.classification.fxHedge}</dd></div>
               )}
-              {etf.amc !== "기타" && <div><dt className="text-xs font-bold text-muted">운용사</dt><dd className="mt-1.5 font-bold text-strong text-base">{etf.amc}</dd></div>}
+              {etf.issuer.issuerStatus !== "needs_review" && <div><dt className="text-xs font-bold text-muted">운용사</dt><dd className="mt-1.5 font-bold text-strong text-base">{etf.issuer.issuerName}</dd></div>}
+              {etf.issuer.issuerStatus === "needs_review" && <div><dt className="text-xs font-bold text-muted">운용사</dt><dd className="mt-1.5 font-bold text-strong text-base">운용사 확인 필요</dd></div>}
               <div><dt className="text-xs font-bold text-muted">상장일</dt><dd className="mt-1.5 font-bold text-strong text-base">{formatDate(etf.listingDate) || "-"}</dd></div>
               
               {etf.classification?.published && etf.classification.sourceUrl && (
@@ -163,13 +169,8 @@ export function EtfDetail({ etf }: { etf: Etf }) {
               <p className="mt-1.5 text-sm font-bold text-brand-700">가격수익률(PR) · 분배금 미포함</p>
             </div>
           </div>
-          
-          <div className="mt-5 rounded-2xl border border-line bg-neutral-50 p-10 flex flex-col items-center justify-center text-center">
-            <svg className="w-12 h-12 text-neutral-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-            </svg>
-            <p className="text-base font-bold text-strong">일별 가격 데이터 준비 중</p>
-            <p className="mt-1 text-sm text-muted">차트 기능은 곧 제공될 예정입니다.</p>
+          <div className="mt-5">
+            <PriceHistoryChart ticker={etf.ticker} asOfDate={etf.asOfDate} />
           </div>
 
           <div className="mt-6 flex justify-end">

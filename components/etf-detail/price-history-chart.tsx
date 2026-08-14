@@ -3,7 +3,12 @@
 import { useState, useMemo } from "react";
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then(async (res) => {
+  if (!res.ok) return { points: [] };
+  const contentType = res.headers.get("content-type");
+  if (!contentType || !contentType.includes("application/json")) return { points: [] };
+  return res.json();
+});
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);

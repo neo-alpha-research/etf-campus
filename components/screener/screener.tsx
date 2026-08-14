@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
@@ -9,7 +9,7 @@ import { ReturnRankingChart } from "./return-ranking-chart";
 import { formatAumNumber, formatWonNumber, formatTradeValueNumber } from "@/lib/domain/etf-format";
 import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
 import { AUM_SCOPES, GENERAL_RETURN_PERIODS, type AumScope } from "@/lib/domain/etf-explorer";
-import { ASSET_CLASSES, RISK_TYPES, AMC_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type AmcType, type ReturnPeriod } from "@/lib/domain/etf-types";
+import { ASSET_CLASSES, RISK_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type ReturnPeriod } from "@/lib/domain/etf-types";
 
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스" };
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억 이상", "1000plus": "1,000억 이상" };
@@ -232,7 +232,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     });
   }, [etfs, filters, sort, comparisonPeriod, customDateRange, customReturnsData]);
   
-  const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.amcs.length;
+  const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
 
   const quickQuery = useMemo(() => {
     let quickMode = "general";
@@ -258,7 +258,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     return q;
   }, [filters, selectedPeriod]);
 
-  const hasUnsupportedFilters = filters.marketScopes.length > 0 || filters.strategies.length > 0 || filters.fxHedges.length > 0 || filters.terRanges.length > 0 || filters.amcs.length > 0;
+  const hasUnsupportedFilters = filters.marketScopes.length > 0 || filters.strategies.length > 0 || filters.fxHedges.length > 0 || filters.terRanges.length > 0 || filters.issuerIds.length > 0;
 
   const isPensionQuickActive = filters.pensionOnly;
   const togglePensionQuick = () => updateFilters({ ...filters, pensionOnly: !filters.pensionOnly });
@@ -335,8 +335,21 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   filters.fxHedges.forEach(v => {
     activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, fxHedges: filters.fxHedges.filter(i => i !== v) }) });
   });
-  filters.amcs.forEach(v => {
-    activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, amcs: filters.amcs.filter(i => i !== v) }) });
+  const allIssuers = useMemo(() => {
+    const map = new Map<string, { id: string, name: string, count: number }>();
+    etfs.forEach(e => {
+      const { issuerId, issuerName } = e.issuer;
+      const cur = map.get(issuerId) || { id: issuerId, name: issuerName, count: 0 };
+      cur.count++;
+      map.set(issuerId, cur);
+    });
+    return Array.from(map.values()).sort((a, b) => b.count - a.count);
+  }, [etfs]);
+
+  filters.issuerIds.forEach(v => {
+    const issuer = allIssuers.find(i => i.id === v);
+    const label = issuer ? issuer.name : v;
+    activeFilters.push({ label, remove: () => updateFilters({ ...filters, issuerIds: filters.issuerIds.filter(i => i !== v) }) });
   });
 
   return (
@@ -523,7 +536,29 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">운용 전략</legend><div><FilterChips options={STRATEGIES} selected={filters.strategies} onChange={(v) => updateFilters({ ...filters, strategies: v })} /></div></fieldset>
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">환헤지</legend><div><FilterChips options={FX_HEDGES} selected={filters.fxHedges} onChange={(v) => updateFilters({ ...filters, fxHedges: v })} /></div></fieldset>
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">총보수</legend><div><FilterChips options={TER_RANGES} selected={filters.terRanges} labels={terLabels} onChange={(v) => updateFilters({ ...filters, terRanges: v })} /></div></fieldset>
-          <fieldset className="py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">운용사</legend><div><FilterChips options={AMC_TYPES} selected={filters.amcs} onChange={(v) => updateFilters({ ...filters, amcs: v })} /></div></fieldset>
+          <fieldset className="py-3">
+            <legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">운용사</legend>
+            <div className="max-h-56 overflow-y-auto pr-2 rounded-lg border border-line bg-neutral-50/50">
+              {allIssuers.map((issuer) => (
+                <label key={issuer.id} className="flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 cursor-pointer rounded">
+                  <input 
+                    type="checkbox" 
+                    className="w-4 h-4 rounded border-neutral-300 text-brand-600 focus:ring-brand-500"
+                    checked={filters.issuerIds.includes(issuer.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        updateFilters({ ...filters, issuerIds: [...filters.issuerIds, issuer.id] });
+                      } else {
+                        updateFilters({ ...filters, issuerIds: filters.issuerIds.filter(id => id !== issuer.id) });
+                      }
+                    }}
+                  />
+                  <span className="text-sm font-semibold text-strong">{issuer.name}</span>
+                  <span className="text-xs text-muted ml-auto">{issuer.count}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
           
 
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>

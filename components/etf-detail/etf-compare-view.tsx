@@ -8,10 +8,13 @@ import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
 type Props = {
   mainEtf?: Etf;
   basket: Etf[];
-  onRemove: (ticker: string) => void;
+  onRemove?: (ticker: string) => void;
+  mode?: string;
+  selectionReasons?: Map<string, string[]>;
+  comparisonProfiles?: Map<string, any>;
 };
 
-export function EtfCompareView({ mainEtf, basket, onRemove }: Props) {
+export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, selectionReasons, comparisonProfiles }: Props) {
   const compareList = useMemo(() => {
     if (!mainEtf) return basket;
     const filtered = basket.filter((e) => e.ticker !== mainEtf.ticker);
@@ -58,7 +61,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove }: Props) {
       <div className="relative rounded-2xl border border-line bg-surface shadow-sm">
         <div 
           ref={scrollRef}
-          className="relative text-center overflow-x-auto overflow-y-auto max-h-[calc(100vh-200px)] overscroll-x-contain scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-webkit-overflow-scrolling:touch]" 
+          className="relative text-center overflow-x-auto overscroll-x-contain scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-webkit-overflow-scrolling:touch]" 
           role="region" 
           aria-label="ETF 비교 표. 좌우로 스크롤할 수 있습니다." 
           tabIndex={0}
@@ -72,11 +75,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove }: Props) {
                   return (
                     <th key={etf.ticker} className={`relative px-4 py-4 w-48 min-w-[12rem] max-w-[12rem] snap-start border-b border-r border-neutral-200 font-bold text-strong align-top ${isBase ? "bg-brand-100/70" : "bg-neutral-100 backdrop-blur"}`}>
                       <div className="flex flex-col items-center text-center gap-1 w-full overflow-hidden">
-                        {isBase ? (
-                          <span className="inline-flex w-fit rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-extrabold text-brand-800 mb-1">
-                            현재 보고 있는 ETF
-                          </span>
-                        ) : null}
+
                         <Link href={`/etf/${etf.ticker}`} className="flex flex-col items-center text-center gap-1 group w-full">
                           <span className={`text-[12.5px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-600" : "text-neutral-500"}`}>{etf.ticker}</span>
                           <span className="text-[15px] font-black leading-snug break-keep text-strong group-hover:text-brand-600 transition-colors line-clamp-2 w-full">{etf.name}</span>

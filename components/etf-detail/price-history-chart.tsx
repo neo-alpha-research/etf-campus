@@ -245,7 +245,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
             <text x="-6" y={zeroY + 4} fontSize="11" fill="#9ca3af" fontWeight="600" textAnchor="end" style={{ pointerEvents: 'none' }}>0</text>
             
             {/* Main Line */}
-            <path d={pathData} fill="none" stroke="#0ea5e9" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+            <path d={pathData} fill="none" stroke="#047857" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
             
             {/* Interactive Hover Layer */}
             {points.map((p: any, i: number) => {
@@ -270,7 +270,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
                   {isHover && (
                     <>
                       <line x1={x} y1="0" x2={x} y2={height} stroke="#9ca3af" strokeWidth="1.5" strokeDasharray="3 3" />
-                      <circle cx={x} cy={y} r="5.5" fill="#0ea5e9" stroke="white" strokeWidth="2.5" className="drop-shadow-sm" />
+                      <circle cx={x} cy={y} r="5.5" fill="#047857" stroke="white" strokeWidth="2.5" className="drop-shadow-sm" />
                     </>
                   )}
                 </g>

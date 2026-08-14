@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       days:
-        description: "Number of past trading days to fetch"
+        description: "Recent closed trading days to upsert"
         required: false
-        default: "85"
+        default: "3"
         type: string
 
 jobs:
@@ -28,6 +28,15 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install beautifulsoup4 xlrd
 
+      - name: Check signed ingestion configuration
+        shell: bash
+        env:
+          PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
+        run: |
+          if [ -z "$PRICE_INGEST_HMAC_SECRET" ]; then
+            echo "::error::PRICE_INGEST_HMAC_SECRET is missing. Add the same secret to GitHub Actions and Cloudflare Pages production settings."
+            exit 1
+          fi
       - name: Execute signed price backfill
         env:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}

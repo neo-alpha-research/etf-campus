@@ -223,7 +223,9 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
         if (a.tradeValue !== b.tradeValue) return b.tradeValue - a.tradeValue;
         if (a.aum !== b.aum) return b.aum - a.aum;
       } else if (sort === "ter") {
-        if (a.ter !== b.ter) return a.ter - b.ter;
+        const aFee = a.fee?.totalFeePct ?? 0;
+        const bFee = b.fee?.totalFeePct ?? 0;
+        if (aFee !== bFee) return aFee - bFee;
         if (a.aum !== b.aum) return b.aum - a.aum;
       }
       return a.ticker.localeCompare(b.ticker);
@@ -704,7 +706,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                         </td>
                       )}
                       
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{(etf.ter * 100).toFixed(2)}</td>
+                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{etf.fee?.verificationStatus === "verified_official" && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatTradeValueNumber(etf.tradeValue)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>

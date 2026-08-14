@@ -66,7 +66,7 @@ export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[
     }
     if (filters.aumScope === "1000plus" && etf.aum < 100_000_000_000) return false;
     if (filters.aumScope === "500plus" && etf.aum < 50_000_000_000) return false;
-    if (filters.terRanges.length && !filters.terRanges.some((range) => inTerRange(etf.ter, range))) return false;
+    if (filters.terRanges.length && !filters.terRanges.some((range) => inTerRange(etf.fee?.totalFeePct ?? 0, range))) return false;
 
     if (filters.amcs.length && !filters.amcs.includes(etf.amc)) return false;
     return true;

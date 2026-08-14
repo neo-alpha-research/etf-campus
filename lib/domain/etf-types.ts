@@ -44,6 +44,26 @@ export type AmcType = (typeof AMC_TYPES)[number];
 export type ReturnPeriod = (typeof RETURN_PERIODS)[number];
 export type EtfReturns = Record<ReturnPeriod, number | null>;
 
+export type EtfFeeInfo = {
+  totalFeePct: number | null;
+  terPct: number | null;
+  otherCostPct: number | null;
+  tradingCostPct: number | null;
+  effectiveDate: string | null;
+  verifiedAt: string | null;
+  verificationStatus:
+    | "verified_official"
+    | "seed_unverified"
+    | "conflict"
+    | "pending_review"
+    | "stale";
+  primarySourceType: string | null;
+  primarySourceUrl: string | null;
+  dartReceiptNo: string | null;
+  secondarySourceUrl: string | null;
+  sourceNote: string | null;
+};
+
 export type EtfClassification = {
   published: boolean;
   marketScope: string | null;
@@ -66,7 +86,7 @@ export type Etf = {
   changePct: number;
   tradeValue: number;
   aum: number;
-  ter: number;
+  fee: EtfFeeInfo | null;
 
   amc: AmcType;
   riskType: RiskType;

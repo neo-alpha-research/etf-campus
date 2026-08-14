@@ -478,7 +478,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     {/* 모바일 종목명 (이제 아래 공용 th를 사용하므로 삭제) */}
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right font-semibold tabular-nums md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
-                    <td className="tabular-nums px-2 py-4 text-right text-xs text-muted font-semibold md:hidden">{(etf.ter * 100).toFixed(2)}</td>
+                    <td className="tabular-nums px-2 py-4 text-right text-xs text-muted font-semibold md:hidden">{etf.fee?.verificationStatus === "verified_official" && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
                     
                     {/* 데스크톱용 셀들 */}
                     <td className="tabular-nums hidden w-[56px] px-0 py-1.5 text-center text-[12px] font-normal text-muted bg-inherit md:sticky md:table-cell md:z-10" style={{ left: 0 }}>{etf.ticker}</td>
@@ -510,7 +510,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                       );
                     })}
                     
-                    <td className="hidden px-1 py-2 text-right font-semibold tabular-nums text-muted md:table-cell border-l border-neutral-100">{(etf.ter * 100).toFixed(2)}</td>
+                    <td className="hidden px-1 py-2 text-right font-semibold tabular-nums text-muted md:table-cell border-l border-neutral-100">{etf.fee?.verificationStatus === "verified_official" && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatAumNumber(etf.aum)}</td>
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
                     

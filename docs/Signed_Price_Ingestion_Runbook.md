@@ -36,7 +36,7 @@ Cloudflare 대시보드에서 **Workers & Pages → ETF Campus 프로젝트 → 
 1. Cloudflare Pages에 `PRICE_INGEST_HMAC_SECRET`을 설정합니다.
 2. GitHub 저장소에 동일 이름의 Actions Secret을 설정합니다.
 3. 보안 브랜치를 `main`에 병합합니다. Pages의 production 배포가 완료될 때까지 기다립니다.
-4. GitHub Actions의 **Backfill ETF Price History** 워크플로우를 수동 실행하고, 처음에는 `days=1`로 검증합니다.
+4. GitHub Actions의 **Backfill ETF Price History** 워크플로우를 수동 실행하고, 처음에는 `days=1`로 검증합니다. 이 워크플로우는 예약 실행되지 않으며, 누락 복구가 필요할 때만 수동으로 실행합니다.
 5. 성공 확인 후 필요한 기간으로 다시 실행합니다. 기존 가격은 고정 UPSERT로 안전하게 보정됩니다.
 
 ## 4. 요청 계약과 검증

@@ -119,6 +119,22 @@ export function EtfCompareView({ mainEtf, basket, onRemove }: Props) {
                   );
                 })}
               </tr>
+              {/* 총보수 */}
+              <tr>
+                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>총보수</th>
+                {compareList.map((etf) => {
+                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  const feeInfo = etf.fee;
+                  const isVerified = feeInfo?.verificationStatus === "verified_official" && feeInfo?.totalFeePct !== null;
+                  return (
+                    <td key={etf.ticker} className={`whitespace-nowrap border-r border-neutral-200 px-4 py-1.5 snap-start transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
+                      <span className={`text-[11.5px] font-semibold ${isVerified ? "text-strong" : "text-muted"}`}>
+                        {isVerified ? `${feeInfo.totalFeePct}%` : "확인 중"}
+                      </span>
+                    </td>
+                  );
+                })}
+              </tr>
               {/* 기초 지수 */}
               <tr>
                 <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>기초 지수</th>

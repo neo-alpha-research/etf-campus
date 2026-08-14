@@ -124,7 +124,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       changePct,
       tradeValue: parseNumberField(master, "trade_value", `master:${ticker}`),
       aum: parseNumberField(master, "aum", `master:${ticker}`),
-      ter: 0,
+      fee: null,
 
       amc: getAmc(name),
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,

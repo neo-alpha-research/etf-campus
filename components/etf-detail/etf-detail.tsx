@@ -253,9 +253,7 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
             <PriceHistoryChart ticker={etf.ticker} asOfDate={etf.asOfDate} />
           </div>
 
-          <div className="mt-3 flex justify-end">
-            <p className="text-[11px] font-bold text-muted">기준일: {formatDate(etf.asOfDate)}</p>
-          </div>
+
           <div className="mt-1.5 overflow-hidden rounded-xl border border-line bg-surface">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[600px] text-center text-sm">

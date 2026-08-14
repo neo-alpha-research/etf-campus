@@ -193,13 +193,16 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
             })()
           )}
         </div>
-        <div className="text-right">
+        <div className="text-right flex flex-col items-end">
           {points.length > 0 && (
             <>
-              <div className={`text-2xl font-black font-mono tracking-tight ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
-                {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
+              <div className="flex items-baseline gap-2">
+                <span className="text-sm font-bold text-muted">누적 수익률</span>
+                <span className={`text-2xl font-black font-mono tracking-tight ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
+                  {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
+                </span>
               </div>
-              <p className="text-[11px] font-bold text-muted mt-0.5">누적 수익률 (기준일: {formatDate(points[points.length - 1].date)})</p>
+              <p className="text-[13px] font-extrabold text-brand-700 mt-1">기준일: {formatDate(points[points.length - 1].date)}</p>
             </>
           )}
         </div>

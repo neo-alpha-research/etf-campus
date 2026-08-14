@@ -183,7 +183,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
       {/* Chart Header */}
       <div className="flex flex-wrap justify-between items-start gap-y-2 mb-2">
         <div>
-          <h3 className="font-bold text-emerald-700 flex items-center gap-2 flex-wrap tracking-tight" style={{ fontSize: '18px' }}>
+          <h3 className="font-bold text-emerald-700 flex items-center gap-2 flex-wrap tracking-tight" style={{ fontSize: '27.3px' }}>
             {points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)} 수익률 추이` : "데이터 없음"}
           </h3>
           {data?.actualEnd && asOfDate && asOfDate.length >= 8 && (

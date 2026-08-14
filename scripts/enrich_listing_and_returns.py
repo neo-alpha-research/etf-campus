@@ -152,6 +152,12 @@ def enrich(data_directory: Path, service_key: str, as_of_override: str | None = 
     as_of = parse_day(as_of_text)
     cache: dict[str, dict[str, dict]] = {}
 
+    listing_prices_path = data_directory / "listing_prices.json"
+    listing_prices: dict[str, float | None] = {}
+    if listing_prices_path.exists():
+        with listing_prices_path.open("r", encoding="utf-8") as f:
+            listing_prices = json.load(f)
+
     print(f"최근 {LOOKBACK_DAYS}일 상장 이력 확인: 기준일 {as_of_text}")
     daily_snapshots: list[tuple[str, dict[str, dict]]] = []
     for offset in range(LOOKBACK_DAYS, -1, -1):
@@ -203,15 +209,46 @@ def enrich(data_directory: Path, service_key: str, as_of_override: str | None = 
         master["listing_date"] = listing_date
         master["listing_date_source"] = listing_source
 
+        if first and listing_date.replace("-", "") == first[0]:
+            if ticker not in listing_prices:
+                listing_prices[ticker] = first[1]
+
+    missing_dates = set()
+    for ticker, master in master_by_ticker.items():
+        l_date = master.get("listing_date", "").replace("-", "")
+        if l_date and len(l_date) == 8 and ticker not in listing_prices:
+            missing_dates.add(l_date)
+
+    if missing_dates:
+        print(f"누락된 상장일 {len(missing_dates)}개의 시세를 과거 API로 조회합니다...")
+        for l_date in sorted(missing_dates, reverse=True):
+            print(f"상장일 앵커 조회: {l_date}")
+            snapshot = fetch_snapshot(service_key, l_date)
+            for t, row in snapshot.items():
+                close_val = row.get("clpr")
+                if close_val:
+                    listing_prices[t] = float(close_val)
+            
+            for t, m in master_by_ticker.items():
+                if m.get("listing_date", "").replace("-", "") == l_date and t not in listing_prices:
+                    listing_prices[t] = None
+            time.sleep(0.1)
+
+    with listing_prices_path.open("w", encoding="utf-8") as f:
+        json.dump(listing_prices, f, indent=2, sort_keys=True)
+
+    for ticker, master in master_by_ticker.items():
         returns = return_by_ticker[ticker]
         current_close = current_closes.get(ticker)
         for field, anchors in anchor_closes.items():
             returns[field] = calculate_return(current_close, anchors.get(ticker))
 
-        listing_age = (as_of - parse_day(listing_date)).days if listing_date else None
+        listing_date = master.get("listing_date", "")
+        listing_age = (as_of - parse_day(listing_date.replace("-", ""))).days if listing_date else None
         returns["new_90d"] = "Y" if listing_age is not None and 0 <= listing_age <= NEW_LISTING_DAYS else "N"
-        first_close = first[1] if first and listing_date == first[0] else None
-        returns["r_itd"] = calculate_return(current_close, first_close) if returns["new_90d"] == "Y" else None
+        
+        first_close = listing_prices.get(ticker)
+        returns["r_itd"] = calculate_return(current_close, first_close)
 
     master_fields = add_fields(master_fields, ["listing_date", "listing_date_source"])
     return_fields = add_fields(return_fields, ["r_1d", "r_1w", "r_2w", "r_1m", "r_2m", "r_3m", "r_6m", "r_12m", "r_itd", "new_90d"])

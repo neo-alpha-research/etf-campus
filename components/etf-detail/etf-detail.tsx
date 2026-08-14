@@ -9,19 +9,6 @@ import { getClassificationStatusLabel, getEtfCautions, getFxImpactNotice } from 
 import { EtfDetailClient, CompareActionButton } from "./etf-detail-client";
 import { PriceHistoryChart } from "./price-history-chart";
 
-function getPensionDescription(etf: Etf, newListing: boolean): string {
-  if (etf.pension === "가능") {
-    return "DC·IRP 편입 가능 상품으로 확인되었습니다. 실제 매수 가능 여부와 위험자산 한도는 가입한 금융회사의 상품 목록을 확인해 주세요.";
-  }
-  if (etf.pension === "확인중") {
-    if (newListing) return "확인 중인 이유: 신규 상장 후 공식 연금 상품 목록 반영을 기다리고 있습니다. 확인 방법: 매수 전 가입한 금융회사의 DC·IRP 상품 검색에서 종목코드를 확인해 주세요.";
-    return "확인 중인 이유: 공개된 연금 편입 정보에서 해당 종목을 확인하지 못했습니다. 확인 방법: 매수 전 가입한 금융회사의 DC·IRP 상품 검색에서 종목코드를 확인해 주세요.";
-  }
-  if (etf.riskType === "leverage") return "기초지수 변동률의 1배를 초과해 추종하는 레버리지 구조이므로 DC·IRP 편입 대상에서 제외됩니다.";
-  if (etf.riskType === "inverse") return "기초지수 변동률에 음의 배율로 연동하는 인버스 구조이므로 DC·IRP 편입 대상에서 제외됩니다.";
-  return "DC·IRP 편입 불가 상품으로 확인되었습니다. 공개 정보만으로 구체적인 제한 사유를 확정할 수 없는 경우 가입한 금융회사에서 확인해 주세요.";
-}
-
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
   if (dateString.length === 8) {
@@ -92,6 +79,12 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
                 {etf.classification?.fxHedge && <span className="rounded-md border border-teal-200 bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-700">{etf.classification.fxHedge}</span>}
                 <RiskBadge riskType={etf.riskType} />
                 <PensionBadge status={etf.pension} />
+                {cautions.map(caution => (
+                  <span key={caution} className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800">{caution}</span>
+                ))}
+                {fxImpactNotice && (
+                  <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800" title={fxImpactNotice}>환율변동위험</span>
+                )}
               </div>
 
               <h1 className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-extrabold tracking-tight text-strong sm:text-4xl">
@@ -247,37 +240,6 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
           </div>
         </section>
 
-        {/* 6. 위험 및 주의사항 / 연금 편입 상세 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-6">
-          <section aria-labelledby="cautions-title">
-            <h3 className="text-lg font-extrabold text-strong mb-4" id="cautions-title">위험 및 주의사항</h3>
-            <div className="rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm h-full flex flex-col">
-              {cautions.length > 0 ? (
-                <div aria-label="살펴볼 특성" className="flex flex-wrap gap-2 mb-4">
-                  {cautions.map((caution) => (
-                    <span className="rounded-md bg-amber-50 px-2.5 py-1 text-[13px] font-bold text-amber-800 border border-amber-100" key={caution}>{caution}</span>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm font-medium text-muted mb-4">특별히 안내할 주의사항이 없습니다.</p>
-              )}
-              {fxImpactNotice && <p className="text-[13px] leading-relaxed text-muted bg-neutral-50 p-3 rounded-lg mt-auto">{fxImpactNotice}</p>}
-              <p className="mt-auto pt-4 text-[11px] text-muted font-medium">과거 수익률은 미래 수익을 보장하지 않으며 본 정보는 투자 추천이 아닙니다.</p>
-            </div>
-          </section>
-
-          <section aria-labelledby="pension-detail-title">
-            <h3 className="text-lg font-extrabold text-strong mb-4" id="pension-detail-title">연금 편입 안내</h3>
-            <div className="rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm h-full flex flex-col">
-              <div className="mb-4">
-                <PensionBadge status={etf.pension} />
-              </div>
-              <p className="text-[13px] leading-relaxed text-strong font-medium bg-neutral-50 p-3 rounded-lg flex-1">
-                {getPensionDescription(etf, newListing)}
-              </p>
-            </div>
-          </section>
-        </div>
 
         {/* 3. 수익률 차트 및 표 */}
         <section aria-labelledby="returns-title" className="scroll-mt-24 pt-6">
@@ -292,7 +254,7 @@ export function EtfDetail({ etf, similarTopEtfs = [] }: { etf: Etf, similarTopEt
           </div>
 
           <div className="mt-6 flex justify-end">
-            <p className="text-xs font-semibold leading-5 text-muted">1일은 직전 거래일, 주·개월은 기준일에서 해당 달력 기간 전 날짜의 당일 또는 직전 거래일 종가 대비{newListing ? " · 상장 후는 첫 거래일 종가 대비" : ""}</p>
+            <p className="text-[12px] font-bold text-muted">기준일: {formatDate(etf.asOfDate)}</p>
           </div>
           <div className="mt-2 overflow-hidden rounded-2xl border border-line bg-surface">
             <div className="overflow-x-auto">

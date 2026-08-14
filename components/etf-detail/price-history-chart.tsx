@@ -174,7 +174,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         </div>
         
         {points.length > 0 && (
-          <div className="text-[20px] font-bold text-gray-800 tracking-tight whitespace-nowrap mt-1">
+          <div className="text-[20px] font-bold text-emerald-700 tracking-tight whitespace-nowrap mt-1">
             기준일: {formatDate(points[points.length - 1].date)}
           </div>
         )}

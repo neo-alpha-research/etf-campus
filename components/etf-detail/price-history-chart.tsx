@@ -141,11 +141,11 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
   const zeroY = height - (0 - minReturn) * yScale;
 
   return (
-    <div className="relative w-full rounded-2xl border border-line bg-surface p-5 sm:p-6 shadow-sm overflow-hidden" onMouseLeave={() => setHoverIndex(null)}>
+    <div className="relative w-full rounded-2xl border border-line bg-surface p-4 sm:p-5 shadow-sm overflow-hidden" onMouseLeave={() => setHoverIndex(null)}>
       
       {/* Settings Row */}
-      <div className="flex flex-wrap items-center gap-2 mb-4">
-        <div className="flex flex-wrap items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit">
+      <div className="w-full overflow-x-auto scrollbar-hide mb-2">
+        <div className="flex items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit">
           {PERIODS.map(p => (
             <button
               key={p.id}
@@ -173,11 +173,11 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
       </div>
 
       {/* Chart Header */}
-      <div className="flex flex-wrap justify-between items-end gap-y-3 mb-4">
+      <div className="flex flex-wrap justify-between items-end gap-y-2 mb-2">
         <div>
-          <h3 className="text-[15px] font-bold text-strong flex items-center gap-2 flex-wrap">
+          <h3 className="text-[14px] font-bold text-strong flex items-center gap-2 flex-wrap">
             {points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)} 수익률 추이` : "데이터 없음"}
-            {points.length > 0 && <span className="text-[11px] font-bold text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded">PR · 분배금 미포함</span>}
+            {points.length > 0 && <span className="text-[11px] font-medium text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">PR · 분배금 미포함</span>}
           </h3>
           {data?.actualEnd && asOfDate && asOfDate.length >= 8 && (
             (() => {
@@ -196,13 +196,13 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         </div>
         <div className="text-right flex flex-col items-end">
           {points.length > 0 && (
-            <div className="flex flex-col items-end">
-              <div className="text-[12px] font-bold text-muted mb-0.5">
+            <div className="flex flex-col items-end leading-tight">
+              <div className="text-[11px] font-medium text-gray-500 mb-0.5">
                 기준일: {formatDate(points[points.length - 1].date)}
               </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-[13px] font-bold text-strong">누적 수익률</span>
-                <span className={`text-2xl font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
+              <div className="flex items-baseline gap-1">
+                <span className="text-[12px] font-bold text-strong">누적 수익률</span>
+                <span className={`text-[22px] font-black font-mono tracking-tight leading-none ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
                   {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
                 </span>
               </div>
@@ -233,7 +233,24 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         </div>
       ) : (
         <div className="w-full relative touch-pan-x select-none" style={{ minHeight: "220px" }}>
-          <svg viewBox={`0 0 ${width} ${height}`} className="absolute top-0 left-0 w-full h-full overflow-visible" preserveAspectRatio="none">
+          {/* Axis Labels */}
+          <div className="absolute top-0 right-0 h-full w-[40px] flex flex-col justify-between text-[10px] text-gray-400 font-medium pb-[20px] items-end pointer-events-none">
+            <span>{maxReturn.toFixed(1)}%</span>
+            <span>{minReturn.toFixed(1)}%</span>
+          </div>
+          <div className="absolute bottom-0 left-0 w-[calc(100%-40px)] flex justify-between text-[10px] text-gray-400 font-medium pt-1 pointer-events-none">
+            <span>{formatDate(points[0].date).slice(2)}</span>
+            <span>{formatDate(points[Math.floor(points.length / 2)].date).slice(2)}</span>
+            <span>{formatDate(points[points.length - 1].date).slice(2)}</span>
+          </div>
+
+          {/* Canvas SVG */}
+          <svg viewBox={`0 0 ${width} ${height}`} className="absolute top-0 left-0 w-[calc(100%-40px)] h-[calc(100%-20px)] overflow-visible" preserveAspectRatio="none">
+            {/* Gridlines */}
+            <line x1="0" y1="0" x2={width} y2="0" stroke="#f3f4f6" strokeWidth="1" />
+            <line x1="0" y1={height/2} x2={width} y2={height/2} stroke="#f3f4f6" strokeWidth="1" />
+            <line x1="0" y1={height} x2={width} y2={height} stroke="#f3f4f6" strokeWidth="1" />
+
             {/* Zero Line */}
             <line x1="0" y1={zeroY} x2={width} y2={zeroY} stroke="#e5e7eb" strokeWidth="2" strokeDasharray="6 4" />
             <text x="2" y={zeroY - 6} fontSize="11" fill="#9ca3af" fontWeight="600" style={{ pointerEvents: 'none' }}>0</text>
@@ -277,7 +294,7 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
             <div 
               className="absolute top-0 pointer-events-none bg-neutral-900/90 text-white p-3 rounded-xl shadow-xl border border-neutral-700/50 backdrop-blur-md z-10 transition-all duration-75 ease-out flex flex-col gap-1 min-w-[120px]"
               style={{ 
-                left: `${(hoverIndex / (points.length - 1 || 1)) * 100}%`,
+                left: `calc(${(hoverIndex / (points.length - 1 || 1)) * 100}% - ${(hoverIndex / (points.length - 1 || 1)) * 40}px)`,
                 transform: `translateX(${hoverIndex > points.length / 2 ? 'calc(-100% - 16px)' : '16px'}) translateY(12px)`
               }}
             >

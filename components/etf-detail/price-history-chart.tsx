@@ -196,14 +196,14 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
         <div className="text-right flex flex-col items-end">
           {points.length > 0 && (
             <>
+              <p className="text-[14px] font-extrabold text-strong mb-1">기준일: {formatDate(points[points.length - 1].date)}</p>
               <div className="flex items-baseline gap-2">
                 <span className="text-sm font-bold text-muted">누적 수익률</span>
                 <span className={`text-2xl font-black font-mono tracking-tight ${points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
                   {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
                 </span>
               </div>
-              <p className="text-[14px] font-extrabold text-strong mt-1">기준일: {formatDate(points[points.length - 1].date)}</p>
-              <p className="text-[12px] font-bold text-brand-700 mt-0.5">가격수익률(PR) · 분배금 미포함</p>
+              <p className="text-[12px] font-bold text-brand-700 mt-1">가격수익률(PR) · 분배금 미포함</p>
             </>
           )}
         </div>

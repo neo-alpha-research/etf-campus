@@ -178,7 +178,6 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
           <h3 className="text-lg font-bold text-strong">
             {points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)} 수익률 추이` : "데이터 없음"}
           </h3>
-          <p className="mt-1 text-[13px] font-bold text-brand-700">가격수익률(PR) · 분배금 미포함</p>
           {data?.actualEnd && asOfDate && asOfDate.length >= 8 && (
             (() => {
               const formattedAsOf = `${asOfDate.slice(0, 4)}.${asOfDate.slice(4, 6)}.${asOfDate.slice(6, 8)}`;
@@ -203,7 +202,8 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
                   {points[points.length - 1].returnPct > 0 ? '+' : ''}{points[points.length - 1].returnPct.toFixed(2)}%
                 </span>
               </div>
-              <p className="text-[13px] font-extrabold text-brand-700 mt-1">기준일: {formatDate(points[points.length - 1].date)}</p>
+              <p className="text-[12px] font-bold text-brand-700 mt-1">가격수익률(PR) · 분배금 미포함</p>
+              <p className="text-[12px] font-extrabold text-muted mt-0.5">기준일: {formatDate(points[points.length - 1].date)}</p>
             </>
           )}
         </div>

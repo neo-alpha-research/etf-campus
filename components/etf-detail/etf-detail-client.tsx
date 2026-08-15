@@ -8,6 +8,7 @@ import { PeerComparisonPanel } from "./peer-comparison-panel";
 type Props = {
   etf: Etf;
   peerComparison: PeerComparison;
+  returnDisplayStatus?: unknown;
   children: ReactNode;
 };
 
@@ -19,12 +20,12 @@ export function EtfDetailClient({ etf, peerComparison, children }: Props) {
   return (
     <div>
       <div className="-mx-4 border-b border-line px-4 sm:-mx-6 sm:px-6">
-        <div className="mx-auto flex max-w-6xl gap-5" role="tablist" aria-label="ETF 상세 정보 탭">
-          <button type="button" role="tab" aria-selected={activeTab === "summary"} aria-current={activeTab === "summary" ? "page" : undefined} onClick={() => setActiveTab("summary")} className={`border-b-[3px] py-3 transition-colors ${activeTab === "summary" ? "border-brand-600 text-brand-700" : "border-transparent text-muted hover:text-strong"}`} style={{ fontWeight: 900, fontSize: '16px' }}>요약 정보</button>
-          <button type="button" role="tab" aria-selected={activeTab === "peers"} aria-current={activeTab === "peers" ? "page" : undefined} onClick={() => setActiveTab("peers")} className={`border-b-[3px] py-3 transition-colors ${activeTab === "peers" ? "border-brand-600 text-brand-700" : "border-transparent text-muted hover:text-strong"}`} style={{ fontWeight: 900, fontSize: '16px' }}>동종 ETF 비교</button>
+        <div className="flex gap-5" role="tablist" aria-label="ETF 상세 정보 탭">
+          <button type="button" role="tab" aria-selected={activeTab === "summary"} aria-current={activeTab === "summary" ? "page" : undefined} onClick={() => setActiveTab("summary")} className={`border-b-[3px] py-3 transition-colors ${activeTab === "summary" ? "border-brand-600 text-brand-700" : "border-transparent text-muted hover:text-strong"}`} style={{ fontWeight: 900, fontSize: '20px' }}>요약 정보</button>
+          <button type="button" role="tab" aria-selected={activeTab === "peers"} aria-current={activeTab === "peers" ? "page" : undefined} onClick={() => setActiveTab("peers")} className={`border-b-[3px] py-3 transition-colors ${activeTab === "peers" ? "border-brand-600 text-brand-700" : "border-transparent text-muted hover:text-strong"}`} style={{ fontWeight: 900, fontSize: '20px' }}>동종 ETF 비교</button>
         </div>
       </div>
-      <div className="mt-8" role="tabpanel">
+      <div className="mt-5" role="tabpanel">
         {activeTab === "summary" ? children : <PeerComparisonPanel etf={etf} comparison={peerComparison} />}
       </div>
     </div>

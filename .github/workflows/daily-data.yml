@@ -34,9 +34,9 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    # The collector is bounded to a small set of snapshot requests. Fail fast
-    # rather than holding an Actions runner for most of an hour on API delays.
-    timeout-minutes: 20
+    # Price collection is usually fast. The added distribution source capture
+    # needs a larger ceiling but still fails rather than holding a runner.
+    timeout-minutes: 30
 
     steps:
       - name: Check out repository
@@ -74,7 +74,7 @@ jobs:
           TARGET_DATE: ${{ inputs.target }}
         run: |
           if [ -n "$TARGET_DATE" ]; then
-            actual_date=$(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")
+            actual_date=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
             if [ "$actual_date" = "$TARGET_DATE" ]; then
               freshness_exit=0
             else
@@ -100,20 +100,38 @@ jobs:
         if: steps.freshness.outputs.fresh == 'true'
         run: python scripts/build_classification_review.py
 
-      # The retry ladder means most runs find nothing new. Detect that here so
-      # those runs skip npm ci / test / build entirely instead of burning ~8
-      # minutes of Actions time per no-op.
-      - name: Detect data changes
-        id: changes
+      # Only the retry rung that actually receives a new official close runs
+      # the distribution pipeline. This keeps it coupled to the 06:17 KST
+      # attempt while allowing a later retry to recover from a delayed feed.
+      - name: Detect price snapshot changes
+        id: snapshot_changes
         run: |
           if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification; then
-            echo "No data changes. Skipping validation and commit."
+            echo "No new price snapshot. Skipping distribution refresh."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            echo "New data detected."
+            echo "New price snapshot detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-          echo "Latest bas_dt: $(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")"
+
+      - name: Refresh distribution sources and return status
+        id: distribution
+        if: steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true'
+        run: python scripts/run_daily_distribution_update.py
+
+      # Include untracked raw-source snapshots as well as tracked output files.
+      # A new official notice must be committed together with its evidence.
+      - name: Detect publishable data changes
+        id: changes
+        run: |
+          if git status --porcelain --untracked-files=all -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/distributions data/returns | grep -q .; then
+            echo "Publishable data changes detected."
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No data changes. Skipping validation and commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Latest bas_dt: $(python -c \"import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])\")"
 
       - name: Set up Node.js
         if: steps.changes.outputs.changed == 'true'
@@ -136,14 +154,14 @@ jobs:
           npm run build
 
       - name: Backfill ETF prices to D1
-        if: steps.freshness.outputs.fresh == 'true'
+        if: steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true'
         env:
           PRICE_INGEST_ENDPOINT: ${{ secrets.PRICE_INGEST_ENDPOINT }}
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
         run: |
-          BAS_DT=$(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")
+          BAS_DT=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
           python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT"
           python scripts/validate_d1_status.py "$BAS_DT"
 
@@ -152,19 +170,21 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification
-          git commit -m "data: refresh ETF snapshot"
+          git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/distributions data/returns
+          git commit -m "data: refresh ETF snapshot and distributions"
           git push
 
       - name: Write refresh summary
         if: always()
         shell: bash
         run: |
-          bas_dt=$(python -c "import csv;print(next(csv.DictReader(open('data/etf_master_draft.csv',encoding='utf-8-sig')))['bas_dt'])")
+          bas_dt=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
           {
             echo "### ETF data refresh"
             echo "- Snapshot date: ${bas_dt}"
             echo "- Fresh: ${{ steps.freshness.outputs.fresh || 'unknown' }}"
+            echo "- Price snapshot changed: ${{ steps.snapshot_changes.outputs.changed || 'unknown' }}"
+            echo "- Distribution pipeline: ${{ steps.distribution.outcome || 'skipped' }}"
             echo "- Repository data changed: ${{ steps.changes.outputs.changed || 'unknown' }}"
             echo "- Trigger: ${{ github.event_name }} / ${{ github.event.schedule || 'manual' }}"
           } >> "$GITHUB_STEP_SUMMARY"

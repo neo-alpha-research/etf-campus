@@ -21,3 +21,8 @@ artifacts/
 outputs/
 .tmp/
 data/backups/
+
+# Ephemeral distribution batch coordination and run diagnostics
+data/distributions/.daily_distribution_update.lock
+data/distributions/reports/
+data/staging/

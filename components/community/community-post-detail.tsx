@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/set-state-in-effect -- Client-only authentication, draft restoration, and public data loading intentionally update state after hydration. */
 "use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
-import { communityFetch, getCommunitySession } from "@/lib/community/browser-client";
+import { communityFetch, getCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
 
 type Post = { slug: string; title: string; bodyText: string; category: { name: string }; authorNickname: string; createdAt: string; updatedAt: string; commentCount: number };
 type Comment = { publicId: string; bodyText: string; authorNickname: string; createdAt: string; updatedAt: string; canEdit: boolean };
@@ -43,7 +44,7 @@ export function CommunityPostDetail() {
 
   async function submitComment(event: React.FormEvent) {
     event.preventDefault();
-    if (!getCommunitySession()) { setAuthOpen(true); return; }
+    if (!getCommunitySession() && !(await refreshCommunitySession())) { setAuthOpen(true); return; }
     try {
       await communityFetch(`/api/community/posts/${slug}/comments`, { method: "POST", body: JSON.stringify({ bodyText: commentBody }) });
       setCommentBody("");

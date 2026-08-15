@@ -1,5 +1,5 @@
 import { authenticatedSupabase, publicSupabase } from "../../_lib/supabase";
-import { enforceDatabaseRateLimit, parseJsonBody, verifyTurnstile } from "../../_lib/request-security";
+import { enforceDatabaseRateLimit, parseJsonBody } from "../../_lib/request-security";
 import { errorResponse, jsonResponse } from "../../../../../lib/community/api-security";
 import { CommunityValidationError, toPublicComment, validateCommentInput } from "../../../../../lib/community/contracts";
 
@@ -57,8 +57,6 @@ export async function onRequestPost(context) {
 
   try {
     const input = validateCommentInput(payload);
-    const captchaError = await verifyTurnstile(context, payload?.captchaToken);
-    if (captchaError) return captchaError;
     const rateLimitError = await enforceDatabaseRateLimit(context, "comment-create", auth.user.id, 10, 600);
     if (rateLimitError) return rateLimitError;
 

@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/set-state-in-effect -- Client-only authentication, draft restoration, and public data loading intentionally update state after hydration. */
 "use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
-import { clearCommunityDraft, communityFetch, getCommunitySession, loadCommunityDraft, saveCommunityDraft } from "@/lib/community/browser-client";
+import { clearCommunityDraft, communityFetch, getCommunitySession, loadCommunityDraft, refreshCommunitySession, saveCommunityDraft } from "@/lib/community/browser-client";
 
 const categories = [
   { slug: "pension-etf-qna", name: "연금 ETF Q&A" },
@@ -23,7 +24,7 @@ export function CommunityComposer() {
   const [draftRestored, setDraftRestored] = useState(false);
 
   useEffect(() => {
-    setSignedIn(Boolean(getCommunitySession()));
+    refreshCommunitySession().then(setSignedIn);
     const draft = loadCommunityDraft();
     if (draft) {
       setCategorySlug(draft.categorySlug);
@@ -40,7 +41,7 @@ export function CommunityComposer() {
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
-    if (!getCommunitySession()) {
+    if (!getCommunitySession() && !(await refreshCommunitySession())) {
       setMessage("작성 중인 초안을 보관했습니다. 이메일 인증 후 이어서 작성할 수 있습니다.");
       setAuthOpen(true);
       return;

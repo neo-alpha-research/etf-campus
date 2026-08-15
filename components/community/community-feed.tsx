@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/set-state-in-effect -- Client-only authentication, draft restoration, and public data loading intentionally update state after hydration. */
 "use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
-import { clearCommunitySession, communityFetch, getCommunitySession, signOutCommunity } from "@/lib/community/browser-client";
+import { clearCommunitySession, communityFetch, getCommunitySession, refreshCommunitySession, signOutCommunity } from "@/lib/community/browser-client";
 
 const categories = [
   { slug: "", name: "전체" },
@@ -39,7 +40,7 @@ export function CommunityFeed() {
   const [accountMessage, setAccountMessage] = useState("");
 
   useEffect(() => {
-    setSignedIn(Boolean(getCommunitySession()));
+    refreshCommunitySession().then(setSignedIn);
   }, []);
 
   useEffect(() => {

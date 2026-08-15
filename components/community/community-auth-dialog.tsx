@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/set-state-in-effect -- Client-only authentication, draft restoration, and public data loading intentionally update state after hydration. */
 "use client";
 
 import { useEffect, useState } from "react";
-import { communityFetch, saveCommunitySession } from "@/lib/community/browser-client";
+import { TurnstileCaptcha } from "@/components/community/turnstile-captcha";
+import { communityFetch, markCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
 
 type Props = {
   open: boolean;
@@ -20,6 +22,8 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
   const [investmentExperience, setInvestmentExperience] = useState("beginner");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [requestCaptchaToken, setRequestCaptchaToken] = useState<string | null>(null);
+  const [verifyCaptchaToken, setVerifyCaptchaToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -37,7 +41,7 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
     try {
       const result = await communityFetch("/api/community/auth/request-otp", {
         method: "POST",
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, captchaToken: requestCaptchaToken }),
       });
       setMessage(result.message);
       setStep("otp");
@@ -53,11 +57,12 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
     setLoading(true);
     setMessage("");
     try {
-      const result = await communityFetch("/api/community/auth/verify-otp", {
+      await communityFetch("/api/community/auth/verify-otp", {
         method: "POST",
-        body: JSON.stringify({ email, token }),
+        body: JSON.stringify({ email, token, captchaToken: verifyCaptchaToken }),
       });
-      saveCommunitySession(result.session);
+      markCommunitySession();
+      await refreshCommunitySession();
       const profile = await communityFetch("/api/community/auth/profile");
       if (profile.profileConfigured) {
         onAuthenticated();
@@ -107,7 +112,8 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
             <label className="block text-sm font-semibold text-slate-800">이메일
               <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
             </label>
-            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "6자리 인증 코드 받기"}</button>
+            <TurnstileCaptcha action="community_otp_request" onToken={setRequestCaptchaToken} />
+            <button disabled={loading || requestCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "6자리 인증 코드 받기"}</button>
           </form>
         ) : null}
 
@@ -117,9 +123,10 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
             <label className="block text-sm font-semibold text-slate-800">인증 코드
               <input inputMode="numeric" pattern="[0-9]{6}" maxLength={6} required autoComplete="one-time-code" value={token} onChange={(event) => setToken(event.target.value.replace(/\D/g, ""))} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-lg tracking-[0.3em] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="000000" />
             </label>
+            <TurnstileCaptcha action="community_otp_verify" onToken={setVerifyCaptchaToken} />
             <div className="flex gap-3">
               <button type="button" onClick={() => setStep("email")} className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">이메일 변경</button>
-              <button disabled={loading} className="flex-1 rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "확인 중" : "인증 완료"}</button>
+              <button disabled={loading || verifyCaptchaToken === null} className="flex-1 rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "확인 중" : "인증 완료"}</button>
             </div>
           </form>
         ) : null}

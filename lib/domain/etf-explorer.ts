@@ -50,10 +50,11 @@ export const DEFAULT_EXPLORER_STATE: ExplorerState = {
 const DAY_MS = 86_400_000;
 
 function parseDate(value: string): number | null {
-  if (!/^\d{8}$/.test(value)) return null;
-  const year = Number(value.slice(0, 4));
-  const month = Number(value.slice(4, 6));
-  const day = Number(value.slice(6, 8));
+  const normalized = value.replace(/[.\-]/g, "");
+  if (!/^\d{8}$/.test(normalized)) return null;
+  const year = Number(normalized.slice(0, 4));
+  const month = Number(normalized.slice(4, 6));
+  const day = Number(normalized.slice(6, 8));
   const timestamp = Date.UTC(year, month - 1, day);
   const parsed = new Date(timestamp);
   if (parsed.getUTCFullYear() !== year || parsed.getUTCMonth() !== month - 1 || parsed.getUTCDate() !== day) return null;

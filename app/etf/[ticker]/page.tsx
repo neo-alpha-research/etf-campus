@@ -5,21 +5,19 @@ import { EtfDetail } from "@/components/etf-detail/etf-detail";
 import { siteConfig } from "@/config/site";
 import { loadEtfs } from "@/lib/data/etf-repository";
 import { getPeerComparison } from "@/lib/data/etf-peer-groups";
-
-const etfs = loadEtfs();
-const etfByTicker = new Map(etfs.map((etf) => [etf.ticker, etf]));
+import { getEtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
 
 type Props = { params: Promise<{ ticker: string }> };
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return etfs.map((etf) => ({ ticker: etf.ticker }));
+  return loadEtfs().map((etf) => ({ ticker: etf.ticker }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { ticker } = await params;
-  const etf = etfByTicker.get(ticker);
+  const etf = loadEtfs().find((item) => item.ticker === ticker);
   if (!etf) return {};
   const description = `${etf.name}의 종가, 기간 수익률, 자산군, 위험유형, 연금 편입 정보를 확인합니다. 가격 기준·분배금 미포함.`;
   return {
@@ -32,9 +30,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EtfPage({ params }: Props) {
   const { ticker } = await params;
-  const etf = etfByTicker.get(ticker);
+  const etfs = loadEtfs();
+  const etf = etfs.find((item) => item.ticker === ticker);
   if (!etf) notFound();
 
   const peerComparison = getPeerComparison(etf, etfs);
-  return <EtfDetail etf={etf} peerComparison={peerComparison} />;
+  const returnDisplayStatus = getEtfReturnDisplayStatus(etf.ticker);
+  return <EtfDetail etf={etf} peerComparison={peerComparison} returnDisplayStatus={returnDisplayStatus} />;
 }

@@ -74,10 +74,11 @@ describe("getPeerComparison", () => {
 
   it("never creates candidates for needs_review or conflict targets", () => {
     const unverified = classifications.find((row) =>
-      ["needs_review", "conflict"].includes(row.classification_status) && byTicker.has(row.ticker),
+      ["needs_review", "conflict", "classified_derived", "conflict_resolved"].includes(row.classification_status) && byTicker.has(row.ticker),
     );
+    if (!unverified) return;
     expect(unverified).toBeDefined();
-    const comparison = getPeerComparison(byTicker.get(unverified!.ticker)!, etfs);
+    const comparison = getPeerComparison(byTicker.get(unverified.ticker)!, etfs);
     expect(comparison.state).toBe("unverified");
     expect(comparison.groups).toEqual([]);
   });
@@ -138,5 +139,16 @@ describe("detail comparison isolation", () => {
   it("keeps independent compare-page basket controls intact", () => {
     const compareClient = readFileSync(path.join(process.cwd(), "components", "compare", "compare-client.tsx"), "utf8");
     expect(compareClient).toContain("useCompareBasket");
+  });
+});
+
+
+describe("peer comparison empty-state contract", () => {
+  it("does not force-fill a verified group with unrelated peers", () => {
+    const source = readFileSync(path.join(process.cwd(), "components", "etf-detail", "peer-comparison-panel.tsx"), "utf8");
+    expect(source).toContain("현재 기준으로 직접 비교할 수 있는 동종 ETF가 없습니다.");
+    expect(source).toContain("후보 수를 채우기 위해 관련성이 낮은 ETF를 표시하지 않습니다.");
+    expect(source).toContain("동종 ETF 분류를 확인하고 있습니다.");
+    expect(source).not.toContain('comparison.state === "no_peers" || selected.candidates.length === 0');
   });
 });

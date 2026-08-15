@@ -50,6 +50,7 @@ export function formatWonNumber(value: number): string {
 }
 
 export function formatAsOfDate(value: string): string {
-  if (!/^\d{8}$/.test(value)) throw new Error(`잘못된 기준일 형식: ${value}`);
-  return `${value.slice(0, 4)}.${value.slice(4, 6)}.${value.slice(6, 8)}`;
+  const normalized = value.replace(/[.\-]/g, "");
+  if (!/^\d{8}$/.test(normalized)) throw new Error(`잘못된 기준일 형식: ${value}`);
+  return `${normalized.slice(0, 4)}.${normalized.slice(4, 6)}.${normalized.slice(6, 8)}`;
 }

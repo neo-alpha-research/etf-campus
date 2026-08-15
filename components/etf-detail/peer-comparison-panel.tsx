@@ -67,7 +67,7 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
   if (comparison.state === "unverified" || !selected || !profile) {
     return (
       <section className="rounded-2xl border border-line bg-surface p-6 sm:p-8" aria-labelledby="peer-comparison-title">
-        <p className="text-sm font-semibold text-brand-700">동종 ETF 비교</p>
+        <p className="text-sm font-semibold text-brand-700">동종 ETF 분류를 확인하고 있습니다.</p>
         <h2 id="peer-comparison-title" className="mt-2 text-xl font-extrabold text-strong">동종 ETF 분류를 확인하고 있습니다.</h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">정확하지 않은 후보를 자동으로 제시하지 않습니다. ETF 비교 화면에서 직접 종목을 선택할 수 있습니다.</p>
         <Link href="/compare" className="mt-5 inline-flex rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-700">ETF 직접 비교하기</Link>
@@ -136,9 +136,9 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
         )}
       </div>
 
-      {comparison.state === "no_peers" || selected.candidates.length === 0 ? (
+      {comparison.state === "no_peers" ? (
         <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
-          <h3 className="text-lg font-extrabold text-strong">현재 분류에서 직접 비교할 수 있는 동종 ETF가 없습니다.</h3>
+          <h3 className="text-lg font-extrabold text-strong">현재 기준으로 직접 비교할 수 있는 동종 ETF가 없습니다.</h3>
           <p className="mt-2 text-sm leading-6 text-muted">후보 수를 채우기 위해 관련성이 낮은 ETF를 표시하지 않습니다.</p>
           <Link href={comparisonHref} className="mt-5 inline-flex rounded-lg border border-brand-200 bg-brand-50 px-4 py-2.5 text-sm font-bold text-brand-800 transition-colors hover:bg-brand-100">ETF 직접 비교하기</Link>
         </div>

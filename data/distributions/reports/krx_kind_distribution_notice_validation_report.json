@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-14T11:01:22+00:00",
+  "generated_at": "2026-08-15T06:19:47+00:00",
   "notice_evidence_count": 383,
   "match_count": 383,
   "event_count": 15,
   "error_count": 0,
-  "warning_count": 213,
+  "warning_count": 210,
   "errors": [],
   "warnings": [
     {
@@ -36,15 +36,7 @@
       "issue": "tr_blocked_unmatched"
     },
     {
-      "match_id": "krx-notice-match:08c4fb6bde73cd13",
-      "issue": "tr_blocked_unmatched"
-    },
-    {
       "match_id": "krx-notice-match:08cfa370dde268a7",
-      "issue": "tr_blocked_unmatched"
-    },
-    {
-      "match_id": "krx-notice-match:0bb1d4595f37793d",
       "issue": "tr_blocked_unmatched"
     },
     {
@@ -172,6 +164,10 @@
       "issue": "tr_blocked_unmatched"
     },
     {
+      "match_id": "krx-notice-match:306f37383d158de7",
+      "issue": "tr_blocked_ambiguous_candidate_match"
+    },
+    {
       "match_id": "krx-notice-match:30bd563c300de8ab",
       "issue": "tr_blocked_unmatched"
     },
@@ -185,10 +181,6 @@
     },
     {
       "match_id": "krx-notice-match:32b44f53b759c84e",
-      "issue": "tr_blocked_unmatched"
-    },
-    {
-      "match_id": "krx-notice-match:33523fc237e6b109",
       "issue": "tr_blocked_unmatched"
     },
     {
@@ -226,6 +218,10 @@
     {
       "match_id": "krx-notice-match:3dace66d03e5b290",
       "issue": "tr_blocked_unmatched"
+    },
+    {
+      "match_id": "krx-notice-match:3dd46deba3c74707",
+      "issue": "tr_blocked_ambiguous_candidate_match"
     },
     {
       "match_id": "krx-notice-match:3f946b149c6c4aea",
@@ -372,10 +368,6 @@
       "issue": "tr_blocked_unmatched"
     },
     {
-      "match_id": "krx-notice-match:656f368c005f1eec",
-      "issue": "tr_blocked_unmatched"
-    },
-    {
       "match_id": "krx-notice-match:66c75333a72d9e9e",
       "issue": "tr_blocked_unmatched"
     },
@@ -401,10 +393,6 @@
     },
     {
       "match_id": "krx-notice-match:6d02222ef473b917",
-      "issue": "tr_blocked_unmatched"
-    },
-    {
-      "match_id": "krx-notice-match:6d02a01cf80bebbf",
       "issue": "tr_blocked_unmatched"
     },
     {
@@ -556,6 +544,10 @@
       "issue": "tr_blocked_unmatched"
     },
     {
+      "match_id": "krx-notice-match:9e0cd0e561c153ea",
+      "issue": "tr_blocked_ambiguous_candidate_match"
+    },
+    {
       "match_id": "krx-notice-match:9ff51b92793ad538",
       "issue": "tr_blocked_unmatched"
     },
@@ -617,10 +609,6 @@
     },
     {
       "match_id": "krx-notice-match:bedae7880f69ddc7",
-      "issue": "tr_blocked_unmatched"
-    },
-    {
-      "match_id": "krx-notice-match:c0ffc1675783e699",
       "issue": "tr_blocked_unmatched"
     },
     {

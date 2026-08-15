@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS etf_listing_dates (
   isin TEXT NOT NULL,
   listing_date TEXT,
   first_traded_date TEXT,
+  first_traded_date_source TEXT,
   fund_inception_date TEXT,
   listing_date_status TEXT NOT NULL CHECK (
     listing_date_status IN (

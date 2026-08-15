@@ -41,7 +41,11 @@
 * { border-color: var(--color-line); }
 html { min-width: 320px; scroll-behavior: smooth; }
 body { min-height: 100vh; background: var(--color-surface); font-family: var(--font-sans); }
-button, input, select { font: inherit; }
+/* Tailwind's base layer already inherits form-control typography.  Keeping a
+   shorthand `font: inherit` here (outside a layer) overrides utilities such as
+   `text-xs` and `text-[12px]`, which made compact chart controls render at the
+   surrounding 16px size after a fresh rebuild. */
+button, input, select { font-family: inherit; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid var(--color-brand-300); outline-offset: 3px; }
 .tabular-nums { font-variant-numeric: tabular-nums; }
 

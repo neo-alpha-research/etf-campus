@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { toPng } from "html-to-image";
 import { getPricePeriodRange, type PricePeriod } from "@/lib/domain/etf-price-period";
 import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
+import type { ItdAnchor } from "@/lib/domain/etf-types";
 
 const fetcher = (url: string) => fetch(url).then(async (res) => {
   if (!res.ok) return { points: [] };
@@ -30,10 +31,10 @@ const PERIODS = [
   { id: "24m", label: "2Y", title: "2년 수익률" },
   { id: "36m", label: "3Y", title: "3년 수익률" },
   { id: "ytd", label: "YTD", title: "연초 이후 수익률" },
-  { id: "itd", label: "MAX", title: "상장 후 수익률" },
+  { id: "itd", label: "ITD", title: "상장 후 수익률" },
 ];
 
-export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, returnDisplayStatus }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; returnDisplayStatus?: EtfReturnDisplayStatus }) {
+export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, returnDisplayStatus }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; returnDisplayStatus?: EtfReturnDisplayStatus }) {
   const [returnBasis, setReturnBasis] = useState<"pr" | "estimated" | "tr">("pr");
   const isIncomeEtf = returnDisplayStatus?.isIncomeEtf ?? false;
   const estimatedAvailable = returnDisplayStatus?.estimatedReturnStatus === "available";
@@ -41,15 +42,19 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
   const trAvailable = returnDisplayStatus?.trStatus === "available";
   const trBlocked = returnBasis === "tr" && !trAvailable;
   const estimatedBlocked = returnBasis === "estimated" && !estimatedAvailable;
-  const activeReturnLabel = "수익률";
-  const [period, setPeriod] = useState<PricePeriod>("12m");
+  const [period, setPeriod] = useState<PricePeriod>(isNewListing ? "1d" : "12m");
+  const hasItdAnchor = Boolean(isNewListing && itdAnchor?.price && itdAnchor?.date);
+  const activeReturnLabel = period === "itd" && hasItdAnchor ? "상장 후 수익률" : "수익률";
   const [isCustom, setIsCustom] = useState(false);
   
   const chartRef = useRef<HTMLDivElement>(null);
   const [isCapturing, setIsCapturing] = useState(false);
   
   const estimatedAsOfDate = returnDisplayStatus?.estimatedLastCoveredDate?.replaceAll("-", "") || asOfDate;
-  const defaultDates = useMemo(() => getPricePeriodRange(period, returnBasis === "estimated" ? estimatedAsOfDate : asOfDate, { listingDate, actualFirstTradingDate }), [period, asOfDate, estimatedAsOfDate, returnBasis, listingDate, actualFirstTradingDate]);
+  const defaultDates = useMemo(() => getPricePeriodRange(period, returnBasis === "estimated" ? estimatedAsOfDate : asOfDate, {
+    listingDate,
+    actualFirstTradingDate: period === "itd" && hasItdAnchor ? null : actualFirstTradingDate,
+  }), [period, asOfDate, estimatedAsOfDate, returnBasis, listingDate, actualFirstTradingDate, hasItdAnchor]);
   const maxListingDateUnavailable = period === "itd" && defaultDates.dataStatus === "listing_date_unavailable";
   
   const initialCustomStart = useMemo(() => {
@@ -58,8 +63,21 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
       d = new Date(`${asOfDate.slice(0, 4)}-${asOfDate.slice(4, 6)}-${asOfDate.slice(6, 8)}T12:00:00Z`);
     }
     d.setMonth(d.getMonth() - 4);
-    return d.toISOString().split("T")[0];
-  }, [asOfDate]);
+
+    // 최소 시작일 제한 적용
+    const calculatedStart = d.toISOString().split("T")[0];
+    const minConstraint = actualFirstTradingDate || listingDate || "";
+    if (minConstraint && calculatedStart < minConstraint) {
+      return minConstraint;
+    }
+    return calculatedStart;
+  }, [asOfDate, actualFirstTradingDate, listingDate]);
+
+  const threeYearStart = getPricePeriodRange("36m", asOfDate).start ?? undefined;
+  const minDateConstraint = isNewListing
+    ? (listingDate || actualFirstTradingDate || undefined)
+    : threeYearStart;
+  const maxDateConstraint = asOfDate && asOfDate.length >= 8 ? `${asOfDate.slice(0, 4)}-${asOfDate.slice(4, 6)}-${asOfDate.slice(6, 8)}` : undefined;
   
   const initialCustomEnd = useMemo(() => {
     if (asOfDate && asOfDate.length >= 8) {
@@ -71,11 +89,6 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
   const [customStart, setCustomStart] = useState(initialCustomStart);
   const [customEnd, setCustomEnd] = useState(initialCustomEnd);
   
-  const [tempCustomStart, setTempCustomStart] = useState(initialCustomStart);
-  const [tempCustomEnd, setTempCustomEnd] = useState(initialCustomEnd);
-  const [showCustomPanel, setShowCustomPanel] = useState(false);
-  const [customError, setCustomError] = useState("");
-
   const estimatedFirstCoveredDate = returnDisplayStatus?.estimatedFirstCoveredDate || "";
   const startStr = returnBasis === "estimated" && estimatedFirstCoveredDate
     ? ((defaultDates.start ?? "") < estimatedFirstCoveredDate ? estimatedFirstCoveredDate : (defaultDates.start ?? ""))
@@ -84,7 +97,11 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     ? returnDisplayStatus.estimatedLastCoveredDate
     : (isCustom ? customEnd : defaultDates.end);
 
-  const baseUrl = process.env.NODE_ENV === "development" ? "https://etf-campus.pages.dev" : "";
+  // `next dev` does not execute Cloudflare Pages Functions.  Default to the
+  // deployed read-only endpoint so a local chart still works after a reboot.
+  // Developers running a local Pages proxy can opt in via the public env var.
+  const configuredApiBaseUrl = process.env.NEXT_PUBLIC_PRICE_HISTORY_API_BASE_URL?.replace(/\/$/, "");
+  const baseUrl = configuredApiBaseUrl ?? (process.env.NODE_ENV === "development" ? "https://etf-campus.pages.dev" : "");
   const { data, error, isLoading } = useSWR(
     trBlocked || estimatedBlocked || !startStr ? null : `${baseUrl}/api/prices/history?ticker=${ticker}&start=${startStr}&end=${endStr}&basis=${returnBasis}`,
     fetcher
@@ -98,9 +115,12 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     points = points.slice(-2);
   }
 
-  // Rebase to the first point of the visible window
+  // New-listing ITD is deliberately measured from the verified KRX listing
+  // reference price, not the first observed market close.
   if (points.length > 0) {
-    const baseClose = points[0].close;
+    const baseClose = period === "itd" && hasItdAnchor && itdAnchor?.price
+      ? itdAnchor.price
+      : points[0].close;
     points = points.map((p: any) => ({
       ...p,
       returnPct: baseClose > 0 ? (p.close / baseClose - 1) * 100 : 0
@@ -108,12 +128,13 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
   }
 
   const isShort = useMemo(() => {
+    if (isNewListing) return false;
     if (!startStr || points.length === 0) return false;
     const requestedStart = new Date(startStr);
     const actualStart = new Date(points[0].date);
     const diffDays = (actualStart.getTime() - requestedStart.getTime()) / (1000 * 3600 * 24);
     return diffDays > 7; // more than 7 days gap means the ETF is likely newer than the requested period
-  }, [points, startStr]);
+  }, [points, startStr, isNewListing]);
 
   const { pathData, minReturn, maxReturn, xScale, yScale, height, width } = useMemo(() => {
     const w = 800;
@@ -179,9 +200,12 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
       {/* 1. Period Selection & Download Row */}
       {!isCapturing && (
         <div className="flex items-center justify-between gap-3 mb-3 sm:mb-4">
-          <div className="flex-1 overflow-x-auto scrollbar-hide flex items-center">
-            <div className="flex items-center gap-1 p-1 bg-neutral-100/80 rounded-lg w-fit shrink-0">
-              {PERIODS.map(p => {
+          <div className="flex flex-1 items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex items-center gap-0.5 p-1 bg-neutral-100/80 rounded-lg w-fit shrink-0">
+              {PERIODS.filter((p) => {
+                if (p.id === "itd") return hasItdAnchor;
+                return isNewListing ? ["1d", "1w", "2w", "1m", "2m"].includes(p.id) : true;
+              }).map(p => {
                 const disabled = returnBasis === "estimated" && !estimatedPeriods.includes(p.id);
                 return (
                 <button
@@ -189,8 +213,8 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
                   disabled={disabled}
                   title={disabled ? "확인된 분배금 커버리지 범위를 벗어난 기간입니다." : p.title}
                   aria-label={p.title}
-                  onClick={() => { if (!disabled) { setPeriod(p.id as PricePeriod); setIsCustom(false); setShowCustomPanel(false); } }}
-                  className={`min-h-[36px] px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors whitespace-nowrap ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : disabled ? "cursor-not-allowed text-neutral-300" : "text-neutral-500 hover:text-strong"}`}
+                  onClick={() => { if (!disabled) { setPeriod(p.id as PricePeriod); setIsCustom(false); } }}
+                  className={`min-h-8 px-2 py-1 text-xs font-bold rounded-md transition-colors whitespace-nowrap ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : disabled ? "cursor-not-allowed text-neutral-300" : "text-neutral-500 hover:text-strong"}`}
                 >
                   {p.label}
                 </button>
@@ -202,62 +226,57 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
                  aria-label="기간 직접 설정"
                  onClick={() => { 
                    if (returnBasis !== "estimated") {
-                     setShowCustomPanel(true);
-                     setTempCustomStart(customStart);
-                     setTempCustomEnd(customEnd);
-                     setCustomError("");
+                     setIsCustom(true);
                    }
                  }}
-                 className={`min-h-[36px] px-2.5 py-1 text-[12px] font-bold rounded-md transition-colors whitespace-nowrap ${isCustom ? "bg-white text-brand-600 shadow-sm" : returnBasis === "estimated" ? "cursor-not-allowed text-neutral-300" : "text-neutral-500 hover:text-strong"}`}
+                 className={`min-h-8 px-2 py-1 text-xs font-bold rounded-md transition-colors whitespace-nowrap ${isCustom ? "bg-white text-brand-600 shadow-sm" : returnBasis === "estimated" ? "cursor-not-allowed text-neutral-300" : "text-neutral-500 hover:text-strong"}`}
               >
-                Custom
+                직접입력
               </button>
             </div>
+
+            {isCustom && returnBasis !== "estimated" && (
+              <div className="flex shrink-0 items-center gap-1 animate-in fade-in slide-in-from-left-2 duration-200">
+                <input
+                  aria-label="시작일"
+                  type="date"
+                  min={minDateConstraint}
+                  max={customEnd || maxDateConstraint}
+                  value={customStart}
+                  onChange={(event) => {
+                    const nextStart = event.target.value;
+                    if (nextStart && nextStart <= customEnd) setCustomStart(nextStart);
+                  }}
+                  className="h-8 w-[108px] rounded border border-line bg-white px-1 py-1 text-xs font-semibold tracking-tighter outline-none transition-shadow focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
+                />
+                <span aria-hidden="true" className="text-[10px] font-bold text-muted">~</span>
+                <input
+                  aria-label="종료일"
+                  type="date"
+                  min={customStart || minDateConstraint}
+                  max={maxDateConstraint}
+                  value={customEnd}
+                  onChange={(event) => {
+                    const nextEnd = event.target.value;
+                    if (nextEnd && nextEnd >= customStart) setCustomEnd(nextEnd);
+                  }}
+                  className="h-8 w-[108px] rounded border border-line bg-white px-1 py-1 text-xs font-semibold tracking-tighter outline-none transition-shadow focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
+                />
+              </div>
+            )}
           </div>
           
           <button 
             onClick={handleDownload}
-            className="shrink-0 flex items-center gap-1.5 rounded-lg bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100 h-9"
-            title="차트를 이미지로 저장"
+            className="shrink-0 flex h-8 items-center gap-1.5 rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
+            title="차트를 PNG로 다운로드"
+            aria-label="차트를 PNG로 다운로드"
           >
             <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" />
             </svg>
             <span className="hidden sm:inline">저장</span>
           </button>
-        </div>
-      )}
-
-      {/* Custom Period Panel */}
-      {showCustomPanel && !isCapturing && (
-        <div className="flex flex-wrap items-center gap-2 p-2 bg-neutral-50 border border-line rounded-lg w-fit animate-in fade-in slide-in-from-top-2 duration-200 mb-3 sm:mb-4">
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-bold text-muted">시작일</span>
-            <input type="date" value={tempCustomStart} onChange={e => setTempCustomStart(e.target.value)} className="w-[120px] px-1.5 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow tracking-tighter" />
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-bold text-muted">종료일</span>
-            <input type="date" value={tempCustomEnd} onChange={e => setTempCustomEnd(e.target.value)} className="w-[120px] px-1.5 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow tracking-tighter" />
-          </div>
-          <div className="flex items-center gap-1 ml-1">
-            <button onClick={() => {
-              if (tempCustomStart > tempCustomEnd) {
-                setCustomError("시작일이 종료일보다 늦을 수 없습니다.");
-                return;
-              }
-              if (!tempCustomStart || !tempCustomEnd) {
-                setCustomError("날짜를 모두 입력해주세요.");
-                return;
-              }
-              setCustomError("");
-              setCustomStart(tempCustomStart);
-              setCustomEnd(tempCustomEnd);
-              setIsCustom(true);
-              setShowCustomPanel(false);
-            }} className="px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded transition-colors whitespace-nowrap min-h-[30px]">적용</button>
-            <button onClick={() => setShowCustomPanel(false)} className="px-3 py-1.5 bg-white hover:bg-neutral-100 text-neutral-600 border border-line text-xs font-bold rounded transition-colors whitespace-nowrap min-h-[30px]">취소</button>
-          </div>
-          {customError && <div className="text-[11px] font-bold text-rose-600 w-full mt-1 ml-1">{customError}</div>}
         </div>
       )}
 
@@ -276,7 +295,13 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
       {/* Chart Header */}
       <div className="flex flex-wrap justify-between items-end gap-y-4 mb-4">
         <div className="flex flex-col gap-1">
-          <div className="text-[14px] sm:text-[15px] font-bold text-strong tracking-tight tabular-nums flex items-center gap-1.5 flex-wrap">
+          {isCapturing && (
+            <div className="flex items-baseline gap-2.5">
+              <span className="text-[16px] sm:text-[17px] font-bold tracking-tight text-brand-700">{etfName || ticker}</span>
+              <span className="text-[14px] font-semibold tabular-nums text-neutral-500">{ticker}</span>
+            </div>
+          )}
+          <div className="text-[16px] sm:text-[17px] font-bold text-strong tracking-tight tabular-nums flex items-center gap-1.5 flex-wrap">
             <span>{points.length > 0 ? `${formatDate(points[0].date)} ~ ${formatDate(points[points.length - 1].date)}` : "데이터 없음"}</span>
           </div>
           {data?.actualEnd && asOfDate && asOfDate.length >= 8 && (
@@ -299,13 +324,16 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
           {points.length > 0 && (
             <div className="flex flex-col items-end leading-tight">
               <div className="flex items-baseline gap-2.5 flex-wrap justify-end">
-                <span className={`font-bold text-2xl ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>{activeReturnLabel}</span>
-                <span className={`font-black font-mono tracking-tight leading-none text-2xl ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
+                <span className={`font-bold text-[22px] ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>{activeReturnLabel}</span>
+                <span className={`font-black font-mono tracking-tight leading-none text-[22px] ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
                   {isShort ? '-' : `${points[points.length - 1].returnPct > 0 ? '+' : ''}${points[points.length - 1].returnPct.toFixed(2)}%`}
                 </span>
               </div>
               {!isShort && returnBasis !== "pr" && (
                 <div className="text-[11px] text-gray-500 mt-1.5">{returnBasis === "tr" ? "(세전 분배금 재투자 · KIND 검증 완료)" : `운용사 공식 공지 기반 · ${returnDisplayStatus?.estimatedCoverageMonths ?? 0}개월 커버리지`}</div>
+              )}
+              {!isShort && returnBasis === "pr" && period === "itd" && hasItdAnchor && (
+                <div className="text-[11px] text-gray-500 mt-1.5">{itdAnchor?.verified ? "KRX 신규상장 기준가격 대비" : "상장일 기준 가격 대비 · KRX 기준가격 공식 대조 중"} · 분배금 미포함</div>
               )}
             </div>
           )}
@@ -418,10 +446,7 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
       {/* Watermark for captured image */}
       {isCapturing && (
         <div className="mt-4 flex flex-wrap items-end justify-between border-t border-neutral-100 pt-3">
-          <div className="flex flex-col gap-1">
-            <span className="text-xs font-bold text-strong">{etfName || ticker} ({ticker})</span>
-            <span className="text-[9px] font-medium text-neutral-400">* 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.</span>
-          </div>
+          <span className="text-[9px] font-medium text-neutral-400">* 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.</span>
           <div className="flex items-center gap-1.5">
             <span className="text-xs font-black tracking-tighter text-brand-700">ETF Campus</span>
             <span className="text-[9px] font-semibold text-neutral-400">https://etf-campus.pages.dev/</span>

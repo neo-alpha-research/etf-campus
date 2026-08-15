@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-14T11:01:23+00:00",
-  "source_document_count": 32,
+  "generated_at": "2026-08-15T06:19:46+00:00",
+  "source_document_count": 36,
   "event_count": 15,
   "coverage_count": 1160,
   "error_count": 0,
@@ -69,8 +69,8 @@
     "partial": 14
   },
   "source_integrity": {
-    "checked": 19,
-    "passed": 19,
+    "checked": 23,
+    "passed": 23,
     "issues": []
   }
 }

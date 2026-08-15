@@ -50,6 +50,14 @@ export type EtfIssuer = {
 export type ReturnPeriod = (typeof RETURN_PERIODS)[number];
 export type EtfReturns = Record<ReturnPeriod, number | null>;
 
+export type ItdAnchor = {
+  price: number | null;
+  date: string | null;
+  source: string | null;
+  qualityStatus: string | null;
+  verified: boolean;
+};
+
 export type EtfFeeInfo = {
   totalFeePct: number | null;
   terPct: number | null;
@@ -117,6 +125,7 @@ export type Etf = {
   listingDateVerifiedAt: string | null;
   listingDateEvidenceId: string | null;
   returns: EtfReturns;
+  itdAnchor?: ItdAnchor;
   isNew90d: boolean | null;
   isNew3m: boolean;
   classification?: EtfClassification | null;

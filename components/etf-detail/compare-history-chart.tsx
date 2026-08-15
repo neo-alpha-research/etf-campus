@@ -75,7 +75,7 @@ export function CompareHistoryChart({ items, asOfDate }: { items: { ticker: stri
   const startStr = isCustom ? customStart : defaultDates.start;
   const endStr = isCustom ? customEnd : defaultDates.end;
 
-  const baseUrl = process.env.NODE_ENV === "development" ? "https://etf-campus.pages.dev" : "";
+  const baseUrl = process.env.NODE_ENV === "development" ? "http://127.0.0.1:8788" : "";
   const urls = items.map(item => `${baseUrl}/api/prices/history?ticker=${item.ticker}&start=${startStr}&end=${endStr}`);
 
   const { data, error, isLoading } = useSWR(

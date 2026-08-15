@@ -74,14 +74,29 @@ class ParserConfig:
     ticker_index: int
     name_index: int
     amount_index: int
+    issuer_ex_date: str = ""
+    record_date: str = ""
+    pay_date: str = ""
 
 
 PARSER_CONFIGS = {
     "issuer:kodex:notice:20260728:monthend": ParserConfig(
         "issuer:kodex:notice:20260728:monthend", "kodex_notice_table_v1", 0, 1, 3
     ),
+    "issuer:tiger:notice:20260527:monthend": ParserConfig(
+        "issuer:tiger:notice:20260527:monthend", "tiger_notice_table_v1", 0, 1, 2, "2026-05-28", "2026-05-29", "2026-06-02"
+    ),
+    "issuer:tiger:notice:20260611:midmonth": ParserConfig(
+        "issuer:tiger:notice:20260611:midmonth", "tiger_notice_table_v1", 0, 1, 2, "2026-06-12", "2026-06-15", "2026-06-17"
+    ),
+    "issuer:tiger:notice:20260626:monthend": ParserConfig(
+        "issuer:tiger:notice:20260626:monthend", "tiger_notice_table_v1", 0, 1, 2, "2026-06-29", "2026-06-30", "2026-07-02"
+    ),
     "issuer:tiger:notice:20260713:midmonth": ParserConfig(
-        "issuer:tiger:notice:20260713:midmonth", "tiger_notice_table_v1", 0, 1, 2
+        "issuer:tiger:notice:20260713:midmonth", "tiger_notice_table_v1", 0, 1, 2, "2026-07-14", "2026-07-15", "2026-07-20"
+    ),
+    "issuer:tiger:notice:20260812:midmonth": ParserConfig(
+        "issuer:tiger:notice:20260812:midmonth", "tiger_notice_table_v1", 0, 1, 2, "2026-08-13", "2026-08-14", "2026-08-19"
     ),
     "issuer:rise:notice:20260728:monthend": ParserConfig(
         "issuer:rise:notice:20260728:monthend", "rise_notice_table_v1", 1, 0, 2
@@ -290,8 +305,9 @@ def parse_source(source: dict[str, str], config: ParserConfig, master: dict[str,
             candidate.update({
                 "candidate_id": candidate_id, "source_id": source["source_id"],
                 "source_owner": source.get("source_owner", ""), "etf_id": clean(metadata.get("isin_cd")),
-                "ticker": ticker, "etf_name": name, "distribution_per_share_krw": amount,
-                "currency": "KRW", "distribution_type": "ordinary_cash", "row_locator": row_locator,
+                "ticker": ticker, "etf_name": name, "issuer_ex_date": config.issuer_ex_date,
+                "record_date": config.record_date, "pay_date": config.pay_date,
+                "distribution_per_share_krw": amount, "currency": "KRW", "distribution_type": "ordinary_cash", "row_locator": row_locator,
                 "raw_row_text": " | ".join(row), "parser_name": config.parser_name,
                 "parser_version": "1", "extraction_status": "rule_based_extracted",
                 "candidate_status": "pending_krx_verification", "created_at": now, "updated_at": now,

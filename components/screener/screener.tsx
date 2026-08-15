@@ -147,7 +147,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     if (nextComparePeriod) query.set("compare", nextComparePeriod);
     if (customDateRange) { query.set("cstart", customDateRange.start); query.set("cend", customDateRange.end); }
     const queryString = query.toString();
-    window.history.replaceState(null, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
   };
 
   const updateFilters = (next: ScreenerFilters) => updateStateAndUrl(next, selectedPeriod, sort, sortDir);
@@ -181,7 +181,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     query.set("cstart", effectiveStart);
     query.set("cend", effectiveEnd);
     const qs = query.toString();
-    window.history.replaceState(null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
   };
   const handleClearCustomDateRange = () => {
     setCustomDateRange(null);
@@ -192,7 +192,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     if (sort !== "return_1d") query.set("sort", sort);
     if (sortDir !== "desc") query.set("dir", sortDir);
     const qs = query.toString();
-    window.history.replaceState(null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
   };
   // Initialize date inputs from etf data on mount
   // asOfDate may be "2026.08.07" or "20260807" — normalize to YYYY-MM-DD

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AsOfDate, PensionBadge, RiskBadge, ReturnCell } from "@/components/etf";
 import { siteConfig } from "@/config/site";
 import { formatMoney, formatWon } from "@/lib/domain/etf-format";
-import { getReturnPeriods, isNewListing } from "@/lib/domain/etf-explorer";
+import { isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf, type ReturnPeriod } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
 import { EtfDetailClient } from "./etf-detail-client";
@@ -75,10 +75,11 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
     ? `${etf.baseIndex}를 기준으로 운용되는 ${marketScope} ${assetClass} ETF입니다.` 
     : (marketScope && assetClass ? `${marketScope} ${assetClass} ETF입니다.` : "");
 
-  const defaultPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
-  if (etf.returns.itd !== null) {
-    defaultPeriods.push("itd");
-  }
+  const itdAvailable = Boolean(newListing && etf.itdAnchor?.price && etf.itdAnchor?.date && etf.returns.itd !== null);
+  const itdPendingVerification = Boolean(itdAvailable && !etf.itdAnchor?.verified);
+  const defaultPeriods: ReturnPeriod[] = newListing
+    ? ["1d", "1w", "2w", "1m", "2m", ...(itdAvailable ? ["itd" as const] : [])]
+    : ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
 
   const fee = etf.fee;
   const isFeeVerified = fee?.verificationStatus === "verified_official";
@@ -93,7 +94,7 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
     }
   };
 
-  const EN_PERIOD_LABELS: Record<string, string> = { "1d": "1D", "1w": "1W", "2w": "2W", "1m": "1M", "2m": "2M", "3m": "3M", "6m": "6M", "12m": "1Y", "24m": "2Y", "36m": "3Y", "ytd": "YTD", "itd": "MAX" };
+  const EN_PERIOD_LABELS: Record<string, string> = { "1d": "1D", "1w": "1W", "2w": "2W", "1m": "1M", "2m": "2M", "3m": "3M", "6m": "6M", "12m": "1Y", "24m": "2Y", "36m": "3Y", "ytd": "YTD", "itd": "ITD" };
 
   return (
     <main className="page-shell flex-1 py-6 sm:py-8 space-y-6">
@@ -124,7 +125,7 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
 
               <h1 className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-extrabold tracking-tight text-strong sm:text-4xl">
                 {etf.name}
-                <span className="text-lg font-bold text-neutral-400 tabular-nums tracking-normal">{etf.ticker}</span>
+                <span className="text-lg font-bold text-slate-500 tabular-nums tracking-normal">{etf.ticker}</span>
               </h1>
             </div>
             
@@ -185,10 +186,18 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
             {/* 왼쪽 영역 (약 70%): 수익률 차트 및 표 */}
             <div className="flex-1 w-full lg:w-[70%] flex flex-col gap-2">
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} returnDisplayStatus={returnDisplayStatus as any} />
+              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} isNewListing={newListing} itdAnchor={etf.itdAnchor} returnDisplayStatus={returnDisplayStatus as any} />
+              {newListing && !itdAvailable ? <p className="px-1 text-xs font-medium text-muted">상장일 기준 가격 확인 후 상장 후 수익률(PR)을 제공합니다.</p> : null}
+              {itdPendingVerification ? <p className="px-1 text-xs font-medium text-amber-700">ITD는 상장일 기준 가격으로 산출한 PR이며, KRX 기준가격 공식 대조는 진행 중입니다.</p> : null}
               
               <div className="overflow-hidden rounded-xl border border-line bg-line">
-                <div role="table" aria-label={`${etf.name} 기본 기간별 가격 수익률`} className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-12 gap-[1px]">
+                <div
+                  role="table"
+                  aria-label={`${etf.name} 기본 기간별 가격 수익률`}
+                  data-testid="return-period-table"
+                  className="grid gap-px"
+                  style={{ gridTemplateColumns: `repeat(${defaultPeriods.length}, minmax(0, 1fr))` }}
+                >
                   {defaultPeriods.map((period) => (
                     <div key={period} role="cell" className="bg-surface py-2.5 px-1 flex flex-col items-center justify-center text-center">
                       <div className="text-[11px] font-bold text-muted mb-1" title={RETURN_PERIOD_LABELS[period]} aria-label={RETURN_PERIOD_LABELS[period]}>
@@ -263,7 +272,7 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
                     <dd className="mt-1 text-lg font-bold text-strong">분배금 미포함</dd>
                     
                     {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-64 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
+                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-3 w-72 rounded-xl border border-slate-200 bg-white p-4 text-xs text-slate-700 shadow-2xl z-50 opacity-0 invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 pointer-events-none">
                       <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
                         상세페이지의 기본 수익률은 시장 종가 기준 누적 수익률이며 분배금을 포함하지 않습니다. 분배금 반영 선택이 가능한 상품은 차트 상단에서 별도로 선택할 수 있습니다.
                       </div>

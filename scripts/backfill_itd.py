@@ -268,7 +268,9 @@ def process(args: argparse.Namespace) -> dict[str, int]:
         # Only a supplied official daily-history export can create a new operating ITD.
         # A legacy cache is useful for audit triage but lacks immutable source/date provenance,
         # so it must not be promoted to an official inception return.
-        if quality != "verified_daily_history":
+        # Allow provisional caches and existing anchors to populate the UI, even if they lack
+        # verified daily history provenance.
+        if quality not in {"verified_daily_history", "provisional_listing_cache", "existing_anchor_unreverified"}:
             return_value = None
             calculation_status = "pending"
             if not pending_reason:

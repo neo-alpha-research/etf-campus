@@ -4,6 +4,7 @@ out/
 coverage/
 *.tsbuildinfo
 .env*
+secrets.txt
 !.env.example
 .vercel/
 .wrangler/

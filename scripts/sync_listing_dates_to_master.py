@@ -53,7 +53,7 @@ def main() -> int:
     if ledger_rows and (missing := required_ledger.difference(ledger_rows[0])):
         raise ValueError(f"Ledger is missing columns: {sorted(missing)}")
 
-    for field in ("listing_date", "listing_date_source"):
+    for field in ("listing_date", "listing_date_source", "listing_date_status", "first_traded_date", "first_traded_date_source", "listing_date_verified_at", "listing_date_evidence_id"):
         if field not in master_fields:
             master_fields.append(field)
 
@@ -75,14 +75,23 @@ def main() -> int:
             audit["result"] = "missing_ledger_row"
         elif row.get("isin_cd") != evidence.get("isin"):
             audit["result"] = "isin_mismatch"
-        elif not evidence.get("listing_date"):
-            audit["result"] = "missing_listing_date"
         else:
             status = evidence["listing_date_status"]
-            row["listing_date"] = evidence["listing_date"]
-            row["listing_date_source"] = SOURCE_LABELS.get(status, status)
-            audit["result"] = "synced"
-            updated += 1
+            # Allow missing listing_date if status is 'unavailable'
+            if not evidence.get("listing_date") and status != "unavailable":
+                audit["result"] = "missing_listing_date"
+            else:
+                row["listing_date"] = evidence.get("listing_date", "")
+                row["listing_date_source"] = evidence.get("listing_date_source_type", "") if status == "provisional_first_trade" else SOURCE_LABELS.get(status, status)
+                if status == "provisional_first_trade":
+                    row["listing_date_source"] = "최초 종가 발생일 자동 확인"
+                row["listing_date_status"] = status
+                row["first_traded_date"] = evidence.get("first_traded_date", "")
+                row["first_traded_date_source"] = evidence.get("first_traded_date_source", "")
+                row["listing_date_verified_at"] = evidence.get("verified_at", "")
+                row["listing_date_evidence_id"] = evidence.get("evidence_id", "")
+                audit["result"] = "synced"
+                updated += 1
         audit_rows.append(audit)
 
     invalid = [row for row in audit_rows if row["result"] != "synced"]

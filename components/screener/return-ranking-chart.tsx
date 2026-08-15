@@ -163,10 +163,11 @@ export function ReturnRankingChart({
           <button 
             onClick={handleDownload}
             className="shrink-0 flex items-center gap-1.5 rounded-lg bg-brand-50 px-3 py-1.5 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
-            title="이미지로 저장하여 공유하기"
+            title="이미지를 PNG로 다운로드하여 공유하기"
+            aria-label="이미지를 PNG로 다운로드"
           >
             <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" />
             </svg>
             <span className="hidden sm:inline">저장</span>
           </button>

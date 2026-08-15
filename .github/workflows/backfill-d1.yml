@@ -18,6 +18,15 @@ on:
         required: false
         default: ""
         type: string
+      source:
+        description: "Official price source (auto, krx, or fsc)"
+        required: false
+        default: "auto"
+        type: choice
+        options:
+          - auto
+          - krx
+          - fsc
 
 jobs:
   backfill:
@@ -53,12 +62,16 @@ jobs:
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
         run: |
+          source_option=""
+          if [ "${{ inputs.source }}" != "auto" ]; then
+            source_option="--source ${{ inputs.source }}"
+          fi
           if [ -n "${{ inputs.start_date }}" ] || [ -n "${{ inputs.end_date }}" ]; then
             if [ -z "${{ inputs.start_date }}" ] || [ -z "${{ inputs.end_date }}" ]; then
               echo "::error::start_date and end_date must be provided together in YYYYMMDD format."
               exit 1
             fi
-            python scripts/backfill_api.py --start-date "${{ inputs.start_date }}" --end-date "${{ inputs.end_date }}"
+            python scripts/backfill_api.py --start-date "${{ inputs.start_date }}" --end-date "${{ inputs.end_date }}" $source_option
           else
-            python scripts/backfill_api.py --days "${{ inputs.days }}"
+            python scripts/backfill_api.py --days "${{ inputs.days }}" $source_option
           fi

@@ -1,0 +1,9 @@
+﻿{
+  "metrics": 88,
+  "output": "data\\returns\\etf_total_return_metrics.csv",
+  "status_counts": {
+    "distribution_coverage_partial": 18,
+    "distribution_coverage_pending": 53,
+    "insufficient_price_history": 17
+  }
+}

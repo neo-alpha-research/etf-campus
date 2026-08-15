@@ -569,7 +569,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
             <legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">운용사</legend>
             <IssuerMultiSelect
               allIssuers={allIssuers}
-              selectedIds={filters.issuerIds}
+              selectedIds={[...filters.issuerIds]}
               onChange={(ids) => updateFilters({ ...filters, issuerIds: ids })}
             />
           </fieldset>

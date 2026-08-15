@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html
+        lang="ko"
+        class="no-js">
+<head>
+    <title>SOL ETF</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" type="image/x-icon" href="/static/pc/img/common/favicon.ico" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SOL ETF" />
+    <meta property="og:description" content="ETF 투자 솔루션을 제공하는 자산운용사인 신한 SOL ETF 공식 홈페이지" />
+    <meta property="og:image" content="/static/pc/img/common/share.png?v=3" />
+    <meta property="og:url" content="https://www.soletf.co.kr/" />
+
+
+    <meta name="description" content="ETF 투자 솔루션을 제공하는 자산운용사인 신한 SOL ETF 공식 홈페이지" />
+    <meta name="keywords" content="SOL, 신한, SOLETF, sol, sol etf, soletf, 쏠, 쏠 이티에프" />
+    <link rel="stylesheet" href="/static/pc/css/common.css?v=1786692381814" />
+    <link rel="stylesheet" href="/static/pc/css/contents.css?v=1786692381814" />
+    <link rel="stylesheet" href="/static/pc/css/main.css?v=1786692381814" />
+    <script src="/static/pc/js/ui.vendor.js?v=1786692381814"></script>
+    <script src="/static/pc/js/ui.utill.js?v=1786692381814"></script>
+    <script src="/static/pc/js/ui.common.js?v=1786692381814"></script>
+    <script src="/static/pc/js/date.util.js?v=1786692381814"></script>
+    <script src="/static/pc/js/common.js?v=1786692381814"></script>
+    <script src="/static/pc/js/common/fileDownload.js?v=1786692381814"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js?version=1.2"></script>
+</head>
+
+<body>
+<div id="wrap" class="main">
+        <a href="#container" class="skip">본문바로가기</a>
+    <!--#################### HEADER // ####################-->
+    <header id="header">
+        <div class="header-inner">
+            <h1>
+            <a href="/" class="logo">
+                <span class="blind">SOL ETF</span>
+            </a>
+            </h1>
+
+            <div class="gnb">
+                <ul class="menu">
+                    <li data-code="01"><a href="/ko/fund" class="dep-1">상품정보</a>
+                        <ul class="sub">
+                            <li data-code="0101"><a href="/ko/fund" class="dep-2"><span class="in">전체운용상품</span></a></li>
+                            <li data-code="0102"><a href="/ko/fund/etf/pds" class="dep-2"><span class="in">ETF 자료실</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li data-code="03"><a href="/ko/information/research" class="dep-1">투자정보</a>
+                        <ul class="sub">
+                            <li data-code="0303"><a href="/ko/information/insight" class="dep-2"><span class="in">SOL 인사이트</span></a></li>
+                            <li data-code="0301"><a href="/ko/information/research" class="dep-2"><span class="in">ETF 시장리서치</span></a></li>
+                            <li data-code="0302"><a href="/ko/information/news" class="dep-2"><span class="in">ETF 뉴스</span></a></li>
+                            <li data-code="0304"><a href="/ko/information/concept" class="dep-2"><span class="in">ETF 이해</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li data-code="02"><a href="/ko/strategy/esg" class="dep-1">투자전략</a>
+                        <ul class="sub">
+                            <li data-code="0201"><a href="/ko/strategy/esg" class="dep-2"><span class="in">ETF로 ESG투자</span></a></li>
+                            <li data-code="0202"><a href="/ko/strategy/pension" class="dep-2"><span class="in">ETF로 연금투자</span></a></li>
+                        </ul>
+                    </li>
+                    <li data-code="04"><a href="/ko/cs/notice" class="dep-1">고객센터</a>
+                        <ul class="sub">
+                            <li data-code="0401"><a href="/ko/cs/notice" class="dep-2"><span class="in">공지사항</span></a></li>
+                            <li data-code="0402"><a href="https://www.shinhanfund.com/ko/pc/board/announce" target="_blank" title="[새창]" class="dep-2"><span class="in">공시정보</span></a></li>
+                            <li data-code="0403"><a href="/ko/cs/faq" class="dep-2"><span class="in">FAQ</span></a></li>
+                            <li data-code="0404"><a href="/ko/cs/contactus" class="dep-2"><span class="in">Contact Us</span></a></li>
+                        </ul>
+                    </li>
+                    <li data-code="05"><a href="/ko/about/index2" class="dep-1">About SOL ETF</a>
+                        <ul class="sub">
+                            <li data-code="0502"><a href="/ko/about/index2" class="dep-2"><span class="in">회사소개</span></a></li>
+                            <li data-code="0501"><a href="/ko/about/index" class="dep-2"><span class="in">SOL ETF 소개</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="menu-all-prod">
+                    <button type="button" class="link-prod" id="btn_pop_allfunds_new">전체상품 한눈에 보기</button>
+                </div>
+
+                <div class="menu-util">
+                    <!-- 검색 (s) // -->
+                    <div data-dropdown='{"focusout":false,"effect":"slide"}' class="link-sch">
+                        <button type="button" data-act='title' class="sch-btn" name="btn_link_unified_search"><span class="ir i-g-sch">검색</span></button>
+                        <div data-act='cont' class="g-sch-cont">
+                            <div class="gnb-sch">
+                                <div class="sch-in">
+                                    <label for="txt_unified_search"><span class="blind">검색어 입력</span></label>
+                                    <input type="text" placeholder="검색어를 입력해주세요." id="txt_unified_search" class="sch-ipt" />
+                                    <button type="button" class="sch-btn" name="btn_unified_search"><span class="ir i-sch-2">검색</span></button>
+                                </div>
+                                <dl class="sch-keyword">
+                                    <dt class="blind">추천검색어</dt>
+                                    <dd id="result_unified_search">
+                                    </dd>
+                                </dl>
+                            </div>
+                            <button type="button" data-act='close' class="sch-close-btn"><span class="ir i-close-5">닫기</span></button>
+                        </div>
+                    </div>
+                    <!-- // (e) 검색 -->
+                    <dl class="lang" data-dropdown="{&quot;hover&quot;:true}">
+                        <dt><button type="button" class="choice ir-a i-g-lang" data-act="title">
+                            <span class="in">KR</span></button>
+                        </dt>
+                        <dd data-act="cont" tabindex="-1" style="outline: 0px;">
+                            <a href="/ko/main">KR</a>
+                            <a href="/en/main">EN</a>
+
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--#################### // HEADER ####################-->
+
+    <!--############# [POPUP] 전체상품 한눈에 보기 // #############-->
+    <div data-uipopset='' id="pop_allfunds" class="pop-layer pop-w-2">
+        <!--########## pop head // ##########-->
+        <div class="pop-head">
+            <h2 class="pop-title">전체상품 한눈에 보기</h2>
+        </div>
+        <!--########## // pop head ##########-->
+
+        <!--########## pop contents // ##########-->
+        <div class="pop-contents scroll">
+            <div class="pop-cont-in">
+                <div class="tb-legend ac">
+                    <span class="fl-bdg-b ty-1-1">개인연금</span>
+                    <span class="fl-bdg-b ty-1-2">퇴직연금</span>
+                </div>
+
+                <div class="all-funds">
+                    <ul class="all-funds-list" id="pop_allfunds_ul">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--########## // pop contents ##########-->
+
+        <button type="button" data-uipop='0' class="pop-close-btn"><span class="ir i-close">닫기</span></button>
+    </div>
+    <!--############# // [POPUP] 전체상품 한눈에 보기 #############-->
+    <script>
+
+
+        $("#btn_pop_allfunds_new").on("click",function(){
+            const assetTagList = ["국내주식","글로벌주식","채권","원자재","자산배분"];
+            const themeTagList = ["대표지수","월배당","ESG","액티브","메가트렌드","소부장"];
+            $.ajax({
+                url : "/api/common/searchByEtfNameOrFilter",
+                data : {
+                    "viewCount" : 100
+                },
+                type : "post",
+                success: function(res) {
+
+                    for (let i = 0; i < themeTagList.length; i++) {
+                            for (let j = 0; j < assetTagList.length; j++) {
+                                assetcheck = false;
+                                let outLi = $("<li class=\"item\"></li>")
+                                let span = $("<span class=\"funds-cate\">" + assetTagList[j] + " / " + themeTagList[i] + "</span>");
+
+                                outLi.append(span);
+
+                                let ur = $("<ul class=\"all-list\"></ul>");
+                                let li = "";
+                                res.items.forEach(function (item, index) {
+                                    if (item.VIEW_YN === 'N') {
+                                    } else {
+                                        if (item.assetNameList.indexOf(assetTagList[j]) >= 0 && item.themeNameList.indexOf(themeTagList[i]) >= 0) {
+                                            li += "<li><a href='/ko/fund/etf/" + item.FUND_CD + "'>" + item.Name + "</a>";
+                                            li += (item.pensionNameList.indexOf("개인연금") >= 0 ? "<span class='fl-bdg ty-1-1'>개인연금</span>" : "");
+                                            li += (item.pensionNameList.indexOf("퇴직연금") >= 0 ? "<span class='fl-bdg ty-1-2'>퇴직연금</span>" : "");
+                                            li += "</li>";
+                                        }
+                                    }
+                                });
+
+
+
+                                if (li != "") {
+                                    ur.append(li);
+                                    outLi.append(ur);
+                                    //outLi 에 ur 이 하나도 없으면 삭제
+                                    if(outLi.find("ul").length == 0){
+                                        outLi.remove();
+                                    } else {
+                                        $("#pop_allfunds_ul").append(outLi);
+                                    }
+                                }
+
+
+                            }
+
+                    }
+
+                    $("#pop_allfunds").uipop('open');
+                },
+                error: function () {
+                    alert("오류가 발생했습니다.");
+                }
+            });
+        });
+
+        function unifiedSearch(keyword){
+            if( keyword === undefined || keyword == "" ){
+                drawPopMsg('alert','검색어를 입력해주세요.');
+                return;
+            }else if( keyword.length < 2 ){
+                drawPopMsg("alert", "2글자 이상 입력해주세요.")
+                return;
+            }
+            let f = document.createElement('form');
+
+            let obj;
+            obj = document.createElement('input');
+            obj.setAttribute('type', 'hidden');
+            obj.setAttribute('name', 'keyword');
+            obj.setAttribute('value', keyword);
+
+            f.appendChild(obj);
+            f.setAttribute('method', 'post');
+            f.setAttribute('action', '/ko/util/search');
+            document.body.appendChild(f);
+            f.submit();
+        }
+
+        $(document).ready(function(){
+            $("button[name='btn_link_unified_search']").on("click", function(){
+                $.ajax({
+                    url : "/api/common/getKeywordList",
+                    data : {"language":"ko", "type":"search"},
+                    type : "post",
+                    success: function(res) {
+                        let html = '';
+                        res.items.forEach(function(item) {
+                            html += '<button type="button" class="key-item" onclick="unifiedSearch(\'' + item.KEYWORD + '\')">#' + item.KEYWORD + '</button>'
+                        });
+
+                        if( html != '' ){
+                            $("#result_unified_search").html(html);
+                        }
+                    },
+                    error: function () {
+                        drawPopMsg('alert', '오류가 발생했습니다.');
+                    }
+                });
+            });
+
+            $("#txt_unified_search").on("keyup", function(key){
+                if(key.keyCode==13) {
+                    unifiedSearch($("#txt_unified_search").val());
+                }
+            });
+
+            $("button[name='btn_unified_search']").on("click", function(){
+                unifiedSearch($("#txt_unified_search").val());
+            });
+
+            $("#txt_footer_unified_search").on("keyup", function(key){
+                if(key.keyCode==13) {
+                    unifiedSearch($("#txt_footer_unified_search").val());
+                }
+            });
+
+            $("button[name='btn_footer_unified_search']").on("click", function(){
+                unifiedSearch($("#txt_footer_unified_search").val());
+            });
+
+        });
+    </script>
+
+    <div id="container" class="container" data-page="0401">
+	<!-- sub-head (s) // -->
+	<div class="sub-head">
+		<div class="location" data-location="auto" aria-label="사이트 경로"></div>
+		<h1 class="g-title-t">공지사항</h1>
+	</div>
+	<!-- // (e) sub-head -->
+
+	<!-- contents (s) // -->
+	<div class="contents">
+		<!-- 상세 타이틀 (s) // -->
+		<div class="board-head">
+			<h2 class="bv-title" data-addtitle="this">[SOL ETF] 7월 분배금 안내 ② (지급 예정일 8월 3일)
+				
+				<!-- 새글 -->
+			</h2>
+				<span class="bv-date">2026.07.29</span>
+
+
+			<!-- 공유하기 (s) // -->
+			<div data-dropdown='' class="tooltip-share bv-share">
+				<button type="button" data-act='title' class="btn-share"><span class="ir i-share">공유</span></button>
+				<div data-act='cont' class="tip-cont">
+					<dl class="share">
+						<dt>공유하기</dt>
+						<dd class="share-list">
+							<a href="#none"  title="[새창]" class="share-item" onclick="shareKakao(&#39;[SOL ETF] 7월 분배금 안내 ② (지급 예정일 8월 3일)&#39;, &#39;&#39;, &#39;&#39;)"><span class="ir-b i-kakao">카카오톡</span></a>
+							<a href="#none"  title="[새창]" class="share-item"> <span class="ir-b i-mail">이메일</span></a>
+							<button type="button" class="share-item" onclick="copyToClipboard(location.href)"><span class="ir-b i-url">URL복사</span></button>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<!-- // (e) 공유하기 -->
+		</div>
+		<!-- // (e) 상세 타이틀 -->
+
+		<!-- 상세 본문 (s) // -->
+		<div class="board-cont"><p>안녕하세요, SOL ETF입니다.&nbsp;</p>
+
+<p>2026년 7월 분배금 지급 내역을 아래 링크와 같이 안내드립니다.&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p><a href="https://blog.naver.com/soletf/224361381567"><strong>분배금 확인 바로가기</strong></a></p>
+
+<p>&nbsp;</p>
+
+<p>감사합니다.&nbsp;</p>
+
+<p>SOL ETF 드림</p>
+</div>
+		<!-- // (e) 상세 본문 -->
+
+		<!-- 첨부파일 (s) // -->
+
+		
+
+		<!-- 이전/다음 글 (s) // -->
+		<div class="board-nav">
+			<dl class="bnv-def">
+				<dt class="blind">이전 글</dt>
+				<dd>
+					<a href="/ko/cs/noticeView?no=95" class="bnv-link">
+						<span class="bnv-subj">[SOL ETF] 6월 분배금 안내 ② (지급 예정일 7월 1일)</span>
+						<span class="bnv-date"><em class="blind">등록일 </em><span>2026.06.25</span></span>
+					</a>
+
+				</dd>
+				
+			</dl>
+			<dl class="bnv-def">
+				<dt class="blind">다음 글</dt>
+				<dd>
+					<a href="/ko/cs/noticeView?no=97" class="bnv-link">
+						<span class="bnv-subj">[SOL ETF] SOL SK하이닉스단일종목레버리지, SOL SK하이닉스선물단일종목인버스2X -  추적오차(Tracking Error) 및 괴리율 발생 가능성 안내 </span>
+						<span class="bnv-date"><em class="blind">등록일 </em><span>2026.07.31</span></span>
+					</a>
+
+				</dd>
+				
+			</dl>
+		</div>
+		<!-- // (e) 이전/다음 글 -->
+
+		<!-- 버튼 (s) // -->
+		<div class="btn-area mgt-50">
+			<a href="/ko/cs/notice" class="btn-cma btn-c">목록</a>
+		</div>
+		<!-- // (e) 버튼 -->
+	</div>
+	<!-- // (e) contents -->
+	
+		<script>
+
+			/*<![CDATA[*/
+			var itemtitle = "[SOL ETF] 7\uC6D4 \uBD84\uBC30\uAE08 \uC548\uB0B4 \u2461 (\uC9C0\uAE09 \uC608\uC815\uC77C 8\uC6D4 3\uC77C)"
+			var itemcontent = "<p>\uC548\uB155\uD558\uC138\uC694, SOL ETF\uC785\uB2C8\uB2E4.\u0026nbsp;<\/p>\n\n<p>2026\uB144 7\uC6D4 \uBD84\uBC30\uAE08 \uC9C0\uAE09 \uB0B4\uC5ED\uC744 \uC544\uB798 \uB9C1\uD06C\uC640 \uAC19\uC774 \uC548\uB0B4\uB4DC\uB9BD\uB2C8\uB2E4.\u0026nbsp;<\/p>\n\n<p>\u0026nbsp;<\/p>\n\n<p><a href=\"https:\/\/blog.naver.com\/soletf\/224361381567\"><strong>\uBD84\uBC30\uAE08 \uD655\uC778 \uBC14\uB85C\uAC00\uAE30<\/strong><\/a><\/p>\n\n<p>\u0026nbsp;<\/p>\n\n<p>\uAC10\uC0AC\uD569\uB2C8\uB2E4.\u0026nbsp;<\/p>\n\n<p>SOL ETF \uB4DC\uB9BC<\/p>\n"
+					/*]]>*/
+					$(".i-mail").click(function() {
+						shareEmail('NoContent',itemtitle,itemcontent);
+					})
+
+		</script>
+	
+</div>
+
+
+    <!--############# [POPUP] 메일쓰기 // #############-->
+    <div data-uipopset='' id="SEPC_SHARE_MAIL_01P" class="pop-layer pop-w">
+        <!--########## pop head // ##########-->
+        <div class="pop-head">
+            <h2 class="pop-title">메일쓰기</h2>
+        </div>
+        <!--########## // pop head ##########-->
+
+        <!--########## pop contents // ##########-->
+        <div class="pop-contents pop-mailsend" id="pop-mailsend">
+            <div class="fm-row cpd">
+                <label for="f-title-ipt" class="blind">제목 입력</label>
+                <input type="text" placeholder="제목을 입력해주세요." id="f-title-ipt" class="fm-ipt-2 fm-w-full" />
+            </div>
+            <dl class="fm-list">
+                <dt class="fm-title">받는 사람</dt>
+                <dd class="fm-item">
+                    <label for="f-email" class="fm-label">이메일</label>
+                    <input type="text" placeholder="받는 사람이 여러명일 경우 ‘,’를 넣어 구분해 주십시오. (최대 5명)" id="f-email" class="fm-ipt-2" />
+                </dd>
+
+                <input type="hidden" id="f-type" class="fm-ipt-2" />
+                <input type="hidden" id="f-content" class="fm-ipt-2" />
+                <input type="hidden" id="f-thumbnailNo" class="fm-ipt-2" />
+                <input type="hidden"  id="f-url" class="fm-ipt-2" />
+                <dt class="fm-title"><label for="f-mail-body">전하는 말</label></dt>
+
+                <dd class="fm-item fm-count-wrap">
+                    <textarea id="f-mail-body" class="fm-ta-2"></textarea>
+                    <span class="fm-count" id="fm-count">0/100자</span>
+                </dd>
+            </dl>
+
+            <!--##### 버튼 // #####-->
+            <div class="pop-footbtn">
+                <button type="button" data-uipop='0' class="btn-cmc btn-c-7">취소</button>
+                <button type="button" class="btn-cmc btn-c-8" onclick="sendEmail()">보내기</button>
+            </div>
+            <!--##### // 버튼 #####-->
+        </div>
+        <!--########## // pop contents ##########-->
+
+        <button type="button" data-uipop='0' class="pop-close-btn"><span class="ir i-close">닫기</span></button>
+    </div>
+    <!--############# // [POPUP] 메일쓰기 #############-->
+
+    <!--#################### FOOTER // ####################-->
+<footer id="footer">
+    <div class="links">
+        <!-- <span class="item"><a href="/ko/footer/customer01" > 이용약관</a></span> -->
+        <span class="item"><a href="/ko/footer/customer02" class="point">개인정보처리방침</a></span>
+        <span class="item"><a href="/ko/footer/customer03" >신용정보활용체제</a></span>
+        <span class="item"><a href="/ko/footer/customer04" >영상처리기기 운영관리방침</a></span>
+        <div class="item">
+			<!-- 금융소비자보호포탈 // -->
+			<dl data-dropdown='{"effect":"slide"}' class="consumer">
+				<dt><button type="button" data-act='title' class="title">금융소비자보호포탈</button></dt>
+				<dd data-act='cont'>
+					<ul class="scroll-2">
+						<li><a href="https://www.shinhanfund.com/ko/board/fpNotice" target="_blank" title="[새창]">공지사항</a></li>
+						<li><a href="https://www.shinhanfund.com/ko/pc/footer/customer06" target="_blank" title="[새창]">민원신청</a></li>
+						<li><a href="https://www.shinhanfund.com/ko/pc/footer/customer07" target="_blank" title="[새창]">금융소비자제안</a></li>
+						<li><a href="/ko/footer/customer05">금융소비자보호포탈</a></li>
+					</ul>
+				</dd>
+			</dl>
+			<!-- // 금융소비자보호포탈 -->
+		</div>
+        <span class="item"><a href="#" data-uipop='1' data-url='#SEPC_SITEMAP_01P'>사이트맵</a></span>
+    </div>
+    <div class="links-etc">
+
+        <!-- 패밀리사이트 // -->
+        <dl data-dropdown='{"effect":"slide"}' class="familysite">
+            <dt><button type="button" data-act='title' class="title">Family Site</button></dt>
+            <dd data-act='cont'>
+                <ul class="scroll-2">
+                    <li><a href="https://www.shinhanfund.com/ko/pc/main" target="_blank" title="[새창]">신한자산운용</a></li>
+                    <li><a href="http://www.shinhangroup.com" title="[새창]" target="_blank">신한금융지주</a></li>
+                    <li><a href="https://www.shinhan.com" title="[새창]" target="_blank">신한은행</a></li>
+                    <li><a href="https://www.shinhancard.com" title="[새창]" target="_blank">신한카드</a></li>
+                    <li><a href="https://www.shinhaninvest.com" title="[새창]" target="_blank">신한투자증권</a></li>
+                    <li><a href="http://www.shinhanlife.co.kr" title="[새창]" target="_blank">신한생명</a></li>
+                    <li><a href="http://www.orangelife.co.kr" title="[새창]" target="_blank">오렌지라이프</a></li>
+                    <li><a href="https://www.shcap.co.kr" title="[새창]" target="_blank">신한캐피탈</a></li>
+                    <li><a href="https://www.e-jejubank.com" title="[새창]" target="_blank">제주은행</a></li>
+                    <li><a href="http://www.shinhansavings.com" title="[새창]" target="_blank">신한저축은행</a></li>
+                    <li><a href="http://www.asiatrust.co.kr" title="[새창]" target="_blank">신한자산신탁</a></li>
+                    <li><a href="https://www.shinhands.co.kr" title="[새창]" target="_blank">신한DS</a></li>
+                    <li><a href="https://www.shinhanfundpartners.com" title="[새창]" target="_blank">신한펀드파트너스</a></li>
+                    <li><a href="https://www.shinhanci.co.kr" title="[새창]" target="_blank">신한신용정보</a></li>
+                    <li><a href="http://shinhanrem.com" title="[새창]" target="_blank">신한리츠운용</a></li>
+                    <li><a href="http://www.shinhanai.com" title="[새창]" target="_blank">신한AI</a></li>
+                    <li><a href="http://www.neoplux.co.kr" title="[새창]" target="_blank">신한벤처투자</a></li>
+                </ul>
+            </dd>
+        </dl>
+        <!-- // 패밀리사이트 -->
+        <ul class="footer-sns">
+        	<li><span class="wa"><a href="/static/pc/img/common/wa.pdf" target="_blank" title="[새창]"><img src="/static/pc/img/common/wa.png" alt="과학기술정보통신부 WA WEB 접근성 - 한국웹접근성인증평가원 2024.01.11~2025.01.10"></a></span></li>
+            <!-- <li><a href="#none" target="_blank" title="[새창]"><span class="ir i-fb">Facebook</span></a></li> -->
+            <li><a href="https://blog.naver.com/soletf" target="_blank" title="[새창]"><span class="ir i-blogger-2">Blogger</span></a></li>
+            <li><a href="https://www.youtube.com/@SOL_ETF" target="_blank" title="[새창]"><span class="ir i-youtube">youtube</span></a></li>
+        </ul>
+        <div class="btn-visit">
+            <a href="https://www.shinhanfund.com/ko/pc/main" target="_blank" title="[새창]"><span class="ir-a i-arr-8">신한자산운용 홈페이지</span></a>
+        </div>
+    </div>
+    <address>
+        (07321) 서울특별시 영등포구 의사당대로 96 (TP타워 23~26층)
+        <span class="copyright">Copyright(C) SHINHAN ASSET MANAGEMENT.CO.KR.LTD. ALL RIGHT RESERVED.</span>
+    </address>
+    <span class="logo"><span class="blind">신한자산운용</span></span>
+</footer>
+<!--#################### // FOOTER ####################-->
+
+<!--############# [POPUP] 사이트맵 // #############-->
+<div data-uipopset='' id="SEPC_SITEMAP_01P" class="pop-sitemap">
+    <h2 class="sitemap-title">사이트맵</h2>
+    <div class="gnb-sch">
+        <div class="sch-in">
+            <label for="txt_footer_unified_search"><span class="blind">검색어 입력</span></label>
+            <input type="text" placeholder="검색어를 입력하세요." id="txt_footer_unified_search" class="sch-ipt" />
+            <button type="button" class="sch-btn" name="btn_footer_unified_search"><span class="ir i-sch-2">검색</span></button>
+        </div>
+    </div>
+
+    <ul class="sitemap-menu">
+        <li><span class="dep-1-in">상품정보</span>
+            <ul class="dep-2">
+                <li>
+                    <a href="/ko/fund" class="dep-2-in">전체운용상품</a>
+                    <ul class="dep-3">
+                        <li><a href="/ko/fund?viewType=E" class="dep-3-in">상품명 검색</a></li>
+                        <li><a href="/ko/fund?viewType=F" class="dep-3-in">구성종목 검색</a></li>
+                    </ul>
+                </li>
+                <li><a href="/ko/fund/etf/pds" class="dep-2-in">ETF 자료실</a></li>
+            </ul>
+        </li>
+
+        <li><span class="dep-1-in">투자정보</span>
+            <ul class="dep-2">
+
+                <li>
+                    <a href="/ko/information/insight" class="dep-2-in">SOL 인사이트</a>
+                    <ul class="dep-3">
+                        <li><a href="/ko/information/insight?tabIndex=1" class="dep-3-in">SOL 리포트</a></li>
+                        <li><a href="/ko/information/insight?tabIndex=2" class="dep-3-in">SOL TV</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="/ko/information/research" class="dep-2-in">ETF로 시장리서치</a></li>
+                <li><a href="/ko/information/news" class="dep-2-in">ETF 뉴스</a></li>
+
+                <li>
+                    <a href="/ko/information/concept" class="dep-2-in">ETF 이해</a>
+                    <ul class="dep-3">
+                        <li><a href="/ko/information/concept?tabIndex=1" class="dep-3-in">ETF 개념 및 장점</a></li>
+                        <li><a href="/ko/information/concept?tabIndex=2" class="dep-3-in">ETF의 가격 및 투자 지표</a></li>
+                        <li><a href="/ko/information/concept?tabIndex=3" class="dep-3-in">ETF 거래방법</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><span class="dep-1-in">투자전략</span>
+            <ul class="dep-2">
+                <li><a href="/ko/strategy/esg" class="dep-2-in">ETF로 ESG 투자</a></li>
+                <li>
+                    <a href="/ko/strategy/pension" class="dep-2-in">ETF로 연금 투자</a>
+                    <ul class="dep-3">
+                        <li><a href="/ko/strategy/pension?tabIndex=1" class="dep-3-in">연금투자 가이드</a></li>
+                        <li><a href="/ko/strategy/pension?tabIndex=2" class="dep-3-in">SOL 연금 ETF 리스트</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <li><span class="dep-1-in">고객센터</span>
+            <ul class="dep-2">
+                <li><a href="/ko/cs/notice" class="dep-2-in">공지사항</a></li>
+                <li><a href="https://www.shinhanfund.com/ko/pc/board/announce" target="_blank" title="[새창]" class="dep-2-in">공시정보</a></li>
+                <li><a href="/ko/cs/faq" class="dep-2-in">FAQ</a></li>
+                <li><a href="/ko/cs/contactus" class="dep-2-in">Contact Us</a></li>
+            </ul>
+        </li>
+        <li><span class="dep-1-in">About SOL ETF</span>
+            <ul class="dep-2">
+                <li><a href="/ko/about/index2" class="dep-2-in">회사소개</a></li>
+                <li><a href="/ko/about/index" class="dep-2-in">SOL ETF 소개</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="sitemap-util">
+        <ul class="sitemap-menu-3">
+           <!--   <li><a href="/ko/footer/customer01">이용약관</a></li>-->
+            <li><a href="/ko/footer/customer02">개인정보처리방침</a></li>
+            <li><a href="/ko/footer/customer03">신용정보활용체제</a></li>
+            <li><a href="/ko/footer/customer04">영상처리기기 운영관리방침</a></li>
+        </ul>
+        <ul class="sitemap-menu-2">
+            <li>
+                <a href="/ko/main">KOREAN</a>
+                <a href="/en/main">ENGLISH</a>
+            </li>
+        </ul>
+    </div>
+
+    <button type="button" data-uipop='0' class="pop-close-btn"><span class="ir i-close-5">닫기</span></button>
+</div>
+<!--############# // [POPUP] 사이트맵 #############-->
+</div>
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T6CKZH94C7"></script>
+<script>
+
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-T6CKZH94C7');
+</script>
+<script>
+    function SimpleAlert(usermsg){
+        $("#commonAlertMsg img").imagesLoaded().always(
+            function( ) {
+                $("#commonAlertMsg").text(usermsg);
+                $("#commonAlert").uipop('open');
+            });
+    }
+
+    function SimpleConfirm(usermsg, eventmsg){
+        $("#commonConfirmTxt").text(usermsg);
+        $("#commonConfirmBtnOk").attr("onclick", eventmsg);
+        $("#commonConfirm").uipop('open');
+
+    }
+</script>
+
+<script>
+    //공유하기 카카오톡 초기화
+    /*<![CDATA[*/
+    var kakaoKey ="8819d53106a15ede7248754525aca1c8"
+    /*]]>*/
+
+    if (!Kakao.isInitialized()) {
+        Kakao.init(kakaoKey)
+    }
+
+</script>
+
+</body>
+</html>

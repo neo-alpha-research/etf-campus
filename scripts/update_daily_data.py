@@ -614,11 +614,20 @@ def main() -> None:
         is_new = bool(listing_day and 0 <= (as_of - listing_day).days <= 90)
         old_return["new_90d"] = "Y" if is_new else "N"
         old_return["new_3m"] = "Y" if is_new else "N"
+        # Preserve an existing verified ITD anchor. The anchor is first filled
+        # from the official listing-date snapshot and is never blanked merely
+        # because the ETF has aged past its new-listing window.
         itd_anchor = as_float(old_return.get("itd_anchor_close"))
-        if is_new and itd_anchor is None and listing_close is not None:
+        if itd_anchor is None and listing_close is not None:
             itd_anchor = listing_close
             old_return["itd_anchor_close"] = listing_close
-        old_return["r_itd"] = pct(current_close, itd_anchor) if is_new else ""
+            old_return["itd_anchor_date"] = listing_day.isoformat() if listing_day else ""
+            old_return["itd_source"] = source
+            old_return["itd_quality_status"] = "official_listing_snapshot"
+        old_return["r_itd"] = pct(current_close, itd_anchor)
+        old_return["itd_latest_date"] = as_of.isoformat()
+        old_return["itd_latest_close"] = current_close if current_close is not None else ""
+        old_return["itd_return_type"] = "price_return"
         new_returns.append(old_return)
 
         pension = dict(pension_by_ticker.get(ticker, {}))

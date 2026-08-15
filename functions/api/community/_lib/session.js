@@ -14,58 +14,80 @@ function cookieMap(header) {
   }).filter(([key]) => key));
 }
 
-function cookie(name, value, { httpOnly = true, maxAge = REFRESH_MAX_AGE } = {}) {
-  return `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAge}; Secure; SameSite=Lax${httpOnly ? "; HttpOnly" : ""}`;
-}
-
-function expiredCookie(name, { httpOnly = true } = {}) {
-  return `${name}=; Path=/; Max-Age=0; Secure; SameSite=Lax${httpOnly ? "; HttpOnly" : ""}`;
-}
-
 function secureRandom() {
   const bytes = new Uint8Array(32);
   crypto.getRandomValues(bytes);
   return Array.from(bytes, (value) => value.toString(16).padStart(2, "0")).join("");
 }
 
-export function sessionHeaders(session, csrfToken = secureRandom()) {
+function serializeCookie(name, value, { httpOnly = true, maxAge } = {}) {
+  const directives = [`${name}=${encodeURIComponent(value)}`, "Path=/", "Secure", "SameSite=Lax"];
+  if (typeof maxAge === "number") directives.push(`Max-Age=${maxAge}`);
+  if (httpOnly) directives.push("HttpOnly");
+  return directives.join("; ");
+}
+
+function expiredCookie(name, { httpOnly = true } = {}) {
+  return serializeCookie(name, "", { httpOnly, maxAge: 0 });
+}
+
+function cacheHeaders(csrfToken) {
   const headers = new Headers({
     "Cache-Control": "private, no-store",
-    "Pragma": "no-cache",
-    "Vary": "Cookie, Origin",
+    Pragma: "no-cache",
+    Vary: "Cookie, Origin",
     "X-Content-Type-Options": "nosniff",
-    "X-Community-CSRF": csrfToken,
   });
-  headers.append("Set-Cookie", cookie(ACCESS_COOKIE, session.access_token, { maxAge: ACCESS_MAX_AGE }));
-  headers.append("Set-Cookie", cookie(REFRESH_COOKIE, session.refresh_token));
-  headers.append("Set-Cookie", cookie(CSRF_COOKIE, csrfToken));
+  if (csrfToken) headers.set("X-Community-CSRF", csrfToken);
   return headers;
+}
+
+function appendCookies(headers, cookies) {
+  for (const value of cookies) headers.append("Set-Cookie", value);
+  return headers;
+}
+
+function sessionCookies(session, csrfToken) {
+  return [
+    serializeCookie(ACCESS_COOKIE, session.access_token, { maxAge: ACCESS_MAX_AGE }),
+    serializeCookie(REFRESH_COOKIE, session.refresh_token, { maxAge: REFRESH_MAX_AGE }),
+    serializeCookie(CSRF_COOKIE, csrfToken, { httpOnly: false, maxAge: REFRESH_MAX_AGE }),
+  ];
+}
+
+export function sessionHeaders(session, csrfToken = secureRandom()) {
+  return appendCookies(cacheHeaders(csrfToken), sessionCookies(session, csrfToken));
 }
 
 export function clearSessionHeaders() {
-  const headers = new Headers({
-    "Cache-Control": "private, no-store",
-    "Pragma": "no-cache",
-    "Vary": "Cookie, Origin",
-    "X-Content-Type-Options": "nosniff",
-  });
-  headers.append("Set-Cookie", expiredCookie(ACCESS_COOKIE));
-  headers.append("Set-Cookie", expiredCookie(REFRESH_COOKIE));
-  headers.append("Set-Cookie", expiredCookie(CSRF_COOKIE));
-  return headers;
+  return appendCookies(cacheHeaders(), [
+    expiredCookie(ACCESS_COOKIE),
+    expiredCookie(REFRESH_COOKIE),
+    expiredCookie(CSRF_COOKIE, { httpOnly: false }),
+  ]);
+}
+
+function responseWithHeaders(response, headers, cookies = []) {
+  const merged = new Headers(response.headers);
+  for (const [key, value] of headers.entries()) merged.set(key, value);
+  appendCookies(merged, cookies);
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers: merged });
 }
 
 export function mergeSessionHeaders(response, session) {
-  const headers = new Headers(response.headers);
-  if (session?.headers) {
-    const getSetCookie = session.headers.getSetCookie;
-    const cookies = typeof getSetCookie === "function" ? getSetCookie.call(session.headers) : [session.headers.get("Set-Cookie")].filter(Boolean);
-    for (const value of cookies) headers.append("Set-Cookie", value);
-    for (const [key, value] of session.headers.entries()) {
-      if (key.toLowerCase() !== "set-cookie") headers.set(key, value);
-    }
-  }
-  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  return responseWithHeaders(response, session?.headers ?? cacheHeaders(), session?.cookies ?? []);
+}
+
+export function clearSessionResponse(response) {
+  const clearHeaders = clearSessionHeaders();
+  const cookies = [
+    expiredCookie(ACCESS_COOKIE),
+    expiredCookie(REFRESH_COOKIE),
+    expiredCookie(CSRF_COOKIE, { httpOnly: false }),
+  ];
+  const base = new Headers(clearHeaders);
+  base.delete("Set-Cookie");
+  return responseWithHeaders(response, base, cookies);
 }
 
 export function requestCsrfToken(request) {
@@ -75,9 +97,7 @@ export function requestCsrfToken(request) {
 export function enforceCsrf(context) {
   const expected = requestCsrfToken(context.request);
   const supplied = context.request.headers.get("X-Community-CSRF");
-  if (!expected || !supplied || expected.length !== supplied.length) {
-    return errorResponse(403, "FORBIDDEN", "요청 보안 확인에 실패했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.");
-  }
+  if (!expected || !supplied || expected.length !== supplied.length) return errorResponse(403, "FORBIDDEN", "요청 보안 확인에 실패했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.");
   let mismatch = 0;
   for (let index = 0; index < expected.length; index += 1) mismatch |= expected.charCodeAt(index) ^ supplied.charCodeAt(index);
   return mismatch === 0 ? null : errorResponse(403, "FORBIDDEN", "요청 보안 확인에 실패했습니다. 페이지를 새로고침한 뒤 다시 시도해 주세요.");
@@ -89,38 +109,50 @@ export function requestSessionTokens(request) {
 }
 
 async function refreshSupabaseSession(env, refreshToken) {
-  const url = env.SUPABASE_URL;
-  const anonKey = env.SUPABASE_ANON_KEY;
-  if (!url || !anonKey) return { data: null, error: { message: "Supabase configuration is missing" } };
+  if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) return { data: null, error: { message: "Supabase configuration is missing" } };
   try {
-    const response = await fetch(new URL("/auth/v1/token?grant_type=refresh_token", url), {
+    const response = await fetch(new URL("/auth/v1/token?grant_type=refresh_token", env.SUPABASE_URL), {
       method: "POST",
-      headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}`, "Content-Type": "application/json" },
+      headers: { apikey: env.SUPABASE_ANON_KEY, Authorization: `Bearer ${env.SUPABASE_ANON_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({ refresh_token: refreshToken }),
     });
     const data = await response.json().catch(() => null);
     return response.ok ? { data: { session: data }, error: null } : { data: null, error: data ?? { message: "Session refresh failed" } };
-  } catch (error) {
-    return { data: null, error: { message: error instanceof Error ? error.message : "Session refresh failed" } };
+  } catch {
+    return { data: null, error: { message: "Session refresh failed" } };
   }
+}
+
+function clearedAuthError() {
+  return clearSessionResponse(errorResponse(401, "AUTH_REQUIRED", "로그인 상태가 만료되었거나 유효하지 않습니다."));
 }
 
 export async function authenticatedSession(context) {
   const { accessToken, refreshToken } = requestSessionTokens(context.request);
-  if (!accessToken) return { error: errorResponse(401, "AUTH_REQUIRED", "로그인 후 이용할 수 있습니다.") };
+  if (!accessToken) return { error: clearedAuthError() };
 
   let client;
   try { client = publicSupabase(context.env, accessToken); } catch { return { error: errorResponse(503, "CONFIGURATION_ERROR", "인증 서비스 설정을 확인해 주세요.") }; }
   let result = await client.auth.getUser(accessToken);
-  if (!result.error && result.data.user) return { client, user: result.data.user, accessToken, headers: sessionHeaders({ access_token: accessToken, refresh_token: refreshToken ?? secureRandom() }, requestCsrfToken(context.request) ?? undefined) };
-  if (!refreshToken) return { error: errorResponse(401, "AUTH_REQUIRED", "로그인 상태가 만료되었거나 유효하지 않습니다.") };
+  const csrfToken = requestCsrfToken(context.request) ?? secureRandom();
+  const csrfCookies = requestCsrfToken(context.request) ? [] : [serializeCookie(CSRF_COOKIE, csrfToken, { httpOnly: false, maxAge: REFRESH_MAX_AGE })];
+  if (!result.error && result.data.user) {
+    return { client, user: result.data.user, accessToken, headers: cacheHeaders(csrfToken), cookies: csrfCookies };
+  }
+  if (!refreshToken) return { error: clearedAuthError() };
 
   const refreshed = await refreshSupabaseSession(context.env, refreshToken);
-  if (refreshed.error || !refreshed.data.session) return { error: errorResponse(401, "AUTH_REQUIRED", "로그인 상태가 만료되었거나 유효하지 않습니다.") };
+  if (refreshed.error || !refreshed.data.session?.access_token || !refreshed.data.session?.refresh_token) return { error: clearedAuthError() };
   client = publicSupabase(context.env, refreshed.data.session.access_token);
   result = await client.auth.getUser(refreshed.data.session.access_token);
-  if (result.error || !result.data.user) return { error: errorResponse(401, "AUTH_REQUIRED", "로그인 상태가 만료되었거나 유효하지 않습니다.") };
-  return { client, user: result.data.user, accessToken: refreshed.data.session.access_token, headers: sessionHeaders(refreshed.data.session) };
+  if (result.error || !result.data.user) return { error: clearedAuthError() };
+  return {
+    client,
+    user: result.data.user,
+    accessToken: refreshed.data.session.access_token,
+    headers: cacheHeaders(csrfToken),
+    cookies: sessionCookies(refreshed.data.session, csrfToken),
+  };
 }
 
 export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE };

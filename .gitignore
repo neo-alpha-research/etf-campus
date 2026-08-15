@@ -6,6 +6,8 @@ coverage/
 .env*
 !.env.example
 .vercel/
+.wrangler/
+.worktrees/
 .DS_Store
 npm-debug.log*
 *.log

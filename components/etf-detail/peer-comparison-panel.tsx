@@ -144,13 +144,13 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
         </div>
       ) : (
         <>
-          <div className="flex flex-wrap items-center justify-between gap-3 px-1 mb-2">
+          <div className="flex flex-wrap items-center justify-between gap-3 px-1 mb-2 mt-4">
             <div className="text-[15px] font-extrabold text-emerald-800 tracking-tight">
               기준일 {formatAsOfDate(etf.asOfDate)}
             </div>
-            <Link href={comparisonHref} className="shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-brand-200 bg-brand-50 px-3 py-1.5 text-[13px] font-bold text-brand-700 transition-colors hover:bg-brand-100 hover:text-brand-800">
+            <Link href={comparisonHref} className="shrink-0 inline-flex items-center gap-1 rounded-md border border-brand-200 bg-brand-50 px-2.5 py-1 text-[12px] font-bold text-brand-700 transition-colors hover:bg-brand-100 hover:text-brand-800">
               ETF 직접 비교하기
-              <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+              <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             </Link>
           </div>
           <EtfCompareView mainEtf={etf} basket={selected.candidates.map((candidate) => candidate.etf)} mode="peer-readonly" selectionReasons={new Map(selected.candidates.map((candidate) => [candidate.etf.ticker, candidate.reasons]))} comparisonProfiles={comparisonProfiles} />

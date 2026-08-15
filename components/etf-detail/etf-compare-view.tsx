@@ -80,7 +80,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                           <span className={`text-[12.5px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-600" : "text-neutral-500"}`}>{etf.ticker}</span>
                           <span className="text-[15px] font-black leading-snug break-keep text-strong group-hover:text-brand-600 transition-colors line-clamp-2 w-full">{etf.name}</span>
                         </Link>
-                        {!isBase && (
+                        {!isBase && mode !== "peer-readonly" && (
                           <button 
                             onClick={() => onRemove(etf.ticker)}
                             className="absolute right-2 top-2 p-1 text-rose-400 hover:text-rose-600 transition-all duration-200 flex items-center justify-center group/btn active:scale-90"

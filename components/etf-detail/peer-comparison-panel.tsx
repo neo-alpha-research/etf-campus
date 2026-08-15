@@ -145,7 +145,10 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
         <>
           <div className="flex items-center justify-between gap-3 px-1">
             <p className="text-xs font-medium text-muted">현재 ETF를 첫 번째 열에 고정했습니다. {guideText}</p>
-            <Link href={comparisonHref} className="shrink-0 text-sm font-bold text-brand-700 hover:text-brand-800">ETF 비교 화면에서 종목 직접 변경하기</Link>
+            <Link href={comparisonHref} className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-3.5 py-2 text-[13px] font-bold text-white shadow-sm transition-colors hover:bg-brand-700">
+              ETF 비교 화면에서 종목 직접 변경하기
+              <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+            </Link>
           </div>
           <EtfCompareView mainEtf={etf} basket={selected.candidates.map((candidate) => candidate.etf)} mode="peer-readonly" selectionReasons={new Map(selected.candidates.map((candidate) => [candidate.etf.ticker, candidate.reasons]))} comparisonProfiles={comparisonProfiles} />
         </>

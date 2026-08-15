@@ -143,9 +143,9 @@ export function PriceHistoryChart({ ticker, asOfDate }: { ticker: string, asOfDa
 
           {isCustom && (
             <div className="flex items-center gap-1 shrink-0 animate-in fade-in slide-in-from-left-2 duration-200">
-              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="w-[105px] px-1.5 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow tracking-tighter" />
+              <input type="date" value={customStart} onChange={e => setCustomStart(e.target.value)} className="w-[130px] px-1.5 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow tracking-tighter" />
               <span className="text-muted font-bold text-[10px]">~</span>
-              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="w-[105px] px-1.5 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow tracking-tighter" />
+              <input type="date" value={customEnd} onChange={e => setCustomEnd(e.target.value)} className="w-[130px] px-1.5 py-1 text-xs font-semibold border border-line rounded bg-white outline-none focus:border-brand-400 focus:ring-1 focus:ring-brand-400 transition-shadow tracking-tighter" />
             </div>
           )}
         </div>

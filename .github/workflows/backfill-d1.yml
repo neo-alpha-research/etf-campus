@@ -8,6 +8,16 @@ on:
         required: false
         default: "3"
         type: string
+      start_date:
+        description: "Optional inclusive backfill start date (YYYYMMDD; set together with end_date)"
+        required: false
+        default: ""
+        type: string
+      end_date:
+        description: "Optional inclusive backfill end date (YYYYMMDD; set together with start_date)"
+        required: false
+        default: ""
+        type: string
 
 jobs:
   backfill:
@@ -42,4 +52,13 @@ jobs:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
-        run: python scripts/backfill_api.py --days ${{ inputs.days }}
+        run: |
+          if [ -n "${{ inputs.start_date }}" ] || [ -n "${{ inputs.end_date }}" ]; then
+            if [ -z "${{ inputs.start_date }}" ] || [ -z "${{ inputs.end_date }}" ]; then
+              echo "::error::start_date and end_date must be provided together in YYYYMMDD format."
+              exit 1
+            fi
+            python scripts/backfill_api.py --start-date "${{ inputs.start_date }}" --end-date "${{ inputs.end_date }}"
+          else
+            python scripts/backfill_api.py --days "${{ inputs.days }}"
+          fi

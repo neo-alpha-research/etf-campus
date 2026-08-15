@@ -38,20 +38,18 @@ KIND_NOTICE_TITLE = "ETF 신규상장 기준가격 안내"
 KIND_SOURCE_NAME = "KRX KIND ETF 신규상장 기준가격 안내"
 
 LEDGER_FIELDS = [
+    "etf_id",
     "ticker",
-    "isin",
-    "name",
+    "etf_name",
     "listing_date",
-    "reference_price",
-    "reference_price_currency",
-    "source_name",
-    "source_receipt_no",
+    "listing_reference_price_krw",
     "source_url",
-    "notice_applied_date",
-    "notice_title",
+    "published_at",
+    "applied_date",
+    "source_collected_at",
+    "content_hash",
     "verification_status",
     "verification_note",
-    "fetched_at",
 ]
 
 AUDIT_FIELDS = [
@@ -534,21 +532,28 @@ def resolution_from_checkpoint(payload: Mapping[str, Any]) -> Resolution | None:
 
 
 def to_ledger_row(resolution: Resolution, checked_at: str) -> dict[str, str]:
+    import hashlib
+    content = f"{resolution.ticker}|{resolution.reference_price}|{resolution.listing_date}"
+    content_hash = hashlib.sha256(content.encode("utf-8")).hexdigest()[:16]
+    
+    # Receipt NO (20XXXXXXXXXXXX) starts with YYYYMMDD
+    published_at = ""
+    if resolution.receipt_no and len(resolution.receipt_no) >= 8:
+        published_at = f"{resolution.receipt_no[:4]}-{resolution.receipt_no[4:6]}-{resolution.receipt_no[6:8]}"
+        
     return {
+        "etf_id": resolution.isin,  # ISIN을 ETF ID로 대체 (유일 식별자)
         "ticker": resolution.ticker,
-        "isin": resolution.isin,
-        "name": resolution.name,
+        "etf_name": resolution.name,
         "listing_date": resolution.listing_date,
-        "reference_price": format_number(resolution.reference_price),
-        "reference_price_currency": "KRW" if resolution.reference_price else "",
-        "source_name": KIND_SOURCE_NAME if resolution.reference_price else "",
-        "source_receipt_no": resolution.receipt_no,
+        "listing_reference_price_krw": format_number(resolution.reference_price),
         "source_url": resolution.source_url,
-        "notice_applied_date": resolution.notice_applied_date,
-        "notice_title": resolution.notice_title,
+        "published_at": published_at,
+        "applied_date": resolution.notice_applied_date,
+        "source_collected_at": checked_at,
+        "content_hash": content_hash,
         "verification_status": resolution.status,
         "verification_note": resolution.reason,
-        "fetched_at": checked_at,
     }
 
 
@@ -613,7 +618,7 @@ def process(args: argparse.Namespace, session: requests.Session | None = None) -
     checkpoint = load_checkpoint(checkpoint_path)
     checkpoint_results = checkpoint.setdefault("results", {})
     client = session or requests.Session()
-    client.headers.setdefault("User-Agent", "ETF-Campus/1.0 official-reference-price-audit")
+    client.headers.setdefault("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
     checked_at = now_kst()
     resolutions: list[Resolution] = []
     notice_cache: dict[str, list[ListingNotice]] = {}

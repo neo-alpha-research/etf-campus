@@ -148,7 +148,7 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
             <div className="text-[15px] font-extrabold text-emerald-800 tracking-tight">
               기준일 {formatAsOfDate(etf.asOfDate)}
             </div>
-            <Link href={comparisonHref} className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-brand-600 px-3.5 py-2 text-[13px] font-bold text-white shadow-sm transition-colors hover:bg-brand-700">
+            <Link href={comparisonHref} className="shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-brand-200 bg-brand-50 px-3 py-1.5 text-[13px] font-bold text-brand-700 transition-colors hover:bg-brand-100 hover:text-brand-800">
               ETF 직접 비교하기
               <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
             </Link>

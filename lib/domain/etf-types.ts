@@ -83,6 +83,14 @@ export type EtfClassification = {
   evidenceSummary: string | null;
 };
 
+export type ListingDateStatus =
+  | "verified_official"
+  | "official_notice_pending_isin"
+  | "provisional_first_trade"
+  | "conflict"
+  | "manual_review"
+  | "unavailable";
+
 export type Etf = {
   isin: string;
   ticker: string;
@@ -92,7 +100,7 @@ export type Etf = {
   changePct: number;
   tradeValue: number;
   aum: number;
-  fee: EtfFeeInfo | null;
+  fee?: EtfFeeInfo | null;
 
   issuer: EtfIssuer;
   riskType: RiskType;
@@ -103,6 +111,11 @@ export type Etf = {
   asOfDate: string;
   listingDate: string | null;
   listingDateSource: string | null;
+  listingDateStatus: ListingDateStatus | null;
+  firstTradedDate: string | null;
+  firstTradedDateSource: string | null;
+  listingDateVerifiedAt: string | null;
+  listingDateEvidenceId: string | null;
   returns: EtfReturns;
   isNew90d: boolean | null;
   isNew3m: boolean;

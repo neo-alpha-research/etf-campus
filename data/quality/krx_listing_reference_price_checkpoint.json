@@ -1,45 +1,45 @@
 {
   "results": {
     "0185L0": {
-      "existing_anchor_close": 10005.0,
+      "existing_anchor_close": null,
       "isin": "KR70185L0006",
       "listing_date": "2026-05-19",
       "name": "TIME 글로벌휴머노이드로봇산업액티브",
-      "notice_applied_date": "",
-      "notice_title": "",
-      "reason": "403 Client Error: Forbidden for url: https://kind.krx.co.kr/disclosure/disclosurebystocktype.do",
-      "receipt_no": "",
-      "reference_price": null,
-      "source_url": "",
-      "status": "kind_search_error",
+      "notice_applied_date": "2026-05-19",
+      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
+      "reason": "KRX KIND listing-reference-price notice verified.",
+      "receipt_no": "20260518001013",
+      "reference_price": 10005.0,
+      "source_url": "https://kind.krx.co.kr/external/2026/05/18/001013/20260518002172/99401.htm",
+      "status": "official_verified",
       "ticker": "0185L0"
     },
     "0189Z0": {
-      "existing_anchor_close": 9640.0,
+      "existing_anchor_close": null,
       "isin": "KR70189Z0006",
       "listing_date": "2026-06-09",
       "name": "DAISHIN343 금융&지주고배당",
-      "notice_applied_date": "",
-      "notice_title": "",
-      "reason": "403 Client Error: Forbidden for url: https://kind.krx.co.kr/disclosure/disclosurebystocktype.do",
-      "receipt_no": "",
-      "reference_price": null,
-      "source_url": "",
-      "status": "kind_search_error",
+      "notice_applied_date": "2026-06-09",
+      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
+      "reason": "KRX KIND listing-reference-price notice verified.",
+      "receipt_no": "20260608001078",
+      "reference_price": 9640.0,
+      "source_url": "https://kind.krx.co.kr/external/2026/06/08/001078/20260608002154/99401.htm",
+      "status": "official_verified",
       "ticker": "0189Z0"
     },
     "0191B0": {
-      "existing_anchor_close": 37255.0,
+      "existing_anchor_close": null,
       "isin": "KR70191B0000",
       "listing_date": "2026-05-19",
       "name": "MIDAS 코스닥액티브",
-      "notice_applied_date": "",
-      "notice_title": "",
-      "reason": "403 Client Error: Forbidden for url: https://kind.krx.co.kr/disclosure/disclosurebystocktype.do",
-      "receipt_no": "",
-      "reference_price": null,
-      "source_url": "",
-      "status": "kind_search_error",
+      "notice_applied_date": "2026-05-19",
+      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
+      "reason": "KRX KIND listing-reference-price notice verified.",
+      "receipt_no": "20260518001008",
+      "reference_price": 37255.0,
+      "source_url": "https://kind.krx.co.kr/external/2026/05/18/001008/20260518002169/99401.htm",
+      "status": "official_verified",
       "ticker": "0191B0"
     },
     "0191M0": {
@@ -71,17 +71,17 @@
       "ticker": "0191S0"
     },
     "0191W0": {
-      "existing_anchor_close": 100010.0,
+      "existing_anchor_close": null,
       "isin": "KR70191W0005",
       "listing_date": "2026-05-19",
       "name": "HANARO 중기종합채권(A-이상)액티브",
-      "notice_applied_date": "",
-      "notice_title": "",
-      "reason": "No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.",
-      "receipt_no": "",
-      "reference_price": null,
-      "source_url": "",
-      "status": "manual_review_required",
+      "notice_applied_date": "2026-05-19",
+      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
+      "reason": "KRX KIND listing-reference-price notice verified.",
+      "receipt_no": "20260518001014",
+      "reference_price": 100010.0,
+      "source_url": "https://kind.krx.co.kr/external/2026/05/18/001014/20260518002173/99401.htm",
+      "status": "official_verified",
       "ticker": "0191W0"
     },
     "0192L0": {
@@ -897,6 +897,6 @@
       "ticker": "0226G0"
     }
   },
-  "updated_at": "2026-08-16T10:46:24+09:00",
+  "updated_at": "2026-08-16T10:55:40+09:00",
   "version": 1
 }

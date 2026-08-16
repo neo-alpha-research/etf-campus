@@ -1,7 +1,0 @@
-﻿{
-  "eligible_tickers": [],
-  "eligible_count": 0,
-  "history_rows": 0,
-  "output": "data\\returns\\etf_total_return_history.csv",
-  "calculation_version": "tr-history-v1"
-}

@@ -1,4 +1,0 @@
-﻿0185L0|2026-05-19|TIME 글로벌휴머노이드로봇산업액티브|kind_search_error|403 Client Error: Forbidden for url: https://kind.krx.co.kr/disclosure/disclosurebystocktype.do
-0189Z0|2026-06-09|DAISHIN343 금융&지주고배당|kind_search_error|403 Client Error: Forbidden for url: https://kind.krx.co.kr/disclosure/disclosurebystocktype.do
-0191B0|2026-05-19|MIDAS 코스닥액티브|kind_search_error|403 Client Error: Forbidden for url: https://kind.krx.co.kr/disclosure/disclosurebystocktype.do
-0191W0|2026-05-19|HANARO 중기종합채권(A-이상)액티브|manual_review_required|No unique KIND notice with a positive reference price, matching applied date, and unambiguous ETF name.

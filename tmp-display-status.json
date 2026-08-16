@@ -1,9 +1,0 @@
-﻿{
-  "status_count": 1160,
-  "income_count": 122,
-  "tr_status_counts": {
-    "partial": 122,
-    "not_applicable": 1038
-  },
-  "output": "data\\returns\\etf_return_display_status.json"
-}

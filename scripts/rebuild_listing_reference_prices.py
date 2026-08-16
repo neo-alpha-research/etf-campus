@@ -38,18 +38,20 @@ KIND_NOTICE_TITLE = "ETF 신규상장 기준가격 안내"
 KIND_SOURCE_NAME = "KRX KIND ETF 신규상장 기준가격 안내"
 
 LEDGER_FIELDS = [
-    "etf_id",
     "ticker",
-    "etf_name",
+    "isin",
+    "name",
     "listing_date",
-    "listing_reference_price_krw",
+    "reference_price",
+    "reference_price_currency",
+    "source_name",
+    "source_receipt_no",
     "source_url",
-    "published_at",
-    "applied_date",
-    "source_collected_at",
-    "content_hash",
+    "notice_applied_date",
+    "notice_title",
     "verification_status",
     "verification_note",
+    "fetched_at",
 ]
 
 AUDIT_FIELDS = [
@@ -463,6 +465,50 @@ def calculate_return(latest_close: float | None, anchor: float | None) -> float 
     return round((latest_close / anchor - 1) * 100, 2)
 
 
+def listing_date_is_recent(listing_date: str, as_of_date: str, recent_days: int) -> bool:
+    """Return true when a listing date is within the inclusive recent-listing window."""
+    normalized = normalize_date(listing_date)
+    if not normalized or recent_days < 0:
+        return False
+    as_of = dt.date.fromisoformat(as_of_date)
+    cutoff = as_of - dt.timedelta(days=recent_days)
+    value = dt.date.fromisoformat(normalized)
+    return cutoff <= value <= as_of
+
+
+def clear_nonrecent_itd_anchors(
+    return_rows: list[dict[str, str]], recent_tickers: set[str]
+) -> tuple[list[dict[str, str]], int]:
+    """Clear ITD-only fields for ETFs outside the current recent-listing universe."""
+    fields_to_clear = (
+        "r_itd",
+        "itd_anchor_close",
+        "itd_anchor_date",
+        "itd_return_type",
+        "itd_source",
+        "itd_verified_at",
+    )
+    result: list[dict[str, str]] = []
+    cleared = 0
+    for original in return_rows:
+        row = dict(original)
+        ticker = normalize_ticker(row.get("ticker"))
+        if ticker not in recent_tickers:
+            changed = False
+            for field in fields_to_clear:
+                if field in row and row.get(field):
+                    row[field] = ""
+                    changed = True
+            if "itd_quality_status" in row:
+                if row.get("itd_quality_status") != "not_applicable_not_recent_listing":
+                    row["itd_quality_status"] = "not_applicable_not_recent_listing"
+                    changed = True
+            if changed:
+                cleared += 1
+        result.append(row)
+    return result, cleared
+
+
 def apply_verified_anchors(
     return_rows: list[dict[str, str]],
     resolutions: Mapping[str, Resolution],
@@ -506,6 +552,15 @@ def merge_official_listing_cache(
     return dict(sorted(merged.items()))
 
 
+def recent_official_listing_cache(resolutions: Mapping[str, Resolution]) -> dict[str, float]:
+    """Keep only current recent-listing official reference prices in the cache."""
+    return dict(sorted({
+        ticker: resolution.reference_price
+        for ticker, resolution in resolutions.items()
+        if resolution.status.startswith("official_verified") and resolution.reference_price
+    }.items()))
+
+
 def backup_file(path: Path, backup_dir: Path, checked_at: str) -> Path:
     backup_dir.mkdir(parents=True, exist_ok=True)
     stamp = checked_at.replace(":", "").replace("+", "_").replace("-", "")
@@ -532,28 +587,21 @@ def resolution_from_checkpoint(payload: Mapping[str, Any]) -> Resolution | None:
 
 
 def to_ledger_row(resolution: Resolution, checked_at: str) -> dict[str, str]:
-    import hashlib
-    content = f"{resolution.ticker}|{resolution.reference_price}|{resolution.listing_date}"
-    content_hash = hashlib.sha256(content.encode("utf-8")).hexdigest()[:16]
-    
-    # Receipt NO (20XXXXXXXXXXXX) starts with YYYYMMDD
-    published_at = ""
-    if resolution.receipt_no and len(resolution.receipt_no) >= 8:
-        published_at = f"{resolution.receipt_no[:4]}-{resolution.receipt_no[4:6]}-{resolution.receipt_no[6:8]}"
-        
     return {
-        "etf_id": resolution.isin,  # ISIN을 ETF ID로 대체 (유일 식별자)
         "ticker": resolution.ticker,
-        "etf_name": resolution.name,
+        "isin": resolution.isin,
+        "name": resolution.name,
         "listing_date": resolution.listing_date,
-        "listing_reference_price_krw": format_number(resolution.reference_price),
+        "reference_price": format_number(resolution.reference_price),
+        "reference_price_currency": "KRW" if resolution.reference_price else "",
+        "source_name": KIND_SOURCE_NAME if resolution.reference_price else "",
+        "source_receipt_no": resolution.receipt_no,
         "source_url": resolution.source_url,
-        "published_at": published_at,
-        "applied_date": resolution.notice_applied_date,
-        "source_collected_at": checked_at,
-        "content_hash": content_hash,
+        "notice_applied_date": resolution.notice_applied_date,
+        "notice_title": resolution.notice_title,
         "verification_status": resolution.status,
         "verification_note": resolution.reason,
+        "fetched_at": checked_at,
     }
 
 
@@ -592,6 +640,22 @@ def parser() -> argparse.ArgumentParser:
         help="After --apply, replace verified listing_prices.json values with a backup",
     )
     result.add_argument("--limit", type=int, default=0, help="Maximum selected tickers to query")
+    result.add_argument(
+        "--recent-listings-only",
+        action="store_true",
+        help="Process only ETFs listed within --recent-days as of --as-of-date",
+    )
+    result.add_argument("--recent-days", type=int, default=90, help="Inclusive new-listing window in days (default: 90)")
+    result.add_argument(
+        "--as-of-date",
+        default=dt.date.today().isoformat(),
+        help="Inclusive reference date in YYYY-MM-DD format (default: local current date)",
+    )
+    result.add_argument(
+        "--purge-nonrecent",
+        action="store_true",
+        help="With --apply and recent-listings-only, remove nonrecent reference prices and clear nonrecent ITD fields after backups",
+    )
     result.add_argument("--throttle-seconds", type=float, default=0.35, help="Delay between KIND requests")
     result.add_argument("--timeout", type=float, default=20.0, help="HTTP timeout in seconds")
     return result
@@ -600,6 +664,17 @@ def parser() -> argparse.ArgumentParser:
 def process(args: argparse.Namespace, session: requests.Session | None = None) -> dict[str, int]:
     if (args.apply_returns or args.apply_listing_cache) and not args.apply:
         raise ValueError("--apply-returns and --apply-listing-cache require --apply")
+    if args.recent_days < 0:
+        raise ValueError("--recent-days must be zero or greater")
+    try:
+        dt.date.fromisoformat(args.as_of_date)
+    except ValueError as error:
+        raise ValueError("--as-of-date must use YYYY-MM-DD") from error
+    if args.purge_nonrecent:
+        if not args.apply or not args.recent_listings_only:
+            raise ValueError("--purge-nonrecent requires --apply and --recent-listings-only")
+        if not args.apply_returns or not args.apply_listing_cache:
+            raise ValueError("--purge-nonrecent requires --apply-returns and --apply-listing-cache")
     data_dir = Path(args.data_dir)
     master_path = data_dir / "etf_master_draft.csv"
     returns_path = data_dir / "etf_returns_draft.csv"
@@ -613,12 +688,17 @@ def process(args: argparse.Namespace, session: requests.Session | None = None) -
     returns_by_ticker = {normalize_ticker(row.get("ticker")): row for row in return_rows}
     selected = {normalize_ticker(value) for value in args.ticker if normalize_ticker(value)}
     rows = [row for row in master_rows if not selected or normalize_ticker(row.get("ticker")) in selected]
+    if args.recent_listings_only:
+        rows = [
+            row for row in rows
+            if listing_date_is_recent(row.get("listing_date") or "", args.as_of_date, args.recent_days)
+        ]
     if args.limit > 0:
         rows = rows[: args.limit]
     checkpoint = load_checkpoint(checkpoint_path)
     checkpoint_results = checkpoint.setdefault("results", {})
     client = session or requests.Session()
-    client.headers.setdefault("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+    client.headers.setdefault("User-Agent", "ETF-Campus/1.0 official-reference-price-audit")
     checked_at = now_kst()
     resolutions: list[Resolution] = []
     notice_cache: dict[str, list[ListingNotice]] = {}
@@ -643,23 +723,42 @@ def process(args: argparse.Namespace, session: requests.Session | None = None) -
         "unavailable": sum(not item.reference_price for item in resolutions),
         "returns_updated": 0,
         "cache_updated": 0,
+        "itd_rows_cleared": 0,
+        "cache_entries_removed": 0,
     }
     if args.apply:
         write_csv_atomic(ledger_path, LEDGER_FIELDS, [to_ledger_row(item, checked_at) for item in resolutions])
         write_csv_atomic(audit_path, AUDIT_FIELDS, [to_audit_row(item, checked_at) for item in resolutions])
+        if args.purge_nonrecent:
+            selected_tickers = {normalize_ticker(row.get("ticker")) for row in rows}
+            checkpoint_results = {
+                ticker: result
+                for ticker, result in checkpoint_results.items()
+                if normalize_ticker(ticker) in selected_tickers
+            }
+            checkpoint["results"] = checkpoint_results
         checkpoint.update({"version": 1, "updated_at": checked_at})
         write_json_atomic(checkpoint_path, checkpoint)
         if args.apply_returns:
             backup_file(returns_path, backup_dir, checked_at)
-            updated_rows, updated = apply_verified_anchors(return_rows, resolution_map, checked_at)
+            rows_for_update = return_rows
+            if args.purge_nonrecent:
+                recent_tickers = {normalize_ticker(row.get("ticker")) for row in rows}
+                rows_for_update, cleared = clear_nonrecent_itd_anchors(rows_for_update, recent_tickers)
+                stats["itd_rows_cleared"] = cleared
+            updated_rows, updated = apply_verified_anchors(rows_for_update, resolution_map, checked_at)
             write_csv_atomic(returns_path, list(return_rows[0].keys()), updated_rows)
             stats["returns_updated"] = updated
         if args.apply_listing_cache:
             backup_file(cache_path, backup_dir, checked_at)
             cache_payload = json.loads(cache_path.read_text(encoding="utf-8"))
-            merged_cache = merge_official_listing_cache(cache_payload, resolution_map)
+            if args.purge_nonrecent:
+                merged_cache = recent_official_listing_cache(resolution_map)
+                stats["cache_entries_removed"] = max(0, len(cache_payload) - len(merged_cache))
+            else:
+                merged_cache = merge_official_listing_cache(cache_payload, resolution_map)
             write_json_atomic(cache_path, merged_cache)
-            stats["cache_updated"] = stats["official_verified"]
+            stats["cache_updated"] = len(merged_cache) if args.purge_nonrecent else stats["official_verified"]
     return stats
 
 

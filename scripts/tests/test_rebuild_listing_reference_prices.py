@@ -163,6 +163,66 @@ class ListingReferencePriceTests(unittest.TestCase):
             self.assertEqual(len(list((data_dir / "backups").glob("etf_returns_draft.*.csv"))), 1)
             self.assertEqual(len(list((data_dir / "backups").glob("listing_prices.*.json"))), 1)
 
+    def test_purge_nonrecent_keeps_only_recent_official_prices_and_clears_old_itd(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            data_dir = Path(temporary) / "data"
+            data_dir.mkdir()
+            (data_dir / "etf_master_draft.csv").write_text(
+                "ticker,isin,name,listing_date\n"
+                "396500,KR7396500001,TIGER 반도체TOP10,2021-08-10\n"
+                "000001,KR7000000001,오래된ETF,2021-04-01\n",
+                encoding="utf-8",
+            )
+            fields = [
+                "ticker", "name", "close_20260814", "r_itd", "itd_anchor_close", "itd_anchor_date",
+                "itd_return_type", "itd_source", "itd_verified_at", "itd_quality_status",
+            ]
+            with (data_dir / "etf_returns_draft.csv").open("w", encoding="utf-8", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=fields)
+                writer.writeheader()
+                writer.writerows([
+                    {
+                        "ticker": "396500", "name": "TIGER 반도체TOP10", "close_20260814": "36240",
+                        "r_itd": "-10.21", "itd_anchor_close": "40360", "itd_anchor_date": "2021-08-10",
+                    },
+                    {
+                        "ticker": "000001", "name": "오래된ETF", "close_20260814": "10000",
+                        "r_itd": "15.00", "itd_anchor_close": "8695", "itd_anchor_date": "2021-04-01",
+                        "itd_return_type": "pr", "itd_source": "legacy", "itd_verified_at": "2021-04-01",
+                        "itd_quality_status": "legacy",
+                    },
+                ])
+            (data_dir / "listing_prices.json").write_text(
+                '{"396500": 40360.0, "000001": 8695.0}\n', encoding="utf-8"
+            )
+
+            args = module.parser().parse_args([
+                "--data-dir", str(data_dir), "--recent-listings-only", "--recent-days", "90",
+                "--as-of-date", "2021-08-15", "--throttle-seconds", "0", "--apply",
+                "--apply-returns", "--apply-listing-cache", "--purge-nonrecent",
+            ])
+            stats = module.process(args, session=FakeSession())
+            self.assertEqual(stats["official_verified"], 1)
+            self.assertEqual(stats["returns_updated"], 1)
+            self.assertEqual(stats["itd_rows_cleared"], 1)
+            self.assertEqual(stats["cache_entries_removed"], 1)
+            self.assertEqual(stats["cache_updated"], 1)
+            self.assertEqual(
+                json.loads((data_dir / "listing_prices.json").read_text(encoding="utf-8")),
+                {"396500": 9870.0},
+            )
+            with (data_dir / "etf_returns_draft.csv").open(encoding="utf-8-sig", newline="") as handle:
+                rebuilt = {row["ticker"]: row for row in csv.DictReader(handle)}
+            self.assertEqual(rebuilt["396500"]["itd_anchor_close"], "9870")
+            self.assertEqual(rebuilt["000001"]["itd_anchor_close"], "")
+            self.assertEqual(rebuilt["000001"]["r_itd"], "")
+            self.assertEqual(rebuilt["000001"]["itd_quality_status"], "not_applicable_not_recent_listing")
+            with (data_dir / "listing-ledger" / "etf_listing_reference_prices.csv").open(encoding="utf-8-sig", newline="") as handle:
+                ledger = list(csv.DictReader(handle))
+            self.assertEqual([row["ticker"] for row in ledger], ["396500"])
+            self.assertEqual(len(list((data_dir / "backups").glob("etf_returns_draft.*.csv"))), 1)
+            self.assertEqual(len(list((data_dir / "backups").glob("listing_prices.*.json"))), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

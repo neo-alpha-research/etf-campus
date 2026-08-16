@@ -218,7 +218,8 @@ jobs:
             echo "No data changes. Skipping validation and commit."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
-          echo "Latest bas_dt: $(python -c \"import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])\")"
+          latest_bas_dt=$(python -c 'import csv; print(next(csv.DictReader(open("data/etf_master_draft.csv", encoding="utf-8-sig")))["bas_dt"])')
+          echo "Latest bas_dt: ${latest_bas_dt}"
 
       - name: Set up Node.js
         if: steps.changes.outputs.changed == 'true'
@@ -292,11 +293,12 @@ jobs:
             echo "- Trigger: ${{ github.event_name }} / ${{ github.event.schedule || 'manual' }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Mark distribution collection failure after diagnostics
+      - name: Report distribution collection degradation
         if: always() && steps.distribution.outcome == 'failure'
         run: |
-          echo "Official distribution source collection failed. Diagnostics were uploaded; distribution outputs were not committed." >&2
-          exit 1
+          message="Official distribution source collection failed. Diagnostics were uploaded; distribution outputs were not committed. Verified market data may still be validated and committed."
+          echo "::warning::${message}"
+          echo "- Distribution status: degraded — ${message}" >> "$GITHUB_STEP_SUMMARY"
 
       # A run can end green while the site quietly serves stale prices: if the
       # feed has not published, the collector falls back to the previous close

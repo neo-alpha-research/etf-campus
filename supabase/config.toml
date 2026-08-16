@@ -15,9 +15,13 @@ major_version = 17
 enabled = true
 port = 54323
 
-[inbucket]
+[local_smtp]
 enabled = true
 port = 54324
+smtp_port = 54325
+pop3_port = 54326
+admin_email = "local-auth@etf-campus.test"
+sender_name = "ETF Campus Local"
 
 [auth]
 enabled = true
@@ -45,6 +49,8 @@ token_verifications = 30
 [auth.email.smtp]
 host = "inbucket"
 port = 2500
+user = "local"
+pass = "local"
 admin_email = "local-auth@etf-campus.test"
 sender_name = "ETF Campus Local"
 

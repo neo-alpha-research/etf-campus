@@ -123,7 +123,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       asOfDate: requireField(master, "bas_dt", `master:${ticker}`),
       listingDate: optionalText(master, "listing_date"),
       listingDateSource: optionalText(master, "listing_date_source"),
-      listingDateStatus: optionalText(master, "listing_date_status") as any,
+      listingDateStatus: optionalText(master, "listing_date_status") as Etf["listingDateStatus"],
       firstTradedDate: optionalText(master, "first_traded_date"),
       firstTradedDateSource: optionalText(master, "first_traded_date_source"),
       listingDateVerifiedAt: optionalText(master, "listing_date_verified_at"),

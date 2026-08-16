@@ -92,7 +92,7 @@ begin
   if public.current_community_role() not in ('member', 'admin') or not public.has_community_nickname() then raise exception 'community member profile required'; end if;
   if char_length(btrim(p_title)) not between 2 and 120 or char_length(btrim(p_body_text)) not between 2 and 6000 then raise exception 'invalid post length'; end if;
   if p_title ~* '<[[:space:]]*/?[[:space:]]*[[:alpha:]]' or p_body_text ~* '<[[:space:]]*/?[[:space:]]*[[:alpha:]]' then raise exception 'html is not allowed'; end if;
-  select id into category_uuid from public.community_categories where slug = p_category_slug and is_active;
+  select id into category_uuid from public.community_categories where public.community_categories.slug = p_category_slug and public.community_categories.is_active;
   if category_uuid is null then raise exception 'category not found'; end if;
   insert into public.community_posts(category_id, author_profile_id, title, body_text) values (category_uuid, current_user_id, btrim(p_title), btrim(p_body_text)) returning community_posts.slug into created_slug;
   return query select created_slug;
@@ -110,7 +110,7 @@ begin
   if current_user_id is null then raise exception 'authentication required'; end if;
   if char_length(btrim(p_title)) not between 2 and 120 or char_length(btrim(p_body_text)) not between 2 and 6000 then raise exception 'invalid post length'; end if;
   if p_title ~* '<[[:space:]]*/?[[:space:]]*[[:alpha:]]' or p_body_text ~* '<[[:space:]]*/?[[:space:]]*[[:alpha:]]' then raise exception 'html is not allowed'; end if;
-  select id into category_uuid from public.community_categories where slug = p_category_slug and is_active;
+  select id into category_uuid from public.community_categories where public.community_categories.slug = p_category_slug and public.community_categories.is_active;
   if category_uuid is null then raise exception 'category not found'; end if;
   update public.community_posts set category_id = category_uuid, title = btrim(p_title), body_text = btrim(p_body_text)
   where community_posts.slug = p_slug and community_posts.author_profile_id = current_user_id and community_posts.deleted_at is null;

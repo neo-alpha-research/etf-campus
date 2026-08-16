@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { formatWon, formatMoney } from "@/lib/domain/etf-format";

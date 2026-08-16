@@ -45,7 +45,7 @@ export function SiteHeader() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveFinderHref(`/quick/?mode=${m}`);
     } else if (pathname === "/") {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+
       setActiveFinderHref("/");
     }
   }, [pathname, searchParams]);

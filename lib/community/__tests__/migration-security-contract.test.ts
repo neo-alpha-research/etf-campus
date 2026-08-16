@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-const source = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260815_000002_community_security_hardening.sql"), "utf8");
+const source = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260815000002_community_security_hardening.sql"), "utf8");
 
 describe("커뮤니티 Supabase 보안 마이그레이션 계약", () => {
   it("직접 Data API 테이블 권한을 회수하고 공개 View만 읽기 허용한다", () => {

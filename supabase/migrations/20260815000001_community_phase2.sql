@@ -197,7 +197,7 @@ security definer
 set search_path = public
 as $$
   select coalesce(
-    (select role from public.community_user_roles where user_id = auth.uid()),
+    (select public.community_user_roles.role from public.community_user_roles where user_id = auth.uid()),
     'guest'::public.community_role
   );
 $$;
@@ -298,7 +298,7 @@ begin
   values (current_user_id, 'member', 'authenticated profile bootstrap')
   on conflict (user_id) do nothing;
 
-  select role into resolved_role from public.community_user_roles where user_id = current_user_id;
+  select public.community_user_roles.role into resolved_role from public.community_user_roles where user_id = current_user_id;
   return query select normalized_nickname, resolved_role;
 end;
 $$;

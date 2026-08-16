@@ -66,9 +66,9 @@ describe("EtfDetail", () => {
   it("개요·태그·기간 수익률·연금 상태와 기준일을 표시한다", () => {
     render(<EtfDetail etf={item} />);
     expect(screen.getByRole("heading", { name: /상세 테스트 ETF/ })).toBeInTheDocument();
-    expect(screen.getByText("테스트 기초지수")).toBeInTheDocument();
-    expect(screen.getByText(/테스트 기초지수를 기준으로 운용되는 미국 주식 ETF입니다./)).toBeInTheDocument();
-    expect(screen.getAllByText("확인중").length).toBeGreaterThan(0);
+    expect(screen.getByText(/테스트 기초지수/)).toBeInTheDocument();
+    expect(screen.getByText(/테스트 기초지수를 기준으로 운용되는 미국 주식 ETF입니다/)).toBeInTheDocument();
+    expect(screen.queryByText("공식 데이터 확인 중")).not.toBeInTheDocument();
   });
 
 

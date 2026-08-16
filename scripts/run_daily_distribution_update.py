@@ -24,17 +24,26 @@ PYTHON = sys.executable
 KST = timezone(timedelta(hours=9))
 LOCK_PATH = ROOT / "data" / "distributions" / ".daily_distribution_update.lock"
 REPORT_PATH = ROOT / "data" / "distributions" / "reports" / "daily_distribution_update_latest.json"
+OFFICIAL_SOURCE_REPORT_PATH = ROOT / "data" / "distributions" / "reports" / "official_source_collection_latest.json"
 
 
 def command_steps(skip_collect: bool) -> list[tuple[str, list[str]]]:
     steps: list[tuple[str, list[str]]] = []
     if not skip_collect:
-        steps.append(("official_source_collection", [PYTHON, "scripts/collect_distribution_sources.py", "run"]))
+        steps.extend(
+            [
+                ("distribution_registry_seed", [PYTHON, "scripts/collect_distribution_registry.py", "seed"]),
+                ("official_source_collection", [PYTHON, "scripts/collect_distribution_sources.py", "run"]),
+                ("distribution_registry_discovery", [PYTHON, "scripts/collect_distribution_registry.py", "discover"]),
+                ("registry_detail_collection", [PYTHON, "scripts/collect_distribution_sources.py", "collect"]),
+            ]
+        )
     steps.extend(
         [
             ("candidate_parse", [PYTHON, "scripts/build_distribution_candidates.py", "run"]),
             ("kind_notice_reconciliation", [PYTHON, "scripts/reconcile_kind_distribution_notices.py", "run"]),
             ("kind_event_reconciliation", [PYTHON, "scripts/reconcile_kind_distribution_events.py", "run"]),
+            ("distribution_detail_summaries", [PYTHON, "scripts/build_distribution_summaries.py"]),
             ("estimated_distribution_returns", [PYTHON, "scripts/calculate_estimated_distribution_returns.py"]),
             ("verified_total_return_history", [PYTHON, "scripts/calculate_total_return_history.py"]),
             ("return_display_status", [PYTHON, "scripts/build_return_display_status.py"]),
@@ -106,6 +115,14 @@ def main() -> None:
                 report["failed_step"] = name
                 report["finished_at_kst"] = datetime.now(KST).isoformat()
                 write_report(report)
+                print(json.dumps({
+                    "status": "failed",
+                    "failed_step": name,
+                    "exit_code": process.returncode,
+                    "diagnostic_report": str(REPORT_PATH.relative_to(ROOT)),
+                    "official_source_report": str(OFFICIAL_SOURCE_REPORT_PATH.relative_to(ROOT)) if name == "official_source_collection" else None,
+                }, ensure_ascii=False))
+                print(output)
                 raise RuntimeError(f"distribution update failed at {name}")
 
         report["status"] = "passed"

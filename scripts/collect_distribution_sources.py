@@ -24,6 +24,7 @@ import hashlib
 import json
 import mimetypes
 import re
+import socket
 import sys
 import time
 import urllib.error
@@ -32,7 +33,7 @@ import urllib.request
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Iterable
+from typing import Callable, Iterable
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data" / "distributions"
@@ -78,6 +79,13 @@ MANUAL_EVENTS_PATH = DATA_DIR / "manual_verified_distribution_events.csv"
 
 DATE_FORMATS = ("%Y-%m-%d", "%Y.%m.%d", "%Y/%m/%d", "%Y%m%d")
 SAFE_COMPONENT = re.compile(r"[^0-9A-Za-z가-힣._-]+")
+DEFAULT_TIMEOUT_SECONDS = 30
+DEFAULT_MAX_ATTEMPTS = 3
+DEFAULT_BACKOFF_SECONDS = 1.0
+MAX_BACKOFF_SECONDS = 8.0
+TRANSIENT_HTTP_STATUSES = {408, 425, 429, 500, 502, 503, 504}
+AUTH_HTTP_STATUSES = {401, 403}
+COLLECTION_REPORT_PATH = REPORT_DIR / "official_source_collection_latest.json"
 
 
 @dataclass(frozen=True)
@@ -87,6 +95,10 @@ class FetchResult:
     media_type: str
     final_url: str
     error: str = ""
+    category: str = "success"
+    retryable: bool = False
+    attempts: int = 1
+    retry_delays_seconds: tuple[float, ...] = ()
 
 
 def utc_now() -> str:
@@ -192,30 +204,91 @@ def source_extension(url: str, media_type: str, body: bytes) -> str:
     return guessed or ".bin"
 
 
-def fetch_url(url: str, timeout: int = 30) -> FetchResult:
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "Mozilla/5.0 (compatible; ETF-Campus-Distribution/1.0; +https://etf-campus.local)",
-            "Accept": "text/html,application/json,application/pdf,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-        },
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            return FetchResult(
-                body=response.read(),
-                status=response.status,
-                media_type=response.headers.get_content_type() or "application/octet-stream",
-                final_url=response.geturl(),
-            )
-    except urllib.error.HTTPError as error:
+def classify_failure(status: int, error: BaseException | str | None) -> tuple[str, bool]:
+    """Return a stable failure category and whether one limited retry is justified."""
+    message = clean(error).lower()
+    if 200 <= status < 300 and "empty response" in message:
+        return "empty_response", False
+    if status in TRANSIENT_HTTP_STATUSES:
+        return ("http_rate_limited" if status == 429 else "http_transient", True)
+    if status in AUTH_HTTP_STATUSES:
+        return "http_auth_or_access_denied", False
+    if status == 404:
+        return "http_not_found", False
+    if status and 400 <= status < 500:
+        return "http_client_error", False
+    if "certificate_verify_failed" in message or "ssl" in message:
+        return "tls_certificate_error", False
+    if isinstance(error, (TimeoutError, socket.timeout)) or "timed out" in message or "timeout" in message:
+        return "network_timeout", True
+    if isinstance(error, urllib.error.URLError):
+        return "network_error", True
+    if status == 0:
+        return "network_error", True
+    return "unknown_error", False
+
+
+def retry_delay_seconds(result: FetchResult, retry_index: int) -> float:
+    """Use bounded exponential backoff; Retry-After headers are not trusted as unbounded sleeps."""
+    return min(DEFAULT_BACKOFF_SECONDS * (2 ** retry_index), MAX_BACKOFF_SECONDS)
+
+
+def fetch_url(
+    url: str,
+    timeout: int = DEFAULT_TIMEOUT_SECONDS,
+    max_attempts: int = DEFAULT_MAX_ATTEMPTS,
+    opener: Callable[..., object] = urllib.request.urlopen,
+    sleeper: Callable[[float], None] = time.sleep,
+) -> FetchResult:
+    """Fetch one declared official source with auditable, bounded retries for transient failures."""
+    if not clean(url):
         return FetchResult(
-            body=error.read(), status=error.code,
-            media_type=error.headers.get_content_type() if error.headers else "application/octet-stream",
-            final_url=url, error=f"HTTP {error.code}",
+            b"", 0, "application/octet-stream", url, "empty source URL",
+            category="unconfigured_source_url", retryable=False, attempts=0,
         )
-    except Exception as error:  # Network failures must remain visible in the ledger.
-        return FetchResult(b"", 0, "application/octet-stream", url, f"{type(error).__name__}: {error}")
+
+    retry_delays: list[float] = []
+    for attempt in range(1, max(1, max_attempts) + 1):
+        try:
+            request = urllib.request.Request(
+                url,
+                headers={
+                    "User-Agent": "Mozilla/5.0 (compatible; ETF-Campus-Distribution/1.0; +https://etf-campus.local)",
+                    "Accept": "text/html,application/json,application/pdf,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                },
+            )
+            with opener(request, timeout=timeout) as response:
+                body = response.read()
+                response_status = getattr(response, "status", None)
+                status = int(response_status if response_status is not None else response.getcode())
+                media_type = response.headers.get_content_type() or "application/octet-stream"
+                final_url = response.geturl()
+                if 200 <= status < 300 and body:
+                    return FetchResult(body, status, media_type, final_url, attempts=attempt, retry_delays_seconds=tuple(retry_delays))
+                category, retryable = classify_failure(status, "empty response" if not body else None)
+                result = FetchResult(body, status, media_type, final_url, "empty response" if not body else f"HTTP {status}", category, retryable, attempt, tuple(retry_delays))
+        except urllib.error.HTTPError as error:
+            body = error.read()
+            category, retryable = classify_failure(error.code, error)
+            result = FetchResult(
+                body, error.code,
+                error.headers.get_content_type() if error.headers else "application/octet-stream",
+                url, f"HTTP {error.code}", category, retryable, attempt, tuple(retry_delays),
+            )
+        except Exception as error:  # Network failures remain visible in the ledger and audit report.
+            category, retryable = classify_failure(0, error)
+            result = FetchResult(
+                b"", 0, "application/octet-stream", url, f"{type(error).__name__}: {error}",
+                category, retryable, attempt, tuple(retry_delays),
+            )
+
+        if not result.retryable or attempt >= max(1, max_attempts):
+            return result
+        delay = retry_delay_seconds(result, attempt - 1)
+        retry_delays.append(delay)
+        sleeper(delay)
+
+    raise AssertionError("fetch loop must return a result")
 
 
 def load_master() -> dict[str, dict[str, str]]:
@@ -313,33 +386,97 @@ def bootstrap() -> None:
         write_csv(MANUAL_EVENTS_PATH, MANUAL_EVENT_COLUMNS, [sample])
 
 
-def collect_sources(force: bool = False, limit: int | None = None, sleep_seconds: float = 0.2) -> dict[str, int]:
+def write_collection_report(report: dict[str, object]) -> None:
+    REPORT_DIR.mkdir(parents=True, exist_ok=True)
+    temporary = COLLECTION_REPORT_PATH.with_suffix(".tmp")
+    temporary.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(COLLECTION_REPORT_PATH)
+
+
+def source_has_verified_raw(row: dict[str, str] | None) -> bool:
+    if not row:
+        return False
+    raw_path = clean(row.get("raw_path"))
+    expected_hash = clean(row.get("content_hash_sha256"))
+    raw_file = ROOT / raw_path if raw_path else None
+    return bool(raw_file and expected_hash and raw_file.exists() and sha256(raw_file.read_bytes()) == expected_hash)
+
+
+def collection_issue(target: dict[str, str], result: FetchResult, preserved: bool) -> dict[str, object]:
+    return {
+        "source_id": clean(target.get("source_id")),
+        "ticker": normalise_ticker(target.get("ticker")),
+        "source_owner": clean(target.get("source_owner")),
+        "request_date_utc": utc_now()[:10],
+        "source_url": clean(target.get("source_url")),
+        "http_status": result.status or None,
+        "attempts": result.attempts,
+        "retry_delays_seconds": list(result.retry_delays_seconds),
+        "failure_category": result.category,
+        "retryable": result.retryable,
+        "final_failure_reason": result.error or "empty response",
+        "existing_verified_raw_preserved": preserved,
+    }
+
+
+def collect_sources(
+    force: bool = False,
+    limit: int | None = None,
+    sleep_seconds: float = 0.2,
+    source_ids: set[str] | None = None,
+    timeout: int = DEFAULT_TIMEOUT_SECONDS,
+    max_attempts: int = DEFAULT_MAX_ATTEMPTS,
+) -> dict[str, object]:
+    """Collect all configured official sources without overwriting a verified prior document on failure."""
     bootstrap()
     existing = {row["source_id"]: row for row in read_csv(SOURCES_PATH) if row.get("source_id")}
     target_rows = read_csv(TARGETS_PATH)
+    if source_ids is not None:
+        target_rows = [row for row in target_rows if clean(row.get("source_id")) in source_ids]
     if limit is not None:
         target_rows = target_rows[:limit]
+
     collected = 0
     skipped = 0
     failed = 0
+    unconfigured = 0
+    preserved = 0
+    issues: list[dict[str, object]] = []
 
     for target in target_rows:
         source_id = clean(target.get("source_id"))
+        source_url = clean(target.get("source_url"))
+        if not source_id:
+            continue
+        if not source_url:
+            unconfigured += 1
+            result = FetchResult(
+                b"", 0, "application/octet-stream", "", "empty source URL",
+                category="unconfigured_source_url", retryable=False, attempts=0,
+            )
+            issues.append(collection_issue(target, result, source_has_verified_raw(existing.get(source_id))))
+            continue
         if source_id in existing and existing[source_id].get("parse_status") not in {"failed", ""} and not force:
             skipped += 1
             continue
-        result = fetch_url(clean(target.get("source_url")))
+
+        result = fetch_url(source_url, timeout=timeout, max_attempts=max_attempts)
         row = blank_source()
         row.update({key: clean(target.get(key)) for key in TARGET_COLUMNS if key in row})
         row["retrieved_at"] = utc_now()
         row["http_status"] = str(result.status)
         row["media_type"] = result.media_type
-        row["source_url"] = result.final_url or clean(target.get("source_url"))
+        row["source_url"] = result.final_url or source_url
         if result.status < 200 or result.status >= 300 or not result.body:
-            row["parse_status"] = "failed"
-            row["parse_note"] = f"{clean(target.get('parse_note'))} | {result.error or 'empty response'}".strip()
-            existing[source_id] = row
+            had_verified_raw = source_has_verified_raw(existing.get(source_id))
+            issues.append(collection_issue(target, result, had_verified_raw))
             failed += 1
+            if had_verified_raw:
+                preserved += 1
+            else:
+                row["parse_status"] = "failed"
+                row["parse_note"] = f"{clean(target.get('parse_note'))} | {result.category}; attempts={result.attempts}; {result.error or 'empty response'}".strip()
+                existing[source_id] = row
             continue
 
         digest = sha256(result.body)
@@ -358,7 +495,19 @@ def collect_sources(force: bool = False, limit: int | None = None, sleep_seconds
 
     ordered = [existing[key] for key in sorted(existing)]
     write_csv(SOURCES_PATH, SOURCE_COLUMNS, ordered)
-    return {"collected": collected, "skipped": skipped, "failed": failed, "total": len(target_rows)}
+    report: dict[str, object] = {
+        "generated_at": utc_now(),
+        "status": "failed" if failed else ("incomplete_unconfigured_sources" if unconfigured else "passed"),
+        "total_targets": len(target_rows),
+        "collected": collected,
+        "skipped": skipped,
+        "failed": failed,
+        "unconfigured": unconfigured,
+        "preserved_existing_verified_raw": preserved,
+        "issues": issues,
+    }
+    write_collection_report(report)
+    return report
 
 
 def legacy_event_rows(master: dict[str, dict[str, str]]) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
@@ -537,6 +686,12 @@ def validate() -> dict[str, object]:
                 errors.append({"event_id": event_id, "issue": "verified_event_missing_required_verification"})
             if not issuer_source or not krx_source:
                 errors.append({"event_id": event_id, "issue": "verified_event_missing_source_chain"})
+        elif status == "krx_verified":
+            if not ex_date or bool_string(event.get("krx_ex_date_verified")) != "true":
+                errors.append({"event_id": event_id, "issue": "krx_verified_event_missing_krx_ex_date"})
+            if not krx_source or issuer_source:
+                errors.append({"event_id": event_id, "issue": "krx_verified_event_invalid_source_chain"})
+            warnings.append({"event_id": event_id, "issue": "tr_blocked_krx_verified"})
         if status in {"partial", "pending", "conflict"}:
             warnings.append({"event_id": event_id, "issue": f"tr_blocked_{status}"})
 
@@ -569,7 +724,18 @@ def print_json(payload: object) -> None:
 
 def command_run(args: argparse.Namespace) -> int:
     bootstrap()
-    collected = collect_sources(force=args.force, limit=args.limit, sleep_seconds=args.sleep)
+    collected = collect_sources(
+        force=args.force,
+        limit=args.limit,
+        sleep_seconds=args.sleep,
+        timeout=args.timeout,
+        max_attempts=args.max_attempts,
+    )
+    # Never rebuild candidate/event outputs after a real official-source failure.
+    # A source marked unconfigured is reported explicitly but does not invent a zero-value event.
+    if int(collected["failed"]) > 0:
+        print_json({"collection": collected, "normalization": "skipped_due_to_collection_failure", "validation": "skipped_due_to_collection_failure"})
+        return 3
     normalized = normalise_events()
     report = validate()
     print_json({"collection": collected, "normalization": normalized, "validation": report})
@@ -587,7 +753,14 @@ def main() -> int:
     collect_parser.add_argument("--force", action="store_true", help="Fetch again even when source_id already exists")
     collect_parser.add_argument("--limit", type=int, default=None, help="Limit number of targets for a controlled initial run")
     collect_parser.add_argument("--sleep", type=float, default=0.2, help="Delay between fetches in seconds")
-    collect_parser.set_defaults(func=lambda args: (print_json(collect_sources(args.force, args.limit, args.sleep)), 0)[1])
+    collect_parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS, help="Per-request timeout in seconds")
+    collect_parser.add_argument("--max-attempts", type=int, default=DEFAULT_MAX_ATTEMPTS, help="Maximum attempts for transient failures")
+    collect_parser.add_argument("--source-id", action="append", default=None, help="Collect only the specified source_id values")
+    def run_collect(args: argparse.Namespace) -> int:
+        report = collect_sources(args.force, args.limit, args.sleep, set(args.source_id) if args.source_id else None, args.timeout, args.max_attempts)
+        print_json(report)
+        return 0 if int(report["failed"]) == 0 else 3
+    collect_parser.set_defaults(func=run_collect)
 
     normalize_parser = subparsers.add_parser("normalize", help="Normalize legacy and manually verified events")
     normalize_parser.set_defaults(func=lambda args: (print_json(normalise_events()), 0)[1])
@@ -599,6 +772,8 @@ def main() -> int:
     run_parser.add_argument("--force", action="store_true")
     run_parser.add_argument("--limit", type=int, default=None)
     run_parser.add_argument("--sleep", type=float, default=0.2)
+    run_parser.add_argument("--timeout", type=int, default=DEFAULT_TIMEOUT_SECONDS)
+    run_parser.add_argument("--max-attempts", type=int, default=DEFAULT_MAX_ATTEMPTS)
     run_parser.set_defaults(func=command_run)
 
     args = parser.parse_args()

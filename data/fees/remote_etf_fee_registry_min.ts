@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { EtfFeeInfo } from "../domain/etf-types";
+import type { EtfFeeInfo } from "../../lib/domain/etf-types";
 type R={ticker:string;total_fee_pct?:number|null;ter_pct?:number|null;other_cost_pct?:number|null;trading_cost_pct?:number|null;effective_date?:string|null;source_document_date?:string|null;verification_status?:string|null;primary_source_type?:string|null;primary_source_url?:string|null;dart_receipt_no?:string|null;secondary_source_url?:string|null;source_note?:string|null};
 const n=(v:unknown):number|null=>typeof v==="number"&&Number.isFinite(v)?v:null;
 const load=(p:string):unknown[]=>{if(!fs.existsSync(p))return[];const x=JSON.parse(fs.readFileSync(p,"utf8"));return Array.isArray(x)?x:[]};

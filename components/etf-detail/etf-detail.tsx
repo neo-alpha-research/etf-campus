@@ -188,7 +188,6 @@ export function EtfDetail({
             <EtfDetailClient
               etf={etf}
               peerComparison={resolvedPeerComparison}
-              returnDisplayStatus={returnDisplayStatus}
             >
 
         {/* ETF 핵심 요약 및 차트 */}
@@ -212,7 +211,7 @@ export function EtfDetail({
           <div className="mt-4 flex flex-col lg:flex-row gap-6 items-stretch">
             {/* 왼쪽 영역 (약 70%): 수익률 차트 및 표 */}
             <div className="flex-1 w-full lg:w-[70%] flex flex-col gap-2">
-              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} isNewListing={newListing} itdAnchor={etf.itdAnchor} returnDisplayStatus={returnDisplayStatus} />
+              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} isNewListing={newListing} itdAnchor={etf.itdAnchor} />
 
               {newListing && !itdAvailable ? <p className="px-1 text-xs font-medium text-muted">상장일 기준 가격 확인 후 상장 후 수익률(PR)을 제공합니다.</p> : null}
               {itdPendingVerification ? <p className="px-1 text-xs font-medium text-amber-700">ITD는 상장일 기준 가격으로 산출한 PR이며, KRX 기준가격 공식 대조는 진행 중입니다.</p> : null}

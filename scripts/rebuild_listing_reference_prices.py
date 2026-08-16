@@ -476,10 +476,12 @@ def listing_date_is_recent(listing_date: str, as_of_date: str, recent_days: int)
     return cutoff <= value <= as_of
 
 
-def clear_nonrecent_itd_anchors(
-    return_rows: list[dict[str, str]], recent_tickers: set[str]
+def clear_disallowed_itd_anchors(
+    return_rows: list[dict[str, str]],
+    recent_tickers: set[str],
+    resolutions: Mapping[str, Resolution],
 ) -> tuple[list[dict[str, str]], int]:
-    """Clear ITD-only fields for ETFs outside the current recent-listing universe."""
+    """Retain anchors only when a current recent listing has official KIND proof."""
     fields_to_clear = (
         "r_itd",
         "itd_anchor_close",
@@ -493,18 +495,26 @@ def clear_nonrecent_itd_anchors(
     for original in return_rows:
         row = dict(original)
         ticker = normalize_ticker(row.get("ticker"))
+        resolution = resolutions.get(ticker)
         if ticker not in recent_tickers:
-            changed = False
-            for field in fields_to_clear:
-                if field in row and row.get(field):
-                    row[field] = ""
-                    changed = True
-            if "itd_quality_status" in row:
-                if row.get("itd_quality_status") != "not_applicable_not_recent_listing":
-                    row["itd_quality_status"] = "not_applicable_not_recent_listing"
-                    changed = True
-            if changed:
-                cleared += 1
+            status = "not_applicable_not_recent_listing"
+        elif resolution and resolution.status.startswith("official_verified"):
+            result.append(row)
+            continue
+        elif resolution:
+            status = f"listing_reference_{resolution.status}"
+        else:
+            status = "listing_reference_unverified"
+        changed = False
+        for field in fields_to_clear:
+            if field in row and row.get(field):
+                row[field] = ""
+                changed = True
+        if "itd_quality_status" in row and row.get("itd_quality_status") != status:
+            row["itd_quality_status"] = status
+            changed = True
+        if changed:
+            cleared += 1
         result.append(row)
     return result, cleared
 
@@ -744,7 +754,9 @@ def process(args: argparse.Namespace, session: requests.Session | None = None) -
             rows_for_update = return_rows
             if args.purge_nonrecent:
                 recent_tickers = {normalize_ticker(row.get("ticker")) for row in rows}
-                rows_for_update, cleared = clear_nonrecent_itd_anchors(rows_for_update, recent_tickers)
+                rows_for_update, cleared = clear_disallowed_itd_anchors(
+                    rows_for_update, recent_tickers, resolution_map
+                )
                 stats["itd_rows_cleared"] = cleared
             updated_rows, updated = apply_verified_anchors(rows_for_update, resolution_map, checked_at)
             write_csv_atomic(returns_path, list(return_rows[0].keys()), updated_rows)

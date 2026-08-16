@@ -163,6 +163,35 @@ class ListingReferencePriceTests(unittest.TestCase):
             self.assertEqual(len(list((data_dir / "backups").glob("etf_returns_draft.*.csv"))), 1)
             self.assertEqual(len(list((data_dir / "backups").glob("listing_prices.*.json"))), 1)
 
+    def test_unverified_recent_listing_has_no_itd_anchor(self):
+        rows = [
+            {
+                "ticker": "396500", "r_itd": "267.17", "itd_anchor_close": "9870",
+                "itd_anchor_date": "2021-08-10", "itd_quality_status": "official_verified",
+            },
+            {
+                "ticker": "0191W0", "r_itd": "1.00", "itd_anchor_close": "10000",
+                "itd_anchor_date": "2026-05-19", "itd_return_type": "pr", "itd_source": "legacy",
+                "itd_verified_at": "2026-05-19", "itd_quality_status": "legacy",
+            },
+        ]
+        verified = module.Resolution(
+            ticker="396500", isin="", name="", listing_date="2021-08-10", existing_anchor_close=9870.0,
+            reference_price=9870.0, status="official_verified", reason="verified",
+        )
+        unresolved = module.Resolution(
+            ticker="0191W0", isin="", name="", listing_date="2026-05-19", existing_anchor_close=10000.0,
+            reference_price=None, status="manual_review_required", reason="ambiguous official notice",
+        )
+        cleaned, count = module.clear_disallowed_itd_anchors(
+            rows, {"396500", "0191W0"}, {"396500": verified, "0191W0": unresolved}
+        )
+        self.assertEqual(count, 1)
+        self.assertEqual(cleaned[0]["itd_anchor_close"], "9870")
+        self.assertEqual(cleaned[1]["itd_anchor_close"], "")
+        self.assertEqual(cleaned[1]["r_itd"], "")
+        self.assertEqual(cleaned[1]["itd_quality_status"], "listing_reference_manual_review_required")
+
     def test_purge_nonrecent_keeps_only_recent_official_prices_and_clears_old_itd(self):
         with tempfile.TemporaryDirectory() as temporary:
             data_dir = Path(temporary) / "data"

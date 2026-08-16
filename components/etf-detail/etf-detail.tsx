@@ -11,6 +11,7 @@ import { DistributionHistoryCard } from "./distribution-history-card";
 import { PriceHistoryChart } from "./price-history-chart";
 
 import type { PeerComparison } from "@/lib/data/etf-peer-groups";
+import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
@@ -44,7 +45,15 @@ function formatStrategyLabel(
   return strategy;
 }
 
-export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: PeerComparison }) {
+export function EtfDetail({
+  etf,
+  peerComparison,
+  returnDisplayStatus,
+}: {
+  etf: Etf;
+  peerComparison?: PeerComparison;
+  returnDisplayStatus?: EtfReturnDisplayStatus;
+}) {
 
   const resolvedPeerComparison: PeerComparison = peerComparison ?? {
     profile: null,
@@ -155,7 +164,7 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
                 <span className="text-lg font-bold"><ReturnCell value={etf.changePct} /></span>
               </div>
               <div className="flex flex-wrap items-center gap-2.5 text-[16px] font-semibold text-muted pb-1">
-                <AsOfDate value={etf.asOfDate} className="text-[16px] text-muted" />
+                <AsOfDate value={etf.asOfDate} />
                 <span className="h-3 w-px bg-neutral-300"></span>
                 <span>운용사: {etf.issuer.issuerName}</span>
                 <span className="h-3 w-px bg-neutral-300"></span>
@@ -176,7 +185,11 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
         </div>
       </section>
 
-            <EtfDetailClient etf={etf} peerComparison={resolvedPeerComparison}>
+            <EtfDetailClient
+              etf={etf}
+              peerComparison={resolvedPeerComparison}
+              returnDisplayStatus={returnDisplayStatus}
+            >
 
         {/* ETF 핵심 요약 및 차트 */}
         <section aria-labelledby="classification-title" className="scroll-mt-24 pt-0">
@@ -199,7 +212,7 @@ export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: 
           <div className="mt-4 flex flex-col lg:flex-row gap-6 items-stretch">
             {/* 왼쪽 영역 (약 70%): 수익률 차트 및 표 */}
             <div className="flex-1 w-full lg:w-[70%] flex flex-col gap-2">
-              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} isNewListing={newListing} itdAnchor={etf.itdAnchor} />
+              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} isNewListing={newListing} itdAnchor={etf.itdAnchor} returnDisplayStatus={returnDisplayStatus} />
 
               {newListing && !itdAvailable ? <p className="px-1 text-xs font-medium text-muted">상장일 기준 가격 확인 후 상장 후 수익률(PR)을 제공합니다.</p> : null}
               {itdPendingVerification ? <p className="px-1 text-xs font-medium text-amber-700">ITD는 상장일 기준 가격으로 산출한 PR이며, KRX 기준가격 공식 대조는 진행 중입니다.</p> : null}

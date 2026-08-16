@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import socket
+import ssl
 import tempfile
 import urllib.error
 from pathlib import Path
@@ -53,6 +54,11 @@ def sequence_opener(*outcomes: object):
 
 
 class FetchUrlRetryTest(TestCase):
+    def test_trusted_ssl_context_keeps_certificate_verification_enabled(self) -> None:
+        context = collector.trusted_ssl_context()
+        self.assertEqual(context.verify_mode, ssl.CERT_REQUIRED)
+        self.assertTrue(context.check_hostname)
+
     def test_timeout_retries_with_exponential_backoff(self) -> None:
         delays: list[float] = []
         result = collector.fetch_url(

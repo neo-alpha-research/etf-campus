@@ -25,6 +25,7 @@ import json
 import mimetypes
 import re
 import socket
+import ssl
 import sys
 import time
 import urllib.error
@@ -233,6 +234,22 @@ def retry_delay_seconds(result: FetchResult, retry_index: int) -> float:
     return min(DEFAULT_BACKOFF_SECONDS * (2 ** retry_index), MAX_BACKOFF_SECONDS)
 
 
+def trusted_ssl_context() -> ssl.SSLContext:
+    """Build a verified TLS context using the runner's trusted CA bundle.
+
+    Some official issuer endpoints are served with chains that are not found by
+    the bare Python installation on hosted runners.  Prefer certifi when it is
+    already available, then fall back to the platform trust store.  Certificate
+    verification is never disabled.
+    """
+    try:
+        import certifi  # type: ignore[import-not-found]
+
+        return ssl.create_default_context(cafile=certifi.where())
+    except (ImportError, OSError):
+        return ssl.create_default_context()
+
+
 def fetch_url(
     url: str,
     timeout: int = DEFAULT_TIMEOUT_SECONDS,
@@ -257,7 +274,7 @@ def fetch_url(
                     "Accept": "text/html,application/json,application/pdf,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
                 },
             )
-            with opener(request, timeout=timeout) as response:
+            with opener(request, timeout=timeout, context=trusted_ssl_context()) as response:
                 body = response.read()
                 response_status = getattr(response, "status", None)
                 status = int(response_status if response_status is not None else response.getcode())

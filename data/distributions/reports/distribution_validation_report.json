@@ -1,15 +1,35 @@
 {
-  "generated_at": "2026-08-15T06:19:46+00:00",
-  "source_document_count": 36,
-  "event_count": 15,
+  "generated_at": "2026-08-16T10:14:37+00:00",
+  "source_document_count": 73,
+  "event_count": 23,
   "coverage_count": 1160,
   "error_count": 0,
-  "warning_count": 14,
+  "warning_count": 19,
   "errors": [],
   "warnings": [
     {
+      "event_id": "KR70073X0007:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "tr_blocked_krx_verified"
+    },
+    {
+      "event_id": "KR70176P0003:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "tr_blocked_krx_verified"
+    },
+    {
+      "event_id": "KR70189Z0006:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "tr_blocked_krx_verified"
+    },
+    {
+      "event_id": "KR7192720001:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "tr_blocked_krx_verified"
+    },
+    {
       "event_id": "KR7441640000:legacy:2026-07-15:ordinary_cash:v1",
       "issue": "tr_blocked_partial"
+    },
+    {
+      "event_id": "KR7489030007:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "tr_blocked_krx_verified"
     },
     {
       "event_id": "KR7489030007:2026-07-30:ordinary_cash:v1",
@@ -65,12 +85,14 @@
     }
   ],
   "status_counts": {
+    "krx_verified": 5,
+    "issuer_notice": 3,
     "verified": 1,
     "partial": 14
   },
   "source_integrity": {
-    "checked": 23,
-    "passed": 23,
+    "checked": 58,
+    "passed": 58,
     "issues": []
   }
 }

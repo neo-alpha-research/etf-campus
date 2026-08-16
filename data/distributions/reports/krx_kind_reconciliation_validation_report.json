@@ -1,11 +1,28 @@
 {
-  "generated_at": "2026-08-15T06:19:47+00:00",
-  "krx_evidence_count": 1,
-  "match_count": 1,
-  "event_count": 15,
+  "generated_at": "2026-08-16T10:14:37+00:00",
+  "krx_evidence_count": 5,
+  "match_count": 5,
+  "event_count": 23,
   "error_count": 0,
-  "warning_count": 0,
+  "warning_count": 4,
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    {
+      "match_id": "krx-match:20a87c6e17f212b6",
+      "issue": "tr_blocked_unmatched"
+    },
+    {
+      "match_id": "krx-match:243223b72a1b1963",
+      "issue": "tr_blocked_unmatched"
+    },
+    {
+      "match_id": "krx-match:7cfa3f011358db02",
+      "issue": "tr_blocked_unmatched"
+    },
+    {
+      "match_id": "krx-match:9b1022700056c119",
+      "issue": "tr_blocked_unmatched"
+    }
+  ],
   "verified_event_count": 1
 }

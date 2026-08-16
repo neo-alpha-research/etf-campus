@@ -104,7 +104,7 @@ jobs:
           print(f"stale_cache_count={len(stale_cache)}")
           PY
       - name: Refresh recent-listing official reference prices and ITD
-        if: steps.listing_reference.outputs.required == "true"
+        if: steps.listing_reference.outputs.required == 'true'
         run: |
           AS_OF_DATE=$(python -c "from datetime import datetime; from zoneinfo import ZoneInfo; print(datetime.now(ZoneInfo(\"Asia/Seoul\")).date().isoformat())")
           python scripts/rebuild_listing_reference_prices.py \

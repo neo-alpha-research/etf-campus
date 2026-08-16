@@ -4,6 +4,7 @@ import json
 import sys
 import tempfile
 import unittest
+from types import SimpleNamespace
 from pathlib import Path
 
 MODULE_PATH = Path(__file__).resolve().parents[1] / "rebuild_listing_reference_prices.py"
@@ -252,6 +253,16 @@ class ListingReferencePriceTests(unittest.TestCase):
             self.assertEqual(len(list((data_dir / "backups").glob("etf_returns_draft.*.csv"))), 1)
             self.assertEqual(len(list((data_dir / "backups").glob("listing_prices.*.json"))), 1)
 
+
+    def test_retry_unverified_reuses_only_official_checkpoint_results(self):
+        official = SimpleNamespace(status="official_verified")
+        unresolved = SimpleNamespace(status="kind_search_error")
+
+        self.assertTrue(module.should_reuse_checkpoint_resolution(official, refresh=False, retry_unverified=True))
+        self.assertFalse(module.should_reuse_checkpoint_resolution(unresolved, refresh=False, retry_unverified=True))
+        self.assertTrue(module.should_reuse_checkpoint_resolution(unresolved, refresh=False, retry_unverified=False))
+        self.assertFalse(module.should_reuse_checkpoint_resolution(official, refresh=True, retry_unverified=True))
+        self.assertFalse(module.should_reuse_checkpoint_resolution(None, refresh=False, retry_unverified=True))
 
 if __name__ == "__main__":
     unittest.main()

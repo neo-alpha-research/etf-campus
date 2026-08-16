@@ -638,6 +638,7 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--data-dir", default="data", help="Project data directory (default: data)")
     result.add_argument("--ticker", action="append", default=[], help="ETF ticker to process; repeatable")
     result.add_argument("--refresh", action="store_true", help="Ignore checkpointed results and query KIND again")
+    result.add_argument("--retry-unverified", action="store_true", help="Re-query only checkpointed results not officially verified")
     result.add_argument("--apply", action="store_true", help="Write the official ledger, audit, and checkpoint")
     result.add_argument(
         "--apply-returns",
@@ -670,6 +671,12 @@ def parser() -> argparse.ArgumentParser:
     result.add_argument("--timeout", type=float, default=20.0, help="HTTP timeout in seconds")
     return result
 
+
+
+def should_reuse_checkpoint_resolution(cached: Resolution | None, *, refresh: bool, retry_unverified: bool) -> bool:
+    if cached is None or refresh:
+        return False
+    return not retry_unverified or cached.status.startswith("official_verified")
 
 def process(args: argparse.Namespace, session: requests.Session | None = None) -> dict[str, int]:
     if (args.apply_returns or args.apply_listing_cache) and not args.apply:
@@ -715,7 +722,11 @@ def process(args: argparse.Namespace, session: requests.Session | None = None) -
     for index, master in enumerate(rows):
         ticker = normalize_ticker(master.get("ticker"))
         cached = resolution_from_checkpoint(checkpoint_results.get(ticker, {}))
-        if cached and not args.refresh:
+        if should_reuse_checkpoint_resolution(
+            cached,
+            refresh=args.refresh,
+            retry_unverified=args.retry_unverified,
+        ):
             resolution = cached
         else:
             merged = dict(master)

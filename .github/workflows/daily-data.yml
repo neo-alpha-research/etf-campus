@@ -67,6 +67,52 @@ jobs:
             python scripts/update_daily_data.py
           fi
 
+      - name: Detect recent-listing reference-price work
+        id: listing_reference
+        run: |
+          AS_OF_DATE=$(python -c "from datetime import datetime; from zoneinfo import ZoneInfo; print(datetime.now(ZoneInfo(\"Asia/Seoul\")).date().isoformat())")
+          echo "as_of_date=$AS_OF_DATE" >> "$GITHUB_OUTPUT"
+          python - "$AS_OF_DATE" <<"PY" >> "$GITHUB_OUTPUT"
+          import csv
+          import json
+          import sys
+          from datetime import date, timedelta
+          from pathlib import Path
+
+          as_of_date = date.fromisoformat(sys.argv[1])
+          cutoff = as_of_date - timedelta(days=90)
+          data_dir = Path("data")
+          with (data_dir / "etf_master_draft.csv").open(encoding="utf-8-sig", newline="") as handle:
+              master_rows = list(csv.DictReader(handle))
+          listing_dates = {}
+          for row in master_rows:
+              ticker = (row.get("ticker") or "").strip().upper()
+              try:
+                  listing_dates[ticker] = date.fromisoformat((row.get("listing_date") or "").strip())
+              except ValueError:
+                  listing_dates[ticker] = None
+          checkpoint_path = data_dir / "quality" / "krx_listing_reference_price_checkpoint.json"
+          checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8")) if checkpoint_path.exists() else {}
+          results = checkpoint.get("results", {})
+          cache_path = data_dir / "listing_prices.json"
+          cache = json.loads(cache_path.read_text(encoding="utf-8")) if cache_path.exists() else {}
+          recent_tickers = {ticker for ticker, listing_date in listing_dates.items() if listing_date is not None and listing_date >= cutoff}
+          pending = [ticker for ticker in recent_tickers if not str((results.get(ticker) or {}).get("status", "")).startswith("official_verified")]
+          stale_cache = [ticker for ticker in cache if listing_dates.get(ticker) is None or listing_dates.get(ticker) < cutoff]
+          print(f"required={str(bool(pending or stale_cache)).lower()}")
+          print(f"pending_count={len(pending)}")
+          print(f"stale_cache_count={len(stale_cache)}")
+          PY
+      - name: Refresh recent-listing official reference prices and ITD
+        if: steps.listing_reference.outputs.required == "true"
+        run: |
+          AS_OF_DATE=$(python -c "from datetime import datetime; from zoneinfo import ZoneInfo; print(datetime.now(ZoneInfo(\"Asia/Seoul\")).date().isoformat())")
+          python scripts/rebuild_listing_reference_prices.py \
+            --data-dir data \
+            --recent-listings-only --recent-days 90 --as-of-date "$AS_OF_DATE" \
+            --retry-unverified \
+            --apply --apply-returns --apply-listing-cache --purge-nonrecent \
+            --throttle-seconds 1.5
       - name: Check snapshot freshness
         id: freshness
         shell: bash
@@ -170,7 +216,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/distributions data/returns
+          git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/distributions data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
           git commit -m "data: refresh ETF snapshot and distributions"
           git push
 

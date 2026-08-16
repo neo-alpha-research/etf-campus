@@ -4,15 +4,30 @@ import { useState, useMemo, useRef } from "react";
 import useSWR from "swr";
 import { toPng } from "html-to-image";
 import { getPricePeriodRange, type PricePeriod } from "@/lib/domain/etf-price-period";
-import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
 import type { ItdAnchor } from "@/lib/domain/etf-types";
 
-const fetcher = (url: string) => fetch(url).then(async (res) => {
-  if (!res.ok) return { points: [] };
-  const contentType = res.headers.get("content-type");
-  if (!contentType || !contentType.includes("application/json")) return { points: [] };
-  return res.json();
-});
+type PricePoint = {
+  date: string;
+  close: number;
+  returnPct?: number;
+};
+
+type PriceHistoryResponse = {
+  actualEnd?: string;
+  points?: PricePoint[];
+};
+
+type ChartPoint = PricePoint & { returnPct: number };
+
+const EMPTY_POINTS: PricePoint[] = [];
+
+const fetcher = async (url: string): Promise<PriceHistoryResponse> => {
+  const response = await fetch(url);
+  if (!response.ok) return { points: EMPTY_POINTS };
+  const contentType = response.headers.get("content-type");
+  if (!contentType || !contentType.includes("application/json")) return { points: EMPTY_POINTS };
+  return response.json() as Promise<PriceHistoryResponse>;
+};
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr);
@@ -34,14 +49,8 @@ const PERIODS = [
   { id: "itd", label: "ITD", title: "상장 후 수익률" },
 ];
 
-export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, returnDisplayStatus }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; returnDisplayStatus?: EtfReturnDisplayStatus }) {
-  const [returnBasis, setReturnBasis] = useState<"pr" | "estimated" | "tr">("pr");
-  const isIncomeEtf = returnDisplayStatus?.isIncomeEtf ?? false;
-  const estimatedAvailable = returnDisplayStatus?.estimatedReturnStatus === "available";
-  const estimatedPeriods = returnDisplayStatus?.estimatedAvailablePeriods ?? [];
-  const trAvailable = returnDisplayStatus?.trStatus === "available";
-  const trBlocked = returnBasis === "tr" && !trAvailable;
-  const estimatedBlocked = returnBasis === "estimated" && !estimatedAvailable;
+export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor }) {
+
   const [period, setPeriod] = useState<PricePeriod>(isNewListing ? "1d" : "12m");
   const hasItdAnchor = Boolean(isNewListing && itdAnchor?.price && itdAnchor?.date);
   const activeReturnLabel = period === "itd" && hasItdAnchor ? "상장 후 수익률" : "수익률";
@@ -50,11 +59,11 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
   const chartRef = useRef<HTMLDivElement>(null);
   const [isCapturing, setIsCapturing] = useState(false);
   
-  const estimatedAsOfDate = returnDisplayStatus?.estimatedLastCoveredDate?.replaceAll("-", "") || asOfDate;
-  const defaultDates = useMemo(() => getPricePeriodRange(period, returnBasis === "estimated" ? estimatedAsOfDate : asOfDate, {
+    const defaultDates = useMemo(() => getPricePeriodRange(period, asOfDate, {
     listingDate,
     actualFirstTradingDate: period === "itd" && hasItdAnchor ? null : actualFirstTradingDate,
-  }), [period, asOfDate, estimatedAsOfDate, returnBasis, listingDate, actualFirstTradingDate, hasItdAnchor]);
+  }), [period, asOfDate, listingDate, actualFirstTradingDate, hasItdAnchor]);
+
   const maxListingDateUnavailable = period === "itd" && defaultDates.dataStatus === "listing_date_unavailable";
   
   const initialCustomStart = useMemo(() => {
@@ -89,13 +98,8 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
   const [customStart, setCustomStart] = useState(initialCustomStart);
   const [customEnd, setCustomEnd] = useState(initialCustomEnd);
   
-  const estimatedFirstCoveredDate = returnDisplayStatus?.estimatedFirstCoveredDate || "";
-  const startStr = returnBasis === "estimated" && estimatedFirstCoveredDate
-    ? ((defaultDates.start ?? "") < estimatedFirstCoveredDate ? estimatedFirstCoveredDate : (defaultDates.start ?? ""))
-    : (isCustom ? customStart : (defaultDates.start ?? ""));
-  const endStr = returnBasis === "estimated" && returnDisplayStatus?.estimatedLastCoveredDate
-    ? returnDisplayStatus.estimatedLastCoveredDate
-    : (isCustom ? customEnd : defaultDates.end);
+  const startStr = isCustom ? customStart : (defaultDates.start ?? "");
+  const endStr = isCustom ? customEnd : defaultDates.end;
 
   // `next dev` does not execute Cloudflare Pages Functions.  Default to the
   // deployed read-only endpoint so a local chart still works after a reboot.
@@ -103,29 +107,28 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
   const configuredApiBaseUrl = process.env.NEXT_PUBLIC_PRICE_HISTORY_API_BASE_URL?.replace(/\/$/, "");
   const baseUrl = configuredApiBaseUrl ?? (process.env.NODE_ENV === "development" ? "https://etf-campus.pages.dev" : "");
   const { data, error, isLoading } = useSWR(
-    trBlocked || estimatedBlocked || !startStr ? null : `${baseUrl}/api/prices/history?ticker=${ticker}&start=${startStr}&end=${endStr}&basis=${returnBasis}`,
+    !startStr ? null : `${baseUrl}/api/prices/history?ticker=${ticker}&start=${startStr}&end=${endStr}&basis=pr`,
     fetcher
   );
 
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const sourcePoints = data?.points ?? EMPTY_POINTS;
+  const points = useMemo<ChartPoint[]>(() => {
+    const visiblePoints = period === "1d" && !isCustom && sourcePoints.length >= 2
+      ? sourcePoints.slice(-2)
+      : sourcePoints;
+    if (visiblePoints.length === 0) return [];
 
-  let points = data?.points || [];
-
-  if (period === "1d" && !isCustom && points.length >= 2) {
-    points = points.slice(-2);
-  }
-
-  // New-listing ITD is deliberately measured from the verified KRX listing
-  // reference price, not the first observed market close.
-  if (points.length > 0) {
+    // New-listing ITD is deliberately measured from the verified KRX listing
+    // reference price, not the first observed market close.
     const baseClose = period === "itd" && hasItdAnchor && itdAnchor?.price
       ? itdAnchor.price
-      : points[0].close;
-    points = points.map((p: any) => ({
-      ...p,
-      returnPct: baseClose > 0 ? (p.close / baseClose - 1) * 100 : 0
+      : visiblePoints[0].close;
+    return visiblePoints.map((point) => ({
+      ...point,
+      returnPct: baseClose > 0 ? (point.close / baseClose - 1) * 100 : 0,
     }));
-  }
+  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor?.price]);
 
   const isShort = useMemo(() => {
     if (isNewListing) return false;
@@ -136,12 +139,14 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     return diffDays > 7; // more than 7 days gap means the ETF is likely newer than the requested period
   }, [points, startStr, isNewListing]);
 
-  const { pathData, minReturn, maxReturn, xScale, yScale, height, width } = useMemo(() => {
+    const { pathData, minReturn, xScale, yScale, height, width } = useMemo(() => {
+
     const w = 800;
     const h = 160; // Reduced height for better readability
-    if (points.length === 0) return { pathData: "", minReturn: 0, maxReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
+        if (points.length === 0) return { pathData: "", minReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
     
-    const returns = points.map((p: any) => p.returnPct);
+    const returns = points.map((point) => point.returnPct);
+
     const minR = Math.min(...returns, 0);
     const maxR = Math.max(...returns, 0);
     
@@ -153,13 +158,15 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     const xS = w / Math.max(points.length - 1, 1);
     const yS = h / (max - min);
 
-    const path = points.map((p: any, i: number) => {
+        const path = points.map((p, i) => {
+
       const x = i * xS;
       const y = h - (p.returnPct - min) * yS;
       return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
     }).join(" ");
 
-    return { pathData: path, minReturn: min, maxReturn: max, xScale: xS, yScale: yS, height: h, width: w };
+        return { pathData: path, minReturn: min, xScale: xS, yScale: yS, height: h, width: w };
+
   }, [points]);
 
   const zeroY = height - (0 - minReturn) * yScale;
@@ -205,37 +212,30 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
               {PERIODS.filter((p) => {
                 if (p.id === "itd") return hasItdAnchor;
                 return isNewListing ? ["1d", "1w", "2w", "1m", "2m"].includes(p.id) : true;
-              }).map(p => {
-                const disabled = returnBasis === "estimated" && !estimatedPeriods.includes(p.id);
-                return (
+                            }).map(p => (
                 <button
                   key={p.id}
-                  disabled={disabled}
-                  title={disabled ? "확인된 분배금 커버리지 범위를 벗어난 기간입니다." : p.title}
+                  title={p.title}
                   aria-label={p.title}
-                  onClick={() => { if (!disabled) { setPeriod(p.id as PricePeriod); setIsCustom(false); } }}
-                  className={`min-h-8 px-2 py-1 text-xs font-bold rounded-md transition-colors whitespace-nowrap ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : disabled ? "cursor-not-allowed text-neutral-300" : "text-neutral-500 hover:text-strong"}`}
+                  onClick={() => { setPeriod(p.id as PricePeriod); setIsCustom(false); }}
+                  className={`min-h-8 px-2 py-1 text-xs font-bold rounded-md transition-colors whitespace-nowrap ${!isCustom && period === p.id ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
                 >
+
                   {p.label}
                 </button>
-                );
-              })}
+                              ))}
               <button
-                 disabled={returnBasis === "estimated"}
-                 title={returnBasis === "estimated" ? "분배금 반영 수익률은 확인된 커버리지 기간만 제공합니다." : "기간 직접 설정"}
+                 title="기간 직접 설정"
                  aria-label="기간 직접 설정"
-                 onClick={() => { 
-                   if (returnBasis !== "estimated") {
-                     setIsCustom(true);
-                   }
-                 }}
-                 className={`min-h-8 px-2 py-1 text-xs font-bold rounded-md transition-colors whitespace-nowrap ${isCustom ? "bg-white text-brand-600 shadow-sm" : returnBasis === "estimated" ? "cursor-not-allowed text-neutral-300" : "text-neutral-500 hover:text-strong"}`}
+                 onClick={() => setIsCustom(true)}
+                 className={`min-h-8 px-2 py-1 text-xs font-bold rounded-md transition-colors whitespace-nowrap ${isCustom ? "bg-white text-brand-600 shadow-sm" : "text-neutral-500 hover:text-strong"}`}
+
               >
                 직접입력
               </button>
             </div>
 
-            {isCustom && returnBasis !== "estimated" && (
+            {isCustom && (
               <div className="flex shrink-0 items-center gap-1 animate-in fade-in slide-in-from-left-2 duration-200">
                 <input
                   aria-label="시작일"
@@ -280,18 +280,6 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
         </div>
       )}
 
-      {/* Return Basis Selection */}
-      {isIncomeEtf && (
-        <div className="mb-3 sm:mb-4 flex flex-wrap items-center gap-2 rounded-xl border border-line bg-neutral-50/80 px-2 py-1.5 w-fit">
-          <span className="px-1 text-xs font-bold text-muted">수익률 기준</span>
-          <div className="flex items-center gap-1 rounded-lg bg-neutral-200/70 p-1" role="group" aria-label="수익률 기준 선택">
-            <button type="button" onClick={() => setReturnBasis("pr")} className={`rounded-md px-2.5 py-1 text-xs font-bold transition-colors ${returnBasis === "pr" ? "bg-white text-brand-700 shadow-sm" : "text-muted hover:text-strong"}`} title="선택 기간의 시장 종가 변화를 계산한 누적 수익률입니다. 분배금은 포함하지 않습니다.">분배금 미포함</button>
-            <button type="button" onClick={() => { if (estimatedAvailable) { setReturnBasis("estimated"); setPeriod("1m"); setIsCustom(false); } }} disabled={!estimatedAvailable} title={estimatedAvailable ? "운용사 공식 분배금 공지를 가격 이력에 반영한 추정 수익률입니다." : returnDisplayStatus?.estimatedUnavailableReason || "분배금 반영 수익률 준비 중"} className={`rounded-md px-2.5 py-1 text-xs font-bold transition-colors ${returnBasis === "estimated" ? "bg-white text-brand-700 shadow-sm" : estimatedAvailable ? "text-muted hover:text-strong" : "cursor-not-allowed text-neutral-400"}`}>분배금 반영{estimatedAvailable ? " · 추정" : " · 준비 중"}</button>
-            <button type="button" onClick={() => trAvailable && setReturnBasis("tr")} disabled={!trAvailable} title={trAvailable ? "검증된 분배금을 세전 재투자한 것으로 가정한 누적 수익률입니다." : returnDisplayStatus?.trUnavailableReason || "검증 TR 준비 중"} className={`rounded-md px-2.5 py-1 text-xs font-bold transition-colors ${returnBasis === "tr" ? "bg-white text-brand-700 shadow-sm" : trAvailable ? "text-muted hover:text-strong" : "cursor-not-allowed text-neutral-400"}`}>분배금 포함{trAvailable ? " · 검증" : " · 준비 중"}</button>
-          </div>
-        </div>
-      )}
-
       {/* Chart Header */}
       <div className="flex flex-wrap justify-between items-end gap-y-4 mb-4">
         <div className="flex flex-col gap-1">
@@ -323,16 +311,15 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
         <div className="text-right flex flex-col items-end">
           {points.length > 0 && (
             <div className="flex flex-col items-end leading-tight">
-              <div className="flex items-baseline gap-2.5 flex-wrap justify-end">
-                <span className={`font-bold text-[22px] ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>{activeReturnLabel}</span>
-                <span className={`font-black font-mono tracking-tight leading-none text-[22px] ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
-                  {isShort ? '-' : `${points[points.length - 1].returnPct > 0 ? '+' : ''}${points[points.length - 1].returnPct.toFixed(2)}%`}
-                </span>
+              <div className="flex items-center gap-4 flex-wrap justify-end">
+                <div className="flex items-baseline gap-2.5 flex-wrap justify-end">
+                  <span className={`font-bold text-[22px] ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>{activeReturnLabel}</span>
+                  <span className={`font-black font-mono tracking-tight leading-none text-[22px] ${isShort ? 'text-neutral-400' : points[points.length - 1].returnPct > 0 ? 'text-rose-600' : points[points.length - 1].returnPct < 0 ? 'text-blue-600' : 'text-neutral-600'}`}>
+                    {isShort ? '-' : `${points[points.length - 1].returnPct > 0 ? '+' : ''}${points[points.length - 1].returnPct.toFixed(2)}%`}
+                  </span>
+                </div>
               </div>
-              {!isShort && returnBasis !== "pr" && (
-                <div className="text-[11px] text-gray-500 mt-1.5">{returnBasis === "tr" ? "(세전 분배금 재투자 · KIND 검증 완료)" : `운용사 공식 공지 기반 · ${returnDisplayStatus?.estimatedCoverageMonths ?? 0}개월 커버리지`}</div>
-              )}
-              {!isShort && returnBasis === "pr" && period === "itd" && hasItdAnchor && (
+              {!isShort && period === "itd" && hasItdAnchor && (
                 <div className="text-[11px] text-gray-500 mt-1.5">{itdAnchor?.verified ? "KRX 신규상장 기준가격 대비" : "상장일 기준 가격 대비 · KRX 기준가격 공식 대조 중"} · 분배금 미포함</div>
               )}
             </div>
@@ -341,22 +328,8 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
       </div>
 
       {/* Chart Canvas */}
-      {trBlocked ? (
-        <div className="flex min-h-[220px] items-center justify-center rounded-2xl border border-dashed border-amber-200 bg-amber-50/40 px-5 text-center">
-          <div>
-            <p className="text-[15px] font-bold text-strong">검증 총수익률(TR)은 아직 준비 중입니다.</p>
-            <p className="mt-2 text-[13px] font-medium leading-relaxed text-muted">{returnDisplayStatus?.trUnavailableReason || "KIND 공시 대조와 가격 이력 검증이 완료된 후 제공됩니다."}</p>
-          </div>
-        </div>
-      ) : estimatedBlocked ? (
-        <div className="flex min-h-[220px] items-center justify-center rounded-2xl border border-dashed border-sky-200 bg-sky-50/40 px-5 text-center">
-          <div>
-            <p className="text-[15px] font-bold text-strong">분배금 반영 수익률은 아직 준비 중입니다.</p>
-            <p className="mt-2 text-[13px] font-medium leading-relaxed text-muted">{returnDisplayStatus?.estimatedUnavailableReason || "운용사 공식 공지의 분배락일과 가격 이력이 확인된 후 제공됩니다."}</p>
-          </div>
-        </div>
-      
-) : maxListingDateUnavailable ? (
+            {maxListingDateUnavailable ? (
+
         <div className="p-8 text-center text-muted bg-neutral-50 rounded-2xl text-sm font-medium">
           상장일 확인 중
         </div>
@@ -392,7 +365,8 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
             <path d={pathData} fill="none" stroke="#047857" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
             
             {/* Interactive Hover Layer */}
-            {points.map((p: any, i: number) => {
+                        {points.map((p, i) => {
+
               const x = i * xScale;
               const y = height - (p.returnPct - minReturn) * yScale;
               const isHover = hoverIndex === i;
@@ -435,9 +409,10 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
               <div className={`text-xl font-black tracking-tighter font-mono leading-none ${points[hoverIndex].returnPct > 0 ? 'text-rose-400' : points[hoverIndex].returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
                 {points[hoverIndex].returnPct > 0 ? '+' : ''}{points[hoverIndex].returnPct.toFixed(2)}%
               </div>
-              <div className="text-[13px] font-semibold text-neutral-300 mt-0.5">
-                {returnBasis === "estimated" ? `지수 ${Number(points[hoverIndex].close).toFixed(2)}` : `${points[hoverIndex].close.toLocaleString()}원`}
+                            <div className="text-[13px] font-semibold text-neutral-300 mt-0.5">
+                {points[hoverIndex].close.toLocaleString()}원
               </div>
+
             </div>
           )}
         </div>

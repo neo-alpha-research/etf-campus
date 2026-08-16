@@ -1,0 +1,59 @@
+﻿
+  tmp\kind_viewer.js:89:	var h=bh-205;
+  tmp\kind_viewer.js:90:	
+  tmp\kind_viewer.js:91:	$("#toc").height(h);
+> tmp\kind_viewer.js:92:	$("#docViewFrm").height(h+28);
+> tmp\kind_viewer.js:93:	$("#docViewFrm").width(bw-tocTdWidth);
+  tmp\kind_viewer.js:94:	$('div.layer-opener-wrapper a.btn-open').height(h-61);
+  tmp\kind_viewer.js:95:}
+  tmp\kind_viewer.js:96:
+  tmp\kind_viewer.js:97:// ----------------------------------------------------
+----------------------------
+> tmp\kind_viewer.js:98:function search(docNo){
+> tmp\kind_viewer.js:99:	document.docpathfrm.docNo.value = docNo;
+> tmp\kind_viewer.js:100:	document.docpathfrm.submit();
+  tmp\kind_viewer.js:101:}
+  tmp\kind_viewer.js:102:
+  tmp\kind_viewer.js:103://공시일자 셋팅
+  tmp\kind_viewer.js:104:function setPubDD(selectObj){
+  tmp\kind_viewer.js:105:	var val		= selectObj.options[selectObj.selectedIndex]
+.text;
+  tmp\kind_viewer.js:106:	var valLen	= val.length;
+  tmp\kind_viewer.js:107:		val		= val.substring( valLen - 11, valLen - 1 );
+  tmp\kind_viewer.js:108:	var tmpVal	= val.replace(".", "");
+  tmp\kind_viewer.js:137:	}
+  tmp\kind_viewer.js:138:	
+  tmp\kind_viewer.js:139:	var fileurl = document.docdownloadform.docLocPath.val
+ue;
+> tmp\kind_viewer.js:140:	var docpath = document.docdownloadform.docpath.value;
+  tmp\kind_viewer.js:141:	
+> tmp\kind_viewer.js:142:	filedownloadframe.document.location.href = "/disclsdo
+cviewer/filedownload_jws_start.jsp?type=" + type + "&docpath=" + docpath;
+  tmp\kind_viewer.js:143:}*/
+  tmp\kind_viewer.js:144:function filedownload(type){
+  tmp\kind_viewer.js:145:	if (type == "excel") {
+  tmp\kind_viewer.js:146:		$("#docdownloadform > #method").val("searchDocExcel"
+);
+  tmp\kind_viewer.js:147:		$("#docdownloadform").attr('action', '/common/fileup
+load.do').submit();
+  tmp\kind_viewer.js:148:	} else if (type == "pdf") {
+  tmp\kind_viewer.js:149:		$("#docdownloadform > #method").val("searchDocPdf");
+  tmp\kind_viewer.js:150:		$("#docdownloadform").attr('action', '/common/fileup
+load.do').submit();
+  tmp\kind_viewer.js:178:		return;
+  tmp\kind_viewer.js:179:	}
+  tmp\kind_viewer.js:180:
+> tmp\kind_viewer.js:181:	var docNo = document.docpathfrm.docNo.value;
+> tmp\kind_viewer.js:182:	var url = "/common/disclsviewer.do?method=searchDocIn
+foForPrint&docNo=" + docNo;
+  tmp\kind_viewer.js:183:	window.open(url,'공시문서출력','scrollbars=yes,toolbar=no,r
+esizable=yes,status=yes,width=900,height=800,left=0,top=0');
+  tmp\kind_viewer.js:184:}
+  tmp\kind_viewer.js:185:
+  tmp\kind_viewer.js:186:/*
+  tmp\kind_viewer.js:187: * 2013.02.04 수시공시 사전확인절차면제 관련 추가
+  tmp\kind_viewer.js:188: * 경고문구 확인
+  tmp\kind_viewer.js:189: */
+  tmp\kind_viewer.js:190:function doLayerPopup(v) {
+
+

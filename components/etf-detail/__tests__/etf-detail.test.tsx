@@ -63,12 +63,44 @@ const item: Etf = {
 };
 
 describe("EtfDetail", () => {
-  it("개요·태그·기간 수익률과 기준일을 표시한다", () => {
+    it("개요·태그·기간 수익률과 기준일을 표시한다", () => {
     render(<EtfDetail etf={item} />);
     expect(screen.getByRole("heading", { name: /상세 테스트 ETF/ })).toBeInTheDocument();
     expect(screen.getByText(/테스트 기초지수/)).toBeInTheDocument();
     expect(screen.getByText(/테스트 기초지수를 기준으로 운용되는 미국 주식 ETF입니다./)).toBeInTheDocument();
   });
+
+  it("운용사 공식 공지 기반 지급 이력은 분배금 요약이 있는 ETF에만 표시한다", () => {
+    const event = {
+      eventId: "candidate:test",
+      sourceId: "issuer:test:notice",
+      sourceOwner: "TEST",
+      amountKrw: 100,
+      exDate: "2026-07-30",
+      recordDate: null,
+      payDate: "2026-08-04",
+      distributionType: "ordinary_cash",
+      displayStatus: "issuer_notice" as const,
+      displayLabel: "운용사 공식 공지 기반",
+      updatedAt: "2026-08-15T06:19:45Z",
+    };
+    render(<EtfDetail etf={{
+      ...item,
+      distributionSummary: {
+        ticker: item.ticker,
+        sourceStatus: "issuer_notice",
+        sourceLabel: "운용사 공식 공지 기반",
+        latest: event,
+        records: [event],
+        eventCount: 1,
+        updatedAt: "2026-08-15T06:19:45Z",
+      },
+    }} />);
+    expect(screen.getByRole("heading", { name: "분배금 지급 이력" })).toBeInTheDocument();
+    expect(screen.getAllByText("100원").length).toBeGreaterThan(0);
+  });
+
+
 
   describe("연금 배지 및 투자 전 체크 지표", () => {
     it("연금 가능 ETF에는 상단 '연금 가능' 배지가 표시된다", () => {
@@ -129,7 +161,7 @@ describe("EtfDetail", () => {
   });
 
   it("내부 판정 출처를 노출하지 않고 확인 가능한 편입 제한 사유만 설명한다", () => {
-    const { rerender } = render(<EtfDetail etf={{ ...item, pension: "불가", riskType: "leverage", pensionSource: "공식확인(불일치 정정)" }} />);
+    render(<EtfDetail etf={{ ...item, pension: "불가", riskType: "leverage", pensionSource: "공식확인(불일치 정정)" }} />);
 
     expect(screen.getByText(/레버리지 \(고위험\)/)).toBeInTheDocument();
     expect(screen.queryByText(/판정 출처/)).not.toBeInTheDocument();

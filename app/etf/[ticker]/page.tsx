@@ -5,7 +5,6 @@ import { EtfDetail } from "@/components/etf-detail/etf-detail";
 import { siteConfig } from "@/config/site";
 import { loadEtfs } from "@/lib/data/etf-repository";
 import { getPeerComparison } from "@/lib/data/etf-peer-groups";
-import { getEtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
 
 type Props = { params: Promise<{ ticker: string }> };
 
@@ -35,6 +34,6 @@ export default async function EtfPage({ params }: Props) {
   if (!etf) notFound();
 
   const peerComparison = getPeerComparison(etf, etfs);
-  const returnDisplayStatus = getEtfReturnDisplayStatus(etf.ticker);
-  return <EtfDetail etf={etf} peerComparison={peerComparison} returnDisplayStatus={returnDisplayStatus} />;
+    return <EtfDetail etf={etf} peerComparison={peerComparison} />;
+
 }

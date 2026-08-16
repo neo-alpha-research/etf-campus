@@ -2,30 +2,12 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { PriceHistoryChart } from "../price-history-chart";
-import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
 
 const htmlToImageMock = vi.hoisted(() => ({
   toPng: vi.fn(),
 }));
 
 vi.mock("html-to-image", () => htmlToImageMock);
-
-const d2Status: EtfReturnDisplayStatus = {
-  ticker: "458730",
-  isIncomeEtf: true,
-  priorityTier: "P1",
-  prAvailable: true,
-  trStatus: "partial",
-  trAvailablePeriods: [],
-  trUnavailableReason: "검증 TR 준비 중",
-  lastVerifiedAt: "",
-  estimatedReturnStatus: "available",
-  estimatedAvailablePeriods: ["1d", "1w", "2w", "1m"],
-  estimatedCoverageMonths: 2,
-  estimatedUnavailableReason: "",
-  estimatedFirstCoveredDate: "2026-05-27",
-  estimatedLastCoveredDate: "2026-06-29",
-};
 
 const verifiedItdAnchor = {
   price: 10_000,
@@ -35,13 +17,12 @@ const verifiedItdAnchor = {
   verified: true,
 } as const;
 
-function responseFor(url: string) {
-  const estimated = url.includes("basis=estimated");
+function responseFor() {
   return new Response(JSON.stringify({
     actualEnd: "2026-06-29",
     points: [
-      { date: "2026-05-27", close: estimated ? 100 : 15600, returnPct: 0 },
-      { date: "2026-06-29", close: estimated ? 101.48 : 15750, returnPct: estimated ? 1.48 : 0.96 },
+      { date: "2026-05-27", close: 15600, returnPct: 0 },
+      { date: "2026-06-29", close: 15750, returnPct: 0.96 },
     ],
   }), { status: 200, headers: { "content-type": "application/json" } });
 }
@@ -51,22 +32,16 @@ afterEach(() => {
   htmlToImageMock.toPng.mockReset();
 });
 
-describe("PriceHistoryChart D2", () => {
-  it("운용사 공지 기반 분배금 반영 수익률을 검증 TR과 분리해 표시한다", async () => {
-    const fetchMock = vi.fn((url: string) => Promise.resolve(responseFor(url)));
+describe("PriceHistoryChart PR", () => {
+  it("배당형 ETF를 포함해 가격 수익률(PR)만 조회하고 분배금 수익률 전환을 노출하지 않는다", async () => {
+    const fetchMock = vi.fn(() => Promise.resolve(responseFor()));
     vi.stubGlobal("fetch", fetchMock);
 
-    render(<PriceHistoryChart ticker="458730" asOfDate="20260629" returnDisplayStatus={d2Status} />);
-    const estimatedButton = screen.getByRole("button", { name: "분배금 반영 · 추정" });
-    expect(estimatedButton).toBeEnabled();
-    expect(screen.getByRole("button", { name: /분배금 포함 · 준비 중/ })).toBeDisabled();
+    render(<PriceHistoryChart ticker="458730" asOfDate="20260629" />);
 
-    fireEvent.click(estimatedButton);
-
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining("basis=estimated")));
-    expect(await screen.findByText("수익률")).toBeInTheDocument();
-    expect(screen.getByText("운용사 공식 공지 기반 · 2개월 커버리지")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "기간 직접 설정" })).toBeDisabled();
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining("basis=pr")));
+    expect(screen.queryByRole("button", { name: /분배금/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "기간 직접 설정" })).toBeEnabled();
   });
 
   it("기본 선택 버튼이 1Y인지 확인", () => {

@@ -1,0 +1,132 @@
+﻿
+  tmp\kind_etf_popup.html:27:<script type="text/javascript" src="../js/common.j
+s"></script>
+  tmp\kind_etf_popup.html:28:<script type="text/javascript" src="../js/common-p
+op.js?version=20220624"></script>
+> tmp\kind_etf_popup.html:29:<script type="text/javascript" src="../js/common-a
+jax.js"></script>
+  tmp\kind_etf_popup.html:30:<script type="text/javascript" src="../js/JCommon.
+js"></script>
+  tmp\kind_etf_popup.html:31:
+  tmp\kind_etf_popup.html:32:</head>
+  tmp\kind_etf_popup.html:33:<body class="pop">
+  tmp\kind_etf_popup.html:34:
+  tmp\kind_etf_popup.html:41:
+  tmp\kind_etf_popup.html:42:
+> tmp\kind_etf_popup.html:43:<form name="searchForm" id="searchForm" method="po
+st" onsubmit="return false;">
+  tmp\kind_etf_popup.html:44:<input type="hidden" id="method"					name="method"
+ />
+  tmp\kind_etf_popup.html:45:<input type="hidden" id="forward"					name="forwar
+d" />
+  tmp\kind_etf_popup.html:46:<input type="hidden" id="pageIndex"				name="pageI
+ndex" 	value="1" />
+  tmp\kind_etf_popup.html:47:<input type="hidden" id="beginIndex"			name="begin
+Index" value="A" />
+  tmp\kind_etf_popup.html:48:<input type="hidden" id="currentPageSize"	name="cu
+rrentPageSize" value="10" />
+> tmp\kind_etf_popup.html:49:<input type="hidden" id="etfIsuNm"				name="etfIsu
+Nm" value="" />
+> tmp\kind_etf_popup.html:50:<input type="hidden" id="etfIsuCd"				name="etfIsu
+Cd" value="" />
+  tmp\kind_etf_popup.html:51:<section class="contents popup">
+  tmp\kind_etf_popup.html:52:	<section class="roundbox type-99 type-small">
+  tmp\kind_etf_popup.html:53:		<div class="form-search type-99 type-small">
+  tmp\kind_etf_popup.html:54:
+  tmp\kind_etf_popup.html:55:
+  tmp\kind_etf_popup.html:62:				<tbody>
+  tmp\kind_etf_popup.html:63:					<tr class="first">
+> tmp\kind_etf_popup.html:64:						<th scope="row"><label for="etfIsu">종목명</lab
+el> </th>
+  tmp\kind_etf_popup.html:65:						<td>
+> tmp\kind_etf_popup.html:66:							<input class="txt mlong" style="width:215px
+" type="text" id="etfIsu" name="etfIsu" value="" />
+  tmp\kind_etf_popup.html:67:						</td>
+  tmp\kind_etf_popup.html:68:					</tr>
+  tmp\kind_etf_popup.html:69:				</tbody>
+  tmp\kind_etf_popup.html:70:			</table>
+  tmp\kind_etf_popup.html:71:			<div class="btn-group rt solo"><a href="#" titl
+e="검색" onclick="fnSearchInit(); return false;" class="btn-set search-btn"><span
+>검색</span></a></div>
+  tmp\kind_etf_popup.html:93:
+  tmp\kind_etf_popup.html:94:function init(){
+> tmp\kind_etf_popup.html:95:	$("#searchForm > #method").val("findEtfIsu");
+  tmp\kind_etf_popup.html:96:	$("#searchForm > #forward").val("list");
+  tmp\kind_etf_popup.html:97:	fnSearchInit();
+  tmp\kind_etf_popup.html:98:}
+  tmp\kind_etf_popup.html:99:
+  tmp\kind_etf_popup.html:100:function fnSearchInit(){
+  tmp\kind_etf_popup.html:108:function reflectCorpName(){
+  tmp\kind_etf_popup.html:109:    
+> tmp\kind_etf_popup.html:110:    var nm = $('input#etfIsuNm').val();        
+  tmp\kind_etf_popup.html:111:    // 기존에는 encodeURI를 사용하였으나 +검색 시 서비스단에서 디코딩 할때
+ 공백으로 처리하는 문제로 인해 encodeURIComponent로 인코딩 방법을 변경함. 2024.08.05 bslee
+  tmp\kind_etf_popup.html:112:    nm = encodeURIComponent(nm);
+> tmp\kind_etf_popup.html:113:    $('#etfIsuNm').val(nm);
+  tmp\kind_etf_popup.html:114:}
+  tmp\kind_etf_popup.html:115:
+  tmp\kind_etf_popup.html:116:function fnSearch(){
+  tmp\kind_etf_popup.html:117:	setCodeName();
+  tmp\kind_etf_popup.html:118:    reflectCorpName();
+  tmp\kind_etf_popup.html:119:	$('input#beginIndex').val("");
+> tmp\kind_etf_popup.html:120:	$('#searchForm').ajaxSubmit({
+> tmp\kind_etf_popup.html:121:		  ajaxUrl : '/common/etfisu.do'
+> tmp\kind_etf_popup.html:122:		, ajaxCallBack: fnSearchCallBack
+  tmp\kind_etf_popup.html:123:	});
+  tmp\kind_etf_popup.html:124:}
+  tmp\kind_etf_popup.html:125:
+  tmp\kind_etf_popup.html:126:function fnSearchCallBack(data){
+  tmp\kind_etf_popup.html:127:	$("#contents").empty().append(data);
+  tmp\kind_etf_popup.html:128:}
+  tmp\kind_etf_popup.html:129:
+> tmp\kind_etf_popup.html:130:function setEtfInfo(isuSrtCd, isuKorAbbrv, isuCd)
+{
+  tmp\kind_etf_popup.html:131:    var	str = "";
+  tmp\kind_etf_popup.html:132:        str += "isuSrtCd : " + isuSrtCd + "\n";
+  tmp\kind_etf_popup.html:133:        str += "isuKorAbbrv : " + isuKorAbbrv + "
+\n";
+  tmp\kind_etf_popup.html:134:        str += "isuCd : " + isuCd + "\n";
+  tmp\kind_etf_popup.html:135:	
+> tmp\kind_etf_popup.html:136:	opener.setEtfInfo(isuSrtCd, isuKorAbbrv, isuCd);
+  tmp\kind_etf_popup.html:137:    this.close();
+  tmp\kind_etf_popup.html:138:}
+  tmp\kind_etf_popup.html:139:
+  tmp\kind_etf_popup.html:140:function setCodeName(){
+> tmp\kind_etf_popup.html:141:	$('#etfIsuCd').val("");
+> tmp\kind_etf_popup.html:142:	$('#etfIsuNm').val("");
+  tmp\kind_etf_popup.html:143:			
+> tmp\kind_etf_popup.html:144:	var etfIsu = $('#etfIsu').val();
+> tmp\kind_etf_popup.html:145:	etfIsu = etfIsu.toUpperCase();
+  tmp\kind_etf_popup.html:146:		
+> tmp\kind_etf_popup.html:147:	if(etfIsu == null) return;
+> tmp\kind_etf_popup.html:148:	if(etfIsu == "")   return;
+  tmp\kind_etf_popup.html:149:	
+> tmp\kind_etf_popup.html:150:	if(etfIsu.length == 7){
+  tmp\kind_etf_popup.html:151:		
+> tmp\kind_etf_popup.html:152:		var fi = etfIsu.charAt(0);
+> tmp\kind_etf_popup.html:153:		var fn = etfIsu.substr(1);
+  tmp\kind_etf_popup.html:154:		if (fi == 'J' && isNumber(fn)){
+> tmp\kind_etf_popup.html:155:			$('#etfIsuCd').val(etfIsu);
+> tmp\kind_etf_popup.html:156:			$('#etfIsuNm').val("");
+  tmp\kind_etf_popup.html:157:			return;
+  tmp\kind_etf_popup.html:158:		}
+  tmp\kind_etf_popup.html:159:		
+  tmp\kind_etf_popup.html:160:	}	
+> tmp\kind_etf_popup.html:161:	$('#etfIsuCd').val("");
+> tmp\kind_etf_popup.html:162:	$('#etfIsuNm').val(etfIsu);
+  tmp\kind_etf_popup.html:163:	
+  tmp\kind_etf_popup.html:164:}
+  tmp\kind_etf_popup.html:165:
+  tmp\kind_etf_popup.html:166:</script>
+  tmp\kind_etf_popup.html:167:
+  tmp\kind_etf_popup.html:250:<div id='dialog-loading' title='자료를 조회 중입니다.' cla
+ss='loading' style="display: none;">
+  tmp\kind_etf_popup.html:251:	<span>
+> tmp\kind_etf_popup.html:252:		<img src='/images/loader/ajax-loader01.gif' />
+  tmp\kind_etf_popup.html:253:	</span>
+  tmp\kind_etf_popup.html:254:</div>
+  tmp\kind_etf_popup.html:255:
+  tmp\kind_etf_popup.html:256:</body>
+  tmp\kind_etf_popup.html:257:</html>
+
+

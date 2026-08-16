@@ -1,0 +1,257 @@
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="kr" />
+<meta http-equiv="content-style-type" content="text/css" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta name="copyright" content="(c)2012" />
+<meta name="description" content="대한민국 대표 기업공시채널 KIND" />
+<meta name="keywords" content="대한민국 대표 기업공시채널 KIND" />
+<title>대한민국 대표 기업공시채널 KIND</title>
+<link rel="stylesheet" type="text/css" href="../js/jquery/themes-base/jquery-ui.min.css" media="all" />
+<link rel="stylesheet" type="text/css" href="../css/default_new.css" media="all" />
+<link rel="stylesheet" type="text/css" href="../css/common.css?version=20240531" media="all" />
+<link rel="stylesheet" type="text/css" href="../css/popup.css" media="all" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="../js/html5shiv.js"></script>
+<![endif]-->
+<script type="text/javascript" src="../js/trans.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/common-pop.js?version=20220624"></script>
+<script type="text/javascript" src="../js/common-ajax.js"></script>
+<script type="text/javascript" src="../js/JCommon.js"></script>
+
+</head>
+<body class="pop">
+
+<header class="popup">
+<h1 class="ttl type-99" id="title">종목명 찾기</h1>
+</header>
+
+
+
+
+
+<form name="searchForm" id="searchForm" method="post" onsubmit="return false;">
+<input type="hidden" id="method"					name="method" />
+<input type="hidden" id="forward"					name="forward" />
+<input type="hidden" id="pageIndex"				name="pageIndex" 	value="1" />
+<input type="hidden" id="beginIndex"			name="beginIndex" value="A" />
+<input type="hidden" id="currentPageSize"	name="currentPageSize" value="10" />
+<input type="hidden" id="etfIsuNm"				name="etfIsuNm" value="" />
+<input type="hidden" id="etfIsuCd"				name="etfIsuCd" value="" />
+<section class="contents popup">
+	<section class="roundbox type-99 type-small">
+		<div class="form-search type-99 type-small">
+
+
+			<table summary="종목명">
+				<caption>조회</caption>
+				<colgroup>
+					<col width="15%" />
+					<col width="*" />
+				</colgroup>
+				<tbody>
+					<tr class="first">
+						<th scope="row"><label for="etfIsu">종목명</label> </th>
+						<td>
+							<input class="txt mlong" style="width:215px" type="text" id="etfIsu" name="etfIsu" value="" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="btn-group rt solo"><a href="#" title="검색" onclick="fnSearchInit(); return false;" class="btn-set search-btn"><span>검색</span></a></div>
+		</div>
+		<img src="../images/common/rbox-type-99-tl.png" class="tl" alt="" />
+		<img src="../images/common/rbox-type-99-bl.png" class="bl" alt="" />
+		<img src="../images/common/rbox-type-99-tr.png" class="tr" alt="" />
+		<img src="../images/common/rbox-type-99-br.png" class="br" alt="" />
+		<div class="tm"></div>
+		<div class="lm"></div>
+		<div class="bm"></div>
+		<div class="rm"></div>
+	</section>
+
+	<div id="contents">
+	</div>
+	</section>
+	
+</form>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	init();
+});
+
+function init(){
+	$("#searchForm > #method").val("findEtfIsu");
+	$("#searchForm > #forward").val("list");
+	fnSearchInit();
+}
+
+function fnSearchInit(){
+	$("#searchForm > #pageIndex").val("1");
+	fnSearch();
+}
+
+/**
+ * 임시 회사명 필드(사용자입력용)의 값을 URI인코딩하여 전송용 회사명 필드에 바인딩
+ */
+function reflectCorpName(){
+    
+    var nm = $('input#etfIsuNm').val();        
+    // 기존에는 encodeURI를 사용하였으나 +검색 시 서비스단에서 디코딩 할때 공백으로 처리하는 문제로 인해 encodeURIComponent로 인코딩 방법을 변경함. 2024.08.05 bslee
+    nm = encodeURIComponent(nm);
+    $('#etfIsuNm').val(nm);
+}
+
+function fnSearch(){
+	setCodeName();
+    reflectCorpName();
+	$('input#beginIndex').val("");
+	$('#searchForm').ajaxSubmit({
+		  ajaxUrl : '/common/etfisu.do'
+		, ajaxCallBack: fnSearchCallBack
+	});
+}
+
+function fnSearchCallBack(data){
+	$("#contents").empty().append(data);
+}
+
+function setEtfInfo(isuSrtCd, isuKorAbbrv, isuCd){
+    var	str = "";
+        str += "isuSrtCd : " + isuSrtCd + "\n";
+        str += "isuKorAbbrv : " + isuKorAbbrv + "\n";
+        str += "isuCd : " + isuCd + "\n";
+	
+	opener.setEtfInfo(isuSrtCd, isuKorAbbrv, isuCd);
+    this.close();
+}
+
+function setCodeName(){
+	$('#etfIsuCd').val("");
+	$('#etfIsuNm').val("");
+			
+	var etfIsu = $('#etfIsu').val();
+	etfIsu = etfIsu.toUpperCase();
+		
+	if(etfIsu == null) return;
+	if(etfIsu == "")   return;
+	
+	if(etfIsu.length == 7){
+		
+		var fi = etfIsu.charAt(0);
+		var fn = etfIsu.substr(1);
+		if (fi == 'J' && isNumber(fn)){
+			$('#etfIsuCd').val(etfIsu);
+			$('#etfIsuNm').val("");
+			return;
+		}
+		
+	}	
+	$('#etfIsuCd').val("");
+	$('#etfIsuNm').val(etfIsu);
+	
+}
+
+</script>
+
+<footer class="popup">
+	<div class="btn-group type-98">
+		<a href="#myclose" title="닫기" onclick="fnPopClose(); return false;" class="btn-sprite type-98 vmiddle"><span>닫 기</span></a>
+	</div>
+</footer>
+
+<!-- 범례 START -->
+
+    
+<div style="position:absolute; display:none" id="marketSection">
+	<section class="icn_tbox" style="width:460px;top:-30px; left:10px">
+		<ul>
+			<li>
+				<img src="../images/common/icn_t_yu.gif" class="vmiddle" alt="유가증권" /> 유가증권
+			</li>
+			<li>
+				<img src="../images/common/icn_t_ko.gif" class="vmiddle" alt="코스닥" /> 코스닥
+			</li>
+			<li>
+				<img src="../images/common/icn_t_konex.gif" class="vmiddle" alt="코넥스" /> 코넥스
+			</li>
+			<li>
+				<img src="../images/common/icn_t_kwan.gif" class="vmiddle" alt="관리종목" /> 관리종목
+			</li>
+			<li>
+				<img src="../images/common/icn_t_hwan.gif" class="vmiddle" alt="투자주의환기종목" /> 투자주의환기종목
+			</li>
+			<li>
+				<img src="../images/common/icn_t_bul.gif" class="vmiddle" alt="불성실공시법인" /> 불성실공시법인
+			</li>
+			<li>
+				<img src="../images/common/icn_t_pe.gif" class="vmiddle" alt="폐지법인" /> 폐지법인
+			</li>
+			<li>
+				<img src="../images/common/icn_t_v100.gif" class="vmiddle" alt="코리아밸류업" /> 코리아밸류업
+			</li>
+			<li>
+				<img src="../images/common/icn_t_k200.gif" class="vmiddle" alt="KOSPI200" /> KOSPI200
+			</li>
+			<li>
+				<img src="../images/common/icn_t_q150.gif" class="vmiddle" alt="KOSDAQ150" /> KOSDAQ150
+			</li>
+			<li>
+				<img src="../images/common/icn_t_x300.gif" class="vmiddle" alt="KRX300" /> KRX300
+			</li>
+			<li>
+				<img src="../images/common/icn_t_ktop.gif" class="vmiddle" alt="KTOP30" /> KTOP30
+			</li>
+			<li>
+				<img src="../images/common/icn_t_jung.gif" class="vmiddle" alt="정정있음" /> 정정있음
+			</li>
+			<li>
+				<img src="../images/common/icn_t_joo.gif" class="vmiddle" alt="투자주의" /> 투자주의
+			</li>
+			<li>
+				<img src="../images/common/icn_t_kyung.gif" class="vmiddle" alt="투자경고" /> 투자경고
+			</li>
+			<li>
+				<img src="../images/common/icn_t_wii.gif" class="vmiddle" alt="투자위험" /> 투자위험
+			</li>
+			<!-- 
+				[차세대제공용]
+				[2026.08.14/이봉석]
+				[유의] 시총·주가미달상폐 범례 추가
+			-->
+			<li>
+				<img src="../images/common/icn_t_yuui.gif" class="vmiddle" alt="시총·주가미달상폐" /> 시총·주가미달상폐
+			</li>
+		</ul>
+		<div class="clear"></div>
+		<img src="../images/common/icn_tbox_tl.png" class="tl" alt="" />
+		<img src="../images/common/icn_tbox_bl.gif" class="bl" alt="" />
+		<img src="../images/common/icn_tbox_tr.gif" class="tr" alt="" />
+		<img src="../images/common/icn_tbox_br.gif" class="br" alt="" />
+		<div class="tm"></div>
+		<div class="lm"></div>
+		<div class="bm"></div>
+		<div class="rm"></div>		
+	</section>
+</div>
+<!-- 범례 END -->
+
+<div id='dialog-loading' title='자료를 조회 중입니다.' class='loading' style="display: none;">
+	<span>
+		<img src='/images/loader/ajax-loader01.gif' />
+	</span>
+</div>
+
+</body>
+</html>

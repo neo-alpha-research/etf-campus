@@ -1,0 +1,276 @@
+﻿
+  tmp\kind_etf_search.html:139:			<ul id="myMenuTop">
+  tmp\kind_etf_search.html:140:				<li class="active"><a href="/disclosure/toda
+ydisclosure.do?method=searchTodayDisclosureMain">오늘의공시</a></li>
+> tmp\kind_etf_search.html:141:				<li><a href="/disclosure/searchdisclosurebyc
+orp.do?method=searchDisclosureByCorpMain">회사별검색</a></li>
+  tmp\kind_etf_search.html:142:				<li><a href="/disclosure/searchtotalinfo.do?
+method=searchTotalInfoMain">통합검색</a></li>
+  tmp\kind_etf_search.html:143:				<li><a href="/disclosure/details.do?method=s
+earchDetailsMain">상세검색</a></li>
+  tmp\kind_etf_search.html:152:			<ul>
+  tmp\kind_etf_search.html:153:				<li><a href="/disclosure/todaydisclosure.do?
+method=searchTodayDisclosureMain" class="first">오늘의공시</a></li>
+> tmp\kind_etf_search.html:154:				<li><a href="/disclosure/searchdisclosurebyc
+orp.do?method=searchDisclosureByCorpMain" class="first">회사별검색</a></li>
+  tmp\kind_etf_search.html:155:				<li><a href="/disclosure/details.do?method=s
+earchDetailsMain" class="first">상세검색</a></li>
+  tmp\kind_etf_search.html:156:				<li><a href="#" onclick="krxPaPago_open(); r
+eturn false;" class="first">KRX-Papago번역기</a></li>
+  tmp\kind_etf_search.html:163:							<DIV class="lnb">
+  tmp\kind_etf_search.html:164:								<DIV class="wrapper">
+> tmp\kind_etf_search.html:165:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypeEtf">ETF</A>
+> tmp\kind_etf_search.html:166:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypeElw">ELW</A>
+> tmp\kind_etf_search.html:167:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypeEtn">ETN</A>
+> tmp\kind_etf_search.html:168:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypePf">상장형수익증권</A>
+  tmp\kind_etf_search.html:169:									<IMG class="arrow" src="../images/commo
+n/lnb_arrow_sub.png" />
+  tmp\kind_etf_search.html:170:									<IMG class="tl" src="../images/common/l
+nb_tl.png" />
+  tmp\kind_etf_search.html:183:							<DIV class="lnb">
+  tmp\kind_etf_search.html:184:								<DIV class="wrapper">
+> tmp\kind_etf_search.html:185:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypeRestinvstcom">부동산투자회사</A>
+> tmp\kind_etf_search.html:186:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypeShipinvstcom">선박투자회사</A>
+> tmp\kind_etf_search.html:187:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypeInvstcom">투자회사</A>
+> tmp\kind_etf_search.html:188:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypeBenfcert">수익증권</A>
+> tmp\kind_etf_search.html:189:									<A class="lmn" href="/disclosure/disclo
+surebystocktype.do?method=searchDisclosureByStockTypeBdc">BDC</A>
+  tmp\kind_etf_search.html:190:									<IMG class="arrow" src="../images/commo
+n/lnb_arrow_sub.png" />
+  tmp\kind_etf_search.html:191:									<IMG class="tl" src="../images/common/l
+nb_tl.png" />
+  tmp\kind_etf_search.html:205:							<DIV class="lnb">
+  tmp\kind_etf_search.html:206:								<DIV class="wrapper">
+> tmp\kind_etf_search.html:207:									<A class="lmn" href="/disclosure/disclo
+surebyvote.do?method=searchDisclosurebyVoteMain">의결권행사공시</A>	
+  tmp\kind_etf_search.html:208:									<A class="lmn" href="https://dis.kofia.
+or.kr/websquare/index.jsp?w2xPath=/wq/compann/DISFndVoteRightView.xml&divisionI
+d=MDIS02003010000000&serviceId=SDIS02003010000#!" target="_blank">운용사 펀드의결권행사공시
+</A>
+  tmp\kind_etf_search.html:209:									<A class="lmn" href="https://dis.kofia.
+or.kr/websquare/index.jsp?w2xPath=/wq/compann/DISFndVoteRightViewDet.xml&divisi
+onId=MDIS02003011000000&serviceId=SDIS02003011000" target="_blank">펀드별 의결권행사공시<
+/A>									
+  tmp\kind_etf_search.html:827:	var url = {
+  tmp\kind_etf_search.html:828:			"ULDDST00000":"/disclosure/todaydisclosure.do
+?method=searchTodayDisclosureMain",											/*오늘의공시*/
+> tmp\kind_etf_search.html:829:			"ULDDST00100":"/disclosure/searchdisclosureby
+corp.do?method=searchDisclosureByCorpMain",									/*회사별검색*/
+  tmp\kind_etf_search.html:830:			"ULDDST00300":"/disclosure/details.do?method=
+searchDetailsMain",															/*상세검색*/
+  tmp\kind_etf_search.html:831:			"ULDDST00200":"/disclosure/searchtotalinfo.do
+?method=searchTotalInfoMain",													/*통합검색*/
+  tmp\kind_etf_search.html:832:			"ULDDST00700":"/disclosure/searchbondcorpdisc
+losure.do?method=searchBondCorpDisclosureMain",								/*채권공시*/
+> tmp\kind_etf_search.html:833:			"ULDDST00400":"/disclosure/disclosurebystockt
+ype.do?method=searchDisclosureByStockTypeEtf",									/*ETF/ELW/ETN*/
+> tmp\kind_etf_search.html:834:			"JLDDST00403":"/disclosure/disclosurebystockt
+ype.do?method=searchDisclosureByStockTypeRestinvstcom",						/*펀드공시*/
+  tmp\kind_etf_search.html:835:			"ULDDST01300":"/disclosure/misccorpdiscls.do?
+method=searchMiscCorpDisclsMain",												/*기타법인공시*/
+> tmp\kind_etf_search.html:836:			"ULDDST01500":"/disclosure/disclosurebyvote.d
+o?method=searchDisclosurebyVoteMain",											/*의결권공시*/
+  tmp\kind_etf_search.html:837:			"ULDDST10400":"/corpdetail/chart.do?method=lo
+adInitPage",																	/*공시차트*/
+  tmp\kind_etf_search.html:838:			"ULDDST01600":"/disclosure/searchErrorTradeRe
+lief.do?method=searchErrorTradeReliefMain",									/*착오매매구제신청*/
+  tmp\kind_etf_search.html:988:											
+  tmp\kind_etf_search.html:989:											
+> tmp\kind_etf_search.html:990:												<a href="/disclosure/searchdisclosur
+ebycorp.do?method=searchDisclosureByCorpMain" class="lmn ">회사별검색</a>
+  tmp\kind_etf_search.html:991:											
+  tmp\kind_etf_search.html:992:										
+  tmp\kind_etf_search.html:1026:										
+  tmp\kind_etf_search.html:1027:											<!-- 상장형수익증권이 추가 되면서 간격조정을 위해 추가함. M
+enuInfo에서 </br>을 주게 되면 상단의 '홈 > 공시+ > ETF/ELW/ETN/상장형수익증권'에 br이 적용되므로 화면에서 처리. 
+2025.02.14 -->
+> tmp\kind_etf_search.html:1028:												<a href="/disclosure/disclosurebyst
+ocktype.do?method=searchDisclosureByStockTypeEtf" class="lmn active">ETF/ELW/ET
+N/</br>상장형수익증권</a>
+  tmp\kind_etf_search.html:1029:											
+  tmp\kind_etf_search.html:1030:											
+  tmp\kind_etf_search.html:1036:											
+  tmp\kind_etf_search.html:1037:											
+> tmp\kind_etf_search.html:1038:												<a href="/disclosure/disclosurebyst
+ocktype.do?method=searchDisclosureByStockTypeRestinvstcom" class="lmn ">펀드공시</a
+>
+  tmp\kind_etf_search.html:1039:											
+  tmp\kind_etf_search.html:1040:										
+  tmp\kind_etf_search.html:1052:											
+  tmp\kind_etf_search.html:1053:											
+> tmp\kind_etf_search.html:1054:												<a href="/disclosure/disclosurebyvo
+te.do?method=searchDisclosurebyVoteMain" class="lmn ">의결권행사공시</a>
+  tmp\kind_etf_search.html:1055:											
+  tmp\kind_etf_search.html:1056:										
+  tmp\kind_etf_search.html:1097:														
+  tmp\kind_etf_search.html:1098:										
+> tmp\kind_etf_search.html:1099:											<a href="/disclosure/disclosurebysto
+cktype.do?method=searchDisclosureByStockTypeEtf" class="lmn active">ETF</a>
+  tmp\kind_etf_search.html:1100:										
+  tmp\kind_etf_search.html:1101:										
+  tmp\kind_etf_search.html:1108:														
+  tmp\kind_etf_search.html:1109:										
+> tmp\kind_etf_search.html:1110:											<a href="/disclosure/disclosurebysto
+cktype.do?method=searchDisclosureByStockTypeElw" class="lmn ">ELW</a>
+  tmp\kind_etf_search.html:1111:										
+  tmp\kind_etf_search.html:1112:										
+  tmp\kind_etf_search.html:1119:														
+  tmp\kind_etf_search.html:1120:										
+> tmp\kind_etf_search.html:1121:											<a href="/disclosure/disclosurebysto
+cktype.do?method=searchDisclosureByStockTypeEtn" class="lmn ">ETN</a>
+  tmp\kind_etf_search.html:1122:										
+  tmp\kind_etf_search.html:1123:										
+  tmp\kind_etf_search.html:1130:														
+  tmp\kind_etf_search.html:1131:										
+> tmp\kind_etf_search.html:1132:											<a href="/disclosure/disclosurebysto
+cktype.do?method=searchDisclosureByStockTypePf" class="lmn ">상장형수익증권</a>
+  tmp\kind_etf_search.html:1133:										
+  tmp\kind_etf_search.html:1134:										
+  tmp\kind_etf_search.html:1250:		for(var i in items){
+  tmp\kind_etf_search.html:1251:			var item = items[i].split(",");
+> tmp\kind_etf_search.html:1252:			var acptNo	= item[1];
+  tmp\kind_etf_search.html:1253:			var title	= item[0];
+> tmp\kind_etf_search.html:1254:			if("" != title && undefined != acptNo){
+> tmp\kind_etf_search.html:1255:				$("#myMenuDisclosure").append("<li class='e
+llipsis'><a href=\"#\" onclick=\"openDisclsViewer('"+acptNo+"','');\">"+title+"
+</a></li>");
+  tmp\kind_etf_search.html:1256:			}
+  tmp\kind_etf_search.html:1257:		}
+  tmp\kind_etf_search.html:1304:						<th scope="row"><label for="etfIsuKorNm">
+종목명</label></th>
+  tmp\kind_etf_search.html:1305:						<td>
+> tmp\kind_etf_search.html:1306:							<input class="txt middle" type="text" id
+="etfIsuSrtNm" name="etfIsuSrtNm" value="" style="width:100px;" />
+  tmp\kind_etf_search.html:1307:							<a href="#" class="btn-sprite type-00 vt
+op btn-find" onclick="findEtfIsu();return false;" title="종목명찾기" title="종목명 찾기">
+<span>찾기</span></a>
+  tmp\kind_etf_search.html:1308:						</td>				
+> tmp\kind_etf_search.html:1309:						<th scope="row"><label for="reportNm">보고서
+명</label></th>
+  tmp\kind_etf_search.html:1310:							<td>
+> tmp\kind_etf_search.html:1311:								<input class="txt middle" type="text" i
+d="reportNm" name="reportNm" value="" />
+  tmp\kind_etf_search.html:1312:								<a href="#" title="보고서명 찾기" onclick="fi
+ndReportName(); return false;" class="btn-sprite type-01 vtop searcj-report"><s
+pan>보고서명찾기</span></a>
+  tmp\kind_etf_search.html:1313:							</td>
+  tmp\kind_etf_search.html:1343:
+  tmp\kind_etf_search.html:1344:$(document).ready(function(){
+> tmp\kind_etf_search.html:1345:	$("#etfIsuSrtNm").bind("change",function(){
+  tmp\kind_etf_search.html:1346:		$("#etfIsuSrtCd").val("");		
+  tmp\kind_etf_search.html:1347:	});	
+  tmp\kind_etf_search.html:1348:	
+> tmp\kind_etf_search.html:1349:	$("#reportNm").bind("change",function(){
+  tmp\kind_etf_search.html:1350:		$("#reportCd").val("");		
+  tmp\kind_etf_search.html:1351:	});	
+  tmp\kind_etf_search.html:1352:	
+> tmp\kind_etf_search.html:1353:	$("#etfIsuSrtNm").bind("keypress",function(e){
+  tmp\kind_etf_search.html:1354:		 if(e.keyCode 	== 13){
+> tmp\kind_etf_search.html:1355:			 if($("#etfIsuSrtNm").val() != $("#etfIsuSrt
+Cd").val()) $("#etfIsuSrtCd").val("");
+  tmp\kind_etf_search.html:1356:			 fnSearchInit();
+  tmp\kind_etf_search.html:1357:		 }
+  tmp\kind_etf_search.html:1358:	});
+> tmp\kind_etf_search.html:1359:	$("#reportNm").bind("keypress",function(e){
+  tmp\kind_etf_search.html:1360:		 if(e.keyCode 	== 13){
+> tmp\kind_etf_search.html:1361:			 if($("#reportNm").val() != $("#reportTmp").
+val()) $("#reportCd").val("");
+  tmp\kind_etf_search.html:1362:			 fnSearchInit();
+  tmp\kind_etf_search.html:1363:		 }
+  tmp\kind_etf_search.html:1416:        $("#searchForm > #currentPageSize").val
+($(document).find("select[id=currentPageSize]").val());
+  tmp\kind_etf_search.html:1417:    }
+> tmp\kind_etf_search.html:1418:	$("#searchForm > #method").val("searchDisclosu
+reByStockTypeEtfSub");
+  tmp\kind_etf_search.html:1419:	$("#searchForm > #forward").val("disclosurebys
+tocktype_etf_sub");
+  tmp\kind_etf_search.html:1420:	$('#searchForm').ajaxSubmit({
+  tmp\kind_etf_search.html:1429:function setEtfInfo(isuSrtCd, isuKorAbbrv, isuC
+d){
+  tmp\kind_etf_search.html:1430:	$("#etfIsuSrtCd").val(isuSrtCd);
+> tmp\kind_etf_search.html:1431:	$("#etfIsuSrtNm").val(isuSrtCd);	
+  tmp\kind_etf_search.html:1432:}
+  tmp\kind_etf_search.html:1433:function fnSearchCallBack(data){
+  tmp\kind_etf_search.html:1469:	$("#searchForm > #currentPageSize").val("3000"
+);
+  tmp\kind_etf_search.html:1470:	$("#searchForm > #pageIndex").val("1");
+> tmp\kind_etf_search.html:1471:	$("#searchForm > #method").val("searchDisclosu
+reByStockTypeEtfSub");
+  tmp\kind_etf_search.html:1472:	$("#searchForm > #forward").val("disclosurebys
+tocktype_etf_down");
+  tmp\kind_etf_search.html:1473:	$("#searchForm").attr('action', '/disclosure/d
+isclosurebystocktype.do').submit();
+  tmp\kind_etf_search.html:1476://보고서명 찾기 결과
+  tmp\kind_etf_search.html:1477:function setReportNameInfo(formCd, formNm){
+> tmp\kind_etf_search.html:1478:	$('#reportNm').val(formNm);
+  tmp\kind_etf_search.html:1479:	$('#reportCd').val(formCd);
+  tmp\kind_etf_search.html:1480:}
+  tmp\kind_etf_search.html:1511:							
+  tmp\kind_etf_search.html:1512:				
+> tmp\kind_etf_search.html:1513:					<li><a href="/disclosure/disclosurebystock
+type.do?method=searchDisclosureByStockTypeEtf" class="active">ETF</a><div class
+="dash"></div></li>	
+  tmp\kind_etf_search.html:1514:					
+  tmp\kind_etf_search.html:1515:				
+  tmp\kind_etf_search.html:1527:							
+  tmp\kind_etf_search.html:1528:				
+> tmp\kind_etf_search.html:1529:					<li><a href="/disclosure/disclosurebystock
+type.do?method=searchDisclosureByStockTypeElw" class="">ELW</a><div class="dash
+"></div></li>	
+  tmp\kind_etf_search.html:1530:					
+  tmp\kind_etf_search.html:1531:				
+  tmp\kind_etf_search.html:1543:							
+  tmp\kind_etf_search.html:1544:				
+> tmp\kind_etf_search.html:1545:					<li><a href="/disclosure/disclosurebystock
+type.do?method=searchDisclosureByStockTypeEtn" class="">ETN</a><div class="dash
+"></div></li>	
+  tmp\kind_etf_search.html:1546:					
+  tmp\kind_etf_search.html:1547:				
+  tmp\kind_etf_search.html:1559:							
+  tmp\kind_etf_search.html:1560:				
+> tmp\kind_etf_search.html:1561:					<li><a href="/disclosure/disclosurebystock
+type.do?method=searchDisclosureByStockTypePf" class="">상장형수익증권</a><div class="d
+ash"></div></li>	
+  tmp\kind_etf_search.html:1562:					
+  tmp\kind_etf_search.html:1563:				
+  tmp\kind_etf_search.html:1566:		</ul>
+  tmp\kind_etf_search.html:1567:		<form name="menuUrlFrm" >
+> tmp\kind_etf_search.html:1568:			<input type="hidden" name="menuUrl" value="/
+disclosure/disclosurebystocktype.do?method=searchDisclosureByStockTypeEtf"/>
+  tmp\kind_etf_search.html:1569:		</form>
+  tmp\kind_etf_search.html:1570:	
+  tmp\kind_etf_search.html:1589:			<ul>
+  tmp\kind_etf_search.html:1590:				<li><a href="/disclosure/todaydisclosure.do
+?method=searchTodayDisclosureMain">오늘의공시</a></li>
+> tmp\kind_etf_search.html:1591:				<li><a href="/disclosure/searchdisclosureby
+corp.do?method=searchDisclosureByCorpMain">회사별검색</a></li>
+  tmp\kind_etf_search.html:1592:				<li><a href="/disclosure/details.do?method=
+searchDetailsMain">상세검색</a></li>
+  tmp\kind_etf_search.html:1593:				<li><a href="#" onclick="krxPaPago_open(); 
+return false;">KRX-Papago번역기</a></li>
+  tmp\kind_etf_search.html:1594:				<li><a href="/disclosure/searchtotalinfo.do
+?method=searchTotalInfoMain">통합검색</a></li>
+  tmp\kind_etf_search.html:1595:				<li><a href="/disclosure/searchbondcorpdisc
+losure.do?method=searchBondCorpDisclosureMain">채권공시</a></li>
+> tmp\kind_etf_search.html:1596:				<li><a href="/disclosure/disclosurebystockt
+ype.do?method=searchDisclosureByStockTypeEtf">ETF/ELW/ETN/상장형수익증권</a></li> <!--
+ 2025.10 오픈. 주석 풀면 됨.-->
+> tmp\kind_etf_search.html:1597:				<li><a href="/disclosure/disclosurebystockt
+ype.do?method=searchDisclosureByStockTypeRestinvstcom">펀드공시</a></li>
+  tmp\kind_etf_search.html:1598:				<li><a href="/disclosure/misccorpdiscls.do?
+method=searchMiscCorpDisclsMain">기타법인공시</a></li>
+> tmp\kind_etf_search.html:1599:				<li><a href="/disclosure/disclosurebyvote.d
+o?method=searchDisclosurebyVoteMain">의결권행사공시</a></li>
+  tmp\kind_etf_search.html:1600:				
+  tmp\kind_etf_search.html:1601:				<li><a href="/corpdetail/chart.do?method=lo
+adInitPage">공시차트</a></li>
+
+

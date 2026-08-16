@@ -1,0 +1,50 @@
+﻿
+  tmp\kind_JCommon.js:2562:* 나중에 공지사항 오픈할때 사용할 스크립트
+  tmp\kind_JCommon.js:2563:* 예)win_open('/common/readnoticedetailed.do?method=r
+eadNoticeDetailed&contnId='+val,'공지사항내용','100','100','600','600','yes');
+  tmp\kind_JCommon.js:2564:*===================================================
+=========================*/
+> tmp\kind_JCommon.js:2565:function etfisusummary_open(isurCd) {
+> tmp\kind_JCommon.js:2566:	var wUrl = "/disclosure/etfisudetail.do?method=sear
+chEtfIsuSummary&strIsurCd="+isurCd;
+  tmp\kind_JCommon.js:2567:	window.open(wUrl,"ETF종목정보","top=100,left=100,width=
+1020,height=770,scrollbars=yes,toolbar=no,resizable=no,status=no");
+  tmp\kind_JCommon.js:2568:}
+  tmp\kind_JCommon.js:2569:/*==================================================
+===========================*
+  tmp\kind_JCommon.js:2570:*
+  tmp\kind_JCommon.js:2571:* 윈도우 오픈(상장형수익증권종목정보/종합정보)
+  tmp\kind_JCommon.js:2572:* param : wUrl		지정url
+  tmp\kind_JCommon.js:2573:* param : wTitle	지정타이틀
+  tmp\kind_JCommon.js:2574:* param : wTop		지정 창 높이정렬기준
+  tmp\kind_JCommon.js:2952: 보고서명찾기
+  tmp\kind_JCommon.js:2953: * author : lds010
+  tmp\kind_JCommon.js:2954: */
+> tmp\kind_JCommon.js:2955:function findReportName(){
+  tmp\kind_JCommon.js:2956:	var url = "/common/reportname.do?method=loadInitPag
+e";
+  tmp\kind_JCommon.js:2957:	window.open(url,'보고서명찾기','scrollbars=yes,toolbar=no
+,resizable=no,width=530,height=650,left=100,top=100,status=yes');
+  tmp\kind_JCommon.js:2958:}
+  tmp\kind_JCommon.js:2959:/*
+  tmp\kind_JCommon.js:2960: * 공시차트
+  tmp\kind_JCommon.js:2961: * isurcd : 발행기관코드
+  tmp\kind_JCommon.js:2962: * author : lds010
+  tmp\kind_JCommon.js:2963: */
+  tmp\kind_JCommon.js:3043: * ETF종목 팝업
+  tmp\kind_JCommon.js:3044: * author : lds010
+  tmp\kind_JCommon.js:3045: */
+> tmp\kind_JCommon.js:3046:function findEtfIsu(){
+> tmp\kind_JCommon.js:3047:	var url = "/common/etfisu.do?method=findEtfIsuMain"
+;
+  tmp\kind_JCommon.js:3048:	window.open(url,'ETF종목명찾기','scrollbars=no,toolbar=n
+o,resizable=no,width=500,height=560,left=0,top=0, status=yes');
+  tmp\kind_JCommon.js:3049:}
+  tmp\kind_JCommon.js:3050:
+  tmp\kind_JCommon.js:3051:/*
+  tmp\kind_JCommon.js:3052: * 상장형수익증권(공모펀드)종목 팝업
+  tmp\kind_JCommon.js:3053: * author : lbs
+  tmp\kind_JCommon.js:3054: */
+  tmp\kind_JCommon.js:3055:function findPfIsu(){
+
+

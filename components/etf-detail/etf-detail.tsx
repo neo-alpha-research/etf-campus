@@ -7,7 +7,9 @@ import { isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf, type ReturnPeriod } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
 import { EtfDetailClient } from "./etf-detail-client";
+import { DistributionHistoryCard } from "./distribution-history-card";
 import { PriceHistoryChart } from "./price-history-chart";
+
 import type { PeerComparison } from "@/lib/data/etf-peer-groups";
 
 function formatDate(dateString: string | null): string {
@@ -42,7 +44,8 @@ function formatStrategyLabel(
   return strategy;
 }
 
-export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: Etf; peerComparison?: PeerComparison; returnDisplayStatus?: unknown }) {
+export function EtfDetail({ etf, peerComparison }: { etf: Etf; peerComparison?: PeerComparison }) {
+
   const resolvedPeerComparison: PeerComparison = peerComparison ?? {
     profile: null,
     state: "unverified",
@@ -83,6 +86,16 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
 
   const fee = etf.fee;
   const isFeeVerified = fee?.verificationStatus === "verified_official";
+  const feeSource = fee?.dartReceiptNo
+    ? {
+        label: "\uAE08\uAC10\uC6D0 DART \uD22C\uC790\uC124\uBA85\uC11C",
+        url: `https://dart.fss.or.kr/dsaf001/main.do?rcpNo=${fee.dartReceiptNo}`,
+      }
+    : fee?.primarySourceUrl
+      ? { label: "\uC6B4\uC6A9\uC0AC \uACF5\uC2DD \uC790\uB8CC", url: fee.primarySourceUrl }
+      : fee?.secondarySourceUrl
+        ? { label: "\uACF5\uC2DD \uBCF4\uC870 \uC790\uB8CC", url: fee.secondarySourceUrl }
+        : null;
 
   const getFeeStatusText = (status: string | undefined) => {
     switch(status) {
@@ -141,8 +154,8 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
                 <span className="text-3xl font-black text-brand-700 tabular-nums tracking-tight">{formatWon(etf.close)}</span>
                 <span className="text-lg font-bold"><ReturnCell value={etf.changePct} /></span>
               </div>
-              <div className="flex flex-wrap items-center gap-2.5 text-xs font-semibold text-muted pb-1">
-                <AsOfDate value={etf.asOfDate} />
+              <div className="flex flex-wrap items-center gap-2.5 text-[16px] font-semibold text-muted pb-1">
+                <AsOfDate value={etf.asOfDate} className="text-[16px] text-muted" />
                 <span className="h-3 w-px bg-neutral-300"></span>
                 <span>운용사: {etf.issuer.issuerName}</span>
                 <span className="h-3 w-px bg-neutral-300"></span>
@@ -163,7 +176,8 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
         </div>
       </section>
 
-      <EtfDetailClient etf={etf} peerComparison={resolvedPeerComparison} returnDisplayStatus={returnDisplayStatus}>
+            <EtfDetailClient etf={etf} peerComparison={resolvedPeerComparison}>
+
         {/* ETF 핵심 요약 및 차트 */}
         <section aria-labelledby="classification-title" className="scroll-mt-24 pt-0">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -185,8 +199,8 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
           <div className="mt-4 flex flex-col lg:flex-row gap-6 items-stretch">
             {/* 왼쪽 영역 (약 70%): 수익률 차트 및 표 */}
             <div className="flex-1 w-full lg:w-[70%] flex flex-col gap-2">
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} isNewListing={newListing} itdAnchor={etf.itdAnchor} returnDisplayStatus={returnDisplayStatus as any} />
+              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} isNewListing={newListing} itdAnchor={etf.itdAnchor} />
+
               {newListing && !itdAvailable ? <p className="px-1 text-xs font-medium text-muted">상장일 기준 가격 확인 후 상장 후 수익률(PR)을 제공합니다.</p> : null}
               {itdPendingVerification ? <p className="px-1 text-xs font-medium text-amber-700">ITD는 상장일 기준 가격으로 산출한 PR이며, KRX 기준가격 공식 대조는 진행 중입니다.</p> : null}
               
@@ -269,16 +283,31 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </dt>
-                    <dd className="mt-1 text-lg font-bold text-strong">분배금 미포함</dd>
+                    <dd className="mt-1 text-sm font-semibold text-neutral-500">분배금 미포함</dd>
                     
                     {/* Tooltip */}
                     <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-3 w-72 rounded-xl border border-slate-200 bg-white p-4 text-xs text-slate-700 shadow-2xl z-50 opacity-0 invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 pointer-events-none">
+                {feeSource && (
+                  <div className="mt-3 border-t border-neutral-600 pt-2 text-[11px] text-neutral-300">
+                    <span className="mr-1 text-neutral-400">\uB300\uD45C \uCD9C\uCC98:</span>
+                    <a
+                      className="underline decoration-neutral-500 underline-offset-2 hover:text-white"
+                      href={feeSource.url}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {feeSource.label}
+                    </a>
+                  </div>
+                )}
                       <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
-                        상세페이지의 기본 수익률은 시장 종가 기준 누적 수익률이며 분배금을 포함하지 않습니다. 분배금 반영 선택이 가능한 상품은 차트 상단에서 별도로 선택할 수 있습니다.
+                                                상세페이지의 수익률은 모든 ETF에서 시장 종가 기준 누적 수익률(PR)이며 분배금을 포함하지 않습니다.
+
                       </div>
                     </div>
                   </div>
                 </div>
+                {etf.distributionSummary ? <DistributionHistoryCard summary={etf.distributionSummary} /> : null}
               </div>
             </div>
           </div>

@@ -7,12 +7,16 @@ import {
   RISK_TYPES,
   type AssetClass,
   type Etf,
-  type EtfClassification,
+    type EtfClassification,
+  type ListingDateStatus,
   type PensionStatus,
+
   type RiskType,
 } from "../domain/etf-types";
 import { resolveIssuer } from "./etf-amc-mapping";
 import { loadOfficialEtfFeeIndex } from "./etf-fee-registry";
+import { loadDistributionSummaryIndex } from "./etf-distribution-registry";
+
 import {
   indexUnique,
   parseNullableNumber,
@@ -85,6 +89,8 @@ function parseClassification(row: CsvRow | undefined): EtfClassification | null 
 export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const masterRows = readCsv(path.join(dataDirectory, "etf_master_draft.csv"));
   const feeByTicker = loadOfficialEtfFeeIndex(dataDirectory);
+  const distributionByTicker = loadDistributionSummaryIndex(dataDirectory);
+
   const returnRows = readCsv(path.join(dataDirectory, "etf_returns_draft.csv"));
   const pensionRows = readCsv(path.join(dataDirectory, "pension_verify_sheet.csv"));
 
@@ -115,6 +121,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       tradeValue: parseNumberField(master, "trade_value", `master:${ticker}`),
       aum: parseNumberField(master, "aum", `master:${ticker}`),
       fee: feeByTicker.get(ticker) ?? null,
+      distributionSummary: distributionByTicker.get(ticker) ?? null,
 
       issuer: resolveIssuer(ticker, requireField(master, "isin_cd", `master:${ticker}`), name),
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
@@ -125,7 +132,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       asOfDate: requireField(master, "bas_dt", `master:${ticker}`),
       listingDate: optionalText(master, "listing_date"),
       listingDateSource: optionalText(master, "listing_date_source"),
-      listingDateStatus: optionalText(master, "listing_date_status") as any,
+      listingDateStatus: optionalText(master, "listing_date_status") as ListingDateStatus | null,
       firstTradedDate: optionalText(master, "first_traded_date"),
       firstTradedDateSource: optionalText(master, "first_traded_date_source"),
       listingDateVerifiedAt: optionalText(master, "listing_date_verified_at"),

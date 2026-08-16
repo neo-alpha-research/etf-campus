@@ -1,4 +1,4 @@
-import { errorResponse } from "../../../lib/community/api-security";
+import { errorResponse } from "./_lib/api-security";
 import { authenticatedSession, enforceCsrf, mergeSessionHeaders, requestSessionTokens } from "./_lib/session";
 
 const UNSAFE_METHODS = new Set(["POST", "PATCH", "PUT", "DELETE"]);
@@ -27,8 +27,8 @@ export async function onRequest(context) {
   const unsafe = UNSAFE_METHODS.has(method);
 
   if (unsafe) {
-    if (!isSameOrigin(context.request)) return errorResponse(403, "FORBIDDEN", "허용되지 않은 요청 출처입니다.");
-    if (!context.request.headers.get("Content-Type")?.toLowerCase().startsWith("application/json")) return errorResponse(415, "VALIDATION_ERROR", "JSON 요청만 허용됩니다.");
+    if (!isSameOrigin(context.request)) return errorResponse(403, "FORBIDDEN", "?�용?��? ?��? ?�청 출처?�니??");
+    if (!context.request.headers.get("Content-Type")?.toLowerCase().startsWith("application/json")) return errorResponse(415, "VALIDATION_ERROR", "JSON ?�청�??�용?�니??");
     if (!OTP_PATHS.has(pathname)) {
       const csrfError = enforceCsrf(context);
       if (csrfError) return csrfError;
@@ -38,7 +38,7 @@ export async function onRequest(context) {
   const required = needsAuthentication(pathname, method);
   const tokens = requestSessionTokens(context.request);
   if (!required && !tokens.accessToken) return context.next();
-  if (required && !tokens.accessToken) return errorResponse(401, "AUTH_REQUIRED", "로그인 후 이용할 수 있습니다.");
+  if (required && !tokens.accessToken) return errorResponse(401, "AUTH_REQUIRED", "로그?????�용?????�습?�다.");
 
   const session = await authenticatedSession(context);
   if (session.error) return required ? session.error : context.next();

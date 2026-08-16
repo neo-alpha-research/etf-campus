@@ -1,7 +1,7 @@
 import { authenticatedSupabase, publicSupabase } from "../_lib/supabase";
 import { enforceDatabaseRateLimit, parseJsonBody } from "../_lib/request-security";
-import { errorResponse, jsonResponse } from "../../../../lib/community/api-security";
-import { CommunityValidationError, toPublicPost, validatePostInput } from "../../../../lib/community/contracts";
+import { errorResponse, jsonResponse } from "../_lib/api-security";
+import { CommunityValidationError, toPublicPost, validatePostInput } from "../_lib/contracts";
 
 function listLimit(value) { const parsed = Number.parseInt(value ?? "20", 10); return Number.isFinite(parsed) ? Math.min(Math.max(parsed, 1), 50) : 20; }
 
@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
     const { data, error } = await query;
     if (error) throw error;
     return Response.json({ posts: (data ?? []).map(toPublicPost) }, { headers: { "Cache-Control": "public, max-age=30, s-maxage=30", "X-Content-Type-Options": "nosniff" } });
-  } catch { return errorResponse(503, "UNAVAILABLE", "커뮤니티 글을 불러올 수 없습니다."); }
+  } catch { return errorResponse(503, "UNAVAILABLE", "커�??�티 글??불러?????�습?�다."); }
 }
 
 export async function onRequestPost(context) {
@@ -28,13 +28,13 @@ export async function onRequestPost(context) {
     if (rateLimitError) return rateLimitError;
     const { data, error } = await auth.client.rpc("create_community_post", { p_category_slug: input.categorySlug, p_title: input.title, p_body_text: input.bodyText });
     if (error) {
-      if (error.message?.includes("member profile")) return errorResponse(403, "FORBIDDEN", "닉네임 설정을 완료한 인증 회원만 글을 작성할 수 있습니다.");
+      if (error.message?.includes("member profile")) return errorResponse(403, "FORBIDDEN", "?�네???�정???�료???�증 ?�원�?글???�성?????�습?�다.");
       throw error;
     }
     const result = Array.isArray(data) ? data[0] : data;
     return jsonResponse({ post: { slug: result?.slug } }, 201);
   } catch (error) {
     if (error instanceof CommunityValidationError) return errorResponse(400, "VALIDATION_ERROR", error.message);
-    return errorResponse(503, "UNAVAILABLE", "게시물을 저장할 수 없습니다.");
+    return errorResponse(503, "UNAVAILABLE", "게시물을 ?�?�할 ???�습?�다.");
   }
 }

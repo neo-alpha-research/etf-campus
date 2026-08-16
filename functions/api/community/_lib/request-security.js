@@ -1,5 +1,5 @@
 import { adminSupabase } from "./supabase";
-import { errorResponse } from "../../../../lib/community/api-security";
+import { errorResponse } from "../_lib/api-security";
 
 function textEncoder() { return new TextEncoder(); }
 function bytesToHex(buffer) { return Array.from(new Uint8Array(buffer)).map((byte) => byte.toString(16).padStart(2, "0")).join(""); }
@@ -18,17 +18,17 @@ export async function enforceDatabaseRateLimit(context, scope, subject, limit, w
     const admin = adminSupabase(context.env);
     const { data, error } = await admin.rpc("consume_community_rate_limit", { p_bucket_key: bucketKey, p_limit: limit, p_window_seconds: windowSeconds });
     if (error) throw error;
-    if (data !== true) return errorResponse(429, "RATE_LIMITED", "요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.");
+    if (data !== true) return errorResponse(429, "RATE_LIMITED", "?�청???�무 많습?�다. ?�시 ???�시 ?�도??주세??");
     return null;
   } catch {
-    return errorResponse(503, "CONFIGURATION_ERROR", "보안 설정을 확인해 주세요.");
+    return errorResponse(503, "CONFIGURATION_ERROR", "보안 ?�정???�인??주세??");
   }
 }
 
 function turnstileConfigurationError(env) {
   const required = env.TURNSTILE_REQUIRED === "true";
-  if (externalEnvironment(env) && !required) return "외부 Preview 인증 보안 설정이 준비되지 않았습니다.";
-  if (required && (!env.TURNSTILE_SECRET_KEY || !env.TURNSTILE_EXPECTED_HOSTNAME)) return "CAPTCHA 보안 설정을 확인해 주세요.";
+  if (externalEnvironment(env) && !required) return "?��? Preview ?�증 보안 ?�정??준비되지 ?�았?�니??";
+  if (required && (!env.TURNSTILE_SECRET_KEY || !env.TURNSTILE_EXPECTED_HOSTNAME)) return "CAPTCHA 보안 ?�정???�인??주세??";
   return null;
 }
 
@@ -36,7 +36,7 @@ export async function verifyTurnstile(context, token, expectedAction) {
   const configurationError = turnstileConfigurationError(context.env);
   if (configurationError) return errorResponse(503, "CONFIGURATION_ERROR", configurationError);
   if (context.env.TURNSTILE_REQUIRED !== "true") return null;
-  if (!token || typeof token !== "string") return errorResponse(400, "CAPTCHA_REQUIRED", "보안 확인을 완료해 주세요.");
+  if (!token || typeof token !== "string") return errorResponse(400, "CAPTCHA_REQUIRED", "보안 ?�인???�료??주세??");
 
   const formData = new FormData();
   formData.set("secret", context.env.TURNSTILE_SECRET_KEY);
@@ -50,14 +50,14 @@ export async function verifyTurnstile(context, token, expectedAction) {
     const challengeAt = result.challenge_ts ? Date.parse(result.challenge_ts) : NaN;
     const validAge = Number.isFinite(challengeAt) && Math.abs(Date.now() - challengeAt) <= 5 * 60 * 1000;
     if (!response.ok || result.success !== true || result.hostname !== context.env.TURNSTILE_EXPECTED_HOSTNAME || result.action !== expectedAction || !validAge) {
-      return errorResponse(400, "CAPTCHA_REQUIRED", "보안 확인에 실패했습니다. 다시 시도해 주세요.");
+      return errorResponse(400, "CAPTCHA_REQUIRED", "보안 ?�인???�패?�습?�다. ?�시 ?�도??주세??");
     }
 
     const replayError = await enforceDatabaseRateLimit(context, "turnstile-token", token, 1, 600);
-    if (replayError) return errorResponse(400, "CAPTCHA_REQUIRED", "이미 사용했거나 만료된 보안 확인입니다. 다시 시도해 주세요.");
+    if (replayError) return errorResponse(400, "CAPTCHA_REQUIRED", "?��? ?�용?�거??만료??보안 ?�인?�니?? ?�시 ?�도??주세??");
     return null;
   } catch {
-    return errorResponse(503, "UNAVAILABLE", "보안 확인 서비스를 일시적으로 사용할 수 없습니다.");
+    return errorResponse(503, "UNAVAILABLE", "보안 ?�인 ?�비?��? ?�시?�으�??�용?????�습?�다.");
   }
 }
 

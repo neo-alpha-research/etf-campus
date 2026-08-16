@@ -1,8 +1,8 @@
 import { adminSupabase, authenticatedSupabase } from "../_lib/supabase";
 import { enforceDatabaseRateLimit, parseJsonBody } from "../_lib/request-security";
 import { clearSessionResponse } from "../_lib/session";
-import { errorResponse, jsonResponse } from "../../../../lib/community/api-security";
-import { CommunityValidationError, validateWithdrawalDisposition } from "../../../../lib/community/contracts";
+import { errorResponse, jsonResponse } from "../_lib/api-security";
+import { CommunityValidationError, validateWithdrawalDisposition } from "../_lib/contracts";
 
 export async function onRequestPost(context) {
   const auth = await authenticatedSupabase(context);
@@ -23,24 +23,24 @@ export async function onRequestDelete(context) {
     const { data, error: preparationError } = await auth.client.rpc("request_community_withdrawal", { p_disposition: disposition });
     if (preparationError || !data) throw preparationError ?? new Error("withdrawal request failed");
     const requestId = Array.isArray(data) ? data[0]?.request_id : data.request_id;
-    if (!requestId) return errorResponse(503, "UNAVAILABLE", "탈퇴 요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.");
+    if (!requestId) return errorResponse(503, "UNAVAILABLE", "?�퇴 ?�청??처리?????�습?�다. ?�시 ???�시 ?�도??주세??");
 
     const admin = adminSupabase(context.env);
     const { error: deletionError } = await admin.auth.admin.deleteUser(auth.user.id);
     if (deletionError) {
       const marker = await admin.rpc("mark_community_withdrawal_auth_failed", { p_request_id: requestId });
       if (marker.error || marker.data !== true) console.error("community withdrawal failure marker could not be saved");
-      return errorResponse(503, "UNAVAILABLE", "탈퇴 요청을 기록했습니다. 계정 삭제를 다시 시도할 수 있도록 운영팀이 확인합니다.");
+      return errorResponse(503, "UNAVAILABLE", "?�퇴 ?�청??기록?�습?�다. 계정 ??���??�시 ?�도?????�도�??�영?�???�인?�니??");
     }
 
     const marker = await admin.rpc("mark_community_withdrawal_auth_deleted", { p_request_id: requestId });
     if (marker.error || marker.data !== true) {
       console.error("community withdrawal completion marker could not be saved");
-      return clearSessionResponse(errorResponse(503, "UNAVAILABLE", "계정 삭제는 완료됐지만 처리 상태 확인이 필요합니다. 운영팀이 확인합니다."));
+      return clearSessionResponse(errorResponse(503, "UNAVAILABLE", "계정 ??��???�료?��?�?처리 ?�태 ?�인???�요?�니?? ?�영?�???�인?�니??"));
     }
     return clearSessionResponse(jsonResponse({ deleted: true, contentDisposition: disposition }));
   } catch (error) {
     if (error instanceof CommunityValidationError) return errorResponse(400, "VALIDATION_ERROR", error.message);
-    return errorResponse(503, "UNAVAILABLE", "탈퇴 요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.");
+    return errorResponse(503, "UNAVAILABLE", "?�퇴 ?�청??처리?????�습?�다. ?�시 ???�시 ?�도??주세??");
   }
 }

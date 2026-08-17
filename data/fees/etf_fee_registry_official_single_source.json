@@ -899,14 +899,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-22",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETFR4",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETFR4",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/0064K0/official_product_page.html, SHA-256 bd565a6bb3bcbc86c1c9ce2c2cea97b313ae4c4740e106704e611c595c74d479, 수집일 2026-08-16T04:44:00Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/0064K0/official_product_page.html, SHA-256 bd565a6bb3bcbc86c1c9ce2c2cea97b313ae4c4740e106704e611c595c74d479, 수집일 2026-08-16T04:44:00Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-22 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/0064K0/kodex_2ETFR4_2ETFR4-A.pdf; 근거문맥:   효력발생일 2026. 7.22                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "0065G0",
@@ -1120,14 +1120,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-06-24",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETFQ7",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETFQ7",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/0082V0/official_product_page.html, SHA-256 612ead99da9f1c546f2448070c98e4864d3360109affe3589ad6463858193c51, 수집일 2026-08-16T04:43:58Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/0082V0/official_product_page.html, SHA-256 612ead99da9f1c546f2448070c98e4864d3360109affe3589ad6463858193c51, 수집일 2026-08-16T04:43:58Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-06-24 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/0082V0/kodex_2ETFQ7_2ETFQ7-A.pdf; 근거문맥:   효력발생일 2026. 6.24                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "0083S0",
@@ -1246,14 +1246,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-13",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETFS2",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETFS2",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/0091C0/official_product_page.html, SHA-256 86e91f111c5069b950348c28c6254bc8c2d367984be2ba851fff7f6b68d4446f, 수집일 2026-08-16T04:44:02Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/0091C0/official_product_page.html, SHA-256 86e91f111c5069b950348c28c6254bc8c2d367984be2ba851fff7f6b68d4446f, 수집일 2026-08-16T04:44:02Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-13 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/0091C0/kodex_2ETFS2_2ETFS2-A.pdf; 근거문맥:   효력발생일 2026. 8.13                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "0091P0",
@@ -4108,14 +4108,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF28",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF28",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/138910/official_product_page.html, SHA-256 a1b690cc12dd7c9c7fabcea5e94b711ffaed998bcae411f1246f8a5b5416d006, 수집일 2026-08-16T04:44:11Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/138910/official_product_page.html, SHA-256 a1b690cc12dd7c9c7fabcea5e94b711ffaed998bcae411f1246f8a5b5416d006, 수집일 2026-08-16T04:44:11Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/138910/kodex_2ETF28_2ETF28-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "138920",
@@ -4126,14 +4126,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF29",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF29",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/138920/official_product_page.html, SHA-256 5ef40a4547a0f9bb7a49b37f613b91327c073c8b91f35b1a99d0240a98134c3e, 수집일 2026-08-16T04:44:14Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/138920/official_product_page.html, SHA-256 5ef40a4547a0f9bb7a49b37f613b91327c073c8b91f35b1a99d0240a98134c3e, 수집일 2026-08-16T04:44:14Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/138920/kodex_2ETF29_2ETF29-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "139220",
@@ -4494,14 +4494,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF34",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF34",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/152380/official_product_page.html, SHA-256 1971223d17780255f1cb484fe8711ed199989787671b46bbf268dc12c5b73555, 수집일 2026-08-16T04:44:18Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/152380/official_product_page.html, SHA-256 1971223d17780255f1cb484fe8711ed199989787671b46bbf268dc12c5b73555, 수집일 2026-08-16T04:44:18Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/152380/kodex_2ETF34_2ETF34-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "152500",
@@ -4656,14 +4656,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF38",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF38",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/169950/official_product_page.html, SHA-256 3b600590a7ff826a5aafe859de2f02b019c1cd76bb23032263be62c2443a2735, 수집일 2026-08-16T04:44:20Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/169950/official_product_page.html, SHA-256 3b600590a7ff826a5aafe859de2f02b019c1cd76bb23032263be62c2443a2735, 수집일 2026-08-16T04:44:20Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/169950/kodex_2ETF38_2ETF38-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "174350",
@@ -4714,14 +4714,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF39",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF39",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/176950/official_product_page.html, SHA-256 c75dd05d7001c1625a6cb1a03f302f5ab27505c03af29854e837f147fc4b37e9, 수집일 2026-08-16T04:44:22Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/176950/official_product_page.html, SHA-256 c75dd05d7001c1625a6cb1a03f302f5ab27505c03af29854e837f147fc4b37e9, 수집일 2026-08-16T04:44:22Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/176950/kodex_2ETF39_2ETF39-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "183700",
@@ -4768,14 +4768,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF40",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF40",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/185680/official_product_page.html, SHA-256 c257a04bac6703d6a26d5b2b6f7469824280c377e846429393f738ada5d51596, 수집일 2026-08-16T04:44:24Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/185680/official_product_page.html, SHA-256 c257a04bac6703d6a26d5b2b6f7469824280c377e846429393f738ada5d51596, 수집일 2026-08-16T04:44:24Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/185680/kodex_2ETF40_2ETF40-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "192090",
@@ -4822,14 +4822,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF41",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF41",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/200030/official_product_page.html, SHA-256 ede51b848b6b86c10aca8b964641252e84363539a6e692200db50eb3a0721ffc, 수집일 2026-08-16T04:44:26Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/200030/official_product_page.html, SHA-256 ede51b848b6b86c10aca8b964641252e84363539a6e692200db50eb3a0721ffc, 수집일 2026-08-16T04:44:26Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/200030/kodex_2ETF41_2ETF41-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "204450",
@@ -4840,14 +4840,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-22",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF45",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF45",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/204450/official_product_page.html, SHA-256 91c18b7bdf9adcf3b87130dbff036601bf618483eb230317abcb9bd3da89a74c, 수집일 2026-08-16T04:44:28Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/204450/official_product_page.html, SHA-256 91c18b7bdf9adcf3b87130dbff036601bf618483eb230317abcb9bd3da89a74c, 수집일 2026-08-16T04:44:28Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-22 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/204450/kodex_2ETF45_2ETF45-A.pdf; 근거문맥:   효력발생일 2026. 7.22                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "210780",
@@ -4948,14 +4948,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF49",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF49",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/218420/official_product_page.html, SHA-256 f2a6e32d332472159b030f6d98b19203971307eadfff1bed879a94a711f2531d, 수집일 2026-08-16T04:44:31Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/218420/official_product_page.html, SHA-256 f2a6e32d332472159b030f6d98b19203971307eadfff1bed879a94a711f2531d, 수집일 2026-08-16T04:44:31Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/218420/kodex_2ETF49_2ETF49-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "219480",
@@ -5595,14 +5595,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-13",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF67",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF67",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/251340/official_product_page.html, SHA-256 453d670463b96c29ed642003408c5ec3d30664ec5256c5faa877e46d901cfc74, 수집일 2026-08-16T04:44:35Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/251340/official_product_page.html, SHA-256 453d670463b96c29ed642003408c5ec3d30664ec5256c5faa877e46d901cfc74, 수집일 2026-08-16T04:44:35Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-13 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/251340/kodex_2ETF67_2ETF67-A.pdf; 근거문맥:   효력발생일 2026. 8.13                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "251350",
@@ -5869,14 +5869,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF71",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF71",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/256750/official_product_page.html, SHA-256 64cce0584d2695de87754ec426691ea37c839c4ee0bf7e8719f257cf77dd765a, 수집일 2026-08-16T04:44:36Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/256750/official_product_page.html, SHA-256 64cce0584d2695de87754ec426691ea37c839c4ee0bf7e8719f257cf77dd765a, 수집일 2026-08-16T04:44:36Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/256750/kodex_2ETF71_2ETF71-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "261060",
@@ -5945,14 +5945,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF72",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF72",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/261220/official_product_page.html, SHA-256 f22ac2a87eebcf24a6e787d2cbfe41c7b0eeddfd4ef44cbf47516ab2351f9828, 수집일 2026-08-16T04:44:39Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/261220/official_product_page.html, SHA-256 f22ac2a87eebcf24a6e787d2cbfe41c7b0eeddfd4ef44cbf47516ab2351f9828, 수집일 2026-08-16T04:44:39Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/261220/kodex_2ETF72_2ETF72-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                      존속기간 투자신탁의 최초설정일부터 신탁계약의 해지일까지로 함  "
   },
   {
     "ticker": "261240",
@@ -5963,14 +5963,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-13",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF73",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF73",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/261240/official_product_page.html, SHA-256 916dccde6c91887dbf0239e27f2878dc16e0b50554e3c98f141f221a28cb3faf, 수집일 2026-08-16T04:44:40Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/261240/official_product_page.html, SHA-256 916dccde6c91887dbf0239e27f2878dc16e0b50554e3c98f141f221a28cb3faf, 수집일 2026-08-16T04:44:40Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-13 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/261240/kodex_2ETF73_2ETF73-A.pdf; 근거문맥:                                                                     투자신탁의 계약기간은 투자신탁의 최초설정일부터 신탁계약의 해 효력발생일 2026. 8.13                                       존속기간 지일까지로 한다.  "
   },
   {
     "ticker": "261250",
@@ -5981,14 +5981,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-13",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF74",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF74",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/261250/official_product_page.html, SHA-256 d8345b0d00bd983fc614969ca822a624960ddb8c8fda19bdb5ec22d41f12d71d, 수집일 2026-08-16T04:44:44Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/261250/official_product_page.html, SHA-256 d8345b0d00bd983fc614969ca822a624960ddb8c8fda19bdb5ec22d41f12d71d, 수집일 2026-08-16T04:44:44Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-13 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/261250/kodex_2ETF74_2ETF74-A.pdf; 근거문맥:   효력발생일 2026. 8.13                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "261260",
@@ -6017,14 +6017,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-13",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF75",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF75",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/261270/official_product_page.html, SHA-256 bb2a08502fcad00da9bf08b72520c36119cab30a3ca9586e48dabb75b612c63e, 수집일 2026-08-16T04:44:48Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/261270/official_product_page.html, SHA-256 bb2a08502fcad00da9bf08b72520c36119cab30a3ca9586e48dabb75b612c63e, 수집일 2026-08-16T04:44:48Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-13 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/261270/kodex_2ETF75_2ETF75-A.pdf; 근거문맥:   효력발생일 2026. 8.13                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "266160",
@@ -6179,14 +6179,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF77",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF77",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/269420/official_product_page.html, SHA-256 72beddb54bd5597979fe86df243fcda17f18df11a685312488652c971a5a1ed4, 수집일 2026-08-16T04:44:50Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/269420/official_product_page.html, SHA-256 72beddb54bd5597979fe86df243fcda17f18df11a685312488652c971a5a1ed4, 수집일 2026-08-16T04:44:50Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/269420/kodex_2ETF77_2ETF77-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "269530",
@@ -6269,14 +6269,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF84",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF84",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/271060/official_product_page.html, SHA-256 a6a6640c2e6ba5fa1c42fc81cb7731a15f440fda88069aa976685e6cc287ce98, 수집일 2026-08-16T04:44:54Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/271060/official_product_page.html, SHA-256 a6a6640c2e6ba5fa1c42fc81cb7731a15f440fda88069aa976685e6cc287ce98, 수집일 2026-08-16T04:44:54Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/271060/kodex_2ETF84_2ETF84-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "272560",
@@ -6467,14 +6467,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-13",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF90",
     "dart_receipt_no": null,
     "secondary_source_url": "https://m.samsungfund.com/etf/product/view.do?id=2ETF90",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/276970/official_product_page.html, SHA-256 019197bc67f6f8d3aa48108d6adc5397fc5d61e679f0735eda12276d3fc5c1a9, 수집일 2026-08-16T04:44:56Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/276970/official_product_page.html, SHA-256 019197bc67f6f8d3aa48108d6adc5397fc5d61e679f0735eda12276d3fc5c1a9, 수집일 2026-08-16T04:44:56Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-13 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/276970/kodex_2ETF90_2ETF90-A.pdf; 근거문맥:   효력발생일 2026. 8.13                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "276990",
@@ -6485,14 +6485,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETF91",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETF91",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/276990/official_product_page.html, SHA-256 92fa9a21dabe9515248b04e6ec368db432da1165261b3ac301e4c25d4cc699a1, 수집일 2026-08-16T04:45:03Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/276990/official_product_page.html, SHA-256 92fa9a21dabe9515248b04e6ec368db432da1165261b3ac301e4c25d4cc699a1, 수집일 2026-08-16T04:45:03Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/276990/kodex_2ETF91_2ETF91-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "277540",
@@ -6705,14 +6705,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETF95",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETF95",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/280930/official_product_page.html, SHA-256 35178f46ff624d63ff5d0b14dd1578323911c73b9c8b2979690803f394dd7b7c, 수집일 2026-08-16T04:45:10Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/280930/official_product_page.html, SHA-256 35178f46ff624d63ff5d0b14dd1578323911c73b9c8b2979690803f394dd7b7c, 수집일 2026-08-16T04:45:10Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/280930/kodex_2ETF95_2ETF95-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "280940",
@@ -6723,14 +6723,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETF94",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETF94",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/280940/official_product_page.html, SHA-256 dedf8764e575889548aa7710bd26d770feb27afa59ef19e82d0fb177c6c3b94b, 수집일 2026-08-16T04:45:17Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/280940/official_product_page.html, SHA-256 dedf8764e575889548aa7710bd26d770feb27afa59ef19e82d0fb177c6c3b94b, 수집일 2026-08-16T04:45:17Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/280940/kodex_2ETF94_2ETF94-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "281990",
@@ -6849,14 +6849,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFA1",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFA1",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/289040/official_product_page.html, SHA-256 1d414b51fbaa52c9231983fe4bea54b9cb5287d36eddf083fe0aca594c80442a, 수집일 2026-08-16T04:45:19Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/289040/official_product_page.html, SHA-256 1d414b51fbaa52c9231983fe4bea54b9cb5287d36eddf083fe0aca594c80442a, 수집일 2026-08-16T04:45:19Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/289040/kodex_2ETFA1_2ETFA1-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "289250",
@@ -6979,14 +6979,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFA3",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFA3",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/291890/official_product_page.html, SHA-256 53a8956ec3289d65e366b1786490b82622afa0a92732b4a7ce1cea5bf7687c51, 수집일 2026-08-16T04:45:25Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/291890/official_product_page.html, SHA-256 53a8956ec3289d65e366b1786490b82622afa0a92732b4a7ce1cea5bf7687c51, 수집일 2026-08-16T04:45:25Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/291890/kodex_2ETFA3_2ETFA3-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "292050",
@@ -7330,14 +7330,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFAB",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFAB",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/304670/official_product_page.html, SHA-256 b7d389dbf0205fd35bbc7e4b3b427815d70bf1dd3d6aa34d2c69286e5fe9c89a, 수집일 2026-08-16T04:45:32Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/304670/official_product_page.html, SHA-256 b7d389dbf0205fd35bbc7e4b3b427815d70bf1dd3d6aa34d2c69286e5fe9c89a, 수집일 2026-08-16T04:45:32Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/304670/kodex_2ETFAB_2ETFAB-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "304940",
@@ -7348,14 +7348,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFA9",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFA9",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/304940/official_product_page.html, SHA-256 dbad68cd9a45a0591ebfa81430b2ba7965414e383c7ed81defebcaad55b1a602, 수집일 2026-08-16T04:45:33Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/304940/official_product_page.html, SHA-256 dbad68cd9a45a0591ebfa81430b2ba7965414e383c7ed81defebcaad55b1a602, 수집일 2026-08-16T04:45:33Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/304940/kodex_2ETFA9_2ETFA9-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "305050",
@@ -7600,14 +7600,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-22",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFB7",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFB7",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/321410/official_product_page.html, SHA-256 c1141c3f03164c8631473d3afd37f7473e1220b9187e4b923cfbc929f06d8ab5, 수집일 2026-08-16T04:45:47Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/321410/official_product_page.html, SHA-256 c1141c3f03164c8631473d3afd37f7473e1220b9187e4b923cfbc929f06d8ab5, 수집일 2026-08-16T04:45:47Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-22 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/321410/kodex_2ETFB7_2ETFB7-A.pdf; 근거문맥:   효력발생일 2026. 7.22                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "325010",
@@ -7888,14 +7888,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-22",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFD1",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFD1",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/352540/official_product_page.html, SHA-256 b575ad9c9c99ceeee6bebfabf59f7880683cefbfa1b5cba665cdb9c74f312d0c, 수집일 2026-08-16T04:45:48Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/352540/official_product_page.html, SHA-256 b575ad9c9c99ceeee6bebfabf59f7880683cefbfa1b5cba665cdb9c74f312d0c, 수집일 2026-08-16T04:45:48Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-22 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/352540/kodex_2ETFD1_2ETFD1-A.pdf; 근거문맥:   효력발생일 2026. 7.22                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "352560",
@@ -7906,14 +7906,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-22",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFC9",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFC9",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/352560/official_product_page.html, SHA-256 9699e524c21bb49f8f5af6c24439b475efdfe19d6d423a0baff966c8de5c8b18, 수집일 2026-08-16T04:45:54Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/352560/official_product_page.html, SHA-256 9699e524c21bb49f8f5af6c24439b475efdfe19d6d423a0baff966c8de5c8b18, 수집일 2026-08-16T04:45:54Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-22 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/352560/kodex_2ETFC9_2ETFC9-A.pdf; 근거문맥:   효력발생일 2026. 7.22                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "354500",
@@ -7960,14 +7960,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFD2",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFD2",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/359210/official_product_page.html, SHA-256 b5c7664dffef317c608e9fe660194819acc55fccbe573eeb1f4d4825a94ef8a0, 수집일 2026-08-16T04:45:55Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/359210/official_product_page.html, SHA-256 b5c7664dffef317c608e9fe660194819acc55fccbe573eeb1f4d4825a94ef8a0, 수집일 2026-08-16T04:45:55Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/359210/kodex_2ETFD2_2ETFD2-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "360140",
@@ -9136,14 +9136,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFF3",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFF3",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/400570/official_product_page.html, SHA-256 b31afe8919802832a987245cdf551b8e1bb3a205f11e68018bd945839f5f40b6, 수집일 2026-08-16T04:46:02Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/400570/official_product_page.html, SHA-256 b31afe8919802832a987245cdf551b8e1bb3a205f11e68018bd945839f5f40b6, 수집일 2026-08-16T04:46:02Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/400570/kodex_2ETFF3_2ETFF3-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "400580",
@@ -9326,14 +9326,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFF8",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFF8",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/409810/official_product_page.html, SHA-256 06119f9a058cdc7964dfb8ddbf66321a6a25e35732a4d4e96e174b65f761bc5a, 수집일 2026-08-16T04:46:08Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/409810/official_product_page.html, SHA-256 06119f9a058cdc7964dfb8ddbf66321a6a25e35732a4d4e96e174b65f761bc5a, 수집일 2026-08-16T04:46:08Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/409810/kodex_2ETFF8_2ETFF8-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "409820",
@@ -9498,14 +9498,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-05",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFE2",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFE2",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/415340/official_product_page.html, SHA-256 25384e9afba824b06b0e94a5145957fc69f3386e2613986e50a92af0415796ce, 수집일 2026-08-16T04:46:15Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/415340/official_product_page.html, SHA-256 25384e9afba824b06b0e94a5145957fc69f3386e2613986e50a92af0415796ce, 수집일 2026-08-16T04:46:15Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-05 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/415340/kodex_2ETFE2_2ETFE2-A.pdf; 근거문맥:   효력발생일 2026. 8. 5                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "415760",
@@ -9611,14 +9611,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-16",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFG2",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFG2",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/419430/official_product_page.html, SHA-256 a923c581412445af61734e14628f477a5657c0e651234787dae5506f07ff0e7d, 수집일 2026-08-16T04:46:16Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/419430/official_product_page.html, SHA-256 a923c581412445af61734e14628f477a5657c0e651234787dae5506f07ff0e7d, 수집일 2026-08-16T04:46:16Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-16 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/419430/kodex_2ETFG2_2ETFG2-A.pdf; 근거문맥:   효력발생일 2026. 7.16                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "419650",
@@ -9683,14 +9683,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-08-13",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFG6",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFG6",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/423160/official_product_page.html, SHA-256 7d2031f20503214c86d9c354f9fa084f0f06a883ae4eec91a67f498fbe189bce, 수집일 2026-08-16T04:46:21Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/423160/official_product_page.html, SHA-256 7d2031f20503214c86d9c354f9fa084f0f06a883ae4eec91a67f498fbe189bce, 수집일 2026-08-16T04:46:21Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-08-13 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/423160/kodex_2ETFG6_2ETFG6-A.pdf; 근거문맥:   효력발생일 2026. 8.13                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "423170",
@@ -9935,14 +9935,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-06-24",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFG9",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFG9",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/433970/official_product_page.html, SHA-256 5ff7f5601e3c9ee5257417ee4ddc8a7a93cc886f38784a711d7b74166589b23a, 수집일 2026-08-16T04:46:24Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/433970/official_product_page.html, SHA-256 5ff7f5601e3c9ee5257417ee4ddc8a7a93cc886f38784a711d7b74166589b23a, 수집일 2026-08-16T04:46:24Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-06-24 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/433970/kodex_2ETFG9_2ETFG9-A.pdf; 근거문맥:   효력발생일 2026. 6.24                                      존속기간 해당사항 없음  "
   },
   {
     "ticker": "433980",
@@ -10574,14 +10574,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-22",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFI3",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFI3",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/449180/official_product_page.html, SHA-256 37f6892f56da9d1e3b795ac0307578212e26e50a9201614573d024fd99478791, 수집일 2026-08-16T04:46:44Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/449180/official_product_page.html, SHA-256 37f6892f56da9d1e3b795ac0307578212e26e50a9201614573d024fd99478791, 수집일 2026-08-16T04:46:44Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-22 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/449180/kodex_2ETFI3_2ETFI3-A.pdf; 근거문맥:   효력발생일 2026. 7.22                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "449190",
@@ -10628,14 +10628,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-22",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFI5",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFI5",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/450180/official_product_page.html, SHA-256 ab6edc6e1993bd2502be494c5690c37c2e6b5e84199e9ecf3191a32eea6febbd, 수집일 2026-08-16T04:46:51Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/450180/official_product_page.html, SHA-256 ab6edc6e1993bd2502be494c5690c37c2e6b5e84199e9ecf3191a32eea6febbd, 수집일 2026-08-16T04:46:51Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-22 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/450180/kodex_2ETFI5_2ETFI5-A.pdf; 근거문맥:   효력발생일 2026. 7.22                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "450190",
@@ -10646,14 +10646,14 @@
     "ter_pct": null,
     "other_cost_pct": null,
     "trading_cost_pct": null,
-    "effective_date": null,
+    "effective_date": "2026-07-22",
     "verified_at": "2026-08-16T04:48:09Z",
     "verification_status": "verified_official",
     "primary_source_type": "issuer_official_product_page_or_api",
     "primary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFI4",
     "dart_receipt_no": null,
     "secondary_source_url": "https://www.samsungfund.com/etf/product/view.do?id=2ETFI4",
-    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/450190/official_product_page.html, SHA-256 b8fbab561fa6f03053122bfc948a33782aab01e65651aeb09f8bb1561d9d9c8c, 수집일 2026-08-16T04:46:53Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음."
+    "source_note": "운용사 공식 상품 페이지/API에서 총보수만 확인한 총보수 전용 승격. 원문 파일 data/official/issuer_pages/unmapped_kodex/450190/official_product_page.html, SHA-256 b8fbab561fa6f03053122bfc948a33782aab01e65651aeb09f8bb1561d9d9c8c, 수집일 2026-08-16T04:46:53Z. TER·기타비용·매매중개 관련 비용은 OpenDART 비용표 증빙 전까지 확인 중으로 유지하며 실질부담비용은 계산하지 않음. | 날짜 재파싱: 2026-07-22 (document_effective_date); 원문 data/official/issuer_documents/full_kodex/450190/kodex_2ETFI4_2ETFI4-A.pdf; 근거문맥:   효력발생일 2026. 7.22                                       존속기간 해당사항 없음  "
   },
   {
     "ticker": "450910",

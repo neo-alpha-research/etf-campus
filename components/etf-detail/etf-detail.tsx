@@ -291,7 +291,7 @@ export function EtfDetail({
                         <div className="space-y-1.5 font-medium">
                           <div className="flex justify-between">
                             <span className="text-neutral-300">총보수</span>
-                            <span>{fee?.totalFeePct != null ? `${fee?.totalFeePct}%` : "확인 중"}</span>
+                            <span>{(fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source") && fee?.totalFeePct != null ? `${fee?.totalFeePct}%` : "확인 중"}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-neutral-300">기타비용</span>

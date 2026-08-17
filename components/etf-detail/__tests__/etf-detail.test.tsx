@@ -5,7 +5,7 @@ import type { Etf, EtfFeeInfo } from "@/lib/domain/etf-types";
 import { EtfDetail } from "../etf-detail";
 
 const mockFee: EtfFeeInfo = {
-  totalFeePct: 0.15,
+  totalFeePct: 0.98,
   terPct: 0.20,
   otherCostPct: 0.05,
   tradingCostPct: 0.02,
@@ -142,9 +142,9 @@ describe("EtfDetail", () => {
     render(<EtfDetail etf={item} />);
   });
 
-  it("검증된 총보수가 0.15일 때 0.15%로 올바르게 표시한다", () => {
+  it("검증된 총보수가 0.98일 때 0.98%로 올바르게 표시한다", () => {
     render(<EtfDetail etf={item} />);
-    const feeElements = screen.getAllByText("0.15%");
+    const feeElements = screen.getAllByText("0.98%");
     expect(feeElements.length).toBeGreaterThan(0);
   });
 
@@ -152,8 +152,11 @@ describe("EtfDetail", () => {
     const unverifiedItem = { ...item, fee: { ...mockFee, verificationStatus: "conflict" } as EtfFeeInfo };
     render(<EtfDetail etf={unverifiedItem} />);
     
-    // 0.15% 숫자가 없어야 함
-    expect(screen.queryByText("0.15%")).not.toBeInTheDocument();
+    // 0.98% 숫자가 없어야 함
+    if (screen.queryByText("0.98%")) {
+      screen.debug();
+    }
+    expect(screen.queryByText("0.98%")).not.toBeInTheDocument();
     
     // 상태 텍스트 노출
     const statusElements = screen.getAllByText("출처 간 정보 불일치");

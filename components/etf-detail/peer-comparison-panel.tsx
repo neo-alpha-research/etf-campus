@@ -103,11 +103,26 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
 
   // 보조 문구 생성
   const totalPeerCount = Math.max(selected.totalCount - 1, 0);
+  const directPeerCount = selected.candidates.filter(
+    (candidate) => candidate.tier === "same_peer_group",
+  ).length;
+  const structureReferenceCount = selected.candidates.filter(
+    (candidate) => candidate.tier === "structure_reference",
+  ).length;
+  const investmentReferenceCount = selected.candidates.filter(
+    (candidate) => candidate.tier === "investment_reference",
+  ).length;
+  const similarPeerCount = selected.candidates.length - directPeerCount - structureReferenceCount - investmentReferenceCount;
   const displayedPeerCount = selected.candidates.length;
-  const guideText = totalPeerCount > displayedPeerCount 
-    ? `동종 후보 ${totalPeerCount}개 중 유사도와 순자산을 우선해 상위 ${displayedPeerCount}개를 표시합니다.`
-    : `동종 후보 ${displayedPeerCount}개를 표시합니다.`;
-
+  const guideText = investmentReferenceCount > 0
+    ? `동종 ETF ${directPeerCount}개, 유사 ETF ${similarPeerCount}개, 투자 참고 ${investmentReferenceCount}개를 표시합니다.`
+    : structureReferenceCount > 0
+      ? `동종 ETF ${directPeerCount}개, 유사 ETF ${similarPeerCount}개, 동일 수익구조 참고 ${structureReferenceCount}개를 표시합니다.`
+      : similarPeerCount > 0
+        ? `동종 ETF ${directPeerCount}개와 유사 ETF ${similarPeerCount}개를 표시합니다. 유사 ETF는 안전 기준을 통과한 후보입니다.`
+        : totalPeerCount > displayedPeerCount
+          ? `동종 후보 ${totalPeerCount}개 중 비교 가능성이 높은 ${displayedPeerCount}개를 표시합니다.`
+          : `동종 ETF ${displayedPeerCount}개를 표시합니다.`;
   return (
     <section className="space-y-5" aria-labelledby="peer-comparison-title">
       <div className="rounded-2xl border border-line bg-surface p-5 sm:p-6">

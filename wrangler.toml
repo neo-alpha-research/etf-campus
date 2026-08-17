@@ -8,6 +8,9 @@ database_id = "11c4e874-fba2-4e34-91d0-808892284c86"
 
 [env.preview.vars]
 SUPABASE_URL = "https://vdjyuqtcqhchopbrhexd.supabase.co"
+TURNSTILE_REQUIRED = "true"
+TURNSTILE_SITE_KEY = "0x4AAAAAAAERgiu-KGHqnHRgP"
+COMMUNITY_ENVIRONMENT = "preview"
 
 [[env.preview.d1_databases]]
 binding = "ETF_PRICES"

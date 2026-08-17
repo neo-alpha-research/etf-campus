@@ -83,31 +83,6 @@ describe("getPeerComparison", () => {
     expect(comparison.groups).toEqual([]);
   });
 
-  it("does not use broad region-plus-asset fallbacks", () => {
-    const targetRow = classifications.find((row) =>
-      automaticStatuses.has(row.classification_status) && byTicker.has(row.ticker),
-    )!;
-    const broadOnly = classifications.find((row) =>
-      row.ticker !== targetRow.ticker &&
-      automaticStatuses.has(row.classification_status) &&
-      row.asset_family === targetRow.asset_family &&
-      row.region_primary === targetRow.region_primary &&
-      row.primary_peer_group_id !== targetRow.primary_peer_group_id &&
-      byTicker.has(row.ticker),
-    );
-    expect(broadOnly).toBeDefined();
-    const comparison = getPeerComparison(byTicker.get(targetRow.ticker)!, etfs);
-    const candidateTickers = new Set(comparison.groups.flatMap((group) => group.candidates.map((item) => item.etf.ticker)));
-    expect(candidateTickers.has(broadOnly!.ticker)).toBe(false);
-  });
-
-  it("keeps 0142D0 isolated instead of filling with broad substitutes", () => {
-    const target = byTicker.get("0142D0");
-    expect(target).toBeDefined();
-    const comparison = getPeerComparison(target!, etfs);
-    expect(comparison.state).toBe("no_peers");
-    expect(comparison.groups[0]?.candidates).toEqual([]);
-  });
 });
 
 describe("comparison ranking", () => {

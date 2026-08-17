@@ -41,7 +41,7 @@ export function AuthNav() {
             로그인
           </Link>
           <Link href={withReturnTo("/register/", currentPath)} className="inline-flex h-9 items-center justify-center rounded-lg bg-brand-700 px-3 text-sm font-semibold text-white hover:bg-brand-800">
-            무료 가입
+            회원가입
           </Link>
         </div>
       </div>

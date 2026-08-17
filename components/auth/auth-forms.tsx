@@ -110,7 +110,7 @@ export function LoginForm() {
       <p className="mt-6 text-center text-sm text-muted">
         아직 회원이 아니신가요?{" "}
         <Link href={withReturnTo("/register/", returnTo)} className="font-semibold text-brand-700 hover:text-brand-800">
-          무료로 가입하기
+          가입하기
         </Link>
       </p>
     </AuthShell>
@@ -147,7 +147,7 @@ export function RegisterForm() {
   }
 
   return (
-    <AuthShell eyebrow="ETF CAMPUS ACCOUNT" title="무료 회원가입" description="ETF 비교 결과와 관심 종목을 저장하고, 상세 분석을 이어서 확인하세요.">
+    <AuthShell eyebrow="ETF CAMPUS ACCOUNT" title="회원가입" description="ETF 비교 결과와 관심 종목을 저장하고, 상세 분석을 이어서 확인하세요.">
       <form className="grid gap-4" onSubmit={handleSubmit}>
         <ErrorNotice message={error} />
         <Field label="이름 또는 닉네임 (선택)">
@@ -167,7 +167,7 @@ export function RegisterForm() {
           <input className="mt-1 h-4 w-4 accent-brand-700" type="checkbox" checked={form.marketingConsent} onChange={(event) => setForm((current) => ({ ...current, marketingConsent: event.target.checked }))} />
           <span>[선택] ETF Campus의 신규 기능과 콘텐츠 소식을 이메일로 받겠습니다.</span>
         </label>
-        <PrimaryButton loading={loading}>무료로 시작하기</PrimaryButton>
+        <PrimaryButton loading={loading}>시작하기</PrimaryButton>
       </form>
       <p className="mt-6 text-center text-sm text-muted">
         이미 회원이신가요?{" "}

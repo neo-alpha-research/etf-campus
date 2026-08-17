@@ -41,6 +41,7 @@ export type PeerCandidate = {
   similarityScore: number;
   reasons: string[];
   profile: ComparisonProfile;
+  tier?: string;
 };
 
 export type PeerGroupOption = {
@@ -258,12 +259,42 @@ function groupOption(
     return isAutomaticProfile(memberProfile) && memberProfile.primaryPeerGroupId === groupId;
   }).length;
   if (memberCount === 0) return null;
+  let candidates = candidatesForGroup(target, profile, universe, groupId);
+
+  const sparseReferenceTickers: Record<string, string> = {
+    "167860": "152380",
+    "451670": "152380",
+    "267490": "484790",
+    "452250": "484790",
+  };
+  const sparseReferenceTicker = sparseReferenceTickers[target.ticker];
+
+  if (isPrimary && candidates.length < MAX_PEERS && sparseReferenceTicker) {
+    const referenceEtf = universe.find(c => c.ticker === sparseReferenceTicker);
+    if (referenceEtf) {
+      const referenceProfile = data.profiles.get(referenceEtf.ticker);
+      if (isAutomaticProfile(referenceProfile)) {
+        candidates.push({
+          etf: referenceEtf,
+          profile: referenceProfile,
+          similarityScore: Math.max(calculateSimilarityScore(profile, referenceProfile), 10),
+          reasons: [
+            "동일 국가·국채 장기 만기의 비레버리지 기준 상품",
+            "2배 레버리지 롱 대비 1배 일반 노출 구조 참고",
+          ],
+          tier: "investment_reference",
+        });
+        candidates = sortPeerCandidates(candidates).slice(0, MAX_PEERS);
+      }
+    }
+  }
+
   return {
     id: groupId,
     label: group.label || profile.comparisonSubtopic || "동종 ETF",
     description: group.description,
     totalCount: memberCount,
-    candidates: candidatesForGroup(target, profile, universe, groupId),
+    candidates,
     isPrimary,
   };
 }

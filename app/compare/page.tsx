@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { AuthGate } from "@/components/auth/auth-gate";
 import { CompareClient } from "@/components/compare/compare-client";
 import { loadEtfs } from "@/lib/data/etf-repository";
 
@@ -25,13 +24,7 @@ export default function ComparePage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <Suspense fallback={<div className="h-36 animate-pulse rounded-2xl border border-line bg-brand-50/60" />}>
-        <AuthGate
-          featureLabel="ETF 비교 분석"
-          title="선택한 ETF를 한눈에 비교해 보세요"
-          description="회원가입 후 수익률, 총보수, 순자산과 주요 지표를 같은 기준으로 비교할 수 있습니다. 가입을 마치면 현재 화면으로 바로 돌아옵니다."
-        >
-          <CompareClient etfs={searchIndex} />
-        </AuthGate>
+        <CompareClient etfs={searchIndex} />
       </Suspense>
     </main>
   );

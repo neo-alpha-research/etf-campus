@@ -34,10 +34,7 @@ export function AuthGate({
       <h2 className="mt-2 text-xl font-bold tracking-tight text-ink">{title}</h2>
       <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">{description}</p>
       <div className="mt-5 flex flex-wrap gap-2">
-        <Link href={withReturnTo("/register/", returnTo)} className="inline-flex h-10 items-center justify-center rounded-lg bg-brand-700 px-4 text-sm font-semibold text-white hover:bg-brand-800">
-          분석 열기
-        </Link>
-        <Link href={withReturnTo("/login/", returnTo)} className="inline-flex h-10 items-center justify-center rounded-lg border border-brand-200 bg-white px-4 text-sm font-semibold text-brand-800 hover:bg-brand-50">
+        <Link href={withReturnTo("/login/", returnTo)} className="inline-flex h-10 items-center justify-center rounded-lg bg-brand-700 px-4 text-sm font-semibold text-white hover:bg-brand-800">
           로그인
         </Link>
       </div>

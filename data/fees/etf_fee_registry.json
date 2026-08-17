@@ -160,6 +160,26 @@
     "legal_fund_name": "삼성 KODEX 미국S&P500데일리커버드콜OTM증권상장지수투자신탁[주식-파생형]"
   },
   {
+    "ticker": "0005C0",
+    "isin": "KR70005C0005",
+    "name": "RISE 미국S&P500엔화노출(합성 H)",
+    "issuer": "KB자산운용",
+    "fund_standard_code": null,
+    "legal_fund_name": null,
+    "verification_status": "official_single_source",
+    "source_note": "RISE ETF 공식 상품 페이지의 Total Expense Ratio에서 표면 총보수 연 0.100% 확인. 구성은 지정참가회사 0.001%, 집합투자 0.079%, 신탁 0.010%, 일반사무 0.010%. 페이지 업데이트 기준일은 2026-08-17이나 보수 효력일은 별도 표기되지 않아 null로 보존.",
+    "total_fee_pct": 0.1,
+    "ter_pct": null,
+    "other_cost_pct": null,
+    "trading_cost_pct": null,
+    "effective_date": null,
+    "verified_at": null,
+    "primary_source_type": "issuer_official_page",
+    "primary_source_url": "https://eng.riseetf.co.kr/prod/finderDetail/44H9",
+    "dart_receipt_no": null,
+    "secondary_source_url": null
+  },
+  {
     "ticker": "0005D0",
     "isin": "KR70005D0004",
     "name": "SOL 전고체배터리&실리콘음극재",

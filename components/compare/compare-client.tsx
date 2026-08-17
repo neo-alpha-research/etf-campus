@@ -6,14 +6,95 @@ import { CompareSearch } from "./compare-search";
 import { CompareThemes } from "./compare-themes";
 import { EtfCompareView } from "@/components/etf-detail/etf-compare-view";
 import { EtfCompareChart } from "./etf-compare-chart";
+import { useEffect, useCallback } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useAuthSession } from "@/components/auth/use-auth-session";
+import { withReturnTo } from "@/lib/auth/return-to";
 
 export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
   const { basket, mounted, toastMessage, addEtf, removeEtf, clearBasket, overwriteBasket, MAX_ITEMS } = useCompareBasket();
+  const { authenticated, isLoading } = useAuthSession();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const handleSelectTheme = (themeEtfs: EtfSlim[]) => {
-    // Quick Add buttons overwrite the entire basket
+  // 로그인 완료 후 URL의 action 파라미터 처리
+  useEffect(() => {
+    if (!mounted || isLoading || !authenticated) return;
+    
+    const action = searchParams.get("action");
+    if (!action) return;
+
+    let modified = false;
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    if (action === "add") {
+      const ticker = searchParams.get("ticker");
+      if (ticker) {
+        const etf = etfs.find(e => e.ticker === ticker);
+        if (etf) addEtf(etf);
+      }
+      newParams.delete("ticker");
+      modified = true;
+    } else if (action === "remove") {
+      const ticker = searchParams.get("ticker");
+      if (ticker) removeEtf(ticker);
+      newParams.delete("ticker");
+      modified = true;
+    } else if (action === "clear") {
+      clearBasket();
+      modified = true;
+    } else if (action === "theme") {
+      const tickers = searchParams.get("tickers");
+      if (tickers) {
+        const tickerArray = tickers.split(",");
+        const themeEtfs = etfs.filter(e => tickerArray.includes(e.ticker));
+        if (themeEtfs.length > 0) overwriteBasket(themeEtfs);
+      }
+      newParams.delete("tickers");
+      modified = true;
+    }
+
+    if (modified) {
+      newParams.delete("action");
+      router.replace(`${pathname}${newParams.toString() ? `?${newParams.toString()}` : ""}`, { scroll: false });
+    }
+  }, [mounted, isLoading, authenticated, searchParams, etfs, addEtf, removeEtf, clearBasket, overwriteBasket, pathname, router]);
+
+  const requireAuth = useCallback((actionPath: string) => {
+    if (isLoading) return true; // 로딩 중에는 액션 차단
+    if (!authenticated) {
+      const currentQuery = searchParams.toString();
+      const currentPath = `${pathname}${currentQuery ? `?${currentQuery}` : ""}`;
+      const returnUrl = currentPath.includes("?") 
+        ? `${currentPath}&${actionPath}` 
+        : `${currentPath}?${actionPath}`;
+      router.push(withReturnTo("/login/", returnUrl));
+      return true;
+    }
+    return false;
+  }, [authenticated, isLoading, pathname, searchParams, router]);
+
+  const handleAddEtf = useCallback((etf: EtfSlim) => {
+    if (requireAuth(`action=add&ticker=${etf.ticker}`)) return;
+    addEtf(etf);
+  }, [requireAuth, addEtf]);
+
+  const handleRemoveEtf = useCallback((ticker: string) => {
+    if (requireAuth(`action=remove&ticker=${ticker}`)) return;
+    removeEtf(ticker);
+  }, [requireAuth, removeEtf]);
+
+  const handleClearBasket = useCallback(() => {
+    if (requireAuth(`action=clear`)) return;
+    clearBasket();
+  }, [requireAuth, clearBasket]);
+
+  const handleSelectTheme = useCallback((themeEtfs: EtfSlim[]) => {
+    const tickers = themeEtfs.map(e => e.ticker).join(",");
+    if (requireAuth(`action=theme&tickers=${tickers}`)) return;
     overwriteBasket(themeEtfs);
-  };
+  }, [requireAuth, overwriteBasket]);
 
   if (!mounted) {
     return (
@@ -45,7 +126,7 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
       </div>
 
       <div className="flex flex-col gap-4 rounded-2xl bg-neutral-50 p-6 border border-line">
-        <CompareSearch etfs={etfs} onAdd={addEtf} disabled={isFull} />
+        <CompareSearch etfs={etfs} onAdd={handleAddEtf} disabled={isFull} />
         <CompareThemes etfs={etfs} onSelectTheme={handleSelectTheme} />
       </div>
 
@@ -58,7 +139,7 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
             </span>
           </div>
           {basket.length > 0 && (
-            <button onClick={clearBasket} className="group flex items-center justify-center gap-1.5 h-[34px] px-4 text-[13px] font-bold text-rose-500 bg-rose-50 border border-rose-100 hover:bg-rose-500 hover:text-white hover:border-rose-500 rounded-lg transition-all duration-200 shadow-sm active:scale-[0.97]">
+            <button onClick={handleClearBasket} className="group flex items-center justify-center gap-1.5 h-[34px] px-4 text-[13px] font-bold text-rose-500 bg-rose-50 border border-rose-100 hover:bg-rose-500 hover:text-white hover:border-rose-500 rounded-lg transition-all duration-200 shadow-sm active:scale-[0.97]">
               <svg className="size-[15px] transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
               모든 종목 지우기
             </button>
@@ -68,7 +149,7 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
         {basket.length > 0 ? (
           <div className="animate-in fade-in duration-300">
             <EtfCompareChart basket={basket as Etf[]} />
-            <EtfCompareView basket={basket as Etf[]} onRemove={removeEtf} />
+            <EtfCompareView basket={basket as Etf[]} onRemove={handleRemoveEtf} />
           </div>
         ) : (
           <div className="py-24 text-center rounded-2xl border border-dashed border-line bg-surface">

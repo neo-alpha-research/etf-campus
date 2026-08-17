@@ -1,54 +1,91 @@
-# 커뮤니티 2.5단계 Preview 공개 게이트
+# 커뮤니티 Phase 2.5–2.6 Preview 공개 게이트
 
-> **상태:** 코드·마이그레이션·자동 보안 계약 검증 단계. 외부 Supabase 프로젝트, SMTP, Cloudflare 환경 변수, Turnstile 키, Preview 배포가 제공·실행되기 전에는 통합 검증 또는 Preview 공개 완료를 주장하지 않는다.
+> **상태: Preview 공개 보류.** 애플리케이션·세션 계약 검증과 로컬 Supabase 실행 구조는 준비됐지만, Docker 및 로컬 Supabase CLI 부재로 데이터베이스 마이그레이션·pgTAP 권한 검증을 실행하지 못했다. 따라서 이 문서는 **Preview 가능 판정이 아니며**, 외부 설정과 실제 통합 검증 전까지 공개를 승인하지 않는다.
 
-## 1. 코드 보안 경계
+## 1. 목적과 적용 범위
 
-커뮤니티 인증은 Pages Functions가 same-origin HttpOnly 쿠키를 읽는 BFF 구조를 사용한다. OTP 검증 응답 본문은 인증 상태만 반환하며 access token과 refresh token을 반환하지 않는다. 접근·갱신 토큰은 `__Host-` 접두사, `Secure`, `HttpOnly`, `SameSite=Lax`, `Path=/` 쿠키에만 저장한다. 인증 또는 토큰 갱신 경로의 응답은 `Cache-Control: private, no-store`로 응답해야 한다.
+이 게이트는 기존 정적 ETF 기능과 분리된 커뮤니티 경로(`/community`, `/api/community`)만 대상으로 한다. 커뮤니티는 ETF 종목 추천, 수익률 경쟁, 매수 인증을 제공하지 않고 ETF 판단 기준을 학습·검증하는 공간이라는 SSOT 원칙을 따른다. 기존 ETF 탐색·비교·상세·브리핑·가이드·북 큐레이션의 정적 빌드 또는 배포 구조 변경은 이 게이트 범위에 포함하지 않는다.
 
-변경 요청은 Pages Functions 미들웨어에서 동일 Origin 또는 Referer, `application/json`, CSRF double-submit 토큰을 모두 확인한다. OTP 요청과 검증은 인증 전 흐름이므로 CSRF 대상에서 제외하되, 동일 출처와 JSON 검증 및 Turnstile 검증을 적용한다.
+## 2. 현재 RC 기준선
 
-| 흐름 | 서버 통제 | Preview 검증 기준 |
+| 항목 | RC 상태 | 근거·비고 |
 |---|---|---|
-| OTP 요청 | 중립 응답, 이메일 해시 10분 3회, IP 해시 10분 10회, Turnstile action | 가입·비가입 이메일에 동일한 응답을 반환하고 원문 이메일·IP를 테이블·로그에 남기지 않는다. |
-| OTP 검증 | 6자리 형식, 이메일·IP 이중 한도, Turnstile action, HttpOnly 세션 발급 | 응답 JSON과 브라우저 저장소에 access/refresh token이 없다. |
-| 인증 변경 요청 | 서버 세션 갱신, same-origin, JSON, CSRF, RLS RPC | 타 Origin, 누락 CSRF, 비JSON 요청이 거부된다. |
-| 공개 읽기 | 공개 View만 사용 | 이메일, Auth UUID, 프로필 UUID, 삭제·숨김 콘텐츠가 없다. |
-| 탈퇴 | 요청 상태 머신, Auth 삭제 성공·실패 기록, 쿠키 폐기 | 중복 요청·Auth 삭제 실패·재시도 흐름을 확인한다. |
+| 기준 브랜치 | 준비됨 | 최신 `origin/main` 기준의 별도 `community/phase-3-preview-rc` 브랜치에서 커뮤니티 변경을 재구성했다. |
+| 커뮤니티 API 분리 | 준비됨 | Pages Functions 라우팅은 커뮤니티 공개 경로와 API 경로로 제한한다. |
+| 세션 전달 방식 | 준비됨 | 브라우저 저장소 토큰 대신 HttpOnly `__Host-` 쿠키, CSRF double-submit, 동일 출처·JSON 요청 검증을 사용한다. |
+| 탈퇴 상태 관리 보정 | 준비됨 | 세션 만료·폐기 보정과 marker RPC의 boolean 성공 반환 검증을 포함한다. |
+| 로컬 DB 실행 구조 | 준비됨 | `supabase/config.toml`, 익명 개발 seed, pgTAP 스켈레톤, 보정 마이그레이션과 Cron 운영 SQL을 추가했다. |
+| 실제 DB 통합 검증 | 미실행 | Docker 및 Supabase CLI가 없는 환경이므로 로컬 PostgreSQL/Supabase를 기동하지 못했다. |
 
-## 2. Supabase와 Cloudflare 콘솔 체크리스트
+## 3. 완료된 로컬 검증
 
-| 콘솔 | 설정 경로 | 운영자 작업 |
+아래 항목은 외부 Supabase 프로젝트나 비밀값 없이 실행 가능한 범위에서 확인했다. 기존 실패는 본 커뮤니티 변경이 아닌 ETF 상세 표시 테스트와 기존 lint 문제로 분류되며, 이 RC에서 새롭게 추가된 실패는 확인되지 않았다.
+
+| 검증 항목 | 결과 | 세부 사항 |
 |---|---|---|
-| Supabase | New Project | Seoul(`ap-northeast-2`) 리전의 **커뮤니티 전용** 프로젝트를 생성한다. 기존 ETF 데이터 D1을 사용하지 않는다. |
-| Supabase | SQL Editor 또는 승인된 migration runner | `20260815_000001_community_phase2.sql` 후 `20260815_000002_community_security_hardening.sql` 순서로 1회 적용한다. |
-| Supabase | Authentication → Providers → Email | 이메일 OTP를 활성화하고 운영자 테스트 계정으로만 검증한다. |
-| Supabase | Authentication → URL Configuration | Preview Site URL과 Redirect URL을 Preview 도메인으로만 설정한다. Production URL은 Production 게이트 승인 전 추가하지 않는다. |
-| Supabase | Authentication → SMTP | 외부 Preview 직전에 Resend Custom SMTP, 발신 이름, 인증 전용 발신 도메인 및 DNS를 설정·검증한다. |
-| Cloudflare Pages | Settings → Environment variables | Preview와 Production 값을 분리한다. `SUPABASE_URL`, `SUPABASE_ANON_KEY` 또는 publishable key, `SUPABASE_SERVICE_ROLE_KEY`, `COMMUNITY_RATE_LIMIT_SALT`, `COMMUNITY_ENVIRONMENT`, `TURNSTILE_REQUIRED`, `TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `TURNSTILE_EXPECTED_HOSTNAME`를 암호화 환경 변수로 설정한다. |
-| Cloudflare Turnstile | Widget settings | Preview hostname과 action `community_otp_request`, `community_otp_verify`를 허용하도록 구성한다. |
-| Cloudflare Access | Application policy | 최초 Preview는 운영자 이메일 그룹 또는 승인된 운영자 계정만 접근하도록 제한한다. |
-| 운영 계정 | GitHub, Cloudflare, Supabase, admin | 모두 TOTP MFA와 복구 절차를 적용한다. |
+| 전체 프로덕션 빌드 | 통과 | 정적 내보내기 빌드가 1,182개 경로 기준으로 완료됐다. |
+| 전체 단위 테스트 | 기존 실패 1건 | ETF 상세 표시 관련 기존 실패 1건이며 커뮤니티 변경과 무관하다. |
+| 정적 분석 | 기존 오류 14건 | 기존 오류이며 커뮤니티 추가 오류는 없다. |
+| 세션 런타임 계약 테스트 | 통과, 3/3 | `__Host-` 쿠키 속성, 복수 `Set-Cookie` 분리, 만료 시 세션 쿠키 폐기를 확인했다. |
+| Functions JavaScript 문법 검사 | 통과 | 세션 모듈과 계정 API 문법을 확인했다. |
+| 비밀값 정적 검사 | 완료 예정 | 커밋 직전 규칙 기반 검사와 diff 검사를 다시 실행해야 한다. |
 
-실제 값, 운영자 이메일, 프로젝트 URL, 키, Auth UUID는 코드·Git·문서·채팅에 기록하지 않는다.
+## 4. DB·권한·스케줄 미검증 항목
 
-## 3. 탈퇴 보존·정리 상태
+다음 항목은 파일이 준비된 것과 실제 실행·검증을 구별해야 한다. Docker 및 로컬 Supabase CLI가 준비된 검증 환경에서만 실행하며, 결과가 모두 통과하기 전에는 Preview 가능으로 판정하지 않는다.
 
-탈퇴 요청은 DB 요청 기록을 먼저 만들고, 이후 Auth 사용자를 삭제한다. Auth 삭제 실패는 `auth_delete_failed`로 남겨 service-role 기반의 운영 재시도가 가능하도록 한다. 익명화 선택은 Auth·프로필 삭제에 따라 공개 콘텐츠의 작성자 연결을 제거한다. 삭제 선택은 즉시 공개 View에서 숨기고 30일 이후 물리 삭제 대상이 된다.
+| 항목 | 준비된 산출물 | 현재 상태 | 재개 후 필수 실행 |
+|---|---|---|---|
+| 마이그레이션 순서·적용성 | `20260815_000001`~`000003` | 미실행 | 신규 로컬 DB에 번호 순서대로 적용하고 오류·재실행 멱등성을 확인한다. |
+| RLS·권한 경계 | `community_rls_permissions_test.sql` | 미실행 | `supabase test db`로 anon/member/moderator/admin/service_role 경계를 검증한다. |
+| 탈퇴 상태 머신 | `community_withdrawal_state_test.sql` | 미실행 | 삭제 실패 marker, 완료 marker, 복구 큐, RPC 권한을 검증한다. |
+| Supabase DB lint | 설정·마이그레이션 일체 | 미실행 | `supabase db lint`를 실행하고 경고를 판정한다. |
+| 로컬 OTP·메일 흐름 | `config.toml` Mailpit 설정 | 미실행 | 익명 개발 계정에서 OTP 요청·검증·세션 생성·로그아웃·탈퇴를 수동 검증한다. |
+| 30일 물리 삭제 | `schedule_community_retention.sql` | 의도적으로 미연결 | Production 승인 뒤에만 Cron을 등록하고 실행 로그·대상 범위를 검증한다. |
 
-`purge_due_community_withdrawals()` 함수는 마이그레이션으로 제공되지만, 현재 **정기 실행 플랫폼에는 연결하지 않았다.** 따라서 30일 물리 삭제는 정책·정리 함수가 구현된 상태일 뿐 자동 정리가 운영 중인 상태가 아니다. 운영자는 Supabase의 승인된 스케줄 기능 또는 별도 서버 전용 정리 작업을 선택하고, 실행 ID·실패 재시도·알림을 운영 절차에 추가해야 한다. 이 결정·연결·실행 검증 전에는 “물리 삭제 완료”라고 보고할 수 없다.
+> **중요:** `supabase/ops/schedule_community_retention.sql`은 Production 운영자 전용 SQL이다. Preview에서는 자동 스케줄을 생성하거나 실행하지 않는다.
 
-## 4. Preview 실행 전 차단 조건
+## 5. 외부 운영자 설정 대기 항목
 
-| 차단 조건 | 차단 이유 | 해제 기준 |
-|---|---|---|
-| `COMMUNITY_ENVIRONMENT=preview` 또는 `production`인데 `TURNSTILE_REQUIRED=true`가 아님 | 외부 OTP CAPTCHA 우회 위험 | Turnstile site/secret key와 expected hostname을 설정하고 서버 응답을 확인한다. |
-| SMTP·DNS 미검증 | OTP 전달 실패 및 발신자 신뢰 저하 | 운영자 테스트 계정에서 발송·수신·만료·재요청을 확인한다. |
-| RLS·RPC 마이그레이션 미적용 | 직접 Data API 변경·식별자 노출 위험 | SQL 적용 후 anon/member A/member B/admin 검수 계정으로 통합 테스트를 실행한다. |
-| Cloudflare Access 미설정 | 운영자 검수 전 외부 노출 위험 | Preview 도메인 접근을 운영자 그룹으로 제한한다. |
-| 개인정보·이용약관·투자정보 고지 미승인 | 공개 문구·법적 고지 불완전 | 승인된 최종 문안과 정책 버전을 적용한다. |
-| 30일 정리 스케줄 미연결 | 물리 삭제 자동화 미검증 | 승인된 서버 전용 정리 작업과 실패 재시도·감사를 검증한다. |
+외부 설정은 서버 전용 환경 변수와 운영 콘솔에서만 수행한다. 이 저장소와 본 문서에는 비밀값, API 키, 사용자 이메일, 프로젝트 식별자를 기록하지 않는다.
 
-## 5. 실제 통합 검증 대기 항목
+| 순서 | 운영자 작업 | 적용 위치 | 완료 판정 |
+|---|---|---|---|
+| 1 | 서울 리전의 커뮤니티 전용 Supabase 프로젝트 생성 | Supabase | 기존 ETF D1 데이터와 물리·권한 경계가 분리됨 |
+| 2 | 마이그레이션 3개를 번호 순서로 적용 | Supabase SQL Editor 또는 CLI | 스키마·RLS·RPC 적용 및 pgTAP 통과 |
+| 3 | 이메일 OTP 및 Preview Redirect URL 설정 | Supabase Auth | 승인된 도메인에서만 OTP 콜백 가능 |
+| 4 | Resend Custom SMTP 및 DNS 검증 | Supabase / DNS | 테스트 메일을 통해 발송·반송 정책 확인 |
+| 5 | Preview 암호화 환경 변수 9개 등록 | Cloudflare Pages Preview | 비밀값을 노출하지 않고 서버 API가 정상 동작 |
+| 6 | Turnstile Preview hostname·action 구성 | Cloudflare Turnstile | OTP 요청·검증에서 hostname, action, 만료·재사용 검증 성공 |
+| 7 | Preview 운영자 접근 제한 | Cloudflare Access | 비승인 사용자의 Preview 접근 차단 |
+| 8 | 최초 admin 지정 | 서버 전용 운영 절차 | 클라이언트 입력이 아닌 서버·DB 역할로만 admin 판정 |
+| 9 | Production Cron 등록 | Supabase Cron | Production 승인 후에만 30일 물리 삭제 스케줄 활성화 |
+| 10 | 정책 전문 최종 검토 | 법무·운영 | 개인정보 처리방침, 이용약관, 투자정보 고지 반영 |
 
-외부 설정이 제공되지 않았으므로 다음은 실행하지 않았다. Supabase CLI/pgTAP 실제 RLS 테스트, anon·member A·member B·admin·닉네임 미설정·탈퇴 처리 중 사용자 계정의 통합 테스트, OTP 만료·재사용·세션 갱신의 실제 Auth 테스트, Turnstile hostname/action/replay 테스트, SMTP·Resend 검증, Cloudflare Access로 제한된 Preview 검증, 30일 정리 작업의 실제 스케줄 실행이 이에 해당한다.
+## 6. Preview 전 수동 통합 검증 시나리오
+
+외부 설정이 끝난 뒤, 접근 제한이 걸린 Preview에서 아래 시나리오를 수동으로 수행한다. 모든 시나리오는 실계좌·개인정보·실제 투자 권유 문구를 사용하지 않는 테스트 데이터만으로 수행한다.
+
+| 시나리오 | 기대 결과 |
+|---|---|
+| 비로그인 공개 목록·상세 읽기 | 게시물과 댓글은 공개로 보이고, 이메일·내부 사용자 ID는 응답과 화면에 노출되지 않는다. |
+| 비로그인 작성·댓글·신고 요청 | 인증 요구 응답으로 차단되며 데이터가 생성되지 않는다. |
+| OTP 요청·검증 | Turnstile, 이메일·IP 해시 속도 제한, 환경별 hostname/action 검증을 통과해야 한다. |
+| 회원 작성·수정·댓글 | 본인 게시물·댓글에 한해서만 변경할 수 있고, 서버 기준 `created_at`·`updated_at`이 기록된다. |
+| 타 사용자 게시물 수정·삭제 | RLS와 API가 일관되게 차단한다. |
+| 로그아웃·세션 만료 | 모든 세션 쿠키가 별도 `Set-Cookie`로 만료되고, 이후 인증 API가 안전하게 실패한다. |
+| 탈퇴 | 회원 상태 전이와 marker RPC가 일관되게 기록되고, 실패 시 운영 복구 큐 조회가 가능하다. |
+| XSS·마크다운 처리 | 허용되지 않은 HTML, 이벤트 핸들러, 스크립트 URL이 렌더링되지 않는다. |
+| 오류·로딩·빈 상태 | 모바일과 데스크톱에서 접근 가능한 한국어 UI와 재시도 동선이 제공된다. |
+
+## 7. 공개 차단 조건과 최종 판정
+
+아래 중 하나라도 남아 있으면 Preview 공개를 승인하지 않는다.
+
+1. 마이그레이션 3개 또는 pgTAP 권한·탈퇴 테스트가 미실행이거나 실패한 경우.
+2. 서버 전용 비밀값이 클라이언트 번들, 로그, 문서, API 응답에 포함된 경우.
+3. Turnstile hostname/action, OTP 속도 제한, CSRF 또는 쿠키 세션 검증이 Preview에서 실패한 경우.
+4. 비로그인 작성 차단, 타인 게시물 수정 차단, 공개 응답 개인정보 비노출 중 하나라도 실패한 경우.
+5. Cloudflare Access 제한, Supabase Auth redirect, SMTP/DNS, 정책 전문 검토 중 필수 운영 설정이 미완료인 경우.
+
+현재는 **DB 실행 검증 및 외부 설정이 미완료**이므로, RC는 개발 산출물 검토 상태에만 머문다. 실제 Preview 공개, main 병합, 원격 push, Cloudflare 배포 및 Production Cron 등록은 이 문서의 모든 차단 조건이 해소되고 운영자 승인을 받은 뒤에만 별도 단계에서 검토한다.

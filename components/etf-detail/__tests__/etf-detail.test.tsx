@@ -68,6 +68,7 @@ describe("EtfDetail", () => {
     expect(screen.getByRole("heading", { name: /상세 테스트 ETF/ })).toBeInTheDocument();
     expect(screen.getByText(/테스트 기초지수/)).toBeInTheDocument();
     expect(screen.getByText(/테스트 기초지수를 기준으로 운용되는 미국 주식 ETF입니다./)).toBeInTheDocument();
+    expect(screen.queryByText("공식 데이터 확인 중")).not.toBeInTheDocument();
   });
 
   it("운용사 공식 공지 기반 지급 이력은 분배금 요약이 있는 ETF에만 표시한다", () => {

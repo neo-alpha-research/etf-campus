@@ -1,4 +1,4 @@
-import { errorResponse } from "../../../../lib/community/api-security";
+import { errorResponse } from "../_lib/api-security";
 
 function requiredEnv(env, name) {
   const value = env[name];
@@ -105,11 +105,11 @@ export function adminSupabase(env) {
 export async function authenticatedSupabase(context) {
   const authorization = context.request.headers.get("authorization");
   const token = authorization?.match(/^Bearer\s+([^\s]+)$/i)?.[1];
-  if (!token) return { error: errorResponse(401, "AUTH_REQUIRED", "로그인 후 이용할 수 있습니다.") };
+  if (!token) return { error: errorResponse(401, "AUTH_REQUIRED", "로그?????�용?????�습?�다.") };
 
   let client;
-  try { client = publicSupabase(context.env, token); } catch { return { error: errorResponse(503, "CONFIGURATION_ERROR", "인증 서비스 설정을 확인해 주세요.") }; }
+  try { client = publicSupabase(context.env, token); } catch { return { error: errorResponse(503, "CONFIGURATION_ERROR", "?�증 ?�비???�정???�인??주세??") }; }
   const { data, error } = await client.auth.getUser(token);
-  if (error || !data.user) return { error: errorResponse(401, "AUTH_REQUIRED", "로그인 상태가 만료되었거나 유효하지 않습니다.") };
+  if (error || !data.user) return { error: errorResponse(401, "AUTH_REQUIRED", "로그???�태가 만료?�었거나 ?�효?��? ?�습?�다.") };
   return { client, token, user: data.user };
 }

@@ -25,7 +25,9 @@ describe("커뮤니티 서버 관리 세션 계약", () => {
   it("세션 쿠키는 host-only, Secure, HttpOnly, SameSite=Lax로 설정한다", () => {
     const source = read("functions", "api", "community", "_lib", "session.js");
     expect(source).toContain("__Host-etf-campus-community-at");
-    expect(source).toContain("Secure; SameSite=Lax");
+    expect(source).toContain("serializeCookie");
+    expect(source).toContain('"Secure"');
+    expect(source).toContain('"SameSite=Lax"');
     expect(source).toContain("HttpOnly");
     expect(source).toContain("Cache-Control\": \"private, no-store");
   });

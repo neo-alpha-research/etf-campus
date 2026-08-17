@@ -1,5 +1,5 @@
 import { authenticatedSession, clearSessionHeaders, mergeSessionHeaders } from "../_lib/session";
-import { jsonResponse } from "../../../../lib/community/api-security";
+import { jsonResponse } from "../_lib/api-security";
 
 export async function onRequestGet(context) {
   const session = await authenticatedSession(context);

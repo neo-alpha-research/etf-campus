@@ -1,6 +1,6 @@
 import { publicSupabase } from "../_lib/supabase";
 import { enforceDatabaseRateLimit, parseJsonBody, verifyTurnstile } from "../_lib/request-security";
-import { errorResponse } from "../../../../lib/community/api-security";
+import { errorResponse } from "../_lib/api-security";
 import { sessionHeaders } from "../_lib/session";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -10,7 +10,7 @@ export async function onRequestPost(context) {
   const payload = await parseJsonBody(context.request);
   const email = typeof payload?.email === "string" ? payload.email.trim().toLowerCase() : "";
   const token = typeof payload?.token === "string" ? payload.token.trim() : "";
-  if (!EMAIL_PATTERN.test(email) || !OTP_PATTERN.test(token)) return errorResponse(400, "VALIDATION_ERROR", "이메일과 6자리 인증 코드를 확인해 주세요.");
+  if (!EMAIL_PATTERN.test(email) || !OTP_PATTERN.test(token)) return errorResponse(400, "VALIDATION_ERROR", "?�메?�과 6?�리 ?�증 코드�??�인??주세??");
 
   const captchaError = await verifyTurnstile(context, payload?.captchaToken, "community_otp_verify");
   if (captchaError) return captchaError;
@@ -22,11 +22,11 @@ export async function onRequestPost(context) {
   try {
     const supabase = publicSupabase(context.env);
     const { data, error } = await supabase.auth.verifyOtp({ email, token, type: "email" });
-    if (error || !data.session || !data.user) return errorResponse(401, "AUTH_REQUIRED", "인증 코드가 올바르지 않거나 만료되었습니다.");
+    if (error || !data.session || !data.user) return errorResponse(401, "AUTH_REQUIRED", "?�증 코드가 ?�바르�? ?�거??만료?�었?�니??");
 
     const headers = sessionHeaders(data.session);
     return new Response(JSON.stringify({ authenticated: true, profileConfigured: false }), { status: 200, headers });
   } catch {
-    return errorResponse(503, "UNAVAILABLE", "인증 서비스를 일시적으로 사용할 수 없습니다.");
+    return errorResponse(503, "UNAVAILABLE", "?�증 ?�비?��? ?�시?�으�??�용?????�습?�다.");
   }
 }

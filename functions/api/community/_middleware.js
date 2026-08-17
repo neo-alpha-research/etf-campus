@@ -15,6 +15,7 @@ function isSameOrigin(request) {
 
 function needsAuthentication(pathname, method) {
   if (pathname === "/api/community/auth/session" && method === "GET") return false;
+  if (pathname === "/api/community/auth/config" && method === "GET") return false;
   if (OTP_PATHS.has(pathname)) return false;
   if (pathname === "/api/community/posts" && method === "GET") return false;
   if (method === "GET" && /^\/api\/community\/posts\/[0-9a-f-]+(?:\/comments)?$/i.test(pathname)) return false;
@@ -27,8 +28,8 @@ export async function onRequest(context) {
   const unsafe = UNSAFE_METHODS.has(method);
 
   if (unsafe) {
-    if (!isSameOrigin(context.request)) return errorResponse(403, "FORBIDDEN", "?ˆìš©?˜ì? ?Šì? ?”ì²­ ì¶œì²˜?…ë‹ˆ??");
-    if (!context.request.headers.get("Content-Type")?.toLowerCase().startsWith("application/json")) return errorResponse(415, "VALIDATION_ERROR", "JSON ?”ì²­ë§??ˆìš©?©ë‹ˆ??");
+    if (!isSameOrigin(context.request)) return errorResponse(403, "FORBIDDEN", "?ï¿½ìš©?ï¿½ï¿½? ?ï¿½ï¿½? ?ï¿½ì²­ ì¶œì²˜?ï¿½ë‹ˆ??");
+    if (!context.request.headers.get("Content-Type")?.toLowerCase().startsWith("application/json")) return errorResponse(415, "VALIDATION_ERROR", "JSON ?ï¿½ì²­ï¿½??ï¿½ìš©?ï¿½ë‹ˆ??");
     if (!OTP_PATHS.has(pathname)) {
       const csrfError = enforceCsrf(context);
       if (csrfError) return csrfError;
@@ -38,7 +39,7 @@ export async function onRequest(context) {
   const required = needsAuthentication(pathname, method);
   const tokens = requestSessionTokens(context.request);
   if (!required && !tokens.accessToken) return context.next();
-  if (required && !tokens.accessToken) return errorResponse(401, "AUTH_REQUIRED", "ë¡œê·¸?????´ìš©?????ˆìŠµ?ˆë‹¤.");
+  if (required && !tokens.accessToken) return errorResponse(401, "AUTH_REQUIRED", "ë¡œê·¸?????ï¿½ìš©?????ï¿½ìŠµ?ï¿½ë‹¤.");
 
   const session = await authenticatedSession(context);
   if (session.error) return required ? session.error : context.next();

@@ -58,6 +58,13 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
     if (modified) {
       newParams.delete("action");
       router.replace(`${pathname}${newParams.toString() ? `?${newParams.toString()}` : ""}`, { scroll: false });
+    } else if (!localStorage.getItem("etfcampus_compare_basket")) {
+      // 최초 접속 시(로컬스토리지 비어있을 때) 대표지수 5종목 자동 채우기
+      const defaultTickers = ["069500", "229200", "245340", "360750", "133690"];
+      const themeEtfs = etfs.filter(e => defaultTickers.includes(e.ticker));
+      if (themeEtfs.length > 0) {
+        overwriteBasket(themeEtfs);
+      }
     }
   }, [mounted, isLoading, authenticated, searchParams, etfs, addEtf, removeEtf, clearBasket, overwriteBasket, pathname, router]);
 
@@ -91,10 +98,9 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
   }, [requireAuth, clearBasket]);
 
   const handleSelectTheme = useCallback((themeEtfs: EtfSlim[]) => {
-    const tickers = themeEtfs.map(e => e.ticker).join(",");
-    if (requireAuth(`action=theme&tickers=${tickers}`)) return;
+    // 추천 테마 클릭은 회원가입/로그인 없이 체험 가능하도록 requireAuth 제거
     overwriteBasket(themeEtfs);
-  }, [requireAuth, overwriteBasket]);
+  }, [overwriteBasket]);
 
   if (!mounted) {
     return (

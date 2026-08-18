@@ -113,15 +113,15 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
               <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
             </label>
             <TurnstileCaptcha action="community_otp_request" onToken={setRequestCaptchaToken} />
-            <button disabled={loading || requestCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "6자리 인증 코드 받기"}</button>
+            <button disabled={loading || requestCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "8자리 인증 코드 받기"}</button>
           </form>
         ) : null}
 
         {step === "otp" ? (
           <form className="mt-6 space-y-4" onSubmit={verifyOtp}>
-            <p className="text-sm leading-6 text-slate-600">{email}으로 보낸 6자리 인증 코드를 입력해 주세요. 코드가 오지 않으면 스팸함도 확인해 주세요.</p>
+            <p className="text-sm leading-6 text-slate-600">{email}으로 보낸 8자리 인증 코드를 입력해 주세요. 코드가 오지 않으면 스팸함도 확인해 주세요.</p>
             <label className="block text-sm font-semibold text-slate-800">인증 코드
-              <input inputMode="numeric" pattern="[0-9]{6}" maxLength={6} required autoComplete="one-time-code" value={token} onChange={(event) => setToken(event.target.value.replace(/\D/g, ""))} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-lg tracking-[0.3em] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="000000" />
+              <input inputMode="numeric" pattern="[0-9]{8}" maxLength={8} required autoComplete="one-time-code" value={token} onChange={(event) => setToken(event.target.value.replace(/\D/g, ""))} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-lg tracking-[0.3em] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="00000000" />
             </label>
             <TurnstileCaptcha action="community_otp_verify" onToken={setVerifyCaptchaToken} />
             <div className="flex gap-3">

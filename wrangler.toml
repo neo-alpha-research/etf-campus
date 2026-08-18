@@ -20,6 +20,11 @@ TURNSTILE_SITE_KEY = "0x4AAAAAAETnRP7nHF7DIfQs"
 TURNSTILE_EXPECTED_HOSTNAME = "etf-campus.pages.dev"
 COMMUNITY_ENVIRONMENT = "production"
 
+[[env.production.d1_databases]]
+binding = "ETF_PRICES"
+database_name = "etf-prices"
+database_id = "11c4e874-fba2-4e34-91d0-808892284c86"
+
 [[env.preview.d1_databases]]
 binding = "ETF_PRICES"
 database_name = "etf-prices"

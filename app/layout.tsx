@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { StyleOnboarding } from "@/components/onboarding/style-onboarding";
+
 import { siteConfig } from "@/config/site";
 
 import "./globals.css";
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </Suspense>
         <div className="flex flex-1 flex-col" id="main-content">{children}</div>
         <SiteFooter />
-        <StyleOnboarding />
+
       </body>
     </html>
   );

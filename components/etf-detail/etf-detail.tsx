@@ -321,21 +321,21 @@ export function EtfDetail({
                   </div>
                   <div className="flex flex-col justify-center group relative cursor-help">
                     <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
-                      {etf.distributionSummary ? "기본 수익률 기준" : "분배금(배당) 여부"}
+                      기본 수익률 기준
                       <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </dt>
                     <dd className="mt-1 text-sm font-semibold text-neutral-500">
-                      {etf.distributionSummary ? "분배금 미포함 (PR)" : "지급 이력 없음"}
+                      분배금 미포함 (PR)
                     </dd>
 
                     {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
+                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 pointer-events-none">
                       <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
                         {etf.distributionSummary 
                           ? "상세페이지의 수익률은 분배금 재투자 여부를 반영하지 않은 시장 가격 기준 누적 수익률(PR)입니다. 배당/분배금이 지급되는 ETF의 경우, 실제 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다." 
-                          : "상세페이지의 수익률은 시장 가격 기준 누적 수익률(PR)입니다. 현재까지 분배금 지급 이력이 확인되지 않으며, 지급 이력이 없는 경우 표기된 수익률이 실제 총수익률(TR)과 동일합니다."}
+                          : "상세페이지의 수익률은 시장 가격 기준 누적 수익률(PR)입니다. 해당 ETF의 분배금(배당) 상세 내역은 현재 당사에서 제공하지 않으며, 실제 분배금이 지급되었을 경우 이를 합산한 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다."}
                       </div>
                     </div>
                   </div>

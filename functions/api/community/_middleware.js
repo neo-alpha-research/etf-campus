@@ -2,7 +2,12 @@ import { errorResponse } from "./_lib/api-security";
 import { authenticatedSession, enforceCsrf, mergeSessionHeaders, requestSessionTokens } from "./_lib/session";
 
 const UNSAFE_METHODS = new Set(["POST", "PATCH", "PUT", "DELETE"]);
-const OTP_PATHS = new Set(["/api/community/auth/request-otp", "/api/community/auth/verify-otp"]);
+const OTP_PATHS = new Set([
+  "/api/community/auth/request-otp", 
+  "/api/community/auth/verify-otp",
+  "/api/community/auth/set-password",
+  "/api/community/auth/login-password"
+]);
 
 function isSameOrigin(request) {
   const requestOrigin = new URL(request.url).origin;

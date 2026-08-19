@@ -36,16 +36,18 @@ D:\ETFCampus
 - 캐릭터 설정·사용 규칙·금지 표현·시안 목록은 [`public/brand/README.md`](public/brand/README.md)를 따른다.
 - 현재 A/B/C 이미지는 콘셉트 검토용이며, 운영자 선택과 Navigator 반영 전에는 최종 브랜드 자산으로 간주하지 않는다.
 
-## 출시 전 교체 대상 샘플
+## 정식 학습용 예시 콘텐츠
 
-- `content/briefings/[SAMPLE]_2026-07-15.md` — 브리핑 렌더링 검증용 중립 fixture. 실제 운영자 검수 콘텐츠로 출시 전 교체
-- `content/guides/[SAMPLE]_*.mdx` 4건 — 자산군 가이드 화면·스타일 연결 검증용 중립 fixture. 출시 전 전량 교체
-- `content/books/[SAMPLE]_*.mdx` 3건 — 북 큐레이션 화면·제휴 표기 구조 검증용 중립 fixture. 출시 전 전량 교체
+- `content/briefings/[LEARNING_EXAMPLE]_2026-07-15.md` — 브리핑을 읽을 때 사실·기준일·출처·미확인 정보를 구분하는 방법을 보여 주는 학습용 예시
+- `content/guides/[LEARNING_EXAMPLE]_*.mdx` 4건 — 자산군 역할, ETF 비교 기준, 변동성, 시장 분산을 현실적인 질문 흐름으로 익히는 학습용 예시
+- `content/books/[LEARNING_EXAMPLE]_*.mdx` 3건 — ETF 판단 기준을 공부할 때 사용할 수 있는 읽기 경로 예시
+
+모든 학습용 예시는 ETF 판단 기준을 익히기 위한 자료이며, 특정 ETF의 매수·매도·보유를 권유하지 않는다. 실제 사실·수치·제도를 사용하는 콘텐츠는 기준일과 공식 출처를 함께 적는다.
 
 ## 공개 배포 전 게이트
 
-1. 운영자·Navigator가 공급한 실 콘텐츠로 모든 `[SAMPLE]_` 파일을 교체한다.
-2. `npm run check:release`가 성공하는지 확인한다. 샘플이 한 건이라도 남으면 실패한다.
+1. 레거시 `[SAMPLE]` 콘텐츠가 남아 있지 않은지 확인한다.
+2. 학습용 예시 파일이 `contentRole`, `exampleType`, `scenarioBasis`, `asOf`, `sources` 메타데이터와 이용자 고지를 갖췄는지 `npm run check:release`로 검증한다.
 3. 서비스명·상표·도메인 확정과 Phase 1 법률 검토 완료를 운영자가 확인한다.
 4. `NEXT_PUBLIC_SITE_URL`을 실제 공개 URL로 설정하고 `npm run lint`, `npm test`, `npm run build`를 다시 실행한다.
 5. Cloudflare Pages의 Metrics 메뉴에서 Web Analytics를 활성화한 뒤 프로덕션을 재배포한다.

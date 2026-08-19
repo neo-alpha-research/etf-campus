@@ -1,11 +1,11 @@
 export function SampleBadge() {
-  return <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[0.6875rem] font-extrabold text-amber-800">샘플 · 출시 전 교체</span>;
+  return <span className="rounded-full border border-brand-200 bg-brand-50 px-2.5 py-1 text-[0.6875rem] font-extrabold text-brand-800">학습용 예시</span>;
 }
 
 export function SampleNotice() {
   return (
-    <aside className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold leading-6 text-amber-950">
-      현재 표시된 콘텐츠는 화면과 연결 기능을 검수하기 위한 중립 샘플입니다. 실제 운영 콘텐츠가 아니며 출시 전에 전량 교체됩니다.
+    <aside className="rounded-2xl border border-brand-200 bg-brand-50 px-4 py-3 text-sm font-semibold leading-6 text-brand-950">
+      현재 표시된 콘텐츠는 ETF 판단 기준을 익히기 위한 학습용 예시입니다. 특정 ETF의 매수·매도·보유를 권유하지 않으며, 개인의 계좌 조건·목표·위험 감내 수준에 따라 확인 항목과 판단은 달라질 수 있습니다.
     </aside>
   );
 }

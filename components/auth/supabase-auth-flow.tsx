@@ -174,7 +174,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
             <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={setLoginCaptchaToken} />
             <button disabled={loading || loginCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "로그인 중" : "이메일 로그인"}</button>
             <div className="mt-4 text-center">
-              <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">비밀번호가 없거나 처음이신가요? 인증 코드로 시작하기</button>
+              <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">신규 회원가입 / 비밀번호 재설정 (이메일 인증)</button>
             </div>
           </form>
         ) : null}

@@ -36,9 +36,7 @@ def main():
     print(f"Fetching history for {len(tickers)} ETFs via Naver...")
     
     with open(OUTPUT_SQL_PATH, "w", encoding="utf-8") as sql_file:
-        sql_file.write("BEGIN TRANSACTION;\n")
         values_buffer = []
-        
         def flush_buffer():
             if not values_buffer: return
             sql = "INSERT INTO etf_prices (ticker, date, close) VALUES\n"
@@ -59,7 +57,6 @@ def main():
             time.sleep(0.05)
             
         flush_buffer()
-        sql_file.write("COMMIT;\n")
     print(f"Finished writing {OUTPUT_SQL_PATH}")
 
 if __name__ == "__main__":

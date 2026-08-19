@@ -2,6 +2,11 @@ name: Verify market briefing event hub preview
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feat/market-briefing-ui
+    paths:
+      - .github/workflows/verify-market-briefing-event-hub-preview.yml
 
 permissions:
   contents: read

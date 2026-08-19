@@ -158,9 +158,13 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   return (
     <div className="w-full sm:max-w-md bg-white p-5 sm:p-7 sm:rounded-3xl shadow-xl border border-slate-100">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold tracking-[0.18em] text-brand-700">{subtitle}</p>
-          <h2 id="community-auth-title" className="mt-1 text-xl font-bold text-slate-950">{step === "profile" ? "공개 닉네임 설정" : step === "password-setup" ? "비밀번호 설정" : title}</h2>
+        <div className="flex flex-col gap-1.5 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-br from-brand-600 to-indigo-900 uppercase">
+            {subtitle}
+          </h1>
+          <h2 id="community-auth-title" className="text-lg font-bold text-slate-600">
+            {step === "profile" ? "공개 닉네임 설정" : step === "password-setup" ? "비밀번호 설정" : title}
+          </h2>
         </div>
       </div>
 

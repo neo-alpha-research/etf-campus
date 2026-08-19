@@ -4,6 +4,7 @@ import { errorResponse } from "../_lib/api-security";
 const ACCESS_COOKIE = "__Host-etf-campus-community-at";
 const REFRESH_COOKIE = "__Host-etf-campus-community-rt";
 const CSRF_COOKIE = "__Host-etf-campus-community-csrf";
+const RM_COOKIE = "__Host-etf-campus-community-rm";
 const ACCESS_MAX_AGE = 60 * 60;
 const REFRESH_MAX_AGE = 60 * 60 * 24 * 30;
 
@@ -47,16 +48,18 @@ function appendCookies(headers, cookies) {
   return headers;
 }
 
-function sessionCookies(session, csrfToken) {
+function sessionCookies(session, csrfToken, rememberMe = true) {
+  const maxAge = rememberMe ? REFRESH_MAX_AGE : undefined;
   return [
     serializeCookie(ACCESS_COOKIE, session.access_token, { maxAge: ACCESS_MAX_AGE }),
-    serializeCookie(REFRESH_COOKIE, session.refresh_token, { maxAge: REFRESH_MAX_AGE }),
-    serializeCookie(CSRF_COOKIE, csrfToken, { httpOnly: false, maxAge: REFRESH_MAX_AGE }),
+    serializeCookie(REFRESH_COOKIE, session.refresh_token, { maxAge }),
+    serializeCookie(CSRF_COOKIE, csrfToken, { httpOnly: false, maxAge }),
+    serializeCookie(RM_COOKIE, rememberMe ? "1" : "0", { httpOnly: true, maxAge }),
   ];
 }
 
-export function sessionHeaders(session, csrfToken = secureRandom()) {
-  return appendCookies(cacheHeaders(csrfToken), sessionCookies(session, csrfToken));
+export function sessionHeaders(session, csrfToken = secureRandom(), rememberMe = true) {
+  return appendCookies(cacheHeaders(csrfToken), sessionCookies(session, csrfToken, rememberMe));
 }
 
 export function clearSessionHeaders() {
@@ -64,6 +67,7 @@ export function clearSessionHeaders() {
     expiredCookie(ACCESS_COOKIE),
     expiredCookie(REFRESH_COOKIE),
     expiredCookie(CSRF_COOKIE, { httpOnly: false }),
+    expiredCookie(RM_COOKIE),
   ]);
 }
 
@@ -84,6 +88,7 @@ export function clearSessionResponse(response) {
     expiredCookie(ACCESS_COOKIE),
     expiredCookie(REFRESH_COOKIE),
     expiredCookie(CSRF_COOKIE, { httpOnly: false }),
+    expiredCookie(RM_COOKIE),
   ];
   const base = new Headers(clearHeaders);
   base.delete("Set-Cookie");
@@ -106,7 +111,7 @@ export function enforceCsrf(context) {
 
 export function requestSessionTokens(request) {
   const values = cookieMap(request.headers.get("Cookie"));
-  return { accessToken: values[ACCESS_COOKIE] ?? null, refreshToken: values[REFRESH_COOKIE] ?? null };
+  return { accessToken: values[ACCESS_COOKIE] ?? null, refreshToken: values[REFRESH_COOKIE] ?? null, rememberMe: values[RM_COOKIE] !== "0" };
 }
 
 async function refreshSupabaseSession(env, refreshToken) {
@@ -130,9 +135,10 @@ function clearedAuthError() {
 
 
 export async function authenticatedSession(context) {
-  const { accessToken, refreshToken } = requestSessionTokens(context.request);
+  const { accessToken, refreshToken, rememberMe } = requestSessionTokens(context.request);
   const csrfToken = requestCsrfToken(context.request) ?? secureRandom();
-  const csrfCookies = requestCsrfToken(context.request) ? [] : [serializeCookie(CSRF_COOKIE, csrfToken, { httpOnly: false, maxAge: REFRESH_MAX_AGE })];
+  const maxAge = rememberMe ? REFRESH_MAX_AGE : undefined;
+  const csrfCookies = requestCsrfToken(context.request) ? [] : [serializeCookie(CSRF_COOKIE, csrfToken, { httpOnly: false, maxAge })];
 
   if (accessToken) {
     try {
@@ -160,10 +166,10 @@ export async function authenticatedSession(context) {
       user: result.data.user,
       accessToken: refreshed.data.session.access_token,
       headers: cacheHeaders(csrfToken),
-      cookies: sessionCookies(refreshed.data.session, csrfToken),
+      cookies: sessionCookies(refreshed.data.session, csrfToken, rememberMe),
     };
   } catch {
     return { error: errorResponse(503, "CONFIGURATION_ERROR", "인증 서비스 설정을 확인해 주세요.") };
   }
 }
-export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE };
+export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE, RM_COOKIE };

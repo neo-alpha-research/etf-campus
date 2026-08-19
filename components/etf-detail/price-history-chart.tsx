@@ -129,20 +129,6 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
       returnPct: baseClose > 0 ? (point.close / baseClose - 1) * 100 : 0,
     }));
 
-    if (fixedReturns && !isCustom && fixedReturns[period] != null) {
-      const tableReturn = fixedReturns[period]!;
-      if (rawPoints.length > 0) {
-        const rawEndReturn = rawPoints[rawPoints.length - 1].returnPct;
-        if (rawEndReturn !== 0 && Math.abs(rawEndReturn - tableReturn) > 0.05) {
-          const scale = tableReturn / rawEndReturn;
-          return rawPoints.map(point => ({
-            ...point,
-            returnPct: point.returnPct * scale,
-          }));
-        }
-      }
-    }
-
     return rawPoints;
   }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor, fixedReturns]);
 

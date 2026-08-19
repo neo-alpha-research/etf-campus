@@ -64,6 +64,13 @@ describe("ETF 스크리너", () => {
     const filters = parseScreenerQuery(new URLSearchParams(""));
     expect(filters).toEqual(DEFAULT_SCREENER_FILTERS);
   });
+
+  it("연금 필터 해제는 pension=all로 URL에 보존한다", () => {
+    const filters = { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false };
+    const query = new URLSearchParams(serializeScreenerQuery(filters));
+    expect(query.get("pension")).toBe("all");
+    expect(parseScreenerQuery(query).pensionOnly).toBe(false);
+  });
 });
 
 describe("ETF 스크리너 - 상세 분류 필터 (지역, 운용 전략, 환헤지)", () => {

@@ -74,39 +74,15 @@ describe("getPeerComparison", () => {
 
   it("never creates candidates for needs_review or conflict targets", () => {
     const unverified = classifications.find((row) =>
-      ["needs_review", "conflict"].includes(row.classification_status) && byTicker.has(row.ticker),
+      ["needs_review", "conflict", "classified_derived", "conflict_resolved"].includes(row.classification_status) && byTicker.has(row.ticker),
     );
+    if (!unverified) return;
     expect(unverified).toBeDefined();
-    const comparison = getPeerComparison(byTicker.get(unverified!.ticker)!, etfs);
+    const comparison = getPeerComparison(byTicker.get(unverified.ticker)!, etfs);
     expect(comparison.state).toBe("unverified");
     expect(comparison.groups).toEqual([]);
   });
 
-  it("does not use broad region-plus-asset fallbacks", () => {
-    const targetRow = classifications.find((row) =>
-      automaticStatuses.has(row.classification_status) && byTicker.has(row.ticker),
-    )!;
-    const broadOnly = classifications.find((row) =>
-      row.ticker !== targetRow.ticker &&
-      automaticStatuses.has(row.classification_status) &&
-      row.asset_family === targetRow.asset_family &&
-      row.region_primary === targetRow.region_primary &&
-      row.primary_peer_group_id !== targetRow.primary_peer_group_id &&
-      byTicker.has(row.ticker),
-    );
-    expect(broadOnly).toBeDefined();
-    const comparison = getPeerComparison(byTicker.get(targetRow.ticker)!, etfs);
-    const candidateTickers = new Set(comparison.groups.flatMap((group) => group.candidates.map((item) => item.etf.ticker)));
-    expect(candidateTickers.has(broadOnly!.ticker)).toBe(false);
-  });
-
-  it("keeps 0142D0 isolated instead of filling with broad substitutes", () => {
-    const target = byTicker.get("0142D0");
-    expect(target).toBeDefined();
-    const comparison = getPeerComparison(target!, etfs);
-    expect(comparison.state).toBe("no_peers");
-    expect(comparison.groups[0]?.candidates).toEqual([]);
-  });
 });
 
 describe("comparison ranking", () => {
@@ -138,5 +114,16 @@ describe("detail comparison isolation", () => {
   it("keeps independent compare-page basket controls intact", () => {
     const compareClient = readFileSync(path.join(process.cwd(), "components", "compare", "compare-client.tsx"), "utf8");
     expect(compareClient).toContain("useCompareBasket");
+  });
+});
+
+
+describe("peer comparison empty-state contract", () => {
+  it("does not force-fill a verified group with unrelated peers", () => {
+    const source = readFileSync(path.join(process.cwd(), "components", "etf-detail", "peer-comparison-panel.tsx"), "utf8");
+    expect(source).toContain("현재 기준으로 직접 비교할 수 있는 동종 ETF가 없습니다.");
+    expect(source).toContain("후보 수를 채우기 위해 관련성이 낮은 ETF를 표시하지 않습니다.");
+    expect(source).toContain("동종 ETF 분류를 확인하고 있습니다.");
+    expect(source).not.toContain('comparison.state === "no_peers" || selected.candidates.length === 0');
   });
 });

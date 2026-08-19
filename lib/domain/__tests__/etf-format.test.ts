@@ -36,5 +36,7 @@ describe("ETF 표시 포맷", () => {
 
   it("기준일을 YYYY.MM.DD 형식으로 표시한다", () => {
     expect(formatAsOfDate("20260715")).toBe("2026.07.15");
+    expect(formatAsOfDate("2026-07-15")).toBe("2026.07.15");
+    expect(formatAsOfDate("2026.07.15")).toBe("2026.07.15");
   });
 });

@@ -72,7 +72,8 @@ function toggleValue<T>(values: readonly T[], value: T): T[] {
 
 function updateUrl(state: ExplorerState): void {
   const query = serializeExplorerQuery(state);
-  window.history.replaceState(null, "", `${window.location.pathname}?${query}`);
+  if (!window.location.pathname.includes('/quick')) return;
+  window.history.replaceState(window.history.state, "", `${window.location.pathname}?${query}`);
 }
 
 function getAllowedRiskTypes(mode: InvestorMode): readonly RiskType[] {
@@ -313,9 +314,14 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                       <Link
                         aria-selected={activeSuggestion === index}
                         className={`flex min-h-14 items-center gap-3 border-b border-line px-4 py-2.5 last:border-b-0 hover:bg-brand-50 ${activeSuggestion === index ? "bg-brand-50" : ""}`}
-                        href={`/etf/${etf.ticker}`}
+                        href={`/etf/${etf.ticker}/`}
                         id={`etf-suggestion-${index}`}
                         onMouseEnter={() => setActiveSuggestion(index)}
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => {
+                          setSearchFocused(false);
+                          setActiveSuggestion(-1);
+                        }}
                         role="option"
                       >
                         <span className="tabular-nums w-14 shrink-0 text-xs font-semibold text-muted">{etf.ticker}</span>
@@ -483,7 +489,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     {/* 데스크톱용 셀들 */}
                     <td className="tabular-nums hidden w-[56px] px-0 py-1.5 text-center text-[12px] font-normal text-muted bg-inherit md:sticky md:table-cell md:z-10" style={{ left: 0 }}>{etf.ticker}</td>
                     <th className="w-[192px] bg-inherit px-2 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] md:sticky md:z-10" scope="row" style={{ left: 56 }}>
-                      <Link className="line-clamp-2 break-all whitespace-normal text-left text-[12px] font-bold leading-[16px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
+                      <Link className="line-clamp-2 break-all whitespace-normal text-left text-[12px] font-bold leading-[16px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}/`} title={etf.name}>{etf.name}</Link>
                     </th>
                     
                     {isDeriv ? <td className="hidden px-0.5 py-2 text-center md:table-cell"><RiskBadge compact label={fields.riskLabel} /></td> : null}

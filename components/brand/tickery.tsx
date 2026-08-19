@@ -10,7 +10,7 @@ const tickeryAssets = {
   wayfinding: "/brand/final-v2/tickery-wayfinding.png",
 } as const;
 
-export type TickeryPose = keyof typeof tickeryAssets;
+type TickeryPose = keyof typeof tickeryAssets;
 
 type TickeryProps = {
   pose: TickeryPose;

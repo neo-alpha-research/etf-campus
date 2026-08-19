@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+
+<html lang="ko" id="top-of-site">
+<head>
+	
+
+
+
+
+<script>
+	var lang			= "ko";
+	var langUri         = "";
+	var resourceDomain	= "/assets";
+</script>
+
+	
+
+  	
+	
+
+
+
+
+
+
+
+<script>
+	(function() {
+		const hostname	= location.hostname;
+		const isLocal	= hostname.endsWith("localhost");
+		const isMobPage	= hostname.endsWith("m.samsungfund.com");
+
+		const width		= top.innerWidth;
+		const height	= top.innerHeight;
+		const isDesktop	= width > 1280;
+		const isTablet	= width > 680 && !isDesktop;
+		const isMobile	= !isDesktop && !isTablet;
+
+		console.log('width:',width)
+		console.log('height:',height)
+		console.log('isDesktop:',isDesktop)
+		console.log('isTablet:',isTablet)
+		console.log('isMobile:',isMobile)
+
+		////////////////////////////////////////////////////////////////////////
+		const isPortrait = width <= height;
+		function _goToPC()		{ top.location.href = top.location.href.replace(/m(\.samsungfund\.com)/gi, "www$1"); }
+		function _gotoMobile()	{ top.location.href = top.location.href.replace(/www(\.samsungfund\.com)/gi, "m$1"); }
+
+		////////////////////////////////////////////////////////////////////////
+		if( isLocal )					return;
+		if( isDesktop &&  isMobPage )	return _goToPC();
+		if( isMobile  && !isMobPage )	return _gotoMobile();
+		if( isTablet  && !isMobPage )	return _gotoMobile();
+	}());
+</script>
+
+
+
+
+<script src="/assets/sns/kakao.min.js"></script>
+<script src="/assets/sns/sns.js?v=20260814070359"></script>
+<script>
+	const sns = new Sns('6e34a757331dff5182c5ac77ed6ececc');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>ETF 분배금 현황 </title>
+<link rel="canonical" href="https://www.samsungfund.com/etf/product/distribution.do"/>
+
+<meta name="keyword"			content="KODEX, ETF, ETF 상품, KODEX ETF, 분배금 현황"/>
+<meta name="description"		content="Kodex ETF의 분배금 현황을 쉽게 확인하세요."/>
+
+
+<meta property="og:title"			content="ETF 분배금 현황 "/>
+<meta property="og:description"		content="Kodex ETF의 분배금 현황을 쉽게 확인하세요."/>
+<meta property="og:keyword"			content="KODEX, ETF, ETF 상품, KODEX ETF, 분배금 현황"/>
+<meta property="og:url"				content="https://www.samsungfund.com/etf/product/distribution.do"/>
+<meta property="og:type"			content="website"/>
+<meta property="og:image"			content="https://www.samsungfund.com/assets/media/share_etf.jpg"/>
+<meta property="og:image:width"		content="1200">
+<meta property="og:image:height"	content="631">
+
+
+<meta name="naver-site-verification" content="5b10a0affa6746b80480c385b1522aaf9b084b66" />
+
+
+<meta name="twitter:card"			content="summary_large_image"/>
+<meta name="twitter:title"			content="ETF 분배금 현황 ">
+<meta name="twitter:description"	content="Kodex ETF의 분배금 현황을 쉽게 확인하세요.">
+<meta name="twitter:image"			content="https://www.samsungfund.com/assets/media/share_etf.jpg"/>
+
+<link rel="icon"				href="/assets/icons/favicon_kodex.png"/>
+<link rel="shortcut icon"		href="/assets/icons/favicon_kodex.png">
+<link rel="apple-touch-icon"	href="/assets/icons/favicon_kodex.png">
+
+<link rel="stylesheet" href="/assets/css/gemein.css?v=20260814070359"/>
+<link rel="stylesheet" href="/assets/css/product.css?v=20260814070359"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- start -->
+
+<!-- end -->
+
+<script>
+	const isLogin = false;
+	const kakaoLoginUrl = '/oauth2/authorization/kakao';
+	const googleLoginUrl = '/oauth2/authorization/google';
+	const naverLoginUrl = '/oauth2/authorization/naver';
+	const logout = '/logout'
+	
+	const isFundOrKodex = "false";
+    const siteDomain = "KODEX";
+	const siteLang = "kr";
+
+	
+	const isDrOrVerifyEnv = false;
+	const isNotProd = false;
+	const serviceType = 'WEB/MOB';
+	const mobileOsType = 'NONE';
+	let previewPopNo = "";
+	
+	window.dataLayer = [{
+    	"login_status" : isLogin ? "Y" : "N", // Y,N
+   	   	"device_type"  : "PC", // PC, Mobile_Web, Mobile_App
+	    "customer_user_id" : isLogin ? "" : "" // User ID 값 (암호화 처리 필욧)
+   	}];
+    
+    
+    
+    
+    
+    function addPageView(metaPage){
+    	var pageObj = {
+   			"event" : "gtm_page_view",
+   			"content_group" : metaPage
+   		}
+    	pushDataLayer(pageObj);
+    }
+    function pushDataLayer(obj){
+    	window.dataLayer.push(obj);
+    	//sessionStorage.setItem("dataLayer",JSON.stringify(window.dataLayer));
+    }
+    let scroll25 = false;
+    let scroll50 = false;
+    let scroll75 = false;
+    let scroll90 = false;
+    window.addEventListener("scroll",function(){
+    	let scrollP = Math.floor((
+    		window.scrollY / (document.body.clientHeight - window.innerHeight)
+    	) * 100);
+    	var obj = {
+      		"event" : "scroll_down"
+    	}
+    	if(scrollP >= 23 && scrollP <= 30 && !scroll25){
+    		obj["percent_scrolled"] = "25";
+    		window.dataLayer.push(obj);
+    		scroll25 = true;
+    	}else if(scrollP >= 48 && scrollP <= 55 && !scroll50){
+    		obj["percent_scrolled"] = "50";
+    		window.dataLayer.push(obj);
+    		scroll50 = true;
+    	}else if(scrollP >= 73 && scrollP <= 80 && !scroll75){
+    		obj["percent_scrolled"] = "75";
+    		window.dataLayer.push(obj);
+    		scroll75 = true;
+    	}else if(scrollP >= 88 && scrollP <= 95 && !scroll90){
+    		obj["percent_scrolled"] = "90";
+    		window.dataLayer.push(obj);
+    		scroll90 = true;
+    	}
+    })
+</script>
+
+
+
+
+<script src="/assets/log/tracking.js"></script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-253039467-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-253039467-1');
+</script>
+
+<!-- Google tag (gtag.js) --> 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-68VHBRK6MB"></script> 
+<script> 
+	window.dataLayer = window.dataLayer || []; 
+	function gtag(){dataLayer.push(arguments);} 
+	gtag('js', new Date()); 
+	gtag('config', 'G-68VHBRK6MB'); 
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5P473C5');</script>
+<!-- End Google Tag Manager -->
+
+<!-- AceCounter Log Gathering Script V.8.0.2019080601 -->
+
+    <script language='javascript'>
+        var _AceGID=(function(){var Inf=['gtp20.acecounter.com','8080','AM4A37440551379','AW','0','NaPm,Ncisy','ALL','0']; var _CI=(!_AceGID)?[]:_AceGID.val;var _N=0;var _T=new Image(0,0);if(_CI.join('.').indexOf(Inf[3])<0){ _T.src ="https://"+Inf[0]+'/?cookie'; _CI.push(Inf);  _N=_CI.length; } return {o: _N,val:_CI}; })();
+        var _AceCounter=(function(){var G=_AceGID;var _sc=document.createElement('script');var _sm=document.getElementsByTagName('script')[0];if(G.o!=0){var _A=G.val[G.o-1];var _G=(_A[0]).substr(0,_A[0].indexOf('.'));var _C=(_A[7]!='0')?(_A[2]):_A[3];var _U=(_A[5]).replace(/\,/g,'_');_sc.src='https:'+'//cr.acecounter.com/Web/AceCounter_'+_C+'.js?gc='+_A[2]+'&py='+_A[4]+'&gd='+_G+'&gp='+_A[1]+'&up='+_U+'&rd='+(new Date().getTime());_sm.parentNode.insertBefore(_sc,_sm);return _sc.src;}})();
+    </script>
+
+
+
+<!-- AceCounter Log Gathering Script End -->
+
+<script>
+	if( /MSIE \d|Trident.*rv:/.test(navigator.userAgent) ) {
+		window.location = 'microsoft-edge:'+window.location;
+		setTimeout( function() {
+				window.location = 'https://protect2.fireeye.com/v1/url?k=be4a80ac-dfc1959c-be4b0be3-000babffaa23-799cb48ad7b64cc3&q=1&e=acdadbca-783d-4215-ac72-38f8a5d73f39&u=https%3A%2F%2Fsupport.microsoft.com%2Fko-kr%2Ftopic%2F%25EC%259D%25B4-%25EC%259B%25B9-%25EC%2582%25AC%25EC%259D%25B4%25ED%258A%25B8%25EB%258A%2594-microsoft-edge%25EC%2597%2590%25EC%2584%259C-%25EB%258D%2594-%25EC%259E%2598-%25EC%259E%2591%25EB%258F%2599%25ED%2595%25A9%25EB%258B%2588%25EB%258B%25A4-160fa918-d581-4932-9e4e-1075c4713595%3Fui%3Dko-kr%26rs%3Dko-kr%26ad%3Dkr';
+		}, 0 );
+	}
+</script>
+
+<script type="application/ld+json" charset="utf-8">
+	{
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "Organization",
+				"@id": "https://www.samsungfund.com/#organization",
+				"name": "Kodex",
+				"url": "https://www.samsungfund.com/etf/main.do",
+				"brand": {"@type": "Brand", "name": "KODEX"},
+				"sameAs": [
+						"https://www.instagram.com/samsung.kodex",
+						"https://www.youtube.com/KODEX",
+						"https://www.facebook.com/samsung.kodex",
+						"http://www.samsungfundblog.com",
+						"https://pf.kakao.com/_UxctLxb",
+						"https://www.funetf.co.kr"
+				]
+			},
+			{
+				"@type": "WebSite",
+				"@id": "https://www.samsungfund.com/etf/#website",
+				"url": "https://www.samsungfund.com/etf/",
+				"name": "삼성 자산운용 KODEX ETF",
+				"publisher": {"@id":"https://www.samsungfund.com/#organization"}
+			}
+		]
+	}
+</script>
+
+<script src="https://bizmessage.kakao.com/chat/includeScript"></script>
+<script>
+	function doBizmsg() {
+		window.open("", "KAKAO_TALK", "width=1024,height=700");
+		document.getElementById('form-biz').target = "KAKAO_TALK";
+		document.getElementById('form-biz').submit();
+	}
+</script>
+
+<!-- Meta Pixel Code -->
+<script>
+	!function(f,b,e,v,n,t,s)
+	{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+	n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+	if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+	n.queue=[];t=b.createElement(e);t.async=!0;
+	t.src=v;s=b.getElementsByTagName(e)[0];
+	s.parentNode.insertBefore(t,s)}(window, document,'script',
+	'https://connect.facebook.net/en_US/fbevents.js');
+	fbq('init', '1224584154799874');
+	fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1224584154799874&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- kakao pixel code -->
+<script type="text/javascript" charset="UTF-8" src="//t1.daumcdn.net/kas/static/kp.js"></script>
+<script type="text/javascript"> kakaoPixel('15720833546892250').pageView(); </script>
+		
+</head>
+<body class="etf-distribution">
+	<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5P473C5"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+  
+<svg xmlns="http://www.w3.org/2000/svg" style="opacity:0; position:fixed; left:-99999px; top:-99999px;width:10px;height:10px;">
+  <defs>
+    <linearGradient id="color-stroke-up" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="100%" stop-color="#F75D5F" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient id="color-uv-up" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FE6C6C" stop-opacity="1" />
+      <stop offset="100%" stop-color="rgba(254, 70, 75, 0)" stop-opacity="0" />
+    </linearGradient>
+
+    <linearGradient id="color-stroke-down" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="100%" stop-color="#3183FE" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient id="color-uv-down" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(21, 115, 254, 0.6)" stop-opacity="1" />
+      <stop offset="100%" stop-color="rgba(21, 115, 254, 0)" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+</svg>
+<header id="header" class="header">
+  <div class="header__wrap">
+    <div class="header__left">
+      <h1 class="home">
+          <a href="/etf/main.do" class="logo-etf" data-ga-label="gnb_home"
+          data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="공통_상단 로고"
+          data-gtm-event-label="컨텐츠 - 삼성 Kodex ETF" data-gtm-click-location="공통_상단 로고" data-gtm-click-text="삼성 Kodex ETF">
+            
+              <!-- 반도체 이벤트 기간까지 적용 -->
+              <div id="semiconLogo"></div>
+
+              <svg width="2318" height="300" viewBox="0 0 2318 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-svg">
+                <g clip-path="url(#clip0_20639_33052)">
+                <path d="M234.41 103.1C234.41 74.63 221.29 48.86 200.09 30.2C178.89 11.54 149.6 0 117.24 0C84.88 0 55.59 11.54 34.39 30.2C13.18 48.85 0.0699601 74.63 0.0699601 103.1C0.0699601 103.1 -6.77004 185.54 117.24 300C241.25 185.54 234.41 103.1 234.41 103.1Z" fill="#1454FF"/>
+                <path d="M1098.24 98.28C1074.57 98.28 1052.87 106.92 1037.13 122.6C1021.42 138.26 1012.76 159.83 1012.76 183.34C1012.76 206.85 1021.42 228.42 1037.13 244.08C1052.87 259.76 1074.57 268.4 1098.24 268.4C1121.91 268.4 1143.61 259.76 1159.35 244.08C1175.06 228.43 1183.72 206.86 1183.72 183.34C1183.72 159.82 1175.06 138.25 1159.35 122.6C1143.61 106.92 1121.91 98.28 1098.24 98.28ZM1130.05 218.87C1121.82 228.1 1110.52 233.18 1098.24 233.18C1085.96 233.18 1074.66 228.1 1066.43 218.87C1058.22 209.66 1053.7 197.04 1053.7 183.33C1053.7 169.62 1058.22 156.99 1066.43 147.79C1074.66 138.56 1085.96 133.48 1098.23 133.48C1110.5 133.48 1121.8 138.56 1130.04 147.79C1138.25 156.99 1142.77 169.61 1142.77 183.33C1142.77 197.05 1138.25 209.67 1130.04 218.87H1130.05Z" fill="black"/>
+                <path d="M1023.08 265.7L923.97 150.52L1021.04 44.76H962.76L876.13 138.86V138.34V44.76H831.28V265.7H876.13V161.3L966.12 265.7H1023.08Z" fill="black"/>
+                <path d="M1678.69 265.72L1642.81 215.69L1606.6 265.72H1557.09L1617.89 181.78L1559.75 101.13H1609.25L1642.81 147.54L1676.37 101.13H1725.54L1667.4 181.45L1728.2 265.72H1678.69Z" fill="black"/>
+                <path d="M1561.92 168.66C1554.6 127.94 1519.67 98.3799 1478.86 98.3799C1432.21 98.3799 1394.26 136.47 1394.26 183.29C1394.26 230.11 1432.21 268.49 1478.86 268.49C1508.21 268.49 1536.78 253.99 1551.63 232.38L1518.55 215.95C1508.65 225.88 1493.78 231.94 1478.86 231.94C1456.77 231.94 1439.43 218.84 1434.72 199H1561.94L1562.24 196.56C1563.64 185.34 1563.53 176.45 1561.92 168.66ZM1434.85 166.66C1439.4 150.65 1454.38 134.62 1478.56 134.62C1502.74 134.62 1517.43 150.65 1521.96 166.66H1434.85Z" fill="black"/>
+                <path d="M1330.71 39.98V116.63C1330.71 116.63 1313.72 98.44 1284.51 98.44C1259.65 98.44 1239.25 106.22 1223.89 121.56C1207.88 137.53 1199.07 159.49 1199.07 183.39C1199.07 207.29 1207.88 229.3 1223.89 245.27C1239.3 260.61 1259.7 268.39 1284.51 268.39C1310.57 268.39 1330.71 252.71 1330.71 252.71L1333.67 265.69H1375.57V29L1330.71 39.98ZM1330.34 183.44V212.61C1328.41 216.5 1323.39 220.81 1322.71 221.42C1313.68 229.4 1302.97 234.13 1287.58 233.32C1274.4 232.65 1263.28 227.72 1255.39 219.03C1246.99 209.8 1242.39 197.19 1242.39 183.49V183.4C1242.39 169.7 1246.99 157.09 1255.39 147.86C1263.28 139.17 1274.4 134.23 1287.58 133.57C1302.97 132.76 1313.68 137.49 1322.71 145.47C1323.39 146.09 1328.41 150.39 1330.34 154.28V183.45V183.44Z" fill="black"/>
+                <path d="M1854.57 175.34H1951.57V133.01H1854.57V87.4H1958.97V44.78H1811.08V265.7H1960.46V223.06H1854.57V175.34Z" fill="black"/>
+                <path d="M1977.2 87.4H2043.6V265.7H2087.06V87.4H2153.16V44.77H1977.2V87.4Z" fill="black"/>
+                <path d="M2317.05 87.39V44.76H2172.12V265.7H2215.59V179.87H2314.08V137.23H2215.59V87.39H2317.05Z" fill="black"/>
+                <path d="M385.28 114.61C380.89 124.57 373.79 135.04 364.86 144.53C355.63 154.49 344.4 163.2 332.91 170.07L312.95 146.84C327.26 138.69 340.82 127.36 351.01 113.01C361.27 99.0299 367.65 82.6499 367.65 64.2199V42.7299H400.86V63.7499C400.86 81.8499 407.54 97.2499 417.5 109.77C427.53 122.8 441.05 132.5 454.33 138.91L436.43 163.19C411.85 149.84 395.78 134 385.28 114.6M367.64 181.57H501.85V279.5H367.64V181.57ZM399.06 252.91H470.14V208.44H399.06V252.91ZM501.86 172.4H470.14V37.4399H501.86V91.0599H538.92V117.94H501.86V172.39V172.4Z" fill="#1454FF"/>
+                <path d="M628.8 144.29C619.87 135.82 612.95 126.84 608.8 118.67C604.98 127.94 598.1 137.87 589.17 147.33C579.94 156.83 568.95 166.53 556.69 173.9L537.03 150.15C552.61 139.89 566.65 128.19 576.12 114.61C585.58 101.29 591.43 85.9499 591.43 68.6299V42.74H625.21V68.12C625.21 87.25 631.36 102.13 641.32 114.09C650.75 126.34 664.33 135.61 677.89 142.48L659.99 167.26C648.73 161.12 637.74 153.18 628.81 144.29M714.18 271.33C702.89 280.78 687.31 286.36 668.91 286.36C650.51 286.36 635.17 280.78 624.17 271.33C612.94 261.33 606.57 247.56 606.57 230.44C606.57 213.32 612.95 200.27 624.17 190.29C635.17 180.31 650.51 174.46 668.91 174.46C687.31 174.46 702.89 180.3 714.18 190.29C725.14 200.27 731.79 214.02 731.79 230.44C731.79 246.86 725.15 261.33 714.18 271.33ZM691.66 209.4C685.78 204.37 678.14 201.25 668.91 201.25C650.51 201.25 637.73 213.03 637.73 230.44C637.73 247.85 650.52 259.85 668.91 259.85C687.3 259.85 700.63 248.03 700.63 230.44C700.63 222.05 697.08 214.57 691.66 209.4ZM703.95 107.94H659.21V79.8499H703.95V37.45H735.63V173.71H703.95V107.95V107.94Z" fill="#1454FF"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_20639_33052">
+                <rect width="2317.05" height="300" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>                
+            
+                    
+          </a>
+
+          <a href="/fund/main.do" class="logo-fund" data-ga-label="gnb_home">            
+            <svg width="758" height="146" viewBox="0 0 758 146" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_4498_99646)">
+                <path d="M41.69 46.8394C38.7632 53.2114 34.7766 59.0408 29.9 64.0794C24.4824 69.8262 18.2853 74.7845 11.49 78.8094L0 65.3994C8.64314 60.5901 16.1471 53.9729 22 45.9994C27.89 37.8994 31.57 28.4694 31.57 17.8694V5.44937H50.67V17.5294C50.7118 27.1941 54.0967 36.5465 60.25 43.9994C65.9187 51.1712 73.1807 56.9234 81.46 60.7994L71.15 74.7994C57 67.1694 47.73 57.9994 41.69 46.8394ZM31.52 85.4394H108.86V141.849H31.52V85.4394ZM49.64 100.899V126.529H90.64V100.899H49.64ZM108.86 80.1294H90.59V2.35938H108.86V33.2894H130.22V48.7594H108.86V80.1294Z" fill="#003CDC"/>
+                <path d="M181.999 63.9294C177.356 59.7094 173.467 54.7279 170.499 49.1994C168.289 54.4994 164.319 60.1994 159.159 65.6994C153.591 71.566 147.305 76.7066 140.449 80.9994L129.109 67.2994C138.109 61.4094 146.199 54.6294 151.649 46.8194C157.328 39.1415 160.424 29.8591 160.489 20.3094V5.44937H179.929V19.9994C179.929 30.9994 183.469 39.5994 189.209 46.5194C194.659 53.5894 202.469 58.8894 210.279 62.8694L199.999 77.1894C193.408 73.6337 187.349 69.1701 181.999 63.9294ZM231.199 137.149C224.719 142.599 215.739 145.839 205.129 145.839C194.519 145.839 185.689 142.599 179.349 137.149C172.869 131.409 169.189 123.449 169.189 113.589C169.103 109.228 169.967 104.899 171.722 100.905C173.476 96.911 176.079 93.3466 179.349 90.4594C185.689 84.7094 194.519 81.3294 205.129 81.3294C215.739 81.3294 224.719 84.7094 231.199 90.4594C234.408 93.443 236.966 97.0558 238.716 101.072C240.466 105.089 241.369 109.423 241.369 113.804C241.369 118.186 240.466 122.52 238.716 126.536C236.966 130.553 234.408 134.166 231.199 137.149ZM218.199 101.509C214.559 98.3768 209.891 96.6963 205.089 96.7894C194.479 96.7894 187.089 103.569 187.089 113.589C187.089 123.609 194.449 130.529 205.089 130.529C215.729 130.529 223.359 123.749 223.359 113.589C223.368 111.333 222.918 109.099 222.036 107.022C221.154 104.946 219.859 103.07 218.229 101.509H218.199ZM225.299 42.9994H199.519V26.8094H225.299V2.35938H243.569V80.8694H225.299V42.9994Z" fill="#003CDC"/>
+                <path d="M310.631 80.7194C305.747 75.7924 301.671 70.1261 298.551 63.9294C293.101 77.3294 281.611 89.1194 269.831 97.5194L258.191 83.2294C269.001 75.9994 276.751 68.3494 281.611 59.5094C286.471 50.6694 288.681 41.2494 288.681 29.6094V26.6594H263.051V11.3394H332.881V26.6594H307.691V29.3094C307.691 40.9494 309.901 50.2294 315.051 58.4794C319.911 66.7294 327.571 73.9494 338.621 80.5794L327.871 94.7194C321.575 90.7741 315.785 86.0724 310.631 80.7194ZM365.281 125.999H347.161V2.35938H365.281V42.1294H386.941V57.4494H365.281V125.999Z" fill="#003CDC"/>
+                <path d="M439.279 66.2894C433.979 61.1294 429.849 55.6794 427.499 50.5294C422.189 61.7194 410.999 74.2394 397.299 82.9294L385.809 69.5294C394.514 64.0715 402.069 56.965 408.049 48.6094C413.799 40.3594 417.479 31.0794 417.479 21.2094V7.36938H436.629V20.9194C436.561 30.63 439.779 40.0782 445.759 47.7294C451.209 55.2394 459.019 61.1294 467.419 65.7294L457.099 79.9994C450.52 76.3259 444.516 71.7067 439.279 66.2894ZM417.329 91.4794H435.599V123.479H499.229V139.089H417.329V91.4794ZM494.669 98.0994H476.549V2.35938H494.669V36.3594H515.999V51.8494H494.669V98.0994Z" fill="#003CDC"/>
+                <path d="M567.371 84.0008H517.371V68.7908H635.641V84.0008H585.491V109.301H567.371V84.0008ZM552.941 123.781H618.051V139.091H534.531V95.0008H552.941V123.781ZM602.581 54.9808C595.361 60.2908 585.931 62.7908 576.511 62.7908C566.931 62.7908 557.361 60.2908 550.291 55.1308C546.553 52.4869 543.522 48.9642 541.466 44.8732C539.41 40.7821 538.392 36.2481 538.501 31.6708C538.483 27.22 539.499 22.8258 541.468 18.8345C543.438 14.8432 546.307 11.3639 549.851 8.67078C556.771 3.39078 566.341 0.300781 576.511 0.300781C587.111 0.300781 596.391 3.39078 603.321 8.84078C606.808 11.5246 609.619 14.987 611.529 18.9511C613.439 22.9152 614.395 27.2711 614.321 31.6708C614.43 36.216 613.415 40.7179 611.367 44.7771C609.319 48.8363 606.301 52.3274 602.581 54.9408V54.9808ZM576.511 15.6108C564.581 15.6108 556.331 22.2408 556.331 31.6708C556.331 41.1008 564.281 47.7308 576.511 47.7308C582.251 47.7308 587.261 46.1108 590.801 43.1608C592.578 41.8172 594.021 40.0812 595.017 38.0881C596.013 36.095 596.534 33.8987 596.541 31.6708C596.541 22.2408 588.141 15.6108 576.511 15.6108Z" fill="#003CDC"/>
+                <path d="M725.998 52.15V70.85H757.148V86H638.898V70.85H670.338V52.44C669.732 52.0402 669.187 51.5552 668.718 51C663.418 45.84 660.028 39.66 660.028 30.82C659.998 10.17 678.998 0 697.998 0C717.448 0 735.858 10.17 735.858 30.79C735.924 34.5792 735.186 38.3394 733.694 41.8228C732.201 45.3063 729.987 48.434 727.198 51L725.998 52.15ZM723.638 137.58C716.568 142.15 707.288 144.51 698.008 144.51C688.728 144.51 679.158 142.15 672.088 137.58C665.018 133.01 660.448 126.09 660.448 117.11C660.448 108.71 664.718 101.64 671.648 96.78C678.578 91.92 687.848 89.41 698.008 89.41C708.618 89.41 717.748 92.21 724.678 96.93C731.298 101.79 735.428 108.71 735.428 117.11C735.448 126.09 730.738 132.87 723.658 137.58H723.638ZM697.998 15.32C686.068 15.32 677.818 21.32 677.818 30.79C677.818 40.26 685.818 46.25 697.998 46.25C707.868 46.25 717.998 41.39 717.998 30.79C717.998 20.19 708.048 15.32 697.998 15.32ZM711.998 108.12C707.739 105.694 702.899 104.474 697.998 104.59C686.218 104.59 678.118 109.59 678.118 117.11C678.118 124.32 686.218 129.63 697.998 129.63C702.9 129.743 707.74 128.519 711.998 126.09C715.528 123.88 717.738 120.64 717.738 117.09C717.768 113.42 715.558 110.33 711.998 108.12ZM689.198 60.69C688.894 60.7138 688.588 60.6623 688.308 60.54V70.85H708.048V60.54C707.666 60.6553 707.267 60.706 706.868 60.69C701.038 61.8701 695.029 61.8701 689.198 60.69Z" fill="#003CDC"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_4498_99646">
+                <rect width="757.17" height="145.84" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>  
+          </a>
+          
+          <span class="a11y">Kodex</span>
+      </h1>
+
+      <div class="toggle-wrap">
+        <div class="toggle toggle--main">
+          <a href="/etf/main.do" class="bttn bttn--left" data-state="origin" data-ga-label="gnb_toggle" data-i18n="common:etf">Kodex ETF</a>
+          <a href="/fund/main.do" class="bttn bttn--right" data-state="active" data-ga-label="gnb_toggle" data-i18n="common:fund">삼성펀드</a>
+  
+          <div class="cursor">
+            <span class="bttn bttn--left" data-i18n="common:etf">Kodex ETF</span>
+            <span class="bttn bttn--right" data-i18n="common:fund">삼성펀드</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 툴팁 -->
+      <div class="tooltip">
+        <div class="tip body_14-10" data-i18n="common:tooltipEtf">KODEX 페이지로 이동할 수 있어요</div>
+      </div>
+    </div>
+
+    <div class="gnb"></div>
+
+    <div class="menu">
+      
+        <a href="/etf/product/distribution.do" class="distribution-btn btn btn-m btn-gray"
+          data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="메인_GNB 영역"
+          data-gtm-event-label="컨텐츠 - ETF분배금현황" data-gtm-click-location="메인_GNB 영역" data-gtm-click-text="ETF분배금현황">
+          <span>ETF분배금 현황</span>
+        </a>
+      
+
+      <div class="dropdown-switch">
+        <div class="rounder">
+          <div class="inner">
+            <button type="button" class="select-btn" data-ga-label="gnb_language"><span>KR</span></button>
+            <img data-inline-svg src="/assets/icons/arrow/chevron_l.svg" alt="">
+            <div class="dropdown-box">
+              <button type="button" data-ga-label="gnb_language" class="lang"><span>EN</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="/mypage.do" class="menu__mypage" data-ga-label="gnb_mypage"
+        data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="메인_GNB 영역"
+        data-gtm-event-label="컨텐츠 - 마이페이지" data-gtm-click-location="메인_GNB 영역" data-gtm-click-text="마이페이지">
+        <span class="a11y">마이페이지</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_45_493)">
+          <path d="M7.50246 6.85121C7.48292 7.44184 7.57991 8.03053 7.78788 8.58367C7.99585 9.13682 8.31073 9.64358 8.71455 10.075C9.11837 10.5065 9.60321 10.8542 10.1414 11.0982C10.6796 11.3423 11.2606 11.478 11.8512 11.4975C12.4418 11.5171 13.0305 11.4201 13.5837 11.2121C14.1368 11.0042 14.6436 10.6893 15.075 10.2855C15.5065 9.88163 15.8542 9.39679 16.0982 8.8586C16.3423 8.32041 16.478 7.73941 16.4975 7.14879C16.5171 6.55816 16.4201 5.96947 16.2121 5.41633C16.0042 4.86319 15.6893 4.35642 15.2855 3.92497C14.8816 3.49352 14.3968 3.14583 13.8586 2.90175C13.3204 2.65768 12.7394 2.522 12.1488 2.50246C11.5582 2.48292 10.9695 2.57991 10.4163 2.78788C9.86319 2.99585 9.35642 3.31073 8.92497 3.71455C8.49352 4.11837 8.14583 4.60321 7.90175 5.1414C7.65768 5.67959 7.522 6.26059 7.50246 6.85121Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 21.5C20.2627 19.724 19.0141 18.206 17.4121 17.138C15.8101 16.07 13.9267 15.5 12 15.5C10.0733 15.5 8.18988 16.07 6.5879 17.138C4.98591 18.206 3.73731 19.724 3 21.5" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <defs>
+          <clipPath id="clip0_45_493">
+          <rect width="24" height="24" fill="white"/>
+          </clipPath>
+          </defs>
+        </svg>          
+      </a>
+      <button type="button" class="menu__search" data-ga-label="allmenu_search"
+        data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="공통_검색영역"
+        data-gtm-event-label="컨텐츠 - 검색 버튼" data-gtm-click-location="공통_검색영역" data-gtm-click-text="검색 버튼">
+        <span class="a11y">검색</span>
+        <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.cls-1{fill:none;stroke:#111;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><path class="cls-1" d="M16,16l6,6"/><circle class="cls-1" cx="10" cy="10" r="8"/></svg>
+      </button>
+      <button type="button" class="menu__hamburger" data-ga-label="gnb_allmenu">
+        <span class="anim" data-lottie="/assets/lottie/menu.json"></span>
+        <span class="a11y">메뉴</span>
+      </button>
+
+    </div>
+  </div>
+  <div class="header__search">
+    <div class="header-search-top">
+      <div class="__left">
+        <h1 class="home">
+          <a href="/etf/main.do" class="logo-etf" data-ga-label="gnb_home"
+          data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="공통_상단 로고"
+          data-gtm-event-label="컨텐츠 - 삼성 Kodex ETF" data-gtm-click-location="공통_상단 로고" data-gtm-click-text="삼성 Kodex ETF">
+            
+              <div class="logo">
+                <div class="semicon__logo"></div>
+              </div>
+
+              <svg width="2318" height="300" viewBox="0 0 2318 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_20639_33052)">
+                <path d="M234.41 103.1C234.41 74.63 221.29 48.86 200.09 30.2C178.89 11.54 149.6 0 117.24 0C84.88 0 55.59 11.54 34.39 30.2C13.18 48.85 0.0699601 74.63 0.0699601 103.1C0.0699601 103.1 -6.77004 185.54 117.24 300C241.25 185.54 234.41 103.1 234.41 103.1Z" fill="#1454FF"/>
+                <path d="M1098.24 98.28C1074.57 98.28 1052.87 106.92 1037.13 122.6C1021.42 138.26 1012.76 159.83 1012.76 183.34C1012.76 206.85 1021.42 228.42 1037.13 244.08C1052.87 259.76 1074.57 268.4 1098.24 268.4C1121.91 268.4 1143.61 259.76 1159.35 244.08C1175.06 228.43 1183.72 206.86 1183.72 183.34C1183.72 159.82 1175.06 138.25 1159.35 122.6C1143.61 106.92 1121.91 98.28 1098.24 98.28ZM1130.05 218.87C1121.82 228.1 1110.52 233.18 1098.24 233.18C1085.96 233.18 1074.66 228.1 1066.43 218.87C1058.22 209.66 1053.7 197.04 1053.7 183.33C1053.7 169.62 1058.22 156.99 1066.43 147.79C1074.66 138.56 1085.96 133.48 1098.23 133.48C1110.5 133.48 1121.8 138.56 1130.04 147.79C1138.25 156.99 1142.77 169.61 1142.77 183.33C1142.77 197.05 1138.25 209.67 1130.04 218.87H1130.05Z" fill="black"/>
+                <path d="M1023.08 265.7L923.97 150.52L1021.04 44.76H962.76L876.13 138.86V138.34V44.76H831.28V265.7H876.13V161.3L966.12 265.7H1023.08Z" fill="black"/>
+                <path d="M1678.69 265.72L1642.81 215.69L1606.6 265.72H1557.09L1617.89 181.78L1559.75 101.13H1609.25L1642.81 147.54L1676.37 101.13H1725.54L1667.4 181.45L1728.2 265.72H1678.69Z" fill="black"/>
+                <path d="M1561.92 168.66C1554.6 127.94 1519.67 98.3799 1478.86 98.3799C1432.21 98.3799 1394.26 136.47 1394.26 183.29C1394.26 230.11 1432.21 268.49 1478.86 268.49C1508.21 268.49 1536.78 253.99 1551.63 232.38L1518.55 215.95C1508.65 225.88 1493.78 231.94 1478.86 231.94C1456.77 231.94 1439.43 218.84 1434.72 199H1561.94L1562.24 196.56C1563.64 185.34 1563.53 176.45 1561.92 168.66ZM1434.85 166.66C1439.4 150.65 1454.38 134.62 1478.56 134.62C1502.74 134.62 1517.43 150.65 1521.96 166.66H1434.85Z" fill="black"/>
+                <path d="M1330.71 39.98V116.63C1330.71 116.63 1313.72 98.44 1284.51 98.44C1259.65 98.44 1239.25 106.22 1223.89 121.56C1207.88 137.53 1199.07 159.49 1199.07 183.39C1199.07 207.29 1207.88 229.3 1223.89 245.27C1239.3 260.61 1259.7 268.39 1284.51 268.39C1310.57 268.39 1330.71 252.71 1330.71 252.71L1333.67 265.69H1375.57V29L1330.71 39.98ZM1330.34 183.44V212.61C1328.41 216.5 1323.39 220.81 1322.71 221.42C1313.68 229.4 1302.97 234.13 1287.58 233.32C1274.4 232.65 1263.28 227.72 1255.39 219.03C1246.99 209.8 1242.39 197.19 1242.39 183.49V183.4C1242.39 169.7 1246.99 157.09 1255.39 147.86C1263.28 139.17 1274.4 134.23 1287.58 133.57C1302.97 132.76 1313.68 137.49 1322.71 145.47C1323.39 146.09 1328.41 150.39 1330.34 154.28V183.45V183.44Z" fill="black"/>
+                <path d="M1854.57 175.34H1951.57V133.01H1854.57V87.4H1958.97V44.78H1811.08V265.7H1960.46V223.06H1854.57V175.34Z" fill="black"/>
+                <path d="M1977.2 87.4H2043.6V265.7H2087.06V87.4H2153.16V44.77H1977.2V87.4Z" fill="black"/>
+                <path d="M2317.05 87.39V44.76H2172.12V265.7H2215.59V179.87H2314.08V137.23H2215.59V87.39H2317.05Z" fill="black"/>
+                <path d="M385.28 114.61C380.89 124.57 373.79 135.04 364.86 144.53C355.63 154.49 344.4 163.2 332.91 170.07L312.95 146.84C327.26 138.69 340.82 127.36 351.01 113.01C361.27 99.0299 367.65 82.6499 367.65 64.2199V42.7299H400.86V63.7499C400.86 81.8499 407.54 97.2499 417.5 109.77C427.53 122.8 441.05 132.5 454.33 138.91L436.43 163.19C411.85 149.84 395.78 134 385.28 114.6M367.64 181.57H501.85V279.5H367.64V181.57ZM399.06 252.91H470.14V208.44H399.06V252.91ZM501.86 172.4H470.14V37.4399H501.86V91.0599H538.92V117.94H501.86V172.39V172.4Z" fill="#1454FF"/>
+                <path d="M628.8 144.29C619.87 135.82 612.95 126.84 608.8 118.67C604.98 127.94 598.1 137.87 589.17 147.33C579.94 156.83 568.95 166.53 556.69 173.9L537.03 150.15C552.61 139.89 566.65 128.19 576.12 114.61C585.58 101.29 591.43 85.9499 591.43 68.6299V42.74H625.21V68.12C625.21 87.25 631.36 102.13 641.32 114.09C650.75 126.34 664.33 135.61 677.89 142.48L659.99 167.26C648.73 161.12 637.74 153.18 628.81 144.29M714.18 271.33C702.89 280.78 687.31 286.36 668.91 286.36C650.51 286.36 635.17 280.78 624.17 271.33C612.94 261.33 606.57 247.56 606.57 230.44C606.57 213.32 612.95 200.27 624.17 190.29C635.17 180.31 650.51 174.46 668.91 174.46C687.31 174.46 702.89 180.3 714.18 190.29C725.14 200.27 731.79 214.02 731.79 230.44C731.79 246.86 725.15 261.33 714.18 271.33ZM691.66 209.4C685.78 204.37 678.14 201.25 668.91 201.25C650.51 201.25 637.73 213.03 637.73 230.44C637.73 247.85 650.52 259.85 668.91 259.85C687.3 259.85 700.63 248.03 700.63 230.44C700.63 222.05 697.08 214.57 691.66 209.4ZM703.95 107.94H659.21V79.8499H703.95V37.45H735.63V173.71H703.95V107.95V107.94Z" fill="#1454FF"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_20639_33052">
+                <rect width="2317.05" height="300" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+                
+            
+              
+          </a>
+  
+          <a href="/fund/main.do" class="logo-fund" data-ga-label="gnb_home">            
+            <svg width="758" height="146" viewBox="0 0 758 146" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_4498_99646)">
+                <path d="M41.69 46.8394C38.7632 53.2114 34.7766 59.0408 29.9 64.0794C24.4824 69.8262 18.2853 74.7845 11.49 78.8094L0 65.3994C8.64314 60.5901 16.1471 53.9729 22 45.9994C27.89 37.8994 31.57 28.4694 31.57 17.8694V5.44937H50.67V17.5294C50.7118 27.1941 54.0967 36.5465 60.25 43.9994C65.9187 51.1712 73.1807 56.9234 81.46 60.7994L71.15 74.7994C57 67.1694 47.73 57.9994 41.69 46.8394ZM31.52 85.4394H108.86V141.849H31.52V85.4394ZM49.64 100.899V126.529H90.64V100.899H49.64ZM108.86 80.1294H90.59V2.35938H108.86V33.2894H130.22V48.7594H108.86V80.1294Z" fill="#003CDC"/>
+                <path d="M181.999 63.9294C177.356 59.7094 173.467 54.7279 170.499 49.1994C168.289 54.4994 164.319 60.1994 159.159 65.6994C153.591 71.566 147.305 76.7066 140.449 80.9994L129.109 67.2994C138.109 61.4094 146.199 54.6294 151.649 46.8194C157.328 39.1415 160.424 29.8591 160.489 20.3094V5.44937H179.929V19.9994C179.929 30.9994 183.469 39.5994 189.209 46.5194C194.659 53.5894 202.469 58.8894 210.279 62.8694L199.999 77.1894C193.408 73.6337 187.349 69.1701 181.999 63.9294ZM231.199 137.149C224.719 142.599 215.739 145.839 205.129 145.839C194.519 145.839 185.689 142.599 179.349 137.149C172.869 131.409 169.189 123.449 169.189 113.589C169.103 109.228 169.967 104.899 171.722 100.905C173.476 96.911 176.079 93.3466 179.349 90.4594C185.689 84.7094 194.519 81.3294 205.129 81.3294C215.739 81.3294 224.719 84.7094 231.199 90.4594C234.408 93.443 236.966 97.0558 238.716 101.072C240.466 105.089 241.369 109.423 241.369 113.804C241.369 118.186 240.466 122.52 238.716 126.536C236.966 130.553 234.408 134.166 231.199 137.149ZM218.199 101.509C214.559 98.3768 209.891 96.6963 205.089 96.7894C194.479 96.7894 187.089 103.569 187.089 113.589C187.089 123.609 194.449 130.529 205.089 130.529C215.729 130.529 223.359 123.749 223.359 113.589C223.368 111.333 222.918 109.099 222.036 107.022C221.154 104.946 219.859 103.07 218.229 101.509H218.199ZM225.299 42.9994H199.519V26.8094H225.299V2.35938H243.569V80.8694H225.299V42.9994Z" fill="#003CDC"/>
+                <path d="M310.631 80.7194C305.747 75.7924 301.671 70.1261 298.551 63.9294C293.101 77.3294 281.611 89.1194 269.831 97.5194L258.191 83.2294C269.001 75.9994 276.751 68.3494 281.611 59.5094C286.471 50.6694 288.681 41.2494 288.681 29.6094V26.6594H263.051V11.3394H332.881V26.6594H307.691V29.3094C307.691 40.9494 309.901 50.2294 315.051 58.4794C319.911 66.7294 327.571 73.9494 338.621 80.5794L327.871 94.7194C321.575 90.7741 315.785 86.0724 310.631 80.7194ZM365.281 125.999H347.161V2.35938H365.281V42.1294H386.941V57.4494H365.281V125.999Z" fill="#003CDC"/>
+                <path d="M439.279 66.2894C433.979 61.1294 429.849 55.6794 427.499 50.5294C422.189 61.7194 410.999 74.2394 397.299 82.9294L385.809 69.5294C394.514 64.0715 402.069 56.965 408.049 48.6094C413.799 40.3594 417.479 31.0794 417.479 21.2094V7.36938H436.629V20.9194C436.561 30.63 439.779 40.0782 445.759 47.7294C451.209 55.2394 459.019 61.1294 467.419 65.7294L457.099 79.9994C450.52 76.3259 444.516 71.7067 439.279 66.2894ZM417.329 91.4794H435.599V123.479H499.229V139.089H417.329V91.4794ZM494.669 98.0994H476.549V2.35938H494.669V36.3594H515.999V51.8494H494.669V98.0994Z" fill="#003CDC"/>
+                <path d="M567.371 84.0008H517.371V68.7908H635.641V84.0008H585.491V109.301H567.371V84.0008ZM552.941 123.781H618.051V139.091H534.531V95.0008H552.941V123.781ZM602.581 54.9808C595.361 60.2908 585.931 62.7908 576.511 62.7908C566.931 62.7908 557.361 60.2908 550.291 55.1308C546.553 52.4869 543.522 48.9642 541.466 44.8732C539.41 40.7821 538.392 36.2481 538.501 31.6708C538.483 27.22 539.499 22.8258 541.468 18.8345C543.438 14.8432 546.307 11.3639 549.851 8.67078C556.771 3.39078 566.341 0.300781 576.511 0.300781C587.111 0.300781 596.391 3.39078 603.321 8.84078C606.808 11.5246 609.619 14.987 611.529 18.9511C613.439 22.9152 614.395 27.2711 614.321 31.6708C614.43 36.216 613.415 40.7179 611.367 44.7771C609.319 48.8363 606.301 52.3274 602.581 54.9408V54.9808ZM576.511 15.6108C564.581 15.6108 556.331 22.2408 556.331 31.6708C556.331 41.1008 564.281 47.7308 576.511 47.7308C582.251 47.7308 587.261 46.1108 590.801 43.1608C592.578 41.8172 594.021 40.0812 595.017 38.0881C596.013 36.095 596.534 33.8987 596.541 31.6708C596.541 22.2408 588.141 15.6108 576.511 15.6108Z" fill="#003CDC"/>
+                <path d="M725.998 52.15V70.85H757.148V86H638.898V70.85H670.338V52.44C669.732 52.0402 669.187 51.5552 668.718 51C663.418 45.84 660.028 39.66 660.028 30.82C659.998 10.17 678.998 0 697.998 0C717.448 0 735.858 10.17 735.858 30.79C735.924 34.5792 735.186 38.3394 733.694 41.8228C732.201 45.3063 729.987 48.434 727.198 51L725.998 52.15ZM723.638 137.58C716.568 142.15 707.288 144.51 698.008 144.51C688.728 144.51 679.158 142.15 672.088 137.58C665.018 133.01 660.448 126.09 660.448 117.11C660.448 108.71 664.718 101.64 671.648 96.78C678.578 91.92 687.848 89.41 698.008 89.41C708.618 89.41 717.748 92.21 724.678 96.93C731.298 101.79 735.428 108.71 735.428 117.11C735.448 126.09 730.738 132.87 723.658 137.58H723.638ZM697.998 15.32C686.068 15.32 677.818 21.32 677.818 30.79C677.818 40.26 685.818 46.25 697.998 46.25C707.868 46.25 717.998 41.39 717.998 30.79C717.998 20.19 708.048 15.32 697.998 15.32ZM711.998 108.12C707.739 105.694 702.899 104.474 697.998 104.59C686.218 104.59 678.118 109.59 678.118 117.11C678.118 124.32 686.218 129.63 697.998 129.63C702.9 129.743 707.74 128.519 711.998 126.09C715.528 123.88 717.738 120.64 717.738 117.09C717.768 113.42 715.558 110.33 711.998 108.12ZM689.198 60.69C688.894 60.7138 688.588 60.6623 688.308 60.54V70.85H708.048V60.54C707.666 60.6553 707.267 60.706 706.868 60.69C701.038 61.8701 695.029 61.8701 689.198 60.69Z" fill="#003CDC"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_4498_99646">
+                <rect width="757.17" height="145.84" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>  
+          </a>
+          
+          <span class="a11y">Kodex</span>
+        </h1>
+      </div>
+      <div class="__right">
+        <button type="button" class="close-btn">
+          <img src="/assets/icons/basic/delete-xl.svg" alt="" data-inline-svg="">
+        </button>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <form action="/etf/search.do" class="headline_40-27">
+        <div class="search-wide search-related-header">
+          <label for="input-2" class="a11y">search</label>
+          <input autofocus class="input-block" name="searchText" id="input-2" type="text" autocomplete="off" placeholder="">
+          <button type="submit" class="search-btn" disabled data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭"
+          data-gtm-event-action="공통_검색 영역" data-gtm-event-label="컨텐츠 - 검색 버튼" data-gtm-click-location="공통_검색 영역" data-gtm-click-text="검색 버튼">
+            <img src="/assets/icons/basic/search-l.svg" alt="" data-inline-svg="">
+          </button>
+        </div>
+      </form>
+      <div class="search-keyword body_16-13">
+        <div class="keyword-title">
+          
+            <div class="btn btn-s"><span>인기키워드</span></div>
+          
+          
+        </div>
+        <div class="keywords">
+        	
+			
+			
+				<a class="btn btn-s btn-outline" href="/etf/search.do?searchText=KODEX200"
+        data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭"
+        data-gtm-event-action="통합검색" data-gtm-event-label="컨텐츠 - KODEX200" data-gtm-click-location="공통_검색영역" data-gtm-click-text="KODEX200">
+          <span>KODEX200</span>
+        </a>
+			
+				<a class="btn btn-s btn-outline" href="/etf/search.do?searchText=액티브"
+        data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭"
+        data-gtm-event-action="통합검색" data-gtm-event-label="컨텐츠 - 액티브" data-gtm-click-location="공통_검색영역" data-gtm-click-text="액티브">
+          <span>액티브</span>
+        </a>
+			
+				<a class="btn btn-s btn-outline" href="/etf/search.do?searchText=fang"
+        data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭"
+        data-gtm-event-action="통합검색" data-gtm-event-label="컨텐츠 - fang" data-gtm-click-location="공통_검색영역" data-gtm-click-text="fang">
+          <span>fang</span>
+        </a>
+			
+        </div>
+      </div>
+    </div>
+
+
+    <!-- 
+      <div id="root-recommend-trend"></div>
+     -->
+    <!--S: 이벤트 배너 -->
+    <div class="draw-banner">
+      <a href='/etf/product/view.do?id=2ETFV9' class='draw-banner__item'>
+        <img src='/assets/draw-game/banner/horiz_01.png' alt="KODEX 미국CPU반도체 TOP10 ETF! AI 에이전트 전성시대, CPU가 판을 바꾼다!"/>
+      </a>
+    </div>
+    <!--E: 이벤트 배너 -->
+  </div>
+  <div class="header__dimed"></div>
+
+  <div class="sitemap">
+    <div class="header__wrap">
+      <div class="header__left">
+        <div class="home">
+          <a href="/etf/main.do" class="logo-etf" data-ga-label="gnb_home"
+          data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="공통_상단 로고"
+          data-gtm-event-label="컨텐츠 - 삼성 Kodex ETF" data-gtm-click-location="공통_상단 로고" data-gtm-click-text="삼성 Kodex ETF">
+            
+
+
+              <svg width="2318" height="300" viewBox="0 0 2318 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_20639_33052)">
+                <path d="M234.41 103.1C234.41 74.63 221.29 48.86 200.09 30.2C178.89 11.54 149.6 0 117.24 0C84.88 0 55.59 11.54 34.39 30.2C13.18 48.85 0.0699601 74.63 0.0699601 103.1C0.0699601 103.1 -6.77004 185.54 117.24 300C241.25 185.54 234.41 103.1 234.41 103.1Z" fill="#1454FF"/>
+                <path d="M1098.24 98.28C1074.57 98.28 1052.87 106.92 1037.13 122.6C1021.42 138.26 1012.76 159.83 1012.76 183.34C1012.76 206.85 1021.42 228.42 1037.13 244.08C1052.87 259.76 1074.57 268.4 1098.24 268.4C1121.91 268.4 1143.61 259.76 1159.35 244.08C1175.06 228.43 1183.72 206.86 1183.72 183.34C1183.72 159.82 1175.06 138.25 1159.35 122.6C1143.61 106.92 1121.91 98.28 1098.24 98.28ZM1130.05 218.87C1121.82 228.1 1110.52 233.18 1098.24 233.18C1085.96 233.18 1074.66 228.1 1066.43 218.87C1058.22 209.66 1053.7 197.04 1053.7 183.33C1053.7 169.62 1058.22 156.99 1066.43 147.79C1074.66 138.56 1085.96 133.48 1098.23 133.48C1110.5 133.48 1121.8 138.56 1130.04 147.79C1138.25 156.99 1142.77 169.61 1142.77 183.33C1142.77 197.05 1138.25 209.67 1130.04 218.87H1130.05Z" fill="black"/>
+                <path d="M1023.08 265.7L923.97 150.52L1021.04 44.76H962.76L876.13 138.86V138.34V44.76H831.28V265.7H876.13V161.3L966.12 265.7H1023.08Z" fill="black"/>
+                <path d="M1678.69 265.72L1642.81 215.69L1606.6 265.72H1557.09L1617.89 181.78L1559.75 101.13H1609.25L1642.81 147.54L1676.37 101.13H1725.54L1667.4 181.45L1728.2 265.72H1678.69Z" fill="black"/>
+                <path d="M1561.92 168.66C1554.6 127.94 1519.67 98.3799 1478.86 98.3799C1432.21 98.3799 1394.26 136.47 1394.26 183.29C1394.26 230.11 1432.21 268.49 1478.86 268.49C1508.21 268.49 1536.78 253.99 1551.63 232.38L1518.55 215.95C1508.65 225.88 1493.78 231.94 1478.86 231.94C1456.77 231.94 1439.43 218.84 1434.72 199H1561.94L1562.24 196.56C1563.64 185.34 1563.53 176.45 1561.92 168.66ZM1434.85 166.66C1439.4 150.65 1454.38 134.62 1478.56 134.62C1502.74 134.62 1517.43 150.65 1521.96 166.66H1434.85Z" fill="black"/>
+                <path d="M1330.71 39.98V116.63C1330.71 116.63 1313.72 98.44 1284.51 98.44C1259.65 98.44 1239.25 106.22 1223.89 121.56C1207.88 137.53 1199.07 159.49 1199.07 183.39C1199.07 207.29 1207.88 229.3 1223.89 245.27C1239.3 260.61 1259.7 268.39 1284.51 268.39C1310.57 268.39 1330.71 252.71 1330.71 252.71L1333.67 265.69H1375.57V29L1330.71 39.98ZM1330.34 183.44V212.61C1328.41 216.5 1323.39 220.81 1322.71 221.42C1313.68 229.4 1302.97 234.13 1287.58 233.32C1274.4 232.65 1263.28 227.72 1255.39 219.03C1246.99 209.8 1242.39 197.19 1242.39 183.49V183.4C1242.39 169.7 1246.99 157.09 1255.39 147.86C1263.28 139.17 1274.4 134.23 1287.58 133.57C1302.97 132.76 1313.68 137.49 1322.71 145.47C1323.39 146.09 1328.41 150.39 1330.34 154.28V183.45V183.44Z" fill="black"/>
+                <path d="M1854.57 175.34H1951.57V133.01H1854.57V87.4H1958.97V44.78H1811.08V265.7H1960.46V223.06H1854.57V175.34Z" fill="black"/>
+                <path d="M1977.2 87.4H2043.6V265.7H2087.06V87.4H2153.16V44.77H1977.2V87.4Z" fill="black"/>
+                <path d="M2317.05 87.39V44.76H2172.12V265.7H2215.59V179.87H2314.08V137.23H2215.59V87.39H2317.05Z" fill="black"/>
+                <path d="M385.28 114.61C380.89 124.57 373.79 135.04 364.86 144.53C355.63 154.49 344.4 163.2 332.91 170.07L312.95 146.84C327.26 138.69 340.82 127.36 351.01 113.01C361.27 99.0299 367.65 82.6499 367.65 64.2199V42.7299H400.86V63.7499C400.86 81.8499 407.54 97.2499 417.5 109.77C427.53 122.8 441.05 132.5 454.33 138.91L436.43 163.19C411.85 149.84 395.78 134 385.28 114.6M367.64 181.57H501.85V279.5H367.64V181.57ZM399.06 252.91H470.14V208.44H399.06V252.91ZM501.86 172.4H470.14V37.4399H501.86V91.0599H538.92V117.94H501.86V172.39V172.4Z" fill="#1454FF"/>
+                <path d="M628.8 144.29C619.87 135.82 612.95 126.84 608.8 118.67C604.98 127.94 598.1 137.87 589.17 147.33C579.94 156.83 568.95 166.53 556.69 173.9L537.03 150.15C552.61 139.89 566.65 128.19 576.12 114.61C585.58 101.29 591.43 85.9499 591.43 68.6299V42.74H625.21V68.12C625.21 87.25 631.36 102.13 641.32 114.09C650.75 126.34 664.33 135.61 677.89 142.48L659.99 167.26C648.73 161.12 637.74 153.18 628.81 144.29M714.18 271.33C702.89 280.78 687.31 286.36 668.91 286.36C650.51 286.36 635.17 280.78 624.17 271.33C612.94 261.33 606.57 247.56 606.57 230.44C606.57 213.32 612.95 200.27 624.17 190.29C635.17 180.31 650.51 174.46 668.91 174.46C687.31 174.46 702.89 180.3 714.18 190.29C725.14 200.27 731.79 214.02 731.79 230.44C731.79 246.86 725.15 261.33 714.18 271.33ZM691.66 209.4C685.78 204.37 678.14 201.25 668.91 201.25C650.51 201.25 637.73 213.03 637.73 230.44C637.73 247.85 650.52 259.85 668.91 259.85C687.3 259.85 700.63 248.03 700.63 230.44C700.63 222.05 697.08 214.57 691.66 209.4ZM703.95 107.94H659.21V79.8499H703.95V37.45H735.63V173.71H703.95V107.95V107.94Z" fill="#1454FF"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_20639_33052">
+                <rect width="2317.05" height="300" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+                
+            
+              
+          </a>
+
+          <a href="/fund/main.do" class="logo-fund" data-ga-label="gnb_home">
+            <svg width="758" height="146" viewBox="0 0 758 146" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_4498_99646)">
+              <path d="M41.69 46.8394C38.7632 53.2114 34.7766 59.0408 29.9 64.0794C24.4824 69.8262 18.2853 74.7845 11.49 78.8094L0 65.3994C8.64314 60.5901 16.1471 53.9729 22 45.9994C27.89 37.8994 31.57 28.4694 31.57 17.8694V5.44937H50.67V17.5294C50.7118 27.1941 54.0967 36.5465 60.25 43.9994C65.9187 51.1712 73.1807 56.9234 81.46 60.7994L71.15 74.7994C57 67.1694 47.73 57.9994 41.69 46.8394ZM31.52 85.4394H108.86V141.849H31.52V85.4394ZM49.64 100.899V126.529H90.64V100.899H49.64ZM108.86 80.1294H90.59V2.35938H108.86V33.2894H130.22V48.7594H108.86V80.1294Z" fill="#003CDC"/>
+              <path d="M181.999 63.9294C177.356 59.7094 173.467 54.7279 170.499 49.1994C168.289 54.4994 164.319 60.1994 159.159 65.6994C153.591 71.566 147.305 76.7066 140.449 80.9994L129.109 67.2994C138.109 61.4094 146.199 54.6294 151.649 46.8194C157.328 39.1415 160.424 29.8591 160.489 20.3094V5.44937H179.929V19.9994C179.929 30.9994 183.469 39.5994 189.209 46.5194C194.659 53.5894 202.469 58.8894 210.279 62.8694L199.999 77.1894C193.408 73.6337 187.349 69.1701 181.999 63.9294ZM231.199 137.149C224.719 142.599 215.739 145.839 205.129 145.839C194.519 145.839 185.689 142.599 179.349 137.149C172.869 131.409 169.189 123.449 169.189 113.589C169.103 109.228 169.967 104.899 171.722 100.905C173.476 96.911 176.079 93.3466 179.349 90.4594C185.689 84.7094 194.519 81.3294 205.129 81.3294C215.739 81.3294 224.719 84.7094 231.199 90.4594C234.408 93.443 236.966 97.0558 238.716 101.072C240.466 105.089 241.369 109.423 241.369 113.804C241.369 118.186 240.466 122.52 238.716 126.536C236.966 130.553 234.408 134.166 231.199 137.149ZM218.199 101.509C214.559 98.3768 209.891 96.6963 205.089 96.7894C194.479 96.7894 187.089 103.569 187.089 113.589C187.089 123.609 194.449 130.529 205.089 130.529C215.729 130.529 223.359 123.749 223.359 113.589C223.368 111.333 222.918 109.099 222.036 107.022C221.154 104.946 219.859 103.07 218.229 101.509H218.199ZM225.299 42.9994H199.519V26.8094H225.299V2.35938H243.569V80.8694H225.299V42.9994Z" fill="#003CDC"/>
+              <path d="M310.631 80.7194C305.747 75.7924 301.671 70.1261 298.551 63.9294C293.101 77.3294 281.611 89.1194 269.831 97.5194L258.191 83.2294C269.001 75.9994 276.751 68.3494 281.611 59.5094C286.471 50.6694 288.681 41.2494 288.681 29.6094V26.6594H263.051V11.3394H332.881V26.6594H307.691V29.3094C307.691 40.9494 309.901 50.2294 315.051 58.4794C319.911 66.7294 327.571 73.9494 338.621 80.5794L327.871 94.7194C321.575 90.7741 315.785 86.0724 310.631 80.7194ZM365.281 125.999H347.161V2.35938H365.281V42.1294H386.941V57.4494H365.281V125.999Z" fill="#003CDC"/>
+              <path d="M439.279 66.2894C433.979 61.1294 429.849 55.6794 427.499 50.5294C422.189 61.7194 410.999 74.2394 397.299 82.9294L385.809 69.5294C394.514 64.0715 402.069 56.965 408.049 48.6094C413.799 40.3594 417.479 31.0794 417.479 21.2094V7.36938H436.629V20.9194C436.561 30.63 439.779 40.0782 445.759 47.7294C451.209 55.2394 459.019 61.1294 467.419 65.7294L457.099 79.9994C450.52 76.3259 444.516 71.7067 439.279 66.2894ZM417.329 91.4794H435.599V123.479H499.229V139.089H417.329V91.4794ZM494.669 98.0994H476.549V2.35938H494.669V36.3594H515.999V51.8494H494.669V98.0994Z" fill="#003CDC"/>
+              <path d="M567.371 84.0008H517.371V68.7908H635.641V84.0008H585.491V109.301H567.371V84.0008ZM552.941 123.781H618.051V139.091H534.531V95.0008H552.941V123.781ZM602.581 54.9808C595.361 60.2908 585.931 62.7908 576.511 62.7908C566.931 62.7908 557.361 60.2908 550.291 55.1308C546.553 52.4869 543.522 48.9642 541.466 44.8732C539.41 40.7821 538.392 36.2481 538.501 31.6708C538.483 27.22 539.499 22.8258 541.468 18.8345C543.438 14.8432 546.307 11.3639 549.851 8.67078C556.771 3.39078 566.341 0.300781 576.511 0.300781C587.111 0.300781 596.391 3.39078 603.321 8.84078C606.808 11.5246 609.619 14.987 611.529 18.9511C613.439 22.9152 614.395 27.2711 614.321 31.6708C614.43 36.216 613.415 40.7179 611.367 44.7771C609.319 48.8363 606.301 52.3274 602.581 54.9408V54.9808ZM576.511 15.6108C564.581 15.6108 556.331 22.2408 556.331 31.6708C556.331 41.1008 564.281 47.7308 576.511 47.7308C582.251 47.7308 587.261 46.1108 590.801 43.1608C592.578 41.8172 594.021 40.0812 595.017 38.0881C596.013 36.095 596.534 33.8987 596.541 31.6708C596.541 22.2408 588.141 15.6108 576.511 15.6108Z" fill="#003CDC"/>
+              <path d="M725.998 52.15V70.85H757.148V86H638.898V70.85H670.338V52.44C669.732 52.0402 669.187 51.5552 668.718 51C663.418 45.84 660.028 39.66 660.028 30.82C659.998 10.17 678.998 0 697.998 0C717.448 0 735.858 10.17 735.858 30.79C735.924 34.5792 735.186 38.3394 733.694 41.8228C732.201 45.3063 729.987 48.434 727.198 51L725.998 52.15ZM723.638 137.58C716.568 142.15 707.288 144.51 698.008 144.51C688.728 144.51 679.158 142.15 672.088 137.58C665.018 133.01 660.448 126.09 660.448 117.11C660.448 108.71 664.718 101.64 671.648 96.78C678.578 91.92 687.848 89.41 698.008 89.41C708.618 89.41 717.748 92.21 724.678 96.93C731.298 101.79 735.428 108.71 735.428 117.11C735.448 126.09 730.738 132.87 723.658 137.58H723.638ZM697.998 15.32C686.068 15.32 677.818 21.32 677.818 30.79C677.818 40.26 685.818 46.25 697.998 46.25C707.868 46.25 717.998 41.39 717.998 30.79C717.998 20.19 708.048 15.32 697.998 15.32ZM711.998 108.12C707.739 105.694 702.899 104.474 697.998 104.59C686.218 104.59 678.118 109.59 678.118 117.11C678.118 124.32 686.218 129.63 697.998 129.63C702.9 129.743 707.74 128.519 711.998 126.09C715.528 123.88 717.738 120.64 717.738 117.09C717.768 113.42 715.558 110.33 711.998 108.12ZM689.198 60.69C688.894 60.7138 688.588 60.6623 688.308 60.54V70.85H708.048V60.54C707.666 60.6553 707.267 60.706 706.868 60.69C701.038 61.8701 695.029 61.8701 689.198 60.69Z" fill="#003CDC"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_4498_99646">
+              <rect width="757.17" height="145.84" fill="white"/>
+              </clipPath>
+              </defs>
+            </svg>  
+          </a>
+          <span class="a11y">Kodex</span>
+        </div>
+      </div>
+      
+      <div class="menu">
+        <div class="now-floating-bar-holder" data-ga-label="allmenu_now" data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="메인_햄버거"
+        data-gtm-event-label="컨텐츠 - ETF트렌드" data-gtm-click-location="메인_햄버거" data-gtm-click-text="ETF트렌드">
+          <div class="now-floating-bar">
+            <div class="marquee">
+              <span>ETF 트렌드가 궁금하다면? 클릭! &nbsp;</span>
+              <span>ETF 트렌드가 궁금하다면? 클릭! &nbsp;</span>
+              <span>ETF 트렌드가 궁금하다면? 클릭! &nbsp;</span>
+              <span>ETF 트렌드가 궁금하다면? 클릭! &nbsp;</span>
+              <!-- <span>오늘의 정보가 궁금하다면? ETF NOW <img src="/assets/icons/3d/hand.png" alt=""></span> -->
+            </div>
+          </div>
+        </div>
+        
+        <div class="dropdown-switch">
+          <div class="rounder">
+            <div class="inner">
+              <button type="button" class="select-btn" data-ga-label="gnb_language"><span>KR</span></button>
+              <img data-inline-svg src="/assets/icons/arrow/chevron_l.svg" alt="">
+              <div class="dropdown-box">
+                <button type="button" data-ga-label="gnb_language" class="lang"><span>EN</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button type="button" class="menu__search" data-ga-label="allmenu_search" data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="메인_햄버거"
+        data-gtm-event-label="컨텐츠 - 검색" data-gtm-click-location="메인_햄버거" data-gtm-click-text="검색">
+          <span class="a11y">검색</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_45_495)">
+            <path d="M16 16L22 22" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="10" r="8" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <defs>
+          <clipPath id="clip0_45_495">
+            <rect width="24" height="24" fill="white"/>
+            </clipPath>
+            </defs>
+          </svg>
+        </button>
+        <button type="button" class="menu__hamburger menu__hamburger--close">
+          <span class="anim" data-lottie="/assets/lottie/menu.json"></span>
+          <span class="a11y">메뉴 닫기</span>
+          <!-- <img src="/assets/icons/basic/delete-xl.svg" alt="" data-inline-svg=""> -->
+        </button>
+      </div>
+      
+    </div>
+
+    <div class="sitemap__wrap">
+      <div class="sitemap__inner">
+    
+        <div class="sitemap__head">
+          
+          <div class="sitemap-userinfo">
+            <a href="/mypage.do">
+              <span class="info-text">
+                  로그인 해주세요
+                  
+              </span>
+            </a>
+            
+            <a href="/login.do" class="btn btn-light-blue btn-m btn-login" data-ga-label="allmenu_login">
+              <span>로그인</span>
+            </a>
+            
+          </div>
+          <div class="sitemap-utillink">
+
+            <a href="/mypage.do" class="" data-ga-label="allmenu_mypage" data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="메인_햄버거"
+            data-gtm-event-label="컨텐츠 - 마이페이지" data-gtm-click-location="메인_햄버거" data-gtm-click-text="마이페이지">
+              <img src="/assets/icons/basic/user-s.svg" alt="" data-inline-svg="">
+              <span>마이페이지</span>
+            </a>
+            <a class="recent-product" href="/mypage.do?tab=recent" data-ga-label="allmenu_recent" data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="메인_햄버거"
+            data-gtm-event-label="컨텐츠 - 최근본상품" data-gtm-click-location="메인_햄버거" data-gtm-click-text="최근본상품"><span>최근 본 상품</span></a>
+            
+            
+            
+              <div class="distribution-btn-wrap">
+                <a href="/etf/product/distribution.do" class="distribution-btn btn btn-m" data-gtm-event-name="button_click" data-gtm-event-category="버튼 클릭" data-gtm-event-action="메인_햄버거"
+                data-gtm-event-label="컨텐츠 - 분배금현황" data-gtm-click-location="메인_햄버거" data-gtm-click-text="분배금현황">
+                  <span>ETF분배금 현황</span>
+                </a>
+              </div>
+            
+            
+          </div>
+          
+        </div>
+        <div class="sitemap__body">
+          <!-- <ul class="sitemap__d1">
+            <li class="sitemap__d1-item">
+              <strong class="sitemap__d1-text">ETF 상품</strong>
+              <ul class="sitemap__d2">
+                <li class="sitemap__d2-item">
+                  <a href="#" class="sitemap__d2-link">ETF 찾기</a>
+                </li>
+                <li class="sitemap__d2-item">
+                  <a href="#" class="sitemap__d2-link">테마별 ETF</a>
+                  <ul class="sitemap__d3 sitemap__d3--flex">
+                    <li class="sitemap__d3-item">
+                      <a href="#" class="sitemap__d3-link">한국</a>
+                    </li>
+                    <li class="sitemap__d3-item">
+                      <a href="#" class="sitemap__d3-link">미국</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <div data-scroll-container id="scroll-container">
+    <!-- KODEX - ETF 분배금현황 페이지 -->
+    <main class="main distribution">
+      
+      <!-- breadcrumb -s -->
+      <div class="breadcrumb-wrap top">
+        <ul class="breadcrumb">
+          <li><a href="/etf/main.do"  class="home"><img src="/assets/icons/basic/home.svg" alt="" data-inline-svg=""></a></li>
+          <li><a href="/etf/product/list.do">ETF상품</a></li>
+          <li class="active"><a>ETF 분배금 현황</a></li>
+        </ul>
+      </div>
+      <!-- breadcrumb -e --> 
+
+      <div id="root-distribution"></div>
+    </main>
+    
+
+
+
+<footer id="footer" class="footer hide" data-theme="dark">
+    <div class="containers">
+        <div class="footer-top footer-inner">
+            <ul class="footer-menu">
+                <li><a href="/content/stewardship.do"><span>스튜어드십코드</span></a></li>
+                <li><a href="/content/privacy.do"><b><span>개인정보처리방침(고객)</span></b></a></li>
+                <li><a href="/content/creditInfo.do"><span>신용정보활용체제</span></a></li>
+                <li><a href="/content/pmanage.do"><span>영상정보처리기기 운영·관리방침</span></a></li>
+                <li><a href="/content/cclaim.do"><span>고객권리 안내문</span></a></li>
+                <li><a href="/content/financialfraud.do"><span>금융사기 관련 유의사항</span></a></li>
+                <li><a href="/content/protective-financial.do"><span>보호금융상품등록부</span></a></li>
+                <li><a href="/content/safety.do"><span>안전&middot;보건 경영방침</span></a></li>
+            </ul>
+
+            <div class="footer-util">
+
+              <a href="#top-of-site" class="btn btn-icon-right" id="top-of-site-link">
+                <span>TOP</span>
+                <img src="/assets/icons/arrow/arrow_s.svg" alt="" data-inline-svg="">
+              </a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom footer-inner">
+            <div class="brand">
+                <svg width="135" height="46" viewBox="0 0 135 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M58.1468 3.89141C54.9784 3.89141 53.0436 5.42606 52.2103 6.32931C51.067 4.59077 49.1739 3.89141 46.951 3.89141C45.1919 3.86571 43.4827 4.47455 42.138 5.60583V4.30795H38.0375V21.5837H42.1424V11.7181C42.1424 9.28241 43.2836 7.12952 45.8341 7.02209C48.312 6.92124 49.231 8.80886 49.231 10.611V21.5837H53.336V11.7181C53.336 9.28241 54.4771 7.12952 57.0298 7.02209C59.466 6.92124 60.3938 8.75186 60.4224 10.5299V21.5837H64.5274V10.1637C64.5274 5.80533 61.5349 3.89141 58.1468 3.89141Z" fill="#003DA6"/>
+                    <path d="M94.1263 13.3361C94.1263 15.3246 93.6623 18.9244 90.4478 18.9244C87.6973 18.9244 87.1388 16.629 87.1388 15.0703V4.30798H83.014V15.7082C83.014 19.7663 85.5096 21.9937 89.1902 21.9937C91.3207 21.9937 93.0159 21.2045 94.1263 20.0031V21.5772H98.251V4.30798H94.1263V13.3361Z" fill="#003DA6"/>
+                    <path d="M110.284 3.89142C107.897 3.89142 106.386 4.83194 105.469 5.70669V4.30797H101.36V21.5837H105.465V11.7181C105.465 9.28242 106.685 7.12733 109.236 7.01991C111.672 6.91906 112.523 8.80668 112.551 10.5825V21.5837H116.663V10.0454C116.665 6.0465 113.673 3.89142 110.284 3.89142Z" fill="#003DA6"/>
+                    <path d="M75.5142 11.4134C72.17 10.5781 70.9146 9.97741 70.9146 8.8045C70.9146 7.48908 72.4163 6.74368 73.9642 6.83138C75.8155 6.94099 76.8225 7.87275 77.0709 9.17281H80.978C80.6922 6.0794 77.9856 3.70508 73.7553 3.70508C69.8482 3.70508 66.5502 5.77466 66.6095 9.04127C66.6491 11.3345 68.2475 12.7683 70.5892 13.6452C73.1462 14.6011 76.5938 14.9606 76.895 16.5874C77.1962 18.2141 75.4966 19.1305 73.5706 18.9222C71.904 18.7424 70.9563 17.9269 70.5144 16.5391H66.117C66.8514 20.1784 69.7668 22.1822 73.9048 22.1822C78.267 22.1822 81.3584 19.7071 81.2836 16.4931C81.1935 12.948 77.2842 11.8563 75.5142 11.4134Z" fill="#003DA6"/>
+                    <path d="M8.62109 9.01058C6.76099 8.44934 5.21091 7.70832 5.13176 6.06844C5.04161 4.23782 6.62248 3.24249 8.30888 3.30826C10.4922 3.39596 11.3431 4.8166 11.5893 5.85797H15.7932C15.1424 1.09618 10.7846 0 7.96588 0C5.19772 0 0.571661 1.51053 0.571661 6.17806C0.571661 9.29559 2.68681 11.0385 6.15635 12.1895C9.49837 13.301 11.5739 13.8645 11.8334 15.5657C12.1038 17.3503 10.6571 18.8038 8.35505 18.76C6.08819 18.7161 4.68762 17.2911 4.43037 15.9099H0C0.369381 18.7403 2.78135 22.1932 8.13518 22.1932C13.6671 22.1932 16.4133 18.7709 16.2857 15.5811C16.1099 11.1043 12.5128 10.1857 8.62109 9.01058Z" fill="#003DA6"/>
+                    <path d="M130.88 4.30799V5.64971C130.262 5.01791 129.521 4.51961 128.702 4.18581C127.883 3.85202 127.004 3.68987 126.119 3.70947C121.199 3.70947 118.483 7.13832 118.483 12.3868C118.483 17.6353 121.199 21.062 126.119 21.062C127.016 21.0821 127.906 20.9156 128.734 20.5732C129.562 20.2308 130.309 19.7201 130.928 19.0735V19.8496C130.928 22.1976 130.035 24.2782 127.214 24.4382C124.167 24.6092 123.277 22.6098 123.16 22.1757H119.101C119.631 24.8876 121.959 27.7903 126.933 27.7903C132.223 27.7903 135 24.1335 135 19.2598V4.30799H130.88ZM126.645 17.8304C123.989 17.7822 122.601 15.5372 122.601 12.3868C122.601 9.20132 124.015 6.93662 126.728 6.93662C129.442 6.93662 130.822 9.22544 130.822 12.3627C130.822 15.4671 129.308 17.7822 126.645 17.8304Z" fill="#003DA6"/>
+                    <path d="M30.8587 5.62121V5.66067C29.678 4.45707 27.9652 3.70947 25.949 3.70947C21.0041 3.70947 17.7325 7.49348 17.7325 12.9459C17.7325 18.3983 21.0085 22.1845 25.9446 22.1845C27.9608 22.1845 29.6824 21.4347 30.8543 20.2333V20.2727V21.5881H34.9967V4.31018H30.8587V5.62121ZM26.3997 18.9398C23.6756 18.9398 21.8792 16.5413 21.8792 12.9459C21.8792 9.3504 23.6756 6.95416 26.3997 6.95416C29.1239 6.95416 30.7971 9.6376 30.7971 12.9459C30.7971 16.2541 29.1261 18.9398 26.3997 18.9398Z" fill="#003DA6"/>
+                    <path d="M116.694 28.174H0.571655V30.614H116.694V28.174Z" fill="#003DA6"/>
+                    <path d="M9.89419 36.1541C9.70285 36.1541 9.5158 36.2107 9.35671 36.3167C9.19762 36.4227 9.07362 36.5733 9.0004 36.7496C8.92718 36.9259 8.90802 37.1198 8.94535 37.3069C8.98268 37.4941 9.07481 37.6659 9.21011 37.8008C9.34541 37.9358 9.51779 38.0276 9.70545 38.0649C9.89311 38.1021 10.0876 38.083 10.2644 38.01C10.4412 37.9369 10.5923 37.8133 10.6986 37.6547C10.8049 37.496 10.8616 37.3095 10.8616 37.1187C10.861 36.8631 10.7589 36.6181 10.5776 36.4373C10.3963 36.2565 10.1506 36.1547 9.89419 36.1541Z" fill="#003DA6"/>
+                    <path d="M1.23785 45.7501H2.94844V41.6898H7.45357V40.3591H2.94844V37.9365H7.69982V36.6036H1.23785V45.7501Z" fill="#003DA6"/>
+                    <path d="M10.7209 38.8639H9.07184V45.7501H10.7209V38.8639Z" fill="#003DA6"/>
+                    <path d="M42.7822 36.1541C42.5909 36.1541 42.4039 36.2107 42.2448 36.3167C42.0857 36.4227 41.9617 36.5733 41.8885 36.7496C41.8152 36.9259 41.7961 37.1198 41.8334 37.3069C41.8707 37.4941 41.9629 37.6659 42.0982 37.8008C42.2335 37.9358 42.4058 38.0276 42.5935 38.0649C42.7812 38.1021 42.9757 38.083 43.1525 38.01C43.3292 37.9369 43.4803 37.8133 43.5866 37.6547C43.6929 37.496 43.7497 37.3095 43.7497 37.1187C43.7497 36.8629 43.6477 36.6176 43.4663 36.4366C43.2849 36.2557 43.0388 36.1541 42.7822 36.1541Z" fill="#003DA6"/>
+                    <path d="M43.6068 38.8639H41.9578V45.7501H43.6068V38.8639Z" fill="#003DA6"/>
+                    <path d="M54.5541 36.6036H52.9051V45.7501H54.5541V36.6036Z" fill="#003DA6"/>
+                    <path d="M88.6075 43.72L87.2091 38.8639H85.3468L83.8012 43.8252L82.4138 38.8639H80.6922L82.8557 45.7501H84.6345L86.2109 40.7055L87.6335 45.7501H89.3683L91.6857 38.8639H90.0257L88.6075 43.72Z" fill="#003DA6"/>
+                    <path d="M110.57 38.8639H108.633L106.3 41.2141V36.6036H104.651V45.7501H106.3V42.5098L108.895 45.7501H110.773L107.633 41.7819L110.57 38.8639Z" fill="#003DA6"/>
+                    <path d="M95.3531 38.6249C93.3545 38.6249 91.822 39.9863 91.822 42.308C91.822 44.6297 93.3611 45.989 95.3531 45.989C97.3451 45.989 98.8842 44.6275 98.8842 42.308C98.8842 39.9885 97.3451 38.6249 95.3531 38.6249ZM95.3531 44.7635C94.4077 44.7635 93.4952 44.029 93.4952 42.3146C93.4952 40.6002 94.4077 39.8658 95.3531 39.8658C96.2986 39.8658 97.211 40.598 97.211 42.3146C97.211 44.0312 96.2964 44.7635 95.3531 44.7635Z" fill="#003DA6"/>
+                    <path d="M78.3154 40.1881V43.823C78.3047 43.9372 78.3177 44.0525 78.3536 44.1615C78.3896 44.2705 78.4477 44.3709 78.5242 44.4566C78.7281 44.6044 78.9793 44.6722 79.23 44.6473H80.0875V46H78.9442C78.212 46 77.6492 45.829 77.26 45.487C76.8708 45.145 76.6751 44.5903 76.6751 43.823V40.1881H75.6044V38.8726H76.6751V36.9236H78.3154V38.8726H80.0875V40.1881H78.3154Z" fill="#003DA6"/>
+                    <path d="M103.754 40.1683C103.325 40.1476 102.899 40.2492 102.525 40.4612C102.152 40.6731 101.847 40.9868 101.646 41.3654C101.41 41.8455 101.446 42.3738 101.452 42.9C101.452 43.2946 101.452 45.7501 101.452 45.7501H99.8032V38.8639H101.452V39.7211C101.674 39.4121 101.979 39.1726 102.332 39.0305C102.701 38.8609 103.103 38.7734 103.51 38.774C103.594 38.7739 103.678 38.7783 103.761 38.7871V40.1683" fill="#003DA6"/>
+                    <path d="M31.0126 38.6972C30.6606 38.6855 30.3098 38.7434 29.9803 38.8675C29.6509 38.9917 29.3494 39.1797 29.0932 39.4207V38.8639H27.4551V45.75H29.0932V41.8038C29.0932 40.8326 29.5791 39.9732 30.5971 39.9293C31.5667 39.8899 31.9163 40.6419 31.9163 41.35V45.7347H33.5521V41.1307C33.5565 39.5566 32.3626 38.6972 31.0126 38.6972Z" fill="#003DA6"/>
+                    <path d="M15.8702 38.6972C15.5182 38.6855 15.1673 38.7434 14.8379 38.8675C14.5084 38.9917 14.2069 39.1797 13.9507 39.4207V38.8639H12.3127V45.75H13.9485V41.8038C13.9485 40.8326 14.4344 39.9732 15.4502 39.9293C16.422 39.8899 16.7694 40.6419 16.7694 41.35V45.7347H18.4075V41.1307C18.4141 39.5566 17.2224 38.6972 15.8702 38.6972Z" fill="#003DA6"/>
+                    <path d="M24.5792 38.8639V39.4032C24.3222 39.149 24.0165 38.9491 23.6803 38.8154C23.3441 38.6817 22.9843 38.6169 22.6224 38.6249C20.6435 38.6249 19.3485 40.1333 19.3485 42.3081C19.3485 44.4829 20.6523 45.9891 22.6224 45.9891C22.9841 45.997 23.3437 45.9324 23.6798 45.7991C24.016 45.6658 24.3218 45.4664 24.5792 45.213V45.7501H26.2304V38.8639H24.5792ZM22.8005 44.6956C21.7143 44.6956 20.9975 43.7397 20.9975 42.3081C20.9975 40.8765 21.7143 39.9184 22.8005 39.9184C23.8866 39.9184 24.5594 40.9883 24.5594 42.3081C24.5594 43.6279 23.8888 44.6956 22.8005 44.6956Z" fill="#003DA6"/>
+                    <path d="M49.7895 38.8639V39.4032C49.5325 39.149 49.2268 38.9491 48.8905 38.8154C48.5543 38.6817 48.1945 38.6169 47.8326 38.6249C45.8538 38.6249 44.5566 40.1333 44.5566 42.3081C44.5566 44.4829 45.8604 45.9891 47.8326 45.9891C48.1943 45.997 48.5539 45.9324 48.8901 45.7991C49.2262 45.6658 49.5321 45.4664 49.7895 45.213V45.7501H51.4495V38.8639H49.7895ZM48.0107 44.6956C46.9246 44.6956 46.2078 43.7397 46.2078 42.3081C46.2078 40.8765 46.9246 39.9184 48.0107 39.9184C49.0969 39.9184 49.7697 40.9883 49.7697 42.3081C49.7697 43.6279 49.0969 44.6956 48.0107 44.6956Z" fill="#003DA6"/>
+                    <path d="M114.37 41.6964C113.035 41.3631 112.534 41.1242 112.534 40.6572C112.534 40.1288 113.134 39.8351 113.75 39.8701C114.488 39.914 114.893 40.2867 114.99 40.8041H116.546C116.432 39.572 115.352 38.6249 113.668 38.6249C112.109 38.6249 110.795 39.4492 110.81 40.7515C110.825 41.6657 111.47 42.2379 112.395 42.5865C113.415 42.9679 114.79 43.1082 114.911 43.7594C115.031 44.4105 114.352 44.7744 113.591 44.6911C112.932 44.6188 112.549 44.2943 112.373 43.7396H110.614C110.907 45.191 112.07 45.989 113.719 45.989C115.458 45.989 116.691 45.0046 116.661 43.7221C116.632 42.3124 115.073 41.874 114.37 41.6964Z" fill="#003DA6"/>
+                    <path d="M65.3628 36.6036V43.3648L61.8119 36.6036H59.5121V45.7501H61.2227V38.6469L64.9407 45.7501H67.0734V36.6036H65.3628Z" fill="#003DA6"/>
+                    <path d="M37.8703 44.6999C36.771 44.6999 36.085 43.7265 36.085 42.308C36.085 40.8896 36.7644 39.9162 37.8703 39.9162C38.6443 39.9162 39.1654 40.4577 39.3676 41.2141H41.0057C40.7198 39.6421 39.4138 38.6249 37.8022 38.6249C35.7948 38.6249 34.4448 40.0981 34.4448 42.308C34.4448 44.5157 35.7948 45.989 37.8022 45.989C39.4138 45.989 40.7198 44.9717 41.0057 43.3998H39.3676C39.1654 44.1562 38.6443 44.6999 37.8703 44.6999Z" fill="#003DA6"/>
+                    <path d="M75.18 42.6917C75.191 42.5667 75.1976 42.4396 75.1976 42.3058C75.1976 39.9863 73.6585 38.6249 71.6665 38.6249C69.6745 38.6249 68.1332 39.9863 68.1332 42.3058C68.1332 44.6254 69.6723 45.989 71.6665 45.989C73.2803 45.989 74.5886 45.1011 75.0327 43.5358H73.3199C72.9989 44.3776 72.3415 44.7569 71.6665 44.7569C70.787 44.7569 69.9515 44.1321 69.824 42.6917H75.18ZM71.6621 39.8592C72.4404 39.8592 73.2012 40.359 73.4386 41.4969H69.8877C70.1384 40.359 70.8859 39.8592 71.6775 39.8592H71.6621Z" fill="#003DA6"/>
+                </svg>                    
+            </div>
+
+            <p class="addr">
+                <span data-i18n="common:addr">
+                    06620 서울특별시 서초구 서초대로 74길 11 삼성자산운용(16~18층)<br>
+                    CS센터 1533-0300 (상담시간 : 평일 오전 9:00~오후 5:00)<br>
+                    사업자등록번호 501-81-23179
+                </span> 
+            </p>
+
+            <p class="copy">
+                <span>Copyright(C) 2023 SAMSUNG ASSET MANAGEMENT CO. LTD. ALL RIGHTS RESERVED.</span>
+            </p>
+
+            
+        </div>
+
+        <div class="talk" onclick="doBizmsg()">
+            <form id="form-biz" action="https://bizmessage.kakao.com/chat/open" method="post">
+                <input type="hidden" name="uuid" value="@kodex-etf">
+                <input type="hidden" name="extra" value="TCK_R">
+                <!-- <img src="/assets/icons/arrow/arrow_s.svg" alt="카카오톡" id="img_kakao_1"> -->
+            </form>
+        </div>
+    </div>
+<script>
+    function callMsnComplet(drawGameSeq,msnSeq){
+    	var form = new FormData();
+		form.append("seq",drawGameSeq);
+    	form.append("msnSeq",msnSeq);
+    	fetch("/api/v1/kodex/drawGame/msnComplete.do",{
+    	    method : 'POST',
+    	    body : form
+    	}).then((response) => response.json())
+    	.then((data) => {
+    		if(data.success){
+    			location.href = "/etf/lounge/draw-game-view.do?seq="+drawGameSeq;
+    		}else{//실패했을때만 alert
+    			alert(data.message);
+    		}
+    	})
+    }
+</script>
+</footer>
+
+  </div>
+  <script src="/assets/js/vendors.js"></script>
+  <script src="/assets/js/product.js?v=20260814070359"></script>
+  <script type="text/javascript">
+  	const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+  
+    let tab = params.tab || "product";
+  	const menus = {
+  			"product" : "상품별 분배 현황",
+  			"annual" : "연간 분배 현황"
+  	}
+  	let menusName = menus[tab];
+  	
+  	addPageView("기타|분배금현황|"+menusName)
+  </script>
+</body>
+</html>

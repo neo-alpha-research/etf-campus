@@ -29,6 +29,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 from typing import Iterable
 
+from distribution_registry_parser import parse_registry_source
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data" / "distributions"
 MASTER_PATH = ROOT / "data" / "etf_master_draft.csv"
@@ -74,17 +76,34 @@ class ParserConfig:
     ticker_index: int
     name_index: int
     amount_index: int
+    issuer_ex_date: str = ""
+    record_date: str = ""
+    pay_date: str = ""
 
 
 PARSER_CONFIGS = {
     "issuer:kodex:notice:20260728:monthend": ParserConfig(
-        "issuer:kodex:notice:20260728:monthend", "kodex_notice_table_v1", 0, 1, 3
+        "issuer:kodex:notice:20260728:monthend", "kodex_notice_table_v1", 0, 1, 3,
+        "2026-07-30", "2026-07-31", "2026-08-04",
+    ),
+    "issuer:tiger:notice:20260527:monthend": ParserConfig(
+        "issuer:tiger:notice:20260527:monthend", "tiger_notice_table_v1", 0, 1, 2, "2026-05-28", "2026-05-29", "2026-06-02"
+    ),
+    "issuer:tiger:notice:20260611:midmonth": ParserConfig(
+        "issuer:tiger:notice:20260611:midmonth", "tiger_notice_table_v1", 0, 1, 2, "2026-06-12", "2026-06-15", "2026-06-17"
+    ),
+    "issuer:tiger:notice:20260626:monthend": ParserConfig(
+        "issuer:tiger:notice:20260626:monthend", "tiger_notice_table_v1", 0, 1, 2, "2026-06-29", "2026-06-30", "2026-07-02"
     ),
     "issuer:tiger:notice:20260713:midmonth": ParserConfig(
-        "issuer:tiger:notice:20260713:midmonth", "tiger_notice_table_v1", 0, 1, 2
+        "issuer:tiger:notice:20260713:midmonth", "tiger_notice_table_v1", 0, 1, 2, "2026-07-14", "2026-07-15", "2026-07-20"
+    ),
+    "issuer:tiger:notice:20260812:midmonth": ParserConfig(
+        "issuer:tiger:notice:20260812:midmonth", "tiger_notice_table_v1", 0, 1, 2, "2026-08-13", "2026-08-14", "2026-08-19"
     ),
     "issuer:rise:notice:20260728:monthend": ParserConfig(
-        "issuer:rise:notice:20260728:monthend", "rise_notice_table_v1", 1, 0, 2
+        "issuer:rise:notice:20260728:monthend", "rise_notice_table_v1", 1, 0, 2,
+        "", "2026-07-31", "2026-08-04",
     ),
     "issuer:ace:notice:20260729:monthend": ParserConfig(
         "issuer:ace:notice:20260729:monthend", "ace_notice_table_v1", 1, 0, 2
@@ -290,8 +309,9 @@ def parse_source(source: dict[str, str], config: ParserConfig, master: dict[str,
             candidate.update({
                 "candidate_id": candidate_id, "source_id": source["source_id"],
                 "source_owner": source.get("source_owner", ""), "etf_id": clean(metadata.get("isin_cd")),
-                "ticker": ticker, "etf_name": name, "distribution_per_share_krw": amount,
-                "currency": "KRW", "distribution_type": "ordinary_cash", "row_locator": row_locator,
+                "ticker": ticker, "etf_name": name, "issuer_ex_date": config.issuer_ex_date,
+                "record_date": config.record_date, "pay_date": config.pay_date,
+                "distribution_per_share_krw": amount, "currency": "KRW", "distribution_type": "ordinary_cash", "row_locator": row_locator,
                 "raw_row_text": " | ".join(row), "parser_name": config.parser_name,
                 "parser_version": "1", "extraction_status": "rule_based_extracted",
                 "candidate_status": "pending_krx_verification", "created_at": now, "updated_at": now,
@@ -353,14 +373,21 @@ def parse_supported_sources() -> dict[str, object]:
     master = load_master()
     existing_candidates = read_csv(CANDIDATE_PATH)
     existing_evidence = read_csv(EVIDENCE_PATH)
-    supported_ids = sorted(source_id for source_id in PARSER_CONFIGS if source_id in sources)
+    registry_ids = sorted(
+        source_id for source_id, source in sources.items()
+        if clean(source.get("source_document_key")).startswith("registry:")
+    )
+    supported_ids = sorted(set(source_id for source_id in PARSER_CONFIGS if source_id in sources) | set(registry_ids))
 
     replacement_candidates: dict[str, list[dict[str, str]]] = {}
     replacement_evidence: dict[str, list[dict[str, str]]] = {}
     failures: list[dict[str, str]] = []
     for source_id in supported_ids:
         try:
-            candidates, evidence = parse_source(sources[source_id], PARSER_CONFIGS[source_id], master)
+            if source_id in registry_ids:
+                candidates, evidence = parse_registry_source(sources[source_id], CANDIDATE_COLUMNS, EVIDENCE_COLUMNS)
+            else:
+                candidates, evidence = parse_source(sources[source_id], PARSER_CONFIGS[source_id], master)
             replacement_candidates[source_id] = candidates
             replacement_evidence[source_id] = evidence
         except Exception as error:

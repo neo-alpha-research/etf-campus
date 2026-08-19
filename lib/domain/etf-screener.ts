@@ -30,7 +30,9 @@ export type ScreenerFilters = {
 
 export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
   keyword: "",
-  pensionOnly: false,
+  // ETF Campus의 기본 이용자는 DC·IRP 투자자이므로, 첫 진입에서는
+  // 공식 확인된 연금 편입 가능 ETF만 보여준다.
+  pensionOnly: true,
   marketScopes: [],
   assetClasses: [],
   riskTypes: ["normal"],
@@ -98,7 +100,9 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
 
   const query = new URLSearchParams();
   if (filters.keyword) query.set("q", filters.keyword);
-  if (filters.pensionOnly) query.set("pension", "eligible");
+  // 기본값(true)은 URL을 짧게 유지한다. 사용자가 필터를 해제한 경우에만
+  // 명시적으로 기록해 새로고침·공유 URL에서도 해제 상태를 보존한다.
+  if (!filters.pensionOnly) query.set("pension", "all");
   filters.marketScopes.forEach((value) => query.append("market", value));
   filters.assetClasses.forEach((value) => query.append("asset", value));
   filters.riskTypes.forEach((value) => query.append("risk", value));
@@ -132,7 +136,9 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
   }
   return {
     keyword: query.get("q") || "",
-    pensionOnly: query.get("pension") === "eligible",
+    // 기존의 pension=eligible 링크와, pension 파라미터가 없는 새 링크는
+    // 모두 연금 ETF 기본 필터를 적용한다. pension=all만 해제 상태다.
+    pensionOnly: query.get("pension") !== "all",
     marketScopes: validValues(query.getAll("market"), MARKET_SCOPES),
     assetClasses: validValues(query.getAll("asset"), ASSET_CLASSES),
     riskTypes: validValues(query.getAll("risk"), RISK_TYPES),

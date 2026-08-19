@@ -7,15 +7,13 @@ import { PeerComparisonPanel } from "./peer-comparison-panel";
 
 type Props = {
   etf: Etf;
-  peerComparison: PeerComparison;
-  returnDisplayStatus?: unknown;
+    peerComparison: PeerComparison;
   children: ReactNode;
+
 };
 
 export function EtfDetailClient({ etf, peerComparison, children }: Props) {
   const [activeTab, setActiveTab] = useState<"summary" | "peers">("summary");
-  const primary = peerComparison.groups.find((group) => group.isPrimary);
-  const countLabel = primary ? ` ${primary.totalCount}개` : "";
 
   return (
     <div>

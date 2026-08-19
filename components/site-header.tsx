@@ -7,6 +7,7 @@ import { useEffect, useState, Fragment } from "react";
 import { siteConfig } from "@/config/site";
 import { Tickery } from "@/components/brand/tickery";
 import { StyleChip } from "@/components/onboarding/style-chip";
+import { AuthNav } from "@/components/auth/auth-nav";
 
 const navigation = [
   { href: "/", label: "ETF 탐색" },
@@ -45,7 +46,6 @@ export function SiteHeader() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveFinderHref(`/quick/?mode=${m}`);
     } else if (pathname === "/") {
-
       setActiveFinderHref("/");
     }
   }, [pathname, searchParams]);
@@ -62,7 +62,7 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="border-b border-line bg-surface/95 shadow-[0_1px_0_rgba(23,32,30,0.03)]">
+    <header className="relative border-b border-line bg-surface/95 shadow-[0_1px_0_rgba(23,32,30,0.03)]">
       <div className="page-shell flex min-h-16 items-center justify-between gap-6">
         <Link className="flex shrink-0 items-center gap-2 text-lg font-extrabold tracking-[-0.03em] text-brand-800" href="/">
           <span aria-hidden="true" className="grid size-10 overflow-hidden rounded-full border border-brand-200 bg-brand-50"><Tickery className="size-10 scale-125" pose="welcome" priority sizes="40px" /></span>
@@ -99,6 +99,9 @@ export function SiteHeader() {
           </nav>
         </div>
       ) : null}
+          <div className="absolute right-4 top-3 z-20 sm:right-6 lg:right-8">
+        <AuthNav />
+      </div>
     </header>
   );
 }

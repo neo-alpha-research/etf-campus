@@ -43,6 +43,35 @@ describe("GET /api/prices/history", () => {
     expect(payload.points.at(-1).returnPct).toBe(187.05);
   });
 
+  it("rejects TR until a verified TR history is configured", async () => {
+    const { context } = contextWith([]);
+    context.request = new Request("https://example.test/api/prices/history?ticker=396500&start=2025-08-13&end=2026-08-13&basis=tr");
+    const response = await onRequestGet(context);
+    const payload = await response.json();
+    expect(response.status).toBe(503);
+    expect(payload.error).toBe("tr_history_not_configured");
+  });
+
+  it("returns issuer-notice estimated history without falling back to PR", async () => {
+    const { context } = contextWith([]);
+    context.request = new Request("https://example.test/api/prices/history?ticker=458730&start=2026-05-28&end=2026-06-29&basis=estimated");
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify({
+      records: [
+        { ticker: "458730", date: "2026-05-27", estimated_distribution_index: "100.00000000" },
+        { ticker: "458730", date: "2026-05-28", estimated_distribution_index: "100.23300000" },
+        { ticker: "458730", date: "2026-06-29", estimated_distribution_index: "102.10000000" },
+      ],
+    }), { status: 200, headers: { "content-type": "application/json" } }));
+    const response = await onRequestGet(context);
+    const payload = await response.json();
+    expect(response.status).toBe(200);
+    expect(payload.returnBasis).toBe("estimated");
+    expect(payload.distributionIncluded).toBe(true);
+    expect(payload.actualEnd).toBe("2026-06-29");
+    expect(payload.points.at(-1).returnPct).toBe(1.86);
+    fetchSpy.mockRestore();
+  });
+
   it("uses the first available post-listing point when no earlier anchor exists", async () => {
     const { context } = contextWith([
       { date: "2026-01-06", close: 10_000 },

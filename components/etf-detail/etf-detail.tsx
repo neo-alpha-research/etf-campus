@@ -3,12 +3,15 @@ import Link from "next/link";
 import { AsOfDate, PensionBadge, RiskBadge, ReturnCell } from "@/components/etf";
 import { siteConfig } from "@/config/site";
 import { formatMoney, formatWon } from "@/lib/domain/etf-format";
-import { getReturnPeriods, isNewListing } from "@/lib/domain/etf-explorer";
+import { isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf, type ReturnPeriod } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
 import { EtfDetailClient } from "./etf-detail-client";
+import { DistributionHistoryCard } from "./distribution-history-card";
 import { PriceHistoryChart } from "./price-history-chart";
+
 import type { PeerComparison } from "@/lib/data/etf-peer-groups";
+import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
@@ -42,7 +45,16 @@ function formatStrategyLabel(
   return strategy;
 }
 
-export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: Etf; peerComparison?: PeerComparison; returnDisplayStatus?: unknown }) {
+export function EtfDetail({
+  etf,
+  peerComparison,
+  returnDisplayStatus,
+}: {
+  etf: Etf;
+  peerComparison?: PeerComparison;
+  returnDisplayStatus?: EtfReturnDisplayStatus;
+}) {
+
   const resolvedPeerComparison: PeerComparison = peerComparison ?? {
     profile: null,
     state: "unverified",
@@ -75,13 +87,24 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
     ? `${etf.baseIndex}를 기준으로 운용되는 ${marketScope} ${assetClass} ETF입니다.` 
     : (marketScope && assetClass ? `${marketScope} ${assetClass} ETF입니다.` : "");
 
-  const defaultPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
-  if (etf.returns.itd !== null) {
-    defaultPeriods.push("itd");
-  }
+  const itdAvailable = Boolean(newListing && etf.itdAnchor?.price && etf.itdAnchor?.date && etf.returns.itd !== null);
+  const itdPendingVerification = Boolean(itdAvailable && !etf.itdAnchor?.verified);
+  const defaultPeriods: ReturnPeriod[] = newListing
+    ? ["1d", "1w", "2w", "1m", "2m", ...(itdAvailable ? ["itd" as const] : [])]
+    : ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
 
   const fee = etf.fee;
   const isFeeVerified = fee?.verificationStatus === "verified_official";
+  const feeSource = fee?.dartReceiptNo
+    ? {
+        label: "\uAE08\uAC10\uC6D0 DART \uD22C\uC790\uC124\uBA85\uC11C",
+        url: `https://dart.fss.or.kr/dsaf001/main.do?rcpNo=${fee.dartReceiptNo}`,
+      }
+    : fee?.primarySourceUrl
+      ? { label: "\uC6B4\uC6A9\uC0AC \uACF5\uC2DD \uC790\uB8CC", url: fee.primarySourceUrl }
+      : fee?.secondarySourceUrl
+        ? { label: "\uACF5\uC2DD \uBCF4\uC870 \uC790\uB8CC", url: fee.secondarySourceUrl }
+        : null;
 
   const getFeeStatusText = (status: string | undefined) => {
     switch(status) {
@@ -93,7 +116,7 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
     }
   };
 
-  const EN_PERIOD_LABELS: Record<string, string> = { "1d": "1D", "1w": "1W", "2w": "2W", "1m": "1M", "2m": "2M", "3m": "3M", "6m": "6M", "12m": "1Y", "24m": "2Y", "36m": "3Y", "ytd": "YTD", "itd": "MAX" };
+  const EN_PERIOD_LABELS: Record<string, string> = { "1d": "1D", "1w": "1W", "2w": "2W", "1m": "1M", "2m": "2M", "3m": "3M", "6m": "6M", "12m": "1Y", "24m": "2Y", "36m": "3Y", "ytd": "YTD", "itd": "ITD" };
 
   return (
     <main className="page-shell flex-1 py-6 sm:py-8 space-y-6">
@@ -124,7 +147,7 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
 
               <h1 className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-extrabold tracking-tight text-strong sm:text-4xl">
                 {etf.name}
-                <span className="text-lg font-bold text-neutral-400 tabular-nums tracking-normal">{etf.ticker}</span>
+                <span className="text-lg font-bold text-slate-500 tabular-nums tracking-normal">{etf.ticker}</span>
               </h1>
             </div>
             
@@ -140,7 +163,7 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
                 <span className="text-3xl font-black text-brand-700 tabular-nums tracking-tight">{formatWon(etf.close)}</span>
                 <span className="text-lg font-bold"><ReturnCell value={etf.changePct} /></span>
               </div>
-              <div className="flex flex-wrap items-center gap-2.5 text-xs font-semibold text-muted pb-1">
+              <div className="flex flex-wrap items-center gap-2.5 text-[16px] font-semibold text-muted pb-1">
                 <AsOfDate value={etf.asOfDate} />
                 <span className="h-3 w-px bg-neutral-300"></span>
                 <span>운용사: {etf.issuer.issuerName}</span>
@@ -162,7 +185,11 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
         </div>
       </section>
 
-      <EtfDetailClient etf={etf} peerComparison={resolvedPeerComparison} returnDisplayStatus={returnDisplayStatus}>
+            <EtfDetailClient
+              etf={etf}
+              peerComparison={resolvedPeerComparison}
+            >
+
         {/* ETF 핵심 요약 및 차트 */}
         <section aria-labelledby="classification-title" className="scroll-mt-24 pt-0">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -184,11 +211,19 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
           <div className="mt-4 flex flex-col lg:flex-row gap-6 items-stretch">
             {/* 왼쪽 영역 (약 70%): 수익률 차트 및 표 */}
             <div className="flex-1 w-full lg:w-[70%] flex flex-col gap-2">
-              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} returnDisplayStatus={returnDisplayStatus as any} />
+              <PriceHistoryChart ticker={etf.ticker} etfName={etf.name} asOfDate={etf.asOfDate} listingDate={etf.listingDate} actualFirstTradingDate={etf.firstTradedDate} isNewListing={newListing} itdAnchor={etf.itdAnchor} />
+
+              {newListing && !itdAvailable ? <p className="px-1 text-xs font-medium text-muted">상장일 기준 가격 확인 후 상장 후 수익률(PR)을 제공합니다.</p> : null}
+              {itdPendingVerification ? <p className="px-1 text-xs font-medium text-amber-700">ITD는 상장일 기준 가격으로 산출한 PR이며, KRX 기준가격 공식 대조는 진행 중입니다.</p> : null}
               
               <div className="overflow-hidden rounded-xl border border-line bg-line">
-                <div role="table" aria-label={`${etf.name} 기본 기간별 가격 수익률`} className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-12 gap-[1px]">
+                <div
+                  role="table"
+                  aria-label={`${etf.name} 기본 기간별 가격 수익률`}
+                  data-testid="return-period-table"
+                  className="grid gap-px"
+                  style={{ gridTemplateColumns: `repeat(${defaultPeriods.length}, minmax(0, 1fr))` }}
+                >
                   {defaultPeriods.map((period) => (
                     <div key={period} role="cell" className="bg-surface py-2.5 px-1 flex flex-col items-center justify-center text-center">
                       <div className="text-[11px] font-bold text-muted mb-1" title={RETURN_PERIOD_LABELS[period]} aria-label={RETURN_PERIOD_LABELS[period]}>
@@ -227,29 +262,70 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </dt>
-                    <dd className="mt-1 text-lg font-bold text-strong">
-                      {isFeeVerified && fee?.totalFeePct !== null ? `${fee.totalFeePct}%` : <span className="text-sm font-semibold text-neutral-500">{getFeeStatusText(fee?.verificationStatus)}</span>}
+                    <dd className="mt-1 flex flex-wrap items-baseline gap-2 text-lg font-bold text-strong">
+                      <span>
+                        {(fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source") ? (
+                          (fee?.totalFeePct != null && fee?.otherCostPct != null && fee?.tradingCostPct != null) ? (
+                            `${(fee!.totalFeePct! + fee!.otherCostPct! + fee!.tradingCostPct!).toFixed(4).replace(/\\.?0+$/, '')}%`
+                          ) : fee?.totalFeePct != null ? (
+                            `${fee!.totalFeePct!}% (총보수)`
+                          ) : (
+                            <span className="text-sm font-semibold text-neutral-500">확인 중</span>
+                          )
+                        ) : (
+                          <span className="text-sm font-semibold text-neutral-500">{getFeeStatusText(fee?.verificationStatus)}</span>
+                        )}
+                      </span>
+                      {fee?.verificationStatus === "verified_official" && (
+                        <span className="rounded bg-blue-100 px-1.5 py-0.5 text-[10px] font-bold text-blue-800">공식 검증 완료</span>
+                      )}
+                      {fee?.verificationStatus === "official_single_source" && (
+                        <span className="rounded bg-teal-100 px-1.5 py-0.5 text-[10px] font-bold text-teal-800">공식 원문 확인</span>
+                      )}
                     </dd>
                     
                     {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-64 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
+                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
                       <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700">
                         <div className="font-bold mb-2 text-[13px] border-b border-neutral-600 pb-2">비용 상세 내역</div>
                         <div className="space-y-1.5 font-medium">
                           <div className="flex justify-between">
                             <span className="text-neutral-300">총보수</span>
-                            <span>{isFeeVerified && fee?.totalFeePct !== null ? `${fee.totalFeePct}%` : getFeeStatusText(fee?.verificationStatus)}</span>
+                            <span>{(fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source") && fee?.totalFeePct != null ? `${fee?.totalFeePct}%` : "확인 중"}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-neutral-300">기타비용</span>
-                            <span>{isFeeVerified && fee?.otherCostPct !== null ? `${fee.otherCostPct}%` : "-"}</span>
+                            <span>{fee?.otherCostPct != null ? `${fee?.otherCostPct}%` : "확인 중"}</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-neutral-300">매매·중개 관련 비용</span>
-                            <span>{isFeeVerified && fee?.tradingCostPct !== null ? `${fee.tradingCostPct}%` : "-"}</span>
+                            <span>{fee?.tradingCostPct != null ? `${fee?.tradingCostPct}%` : "확인 중"}</span>
                           </div>
                         </div>
-                        {fee?.verifiedAt && <div className="mt-3 pt-2 border-t border-neutral-600 text-[10px] text-neutral-400">공식 검증일: {formatDate(fee.verifiedAt)}</div>}
+                        <div className="mt-3 pt-2 border-t border-neutral-600 space-y-1 text-[11px] text-neutral-300">
+                          {fee?.effectiveDate ? (
+                            <div>효력발생일: {fee.effectiveDate}</div>
+                          ) : (
+                            <div>공시·적용 기준일: 확인 중</div>
+                          )}
+                          {feeSource && (
+                            <div>
+                              <a href={feeSource.url} target="_blank" rel="noreferrer" className="text-blue-300 hover:text-blue-200 underline underline-offset-2">
+                                공식 출처 보기
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                        {fee?.verificationStatus === "official_single_source" && (
+                          <div className="mt-2 text-[10px] text-amber-200 bg-amber-900/30 p-1.5 rounded">
+                            * 추가 교차검증 진행 중 설명
+                          </div>
+                        )}
+                        {(fee?.totalFeePct !== null && (fee?.otherCostPct === null || fee?.tradingCostPct === null)) && (
+                          <div className="mt-2 text-[10px] text-neutral-400">
+                            * 세부 비용이 모두 확인되지 않아 실질부담비용은 추정하지 않음.
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -260,16 +336,31 @@ export function EtfDetail({ etf, peerComparison, returnDisplayStatus }: { etf: E
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </dt>
-                    <dd className="mt-1 text-lg font-bold text-strong">분배금 미포함</dd>
+                    <dd className="mt-1 text-sm font-semibold text-neutral-500">분배금 미포함</dd>
                     
                     {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-64 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
+                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-3 w-72 rounded-xl border border-slate-200 bg-white p-4 text-xs text-slate-700 shadow-2xl z-50 opacity-0 invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 pointer-events-none">
+                {feeSource && (
+                  <div className="mt-3 border-t border-neutral-600 pt-2 text-[11px] text-neutral-300">
+                    <span className="mr-1 text-neutral-400">\uB300\uD45C \uCD9C\uCC98:</span>
+                    <a
+                      className="underline decoration-neutral-500 underline-offset-2 hover:text-white"
+                      href={feeSource.url}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {feeSource.label}
+                    </a>
+                  </div>
+                )}
                       <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
-                        상세페이지의 기본 수익률은 시장 종가 기준 누적 수익률이며 분배금을 포함하지 않습니다. 분배금 반영 선택이 가능한 상품은 차트 상단에서 별도로 선택할 수 있습니다.
+                                                상세페이지의 수익률은 모든 ETF에서 시장 종가 기준 누적 수익률(PR)이며 분배금을 포함하지 않습니다.
+
                       </div>
                     </div>
                   </div>
                 </div>
+                {etf.distributionSummary ? <DistributionHistoryCard summary={etf.distributionSummary} /> : null}
               </div>
             </div>
           </div>

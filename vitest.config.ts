@@ -12,6 +12,6 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     testTimeout: 15_000,
     fileParallelism: false,
-    exclude: ["**/node_modules/**", "**/dist/**", "**/.next/**", "**/out/**", "**/.worktrees/**"],
+    exclude: ["**/node_modules/**", "**/dist/**", "**/.next/**", "**/out/**", "**/.worktrees/**", "**/.codex-worktrees/**"],
   },
 });

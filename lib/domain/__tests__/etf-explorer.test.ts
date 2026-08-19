@@ -58,6 +58,7 @@ describe("ETF 찾기 도메인", () => {
   it("상장일과 기준일 차이가 0~90일이면 신규로 판정한다", () => {
     expect(isWithinListingWindow("20260715", "20260715")).toBe(true);
     expect(isWithinListingWindow("20260416", "20260715")).toBe(true);
+    expect(isWithinListingWindow("2026-04-16", "20260715")).toBe(true);
     expect(isWithinListingWindow("20260415", "20260715")).toBe(false);
   });
 

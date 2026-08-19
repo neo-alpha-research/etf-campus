@@ -1,0 +1,713 @@
+{
+  "schema_version": "1.1",
+  "purpose": "ETF Campus web-display distribution history ingestion; not a TR verification source by itself.",
+  "default_currency": "KRW",
+  "sources": [
+    {
+      "source_key": "plus_notice_list",
+      "issuer": "PLUS",
+      "owner_label": "PLUS ETF",
+      "source_type": "issuer_notice_list",
+      "url": "https://www.plusetf.co.kr/customer/notice/list",
+      "parser_name": "registry_notice_table_v1",
+      "parser_version": "1",
+      "discovery": {
+        "enabled": true,
+        "keywords": [
+          "분배금",
+          "분배"
+        ],
+        "same_host_only": true
+      },
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드",
+          "티커"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "주당분배금",
+          "1좌당 분배금",
+          "분배금",
+          "분배금액"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0018C0",
+        "0098N0",
+        "0128D0",
+        "0132K0",
+        "0153X0",
+        "0203D0",
+        "0210E0",
+        "161510",
+        "213630",
+        "251590",
+        "251600",
+        "489030",
+        "494420"
+      ]
+    },
+    {
+      "source_key": "sol_notice_list",
+      "issuer": "SOL",
+      "owner_label": "SOL ETF",
+      "source_type": "issuer_notice_list",
+      "url": "https://www.soletf.com/ko/cs/notice",
+      "parser_name": "registry_notice_table_v1",
+      "parser_version": "1",
+      "discovery": {
+        "enabled": true,
+        "keywords": [
+          "분배금",
+          "분배"
+        ],
+        "same_host_only": true
+      },
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드",
+          "티커"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "주당분배금",
+          "1좌당 분배금",
+          "분배금",
+          "분배금액"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0022T0",
+        "0040X0",
+        "0040Y0",
+        "0105E0",
+        "0152E0",
+        "0167B0",
+        "446720",
+        "452360",
+        "473330",
+        "484880",
+        "490490",
+        "493420",
+        "494210"
+      ]
+    },
+    {
+      "source_key": "ace_notice_list",
+      "issuer": "ACE",
+      "owner_label": "ACE ETF",
+      "source_type": "issuer_notice_list",
+      "url": "https://www.aceetf.co.kr/cs/notice",
+      "parser_name": "registry_notice_table_v1",
+      "parser_version": "1",
+      "discovery": {
+        "enabled": true,
+        "keywords": [
+          "분배금",
+          "분배"
+        ],
+        "same_host_only": true
+      },
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드",
+          "티커"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "주당분배금",
+          "1좌당 분배금",
+          "분배금",
+          "분배금액"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0046Y0",
+        "0049K0",
+        "0049M0",
+        "0139P0",
+        "0153P0",
+        "0199C0",
+        "402970",
+        "460960",
+        "480020",
+        "480030",
+        "480040"
+      ]
+    },
+    {
+      "source_key": "kiwoom_distribution_report",
+      "issuer": "KIWOOM",
+      "owner_label": "KIWOOM ETF",
+      "source_type": "issuer_product_distribution_table",
+      "url": "https://www.kiwoometf.com/service/report/KO03020000M",
+      "parser_name": "registry_product_distribution_table_v1",
+      "parser_version": "1",
+      "discovery": {
+        "enabled": false,
+        "keywords": [],
+        "same_host_only": true
+      },
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "상품코드",
+          "코드",
+          "티커"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "주당분배금",
+          "분배금",
+          "분배금액"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "분배금 지급 기준일",
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "분배금 지급일",
+          "지급일",
+          "지급예정일"
+        ],
+        "tax_base": [
+          "주당과세표준액"
+        ]
+      },
+      "tickers": [
+        "0097L0",
+        "0107F0",
+        "0127T0",
+        "0127V0",
+        "0198A0",
+        "104530",
+        "373790"
+      ]
+    },
+    {
+      "source_key": "kodex_distribution_report",
+      "issuer": "KODEX",
+      "owner_label": "KODEX ETF",
+      "source_type": "issuer_product_distribution_table",
+      "url": "https://www.samsungfund.com/etf/product/distribution.do",
+      "parser_name": "registry_product_distribution_table_v1",
+      "parser_version": "1",
+      "discovery": {
+        "enabled": false,
+        "keywords": [],
+        "same_host_only": true
+      },
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "상품코드",
+          "코드",
+          "티커"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "주당분배금",
+          "분배금",
+          "분배금액"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "분배기준일",
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ],
+        "rate": [
+          "분배율"
+        ]
+      },
+      "tickers": [
+        "0089D0",
+        "0153K0",
+        "237370",
+        "276970",
+        "441640",
+        "481060",
+        "489250",
+        "498400"
+      ]
+    },
+    {
+      "source_key": "oneq_notice_list",
+      "issuer": "1Q",
+      "owner_label": "1Q ETF",
+      "status": "confirmed_official",
+      "source_type": "issuer_notice_list",
+      "url": "https://www.1qetf.com/pages/board/board.view.php?board_no=70",
+      "detail_url_pattern": "https://www.1qetf.com/pages/board/board.view.php?board_no=70&no={notice_no}",
+      "parser_name": "registry_notice_table_v1",
+      "fields": {
+        "ticker": [
+          "종목코드"
+        ],
+        "name": [
+          "종목명"
+        ],
+        "amount": [
+          "1좌당 분배금",
+          "주당 분배금"
+        ],
+        "record_date": [
+          "지급기준일"
+        ],
+        "pay_date": [
+          "분배금 지급일",
+          "지급일"
+        ]
+      },
+      "tickers": [
+        "0004G0"
+      ],
+      "notes": "공지 본문에서 1좌당 분배금과 지급일을 확인한다. 정정 공지 여부를 함께 검사한다."
+    },
+    {
+      "source_key": "hanaro_notice_list",
+      "issuer": "HANARO",
+      "owner_label": "HANARO ETF",
+      "status": "confirmed_official",
+      "source_type": "issuer_notice_list",
+      "url": "https://www.hanaroetf.com/customer/notice",
+      "parser_name": "registry_notice_table_v1",
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "좌당 분배금",
+          "주당분배금",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0111J0",
+        "322410"
+      ]
+    },
+    {
+      "source_key": "koact_dividend_notice_list",
+      "issuer": "KoAct",
+      "owner_label": "KoAct ETF",
+      "status": "confirmed_official",
+      "source_type": "issuer_notice_list",
+      "url": "https://www.samsungactive.co.kr/lounge/notice.do?category=DIVIDEND",
+      "parser_name": "registry_notice_table_v1",
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "좌당 분배금",
+          "주당분배금",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0222D0",
+        "476850"
+      ]
+    },
+    {
+      "source_key": "rise_notice_list_remaining",
+      "issuer": "RISE",
+      "owner_label": "RISE ETF",
+      "status": "confirmed_official",
+      "source_type": "issuer_notice_list",
+      "url": "https://www.riseetf.co.kr/cust/notice?searchText=%EB%B6%84%EB%B0%B0%EA%B8%88&searchType4=tab",
+      "parser_name": "registry_notice_table_v1",
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "좌당 분배금",
+          "주당분배금",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0094M0",
+        "0115C0",
+        "0138T0",
+        "0223A0",
+        "315960",
+        "354240",
+        "490600",
+        "498860"
+      ],
+      "notes": "공식 공지에 분배락일이 없으면 지급기준일만 게시하고 분배락일은 추정하지 않는다. 315960은 실제 지급 이벤트 존재 여부를 먼저 확인한다."
+    },
+    {
+      "source_key": "tiger_distribution_annual",
+      "issuer": "TIGER",
+      "owner_label": "TIGER ETF",
+      "status": "confirmed_official",
+      "source_type": "issuer_distribution_table",
+      "url": "http://investments.miraeasset.com/tigeretf/ko/distribution/annual/list.do",
+      "notice_url": "http://investments.miraeasset.com/tigeretf/ko/customer/notice/list.do",
+      "parser_name": "registry_product_distribution_table_v1",
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "ETF명",
+          "종목명"
+        ],
+        "amount": [
+          "주당분배금액",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급예정일",
+          "지급일"
+        ]
+      },
+      "tickers": [
+        "210780",
+        "211560",
+        "245350",
+        "445910"
+      ],
+      "notes": "연간 분배 내역은 지급 이력용 보조 원천으로 사용하고, 최신 월말 공지는 공식 공지 상세 표와 대조한다."
+    },
+    {
+      "source_key": "timefolio_notice_pending",
+      "issuer": "TIME",
+      "owner_label": "TIME ETF",
+      "status": "discovery_required",
+      "source_type": "issuer_notice_list",
+      "url": null,
+      "parser_name": "manual_official_notice_pending",
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "좌당 분배금",
+          "주당분배금",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0036D0",
+        "441800"
+      ],
+      "notes": "공식 TIMEFOLIO ETF 공지 URL과 자동 접근 가능한 목록 구조를 먼저 확인한 뒤 등록한다. 언론·블로그는 보조 단서로만 사용한다."
+    },
+    {
+      "source_key": "focus_notice_pending",
+      "issuer": "FOCUS",
+      "owner_label": "FOCUS ETF",
+      "status": "discovery_required",
+      "source_type": "issuer_product_or_notice",
+      "url": "http://www.hi-am.com/web/kr/fund/etf/all/etflist",
+      "official_product_urls": {
+        "0073X0": "http://www.viamc.kr/web/kr/fund/etf/all/view?bidx=5",
+        "0176P0": "http://www.viamc.kr/web/kr/fund/etf/all/view?bidx=7"
+      },
+      "official_document_urls": {
+        "0073X0_prospectus": "http://www.viamc.kr/downloadIdx?fileSeq=AL995&fdtype=F",
+        "0176P0_prospectus": "http://www.viamc.kr/downloadIdx?fileSeq=AL993&fdtype=F"
+      },
+      "parser_name": "manual_official_notice_pending",
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "좌당 분배금",
+          "주당분배금",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0073X0",
+        "0176P0"
+      ],
+      "notes": "현재 확인된 공식 ETF 상품 목록은 분배금 공지 원천으로 확정하지 않는다. 운용사 공식 공지·운용보고서 원천을 추가 확인해야 한다."
+    },
+    {
+      "source_key": "power_notice_pending",
+      "issuer": "파워",
+      "owner_label": "파워 ETF",
+      "status": "discovery_required",
+      "source_type": "issuer_notice_or_product_page",
+      "url": "https://www.kyoboaxa-im.co.kr/prdtInfo/powerETFList.do",
+      "parser_name": "manual_official_notice_pending",
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "좌당 분배금",
+          "주당분배금",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "192720"
+      ],
+      "notes": "교보악사 공식 파워 ETF 상품 페이지는 확인했으나 분배금·지급일 표가 없어 자동 게시를 보류한다. 공식 분배금 공지 또는 운용보고서 원문을 추가 확인한다."
+    },
+    {
+      "source_key": "daishin343_notice_pending",
+      "issuer": "DAISHIN343",
+      "owner_label": "DAISHIN343 ETF",
+      "status": "discovery_required",
+      "source_type": "issuer_notice_or_kind_crosscheck",
+      "url": "https://asset.daishin.com/",
+      "parser_name": "manual_official_notice_pending",
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "좌당 분배금",
+          "주당분배금",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0189Z0"
+      ],
+      "notes": "대신자산운용 공식 홈페이지는 확인했으나 ETF 분배금 공지 원문은 추가 탐색이 필요하다. KIND 일괄공시는 후보 발견·교차확인용으로만 사용하고 공식 원문 확보 전에는 게시 원천으로 단독 사용하지 않는다."
+    },
+    {
+      "source_key": "timefolio_notice_list",
+      "issuer": "TIME",
+      "owner_label": "TIME ETF",
+      "status": "confirmed_official",
+      "source_type": "issuer_notice_list",
+      "url": "https://timeetf.co.kr/board/board.php?bbsid=notice",
+      "detail_url_pattern": "https://timeetf.co.kr/board/board.php?bbsid=notice&idx={notice_no}",
+      "parser_name": "registry_notice_detail_text_v1",
+      "parser_version": "1",
+      "discovery": {
+        "enabled": true,
+        "keywords": [
+          "분배",
+          "배당"
+        ],
+        "same_host_only": true
+      },
+      "fields": {
+        "ticker": [
+          "종목코드",
+          "코드"
+        ],
+        "name": [
+          "종목명",
+          "상품명"
+        ],
+        "amount": [
+          "좌당 분배금",
+          "주당분배금",
+          "분배금"
+        ],
+        "ex_date": [
+          "분배락일"
+        ],
+        "record_date": [
+          "지급기준일",
+          "기준일"
+        ],
+        "pay_date": [
+          "지급일",
+          "지급예정일"
+        ]
+      },
+      "tickers": [
+        "0036D0",
+        "441800"
+      ],
+      "notes": "공식 TIMEFOLIO ETF 공지 URL과 자동 접근 가능한 목록 구조를 먼저 확인한 뒤 등록한다. 언론·블로그는 보조 단서로만 사용한다."
+    }
+  ],
+  "merged_remaining_23_at": "2026-08-16"
+}

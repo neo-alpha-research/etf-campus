@@ -1,0 +1,61 @@
+{
+  "taxonomy_version": "etf_taxonomy_v1",
+  "required_fields": [
+    "taxonomy_version",
+    "ticker",
+    "isin_cd",
+    "name",
+    "base_index",
+    "asset_family",
+    "region_primary",
+    "comparison_category",
+    "comparison_topic",
+    "comparison_subtopic",
+    "index_family",
+    "strategy_style",
+    "payoff_structure",
+    "direction",
+    "leverage_multiple",
+    "fx_hedge",
+    "replication_method",
+    "concentration_bucket",
+    "primary_peer_group_id",
+    "alternate_peer_group_ids",
+    "classification_status",
+    "confidence_score",
+    "evidence_type",
+    "evidence_basis",
+    "official_source_url",
+    "verified_at",
+    "review_reason"
+  ],
+  "status_values": [
+    "auto_high_confidence",
+    "classified_derived",
+    "conflict",
+    "conflict_resolved",
+    "needs_review",
+    "verified_official"
+  ],
+  "automatic_peer_statuses": [
+    "verified_official",
+    "auto_high_confidence"
+  ],
+  "unknown_values": [
+    "",
+    "미확인",
+    "unknown"
+  ],
+  "not_applicable_value": "not_applicable",
+  "evidence_type_values": [
+    "official_direct",
+    "official_index",
+    "official_disclosure",
+    "derived_master",
+    "conflict_resolved"
+  ],
+  "comparison_eligibility_values": [
+    "Y",
+    "N"
+  ]
+}

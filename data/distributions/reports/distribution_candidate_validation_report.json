@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-14T07:40:57+00:00",
-  "candidate_count": 184,
-  "evidence_count": 552,
-  "window_count": 184,
+  "generated_at": "2026-08-16T10:14:37+00:00",
+  "candidate_count": 250,
+  "evidence_count": 750,
+  "window_count": 250,
   "error_count": 0,
   "warning_count": 0,
   "errors": [],
   "warnings": [],
   "status_counts": {
-    "pending_krx_verification": 184
+    "pending_krx_verification": 250
   }
 }

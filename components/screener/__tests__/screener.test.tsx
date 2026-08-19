@@ -29,16 +29,16 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     window.history.replaceState(null, "", "/");
   });
 
-  it("연금 가능 칩 클릭 시 pension 필터와 URL이 변경된다", () => {
+  it("연금 가능 칩은 기본 선택되며 해제 상태도 URL에 보존된다", () => {
     render(<Screener etfs={items} />);
     const pensionQuick = screen.getByRole("button", { name: "연금 가능 ETF" });
-    expect(pensionQuick).toHaveAttribute("aria-pressed", "false");
-    fireEvent.click(pensionQuick);
     expect(pensionQuick).toHaveAttribute("aria-pressed", "true");
-    expect(window.location.search).toContain("pension=eligible");
-    
-    // 선택 조건 칩 확인
     expect(screen.getByRole("button", { name: "DC·IRP 가능 조건 제거" })).toBeInTheDocument();
+
+    fireEvent.click(pensionQuick);
+    expect(pensionQuick).toHaveAttribute("aria-pressed", "false");
+    expect(window.location.search).toContain("pension=all");
+    expect(screen.queryByRole("button", { name: "DC·IRP 가능 조건 제거" })).not.toBeInTheDocument();
   });
 
   it("미국 주식 칩이 자산군과 지역을 함께 변경한다", () => {
@@ -64,8 +64,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
   it("선택 조건 칩 하나를 제거해도 다른 조건이 유지된다", () => {
     render(<Screener etfs={items} />);
-    // 연금 & 미국 선택
-    fireEvent.click(screen.getByRole("button", { name: "연금 가능 ETF" }));
+    // 기본 연금 조건을 유지한 채 미국 선택
     fireEvent.click(screen.getByRole("button", { name: "미국 주식" }));
 
     // 미국 지역 조건만 제거
@@ -135,14 +134,15 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
   it("CTA 버튼은 펜션 모드일 때 mode=pension을 포함한다", () => {
     render(<Screener etfs={items} />);
-    fireEvent.click(screen.getByRole("button", { name: "연금 가능 ETF" }));
-    
     const cta = screen.getByRole("link", { name: /이 조건으로 상세 표 보기/ });
     expect(cta).toHaveAttribute("href", expect.stringContaining("mode=pension"));
   });
 
   it("CTA 버튼은 레버리지/인버스만 선택 시 mode=derivatives를 포함한다", () => {
     render(<Screener etfs={items} />);
+    // 파생상품 탐색으로 전환할 때는 기본 연금 조건을 먼저 해제한다.
+    fireEvent.click(screen.getByRole("button", { name: "연금 가능 ETF" }));
+
     // 레버리지 선택
     const leverageLabel = screen.getByLabelText("레버리지");
     fireEvent.click(leverageLabel);

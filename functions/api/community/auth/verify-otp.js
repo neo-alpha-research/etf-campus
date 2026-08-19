@@ -4,7 +4,7 @@ import { errorResponse } from "../_lib/api-security";
 import { sessionHeaders } from "../_lib/session";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const OTP_PATTERN = /^\d{6}$/;
+const OTP_PATTERN = /^\d{8}$/;
 
 export async function onRequestPost(context) {
   const payload = await parseJsonBody(context.request);

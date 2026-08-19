@@ -31,6 +31,9 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
     mocks.communityFetch.mockResolvedValueOnce({ message: "인증 코드를 보냈습니다." });
 
     render(<CommunityAuthDialog open onClose={vi.fn()} onAuthenticated={vi.fn()} />);
+
+    fireEvent.click(screen.getByRole("button", { name: "비밀번호가 없거나 처음이신가요? 인증 코드로 시작하기" }));
+
     await act(async () => {
       mocks.captchaCallbacks.get("community_otp_request")?.("consumed-request-token");
     });

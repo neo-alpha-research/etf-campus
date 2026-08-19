@@ -1,4 +1,4 @@
-﻿export const ASSET_CLASSES = [
+export const ASSET_CLASSES = [
   "주식-국내",
   "주식-해외",
   "채권",
@@ -135,6 +135,9 @@ export type Etf = {
   changePct: number;
   tradeValue: number;
   aum: number;
+  nav?: number | null;
+  disparity?: number | null;
+  trackingError?: number | null;
   fee?: EtfFeeInfo | null;
   distributionSummary?: EtfDistributionSummary | null;
 

@@ -75,6 +75,9 @@ def normalize_krx_snapshot(payload: dict) -> dict[str, dict]:
             "fltRt": compact_number(row.get("FLUC_RT")),
             "trPrc": compact_number(row.get("ACC_TRDVAL")),
             "nPptTotAmt": compact_number(row.get("INVSTASST_NETASST_TOTAMT")),
+            "nav": compact_number(row.get("NAV")),
+            "disparity": compact_number(row.get("PRC_DEV_RT")),
+            "tracking_error": compact_number(row.get("TRACK_ERR_RT")),
             "bssIdxIdxNm": str(row.get("IDX_IND_NM") or "").strip(),
             "basDt": str(row.get("BAS_DD") or "").strip(),
         }
@@ -554,7 +557,7 @@ def main() -> None:
     for addition in list(PERIODS) + ["r_itd", "itd_anchor_close", "new_90d", "new_3m"]:
         if addition not in return_fields:
             return_fields.append(addition)
-    for addition in ("listing_date", "listing_date_source"):
+    for addition in ("listing_date", "listing_date_source", "nav", "disparity", "tracking_error"):
         if addition not in master_fields:
             master_fields.append(addition)
 
@@ -567,6 +570,16 @@ def main() -> None:
         risk, asset = classify(name, base_index)
         if asset == "기타":
             asset = "주식-국내"
+            
+        current_close = as_float(api.get("clpr"))
+        api_nav = as_float(snapshot_value(api, "nav"))
+        api_disparity = as_float(snapshot_value(api, "disparity"))
+        api_tracking_error = as_float(snapshot_value(api, "tracking_error"))
+        
+        # Calculate disparity if API doesn't provide it but provides NAV
+        if api_disparity is None and current_close is not None and api_nav:
+            api_disparity = round(((current_close - api_nav) / api_nav) * 100, 2)
+            
         existing.update({
             "isin_cd": snapshot_value(api, "isinCd", existing.get("isin_cd", "")), "ticker": ticker, "name": name,
             "base_index": base_index, "close": snapshot_value(api, "clpr", 0),
@@ -576,6 +589,9 @@ def main() -> None:
             "pension_eligible": existing.get("pension_eligible") or pension_rule(risk, name, base_index),
             "liquidity": "pass" if (as_float(aum_value) or 0) >= 10_000_000_000 else "fail",
             "bas_dt": as_of_text,
+            "nav": api_nav if api_nav is not None else existing.get("nav", ""),
+            "disparity": api_disparity if api_disparity is not None else existing.get("disparity", ""),
+            "tracking_error": api_tracking_error if api_tracking_error is not None else existing.get("tracking_error", ""),
         })
         if not str(existing.get("isin_cd") or "").strip():
             print(

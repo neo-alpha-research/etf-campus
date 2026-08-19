@@ -120,6 +120,9 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       changePct,
       tradeValue: parseNumberField(master, "trade_value", `master:${ticker}`),
       aum: parseNumberField(master, "aum", `master:${ticker}`),
+      nav: parseOptionalNullableNumber(master, "nav", `master:${ticker}`),
+      disparity: parseOptionalNullableNumber(master, "disparity", `master:${ticker}`),
+      trackingError: parseOptionalNullableNumber(master, "tracking_error", `master:${ticker}`),
       fee: feeByTicker.get(ticker) ?? null,
       distributionSummary: distributionByTicker.get(ticker) ?? null,
 

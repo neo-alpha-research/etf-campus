@@ -13,8 +13,8 @@ def main():
     with open(MASTER_CSV_PATH, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            if row.get("srtnCd"):
-                tickers.append(row["srtnCd"].strip())
+            if row.get("ticker"):
+                tickers.append(row["ticker"].strip())
     
     start_date = "20021014"
     end_date = datetime.datetime.now().strftime("%Y%m%d")

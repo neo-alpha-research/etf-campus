@@ -34,6 +34,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [loginCaptchaToken, setLoginCaptchaToken] = useState<string | null>(null);
   const [requestCaptchaToken, setRequestCaptchaToken] = useState<string | null>(null);
   const [verifyCaptchaToken, setVerifyCaptchaToken] = useState<string | null>(null);
+  const [captchaKey, setCaptchaKey] = useState(0);
 
   useEffect(() => {
     // Reset state on unmount if needed
@@ -59,6 +60,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "로그인에 실패했습니다.");
+      setCaptchaKey(k => k + 1);
     } finally {
       setLoading(false);
     }
@@ -79,6 +81,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       setStep("otp-verify");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "인증 메일을 요청하지 못했습니다.");
+      setCaptchaKey(k => k + 1);
     } finally {
       setLoading(false);
     }
@@ -99,6 +102,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       setPassword("");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "인증 코드를 확인하지 못했습니다.");
+      setCaptchaKey(k => k + 1);
     } finally {
       setLoading(false);
     }
@@ -167,7 +171,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
             <label className="block text-sm font-semibold text-slate-800">비밀번호
               <input type="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="••••••••" />
             </label>
-            <TurnstileCaptcha key="community_password_login" action="community_password_login" onToken={setLoginCaptchaToken} />
+            <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={setLoginCaptchaToken} />
             <button disabled={loading || loginCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "로그인 중" : "이메일 로그인"}</button>
             <div className="mt-4 text-center">
               <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">비밀번호가 없거나 처음이신가요? 인증 코드로 시작하기</button>
@@ -181,7 +185,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
             <label className="block text-sm font-semibold text-slate-800">이메일
               <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
             </label>
-            <TurnstileCaptcha key="community_otp_request" action="community_otp_request" onToken={setRequestCaptchaToken} />
+            <TurnstileCaptcha key={`community_otp_request_${captchaKey}`} action="community_otp_request" onToken={setRequestCaptchaToken} />
             <button disabled={loading || requestCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "8자리 인증 코드 받기"}</button>
             <div className="mt-4 text-center">
               <button type="button" onClick={() => { setStep("login"); setMessage(""); }} className="text-sm font-medium text-slate-500 hover:underline">비밀번호로 로그인하기</button>
@@ -195,7 +199,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
             <label className="block text-sm font-semibold text-slate-800">인증 코드
               <input inputMode="numeric" pattern="[0-9]{8}" maxLength={8} required autoComplete="one-time-code" value={token} onChange={(event) => setToken(event.target.value.replace(/\D/g, ""))} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-lg tracking-[0.3em] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="00000000" />
             </label>
-            <TurnstileCaptcha key="community_otp_verify" action="community_otp_verify" onToken={setVerifyCaptchaToken} />
+            <TurnstileCaptcha key={`community_otp_verify_${captchaKey}`} action="community_otp_verify" onToken={setVerifyCaptchaToken} />
             <div className="flex gap-3">
               <button type="button" onClick={() => { setToken(""); setMessage(""); setRequestCaptchaToken(null); setVerifyCaptchaToken(null); setStep("otp-request"); }} className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">이메일 변경</button>
               <button disabled={loading || verifyCaptchaToken === null} className="flex-1 rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "확인 중" : "인증 완료"}</button>

@@ -60,6 +60,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "로그인에 실패했습니다.");
+      setLoginCaptchaToken(null);
       setCaptchaKey(k => k + 1);
     } finally {
       setLoading(false);
@@ -81,6 +82,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       setStep("otp-verify");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "인증 메일을 요청하지 못했습니다.");
+      setRequestCaptchaToken(null);
       setCaptchaKey(k => k + 1);
     } finally {
       setLoading(false);
@@ -102,6 +104,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       setPassword("");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "인증 코드를 확인하지 못했습니다.");
+      setVerifyCaptchaToken(null);
       setCaptchaKey(k => k + 1);
     } finally {
       setLoading(false);

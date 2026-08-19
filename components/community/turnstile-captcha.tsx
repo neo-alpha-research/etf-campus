@@ -49,7 +49,6 @@ export function TurnstileCaptcha({ action, onToken }: Props) {
     return () => {
       disposed = true;
       if (widgetId.current && window.turnstile) window.turnstile.remove(widgetId.current);
-      script?.remove();
     };
   }, [action, onToken]);
 

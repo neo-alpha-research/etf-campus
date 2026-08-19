@@ -50,7 +50,7 @@ const PERIODS = [
   { id: "itd", label: "ITD", title: "상장 후 수익률" },
 ];
 
-export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor }) {
+export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, fixedReturns }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: Record<string, number | null> }) {
 
   const [period, setPeriod] = useState<PricePeriod>(isNewListing ? "1d" : "12m");
   const hasItdAnchor = Boolean(isNewListing && itdAnchor?.price && itdAnchor?.date);
@@ -125,11 +125,27 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     const baseClose = period === "itd" && hasItdAnchor && itdAnchor?.price
       ? itdAnchor.price
       : visiblePoints[0].close;
-    return visiblePoints.map((point) => ({
+    const rawPoints = visiblePoints.map((point) => ({
       ...point,
       returnPct: baseClose > 0 ? (point.close / baseClose - 1) * 100 : 0,
     }));
-  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor?.price]);
+
+    if (fixedReturns && !isCustom && fixedReturns[period] != null) {
+      const tableReturn = fixedReturns[period]!;
+      if (rawPoints.length > 0) {
+        const rawEndReturn = rawPoints[rawPoints.length - 1].returnPct;
+        if (rawEndReturn !== 0 && Math.abs(rawEndReturn - tableReturn) > 0.05) {
+          const scale = tableReturn / rawEndReturn;
+          return rawPoints.map(point => ({
+            ...point,
+            returnPct: point.returnPct * scale,
+          }));
+        }
+      }
+    }
+
+    return rawPoints;
+  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor?.price, fixedReturns]);
 
   const isShort = useMemo(() => {
     if (isNewListing) return false;

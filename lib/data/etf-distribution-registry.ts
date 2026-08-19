@@ -95,7 +95,13 @@ export function loadDistributionSummaryIndex(dataDirectory: string): Map<string,
   const summaryPath = path.join(dataDirectory, "distributions", "etf_distribution_summaries.json");
   if (!fs.existsSync(summaryPath)) return new Map();
 
-  const payload: unknown = JSON.parse(fs.readFileSync(summaryPath, "utf-8"));
+  let payload: unknown = null;
+  try {
+    payload = JSON.parse(fs.readFileSync(summaryPath, "utf-8"));
+  } catch (err) {
+    console.error(`Error parsing JSON in ${summaryPath}:`, err);
+    return new Map();
+  }
   const summaries = (payload as DistributionPayload)?.summaries;
   if (!Array.isArray(summaries)) return new Map();
 

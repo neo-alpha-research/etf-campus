@@ -23,10 +23,15 @@ const toNumber = (value: unknown): number | null => typeof value === "number" &&
 const toStatus = (value: unknown): EtfFeeInfo["verificationStatus"] => value === "official_single_source" ? "official_single_source" : value === "verified_official" ? "verified_official" : value === "pending_review" ? "pending_review" : value === "conflict" ? "conflict" : value === "stale" ? "stale" : "seed_unverified";
 const loadRows = (filePath: string): RegistryRow[] => {
   if (!fs.existsSync(filePath)) return [];
-  const parsed: unknown = JSON.parse(fs.readFileSync(filePath, "utf8"));
-  if (Array.isArray(parsed)) return parsed as RegistryRow[];
-  if (parsed && typeof parsed === "object" && Array.isArray((parsed as { records?: unknown }).records)) return (parsed as { records: RegistryRow[] }).records;
-  return [];
+  try {
+    const parsed: unknown = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    if (Array.isArray(parsed)) return parsed as RegistryRow[];
+    if (parsed && typeof parsed === "object" && Array.isArray((parsed as { records?: unknown }).records)) return (parsed as { records: RegistryRow[] }).records;
+    return [];
+  } catch (error) {
+    console.error(`Error parsing JSON in ${filePath}:`, error);
+    return [];
+  }
 };
 const toInfo = (row: RegistryRow): EtfFeeInfo => ({
   totalFeePct: toNumber(row.total_fee_pct), terPct: toNumber(row.ter_pct), otherCostPct: toNumber(row.other_cost_pct), tradingCostPct: toNumber(row.trading_cost_pct),

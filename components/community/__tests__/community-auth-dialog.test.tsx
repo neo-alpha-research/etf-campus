@@ -32,7 +32,7 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
 
     render(<CommunityAuthDialog open onClose={vi.fn()} onAuthenticated={vi.fn()} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "비밀번호가 없거나 처음이신가요? 인증 코드로 시작하기" }));
+    fireEvent.click(screen.getByRole("button", { name: "신규 회원가입 / 비밀번호 재설정 (이메일 인증)" }));
 
     await act(async () => {
       mocks.captchaCallbacks.get("community_otp_request")?.("consumed-request-token");

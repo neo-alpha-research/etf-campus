@@ -294,9 +294,15 @@ export function EtfDetail({
                       </svg>
                     </dt>
                     <dd className="mt-1 flex flex-wrap items-baseline gap-2 text-lg font-bold text-strong">
-                      <span>
-                        {fee?.totalFeePct != null ? `${fee.totalFeePct}%` : "-"}
-                      </span>
+                      {isFeeVerified ? (
+                        <span>
+                          {fee?.totalFeePct != null ? `${fee.totalFeePct}%` : "-"}
+                        </span>
+                      ) : (
+                        <span className="text-sm font-medium text-amber-600">
+                          {getFeeStatusText(fee?.verificationStatus)}
+                        </span>
+                      )}
                     </dd>
 
                     {/* Tooltip */}

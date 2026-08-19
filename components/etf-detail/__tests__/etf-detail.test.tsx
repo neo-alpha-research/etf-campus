@@ -131,7 +131,7 @@ describe("EtfDetail", () => {
       render(<EtfDetail etf={item} />);
       expect(screen.getByText("순자산")).toBeInTheDocument();
       expect(screen.getByText("1일 거래대금")).toBeInTheDocument();
-      expect(screen.getByText(/실질 부담 비용/)).toBeInTheDocument();
+      expect(screen.getByText(/총보수/)).toBeInTheDocument();
       
       // Values
       expect(screen.getByText("500억 원")).toBeInTheDocument(); // AUM 50,000,000,000

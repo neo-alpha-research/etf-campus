@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect -- Client-only authentication, draft restoration, and public data loading intentionally update state after hydration. */
 "use client";
 
 import { useEffect, useState } from "react";

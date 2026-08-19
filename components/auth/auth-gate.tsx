@@ -27,6 +27,7 @@ export function AuthGate({
   const [isLocalhost, setIsLocalhost] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLocalhost(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
   }, []);
 

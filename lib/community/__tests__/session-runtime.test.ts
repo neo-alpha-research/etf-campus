@@ -10,7 +10,7 @@ describe("커뮤니티 HttpOnly 세션 런타임 계약", () => {
   it("성공 세션은 access·refresh·CSRF를 서로 분리된 세 쿠키로 설정한다", () => {
     const headers = sessionHeaders({ access_token: "access", refresh_token: "refresh" }, "csrf");
     const cookies = setCookies(headers);
-    expect(cookies).toHaveLength(3);
+    expect(cookies).toHaveLength(4);
     expect(cookies[0]).toContain("__Host-etf-campus-community-at=access");
     expect(cookies[1]).toContain("__Host-etf-campus-community-rt=refresh");
     expect(cookies[2]).toContain("__Host-etf-campus-community-csrf=csrf");
@@ -36,9 +36,9 @@ describe("커뮤니티 HttpOnly 세션 런타임 계약", () => {
   it("로그아웃·만료 처리 시 세 쿠키를 모두 즉시 만료한다", () => {
     const headers = clearSessionHeaders();
     const cookies = setCookies(headers);
-    expect(cookies).toHaveLength(3);
+    expect(cookies).toHaveLength(4);
     expect(cookies.every((cookie) => cookie.includes("Max-Age=0"))).toBe(true);
     const response = clearSessionResponse(new Response(JSON.stringify({ error: true }), { status: 401 }));
-    expect(setCookies(response.headers)).toHaveLength(3);
+    expect(setCookies(response.headers)).toHaveLength(4);
   });
 });

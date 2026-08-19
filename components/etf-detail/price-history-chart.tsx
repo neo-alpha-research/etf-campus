@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useMemo, useRef } from "react";
@@ -145,7 +144,7 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     }
 
     return rawPoints;
-  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor?.price, fixedReturns]);
+  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor, fixedReturns]);
 
   const isShort = useMemo(() => {
     if (isNewListing) return false;

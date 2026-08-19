@@ -286,79 +286,15 @@ export function EtfDetail({
                       </div>
                     </div>
                   )}
-                  <div className="flex flex-col justify-center group relative cursor-help">
-                    <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
-                      실질 부담 비용
-                      <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                  <div className="flex flex-col justify-center">
+                    <dt className="text-sm font-bold text-gray-500">
+                      총보수
                     </dt>
                     <dd className="mt-1 flex flex-wrap items-baseline gap-2 text-lg font-bold text-strong">
                       <span>
-                        {(fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source") ? (
-                          (fee?.totalFeePct != null && fee?.otherCostPct != null && fee?.tradingCostPct != null) ? (
-                            `${(fee!.totalFeePct! + fee!.otherCostPct! + fee!.tradingCostPct!).toFixed(4).replace(/\\.?0+$/, '')}%`
-                          ) : fee?.totalFeePct != null ? (
-                            `${fee!.totalFeePct!}% (총보수)`
-                          ) : (
-                            <span className="text-sm font-semibold text-neutral-500">확인 중</span>
-                          )
-                        ) : (
-                          <span className="text-sm font-semibold text-neutral-500">{getFeeStatusText(fee?.verificationStatus)}</span>
-                        )}
+                        {fee?.totalFeePct != null ? `${fee.totalFeePct}%` : "-"}
                       </span>
-                      {fee?.verificationStatus === "verified_official" && (
-                        <span className="rounded bg-blue-100 px-1.5 py-0.5 text-[10px] font-bold text-blue-800">공식 검증 완료</span>
-                      )}
-                      {fee?.verificationStatus === "official_single_source" && (
-                        <span className="rounded bg-teal-100 px-1.5 py-0.5 text-[10px] font-bold text-teal-800">공식 원문 확인</span>
-                      )}
                     </dd>
-                    
-                    {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
-                      <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700">
-                        <div className="font-bold mb-2 text-[13px] border-b border-neutral-600 pb-2">비용 상세 내역</div>
-                        <div className="space-y-1.5 font-medium">
-                          <div className="flex justify-between">
-                            <span className="text-neutral-300">총보수</span>
-                            <span>{(fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source") && fee?.totalFeePct != null ? `${fee?.totalFeePct}%` : "확인 중"}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-neutral-300">기타비용</span>
-                            <span>{fee?.otherCostPct != null ? `${fee?.otherCostPct}%` : "확인 중"}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-neutral-300">매매·중개 관련 비용</span>
-                            <span>{fee?.tradingCostPct != null ? `${fee?.tradingCostPct}%` : "확인 중"}</span>
-                          </div>
-                        </div>
-                        <div className="mt-3 pt-2 border-t border-neutral-600 space-y-1 text-[11px] text-neutral-300">
-                          {fee?.effectiveDate ? (
-                            <div>효력발생일: {fee.effectiveDate}</div>
-                          ) : (
-                            <div>공시·적용 기준일: 확인 중</div>
-                          )}
-                          {feeSource && (
-                            <div>
-                              <a href={feeSource.url} target="_blank" rel="noreferrer" className="text-blue-300 hover:text-blue-200 underline underline-offset-2">
-                                공식 출처 보기
-                              </a>
-                            </div>
-                          )}
-                        </div>
-                        {fee?.verificationStatus === "official_single_source" && (
-                          <div className="mt-2 text-[10px] text-amber-200 bg-amber-900/30 p-1.5 rounded">
-                            * 추가 교차검증 진행 중 설명
-                          </div>
-                        )}
-                        {(fee?.totalFeePct !== null && (fee?.otherCostPct === null || fee?.tradingCostPct === null)) && (
-                          <div className="mt-2 text-[10px] text-neutral-400">
-                            * 세부 비용이 모두 확인되지 않아 실질부담비용은 추정하지 않음.
-                          </div>
-                        )}
-                      </div>
-                    </div>
                   </div>
                   <div className="flex flex-col justify-center group relative cursor-help">
                     <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">

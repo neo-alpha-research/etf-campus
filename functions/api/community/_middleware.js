@@ -19,11 +19,12 @@ function isSameOrigin(request) {
 }
 
 function needsAuthentication(pathname, method) {
-  if (pathname === "/api/community/auth/session" && method === "GET") return false;
-  if (pathname === "/api/community/auth/config" && method === "GET") return false;
-  if (OTP_PATHS.has(pathname)) return false;
-  if (pathname === "/api/community/posts" && method === "GET") return false;
-  if (method === "GET" && /^\/api\/community\/posts\/[0-9a-f-]+(?:\/comments)?$/i.test(pathname)) return false;
+  const normalizedPath = pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
+  if (normalizedPath === "/api/community/auth/session" && method === "GET") return false;
+  if (normalizedPath === "/api/community/auth/config" && method === "GET") return false;
+  if (OTP_PATHS.has(normalizedPath)) return false;
+  if (normalizedPath === "/api/community/posts" && method === "GET") return false;
+  if (method === "GET" && /^\/api\/community\/posts\/[0-9a-f-]+(?:\/comments)?$/i.test(normalizedPath)) return false;
   return true;
 }
 

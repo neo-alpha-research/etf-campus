@@ -1,0 +1,35 @@
+name = "market-event-dispatcher"
+main = "src/index.ts"
+compatibility_date = "2026-08-18"
+workers_dev = true
+
+[triggers]
+# KST Tue-Sat 06:00~10:55. The dispatcher only drains an existing D1 outbox.
+crons = ["*/5 21-23 * * 1-5", "*/5 0-1 * * 2-6"]
+
+[[d1_databases]]
+binding = "ETF_PRICES"
+database_name = "etf-prices"
+database_id = "11c4e874-fba2-4e34-91d0-808892284c86"
+
+[[queues.producers]]
+binding = "MARKET_BRIEFING_EVENTS"
+queue = "etf-campus-market-data-ready"
+
+[vars]
+APP_TIMEZONE = "Asia/Seoul"
+
+[env.preview]
+name = "market-event-dispatcher-preview"
+
+[[env.preview.d1_databases]]
+binding = "ETF_PRICES"
+database_name = "etf-prices-preview"
+database_id = "ca4eec2e-1828-49f7-a881-3e20374fcf80"
+
+[[env.preview.queues.producers]]
+binding = "MARKET_BRIEFING_EVENTS"
+queue = "etf-campus-market-data-ready-preview"
+
+[env.preview.vars]
+APP_TIMEZONE = "Asia/Seoul"

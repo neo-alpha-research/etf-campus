@@ -1,10 +1,20 @@
-import { authenticatedSession, clearSessionHeaders, mergeSessionHeaders } from "../_lib/session";
+﻿import { authenticatedSession, clearSessionHeaders, mergeSessionHeaders } from "../_lib/session";
 import { jsonResponse } from "../_lib/api-security";
 
 export async function onRequestGet(context) {
   const session = await authenticatedSession(context);
   if (session.error) return session.error;
-  return mergeSessionHeaders(jsonResponse({ authenticated: true }), session);
+  
+  return mergeSessionHeaders(
+    jsonResponse({ 
+      authenticated: true,
+      user: {
+        id: session.user.id,
+        email: session.user.email
+      }
+    }), 
+    session
+  );
 }
 
 export async function onRequestDelete() {

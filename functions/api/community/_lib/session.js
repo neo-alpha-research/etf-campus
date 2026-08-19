@@ -131,30 +131,39 @@ function clearedAuthError() {
 
 export async function authenticatedSession(context) {
   const { accessToken, refreshToken } = requestSessionTokens(context.request);
-  if (!accessToken) return { error: clearedAuthError() };
-
-  let client;
-  try { client = publicSupabase(context.env, accessToken); } catch { return { error: errorResponse(503, "CONFIGURATION_ERROR", "인증 서비스 설정을 확인해 주세요.") }; }
-  let result = await client.auth.getUser(accessToken);
   const csrfToken = requestCsrfToken(context.request) ?? secureRandom();
   const csrfCookies = requestCsrfToken(context.request) ? [] : [serializeCookie(CSRF_COOKIE, csrfToken, { httpOnly: false, maxAge: REFRESH_MAX_AGE })];
-  if (!result.error && result.data.user) {
-    return { client, user: result.data.user, accessToken, headers: cacheHeaders(csrfToken), cookies: csrfCookies };
+
+  if (accessToken) {
+    try {
+      const client = publicSupabase(context.env, accessToken);
+      const result = await client.auth.getUser(accessToken);
+      if (!result.error && result.data.user) {
+        return { client, user: result.data.user, accessToken, headers: cacheHeaders(csrfToken), cookies: csrfCookies };
+      }
+    } catch {
+      return { error: errorResponse(503, "CONFIGURATION_ERROR", "인증 서비스 설정을 확인해 주세요.") };
+    }
   }
+
   if (!refreshToken) return { error: clearedAuthError() };
 
   const refreshed = await refreshSupabaseSession(context.env, refreshToken);
   if (refreshed.error || !refreshed.data.session?.access_token || !refreshed.data.session?.refresh_token) return { error: clearedAuthError() };
-  client = publicSupabase(context.env, refreshed.data.session.access_token);
-  result = await client.auth.getUser(refreshed.data.session.access_token);
-  if (result.error || !result.data.user) return { error: clearedAuthError() };
-  return {
-    client,
-    user: result.data.user,
-    accessToken: refreshed.data.session.access_token,
-    headers: cacheHeaders(csrfToken),
-    cookies: sessionCookies(refreshed.data.session, csrfToken),
-  };
+  
+  try {
+    const client = publicSupabase(context.env, refreshed.data.session.access_token);
+    const result = await client.auth.getUser(refreshed.data.session.access_token);
+    if (result.error || !result.data.user) return { error: clearedAuthError() };
+    return {
+      client,
+      user: result.data.user,
+      accessToken: refreshed.data.session.access_token,
+      headers: cacheHeaders(csrfToken),
+      cookies: sessionCookies(refreshed.data.session, csrfToken),
+    };
+  } catch {
+    return { error: errorResponse(503, "CONFIGURATION_ERROR", "인증 서비스 설정을 확인해 주세요.") };
+  }
 }
-
 export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE };

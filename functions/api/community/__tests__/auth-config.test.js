@@ -52,3 +52,28 @@ describe("Community Auth Config Endpoint Security", () => {
     expect(responseText).not.toContain("@"); // Email
   });
 });
+
+
+describe("Community middleware Korean error responses", () => {
+  it("returns readable UTF-8 Korean for an unsafe request from an untrusted origin", async () => {
+    const next = vi.fn();
+    const context = {
+      request: new Request("https://example.com/api/community/posts", {
+        method: "POST",
+        headers: new Headers({ "Content-Type": "application/json" }),
+      }),
+      next,
+      env: {},
+    };
+
+    const response = await onRequest(context);
+    expect(response.status).toBe(403);
+    await expect(response.json()).resolves.toEqual({
+      error: {
+        code: "FORBIDDEN",
+        message: "허용되지 않은 요청 출처입니다.",
+      },
+    });
+    expect(next).not.toHaveBeenCalled();
+  });
+});

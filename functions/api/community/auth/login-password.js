@@ -28,7 +28,7 @@ export async function onRequestPost(context) {
       return errorResponse(401, "AUTH_REQUIRED", "이메일 또는 비밀번호가 올바르지 않습니다.");
     }
 
-    const headers = sessionHeaders(data.session);
+    const headers = sessionHeaders(data.session, undefined, rememberMe);
     return new Response(JSON.stringify({ authenticated: true }), { status: 200, headers });
   } catch {
     return errorResponse(503, "UNAVAILABLE", "로그인 서비스를 일시적으로 사용할 수 없습니다.");

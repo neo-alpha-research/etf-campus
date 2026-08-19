@@ -79,6 +79,11 @@ function supabaseClient(env, accessToken, serviceRole = false) {
         const data = await response.json().catch(() => null);
         return response.ok ? { data: { session: data, user: data?.user ?? null }, error: null } : { data: null, error: data ?? { message: "OTP verification failed" } };
       },
+      async signInWithPassword({ email, password }) {
+        const response = await fetch(new URL("/auth/v1/token?grant_type=password", url), { method: "POST", headers: { apikey: apiKey, Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
+        const data = await response.json().catch(() => null);
+        return response.ok ? { data: { session: data, user: data?.user ?? null }, error: null } : { data: null, error: data ?? { message: "Password sign in failed" } };
+      },
       async updateUser(attributes) {
         try {
           const response = await fetch(new URL("/auth/v1/user", url), { method: "PUT", headers: { apikey: apiKey, Authorization: `Bearer ${bearer}`, "Content-Type": "application/json" }, body: JSON.stringify(attributes) });

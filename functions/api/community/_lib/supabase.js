@@ -79,6 +79,13 @@ function supabaseClient(env, accessToken, serviceRole = false) {
         const data = await response.json().catch(() => null);
         return response.ok ? { data: { session: data, user: data?.user ?? null }, error: null } : { data: null, error: data ?? { message: "OTP verification failed" } };
       },
+      async updateUser(attributes) {
+        try {
+          const response = await fetch(new URL("/auth/v1/user", url), { method: "PUT", headers: { apikey: apiKey, Authorization: `Bearer ${bearer}`, "Content-Type": "application/json" }, body: JSON.stringify(attributes) });
+          const data = await response.json().catch(() => null);
+          return response.ok ? { data: { user: data }, error: null } : { data: { user: null }, error: data ?? { message: "User update failed" } };
+        } catch (error) { return { data: { user: null }, error: { message: error instanceof Error ? error.message : "User update failed" } }; }
+      },
       async signOut() {
         const response = await fetch(new URL("/auth/v1/logout", url), { method: "POST", headers: { apikey: apiKey, Authorization: `Bearer ${bearer}` } });
         return { error: response.ok ? null : { message: "Sign out failed" } };
@@ -105,11 +112,11 @@ export function adminSupabase(env) {
 export async function authenticatedSupabase(context) {
   const authorization = context.request.headers.get("authorization");
   const token = authorization?.match(/^Bearer\s+([^\s]+)$/i)?.[1];
-  if (!token) return { error: errorResponse(401, "AUTH_REQUIRED", "ë¡œê·¸?????´ìš©?????ˆìŠµ?ˆë‹¤.") };
+  if (!token) return { error: errorResponse(401, "AUTH_REQUIRED", "\ub85c\uadf8\uc778\uc774 \ud544\uc694\ud569\ub2c8\ub2e4.") };
 
   let client;
-  try { client = publicSupabase(context.env, token); } catch { return { error: errorResponse(503, "CONFIGURATION_ERROR", "?¸ì¦ ?œë¹„???¤ì •???•ì¸??ì£¼ì„¸??") }; }
+  try { client = publicSupabase(context.env, token); } catch { return { error: errorResponse(503, "CONFIGURATION_ERROR", "\uc778\uc99d \uc11c\ube44\uc2a4 \uc124\uc815\uc744 \ud655\uc778\ud574 \uc8fc\uc138\uc694.") }; }
   const { data, error } = await client.auth.getUser(token);
-  if (error || !data.user) return { error: errorResponse(401, "AUTH_REQUIRED", "ë¡œê·¸???íƒœê°€ ë§Œë£Œ?˜ì—ˆê±°ë‚˜ ? íš¨?˜ì? ?ŠìŠµ?ˆë‹¤.") };
+  if (error || !data.user) return { error: errorResponse(401, "AUTH_REQUIRED", "\ub85c\uadf8\uc778 \uc0c1\ud0dc\uac00 \ub9cc\ub8cc\ub418\uc5c8\uac70\ub098 \uc720\ud6a8\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.") };
   return { client, token, user: data.user };
 }

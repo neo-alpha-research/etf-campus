@@ -8,6 +8,7 @@ const OTP_PATTERN = /^\d{8}$/;
 
 export async function onRequestPost(context) {
   const payload = await parseJsonBody(context.request);
+  const rememberMe = payload?.rememberMe !== false;
   const email = typeof payload?.email === "string" ? payload.email.trim().toLowerCase() : "";
   const token = typeof payload?.token === "string" ? payload.token.trim() : "";
   if (!EMAIL_PATTERN.test(email) || !OTP_PATTERN.test(token)) return errorResponse(400, "VALIDATION_ERROR", "이메일과 8자리 인증 코드를 확인해 주세요.");

@@ -7,6 +7,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function onRequestPost(context) {
   const payload = await parseJsonBody(context.request);
+  const rememberMe = payload?.rememberMe !== false;
   const email = typeof payload?.email === "string" ? payload.email.trim().toLowerCase() : "";
   const password = typeof payload?.password === "string" ? payload.password : "";
 

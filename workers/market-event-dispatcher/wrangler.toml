@@ -33,3 +33,18 @@ queue = "etf-campus-market-data-ready-preview"
 
 [env.preview.vars]
 APP_TIMEZONE = "Asia/Seoul"
+
+[env.preview.observability]
+enabled = false
+head_sampling_rate = 1
+
+[env.preview.observability.logs]
+enabled = true
+persist = true
+invocation_logs = true
+head_sampling_rate = 1
+
+[env.preview.observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1

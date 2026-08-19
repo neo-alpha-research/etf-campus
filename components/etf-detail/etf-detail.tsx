@@ -286,47 +286,59 @@ export function EtfDetail({
                       </div>
                     </div>
                   )}
-                  <div className="flex flex-col justify-center">
-                    <dt className="text-sm font-bold text-gray-500">
+                  <div className="flex flex-col justify-center group relative cursor-help">
+                    <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
                       총보수
+                      <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
                     </dt>
                     <dd className="mt-1 flex flex-wrap items-baseline gap-2 text-lg font-bold text-strong">
                       <span>
                         {fee?.totalFeePct != null ? `${fee.totalFeePct}%` : "-"}
                       </span>
                     </dd>
+
+                    {/* Tooltip */}
+                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
+                      <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
+                        기타비용과 매매중개수수료율을 모두 포함한 실제 부담 총비용(Total Expense Ratio)입니다.
+                        {feeSource && (
+                          <div className="mt-3 border-t border-neutral-600 pt-2 text-[11px] text-neutral-300">
+                            <span className="mr-1 text-neutral-400">대표 출처:</span>
+                            <a
+                              className="underline decoration-neutral-500 underline-offset-2 hover:text-white pointer-events-auto"
+                              href={feeSource.url}
+                              rel="noreferrer"
+                              target="_blank"
+                            >
+                              {feeSource.label}
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                   <div className="flex flex-col justify-center group relative cursor-help">
                     <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
-                      기본 수익률 기준
+                      {etf.distributionSummary ? "기본 수익률 기준" : "분배금(배당) 여부"}
                       <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </dt>
-                    <dd className="mt-1 text-sm font-semibold text-neutral-500">분배금 미포함</dd>
-                    
-                    {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-3 w-72 rounded-xl border border-slate-200 bg-white p-4 text-xs text-slate-700 shadow-2xl z-50 opacity-0 invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 pointer-events-none">
-                {feeSource && (
-                  <div className="mt-3 border-t border-neutral-600 pt-2 text-[11px] text-neutral-300">
-                    <span className="mr-1 text-neutral-400">\uB300\uD45C \uCD9C\uCC98:</span>
-                    <a
-                      className="underline decoration-neutral-500 underline-offset-2 hover:text-white"
-                      href={feeSource.url}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      {feeSource.label}
-                    </a>
-                  </div>
-                )}
-                      <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
-                                                상세페이지의 수익률은 모든 ETF에서 시장 종가 기준 누적 수익률(PR)이며 분배금을 포함하지 않습니다.
+                    <dd className="mt-1 text-sm font-semibold text-neutral-500">
+                      {etf.distributionSummary ? "분배금 미포함 (PR)" : "지급 이력 없음"}
+                    </dd>
 
+                    {/* Tooltip */}
+                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
+                      <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
+                        {etf.distributionSummary 
+                          ? "상세페이지의 수익률은 분배금 재투자 여부를 반영하지 않은 시장 가격 기준 누적 수익률(PR)입니다. 배당/분배금이 지급되는 ETF의 경우, 실제 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다." 
+                          : "상세페이지의 수익률은 시장 가격 기준 누적 수익률(PR)입니다. 현재까지 분배금 지급 이력이 확인되지 않으며, 지급 이력이 없는 경우 표기된 수익률이 실제 총수익률(TR)과 동일합니다."}
                       </div>
                     </div>
                   </div>
-                </div>
                 {etf.distributionSummary ? <DistributionHistoryCard summary={etf.distributionSummary} /> : null}
               </div>
             </div>

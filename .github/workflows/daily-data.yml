@@ -253,6 +253,16 @@ jobs:
           python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT"
           python scripts/validate_d1_status.py "$BAS_DT"
 
+      - name: Publish canonical market-source snapshot and event outbox
+        # Run even when the repository snapshot did not change so a previously failed
+        # source-hub ingest can recover without another external API collection.
+        if: steps.freshness.outputs.fresh == 'true'
+        env:
+          PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
+          KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: python scripts/publish_market_source_snapshot.py
+
       - name: Commit changed data including verified distribution updates
         if: steps.changes.outputs.changed == 'true' && (steps.distribution.outcome == 'success' || steps.distribution.outcome == 'skipped')
         run: |

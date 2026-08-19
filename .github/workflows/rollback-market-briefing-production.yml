@@ -1,0 +1,150 @@
+name: Rollback market briefing production
+
+on:
+  workflow_dispatch:
+    inputs:
+      dispatcher_version_id:
+        description: "Rollback target version ID for market-event-dispatcher (blank skips dispatcher)"
+        required: false
+        type: string
+      publisher_version_id:
+        description: "Rollback target version ID for market-briefing-publisher (blank skips publisher)"
+        required: false
+        type: string
+      rollback_pages:
+        description: "Redeploy Pages from a known-good Git ref after Worker rollback"
+        required: true
+        default: false
+        type: boolean
+      pages_git_ref:
+        description: "Known-good Git tag or commit SHA for Pages rollback; required only when rollback_pages is true"
+        required: false
+        type: string
+      incident_reason:
+        description: "Incident ticket or short rollback reason"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: etf-campus-production
+  # Never interrupt an in-flight rollback. Production deploys wait for the rollback
+  # to finish because they use the same concurrency group.
+  cancel-in-progress: false
+
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  PAGES_PROJECT_NAME: etf-campus
+  WRANGLER_VERSION: 4.124.0
+
+jobs:
+  validate_inputs:
+    name: Validate rollback request
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Require a Worker version or an explicit Pages rollback
+        env:
+          DISPATCHER_VERSION_ID: ${{ inputs.dispatcher_version_id }}
+          PUBLISHER_VERSION_ID: ${{ inputs.publisher_version_id }}
+          ROLLBACK_PAGES: ${{ inputs.rollback_pages }}
+          PAGES_GIT_REF: ${{ inputs.pages_git_ref }}
+        run: |
+          if [ -z "$DISPATCHER_VERSION_ID" ] && [ -z "$PUBLISHER_VERSION_ID" ] && [ "$ROLLBACK_PAGES" != "true" ]; then
+            echo "At least one Worker version ID or a Pages rollback must be requested." >&2
+            exit 1
+          fi
+          if [ "$ROLLBACK_PAGES" = "true" ] && [ -z "$PAGES_GIT_REF" ]; then
+            echo "pages_git_ref is required when rollback_pages is true." >&2
+            exit 1
+          fi
+
+  rollback_publisher:
+    name: Roll back publisher Worker
+    needs: validate_inputs
+    if: ${{ inputs.publisher_version_id != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Roll back to specified publisher version
+        working-directory: workers/market-briefing-publisher
+        env:
+          VERSION_ID: ${{ inputs.publisher_version_id }}
+          INCIDENT_REASON: ${{ inputs.incident_reason }}
+        run: |
+          npx --yes wrangler@${{ env.WRANGLER_VERSION }} rollback "$VERSION_ID" \
+            --yes \
+            --message "GitHub Actions rollback: $INCIDENT_REASON"
+
+  rollback_dispatcher:
+    name: Roll back dispatcher Worker
+    needs: [validate_inputs, rollback_publisher]
+    if: ${{ always() && needs.validate_inputs.result == 'success' && inputs.dispatcher_version_id != '' && (needs.rollback_publisher.result == 'success' || needs.rollback_publisher.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Roll back to specified dispatcher version
+        working-directory: workers/market-event-dispatcher
+        env:
+          VERSION_ID: ${{ inputs.dispatcher_version_id }}
+          INCIDENT_REASON: ${{ inputs.incident_reason }}
+        run: |
+          npx --yes wrangler@${{ env.WRANGLER_VERSION }} rollback "$VERSION_ID" \
+            --yes \
+            --message "GitHub Actions rollback: $INCIDENT_REASON"
+
+  rollback_pages:
+    name: Redeploy known-good Pages ref
+    needs: [validate_inputs, rollback_publisher, rollback_dispatcher]
+    if: ${{ always() && needs.validate_inputs.result == 'success' && inputs.rollback_pages && (needs.rollback_publisher.result == 'success' || needs.rollback_publisher.result == 'skipped') && (needs.rollback_dispatcher.result == 'success' || needs.rollback_dispatcher.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    steps:
+      - name: Check out known-good ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.pages_git_ref }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Build and redeploy Pages
+        run: |
+          npm ci
+          npm run build
+          npx --yes wrangler@${{ env.WRANGLER_VERSION }} pages deploy out --project-name=${{ env.PAGES_PROJECT_NAME }}
+
+  summarize:
+    name: Write rollback summary
+    needs:
+      [validate_inputs, rollback_publisher, rollback_dispatcher, rollback_pages]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record results
+        run: |
+          {
+            echo "## ETF Campus market briefing rollback"
+            echo "- Reason: ${{ inputs.incident_reason }}"
+            echo "- Publisher rollback: ${{ needs.rollback_publisher.result }}"
+            echo "- Dispatcher rollback: ${{ needs.rollback_dispatcher.result }}"
+            echo "- Pages redeploy: ${{ needs.rollback_pages.result }}"
+            echo "- Operator must verify readiness, publication history, and /api/briefings/latest before re-enabling any paused trigger."
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -6,6 +6,10 @@ binding = "ETF_PRICES"
 database_name = "etf-prices"
 database_id = "11c4e874-fba2-4e34-91d0-808892284c86"
 
+[[kv_namespaces]]
+binding = "BRIEFING_KV"
+id = "278805f22a4948b3b9b6c66e8a6a1466"
+
 [env.preview.vars]
 SUPABASE_URL = "https://vdjyuqtcqhchopbrhexd.supabase.co"
 TURNSTILE_REQUIRED = "true"
@@ -27,5 +31,9 @@ database_id = "11c4e874-fba2-4e34-91d0-808892284c86"
 
 [[env.preview.d1_databases]]
 binding = "ETF_PRICES"
-database_name = "etf-prices"
-database_id = "11c4e874-fba2-4e34-91d0-808892284c86"
+database_name = "etf-prices-preview"
+database_id = "ca4eec2e-1828-49f7-a881-3e20374fcf80"
+
+[[env.preview.kv_namespaces]]
+binding = "BRIEFING_KV"
+id = "1d05ee372504435dbb797169ff4202ce"

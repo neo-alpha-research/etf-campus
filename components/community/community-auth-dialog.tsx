@@ -11,30 +11,67 @@ type Props = {
   onAuthenticated: () => void;
 };
 
-type Step = "email" | "otp" | "profile";
+type Step = "login" | "otp-request" | "otp-verify" | "password-setup" | "profile";
 
 export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
-  const [step, setStep] = useState<Step>("email");
+  const [step, setStep] = useState<Step>("login");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
+  
+  const [tempAccessToken, setTempAccessToken] = useState("");
+  const [tempRefreshToken, setTempRefreshToken] = useState("");
+
   const [nickname, setNickname] = useState("");
   const [interestAccountType, setInterestAccountType] = useState("none");
   const [investmentExperience, setInvestmentExperience] = useState("beginner");
+  
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  
+  const [loginCaptchaToken, setLoginCaptchaToken] = useState<string | null>(null);
   const [requestCaptchaToken, setRequestCaptchaToken] = useState<string | null>(null);
   const [verifyCaptchaToken, setVerifyCaptchaToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
-    setStep("email");
+    setStep("login");
+    setPassword("");
     setToken("");
     setMessage("");
+    setTempAccessToken("");
+    setTempRefreshToken("");
+    setLoginCaptchaToken(null);
     setRequestCaptchaToken(null);
     setVerifyCaptchaToken(null);
   }, [open]);
 
   if (!open) return null;
+
+  async function loginPassword(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true);
+    setMessage("");
+    try {
+      await communityFetch("/api/community/auth/login-password", {
+        method: "POST",
+        body: JSON.stringify({ email, password, captchaToken: loginCaptchaToken }),
+      });
+      markCommunitySession();
+      await refreshCommunitySession();
+      const profile = await communityFetch("/api/community/auth/profile");
+      if (profile.profileConfigured) {
+        onAuthenticated();
+        onClose();
+      } else {
+        setStep("profile");
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "로그인에 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function requestOtp(event: React.FormEvent) {
     event.preventDefault();
@@ -48,7 +85,7 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
       setMessage(result.message);
       setRequestCaptchaToken(null);
       setVerifyCaptchaToken(null);
-      setStep("otp");
+      setStep("otp-verify");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "인증 메일을 요청하지 못했습니다.");
     } finally {
@@ -61,9 +98,29 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
     setLoading(true);
     setMessage("");
     try {
-      await communityFetch("/api/community/auth/verify-otp", {
+      const result = await communityFetch("/api/community/auth/verify-otp", {
         method: "POST",
         body: JSON.stringify({ email, token, captchaToken: verifyCaptchaToken }),
+      });
+      setTempAccessToken(result.tempAccessToken);
+      setTempRefreshToken(result.tempRefreshToken);
+      setStep("password-setup");
+      setPassword("");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "인증 코드를 확인하지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function setupPassword(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true);
+    setMessage("");
+    try {
+      await communityFetch("/api/community/auth/set-password", {
+        method: "POST",
+        body: JSON.stringify({ password, tempAccessToken, tempRefreshToken }),
       });
       markCommunitySession();
       await refreshCommunitySession();
@@ -75,7 +132,7 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
         setStep("profile");
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "인증 코드를 확인하지 못했습니다.");
+      setMessage(error instanceof Error ? error.message : "비밀번호 설정에 실패했습니다.");
     } finally {
       setLoading(false);
     }
@@ -105,23 +162,42 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold tracking-[0.18em] text-brand-700">ETF CAMPUS COMMUNITY</p>
-            <h2 id="community-auth-title" className="mt-1 text-xl font-bold text-slate-950">{step === "profile" ? "공개 닉네임 설정" : "이메일로 안전하게 로그인"}</h2>
+            <h2 id="community-auth-title" className="mt-1 text-xl font-bold text-slate-950">{step === "profile" ? "공개 닉네임 설정" : step === "password-setup" ? "비밀번호 설정" : "커뮤니티 로그인"}</h2>
           </div>
           <button type="button" onClick={onClose} className="rounded-lg px-2 py-1 text-sm font-medium text-slate-500 hover:bg-slate-100" aria-label="로그인 창 닫기">닫기</button>
         </div>
 
-        {step === "email" ? (
+        {step === "login" ? (
+          <form className="mt-6 space-y-4" onSubmit={loginPassword}>
+            <label className="block text-sm font-semibold text-slate-800">이메일
+              <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
+            </label>
+            <label className="block text-sm font-semibold text-slate-800">비밀번호
+              <input type="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="••••••••" />
+            </label>
+            <TurnstileCaptcha key="community_password_login" action="community_password_login" onToken={setLoginCaptchaToken} />
+            <button disabled={loading || loginCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "로그인 중" : "이메일 로그인"}</button>
+            <div className="mt-4 text-center">
+              <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">비밀번호가 없거나 처음이신가요? 인증 코드로 시작하기</button>
+            </div>
+          </form>
+        ) : null}
+
+        {step === "otp-request" ? (
           <form className="mt-6 space-y-4" onSubmit={requestOtp}>
-            <p className="text-sm leading-6 text-slate-600">글쓰기·댓글·신고는 이메일 인증 회원만 이용할 수 있습니다. 비밀번호는 저장하지 않습니다.</p>
+            <p className="text-sm leading-6 text-slate-600">이메일 인증을 통해 가입 및 비밀번호 재설정을 진행할 수 있습니다.</p>
             <label className="block text-sm font-semibold text-slate-800">이메일
               <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
             </label>
             <TurnstileCaptcha key="community_otp_request" action="community_otp_request" onToken={setRequestCaptchaToken} />
             <button disabled={loading || requestCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "8자리 인증 코드 받기"}</button>
+            <div className="mt-4 text-center">
+              <button type="button" onClick={() => { setStep("login"); setMessage(""); }} className="text-sm font-medium text-slate-500 hover:underline">비밀번호로 로그인하기</button>
+            </div>
           </form>
         ) : null}
 
-        {step === "otp" ? (
+        {step === "otp-verify" ? (
           <form className="mt-6 space-y-4" onSubmit={verifyOtp}>
             <p className="text-sm leading-6 text-slate-600">{email}으로 보낸 8자리 인증 코드를 입력해 주세요. 코드가 오지 않으면 스팸함도 확인해 주세요.</p>
             <label className="block text-sm font-semibold text-slate-800">인증 코드
@@ -129,9 +205,19 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
             </label>
             <TurnstileCaptcha key="community_otp_verify" action="community_otp_verify" onToken={setVerifyCaptchaToken} />
             <div className="flex gap-3">
-              <button type="button" onClick={() => { setToken(""); setMessage(""); setRequestCaptchaToken(null); setVerifyCaptchaToken(null); setStep("email"); }} className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">이메일 변경</button>
+              <button type="button" onClick={() => { setToken(""); setMessage(""); setRequestCaptchaToken(null); setVerifyCaptchaToken(null); setStep("otp-request"); }} className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">이메일 변경</button>
               <button disabled={loading || verifyCaptchaToken === null} className="flex-1 rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "확인 중" : "인증 완료"}</button>
             </div>
+          </form>
+        ) : null}
+
+        {step === "password-setup" ? (
+          <form className="mt-6 space-y-4" onSubmit={setupPassword}>
+            <p className="text-sm leading-6 text-slate-600">앞으로 사용할 비밀번호를 설정해 주세요. 인증 코드 대신 이메일과 비밀번호로 간편하게 로그인할 수 있습니다.</p>
+            <label className="block text-sm font-semibold text-slate-800">새 비밀번호
+              <input type="password" required minLength={8} autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="8자리 이상 입력" />
+            </label>
+            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "설정 중" : "비밀번호 저장 후 계속"}</button>
           </form>
         ) : null}
 

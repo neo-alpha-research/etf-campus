@@ -24,8 +24,11 @@ export async function onRequestPost(context) {
     const { data, error } = await supabase.auth.verifyOtp({ email, token, type: "email" });
     if (error || !data.session || !data.user) return errorResponse(401, "AUTH_REQUIRED", "인증 코드가 올바르지 않거나 만료되었습니다. 가장 최근에 받은 8자리 코드로 다시 시도해 주세요.");
 
-    const headers = sessionHeaders(data.session);
-    return new Response(JSON.stringify({ authenticated: true, profileConfigured: false }), { status: 200, headers });
+    return new Response(JSON.stringify({ 
+      authenticated: true, 
+      tempAccessToken: data.session.access_token,
+      tempRefreshToken: data.session.refresh_token 
+    }), { status: 200, headers: { "Content-Type": "application/json" } });
   } catch {
     return errorResponse(503, "UNAVAILABLE", "인증 서비스를 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.");
   }

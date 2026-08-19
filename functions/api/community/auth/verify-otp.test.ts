@@ -55,7 +55,7 @@ describe("커뮤니티 8자리 이메일 OTP 검증", () => {
     });
   });
 
-  it("8자리 숫자 코드를 Supabase email OTP 검증에 전달한다", async () => {
+  it("8자리 숫자 코드를 Supabase email OTP 검증에 전달하고 임시 세션 토큰을 반환한다", async () => {
     const response = await onRequestPost(requestContext());
 
     expect(response.status).toBe(200);
@@ -63,6 +63,11 @@ describe("커뮤니티 8자리 이메일 OTP 검증", () => {
       email: "member@example.com",
       token: "12345678",
       type: "email",
+    });
+    await expect(response.json()).resolves.toEqual({
+      authenticated: true,
+      tempAccessToken: "test-access-token",
+      tempRefreshToken: undefined,
     });
   });
 

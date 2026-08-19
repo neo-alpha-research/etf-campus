@@ -6,7 +6,7 @@ import { getSession, logout, type SessionResponse } from "@/lib/auth/client";
 
 export function useAuthSession() {
   const { data, error, isLoading, mutate } = useSWR<SessionResponse>(
-    "/api/auth/session",
+    "/api/community/auth/session",
     getSession,
     {
       shouldRetryOnError: false,

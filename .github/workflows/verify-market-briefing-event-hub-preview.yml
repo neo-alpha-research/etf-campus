@@ -13,7 +13,7 @@ concurrency:
 env:
   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-  MARKET_SOURCE_INGEST_ENDPOINT: https://event-hub-preview.etf-campus.pages.dev/api/internal/ingest-market-source
+  MARKET_SOURCE_INGEST_ENDPOINT: https://feat-market-briefing-ui.etf-campus.pages.dev/api/internal/ingest-market-source
   WRANGLER_VERSION: 4.124.0
 
 jobs:

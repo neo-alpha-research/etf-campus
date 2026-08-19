@@ -1,0 +1,66 @@
+name: Verify market briefing event hub preview
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: market-briefing-event-hub-preview
+  cancel-in-progress: false
+
+env:
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  MARKET_SOURCE_INGEST_ENDPOINT: https://event-hub-preview.etf-campus.pages.dev/api/internal/ingest-market-source
+  WRANGLER_VERSION: 4.124.0
+
+jobs:
+  verify:
+    name: Publish existing snapshot and verify consumer path
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: preview
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Publish existing validated ETF master into preview source hub
+        env:
+          PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
+          KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: python scripts/publish_market_source_snapshot.py
+
+      - name: Wait for dispatcher and Queue consumer
+        run: sleep 20
+
+      - name: Verify D1 source, event, consumer, and briefing records
+        run: |
+          npx --yes wrangler@${{ env.WRANGLER_VERSION }} d1 execute ETF_PRICES --remote --env preview --command "
+          SELECT as_of_date, source_version, status, etf_row_count, general_etf_count, ready_at
+          FROM market_source_snapshot_manifest
+          ORDER BY ready_at DESC LIMIT 1;"
+          npx --yes wrangler@${{ env.WRANGLER_VERSION }} d1 execute ETF_PRICES --remote --env preview --command "
+          SELECT event_id, delivery_status, attempt_count, sent_at
+          FROM market_source_event_outbox
+          ORDER BY created_at DESC LIMIT 1;"
+          npx --yes wrangler@${{ env.WRANGLER_VERSION }} d1 execute ETF_PRICES --remote --env preview --command "
+          SELECT consumer_name, as_of_date, status, error_detail, finished_at
+          FROM market_source_consumer_runs
+          ORDER BY updated_at DESC LIMIT 1;"
+          npx --yes wrangler@${{ env.WRANGLER_VERSION }} d1 execute ETF_PRICES --remote --env preview --command "
+          SELECT as_of_date, status, published_at
+          FROM market_briefings
+          ORDER BY published_at DESC LIMIT 1;"

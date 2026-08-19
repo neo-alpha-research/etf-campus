@@ -77,7 +77,7 @@ export function StyleOnboarding() {
     () => "__server__",
   );
   const stored = parseStoredDiagnosis(rawStored);
-  const open = openIntent ?? (rawStored !== "__server__" && stored === null);
+  const open = openIntent === true;
 
 
   useEffect(() => {

@@ -1,15 +1,22 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { DIAGNOSIS_QUESTIONS, STYLE_STORAGE_KEY } from "@/lib/onboarding/style-diagnosis";
+import { DIAGNOSIS_QUESTIONS, STYLE_CHANGE_EVENT, STYLE_STORAGE_KEY } from "@/lib/onboarding/style-diagnosis";
 import { StyleOnboarding } from "../style-onboarding";
+
+function openStyleOnboarding() {
+  fireEvent(window, new CustomEvent(STYLE_CHANGE_EVENT, { detail: { open: true } }));
+}
 
 describe("StyleOnboarding", () => {
   beforeEach(() => localStorage.clear());
 
-  it("첫 방문에 10문항 안내와 건너뛰기를 제공한다", async () => {
+  it("첫 방문에는 자동 노출하지 않고 사용자의 명시적 요청에서만 10문항 안내를 연다", async () => {
     render(<StyleOnboarding />);
 
+    expect(screen.queryByRole("dialog", { name: "ETF 투자 스타일 점검" })).not.toBeInTheDocument();
+
+    openStyleOnboarding();
     expect(await screen.findByRole("dialog", { name: "ETF 투자 스타일 점검" })).toBeInTheDocument();
     expect(screen.getByText(/약 2분 · 10문항/)).toBeInTheDocument();
     expect(screen.getByText("나의 ETF 투자 스타일 점검")).toBeInTheDocument();
@@ -22,6 +29,7 @@ describe("StyleOnboarding", () => {
 
   it("1~10 슬라이더로 10문항에 답하면 동물 결과와 두 계좌 동선을 저장한다", async () => {
     render(<StyleOnboarding />);
+    openStyleOnboarding();
     await screen.findByRole("dialog");
     fireEvent.click(screen.getByRole("button", { name: "투자 스타일 점검 시작" }));
 

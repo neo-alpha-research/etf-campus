@@ -56,7 +56,7 @@ export function validateReleaseContent(contentRoot) {
   const learningExamples = [];
 
   walk(contentRoot).forEach((filename) => {
-    const relativePath = path.relative(contentRoot, filename);
+    const relativePath = path.relative(contentRoot, filename).split(path.sep).join("/");
     const basename = path.basename(filename);
     const source = readFileSync(filename, "utf8");
 

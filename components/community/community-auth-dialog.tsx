@@ -30,6 +30,8 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
     setStep("email");
     setToken("");
     setMessage("");
+    setRequestCaptchaToken(null);
+    setVerifyCaptchaToken(null);
   }, [open]);
 
   if (!open) return null;
@@ -44,6 +46,8 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
         body: JSON.stringify({ email, captchaToken: requestCaptchaToken }),
       });
       setMessage(result.message);
+      setRequestCaptchaToken(null);
+      setVerifyCaptchaToken(null);
       setStep("otp");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "인증 메일을 요청하지 못했습니다.");
@@ -112,7 +116,7 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
             <label className="block text-sm font-semibold text-slate-800">이메일
               <input type="email" required autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="name@example.com" />
             </label>
-            <TurnstileCaptcha action="community_otp_request" onToken={setRequestCaptchaToken} />
+            <TurnstileCaptcha key="community_otp_request" action="community_otp_request" onToken={setRequestCaptchaToken} />
             <button disabled={loading || requestCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "인증 코드 요청 중" : "8자리 인증 코드 받기"}</button>
           </form>
         ) : null}
@@ -123,9 +127,9 @@ export function CommunityAuthDialog({ open, onClose, onAuthenticated }: Props) {
             <label className="block text-sm font-semibold text-slate-800">인증 코드
               <input inputMode="numeric" pattern="[0-9]{8}" maxLength={8} required autoComplete="one-time-code" value={token} onChange={(event) => setToken(event.target.value.replace(/\D/g, ""))} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-lg tracking-[0.3em] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="00000000" />
             </label>
-            <TurnstileCaptcha action="community_otp_verify" onToken={setVerifyCaptchaToken} />
+            <TurnstileCaptcha key="community_otp_verify" action="community_otp_verify" onToken={setVerifyCaptchaToken} />
             <div className="flex gap-3">
-              <button type="button" onClick={() => setStep("email")} className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">이메일 변경</button>
+              <button type="button" onClick={() => { setToken(""); setMessage(""); setRequestCaptchaToken(null); setVerifyCaptchaToken(null); setStep("email"); }} className="flex-1 rounded-xl border border-slate-300 px-4 py-3 text-sm font-bold text-slate-700">이메일 변경</button>
               <button disabled={loading || verifyCaptchaToken === null} className="flex-1 rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "확인 중" : "인증 완료"}</button>
             </div>
           </form>

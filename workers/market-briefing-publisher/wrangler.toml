@@ -2,9 +2,10 @@ name = "market-briefing-publisher"
 main = "src/index.ts"
 compatibility_date = "2026-08-18"
 
-[triggers]
-# Event Queue is the normal trigger. KST Tue-Sat 10:37 runs only a D1 reconciliation safety check.
-crons = ["37 1 * * 2-6"]
+# Event Queue is the normal trigger. The dispatcher cron drains the durable D1 outbox;
+# reconciliation remains available through the Worker scheduled handler if a paid cron slot is added later.
+# No publisher cron is configured on the free plan because the account's five cron slots are reserved
+# for primary data collection and outbox dispatch.
 
 [[d1_databases]]
 binding = "ETF_PRICES"

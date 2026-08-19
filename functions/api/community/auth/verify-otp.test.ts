@@ -77,5 +77,19 @@ describe("커뮤니티 8자리 이메일 OTP 검증", () => {
 
     expect(response.status).toBe(400);
     expect(mocks.verifyOtp).not.toHaveBeenCalled();
+    await expect(response.json()).resolves.toEqual({
+      error: { code: "VALIDATION_ERROR", message: "이메일과 8자리 인증 코드를 확인해 주세요." },
+    });
+  });
+
+  it("유효하지 않은 OTP는 최신 8자리 코드 안내와 함께 거부한다", async () => {
+    mocks.verifyOtp.mockResolvedValue({ data: { session: null, user: null }, error: { message: "token has expired or is invalid" } });
+
+    const response = await onRequestPost(requestContext());
+
+    expect(response.status).toBe(401);
+    await expect(response.json()).resolves.toEqual({
+      error: { code: "AUTH_REQUIRED", message: "인증 코드가 올바르지 않거나 만료되었습니다. 가장 최근에 받은 8자리 코드로 다시 시도해 주세요." },
+    });
   });
 });

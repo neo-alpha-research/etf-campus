@@ -335,7 +335,7 @@ export function EtfDetail({
                       <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
                         {etf.distributionSummary 
                           ? "상세페이지의 수익률은 분배금 재투자 여부를 반영하지 않은 시장 가격 기준 누적 수익률(PR)입니다. 배당/분배금이 지급되는 ETF의 경우, 실제 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다." 
-                          : "상세페이지의 수익률은 시장 가격 기준 누적 수익률(PR)입니다. 해당 ETF의 분배금(배당) 상세 내역은 현재 당사에서 제공하지 않으며, 실제 분배금이 지급되었을 경우 이를 합산한 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다."}
+                          : "상세페이지의 수익률은 시장 가격 기준 누적 수익률(PR)입니다. 해당 ETF의 분배금(배당) 상세 내역은 현재 제공되지 않으며, 실제 분배금이 지급되었을 경우 이를 합산한 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다."}
                       </div>
                     </div>
                   </div>

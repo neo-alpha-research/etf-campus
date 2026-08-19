@@ -263,12 +263,15 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: python scripts/publish_market_source_snapshot.py
 
+      - name: Fetch global market indices
+        run: python scripts/fetch_market_indices.py
+
       - name: Commit changed data including verified distribution updates
         if: steps.changes.outputs.changed == 'true' && (steps.distribution.outcome == 'success' || steps.distribution.outcome == 'skipped')
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/distributions data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
+          git add data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/distributions data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
           if ! git diff --cached --quiet; then
             git commit -m "data: refresh ETF snapshot and distributions"
             git push
@@ -279,7 +282,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          git add data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
+          git add data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
           if git diff --cached --quiet; then
             echo "No market-data changes to commit; distribution outputs remain uncommitted."
           else

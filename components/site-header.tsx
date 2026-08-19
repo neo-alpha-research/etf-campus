@@ -99,7 +99,7 @@ export function SiteHeader() {
           </nav>
         </div>
       ) : null}
-          <div className="absolute right-4 top-3 z-20 sm:right-6 lg:right-8">
+          <div className="absolute right-[26px] top-3 z-20 sm:right-[34px] lg:right-[42px]">
         <AuthNav />
       </div>
     </header>

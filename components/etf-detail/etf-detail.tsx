@@ -238,11 +238,11 @@ export function EtfDetail({
                   style={{ gridTemplateColumns: `repeat(${defaultPeriods.length}, minmax(0, 1fr))` }}
                 >
                   {defaultPeriods.map((period) => (
-                    <div key={period} role="cell" className="bg-surface py-2.5 px-1 flex flex-col items-center justify-center text-center">
+                    <div key={period} role="cell" className="bg-surface py-2.5 px-0.5 sm:px-1 flex flex-col items-center justify-center text-center">
                       <div className="text-[11px] font-bold text-muted mb-1" title={RETURN_PERIOD_LABELS[period]} aria-label={RETURN_PERIOD_LABELS[period]}>
                         <span aria-hidden="true">{EN_PERIOD_LABELS[period] || period}</span>
                       </div>
-                      <div className="text-[12px] sm:text-[13px] font-bold tabular-nums tracking-tight">
+                      <div className="text-[11px] sm:text-[12px] font-bold tabular-nums tracking-tighter">
                         {etf.returns[period] === null ? (
                           <span aria-label="데이터 없음" className="text-muted font-medium">—</span>
                         ) : (

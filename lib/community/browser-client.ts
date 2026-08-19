@@ -71,7 +71,13 @@ export function clearCommunityDraft() {
 export async function communityFetch(path: string, init: RequestInit = {}) {
   const method = (init.method ?? "GET").toUpperCase();
   const unsafe = ["POST", "PATCH", "PUT", "DELETE"].includes(method);
-  if (unsafe && !path.startsWith("/api/community/auth/request-otp") && !path.startsWith("/api/community/auth/verify-otp")) await ensureCsrf();
+  
+  const isAuthStart = path.startsWith("/api/community/auth/request-otp") || 
+                      path.startsWith("/api/community/auth/verify-otp") || 
+                      path.startsWith("/api/community/auth/set-password") || 
+                      path.startsWith("/api/community/auth/login-password");
+                      
+  if (unsafe && !isAuthStart) await ensureCsrf();
 
   const headers = new Headers(init.headers);
   headers.set("Accept", "application/json");

@@ -18,6 +18,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [step, setStep] = useState<Step>(initialStep);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [token, setToken] = useState("");
   
   const [tempAccessToken, setTempAccessToken] = useState("");
@@ -105,6 +106,10 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
   async function setupPassword(event: React.FormEvent) {
     event.preventDefault();
+    if (password !== passwordConfirm) {
+      setMessage("입력한 두 비밀번호가 일치하지 않습니다.");
+      return;
+    }
     setLoading(true);
     setMessage("");
     try {
@@ -203,6 +208,9 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
             <p className="text-sm leading-6 text-slate-600">앞으로 사용할 비밀번호를 설정해 주세요. 인증 코드 대신 이메일과 비밀번호로 간편하게 로그인할 수 있습니다.</p>
             <label className="block text-sm font-semibold text-slate-800">새 비밀번호
               <input type="password" required minLength={8} autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="8자리 이상 입력" />
+            </label>
+            <label className="block text-sm font-semibold text-slate-800">새 비밀번호 확인
+              <input type="password" required minLength={8} autoComplete="new-password" value={passwordConfirm} onChange={(event) => setPasswordConfirm(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="비밀번호 다시 입력" />
             </label>
             <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "설정 중" : "비밀번호 저장 후 계속"}</button>
           </form>

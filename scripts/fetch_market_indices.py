@@ -16,10 +16,33 @@ TICKERS = {
     "원/달러": "KRW=X",
 }
 
-def fetch_index_data(ticker_symbol: str) -> dict | None:
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker_symbol}?range=1d&interval=1d"
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+import csv
+
+def get_target_date() -> str:
+    try:
+        with open("data/etf_master_draft.csv", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            return next(reader)["bas_dt"]
+    except Exception as e:
+        logging.warning(f"Could not read bas_dt, defaulting to today: {e}")
+        return datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y%m%d")
+
+def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
+    # Parse target date
+    target_date = datetime.strptime(target_date_str, "%Y%m%d")
+    
+    # We fetch a 10-day range ending slightly after the target date to ensure we have the target day and the previous day
+    end_date = target_date + timedelta(days=2)
+    start_date = target_date - timedelta(days=10)
+    
+    period1 = int(start_date.timestamp())
+    period2 = int(end_date.timestamp())
+    
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker_symbol}?period1={period1}&period2={period2}&interval=1d"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
     }
     
     try:
@@ -32,15 +55,37 @@ def fetch_index_data(ticker_symbol: str) -> dict | None:
             logging.error(f"No result found for {ticker_symbol}")
             return None
             
-        meta = result[0].get("meta", {})
-        price = meta.get("regularMarketPrice")
-        prev_close = meta.get("chartPreviousClose")
+        timestamps = result[0].get("timestamp", [])
+        indicators = result[0].get("indicators", {}).get("quote", [{}])[0]
+        closes = indicators.get("close", [])
         
-        if price is None or prev_close is None:
-            logging.error(f"Missing price data for {ticker_symbol}")
+        if not timestamps or not closes:
+            logging.error(f"Missing chart data for {ticker_symbol}")
             return None
             
-        # Calculate percentage change
+        # Find the index of the target date or the closest available trading day BEFORE or ON the target date
+        target_timestamp = int(target_date.replace(tzinfo=ZoneInfo("UTC")).timestamp())
+        
+        # Match closest date
+        target_idx = -1
+        for i, ts in enumerate(timestamps):
+            # Convert timestamp to YYYYMMDD in the local exchange timezone (simplified to UTC/KST offset logic)
+            # Actually, Yahoo timestamps for 1d interval usually represent the start of the trading day in UTC
+            ts_date = datetime.fromtimestamp(ts, tz=ZoneInfo("UTC")).strftime("%Y%m%d")
+            if ts_date <= target_date_str and closes[i] is not None:
+                target_idx = i
+                
+        if target_idx <= 0:
+            logging.error(f"Could not find sufficient historical data for {ticker_symbol} around {target_date_str}")
+            return None
+            
+        price = closes[target_idx]
+        prev_close = closes[target_idx - 1]
+        
+        if price is None or prev_close is None:
+            logging.error(f"Missing price data in historical array for {ticker_symbol}")
+            return None
+            
         change_pct = ((price - prev_close) / prev_close) * 100
         
         return {
@@ -55,9 +100,12 @@ def fetch_index_data(ticker_symbol: str) -> dict | None:
 def main():
     results = []
     
+    target_date_str = get_target_date()
+    logging.info(f"Using ETF base date: {target_date_str}")
+    
     for label, symbol in TICKERS.items():
-        logging.info(f"Fetching data for {label} ({symbol})...")
-        data = fetch_index_data(symbol)
+        logging.info(f"Fetching data for {label} ({symbol}) on {target_date_str}...")
+        data = fetch_index_data(symbol, target_date_str)
         
         if data:
             results.append({

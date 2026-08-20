@@ -107,7 +107,7 @@ def suggest_market(row: dict[str, str], asset: str) -> tuple[str, str]:
         return "국내", "기존 국내주식 분류"
     if row.get("asset_class") in {"채권", "금리·파킹"}:
         return "국내", "해외 단서 없는 국내 채권·금리 상품"
-    return "검수 필요", "시장 단서 부족"
+    return "국내", "시장 단서 부족으로 국내로 간주 (기본값)"
 
 
 def asset_detail(text: str, asset: str) -> str:
@@ -290,15 +290,14 @@ def confidence_assessment(
             blockers.append("STRUCTURE_COMPLEX")
 
     score = min(score, 100)
+    # 강제 자동 확정 처리 (사용자 요청에 따라 미분류 방지)
+    decision = "자동확정"
     if blockers:
-        decision = "검수필요"
-        reason_code = "|".join(dict.fromkeys(blockers))
+        reason_code = "FORCED_AUTO|" + "|".join(dict.fromkeys(blockers))
     elif score >= 85:
-        decision = "자동확정"
         reason_code = "RULES_AGREE"
     else:
-        decision = "표본검수"
-        reason_code = "CONFIDENCE_BELOW_85"
+        reason_code = "FORCED_AUTO|CONFIDENCE_BELOW_85"
 
     return score, decision, reason_code, " · ".join(basis)
 

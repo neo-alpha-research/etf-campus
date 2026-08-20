@@ -176,7 +176,7 @@ export function ReturnRankingChart({
       </div>
 
       <div ref={chartRef} className="bg-white p-2 sm:p-2.5">
-        <div className="mb-2">
+        <div className="mb-2 flex items-start justify-between gap-4">
           <h2 id="ranking-chart-title" className="text-[13px] font-extrabold tracking-tight text-strong sm:text-sm">
             {activeFilterLabels.length > 0 ? (
               <span className="text-brand-700">
@@ -191,6 +191,11 @@ export function ReturnRankingChart({
               {selectedPeriod === "custom" && customDateRange ? `${customDateRange.start.slice(2).replace(/-/g, '.')} ~ ${customDateRange.end.slice(2).replace(/-/g, '.')}` : (selectedPeriod !== "custom" ? RETURN_PERIOD_LABELS[selectedPeriod] : "")} 수익률 {isTop ? "TOP" : "BOTTOM"} 5
             </span>
           </h2>
+          {etfs.length > 0 && etfs[0].asOfDate && (
+            <div className="shrink-0 text-right text-[10px] sm:text-[11px] font-medium text-muted mt-0.5">
+              기준일: {etfs[0].asOfDate.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1.$2.$3")}
+            </div>
+          )}
         </div>
         
         {top10.length > 0 ? (

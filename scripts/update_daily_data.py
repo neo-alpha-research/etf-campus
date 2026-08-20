@@ -40,9 +40,11 @@ PERIODS = {
     "r_6m": ("months", 6),
     "r_ytd": ("ytd", 0),
     "r_12m": ("months", 12),
+    "r_24m": ("months", 24),
+    "r_36m": ("months", 36),
 }
 AVAILABLE_HISTORY_PERIODS = {
-    "r_1d", "r_1w", "r_2w", "r_1m", "r_2m", "r_3m", "r_6m", "r_ytd", "r_12m"
+    "r_1d", "r_1w", "r_2w", "r_1m", "r_2m", "r_3m", "r_6m", "r_ytd", "r_12m", "r_24m", "r_36m"
 }
 REQUEST_TIMEOUT_SECONDS = 15
 MAX_REQUEST_ATTEMPTS = 2

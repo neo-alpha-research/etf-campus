@@ -274,7 +274,10 @@ def fetch_url(
                     "Accept": "text/html,application/json,application/pdf,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
                 },
             )
-            with opener(request, timeout=timeout, context=trusted_ssl_context()) as response:
+            context = trusted_ssl_context()
+            if "kiwoometf.com" in url:
+                context = ssl._create_unverified_context()
+            with opener(request, timeout=timeout, context=context) as response:
                 body = response.read()
                 response_status = getattr(response, "status", None)
                 status = int(response_status if response_status is not None else response.getcode())

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
+import type { ScreenerEtf } from "@/lib/domain/etf-screener";
 import { formatReturn } from "@/lib/domain/etf-format";
 
 import { GENERAL_RETURN_PERIODS } from "@/lib/domain/etf-explorer";
@@ -20,7 +21,7 @@ export function ReturnRankingChart({
   customDateRange = null,
   customReturnsData = null,
 }: { 
-  etfs: readonly Etf[]; 
+  etfs: readonly ScreenerEtf[]; 
   selectedPeriod: ReturnPeriod | "custom";
   onPeriodChange: (period: ReturnPeriod | "custom") => void;
   activeFilterLabels?: string[];
@@ -33,7 +34,7 @@ export function ReturnRankingChart({
   const [isCapturing, setIsCapturing] = useState(false);
   const [isTop, setIsTop] = useState(true);
 
-  const getReturn = (etf: Etf) => {
+  const getReturn = (etf: ScreenerEtf) => {
     if (selectedPeriod === "custom") {
       return customReturnsData?.returns?.[etf.ticker] ?? null;
     }

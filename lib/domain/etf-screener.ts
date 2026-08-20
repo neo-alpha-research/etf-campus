@@ -50,7 +50,24 @@ function inTerRange(ter: number, range: TerRange): boolean {
   return ter >= 0.005;
 }
 
-export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[] {
+export type ScreenerEtf = Pick<Etf,
+  | "ticker"
+  | "name"
+  | "baseIndex"
+  | "close"
+  | "tradeValue"
+  | "aum"
+  | "fee"
+  | "issuer"
+  | "riskType"
+  | "assetClass"
+  | "pension"
+  | "asOfDate"
+  | "returns"
+  | "classification"
+>;
+
+export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilters): ScreenerEtf[] {
   return etfs.filter((etf) => {
     if (filters.keyword) {
       const kw = filters.keyword.toLowerCase();
@@ -59,7 +76,7 @@ export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[
     if (filters.pensionOnly && etf.pension !== "가능") return false;
     
     if (filters.marketScopes.length > 0) {
-      const scope = getEtfMarketScope(etf);
+      const scope = getEtfMarketScope(etf as unknown as Etf);
       if (!scope || !filters.marketScopes.includes(scope)) return false;
     }
 
@@ -67,12 +84,12 @@ export function filterEtfs(etfs: readonly Etf[], filters: ScreenerFilters): Etf[
     if (filters.riskTypes.length && !filters.riskTypes.includes(etf.riskType)) return false;
     
     if (filters.strategies.length > 0) {
-      const strategies = getEtfStrategies(etf);
+      const strategies = getEtfStrategies(etf as unknown as Etf);
       if (!filters.strategies.some(s => strategies.includes(s))) return false;
     }
 
     if (filters.fxHedges.length > 0) {
-      const fx = getEtfFxHedge(etf);
+      const fx = getEtfFxHedge(etf as unknown as Etf);
       if (!fx || !filters.fxHedges.includes(fx)) return false;
     }
     if (filters.aumScope === "1000plus" && etf.aum < 100_000_000_000) return false;

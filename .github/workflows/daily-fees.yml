@@ -1,8 +1,9 @@
-﻿name: Update ETF Fees
+name: Update ETF Fees
 
 on:
   schedule:
-    - cron: '30 21 * * *' # Runs at 06:30 KST daily
+    - cron: '19 21-23 * * 1-5'
+    - cron: '19 0 * * 2-6'
   workflow_dispatch:
 
 jobs:

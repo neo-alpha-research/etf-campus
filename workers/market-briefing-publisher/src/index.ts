@@ -1,4 +1,4 @@
-import { warmLatestBriefingCache } from "./publication-cache";
+import { warmLatestBriefingCache, updateEditorialPublicationCache } from "./publication-cache";
 import { materializeMarketSnapshot, type MarketSnapshotReadyEvent } from "./source-materializer";
 
 export interface Env {
@@ -467,7 +467,16 @@ export default {
   async queue(batch: MessageBatch<MarketSnapshotReadyEvent>, env: Env): Promise<void> {
     for (const message of batch.messages) {
       try {
-        const event = message.body;
+        const eventType = (message.body as any).event_type || "market_snapshot_ready";
+        if (eventType === "market_briefing_editorial") {
+          const event = message.body as any;
+          console.log(JSON.stringify({ event: "market_briefing_editorial_consumed", asOfDate: event.as_of_date, version: event.published_version }));
+          await updateEditorialPublicationCache(env, event.as_of_date, event.published_version, event.action);
+          message.ack();
+          continue;
+        }
+
+        const event = message.body as MarketSnapshotReadyEvent;
         const materialized = await materializeMarketSnapshot(env.ETF_PRICES, event);
         const result = await publishReadyBriefing(env, "manual", "manual", event.as_of_date);
         if (result.status === "failed") {

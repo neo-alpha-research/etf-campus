@@ -63,20 +63,36 @@ export function SiteHeader() {
 
   return (
     <header className="relative border-b border-line bg-surface/95 shadow-[0_1px_0_rgba(23,32,30,0.03)]">
-      <div className="page-shell flex min-h-16 items-center justify-between gap-6">
-        <Link className="flex shrink-0 items-center gap-2 text-lg font-extrabold tracking-[-0.03em] text-brand-800" href="/">
-          <span aria-hidden="true" className="grid size-10 overflow-hidden rounded-full border border-brand-200 bg-brand-50"><Tickery className="size-10 scale-125" pose="welcome" priority sizes="40px" /></span>
-          <span>{siteConfig.name}</span>
-        </Link>
-        <nav aria-label="주요 메뉴" className="hidden items-center gap-1 rounded-xl bg-neutral-50 p-1 text-sm font-bold md:flex">
+      <div className="page-shell flex min-h-16 items-center">
+        {/* Left: Logo */}
+        <div className="flex flex-1 items-center">
+          <Link className="flex shrink-0 items-center gap-2 text-lg font-extrabold tracking-[-0.03em] text-brand-800" href="/">
+            <span aria-hidden="true" className="grid size-10 overflow-hidden rounded-full border border-brand-200 bg-brand-50">
+              <Tickery className="size-10 scale-125" pose="welcome" priority sizes="40px" />
+            </span>
+            <span>{siteConfig.name}</span>
+          </Link>
+        </div>
+
+        {/* Center: Menus (shifted left by 10px) */}
+        <nav aria-label="주요 메뉴" className="hidden items-center gap-1 relative right-2.5 rounded-xl bg-neutral-50 p-1 text-sm font-bold md:flex">
           {navigation.map((item) => {
-            const className = `inline-flex min-h-11 items-center rounded-lg px-3.5 py-2.5 transition-all ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted hover:bg-surface hover:text-strong"}`;
+            const className = `inline-flex min-h-11 items-center rounded-lg px-3.5 py-2.5 transition-all ${
+              isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted hover:bg-surface hover:text-strong"
+            }`;
             return (
-              <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={className} href={item.href} key={item.href}>{item.label}</Link>
+              <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={className} href={item.href} key={item.href}>
+                {item.label}
+              </Link>
             );
           })}
         </nav>
-        <StyleChip />
+
+        {/* Right: StyleChip & AuthNav */}
+        <div className="flex flex-1 items-center justify-end gap-2.5">
+          <StyleChip />
+          <AuthNav />
+        </div>
       </div>
       <nav aria-label="모바일 주요 메뉴" className="scrollbar-none flex gap-2 overflow-x-auto border-t border-line bg-neutral-50 px-5 py-2.5 text-sm font-bold md:hidden">
         {navigation.map((item) => (
@@ -99,9 +115,6 @@ export function SiteHeader() {
           </nav>
         </div>
       ) : null}
-          <div className="absolute right-[26px] top-3 z-20 sm:right-[34px] lg:right-[42px]">
-        <AuthNav />
-      </div>
     </header>
   );
 }

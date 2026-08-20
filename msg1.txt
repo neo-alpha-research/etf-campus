@@ -1,0 +1,6 @@
+<USER_REQUEST>
+웹페이지에서 바로 확인 가능한가요? 링크 부탁합니다.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-08-17T14:10:50+09:00.
+</ADDITIONAL_METADATA>

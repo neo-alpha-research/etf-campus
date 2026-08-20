@@ -1,0 +1,215 @@
+<USER_REQUEST>
+# ETF Campus 커뮤니티 Preview 차단 해소 및 재배포 요청
+
+이전 작업 결과를 전제로, 아래 작업을 **한 번에 순서대로** 수행하십시오. 목표는 `community/phase-3-preview-rc` Preview 환경에서 공개 Turnstile 설정 API가 비로그인 상태에서도 정상 동작하도록 최소 수정하고, 최신 커밋이 배포된 Preview만 검증하는 것입니다.
+
+## 확정된 현재 상태
+
+| 항목 | 값 |
+| --- | --- |
+| 작업 폴더 | `D:\ETFCampus-community-phase3-rc` |
+| 작업 브랜치 | `community/phase-3-preview-rc` |
+| 현재 원격 커밋 | `fbadf7d9b8a219cbe6ef7bdca3a166ca8c8b9880` |
+| 현재 커밋 내용 | `wrangler.toml`의 Preview 공개 변수 3개 추가 |
+| Preview 커뮤니티 | `/community/` 최종 HTTP 200 |
+| Preview 글 목록 API | `GET /api/community/posts` HTTP 200 |
+| 차단 오류 | `GET /api/community/auth/config` HTTP 401, 응답 코드 `AUTH_REQUIRED` |
+| Production | 변경 금지, 현재 반영 금지 |
+
+현재 401은 공개 Turnstile 설정 API가 커뮤니티 공통 인증 미들웨어에 의해 차단되는 문제로 강하게 추정됩니다. 이 추정의 근거는 다음과 같습니다.
+
+- `/api/community/auth/config` 엔드포인트 자체는 공개 site key 및 `required` 상태를 제공해야 로그인 이전의 Turnstile 위젯이 렌더링될 수 있습니다.
+
+- 실제 응답의 `AUTH_REQUIRED` 코드는 `functions/api/community/_middleware.js`의 인증 경계에서 생성됩니다.
+
+- 설정 엔드포인트 구현 자체는 정상 구성 시 JSON 성공 응답 또는 구성 오류(503)를 반환하는 경로이므로, 현재 401은 설정 핸들러 이전의 미들웨어 차단으로 봐야 합니다.
+
+## 절대 금지 사항
+
+1. `main` 병합·Push, Production Cloudflare 배포, Production Supabase 변경을 하지 마십시오.
+
+1. `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `TURNSTILE_SECRET_KEY`, SMTP 비밀번호, 액세스 토큰 등 Secret 값을 출력·복사·기록·커밋하지 마십시오.
+
+1. Cloudflare·Supabase Secret의 값 또는 목록을 CLI/API로 조회하지 마십시오.
+
+1. `wrangler.toml`의 Preview 변수 및 기존 커뮤니티 보안 로직을 삭제·완화하지 마십시오.
+
+1. RLS·RPC·CSRF·rate limit·Turnstile 검증·OTP 검증을 우회하거나, 테스트 assertion을 약화·삭제·skip하지 마십시오.
+
+1. `supabase/.temp/`, 임시 파일, 빌드 산출물을 스테이징·커밋하지 마십시오.
+
+1. Cloudflare에서 이전 실패 배포 또는 Production 배포를 재시도하지 마십시오.
+
+1. 실제 사용자 계정, 개인정보, 실제 OTP를 사용하지 마십시오.
+
+## 즉시 중단 조건
+
+다음 중 하나라도 발생하면 이후 작업을 하지 말고 결과만 보고하십시오.
+
+- 현재 브랜치가 `community/phase-3-preview-rc`가 아님
+
+- 기존 작업 트리에 `supabase/.temp/` 외 예상하지 못한 수정·미추적 파일이 있음
+
+- 401 원인이 미들웨어가 아니라는 코드·로그 근거가 확인됨
+
+- 수정 후 `GET /api/community/auth/config`가 인증 없이 접근 가능해졌지만 Secret·내부 정보·이메일·Auth UUID를 노출함
+
+- `npm run lint`, `npm test`, `npm run build`, `git diff --check` 중 하나라도 실패함
+
+- 스테이징 파일에 미들웨어 수정과 그에 대응하는 테스트 외 파일이 포함됨
+
+- 최신 Push 커밋과 Cloudflare Preview 배포 커밋이 일치하지 않음
+
+## 1. 사전 확인
+
+다음을 실행하십시오.
+
+```
+Set-Location 'D:\ETFCampus-community-phase3-rc'
+git branch --show-current
+git rev-parse HEAD
+git rev-parse origin/community/phase-3-preview-rc
+git status --short
+git diff --check
+git log -2 --oneline --decorate
+```
+
+현재 HEAD와 `origin/community/phase-3-preview-rc`가 일치하는지 확인하십시오. `supabase/.temp/`는 커밋 대상이 아니므로 그대로 둡니다.
+
+다음 파일을 읽어 401이 발생하는 정확한 분기와 공개 라우트 정의를 확인하십시오.
+
+```
+functions/api/community/_middleware.js
+functions/api/community/auth/config.js
+functions/api/community/auth/request-otp.js
+functions/api/community/auth/verify-otp.js
+functions/api/community/_lib/api-security.ts
+```
+
+## 2. 최소 보안 수정
+
+`functions/api/community/_middleware.js`만 수정하여 **정확히 다음 경로의 ****`GET`**** 요청만** 세션 인증 없이 `config.js` 핸들러까지 통과하도록 하십시오.
+
+```
+/api/community/auth/config
+```
+
+구현 요구사항은 다음과 같습니다.
+
+1. 메서드가 `GET`이고 pathname이 정확히 `/api/community/auth/config`인 경우에만 공개 접근을 허용합니다.
+
+1. POST, PUT, PATCH, DELETE 요청에는 이 예외를 적용하지 않습니다.
+
+1. `/api/community/auth/request-otp` 및 `/api/community/auth/verify-otp`의 기존 보안 처리, Origin/CSRF 처리, rate limit, CAPTCHA 검증을 변경하지 않습니다.
+
+1. 게시물·댓글·수정·삭제·신고·탈퇴 API의 인증 요구를 변경하지 않습니다.
+
+1. 공개 설정 응답에는 `required`와 공개 `siteKey` 외 Secret·SMTP 정보·내부 사용자 식별자·이메일·Auth UUID가 포함되지 않도록 유지합니다.
+
+1. `COMMUNITY_ENVIRONMENT === "preview"` 환경에서 Turnstile 구성 불일치가 있으면 기존처럼 fail-closed(구성 오류)로 처리합니다.
+
+경로 예외를 넓게 만들지 마십시오. 예를 들어 `/api/community/auth/*` 전체를 익명 허용하는 변경은 금지입니다.
+
+## 3. 테스트 우선 보완
+
+기존 Pages Functions 또는 커뮤니티 API 테스트 구조를 찾아 다음 보안 회귀 테스트를 추가하거나 기존 테스트를 보완하십시오.
+
+1. **비로그인 GET `/api/community/auth/config`**은 미들웨어에서 `AUTH_REQUIRED` 401로 차단되지 않고 설정 핸들러에 도달합니다.
+
+1. 올바른 Preview 환경 변수가 주어진 경우 응답은 HTTP 200이며, `required: true`와 공개 `siteKey`만 포함합니다.
+
+1. 응답 JSON 문자열에 `TURNSTILE_SECRET_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, SMTP 관련 필드, 이메일, Auth UUID가 포함되지 않습니다.
+
+1. 비로그인 사용자의 보호된 쓰기 API는 계속 401 또는 기존의 적절한 인증 오류를 반환합니다.
+
+1. POST `/api/community/auth/config`은 공개 예외로 통과하지 않습니다.
+
+테스트는 실제 Secret을 사용하지 말고 더미 환경값 또는 mock을 사용하십시오. 기존 테스트 파일의 스타일·도구를 재사용하십시오.
+
+## 4. 로컬 검증
+
+수정 후 다음을 모두 실행하십시오.
+
+```
+npm run lint
+npm test
+npm run build
+git diff --check
+git diff -- functions/api/community/_middleware.js
+git status --short
+```
+
+한 항목이라도 실패하면 코드·테스트를 억지로 약화하지 말고 중단하십시오.
+
+## 5. 커밋과 Push
+
+검증이 모두 통과한 경우에만 미들웨어 수정과 대응 테스트만 스테이징하십시오.
+
+```
+git add -- functions/api/community/_middleware.js <대응-테스트-파일>
+git diff --cached --check
+git diff --cached --name-only
+git diff --cached
+```
+
+staged 파일이 허용 범위를 벗어나면 커밋하지 마십시오. 허용 범위가 확인되면 다음을 실행하십시오.
+
+```
+git commit -m "fix(auth): expose public Turnstile config endpoint"
+git rev-parse HEAD
+git push origin community/phase-3-preview-rc
+```
+
+Push 후 HEAD를 `AUTH_CONFIG_FIX_COMMIT`으로 기록하십시오. `main`에는 Push하지 마십시오.
+
+## 6. 최신 Preview 배포만 확인
+
+Cloudflare Pages 프로젝트 `etf-campus`에서 `community/phase-3-preview-rc`의 **새 Preview 배포**가 `AUTH_CONFIG_FIX_COMMIT`에서 생성됐는지 확인하십시오.
+
+- 기존 실패 배포나 이전 커밋 배포를 재시도하지 마십시오.
+
+- Git 연동 신규 배포가 생성되지 않으면 Cloudflare Dashboard에서 해당 브랜치가 Preview 빌드 대상인지 읽기 전용으로 점검하고, 이유를 보고한 뒤 중단하십시오.
+
+- 빌드가 생성됐으나 실패하면 실패 로그의 최초 오류만 보고하고 중단하십시오.
+
+- Cloudflare Deployment의 브랜치와 커밋 SHA가 `AUTH_CONFIG_FIX_COMMIT`과 일치할 때만 다음 검증을 수행하십시오.
+
+## 7. Preview 공개 API 재검증
+
+```
+curl.exe -sS -L -o NUL -w 'community final=%{url_effective} status=%{http_code}`n' 'https://community-phase-3-preview-rc.etf-campus.pages.dev/community'
+curl.exe -sS -L -o NUL -w 'posts final=%{url_effective} status=%{http_code}`n' 'https://community-phase-3-preview-rc.etf-campus.pages.dev/api/community/posts'
+curl.exe -sS -i -L 'https://community-phase-3-preview-rc.etf-campus.pages.dev/api/community/auth/config'
+```
+
+성공 기준은 다음과 같습니다.
+
+| 대상 | 성공 기준 |
+| --- | --- |
+| `/community` | 최종 HTTP 200 |
+| `/api/community/posts` | 최종 HTTP 200 |
+| `/api/community/auth/config` | 최종 HTTP 200, `AUTH_REQUIRED` 없음, 공개 site key 및 required 상태만 응답 |
+| 응답 보안 | 응답 본문·헤더에 Secret, 이메일, Auth UUID, SMTP 정보, 내부 토큰 미노출 |
+
+이 단계가 통과해도 운영자 OTP 입력·게시물·댓글·권한·탈퇴 스모크 테스트는 별도 확인이 필요합니다. 실제 OTP를 요청하거나 입력하지 마십시오.
+
+## 최종 보고 형식
+
+| 항목 | 결과 |
+| --- | --- |
+| 원인 판정 및 코드 근거 |  |
+| 수정 파일과 테스트 파일 |  |
+| 로컬 lint·test·build·diff 결과 |  |
+| 새 커밋 SHA / Push 결과 |  |
+| Cloudflare Preview 배포 SHA·상태 |  |
+| `/community`, posts, auth config API 결과 |  |
+| 401 해소 여부와 공개 응답 비노출 점검 |  |
+| 미실행 수동 OTP·권한·탈퇴 테스트 |  |
+| `main`·Production 미변경 확인 |  |
+| 최종 판정 | `Preview API 복구 완료, OTP 스모크 테스트 대기` 또는 `Preview 복구 보류` |
+
+Secret 값, OTP, 이메일 주소, Auth UUID는 보고에 절대 포함하지 마십시오.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-08-17T19:07:13+09:00.
+</ADDITIONAL_METADATA>

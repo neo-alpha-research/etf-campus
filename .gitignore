@@ -27,3 +27,7 @@ data/backups/
 data/distributions/.daily_distribution_update.lock
 data/distributions/reports/
 data/staging/
+
+scratch/
+*.tmp
+*.original.js

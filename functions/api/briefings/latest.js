@@ -1,3 +1,5 @@
+import { getEditorialOverlay } from "./_lib/editorial.js";
+
 const JSON_HEADERS = {
   "content-type": "application/json; charset=utf-8",
   "cache-control": "public, max-age=60, stale-while-revalidate=60",
@@ -104,7 +106,13 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
 
 export async function onRequestGet(context) {
   const cached = await readKvBriefing(context.env.BRIEFING_KV);
-  if (cached) return Response.json(cached, { headers: JSON_HEADERS });
+  if (cached) {
+    const editorial = await getEditorialOverlay(context.env, cached.briefing.asOfDate);
+    if (editorial) {
+      cached.briefing.editorial = editorial;
+    }
+    return Response.json(cached, { headers: JSON_HEADERS });
+  }
 
   const briefing = await context.env.ETF_PRICES.prepare(
     `SELECT
@@ -156,5 +164,10 @@ export async function onRequestGet(context) {
       .all(),
   ]);
 
-  return Response.json(toResponsePayload(briefing, assetClasses, focusEtfs), { headers: JSON_HEADERS });
+  const payload = toResponsePayload(briefing, assetClasses, focusEtfs);
+  const editorial = await getEditorialOverlay(context.env, briefing.as_of_date);
+  if (editorial) {
+    payload.briefing.editorial = editorial;
+  }
+  return Response.json(payload, { headers: JSON_HEADERS });
 }

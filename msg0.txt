@@ -1,0 +1,77 @@
+<USER_REQUEST>
+당신은 ETF Campus 코드베이스의 선임 풀스택 엔지니어입니다. 현재 프로젝트는 Windows의 `D:\ETFCampus`에 있으며, Git 원격 저장소는 `https://github.com/neo-alpha-research/etf-campus.git`입니다. 이 작업의 목표는 이미 구현된 **이메일 회원가입·로그인·서버 세션 기반 인증 UI/백엔드**를 안전하게 점검하고, 불필요한 비밀번호 재설정 UI는 숨긴 상태로 검증한 뒤, 인증 관련 변경만 커밋하고 `main` 브랜치로 푸시하는 것입니다.
+
+## 1. 절대 준수 사항
+
+1. 작업을 시작하기 전에 `D:\ETFCampus` 및 상위 경로의 `AGENTS.md`가 있으면 반드시 읽고 따르십시오.
+2. 현재 작업 트리에 인증 기능과 무관한 수정·신규 파일이 다수 존재할 수 있습니다. **이 파일들을 수정, 포맷, 삭제, 스테이징, 커밋하지 마십시오.**
+3. 먼저 `git status --short`, `git diff --stat`, `git diff --name-only`를 실행하고, 인증 기능에 필요한 파일만 분리하십시오.
+4. `main`에 직접 작업하지 말고, 현재 작업 트리를 건드리지 않는 안전한 방식으로 인증 변경만 담은 브랜치(예: `feat/auth-login-registration` )를 만드십시오. 별도 worktree 또는 새 브랜치를 사용해도 좋습니다.
+5. 비밀값, API 토큰, 실제 비밀번호, `.env` 파일의 내용은 Git에 추가하거나 출력하지 마십시오.
+6. `output: "export"` 제약을 유지하십시오. 인증 API는 Next.js Route Handler가 아니라 반드시 Cloudflare Pages Functions인 `functions/api/**` 구조를 사용해야 합니다.
+7. 프런트엔드의 UI 문구는 한국어로 유지하고, 스타일링은 Tailwind CSS 유틸리티 클래스를 우선 사용하십시오.
+8. 확신이 없는 기존 변경은 되돌리거나 덮어쓰지 말고, 필요한 내용을 확인한 뒤 진행하십시오.
+
+## 2. 이미 구현된 인증 범위
+
+다음 기능은 이미 코드로 구현된 상태입니다. 누락·회귀가 없는지 검토하고 필요한 최소한의 수정만 하십시오.
+
+| 범주 | 대상 |
+|---|---|
+| 회원가입 | `POST /api/auth/register`, 이메일·비밀번호·필수 동의 처리, 서버 세션 생성 |
+| 로그인 | `POST /api/auth/login`, HttpOnly 세션 쿠키 발급 |
+| 세션 조회 | `GET /api/auth/session` |
+| 로그아웃 | `POST /api/auth/logout`, `POST /api/auth/logout-all` |
+| 인증 UI | `app/login/page.tsx`, `app/register/page.tsx`, `components/auth/auth-forms.tsx`, `components/auth/auth-nav.tsx`, `components/auth/use-auth-session.ts` |
+| 화면 연결 | 전역 헤더의 `AuthNav`, ETF 비교·상세 페이지의 `AuthGate` |
+| 복귀 경로 | `lib/auth/return-to.ts`를 통한 내부 경로만 허용하는 `returnTo` 처리 |
+| DB 스키마 | `migrations/0001_auth_foundation.sql` — `auth_users`, `auth_consents`, `user_sessions` |
+| 공유 인증 유틸리티 | `functions/_shared/auth.js` — PBKDF2-HMAC-SHA-256, 210,000회 반복, 서버 pepper, 세션 토큰 해시 저장, HttpOnly 쿠키 |
+
+## 3. 이번 운영 검증 범위와 보류 범위
+
+이번 단계의 목표는 **회원가입·로그인·세션·로그아웃**입니다.
+
+- 로그인 화면에는 회원가입 링크를 유지하십시오.
+- 로그인 화면의 **“비밀번호를 잊으셨나요?”** 링크는 노출하지 마십시오.
+- 대신 로그인 폼에는 다음 안내 문구가 노출되어야 합니다.
+  - `현재는 회원가입과 로그인 기능을 먼저 운영 검증하고 있습니다.`
+- `app/forgot-password`, `app/reset-password`, `functions/api/auth/password-reset-request.js`, `functions/api/auth/password-reset.js`, `migrations/0002_password_reset_tokens.sql`은 코드 보존 상태로 두되, 이번 배포의 공개 UI·운영 플로우에는 포함하지 마십시오.
+- 비회원은 ETF 목록·검색·스크리너를 계속 탐색할 수 있어야 합니다.
+- ETF 비교와 ETF 상세 분석은 비회원에게 자연스러운 회원가입/로그인 게이트를 보여 주고, 로그인·가입 후 원래 내부 경로로 복귀해야 합니다.
+
+## 4. 점검 및 최소 수정 대상
+
+아래 파일을 우선적으로 점검하십시오. 단, 실제 코드 상태에 따라 인증 기능에 필수인 인접 파일만 추가하십시오.
+
+```text
+migrations/0001_auth_foundation.sql
+functions/_shared/auth.js
+functions/_shared/n8n.js
+functions/api/auth/register.js
+functions/api/auth/login.js
+functions/api/auth/session.js
+functions/api/auth/logout.js
+functions/api/auth/logout-all.js
+functions/api/member/_middleware.js
+functions/api/auth/__tests__/register.test.js
+functions/api/auth/__tests__/login.test.js
+functions/api/auth/__tests__/logout.test.js
+components/auth/auth-forms.tsx
+components/auth/auth-gate.tsx
+components/auth/auth-nav.tsx
+components/auth/use-auth-session.ts
+lib/auth/client.ts
+lib/auth/return-to.ts
+app/login/page.tsx
+app/register/page.tsx
+components/site-header.tsx
+app/compare/page.tsx
+app/etf/[ticker]/page.tsx
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-08-17T14:05:10+09:00.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to Gemini 3.1 Pro (High). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>

@@ -1,3 +1,5 @@
+import { getEditorialOverlay } from "./_lib/editorial.js";
+
 const JSON_HEADERS = {
   "content-type": "application/json; charset=utf-8",
   "cache-control": "public, max-age=300, stale-while-revalidate=300",
@@ -131,5 +133,10 @@ export async function onRequestGet(context) {
       .all(),
   ]);
 
-  return Response.json(toResponsePayload(briefing, assetClasses, focusEtfs), { headers: JSON_HEADERS });
+  const payload = toResponsePayload(briefing, assetClasses, focusEtfs);
+  const editorial = await getEditorialOverlay(context.env, briefing.as_of_date);
+  if (editorial) {
+    payload.briefing.editorial = editorial;
+  }
+  return Response.json(payload, { headers: JSON_HEADERS });
 }

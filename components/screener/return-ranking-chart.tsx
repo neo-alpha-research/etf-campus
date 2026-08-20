@@ -213,9 +213,9 @@ export function ReturnRankingChart({
                       {index + 1}
                     </div>
                     <div className="flex min-w-0 flex-col">
-                      <div className="truncate text-xs font-bold text-strong">
+                      <Link href={`/etf/${etf.ticker}`} className="truncate text-xs font-bold text-strong hover:text-brand-700 focus:outline-none focus:underline" title={etf.name}>
                         {etf.name}
-                      </div>
+                      </Link>
                       <div className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[9px] text-muted">
                         <span className="tabular-nums font-semibold">{etf.ticker}</span>
                         <span className="text-neutral-300">|</span>

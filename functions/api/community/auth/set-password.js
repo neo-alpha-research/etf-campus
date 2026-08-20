@@ -16,7 +16,7 @@ export async function onRequestPost(context) {
     const supabase = publicSupabase(context.env, tempAccessToken);
     const { data, error } = await supabase.auth.updateUser({ password });
     if (error || !data.user) {
-      return errorResponse(400, "VALIDATION_ERROR", "비밀번호 설정에 실패했습니다.");
+      return errorResponse(400, "VALIDATION_ERROR", error?.message || "비밀번호 설정에 실패했습니다.");
     }
 
     const session = { access_token: tempAccessToken, refresh_token: tempRefreshToken };

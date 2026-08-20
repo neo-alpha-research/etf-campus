@@ -1,6 +1,6 @@
 import { publicSupabase } from "../_lib/supabase";
 import { parseJsonBody, verifyTurnstile, enforceDatabaseRateLimit } from "../_lib/request-security";
-import { errorResponse } from "../_lib/api-security";
+import { errorResponse, jsonResponse } from "../_lib/api-security";
 import { sessionHeaders, readPasswordSetup, clearPasswordSetupHeaders } from "../_lib/session";
 
 export async function onRequestPost(context) {

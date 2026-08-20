@@ -79,7 +79,7 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
 
     // OTP verify step
     await act(async () => mocks.captchaCallbacks.get("community_otp_verify")?.("token2"));
-    fireEvent.change(screen.getByLabelText("8자리 코드"), { target: { value: "12345678" } });
+    fireEvent.change(screen.getByLabelText("인증 코드"), { target: { value: "12345678" } });
     fireEvent.click(screen.getByRole("button", { name: "인증 완료" }));
     await waitFor(() => expect(screen.getByRole("button", { name: "비밀번호 설정" })).toBeInTheDocument());
 

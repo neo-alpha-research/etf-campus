@@ -26,7 +26,8 @@ vi.mock("../_lib/request-security", () => ({
 }));
 
 vi.mock("../_lib/api-security", () => ({
-  errorResponse: (status, code, message) => Response.json({ error: { code, message } }, { status }),
+  errorResponse: (status, code, message) => Response.json({ error: { code, message } }, { status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } }),
+  jsonResponse: (body, status) => Response.json(body, { status, headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } }),
 }));
 
 import { passwordSetupHeaders } from "../_lib/session.js";

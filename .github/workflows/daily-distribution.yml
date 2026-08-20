@@ -2,8 +2,8 @@ name: Daily ETF distribution refresh
 
 on:
   schedule:
-    - cron: "30 21-23 * * 1-5"
-    - cron: "30 0 * * 2-6"
+    - cron: "16 21-23 * * 1-5"
+    - cron: "16 0 * * 2-6"
   workflow_dispatch:
 
 permissions:

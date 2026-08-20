@@ -13,8 +13,8 @@ on:
     #   Mon-Fri 22:17   Tue-Sat 07:17
     #   Mon-Fri 23:17   Tue-Sat 08:17
     #   Tue-Sat 00:17   Tue-Sat 09:17        final retry + stale alert
-    - cron: "0 21-23 * * 1-5"
-    - cron: "0 0 * * 2-6"
+    - cron: "13 21-23 * * 1-5"
+    - cron: "13 0 * * 2-6"
   workflow_dispatch:
     inputs:
       target:

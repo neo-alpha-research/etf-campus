@@ -139,7 +139,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
       setPasswordCaptchaToken(null);
       setCaptchaKey(k => k + 1);
       
-      if ((error as any)?.body?.passwordChanged === true) {
+      if ((error as Error & { body?: { passwordChanged?: boolean } })?.body?.passwordChanged === true) {
         setStep("login");
       }
     } finally {

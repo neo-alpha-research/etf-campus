@@ -62,7 +62,7 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
     mocks.communityFetch.mockResolvedValueOnce({ profileConfigured: true });
     
     // 3. set password throws error with passwordChanged: true
-    const setPasswordError = new Error("비밀번호는 정상 변경되었습니다. 새 비밀번호로 다시 로그인해 주세요.") as any;
+    const setPasswordError = new Error("비밀번호는 정상 변경되었습니다. 새 비밀번호로 다시 로그인해 주세요.") as Error & { status: number; code: string; body: { passwordChanged: boolean } };
     setPasswordError.status = 503;
     setPasswordError.code = "UNAVAILABLE";
     setPasswordError.body = { passwordChanged: true };

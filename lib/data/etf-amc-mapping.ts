@@ -26,7 +26,7 @@ export const BRAND_TO_AMC: Record<string, { issuerId: string; issuerName: string
   "UNICORN": { issuerId: "hyundai", issuerName: "현대자산운용" },
   "파워": { issuerId: "kyoboaxa", issuerName: "교보악사자산운용" },
   "MIDAS": { issuerId: "midas", issuerName: "마이다스에셋자산운용" },
-  "DAISHIN343": { issuerId: "daishin", issuerName: "대신자산운용" },
+  "DAISHIN": { issuerId: "daishin", issuerName: "대신자산운용" },
   "TREX": { issuerId: "yuri", issuerName: "유리자산운용" },
   "TRUSTON": { issuerId: "truston", issuerName: "트러스톤자산운용" },
   "DS": { issuerId: "ds", issuerName: "DS자산운용" },
@@ -44,6 +44,7 @@ export const LEGACY_BRAND_TO_AMC: Record<string, { issuerId: string; issuerName:
   "HEROES": { issuerId: "kiwoom", issuerName: "키움투자자산운용" },
   "KTOP": { issuerId: "hana", issuerName: "하나자산운용" },
   "TIMEFOLIO": { issuerId: "timefolio", issuerName: "타임폴리오자산운용" },
+  "DAISHIN343": { issuerId: "daishin", issuerName: "대신자산운용" },
 };
 
 export function resolveIssuer(ticker: string, isin: string, name: string): EtfIssuer {

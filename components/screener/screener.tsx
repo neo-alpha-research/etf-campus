@@ -260,7 +260,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   const rowVirtualizer = useVirtualizer({
     count: results.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 36, // Approximate height of a row in the screener table
+    estimateSize: () => 48, // Approximate height of a row in the screener table (2 lines max)
     overscan: 15,
   });
 
@@ -394,8 +394,8 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   }
 
   return (
-    <main className="page-shell flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
-      <div className="flex flex-wrap items-end justify-between gap-3">
+    <main className="page-shell flex flex-col flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
+      <div className="flex flex-wrap items-end justify-between gap-3 shrink-0">
         <div>
           <p className="eyebrow text-xs">ETF Screener</p>
           <h1 className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-strong sm:text-3xl">내 기준으로 ETF 찾기</h1>
@@ -404,7 +404,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
         <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="빠른 시작 조건">
+      <div className="mt-4 flex flex-wrap items-center gap-2 shrink-0" role="group" aria-label="빠른 시작 조건">
         <button
           type="button"
           aria-pressed={isPensionQuickActive}
@@ -468,7 +468,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
 
       </div>
 
-      <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">
+      <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)] flex-1 min-h-0">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
 
@@ -590,7 +590,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>
         </aside>
 
-        <section aria-labelledby="results-title" className="min-w-0">
+        <section aria-labelledby="results-title" className="min-w-0 flex flex-col">
           <ReturnRankingChart 
             etfs={results} 
             selectedPeriod={selectedPeriod}
@@ -678,8 +678,8 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
             {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
           </div>
           
-          <div className="overflow-hidden rounded-2xl border border-line">
-            <div ref={parentRef} className="overflow-x-auto overflow-y-auto max-h-[70vh]">
+          <div className="overflow-hidden rounded-2xl border border-line flex-1 flex flex-col min-h-[400px]">
+            <div ref={parentRef} className="overflow-x-auto overflow-y-auto flex-1">
               <table className="w-full text-left text-sm whitespace-nowrap">
                 <colgroup>
                   <col style={{ width: 56 }} />
@@ -752,39 +752,39 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                   {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                     const etf = results[virtualRow.index];
                     return (
-                    <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" key={etf.ticker} data-index={virtualRow.index} ref={rowVirtualizer.measureElement}>
-                      <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted tabular-nums">{etf.ticker}</td>
-                      <th className="w-[168px] px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                    <tr className="h-[48px] bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" key={etf.ticker} data-index={virtualRow.index} ref={rowVirtualizer.measureElement}>
+                      <td className="px-0.5 py-1 text-center text-[11px] font-bold text-muted tabular-nums">{etf.ticker}</td>
+                      <th className="w-[168px] px-2 py-1 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
                         <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
                       </th>
-                      <td className="px-0.5 py-2 text-center text-[11px] font-semibold text-muted">
+                      <td className="px-0.5 py-1 text-center text-[11px] font-semibold text-muted">
                         {etf.assetClass}
                       </td>
-                      <td className="px-0.5 py-2 text-center text-[11px] font-semibold text-muted">
+                      <td className="px-0.5 py-1 text-center text-[11px] font-semibold text-muted">
                         {etf.classification?.marketScope}
                       </td>
-                      <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted"><FxHedgeMarker value={etf.classification?.fxHedge || null} /></td>
-                      <td className="px-0.5 py-2 text-center"><PensionBadge compact status={etf.pension} /></td>
+                      <td className="px-0.5 py-1 text-center text-[11px] font-bold text-muted"><FxHedgeMarker value={etf.classification?.fxHedge || null} /></td>
+                      <td className="px-0.5 py-1 text-center"><PensionBadge compact status={etf.pension} /></td>
                       
-                      <td className={`px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
+                      <td className={`px-1 py-1 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["1d"]} />
                       </td>
-                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
+                      <td className={`px-1 py-1 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["1m"]} />
                       </td>
-                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
+                      <td className={`px-1 py-1 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["3m"]} />
                       </td>
-                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
+                      <td className={`px-1 py-1 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["12m"]} />
                       </td>
                       {comparisonPeriod && (
-                        <td className="px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
+                        <td className="px-1 py-1 text-right font-semibold tabular-nums bg-brand-50">
                           <ReturnCell showUnit={false} value={etf.returns[comparisonPeriod]} />
                         </td>
                       )}
                       {customDateRange && !comparisonPeriod && (
-                        <td className="px-3 py-3 font-semibold text-right border-l-2 border-line bg-amber-50/30">
+                        <td className="px-3 py-1 font-semibold text-right border-l-2 border-line bg-amber-50/30">
                           {isCustomReturnsLoading ? (
                             <span className="text-muted text-xs">...</span>
                           ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
@@ -795,10 +795,10 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                         </td>
                       )}
                       
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{etf.fee?.verificationStatus === "verified_official" && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatTradeValueNumber(etf.tradeValue)}</td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
+                      <td className="px-1 py-1 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{etf.fee?.verificationStatus === "verified_official" && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
+                      <td className="px-1 py-1 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>
+                      <td className="px-1 py-1 text-right font-semibold tabular-nums">{formatTradeValueNumber(etf.tradeValue)}</td>
+                      <td className="px-1 py-1 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
                     </tr>
                     );
                   })}

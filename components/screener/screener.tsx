@@ -259,9 +259,14 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   const [tableOffset, setTableOffset] = useState(0);
 
   useEffect(() => {
-    if (tableRef.current) {
-      setTableOffset(tableRef.current.offsetTop);
-    }
+    const updateOffset = () => {
+      if (tableRef.current) {
+        setTableOffset(tableRef.current.getBoundingClientRect().top + window.scrollY);
+      }
+    };
+    updateOffset();
+    window.addEventListener("resize", updateOffset);
+    return () => window.removeEventListener("resize", updateOffset);
   }, [results.length]); // Re-calculate when results change, as layout might shift
 
   const rowVirtualizer = useWindowVirtualizer({
@@ -810,7 +815,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                     );
                   })}
                   {rowVirtualizer.getVirtualItems().length > 0 && (
-                    <tr style={{ height: `${rowVirtualizer.getTotalSize() - rowVirtualizer.getVirtualItems()[rowVirtualizer.getVirtualItems().length - 1].end}px` }}>
+                    <tr style={{ height: `${rowVirtualizer.getTotalSize() - (rowVirtualizer.getVirtualItems()[rowVirtualizer.getVirtualItems().length - 1].end - rowVirtualizer.options.scrollMargin)}px` }}>
                       <td colSpan={14} className="p-0 border-0"></td>
                     </tr>
                   )}

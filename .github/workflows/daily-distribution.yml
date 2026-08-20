@@ -1,0 +1,95 @@
+name: Daily ETF distribution refresh
+
+on:
+  schedule:
+    - cron: "30 21-23 * * 1-5"
+    - cron: "30 0 * * 2-6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  distribution:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install beautifulsoup4 certifi requests xlrd
+
+      - name: Refresh distribution sources and return status
+        id: distribution
+        run: python scripts/run_daily_distribution_update.py
+
+      - name: Write distribution collection diagnostics
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report_path = Path("data/distributions/reports/official_source_collection_latest.json")
+          summary_path = Path(os.environ["GITHUB_STEP_SUMMARY"])
+          with summary_path.open("a", encoding="utf-8") as summary:
+              summary.write("### Official distribution source collection\n")
+              if not report_path.exists():
+                  summary.write("- Diagnostic report was not created before the workflow stopped.\n")
+              else:
+                  report = json.loads(report_path.read_text(encoding="utf-8"))
+                  summary.write(f"- Status: `{report.get('status', 'unknown')}`\n")
+                  summary.write(f"- Targets: {report.get('total_targets', 0)}, collected: {report.get('collected', 0)}, skipped: {report.get('skipped', 0)}, failed: {report.get('failed', 0)}, unconfigured: {report.get('unconfigured', 0)}\n")
+                  summary.write(f"- Existing verified raw documents preserved: {report.get('preserved_existing_verified_raw', 0)}\n")
+                  for issue in report.get("issues", []):
+                      summary.write(
+                          "- Failure: "
+                          f"`{issue.get('source_id', 'unknown')}` | date={issue.get('request_date_utc', 'unknown')} | "
+                          f"status={issue.get('http_status', 'network')} | attempts={issue.get('attempts', 0)} | "
+                          f"category={issue.get('failure_category', 'unknown')} | reason={issue.get('final_failure_reason', 'unknown')}\n"
+                      )
+          PY
+
+      - name: Upload distribution collection diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: distribution-collection-diagnostics-${{ github.run_id }}
+          path: |
+            data/distributions/reports/official_source_collection_latest.json
+            data/distributions/reports/daily_distribution_update_latest.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Detect publishable data changes
+        id: changes
+        run: |
+          if git status --porcelain --untracked-files=all -- data/distributions | grep -q .; then
+            echo "Publishable data changes detected."
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No data changes. Skipping validation and commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit distribution updates
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "etf-campus-data-bot"
+          git config user.email "etf-campus-data-bot@users.noreply.github.com"
+          git add data/distributions
+          if ! git diff --cached --quiet; then
+            git commit -m "data(distributions): refresh distribution schedule and sources"
+            git push
+          fi

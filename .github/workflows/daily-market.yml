@@ -13,8 +13,8 @@ on:
     #   Mon-Fri 22:17   Tue-Sat 07:17
     #   Mon-Fri 23:17   Tue-Sat 08:17
     #   Tue-Sat 00:17   Tue-Sat 09:17        final retry + stale alert
-    - cron: "17 21-23 * * 1-5"
-    - cron: "17 0 * * 2-6"
+    - cron: "0 21-23 * * 1-5"
+    - cron: "0 0 * * 2-6"
   workflow_dispatch:
     inputs:
       target:
@@ -160,58 +160,10 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Refresh distribution sources and return status
-        id: distribution
-        if: steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true'
-        continue-on-error: true
-        run: python scripts/run_daily_distribution_update.py
-
-      - name: Write distribution collection diagnostics
-        if: always() && steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true'
-        shell: bash
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-
-          report_path = Path("data/distributions/reports/official_source_collection_latest.json")
-          summary_path = Path(os.environ["GITHUB_STEP_SUMMARY"])
-          with summary_path.open("a", encoding="utf-8") as summary:
-              summary.write("### Official distribution source collection\\n")
-              if not report_path.exists():
-                  summary.write("- Diagnostic report was not created before the workflow stopped.\\n")
-              else:
-                  report = json.loads(report_path.read_text(encoding="utf-8"))
-                  summary.write(f"- Status: `{report.get('status', 'unknown')}`\\n")
-                  summary.write(f"- Targets: {report.get('total_targets', 0)}, collected: {report.get('collected', 0)}, skipped: {report.get('skipped', 0)}, failed: {report.get('failed', 0)}, unconfigured: {report.get('unconfigured', 0)}\\n")
-                  summary.write(f"- Existing verified raw documents preserved: {report.get('preserved_existing_verified_raw', 0)}\\n")
-                  for issue in report.get("issues", []):
-                      summary.write(
-                          "- Failure: "
-                          f"`{issue.get('source_id', 'unknown')}` | date={issue.get('request_date_utc', 'unknown')} | "
-                          f"status={issue.get('http_status', 'network')} | attempts={issue.get('attempts', 0)} | "
-                          f"category={issue.get('failure_category', 'unknown')} | reason={issue.get('final_failure_reason', 'unknown')}\\n"
-                      )
-          PY
-
-      - name: Upload distribution collection diagnostics
-        if: always() && steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: distribution-collection-diagnostics-${{ github.run_id }}
-          path: |
-            data/distributions/reports/official_source_collection_latest.json
-            data/distributions/reports/daily_distribution_update_latest.json
-          if-no-files-found: warn
-          retention-days: 14
-
-      # Include untracked raw-source snapshots as well as tracked output files.
-      # A new official notice must be committed together with its evidence.
       - name: Detect publishable data changes
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/distributions data/returns | grep -q .; then
+          if git status --porcelain --untracked-files=all -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns | grep -q .; then
             echo "Publishable data changes detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
@@ -266,26 +218,13 @@ jobs:
       - name: Fetch global market indices
         run: python scripts/fetch_market_indices.py
 
-      - name: Commit changed data including verified distribution updates
-        if: steps.changes.outputs.changed == 'true' && (steps.distribution.outcome == 'success' || steps.distribution.outcome == 'skipped')
-        run: |
-          git config user.name "etf-campus-data-bot"
-          git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          git add data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/distributions data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
-          if ! git diff --cached --quiet; then
-            git commit -m "data: refresh ETF snapshot and distributions"
-            git push
-          fi
-
-      - name: Commit market data only when distribution collection failed
-        if: steps.changes.outputs.changed == 'true' && steps.distribution.outcome == 'failure'
+      - name: Commit refreshed market data
+        if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
           git add data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
-          if git diff --cached --quiet; then
-            echo "No market-data changes to commit; distribution outputs remain uncommitted."
-          else
+          if ! git diff --cached --quiet; then
             git commit -m "data: refresh ETF snapshot"
             git push
           fi
@@ -300,18 +239,9 @@ jobs:
             echo "- Snapshot date: ${bas_dt}"
             echo "- Fresh: ${{ steps.freshness.outputs.fresh || 'unknown' }}"
             echo "- Price snapshot changed: ${{ steps.snapshot_changes.outputs.changed || 'unknown' }}"
-            echo "- Distribution pipeline: ${{ steps.distribution.outcome || 'skipped' }}"
-            echo "- Distribution diagnostics: data/distributions/reports/official_source_collection_latest.json"
-            echo "- Repository data changed: ${{ steps.changes.outputs.changed || 'unknown' }}"
+                                    echo "- Repository data changed: ${{ steps.changes.outputs.changed || 'unknown' }}"
             echo "- Trigger: ${{ github.event_name }} / ${{ github.event.schedule || 'manual' }}"
           } >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Report distribution collection degradation
-        if: always() && steps.distribution.outcome == 'failure'
-        run: |
-          message="Official distribution source collection failed. Diagnostics were uploaded; distribution outputs were not committed. Verified market data may still be validated and committed."
-          echo "::warning::${message}"
-          echo "- Distribution status: degraded — ${message}" >> "$GITHUB_STEP_SUMMARY"
 
       # A run can end green while the site quietly serves stale prices: if the
       # feed has not published, the collector falls back to the previous close

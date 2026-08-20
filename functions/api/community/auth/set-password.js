@@ -16,7 +16,18 @@ export async function onRequestPost(context) {
     const supabase = publicSupabase(context.env, tempAccessToken);
     const { data, error } = await supabase.auth.updateUser({ password });
     if (error || !data.user) {
-      return errorResponse(400, "VALIDATION_ERROR", error?.message || "비밀번호 설정에 실패했습니다.");
+      console.error("Set password error:", error);
+      let errorMessage = error?.message || error?.msg || error?.error_description || "비밀번호 설정에 실패했습니다.";
+      if (errorMessage.includes("different from the old password")) {
+        errorMessage = "새 비밀번호는 기존 비밀번호와 다르게 설정해야 합니다.";
+      } else if (errorMessage.includes("Password should be at least")) {
+        errorMessage = "비밀번호는 최소 8자리 이상이어야 합니다.";
+      } else if (errorMessage.includes("Weak password")) {
+        errorMessage = "보안을 위해 더 안전한 비밀번호를 설정해 주세요.";
+      } else if (errorMessage.toLowerCase().includes("jwt") || errorMessage.toLowerCase().includes("token")) {
+        errorMessage = "보안 세션이 만료되었습니다. 인증을 다시 진행해 주세요.";
+      }
+      return errorResponse(400, "VALIDATION_ERROR", errorMessage);
     }
 
     const session = { access_token: tempAccessToken, refresh_token: tempRefreshToken };

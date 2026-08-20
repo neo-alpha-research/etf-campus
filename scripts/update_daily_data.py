@@ -100,8 +100,8 @@ def historical_snapshot_is_complete(snapshot: dict[str, dict], expected_count: i
     valid_closes = sum(as_float(row.get("clpr")) is not None for row in snapshot.values())
     return (
         bool(snapshot)
-        and len(snapshot) >= max(1, int(expected_count * 0.8))
-        and valid_closes >= max(1, int(expected_count * 0.8))
+        and len(snapshot) >= 200
+        and valid_closes >= int(len(snapshot) * 0.8)
     )
 
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 
 export default function AdminBriefingsList() {
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [briefings, setBriefings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 

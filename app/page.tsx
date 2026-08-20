@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Screener } from "@/components/screener/screener";
 import { loadEtfs } from "@/lib/data/etf-repository";
@@ -19,7 +19,7 @@ export default function HomePage() {
     fee: etf.fee ? {
       totalFeePct: etf.fee.totalFeePct,
       verificationStatus: etf.fee.verificationStatus,
-    } as any : null,
+    } : null,
     issuer: etf.issuer,
     riskType: etf.riskType,
     assetClass: etf.assetClass,
@@ -30,8 +30,8 @@ export default function HomePage() {
       marketScope: etf.classification.marketScope,
       fxHedge: etf.classification.fxHedge,
       strategy: etf.classification.strategy,
-    } as any : null,
-  }));
+    } : null,
+  })) as ScreenerEtf[];
 
   return <Screener etfs={screenerEtfs} />;
 }

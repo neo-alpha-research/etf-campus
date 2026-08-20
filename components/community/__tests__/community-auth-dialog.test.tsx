@@ -92,7 +92,7 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
     // Expect fallback to login step
     await waitFor(() => {
       expect(screen.getByText("비밀번호는 정상 변경되었습니다. 새 비밀번호로 다시 로그인해 주세요.")).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "로그인" })).toBeInTheDocument(); // Login step's main button
+      expect(screen.getByRole("button", { name: "이메일 로그인" })).toBeInTheDocument(); // Login step's main button
     });
   });
 });

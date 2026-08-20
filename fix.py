@@ -1,6 +1,4 @@
-import csv
 import re
-from datetime import datetime, timedelta
 
 with open('d1_unadjusted_prices.sql', 'r', encoding='utf-8') as f:
     sql = f.read()
@@ -12,6 +10,6 @@ for match in re.finditer(r"\('(\d{6})',\s*'(\d{4}-\d{2}-\d{2})',\s*(\d+)\)", sql
         prices[t] = {}
     prices[t][d] = int(p)
 
-print(f"117700 2023-08-18: {prices.get('117700', {}).get('2023-08-18')}")
-print(f"117700 2024-08-19: {prices.get('117700', {}).get('2024-08-19')}")
-print(f"117700 2026-08-19: {prices.get('117700', {}).get('2026-08-19')}")
+p1 = prices['117700'].get('2023-07-19')
+p2 = prices['117700'].get('2026-07-20')
+print(f'2023-07-19: {p1}, 2026-07-20: {p2}, ret: {(p2-p1)/p1*100:.2f}%')

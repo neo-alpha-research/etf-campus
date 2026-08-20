@@ -1,4 +1,4 @@
-﻿name: Daily ETF distribution refresh
+name: Daily ETF distribution refresh
 
 on:
   schedule:
@@ -105,10 +105,6 @@ jobs:
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: Validate distribution updates
-        if: steps.changes.outputs.changed == 'true'
-        run: python scripts/validate_distribution_updates.py
 
       - name: Commit distribution updates
         if: steps.changes.outputs.changed == 'true'

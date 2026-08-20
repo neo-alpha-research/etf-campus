@@ -1,4 +1,4 @@
-name: Daily ETF data refresh
+name: Daily ETF market data refresh
 
 on:
   schedule:

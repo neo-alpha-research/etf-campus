@@ -9,7 +9,8 @@ import { getPeerComparison } from "@/lib/data/etf-peer-groups";
 
 type Props = { params: Promise<{ ticker: string }> };
 
-export const dynamicParams = false;
+export const dynamicParams = true;
+export const revalidate = 86400;
 
 export function generateStaticParams() {
   return loadEtfs().map((etf) => ({ ticker: etf.ticker }));
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const etf = loadEtfs().find((item) => item.ticker === ticker);
   if (!etf) return {};
 
-  const description = `${etf.name}의 종가, 기간 수익률, 자산군, 위험유형, 연금 계좌 편입 여부를 확인하세요.`;
+  const description = `${etf.name}??종�?, 기간 ?�익�? ?�산�? ?�험?�형, ?�금 계좌 ?�입 ?��?�??�인?�세??`;
   return {
     title: `${etf.name} (${etf.ticker})`,
     description,
@@ -45,9 +46,9 @@ export default async function EtfPage({ params }: Props) {
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <Suspense fallback={<div className="h-36 animate-pulse rounded-2xl border border-line bg-brand-50/60" />}>
         <AuthGate
-          featureLabel="ETF 상세 분석"
-          title="ETF 상세 분석을 열어 보세요"
-          description="구성 종목, 수익률 비교와 주요 지표 분석은 무료 회원가입 후 이용할 수 있습니다. 가입을 마치면 이 ETF 상세 화면으로 바로 돌아옵니다."
+          featureLabel="ETF ?�세 분석"
+          title="ETF ?�세 분석???�어 보세??
+          description="구성 종목, ?�익�?비교?� 주요 지??분석?� 무료 ?�원가?????�용?????�습?�다. 가?�을 마치�???ETF ?�세 ?�면?�로 바로 ?�아?�니??"
         >
           <EtfDetail etf={etf} peerComparison={peerComparison} />
         </AuthGate>

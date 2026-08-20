@@ -254,11 +254,19 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
   }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData]);
   
   const tableRef = useRef<HTMLTableElement>(null);
+  const [tableOffset, setTableOffset] = useState(0);
+
+  useEffect(() => {
+    if (tableRef.current) {
+      setTableOffset(tableRef.current.offsetTop);
+    }
+  }, [results.length]); // Re-calculate when results change, as layout might shift
+
   const rowVirtualizer = useWindowVirtualizer({
     count: results.length,
     estimateSize: () => 36, // Approximate height of a row in the screener table
     overscan: 15,
-    scrollMargin: tableRef.current?.offsetTop ?? 0,
+    scrollMargin: tableOffset,
   });
 
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;

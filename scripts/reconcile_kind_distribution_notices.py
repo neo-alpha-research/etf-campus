@@ -46,6 +46,7 @@ from collect_distribution_sources import (
     read_csv,
     refresh_coverage,
     sha256,
+    verify_raw_hash,
     utc_now,
     write_csv,
 )
@@ -150,7 +151,8 @@ def parse() -> dict[str, object]:
             errors.append({"source_id": source_id, "issue": "raw_source_file_missing"})
             continue
         body_hash = sha256(raw_path.read_bytes())
-        if clean(source.get("content_hash_sha256")) and body_hash != clean(source.get("content_hash_sha256")):
+        expected_hash = clean(source.get("content_hash_sha256"))
+        if expected_hash and not verify_raw_hash(raw_path.read_bytes(), expected_hash):
             errors.append({"source_id": source_id, "issue": "raw_source_hash_mismatch"})
             continue
         source_records: dict[str, dict[str, str]] = {}
@@ -296,7 +298,9 @@ def validate() -> dict[str, object]:
             errors.append({"notice_evidence_id": evidence_id, "issue": "raw_source_file_missing"})
         else:
             actual_hash = sha256(raw.read_bytes())
-            if actual_hash != clean(row.get("content_hash_sha256")) or actual_hash != clean(source.get("content_hash_sha256")):
+            expected_row_hash = clean(row.get("content_hash_sha256"))
+            expected_source_hash = clean(source.get("content_hash_sha256"))
+            if not verify_raw_hash(raw.read_bytes(), expected_row_hash) or not verify_raw_hash(raw.read_bytes(), expected_source_hash):
                 errors.append({"notice_evidence_id": evidence_id, "issue": "raw_source_hash_mismatch"})
         if not ISIN_RE.fullmatch(clean(row.get("etf_id")).upper()):
             errors.append({"notice_evidence_id": evidence_id, "issue": "invalid_isin"})

@@ -181,6 +181,18 @@ def sha256(content: bytes) -> str:
     return hashlib.sha256(content).hexdigest()
 
 
+def verify_raw_hash(raw_bytes: bytes, expected_hash: str) -> bool:
+    if not expected_hash:
+        return False
+    if sha256(raw_bytes) == expected_hash:
+        return True
+    if sha256(raw_bytes.replace(b'\r\n', b'\n')) == expected_hash:
+        return True
+    if sha256(raw_bytes.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')) == expected_hash:
+        return True
+    return False
+
+
 def deterministic_id(prefix: str, *parts: str) -> str:
     digest = hashlib.sha256("|".join(clean(part) for part in parts).encode("utf-8")).hexdigest()[:16]
     return f"{prefix}:{digest}"
@@ -419,7 +431,9 @@ def source_has_verified_raw(row: dict[str, str] | None) -> bool:
     raw_path = clean(row.get("raw_path"))
     expected_hash = clean(row.get("content_hash_sha256"))
     raw_file = ROOT / raw_path if raw_path else None
-    return bool(raw_file and expected_hash and raw_file.exists() and sha256(raw_file.read_bytes()) == expected_hash)
+    if not (raw_file and raw_file.exists()):
+        return False
+    return verify_raw_hash(raw_file.read_bytes(), expected_hash)
 
 
 def collection_issue(target: dict[str, str], result: FetchResult, preserved: bool) -> dict[str, object]:
@@ -664,10 +678,13 @@ def validate() -> dict[str, object]:
                 issue = {"source_id": source_id, "issue": "raw_source_file_missing"}
                 errors.append(issue)
                 source_integrity["issues"].append(issue)
-            elif expected_hash and sha256(raw_file.read_bytes()) != expected_hash:
-                issue = {"source_id": source_id, "issue": "raw_source_hash_mismatch"}
-                errors.append(issue)
-                source_integrity["issues"].append(issue)
+            elif expected_hash:
+                if not verify_raw_hash(raw_file.read_bytes(), expected_hash):
+                    issue = {"source_id": source_id, "issue": "raw_source_hash_mismatch"}
+                    errors.append(issue)
+                    source_integrity["issues"].append(issue)
+                else:
+                    source_integrity["passed"] += 1
             else:
                 source_integrity["passed"] += 1
         elif http_status.startswith("2"):

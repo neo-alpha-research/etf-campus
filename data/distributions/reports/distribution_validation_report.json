@@ -1,11 +1,88 @@
 {
-  "generated_at": "2026-08-16T10:14:37+00:00",
+  "generated_at": "2026-08-20T03:23:49+00:00",
   "source_document_count": 73,
   "event_count": 23,
   "coverage_count": 1160,
-  "error_count": 0,
+  "error_count": 19,
   "warning_count": 19,
-  "errors": [],
+  "errors": [
+    {
+      "source_id": "issuer:registry:daishin343_notice_pending:root",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:074baf9dc3d06748",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:23ccaabdc451de96",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:2dbc14a2af021e34",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:3925af7f9c1a6a6b",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:3cd32c3ca900c986",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:5cd69c38f73fccb3",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:63ab0f169c413264",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:72b0fe3efe59e022",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:b12ce00024839193",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:bf901b08c8b7cf14",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:c42ad1f2be4919f5",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:c6a8e01346d80c05",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:d291f0d3cd281a84",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:de52bc244c44e676",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:e43e1be8acac4743",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:detail:f781c08aafa99085",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:plus_notice_list:root",
+      "issue": "raw_source_hash_mismatch"
+    },
+    {
+      "source_id": "issuer:registry:timefolio_notice_list:root",
+      "issue": "raw_source_hash_mismatch"
+    }
+  ],
   "warnings": [
     {
       "event_id": "KR70073X0007:2026-07-30:ordinary_cash:kind-v1",
@@ -91,8 +168,85 @@
     "partial": 14
   },
   "source_integrity": {
-    "checked": 58,
-    "passed": 58,
-    "issues": []
+    "checked": 59,
+    "passed": 40,
+    "issues": [
+      {
+        "source_id": "issuer:registry:daishin343_notice_pending:root",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:074baf9dc3d06748",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:23ccaabdc451de96",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:2dbc14a2af021e34",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:3925af7f9c1a6a6b",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:3cd32c3ca900c986",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:5cd69c38f73fccb3",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:63ab0f169c413264",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:72b0fe3efe59e022",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:b12ce00024839193",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:bf901b08c8b7cf14",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:c42ad1f2be4919f5",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:c6a8e01346d80c05",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:d291f0d3cd281a84",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:de52bc244c44e676",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:e43e1be8acac4743",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:detail:f781c08aafa99085",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:plus_notice_list:root",
+        "issue": "raw_source_hash_mismatch"
+      },
+      {
+        "source_id": "issuer:registry:timefolio_notice_list:root",
+        "issue": "raw_source_hash_mismatch"
+      }
+    ]
   }
 }

@@ -91,8 +91,11 @@ function supabaseClient(env, accessToken, serviceRole = false) {
           return response.ok ? { data: { user: data }, error: null } : { data: { user: null }, error: data ?? { message: "User update failed" } };
         } catch (error) { return { data: { user: null }, error: { message: error instanceof Error ? error.message : "User update failed" } }; }
       },
-      async signOut() {
-        const response = await fetch(new URL("/auth/v1/logout", url), { method: "POST", headers: { apikey: apiKey, Authorization: `Bearer ${bearer}` } });
+      async signOut(options) {
+        const scope = options?.scope ?? "global";
+        const target = new URL("/auth/v1/logout", url);
+        target.searchParams.set("scope", scope);
+        const response = await fetch(target, { method: "POST", headers: { apikey: apiKey, Authorization: `Bearer ${bearer}` } });
         return { error: response.ok ? null : { message: "Sign out failed" } };
       },
       admin: {

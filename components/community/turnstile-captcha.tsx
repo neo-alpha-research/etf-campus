@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-type Props = { action: "community_otp_request" | "community_otp_verify" | "community_password_login"; onToken: (token: string | null) => void };
+type Props = { action: "community_otp_request" | "community_otp_verify" | "community_password_login" | "community_password_set"; onToken: (token: string | null) => void };
 
 export function TurnstileCaptcha({ action, onToken }: Props) {
   const container = useRef<HTMLDivElement>(null);

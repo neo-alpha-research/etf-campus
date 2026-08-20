@@ -36,4 +36,20 @@ describe("커뮤니티 Supabase 보안 마이그레이션 계약", () => {
     expect(source).toContain("purge_due_community_withdrawals");
     expect(source).toContain("interval '30 days'");
   });
+
+  it("정규화된 타임스탬프와 slug가 동일한 중복 마이그레이션 파일이 존재하지 않는다", () => {
+    const migrationsDir = path.join(process.cwd(), "supabase", "migrations");
+    const files = fs.readdirSync(migrationsDir).filter(f => f.endsWith(".sql"));
+    
+    const normalized = new Set();
+    for (const file of files) {
+      // Remove underscore between date and time to normalize (e.g., 20260815_000001 -> 20260815000001)
+      const match = file.match(/^(\d{8})_?(\d{6})_(.+)\.sql$/);
+      if (match) {
+        const normName = `${match[1]}${match[2]}_${match[3]}`;
+        expect(normalized.has(normName)).toBe(false);
+        normalized.add(normName);
+      }
+    }
+  });
 });

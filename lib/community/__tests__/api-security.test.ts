@@ -48,8 +48,12 @@ describe("커뮤니티 입력값과 공개 응답", () => {
     });
 
     expect(publicPost).toMatchObject({ authorNickname: "연금공부중" });
-    expect(JSON.stringify(publicPost)).not.toContain("@example.com");
-    expect(JSON.stringify(publicPost)).not.toContain("author_profile_id");
-    expect(JSON.stringify(publicPost)).not.toContain("internal_user_id");
+    const postJson = JSON.stringify(publicPost);
+    expect(postJson).not.toContain("@example.com");
+    expect(postJson).not.toContain("author_profile_id");
+    expect(postJson).not.toContain("internal_user_id");
+    expect(postJson).not.toContain("uuid");
+    expect(postJson).not.toContain("token");
+    expect(postJson).not.toContain("email");
   });
 });

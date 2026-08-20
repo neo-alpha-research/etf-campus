@@ -9,7 +9,8 @@ function EditorContent() {
   const searchParams = useSearchParams();
   const asOfDate = searchParams.get('date');
 
-  const [data, setData] = useState<unknown>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");

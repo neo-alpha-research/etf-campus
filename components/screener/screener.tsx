@@ -96,7 +96,9 @@ function toggleValue<T>(values: readonly T[], value: T): T[] {
   return values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
 }
 
-export function Screener({ etfs }: { etfs: Etf[] }) {
+import type { ScreenerEtf } from '@/lib/domain/etf-screener';
+
+export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   const [filters, setFilters] = useState<ScreenerFilters>(DEFAULT_SCREENER_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");

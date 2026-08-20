@@ -119,7 +119,7 @@ export function EtfDetail({
   const EN_PERIOD_LABELS: Record<string, string> = { "1d": "1D", "1w": "1W", "2w": "2W", "1m": "1M", "2m": "2M", "3m": "3M", "6m": "6M", "12m": "1Y", "24m": "2Y", "36m": "3Y", "ytd": "YTD", "itd": "ITD" };
 
   return (
-    <main className="page-shell flex-1 py-6 sm:py-8 space-y-6">
+    <main className="page-shell flex-1 py-6 sm:py-8 space-y-3">
       {/* 1. 상품 헤더 */}
       <section aria-labelledby="header-title">
         <h2 className="sr-only" id="header-title">상품 헤더</h2>

@@ -81,12 +81,13 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
     await act(async () => mocks.captchaCallbacks.get("community_otp_verify")?.("token2"));
     fireEvent.change(screen.getByLabelText("인증 코드"), { target: { value: "12345678" } });
     fireEvent.click(screen.getByRole("button", { name: "인증 완료" }));
-    await waitFor(() => expect(screen.getByRole("button", { name: "비밀번호 설정" })).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole("button", { name: "비밀번호 저장 후 계속" })).toBeInTheDocument());
 
     // Set password step
     await act(async () => mocks.captchaCallbacks.get("community_password_set")?.("token3"));
     fireEvent.change(screen.getByLabelText("새 비밀번호"), { target: { value: "password123" } });
-    fireEvent.click(screen.getByRole("button", { name: "비밀번호 설정" }));
+    fireEvent.change(screen.getByLabelText("새 비밀번호 확인"), { target: { value: "password123" } });
+    fireEvent.click(screen.getByRole("button", { name: "비밀번호 저장 후 계속" }));
     
     // Expect fallback to login step
     await waitFor(() => {

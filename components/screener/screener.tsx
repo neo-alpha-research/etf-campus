@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
-import { useWindowVirtualizer } from "@tanstack/react-virtual";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
@@ -255,25 +255,13 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
     });
   }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData]);
   
-  const tableRef = useRef<HTMLTableElement>(null);
-  const [tableOffset, setTableOffset] = useState(0);
+  const parentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const updateOffset = () => {
-      if (tableRef.current) {
-        setTableOffset(tableRef.current.getBoundingClientRect().top + window.scrollY);
-      }
-    };
-    updateOffset();
-    window.addEventListener("resize", updateOffset);
-    return () => window.removeEventListener("resize", updateOffset);
-  }, [results.length]); // Re-calculate when results change, as layout might shift
-
-  const rowVirtualizer = useWindowVirtualizer({
+  const rowVirtualizer = useVirtualizer({
     count: results.length,
+    getScrollElement: () => parentRef.current,
     estimateSize: () => 36, // Approximate height of a row in the screener table
     overscan: 15,
-    scrollMargin: tableOffset,
   });
 
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
@@ -691,8 +679,8 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
           </div>
           
           <div className="overflow-hidden rounded-2xl border border-line">
-            <div className="overflow-x-auto">
-              <table ref={tableRef} className="w-full text-left text-sm whitespace-nowrap">
+            <div ref={parentRef} className="overflow-x-auto overflow-y-auto max-h-[70vh]">
+              <table className="w-full text-left text-sm whitespace-nowrap">
                 <colgroup>
                   <col style={{ width: 56 }} />
                   <col style={{ width: 168 }} />
@@ -710,7 +698,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                   <col style={{ width: 52 }} />
                   <col style={{ width: 48 }} />
                 </colgroup>
-                <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
+                <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 sticky top-0 z-10 shadow-sm">
                   <tr className="border-b border-neutral-200">
                     <th className="px-2 py-0 h-[32px] text-center" colSpan={6} scope="colgroup">상품 정보</th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={(comparisonPeriod || customDateRange) ? 5 : 4} scope="colgroup">수익률(%)</th>
@@ -815,7 +803,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                     );
                   })}
                   {rowVirtualizer.getVirtualItems().length > 0 && (
-                    <tr style={{ height: `${rowVirtualizer.getTotalSize() - (rowVirtualizer.getVirtualItems()[rowVirtualizer.getVirtualItems().length - 1].end - rowVirtualizer.options.scrollMargin)}px` }}>
+                    <tr style={{ height: `${rowVirtualizer.getTotalSize() - rowVirtualizer.getVirtualItems()[rowVirtualizer.getVirtualItems().length - 1].end}px` }}>
                       <td colSpan={14} className="p-0 border-0"></td>
                     </tr>
                   )}

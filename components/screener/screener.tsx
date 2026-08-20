@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
+import { useWindowVirtualizer } from "@tanstack/react-virtual";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
@@ -252,6 +253,14 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
     });
   }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData]);
   
+  const tableRef = useRef<HTMLTableElement>(null);
+  const rowVirtualizer = useWindowVirtualizer({
+    count: results.length,
+    estimateSize: () => 36, // Approximate height of a row in the screener table
+    overscan: 15,
+    scrollMargin: tableRef.current?.offsetTop ?? 0,
+  });
+
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
 
   const quickQuery = useMemo(() => {
@@ -668,7 +677,7 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
           
           <div className="overflow-hidden rounded-2xl border border-line">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm whitespace-nowrap">
+              <table ref={tableRef} className="w-full text-left text-sm whitespace-nowrap">
                 <colgroup>
                   <col style={{ width: 56 }} />
                   <col style={{ width: 168 }} />
@@ -732,8 +741,15 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-line text-[12px]">
-                  {results.map((etf) => (
-                    <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" key={etf.ticker}>
+                  {rowVirtualizer.getVirtualItems().length > 0 && (
+                    <tr style={{ height: `${rowVirtualizer.getVirtualItems()[0].start}px` }}>
+                      <td colSpan={14} className="p-0 border-0"></td>
+                    </tr>
+                  )}
+                  {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                    const etf = results[virtualRow.index];
+                    return (
+                    <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" key={etf.ticker} data-index={virtualRow.index} ref={rowVirtualizer.measureElement}>
                       <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted tabular-nums">{etf.ticker}</td>
                       <th className="w-[168px] px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
                         <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
@@ -781,7 +797,13 @@ export function Screener({ etfs }: { etfs: Etf[] }) {
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatTradeValueNumber(etf.tradeValue)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
                     </tr>
-                  ))}
+                    );
+                  })}
+                  {rowVirtualizer.getVirtualItems().length > 0 && (
+                    <tr style={{ height: `${rowVirtualizer.getTotalSize() - rowVirtualizer.getVirtualItems()[rowVirtualizer.getVirtualItems().length - 1].end}px` }}>
+                      <td colSpan={14} className="p-0 border-0"></td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

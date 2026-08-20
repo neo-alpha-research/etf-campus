@@ -9,7 +9,7 @@ function EditorContent() {
   const searchParams = useSearchParams();
   const asOfDate = searchParams.get('date');
 
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -28,7 +28,9 @@ function EditorContent() {
 
   useEffect(() => {
     if (!asOfDate) {
-      setError("?짜가 지?되지 ?았?니??");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setError("일자가 지정되지 않았습니다.");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setLoading(false);
       return;
     }
@@ -81,7 +83,7 @@ function EditorContent() {
       
       alert(`??되?습?다. ??리비?? v${result.revisionNo}`);
       window.location.reload();
-    } catch (e: any) {
+    } catch (e: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) {
       setError(e.message);
     } finally {
       setSaving(false);
@@ -102,7 +104,7 @@ function EditorContent() {
       if (!res.ok) throw new Error(result.error?.message || "발행 ?패");
       alert("발행?었?니??");
       window.location.reload();
-    } catch (e: any) {
+    } catch (e: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) {
       setError(e.message);
     }
   };
@@ -115,7 +117,7 @@ function EditorContent() {
       if (!res.ok) throw new Error(result.error?.message || "취소 ?패");
       alert("발행??취소?었?니??");
       window.location.reload();
-    } catch (e: any) {
+    } catch (e: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) {
       setError(e.message);
     }
   };

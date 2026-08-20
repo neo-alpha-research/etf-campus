@@ -1,13 +1,13 @@
-import { describe, expect, it } from "vitest";
+﻿import { describe, expect, it } from "vitest";
 
 import { loadEtfs } from "../etf-repository";
 import { getDefaultEtfs, getNewEtfs, isSmallEtf } from "../../domain/etf-visibility";
 import { isNewListing } from "../../domain/etf-explorer";
 
-describe("실제 ETF 데이터 회귀", () => {
+describe("?ㅼ젣 ETF ?곗씠???뚭?", () => {
   const etfs = loadEtfs();
 
-  it("세 CSV를 ticker 기준으로 빠짐없이 통합한다", () => {
+  it("??CSV瑜?ticker 湲곗??쇰줈 鍮좎쭚?놁씠 ?듯빀?쒕떎", () => {
     expect(etfs.length).toBeGreaterThan(1_000);
     expect(new Set(etfs.map((etf) => etf.ticker)).size).toBe(etfs.length);
     const asOfDates = new Set(etfs.map((etf) => etf.asOfDate));
@@ -16,33 +16,34 @@ describe("실제 ETF 데이터 회귀", () => {
     expect([...asOfDates][0]).toMatch(/^\d{8}$/);
   });
 
-  it("노출 계층의 순자산 기준을 유지한다", () => {
+  it("?몄텧 怨꾩링???쒖옄??湲곗????좎??쒕떎", () => {
     expect(getDefaultEtfs(etfs).length).toBeGreaterThan(0);
     expect(getDefaultEtfs(etfs).every((etf) => etf.aum >= 100_000_000_000)).toBe(true);
     expect(etfs.filter(isSmallEtf).every((etf) => etf.aum < 10_000_000_000)).toBe(true);
   });
 
-  it("신규 90일 플래그와 신규 메뉴 대상이 일치한다", () => {
+  it("?좉퇋 90???뚮옒洹몄? ?좉퇋 硫붾돱 ??곸씠 ?쇱튂?쒕떎", () => {
     const flagged = etfs.filter((etf) => isNewListing(etf));
     expect(getNewEtfs(etfs).map((etf) => etf.ticker).sort()).toEqual(flagged.map((etf) => etf.ticker).sort());
   });
 
-  it("기간 수익률은 유효한 숫자 또는 빈 값으로 유지한다", () => {
+  it("湲곌컙 ?섏씡瑜좎? ?좏슚???レ옄 ?먮뒗 鍮?媛믪쑝濡??좎??쒕떎", () => {
     const returnValues = etfs.flatMap((etf) => Object.values(etf.returns));
 
     expect(returnValues.length).toBeGreaterThan(0);
     expect(returnValues.every((value) => value === null || Number.isFinite(value))).toBe(true);
   });
 
-  it("연금 판정은 허용된 최종 상태만 사용한다", () => {
-    expect(etfs.every((etf) => ["가능", "불가", "확인중"].includes(etf.pension))).toBe(true);
-    expect(etfs.filter((etf) => etf.pension === "가능").length).toBeGreaterThan(0);
-    expect(etfs.filter((etf) => etf.pension === "불가").length).toBeGreaterThan(0);
+  it("?곌툑 ?먯젙? ?덉슜??理쒖쥌 ?곹깭留??ъ슜?쒕떎", () => {
+    expect(etfs.every((etf) => ["媛??, "遺덇?", "?뺤씤以?].includes(etf.pension))).toBe(true);
+    expect(etfs.filter((etf) => etf.pension === "媛??).length).toBeGreaterThan(0);
+    expect(etfs.filter((etf) => etf.pension === "遺덇?").length).toBeGreaterThan(0);
   });
 
-  it("공식 근거 기반 분류를 연결하고 미확인 환헤지는 숨긴다", () => {
+  it("怨듭떇 洹쇨굅 湲곕컲 遺꾨쪟瑜??곌껐?섍퀬 誘명솗???섑뿤吏???④릿??, () => {
     expect(etfs.every((etf) => etf.classification)).toBe(true);
-    expect(etfs.every((etf) => etf.classification?.fxHedge !== "미확인")).toBe(true);
+    expect(etfs.every((etf) => etf.classification?.fxHedge !== "誘명솗??)).toBe(true);
     expect(etfs.filter((etf) => etf.classification?.published).length).toBe(etfs.length);
   });
 });
+

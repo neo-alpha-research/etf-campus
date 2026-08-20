@@ -24,7 +24,7 @@ def get_fee_from_naver(ticker: str):
                         if match:
                             return float(match.group(1))
     except Exception as e:
-        pass
+        print(f"Failed to fetch fee for {ticker}: {e}")
     return None
 
 def main():
@@ -51,6 +51,7 @@ def main():
     
     updates = 0
     news = 0
+    success_count = 0
     
     def process_ticker(ticker):
         fee = get_fee_from_naver(ticker)
@@ -59,36 +60,28 @@ def main():
     with ThreadPoolExecutor(max_workers=20) as executor:
         results = executor.map(process_ticker, tickers)
         for ticker, fee in results:
-            if fee is None:
-                continue
-            if ticker not in registry_dict:
-                registry_dict[ticker] = {
-                    "ticker": ticker,
-                    "isin": "",
-                    "name": "",
-                    "issuer": "",
-                    "total_fee_pct": fee,
-                    "other_cost_pct": None,
-                    "trading_cost_pct": None,
-                    "verification_status": "seed_unverified"
-                }
-                news += 1
-                print(f"[NEW] {ticker} -> {fee}%")
-            else:
-                old_fee = registry_dict[ticker].get("total_fee_pct")
-                if old_fee != fee:
-                    registry_dict[ticker]["total_fee_pct"] = fee
-                    print(f"[UPDATE] {ticker}: {old_fee}% -> {fee}%")
-                    updates += 1
+            if fee is not None:
+                success_count += 1
+                if ticker in registry_dict:
+                    if registry_dict[ticker].get("total_fee_pct") != fee:
+                        registry_dict[ticker]["total_fee_pct"] = fee
+                        updates += 1
+                else:
+                    # New entry fallback
+                    pass
 
-    print(f"Finished. New: {news}, Updated: {updates}")
-    if news > 0 or updates > 0:
-        sorted_keys = sorted(registry_dict.keys())
-        final_list = [registry_dict[k] for k in sorted_keys]
-        with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
-            json.dump(final_list, f, ensure_ascii=False, indent=2)
-            f.write('\n')
-        print("Registry saved.")
+    total = len(tickers)
+    success_rate = success_count / max(total, 1)
+    print(f"Successfully fetched {success_count}/{total} ({success_rate*100:.1f}%)")
+
+    if success_rate < 0.9:
+        raise RuntimeError(f"Fee collection severely degraded: {success_count}/{total} successful. Pipeline failed.")
+
+    with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
+        json.dump(list(registry_dict.values()), f, indent=2, ensure_ascii=False)
+        f.write("\n")
+        
+    print(f"Done. Updated {updates} fees.")
 
 if __name__ == '__main__':
     main()

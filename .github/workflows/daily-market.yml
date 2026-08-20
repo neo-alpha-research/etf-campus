@@ -1,4 +1,4 @@
-name: Daily ETF market data refresh
+﻿name: Daily ETF market data refresh
 
 on:
   schedule:
@@ -48,11 +48,13 @@ jobs:
           python-version: "3.13"
 
       - name: Install Python dependencies
+        if: steps.guard.outputs.already_run != 'true'
         run: |
           python -m pip install --upgrade pip
           python -m pip install beautifulsoup4 certifi requests xlrd
 
       - name: Refresh official ETF data
+        if: steps.guard.outputs.already_run != 'true'
         env:
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
@@ -68,6 +70,7 @@ jobs:
           fi
 
       - name: Detect recent-listing reference-price work
+        if: steps.guard.outputs.already_run != 'true'
         id: listing_reference
         run: |
           AS_OF_DATE=$(python -c "from datetime import datetime; from zoneinfo import ZoneInfo; print(datetime.now(ZoneInfo(\"Asia/Seoul\")).date().isoformat())")
@@ -104,7 +107,7 @@ jobs:
           print(f"stale_cache_count={len(stale_cache)}")
           PY
       - name: Refresh recent-listing official reference prices and ITD
-        if: steps.listing_reference.outputs.required == 'true'
+        if: steps.guard.outputs.already_run != 'true' && (steps.listing_reference.outputs.required == 'true')
         run: |
           AS_OF_DATE=$(python -c "from datetime import datetime; from zoneinfo import ZoneInfo; print(datetime.now(ZoneInfo(\"Asia/Seoul\")).date().isoformat())")
           python scripts/rebuild_listing_reference_prices.py \
@@ -114,6 +117,7 @@ jobs:
             --apply --apply-returns --apply-listing-cache --purge-nonrecent \
             --throttle-seconds 1.5
       - name: Check snapshot freshness
+        if: steps.guard.outputs.already_run != 'true'
         id: freshness
         shell: bash
         env:
@@ -143,13 +147,14 @@ jobs:
           fi
 
       - name: Refresh classification review draft
-        if: steps.freshness.outputs.fresh == 'true'
+        if: steps.guard.outputs.already_run != 'true' && (steps.freshness.outputs.fresh == 'true')
         run: python scripts/build_classification_review.py
 
       # Only the retry rung that actually receives a new official close runs
       # the distribution pipeline. This keeps it coupled to the 06:17 KST
       # attempt while allowing a later retry to recover from a delayed feed.
       - name: Detect price snapshot changes
+        if: steps.guard.outputs.already_run != 'true'
         id: snapshot_changes
         run: |
           if git diff --quiet -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification; then
@@ -161,6 +166,7 @@ jobs:
           fi
 
       - name: Detect publishable data changes
+        if: steps.guard.outputs.already_run != 'true'
         id: changes
         run: |
           if git status --porcelain --untracked-files=all -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns | grep -q .; then
@@ -174,18 +180,18 @@ jobs:
           echo "Latest bas_dt: ${latest_bas_dt}"
 
       - name: Set up Node.js
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.guard.outputs.already_run != 'true' && (steps.changes.outputs.changed == 'true')
         uses: actions/setup-node@v4
         with:
           node-version-file: ".node-version"
           cache: npm
 
       - name: Install dependencies
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.guard.outputs.already_run != 'true' && (steps.changes.outputs.changed == 'true')
         run: npm ci
 
       - name: Validate refreshed data
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.guard.outputs.already_run != 'true' && (steps.changes.outputs.changed == 'true')
         env:
           NEXT_PUBLIC_SITE_URL: https://etf-campus.pages.dev
         run: |
@@ -194,7 +200,7 @@ jobs:
           npm run build
 
       - name: Backfill ETF prices to D1
-        if: steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true'
+        if: steps.guard.outputs.already_run != 'true' && (steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true')
         env:
           PRICE_INGEST_ENDPOINT: ${{ secrets.PRICE_INGEST_ENDPOINT }}
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
@@ -206,6 +212,7 @@ jobs:
           python scripts/validate_d1_status.py "$BAS_DT"
 
       - name: Publish canonical market-source snapshot and event outbox
+        if: steps.guard.outputs.already_run != 'true'
         # Run even when the repository snapshot did not change so a previously failed
         # source-hub ingest can recover without another external API collection.
         if: steps.freshness.outputs.fresh == 'true'
@@ -216,21 +223,24 @@ jobs:
         run: python scripts/publish_market_source_snapshot.py
 
       - name: Fetch global market indices
+        if: steps.guard.outputs.already_run != 'true'
         run: python scripts/fetch_market_indices.py
 
       - name: Commit refreshed market data
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.guard.outputs.already_run != 'true' && (steps.changes.outputs.changed == 'true')
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
           git add data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json
-          if ! git diff --cached --quiet; then
+                    if ! git diff --cached --quiet; then
             git commit -m "data: refresh ETF snapshot"
-            git push
+            for i in 1 2 3 4 5; do
+              git pull --rebase --autostash origin main && git push && break || sleep 5
+            done
           fi
 
       - name: Write refresh summary
-        if: always()
+        if: always() && steps.guard.outputs.already_run != 'true'
         shell: bash
         run: |
           bas_dt=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
@@ -252,7 +262,9 @@ jobs:
       # unlisted holiday will trip this check once; add the date and it is
       # accurate again.
       - name: Mark stale attempt as failed and await next hourly retry
-        if: steps.freshness.outputs.fresh != 'true'
+        if: steps.guard.outputs.already_run != 'true' && (steps.freshness.outputs.fresh != 'true')
         run: |
           echo "Official ETF close is still unavailable. A later hourly schedule will retry." >&2
           exit 1
+
+

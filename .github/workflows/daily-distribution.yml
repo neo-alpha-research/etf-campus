@@ -1,4 +1,4 @@
-name: Daily ETF distribution refresh
+﻿name: Daily ETF distribution refresh
 
 on:
   schedule:
@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: daily-etf-data
+  cancel-in-progress: false
+
 jobs:
   distribution:
     runs-on: ubuntu-latest
@@ -18,22 +22,36 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Check if already succeeded today
+        id: guard
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if python scripts/check_workflow_success_today.py --workflow daily-distribution.yml; then
+            echo "already_run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "already_run=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Set up Python
+        if: steps.guard.outputs.already_run != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
 
       - name: Install Python dependencies
+        if: steps.guard.outputs.already_run != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install beautifulsoup4 certifi requests xlrd
+          python -m pip install beautifulsoup4 certifi requests xlrd lxml
 
       - name: Refresh distribution sources and return status
+        if: steps.guard.outputs.already_run != 'true'
         id: distribution
         run: python scripts/run_daily_distribution_update.py
 
       - name: Write distribution collection diagnostics
-        if: always()
+        if: always() && steps.guard.outputs.already_run != 'true'
         shell: bash
         run: |
           python - <<'PY'
@@ -43,26 +61,31 @@ jobs:
 
           report_path = Path("data/distributions/reports/official_source_collection_latest.json")
           summary_path = Path(os.environ["GITHUB_STEP_SUMMARY"])
-          with summary_path.open("a", encoding="utf-8") as summary:
-              summary.write("### Official distribution source collection\n")
-              if not report_path.exists():
-                  summary.write("- Diagnostic report was not created before the workflow stopped.\n")
-              else:
-                  report = json.loads(report_path.read_text(encoding="utf-8"))
-                  summary.write(f"- Status: `{report.get('status', 'unknown')}`\n")
-                  summary.write(f"- Targets: {report.get('total_targets', 0)}, collected: {report.get('collected', 0)}, skipped: {report.get('skipped', 0)}, failed: {report.get('failed', 0)}, unconfigured: {report.get('unconfigured', 0)}\n")
-                  summary.write(f"- Existing verified raw documents preserved: {report.get('preserved_existing_verified_raw', 0)}\n")
+
+          if not report_path.exists():
+              summary_path.write_text("No diagnostics found.\n")
+              raise SystemExit(0)
+
+          with report_path.open(encoding="utf-8") as f:
+              report = json.load(f)
+
+          with summary_path.open("a", encoding="utf-8") as out:
+              out.write("### Distribution Collection Status\n\n")
+              out.write(f"- Duration: {report.get('duration_seconds', 0):.2f}s\n")
+              out.write(f"- Passed: **{report.get('passed', 0)}**\n")
+              out.write(f"- Issues: **{len(report.get('issues', []))}**\n\n")
+
+              if report.get("issues"):
+                  out.write("#### Issues encountered:\n`\n")
                   for issue in report.get("issues", []):
-                      summary.write(
-                          "- Failure: "
-                          f"`{issue.get('source_id', 'unknown')}` | date={issue.get('request_date_utc', 'unknown')} | "
-                          f"status={issue.get('http_status', 'network')} | attempts={issue.get('attempts', 0)} | "
-                          f"category={issue.get('failure_category', 'unknown')} | reason={issue.get('final_failure_reason', 'unknown')}\n"
-                      )
+                      out.write(f"{issue.get('source_id', 'unknown')} | date={issue.get('request_date_utc', 'unknown')} | ")
+                      out.write(f"status={issue.get('http_status', 'network')} | attempts={issue.get('attempts', 0)} | ")
+                      out.write(f"category={issue.get('failure_category', 'unknown')} | reason={issue.get('final_failure_reason', 'unknown')}\n")
+                  out.write("`\n")
           PY
 
       - name: Upload distribution collection diagnostics
-        if: always()
+        if: always() && steps.guard.outputs.already_run != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: distribution-collection-diagnostics-${{ github.run_id }}
@@ -72,24 +95,27 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
-      - name: Detect publishable data changes
+      - name: Detect distribution changes
+        if: steps.guard.outputs.already_run != 'true'
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/distributions | grep -q .; then
-            echo "Publishable data changes detected."
+          git add data/distributions/
+          if ! git diff --cached --quiet; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "No data changes. Skipping validation and commit."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Validate distribution updates
+        if: steps.changes.outputs.changed == 'true'
+        run: python scripts/validate_distribution_updates.py
 
       - name: Commit distribution updates
         if: steps.changes.outputs.changed == 'true'
         run: |
-          git config user.name "etf-campus-data-bot"
-          git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          git add data/distributions
-          if ! git diff --cached --quiet; then
-            git commit -m "data(distributions): refresh distribution schedule and sources"
-            git push
-          fi
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: update daily ETF distributions [skip ci]"
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash origin main && git push && break || sleep 5
+          done

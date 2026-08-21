@@ -253,12 +253,34 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
     });
   }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData]);
   
-  const tableRef = useRef<HTMLTableElement>(null);
+  const tbodyRef = useRef<HTMLTableSectionElement>(null);
+  const [tableOffsetTop, setTableOffsetTop] = useState(0);
+
+  useEffect(() => {
+    if (!tbodyRef.current) return;
+    
+    const updateOffset = () => {
+      if (tbodyRef.current) {
+        const rect = tbodyRef.current.getBoundingClientRect();
+        setTableOffsetTop(rect.top + window.scrollY);
+      }
+    };
+    
+    // Initial update
+    updateOffset();
+    
+    // Track layout shifts (e.g., banner loading)
+    const observer = new ResizeObserver(updateOffset);
+    observer.observe(document.body);
+    
+    return () => observer.disconnect();
+  }, [results, filters]);
+
   const rowVirtualizer = useWindowVirtualizer({
     count: results.length,
     estimateSize: () => 36, // Approximate height of a row in the screener table
     overscan: 15,
-    scrollMargin: tableRef.current?.offsetTop ?? 0,
+    scrollMargin: tableOffsetTop,
   });
 
   const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
@@ -392,13 +414,44 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
 
   return (
     <main className="page-shell flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
+      <div className="flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div className="shrink-0 mb-1 sm:mb-0">
           <p className="eyebrow text-xs">ETF Screener</p>
           <h1 className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-strong sm:text-3xl">내 기준으로 ETF 찾기</h1>
           <p className="mt-1 text-[13px] leading-tight text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p>
         </div>
-        <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
+
+        <div className="flex-1 w-full lg:w-auto lg:min-w-[450px] flex flex-col justify-center lg:items-end mt-2 lg:mt-0">
+          <a
+            href="https://nlink.munpia.com/link/munpia/novel/578267"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="알파를 읽는 자 무료 1화 읽기"
+            className="block w-full max-w-[600px] leading-[0] cursor-pointer hover:brightness-[1.035] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c9a45c] focus-visible:outline-offset-2 transition-all rounded-md overflow-hidden"
+          >
+            <picture className="block w-full">
+              <source
+                media="(max-width: 639px)"
+                srcSet="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/15_etfcampus_mobile_600x170_safezone_aihook_storyhook.gif"
+                type="image/gif"
+              />
+              <source
+                media="(min-width: 640px)"
+                srcSet="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/16_etfcampus_desktop_920x140_safezone_aihook_storyhook.gif"
+                type="image/gif"
+              />
+              <img
+                src="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/16_etfcampus_desktop_920x140_safezone_aihook_storyhook.png"
+                alt="웹소설 알파를 읽는 자 홍보 배너. 342억을 잃고 죽은 펀드매니저가 AI가 공개된 첫날로 돌아가는 이야기. 무료 1화 읽기."
+                className="block h-auto w-full object-contain aspect-[600/170] sm:aspect-[920/140]"
+                loading="eager"
+                decoding="async"
+              />
+            </picture>
+          </a>
+        </div>
+
+        <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden shrink-0 self-end" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="빠른 시작 조건">
@@ -677,7 +730,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
           
           <div className="overflow-hidden rounded-2xl border border-line">
             <div className="overflow-x-auto">
-              <table ref={tableRef} className="w-full text-left text-sm whitespace-nowrap">
+              <table className="w-full text-left text-sm whitespace-nowrap">
                 <colgroup>
                   <col style={{ width: 56 }} />
                   <col style={{ width: 168 }} />
@@ -740,9 +793,9 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                     <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-line text-[12px]">
+                <tbody ref={tbodyRef} className="divide-y divide-line text-[12px]">
                   {rowVirtualizer.getVirtualItems().length > 0 && (
-                    <tr style={{ height: `${rowVirtualizer.getVirtualItems()[0].start}px` }}>
+                    <tr style={{ height: `${Math.max(0, rowVirtualizer.getVirtualItems()[0].start - tableOffsetTop)}px` }}>
                       <td colSpan={14} className="p-0 border-0"></td>
                     </tr>
                   )}

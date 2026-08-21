@@ -116,3 +116,8 @@ export async function warmLatestBriefingCache(env: ResilienceEnv, asOfDate: stri
     },
   });
 }
+
+export async function updateEditorialPublicationCache(env: any, asOfDate: string, publishedVersion: number, action: string) {
+  console.log(`Processing editorial cache update for ${asOfDate} v${publishedVersion} action=${action}`);
+  await env.ETF_PRICES.prepare(`UPDATE market_briefing_editorial_cache_outbox SET delivery_status = 'sent', sent_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE as_of_date = ? AND published_version = ? AND action = ?`).bind(asOfDate, publishedVersion, action).run();
+}

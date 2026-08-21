@@ -450,9 +450,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                 />
               </picture>
             </a>
-            <p className="mt-1 text-[10px] text-neutral-400">
-              본 콘텐츠는 웹소설(픽션) 홍보이며 투자 권유가 아닙니다.
-            </p>
+            
           </div>
         </div>
 

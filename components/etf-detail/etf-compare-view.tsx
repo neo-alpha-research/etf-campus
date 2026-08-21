@@ -15,7 +15,7 @@ type Props = {
   comparisonProfiles?: Map<string, any>;
 };
 
-export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, selectionReasons, comparisonProfiles }: Props) {
+export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode,  comparisonProfiles }: Props) {
   const compareList = useMemo(() => {
     if (!mainEtf) return basket;
     const filtered = basket.filter((e) => e.ticker !== mainEtf.ticker);

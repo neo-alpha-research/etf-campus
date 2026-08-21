@@ -229,7 +229,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const virtualRows = rowVirtualizer.getVirtualItems();
   const virtualPaddingTop = virtualRows.length > 0 ? virtualRows[0].start - tableScrollMargin : 0;
   const virtualPaddingBottom = virtualRows.length > 0 ? rowVirtualizer.getTotalSize() - virtualRows[virtualRows.length - 1].end : 0;
-  const tableColumnCount = 5 + 3 + (state.mode === "new" ? 1 : 0) + periods.length + 3 + 1;
+  // const tableColumnCount = 5 + 3 + (state.mode === "new" ? 1 : 0) + periods.length + 3 + 1;
 
   const clearFilters = () => setExplorerState({ assetClasses: [], riskTypes: [] });
 

@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
 import { communityFetch, getCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
 

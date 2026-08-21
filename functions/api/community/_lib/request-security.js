@@ -61,9 +61,9 @@ export async function verifyTurnstile(context, token, expectedAction) {
     if (!response.ok || result.success !== true || !hostMatch || result.action !== expectedAction || !validAge) {
       const reason = !response.ok ? "HTTP_ERROR" : 
                      result.success !== true ? "VERIFY_FAILED" :
-                     !hostMatch ? `HOSTNAME_MISMATCH(${result.hostname})` :
+                     !hostMatch ? `HOSTNAME_MISMATCH(${result.hostname} vs ${expectedHost})` :
                      result.action !== expectedAction ? `ACTION_MISMATCH(${result.action})` :
-                     !validAge ? "EXPIRED" : "UNKNOWN";
+                     "TOKEN_EXPIRED";
       return errorResponse(400, "CAPTCHA_REQUIRED", `보안 확인에 실패했습니다 (${reason}). 다시 시도해 주세요.`);
     }
 

@@ -32,3 +32,6 @@ scratch/
 *.tmp
 *_original.js
 d1_backup_*.sql
+
+.tmp_check.txt
+*.tmp_*

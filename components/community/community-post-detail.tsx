@@ -49,7 +49,10 @@ export function CommunityPostDetail() {
   const [authOpen, setAuthOpen] = useState(false);
 
   async function load() {
-    if (!slug) return;
+    if (!slug) {
+      setStatus("not-found");
+      return;
+    }
     setStatus("loading");
     try {
       const [postResult, commentsResult] = await Promise.all([
@@ -59,8 +62,12 @@ export function CommunityPostDetail() {
       setPost(postResult.post);
       setComments(commentsResult.comments ?? []);
       setStatus("ready");
-    } catch {
-      setStatus("error");
+    } catch (error) {
+      if (error instanceof Error && error.message === "게시물을 찾을 수 없습니다.") {
+        setStatus("not-found");
+      } else {
+        setStatus("error");
+      }
     }
   }
 

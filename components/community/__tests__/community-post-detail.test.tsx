@@ -15,6 +15,10 @@ vi.mock("@/components/community/community-auth-dialog", () => ({
   CommunityAuthDialog: () => null,
 }));
 
+vi.mock("next/navigation", () => ({
+  useSearchParams: () => new URLSearchParams(window.location.search),
+}));
+
 import { CommunityPostDetail } from "../community-post-detail";
 
 function post(canEdit: boolean) {
@@ -33,7 +37,7 @@ function post(canEdit: boolean) {
 
 describe("CommunityPostDetail 게시물 소유자 제어 UI", () => {
   beforeEach(() => {
-    window.history.pushState({}, "", "/community/11111111-1111-4111-8111-111111111111/");
+    window.history.pushState({}, "", "/community/read/?slug=11111111-1111-4111-8111-111111111111");
     mocks.communityFetch.mockImplementation((path: string) => Promise.resolve(path.endsWith("/comments") ? { comments: [] } : { post: post(true) }));
   });
 

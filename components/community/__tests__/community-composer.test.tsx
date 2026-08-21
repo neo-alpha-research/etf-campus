@@ -1,4 +1,4 @@
-﻿import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -31,7 +31,8 @@ describe("CommunityComposer", () => {
     fireEvent.change(screen.getByLabelText(/제목/), { target: { value: "새 글 제목" } });
     fireEvent.change(screen.getByLabelText(/본문/), { target: { value: "새 글 본문 내용" } });
     
-    fireEvent.click(screen.getByRole("button", { name: "게시물 등록" }));
+    const submitButton = await screen.findByRole("button", { name: "게시물 등록" });
+    fireEvent.click(submitButton);
     
     await waitFor(() => {
       expect(mocks.assign).toHaveBeenCalledWith("/community/read/?slug=new-post-123");

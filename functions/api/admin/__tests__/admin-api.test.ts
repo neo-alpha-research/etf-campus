@@ -98,7 +98,7 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(auditCols).toContain("user_agent_hash");
     });
     
-    it("Validates audit logs constraints", () => {
+    it("Migrations are idempotent when applied multiple times", () => {
       // It didn't fail on creation. Let's try running createMockD1 again which runs it twice.
       expect(() => createMockD1()).not.toThrow();
     });

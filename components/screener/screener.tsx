@@ -468,7 +468,17 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
 
       </div>
 
-
+      <section className="mt-4 grid gap-4 overflow-hidden rounded-2xl border border-[#d9e4e5] bg-[#f6faf9] p-3 shadow-sm md:grid-cols-[minmax(0,1fr)_minmax(420px,1.45fr)] md:items-stretch md:p-4" aria-label="ETF Campus 소개와 알파를 읽는 자 웹소설 안내">
+        <div className="flex min-h-[124px] flex-col justify-center px-2 py-1 md:px-3">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#176b62]">ETF CAMPUS · STORY NOTE</p>
+          <h2 className="mt-1 text-[18px] font-extrabold leading-tight tracking-[-0.04em] text-[#102f3f] md:text-[22px]">내 퇴직연금을 직접 굴리기 위해 만든 도구, ETF Campus</h2>
+          <p className="mt-1.5 max-w-[520px] text-[12px] leading-relaxed text-[#52656a]">운용역이자 작가인 Neo가 자신의 DC형 퇴직연금을 관리하기 위해 직접 구축한 개인 플랫폼입니다.</p>
+        </div>
+        <a href="https://novel.munpia.com/578267" target="_blank" rel="noopener noreferrer" className="group relative block min-h-[124px] overflow-hidden rounded-xl border border-[#1d4257]/20 bg-[#03152f] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d8aa52] focus:ring-offset-2" aria-label="알파를 읽는 자 무료 정주행하기">
+          <img src="/alpha-reader-gif-21x9-character-rotation.gif" alt="강준혁, 이서윤, 박민준이 등장하는 웹소설 알파를 읽는 자 홍보 배너" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]" />
+          <span className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-[#021126]/95 via-[#021126]/60 to-transparent px-3 pb-2 pt-7 text-[11px] font-extrabold text-white md:px-4 md:text-xs"><span>「알파를 읽는 자」 무료 정주행하기</span><span className="text-[#f3c86b]">➜</span></span>
+        </a>
+      </section>
 
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)] flex-1 min-h-0">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}

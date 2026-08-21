@@ -41,15 +41,16 @@ export async function onRequestPost(context) {
     const { data: updateData, error: updateError } = await supabase.auth.updateUser({ password });
 
     if (updateError || !updateData.user) {
-      console.error("Set password error:", { code: updateError?.code, status: updateError?.status, message: updateError?.message });
-      let errorMessage = updateError?.message || "비밀번호 설정에 실패했습니다.";
-      if (errorMessage.includes("different from the old password")) {
-        errorMessage = "새 비밀번호는 기존 비밀번호와 달라야 설정이야 합니다.";
-      } else if (errorMessage.includes("Password should be at least")) {
+      console.error("Set password error (full):", JSON.stringify(updateError));
+      const rawMessage = updateError?.message || updateError?.msg || updateError?.error_description || updateError?.error || "";
+      let errorMessage = rawMessage || "비밀번호 설정에 실패했습니다.";
+      if (errorMessage.includes("different from the old password") || errorMessage.includes("same_password")) {
+        errorMessage = "새 비밀번호는 기존 비밀번호와 달라야 합니다.";
+      } else if (errorMessage.includes("Password should be at least") || errorMessage.includes("password_too_short")) {
         errorMessage = "비밀번호는 최소 8자리 이상이어야 합니다.";
-      } else if (errorMessage.includes("Weak password")) {
+      } else if (errorMessage.includes("Weak password") || errorMessage.includes("weak_password")) {
         errorMessage = "보안을 위해 더 안전한 비밀번호를 설정해 주세요.";
-      } else if (errorMessage.toLowerCase().includes("jwt") || errorMessage.toLowerCase().includes("token")) {
+      } else if (errorMessage.toLowerCase().includes("jwt") || errorMessage.toLowerCase().includes("token") || updateError?.code === 401 || updateError?.status === 401) {
         errorMessage = "보안 세션이 만료되었습니다. 인증을 다시 진행해 주세요.";
       }
       return clearPwSetup(errorResponse(400, "VALIDATION_ERROR", errorMessage));

@@ -98,13 +98,13 @@ class PeriodAnchorTest(TestCase):
         sparse = {
             f"{index:06d}": {
                 "srtnCd": f"{index:06d}",
-                "clpr": "10000" if index < 50 else "",
+                "clpr": "10000" if index == 0 else "",
             }
             for index in range(250)
         }
         complete = {
             f"{index:06d}": {"srtnCd": f"{index:06d}", "clpr": "10000"}
-            for index in range(220)
+            for index in range(200)
         }
 
         with patch.object(
@@ -116,7 +116,7 @@ class PeriodAnchorTest(TestCase):
                 "secret",
                 date(2026, 5, 31),
                 {},
-                expected_count=100,
+                expected_count=250,
             )
 
         self.assertEqual(result, ("20260529", complete))

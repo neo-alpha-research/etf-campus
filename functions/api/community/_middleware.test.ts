@@ -37,11 +37,12 @@ function createContext(pathname, method, headers = {}) {
 }
 
 describe("커뮤니티 미들웨어", () => {
-  it("T-6: CSRF 요구 경로에서 CSRF 헤더가 없으면 403을 반환한다 (set-password)", async () => {
-    const ctx = createContext("/api/community/auth/set-password", "POST", {
+  it("T-6: CSRF 요구 경로에서 CSRF 헤더가 없으면 403을 반환한다 (posts)", async () => {
+    const ctx = createContext("/api/community/posts", "POST", {
       Origin: "https://example.com",
       "Content-Type": "application/json"
     });
+    mocks.authenticatedSession.mockResolvedValue({ error: null });
     const response = await onRequest(ctx);
     expect(response.status).toBe(403);
   });
@@ -53,24 +54,25 @@ describe("커뮤니티 미들웨어", () => {
     });
     mocks.authenticatedSession.mockResolvedValue({ accessToken: "token", user: {} });
     const response = await onRequest(ctx);
-    expect(response.status).toBe(200); // Calls next() and returns response directly (mergeSessionHeaders is skipped for PUBLIC_AUTH_PATHS)
-    expect(response.headers.get("X-Community-CSRF")).toBe("new-csrf-from-handler"); // T-9: mergeSessionHeaders not applied
+    expect(response.status).toBe(200);
+    expect(response.headers.get("X-Community-CSRF")).toBe("new-csrf-from-handler");
   });
 
   it("T-7: 트레일링 슬래시가 있어도 정규화되어 동일하게 판정한다", async () => {
-    const ctx1 = createContext("/api/community/auth/set-password/", "POST", {
+    const ctx1 = createContext("/api/community/posts", "POST", {
       Origin: "https://example.com",
       "Content-Type": "application/json"
     });
+    mocks.authenticatedSession.mockResolvedValue({ error: null });
     const res1 = await onRequest(ctx1);
     expect(res1.status).toBe(403);
 
-    const ctx2 = createContext("/api/community/auth/login-password/", "POST", {
+    const ctx2 = createContext("/api/community/posts/", "POST", {
       Origin: "https://example.com",
       "Content-Type": "application/json"
     });
     const res2 = await onRequest(ctx2);
-    expect(res2.status).toBe(200);
+    expect(res2.status).toBe(403);
   });
 
   it("T-8: set-password는 PUBLIC_AUTH_PATHS이므로 액세스 토큰 없이도 401을 반환하지 않고 핸들러에 도달한다", async () => {

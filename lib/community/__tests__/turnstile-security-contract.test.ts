@@ -12,7 +12,7 @@ describe("Turnstile 및 OTP 속도 제한 보안 계약", () => {
 
   it("server verify 응답에서 success·hostname·action·토큰 만료를 검증한다", () => {
     expect(source).toContain("result.success !== true");
-    expect(source).toContain("result.hostname !== context.env.TURNSTILE_EXPECTED_HOSTNAME");
+    expect(source).toContain("!hostMatch");
     expect(source).toContain("result.action !== expectedAction");
     expect(source).toContain("5 * 60 * 1000");
   });

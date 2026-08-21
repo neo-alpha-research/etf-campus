@@ -1,13 +1,13 @@
 [
   {
     "label": "코스피",
-    "value": 6471.17,
-    "change": -5.8
+    "value": 6852.58,
+    "change": 5.89
   },
   {
     "label": "코스닥",
-    "value": 824.46,
-    "change": -1.17
+    "value": 840.89,
+    "change": 1.99
   },
   {
     "label": "S&P 500",
@@ -21,8 +21,8 @@
   },
   {
     "label": "니케이225",
-    "value": 65326.42,
-    "change": -3.16
+    "value": 66216.79,
+    "change": 1.36
   },
   {
     "label": "원/달러",

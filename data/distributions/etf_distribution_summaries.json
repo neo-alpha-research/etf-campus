@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-20T23:58:35.835725Z",
+  "generatedAt": "2026-08-21T03:33:15.827255Z",
   "source": "etf_distribution_event_candidates.csv",
   "summaryCount": 213,
   "summaries": [
@@ -19,7 +19,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -33,7 +33,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:5c40511c020c814fab92",
@@ -46,11 +46,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0000H0",
@@ -67,7 +67,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -81,11 +81,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0000Z0",
@@ -102,7 +102,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -116,11 +116,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0005A0",
@@ -137,7 +137,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -151,11 +151,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0008S0",
@@ -172,7 +172,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -186,7 +186,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:ea4b9daa0b3cb3776a07",
@@ -199,7 +199,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:3829013d6f2c8a5cb8a3",
@@ -212,11 +212,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0013P0",
@@ -233,7 +233,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -247,11 +247,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0013R0",
@@ -268,7 +268,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -282,11 +282,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0018Z0",
@@ -303,7 +303,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -317,11 +317,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0028X0",
@@ -338,7 +338,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -352,11 +352,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0036R0",
@@ -373,7 +373,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -387,11 +387,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0036Z0",
@@ -408,7 +408,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -422,11 +422,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0038A0",
@@ -443,7 +443,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -457,11 +457,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0041D0",
@@ -478,7 +478,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -492,11 +492,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0041E0",
@@ -513,7 +513,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -527,11 +527,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0046A0",
@@ -548,7 +548,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -562,7 +562,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:45872bc07be7d332457d",
@@ -575,11 +575,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0048J0",
@@ -596,7 +596,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -610,11 +610,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0048K0",
@@ -631,7 +631,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -645,11 +645,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0052D0",
@@ -666,7 +666,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -680,7 +680,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:3fd63aee329eaa9fdccd",
@@ -693,7 +693,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:f3e0120ed1f6618e91d2",
@@ -706,11 +706,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0065G0",
@@ -727,7 +727,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -741,11 +741,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0073X0",
@@ -797,7 +797,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -811,11 +811,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0082V0",
@@ -832,7 +832,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -846,11 +846,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0086B0",
@@ -867,7 +867,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -881,7 +881,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:f5fef6a3db915245649c",
@@ -894,7 +894,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:873dd49313ddcc501dba",
@@ -907,11 +907,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0086C0",
@@ -928,7 +928,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -942,7 +942,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:c0efb171116a359b2672",
@@ -955,7 +955,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:512670f9479475f541c1",
@@ -968,11 +968,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0089C0",
@@ -989,7 +989,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1003,11 +1003,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0094L0",
@@ -1024,7 +1024,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -1038,11 +1038,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0104N0",
@@ -1059,7 +1059,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -1073,7 +1073,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:b3c7bde9b1962b89b3ee",
@@ -1086,7 +1086,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:ed4bec8a9c064b732ebc",
@@ -1099,11 +1099,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0104P0",
@@ -1120,7 +1120,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -1134,7 +1134,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:87f52aaa2d795baef82b",
@@ -1147,11 +1147,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0115E0",
@@ -1168,7 +1168,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1182,11 +1182,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0127R0",
@@ -1203,7 +1203,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -1217,11 +1217,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0132H0",
@@ -1238,7 +1238,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1252,11 +1252,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0144L0",
@@ -1273,7 +1273,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1287,11 +1287,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0144M0",
@@ -1308,7 +1308,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1322,11 +1322,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0151P0",
@@ -1343,7 +1343,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -1357,11 +1357,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0151S0",
@@ -1378,7 +1378,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1392,11 +1392,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0162L0",
@@ -1413,7 +1413,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1427,11 +1427,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0162Z0",
@@ -1448,7 +1448,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -1462,11 +1462,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0167Z0",
@@ -1483,7 +1483,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1497,11 +1497,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0173Y0",
@@ -1518,7 +1518,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1532,11 +1532,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0176P0",
@@ -1588,7 +1588,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -1602,7 +1602,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:4a40d1eb08c9ce8b6d8d",
@@ -1615,7 +1615,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:d9ce9843d9a532f8da41",
@@ -1628,11 +1628,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "0189Z0",
@@ -1684,7 +1684,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1698,11 +1698,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "0219E0",
@@ -1719,7 +1719,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1733,11 +1733,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "069500",
@@ -1754,7 +1754,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1768,11 +1768,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "091170",
@@ -1789,7 +1789,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1803,11 +1803,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "091180",
@@ -1824,7 +1824,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1838,11 +1838,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "099140",
@@ -1859,7 +1859,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1873,11 +1873,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "101280",
@@ -1894,7 +1894,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1908,11 +1908,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "102970",
@@ -1929,7 +1929,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1943,11 +1943,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "117460",
@@ -1964,7 +1964,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -1978,11 +1978,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "117680",
@@ -1999,7 +1999,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2013,11 +2013,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "117700",
@@ -2034,7 +2034,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2048,11 +2048,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "136340",
@@ -2069,7 +2069,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -2083,11 +2083,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "140700",
@@ -2104,7 +2104,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2118,11 +2118,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "140710",
@@ -2139,7 +2139,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2153,11 +2153,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "148020",
@@ -2174,7 +2174,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -2188,11 +2188,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "156080",
@@ -2209,7 +2209,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2223,11 +2223,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "166400",
@@ -2244,7 +2244,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -2258,7 +2258,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:07ef73f84fc9b7718421",
@@ -2271,11 +2271,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "182480",
@@ -2292,7 +2292,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -2306,7 +2306,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:a67c88d3bf07d0a19d22",
@@ -2319,11 +2319,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "192720",
@@ -2375,7 +2375,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2389,11 +2389,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "213610",
@@ -2410,7 +2410,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2424,11 +2424,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "223190",
@@ -2445,7 +2445,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2459,11 +2459,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "226490",
@@ -2480,7 +2480,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2494,11 +2494,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "226980",
@@ -2515,7 +2515,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2529,11 +2529,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "229720",
@@ -2550,7 +2550,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2564,11 +2564,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "237350",
@@ -2585,7 +2585,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2599,11 +2599,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "244660",
@@ -2620,7 +2620,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2634,11 +2634,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "244670",
@@ -2655,7 +2655,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2669,11 +2669,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "245340",
@@ -2690,7 +2690,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -2704,7 +2704,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:9e647f82c0e3cd030f63",
@@ -2717,11 +2717,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "251350",
@@ -2738,7 +2738,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2752,11 +2752,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "252650",
@@ -2773,7 +2773,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2787,11 +2787,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "266160",
@@ -2808,7 +2808,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -2822,7 +2822,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "KR7266160001:2026-07-31:ordinary_cash:issuer-v1",
@@ -2865,7 +2865,7 @@
         }
       ],
       "eventCount": 4,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "266390",
@@ -2882,7 +2882,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2896,11 +2896,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "266410",
@@ -2917,7 +2917,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -2931,11 +2931,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "270800",
@@ -2952,7 +2952,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -2966,11 +2966,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "275280",
@@ -2987,7 +2987,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3001,11 +3001,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "275290",
@@ -3022,7 +3022,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3036,11 +3036,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "275300",
@@ -3057,7 +3057,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3071,11 +3071,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "279530",
@@ -3092,7 +3092,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3106,11 +3106,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "279540",
@@ -3127,7 +3127,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3141,11 +3141,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "281990",
@@ -3162,7 +3162,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -3176,11 +3176,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "283580",
@@ -3197,7 +3197,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3211,11 +3211,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "284980",
@@ -3232,7 +3232,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -3246,11 +3246,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "289040",
@@ -3267,7 +3267,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3281,11 +3281,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "289480",
@@ -3302,7 +3302,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -3316,7 +3316,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:b9bb96343ac8ba1a3b5b",
@@ -3329,11 +3329,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "290080",
@@ -3350,7 +3350,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -3364,11 +3364,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "292190",
@@ -3385,7 +3385,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3399,11 +3399,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "298770",
@@ -3420,7 +3420,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3434,11 +3434,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "302450",
@@ -3455,7 +3455,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -3469,11 +3469,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "314250",
@@ -3490,7 +3490,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3504,11 +3504,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "321410",
@@ -3525,7 +3525,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3539,11 +3539,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "325010",
@@ -3560,7 +3560,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3574,11 +3574,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "325020",
@@ -3595,7 +3595,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3609,11 +3609,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "329200",
@@ -3630,7 +3630,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -3644,7 +3644,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:dfa78f8f8eaee6a62005",
@@ -3657,11 +3657,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "336160",
@@ -3678,7 +3678,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -3692,11 +3692,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "337120",
@@ -3713,7 +3713,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3727,11 +3727,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "337140",
@@ -3748,7 +3748,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3762,11 +3762,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "337150",
@@ -3783,7 +3783,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3797,11 +3797,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "337160",
@@ -3818,7 +3818,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3832,11 +3832,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "341850",
@@ -3853,7 +3853,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -3867,7 +3867,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:fc96257c456d4f62720c",
@@ -3880,11 +3880,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "352540",
@@ -3901,7 +3901,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3915,11 +3915,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "352560",
@@ -3936,7 +3936,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3950,11 +3950,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "364690",
@@ -3971,7 +3971,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -3985,11 +3985,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "368680",
@@ -4006,7 +4006,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4020,11 +4020,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "371150",
@@ -4041,7 +4041,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4055,11 +4055,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "372330",
@@ -4076,7 +4076,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4090,11 +4090,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "375770",
@@ -4111,7 +4111,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4125,11 +4125,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "379790",
@@ -4146,7 +4146,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4160,11 +4160,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "379800",
@@ -4181,7 +4181,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4195,11 +4195,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "379810",
@@ -4216,7 +4216,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4230,11 +4230,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "388420",
@@ -4251,7 +4251,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4265,11 +4265,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "390390",
@@ -4286,7 +4286,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4300,11 +4300,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "390400",
@@ -4321,7 +4321,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4335,11 +4335,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "395170",
@@ -4356,7 +4356,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4370,11 +4370,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "399580",
@@ -4391,7 +4391,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4405,11 +4405,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "404260",
@@ -4426,7 +4426,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4440,11 +4440,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "411420",
@@ -4461,7 +4461,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4475,11 +4475,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "417450",
@@ -4496,7 +4496,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4510,11 +4510,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "419420",
@@ -4531,7 +4531,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4545,11 +4545,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "422420",
@@ -4566,7 +4566,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4580,11 +4580,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "423160",
@@ -4601,7 +4601,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4615,11 +4615,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "428510",
@@ -4636,7 +4636,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4650,11 +4650,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "428560",
@@ -4671,7 +4671,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4685,11 +4685,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "429000",
@@ -4706,7 +4706,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4720,7 +4720,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:89b6c4d26091290eb3ba",
@@ -4733,11 +4733,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "433970",
@@ -4754,7 +4754,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4768,11 +4768,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "433980",
@@ -4789,7 +4789,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4803,11 +4803,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "434060",
@@ -4824,7 +4824,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4838,11 +4838,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "437070",
@@ -4859,7 +4859,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4873,11 +4873,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "437080",
@@ -4894,7 +4894,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -4908,11 +4908,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "437370",
@@ -4929,7 +4929,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4943,11 +4943,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "440340",
@@ -4964,7 +4964,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -4978,7 +4978,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:14498c8cd240a62ccd49",
@@ -4991,11 +4991,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "441680",
@@ -5012,7 +5012,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5026,7 +5026,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:5bd5ecf32164170d0e58",
@@ -5039,11 +5039,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "442320",
@@ -5060,7 +5060,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5074,11 +5074,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "442550",
@@ -5095,7 +5095,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5109,11 +5109,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "442560",
@@ -5130,7 +5130,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5144,11 +5144,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "442570",
@@ -5165,7 +5165,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5179,11 +5179,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "445150",
@@ -5200,7 +5200,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5214,11 +5214,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "445290",
@@ -5235,7 +5235,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5249,11 +5249,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "446690",
@@ -5270,7 +5270,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5284,11 +5284,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "449180",
@@ -5305,7 +5305,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5319,11 +5319,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "449190",
@@ -5340,7 +5340,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5354,11 +5354,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "449580",
@@ -5375,7 +5375,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5389,11 +5389,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "453330",
@@ -5410,7 +5410,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5424,11 +5424,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "453630",
@@ -5445,7 +5445,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5459,11 +5459,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "453640",
@@ -5480,7 +5480,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5494,11 +5494,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "453650",
@@ -5515,7 +5515,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5529,11 +5529,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "453660",
@@ -5550,7 +5550,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5564,11 +5564,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "453810",
@@ -5585,7 +5585,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5599,11 +5599,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "455030",
@@ -5620,7 +5620,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5634,11 +5634,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "456250",
@@ -5655,7 +5655,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5669,11 +5669,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "458260",
@@ -5690,7 +5690,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5704,7 +5704,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:f1fbd8243c056d438d08",
@@ -5717,11 +5717,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "458730",
@@ -5738,7 +5738,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5752,7 +5752,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:26a6877f2227208e989f",
@@ -5765,11 +5765,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "458750",
@@ -5786,7 +5786,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5800,7 +5800,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:145702e92140e6829bc8",
@@ -5813,7 +5813,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:d8f66b92eff6e59f471c",
@@ -5826,11 +5826,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "458760",
@@ -5847,7 +5847,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5861,7 +5861,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:ad88cc7c765623d495b7",
@@ -5874,11 +5874,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "459560",
@@ -5895,7 +5895,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5909,11 +5909,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "459580",
@@ -5930,7 +5930,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -5944,11 +5944,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "459750",
@@ -5965,7 +5965,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -5979,11 +5979,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "460660",
@@ -6000,7 +6000,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6014,11 +6014,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "461950",
@@ -6035,7 +6035,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6049,11 +6049,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "463300",
@@ -6070,7 +6070,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6084,11 +6084,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "463640",
@@ -6105,7 +6105,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6119,11 +6119,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "463680",
@@ -6140,7 +6140,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6154,11 +6154,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "463690",
@@ -6175,7 +6175,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6189,11 +6189,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "465670",
@@ -6210,7 +6210,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6224,7 +6224,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:e70906ee33d76a924df5",
@@ -6237,11 +6237,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "466940",
@@ -6258,7 +6258,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6272,7 +6272,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:079c5d018f56cb23accf",
@@ -6285,11 +6285,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "468370",
@@ -6306,7 +6306,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6320,11 +6320,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "468380",
@@ -6341,7 +6341,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6355,11 +6355,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "468630",
@@ -6376,7 +6376,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6390,11 +6390,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "469050",
@@ -6411,7 +6411,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6425,11 +6425,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "469060",
@@ -6446,7 +6446,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6460,11 +6460,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "471990",
@@ -6481,7 +6481,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6495,11 +6495,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "472150",
@@ -6516,7 +6516,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6530,7 +6530,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:5bb1ef8125efe3cdc206",
@@ -6543,11 +6543,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "472830",
@@ -6564,7 +6564,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6578,11 +6578,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "472870",
@@ -6599,7 +6599,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6613,11 +6613,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "473460",
@@ -6634,7 +6634,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6648,11 +6648,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "474220",
@@ -6669,7 +6669,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6683,7 +6683,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:f2c285bdad9e5e3e7fa5",
@@ -6696,7 +6696,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:97753820cbf2abe11ba8",
@@ -6709,11 +6709,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "475080",
@@ -6730,7 +6730,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6744,11 +6744,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "475350",
@@ -6765,7 +6765,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6779,11 +6779,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "475380",
@@ -6800,7 +6800,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6814,11 +6814,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "475720",
@@ -6835,7 +6835,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6849,11 +6849,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "476070",
@@ -6870,7 +6870,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -6884,11 +6884,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "476310",
@@ -6905,7 +6905,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6919,11 +6919,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "476550",
@@ -6940,7 +6940,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -6954,7 +6954,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:989002fb825606a96364",
@@ -6967,11 +6967,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "476690",
@@ -6988,7 +6988,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7002,7 +7002,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:0b819af3597bcf852bf4",
@@ -7015,11 +7015,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "477730",
@@ -7036,7 +7036,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7050,11 +7050,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "481050",
@@ -7071,7 +7071,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7085,11 +7085,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "481340",
@@ -7106,7 +7106,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7120,11 +7120,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "482730",
@@ -7141,7 +7141,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7155,7 +7155,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:430ed638705d4a39f534",
@@ -7168,11 +7168,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "483280",
@@ -7189,7 +7189,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7203,11 +7203,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "483290",
@@ -7224,7 +7224,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7238,11 +7238,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "484790",
@@ -7259,7 +7259,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7273,11 +7273,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "485540",
@@ -7294,7 +7294,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7308,11 +7308,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "485690",
@@ -7329,7 +7329,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7343,11 +7343,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "486290",
@@ -7364,7 +7364,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7378,7 +7378,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:d966cc6ec4e5a2f567ca",
@@ -7391,11 +7391,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "487230",
@@ -7412,7 +7412,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7426,11 +7426,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "487240",
@@ -7447,7 +7447,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7461,11 +7461,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "487950",
@@ -7482,7 +7482,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7496,11 +7496,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "488480",
@@ -7517,7 +7517,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7531,11 +7531,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "489030",
@@ -7587,7 +7587,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7601,11 +7601,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "491090",
@@ -7622,7 +7622,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7636,11 +7636,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "491620",
@@ -7657,7 +7657,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7671,11 +7671,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "493810",
@@ -7692,7 +7692,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7706,7 +7706,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:afbbc55f47e470e7d209",
@@ -7719,7 +7719,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:15697db461a334339aed",
@@ -7732,11 +7732,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 3,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "494300",
@@ -7753,7 +7753,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7767,11 +7767,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "494890",
@@ -7788,7 +7788,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7802,11 +7802,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "495850",
@@ -7823,7 +7823,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7837,11 +7837,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "495940",
@@ -7858,7 +7858,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7872,11 +7872,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "496080",
@@ -7893,7 +7893,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7907,7 +7907,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:f2311d418c8032b08c2b",
@@ -7920,11 +7920,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "498410",
@@ -7941,7 +7941,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:34+00:00"
+        "updatedAt": "2026-08-21T03:33:14+00:00"
       },
       "records": [
         {
@@ -7955,11 +7955,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:34+00:00"
+          "updatedAt": "2026-08-21T03:33:14+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:34+00:00"
+      "updatedAt": "2026-08-21T03:33:14+00:00"
     },
     {
       "ticker": "498610",
@@ -7976,7 +7976,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -7990,11 +7990,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 1,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     },
     {
       "ticker": "499660",
@@ -8011,7 +8011,7 @@
         "distributionType": "ordinary_cash",
         "displayStatus": "issuer_notice",
         "displayLabel": "운용사 공식 공지 기반",
-        "updatedAt": "2026-08-20T23:58:35+00:00"
+        "updatedAt": "2026-08-21T03:33:15+00:00"
       },
       "records": [
         {
@@ -8025,7 +8025,7 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         },
         {
           "eventId": "candidate:d85f33b432a2f6af4e23",
@@ -8038,11 +8038,11 @@
           "distributionType": "ordinary_cash",
           "displayStatus": "issuer_notice",
           "displayLabel": "운용사 공식 공지 기반",
-          "updatedAt": "2026-08-20T23:58:35+00:00"
+          "updatedAt": "2026-08-21T03:33:15+00:00"
         }
       ],
       "eventCount": 2,
-      "updatedAt": "2026-08-20T23:58:35+00:00"
+      "updatedAt": "2026-08-21T03:33:15+00:00"
     }
   ]
 }

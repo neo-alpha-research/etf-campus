@@ -468,6 +468,12 @@ export default {
     for (const message of batch.messages) {
       try {
         const eventType = (message.body as any).event_type || "market_snapshot_ready";
+        // [현재 미사용 분기 — 이 상태가 정상]
+        // 이 이벤트('market_briefing_editorial')를 큐로 발행하는 생산자가 없습니다.
+        // publish.js 등은 outbox 테이블에 INSERT만 하고 큐로 쏘지 않습니다.
+        // 향후 멀티채널 발행 팬아웃 구현 시 생산자를 붙여 활성화할 예정입니다.
+        // 🔴 활성화 전 해결 필요: (message.body as any) 타입 우회, console.log 직접 호출,
+        //    실패 시에도 message.ack() 호출로 이벤트 유실 가능 (retry()로 교체 필요), 테스트 없음.
         if (eventType === "market_briefing_editorial") {
           const event = message.body as any;
           console.log(JSON.stringify({ event: "market_briefing_editorial_consumed", asOfDate: event.as_of_date, version: event.published_version }));

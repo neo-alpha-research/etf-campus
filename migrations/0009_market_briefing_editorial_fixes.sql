@@ -38,6 +38,11 @@ ALTER TABLE market_briefing_editorial_events_new RENAME TO market_briefing_edito
 
 CREATE INDEX idx_editorial_events_briefing_id ON market_briefing_editorial_events(briefing_id);
 
+-- [DOCUMENTATION: Outbox 용도 및 상태]
+-- 이 테이블은 발행/롤백/회수 이벤트의 트랜잭셔널 아웃박스입니다.
+-- 현재 소비자(디스패처·워커)가 없으며, 행이 'pending' 상태로 남는 것이 정상 동작입니다.
+-- latest.js 가 D1에서 에디토리얼을 실시간 오버레이하므로 KV 무효화는 불필요합니다.
+-- 향후 멀티채널 발행 팬아웃 구현 시 소비자를 붙일 예정입니다.
 -- 2 & 3. market_briefing_editorial_cache_outbox with FK and indexes
 CREATE TABLE market_briefing_editorial_cache_outbox_new (
   event_id TEXT PRIMARY KEY,

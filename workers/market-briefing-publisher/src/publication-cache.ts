@@ -117,6 +117,20 @@ export async function warmLatestBriefingCache(env: ResilienceEnv, asOfDate: stri
   });
 }
 
+/**
+ * [현재 미사용 — 이 상태가 정상입니다]
+ *
+ * 이 함수를 호출하는 큐 이벤트('market_briefing_editorial')를 발행하는 생산자가 없습니다.
+ * publish.js / rollback.js / withdraw.js 는 outbox 테이블에 INSERT만 하고 큐로 쏘지 않습니다.
+ * 향후 멀티채널 발행 팬아웃 구현 시 소비자 뼈대로 재사용할 예정이므로 코드를 남겨둡니다.
+ *
+ * 🔴 활성화 전에 반드시 해결해야 할 알려진 결함:
+ *   1. `env: any` 타입 우회 → 이벤트 타입 유니온 정의 필요
+ *   2. `console.log` 직접 호출 → 워커의 기존 로깅 방식(structured JSON)으로 교체 필요
+ *   3. 캐시 갱신 실패 시에도 index.ts에서 message.ack()가 호출되어 이벤트가 재시도 없이 유실됨
+ *      → 실패 경로에서 message.retry()로 위임하도록 수정 필요
+ *   4. 이 경로를 덮는 테스트가 없음
+ */
 export async function updateEditorialPublicationCache(env: any, asOfDate: string, publishedVersion: number, action: string) {
   console.log(`Processing editorial cache update for ${asOfDate} v${publishedVersion} action=${action}`);
   await env.ETF_PRICES.prepare(`UPDATE market_briefing_editorial_cache_outbox SET delivery_status = 'sent', sent_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE as_of_date = ? AND published_version = ? AND action = ?`).bind(asOfDate, publishedVersion, action).run();

@@ -46,6 +46,8 @@ export async function onRequestPost(context) {
       INSERT INTO market_briefing_editorial_events (event_id, briefing_id, revision_no, event_type, from_status, to_status, actor_type, actor_user_id)
       VALUES (?, ?, ?, 'rollback', ?, 'published', 'user', ?)
     `).bind(eventId, doc.briefing_id, newRevisionNo, doc.public_state, auth.userId),
+    // [Outbox] 트랜잭셔널 아웃박스 기록. 현재 이 행을 소비하는 디스패처/워커가 없으며
+    // delivery_status='pending'으로 남는 것이 정상입니다. 향후 멀티채널 팬아웃 시 활성화 예정.
     env.ETF_PRICES.prepare(`
       INSERT INTO market_briefing_editorial_cache_outbox (event_id, briefing_id, as_of_date, revision_no, published_version, action)
       VALUES (?, ?, ?, ?, ?, 'publish')

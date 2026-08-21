@@ -54,7 +54,7 @@ export function CommunityComposer() {
         body: JSON.stringify({ categorySlug, title, bodyText }),
       });
       clearCommunityDraft();
-      window.location.assign(`/community/${result.post.slug}/`);
+      window.location.assign(`/community/read/?slug=${encodeURIComponent(result.post.slug)}`);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "게시물을 저장하지 못했습니다.");
     } finally {

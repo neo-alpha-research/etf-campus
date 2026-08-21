@@ -1,9 +1,9 @@
-﻿name: Update ETF Fees
+name: Update ETF Fees
 
 on:
   schedule:
     - cron: '19 21-23 * * 1-5'
-    - cron: '19 0 * * 2-6'
+    - cron: '19 0-3 * * 2-6'
   workflow_dispatch:
 
 permissions:

@@ -27,3 +27,6 @@ data/backups/
 data/distributions/.daily_distribution_update.lock
 data/distributions/reports/
 data/staging/
+
+.dev.vars
+.dev.vars.*

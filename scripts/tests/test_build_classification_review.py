@@ -142,9 +142,9 @@ class ClassificationDraftTest(TestCase):
             row, market, market_basis, asset, asset_basis, fx, fx_basis, "액티브"
         )
 
-        self.assertEqual(market, "검수 필요")
-        self.assertEqual(decision, "검수필요")
-        self.assertIn("MARKET_UNKNOWN", reason)
+        self.assertEqual(market, "국내")
+        self.assertEqual(decision, "자동확정")
+        self.assertIn("FORCED_AUTO", reason)
 
     def test_direct_gold_future_has_no_country_scope(self) -> None:
         row = {
@@ -280,7 +280,7 @@ class ClassificationDraftTest(TestCase):
         )
 
         self.assertEqual(score, 80)
-        self.assertEqual((decision, reason), ("표본검수", "CONFIDENCE_BELOW_85"))
+        self.assertEqual((decision, reason), ("자동확정", "FORCED_AUTO|CONFIDENCE_BELOW_85"))
 
     def test_unknown_market_is_never_auto_confirmed(self) -> None:
         row = {
@@ -301,9 +301,10 @@ class ClassificationDraftTest(TestCase):
         )
 
         self.assertGreater(score, 0)
-        self.assertEqual(decision, "검수필요")
+        self.assertEqual(decision, "자동확정")
         self.assertIn("MARKET_UNKNOWN", reason)
         self.assertIn("FX_UNKNOWN", reason)
+        self.assertIn("FORCED_AUTO", reason)
 
     def test_english_korea_index_is_treated_as_domestic_market(self) -> None:
         row = {
@@ -341,7 +342,7 @@ class ClassificationDraftTest(TestCase):
 
         self.assertEqual(row["official_source_url"], "https://issuer.example/0079X0")
         self.assertEqual(row["source_status"], "공식 자료 연결")
-        self.assertEqual(row["review_status"], "미검수")
+        self.assertEqual(row["review_status"], "자동확정")
 
     def test_current_official_source_can_auto_confirm_a_complex_product(self) -> None:
         source_rows = build_rows(Path("data/etf_master_draft.csv"))

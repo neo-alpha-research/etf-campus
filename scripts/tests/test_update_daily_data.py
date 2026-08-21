@@ -98,13 +98,13 @@ class PeriodAnchorTest(TestCase):
         sparse = {
             f"{index:06d}": {
                 "srtnCd": f"{index:06d}",
-                "clpr": "10000" if index == 0 else "",
+                "clpr": "10000" if index < 50 else "",
             }
-            for index in range(100)
+            for index in range(250)
         }
         complete = {
             f"{index:06d}": {"srtnCd": f"{index:06d}", "clpr": "10000"}
-            for index in range(80)
+            for index in range(220)
         }
 
         with patch.object(

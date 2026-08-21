@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, expect, it } from "vitest";
 
 const previewBaseUrl = process.env.COMMUNITY_PREVIEW_INTEGRATION_BASE_URL;

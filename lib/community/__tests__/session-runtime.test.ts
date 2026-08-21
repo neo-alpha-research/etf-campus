@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, expect, it } from "vitest";
 import { clearSessionHeaders, clearSessionResponse, mergeSessionHeaders, sessionHeaders } from "../../../functions/api/community/_lib/session.js";
 

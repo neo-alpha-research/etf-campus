@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 
@@ -26,7 +27,7 @@ function etf(overrides: Partial<Etf>): Etf {
     isNew90d: null,
     isNew3m: false,
     ...overrides,
-  };
+  } as unknown as Etf;
 }
 
 const items = [

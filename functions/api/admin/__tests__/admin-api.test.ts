@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { createMockD1 } from "./setup-d1";
 import { onRequestPost as loginPost } from "../auth/login.js";

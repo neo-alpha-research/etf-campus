@@ -468,6 +468,8 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
 
       </div>
 
+
+
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)] flex-1 min-h-0">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>

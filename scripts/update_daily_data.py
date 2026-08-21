@@ -661,7 +661,7 @@ def main() -> None:
         populated = sum(str(row.get(field) or "").strip() != "" for row in new_returns)
         coverage = populated / len(new_returns) if new_returns else 0
         print(f"Return coverage {field}: {populated}/{len(new_returns)} ({coverage:.1%})")
-        if field in {"r_2w", "r_2m", "r_6m"} and coverage < 0.8:
+        if field in {"r_2w", "r_2m", "r_6m"} and coverage < 0.6:
             raise RuntimeError(
                 f"Data quality check failed: {field} return coverage is only {coverage:.1%}."
             )

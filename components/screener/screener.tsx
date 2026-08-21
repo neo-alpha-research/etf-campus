@@ -421,8 +421,8 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
           <p className="mt-1 text-[13px] leading-tight text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p>
         </div>
 
-        <div className="flex-1 w-full lg:w-auto lg:min-w-[450px] flex flex-col justify-center lg:items-end mt-2 lg:mt-0">
-          <div className="flex flex-col items-start lg:items-end w-full max-w-[600px] lg:max-w-[450px]">
+        <div className="flex-1 w-full lg:w-auto lg:min-w-[540px] flex flex-col justify-center lg:items-end mt-2 lg:mt-0">
+          <div className="flex flex-col items-start lg:items-end w-full max-w-[600px] lg:max-w-[540px]">
             <a
               href="https://nlink.munpia.com/link/munpia/novel/578267"
               target="_blank"

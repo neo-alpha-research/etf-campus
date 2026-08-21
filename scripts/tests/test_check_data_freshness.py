@@ -100,6 +100,9 @@ class MainTest(TestCase):
             holiday_file = directory / "holidays.txt"
             holiday_file.write_text(holidays, encoding="utf-8")
 
+            import contextlib
+            import io
+            
             argv = sys.argv
             sys.argv = [
                 "check_data_freshness.py",
@@ -108,7 +111,8 @@ class MainTest(TestCase):
                 "--today", today,
             ]
             try:
-                return main()
+                with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                    return main()
             finally:
                 sys.argv = argv
 

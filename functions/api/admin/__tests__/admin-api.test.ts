@@ -77,14 +77,14 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
         '2026-08-20', 'ready', 'v1', 1, 'run_1',
         2600.0, 1.0, 800.0, 1.5,
         1.0, 1.0, 1.0, 1.0,
-        100, 50, 20, 30, 50.0, '?�승 ?�세', 100000.0, 5000.0, 50.0,
+        100, 50, 20, 30, 50.0, '상승 우세', 100000.0, 5000.0, 50.0,
         '{}', '{}', '{}', '2026-08-20T00:00:00Z'
       )
     `).run();
   });
 
   describe("Schema Validation (Regression Prevention)", () => {
-    it("마이그레?�션 0008??�?DB???�용 ?? 코드가 참조?�는 모든 ?�이블·컬?�이 ?�제�?존재?�는지 검�?, () => {
+    it("Validates schema and tables", () => {
       const tables = env.ETF_PRICES._getTables().map((t: any) => t.name);
       expect(tables).toContain("admin_users");
       expect(tables).toContain("admin_user_sessions");
@@ -98,20 +98,20 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(auditCols).toContain("user_agent_hash");
     });
     
-    it("마이그레?�션???�속 2???�용?�도 ?�패?��? ?�음 (멱등??", () => {
+    it("Validates audit logs constraints", () => {
       // It didn't fail on creation. Let's try running createMockD1 again which runs it twice.
       expect(() => createMockD1()).not.toThrow();
     });
   });
 
   describe("Authentication API", () => {
-    it("?�션 쿠키 ?�이 admin API ?�출 ??401", async () => {
+    it("Rejects missing API credentials with 401", async () => {
       const ctx = createContext("http://localhost/api/admin/market-briefings/2026-08-20/revisions", env, "POST", {});
       const res = await revisionsPost(ctx);
       expect(res.status).toBe(401);
     });
 
-    it("권한 ?�는 ?�용????403", async () => {
+    it("Rejects insufficient permissions with 403", async () => {
       await env.ETF_PRICES.prepare(`INSERT INTO admin_user_sessions (session_id, user_id, expires_at) VALUES ('sess_2', 'user_1', '2099-01-01T00:00:00.000Z')`).run();
       await env.ETF_PRICES.prepare(`UPDATE admin_users SET role_id = 'no_role' WHERE user_id = 'user_1'`).run();
       // Wait, there is no no_role. It will return 403.
@@ -122,7 +122,7 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(res.status).toBe(403);
     });
 
-    it("로그???�공 ??__Host-etf_admin_session 쿠키 발급, DB???�션 ???�성", async () => {
+    it("Admin session creates valid login and DB record", async () => {
       const ctx = createContext("http://localhost/api/admin/auth/login", env, "POST", { username: "admin", password: "admin123" });
       const res = await loginPost(ctx);
       expect(res.status).toBe(200);
@@ -134,7 +134,7 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(session.user_id).toBe("user_1");
     });
 
-    it("로그?�웃 ???�션 ?�기, ?�후 ?�청 401", async () => {
+    it("Logging out invalidates session cookie", async () => {
       const ctx = createContext("http://localhost/api/admin/auth/logout", env, "POST");
       const res = await logoutPost(ctx);
       expect(res.headers.get("Set-Cookie")).toContain("Max-Age=0");
@@ -158,13 +158,13 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       `).run();
     });
 
-    it("?�집 payload???�량 ?�드가 ?�이�?400 ?�는 allowlist ?�거 + audit 기록 (금칙???�함 ??draft ?�?��? ?�공)", async () => {
+    it("Validates forbidden words and saves draft payload", async () => {
       const payload = {
-        title: "?�로???�목 10?�이??,
-        oneLineText: "??�??�약?� 20???�상?�어???�니?? 20??채우�??�스??,
-        marketTemperatureCommentary: "?�장 ?�설?� 40???�상?�어???�니?? 매수 추천?�니?? 40?��? 채우�??�해???��??�는 문장??추�??�니??",
-        summaryMarkdown: "?�용",
-        changeSummary: "변�??�유�?충분??길게 ?�성?�니??",
+        title: "새로운 제목 10자 이상",
+        oneLineText: "이것은 20자가 넘는 한 줄 요약 텍스트입니다. 테스트입니다.",
+        marketTemperatureCommentary: "시장 해설은 40자 이상이어야 합니다. 특정 종목을 매수 또는 추천합니다. 40자를 채우기 위해 텍스트를 더 추가해봅니다.",
+        summaryMarkdown: "본문 내용",
+        changeSummary: "변경 사유를 충분히 길게 작성합니다.",
         baseMetricsHash: "hash1",
         baseSourceVersion: "1",
         expectedRevisionNo: 1
@@ -184,13 +184,13 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(logs.results.length).toBe(1);
     });
 
-    it("?�????기존 revision????��?��? ?�고 ??revision ?�성", async () => {
+    it("Creates a new revision based on existing base revision", async () => {
       const payload = {
-        title: "?�로???�목 10?�이??,
-        oneLineText: "??�??�약?� 20???�상?�어???�니?? 20??채우�??�스??,
-        marketTemperatureCommentary: "?�장 ?�설?� 40???�상?�어???�니?? ?�장?� ?�전???�승?��? 보이�??�습?�다. 40?��? 채우�??�해 ?�붙?�니??",
-        summaryMarkdown: "?�용",
-        changeSummary: "변�??�유�?충분??길게 ?�성?�니??",
+        title: "새로운 제목 10자 이상",
+        oneLineText: "이것은 20자가 넘는 한 줄 요약 텍스트입니다. 테스트입니다.",
+        marketTemperatureCommentary: "시장 해설은 40자 이상이어야 합니다. 시장은 전반적인 상승세를 보이고 있습니다. 40자를 채우기 위해 텍스트를 더 추가해봅니다.",
+        summaryMarkdown: "본문 내용",
+        changeSummary: "변경 사유를 충분히 길게 작성합니다.",
         baseMetricsHash: "hash1",
         baseSourceVersion: "1",
         expectedRevisionNo: 1
@@ -204,13 +204,13 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(revisions.results[1].revision_no).toBe(2);
     });
 
-    it("expectedRevisionNo 불일�???409", async () => {
+    it("Rejects save with 409 if expectedRevisionNo mismatches", async () => {
       const payload = {
-        title: "?�로???�목 10?�이??,
-        oneLineText: "??�??�약?� 20???�상?�어???�니?? 20??채우�??�스??,
-        marketTemperatureCommentary: "?�장 ?�설?� 40???�상?�어???�니?? ?�장?� ?�전???�승?��? 보이�??�습?�다. 40?��? 채우�??�해 ?�붙?�니??",
-        summaryMarkdown: "?�용",
-        changeSummary: "변�??�유�?충분??길게 ?�성?�니??",
+        title: "새로운 제목 10자 이상",
+        oneLineText: "이것은 20자가 넘는 한 줄 요약 텍스트입니다. 테스트입니다.",
+        marketTemperatureCommentary: "시장 해설은 40자 이상이어야 합니다. 시장은 전반적인 상승세를 보이고 있습니다. 40자를 채우기 위해 텍스트를 더 추가해봅니다.",
+        summaryMarkdown: "본문 내용",
+        changeSummary: "변경 사유를 충분히 길게 작성합니다.",
         baseMetricsHash: "hash1",
         baseSourceVersion: "1",
         expectedRevisionNo: 99 // Mismatch!
@@ -221,13 +221,13 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(res.status).toBe(409);
     });
 
-    it("base_source_version 불일�???409", async () => {
+    it("Rejects save with 409 if baseSourceVersion mismatches", async () => {
       const payload = {
-        title: "?�로???�목 10?�이??,
-        oneLineText: "??�??�약?� 20???�상?�어???�니?? 20??채우�??�스??,
-        marketTemperatureCommentary: "?�장 ?�설?� 40???�상?�어???�니?? ?�장?� ?�전???�승?��? 보이�??�습?�다. 40?��? 채우�??�해 ?�붙?�니??",
-        summaryMarkdown: "?�용",
-        changeSummary: "변�??�유�?충분??길게 ?�성?�니??",
+        title: "새로운 제목 10자 이상",
+        oneLineText: "이것은 20자가 넘는 한 줄 요약 텍스트입니다. 테스트입니다.",
+        marketTemperatureCommentary: "시장 해설은 40자 이상이어야 합니다. 시장은 전반적인 상승세를 보이고 있습니다. 40자를 채우기 위해 텍스트를 더 추가해봅니다.",
+        summaryMarkdown: "본문 내용",
+        changeSummary: "변경 사유를 충분히 길게 작성합니다.",
         baseMetricsHash: "hash2", // Mismatch!
         baseSourceVersion: "2", // Mismatch!
         expectedRevisionNo: 1
@@ -238,7 +238,7 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(res.status).toBe(409);
     });
 
-    it("publish ??market_briefing_editorial_cache_outbox ???�성", async () => {
+    it("Publishing places correctly into outbox", async () => {
       const payload = { expectedRevisionNo: 1 };
       const ctx = createContext("http://localhost/api/admin/market-briefings/2026-08-20/publish", env, "POST", payload, { "Cookie": sessionCookie });
       const res = await publishPost(ctx);
@@ -249,15 +249,15 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(outbox.results[0].action).toBe("publish");
     });
     
-    it("금칙???�함 ??publish??차단", async () => {
-      await env.ETF_PRICES.prepare("UPDATE market_briefing_editorial_revisions SET summary_markdown = '매수?�세?? WHERE revision_no = 1").run();
+    it("Publishing fails with 400 if forbidden words are present in draft", async () => {
+      await env.ETF_PRICES.prepare("UPDATE market_briefing_editorial_revisions SET summary_markdown = '매수 우세' WHERE revision_no = 1").run();
       const payload = { expectedRevisionNo: 1 };
       const ctx = createContext("http://localhost/api/admin/market-briefings/2026-08-20/publish", env, "POST", payload, { "Cookie": sessionCookie });
       const res = await publishPost(ctx);
       expect(res.status).toBe(400);
     });
 
-    it("rollback??origin='restore' ?�규 revision + ??published_version ?�성", async () => {
+    it("Rollback restores previous version correctly", async () => {
       const payload = { expectedRevisionNo: 1 };
       let ctx = createContext("http://localhost/api/admin/market-briefings/2026-08-20/publish", env, "POST", payload, { "Cookie": sessionCookie });
       await publishPost(ctx);
@@ -276,7 +276,7 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
   });
   
   describe("Public API Fallback & Editorial Integration", () => {
-    it("발행본이 ?�을 ??/api/briefings/latest 기존 ?�답 계약??그�?�??��???, async () => {
+    it("Latest API fetches correct base structure", async () => {
       env.BRIEFING_KV.get.mockImplementation(async (key: string) => {
         if (key === "market-briefing:v0:latest-pointer") {
           return { cache_key: "latest_v0", as_of_date: "2026-08-20" };
@@ -294,7 +294,7 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       expect(json.briefing.editorial).toBeUndefined();
     });
     
-    it("발행본이 ?�을 ??/api/briefings/latest??editorial??채워�?, async () => {
+    it("Latest API merges editorial content correctly", async () => {
       // Simulate v1 cache is empty but DB has it (fallback to DB)
       await env.ETF_PRICES.prepare(`
         INSERT INTO market_briefing_editorial_documents (briefing_id, as_of_date, base_source_version, base_metrics_hash, current_revision_no, published_revision_no, public_state)

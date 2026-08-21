@@ -6,12 +6,8 @@ export function createMockD1(): any {
 
   // Read migrations
   const m1 = fs.readFileSync("migrations/0001_auth_foundation.sql", "utf-8");
-  const m2 = fs.readFileSync("migrations/0002_password_reset_tokens.sql", "utf-8");
   const m3 = fs.readFileSync("migrations/0003_market_briefing_universe.sql", "utf-8");
   const m4 = fs.readFileSync("migrations/0004_market_briefing_v0.sql", "utf-8");
-  const m5 = fs.readFileSync("migrations/0005_market_briefing_source_health.sql", "utf-8");
-  const m6 = fs.readFileSync("migrations/0006_market_briefing_readiness_and_publication.sql", "utf-8");
-  const m7 = fs.readFileSync("migrations/0007_market_source_snapshot_hub.sql", "utf-8");
   const m8 = fs.readFileSync("migrations/0008_market_briefing_editorial.sql", "utf-8");
   const m9 = fs.readFileSync("migrations/0009_market_briefing_editorial_fixes.sql", "utf-8");
 
@@ -25,12 +21,8 @@ export function createMockD1(): any {
   };
 
   runSql(m1);
-  runSql(m2);
   runSql(m3);
   runSql(m4);
-  runSql(m5);
-  runSql(m6);
-  runSql(m7);
   runSql(m8);
   runSql(m9);
 
@@ -70,6 +62,7 @@ export function createMockD1(): any {
   return {
     prepare(query: string) {
       try {
+        // Replace ? with standard sqlite bindings if needed, but node:sqlite supports ?
         const stmt = db.prepare(query);
         return new MockPreparedStatement(stmt);
       } catch (e) {
@@ -84,6 +77,7 @@ export function createMockD1(): any {
       db.exec(query);
       return Promise.resolve();
     },
+    // Test helper to verify schema
     _getColumns(table: string) {
       const stmt = db.prepare(`PRAGMA table_info(${table})`);
       return stmt.all();

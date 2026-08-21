@@ -30,4 +30,5 @@ data/staging/
 
 scratch/
 *.tmp
-*.original.js
+*_original.js
+d1_backup_*.sql

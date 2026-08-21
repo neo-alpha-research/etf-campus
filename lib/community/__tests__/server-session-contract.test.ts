@@ -14,9 +14,11 @@ describe("커뮤니티 서버 관리 세션 계약", () => {
     expect(source).toContain("credentials: \"same-origin\"");
   });
 
-  it("OTP 검증 응답은 임시 세션 토큰을 반환하거나 인증 완료를 처리한다", () => {
+  it("OTP 검증 응답은 세션 토큰을 본문으로 반환하지 않는다", () => {
     const source = read("functions", "api", "community", "auth", "verify-otp.js");
-    expect(source).toContain("tempAccessToken");
+    expect(source).not.toContain("tempAccessToken");
+    expect(source).not.toContain("tempRefreshToken");
+    expect(source).toContain("passwordSetupHeaders");
   });
 
   it("세션 쿠키는 host-only, Secure, HttpOnly, SameSite=Lax로 설정한다", () => {

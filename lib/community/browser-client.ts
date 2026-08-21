@@ -87,7 +87,13 @@ export async function communityFetch(path: string, init: RequestInit = {}) {
   const response = await fetch(path, { ...init, method, headers, credentials: "same-origin" });
   acceptCsrf(response);
   const body = await response.json().catch(() => null);
-  if (!response.ok) throw new Error(body?.error?.message ?? "요청을 처리하지 못했습니다.");
+  if (!response.ok) {
+    const error = new Error(body?.error?.message ?? "요청을 처리하지 못했습니다.") as Error & { status?: number; code?: string; body?: unknown };
+    error.status = response.status;
+    error.code = body?.error?.code;
+    error.body = body;
+    throw error;
+  }
   return body;
 }
 

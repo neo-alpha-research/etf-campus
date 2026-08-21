@@ -5,8 +5,20 @@ const ACCESS_COOKIE = "__Host-etf-campus-community-at";
 const REFRESH_COOKIE = "__Host-etf-campus-community-rt";
 const CSRF_COOKIE = "__Host-etf-campus-community-csrf";
 const RM_COOKIE = "__Host-etf-campus-community-rm";
+const PWSETUP_COOKIE = "__Host-etf-campus-community-pwsetup";
 const ACCESS_MAX_AGE = 60 * 60;
 const REFRESH_MAX_AGE = 60 * 60 * 24 * 30;
+const PWSETUP_MAX_AGE = 600;
+
+export function encodeBase64Url(str) {
+  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+export function decodeBase64Url(str) {
+  let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+  while (base64.length % 4) base64 += '=';
+  return decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+}
 
 function cookieMap(header) {
   return Object.fromEntries((header ?? "").split(";").map((part) => {
@@ -68,6 +80,32 @@ export function clearSessionHeaders() {
     expiredCookie(REFRESH_COOKIE),
     expiredCookie(CSRF_COOKIE, { httpOnly: false }),
     expiredCookie(RM_COOKIE),
+  ]);
+}
+
+export function passwordSetupHeaders(session, { rememberMe, csrfToken }) {
+  const value = encodeBase64Url(JSON.stringify({ accessToken: session.access_token, rememberMe }));
+  const token = csrfToken ?? secureRandom();
+  return appendCookies(cacheHeaders(token), [
+    serializeCookie(PWSETUP_COOKIE, value, { maxAge: PWSETUP_MAX_AGE }),
+    serializeCookie(CSRF_COOKIE, token, { httpOnly: false, maxAge: PWSETUP_MAX_AGE }),
+  ]);
+}
+
+export function readPasswordSetup(request) {
+  try {
+    const values = cookieMap(request.headers.get("Cookie"));
+    const cookie = values[PWSETUP_COOKIE];
+    if (!cookie) return null;
+    return JSON.parse(decodeBase64Url(cookie));
+  } catch {
+    return null;
+  }
+}
+
+export function clearPasswordSetupHeaders() {
+  return appendCookies(cacheHeaders(), [
+    expiredCookie(PWSETUP_COOKIE),
   ]);
 }
 
@@ -172,4 +210,4 @@ export async function authenticatedSession(context) {
     return { error: errorResponse(503, "CONFIGURATION_ERROR", "인증 서비스 설정을 확인해 주세요.") };
   }
 }
-export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE, RM_COOKIE };
+export const COMMUNITY_SESSION_COOKIE_NAMES = { ACCESS_COOKIE, REFRESH_COOKIE, CSRF_COOKIE, RM_COOKIE, PWSETUP_COOKIE };

@@ -30,3 +30,6 @@ data/staging/
 
 # Scratch scripts
 /*.py
+
+.dev.vars
+.dev.vars.*

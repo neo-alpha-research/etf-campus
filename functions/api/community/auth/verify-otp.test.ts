@@ -24,7 +24,12 @@ vi.mock("../_lib/api-security", () => ({
 }));
 
 vi.mock("../_lib/session", () => ({
-  sessionHeaders: () => ({ "Content-Type": "application/json" }),
+  passwordSetupHeaders: () => {
+    const headers = new Headers();
+    headers.append("Set-Cookie", "__Host-etf-campus-community-pwsetup=mock; HttpOnly; Secure; Max-Age=600");
+    headers.set("X-Community-CSRF", "mock-csrf");
+    return headers;
+  },
 }));
 
 import { onRequestPost } from "./verify-otp.js";
@@ -55,7 +60,7 @@ describe("커뮤니티 8자리 이메일 OTP 검증", () => {
     });
   });
 
-  it("8자리 숫자 코드를 Supabase email OTP 검증에 전달하고 임시 세션 토큰을 반환한다", async () => {
+  it("8자리 숫자 코드를 검증하고 임시 세션 토큰을 쿠키로 반환하며 본문에는 토큰을 포함하지 않는다", async () => {
     const response = await onRequestPost(requestContext());
 
     expect(response.status).toBe(200);
@@ -64,11 +69,21 @@ describe("커뮤니티 8자리 이메일 OTP 검증", () => {
       token: "12345678",
       type: "email",
     });
-    await expect(response.json()).resolves.toEqual({
+    
+    // Check that tempAccessToken/tempRefreshToken are not in the response body
+    const body = await response.json();
+    expect(body).toEqual({
       authenticated: true,
-      tempAccessToken: "test-access-token",
-      tempRefreshToken: undefined,
+      passwordSetupRequired: true,
     });
+    
+    // Check that Set-Cookie header contains pwsetup cookie and CSRF header is present
+    const setCookie = response.headers.get("Set-Cookie");
+    expect(setCookie).toContain("__Host-etf-campus-community-pwsetup=");
+    expect(setCookie).toContain("Max-Age=600");
+    
+    const csrfHeader = response.headers.get("X-Community-CSRF");
+    expect(csrfHeader).toBe("mock-csrf");
   });
 
   it("6자리 코드는 Supabase 검증 호출 전에 거부한다", async () => {

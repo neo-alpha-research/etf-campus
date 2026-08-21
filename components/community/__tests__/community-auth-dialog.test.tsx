@@ -53,4 +53,46 @@ describe("CommunityAuthDialog Turnstile 단계 전환", () => {
 
     expect(screen.getByRole("button", { name: "8자리 인증 코드 받기" })).toBeEnabled();
   });
+
+  it("비밀번호 설정 완료 시 자동 로그인이 실패하면 login 단계로 돌아가 재로그인을 유도한다", async () => {
+    // 1. request OTP
+    mocks.communityFetch.mockResolvedValueOnce({ message: "인증 코드를 보냈습니다." });
+    
+    // 2. verify OTP
+    mocks.communityFetch.mockResolvedValueOnce({ profileConfigured: true });
+    
+    // 3. set password throws error with passwordChanged: true
+    const setPasswordError = new Error("비밀번호는 정상 변경되었습니다. 새 비밀번호로 다시 로그인해 주세요.") as Error & { status: number; code: string; body: { passwordChanged: boolean } };
+    setPasswordError.status = 503;
+    setPasswordError.code = "UNAVAILABLE";
+    setPasswordError.body = { passwordChanged: true };
+    mocks.communityFetch.mockRejectedValueOnce(setPasswordError);
+
+    render(<CommunityAuthDialog open onClose={vi.fn()} onAuthenticated={vi.fn()} />);
+    fireEvent.click(screen.getByRole("button", { name: "신규 회원가입 / 비밀번호 재설정 (이메일 인증)" }));
+
+    // OTP request step
+    await act(async () => mocks.captchaCallbacks.get("community_otp_request")?.("token1"));
+    fireEvent.change(screen.getByLabelText("이메일"), { target: { value: "test@example.com" } });
+    fireEvent.click(screen.getByRole("button", { name: "8자리 인증 코드 받기" }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "인증 완료" })).toBeInTheDocument());
+
+    // OTP verify step
+    await act(async () => mocks.captchaCallbacks.get("community_otp_verify")?.("token2"));
+    fireEvent.change(screen.getByLabelText("인증 코드"), { target: { value: "12345678" } });
+    fireEvent.click(screen.getByRole("button", { name: "인증 완료" }));
+    await waitFor(() => expect(screen.getByRole("button", { name: "비밀번호 저장 후 계속" })).toBeInTheDocument());
+
+    // Set password step
+    await act(async () => mocks.captchaCallbacks.get("community_password_set")?.("token3"));
+    fireEvent.change(screen.getByLabelText("새 비밀번호"), { target: { value: "password123" } });
+    fireEvent.change(screen.getByLabelText("새 비밀번호 확인"), { target: { value: "password123" } });
+    fireEvent.click(screen.getByRole("button", { name: "비밀번호 저장 후 계속" }));
+    
+    // Expect fallback to login step
+    await waitFor(() => {
+      expect(screen.getByText("비밀번호는 정상 변경되었습니다. 새 비밀번호로 다시 로그인해 주세요.")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "이메일 로그인" })).toBeInTheDocument(); // Login step's main button
+    });
+  });
 });

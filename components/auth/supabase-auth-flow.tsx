@@ -19,9 +19,6 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [token, setToken] = useState("");
-  
-  const [tempAccessToken, setTempAccessToken] = useState("");
-  const [tempRefreshToken, setTempRefreshToken] = useState("");
 
   const [nickname, setNickname] = useState("");
   const [interestAccountType, setInterestAccountType] = useState("none");
@@ -34,6 +31,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [loginCaptchaToken, setLoginCaptchaToken] = useState<string | null>(null);
   const [requestCaptchaToken, setRequestCaptchaToken] = useState<string | null>(null);
   const [verifyCaptchaToken, setVerifyCaptchaToken] = useState<string | null>(null);
+  const [passwordCaptchaToken, setPasswordCaptchaToken] = useState<string | null>(null);
   const [captchaKey, setCaptchaKey] = useState(0);
 
   const [showPassword, setShowPassword] = useState(false);
@@ -97,12 +95,11 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     setLoading(true);
     setMessage("");
     try {
-      const result = await communityFetch("/api/community/auth/verify-otp", {
+      await communityFetch("/api/community/auth/verify-otp", {
         method: "POST",
         body: JSON.stringify({ email, token, rememberMe, captchaToken: verifyCaptchaToken }),
       });
-      setTempAccessToken(result.tempAccessToken);
-      setTempRefreshToken(result.tempRefreshToken);
+      setPasswordCaptchaToken(null);
       setStep("password-setup");
       setPassword("");
     } catch (error) {
@@ -125,7 +122,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     try {
       await communityFetch("/api/community/auth/set-password", {
         method: "POST",
-        body: JSON.stringify({ password, tempAccessToken, tempRefreshToken }),
+        body: JSON.stringify({ password, captchaToken: passwordCaptchaToken }),
       });
       markCommunitySession();
       await refreshCommunitySession();
@@ -137,7 +134,14 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
         setStep("profile");
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "비밀번호 설정에 실패했습니다.");
+      const errorMessage = error instanceof Error ? error.message : "비밀번호 설정에 실패했습니다.";
+      setMessage(errorMessage);
+      setPasswordCaptchaToken(null);
+      setCaptchaKey(k => k + 1);
+      
+      if ((error as Error & { body?: { passwordChanged?: boolean } })?.body?.passwordChanged === true) {
+        setStep("login");
+      }
     } finally {
       setLoading(false);
     }
@@ -261,7 +265,8 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
                 </button>
               </div>
             </label>
-            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "설정 중" : "비밀번호 저장 후 계속"}</button>
+            <TurnstileCaptcha key={`community_password_set_${captchaKey}`} action="community_password_set" onToken={setPasswordCaptchaToken} />
+            <button disabled={loading || passwordCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "설정 중" : "비밀번호 저장 후 계속"}</button>
           </form>
         ) : null}
 

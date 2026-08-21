@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
 import { communityFetch, getCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
 
@@ -31,10 +32,11 @@ function formatDate(value: string) {
 }
 
 export function CommunityPostDetail() {
-  const slug = useMemo(() => typeof window === "undefined" ? "" : window.location.pathname.split("/").filter(Boolean).at(-1) ?? "", []);
+  const searchParams = useSearchParams();
+  const slug = searchParams.get("slug") ?? "";
   const [post, setPost] = useState<Post | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [status, setStatus] = useState<"loading" | "ready" | "error" | "not-found">("loading");
   const [commentBody, setCommentBody] = useState("");
   const [editingComment, setEditingComment] = useState<string | null>(null);
   const [editingCommentBody, setEditingCommentBody] = useState("");
@@ -157,6 +159,7 @@ export function CommunityPostDetail() {
     <Link href="/community/" className="text-sm font-bold text-brand-700 hover:underline">← 커뮤니티 목록</Link>
 
     {status === "loading" ? <div className="mt-5 space-y-4"><div className="h-10 w-2/3 animate-pulse rounded bg-slate-100" /><div className="h-64 animate-pulse rounded-2xl bg-slate-100" /></div> : null}
+        {status === "not-found" ? <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center"><h1 className="font-bold text-slate-900">게시물을 찾을 수 없습니다.</h1><p className="mt-2 text-sm text-slate-600">존재하지 않거나 삭제된 게시물입니다.</p><Link href="/community/" className="mt-4 inline-block rounded-xl bg-brand-700 px-4 py-2 text-sm font-bold text-white">목록으로 돌아가기</Link></div> : null}
     {status === "error" ? <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-8 text-center"><h1 className="font-bold text-rose-950">게시물을 불러오지 못했습니다.</h1><button onClick={load} className="mt-4 rounded-xl bg-rose-700 px-4 py-2 text-sm font-bold text-white">다시 시도</button></div> : null}
 
     {status === "ready" && post ? <>

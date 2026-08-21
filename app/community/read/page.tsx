@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { CommunityPostDetail } from "@/components/community/community-post-detail";
 
 export const metadata: Metadata = {
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function CommunityReadPage() {
-  return <CommunityPostDetail />;
+  return <Suspense fallback={<div className="page-shell py-7 sm:py-10"><div className="h-10 w-2/3 animate-pulse rounded bg-slate-100" /><div className="mt-5 h-64 animate-pulse rounded-2xl bg-slate-100" /></div>}><CommunityPostDetail /></Suspense>;
 }

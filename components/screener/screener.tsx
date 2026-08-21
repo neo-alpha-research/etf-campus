@@ -402,38 +402,20 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
           <p className="mt-1 text-[13px] leading-tight text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p>
         </div>
 
-        <div className="flex-1 w-full lg:w-auto lg:min-w-[450px] flex flex-col justify-center lg:items-end mt-2 lg:mt-0">
-          <a
-            href="https://nlink.munpia.com/link/munpia/novel/578267"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="알파를 읽는 자 무료 1화 읽기"
-            className="block w-full max-w-[600px] leading-[0] cursor-pointer hover:brightness-[1.035] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c9a45c] focus-visible:outline-offset-2 transition-all rounded-md overflow-hidden"
-          >
-            <picture className="block w-full">
-              <source
-                media="(max-width: 639px)"
-                srcSet="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/15_etfcampus_mobile_600x170_safezone_aihook_storyhook.gif"
-                type="image/gif"
-              />
-              <source
-                media="(min-width: 640px)"
-                srcSet="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/16_etfcampus_desktop_920x140_safezone_aihook_storyhook.gif"
-                type="image/gif"
-              />
-              <img
-                src="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/16_etfcampus_desktop_920x140_safezone_aihook_storyhook.png"
-                alt="웹소설 알파를 읽는 자 홍보 배너. 342억을 잃고 죽은 천재매매가가 AI가 공개된 첫날로 돌아갔다. 무료 1화 읽기."
-                className="block h-auto w-full object-contain aspect-[600/170] sm:aspect-[920/140]"
-                loading="eager"
-                decoding="async"
-              />
-            </picture>
-          </a>
-        </div>
-
         <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden shrink-0 self-end" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
       </div>
+
+      <section className="mt-4 grid gap-4 overflow-hidden rounded-2xl border border-[#d9e4e5] bg-[#f6faf9] p-3 shadow-sm md:grid-cols-[minmax(0,1fr)_minmax(420px,1.45fr)] md:items-stretch md:p-4" aria-label="ETF Campus 소개와 알파를 읽는 자 웹소설 안내">
+        <div className="flex min-h-[124px] flex-col justify-center px-2 py-1 md:px-3">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#176b62]">ETF CAMPUS · STORY NOTE</p>
+          <h2 className="mt-1 text-[18px] font-extrabold leading-tight tracking-[-0.04em] text-[#102f3f] md:text-[22px]">내 퇴직연금을 직접 굴리기 위해 만든 도구, ETF Campus</h2>
+          <p className="mt-1.5 max-w-[520px] text-[12px] leading-relaxed text-[#52656a]">운용역이자 작가인 Neo가 자신의 DC형 퇴직연금을 관리하기 위해 직접 구축한 개인 플랫폼입니다.</p>
+        </div>
+        <a href="https://novel.munpia.com/578267" target="_blank" rel="noopener noreferrer" className="group relative block min-h-[124px] overflow-hidden rounded-xl border border-[#1d4257]/20 bg-[#03152f] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d8aa52] focus:ring-offset-2" aria-label="알파를 읽는 자 무료 정주행하기">
+          <img src="/alpha-reader-gif-21x9-character-rotation.gif" alt="강준혁, 이서윤, 박민준이 등장하는 웹소설 알파를 읽는 자 홍보 배너" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015]" />
+          <span className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-[#021126]/95 via-[#021126]/60 to-transparent px-3 pb-2 pt-7 text-[11px] font-extrabold text-white md:px-4 md:text-xs"><span>「알파를 읽는 자」 무료 정주행하기</span><span className="text-[#f3c86b]">➜</span></span>
+        </a>
+      </section>
 
       <div className="mt-4 flex flex-wrap items-center gap-2 shrink-0" role="group" aria-label="빠른 시작 조건">
         <button

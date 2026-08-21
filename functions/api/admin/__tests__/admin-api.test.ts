@@ -273,6 +273,29 @@ describe("Admin API Tests with actual SQLite D1 Mock", () => {
       const doc = await env.ETF_PRICES.prepare("SELECT * FROM market_briefing_editorial_documents").first();
       expect(doc.published_version).toBe(2);
     });
+
+    it("ON DELETE CASCADE removes related events and outbox entries", async () => {
+      const prepare = (env as Record<string, any>).ETF_PRICES.prepare;
+      // Insert a document and related events/outbox
+      await prepare("INSERT INTO market_briefing_editorial_documents (briefing_id, as_of_date, current_revision_no, base_source_version, base_metrics_hash) VALUES ('briefing_cascade_test', '2026-08-25', 1, 1, 'hash')").run();
+      await prepare("INSERT INTO market_briefing_editorial_events (event_id, briefing_id, revision_no, event_type, actor_type, actor_user_id) VALUES ('event_cascade_test', 'briefing_cascade_test', 1, 'draft_saved', 'user', '1')").run();
+      await prepare("INSERT INTO market_briefing_editorial_cache_outbox (event_id, briefing_id, as_of_date, revision_no, published_version, action) VALUES ('outbox_cascade_test', 'briefing_cascade_test', '2026-08-25', 1, 1, 'publish')").run();
+
+      // Verify insertion
+      let events = await prepare("SELECT * FROM market_briefing_editorial_events WHERE briefing_id = 'briefing_cascade_test'").all();
+      expect((events as { results: unknown[] }).results.length).toBe(1);
+      let outbox = await prepare("SELECT * FROM market_briefing_editorial_cache_outbox WHERE briefing_id = 'briefing_cascade_test'").all();
+      expect((outbox as { results: unknown[] }).results.length).toBe(1);
+
+      // Delete document (should cascade to events and outbox)
+      await prepare("DELETE FROM market_briefing_editorial_documents WHERE briefing_id = 'briefing_cascade_test'").run();
+
+      // Verify cascade deletion
+      events = await prepare("SELECT * FROM market_briefing_editorial_events WHERE briefing_id = 'briefing_cascade_test'").all();
+      expect((events as { results: unknown[] }).results.length).toBe(0);
+      outbox = await prepare("SELECT * FROM market_briefing_editorial_cache_outbox WHERE briefing_id = 'briefing_cascade_test'").all();
+      expect((outbox as { results: unknown[] }).results.length).toBe(0);
+    });
   });
   
   describe("Public API Fallback & Editorial Integration", () => {

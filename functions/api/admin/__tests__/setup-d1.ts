@@ -20,6 +20,8 @@ export function createMockD1(): any {
     }
   };
 
+  runSql("PRAGMA foreign_keys = ON;");
+
   runSql(m1);
   runSql(m3);
   runSql(m4);

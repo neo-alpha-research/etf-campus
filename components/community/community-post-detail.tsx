@@ -63,6 +63,8 @@ export function CommunityPostDetail() {
       setComments(commentsResult.comments ?? []);
       setStatus("ready");
     } catch (error) {
+      // TODO(PR #13 머지 후): communityFetch가 error.code를 전달하므로
+      // error.code === "NOT_FOUND"로 교체할 것. 현재는 서버 문구와 정확히 일치해야 동작함.
       if (error instanceof Error && error.message === "게시물을 찾을 수 없습니다.") {
         setStatus("not-found");
       } else {

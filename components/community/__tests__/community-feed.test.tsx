@@ -30,13 +30,14 @@ describe("CommunityFeed", () => {
           }
         ]
       })
-    })) as any;
+    })) as unknown as typeof fetch;
   });
 
   it("D-1: 목록의 게시물 링크 href가 /community/read/?slug=<slug> 형태이다", async () => {
     render(<CommunityFeed />);
     
     const link = await screen.findByRole("link", { name: /테스트 제목/i });
+    expect(link.getAttribute("href")).toContain("/community/read");
     expect(link.getAttribute("href")).toContain("slug=test-slug-123");
     expect(link.getAttribute("href")).not.toContain("/community/test-slug-123/");
   });

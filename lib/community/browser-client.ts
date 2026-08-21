@@ -74,6 +74,7 @@ export async function communityFetch(path: string, init: RequestInit = {}) {
   
   const isAuthStart = path.startsWith("/api/community/auth/request-otp") || 
                       path.startsWith("/api/community/auth/verify-otp") || 
+                      path.startsWith("/api/community/auth/set-password") || 
                       path.startsWith("/api/community/auth/login-password");
                       
   if (unsafe && !isAuthStart) await ensureCsrf();

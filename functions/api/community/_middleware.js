@@ -12,6 +12,7 @@ const PUBLIC_AUTH_PATHS = new Set([
 const CSRF_EXEMPT_PATHS = new Set([
   "/api/community/auth/request-otp", 
   "/api/community/auth/verify-otp",
+  "/api/community/auth/set-password",
   "/api/community/auth/login-password"
 ]);
 

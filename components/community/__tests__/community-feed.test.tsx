@@ -48,4 +48,14 @@ describe("CommunityFeed", () => {
     expect(notice.textContent).not.toContain("신고");
     expect(notice.textContent).toContain("작성·댓글은");
   });
+
+  it("P1: 팝업 없이 목적 기반 4개 빠른 경로를 제공한다", () => {
+    render(<CommunityFeed />);
+
+    expect(screen.getByRole("link", { name: /질문하기/ }).getAttribute("href")).toBe("/community/write?category=pension-etf-qna");
+    expect(screen.getByRole("link", { name: /ETF 읽기/ }).getAttribute("href")).toBe("/community/learning-bundles");
+    expect(screen.getByRole("link", { name: /30일 기록/ }).getAttribute("href")).toBe("/community/challenge");
+    expect(screen.getByRole("link", { name: /오류 제보/ }).getAttribute("href")).toBe("/community/write?category=feedback");
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
 });

@@ -16,6 +16,13 @@ const categories = [
   { slug: "feedback", name: "오류·기능 제안" },
 ] as const;
 
+const quickPaths = [
+  { label: "질문하기", description: "연금 계좌와 ETF 판단 기준에서 막히는 점을 적어 보세요.", href: "/community/write/?category=pension-etf-qna", eyebrow: "01 · 질문" },
+  { label: "ETF 읽기", description: "추종 대상·구조·비용·공시를 읽는 순서를 확인하세요.", href: "/community/learning-bundles/", eyebrow: "02 · 학습" },
+  { label: "30일 기록", description: "수익 경쟁 없이 오늘 확인한 판단 기준을 남겨 보세요.", href: "/community/challenge/", eyebrow: "03 · 기록" },
+  { label: "오류 제보", description: "화면·ETF 코드·확인 날짜를 바탕으로 재현 가능한 제보를 남겨 주세요.", href: "/community/write/?category=feedback", eyebrow: "04 · 개선" },
+] as const;
+
 type Post = {
   slug: string;
   title: string;
@@ -131,6 +138,11 @@ export function CommunityFeed() {
           <div className="flex shrink-0 flex-wrap gap-2"><button onClick={goToWrite} className="rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-brand-800">글 작성</button>{signedIn ? <button onClick={() => setAccountOpen((current) => !current)} className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-700">계정</button> : <button onClick={() => setAuthOpen(true)} className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-700">이메일 로그인</button>}</div>
         </div>
         <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"><p><span className="font-bold">운영 공지</span><span className="mx-2 text-amber-400">|</span>게시물은 공개로 읽을 수 있으며, 작성·댓글은 이메일 인증 회원만 가능합니다. 매수·매도 강요, 목표가, 수익 보장, 리딩방·광고 유도는 허용하지 않습니다.</p><p className="mt-2 text-amber-900">처음 이용한다면 <Link className="font-bold underline decoration-amber-400 underline-offset-2" href="/guides/">학습용 예시 가이드</Link>와 <Link className="font-bold underline decoration-amber-400 underline-offset-2" href="/books/">읽기 경로</Link>를 참고해 주세요. 예시는 판단 기준을 익히기 위한 자료이며 개인별 결정을 대신하지 않습니다.</p></div>
+      </section>
+
+      <section aria-labelledby="community-quick-paths-title" className="mt-5">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold tracking-[0.16em] text-brand-700">START HERE</p><h2 id="community-quick-paths-title" className="mt-1 text-xl font-extrabold text-slate-950">오늘의 목적을 선택해 시작하세요</h2></div><p className="text-sm leading-6 text-slate-600">별도 팝업이나 프로필 입력 없이, 필요한 화면으로 바로 이동합니다.</p></div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{quickPaths.map((path) => <Link key={path.label} href={path.href} className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md"><p className="text-xs font-bold tracking-[0.12em] text-brand-700">{path.eyebrow}</p><h3 className="mt-3 text-lg font-extrabold text-slate-950 group-hover:text-brand-800">{path.label}</h3><p className="mt-2 text-sm leading-6 text-slate-600">{path.description}</p><span className="mt-4 inline-block text-sm font-bold text-brand-800">바로 시작하기 →</span></Link>)}</div>
       </section>
 
       {accountOpen ? <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="font-bold text-slate-950">내 계정</h2><p className="mt-1 text-sm text-slate-600">세션은 이 브라우저 탭에만 보관됩니다.</p></div><button onClick={logout} className="rounded-xl border border-slate-300 px-3 py-2 text-sm font-bold text-slate-700">로그아웃</button></div><div className="mt-5 border-t border-slate-100 pt-5"><p className="text-sm font-bold text-slate-900">회원 탈퇴</p><p className="mt-1 text-sm leading-6 text-slate-600">탈퇴하면 세션이 즉시 폐기되고 이메일 식별자·닉네임·선택 프로필은 최대 7일 안에 삭제됩니다.</p><div className="mt-3 grid gap-2 sm:grid-cols-2"><label className="rounded-xl border border-slate-200 p-3 text-sm text-slate-700"><input checked={withdrawalMode === "anonymize"} onChange={() => setWithdrawalMode("anonymize")} className="mr-2" type="radio" name="withdraw" />글·댓글은 “탈퇴한 사용자”로 익명화 유지</label><label className="rounded-xl border border-slate-200 p-3 text-sm text-slate-700"><input checked={withdrawalMode === "delete"} onChange={() => setWithdrawalMode("delete")} className="mr-2" type="radio" name="withdraw" />글·댓글 공개 노출 중단 후 삭제</label></div><button onClick={withdraw} className="mt-3 rounded-xl border border-rose-300 px-3 py-2 text-sm font-bold text-rose-700">탈퇴 요청</button></div></section> : null}

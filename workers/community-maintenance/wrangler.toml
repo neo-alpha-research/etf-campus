@@ -1,0 +1,19 @@
+name = "etf-campus-community-maintenance"
+main = "src/index.ts"
+compatibility_date = "2026-08-22"
+
+[triggers]
+crons = ["20 18 * * *"] # 03:20 KST, once per day
+
+[vars]
+# SUPABASE_URL is configured per environment. SUPABASE_SERVICE_ROLE_KEY and
+# MANUAL_RUN_TOKEN must be deployed as secrets and must never be committed.
+
+[observability]
+enabled = true
+
+[env.preview]
+name = "etf-campus-community-maintenance-preview"
+
+[env.production]
+name = "etf-campus-community-maintenance-production"

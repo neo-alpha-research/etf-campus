@@ -24,6 +24,7 @@ create index if not exists community_posts_pinned_feed_idx
   on public.community_posts (is_pinned desc, created_at desc, slug desc)
   where deleted_at is null;
 
+drop view if exists public.community_public_posts;
 create or replace view public.community_public_posts
 with (security_invoker = false)
 as
@@ -183,7 +184,7 @@ begin
       pinned_by = case when p_is_pinned then current_user_id else null end
   where slug = p_post_slug and deleted_at is null;
 
-  get diagnostics changed = row_count > 0;
+  changed := found;
   if not changed then
     raise exception 'post not found';
   end if;

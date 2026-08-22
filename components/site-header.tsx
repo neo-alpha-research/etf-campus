@@ -12,7 +12,7 @@ import { AuthNav } from "@/components/auth/auth-nav";
 const navigation = [
   { href: "/", label: "ETF 탐색" },
   { href: "/compare", label: "ETF 비교" },
-  { href: "/briefing/", label: "시장 브리핑" },
+  { href: "/briefing/", label: "마켓 데일리" },
   { href: "/guides/", label: "투자 가이드" },
   { href: "/community/", label: "커뮤니티" },
   { href: "/books/", label: "북 큐레이션" },

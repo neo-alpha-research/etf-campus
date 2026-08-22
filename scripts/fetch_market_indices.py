@@ -126,7 +126,8 @@ def main():
     out_path.parent.mkdir(parents=True, exist_ok=True)
     
     with out_path.open("w", encoding="utf-8") as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
+        output_data = {'base_date': target_date_str, 'indices': results}
+        json.dump(output_data, f, ensure_ascii=False, indent=2)
         
     logging.info(f"Successfully wrote {len(results)} records to {out_path}")
 

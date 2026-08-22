@@ -1,32 +1,35 @@
-[
-  {
-    "label": "코스피",
-    "value": 6852.58,
-    "change": 5.89
-  },
-  {
-    "label": "코스닥",
-    "value": 840.89,
-    "change": 1.99
-  },
-  {
-    "label": "S&P 500",
-    "value": 7674.37,
-    "change": 0.43
-  },
-  {
-    "label": "나스닥",
-    "value": 26180.46,
-    "change": 0.43
-  },
-  {
-    "label": "니케이225",
-    "value": 66216.79,
-    "change": 1.36
-  },
-  {
-    "label": "원/달러",
-    "value": 1385.0,
-    "change": -0.42
-  }
-]
+{
+  "base_date": "20260821",
+  "indices": [
+    {
+      "label": "코스피",
+      "value": 6912.95,
+      "change": 0.88
+    },
+    {
+      "label": "코스닥",
+      "value": 801.94,
+      "change": -4.63
+    },
+    {
+      "label": "S&P 500",
+      "value": 7674.37,
+      "change": 0.43
+    },
+    {
+      "label": "나스닥",
+      "value": 26180.46,
+      "change": 0.43
+    },
+    {
+      "label": "니케이225",
+      "value": 66016.36,
+      "change": -0.3
+    },
+    {
+      "label": "원/달러",
+      "value": 1390.79,
+      "change": 0.1
+    }
+  ]
+}

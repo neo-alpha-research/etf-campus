@@ -75,6 +75,12 @@ describe("커뮤니티 Supabase 보안 마이그레이션 계약", () => {
     expect(moderationSource).not.toMatch(/get diagnostics\s+\w+\s*=\s*row_count\s*>/i);
   });
 
+  it("신고 RPC는 반환 status 변수와 community_reports 상태 열을 명시적으로 구분한다", () => {
+    expect(moderationSource).toContain("from public.community_reports report");
+    expect(moderationSource).toContain("and report.status in ('open', 'reviewing')");
+    expect(moderationSource).not.toMatch(/from public\.community_reports\s*\n\s*where reporter_user_id = current_user_id[\s\S]*?and status in \('open', 'reviewing'\)/);
+  });
+
   it("정규화된 타임스탬프와 slug가 동일한 중복 마이그레이션 파일이 존재하지 않는다", () => {
     const migrationsDir = path.join(process.cwd(), "supabase", "migrations");
     const files = fs.readdirSync(migrationsDir).filter(f => f.endsWith(".sql"));

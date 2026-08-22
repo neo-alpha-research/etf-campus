@@ -216,13 +216,13 @@ begin
     raise exception 'cannot report own content';
   end if;
 
-  select * into existing_report
-  from public.community_reports
-  where reporter_user_id = current_user_id
-    and target_type = p_target_type
-    and target_reference = p_target_reference
-    and status in ('open', 'reviewing')
-  order by created_at desc
+  select report.* into existing_report
+  from public.community_reports report
+  where report.reporter_user_id = current_user_id
+    and report.target_type = p_target_type
+    and report.target_reference = p_target_reference
+    and report.status in ('open', 'reviewing')
+  order by report.created_at desc
   limit 1;
 
   if found then

@@ -33,3 +33,10 @@ data/staging/
 
 .dev.vars
 .dev.vars.*
+
+*.sql
+*.tmp
+.*-temp
+*-temp
+*.mjs
+user_requests.txt

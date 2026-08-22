@@ -4,6 +4,10 @@ import { describe, expect, it } from "vitest";
 
 const source = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260815000002_community_security_hardening.sql"), "utf8");
 const postOwnerSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260819000001_community_post_owner_visibility.sql"), "utf8");
+const noticeSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260822000001_community_notices_and_pagination.sql"), "utf8");
+const maintenanceSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260822000002_community_maintenance_audit.sql"), "utf8");
+const challengeSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260822000003_community_challenge_foundation.sql"), "utf8");
+const evaluationSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260822000004_community_challenge_evaluation_job.sql"), "utf8");
 
 describe("커뮤니티 Supabase 보안 마이그레이션 계약", () => {
   it("직접 Data API 테이블 권한을 회수하고 공개 View만 읽기 허용한다", () => {
@@ -35,6 +39,21 @@ describe("커뮤니티 Supabase 보안 마이그레이션 계약", () => {
     expect(source).toContain("mark_community_withdrawal_auth_failed");
     expect(source).toContain("purge_due_community_withdrawals");
     expect(source).toContain("interval '30 days'");
+  });
+
+  it("공지 작성·고정은 관리자 RPC로만 처리하고 공개 목록은 최소 DTO와 커서 RPC로 제공한다", () => {
+    expect(noticeSource).toContain("create_community_notice");
+    expect(noticeSource).toContain("set_community_post_pinned");
+    expect(noticeSource).toContain("revoke all on function public.create_community_notice(text, text, boolean) from public, anon, authenticated");
+    expect(noticeSource).toContain("grant execute on function public.list_community_public_posts(text, timestamptz, uuid, boolean, integer) to anon, authenticated");
+  });
+
+  it("maintenance RPC와 챌린지 기록은 service role·authenticated 최소 권한으로 분리한다", () => {
+    expect(maintenanceSource).toContain("grant execute on function public.run_community_maintenance(date) to service_role");
+    expect(challengeSource).toContain("revoke all on table public.community_challenge_cohorts");
+    expect(challengeSource).toContain("grant execute on function public.apply_to_community_challenge");
+    expect(challengeSource).toContain("is_public boolean not null default false");
+    expect(evaluationSource).toContain("grant execute on function public.record_due_community_challenge_evaluations(date), public.run_community_maintenance(date) to service_role");
   });
 
   it("정규화된 타임스탬프와 slug가 동일한 중복 마이그레이션 파일이 존재하지 않는다", () => {

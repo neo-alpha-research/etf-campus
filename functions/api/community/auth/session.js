@@ -1,4 +1,4 @@
-﻿import { authenticatedSession, clearSessionHeaders, mergeSessionHeaders } from "../_lib/session";
+import { authenticatedSession, clearSessionHeaders, mergeSessionHeaders } from "../_lib/session";
 import { jsonResponse } from "../_lib/api-security";
 
 export async function onRequestGet(context) {

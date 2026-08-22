@@ -6,23 +6,61 @@ import { CommunityValidationError, validateNickname } from "../_lib/contracts";
 export async function onRequestGet(context) {
   const auth = await authenticatedSupabase(context);
   if (auth.error) return auth.error;
+
   const { data, error } = await auth.client.rpc("get_community_profile");
-  if (error) return errorResponse(503, "UNAVAILABLE", "?�로???�보�?불러?????�습?�다.");
+  if (error) return errorResponse(503, "UNAVAILABLE", "프로필 정보를 불러오지 못했습니다.");
+
   const profile = Array.isArray(data) ? data[0] : data;
-  return jsonResponse({ profileConfigured: Boolean(profile?.public_nickname), profile: profile ? { nickname: profile.public_nickname, interestAccountType: profile.interest_account_type, investmentExperience: profile.investment_experience, role: profile.role } : null });
+  return jsonResponse({
+    profileConfigured: Boolean(profile?.public_nickname),
+    profile: profile
+      ? {
+          nickname: profile.public_nickname,
+          interestAccountType: profile.interest_account_type,
+          investmentExperience: profile.investment_experience,
+          role: profile.role,
+        }
+      : null,
+  });
 }
 
 export async function onRequestPost(context) {
   const auth = await authenticatedSupabase(context);
   if (auth.error) return auth.error;
   const payload = await parseJsonBody(context.request);
+
   try {
     const nickname = validateNickname(payload?.nickname);
-    const interestAccountType = ["dc", "irp", "pension_savings", "general", "none"].includes(payload?.interestAccountType) ? payload.interestAccountType : null;
-    const investmentExperience = ["beginner", "intermediate", "experienced"].includes(payload?.investmentExperience) ? payload.investmentExperience : null;
-    const { data, error } = await auth.client.rpc("bootstrap_community_profile", { p_public_nickname: nickname, p_interest_account_type: interestAccountType, p_investment_experience: investmentExperience });
-    if (error) return error.code === "23505" ? errorResponse(400, "VALIDATION_ERROR", "?��? ?�용 중인 ?�네?�입?�다.") : errorResponse(503, "UNAVAILABLE", "?�로?�을 ?�?�할 ???�습?�다.");
+    const interestAccountType = ["dc", "irp", "pension_savings", "general", "none"].includes(payload?.interestAccountType)
+      ? payload.interestAccountType
+      : null;
+    const investmentExperience = ["beginner", "intermediate", "experienced"].includes(payload?.investmentExperience)
+      ? payload.investmentExperience
+      : null;
+
+    const { data, error } = await auth.client.rpc("bootstrap_community_profile", {
+      p_public_nickname: nickname,
+      p_interest_account_type: interestAccountType,
+      p_investment_experience: investmentExperience,
+    });
+
+    if (error) {
+      return error.code === "23505"
+        ? errorResponse(400, "VALIDATION_ERROR", "이미 사용 중인 닉네임입니다.")
+        : errorResponse(503, "UNAVAILABLE", "프로필을 저장하지 못했습니다.");
+    }
+
     const profile = Array.isArray(data) ? data[0] : data;
-    return jsonResponse({ profileConfigured: true, profile: { nickname: profile?.public_nickname ?? nickname, role: profile?.role ?? "member" } }, 201);
-  } catch (error) { return error instanceof CommunityValidationError ? errorResponse(400, "VALIDATION_ERROR", error.message) : errorResponse(503, "UNAVAILABLE", "?�로?�을 ?�?�할 ???�습?�다."); }
+    return jsonResponse({
+      profileConfigured: true,
+      profile: {
+        nickname: profile?.public_nickname ?? nickname,
+        role: profile?.role ?? "member",
+      },
+    }, 201);
+  } catch (error) {
+    return error instanceof CommunityValidationError
+      ? errorResponse(400, "VALIDATION_ERROR", error.message)
+      : errorResponse(503, "UNAVAILABLE", "프로필을 저장하지 못했습니다.");
+  }
 }

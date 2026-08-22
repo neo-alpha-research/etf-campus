@@ -1,4 +1,4 @@
-﻿import { authenticatedSession, mergeSessionHeaders } from "../community/_lib/session";
+import { authenticatedSession, mergeSessionHeaders } from "../community/_lib/session";
 import { errorResponse } from "../community/_lib/api-security";
 
 export async function onRequest(context) {

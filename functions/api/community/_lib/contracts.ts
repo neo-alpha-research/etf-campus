@@ -5,7 +5,10 @@ export const COMMUNITY_CATEGORY_SLUGS = [
   "feedback",
 ] as const;
 
+export const PUBLIC_COMMUNITY_CATEGORY_SLUGS = ["notice", ...COMMUNITY_CATEGORY_SLUGS] as const;
+
 export type CommunityCategorySlug = (typeof COMMUNITY_CATEGORY_SLUGS)[number];
+export type PublicCommunityCategorySlug = (typeof PUBLIC_COMMUNITY_CATEGORY_SLUGS)[number];
 export type CommunityRole = "guest" | "member" | "moderator" | "admin";
 
 export class CommunityValidationError extends Error {
@@ -84,17 +87,53 @@ export function validateWithdrawalDisposition(value: unknown): "anonymize" | "de
   throw new CommunityValidationError("탈퇴 후 콘텐츠 처리 방식을 선택해 주세요.");
 }
 
+const CHALLENGE_ACCOUNT_TYPES = ["dc", "irp", "pension_savings", "general", "none"] as const;
+const CHALLENGE_LEARNING_TOPICS = ["cost_comparison", "distribution_notice", "pension_account", "risk_check", "weekly_learning"] as const;
+const CHALLENGE_METRIC_KEYS = ["study_checkin", "source_review", "criteria_check", "learning_note"] as const;
+
+export function validateChallengeApplication(payload: unknown) {
+  if (!payload || typeof payload !== "object") throw new CommunityValidationError("참가 신청 입력값이 올바르지 않습니다.");
+  const input = payload as Record<string, unknown>;
+  const cohortSlug = plainText(input.cohortSlug, "기수", 2, 80);
+  const interestAccountType = input.interestAccountType === null || input.interestAccountType === undefined || input.interestAccountType === ""
+    ? null
+    : CHALLENGE_ACCOUNT_TYPES.includes(input.interestAccountType as typeof CHALLENGE_ACCOUNT_TYPES[number])
+      ? input.interestAccountType as typeof CHALLENGE_ACCOUNT_TYPES[number]
+      : (() => { throw new CommunityValidationError("계좌 유형 선택값이 올바르지 않습니다."); })();
+  if (!CHALLENGE_LEARNING_TOPICS.includes(input.learningTopic as typeof CHALLENGE_LEARNING_TOPICS[number])) {
+    throw new CommunityValidationError("학습 주제를 선택해 주세요.");
+  }
+  const goalNote = input.goalNote === null || input.goalNote === undefined || input.goalNote === "" ? null : plainText(input.goalNote, "학습 메모", 2, 240);
+  const consentVersion = plainText(input.privateRecordConsentVersion, "기록 저장 동의 버전", 1, 80);
+  return { cohortSlug, interestAccountType, learningTopic: input.learningTopic as typeof CHALLENGE_LEARNING_TOPICS[number], goalNote, privateRecordConsentVersion: consentVersion };
+}
+
+export function validateChallengeRecord(payload: unknown) {
+  if (!payload || typeof payload !== "object") throw new CommunityValidationError("학습 기록 입력값이 올바르지 않습니다.");
+  const input = payload as Record<string, unknown>;
+  const dayNumber = Number(input.dayNumber);
+  const metricValue = Number(input.metricValue);
+  if (!Number.isInteger(dayNumber) || dayNumber < 1 || dayNumber > 30) throw new CommunityValidationError("챌린지 일차는 1일부터 30일까지 입력할 수 있습니다.");
+  if (!CHALLENGE_METRIC_KEYS.includes(input.metricKey as typeof CHALLENGE_METRIC_KEYS[number])) {
+    throw new CommunityValidationError("허용되지 않는 학습 지표입니다.");
+  }
+  if (!Number.isInteger(metricValue) || metricValue < 0 || metricValue > 10) throw new CommunityValidationError("학습 지표 값은 0부터 10까지 입력할 수 있습니다.");
+  const note = input.note === null || input.note === undefined || input.note === "" ? null : plainText(input.note, "학습 메모", 2, 500);
+  return { dayNumber, metricKey: input.metricKey as typeof CHALLENGE_METRIC_KEYS[number], metricValue, note, isPublic: input.isPublic === true };
+}
+
 export type PublicPostRow = {
   slug: string;
   title: string;
   body_text?: string;
   excerpt?: string;
-  category_slug: CommunityCategorySlug;
+  category_slug: PublicCommunityCategorySlug;
   category_name: string;
   author_nickname: string;
   created_at: string;
   updated_at: string;
   comment_count?: number;
+  is_pinned?: boolean;
 };
 
 export function toPublicPost(row: PublicPostRow) {
@@ -108,6 +147,7 @@ export function toPublicPost(row: PublicPostRow) {
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     commentCount: row.comment_count ?? 0,
+    isPinned: row.is_pinned ?? false,
   };
 }
 

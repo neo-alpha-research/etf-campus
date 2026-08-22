@@ -1,4 +1,4 @@
-﻿name: Daily ETF market data refresh
+name: Daily ETF market data refresh
 
 on:
   schedule:
@@ -165,11 +165,15 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Fetch global market indices
+        if: steps.guard.outputs.already_run != 'true'
+        run: python scripts/fetch_market_indices.py
+
       - name: Detect publishable data changes
         if: steps.guard.outputs.already_run != 'true'
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns | grep -q .; then
+          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns | grep -q .; then
             echo "Publishable data changes detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
@@ -221,9 +225,7 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: python scripts/publish_market_source_snapshot.py
 
-      - name: Fetch global market indices
-        if: steps.guard.outputs.already_run != 'true'
-        run: python scripts/fetch_market_indices.py
+
 
       - name: Commit refreshed market data
         if: steps.guard.outputs.already_run != 'true' && (steps.changes.outputs.changed == 'true')

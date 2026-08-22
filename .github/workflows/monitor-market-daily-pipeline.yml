@@ -1,0 +1,216 @@
+name: Monitor market daily pipeline
+
+on:
+  schedule:
+    # UTC Tue-Sat 01:15 = KST Tue-Sat 10:15.
+    # The daily ETF refresh has completed all 06:13/07:13/08:13/09:13 retry rungs,
+    # then leaves additional time for signed snapshot ingest, D1 outbox, Queue and publisher.
+    - cron: "15 1 * * 2-6"
+  workflow_dispatch:
+    inputs:
+      expected_as_of_date:
+        description: "검증할 기준일(YYYY-MM-DD). 비우면 KST 전일 거래일을 자동 확인합니다."
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: monitor-market-daily-pipeline
+  cancel-in-progress: false
+
+env:
+  BRIEFING_ENDPOINT: https://etf-campus.pages.dev/api/briefings/latest
+
+jobs:
+  monitor:
+    name: Verify latest market daily publication
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository holiday calendar
+        uses: actions/checkout@v4
+
+      - name: Verify source, publication and public API readiness
+        id: assess
+        env:
+          EXPLICIT_EXPECTED_DATE: ${{ inputs.expected_as_of_date }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          import urllib.error
+          import urllib.request
+          from datetime import datetime, timedelta
+          from pathlib import Path
+          from zoneinfo import ZoneInfo
+
+          endpoint = os.environ["BRIEFING_ENDPOINT"]
+          explicit_expected = os.environ.get("EXPLICIT_EXPECTED_DATE", "").strip()
+          now_kst = datetime.now(ZoneInfo("Asia/Seoul"))
+
+          if explicit_expected:
+              try:
+                  expected = datetime.strptime(explicit_expected, "%Y-%m-%d").date()
+              except ValueError:
+                  raise SystemExit("expected_as_of_date must use YYYY-MM-DD.")
+              is_historical_check = True
+          else:
+              expected = now_kst.date() - timedelta(days=1)
+              is_historical_check = False
+
+          holiday_dates = set()
+          for raw in Path("data/market_holidays.txt").read_text(encoding="utf-8").splitlines():
+              date = raw.split("#", 1)[0].strip()
+              if len(date) == 8 and date.isdigit():
+                  holiday_dates.add(date)
+
+          expected_compact = expected.strftime("%Y%m%d")
+          expected_iso = expected.isoformat()
+          output_path = Path(os.environ["GITHUB_OUTPUT"])
+          summary_path = Path(os.environ["GITHUB_STEP_SUMMARY"])
+
+          if not is_historical_check and (expected.weekday() >= 5 or expected_compact in holiday_dates):
+              message = f"{expected_iso} is a weekend or KRX holiday; monitoring is skipped."
+              output_path.write_text(
+                  f"notify=false\nexpected_date={expected_iso}\nactual_date=not-applicable\nreason=market-closed\n",
+                  encoding="utf-8",
+              )
+              summary_path.write_text(
+                  f"### Market Daily monitor\n\n- Expected close: `{expected_iso}`\n- Result: **skipped** (weekend or registered KRX holiday)\n",
+                  encoding="utf-8",
+              )
+              raise SystemExit(0)
+
+          try:
+              request = urllib.request.Request(
+                  endpoint,
+                  headers={"User-Agent": "ETF-Campus-Market-Daily-Monitor/1.0 (+https://etf-campus.pages.dev)"},
+              )
+              with urllib.request.urlopen(request, timeout=20) as response:
+                  payload = json.load(response)
+          except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
+              payload = None
+              transport_error = f"{type(error).__name__}: {error}"
+          else:
+              transport_error = None
+
+          briefing = payload.get("briefing") if isinstance(payload, dict) else None
+          errors = []
+          actual = "none"
+          if transport_error:
+              errors.append(f"public API unavailable ({transport_error})")
+          elif not isinstance(briefing, dict):
+              errors.append("public API returned no ready briefing")
+          else:
+              actual = str(briefing.get("asOfDate") or "none")
+              if actual != expected_iso:
+                  errors.append(f"asOfDate expected {expected_iso}, got {actual}")
+
+              validation = briefing.get("validation") or {}
+              readiness = validation.get("readiness") or {}
+              if readiness.get("status") != "passed":
+                  errors.append(f"readiness expected passed, got {readiness.get('status')!r}")
+
+              source_dates = briefing.get("sourceDates") or {}
+              for name in ("etf", "kospi", "kosdaq"):
+                  if source_dates.get(name) != expected_iso:
+                      errors.append(f"sourceDates.{name} expected {expected_iso}, got {source_dates.get(name)!r}")
+
+              headline_status = ((briefing.get("headline") or {}).get("generationStatus"))
+              if headline_status != "validated":
+                  errors.append(f"headline generationStatus expected validated, got {headline_status!r}")
+
+              pulse = briefing.get("pulse") or {}
+              if not isinstance(pulse.get("generalEtfCount"), int) or pulse["generalEtfCount"] <= 0:
+                  errors.append("general ETF count is missing or zero")
+              if not isinstance(pulse.get("generalAumWeightedReturnPct"), (int, float)):
+                  errors.append("general AUM-weighted return is missing")
+
+              # An explicitly selected old date is only a connectivity/history smoke test.
+              # The scheduled monitor also ensures the latest page is not marked stale.
+              if not is_historical_check and briefing.get("isStale") is True:
+                  errors.append(f"latest briefing is stale by {briefing.get('staleDays')} day(s)")
+
+          ready = not errors
+          reason = "ready" if ready else "; ".join(errors)
+          output_path.write_text(
+              "\n".join([
+                  f"notify={'false' if ready else 'true'}",
+                  f"expected_date={expected_iso}",
+                  f"actual_date={actual}",
+                  f"reason={reason}",
+              ]) + "\n",
+              encoding="utf-8",
+          )
+
+          rows = [
+              "### Market Daily monitor",
+              "",
+              f"- Expected close: `{expected_iso}`",
+              f"- Latest public briefing: `{actual}`",
+              f"- Endpoint: `{endpoint}`",
+              f"- Result: **{'ready' if ready else 'alert'}**",
+          ]
+          if errors:
+              rows.extend(["", "#### Detected conditions", *[f"- {error}" for error in errors]])
+          summary_path.write_text("\n".join(rows) + "\n", encoding="utf-8")
+          PY
+
+      - name: Create or update production alert issue
+        if: steps.assess.outputs.notify == 'true'
+        uses: actions/github-script@v7
+        env:
+          EXPECTED_DATE: ${{ steps.assess.outputs.expected_date }}
+          ACTUAL_DATE: ${{ steps.assess.outputs.actual_date }}
+          ALERT_REASON: ${{ steps.assess.outputs.reason }}
+        with:
+          script: |
+            const marker = `<!-- market-daily-monitor:${process.env.EXPECTED_DATE} -->`;
+            const title = `Market Daily 확인 필요 · ${process.env.EXPECTED_DATE}`;
+            const body = [
+              marker,
+              "## 자동 마켓 데일리 발행 모니터링 경보",
+              "",
+              `- 기대 기준일: \`${process.env.EXPECTED_DATE}\``,
+              `- 공개 API 기준일: \`${process.env.ACTUAL_DATE}\``,
+              `- 감지 시각: \`${new Date().toISOString()}\``,
+              `- 감지 내용: ${process.env.ALERT_REASON}`,
+              "",
+              "확인 순서: 일별 ETF 수집 workflow → source snapshot manifest/outbox → dispatcher → publisher → `/api/briefings/latest`.",
+            ].join("\n");
+
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              per_page: 100,
+            });
+            const existing = issues.find((issue) => issue.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body,
+              });
+              core.notice(`Updated existing monitor alert #${existing.number}.`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+              });
+              core.warning(`Created market daily monitor alert #${created.data.number}.`);
+            }
+
+      - name: Fail job after alert is persisted
+        if: steps.assess.outputs.notify == 'true'
+        run: |
+          echo "Market Daily publication did not meet the required production readiness conditions." >&2
+          exit 1

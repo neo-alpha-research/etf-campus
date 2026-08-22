@@ -1,7 +1,7 @@
-import { authenticatedSupabase, publicSupabase } from "../../../_lib/supabase";
-import { enforceDatabaseRateLimit, parseJsonBody } from "../../../_lib/request-security";
-import { errorResponse, jsonResponse } from "../../../_lib/api-security";
-import { CommunityValidationError, validateChallengeRecord } from "../../../_lib/contracts";
+import { authenticatedSupabase, publicSupabase } from "../../_lib/supabase";
+import { enforceDatabaseRateLimit, parseJsonBody } from "../../_lib/request-security";
+import { errorResponse, jsonResponse } from "../../_lib/api-security";
+import { CommunityValidationError, validateChallengeRecord } from "../../_lib/contracts";
 
 function validCohortSlug(value) {
   return typeof value === "string" && /^[a-z0-9-]{2,80}$/.test(value);

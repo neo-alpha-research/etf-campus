@@ -1,7 +1,7 @@
-import { authenticatedSupabase } from "../../_lib/supabase";
-import { enforceDatabaseRateLimit, parseJsonBody } from "../../_lib/request-security";
-import { errorResponse, jsonResponse } from "../../_lib/api-security";
-import { CommunityValidationError } from "../../_lib/contracts";
+import { authenticatedSupabase } from "../_lib/supabase";
+import { enforceDatabaseRateLimit, parseJsonBody } from "../_lib/request-security";
+import { errorResponse, jsonResponse } from "../_lib/api-security";
+import { CommunityValidationError } from "../_lib/contracts";
 
 function validateNotice(payload) {
   if (!payload || typeof payload !== "object") throw new CommunityValidationError("공지 입력값이 올바르지 않습니다.");

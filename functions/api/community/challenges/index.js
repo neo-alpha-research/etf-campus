@@ -1,7 +1,7 @@
-import { authenticatedSupabase, publicSupabase } from "../../_lib/supabase";
-import { enforceDatabaseRateLimit, parseJsonBody } from "../../_lib/request-security";
-import { errorResponse, jsonResponse } from "../../_lib/api-security";
-import { CommunityValidationError, validateChallengeApplication } from "../../_lib/contracts";
+import { authenticatedSupabase, publicSupabase } from "../_lib/supabase";
+import { enforceDatabaseRateLimit, parseJsonBody } from "../_lib/request-security";
+import { errorResponse, jsonResponse } from "../_lib/api-security";
+import { CommunityValidationError, validateChallengeApplication } from "../_lib/contracts";
 
 function challengeError(error) {
   const message = error?.message ?? "";

@@ -413,7 +413,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   }
 
   return (
-    <main className="page-shell flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
+    <main className="page-shell flex flex-col flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
       <div className="flex flex-wrap items-center justify-between gap-3 shrink-0">
         <div className="shrink-0 mb-1 sm:mb-0">
           <p className="eyebrow text-xs">ETF Screener</p>
@@ -421,37 +421,41 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
           <p className="mt-1 text-[13px] leading-tight text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p>
         </div>
 
+        <div className="flex-1 w-full lg:w-auto lg:min-w-[540px] flex flex-col justify-center lg:items-end mt-2 lg:mt-0">
+          <div className="flex flex-col items-start lg:items-end w-full max-w-[600px] lg:max-w-[540px]">
+            <a
+              href="https://nlink.munpia.com/link/munpia/novel/578267"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="알파를 읽는 자 무료 1화 보기"
+              className="block w-full leading-[0] cursor-pointer hover:brightness-[1.035] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#c9a45c] focus-visible:outline-offset-2 transition-all rounded-md overflow-hidden"
+            >
+              <picture className="block w-full">
+                <source
+                  media="(max-width: 639px)"
+                  srcSet="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/15_etfcampus_mobile_600x170_safezone_aihook_storyhook.gif"
+                  type="image/gif"
+                />
+                <source
+                  media="(min-width: 640px)"
+                  srcSet="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/16_etfcampus_desktop_920x140_safezone_aihook_storyhook.gif"
+                  type="image/gif"
+                />
+                <img
+                  src="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/16_etfcampus_desktop_920x140_safezone_aihook_storyhook.png"
+                  alt="웹소설 알파를 읽는 자 홍보 배너. 342억을 잃고 죽은 천재매매가가 AI가 공개된 첫날로 돌아갔다. 무료 1화 읽기."
+                  className="block h-auto w-full object-contain aspect-[600/170] sm:aspect-[920/140]"
+                  loading="eager"
+                  decoding="async"
+                />
+              </picture>
+            </a>
+            
+          </div>
+        </div>
 
         <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden shrink-0 self-end" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
       </div>
-
-      <section className="mt-4 flex flex-col items-center md:items-start" aria-label="웹소설 알파를 읽는 자 홍보">
-        <a
-          href="https://nlink.munpia.com/link/munpia/novel/578267"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="알파를 읽는 자 무료 1화 읽기"
-          className="block w-full max-w-[920px] overflow-hidden"
-        >
-          <picture className="block w-full">
-            <source
-              media="(max-width: 639px)"
-              srcSet="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/15_etfcampus_mobile_600x170_safezone_aihook_storyhook.gif"
-            />
-            <img
-              src="/images/Banners_Alpha_Reader/03_ETFCampus_Responsive/00_RECOMMENDED_10POINT/16_etfcampus_desktop_920x140_safezone_aihook_storyhook.gif"
-              alt="웹소설 알파를 읽는 자 홍보 배너. 342억을 잃고 죽은 펀드매니저가 AI가 공개된 첫날로 돌아가는 이야기. 무료 1화 읽기."
-              width="920"
-              height="140"
-              className="block h-auto w-full object-contain aspect-[600/170] sm:aspect-[920/140]"
-              decoding="async"
-            />
-          </picture>
-        </a>
-        <p className="mt-1.5 w-full max-w-[920px] text-[11px] text-neutral-400">
-          본 콘텐츠는 웹소설(픽션) 홍보이며 투자 권유가 아닙니다.
-        </p>
-      </section>
 
 
       <div className="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="빠른 시작 조건">

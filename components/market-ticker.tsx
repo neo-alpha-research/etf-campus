@@ -61,8 +61,8 @@ export function MarketTicker() {
       <div className="page-shell scrollbar-none flex items-center gap-x-5 overflow-x-auto py-1.5 sm:justify-center sm:gap-x-6">
         {formattedDate && (
           <span className="flex items-center gap-1.5 shrink-0 text-[11px] leading-none tracking-tight sm:text-xs">
-            <span className="font-semibold text-neutral-500">기준일</span>
             <span className="tabular-nums font-bold text-strong">{formattedDate}</span>
+            <span className="font-semibold text-neutral-500">종가</span>
             <span
               aria-hidden="true"
               className="hidden h-2.5 w-px shrink-0 bg-neutral-300 sm:block ml-2"

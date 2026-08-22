@@ -4,8 +4,10 @@ compatibility_date = "2026-08-18"
 workers_dev = true
 
 [triggers]
-# KST Tue-Sat 06:27, 07:27, 08:27. (UTC Mon-Fri 21:27, 22:27, 23:27)
-crons = ["27 21,22,23 * * 1-5"]
+# The dispatcher drains a durable D1 outbox. Run one existing trigger every five minutes
+# so a late source snapshot is recovered automatically even after the morning refresh window.
+# This remains a single Workers cron trigger and does not consume another free-plan cron slot.
+crons = ["*/5 * * * *"]
 
 [[d1_databases]]
 binding = "ETF_PRICES"

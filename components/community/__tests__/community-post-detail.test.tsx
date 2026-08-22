@@ -21,7 +21,7 @@ vi.mock("next/navigation", () => ({
 
 import { CommunityPostDetail } from "../community-post-detail";
 
-function post(canEdit: boolean) {
+function post(canEdit: boolean, canModerate = false) {
   return {
     slug: "11111111-1111-4111-8111-111111111111",
     title: "연금 ETF 질문",
@@ -32,6 +32,7 @@ function post(canEdit: boolean) {
     updatedAt: "2026-08-19T00:00:00.000Z",
     commentCount: 0,
     canEdit,
+    canModerate,
   };
 }
 
@@ -65,6 +66,34 @@ describe("CommunityPostDetail 게시물 소유자 제어 UI", () => {
     await waitFor(() => expect(screen.getByRole("heading", { name: "연금 ETF 질문" })).toBeInTheDocument());
     expect(screen.queryByRole("button", { name: "수정" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "삭제" })).not.toBeInTheDocument();
+  });
+
+  it("비작성자에게 게시물 신고 버튼을 제공하고 신고 모달을 연다", async () => {
+    mocks.communityFetch.mockImplementation((path: string) => Promise.resolve(path.endsWith("/comments") ? { comments: [] } : { post: post(false) }));
+
+    render(<CommunityPostDetail />);
+
+    await screen.findByRole("heading", { name: "연금 ETF 질문" });
+    fireEvent.click(screen.getByRole("button", { name: "신고하기" }));
+    expect(screen.getByRole("dialog", { name: "게시물 신고하기" })).toBeInTheDocument();
+    expect(screen.getByText("신고는 자동 제재로 이어지지 않습니다. 운영자가 사실과 정책을 수동으로 검토합니다.")).toBeInTheDocument();
+  });
+
+  it("관리자에게만 임시 숨김 버튼과 사유 입력을 제공한다", async () => {
+    mocks.communityFetch.mockImplementation((path: string) => Promise.resolve(path.endsWith("/comments") ? { comments: [] } : { post: post(false, true) }));
+    Object.defineProperty(window, "location", { value: { assign: vi.fn(), search: "?slug=11111111-1111-4111-8111-111111111111" }, writable: true });
+
+    render(<CommunityPostDetail />);
+
+    await screen.findByRole("heading", { name: "연금 ETF 질문" });
+    fireEvent.click(screen.getByRole("button", { name: "임시 숨김" }));
+    fireEvent.change(screen.getByLabelText("처리 사유"), { target: { value: "개인정보 노출이 확인되었습니다." } });
+    fireEvent.click(screen.getByRole("button", { name: "임시 숨김 처리" }));
+
+    await waitFor(() => expect(mocks.communityFetch).toHaveBeenCalledWith(
+      "/api/community/admin/moderation",
+      expect.objectContaining({ method: "POST" }),
+    ));
   });
 
   it("서버 오류 문구와 무관하게 NOT_FOUND 코드로 삭제·없는 게시물을 구분한다", async () => {

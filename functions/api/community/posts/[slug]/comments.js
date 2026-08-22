@@ -20,6 +20,17 @@ async function ownCommentIds(env, authorization, postSlug) {
   }
 }
 
+async function canModerateContent(env, authorization) {
+  const token = authorization?.match(/^Bearer\s+([^\s]+)$/i)?.[1];
+  if (!token) return false;
+  try {
+    const { data } = await publicSupabase(env, token).rpc("current_community_role");
+    return data === "admin";
+  } catch {
+    return false;
+  }
+}
+
 export async function onRequestGet(context) {
   const slug = context.params.slug;
   if (!validSlug(slug)) return errorResponse(404, "NOT_FOUND", "게시물을 찾을 수 없습니다.");
@@ -33,10 +44,14 @@ export async function onRequestGet(context) {
       .order("created_at", { ascending: true });
     if (error) throw error;
 
-    const ownIds = await ownCommentIds(context.env, context.request.headers.get("authorization"), slug);
+    const authorization = context.request.headers.get("authorization");
+    const [ownIds, canModerate] = await Promise.all([
+      ownCommentIds(context.env, authorization, slug),
+      canModerateContent(context.env, authorization),
+    ]);
     return Response.json(
-      { comments: (data ?? []).map((row) => ({ ...toPublicComment(row), canEdit: ownIds.has(row.public_id) })) },
-      { headers: { "Cache-Control": "public, max-age=30, s-maxage=30", "X-Content-Type-Options": "nosniff" } },
+      { comments: (data ?? []).map((row) => ({ ...toPublicComment(row), canEdit: ownIds.has(row.public_id), canModerate })) },
+      { headers: { "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff" } },
     );
   } catch (error) {
     console.error("community comments read failed", error instanceof Error ? error.message : "unknown");

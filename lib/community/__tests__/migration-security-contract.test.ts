@@ -8,6 +8,7 @@ const noticeSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migra
 const maintenanceSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260822000002_community_maintenance_audit.sql"), "utf8");
 const challengeSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260822000003_community_challenge_foundation.sql"), "utf8");
 const evaluationSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260822000004_community_challenge_evaluation_job.sql"), "utf8");
+const moderationSource = fs.readFileSync(path.join(process.cwd(), "supabase", "migrations", "20260822000005_community_moderation.sql"), "utf8");
 
 describe("커뮤니티 Supabase 보안 마이그레이션 계약", () => {
   it("직접 Data API 테이블 권한을 회수하고 공개 View만 읽기 허용한다", () => {
@@ -54,6 +55,18 @@ describe("커뮤니티 Supabase 보안 마이그레이션 계약", () => {
     expect(challengeSource).toContain("grant execute on function public.apply_to_community_challenge");
     expect(challengeSource).toContain("is_public boolean not null default false");
     expect(evaluationSource).toContain("grant execute on function public.record_due_community_challenge_evaluations(date), public.run_community_maintenance(date) to service_role");
+  });
+
+  it("신고·임시 숨김은 authenticated RPC와 admin 검토로만 처리하며 공개 View에서 숨긴 콘텐츠를 제외한다", () => {
+    expect(moderationSource).toContain("create table if not exists public.community_reports");
+    expect(moderationSource).toContain("revoke all on table public.community_reports from public, anon, authenticated");
+    expect(moderationSource).toContain("create_community_report");
+    expect(moderationSource).toContain("set_community_content_hidden");
+    expect(moderationSource).toContain("public.current_community_role() <> 'admin'");
+    expect(moderationSource).toContain("moderated_hidden_at is null");
+    expect(moderationSource).toContain("grant execute on function public.create_community_comment(uuid, text), public.create_community_report(text, uuid, text, text) to authenticated");
+    expect(moderationSource).toContain("grant execute on function public.purge_expired_community_reports(), public.run_community_maintenance(date) to service_role");
+    expect(moderationSource).not.toMatch(/auto[_ -]?(ban|suspend|penalty)/i);
   });
 
   it("정규화된 타임스탬프와 slug가 동일한 중복 마이그레이션 파일이 존재하지 않는다", () => {

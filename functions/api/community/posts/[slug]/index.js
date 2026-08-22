@@ -26,6 +26,17 @@ async function ownPostSlugs(env, authorization, postSlug) {
   }
 }
 
+async function canModerateContent(env, authorization) {
+  const token = authorization?.match(/^Bearer\s+([^\s]+)$/i)?.[1];
+  if (!token) return false;
+  try {
+    const { data } = await publicSupabase(env, token).rpc("current_community_role");
+    return data === "admin";
+  } catch {
+    return false;
+  }
+}
+
 function mapRpcError(error, action) {
   const message = error?.message ?? "";
   if (message.includes("forbidden")) return errorResponse(403, "FORBIDDEN", `본인이 작성한 게시물만 ${action}할 수 있습니다.`);
@@ -42,8 +53,12 @@ export async function onRequestGet(context) {
     if (error) throw error;
     if (!data) return errorResponse(404, "NOT_FOUND", "게시물을 찾을 수 없습니다.");
 
-    const ownSlugs = await ownPostSlugs(context.env, context.request.headers.get("authorization"), slug);
-    return Response.json({ post: { ...toPublicPost(data), canEdit: ownSlugs.has(slug) } }, {
+    const authorization = context.request.headers.get("authorization");
+    const [ownSlugs, canModerate] = await Promise.all([
+      ownPostSlugs(context.env, authorization, slug),
+      canModerateContent(context.env, authorization),
+    ]);
+    return Response.json({ post: { ...toPublicPost(data), canEdit: ownSlugs.has(slug), canModerate } }, {
       headers: {
         "Cache-Control": "private, no-store",
         "X-Content-Type-Options": "nosniff",

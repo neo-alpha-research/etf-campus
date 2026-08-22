@@ -72,6 +72,43 @@ export function validateCommentInput(payload: unknown): { bodyText: string } {
   return { bodyText: plainText((payload as Record<string, unknown>).bodyText, "댓글", 1, 2000) };
 }
 
+export const COMMUNITY_REPORT_REASON_CODES = [
+  "privacy_exposure",
+  "scam_or_external_inducement",
+  "guaranteed_return_or_trade_signal",
+  "misleading_information",
+  "harassment_or_abuse",
+  "advertising_or_copyright",
+  "other",
+] as const;
+
+export type CommunityReportReasonCode = (typeof COMMUNITY_REPORT_REASON_CODES)[number];
+
+export function validateCommunityReport(payload: unknown): { reasonCode: CommunityReportReasonCode; details: string | null } {
+  if (!payload || typeof payload !== "object") {
+    throw new CommunityValidationError("신고 입력값이 올바르지 않습니다.");
+  }
+  const input = payload as Record<string, unknown>;
+  if (!COMMUNITY_REPORT_REASON_CODES.includes(input.reasonCode as CommunityReportReasonCode)) {
+    throw new CommunityValidationError("신고 사유를 선택해 주세요.");
+  }
+  const details = input.details === null || input.details === undefined || input.details === ""
+    ? null
+    : plainText(input.details, "추가 설명", 2, 600);
+  return { reasonCode: input.reasonCode as CommunityReportReasonCode, details };
+}
+
+export function validateContentVisibilityAction(payload: unknown): { isHidden: boolean; reason: string } {
+  if (!payload || typeof payload !== "object") {
+    throw new CommunityValidationError("임시 숨김 입력값이 올바르지 않습니다.");
+  }
+  const input = payload as Record<string, unknown>;
+  if (typeof input.isHidden !== "boolean") {
+    throw new CommunityValidationError("임시 숨김 상태를 선택해 주세요.");
+  }
+  return { isHidden: input.isHidden, reason: plainText(input.reason, input.isHidden ? "임시 숨김 사유" : "복원 사유", 2, 500) };
+}
+
 export function validateNickname(value: unknown): string {
   const nickname = plainText(value, "닉네임", 2, 24);
   if (!/^[0-9A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ _.-]+$/.test(nickname)) {

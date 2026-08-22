@@ -69,6 +69,12 @@ describe("커뮤니티 Supabase 보안 마이그레이션 계약", () => {
     expect(moderationSource).not.toMatch(/auto[_ -]?(ban|suspend|penalty)/i);
   });
 
+  it("모더레이션 숨김 RPC는 PostgreSQL GET DIAGNOSTICS에 유효한 행 수 대입만 사용한다", () => {
+    expect(moderationSource).toContain("get diagnostics changed_count = row_count;");
+    expect(moderationSource).toContain("changed := changed_count > 0;");
+    expect(moderationSource).not.toMatch(/get diagnostics\s+\w+\s*=\s*row_count\s*>/i);
+  });
+
   it("정규화된 타임스탬프와 slug가 동일한 중복 마이그레이션 파일이 존재하지 않는다", () => {
     const migrationsDir = path.join(process.cwd(), "supabase", "migrations");
     const files = fs.readdirSync(migrationsDir).filter(f => f.endsWith(".sql"));

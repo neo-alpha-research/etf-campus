@@ -252,6 +252,7 @@ as $$
 declare
   current_user_id uuid := auth.uid();
   changed boolean := false;
+  changed_count integer := 0;
 begin
   if current_user_id is null or public.current_community_role() <> 'admin' then
     raise exception 'admin role required';
@@ -280,7 +281,8 @@ begin
     where public_id = p_target_reference and deleted_at is null;
   end if;
 
-  get diagnostics changed = row_count > 0;
+  get diagnostics changed_count = row_count;
+  changed := changed_count > 0;
   if not changed then
     raise exception 'moderation target not found';
   end if;

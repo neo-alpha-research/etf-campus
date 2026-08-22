@@ -1,4 +1,4 @@
-﻿import { communityFetch, signOutCommunity } from "@/lib/community/browser-client";
+import { communityFetch, signOutCommunity } from "@/lib/community/browser-client";
 
 export type AuthUser = {
   id: string;

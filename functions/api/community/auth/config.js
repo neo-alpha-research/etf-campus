@@ -7,11 +7,14 @@ function isExternalEnvironment(env) {
 export async function onRequestGet(context) {
   const required = context.env.TURNSTILE_REQUIRED === "true";
   const siteKey = context.env.TURNSTILE_SITE_KEY;
+
   if (isExternalEnvironment(context.env) && !required) {
-    return errorResponse(503, "CONFIGURATION_ERROR", "?��? Preview ?�증 보안 ?�정??준비되지 ?�았?�니??");
+    return errorResponse(503, "CONFIGURATION_ERROR", "외부 Preview 환경의 보안 설정이 준비되지 않았습니다.");
   }
+
   if (required && (!siteKey || !context.env.TURNSTILE_SECRET_KEY || !context.env.TURNSTILE_EXPECTED_HOSTNAME)) {
-    return errorResponse(503, "CONFIGURATION_ERROR", "CAPTCHA 보안 ?�정???�인??주세??");
+    return errorResponse(503, "CONFIGURATION_ERROR", "CAPTCHA 보안 설정을 확인해 주세요.");
   }
+
   return jsonResponse({ required, siteKey: required ? siteKey : null });
 }

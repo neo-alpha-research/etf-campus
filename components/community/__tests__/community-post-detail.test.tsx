@@ -66,4 +66,14 @@ describe("CommunityPostDetail 게시물 소유자 제어 UI", () => {
     expect(screen.queryByRole("button", { name: "수정" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "삭제" })).not.toBeInTheDocument();
   });
+
+  it("서버 오류 문구와 무관하게 NOT_FOUND 코드로 삭제·없는 게시물을 구분한다", async () => {
+    const missing = Object.assign(new Error("서버 문구가 변경되었습니다."), { code: "NOT_FOUND" });
+    mocks.communityFetch.mockRejectedValueOnce(missing);
+
+    render(<CommunityPostDetail />);
+
+    expect(await screen.findByRole("heading", { name: "게시물을 찾을 수 없습니다." })).toBeInTheDocument();
+    expect(screen.getByText("존재하지 않거나 삭제된 게시물입니다.")).toBeInTheDocument();
+  });
 });

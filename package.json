@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "newsletter:snapshot": "node scripts/newsletter/create-weekly-snapshot.mjs",
     "newsletter:build": "node scripts/newsletter/generate-weekly-newsletter.mjs",
-    "test": "vitest run",
+    "verify:utf8": "node scripts/verify-utf8.mjs",
+    "test": "npm run verify:utf8 && vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {

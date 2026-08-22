@@ -1,4 +1,4 @@
-﻿-- Cloudflare D1 schema for ETF daily prices
+-- Cloudflare D1 schema for ETF daily prices
 -- Apply with: wrangler d1 execute etf-prices --file=scripts/d1_schema.sql
 
 CREATE TABLE IF NOT EXISTS etf_prices (

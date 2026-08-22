@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { SupabaseAuthFlow } from "@/components/auth/supabase-auth-flow";
 

@@ -10,6 +10,7 @@ function validSlug(value) {
 async function ownCommentIds(env, authorization, postSlug) {
   const token = authorization?.match(/^Bearer\s+([^\s]+)$/i)?.[1];
   if (!token) return new Set();
+
   try {
     const supabase = publicSupabase(env, token);
     const { data } = await supabase.rpc("list_own_community_comment_ids", { p_post_slug: postSlug });
@@ -21,7 +22,7 @@ async function ownCommentIds(env, authorization, postSlug) {
 
 export async function onRequestGet(context) {
   const slug = context.params.slug;
-  if (!validSlug(slug)) return errorResponse(404, "NOT_FOUND", "게시물을 찾을 ???�습?�다.");
+  if (!validSlug(slug)) return errorResponse(404, "NOT_FOUND", "게시물을 찾을 수 없습니다.");
 
   try {
     const supabase = publicSupabase(context.env);
@@ -33,23 +34,19 @@ export async function onRequestGet(context) {
     if (error) throw error;
 
     const ownIds = await ownCommentIds(context.env, context.request.headers.get("authorization"), slug);
-    return Response.json({
-      comments: (data ?? []).map((row) => ({ ...toPublicComment(row), canEdit: ownIds.has(row.public_id) })),
-    }, {
-      headers: {
-        "Cache-Control": "public, max-age=30, s-maxage=30",
-        "X-Content-Type-Options": "nosniff",
-      },
-    });
+    return Response.json(
+      { comments: (data ?? []).map((row) => ({ ...toPublicComment(row), canEdit: ownIds.has(row.public_id) })) },
+      { headers: { "Cache-Control": "public, max-age=30, s-maxage=30", "X-Content-Type-Options": "nosniff" } },
+    );
   } catch (error) {
     console.error("community comments read failed", error instanceof Error ? error.message : "unknown");
-    return errorResponse(503, "UNAVAILABLE", "?��???불러?????�습?�다.");
+    return errorResponse(503, "UNAVAILABLE", "댓글을 불러오지 못했습니다.");
   }
 }
 
 export async function onRequestPost(context) {
   const slug = context.params.slug;
-  if (!validSlug(slug)) return errorResponse(404, "NOT_FOUND", "게시물을 찾을 ???�습?�다.");
+  if (!validSlug(slug)) return errorResponse(404, "NOT_FOUND", "게시물을 찾을 수 없습니다.");
 
   const auth = await authenticatedSupabase(context);
   if (auth.error) return auth.error;
@@ -64,11 +61,12 @@ export async function onRequestPost(context) {
       p_post_slug: slug,
       p_body_text: input.bodyText,
     });
+
     if (error) {
       if (error.message.includes("member profile")) {
-        return errorResponse(403, "FORBIDDEN", "?�네???�정???�료???�증 ?�원�??��????�성?????�습?�다.");
+        return errorResponse(403, "FORBIDDEN", "닉네임 설정을 완료한 인증 회원만 댓글을 작성할 수 있습니다.");
       }
-      if (error.message.includes("post not found")) return errorResponse(404, "NOT_FOUND", "게시물을 찾을 ???�습?�다.");
+      if (error.message.includes("post not found")) return errorResponse(404, "NOT_FOUND", "게시물을 찾을 수 없습니다.");
       throw error;
     }
 
@@ -77,6 +75,6 @@ export async function onRequestPost(context) {
   } catch (error) {
     if (error instanceof CommunityValidationError) return errorResponse(400, "VALIDATION_ERROR", error.message);
     console.error("community comment creation failed", error instanceof Error ? error.message : "unknown");
-    return errorResponse(503, "UNAVAILABLE", "?��????�?�할 ???�습?�다.");
+    return errorResponse(503, "UNAVAILABLE", "댓글을 저장하지 못했습니다.");
   }
 }

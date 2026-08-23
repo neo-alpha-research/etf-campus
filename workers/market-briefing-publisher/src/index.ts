@@ -429,8 +429,13 @@ async function publishSnapshot(
     .sort((left, right) => right.trade_value - left.trade_value)
     .slice(0, 3);
   const previous = await db.prepare(`SELECT as_of_date FROM market_briefings ORDER BY as_of_date DESC LIMIT 1`).first<{ as_of_date: string }>();
-  const publishedAt = nowIso();
-  const metrics = {
+    const previousQuotes = previous ? await db.prepare("SELECT * FROM briefing_etf_daily WHERE as_of_date = ?").bind(previous.as_of_date).all() : { results: [] };
+    const peerGroups = calculatePeerGroups(quotes);
+    const fundFlow = calculateFundFlow(quotes, previousQuotes.results || []);
+    const disparityWarning = calculateDisparityWarning(quotes);
+
+    const publishedAt = nowIso();
+    const metrics = {
     market_indices: indices.map((index) => ({
       code: index.index_code,
       label: index.index_name,
@@ -463,6 +468,9 @@ async function publishSnapshot(
       top10_trade_share_pct: pulse.top10TradeSharePct,
       aum_coverage_pct: pulse.aumCoveragePct,
     },
+    peer_groups: peerGroups,
+    fund_flow: fundFlow,
+    disparity_warning: disparityWarning,
   };
   const statements: D1PreparedStatement[] = [
     db

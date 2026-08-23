@@ -6,16 +6,9 @@ import { MarketBriefingHistory } from "@/components/market-briefing-history";
 import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking";
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
 import { PeerGroupReturns } from "@/components/market-briefing/peer-group-returns";
-import { useMarketBriefing } from "@/lib/hooks/use-market-briefing";
+import { useMarketBriefing, MarketIndex } from "@/lib/hooks/use-market-briefing";
 
-type MarketIndex = {
-  code: "KOSPI" | "KOSDAQ";
-  label: string;
-  close: number;
-  change_points?: number | null;
-  change_pct?: number;
-  as_of_date: string;
-};
+
 
 type AssetClass = {
   asset_class: string;

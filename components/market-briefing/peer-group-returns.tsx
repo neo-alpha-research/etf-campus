@@ -22,9 +22,9 @@ export function PeerGroupReturns({ groups }: { groups: PeerGroup[] }) {
       <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">THEMATIC RETURNS</p>
-          <h2 id="peer-group-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">테마별 수익률 랭킹</h2>
+          <h2 id="peer-group-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 가장 뜨거웠던 테마는?</h2>
         </div>
-        <p className="text-xs text-neutral-500">최소 5개 이상 구성된 테마 기준</p>
+        <p className="text-xs text-neutral-500">동일 테마 ETF 5개 이상 그룹 기준 (캡 가중수익률)</p>
       </div>
 
       <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)]">

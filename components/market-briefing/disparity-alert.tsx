@@ -11,12 +11,12 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
         <div className="flex items-start gap-3">
           <Info className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
           <div className="flex-1">
-            <h2 id="disparity-alert-title" className="text-base font-bold text-red-900">
-              NAV 괴리율 주의보
+            <h2 id="disparity-alert-title" className="text-lg font-bold text-red-900">
+              현재 적정가(NAV)보다 비싸게 거래되는 ETF
             </h2>
             <p className="mt-1 text-sm text-red-800">
-              현재 순자산가치(NAV) 대비 시장 가격이 크게 고평가 혹은 저평가되어 거래에 주의가 필요한 종목입니다. 
-              (국내 자산 1%, 해외 자산 3% 이상 괴리)
+              ETF의 실제 가치(NAV)보다 시장 가격이 비싸게(고평가) 형성되어 있어 매수 시 주의가 필요한 종목입니다. 
+              (국내 자산 1%, 해외 자산 3% 이상 가격 차이 발생)
             </p>
             
             <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { Info } from "lucide-react";
 import { MarketBriefingHistory } from "@/components/market-briefing-history";
 import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking";
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
@@ -213,32 +214,36 @@ export function MarketBriefingV0() {
         </div>
       </header>
 
-      <section aria-labelledby="market-summary-title" className="rounded-[26px] bg-[#202920] p-5 text-white shadow-[0_8px_24px_rgba(27,38,26,0.10)] sm:p-6">
+      <section aria-labelledby="market-summary-title" className="rounded-[26px] bg-[#202920] p-6 text-white shadow-[0_8px_24px_rgba(27,38,26,0.10)] sm:p-8">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#B7E886]">ETF CAMPUS 공개 브리핑</p>
-            <h2 id="market-summary-title" className="mt-1 text-xl font-extrabold tracking-tight">오늘의 ETF 시장</h2>
-            <p className="mt-2 text-sm leading-6 text-white/70">{headline}</p>
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#B7E886] flex items-center gap-1.5">
+              <i className="h-2 w-2 rounded-full bg-[#B7E886] animate-pulse" />
+              오늘의 시장 온도
+            </p>
+            <h2 id="market-summary-title" className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl text-white">{headline}</h2>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1.5 text-[11px] font-semibold text-white/80"><i className="h-1.5 w-1.5 rounded-full bg-[#B7E886]" />데이터 집계</span>
         </div>
 
-        <div className="mt-5 grid gap-3 lg:grid-cols-4">
-          <article className="rounded-[18px] border border-white/15 bg-white/[0.08] p-4 lg:col-span-2">
-            <p className="text-[11px] font-semibold text-white/70">일반 ETF 전체</p>
-            <p className={`mt-2 text-4xl font-extrabold tracking-tight tabular-nums ${changeTone(pulse.generalAumWeightedReturnPct)}`}>{signed(pulse.generalAumWeightedReturnPct)}</p>
-            <p className="mt-2 text-xs text-white/70">일반 ETF {number.format(pulse.generalEtfCount)}개 · 순자산 가중수익률</p>
+        <div className="mt-8 grid gap-4 lg:grid-cols-4">
+          <article className="rounded-[20px] border border-white/15 bg-white/[0.08] p-5 lg:col-span-2 shadow-inner flex flex-col justify-center">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-white/80">일반 ETF 전체 수익률</p>
+              <Info className="h-4 w-4 text-white/40" />
+            </div>
+            <p className={`mt-3 text-5xl font-extrabold tracking-tight tabular-nums ${changeTone(pulse.generalAumWeightedReturnPct)}`}>{signed(pulse.generalAumWeightedReturnPct)}</p>
+            <p className="mt-3 text-xs text-white/60">일반 ETF {number.format(pulse.generalEtfCount)}개 · 투자금 가중수익률</p>
           </article>
-          <article className="rounded-[18px] border border-white/10 bg-white/[0.06] p-4">
-            <p className="text-[11px] font-semibold text-white/70">시장 폭</p>
-            <p className="mt-2 text-sm font-bold text-white">상승 비중 <span className="text-lg tabular-nums">{decimal.format(pulse.breadthRatioPct)}%</span></p>
+          <article className="rounded-[20px] border border-white/10 bg-white/[0.06] p-5 flex flex-col justify-center">
+            <p className="text-sm font-semibold text-white/80">시장 호흡</p>
+            <p className="mt-2 text-base font-bold text-white">상승 우세 <span className="text-xl tabular-nums ml-1 text-[#B7E886]">{decimal.format(pulse.breadthRatioPct)}%</span></p>
             <BreadthBar pulse={pulse} />
           </article>
-          <article className="rounded-[18px] border border-white/10 bg-white/[0.06] p-4">
-            <p className="text-[11px] font-semibold text-white/70">거래 관심</p>
-            <p className="mt-2 text-sm font-bold leading-5 text-white">상위 10개 거래 집중도</p>
-            <p className="mt-1 text-2xl font-extrabold tabular-nums">{decimal.format(pulse.top10TradeSharePct)}%</p>
-            <p className="mt-2 text-[11px] leading-4 text-white/65">전체 거래대금 중 상위 10개 ETF 비중</p>
+          <article className="rounded-[20px] border border-white/10 bg-white/[0.06] p-5 flex flex-col justify-center">
+            <p className="text-sm font-semibold text-white/80">거래 쏠림 현상</p>
+            <p className="mt-2 text-base font-bold text-white">상위 10개 ETF 집중도</p>
+            <p className="mt-1 text-3xl font-extrabold tabular-nums text-white">{decimal.format(pulse.top10TradeSharePct)}%</p>
+            <p className="mt-2 text-[11px] leading-4 text-white/50">전체 거래대금 중 상위 10개 비중</p>
           </article>
         </div>
       </section>
@@ -246,10 +251,10 @@ export function MarketBriefingV0() {
       <section aria-labelledby="market-scale-title">
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MARKET SCALE</p>
-            <h2 id="market-scale-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">규모별 ETF 흐름</h2>
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MY PORTFOLIO</p>
+            <h2 id="market-scale-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 내 계좌는 어땠을까요?</h2>
           </div>
-          <span className="text-xs text-neutral-500">0% 기준 비교</span>
+          <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />체감 수익률 비교</span>
         </div>
         <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)]">
           {scaleRows.map((row, index) => {
@@ -274,8 +279,8 @@ export function MarketBriefingV0() {
       {briefing.marketIndices.length > 0 && (
         <section aria-labelledby="market-index-title">
           <div className="mb-3">
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MARKET INDEX</p>
-            <h2 id="market-index-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">국내 대표지수</h2>
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MACRO ECONOMY</p>
+            <h2 id="market-index-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘의 거시 경제 지표</h2>
           </div>
           <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">{briefing.marketIndices.map((index) => <IndexCard key={index.code} index={index} />)}</div>
         </section>
@@ -290,10 +295,10 @@ export function MarketBriefingV0() {
         <section aria-labelledby="asset-class-title">
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">ATTRIBUTION</p>
-            <h2 id="asset-class-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">자산군별 수익률 기여도</h2>
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MARKET DRIVERS</p>
+            <h2 id="asset-class-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 자산이 오늘 시장을 이끌었을까요?</h2>
           </div>
-          <span className="text-xs text-neutral-500">일반 ETF 기준</span>
+          <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />일반 ETF 기준 수익률 기여도</span>
         </div>
         <div className="grid overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)] lg:grid-cols-[0.9fr_1.1fr]">
           <div className="border-b border-[#EDF2DE] p-5 lg:border-b-0 lg:border-r sm:p-6">
@@ -327,14 +332,34 @@ export function MarketBriefingV0() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EDF2DE]">
-                {sortedAssetClasses.map((row) => (
-                  <tr key={row.asset_class} className="transition-colors hover:bg-[#F8FCEB]">
-                    <td className="px-5 py-4 font-bold text-neutral-800">{row.asset_class}<span className="mt-1 block text-[11px] font-normal text-neutral-500">ETF {number.format(row.etf_count)}개 · 상승 {number.format(row.up_count)} / 하락 {number.format(row.down_count)}</span></td>
-                    <td className="px-4 py-4 text-right tabular-nums text-neutral-700">{decimal.format(row.aum_share_pct)}%</td>
-                    <td className={`px-4 py-4 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>{row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}</td>
-                    <td className={`bg-[#F5FBE7] px-5 py-4 text-right font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>{signed(row.contribution_pct, "%p")}</td>
-                  </tr>
-                ))}
+                {sortedAssetClasses.map((row) => {
+                  const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
+                  const isPositive = row.contribution_pct >= 0;
+                  return (
+                    <tr key={row.asset_class} className="group relative transition-colors hover:bg-[#F8FCEB]">
+                      <td className="relative z-10 px-5 py-4 font-bold text-neutral-800">
+                        {row.asset_class}
+                        <span className="mt-1 block text-[11px] font-normal text-neutral-500">
+                          ETF {number.format(row.etf_count)}개 · 상승 {number.format(row.up_count)} / 하락 {number.format(row.down_count)}
+                        </span>
+                      </td>
+                      <td className="relative z-10 px-4 py-4 text-right tabular-nums text-neutral-700">
+                        {decimal.format(row.aum_share_pct)}%
+                      </td>
+                      <td className={`relative z-10 px-4 py-4 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
+                        {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
+                      </td>
+                      <td className={`relative z-10 px-5 py-4 text-right font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
+                        <div className="absolute inset-y-0 right-0 -z-10 bg-[#F5FBE7] opacity-0 transition-opacity group-hover:opacity-100 w-full" />
+                        <div
+                          className={`absolute inset-y-1.5 right-2 -z-10 rounded-md opacity-40 ${isPositive ? "bg-[#C6ECA0]" : "bg-[#A9DCE9]"}`}
+                          style={{ width: `calc(${Math.max(contributionPercent, 2)}% - 1rem)` }}
+                        />
+                        {signed(row.contribution_pct, "%p")}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -344,10 +369,10 @@ export function MarketBriefingV0() {
       <section aria-labelledby="focus-etf-title">
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">ACTIVE TRADING</p>
-            <h2 id="focus-etf-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">거래 관심 ETF</h2>
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">HOT TRADING</p>
+            <h2 id="focus-etf-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 가장 활발하게 거래된 ETF</h2>
           </div>
-          <span className="text-xs text-neutral-500">거래대금 순</span>
+          <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />거래대금순</span>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {briefing.focusEtfs.map((etf) => (

@@ -24,6 +24,9 @@ type SourceEtf = {
   aum_value: number | null;
   risk_type: "normal" | "leveraged" | "inverse" | "unknown";
   asset_class: string | null;
+  asset_detail: string | null;
+  nav_value: number | null;
+  disparity_pct: number | null;
   is_general_etf: 0 | 1;
   source_hash: string;
 };

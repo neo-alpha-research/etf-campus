@@ -19,9 +19,11 @@ const navigation = [
 ] as const;
 
 const finderNavigation = [
-  { href: "/", label: "조건별 찾기" },
+  { href: "/", label: "조건으로 찾기" },
   { href: "/quick/?mode=general", label: "일반 계좌" },
   { href: "/quick/?mode=pension", label: "연금 계좌" },
+  { href: "/quick/?mode=mixed_bonds", label: "혼합 채권" },
+  { href: "/quick/?mode=tdf", label: "TDF" },
   { href: "/quick/?mode=derivatives", label: "레버리지·인버스" },
   { href: "/quick/?mode=new", label: "신규 상장" },
 ] as const;

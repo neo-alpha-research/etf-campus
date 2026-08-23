@@ -62,7 +62,7 @@ async function runChallengeJudgment(env: Env): Promise<void> {
   if (!cohortsRes.ok) throw new Error("failed to fetch cohorts");
   const cohorts = await cohortsRes.json() as any[];
 
-  let totalJudgments = [];
+  const totalJudgments = [];
 
   for (const cohort of cohorts) {
     const bounds = getJudgmentTimeBounds(now, cohort.start_date);

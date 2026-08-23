@@ -3,12 +3,33 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export type MarketIndex = {
-  code: "KOSPI" | "KOSDAQ";
+  code: string;
   label: string;
   close: number;
   change_points?: number | null;
   change_pct?: number;
   as_of_date: string;
+};
+
+
+export type PeerGroup = {
+  peerGroup: string;
+  etfCount: number;
+  equalWeightReturnPct: number;
+  cappedAumWeightedReturnPct: number;
+};
+
+export type FundFlowRow = {
+  ticker: string;
+  etfName: string;
+  netInflowValue: number;
+};
+
+export type DisparityWarning = {
+  ticker: string;
+  etfName: string;
+  assetClass: string;
+  disparityPct: number;
 };
 
 export type AssetClass = {
@@ -67,7 +88,10 @@ export type MarketBriefing = {
     generalTotalTradeValue: number;
     top10TradeSharePct: number;
   };
-  assetClasses: AssetClass[];
+assetClasses: AssetClass[];
+  peerGroups: PeerGroup[];
+  fundFlow: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
+  disparityWarning: DisparityWarning[];
   focusEtfs: FocusEtf[];
 };
 

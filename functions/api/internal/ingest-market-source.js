@@ -133,16 +133,20 @@ async function ingestBatch(db, common, etfs) {
   const statements = etfs.map((etf) => db.prepare(
     `INSERT INTO market_source_etf_daily (
        as_of_date, source_version, ticker, etf_name, close_value, change_pct, trade_value,
-       aum_value, risk_type, asset_class, is_general_etf, source_hash, ingested_at
-     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       aum_value, risk_type, asset_class, asset_detail, nav_value, disparity_pct, is_general_etf, source_hash, ingested_at
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(as_of_date, source_version, ticker) DO UPDATE SET
        etf_name=excluded.etf_name, close_value=excluded.close_value, change_pct=excluded.change_pct,
        trade_value=excluded.trade_value, aum_value=excluded.aum_value, risk_type=excluded.risk_type,
-       asset_class=excluded.asset_class, is_general_etf=excluded.is_general_etf,
+       asset_class=excluded.asset_class, asset_detail=excluded.asset_detail,
+       nav_value=excluded.nav_value, disparity_pct=excluded.disparity_pct,
+       is_general_etf=excluded.is_general_etf,
        source_hash=excluded.source_hash, ingested_at=excluded.ingested_at`,
   ).bind(
     common.asOfDate, common.sourceVersion, etf.ticker, etf.name, etf.close, etf.changePct, etf.tradeValue,
-    etf.aumValue, etf.riskType, etf.assetClass, etf.riskType === "normal" ? 1 : 0, manifest.etf_source_hash, ingestedAt,
+    etf.aumValue ?? null, etf.riskType, etf.assetClass ?? null, etf.assetDetail ?? null,
+    etf.navValue ?? null, etf.disparityPct ?? null,
+    etf.riskType === "normal" ? 1 : 0, manifest.etf_source_hash, ingestedAt,
   ));
   await db.batch(statements);
   return { status: "collecting", accepted: etfs.length };

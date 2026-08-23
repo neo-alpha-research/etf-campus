@@ -66,15 +66,31 @@ def canonical_hash(value: object) -> str:
 
 
 def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
-    with path.open(encoding="utf-8-sig", newline="") as handle:
-        rows = list(csv.DictReader(handle))
-    if not rows:
-        raise RuntimeError("ETF master CSV has no rows.")
+    import csv, re
+    
+    # Read classification mapping
+    class_map = {}
+    try:
+        with open('data/classification/etf_classification_review_draft.csv', 'r', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                class_map[row['ticker']] = row.get('final_asset_detail') or row.get('suggested_asset_detail') or ''
+    except Exception as e:
+        print(f"Warning: Failed to load classification: {e}")
 
-    dates = {str(row.get("bas_dt") or "").strip() for row in rows}
+    with path.open("r", encoding="utf-8-sig") as stream:
+        reader = csv.DictReader(stream)
+        rows = list(reader)
+
+    if not rows:
+        raise RuntimeError(f"CSV {path.name} is empty.")
+
+    dates = {row.get("bas_dt", "").strip() for row in rows if row.get("bas_dt", "").strip()}
     if len(dates) != 1:
-        raise RuntimeError(f"ETF master contains multiple basis dates: {sorted(dates)}")
-    as_of_date = iso_date(next(iter(dates)))
+        raise RuntimeError(f"Expected exactly one bas_dt in master, found: {dates}")
+    as_of_date = dates.pop()
+    if len(as_of_date) == 8:
+        as_of_date = f"{as_of_date[:4]}-{as_of_date[4:6]}-{as_of_date[6:]}"
 
     records: list[dict[str, Any]] = []
     seen: set[str] = set()
@@ -101,9 +117,59 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
             "aumValue": aum_value,
             "riskType": normalize_risk_type(str(row.get("risk_type") or "")),
             "assetClass": str(row.get("asset_class") or "").strip() or None,
+            "assetDetail": class_map.get(ticker, ""),
+            "navValue": compact_number(row.get("nav")) if row.get("nav") else None,
+            "disparityPct": compact_number(row.get("disparity")) if row.get("disparity") else None,
         })
     return as_of_date, sorted(records, key=lambda row: row["ticker"])
 
+
+
+def fetch_yahoo_index(code: str, as_of_date: str) -> dict[str, Any]:
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+    target_date = datetime.strptime(as_of_date, "%Y-%m-%d")
+    period1 = int((target_date - timedelta(days=10)).timestamp())
+    period2 = int((target_date + timedelta(days=2)).timestamp())
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{code}?period1={period1}&period2={period2}&interval=1d"
+    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            data = json.loads(response.read().decode("utf-8"))
+    except Exception as e:
+        print(f"Warning: Failed to fetch {code} from Yahoo Finance: {e}")
+        return None
+    
+    result = data.get("chart", {}).get("result")
+    if not result: return None
+    timestamps = result[0].get("timestamp", [])
+    closes = result[0].get("indicators", {}).get("quote", [{}])[0].get("close", [])
+    
+    target_date_str = as_of_date.replace("-", "")
+    target_idx = -1
+    for i, ts in enumerate(timestamps):
+        ts_date = datetime.fromtimestamp(ts, tz=ZoneInfo("UTC")).strftime("%Y%m%d")
+        if ts_date <= target_date_str and closes[i] is not None:
+            target_idx = i
+            
+    if target_idx <= 0: return None
+    price = closes[target_idx]
+    prev_close = closes[target_idx - 1]
+    if price is None or prev_close is None: return None
+    
+    name_map = {"^TNX": "미 국채 10년물", "^VIX": "VIX", "CL=F": "WTI 원유"}
+    
+    # Do not scale TNX. The value is already a percentage (e.g., 4.74).
+    return {
+        "asOfDate": f"{ts_date[:4]}-{ts_date[4:6]}-{ts_date[6:]}",
+        "indexCode": code.replace("^", "").replace("=", ""),
+        "indexName": name_map.get(code, code),
+        "closeValue": round(price, 2),
+        "changePoints": round(price - prev_close, 2),
+        "changePct": round(((price - prev_close) / prev_close) * 100, 2),
+        "volumeValue": 0,
+        "sourceHash": "yahoo_finance"
+    }
 
 def fetch_krx_index(auth_key: str, code: str, as_of_date: str) -> dict[str, Any]:
     query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
@@ -187,6 +253,10 @@ def main() -> None:
     etf_hash = canonical_hash(etfs)
 
     indices = [fetch_krx_index(krx_auth_key, code, as_of_date) for code in ("KOSPI", "KOSDAQ")]
+    for yf_code in ("^TNX", "^VIX", "CL=F"):
+        yf_data = fetch_yahoo_index(yf_code, as_of_date)
+        if yf_data:
+            indices.append(yf_data)
     if any(index["asOfDate"] != as_of_date for index in indices):
         raise RuntimeError("KOSPI/KOSDAQ basis date is not aligned with the validated ETF master date.")
     index_hash = canonical_hash(indices)

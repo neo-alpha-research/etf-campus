@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Info } from "lucide-react";
+import { Info, BookOpen } from "lucide-react";
 import { MarketBriefingHistory } from "@/components/market-briefing-history";
 import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking";
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
 import { PeerGroupReturns } from "@/components/market-briefing/peer-group-returns";
 import { useMarketBriefing, MarketIndex } from "@/lib/hooks/use-market-briefing";
-
-
 
 type AssetClass = {
   asset_class: string;
@@ -69,6 +67,9 @@ type Briefing = {
   };
   assetClasses: AssetClass[];
   focusEtfs: FocusEtf[];
+  peerGroups?: any;
+  fundFlow?: any;
+  disparityWarning?: any;
 };
 
 const number = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 });
@@ -79,8 +80,8 @@ function signed(value: number, unit = "%") {
 }
 
 function money(value: number) {
-  if (value >= 1_000_000_000_000) return `${decimal.format(value / 1_000_000_000_000)}조 원`;
-  if (value >= 100_000_000) return `${decimal.format(value / 100_000_000)}억 원`;
+  if (value >= 1_000_000_000_000) return `${decimal.format(value / 1_000_000_000_000)}조원`;
+  if (value >= 100_000_000) return `${decimal.format(value / 100_000_000)}억원`;
   return `${number.format(value)}원`;
 }
 
@@ -117,7 +118,7 @@ function ErrorState({ message }: { message: string }) {
     <section className="rounded-[22px] border border-amber-200 bg-amber-50 px-6 py-8 text-center">
       <p className="text-sm font-bold text-amber-950">마켓 브리핑을 준비하고 있습니다</p>
       <p className="mt-2 text-sm leading-6 text-amber-800">{message}</p>
-      <p className="mt-4 text-xs text-amber-700">기준일이 일치하는 검증된 데이터가 준비되면 자동으로 표시됩니다.</p>
+      <p className="mt-4 text-xs text-amber-700">기준일에 일치하는 검증된 데이터가 준비되면 자동으로 표시됩니다.</p>
     </section>
   );
 }
@@ -129,16 +130,16 @@ function BreadthBar({ pulse }: { pulse: Briefing["pulse"] }) {
   const down = (pulse.downCount / total) * 100;
 
   return (
-    <div className="mt-4">
-      <div className="flex h-2.5 overflow-hidden rounded-full bg-white/15" aria-label={`상승 ${pulse.upCount}개, 보합 ${pulse.flatCount}개, 하락 ${pulse.downCount}개`}>
+    <div className="mt-3">
+      <div className="flex h-2.5 overflow-hidden rounded-full bg-black/5" aria-label={`상승 ${pulse.upCount}개 보합 ${pulse.flatCount}개 하락 ${pulse.downCount}개`}>
         <span className="bg-[#E5484D]" style={{ width: `${up}%` }} />
         <span className="bg-neutral-300" style={{ width: `${flat}%` }} />
         <span className="bg-[#2879BB]" style={{ width: `${down}%` }} />
       </div>
       <div className="mt-2.5 flex flex-wrap gap-x-2 gap-y-1 text-[11px] font-medium">
-        <span className="text-[#FFB4AE]">상승 {number.format(pulse.upCount)}</span>
-        <span className="text-white/65">보합 {number.format(pulse.flatCount)}</span>
-        <span className="text-[#B9E6FE]">하락 {number.format(pulse.downCount)}</span>
+        <span className="text-[#D92D20]">상승 {number.format(pulse.upCount)}</span>
+        <span className="text-neutral-500">보합 {number.format(pulse.flatCount)}</span>
+        <span className="text-[#175CD3]">하락 {number.format(pulse.downCount)}</span>
       </div>
     </div>
   );
@@ -165,6 +166,7 @@ export function MarketBriefingV0() {
     revalidateOnFocus: !selectedDate,
     revalidateIntervalMs: selectedDate ? 0 : 10 * 60 * 1000,
   });
+
   const sortedAssetClasses = useMemo(() => {
     if (!briefing) return [];
     return [...briefing.assetClasses]
@@ -182,16 +184,16 @@ export function MarketBriefingV0() {
   const scopeReturns = new Map(pulse.aumWeightedReturns.map((item) => [item.scope, item]));
   const scaleRows = [
     { scope: "all" as const, label: "전체 ETF", value: pulse.generalAumWeightedReturnPct, detail: `일반 ETF ${number.format(pulse.generalEtfCount)}개` },
-    { scope: "top_50" as const, label: "순자산 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "순자산 상위 50개 ETF", tag: "대형 ETF 흐름" },
-    { scope: "top_100" as const, label: "순자산 Top 100", value: pulse.top100AumWeightedReturnPct, detail: "순자산 상위 100개 ETF" },
-    { scope: "top_200" as const, label: "순자산 Top 200", value: pulse.top200AumWeightedReturnPct, detail: "순자산 상위 200개 ETF" },
+    { scope: "top_50" as const, label: "투자금 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "투자금 상위 50개 ETF", tag: "대형 ETF 흐름" },
+    { scope: "top_100" as const, label: "투자금 Top 100", value: pulse.top100AumWeightedReturnPct, detail: "투자금 상위 100개 ETF" },
+    { scope: "top_200" as const, label: "투자금 Top 200", value: pulse.top200AumWeightedReturnPct, detail: "투자금 상위 200개 ETF" },
   ];
   const maxScale = Math.max(...scaleRows.map((row) => Math.abs(row.value)), 0.01);
   const maxContribution = Math.max(...sortedAssetClasses.map((row) => Math.abs(row.contribution_pct)), 0.01);
-  const headline = briefing.headline.text ?? `일반 ETF ${number.format(pulse.generalEtfCount)}개 기준, ${pulse.marketTemperature} 흐름입니다.`;
+  const headline = briefing.headline?.text ?? `일반 ETF ${number.format(pulse.generalEtfCount)}개 기준, ${pulse.marketTemperature} 흐름입니다.`;
 
   return (
-    <div className="mx-auto max-w-7xl space-y-9 pb-4">
+    <div className="mx-auto max-w-7xl space-y-12 pb-4">
       <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
         <div>
           <p className="text-[11px] font-extrabold tracking-[0.16em] text-[#5A7050]">ETF CAMPUS</p>
@@ -209,191 +211,222 @@ export function MarketBriefingV0() {
             </button>
           )}
           <button type="button" onClick={() => void refresh()} disabled={isRefreshing} className="inline-flex rounded-xl border border-[#CFD5CB] bg-white px-3.5 py-2.5 text-sm font-bold text-neutral-700 transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] disabled:cursor-wait disabled:opacity-60">
-            {isRefreshing ? "갱신 중…" : "↻ 새로고침"}
+            {isRefreshing ? "갱신 중..." : "새로고침"}
           </button>
         </div>
       </header>
 
-      <section aria-labelledby="market-summary-title" className="rounded-[26px] bg-[#202920] p-6 text-white shadow-[0_8px_24px_rgba(27,38,26,0.10)] sm:p-8">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#B7E886] flex items-center gap-1.5">
-              <i className="h-2 w-2 rounded-full bg-[#B7E886] animate-pulse" />
-              오늘의 시장 온도
-            </p>
-            <h2 id="market-summary-title" className="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl text-white">{headline}</h2>
-          </div>
+      {/* Editor's Note / Beginner Guide */}
+      <section className="relative overflow-hidden rounded-[26px] bg-[#202920] p-6 text-white shadow-[0_8px_24px_rgba(27,38,26,0.10)] sm:p-8">
+        <div className="relative z-10">
+          <p className="flex items-center gap-2 text-[11px] font-extrabold tracking-[0.14em] text-[#B7E886]">
+            <BookOpen className="h-4 w-4" />
+            초보자를 위한 오늘의 시황 가이드
+          </p>
+          <h2 className="mt-3 text-2xl font-extrabold leading-9 tracking-tight sm:text-3xl sm:leading-10">
+            {headline}
+          </h2>
+          <p className="mt-5 max-w-3xl text-sm leading-7 text-white/70">
+            ETF 시장은 거시 경제(금리, 환율, 주요 지수)의 영향을 가장 먼저 받습니다. 
+            아래 <strong>STEP 1</strong>에서 오늘 시장의 배경이 된 거시 지표를 확인하고, 
+            <strong>STEP 2</strong>에서 전체 ETF 시장의 온도 변화를, 
+            <strong>STEP 3</strong>에서 세부적인 테마와 자금 흐름을 차례대로 파악해 보세요.
+          </p>
         </div>
-
-        <div className="mt-8 grid gap-4 lg:grid-cols-4">
-          <article className="rounded-[20px] border border-white/15 bg-white/[0.08] p-5 lg:col-span-2 shadow-inner flex flex-col justify-center">
-            <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold text-white/80">일반 ETF 전체 수익률</p>
-              <Info className="h-4 w-4 text-white/40" />
-            </div>
-            <p className={`mt-3 text-5xl font-extrabold tracking-tight tabular-nums ${changeTone(pulse.generalAumWeightedReturnPct)}`}>{signed(pulse.generalAumWeightedReturnPct)}</p>
-            <p className="mt-3 text-xs text-white/60">일반 ETF {number.format(pulse.generalEtfCount)}개 · 투자금 가중수익률</p>
-          </article>
-          <article className="rounded-[20px] border border-white/10 bg-white/[0.06] p-5 flex flex-col justify-center">
-            <p className="text-sm font-semibold text-white/80">시장 호흡</p>
-            <p className="mt-2 text-base font-bold text-white">상승 우세 <span className="text-xl tabular-nums ml-1 text-[#B7E886]">{decimal.format(pulse.breadthRatioPct)}%</span></p>
-            <BreadthBar pulse={pulse} />
-          </article>
-          <article className="rounded-[20px] border border-white/10 bg-white/[0.06] p-5 flex flex-col justify-center">
-            <p className="text-sm font-semibold text-white/80">거래 쏠림 현상</p>
-            <p className="mt-2 text-base font-bold text-white">상위 10개 ETF 집중도</p>
-            <p className="mt-1 text-3xl font-extrabold tabular-nums text-white">{decimal.format(pulse.top10TradeSharePct)}%</p>
-            <p className="mt-2 text-[11px] leading-4 text-white/50">전체 거래대금 중 상위 10개 비중</p>
-          </article>
-        </div>
+        <div className="absolute -right-10 -top-10 z-0 h-64 w-64 rounded-full bg-white/5 blur-3xl pointer-events-none" />
       </section>
 
-      <section aria-labelledby="market-scale-title">
-        <div className="mb-3 flex items-end justify-between gap-3">
-          <div>
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MY PORTFOLIO</p>
-            <h2 id="market-scale-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 내 계좌는 어땠을까요?</h2>
-          </div>
-          <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />체감 수익률 비교</span>
-        </div>
-        <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)]">
-          {scaleRows.map((row, index) => {
-            const coverage = scopeReturns.get(row.scope)?.aum_coverage_pct;
-            const width = Math.max((Math.abs(row.value) / maxScale) * 100, 4);
-            return (
-              <div key={row.scope} className={`grid gap-3 px-4 py-4 sm:grid-cols-[minmax(180px,1fr)_minmax(120px,1.1fr)_92px] sm:items-center sm:px-5 ${index > 0 ? "border-t border-[#EDF2DE]" : ""}`}>
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2"><p className="font-bold text-neutral-800">{row.label}</p>{row.tag && <span className="rounded-full bg-[#EEF9DF] px-2 py-0.5 text-[10px] font-bold text-[#547048]">{row.tag}</span>}</div>
-                  <p className="mt-1 text-[11px] text-neutral-500">{row.detail}{coverage !== undefined && ` · AUM 커버리지 ${decimal.format(coverage)}%`}</p>
-                </div>
-                <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-[#F1F3EF] sm:mt-0">
-                  <span className={`block h-full rounded-full ${row.value >= 0 ? "bg-gradient-to-r from-[#D9F4B8] to-[#A9DCE9]" : "bg-[#B9E6FE]"}`} style={{ width: `${width}%` }} />
-                </div>
-                <p className={`text-right text-lg font-extrabold tabular-nums ${changeTone(row.value)}`}>{signed(row.value)}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
+      {/* STEP 1: Macro */}
       {briefing.marketIndices.length > 0 && (
         <section aria-labelledby="market-index-title">
-          <div className="mb-3">
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MACRO ECONOMY</p>
-            <h2 id="market-index-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘의 거시 경제 지표</h2>
+          <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 1. MACRO ECONOMY</p>
+            <h2 id="market-index-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 시장의 배경은? (거시 지표)</h2>
+            <p className="mt-1 text-sm text-neutral-500">ETF 가격 변동의 원인이 되는 주요 지수와 금리 흐름입니다.</p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">{briefing.marketIndices.map((index) => <IndexCard key={index.code} index={index} />)}</div>
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {briefing.marketIndices.map((index) => <IndexCard key={index.code} index={index} />)}
+          </div>
         </section>
       )}
 
-      <PeerGroupReturns groups={briefing.peerGroups} />
-
-      <DisparityAlert warnings={briefing.disparityWarning} />
-      <FundFlowRanking fundFlow={briefing.fundFlow} />
-
-
-        <section aria-labelledby="asset-class-title">
-        <div className="mb-3 flex items-end justify-between gap-3">
-          <div>
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MARKET DRIVERS</p>
-            <h2 id="asset-class-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 자산이 오늘 시장을 이끌었을까요?</h2>
-          </div>
-          <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />일반 ETF 기준 수익률 기여도</span>
+      {/* STEP 2: Market Pulse & My Portfolio */}
+      <section aria-labelledby="market-pulse-title">
+        <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
+          <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">그래서 ETF 시장은 어땠을까요? (시장 온도)</h2>
+          <p className="mt-1 text-sm text-neutral-500">거시 경제의 변화가 전체 일반 ETF 시장에 미친 영향입니다.</p>
         </div>
-        <div className="grid overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)] lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="border-b border-[#EDF2DE] p-5 lg:border-b-0 lg:border-r sm:p-6">
-            <p className="text-sm font-bold text-neutral-800">기여도 크기</p>
-            <p className="mt-1 text-xs leading-5 text-neutral-500">자산군의 AUM 비중과 가중수익률을 곱해 전체 일반 ETF 수익률에 대한 기여도를 계산했습니다.</p>
-            <div className="mt-6 space-y-4">
-              {sortedAssetClasses.map((row) => {
-                const percent = (Math.abs(row.contribution_pct) / maxContribution) * 50;
-                const positive = row.contribution_pct >= 0;
+        
+        <div className="grid gap-4 lg:grid-cols-[1fr_1.3fr]">
+          <div className="flex flex-col gap-4">
+            <article className="flex-1 rounded-[22px] border border-[#D7EABB] bg-[#F9FBFC] p-6 shadow-sm">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-bold text-neutral-800">일반 ETF 전체 수익률</p>
+                <Info className="h-4 w-4 text-neutral-400" />
+              </div>
+              <p className={`mt-4 text-4xl font-extrabold tracking-tight tabular-nums ${changeTone(pulse.generalAumWeightedReturnPct)}`}>{signed(pulse.generalAumWeightedReturnPct)}</p>
+              <p className="mt-3 text-xs text-neutral-500">일반 ETF {number.format(pulse.generalEtfCount)}개 · 투자금(AUM) 가중수익률</p>
+            </article>
+            <div className="grid grid-cols-2 gap-4">
+              <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-sm">
+                <p className="text-[11px] font-semibold text-neutral-500">시장 호흡</p>
+                <p className="mt-1 text-sm font-bold text-neutral-900">상승 우세 <span className="text-base tabular-nums ml-1 text-[#62913A]">{decimal.format(pulse.breadthRatioPct)}%</span></p>
+                <BreadthBar pulse={pulse} />
+              </article>
+              <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-sm">
+                <p className="text-[11px] font-semibold text-neutral-500">거래 쏠림 현상</p>
+                <p className="mt-1 text-sm font-bold text-neutral-900">상위 10개 ETF 집중도</p>
+                <p className="mt-1 text-xl font-extrabold tabular-nums text-neutral-800">{decimal.format(pulse.top10TradeSharePct)}%</p>
+                <p className="mt-2 text-[11px] leading-4 text-neutral-500">전체 거래대금 중 상위 10개 비중</p>
+              </article>
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm flex flex-col justify-center">
+            <div className="border-b border-[#EDF2DE] px-5 py-4">
+              <p className="font-bold text-neutral-900">내 계좌 체감 수익률 비교</p>
+              <p className="mt-1 text-xs text-neutral-500">투자금 규모별 상위 ETF의 수익률과 나의 계좌를 비교해보세요.</p>
+            </div>
+            <div className="divide-y divide-[#EDF2DE]">
+              {scaleRows.map((row) => {
+                const coverage = scopeReturns.get(row.scope)?.aum_coverage_pct;
+                const width = Math.max((Math.abs(row.value) / maxScale) * 100, 4);
                 return (
-                  <div key={row.asset_class} className="grid grid-cols-[86px_1fr_62px] items-center gap-3">
-                    <span className="truncate text-xs font-semibold text-neutral-700">{row.asset_class}</span>
-                    <div className="relative h-2.5 rounded-full bg-[#F1F3EF]" aria-label={`${row.asset_class} 수익률 기여도 ${signed(row.contribution_pct, "%p")}`}>
-                      <span className="absolute left-1/2 top-[-3px] h-4 w-px bg-neutral-300" />
-                      <span className={`absolute top-0 h-full rounded-full ${positive ? "bg-[#C6ECA0]" : "bg-[#A9DCE9]"}`} style={positive ? { left: "50%", width: `${percent}%` } : { right: "50%", width: `${percent}%` }} />
+                  <div key={row.scope} className="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(140px,1fr)_minmax(100px,1fr)_92px] sm:items-center">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="font-bold text-neutral-800">{row.label}</p>
+                        {row.tag && <span className="rounded-full bg-[#EEF9DF] px-2 py-0.5 text-[10px] font-bold text-[#547048]">{row.tag}</span>}
+                      </div>
+                      <p className="mt-1 text-[11px] text-neutral-500">{row.detail}{coverage !== undefined && ` · AUM 커버리지 ${decimal.format(coverage)}%`}</p>
                     </div>
-                    <span className={`text-right text-xs font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>{signed(row.contribution_pct, "%p")}</span>
+                    <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-[#F1F3EF] sm:mt-0">
+                      <span className={`block h-full rounded-full ${row.value >= 0 ? "bg-[#D9F4B8]" : "bg-[#B9E6FE]"}`} style={{ width: `${width}%` }} />
+                    </div>
+                    <p className={`text-right text-base font-extrabold tabular-nums ${changeTone(row.value)}`}>{signed(row.value)}</p>
                   </div>
                 );
               })}
             </div>
           </div>
-          <div className="overflow-x-auto">
-            <table className="min-w-[620px] w-full text-sm">
-              <thead className="bg-[#EFF8D8] text-[11px] font-extrabold text-[#365314]">
-                <tr>
-                  <th className="px-5 py-3 text-left">자산군</th>
-                  <th className="px-4 py-3 text-right">AUM 비중</th>
-                  <th className="px-4 py-3 text-right">가중수익률</th>
-                  <th className="bg-[#E7F6C8] px-5 py-3 text-right">수익률 기여도</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#EDF2DE]">
-                {sortedAssetClasses.map((row) => {
-                  const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
-                  const isPositive = row.contribution_pct >= 0;
-                  return (
-                    <tr key={row.asset_class} className="group relative transition-colors hover:bg-[#F8FCEB]">
-                      <td className="relative z-10 px-5 py-4 font-bold text-neutral-800">
-                        {row.asset_class}
-                        <span className="mt-1 block text-[11px] font-normal text-neutral-500">
-                          ETF {number.format(row.etf_count)}개 · 상승 {number.format(row.up_count)} / 하락 {number.format(row.down_count)}
-                        </span>
-                      </td>
-                      <td className="relative z-10 px-4 py-4 text-right tabular-nums text-neutral-700">
-                        {decimal.format(row.aum_share_pct)}%
-                      </td>
-                      <td className={`relative z-10 px-4 py-4 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
-                        {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
-                      </td>
-                      <td className={`relative z-10 px-5 py-4 text-right font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
-                        <div className="absolute inset-y-0 right-0 -z-10 bg-[#F5FBE7] opacity-0 transition-opacity group-hover:opacity-100 w-full" />
-                        <div
-                          className={`absolute inset-y-1.5 right-2 -z-10 rounded-md opacity-40 ${isPositive ? "bg-[#C6ECA0]" : "bg-[#A9DCE9]"}`}
-                          style={{ width: `calc(${Math.max(contributionPercent, 2)}% - 1rem)` }}
-                        />
-                        {signed(row.contribution_pct, "%p")}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
         </div>
       </section>
 
-      <section aria-labelledby="focus-etf-title">
-        <div className="mb-3 flex items-end justify-between gap-3">
+      {/* STEP 3: Micro (Asset class, Peer groups, Flow) */}
+      <section>
+        <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 3. MICRO TRENDS</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 ETF가 주도했을까요? (세부 동향)</h2>
+          <p className="mt-1 text-sm text-neutral-500">자산군, 테마별 수익률과 투자자들의 실제 자금 이동 내역입니다.</p>
+        </div>
+        
+        <div className="space-y-12">
+          {/* Asset Class Attribution */}
           <div>
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">HOT TRADING</p>
-            <h2 id="focus-etf-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 가장 활발하게 거래된 ETF</h2>
-          </div>
-          <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />거래대금순</span>
-        </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {briefing.focusEtfs.map((etf) => (
-            <Link key={etf.ticker} href={`/etf/${etf.ticker}`} className="group rounded-[18px] border border-[#E5E8E2] bg-white p-4 shadow-[0_4px_12px_rgba(27,38,26,0.04)] transition hover:-translate-y-0.5 hover:border-[#B8D598] hover:bg-[#F8FCEB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68]">
-              <div className="flex items-start justify-between gap-3">
-                <span className="text-[11px] font-medium text-neutral-500">{etf.ticker}</span>
-                <span className={`text-sm font-extrabold tabular-nums ${changeTone(etf.change_pct)}`}>{signed(etf.change_pct)}</span>
+            <div className="mb-3 flex items-end justify-between gap-3">
+              <h3 className="font-bold text-neutral-900">어떤 자산이 오늘 시장을 이끌었을까요?</h3>
+              <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />일반 ETF 수익률 기여도</span>
+            </div>
+            <div className="grid overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="border-b border-[#EDF2DE] p-5 lg:border-b-0 lg:border-r sm:p-6">
+                <p className="text-sm font-bold text-neutral-800">기여도 읽기</p>
+                <p className="mt-1 text-xs leading-5 text-neutral-500">자산군의 AUM 비중과 가중수익률을 곱해 전체 일반 ETF 수익률에 미친 기여도를 계산합니다.</p>
+                <div className="mt-6 space-y-4">
+                  {sortedAssetClasses.map((row) => {
+                    const percent = (Math.abs(row.contribution_pct) / maxContribution) * 50;
+                    const positive = row.contribution_pct >= 0;
+                    return (
+                      <div key={row.asset_class} className="grid grid-cols-[86px_1fr_62px] items-center gap-3">
+                        <span className="truncate text-xs font-semibold text-neutral-700">{row.asset_class}</span>
+                        <div className="relative h-2.5 rounded-full bg-[#F1F3EF]" aria-label={`${row.asset_class} 수익률 기여도 ${signed(row.contribution_pct, "%p")}`}>
+                          <span className="absolute left-1/2 top-[-3px] h-4 w-px bg-neutral-300" />
+                          <span className={`absolute top-0 h-full rounded-full ${positive ? "bg-[#C6ECA0]" : "bg-[#A9DCE9]"}`} style={positive ? { left: "50%", width: `${percent}%` } : { right: "50%", width: `${percent}%` }} />
+                        </div>
+                        <span className={`text-right text-xs font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>{signed(row.contribution_pct, "%p")}</span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <p className="mt-3 truncate font-extrabold text-neutral-800">{etf.etf_name}</p>
-              <p className="mt-1 truncate text-xs text-neutral-500">{etf.asset_class ?? "미분류"}</p>
-              <p className="mt-4 text-xs text-neutral-500">거래대금 <span className="font-bold text-neutral-700 tabular-nums">{money(etf.trade_value)}</span></p>
-            </Link>
-          ))}
+              <div className="overflow-x-auto">
+                <table className="min-w-[620px] w-full text-sm">
+                  <thead className="bg-[#EFF8D8] text-[11px] font-extrabold text-[#365314]">
+                    <tr>
+                      <th className="px-5 py-3 text-left">자산군</th>
+                      <th className="px-4 py-3 text-right">AUM 비중</th>
+                      <th className="px-4 py-3 text-right">가중수익률</th>
+                      <th className="bg-[#E7F6C8] px-5 py-3 text-right">수익률 기여도</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#EDF2DE]">
+                    {sortedAssetClasses.map((row) => {
+                      const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
+                      const isPositive = row.contribution_pct >= 0;
+                      return (
+                        <tr key={row.asset_class} className="group relative transition-colors hover:bg-[#F8FCEB]">
+                          <td className="relative z-10 px-5 py-4 font-bold text-neutral-800">
+                            {row.asset_class}
+                            <span className="mt-1 block text-[11px] font-normal text-neutral-500">
+                              ETF {number.format(row.etf_count)}개 · 상승 {number.format(row.up_count)} / 하락 {number.format(row.down_count)}
+                            </span>
+                          </td>
+                          <td className="relative z-10 px-4 py-4 text-right tabular-nums text-neutral-700">
+                            {decimal.format(row.aum_share_pct)}%
+                          </td>
+                          <td className={`relative z-10 px-4 py-4 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
+                            {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
+                          </td>
+                          <td className={`relative z-10 px-5 py-4 text-right font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
+                            <div className="absolute inset-y-0 right-0 -z-10 bg-[#F5FBE7] opacity-0 transition-opacity group-hover:opacity-100 w-full" />
+                            <div
+                              className={`absolute inset-y-1.5 right-2 -z-10 rounded-md opacity-40 ${isPositive ? "bg-[#C6ECA0]" : "bg-[#A9DCE9]"}`}
+                              style={{ width: `calc(${Math.max(contributionPercent, 2)}% - 1rem)` }}
+                            />
+                            {signed(row.contribution_pct, "%p")}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <PeerGroupReturns groups={briefing.peerGroups} />
+
+          <FundFlowRanking fundFlow={briefing.fundFlow} />
+
+          <DisparityAlert warnings={briefing.disparityWarning} />
+
+          <div>
+            <div className="mb-3 flex items-end justify-between gap-3">
+              <h3 className="font-bold text-neutral-900">오늘 가장 활발하게 거래된 ETF</h3>
+              <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />거래대금순</span>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {briefing.focusEtfs.map((etf) => (
+                <Link key={etf.ticker} href={`/etf/${etf.ticker}`} className="group rounded-[18px] border border-[#E5E8E2] bg-white p-4 shadow-[0_4px_12px_rgba(27,38,26,0.04)] transition hover:-translate-y-0.5 hover:border-[#B8D598] hover:bg-[#F8FCEB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68]">
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="text-[11px] font-medium text-neutral-500">{etf.ticker}</span>
+                    <span className={`text-sm font-extrabold tabular-nums ${changeTone(etf.change_pct)}`}>{signed(etf.change_pct)}</span>
+                  </div>
+                  <p className="mt-3 truncate font-extrabold text-neutral-800">{etf.etf_name}</p>
+                  <p className="mt-1 truncate text-xs text-neutral-500">{etf.asset_class ?? "미분류"}</p>
+                  <p className="mt-4 text-xs text-neutral-500">거래대금 <span className="font-bold text-neutral-700 tabular-nums">{money(etf.trade_value)}</span></p>
+                </Link>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-neutral-500">거래대금은 관심 집중도를 보여주는 지표이며 투자 추천이나 향후 성과를 의미하지 않습니다.</p>
+          </div>
         </div>
-        <p className="mt-3 text-xs text-neutral-500">거래대금은 관심 집중도를 보여주는 지표이며, 투자 추천이나 향후 성과를 뜻하지 않습니다.</p>
       </section>
 
       <section className="rounded-[22px] bg-[#202920] px-6 py-8 text-white sm:px-8 sm:py-10">
         <p className="text-[11px] font-extrabold tracking-[0.16em] text-[#B7E886]">MARKET INSIGHT</p>
-        <h2 className="mt-2 text-2xl font-extrabold tracking-tight">숫자 다음의 시장 해석을 받아보세요.</h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70">마켓 브리핑은 시장의 정량적 움직임을 정리합니다. 마켓 인사이트에서는 흐름의 배경과 다음에 확인할 데이터를 다룹니다.</p>
+        <h2 className="mt-2 text-2xl font-extrabold tracking-tight">투자자 마음을 읽는 시장 분석을 받아보세요</h2>
+        <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70">마켓 브리핑은 시장의 정량적인 움직임을 정리합니다. 마켓 인사이트에서는 흐름의 배경과 다음의 관전 포인트를 다룹니다.</p>
         <Link href="/market-insights" className="mt-6 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-extrabold text-neutral-900 transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">마켓 인사이트 구독하기</Link>
       </section>
 
@@ -403,11 +436,11 @@ export function MarketBriefingV0() {
       />
 
       <details className="rounded-[18px] border border-[#D7EABB] bg-[#FAFDF4] px-5 py-4 text-sm text-neutral-600">
-        <summary className="cursor-pointer font-bold text-neutral-800">데이터 기준 및 산식</summary>
+        <summary className="cursor-pointer font-bold text-neutral-800">데이터 기준 및 방식</summary>
         <div className="mt-3 space-y-2 leading-6">
-          <p>전체·순자산 Top 50·100·200 수익률은 국내 상장 일반 ETF의 당일 등락률을 순자산으로 가중해 계산하며, 개별 ETF 비중 상한은 적용하지 않습니다.</p>
-          <p>자산군 수익률 기여도는 해당 자산군의 AUM 비중과 AUM 가중수익률을 곱해 계산했습니다. 일반 ETF는 레버리지·인버스를 제외한 ETF를 뜻합니다.</p>
-          {briefing.isStale && <p>현재 화면은 기준일보다 {number.format(briefing.staleDays)}일 이전 데이터이므로 갱신 지연 상태를 표시합니다.</p>}
+          <p>전체·투자금 Top 50·100·200 수익률은 해당 시장 일반 ETF들의 당일 등락률을 투자금으로 가중해 계산하며, 개별 ETF 비중 상한을 적용하지 않습니다.</p>
+          <p>자산군별 수익률 기여도는 해당 자산군의 AUM 비중과 AUM 가중수익률을 곱해 계산합니다. 일반 ETF에는 레버리지·인버스 및 제외된 ETF가 포함됩니다.</p>
+          {briefing.isStale && <p>현재 화면의 데이터는 {number.format(briefing.staleDays)}일 이전 데이터이므로 갱신 지연 상태로 표시됩니다.</p>}
         </div>
       </details>
     </div>

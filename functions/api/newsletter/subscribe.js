@@ -1,4 +1,4 @@
-import { errorResponse, jsonResponse } from "../../community/_lib/api-security";
+import { errorResponse, jsonResponse } from "../community/_lib/api-security";
 
 // Simple validation
 function isValidEmail(email) {

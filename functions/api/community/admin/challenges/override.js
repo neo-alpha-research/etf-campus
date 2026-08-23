@@ -1,6 +1,6 @@
-import { authenticatedSupabase } from "../../../_lib/supabase";
-import { errorResponse, jsonResponse } from "../../../_lib/api-security";
-import { parseJsonBody } from "../../../_lib/request-security";
+import { authenticatedSupabase } from "../../_lib/supabase";
+import { errorResponse, jsonResponse } from "../../_lib/api-security";
+import { parseJsonBody } from "../../_lib/request-security";
 
 export async function onRequestPost(context) {
   const auth = await authenticatedSupabase(context);

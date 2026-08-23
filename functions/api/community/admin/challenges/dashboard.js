@@ -1,5 +1,5 @@
-import { authenticatedSupabase } from "../../../_lib/supabase";
-import { errorResponse, jsonResponse } from "../../../_lib/api-security";
+import { authenticatedSupabase } from "../../_lib/supabase";
+import { errorResponse, jsonResponse } from "../../_lib/api-security";
 
 export async function onRequestGet(context) {
   const auth = await authenticatedSupabase(context);

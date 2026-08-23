@@ -83,7 +83,8 @@ function money(value: number) {
   return `${number.format(value)}원`;
 }
 
-function dateLabel(value: string) {
+function dateLabel(value?: string) {
+  if (!value) return "-";
   const [year, month, day] = value.split("-");
   return `${year}.${month}.${day}`;
 }

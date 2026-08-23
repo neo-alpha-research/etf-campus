@@ -22,6 +22,23 @@ function toKstDate(date = new Date()) {
   }).format(date);
 }
 
+function getBusinessDaysDiff(startDateStr, endDateStr) {
+  let start = new Date(startDateStr + "T00:00:00Z");
+  let end = new Date(endDateStr + "T00:00:00Z");
+  if (start >= end) return 0;
+  
+  let days = 0;
+  while (start < end) {
+    start.setUTCDate(start.getUTCDate() + 1);
+    const day = start.getUTCDay();
+    // 0 is Sunday, 6 is Saturday
+    if (day !== 0 && day !== 6) {
+      days++;
+    }
+  }
+  return days;
+}
+
 function dateDiffInDays(olderDate, newerDate) {
   const older = Date.parse(`${olderDate}T00:00:00Z`);
   const newer = Date.parse(`${newerDate}T00:00:00Z`);
@@ -31,7 +48,7 @@ function dateDiffInDays(olderDate, newerDate) {
 function withFreshness(payload) {
   const briefing = payload?.briefing;
   if (!briefing?.asOfDate) return null;
-  const staleDays = dateDiffInDays(briefing.asOfDate, toKstDate());
+  const staleDays = getBusinessDaysDiff(briefing.asOfDate, toKstDate());
   return {
     ...payload,
     briefing: {
@@ -59,7 +76,7 @@ async function readKvBriefing(kv) {
 }
 
 function toResponsePayload(briefing, assetClasses, focusEtfs) {
-  const staleDays = dateDiffInDays(briefing.as_of_date, toKstDate());
+  const staleDays = getBusinessDaysDiff(briefing.as_of_date, toKstDate());
   const metrics = parseJson(briefing.metrics_json, {});
 
   return {
@@ -95,9 +112,9 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         top10TradeSharePct: briefing.top10_trade_share_pct,
       },
       assetClasses: assetClasses.results ?? [],
-      peerGroups: metrics.peer_groups ?? [],
-      fundFlow: metrics.fund_flow ?? { topInflows: [], topOutflows: [] },
-      disparityWarning: metrics.disparity_warning ?? [],
+      peerGroups: metrics.peer_groups ?? metrics.peerGroups ?? [],
+      fundFlow: metrics.fund_flow ?? metrics.fundFlow ?? { topInflows: [], topOutflows: [] },
+      disparityWarning: metrics.disparity_warning ?? metrics.disparityWarning ?? [],
       focusEtfs: focusEtfs.results ?? [],
       sourceDates: parseJson(briefing.source_dates_json, {}),
       validation: parseJson(briefing.validation_json, {}),

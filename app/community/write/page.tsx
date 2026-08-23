@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CommunityComposer } from "@/components/community/community-composer";
+import { CommunityWriteWrapper } from "@/components/community/community-write-wrapper";
 
 export const metadata: Metadata = {
   title: "커뮤니티 글 작성",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function CommunityWritePage() {
-  return <CommunityComposer />;
+  return <CommunityWriteWrapper />;
 }

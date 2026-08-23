@@ -48,6 +48,11 @@ export function validatePostInput(payload: unknown): {
   categorySlug: CommunityCategorySlug;
   title: string;
   bodyText: string;
+  challengeDayNumber?: number;
+  challengeCohortId?: string;
+  challengeMetricKey?: string;
+  challengeMetricValue?: number;
+  challengeVisibility?: "cohort" | "public";
 } {
   if (!payload || typeof payload !== "object") {
     throw new CommunityValidationError("게시물 입력값이 올바르지 않습니다.");
@@ -58,11 +63,44 @@ export function validatePostInput(payload: unknown): {
     throw new CommunityValidationError("게시판을 선택해 주세요.");
   }
 
-  return {
+  const result: ReturnType<typeof validatePostInput> = {
     categorySlug: input.categorySlug,
     title: plainText(input.title, "제목", 2, 120),
     bodyText: plainText(input.bodyText, "본문", 2, 6000),
   };
+
+  if (input.categorySlug === "challenge-30") {
+    const dayNumber = Number(input.challengeDayNumber);
+    if (!Number.isInteger(dayNumber) || dayNumber < 1 || dayNumber > 30) {
+      throw new CommunityValidationError("챌린지 일차는 1일부터 30일까지 입력할 수 있습니다.");
+    }
+    result.challengeDayNumber = dayNumber;
+    
+    if (typeof input.challengeCohortId === "string") {
+      result.challengeCohortId = input.challengeCohortId;
+    }
+
+    if (input.challengeMetricKey) {
+      if (!CHALLENGE_METRIC_KEYS.includes(input.challengeMetricKey as typeof CHALLENGE_METRIC_KEYS[number])) {
+        throw new CommunityValidationError("허용되지 않는 학습 지표입니다.");
+      }
+      result.challengeMetricKey = input.challengeMetricKey as string;
+      const mv = Number(input.challengeMetricValue);
+      if (!Number.isInteger(mv) || mv < 0 || mv > 10) {
+        throw new CommunityValidationError("학습 지표 값은 0부터 10까지 입력할 수 있습니다.");
+      }
+      result.challengeMetricValue = mv;
+    }
+
+    if (input.challengeVisibility) {
+      if (input.challengeVisibility !== "cohort" && input.challengeVisibility !== "public") {
+        throw new CommunityValidationError("허용되지 않는 공개 범위입니다.");
+      }
+      result.challengeVisibility = input.challengeVisibility as "cohort" | "public";
+    }
+  }
+
+  return result;
 }
 
 export function validateCommentInput(payload: unknown): { bodyText: string } {
@@ -161,7 +199,7 @@ export type PublicPostRow = {
   title: string;
   body_text?: string;
   excerpt?: string;
-  category_slug: PublicCommunityCategorySlug;
+  category_slug: CommunityCategorySlug;
   category_name: string;
   author_nickname: string;
   created_at: string;
@@ -169,6 +207,10 @@ export type PublicPostRow = {
   comment_count?: number;
   is_pinned?: boolean;
   is_author_seed?: boolean;
+  challenge_day_number?: number;
+  challenge_cohort_id?: string;
+  challenge_metric_key?: string;
+  challenge_metric_value?: number;
 };
 
 export function toPublicPost(row: PublicPostRow) {
@@ -184,6 +226,10 @@ export function toPublicPost(row: PublicPostRow) {
     commentCount: row.comment_count ?? 0,
     isPinned: row.is_pinned ?? false,
     isAuthorSeed: row.is_author_seed ?? false,
+    challengeDayNumber: row.challenge_day_number,
+    challengeCohortId: row.challenge_cohort_id,
+    challengeMetricKey: row.challenge_metric_key,
+    challengeMetricValue: row.challenge_metric_value,
   };
 }
 

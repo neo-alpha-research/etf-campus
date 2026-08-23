@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from "react";
 import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
 import { communityFetch, getCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
@@ -76,15 +77,15 @@ export function CommunityChallenge() {
 
   useEffect(() => {
     if (!selectedSlug) {
-      setRecords([]);
+      setTimeout(() => setRecords([]), 0);
       return;
     }
-    fetch(`/api/community/challenges/${encodeURIComponent(selectedSlug)}/records`)
+    fetch(`/api/community/posts?category=challenge-30`)
       .then(async (response) => {
         if (!response.ok) throw new Error("공개 학습 기록을 불러오지 못했습니다.");
         return response.json();
       })
-      .then((result) => setRecords(result.records ?? []))
+      .then((result) => setRecords(result.posts ?? []))
       .catch(() => setMessage("공개 학습 기록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."));
   }, [selectedSlug]);
 
@@ -177,8 +178,8 @@ export function CommunityChallenge() {
 
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-lg font-bold text-slate-950">공개 학습 기록</h2>
-          <p className="mt-1 text-sm leading-6 text-slate-600">공개를 직접 선택한 비금전 학습 기록만 표시합니다. 응원 수는 순위나 인기 지표로 사용하지 않습니다.</p>
-          <div className="mt-4 space-y-3">{records.length === 0 ? <p className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">아직 공개된 학습 기록이 없습니다.</p> : records.map((record) => <article key={record.public_id} className="rounded-xl border border-slate-200 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="text-sm font-bold text-brand-700">{record.day_number}일차 · {metricLabels[record.metric_key] ?? "학습 기록"}</p><button type="button" onClick={() => void support(record.public_id)} className="rounded-lg border border-brand-200 px-3 py-1.5 text-xs font-bold text-brand-800 hover:bg-brand-50">응원</button></div><p className="mt-2 text-sm leading-6 text-slate-700">{record.note ?? "학습 기록을 남겼습니다."}</p><p className="mt-3 text-xs text-slate-500">{record.author_nickname}</p></article>)}</div>
+          <p className="mt-1 text-sm leading-6 text-slate-600">전체 공개를 선택한 비금전 학습 기록만 표시합니다. 응원 수는 순위나 인기 지표로 사용하지 않습니다.</p>
+          <div className="mt-4 space-y-3">{records.length === 0 ? <p className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">아직 공개된 학습 기록이 없습니다.</p> : records.map((post: any) => <article key={post.slug} className="rounded-xl border border-slate-200 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="text-sm font-bold text-brand-700">{post.challengeDayNumber}일차 · {metricLabels[post.challengeMetricKey] ?? "학습 기록"}</p><Link href={`/community/read/?slug=${encodeURIComponent(post.slug)}`} className="rounded-lg border border-brand-200 px-3 py-1.5 text-xs font-bold text-brand-800 hover:bg-brand-50">자세히 보기</Link></div><p className="mt-2 text-sm leading-6 text-slate-700 line-clamp-3">{post.bodyText || post.excerpt || "학습 기록을 남겼습니다."}</p><p className="mt-3 text-xs text-slate-500">{post.authorNickname}</p></article>)}</div>
         </div>
       </section>
 

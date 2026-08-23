@@ -375,7 +375,7 @@ async function loadSnapshots(db: D1Database, asOfDate: string): Promise<{ quotes
   const [etfs, indices] = await Promise.all([
     db
       .prepare(
-        `SELECT as_of_date, ticker, etf_name, close_value, change_pct, trade_value, aum_value, risk_type, asset_class, is_general_etf
+        `SELECT as_of_date, ticker, etf_name, close_value, change_pct, trade_value, aum_value, risk_type, asset_class, is_general_etf, asset_detail, nav_value, disparity_pct
          FROM briefing_etf_daily
          WHERE as_of_date = ?`,
       )

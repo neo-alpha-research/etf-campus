@@ -13,9 +13,9 @@ const navigation = [
   { href: "/", label: "마켓 브리핑" },
   { href: "/screener/", label: "ETF 탐색" },
   { href: "/compare", label: "ETF 비교" },
-  { href: "/guides/", label: "투자 가이드" },
+  { href: "/tutorial/", label: "튜토리얼" },
   { href: "/community/", label: "커뮤니티" },
-  { href: "/books/", label: "큐레이션" },
+  { href: "/books/", label: "전자책 서재" },
 ] as const;
 
 const finderNavigation = [

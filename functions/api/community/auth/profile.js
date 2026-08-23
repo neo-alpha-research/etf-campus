@@ -7,7 +7,7 @@ export async function onRequestGet(context) {
   const auth = await authenticatedSupabase(context);
   if (auth.error) return auth.error;
 
-  const { data, error } = await auth.client.from("user_profiles").select("public_nickname, interest_account_type, investment_experience, age_band, marketing_consent").eq("id", auth.user.id).single();
+  const { data, error } = await auth.client.from("user_profiles").select("public_nickname, interest_account_type, investment_experience, age_band, marketing_consent").eq("id", auth.user.id).maybeSingle();
   if (error) return errorResponse(503, "UNAVAILABLE", "프로필 정보를 불러오지 못했습니다.");
 
   const profile = data;

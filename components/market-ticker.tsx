@@ -35,12 +35,12 @@ function IndexPill({ label, value, change }: MarketIndex) {
       : "text-fall";
 
   return (
-    <span className="inline-flex shrink-0 items-center gap-1 text-[10px] leading-none tracking-tight sm:text-[11px]">
-      <span className="font-medium text-neutral-500">{label}</span>
-      <span className="tabular-nums font-semibold text-strong">
+    <span className="inline-flex shrink-0 items-center gap-1 text-[11px] leading-none tracking-tight sm:text-xs">
+      <span className="font-semibold text-neutral-500">{label}</span>
+      <span className="tabular-nums font-bold text-strong">
         {formatNumber(value)}
       </span>
-      <span className={`tabular-nums font-semibold ${colorClass}`}>
+      <span className={`tabular-nums font-bold ${colorClass}`}>
         {arrow} {sign}{Math.abs(change).toFixed(2)}%
       </span>
     </span>
@@ -58,14 +58,14 @@ export function MarketTicker() {
 
   return (
     <div className="border-b border-line bg-neutral-50 flex justify-center">
-      <div className="page-shell scrollbar-none flex items-center gap-x-2 overflow-x-auto py-1.5 sm:gap-x-3">
+      <div className="page-shell scrollbar-none flex items-center gap-x-3 overflow-x-auto py-1.5 sm:gap-x-4">
         {formattedDate && (
-          <span className="flex items-center gap-1 shrink-0 text-[10px] leading-none tracking-tight sm:text-[11px]">
-            <span className="tabular-nums font-semibold text-strong">{formattedDate}</span>
-            <span className="font-medium text-neutral-500">종가</span>
+          <span className="flex items-center gap-1.5 shrink-0 text-[11px] leading-none tracking-tight sm:text-xs">
+            <span className="tabular-nums font-bold text-strong">{formattedDate}</span>
+            <span className="font-semibold text-neutral-500">종가</span>
             <span
               aria-hidden="true"
-              className="hidden h-2.5 w-px shrink-0 bg-neutral-300 sm:block ml-1"
+              className="hidden h-2.5 w-px shrink-0 bg-neutral-300 sm:block ml-1.5"
             />
           </span>
         )}

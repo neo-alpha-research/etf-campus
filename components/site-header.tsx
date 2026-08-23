@@ -10,16 +10,16 @@ import { StyleChip } from "@/components/onboarding/style-chip";
 import { AuthNav } from "@/components/auth/auth-nav";
 
 const navigation = [
-  { href: "/", label: "ETF 탐색" },
+  { href: "/", label: "마켓 브리핑" },
+  { href: "/screener/", label: "ETF 탐색" },
   { href: "/compare", label: "ETF 비교" },
-  { href: "/briefing/", label: "마켓 데일리" },
   { href: "/guides/", label: "투자 가이드" },
   { href: "/community/", label: "커뮤니티" },
-  { href: "/books/", label: "북 큐레이션" },
+  { href: "/books/", label: "큐레이션" },
 ] as const;
 
 const finderNavigation = [
-  { href: "/", label: "조건으로 찾기" },
+  { href: "/screener/", label: "조건으로 찾기" },
   { href: "/quick/?mode=general", label: "일반 계좌" },
   { href: "/quick/?mode=pension", label: "연금 계좌" },
   { href: "/quick/?mode=mixed_bonds", label: "혼합 채권" },
@@ -39,7 +39,7 @@ export function SiteHeader() {
       const m = searchParams.get("mode") ?? "general";
       return `/quick/?mode=${m}`;
     }
-    return "/";
+    return pathname.startsWith("/screener") ? "/screener/" : undefined;
   });
 
   useEffect(() => {
@@ -47,17 +47,18 @@ export function SiteHeader() {
       const m = searchParams.get("mode") ?? "general";
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveFinderHref(`/quick/?mode=${m}`);
-    } else if (pathname === "/") {
-      setActiveFinderHref("/");
+    } else if (pathname === "/screener" || pathname === "/screener/") {
+      setActiveFinderHref("/screener/");
     }
   }, [pathname, searchParams]);
 
   // "ETF 탐색" owns both the screener and the preset ETF views.
-  const isEtfSection = pathname === "/" || pathname === "/quick" || pathname === "/quick/";
+  const isEtfSection = pathname.startsWith("/screener") || pathname === "/quick" || pathname === "/quick/";
   const showFinderNav = isEtfSection;
 
   const isPrimaryActive = (href: string) => {
-    if (href === "/") return isEtfSection;
+    if (href === "/") return pathname === "/" || pathname === "";
+    if (href === "/screener/") return isEtfSection;
     // Strip trailing slash for comparison if necessary, but hrefs now have it
     const normalizedPath = pathname.endsWith("/") ? pathname : `${pathname}/`;
     return normalizedPath === href || normalizedPath.startsWith(href);

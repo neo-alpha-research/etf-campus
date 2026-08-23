@@ -34,7 +34,6 @@ export async function onRequestPost(context) {
     const { data, error } = await auth.client.rpc("apply_to_community_challenge", {
       p_cohort_slug: input.cohortSlug,
       p_interest_account_type: input.interestAccountType,
-      p_learning_topic: input.learningTopic,
       p_goal_note: input.goalNote,
       p_private_record_consent_version: input.privateRecordConsentVersion,
     });

@@ -52,8 +52,7 @@ export function CommunityChallenge() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
-  const [interestAccountType, setInterestAccountType] = useState("");
-  const [learningTopic, setLearningTopic] = useState<(typeof topics)[number]["value"]>("cost_comparison");
+  const [interestAccountType, setInterestAccountType] = useState("none");
   const [goalNote, setGoalNote] = useState("");
   const [consented, setConsented] = useState(false);
 
@@ -76,7 +75,10 @@ export function CommunityChallenge() {
   }, []);
 
   useEffect(() => {
-    if (!selectedSlug) return;
+    if (!selectedSlug) {
+      setRecords([]);
+      return;
+    }
     fetch(`/api/community/challenges/${encodeURIComponent(selectedSlug)}/records`)
       .then(async (response) => {
         if (!response.ok) throw new Error("공개 학습 기록을 불러오지 못했습니다.");
@@ -93,7 +95,7 @@ export function CommunityChallenge() {
       return;
     }
     if (!consented) {
-      setMessage("비공개 학습 기록 저장 동의가 있어야 참가 신청할 수 있습니다.");
+      setMessage("매일 기록 동의가 있어야 참가 신청할 수 있습니다.");
       return;
     }
 
@@ -104,10 +106,10 @@ export function CommunityChallenge() {
         method: "POST",
         body: JSON.stringify({
           cohortSlug: selected.slug,
-          interestAccountType: interestAccountType || null,
-          learningTopic,
-          goalNote: goalNote || null,
-          privateRecordConsentVersion: "challenge-private-record-v1",
+          interestAccountType,
+          goalNote,
+          privateRecordConsentVersion: "challenge-private-record-v2",
+          agreedToDailyRecord: consented
         }),
       });
       setMessage("참가 신청을 접수했습니다. 운영자가 기수를 시작하면 비공개 학습 기록을 남길 수 있습니다.");
@@ -148,11 +150,28 @@ export function CommunityChallenge() {
 
           {selected?.status === "recruiting" ? <form className="mt-5 border-t border-slate-100 pt-5" onSubmit={(event) => { event.preventDefault(); void apply(); }}>
             <p className="text-sm font-bold text-slate-900">{selected.title} 참가 신청</p>
-            <label className="mt-3 block text-sm font-medium text-slate-700">관심 계좌 유형 <span className="font-normal text-slate-500">(선택)</span><select value={interestAccountType} onChange={(event) => setInterestAccountType(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2"><option value="">선택 안 함</option><option value="dc">DC</option><option value="irp">IRP</option><option value="pension_savings">연금저축</option><option value="general">일반 계좌</option><option value="none">해당 없음</option></select></label>
-            <label className="mt-3 block text-sm font-medium text-slate-700">학습 주제<select value={learningTopic} onChange={(event) => setLearningTopic(event.target.value as typeof learningTopic)} className="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2">{topics.map((topic) => <option key={topic.value} value={topic.value}>{topic.label}</option>)}</select></label>
-            <label className="mt-3 block text-sm font-medium text-slate-700">학습 메모 <span className="font-normal text-slate-500">(선택, 금액·수익률·매매 계획은 적지 마세요)</span><textarea value={goalNote} onChange={(event) => setGoalNote(event.target.value)} maxLength={240} rows={3} className="mt-1 w-full resize-y rounded-xl border border-slate-300 px-3 py-2" /></label>
-            <label className="mt-3 flex gap-2 text-sm leading-5 text-slate-700"><input type="checkbox" checked={consented} onChange={(event) => setConsented(event.target.checked)} className="mt-1" />챌린지 운영을 위한 비공개 학습 기록 저장에 동의합니다. 공개 여부는 기록마다 직접 선택합니다.</label>
-            <button disabled={submitting} className="mt-4 rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60">{submitting ? "신청 중…" : signedIn ? "참가 신청" : "로그인 후 참가 신청"}</button>
+            <label className="mt-3 block text-sm font-medium text-slate-700">퇴직연금 유형 <span className="font-normal text-rose-600">(필수)</span>
+              <select required value={interestAccountType} onChange={(event) => setInterestAccountType(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-300 bg-white px-3 py-2">
+                <option value="none">해당 없음</option>
+                <option value="dc">DC</option>
+                <option value="irp">IRP</option>
+                <option value="both">둘 다</option>
+                <option value="unknown">모름</option>
+              </select>
+            </label>
+            <label className="mt-3 block text-sm font-medium text-slate-700">참여 목표 <span className="font-normal text-rose-600">(필수)</span>
+              <textarea required value={goalNote} onChange={(event) => setGoalNote(event.target.value)} placeholder="한 문장으로 적어주세요." maxLength={240} rows={2} className="mt-1 w-full resize-y rounded-xl border border-slate-300 px-3 py-2" />
+            </label>
+            <label className="mt-3 flex gap-2 text-sm leading-5 text-slate-700">
+              <input type="checkbox" required checked={consented} onChange={(event) => setConsented(event.target.checked)} className="mt-1" />
+              <span>30일간 매일 기록 가능하며 비공개 학습 기록 저장에 동의합니다.</span>
+            </label>
+            
+            <p className="mt-4 rounded-xl bg-slate-50 p-4 text-xs leading-5 text-slate-600">
+              <strong>도서 관련 안내:</strong> 2편과 3편은 현재 집필 중이며 출간 시기가 확정되지 않았습니다. 출간 시점에 완주자에게 무료로 제공되며, 신청 시 이 점에 동의한 것으로 봅니다.
+            </p>
+
+            <button disabled={submitting} className="mt-4 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60">{submitting ? "신청 중…" : signedIn ? "참가 신청" : "로그인 후 참가 신청"}</button>
           </form> : null}
         </div>
 

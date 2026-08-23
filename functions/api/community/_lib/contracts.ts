@@ -124,25 +124,22 @@ export function validateWithdrawalDisposition(value: unknown): "anonymize" | "de
   throw new CommunityValidationError("탈퇴 후 콘텐츠 처리 방식을 선택해 주세요.");
 }
 
-const CHALLENGE_ACCOUNT_TYPES = ["dc", "irp", "pension_savings", "general", "none"] as const;
-const CHALLENGE_LEARNING_TOPICS = ["cost_comparison", "distribution_notice", "pension_account", "risk_check", "weekly_learning"] as const;
+const CHALLENGE_ACCOUNT_TYPES = ["dc", "irp", "both", "unknown", "none"] as const;
 const CHALLENGE_METRIC_KEYS = ["study_checkin", "source_review", "criteria_check", "learning_note"] as const;
 
 export function validateChallengeApplication(payload: unknown) {
   if (!payload || typeof payload !== "object") throw new CommunityValidationError("참가 신청 입력값이 올바르지 않습니다.");
   const input = payload as Record<string, unknown>;
   const cohortSlug = plainText(input.cohortSlug, "기수", 2, 80);
-  const interestAccountType = input.interestAccountType === null || input.interestAccountType === undefined || input.interestAccountType === ""
-    ? null
-    : CHALLENGE_ACCOUNT_TYPES.includes(input.interestAccountType as typeof CHALLENGE_ACCOUNT_TYPES[number])
-      ? input.interestAccountType as typeof CHALLENGE_ACCOUNT_TYPES[number]
-      : (() => { throw new CommunityValidationError("계좌 유형 선택값이 올바르지 않습니다."); })();
-  if (!CHALLENGE_LEARNING_TOPICS.includes(input.learningTopic as typeof CHALLENGE_LEARNING_TOPICS[number])) {
-    throw new CommunityValidationError("학습 주제를 선택해 주세요.");
+  const interestAccountType = CHALLENGE_ACCOUNT_TYPES.includes(input.interestAccountType as typeof CHALLENGE_ACCOUNT_TYPES[number])
+    ? (input.interestAccountType as typeof CHALLENGE_ACCOUNT_TYPES[number])
+    : (() => { throw new CommunityValidationError("계좌 유형을 선택해 주세요."); })();
+  const goalNote = plainText(input.goalNote, "참여 목표", 2, 240);
+  if (input.agreedToDailyRecord !== true) {
+    throw new CommunityValidationError("매일 기록 및 비공개 저장 동의가 필요합니다.");
   }
-  const goalNote = input.goalNote === null || input.goalNote === undefined || input.goalNote === "" ? null : plainText(input.goalNote, "학습 메모", 2, 240);
   const consentVersion = plainText(input.privateRecordConsentVersion, "기록 저장 동의 버전", 1, 80);
-  return { cohortSlug, interestAccountType, learningTopic: input.learningTopic as typeof CHALLENGE_LEARNING_TOPICS[number], goalNote, privateRecordConsentVersion: consentVersion };
+  return { cohortSlug, interestAccountType, goalNote, privateRecordConsentVersion: consentVersion };
 }
 
 export function validateChallengeRecord(payload: unknown) {

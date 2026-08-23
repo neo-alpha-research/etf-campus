@@ -7,10 +7,10 @@ export async function onRequestGet(context) {
   const auth = await authenticatedSupabase(context);
   if (auth.error) return auth.error;
 
-  const { data, error } = await auth.client.from("user_profiles").select("public_nickname, interest_account_type, investment_experience, age_band, marketing_consent").eq("id", auth.user.id).maybeSingle();
+  const { data, error } = await auth.client.rpc("get_community_profile");
   if (error) return errorResponse(503, "UNAVAILABLE", "프로필 정보를 불러오지 못했습니다.");
 
-  const profile = data;
+  const profile = Array.isArray(data) ? data[0] : data;
   return jsonResponse({
     profileConfigured: Boolean(profile?.public_nickname),
     profile: profile
@@ -78,23 +78,15 @@ export async function onRequestPatch(context) {
     }
     if (payload.marketingConsent !== undefined) {
       updateData.marketing_consent = Boolean(payload.marketingConsent);
-      if (updateData.marketing_consent) {
-        updateData.marketing_consent_at = new Date().toISOString();
-      } else {
-        updateData.marketing_consent_at = null;
-      }
     }
 
     if (Object.keys(updateData).length === 0) {
       return jsonResponse({ success: true });
     }
 
-    updateData.updated_at = new Date().toISOString();
-
-    const { error } = await auth.client
-      .from("user_profiles")
-      .update(updateData)
-      .eq("id", auth.user.id);
+    const { error } = await auth.client.rpc("update_community_profile_fields", {
+      p_updates: updateData
+    });
 
     if (error) {
       return errorResponse(503, "UNAVAILABLE", "프로필을 업데이트하지 못했습니다.");

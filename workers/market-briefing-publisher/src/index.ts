@@ -605,7 +605,7 @@ export default {
     const url = new URL(request.url);
     if (request.method === "POST" && url.pathname === "/internal/publish") {
       const token = request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "");
-      // auth bypassed
+      if (!env.MANUAL_RUN_TOKEN || token !== env.MANUAL_RUN_TOKEN) return new Response("Unauthorized", { status: 401 });
       const result = await publishReadyBriefing(env, "manual", "manual");
       return Response.json(result, { status: result.status === "ready" ? 200 : 202 });
     }

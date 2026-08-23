@@ -406,7 +406,7 @@ async function publishSnapshot(
   if (quotes.length !== readiness.etf_row_count) throw new Error("ETF snapshot row count does not match the ready hand-off");
   if (pulse.generalEtfCount !== readiness.general_etf_count) throw new Error("General ETF count does not match the ready hand-off");
   if (Math.abs(pulse.aumCoveragePct - readiness.aum_coverage_pct) > 0.000001) throw new Error("AUM coverage does not match the ready hand-off");
-  if (indices.length !== 2 || !indices.some((index) => index.index_code === "KOSPI") || !indices.some((index) => index.index_code === "KOSDAQ")) {
+  if (!indices.some((index) => index.index_code === "KOSPI") || !indices.some((index) => index.index_code === "KOSDAQ")) {
     throw new Error("Validated snapshot does not contain both KOSPI and KOSDAQ");
   }
   if (readiness.etf_as_of_date !== readiness.as_of_date || readiness.kospi_as_of_date !== readiness.as_of_date || readiness.kosdaq_as_of_date !== readiness.as_of_date) {

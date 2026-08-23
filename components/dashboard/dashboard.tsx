@@ -56,6 +56,16 @@ const modeCopy: Record<InvestorMode, { eyebrow: string; title: string; descripti
     title: "상장 후 90일 이내 신규 ETF",
     description: "데이터 기준일과 상장일의 차이가 0~90일인 ETF를 순자산 규모와 관계없이 모두 표시합니다.",
   },
+  mixed_bonds: {
+    eyebrow: "Mixed Bonds",
+    title: "혼합 채권 ETF",
+    description: "혼합·자산배분으로 분류된 ETF 중 채권이 포함된 종목만 모아서 살펴봅니다.",
+  },
+  tdf: {
+    eyebrow: "Target Date Fund",
+    title: "TDF ETF",
+    description: "은퇴 시점을 목표로 자산 비중을 자동으로 조절하는 TDF(Target Date Fund) ETF입니다.",
+  },
 };
 
 const scopeOptions: { value: AumScope; label: string; summary: string }[] = [
@@ -484,7 +494,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                     {/* 모바일 종목명 (이제 아래 공용 th를 사용하므로 삭제) */}
                     <td className="px-2 py-4 text-right md:hidden"><ReturnCell value={etf.changePct} /></td>
                     <td className="px-4 py-4 text-right font-semibold tabular-nums md:hidden"><ReturnCell value={etf.returns[normalizedPeriod]} /></td>
-                    <td className="tabular-nums px-2 py-4 text-right text-xs text-muted font-semibold md:hidden">{etf.fee?.verificationStatus === "verified_official" && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
+                    <td className="tabular-nums px-2 py-4 text-right text-xs text-muted font-semibold md:hidden">{(etf.fee?.verificationStatus === "verified_official" || etf.fee?.verificationStatus === "official_single_source") && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
                     
                     {/* 데스크톱용 셀들 */}
                     <td className="tabular-nums hidden w-[56px] px-0 py-1.5 text-center text-[12px] font-normal text-muted bg-inherit md:sticky md:table-cell md:z-10" style={{ left: 0 }}>{etf.ticker}</td>
@@ -516,7 +526,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                       );
                     })}
                     
-                    <td className="hidden px-1 py-2 text-right font-semibold tabular-nums text-muted md:table-cell border-l border-neutral-100">{etf.fee?.verificationStatus === "verified_official" && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
+                    <td className="hidden px-1 py-2 text-right font-semibold tabular-nums text-muted md:table-cell border-l border-neutral-100">{(etf.fee?.verificationStatus === "verified_official" || etf.fee?.verificationStatus === "official_single_source") && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatAumNumber(etf.aum)}</td>
                     <td className="hidden px-1 py-2 text-right font-semibold tabular-nums md:table-cell">{formatTradeValueNumber(etf.tradeValue)}</td>
                     

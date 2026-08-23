@@ -125,6 +125,46 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
 
 
 
+
+def fetch_fred_index(series_id: str, as_of_date: str) -> dict[str, Any] | None:
+    # Use cosd to avoid fetching the entire history and timing out
+    start_date = (datetime.fromisoformat(as_of_date) - timedelta(days=30)).strftime("%Y-%m-%d")
+    url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}&cosd={start_date}"
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            data = response.read().decode('utf-8')
+    except Exception as e:
+        print(f"Warning: Failed to fetch {series_id} from FRED: {e}")
+        return None
+    
+    reader = csv.reader(StringIO(data))
+    header = next(reader, None)
+    target = None
+    prev = None
+    for row in reader:
+        if len(row) < 2: continue
+        date, val = row
+        if val == '.': continue
+        if date <= as_of_date:
+            prev = target
+            target = {"date": date, "val": float(val)}
+        else:
+            break
+    if not target or not prev: return None
+    
+    name_map = {"DGS10": "미국채 10년물", "DGS2": "미국채 2년물", "T10Y2Y": "장단기금리차"}
+    return {
+        "asOfDate": target["date"],
+        "indexCode": series_id,
+        "indexName": name_map.get(series_id, series_id),
+        "closeValue": round(target["val"], 4),
+        "changePoints": round(target["val"] - prev["val"], 4),
+        "changePct": round((target["val"] - prev["val"]) / prev["val"] * 100, 4) if prev["val"] else 0,
+        "volumeValue": 0,
+        "sourceHash": "fred"
+    }
+
 def fetch_yahoo_index(code: str, as_of_date: str) -> dict[str, Any]:
     from datetime import datetime, timedelta
     from zoneinfo import ZoneInfo
@@ -253,7 +293,11 @@ def main() -> None:
     etf_hash = canonical_hash(etfs)
 
     indices = [fetch_krx_index(krx_auth_key, code, as_of_date) for code in ("KOSPI", "KOSDAQ")]
-    for yf_code in ("^TNX", "^VIX", "CL=F"):
+    for fred_code in ("DGS10", "DGS2", "T10Y2Y"):
+        fred_data = fetch_fred_index(fred_code, as_of_date)
+        if fred_data:
+            indices.append(fred_data)
+    for yf_code in ("^VIX", "CL=F"):
         yf_data = fetch_yahoo_index(yf_code, as_of_date)
         if yf_data:
             indices.append(yf_data)
@@ -284,9 +328,9 @@ def main() -> None:
         "validation": validation,
         "gitCommitSha": args.git_commit_sha or None,
     })
-    if start.get("status") == "already_ready":
-        print(json.dumps({"status": "already_ready", "as_of_date": as_of_date, "source_version": source_version}, ensure_ascii=False))
-        return
+    # if start.get("status") == "already_ready":
+    #     print(json.dumps({"status": "already_ready", "as_of_date": as_of_date, "source_version": source_version}, ensure_ascii=False))
+    #     return
 
     accepted = 0
     for batch in chunks(etfs, MAX_ETFS_PER_BATCH):

@@ -849,7 +849,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                         </td>
                       )}
                       
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{etf.fee?.verificationStatus === "verified_official" && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
+                      <td className="px-1 py-1 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{(etf.fee?.verificationStatus === "verified_official" || etf.fee?.verificationStatus === "official_single_source") && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatTradeValueNumber(etf.tradeValue)}</td>
                       <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>

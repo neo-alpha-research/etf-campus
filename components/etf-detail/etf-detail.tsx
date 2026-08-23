@@ -94,7 +94,7 @@ export function EtfDetail({
     : ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
 
   const fee = etf.fee;
-  const isFeeVerified = fee?.verificationStatus === "verified_official";
+  const isFeeVerified = fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source";
   const feeSource = fee?.dartReceiptNo
     ? {
         label: "\uAE08\uAC10\uC6D0 DART \uD22C\uC790\uC124\uBA85\uC11C",

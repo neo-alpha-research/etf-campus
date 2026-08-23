@@ -26,6 +26,7 @@ type Post = {
   commentCount: number;
   canEdit: boolean;
   canModerate?: boolean;
+  isAuthorSeed?: boolean;
 };
 type Comment = { publicId: string; bodyText: string; authorNickname: string; createdAt: string; updatedAt: string; canEdit: boolean; canModerate?: boolean };
 
@@ -197,7 +198,7 @@ export function CommunityPostDetail() {
     {status === "ready" && post ? <>
       <article className="mt-5 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm font-bold text-brand-700">{post.category.name}</p>
+          <div className="flex items-center gap-2"><p className="text-sm font-bold text-brand-700">{post.category.name}</p>{post.isAuthorSeed ? <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-bold text-indigo-800">저자 기록</span> : null}</div>
           {!editingPost && (post.canEdit || post.canModerate) ? <div className="flex items-center gap-2" aria-label="게시물 관리">{post.canEdit ? <><button onClick={startPostEdit} className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-bold text-slate-700 hover:border-brand-400 hover:text-brand-800">수정</button><button onClick={deletePost} disabled={savingPost} className="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-bold text-rose-700 hover:border-rose-400 disabled:cursor-not-allowed disabled:text-slate-400">삭제</button></> : null}{post.canModerate ? <button type="button" onClick={() => { setModerationOpen(true); setModerationReason(""); }} className="rounded-lg border border-amber-300 px-3 py-1.5 text-xs font-bold text-amber-800 hover:border-amber-500">임시 숨김</button> : null}</div> : null}
         </div>
 

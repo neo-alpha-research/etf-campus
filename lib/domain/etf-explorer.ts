@@ -7,7 +7,7 @@ import {
   type RiskType,
 } from "./etf-types";
 
-export const INVESTOR_MODES = ["general", "pension", "derivatives", "new"] as const;
+export const INVESTOR_MODES = ["general", "pension", "derivatives", "new", "mixed_bonds", "tdf"] as const;
 export const AUM_SCOPES = ["all", "1000plus", "500plus"] as const;
 export const SORT_KEYS = ["return", "tradeValue", "aum", "listingDate"] as const;
 export const SORT_DIRECTIONS = ["desc", "asc"] as const;
@@ -91,6 +91,8 @@ export function filterEtfsByMode(etfs: readonly Etf[], mode: InvestorMode): Etf[
   if (mode === "general") return etfs.filter((etf) => etf.riskType === "normal");
   if (mode === "pension") return etfs.filter((etf) => etf.riskType === "normal" && etf.pension === "가능");
   if (mode === "derivatives") return etfs.filter((etf) => etf.riskType === "leverage" || etf.riskType === "inverse");
+  if (mode === "tdf") return etfs.filter((etf) => etf.name.includes("TDF"));
+  if (mode === "mixed_bonds") return etfs.filter((etf) => etf.assetClass === "혼합·자산배분" && etf.name.includes("채권"));
   return etfs.filter(isNewListing);
 }
 

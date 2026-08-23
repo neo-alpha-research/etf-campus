@@ -8,7 +8,7 @@ function validSlug(value) { return typeof value === "string" && /^[0-9a-f]{8}-[0
 async function publicPostBySlug(env, slug) {
   return publicSupabase(env)
     .from("community_public_posts")
-    .select("slug,title,body_text,category_slug,category_name,author_nickname,created_at,updated_at,comment_count")
+    .select("slug,title,body_text,category_slug,category_name,author_nickname,created_at,updated_at,is_pinned,is_author_seed,comment_count")
     .eq("slug", slug)
     .maybeSingle();
 }

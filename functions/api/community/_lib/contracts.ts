@@ -171,6 +171,7 @@ export type PublicPostRow = {
   updated_at: string;
   comment_count?: number;
   is_pinned?: boolean;
+  is_author_seed?: boolean;
 };
 
 export function toPublicPost(row: PublicPostRow) {
@@ -185,6 +186,7 @@ export function toPublicPost(row: PublicPostRow) {
     updatedAt: row.updated_at,
     commentCount: row.comment_count ?? 0,
     isPinned: row.is_pinned ?? false,
+    isAuthorSeed: row.is_author_seed ?? false,
   };
 }
 

@@ -34,6 +34,9 @@ type EtfSnapshot = {
   aum_value: number | null;
   risk_type: "normal" | "leveraged" | "inverse" | "unknown";
   asset_class: string | null;
+  asset_detail: string | null;
+  nav_value: number | null;
+  disparity_pct: number | null;
   is_general_etf: 0 | 1;
 };
 
@@ -174,6 +177,103 @@ function calculateAumWeightedReturns(quotes: EtfSnapshot[]): AumWeightedReturn[]
       weightedReturnPct: constituents.reduce((sum, quote) => sum + ((quote.aum_value ?? 0) / totalAum) * quote.change_pct, 0),
     };
   });
+}
+
+
+function calculatePeerGroups(quotes: any[]): any {
+  const groups = new Map<string, any[]>();
+  for (const quote of quotes) {
+    if (quote.is_general_etf !== 1) continue;
+    const detail = quote.asset_detail?.trim();
+    if (!detail) continue;
+    groups.set(detail, [...(groups.get(detail) ?? []), quote]);
+  }
+  
+  const results = [];
+  for (const [peerGroup, rows] of groups.entries()) {
+    if (rows.length < 5) continue; // 통계적 유의성: 최소 5개 이상
+    
+    // 동일가중 평균
+    const equalWeightReturn = rows.reduce((sum, r) => sum + r.change_pct, 0) / rows.length;
+    
+    // 시총가중 평균 (30% 상한)
+    let totalAum = rows.reduce((sum, r) => sum + (r.aum_value ?? 0), 0);
+    let cappedReturn = 0;
+    if (totalAum > 0) {
+      let sumReturn = 0;
+      for (const r of rows) {
+        let weight = (r.aum_value ?? 0) / totalAum;
+        if (weight > 0.3) weight = 0.3; // Cap at 30%
+        sumReturn += weight * r.change_pct;
+      }
+      cappedReturn = sumReturn;
+    }
+    
+    results.push({
+      peerGroup,
+      etfCount: rows.length,
+      equalWeightReturnPct: equalWeightReturn,
+      cappedAumWeightedReturnPct: cappedReturn,
+    });
+  }
+  return results.sort((a, b) => b.equalWeightReturnPct - a.equalWeightReturnPct);
+}
+
+
+function calculateDisparityWarning(quotes: any[]): any {
+  const warnings = [];
+  for (const q of quotes) {
+    if (q.is_general_etf !== 1 || q.disparity_pct == null || !q.trade_value) continue;
+    // 저유동성 종목 제외 (거래대금 1천만원 미만)
+    if (q.trade_value < 10000000) continue;
+    
+    let threshold = 3.0; // Default or Overseas
+    const assetClass = q.asset_class?.trim() || "";
+    if (assetClass.includes("국내")) {
+      threshold = 1.0;
+    }
+    
+    if (Math.abs(q.disparity_pct) >= threshold) {
+      warnings.push({
+        ticker: q.ticker,
+        etfName: q.etf_name,
+        assetClass,
+        disparityPct: q.disparity_pct,
+      });
+    }
+  }
+  
+  return warnings.sort((a, b) => Math.abs(b.disparityPct) - Math.abs(a.disparityPct));
+}
+
+function calculateFundFlow(quotes: any[], previousQuotes: any[]): any {
+  const prevMap = new Map(previousQuotes.map(q => [q.ticker, q]));
+  const results = [];
+  
+  for (const q of quotes) {
+    if (q.is_general_etf !== 1 || !q.aum_value || !q.close_value) continue;
+    const prev = prevMap.get(q.ticker);
+    if (!prev || !prev.aum_value || !prev.close_value) continue;
+    
+    // Shares Outstanding = AUM / Close
+    const currentShares = q.aum_value / q.close_value;
+    const prevShares = prev.aum_value / prev.close_value;
+    
+    // Net Inflow = (Current Shares - Prev Shares) * Current Close
+    const netInflow = (currentShares - prevShares) * q.close_value;
+    
+    results.push({
+      ticker: q.ticker,
+      etfName: q.etf_name,
+      netInflowValue: netInflow,
+    });
+  }
+  
+  results.sort((a, b) => b.netInflowValue - a.netInflowValue);
+  return {
+    topInflows: results.slice(0, 5),
+    topOutflows: results.slice().reverse().slice(0, 5)
+  };
 }
 
 function calculateAssetClasses(quotes: EtfSnapshot[], flatThreshold: number): AssetClassMetric[] {
@@ -374,7 +474,7 @@ async function publishSnapshot(
           general_etf_count, up_count, flat_count, down_count, breadth_ratio_pct, market_temperature,
           general_total_aum, general_total_trade_value, top10_trade_share_pct,
           headline_text, headline_generation_status, metrics_json, source_dates_json, validation_json, published_at
-        ) VALUES (?, 'v0', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'validated', ?, ?, ?, ?)`,
+        ) VALUES (?, 'v1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'validated', ?, ?, ?, ?)`,
       )
       .bind(
         readiness.as_of_date, readiness.source_run_id, previous?.as_of_date ?? null,

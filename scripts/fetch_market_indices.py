@@ -12,8 +12,11 @@ TICKERS = {
     "코스닥": "^KQ11",
     "S&P 500": "^GSPC",
     "나스닥": "^IXIC",
-    "니케이225": "^N225",
+    "니케이 225": "^N225",
     "원/달러": "KRW=X",
+    "미 국채 10년물": "^TNX",
+    "VIX": "^VIX",
+    "WTI 원유": "CL=F",
 }
 
 from datetime import datetime, timedelta

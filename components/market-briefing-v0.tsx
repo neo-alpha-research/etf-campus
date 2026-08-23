@@ -3,16 +3,12 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { MarketBriefingHistory } from "@/components/market-briefing-history";
-import { useMarketBriefing } from "@/lib/hooks/use-market-briefing";
+import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking";
+import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
+import { PeerGroupReturns } from "@/components/market-briefing/peer-group-returns";
+import { useMarketBriefing, MarketIndex } from "@/lib/hooks/use-market-briefing";
 
-type MarketIndex = {
-  code: "KOSPI" | "KOSDAQ";
-  label: string;
-  close: number;
-  change_points?: number | null;
-  change_pct?: number;
-  as_of_date: string;
-};
+
 
 type AssetClass = {
   asset_class: string;
@@ -280,11 +276,17 @@ export function MarketBriefingV0() {
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">MARKET INDEX</p>
             <h2 id="market-index-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">국내 대표지수</h2>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">{briefing.marketIndices.map((index) => <IndexCard key={index.code} index={index} />)}</div>
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">{briefing.marketIndices.map((index) => <IndexCard key={index.code} index={index} />)}</div>
         </section>
       )}
 
-      <section aria-labelledby="asset-class-title">
+      <PeerGroupReturns groups={briefing.peerGroups} />
+
+      <DisparityAlert warnings={briefing.disparityWarning} />
+      <FundFlowRanking fundFlow={briefing.fundFlow} />
+
+
+        <section aria-labelledby="asset-class-title">
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">ATTRIBUTION</p>

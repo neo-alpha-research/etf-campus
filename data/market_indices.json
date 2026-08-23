@@ -22,7 +22,7 @@
       "change": 0.43
     },
     {
-      "label": "니케이225",
+      "label": "니케이 225",
       "value": 66016.36,
       "change": -0.3
     },
@@ -30,6 +30,21 @@
       "label": "원/달러",
       "value": 1390.79,
       "change": 0.1
+    },
+    {
+      "label": "미 국채 10년물",
+      "value": 4.74,
+      "change": 0.89
+    },
+    {
+      "label": "VIX",
+      "value": 15.13,
+      "change": -5.5
+    },
+    {
+      "label": "WTI 원유",
+      "value": 87.06,
+      "change": -0.88
     }
   ]
 }

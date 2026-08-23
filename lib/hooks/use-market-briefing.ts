@@ -89,6 +89,7 @@ export type MarketBriefing = {
     top10TradeSharePct: number;
   };
 assetClasses: AssetClass[];
+  peerGroupVersion?: string | null;
   peerGroups: PeerGroup[];
   fundFlow: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
   disparityWarning: DisparityWarning[];

@@ -1,16 +1,16 @@
 import { authenticatedSupabase } from "../_lib/supabase";
 import { parseJsonBody } from "../_lib/request-security";
 import { errorResponse, jsonResponse } from "../_lib/api-security";
-import { CommunityValidationError, validateNickname } from "../_lib/contracts";
+import { CommunityValidationError, validateSignupInput } from "../_lib/contracts";
 
 export async function onRequestGet(context) {
   const auth = await authenticatedSupabase(context);
   if (auth.error) return auth.error;
 
-  const { data, error } = await auth.client.rpc("get_community_profile");
+  const { data, error } = await auth.client.from("user_profiles").select("public_nickname, interest_account_type, investment_experience, age_band, marketing_consent").eq("id", auth.user.id).single();
   if (error) return errorResponse(503, "UNAVAILABLE", "프로필 정보를 불러오지 못했습니다.");
 
-  const profile = Array.isArray(data) ? data[0] : data;
+  const profile = data;
   return jsonResponse({
     profileConfigured: Boolean(profile?.public_nickname),
     profile: profile
@@ -18,7 +18,8 @@ export async function onRequestGet(context) {
           nickname: profile.public_nickname,
           interestAccountType: profile.interest_account_type,
           investmentExperience: profile.investment_experience,
-          role: profile.role,
+          ageBand: profile.age_band,
+          marketingConsent: profile.marketing_consent,
         }
       : null,
   });
@@ -30,18 +31,15 @@ export async function onRequestPost(context) {
   const payload = await parseJsonBody(context.request);
 
   try {
-    const nickname = validateNickname(payload?.nickname);
-    const interestAccountType = ["dc", "irp", "pension_savings", "general", "none"].includes(payload?.interestAccountType)
-      ? payload.interestAccountType
-      : null;
-    const investmentExperience = ["beginner", "intermediate", "experienced"].includes(payload?.investmentExperience)
-      ? payload.investmentExperience
-      : null;
+    const signupData = validateSignupInput(payload);
 
     const { data, error } = await auth.client.rpc("bootstrap_community_profile", {
-      p_public_nickname: nickname,
-      p_interest_account_type: interestAccountType,
-      p_investment_experience: investmentExperience,
+      p_public_nickname: signupData.nickname,
+      p_terms_version: signupData.termsVersion,
+      p_marketing_consent: signupData.agreedToMarketing,
+      p_signup_utm_source: signupData.utmSource,
+      p_signup_utm_medium: signupData.utmMedium,
+      p_signup_utm_campaign: signupData.utmCampaign,
     });
 
     if (error) {
@@ -54,7 +52,7 @@ export async function onRequestPost(context) {
     return jsonResponse({
       profileConfigured: true,
       profile: {
-        nickname: profile?.public_nickname ?? nickname,
+        nickname: profile?.public_nickname ?? signupData.nickname,
         role: profile?.role ?? "member",
       },
     }, 201);
@@ -62,5 +60,48 @@ export async function onRequestPost(context) {
     return error instanceof CommunityValidationError
       ? errorResponse(400, "VALIDATION_ERROR", error.message)
       : errorResponse(503, "UNAVAILABLE", "프로필을 저장하지 못했습니다.");
+  }
+}
+
+export async function onRequestPatch(context) {
+  const auth = await authenticatedSupabase(context);
+  if (auth.error) return auth.error;
+  const payload = await parseJsonBody(context.request);
+
+  try {
+    const updateData = {};
+    if (payload.ageBand !== undefined) {
+      updateData.age_band = payload.ageBand === "" ? null : payload.ageBand;
+    }
+    if (payload.interestAccountType !== undefined) {
+      updateData.interest_account_type = payload.interestAccountType === "" ? null : payload.interestAccountType;
+    }
+    if (payload.marketingConsent !== undefined) {
+      updateData.marketing_consent = Boolean(payload.marketingConsent);
+      if (updateData.marketing_consent) {
+        updateData.marketing_consent_at = new Date().toISOString();
+      } else {
+        updateData.marketing_consent_at = null;
+      }
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return jsonResponse({ success: true });
+    }
+
+    updateData.updated_at = new Date().toISOString();
+
+    const { error } = await auth.client
+      .from("user_profiles")
+      .update(updateData)
+      .eq("id", auth.user.id);
+
+    if (error) {
+      return errorResponse(503, "UNAVAILABLE", "프로필을 업데이트하지 못했습니다.");
+    }
+
+    return jsonResponse({ success: true });
+  } catch (err) {
+    return errorResponse(500, "INTERNAL_ERROR", "서버 오류가 발생했습니다.");
   }
 }

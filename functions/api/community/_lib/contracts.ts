@@ -162,7 +162,51 @@ export function validateWithdrawalDisposition(value: unknown): "anonymize" | "de
   throw new CommunityValidationError("탈퇴 후 콘텐츠 처리 방식을 선택해 주세요.");
 }
 
-const CHALLENGE_ACCOUNT_TYPES = ["dc", "irp", "both", "unknown", "none"] as const;
+export const CHALLENGE_ACCOUNT_TYPES = ["dc", "irp", "db", "both", "unknown", "none"] as const;
+export const AGE_BANDS = ["20s", "30s", "40s", "50s", "60s_plus"] as const;
+
+export function validateSignupInput(payload: unknown) {
+  if (!payload || typeof payload !== "object") throw new CommunityValidationError("가입 입력값이 올바르지 않습니다.");
+  const input = payload as Record<string, unknown>;
+  
+  const nickname = validateNickname(input.nickname);
+  
+  if (input.agreedToTerms !== true) throw new CommunityValidationError("이용약관 동의가 필요합니다.");
+  if (input.agreedToPrivacy !== true) throw new CommunityValidationError("개인정보 수집 및 이용 동의가 필요합니다.");
+  if (input.agreedToAge !== true) throw new CommunityValidationError("만 14세 이상 확인이 필요합니다.");
+  
+  const agreedToMarketing = input.agreedToMarketing === true;
+  const termsVersion = plainText(input.termsVersion, "약관 버전", 1, 80);
+  
+  const utmSource = input.utmSource ? String(input.utmSource) : "direct";
+  const utmMedium = input.utmMedium ? String(input.utmMedium) : null;
+  const utmCampaign = input.utmCampaign ? String(input.utmCampaign) : null;
+
+  return { nickname, agreedToMarketing, termsVersion, utmSource, utmMedium, utmCampaign };
+}
+
+export function validateOnboardingInput(payload: unknown) {
+  if (!payload || typeof payload !== "object") throw new CommunityValidationError("입력값이 올바르지 않습니다.");
+  const input = payload as Record<string, unknown>;
+  
+  let ageBand: string | null = null;
+  if (input.ageBand) {
+    if (!AGE_BANDS.includes(input.ageBand as typeof AGE_BANDS[number])) {
+      throw new CommunityValidationError("올바른 연령대를 선택해 주세요.");
+    }
+    ageBand = input.ageBand as string;
+  }
+  
+  let interestAccountType: string | null = null;
+  if (input.interestAccountType) {
+    if (!CHALLENGE_ACCOUNT_TYPES.includes(input.interestAccountType as typeof CHALLENGE_ACCOUNT_TYPES[number])) {
+      throw new CommunityValidationError("올바른 퇴직연금 유형을 선택해 주세요.");
+    }
+    interestAccountType = input.interestAccountType as string;
+  }
+  
+  return { ageBand, interestAccountType };
+}
 const CHALLENGE_METRIC_KEYS = ["study_checkin", "source_review", "criteria_check", "learning_note"] as const;
 
 export function validateChallengeApplication(payload: unknown) {

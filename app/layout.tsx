@@ -17,10 +17,15 @@ export const metadata: Metadata = {
   robots: siteConfig.isBeta ? { index: false, follow: false, nocache: true } : undefined,
 };
 
+import { UtmTracker } from "@/components/utm-tracker";
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
       <body className="flex min-h-screen flex-col antialiased">
+        <Suspense fallback={null}>
+          <UtmTracker />
+        </Suspense>
         <a className="sr-only z-[100] rounded-lg bg-brand-800 px-4 py-3 font-bold text-white focus:not-sr-only focus:fixed focus:left-3 focus:top-3" href="#main-content">본문으로 건너뛰기</a>
         <MarketTicker />
         {siteConfig.isBeta ? (

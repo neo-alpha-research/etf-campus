@@ -11,7 +11,7 @@ type Props = {
   subtitle?: string;
 };
 
-export type Step = "login" | "otp-request" | "otp-verify" | "password-setup" | "profile";
+export type Step = "login" | "otp-request" | "otp-verify" | "password-setup" | "profile" | "onboarding";
 
 export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title = "로그인", subtitle = "ETF CAMPUS" }: Props) {
   const [step, setStep] = useState<Step>(initialStep);
@@ -20,9 +20,16 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [token, setToken] = useState("");
 
+
   const [nickname, setNickname] = useState("");
-  const [interestAccountType, setInterestAccountType] = useState("none");
-  const [investmentExperience, setInvestmentExperience] = useState("beginner");
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
+  const [agreedToAge, setAgreedToAge] = useState(false);
+  const [agreedToMarketing, setAgreedToMarketing] = useState(false);
+  
+  const [ageBand, setAgeBand] = useState("");
+  const [interestAccountType, setInterestAccountType] = useState("");
+
   
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -147,22 +154,60 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     }
   }
 
+
   async function saveProfile(event: React.FormEvent) {
     event.preventDefault();
     setLoading(true);
     setMessage("");
     try {
+      const termsVersion = "v2026-08-24";
+      const utmSource = sessionStorage.getItem("utm_source") || "direct";
+      const utmMedium = sessionStorage.getItem("utm_medium") || null;
+      const utmCampaign = sessionStorage.getItem("utm_campaign") || null;
+
       await communityFetch("/api/community/auth/profile", {
         method: "POST",
-        body: JSON.stringify({ nickname, interestAccountType, investmentExperience }),
+        body: JSON.stringify({ 
+          nickname, 
+          agreedToTerms, 
+          agreedToPrivacy, 
+          agreedToAge, 
+          agreedToMarketing, 
+          termsVersion,
+          utmSource,
+          utmMedium,
+          utmCampaign
+        }),
       });
-      onAuthenticated();
+      setStep("onboarding");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "닉네임을 저장하지 못했습니다.");
+      setMessage(error instanceof Error ? error.message : "프로필을 저장하지 못했습니다.");
     } finally {
       setLoading(false);
     }
   }
+
+  async function saveOnboarding(event: React.FormEvent) {
+    event.preventDefault();
+    setLoading(true);
+    setMessage("");
+    try {
+      await communityFetch("/api/community/auth/onboarding", {
+        method: "POST",
+        body: JSON.stringify({ ageBand, interestAccountType }),
+      });
+      onAuthenticated();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "온보딩 정보를 저장하지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function skipOnboarding() {
+    onAuthenticated();
+  }
+
 
   return (
     <div className="w-full sm:max-w-md bg-white p-5 sm:p-7 sm:rounded-3xl shadow-xl border border-slate-100">
@@ -172,7 +217,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
             {subtitle}
           </h1>
           <h2 id="community-auth-title" className="text-lg font-bold text-slate-600">
-            {step === "profile" ? "공개 닉네임 설정" : step === "password-setup" ? "비밀번호 설정" : title}
+            {step === "profile" ? "회원가입 완료" : step === "onboarding" ? "맞춤 정보 설정" : step === "password-setup" ? "비밀번호 설정" : title}
           </h2>
         </div>
       </div>
@@ -272,17 +317,60 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
 
         {step === "profile" ? (
           <form className="mt-6 space-y-4" onSubmit={saveProfile}>
-            <p className="text-sm leading-6 text-slate-600">공개 화면에는 닉네임만 표시됩니다. 관심 계좌 유형과 투자 경험은 선택 정보이며 공개되지 않습니다.</p>
+            <p className="text-sm leading-6 text-slate-600">ETF Campus 커뮤니티에서 사용할 공개 닉네임을 설정하고 약관에 동의해 주세요.</p>
             <label className="block text-sm font-semibold text-slate-800">공개 닉네임
               <input required minLength={2} maxLength={24} value={nickname} onChange={(event) => setNickname(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder="예: 연금공부중" />
             </label>
-            <label className="block text-sm font-semibold text-slate-800">관심 계좌 유형 <span className="font-normal text-slate-500">(선택)</span>
-              <select value={interestAccountType} onChange={(event) => setInterestAccountType(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100"><option value="none">선택 안 함</option><option value="dc">DC</option><option value="irp">IRP</option><option value="pension_savings">연금저축</option><option value="general">일반 계좌</option></select>
+            <div className="flex flex-col gap-3 mt-4 p-4 border border-slate-200 rounded-xl bg-slate-50">
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" checked={agreedToAge} onChange={e => setAgreedToAge(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <span className="text-sm text-slate-700">[필수] 만 14세 이상입니다.</span>
+              </label>
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" checked={agreedToTerms} onChange={e => setAgreedToTerms(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <span className="text-sm text-slate-700">[필수] 서비스 이용약관 동의</span>
+              </label>
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" checked={agreedToPrivacy} onChange={e => setAgreedToPrivacy(e.target.checked)} required className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <span className="text-sm text-slate-700">[필수] 개인정보 수집 및 이용 동의</span>
+              </label>
+            </div>
+            <div className="flex flex-col gap-3 mt-2 p-4 border border-slate-200 rounded-xl">
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input type="checkbox" checked={agreedToMarketing} onChange={e => setAgreedToMarketing(e.target.checked)} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-700 focus:ring-brand-700" />
+                <span className="text-sm text-slate-700">[선택] 마케팅 정보 수신 동의<br/><span className="text-xs text-slate-500">새로운 챌린지, 전자책 등의 소식을 이메일로 받습니다.</span></span>
+              </label>
+            </div>
+            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "저장 중..." : "동의하고 가입 완료"}</button>
+          </form>
+        ) : step === "onboarding" ? (
+          <form className="mt-6 space-y-4" onSubmit={saveOnboarding}>
+            <div className="flex justify-end">
+              <button type="button" onClick={skipOnboarding} className="text-sm text-slate-500 hover:text-slate-700 underline">건너뛰기</button>
+            </div>
+            <p className="text-sm leading-6 text-slate-600">맞춤형 콘텐츠 추천을 위해 아래 두 가지만 알려주세요! (언제든 내 프로필에서 수정할 수 있습니다)</p>
+            <label className="block text-sm font-semibold text-slate-800">연령대 <span className="font-normal text-slate-500">(선택)</span>
+              <select value={ageBand} onChange={(event) => setAgeBand(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100">
+                <option value="">선택 안 함</option>
+                <option value="20s">20대</option>
+                <option value="30s">30대</option>
+                <option value="40s">40대</option>
+                <option value="50s">50대</option>
+                <option value="60s_plus">60대 이상</option>
+              </select>
             </label>
-            <label className="block text-sm font-semibold text-slate-800">투자 경험 <span className="font-normal text-slate-500">(선택)</span>
-              <select value={investmentExperience} onChange={(event) => setInvestmentExperience(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100"><option value="beginner">입문</option><option value="intermediate">경험 있음</option><option value="experienced">충분한 경험</option></select>
+            <label className="block text-sm font-semibold text-slate-800">관심 퇴직연금 유형 <span className="font-normal text-slate-500">(선택)</span>
+              <select value={interestAccountType} onChange={(event) => setInterestAccountType(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100">
+                <option value="">선택 안 함</option>
+                <option value="dc">DC형</option>
+                <option value="db">DB형</option>
+                <option value="irp">IRP</option>
+                <option value="both">둘 다 보유 (DC+IRP 등)</option>
+                <option value="none">없음</option>
+                <option value="unknown">모름</option>
+              </select>
             </label>
-            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "저장 중" : "커뮤니티 시작하기"}</button>
+            <button disabled={loading} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "저장 중..." : "커뮤니티 시작하기"}</button>
           </form>
         ) : null}
 

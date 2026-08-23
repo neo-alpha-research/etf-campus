@@ -41,7 +41,9 @@ export default function ChallengeDashboard() {
   };
 
   useEffect(() => {
-    loadData();
+    setTimeout(() => {
+      loadData();
+    }, 0);
   }, []);
 
   const handleOverride = async (participantId: string, cohortId: string, dayNumber: number, newStatus: string) => {

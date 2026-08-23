@@ -60,7 +60,16 @@ export function CommunityChallenge() {
   const selected = useMemo(() => cohorts.find((cohort) => cohort.slug === selectedSlug) ?? null, [cohorts, selectedSlug]);
 
   useEffect(() => {
-    refreshCommunitySession().then(setSignedIn);
+    refreshCommunitySession().then((isValid) => {
+      setSignedIn(isValid);
+      if (isValid) {
+        communityFetch("/api/community/auth/profile").then((profileRes) => {
+          if (profileRes?.profile?.interestAccountType) {
+            setInterestAccountType(profileRes.profile.interestAccountType);
+          }
+        }).catch(() => {});
+      }
+    });
     fetch("/api/community/challenges")
       .then(async (response) => {
         if (!response.ok) throw new Error("챌린지 기수를 불러오지 못했습니다.");

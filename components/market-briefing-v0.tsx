@@ -887,46 +887,48 @@ export function MarketBriefingV0() {
         </div>
 
         {/* Part A: Macro Table */}
-        <div className="overflow-x-auto mb-8">
-          <table className="w-full border-collapse bg-white shadow-sm rounded-[20px] overflow-hidden text-sm border border-[#E5E8E2]">
-            <thead>
-              <tr className="bg-[#F9FBFC] border-b border-[#EDF2DE] text-neutral-500 font-bold text-[13px]">
-                <th className="py-3.5 px-5 text-left font-extrabold">자산군</th>
-                <th className="py-3.5 px-5 text-right font-extrabold">운용자산 (조 원)</th>
-                <th className="py-3.5 px-5 text-right font-extrabold">비중 (%)</th>
-                <th className="py-3.5 px-5 text-right font-extrabold">가중수익률 (%)</th>
-                <th className="py-3.5 px-5 text-right font-extrabold">기여도 (%p)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#EDF2DE]">
-              {sortedAssetClasses.map(row => (
-                <tr key={row.asset_class} className="hover:bg-neutral-50 transition-colors">
-                  <td className="py-3.5 px-5 font-bold text-neutral-800">{row.asset_class}</td>
-                  <td className="py-3.5 px-5 text-right tabular-nums text-neutral-700 font-medium">{(row.total_aum / 1_000_000_000_000).toFixed(1)}</td>
-                  <td className="py-3.5 px-5 text-right tabular-nums text-neutral-700 font-medium">{row.aum_share_pct.toFixed(1)}</td>
-                  <td className={`py-3.5 px-5 text-right tabular-nums font-bold ${changeTone(row.aum_weighted_return_pct)}`}>{row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}</td>
-                  <td className={`py-3.5 px-5 text-right tabular-nums font-extrabold ${changeTone(row.contribution_pct)}`}>{signed(row.contribution_pct, "%p")}</td>
+        <div className="mb-8 rounded-[20px] bg-white border border-[#E5E8E2] shadow-[0_4px_12px_rgba(27,38,26,0.02)] overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm table-fixed">
+              <thead>
+                <tr className="bg-[#F9FBFC] border-b border-[#EDF2DE]">
+                  <th className="w-[20%] py-3 px-6 text-left text-[12px] font-extrabold text-neutral-400 tracking-wider">자산군</th>
+                  <th className="w-[20%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">운용자산 (조 원)</th>
+                  <th className="w-[20%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">비중 (%)</th>
+                  <th className="w-[20%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">가중수익률 (%)</th>
+                  <th className="w-[20%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">기여도 (%p)</th>
                 </tr>
-              ))}
-            </tbody>
-            <tfoot className="bg-[#F4F7EC] border-t-2 border-[#D7EABB] font-bold text-neutral-900 text-[13px]">
-              <tr>
-                <td className="py-3.5 px-5">합계 (Total)</td>
-                <td className="py-3.5 px-5 text-right tabular-nums">
-                  {(sortedAssetClasses.reduce((sum, row) => sum + row.total_aum, 0) / 1_000_000_000_000).toFixed(1)}
-                </td>
-                <td className="py-3.5 px-5 text-right tabular-nums">
-                  {Math.round(sortedAssetClasses.reduce((sum, row) => sum + row.aum_share_pct, 0))}.0
-                </td>
-                <td className="py-3.5 px-5 text-right tabular-nums text-neutral-500 font-normal text-xs">
-                  (동일 자산 가중평균)
-                </td>
-                <td className={`py-3.5 px-5 text-right tabular-nums font-extrabold ${changeTone(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}`}>
-                  {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0), "%p")}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-[#EDF2DE]">
+                {sortedAssetClasses.map(row => (
+                  <tr key={row.asset_class} className="hover:bg-[#F9FBFC] transition-colors group">
+                    <td className="py-3.5 px-6 font-extrabold text-neutral-800 text-[14px]">{row.asset_class}</td>
+                    <td className="py-3.5 px-6 text-right tabular-nums text-neutral-600 font-semibold">{(row.total_aum / 1_000_000_000_000).toFixed(1)}</td>
+                    <td className="py-3.5 px-6 text-right tabular-nums text-neutral-600 font-semibold">{row.aum_share_pct.toFixed(1)}<span className="text-neutral-400 font-normal ml-0.5">%</span></td>
+                    <td className={`py-3.5 px-6 text-right tabular-nums font-bold ${changeTone(row.aum_weighted_return_pct)}`}>{row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}</td>
+                    <td className={`py-3.5 px-6 text-right tabular-nums font-extrabold ${changeTone(row.contribution_pct)}`}>{signed(row.contribution_pct, "%p")}</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className="bg-[#F4F7EC] font-bold text-neutral-900 text-[13px] border-t border-[#D7EABB]">
+                <tr>
+                  <td className="py-4 px-6 text-[14px]">합계 (Total)</td>
+                  <td className="py-4 px-6 text-right tabular-nums text-[14px]">
+                    {(sortedAssetClasses.reduce((sum, row) => sum + row.total_aum, 0) / 1_000_000_000_000).toFixed(1)}
+                  </td>
+                  <td className="py-4 px-6 text-right tabular-nums text-[14px]">
+                    {Math.round(sortedAssetClasses.reduce((sum, row) => sum + row.aum_share_pct, 0))}.0<span className="text-neutral-500 font-normal ml-0.5">%</span>
+                  </td>
+                  <td className="py-4 px-6 text-right text-neutral-500 font-normal text-[11px]">
+                    (동일 자산 가중평균)
+                  </td>
+                  <td className={`py-4 px-6 text-right tabular-nums text-[14px] font-extrabold ${changeTone(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}`}>
+                    {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0), "%p")}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
 
         {/* Part B: Micro Themes 4-Col Grid */}

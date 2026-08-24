@@ -398,6 +398,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
 export function MarketBriefingV0() {
 
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
+  const [step5Tab, setStep5Tab] = useState<'weekly' | 'monthly'>('weekly');
 
   const { briefing, isLoading, isRefreshing, error, refresh } = useMarketBriefing({
 
@@ -987,7 +988,7 @@ export function MarketBriefingV0() {
       <section>
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. SMART MONEY & RISK</p>
-          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장의 돈은 어디로? (자금 동향)</h2>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 자금은 어디로? (일일 동향)</h2>
           <p className="mt-1 text-sm text-neutral-500">스마트머니의 자금 순유입 및 순유출을 통해 일일 자금 흐름을 점검합니다.</p>
         </div>
 

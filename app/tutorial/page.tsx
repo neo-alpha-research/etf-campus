@@ -117,31 +117,29 @@ export default function TutorialPage() {
     <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6 select-none">
       {/* 🎮 EXP Bar */}
       <div className="relative pt-1">
-        <div className="flex mb-2 items-center justify-between">
-          <div>
+        <div className="flex mb-2 items-end justify-between">
+          <div className="mb-0.5">
             <span className="text-sm font-bold inline-block py-1.5 px-3 uppercase rounded-full text-brand-600 bg-brand-100">
               레벨 {currentStep}
             </span>
           </div>
-          <div className="text-right">
+          <div className="text-right flex flex-col items-end">
+            {!(currentStep === 10 && isGraded) && (
+              <span className="text-[10px] sm:text-[11px] font-semibold text-orange-500 mb-1">
+                🎁 튜토리얼 완주 시 <span className="underline underline-offset-2">ETF 체크리스트</span> 지급!
+              </span>
+            )}
             <span className="text-sm font-semibold inline-block text-gray-500">
               EXP {currentStep * 10}%
             </span>
           </div>
         </div>
-        <div className="overflow-hidden h-3 text-xs flex rounded-full bg-gray-200">
+        <div className="overflow-hidden h-3 mb-4 text-xs flex rounded-full bg-gray-200">
           <div
             style={{ width: `${(currentStep / 10) * 100}%` }}
             className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-brand-500 to-indigo-500 transition-all duration-700"
           ></div>
         </div>
-        {!(currentStep === 10 && isGraded) && (
-          <div className="text-right mt-1.5 mb-4">
-            <span className="text-[11px] sm:text-xs font-semibold text-orange-500">
-              🎁 튜토리얼 완주 시 <span className="underline underline-offset-2">연금 ETF 운용 체크리스트</span> 지급!
-            </span>
-          </div>
-        )}
       </div>
 
       {/* 🎮 Header */}

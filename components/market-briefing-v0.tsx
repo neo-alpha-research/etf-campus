@@ -940,36 +940,36 @@ export function MarketBriefingV0() {
             const bottom = sortedPg.slice().reverse().slice(0, 3).filter(g => !top.find(t => t.peerGroup === g.peerGroup)).reverse();
 
             return (
-              <div key={row.asset_class} className="overflow-hidden rounded-[20px] border border-[#E5E8E2] bg-white shadow-sm flex flex-col hover:border-[#D7EABB] transition-colors">
-                <div className="bg-[#F9FBFC] border-b border-[#EDF2DE] px-4 py-2.5 text-center">
-                   <h3 className="font-extrabold text-[#5A7050] text-[13px] tracking-tight">{row.asset_class} 세부 테마</h3>
+              <div key={row.asset_class} className="overflow-hidden rounded-[20px] border border-[#E5E8E2] bg-white shadow-[0_2px_8px_rgba(27,38,26,0.02)] flex flex-col hover:border-[#D7EABB] transition-colors">
+                <div className="bg-[#F9FBFC] border-b border-[#EDF2DE] px-4 py-3.5 text-center">
+                   <h3 className="font-extrabold text-[#5A7050] text-[14px] tracking-tight">{row.asset_class} 세부 테마</h3>
                 </div>
                 <div className="flex-1 flex flex-col bg-white">
                   {(top.length === 0 && bottom.length === 0) ? (
-                    <div className="px-5 py-8 text-center text-[12px] text-neutral-400 flex-1 flex items-center justify-center">
+                    <div className="px-5 py-8 text-center text-[13px] text-neutral-400 flex-1 flex items-center justify-center">
                       세부 주도 테마가 없습니다
                     </div>
                   ) : (
-                    <div className="divide-y divide-[#F2F4EB]">
+                    <div className="divide-y divide-neutral-100">
                       {top.map((t, idx) => (
-                        <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3.5 hover:bg-neutral-50">
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="text-[12px] font-bold text-[#EE4B58] w-2.5 opacity-80">{idx + 1}</span>
-                            <p className="truncate text-[13px] font-bold text-neutral-700">{t.peerGroup}</p>
+                        <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-5 py-3.5 hover:bg-neutral-50/70 transition-colors">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="text-[13px] font-bold text-[#EE4B58] w-5 text-center opacity-90">{idx + 1}</span>
+                            <p className="truncate text-[14px] font-bold text-neutral-700">{t.peerGroup}</p>
                           </div>
-                          <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(t.cappedAumWeightedReturnPct)}`}>
+                          <span className={`text-[14px] font-extrabold tabular-nums tracking-tight ${changeTone(t.cappedAumWeightedReturnPct)}`}>
                             {signed(t.cappedAumWeightedReturnPct)}
                           </span>
                         </div>
                       ))}
-                      {bottom.length > 0 && <div className="h-2 bg-[#F9FBFC] border-y border-[#F2F4EB]"></div>}
+                      {bottom.length > 0 && <div className="h-1.5 bg-[#F9FBFC]"></div>}
                       {bottom.map((b, idx) => (
-                        <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3.5 hover:bg-neutral-50">
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="text-[12px] font-bold text-[#4682EC] w-4 opacity-80 text-center">({bottom.length - idx})</span>
-                            <p className="truncate text-[13px] font-bold text-neutral-700">{b.peerGroup}</p>
+                        <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-5 py-3.5 hover:bg-neutral-50/70 transition-colors">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <span className="text-[13px] font-bold text-[#4682EC] w-5 text-center opacity-90">({bottom.length - idx})</span>
+                            <p className="truncate text-[14px] font-bold text-neutral-700">{b.peerGroup}</p>
                           </div>
-                          <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(b.cappedAumWeightedReturnPct)}`}>
+                          <span className={`text-[14px] font-extrabold tabular-nums tracking-tight ${changeTone(b.cappedAumWeightedReturnPct)}`}>
                             {signed(b.cappedAumWeightedReturnPct)}
                           </span>
                         </div>

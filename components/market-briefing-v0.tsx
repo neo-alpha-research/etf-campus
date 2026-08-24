@@ -891,12 +891,8 @@ export function MarketBriefingV0() {
 
           <div>
 
-            <div className="mb-3 flex items-end justify-between gap-3">
-
+            <div className="mb-3 max-w-4xl">
               <h3 className="font-bold text-neutral-900">어떤 자산이 오늘 시장을 이끌었을까요?</h3>
-
-              <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />일반 ETF 수익률 기여도</span>
-
             </div>
 
             <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm max-w-4xl">

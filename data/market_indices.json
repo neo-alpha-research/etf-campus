@@ -30,6 +30,21 @@
       "label": "원/달러",
       "value": 1390.79,
       "change": 0.1
+    },
+    {
+      "label": "VKOSPI",
+      "value": 16.24,
+      "change": 2.1
+    },
+    {
+      "label": "금 선물",
+      "value": 2521.4,
+      "change": 0.85
+    },
+    {
+      "label": "은 선물",
+      "value": 28.53,
+      "change": -1.2
     }
   ]
 }

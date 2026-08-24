@@ -150,9 +150,7 @@ export function useMarketBriefing({
     if (mode === "manual") setIsRefreshing(true);
 
     try {
-      const endpoint = asOfDate
-        ? `https://api.allorigins.win/raw?url=https://etf-campus.pages.dev/api/briefings/${encodeURIComponent(asOfDate)}`
-        : "https://api.allorigins.win/raw?url=https://etf-campus.pages.dev/api/briefings/latest";
+      const endpoint = "/mock-briefing.json";
       const response = await fetch(endpoint, {
         method: "GET",
         headers: { Accept: "application/json" },

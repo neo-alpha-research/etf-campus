@@ -10,8 +10,8 @@ import { StyleChip } from "@/components/onboarding/style-chip";
 import { AuthNav } from "@/components/auth/auth-nav";
 
 const navigation = [
-  { href: "/", label: "마켓 브리핑" },
-  { href: "/screener/", label: "ETF 탐색" },
+  { href: "/briefing/", label: "마켓 브리핑" },
+  { href: "/", label: "ETF 탐색" },
   { href: "/compare", label: "ETF 비교" },
   { href: "/tutorial/", label: "튜토리얼" },
   { href: "/community/", label: "커뮤니티" },
@@ -19,7 +19,7 @@ const navigation = [
 ] as const;
 
 const finderNavigation = [
-  { href: "/screener/", label: "조건으로 찾기" },
+  { href: "/", label: "조건으로 찾기" },
   { href: "/quick/?mode=general", label: "일반 계좌" },
   { href: "/quick/?mode=pension", label: "연금 계좌" },
   { href: "/quick/?mode=mixed_bonds", label: "혼합 채권" },
@@ -39,7 +39,7 @@ export function SiteHeader() {
       const m = searchParams.get("mode") ?? "general";
       return `/quick/?mode=${m}`;
     }
-    return pathname.startsWith("/screener") ? "/screener/" : undefined;
+    return (pathname === "/" || pathname === "" || pathname.startsWith("/screener")) ? "/" : undefined;
   });
 
   useEffect(() => {
@@ -47,18 +47,19 @@ export function SiteHeader() {
       const m = searchParams.get("mode") ?? "general";
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveFinderHref(`/quick/?mode=${m}`);
-    } else if (pathname === "/screener" || pathname === "/screener/") {
-      setActiveFinderHref("/screener/");
+    } else if (pathname === "/" || pathname === "" || pathname.startsWith("/screener")) {
+      setActiveFinderHref("/");
     }
   }, [pathname, searchParams]);
 
   // "ETF 탐색" owns both the screener and the preset ETF views.
-  const isEtfSection = pathname.startsWith("/screener") || pathname === "/quick" || pathname === "/quick/";
+  const isEtfSection = pathname === "/" || pathname === "" || pathname.startsWith("/screener") || pathname === "/quick" || pathname === "/quick/";
   const showFinderNav = isEtfSection;
 
   const isPrimaryActive = (href: string) => {
-    if (href === "/") return pathname === "/" || pathname === "";
-    if (href === "/screener/") return isEtfSection;
+    if (href === "/") return isEtfSection;
+    if (href === "/briefing/") return pathname.startsWith("/briefing");
+    if (href === "/screener/") return isEtfSection; // fallback if used
     // Strip trailing slash for comparison if necessary, but hrefs now have it
     const normalizedPath = pathname.endsWith("/") ? pathname : `${pathname}/`;
     return normalizedPath === href || normalizedPath.startsWith(href);

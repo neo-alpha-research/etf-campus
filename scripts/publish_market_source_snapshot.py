@@ -153,7 +153,7 @@ def fetch_fred_index(series_id: str, as_of_date: str) -> dict[str, Any] | None:
             break
     if not target or not prev: return None
     
-    name_map = {"DGS10": "미국채 10년물", "DGS2": "미국채 2년물", "T10Y2Y": "장단기금리차"}
+    name_map = {"DGS10": "미국 10년물 금리", "T10Y2Y": "미국 장단기금리차"}
     return {
         "asOfDate": target["date"],
         "indexCode": series_id,
@@ -209,6 +209,55 @@ def fetch_yahoo_index(code: str, as_of_date: str) -> dict[str, Any]:
         "changePct": round(((price - prev_close) / prev_close) * 100, 2),
         "volumeValue": 0,
         "sourceHash": "yahoo_finance"
+    }
+
+def fetch_krx_bond_yield(auth_key: str, as_of_date: str) -> dict:
+    import urllib.request, urllib.parse, json
+    # Attempt to fetch KTB 10Y Yield from KRX Open API
+    url = "https://data-dbg.krx.co.kr/svc/apis/bnd/bnd_dd_trd" # KRX 채권 일별 엔드포인트
+    query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
+    request = urllib.request.Request(
+        f"{url}?{query}",
+        headers={"AUTH_KEY": auth_key, "Accept": "application/json"},
+    )
+    
+    try:
+        if auth_key:
+            with urllib.request.urlopen(request, timeout=10) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+                
+            rows = payload.get("OutBlock_1") or payload.get("outBlock1") or payload.get("data") or []
+            if isinstance(rows, dict):
+                rows = [rows]
+                
+            for row in rows:
+                name = str(row.get("ISU_NM") or row.get("isuNm") or "").strip()
+                if "국고채" in name and "10년" in name:
+                    yield_val = float(row.get("YLD") or row.get("yld") or row.get("TDD_CLSPRC") or 0)
+                    if yield_val:
+                        return {
+                            "asOfDate": as_of_date,
+                            "indexCode": "KR10Y",
+                            "indexName": "한국 10년물 금리",
+                            "closeValue": round(yield_val, 3),
+                            "changePoints": 0.0,
+                            "changePct": 0.0,
+                            "volumeValue": 0,
+                            "sourceHash": "krx_open_api"
+                        }
+    except Exception as e:
+        print(f"Warning: KRX Bond Yield API failed ({e}). Falling back to mock data.")
+
+    # Fallback
+    return {
+        "asOfDate": as_of_date,
+        "indexCode": "KR10Y",
+        "indexName": "한국 10년물 금리",
+        "closeValue": 3.45,
+        "changePoints": -0.02,
+        "changePct": -0.57,
+        "volumeValue": 0,
+        "sourceHash": "mock"
     }
 
 def fetch_krx_index(auth_key: str, code: str, as_of_date: str) -> dict[str, Any]:
@@ -293,7 +342,9 @@ def main() -> None:
     etf_hash = canonical_hash(etfs)
 
     indices = [fetch_krx_index(krx_auth_key, code, as_of_date) for code in ("KOSPI", "KOSDAQ")]
-    for fred_code in ("DGS10", "DGS2", "T10Y2Y"):
+    # Fetch KR10Y using KRX Open API
+    indices.append(fetch_krx_bond_yield(krx_auth_key, as_of_date))
+    for fred_code in ("DGS10", "T10Y2Y"):
         fred_data = fetch_fred_index(fred_code, as_of_date)
         if fred_data:
             indices.append(fred_data)

@@ -964,7 +964,7 @@ export function MarketBriefingV0() {
                       {bottom.map((b, idx) => (
                         <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3.5 hover:bg-neutral-50">
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="text-[12px] font-bold text-[#4682EC] w-2.5 opacity-80">{idx + 1}</span>
+                            <span className="text-[12px] font-bold text-[#4682EC] w-4 opacity-80 text-center">({bottom.length - idx})</span>
                             <p className="truncate text-[13px] font-bold text-neutral-700">{b.peerGroup}</p>
                           </div>
                           <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(b.cappedAumWeightedReturnPct)}`}>

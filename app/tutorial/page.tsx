@@ -6,7 +6,7 @@ import { tutorialSteps } from "@/data/tutorial-content";
 import { useAuthSession } from "@/components/auth/use-auth-session";
 
 export default function TutorialPage() {
-  const { authenticated, isLoading } = useAuthSession();
+  const { authenticated, isLoading, isValidating } = useAuthSession();
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [answers, setAnswers] = useState<Record<string, boolean | null>>({});
@@ -47,12 +47,13 @@ export default function TutorialPage() {
   }, []);
 
   // 인증이 완료되었는데 비로그인 상태로 4단계 이상 진입 시 3단계로 강등
+  // SWR 캐시(stale data)로 인한 Race condition 방지를 위해 isValidating도 체크
   useEffect(() => {
-    if (!isLoading && !authenticated && currentStep > 3) {
+    if (!isLoading && !isValidating && !authenticated && currentStep > 3) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setCurrentStep(3);
     }
-  }, [isLoading, authenticated, currentStep]);
+  }, [isLoading, isValidating, authenticated, currentStep]);
 
   // 진행 상태가 바뀔 때마다 로컬스토리지에 저장
   useEffect(() => {

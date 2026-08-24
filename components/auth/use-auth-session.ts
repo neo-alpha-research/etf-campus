@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { getSession, logout, type SessionResponse } from "@/lib/auth/client";
 
 export function useAuthSession() {
-  const { data, error, isLoading, mutate } = useSWR<SessionResponse>(
+  const { data, error, isLoading, isValidating, mutate } = useSWR<SessionResponse>(
     "/api/community/auth/session",
     getSession,
     {
@@ -24,6 +24,7 @@ export function useAuthSession() {
     user: data?.authenticated ? data.user ?? null : null,
     authenticated: Boolean(data?.authenticated),
     isLoading,
+    isValidating,
     error,
     refresh: mutate,
     signOut,

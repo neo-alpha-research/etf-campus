@@ -45,6 +45,20 @@ function etf(overrides: Partial<Etf> = {}): Etf {
     },
     isNew90d: null,
     isNew3m: false,
+    issuer: {
+      issuerId: "test_amc",
+      issuerName: "테스트운용",
+      brand: "테스트 브랜드",
+      issuerStatus: "verified_official",
+      issuerSourceUrl: null,
+      issuerVerifiedAt: null,
+    },
+    listingDateStatus: null,
+    classification: null,
+    firstTradedDate: null,
+    firstTradedDateSource: null,
+    listingDateVerifiedAt: null,
+    listingDateEvidenceId: null,
     ...overrides,
   };
 }

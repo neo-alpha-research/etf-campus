@@ -24,6 +24,20 @@ function etf(overrides: Partial<Etf> = {}): Etf {
     returns: { "1d": 1, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null, "ytd": null, "12m": null, "24m": null, "36m": null, itd: null },
     isNew90d: null,
     isNew3m: false,
+    issuer: {
+      issuerId: "test_amc",
+      issuerName: "테스트운용",
+      brand: "테스트 브랜드",
+      issuerStatus: "verified_official",
+      issuerSourceUrl: null,
+      issuerVerifiedAt: null,
+    },
+    listingDateStatus: null,
+    classification: null,
+    firstTradedDate: null,
+    firstTradedDateSource: null,
+    listingDateVerifiedAt: null,
+    listingDateEvidenceId: null,
     ...overrides,
   };
 }

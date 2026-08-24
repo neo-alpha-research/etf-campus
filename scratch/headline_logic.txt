@@ -1,0 +1,14 @@
+const headline = briefing.headline?.text ?? `일반 ETF ${number.format(pulse.generalEtfCount)}개 기준, ${pulse.marketTemperature} 흐름입니다.`;
+
+  let dynamicTitle = "상승과 하락이 팽팽하게 맞선 하루였습니다 ⚖️";
+  if (pulse.breadthRatioPct >= 70) {
+    dynamicTitle = "상승 종목이 압도적으로 많았던 하루였습니다 📈";
+  } else if (pulse.breadthRatioPct <= 30) {
+    dynamicTitle = "파란불이 시장 전체를 덮은 하락장이었습니다 📉";
+  } else if (pulse.breadthRatioPct > 50) {
+    dynamicTitle = "상승 종목이 조금 더 많은 훈훈한 하루였습니다 ☀️";
+  } else if (pulse.breadthRatioPct < 50) {
+    dynamicTitle = "하락 종목이 더 많아 주의가 필요한 하루였습니다 🌧️";
+  }
+
+  

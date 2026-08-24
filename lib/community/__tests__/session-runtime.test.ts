@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+// @ts-ignore
 import { clearSessionHeaders, clearSessionResponse, mergeSessionHeaders, sessionHeaders } from "../../../functions/api/community/_lib/session.js";
 
 function setCookies(headers: Headers) {

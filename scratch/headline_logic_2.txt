@@ -1,0 +1,20 @@
+const isPositive = pulse.generalAumWeightedReturnPct >= 0;
+  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}, 보합 ${pulse.flatCount}, 하락 ${pulse.downCount}개, 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승하며 강세를' : '하락하며 약세를'} 보였습니다.`;
+
+
+
+  const ret = pulse.generalAumWeightedReturnPct;
+
+  const br = pulse.breadthRatioPct;
+
+  let dynamicTitle = "상승과 하락이 팽팽하게 맞서며 혼조세를 보인 하루였습니다 ⚖️";
+
+  
+
+  if (ret <= -1.0 && br <= 30) {
+
+    dynamicTitle = "파란불이 시장 전체를 덮은 강한 하락장이었습니다 📉";
+
+  } else if (ret <= -0.3 && br < 50) {
+
+    dynamicTitle = "하락 종목이

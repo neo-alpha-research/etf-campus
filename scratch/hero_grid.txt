@@ -1,0 +1,113 @@
+<div className="grid gap-4 lg:grid-cols-[1.1fr_0.8fr_1.6fr] md:grid-cols-3">
+
+            {/* Card 1: Breadth */}
+
+            <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] hover:-translate-y-0.5 transition-transform">
+
+              <div className="flex items-center gap-1.5">
+
+                <span className="text-[15px]">🧭</span>
+
+                <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">시장 방향</p>
+
+              </div>
+
+              <div className="mt-3 flex items-baseline gap-2">
+
+                <span className={`text-xl font-extrabold ${pulse.breadthRatioPct >= 50 ? "text-[#D84957]" : "text-[#247DAA]"}`}>{pulse.marketTemperature}</span>
+
+                <span className="text-[11px] text-neutral-500">{number.format(pulse.generalEtfCount)}개 중 <strong className="text-neutral-700">{number.format(pulse.breadthRatioPct >= 50 ? pulse.upCount : pulse.downCount)}개 {pulse.breadthRatioPct >= 50 ? "상승" : "하락"}</strong></span>
+
+              </div>
+
+              <div className="mt-4">
+
+                <BreadthBar pulse={pulse} />
+
+              </div>
+
+            </div>
+
+
+
+            {/* Card 2: Return */}
+
+            <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:-translate-y-0.5 transition-transform">
+
+              <div>
+
+                <div className="flex items-center gap-1.5">
+
+                  <span className="text-[15px]">💰</span>
+
+                  <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">평균 성과</p>
+
+                </div>
+
+                <div className="mt-3">
+
+                  <span className={`text-[32px] font-extrabold tabular-nums tracking-tight leading-none ${changeTone(pulse.generalAumWeightedReturnPct)}`}>
+
+                    {signed(pulse.generalAumWeightedReturnPct)}
+
+                  </span>
+
+                </div>
+
+              </div>
+
+              <p className="mt-4 text-[11px] text-neutral-500 border-t border-neutral-100 pt-3">
+
+                일반 ETF 투자금(AUM) 가중수익률
+
+              </p>
+
+            </div>
+
+
+
+            {/* Card 3: Feature */}
+
+            <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:-translate-y-0.5 transition-transform">
+
+              <div>
+
+                <div className="flex items-center justify-between gap-2">
+
+                  <div className="flex items-center gap-1.5">
+
+                    <span className="text-[15px]">📊</span>
+
+                    <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">ETF 요약</p>
+
+                  </div>
+
+                  {briefing.disparityWarning && briefing.disparityWarning.length > 0 && (
+
+                    <span className="inline-flex items-center rounded-full bg-[#FFF5F5] px-2 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">
+
+                      ⚠️ 양극화 주의
+
+                    </span>
+
+                  )}
+
+                </div>
+
+                <p className="mt-3 text-[13px] font-medium leading-relaxed text-neutral-800 line-clamp-4">
+
+                  {headline}
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div className="absolute -right-20 -top-20 z-0 h-64 w-64 rounded-full bg-gradient-to-br from-[#E5F5D5] to-transparent blur-3xl pointer-events-none" />
+
+      

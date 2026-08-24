@@ -213,25 +213,25 @@
     "peerGroupVersion": "v1",
     "peerGroups": [
       {
+        "peerGroup": "회사채",
+        "etfCount": 30,
+        "equalWeightReturnPct": -0.1706666666666667,
+        "cappedAumWeightedReturnPct": -0.0686042129140375,
+        "assetClass": "채권"
+      },
+      {
         "peerGroup": "금",
         "etfCount": 7,
         "equalWeightReturnPct": 1.0485714285714287,
-        "cappedAumWeightedReturnPct": 0.6775321378597305,
-        "assetClass": "주식-국내"
-      },
-      {
-        "peerGroup": "회사채",
-        "etfCount": 30,
-        "equalWeightReturnPct": -0.17066666666666663,
-        "cappedAumWeightedReturnPct": -0.06860421291403754,
-        "assetClass": "주식-국내"
+        "cappedAumWeightedReturnPct": 1.075672629783409,
+        "assetClass": "원자재"
       },
       {
         "peerGroup": "국채",
         "etfCount": 51,
-        "equalWeightReturnPct": -0.5623529411764705,
-        "cappedAumWeightedReturnPct": -0.6200647688936543,
-        "assetClass": "주식-국내"
+        "equalWeightReturnPct": -0.5623529411764706,
+        "cappedAumWeightedReturnPct": -0.6200647688936548,
+        "assetClass": "채권"
       }
     ],
     "fundFlow": {

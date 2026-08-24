@@ -1,0 +1,15 @@
+  <div>
+
+                <div className="flex items-center justify-between gap-2">
+
+                  <div className="flex items-center gap-1.5">
+
+                    <span className="text-[15px]">📊</span>
+
+                    <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">시장 특징</p>
+
+                  </div>
+
+                  {briefing.disparityWarning && briefing.disparityWarning.length > 0 && (
+
+                    <span className="inline-flex items-center rounded-full bg-[#FFF5F5] px-2 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">

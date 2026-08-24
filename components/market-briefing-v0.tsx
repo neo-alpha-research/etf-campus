@@ -479,21 +479,13 @@ export function MarketBriefingV0() {
 
 
   const sortedAssetClasses = useMemo(() => {
-
     if (!briefing) return [];
-
     return [...briefing.assetClasses]
-
       .map((row) => ({
-
         ...row,
-
         contribution_pct: ((row.aum_weighted_return_pct ?? 0) * row.aum_share_pct) / 100,
-
       }))
-
-      .sort((a, b) => b.contribution_pct - a.contribution_pct);
-
+      .sort((a, b) => (b.total_aum ?? 0) - (a.total_aum ?? 0));
   }, [briefing]);
 
 
@@ -919,92 +911,63 @@ export function MarketBriefingV0() {
 
             </div>
 
-            <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm">
-              <div className="px-5 py-3 border-b border-[#EDF2DE] bg-[#F8FCEB] flex items-center justify-between">
+            <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm max-w-4xl">
+              <div className="px-5 py-3 border-b border-[#EDF2DE] bg-[#F9FBFC] flex items-center justify-between">
                 <span className="text-xs text-neutral-600">
-                  자산군의 AUM 비중과 가중수익률을 곱해 전체 일반 ETF 수익률에 미친 <strong className="text-neutral-800">수익률 기여도</strong>를 계산합니다.
+                  자산군의 AUM 비중과 가중수익률을 곱해 전체 시장에 미친 <strong className="text-neutral-800">수익률 기여도</strong>를 계산합니다.
                 </span>
               </div>
               <div className="overflow-x-auto">
-
-                <table className="min-w-[620px] w-full text-sm">
-
-                  <thead className="bg-[#EFF8D8] text-[11px] font-extrabold text-[#365314]">
-
+                <table className="min-w-[500px] w-full text-sm">
+                  <thead className="bg-white border-b border-[#EDF2DE] text-[11px] font-extrabold text-[#5A7050]">
                     <tr>
-
                       <th className="px-5 py-3 text-left">자산군</th>
-
                       <th className="px-4 py-3 text-right">AUM 금액(비중)</th>
-
                       <th className="px-4 py-3 text-right">가중수익률</th>
-
-                      <th className="bg-[#E7F6C8] px-5 py-3 text-right">수익률 기여도</th>
-
+                      <th className="px-5 py-3 text-center">수익률 기여도</th>
                     </tr>
-
                   </thead>
-
-                  <tbody className="divide-y divide-[#EDF2DE]">
-
+                  <tbody className="divide-y divide-[#EDF2DE] bg-white">
                     {sortedAssetClasses.map((row) => {
-
                       const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
-
                       const isPositive = row.contribution_pct >= 0;
-
                       return (
-
-                        <tr key={row.asset_class} className="group relative transition-colors hover:bg-[#F8FCEB]">
-
-                          <td className="relative z-10 px-5 py-4 font-bold text-neutral-800">
-
+                        <tr key={row.asset_class} className="group transition-colors hover:bg-[#F8FCEB]">
+                          <td className="px-5 py-3.5 font-bold text-neutral-800">
                             {row.asset_class}
-
-                            <span className="mt-1 block text-[11px] font-normal text-neutral-500">
-
-                              ETF {number.format(row.etf_count)}개 · 상승 {number.format(row.up_count)} / 하락 {number.format(row.down_count)}
-
+                            <span className="ml-1.5 text-[11px] font-medium text-neutral-400">
+                              ({number.format(row.etf_count)}종목)
                             </span>
-
                           </td>
-
-                          <td className="relative z-10 px-4 py-4 text-right tabular-nums text-neutral-700">
+                          <td className="px-4 py-3.5 text-right tabular-nums text-neutral-700">
                             <span className="font-bold">{formatWon(row.total_aum)}</span>
-                            <span className="ml-1 text-[11px] text-neutral-500">({decimal.format(row.aum_share_pct)}%)</span>
+                            <span className="ml-1 text-[11px] text-neutral-400">({decimal.format(row.aum_share_pct)}%)</span>
                           </td>
-
-                          <td className={`relative z-10 px-4 py-4 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
-
+                          <td className={`px-4 py-3.5 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
                             {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
-
                           </td>
-
-                          <td className={`relative z-10 px-5 py-4 text-right font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
-
-                            <div className="absolute inset-y-0 right-0 -z-10 bg-[#F5FBE7] opacity-0 transition-opacity group-hover:opacity-100 w-full" />
-
-                            <div
-                              className={`absolute inset-y-1.5 right-2 -z-10 rounded-md opacity-20 ${isPositive ? "bg-[#EE4B58]" : "bg-[#4682EC]"}`}
-                              style={{ width: `calc(${Math.max(contributionPercent, 2)}% - 1rem)` }}
-                            />
-
-                            {signed(row.contribution_pct, "%p")}
-
+                          <td className="px-5 py-3.5 w-32">
+                            <div className="flex flex-col justify-center gap-1.5">
+                              <span className={`text-center text-xs font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
+                                {signed(row.contribution_pct, "%p")}
+                              </span>
+                              <div className="flex items-center justify-center h-1.5">
+                                <div className="w-1/2 flex justify-end">
+                                  {!isPositive && <div className="h-full bg-[#4682EC] rounded-l-sm" style={{ width: `${contributionPercent}%` }} />}
+                                </div>
+                                <div className="w-px h-2.5 bg-neutral-300"></div>
+                                <div className="w-1/2 flex justify-start">
+                                  {isPositive && <div className="h-full bg-[#EE4B58] rounded-r-sm" style={{ width: `${contributionPercent}%` }} />}
+                                </div>
+                              </div>
+                            </div>
                           </td>
-
                         </tr>
-
                       );
-
                     })}
-
                   </tbody>
-
                 </table>
-
               </div>
-
             </div>
 
           </div>

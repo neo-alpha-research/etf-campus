@@ -961,7 +961,6 @@ export function MarketBriefingV0() {
 
 
 
-          <PeerGroupReturns groups={briefing.peerGroups} />
 
         </div>
       </section>

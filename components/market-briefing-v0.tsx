@@ -357,7 +357,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
   let emoji = "";
   if (["KOSPI", "KOSDAQ"].includes(index.code)) emoji = "📈";
   else if (["SPX", "NDX"].includes(index.code)) emoji = "📈";
-  else if (["VIX", "VKOSPI"].includes(index.code)) emoji = "⚡";
+  else if (["VIX", "VKOSPI"].includes(index.code)) emoji = "🌊";
   else if (["KR10Y", "DGS10"].includes(index.code)) emoji = "📉";
   else if (index.code === "T10Y2Y") emoji = "⚖️";
   else if (index.code === "CLF") emoji = "🛢️";

@@ -17,7 +17,7 @@ export default function TutorialPage() {
 
   const stepData = tutorialSteps.find((s) => s.step === currentStep);
 
-  // 로컬스토리지에서 기존 진행 단계 불러오기 (최초 1회만 실행)
+  // 로컬스토리지에서 기존 진행 단계 및 답변 상태 불러오기 (최초 1회만 실행)
   useEffect(() => {
     const savedStep = localStorage.getItem("tutorial_progress");
     if (savedStep) {
@@ -25,6 +25,23 @@ export default function TutorialPage() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setCurrentStep(step);
     }
+    
+    const savedAnswers = localStorage.getItem("tutorial_answers");
+    if (savedAnswers) {
+      try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setAnswers(JSON.parse(savedAnswers));
+      } catch (e) {
+        // parsing error fallback
+      }
+    }
+
+    const savedGraded = localStorage.getItem("tutorial_isGraded");
+    if (savedGraded === "true") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsGraded(true);
+    }
+
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoaded(true);
   }, []);
@@ -37,12 +54,14 @@ export default function TutorialPage() {
     }
   }, [isLoading, authenticated, currentStep]);
 
-  // 진행 단계가 바뀔 때마다 로컬스토리지에 저장
+  // 진행 상태가 바뀔 때마다 로컬스토리지에 저장
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem("tutorial_progress", currentStep.toString());
+      localStorage.setItem("tutorial_answers", JSON.stringify(answers));
+      localStorage.setItem("tutorial_isGraded", isGraded.toString());
     }
-  }, [currentStep, isLoaded]);
+  }, [currentStep, answers, isGraded, isLoaded]);
 
   const handleAnswer = (questionId: string, answer: boolean) => {
     if (isGraded) return;
@@ -77,6 +96,8 @@ export default function TutorialPage() {
       if (confirmSignup) {
         // 성공적으로 로그인 후 돌아오면 4단계부터 시작하도록 미리 세팅
         localStorage.setItem("tutorial_progress", "4");
+        localStorage.removeItem("tutorial_answers");
+        localStorage.removeItem("tutorial_isGraded");
         router.push("/login?returnTo=/tutorial"); 
       }
       return; // UI 진행 차단

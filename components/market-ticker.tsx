@@ -35,7 +35,7 @@ function IndexPill({ label, value, change }: MarketIndex) {
       : "text-fall";
 
   return (
-    <span className="inline-flex shrink-0 items-center gap-1 text-[11px] leading-none tracking-tight sm:text-xs">
+    <span className="inline-flex shrink-0 items-center gap-1 text-[10px] leading-none tracking-tight sm:text-[11px]">
       <span className="font-semibold text-neutral-500">{label}</span>
       <span className="tabular-nums font-bold text-strong">
         {formatNumber(value)}
@@ -61,7 +61,7 @@ export function MarketTicker() {
     <div className="border-b border-line bg-neutral-50 flex justify-center">
       <div className="page-shell scrollbar-none flex justify-center items-center gap-x-3 overflow-x-auto py-1.5 sm:gap-x-4">
         {formattedDate && (
-          <span className="flex items-center gap-1.5 shrink-0 text-[11px] leading-none tracking-tight sm:text-xs">
+          <span className="flex items-center gap-1.5 shrink-0 text-[10px] leading-none tracking-tight sm:text-[11px]">
             <span className="tabular-nums font-bold text-strong">{formattedDate}</span>
             <span className="font-semibold text-neutral-500">종가</span>
             <span

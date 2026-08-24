@@ -751,7 +751,7 @@ export function MarketBriefingV0() {
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
             <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 ETF 시장의 체감 온도는 어땠을까요?</h2>
-            <p className="mt-1 text-sm text-neutral-500">시장 자금 이동과 수익률을 통해 일반 ETF 시장의 온도를 진단합니다.</p>
+            <p className="mt-1 text-sm text-neutral-500">수익률 분포와 시장 거래대금 쏠림 현상을 통해 일반 ETF 시장의 온도를 진단합니다.</p>
           </div>
         </div>
 

@@ -10,12 +10,11 @@ function etf(overrides: Partial<Etf>): Etf {
     close: 10_000, changePct: 1.2, tradeValue: 2_000_000_000, aum: 100_000_000_000,
     riskType: "normal", assetClass: "주식-국내", pension: "가능", pensionSource: "공식확인",
     liquidity: "pass", asOfDate: "20260715", listingDate: null, listingDateSource: null,
-    listingDateStatus: null, firstTradedDate: null, firstTradedDateSource: null, listingDateVerifiedAt: null, listingDateEvidenceId: null,
     returns: { "1d": 1.2, "1w": 1, "2w": 2, "1m": 3, "2m": 4, "3m": 5, "6m": 6, "12m": 12, "24m": 24, "36m": 36, ytd: 7, itd: 7 },
     isNew90d: null, isNew3m: false,
-    issuer: { issuerId: "samsung", issuerName: "삼성자산운용", brand: "삼성", issuerStatus: "verified_official", issuerSourceUrl: null, issuerVerifiedAt: null },
+    issuer: { issuerId: "samsung", issuerName: "삼성자산운용" },
     classification: { published: true, marketScope: "국내", assetClass: "주식-국내", assetDetail: null, strategy: "액티브", fxHedge: "환노출", reviewStatus: "자동확정", reviewPriority: "", sourceUrl: null, evidenceSummary: null },
-    fee: { totalFeePct: 0.1, terPct: 0.1, otherCostPct: 0, tradingCostPct: 0, primarySourceType: null, primarySourceUrl: null, verificationStatus: "verified_official", effectiveDate: null, verifiedAt: null, dartReceiptNo: null, secondarySourceUrl: null, sourceNote: null },
+    fee: { totalFeePct: 0.1, verificationStatus: "verified_official" },
     ...overrides,
   };
 }

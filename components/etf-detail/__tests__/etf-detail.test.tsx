@@ -45,11 +45,6 @@ const item: Etf = {
   asOfDate: "20260715",
   listingDate: null,
   listingDateSource: null,
-  listingDateStatus: null,
-  firstTradedDate: null,
-  firstTradedDateSource: null,
-  listingDateVerifiedAt: null,
-  listingDateEvidenceId: null,
   returns: { "1d": 1.2, "1w": 0.5, "2w": null, "1m": 1, "2m": 2, "3m": null, "6m": 6, "12m": 12, "24m": null, "36m": null, ytd: 5, itd: null },
   isNew90d: null,
   isNew3m: false,
@@ -197,7 +192,7 @@ describe("EtfDetail", () => {
   it("신규 상장 ETF 수익률 표는 검증된 ITD를 마지막에 표시한다", () => {
     const newListingItem: Etf = {
       ...item,
-      isNew90d: true,
+      isNew90d: "Y",
       listingDate: "2026-06-01",
       itdAnchor: {
         price: 10_000,
@@ -220,7 +215,7 @@ describe("EtfDetail", () => {
   it("신규 ETF의 기준가격이 대조 중이어도 ITD와 상태 안내를 표시한다", () => {
     const pendingAnchorItem: Etf = {
       ...item,
-      isNew90d: true,
+      isNew90d: "Y",
       listingDate: "2026-06-01",
       itdAnchor: {
         price: 10_000,

@@ -16,6 +16,7 @@ import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking"
 
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
 
+import { PeerGroupReturns } from "@/components/market-briefing/peer-group-returns";
 
 import { useMarketBriefing, MarketIndex } from "@/lib/hooks/use-market-briefing";
 
@@ -447,11 +448,15 @@ export function MarketBriefingV0() {
     
 
     addGlobalIndex("S&P 500", "SPX");
-    addGlobalIndex("나스닥", "NDX");
-    addGlobalIndex("니케이 225", "N225");
-    addGlobalIndex("원/달러", "USDKRW");
 
-    const order = ["KOSPI", "KOSDAQ", "SPX", "NDX", "N225", "USDKRW"];
+    addGlobalIndex("나스닥", "NDX");
+    addGlobalIndex("VKOSPI", "VKOSPI");
+    addGlobalIndex("금 선물", "GC");
+    addGlobalIndex("은 선물", "SI");
+
+
+
+    const order = ["KOSPI", "KOSDAQ", "SPX", "NDX", "VIX", "KR10Y", "DGS10", "T10Y2Y", "CLF"];
 
     return mergedIndices.sort((a, b) => {
 
@@ -476,7 +481,6 @@ export function MarketBriefingV0() {
   const sortedAssetClasses = useMemo(() => {
     if (!briefing) return [];
     return [...briefing.assetClasses]
-      .filter(row => !row.asset_class.includes('리츠') && !row.asset_class.includes('혼합') && !row.asset_class.includes('미분류'))
       .map((row) => ({
         ...row,
         contribution_pct: ((row.aum_weighted_return_pct ?? 0) * row.aum_share_pct) / 100,
@@ -736,28 +740,36 @@ export function MarketBriefingV0() {
             )}
           </div>
 
-          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-3">
+          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
             {/* 국내 증시 */}
             <div>
               <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><img src="https://flagcdn.com/w40/kr.png" className="w-[18px] h-[13px] rounded-sm object-cover shadow-sm" alt="KR" /> 국내 증시</h3>
               <div className="flex flex-col">
-                {orderedIndices.filter(i => ["KOSPI", "KOSDAQ"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
             
-            {/* 해외 증시 */}
+            {/* 미국 증시 */}
             <div>
-              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">🌐</span> 해외 증시</h3>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><img src="https://flagcdn.com/w40/us.png" className="w-[18px] h-[13px] rounded-sm object-cover shadow-sm" alt="US" /> 미국 증시</h3>
               <div className="flex flex-col">
-                {orderedIndices.filter(i => ["SPX", "NDX", "N225"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
 
-            {/* 환율 */}
+            {/* 채권/금리 */}
             <div>
-              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">💵</span> 환율</h3>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">💵</span> 채권 및 금리</h3>
               <div className="flex flex-col">
-                {orderedIndices.filter(i => ["USDKRW"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                {orderedIndices.filter(i => ["KR10Y", "DGS10", "T10Y2Y"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+              </div>
+            </div>
+
+            {/* 원자재 */}
+            <div>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">⛏️</span> 원자재</h3>
+              <div className="flex flex-col">
+                {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
           </div>
@@ -869,101 +881,105 @@ export function MarketBriefingV0() {
         </div>
       </section>
 
-            {/* STEP 3: Micro Trends */}
+      {/* STEP 3: Micro (Asset class, Peer groups, Flow) */}
+
       <section>
+
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
+
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 3. MICRO TRENDS</p>
-          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 자산과 테마가 주도했을까요? (세부 동향)</h2>
-          <p className="mt-1 text-sm text-neutral-500">자산군별 뼈대 흐름과 이를 주도한 세부 테마(피어그룹)들의 성과입니다.</p>
+
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 ETF가 주도했을까요? (세부 동향)</h2>
+
+          <p className="mt-1 text-sm text-neutral-500">자산군, 테마별 수익률과 투자자들의 실제 자금 이동 내역입니다.</p>
+
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {sortedAssetClasses.map((row) => {
-            const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
-            const isPositive = row.contribution_pct >= 0;
-            const aum1 = (row.total_aum / 1_000_000_000_000).toFixed(1);
-            const share1 = row.aum_share_pct.toFixed(1);
+        
 
-            const pg = briefing.peerGroups?.filter(g => g.assetClass === row.asset_class || g.assetClass?.includes(row.asset_class)) || [];
-            const sortedPg = [...pg].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
-            const top = sortedPg.slice(0, 3);
-            const bottom = sortedPg.slice().reverse().slice(0, 3).filter(g => !top.find(t => t.peerGroup === g.peerGroup));
+        <div className="flex flex-col gap-12 sm:gap-16">
 
-            return (
-              <div key={row.asset_class} className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm flex flex-col hover:border-[#B8D598] transition-colors">
-                <div className="border-b border-[#EDF2DE] bg-[#F9FBFC] px-5 py-4">
-                  <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-extrabold text-lg text-neutral-900">{row.asset_class}</h3>
-                    <span className="text-sm font-bold tabular-nums text-neutral-700">
-                      {aum1}조 <span className="text-[11px] text-neutral-400 font-medium">({share1}%)</span>
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] text-neutral-500 font-medium">가중수익률</span>
-                      <span className={`text-sm font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
-                        {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-end w-24 sm:w-28 gap-1.5">
-                      <div className="flex items-center justify-between w-full">
-                        <span className="text-[10px] text-neutral-500 font-medium">기여도</span>
-                        <span className={`text-sm font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
-                          {signed(row.contribution_pct, "%p")}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-center h-2 w-full">
-                        <div className="w-1/2 flex justify-end h-1.5">
-                          {!isPositive && <div className="h-1.5 bg-[#4682EC] rounded-l-[2px]" style={{ width: `${Math.max(contributionPercent, 2)}%` }} />}
-                        </div>
-                        <div className="w-px h-2.5 bg-neutral-300"></div>
-                        <div className="w-1/2 flex justify-start h-1.5">
-                          {isPositive && <div className="h-1.5 bg-[#EE4B58] rounded-r-[2px]" style={{ width: `${Math.max(contributionPercent, 2)}%` }} />}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          {/* Asset Class Attribution */}
 
-                <div className="flex-1 flex flex-col bg-white">
-                  {(top.length === 0 && bottom.length === 0) ? (
-                    <div className="px-5 py-8 text-center text-[12px] text-neutral-400 flex-1 flex items-center justify-center">
-                      세부 주도 테마가 없습니다
-                    </div>
-                  ) : (
-                    <div className="divide-y divide-[#EDF2DE]">
-                      {top.map((t, idx) => (
-                        <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3 hover:bg-neutral-50">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-[11px] font-bold text-[#EE4B58] w-2">{idx + 1}</span>
-                            <p className="truncate text-[13px] font-bold text-neutral-700">{t.peerGroup}</p>
-                          </div>
-                          <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(t.cappedAumWeightedReturnPct)}`}>
-                            {signed(t.cappedAumWeightedReturnPct)}
-                          </span>
-                        </div>
-                      ))}
-                      {bottom.length > 0 && <div className="h-1 bg-[#F9FBFC] border-y border-[#EDF2DE]"></div>}
-                      {bottom.map((b, idx) => (
-                        <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3 hover:bg-neutral-50">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-[11px] font-bold text-[#4682EC] w-2">{idx + 1}</span>
-                            <p className="truncate text-[13px] font-bold text-neutral-700">{b.peerGroup}</p>
-                          </div>
-                          <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(b.cappedAumWeightedReturnPct)}`}>
-                            {signed(b.cappedAumWeightedReturnPct)}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+          <div>
+
+            <div className="mb-3 flex items-end justify-between gap-3">
+
+              <h3 className="font-bold text-neutral-900">어떤 자산이 오늘 시장을 이끌었을까요?</h3>
+
+              <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />일반 ETF 수익률 기여도</span>
+
+            </div>
+
+            <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm max-w-4xl">
+              <div className="px-5 py-3 border-b border-[#EDF2DE] bg-[#F9FBFC] flex items-center justify-between">
+                <span className="text-xs text-neutral-600">
+                  자산군의 AUM 비중과 가중수익률을 곱해 전체 시장에 미친 <strong className="text-neutral-800">수익률 기여도</strong>를 계산합니다.
+                </span>
               </div>
-            );
-          })}
+              <div className="overflow-x-auto">
+                <table className="min-w-[500px] w-full text-sm">
+                  <thead className="bg-white border-b border-[#EDF2DE] text-[11px] font-extrabold text-[#5A7050]">
+                    <tr>
+                      <th className="px-5 py-3 text-left">자산군</th>
+                      <th className="px-4 py-3 text-right">AUM 금액(비중)</th>
+                      <th className="px-4 py-3 text-right">가중수익률</th>
+                      <th className="px-5 py-3 text-center">수익률 기여도</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#EDF2DE] bg-white">
+                    {sortedAssetClasses.map((row) => {
+                      const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
+                      const isPositive = row.contribution_pct >= 0;
+                      return (
+                        <tr key={row.asset_class} className="group transition-colors hover:bg-[#F8FCEB]">
+                          <td className="px-5 py-3.5 font-bold text-neutral-800">
+                            {row.asset_class}
+                            <span className="ml-1.5 text-[11px] font-medium text-neutral-400">
+                              ({number.format(row.etf_count)}종목)
+                            </span>
+                          </td>
+                          <td className="px-4 py-3.5 text-right tabular-nums text-neutral-700">
+                            <span className="font-bold">{formatWon(row.total_aum)}</span>
+                            <span className="ml-1 text-[11px] text-neutral-400">({decimal.format(row.aum_share_pct)}%)</span>
+                          </td>
+                          <td className={`px-4 py-3.5 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
+                            {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
+                          </td>
+                          <td className="px-5 py-3.5 w-32">
+                            <div className="flex flex-col justify-center gap-1.5">
+                              <span className={`text-center text-xs font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
+                                {signed(row.contribution_pct, "%p")}
+                              </span>
+                              <div className="flex items-center justify-center h-1.5">
+                                <div className="w-1/2 flex justify-end">
+                                  {!isPositive && <div className="h-full bg-[#4682EC] rounded-l-sm" style={{ width: `${contributionPercent}%` }} />}
+                                </div>
+                                <div className="w-px h-2.5 bg-neutral-300"></div>
+                                <div className="w-1/2 flex justify-start">
+                                  {isPositive && <div className="h-full bg-[#EE4B58] rounded-r-sm" style={{ width: `${contributionPercent}%` }} />}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+
+
+          <PeerGroupReturns groups={briefing.peerGroups} />
+
         </div>
       </section>
 
+      {/* STEP 4: Smart Money & Risk */}
       <section>
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. SMART MONEY & RISK</p>
@@ -973,7 +989,10 @@ export function MarketBriefingV0() {
 
         <div className="flex flex-col gap-12 sm:gap-16">
 
-          {briefing.fundFlow && <FundFlowRanking fundFlow={briefing.fundFlow} />}
+          <FundFlowRanking fundFlow={briefing.fundFlow} />
+
+
+
           <DisparityAlert warnings={briefing.disparityWarning} />
 
 

@@ -58,7 +58,7 @@ describe("PriceHistoryChart PR", () => {
   });
 
   it("ITD가 상장 후 기간과 연결되는지 확인", async () => {
-    const fetchMock = vi.fn((url: string) => Promise.resolve(responseFor()));
+    const fetchMock = vi.fn((url: string) => Promise.resolve(responseFor(url)));
     vi.stubGlobal("fetch", fetchMock);
     render(<PriceHistoryChart ticker="458730" listingDate="2020-09-25" actualFirstTradingDate="2020-09-28" isNewListing itdAnchor={verifiedItdAnchor} />);
     

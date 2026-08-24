@@ -25,13 +25,6 @@ function etf(overrides: Partial<Etf>): Etf {
     returns: { "1d": 1.2, "1w": 1, "2w": 2, "1m": 3, "2m": 4, "3m": 5, "6m": 6, "ytd": 8, "12m": 12, "24m": 24, "36m": 36, itd: 7 },
     isNew90d: null,
     isNew3m: false,
-    issuer: { issuerId: "A", issuerName: "A", brand: "A", issuerStatus: "verified_official", issuerSourceUrl: null, issuerVerifiedAt: null },
-    listingDateStatus: null,
-    firstTradedDate: null,
-    firstTradedDateSource: null,
-    listingDateVerifiedAt: null,
-    listingDateEvidenceId: null,
-    classification: null,
     ...overrides,
   };
 }

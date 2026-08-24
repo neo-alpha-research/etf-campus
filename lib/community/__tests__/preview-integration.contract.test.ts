@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-const previewBaseUrl = process.env.COMMUNITY_PREVIEW_INTEGRATION_BASE_URL as string;
+const previewBaseUrl = process.env.COMMUNITY_PREVIEW_INTEGRATION_BASE_URL;
 const enabled = process.env.COMMUNITY_PREVIEW_INTEGRATION_ENABLED === "true";
 
 // This suite intentionally does not contain credentials or test identities. It is enabled only in a separate operator-provided Preview environment.

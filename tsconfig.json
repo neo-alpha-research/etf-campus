@@ -37,8 +37,6 @@
   ],
   "exclude": [
     "node_modules",
-    "workers/**",
-    "functions/**/*.test.ts",
-    "functions/**/*.test.js"
+    "workers/**"
   ]
 }

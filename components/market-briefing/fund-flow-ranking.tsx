@@ -1,6 +1,18 @@
 import { useState } from "react";
+import { Info } from "lucide-react";
 import { FundFlowRow } from "@/lib/hooks/use-market-briefing";
 
+function InfoTooltip({ text }: { text: React.ReactNode }) {
+  return (
+    <div className="group relative inline-flex items-center justify-center ml-1">
+      <Info className="h-4 w-4 text-neutral-400 cursor-help transition-colors group-hover:text-neutral-600" />
+      <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded-xl bg-neutral-900 p-3 text-xs leading-5 text-white opacity-0 shadow-xl transition-all group-hover:pointer-events-auto group-hover:opacity-100">
+        {text}
+        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900" />
+      </div>
+    </div>
+  );
+}
 function money(value: number) {
   const decimal = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 });
   if (Math.abs(value) >= 1_000_000_000_000) return `${decimal.format(value / 1_000_000_000_000)}조 원`;
@@ -25,12 +37,9 @@ export function FundFlowRanking({ fundFlow }: { fundFlow: { general: FundFlowDat
 
   return (
     <section aria-labelledby="fund-flow-title">
-      <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h3 id="fund-flow-title" className="text-lg font-extrabold tracking-tight text-neutral-900">어느 테마로 돈이 몰렸을까요? (순자산 유입)</h3>
-          <p className="mt-1 text-sm text-neutral-500">실제로 뭉칫돈이 들어오고 나간 종목들을 확인해 보세요.</p>
-        </div>
-        <p className="text-xs text-neutral-500">실질 자금 순유입/순유출 (발행 좌수 증감 기반)</p>
+      <div className="mb-3 flex items-center gap-1">
+        <h3 id="fund-flow-title" className="text-lg font-extrabold tracking-tight text-neutral-900">ETF 자금 순유입 순위</h3>
+        <InfoTooltip text="주가 변동에 의한 착시를 배제하고, 실제 ETF 발행 좌수 증감을 기준으로 계산한 실질 자금 유입/유출액입니다." />
       </div>
 
       <div className="mb-4 flex space-x-2">

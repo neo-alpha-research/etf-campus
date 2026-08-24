@@ -517,9 +517,7 @@ export function MarketBriefingV0() {
     (curr.cappedAumWeightedReturnPct > (prev?.cappedAumWeightedReturnPct ?? -Infinity)) ? curr : prev
   , briefing.peerGroups[0]);
 
-  const bestInflow = briefing.peerGroups?.reduce((prev, curr) => 
-    ((curr.netInflowValue || 0) > ((prev?.netInflowValue || 0) ?? -Infinity)) ? curr : prev
-  , briefing.peerGroups[0]);
+  const topWeeklyInflow = briefing.weeklyFundFlows?.[0];
 
   
     let themeSentence = "";
@@ -703,15 +701,15 @@ export function MarketBriefingV0() {
                       </span>
                     </div>
                   )}
-                  {/* Highlight 2: Best Inflow */}
-                  {bestInflow && (
+                  {/* Highlight 2: Best Inflow (Weekly) */}
+                  {topWeeklyInflow && (
                     <div className="flex items-center justify-between bg-[#F9FBFC] rounded-xl p-3 border border-[#EDF2DE]">
                       <div>
-                        <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">순유입 1위 테마</p>
-                        <p className="text-[14px] font-bold text-neutral-800">{bestInflow.peerGroup}</p>
+                        <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">순유입 1위 테마 (최근 1주)</p>
+                        <p className="text-[14px] font-bold text-neutral-800">{topWeeklyInflow.peerGroup}</p>
                       </div>
                       <span className="text-[16px] font-extrabold tabular-nums tracking-tight text-[#EE4B58]">
-                        +{number.format((bestInflow.netInflowValue || 0) / 100000000)}<span className="text-[12px] opacity-80">억원</span>
+                        +{number.format(topWeeklyInflow.netInflow)}<span className="text-[12px] opacity-80">억원</span>
                       </span>
                     </div>
                   )}

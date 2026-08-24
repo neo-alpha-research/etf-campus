@@ -354,17 +354,12 @@ function IndexRow({ index }: { index: MarketIndex }) {
     }
   }
 
-  let emoji = "";
-  if (["VIX", "VKOSPI"].includes(index.code)) emoji = "🎢";
   
-  else if (index.code === "CLF") emoji = "🛢️";
-  else if (index.code === "GC") emoji = "🥇";
-  else if (index.code === "SI") emoji = "🥈";
 
   return (
     <div className="flex items-center justify-between py-3 border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50 transition-colors rounded-lg px-2 -mx-2">
       <div className="flex items-center gap-2.5">
-        {emoji && <span className="text-[17px] w-5 text-center">{emoji}</span>}
+        
         <div className="flex items-center gap-1.5">
           <p className="text-[13px] font-bold text-neutral-800 whitespace-nowrap">{index.label}</p>
           {index.code === "T10Y2Y" && (

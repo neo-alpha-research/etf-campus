@@ -58,7 +58,7 @@ export default function TutorialPage() {
         <div className="flex mb-2 items-center justify-between">
           <div>
             <span className="text-sm font-bold inline-block py-1.5 px-3 uppercase rounded-full text-brand-600 bg-brand-100">
-              LV.{currentStep} 퀘스트
+              레벨 {currentStep}
             </span>
           </div>
           <div className="text-right">
@@ -157,7 +157,7 @@ export default function TutorialPage() {
               onClick={handleGrade}
               className="w-full bg-gradient-to-b from-gray-800 to-gray-900 border-b-4 border-gray-950 text-white font-black py-4 sm:py-5 rounded-2xl hover:brightness-110 active:border-b-0 active:translate-y-1 transition-all shadow-lg text-lg tracking-wide"
             >
-              🎯 퀘스트 채점하기
+              🎯 채점하기
             </button>
             {gradeError && (
               <div className="text-center p-3 sm:p-4 bg-red-50 rounded-xl border border-red-200 text-red-600 text-base font-bold animate-pulse break-keep">
@@ -170,7 +170,7 @@ export default function TutorialPage() {
             <div className="text-5xl animate-bounce">🏆</div>
             <div>
               <h2 className="text-3xl font-black text-yellow-800 tracking-tight break-keep">마스터 등극!</h2>
-              <p className="text-yellow-700 font-medium text-base mt-2 break-keep">10개의 퀘스트를 모두 완벽히 클리어하셨습니다.</p>
+              <p className="text-yellow-700 font-medium text-base mt-2 break-keep">10개의 레벨을 모두 완벽히 클리어하셨습니다.</p>
             </div>
             <a
               href="/downloads/연금_ETF_핵심요약.md"
@@ -185,7 +185,7 @@ export default function TutorialPage() {
             onClick={nextStep}
             className="w-full bg-gradient-to-b from-brand-500 to-brand-600 border-b-4 border-brand-700 text-white font-black py-4 sm:py-5 rounded-2xl hover:brightness-110 active:border-b-0 active:translate-y-1 transition-all shadow-lg text-lg tracking-wide animate-fade-in-up"
           >
-            🎉 클리어! 다음 퀘스트로 이동 👉
+            🎉 클리어! 다음 레벨로 이동 👉
           </button>
         )}
       </div>

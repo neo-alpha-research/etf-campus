@@ -49,7 +49,8 @@ function IndexPill({ label, value, change }: MarketIndex) {
 
 export function MarketTicker() {
   const baseDateStr = indicesData.base_date;
-  const indices = indicesData.indices as MarketIndex[];
+  const allowedLabels = ["코스피", "코스닥", "S&P 500", "나스닥", "원/달러"];
+  const indices = (indicesData.indices as MarketIndex[]).filter(idx => allowedLabels.includes(idx.label));
   
   // Convert 20260821 to 8월 21일
   const formattedDate = baseDateStr

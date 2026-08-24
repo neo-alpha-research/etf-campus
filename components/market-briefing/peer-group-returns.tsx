@@ -1,4 +1,4 @@
-﻿import { PeerGroup } from "@/lib/hooks/use-market-briefing";
+import { PeerGroup } from "@/lib/hooks/use-market-briefing";
 
 function changeTone(value: number) {
   if (value > 0) return "text-[#EE4B58]";

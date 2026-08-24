@@ -1,17 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { tutorialSteps } from "@/data/tutorial-content";
-import Link from "next/link";
+import { useAuthSession } from "@/components/auth/use-auth-session";
 
 export default function TutorialPage() {
+  const { authenticated, isLoading } = useAuthSession();
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [answers, setAnswers] = useState<Record<string, boolean | null>>({});
   const [isGraded, setIsGraded] = useState(false);
   const [gradeError, setGradeError] = useState(false);
   const [shake, setShake] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const stepData = tutorialSteps.find((s) => s.step === currentStep);
+
+  // 로컬스토리지에서 기존 진행 단계 불러오기
+  useEffect(() => {
+    if (isLoading) return; // 인증 상태 확인 대기
+    
+    const savedStep = localStorage.getItem("tutorial_progress");
+    if (savedStep) {
+      let step = parseInt(savedStep, 10);
+      // 로그인 안 했는데 4단계 이상이려 하면 3단계로 강등
+      if (step > 3 && !authenticated) {
+        step = 3; 
+      }
+      setCurrentStep(step);
+    }
+    setIsLoaded(true);
+  }, [isLoading, authenticated]);
+
+  // 진행 단계가 바뀔 때마다 로컬스토리지에 저장
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("tutorial_progress", currentStep.toString());
+    }
+  }, [currentStep, isLoaded]);
 
   const handleAnswer = (questionId: string, answer: boolean) => {
     if (isGraded) return;
@@ -40,16 +67,25 @@ export default function TutorialPage() {
   };
 
   const nextStep = () => {
-    if (currentStep === 3) {
-      alert("🔒 [시스템] 진행 데이터 저장을 위해 이메일 연동(가입)이 필요합니다!");
+    // 3단계 완료 후 미로그인 상태라면 강제 로그인/회원가입 유도
+    if (currentStep === 3 && !authenticated) {
+      const confirmSignup = window.confirm("🔒 [시스템] 레벨 4부터는 진행 데이터 저장을 위해 로그인(회원가입)이 필요합니다.\n\n로그인/회원가입 화면으로 이동하시겠습니까?");
+      if (confirmSignup) {
+        // 성공적으로 로그인 후 돌아오면 4단계부터 시작하도록 미리 세팅
+        localStorage.setItem("tutorial_progress", "4");
+        router.push("/login?returnTo=/tutorial"); 
+      }
+      return; // UI 진행 차단
     }
+
     setCurrentStep((prev) => Math.min(prev + 1, 10));
     setAnswers({});
     setIsGraded(false);
     setGradeError(false);
   };
 
-  if (!stepData) return <div>Loading...</div>;
+  // 클라이언트 렌더링 전 깜빡임 방지 (hydration)
+  if (!isLoaded || !stepData) return <div className="p-10 text-center text-gray-500 font-medium">데이터 불러오는 중...</div>;
 
   return (
     <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6 select-none">

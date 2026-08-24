@@ -235,8 +235,8 @@ export default function TutorialPage() {
               <p className="text-yellow-700 font-medium text-base mt-2 break-keep">10개의 레벨을 모두 완벽히 클리어하셨습니다.</p>
             </div>
             <a
-              href="/downloads/연금_ETF_핵심요약.md"
-              download="연금_ETF_핵심요약.md"
+              href="/downloads/연금_ETF_핵심요약.pdf"
+              download="연금_ETF_핵심요약.pdf"
               className="block w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-black py-5 rounded-2xl shadow-[0_4px_0_rgb(194,65,12)] hover:brightness-110 active:shadow-none active:translate-y-1 transition-all text-lg"
             >
               🎁 최종 보상: 연금 ETF 규정서 다운로드

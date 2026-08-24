@@ -476,6 +476,7 @@ export function MarketBriefingV0() {
   const sortedAssetClasses = useMemo(() => {
     if (!briefing) return [];
     return [...briefing.assetClasses]
+      .filter(row => !row.asset_class.includes('리츠') && !row.asset_class.includes('혼합') && !row.asset_class.includes('미분류'))
       .map((row) => ({
         ...row,
         contribution_pct: ((row.aum_weighted_return_pct ?? 0) * row.aum_share_pct) / 100,
@@ -876,7 +877,7 @@ export function MarketBriefingV0() {
           <p className="mt-1 text-sm text-neutral-500">자산군별 뼈대 흐름과 이를 주도한 세부 테마(피어그룹)들의 성과입니다.</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {sortedAssetClasses.map((row) => {
             const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
             const isPositive = row.contribution_pct >= 0;
@@ -904,7 +905,7 @@ export function MarketBriefingV0() {
                         {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
                       </span>
                     </div>
-                    <div className="flex flex-col items-end w-28 sm:w-32 gap-1.5">
+                    <div className="flex flex-col items-end w-24 sm:w-28 gap-1.5">
                       <div className="flex items-center justify-between w-full">
                         <span className="text-[10px] text-neutral-500 font-medium">기여도</span>
                         <span className={`text-sm font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
@@ -932,9 +933,9 @@ export function MarketBriefingV0() {
                   ) : (
                     <div className="divide-y divide-[#EDF2DE]">
                       {top.map((t, idx) => (
-                        <div key={t.peerGroup} className="flex items-center justify-between gap-3 px-5 py-3 hover:bg-neutral-50">
+                        <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3 hover:bg-neutral-50">
                           <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-[11px] font-bold text-[#EE4B58] w-3">{idx + 1}</span>
+                            <span className="text-[11px] font-bold text-[#EE4B58] w-2">{idx + 1}</span>
                             <p className="truncate text-[13px] font-bold text-neutral-700">{t.peerGroup}</p>
                           </div>
                           <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(t.cappedAumWeightedReturnPct)}`}>
@@ -944,9 +945,9 @@ export function MarketBriefingV0() {
                       ))}
                       {bottom.length > 0 && <div className="h-1 bg-[#F9FBFC] border-y border-[#EDF2DE]"></div>}
                       {bottom.map((b, idx) => (
-                        <div key={b.peerGroup} className="flex items-center justify-between gap-3 px-5 py-3 hover:bg-neutral-50">
+                        <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3 hover:bg-neutral-50">
                           <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-[11px] font-bold text-[#4682EC] w-3">▼</span>
+                            <span className="text-[11px] font-bold text-[#4682EC] w-2">{idx + 1}</span>
                             <p className="truncate text-[13px] font-bold text-neutral-700">{b.peerGroup}</p>
                           </div>
                           <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(b.cappedAumWeightedReturnPct)}`}>

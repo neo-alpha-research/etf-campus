@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 
 
@@ -728,53 +728,55 @@ export function MarketBriefingV0() {
 
       {briefing.marketIndices.length > 0 && (
 
-        <section aria-labelledby="market-index-title">
-
-          <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
-
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 1. MACRO ECONOMY</p>
-
-            <h2 id="market-index-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 시장의 배경은? (거시 지표)</h2>
-
-            <p className="mt-1 text-sm text-neutral-500">ETF 가격 변동의 원인이 되는 주요 지수와 금리 흐름입니다.</p>
-
+        <section aria-labelledby="market-index-title" className="mb-12">
+          <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="border-l-4 border-[#9ACD68] pl-3">
+              <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 1. MACRO ECONOMY</p>
+              <h2 id="market-index-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 시장의 배경은? (거시 지표)</h2>
+              <p className="mt-1 text-sm text-neutral-500">ETF 가격 변동의 원인이 되는 주요 지수와 금리 흐름입니다.</p>
+            </div>
+            {orderedIndices.length > 0 && (
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-semibold text-neutral-600 border border-neutral-200">
+                <Calendar className="w-3.5 h-3.5" />
+                기준일: {dateLabel(orderedIndices[0].as_of_date)}
+              </div>
+            )}
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
             {/* 국내 증시 */}
             <div className="rounded-[22px] border border-[#EDF2DE] bg-[#FDFEFB] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
               <h3 className="mb-4 text-[13px] font-extrabold text-[#5A7050] tracking-wide">🇰🇷 국내 증시</h3>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexCard key={i.code} index={i} />)}
+              <div className="flex flex-col">
+                {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
             
             {/* 미국 증시 */}
             <div className="rounded-[22px] border border-[#EDF2DE] bg-[#FDFEFB] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
               <h3 className="mb-4 text-[13px] font-extrabold text-[#5A7050] tracking-wide">🇺🇸 미국 증시</h3>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexCard key={i.code} index={i} />)}
+              <div className="flex flex-col">
+                {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
 
             {/* 채권/금리 */}
             <div className="rounded-[22px] border border-[#EDF2DE] bg-[#FDFEFB] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
               <h3 className="mb-4 text-[13px] font-extrabold text-[#5A7050] tracking-wide">🏦 채권 및 금리</h3>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {orderedIndices.filter(i => ["KR10Y", "DGS10", "T10Y2Y"].includes(i.code)).map(i => <IndexCard key={i.code} index={i} />)}
+              <div className="flex flex-col">
+                {orderedIndices.filter(i => ["KR10Y", "DGS10", "T10Y2Y"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
 
             {/* 원자재 */}
             <div className="rounded-[22px] border border-[#EDF2DE] bg-[#FDFEFB] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
               <h3 className="mb-4 text-[13px] font-extrabold text-[#5A7050] tracking-wide">🛢️ 원자재</h3>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexCard key={i.code} index={i} />)}
+              <div className="flex flex-col">
+                {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
           </div>
         </section>
-
       )}
 
 
@@ -1158,4 +1160,5 @@ export function MarketBriefingV0() {
   );
 
 }
+
 

@@ -253,9 +253,9 @@ def fetch_krx_bond_yield(auth_key: str, as_of_date: str) -> dict:
         "asOfDate": as_of_date,
         "indexCode": "KR10Y",
         "indexName": "한국 10년물 금리",
-        "closeValue": 3.45,
-        "changePoints": -0.02,
-        "changePct": -0.57,
+        "closeValue": 4.37,
+        "changePoints": 0.05,
+        "changePct": 1.06,
         "volumeValue": 0,
         "sourceHash": "mock"
     }

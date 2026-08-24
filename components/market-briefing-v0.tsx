@@ -939,13 +939,13 @@ export function MarketBriefingV0() {
                               <span className={`text-center text-xs font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
                                 {signed(row.contribution_pct, "%p")}
                               </span>
-                              <div className="flex items-center justify-center h-1.5">
-                                <div className="w-1/2 flex justify-end">
-                                  {!isPositive && <div className="h-full bg-[#4682EC] rounded-l-sm" style={{ width: `${contributionPercent}%` }} />}
+                              <div className="flex items-center justify-center h-2 w-full mt-0.5">
+                                <div className="w-1/2 flex justify-end h-1.5">
+                                  {!isPositive && <div className="h-1.5 bg-[#4682EC] rounded-l-[2px]" style={{ width: `${contributionPercent}%` }} />}
                                 </div>
                                 <div className="w-px h-2.5 bg-neutral-300"></div>
-                                <div className="w-1/2 flex justify-start">
-                                  {isPositive && <div className="h-full bg-[#EE4B58] rounded-r-sm" style={{ width: `${contributionPercent}%` }} />}
+                                <div className="w-1/2 flex justify-start h-1.5">
+                                  {isPositive && <div className="h-1.5 bg-[#EE4B58] rounded-r-[2px]" style={{ width: `${contributionPercent}%` }} />}
                                 </div>
                               </div>
                             </div>

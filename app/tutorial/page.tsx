@@ -17,25 +17,25 @@ export default function TutorialPage() {
 
   const stepData = tutorialSteps.find((s) => s.step === currentStep);
 
-  // 로컬스토리지에서 기존 진행 단계 불러오기
+  // 로컬스토리지에서 기존 진행 단계 불러오기 (최초 1회만 실행)
   useEffect(() => {
-    if (isLoading) return; // 인증 상태 확인 대기
-    
     const savedStep = localStorage.getItem("tutorial_progress");
     if (savedStep) {
-      let step = parseInt(savedStep, 10);
-      // 로그인 안 했는데 4단계 이상이려 하면 3단계로 강등
-      if (step > 3 && !authenticated) {
-        step = 3; 
-      }
-      setTimeout(() => {
-        setCurrentStep(step);
-      }, 0);
+      const step = parseInt(savedStep, 10);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCurrentStep(step);
     }
-    setTimeout(() => {
-      setIsLoaded(true);
-    }, 0);
-  }, [isLoading, authenticated]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoaded(true);
+  }, []);
+
+  // 인증이 완료되었는데 비로그인 상태로 4단계 이상 진입 시 3단계로 강등
+  useEffect(() => {
+    if (!isLoading && !authenticated && currentStep > 3) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCurrentStep(3);
+    }
+  }, [isLoading, authenticated, currentStep]);
 
   // 진행 단계가 바뀔 때마다 로컬스토리지에 저장
   useEffect(() => {

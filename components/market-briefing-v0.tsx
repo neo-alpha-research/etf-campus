@@ -16,7 +16,6 @@ import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking"
 
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
 
-import { PeerGroupReturns } from "@/components/market-briefing/peer-group-returns";
 
 import { useMarketBriefing, MarketIndex } from "@/lib/hooks/use-market-briefing";
 

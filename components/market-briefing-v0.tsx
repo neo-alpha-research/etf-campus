@@ -512,6 +512,15 @@ export function MarketBriefingV0() {
   const validClasses = briefing.assetClasses.filter(c => c.etf_count >= 10);
   const bestClass = validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? -Infinity) > (prev.aum_weighted_return_pct ?? -Infinity) ? curr : prev, validClasses[0]);
   const worstClass = validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? Infinity) < (prev.aum_weighted_return_pct ?? Infinity) ? curr : prev, validClasses[0]);
+
+  const bestTheme = briefing.peerGroups?.reduce((prev, curr) => 
+    (curr.cappedAumWeightedReturnPct > (prev?.cappedAumWeightedReturnPct ?? -Infinity)) ? curr : prev
+  , briefing.peerGroups[0]);
+
+  const bestInflow = briefing.peerGroups?.reduce((prev, curr) => 
+    ((curr.netInflowValue || 0) > ((prev?.netInflowValue || 0) ?? -Infinity)) ? curr : prev
+  , briefing.peerGroups[0]);
+
   
   let assetClassSentence = "";
   if (worstClass?.aum_weighted_return_pct != null && bestClass?.aum_weighted_return_pct != null) {
@@ -667,46 +676,71 @@ export function MarketBriefingV0() {
 
           
 
-          <div className="grid gap-4 lg:grid-cols-[1fr_2fr] md:grid-cols-[1fr_1.5fr]">
-            {/* Card 1: Market Pulse (Combined Breadth & Return) */}
+                    <div className="grid gap-4 lg:grid-cols-[1fr_2fr] md:grid-cols-[1fr_1.5fr]">
+            {/* Card 1: Today's Highlights */}
             <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:-translate-y-0.5 transition-transform">
               <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[15px]">🌡️</span>
-                  <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">시장 온도</p>
+                <div className="flex items-center gap-1.5 mb-5">
+                  <span className="text-[15px]">🔥</span>
+                  <p className="text-[12px] font-extrabold tracking-wide text-neutral-500">오늘의 시장 하이라이트</p>
                 </div>
-                <div className="mt-4 flex items-end justify-between">
-                  <div>
-                    <span className={`text-[32px] font-extrabold tabular-nums tracking-tight leading-none ${changeTone(pulse.generalAumWeightedReturnPct)}`}>
-                      {signed(pulse.generalAumWeightedReturnPct)}
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span className={`text-lg font-extrabold ${pulse.breadthRatioPct >= 50 ? "text-[#D84957]" : "text-[#247DAA]"}`}>{pulse.marketTemperature}</span>
-                  </div>
+                <div className="space-y-4">
+                  {/* Highlight 1: Best Theme */}
+                  {bestTheme && (
+                    <div className="flex items-center justify-between bg-[#F9FBFC] rounded-xl p-3 border border-[#EDF2DE]">
+                      <div>
+                        <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">수익률 1위 테마</p>
+                        <p className="text-[14px] font-bold text-neutral-800">{bestTheme.peerGroup}</p>
+                      </div>
+                      <span className={`text-[16px] font-extrabold tabular-nums tracking-tight ${changeTone(bestTheme.cappedAumWeightedReturnPct)}`}>
+                        {signed(bestTheme.cappedAumWeightedReturnPct)}
+                      </span>
+                    </div>
+                  )}
+                  {/* Highlight 2: Best Inflow */}
+                  {bestInflow && (
+                    <div className="flex items-center justify-between bg-[#F9FBFC] rounded-xl p-3 border border-[#EDF2DE]">
+                      <div>
+                        <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">순유입 1위 테마</p>
+                        <p className="text-[14px] font-bold text-neutral-800">{bestInflow.peerGroup}</p>
+                      </div>
+                      <span className="text-[16px] font-extrabold tabular-nums tracking-tight text-[#EE4B58]">
+                        +{number.format((bestInflow.netInflowValue || 0) / 100000000)}<span className="text-[12px] opacity-80">억원</span>
+                      </span>
+                    </div>
+                  )}
                 </div>
-              </div>
-              <div className="mt-6">
-                <BreadthBar pulse={pulse} />
               </div>
             </div>
 
             {/* Card 2: Feature (Summary) */}
-            <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col hover:-translate-y-0.5 transition-transform">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[15px]">📊</span>
-                  <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">ETF 요약</p>
+            <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-6 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:-translate-y-0.5 transition-transform">
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-4">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[15px]">💡</span>
+                    <p className="text-[12px] font-extrabold tracking-wide text-neutral-500">3줄 요약 브리핑</p>
+                  </div>
+                  {briefing.disparityWarning && briefing.disparityWarning.length > 0 && (
+                    <span className="inline-flex items-center rounded-full bg-[#FFF5F5] px-2 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">
+                      ⚠️ 괴리율 주의
+                    </span>
+                  )}
                 </div>
-                {briefing.disparityWarning && briefing.disparityWarning.length > 0 && (
-                  <span className="inline-flex items-center rounded-full bg-[#FFF5F5] px-2 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">
-                    ⚠️ 괴리율 주의
-                  </span>
-                )}
+                <div className="space-y-2">
+                  {headline.split('. ').map((sentence, i) => {
+                    if (!sentence) return null;
+                    return (
+                      <div key={i} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#9ACD68] mt-2 shrink-0"></div>
+                        <p className="text-[14px] font-medium leading-relaxed text-neutral-800">
+                          {sentence.trim()}{sentence.endsWith('.') ? '' : '.'}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <p className="mt-4 text-[14px] font-medium leading-relaxed text-neutral-800">
-                {headline}
-              </p>
             </div>
           </div>
         </div>
@@ -718,6 +752,7 @@ export function MarketBriefingV0() {
 
 
       {/* STEP 1: Macro */}
+
 
       {briefing.marketIndices.length > 0 && (
 

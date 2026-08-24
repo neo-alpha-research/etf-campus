@@ -257,245 +257,280 @@
         "etfCount": 5,
         "equalWeightReturnPct": 3.3000000000000003,
         "cappedAumWeightedReturnPct": 3.0,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 281000000000
       },
       {
         "peerGroup": "2차전지",
         "etfCount": 6,
         "equalWeightReturnPct": -2.9699999999999998,
         "cappedAumWeightedReturnPct": -2.6999999999999997,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9900000000
       },
       {
         "peerGroup": "인터넷",
         "etfCount": 7,
         "equalWeightReturnPct": 2.64,
         "cappedAumWeightedReturnPct": 2.4,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9800000000
       },
       {
         "peerGroup": "게임",
         "etfCount": 8,
         "equalWeightReturnPct": -2.3100000000000005,
         "cappedAumWeightedReturnPct": -2.1,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9700000000
       },
       {
         "peerGroup": "은행",
         "etfCount": 9,
         "equalWeightReturnPct": 1.98,
         "cappedAumWeightedReturnPct": 1.7999999999999998,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9600000000
       },
       {
         "peerGroup": "자동차",
         "etfCount": 10,
         "equalWeightReturnPct": -1.6500000000000001,
         "cappedAumWeightedReturnPct": -1.5,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9500000000
       },
       {
         "peerGroup": "조선",
         "etfCount": 11,
         "equalWeightReturnPct": 1.32,
         "cappedAumWeightedReturnPct": 1.2,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9400000000
       },
       {
         "peerGroup": "바이오",
         "etfCount": 12,
         "equalWeightReturnPct": -0.99,
         "cappedAumWeightedReturnPct": -0.8999999999999999,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9300000000
       },
       {
         "peerGroup": "엔터테인먼트",
         "etfCount": 13,
         "equalWeightReturnPct": 0.66,
         "cappedAumWeightedReturnPct": 0.6,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9200000000
       },
       {
         "peerGroup": "방산",
         "etfCount": 14,
         "equalWeightReturnPct": -0.33,
         "cappedAumWeightedReturnPct": -0.3,
-        "assetClass": "주식-국내"
+        "assetClass": "주식-국내",
+        "netInflowValue": 9100000000
       },
       {
         "peerGroup": "미국 테크",
         "etfCount": 5,
         "equalWeightReturnPct": -1.98,
         "cappedAumWeightedReturnPct": -1.7999999999999998,
-        "assetClass": "주식-해외"
+        "assetClass": "주식-해외",
+        "netInflowValue": 112000000000
       },
       {
         "peerGroup": "미국 배당",
         "etfCount": 6,
         "equalWeightReturnPct": 1.6500000000000001,
         "cappedAumWeightedReturnPct": 1.5,
-        "assetClass": "주식-해외"
+        "assetClass": "주식-해외",
+        "netInflowValue": 153000000000
       },
       {
         "peerGroup": "일본 주식",
         "etfCount": 7,
         "equalWeightReturnPct": -1.32,
         "cappedAumWeightedReturnPct": -1.2,
-        "assetClass": "주식-해외"
+        "assetClass": "주식-해외",
+        "netInflowValue": 8800000000
       },
       {
         "peerGroup": "중국 IT",
         "etfCount": 8,
         "equalWeightReturnPct": 0.99,
         "cappedAumWeightedReturnPct": 0.8999999999999999,
-        "assetClass": "주식-해외"
+        "assetClass": "주식-해외",
+        "netInflowValue": 8700000000
       },
       {
         "peerGroup": "인도 주식",
         "etfCount": 9,
         "equalWeightReturnPct": -0.66,
         "cappedAumWeightedReturnPct": -0.6,
-        "assetClass": "주식-해외"
+        "assetClass": "주식-해외",
+        "netInflowValue": 8600000000
       },
       {
         "peerGroup": "글로벌 헬스케어",
         "etfCount": 10,
         "equalWeightReturnPct": 0.33,
         "cappedAumWeightedReturnPct": 0.3,
-        "assetClass": "주식-해외"
+        "assetClass": "주식-해외",
+        "netInflowValue": 8500000000
       },
       {
         "peerGroup": "회사채",
         "etfCount": 5,
         "equalWeightReturnPct": 1.98,
         "cappedAumWeightedReturnPct": 1.7999999999999998,
-        "assetClass": "채권"
+        "assetClass": "채권",
+        "netInflowValue": 8400000000
       },
       {
         "peerGroup": "국채",
         "etfCount": 6,
         "equalWeightReturnPct": -1.6500000000000001,
         "cappedAumWeightedReturnPct": -1.5,
-        "assetClass": "채권"
+        "assetClass": "채권",
+        "netInflowValue": 8300000000
       },
       {
         "peerGroup": "단기자금",
         "etfCount": 7,
         "equalWeightReturnPct": 1.32,
         "cappedAumWeightedReturnPct": 1.2,
-        "assetClass": "채권"
+        "assetClass": "채권",
+        "netInflowValue": 8200000000
       },
       {
         "peerGroup": "미국 장기채",
         "etfCount": 8,
         "equalWeightReturnPct": -0.99,
         "cappedAumWeightedReturnPct": -0.8999999999999999,
-        "assetClass": "채권"
+        "assetClass": "채권",
+        "netInflowValue": 8100000000
       },
       {
         "peerGroup": "미국 단기채",
         "etfCount": 9,
         "equalWeightReturnPct": 0.66,
         "cappedAumWeightedReturnPct": 0.6,
-        "assetClass": "채권"
+        "assetClass": "채권",
+        "netInflowValue": 8000000000
       },
       {
         "peerGroup": "신흥국 채권",
         "etfCount": 10,
         "equalWeightReturnPct": -0.33,
         "cappedAumWeightedReturnPct": -0.3,
-        "assetClass": "채권"
+        "assetClass": "채권",
+        "netInflowValue": 7900000000
       },
       {
         "peerGroup": "금",
         "etfCount": 5,
         "equalWeightReturnPct": -1.6500000000000001,
         "cappedAumWeightedReturnPct": -1.5,
-        "assetClass": "원자재"
+        "assetClass": "원자재",
+        "netInflowValue": 7800000000
       },
       {
         "peerGroup": "원유",
         "etfCount": 6,
         "equalWeightReturnPct": 1.32,
         "cappedAumWeightedReturnPct": 1.2,
-        "assetClass": "원자재"
+        "assetClass": "원자재",
+        "netInflowValue": 7700000000
       },
       {
         "peerGroup": "구리",
         "etfCount": 7,
         "equalWeightReturnPct": -0.99,
         "cappedAumWeightedReturnPct": -0.8999999999999999,
-        "assetClass": "원자재"
+        "assetClass": "원자재",
+        "netInflowValue": 7600000000
       },
       {
         "peerGroup": "은",
         "etfCount": 8,
         "equalWeightReturnPct": 0.66,
         "cappedAumWeightedReturnPct": 0.6,
-        "assetClass": "원자재"
+        "assetClass": "원자재",
+        "netInflowValue": 7500000000
       },
       {
         "peerGroup": "농산물",
         "etfCount": 9,
         "equalWeightReturnPct": -0.33,
         "cappedAumWeightedReturnPct": -0.3,
-        "assetClass": "원자재"
+        "assetClass": "원자재",
+        "netInflowValue": 7400000000
       },
       {
         "peerGroup": "국내 리츠",
         "etfCount": 5,
         "equalWeightReturnPct": 0.99,
         "cappedAumWeightedReturnPct": 0.8999999999999999,
-        "assetClass": "리츠-인프라"
+        "assetClass": "리츠-인프라",
+        "netInflowValue": 7300000000
       },
       {
         "peerGroup": "미국 리츠",
         "etfCount": 6,
         "equalWeightReturnPct": -0.66,
         "cappedAumWeightedReturnPct": -0.6,
-        "assetClass": "리츠-인프라"
+        "assetClass": "리츠-인프라",
+        "netInflowValue": 7200000000
       },
       {
         "peerGroup": "글로벌 인프라",
         "etfCount": 7,
         "equalWeightReturnPct": 0.33,
         "cappedAumWeightedReturnPct": 0.3,
-        "assetClass": "리츠-인프라"
+        "assetClass": "리츠-인프라",
+        "netInflowValue": 7100000000
       },
       {
         "peerGroup": "TDF",
         "etfCount": 5,
         "equalWeightReturnPct": -0.99,
         "cappedAumWeightedReturnPct": -0.8999999999999999,
-        "assetClass": "혼합-자산배분"
+        "assetClass": "혼합-자산배분",
+        "netInflowValue": 7000000000
       },
       {
         "peerGroup": "자산배분",
         "etfCount": 6,
         "equalWeightReturnPct": 0.66,
         "cappedAumWeightedReturnPct": 0.6,
-        "assetClass": "혼합-자산배분"
+        "assetClass": "혼합-자산배분",
+        "netInflowValue": 6900000000
       },
       {
         "peerGroup": "멀티에셋",
         "etfCount": 7,
         "equalWeightReturnPct": -0.33,
         "cappedAumWeightedReturnPct": -0.3,
-        "assetClass": "혼합-자산배분"
+        "assetClass": "혼합-자산배분",
+        "netInflowValue": 6800000000
       },
       {
         "peerGroup": "천연가스",
         "etfCount": 3,
         "equalWeightReturnPct": -1.2,
         "cappedAumWeightedReturnPct": -1.1,
-        "assetClass": "원자재"
+        "assetClass": "원자재",
+        "netInflowValue": 6700000000
       },
       {
         "peerGroup": "팔라듐",
         "etfCount": 2,
         "equalWeightReturnPct": -2.5,
         "cappedAumWeightedReturnPct": -2.8,
-        "assetClass": "원자재"
+        "assetClass": "원자재",
+        "netInflowValue": 6600000000
       }
     ],
     "fundFlow": {

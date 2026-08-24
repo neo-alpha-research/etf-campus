@@ -92,7 +92,15 @@ export function filterEtfsByMode(etfs: readonly Etf[], mode: InvestorMode): Etf[
   if (mode === "pension") return etfs.filter((etf) => etf.riskType === "normal" && etf.pension === "가능");
   if (mode === "derivatives") return etfs.filter((etf) => etf.riskType === "leverage" || etf.riskType === "inverse");
   if (mode === "tdf") return etfs.filter((etf) => etf.name.includes("TDF"));
-  if (mode === "mixed_bonds") return etfs.filter((etf) => etf.assetClass === "혼합·자산배분" && etf.name.includes("채권"));
+  if (mode === "mixed_bonds") {
+    return etfs.filter((etf) => {
+      if (etf.name.includes("TDF")) return false;
+      const isTRF = etf.name.includes("TRF");
+      const isMixedBond = etf.name.includes("채권") && etf.name.includes("혼합");
+      const isMixedAsset = etf.assetClass === "혼합·자산배분";
+      return isTRF || isMixedBond || (isMixedAsset && etf.name.includes("채권"));
+    });
+  }
   return etfs.filter(isNewListing);
 }
 

@@ -653,15 +653,14 @@ export function MarketBriefingV0() {
 
                 <p>ETF 시장은 거시 경제의 영향을 가장 먼저 받습니다. 아래 순서대로 파악해 보세요!</p>
 
-                <ul className="mt-3 space-y-1.5 font-medium">
-
-                  <li><span className="text-[#5A7050]">STEP 1.</span> 거시 지표 (오늘 시장의 배경)</li>
-
-                  <li><span className="text-[#5A7050]">STEP 2.</span> 시장 온도 (전체 ETF의 반응)</li>
-
-                  <li><span className="text-[#5A7050]">STEP 3.</span> 세부 동향 (테마 및 자금 흐름)</li>
-
-                </ul>
+                                  <ul className="mt-3 space-y-1.5 font-medium">
+                    <li><span className="text-[#5A7050]">STEP 1.</span> 거시 지표 (오늘 시장의 배경)</li>
+                    <li><span className="text-[#5A7050]">STEP 2.</span> 시장 온도 (전체 ETF의 반응)</li>
+                    <li><span className="text-[#5A7050]">STEP 3.</span> 세부 동향 (테마 등락률)</li>
+                    <li><span className="text-[#5A7050]">STEP 4.</span> 자금 동향 (일일 순유입)</li>
+                    <li><span className="text-[#5A7050]">STEP 5.</span> 트렌드 (주/월간 순유입)</li>
+                    <li><span className="text-[#5A7050]">STEP 6.</span> 시장 규모 (AUM 추적)</li>
+                  </ul>
 
               </div>
 

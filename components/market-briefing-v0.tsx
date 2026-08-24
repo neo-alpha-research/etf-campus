@@ -527,32 +527,7 @@ export function MarketBriefingV0() {
     concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${decimal.format(pulse.top10TradeSharePct)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
   }
 
-  const generalData = scopeReturns.get('all');
-  const top50Data = scopeReturns.get('top_50');
-  let restReturnPct = pulse.generalAumWeightedReturnPct;
-  if (generalData?.total_aum && top50Data?.total_aum) {
-    const restAum = generalData.total_aum - top50Data.total_aum;
-    if (restAum > 0) {
-      const totalReturnVal = generalData.total_aum * pulse.generalAumWeightedReturnPct;
-      const top50ReturnVal = top50Data.total_aum * pulse.top50AumWeightedReturnPct;
-      restReturnPct = (totalReturnVal - top50ReturnVal) / restAum;
-    }
-  }
-  const isLargeCapBetter = pulse.top50AumWeightedReturnPct > restReturnPct;
-
-  let sizeSentence = "";
-  if (!isPositive && isLargeCapBetter) {
-    sizeSentence = `대형 ETF가 중소형 대비 선방하며 시장을 방어했습니다. `;
-  } else if (!isPositive && !isLargeCapBetter) {
-    sizeSentence = `대형 ETF가 중소형 대비 더 큰 폭으로 하락했습니다. `;
-  } else if (isPositive && isLargeCapBetter) {
-    sizeSentence = `대형 ETF가 시장의 상승을 강하게 주도했습니다. `;
-  } else if (isPositive && !isLargeCapBetter) {
-    sizeSentence = `중소형 ETF가 대형 ETF보다 더 높은 수익률을 기록했습니다. `;
-  }
-
-
-  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개, 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${sizeSentence}${assetClassSentence}${concentrationSentence}`.trim();
+  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개, 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${assetClassSentence}${concentrationSentence}`.trim();
 
 
 

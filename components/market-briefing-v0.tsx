@@ -633,9 +633,7 @@ export function MarketBriefingV0() {
 
               <span className="text-xs font-medium text-neutral-400 border-l border-[#D7EABB] pl-3">{dateLabel(briefing.asOfDate)} 기준</span>
 
-              <p>[STEP 5] 주/월간 자금 트렌드(순유입액)는 펀드의 순자산(AUM) 증감이 아닌, 실제 투자자들의 자금이 들어온 '순설정액(설정액-환매액)'만을 기간별(5일/20일)로 합산해 산출합니다.</p>
-          <p>[STEP 6] 시장 규모 추적 시 '자산 증감(AUM)'은 주가 변동이 포함된 외형 성장을 의미하며, '실질 자금 순유입'은 주가 변동을 제외하고 시장에 새롭게 유입된 순수 현금(순설정액)만을 집계합니다.</p>
-          {briefing.isStale && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">갱신 지연</span>}
+              {briefing.isStale && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">갱신 지연</span>}
 
             </div>
 

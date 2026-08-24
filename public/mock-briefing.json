@@ -728,6 +728,22 @@
         "netInflow": 3100,
         "returnPct": -2.1
       }
-    ]
+    ],
+    "marketScale": {
+      "totalAum": 1580000,
+      "totalEtfCount": 1012,
+      "daily": {
+        "aumChange": -1500,
+        "netInflow": 850
+      },
+      "weekly": {
+        "aumChange": 12500,
+        "netInflow": 18500
+      },
+      "monthly": {
+        "aumChange": 48000,
+        "netInflow": 52000
+      }
+    }
   }
 }

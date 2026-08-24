@@ -522,9 +522,16 @@ export function MarketBriefingV0() {
   , briefing.peerGroups[0]);
 
   
-  let assetClassSentence = "";
-  if (worstClass?.aum_weighted_return_pct != null && bestClass?.aum_weighted_return_pct != null) {
-    assetClassSentence = `자산군별로는 '${worstClass.asset_class}' 부문이 ${signed(worstClass.aum_weighted_return_pct)}로 가장 부진했던 반면, '${bestClass.asset_class}' 부문은 ${signed(bestClass.aum_weighted_return_pct)}로 두각을 나타냈습니다. `;
+    let themeSentence = "";
+  if (briefing.peerGroups && briefing.peerGroups.length >= 6) {
+    const sorted = [...briefing.peerGroups].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
+    const top3 = sorted.slice(0, 3);
+    const bottom3 = sorted.slice(-3).reverse();
+    
+    const topStr = top3.map(t => `${t.peerGroup}(${signed(t.cappedAumWeightedReturnPct)})`).join(", ");
+    const bottomStr = bottom3.map(t => `${t.peerGroup}(${signed(t.cappedAumWeightedReturnPct)})`).join(", ");
+    
+    themeSentence = `오늘 시장을 이끈 주도 테마는 ${topStr}이었으며, 반대로 ${bottomStr} 테마는 가장 부진했습니다. `;
   }
   
   let concentrationSentence = "";
@@ -532,7 +539,7 @@ export function MarketBriefingV0() {
     concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${decimal.format(pulse.top10TradeSharePct)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
   }
 
-  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개, 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${assetClassSentence}${concentrationSentence}`.trim();
+  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${themeSentence}${concentrationSentence}`.trim();
 
 
 

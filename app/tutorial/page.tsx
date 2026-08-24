@@ -100,47 +100,50 @@ export default function TutorialPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex-1 flex items-start gap-3">
                   <span className={`shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-xl font-black text-base mt-0.5 transition-colors ${badgeStyle}`}>
-                    Q{idx + 1}
+                    {isGraded ? "⭕" : `Q${idx + 1}`}
                   </span>
                   <div className="flex-1">
-                    <p className={`font-bold text-base sm:text-lg leading-snug break-keep transition-colors mt-1.5 ${textColor}`}>
-                      {q.text}
-                    </p>
+                    {!isGraded ? (
+                      <p className={`font-bold text-base sm:text-lg leading-snug break-keep transition-colors mt-1.5 ${textColor}`}>
+                        {q.text}
+                      </p>
+                    ) : (
+                      <div className="animate-fade-in-up mt-1">
+                        <p className="text-xs sm:text-sm text-gray-400 line-through mb-1 break-keep">{q.text}</p>
+                        <p className="font-bold text-base sm:text-lg text-green-700 leading-snug break-keep">
+                          💡 {q.correctFeedback.replace("정답입니다! ", "")}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* Game-like Toggle Buttons */}
-                <div className="flex shrink-0 gap-3 sm:self-center self-end pl-12 sm:pl-0">
-                  <button
-                    onClick={() => handleAnswer(q.id, true)}
-                    className={`w-16 h-12 rounded-xl font-black text-xl transition-all duration-200 ${
-                      isSelectedO
-                        ? "bg-blue-500 text-white shadow-inner scale-95 border-b-0 translate-y-1"
-                        : "bg-white text-gray-400 border-2 border-b-4 border-gray-200 hover:border-blue-300 hover:text-blue-500 active:translate-y-1 active:border-b-2"
-                    }`}
-                  >
-                    O
-                  </button>
-                  <button
-                    onClick={() => handleAnswer(q.id, false)}
-                    className={`w-16 h-12 rounded-xl font-black text-xl transition-all duration-200 ${
-                      isSelectedX
-                        ? "bg-red-500 text-white shadow-inner scale-95 border-b-0 translate-y-1"
-                        : "bg-white text-gray-400 border-2 border-b-4 border-gray-200 hover:border-red-300 hover:text-red-500 active:translate-y-1 active:border-b-2"
-                    }`}
-                  >
-                    X
-                  </button>
-                </div>
+                {/* Game-like Toggle Buttons (Hidden when graded) */}
+                {!isGraded && (
+                  <div className="flex shrink-0 gap-3 sm:self-center self-end pl-12 sm:pl-0">
+                    <button
+                      onClick={() => handleAnswer(q.id, true)}
+                      className={`w-16 h-12 rounded-xl font-black text-xl transition-all duration-200 ${
+                        isSelectedO
+                          ? "bg-blue-500 text-white shadow-inner scale-95 border-b-0 translate-y-1"
+                          : "bg-white text-gray-400 border-2 border-b-4 border-gray-200 hover:border-blue-300 hover:text-blue-500 active:translate-y-1 active:border-b-2"
+                      }`}
+                    >
+                      O
+                    </button>
+                    <button
+                      onClick={() => handleAnswer(q.id, false)}
+                      className={`w-16 h-12 rounded-xl font-black text-xl transition-all duration-200 ${
+                        isSelectedX
+                          ? "bg-red-500 text-white shadow-inner scale-95 border-b-0 translate-y-1"
+                          : "bg-white text-gray-400 border-2 border-b-4 border-gray-200 hover:border-red-300 hover:text-red-500 active:translate-y-1 active:border-b-2"
+                      }`}
+                    >
+                      X
+                    </button>
+                  </div>
+                )}
               </div>
-
-              {/* Feedback only shows when successfully graded */}
-              {isGraded && (
-                <div className="mt-4 ml-12 p-3 sm:p-4 rounded-xl bg-green-50 text-sm sm:text-base text-green-900 border border-green-200 font-semibold break-keep animate-fade-in-up">
-                  <span className="font-black mr-1 text-green-600">⭕ 정답해설:</span> 
-                  {q.correctFeedback.replace("정답입니다! ", "")}
-                </div>
-              )}
             </div>
           );
         })}

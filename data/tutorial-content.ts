@@ -6,17 +6,17 @@ export const tutorialSteps = [
     questions: [
       {
         id: "1-1",
-        text: "내 퇴직연금이 'DC형'이라면, 수익률이 떨어졌을 때 회사가 책임져 준다.",
-        answer: false,
-        correctFeedback: "정답입니다! DC형은 전적으로 나의 책임하에 운용됩니다.",
-        incorrectFeedback: "앗! DC형은 회사가 굴려주는 DB형과 달리, 오롯이 내 책임하에 직접 운용해야 하는 계좌입니다."
+        text: "내 퇴직연금이 'DC형'이라면, 운용 결과에 대한 책임은 전적으로 나에게 있다.",
+        answer: true,
+        correctFeedback: "정답입니다! DC형은 회사가 굴려주는 DB형과 달리, 오롯이 내 책임하에 운용됩니다.",
+        incorrectFeedback: "앗! DC형은 전적으로 나의 책임하에 직접 운용해야 하는 계좌입니다."
       },
       {
         id: "1-2",
-        text: "퇴직연금을 은행 예금에만 100% 묻어두면, 물가 상승(인플레이션)을 거뜬히 이길 수 있다.",
-        answer: false,
-        correctFeedback: "정답입니다! 예금 방치로는 물가 상승을 이기기 어렵습니다.",
-        incorrectFeedback: "앗! 현재 예금 금리로는 장기적인 물가 상승률을 따라잡기 벅찹니다. 연금이 서서히 녹아내리게 됩니다."
+        text: "퇴직연금을 은행 예금에만 방치하면, 장기적인 물가 상승(인플레이션)을 방어하기 어렵다.",
+        answer: true,
+        correctFeedback: "정답입니다! 물가 상승률을 따라잡지 못하면 연금의 실질 가치는 서서히 녹아내립니다.",
+        incorrectFeedback: "앗! 현재 예금 금리로는 장기적인 물가 상승률을 이기기 벅찹니다."
       },
       {
         id: "1-3",

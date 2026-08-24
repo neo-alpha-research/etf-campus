@@ -828,10 +828,10 @@ export function MarketBriefingV0() {
             <div className="mt-4 pt-4 border-t border-neutral-200/60">
               <p className="text-[12px] font-medium text-neutral-600 leading-relaxed">
                 {pulse.top10TradeSharePct > 60 
-                  ? "특정 테마로 일반 자금이 극심하게 쏠린 상태입니다." 
+                  ? "상위 10개 종목 비중이 60%를 초과하는 과열(🔴) 상태로, 특정 테마로 자금이 극심하게 쏠려있습니다." 
                   : pulse.top10TradeSharePct > 45 
-                  ? "일부 테마를 중심으로 거래가 활발히 일어나고 있습니다." 
-                  : "다양한 테마로 일반 자금이 건강하게 분산되어 있습니다."}
+                  ? "상위 10개 종목 비중이 45~60% 구간인 주의(🟡) 상태로, 일부 테마를 중심으로 거래가 활발히 일어나고 있습니다." 
+                  : "상위 10개 종목 비중이 45% 이하인 양호(🟢) 상태로, 다양한 테마로 자금이 건강하게 분산되어 있습니다."}
                 {pulse.allTop10TradeSharePct && pulse.allTop10TradeSharePct - pulse.top10TradeSharePct > 15 
                   ? " 레버리지·인버스·파킹형 상품에 거래대금이 편중되어, 실제 체감 유동성은 지표보다 낮을 수 있습니다." 
                   : ""}

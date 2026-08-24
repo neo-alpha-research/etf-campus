@@ -334,7 +334,7 @@ def main() -> None:
     hmac_secret = require_env("PRICE_INGEST_HMAC_SECRET")
     krx_auth_key = require_env("KRX_OPEN_API_KEY")
     as_of_date, etfs = read_master(Path(args.data_dir) / "etf_master_draft.csv")
-    general = [row for row in etfs if row["riskType"] == "normal" and row.get("asset_class") != "금리·파킹"]
+    general = [row for row in etfs if row["riskType"] == "normal" and row.get("assetClass") != "금리·파킹"]
     positive_aum = [row for row in general if row["aumValue"] > 0]
     if not general or not positive_aum:
         raise RuntimeError("ETF master quality validation failed: general ETF/AUM coverage is empty.")

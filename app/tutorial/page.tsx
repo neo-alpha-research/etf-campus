@@ -83,30 +83,34 @@ export default function TutorialPage() {
         </p>
       </div>
 
-      {/* 🎮 Compact Quiz List - Larger Fonts */}
-      <div className="bg-white border-2 border-gray-100 rounded-2xl shadow-sm overflow-hidden">
-        <div className="divide-y divide-gray-100">
-          {stepData.questions.map((q, idx) => {
-            const isSelectedO = answers[q.id] === true;
-            const isSelectedX = answers[q.id] === false;
+      {/* 🎮 Distinct Quiz Cards */}
+      <div className="space-y-4">
+        {stepData.questions.map((q, idx) => {
+          const isSelectedO = answers[q.id] === true;
+          const isSelectedX = answers[q.id] === false;
+          const isAnswered = answers[q.id] !== undefined;
 
-            return (
-              <div key={q.id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-gray-50/50 transition-colors">
-                <div className="flex-1">
-                  <p className="font-bold text-base sm:text-lg text-gray-800 leading-snug flex items-start gap-2 break-keep">
-                    <span className="text-brand-500 font-black">Q{idx + 1}.</span>
-                    {q.text}
-                  </p>
-                  
-                  {isGraded && (
-                    <div className="mt-3 text-sm sm:text-base font-semibold text-green-700 bg-green-50 p-3 rounded-lg border border-green-100 break-keep">
-                      💡 {q.correctFeedback.replace("정답입니다! ", "")}
-                    </div>
-                  )}
+          // 상태별 스타일링 (안 푼 문제 강조, 푼 문제는 차분하게)
+          const cardBg = isAnswered ? "bg-gray-50/70 border-gray-200 shadow-none" : "bg-white border-brand-200 shadow-sm ring-1 ring-brand-50/50";
+          const textColor = isAnswered ? "text-gray-500" : "text-gray-900";
+          const badgeStyle = isAnswered ? "bg-gray-200 text-gray-500" : "bg-brand-500 text-white shadow-sm";
+
+          return (
+            <div key={q.id} className={`p-4 sm:p-5 border-2 rounded-2xl transition-all duration-300 ${cardBg}`}>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex-1 flex items-start gap-3">
+                  <span className={`shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-xl font-black text-base mt-0.5 transition-colors ${badgeStyle}`}>
+                    Q{idx + 1}
+                  </span>
+                  <div className="flex-1">
+                    <p className={`font-bold text-base sm:text-lg leading-snug break-keep transition-colors mt-1.5 ${textColor}`}>
+                      {q.text}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Game-like Toggle Buttons - Larger */}
-                <div className="flex shrink-0 gap-3 sm:self-center self-end">
+                {/* Game-like Toggle Buttons */}
+                <div className="flex shrink-0 gap-3 sm:self-center self-end pl-12 sm:pl-0">
                   <button
                     onClick={() => handleAnswer(q.id, true)}
                     className={`w-16 h-12 rounded-xl font-black text-xl transition-all duration-200 ${
@@ -129,13 +133,21 @@ export default function TutorialPage() {
                   </button>
                 </div>
               </div>
-            );
-          })}
-        </div>
+
+              {/* Feedback only shows when successfully graded */}
+              {isGraded && (
+                <div className="mt-4 ml-12 p-3 sm:p-4 rounded-xl bg-green-50 text-sm sm:text-base text-green-900 border border-green-200 font-semibold break-keep animate-fade-in-up">
+                  <span className="font-black mr-1 text-green-600">⭕ 정답해설:</span> 
+                  {q.correctFeedback.replace("정답입니다! ", "")}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* 🎮 Grading & Action Area */}
-      <div className="pt-2">
+      <div className="pt-4">
         {!isGraded ? (
           <div className={`space-y-3 transition-transform ${shake ? 'animate-shake' : ''}`}>
             <button

@@ -502,9 +502,9 @@ export function MarketBriefingV0() {
 
   const scaleRows = [
     { scope: "all" as const, label: "전체 ETF", value: pulse.generalAumWeightedReturnPct, detail: `일반 ETF ${number.format(pulse.generalEtfCount)}개` },
-    { scope: "top_50" as const, label: "투자금 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "투자금 상위 50개 ETF" },
-    { scope: "top_100" as const, label: "투자금 Top 100", value: pulse.top100AumWeightedReturnPct, detail: "투자금 상위 100개 ETF" },
-    { scope: "top_200" as const, label: "투자금 Top 200", value: pulse.top200AumWeightedReturnPct, detail: "투자금 상위 200개 ETF" },
+    { scope: "top_50" as const, label: "순자산 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "순자산 상위 50개 ETF" },
+    { scope: "top_100" as const, label: "순자산 Top 100", value: pulse.top100AumWeightedReturnPct, detail: "순자산 상위 100개 ETF" },
+    { scope: "top_200" as const, label: "순자산 Top 200", value: pulse.top200AumWeightedReturnPct, detail: "순자산 상위 200개 ETF" },
   ];
 
   const maxScale = Math.max(...scaleRows.map((row) => Math.abs(row.value)), 0.01);
@@ -1083,7 +1083,7 @@ export function MarketBriefingV0() {
 
         <div className="mt-3 space-y-2 leading-6">
 
-          <p>전체·투자금 Top 50·100·200 수익률은 해당 시장 일반 ETF들의 당일 등락률을 투자금으로 가중해 계산하며, 개별 ETF 비중 상한을 적용하지 않습니다.</p>
+          <p>전체·순자산 Top 50·100·200 수익률은 해당 시장 일반 ETF들의 당일 등락률을 투자금으로 가중해 계산하며, 개별 ETF 비중 상한을 적용하지 않습니다.</p>
 
           <p>자산군별 수익률 기여도는 해당 자산군의 AUM 비중과 AUM 가중수익률을 곱해 계산합니다. 일반 ETF에는 레버리지·인버스 및 제외된 ETF가 포함됩니다.</p>
 

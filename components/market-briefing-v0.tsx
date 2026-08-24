@@ -350,7 +350,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
     } else if (index.close <= 0.2) {
       yieldCurveBadge = <span className="ml-1 inline-flex items-center rounded bg-[#FFFBEB] px-1.5 py-0.5 text-[10px] font-bold text-[#D97706] ring-1 ring-inset ring-[#FDE68A]">둔화 경계</span>;
     } else {
-      yieldCurveBadge = <span className="ml-1 inline-flex items-center rounded bg-[#F0FDF4] px-1.5 py-0.5 text-[10px] font-bold text-[#166534] ring-1 ring-inset ring-[#BBF7D0]">성장 기대</span>;
+      yieldCurveBadge = null;
     }
   }
 
@@ -366,7 +366,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
       <div className="flex items-center gap-2.5">
         {emoji && <span className="text-[17px] w-5 text-center">{emoji}</span>}
         <div className="flex items-center gap-1.5">
-          <p className="text-[13px] font-bold text-neutral-800">{index.label}</p>
+          <p className="text-[13px] font-bold text-neutral-800 whitespace-nowrap">{index.label}</p>
           {index.code === "T10Y2Y" && (
             <InfoTooltip text="미국 국채 10년물 금리에서 2년물 금리를 뺀 값입니다. 단기 금리가 장기 금리보다 높아지는 마이너스(-) 상태, 즉 '장단기 금리차 역전' 현상은 역사적으로 경제 침체가 다가온다는 강력한 경고등 역할을 해왔습니다." />
           )}

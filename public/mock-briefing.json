@@ -700,84 +700,22 @@
       "flat_threshold_pct": 0.01,
       "publication_run_id": "c55b87cb-9d9b-42b0-a005-b97e425ef638"
     },
-    "weeklyFundFlows": [
-      {
-        "rank": 1,
-        "peerGroup": "반도체",
-        "netInflow": 3540,
-        "returnPct": 4.5
-      },
-      {
-        "rank": 2,
-        "peerGroup": "미국 테크",
-        "netInflow": 2810,
-        "returnPct": 3.8
-      },
-      {
-        "rank": 3,
-        "peerGroup": "은행",
-        "netInflow": 2100,
-        "returnPct": 2.1
-      },
-      {
-        "rank": 4,
-        "peerGroup": "국고채(10년)",
-        "netInflow": 1250,
-        "returnPct": 0.5
-      },
-      {
-        "rank": 5,
-        "peerGroup": "인도 주식",
-        "netInflow": 840,
-        "returnPct": 1.2
-      }
-    ],
-    "monthlyFundFlows": [
-      {
-        "rank": 1,
-        "peerGroup": "미국 테크",
-        "netInflow": 12500,
-        "returnPct": 8.5
-      },
-      {
-        "rank": 2,
-        "peerGroup": "반도체",
-        "netInflow": 8800,
-        "returnPct": 12.1
-      },
-      {
-        "rank": 3,
-        "peerGroup": "회사채",
-        "netInflow": 5400,
-        "returnPct": 1.8
-      },
-      {
-        "rank": 4,
-        "peerGroup": "미국 배당",
-        "netInflow": 4200,
-        "returnPct": 3.5
-      },
-      {
-        "rank": 5,
-        "peerGroup": "자동차",
-        "netInflow": 3100,
-        "returnPct": -2.1
-      }
-    ],
+    "weeklyFundFlows": [],
+    "monthlyFundFlows": [],
     "marketScale": {
       "totalAum": 1580000,
       "totalEtfCount": 1012,
       "daily": {
-        "aumChange": -1500,
-        "netInflow": 850
+        "aumChange": 0,
+        "netInflow": 0
       },
       "weekly": {
-        "aumChange": 12500,
-        "netInflow": 18500
+        "aumChange": 0,
+        "netInflow": 0
       },
       "monthly": {
-        "aumChange": 48000,
-        "netInflow": 52000
+        "aumChange": 0,
+        "netInflow": 0
       }
     }
   }

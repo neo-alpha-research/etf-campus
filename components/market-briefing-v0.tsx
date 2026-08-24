@@ -158,6 +158,10 @@ const formatWon = (value: number) => {
 
 
 
+function signedInt(value: number) {
+  return `${value >= 0 ? "+" : ""}${number.format(value)}`;
+}
+
 function signed(value: number, unit = "%") {
 
   return `${value >= 0 ? "+" : ""}${decimal.format(value)}${unit}`;
@@ -1141,13 +1145,13 @@ export function MarketBriefingV0() {
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.daily?.aumChange || 0)}`}>
-                    {signed(briefing.marketScale?.daily?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {signedInt(briefing.marketScale?.daily?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
                   </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.daily?.netInflow || 0)}`}>
-                    {signed(briefing.marketScale?.daily?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {signedInt(briefing.marketScale?.daily?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
                   </p>
                 </div>
               </div>
@@ -1163,13 +1167,13 @@ export function MarketBriefingV0() {
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.weekly?.aumChange || 0)}`}>
-                    {signed(briefing.marketScale?.weekly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {signedInt(briefing.marketScale?.weekly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
                   </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.weekly?.netInflow || 0)}`}>
-                    {signed(briefing.marketScale?.weekly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {signedInt(briefing.marketScale?.weekly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
                   </p>
                 </div>
               </div>
@@ -1185,13 +1189,13 @@ export function MarketBriefingV0() {
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.monthly?.aumChange || 0)}`}>
-                    {signed(briefing.marketScale?.monthly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {signedInt(briefing.marketScale?.monthly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
                   </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.monthly?.netInflow || 0)}`}>
-                    {signed(briefing.marketScale?.monthly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {signedInt(briefing.marketScale?.monthly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
                   </p>
                 </div>
               </div>

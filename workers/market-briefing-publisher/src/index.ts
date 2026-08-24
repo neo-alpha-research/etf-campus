@@ -273,16 +273,16 @@ function calculateFundFlow(quotes: any[], previousQuotes: any[]): any {
   const generalResults = [];
   
   for (const q of quotes) {
-    if (!q.aum_value || !q.close_value) continue;
+    if (!q.aum_value || !q.nav_value) continue;
     const prev = prevMap.get(q.ticker);
-    if (!prev || !prev.aum_value || !prev.close_value) continue;
+    if (!prev || !prev.aum_value || !prev.nav_value) continue;
     
-    // Shares Outstanding = AUM / Close
-    const currentShares = q.aum_value / q.close_value;
-    const prevShares = prev.aum_value / prev.close_value;
+    // Shares Outstanding = AUM / NAV (To avoid disparity distortion)
+    const currentShares = q.aum_value / q.nav_value;
+    const prevShares = prev.aum_value / prev.nav_value;
     
-    // Net Inflow = (Current Shares - Prev Shares) * Current Close
-    const netInflow = (currentShares - prevShares) * q.close_value;
+    // Net Inflow = (Current Shares - Prev Shares) * Current NAV
+    const netInflow = (currentShares - prevShares) * q.nav_value;
     
     const row = {
       ticker: q.ticker,

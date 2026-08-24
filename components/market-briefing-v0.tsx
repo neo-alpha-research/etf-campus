@@ -796,106 +796,43 @@ export function MarketBriefingV0() {
           </div>
         </div>
 
-        {/* 3-Card Summary */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-          <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
-            <div className="flex items-center gap-1.5 mb-2">
-              <p className="text-[13px] font-semibold text-neutral-500">전체 ETF 평균 수익률</p>
-              <InfoTooltip text="시가총액(투자금) 비중을 반영한 전체 일반 ETF의 평균 수익률입니다." />
-            </div>
-            <p className={`text-3xl font-extrabold tabular-nums tracking-tight ${changeTone(pulse.generalAumWeightedReturnPct)}`}>{signed(pulse.generalAumWeightedReturnPct)}</p>
-          </article>
-
-          <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
-             <div className="flex items-center gap-1.5 mb-2">
-              <p className="text-[13px] font-semibold text-neutral-500">대형 ETF (Top 50) 수익률</p>
-              <InfoTooltip text="투자금 규모 상위 50개 대형 ETF의 가중 평균 수익률입니다. 전체 평균과 비교하여 대형주의 성과를 가늠할 수 있습니다." />
-            </div>
-            <p className={`text-3xl font-extrabold tabular-nums tracking-tight ${changeTone(pulse.top50AumWeightedReturnPct)}`}>{signed(pulse.top50AumWeightedReturnPct)}</p>
-          </article>
-
-          <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
-             <div className="flex items-center gap-1.5 mb-2">
-              <p className="text-[13px] font-semibold text-neutral-500">상위 10개 거래 집중도</p>
-              <InfoTooltip text="전체 일반 ETF 거래대금 중 상위 10개 종목이 차지하는 비중입니다. 수치가 높을수록 소수 종목에 매매가 쏠려 있음을 의미합니다." />
-            </div>
-            <p className="text-3xl font-extrabold tabular-nums tracking-tight text-neutral-800">{decimal.format(pulse.top10TradeSharePct)}<span className="text-lg font-bold text-neutral-500 ml-1">%</span></p>
-          </article>
-        </div>
-
-        {/* Zero-Axis Bidirectional Bar Chart */}
-        <div className="rounded-[22px] border border-[#D7EABB] bg-white shadow-sm overflow-hidden">
-          <div className="border-b border-[#EDF2DE] px-6 py-5 bg-[#FDFEFB]">
-            <p className="text-lg font-bold text-neutral-900 tracking-tight">규모별 시장 온도차 (대형 vs 중소형)</p>
-            <p className="mt-1 text-[13px] text-neutral-500">투자금 규모에 따른 수익률 차이를 확인하여, 자금이 어느 쪽으로 쏠렸는지 파악하세요.</p>
-          </div>
+        {/* Compact Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-4 mb-8">
           
-          <div className="p-6">
-            {/* Chart Header */}
-            <div className="grid grid-cols-[120px_1fr_120px] sm:grid-cols-[160px_1fr_160px] items-end mb-4 px-2">
-              <div className="text-[11px] font-semibold text-neutral-400">규모 구분</div>
-              <div className="flex justify-between text-[11px] font-semibold text-neutral-400 border-b border-neutral-200 pb-1 px-2 relative">
-                <span>(-) 하락</span>
-                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-neutral-300 transform -translate-x-1/2"></div>
-                <span>(+) 상승</span>
-              </div>
-              <div className="text-[11px] font-semibold text-neutral-400 text-right">평균 수익률</div>
-            </div>
-
-            <div className="space-y-4">
+          {/* Left: The Spectrum of Returns */}
+          <div className="rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_4px_12px_rgba(27,38,26,0.02)] p-5 sm:p-6">
+             <div className="mb-5">
+               <p className="text-[15px] font-bold text-neutral-900 tracking-tight">규모별 시장 온도차</p>
+               <p className="mt-1 text-[13px] text-neutral-500">대형주부터 중소형주까지, 규모별 평균 수익률과 상승/하락 흐름을 비교합니다.</p>
+             </div>
+             
+             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {scaleRows.map((row) => {
                 const scopeData = scopeReturns.get(row.scope);
-                const coverage = scopeData?.aum_coverage_pct;
-                const width = Math.max((Math.abs(row.value) / maxScale) * 100, 2); // min width 2%
-                const isNegative = row.value < 0;
                 
                 return (
-                  <div key={row.scope} className="grid grid-cols-[120px_1fr_120px] sm:grid-cols-[160px_1fr_160px] items-center px-2 group py-2">
-                    <div className="pr-4">
-                      <div className="flex items-center gap-2">
-                        <p className="font-bold text-[13px] text-neutral-800">{row.label}</p>
+                  <div key={row.scope} className="rounded-xl border border-neutral-100 bg-neutral-50/50 p-3 sm:p-4 transition-colors hover:bg-neutral-100/50">
+                    <p className="font-bold text-[13px] text-neutral-800">{row.label}</p>
+                    <p className={`mt-2 text-2xl font-extrabold tabular-nums tracking-tight ${changeTone(row.value)}`}>{signed(row.value)}</p>
+                    {scopeData?.up_count !== undefined && (
+                      <div className="flex flex-col gap-0.5 mt-3 text-[10.5px] font-bold tracking-tight">
+                        <span className="text-[#EE4B58]">상승 {scopeData.up_count}</span>
+                        <span className="text-neutral-400">보합 {scopeData.flat_count}</span>
+                        <span className="text-[#4682EC]">하락 {scopeData.down_count}</span>
                       </div>
-                      <p className="text-[11px] text-neutral-400 mt-0.5">{row.detail}</p>
-                      {scopeData?.up_count !== undefined && (
-                        <div className="flex items-center gap-1.5 mt-1.5 text-[10.5px] font-bold tracking-tight">
-                          <span className="text-[#EE4B58]">상승 {scopeData.up_count}</span>
-                          <span className="text-neutral-400">보합 {scopeData.flat_count}</span>
-                          <span className="text-[#4682EC]">하락 {scopeData.down_count}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Bar Area */}
-                    <div className="relative flex items-center h-8 bg-neutral-50/50 rounded-sm">
-                      {/* Center Zero Line */}
-                      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-neutral-300 z-10 transform -translate-x-1/2"></div>
-                      
-                      <div className="flex-1 flex justify-end pr-1">
-                        {isNegative && (
-                          <div 
-                            className="h-5 bg-[#4682EC] rounded-l-sm transition-all duration-500 ease-out" 
-                            style={{ width: `${width}%` }}
-                          />
-                        )}
-                      </div>
-                      
-                      <div className="flex-1 flex justify-start pl-1">
-                        {!isNegative && (
-                          <div 
-                            className="h-5 bg-[#EE4B58] rounded-r-sm transition-all duration-500 ease-out" 
-                            style={{ width: `${width}%` }}
-                          />
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="pl-4 text-right">
-                      <p className={`text-[15px] font-extrabold tabular-nums tracking-tight ${changeTone(row.value)}`}>{signed(row.value)}</p>
-                    </div>
+                    )}
                   </div>
                 );
               })}
-            </div>
+             </div>
+          </div>
+
+          {/* Right: Concentration */}
+          <div className="rounded-[22px] border border-[#E5E8E2] bg-[#F9FBFC] p-5 sm:p-6 flex flex-col justify-center shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
+             <p className="text-[13px] font-semibold text-neutral-500">거래 쏠림 현상</p>
+             <p className="mt-1 text-base font-bold text-neutral-900">상위 10개 ETF 집중도</p>
+             <p className="mt-3 text-4xl font-extrabold tabular-nums tracking-tight text-neutral-800">{decimal.format(pulse.top10TradeSharePct)}<span className="text-xl font-bold text-neutral-500 ml-1">%</span></p>
+             <p className="mt-2 text-[11px] text-neutral-400">전체 거래대금 중 상위 10개 비중</p>
           </div>
         </div>
       </section>

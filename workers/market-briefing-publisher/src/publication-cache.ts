@@ -22,6 +22,7 @@ type BriefingRow = {
   general_total_aum: number;
   general_total_trade_value: number;
   top10_trade_share_pct: number;
+  all_top10_trade_share_pct: number;
   metrics_json: string;
   source_dates_json: string;
   validation_json: string;

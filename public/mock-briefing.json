@@ -66,6 +66,46 @@
         "change_points": 0.05,
         "change_pct": 1.06,
         "as_of_date": "2026-08-21"
+      },
+      {
+        "code": "VKOSPI",
+        "label": "VKOSPI",
+        "close": 14.5,
+        "change_points": -0.2,
+        "change_pct": -1.2,
+        "as_of_date": "2026-08-21"
+      },
+      {
+        "code": "SPX",
+        "label": "S&P 500",
+        "close": 5200.4,
+        "change_points": 40.1,
+        "change_pct": 0.78,
+        "as_of_date": "2026-08-21"
+      },
+      {
+        "code": "NDX",
+        "label": "나스닥",
+        "close": 18000.5,
+        "change_points": 150.2,
+        "change_pct": 0.84,
+        "as_of_date": "2026-08-21"
+      },
+      {
+        "code": "GC",
+        "label": "금",
+        "close": 2300.5,
+        "change_points": -10.5,
+        "change_pct": -0.4,
+        "as_of_date": "2026-08-21"
+      },
+      {
+        "code": "SI",
+        "label": "은",
+        "close": 28.4,
+        "change_points": 0.2,
+        "change_pct": 0.7,
+        "as_of_date": "2026-08-21"
       }
     ],
     "pulse": {

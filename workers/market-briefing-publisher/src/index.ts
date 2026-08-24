@@ -516,9 +516,9 @@ async function publishSnapshot(
           kospi_close, kospi_change_pct, kosdaq_close, kosdaq_change_pct,
           general_aum_weighted_return_pct, top50_aum_weighted_return_pct, top100_aum_weighted_return_pct, top200_aum_weighted_return_pct,
           general_etf_count, up_count, flat_count, down_count, breadth_ratio_pct, market_temperature,
-          general_total_aum, general_total_trade_value, top10_trade_share_pct,
+          general_total_aum, general_total_trade_value, top10_trade_share_pct, all_top10_trade_share_pct,
           headline_text, headline_generation_status, metrics_json, source_dates_json, validation_json, published_at
-        ) VALUES (?, 'v1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'validated', ?, ?, ?, ?)`,
+        ) VALUES (?, 'v1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'validated', ?, ?, ?, ?)`,
       )
       .bind(
         readiness.as_of_date, readiness.source_run_id, previous?.as_of_date ?? null,

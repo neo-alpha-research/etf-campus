@@ -356,7 +356,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
 
   let emoji = "";
   if (["VIX", "VKOSPI"].includes(index.code)) emoji = "🎢";
-  else if (index.code === "T10Y2Y") emoji = "🚨";
+  
   else if (index.code === "CLF") emoji = "🛢️";
   else if (index.code === "GC") emoji = "🥇";
   else if (index.code === "SI") emoji = "🥈";
@@ -369,6 +369,12 @@ function IndexRow({ index }: { index: MarketIndex }) {
           <p className="text-[13px] font-bold text-neutral-800">{index.label}</p>
           {index.code === "T10Y2Y" && (
             <InfoTooltip text="미국 국채 10년물 금리에서 2년물 금리를 뺀 값입니다. 단기 금리가 장기 금리보다 높아지는 마이너스(-) 상태, 즉 '장단기 금리차 역전' 현상은 역사적으로 경제 침체가 다가온다는 강력한 경고등 역할을 해왔습니다." />
+          )}
+          {index.code === "VIX" && (
+            <InfoTooltip text="미국 S&P 500 지수의 향후 30일간 변동성에 대한 시장의 기대를 나타내는 일명 '공포 지수'입니다. 수치가 상승하면 투자자들의 불안 심리가 커져 주식 시장이 하락할 가능성이 높고, 하락하면 시장이 안정세를 보이고 있음을 의미합니다." />
+          )}
+          {index.code === "VKOSPI" && (
+            <InfoTooltip text="한국 KOSPI 200 옵션 가격을 기반으로 산출된 일명 '공포 지수'입니다. 수치가 상승하면 국내 투자자들의 불안 심리가 커져 주식 시장이 하락할 가능성이 높고, 하락하면 시장이 안정세를 보이고 있음을 의미합니다." />
           )}
         </div>
       </div>

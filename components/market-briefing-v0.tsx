@@ -524,7 +524,7 @@ export function MarketBriefingV0() {
   
   let assetClassSentence = "";
   if (worstClass?.aum_weighted_return_pct != null && bestClass?.aum_weighted_return_pct != null) {
-    assetClassSentence = `섹터별로는 '${worstClass.asset_class}' 부문이 ${signed(worstClass.aum_weighted_return_pct)}로 가장 부진했던 반면, '${bestClass.asset_class}' 부문은 ${signed(bestClass.aum_weighted_return_pct)}로 두각을 나타냈습니다. `;
+    assetClassSentence = `자산군별로는 '${worstClass.asset_class}' 부문이 ${signed(worstClass.aum_weighted_return_pct)}로 가장 부진했던 반면, '${bestClass.asset_class}' 부문은 ${signed(bestClass.aum_weighted_return_pct)}로 두각을 나타냈습니다. `;
   }
   
   let concentrationSentence = "";
@@ -1096,6 +1096,103 @@ export function MarketBriefingV0() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      {/* STEP 6: Market Scale */}
+      <section className="mb-16">
+        <div className="mb-6">
+          <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 6. MARKET SCALE</p>
+            <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">국내 ETF 시장은 성장하고 있을까? (시장 규모)</h2>
+            <p className="mt-1 text-sm text-neutral-500">전체 운용자산(AUM)의 증감과 실제 자금 순유입액을 일/주/월간 단위로 추적합니다.</p>
+          </div>
+        </div>
+
+        <div className="bg-white border border-[#E5E8E2] rounded-[20px] shadow-[0_4px_12px_rgba(27,38,26,0.02)] p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-8 border-b border-neutral-100">
+            <div>
+              <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em] mb-1">국내 상장 ETF 총 운용자산</p>
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-900 tabular-nums">
+                  {number.format(briefing.marketScale?.totalAum || 0)}
+                </span>
+                <span className="text-lg font-bold text-neutral-500">억원</span>
+              </div>
+            </div>
+            <div className="mt-4 sm:mt-0 text-left sm:text-right">
+              <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em] mb-1">총 상장 종목 수</p>
+              <p className="text-2xl font-bold text-neutral-700 tabular-nums">{number.format(briefing.marketScale?.totalEtfCount || 0)}개</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 divide-y md:divide-y-0 md:divide-x divide-neutral-100">
+            {/* 1D */}
+            <div className="pt-6 md:pt-0 md:pr-6 flex flex-col justify-between">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-500 font-extrabold text-[12px]">1D</div>
+                <span className="font-extrabold text-neutral-800 text-[14px]">일간 동향 (전일 대비)</span>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.daily?.aumChange || 0)}`}>
+                    {signed(briefing.marketScale?.daily?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.daily?.netInflow || 0)}`}>
+                    {signed(briefing.marketScale?.daily?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 1W */}
+            <div className="pt-6 md:pt-0 md:px-6 flex flex-col justify-between">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-extrabold text-[12px]">1W</div>
+                <span className="font-extrabold text-neutral-800 text-[14px]">주간 동향 (전주 대비)</span>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.weekly?.aumChange || 0)}`}>
+                    {signed(briefing.marketScale?.weekly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.weekly?.netInflow || 0)}`}>
+                    {signed(briefing.marketScale?.weekly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 1M */}
+            <div className="pt-6 md:pt-0 md:pl-6 flex flex-col justify-between">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-extrabold text-[12px]">1M</div>
+                <span className="font-extrabold text-neutral-800 text-[14px]">월간 동향 (전월 대비)</span>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.monthly?.aumChange || 0)}`}>
+                    {signed(briefing.marketScale?.monthly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.monthly?.netInflow || 0)}`}>
+                    {signed(briefing.marketScale?.monthly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

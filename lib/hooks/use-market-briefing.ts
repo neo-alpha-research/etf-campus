@@ -14,6 +14,7 @@ export type MarketIndex = {
 
 export type PeerGroup = {
   peerGroup: string;
+  assetClass: string;
   etfCount: number;
   equalWeightReturnPct: number;
   cappedAumWeightedReturnPct: number;

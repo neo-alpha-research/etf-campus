@@ -1034,48 +1034,7 @@ export function MarketBriefingV0() {
 
 
 
-          <section aria-labelledby="active-etfs-title" className="rounded-[24px] border border-[#D7EABB] bg-[#F9FBFC] p-6 sm:p-8 shadow-sm">
 
-            <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-
-              <div>
-                <h3 id="active-etfs-title" className="mt-1 text-lg font-extrabold tracking-tight text-neutral-900">오늘 장중 가장 뜨거웠던 ETF (거래대금 TOP 3)</h3>
-                <p className="mt-1 text-sm text-neutral-500">거래가 가장 활발했던 종목들을 확인해 보세요.</p>
-              </div>
-
-              <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />거래대금순 (최상위 3종목)</span>
-
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-3">
-
-              {briefing.focusEtfs.map((etf) => (
-
-                <Link key={etf.ticker} href={`/etf/${etf.ticker}`} className="group rounded-[18px] border border-[#E5E8E2] bg-white p-4 shadow-[0_4px_12px_rgba(27,38,26,0.04)] transition hover:-translate-y-0.5 hover:border-[#B8D598] hover:bg-[#F8FCEB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68]">
-
-                  <div className="flex items-start justify-between gap-3">
-
-                    <span className="text-[11px] font-medium text-neutral-500">{etf.ticker}</span>
-
-                    <span className={`text-sm font-extrabold tabular-nums ${changeTone(etf.change_pct)}`}>{signed(etf.change_pct)}</span>
-
-                  </div>
-
-                  <p className="mt-3 truncate font-extrabold text-neutral-800">{etf.etf_name}</p>
-
-                  <p className="mt-1 truncate text-xs text-neutral-500">{etf.asset_class ?? "미분류"}</p>
-
-                  <p className="mt-4 text-xs text-neutral-500">거래대금 <span className="font-bold text-neutral-700 tabular-nums">{money(etf.trade_value)}</span></p>
-
-                </Link>
-
-              ))}
-
-            </div>
-
-            <p className="mt-4 text-xs text-neutral-500">거래대금은 관심 집중도를 보여주는 지표이며 투자 추천이나 향후 성과를 의미하지 않습니다.</p>
-
-          </section>
 
         </div>
 

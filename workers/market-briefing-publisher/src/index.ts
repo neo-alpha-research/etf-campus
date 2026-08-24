@@ -190,17 +190,23 @@ function calculateAumWeightedReturns(quotes: EtfSnapshot[]): AumWeightedReturn[]
 
 
 function calculatePeerGroups(quotes: any[]): any {
-  const groups = new Map<string, any[]>();
+  const groups = new Map<string, { assetClass: string, rows: any[] }>();
   for (const quote of quotes) {
     if (quote.is_general_etf !== 1) continue;
     const detail = quote.asset_detail?.trim();
     if (!detail) continue;
-    groups.set(detail, [...(groups.get(detail) ?? []), quote]);
+    const existing = groups.get(detail);
+    if (existing) {
+      existing.rows.push(quote);
+    } else {
+      groups.set(detail, { assetClass: quote.asset_class?.trim() || "미분류", rows: [quote] });
+    }
   }
   
   const results = [];
-  for (const [peerGroup, rows] of groups.entries()) {
-    if (rows.length < 5) continue; // 통계적 유의성: 최소 5개 이상
+  for (const [peerGroup, data] of groups.entries()) {
+    const rows = data.rows;
+    if (rows.length < 5) continue; // 최소 5개 이상
     
     // 동일가중 평균
     const equalWeightReturn = rows.reduce((sum, r) => sum + r.change_pct, 0) / rows.length;
@@ -210,22 +216,28 @@ function calculatePeerGroups(quotes: any[]): any {
     let cappedReturn = 0;
     if (totalAum > 0) {
       let sumReturn = 0;
+      let sumWeight = 0;
       for (const r of rows) {
-        let weight = (r.aum_value ?? 0) / totalAum;
-        if (weight > 0.3) weight = 0.3; // Cap at 30%
-        sumReturn += weight * r.change_pct;
+        if (!r.aum_value) continue;
+        let weight = r.aum_value / totalAum;
+        if (weight > 0.3) weight = 0.3; // 30% cap
+        sumReturn += r.change_pct * weight;
+        sumWeight += weight;
       }
-      cappedReturn = sumReturn;
+      cappedReturn = sumWeight > 0 ? sumReturn / sumWeight : 0;
     }
     
     results.push({
       peerGroup,
+      assetClass: data.assetClass,
       etfCount: rows.length,
       equalWeightReturnPct: equalWeightReturn,
       cappedAumWeightedReturnPct: cappedReturn,
     });
   }
-  return results.sort((a, b) => b.equalWeightReturnPct - a.equalWeightReturnPct);
+  
+  results.sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
+  return results;
 }
 
 
@@ -257,10 +269,11 @@ function calculateDisparityWarning(quotes: any[]): any {
 
 function calculateFundFlow(quotes: any[], previousQuotes: any[]): any {
   const prevMap = new Map(previousQuotes.map(q => [q.ticker, q]));
-  const results = [];
+  const allResults = [];
+  const generalResults = [];
   
   for (const q of quotes) {
-    if (q.is_general_etf !== 1 || !q.aum_value || !q.close_value) continue;
+    if (!q.aum_value || !q.close_value) continue;
     const prev = prevMap.get(q.ticker);
     if (!prev || !prev.aum_value || !prev.close_value) continue;
     
@@ -271,17 +284,29 @@ function calculateFundFlow(quotes: any[], previousQuotes: any[]): any {
     // Net Inflow = (Current Shares - Prev Shares) * Current Close
     const netInflow = (currentShares - prevShares) * q.close_value;
     
-    results.push({
+    const row = {
       ticker: q.ticker,
       etfName: q.etf_name,
       netInflowValue: netInflow,
-    });
+    };
+    allResults.push(row);
+    if (q.is_general_etf === 1) {
+      generalResults.push(row);
+    }
   }
   
-  results.sort((a, b) => b.netInflowValue - a.netInflowValue);
+  allResults.sort((a, b) => b.netInflowValue - a.netInflowValue);
+  generalResults.sort((a, b) => b.netInflowValue - a.netInflowValue);
+  
   return {
-    topInflows: results.slice(0, 5),
-    topOutflows: results.slice().reverse().slice(0, 5)
+    general: {
+      topInflows: generalResults.slice(0, 5),
+      topOutflows: generalResults.slice().reverse().slice(0, 5)
+    },
+    all: {
+      topInflows: allResults.slice(0, 5),
+      topOutflows: allResults.slice().reverse().slice(0, 5)
+    }
   };
 }
 

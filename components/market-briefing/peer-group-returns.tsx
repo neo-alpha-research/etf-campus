@@ -1,8 +1,8 @@
-import { PeerGroup } from "@/lib/hooks/use-market-briefing";
+﻿import { PeerGroup } from "@/lib/hooks/use-market-briefing";
 
 function changeTone(value: number) {
-  if (value > 0) return "text-[#62913A]";
-  if (value < 0) return "text-[#358BA3]";
+  if (value > 0) return "text-[#EE4B58]";
+  if (value < 0) return "text-[#4682EC]";
   return "text-neutral-500";
 }
 
@@ -14,72 +14,61 @@ function signed(value: number, unit = "%") {
 export function PeerGroupReturns({ groups }: { groups: PeerGroup[] }) {
   if (!groups || groups.length === 0) return null;
 
-  const topGroups = groups.slice(0, 5);
-  const bottomGroups = groups.slice().reverse().slice(0, 5).filter(g => !topGroups.find(t => t.peerGroup === g.peerGroup));
+  const domestic = groups.filter(g => g.assetClass === "주식-국내" || g.assetClass?.includes("국내"));
+  const overseas = groups.filter(g => g.assetClass === "주식-해외" || g.assetClass?.includes("해외"));
+
+  const renderCard = (title: string, data: PeerGroup[]) => {
+    if (data.length === 0) return null;
+    const sorted = [...data].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
+    const top = sorted.slice(0, 3);
+    const bottom = sorted.slice().reverse().slice(0, 3).filter(g => !top.find(t => t.peerGroup === g.peerGroup));
+
+    return (
+      <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)]">
+        <div className="border-b border-[#EDF2DE] bg-[#F9FBFC] px-4 py-3 sm:px-6 flex items-center justify-between">
+          <h3 className="text-sm font-bold text-neutral-800">{title} 주도 테마</h3>
+          <span className="text-[10px] text-neutral-500 font-medium bg-[#EDF2DE] px-2 py-0.5 rounded-full">TOP / BOTTOM 3</span>
+        </div>
+        <div className="divide-y divide-[#EDF2DE]">
+          {top.map((row, idx) => (
+            <div key={row.peerGroup} className="flex items-center justify-between gap-4 px-5 py-3 hover:bg-neutral-50/50">
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <span className="text-[12px] font-bold text-[#EE4B58]">{idx + 1}</span>
+                <p className="truncate text-sm font-bold text-neutral-900">{row.peerGroup}</p>
+                <span className="text-[11px] text-neutral-400 font-medium">({row.etfCount}종목)</span>
+              </div>
+              <span className={`shrink-0 text-sm font-extrabold tabular-nums ${changeTone(row.cappedAumWeightedReturnPct)}`}>{signed(row.cappedAumWeightedReturnPct)}</span>
+            </div>
+          ))}
+          {bottom.length > 0 && <div className="h-2 bg-[#F9FBFC] border-y border-[#EDF2DE]"></div>}
+          {bottom.map((row, idx) => (
+            <div key={row.peerGroup} className="flex items-center justify-between gap-4 px-5 py-3 hover:bg-neutral-50/50">
+              <div className="flex min-w-0 flex-1 items-center gap-2">
+                <span className="text-[12px] font-bold text-[#4682EC]">▼</span>
+                <p className="truncate text-sm font-bold text-neutral-900">{row.peerGroup}</p>
+                <span className="text-[11px] text-neutral-400 font-medium">({row.etfCount}종목)</span>
+              </div>
+              <span className={`shrink-0 text-sm font-extrabold tabular-nums ${changeTone(row.cappedAumWeightedReturnPct)}`}>{signed(row.cappedAumWeightedReturnPct)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section aria-labelledby="peer-group-title" className="mt-8">
       <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h3 id="peer-group-title" className="text-lg font-extrabold tracking-tight text-neutral-900">오늘 가장 성과가 좋았던 테마는?</h3>
-          <p className="mt-1 text-sm text-neutral-500">수익률이 두드러진 세부 테마(피어그룹)들의 성과입니다.</p>
+          <h3 id="peer-group-title" className="text-lg font-extrabold tracking-tight text-neutral-900">오늘 가장 성과가 좋았던 주식 섹터는?</h3>
+          <p className="mt-1 text-sm text-neutral-500">국내외 주요 주식 테마(피어그룹)의 상승/하락률을 확인해 보세요.</p>
         </div>
         <p className="text-xs text-neutral-500">동일 테마 ETF 5개 이상 그룹 기준 (캡 가중수익률)</p>
       </div>
 
-      <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)]">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-[#EDF2DE] bg-[#F9FBFC]">
-              <tr>
-                <th className="whitespace-nowrap px-4 py-3 font-semibold text-neutral-600 sm:px-6">테마 (유사 집단)</th>
-                <th className="whitespace-nowrap px-4 py-3 text-right font-semibold text-neutral-600 sm:px-6">종목 수</th>
-                <th className="whitespace-nowrap px-4 py-3 text-right font-semibold text-neutral-600 sm:px-6">동일 가중 평균</th>
-                <th className="whitespace-nowrap px-4 py-3 text-right font-semibold text-neutral-600 sm:px-6">
-                  시총 가중 평균
-                  <span className="ml-1 inline-flex items-center justify-center rounded-full bg-neutral-200 px-1.5 py-0.5 text-[10px] text-neutral-700" title="초대형 종목의 지배를 방지하기 위해 단일 종목 최대 비중을 30%로 제한했습니다.">Cap</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#EDF2DE]">
-              {topGroups.map((row, idx) => (
-                <tr key={row.peerGroup} className="transition-colors hover:bg-neutral-50/50">
-                  <td className="whitespace-nowrap px-4 py-3 font-medium text-neutral-900 sm:px-6">
-                    <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#E5F5D5] text-[10px] font-bold text-[#4B7C2A]">{idx + 1}</span>
-                    {row.peerGroup}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right tabular-nums text-neutral-500 sm:px-6">{row.etfCount}</td>
-                  <td className={`whitespace-nowrap px-4 py-3 text-right font-bold tabular-nums sm:px-6 ${changeTone(row.equalWeightReturnPct)}`}>
-                    {signed(row.equalWeightReturnPct)}
-                  </td>
-                  <td className={`whitespace-nowrap px-4 py-3 text-right font-bold tabular-nums sm:px-6 ${changeTone(row.cappedAumWeightedReturnPct)}`}>
-                    {signed(row.cappedAumWeightedReturnPct)}
-                  </td>
-                </tr>
-              ))}
-              {bottomGroups.length > 0 && (
-                <tr className="bg-neutral-50/50">
-                  <td colSpan={4} className="px-4 py-2 text-center text-xs text-neutral-400 sm:px-6">...</td>
-                </tr>
-              )}
-              {bottomGroups.map((row, idx) => (
-                <tr key={row.peerGroup} className="transition-colors hover:bg-neutral-50/50">
-                  <td className="whitespace-nowrap px-4 py-3 font-medium text-neutral-900 sm:px-6">
-                    <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#E9F3F6] text-[10px] font-bold text-[#2C7B90]">▼</span>
-                    {row.peerGroup}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right tabular-nums text-neutral-500 sm:px-6">{row.etfCount}</td>
-                  <td className={`whitespace-nowrap px-4 py-3 text-right font-bold tabular-nums sm:px-6 ${changeTone(row.equalWeightReturnPct)}`}>
-                    {signed(row.equalWeightReturnPct)}
-                  </td>
-                  <td className={`whitespace-nowrap px-4 py-3 text-right font-bold tabular-nums sm:px-6 ${changeTone(row.cappedAumWeightedReturnPct)}`}>
-                    {signed(row.cappedAumWeightedReturnPct)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        {renderCard("국내 주식", domestic)}
+        {renderCard("해외 주식", overseas)}
       </div>
     </section>
   );

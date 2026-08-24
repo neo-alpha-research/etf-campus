@@ -552,21 +552,34 @@ export function MarketBriefingV0() {
   const downRatio = pulse.downCount / pulse.generalEtfCount;
   let breadthSentence = "상승과 하락 종목 수가 팽팽하게 맞서며 시장 방향성을 탐색하고 있습니다.";
   
-  if (upRatio > 0.65) {
-    breadthSentence = "시장 전반에 강한 매수세가 유입되며 대다수 종목이 상승하는 뚜렷한 강세장입니다.";
-  } else if (downRatio > 0.65) {
-    breadthSentence = "시장 전반에 매도세가 쏟아지며 대부분의 종목이 하락하는 뚜렷한 약세장입니다.";
-  } else if (ret > 0) {
-    if (pulse.downCount > pulse.upCount) {
-      breadthSentence = "소수 대형주가 지수를 견인하고 있지만, 하락 종목이 더 많아 실제 체감 온도는 낮습니다.";
+  if (ret > 1.0) {
+    if (upRatio > 0.6) {
+      breadthSentence = "시장 전반에 강한 매수세가 유입되며 다수의 ETF가 동반 상승하는 강세를 보였습니다.";
     } else {
-      breadthSentence = "지수 상승과 함께 상승 종목이 우위를 보이며 전반적으로 온기가 퍼지고 있습니다.";
+      breadthSentence = "지수 대표주 및 일부 테마가 크게 오르며 전체 시장의 강한 상승을 견인했습니다.";
     }
-  } else if (ret < 0) {
-    if (pulse.upCount > pulse.downCount) {
-      breadthSentence = "지수는 하락했지만 상승 종목이 더 많아, 시장 내면의 투자 심리는 비교적 양호합니다.";
+  } else if (ret > 0) {
+    if (upRatio > 0.6) {
+      breadthSentence = "시장 전반적으로 온기가 퍼지며 다수의 ETF가 상승하는 흐름을 보였습니다.";
+    } else if (pulse.downCount > pulse.upCount) {
+      breadthSentence = "가중수익률은 상승했으나 하락한 ETF가 더 많아, 소수 주도 테마에 상승이 집중되었습니다.";
     } else {
-      breadthSentence = "지수 하락과 함께 하락 종목이 우위를 보이며 전반적인 투자 심리가 위축되어 있습니다.";
+      breadthSentence = "상승과 하락이 엇갈리는 가운데, 지수 대표주들의 방어로 소폭 강세를 보였습니다.";
+    }
+  } else if (ret >= -1.0) {
+    if (downRatio > 0.6) {
+      breadthSentence = "대다수의 ETF가 하락을 기록하며 시장 전반이 소폭 약세를 보였습니다.";
+    } else if (pulse.upCount > pulse.downCount) {
+      breadthSentence = "가중수익률은 하락했으나 상승한 ETF가 더 많아, 시장 내면의 투자 심리는 비교적 양호했습니다.";
+    } else {
+      breadthSentence = "뚜렷한 주도 테마가 부재한 가운데, 전반적으로 약보합 흐름을 나타냈습니다.";
+    }
+  } else {
+    // ret < -1.0
+    if (downRatio > 0.6) {
+      breadthSentence = "대부분의 ETF가 일제히 약세를 보이며 시장 전반의 투자 심리가 크게 위축되었습니다.";
+    } else {
+      breadthSentence = "지수 대표주 및 주요 테마의 낙폭이 커지며 전체 시장이 뚜렷한 하락세를 기록했습니다.";
     }
   }
 

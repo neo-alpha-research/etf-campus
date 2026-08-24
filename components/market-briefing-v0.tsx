@@ -535,16 +535,7 @@ export function MarketBriefingV0() {
     sizeSentence = `특히, 시가총액 상위 50개 대표 ETF가 평균 ${signed(pulse.top50AumWeightedReturnPct)} 상승하며 전체 시장의 상승을 강하게 주도했습니다. `;
   }
 
-  let marketPulseInsight = "";
-  if (pulse.generalAumWeightedReturnPct >= 0) {
-    marketPulseInsight = pulse.top50AumWeightedReturnPct > pulse.generalAumWeightedReturnPct 
-      ? "🚀 대형 ETF가 시장 상승을 주도했습니다." 
-      : "🔥 중소형 ETF의 활약이 돋보이는 상승장이었습니다.";
-  } else {
-    marketPulseInsight = pulse.top50AumWeightedReturnPct > pulse.generalAumWeightedReturnPct
-      ? "🛡️ 대형 ETF가 하락장을 선방하며 시장을 방어했습니다."
-      : "📉 대형 ETF의 낙폭이 커지며 시장 하방 압력을 높였습니다.";
-  }
+  const isLargeCapBetter = pulse.top50AumWeightedReturnPct > pulse.generalAumWeightedReturnPct;
 
   const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개, 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${sizeSentence}${assetClassSentence}${concentrationSentence}`.trim();
 
@@ -791,8 +782,36 @@ export function MarketBriefingV0() {
             <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">그래서 ETF 시장은 어땠을까요? (시장 온도)</h2>
             <p className="mt-1 text-sm text-neutral-500">시장 자금 이동과 수익률을 통해 일반 ETF 시장의 온도를 진단합니다.</p>
           </div>
-          <div className="inline-block bg-neutral-100/80 rounded-lg px-4 py-2 mt-2">
-            <p className="text-[14px] font-bold text-neutral-800">{marketPulseInsight}</p>
+          {/* Market Tilt Gauge */}
+          <div className="mt-4 max-w-[400px] bg-[#F9FBFC] border border-[#E5E8E2] rounded-[20px] p-4 flex flex-col items-center shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
+            <p className="text-[10px] font-extrabold text-neutral-400 mb-3 tracking-[0.1em]">MARKET TILT (시장 무게중심)</p>
+            <div className="w-full flex items-center justify-between gap-5 px-2">
+              
+              {/* 대형주 */}
+              <div className={`flex flex-col items-center transition-opacity duration-300 ${isLargeCapBetter ? 'opacity-100' : 'opacity-30 grayscale'}`}>
+                 <div className={`w-9 h-9 rounded-full flex items-center justify-center text-lg shadow-sm ${isLargeCapBetter ? 'bg-emerald-100 border border-emerald-200' : 'bg-neutral-100 border border-neutral-200'}`}>
+                    🐳
+                 </div>
+                 <p className={`mt-2 text-[11px] font-extrabold tracking-tight ${isLargeCapBetter ? 'text-emerald-700' : 'text-neutral-500'}`}>대형주 우세</p>
+              </div>
+
+              {/* 게이지 바 */}
+              <div className="flex-1 h-2.5 bg-neutral-200 rounded-full relative overflow-hidden shadow-inner">
+                <div 
+                  className={`absolute top-0 bottom-0 w-1/2 rounded-full transition-all duration-700 ease-out ${isLargeCapBetter ? 'left-0 bg-emerald-500' : 'left-1/2 bg-emerald-500'}`} 
+                />
+                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/70 z-10 transform -translate-x-1/2" />
+              </div>
+
+              {/* 중소형주 */}
+              <div className={`flex flex-col items-center transition-opacity duration-300 ${!isLargeCapBetter ? 'opacity-100' : 'opacity-30 grayscale'}`}>
+                 <div className={`w-9 h-9 rounded-full flex items-center justify-center text-lg shadow-sm ${!isLargeCapBetter ? 'bg-emerald-100 border border-emerald-200' : 'bg-neutral-100 border border-neutral-200'}`}>
+                    🐟
+                 </div>
+                 <p className={`mt-2 text-[11px] font-extrabold tracking-tight ${!isLargeCapBetter ? 'text-emerald-700' : 'text-neutral-500'}`}>중소형주 우세</p>
+              </div>
+
+            </div>
           </div>
         </div>
 

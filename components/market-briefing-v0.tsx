@@ -987,7 +987,7 @@ export function MarketBriefingV0() {
       {/* STEP 4: Smart Money & Risk */}
       <section>
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
-          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. SMART MONEY & RISK</p>
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. SMART MONEY FLOW</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 자금은 어디로? (일일 동향)</h2>
           <p className="mt-1 text-sm text-neutral-500">스마트머니의 자금 순유입 및 순유출을 통해 일일 자금 흐름을 점검합니다.</p>
         </div>
@@ -995,6 +995,73 @@ export function MarketBriefingV0() {
         <div className="flex flex-col gap-12 sm:gap-16">
           {briefing.fundFlow && <FundFlowRanking fundFlow={briefing.fundFlow} />}
           <DisparityAlert warnings={briefing.disparityWarning} />
+        </div>
+      </section>
+
+      {/* STEP 5: Macro Trends (Weekly / Monthly Fund Flow) */}
+      <section className="mb-16">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
+              <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 5. TREND & FLOW</p>
+              <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">큰 돈의 흐름은 어디로? (주/월간 트렌드)</h2>
+              <p className="mt-1 text-sm text-neutral-500">일간 노이즈를 걷어내고, 국내 ETF 시장으로 구조적 자금이 유입되는 주도 테마를 점검합니다.</p>
+            </div>
+          </div>
+          
+          {/* Tabs */}
+          <div className="flex bg-neutral-100 p-1 rounded-lg self-start sm:self-auto">
+            <button
+              onClick={() => setStep5Tab('weekly')}
+              className={`px-4 py-2 text-[13px] font-bold rounded-md transition-all ${
+                step5Tab === 'weekly' 
+                  ? 'bg-white text-neutral-900 shadow-sm' 
+                  : 'text-neutral-500 hover:text-neutral-700'
+              }`}
+            >
+              주간 동향
+            </button>
+            <button
+              onClick={() => setStep5Tab('monthly')}
+              className={`px-4 py-2 text-[13px] font-bold rounded-md transition-all ${
+                step5Tab === 'monthly' 
+                  ? 'bg-white text-neutral-900 shadow-sm' 
+                  : 'text-neutral-500 hover:text-neutral-700'
+              }`}
+            >
+              월간 동향
+            </button>
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="mb-8 rounded-[20px] bg-white border border-[#E5E8E2] shadow-[0_4px_12px_rgba(27,38,26,0.02)] overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-sm table-fixed">
+              <thead>
+                <tr className="bg-[#F9FBFC] border-b border-[#EDF2DE]">
+                  <th className="w-[10%] py-3 px-6 text-center text-[12px] font-extrabold text-neutral-400 tracking-wider">순위</th>
+                  <th className="w-[40%] py-3 px-6 text-left text-[12px] font-extrabold text-neutral-400 tracking-wider">세부 테마 (피어그룹)</th>
+                  <th className="w-[25%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">순유입액 (억원)</th>
+                  <th className="w-[25%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">누적 수익률 (%)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#EDF2DE]">
+                {(step5Tab === 'weekly' ? briefing.weeklyFundFlows : briefing.monthlyFundFlows)?.map((row) => (
+                  <tr key={row.rank} className="hover:bg-[#F9FBFC] transition-colors group">
+                    <td className="py-3.5 px-6 text-center font-extrabold text-neutral-400 text-[14px]">{row.rank}</td>
+                    <td className="py-3.5 px-6 font-extrabold text-neutral-800 text-[14px]">{row.peerGroup}</td>
+                    <td className="py-3.5 px-6 text-right tabular-nums text-neutral-600 font-semibold">
+                      <span className="text-[#EE4B58] font-bold">+{number.format(row.netInflow)}</span>
+                    </td>
+                    <td className={`py-3.5 px-6 text-right tabular-nums font-bold ${changeTone(row.returnPct)}`}>
+                      {signed(row.returnPct)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 

@@ -906,7 +906,13 @@ export function MarketBriefingV0() {
                 </span>
               </div>
               <div className="overflow-x-auto">
-                <table className="min-w-[500px] w-full text-sm">
+                <table className="w-full text-sm">
+                  <colgroup>
+                    <col className="w-[35%]" />
+                    <col className="w-[25%]" />
+                    <col className="w-[20%]" />
+                    <col className="w-[20%]" />
+                  </colgroup>
                   <thead className="bg-white border-b border-[#EDF2DE] text-[11px] font-extrabold text-[#5A7050]">
                     <tr>
                       <th className="px-5 py-3 text-left">자산군</th>
@@ -919,6 +925,11 @@ export function MarketBriefingV0() {
                     {sortedAssetClasses.map((row) => {
                       const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
                       const isPositive = row.contribution_pct >= 0;
+                      
+                      // Format AUM with 1 decimal for space efficiency
+                      const aum1 = (row.total_aum / 1_000_000_000_000).toFixed(1);
+                      const share1 = row.aum_share_pct.toFixed(1);
+
                       return (
                         <tr key={row.asset_class} className="group transition-colors hover:bg-[#F8FCEB]">
                           <td className="px-5 py-3.5 font-bold text-neutral-800">
@@ -928,24 +939,24 @@ export function MarketBriefingV0() {
                             </span>
                           </td>
                           <td className="px-4 py-3.5 text-right tabular-nums text-neutral-700">
-                            <span className="font-bold">{formatWon(row.total_aum)}</span>
-                            <span className="ml-1 text-[11px] text-neutral-400">({decimal.format(row.aum_share_pct)}%)</span>
+                            <span className="font-bold">{aum1}조</span>
+                            <span className="ml-1 text-[11px] text-neutral-400">({share1}%)</span>
                           </td>
                           <td className={`px-4 py-3.5 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
                             {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
                           </td>
-                          <td className="px-5 py-3.5 w-32">
+                          <td className="px-5 py-3.5">
                             <div className="flex flex-col justify-center gap-1.5">
                               <span className={`text-center text-xs font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
                                 {signed(row.contribution_pct, "%p")}
                               </span>
                               <div className="flex items-center justify-center h-2 w-full mt-0.5">
                                 <div className="w-1/2 flex justify-end h-1.5">
-                                  {!isPositive && <div className="h-1.5 bg-[#4682EC] rounded-l-[2px]" style={{ width: `${contributionPercent}%` }} />}
+                                  {!isPositive && <div className="h-1.5 bg-[#4682EC] rounded-l-[2px]" style={{ width: `${Math.max(contributionPercent, 2)}%` }} />}
                                 </div>
                                 <div className="w-px h-2.5 bg-neutral-300"></div>
                                 <div className="w-1/2 flex justify-start h-1.5">
-                                  {isPositive && <div className="h-1.5 bg-[#EE4B58] rounded-r-[2px]" style={{ width: `${contributionPercent}%` }} />}
+                                  {isPositive && <div className="h-1.5 bg-[#EE4B58] rounded-r-[2px]" style={{ width: `${Math.max(contributionPercent, 2)}%` }} />}
                                 </div>
                               </div>
                             </div>

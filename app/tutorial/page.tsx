@@ -7,93 +7,108 @@ import Link from "next/link";
 export default function TutorialPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [answers, setAnswers] = useState<Record<string, boolean | null>>({});
-  const [showFeedback, setShowFeedback] = useState<Record<string, boolean>>({});
+  const [isGraded, setIsGraded] = useState(false);
+  const [gradeError, setGradeError] = useState(false);
 
   const stepData = tutorialSteps.find((s) => s.step === currentStep);
 
   const handleAnswer = (questionId: string, answer: boolean) => {
+    // Prevent changing answers after successful grading
+    if (isGraded) return;
     setAnswers((prev) => ({ ...prev, [questionId]: answer }));
-    setShowFeedback((prev) => ({ ...prev, [questionId]: true }));
+    setGradeError(false); // Hide error if user is changing an answer
   };
 
-  const isStepComplete = stepData?.questions.every(
-    (q) => answers[q.id] === q.answer
-  );
+  const handleGrade = () => {
+    if (!stepData) return;
+    
+    // Check if all questions are answered
+    const allAnswered = stepData.questions.every((q) => answers[q.id] !== undefined);
+    if (!allAnswered) {
+      alert("모든 문제의 O/X를 선택해 주세요.");
+      return;
+    }
+
+    // Check if all are correct
+    const allCorrect = stepData.questions.every((q) => answers[q.id] === q.answer);
+    if (allCorrect) {
+      setIsGraded(true);
+      setGradeError(false);
+    } else {
+      setGradeError(true);
+    }
+  };
 
   const nextStep = () => {
     if (currentStep === 3) {
-      // Simulate Email Signup Gate
-      alert("진행 상황을 저장하기 위해 이메일 가입이 필요합니다!");
-      // In a real app, open a modal or redirect to signup
+      alert("진도 저장을 위해 이메일 가입이 필요합니다! (가입 게이트 시뮬레이션)");
     }
     setCurrentStep((prev) => Math.min(prev + 1, 10));
+    setAnswers({});
+    setIsGraded(false);
+    setGradeError(false);
   };
 
   if (!stepData) return <div>Loading...</div>;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-8">
+    <div className="max-w-3xl mx-auto p-4 space-y-4">
       {/* Progress Bar */}
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
+      <div className="w-full bg-gray-200 rounded-full h-2">
         <div
-          className="bg-blue-600 h-2.5 rounded-full"
+          className="bg-brand-600 h-2 rounded-full transition-all duration-500"
           style={{ width: `${(currentStep / 10) * 100}%` }}
         ></div>
       </div>
-      <p className="text-sm text-gray-500 font-bold">Step {currentStep} / 10</p>
+      <p className="text-xs text-gray-500 font-bold tracking-wide">Step {currentStep} / 10</p>
 
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold mb-4">{stepData.title}</h1>
-        <p className="text-gray-700 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+      {/* Header - Compacted */}
+      <div className="space-y-2">
+        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900">{stepData.title}</h1>
+        <p className="text-sm text-gray-700 bg-brand-50/50 p-3 rounded-md border-l-4 border-brand-500">
           {stepData.intro}
         </p>
       </div>
 
-      {/* Questions */}
-      <div className="space-y-6">
+      {/* Questions - Compacted */}
+      <div className="space-y-3">
         {stepData.questions.map((q, idx) => {
-          const isCorrect = answers[q.id] === q.answer;
-          const hasAnswered = answers[q.id] !== undefined;
+          const isSelectedO = answers[q.id] === true;
+          const isSelectedX = answers[q.id] === false;
 
           return (
-            <div key={q.id} className="p-4 border rounded-lg shadow-sm bg-white">
-              <p className="font-semibold mb-4">
-                Q{idx + 1}. {q.text}
+            <div key={q.id} className="p-3 border rounded-lg shadow-sm bg-white transition-colors hover:border-gray-300">
+              <p className="font-semibold text-sm text-gray-800 mb-3 leading-snug">
+                <span className="text-brand-600 mr-1">Q{idx + 1}.</span> {q.text}
               </p>
-              <div className="flex space-x-4 mb-4">
+              <div className="flex space-x-2">
                 <button
                   onClick={() => handleAnswer(q.id, true)}
-                  className={`px-6 py-2 rounded-lg font-bold ${
-                    answers[q.id] === true
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 hover:bg-gray-200"
+                  className={`flex-1 py-1.5 rounded-md font-bold text-sm transition-colors border ${
+                    isSelectedO
+                      ? "bg-brand-600 border-brand-600 text-white"
+                      : "bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100"
                   }`}
                 >
                   O
                 </button>
                 <button
                   onClick={() => handleAnswer(q.id, false)}
-                  className={`px-6 py-2 rounded-lg font-bold ${
-                    answers[q.id] === false
-                      ? "bg-red-600 text-white"
-                      : "bg-gray-100 hover:bg-gray-200"
+                  className={`flex-1 py-1.5 rounded-md font-bold text-sm transition-colors border ${
+                    isSelectedX
+                      ? "bg-red-500 border-red-500 text-white"
+                      : "bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100"
                   }`}
                 >
                   X
                 </button>
               </div>
 
-              {/* Feedback */}
-              {showFeedback[q.id] && (
-                <div
-                  className={`p-3 rounded-md text-sm ${
-                    isCorrect
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
-                  }`}
-                >
-                  {isCorrect ? "⭕ " + q.correctFeedback : "❌ " + q.incorrectFeedback}
+              {/* Feedback only shows when successfully graded */}
+              {isGraded && (
+                <div className="mt-3 p-2 rounded bg-green-50 text-xs text-green-800 border border-green-100">
+                  <span className="font-bold mr-1">⭕ 정답입니다!</span> 
+                  {q.correctFeedback.replace("정답입니다! ", "")}
                 </div>
               )}
             </div>
@@ -101,32 +116,40 @@ export default function TutorialPage() {
         })}
       </div>
 
-      {/* Next Step Action */}
-      <div className="pt-6 border-t">
-        {isStepComplete ? (
-          currentStep === 10 ? (
-            <div className="text-center space-y-4">
-              <h2 className="text-2xl font-bold text-green-600">🎉 축하합니다! 모든 과정을 마쳤습니다.</h2>
-              <a
-                href="/downloads/leadmagnet.pdf"
-                download="연금_ETF_핵심요약.pdf"
-                className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:scale-105 transition-transform"
-              >
-                📄 연금 ETF 핵심 Summary PDF 다운로드
-              </a>
-            </div>
-          ) : (
+      {/* Action Area */}
+      <div className="pt-4 border-t">
+        {!isGraded ? (
+          <div className="space-y-3">
             <button
-              onClick={nextStep}
-              className="w-full bg-black text-white font-bold py-4 rounded-xl hover:bg-gray-800 transition"
+              onClick={handleGrade}
+              className="w-full bg-gray-900 text-white font-bold py-3 rounded-lg hover:bg-gray-800 transition shadow-sm text-sm"
             >
-              모두 맞혔습니다! 다음 단계로 넘어가기 👉
+              채점하기
             </button>
-          )
+            {gradeError && (
+              <p className="text-center text-red-500 text-sm font-bold animate-pulse">
+                ❌ 오답이 포함되어 있습니다. 정답을 수정하고 다시 채점해 보세요!
+              </p>
+            )}
+          </div>
+        ) : currentStep === 10 ? (
+          <div className="text-center space-y-4 bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+            <h2 className="text-xl font-bold text-yellow-700">🎉 축하합니다! 10단계를 모두 완주하셨습니다!</h2>
+            <a
+              href="/downloads/연금_ETF_핵심요약.md"
+              download="연금_ETF_핵심요약.md"
+              className="inline-block bg-gradient-to-r from-yellow-500 to-orange-500 text-white font-bold py-3 px-6 rounded-full shadow-md hover:scale-105 transition-transform text-sm"
+            >
+              📄 연금 ETF 핵심 Summary 다운로드
+            </a>
+          </div>
         ) : (
-          <p className="text-center text-gray-500 text-sm">
-            3문제를 모두 맞혀야 다음 스텝이 열립니다. (틀리면 다시 풀 수 있습니다)
-          </p>
+          <button
+            onClick={nextStep}
+            className="w-full bg-brand-600 text-white font-bold py-3 rounded-lg hover:bg-brand-700 transition shadow-md text-sm"
+          >
+            모두 맞혔습니다! 다음 단계로 넘어가기 👉
+          </button>
         )}
       </div>
     </div>

@@ -214,7 +214,9 @@ function changeSurface(value: number) {
 
 function InfoTooltip({ text }: { text: React.ReactNode }) {
 
+
   return (
+
 
     <div className="group relative inline-flex items-center justify-center ml-1">
 
@@ -542,6 +544,17 @@ export function MarketBriefingV0() {
     sizeSentence = `특히, 시가총액 상위 50개 대표 ETF가 평균 ${signed(pulse.top50AumWeightedReturnPct)} 상승하며 전체 시장의 상승을 강하게 주도했습니다. `;
   }
 
+  let marketPulseInsight = "";
+  if (pulse.generalAumWeightedReturnPct >= 0) {
+    marketPulseInsight = pulse.top50AumWeightedReturnPct > pulse.generalAumWeightedReturnPct 
+      ? "🚀 대형 ETF가 시장 상승을 주도했습니다." 
+      : "🔥 중소형 ETF의 활약이 돋보이는 상승장이었습니다.";
+  } else {
+    marketPulseInsight = pulse.top50AumWeightedReturnPct > pulse.generalAumWeightedReturnPct
+      ? "🛡️ 대형 ETF가 하락장을 선방하며 시장을 방어했습니다."
+      : "📉 대형 ETF의 낙폭이 커지며 시장 하방 압력을 높였습니다.";
+  }
+
   const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개, 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${sizeSentence}${assetClassSentence}${concentrationSentence}`.trim();
 
 
@@ -780,120 +793,114 @@ export function MarketBriefingV0() {
 
 
       {/* STEP 2: Market Pulse & My Portfolio */}
-
-      <section aria-labelledby="market-pulse-title" className="space-y-8">
-
-        <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
-
-          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
-
-          <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">그래서 ETF 시장은 어땠을까요? (시장 온도)</h2>
-
-          <p className="mt-1 text-sm text-neutral-500">거시 경제의 변화가 전체 일반 ETF 시장에 미친 영향입니다.</p>
-
+      <section aria-labelledby="market-pulse-title" className="mb-16">
+        <div className="mb-6">
+          <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
+            <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">그래서 ETF 시장은 어땠을까요? (시장 온도)</h2>
+            <p className="mt-1 text-sm text-neutral-500">시장 자금 이동과 수익률을 통해 일반 ETF 시장의 온도를 진단합니다.</p>
+          </div>
+          <div className="inline-block bg-neutral-100/80 rounded-lg px-4 py-2 mt-2">
+            <p className="text-[14px] font-bold text-neutral-800">{marketPulseInsight}</p>
+          </div>
         </div>
 
-        
+        {/* 3-Card Summary */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
+            <div className="flex items-center gap-1.5 mb-2">
+              <p className="text-[13px] font-semibold text-neutral-500">전체 ETF 평균 수익률</p>
+              <InfoTooltip text="시가총액(투자금) 비중을 반영한 전체 일반 ETF의 평균 수익률입니다." />
+            </div>
+            <p className={`text-3xl font-extrabold tabular-nums tracking-tight ${changeTone(pulse.generalAumWeightedReturnPct)}`}>{signed(pulse.generalAumWeightedReturnPct)}</p>
+          </article>
 
-        <div className="grid gap-4 lg:grid-cols-[1fr_1.3fr]">
+          <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
+             <div className="flex items-center gap-1.5 mb-2">
+              <p className="text-[13px] font-semibold text-neutral-500">대형 ETF (Top 50) 수익률</p>
+              <InfoTooltip text="투자금 규모 상위 50개 대형 ETF의 가중 평균 수익률입니다. 전체 평균과 비교하여 대형주의 성과를 가늠할 수 있습니다." />
+            </div>
+            <p className={`text-3xl font-extrabold tabular-nums tracking-tight ${changeTone(pulse.top50AumWeightedReturnPct)}`}>{signed(pulse.top50AumWeightedReturnPct)}</p>
+          </article>
 
-          <div className="flex flex-col gap-4">
+          <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
+             <div className="flex items-center gap-1.5 mb-2">
+              <p className="text-[13px] font-semibold text-neutral-500">상위 10개 거래 집중도</p>
+              <InfoTooltip text="전체 일반 ETF 거래대금 중 상위 10개 종목이 차지하는 비중입니다. 수치가 높을수록 소수 종목에 매매가 쏠려 있음을 의미합니다." />
+            </div>
+            <p className="text-3xl font-extrabold tabular-nums tracking-tight text-neutral-800">{decimal.format(pulse.top10TradeSharePct)}<span className="text-lg font-bold text-neutral-500 ml-1">%</span></p>
+          </article>
+        </div>
 
-            <article className="flex-1 rounded-[22px] border border-[#D7EABB] bg-[#F9FBFC] p-6 shadow-sm">
-
-              <div className="flex items-center gap-2">
-
-                <p className="text-sm font-bold text-neutral-800">일반 ETF 전체 수익률</p>
-
-                <InfoTooltip text="AUM(Asset Under Management)은 ETF에 모인 총 투자금 규모를 의미합니다. 투자금이 클수록 안정적인 운용이 가능합니다." />
-
+        {/* Zero-Axis Bidirectional Bar Chart */}
+        <div className="rounded-[22px] border border-[#D7EABB] bg-white shadow-sm overflow-hidden">
+          <div className="border-b border-[#EDF2DE] px-6 py-5 bg-[#FDFEFB]">
+            <p className="text-lg font-bold text-neutral-900 tracking-tight">규모별 시장 온도차 (대형 vs 중소형)</p>
+            <p className="mt-1 text-[13px] text-neutral-500">투자금 규모에 따른 수익률 차이를 확인하여, 자금이 어느 쪽으로 쏠렸는지 파악하세요.</p>
+          </div>
+          
+          <div className="p-6">
+            {/* Chart Header */}
+            <div className="grid grid-cols-[120px_1fr_120px] sm:grid-cols-[160px_1fr_160px] items-end mb-4 px-2">
+              <div className="text-[11px] font-semibold text-neutral-400">규모 구분</div>
+              <div className="flex justify-between text-[11px] font-semibold text-neutral-400 border-b border-neutral-200 pb-1 px-2 relative">
+                <span>(-) 하락</span>
+                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-neutral-300 transform -translate-x-1/2"></div>
+                <span>(+) 상승</span>
               </div>
-
-              <p className={`mt-4 text-4xl font-extrabold tracking-tight tabular-nums ${changeTone(pulse.generalAumWeightedReturnPct)}`}>{signed(pulse.generalAumWeightedReturnPct)}</p>
-
-              <p className="mt-3 text-xs text-neutral-500">일반 ETF {number.format(pulse.generalEtfCount)}개 · 투자금(AUM) 가중수익률</p>
-
-            </article>
-
-            <div className="grid grid-cols-1 gap-4">
-
-              <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-sm">
-
-                <p className="text-[11px] font-semibold text-neutral-500">거래 쏠림 현상</p>
-
-                <p className="mt-1 text-sm font-bold text-neutral-900">상위 10개 ETF 집중도</p>
-
-                <p className="mt-1 text-xl font-extrabold tabular-nums text-neutral-800">{decimal.format(pulse.top10TradeSharePct)}%</p>
-
-                <p className="mt-2 text-[11px] leading-4 text-neutral-500">전체 거래대금 중 상위 10개 비중</p>
-
-              </article>
-
+              <div className="text-[11px] font-semibold text-neutral-400 text-right">평균 수익률</div>
             </div>
 
-          </div>
-
-
-
-          <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm flex flex-col justify-center">
-
-            <div className="border-b border-[#EDF2DE] px-5 py-4">
-
-              <p className="font-bold text-neutral-900">내 계좌 체감 수익률 비교</p>
-
-              <p className="mt-1 text-xs text-neutral-500">투자금 규모별 상위 ETF의 수익률과 나의 계좌를 비교해보세요.</p>
-
-            </div>
-
-            <div className="divide-y divide-[#EDF2DE]">
-
+            <div className="space-y-4">
               {scaleRows.map((row) => {
-
                 const coverage = scopeReturns.get(row.scope)?.aum_coverage_pct;
-
-                const width = Math.max((Math.abs(row.value) / maxScale) * 100, 4);
-
+                const width = Math.max((Math.abs(row.value) / maxScale) * 100, 2); // min width 2%
+                const isNegative = row.value < 0;
+                
                 return (
-
-                  <div key={row.scope} className="grid gap-3 px-5 py-4 sm:grid-cols-[minmax(140px,1fr)_minmax(100px,1fr)_92px] sm:items-center">
-
-                    <div className="min-w-0">
-
-                      <div className="flex flex-wrap items-center gap-2">
-
-                        <p className="font-bold text-neutral-800">{row.label}</p>
-
-                        {row.tag && <span className="rounded-full bg-[#EEF9DF] px-2 py-0.5 text-[10px] font-bold text-[#547048]">{row.tag}</span>}
-
+                  <div key={row.scope} className="grid grid-cols-[120px_1fr_120px] sm:grid-cols-[160px_1fr_160px] items-center px-2 group">
+                    <div className="pr-4">
+                      <div className="flex items-center gap-2">
+                        <p className="font-bold text-[13px] text-neutral-800">{row.label}</p>
+                        {row.tag && <span className="rounded bg-[#EEF9DF] px-1.5 py-0.5 text-[10px] font-bold text-[#547048]">{row.tag}</span>}
                       </div>
-
-                      <p className="mt-1 text-[11px] text-neutral-500">{row.detail}{coverage !== undefined && ` · AUM 커버리지 ${decimal.format(coverage)}%`}</p>
-
+                      <p className="text-[11px] text-neutral-400 mt-0.5">{row.detail}</p>
                     </div>
 
-                    <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-[#F1F3EF] sm:mt-0">
-
-                      <span className={`block h-full rounded-full ${row.value >= 0 ? "bg-[#D9F4B8]" : "bg-[#B9E6FE]"}`} style={{ width: `${width}%` }} />
-
+                    {/* Bar Area */}
+                    <div className="relative flex items-center h-8 bg-neutral-50/50 rounded-sm">
+                      {/* Center Zero Line */}
+                      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-neutral-300 z-10 transform -translate-x-1/2"></div>
+                      
+                      <div className="flex-1 flex justify-end pr-1">
+                        {isNegative && (
+                          <div 
+                            className="h-5 bg-[#4682EC] rounded-l-sm transition-all duration-500 ease-out" 
+                            style={{ width: `${width}%` }}
+                          />
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 flex justify-start pl-1">
+                        {!isNegative && (
+                          <div 
+                            className="h-5 bg-[#EE4B58] rounded-r-sm transition-all duration-500 ease-out" 
+                            style={{ width: `${width}%` }}
+                          />
+                        )}
+                      </div>
                     </div>
 
-                    <p className={`text-right text-base font-extrabold tabular-nums ${changeTone(row.value)}`}>{signed(row.value)}</p>
-
+                    <div className="pl-4 text-right">
+                      <p className={`text-[15px] font-extrabold tabular-nums tracking-tight ${changeTone(row.value)}`}>{signed(row.value)}</p>
+                    </div>
                   </div>
-
                 );
-
               })}
-
             </div>
-
           </div>
-
         </div>
-
       </section>
-
-
 
       {/* STEP 3: Micro (Asset class, Peer groups, Flow) */}
 

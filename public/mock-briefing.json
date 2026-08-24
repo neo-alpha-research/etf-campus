@@ -86,7 +86,10 @@
           "constituent_count": 1055,
           "total_aum": 426193437599559,
           "aum_coverage_pct": 100,
-          "weighted_return_pct": -0.4279726722774628
+          "weighted_return_pct": -0.4279726722774628,
+          "up_count": 287,
+          "flat_count": 29,
+          "down_count": 739
         },
         {
           "scope": "top_50",
@@ -94,7 +97,10 @@
           "constituent_count": 50,
           "total_aum": 249022309876408,
           "aum_coverage_pct": 58.42940972507027,
-          "weighted_return_pct": -0.053802059498378615
+          "weighted_return_pct": -0.053802059498378615,
+          "up_count": 18,
+          "flat_count": 4,
+          "down_count": 28
         },
         {
           "scope": "top_100",
@@ -102,7 +108,10 @@
           "constituent_count": 100,
           "total_aum": 307381018227075,
           "aum_coverage_pct": 72.12241933107444,
-          "weighted_return_pct": -0.22539486473734152
+          "weighted_return_pct": -0.22539486473734152,
+          "up_count": 32,
+          "flat_count": 6,
+          "down_count": 62
         },
         {
           "scope": "top_200",
@@ -110,7 +119,10 @@
           "constituent_count": 200,
           "total_aum": 362507895091219,
           "aum_coverage_pct": 85.05712737694066,
-          "weighted_return_pct": -0.3225865129069323
+          "weighted_return_pct": -0.3225865129069323,
+          "up_count": 58,
+          "flat_count": 12,
+          "down_count": 130
         }
       ],
       "generalTotalAum": 426193437599559,

@@ -51,19 +51,15 @@ type AssetClass = {
 
 
 type AumWeightedReturn = {
-
   scope: "all" | "top_50" | "top_100" | "top_200";
-
   label: string;
-
   constituent_count: number;
-
   total_aum: number;
-
   aum_coverage_pct: number;
-
   weighted_return_pct: number;
-
+  up_count?: number;
+  flat_count?: number;
+  down_count?: number;
 };
 
 
@@ -505,15 +501,10 @@ export function MarketBriefingV0() {
   const scopeReturns = new Map(pulse.aumWeightedReturns.map((item) => [item.scope, item]));
 
   const scaleRows = [
-
     { scope: "all" as const, label: "전체 ETF", value: pulse.generalAumWeightedReturnPct, detail: `일반 ETF ${number.format(pulse.generalEtfCount)}개` },
-
-    { scope: "top_50" as const, label: "투자금 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "투자금 상위 50개 ETF", tag: "대형 ETF 흐름" },
-
+    { scope: "top_50" as const, label: "투자금 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "투자금 상위 50개 ETF" },
     { scope: "top_100" as const, label: "투자금 Top 100", value: pulse.top100AumWeightedReturnPct, detail: "투자금 상위 100개 ETF" },
-
     { scope: "top_200" as const, label: "투자금 Top 200", value: pulse.top200AumWeightedReturnPct, detail: "투자금 상위 200개 ETF" },
-
   ];
 
   const maxScale = Math.max(...scaleRows.map((row) => Math.abs(row.value)), 0.01);
@@ -853,18 +844,25 @@ export function MarketBriefingV0() {
 
             <div className="space-y-4">
               {scaleRows.map((row) => {
-                const coverage = scopeReturns.get(row.scope)?.aum_coverage_pct;
+                const scopeData = scopeReturns.get(row.scope);
+                const coverage = scopeData?.aum_coverage_pct;
                 const width = Math.max((Math.abs(row.value) / maxScale) * 100, 2); // min width 2%
                 const isNegative = row.value < 0;
                 
                 return (
-                  <div key={row.scope} className="grid grid-cols-[120px_1fr_120px] sm:grid-cols-[160px_1fr_160px] items-center px-2 group">
+                  <div key={row.scope} className="grid grid-cols-[120px_1fr_120px] sm:grid-cols-[160px_1fr_160px] items-center px-2 group py-2">
                     <div className="pr-4">
                       <div className="flex items-center gap-2">
                         <p className="font-bold text-[13px] text-neutral-800">{row.label}</p>
-                        {row.tag && <span className="rounded bg-[#EEF9DF] px-1.5 py-0.5 text-[10px] font-bold text-[#547048]">{row.tag}</span>}
                       </div>
                       <p className="text-[11px] text-neutral-400 mt-0.5">{row.detail}</p>
+                      {scopeData?.up_count !== undefined && (
+                        <div className="flex items-center gap-1.5 mt-1.5 text-[10.5px] font-bold tracking-tight">
+                          <span className="text-[#EE4B58]">상승 {scopeData.up_count}</span>
+                          <span className="text-neutral-400">보합 {scopeData.flat_count}</span>
+                          <span className="text-[#4682EC]">하락 {scopeData.down_count}</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Bar Area */}

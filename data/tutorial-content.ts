@@ -6,10 +6,10 @@ export const tutorialSteps = [
     questions: [
       {
         id: "1-1",
-        text: "내 퇴직연금이 'DC형'이라면, 운용 결과에 대한 책임은 전적으로 나에게 있다.",
+        text: "내 퇴직연금이 'DC형'이라면, 운용 결과에 대한 책임은 전적으로 본인에게 있다.",
         answer: true,
-        correctFeedback: "정답입니다! DC형은 회사가 굴려주는 DB형과 달리, 오롯이 내 책임하에 운용됩니다.",
-        incorrectFeedback: "앗! DC형은 전적으로 나의 책임하에 직접 운용해야 하는 계좌입니다."
+        correctFeedback: "정답입니다! DC형은 회사가 굴려주는 DB형과 달리, 오롯이 가입자 본인의 책임하에 운용됩니다.",
+        incorrectFeedback: "앗! DC형은 전적으로 본인의 책임하에 직접 운용해야 하는 계좌입니다."
       },
       {
         id: "1-2",
@@ -62,7 +62,7 @@ export const tutorialSteps = [
     questions: [
       {
         id: "3-1",
-        text: "퇴직연금(DC형) 계좌는 내 마음대로 전체 금액의 100%를 모두 주식형 ETF에 투자할 수 있다.",
+        text: "퇴직연금(DC형) 계좌는 가입자 마음대로 전체 금액의 100%를 모두 주식형 ETF에 투자할 수 있다.",
         answer: false,
         correctFeedback: "정답입니다! 법적으로 위험자산 한도가 정해져 있습니다.",
         incorrectFeedback: "앗! 법적으로 퇴직연금은 최대 70%까지만 위험자산(주식형 등)에 투자할 수 있도록 보호 한도를 두고 있습니다."
@@ -72,7 +72,7 @@ export const tutorialSteps = [
         text: "의무적으로 남겨야 하는 30%의 안전자산은 폭락장이 왔을 때 계좌가 녹아내리지 않게 막아주는 '에어백' 역할을 한다.",
         answer: true,
         correctFeedback: "정답입니다! 30%는 수익률 훼방꾼이 아니라 든든한 방어 축입니다.",
-        incorrectFeedback: "앗! 30%의 안전자산은 하락장에서 내 멘탈과 계좌를 버티게 해주는 가장 든든한 방어 축입니다."
+        incorrectFeedback: "앗! 30%의 안전자산은 하락장에서 투자자의 멘탈과 계좌를 버티게 해주는 가장 든든한 방어 축입니다."
       },
       {
         id: "3-3",

@@ -778,7 +778,7 @@ export function MarketBriefingV0() {
         <div className="mb-6">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
-            <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 시장의 체감 온도는? (시장 심리)</h2>
+            <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 시장의 체감 온도는? (체감 지표)</h2>
             <p className="mt-1 text-sm text-neutral-500">수익률 분포와 시장 거래대금 쏠림 현상을 통해 일반 ETF 시장의 온도를 진단합니다.</p>
           </div>
         </div>          {/* 2-Pillar Dashboard Layout */}
@@ -882,8 +882,8 @@ export function MarketBriefingV0() {
       <section>
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 3. MICRO TRENDS</p>
-          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 자산과 테마가 주도했을까요? (세부 동향)</h2>
-          <p className="mt-1 text-sm text-neutral-500">자산군별 뼈대 흐름과 이를 주도한 세부 테마(피어그룹)들의 성과입니다.</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 자산과 테마가 주도? (세부 동향)</h2>
+          <p className="mt-1 text-sm text-neutral-500">자산군별 뼈대 흐름과 이를 주도한 세부 테마들의 성과입니다.</p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">

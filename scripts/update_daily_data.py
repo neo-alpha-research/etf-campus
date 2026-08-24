@@ -381,6 +381,17 @@ def as_float(value: object) -> float | None:
     return float(compact_number(value))
 
 
+
+def calculate_net_inflow(today_aum: float, yesterday_aum: float, daily_return_pct: float) -> float:
+    """
+    Quant Expert Logic: Calculate Daily Net Inflow handling split/merges implicitly.
+    Net Inflow = Today AUM - [ Yesterday AUM * (1 + Daily Return) ]
+    """
+    if yesterday_aum <= 0:
+        return 0.0
+    natural_growth = yesterday_aum * (1 + (daily_return_pct / 100.0))
+    return today_aum - natural_growth
+
 def resolve_aum_value(api: dict, existing: dict) -> str:
     """Use a positive current net-asset value, otherwise retain the last verified value."""
     for candidate in (api.get("nPptTotAmt"), existing.get("aum")):

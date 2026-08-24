@@ -528,11 +528,14 @@ export function MarketBriefingV0() {
   }
 
   let sizeSentence = "";
-  const diff = pulse.top50AumWeightedReturnPct - pulse.generalAumWeightedReturnPct;
-  if (!isPositive && diff > 0.05) {
-    sizeSentence = `다만, 시가총액 상위 50개 대표 ETF는 평균 ${signed(pulse.top50AumWeightedReturnPct)} 하락에 그쳐 중소형 테마 ETF 대비 높은 방어력을 보였습니다. `;
-  } else if (isPositive && diff > 0.05) {
-    sizeSentence = `특히, 시가총액 상위 50개 대표 ETF가 평균 ${signed(pulse.top50AumWeightedReturnPct)} 상승하며 전체 시장의 상승을 강하게 주도했습니다. `;
+  if (!isPositive && isLargeCapBetter) {
+    sizeSentence = `대형 ETF가 중소형 대비 선방하며 시장을 방어했습니다. `;
+  } else if (!isPositive && !isLargeCapBetter) {
+    sizeSentence = `대형 ETF가 중소형 대비 더 큰 폭으로 하락했습니다. `;
+  } else if (isPositive && isLargeCapBetter) {
+    sizeSentence = `대형 ETF가 시장의 상승을 강하게 주도했습니다. `;
+  } else if (isPositive && !isLargeCapBetter) {
+    sizeSentence = `중소형 ETF가 대형 ETF보다 더 높은 수익률을 기록했습니다. `;
   }
 
   const isLargeCapBetter = pulse.top50AumWeightedReturnPct > pulse.generalAumWeightedReturnPct;
@@ -547,35 +550,19 @@ export function MarketBriefingV0() {
 
   let dynamicTitle = "상승과 하락이 팽팽하게 맞서며 혼조세를 보인 하루였습니다 ⚖️";
 
-  
-
-  if (ret <= -1.0 && br <= 30) {
-
-    dynamicTitle = "파란불이 시장 전체를 덮은 강한 하락장이었습니다 📉";
-
-  } else if (ret <= -0.3 && br < 50) {
-
-    dynamicTitle = "하락 종목이 우세한 가운데 전반적인 약세를 보였습니다 📉";
-
-  } else if (ret >= 1.0 && br >= 70) {
-
-    dynamicTitle = "빨간불이 시장 전체를 덮은 강한 상승장이었습니다 📈";
-
-  } else if (ret >= 0.3 && br > 50) {
-
-    dynamicTitle = "상승 종목이 우세한 가운데 전반적인 강세를 보였습니다 📈";
-
-  } else if (br < 50) {
-
-    dynamicTitle = "하락 종목이 조금 더 많아 주의가 필요한 하루였습니다 🌧️";
-
-  } else if (br > 50) {
-
-    dynamicTitle = "상승 종목이 조금 더 많은 훈훈한 하루였습니다 ☀️";
-
+  if (ret < 0) {
+    if (isLargeCapBetter) {
+      dynamicTitle = "대형주가 방어력을 뽐내며 하락장을 선방한 하루였습니다 🛡️";
+    } else {
+      dynamicTitle = "대형주의 낙폭이 커지며 시장이 전반적으로 무거웠던 하루였습니다 📉";
+    }
+  } else {
+    if (isLargeCapBetter) {
+      dynamicTitle = "대형주가 든든하게 시장의 상승을 주도한 하루였습니다 🐳";
+    } else {
+      dynamicTitle = "중소형주의 활약이 돋보이며 시장을 달군 하루였습니다 🔥";
+    }
   }
-
-
 
   return (
 

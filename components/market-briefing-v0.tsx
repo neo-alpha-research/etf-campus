@@ -807,9 +807,9 @@ export function MarketBriefingV0() {
                   </div>
                 </div>
 
-                {/* 전체 ETF 기준 (파킹/레버리지 포함) */}
+                {/* 전체 ETF 기준 (파킹/레버리지/인버스 포함) */}
                 <div className="bg-white rounded-xl p-3 border border-neutral-100 shadow-sm">
-                  <p className="text-[11px] font-bold text-neutral-400 mb-1">전체 ETF (레버·파킹 포함)</p>
+                  <p className="text-[11px] font-bold text-neutral-400 mb-1">전체 ETF (레버·인버스·파킹 포함)</p>
                   <div className="flex items-center gap-1.5">
                     <p className="text-2xl font-extrabold tabular-nums tracking-tight text-neutral-500">
                       {pulse.allTop10TradeSharePct ? decimal.format(pulse.allTop10TradeSharePct) : '—'}<span className="text-sm font-bold text-neutral-300 ml-0.5">%</span>
@@ -833,7 +833,7 @@ export function MarketBriefingV0() {
                   ? "일부 테마를 중심으로 거래가 활발히 일어나고 있습니다." 
                   : "다양한 테마로 일반 자금이 건강하게 분산되어 있습니다."}
                 {pulse.allTop10TradeSharePct && pulse.allTop10TradeSharePct - pulse.top10TradeSharePct > 15 
-                  ? " 레버리지·파킹형 상품에 거래대금이 편중되어, 실제 체감 유동성은 지표보다 낮을 수 있습니다." 
+                  ? " 레버리지·인버스·파킹형 상품에 거래대금이 편중되어, 실제 체감 유동성은 지표보다 낮을 수 있습니다." 
                   : ""}
               </p>
             </div>

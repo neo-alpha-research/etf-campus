@@ -87,6 +87,7 @@ export type MarketBriefing = {
     generalTotalAum: number;
     generalTotalTradeValue: number;
     top10TradeSharePct: number;
+    allTop10TradeSharePct: number;
   };
 assetClasses: AssetClass[];
   peerGroupVersion?: string | null;

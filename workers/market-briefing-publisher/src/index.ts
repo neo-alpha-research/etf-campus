@@ -60,6 +60,7 @@ type Pulse = {
   generalTotalAum: number;
   generalTotalTradeValue: number;
   top10TradeSharePct: number;
+  allTop10TradeSharePct: number;
   aumCoveragePct: number;
 };
 
@@ -138,6 +139,13 @@ function calculatePulse(quotes: EtfSnapshot[], flatThreshold: number): Pulse {
     .sort((left, right) => right.trade_value - left.trade_value)
     .slice(0, 10)
     .reduce((sum, quote) => sum + quote.trade_value, 0);
+
+  const allTotalTradeValue = quotes.reduce((sum, quote) => sum + quote.trade_value, 0);
+  const allTop10TradeValue = [...quotes]
+    .sort((left, right) => right.trade_value - left.trade_value)
+    .slice(0, 10)
+    .reduce((sum, quote) => sum + quote.trade_value, 0);
+
   return {
     generalEtfCount: general.length,
     upCount,
@@ -148,6 +156,7 @@ function calculatePulse(quotes: EtfSnapshot[], flatThreshold: number): Pulse {
     generalTotalAum: withAum.reduce((sum, quote) => sum + (quote.aum_value ?? 0), 0),
     generalTotalTradeValue,
     top10TradeSharePct: generalTotalTradeValue === 0 ? 0 : (top10TradeValue / generalTotalTradeValue) * 100,
+    allTop10TradeSharePct: allTotalTradeValue === 0 ? 0 : (allTop10TradeValue / allTotalTradeValue) * 100,
     aumCoveragePct: general.length ? (withAum.length / general.length) * 100 : 0,
   };
 }
@@ -466,6 +475,7 @@ async function publishSnapshot(
       general_total_aum: pulse.generalTotalAum,
       general_total_trade_value: pulse.generalTotalTradeValue,
       top10_trade_share_pct: pulse.top10TradeSharePct,
+      all_top10_trade_share_pct: pulse.allTop10TradeSharePct,
       aum_coverage_pct: pulse.aumCoveragePct,
     },
     peer_groups: peerGroups,
@@ -490,7 +500,7 @@ async function publishSnapshot(
         kospi.close_value, kospi.change_pct, kosdaq.close_value, kosdaq.change_pct,
         all.weightedReturnPct, top50.weightedReturnPct, top100.weightedReturnPct, top200.weightedReturnPct,
         pulse.generalEtfCount, pulse.upCount, pulse.flatCount, pulse.downCount, pulse.breadthRatioPct, pulse.marketTemperature,
-        pulse.generalTotalAum, pulse.generalTotalTradeValue, pulse.top10TradeSharePct,
+        pulse.generalTotalAum, pulse.generalTotalTradeValue, pulse.top10TradeSharePct, pulse.allTop10TradeSharePct,
         buildHeadline(pulse, indices), asJson(metrics),
         asJson({ etf: readiness.etf_as_of_date, kospi: readiness.kospi_as_of_date, kosdaq: readiness.kosdaq_as_of_date }),
         asJson({ readiness: JSON.parse(readiness.validation_json), aum_coverage_pct: pulse.aumCoveragePct, flat_threshold_pct: flatThreshold, publication_run_id: publicationRunId }),

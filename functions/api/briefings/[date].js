@@ -63,6 +63,7 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         generalTotalAum: briefing.general_total_aum,
         generalTotalTradeValue: briefing.general_total_trade_value,
         top10TradeSharePct: briefing.top10_trade_share_pct,
+        allTop10TradeSharePct: briefing.all_top10_trade_share_pct,
       },
       assetClasses: assetClasses.results ?? [],
       focusEtfs: focusEtfs.results ?? [],

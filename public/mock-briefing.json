@@ -127,7 +127,8 @@
       ],
       "generalTotalAum": 426193437599559,
       "generalTotalTradeValue": 13737295682157,
-      "top10TradeSharePct": 70.69345820085852
+      "top10TradeSharePct": 70.69345820085852,
+      "allTop10TradeSharePct": 82.5
     },
     "assetClasses": [
       {

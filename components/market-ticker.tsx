@@ -52,14 +52,14 @@ export function MarketTicker() {
   const excludedLabels = ["VKOSPI", "금 선물", "은 선물"];
   const indices = (indicesData.indices as MarketIndex[]).filter(idx => !excludedLabels.includes(idx.label));
   
-  // Convert 20260821 to 8월 21일
+  // Convert 20260821 to 2026년 8월 21일
   const formattedDate = baseDateStr
-    ? `${parseInt(baseDateStr.substring(4, 6))}월 ${parseInt(baseDateStr.substring(6, 8))}일`
+    ? `${baseDateStr.substring(0, 4)}년 ${parseInt(baseDateStr.substring(4, 6))}월 ${parseInt(baseDateStr.substring(6, 8))}일`
     : "";
 
   return (
     <div className="border-b border-line bg-neutral-50 flex justify-center">
-      <div className="page-shell scrollbar-none flex items-center gap-x-3 overflow-x-auto py-1.5 sm:gap-x-4">
+      <div className="page-shell scrollbar-none flex justify-center items-center gap-x-3 overflow-x-auto py-1.5 sm:gap-x-4">
         {formattedDate && (
           <span className="flex items-center gap-1.5 shrink-0 text-[11px] leading-none tracking-tight sm:text-xs">
             <span className="tabular-nums font-bold text-strong">{formattedDate}</span>

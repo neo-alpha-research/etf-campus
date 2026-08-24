@@ -326,10 +326,14 @@ function IndexCard({ index }: { index: MarketIndex }) {
   const isDown = change < 0;
   
   const isVol = index.code === "VIX" || index.code === "VKOSPI";
+  const isBondYield = index.code === "KR10Y" || index.code === "DGS10";
   
   let bgClass = "bg-white border-[#D7EABB]";
   if (isVol) {
     bgClass = isUp ? "bg-gradient-to-br from-white to-[#FFFBEB] border-[#FDE68A]" : isDown ? "bg-gradient-to-br from-white to-[#F0FDF4] border-[#BBF7D0]" : "bg-white border-[#D7EABB]";
+  } else if (isBondYield) {
+    // 금리가 오르면(Up) 채권 가격 하락이므로 푸른색(Blue), 하락하면(Down) 붉은색(Red)
+    bgClass = isUp ? "bg-gradient-to-br from-white to-[#F0F8FF] border-[#B9DDF2]" : isDown ? "bg-gradient-to-br from-white to-[#FFF5F5] border-[#F3C5C9]" : "bg-white border-[#D7EABB]";
   } else {
     bgClass = isUp ? "bg-gradient-to-br from-white to-[#FFF5F5] border-[#F3C5C9]" : isDown ? "bg-gradient-to-br from-white to-[#F0F8FF] border-[#B9DDF2]" : "bg-white border-[#D7EABB]";
   }
@@ -337,7 +341,11 @@ function IndexCard({ index }: { index: MarketIndex }) {
   let surfaceClass = changeSurface(change);
   if (isVol) {
     surfaceClass = isUp ? "bg-[#FEF3C7] text-[#D97706] ring-[#FDE68A]" : isDown ? "bg-[#DCFCE7] text-[#166534] ring-[#BBF7D0]" : "bg-neutral-100 text-neutral-500 ring-neutral-200";
+  } else if (isBondYield) {
+    surfaceClass = isUp ? "bg-[#EFF8FF] text-[#175CD3] ring-[#B2DDFF]" : isDown ? "bg-[#FEF3F2] text-[#B42318] ring-[#FECDCA]" : "bg-neutral-100 text-neutral-500 ring-neutral-200";
   }
+
+  const trendIcon = isUp ? <TrendingUp className="w-3 h-3" /> : isDown ? <TrendingDown className="w-3 h-3" /> : null;
 
   let unit = "";
   if (["KOSPI", "KOSDAQ", "SPX", "NDX"].includes(index.code)) unit = "pt";
@@ -348,20 +356,25 @@ function IndexCard({ index }: { index: MarketIndex }) {
   let yieldCurveBadge = null;
   if (index.code === "T10Y2Y") {
     if (index.close < 0) {
-      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#FFF5F5] px-1.5 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">경기침체 경고 (금리역전)</span>;
+      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#FFF5F5] px-1.5 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">침체 경고 (역전)</span>;
     } else if (index.close <= 0.2) {
-      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#FFFBEB] px-1.5 py-0.5 text-[10px] font-bold text-[#D97706] ring-1 ring-inset ring-[#FDE68A]">경기둔화 주의 (격차축소)</span>;
+      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#FFFBEB] px-1.5 py-0.5 text-[10px] font-bold text-[#D97706] ring-1 ring-inset ring-[#FDE68A]">둔화 경계 (평탄화)</span>;
     } else {
-      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#F0FDF4] px-1.5 py-0.5 text-[10px] font-bold text-[#166534] ring-1 ring-inset ring-[#BBF7D0]">경제성장 기대 (정상)</span>;
+      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#F0FDF4] px-1.5 py-0.5 text-[10px] font-bold text-[#166534] ring-1 ring-inset ring-[#BBF7D0]">성장 기대 (정상)</span>;
     }
   }
 
   return (
     <article className={`rounded-[18px] border p-4 shadow-sm transition-all hover:-translate-y-0.5 ${bgClass}`}>
       <div className="flex items-start justify-between gap-3">
-        <p className="text-sm font-bold text-neutral-800">{index.label}</p>
+        <div className="flex items-center gap-1.5">
+          <p className="text-sm font-bold text-neutral-800">{index.label}</p>
+          {index.code === "T10Y2Y" && (
+            <InfoTooltip text="미국 국채 10년물 금리에서 2년물 금리를 뺀 값입니다. 단기 금리가 장기 금리보다 높아지는 마이너스(-) 상태, 즉 '장단기 금리차 역전' 현상은 역사적으로 경제 침체가 다가온다는 강력한 경고등 역할을 해왔습니다." />
+          )}
+        </div>
         <span className={`flex items-center gap-0.5 rounded-full px-2 py-1 text-[11px] font-bold ring-1 ${surfaceClass}`}>
-          {isUp ? <TrendingUp className="w-3 h-3" /> : isDown ? <TrendingDown className="w-3 h-3" /> : null}
+          {trendIcon}
           {signed(change)}
         </span>
       </div>
@@ -370,7 +383,7 @@ function IndexCard({ index }: { index: MarketIndex }) {
         {unit && <span className="ml-0.5 mb-[2px] text-xs font-semibold text-neutral-500">{unit}</span>}
         {yieldCurveBadge}
       </p>
-      <p className="mt-1.5 text-[11px] text-neutral-500">기준일 {dateLabel(index.as_of_date)}</p>
+      <p className="mt-1.5 text-[11px] text-neutral-500">· {dateLabel(index.as_of_date)}</p>
     </article>
   );
 }
@@ -506,23 +519,31 @@ export function MarketBriefingV0() {
 
   const maxContribution = Math.max(...sortedAssetClasses.map((row) => Math.abs(row.contribution_pct)), 0.01);
 
-  const isPositive = pulse.generalAumWeightedReturnPct >= 0;
+    const isPositive = pulse.generalAumWeightedReturnPct >= 0;
   
-  // 두 번째 요약 문장 생성 로직 (주도 자산군 파악)
   const validClasses = briefing.assetClasses.filter(c => c.etf_count >= 10);
   const bestClass = validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? -Infinity) > (prev.aum_weighted_return_pct ?? -Infinity) ? curr : prev, validClasses[0]);
   const worstClass = validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? Infinity) < (prev.aum_weighted_return_pct ?? Infinity) ? curr : prev, validClasses[0]);
   
-  let subHeadline = "";
-  if (pulse.generalAumWeightedReturnPct < 0 && worstClass?.aum_weighted_return_pct != null && bestClass?.aum_weighted_return_pct != null) {
-    subHeadline = ` 특히 '${worstClass.asset_class}' 부문이 ${signed(worstClass.aum_weighted_return_pct)}로 가장 부진${bestClass.aum_weighted_return_pct > 0.5 ? `한 반면, '${bestClass.asset_class}' 부문은 ${signed(bestClass.aum_weighted_return_pct)}로 선방했습니다.` : '했습니다.'}`;
-  } else if (pulse.generalAumWeightedReturnPct > 0 && bestClass?.aum_weighted_return_pct != null) {
-    subHeadline = ` 특히 '${bestClass.asset_class}' 부문이 ${signed(bestClass.aum_weighted_return_pct)}로 시장을 이끌었습니다.`;
-  } else if (bestClass?.aum_weighted_return_pct != null && bestClass.aum_weighted_return_pct > 0.5) {
-    subHeadline = ` 이런 장세 속에서도 '${bestClass.asset_class}' 부문은 ${signed(bestClass.aum_weighted_return_pct)}로 돋보였습니다.`;
+  let assetClassSentence = "";
+  if (worstClass?.aum_weighted_return_pct != null && bestClass?.aum_weighted_return_pct != null) {
+    assetClassSentence = `섹터별로는 '${worstClass.asset_class}' 부문이 ${signed(worstClass.aum_weighted_return_pct)}로 가장 부진했던 반면, '${bestClass.asset_class}' 부문은 ${signed(bestClass.aum_weighted_return_pct)}로 두각을 나타냈습니다. `;
+  }
+  
+  let concentrationSentence = "";
+  if (pulse.top10TradeSharePct > 40) {
+    concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${decimal.format(pulse.top10TradeSharePct)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
   }
 
-  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}, 보합 ${pulse.flatCount}, 하락 ${pulse.downCount}개, 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승하며 강세를' : '하락하며 약세를'} 보였습니다.${subHeadline}`;
+  let sizeSentence = "";
+  const diff = pulse.top50AumWeightedReturnPct - pulse.generalAumWeightedReturnPct;
+  if (!isPositive && diff > 0.05) {
+    sizeSentence = `다만, 시가총액 상위 50개 대표 ETF는 평균 ${signed(pulse.top50AumWeightedReturnPct)} 하락에 그쳐 중소형 테마 ETF 대비 높은 방어력을 보였습니다. `;
+  } else if (isPositive && diff > 0.05) {
+    sizeSentence = `특히, 시가총액 상위 50개 대표 ETF가 평균 ${signed(pulse.top50AumWeightedReturnPct)} 상승하며 전체 시장의 상승을 강하게 주도했습니다. `;
+  }
+
+  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개, 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${sizeSentence}${assetClassSentence}${concentrationSentence}`.trim();
 
 
 

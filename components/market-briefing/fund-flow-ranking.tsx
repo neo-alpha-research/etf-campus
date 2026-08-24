@@ -15,8 +15,8 @@ export function FundFlowRanking({ fundFlow }: { fundFlow: { topInflows: FundFlow
     <section aria-labelledby="fund-flow-title">
       <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">FUND FLOW</p>
-          <h2 id="fund-flow-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 가장 돈이 많이 몰린 ETF</h2>
+          <h3 id="fund-flow-title" className="text-lg font-extrabold tracking-tight text-neutral-900">어느 테마로 돈이 몰렸을까요? (순자산 유입)</h3>
+          <p className="mt-1 text-sm text-neutral-500">실제로 뭉칫돈이 들어오고 나간 종목들을 확인해 보세요.</p>
         </div>
         <p className="text-xs text-neutral-500">실질 자금 순유입/순유출 (발행 좌수 증감 기반)</p>
       </div>

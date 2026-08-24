@@ -21,8 +21,8 @@ export function PeerGroupReturns({ groups }: { groups: PeerGroup[] }) {
     <section aria-labelledby="peer-group-title" className="mt-8">
       <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">THEMATIC RETURNS</p>
-          <h2 id="peer-group-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 가장 뜨거웠던 테마는?</h2>
+          <h3 id="peer-group-title" className="text-lg font-extrabold tracking-tight text-neutral-900">오늘 가장 성과가 좋았던 테마는?</h3>
+          <p className="mt-1 text-sm text-neutral-500">수익률이 두드러진 세부 테마(피어그룹)들의 성과입니다.</p>
         </div>
         <p className="text-xs text-neutral-500">동일 테마 ETF 5개 이상 그룹 기준 (캡 가중수익률)</p>
       </div>

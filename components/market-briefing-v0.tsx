@@ -919,48 +919,12 @@ export function MarketBriefingV0() {
 
             </div>
 
-            <div className="grid overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm lg:grid-cols-[0.9fr_1.1fr]">
-
-              <div className="border-b border-[#EDF2DE] p-5 lg:border-b-0 lg:border-r sm:p-6">
-
-                <p className="text-sm font-bold text-neutral-800">기여도 읽기</p>
-
-                <p className="mt-1 text-xs leading-5 text-neutral-500">자산군의 AUM 비중과 가중수익률을 곱해 전체 일반 ETF 수익률에 미친 기여도를 계산합니다.</p>
-
-                <div className="mt-6 space-y-4">
-
-                  {sortedAssetClasses.map((row) => {
-
-                    const percent = (Math.abs(row.contribution_pct) / maxContribution) * 50;
-
-                    const positive = row.contribution_pct >= 0;
-
-                    return (
-
-                      <div key={row.asset_class} className="grid grid-cols-[86px_1fr_62px] items-center gap-3">
-
-                        <span className="truncate text-xs font-semibold text-neutral-700">{row.asset_class}</span>
-
-                        <div className="relative h-2.5 rounded-full bg-[#F1F3EF]" aria-label={`${row.asset_class} 수익률 기여도 ${signed(row.contribution_pct, "%p")}`}>
-
-                          <span className="absolute left-1/2 top-[-3px] h-4 w-px bg-neutral-300" />
-
-                          <span className={`absolute top-0 h-full rounded-full ${positive ? "bg-[#C6ECA0]" : "bg-[#A9DCE9]"}`} style={positive ? { left: "50%", width: `${percent}%` } : { right: "50%", width: `${percent}%` }} />
-
-                        </div>
-
-                        <span className={`text-right text-xs font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>{signed(row.contribution_pct, "%p")}</span>
-
-                      </div>
-
-                    );
-
-                  })}
-
-                </div>
-
+            <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm">
+              <div className="px-5 py-3 border-b border-[#EDF2DE] bg-[#F8FCEB] flex items-center justify-between">
+                <span className="text-xs text-neutral-600">
+                  자산군의 AUM 비중과 가중수익률을 곱해 전체 일반 ETF 수익률에 미친 <strong className="text-neutral-800">수익률 기여도</strong>를 계산합니다.
+                </span>
               </div>
-
               <div className="overflow-x-auto">
 
                 <table className="min-w-[620px] w-full text-sm">
@@ -1021,11 +985,8 @@ export function MarketBriefingV0() {
                             <div className="absolute inset-y-0 right-0 -z-10 bg-[#F5FBE7] opacity-0 transition-opacity group-hover:opacity-100 w-full" />
 
                             <div
-
-                              className={`absolute inset-y-1.5 right-2 -z-10 rounded-md opacity-40 ${isPositive ? "bg-[#C6ECA0]" : "bg-[#A9DCE9]"}`}
-
+                              className={`absolute inset-y-1.5 right-2 -z-10 rounded-md opacity-20 ${isPositive ? "bg-[#EE4B58]" : "bg-[#4682EC]"}`}
                               style={{ width: `calc(${Math.max(contributionPercent, 2)}% - 1rem)` }}
-
                             />
 
                             {signed(row.contribution_pct, "%p")}
@@ -1052,7 +1013,18 @@ export function MarketBriefingV0() {
 
           <PeerGroupReturns groups={briefing.peerGroups} />
 
+        </div>
+      </section>
 
+      {/* STEP 4: Smart Money & Risk */}
+      <section>
+        <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. SMART MONEY & RISK</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장의 돈은 어디로 움직였을까요?</h2>
+          <p className="mt-1 text-sm text-neutral-500">스마트머니의 순자산 유입과 거래대금, 그리고 주의해야 할 리스크 지표입니다.</p>
+        </div>
+
+        <div className="flex flex-col gap-12 sm:gap-16">
 
           <FundFlowRanking fundFlow={briefing.fundFlow} />
 
@@ -1067,11 +1039,8 @@ export function MarketBriefingV0() {
             <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
 
               <div>
-
-                <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">ACTIVE TRADING</p>
-
-                <h3 id="active-etfs-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">오늘 가장 활발하게 거래된 ETF</h3>
-
+                <h3 id="active-etfs-title" className="mt-1 text-lg font-extrabold tracking-tight text-neutral-900">오늘 장중 가장 뜨거웠던 ETF (거래대금 TOP 3)</h3>
+                <p className="mt-1 text-sm text-neutral-500">거래가 가장 활발했던 종목들을 확인해 보세요.</p>
               </div>
 
               <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />거래대금순 (최상위 3종목)</span>
@@ -1135,8 +1104,7 @@ export function MarketBriefingV0() {
         <div className="mt-3 space-y-2 leading-6">
 
           <p>전체·순자산 Top 50·100·200 수익률은 해당 시장 일반 ETF들의 당일 등락률을 투자금으로 가중해 계산하며, 개별 ETF 비중 상한을 적용하지 않습니다.</p>
-
-          <p>자산군별 수익률 기여도는 해당 자산군의 AUM 비중과 AUM 가중수익률을 곱해 계산합니다. 일반 ETF에는 레버리지·인버스 및 제외된 ETF가 포함됩니다.</p>
+          <p>자산군별 수익률 기여도는 해당 자산군의 AUM 비중과 AUM 가중수익률을 곱해 계산합니다. 일반 ETF는 레버리지, 인버스, 파킹형 상품을 제외한 순수 시장/테마형 ETF만을 의미합니다.</p>
 
           {briefing.isStale && <p>현재 화면의 데이터는 {number.format(briefing.staleDays)}일 이전 데이터이므로 갱신 지연 상태로 표시됩니다.</p>}
 

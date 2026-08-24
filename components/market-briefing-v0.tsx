@@ -1123,9 +1123,9 @@ export function MarketBriefingV0() {
               <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em] mb-1">국내 상장 ETF 총 운용자산</p>
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-900 tabular-nums">
-                  {number.format(briefing.marketScale?.totalAum || 0)}
+                  {number.format(Math.floor((briefing.marketScale?.totalAum || 0) / 10000))}
                 </span>
-                <span className="text-lg font-bold text-neutral-500">억원</span>
+                <span className="text-lg font-bold text-neutral-500">조원</span>
               </div>
             </div>
             <div className="mt-4 sm:mt-0 text-left sm:text-right">

@@ -129,23 +129,20 @@ export default function TutorialPage() {
             </span>
           </div>
         </div>
-        <div className="overflow-hidden h-3 mb-4 text-xs flex rounded-full bg-gray-200">
+        <div className="overflow-hidden h-3 text-xs flex rounded-full bg-gray-200">
           <div
             style={{ width: `${(currentStep / 10) * 100}%` }}
             className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-brand-500 to-indigo-500 transition-all duration-700"
           ></div>
         </div>
+        {!(currentStep === 10 && isGraded) && (
+          <div className="text-right mt-1.5 mb-4">
+            <span className="text-[11px] sm:text-xs font-semibold text-orange-500">
+              🎁 튜토리얼 완주 시 <span className="underline underline-offset-2">연금 ETF 운용 체크리스트</span> 지급!
+            </span>
+          </div>
+        )}
       </div>
-
-      {/* 보상 안내 배너 (모티베이션) */}
-      {!(currentStep === 10 && isGraded) && (
-        <div className="bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-100 rounded-xl p-3 flex items-center justify-center gap-2 mt-2 mb-4 shadow-sm">
-          <span className="text-xl animate-bounce">🎁</span>
-          <p className="text-sm sm:text-base font-bold text-orange-800 break-keep text-center">
-            모든 레벨 클리어 시 <span className="underline decoration-orange-300 decoration-2 underline-offset-4">연금 ETF 운용 체크리스트(PDF)</span> 100% 지급!
-          </p>
-        </div>
-      )}
 
       {/* 🎮 Header */}
       <div className="text-center space-y-3 pb-2">

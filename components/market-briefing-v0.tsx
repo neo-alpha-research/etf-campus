@@ -823,11 +823,16 @@ export function MarketBriefingV0() {
                 const scopeData = scopeReturns.get(row.scope);
                 
                 return (
-                  <div key={row.scope} className="rounded-xl border border-neutral-100 bg-neutral-50/50 p-3 sm:p-4 transition-colors hover:bg-neutral-100/50">
-                    <p className="font-bold text-[13px] text-neutral-800">{row.label}</p>
-                    <p className={`mt-2 text-2xl font-extrabold tabular-nums tracking-tight ${changeTone(row.value)}`}>{signed(row.value)}</p>
+                  <div key={row.scope} className="rounded-xl border border-neutral-100 bg-neutral-50/50 p-3 sm:p-4 transition-colors hover:bg-neutral-100/50 flex flex-col h-full">
+                    <div>
+                      <p className="font-bold text-[13px] text-neutral-800">{row.label}</p>
+                      {scopeData?.total_aum && (
+                        <p className="text-[10px] text-neutral-400 mt-0.5 font-medium">총 {money(scopeData.total_aum)}</p>
+                      )}
+                    </div>
+                    <p className={`mt-3 text-2xl font-extrabold tabular-nums tracking-tight ${changeTone(row.value)}`}>{signed(row.value)}</p>
                     {scopeData?.up_count !== undefined && (
-                      <div className="flex flex-col gap-0.5 mt-3 text-[10.5px] font-bold tracking-tight">
+                      <div className="flex flex-col gap-0.5 mt-auto pt-4 text-[10.5px] font-bold tracking-tight">
                         <span className="text-[#EE4B58]">상승 {scopeData.up_count}</span>
                         <span className="text-neutral-400">보합 {scopeData.flat_count}</span>
                         <span className="text-[#4682EC]">하락 {scopeData.down_count}</span>

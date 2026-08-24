@@ -18,6 +18,7 @@ export type PeerGroup = {
   etfCount: number;
   equalWeightReturnPct: number;
   cappedAumWeightedReturnPct: number;
+  netInflowValue?: number;
 };
 
 export type FundFlowRow = {
@@ -97,8 +98,18 @@ export type MarketBriefing = {
     general: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
     all: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
   };
+  weeklyFundFlows?: FlowTrendRow[];
+  monthlyFundFlows?: FlowTrendRow[];
+  marketScale?: any;
   disparityWarning: DisparityWarning[];
   focusEtfs: FocusEtf[];
+};
+
+export type FlowTrendRow = {
+  rank: number;
+  peerGroup: string;
+  netInflow: number;
+  returnPct: number;
 };
 
 type BriefingApiResponse = {

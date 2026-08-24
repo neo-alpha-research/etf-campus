@@ -190,14 +190,11 @@ function dateLabel(value?: string) {
 
 
 
-function changeTone(value: number) {
-
+function changeTone(value?: number | null) {
+  if (!value) return "text-neutral-500";
   if (value > 0) return "text-[#D92D20]";
-
   if (value < 0) return "text-[#175CD3]";
-
   return "text-neutral-500";
-
 }
 
 

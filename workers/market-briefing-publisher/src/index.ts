@@ -291,7 +291,7 @@ function calculateAssetClasses(quotes: EtfSnapshot[], flatThreshold: number): As
   const totalTrade = general.reduce((sum, quote) => sum + quote.trade_value, 0);
   const groups = new Map<string, EtfSnapshot[]>();
   for (const quote of general) {
-    const assetClass = quote.asset_class?.trim() || "미분류";
+    const assetClass = quote.asset_detail?.trim() || quote.asset_class?.trim() || "미분류";
     groups.set(assetClass, [...(groups.get(assetClass) ?? []), quote]);
   }
   return [...groups.entries()].map(([assetClass, rows]) => {

@@ -150,6 +150,12 @@ const number = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 });
 
 const decimal = new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+const formatWon = (value: number) => {
+  if (value >= 1e12) return decimal.format(value / 1e12) + "조원";
+  if (value >= 1e8) return number.format(value / 1e8) + "억원";
+  return number.format(value) + "원";
+};
+
 
 
 function signed(value: number, unit = "%") {
@@ -965,7 +971,7 @@ export function MarketBriefingV0() {
 
                       <th className="px-5 py-3 text-left">자산군</th>
 
-                      <th className="px-4 py-3 text-right">AUM 비중</th>
+                      <th className="px-4 py-3 text-right">AUM 금액(비중)</th>
 
                       <th className="px-4 py-3 text-right">가중수익률</th>
 
@@ -1000,9 +1006,8 @@ export function MarketBriefingV0() {
                           </td>
 
                           <td className="relative z-10 px-4 py-4 text-right tabular-nums text-neutral-700">
-
-                            {decimal.format(row.aum_share_pct)}%
-
+                            <span className="font-bold">{formatWon(row.total_aum)}</span>
+                            <span className="ml-1 text-[11px] text-neutral-500">({decimal.format(row.aum_share_pct)}%)</span>
                           </td>
 
                           <td className={`relative z-10 px-4 py-4 text-right font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>

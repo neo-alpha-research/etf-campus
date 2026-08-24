@@ -89,10 +89,13 @@ export type MarketBriefing = {
     top10TradeSharePct: number;
     allTop10TradeSharePct: number;
   };
-assetClasses: AssetClass[];
+  assetClasses: AssetClass[];
   peerGroupVersion?: string | null;
   peerGroups: PeerGroup[];
-  fundFlow: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
+  fundFlow?: {
+    general: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
+    all: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
+  };
   disparityWarning: DisparityWarning[];
   focusEtfs: FocusEtf[];
 };

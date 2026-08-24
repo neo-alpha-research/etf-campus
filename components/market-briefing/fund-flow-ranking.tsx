@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FundFlowRow } from "@/lib/hooks/use-market-briefing";
 
 function money(value: number) {
@@ -8,8 +9,19 @@ function money(value: number) {
   return `${decimal.format(value)}원`;
 }
 
-export function FundFlowRanking({ fundFlow }: { fundFlow: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] } }) {
-  if (!fundFlow || (!fundFlow.topInflows?.length && !fundFlow.topOutflows?.length)) return null;
+type FundFlowData = { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
+
+export function FundFlowRanking({ fundFlow }: { fundFlow: { general: FundFlowData; all: FundFlowData } | FundFlowData }) {
+  const [activeTab, setActiveTab] = useState<"general" | "all">("general");
+
+  if (!fundFlow) return null;
+
+  // Handle old format or new format gracefully
+  const generalData = "general" in fundFlow ? fundFlow.general : fundFlow;
+  const allData = "all" in fundFlow ? fundFlow.all : fundFlow;
+  const currentData = activeTab === "general" ? generalData : allData;
+
+  if (!currentData || (!currentData.topInflows?.length && !currentData.topOutflows?.length)) return null;
 
   return (
     <section aria-labelledby="fund-flow-title">
@@ -21,11 +33,34 @@ export function FundFlowRanking({ fundFlow }: { fundFlow: { topInflows: FundFlow
         <p className="text-xs text-neutral-500">실질 자금 순유입/순유출 (발행 좌수 증감 기반)</p>
       </div>
 
+      <div className="mb-4 flex space-x-2">
+        <button
+          onClick={() => setActiveTab("general")}
+          className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
+            activeTab === "general"
+              ? "bg-[#5A7050] text-white shadow-sm"
+              : "bg-white text-neutral-500 hover:bg-neutral-100 border border-neutral-200"
+          }`}
+        >
+          일반 테마 ETF
+        </button>
+        <button
+          onClick={() => setActiveTab("all")}
+          className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
+            activeTab === "all"
+              ? "bg-[#5A7050] text-white shadow-sm"
+              : "bg-white text-neutral-500 hover:bg-neutral-100 border border-neutral-200"
+          }`}
+        >
+          전체 ETF (레버리지·인버스·파킹 포함)
+        </button>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
         <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)]">
           <h3 className="border-b border-[#EDF2DE] bg-[#F9FBFC] px-4 py-3 text-sm font-bold text-neutral-800 sm:px-6">TOP 5 순유입</h3>
           <ul className="divide-y divide-[#EDF2DE]">
-            {fundFlow.topInflows.map((row, idx) => (
+            {currentData.topInflows.map((row, idx) => (
               <li key={row.ticker} className="flex items-center justify-between gap-4 px-5 py-4 hover:bg-neutral-50/50">
                 <div className="flex min-w-0 flex-1 items-center gap-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E5F5D5] text-[11px] font-bold text-[#4B7C2A]">{idx + 1}</span>
@@ -43,7 +78,7 @@ export function FundFlowRanking({ fundFlow }: { fundFlow: { topInflows: FundFlow
         <div className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-[0_8px_24px_rgba(27,38,26,0.05)]">
           <h3 className="border-b border-[#EDF2DE] bg-[#F9FBFC] px-4 py-3 text-sm font-bold text-neutral-800 sm:px-6">TOP 5 순유출</h3>
           <ul className="divide-y divide-[#EDF2DE]">
-            {fundFlow.topOutflows.map((row, idx) => (
+            {currentData.topOutflows.map((row, idx) => (
               <li key={row.ticker} className="flex items-center justify-between gap-4 px-5 py-4 hover:bg-neutral-50/50">
                 <div className="flex min-w-0 flex-1 items-center gap-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E9F3F6] text-[11px] font-bold text-[#2C7B90]">{idx + 1}</span>

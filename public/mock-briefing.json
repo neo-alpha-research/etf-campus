@@ -232,60 +232,118 @@
       }
     ],
     "fundFlow": {
-      "topInflows": [
-        {
-          "ticker": "360750",
-          "etfName": "TIGER 미국S&P500",
-          "netInflowValue": 287097370695.431
-        },
-        {
-          "ticker": "229200",
-          "etfName": "KODEX 코스닥150",
-          "netInflowValue": 285320526409.627
-        },
-        {
-          "ticker": "487240",
-          "etfName": "KODEX AI전력핵심설비",
-          "netInflowValue": 177263899235.24368
-        },
-        {
-          "ticker": "133690",
-          "etfName": "TIGER 미국나스닥100",
-          "netInflowValue": 154465505228.78268
-        },
-        {
-          "ticker": "379800",
-          "etfName": "KODEX 미국S&P500",
-          "netInflowValue": 141148197521.29974
-        }
-      ],
-      "topOutflows": [
-        {
-          "ticker": "069500",
-          "etfName": "KODEX 200",
-          "netInflowValue": -421479959934.3062
-        },
-        {
-          "ticker": "102110",
-          "etfName": "TIGER 200",
-          "netInflowValue": -172138634398.0287
-        },
-        {
-          "ticker": "278530",
-          "etfName": "KODEX 200TR",
-          "netInflowValue": -129078836989.78032
-        },
-        {
-          "ticker": "310970",
-          "etfName": "TIGER MSCI Korea TR",
-          "netInflowValue": -93514221694.82993
-        },
-        {
-          "ticker": "498400",
-          "etfName": "KODEX 200타겟위클리커버드콜",
-          "netInflowValue": -82991170338.41469
-        }
-      ]
+      "general": {
+        "topInflows": [
+          {
+            "ticker": "360750",
+            "etfName": "TIGER 미국S&P500",
+            "netInflowValue": 287097370695.431
+          },
+          {
+            "ticker": "229200",
+            "etfName": "KODEX 코스닥150",
+            "netInflowValue": 285320526409.627
+          },
+          {
+            "ticker": "487240",
+            "etfName": "KODEX AI전력핵심설비",
+            "netInflowValue": 177263899235.24368
+          },
+          {
+            "ticker": "133690",
+            "etfName": "TIGER 미국나스닥100",
+            "netInflowValue": 154465505228.78268
+          },
+          {
+            "ticker": "379800",
+            "etfName": "KODEX 미국S&P500",
+            "netInflowValue": 141148197521.29974
+          }
+        ],
+        "topOutflows": [
+          {
+            "ticker": "069500",
+            "etfName": "KODEX 200",
+            "netInflowValue": -421479959934.3062
+          },
+          {
+            "ticker": "102110",
+            "etfName": "TIGER 200",
+            "netInflowValue": -172138634398.0287
+          },
+          {
+            "ticker": "278530",
+            "etfName": "KODEX 200TR",
+            "netInflowValue": -129078836989.78032
+          },
+          {
+            "ticker": "310970",
+            "etfName": "TIGER MSCI Korea TR",
+            "netInflowValue": -93514221694.82993
+          },
+          {
+            "ticker": "498400",
+            "etfName": "KODEX 200타겟위클리커버드콜",
+            "netInflowValue": -82991170338.41469
+          }
+        ]
+      },
+      "all": {
+        "topInflows": [
+          {
+            "ticker": "122630",
+            "etfName": "KODEX 레버리지",
+            "netInflowValue": 350000000000.0
+          },
+          {
+            "ticker": "252670",
+            "etfName": "KODEX 200선물인버스2X",
+            "netInflowValue": 320000000000.0
+          },
+          {
+            "ticker": "449170",
+            "etfName": "TIGER KOFR금리액티브",
+            "netInflowValue": 250000000000.0
+          },
+          {
+            "ticker": "360750",
+            "etfName": "TIGER 미국S&P500",
+            "netInflowValue": 287097370695.431
+          },
+          {
+            "ticker": "229200",
+            "etfName": "KODEX 코스닥150",
+            "netInflowValue": 285320526409.627
+          }
+        ],
+        "topOutflows": [
+          {
+            "ticker": "114800",
+            "etfName": "KODEX 인버스",
+            "netInflowValue": -450000000000.0
+          },
+          {
+            "ticker": "357870",
+            "etfName": "TIGER CD금리투자KIS",
+            "netInflowValue": -380000000000.0
+          },
+          {
+            "ticker": "069500",
+            "etfName": "KODEX 200",
+            "netInflowValue": -421479959934.3062
+          },
+          {
+            "ticker": "102110",
+            "etfName": "TIGER 200",
+            "netInflowValue": -172138634398.0287
+          },
+          {
+            "ticker": "278530",
+            "etfName": "KODEX 200TR",
+            "netInflowValue": -129078836989.78032
+          }
+        ]
+      }
     },
     "disparityWarning": [],
     "focusEtfs": [

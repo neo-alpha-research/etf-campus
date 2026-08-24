@@ -919,7 +919,7 @@ export function MarketBriefingV0() {
                   {Math.round(sortedAssetClasses.reduce((sum, row) => sum + row.aum_share_pct, 0))}.0
                 </td>
                 <td className="py-3.5 px-5 text-right tabular-nums text-neutral-500 font-normal text-xs">
-                  (전체 가중평균)
+                  (동일 자산 가중평균)
                 </td>
                 <td className={`py-3.5 px-5 text-right tabular-nums font-extrabold ${changeTone(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}`}>
                   {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0), "%p")}
@@ -935,7 +935,7 @@ export function MarketBriefingV0() {
             const pg = briefing.peerGroups?.filter(g => g.assetClass === row.asset_class || g.assetClass?.includes(row.asset_class)) || [];
             const sortedPg = [...pg].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
             const top = sortedPg.slice(0, 3);
-            const bottom = sortedPg.slice().reverse().slice(0, 3).filter(g => !top.find(t => t.peerGroup === g.peerGroup));
+            const bottom = sortedPg.slice().reverse().slice(0, 3).filter(g => !top.find(t => t.peerGroup === g.peerGroup)).reverse();
 
             return (
               <div key={row.asset_class} className="overflow-hidden rounded-[20px] border border-[#E5E8E2] bg-white shadow-sm flex flex-col hover:border-[#D7EABB] transition-colors">

@@ -128,6 +128,8 @@ type Briefing = {
 
     top10TradeSharePct: number;
 
+    allTop10TradeSharePct?: number;
+
   };
 
   assetClasses: AssetClass[];
@@ -536,19 +538,14 @@ export function MarketBriefingV0() {
   const br = pulse.breadthRatioPct;
 
   let dynamicTitle = "상승과 하락이 팽팽하게 맞서며 혼조세를 보인 하루였습니다 ⚖️";
-
-  if (ret < 0) {
-    if (isLargeCapBetter) {
-      dynamicTitle = "대형주가 방어력을 뽐내며 하락장을 선방한 하루였습니다 🛡️";
-    } else {
-      dynamicTitle = "대형주의 낙폭이 커지며 시장이 전반적으로 무거웠던 하루였습니다 📉";
-    }
-  } else {
-    if (isLargeCapBetter) {
-      dynamicTitle = "대형주가 든든하게 시장의 상승을 주도한 하루였습니다 🐳";
-    } else {
-      dynamicTitle = "중소형주의 활약이 돋보이며 시장을 달군 하루였습니다 🔥";
-    }
+  if (ret < -1.0) {
+    dynamicTitle = "시장이 큰 폭으로 하락하며 투자 심리가 얼어붙은 하루였습니다 📉";
+  } else if (ret < 0) {
+    dynamicTitle = "전반적인 약세 흐름 속에 하락 마감한 하루였습니다 🌧️";
+  } else if (ret > 1.0) {
+    dynamicTitle = "강한 매수세가 유입되며 시장이 뜨겁게 달아오른 하루였습니다 🚀";
+  } else if (ret > 0) {
+    dynamicTitle = "훈훈한 온기가 퍼지며 소폭 상승 마감한 하루였습니다 ☀️";
   }
 
   return (
@@ -758,104 +755,86 @@ export function MarketBriefingV0() {
           </div>
         </div>
 
-        {/* 3-Pillar Dashboard Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-4">
+        {/* 2-Pillar Dashboard Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           
-          {/* Left Pillar: Breadth & Tilt */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* 1. Market Breadth (시장 체온) */}
+          <div className="bg-white border border-[#E5E8E2] rounded-[20px] p-6 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between">
+            <div>
+              <p className="text-[12px] font-extrabold text-neutral-400 mb-2 tracking-[0.1em]">전체 시장 체온</p>
+              <div className="flex items-end justify-between">
+                <p className={`text-4xl font-extrabold tabular-nums tracking-tight ${changeTone(pulse.generalAumWeightedReturnPct)}`}>
+                  {signed(pulse.generalAumWeightedReturnPct)}
+                </p>
+                <div className="text-right">
+                  <span className="text-[12px] font-bold text-neutral-500">가중수익률</span>
+                </div>
+              </div>
+            </div>
             
-            {/* 1. Market Breadth */}
-            <div className="bg-white border border-[#E5E8E2] rounded-[20px] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between">
-              <div>
-                <p className="text-[12px] font-extrabold text-neutral-400 mb-2 tracking-[0.1em]">전체 시장 체온</p>
-                <div className="flex items-end justify-between">
-                  <p className={`text-3xl font-extrabold tabular-nums tracking-tight ${changeTone(pulse.generalAumWeightedReturnPct)}`}>
-                    {signed(pulse.generalAumWeightedReturnPct)}
-                  </p>
-                  <div className="text-right">
-                    <span className="text-[11px] font-bold text-neutral-500">가중수익률</span>
+            <div className="mt-8">
+              <div className="flex justify-between text-[12px] font-bold mb-2">
+                <span className="text-[#EE4B58]">상승 {pulse.upCount}</span>
+                <span className="text-neutral-400">보합 {pulse.flatCount}</span>
+                <span className="text-[#4682EC]">하락 {pulse.downCount}</span>
+              </div>
+              {/* Stacked Bar */}
+              <div className="w-full h-3 rounded-full flex overflow-hidden">
+                <div className="bg-[#EE4B58]" style={{ width: `${(pulse.upCount / pulse.generalEtfCount) * 100}%` }}></div>
+                <div className="bg-neutral-200" style={{ width: `${(pulse.flatCount / pulse.generalEtfCount) * 100}%` }}></div>
+                <div className="bg-[#4682EC]" style={{ width: `${(pulse.downCount / pulse.generalEtfCount) * 100}%` }}></div>
+              </div>
+              <p className="mt-3 text-[11px] text-neutral-400 text-center">전체 일반 ETF {number.format(pulse.generalEtfCount)}개 기준</p>
+            </div>
+          </div>
+
+          {/* 2. Concentration (수급 건전성 — 일반 vs 전체) */}
+          <div className="bg-[#F9FBFC] border border-[#E5E8E2] rounded-[20px] p-6 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between">
+            <div>
+              <p className="text-[12px] font-extrabold text-neutral-400 mb-2 tracking-[0.1em]">수급 건전성 (거래 쏠림)</p>
+              
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                {/* 일반 ETF 기준 */}
+                <div className="bg-white rounded-xl p-3 border border-neutral-100 shadow-sm">
+                  <p className="text-[11px] font-bold text-neutral-500 mb-1">순수 일반 ETF</p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-2xl font-extrabold tabular-nums tracking-tight text-neutral-800">
+                      {decimal.format(pulse.top10TradeSharePct)}<span className="text-sm font-bold text-neutral-400 ml-0.5">%</span>
+                    </p>
+                    <div className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${pulse.top10TradeSharePct > 60 ? 'bg-red-50 text-red-600' : pulse.top10TradeSharePct > 45 ? 'bg-yellow-50 text-yellow-600' : 'bg-green-50 text-green-600'}`}>
+                      {pulse.top10TradeSharePct > 60 ? '🔴 과열' : pulse.top10TradeSharePct > 45 ? '🟡 주의' : '🟢 양호'}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 전체 ETF 기준 (파킹/레버리지 포함) */}
+                <div className="bg-white rounded-xl p-3 border border-neutral-100 shadow-sm">
+                  <p className="text-[11px] font-bold text-neutral-400 mb-1">전체 ETF (레버·파킹 포함)</p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-2xl font-extrabold tabular-nums tracking-tight text-neutral-500">
+                      {pulse.allTop10TradeSharePct ? decimal.format(pulse.allTop10TradeSharePct) : '—'}<span className="text-sm font-bold text-neutral-300 ml-0.5">%</span>
+                    </p>
+                    {pulse.allTop10TradeSharePct && pulse.allTop10TradeSharePct - pulse.top10TradeSharePct > 10 && (
+                      <div className="px-1.5 py-0.5 rounded bg-red-50 text-red-500 text-[10px] font-bold">
+                        +{(pulse.allTop10TradeSharePct - pulse.top10TradeSharePct).toFixed(1)}%p
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-              
-              <div className="mt-6">
-                <div className="flex justify-between text-[11px] font-bold mb-1.5">
-                  <span className="text-[#EE4B58]">상승 {pulse.upCount}</span>
-                  <span className="text-[#4682EC]">하락 {pulse.downCount}</span>
-                </div>
-                {/* Stacked Bar */}
-                <div className="w-full h-2.5 rounded-full flex overflow-hidden">
-                  <div className="bg-[#EE4B58]" style={{ width: `${(pulse.upCount / pulse.generalEtfCount) * 100}%` }}></div>
-                  <div className="bg-neutral-200" style={{ width: `${(pulse.flatCount / pulse.generalEtfCount) * 100}%` }}></div>
-                  <div className="bg-[#4682EC]" style={{ width: `${(pulse.downCount / pulse.generalEtfCount) * 100}%` }}></div>
-                </div>
-                <p className="mt-2 text-[10px] text-neutral-400 text-center">전체 일반 ETF {number.format(pulse.generalEtfCount)}개 기준</p>
-              </div>
-            </div>
-
-            {/* 2. Market Tilt */}
-            <div className="bg-white border border-[#E5E8E2] rounded-[20px] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between">
-              <p className="text-[12px] font-extrabold text-neutral-400 mb-4 tracking-[0.1em]">MARKET TILT (시장 주도력)</p>
-              
-              <div className="w-full flex items-center justify-between gap-2 px-1">
-                {/* 대형주 (Top 50) */}
-                <div className={`flex-1 rounded-xl p-2.5 flex flex-col items-center border transition-all duration-300 ${isLargeCapBetter ? 'bg-[#F9FBFC] border-emerald-500 shadow-sm' : 'bg-neutral-50 border-neutral-100 opacity-60 grayscale-[50%]'}`}>
-                   <span className="text-lg mb-1">🐳</span>
-                   <p className={`text-[10px] font-bold ${isLargeCapBetter ? 'text-emerald-700' : 'text-neutral-500'}`}>대형주(Top50)</p>
-                   <p className={`mt-1 text-base font-extrabold tabular-nums tracking-tight ${isLargeCapBetter ? changeTone(pulse.top50AumWeightedReturnPct) : 'text-neutral-400'}`}>
-                      {signed(pulse.top50AumWeightedReturnPct)}
-                   </p>
-                </div>
-
-                {/* VS Badge */}
-                <div className="flex flex-col items-center justify-center shrink-0 w-12">
-                   <div className="w-6 h-6 rounded-full bg-neutral-200/70 flex items-center justify-center text-[9px] font-bold text-neutral-500 shadow-inner">VS</div>
-                   <p className="mt-1.5 text-[9px] font-bold text-neutral-400 bg-white border border-neutral-200 px-1 py-0.5 rounded shadow-sm whitespace-nowrap">
-                     {Math.abs(pulse.top50AumWeightedReturnPct - restReturnPct).toFixed(2)}%p 차
-                   </p>
-                </div>
-
-                {/* 중소형주 (나머지) */}
-                <div className={`flex-1 rounded-xl p-2.5 flex flex-col items-center border transition-all duration-300 ${!isLargeCapBetter ? 'bg-[#F9FBFC] border-emerald-500 shadow-sm' : 'bg-neutral-50 border-neutral-100 opacity-60 grayscale-[50%]'}`}>
-                   <span className="text-lg mb-1">🐟</span>
-                   <p className={`text-[10px] font-bold ${!isLargeCapBetter ? 'text-emerald-700' : 'text-neutral-500'}`}>중소형·테마</p>
-                   <p className={`mt-1 text-base font-extrabold tabular-nums tracking-tight ${!isLargeCapBetter ? changeTone(restReturnPct) : 'text-neutral-400'}`}>
-                      {signed(restReturnPct)}
-                   </p>
-                </div>
-              </div>
-              
-              <div className="mt-4 pt-3 border-t border-neutral-100 text-center">
-                <span className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-bold ${isLargeCapBetter ? 'bg-emerald-50 text-emerald-600' : 'bg-neutral-100 text-neutral-500'}`}>
-                   {isLargeCapBetter ? '🛡️ 대형주 선방' : '📉 대형주 부진'}
-                </span>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Right Pillar: Concentration */}
-          <div className="bg-[#F9FBFC] border border-[#E5E8E2] rounded-[20px] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between">
-            <div>
-              <p className="text-[12px] font-extrabold text-neutral-400 mb-2 tracking-[0.1em]">수급 건전성 (거래 쏠림)</p>
-              <div className="flex items-center gap-2 mt-1">
-                <p className="text-4xl font-extrabold tabular-nums tracking-tight text-neutral-800">
-                  {decimal.format(pulse.top10TradeSharePct)}<span className="text-xl font-bold text-neutral-500 ml-0.5">%</span>
-                </p>
-                <div className={`px-2 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 ${pulse.top10TradeSharePct > 60 ? 'bg-red-50 text-red-600' : pulse.top10TradeSharePct > 45 ? 'bg-yellow-50 text-yellow-600' : 'bg-green-50 text-green-600'}`}>
-                   {pulse.top10TradeSharePct > 60 ? '🔴 과열' : pulse.top10TradeSharePct > 45 ? '🟡 주의' : '🟢 양호'}
-                </div>
-              </div>
-              <p className="mt-1.5 text-[11px] text-neutral-500">전체 거래대금 중 상위 10개 ETF 비중</p>
+              <p className="mt-2.5 text-[10px] text-neutral-400">상위 10개 ETF가 전체 거래대금에서 차지하는 비중</p>
             </div>
             
-            <div className="mt-5 pt-4 border-t border-neutral-200/60">
-              <p className="text-[11.5px] font-medium text-neutral-600 leading-relaxed">
+            <div className="mt-4 pt-4 border-t border-neutral-200/60">
+              <p className="text-[12px] font-medium text-neutral-600 leading-relaxed">
                 {pulse.top10TradeSharePct > 60 
-                  ? "특정 테마(파킹형, 레버리지 등)로 단기 자금이 극심하게 쏠려, 일반 종목들의 거래가 매우 위축된 상태입니다." 
+                  ? "특정 테마로 일반 자금이 극심하게 쏠린 상태입니다." 
                   : pulse.top10TradeSharePct > 45 
-                  ? "지수 대표주 및 일부 테마를 중심으로 거래가 활발히 일어나고 있습니다." 
-                  : "다양한 테마와 종목으로 시장의 자금이 건강하게 분산되어 있습니다."}
+                  ? "일부 테마를 중심으로 거래가 활발히 일어나고 있습니다." 
+                  : "다양한 테마로 일반 자금이 건강하게 분산되어 있습니다."}
+                {pulse.allTop10TradeSharePct && pulse.allTop10TradeSharePct - pulse.top10TradeSharePct > 15 
+                  ? " 레버리지·파킹형 상품에 거래대금이 편중되어, 실제 체감 유동성은 지표보다 낮을 수 있습니다." 
+                  : ""}
               </p>
             </div>
           </div>

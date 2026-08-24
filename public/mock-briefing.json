@@ -482,6 +482,20 @@
         "equalWeightReturnPct": -0.33,
         "cappedAumWeightedReturnPct": -0.3,
         "assetClass": "혼합-자산배분"
+      },
+      {
+        "peerGroup": "천연가스",
+        "etfCount": 3,
+        "equalWeightReturnPct": -1.2,
+        "cappedAumWeightedReturnPct": -1.1,
+        "assetClass": "원자재"
+      },
+      {
+        "peerGroup": "팔라듐",
+        "etfCount": 2,
+        "equalWeightReturnPct": -2.5,
+        "cappedAumWeightedReturnPct": -2.8,
+        "assetClass": "원자재"
       }
     ],
     "fundFlow": {

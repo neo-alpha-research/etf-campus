@@ -878,7 +878,7 @@ export function MarketBriefingV0() {
           </div>
         </section>
 
-{/* STEP 3: Micro Trends */}
+      {/* STEP 3: Micro Trends */}
       <section>
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 3. MICRO TRENDS</p>
@@ -886,65 +886,73 @@ export function MarketBriefingV0() {
           <p className="mt-1 text-sm text-neutral-500">자산군별 뼈대 흐름과 이를 주도한 세부 테마들의 성과입니다.</p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {sortedAssetClasses.map((row) => {
-            const contributionPercent = (Math.abs(row.contribution_pct) / maxContribution) * 100;
-            const isPositive = row.contribution_pct >= 0;
-            const aum1 = (row.total_aum / 1_000_000_000_000).toFixed(1);
-            const share1 = row.aum_share_pct.toFixed(1);
+        {/* Part A: Macro Table */}
+        <div className="overflow-x-auto mb-8">
+          <table className="w-full border-collapse bg-white shadow-sm rounded-[20px] overflow-hidden text-sm border border-[#E5E8E2]">
+            <thead>
+              <tr className="bg-[#F9FBFC] border-b border-[#EDF2DE] text-neutral-500 font-bold text-[13px]">
+                <th className="py-3.5 px-5 text-left font-extrabold">자산군</th>
+                <th className="py-3.5 px-5 text-right font-extrabold">운용자산 (조 원)</th>
+                <th className="py-3.5 px-5 text-right font-extrabold">비중 (%)</th>
+                <th className="py-3.5 px-5 text-right font-extrabold">가중수익률 (%)</th>
+                <th className="py-3.5 px-5 text-right font-extrabold">기여도 (%p)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#EDF2DE]">
+              {sortedAssetClasses.map(row => (
+                <tr key={row.asset_class} className="hover:bg-neutral-50 transition-colors">
+                  <td className="py-3.5 px-5 font-bold text-neutral-800">{row.asset_class}</td>
+                  <td className="py-3.5 px-5 text-right tabular-nums text-neutral-700 font-medium">{(row.total_aum / 1_000_000_000_000).toFixed(1)}</td>
+                  <td className="py-3.5 px-5 text-right tabular-nums text-neutral-700 font-medium">{row.aum_share_pct.toFixed(1)}</td>
+                  <td className={`py-3.5 px-5 text-right tabular-nums font-bold ${changeTone(row.aum_weighted_return_pct)}`}>{row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}</td>
+                  <td className={`py-3.5 px-5 text-right tabular-nums font-extrabold ${changeTone(row.contribution_pct)}`}>{signed(row.contribution_pct, "%p")}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot className="bg-[#F4F7EC] border-t-2 border-[#D7EABB] font-bold text-neutral-900 text-[13px]">
+              <tr>
+                <td className="py-3.5 px-5">합계 (Total)</td>
+                <td className="py-3.5 px-5 text-right tabular-nums">
+                  {(sortedAssetClasses.reduce((sum, row) => sum + row.total_aum, 0) / 1_000_000_000_000).toFixed(1)}
+                </td>
+                <td className="py-3.5 px-5 text-right tabular-nums">
+                  {Math.round(sortedAssetClasses.reduce((sum, row) => sum + row.aum_share_pct, 0))}.0
+                </td>
+                <td className="py-3.5 px-5 text-right tabular-nums text-neutral-500 font-normal text-xs">
+                  (전체 가중평균)
+                </td>
+                <td className={`py-3.5 px-5 text-right tabular-nums font-extrabold ${changeTone(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}`}>
+                  {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0), "%p")}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
 
+        {/* Part B: Micro Themes 4-Col Grid */}
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {sortedAssetClasses.filter(row => !row.asset_class.includes('리츠') && !row.asset_class.includes('혼합')).map((row) => {
             const pg = briefing.peerGroups?.filter(g => g.assetClass === row.asset_class || g.assetClass?.includes(row.asset_class)) || [];
             const sortedPg = [...pg].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
             const top = sortedPg.slice(0, 3);
             const bottom = sortedPg.slice().reverse().slice(0, 3).filter(g => !top.find(t => t.peerGroup === g.peerGroup));
 
             return (
-              <div key={row.asset_class} className="overflow-hidden rounded-[22px] border border-[#D7EABB] bg-white shadow-sm flex flex-col hover:border-[#B8D598] transition-colors">
-                <div className="border-b border-[#EDF2DE] bg-[#F9FBFC] px-5 py-4">
-                  <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-extrabold text-lg text-neutral-900">{row.asset_class}</h3>
-                    <span className="text-sm font-bold tabular-nums text-neutral-700">
-                      {aum1}조 <span className="text-[11px] text-neutral-400 font-medium">({share1}%)</span>
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[10px] text-neutral-500 font-medium">가중수익률</span>
-                      <span className={`text-sm font-bold tabular-nums ${changeTone(row.aum_weighted_return_pct ?? 0)}`}>
-                        {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-end w-24 sm:w-28 gap-1.5">
-                      <div className="flex items-center justify-between w-full">
-                        <span className="text-[10px] text-neutral-500 font-medium">기여도</span>
-                        <span className={`text-sm font-extrabold tabular-nums ${changeTone(row.contribution_pct)}`}>
-                          {signed(row.contribution_pct, "%p")}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-center h-2 w-full">
-                        <div className="w-1/2 flex justify-end h-1.5">
-                          {!isPositive && <div className="h-1.5 bg-[#4682EC] rounded-l-[2px]" style={{ width: `${Math.max(contributionPercent, 2)}%` }} />}
-                        </div>
-                        <div className="w-px h-2.5 bg-neutral-300"></div>
-                        <div className="w-1/2 flex justify-start h-1.5">
-                          {isPositive && <div className="h-1.5 bg-[#EE4B58] rounded-r-[2px]" style={{ width: `${Math.max(contributionPercent, 2)}%` }} />}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div key={row.asset_class} className="overflow-hidden rounded-[20px] border border-[#E5E8E2] bg-white shadow-sm flex flex-col hover:border-[#D7EABB] transition-colors">
+                <div className="bg-[#F9FBFC] border-b border-[#EDF2DE] px-4 py-2.5 text-center">
+                   <h3 className="font-extrabold text-[#5A7050] text-[13px] tracking-tight">{row.asset_class} 세부 테마</h3>
                 </div>
-
                 <div className="flex-1 flex flex-col bg-white">
                   {(top.length === 0 && bottom.length === 0) ? (
                     <div className="px-5 py-8 text-center text-[12px] text-neutral-400 flex-1 flex items-center justify-center">
                       세부 주도 테마가 없습니다
                     </div>
                   ) : (
-                    <div className="divide-y divide-[#EDF2DE]">
+                    <div className="divide-y divide-[#F2F4EB]">
                       {top.map((t, idx) => (
-                        <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3 hover:bg-neutral-50">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-[11px] font-bold text-[#EE4B58] w-2">{idx + 1}</span>
+                        <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3.5 hover:bg-neutral-50">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="text-[12px] font-bold text-[#EE4B58] w-2.5 opacity-80">{idx + 1}</span>
                             <p className="truncate text-[13px] font-bold text-neutral-700">{t.peerGroup}</p>
                           </div>
                           <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(t.cappedAumWeightedReturnPct)}`}>
@@ -952,11 +960,11 @@ export function MarketBriefingV0() {
                           </span>
                         </div>
                       ))}
-                      {bottom.length > 0 && <div className="h-1 bg-[#F9FBFC] border-y border-[#EDF2DE]"></div>}
+                      {bottom.length > 0 && <div className="h-2 bg-[#F9FBFC] border-y border-[#F2F4EB]"></div>}
                       {bottom.map((b, idx) => (
-                        <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3 hover:bg-neutral-50">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-[11px] font-bold text-[#4682EC] w-2">{idx + 1}</span>
+                        <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-4 py-3.5 hover:bg-neutral-50">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <span className="text-[12px] font-bold text-[#4682EC] w-2.5 opacity-80">{idx + 1}</span>
                             <p className="truncate text-[13px] font-bold text-neutral-700">{b.peerGroup}</p>
                           </div>
                           <span className={`text-[13px] font-extrabold tabular-nums ${changeTone(b.cappedAumWeightedReturnPct)}`}>

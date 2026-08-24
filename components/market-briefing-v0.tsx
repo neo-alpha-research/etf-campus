@@ -548,6 +548,28 @@ export function MarketBriefingV0() {
     dynamicTitle = "훈훈한 온기가 퍼지며 소폭 상승 마감한 하루였습니다 ☀️";
   }
 
+  const upRatio = pulse.upCount / pulse.generalEtfCount;
+  const downRatio = pulse.downCount / pulse.generalEtfCount;
+  let breadthSentence = "상승과 하락 종목 수가 팽팽하게 맞서며 시장 방향성을 탐색하고 있습니다.";
+  
+  if (upRatio > 0.65) {
+    breadthSentence = "시장 전반에 강한 매수세가 유입되며 대다수 종목이 상승하는 뚜렷한 강세장입니다.";
+  } else if (downRatio > 0.65) {
+    breadthSentence = "시장 전반에 매도세가 쏟아지며 대부분의 종목이 하락하는 뚜렷한 약세장입니다.";
+  } else if (ret > 0) {
+    if (pulse.downCount > pulse.upCount) {
+      breadthSentence = "소수 대형주가 지수를 견인하고 있지만, 하락 종목이 더 많아 실제 체감 온도는 낮습니다.";
+    } else {
+      breadthSentence = "지수 상승과 함께 상승 종목이 우위를 보이며 전반적으로 온기가 퍼지고 있습니다.";
+    }
+  } else if (ret < 0) {
+    if (pulse.upCount > pulse.downCount) {
+      breadthSentence = "지수는 하락했지만 상승 종목이 더 많아, 시장 내면의 투자 심리는 비교적 양호합니다.";
+    } else {
+      breadthSentence = "지수 하락과 함께 하락 종목이 우위를 보이며 전반적인 투자 심리가 위축되어 있습니다.";
+    }
+  }
+
   return (
 
     <div className="mx-auto max-w-7xl space-y-16 sm:space-y-24 pb-12">
@@ -785,6 +807,12 @@ export function MarketBriefingV0() {
                 <div className="bg-[#4682EC]" style={{ width: `${(pulse.downCount / pulse.generalEtfCount) * 100}%` }}></div>
               </div>
               <p className="mt-3 text-[11px] text-neutral-400 text-center">전체 일반 ETF {number.format(pulse.generalEtfCount)}개 기준</p>
+            </div>
+            
+            <div className="mt-4 pt-4 border-t border-neutral-200/60">
+              <p className="text-[12px] font-medium text-neutral-600 leading-relaxed">
+                {breadthSentence}
+              </p>
             </div>
           </div>
 

@@ -28,9 +28,13 @@ export default function TutorialPage() {
       if (step > 3 && !authenticated) {
         step = 3; 
       }
-      setCurrentStep(step);
+      setTimeout(() => {
+        setCurrentStep(step);
+      }, 0);
     }
-    setIsLoaded(true);
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 0);
   }, [isLoading, authenticated]);
 
   // 진행 단계가 바뀔 때마다 로컬스토리지에 저장

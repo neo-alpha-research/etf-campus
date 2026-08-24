@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Info, BookOpen } from "lucide-react";
+import { Info, BookOpen, TrendingUp, TrendingDown } from "lucide-react";
 import { MarketBriefingHistory } from "@/components/market-briefing-history";
 import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking";
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
@@ -103,6 +103,19 @@ function changeSurface(value: number) {
   return "bg-neutral-100 text-neutral-600 ring-neutral-200";
 }
 
+
+function InfoTooltip({ text }: { text: React.ReactNode }) {
+  return (
+    <div className="group relative inline-flex items-center justify-center ml-1">
+      <Info className="h-4 w-4 text-neutral-400 cursor-help transition-colors group-hover:text-neutral-600" />
+      <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded-xl bg-neutral-900 p-3 text-xs leading-5 text-white opacity-0 shadow-xl transition-all group-hover:pointer-events-auto group-hover:opacity-100">
+        {text}
+        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900" />
+      </div>
+    </div>
+  );
+}
+
 function Skeleton() {
   return (
     <div className="space-y-6" aria-label="마켓 브리핑을 불러오는 중">
@@ -147,11 +160,17 @@ function BreadthBar({ pulse }: { pulse: Briefing["pulse"] }) {
 
 function IndexCard({ index }: { index: MarketIndex }) {
   const change = index.change_pct ?? 0;
+  const isUp = change > 0;
+  const isDown = change < 0;
+  const bgClass = isUp ? "bg-gradient-to-br from-white to-[#FFF5F5] border-[#F3C5C9]" : isDown ? "bg-gradient-to-br from-white to-[#F0F8FF] border-[#B9DDF2]" : "bg-white border-[#D7EABB]";
   return (
-    <article className="rounded-[18px] border border-[#D7EABB] bg-white p-4">
+    <article className={`rounded-[18px] border p-4 shadow-sm transition-all hover:-translate-y-0.5 ${bgClass}`}>
       <div className="flex items-start justify-between gap-3">
         <p className="text-sm font-bold text-neutral-800">{index.label}</p>
-        <span className={`rounded-full px-2 py-1 text-[11px] font-bold ring-1 ${changeSurface(change)}`}>{signed(change)}</span>
+        <span className={`flex items-center gap-0.5 rounded-full px-2 py-1 text-[11px] font-bold ring-1 ${changeSurface(change)}`}>
+          {isUp ? <TrendingUp className="w-3 h-3" /> : isDown ? <TrendingDown className="w-3 h-3" /> : null}
+          {signed(change)}
+        </span>
       </div>
       <p className="mt-4 text-xl font-bold tracking-tight text-neutral-900 tabular-nums">{decimal.format(index.close)}</p>
       <p className="mt-1.5 text-[11px] text-neutral-500">기준일 {dateLabel(index.as_of_date)}</p>
@@ -192,48 +211,118 @@ export function MarketBriefingV0() {
   const maxContribution = Math.max(...sortedAssetClasses.map((row) => Math.abs(row.contribution_pct)), 0.01);
   const headline = briefing.headline?.text ?? `일반 ETF ${number.format(pulse.generalEtfCount)}개 기준, ${pulse.marketTemperature} 흐름입니다.`;
 
+  let dynamicTitle = "상승과 하락이 팽팽하게 맞선 하루였습니다 ⚖️";
+  if (pulse.breadthRatioPct >= 70) {
+    dynamicTitle = "상승 종목이 압도적으로 많았던 하루였습니다 📈";
+  } else if (pulse.breadthRatioPct <= 30) {
+    dynamicTitle = "파란불이 시장 전체를 덮은 하락장이었습니다 📉";
+  } else if (pulse.breadthRatioPct > 50) {
+    dynamicTitle = "상승 종목이 조금 더 많은 훈훈한 하루였습니다 ☀️";
+  } else if (pulse.breadthRatioPct < 50) {
+    dynamicTitle = "하락 종목이 더 많아 주의가 필요한 하루였습니다 🌧️";
+  }
+
   return (
-    <div className="mx-auto max-w-7xl space-y-12 pb-4">
-      <header className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
-        <div>
-          <p className="text-[11px] font-extrabold tracking-[0.16em] text-[#5A7050]">ETF CAMPUS</p>
-          <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900 sm:text-3xl">{selectedDate ? "지난 마켓 브리핑" : "오늘의 마켓 브리핑"}</h1>
-          <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
-            <span className="text-neutral-500">ETF 데이터 기준일 {dateLabel(briefing.asOfDate)}</span>
-            {selectedDate && <span className="rounded-full bg-[#EFF8D8] px-2.5 py-1 font-bold text-[#50673F]">과거 브리핑</span>}
-            {briefing.isStale && <span className="rounded-full bg-[#FFF1BD] px-2.5 py-1 font-bold text-[#765D17]">갱신 지연</span>}
-          </div>
-        </div>
-        <div className="flex w-fit items-center gap-2">
-          {selectedDate && (
-            <button type="button" onClick={() => setSelectedDate(undefined)} className="inline-flex rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-3.5 py-2.5 text-sm font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68]">
-              최신 브리핑
-            </button>
-          )}
-          <button type="button" onClick={() => void refresh()} disabled={isRefreshing} className="inline-flex rounded-xl border border-[#CFD5CB] bg-white px-3.5 py-2.5 text-sm font-bold text-neutral-700 transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] disabled:cursor-wait disabled:opacity-60">
-            {isRefreshing ? "갱신 중..." : "새로고침"}
+    <div className="mx-auto max-w-7xl space-y-16 sm:space-y-24 pb-12">
+            {selectedDate && (
+        <div className="flex items-center justify-between rounded-xl bg-[#EFF8D8] px-5 py-3 text-sm text-[#476237]">
+          <p><strong>{dateLabel(briefing.asOfDate)}</strong> 기준의 과거 마켓 브리핑을 보고 계십니다.</p>
+          <button type="button" onClick={() => setSelectedDate(undefined)} className="font-bold underline hover:no-underline">
+            최신 브리핑으로 돌아가기
           </button>
         </div>
-      </header>
+      )}
 
-      {/* Editor's Note / Beginner Guide */}
-      <section className="relative overflow-hidden rounded-[26px] bg-[#202920] p-6 text-white shadow-[0_8px_24px_rgba(27,38,26,0.10)] sm:p-8">
+      {/* Tickery's 3-Point Mini Dashboard */}
+      <section className="relative overflow-hidden rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-6 shadow-[0_8px_24px_rgba(43,61,39,0.04)] sm:p-8">
         <div className="relative z-10">
-          <p className="flex items-center gap-2 text-[11px] font-extrabold tracking-[0.14em] text-[#B7E886]">
-            <BookOpen className="h-4 w-4" />
-            초보자를 위한 오늘의 시황 가이드
-          </p>
-          <h2 className="mt-3 text-2xl font-extrabold leading-9 tracking-tight sm:text-3xl sm:leading-10">
-            {headline}
-          </h2>
-          <p className="mt-5 max-w-3xl text-sm leading-7 text-white/70">
-            ETF 시장은 거시 경제(금리, 환율, 주요 지수)의 영향을 가장 먼저 받습니다. 
-            아래 <strong>STEP 1</strong>에서 오늘 시장의 배경이 된 거시 지표를 확인하고, 
-            <strong>STEP 2</strong>에서 전체 ETF 시장의 온도 변화를, 
-            <strong>STEP 3</strong>에서 세부적인 테마와 자금 흐름을 차례대로 파악해 보세요.
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <p className="flex items-center gap-1.5 text-sm font-extrabold tracking-tight text-[#365314]">
+                <span className="text-lg">🐿️</span> 티커리가 짚어주는 오늘의 핵심 포인트 3가지
+              </p>
+              <span className="text-xs font-medium text-neutral-400 border-l border-[#D7EABB] pl-3">{dateLabel(briefing.asOfDate)} 기준</span>
+              {briefing.isStale && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">갱신 지연</span>}
+            </div>
+            
+            <details className="group relative">
+              <summary className="list-none cursor-pointer flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-neutral-600 shadow-sm border border-[#DDE6D0] hover:bg-neutral-50 transition-colors">
+                <BookOpen className="h-3.5 w-3.5 text-[#7DAD55]" />
+                <span>이 화면 읽는 법</span>
+              </summary>
+              <div className="absolute right-0 top-full mt-2 w-72 rounded-xl bg-white p-4 text-sm leading-6 text-neutral-700 shadow-xl border border-[#DDE6D0] z-50">
+                <p>ETF 시장은 거시 경제의 영향을 가장 먼저 받습니다. 아래 순서대로 파악해 보세요!</p>
+                <ul className="mt-3 space-y-1.5 font-medium">
+                  <li><span className="text-[#5A7050]">STEP 1.</span> 거시 지표 (오늘 시장의 배경)</li>
+                  <li><span className="text-[#5A7050]">STEP 2.</span> 시장 온도 (전체 ETF의 반응)</li>
+                  <li><span className="text-[#5A7050]">STEP 3.</span> 세부 동향 (테마 및 자금 흐름)</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+          
+          <div className="mt-5 mb-6">
+            <h2 className="text-2xl font-extrabold tracking-tight text-neutral-900 sm:text-3xl">
+              {dynamicTitle}
+            </h2>
+          </div>
+          
+          <div className="grid gap-4 md:grid-cols-3">
+            {/* Card 1: Breadth */}
+            <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] hover:-translate-y-0.5 transition-transform">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[15px]">🧭</span>
+                <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">시장 방향</p>
+              </div>
+              <div className="mt-3 flex items-baseline gap-2">
+                <span className={`text-xl font-extrabold ${pulse.breadthRatioPct >= 50 ? "text-[#D84957]" : "text-[#247DAA]"}`}>{pulse.marketTemperature}</span>
+                <span className="text-[11px] text-neutral-500">{number.format(pulse.generalEtfCount)}개 중 <strong className="text-neutral-700">{number.format(pulse.breadthRatioPct >= 50 ? pulse.upCount : pulse.downCount)}개 {pulse.breadthRatioPct >= 50 ? "상승" : "하락"}</strong></span>
+              </div>
+              <div className="mt-4">
+                <BreadthBar pulse={pulse} />
+              </div>
+            </div>
+
+            {/* Card 2: Return */}
+            <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:-translate-y-0.5 transition-transform">
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[15px]">💰</span>
+                  <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">평균 성과</p>
+                </div>
+                <div className="mt-3">
+                  <span className={`text-[32px] font-extrabold tabular-nums tracking-tight leading-none ${changeTone(pulse.generalAumWeightedReturnPct)}`}>
+                    {signed(pulse.generalAumWeightedReturnPct)}
+                  </span>
+                </div>
+              </div>
+              <p className="mt-4 text-[11px] text-neutral-500 border-t border-neutral-100 pt-3">
+                일반 ETF 투자금(AUM) 가중수익률
+              </p>
+            </div>
+
+            {/* Card 3: Feature */}
+            <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:-translate-y-0.5 transition-transform">
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[15px]">📊</span>
+                    <p className="text-[11px] font-extrabold tracking-wide text-neutral-500">시장 특징</p>
+                  </div>
+                  {briefing.disparityWarning && briefing.disparityWarning.length > 0 && (
+                    <span className="inline-flex items-center rounded-full bg-[#FFF5F5] px-2 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">
+                      ⚠️ 양극화 주의
+                    </span>
+                  )}
+                </div>
+                <p className="mt-3 text-[13px] font-medium leading-relaxed text-neutral-800 line-clamp-3">
+                  {headline}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="absolute -right-10 -top-10 z-0 h-64 w-64 rounded-full bg-white/5 blur-3xl pointer-events-none" />
+        <div className="absolute -right-20 -top-20 z-0 h-64 w-64 rounded-full bg-gradient-to-br from-[#E5F5D5] to-transparent blur-3xl pointer-events-none" />
       </section>
 
       {/* STEP 1: Macro */}
@@ -251,7 +340,7 @@ export function MarketBriefingV0() {
       )}
 
       {/* STEP 2: Market Pulse & My Portfolio */}
-      <section aria-labelledby="market-pulse-title">
+      <section aria-labelledby="market-pulse-title" className="space-y-8">
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
           <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">그래서 ETF 시장은 어땠을까요? (시장 온도)</h2>
@@ -263,17 +352,12 @@ export function MarketBriefingV0() {
             <article className="flex-1 rounded-[22px] border border-[#D7EABB] bg-[#F9FBFC] p-6 shadow-sm">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-bold text-neutral-800">일반 ETF 전체 수익률</p>
-                <Info className="h-4 w-4 text-neutral-400" />
+                <InfoTooltip text="AUM(Asset Under Management)은 ETF에 모인 총 투자금 규모를 의미합니다. 투자금이 클수록 안정적인 운용이 가능합니다." />
               </div>
               <p className={`mt-4 text-4xl font-extrabold tracking-tight tabular-nums ${changeTone(pulse.generalAumWeightedReturnPct)}`}>{signed(pulse.generalAumWeightedReturnPct)}</p>
               <p className="mt-3 text-xs text-neutral-500">일반 ETF {number.format(pulse.generalEtfCount)}개 · 투자금(AUM) 가중수익률</p>
             </article>
-            <div className="grid grid-cols-2 gap-4">
-              <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-sm">
-                <p className="text-[11px] font-semibold text-neutral-500">시장 호흡</p>
-                <p className="mt-1 text-sm font-bold text-neutral-900">상승 우세 <span className="text-base tabular-nums ml-1 text-[#62913A]">{decimal.format(pulse.breadthRatioPct)}%</span></p>
-                <BreadthBar pulse={pulse} />
-              </article>
+            <div className="grid grid-cols-1 gap-4">
               <article className="rounded-[18px] border border-[#E5E8E2] bg-white p-5 shadow-sm">
                 <p className="text-[11px] font-semibold text-neutral-500">거래 쏠림 현상</p>
                 <p className="mt-1 text-sm font-bold text-neutral-900">상위 10개 ETF 집중도</p>
@@ -321,7 +405,7 @@ export function MarketBriefingV0() {
           <p className="mt-1 text-sm text-neutral-500">자산군, 테마별 수익률과 투자자들의 실제 자금 이동 내역입니다.</p>
         </div>
         
-        <div className="space-y-12">
+        <div className="flex flex-col gap-12 sm:gap-16">
           {/* Asset Class Attribution */}
           <div>
             <div className="mb-3 flex items-end justify-between gap-3">
@@ -400,12 +484,15 @@ export function MarketBriefingV0() {
 
           <DisparityAlert warnings={briefing.disparityWarning} />
 
-          <div>
-            <div className="mb-3 flex items-end justify-between gap-3">
-              <h3 className="font-bold text-neutral-900">오늘 가장 활발하게 거래된 ETF</h3>
-              <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />거래대금순</span>
+          <section aria-labelledby="active-etfs-title" className="rounded-[24px] border border-[#D7EABB] bg-[#F9FBFC] p-6 sm:p-8 shadow-sm">
+            <div className="mb-6 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">ACTIVE TRADING</p>
+                <h3 id="active-etfs-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">오늘 가장 활발하게 거래된 ETF</h3>
+              </div>
+              <span className="text-xs text-neutral-500 flex items-center gap-1"><Info className="h-3 w-3" />거래대금순 (최상위 3종목)</span>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-3">
               {briefing.focusEtfs.map((etf) => (
                 <Link key={etf.ticker} href={`/etf/${etf.ticker}`} className="group rounded-[18px] border border-[#E5E8E2] bg-white p-4 shadow-[0_4px_12px_rgba(27,38,26,0.04)] transition hover:-translate-y-0.5 hover:border-[#B8D598] hover:bg-[#F8FCEB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68]">
                   <div className="flex items-start justify-between gap-3">
@@ -418,17 +505,12 @@ export function MarketBriefingV0() {
                 </Link>
               ))}
             </div>
-            <p className="mt-3 text-xs text-neutral-500">거래대금은 관심 집중도를 보여주는 지표이며 투자 추천이나 향후 성과를 의미하지 않습니다.</p>
-          </div>
+            <p className="mt-4 text-xs text-neutral-500">거래대금은 관심 집중도를 보여주는 지표이며 투자 추천이나 향후 성과를 의미하지 않습니다.</p>
+          </section>
         </div>
       </section>
 
-      <section className="rounded-[22px] bg-[#202920] px-6 py-8 text-white sm:px-8 sm:py-10">
-        <p className="text-[11px] font-extrabold tracking-[0.16em] text-[#B7E886]">MARKET INSIGHT</p>
-        <h2 className="mt-2 text-2xl font-extrabold tracking-tight">투자자 마음을 읽는 시장 분석을 받아보세요</h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-white/70">마켓 브리핑은 시장의 정량적인 움직임을 정리합니다. 마켓 인사이트에서는 흐름의 배경과 다음의 관전 포인트를 다룹니다.</p>
-        <Link href="/market-insights" className="mt-6 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-extrabold text-neutral-900 transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">마켓 인사이트 구독하기</Link>
-      </section>
+      
 
       <MarketBriefingHistory
         activeDate={briefing.asOfDate}
@@ -441,6 +523,7 @@ export function MarketBriefingV0() {
           <p>전체·투자금 Top 50·100·200 수익률은 해당 시장 일반 ETF들의 당일 등락률을 투자금으로 가중해 계산하며, 개별 ETF 비중 상한을 적용하지 않습니다.</p>
           <p>자산군별 수익률 기여도는 해당 자산군의 AUM 비중과 AUM 가중수익률을 곱해 계산합니다. 일반 ETF에는 레버리지·인버스 및 제외된 ETF가 포함됩니다.</p>
           {briefing.isStale && <p>현재 화면의 데이터는 {number.format(briefing.staleDays)}일 이전 데이터이므로 갱신 지연 상태로 표시됩니다.</p>}
+          <p className="mt-4 pt-4 border-t border-[#EDF2DE] text-xs text-neutral-500">데이터 수집·검증이 완료된 기준으로만 공개되며, 특정 ETF의 매수·매도·보유를 권유하지 않습니다.</p>
         </div>
       </details>
     </div>

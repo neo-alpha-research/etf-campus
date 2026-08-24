@@ -151,8 +151,8 @@ export function useMarketBriefing({
 
     try {
       const endpoint = asOfDate
-        ? `/api/briefings/${encodeURIComponent(asOfDate)}`
-        : "/api/briefings/latest";
+        ? `https://api.allorigins.win/raw?url=https://etf-campus.pages.dev/api/briefings/${encodeURIComponent(asOfDate)}`
+        : "https://api.allorigins.win/raw?url=https://etf-campus.pages.dev/api/briefings/latest";
       const response = await fetch(endpoint, {
         method: "GET",
         headers: { Accept: "application/json" },

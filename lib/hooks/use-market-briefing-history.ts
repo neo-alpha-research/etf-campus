@@ -59,7 +59,9 @@ export function useMarketBriefingHistory({ limit = 10 }: UseMarketBriefingHistor
 
     const search = new URLSearchParams({ limit: String(limit) });
     if (cursor) search.set("cursor", cursor);
-    const response = await fetch(`/api/briefings/history?${search.toString()}`, {
+    const endpoint = `https://etf-campus.pages.dev/api/briefings/history?${search.toString()}`;
+    const proxyEndpoint = `https://api.allorigins.win/raw?url=${encodeURIComponent(endpoint)}`;
+    const response = await fetch(proxyEndpoint, {
       headers: { Accept: "application/json" },
       cache: "no-store",
       signal: controller.signal,

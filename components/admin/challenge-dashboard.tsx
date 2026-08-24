@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { communityFetch } from "@/lib/community/browser-client";
 
@@ -23,7 +23,7 @@ export default function ChallengeDashboard() {
   const [data, setData] = useState<DashboardRow[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       const res = await communityFetch("/admin/challenges/dashboard");
       if (res.status === 401 || res.status === 403) {
@@ -38,13 +38,13 @@ export default function ChallengeDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
 
   useEffect(() => {
     setTimeout(() => {
       loadData();
     }, 0);
-  }, []);
+  }, [loadData]);
 
   const handleOverride = async (participantId: string, cohortId: string, dayNumber: number, newStatus: string) => {
     try {
@@ -59,8 +59,8 @@ export default function ChallengeDashboard() {
       } else {
         alert("상태 변경 실패");
       }
-    } catch (err) {
-      alert("오류 발생");
+    } catch (error) {
+      alert("네트워크 오류");
     }
   };
 

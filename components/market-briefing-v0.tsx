@@ -8,7 +8,7 @@ import Link from "next/link";
 
 import { useMemo, useState } from "react";
 
-import { Info, BookOpen, TrendingUp, TrendingDown } from "lucide-react";
+import { Info, BookOpen, TrendingUp, TrendingDown, Calendar } from "lucide-react";
 
 import { MarketBriefingHistory } from "@/components/market-briefing-history";
 
@@ -320,23 +320,13 @@ function BreadthBar({ pulse }: { pulse: Briefing["pulse"] }) {
 
 
 
-function IndexCard({ index }: { index: MarketIndex }) {
+function IndexRow({ index }: { index: MarketIndex }) {
   const change = index.change_pct ?? 0;
   const isUp = change > 0;
   const isDown = change < 0;
   
   const isVol = index.code === "VIX" || index.code === "VKOSPI";
   const isBondYield = index.code === "KR10Y" || index.code === "DGS10";
-  
-  let bgClass = "bg-white border-[#D7EABB]";
-  if (isVol) {
-    bgClass = isUp ? "bg-gradient-to-br from-white to-[#FFFBEB] border-[#FDE68A]" : isDown ? "bg-gradient-to-br from-white to-[#F0FDF4] border-[#BBF7D0]" : "bg-white border-[#D7EABB]";
-  } else if (isBondYield) {
-    // 금리가 오르면(Up) 채권 가격 하락이므로 푸른색(Blue), 하락하면(Down) 붉은색(Red)
-    bgClass = isUp ? "bg-gradient-to-br from-white to-[#F0F8FF] border-[#B9DDF2]" : isDown ? "bg-gradient-to-br from-white to-[#FFF5F5] border-[#F3C5C9]" : "bg-white border-[#D7EABB]";
-  } else {
-    bgClass = isUp ? "bg-gradient-to-br from-white to-[#FFF5F5] border-[#F3C5C9]" : isDown ? "bg-gradient-to-br from-white to-[#F0F8FF] border-[#B9DDF2]" : "bg-white border-[#D7EABB]";
-  }
   
   let surfaceClass = changeSurface(change);
   if (isVol) {
@@ -356,39 +346,50 @@ function IndexCard({ index }: { index: MarketIndex }) {
   let yieldCurveBadge = null;
   if (index.code === "T10Y2Y") {
     if (index.close < 0) {
-      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#FFF5F5] px-1.5 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">침체 경고 (역전)</span>;
+      yieldCurveBadge = <span className="ml-1 inline-flex items-center rounded bg-[#FFF5F5] px-1.5 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">침체 경고 (역전)</span>;
     } else if (index.close <= 0.2) {
-      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#FFFBEB] px-1.5 py-0.5 text-[10px] font-bold text-[#D97706] ring-1 ring-inset ring-[#FDE68A]">둔화 경계 (평탄화)</span>;
+      yieldCurveBadge = <span className="ml-1 inline-flex items-center rounded bg-[#FFFBEB] px-1.5 py-0.5 text-[10px] font-bold text-[#D97706] ring-1 ring-inset ring-[#FDE68A]">둔화 경계</span>;
     } else {
-      yieldCurveBadge = <span className="ml-1.5 mb-1 inline-flex items-center rounded bg-[#F0FDF4] px-1.5 py-0.5 text-[10px] font-bold text-[#166534] ring-1 ring-inset ring-[#BBF7D0]">성장 기대 (정상)</span>;
+      yieldCurveBadge = <span className="ml-1 inline-flex items-center rounded bg-[#F0FDF4] px-1.5 py-0.5 text-[10px] font-bold text-[#166534] ring-1 ring-inset ring-[#BBF7D0]">성장 기대</span>;
     }
   }
 
+  let emoji = "";
+  if (["KOSPI", "KOSDAQ"].includes(index.code)) emoji = "🇰🇷";
+  else if (["SPX", "NDX"].includes(index.code)) emoji = "🇺🇸";
+  else if (["VIX", "VKOSPI"].includes(index.code)) emoji = "⚡";
+  else if (["KR10Y", "DGS10"].includes(index.code)) emoji = "🏦";
+  else if (index.code === "T10Y2Y") emoji = "⚖️";
+  else if (index.code === "CLF") emoji = "🛢️";
+  else if (index.code === "GC") emoji = "🥇";
+  else if (index.code === "SI") emoji = "🥈";
+
   return (
-    <article className={`rounded-[18px] border p-4 shadow-sm transition-all hover:-translate-y-0.5 ${bgClass}`}>
-      <div className="flex items-start justify-between gap-3">
+    <div className="flex items-center justify-between py-3 border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50 transition-colors rounded-lg px-2 -mx-2">
+      <div className="flex items-center gap-2.5">
+        <span className="text-[17px]">{emoji}</span>
         <div className="flex items-center gap-1.5">
-          <p className="text-sm font-bold text-neutral-800">{index.label}</p>
+          <p className="text-[13px] font-bold text-neutral-800">{index.label}</p>
           {index.code === "T10Y2Y" && (
             <InfoTooltip text="미국 국채 10년물 금리에서 2년물 금리를 뺀 값입니다. 단기 금리가 장기 금리보다 높아지는 마이너스(-) 상태, 즉 '장단기 금리차 역전' 현상은 역사적으로 경제 침체가 다가온다는 강력한 경고등 역할을 해왔습니다." />
           )}
         </div>
-        <span className={`flex items-center gap-0.5 rounded-full px-2 py-1 text-[11px] font-bold ring-1 ${surfaceClass}`}>
+      </div>
+      
+      <div className="flex items-center gap-3">
+        <div className="text-right flex items-baseline gap-0.5">
+          <span className="text-[15px] font-extrabold tracking-tight text-neutral-900 tabular-nums">{decimal.format(index.close)}</span>
+          {unit && <span className="text-[10px] font-semibold text-neutral-500">{unit}</span>}
+          {yieldCurveBadge}
+        </div>
+        <span className={`flex w-16 items-center justify-end gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-bold ring-1 ${surfaceClass}`}>
           {trendIcon}
           {signed(change)}
         </span>
       </div>
-      <p className="mt-4 text-xl font-bold tracking-tight text-neutral-900 tabular-nums flex items-end">
-        <span>{decimal.format(index.close)}</span>
-        {unit && <span className="ml-0.5 mb-[2px] text-xs font-semibold text-neutral-500">{unit}</span>}
-        {yieldCurveBadge}
-      </p>
-      <p className="mt-1.5 text-[11px] text-neutral-500">· {dateLabel(index.as_of_date)}</p>
-    </article>
+    </div>
   );
 }
-
-
 
 export function MarketBriefingV0() {
 

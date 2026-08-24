@@ -778,7 +778,7 @@ export function MarketBriefingV0() {
         <div className="mb-6">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
-            <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 ETF 시장의 체감 온도는 어땠을까요?</h2>
+            <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 시장의 체감 온도는? (시장 심리)</h2>
             <p className="mt-1 text-sm text-neutral-500">수익률 분포와 시장 거래대금 쏠림 현상을 통해 일반 ETF 시장의 온도를 진단합니다.</p>
           </div>
         </div>          {/* 2-Pillar Dashboard Layout */}
@@ -801,10 +801,10 @@ export function MarketBriefingV0() {
                 </div>
                 
                 <div className="mt-8">
-                  <div className="flex justify-between text-[12px] font-bold mb-2">
-                    <span className="text-[#EE4B58]">상승 {pulse.upCount}</span>
-                    <span className="text-neutral-400">보합 {pulse.flatCount}</span>
-                    <span className="text-[#4682EC]">하락 {pulse.downCount}</span>
+                  <div className="flex text-[11px] font-bold mb-1 w-full">
+                    <div style={{ width: `${(pulse.upCount / pulse.generalEtfCount) * 100}%` }} className="text-[#EE4B58] text-left overflow-visible whitespace-nowrap">상승 {pulse.upCount}</div>
+                    <div style={{ width: `${(pulse.flatCount / pulse.generalEtfCount) * 100}%` }} className="text-neutral-400 text-center overflow-visible whitespace-nowrap">보합 {pulse.flatCount}</div>
+                    <div style={{ width: `${(pulse.downCount / pulse.generalEtfCount) * 100}%` }} className="text-[#4682EC] text-right overflow-visible whitespace-nowrap">하락 {pulse.downCount}</div>
                   </div>
                   {/* Stacked Bar */}
                   <div className="w-full h-3 rounded-full flex overflow-hidden">
@@ -825,7 +825,10 @@ export function MarketBriefingV0() {
             {/* 2. Concentration (수급 건전성: 일반 vs 전체) */}
             <div className="bg-[#F9FBFC] border border-[#E5E8E2] rounded-[20px] p-6 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col">
               <div className="flex-1 flex flex-col justify-start">
-                <p className="text-[12px] font-extrabold text-neutral-400 mb-2 tracking-[0.1em]">수급 건전성 (거래 쏠림)</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em]">수급 건전성</p>
+                  <span className="text-[10px] text-neutral-400 font-medium bg-neutral-100 px-1.5 py-0.5 rounded">상위 10개 ETF 거래대금 비중</span>
+                </div>
                 
                 <div className="grid grid-cols-2 gap-3 mt-3">
                   {/* 일반 ETF 기준 */}
@@ -856,7 +859,7 @@ export function MarketBriefingV0() {
                     </div>
                   </div>
                 </div>
-                <p className="mt-2.5 text-[10px] text-neutral-400">상위 10개 ETF가 전체 거래대금에서 차지하는 비중</p>
+
               </div>
               
               <div className="mt-6 pt-4 border-t border-neutral-200/60">

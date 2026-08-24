@@ -355,11 +355,8 @@ function IndexRow({ index }: { index: MarketIndex }) {
   }
 
   let emoji = "";
-  if (["KOSPI", "KOSDAQ"].includes(index.code)) emoji = "📈";
-  else if (["SPX", "NDX"].includes(index.code)) emoji = "📈";
-  else if (["VIX", "VKOSPI"].includes(index.code)) emoji = "🌊";
-  else if (["KR10Y", "DGS10"].includes(index.code)) emoji = "📉";
-  else if (index.code === "T10Y2Y") emoji = "⚖️";
+  if (["VIX", "VKOSPI"].includes(index.code)) emoji = "🎢";
+  else if (index.code === "T10Y2Y") emoji = "🚨";
   else if (index.code === "CLF") emoji = "🛢️";
   else if (index.code === "GC") emoji = "🥇";
   else if (index.code === "SI") emoji = "🥈";
@@ -367,7 +364,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
   return (
     <div className="flex items-center justify-between py-3 border-b border-neutral-100 last:border-0 hover:bg-neutral-50/50 transition-colors rounded-lg px-2 -mx-2">
       <div className="flex items-center gap-2.5">
-        <span className="text-[17px]">{emoji}</span>
+        {emoji && <span className="text-[17px] w-5 text-center">{emoji}</span>}
         <div className="flex items-center gap-1.5">
           <p className="text-[13px] font-bold text-neutral-800">{index.label}</p>
           {index.code === "T10Y2Y" && (
@@ -743,34 +740,34 @@ export function MarketBriefingV0() {
             )}
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
             {/* 국내 증시 */}
-            <div className="rounded-[22px] border border-[#EDF2DE] bg-[#FDFEFB] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
-              <h3 className="mb-4 text-[13px] font-extrabold text-[#5A7050] tracking-wide">🇰🇷 국내 증시</h3>
+            <div>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">🇰🇷</span> 국내 증시</h3>
               <div className="flex flex-col">
                 {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
             
             {/* 미국 증시 */}
-            <div className="rounded-[22px] border border-[#EDF2DE] bg-[#FDFEFB] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
-              <h3 className="mb-4 text-[13px] font-extrabold text-[#5A7050] tracking-wide">🇺🇸 미국 증시</h3>
+            <div>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">🇺🇸</span> 미국 증시</h3>
               <div className="flex flex-col">
                 {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
 
             {/* 채권/금리 */}
-            <div className="rounded-[22px] border border-[#EDF2DE] bg-[#FDFEFB] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
-              <h3 className="mb-4 text-[13px] font-extrabold text-[#5A7050] tracking-wide">🏦 채권 및 금리</h3>
+            <div>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">💵</span> 채권 및 금리</h3>
               <div className="flex flex-col">
                 {orderedIndices.filter(i => ["KR10Y", "DGS10", "T10Y2Y"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
 
             {/* 원자재 */}
-            <div className="rounded-[22px] border border-[#EDF2DE] bg-[#FDFEFB] p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)]">
-              <h3 className="mb-4 text-[13px] font-extrabold text-[#5A7050] tracking-wide">🛢️ 원자재</h3>
+            <div>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">⛏️</span> 원자재</h3>
               <div className="flex flex-col">
                 {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>

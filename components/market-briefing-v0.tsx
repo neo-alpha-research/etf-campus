@@ -982,8 +982,7 @@ export function MarketBriefingV0() {
         </div>
 
         <div className="flex flex-col gap-12 sm:gap-16">
-
-          <FundFlowRanking fundFlow={briefing.fundFlow} />
+          {briefing.fundFlow && <FundFlowRanking fundFlow={briefing.fundFlow} />}
 
 
 

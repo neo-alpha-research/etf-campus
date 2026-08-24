@@ -448,15 +448,11 @@ export function MarketBriefingV0() {
     
 
     addGlobalIndex("S&P 500", "SPX");
-
     addGlobalIndex("나스닥", "NDX");
-    addGlobalIndex("VKOSPI", "VKOSPI");
-    addGlobalIndex("금 선물", "GC");
-    addGlobalIndex("은 선물", "SI");
+    addGlobalIndex("니케이 225", "N225");
+    addGlobalIndex("원/달러", "USDKRW");
 
-
-
-    const order = ["KOSPI", "KOSDAQ", "SPX", "NDX", "VIX", "KR10Y", "DGS10", "T10Y2Y", "CLF"];
+    const order = ["KOSPI", "KOSDAQ", "SPX", "NDX", "N225", "USDKRW"];
 
     return mergedIndices.sort((a, b) => {
 
@@ -740,36 +736,28 @@ export function MarketBriefingV0() {
             )}
           </div>
 
-          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-3">
             {/* 국내 증시 */}
             <div>
               <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><img src="https://flagcdn.com/w40/kr.png" className="w-[18px] h-[13px] rounded-sm object-cover shadow-sm" alt="KR" /> 국내 증시</h3>
               <div className="flex flex-col">
-                {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                {orderedIndices.filter(i => ["KOSPI", "KOSDAQ"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
             
-            {/* 미국 증시 */}
+            {/* 해외 증시 */}
             <div>
-              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><img src="https://flagcdn.com/w40/us.png" className="w-[18px] h-[13px] rounded-sm object-cover shadow-sm" alt="US" /> 미국 증시</h3>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">🌐</span> 해외 증시</h3>
               <div className="flex flex-col">
-                {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                {orderedIndices.filter(i => ["SPX", "NDX", "N225"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
 
-            {/* 채권/금리 */}
+            {/* 환율 */}
             <div>
-              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">💵</span> 채권 및 금리</h3>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">💵</span> 환율</h3>
               <div className="flex flex-col">
-                {orderedIndices.filter(i => ["KR10Y", "DGS10", "T10Y2Y"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
-              </div>
-            </div>
-
-            {/* 원자재 */}
-            <div>
-              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">⛏️</span> 원자재</h3>
-              <div className="flex flex-col">
-                {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                {orderedIndices.filter(i => ["USDKRW"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
           </div>

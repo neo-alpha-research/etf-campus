@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { MarketBriefingV0 } from "@/components/market-briefing-v0";
+import { MarketBriefing } from "@/components/market-briefing/market-briefing";
 
 export const metadata: Metadata = {
   title: "마켓 브리핑 | ETF Campus",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 /**
  * `output: "export"`를 쓰는 Cloudflare Pages route이므로
- * 동적 렌더링되는 MarketBriefingV0가 Pages API(/api/briefings/latest)에서 가져오며
+ * 동적 렌더링되는 MarketBriefing이 Pages API(/api/briefings/latest)에서 가져오며
  * 개별 source snapshot 이 Queue publisher를 거쳐 ready briefing이 생성되면 자동으로 화면에 반영됩니다.
  */
 export default function BriefingPage() {
@@ -21,7 +21,7 @@ export default function BriefingPage() {
       </div>
 
       <section className="mt-2" aria-label="자동 마켓 데일리 대시보드">
-        <MarketBriefingV0 />
+        <MarketBriefing />
       </section>
     </main>
   );

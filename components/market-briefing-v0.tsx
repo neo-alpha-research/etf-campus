@@ -16,7 +16,7 @@ import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking"
 
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
 
-import { PeerGroupReturns } from "@/components/market-briefing/peer-group-returns";
+
 
 import { useMarketBriefing, MarketIndex } from "@/lib/hooks/use-market-briefing";
 
@@ -448,15 +448,10 @@ export function MarketBriefingV0() {
     
 
     addGlobalIndex("S&P 500", "SPX");
-
     addGlobalIndex("나스닥", "NDX");
-    addGlobalIndex("VKOSPI", "VKOSPI");
-    addGlobalIndex("금 선물", "GC");
-    addGlobalIndex("은 선물", "SI");
+    addGlobalIndex("원/달러", "USDKRW");
 
-
-
-    const order = ["KOSPI", "KOSDAQ", "SPX", "NDX", "VIX", "KR10Y", "DGS10", "T10Y2Y", "CLF"];
+    const order = ["KOSPI", "KOSDAQ", "SPX", "NDX", "USDKRW"];
 
     return mergedIndices.sort((a, b) => {
 

@@ -49,7 +49,7 @@ function IndexPill({ label, value, change }: MarketIndex) {
 
 export function MarketTicker() {
   const baseDateStr = indicesData.base_date;
-  const excludedLabels = ["VKOSPI", "금 선물", "은 선물"];
+  const excludedLabels = ["VKOSPI"];
   const indices = (indicesData.indices as MarketIndex[]).filter(idx => !excludedLabels.includes(idx.label));
   
   // Convert 20260821 to 2026년 8월 21일

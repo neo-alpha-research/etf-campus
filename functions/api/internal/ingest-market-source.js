@@ -84,11 +84,11 @@ function validateBatch(payload, common) {
 }
 
 function validateFinalization(payload, common) {
-  if (!Array.isArray(payload.indices) || payload.indices.length !== 2) return { ok: false, error: "invalid_index_count" };
+  if (!Array.isArray(payload.indices) || payload.indices.length < 2) return { ok: false, error: "invalid_index_count" };
   const indices = payload.indices.map(normalizeIndex);
   if (indices.some((index) => !index)) return { ok: false, error: "invalid_index_row" };
   const codes = new Set(indices.map((index) => index.code));
-  if (codes.size !== 2 || !codes.has("KOSPI") || !codes.has("KOSDAQ")) return { ok: false, error: "missing_index_code" };
+  if (!codes.has("KOSPI") || !codes.has("KOSDAQ")) return { ok: false, error: "missing_index_code" };
   return { ok: true, value: indices };
 }
 

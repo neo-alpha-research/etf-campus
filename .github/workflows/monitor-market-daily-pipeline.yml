@@ -1,4 +1,4 @@
-﻿name: Monitor market daily pipeline
+name: Monitor market daily pipeline
 
 on:
   schedule:

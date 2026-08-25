@@ -272,10 +272,18 @@ function calculateFundFlow(quotes: any[], previousQuotes: any[]): any {
   const allResults = [];
   const generalResults = [];
   
+  let skippedDueToNav = 0;
+  
   for (const q of quotes) {
-    if (!q.aum_value || !q.nav_value) continue;
+    if (!q.aum_value || !q.nav_value) {
+      skippedDueToNav++;
+      continue;
+    }
     const prev = prevMap.get(q.ticker);
-    if (!prev || !prev.aum_value || !prev.nav_value) continue;
+    if (!prev || !prev.aum_value || !prev.nav_value) {
+      skippedDueToNav++;
+      continue;
+    }
     
     // Shares Outstanding = AUM / NAV (To avoid disparity distortion)
     const currentShares = q.aum_value / q.nav_value;
@@ -294,7 +302,11 @@ function calculateFundFlow(quotes: any[], previousQuotes: any[]): any {
       generalResults.push(row);
     }
   }
-  
+  if (skippedDueToNav > 0) {
+    console.warn(`[calculateFundFlow] Skipped ${skippedDueToNav} ETFs due to missing NAV or AUM data.`);
+  }
+
+  // Sorting
   allResults.sort((a, b) => b.netInflowValue - a.netInflowValue);
   generalResults.sort((a, b) => b.netInflowValue - a.netInflowValue);
   

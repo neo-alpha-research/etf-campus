@@ -70,13 +70,11 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
     
     # Read classification mapping
     class_map = {}
-    try:
-        with open('data/classification/etf_classification_review_draft.csv', 'r', encoding='utf-8') as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                class_map[row['ticker']] = row.get('final_asset_detail') or row.get('suggested_asset_detail') or ''
-    except Exception as e:
-        print(f"Warning: Failed to load classification: {e}")
+    with open('data/classification/etf_classification_review_draft.csv', 'r', encoding='utf-8-sig') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            detail = row.get('final_asset_detail') or row.get('suggested_asset_detail') or ''
+            class_map[row['ticker']] = detail.strip()
 
     with path.open("r", encoding="utf-8-sig") as stream:
         reader = csv.DictReader(stream)
@@ -338,6 +336,12 @@ def main() -> None:
     positive_aum = [row for row in general if row["aumValue"] > 0]
     if not general or not positive_aum:
         raise RuntimeError("ETF master quality validation failed: general ETF/AUM coverage is empty.")
+
+    # Validate classification mapping coverage (Step 3 Peer Groups dependency)
+    mapped_count = sum(1 for row in general if class_map.get(row["ticker"]))
+    mapping_ratio = mapped_count / len(general) if general else 0
+    if mapping_ratio < 0.10:
+        raise RuntimeError(f"Classification mapping coverage too low: {mapped_count}/{len(general)} ({mapping_ratio:.1%}). Expected at least 10%.")
     aum_coverage_pct = len(positive_aum) / len(general) * 100
     etf_hash = canonical_hash(etfs)
 

@@ -211,7 +211,7 @@ def main() -> None:
     if args.source == "fsc":
         krx_key = None
     elif args.source == "krx":
-        go_kr_key = None
+        pass # Handled inside the loop
 
     holidays = get_market_holidays()
     
@@ -232,24 +232,37 @@ def main() -> None:
     accepted_total = 0
     successful_dates: list[str] = []
     failed_dates: list[str] = []
+    fallback_dates: list[str] = []
     for index, trading_date in enumerate(trading_days):
         day_text = trading_date.strftime("%Y%m%d")
         sql_date = trading_date.strftime("%Y-%m-%d")
         print(f"[{index + 1}/{len(trading_days)}] Fetching and submitting {sql_date}...")
 
         snapshot = None
-        if krx_key:
-            try:
-                snapshot = fetch_krx_snapshot(krx_key, day_text)
-            except Exception as error:
-                print(f"  KRX API failed for {sql_date}: {error}")
+        used_krx = False
 
-        if not snapshot and go_kr_key:
-            try:
-                print(f"  Attempting fallback to data.go.kr for {sql_date}...")
-                snapshot = fetch_snapshot(go_kr_key, day_text)
-            except Exception as error:
-                print(f"  Fallback data.go.kr API failed for {sql_date}: {error}")
+        if args.source == "krx":
+            if krx_key:
+                try:
+                    snapshot = fetch_krx_snapshot(krx_key, day_text)
+                    used_krx = True
+                except Exception as error:
+                    print(f"  KRX API failed for {sql_date}: {error}")
+        else:
+            if go_kr_key:
+                try:
+                    snapshot = fetch_snapshot(go_kr_key, day_text)
+                except Exception as error:
+                    print(f"  FSC API failed for {sql_date}: {error}")
+
+            if not snapshot and krx_key:
+                try:
+                    print(f"  [WARNING] FSC API failed or returned no data. Falling back to KRX API for {sql_date}...")
+                    snapshot = fetch_krx_snapshot(krx_key, day_text)
+                    used_krx = True
+                    fallback_dates.append(sql_date)
+                except Exception as error:
+                    print(f"  Fallback KRX API failed for {sql_date}: {error}")
 
         if not snapshot:
             print(f"  Failed to get data for {sql_date} from any API. Skipping.")
@@ -275,7 +288,7 @@ def main() -> None:
                 )
                 time.sleep(0.1)
             accepted_total += accepted_for_day
-            print(f"  Accepted {accepted_for_day} prices for {sql_date}. Source: {'fsc' if not krx_key or (krx_key and not snapshot) else 'krx'}")
+            print(f"  Accepted {accepted_for_day} prices for {sql_date}. Source: {'krx' if used_krx else 'fsc'}")
             successful_dates.append(sql_date)
         except Exception as error:
             print(f"  Failed to submit {sql_date}: {error}")
@@ -284,6 +297,8 @@ def main() -> None:
     print(f"Signed price ingestion completed at {datetime.datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S KST')}:")
     print(f"  Total accepted records: {accepted_total}")
     print(f"  Successful dates: {len(successful_dates)} {successful_dates if successful_dates else ''}")
+    if fallback_dates:
+        print(f"  Fallback (KRX) dates: {len(fallback_dates)} {fallback_dates}")
     print(f"  Failed dates: {len(failed_dates)} {failed_dates if failed_dates else ''}")
     
     if failed_dates:

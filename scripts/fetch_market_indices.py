@@ -199,6 +199,7 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
 
 def check_for_duplicates(new_indices, old_indices):
     old_map = {item['label']: item for item in old_indices}
+    duplicate_count = 0
     for new_item in new_indices:
         label = new_item['label']
         if label in old_map:
@@ -207,8 +208,12 @@ def check_for_duplicates(new_indices, old_indices):
             if (new_item['value'] == old_item['value'] and 
                 new_item['change'] == old_item['change'] and 
                 new_item['change'] != 0.0):
-                logging.error(f"Duplicate values detected for {label}! New: {new_item}, Old: {old_item}")
-                return True
+                logging.warning(f"Duplicate values detected for {label}! New: {new_item}, Old: {old_item}")
+                duplicate_count += 1
+    
+    if duplicate_count >= 3:
+        logging.error(f"Too many duplicate indices ({duplicate_count}). Likely fetching stale data.")
+        return True
     return False
 
 def main():

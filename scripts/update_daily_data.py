@@ -477,9 +477,12 @@ def main() -> None:
                 krx_cache,
                 args.require_exact_date,
             )
-            if krx_resolved:
+            if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
                 resolved = krx_resolved
                 source = "KRX Open API"
+            elif krx_resolved:
+                print(f"KRX snapshot incomplete: {len(krx_resolved[1])}/{len(old_master)}; fallback discarded.")
+                resolved = None
         except Exception as error:
             print(f"KRX fallback unavailable: {error}")
     if resolved is None:

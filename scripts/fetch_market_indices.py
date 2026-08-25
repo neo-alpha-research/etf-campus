@@ -15,10 +15,13 @@ from io import StringIO
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
+KRX_INDEX_URLS = {
+    "KOSPI": "https://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd",
+    "KOSDAQ": "https://data-dbg.krx.co.kr/svc/apis/idx/kosdaq_dd_trd",
+}
+
 # Yahoo Finance mapping
 TICKERS = {
-    "코스피": "^KS11",
-    "코스닥": "^KQ11",
     "S&P 500": "^GSPC",
     "나스닥": "^IXIC",
     "니케이 225": "^N225",
@@ -55,6 +58,41 @@ def iso_date(date_str: str) -> str:
     if len(date_str) == 8:
         return f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
     return date_str
+
+def fetch_krx_index(auth_key: str, code: str, as_of_date: str) -> dict | None:
+    query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
+    request = urllib.request.Request(
+        f"{KRX_INDEX_URLS[code]}?{query}",
+        headers={"AUTH_KEY": auth_key, "Accept": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except Exception as error:
+        logging.error(f"KRX {code} API failed: {error}")
+        return None
+
+    rows = payload.get("OutBlock_1") or payload.get("outBlock1") or payload.get("data") or []
+    if isinstance(rows, dict):
+        rows = [rows]
+    expected = {"KOSPI": {"KOSPI", "코스피"}, "KOSDAQ": {"KOSDAQ", "코스닥"}}[code]
+    for row in rows:
+        name = str(row.get("IDX_NM") or row.get("idxNm") or row.get("indexName") or "").strip()
+        if name.upper() not in expected and name not in expected:
+            continue
+        basis = str(row.get("BAS_DD") or row.get("basDt") or "").strip()
+        normalized_date = iso_date(basis)
+        close_val = compact_number(row.get("CLSPRC_IDX") or row.get("TDD_CLSPRC") or row.get("clpr"))
+        change_pct = compact_number(row.get("FLUC_RT") or row.get("fltRt"))
+        return {
+            "value": close_val,
+            "change": change_pct,
+            "as_of_date": normalized_date,
+            "changePoints": compact_number(row.get("CMPPREVDD_IDX") or row.get("CMPPREVDD") or row.get("vs") or 0),
+            "volumeValue": compact_number(row.get("ACC_TRDVAL") or row.get("ACC_TRDVOL") or row.get("trqu") or 0),
+        }
+    logging.error(f"KRX {code} response has no composite index row for {as_of_date}")
+    return None
 
 def fetch_fred_data(series_id: str, target_date_str: str) -> dict | None:
     target_date = datetime.strptime(target_date_str, "%Y%m%d")
@@ -182,6 +220,8 @@ def main():
     logging.info(f"Using ETF base date: {target_date_str}")
     iso_target = iso_date(target_date_str)
     
+    krx_auth_key = os.environ.get("KRX_OPEN_API_KEY")
+
     # Read previous JSON for duplicate checking
     out_path = Path("data/market_indices.json")
     old_indices = []
@@ -197,6 +237,22 @@ def main():
             
     success_count = 0
     fail_labels = []
+
+    # 1. Fetch KRX
+    if krx_auth_key:
+        for label, code in [("코스피", "KOSPI"), ("코스닥", "KOSDAQ")]:
+            logging.info(f"Fetching {label} from KRX...")
+            data = fetch_krx_index(krx_auth_key, code, iso_target)
+            if data:
+                data["label"] = label
+                data["code"] = code
+                results.append(data)
+                success_count += 1
+            else:
+                fail_labels.append(label)
+    else:
+        logging.error("KRX_OPEN_API_KEY not found. Cannot fetch KOSPI/KOSDAQ from KRX.")
+        fail_labels.extend(["코스피", "코스닥"])
 
     # 2. Fetch Yahoo
     for label, symbol in TICKERS.items():
@@ -235,7 +291,7 @@ def main():
         
     logging.info(f"Successfully wrote {success_count} records to {out_path}. Failed: {len(fail_labels)} ({', '.join(fail_labels)})")
     
-    total_targets = len(TICKERS) + len(FRED_TICKERS)
+    total_targets = 2 + len(TICKERS) + len(FRED_TICKERS)
     if success_count / total_targets < 0.7:
         logging.error("Success rate is below 70%. Failing the workflow.")
         sys.exit(1)

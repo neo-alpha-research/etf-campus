@@ -5,15 +5,19 @@
       "value": 6696.96,
       "change": -3.12,
       "as_of_date": "2026-08-24",
+      "changePoints": -215.99,
+      "volumeValue": 26163350950778.0,
       "label": "코스피",
-      "code": "^KS11"
+      "code": "KOSPI"
     },
     {
       "value": 813.33,
       "change": 1.42,
       "as_of_date": "2026-08-24",
+      "changePoints": 11.39,
+      "volumeValue": 4186677264598.0,
       "label": "코스닥",
-      "code": "^KQ11"
+      "code": "KOSDAQ"
     },
     {
       "value": 7652.86,

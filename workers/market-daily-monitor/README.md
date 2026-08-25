@@ -14,6 +14,12 @@ npm run deploy
 ```
 *(Wrangler 인증이 되어 있어야 합니다)*
 
+## 🚨 휴장일 목록 동기화 주의 🚨
+
+이 Worker 내부의 `src/market_holidays.txt`는 메인 저장소의 `data/market_holidays.txt`의 **복사본**입니다.
+메인 저장소에서 새 휴장일이 추가되거나 변경될 경우, 이 Worker도 함께 **재배포(`npm run deploy`)**되어야만 감시 장치가 새로운 휴장일 목록을 반영할 수 있습니다.
+원본만 바뀌고 Worker가 갱신되지 않으면, 휴장일에도 오탐 알림이 발생하거나 실제 누락을 휴장일로 오인하고 넘어가는 치명적인 문제가 발생할 수 있습니다.
+
 ## 필수 시크릿 (Secret)
 
 이 Worker는 두 가지 인증 키를 사용합니다.

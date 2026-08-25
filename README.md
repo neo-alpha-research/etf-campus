@@ -1,82 +1,420 @@
-# ETFCampus
-
-국내 상장 ETF 큐레이션 정보 서비스 "ETF 캠퍼스"(가칭) 개발 저장소.
-
-## 폴더 구조
+# Gitleaks
 
 ```
-D:\ETFCampus
-├── docs/  ── 설계 기준서·사양서·인계 프롬프트 (구현 기준 사본)
-├── scripts/  ── 데이터 수집·태그·대조 배치 스크립트 (Python)
-├── data/  ── 배치 산출물 (마스터·수익률·연금 검수 시트·운용사 원천 JSON)
-├── content/
-│   ├── guides/  ── 자산군 가이드 (MDX)
-│   ├── books/  ── 북 큐레이션 (MDX)
-│   └── briefings/  ── 시황 브리핑 (YYYY-MM-DD.md, 배치 생성·PR 승인 게시)
-├── public/brand/  ── 캐릭터 브랜드 가이드와 시안 이미지
-├── (app/, package.json 등)  ── Next.js 앱 — 스캐폴드 시 루트에 생성
-└── .github/workflows/  ── 일일 배치 (daily-batch.yml, 추후)
+┌─○───┐
+│ │╲  │
+│ │ ○ │
+│ ○ ░ │
+└─░───┘
 ```
 
-## 문서 규칙 (SSOT)
+<p align="left">
+  <p align="left">
+	  <a href="https://github.com/zricethezav/gitleaks/actions/workflows/test.yml">
+		  <img alt="Github Test" src="https://github.com/zricethezav/gitleaks/actions/workflows/test.yml/badge.svg">
+	  </a>
+	  <a href="https://hub.docker.com/r/zricethezav/gitleaks">
+		  <img src="https://img.shields.io/docker/pulls/zricethezav/gitleaks.svg" />
+	  </a>
+	  <a href="https://github.com/zricethezav/gitleaks-action">
+        	<img alt="gitleaks badge" src="https://img.shields.io/badge/protected%20by-gitleaks-blue">
+    	 </a>
+	  <a href="https://twitter.com/intent/follow?screen_name=zricethezav">
+		  <img src="https://img.shields.io/twitter/follow/zricethezav?label=Follow%20zricethezav&style=social&color=blue" alt="Follow @zricethezav" />
+	  </a>
+  </p>
+</p>
 
-- 전략·구조 결정의 원본은 `D:\Brand_Command\EVS Navigator\04_ETF_데이터\ETF_Platform_Design_Baseline_20260716.md` (결정 대장 포함, 2026-08-03 폴더 재편으로 경로 변경)이며 Navigator가 관리한다
-- 본 저장소 `docs/`는 구현 기준 사본이다. 설계 변경은 반드시 운영자 → Navigator 원본 갱신 → `docs/` 사본 동기화 순서를 지킨다. 사본 직접 수정 금지
-- 구현 담당(ChatGPT)은 `docs/Handover_Prompt_ChatGPT_20260718.md`의 규칙을 따르며, 문서에 없는 결정은 운영자에게 질문한다
+### Join our Discord! [![Discord](https://img.shields.io/discord/1102689410522284044.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/8Hzbrnkr7E)
 
-## 주의
+Gitleaks is a SAST tool for **detecting** and **preventing** hardcoded secrets like passwords, api keys, and tokens in git repos. Gitleaks is an **easy-to-use, all-in-one solution** for detecting secrets, past or present, in your code.
 
-- 공개 저장소 전환 전 검토: API 키 등 비밀값은 코드·이력에 절대 포함 금지 (GitHub Secrets 사용)
-- 데이터 기준일: data/ 파일 내 bas_dt 컬럼 참조 (현재 2026-07-15 기준 시험 산출본)
+```
+➜  ~/code(master) gitleaks detect --source . -v
 
-## 캐릭터 브랜딩
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
 
-- 다람쥐 큐레이터 캐릭터명은 내부적으로 `티커리(TICKERY)`로 확정했다. 이름은 `Ticker + Library`의 조어다.
-- `TICKERY` 완전일치는 제9·36·41·42류 통합 검색에서 0건이었으나, 공개 사용 전 유사 호칭과 지정상품 유사군을 전문 검토하고 Navigator 공개 게이트를 통과해야 한다.
-- 캐릭터 설정·사용 규칙·금지 표현·시안 목록은 [`public/brand/README.md`](public/brand/README.md)를 따른다.
-- 현재 A/B/C 이미지는 콘셉트 검토용이며, 운영자 선택과 Navigator 반영 전에는 최종 브랜드 자산으로 간주하지 않는다.
 
-## 정식 학습용 예시 콘텐츠
+Finding:     "export BUNDLE_ENTERPRISE__CONTRIBSYS__COM=cafebabe:deadbeef",
+Secret:      cafebabe:deadbeef
+RuleID:      sidekiq-secret
+Entropy:     2.609850
+File:        cmd/generate/config/rules/sidekiq.go
+Line:        23
+Commit:      cd5226711335c68be1e720b318b7bc3135a30eb2
+Author:      John
+Email:       john@users.noreply.github.com
+Date:        2022-08-03T12:31:40Z
+Fingerprint: cd5226711335c68be1e720b318b7bc3135a30eb2:cmd/generate/config/rules/sidekiq.go:sidekiq-secret:23
+```
 
-- `content/briefings/[LEARNING_EXAMPLE]_2026-07-15.md` — 브리핑을 읽을 때 사실·기준일·출처·미확인 정보를 구분하는 방법을 보여 주는 학습용 예시
-- `content/guides/[LEARNING_EXAMPLE]_*.mdx` 4건 — 자산군 역할, ETF 비교 기준, 변동성, 시장 분산을 현실적인 질문 흐름으로 익히는 학습용 예시
-- `content/books/[LEARNING_EXAMPLE]_*.mdx` 3건 — ETF 판단 기준을 공부할 때 사용할 수 있는 읽기 경로 예시
+## Getting Started
 
-모든 학습용 예시는 ETF 판단 기준을 익히기 위한 자료이며, 특정 ETF의 매수·매도·보유를 권유하지 않는다. 실제 사실·수치·제도를 사용하는 콘텐츠는 기준일과 공식 출처를 함께 적는다.
+Gitleaks can be installed using Homebrew, Docker, or Go. Gitleaks is also available in binary form for many popular platforms and OS types on the [releases page](https://github.com/zricethezav/gitleaks/releases). In addition, Gitleaks can be implemented as a pre-commit hook directly in your repo or as a GitHub action using [Gitleaks-Action](https://github.com/gitleaks/gitleaks-action).
 
-## 공개 배포 전 게이트
+### Installing
 
-1. 레거시 `[SAMPLE]` 콘텐츠가 남아 있지 않은지 확인한다.
-2. 학습용 예시 파일이 `contentRole`, `exampleType`, `scenarioBasis`, `asOf`, `sources` 메타데이터와 이용자 고지를 갖췄는지 `npm run check:release`로 검증한다.
-3. 서비스명·상표·도메인 확정과 Phase 1 법률 검토 완료를 운영자가 확인한다.
-4. `NEXT_PUBLIC_SITE_URL`을 실제 공개 URL로 설정하고 `npm run lint`, `npm test`, `npm run build`를 다시 실행한다.
-5. Cloudflare Pages의 Metrics 메뉴에서 Web Analytics를 활성화한 뒤 프로덕션을 재배포한다.
+```bash
+# MacOS
+brew install gitleaks
 
-## 방문 계측
+# Docker (DockerHub)
+docker pull zricethezav/gitleaks:latest
+docker run -v ${path_to_host_folder_to_scan}:/path zricethezav/gitleaks:latest [COMMAND] --source="/path" [OPTIONS]
 
-- Cloudflare Pages의 무료 Web Analytics에서 자동 페이지뷰만 확인한다. 로그인 정보·사용자 식별자·사용자 입력값을 수집하는 커스텀 이벤트는 만들지 않는다.
-- 방문 통계는 Cloudflare의 기본 집계 설정만 사용한다. 별도 광고 픽셀·세션 녹화·사용자 프로파일링은 도입하지 않으며, 법률 검토 결과가 달라지면 공개 전에 반영한다.
-- Threads 발행 링크의 UTM 부착은 코드가 아니라 발행 SOP에서 관리한다. 필터와 스타일 값 외에 개인정보를 URL 쿼리에 넣지 않는다.
+# Docker (ghcr.io)
+docker pull ghcr.io/gitleaks/gitleaks:latest
+docker run -v ${path_to_host_folder_to_scan}:/path ghcr.io/gitleaks/gitleaks:latest [COMMAND] --source="/path" [OPTIONS]
 
-## 상장일·확장 수익률 배치
+# From Source
+git clone https://github.com/gitleaks/gitleaks.git
+cd gitleaks
+make build
+```
 
-- `scripts/enrich_listing_and_returns.py`는 기존 ETF 시세 API로 `listing_date`, 정확한 `new_90d`, 1일·1주·2주·2년·3년·상장 후(ITD) 가격수익률을 보강한다.
-- ITD는 첫 거래일 종가 대비이며, 배치 원천이 없거나 상장 기간이 부족한 값은 비워 둔다. 프론트에서는 이를 `-`로 표시한다.
-- API 키는 `DATA_GO_KR_SERVICE_KEY` GitHub Secret 환경변수로만 전달하고 저장소나 명령행 인자에 기록하지 않는다.
+### GitHub Action
 
-## 일일 데이터 자동 갱신
+Check out the official [Gitleaks GitHub Action](https://github.com/gitleaks/gitleaks-action)
 
-- `.github/workflows/daily-data.yml`은 월~토 오전 9시 30분(KST)에 실행한다. 토요일 실행에서 금요일 종가를 반영한다.
-- 목표일 데이터가 없으면 공식 API에서 그 이전 최근 거래일을 찾아 사용한다.
-- CSV 3종을 갱신한 뒤 전체 테스트와 정적 빌드가 성공한 경우에만 `main`에 자동 커밋한다.
-- Cloudflare Pages는 이 커밋을 감지해 `https://etf-campus.pages.dev`를 자동 재배포한다.
-- 수동 실행은 GitHub `Actions → Daily ETF data refresh → Run workflow`에서 할 수 있으며, 선택적으로 `YYYYMMDD` 목표일을 입력할 수 있다.
+```
+name: gitleaks
+on: [pull_request, push, workflow_dispatch]
+jobs:
+  scan:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}} # Only required for Organizations, not personal accounts.
+```
 
-## 주간 뉴스레터 시제품
+### Pre-Commit
 
-- 주간 스냅숏 생성: `npm run newsletter:snapshot -- --date YYYY-MM-DD`
-- 로컬 HTML 생성: `npm run newsletter:build -- --date YYYY-MM-DD`
-- 스냅숏은 `data/newsletter/weekly-snapshots/`, 검수용 결과물은 `artifacts/newsletter/YYYY-MM-DD/`에 저장한다.
-- 순위 기본 유니버스는 순자산 1,000억원 이상이며 일반 계좌·연금 계좌·레버리지·인버스를 분리한다.
-- 1주 수익률 결측치는 추정하지 않고 순위에서 제외한다.
-- `artifacts/`의 HTML은 메일리 발송본이 아니라 운영자 검수용이며, 테스트 발송 전 별도 승인이 필요하다.
+1. Install pre-commit from https://pre-commit.com/#install
+2. Create a `.pre-commit-config.yaml` file at the root of your repository with the following content:
+
+   ```
+   repos:
+     - repo: https://github.com/gitleaks/gitleaks
+       rev: v8.16.1
+       hooks:
+         - id: gitleaks
+   ```
+
+   for a [native execution of GitLeaks](https://github.com/zricethezav/gitleaks/releases) or use the [`gitleaks-docker` pre-commit ID](https://github.com/zricethezav/gitleaks/blob/master/.pre-commit-hooks.yaml) for executing GitLeaks using the [official Docker images](#docker)
+
+3. Auto-update the config to the latest repos' versions by executing `pre-commit autoupdate`
+4. Install with `pre-commit install`
+5. Now you're all set!
+
+```
+➜ git commit -m "this commit contains a secret"
+Detect hardcoded secrets.................................................Failed
+```
+
+Note: to disable the gitleaks pre-commit hook you can prepend `SKIP=gitleaks` to the commit command
+and it will skip running gitleaks
+
+```
+➜ SKIP=gitleaks git commit -m "skip gitleaks check"
+Detect hardcoded secrets................................................Skipped
+```
+
+## Usage
+
+```
+Usage:
+  gitleaks [command]
+
+Available Commands:
+  completion  generate the autocompletion script for the specified shell
+  detect      detect secrets in code
+  help        Help about any command
+  protect     protect secrets in code
+  version     display gitleaks version
+
+Flags:
+  -b, --baseline-path string       path to baseline with issues that can be ignored
+  -c, --config string              config file path
+                                   order of precedence:
+                                   1. --config/-c
+                                   2. env var GITLEAKS_CONFIG
+                                   3. (--source/-s)/.gitleaks.toml
+                                   If none of the three options are used, then gitleaks will use the default config
+      --exit-code int              exit code when leaks have been encountered (default 1)
+  -h, --help                       help for gitleaks
+  -l, --log-level string           log level (trace, debug, info, warn, error, fatal) (default "info")
+      --max-target-megabytes int   files larger than this will be skipped
+      --no-color                   turn off color for verbose output
+      --no-banner                  suppress banner
+      --redact                     redact secrets from logs and stdout
+  -f, --report-format string       output format (json, csv, junit, sarif) (default "json")
+  -r, --report-path string         report file
+  -s, --source string              path to source (default ".")
+  -v, --verbose                    show verbose output from scan
+
+Use "gitleaks [command] --help" for more information about a command.
+```
+
+### Commands
+
+There are two commands you will use to detect secrets; `detect` and `protect`.
+
+#### Detect
+
+The `detect` command is used to scan repos, directories, and files. This command can be used on developer machines and in CI environments.
+
+When running `detect` on a git repository, gitleaks will parse the output of a `git log -p` command (you can see how this executed
+[here](https://github.com/zricethezav/gitleaks/blob/7240e16769b92d2a1b137c17d6bf9d55a8562899/git/git.go#L17-L25)).
+[`git log -p` generates patches](https://git-scm.com/docs/git-log#_generating_patch_text_with_p) which gitleaks will use to detect secrets.
+You can configure what commits `git log` will range over by using the `--log-opts` flag. `--log-opts` accepts any option for `git log -p`.
+For example, if you wanted to run gitleaks on a range of commits you could use the following command: `gitleaks detect --source . --log-opts="--all commitA..commitB"`.
+See the `git log` [documentation](https://git-scm.com/docs/git-log) for more information.
+
+You can scan files and directories by using the `--no-git` option.
+
+If you want to run only specific rules you can do so by using the `--enable-rule` option (with a rule ID as a parameter), this flag can be used multiple times. For example: `--enable-rule=atlassian-api-token` will only apply that rule. You can find a list of rules [here](config/gitleaks.toml).
+
+#### Protect
+
+The `protect` command is used to scan uncommitted changes in a git repo. This command should be used on developer machines in accordance with
+[shifting left on security](https://cloud.google.com/architecture/devops/devops-tech-shifting-left-on-security).
+When running `protect` on a git repository, gitleaks will parse the output of a `git diff` command (you can see how this executed
+[here](https://github.com/zricethezav/gitleaks/blob/7240e16769b92d2a1b137c17d6bf9d55a8562899/git/git.go#L48-L49)). You can set the
+`--staged` flag to check for changes in commits that have been `git add`ed. The `--staged` flag should be used when running Gitleaks
+as a pre-commit.
+
+**NOTE**: the `protect` command can only be used on git repos, running `protect` on files or directories will result in an error message.
+
+### Creating a baseline
+
+When scanning large repositories or repositories with a long history, it can be convenient to use a baseline. When using a baseline,
+gitleaks will ignore any old findings that are present in the baseline. A baseline can be any gitleaks report. To create a gitleaks report, run gitleaks with the `--report-path` parameter.
+
+```
+gitleaks detect --report-path gitleaks-report.json # This will save the report in a file called gitleaks-report.json
+```
+
+Once as baseline is created it can be applied when running the detect command again:
+
+```
+gitleaks detect --baseline-path gitleaks-report.json --report-path findings.json
+```
+
+After running the detect command with the --baseline-path parameter, report output (findings.json) will only contain new issues.
+
+### Verify Findings
+
+You can verify a finding found by gitleaks using a `git log` command.
+Example output:
+
+```
+Finding:     aws_secret="AKIAIMNOJVGFDXXXE4OA"
+RuleID:      aws-access-token
+Secret       AKIAIMNOJVGFDXXXE4OA
+Entropy:     3.65
+File:        checks_test.go
+Line:        37
+Commit:      ec2fc9d6cb0954fb3b57201cf6133c48d8ca0d29
+Author:      Zachary Rice
+Email:       z@email.com
+Date:        2018-01-28T17:39:00Z
+Fingerprint: ec2fc9d6cb0954fb3b57201cf6133c48d8ca0d29:checks_test.go:aws-access-token:37
+```
+
+We can use the following format to verify the leak:
+
+```
+git log -L {StartLine,EndLine}:{File} {Commit}
+```
+
+So in this example it would look like:
+
+```
+git log -L 37,37:checks_test.go ec2fc9d6cb0954fb3b57201cf6133c48d8ca0d29
+```
+
+Which gives us:
+
+```
+commit ec2fc9d6cb0954fb3b57201cf6133c48d8ca0d29
+Author: zricethezav <thisispublicanyways@gmail.com>
+Date:   Sun Jan 28 17:39:00 2018 -0500
+
+    [update] entropy check
+
+diff --git a/checks_test.go b/checks_test.go
+--- a/checks_test.go
++++ b/checks_test.go
+@@ -28,0 +37,1 @@
++               "aws_secret= \"AKIAIMNOJVGFDXXXE4OA\"":          true,
+
+```
+
+## Pre-Commit hook
+
+You can run Gitleaks as a pre-commit hook by copying the example `pre-commit.py` script into
+your `.git/hooks/` directory.
+
+## Configuration
+
+Gitleaks offers a configuration format you can follow to write your own secret detection rules:
+
+```toml
+# Title for the gitleaks configuration file.
+title = "Gitleaks title"
+
+# Extend the base (this) configuration. When you extend a configuration
+# the base rules take precedence over the extended rules. I.e., if there are
+# duplicate rules in both the base configuration and the extended configuration
+# the base rules will override the extended rules.
+# Another thing to know with extending configurations is you can chain together
+# multiple configuration files to a depth of 2. Allowlist arrays are appended
+# and can contain duplicates.
+# useDefault and path can NOT be used at the same time. Choose one.
+[extend]
+# useDefault will extend the base configuration with the default gitleaks config:
+# https://github.com/zricethezav/gitleaks/blob/master/config/gitleaks.toml
+useDefault = true
+# or you can supply a path to a configuration. Path is relative to where gitleaks
+# was invoked, not the location of the base config.
+path = "common_config.toml"
+
+# An array of tables that contain information that define instructions
+# on how to detect secrets
+[[rules]]
+
+# Unique identifier for this rule
+id = "awesome-rule-1"
+
+# Short human readable description of the rule.
+description = "awesome rule 1"
+
+# Golang regular expression used to detect secrets. Note Golang's regex engine
+# does not support lookaheads.
+regex = '''one-go-style-regex-for-this-rule'''
+
+# Golang regular expression used to match paths. This can be used as a standalone rule or it can be used
+# in conjunction with a valid `regex` entry.
+path = '''a-file-path-regex'''
+
+# Array of strings used for metadata and reporting purposes.
+tags = ["tag","another tag"]
+
+# Int used to extract secret from regex match and used as the group that will have
+# its entropy checked if `entropy` is set.
+secretGroup = 3
+
+# Float representing the minimum shannon entropy a regex group must have to be considered a secret.
+entropy = 3.5
+
+# Keywords are used for pre-regex check filtering. Rules that contain
+# keywords will perform a quick string compare check to make sure the
+# keyword(s) are in the content being scanned. Ideally these values should
+# either be part of the idenitifer or unique strings specific to the rule's regex
+# (introduced in v8.6.0)
+keywords = [
+  "auth",
+  "password",
+  "token",
+]
+
+# You can include an allowlist table for a single rule to reduce false positives or ignore commits
+# with known/rotated secrets
+[rules.allowlist]
+description = "ignore commit A"
+commits = [ "commit-A", "commit-B"]
+paths = [
+  '''go\.mod''',
+  '''go\.sum'''
+]
+# note: (rule) regexTarget defaults to check the _Secret_ in the finding.
+# if regexTarget is not specified then _Secret_ will be used.
+# Acceptable values for regexTarget are "match" and "line"
+regexTarget = "match"
+regexes = [
+  '''process''',
+  '''getenv''',
+]
+# note: stopwords targets the extracted secret, not the entire regex match
+# like 'regexes' does. (stopwords introduced in 8.8.0)
+stopwords = [
+  '''client''',
+  '''endpoint''',
+]
+
+
+# This is a global allowlist which has a higher order of precedence than rule-specific allowlists.
+# If a commit listed in the `commits` field below is encountered then that commit will be skipped and no
+# secrets will be detected for said commit. The same logic applies for regexes and paths.
+[allowlist]
+description = "global allow list"
+commits = [ "commit-A", "commit-B", "commit-C"]
+paths = [
+  '''gitleaks\.toml''',
+  '''(.*?)(jpg|gif|doc)'''
+]
+
+# note: (global) regexTarget defaults to check the _Secret_ in the finding.
+# if regexTarget is not specified then _Secret_ will be used.
+# Acceptable values for regexTarget are "match" and "line"
+regexTarget = "match"
+
+regexes = [
+  '''219-09-9999''',
+  '''078-05-1120''',
+  '''(9[0-9]{2}|666)-\d{2}-\d{4}''',
+]
+# note: stopwords targets the extracted secret, not the entire regex match
+# like 'regexes' does. (stopwords introduced in 8.8.0)
+stopwords = [
+  '''client''',
+  '''endpoint''',
+]
+```
+
+Refer to the default [gitleaks config](https://github.com/zricethezav/gitleaks/blob/master/config/gitleaks.toml) for examples or follow the [contributing guidelines](https://github.com/zricethezav/gitleaks/blob/master/README.md) if you would like to contribute to the default configuration. Additionally, you can check out [this gitleaks blog post](https://blog.gitleaks.io/stop-leaking-secrets-configuration-2-3-aeed293b1fbf) which covers advanced configuration setups.
+
+### Additional Configuration
+
+#### gitleaks:allow
+
+If you are knowingly committing a test secret that gitleaks will catch you can add a `gitleaks:allow` comment to that line which will instruct gitleaks
+to ignore that secret. Ex:
+
+```
+class CustomClass:
+    discord_client_secret = '8dyfuiRyq=vVc3RRr_edRk-fK__JItpZ'  #gitleaks:allow
+
+```
+
+#### .gitleaksignore
+
+You can ignore specific findings by creating a `.gitleaksignore` file at the root of your repo. In release v8.10.0 Gitleaks added a `Fingerprint` value to the Gitleaks report. Each leak, or finding, has a Fingerprint that uniquely identifies a secret. Add this fingerprint to the `.gitleaksignore` file to ignore that specific secret. See Gitleaks' [.gitleaksignore](https://github.com/zricethezav/gitleaks/blob/master/.gitleaksignore) for an example. Note: this feature is experimental and is subject to change in the future.
+
+## Sponsorships
+
+<p align="left">
+	  <a href="https://www.tines.com/?utm_source=oss&utm_medium=sponsorship&utm_campaign=gitleaks">
+		  <img alt="Tines Sponsorship" src="https://user-images.githubusercontent.com/15034943/146411864-4878f936-b4f7-49a0-b625-f9f40c704bfa.png" width=200>
+	  </a>
+  </p>
+
+## Exit Codes
+
+You can always set the exit code when leaks are encountered with the --exit-code flag. Default exit codes below:
+
+```
+0 - no leaks present
+1 - leaks or error encountered
+126 - unknown flag
+```

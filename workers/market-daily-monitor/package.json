@@ -1,0 +1,16 @@
+{
+  "name": "market-daily-monitor",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "prebuild": "node -e \"const fs=require('fs'); fs.copyFileSync('../../data/market_holidays.txt', 'src/market_holidays.txt');\"",
+    "build": "tsc",
+    "deploy": "npm run prebuild && wrangler deploy",
+    "dev": "npm run prebuild && wrangler dev"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240821.0",
+    "typescript": "^5.5.4",
+    "wrangler": "^3.72.0"
+  }
+}

@@ -1,0 +1,42 @@
+name: Fast Validation
+
+on: 
+  push:
+    paths-ignore:
+      - 'data/**'
+      - 'docs/**'
+      - '**.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-fast-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            workers/market-event-dispatcher/package-lock.json
+            workers/market-briefing-publisher/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit -p tsconfig.ci.json
+      - run: npm test
+      - working-directory: workers/market-event-dispatcher
+        run: |
+          npm ci
+          npm run typecheck
+      - working-directory: workers/market-briefing-publisher
+        run: |
+          npm ci
+          npm run typecheck

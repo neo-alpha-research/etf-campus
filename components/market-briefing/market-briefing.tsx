@@ -597,6 +597,10 @@ export function MarketBriefing() {
   return (
 
     <div className="mx-auto max-w-7xl space-y-16 sm:space-y-24 pb-12">
+      <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-800">
+        <strong className="block text-base font-bold text-amber-900 mb-1">🚧 [공지] 마켓 브리핑 서비스 준비 중</strong>
+        현재 마켓 브리핑 전체 데이터 및 기능 고도화 작업이 진행 중입니다. 일부 섹션의 데이터가 노출되지 않거나 불완전할 수 있으니 양해 부탁드립니다. 조속히 작업을 마무리하여 안정적인 서비스를 제공하겠습니다.
+      </div>
 
             {selectedDate && (
 

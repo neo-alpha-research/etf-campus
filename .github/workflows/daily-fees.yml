@@ -2,14 +2,14 @@ name: Update ETF Fees
 
 on:
   schedule:
-    - cron: "37 21,22 * * 1-5"
+    - cron: "22 4 * * 2-6"
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: daily-etf-data
+  group: daily-fees
   cancel-in-progress: false
 
 jobs:

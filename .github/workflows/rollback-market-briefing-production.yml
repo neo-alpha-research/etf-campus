@@ -1,4 +1,4 @@
-﻿name: Rollback market briefing production
+name: Rollback market briefing production
 
 on:
   workflow_dispatch:

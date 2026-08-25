@@ -453,28 +453,35 @@ def main() -> None:
     krx_cache: dict[str, dict[str, dict]] = {}
     resolved: tuple[str, dict[str, dict]] | None = None
     source = ""
-    if krx_auth_key:
+    
+    if service_key:
         try:
+            fsc_resolved = resolve_snapshot(service_key, target, public_cache, args.require_exact_date)
+            if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
+                resolved = fsc_resolved
+                source = "Financial Services Commission public API"
+            elif fsc_resolved:
+                print(
+                    f"FSC snapshot incomplete: {len(fsc_resolved[1])}/{len(old_master)}; "
+                    "trying the KRX fallback."
+                )
+        except Exception as error:
+            print(f"FSC API lookup unavailable: {error}; trying the KRX fallback.")
+            
+    if resolved is None and krx_auth_key:
+        try:
+            print("[WARNING] Falling back to KRX Open API...")
             krx_resolved = resolve_krx_snapshot(
                 krx_auth_key,
                 target,
                 krx_cache,
                 args.require_exact_date,
             )
-            if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
+            if krx_resolved:
                 resolved = krx_resolved
                 source = "KRX Open API"
-            elif krx_resolved:
-                print(
-                    f"KRX snapshot incomplete: {len(krx_resolved[1])}/{len(old_master)}; "
-                    "trying the reconciliation source."
-                )
         except Exception as error:
-            print(f"KRX lookup unavailable: {error}; trying the reconciliation source.")
-    if resolved is None and service_key:
-        resolved = resolve_snapshot(service_key, target, public_cache, args.require_exact_date)
-        if resolved:
-            source = "Financial Services Commission public API"
+            print(f"KRX fallback unavailable: {error}")
     if resolved is None:
         message = f"No official ETF data for requested date {target:%Y%m%d}."
         if args.require_exact_date:

@@ -26,12 +26,10 @@ TICKERS = {
     "WTI 원유": "CL=F",
     "금 선물": "GC=F",
     "은 선물": "SI=F",
+    "미 국채 10년물": "^TNX",
+    "VIX": "^VIX",
 }
 
-FRED_TICKERS = {
-    "미 국채 10년물": "DGS10",
-    "VIX": "VIXCLS",
-}
 
 def get_target_date() -> str:
     try:
@@ -210,17 +208,7 @@ def main():
         else:
             fail_labels.append(label)
 
-    # 3. Fetch FRED
-    for label, series_id in FRED_TICKERS.items():
-        logging.info(f"Fetching data for {label} ({series_id}) from FRED...")
-        data = fetch_fred_data(series_id, target_date_str)
-        if data:
-            data["label"] = label
-            data["code"] = series_id
-            results.append(data)
-            success_count += 1
-        else:
-            fail_labels.append(label)
+
             
     # Check duplicates
     if old_base_date and old_base_date != target_date_str and check_for_duplicates(results, old_indices):
@@ -235,7 +223,7 @@ def main():
         
     logging.info(f"Successfully wrote {success_count} records to {out_path}. Failed: {len(fail_labels)} ({', '.join(fail_labels)})")
     
-    total_targets = len(TICKERS) + len(FRED_TICKERS)
+    total_targets = len(TICKERS)
     if success_count / total_targets < 0.7:
         logging.error("Success rate is below 70%. Failing the workflow.")
         sys.exit(1)

@@ -9,11 +9,13 @@ on:
     # use minute 17 and let the retry ladder absorb a transient API delay.
     #
     #   UTC (cron)      KST (local)          covers
-    #   Mon-Fri 21:17   Tue-Sat 06:17        previous trading day close
-    #   Mon-Fri 22:17   Tue-Sat 07:17
-    #   Mon-Fri 23:17   Tue-Sat 08:17
-    #   Tue-Sat 00:17   Tue-Sat 09:17        final retry + stale alert
-    - cron: "07 21,22 * * 1-5"
+    #   Mon-Fri 23:07   Tue-Sat 08:07        previous trading day close
+    #   Tue-Sat 00:07   Tue-Sat 09:07        
+    #   Tue-Sat 01:07   Tue-Sat 10:07
+    #   Tue-Sat 02:07   Tue-Sat 11:07
+    #   Tue-Sat 03:07   Tue-Sat 12:07        final retry
+    - cron: "07 23 * * 1-5"
+    - cron: "07 0-3 * * 2-6"
   workflow_dispatch:
     inputs:
       target:

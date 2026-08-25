@@ -1,0 +1,19 @@
+name = "market-daily-monitor"
+main = "src/index.ts"
+compatibility_date = "2026-08-25"
+
+[triggers]
+# UTC Tue-Sat 05:15 = KST Tue-Sat 14:15.
+# The daily ETF refresh finishes up to 12:37.
+# Downstream distribution/fees finish by 13:30.
+crons = ["15 5 * * 2-6"]
+
+[[rules]]
+type = "Text"
+globs = ["**/*.txt"]
+fallbacks = []
+
+[vars]
+# The target repository to create issues in
+GITHUB_REPO = "neo-alpha-research/etf-campus"
+BRIEFING_ENDPOINT = "https://etf-campus.pages.dev/api/briefings/latest"

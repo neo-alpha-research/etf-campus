@@ -56,7 +56,12 @@ export async function verifyTurnstile(context, token, expectedAction) {
     const validAge = Number.isFinite(challengeAt) && Math.abs(Date.now() - challengeAt) <= 5 * 60 * 1000;
 
     const expectedHost = context.env.TURNSTILE_EXPECTED_HOSTNAME;
-    const hostMatch = result.hostname === expectedHost || result.hostname?.endsWith(".etf-campus.pages.dev");
+    const hostMatch = result.hostname === expectedHost 
+      || result.hostname === "etf-campus.pages.dev"
+      || result.hostname?.endsWith(".etf-campus.pages.dev")
+      || result.hostname === "etfcampus.kr"
+      || result.hostname === "www.etfcampus.kr"
+      || result.hostname === "localhost";
 
     if (!response.ok || result.success !== true || !hostMatch || result.action !== expectedAction || !validAge) {
       const reason = !response.ok ? "HTTP_ERROR" : 

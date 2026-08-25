@@ -166,7 +166,7 @@ export function useMarketBriefing({
     if (mode === "manual") setIsRefreshing(true);
 
     try {
-      const endpoint = "/mock-briefing.json";
+      const endpoint = asOfDate ? `/api/briefings/${encodeURIComponent(asOfDate)}` : "/api/briefings/latest";
       const response = await fetch(endpoint, {
         method: "GET",
         headers: { Accept: "application/json" },

@@ -55,7 +55,7 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "chore: update daily ETF fees [skip ci]"
             for i in 1 2 3 4 5; do
-              git pull --rebase --autostash origin main && git push && break || sleep 5
+              git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break || sleep 5
             done
           else
             echo "No fee changes detected."

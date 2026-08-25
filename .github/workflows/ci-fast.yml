@@ -30,7 +30,7 @@ jobs:
             workers/market-briefing-publisher/package-lock.json
       - run: npm ci
       - run: npm run lint
-      - run: npx tsc --noEmit
+      - run: npx tsc --noEmit -p tsconfig.ci.json
       - run: npm test
       - working-directory: workers/market-event-dispatcher
         run: |

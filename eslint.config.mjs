@@ -19,5 +19,6 @@ export default defineConfig([
     "add_precise_borders.js",
     "compact_table.js",
     "update_tooltips.js",
+    "scratch/**",
   ]),
 ]);

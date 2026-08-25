@@ -1,0 +1,46 @@
+name: Full Validation
+
+on: 
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - 'data/**'
+      - 'docs/**'
+      - '**.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-full-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            workers/market-event-dispatcher/package-lock.json
+            workers/market-briefing-publisher/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm test
+      - run: npm run build
+      - working-directory: workers/market-event-dispatcher
+        run: |
+          npm ci
+          npm run typecheck
+      - working-directory: workers/market-briefing-publisher
+        run: |
+          npm ci
+          npm run typecheck

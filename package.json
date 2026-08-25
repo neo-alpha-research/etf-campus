@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node -e \"const fs=require('fs'); fs.mkdirSync('public/data', {recursive: true}); fs.copyFileSync('data/market_holidays.txt', 'public/data/market_holidays.txt');\"",
     "build": "next build",
     "check:release": "node scripts/check-release-readiness.mjs",
     "lint": "eslint .",

@@ -16,9 +16,11 @@ npm run deploy
 
 ## 🚨 휴장일 목록 동기화 주의 🚨
 
-이 Worker 내부의 `src/market_holidays.txt`는 메인 저장소의 `data/market_holidays.txt`의 **복사본**입니다.
-메인 저장소에서 새 휴장일이 추가되거나 변경될 경우, 이 Worker도 함께 **재배포(`npm run deploy`)**되어야만 감시 장치가 새로운 휴장일 목록을 반영할 수 있습니다.
-원본만 바뀌고 Worker가 갱신되지 않으면, 휴장일에도 오탐 알림이 발생하거나 실제 누락을 휴장일로 오인하고 넘어가는 치명적인 문제가 발생할 수 있습니다.
+이 Worker 내부의 `src/market_holidays.txt`는 판정 로직에 직접 사용되는 **번들 사본**입니다.
+메인 저장소에서 새 휴장일이 추가/변경되어 원본(`data/market_holidays.txt`)이 바뀌면, 이 Worker도 반드시 **수동으로 재배포(`npm run deploy`)**되어야 새로운 휴장일을 인식할 수 있습니다.
+*(GitHub API 호출 의존성을 줄이고 Worker 자체의 판정 안정성을 높이기 위해 네트워크를 타지 않고 로컬 사본을 사용합니다.)*
+
+단, **운영자가 수동 재배포를 잊을 경우를 대비해, Worker가 실행 시점마다 공개된 원본(`https://etf-campus.pages.dev/data/market_holidays.txt`)을 가져와 사본과 비교하고, 불일치 시 자동으로 "휴장일 목록 동기화 필요" Issue를 생성**합니다. Issue 알림을 받으시면 즉시 수동 재배포를 수행해 주십시오.
 
 ## 필수 시크릿 (Secret)
 

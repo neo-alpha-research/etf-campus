@@ -152,7 +152,65 @@ async function runProbe(env: Env) {
   }
 }
 
+async function checkHolidaySync(env: Env) {
+  try {
+    const url = "https://etf-campus.pages.dev/data/market_holidays.txt";
+    const resp = await fetch(url, { headers: { "Cache-Control": "no-cache" } });
+    if (!resp.ok) {
+      console.log(`[Monitor] Failed to fetch remote holiday list: ${resp.status} ${resp.statusText}`);
+      return;
+    }
+    const remoteText = await resp.text();
+    
+    // Normalize line endings for comparison
+    const normalize = (s: string) => s.replace(/\r\n/g, "\n").trim();
+    if (normalize(remoteText) !== normalize(marketHolidaysText)) {
+      console.log("[Monitor] Holiday list desync detected!");
+      
+      if (!env.MONITOR_GITHUB_TOKEN) return;
+      
+      const title = "휴장일 목록 동기화 필요";
+      const body = [
+        "## 휴장일 목록 불일치 알림",
+        "",
+        "Worker 내부에 번들링된 휴장일 사본과 퍼블릭에 공개된 원본(`public/data/market_holidays.txt`)이 일치하지 않습니다.",
+        "오탐 또는 누락을 방지하기 위해 Worker 재배포(`npm run deploy`)가 필요합니다.",
+        "",
+        "- 감지 시각: `" + new Date().toISOString() + "`"
+      ].join("\n");
+      
+      const headers = {
+        "User-Agent": "ETF-Campus-Market-Daily-Monitor/1.0",
+        "Authorization": `Bearer ${env.MONITOR_GITHUB_TOKEN}`,
+        "Accept": "application/vnd.github.v3+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+      };
+
+      const listUrl = `https://api.github.com/repos/${env.GITHUB_REPO}/issues?state=open&labels=market-daily-monitor&per_page=100`;
+      const listResp = await fetch(listUrl, { headers });
+      if (!listResp.ok) return;
+      
+      const issues = (await listResp.json()) as any[];
+      const existing = issues.find((issue: any) => issue.title === title);
+      
+      if (!existing) {
+        await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/issues`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({ title, body, labels: ["market-daily-monitor"] }),
+        });
+      }
+    } else {
+      console.log("[Monitor] Holiday list is perfectly in sync.");
+    }
+  } catch (err: any) {
+    console.log(`[Monitor] Error checking holiday sync: ${err.message}`);
+  }
+}
+
 async function runMonitor(env: Env) {
+  await checkHolidaySync(env);
+
   const { expectedCompact, expectedIso } = getExpectedDateKST();
 
   if (isSkipCondition(expectedIso, expectedCompact)) {

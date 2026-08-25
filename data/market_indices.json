@@ -41,9 +41,9 @@
       "code": "^N225"
     },
     {
-      "value": 1384.98,
-      "change": -0.42,
-      "as_of_date": "2026-08-23",
+      "value": 1380.76,
+      "change": -0.3,
+      "as_of_date": "2026-08-24",
       "label": "원/달러",
       "code": "KRW=X"
     },
@@ -67,6 +67,20 @@
       "as_of_date": "2026-08-24",
       "label": "은 선물",
       "code": "SI=F"
+    },
+    {
+      "value": 4.7,
+      "change": -0.72,
+      "as_of_date": "2026-08-24",
+      "label": "미 국채 10년물",
+      "code": "^TNX"
+    },
+    {
+      "value": 15.85,
+      "change": 4.76,
+      "as_of_date": "2026-08-24",
+      "label": "VIX",
+      "code": "^VIX"
     }
   ]
 }

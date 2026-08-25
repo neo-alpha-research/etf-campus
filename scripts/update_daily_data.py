@@ -458,8 +458,12 @@ def main() -> None:
         try:
             fsc_resolved = resolve_snapshot(service_key, target, public_cache, args.require_exact_date)
             if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
-                resolved = fsc_resolved
-                source = "Financial Services Commission public API"
+                target_text = target.strftime("%Y%m%d")
+                if not args.require_exact_date and fsc_resolved[0] < target_text:
+                    print(f"FSC snapshot is older than target ({fsc_resolved[0]} < {target_text}); checking KRX for newer data.")
+                else:
+                    resolved = fsc_resolved
+                    source = "Financial Services Commission public API"
             elif fsc_resolved:
                 print(
                     f"FSC snapshot incomplete: {len(fsc_resolved[1])}/{len(old_master)}; "
@@ -478,13 +482,31 @@ def main() -> None:
                 args.require_exact_date,
             )
             if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
-                resolved = krx_resolved
-                source = "KRX Open API"
+                # If FSC was complete but old, check if KRX is newer
+                if 'fsc_resolved' in locals() and fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
+                    if krx_resolved[0] > fsc_resolved[0]:
+                        resolved = krx_resolved
+                        source = "KRX Open API"
+                    else:
+                        print(f"KRX snapshot is not newer ({krx_resolved[0]} <= {fsc_resolved[0]}); using FSC.")
+                        resolved = fsc_resolved
+                        source = "Financial Services Commission public API"
+                else:
+                    resolved = krx_resolved
+                    source = "KRX Open API"
             elif krx_resolved:
                 print(f"KRX snapshot incomplete: {len(krx_resolved[1])}/{len(old_master)}; fallback discarded.")
-                resolved = None
+                if 'fsc_resolved' in locals() and fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
+                    print("Reverting to older but complete FSC snapshot.")
+                    resolved = fsc_resolved
+                    source = "Financial Services Commission public API"
+                else:
+                    resolved = None
         except Exception as error:
             print(f"KRX fallback unavailable: {error}")
+            if 'fsc_resolved' in locals() and fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
+                resolved = fsc_resolved
+                source = "Financial Services Commission public API"
     if resolved is None:
         message = f"No official ETF data for requested date {target:%Y%m%d}."
         if args.require_exact_date:

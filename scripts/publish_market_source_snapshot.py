@@ -342,16 +342,6 @@ def main() -> None:
     etf_hash = canonical_hash(etfs)
 
     indices = [fetch_krx_index(krx_auth_key, code, as_of_date) for code in ("KOSPI", "KOSDAQ")]
-    # Fetch KR10Y using KRX Open API
-    indices.append(fetch_krx_bond_yield(krx_auth_key, as_of_date))
-    for fred_code in ("DGS10", "T10Y2Y"):
-        fred_data = fetch_fred_index(fred_code, as_of_date)
-        if fred_data:
-            indices.append(fred_data)
-    for yf_code in ("^VIX", "CL=F"):
-        yf_data = fetch_yahoo_index(yf_code, as_of_date)
-        if yf_data:
-            indices.append(yf_data)
     if any(index["asOfDate"] != as_of_date for index in indices):
         raise RuntimeError("KOSPI/KOSDAQ basis date is not aligned with the validated ETF master date.")
     index_hash = canonical_hash(indices)

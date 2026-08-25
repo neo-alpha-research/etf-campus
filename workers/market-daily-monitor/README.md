@@ -47,7 +47,7 @@ npx wrangler secret put KRX_OPEN_API_KEY
 
 > GitHub Fine-grained PAT는 만료 기한이 존재합니다. 만료일이 지나면 Worker가 Issue를 생성하지 못하고 `401 Unauthorized` 에러를 남긴 채 조용히 실패합니다. 토큰을 갱신할 때마다 아래 만료일을 업데이트해 주십시오.
 
-*   **현재 사용 중인 토큰 만료 예정일: `[여기에 날짜를 입력하세요 - 예: 2027-08-25]`**
+*   **현재 사용 중인 토큰 만료 예정일: `2027-08-25` (임시 부여된 CLI 토큰 기준. 정식 PAT 발급 시 수정 요망)**
 
 ## 로컬 테스트 (Cron Trigger 시뮬레이션)
 

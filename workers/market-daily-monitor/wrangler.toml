@@ -7,8 +7,7 @@ compatibility_date = "2026-08-25"
 # [Probe] KST Tue-Sat 05:00~13:45 = UTC Mon-Fri 20:00~23:45, Tue-Sat 00:00~04:45
 crons = [
   "15 5 * * 2-6",
-  "*/15 20-23 * * 1-5",
-  "*/15 0-4 * * 2-6"
+  "*/15 * * * *"
 ]
 
 [[rules]]
@@ -18,7 +17,7 @@ fallbacks = []
 
 [[kv_namespaces]]
 binding = "PROBE_KV"
-id = "mock_id_for_dev"  # Replace with actual ID in production
+id = "a3fc77b8357a46b8afb6d451873ed535"
 
 [vars]
 # The target repository to create issues in

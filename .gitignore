@@ -40,3 +40,4 @@ data/staging/
 *-temp
 *.mjs
 user_requests.txt
+scratch/

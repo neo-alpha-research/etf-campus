@@ -3,15 +3,22 @@ main = "src/index.ts"
 compatibility_date = "2026-08-25"
 
 [triggers]
-# UTC Tue-Sat 05:15 = KST Tue-Sat 14:15.
-# The daily ETF refresh finishes up to 12:37.
-# Downstream distribution/fees finish by 13:30.
-crons = ["15 5 * * 2-6"]
+# [Monitor] UTC Tue-Sat 05:15 = KST Tue-Sat 14:15.
+# [Probe] KST Tue-Sat 05:00~13:45 = UTC Mon-Fri 20:00~23:45, Tue-Sat 00:00~04:45
+crons = [
+  "15 5 * * 2-6",
+  "*/15 20-23 * * 1-5",
+  "*/15 0-4 * * 2-6"
+]
 
 [[rules]]
 type = "Text"
 globs = ["**/*.txt"]
 fallbacks = []
+
+[[kv_namespaces]]
+binding = "PROBE_KV"
+id = "mock_id_for_dev"  # Replace with actual ID in production
 
 [vars]
 # The target repository to create issues in

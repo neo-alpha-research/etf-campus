@@ -2,14 +2,16 @@ import marketHolidaysText from "./market_holidays.txt";
 
 export interface Env {
   MONITOR_GITHUB_TOKEN?: string;
+  KRX_OPEN_API_KEY?: string;
   GITHUB_REPO: string;
   BRIEFING_ENDPOINT: string;
+  PROBE_KV: KVNamespace;
 }
 
-function getExpectedDateKST(): { expectedCompact: string; expectedIso: string } {
-  const kstNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+function getExpectedDateKST(refDate: Date = new Date()): { expectedCompact: string; expectedIso: string } {
+  const kstNow = new Date(refDate.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
   const expectedDate = new Date(kstNow);
-  expectedDate.setDate(kstNow.getDate() - 1); // Yesterday
+  expectedDate.setDate(kstNow.getDate() - 1);
 
   const year = expectedDate.getFullYear();
   const month = String(expectedDate.getMonth() + 1).padStart(2, "0");
@@ -24,7 +26,6 @@ function getExpectedDateKST(): { expectedCompact: string; expectedIso: string } 
 function isSkipCondition(expectedIso: string, expectedCompact: string): boolean {
   const expectedDate = new Date(`${expectedIso}T00:00:00Z`);
   const dayOfWeek = expectedDate.getUTCDay();
-  // 0 = Sunday, 6 = Saturday (which corresponds to 5,6 in Python's weekday where 0=Mon)
   if (dayOfWeek === 0 || dayOfWeek === 6) {
     return true;
   }
@@ -107,89 +108,142 @@ async function reportToGithub(env: Env, expectedIso: string, actualDate: string,
   }
 }
 
-export default {
-  async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
-    const { expectedCompact, expectedIso } = getExpectedDateKST();
+async function runProbe(env: Env) {
+  const { expectedCompact, expectedIso } = getExpectedDateKST();
+  if (isSkipCondition(expectedIso, expectedCompact)) {
+    console.log(`[Probe] ${expectedIso} is a weekend/holiday. Skipping.`);
+    return;
+  }
 
-    if (isSkipCondition(expectedIso, expectedCompact)) {
-      console.log(`${expectedIso} is a weekend or KRX holiday; monitoring is skipped.`);
-      return;
-    }
+  const kvKey = `source-availability:${expectedIso}`;
+  const existing = await env.PROBE_KV.get(kvKey);
+  if (existing) {
+    console.log(`[Probe] Data for ${expectedIso} already found at ${existing}. Exiting.`);
+    return;
+  }
 
-    let payload: any = null;
-    let transportError: string | null = null;
+  if (!env.KRX_OPEN_API_KEY) {
+    throw new Error("KRX_OPEN_API_KEY is missing. Cannot probe source.");
+  }
+
+  const url = `https://data-dbg.krx.co.kr/svc/apis/etp/etf_bydd_trd?basDd=${expectedCompact}`;
+  const resp = await fetch(url, { headers: { "AUTH_KEY": env.KRX_OPEN_API_KEY } });
+  if (!resp.ok) {
+    throw new Error(`KRX API error: ${resp.status} ${resp.statusText}`);
+  }
+  const data = await resp.json() as any;
+  const rows = data.OutBlock_1;
+  const hasData = Array.isArray(rows) ? rows.length > 0 : !!rows;
+
+  if (hasData) {
+    const kstNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+    const kstTime = `${kstNow.getHours().toString().padStart(2, "0")}:${kstNow.getMinutes().toString().padStart(2, "0")}`;
+    const isFirstTry = kstTime === "05:00";
+    
+    const record = {
+      detectedAtKST: kstNow.toISOString(),
+      firstTry: isFirstTry
+    };
+    
+    await env.PROBE_KV.put(kvKey, JSON.stringify(record));
+    console.log(`[Probe] Data FOUND for ${expectedIso} at ${kstTime} KST. Recorded in KV (firstTry=${isFirstTry}).`);
+  } else {
+    console.log(`[Probe] Data NOT YET available for ${expectedIso}.`);
+  }
+}
+
+async function runMonitor(env: Env) {
+  const { expectedCompact, expectedIso } = getExpectedDateKST();
+
+  if (isSkipCondition(expectedIso, expectedCompact)) {
+    console.log(`[Monitor] ${expectedIso} is a weekend or KRX holiday; monitoring is skipped.`);
+    return;
+  }
+
+  let payload: any = null;
+  let transportError: string | null = null;
+  
+  try {
+    const request = new Request(env.BRIEFING_ENDPOINT, {
+      headers: { "User-Agent": "ETF-Campus-Market-Daily-Monitor/1.0 (+https://etf-campus.pages.dev)" }
+    });
+    
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => abortController.abort(), 20000);
     
     try {
-      const request = new Request(env.BRIEFING_ENDPOINT, {
-        headers: { "User-Agent": "ETF-Campus-Market-Daily-Monitor/1.0 (+https://etf-campus.pages.dev)" }
-      });
-      
-      const abortController = new AbortController();
-      const timeoutId = setTimeout(() => abortController.abort(), 20000);
-      
-      try {
-        const response = await fetch(request, { signal: abortController.signal });
-        if (!response.ok) {
-          transportError = `HTTP ${response.status} ${response.statusText}`;
-        } else {
-          payload = await response.json();
-        }
-      } finally {
-        clearTimeout(timeoutId);
+      const response = await fetch(request, { signal: abortController.signal });
+      if (!response.ok) {
+        transportError = `HTTP ${response.status} ${response.statusText}`;
+      } else {
+        payload = await response.json();
       }
-    } catch (error: any) {
-      transportError = `${error.name}: ${error.message}`;
+    } finally {
+      clearTimeout(timeoutId);
     }
+  } catch (error: any) {
+    transportError = `${error.name}: ${error.message}`;
+  }
 
-    const briefing = (payload && typeof payload.briefing === "object") ? payload.briefing : null;
-    const errors: string[] = [];
-    let actual = "none";
+  const briefing = (payload && typeof payload.briefing === "object") ? payload.briefing : null;
+  const errors: string[] = [];
+  let actual = "none";
 
-    if (transportError) {
-      errors.push(`public API unavailable (${transportError})`);
-    } else if (!briefing) {
-      errors.push("public API returned no ready briefing");
-    } else {
-      actual = String(briefing.asOfDate || "none");
-      if (actual !== expectedIso) {
-        errors.push(`asOfDate expected ${expectedIso}, got ${actual}`);
-      }
-      
-      const readiness = briefing.validation?.readiness || {};
-      if (readiness.status !== "passed") {
-        errors.push(`readiness expected passed, got '${readiness.status}'`);
-      }
-      
-      const sourceDates = briefing.sourceDates || {};
-      for (const name of ["etf", "kospi", "kosdaq"]) {
-        if (sourceDates[name] !== expectedIso) {
-          errors.push(`sourceDates.${name} expected ${expectedIso}, got '${sourceDates[name]}'`);
-        }
-      }
-      
-      const headlineStatus = briefing.headline?.generationStatus;
-      if (headlineStatus !== "validated") {
-        errors.push(`headline generationStatus expected validated, got '${headlineStatus}'`);
-      }
-      
-      const pulse = briefing.pulse || {};
-      if (typeof pulse.generalEtfCount !== "number" || pulse.generalEtfCount <= 0) {
-        errors.push("general ETF count is missing or zero");
-      }
-      if (typeof pulse.generalAumWeightedReturnPct !== "number") {
-        errors.push("general AUM-weighted return is missing");
-      }
-      
-      if (briefing.isStale === true) {
-        errors.push(`latest briefing is stale by ${briefing.staleDays} day(s)`);
+  if (transportError) {
+    errors.push(`public API unavailable (${transportError})`);
+  } else if (!briefing) {
+    errors.push("public API returned no ready briefing");
+  } else {
+    actual = String(briefing.asOfDate || "none");
+    if (actual !== expectedIso) {
+      errors.push(`asOfDate expected ${expectedIso}, got ${actual}`);
+    }
+    
+    const readiness = briefing.validation?.readiness || {};
+    if (readiness.status !== "passed") {
+      errors.push(`readiness expected passed, got '${readiness.status}'`);
+    }
+    
+    const sourceDates = briefing.sourceDates || {};
+    for (const name of ["etf", "kospi", "kosdaq"]) {
+      if (sourceDates[name] !== expectedIso) {
+        errors.push(`sourceDates.${name} expected ${expectedIso}, got '${sourceDates[name]}'`);
       }
     }
+    
+    const headlineStatus = briefing.headline?.generationStatus;
+    if (headlineStatus !== "validated") {
+      errors.push(`headline generationStatus expected validated, got '${headlineStatus}'`);
+    }
+    
+    const pulse = briefing.pulse || {};
+    if (typeof pulse.generalEtfCount !== "number" || pulse.generalEtfCount <= 0) {
+      errors.push("general ETF count is missing or zero");
+    }
+    if (typeof pulse.generalAumWeightedReturnPct !== "number") {
+      errors.push("general AUM-weighted return is missing");
+    }
+    
+    if (briefing.isStale === true) {
+      errors.push(`latest briefing is stale by ${briefing.staleDays} day(s)`);
+    }
+  }
 
-    if (errors.length > 0) {
-      console.log(`Validation failed for expected ${expectedIso}. Errors: ${errors.join("; ")}`);
-      await reportToGithub(env, expectedIso, actual, errors);
+  if (errors.length > 0) {
+    console.log(`[Monitor] Validation failed for expected ${expectedIso}. Errors: ${errors.join("; ")}`);
+    await reportToGithub(env, expectedIso, actual, errors);
+  } else {
+    console.log(`[Monitor] Validation passed for ${expectedIso}.`);
+  }
+}
+
+export default {
+  async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
+    // Determine whether this is the monitor (14:15 KST = 05:15 UTC) or the probe based on the cron string
+    if (event.cron === "15 5 * * 2-6") {
+      await runMonitor(env);
     } else {
-      console.log(`Validation passed for ${expectedIso}.`);
+      await runProbe(env);
     }
   }
 };

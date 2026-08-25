@@ -16,10 +16,14 @@ npm run deploy
 
 ## 필수 시크릿 (Secret)
 
-GitHub Issue를 생성하고 코멘트를 달기 위한 토큰이 필요합니다.
+이 Worker는 두 가지 인증 키를 사용합니다.
+
+1.  **MONITOR_GITHUB_TOKEN**: GitHub Issue를 생성하고 코멘트를 달기 위한 토큰
+2.  **KRX_OPEN_API_KEY**: 프로브 기능이 한국거래소(KRX) API를 호출하기 위한 인증 키
 
 ```bash
 npx wrangler secret put MONITOR_GITHUB_TOKEN
+npx wrangler secret put KRX_OPEN_API_KEY
 ```
 
 ### 토큰 발급 및 설정 방법
@@ -44,3 +48,9 @@ npm run dev
 # 터미널에 주소가 뜨면 브라우저 또는 curl로 아래 엔드포인트 호출
 curl http://localhost:8787/__scheduled
 ```
+
+## 프로브 기능 중단 안내
+
+현재 이 Worker는 감시 기능(KST 14:15 1회) 외에 데이터 최초 공개 시각 측정을 위한 **프로브 기능(KST 05:00~13:00, 15분 간격)**을 겸하고 있습니다.
+> **⚠️ 운영 주의:** 프로브 기능은 상시 가동용이 아닙니다. **2026년 9월 8일 (2주 후)경 측정이 완료되면 프로브용 크론(`*/15 ...`)을 wrangler.toml에서 제거해 주십시오.**
+

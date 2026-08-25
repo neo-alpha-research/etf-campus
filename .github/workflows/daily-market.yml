@@ -48,6 +48,38 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Pre-flight check & Guard
+        id: guard
+        env:
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+          KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 1. Check if already succeeded today
+          if python scripts/check_workflow_success_today.py --workflow daily-market.yml; then
+            echo "already_run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          
+          # 2. Check data source readiness (skip for manual runs)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            exit 0
+          fi
+          
+          UTC_HOUR=$(date -u +%H)
+          if python scripts/check_source_ready.py; then
+            echo "Data is ready."
+          else
+            if [ "$UTC_HOUR" = "03" ]; then
+              echo "::error::Data is still not available at final attempt."
+              exit 1
+            else
+              echo "Data not available yet. Skipping subsequent steps."
+              echo "already_run=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+
       - name: Install Python dependencies
         if: steps.guard.outputs.already_run != 'true'
         run: |

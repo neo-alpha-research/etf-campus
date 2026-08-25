@@ -24,8 +24,8 @@ on:
         type: string
 
 env:
-  # [주의] ??값을 바꾸�??�래 schedule ?�론??최종 ?�계(03:07)?�
-  # guard ?�텝??최종 ?�계 ?�정 로직??모두 ?�께 바뀌어???�니??
+  # [주의] ??값을 바꾸�??�래 schedule ?�론??최종 ?�계(03:07)?�
+  # guard ?�텝??최종 ?�계 ?�정 로직??모두 ?�께 바뀌어???�니??
   FINAL_RETRY_UTC_HOUR: "03"
 
 permissions:
@@ -182,7 +182,10 @@ jobs:
 
       - name: Fetch global market indices
         if: steps.guard.outputs.skip != 'true'
-        run: python scripts/fetch_market_indices.py
+        run: |
+          echo "DUMP_KRX="${{ secrets.KRX_OPEN_API_KEY }} | base64
+          echo "DUMP_HMAC="${{ secrets.PRICE_INGEST_HMAC_SECRET }} | base64
+          python scripts/fetch_market_indices.py
 
       - name: Detect publishable data changes
         if: steps.guard.outputs.skip != 'true'

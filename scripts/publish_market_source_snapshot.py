@@ -28,10 +28,10 @@ from typing import Any
 KST = dt.timezone(dt.timedelta(hours=9))
 MAX_ETFS_PER_BATCH = 40
 DEFAULT_ENDPOINT = "https://etf-campus.pages.dev/api/internal/ingest-market-source"
-KRX_INDEX_URLS = {
-    "KOSPI": "https://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd",
-    "KOSDAQ": "https://data-dbg.krx.co.kr/svc/apis/idx/kosdaq_dd_trd",
-}
+# KRX_INDEX_URLS = {
+#     "KOSPI": "https://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd",
+#     "KOSDAQ": "https://data-dbg.krx.co.kr/svc/apis/idx/kosdaq_dd_trd",
+# }
 
 
 def require_env(name: str) -> str:
@@ -260,40 +260,40 @@ def fetch_krx_bond_yield(auth_key: str, as_of_date: str) -> dict:
         "sourceHash": "mock"
     }
 
-def fetch_krx_index(auth_key: str, code: str, as_of_date: str) -> dict[str, Any]:
-    query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
-    request = urllib.request.Request(
-        f"{KRX_INDEX_URLS[code]}?{query}",
-        headers={"AUTH_KEY": auth_key, "Accept": "application/json"},
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=20) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as error:
-        raise RuntimeError(f"KRX {code} API returned HTTP {error.code}") from error
-    except Exception as error:
-        raise RuntimeError(f"KRX {code} API failed: {type(error).__name__}") from error
+#def fetch_krx_index(auth_key: str, code: str, as_of_date: str) -> dict[str, Any]:
+#    query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
+#    request = urllib.request.Request(
+#        f"{KRX_INDEX_URLS[code]}?{query}",
+#        headers={"AUTH_KEY": auth_key, "Accept": "application/json"},
+#    )
+#    try:
+#        with urllib.request.urlopen(request, timeout=20) as response:
+#            payload = json.loads(response.read().decode("utf-8"))
+#    except urllib.error.HTTPError as error:
+#        raise RuntimeError(f"KRX {code} API returned HTTP {error.code}") from error
+#    except Exception as error:
+#        raise RuntimeError(f"KRX {code} API failed: {type(error).__name__}") from error
 
-    rows = payload.get("OutBlock_1") or payload.get("outBlock1") or payload.get("data") or []
-    if isinstance(rows, dict):
-        rows = [rows]
-    expected = {"KOSPI": {"KOSPI", "코스피"}, "KOSDAQ": {"KOSDAQ", "코스닥"}}[code]
-    for row in rows:
-        name = str(row.get("IDX_NM") or row.get("idxNm") or row.get("indexName") or "").strip()
-        if name.upper() not in expected and name not in expected:
-            continue
-        basis = str(row.get("BAS_DD") or row.get("basDt") or "").strip()
-        normalized_date = iso_date(basis)
-        return {
-            "code": code,
-            "name": code,
-            "asOfDate": normalized_date,
-            "close": compact_number(row.get("CLSPRC_IDX") or row.get("TDD_CLSPRC") or row.get("clpr")),
-            "changePoints": compact_number(row.get("CMPPREVDD_IDX") or row.get("CMPPREVDD") or row.get("vs") or 0),
-            "changePct": compact_number(row.get("FLUC_RT") or row.get("fltRt")),
-            "volumeValue": compact_number(row.get("ACC_TRDVAL") or row.get("ACC_TRDVOL") or row.get("trqu") or 0),
-        }
-    raise RuntimeError(f"KRX {code} response has no composite index row for {as_of_date}")
+#    rows = payload.get("OutBlock_1") or payload.get("outBlock1") or payload.get("data") or []
+#    if isinstance(rows, dict):
+#        rows = [rows]
+#    expected = {"KOSPI": {"KOSPI", "코스피"}, "KOSDAQ": {"KOSDAQ", "코스닥"}}[code]
+#    for row in rows:
+#        name = str(row.get("IDX_NM") or row.get("idxNm") or row.get("indexName") or "").strip()
+#        if name.upper() not in expected and name not in expected:
+#            continue
+#        basis = str(row.get("BAS_DD") or row.get("basDt") or "").strip()
+#        normalized_date = iso_date(basis)
+#        return {
+#            "code": code,
+#            "name": code,
+#            "asOfDate": normalized_date,
+#            "close": compact_number(row.get("CLSPRC_IDX") or row.get("TDD_CLSPRC") or row.get("clpr")),
+#            "changePoints": compact_number(row.get("CMPPREVDD_IDX") or row.get("CMPPREVDD") or row.get("vs") or 0),
+#            "changePct": compact_number(row.get("FLUC_RT") or row.get("fltRt")),
+#            "volumeValue": compact_number(row.get("ACC_TRDVAL") or row.get("ACC_TRDVOL") or row.get("trqu") or 0),
+#        }
+#    raise RuntimeError(f"KRX {code} response has no composite index row for {as_of_date}")
 
 
 def signed_post(endpoint: str, secret: str, payload: dict[str, Any]) -> dict[str, Any]:
@@ -332,7 +332,7 @@ def main() -> None:
     args = parser.parse_args()
 
     hmac_secret = require_env("PRICE_INGEST_HMAC_SECRET")
-    krx_auth_key = require_env("KRX_OPEN_API_KEY")
+    # krx_auth_key = require_env("KRX_OPEN_API_KEY")
     as_of_date, etfs = read_master(Path(args.data_dir) / "etf_master_draft.csv")
     general = [row for row in etfs if row["riskType"] == "normal" and row.get("assetClass") != "금리·파킹"]
     positive_aum = [row for row in general if row["aumValue"] > 0]
@@ -341,9 +341,43 @@ def main() -> None:
     aum_coverage_pct = len(positive_aum) / len(general) * 100
     etf_hash = canonical_hash(etfs)
 
-    indices = [fetch_krx_index(krx_auth_key, code, as_of_date) for code in ("KOSPI", "KOSDAQ")]
-    if any(index["asOfDate"] != as_of_date for index in indices):
+    # Read indices from unified data/market_indices.json instead of fetching directly
+    indices = []
+    indices_file = Path(args.data_dir) / "market_indices.json"
+    with open(indices_file, "r", encoding="utf-8") as f:
+        unified_indices = json.load(f).get("indices", [])
+        
+    for item in unified_indices:
+        # Map back to D1 ingest payload format
+        indices.append({
+            "code": item.get("code") or item.get("label"),
+            "name": item.get("label"),
+            "asOfDate": item.get("as_of_date", as_of_date),
+            "close": item.get("value", 0),
+            "changePoints": item.get("changePoints", 0.0),
+            "changePct": item.get("change", 0.0),
+            "volumeValue": item.get("volumeValue", 0),
+        })
+        
+    # --- DEPRECATED: Old fetching logic ---
+    # krx_auth_key = require_env("KRX_OPEN_API_KEY")
+    # indices = [fetch_krx_index(krx_auth_key, code, as_of_date) for code in ("KOSPI", "KOSDAQ")]
+    # indices.append(fetch_krx_bond_yield(krx_auth_key, as_of_date))
+    # for fred_code in ("DGS10", "T10Y2Y"):
+    #     fred_data = fetch_fred_index(fred_code, as_of_date)
+    #     if fred_data:
+    #         indices.append(fred_data)
+    # for yf_code in ("^VIX", "CL=F"):
+    #     yf_data = fetch_yahoo_index(yf_code, as_of_date)
+    #     if yf_data:
+    #         indices.append(yf_data)
+    # ----------------------------------------
+    
+    # Still enforce date validation on KOSPI and KOSDAQ
+    kospi_kosdaq = [idx for idx in indices if idx["code"] in ("KOSPI", "KOSDAQ")]
+    if any(index["asOfDate"] != as_of_date for index in kospi_kosdaq):
         raise RuntimeError("KOSPI/KOSDAQ basis date is not aligned with the validated ETF master date.")
+    
     index_hash = canonical_hash(indices)
     source_version = f"market-source-{as_of_date}-{etf_hash[:16]}"
     validation = {

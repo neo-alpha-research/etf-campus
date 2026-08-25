@@ -1,8 +1,17 @@
 import json
 import logging
+import sys
+import os
 from pathlib import Path
+import urllib.request
+import urllib.parse
+import urllib.error
 
 import requests
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+import csv
+from io import StringIO
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
@@ -14,14 +23,15 @@ TICKERS = {
     "나스닥": "^IXIC",
     "니케이 225": "^N225",
     "원/달러": "KRW=X",
-    "미 국채 10년물": "^TNX",
-    "VIX": "^VIX",
     "WTI 원유": "CL=F",
+    "금 선물": "GC=F",
+    "은 선물": "SI=F",
 }
 
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
-import csv
+FRED_TICKERS = {
+    "미 국채 10년물": "DGS10",
+    "VIX": "VIXCLS",
+}
 
 def get_target_date() -> str:
     try:
@@ -32,11 +42,64 @@ def get_target_date() -> str:
         logging.warning(f"Could not read bas_dt, defaulting to today: {e}")
         return datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y%m%d")
 
-def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
-    # Parse target date
+def compact_number(value) -> float:
+    try:
+        return float(str(value).replace(",", ""))
+    except (ValueError, TypeError):
+        return 0.0
+
+def iso_date(date_str: str) -> str:
+    if not date_str:
+        return ""
+    date_str = date_str.replace("-", "")
+    if len(date_str) == 8:
+        return f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+    return date_str
+
+def fetch_fred_data(series_id: str, target_date_str: str) -> dict | None:
     target_date = datetime.strptime(target_date_str, "%Y%m%d")
+    start_date = (target_date - timedelta(days=30)).strftime("%Y-%m-%d")
+    end_date = (target_date + timedelta(days=2)).strftime("%Y-%m-%d")
+    url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}&cosd={start_date}&coed={end_date}"
+    try:
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+        response.raise_for_status()
+        data = response.text
+    except Exception as e:
+        logging.error(f"Failed to fetch {series_id} from FRED: {e}")
+        return None
     
-    # We fetch a 10-day range ending slightly after the target date to ensure we have the target day and the previous day
+    reader = csv.reader(StringIO(data))
+    header = next(reader, None)
+    target_date_formatted = target_date.strftime("%Y-%m-%d")
+    
+    valid_rows = []
+    for row in reader:
+        if len(row) < 2: continue
+        if row[1] == '.' or not row[1].strip(): continue
+        valid_rows.append(row)
+        
+    target_idx = -1
+    for i, row in enumerate(valid_rows):
+        if row[0] <= target_date_formatted:
+            target_idx = i
+            
+    if target_idx <= 0:
+        logging.error(f"Could not find sufficient historical data for {series_id}")
+        return None
+        
+    price = float(valid_rows[target_idx][1])
+    prev_close = float(valid_rows[target_idx - 1][1])
+    change_pct = ((price - prev_close) / prev_close) * 100 if prev_close else 0
+    
+    return {
+        "value": round(price, 2),
+        "change": round(change_pct, 2),
+        "as_of_date": valid_rows[target_idx][0]
+    }
+
+def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
+    target_date = datetime.strptime(target_date_str, "%Y%m%d")
     end_date = target_date + timedelta(days=2)
     start_date = target_date - timedelta(days=10)
     
@@ -66,17 +129,14 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
             logging.error(f"Missing chart data for {ticker_symbol}")
             return None
             
-        # Find the index of the target date or the closest available trading day BEFORE or ON the target date
-        target_timestamp = int(target_date.replace(tzinfo=ZoneInfo("UTC")).timestamp())
-        
-        # Match closest date
         target_idx = -1
+        target_date_actual = ""
         for i, ts in enumerate(timestamps):
-            # Convert timestamp to YYYYMMDD in the local exchange timezone (simplified to UTC/KST offset logic)
-            # Actually, Yahoo timestamps for 1d interval usually represent the start of the trading day in UTC
-            ts_date = datetime.fromtimestamp(ts, tz=ZoneInfo("UTC")).strftime("%Y%m%d")
+            ts_date_obj = datetime.fromtimestamp(ts, tz=ZoneInfo("UTC"))
+            ts_date = ts_date_obj.strftime("%Y%m%d")
             if ts_date <= target_date_str and closes[i] is not None:
                 target_idx = i
+                target_date_actual = ts_date_obj.strftime("%Y-%m-%d")
                 
         if target_idx <= 0:
             logging.error(f"Could not find sufficient historical data for {ticker_symbol} around {target_date_str}")
@@ -93,46 +153,92 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
         
         return {
             "value": round(price, 2),
-            "change": round(change_pct, 2)
+            "change": round(change_pct, 2),
+            "as_of_date": target_date_actual
         }
         
     except Exception as e:
         logging.error(f"Failed to fetch {ticker_symbol}: {e}")
         return None
 
+def check_for_duplicates(new_indices, old_indices):
+    old_map = {item['label']: item for item in old_indices}
+    for new_item in new_indices:
+        label = new_item['label']
+        if label in old_map:
+            old_item = old_map[label]
+            # If both close and change exactly match, and change is not 0.00
+            if (new_item['value'] == old_item['value'] and 
+                new_item['change'] == old_item['change'] and 
+                new_item['change'] != 0.0):
+                logging.error(f"Duplicate values detected for {label}! New: {new_item}, Old: {old_item}")
+                return True
+    return False
+
 def main():
     results = []
     
     target_date_str = get_target_date()
     logging.info(f"Using ETF base date: {target_date_str}")
+    iso_target = iso_date(target_date_str)
     
+    # Read previous JSON for duplicate checking
+    out_path = Path("data/market_indices.json")
+    old_indices = []
+    old_base_date = ""
+    if out_path.exists():
+        try:
+            with open(out_path, "r", encoding="utf-8") as f:
+                old_data = json.load(f)
+                old_indices = old_data.get("indices", [])
+                old_base_date = old_data.get("base_date", "")
+        except Exception as e:
+            logging.warning(f"Could not read previous market_indices.json: {e}")
+            
+    success_count = 0
+    fail_labels = []
+
+    # 2. Fetch Yahoo
     for label, symbol in TICKERS.items():
-        logging.info(f"Fetching data for {label} ({symbol}) on {target_date_str}...")
+        logging.info(f"Fetching data for {label} ({symbol}) from Yahoo...")
         data = fetch_index_data(symbol, target_date_str)
-        
         if data:
-            results.append({
-                "label": label,
-                "value": data["value"],
-                "change": data["change"]
-            })
+            data["label"] = label
+            data["code"] = symbol # we map the raw symbol just in case
+            results.append(data)
+            success_count += 1
         else:
-            # Fallback structure if fetch fails
-            results.append({
-                "label": label,
-                "value": 0,
-                "change": 0
-            })
+            fail_labels.append(label)
+
+    # 3. Fetch FRED
+    for label, series_id in FRED_TICKERS.items():
+        logging.info(f"Fetching data for {label} ({series_id}) from FRED...")
+        data = fetch_fred_data(series_id, target_date_str)
+        if data:
+            data["label"] = label
+            data["code"] = series_id
+            results.append(data)
+            success_count += 1
+        else:
+            fail_labels.append(label)
+            
+    # Check duplicates
+    if old_base_date and old_base_date != target_date_str and check_for_duplicates(results, old_indices):
+        logging.error("Exact duplicate values found from previous trading day! Aborting to prevent stale data publishing.")
+        sys.exit(1)
             
     # Write to JSON
-    out_path = Path("data/market_indices.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    
     with out_path.open("w", encoding="utf-8") as f:
         output_data = {'base_date': target_date_str, 'indices': results}
         json.dump(output_data, f, ensure_ascii=False, indent=2)
         
-    logging.info(f"Successfully wrote {len(results)} records to {out_path}")
+    logging.info(f"Successfully wrote {success_count} records to {out_path}. Failed: {len(fail_labels)} ({', '.join(fail_labels)})")
+    
+    total_targets = len(TICKERS) + len(FRED_TICKERS)
+    if success_count / total_targets < 0.7:
+        logging.error("Success rate is below 70%. Failing the workflow.")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

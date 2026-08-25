@@ -128,7 +128,7 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
 
 def fetch_fred_index(series_id: str, as_of_date: str) -> dict[str, Any] | None:
     # Use cosd to avoid fetching the entire history and timing out
-    start_date = (datetime.fromisoformat(as_of_date) - timedelta(days=30)).strftime("%Y-%m-%d")
+    start_date = (dt.datetime.fromisoformat(as_of_date) - dt.timedelta(days=30)).strftime("%Y-%m-%d")
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}&cosd={start_date}"
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})

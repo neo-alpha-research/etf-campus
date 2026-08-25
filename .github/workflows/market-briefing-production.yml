@@ -1,19 +1,6 @@
-﻿name: Deploy market briefing production
+name: Deploy market briefing production
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/market-briefing-production.yml"
-      - "app/**"
-      - "components/**"
-      - "functions/**"
-      - "lib/**"
-      - "migrations/**"
-      - "workers/**"
-      - "package.json"
-      - "package-lock.json"
-      - "wrangler.toml"
   workflow_dispatch:
 
 permissions:

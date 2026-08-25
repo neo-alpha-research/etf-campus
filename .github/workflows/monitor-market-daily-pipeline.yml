@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       expected_as_of_date:
-        description: "寃利앺븷 湲곗???YYYY-MM-DD). 鍮꾩슦硫?KST ?꾩씪 嫄곕옒?쇱쓣 ?먮룞 ?뺤씤?⑸땲??"
+        description: "검증할 기준일(YYYY-MM-DD). 비우면 KST 전일 거래일을 자동 확인합니다."
         required: false
         type: string
 
@@ -171,17 +171,17 @@ jobs:
         with:
           script: |
             const marker = `<!-- market-daily-monitor:${process.env.EXPECTED_DATE} -->`;
-            const title = `Market Daily ?뺤씤 ?꾩슂 쨌 ${process.env.EXPECTED_DATE}`;
+            const title = `Market Daily 확인 필요 · ${process.env.EXPECTED_DATE}`;
             const body = [
               marker,
-              "## ?먮룞 留덉폆 ?곗씪由?諛쒗뻾 紐⑤땲?곕쭅 寃쎈낫",
+              "## 자동 마켓 데일리 발행 모니터링 경보",
               "",
-              `- 湲곕? 湲곗??? \`${process.env.EXPECTED_DATE}\``,
-              `- 怨듦컻 API 湲곗??? \`${process.env.ACTUAL_DATE}\``,
-              `- 媛먯? ?쒓컖: \`${new Date().toISOString()}\``,
-              `- 媛먯? ?댁슜: ${process.env.ALERT_REASON}`,
+              `- 기대 기준일: \`${process.env.EXPECTED_DATE}\``,
+              `- 공개 API 기준일: \`${process.env.ACTUAL_DATE}\``,
+              `- 감지 시각: \`${new Date().toISOString()}\``,
+              `- 감지 내용: ${process.env.ALERT_REASON}`,
               "",
-              "?뺤씤 ?쒖꽌: ?쇰퀎 ETF ?섏쭛 workflow ??source snapshot manifest/outbox ??dispatcher ??publisher ??`/api/briefings/latest`.",
+              "확인 순서: 일별 ETF 수집 workflow → source snapshot manifest/outbox → dispatcher → publisher → `/api/briefings/latest`.",
             ].join("\n");
 
             const { data: issues } = await github.rest.issues.listForRepo({

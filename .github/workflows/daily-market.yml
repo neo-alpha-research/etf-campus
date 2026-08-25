@@ -27,7 +27,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: daily-etf-data
+  group: daily-market
   # Keep one refresh at a time. A manual retry must not cancel a nearly
   # completed data commit; the job-level timeout still bounds stalled runs.
   cancel-in-progress: false

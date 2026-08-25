@@ -217,6 +217,7 @@ jobs:
       - name: Publish canonical market-source snapshot and event outbox
         # Run even when the repository snapshot did not change so a previously failed
         # source-hub ingest can recover without another external API collection.
+        continue-on-error: true
         if: steps.guard.outputs.already_run != 'true' && (steps.freshness.outputs.fresh == 'true')
         env:
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}

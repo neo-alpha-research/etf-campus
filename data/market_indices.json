@@ -2,6 +2,20 @@
   "base_date": "20260824",
   "indices": [
     {
+      "value": 6696.96,
+      "change": -3.12,
+      "as_of_date": "2026-08-24",
+      "label": "코스피",
+      "code": "^KS11"
+    },
+    {
+      "value": 813.33,
+      "change": 1.42,
+      "as_of_date": "2026-08-24",
+      "label": "코스닥",
+      "code": "^KQ11"
+    },
+    {
       "value": 7652.86,
       "change": -0.28,
       "as_of_date": "2026-08-24",

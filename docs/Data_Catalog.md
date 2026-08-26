@@ -332,3 +332,131 @@ node -e "fetch('https://etf-campus.pages.dev/api/briefings/latest').then(r=>r.js
 ### 2-12. 브리핑 중복 발행 가드 (G14) 및 정정 한계
 - `workers/market-briefing-publisher/src/source-materializer.ts` (L100)에 `SELECT as_of_date FROM market_briefings WHERE as_of_date = ?` 검사가 존재하여, 특정 일자의 브리핑이 한 번 `ready`로 생성되면 동일 일자의 후속 스냅샷 이벤트는 `skipped_duplicate`로 처리되어 화면에 반영되지 않음.
 - 이로 인해 원본 데이터 정정 후 재발행 시 화면 갱신이 차단되는 한계가 존재하며, 별도의 정정 경로(Replay/Overwrite Flag) 도입이 필요함.
+- **2026-08-26 해소**: 아래 2-14 의 3중 잠금 해제 절차로 우회 가능함이 실증되었습니다. 코드 수정 없이 SQL 3문으로 처리합니다.
+
+### 2-13. 상장좌수(`shares`)는 T-1 기준입니다 [확인됨]
+
+**원천 API 가 주는 `shares` (KRX `LIST_SHRS`, FSC `stLstgCnt`) 는 기준일 당일이 아니라 전 거래일 좌수입니다.**
+
+검증 방법과 결과입니다. 마스터 CSV 네 거래일을 교차 대조하면 `shares(T)` 가 `AUM(T-1) / NAV(T-1)` 과 설정 단위까지 정확히 일치합니다.
+
+```
+069500 KODEX 200
+  8/20  AUM/NAV = 234,449,997      8/21 shares = 234,450,000
+  8/21  AUM/NAV = 235,350,005      8/24 shares = 235,350,000
+  8/24  AUM/NAV = 232,349,998      8/25 shares = 232,350,000
+```
+
+같은 날끼리 맞추면 26퍼센트가 어긋나고, 하루 밀어 맞추면 8퍼센트로 떨어집니다. 세 거래일 연속 재현되었습니다.
+
+`close`, `nav`, `aum` 은 모두 T 시점입니다. NAV 괴리율 중앙값이 +0.004퍼센트, 절댓값 0.5퍼센트 이내가 73퍼센트로 정상 분포하는 것으로 확인했습니다.
+
+**외부 대조**: 069500, 102110, 428510 세 종목의 KRX 공시 상장좌수가 `AUM / NAV` 역산값과 일치했습니다.
+
+**따라서 자금 순유입은 반드시 역산으로 계산합니다.**
+
+```
+좌수(T)   = AUM(T) / NAV(T)
+순유입(T) = (좌수(T) - 좌수(T-1)) * NAV(T)
+```
+
+**실측 `shares` 로 계산하면 T-2 에서 T-1 사이의 자금 흐름이 오늘 것으로 기록됩니다.**
+
+구현은 이미 존재합니다. `workers/market-briefing-publisher/src/index.ts` L272 `calculateFundFlow` 가 L290 주석과 함께 역산 방식을 쓰고 있습니다. **같은 공식을 두 번 구현하지 마십시오.**
+
+`shares` 컬럼 자체는 `migrations/0016` 으로 `market_source_etf_daily` 와 `briefing_etf_daily` 에 추가되어 원천값 그대로 보관됩니다. 시점이 다를 뿐 원천 데이터이므로 검증 기준으로 씁니다.
+
+### 2-14. 재발행에는 세 개의 잠금이 있습니다 [확인됨]
+
+**하나라도 남으면 오류 없이 조용히 건너뜁니다. 2026-08-26 에 잠금 1만 풀고 워크플로를 돌려 헛돈 사례가 있습니다.**
+
+```
+잠금 1   market_briefings 에 해당 날짜 행 존재
+         source-materializer.ts L101  alreadyPublished
+
+잠금 2   market_source_consumer_runs.status 가 'ready' 또는 'skipped_duplicate'
+         source-materializer.ts L69   claimEvent
+
+잠금 3   market_source_event_outbox.delivery_status 가 'sent'
+         dispatcher 가 집어가지 않음
+```
+
+**`source_version` 은 ETF 페이로드의 내용 해시입니다.**
+
+```
+scripts/publish_market_source_snapshot.py L409
+source_version = f"market-source-{as_of_date}-{etf_hash[:16]}"
+```
+
+**같은 데이터로 다시 발행하면 해시가 같으므로 새 이벤트가 생기지 않습니다.** 아웃박스 INSERT 가 `ON CONFLICT ... DO NOTHING` 입니다.
+
+**배달 구조**
+
+```
+publish_market_source_snapshot.py → POST /api/internal/ingest-market-source (허브 적재 + 아웃박스)
+market-event-dispatcher   crons = ["*/5 * * * *"]   pending/failed 를 큐로 전송
+market-briefing-publisher queue consumer            materialize → publish → KV 갱신
+```
+
+**따라서 데이터가 이미 허브에 정확히 들어 있으면 워크플로를 다시 돌릴 필요가 없습니다.** 아래 3문 실행 후 5분에서 10분 기다리면 디스패처가 자동 처리합니다. GitHub Actions 를 쓰지 않습니다.
+
+```sql
+DELETE FROM market_briefings WHERE as_of_date = '<날짜>';
+DELETE FROM market_source_consumer_runs
+  WHERE consumer_name = 'market_briefing' AND event_id = '<event_id>';
+UPDATE market_source_event_outbox
+  SET delivery_status = 'pending', sent_at = NULL, next_attempt_at = NULL,
+      updated_at = CURRENT_TIMESTAMP
+  WHERE event_id = '<event_id>';
+```
+
+**실행 전 `market_briefings`, `market_briefing_asset_classes`, `market_briefing_focus_etfs` 세 테이블을 백업하십시오.** 뒤 두 테이블은 `ON DELETE CASCADE` 로 함께 지워지며, D1 에서 연쇄 삭제가 실제로 작동함을 2026-08-26 에 실측 확인했습니다.
+
+**허브 자체가 낡았으면 이 절차로 부족합니다.** 그때는 `daily-market.yml` 을 해당 날짜로 재실행해 허브부터 다시 만들어야 하며, 데이터가 달라지므로 해시도 자연히 바뀌어 잠금 2와 3은 문제되지 않습니다.
+
+### 2-15. 화면 API 는 KV 를 먼저 읽습니다 [확인됨]
+
+```
+functions/api/briefings/latest.js L128~129
+const cached = await readKvBriefing(context.env.BRIEFING_KV);
+if (cached) return Response.json(cached, { headers: JSON_HEADERS });
+```
+
+**KV 에 값이 있으면 D1 을 아예 조회하지 않습니다.**
+
+```
+포인터 키   market-briefing:v0:latest-pointer              TTL 8일
+페이로드 키 market-briefing:v0:payload:{asOfDate}:v{ver}   TTL 7일
+```
+
+쓰는 쪽은 `workers/market-briefing-publisher/src/resilience.ts` L25~26 이며, **발행이 성공해야만 갱신됩니다.**
+
+**발행 실패나 스킵 시 KV 를 무효화하는 경로가 없습니다.** 따라서 발행이 건너뛰어져도 화면은 최대 8일간 이전 값을 정상처럼 내보냅니다. **구조적 결함이며 미해결입니다.**
+
+**검증 시 화면 API 하나만 보지 마십시오.** D1 원본, `briefing_etf_daily` 적재 상태, 화면 API 세 곳을 대조해야 합니다.
+
+**KV 를 우회하는 경로**: `GET /api/briefings/[date]` 는 D1 을 직접 조회합니다.
+
+### 2-16. `peer_groups` 는 발행 시점에 동결됩니다 [확인됨]
+
+```
+functions/api/briefings/latest.js L117   peerGroups: metrics.peer_groups
+workers/market-briefing-publisher/src/index.ts L481   const peerGroups = calculatePeerGroups(quotes);
+workers/market-briefing-publisher/src/index.ts L520   peer_groups: peerGroups,
+```
+
+**화면은 `briefing_etf_daily.asset_detail` 을 읽지 않습니다. `market_briefings.metrics_json` 안에 발행 시점 계산되어 동결된 값을 읽습니다.**
+
+**따라서 `briefing_etf_daily` 를 직접 UPDATE 해도 STEP 3 은 절대 바뀌지 않습니다.** 2026-08-26 에 이 착각으로 세 라운드를 소모했습니다. 반드시 2-14 절차로 재발행해야 합니다.
+
+**교훈**: D1 건수는 중간 지표입니다. 완료 판정은 항상 화면 API 응답으로 하십시오.
+
+### 2-17. `migrations/` 가 버전 관리에서 빠져 있었습니다 [확인됨]
+
+`.gitignore` 37행의 `*.sql` 규칙이 `migrations/` 하위까지 무시하고 있었습니다. `0010`, `0013`, `0015`, `0016` 이 추적되지 않은 상태였습니다.
+
+**"마이그레이션 파일과 실제 테이블 정의가 다르다" 는 혼란이 반복된 원인의 일부입니다.**
+
+2026-08-26 에 `!migrations/*.sql` 예외 규칙을 넣고 누락분을 전부 커밋했습니다.
+
+**새 마이그레이션 파일에 BOM 을 넣지 마십시오.** `0011` 과 `0012` 선두에 BOM 이 있습니다.

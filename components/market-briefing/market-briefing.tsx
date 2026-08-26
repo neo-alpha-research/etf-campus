@@ -1513,7 +1513,6 @@ export function MarketBriefing() {
 
         <div className="flex flex-col gap-8 sm:gap-10">
           {briefing.fundFlow && <FundFlowRanking fundFlow={briefing.fundFlow} />}
-          <DisparityAlert warnings={briefing.disparityWarning} />
         </div>
       </section>
 
@@ -1680,6 +1679,9 @@ export function MarketBriefing() {
           </div>
         </div>
       </section>
+
+      {/* 수급 쏠림 주의 ETF (괴리율 경보 - 참고용 부가 섹션) */}
+      <DisparityAlert warnings={briefing.disparityWarning} />
 
       <div id="briefing-history-section" className="scroll-mt-20">
         <MarketBriefingHistory

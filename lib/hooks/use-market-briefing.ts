@@ -75,6 +75,7 @@ export type MarketBriefing = {
   headline: { text: string | null; generationStatus: string };
   marketIndices: MarketIndex[];
   pulse: {
+    totalEtfCount?: number;
     generalEtfCount: number;
     upCount: number;
     flatCount: number;

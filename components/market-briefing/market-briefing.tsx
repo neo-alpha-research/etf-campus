@@ -98,49 +98,31 @@ type Briefing = {
   marketIndices: MarketIndex[];
 
   pulse: {
-
+    totalEtfCount?: number;
     generalEtfCount: number;
-
     upCount: number;
-
     flatCount: number;
-
     downCount: number;
-
     breadthRatioPct: number;
-
     marketTemperature: string;
-
     generalAumWeightedReturnPct: number;
-
     top50AumWeightedReturnPct: number;
-
     top100AumWeightedReturnPct: number;
-
     top200AumWeightedReturnPct: number;
-
     aumWeightedReturns: AumWeightedReturn[];
-
     generalTotalAum: number;
-
     generalTotalTradeValue: number;
-
     top10TradeSharePct: number;
-
     allTop10TradeSharePct?: number;
-
   };
-
   assetClasses: AssetClass[];
-
   focusEtfs: FocusEtf[];
-
   peerGroups?: any;
-
   fundFlow?: any;
-
   disparityWarning?: any;
-
+  marketScale?: any;
+  weeklyFundFlows?: any[];
+  monthlyFundFlows?: any[];
 };
 
 

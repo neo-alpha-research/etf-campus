@@ -180,19 +180,17 @@ def fetch_ecos_kr10y(api_key: str, target_date_str: str) -> dict | None:
         latest_row = valid_rows[-1]
         price = float(latest_row["DATA_VALUE"])
 
-        change_pct = 0.0
         change_points = 0.0
         if len(valid_rows) >= 2:
             prev_row = valid_rows[-2]
             prev_price = float(prev_row["DATA_VALUE"])
             change_points = round(price - prev_price, 3)
-            change_pct = round(((price - prev_price) / prev_price) * 100, 2) if prev_price else 0.0
 
         return {
-            "label": "국고채 10년",
+            "label": "국채 10년",
             "code": "KR10Y",
             "value": price,
-            "change": change_pct,
+            "change": change_points,
             "changePoints": change_points,
             "as_of_date": iso_date(latest_row["TIME"]),
         }
@@ -251,11 +249,19 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
             logging.error(f"Missing price data in historical array for {ticker_symbol}")
             return None
             
-        change_pct = ((price - prev_close) / prev_close) * 100
+        # For bond yield (^TNX), change is percentage points (%p: price - prev_close)
+        # For stocks/commodities/currencies, change is percentage change ((price - prev_close) / prev_close * 100)
+        if ticker_symbol == "^TNX":
+            change_val = round(price - prev_close, 3)
+            change_points = round(price - prev_close, 3)
+        else:
+            change_val = round(((price - prev_close) / prev_close) * 100, 2)
+            change_points = round(price - prev_close, 2)
         
         return {
             "value": round(price, 2),
-            "change": round(change_pct, 2),
+            "change": change_val,
+            "changePoints": change_points,
             "as_of_date": target_date_actual
         }
         

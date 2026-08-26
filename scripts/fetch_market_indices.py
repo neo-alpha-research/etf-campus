@@ -24,7 +24,6 @@ KRX_INDEX_URLS = {
 TICKERS = {
     "S&P 500": "^GSPC",
     "나스닥": "^IXIC",
-    "니케이 225": "^N225",
     "원/달러": "KRW=X",
     "WTI 원유": "CL=F",
     "금 선물": "GC=F",

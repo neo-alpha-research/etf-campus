@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useCallback } from "react";
 import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
 import { formatReturn } from "@/lib/domain/etf-format";
+import { Download } from "lucide-react";
+import { toPng } from "html-to-image";
 
 const COLORS = [
   "#3b82f6", // blue-500
@@ -19,6 +21,21 @@ const LONG_PERIODS: ReturnPeriod[] = ["12m", "24m", "36m", "ytd"];
 
 export function EtfCompareChart({ basket }: { basket: Etf[] }) {
   const [viewMode, setViewMode] = useState<ViewMode>("short");
+  const chartRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = useCallback(() => {
+    if (chartRef.current === null) return;
+    toPng(chartRef.current, { cacheBust: true, backgroundColor: '#ffffff' })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = 'compare-chart.png';
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.error('Failed to export chart', err);
+      });
+  }, []);
 
   const activePeriods = useMemo(() => {
     if (viewMode === "long") return LONG_PERIODS;
@@ -81,13 +98,22 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
   const getSlotCenterX = (slotIdx: number) => paddingX + slotIdx * slotWidth + slotWidth / 2;
 
   return (
-    <div className="rounded-2xl border border-line bg-surface p-5 sm:p-6 mb-8 mt-8 shadow-sm">
+    <div ref={chartRef} className="rounded-2xl border border-line bg-surface p-5 sm:p-6 mb-8 mt-8 shadow-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <h3 className="text-[15px] font-extrabold text-strong">
           기간별 성과 추이 <span className="text-xs font-semibold text-muted ml-1 font-sans">(단위: %)</span>
         </h3>
         
-        <div className="flex bg-neutral-100 p-1 rounded-xl">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleDownload}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors"
+            title="차트를 이미지로 저장"
+          >
+            <Download size={14} strokeWidth={2.5} />
+            <span>이미지 저장</span>
+          </button>
+          <div className="flex bg-neutral-100 p-1 rounded-xl">
           <button
             onClick={() => setViewMode("short")}
             style={{ fontWeight: 800 }}
@@ -106,6 +132,7 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
           >
             장기 성과
           </button>
+        </div>
         </div>
       </div>
       
@@ -290,6 +317,11 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
           </svg>
         </div>
       )}
+
+      {/* 기준일 (Captured in image) */}
+      <div className="mt-3 text-right text-[11px] text-muted font-medium font-sans">
+        기준일: {basket[0]?.asOfDate ? basket[0].asOfDate.replace(/-/g, ".") : ""}
+      </div>
     </div>
   );
 }

@@ -452,6 +452,7 @@ def main() -> None:
     public_cache: dict[str, dict[str, dict]] = {}
     krx_cache: dict[str, dict[str, dict]] = {}
     resolved: tuple[str, dict[str, dict]] | None = None
+    fsc_resolved: tuple[str, dict[str, dict]] | None = None
     source = ""
     
     if service_key:
@@ -483,7 +484,7 @@ def main() -> None:
             )
             if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
                 # If FSC was complete but old, check if KRX is newer
-                if 'fsc_resolved' in locals() and fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
+                if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
                     if krx_resolved[0] > fsc_resolved[0]:
                         resolved = krx_resolved
                         source = "KRX Open API"
@@ -496,7 +497,7 @@ def main() -> None:
                     source = "KRX Open API"
             elif krx_resolved:
                 print(f"KRX snapshot incomplete: {len(krx_resolved[1])}/{len(old_master)}; fallback discarded.")
-                if 'fsc_resolved' in locals() and fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
+                if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
                     print("Reverting to older but complete FSC snapshot.")
                     resolved = fsc_resolved
                     source = "Financial Services Commission public API"
@@ -504,7 +505,7 @@ def main() -> None:
                     resolved = None
         except Exception as error:
             print(f"KRX fallback unavailable: {error}")
-            if 'fsc_resolved' in locals() and fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
+            if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
                 resolved = fsc_resolved
                 source = "Financial Services Commission public API"
     if resolved is None:
@@ -606,6 +607,15 @@ def main() -> None:
         if addition not in master_fields:
             master_fields.append(addition)
 
+    stats_missing_nav_fallback = 0
+    stats_missing_nav_blank = 0
+    stats_missing_disp_fallback = 0
+    stats_missing_disp_blank = 0
+    stats_missing_te_fallback = 0
+    stats_missing_te_blank = 0
+    stats_stale_data_count = 0
+    stale_tickers = []
+
     for ticker in sorted(current):
         api = current[ticker]
         existing = dict(master_by_ticker.get(ticker, {}))
@@ -617,6 +627,7 @@ def main() -> None:
             asset = "주식-국내"
             
         current_close = as_float(api.get("clpr"))
+        api_change = as_float(snapshot_value(api, "fltRt", 0))
         api_nav = as_float(snapshot_value(api, "nav"))
         api_disparity = as_float(snapshot_value(api, "disparity"))
         api_tracking_error = as_float(snapshot_value(api, "tracking_error"))
@@ -625,18 +636,60 @@ def main() -> None:
         if api_disparity is None and current_close is not None and api_nav:
             api_disparity = round(((current_close - api_nav) / api_nav) * 100, 2)
             
+        nav_val = api_nav
+        if nav_val is None:
+            if existing.get("nav", ""):
+                stats_missing_nav_fallback += 1
+                nav_val = existing.get("nav", "")
+            else:
+                stats_missing_nav_blank += 1
+                nav_val = ""
+
+        disparity_val = api_disparity
+        if disparity_val is None:
+            if existing.get("disparity", ""):
+                stats_missing_disp_fallback += 1
+                disparity_val = existing.get("disparity", "")
+            else:
+                stats_missing_disp_blank += 1
+                disparity_val = ""
+
+        te_val = api_tracking_error
+        if te_val is None:
+            if existing.get("tracking_error", ""):
+                stats_missing_te_fallback += 1
+                te_val = existing.get("tracking_error", "")
+            else:
+                stats_missing_te_blank += 1
+                te_val = ""
+
+        # Anomaly detection stats
+        old_close = as_float(existing.get("close"))
+        old_change = as_float(existing.get("change_pct"))
+        
+        if current_close is not None and old_close is not None:
+            # exclude suspended stocks (both 0.0)
+            if current_close == old_close and api_change == old_change and api_change != 0.0:
+                stats_stale_data_count += 1
+                stale_tickers.append(ticker)
+
+        api_shares = snapshot_value(api, "stLstgCnt", existing.get("shares", ""))
+        api_net_asset = snapshot_value(api, "nPptTotAmt", existing.get("net_asset", ""))
+
         existing.update({
             "isin_cd": snapshot_value(api, "isinCd", existing.get("isin_cd", "")), "ticker": ticker, "name": name,
             "base_index": base_index, "close": snapshot_value(api, "clpr", 0),
-            "change_pct": snapshot_value(api, "fltRt", 0), "trade_value": snapshot_value(api, "trPrc", 0),
+            "change_pct": api_change, "trade_value": snapshot_value(api, "trPrc", 0),
             "aum": aum_value, "risk_type": existing.get("risk_type") or risk,
             "asset_class": existing.get("asset_class") or asset,
             "pension_eligible": existing.get("pension_eligible") or pension_rule(risk, name, base_index),
             "liquidity": "pass" if (as_float(aum_value) or 0) >= 10_000_000_000 else "fail",
             "bas_dt": as_of_text,
-            "nav": api_nav if api_nav is not None else existing.get("nav", ""),
-            "disparity": api_disparity if api_disparity is not None else existing.get("disparity", ""),
-            "tracking_error": api_tracking_error if api_tracking_error is not None else existing.get("tracking_error", ""),
+            "nav": nav_val,
+            "disparity": disparity_val,
+            "tracking_error": te_val,
+            "shares": api_shares,
+            "net_asset": api_net_asset,
         })
         if not str(existing.get("isin_cd") or "").strip():
             print(
@@ -727,6 +780,29 @@ def main() -> None:
         write_csv(temp / FILES[2], new_pension, pension_fields)
         for filename in FILES:
             os.replace(temp / filename, data_dir / filename)
+
+        total_processed = len(current)
+    print(f"\n--- API Data Missing Report ---")
+    
+    missing_nav_total = stats_missing_nav_fallback + stats_missing_nav_blank
+    print(f"NAV: missing {missing_nav_total}/{total_processed} ({missing_nav_total/max(1, total_processed)*100:.1f}%) "
+          f"-> fallback: {stats_missing_nav_fallback}, blank: {stats_missing_nav_blank}")
+          
+    missing_disp_total = stats_missing_disp_fallback + stats_missing_disp_blank
+    print(f"Disparity: missing {missing_disp_total}/{total_processed} ({missing_disp_total/max(1, total_processed)*100:.1f}%) "
+          f"-> fallback: {stats_missing_disp_fallback}, blank: {stats_missing_disp_blank}")
+          
+    missing_te_total = stats_missing_te_fallback + stats_missing_te_blank
+    print(f"Tracking Error: missing {missing_te_total}/{total_processed} ({missing_te_total/max(1, total_processed)*100:.1f}%) "
+          f"-> fallback: {stats_missing_te_fallback}, blank: {stats_missing_te_blank}")
+          
+    if missing_nav_total > total_processed * 0.10:
+        raise RuntimeError(f"Missing NAV exceeded threshold (10%): {missing_nav_total}/{total_processed}")
+        
+    print(f"\n--- Anomaly Detection (Stale Data) ---")
+    print(f"Stale ETFs: {stats_stale_data_count}/{total_processed} ({stats_stale_data_count/max(1, total_processed)*100:.1f}%)")
+    if stats_stale_data_count > 0:
+        print(f"Stale tickers (up to 20): {', '.join(stale_tickers[:20])}")
 
     added = len(set(current) - set(master_by_ticker))
     removed = len(set(master_by_ticker) - set(current))

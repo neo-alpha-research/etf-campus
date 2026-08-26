@@ -148,6 +148,8 @@ HTML 을 파싱하며 `User-Agent` 를 위장합니다.
 
 ### 2-6. NAV 와 괴리율
 
+**확인된 사실 (2026-08-26)**: FSC 응답은 `nav` 필드를 제공하며, 이는 KRX 의 원본 NAV 와 **100% 완벽히 일치**합니다. 따라서 FSC 단독으로 온전한 NAV 확보가 가능합니다. (이전까지 없다고 오판되었으나 묵살 코드의 버그로 밝혀짐)
+
 **저장 위치** [확인됨]: `briefing_etf_daily.nav_value`, `disparity_pct`. 마이그레이션 `0011_briefing_etf_daily_nav.sql`
 
 **용도**: 마켓 브리핑 STEP 4·5 자금 순유입 계산. 좌수를 `aum_value / nav_value` 로 유도합니다.

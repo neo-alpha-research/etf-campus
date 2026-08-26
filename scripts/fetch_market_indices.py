@@ -205,12 +205,12 @@ def check_for_duplicates(new_indices, old_indices):
         if label in old_map:
             old_item = old_map[label]
             # If both close and change exactly match, and change is not 0.00
-            if (new_item['value'] == old_item['value'] and 
-                new_item['change'] == old_item['change'] and 
+            if (new_item['value'] == old_item['value'] and
+                new_item['change'] == old_item['change'] and
                 new_item['change'] != 0.0):
                 logging.warning(f"Duplicate values detected for {label}! New: {new_item}, Old: {old_item}")
                 duplicate_count += 1
-    
+                
     if duplicate_count >= 3:
         logging.error(f"Too many duplicate indices ({duplicate_count}). Likely fetching stale data.")
         return True

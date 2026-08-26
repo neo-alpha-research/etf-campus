@@ -53,7 +53,7 @@ function withFreshness(payload) {
     ...payload,
     briefing: {
       ...briefing,
-      isStale: staleDays > 1,
+      isStale: staleDays >= 3,
       staleDays,
     },
   };

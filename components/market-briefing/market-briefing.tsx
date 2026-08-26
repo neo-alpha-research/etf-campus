@@ -365,6 +365,14 @@ function formatChange(code: string, changePct: number) {
   return `${sign}${Math.abs(changePct).toFixed(2)}%`;
 }
 
+function formatInflowAmount(value: number) {
+  const abs = Math.abs(value);
+  if (abs >= 100_000_000) {
+    return Math.round(abs / 100_000_000).toLocaleString("ko-KR");
+  }
+  return Math.round(abs).toLocaleString("ko-KR");
+}
+
 function IndexRow({ index }: { index: MarketIndex }) {
   const change = index.change_pct ?? 0;
   const isUp = change > 0;
@@ -842,19 +850,19 @@ export function MarketBriefing() {
 
             <div className="flex items-center gap-3">
 
-              <p className="flex items-center gap-1.5 text-sm font-extrabold tracking-tight text-[#365314]">
-
-                <span className="text-lg">💡</span> 오늘의 마켓 브리핑 핵심 포인트 3가지
-
+              <p className="flex items-center gap-2 text-base sm:text-lg font-black tracking-tight text-[#2B4C28]">
+                <span className="text-xl">💡</span> 오늘의 마켓 브리핑 핵심 요약
               </p>
 
-              <span className="text-xs font-medium text-neutral-400 border-l border-[#D7EABB] pl-3">{dateLabel(briefing.asOfDate)} 기준</span>
+              <span className="text-xs font-semibold text-neutral-400 border-l border-[#D7EABB] pl-3 tabular-nums">{dateLabel(briefing.asOfDate)} 기준</span>
 
-              {briefing.isStale && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">갱신 지연</span>}
+              {briefing.isStale && briefing.staleDays >= 3 && (
+                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200">
+                  갱신 지연
+                </span>
+              )}
 
             </div>
-
-            
 
             <details className="group relative">
 
@@ -928,7 +936,7 @@ export function MarketBriefing() {
                         <p className="text-[13.5px] font-bold text-neutral-800 truncate" title={topInflowEtf.etfName}>{topInflowEtf.etfName}</p>
                       </div>
                       <span className="text-[15px] font-extrabold tabular-nums tracking-tight text-[#2E6819] shrink-0">
-                        +{number.format(Math.abs(topInflowEtf.netInflowValue))}<span className="text-[11px] font-normal text-neutral-500 ml-0.5">억원</span>
+                        +{formatInflowAmount(topInflowEtf.netInflowValue)}<span className="text-[11px] font-bold text-neutral-500 ml-0.5">억원</span>
                       </span>
                     </div>
                   ) : topInflowTheme ? (
@@ -938,7 +946,7 @@ export function MarketBriefing() {
                         <p className="text-[13.5px] font-bold text-neutral-800 truncate" title={topInflowTheme.peerGroup}>{topInflowTheme.peerGroup}</p>
                       </div>
                       <span className="text-[15px] font-extrabold tabular-nums tracking-tight text-[#2E6819] shrink-0">
-                        +{number.format(Math.abs(topInflowTheme.netInflow))}<span className="text-[11px] font-normal text-neutral-500 ml-0.5">억원</span>
+                        +{number.format(Math.abs(topInflowTheme.netInflow))}<span className="text-[11px] font-bold text-neutral-500 ml-0.5">억원</span>
                       </span>
                     </div>
                   ) : null}

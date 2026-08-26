@@ -338,7 +338,7 @@ def main() -> None:
         raise RuntimeError("ETF master quality validation failed: general ETF/AUM coverage is empty.")
 
     # Validate classification mapping coverage (Step 3 Peer Groups dependency)
-    mapped_count = sum(1 for row in general if class_map.get(row["ticker"]))
+    mapped_count = sum(1 for row in general if row.get("assetDetail"))
     mapping_ratio = mapped_count / len(general) if general else 0
     if mapping_ratio < 0.10:
         raise RuntimeError(f"Classification mapping coverage too low: {mapped_count}/{len(general)} ({mapping_ratio:.1%}). Expected at least 10%.")

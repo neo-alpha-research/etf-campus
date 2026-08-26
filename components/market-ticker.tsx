@@ -49,8 +49,10 @@ function IndexPill({ label, value, change }: MarketIndex) {
 
 export function MarketTicker() {
   const baseDateStr = indicesData.base_date;
-  const excludedLabels = ["VKOSPI", "WTI 원유", "금 선물", "은 선물"];
-  const indices = (indicesData.indices as MarketIndex[]).filter(idx => !excludedLabels.includes(idx.label));
+  const targetLabels = ["코스피", "코스닥", "S&P 500", "나스닥", "원/달러"];
+  const indices = (indicesData.indices as MarketIndex[])
+    .filter(idx => targetLabels.includes(idx.label))
+    .sort((a, b) => targetLabels.indexOf(a.label) - targetLabels.indexOf(b.label));
   
   // Convert 20260821 to 2026년 8월 21일
   const formattedDate = baseDateStr

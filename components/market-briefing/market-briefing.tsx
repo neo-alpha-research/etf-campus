@@ -859,105 +859,211 @@ export function MarketBriefing() {
         <div className="mb-6">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
-            <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 시장의 체감 온도는? (체감 지표)</h2>
-            <p className="mt-1 text-sm text-neutral-500">수익률 분포와 시장 거래대금 쏠림 현상을 통해 일반 ETF 시장의 온도를 진단합니다.</p>
+            <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">
+              오늘 시장의 체감 온도는? (체감 지표)
+            </h2>
+            <p className="mt-1 text-sm text-neutral-500">
+              수익률 분포와 시장 거래대금 쏠림 현상을 통해 일반 ETF 시장의 온도를 진단합니다.
+            </p>
           </div>
-        </div>          {/* 2-Pillar Dashboard Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
-            {/* 1. Market Breadth (시장 체온) */}
-            <div className="bg-white border border-[#E5E8E2] rounded-[20px] p-6 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col">
-              <div className="flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em]">전체 시장 체온</p>
-                      <span className="text-[10px] text-neutral-400 font-medium bg-neutral-100 px-1.5 py-0.5 rounded">일반 ETF 가중수익률</span>
-                    </div>
-                    <p className="text-[11px] text-neutral-400">전체 일반 ETF {number.format(pulse.generalEtfCount)}개 기준</p>
-                  </div>
-                  <p className={`text-4xl font-extrabold tabular-nums tracking-tight ${changeTone(pulse.generalAumWeightedReturnPct)}`}>
-                    {signed(pulse.generalAumWeightedReturnPct)}
-                  </p>
-                </div>
-                
-                <div className="mt-8">
-                  <div className="flex text-[11px] font-bold mb-1 w-full">
-                    <div style={{ width: `${(pulse.upCount / pulse.generalEtfCount) * 100}%` }} className="text-[#EE4B58] text-left overflow-visible whitespace-nowrap">상승 {pulse.upCount}</div>
-                    <div style={{ width: `${(pulse.flatCount / pulse.generalEtfCount) * 100}%` }} className="text-neutral-400 text-center overflow-visible whitespace-nowrap">보합 {pulse.flatCount}</div>
-                    <div style={{ width: `${(pulse.downCount / pulse.generalEtfCount) * 100}%` }} className="text-[#4682EC] text-right overflow-visible whitespace-nowrap">하락 {pulse.downCount}</div>
-                  </div>
-                  {/* Stacked Bar */}
-                  <div className="w-full h-3 rounded-full flex overflow-hidden">
-                    <div className="bg-[#EE4B58]" style={{ width: `${(pulse.upCount / pulse.generalEtfCount) * 100}%` }}></div>
-                    <div className="bg-neutral-200" style={{ width: `${(pulse.flatCount / pulse.generalEtfCount) * 100}%` }}></div>
-                    <div className="bg-[#4682EC]" style={{ width: `${(pulse.downCount / pulse.generalEtfCount) * 100}%` }}></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mt-6 pt-4 border-t border-neutral-200/60">
-                <p className="text-[12px] font-medium text-neutral-600 leading-relaxed">
-                  {breadthSentence}
-                </p>
-              </div>
-            </div>
+        </div>
 
-            {/* 2. Concentration (수급 건전성: 일반 vs 전체) */}
-            <div className="bg-[#F9FBFC] border border-[#E5E8E2] rounded-[20px] p-6 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col">
-              <div className="flex-1 flex flex-col justify-start">
-                <div className="flex items-center gap-2 mb-2">
-                  <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em]">수급 건전성</p>
-                  <span className="text-[10px] text-neutral-400 font-medium bg-neutral-100 px-1.5 py-0.5 rounded">상위 10개 ETF 거래대금 비중</span>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-3 mt-3">
-                  {/* 일반 ETF 기준 */}
-                  <div className="bg-white rounded-xl p-3 border border-neutral-100 shadow-sm">
-                    <p className="text-[11px] font-bold text-neutral-500 mb-1">순수 일반 ETF</p>
-                    <div className="flex items-center gap-1.5">
-                      <p className="text-2xl font-extrabold tabular-nums tracking-tight text-neutral-800">
-                        {decimal.format(pulse.top10TradeSharePct)}<span className="text-sm font-bold text-neutral-400 ml-0.5">%</span>
-                      </p>
-                      <div className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${pulse.top10TradeSharePct > 60 ? 'bg-red-50 text-red-600' : pulse.top10TradeSharePct > 45 ? 'bg-yellow-50 text-yellow-600' : 'bg-green-50 text-green-600'}`}>
-                        {pulse.top10TradeSharePct > 60 ? '🔴 과열' : pulse.top10TradeSharePct > 45 ? '🟡 주의' : '🟢 양호'}
+        {(() => {
+          const totalCount = pulse.generalEtfCount || (pulse.upCount + pulse.flatCount + pulse.downCount) || 1;
+          const upRatio = ((pulse.upCount / totalCount) * 100).toFixed(1);
+          const flatRatio = ((pulse.flatCount / totalCount) * 100).toFixed(1);
+          const downRatio = ((pulse.downCount / totalCount) * 100).toFixed(1);
+
+          const isOverheated = pulse.top10TradeSharePct > 60;
+          const isCaution = pulse.top10TradeSharePct > 45 && pulse.top10TradeSharePct <= 60;
+          const statusBadge = isOverheated 
+            ? { bg: 'bg-rose-50', text: 'text-rose-600', border: 'border-rose-200', tag: '🔴 과열' }
+            : isCaution 
+            ? { bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-200', tag: '🟡 주의' }
+            : { bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-200', tag: '🟢 양호' };
+
+          const isPositive = (pulse.generalAumWeightedReturnPct ?? 0) > 0;
+          const isNegative = (pulse.generalAumWeightedReturnPct ?? 0) < 0;
+
+          return (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              
+              {/* 1. Market Breadth (시장 체온) */}
+              <div className="bg-white border border-[#E5E8E2] rounded-[24px] p-6 shadow-[0_4px_16px_rgba(27,38,26,0.03)] flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div>
+                  {/* 카드 상단 헤더 */}
+                  <div className="flex items-center justify-between pb-3 border-b border-neutral-100">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[13px] font-extrabold text-neutral-800 tracking-tight">전체 시장 체온</span>
+                      <span className="text-[10px] font-bold text-[#5A7050] bg-[#F4F7EC] px-2 py-0.5 rounded-full border border-[#D7EABB]">
+                        일반 가중수익률
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-medium text-neutral-400">
+                      전체 일반 ETF {number.format(pulse.generalEtfCount)}개 기준
+                    </span>
+                  </div>
+
+                  {/* 메인 수익률 지표 */}
+                  <div className="my-5 flex items-baseline gap-2">
+                    <span className={`text-4xl font-black tabular-nums tracking-tight ${changeTone(pulse.generalAumWeightedReturnPct)}`}>
+                      {signed(pulse.generalAumWeightedReturnPct)}
+                    </span>
+                    <span className="text-xs font-semibold text-neutral-400">
+                      {isPositive ? '전일 대비 상승세' : isNegative ? '전일 대비 하락세' : '보합세'}
+                    </span>
+                  </div>
+
+                  {/* 게이지 바 영역 (3열 독립 범례 칩) */}
+                  <div className="space-y-2.5">
+                    <div className="grid grid-cols-3 gap-2 text-center">
+                      <div className="bg-rose-50/80 border border-rose-100 rounded-xl py-2 px-2">
+                        <p className="text-[10px] font-bold text-rose-500">상승</p>
+                        <p className="text-[13px] font-extrabold text-rose-600 tabular-nums">
+                          {pulse.upCount} <span className="text-[10px] font-semibold opacity-80">({upRatio}%)</span>
+                        </p>
+                      </div>
+                      <div className="bg-neutral-50 border border-neutral-200/70 rounded-xl py-2 px-2">
+                        <p className="text-[10px] font-bold text-neutral-500">보합</p>
+                        <p className="text-[13px] font-extrabold text-neutral-700 tabular-nums">
+                          {pulse.flatCount} <span className="text-[10px] font-semibold opacity-80">({flatRatio}%)</span>
+                        </p>
+                      </div>
+                      <div className="bg-blue-50/80 border border-blue-100 rounded-xl py-2 px-2">
+                        <p className="text-[10px] font-bold text-blue-500">하락</p>
+                        <p className="text-[13px] font-extrabold text-blue-600 tabular-nums">
+                          {pulse.downCount} <span className="text-[10px] font-semibold opacity-80">({downRatio}%)</span>
+                        </p>
                       </div>
                     </div>
-                  </div>
 
-                  {/* 전체 ETF 기준 (파킹/레버리지/인버스 포함) */}
-                  <div className="bg-white rounded-xl p-3 border border-neutral-100 shadow-sm">
-                    <p className="text-[11px] font-bold text-neutral-400 mb-1">전체 ETF (레버·인버스·파킹 포함)</p>
-                    <div className="flex items-center gap-1.5">
-                      <p className="text-2xl font-extrabold tabular-nums tracking-tight text-neutral-500">
-                        {pulse.allTop10TradeSharePct ? decimal.format(pulse.allTop10TradeSharePct) : '-'}<span className="text-sm font-bold text-neutral-300 ml-0.5">%</span>
-                      </p>
-                      {pulse.allTop10TradeSharePct && pulse.allTop10TradeSharePct - pulse.top10TradeSharePct > 10 && (
-                        <div className="px-1.5 py-0.5 rounded bg-red-50 text-red-500 text-[10px] font-bold">
-                          +{(pulse.allTop10TradeSharePct - pulse.top10TradeSharePct).toFixed(1)}%p
-                        </div>
-                      )}
+                    {/* 스택트 바 */}
+                    <div className="w-full h-3.5 rounded-full flex overflow-hidden p-0.5 bg-neutral-100 ring-1 ring-neutral-200/50">
+                      <div 
+                        className="bg-[#EE4B58] rounded-l-full transition-all duration-500" 
+                        style={{ width: `${upRatio}%` }} 
+                        title={`상승 ${pulse.upCount}개 (${upRatio}%)`}
+                      />
+                      <div 
+                        className="bg-neutral-300 transition-all duration-500 mx-[1px]" 
+                        style={{ width: `${flatRatio}%` }} 
+                        title={`보합 ${pulse.flatCount}개 (${flatRatio}%)`}
+                      />
+                      <div 
+                        className="bg-[#4682EC] rounded-r-full transition-all duration-500" 
+                        style={{ width: `${downRatio}%` }} 
+                        title={`하락 ${pulse.downCount}개 (${downRatio}%)`}
+                      />
                     </div>
                   </div>
                 </div>
 
+                {/* 하단 인사이트 박스 */}
+                <div className="mt-6 pt-4 border-t border-neutral-100">
+                  <div className="bg-[#F9FBFC] rounded-xl p-3.5 border border-neutral-100 min-h-[64px] flex items-center">
+                    <p className="text-[12px] font-medium text-neutral-700 leading-relaxed">
+                      💡 {breadthSentence}
+                    </p>
+                  </div>
+                </div>
               </div>
-              
-              <div className="mt-6 pt-4 border-t border-neutral-200/60">
-                <p className="text-[12px] font-medium text-neutral-600 leading-relaxed">
-                  {pulse.top10TradeSharePct > 60 
-                    ? "상위 10개 종목 비중이 60%를 초과하는 과열(🔴) 상태로, 소수의 주도 종목(지수 대표주, 인기 테마 등)으로 자금이 극심하게 쏠려있습니다." 
-                    : pulse.top10TradeSharePct > 45 
-                    ? "상위 10개 종목 비중이 45~60% 구간의 주의(🟡) 상태로, 특정 주도주나 테마를 중심으로 거래가 집중되고 있습니다." 
-                    : "상위 10개 종목 비중이 45% 이하인 양호(🟢) 상태로, 시장 전반의 다양한 종목으로 자금이 건강하게 분산되어 있습니다."}
-                  {pulse.allTop10TradeSharePct && pulse.allTop10TradeSharePct - pulse.top10TradeSharePct > 15 
-                    ? " 레버리지·인버스·파킹형 상품에 거래대금이 집중되어, 실제 체감 변동성은 더 클 수 있습니다." 
-                    : ""}
-                </p>
+
+              {/* 2. Concentration (수급 건전성: 일반 vs 전체) */}
+              <div className="bg-white border border-[#E5E8E2] rounded-[24px] p-6 shadow-[0_4px_16px_rgba(27,38,26,0.03)] flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div>
+                  {/* 카드 상단 헤더 */}
+                  <div className="flex items-center justify-between pb-3 border-b border-neutral-100">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[13px] font-extrabold text-neutral-800 tracking-tight">수급 건전성</span>
+                      <span className="text-[10px] font-bold text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">
+                        상위 10개 ETF 거래대금 쏠림도
+                      </span>
+                    </div>
+                    <div className={`px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border ${statusBadge.bg} ${statusBadge.text} ${statusBadge.border}`}>
+                      {statusBadge.tag}
+                    </div>
+                  </div>
+
+                  {/* 메인 집중도 수치 */}
+                  <div className="my-5 flex flex-wrap items-baseline justify-between gap-2">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-black tabular-nums tracking-tight text-neutral-900">
+                        {decimal.format(pulse.top10TradeSharePct)}
+                        <span className="text-xl font-bold text-neutral-400 ml-0.5">%</span>
+                      </span>
+                      <span className="text-xs font-semibold text-neutral-400">순수 일반 ETF</span>
+                    </div>
+
+                    {/* 전체 ETF 보조 수치 비교 칩 */}
+                    {pulse.allTop10TradeSharePct ? (
+                      <div className="text-right">
+                        <span className="text-[10px] font-medium text-neutral-400 block">전체 ETF (파킹·레버리지 포함)</span>
+                        <span className="text-xs font-bold text-neutral-600 tabular-nums">
+                          {decimal.format(pulse.allTop10TradeSharePct)}%
+                          {pulse.allTop10TradeSharePct > pulse.top10TradeSharePct && (
+                            <span className="text-rose-500 font-extrabold ml-1">
+                              (+{(pulse.allTop10TradeSharePct - pulse.top10TradeSharePct).toFixed(1)}%p)
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    ) : null}
+                  </div>
+
+                  {/* 3-Zone 수급 건전성 게이지 바 */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-[10px] font-bold text-neutral-400 px-0.5">
+                      <span>0% (완전분산)</span>
+                      <span className="text-emerald-600 font-extrabold">양호 (≤45%)</span>
+                      <span className="text-amber-600 font-extrabold">주의 (~60%)</span>
+                      <span className="text-rose-600 font-extrabold">과열 (&gt;60%)</span>
+                      <span>100%</span>
+                    </div>
+
+                    <div className="relative w-full h-3.5 bg-neutral-100 rounded-full flex overflow-hidden ring-1 ring-neutral-200/50">
+                      <div className="bg-emerald-200/80 h-full" style={{ width: '45%' }} title="양호 구간 (0~45%)" />
+                      <div className="bg-amber-200/80 h-full border-l border-white/60" style={{ width: '15%' }} title="주의 구간 (45~60%)" />
+                      <div className="bg-rose-200/80 h-full border-l border-white/60" style={{ width: '40%' }} title="과열 구간 (60~100%)" />
+
+                      {/* 현재 수치 마커 핀 */}
+                      <div 
+                        className="absolute top-0 bottom-0 w-1.5 bg-neutral-900 rounded-full shadow-md transform -translate-x-1/2 transition-all duration-500"
+                        style={{ left: `${Math.min(Math.max(pulse.top10TradeSharePct, 0), 100)}%` }}
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between text-[10px] text-neutral-400">
+                      <span>수급 집중도 게이지</span>
+                      <span>
+                        현재 위치: <strong className="text-neutral-700 font-bold">{pulse.top10TradeSharePct.toFixed(1)}%</strong> ({isOverheated ? '과열 위험 구간' : isCaution ? '주의 구간' : '양호 분산 구간'})
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 하단 인사이트 박스 */}
+                <div className="mt-6 pt-4 border-t border-neutral-100">
+                  <div className="bg-[#F9FBFC] rounded-xl p-3.5 border border-neutral-100 min-h-[64px] flex items-center">
+                    <p className="text-[12px] font-medium text-neutral-700 leading-relaxed">
+                      {isOverheated 
+                        ? "상위 10개 종목 비중이 60%를 초과하는 과열(🔴) 상태로, 소수의 주도 종목(지수 대표주, 인기 테마 등)으로 자금이 극심하게 쏠려있습니다." 
+                        : isCaution 
+                        ? "상위 10개 종목 비중이 45~60% 구간의 주의(🟡) 상태로, 특정 주도주나 테마를 중심으로 거래가 집중되고 있습니다." 
+                        : "상위 10개 종목 비중이 45% 이하인 양호(🟢) 상태로, 시장 전반의 다양한 종목으로 자금이 건강하게 분산되어 있습니다."}
+                      {pulse.allTop10TradeSharePct && pulse.allTop10TradeSharePct - pulse.top10TradeSharePct > 10 ? (
+                        <span className="text-neutral-500 block sm:inline mt-0.5 sm:mt-0">
+                          {" "}(레버리지·파킹형 제외 시 순수 실물 ETF의 쏠림 왜곡이 완화됩니다.)
+                        </span>
+                      ) : null}
+                    </p>
+                  </div>
+                </div>
               </div>
+
             </div>
-          </div>
-        </section>
+          );
+        })()}
+      </section>
 
       {/* STEP 3: Micro Trends */}
       <section>

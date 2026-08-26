@@ -110,7 +110,7 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         generalTotalAum: briefing.general_total_aum,
         generalTotalTradeValue: briefing.general_total_trade_value,
         top10TradeSharePct: briefing.top10_trade_share_pct,
-        allTop10TradeSharePct: briefing.all_top10_trade_share_pct,
+        allTop10TradeSharePct: briefing.all_top10_trade_share_pct ?? metrics.etf_pulse?.all_top10_trade_share_pct ?? metrics.all_top10_trade_share_pct ?? null,
       },
       assetClasses: assetClasses.results ?? [],
       peerGroupVersion: metrics.peer_group_version ?? null,
@@ -136,7 +136,7 @@ export async function onRequestGet(context) {
       top100_aum_weighted_return_pct, top200_aum_weighted_return_pct,
       general_etf_count, up_count, flat_count, down_count, breadth_ratio_pct,
       market_temperature, general_total_aum, general_total_trade_value,
-      top10_trade_share_pct, metrics_json, source_dates_json, validation_json,
+      top10_trade_share_pct, all_top10_trade_share_pct, metrics_json, source_dates_json, validation_json,
       published_at, updated_at
     FROM market_briefings
     WHERE status = 'ready'

@@ -351,10 +351,16 @@ def main() -> None:
     with open(indices_file, "r", encoding="utf-8") as f:
         unified_indices = json.load(f).get("indices", [])
         
+    CODE_MAP = {
+        "^TNX": "DGS10",
+        "^VIX": "VIXCLS",
+    }
     for item in unified_indices:
+        raw_code = item.get("code") or item.get("label")
+        code = CODE_MAP.get(raw_code, raw_code)
         # Map back to D1 ingest payload format
         indices.append({
-            "code": item.get("code") or item.get("label"),
+            "code": code,
             "name": item.get("label"),
             "asOfDate": item.get("as_of_date", as_of_date),
             "close": item.get("value", 0),

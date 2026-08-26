@@ -1102,7 +1102,7 @@ export function MarketBriefing() {
                       <span className="text-neutral-300">/</span>
                       <span className="text-[10.5px] text-neutral-400 tabular-nums">
                         <span className="hidden sm:inline">전체 </span>
-                        {number.format(briefing.marketScale?.totalEtfCount || pulse.generalEtfCount)}개
+                        {number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개
                       </span>
                       <InfoTooltip 
                         text="시장 왜곡을 방지하기 위해 초단기 파킹형(CD/KOFR) 및 레버리지·인버스 상품을 제외한 실물 일반 ETF만을 정제 집계한 분석 모수입니다."
@@ -1176,7 +1176,7 @@ export function MarketBriefing() {
                 </div>
               </div>
 
-              {/* 2. Concentration (수급 건전성: 순수 일반 vs 전체 ETF 비교) */}
+              {/* 2. Concentration (수급 건전성: 일반 vs 전체 ETF 비교) */}
               <div className="bg-white border border-[#E5E8E2] rounded-[24px] p-6 shadow-[0_4px_16px_rgba(27,38,26,0.03)] flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
                   {/* 카드 상단 헤더 */}
@@ -1192,11 +1192,11 @@ export function MarketBriefing() {
                     </div>
                   </div>
 
-                  {/* 일반 vs 전체 ETF 비교 듀얼 카드 (개수 명시 & 순수 일반 ETF에만 툴팁) */}
+                  {/* 일반 vs 전체 ETF 비교 듀얼 카드 (개수 명시 & 일반 ETF에만 툴팁) */}
                   <div className="my-4 grid grid-cols-2 gap-2 bg-[#F9FBFC] p-3.5 rounded-2xl border border-neutral-100">
                     <div>
                       <div className="flex items-center gap-1">
-                        <span className="text-[11px] font-bold text-neutral-700">순수 일반 ETF ({number.format(pulse.generalEtfCount)}개)</span>
+                        <span className="text-[11px] font-bold text-neutral-700">일반 ETF ({number.format(pulse.generalEtfCount)}개)</span>
                         <InfoTooltip 
                           text="레버리지, 인버스, 파킹형(CD/KOFR) 상품을 제외한 순수 실물 주식·채권·섹터 ETF의 상위 10개 거래대금 쏠림도입니다. 왜곡 없는 산업/테마 시장의 실제 수급 건강도를 나타냅니다." 
                           side="bottom"
@@ -1214,7 +1214,7 @@ export function MarketBriefing() {
                     {pulse.allTop10TradeSharePct ? (
                       <div className="border-l border-neutral-200 pl-3.5">
                         <div className="flex items-center gap-1">
-                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF ({number.format(briefing.marketScale?.totalEtfCount || pulse.generalEtfCount)}개)</span>
+                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF ({number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개)</span>
                         </div>
                         <div className="mt-1 flex items-baseline gap-1">
                           <span className="text-2xl font-extrabold text-neutral-700 tabular-nums">

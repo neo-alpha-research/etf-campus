@@ -866,26 +866,66 @@ export function MarketBriefing() {
 
             <details className="group relative">
 
-              <summary className="list-none cursor-pointer flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-neutral-600 shadow-sm border border-[#DDE6D0] hover:bg-neutral-50 transition-colors">
+              <summary className="list-none cursor-pointer flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] transition-all select-none">
 
-                <BookOpen className="h-3.5 w-3.5 text-[#7DAD55]" />
+                <BookOpen className="h-3.5 w-3.5 text-[#5A7050]" />
 
                 <span>이 화면 읽는 법</span>
 
+                <span className="text-[10px] text-neutral-400 group-open:rotate-180 transition-transform">▾</span>
+
               </summary>
 
-              <div className="absolute right-0 top-full mt-2 w-72 rounded-xl bg-white p-4 text-sm leading-6 text-neutral-700 shadow-xl border border-[#DDE6D0] z-50">
+              <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 rounded-2xl bg-white p-5 text-sm leading-relaxed text-neutral-700 shadow-2xl border border-[#D7EABB] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
 
-                <p>ETF 시장은 거시 경제의 영향을 가장 먼저 받습니다. 아래 순서대로 파악해 보세요!</p>
+                <div className="flex items-center justify-between pb-3 border-b border-[#EDF2DE]">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#EAF3DF] text-xs">📖</span>
+                    <h4 className="font-extrabold text-neutral-900 text-[14px]">마켓 브리핑 100% 활용법</h4>
+                  </div>
+                  <span className="text-[11px] font-bold text-[#5A7050] bg-[#FAFDF4] px-2 py-0.5 rounded border border-[#D7EABB]">
+                    탑다운(Top-Down) 가이드
+                  </span>
+                </div>
 
-                                  <ul className="mt-3 space-y-1.5 font-medium">
-                    <li><span className="text-[#5A7050]">STEP 1.</span> 거시 지표 (오늘 시장의 배경)</li>
-                    <li><span className="text-[#5A7050]">STEP 2.</span> 시장 온도 (전체 ETF의 반응)</li>
-                    <li><span className="text-[#5A7050]">STEP 3.</span> 세부 동향 (테마 등락률)</li>
-                    <li><span className="text-[#5A7050]">STEP 4.</span> 자금 동향 (일일 순유입)</li>
-                    <li><span className="text-[#5A7050]">STEP 5.</span> 트렌드 (주/월간 순유입)</li>
-                    <li><span className="text-[#5A7050]">STEP 6.</span> 시장 규모 (AUM 추적)</li>
-                  </ul>
+                <div className="mt-3.5 space-y-2.5 text-xs">
+                  {/* 1단계: 거시 & 체온 */}
+                  <div className="rounded-xl bg-[#F9FBFC] p-3 border border-[#E9EFF4]">
+                    <p className="font-extrabold text-[#175CD3] flex items-center gap-1.5 mb-1 text-[12px]">
+                      <span>1️⃣</span> STEP 1~2. 오늘 시장의 큰 판도 확인
+                    </p>
+                    <p className="text-neutral-600 leading-normal">
+                      글로벌 거시 지표(환율·금리·유가)와 1,018개 일반 ETF의 상승 비율(체온)로 시장 전반의 방향성을 파악합니다.
+                    </p>
+                  </div>
+
+                  {/* 2단계: 주도 테마 & 기여도 */}
+                  <div className="rounded-xl bg-[#FAFDF4] p-3 border border-[#E2EBD6]">
+                    <p className="font-extrabold text-[#2E6819] flex items-center gap-1.5 mb-1 text-[12px]">
+                      <span>2️⃣</span> STEP 3. 오늘 장을 주도한 테마 발굴
+                    </p>
+                    <p className="text-neutral-600 leading-normal">
+                      어떤 세부 테마(반도체, AI, 원자력 등)가 상승을 견인하고 하락을 주도했는지 롱숏 성과와 기여도를 점검합니다.
+                    </p>
+                  </div>
+
+                  {/* 3단계: 큰 돈의 흐름 & 시장 규모 */}
+                  <div className="rounded-xl bg-[#FFFBF5] p-3 border border-[#FDE8D0]">
+                    <p className="font-extrabold text-[#C2410C] flex items-center gap-1.5 mb-1 text-[12px]">
+                      <span>3️⃣</span> STEP 4~6. 스마트머니 수급 & 시장 성장
+                    </p>
+                    <p className="text-neutral-600 leading-normal">
+                      단순 가격 변동이 아닌 실제 자금이 유입된 테마(일/주/월간 순유입)와 전체 시장 AUM 규모 및 괴리율 위험을 체크합니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-3.5 pt-3 border-t border-[#EDF2DE] bg-[#F7FAEE] -mx-5 -mb-5 p-3.5 rounded-b-2xl flex items-center gap-2 text-[11.5px] text-[#445A39]">
+                  <span className="text-sm shrink-0">💡</span>
+                  <p className="font-medium">
+                    <b>바쁜 아침에는?</b> 상단의 <b>‘핵심 요약’</b> 3줄과 하이라이트만 30초 동안 훑어보셔도 충분합니다!
+                  </p>
+                </div>
 
               </div>
 

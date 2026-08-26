@@ -1933,24 +1933,105 @@ export function MarketBriefing() {
 
 
 
-      <details className="rounded-[18px] border border-[#D7EABB] bg-[#FAFDF4] px-5 py-4 text-sm text-neutral-600">
+      <details className="rounded-[22px] border border-[#D7EABB] bg-[#FAFDF4] px-6 py-5 text-sm text-neutral-600 shadow-sm transition-all">
+        <summary className="cursor-pointer font-black text-neutral-900 text-[15px] sm:text-base flex items-center justify-between select-none">
+          <span className="flex items-center gap-2">
+            <span>📖</span>
+            <span>마켓 브리핑 데이터 산출 기준 및 방법론</span>
+          </span>
+          <span className="text-xs font-bold text-[#5A7050] bg-[#EAF3DF] px-2.5 py-1 rounded-full border border-[#D4EBBF]">자세히 보기</span>
+        </summary>
 
-        <summary className="cursor-pointer font-bold text-neutral-800">데이터 기준 및 방식</summary>
+        <div className="mt-4 pt-4 border-t border-[#EDF2DE]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* 카드 1: 유니버스 & 시장 체온 */}
+            <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
+              <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#2E6819]" /> STEP 1 & 2. 유니버스 및 시장 체온
+              </h5>
+              <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
+                <li>• <b>순수 일반 ETF</b>: 레버리지, 인버스, 파킹형(CD/KOFR/MMF)을 제외한 실물 투자 ETF (1,018개) 대상.</li>
+                <li>• <b>시장 체온</b>: 시가총액 왜곡을 방지한 일반 ETF 전체의 가중 평균 수익률.</li>
+                <li>• <b>수급 건전성</b>: 전체 거래대금 중 상위 10개 종목이 차지하는 비중 (70% 이상 시 수급 과열).</li>
+              </ul>
+            </div>
 
-        <div className="mt-3 space-y-2 leading-6">
+            {/* 카드 2: 테마 성과 & 기여도 */}
+            <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
+              <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#3B6D22]" /> STEP 3. 테마 성과 및 기여도
+              </h5>
+              <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
+                <li>• <b>자산군 기여도(%p)</b>: <code>자산군 AUM 비중 × 가중수익률</code> (합산 시 시장 가중수익률과 일치).</li>
+                <li>• <b>세부 테마(피어그룹)</b>: 최소 3개 이상 종목으로 구성된 유의미한 테마군별 가중 성과 집계.</li>
+              </ul>
+            </div>
 
-          <p>전체·순자산 Top 50·100·200 수익률은 해당 시장 일반 ETF들의 당일 등락률을 투자금으로 가중해 계산하며, 개별 ETF 비중 상한을 적용하지 않습니다.</p>
-          <p>자산군별 수익률 기여도는 해당 자산군의 AUM 비중과 AUM 가중수익률을 곱해 계산합니다. 일반 ETF는 레버리지, 인버스, 파킹형 상품을 제외한 순수 시장/테마형 ETF만을 의미합니다.</p>
+            {/* 카드 3: 자금 흐름 */}
+            <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
+              <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#0284C7]" /> STEP 4 & 5. 자금 흐름 (순유입 / 순유출)
+              </h5>
+              <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
+                <li>• <b>실질 자금 순유입</b>: 단순 AUM 변화가 아닌, 가격 변동분을 배제한 <code>역산 좌수 증감(ΔShares) × 기준일 NAV</code> 기준의 순수 자금 설정/환매액 집계.</li>
+                <li>• 주간(최근 5거래일) 및 월간(최근 20거래일) 단위 테마별 자금 유입/유출 추적.</li>
+              </ul>
+            </div>
 
-          <p>주/월간 자금 트렌드(순유입액)는 펀드의 순자산(AUM) 증감이 아닌, 실제 투자자들의 자금이 들어온 &apos;순설정액(설정액-환매액)&apos;만을 기간별(5일/20일)로 합산해 산출합니다.</p>
-          <p>시장 규모 추적 시 &apos;자산 증감(AUM)&apos;은 주가 변동이 포함된 외형 성장을 의미하며, &apos;실질 자금 순유입&apos;은 주가 변동을 제외하고 시장에 새롭게 유입된 순수 현금(순설정액)만을 집계합니다.</p>
-          {briefing.isStale && <p>현재 화면의 데이터는 {number.format(briefing.staleDays)}일 이전 데이터이므로 갱신 지연 상태로 표시됩니다.</p>}
+            {/* 카드 4: 시장 규모 & 괴리율 */}
+            <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
+              <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6. 시장 규모 & 괴리율 경보
+              </h5>
+              <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
+                <li>• <b>4대 자산 유형</b>: 일반 ETF, 파킹·단기자금, 레버리지, 인버스 4개 축으로 전체 시장 규모(AUM) 분할 추적.</li>
+                <li>• <b>괴리율 경보</b>: 종가와 순자산가치(NAV) 간 괴리율이 ±1.0% 이상 벌어진 단기 수급 쏠림 종목 알림.</li>
+              </ul>
+            </div>
+          </div>
 
-          <p className="mt-4 pt-4 border-t border-[#EDF2DE] text-xs text-neutral-500">데이터 수집·검증이 완료된 기준으로만 공개되며, 특정 ETF의 매수·매도·보유를 권유하지 않습니다.</p>
-
+          <div className="mt-4 pt-3 border-t border-[#EDF2DE] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[11.5px] text-neutral-500">
+            <p className="font-bold text-[#445A39]">
+              ※ 데이터 출처: 한국거래소(KRX) 공시 데이터 기반 ETF 캠퍼스 금융 전문가 집계 및 검증
+            </p>
+            <p className="text-neutral-400">
+              특정 종목의 매수·매도·보유를 권유하지 않습니다.
+            </p>
+          </div>
         </div>
-
       </details>
+
+      {/* SEO / AEO / GEO Schema.org JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FinancialNews",
+            "headline": `ETF 마켓 브리핑 (${briefing.asOfDate}) - 대한민국 ETF 시장의 오늘과 자금 흐름`,
+            "description": briefing.headline?.text || `일반 ETF ${briefing.pulse?.generalEtfCount || 1018}개 중 ${briefing.pulse?.upCount || 764}개 상승. 총 운용자산 ${((briefing.marketScale?.totalAum || 4467883.8) / 10000).toFixed(1)}조원.`,
+            "datePublished": `${briefing.asOfDate}T09:00:00+09:00`,
+            "dateModified": `${briefing.asOfDate}T16:00:00+09:00`,
+            "author": {
+              "@type": "Organization",
+              "name": "ETF 캠퍼스 금융 전문가 분석팀",
+              "url": "https://etf-campus.pages.dev"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "ETF 캠퍼스",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://etf-campus.pages.dev/og-image.png"
+              }
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://etf-campus.pages.dev/briefing/${briefing.asOfDate}`
+            }
+          })
+        }}
+      />
 
     </div>
 

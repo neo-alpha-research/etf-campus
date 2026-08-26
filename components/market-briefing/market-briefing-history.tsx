@@ -40,7 +40,7 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
     error,
     loadMore,
     refresh,
-  } = useMarketBriefingHistory({ limit: 10 });
+  } = useMarketBriefingHistory({ limit: 5 });
 
   return (
     <section aria-labelledby="briefing-history-title" className="rounded-[24px] border border-[#DDE6D0] bg-white p-5 shadow-[0_8px_24px_rgba(43,61,39,0.05)] sm:p-6">
@@ -48,12 +48,12 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
         <div>
           <p className="text-[11px] font-extrabold tracking-[0.15em] text-[#5A7050]">BRIEFING ARCHIVE</p>
           <h2 id="briefing-history-title" className="mt-1 text-xl font-extrabold tracking-tight text-neutral-900">지난 마켓 브리핑</h2>
-          <p className="mt-1 text-sm text-neutral-500">검증을 통과해 발행된 기준일만 조회할 수 있습니다.</p>
+          <p className="mt-1 text-sm text-neutral-500">최근 5영업일 마켓 브리핑 및 과거 발행 리포트를 조회할 수 있습니다.</p>
         </div>
         <button
           type="button"
           onClick={() => void refresh()}
-          className="w-fit rounded-lg px-2 py-1.5 text-xs font-bold text-[#536A44] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68]"
+          className="w-fit rounded-lg px-2.5 py-1.5 text-xs font-bold text-[#536A44] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68]"
         >
           목록 새로고침
         </button>
@@ -69,7 +69,7 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
         </div>
       ) : items.length === 0 ? (
         <div className="mt-5 rounded-xl border border-dashed border-[#D7EABB] bg-[#FBFDF8] p-5 text-sm text-neutral-600">
-          아직 조회할 과거 브리핑이 없습니다. 자동 발행된 첫 브리핑부터 이 목록에 추가됩니다.
+          아직 조회할 과거 브리핑이 없습니다. 검증 완료된 기준일부터 이 목록에 추가됩니다.
         </div>
       ) : (
         <>
@@ -109,9 +109,9 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
                 type="button"
                 onClick={() => void loadMore()}
                 disabled={isLoadingMore}
-                className="rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-4 py-2.5 text-sm font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] disabled:cursor-wait disabled:opacity-60"
+                className="rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-4 py-2 text-xs font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] disabled:cursor-wait disabled:opacity-60"
               >
-                {isLoadingMore ? "불러오는 중…" : "이전 브리핑 더 보기"}
+                {isLoadingMore ? "불러오는 중…" : "▾ 지난 마켓 브리핑 더 보기"}
               </button>
             </div>
           )}

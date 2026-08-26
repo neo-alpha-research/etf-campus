@@ -190,23 +190,25 @@ function calculateAumWeightedReturns(quotes: EtfSnapshot[]): AumWeightedReturn[]
 
 
 function calculatePeerGroups(quotes: any[]): any {
-  const groups = new Map<string, { assetClass: string, rows: any[] }>();
+  const groups = new Map<string, { peerGroup: string; assetClass: string; rows: any[] }>();
   for (const quote of quotes) {
     if (quote.is_general_etf !== 1) continue;
     const detail = quote.asset_detail?.trim();
     if (!detail) continue;
-    const existing = groups.get(detail);
+    const assetClass = quote.asset_class?.trim() || "미분류";
+    const groupKey = `${assetClass}::${detail}`;
+    const existing = groups.get(groupKey);
     if (existing) {
       existing.rows.push(quote);
     } else {
-      groups.set(detail, { assetClass: quote.asset_class?.trim() || "미분류", rows: [quote] });
+      groups.set(groupKey, { peerGroup: detail, assetClass, rows: [quote] });
     }
   }
   
   const results = [];
-  for (const [peerGroup, data] of groups.entries()) {
+  for (const [, data] of groups.entries()) {
     const rows = data.rows;
-    if (rows.length < 5) continue; // 최소 5개 이상
+    if (rows.length < 3) continue; // 최소 3개 이상
     
     // 동일가중 평균
     const equalWeightReturn = rows.reduce((sum, r) => sum + r.change_pct, 0) / rows.length;
@@ -228,7 +230,7 @@ function calculatePeerGroups(quotes: any[]): any {
     }
     
     results.push({
-      peerGroup,
+      peerGroup: data.peerGroup,
       assetClass: data.assetClass,
       etfCount: rows.length,
       equalWeightReturnPct: equalWeightReturn,

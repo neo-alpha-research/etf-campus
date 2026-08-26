@@ -15,7 +15,7 @@ import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking"
 
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
 
-
+import globalIndicesData from "@/data/market_indices.json";
 
 import { useMarketBriefing, MarketIndex } from "@/lib/hooks/use-market-briefing";
 
@@ -346,7 +346,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
   let unit = "";
   if (["KOSPI", "KOSDAQ", "SPX", "NDX"].includes(index.code)) unit = "pt";
   else if (["KR10Y", "DGS10"].includes(index.code)) unit = "%";
-  else if (index.code === "T10Y2Y") unit = "%p";
+  else if (index.code === "USDKRW") unit = "원";
   else if (["CLF", "GC", "SI"].includes(index.code)) unit = "$";
 
   let yieldCurveBadge = null;
@@ -415,13 +415,47 @@ export function MarketBriefing() {
   const orderedIndices = useMemo(() => {
     if (!briefing) return [];
 
-    const targetCodes = ["KOSPI", "KOSDAQ", "^GSPC", "^IXIC", "KRW=X"];
-    
-    return briefing.marketIndices
-      .filter(item => targetCodes.includes(item.code))
-      .sort((a, b) => {
-        return targetCodes.indexOf(a.code) - targetCodes.indexOf(b.code);
-      });
+    const mergedIndices = [...briefing.marketIndices];
+
+    const addGlobalIndex = (label: string, code: string) => {
+      const found = globalIndicesData.indices.find(
+        (i) => i.label === label || i.label === label.replace(" ", "")
+      );
+      if (found && !mergedIndices.some((m) => m.code === code)) {
+        mergedIndices.push({
+          code: code,
+          label: label,
+          close: found.value,
+          change_pct: found.change,
+          as_of_date: found.as_of_date || briefing.asOfDate,
+        });
+      }
+    };
+
+    addGlobalIndex("S&P 500", "SPX");
+    addGlobalIndex("나스닥", "NDX");
+    addGlobalIndex("VIX", "VIX");
+    addGlobalIndex("원/달러", "USDKRW");
+    addGlobalIndex("미 국채 10년물", "DGS10");
+    addGlobalIndex("WTI 원유", "CLF");
+    addGlobalIndex("금 선물", "GC");
+    addGlobalIndex("은 선물", "SI");
+
+    const order = [
+      "KOSPI", "KOSDAQ", "VKOSPI",
+      "SPX", "NDX", "VIX",
+      "USDKRW", "KR10Y", "DGS10",
+      "CLF", "GC", "SI",
+    ];
+
+    return mergedIndices.sort((a, b) => {
+      const idxA = order.indexOf(a.code);
+      const idxB = order.indexOf(b.code);
+      if (idxA === -1 && idxB === -1) return 0;
+      if (idxA === -1) return 1;
+      if (idxB === -1) return -1;
+      return idxA - idxB;
+    });
   }, [briefing]);
 
 
@@ -750,11 +784,11 @@ export function MarketBriefing() {
               </div>
             </div>
 
-            {/* 채권/금리 */}
+            {/* 환율·금리 */}
             <div>
-              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">💵</span> 채권 및 금리</h3>
+              <h3 className="mb-3 text-[14px] font-extrabold text-neutral-800 tracking-tight border-b-2 border-neutral-800 pb-2 flex items-center gap-1.5"><span className="text-lg">💵</span> 환율·금리</h3>
               <div className="flex flex-col">
-                {orderedIndices.filter(i => ["KR10Y", "DGS10", "T10Y2Y"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                {orderedIndices.filter(i => ["USDKRW", "KR10Y", "DGS10"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
               </div>
             </div>
 

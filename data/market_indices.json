@@ -34,13 +34,6 @@
       "code": "^IXIC"
     },
     {
-      "value": 65856.43,
-      "change": 0.5,
-      "as_of_date": "2026-08-25",
-      "label": "니케이 225",
-      "code": "^N225"
-    },
-    {
       "value": 1380.76,
       "change": -0.3,
       "as_of_date": "2026-08-24",

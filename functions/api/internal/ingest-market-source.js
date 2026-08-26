@@ -40,7 +40,7 @@ export async function onRequest(context) {
     if (payload.action === "finalize") {
       const finalization = validateFinalization(payload, common.value);
       if (!finalization.ok) return json({ error: finalization.error }, 400);
-      return json(await finalizeSnapshot(env.ETF_PRICES, common.value, finalization.value), 202);
+      return json(await finalizeSnapshot(env, common.value, finalization.value), 202);
     }
     return json({ error: "invalid_action" }, 400);
   } catch (error) {
@@ -152,7 +152,8 @@ async function ingestBatch(db, common, etfs) {
   return { status: "collecting", accepted: etfs.length };
 }
 
-async function finalizeSnapshot(db, common, indices) {
+async function finalizeSnapshot(env, common, indices) {
+  const db = env.ETF_PRICES;
   const manifest = await db.prepare(
     `SELECT etf_row_count, general_etf_count, aum_coverage_pct, etf_source_hash, index_source_hash, validation_json
      FROM market_source_snapshot_manifest WHERE as_of_date = ? AND source_version = ? AND status = 'collecting'`,
@@ -190,15 +191,21 @@ async function finalizeSnapshot(db, common, indices) {
        SET status='ready', ready_at=?, updated_at=?
        WHERE as_of_date=? AND source_version=? AND status='collecting'`,
     ).bind(now, now, common.asOfDate, common.sourceVersion),
-    db.prepare(
-      `INSERT INTO market_source_event_outbox (
-         event_id, event_type, target_name, as_of_date, source_version, payload_json,
-         delivery_status, attempt_count, created_at, updated_at
-       ) VALUES (?, 'market_snapshot_ready', 'market_briefing', ?, ?, ?, 'pending', 0, ?, ?)
-       ON CONFLICT(event_type, target_name, as_of_date, source_version) DO NOTHING`,
-    ).bind(eventId, common.asOfDate, common.sourceVersion, payload, now, now),
   ];
-  await db.batch(statements);
+  await env.ETF_PRICES.batch(statements);
+  
+  if (env.MARKET_BRIEFING_EVENTS) {
+    await env.MARKET_BRIEFING_EVENTS.send({
+      event_id: eventId,
+      event_type: "market_snapshot_ready",
+      target_name: "market_briefing",
+      as_of_date: common.asOfDate,
+      source_version: common.sourceVersion
+    });
+  } else {
+    console.warn("MARKET_BRIEFING_EVENTS queue is not bound. Event not dispatched.");
+  }
+
   return { status: "ready", eventId, asOfDate: common.asOfDate, sourceVersion: common.sourceVersion };
 }
 

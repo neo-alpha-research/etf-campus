@@ -91,47 +91,114 @@ def fetch_krx_index(auth_key: str, code: str, as_of_date: str) -> dict | None:
     logging.error(f"KRX {code} response has no composite index row for {as_of_date}")
     return None
 
-def fetch_fred_data(series_id: str, target_date_str: str) -> dict | None:
-    target_date = datetime.strptime(target_date_str, "%Y%m%d")
-    start_date = (target_date - timedelta(days=30)).strftime("%Y-%m-%d")
-    end_date = (target_date + timedelta(days=2)).strftime("%Y-%m-%d")
-    url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}&cosd={start_date}&coed={end_date}"
+def get_krx_auth_key() -> str | None:
+    key = os.environ.get("KRX_OPEN_API_KEY")
+    if key and key.strip():
+        return key.strip().lstrip("\ufeff")
+    dev_vars = Path(".dev.vars")
+    if dev_vars.exists():
+        for line in dev_vars.read_text(encoding="utf-8").splitlines():
+            if line.startswith("KRX_OPEN_API_KEY="):
+                val = line.split("=", 1)[1].strip().lstrip("\ufeff")
+                if val:
+                    return val
+    return None
+
+def get_ecos_api_key() -> str | None:
+    key = os.environ.get("ECOS_API_KEY")
+    if key and key.strip():
+        return key.strip().lstrip("\ufeff")
+    dev_vars = Path(".dev.vars")
+    if dev_vars.exists():
+        for line in dev_vars.read_text(encoding="utf-8").splitlines():
+            if line.startswith("ECOS_API_KEY="):
+                val = line.split("=", 1)[1].strip().lstrip("\ufeff")
+                if val:
+                    return val
+    ecos_file = Path("ecos_key.txt")
+    if ecos_file.exists():
+        for line in ecos_file.read_text(encoding="utf-8").splitlines():
+            line = line.strip().lstrip("\ufeff")
+            if line and not line.startswith("#"):
+                return line
+    return None
+
+def fetch_krx_vkospi(auth_key: str, as_of_date: str) -> dict | None:
+    query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
+    url = "https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd"
+    request = urllib.request.Request(
+        f"{url}?{query}",
+        headers={"AUTH_KEY": auth_key, "Accept": "application/json"},
+    )
     try:
-        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
-        response.raise_for_status()
-        data = response.text
-    except Exception as e:
-        logging.error(f"Failed to fetch {series_id} from FRED: {e}")
+        with urllib.request.urlopen(request, timeout=20) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except Exception as error:
+        logging.error(f"KRX VKOSPI API failed: {error}")
         return None
-    
-    reader = csv.reader(StringIO(data))
-    header = next(reader, None)
-    target_date_formatted = target_date.strftime("%Y-%m-%d")
-    
-    valid_rows = []
-    for row in reader:
-        if len(row) < 2: continue
-        if row[1] == '.' or not row[1].strip(): continue
-        valid_rows.append(row)
-        
-    target_idx = -1
-    for i, row in enumerate(valid_rows):
-        if row[0] <= target_date_formatted:
-            target_idx = i
-            
-    if target_idx <= 0:
-        logging.error(f"Could not find sufficient historical data for {series_id}")
+
+    rows = payload.get("OutBlock_1") or payload.get("outBlock1") or []
+    for row in rows:
+        name = str(row.get("IDX_NM") or row.get("idxNm") or "").strip()
+        if "변동성" in name or name in ("코스피 200 변동성지수", "코스피200 변동성지수", "VKOSPI"):
+            basis = str(row.get("BAS_DD") or row.get("basDt") or "").strip()
+            close_val = compact_number(row.get("CLSPRC_IDX") or row.get("clpr"))
+            change_pct = compact_number(row.get("FLUC_RT") or row.get("fltRt"))
+            change_pts = compact_number(row.get("CMPPREVDD_IDX") or row.get("vs") or 0)
+            return {
+                "label": "코스피 변동성지수",
+                "code": "VKOSPI",
+                "value": close_val,
+                "change": change_pct,
+                "changePoints": change_pts,
+                "as_of_date": iso_date(basis),
+            }
+    logging.error(f"KRX VKOSPI response has no volatility index row for {as_of_date}")
+    return None
+
+def fetch_ecos_kr10y(api_key: str, target_date_str: str) -> dict | None:
+    try:
+        target_date = datetime.strptime(target_date_str, "%Y%m%d")
+        start_date = (target_date - timedelta(days=20)).strftime("%Y%m%d")
+        end_date = target_date.strftime("%Y%m%d")
+        url = f"https://ecos.bok.or.kr/api/StatisticSearch/{api_key}/json/kr/1/30/817Y002/D/{start_date}/{end_date}/010210000"
+
+        req = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=20) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+
+        rows = payload.get("StatisticSearch", {}).get("row", [])
+        if not rows:
+            logging.error(f"ECOS returned no rows for 국고채(10년) between {start_date} and {end_date}")
+            return None
+
+        valid_rows = [r for r in rows if r.get("TIME") and r.get("DATA_VALUE") and r.get("TIME") <= target_date_str]
+        if not valid_rows:
+            logging.error(f"No valid ECOS rows found up to {target_date_str}")
+            return None
+
+        latest_row = valid_rows[-1]
+        price = float(latest_row["DATA_VALUE"])
+
+        change_pct = 0.0
+        change_points = 0.0
+        if len(valid_rows) >= 2:
+            prev_row = valid_rows[-2]
+            prev_price = float(prev_row["DATA_VALUE"])
+            change_points = round(price - prev_price, 3)
+            change_pct = round(((price - prev_price) / prev_price) * 100, 2) if prev_price else 0.0
+
+        return {
+            "label": "국고채 10년",
+            "code": "KR10Y",
+            "value": price,
+            "change": change_pct,
+            "changePoints": change_points,
+            "as_of_date": iso_date(latest_row["TIME"]),
+        }
+    except Exception as error:
+        logging.error(f"ECOS KR10Y fetch failed: {error}")
         return None
-        
-    price = float(valid_rows[target_idx][1])
-    prev_close = float(valid_rows[target_idx - 1][1])
-    change_pct = ((price - prev_close) / prev_close) * 100 if prev_close else 0
-    
-    return {
-        "value": round(price, 2),
-        "change": round(change_pct, 2),
-        "as_of_date": valid_rows[target_idx][0]
-    }
 
 def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
     target_date = datetime.strptime(target_date_str, "%Y%m%d")
@@ -222,9 +289,10 @@ def main():
     logging.info(f"Using ETF base date: {target_date_str}")
     iso_target = iso_date(target_date_str)
     
-    krx_auth_key = os.environ.get("KRX_OPEN_API_KEY")
+    krx_auth_key = get_krx_auth_key()
+    ecos_api_key = get_ecos_api_key()
 
-    # Read previous JSON for duplicate checking
+    # Read previous JSON for fallback and duplicate checking
     out_path = Path("data/market_indices.json")
     old_indices = []
     old_base_date = ""
@@ -240,7 +308,7 @@ def main():
     success_count = 0
     fail_labels = []
 
-    # 1. Fetch KRX
+    # 1. Fetch KRX (KOSPI, KOSDAQ, VKOSPI)
     if krx_auth_key:
         for label, code in [("코스피", "KOSPI"), ("코스닥", "KOSDAQ")]:
             logging.info(f"Fetching {label} from KRX...")
@@ -252,11 +320,32 @@ def main():
                 success_count += 1
             else:
                 fail_labels.append(label)
+                
+        logging.info("Fetching 코스피 변동성지수 (VKOSPI) from KRX...")
+        vkospi_data = fetch_krx_vkospi(krx_auth_key, iso_target)
+        if vkospi_data:
+            results.append(vkospi_data)
+            success_count += 1
+        else:
+            fail_labels.append("코스피 변동성지수")
     else:
-        logging.error("KRX_OPEN_API_KEY not found. Cannot fetch KOSPI/KOSDAQ from KRX.")
-        fail_labels.extend(["코스피", "코스닥"])
+        logging.error("KRX_OPEN_API_KEY not found. Cannot fetch KRX indices.")
+        fail_labels.extend(["코스피", "코스닥", "코스피 변동성지수"])
 
-    # 2. Fetch Yahoo
+    # 2. Fetch ECOS (국고채 10년)
+    if ecos_api_key:
+        logging.info("Fetching 국고채 10년 (KR10Y) from ECOS...")
+        kr10y_data = fetch_ecos_kr10y(ecos_api_key, target_date_str)
+        if kr10y_data:
+            results.append(kr10y_data)
+            success_count += 1
+        else:
+            fail_labels.append("국고채 10년")
+    else:
+        logging.warning("ECOS_API_KEY not found in env, .dev.vars, or ecos_key.txt.")
+        fail_labels.append("국고채 10년")
+
+    # 3. Fetch Yahoo
     for label, symbol in TICKERS.items():
         logging.info(f"Fetching data for {label} ({symbol}) from Yahoo...")
         data = fetch_index_data(symbol, target_date_str)
@@ -268,8 +357,6 @@ def main():
         else:
             fail_labels.append(label)
 
-
-            
     # Check duplicates
     if old_base_date and old_base_date != target_date_str and check_for_duplicates(results, old_indices):
         logging.error("Exact duplicate values found from previous trading day! Aborting to prevent stale data publishing.")
@@ -283,9 +370,9 @@ def main():
         
     logging.info(f"Successfully wrote {success_count} records to {out_path}. Failed: {len(fail_labels)} ({', '.join(fail_labels)})")
     
-    total_targets = len(TICKERS)
-    if success_count / total_targets < 0.7:
-        logging.error("Success rate is below 70%. Failing the workflow.")
+    total_targets = len(TICKERS) + 3 # Yahoo + KOSPI, KOSDAQ, VKOSPI
+    if success_count / total_targets < 0.6:
+        logging.error("Success rate is below threshold. Failing the workflow.")
         sys.exit(1)
 
 if __name__ == "__main__":

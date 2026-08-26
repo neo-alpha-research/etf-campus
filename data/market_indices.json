@@ -20,6 +20,22 @@
       "code": "KOSDAQ"
     },
     {
+      "label": "코스피 변동성지수",
+      "code": "VKOSPI",
+      "value": 56.29,
+      "change": -0.83,
+      "changePoints": -0.47,
+      "as_of_date": "2026-08-25"
+    },
+    {
+      "label": "국고채 10년",
+      "code": "KR10Y",
+      "value": 4.32,
+      "change": -0.35,
+      "changePoints": -0.015,
+      "as_of_date": "2026-08-25"
+    },
+    {
       "value": 7677.28,
       "change": 0.32,
       "as_of_date": "2026-08-25",

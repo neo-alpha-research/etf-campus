@@ -139,6 +139,24 @@ const formatWon = (value: number) => {
 
 
 
+function formatKoreanFlowAmount(eokValue: number) {
+  if (eokValue === 0) return "0원";
+  const sign = eokValue > 0 ? "+" : eokValue < 0 ? "-" : "";
+  const absValue = Math.round(Math.abs(eokValue));
+
+  if (absValue < 10000) {
+    return `${sign}${number.format(absValue)}억원`;
+  }
+
+  const jo = Math.floor(absValue / 10000);
+  const remainderEok = absValue % 10000;
+
+  if (remainderEok === 0) {
+    return `${sign}${number.format(jo)}조원`;
+  }
+  return `${sign}${number.format(jo)}조 ${number.format(remainderEok)}억원`;
+}
+
 function signedInt(value: number) {
   return `${value >= 0 ? "+" : ""}${number.format(value)}`;
 }
@@ -1581,13 +1599,13 @@ export function MarketBriefing() {
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.daily?.aumChange || 0)}`}>
-                    {signedInt(briefing.marketScale?.daily?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {formatKoreanFlowAmount(briefing.marketScale?.daily?.aumChange || 0)}
                   </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.daily?.netInflow || 0)}`}>
-                    {signedInt(briefing.marketScale?.daily?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {formatKoreanFlowAmount(briefing.marketScale?.daily?.netInflow || 0)}
                   </p>
                 </div>
               </div>
@@ -1603,13 +1621,13 @@ export function MarketBriefing() {
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.weekly?.aumChange || 0)}`}>
-                    {signedInt(briefing.marketScale?.weekly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {formatKoreanFlowAmount(briefing.marketScale?.weekly?.aumChange || 0)}
                   </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.weekly?.netInflow || 0)}`}>
-                    {signedInt(briefing.marketScale?.weekly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {formatKoreanFlowAmount(briefing.marketScale?.weekly?.netInflow || 0)}
                   </p>
                 </div>
               </div>
@@ -1625,13 +1643,13 @@ export function MarketBriefing() {
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.monthly?.aumChange || 0)}`}>
-                    {signedInt(briefing.marketScale?.monthly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {formatKoreanFlowAmount(briefing.marketScale?.monthly?.aumChange || 0)}
                   </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
                   <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.monthly?.netInflow || 0)}`}>
-                    {signedInt(briefing.marketScale?.monthly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                    {formatKoreanFlowAmount(briefing.marketScale?.monthly?.netInflow || 0)}
                   </p>
                 </div>
               </div>

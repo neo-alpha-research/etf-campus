@@ -78,7 +78,7 @@ export function FundFlowRanking({
                 : "text-neutral-500 hover:text-neutral-800"
             }`}
           >
-            전체 ETF <span className="text-[10.5px] font-normal opacity-80">(파킹·레버리지 포함)</span>
+            전체 ETF <span className="text-[10.5px] font-normal opacity-80">(파킹·레버리지·인버스 포함)</span>
           </button>
         </div>
 

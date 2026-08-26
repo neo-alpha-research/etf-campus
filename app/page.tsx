@@ -1,37 +1,17 @@
 import type { Metadata } from "next";
 
-import { Screener } from "@/components/screener/screener";
-import { loadEtfs } from "@/lib/data/etf-repository";
-import type { ScreenerEtf } from "@/lib/domain/etf-screener";
+import { MarketBriefing } from "@/components/market-briefing/market-briefing";
 
-export const metadata: Metadata = { title: "ETF 탐색", description: "계좌유형·자산군·위험유형·순자산 기준으로 국내 상장 ETF를 살펴봅니다" };
+export const metadata: Metadata = {
+  title: "ETF Campus | 대한민국 ETF 마켓 브리핑 & 투자 인텔리전스",
+  description: "검증된 일간 ETF·시장 데이터를 시각화해 날짜별로 확인할 수 있는 자동 마켓 브리핑입니다.",
+  alternates: { canonical: "/" },
+};
 
-export default function ScreenerPage() {
-  const fullEtfs = loadEtfs();
-  // DTO Pattern: Strip heavy fields not needed by Screener to reduce HTML payload
-  const screenerEtfs: ScreenerEtf[] = fullEtfs.map((etf) => ({
-    ticker: etf.ticker,
-    name: etf.name,
-    baseIndex: etf.baseIndex,
-    close: etf.close,
-    tradeValue: etf.tradeValue,
-    aum: etf.aum,
-    fee: etf.fee ? {
-      totalFeePct: etf.fee.totalFeePct,
-      verificationStatus: etf.fee.verificationStatus,
-    } : null,
-    issuer: etf.issuer,
-    riskType: etf.riskType,
-    assetClass: etf.assetClass,
-    pension: etf.pension,
-    asOfDate: etf.asOfDate,
-    returns: etf.returns,
-    classification: etf.classification ? {
-      marketScope: etf.classification.marketScope,
-      fxHedge: etf.classification.fxHedge,
-      strategy: etf.classification.strategy,
-    } : null,
-  })) as ScreenerEtf[];
-
-  return <Screener etfs={screenerEtfs} />;
+export default function HomePage() {
+  return (
+    <main className="page-shell flex-1 py-6 sm:py-10">
+      <MarketBriefing />
+    </main>
+  );
 }

@@ -311,5 +311,24 @@ node -e "fetch('https://etf-campus.pages.dev/api/briefings/latest').then(r=>r.js
 
 ### 2-8. 추적오차율 데이터
 - KRX 일별시세와 FSC 증권상품시세정보 모두 추적오차율을 원본 데이터로 제공하지 않습니다. (과거 매핑은 죽은 코드로 판명)
-- 이에 따라 2026-08-26 부로 UI에서 추적오차율 렌더링 요소를 완전히 제거했습니다. CSV의 	racking_error 컬럼은 스키마 유지를 위해 빈 값으로 남겨두었습니다.
+- 이에 따라 2026-08-26 부로 UI에서 추적오차율 렌더링 요소를 완전히 제거했습니다. CSV의 tracking_error 컬럼은 스키마 유지를 위해 빈 값으로 남겨두었습니다.
 - 같은 이유로 PRC_DEV_RT(괴리율 원본 매핑) 및 lstgDt(상장일 원본 매핑) 참조도 코드에서 함께 정리되었습니다.
+
+### 2-9. 스냅샷 적재 정규화 누락 버그 및 수정 (2026-08-26)
+- **증상**: D1 `market_source_etf_daily` 및 `briefing_etf_daily` 테이블에서 모든 일자의 `nav_value`, `disparity_pct`, `asset_detail`이 항상 `NULL`로 저장되어 STEP 3(세부 주도 테마 peerGroups)와 STEP 4·5(자금 순유입 fundFlow)가 동시에 차단됨.
+- **원인**: `functions/api/internal/ingest-market-source.js`의 `normalizeEtf()` 함수가 해당 필드들을 파싱/반환 객체에서 누락시켜, 하위 SQL 바인딩 단계에서 무조건 `NULL`이 전달되는 구조였음.
+- **수정**: `normalizeEtf()` 반환 객체에 `assetDetail`, `navValue`, `disparityPct`, `isGeneralEtf`를 포함하도록 수정하여 파이프라인 전체 복구.
+- **핵심 교훈**: 인코딩 수정만으로는 필드가 살아나지 않음. 한 필드가 비어 있을 때 수집 단계(CSV/API)만 보지 말고 인제스션 및 D1 적재 경로 끝까지 추적하여 확인해야 함.
+
+### 2-10. 지수 테이블의 역할 분리
+- **`market_source_index_daily` (스냅샷 허브 소관)**: 스냅샷 무결성 검증용 테이블로, 국내 양대 지수인 `KOSPI`와 `KOSDAQ` 2종만 엄격히 관리함 (`CHECK (index_code IN ('KOSPI', 'KOSDAQ'))`, 워커 `source-materializer.ts`에서 2개 지수 수량 강제 검증).
+- **`market_index_daily` (브리핑 런 소관)**: 마켓 브리핑의 거시 지표 테이블로, `KOSPI`, `KOSDAQ`, `TNX`, `VIX`, `CLF`, `DGS10`, `T10Y2Y` 등 글로벌 지수를 확장 수용함 (`migrations/0014`).
+
+### 2-11. 일반 ETF (`is_general_etf`) 비즈니스 정의
+- **정의**: `risk_type = 'normal' AND asset_class != '금리·파킹'`
+- **취지**: 시장 온도(Step 2), 주도 테마(Step 3), 자금 흐름(Step 4·5) 등 핵심 지표 산출 시 현금성 단기자금인 파킹형 상품을 제외하고 순수 투자성 일반 ETF만을 모수로 삼음.
+- **동기화 방식**: `scripts/publish_market_source_snapshot.py`가 산출한 `isGeneralEtf`를 페이로드에 명시적으로 실어 보내 D1에 저장함으로써 Python과 JS/Worker 간 단일 기준 유지.
+
+### 2-12. 브리핑 중복 발행 가드 (G14) 및 정정 한계
+- `workers/market-briefing-publisher/src/source-materializer.ts` (L100)에 `SELECT as_of_date FROM market_briefings WHERE as_of_date = ?` 검사가 존재하여, 특정 일자의 브리핑이 한 번 `ready`로 생성되면 동일 일자의 후속 스냅샷 이벤트는 `skipped_duplicate`로 처리되어 화면에 반영되지 않음.
+- 이로 인해 원본 데이터 정정 후 재발행 시 화면 갱신이 차단되는 한계가 존재하며, 별도의 정정 경로(Replay/Overwrite Flag) 도입이 필요함.

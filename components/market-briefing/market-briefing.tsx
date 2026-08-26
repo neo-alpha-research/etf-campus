@@ -1373,7 +1373,7 @@ export function MarketBriefing() {
             
             const isRich = sortedPg.length >= 6;
             const top = isRich ? sortedPg.slice(0, 3) : sortedPg;
-            const bottom = isRich ? sortedPg.slice(-3).reverse() : [];
+            const bottom = isRich ? sortedPg.slice(-3) : [];
 
             return (
               <div key={cat.key} className="overflow-hidden rounded-[20px] border border-[#E5E8E2] bg-white shadow-[0_2px_10px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:border-[#D7EABB] hover:shadow-md transition-all">
@@ -1404,7 +1404,7 @@ export function MarketBriefing() {
                       {/* 상위 테마 영역 */}
                       <div className="space-y-1">
                         <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#D92D20]">
-                          <span>▲ {isRich ? "상승 상위 Top 3" : "주요 테마 성과"}</span>
+                          <span>▲ {isRich ? "상승 Top 3" : "주요 테마 성과"}</span>
                         </div>
                         {top.map((t, idx) => (
                           <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg hover:bg-[#FEF3F2]/50 transition-colors">
@@ -1424,11 +1424,11 @@ export function MarketBriefing() {
                         ))}
                       </div>
 
-                      {/* 하위 테마 영역 (Worst 3위 = 최대 낙폭이 맨 위 3번 뱃지로 배치) */}
+                      {/* 하위 테마 영역 (Worst 3위부터 맨 위 3번 뱃지로 배치, 최하위 Worst 1위가 맨 아래 1번 뱃지) */}
                       {isRich && bottom.length > 0 && (
                         <div className="mt-2 pt-2 border-t border-dashed border-neutral-200">
                           <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#175CD3]">
-                            <span>▼ 하락 하위 Worst 3</span>
+                            <span>▼ 하락 Worst 3</span>
                           </div>
                           <div className="space-y-1">
                             {bottom.map((b, idx) => {

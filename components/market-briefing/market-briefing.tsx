@@ -704,9 +704,9 @@ export function MarketBriefing() {
     ((curr.cappedAumWeightedReturnPct || 0) > (prev?.cappedAumWeightedReturnPct ?? -Infinity)) ? curr : prev
   , briefing.peerGroups[0]) : null;
 
-  const bestInflow = (briefing.peerGroups && briefing.peerGroups.length > 0) ? briefing.peerGroups.reduce((prev: any, curr: any) => 
-    ((curr.netInflowValue || 0) > ((prev?.netInflowValue || 0) ?? -Infinity)) ? curr : prev
-  , briefing.peerGroups[0]) : null;
+  const topInflowEtf = briefing.fundFlow?.general?.topInflows?.[0] || briefing.fundFlow?.all?.topInflows?.[0] || null;
+  const rawWeekly = briefing.weeklyFundFlows as any;
+  const topInflowTheme = (Array.isArray(rawWeekly) ? rawWeekly.find((x: any) => (x.netInflow || 0) > 0) : rawWeekly?.topInflows?.[0]) || null;
 
   
     let themeSentence = "";
@@ -823,14 +823,6 @@ export function MarketBriefing() {
         }}
       />
 
-      {/* 서비스 준비 공지 (경량화 배너) */}
-      <div className="rounded-xl border border-amber-200/80 bg-amber-50/70 px-4 py-3 text-xs sm:text-sm text-amber-800 flex items-start gap-2.5">
-        <span className="text-base shrink-0 mt-0.5">🚧</span>
-        <div>
-          <strong className="font-bold text-amber-900 mr-1.5">[서비스 안내]</strong>
-          현재 마켓 브리핑 전체 데이터 및 기능 고도화 작업이 진행 중입니다. 조속히 작업을 마무리하여 더 안정적인 분석을 제공하겠습니다.
-        </div>
-      </div>
 
       {selectedDate && (
         <div className="flex items-center justify-between rounded-xl bg-[#EFF8D8] px-5 py-3 text-sm text-[#476237]">
@@ -929,17 +921,27 @@ export function MarketBriefing() {
                     </div>
                   )}
                   {/* Highlight 2: Best Inflow */}
-                  {bestInflow && (
+                  {topInflowEtf ? (
                     <div className="flex items-center justify-between bg-[#F9FBFC] rounded-xl p-3 border border-[#EDF2DE]">
-                      <div>
-                        <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">순유입 1위 테마</p>
-                        <p className="text-[14px] font-bold text-neutral-800">{bestInflow.peerGroup}</p>
+                      <div className="min-w-0 pr-2">
+                        <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">일간 순유입 1위 ETF</p>
+                        <p className="text-[13.5px] font-bold text-neutral-800 truncate" title={topInflowEtf.etfName}>{topInflowEtf.etfName}</p>
                       </div>
-                      <span className="text-[16px] font-extrabold tabular-nums tracking-tight text-[#EE4B58]">
-                        +{number.format((bestInflow.netInflowValue || 0) / 100000000)}<span className="text-[12px] opacity-80">억원</span>
+                      <span className="text-[15px] font-extrabold tabular-nums tracking-tight text-[#2E6819] shrink-0">
+                        +{number.format(Math.abs(topInflowEtf.netInflowValue))}<span className="text-[11px] font-normal text-neutral-500 ml-0.5">억원</span>
                       </span>
                     </div>
-                  )}
+                  ) : topInflowTheme ? (
+                    <div className="flex items-center justify-between bg-[#F9FBFC] rounded-xl p-3 border border-[#EDF2DE]">
+                      <div className="min-w-0 pr-2">
+                        <p className="text-[10px] font-extrabold text-neutral-400 mb-0.5">주간 순유입 1위 테마</p>
+                        <p className="text-[13.5px] font-bold text-neutral-800 truncate" title={topInflowTheme.peerGroup}>{topInflowTheme.peerGroup}</p>
+                      </div>
+                      <span className="text-[15px] font-extrabold tabular-nums tracking-tight text-[#2E6819] shrink-0">
+                        +{number.format(Math.abs(topInflowTheme.netInflow))}<span className="text-[11px] font-normal text-neutral-500 ml-0.5">억원</span>
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>

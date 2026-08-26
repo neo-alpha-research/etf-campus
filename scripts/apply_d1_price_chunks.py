@@ -81,7 +81,7 @@ def main() -> int:
             handle.write(sql)
         try:
             completed = subprocess.run(
-                ["npx.cmd", "wrangler", "d1", "execute", "etf-prices", "--remote", "--file", str(temporary_path), "--yes"],
+                ["npx", "wrangler", "d1", "execute", "etf-prices", "--remote", "--file", str(temporary_path), "--yes"],
                 check=False,
                 text=True,
                 capture_output=True,

@@ -16,7 +16,7 @@ def run_command(sql: str) -> None:
     env = os.environ.copy()
     env.setdefault('PYTHONIOENCODING', 'utf-8')
     command = [
-        'npx.cmd', 'wrangler', 'd1', 'execute', 'etf-prices',
+        'npx', 'wrangler', 'd1', 'execute', 'etf-prices',
         '--remote', '--command', sql, '--yes'
     ]
     completed = subprocess.run(

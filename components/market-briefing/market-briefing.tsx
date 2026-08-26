@@ -441,12 +441,12 @@ function IndexRow({ index }: { index: MarketIndex }) {
       
       {/* 2열 + 3열: 종가 수치 (68px) + 등락 배지 (66px) */}
       <div className="flex items-center gap-2 shrink-0">
-        <div className="w-[68px] text-right flex items-baseline justify-end gap-0.5">
+        <div className="w-[68px] text-center flex items-baseline justify-center gap-0.5">
           <span className="text-[13.5px] sm:text-[14px] font-extrabold tracking-tight text-neutral-900 tabular-nums">{decimal.format(index.close)}</span>
           {unit && <span className="text-[10px] font-semibold text-neutral-400">{unit}</span>}
         </div>
 
-        <div className="w-[66px] flex justify-end">
+        <div className="w-[66px] flex justify-center">
           <span className={`inline-flex w-full items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[11px] font-bold tabular-nums ring-1 ring-inset ${surfaceClass}`}>
             {trendIcon}
             <span>{formatChange(index.code, change)}</span>
@@ -1059,7 +1059,7 @@ export function MarketBriefing() {
                     <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">국내 증시</h3>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-right">종가</span>
+                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
                     <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
                   </div>
                 </div>
@@ -1078,7 +1078,7 @@ export function MarketBriefing() {
                     <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">미국 증시</h3>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-right">종가</span>
+                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
                     <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
                   </div>
                 </div>
@@ -1097,7 +1097,7 @@ export function MarketBriefing() {
                     <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">환율 · 금리</h3>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-right">종가</span>
+                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
                     <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
                   </div>
                 </div>
@@ -1116,7 +1116,7 @@ export function MarketBriefing() {
                     <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">원자재</h3>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-right">종가</span>
+                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-center">종가</span>
                     <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
                   </div>
                 </div>

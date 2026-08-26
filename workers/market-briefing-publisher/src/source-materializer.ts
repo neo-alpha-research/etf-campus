@@ -29,6 +29,7 @@ type SourceEtf = {
   disparity_pct: number | null;
   is_general_etf: 0 | 1;
   source_hash: string;
+  shares: number | null;
 };
 
 type SourceIndex = {
@@ -112,7 +113,7 @@ export async function materializeMarketSnapshot(db: D1Database, event: MarketSna
 
     const [etfsResult, indicesResult] = await Promise.all([
       db.prepare(
-        `SELECT ticker, etf_name, close_value, change_pct, trade_value, aum_value, risk_type, asset_class, is_general_etf, source_hash, asset_detail, nav_value, disparity_pct
+        `SELECT ticker, etf_name, close_value, change_pct, trade_value, aum_value, risk_type, asset_class, is_general_etf, source_hash, asset_detail, nav_value, disparity_pct, shares
          FROM market_source_etf_daily WHERE as_of_date=? AND source_version=? ORDER BY ticker ASC`,
       ).bind(event.as_of_date, event.source_version).all<SourceEtf>(),
       db.prepare(
@@ -144,18 +145,19 @@ export async function materializeMarketSnapshot(db: D1Database, event: MarketSna
         await db.batch(batch.map((etf) => db.prepare(
           `INSERT INTO briefing_etf_daily (
             as_of_date, ticker, etf_name, close_value, change_pct, trade_value, aum_value,
-            risk_type, asset_class, is_general_etf, source_run_id, source_hash, asset_detail, nav_value, disparity_pct
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            risk_type, asset_class, is_general_etf, source_run_id, source_hash, asset_detail, nav_value, disparity_pct, shares
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
           ON CONFLICT(as_of_date, ticker) DO UPDATE SET
             etf_name=excluded.etf_name, close_value=excluded.close_value, change_pct=excluded.change_pct,
             trade_value=excluded.trade_value, aum_value=excluded.aum_value, risk_type=excluded.risk_type,
             asset_class=excluded.asset_class, is_general_etf=excluded.is_general_etf,
             source_run_id=excluded.source_run_id, source_hash=excluded.source_hash,
-            asset_detail=excluded.asset_detail, nav_value=excluded.nav_value, disparity_pct=excluded.disparity_pct`,
+            asset_detail=excluded.asset_detail, nav_value=excluded.nav_value, disparity_pct=excluded.disparity_pct,
+            shares=excluded.shares`,
         ).bind(
           event.as_of_date, etf.ticker, etf.etf_name, etf.close_value, etf.change_pct, etf.trade_value,
           etf.aum_value, etf.risk_type, etf.asset_class, etf.is_general_etf, runId, etf.source_hash,
-          etf.asset_detail, etf.nav_value, etf.disparity_pct
+          etf.asset_detail, etf.nav_value, etf.disparity_pct, etf.shares ?? null
         )));
       }
 

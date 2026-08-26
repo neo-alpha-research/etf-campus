@@ -89,6 +89,10 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
                     topic = (row.get("comparison_topic") or "").strip()
                     if topic and topic not in ["미확인 주식전략", "미분류"]:
                         class_map[ticker] = topic
+    else:
+        print(f"Warning: {comparison_path} does not exist. Equity peer group themes will be empty.", file=sys.stderr)
+
+    print(f"Classification map loaded: {len(class_map)} items mapped.")
 
     with path.open("r", encoding="utf-8-sig") as stream:
         reader = csv.DictReader(stream)
@@ -132,6 +136,7 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
             "assetDetail": class_map.get(ticker, ""),
             "navValue": compact_number(row.get("nav")) if row.get("nav") else None,
             "disparityPct": compact_number(row.get("disparity")) if row.get("disparity") else None,
+            "shares": int(compact_number(row.get("shares"))) if row.get("shares") else None,
             "isGeneralEtf": 1 if normalize_risk_type(str(row.get("risk_type") or "")) == "normal" and str(row.get("asset_class") or "").strip() != "금리·파킹" else 0,
         })
     return as_of_date, sorted(records, key=lambda row: row["ticker"])

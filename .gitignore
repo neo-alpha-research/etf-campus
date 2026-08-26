@@ -35,6 +35,7 @@ data/staging/
 .dev.vars.*
 
 *.sql
+!migrations/*.sql
 *.tmp
 .*-temp
 *-temp

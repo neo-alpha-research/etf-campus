@@ -163,81 +163,50 @@ def fetch_isin_supplement(service_key: str, ticker: str) -> str:
     return ""
 
 def manage_pending_isin(action: str, ticker: str, name: str = ""):
-    import subprocess, json
+    import json, os
     from datetime import datetime, timezone
     now_date = datetime.now(timezone.utc).date()
     
+    pending_file = "data/pending_isins.json"
+    try:
+        with open(pending_file, 'r', encoding='utf-8') as f:
+            pending = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        pending = []
+        
     if action == "add":
-        cmd = [
-            "npx.cmd", "wrangler", "d1", "execute", "etf-prices", "--json",
-            "--command", f"SELECT discovered_at FROM etf_pending_isins WHERE ticker='{ticker}';"
-        ]
-        try:
-            res = subprocess.run(cmd, capture_output=True, text=True, check=False)
-            if res.returncode == 0 and res.stdout.strip():
-                try:
-                    data = json.loads(res.stdout)
-                    results = data[0].get("results", []) if data else []
-                    if results:
-                        discovered_at = results[0]["discovered_at"]
-                        disc_date = datetime.strptime(discovered_at, "%Y-%m-%d").date()
-                        if (now_date - disc_date).days > 5:
-                            print(f"WARNING: ISIN for {ticker} ({name}) has been missing for more than 5 days (since {discovered_at})!")
-                        return
-                except:
-                    pass
-            
-            insert_cmd = [
-                "npx.cmd", "wrangler", "d1", "execute", "etf-prices",
-                "--command", f"INSERT OR IGNORE INTO etf_pending_isins (ticker, name, discovered_at) VALUES ('{ticker}', '{name}', '{now_date.isoformat()}');"
-            ]
-            subprocess.run(insert_cmd, capture_output=True, check=False)
-        except Exception as e:
-            print(f"Error managing pending ISIN for {ticker}: {e}")
-            
-    elif action == "remove":
-        cmd = [
-            "npx.cmd", "wrangler", "d1", "execute", "etf-prices",
-            "--command", f"DELETE FROM etf_pending_isins WHERE ticker='{ticker}';"
-        ]
-        try:
-            subprocess.run(cmd, capture_output=True, check=False)
-        except:
-            pass
-
-def fetch_snapshot(service_key: str, day_text: str) -> dict[str, dict]:
-    rows: list[dict] = []
-    page = 1
-    while True:
-        query = urllib.parse.urlencode({
-            "serviceKey": service_key,
-            "resultType": "json",
-            "basDt": day_text,
-            "numOfRows": 1000,
-            "pageNo": page,
-        })
-        last_error: Exception | None = None
-        for attempt in range(MAX_REQUEST_ATTEMPTS):
-            try:
-                with urllib.request.urlopen(f"{BASE_URL}?{query}", timeout=REQUEST_TIMEOUT_SECONDS) as response:
-                    payload = json.loads(response.read().decode("utf-8"))
-                body = payload["response"]["body"]
-                items = (body.get("items") or {}).get("item") or []
-                if isinstance(items, dict):
-                    items = [items]
-                total = int(body.get("totalCount", 0))
-                rows.extend(items)
+        found = False
+        for p in pending:
+            if p["ticker"] == ticker:
+                found = True
+                p["attempts"] = p.get("attempts", 0) + 1
+                disc_date = datetime.strptime(p["discovered_at"], "%Y-%m-%d").date()
+                if (now_date - disc_date).days > 5:
+                    print(f"WARNING: ISIN for {ticker} ({name}) has been missing for more than 5 days (since {p['discovered_at']})!")
                 break
-            except Exception as error:
-                last_error = error
-                if attempt < MAX_REQUEST_ATTEMPTS - 1:
-                    time.sleep(1)
-        else:
-            raise RuntimeError(f"API 조회 실패: {day_text}, page {page}") from last_error
-        if not items or len(rows) >= total:
-            break
-        page += 1
-    return {str(row.get("srtnCd", "")): row for row in rows if row.get("srtnCd")}
+        if not found:
+            pending.append({
+                "ticker": ticker,
+                "name": name,
+                "discovered_at": now_date.isoformat(),
+                "attempts": 1
+            })
+    elif action == "remove":
+        pending = [p for p in pending if p["ticker"] != ticker]
+        
+    with open(pending_file, 'w', encoding='utf-8') as f:
+        json.dump(pending, f, ensure_ascii=False, indent=2)
+
+def report_pending_isins():
+    import json
+    pending_file = "data/pending_isins.json"
+    try:
+        with open(pending_file, 'r', encoding='utf-8') as f:
+            pending = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        pending = []
+    print(f"보류 {len(pending)}건")
+
 
 
 def fetch_ticker_history(
@@ -850,7 +819,8 @@ def main() -> None:
     print(f"\n--- Anomaly Detection (Stale Data) ---")
     print(f"Stale ETFs: {stats_stale_data_count}/{total_processed} ({stats_stale_data_count/max(1, total_processed)*100:.1f}%)")
     if stats_stale_data_count > 0:
-        print(f"Stale tickers (up to 20): {', '.join(stale_tickers[:20])}")
+        report_pending_isins()
+    print(f"Stale tickers (up to 20): {', '.join(stale_tickers[:20])}")
 
     added = len(set(current) - set(master_by_ticker))
     removed = len(set(master_by_ticker) - set(current))

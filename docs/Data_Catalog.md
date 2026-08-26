@@ -20,8 +20,8 @@
 
 | 데이터 | 출처 | 라이선스 | 상태 |
 |---|---|---|---|
-| ETF 일별시세 | 공공데이터포털 15094806 | 이용허락범위 제한 없음 | 정상 |
-| ETF 일별시세 폴백 | KRX Open API | **비상업 제한** | 예외 시에만 |
+| ETF 일별시세 | KRX Open API | **비상업적 이용만 가능** | 주력 (유료화 이전 한시적) |
+| ETF 일별시세 폴백 | 공공데이터포털 15094806 | 상업적 이용 가능 | 결손/신규 상장 ISIN |
 | KOSPI, KOSDAQ | KRX Open API | **비상업 제한** | 전환 대기 |
 | 해외지수 3종 | Yahoo Finance | **비공식, 지수 재배포 제한** | 유료화 전 유지 |
 | 원/달러, 원자재 3종 | Yahoo Finance | **비공식** | 유료화 전 유지 |
@@ -154,7 +154,7 @@ HTML 을 파싱하며 `User-Agent` 를 위장합니다.
 
 **저장 위치** [확인됨]: `briefing_etf_daily.nav_value`, `disparity_pct`. 마이그레이션 `0011_briefing_etf_daily_nav.sql`
 
-**용도**: 마켓 브리핑 STEP 4·5 자금 순유입 계산. 이전에는 좌수를 `aum_value / nav_value`로 유도했으나, 현재는 FSC 응답의 `stLstgCnt`를 `shares` 필드로, `nPptTotAmt`를 `net_asset` 필드로 직접 파싱해 수집하므로 더 이상 계산으로 유도하지 않습니다.
+**용도**: 마켓 브리핑 STEP 4·5 자금 순유입 계산. KRX 응답의 LIST_SHRS (또는 FSC 응답의 stLstgCnt)를 shares 필드로 직접 파싱해 오므로 더 이상 역산 추정하지 않습니다. 두 출처의 값이 동일함이 확인되었습니다.
 
 **주의**: `disparity`(괴리율)는 FSC 응답에 제공되지 않아, 수집 스크립트 단에서 `(종가 - NAV) / NAV * 100` 공식으로 직접 계산해 채워넣는 **파생값(계산값)**입니다.
 

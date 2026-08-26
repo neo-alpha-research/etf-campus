@@ -41,7 +41,7 @@ def main() -> int:
         if args.dry_run:
             continue
         command = [
-            "npx.cmd", "wrangler", "d1", "execute", "etf-prices", "--remote",
+            "npx", "wrangler", "d1", "execute", "etf-prices", "--remote",
             "--command", sql, "--yes",
         ]
         completed = subprocess.run(command, check=False, capture_output=True)

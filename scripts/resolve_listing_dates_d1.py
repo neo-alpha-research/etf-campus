@@ -144,7 +144,7 @@ def main() -> int:
     
     if args.apply:
         print(f"Applying SQL to D1...")
-        cmd = ["npx.cmd", "wrangler", "d1", "execute", "etf-prices", "--remote", "--file", str(args.output)]
+        cmd = ["npx", "wrangler", "d1", "execute", "etf-prices", "--remote", "--file", str(args.output)]
         subprocess.run(cmd, check=True)
         print("Successfully applied updates to D1.")
 

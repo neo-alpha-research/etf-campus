@@ -96,6 +96,7 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         { code: "KOSDAQ", label: "KOSDAQ", close: briefing.kosdaq_close, change_pct: briefing.kosdaq_change_pct, as_of_date: briefing.as_of_date },
       ],
       pulse: {
+        totalEtfCount: metrics.pulse?.totalEtfCount ?? metrics.market_scale?.totalEtfCount ?? 1164,
         generalEtfCount: briefing.general_etf_count,
         upCount: briefing.up_count,
         flatCount: briefing.flat_count,
@@ -111,6 +112,12 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         generalTotalTradeValue: briefing.general_total_trade_value,
         top10TradeSharePct: briefing.top10_trade_share_pct,
         allTop10TradeSharePct: briefing.all_top10_trade_share_pct ?? metrics.etf_pulse?.all_top10_trade_share_pct ?? metrics.all_top10_trade_share_pct ?? null,
+      },
+      marketScale: metrics.market_scale ?? {
+        totalEtfCount: metrics.pulse?.totalEtfCount ?? 1164,
+        generalEtfCount: briefing.general_etf_count,
+        totalAum: briefing.general_total_aum,
+        totalTradeValue: briefing.general_total_trade_value,
       },
       assetClasses: assetClasses.results ?? [],
       peerGroupVersion: metrics.peer_group_version ?? null,

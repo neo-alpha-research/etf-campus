@@ -394,25 +394,40 @@ function IndexRow({ index }: { index: MarketIndex }) {
   else if (index.code === "USDKRW") unit = "원";
   else if (["CLF", "GC", "SI"].includes(index.code)) unit = "$";
 
-  let displayLabel = index.label;
-  if (index.code === "VKOSPI") displayLabel = "VKOSPI";
-  else if (index.code === "KR10Y") displayLabel = "🇰🇷 국채 10년";
-  else if (index.code === "DGS10") displayLabel = "🇺🇸 국채 10년";
-  else if (index.code === "USDKRW") displayLabel = "원/달러";
-  else if (index.code === "CLF") displayLabel = "WTI 원유";
-  else if (index.code === "GC") displayLabel = "금 선물";
-  else if (index.code === "SI") displayLabel = "은 선물";
-
   return (
     <div className="grid grid-cols-[1fr_auto_80px] items-center gap-2 py-2.5 px-2 rounded-xl transition-colors hover:bg-neutral-50/70 border-b border-neutral-100/80 last:border-0">
       {/* 1열: 지표명 */}
       <div className="flex items-center gap-1.5 min-w-0">
-        <span className="text-[13px] font-bold text-neutral-800 truncate tracking-tight">{displayLabel}</span>
-        {index.code === "VIX" && (
-          <InfoTooltip text="미국 S&P 500 지수의 향후 30일간 변동성에 대한 시장의 기대를 나타내는 일명 '공포 지수'입니다. 수치가 상승하면 투자자들의 불안 심리가 커져 주식 시장이 하락할 가능성이 높고, 하락하면 시장이 안정세를 보이고 있음을 의미합니다." />
-        )}
-        {index.code === "VKOSPI" && (
-          <InfoTooltip text="한국 KOSPI 200 옵션 가격을 기반으로 산출된 일명 '공포 지수'입니다. 수치가 상승하면 국내 투자자들의 불안 심리가 커져 주식 시장이 하락할 가능성이 높고, 하락하면 시장이 안정세를 보이고 있음을 의미합니다." />
+        {index.code === "KR10Y" ? (
+          <>
+            <img src="https://flagcdn.com/w40/kr.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0" alt="KR" />
+            <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">국채 10년</span>
+          </>
+        ) : index.code === "DGS10" ? (
+          <>
+            <img src="https://flagcdn.com/w40/us.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0" alt="US" />
+            <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">국채 10년</span>
+          </>
+        ) : index.code === "VKOSPI" ? (
+          <>
+            <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">VKOSPI</span>
+            <InfoTooltip text="한국 KOSPI 200 옵션 가격을 기반으로 산출된 일명 '공포 지수'입니다. 수치가 상승하면 국내 투자자들의 불안 심리가 커져 주식 시장이 하락할 가능성이 높고, 하락하면 시장이 안정세를 보이고 있음을 의미합니다." />
+          </>
+        ) : index.code === "VIX" ? (
+          <>
+            <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">VIX</span>
+            <InfoTooltip text="미국 S&P 500 지수의 향후 30일간 변동성에 대한 시장의 기대를 나타내는 일명 '공포 지수'입니다. 수치가 상승하면 투자자들의 불안 심리가 커져 주식 시장이 하락할 가능성이 높고, 하락하면 시장이 안정세를 보이고 있음을 의미합니다." />
+          </>
+        ) : index.code === "USDKRW" ? (
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">원/달러</span>
+        ) : index.code === "CLF" ? (
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">WTI 원유</span>
+        ) : index.code === "GC" ? (
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">금 선물</span>
+        ) : index.code === "SI" ? (
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">은 선물</span>
+        ) : (
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">{index.label}</span>
         )}
       </div>
       
@@ -577,7 +592,7 @@ export function MarketBriefing() {
 
     const addGlobalIndex = (label: string, code: string) => {
       const found = globalIndicesData.indices.find(
-        (i) => i.label === label || i.label === label.replace(" ", "")
+        (i) => i.code === code || i.label === label || i.label === label.replace(" ", "")
       );
       if (found && !mergedIndices.some((m) => m.code === code)) {
         mergedIndices.push({
@@ -1366,8 +1381,8 @@ export function MarketBriefing() {
         {/* Part B: Micro Themes 4-Col Grid */}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
-            { key: "주식-국내", label: "주식-국내", emoji: "🇰🇷" },
-            { key: "주식-해외", label: "주식-해외", emoji: "🇺🇸" },
+            { key: "주식-국내", label: "주식-국내", flag: "kr" },
+            { key: "주식-해외", label: "주식-해외", flag: "us" },
             { key: "채권", label: "채권", emoji: "💵" },
             { key: "원자재", label: "원자재", emoji: "⛏️" },
           ].map((cat) => {
@@ -1376,14 +1391,18 @@ export function MarketBriefing() {
             
             const isRich = sortedPg.length >= 6;
             const top = isRich ? sortedPg.slice(0, 3) : sortedPg;
-            const bottom = isRich ? sortedPg.slice(-3) : [];
+            const bottom = isRich ? sortedPg.slice(-3).reverse() : [];
 
             return (
               <div key={cat.key} className="overflow-hidden rounded-[20px] border border-[#E5E8E2] bg-white shadow-[0_2px_10px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:border-[#D7EABB] hover:shadow-md transition-all">
                 {/* 카드 상단 헤더 */}
                 <div className="bg-[#F8FAF6] border-b border-[#EDF2DE] px-4 py-3 flex items-center justify-between">
                   <h3 className="font-extrabold text-[#297160] text-[13.5px] tracking-tight flex items-center gap-1.5">
-                    <span>{cat.emoji}</span>
+                    {cat.flag ? (
+                      <img src={`https://flagcdn.com/w40/${cat.flag}.png`} className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0" alt={cat.flag.toUpperCase()} />
+                    ) : (
+                      <span>{cat.emoji}</span>
+                    )}
                     <span>{cat.label} 세부 테마</span>
                   </h3>
                   <span className="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-white border border-[#D7EABB] text-[#5A7050]">
@@ -1423,7 +1442,7 @@ export function MarketBriefing() {
                         ))}
                       </div>
 
-                      {/* 하위 테마 영역 (대칭 구조: 최하위 꼴찌가 맨 아래 슬롯에 위치) */}
+                      {/* 하위 테마 영역 (Worst 3위 = 최대 낙폭이 맨 위 3번 뱃지로 배치) */}
                       {isRich && bottom.length > 0 && (
                         <div className="mt-2 pt-2 border-t border-dashed border-neutral-200">
                           <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#175CD3]">
@@ -1431,12 +1450,13 @@ export function MarketBriefing() {
                           </div>
                           <div className="space-y-1">
                             {bottom.map((b, idx) => {
-                              const isLowest = idx === bottom.length - 1;
+                              const rankNumber = 3 - idx;
+                              const isWorst3 = idx === 0; // Worst 3위 (최대 하락)
                               return (
-                                <div key={b.peerGroup} className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg hover:bg-[#EFF8FF]/50 transition-colors ${isLowest ? "bg-[#F8FAFC]" : ""}`}>
+                                <div key={b.peerGroup} className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg transition-colors ${isWorst3 ? "bg-[#F0F7FF]/80 font-bold" : "hover:bg-[#EFF8FF]/50"}`}>
                                   <div className="flex items-center gap-2 min-w-0">
-                                    <span className={`w-4 h-4 rounded text-[10px] font-black flex items-center justify-center ${isLowest ? "bg-[#175CD3] text-white" : "bg-[#D1E9FF] text-[#175CD3]"}`}>
-                                      {idx + 1}
+                                    <span className={`w-4 h-4 rounded text-[10px] font-black flex items-center justify-center ${isWorst3 ? "bg-[#175CD3] text-white shadow-xs" : "bg-[#D1E9FF] text-[#175CD3]"}`}>
+                                      {rankNumber}
                                     </span>
                                     <p className="truncate text-[13px] font-bold text-neutral-800" title={b.peerGroup}>
                                       {b.peerGroup}

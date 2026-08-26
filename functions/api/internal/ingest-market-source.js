@@ -146,7 +146,7 @@ async function ingestBatch(db, common, etfs) {
     common.asOfDate, common.sourceVersion, etf.ticker, etf.name, etf.close, etf.changePct, etf.tradeValue,
     etf.aumValue ?? null, etf.riskType, etf.assetClass ?? null, etf.assetDetail ?? null,
     etf.navValue ?? null, etf.disparityPct ?? null,
-    etf.riskType === "normal" && etf.assetClass !== "금리·파킹" ? 1 : 0, manifest.etf_source_hash, ingestedAt,
+    etf.isGeneralEtf, manifest.etf_source_hash, ingestedAt,
   ));
   await db.batch(statements);
   return { status: "collecting", accepted: etfs.length };
@@ -215,8 +215,9 @@ function normalizeEtf(item) {
   const aumValue = item.aumValue == null || item.aumValue === "" ? null : finiteNumber(item.aumValue, 0);
   const navValue = item.navValue == null || item.navValue === "" ? null : finiteNumber(item.navValue, 0);
   const disparityPct = item.disparityPct == null || item.disparityPct === "" ? null : finiteNumber(item.disparityPct);
+  const isGeneralEtf = item.isGeneralEtf === 1 || item.isGeneralEtf === 0 ? item.isGeneralEtf : (riskType === "normal" && !String(assetClass ?? "").includes("금리") && !String(assetClass ?? "").includes("파킹") ? 1 : 0);
   if (!/^[0-9A-Z]{6}$/.test(ticker) || !name || !RISK_TYPES.has(riskType) || close === null || changePct === null || tradeValue === null || aumValue === undefined) return null;
-  return { ticker, name, close, changePct, tradeValue, aumValue, riskType, assetClass, assetDetail, navValue, disparityPct };
+  return { ticker, name, close, changePct, tradeValue, aumValue, riskType, assetClass, assetDetail, navValue, disparityPct, isGeneralEtf };
 }
 
 function normalizeIndex(item) {

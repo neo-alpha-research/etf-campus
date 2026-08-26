@@ -116,35 +116,41 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
           기간별 성과 추이 <span className="text-xs font-semibold text-muted ml-1 font-sans">(단위: %)</span>
         </h3>
         
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleDownload}
-            className="export-hide flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors"
-            title="차트를 이미지로 저장"
-          >
-            <Download size={14} strokeWidth={2.5} />
-            <span>이미지 저장</span>
-          </button>
-          <div className="flex bg-neutral-100 p-1 rounded-xl">
-          <button
-            onClick={() => setViewMode("short")}
-            style={{ fontWeight: 800 }}
-            className={`px-4 py-1.5 text-[15px] rounded-lg transition-colors ${
-              viewMode === "short" ? "bg-white text-strong shadow-sm" : "text-neutral-500 hover:text-strong"
-            }`}
-          >
-            단기 성과
-          </button>
-          <button
-            onClick={() => setViewMode("long")}
-            style={{ fontWeight: 800 }}
-            className={`px-4 py-1.5 text-[15px] rounded-lg transition-colors ${
-              viewMode === "long" ? "bg-white text-strong shadow-sm" : "text-neutral-500 hover:text-strong"
-            }`}
-          >
-            장기 성과
-          </button>
-        </div>
+        <div className="flex flex-col items-end gap-1.5">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleDownload}
+              className="export-hide flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors"
+              title="차트를 이미지로 저장"
+            >
+              <Download size={14} strokeWidth={2.5} />
+              <span>이미지 저장</span>
+            </button>
+            <div className="flex bg-neutral-100 p-1 rounded-xl">
+              <button
+                onClick={() => setViewMode("short")}
+                style={{ fontWeight: 800 }}
+                className={`px-4 py-1.5 text-[15px] rounded-lg transition-colors ${
+                  viewMode === "short" ? "bg-white text-strong shadow-sm" : "text-neutral-500 hover:text-strong"
+                }`}
+              >
+                단기 성과
+              </button>
+              <button
+                onClick={() => setViewMode("long")}
+                style={{ fontWeight: 800 }}
+                className={`px-4 py-1.5 text-[15px] rounded-lg transition-colors ${
+                  viewMode === "long" ? "bg-white text-strong shadow-sm" : "text-neutral-500 hover:text-strong"
+                }`}
+              >
+                장기 성과
+              </button>
+            </div>
+          </div>
+          {/* 기준일 (Captured in image) */}
+          <div className="text-[13px] text-muted font-medium font-sans px-1">
+            기준일: {basket[0]?.asOfDate ? basket[0].asOfDate.replace(/-/g, ".") : ""}
+          </div>
         </div>
       </div>
       
@@ -329,11 +335,6 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
           </svg>
         </div>
       )}
-
-      {/* 기준일 (Captured in image) */}
-      <div className="mt-3 text-right text-[11px] text-muted font-medium font-sans">
-        기준일: {basket[0]?.asOfDate ? basket[0].asOfDate.replace(/-/g, ".") : ""}
-      </div>
     </div>
   );
 }

@@ -79,6 +79,7 @@ def normalize_krx_snapshot(payload: dict) -> dict[str, dict]:
             "nPptTotAmt": compact_number(row.get("INVSTASST_NETASST_TOTAMT")),
             "nav": compact_number(row.get("NAV")),
 
+            "stLstgCnt": compact_number(row.get("LIST_SHRS")),
             "bssIdxIdxNm": str(row.get("IDX_IND_NM") or "").strip(),
             "basDt": str(row.get("BAS_DD") or "").strip(),
         }
@@ -141,6 +142,68 @@ def write_csv(path: Path, rows: list[dict[str, object]], fields: list[str]) -> N
         writer.writeheader()
         writer.writerows(rows)
 
+
+def fetch_isin_supplement(service_key: str, ticker: str) -> str:
+    import urllib.parse, urllib.request, json
+    BASE_URL = "https://apis.data.go.kr/1160100/service/GetSecuritiesProductInfoService/getETFPriceInfo"
+    query = urllib.parse.urlencode({
+        "serviceKey": service_key,
+        "resultType": "json",
+        "numOfRows": 1,
+        "likeSrtnCd": ticker,
+    })
+    try:
+        with urllib.request.urlopen(f"{BASE_URL}?{query}", timeout=10) as r:
+            j = json.loads(r.read().decode())
+            items = (j.get("response", {}).get("body", {}).get("items", {}) or {}).get("item", [])
+            if isinstance(items, dict): items = [items]
+            if items: return str(items[0].get("isinCd") or "").strip()
+    except Exception as e:
+        print(f"ISIN lookup error for {ticker}: {e}")
+    return ""
+
+def manage_pending_isin(action: str, ticker: str, name: str = ""):
+    import subprocess, json
+    from datetime import datetime, timezone
+    now_date = datetime.now(timezone.utc).date()
+    
+    if action == "add":
+        cmd = [
+            "npx.cmd", "wrangler", "d1", "execute", "etf-prices", "--json",
+            "--command", f"SELECT discovered_at FROM etf_pending_isins WHERE ticker='{ticker}';"
+        ]
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            if res.returncode == 0 and res.stdout.strip():
+                try:
+                    data = json.loads(res.stdout)
+                    results = data[0].get("results", []) if data else []
+                    if results:
+                        discovered_at = results[0]["discovered_at"]
+                        disc_date = datetime.strptime(discovered_at, "%Y-%m-%d").date()
+                        if (now_date - disc_date).days > 5:
+                            print(f"WARNING: ISIN for {ticker} ({name}) has been missing for more than 5 days (since {discovered_at})!")
+                        return
+                except:
+                    pass
+            
+            insert_cmd = [
+                "npx.cmd", "wrangler", "d1", "execute", "etf-prices",
+                "--command", f"INSERT OR IGNORE INTO etf_pending_isins (ticker, name, discovered_at) VALUES ('{ticker}', '{name}', '{now_date.isoformat()}');"
+            ]
+            subprocess.run(insert_cmd, capture_output=True, check=False)
+        except Exception as e:
+            print(f"Error managing pending ISIN for {ticker}: {e}")
+            
+    elif action == "remove":
+        cmd = [
+            "npx.cmd", "wrangler", "d1", "execute", "etf-prices",
+            "--command", f"DELETE FROM etf_pending_isins WHERE ticker='{ticker}';"
+        ]
+        try:
+            subprocess.run(cmd, capture_output=True, check=False)
+        except:
+            pass
 
 def fetch_snapshot(service_key: str, day_text: str) -> dict[str, dict]:
     rows: list[dict] = []
@@ -451,59 +514,60 @@ def main() -> None:
     fsc_resolved: tuple[str, dict[str, dict]] | None = None
     source = ""
     
-    if service_key:
+    krx_resolved = None
+    if krx_auth_key:
         try:
-            fsc_resolved = resolve_snapshot(service_key, target, public_cache, args.require_exact_date)
-            if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
-                target_text = target.strftime("%Y%m%d")
-                if not args.require_exact_date and fsc_resolved[0] < target_text:
-                    print(f"FSC snapshot is older than target ({fsc_resolved[0]} < {target_text}); checking KRX for newer data.")
-                else:
-                    resolved = fsc_resolved
-                    source = "Financial Services Commission public API"
-            elif fsc_resolved:
-                print(
-                    f"FSC snapshot incomplete: {len(fsc_resolved[1])}/{len(old_master)}; "
-                    "trying the KRX fallback."
-                )
-        except Exception as error:
-            print(f"FSC API lookup unavailable: {error}; trying the KRX fallback.")
-            
-    if resolved is None and krx_auth_key:
-        try:
-            print("[WARNING] Falling back to KRX Open API...")
-            krx_resolved = resolve_krx_snapshot(
-                krx_auth_key,
-                target,
-                krx_cache,
-                args.require_exact_date,
-            )
+            krx_resolved = resolve_krx_snapshot(krx_auth_key, target, krx_cache, args.require_exact_date)
             if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
-                # If FSC was complete but old, check if KRX is newer
-                if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
-                    if krx_resolved[0] > fsc_resolved[0]:
-                        resolved = krx_resolved
-                        source = "KRX Open API"
-                    else:
-                        print(f"KRX snapshot is not newer ({krx_resolved[0]} <= {fsc_resolved[0]}); using FSC.")
-                        resolved = fsc_resolved
-                        source = "Financial Services Commission public API"
+                target_text = target.strftime("%Y%m%d")
+                if not args.require_exact_date and krx_resolved[0] < target_text:
+                    print(f"KRX snapshot is older than target ({krx_resolved[0]} < {target_text}); checking FSC for newer data.")
                 else:
                     resolved = krx_resolved
                     source = "KRX Open API"
             elif krx_resolved:
-                print(f"KRX snapshot incomplete: {len(krx_resolved[1])}/{len(old_master)}; fallback discarded.")
-                if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
-                    print("Reverting to older but complete FSC snapshot.")
+                print(
+                    f"KRX snapshot incomplete: {len(krx_resolved[1])}/{len(old_master)}; "
+                    "trying the FSC fallback."
+                )
+        except Exception as error:
+            print(f"KRX API lookup unavailable: {error}; trying the FSC fallback.")
+
+    if resolved is None and service_key:
+        try:
+            print("[WARNING] Falling back to Financial Services Commission public API...")
+            fsc_resolved = resolve_snapshot(
+                service_key,
+                target,
+                public_cache,
+                args.require_exact_date,
+            )
+            if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
+                if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
+                    if fsc_resolved[0] > krx_resolved[0]:
+                        resolved = fsc_resolved
+                        source = "Financial Services Commission public API"
+                    else:
+                        print(f"FSC snapshot is not newer ({fsc_resolved[0]} <= {krx_resolved[0]}); using KRX.")
+                        resolved = krx_resolved
+                        source = "KRX Open API"
+                else:
                     resolved = fsc_resolved
                     source = "Financial Services Commission public API"
+            elif fsc_resolved:
+                print(f"FSC snapshot incomplete: {len(fsc_resolved[1])}/{len(old_master)}; fallback discarded.")
+                if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
+                    print("Reverting to older but complete KRX snapshot.")
+                    resolved = krx_resolved
+                    source = "KRX Open API"
                 else:
                     resolved = None
         except Exception as error:
-            print(f"KRX fallback unavailable: {error}")
-            if fsc_resolved and snapshot_is_complete(fsc_resolved[1], len(old_master)):
-                resolved = fsc_resolved
-                source = "Financial Services Commission public API"
+            print(f"FSC fallback unavailable: {error}")
+            if krx_resolved and snapshot_is_complete(krx_resolved[1], len(old_master)):
+                resolved = krx_resolved
+                source = "KRX Open API"
+
     if resolved is None:
         message = f"No official ETF data for requested date {target:%Y%m%d}."
         if args.require_exact_date:
@@ -594,7 +658,7 @@ def main() -> None:
     for addition in list(PERIODS) + ["r_itd", "itd_anchor_close", "new_90d", "new_3m"]:
         if addition not in return_fields:
             return_fields.append(addition)
-    for addition in ("listing_date", "listing_date_source", "nav", "disparity", "tracking_error"):
+    for addition in ("listing_date", "listing_date_source", "nav", "disparity", "tracking_error", "shares", "net_asset"):
         if addition not in master_fields:
             master_fields.append(addition)
 
@@ -676,12 +740,17 @@ def main() -> None:
             "net_asset": api_net_asset,
         })
         if not str(existing.get("isin_cd") or "").strip():
-            print(
-                f"Skipping {ticker} ({name}): isin_cd missing from both today's API "
-                "response and prior data (likely a very recent listing). Will retry "
-                "on the next run once the source publishes it."
-            )
-            continue
+            print(f"ISIN missing for {ticker} ({name}). Attempting supplementary lookup...")
+            fsc_key = service_key
+            fetched_isin = fetch_isin_supplement(fsc_key, ticker) if fsc_key else ""
+            if fetched_isin:
+                print(f"Found ISIN for {ticker}: {fetched_isin}")
+                existing["isin_cd"] = fetched_isin
+                manage_pending_isin("remove", ticker)
+            else:
+                print(f"Supplementary lookup failed for {ticker}. Added to pending queue.")
+                manage_pending_isin("add", ticker, name)
+                continue
         current_close = as_float(api.get("clpr"))
         old_return = dict(returns_by_ticker.get(ticker, {}))
         old_return.update({"ticker": ticker, "name": name, close_field: snapshot_value(api, "clpr", "")})

@@ -118,6 +118,7 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
             "assetDetail": class_map.get(ticker, ""),
             "navValue": compact_number(row.get("nav")) if row.get("nav") else None,
             "disparityPct": compact_number(row.get("disparity")) if row.get("disparity") else None,
+            "isGeneralEtf": 1 if normalize_risk_type(str(row.get("risk_type") or "")) == "normal" and str(row.get("asset_class") or "").strip() != "금리·파킹" else 0,
         })
     return as_of_date, sorted(records, key=lambda row: row["ticker"])
 

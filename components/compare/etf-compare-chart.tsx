@@ -21,32 +21,32 @@ const LONG_PERIODS: ReturnPeriod[] = ["12m", "24m", "36m", "ytd"];
 
 export function EtfCompareChart({ basket }: { basket: Etf[] }) {
   const [viewMode, setViewMode] = useState<ViewMode>("short");
+  const [isExporting, setIsExporting] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = useCallback(() => {
-    if (chartRef.current === null) return;
-    toPng(chartRef.current, { 
-      cacheBust: true, 
-      backgroundColor: '#ffffff',
-      filter: (node) => {
-        // Exclude elements with 'export-hide' class
-        const className = typeof node?.getAttribute === 'function' ? node.getAttribute('class') || '' : '';
-        if (className.includes('export-hide')) {
-          return false;
-        }
-        return true;
+    setIsExporting(true);
+    // 렌더링(툴팁/버튼 숨김)이 반영될 시간을 준 뒤 캡처 실행
+    setTimeout(() => {
+      if (chartRef.current === null) {
+        setIsExporting(false);
+        return;
       }
-    })
-      .then((dataUrl) => {
-        const link = document.createElement('a');
-        const modeText = viewMode === "short" ? "short" : "long";
-        link.download = `etf-compare-${modeText}.png`;
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.error('Failed to export chart', err);
-      });
+      toPng(chartRef.current, { cacheBust: true, backgroundColor: '#ffffff' })
+        .then((dataUrl) => {
+          const link = document.createElement('a');
+          const modeText = viewMode === "short" ? "short" : "long";
+          link.download = `etf-compare-${modeText}.png`;
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((err) => {
+          console.error('Failed to export chart', err);
+        })
+        .finally(() => {
+          setIsExporting(false);
+        });
+    }, 150);
   }, [viewMode]);
 
   const activePeriods = useMemo(() => {
@@ -118,14 +118,16 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
         
         <div className="flex flex-col items-end gap-1.5">
           <div className="flex items-center gap-2">
-            <button
-              onClick={handleDownload}
-              className="export-hide flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors"
-              title="차트를 이미지로 저장"
-            >
-              <Download size={14} strokeWidth={2.5} />
-              <span>이미지 저장</span>
-            </button>
+            {!isExporting && (
+              <button
+                onClick={handleDownload}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors"
+                title="차트를 이미지로 저장"
+              >
+                <Download size={14} strokeWidth={2.5} />
+                <span>이미지 저장</span>
+              </button>
+            )}
             <div className="flex bg-neutral-100 p-1 rounded-xl">
               <button
                 onClick={() => setViewMode("short")}
@@ -293,41 +295,43 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                     />
                     
                     {/* Tooltip */}
-                    <g className="export-hide opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                      <rect 
-                        x={barX + barWidth/2 - 60} 
-                        y={tooltipY - 30} 
-                        width="120" 
-                        height="40" 
-                        rx="6" 
-                        fill="#1e293b" 
-                        className="drop-shadow-md"
-                      />
-                      <polygon 
-                        points={
-                          val >= 0 
-                            ? `${barX + barWidth/2 - 6},${tooltipY + 10} ${barX + barWidth/2},${tooltipY + 16} ${barX + barWidth/2 + 6},${tooltipY + 10}`
-                            : `${barX + barWidth/2 - 6},${tooltipY - 30} ${barX + barWidth/2},${tooltipY - 36} ${barX + barWidth/2 + 6},${tooltipY - 30}`
-                        }
-                        fill="#1e293b" 
-                      />
-                      <text 
-                        x={barX + barWidth/2} 
-                        y={tooltipY - 14} 
-                        textAnchor="middle" 
-                        className="text-[10px] fill-neutral-300 font-semibold font-sans truncate"
-                      >
-                        {etf.name.length > 12 ? etf.name.substring(0, 11) + '…' : etf.name}
-                      </text>
-                      <text 
-                        x={barX + barWidth/2} 
-                        y={tooltipY - 1} 
-                        textAnchor="middle" 
-                        className="text-[12px] fill-white font-black font-sans tracking-tighter"
-                      >
-                        {formatReturn(val)}
-                      </text>
-                    </g>
+                    {!isExporting && (
+                      <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                        <rect 
+                          x={barX + barWidth/2 - 60} 
+                          y={tooltipY - 30} 
+                          width="120" 
+                          height="40" 
+                          rx="6" 
+                          fill="#1e293b" 
+                          className="drop-shadow-md"
+                        />
+                        <polygon 
+                          points={
+                            val >= 0 
+                              ? `${barX + barWidth/2 - 6},${tooltipY + 10} ${barX + barWidth/2},${tooltipY + 16} ${barX + barWidth/2 + 6},${tooltipY + 10}`
+                              : `${barX + barWidth/2 - 6},${tooltipY - 30} ${barX + barWidth/2},${tooltipY - 36} ${barX + barWidth/2 + 6},${tooltipY - 30}`
+                          }
+                          fill="#1e293b" 
+                        />
+                        <text 
+                          x={barX + barWidth/2} 
+                          y={tooltipY - 14} 
+                          textAnchor="middle" 
+                          className="text-[10px] fill-neutral-300 font-semibold font-sans truncate"
+                        >
+                          {etf.name.length > 12 ? etf.name.substring(0, 11) + '…' : etf.name}
+                        </text>
+                        <text 
+                          x={barX + barWidth/2} 
+                          y={tooltipY - 1} 
+                          textAnchor="middle" 
+                          className="text-[12px] fill-white font-black font-sans tracking-tighter"
+                        >
+                          {formatReturn(val)}
+                        </text>
+                      </g>
+                    )}
                   </g>
                 );
               });

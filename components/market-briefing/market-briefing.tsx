@@ -1263,6 +1263,7 @@ export function MarketBriefing() {
           const isNegative = (pulse.generalAumWeightedReturnPct ?? 0) < 0;
 
           return (
+            <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               
               {/* 1. Market Breadth (시장 체온) */}
@@ -1345,15 +1346,6 @@ export function MarketBriefing() {
                         title={`하락 ${pulse.downCount}개 (${downRatio}%)`}
                       />
                     </div>
-                  </div>
-                </div>
-
-                {/* 하단 인사이트 박스 */}
-                <div className="mt-6 pt-4 border-t border-neutral-100">
-                  <div className="bg-[#F9FBFC] rounded-xl p-3.5 border border-neutral-100 min-h-[64px] flex items-center">
-                    <p className="text-[12px] font-medium text-neutral-700 leading-relaxed">
-                      💡 {breadthSentence}
-                    </p>
                   </div>
                 </div>
               </div>
@@ -1442,22 +1434,19 @@ export function MarketBriefing() {
                     </div>
                   </div>
                 </div>
-
-                {/* 하단 인사이트 박스 */}
-                <div className="mt-6 pt-4 border-t border-neutral-100">
-                  <div className="bg-[#F9FBFC] rounded-xl p-3.5 border border-neutral-100 min-h-[64px] flex items-center">
-                    <p className="text-[12px] font-medium text-neutral-700 leading-relaxed">
-                      {isOverheated 
-                        ? "상위 10개 종목 비중이 60%를 초과하는 과열(🔴) 상태로, 소수의 주도 종목(지수 대표주, 인기 테마 등)으로 자금이 극심하게 쏠려있습니다." 
-                        : isCaution 
-                        ? "상위 10개 종목 비중이 45~60% 구간의 주의(🟡) 상태로, 특정 주도주나 테마를 중심으로 거래가 집중되고 있습니다." 
-                        : "상위 10개 종목 비중이 45% 이하인 양호(🟢) 상태로, 시장 전반의 다양한 종목으로 자금이 건강하게 분산되어 있습니다."}
-                    </p>
-                  </div>
-                </div>
               </div>
 
             </div>
+
+            {/* STEP 2 하단 1줄 핵심 인사이트 박스 */}
+            <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
+              <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+                <strong className="font-extrabold text-[#2E6819] mr-1.5">[체온 & 수급]</strong>
+                일반 ETF {number.format(pulse.generalEtfCount)}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {decimal.format(pulse.top10TradeSharePct)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
+              </p>
+            </div>
+            </>
           );
         })()}
       </section>

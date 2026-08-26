@@ -1276,7 +1276,7 @@ export function MarketBriefing() {
           <p className="mt-1 text-sm text-neutral-500">스마트머니의 자금 순유입 및 순유출을 통해 일일 자금 흐름을 점검합니다.</p>
         </div>
 
-        <div className="flex flex-col gap-12 sm:gap-16">
+        <div className="flex flex-col gap-8 sm:gap-10">
           {briefing.fundFlow && <FundFlowRanking fundFlow={briefing.fundFlow} />}
           <DisparityAlert warnings={briefing.disparityWarning} />
         </div>

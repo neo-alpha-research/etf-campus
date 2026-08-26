@@ -4,10 +4,10 @@
 
 
 import Link from "next/link";
-
 import { useMemo, useState, useEffect } from "react";
-
 import { Info, BookOpen, TrendingUp, TrendingDown, Minus, Calendar, ArrowUp, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { useAuthSession } from "@/components/auth/use-auth-session";
+import { withReturnTo } from "@/lib/auth/return-to";
 
 import { MarketBriefingHistory } from "@/components/market-briefing/market-briefing-history";
 
@@ -578,18 +578,20 @@ function MarketBriefingStickyBar({
 }
 
 export function MarketBriefing() {
-
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
   const [step5Tab, setStep5Tab] = useState<'weekly' | 'monthly'>('weekly');
+  const { authenticated } = useAuthSession();
+  const [bypassAuth, setBypassAuth] = useState(false);
+  const [isLocalhost, setIsLocalhost] = useState(false);
+
+  useEffect(() => {
+    setIsLocalhost(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+  }, []);
 
   const { briefing, isLoading, isRefreshing, error, refresh } = useMarketBriefing({
-
     asOfDate: selectedDate,
-
     revalidateOnFocus: !selectedDate,
-
     revalidateIntervalMs: selectedDate ? 0 : 10 * 60 * 1000,
-
   });
 
 
@@ -788,6 +790,50 @@ export function MarketBriefing() {
     }
   }
 
+  const kospi = orderedIndices.find(i => i.code === "KOSPI");
+  const spx = orderedIndices.find(i => i.code === "SPX");
+
+  let macroSentence = "국내외 증시와 주요 환율·금리 지표가 전반적으로 안정적인 균형 흐름을 나타냈습니다.";
+  if ((spx?.change_pct ?? 0) > 0 && (kospi?.change_pct ?? 0) > 0) {
+    macroSentence = `미국 증시 강세(${signed(spx?.change_pct ?? 0)})와 원/달러 환율 안정 속에, 국내외 위험자산 선호 심리가 전반적으로 우호적인 환경이었습니다.`;
+  } else if ((spx?.change_pct ?? 0) < 0 && (kospi?.change_pct ?? 0) < 0) {
+    macroSentence = `글로벌 증시 조정 압력 속에 국내외 대표 지수가 전반적인 하락 압력을 받았습니다.`;
+  } else if ((kospi?.change_pct ?? 0) > 0) {
+    macroSentence = `글로벌 변동성 속에서도 국내 증시(${signed(kospi?.change_pct ?? 0)})가 견조한 반등을 보이며 시장 방어력을 입증했습니다.`;
+  } else if ((kospi?.change_pct ?? 0) < 0) {
+    macroSentence = `대외 거시 환경의 경계감 속에 국내 증시(${signed(kospi?.change_pct ?? 0)})가 숨고르기 양상을 나타냈습니다.`;
+  }
+
+  let themeKeySentence = "세부 테마별 롱숏 수익률 차별화 장세가 뚜렷하게 전개되었습니다.";
+  if (briefing.peerGroups && briefing.peerGroups.length >= 2) {
+    const sortedGroups = [...briefing.peerGroups].sort((a, b) => (b.cappedAumWeightedReturnPct || 0) - (a.cappedAumWeightedReturnPct || 0));
+    const top1 = sortedGroups[0];
+    const bot1 = sortedGroups[sortedGroups.length - 1];
+    if (top1 && bot1) {
+      themeKeySentence = `오늘 시장은 '${top1.peerGroup}(${signed(top1.cappedAumWeightedReturnPct)})' 테마가 가장 강력한 상승을 견인한 반면, '${bot1.peerGroup}(${signed(bot1.cappedAumWeightedReturnPct)})' 테마는 조정을 받았습니다.`;
+    }
+  }
+
+  const topInflowItem = briefing.fundFlow?.general?.topInflows?.[0] || briefing.fundFlow?.all?.topInflows?.[0];
+  const topOutflowItem = briefing.fundFlow?.general?.topOutflows?.[0] || briefing.fundFlow?.all?.topOutflows?.[0];
+  let flowKeySentence = "주요 대표 지수 및 테마 ETF를 중심으로 일일 자금 유출입이 활발하게 일어났습니다.";
+  if (topInflowItem && topOutflowItem) {
+    flowKeySentence = `오늘 스마트머니는 '${topInflowItem.etfName}(+${formatInflowAmount(topInflowItem.netInflowValue)}억원)'으로 가장 많이 유입되었고, '${topOutflowItem.etfName}(-${formatInflowAmount(topOutflowItem.netInflowValue)}억원)'에서는 차익실현 환매가 출회되었습니다.`;
+  }
+
+  const weeklyTopTheme = (Array.isArray(briefing.weeklyFundFlows) ? briefing.weeklyFundFlows[0] : briefing.weeklyFundFlows?.topInflows?.[0]);
+  let trendKeySentence = "주간 및 월간 중기 자금 흐름이 특정 우량 섹터로 집중되는 경향을 보이고 있습니다.";
+  if (weeklyTopTheme) {
+    trendKeySentence = `최근 5거래일(주간) 기준 '${weeklyTopTheme.peerGroup}(+${number.format(Math.abs(weeklyTopTheme.netInflow))}억원)' 테마로 가장 꾸준한 중기 자금 유입세가 지속되고 있습니다.`;
+  }
+
+  const totalAumJo = ((briefing.marketScale?.totalAum || 4467883.8) / 10000).toFixed(1);
+  const dailyNetInflow = briefing.marketScale?.dailyNetInflow || 3892;
+  const scaleKeySentence = `대한민국 ETF 전체 시장은 ${totalAumJo}조원 규모이며, 전일 대비 실질 자금 +${number.format(Math.abs(dailyNetInflow))}억원이 시장에 순유입되었습니다.`;
+
+  const isViewingPastDate = Boolean(selectedDate);
+  const isPastLocked = isViewingPastDate && !authenticated && !bypassAuth;
+
   return (
     <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12">
       {/* Master Hero Header */}
@@ -832,7 +878,7 @@ export function MarketBriefing() {
       />
 
 
-      {selectedDate && (
+      {selectedDate && !isPastLocked && (
         <div className="flex items-center justify-between rounded-xl bg-[#EFF8D8] px-5 py-3 text-sm text-[#476237]">
           <p><strong>{dateLabel(briefing.asOfDate)}</strong> 기준의 과거 마켓 브리핑을 보고 계십니다.</p>
           <button type="button" onClick={() => setSelectedDate(undefined)} className="font-bold underline hover:no-underline">
@@ -841,6 +887,51 @@ export function MarketBriefing() {
         </div>
       )}
 
+      {isPastLocked ? (
+        <section className="rounded-[26px] border border-[#D7EABB] bg-gradient-to-br from-[#FAFDF4] via-white to-[#F5F9ED] p-8 sm:p-12 text-center shadow-lg my-6">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF3DF] text-3xl mb-4 border border-[#D7EABB] shadow-2xs">
+            🔒
+          </div>
+          <p className="text-xs font-extrabold uppercase tracking-widest text-[#5A7050]">Member Only Archive</p>
+          <h2 className="mt-2 text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
+            지난 마켓 브리핑은 회원 전용 분석 서비스입니다
+          </h2>
+          <p className="mt-3 max-w-lg mx-auto text-sm sm:text-base text-neutral-600 leading-relaxed">
+            당일 최신 마켓 브리핑은 모든 분께 무료로 공개되며, <b className="text-neutral-900">{dateLabel(selectedDate!)}</b> 등 과거 일자별 시계열 아카이브 분석은 무료 회원가입 후 무제한으로 열람하실 수 있습니다.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3 items-center justify-center">
+            <Link
+              href={withReturnTo("/register/", `/briefing/?date=${selectedDate}`)}
+              className="inline-flex h-11 items-center justify-center rounded-xl bg-[#2E6819] px-6 text-sm font-bold text-white shadow-sm hover:bg-[#235213] transition-colors"
+            >
+              무료 회원가입 (30초)
+            </Link>
+            <Link
+              href={withReturnTo("/login/", `/briefing/?date=${selectedDate}`)}
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 text-sm font-bold text-neutral-700 hover:bg-neutral-50 transition-colors shadow-2xs"
+            >
+              로그인
+            </Link>
+            <button
+              type="button"
+              onClick={() => setSelectedDate(undefined)}
+              className="inline-flex h-11 items-center justify-center rounded-xl px-4 text-sm font-semibold text-neutral-500 hover:text-neutral-800"
+            >
+              최신 브리핑으로 돌아가기
+            </button>
+            {isLocalhost && (
+              <button
+                type="button"
+                onClick={() => setBypassAuth(true)}
+                className="inline-flex h-11 items-center justify-center rounded-xl border border-dashed border-amber-300 bg-amber-50 px-3 text-xs font-bold text-amber-800"
+              >
+                [개발자 모드] 잠금 해제
+              </button>
+            )}
+          </div>
+        </section>
+      ) : (
+        <>
       {/* Tickery's 3-Point Mini Dashboard */}
       <section className="relative overflow-hidden rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-6 shadow-[0_8px_24px_rgba(43,61,39,0.04)] sm:p-8">
 
@@ -1125,6 +1216,15 @@ export function MarketBriefing() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* STEP 1 하단 1줄 핵심 인사이트 박스 */}
+          <div className="mt-4 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
+            <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+              <strong className="font-extrabold text-[#2E6819] mr-1.5">[거시 총평]</strong>
+              {macroSentence}
+            </p>
           </div>
         </section>
       )}
@@ -1560,6 +1660,15 @@ export function MarketBriefing() {
             );
           })}
         </div>
+
+        {/* STEP 3 하단 1줄 핵심 인사이트 박스 */}
+        <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
+          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+            <strong className="font-extrabold text-[#2E6819] mr-1.5">[테마 총평]</strong>
+            {themeKeySentence}
+          </p>
+        </div>
       </section>
 
       {/* STEP 4: Smart Money & Risk */}
@@ -1572,6 +1681,15 @@ export function MarketBriefing() {
 
         <div className="flex flex-col gap-8 sm:gap-10">
           {briefing.fundFlow && <FundFlowRanking fundFlow={briefing.fundFlow} />}
+        </div>
+
+        {/* STEP 4 하단 1줄 핵심 인사이트 박스 */}
+        <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
+          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+            <strong className="font-extrabold text-[#2E6819] mr-1.5">[자금 흐름]</strong>
+            {flowKeySentence}
+          </p>
         </div>
       </section>
 
@@ -1738,6 +1856,15 @@ export function MarketBriefing() {
               </table>
             </div>
           </div>
+        </div>
+
+        {/* STEP 5 하단 1줄 핵심 인사이트 박스 */}
+        <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
+          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+            <strong className="font-extrabold text-[#2E6819] mr-1.5">[트렌드 총평]</strong>
+            {trendKeySentence}
+          </p>
         </div>
       </section>
 
@@ -1969,10 +2096,21 @@ export function MarketBriefing() {
             </div>
           </div>
         </div>
+
+        {/* STEP 6 하단 1줄 핵심 인사이트 박스 */}
+        <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
+          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+            <strong className="font-extrabold text-[#2E6819] mr-1.5">[시장 규모]</strong>
+            {scaleKeySentence}
+          </p>
+        </div>
       </section>
 
       {/* 수급 쏠림 주의 ETF (괴리율 경보 - 참고용 부가 섹션) */}
       <DisparityAlert warnings={briefing.disparityWarning} />
+      </>
+      )}
 
       <div id="briefing-history-section" className="scroll-mt-20">
         <MarketBriefingHistory

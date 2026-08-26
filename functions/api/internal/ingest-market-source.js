@@ -146,7 +146,7 @@ async function ingestBatch(db, common, etfs) {
     common.asOfDate, common.sourceVersion, etf.ticker, etf.name, etf.close, etf.changePct, etf.tradeValue,
     etf.aumValue ?? null, etf.riskType, etf.assetClass ?? null, etf.assetDetail ?? null,
     etf.navValue ?? null, etf.disparityPct ?? null,
-    etf.riskType === "normal" ? 1 : 0, manifest.etf_source_hash, ingestedAt,
+    etf.riskType === "normal" && etf.assetClass !== "금리·파킹" ? 1 : 0, manifest.etf_source_hash, ingestedAt,
   ));
   await db.batch(statements);
   return { status: "collecting", accepted: etfs.length };

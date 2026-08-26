@@ -36,7 +36,11 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {displayedWarnings.map((w) => {
-            const isPremium = w.disparityPct > 0;
+            const pct = Number(w.disparityPct ?? (w as any).disparity_pct ?? 0);
+            const isPremium = pct > 0;
+            const name = w.etfName ?? (w as any).etf_name ?? "";
+            const assetClass = w.assetClass ?? (w as any).asset_class ?? "";
+
             return (
               <Link
                 key={w.ticker}
@@ -45,11 +49,11 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
               >
                 <div className="flex items-start justify-between gap-2">
                   <p className="text-[13px] font-bold text-neutral-900 group-hover:text-rose-700 group-hover:underline line-clamp-1">
-                    {w.etfName}
+                    {name}
                   </p>
-                  {w.assetClass && (
+                  {assetClass && (
                     <span className="shrink-0 text-[10px] font-semibold px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500">
-                      {w.assetClass}
+                      {assetClass}
                     </span>
                   )}
                 </div>
@@ -61,7 +65,7 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
                         ? "bg-rose-50 border-rose-200 text-rose-600"
                         : "bg-blue-50 border-blue-200 text-blue-600"
                     }`}>
-                      {isPremium ? `+${w.disparityPct.toFixed(2)}% 고평가` : `${w.disparityPct.toFixed(2)}% 저평가`}
+                      {isPremium ? `+${pct.toFixed(2)}% 고평가` : `${pct.toFixed(2)}% 저평가`}
                     </span>
                     <ChevronRight className="h-3.5 w-3.5 text-neutral-300 transition-transform group-hover:translate-x-0.5 group-hover:text-rose-500" />
                   </div>

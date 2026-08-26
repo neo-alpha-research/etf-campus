@@ -695,17 +695,17 @@ export function MarketBriefing() {
 
     const isPositive = pulse.generalAumWeightedReturnPct >= 0;
   
-  const validClasses = briefing.assetClasses.filter(c => c.etf_count >= 10);
-  const bestClass = validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? -Infinity) > (prev.aum_weighted_return_pct ?? -Infinity) ? curr : prev, validClasses[0]);
-  const worstClass = validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? Infinity) < (prev.aum_weighted_return_pct ?? Infinity) ? curr : prev, validClasses[0]);
+  const validClasses = briefing.assetClasses ? briefing.assetClasses.filter(c => c.etf_count >= 10) : [];
+  const bestClass = validClasses.length > 0 ? validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? -Infinity) > (prev.aum_weighted_return_pct ?? -Infinity) ? curr : prev, validClasses[0]) : null;
+  const worstClass = validClasses.length > 0 ? validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? Infinity) < (prev.aum_weighted_return_pct ?? Infinity) ? curr : prev, validClasses[0]) : null;
 
-  const bestTheme = briefing.peerGroups?.reduce((prev, curr) => 
-    (curr.cappedAumWeightedReturnPct > (prev?.cappedAumWeightedReturnPct ?? -Infinity)) ? curr : prev
-  , briefing.peerGroups[0]);
+  const bestTheme = (briefing.peerGroups && briefing.peerGroups.length > 0) ? briefing.peerGroups.reduce((prev: any, curr: any) => 
+    ((curr.cappedAumWeightedReturnPct || 0) > (prev?.cappedAumWeightedReturnPct ?? -Infinity)) ? curr : prev
+  , briefing.peerGroups[0]) : null;
 
-  const bestInflow = briefing.peerGroups?.reduce((prev, curr) => 
+  const bestInflow = (briefing.peerGroups && briefing.peerGroups.length > 0) ? briefing.peerGroups.reduce((prev: any, curr: any) => 
     ((curr.netInflowValue || 0) > ((prev?.netInflowValue || 0) ?? -Infinity)) ? curr : prev
-  , briefing.peerGroups[0]);
+  , briefing.peerGroups[0]) : null;
 
   
     let themeSentence = "";

@@ -773,7 +773,7 @@ export function MarketBriefing() {
                 오늘 시장의 배경은? (거시 지표)
               </h2>
               <p className="mt-0.5 text-xs sm:text-sm text-neutral-500">
-                ETF 가격 변동의 원인이 되는 주요 지수, 환율, 금리 및 원자재 흐름입니다.
+                ETF 가격 변동의 원인이 되는 주요 지표와 전 거래일 대비 변동폭입니다.
               </p>
             </div>
             {orderedIndices.length > 0 && (

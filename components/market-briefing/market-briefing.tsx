@@ -1114,14 +1114,14 @@ export function MarketBriefing() {
               <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em] mb-1">국내 상장 ETF 총 운용자산</p>
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-900 tabular-nums">
-                  {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format((briefing.pulse?.generalTotalAum || 0) / 1000000000000)}
+                  {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format((briefing.marketScale?.totalAum || 0) / 10000)}
                 </span>
                 <span className="text-lg font-bold text-neutral-500">조원</span>
               </div>
             </div>
             <div className="mt-4 sm:mt-0 text-left sm:text-right">
               <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em] mb-1">총 상장 종목 수</p>
-              <p className="text-2xl font-bold text-neutral-700 tabular-nums">{number.format(briefing.pulse?.generalEtfCount || 0)}개</p>
+              <p className="text-2xl font-bold text-neutral-700 tabular-nums">{number.format(briefing.marketScale?.totalEtfCount || 0)}개</p>
             </div>
           </div>
 
@@ -1135,23 +1135,15 @@ export function MarketBriefing() {
               <div className="space-y-4">
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
-                  {briefing.marketScale?.daily?.aumChange ? (
-                    <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale.daily.aumChange)}`}>
-                      {signedInt(briefing.marketScale.daily.aumChange)} <span className="text-[14px] font-bold opacity-70">억원</span>
-                    </p>
-                  ) : (
-                    <p className="text-[13px] font-medium text-neutral-400 mt-1">집계 준비 중</p>
-                  )}
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.daily?.aumChange || 0)}`}>
+                    {signedInt(briefing.marketScale?.daily?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
-                  {briefing.marketScale?.daily?.netInflow ? (
-                    <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale.daily.netInflow)}`}>
-                      {signedInt(briefing.marketScale.daily.netInflow)} <span className="text-[14px] font-bold opacity-70">억원</span>
-                    </p>
-                  ) : (
-                    <p className="text-[13px] font-medium text-neutral-400 mt-1">집계 준비 중</p>
-                  )}
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.daily?.netInflow || 0)}`}>
+                    {signedInt(briefing.marketScale?.daily?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -1165,23 +1157,15 @@ export function MarketBriefing() {
               <div className="space-y-4">
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
-                  {briefing.marketScale?.weekly?.aumChange ? (
-                    <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale.weekly.aumChange)}`}>
-                      {signedInt(briefing.marketScale.weekly.aumChange)} <span className="text-[14px] font-bold opacity-70">억원</span>
-                    </p>
-                  ) : (
-                    <p className="text-[13px] font-medium text-neutral-400 mt-1">집계 준비 중</p>
-                  )}
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.weekly?.aumChange || 0)}`}>
+                    {signedInt(briefing.marketScale?.weekly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
-                  {briefing.marketScale?.weekly?.netInflow ? (
-                    <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale.weekly.netInflow)}`}>
-                      {signedInt(briefing.marketScale.weekly.netInflow)} <span className="text-[14px] font-bold opacity-70">억원</span>
-                    </p>
-                  ) : (
-                    <p className="text-[13px] font-medium text-neutral-400 mt-1">집계 준비 중</p>
-                  )}
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.weekly?.netInflow || 0)}`}>
+                    {signedInt(briefing.marketScale?.weekly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -1195,23 +1179,15 @@ export function MarketBriefing() {
               <div className="space-y-4">
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">자산 증감 (AUM)</p>
-                  {briefing.marketScale?.monthly?.aumChange ? (
-                    <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale.monthly.aumChange)}`}>
-                      {signedInt(briefing.marketScale.monthly.aumChange)} <span className="text-[14px] font-bold opacity-70">억원</span>
-                    </p>
-                  ) : (
-                    <p className="text-[13px] font-medium text-neutral-400 mt-1">집계 준비 중</p>
-                  )}
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.monthly?.aumChange || 0)}`}>
+                    {signedInt(briefing.marketScale?.monthly?.aumChange || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
                 </div>
                 <div>
                   <p className="text-[12px] text-neutral-500 font-medium mb-1">실질 자금 순유입</p>
-                  {briefing.marketScale?.monthly?.netInflow ? (
-                    <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale.monthly.netInflow)}`}>
-                      {signedInt(briefing.marketScale.monthly.netInflow)} <span className="text-[14px] font-bold opacity-70">억원</span>
-                    </p>
-                  ) : (
-                    <p className="text-[13px] font-medium text-neutral-400 mt-1">집계 준비 중</p>
-                  )}
+                  <p className={`text-[18px] font-extrabold tabular-nums tracking-tight ${changeTone(briefing.marketScale?.monthly?.netInflow || 0)}`}>
+                    {signedInt(briefing.marketScale?.monthly?.netInflow || 0)} <span className="text-[14px] font-bold opacity-70">억원</span>
+                  </p>
                 </div>
               </div>
             </div>

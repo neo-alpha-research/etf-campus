@@ -266,9 +266,9 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                     {isWinner && basket.length > 1 && (
                       <text
                         x={barX + barWidth / 2}
-                        y={val >= 0 ? barY - 18 : barY + barH + 24}
+                        y={val >= 0 ? barY - 16 : barY + barH + 21}
                         textAnchor="middle"
-                        className="text-[14px]"
+                        className="text-[12px]"
                       >
                         🏆
                       </text>
@@ -277,10 +277,10 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                     {/* Static Value Label */}
                     <text 
                       x={barX + barWidth / 2} 
-                      y={val >= 0 ? barY - 6 : barY + barH + 12} 
+                      y={val >= 0 ? barY - 6 : barY + barH + 11} 
                       textAnchor="middle" 
                       fill={color}
-                      className="text-[9.5px] font-extrabold font-sans tracking-tighter opacity-90 transition-all group-hover:opacity-100 group-hover:drop-shadow-sm"
+                      className={`${basket.length > 3 ? 'text-[7.5px]' : 'text-[9px]'} font-bold font-sans tracking-tighter opacity-90 transition-all group-hover:opacity-100 group-hover:drop-shadow-sm`}
                     >
                       {formatReturn(val).replace("%", "")}
                     </text>

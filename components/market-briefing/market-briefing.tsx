@@ -432,10 +432,12 @@ export function MarketBriefing() {
       }
     };
 
+    addGlobalIndex("코스피 변동성지수", "VKOSPI");
     addGlobalIndex("S&P 500", "SPX");
     addGlobalIndex("나스닥", "NDX");
     addGlobalIndex("VIX", "VIX");
     addGlobalIndex("원/달러", "USDKRW");
+    addGlobalIndex("국고채 10년", "KR10Y");
     addGlobalIndex("미 국채 10년물", "DGS10");
     addGlobalIndex("WTI 원유", "CLF");
     addGlobalIndex("금 선물", "GC");

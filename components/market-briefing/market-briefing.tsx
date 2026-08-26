@@ -892,19 +892,19 @@ export function MarketBriefing() {
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF3DF] text-3xl mb-4 border border-[#D7EABB] shadow-2xs">
             🔒
           </div>
-          <p className="text-xs font-extrabold uppercase tracking-widest text-[#5A7050]">Member Only Archive</p>
+          <p className="text-xs font-extrabold uppercase tracking-widest text-[#5A7050]">Member Archive</p>
           <h2 className="mt-2 text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
-            지난 마켓 브리핑은 회원 전용 분석 서비스입니다
+            과거 마켓 브리핑은 로그인 후 확인하실 수 있습니다
           </h2>
           <p className="mt-3 max-w-lg mx-auto text-sm sm:text-base text-neutral-600 leading-relaxed">
-            당일 최신 마켓 브리핑은 모든 분께 무료로 공개되며, <b className="text-neutral-900">{dateLabel(selectedDate!)}</b> 등 과거 일자별 시계열 아카이브 분석은 무료 회원가입 후 무제한으로 열람하실 수 있습니다.
+            당일 최신 마켓 브리핑은 누구나 무료로 보실 수 있으며, <b className="text-neutral-900">{dateLabel(selectedDate!)}</b> 등 지난 브리핑 기록은 무료 회원가입 후 언제든 자유롭게 열람하실 수 있습니다.
           </p>
           <div className="mt-7 flex flex-wrap gap-3 items-center justify-center">
             <Link
               href={withReturnTo("/register/", `/briefing/?date=${selectedDate}`)}
               className="inline-flex h-11 items-center justify-center rounded-xl bg-[#2E6819] px-6 text-sm font-bold text-white shadow-sm hover:bg-[#235213] transition-colors"
             >
-              무료 회원가입 (30초)
+              무료 회원가입 (1분)
             </Link>
             <Link
               href={withReturnTo("/login/", `/briefing/?date=${selectedDate}`)}

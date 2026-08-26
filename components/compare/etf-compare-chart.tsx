@@ -32,7 +32,15 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
         setIsExporting(false);
         return;
       }
-      toPng(chartRef.current, { cacheBust: true, backgroundColor: '#ffffff' })
+      toPng(chartRef.current, { 
+        cacheBust: true, 
+        backgroundColor: '#ffffff',
+        pixelRatio: 2,
+        style: {
+          margin: '0',
+          boxShadow: 'none',
+        }
+      })
         .then((dataUrl) => {
           const link = document.createElement('a');
           const modeText = viewMode === "short" ? "short" : "long";
@@ -343,11 +351,11 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
 
       {/* Export Footer */}
       {isExporting && (
-        <div className="mt-8 pt-4 border-t border-line flex justify-between items-center text-[10.5px] text-muted font-medium w-full">
-          <div>* 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.</div>
+        <div className="mt-6 flex items-center justify-between border-t border-line pt-3 w-full">
+          <p className="text-[9px] font-medium text-neutral-400">* 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.</p>
           <div className="flex items-center gap-1.5">
-            <span className="font-extrabold text-strong">ETF Campus</span>
-            <span>https://etf-campus.pages.dev/</span>
+            <span className="text-[11px] font-black tracking-tighter text-emerald-700">ETF Campus</span>
+            <span className="text-[9px] font-semibold text-neutral-400">https://etf-campus.pages.dev/</span>
           </div>
         </div>
       )}

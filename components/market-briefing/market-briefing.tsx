@@ -1573,7 +1573,7 @@ export function MarketBriefing() {
                 <h4 className="text-[14px] font-black text-neutral-900 tracking-tight">자금 순유입 TOP 5 테마</h4>
               </div>
               <span className="text-[11px] font-bold text-[#3B6D22] bg-[#EBF7DF] px-2.5 py-0.5 rounded-full border border-[#D4EBBF]">
-                {step5Tab === 'weekly' ? '주간 매수세' : '월간 매수세'}
+                {step5Tab === 'weekly' ? '주간 순유입' : '월간 순유입'}
               </span>
             </div>
 
@@ -1636,7 +1636,7 @@ export function MarketBriefing() {
                 <h4 className="text-[14px] font-black text-neutral-900 tracking-tight">자금 순유출 TOP 5 테마</h4>
               </div>
               <span className="text-[11px] font-bold text-[#1E5F74] bg-[#E5F1F5] px-2.5 py-0.5 rounded-full border border-[#CDE3EC]">
-                {step5Tab === 'weekly' ? '주간 환매' : '월간 환매'}
+                {step5Tab === 'weekly' ? '주간 순유출' : '월간 순유출'}
               </span>
             </div>
 

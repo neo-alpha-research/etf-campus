@@ -105,7 +105,7 @@ export function FundFlowRanking({
               <h4 className="text-[14px] font-black text-neutral-900 tracking-tight">자금 순유입 TOP 5</h4>
             </div>
             <span className="text-[11px] font-bold text-[#3B6D22] bg-[#EBF7DF] px-2.5 py-0.5 rounded-full border border-[#D4EBBF]">
-              매수세 유입
+              일간 순유입
             </span>
           </div>
 
@@ -173,7 +173,7 @@ export function FundFlowRanking({
               <h4 className="text-[14px] font-black text-neutral-900 tracking-tight">자금 순유출 TOP 5</h4>
             </div>
             <span className="text-[11px] font-bold text-[#1E5F74] bg-[#E5F1F5] px-2.5 py-0.5 rounded-full border border-[#CDE3EC]">
-              차익·환매 출회
+              일간 순유출
             </span>
           </div>
 

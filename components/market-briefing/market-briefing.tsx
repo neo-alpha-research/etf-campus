@@ -395,54 +395,55 @@ function IndexRow({ index }: { index: MarketIndex }) {
   else if (["CLF", "GC", "SI"].includes(index.code)) unit = "$";
 
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 py-2.5 px-2.5 rounded-xl transition-colors hover:bg-neutral-50/70 border-b border-neutral-100/80 last:border-0">
-      {/* 1열: 지표명 */}
-      <div className="flex items-center gap-1.5 min-w-0">
+    <div className="flex items-center justify-between py-2.5 px-2 rounded-xl transition-colors hover:bg-neutral-50/80 border-b border-neutral-100/80 last:border-0">
+      {/* 1열: 지표명 (줄바꿈/말줄임 없이 온전하게 표기) */}
+      <div className="flex items-center gap-1.5 min-w-0 flex-1 pr-2">
         {index.code === "KR10Y" ? (
           <>
-            <img src="https://flagcdn.com/w40/kr.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0" alt="KR" />
-            <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">국채 10년</span>
+            <img src="https://flagcdn.com/w40/kr.png" className="w-[16px] h-[11px] rounded-xs object-cover shadow-2xs shrink-0" alt="KR" />
+            <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">국채 10년</span>
           </>
         ) : index.code === "DGS10" ? (
           <>
-            <img src="https://flagcdn.com/w40/us.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0" alt="US" />
-            <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">국채 10년</span>
+            <img src="https://flagcdn.com/w40/us.png" className="w-[16px] h-[11px] rounded-xs object-cover shadow-2xs shrink-0" alt="US" />
+            <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">국채 10년</span>
           </>
         ) : index.code === "VKOSPI" ? (
           <>
-            <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">VKOSPI</span>
+            <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">VKOSPI</span>
             <InfoTooltip text="한국 KOSPI 200 옵션 가격을 기반으로 산출된 일명 '공포 지수'입니다. 수치가 상승하면 국내 투자자들의 불안 심리가 커져 주식 시장이 하락할 가능성이 높고, 하락하면 시장이 안정세를 보이고 있음을 의미합니다." />
           </>
         ) : index.code === "VIX" ? (
           <>
-            <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">VIX</span>
+            <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">VIX</span>
             <InfoTooltip text="미국 S&P 500 지수의 향후 30일간 변동성에 대한 시장의 기대를 나타내는 일명 '공포 지수'입니다. 수치가 상승하면 투자자들의 불안 심리가 커져 주식 시장이 하락할 가능성이 높고, 하락하면 시장이 안정세를 보이고 있음을 의미합니다." />
           </>
         ) : index.code === "USDKRW" ? (
-          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">원/달러</span>
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">원/달러</span>
         ) : index.code === "CLF" ? (
-          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">WTI 원유</span>
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">WTI 원유</span>
         ) : index.code === "GC" ? (
-          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">금 선물</span>
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">금 선물</span>
         ) : index.code === "SI" ? (
-          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">은 선물</span>
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">은 선물</span>
         ) : (
-          <span className="text-[13px] font-bold text-neutral-800 tracking-tight truncate">{index.label}</span>
+          <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">{index.label}</span>
         )}
       </div>
       
-      {/* 2열: 종가 수치 (tabular-nums 우측 정렬) */}
-      <div className="text-right flex items-baseline justify-end gap-0.5">
-        <span className="text-[14px] sm:text-[15px] font-extrabold tracking-tight text-neutral-900 tabular-nums">{decimal.format(index.close)}</span>
-        {unit && <span className="text-[10px] font-semibold text-neutral-400">{unit}</span>}
-      </div>
+      {/* 2열 + 3열: 종가 수치 (68px) + 등락 배지 (66px) */}
+      <div className="flex items-center gap-2 shrink-0">
+        <div className="w-[68px] text-right flex items-baseline justify-end gap-0.5">
+          <span className="text-[13.5px] sm:text-[14px] font-extrabold tracking-tight text-neutral-900 tabular-nums">{decimal.format(index.close)}</span>
+          {unit && <span className="text-[10px] font-semibold text-neutral-400">{unit}</span>}
+        </div>
 
-      {/* 3열: 전일 대비 등락 배지 (너비 80px 고정 수직/수평 칼정렬) */}
-      <div className="flex justify-end">
-        <span className={`inline-flex w-[78px] items-center justify-center gap-0.5 rounded px-1.5 py-0.5 text-[11px] font-bold tabular-nums ring-1 ring-inset ${surfaceClass}`}>
-          {trendIcon}
-          <span>{formatChange(index.code, change)}</span>
-        </span>
+        <div className="w-[66px] flex justify-end">
+          <span className={`inline-flex w-full items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[11px] font-bold tabular-nums ring-1 ring-inset ${surfaceClass}`}>
+            {trendIcon}
+            <span>{formatChange(index.code, change)}</span>
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -1000,15 +1001,17 @@ export function MarketBriefing() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* 국내 증시 */}
-            <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+            <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between hover:border-[#CAD5BD] transition-colors">
               <div>
-                <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 pb-2.5 mb-1 px-2.5 border-b border-neutral-100">
+                <div className="flex items-center justify-between pb-2.5 mb-1 px-2 border-b border-neutral-100">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <img src="https://flagcdn.com/w40/kr.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs" alt="KR" />
-                    <h3 className="text-[13px] font-extrabold text-neutral-800 tracking-tight">국내 증시</h3>
+                    <img src="https://flagcdn.com/w40/kr.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0" alt="KR" />
+                    <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">국내 증시</h3>
                   </div>
-                  <span className="text-[11px] font-bold text-neutral-400 text-right pr-0.5">종가</span>
-                  <span className="text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-right">종가</span>
+                    <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                  </div>
                 </div>
                 <div className="flex flex-col">
                   {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
@@ -1017,15 +1020,17 @@ export function MarketBriefing() {
             </div>
             
             {/* 미국 증시 */}
-            <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+            <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between hover:border-[#CAD5BD] transition-colors">
               <div>
-                <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 pb-2.5 mb-1 px-2.5 border-b border-neutral-100">
+                <div className="flex items-center justify-between pb-2.5 mb-1 px-2 border-b border-neutral-100">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <img src="https://flagcdn.com/w40/us.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs" alt="US" />
-                    <h3 className="text-[13px] font-extrabold text-neutral-800 tracking-tight">미국 증시</h3>
+                    <img src="https://flagcdn.com/w40/us.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0" alt="US" />
+                    <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">미국 증시</h3>
                   </div>
-                  <span className="text-[11px] font-bold text-neutral-400 text-right pr-0.5">종가</span>
-                  <span className="text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-right">종가</span>
+                    <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                  </div>
                 </div>
                 <div className="flex flex-col">
                   {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
@@ -1034,15 +1039,17 @@ export function MarketBriefing() {
             </div>
 
             {/* 환율·금리 */}
-            <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+            <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between hover:border-[#CAD5BD] transition-colors">
               <div>
-                <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 pb-2.5 mb-1 px-2.5 border-b border-neutral-100">
+                <div className="flex items-center justify-between pb-2.5 mb-1 px-2 border-b border-neutral-100">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <span className="text-sm">💵</span>
-                    <h3 className="text-[13px] font-extrabold text-neutral-800 tracking-tight">환율 · 금리</h3>
+                    <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">환율 · 금리</h3>
                   </div>
-                  <span className="text-[11px] font-bold text-neutral-400 text-right pr-0.5">종가</span>
-                  <span className="text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-right">종가</span>
+                    <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                  </div>
                 </div>
                 <div className="flex flex-col">
                   {orderedIndices.filter(i => ["USDKRW", "KR10Y", "DGS10"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
@@ -1051,15 +1058,17 @@ export function MarketBriefing() {
             </div>
 
             {/* 원자재 */}
-            <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
+            <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between hover:border-[#CAD5BD] transition-colors">
               <div>
-                <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 pb-2.5 mb-1 px-2.5 border-b border-neutral-100">
+                <div className="flex items-center justify-between pb-2.5 mb-1 px-2 border-b border-neutral-100">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <span className="text-sm">⛏️</span>
-                    <h3 className="text-[13px] font-extrabold text-neutral-800 tracking-tight">원자재</h3>
+                    <h3 className="text-[13.5px] font-extrabold text-neutral-900 tracking-tight whitespace-nowrap">원자재</h3>
                   </div>
-                  <span className="text-[11px] font-bold text-neutral-400 text-right pr-0.5">종가</span>
-                  <span className="text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="w-[68px] text-[11px] font-bold text-neutral-400 text-right">종가</span>
+                    <span className="w-[66px] text-[11px] font-bold text-neutral-400 text-center">전일 대비</span>
+                  </div>
                 </div>
                 <div className="flex flex-col">
                   {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}

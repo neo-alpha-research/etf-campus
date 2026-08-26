@@ -216,28 +216,57 @@ function changeSurface(value: number) {
 
 
 
-function InfoTooltip({ text }: { text: React.ReactNode }) {
+function InfoTooltip({
+  text,
+  side = "bottom",
+  align = "center",
+}: {
+  text: React.ReactNode;
+  side?: "top" | "bottom";
+  align?: "left" | "center" | "right";
+}) {
+  const positionClasses =
+    side === "top"
+      ? "bottom-full mb-2"
+      : "top-full mt-2";
 
+  const alignClasses =
+    align === "right"
+      ? "right-0 translate-x-0"
+      : align === "left"
+      ? "left-0 translate-x-0"
+      : "left-1/2 -translate-x-1/2";
+
+  const arrowClasses =
+    side === "top"
+      ? align === "right"
+        ? "-bottom-1 right-2 border-4 border-transparent border-t-neutral-900"
+        : align === "left"
+        ? "-bottom-1 left-2 border-4 border-transparent border-t-neutral-900"
+        : "-bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900"
+      : align === "right"
+      ? "-top-1 right-2 border-4 border-transparent border-b-neutral-900"
+      : align === "left"
+      ? "-top-1 left-2 border-4 border-transparent border-b-neutral-900"
+      : "-top-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-b-neutral-900";
 
   return (
-
-
     <div className="group relative inline-flex items-center justify-center ml-1">
-
-      <Info className="h-4 w-4 text-neutral-400 cursor-help transition-colors group-hover:text-neutral-600" />
-
-      <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded-xl bg-neutral-900 p-3 text-xs leading-5 text-white opacity-0 shadow-xl transition-all group-hover:pointer-events-auto group-hover:opacity-100">
-
+      <button
+        type="button"
+        aria-label="도움말"
+        className="text-neutral-400 cursor-help transition-colors group-hover:text-neutral-600 focus:outline-none"
+      >
+        <Info className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+      </button>
+      <div
+        className={`pointer-events-none absolute ${positionClasses} ${alignClasses} z-50 w-60 sm:w-64 rounded-xl bg-neutral-900/95 p-3 text-[11.5px] sm:text-xs leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-xs transition-all group-hover:pointer-events-auto group-hover:opacity-100 font-normal text-left`}
+      >
         {text}
-
-        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900" />
-
+        <div className={`absolute ${arrowClasses}`} />
       </div>
-
     </div>
-
   );
-
 }
 
 
@@ -1236,22 +1265,33 @@ export function MarketBriefing() {
         {/* Part A: Macro Table (0-Scroll Responsive) */}
         <div className="mb-8 rounded-[20px] bg-white border border-[#E5E8E2] shadow-[0_4px_16px_rgba(27,38,26,0.03)] overflow-hidden">
           <div className="w-full">
-            <table className="w-full border-collapse text-sm table-fixed sm:table-auto">
+            <table className="w-full border-collapse text-sm table-fixed">
               <thead>
                 <tr className="bg-[#F8FAF6] border-b border-[#E8ECE1]">
-                  <th scope="col" className="w-[26%] py-3 px-3 sm:px-4 md:px-5 text-left text-[12px] font-extrabold text-[#5A7050]">자산군</th>
-                  <th scope="col" className="w-[18%] py-3 px-3 sm:px-4 md:px-5 text-right text-[12px] font-extrabold text-neutral-500">운용자산 (조원)</th>
-                  <th scope="col" className="w-[18%] py-3 px-3 sm:px-4 md:px-5 text-right text-[12px] font-extrabold text-neutral-500">AUM 비중</th>
-                  <th scope="col" className="w-[19%] py-3 px-3 sm:px-4 md:px-5 text-right text-[12px] font-extrabold text-neutral-500">
+                  <th scope="col" className="w-[26%] py-3 px-2.5 sm:px-4 md:px-5 text-left text-[11.5px] sm:text-[12px] font-extrabold text-[#5A7050]">자산군</th>
+                  <th scope="col" className="w-[18%] py-3 px-2 sm:px-4 md:px-5 text-right text-[11.5px] sm:text-[12px] font-extrabold text-neutral-500">
+                    <span className="hidden sm:inline">운용자산 (조원)</span>
+                    <span className="sm:hidden">AUM(조)</span>
+                  </th>
+                  <th scope="col" className="w-[18%] py-3 px-2 sm:px-4 md:px-5 text-right text-[11.5px] sm:text-[12px] font-extrabold text-neutral-500">AUM 비중</th>
+                  <th scope="col" className="w-[19%] py-3 px-2 sm:px-4 md:px-5 text-right text-[11.5px] sm:text-[12px] font-extrabold text-neutral-500">
                     <span className="inline-flex items-center justify-end gap-1">
                       <span>가중수익률</span>
-                      <InfoTooltip text="해당 자산군 내 ETF들의 순자산(AUM) 규모를 가중 반영한 평균 등락률입니다." />
+                      <InfoTooltip 
+                        text="해당 자산군 내 ETF들의 순자산(AUM) 규모를 가중 반영한 평균 등락률입니다." 
+                        side="bottom" 
+                        align="right" 
+                      />
                     </span>
                   </th>
-                  <th scope="col" className="w-[19%] py-3 px-3 sm:px-4 md:px-5 text-right text-[12px] font-extrabold text-[#5A7050]">
+                  <th scope="col" className="w-[19%] py-3 px-2 sm:px-4 md:px-5 text-right text-[11.5px] sm:text-[12px] font-extrabold text-[#5A7050]">
                     <span className="inline-flex items-center justify-end gap-1">
                       <span>기여도 (%p)</span>
-                      <InfoTooltip text="자산군 가중수익률(%) × AUM 비중(%)으로 계산되며, 시장 전체 가중수익률에 기여한 정도를 나타냅니다. 모든 자산군의 기여도 합산은 시장 전체 가중수익률과 수학적으로 일치합니다." />
+                      <InfoTooltip 
+                        text="자산군 가중수익률(%) × AUM 비중(%)으로 계산되며, 시장 전체 가중수익률에 기여한 정도를 나타냅니다. 모든 자산군의 기여도 합산은 시장 전체 가중수익률과 수학적으로 일치합니다." 
+                        side="bottom" 
+                        align="right" 
+                      />
                     </span>
                   </th>
                 </tr>
@@ -1259,28 +1299,20 @@ export function MarketBriefing() {
               <tbody className="divide-y divide-[#F0F3EC]">
                 {sortedAssetClasses.map(row => (
                   <tr key={row.asset_class} className="hover:bg-[#F9FBFC] transition-colors group">
-                    <td className="py-3 px-3 sm:px-4 md:px-5 font-extrabold text-neutral-800 text-[13.5px] flex items-center gap-1.5 truncate">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#86C7B5] shrink-0" />
-                      <span className="truncate">{row.asset_class}</span>
+                    <td className="py-3 px-2.5 sm:px-4 md:px-5 font-bold text-neutral-900 text-[12.5px] sm:text-[13.5px] truncate">
+                      {row.asset_class}
                     </td>
-                    <td className="py-3 px-3 sm:px-4 md:px-5 text-right tabular-nums text-neutral-700 font-semibold text-[13px]">
+                    <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums text-neutral-700 font-semibold text-[12.5px] sm:text-[13px]">
                       {(row.total_aum / 1_000_000_000_000).toFixed(1)}
-                      <span className="text-[10.5px] font-normal text-neutral-400 ml-0.5">조</span>
+                      <span className="text-[10px] sm:text-[10.5px] font-normal text-neutral-400 ml-0.5">조</span>
                     </td>
-                    <td className="py-3 px-3 sm:px-4 md:px-5 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <div className="hidden md:block w-8 h-1.5 bg-neutral-100 rounded-full overflow-hidden shrink-0">
-                          <div className="h-full bg-[#55AA94] rounded-full" style={{ width: `${Math.min(row.aum_share_pct, 100)}%` }} />
-                        </div>
-                        <span className="tabular-nums font-semibold text-neutral-700 text-[13px]">
-                          {row.aum_share_pct.toFixed(1)}<span className="text-[10.5px] font-normal text-neutral-400 ml-0.5">%</span>
-                        </span>
-                      </div>
+                    <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-semibold text-neutral-700 text-[12.5px] sm:text-[13px]">
+                      {row.aum_share_pct.toFixed(1)}<span className="text-[10px] sm:text-[10.5px] font-normal text-neutral-400 ml-0.5">%</span>
                     </td>
-                    <td className={`py-3 px-3 sm:px-4 md:px-5 text-right tabular-nums font-bold text-[13px] ${changeTone(row.aum_weighted_return_pct)}`}>
+                    <td className={`py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-bold text-[12.5px] sm:text-[13px] ${changeTone(row.aum_weighted_return_pct)}`}>
                       {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
                     </td>
-                    <td className="py-3 px-3 sm:px-4 md:px-5 text-right tabular-nums font-black text-[13px]">
+                    <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black text-[12.5px] sm:text-[13px]">
                       <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
                         row.contribution_pct > 0 
                           ? "bg-[#FEF3F2] text-[#D92D20]" 
@@ -1294,18 +1326,18 @@ export function MarketBriefing() {
                   </tr>
                 ))}
               </tbody>
-              <tfoot className="bg-[#F4F7EE] font-bold text-neutral-900 text-[13px] border-t-2 border-[#D7EABB]">
+              <tfoot className="bg-[#F4F7EE] font-bold text-neutral-900 text-[12.5px] sm:text-[13px] border-t-2 border-[#D7EABB]">
                 <tr>
-                  <td className="py-3 px-3 sm:px-4 md:px-5 font-black text-[#297160]">합계 (Total)</td>
-                  <td className="py-3 px-3 sm:px-4 md:px-5 text-right tabular-nums">
+                  <td className="py-3 px-2.5 sm:px-4 md:px-5 font-black text-[#297160]">합계 (Total)</td>
+                  <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums">
                     {(sortedAssetClasses.reduce((sum, row) => sum + row.total_aum, 0) / 1_000_000_000_000).toFixed(1)}
-                    <span className="text-[10.5px] font-normal text-neutral-500 ml-0.5">조</span>
+                    <span className="text-[10px] sm:text-[10.5px] font-normal text-neutral-500 ml-0.5">조</span>
                   </td>
-                  <td className="py-3 px-3 sm:px-4 md:px-5 text-right tabular-nums">100.0%</td>
-                  <td className={`py-3 px-3 sm:px-4 md:px-5 text-right tabular-nums font-black ${changeTone(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}`}>
+                  <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums">100.0%</td>
+                  <td className={`py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black ${changeTone(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}`}>
                     {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}
                   </td>
-                  <td className="py-3 px-3 sm:px-4 md:px-5 text-right tabular-nums font-black">
+                  <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black">
                     <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
                       sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0) >= 0 
                         ? "bg-[#FEF3F2] text-[#D92D20]" 
@@ -1318,18 +1350,6 @@ export function MarketBriefing() {
               </tfoot>
             </table>
           </div>
-          {/* 하단 인사이트: 수학식 제거 ➔ 실전 시장 드라이버 요약 */}
-          {(() => {
-            const totalContrib = sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0);
-            const topDriver = [...sortedAssetClasses].sort((a, b) => Math.abs(b.contribution_pct) - Math.abs(a.contribution_pct))[0];
-            return (
-              <div className="bg-[#FAFCF7] px-4 sm:px-6 py-2.5 border-t border-[#EDF2DE] flex items-center gap-2">
-                <p className="text-[12px] text-neutral-700 font-medium leading-relaxed">
-                  💡 오늘 시장 가중수익률(<strong>{signed(totalContrib)}</strong>)에 가장 큰 영향을 미친 자산군은 <strong>{topDriver?.asset_class}</strong>(기여도 <strong>{signed(topDriver?.contribution_pct, "%p")}</strong>)였습니다.
-                </p>
-              </div>
-            );
-          })()}
         </div>
 
         {/* Part B: Micro Themes 4-Col Grid */}

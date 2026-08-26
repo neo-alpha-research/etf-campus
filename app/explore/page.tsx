@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 
 import { Screener } from "@/components/screener/screener";
 import { loadEtfs } from "@/lib/data/etf-repository";

@@ -15,14 +15,8 @@ export const metadata: Metadata = {
  */
 export default function BriefingPage() {
   return (
-    <main className="page-shell flex-1 py-8 sm:py-12">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">마켓 브리핑</h1>
-      </div>
-
-      <section className="mt-2" aria-label="자동 마켓 데일리 대시보드">
-        <MarketBriefing />
-      </section>
+    <main className="page-shell flex-1 py-6 sm:py-10">
+      <MarketBriefing />
     </main>
   );
 }

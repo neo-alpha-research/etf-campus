@@ -5,9 +5,9 @@
 
 import Link from "next/link";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
-import { Info, BookOpen, TrendingUp, TrendingDown, Minus, Calendar } from "lucide-react";
+import { Info, BookOpen, TrendingUp, TrendingDown, Minus, Calendar, ArrowUp } from "lucide-react";
 
 import { MarketBriefingHistory } from "@/components/market-briefing/market-briefing-history";
 
@@ -404,6 +404,126 @@ function IndexRow({ index }: { index: MarketIndex }) {
   );
 }
 
+function MarketBriefingStickyBar({
+  asOfDate,
+  generalReturnPct,
+  onOpenHistory,
+}: {
+  asOfDate: string;
+  generalReturnPct: number;
+  onOpenHistory?: () => void;
+}) {
+  const [activeStep, setActiveStep] = useState<string>("step-macro");
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  const steps = [
+    { id: "step-macro", label: "거시 지표", step: "STEP 1" },
+    { id: "step-pulse", label: "시장 온도", step: "STEP 2" },
+    { id: "step-micro", label: "세부 동향", step: "STEP 3" },
+    { id: "step-money", label: "자금 동향", step: "STEP 4" },
+    { id: "step-trend", label: "주·월간 트렌드", step: "STEP 5" },
+    { id: "step-scale", label: "시장 규모", step: "STEP 6" },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 220);
+
+      const scrollPos = window.scrollY + 140;
+      for (let i = steps.length - 1; i >= 0; i--) {
+        const el = document.getElementById(steps[i].id);
+        if (el && el.offsetTop <= scrollPos) {
+          setActiveStep(steps[i].id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const yOffset = -75;
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
+  const isPositive = generalReturnPct >= 0;
+
+  return (
+    <div
+      className={`sticky top-0 z-30 w-full transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.06)] border-b border-[#E2E8D8] py-2"
+          : "bg-transparent py-0 pointer-events-none"
+      }`}
+    >
+      <div className={`mx-auto max-w-7xl px-4 sm:px-6 transition-opacity duration-300 ${isScrolled ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
+        <div className="flex h-10 sm:h-11 items-center justify-between gap-3">
+          {/* Left: 기준일 배지 & 날짜 표시 */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={onOpenHistory}
+              className="flex items-center gap-1.5 rounded-xl bg-[#F4F7EE] hover:bg-[#EBF2E0] px-2.5 py-1 text-xs font-bold text-[#365314] transition-colors border border-[#D7EABB] shadow-2xs"
+            >
+              <Calendar className="w-3.5 h-3.5 text-[#5A7050]" />
+              <span className="tabular-nums">{dateLabel(asOfDate)} 장마감</span>
+            </button>
+          </div>
+
+          {/* Center: STEP 1~6 퀵 점프 탭 */}
+          <nav className="hidden md:flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
+            {steps.map((s) => {
+              const isActive = activeStep === s.id;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => scrollToSection(s.id)}
+                  className={`flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-bold transition-all ${
+                    isActive
+                      ? "bg-[#365314] text-white shadow-xs"
+                      : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100/80"
+                  }`}
+                >
+                  <span className={`text-[10px] font-black ${isActive ? "text-[#C2E29B]" : "text-neutral-400"}`}>
+                    {s.step}
+                  </span>
+                  <span>{s.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Right: 시장 요약 & 맨 위로 */}
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1 rounded-lg bg-neutral-50 px-2 py-0.5 border border-neutral-200/70 text-xs">
+              <span className="text-[10.5px] font-bold text-neutral-400">시장</span>
+              <span className={`font-black tabular-nums ${isPositive ? "text-[#D92D20]" : "text-[#175CD3]"}`}>
+                {isPositive ? `+${generalReturnPct.toFixed(2)}%` : `${generalReturnPct.toFixed(2)}%`}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="p-1 rounded-lg text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 transition-colors"
+              title="맨 위로 이동"
+            >
+              <ArrowUp className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function MarketBriefing() {
 
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
@@ -593,33 +713,67 @@ export function MarketBriefing() {
   }
 
   return (
+    <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12">
+      {/* Master Hero Header */}
+      <header className="pt-2">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-neutral-200/80">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EBF5DC] px-2.5 py-0.5 text-[11px] font-extrabold text-[#365314] border border-[#CDE5B1]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#65A30D] animate-pulse" />
+                DAILY MARKET PULSE
+              </span>
+              <span className="text-xs font-semibold text-neutral-400">KRX 전종목 전수 분석</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-neutral-900">
+              ETF 데일리 마켓 브리핑
+            </h1>
+            <p className="mt-1.5 text-xs sm:text-sm font-medium text-neutral-600">
+              대한민국 ETF 시장의 거시 맥락과 스마트머니 자금 흐름을 전수 분석한 일간 인텔리전스 리포트입니다.
+            </p>
+          </div>
 
-    <div className="mx-auto max-w-7xl space-y-16 sm:space-y-24 pb-12">
-      <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-800">
-        <strong className="block text-base font-bold text-amber-900 mb-1">🚧 [공지] 마켓 브리핑 서비스 준비 중</strong>
-        현재 마켓 브리핑 전체 데이터 및 기능 고도화 작업이 진행 중입니다. 일부 섹션의 데이터가 노출되지 않거나 불완전할 수 있으니 양해 부탁드립니다. 조속히 작업을 마무리하여 안정적인 서비스를 제공하겠습니다.
+          {/* 통합 마스터 기준일 뱃지 클러스터 */}
+          <div className="flex items-center gap-2 self-start md:self-auto">
+            <div className="rounded-2xl border border-[#D7EABB] bg-[#FAFDF4] px-4 py-2.5 text-right shadow-2xs">
+              <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#5A7050]">Analysis Date</p>
+              <p className="text-sm sm:text-base font-black text-neutral-900 tabular-nums">
+                {dateLabel(briefing.asOfDate)} 장마감 기준
+              </p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Sticky Floating As-of-Date & Quick Step Navigation Bar */}
+      <MarketBriefingStickyBar
+        asOfDate={briefing.asOfDate}
+        generalReturnPct={pulse.generalAumWeightedReturnPct}
+        onOpenHistory={() => {
+          const el = document.getElementById("briefing-history-section");
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }}
+      />
+
+      {/* 서비스 준비 공지 (경량화 배너) */}
+      <div className="rounded-xl border border-amber-200/80 bg-amber-50/70 px-4 py-3 text-xs sm:text-sm text-amber-800 flex items-start gap-2.5">
+        <span className="text-base shrink-0 mt-0.5">🚧</span>
+        <div>
+          <strong className="font-bold text-amber-900 mr-1.5">[서비스 안내]</strong>
+          현재 마켓 브리핑 전체 데이터 및 기능 고도화 작업이 진행 중입니다. 조속히 작업을 마무리하여 더 안정적인 분석을 제공하겠습니다.
+        </div>
       </div>
 
-            {selectedDate && (
-
+      {selectedDate && (
         <div className="flex items-center justify-between rounded-xl bg-[#EFF8D8] px-5 py-3 text-sm text-[#476237]">
-
           <p><strong>{dateLabel(briefing.asOfDate)}</strong> 기준의 과거 마켓 브리핑을 보고 계십니다.</p>
-
           <button type="button" onClick={() => setSelectedDate(undefined)} className="font-bold underline hover:no-underline">
-
             최신 브리핑으로 돌아가기
-
           </button>
-
         </div>
-
       )}
 
-
-
       {/* Tickery's 3-Point Mini Dashboard */}
-
       <section className="relative overflow-hidden rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-6 shadow-[0_8px_24px_rgba(43,61,39,0.04)] sm:p-8">
 
         <div className="relative z-10">
@@ -764,26 +918,17 @@ export function MarketBriefing() {
 
 
       {briefing.marketIndices.length > 0 && (
-
-        <section aria-labelledby="market-index-title" className="mb-12">
-          <div className="mb-5 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-            <div className="border-l-4 border-[#9ACD68] pl-3.5">
-              <div className="flex items-center gap-2">
-                <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 1. MACRO ECONOMY</p>
-              </div>
-              <h2 id="market-index-title" className="mt-1 text-xl sm:text-2xl font-extrabold tracking-tight text-neutral-900">
-                오늘 시장의 배경은? (거시 지표)
-              </h2>
-              <p className="mt-0.5 text-xs sm:text-sm text-neutral-500">
-                ETF 가격 변동의 원인이 되는 주요 지표와 전 거래일 대비 변동폭입니다.
-              </p>
+        <section id="step-macro" aria-labelledby="market-index-title" className="mb-14 scroll-mt-20">
+          <div className="mb-5 border-l-4 border-[#9ACD68] pl-3.5">
+            <div className="flex items-center gap-2">
+              <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 1. MACRO ECONOMY</p>
             </div>
-            {orderedIndices.length > 0 && (
-              <div className="inline-flex items-center gap-1.5 self-start sm:self-auto rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-neutral-600 border border-neutral-200 shadow-2xs">
-                <Calendar className="w-3.5 h-3.5 text-neutral-400" />
-                <span>기준일: {dateLabel(orderedIndices[0].as_of_date)}</span>
-              </div>
-            )}
+            <h2 id="market-index-title" className="mt-1 text-xl sm:text-2xl font-extrabold tracking-tight text-neutral-900">
+              오늘 시장의 배경은? (거시 지표)
+            </h2>
+            <p className="mt-0.5 text-xs sm:text-sm text-neutral-500">
+              ETF 가격 변동의 원인이 되는 주요 지표와 전 거래일 대비 변동폭입니다.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -861,7 +1006,7 @@ export function MarketBriefing() {
 
 
       {/* STEP 2: Market Pulse & My Portfolio */}
-      <section aria-labelledby="market-pulse-title" className="mb-16">
+      <section id="step-pulse" aria-labelledby="market-pulse-title" className="mb-16 scroll-mt-20">
         <div className="mb-6">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
@@ -1031,7 +1176,7 @@ export function MarketBriefing() {
                       <span>0% (완전분산)</span>
                       <span className="text-emerald-700 font-extrabold">양호 (≤45%)</span>
                       <span className="text-amber-700 font-extrabold">주의 (~60%)</span>
-                      <span className="text-rose-700 font-extrabold">과열 (&gt;60%)</span>
+                      <span className="text-rose-700 font-extrabold">(60%&lt;) 과열</span>
                       <span>100%</span>
                     </div>
 
@@ -1081,7 +1226,7 @@ export function MarketBriefing() {
       </section>
 
       {/* STEP 3: Micro Trends */}
-      <section>
+      <section id="step-micro" className="scroll-mt-20">
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 3. MICRO TRENDS</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 자산과 테마가 주도? (세부 동향)</h2>
@@ -1286,7 +1431,7 @@ export function MarketBriefing() {
       </section>
 
       {/* STEP 4: Smart Money & Risk */}
-      <section>
+      <section id="step-money" className="scroll-mt-20">
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. SMART MONEY FLOW</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 자금은 어디로? (일일 동향)</h2>
@@ -1300,7 +1445,7 @@ export function MarketBriefing() {
       </section>
 
       {/* STEP 5: Macro Trends (Weekly / Monthly Fund Flow) */}
-      <section className="mb-16">
+      <section id="step-trend" className="mb-16 scroll-mt-20">
         <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
@@ -1367,7 +1512,7 @@ export function MarketBriefing() {
       </section>
 
       {/* STEP 6: Market Scale */}
-      <section className="mb-16">
+      <section id="step-scale" className="mb-16 scroll-mt-20">
         <div className="mb-6">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 6. MARKET SCALE</p>
@@ -1463,13 +1608,12 @@ export function MarketBriefing() {
         </div>
       </section>
 
-<MarketBriefingHistory
-
-        activeDate={briefing.asOfDate}
-
-        onSelectDate={(date) => setSelectedDate(date)}
-
-      />
+      <div id="briefing-history-section" className="scroll-mt-20">
+        <MarketBriefingHistory
+          activeDate={briefing.asOfDate}
+          onSelectDate={(date) => setSelectedDate(date)}
+        />
+      </div>
 
 
 

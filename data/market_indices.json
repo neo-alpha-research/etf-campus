@@ -28,14 +28,6 @@
       "as_of_date": "2026-08-25"
     },
     {
-      "label": "국채 10년",
-      "code": "KR10Y",
-      "value": 4.32,
-      "change": -0.015,
-      "changePoints": -0.015,
-      "as_of_date": "2026-08-25"
-    },
-    {
       "value": 7677.28,
       "change": 0.32,
       "changePoints": 24.42,

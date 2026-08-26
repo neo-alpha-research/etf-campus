@@ -209,6 +209,41 @@ def report_pending_isins():
 
 
 
+def fetch_snapshot(service_key: str, day_text: str) -> dict[str, dict]:
+    rows: list[dict] = []
+    page = 1
+    while True:
+        query = urllib.parse.urlencode({
+            "serviceKey": service_key,
+            "resultType": "json",
+            "basDt": day_text,
+            "numOfRows": 1000,
+            "pageNo": page,
+        })
+        last_error: Exception | None = None
+        for attempt in range(MAX_REQUEST_ATTEMPTS):
+            try:
+                with urllib.request.urlopen(f"{BASE_URL}?{query}", timeout=REQUEST_TIMEOUT_SECONDS) as response:
+                    payload = json.loads(response.read().decode("utf-8"))
+                body = payload["response"]["body"]
+                items = (body.get("items") or {}).get("item") or []
+                if isinstance(items, dict):
+                    items = [items]
+                total = int(body.get("totalCount", 0))
+                rows.extend(items)
+                break
+            except Exception as error:
+                last_error = error
+                if attempt < MAX_REQUEST_ATTEMPTS - 1:
+                    time.sleep(1)
+        else:
+            raise RuntimeError(f"API 조회 실패: {day_text}, page {page}") from last_error
+        if not items or len(rows) >= total:
+            break
+        page += 1
+    return {str(row.get("srtnCd", "")): row for row in rows if row.get("srtnCd")}
+
+
 def fetch_ticker_history(
     service_key: str,
     ticker: str,

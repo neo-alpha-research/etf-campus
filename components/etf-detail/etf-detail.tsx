@@ -268,24 +268,7 @@ export function EtfDetail({
                     <dt className="text-sm font-bold text-gray-500">1일 거래대금</dt>
                     <dd className="mt-1 text-lg font-bold text-strong">{formatMoney(etf.tradeValue)}</dd>
                   </div>
-                  {etf.trackingError != null && (
-                    <div className="flex flex-col justify-center group relative cursor-help">
-                      <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
-                        추적오차율
-                        <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </dt>
-                      <dd className="mt-1 text-lg font-bold text-strong">{etf.trackingError.toFixed(2)}%</dd>
-                      
-                      {/* Tooltip */}
-                      <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
-                        <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
-                          수치가 낮을수록 운용사가 기초지수를 오차 없이 잘 추종하고 있음을 의미합니다.
-                        </div>
-                      </div>
-                    </div>
-                  )}
+
                   <div className="flex flex-col justify-center group relative cursor-help">
                     <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
                       총보수

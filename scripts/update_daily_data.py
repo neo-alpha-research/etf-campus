@@ -78,8 +78,7 @@ def normalize_krx_snapshot(payload: dict) -> dict[str, dict]:
             "trPrc": compact_number(row.get("ACC_TRDVAL")),
             "nPptTotAmt": compact_number(row.get("INVSTASST_NETASST_TOTAMT")),
             "nav": compact_number(row.get("NAV")),
-            "disparity": compact_number(row.get("PRC_DEV_RT")),
-            "tracking_error": compact_number(row.get("TRACK_ERR_RT")),
+
             "bssIdxIdxNm": str(row.get("IDX_IND_NM") or "").strip(),
             "basDt": str(row.get("BAS_DD") or "").strip(),
         }
@@ -404,10 +403,7 @@ def resolve_aum_value(api: dict, existing: dict) -> str:
     return "0"
 
 
-def api_listing_date(value: object) -> str:
-    """Return an API listing date only when it is an unambiguous YYYYMMDD value."""
-    text = str(value or "").strip()
-    return text if len(text) == 8 and text.isdigit() else ""
+
 
 
 def pct(current: float | None, anchor: float | None) -> str:
@@ -566,12 +562,7 @@ def main() -> None:
     for ticker, api in current.items():
         existing = master_by_ticker.get(ticker, {})
         metadata = listing_metadata.get(ticker) or {}
-        listing_text = str(
-            existing.get("listing_date")
-            or api.get("lstgDt")
-            or metadata.get("lstgDt")
-            or ""
-        )
+        listing_text = str(existing.get("listing_date") or "")
         if len(listing_text) != 8 or not listing_text.isdigit():
             continue
         listing_day = datetime.strptime(listing_text, "%Y%m%d").date()
@@ -611,8 +602,7 @@ def main() -> None:
     stats_missing_nav_blank = 0
     stats_missing_disp_fallback = 0
     stats_missing_disp_blank = 0
-    stats_missing_te_fallback = 0
-    stats_missing_te_blank = 0
+
     stats_stale_data_count = 0
     stale_tickers = []
 
@@ -630,7 +620,7 @@ def main() -> None:
         api_change = as_float(snapshot_value(api, "fltRt", 0))
         api_nav = as_float(snapshot_value(api, "nav"))
         api_disparity = as_float(snapshot_value(api, "disparity"))
-        api_tracking_error = as_float(snapshot_value(api, "tracking_error"))
+
         
         # Calculate disparity if API doesn't provide it but provides NAV
         if api_disparity is None and current_close is not None and api_nav:
@@ -654,14 +644,8 @@ def main() -> None:
                 stats_missing_disp_blank += 1
                 disparity_val = ""
 
-        te_val = api_tracking_error
-        if te_val is None:
-            if existing.get("tracking_error", ""):
-                stats_missing_te_fallback += 1
-                te_val = existing.get("tracking_error", "")
-            else:
-                stats_missing_te_blank += 1
-                te_val = ""
+        # KRX 와 FSC 모두 추적오차율을 제공하지 않음. 2026-08-26 UI 제거
+        te_val = ""
 
         # Anomaly detection stats
         old_close = as_float(existing.get("close"))
@@ -702,11 +686,8 @@ def main() -> None:
         old_return = dict(returns_by_ticker.get(ticker, {}))
         old_return.update({"ticker": ticker, "name": name, close_field: snapshot_value(api, "clpr", "")})
         metadata = listing_metadata.get(ticker) or {}
-        api_listing = api_listing_date(api.get("lstgDt") or metadata.get("lstgDt"))
         if not existing.get("listing_date"):
-            if api_listing:
-                existing["listing_date"] = api_listing
-                existing["listing_date_source"] = "price_api_listing_date"
+            pass
         new_master.append(existing)
         listing_text = str(existing.get("listing_date") or "")
         listing_day = (
@@ -792,9 +773,7 @@ def main() -> None:
     print(f"Disparity: missing {missing_disp_total}/{total_processed} ({missing_disp_total/max(1, total_processed)*100:.1f}%) "
           f"-> fallback: {stats_missing_disp_fallback}, blank: {stats_missing_disp_blank}")
           
-    missing_te_total = stats_missing_te_fallback + stats_missing_te_blank
-    print(f"Tracking Error: missing {missing_te_total}/{total_processed} ({missing_te_total/max(1, total_processed)*100:.1f}%) "
-          f"-> fallback: {stats_missing_te_fallback}, blank: {stats_missing_te_blank}")
+
           
     if missing_nav_total > total_processed * 0.10:
         raise RuntimeError(f"Missing NAV exceeded threshold (10%): {missing_nav_total}/{total_processed}")

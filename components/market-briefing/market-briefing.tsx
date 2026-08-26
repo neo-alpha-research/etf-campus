@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { useMemo, useState, useEffect } from "react";
 
-import { Info, BookOpen, TrendingUp, TrendingDown, Minus, Calendar, ArrowUp } from "lucide-react";
+import { Info, BookOpen, TrendingUp, TrendingDown, Minus, Calendar, ArrowUp, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 import { MarketBriefingHistory } from "@/components/market-briefing/market-briefing-history";
 
@@ -1552,33 +1552,132 @@ export function MarketBriefing() {
           </div>
         </div>
 
-        {/* Table */}
-        <div className="mb-8 rounded-[20px] bg-white border border-[#E5E8E2] shadow-[0_4px_12px_rgba(27,38,26,0.02)] overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm table-fixed">
-              <thead>
-                <tr className="bg-[#F9FBFC] border-b border-[#EDF2DE]">
-                  <th className="w-[10%] py-3 px-6 text-center text-[12px] font-extrabold text-neutral-400 tracking-wider">순위</th>
-                  <th className="w-[40%] py-3 px-6 text-left text-[12px] font-extrabold text-neutral-400 tracking-wider">세부 테마 (피어그룹)</th>
-                  <th className="w-[25%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">순유입액 (억원)</th>
-                  <th className="w-[25%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">누적 수익률 (%)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#EDF2DE]">
-                {(step5Tab === 'weekly' ? briefing.weeklyFundFlows : briefing.monthlyFundFlows)?.map((row) => (
-                  <tr key={row.rank} className="hover:bg-[#F9FBFC] transition-colors group">
-                    <td className="py-3.5 px-6 text-center font-extrabold text-neutral-400 text-[14px]">{row.rank}</td>
-                    <td className="py-3.5 px-6 font-extrabold text-neutral-800 text-[14px]">{row.peerGroup}</td>
-                    <td className="py-3.5 px-6 text-right tabular-nums text-neutral-600 font-semibold">
-                      <span className="text-[#EE4B58] font-bold">+{number.format(row.netInflow)}</span>
-                    </td>
-                    <td className={`py-3.5 px-6 text-right tabular-nums font-bold ${changeTone(row.returnPct)}`}>
-                      {signed(row.returnPct)}
-                    </td>
+        {/* Dual Cards Grid: Top 5 Inflows & Top 5 Outflows */}
+        <div className="grid gap-5 md:grid-cols-2 mb-8">
+          {/* [좌측] TOP 5 순유입 테마 */}
+          <div className="overflow-hidden rounded-[20px] bg-white border border-[#DCE7D0] shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col hover:border-[#B5DED1] transition-colors">
+            <div className="flex items-center justify-between border-b border-[#EDF2DE] bg-gradient-to-r from-[#F4F9EE] to-white px-5 py-3.5">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#E3F2D3] text-[#3B6D22]">
+                  <ArrowUpRight className="h-4 w-4 stroke-[2.5]" />
+                </span>
+                <h4 className="text-[14px] font-black text-neutral-900 tracking-tight">자금 순유입 TOP 5 테마</h4>
+              </div>
+              <span className="text-[11px] font-bold text-[#3B6D22] bg-[#EBF7DF] px-2.5 py-0.5 rounded-full border border-[#D4EBBF]">
+                {step5Tab === 'weekly' ? '주간 매수세' : '월간 매수세'}
+              </span>
+            </div>
+
+            <div className="overflow-x-auto flex-1">
+              <table className="w-full border-collapse text-sm table-fixed">
+                <thead>
+                  <tr className="bg-[#F9FBFC] border-b border-neutral-100 text-[11px] font-extrabold text-neutral-400">
+                    <th className="w-[12%] py-2.5 px-3 text-center">순위</th>
+                    <th className="w-[46%] py-2.5 px-3 text-left">세부 테마</th>
+                    <th className="w-[24%] py-2.5 px-3 text-right">순유입액</th>
+                    <th className="w-[18%] py-2.5 px-3 text-right">수익률</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-neutral-100">
+                  {(() => {
+                    const raw = (step5Tab === 'weekly' ? briefing.weeklyFundFlows : briefing.monthlyFundFlows) as any;
+                    const items: any[] = Array.isArray(raw) 
+                      ? raw.filter((x: any) => (x.netInflow || 0) > 0).slice(0, 5) 
+                      : (raw?.topInflows?.slice(0, 5) || []);
+                    if (items.length === 0) {
+                      return (
+                        <tr>
+                          <td colSpan={4} className="py-6 text-center text-xs text-neutral-400">자금 유입 데이터가 없습니다</td>
+                        </tr>
+                      );
+                    }
+                    return items.map((row: any, idx: number) => (
+                      <tr key={row.peerGroup} className="hover:bg-[#F9FBFC] transition-colors">
+                        <td className="py-3 px-3 text-center">
+                          <span className={`inline-flex h-5 w-5 items-center justify-center rounded-md text-[11px] font-black tabular-nums ${
+                            idx < 3 ? "bg-[#3D6E26] text-white" : "bg-neutral-100 text-neutral-500 font-bold"
+                          }`}>
+                            {idx + 1}
+                          </span>
+                        </td>
+                        <td className="py-3 px-3 font-bold text-neutral-800 text-[13px] truncate" title={row.peerGroup}>
+                          {row.peerGroup}
+                        </td>
+                        <td className="py-3 px-3 text-right tabular-nums font-extrabold text-[#2E6819] text-[13.5px]">
+                          +{number.format(Math.abs(row.netInflow))} <span className="text-[10.5px] font-normal text-neutral-400">억</span>
+                        </td>
+                        <td className={`py-3 px-3 text-right tabular-nums font-extrabold text-[13px] ${changeTone(row.returnPct)}`}>
+                          {signed(row.returnPct)}
+                        </td>
+                      </tr>
+                    ));
+                  })()}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* [우측] TOP 5 순유출 테마 */}
+          <div className="overflow-hidden rounded-[20px] bg-white border border-[#D2DFE6] shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col hover:border-[#ADC7D6] transition-colors">
+            <div className="flex items-center justify-between border-b border-[#E1ECF0] bg-gradient-to-r from-[#F0F6F9] to-white px-5 py-3.5">
+              <div className="flex items-center gap-2">
+                <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-[#DEECF2] text-[#1E5F74]">
+                  <ArrowDownRight className="h-4 w-4 stroke-[2.5]" />
+                </span>
+                <h4 className="text-[14px] font-black text-neutral-900 tracking-tight">자금 순유출 TOP 5 테마</h4>
+              </div>
+              <span className="text-[11px] font-bold text-[#1E5F74] bg-[#E5F1F5] px-2.5 py-0.5 rounded-full border border-[#CDE3EC]">
+                {step5Tab === 'weekly' ? '주간 환매' : '월간 환매'}
+              </span>
+            </div>
+
+            <div className="overflow-x-auto flex-1">
+              <table className="w-full border-collapse text-sm table-fixed">
+                <thead>
+                  <tr className="bg-[#F9FBFC] border-b border-neutral-100 text-[11px] font-extrabold text-neutral-400">
+                    <th className="w-[12%] py-2.5 px-3 text-center">순위</th>
+                    <th className="w-[46%] py-2.5 px-3 text-left">세부 테마</th>
+                    <th className="w-[24%] py-2.5 px-3 text-right">순유출액</th>
+                    <th className="w-[18%] py-2.5 px-3 text-right">수익률</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-100">
+                  {(() => {
+                    const raw = (step5Tab === 'weekly' ? briefing.weeklyFundFlows : briefing.monthlyFundFlows) as any;
+                    const items: any[] = Array.isArray(raw) 
+                      ? raw.filter((x: any) => (x.netInflow || 0) < 0).slice(0, 5) 
+                      : (raw?.topOutflows?.slice(0, 5) || []);
+                    if (items.length === 0) {
+                      return (
+                        <tr>
+                          <td colSpan={4} className="py-6 text-center text-xs text-neutral-400">자금 유출 데이터가 없습니다</td>
+                        </tr>
+                      );
+                    }
+                    return items.map((row: any, idx: number) => (
+                      <tr key={row.peerGroup} className="hover:bg-[#F9FBFC] transition-colors">
+                        <td className="py-3 px-3 text-center">
+                          <span className={`inline-flex h-5 w-5 items-center justify-center rounded-md text-[11px] font-black tabular-nums ${
+                            idx < 3 ? "bg-[#1E5F74] text-white" : "bg-neutral-100 text-neutral-500 font-bold"
+                          }`}>
+                            {idx + 1}
+                          </span>
+                        </td>
+                        <td className="py-3 px-3 font-bold text-neutral-800 text-[13px] truncate" title={row.peerGroup}>
+                          {row.peerGroup}
+                        </td>
+                        <td className="py-3 px-3 text-right tabular-nums font-extrabold text-[#175CD3] text-[13.5px]">
+                          -{number.format(Math.abs(row.netInflow))} <span className="text-[10.5px] font-normal text-neutral-400">억</span>
+                        </td>
+                        <td className={`py-3 px-3 text-right tabular-nums font-extrabold text-[13px] ${changeTone(row.returnPct)}`}>
+                          {signed(row.returnPct)}
+                        </td>
+                      </tr>
+                    ));
+                  })()}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>

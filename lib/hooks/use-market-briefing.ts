@@ -99,8 +99,8 @@ export type MarketBriefing = {
     general: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
     all: { topInflows: FundFlowRow[]; topOutflows: FundFlowRow[] };
   };
-  weeklyFundFlows?: FlowTrendRow[];
-  monthlyFundFlows?: FlowTrendRow[];
+  weeklyFundFlows?: { topInflows: FlowTrendRow[]; topOutflows: FlowTrendRow[] } | FlowTrendRow[];
+  monthlyFundFlows?: { topInflows: FlowTrendRow[]; topOutflows: FlowTrendRow[] } | FlowTrendRow[];
   marketScale?: any;
   disparityWarning: DisparityWarning[];
   focusEtfs: FocusEtf[];

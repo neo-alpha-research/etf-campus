@@ -395,7 +395,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
   else if (["CLF", "GC", "SI"].includes(index.code)) unit = "$";
 
   return (
-    <div className="grid grid-cols-[1fr_auto_80px] items-center gap-2 py-2.5 px-2 rounded-xl transition-colors hover:bg-neutral-50/70 border-b border-neutral-100/80 last:border-0">
+    <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 py-2.5 px-2.5 rounded-xl transition-colors hover:bg-neutral-50/70 border-b border-neutral-100/80 last:border-0">
       {/* 1열: 지표명 */}
       <div className="flex items-center gap-1.5 min-w-0">
         {index.code === "KR10Y" ? (
@@ -1002,7 +1002,7 @@ export function MarketBriefing() {
             {/* 국내 증시 */}
             <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
               <div>
-                <div className="grid grid-cols-[1fr_auto_80px] items-center gap-2 pb-2.5 mb-1 px-2 border-b border-neutral-100">
+                <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 pb-2.5 mb-1 px-2.5 border-b border-neutral-100">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <img src="https://flagcdn.com/w40/kr.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs" alt="KR" />
                     <h3 className="text-[13px] font-extrabold text-neutral-800 tracking-tight">국내 증시</h3>
@@ -1019,7 +1019,7 @@ export function MarketBriefing() {
             {/* 미국 증시 */}
             <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
               <div>
-                <div className="grid grid-cols-[1fr_auto_80px] items-center gap-2 pb-2.5 mb-1 px-2 border-b border-neutral-100">
+                <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 pb-2.5 mb-1 px-2.5 border-b border-neutral-100">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <img src="https://flagcdn.com/w40/us.png" className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs" alt="US" />
                     <h3 className="text-[13px] font-extrabold text-neutral-800 tracking-tight">미국 증시</h3>
@@ -1036,7 +1036,7 @@ export function MarketBriefing() {
             {/* 환율·금리 */}
             <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
               <div>
-                <div className="grid grid-cols-[1fr_auto_80px] items-center gap-2 pb-2.5 mb-1 px-2 border-b border-neutral-100">
+                <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 pb-2.5 mb-1 px-2.5 border-b border-neutral-100">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <span className="text-sm">💵</span>
                     <h3 className="text-[13px] font-extrabold text-neutral-800 tracking-tight">환율 · 금리</h3>
@@ -1053,7 +1053,7 @@ export function MarketBriefing() {
             {/* 원자재 */}
             <div className="bg-white border border-[#E5E8E2] rounded-2xl p-3.5 sm:p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between">
               <div>
-                <div className="grid grid-cols-[1fr_auto_80px] items-center gap-2 pb-2.5 mb-1 px-2 border-b border-neutral-100">
+                <div className="grid grid-cols-[minmax(0,1fr)_105px_80px] items-center gap-2 pb-2.5 mb-1 px-2.5 border-b border-neutral-100">
                   <div className="flex items-center gap-1.5 min-w-0">
                     <span className="text-sm">⛏️</span>
                     <h3 className="text-[13px] font-extrabold text-neutral-800 tracking-tight">원자재</h3>

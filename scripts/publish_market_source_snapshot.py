@@ -68,13 +68,27 @@ def canonical_hash(value: object) -> str:
 def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
     import csv, re
     
-    # Read classification mapping
+    # Read classification mapping from both review draft and comparison classification
     class_map = {}
-    with open('data/classification/etf_classification_review_draft.csv', 'r', encoding='utf-8-sig') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            detail = row.get('final_asset_detail') or row.get('suggested_asset_detail') or ''
-            class_map[row['ticker']] = detail.strip()
+    draft_path = Path("data/classification/etf_classification_review_draft.csv")
+    if draft_path.exists():
+        with draft_path.open("r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                detail = row.get("final_asset_detail") or row.get("suggested_asset_detail") or ""
+                if detail.strip():
+                    class_map[row["ticker"].strip().upper()] = detail.strip()
+
+    comparison_path = Path("data/comparison/etf_comparison_classification.csv")
+    if comparison_path.exists():
+        with comparison_path.open("r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                ticker = (row.get("ticker") or "").strip().upper()
+                if ticker and ticker not in class_map:
+                    topic = (row.get("comparison_topic") or "").strip()
+                    if topic and topic not in ["미확인 주식전략", "미분류"]:
+                        class_map[ticker] = topic
 
     with path.open("r", encoding="utf-8-sig") as stream:
         reader = csv.DictReader(stream)

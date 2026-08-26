@@ -1074,93 +1074,191 @@ export function MarketBriefing() {
         </div>
 
         {/* Part A: Macro Table */}
-        <div className="mb-8 rounded-[20px] bg-white border border-[#E5E8E2] shadow-[0_4px_12px_rgba(27,38,26,0.02)] overflow-hidden">
+        <div className="mb-8 rounded-[20px] bg-white border border-[#E5E8E2] shadow-[0_4px_16px_rgba(27,38,26,0.03)] overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-sm table-fixed">
+            <table className="w-full border-collapse text-sm table-fixed min-w-[640px]">
               <thead>
-                <tr className="bg-[#F9FBFC] border-b border-[#EDF2DE]">
-                  <th className="w-[20%] py-3 px-6 text-left text-[12px] font-extrabold text-neutral-400 tracking-wider">자산군</th>
-                  <th className="w-[20%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">운용자산 (조 원)</th>
-                  <th className="w-[20%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">비중 (%)</th>
-                  <th className="w-[20%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">가중수익률 (%)</th>
-                  <th className="w-[20%] py-3 px-6 text-right text-[12px] font-extrabold text-neutral-400 tracking-wider">기여도 (%p)</th>
+                <tr className="bg-[#F8FAF6] border-b border-[#E8ECE1]">
+                  <th scope="col" className="w-[22%] py-3.5 px-6 text-left text-[12px] font-extrabold text-[#5A7050] tracking-wider">자산군</th>
+                  <th scope="col" className="w-[19%] py-3.5 px-6 text-right text-[12px] font-extrabold text-neutral-500 tracking-wider">운용자산 (조원)</th>
+                  <th scope="col" className="w-[18%] py-3.5 px-6 text-right text-[12px] font-extrabold text-neutral-500 tracking-wider">AUM 비중</th>
+                  <th scope="col" className="w-[20%] py-3.5 px-6 text-right text-[12px] font-extrabold text-neutral-500 tracking-wider">
+                    <span className="inline-flex items-center justify-end gap-1">
+                      <span>가중수익률</span>
+                      <InfoTooltip text="해당 자산군 내 ETF들의 순자산(AUM) 규모를 가중 반영한 평균 등락률입니다." />
+                    </span>
+                  </th>
+                  <th scope="col" className="w-[21%] py-3.5 px-6 text-right text-[12px] font-extrabold text-[#5A7050] tracking-wider">
+                    <span className="inline-flex items-center justify-end gap-1">
+                      <span>기여도 (%p)</span>
+                      <InfoTooltip text="해당 자산군이 전체 ETF 시장 수익률을 얼마나 끌어올렸는지(비중 × 가중수익률)를 나타냅니다." />
+                    </span>
+                  </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#EDF2DE]">
-                {sortedAssetClasses.map(row => (
-                  <tr key={row.asset_class} className="hover:bg-[#F9FBFC] transition-colors group">
-                    <td className="py-3.5 px-6 font-extrabold text-neutral-800 text-[14px]">{row.asset_class}</td>
-                    <td className="py-3.5 px-6 text-right tabular-nums text-neutral-600 font-semibold">{(row.total_aum / 1_000_000_000_000).toFixed(1)}</td>
-                    <td className="py-3.5 px-6 text-right tabular-nums text-neutral-600 font-semibold">{row.aum_share_pct.toFixed(1)}<span className="text-neutral-400 font-normal ml-0.5">%</span></td>
-                    <td className={`py-3.5 px-6 text-right tabular-nums font-bold ${changeTone(row.aum_weighted_return_pct)}`}>{row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}</td>
-                    <td className={`py-3.5 px-6 text-right tabular-nums font-extrabold ${changeTone(row.contribution_pct)}`}>{signed(row.contribution_pct, "%p")}</td>
-                  </tr>
-                ))}
+              <tbody className="divide-y divide-[#F0F3EC]">
+                {sortedAssetClasses.map(row => {
+                  const isUp = (row.aum_weighted_return_pct ?? 0) > 0;
+                  const isDown = (row.aum_weighted_return_pct ?? 0) < 0;
+
+                  return (
+                    <tr key={row.asset_class} className="hover:bg-[#F9FBFC] transition-colors group">
+                      <td className="py-3.5 px-6 font-extrabold text-neutral-800 text-[14px] flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#86C7B5] group-hover:scale-125 transition-transform" />
+                        {row.asset_class}
+                      </td>
+                      <td className="py-3.5 px-6 text-right tabular-nums text-neutral-700 font-semibold text-[13.5px]">
+                        {(row.total_aum / 1_000_000_000_000).toFixed(1)}
+                        <span className="text-[11px] font-normal text-neutral-400 ml-0.5">조</span>
+                      </td>
+                      <td className="py-3.5 px-6 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <div className="hidden sm:block w-10 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
+                            <div className="h-full bg-[#55AA94] rounded-full" style={{ width: `${Math.min(row.aum_share_pct, 100)}%` }} />
+                          </div>
+                          <span className="tabular-nums font-semibold text-neutral-700 text-[13.5px]">
+                            {row.aum_share_pct.toFixed(1)}<span className="text-[11px] font-normal text-neutral-400 ml-0.5">%</span>
+                          </span>
+                        </div>
+                      </td>
+                      <td className={`py-3.5 px-6 text-right tabular-nums font-bold text-[13.5px] ${changeTone(row.aum_weighted_return_pct)}`}>
+                        {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
+                      </td>
+                      <td className="py-3.5 px-6 text-right tabular-nums font-black text-[13.5px]">
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-md ${
+                          row.contribution_pct > 0 
+                            ? "bg-[#FEF3F2] text-[#D92D20]" 
+                            : row.contribution_pct < 0 
+                            ? "bg-[#EFF8FF] text-[#175CD3]" 
+                            : "text-neutral-500"
+                        }`}>
+                          {signed(row.contribution_pct, "%p")}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
-              <tfoot className="bg-[#F4F7EC] font-bold text-neutral-900 text-[13px] border-t border-[#D7EABB]">
+              <tfoot className="bg-[#F4F7EE] font-bold text-neutral-900 text-[13.5px] border-t-2 border-[#D7EABB]">
                 <tr>
-                  <td className="py-4 px-6 text-[14px]">합계 (Total)</td>
+                  <td className="py-4 px-6 text-[14px] font-black text-[#297160]">합계 (Total)</td>
                   <td className="py-4 px-6 text-right tabular-nums text-[14px]">
                     {(sortedAssetClasses.reduce((sum, row) => sum + row.total_aum, 0) / 1_000_000_000_000).toFixed(1)}
+                    <span className="text-[11px] font-normal text-neutral-500 ml-0.5">조</span>
                   </td>
-                  <td className="py-4 px-6 text-right tabular-nums text-[14px]">
-                    {Math.round(sortedAssetClasses.reduce((sum, row) => sum + row.aum_share_pct, 0))}.0<span className="text-neutral-500 font-normal ml-0.5">%</span>
+                  <td className="py-4 px-6 text-right tabular-nums text-[14px]">100.0%</td>
+                  <td className={`py-4 px-6 text-right tabular-nums text-[14px] font-black ${changeTone(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}`}>
+                    {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}
                   </td>
-                  <td className="py-4 px-6 text-right text-neutral-500 font-normal text-[11px]">
-                    (동일 자산 가중평균)
-                  </td>
-                  <td className={`py-4 px-6 text-right tabular-nums text-[14px] font-extrabold ${changeTone(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}`}>
-                    {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0), "%p")}
+                  <td className="py-4 px-6 text-right tabular-nums text-[14px] font-black">
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-md ${
+                      sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0) >= 0 
+                        ? "bg-[#FEF3F2] text-[#D92D20]" 
+                        : "bg-[#EFF8FF] text-[#175CD3]"
+                    }`}>
+                      {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0), "%p")}
+                    </span>
                   </td>
                 </tr>
               </tfoot>
             </table>
           </div>
+          <div className="bg-[#FAFCF7] px-6 py-2.5 border-t border-[#EDF2DE]">
+            <p className="text-[11.5px] text-neutral-500 font-medium">
+              💡 <strong>기여도(%p)</strong> = 자산군 가중수익률(%) × AUM 비중(%)이며, 각 자산군 기여도의 합산은 전체 ETF 시장 가중수익률({signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))})과 수학적으로 정확히 일치합니다.
+            </p>
+          </div>
         </div>
 
         {/* Part B: Micro Themes 4-Col Grid */}
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {sortedAssetClasses.filter(row => !row.asset_class.includes('리츠') && !row.asset_class.includes('혼합')).map((row) => {
-            const pg = briefing.peerGroups?.filter(g => g.assetClass === row.asset_class || g.assetClass?.includes(row.asset_class)) || [];
+          {[
+            { key: "주식-국내", label: "주식-국내", emoji: "🇰🇷" },
+            { key: "주식-해외", label: "주식-해외", emoji: "🇺🇸" },
+            { key: "채권", label: "채권", emoji: "💵" },
+            { key: "원자재", label: "원자재", emoji: "⛏️" },
+          ].map((cat) => {
+            const pg = briefing.peerGroups?.filter(g => g.assetClass === cat.key || g.assetClass?.includes(cat.key)) || [];
             const sortedPg = [...pg].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
-            const top = sortedPg.slice(0, 3);
-            const bottom = sortedPg.slice().reverse().slice(0, 3).filter(g => !top.find(t => t.peerGroup === g.peerGroup)).reverse();
+            
+            const isFullList = sortedPg.length >= 6;
+            const top = isFullList ? sortedPg.slice(0, 3) : sortedPg;
+            const bottom = isFullList ? sortedPg.slice(-3) : [];
 
             return (
-              <div key={row.asset_class} className="overflow-hidden rounded-[20px] border border-[#E5E8E2] bg-white shadow-[0_2px_8px_rgba(27,38,26,0.02)] flex flex-col hover:border-[#D7EABB] transition-colors">
-                <div className="bg-[#F9FBFC] border-b border-[#EDF2DE] px-4 py-3.5 text-center">
-                   <h3 className="font-extrabold text-[#5A7050] text-[14px] tracking-tight">{row.asset_class} 세부 테마</h3>
+              <div key={cat.key} className="overflow-hidden rounded-[20px] border border-[#E5E8E2] bg-white shadow-[0_2px_10px_rgba(27,38,26,0.02)] flex flex-col hover:border-[#D7EABB] hover:shadow-md transition-all">
+                {/* 카드 상단 헤더 */}
+                <div className="bg-[#F8FAF6] border-b border-[#EDF2DE] px-4 py-3.5 flex items-center justify-between">
+                  <h3 className="font-extrabold text-[#297160] text-[14px] tracking-tight flex items-center gap-1.5">
+                    <span>{cat.emoji}</span>
+                    <span>{cat.label} 세부 테마</span>
+                  </h3>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-white border border-[#D7EABB] text-[#5A7050]">
+                    {pg.length}개 테마
+                  </span>
                 </div>
-                <div className="flex-1 flex flex-col bg-white">
-                  {(top.length === 0 && bottom.length === 0) ? (
-                    <div className="px-5 py-8 text-center text-[13px] text-neutral-400 flex-1 flex items-center justify-center">
-                      세부 주도 테마가 없습니다
+
+                {/* 카드 바디 */}
+                <div className="flex-1 flex flex-col justify-between p-3 min-h-[320px] bg-white">
+                  {sortedPg.length === 0 ? (
+                    <div className="flex-1 flex flex-col items-center justify-center text-center p-6 text-neutral-400">
+                      <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center mb-2 text-neutral-400 font-bold text-xs">∅</div>
+                      <p className="text-[12.5px] font-medium">집계 기준(3종목 이상)에 부합하는 세부 테마가 없습니다</p>
                     </div>
                   ) : (
-                    <div className="divide-y divide-neutral-100">
-                      {top.map((t, idx) => (
-                        <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-5 py-3.5 hover:bg-neutral-50/70 transition-colors">
-                          <div className="flex items-center gap-3 min-w-0">
-                            <span className="text-[13px] font-bold text-[#EE4B58] w-5 text-center opacity-90">{idx + 1}</span>
-                            <p className="truncate text-[14px] font-bold text-neutral-700">{t.peerGroup}</p>
-                          </div>
-                          <span className={`text-[14px] font-extrabold tabular-nums tracking-tight ${changeTone(t.cappedAumWeightedReturnPct)}`}>
-                            {signed(t.cappedAumWeightedReturnPct)}
-                          </span>
+                    <div className="flex-1 flex flex-col justify-between">
+                      {/* 상위 테마 영역 */}
+                      <div className="space-y-1">
+                        <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#D92D20]">
+                          <span>▲ 상승 상위</span>
                         </div>
-                      ))}
-                      {bottom.length > 0 && <div className="h-1.5 bg-[#F9FBFC]"></div>}
-                      {bottom.map((b, idx) => (
-                        <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-5 py-3.5 hover:bg-neutral-50/70 transition-colors">
-                          <div className="flex items-center gap-3 min-w-0">
-                            <span className="text-[13px] font-bold text-[#4682EC] w-5 text-center opacity-90">({bottom.length - idx})</span>
-                            <p className="truncate text-[14px] font-bold text-neutral-700">{b.peerGroup}</p>
+                        {top.map((t, idx) => (
+                          <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg hover:bg-[#FEF3F2]/50 transition-colors">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <span className="w-4 h-4 rounded text-[10px] font-black flex items-center justify-center bg-[#FEE4E2] text-[#D92D20]">
+                                {idx + 1}
+                              </span>
+                              <p className="truncate text-[13px] font-bold text-neutral-800" title={t.peerGroup}>
+                                {t.peerGroup}
+                              </p>
+                              {t.etfCount ? <span className="text-[10px] text-neutral-400 font-normal">({t.etfCount})</span> : null}
+                            </div>
+                            <span className={`text-[13px] font-black tabular-nums tracking-tight ${changeTone(t.cappedAumWeightedReturnPct)}`}>
+                              {signed(t.cappedAumWeightedReturnPct)}
+                            </span>
                           </div>
-                          <span className={`text-[14px] font-extrabold tabular-nums tracking-tight ${changeTone(b.cappedAumWeightedReturnPct)}`}>
-                            {signed(b.cappedAumWeightedReturnPct)}
-                          </span>
+                        ))}
+                      </div>
+
+                      {/* 하위 테마 영역 (대칭 구조: 최하위 꼴찌가 맨 아래 슬롯에 위치) */}
+                      {bottom.length > 0 && (
+                        <div className="mt-2 pt-2 border-t border-dashed border-neutral-200">
+                          <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#175CD3]">
+                            <span>▼ 하락 하위</span>
+                          </div>
+                          <div className="space-y-1">
+                            {bottom.map((b, idx) => {
+                              const isLowest = idx === bottom.length - 1; // 맨 아래 항목 = 최하위
+                              return (
+                                <div key={b.peerGroup} className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg hover:bg-[#EFF8FF]/50 transition-colors ${isLowest ? "bg-[#F8FAFC]" : ""}`}>
+                                  <div className="flex items-center gap-2 min-w-0">
+                                    <span className={`w-4 h-4 rounded text-[10px] font-black flex items-center justify-center ${isLowest ? "bg-[#175CD3] text-white" : "bg-[#D1E9FF] text-[#175CD3]"}`}>
+                                      {idx + 1}
+                                    </span>
+                                    <p className="truncate text-[13px] font-bold text-neutral-800" title={b.peerGroup}>
+                                      {b.peerGroup}
+                                    </p>
+                                    {b.etfCount ? <span className="text-[10px] text-neutral-400 font-normal">({b.etfCount})</span> : null}
+                                  </div>
+                                  <span className={`text-[13px] font-black tabular-nums tracking-tight ${changeTone(b.cappedAumWeightedReturnPct)}`}>
+                                    {signed(b.cappedAumWeightedReturnPct)}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
-                      ))}
+                      )}
                     </div>
                   )}
                 </div>

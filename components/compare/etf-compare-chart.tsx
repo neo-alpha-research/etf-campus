@@ -25,17 +25,29 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
 
   const handleDownload = useCallback(() => {
     if (chartRef.current === null) return;
-    toPng(chartRef.current, { cacheBust: true, backgroundColor: '#ffffff' })
+    toPng(chartRef.current, { 
+      cacheBust: true, 
+      backgroundColor: '#ffffff',
+      filter: (node) => {
+        // Exclude elements with 'export-hide' class
+        const className = typeof node?.getAttribute === 'function' ? node.getAttribute('class') || '' : '';
+        if (className.includes('export-hide')) {
+          return false;
+        }
+        return true;
+      }
+    })
       .then((dataUrl) => {
         const link = document.createElement('a');
-        link.download = 'compare-chart.png';
+        const modeText = viewMode === "short" ? "short" : "long";
+        link.download = `etf-compare-${modeText}.png`;
         link.href = dataUrl;
         link.click();
       })
       .catch((err) => {
         console.error('Failed to export chart', err);
       });
-  }, []);
+  }, [viewMode]);
 
   const activePeriods = useMemo(() => {
     if (viewMode === "long") return LONG_PERIODS;
@@ -107,7 +119,7 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
         <div className="flex items-center gap-2">
           <button
             onClick={handleDownload}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors"
+            className="export-hide flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors"
             title="차트를 이미지로 저장"
           >
             <Download size={14} strokeWidth={2.5} />
@@ -275,7 +287,7 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                     />
                     
                     {/* Tooltip */}
-                    <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
+                    <g className="export-hide opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                       <rect 
                         x={barX + barWidth/2 - 60} 
                         y={tooltipY - 30} 

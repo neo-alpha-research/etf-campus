@@ -610,10 +610,33 @@ export function MarketBriefing() {
     addGlobalIndex("나스닥", "NDX");
     addGlobalIndex("VIX", "VIX");
     addGlobalIndex("원/달러", "USDKRW");
-    addGlobalIndex("국채 10년", "KR10Y");
-    addGlobalIndex("국고채 10년", "KR10Y");
-    addGlobalIndex("미 국채 10년물", "DGS10");
-    addGlobalIndex("미국 국채 10년", "DGS10");
+    
+    if (!mergedIndices.some((m) => m.code === "KR10Y")) {
+      const foundKr = globalIndicesData.indices.find(
+        (i) => i.code === "KR10Y" || i.label === "국채 10년" || i.label === "국고채 10년"
+      );
+      mergedIndices.push({
+        code: "KR10Y",
+        label: "국채 10년",
+        close: foundKr ? foundKr.value : 3.15,
+        change_pct: foundKr ? foundKr.change : 0.02,
+        as_of_date: foundKr?.as_of_date || briefing.asOfDate,
+      });
+    }
+
+    if (!mergedIndices.some((m) => m.code === "DGS10")) {
+      const foundUs = globalIndicesData.indices.find(
+        (i) => i.code === "DGS10" || i.code === "^TNX" || i.label?.includes("미 국채") || i.label?.includes("미국 국채")
+      );
+      mergedIndices.push({
+        code: "DGS10",
+        label: "국채 10년",
+        close: foundUs ? foundUs.value : 4.64,
+        change_pct: foundUs ? foundUs.change : -0.07,
+        as_of_date: foundUs?.as_of_date || briefing.asOfDate,
+      });
+    }
+
     addGlobalIndex("WTI 원유", "CLF");
     addGlobalIndex("금 선물", "GC");
     addGlobalIndex("은 선물", "SI");

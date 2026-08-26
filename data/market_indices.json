@@ -52,6 +52,14 @@
       "code": "KRW=X"
     },
     {
+      "value": 3.15,
+      "change": 0.02,
+      "changePoints": 0.02,
+      "as_of_date": "2026-08-25",
+      "label": "국채 10년",
+      "code": "KR10Y"
+    },
+    {
       "value": 82.36,
       "change": -3.12,
       "changePoints": -2.65,

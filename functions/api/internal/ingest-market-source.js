@@ -133,20 +133,20 @@ async function ingestBatch(db, common, etfs) {
   const statements = etfs.map((etf) => db.prepare(
     `INSERT INTO market_source_etf_daily (
        as_of_date, source_version, ticker, etf_name, close_value, change_pct, trade_value,
-       aum_value, risk_type, asset_class, asset_detail, nav_value, disparity_pct, is_general_etf, source_hash, ingested_at
-     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       aum_value, risk_type, asset_class, asset_detail, nav_value, disparity_pct, is_general_etf, source_hash, shares, ingested_at
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(as_of_date, source_version, ticker) DO UPDATE SET
        etf_name=excluded.etf_name, close_value=excluded.close_value, change_pct=excluded.change_pct,
        trade_value=excluded.trade_value, aum_value=excluded.aum_value, risk_type=excluded.risk_type,
        asset_class=excluded.asset_class, asset_detail=excluded.asset_detail,
        nav_value=excluded.nav_value, disparity_pct=excluded.disparity_pct,
-       is_general_etf=excluded.is_general_etf,
+       is_general_etf=excluded.is_general_etf, shares=excluded.shares,
        source_hash=excluded.source_hash, ingested_at=excluded.ingested_at`,
   ).bind(
     common.asOfDate, common.sourceVersion, etf.ticker, etf.name, etf.close, etf.changePct, etf.tradeValue,
     etf.aumValue ?? null, etf.riskType, etf.assetClass ?? null, etf.assetDetail ?? null,
     etf.navValue ?? null, etf.disparityPct ?? null,
-    etf.isGeneralEtf, manifest.etf_source_hash, ingestedAt,
+    etf.isGeneralEtf, manifest.etf_source_hash, etf.shares ?? null, ingestedAt,
   ));
   await db.batch(statements);
   return { status: "collecting", accepted: etfs.length };
@@ -215,9 +215,10 @@ function normalizeEtf(item) {
   const aumValue = item.aumValue == null || item.aumValue === "" ? null : finiteNumber(item.aumValue, 0);
   const navValue = item.navValue == null || item.navValue === "" ? null : finiteNumber(item.navValue, 0);
   const disparityPct = item.disparityPct == null || item.disparityPct === "" ? null : finiteNumber(item.disparityPct);
+  const shares = item.shares == null || item.shares === "" ? null : finiteNumber(item.shares, 0);
   const isGeneralEtf = item.isGeneralEtf === 1 || item.isGeneralEtf === 0 ? item.isGeneralEtf : (riskType === "normal" && !String(assetClass ?? "").includes("금리") && !String(assetClass ?? "").includes("파킹") ? 1 : 0);
   if (!/^[0-9A-Z]{6}$/.test(ticker) || !name || !RISK_TYPES.has(riskType) || close === null || changePct === null || tradeValue === null || aumValue === undefined) return null;
-  return { ticker, name, close, changePct, tradeValue, aumValue, riskType, assetClass, assetDetail, navValue, disparityPct, isGeneralEtf };
+  return { ticker, name, close, changePct, tradeValue, aumValue, riskType, assetClass, assetDetail, navValue, disparityPct, isGeneralEtf, shares };
 }
 
 function normalizeIndex(item) {

@@ -208,12 +208,15 @@ function normalizeEtf(item) {
   const name = String(item.name ?? "").trim();
   const riskType = String(item.riskType ?? "").trim();
   const assetClass = item.assetClass == null || String(item.assetClass).trim() === "" ? null : String(item.assetClass).trim();
+  const assetDetail = item.assetDetail == null || String(item.assetDetail).trim() === "" ? null : String(item.assetDetail).trim();
   const close = finiteNumber(item.close, 0);
   const changePct = finiteNumber(item.changePct);
   const tradeValue = finiteNumber(item.tradeValue, 0);
   const aumValue = item.aumValue == null || item.aumValue === "" ? null : finiteNumber(item.aumValue, 0);
+  const navValue = item.navValue == null || item.navValue === "" ? null : finiteNumber(item.navValue, 0);
+  const disparityPct = item.disparityPct == null || item.disparityPct === "" ? null : finiteNumber(item.disparityPct);
   if (!/^[0-9A-Z]{6}$/.test(ticker) || !name || !RISK_TYPES.has(riskType) || close === null || changePct === null || tradeValue === null || aumValue === undefined) return null;
-  return { ticker, name, close, changePct, tradeValue, aumValue, riskType, assetClass };
+  return { ticker, name, close, changePct, tradeValue, aumValue, riskType, assetClass, assetDetail, navValue, disparityPct };
 }
 
 function normalizeIndex(item) {

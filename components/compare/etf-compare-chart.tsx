@@ -266,9 +266,9 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                     {isWinner && basket.length > 1 && (
                       <text
                         x={barX + barWidth / 2}
-                        y={val >= 0 ? barY - 15 : barY + barH + 20}
+                        y={val >= 0 ? barY - 18 : barY + barH + 23}
                         textAnchor="middle"
-                        style={{ fontSize: '10px' }}
+                        style={{ fontSize: '12px' }}
                       >
                         🏆
                       </text>
@@ -277,11 +277,11 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                     {/* Static Value Label */}
                     <text 
                       x={barX + barWidth / 2} 
-                      y={val >= 0 ? barY - 4 : barY + barH + 10} 
+                      y={val >= 0 ? barY - 6 : barY + barH + 11} 
                       textAnchor="middle" 
                       fill={color}
-                      style={{ fontSize: basket.length > 3 ? '7px' : '8.5px', fontWeight: 700 }}
-                      className="font-sans tracking-tighter opacity-90 transition-all group-hover:opacity-100 group-hover:drop-shadow-sm"
+                      style={{ fontSize: basket.length > 3 ? '8.5px' : '10px', fontWeight: 800, letterSpacing: '-0.5px' }}
+                      className="font-sans opacity-90 transition-all group-hover:opacity-100 group-hover:drop-shadow-sm"
                     >
                       {formatReturn(val).replace("%", "")}
                     </text>
@@ -338,6 +338,17 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
               });
             })}
           </svg>
+        </div>
+      )}
+
+      {/* Export Footer */}
+      {isExporting && (
+        <div className="mt-8 pt-4 border-t border-line flex justify-between items-center text-[10.5px] text-muted font-medium w-full">
+          <div>* 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.</div>
+          <div className="flex items-center gap-1.5">
+            <span className="font-extrabold text-strong">ETF Campus</span>
+            <span>https://etf-campus.pages.dev/</span>
+          </div>
         </div>
       )}
     </div>

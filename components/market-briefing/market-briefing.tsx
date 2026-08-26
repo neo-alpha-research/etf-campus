@@ -585,6 +585,7 @@ export function MarketBriefing() {
   const [isLocalhost, setIsLocalhost] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line
     setIsLocalhost(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
   }, []);
 

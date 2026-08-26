@@ -1451,11 +1451,10 @@ export function MarketBriefing() {
                           <div className="space-y-1">
                             {bottom.map((b, idx) => {
                               const rankNumber = 3 - idx;
-                              const isWorst3 = idx === 0; // Worst 3위 (최대 하락)
                               return (
-                                <div key={b.peerGroup} className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg transition-colors ${isWorst3 ? "bg-[#F0F7FF]/80 font-bold" : "hover:bg-[#EFF8FF]/50"}`}>
+                                <div key={b.peerGroup} className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg hover:bg-[#EFF8FF]/50 transition-colors">
                                   <div className="flex items-center gap-2 min-w-0">
-                                    <span className={`w-4 h-4 rounded text-[10px] font-black flex items-center justify-center ${isWorst3 ? "bg-[#175CD3] text-white shadow-xs" : "bg-[#D1E9FF] text-[#175CD3]"}`}>
+                                    <span className="w-4 h-4 rounded text-[10px] font-black flex items-center justify-center bg-[#D1E9FF] text-[#175CD3]">
                                       {rankNumber}
                                     </span>
                                     <p className="truncate text-[13px] font-bold text-neutral-800" title={b.peerGroup}>

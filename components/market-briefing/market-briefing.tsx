@@ -2,7 +2,6 @@
 
 
 
-import globalIndicesData from "@/data/market_indices.json";
 
 import Link from "next/link";
 
@@ -414,63 +413,15 @@ export function MarketBriefing() {
 
 
   const orderedIndices = useMemo(() => {
-
     if (!briefing) return [];
 
+    const targetCodes = ["KOSPI", "KOSDAQ", "^GSPC", "^IXIC", "KRW=X"];
     
-
-    const mergedIndices = [...briefing.marketIndices];
-
-    
-
-    const addGlobalIndex = (label: string, code: string) => {
-
-      const found = globalIndicesData.indices.find(i => i.label === label || i.label === label.replace(" ", ""));
-
-      if (found && !mergedIndices.some(m => m.code === code)) {
-
-        mergedIndices.push({
-
-          code: code,
-
-          label: label,
-
-          close: found.value,
-
-          change_pct: found.change,
-
-          as_of_date: briefing.asOfDate,
-
-        });
-
-      }
-
-    };
-
-    
-
-    addGlobalIndex("S&P 500", "SPX");
-    addGlobalIndex("나스닥", "NDX");
-    addGlobalIndex("원/달러", "USDKRW");
-
-    const order = ["KOSPI", "KOSDAQ", "SPX", "NDX", "USDKRW"];
-
-    return mergedIndices.sort((a, b) => {
-
-      const idxA = order.indexOf(a.code);
-
-      const idxB = order.indexOf(b.code);
-
-      if (idxA === -1 && idxB === -1) return 0;
-
-      if (idxA === -1) return 1;
-
-      if (idxB === -1) return -1;
-
-      return idxA - idxB;
-
-    });
-
+    return briefing.marketIndices
+      .filter(item => targetCodes.includes(item.code))
+      .sort((a, b) => {
+        return targetCodes.indexOf(a.code) - targetCodes.indexOf(b.code);
+      });
   }, [briefing]);
 
 

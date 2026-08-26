@@ -1079,9 +1079,22 @@ export function MarketBriefing() {
                         일반 가중수익률
                       </span>
                     </div>
-                    <span className="text-[11px] font-medium text-neutral-400">
-                      전체 일반 ETF {number.format(pulse.generalEtfCount)}개 기준
-                    </span>
+                    <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-neutral-50 border border-neutral-200/70 text-[11px] font-medium text-neutral-500">
+                      <span className="hidden sm:inline text-neutral-400">일반</span>
+                      <strong className="font-extrabold text-neutral-800 tabular-nums">
+                        {number.format(pulse.generalEtfCount)}
+                      </strong>
+                      <span className="text-neutral-300">/</span>
+                      <span className="text-[10.5px] text-neutral-400 tabular-nums">
+                        <span className="hidden sm:inline">전체 </span>
+                        {number.format(briefing.marketScale?.totalEtfCount || pulse.generalEtfCount)}개
+                      </span>
+                      <InfoTooltip 
+                        text="시장 왜곡을 방지하기 위해 초단기 파킹형(CD/KOFR) 및 레버리지·인버스 상품을 제외한 실물 일반 ETF만을 정제 집계한 분석 모수입니다."
+                        side="bottom"
+                        align="right"
+                      />
+                    </div>
                   </div>
 
                   {/* 메인 수익률 지표 */}
@@ -1148,59 +1161,43 @@ export function MarketBriefing() {
                 </div>
               </div>
 
-              {/* 2. Concentration (수급 건전성: 일반 vs 전체) */}
+              {/* 2. Concentration (수급 건전성: 순수 일반 ETF 단일 히어로 모델) */}
               <div className="bg-white border border-[#E5E8E2] rounded-[24px] p-6 shadow-[0_4px_16px_rgba(27,38,26,0.03)] flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div>
                   {/* 카드 상단 헤더 */}
                   <div className="flex items-center justify-between pb-3 border-b border-neutral-100">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
                       <span className="text-[13px] font-extrabold text-neutral-800 tracking-tight">수급 건전성</span>
-                      <span className="text-[10px] font-bold text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">
-                        상위 10개 ETF 거래대금 쏠림도
+                      <span className="text-[10px] font-bold text-[#5A7050] bg-[#F4F7EC] px-2 py-0.5 rounded-full border border-[#D7EABB]">
+                        순수 일반 기준
                       </span>
+                      <span className="text-[10.5px] text-neutral-400 tabular-nums hidden sm:inline">
+                        ({number.format(pulse.generalEtfCount)}개 대상)
+                      </span>
+                      <InfoTooltip 
+                        text="레버리지, 인버스, 파킹형(CD/KOFR) 상품을 제외한 순수 실물 주식·채권·섹터 ETF의 상위 10개 거래대금 쏠림도입니다. 왜곡 없는 산업/테마 시장의 실제 수급 건강도를 나타냅니다." 
+                        side="bottom"
+                        align="left"
+                      />
                     </div>
                     <div className={`px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border ${statusBadge.bg} ${statusBadge.text} ${statusBadge.border}`}>
                       {statusBadge.tag}
                     </div>
                   </div>
 
-                  {/* 일반 vs 전체 ETF 비교 듀얼 카드 */}
-                  <div className="my-4 grid grid-cols-2 gap-2 bg-[#F9FBFC] p-3.5 rounded-2xl border border-neutral-100">
-                    <div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-[11px] font-bold text-neutral-700">순수 일반 ETF</span>
-                        <InfoTooltip text="레버리지, 인버스, 파킹형(CD/KOFR) 상품을 제외한 순수 실물 주식·채권·섹터 ETF의 상위 10개 거래대금 쏠림도입니다. 왜곡 없는 산업/테마 시장의 실제 수급 건강도를 나타냅니다." />
-                      </div>
-                      <div className="mt-1 flex items-baseline gap-1">
-                        <span className="text-3xl font-black tabular-nums tracking-tight text-neutral-900">
-                          {decimal.format(pulse.top10TradeSharePct)}
-                        </span>
-                        <span className="text-base font-extrabold text-neutral-400">%</span>
-                      </div>
-                    </div>
-
-                    {pulse.allTop10TradeSharePct ? (
-                      <div className="border-l border-neutral-200 pl-3.5">
-                        <div className="flex items-center gap-1">
-                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF (파킹 포함)</span>
-                          <InfoTooltip text="초단기 금리형 파킹 상품(CD/KOFR) 및 2X 레버리지/인버스를 포함한 전체 시장 거래대금 쏠림도입니다. 단기 대기성 자금과 파생 헤지 거래가 포함되어 상시 높게 나타납니다." />
-                        </div>
-                        <div className="mt-1 flex items-baseline gap-1">
-                          <span className="text-2xl font-extrabold text-neutral-700 tabular-nums">
-                            {decimal.format(pulse.allTop10TradeSharePct)}%
-                          </span>
-                          {pulse.allTop10TradeSharePct > pulse.top10TradeSharePct && (
-                            <span className="text-[11px] font-bold text-rose-500 ml-1">
-                              (+{(pulse.allTop10TradeSharePct - pulse.top10TradeSharePct).toFixed(1)}%p)
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    ) : null}
+                  {/* 단일 히어로 수치 영역 (좌측 시장 체온 카드와 완벽 대칭) */}
+                  <div className="my-5 flex items-baseline gap-2">
+                    <span className="text-4xl font-black tabular-nums tracking-tight text-neutral-900">
+                      {decimal.format(pulse.top10TradeSharePct)}
+                      <span className="text-2xl font-bold text-neutral-400 ml-0.5">%</span>
+                    </span>
+                    <span className="text-xs font-semibold text-neutral-500">
+                      상위 10개 ETF 거래대금 쏠림도
+                    </span>
                   </div>
 
                   {/* 3-Zone 수급 건전성 정밀 게이지 바 */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 pt-1">
                     <div className="flex justify-between text-[11px] font-bold text-neutral-400 px-0.5">
                       <span>0% (완전분산)</span>
                       <span className="text-emerald-700 font-extrabold">양호 (≤45%)</span>
@@ -1239,11 +1236,6 @@ export function MarketBriefing() {
                         : isCaution 
                         ? "상위 10개 종목 비중이 45~60% 구간의 주의(🟡) 상태로, 특정 주도주나 테마를 중심으로 거래가 집중되고 있습니다." 
                         : "상위 10개 종목 비중이 45% 이하인 양호(🟢) 상태로, 시장 전반의 다양한 종목으로 자금이 건강하게 분산되어 있습니다."}
-                      {pulse.allTop10TradeSharePct && pulse.allTop10TradeSharePct - pulse.top10TradeSharePct > 10 ? (
-                        <span className="text-neutral-500 block sm:inline mt-0.5 sm:mt-0">
-                          {" "}(레버리지·파킹형 제외 시 순수 실물 ETF의 쏠림 왜곡이 완화됩니다.)
-                        </span>
-                      ) : null}
                     </p>
                   </div>
                 </div>

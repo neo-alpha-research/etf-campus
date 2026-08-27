@@ -42,8 +42,8 @@ export function StyleChip() {
   }
 
   const stored = parseStoredDiagnosis(raw);
-  const completed = stored?.status === "completed";
-  const profile = completed ? STYLE_PROFILES[stored.style] : null;
+  const completedDiagnosis = stored?.status === "completed" ? stored : null;
+  const profile = completedDiagnosis ? STYLE_PROFILES[completedDiagnosis.style] : null;
 
   return (
     <button
@@ -57,7 +57,7 @@ export function StyleChip() {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[10px] font-extrabold tracking-[0.04em] text-brand-700">
-          {profile ? (stored?.prescription ? "내 ETF 투자 스타일" : "내 동물 확인 (처방 대기)") : "약 3분 · 13문항"}
+          {profile ? (completedDiagnosis?.prescription ? "내 ETF 투자 스타일" : "내 동물 확인 (처방 대기)") : "약 3분 · 13문항"}
         </span>
         <span className="block truncate text-xs font-extrabold sm:text-sm">
           {profile ? `${profile.animal} 유형` : "투자 스타일 점검"}

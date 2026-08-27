@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { Check, ExternalLink, Sparkles, Clock, ArrowRight, RotateCcw } from "lucide-react";
+import { ExternalLink, Sparkles, Clock, ArrowRight, RotateCcw, Check } from "lucide-react";
 
 import { Tickery } from "@/components/brand/tickery";
 import {
@@ -110,14 +110,9 @@ export function StyleOnboarding() {
   const [pStep, setPStep] = useState(0);
   const [pAnswers, setPAnswers] = useState<Partial<PrescriptionAnswers>>({});
   
-  // Stats and Newsletter
+  // Stats
   const [rarityShare, setRarityShare] = useState<number | null>(null);
   const [totalStatsCount, setTotalStatsCount] = useState<number>(0);
-  const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterAgreed, setNewsletterAgreed] = useState(true);
-  const [newsletterSubmitting, setNewsletterSubmitting] = useState(false);
-  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
-  const [newsletterError, setNewsletterError] = useState<string | null>(null);
 
   const rawStored = useSyncExternalStore(
     (notify) => {
@@ -251,31 +246,6 @@ export function StyleOnboarding() {
     setScreen("result");
     window.dispatchEvent(new Event(STYLE_CHANGE_EVENT));
     recordDiagnosisStats(updated);
-  };
-
-  const handleSubscribeNewsletter = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail || !newsletterAgreed) return;
-    setNewsletterSubmitting(true);
-    setNewsletterError(null);
-
-    try {
-      const res = await fetch("/api/newsletter/subscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: newsletterEmail, agreeRequired: newsletterAgreed }),
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        setNewsletterSuccess(true);
-      } else {
-        setNewsletterError(data.error?.message || "신청 처리 중 오류가 발생했습니다.");
-      }
-    } catch {
-      setNewsletterError("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-    } finally {
-      setNewsletterSubmitting(false);
-    }
   };
 
   if (!open) return null;
@@ -707,60 +677,47 @@ export function StyleOnboarding() {
                         <div>
                           <div className="flex items-center gap-1.5 text-xs font-bold text-amber-800">
                             <Clock className="h-3.5 w-3.5" />
-                            <span>출간 준비 중 (원고 완성 및 검수 완료)</span>
+                            <span>{primaryBook.shortTitle} (출간 준비 중 · 원고 검수 완료)</span>
                           </div>
-                          <p className="mt-1 text-xs text-neutral-600">
-                            출간 즉시 알림을 받고 30일 목차를 미리 확인해 보세요.
+                          <p className="mt-1 text-xs text-neutral-600 leading-relaxed">
+                            {primaryBook.slug === "index-asset-allocation"
+                              ? "원고 검수가 진행 중입니다. 지금 바로 캠퍼스 탐색기에서 내 연금 계좌의 자산배분 ETF를 직접 찾아보세요."
+                              : "원고 검수가 진행 중입니다. 지금 바로 스크리너에서 월배당·고배당 ETF 현금흐름 종목을 비교해 보세요."}
                           </p>
 
-                          {newsletterSuccess ? (
-                            <div className="mt-3 flex items-center gap-2 rounded-xl bg-emerald-50 p-3 text-xs font-extrabold text-emerald-800 border border-emerald-200">
-                              <Check className="h-4 w-4 text-emerald-600" />
-                              출간 알림 신청이 완료되었습니다!
-                            </div>
-                          ) : (
-                            <form className="mt-3 space-y-2" onSubmit={handleSubscribeNewsletter}>
-                              <div className="flex gap-2">
-                                <input
-                                  className="flex-1 rounded-xl border border-line bg-surface px-3 py-2 text-xs placeholder:text-muted focus:border-brand-500 focus:outline-none"
-                                  disabled={newsletterSubmitting}
-                                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                                  placeholder="알림 받을 이메일 주소"
-                                  required
-                                  type="email"
-                                  value={newsletterEmail}
-                                />
-                                <button
-                                  className="rounded-xl bg-brand-700 px-4 py-2 text-xs font-extrabold text-white disabled:opacity-50"
-                                  disabled={newsletterSubmitting}
-                                  type="submit"
-                                >
-                                  {newsletterSubmitting ? "신청 중..." : "출간 알림"}
-                                </button>
-                              </div>
-                              <label className="flex items-center gap-2 text-[11px] text-muted">
-                                <input
-                                  checked={newsletterAgreed}
-                                  disabled={newsletterSubmitting}
-                                  onChange={(e) => setNewsletterAgreed(e.target.checked)}
-                                  required
-                                  type="checkbox"
-                                />
-                                <span>이용약관 및 개인정보 처리방침 동의 (필수)</span>
-                              </label>
-                              {newsletterError ? (
-                                <p className="text-[11px] font-bold text-rose-600">{newsletterError}</p>
-                              ) : null}
-                            </form>
-                          )}
-
-                          <div className="mt-3">
+                          <div className="mt-3.5 flex flex-wrap items-center gap-2.5">
+                            {primaryBook.slug === "index-asset-allocation" ? (
+                              <Link
+                                className="inline-flex min-h-[42px] items-center gap-1.5 rounded-xl bg-brand-700 px-4 py-2 text-xs font-extrabold text-white shadow-xs transition-colors hover:bg-brand-800"
+                                href="/quick?mode=pension"
+                                onClick={() => setOpenIntent(false)}
+                              >
+                                <span>내 연금 계좌 ETF 바로 찾기</span>
+                                <ArrowRight className="h-3.5 w-3.5" />
+                              </Link>
+                            ) : (
+                              <Link
+                                className="inline-flex min-h-[42px] items-center gap-1.5 rounded-xl bg-brand-700 px-4 py-2 text-xs font-extrabold text-white shadow-xs transition-colors hover:bg-brand-800"
+                                href="/screener"
+                                onClick={() => setOpenIntent(false)}
+                              >
+                                <span>배당·현금흐름 ETF 바로 찾기</span>
+                                <ArrowRight className="h-3.5 w-3.5" />
+                              </Link>
+                            )}
                             <Link
-                              className="inline-flex min-h-[36px] items-center text-xs font-bold text-brand-800 underline-offset-4 hover:underline"
+                              className="inline-flex min-h-[42px] items-center gap-1 rounded-xl border border-brand-300 bg-brand-50 px-3.5 py-2 text-xs font-extrabold text-brand-800 hover:bg-brand-100"
+                              href="/books/momentum-etf-system"
+                              onClick={() => setOpenIntent(false)}
+                            >
+                              <span>출간된 ① 모멘텀 전자책 보기</span>
+                            </Link>
+                            <Link
+                              className="inline-flex min-h-[42px] items-center text-xs font-bold text-muted underline-offset-4 hover:text-strong hover:underline"
                               href={`/books/${primaryBook.slug}`}
                               onClick={() => setOpenIntent(false)}
                             >
-                              30일 목차 미리보기 →
+                              {primaryBook.shortTitle} 30일 목차 보기 →
                             </Link>
                           </div>
                         </div>

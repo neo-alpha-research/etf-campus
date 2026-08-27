@@ -49,12 +49,12 @@ export function StyleChip() {
     <button
       aria-label={
         profile
-          ? `ETF 투자 스타일: ${profile.name} (클릭하여 결과 보기 및 다시 진단)`
-          : "ETF 투자 스타일 점검 시작하기"
+          ? `ETF 캠퍼스 전공: ${profile.name} (클릭하여 결과 보기 및 다시 진단)`
+          : "ETF 전공 적성 점검 시작하기"
       }
       className="group inline-flex min-h-11 w-auto max-w-[14rem] sm:max-w-[16rem] shrink items-center gap-2.5 rounded-full border border-brand-200 bg-brand-50/90 px-3 py-1.5 text-left text-brand-900 transition-all hover:border-brand-400 hover:bg-brand-100 hover:shadow-sm"
       onClick={() => window.dispatchEvent(new CustomEvent(STYLE_CHANGE_EVENT, { detail: { open: true } }))}
-      title={profile ? `${profile.name} - 클릭하여 결과 확인 및 다시 진단` : "ETF 투자 스타일 점검 시작하기"}
+      title={profile ? `${profile.name} - 클릭하여 결과 확인 및 다시 진단` : "ETF 전공 적성 점검 시작하기"}
       type="button"
     >
       <span
@@ -71,12 +71,12 @@ export function StyleChip() {
         <span className="block text-[10px] font-extrabold tracking-[0.04em] text-brand-700">
           {profile
             ? completedDiagnosis?.prescription
-              ? "나의 투자 진단 리포트"
+              ? "나의 전공 적성 리포트"
               : "내 동물 확인 (처방 대기)"
             : "약 3분 · 13문항"}
         </span>
         <span className="block truncate text-xs font-extrabold sm:text-sm text-strong">
-          {profile ? profile.name : "투자 스타일 점검"}
+          {profile ? profile.name : "추천 전공 알아보기"}
         </span>
       </span>
       <span

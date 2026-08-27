@@ -294,7 +294,7 @@ export function StyleOnboarding() {
           <div className="pb-2 pt-1 text-center">
             <Tickery className="mx-auto h-20 w-20" pose="welcome" priority sizes="80px" />
             <p className="mt-2 text-sm font-extrabold text-brand-700">약 3분 · 13문항 (10문항 + 처방 3문항) · 정답 없음</p>
-            <h2 className="mt-1.5 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">나의 ETF 투자 스타일 점검</h2>
+            <h2 className="mt-1.5 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">나의 ETF 전공 적성 검사</h2>
             <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-muted sm:text-base">
               ETF를 고르고 운용할 때 내가 어떤 기준을 먼저 보는지 확인해 보세요. 10가지 동물 유형과 함께, 내 계좌의 결손을 채워줄 3편 시리즈 시작점을 처방해 드립니다.
             </p>
@@ -517,7 +517,7 @@ export function StyleOnboarding() {
                 )}
               </div>
 
-              <p className="mt-3 text-xs font-extrabold tracking-[0.08em] text-brand-700">나의 ETF 투자 스타일</p>
+              <p className="mt-3 text-xs font-extrabold tracking-[0.08em] text-brand-700">나의 ETF 전공 적성</p>
               <h2 className="mt-1.5 text-3xl font-extrabold tracking-[-0.04em] sm:text-4xl">{profile.name}</h2>
               <p className="mt-2 text-sm font-bold text-brand-800">{profile.tagline}</p>
 

@@ -22,14 +22,25 @@ function toKstDate(date = new Date()) {
   }).format(date);
 }
 
-function dateDiffInDays(olderDate, newerDate) {
-  const older = Date.parse(`${olderDate}T00:00:00Z`);
-  const newer = Date.parse(`${newerDate}T00:00:00Z`);
-  return Math.max(0, Math.round((newer - older) / 86_400_000));
+function getBusinessDaysDiff(startDateStr, endDateStr) {
+  let start = new Date(startDateStr + "T00:00:00Z");
+  let end = new Date(endDateStr + "T00:00:00Z");
+  if (start >= end) return 0;
+  
+  let days = 0;
+  while (start < end) {
+    start.setUTCDate(start.getUTCDate() + 1);
+    const day = start.getUTCDay();
+    // 0 is Sunday, 6 is Saturday
+    if (day !== 0 && day !== 6) {
+      days++;
+    }
+  }
+  return days;
 }
 
 function toResponsePayload(briefing, assetClasses, focusEtfs) {
-  const staleDays = dateDiffInDays(briefing.as_of_date, toKstDate());
+  const staleDays = getBusinessDaysDiff(briefing.as_of_date, toKstDate());
   const metrics = parseJson(briefing.metrics_json, {});
 
   return {
@@ -38,7 +49,7 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
       publicationVersion: briefing.publication_version,
       publishedAt: briefing.published_at,
       updatedAt: briefing.updated_at,
-      isStale: staleDays > 1,
+      isStale: staleDays >= 3,
       staleDays,
       headline: {
         text: briefing.headline_text,
@@ -65,6 +76,14 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         top10TradeSharePct: briefing.top10_trade_share_pct,
         allTop10TradeSharePct: briefing.all_top10_trade_share_pct ?? metrics.etf_pulse?.all_top10_trade_share_pct ?? metrics.all_top10_trade_share_pct ?? null,
       },
+      marketScale: metrics.market_scale ?? {
+        totalEtfCount: metrics.pulse?.totalEtfCount ?? 1164,
+        generalEtfCount: briefing.general_etf_count,
+        totalAum: briefing.general_total_aum,
+        totalTradeValue: briefing.general_total_trade_value,
+      },
+      weeklyFundFlows: metrics.weekly_fund_flows ?? metrics.weeklyFundFlows ?? [],
+      monthlyFundFlows: metrics.monthly_fund_flows ?? metrics.monthlyFundFlows ?? [],
       assetClasses: assetClasses.results ?? [],
       peerGroupVersion: metrics.peer_group_version ?? null,
       peerGroups: metrics.peer_groups ?? metrics.peerGroups ?? [],

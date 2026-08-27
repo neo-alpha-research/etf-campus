@@ -35,7 +35,7 @@ export async function onRequestGet(context) {
   if (cursor && !DATE_PATTERN.test(cursor)) {
     return Response.json(
       { message: "cursor는 YYYY-MM-DD 형식이어야 합니다." },
-      { status: 400, headers: { ...JSON_HEADERS, "cache-control": "no-store" } },
+      { status: 400, headers: { ...JSON_HEADERS, "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" } },
     );
   }
 
@@ -45,8 +45,7 @@ export async function onRequestGet(context) {
       market_temperature, general_aum_weighted_return_pct,
       top100_aum_weighted_return_pct, breadth_ratio_pct, general_etf_count
     FROM market_briefings
-    WHERE status = 'ready'
-      AND (? IS NULL OR as_of_date < ?)
+    WHERE (? IS NULL OR as_of_date < ?)
     ORDER BY as_of_date DESC
     LIMIT ?`,
   );

@@ -179,6 +179,7 @@ export function useMarketBriefing({
       revalidateOnFocus,
       refreshInterval: revalidateIntervalMs,
       shouldRetryOnError: false,
+      keepPreviousData: true,
     }
   );
 

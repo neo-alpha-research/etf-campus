@@ -684,7 +684,7 @@ export function MarketBriefing() {
 
 
 
-  if (isLoading) return <Skeleton />;
+  if (isLoading && !briefing) return <Skeleton />;
 
   if (!briefing) return <ErrorState message={error ?? "검증된 브리핑이 아직 없습니다."} />;
 
@@ -2226,7 +2226,10 @@ export function MarketBriefing() {
       <div id="briefing-history-section" className="scroll-mt-20">
         <MarketBriefingHistory
           activeDate={briefing.asOfDate}
-          onSelectDate={(date) => setSelectedDate(date)}
+          onSelectDate={(date) => {
+            setSelectedDate(date);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         />
       </div>
 

@@ -66,38 +66,37 @@ export function SiteHeader() {
 
   return (
     <header className="relative border-b border-line bg-surface/95 shadow-[0_1px_0_rgba(23,32,30,0.03)]">
-      <div className="page-shell flex min-h-16 items-center">
-        {/* Left: Logo */}
-        <div className="flex flex-1 items-center">
+      <div className="page-shell flex min-h-16 items-center justify-between gap-4">
+        {/* Left: Logo & Menus */}
+        <div className="flex items-center gap-4 lg:gap-8 min-w-0">
           <Link className="flex shrink-0 items-center gap-2 text-lg font-extrabold tracking-[-0.03em] text-brand-800" href="/">
-            <span aria-hidden="true" className="grid size-10 overflow-hidden rounded-full border border-brand-200 bg-brand-50">
+            <span aria-hidden="true" className="grid size-10 shrink-0 overflow-hidden rounded-full border border-brand-200 bg-brand-50">
               <Tickery className="size-10 scale-125" pose="welcome" priority sizes="40px" />
             </span>
-            <span>{siteConfig.name}</span>
+            <span className="shrink-0">{siteConfig.name}</span>
           </Link>
+
+          <nav aria-label="주요 메뉴" className="hidden items-center gap-1 rounded-xl bg-neutral-50 p-1 text-sm font-bold lg:flex shrink-0">
+            {navigation.map((item) => {
+              const className = `inline-flex min-h-11 items-center rounded-lg px-3 py-2.5 transition-all whitespace-nowrap ${
+                isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted hover:bg-surface hover:text-strong"
+              }`;
+              return (
+                <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={className} href={item.href} key={item.href}>
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
 
-        {/* Center: Menus (shifted left by 10px) */}
-        <nav aria-label="주요 메뉴" className="hidden items-center gap-1 relative right-2.5 rounded-xl bg-neutral-50 p-1 text-sm font-bold md:flex">
-          {navigation.map((item) => {
-            const className = `inline-flex min-h-11 items-center rounded-lg px-3.5 py-2.5 transition-all ${
-              isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted hover:bg-surface hover:text-strong"
-            }`;
-            return (
-              <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={className} href={item.href} key={item.href}>
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-
         {/* Right: StyleChip & AuthNav */}
-        <div className="flex flex-1 items-center justify-end gap-2.5">
+        <div className="flex items-center justify-end gap-2.5 shrink-0">
           <StyleChip />
           <AuthNav />
         </div>
       </div>
-      <nav aria-label="모바일 주요 메뉴" className="scrollbar-none flex gap-2 overflow-x-auto border-t border-line bg-neutral-50 px-5 py-2.5 text-sm font-bold md:hidden">
+      <nav aria-label="모바일 주요 메뉴" className="scrollbar-none flex gap-2 overflow-x-auto border-t border-line bg-neutral-50 px-5 py-2.5 text-sm font-bold lg:hidden">
         {navigation.map((item) => (
           <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-lg px-3 py-2 ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted"}`} href={item.href} key={item.href}>{item.label}</Link>
         ))}

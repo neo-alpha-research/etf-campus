@@ -28,7 +28,7 @@ export function StyleChip() {
     return (
       <div
         aria-hidden="true"
-        className="inline-flex h-11 w-44 sm:w-56 items-center gap-2.5 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 opacity-60"
+        className="inline-flex h-11 w-auto max-w-[14rem] sm:max-w-[16rem] shrink items-center gap-2.5 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 opacity-60"
       >
         <span className="grid size-8 shrink-0 place-items-center rounded-full border border-neutral-200 bg-white text-base text-neutral-400 shadow-2xs">
           🧭
@@ -52,7 +52,7 @@ export function StyleChip() {
           ? `ETF 투자 스타일: ${profile.name} (클릭하여 결과 보기 및 다시 진단)`
           : "ETF 투자 스타일 점검 시작하기"
       }
-      className="group inline-flex min-h-11 w-44 sm:w-56 items-center gap-2.5 rounded-full border border-brand-200 bg-brand-50/90 px-3 py-1.5 text-left text-brand-900 transition-all hover:border-brand-400 hover:bg-brand-100 hover:shadow-sm"
+      className="group inline-flex min-h-11 w-auto max-w-[14rem] sm:max-w-[16rem] shrink items-center gap-2.5 rounded-full border border-brand-200 bg-brand-50/90 px-3 py-1.5 text-left text-brand-900 transition-all hover:border-brand-400 hover:bg-brand-100 hover:shadow-sm"
       onClick={() => window.dispatchEvent(new CustomEvent(STYLE_CHANGE_EVENT, { detail: { open: true } }))}
       title={profile ? `${profile.name} - 클릭하여 결과 확인 및 다시 진단` : "ETF 투자 스타일 점검 시작하기"}
       type="button"
@@ -67,7 +67,7 @@ export function StyleChip() {
         <span className="block text-[10px] font-extrabold tracking-[0.04em] text-brand-700">
           {profile
             ? completedDiagnosis?.prescription
-              ? "내 ETF 투자 스타일"
+              ? "나의 투자 진단 리포트"
               : "내 동물 확인 (처방 대기)"
             : "약 3분 · 13문항"}
         </span>

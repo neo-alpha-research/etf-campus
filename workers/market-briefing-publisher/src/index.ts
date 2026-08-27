@@ -1,5 +1,6 @@
 import { warmLatestBriefingCache } from "./publication-cache";
 import { materializeMarketSnapshot, type MarketSnapshotReadyEvent } from "./source-materializer";
+import { ETF_TAXONOMY_MAP } from "./taxonomy-map";
 
 export interface Env {
   ETF_PRICES: D1Database;
@@ -269,8 +270,8 @@ function calculateDisparityWarning(quotes: any[]): any {
   return warnings.sort((a, b) => Math.abs(b.disparityPct) - Math.abs(a.disparityPct));
 }
 
-function calculateFundFlow(quotes: any[], previousQuotes: any[]): any {
-  const prevMap = new Map(previousQuotes.map(q => [q.ticker, q]));
+function calculateFundFlow(quotes: any[], previousQuotes: any[] = []): any {
+  const prevMap = new Map((previousQuotes || []).map(q => [q.ticker, q]));
   const allResults = [];
   const generalResults = [];
   
@@ -574,7 +575,15 @@ async function loadSnapshots(db: D1Database, asOfDate: string): Promise<{ quotes
       .bind(asOfDate)
       .all<IndexSnapshot>(),
   ]);
-  return { quotes: etfs.results ?? [], indices: indices.results ?? [] };
+  const quotes = (etfs.results ?? []).map((q) => {
+    const tax = ETF_TAXONOMY_MAP[q.ticker];
+    return {
+      ...q,
+      asset_class: tax?.assetClass || q.asset_class,
+      asset_detail: tax?.peerGroup || q.asset_detail,
+    };
+  });
+  return { quotes, indices: indices.results ?? [] };
 }
 
 async function publishSnapshot(
@@ -761,6 +770,68 @@ async function publishReadyBriefing(env: Env, triggerType: "scheduled" | "manual
   }
 }
 
+async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any> {
+  const { quotes, indices } = await loadSnapshots(env.ETF_PRICES, asOfDate);
+  if (!quotes.length) throw new Error(`No quotes found in briefing_etf_daily for ${asOfDate}`);
+
+  // Fetch previous date quotes for fundFlow
+  const prevDateRow = await env.ETF_PRICES
+    .prepare(`SELECT DISTINCT as_of_date FROM briefing_etf_daily WHERE as_of_date < ? ORDER BY as_of_date DESC LIMIT 1`)
+    .bind(asOfDate)
+    .first<{ as_of_date: string }>();
+
+  let previousQuotes: any[] = [];
+  if (prevDateRow?.as_of_date) {
+    const prevRes = await env.ETF_PRICES
+      .prepare(`SELECT ticker, etf_name, aum_value, nav_value, is_general_etf FROM briefing_etf_daily WHERE as_of_date = ?`)
+      .bind(prevDateRow.as_of_date)
+      .all();
+    previousQuotes = prevRes.results || [];
+  }
+
+  const flatThreshold = Number(env.FLAT_THRESHOLD_PCT || "0.01");
+  const pulse = calculatePulse(quotes, flatThreshold);
+  const aumWeightedReturns = calculateAumWeightedReturns(quotes);
+  const assetClasses = calculateAssetClasses(quotes, flatThreshold);
+  const peerGroups = calculatePeerGroups(quotes);
+  const fundFlow = calculateFundFlow(quotes, previousQuotes);
+  const disparityWarning = calculateDisparityWarning(quotes);
+  const periodicFlows = await calculatePeriodicFundFlows(env.ETF_PRICES, quotes, asOfDate);
+  const marketScale = calculateMarketScale(quotes);
+
+  const metrics = {
+    pulse,
+    aum_weighted_returns: aumWeightedReturns,
+    asset_classes: assetClasses,
+    peer_groups: peerGroups,
+    fund_flow: fundFlow,
+    disparity_warning: disparityWarning,
+    weekly_fund_flows: periodicFlows.weeklyFundFlows,
+    monthly_fund_flows: periodicFlows.monthlyFundFlows,
+    market_scale: marketScale,
+  };
+
+  const metricsJson = JSON.stringify(metrics);
+
+  await env.ETF_PRICES
+    .prepare(`UPDATE market_briefings SET metrics_json = ?, updated_at = ? WHERE as_of_date = ?`)
+    .bind(metricsJson, nowIso(), asOfDate)
+    .run();
+
+  await warmLatestBriefingCache(env, asOfDate);
+
+  return {
+    asOfDate,
+    peerGroupsCount: peerGroups.length,
+    peerGroupsByClass: peerGroups.reduce((acc: any, p: any) => {
+      acc[p.assetClass] = (acc[p.assetClass] || 0) + 1;
+      return acc;
+    }, {}),
+    peerGroups: peerGroups.map((p: any) => `${p.assetClass}::${p.peerGroup} (${p.etfCount}개, ${p.cappedAumWeightedReturnPct}%)`),
+    weeklyInflowsCount: periodicFlows.weeklyFundFlows.topInflows.length,
+  };
+}
+
 export default {
   async queue(batch: MessageBatch<MarketSnapshotReadyEvent>, env: Env): Promise<void> {
     for (const message of batch.messages) {
@@ -782,8 +853,6 @@ export default {
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
-    // Daily reconciliation is a safety net for a manually repaired D1 snapshot;
-    // ordinary publication is driven by the Queue consumer above.
     ctx.waitUntil((async () => {
       const result = await publishReadyBriefing(env, "scheduled", scheduleSlot(controller.scheduledTime));
       if (result.status === "failed") controller.noRetry();
@@ -792,6 +861,15 @@ export default {
 
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname === "/internal/republish" || url.pathname === "/api/republish") {
+      const targetDate = url.searchParams.get("date") || "2026-08-26";
+      try {
+        const result = await recomputeAndSaveBriefing(env, targetDate);
+        return Response.json({ success: true, result });
+      } catch (err) {
+        return Response.json({ success: false, error: String(err) }, { status: 500 });
+      }
+    }
     if (request.method === "POST" && url.pathname === "/internal/publish") {
       const token = request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "");
       if (!env.MANUAL_RUN_TOKEN || token !== env.MANUAL_RUN_TOKEN) return new Response("Unauthorized", { status: 401 });

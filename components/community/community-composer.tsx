@@ -2,9 +2,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
 import { clearCommunityDraft, communityFetch, getCommunitySession, loadCommunityDraft, refreshCommunitySession, saveCommunityDraft } from "@/lib/community/browser-client";
+import { convertImageToWebp } from "@/lib/community/image-upload";
 
 const categories = [
   { slug: "pension-etf-qna", name: "연금 ETF Q&A" },
@@ -59,9 +60,11 @@ export function CommunityComposer() {
   const [signedIn, setSignedIn] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [message, setMessage] = useState("");
   const [draftRestored, setDraftRestored] = useState(false);
   const [draftReady, setDraftReady] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const template = useMemo(() => WRITING_TEMPLATES[categorySlug], [categorySlug]);
 
   useEffect(() => {
@@ -112,20 +115,100 @@ export function CommunityComposer() {
     applyTemplate(categorySlug, true);
   }
 
+  async function handleImageFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      if (!getCommunitySession() && !(await refreshCommunitySession())) {
+        setMessage("이미지를 업로드하려면 먼저 이메일 인증이 필요합니다.");
+        setAuthOpen(true);
+        return;
+      }
+    }
+    setUploadingImage(true);
+    setMessage("");
+    try {
+      const webpBlob = await convertImageToWebp(file);
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64data = reader.result as string;
+          const imageMarkdown = `\n\n![이미지](${base64data})\n\n`;
+          setBodyText((prev) => prev + imageMarkdown);
+          setMessage("이미지가 본문에 추가되었습니다 (로컬 미리보기).");
+        };
+        reader.readAsDataURL(webpBlob);
+        setUploadingImage(false);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("file", webpBlob, `${crypto.randomUUID()}.webp`);
+
+      const response = await fetch("/api/community/images/upload", {
+        method: "POST",
+        body: formData,
+        credentials: "same-origin",
+      });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error?.message ?? "이미지 업로드에 실패했습니다.");
+      }
+      const data = await response.json();
+      const imageMarkdown = `\n\n![이미지](${data.url})\n\n`;
+      setBodyText((prev) => prev + imageMarkdown);
+      setMessage("이미지가 본문에 추가되었습니다.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "이미지 업로드 처리에 실패했습니다.");
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  }
+
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (isWritingTemplate(bodyText)) {
       setMessage("템플릿의 안내 문구를 실제 확인 내용과 질문으로 바꾼 뒤 등록해 주세요.");
       return;
     }
-    if (!getCommunitySession() && !(await refreshCommunitySession())) {
-      setMessage("작성 중인 초안을 보관했습니다. 이메일 인증 후 이어서 작성할 수 있습니다.");
-      setAuthOpen(true);
-      return;
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      if (!getCommunitySession() && !(await refreshCommunitySession())) {
+        setMessage("작성 중인 초안을 보관했습니다. 이메일 인증 후 이어서 작성할 수 있습니다.");
+        setAuthOpen(true);
+        return;
+      }
     }
     setLoading(true);
     setMessage("");
     try {
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        const newSlug = `local-${Date.now()}`;
+        const newPost = {
+          slug: newSlug,
+          title,
+          bodyText,
+          category: {
+            slug: categorySlug,
+            name: categories.find((c) => c.slug === categorySlug)?.name || "게시판",
+          },
+          authorNickname: "테스트작성자",
+          createdAt: new Date().toISOString(),
+          commentCount: 0,
+          upvoteCount: 1,
+        };
+        try {
+          const stored = localStorage.getItem("etf-campus:local-posts");
+          const list = stored ? JSON.parse(stored) : [];
+          list.unshift(newPost);
+          localStorage.setItem("etf-campus:local-posts", JSON.stringify(list));
+        } catch {}
+        clearCommunityDraft();
+        window.location.assign(`/community/read/?slug=${encodeURIComponent(newSlug)}`);
+        return;
+      }
+
       const result = await communityFetch("/api/community/posts", {
         method: "POST",
         body: JSON.stringify({ categorySlug, title, bodyText }),
@@ -162,9 +245,29 @@ export function CommunityComposer() {
           <label className="block text-sm font-bold text-slate-800">제목
             <input value={title} onChange={(event) => setTitle(event.target.value)} minLength={2} maxLength={120} required className="mt-2 w-full rounded-xl border border-slate-300 px-3 py-3 text-base outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder={template.titlePlaceholder} />
           </label>
-          <label className="block text-sm font-bold text-slate-800">본문
-            <textarea value={bodyText} onChange={(event) => setBodyText(event.target.value)} minLength={2} maxLength={6000} required rows={14} className="mt-2 w-full resize-y rounded-xl border border-slate-300 p-3 text-base leading-7 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder={template.hint} />
-          </label>
+          <div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="community-body-textarea" className="block text-sm font-bold text-slate-800">본문</label>
+              <div className="flex items-center gap-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  className="hidden"
+                  onChange={handleImageFileSelect}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingImage}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:border-brand-300 hover:text-brand-800 disabled:cursor-not-allowed disabled:text-slate-400"
+                >
+                  <span>{uploadingImage ? "이미지 변환 및 업로드 중..." : "📷 이미지 첨부 (최대 20MB)"}</span>
+                </button>
+              </div>
+            </div>
+            <textarea id="community-body-textarea" value={bodyText} onChange={(event) => setBodyText(event.target.value)} minLength={2} maxLength={6000} required rows={14} className="mt-2 w-full resize-y rounded-xl border border-slate-300 p-3 text-base leading-7 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" placeholder={template.hint} />
+          </div>
           <p className="text-xs leading-5 text-slate-500">템플릿은 작성 순서를 돕기 위한 안내입니다. 실제 확인한 자료와 질문을 작성한 뒤 등록해 주세요.</p>
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><Link href="/community/" className="rounded-xl border border-slate-300 px-4 py-3 text-center text-sm font-bold text-slate-700">취소</Link><button disabled={loading} className="rounded-xl bg-brand-700 px-5 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "저장 중" : signedIn ? "게시물 등록" : "로그인 후 등록"}</button></div>
         </form>

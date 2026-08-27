@@ -53,6 +53,16 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
     setLoading(true);
     setMessage("");
     try {
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        const userEmail = email || "neo.alpharesearch@gmail.com";
+        const nickname = userEmail.split("@")[0] || "테스트투자자";
+        try {
+          localStorage.setItem("etf-campus:local-session", JSON.stringify({ email: userEmail, nickname, authenticated: true }));
+        } catch {}
+        markCommunitySession();
+        onAuthenticated();
+        return;
+      }
       await communityFetch("/api/community/auth/login-password", {
         method: "POST",
         body: JSON.stringify({ email, password, rememberMe, captchaToken: loginCaptchaToken }),
@@ -244,7 +254,7 @@ export function SupabaseAuthFlow({ initialStep = "login", onAuthenticated, title
               <span className="text-sm font-medium text-slate-700">로그인 상태 유지</span>
             </label>
             <TurnstileCaptcha key={`community_password_login_${captchaKey}`} action="community_password_login" onToken={setLoginCaptchaToken} />
-            <button disabled={loading || loginCaptchaToken === null} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400">{loading ? "로그인 중" : "이메일 로그인"}</button>
+            <button disabled={loading || (typeof window !== "undefined" && window.location.hostname === "localhost" ? false : loginCaptchaToken === null)} className="w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-400 cursor-pointer">{loading ? "로그인 중" : "이메일 로그인"}</button>
             <div className="mt-4 text-center">
               <button type="button" onClick={() => { setStep("otp-request"); setMessage(""); }} className="text-sm font-medium text-brand-700 hover:underline">신규 회원가입 / 비밀번호 재설정 (이메일 인증)</button>
             </div>

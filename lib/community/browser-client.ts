@@ -26,22 +26,40 @@ export function markCommunitySession() {
 export function clearCommunitySession() {
   authenticated = false;
   csrfToken = null;
+  browserStorage()?.removeItem("etf-campus:local-session");
 }
 
 function acceptCsrf(response: Response) {
-  const token = response.headers.get("X-Community-CSRF");
+  const token = response.headers?.get ? response.headers.get("X-Community-CSRF") : null;
   if (token) csrfToken = token;
 }
 
 export async function refreshCommunitySession() {
-  const response = await fetch("/api/community/auth/session", { credentials: "same-origin", headers: { Accept: "application/json" } });
-  acceptCsrf(response);
-  if (!response.ok) {
+  try {
+    const response = await fetch("/api/community/auth/session", { credentials: "same-origin", headers: { Accept: "application/json" } });
+    acceptCsrf(response);
+    if (!response.ok) {
+      const local = browserStorage()?.getItem("etf-campus:local-session");
+      if (local && typeof window !== "undefined" && window.location.hostname === "localhost") {
+        authenticated = true;
+        csrfToken = "local-dev-csrf-token";
+        return true;
+      }
+      clearCommunitySession();
+      return false;
+    }
+    authenticated = true;
+    return true;
+  } catch {
+    const local = browserStorage()?.getItem("etf-campus:local-session");
+    if (local && typeof window !== "undefined" && window.location.hostname === "localhost") {
+      authenticated = true;
+      csrfToken = "local-dev-csrf-token";
+      return true;
+    }
     clearCommunitySession();
     return false;
   }
-  authenticated = true;
-  return true;
 }
 
 async function ensureCsrf() {
@@ -84,9 +102,77 @@ export async function communityFetch(path: string, init: RequestInit = {}) {
   if (init.body) headers.set("Content-Type", "application/json");
   if (unsafe && csrfToken) headers.set("X-Community-CSRF", csrfToken);
 
-  const response = await fetch(path, { ...init, method, headers, credentials: "same-origin" });
-  acceptCsrf(response);
-  const body = await response.json().catch(() => null);
+  let response: Response;
+  let body: any = null;
+
+  try {
+    response = await fetch(path, { ...init, method, headers, credentials: "same-origin" });
+    acceptCsrf(response);
+    const contentType = response.headers?.get ? response.headers.get("content-type") || "" : "";
+    if (contentType.includes("application/json")) {
+      body = await response.json().catch(() => null);
+    }
+  } catch {
+    response = new Response(null, { status: 500 });
+  }
+
+  // Local development mock fallback when backend Cloudflare Pages Functions are not bound in next dev
+  if ((!response.ok || !body) && typeof window !== "undefined" && window.location.hostname === "localhost") {
+    if (path === "/api/community/auth/login-password" && method === "POST") {
+      let parsedBody: any = {};
+      try { parsedBody = typeof init.body === "string" ? JSON.parse(init.body) : init.body; } catch {}
+      const userEmail = parsedBody?.email || "user@etfcampus.com";
+      const nickname = userEmail.split("@")[0] || "테스트투자자";
+      browserStorage()?.setItem("etf-campus:local-session", JSON.stringify({ email: userEmail, nickname, authenticated: true }));
+      authenticated = true;
+      csrfToken = "local-dev-csrf-token";
+      return { success: true };
+    }
+
+    if (path === "/api/community/auth/profile" && method === "GET") {
+      const localStr = browserStorage()?.getItem("etf-campus:local-session");
+      const local = localStr ? JSON.parse(localStr) : null;
+      return {
+        profileConfigured: true,
+        profile: {
+          nickname: local?.nickname || "테스트투자자",
+          email: local?.email || "user@etfcampus.com",
+        }
+      };
+    }
+
+    if (path === "/api/community/auth/session" && method === "GET") {
+      const localStr = browserStorage()?.getItem("etf-campus:local-session");
+      if (localStr) {
+        authenticated = true;
+        csrfToken = "local-dev-csrf-token";
+        return { authenticated: true };
+      }
+    }
+
+    if (path.startsWith("/api/community/posts") && method === "POST") {
+      return { success: true, slug: "local-new-post-" + Date.now() };
+    }
+
+    if (path.includes("/upvote") && method === "POST") {
+      return { success: true, upvoteCount: 43, isUpvoted: true };
+    }
+
+    if (path.includes("/comments") && method === "POST") {
+      let parsedBody: any = {};
+      try { parsedBody = typeof init.body === "string" ? JSON.parse(init.body) : init.body; } catch {}
+      return {
+        success: true,
+        comment: {
+          publicId: "c-" + Date.now(),
+          bodyText: parsedBody?.bodyText || "",
+          authorNickname: "내닉네임",
+          createdAt: new Date().toISOString(),
+        }
+      };
+    }
+  }
+
   if (!response.ok) {
     const error = new Error(body?.error?.message ?? "요청을 처리하지 못했습니다.") as Error & { status?: number; code?: string; body?: unknown };
     error.status = response.status;
@@ -99,5 +185,6 @@ export async function communityFetch(path: string, init: RequestInit = {}) {
 
 export async function signOutCommunity() {
   try { await communityFetch("/api/community/auth/account", { method: "POST", body: JSON.stringify({}) }); }
+  catch {}
   finally { clearCommunitySession(); }
 }

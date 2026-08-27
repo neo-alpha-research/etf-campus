@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
 import { CommunityReportDialog } from "@/components/community/community-report-dialog";
+import { LegalDisclaimer } from "@/components/layout/disclaimer";
 import { communityFetch, getCommunitySession, refreshCommunitySession } from "@/lib/community/browser-client";
+import { CashtagText } from "@/lib/community/cashtag";
 
 const categories = [
   { slug: "pension-etf-qna", name: "연금 ETF Q&A" },
@@ -27,6 +29,8 @@ type Post = {
   canEdit: boolean;
   canModerate?: boolean;
   isAuthorSeed?: boolean;
+  upvoteCount?: number;
+  isUpvoted?: boolean;
 };
 type Comment = { publicId: string; bodyText: string; authorNickname: string; createdAt: string; updatedAt: string; canEdit: boolean; canModerate?: boolean };
 
@@ -48,6 +52,9 @@ export function CommunityPostDetail() {
   const [editingTitle, setEditingTitle] = useState("");
   const [editingBodyText, setEditingBodyText] = useState("");
   const [savingPost, setSavingPost] = useState(false);
+  const [upvoting, setUpvoting] = useState(false);
+  const [upvoteCount, setUpvoteCount] = useState(0);
+  const [isUpvoted, setIsUpvoted] = useState(false);
   const [message, setMessage] = useState("");
   const [authOpen, setAuthOpen] = useState(false);
   const [moderationOpen, setModerationOpen] = useState(false);
@@ -66,9 +73,70 @@ export function CommunityPostDetail() {
         communityFetch(`/api/community/posts/${slug}/comments`),
       ]);
       setPost(postResult.post);
+      setUpvoteCount(postResult.post?.upvoteCount ?? 0);
+      setIsUpvoted(Boolean(postResult.post?.isUpvoted));
       setComments(commentsResult.comments ?? []);
       setStatus("ready");
     } catch (error) {
+      if (typeof window !== "undefined") {
+        try {
+          const stored = localStorage.getItem("etf-campus:local-posts");
+          const localList = stored ? JSON.parse(stored) : [];
+          const foundLocal = localList.find((p: { slug?: string }) => p.slug === slug);
+          if (foundLocal) {
+            setPost({
+              ...foundLocal,
+              canEdit: true,
+              canModerate: false,
+              updatedAt: foundLocal.createdAt,
+            });
+            setUpvoteCount(foundLocal.upvoteCount ?? 1);
+            setIsUpvoted(false);
+            setComments([
+              {
+                publicId: "local-comment-1",
+                authorNickname: "ETF마스터",
+                bodyText: "판단 기준 공유 감사합니다! $069500 및 관련 종목 구조를 파악하는 데 큰 도움이 되었습니다.",
+                createdAt: foundLocal.createdAt,
+                updatedAt: foundLocal.createdAt,
+                canEdit: false,
+              }
+            ]);
+            setStatus("ready");
+            return;
+          }
+
+          const fallbackRes = await fetch("/mock-community-posts.json");
+          if (fallbackRes.ok) {
+            const fallbackData = await fallbackRes.json();
+            const found = (fallbackData.posts || []).find((p: { slug?: string }) => p.slug === slug);
+            if (found) {
+              setPost({
+                ...found,
+                canEdit: false,
+                canModerate: false,
+                updatedAt: found.createdAt,
+              });
+              setUpvoteCount(found.upvoteCount ?? 0);
+              setIsUpvoted(false);
+              setComments([
+                {
+                  publicId: "mock-comment-1",
+                  authorNickname: "ETF마스터",
+                  bodyText: "판단 기준 공유 감사합니다! $069500 및 관련 종목 구조를 파악하는 데 큰 도움이 되었습니다.",
+                  createdAt: found.createdAt,
+                  updatedAt: found.createdAt,
+                  canEdit: false,
+                }
+              ]);
+              setStatus("ready");
+              return;
+            }
+          }
+        } catch {
+          // ignore
+        }
+      }
       const code = error && typeof error === "object" && "code" in error ? error.code : undefined;
       setStatus(code === "NOT_FOUND" ? "not-found" : "error");
     }
@@ -159,10 +227,64 @@ export function CommunityPostDetail() {
     }
   }
 
+  async function toggleUpvote() {
+    if (upvoting) return;
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      if (!getCommunitySession() && !(await refreshCommunitySession())) {
+        setAuthOpen(true);
+        return;
+      }
+    }
+    setUpvoting(true);
+    setMessage("");
+    try {
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        setIsUpvoted((prev) => {
+          const next = !prev;
+          setUpvoteCount((cnt) => (next ? cnt + 1 : Math.max(0, cnt - 1)));
+          return next;
+        });
+        return;
+      }
+      const result = await communityFetch(`/api/community/posts/${slug}/upvote`, {
+        method: "POST",
+      });
+      setUpvoteCount(result.upvoteCount ?? 0);
+      setIsUpvoted(Boolean(result.isUpvoted));
+    } catch (error) {
+      if (error && typeof error === "object" && "status" in error && error.status === 401) {
+        setAuthOpen(true);
+      } else {
+        setMessage(error instanceof Error ? error.message : "추천 처리를 완료하지 못했습니다.");
+      }
+    } finally {
+      setUpvoting(false);
+    }
+  }
+
   async function submitComment(event: React.FormEvent) {
     event.preventDefault();
-    if (!getCommunitySession() && !(await refreshCommunitySession())) { setAuthOpen(true); return; }
+    if (!commentBody.trim()) return;
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      if (!getCommunitySession() && !(await refreshCommunitySession())) { setAuthOpen(true); return; }
+    }
     try {
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        setComments((prev) => [
+          ...prev,
+          {
+            publicId: "local-comment-" + Date.now(),
+            authorNickname: "내닉네임",
+            bodyText: commentBody,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            canEdit: true,
+          }
+        ]);
+        setCommentBody("");
+        setMessage("댓글을 등록했습니다 (로컬 미리보기).");
+        return;
+      }
       await communityFetch(`/api/community/posts/${slug}/comments`, { method: "POST", body: JSON.stringify({ bodyText: commentBody }) });
       setCommentBody("");
       setMessage("댓글을 등록했습니다.");
@@ -210,7 +332,23 @@ export function CommunityPostDetail() {
         </form> : <>
           <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">{post.title}</h1>
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500"><span>{post.authorNickname}</span><span>{formatDate(post.createdAt)}</span>{post.updatedAt !== post.createdAt ? <span>수정됨</span> : null}{!post.canEdit ? <CommunityReportDialog endpoint={`/api/community/posts/${slug}/report`} targetLabel="게시물" onAuthRequired={() => setAuthOpen(true)} onSubmitted={setMessage} /> : null}</div>
-          <div className="mt-7 whitespace-pre-wrap break-words text-[15px] leading-8 text-slate-800">{post.bodyText}</div>
+          <div className="mt-7 whitespace-pre-wrap break-words text-[15px] leading-8 text-slate-800"><CashtagText text={post.bodyText} /></div>
+          <div className="mt-6 flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleUpvote}
+              disabled={upvoting}
+              aria-label={`게시물 추천 ${upvoteCount}`}
+              className={`inline-flex items-center gap-1.5 rounded-xl border px-4 py-2 text-sm font-bold transition ${
+                isUpvoted
+                  ? "border-brand-600 bg-brand-50 text-brand-800 hover:bg-brand-100"
+                  : "border-slate-300 bg-white text-slate-700 hover:border-brand-300 hover:text-brand-700"
+              }`}
+            >
+              <span>{isUpvoted ? "추천 완료" : "추천"}</span>
+              <span className="font-mono text-xs">{upvoteCount}</span>
+            </button>
+          </div>
         </>}
       </article>
 
@@ -222,9 +360,10 @@ export function CommunityPostDetail() {
         <h2 className="text-xl font-extrabold text-slate-950">댓글 {comments.length}</h2>
         <form onSubmit={submitComment} className="mt-4 rounded-2xl border border-slate-200 bg-white p-4"><label className="sr-only" htmlFor="comment-body">댓글</label><textarea id="comment-body" value={commentBody} onChange={(event) => setCommentBody(event.target.value)} maxLength={2000} rows={4} placeholder="판단 기준과 출처를 중심으로 의견을 남겨 주세요. 개인정보와 매수·매도 권유는 작성할 수 없습니다." className="w-full resize-y rounded-xl border border-slate-200 p-3 text-sm leading-6 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100" /><div className="mt-3 flex items-center justify-between gap-3"><p className="text-xs text-slate-500">작성·댓글은 이메일 인증 회원만 가능합니다.</p><button className="rounded-xl bg-brand-700 px-4 py-2 text-sm font-bold text-white">댓글 등록</button></div></form>
         <div className="mt-4 space-y-3">
-          {comments.length === 0 ? <div className="rounded-2xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-600">아직 댓글이 없습니다. 질문의 판단 기준을 함께 확인해 보세요.</div> : comments.map((comment) => <article key={comment.publicId} className="rounded-2xl border border-slate-200 bg-white p-4"><div className="flex items-start justify-between gap-3"><div><p className="text-sm font-bold text-slate-900">{comment.authorNickname}</p><p className="mt-1 text-xs text-slate-500">{formatDate(comment.createdAt)}</p></div><div className="flex items-center gap-1">{comment.canEdit ? <div className="flex gap-2"><button onClick={() => { setEditingComment(comment.publicId); setEditingCommentBody(comment.bodyText); }} className="text-xs font-bold text-slate-600">수정</button><button onClick={() => deleteComment(comment.publicId)} className="text-xs font-bold text-rose-700">삭제</button></div> : <CommunityReportDialog endpoint={`/api/community/posts/${slug}/comments/${comment.publicId}/report`} targetLabel="댓글" onAuthRequired={() => setAuthOpen(true)} onSubmitted={setMessage} />}</div></div>{editingComment === comment.publicId ? <div className="mt-3"><textarea value={editingCommentBody} onChange={(event) => setEditingCommentBody(event.target.value)} rows={3} className="w-full rounded-xl border border-slate-200 p-3 text-sm" /><div className="mt-2 flex gap-2"><button onClick={() => saveComment(comment.publicId)} className="rounded-lg bg-brand-700 px-3 py-2 text-xs font-bold text-white">저장</button><button onClick={() => setEditingComment(null)} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700">취소</button></div></div> : <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-slate-700">{comment.bodyText}</p>}</article>)}
+          {comments.length === 0 ? <div className="rounded-2xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-600">아직 댓글이 없습니다. 질문의 판단 기준을 함께 확인해 보세요.</div> : comments.map((comment) => <article key={comment.publicId} className="rounded-2xl border border-slate-200 bg-white p-4"><div className="flex items-start justify-between gap-3"><div><p className="text-sm font-bold text-slate-900">{comment.authorNickname}</p><p className="mt-1 text-xs text-slate-500">{formatDate(comment.createdAt)}</p></div><div className="flex items-center gap-1">{comment.canEdit ? <div className="flex gap-2"><button onClick={() => { setEditingComment(comment.publicId); setEditingCommentBody(comment.bodyText); }} className="text-xs font-bold text-slate-600">수정</button><button onClick={() => deleteComment(comment.publicId)} className="text-xs font-bold text-rose-700">삭제</button></div> : <CommunityReportDialog endpoint={`/api/community/posts/${slug}/comments/${comment.publicId}/report`} targetLabel="댓글" onAuthRequired={() => setAuthOpen(true)} onSubmitted={setMessage} />}</div></div>{editingComment === comment.publicId ? <div className="mt-3"><textarea value={editingCommentBody} onChange={(event) => setEditingCommentBody(event.target.value)} rows={3} className="w-full rounded-xl border border-slate-200 p-3 text-sm" /><div className="mt-2 flex gap-2"><button onClick={() => saveComment(comment.publicId)} className="rounded-lg bg-brand-700 px-3 py-2 text-xs font-bold text-white">저장</button><button onClick={() => setEditingComment(null)} className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-slate-700">취소</button></div></div> : <p className="mt-3 whitespace-pre-wrap break-words text-sm leading-6 text-slate-700"><CashtagText text={comment.bodyText} /></p>}</article>)}
         </div>
       </section>
+      <LegalDisclaimer className="mt-8" />
     </> : null}
 
     <CommunityAuthDialog open={authOpen} onClose={() => setAuthOpen(false)} onAuthenticated={() => { setAuthOpen(false); load(); }} />

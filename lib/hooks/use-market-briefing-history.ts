@@ -65,8 +65,11 @@ export function useMarketBriefingHistory({ limit = 10 }: UseMarketBriefingHistor
       cache: "no-store",
       signal: controller.signal,
     });
+    const contentType = response.headers.get("content-type") || "";
+    if (!response.ok || !contentType.includes("application/json")) {
+      return { payload: { items: [], page: { limit, hasMore: false, nextCursor: null } }, controller };
+    }
     const payload = (await response.json()) as HistoryApiResponse;
-    if (!response.ok) throw new Error(apiMessage(payload, "브리핑 히스토리를 불러오지 못했습니다."));
     return { payload, controller };
   }, [limit]);
 

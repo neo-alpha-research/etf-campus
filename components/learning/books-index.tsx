@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, Compass, Sparkles, Clock } from "lucide-react";
 
-import { SampleBadge } from "@/components/learning/sample-badge";
 import type { Book } from "@/lib/content/learning-content";
 
 export function BooksIndex({ books }: { books: Book[] }) {
@@ -37,7 +36,6 @@ export function BooksIndex({ books }: { books: Book[] }) {
                 <div className="flex flex-wrap items-center justify-between gap-1.5">
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className="chip text-[11px] px-2 py-0.5 font-bold">{book.topic}</span>
-                    <SampleBadge />
                   </div>
 
                   {isComingSoon ? (

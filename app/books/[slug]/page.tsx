@@ -4,7 +4,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { BookOpen, Clock, Sparkles, ExternalLink } from "lucide-react";
 
-import { SampleBadge, SampleNotice } from "@/components/learning/sample-badge";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
 import { findBook, loadBooks } from "@/lib/content/learning-content";
 
@@ -48,7 +47,6 @@ export default async function BookPage({ params }: Props) {
         {/* 상단 뱃지 및 메타 */}
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <span className="chip text-xs font-bold">{book.topic}</span>
-          <SampleBadge />
           {isComingSoon ? (
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-[0.6875rem] font-extrabold text-amber-800 border border-amber-200">
               <Clock className="h-3 w-3" />
@@ -126,10 +124,6 @@ export default async function BookPage({ params }: Props) {
             </p>
           </aside>
         )}
-
-        <div className="mt-6">
-          <SampleNotice />
-        </div>
 
         {/* 마크다운 본문 */}
         <div className="mt-8 rounded-2xl border border-line bg-surface p-5 sm:p-8 shadow-xs">

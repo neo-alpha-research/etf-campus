@@ -3,8 +3,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CommunityAuthDialog } from "@/components/community/community-auth-dialog";
-import { clearCommunitySession, communityFetch, getCommunitySession, refreshCommunitySession, signOutCommunity } from "@/lib/community/browser-client";
+import { refreshCommunitySession } from "@/lib/community/browser-client";
 import { getCommunityBoardNotice } from "@/lib/community/community-notices";
 
 const categories = [
@@ -40,15 +39,10 @@ export function CommunityFeed() {
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [authOpen, setAuthOpen] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
-  const [accountOpen, setAccountOpen] = useState(false);
-  const [withdrawalMode, setWithdrawalMode] = useState<"anonymize" | "delete">("anonymize");
-  const [accountMessage, setAccountMessage] = useState("");
   const boardNotice = getCommunityBoardNotice(selected);
 
   useEffect(() => {
-    refreshCommunitySession().then(setSignedIn);
+    refreshCommunitySession();
   }, []);
 
   useEffect(() => {
@@ -99,41 +93,14 @@ export function CommunityFeed() {
       setPosts((current) => [...current, ...(result.posts ?? [])]);
       setNextCursor(typeof result.nextCursor === "string" ? result.nextCursor : null);
     } catch {
-      setAccountMessage("추가 게시물을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      // ignore
     } finally {
       setLoadingMore(false);
     }
   }
 
   function goToWrite() {
-    if (!getCommunitySession()) {
-      setAuthOpen(true);
-      return;
-    }
     window.location.assign("/community/write/");
-  }
-
-  async function logout() {
-    await signOutCommunity();
-    setSignedIn(false);
-    setAccountOpen(false);
-    setAccountMessage("로그아웃했습니다.");
-  }
-
-  async function withdraw() {
-    setAccountMessage("");
-    try {
-      await communityFetch("/api/community/auth/account", {
-        method: "DELETE",
-        body: JSON.stringify({ contentDisposition: withdrawalMode }),
-      });
-      clearCommunitySession();
-      setSignedIn(false);
-      setAccountOpen(false);
-      setAccountMessage("탈퇴 요청을 처리했습니다.");
-    } catch (error) {
-      setAccountMessage(error instanceof Error ? error.message : "탈퇴 요청을 처리하지 못했습니다.");
-    }
   }
 
   return (
@@ -148,59 +115,15 @@ export function CommunityFeed() {
             특정 종목 매수 권유가 아닌, 연금·상품 구조·실부담비용·판단 기준을 자유롭게 공유하고 토론하는 공간입니다.
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center">
           <button
             onClick={goToWrite}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-brand-800 transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-700 px-5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-brand-800 transition cursor-pointer"
           >
             ✏️ 글 작성
           </button>
-          {signedIn ? (
-            <button
-              onClick={() => setAccountOpen((current) => !current)}
-              className="rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
-            >
-              내 계정
-            </button>
-          ) : (
-            <button
-              onClick={() => setAuthOpen(true)}
-              className="rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
-            >
-              이메일 로그인
-            </button>
-          )}
         </div>
       </section>
-
-      {accountOpen ? (
-        <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h2 className="font-bold text-slate-950">내 계정</h2>
-              <p className="mt-1 text-sm text-slate-600">세션은 이 브라우저 탭에만 보관됩니다.</p>
-            </div>
-            <button onClick={logout} className="rounded-xl border border-slate-300 px-3 py-2 text-sm font-bold text-slate-700">로그아웃</button>
-          </div>
-          <div className="mt-5 border-t border-slate-100 pt-5">
-            <p className="text-sm font-bold text-slate-900">회원 탈퇴</p>
-            <p className="mt-1 text-sm leading-6 text-slate-600">탈퇴하면 세션이 즉시 폐기되고 이메일 식별자·닉네임·선택 프로필은 최대 7일 안에 삭제됩니다.</p>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2">
-              <label className="rounded-xl border border-slate-200 p-3 text-sm text-slate-700">
-                <input checked={withdrawalMode === "anonymize"} onChange={() => setWithdrawalMode("anonymize")} className="mr-2" type="radio" name="withdraw" />
-                글·댓글은 “탈퇴한 사용자”로 익명화 유지
-              </label>
-              <label className="rounded-xl border border-slate-200 p-3 text-sm text-slate-700">
-                <input checked={withdrawalMode === "delete"} onChange={() => setWithdrawalMode("delete")} className="mr-2" type="radio" name="withdraw" />
-                글·댓글 공개 노출 중단 후 삭제
-              </label>
-            </div>
-            <button onClick={withdraw} className="mt-3 rounded-xl border border-rose-300 px-3 py-2 text-sm font-bold text-rose-700">탈퇴 요청</button>
-          </div>
-        </section>
-      ) : null}
-
-      {accountMessage ? <p role="status" className="mt-4 rounded-xl bg-slate-100 px-4 py-3 text-sm text-slate-700">{accountMessage}</p> : null}
 
       {/* 게시판 카테고리 탭 (피드 직결) */}
       <nav aria-label="커뮤니티 게시판" className="mt-6 flex items-center justify-between gap-2 overflow-x-auto pb-1 border-b border-slate-200/80">
@@ -317,7 +240,6 @@ export function CommunityFeed() {
           </div>
         ) : null}
       </section>
-      <CommunityAuthDialog open={authOpen} onClose={() => setAuthOpen(false)} onAuthenticated={() => { setSignedIn(true); setAuthOpen(false); }} />
     </div>
   );
 }

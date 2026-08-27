@@ -2,6 +2,56 @@
 
 import { useMarketBriefingHistory } from "@/lib/hooks/use-market-briefing-history";
 import { useAuthSession } from "@/components/auth/use-auth-session";
+import { Info } from "lucide-react";
+
+function InfoTooltip({
+  text,
+  side = "bottom",
+  align = "right",
+}: {
+  text: React.ReactNode;
+  side?: "top" | "bottom";
+  align?: "left" | "center" | "right";
+}) {
+  const positionClasses =
+    side === "top" ? "bottom-full mb-2" : "top-full mt-2";
+  const alignClasses =
+    align === "right"
+      ? "right-0 translate-x-0"
+      : align === "left"
+      ? "left-0 translate-x-0"
+      : "left-1/2 -translate-x-1/2";
+  const arrowClasses =
+    side === "top"
+      ? align === "right"
+        ? "-bottom-1 right-2 border-4 border-transparent border-t-neutral-900"
+        : align === "left"
+        ? "-bottom-1 left-2 border-4 border-transparent border-t-neutral-900"
+        : "-bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900"
+      : align === "right"
+      ? "-top-1 right-2 border-4 border-transparent border-b-neutral-900"
+      : align === "left"
+      ? "-top-1 left-2 border-4 border-transparent border-b-neutral-900"
+      : "-top-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-b-neutral-900";
+
+  return (
+    <div className="group relative inline-flex items-center justify-center ml-1">
+      <button
+        type="button"
+        aria-label="도움말"
+        className="text-neutral-400 cursor-help transition-colors group-hover:text-neutral-600 focus:outline-none"
+      >
+        <Info className="h-3 w-3 shrink-0" />
+      </button>
+      <div
+        className={`pointer-events-none absolute ${positionClasses} ${alignClasses} z-50 w-52 sm:w-56 rounded-xl bg-neutral-900/95 p-2.5 text-[11px] sm:text-xs leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-xs transition-all group-hover:pointer-events-auto group-hover:opacity-100 font-normal text-left`}
+      >
+        {text}
+        <div className={`absolute ${arrowClasses}`} />
+      </div>
+    </div>
+  );
+}
 
 const decimal = new Intl.NumberFormat("ko-KR", {
   minimumFractionDigits: 2,
@@ -75,43 +125,69 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
         </div>
       ) : (
         <>
-          <ol className="mt-5 divide-y divide-[#E8EDE2] overflow-hidden rounded-xl border border-[#E4EBDC]">
-            {items.map((item, index) => {
-              const isActive = item.asOfDate === activeDate;
-              const isPastItem = index > 0;
-              return (
-                <li key={item.asOfDate}>
-                  <button
-                    type="button"
-                    onClick={() => onSelectDate(item.asOfDate)}
-                    aria-pressed={isActive}
-                    className={`grid w-full grid-cols-[minmax(94px,0.9fr)_minmax(0,1.8fr)_auto] items-center gap-3 px-4 py-3 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#7DAD55] sm:grid-cols-[132px_minmax(0,1.8fr)_96px_90px] ${isActive ? "bg-[#F1F8E3]" : "bg-white hover:bg-[#FBFDF8]"}`}
-                  >
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <p className="text-sm font-extrabold text-neutral-900">{dateLabel(item.asOfDate)}</p>
-                        {isPastItem && !authenticated && (
-                          <span className="inline-flex items-center rounded-full bg-[#FAFDF4] px-1.5 py-0.2 text-[9px] font-bold text-[#5A7050] border border-[#D7EABB]">
-                            🔒 회원
-                          </span>
-                        )}
+          <div className="mt-5 overflow-hidden rounded-xl border border-[#E4EBDC]">
+            <div className="grid grid-cols-[minmax(94px,0.9fr)_minmax(0,1.8fr)_auto] items-center gap-3 px-4 py-2.5 bg-[#F8FAF6] border-b border-[#E4EBDC] text-[11.5px] font-extrabold text-neutral-500 sm:grid-cols-[132px_minmax(0,1.8fr)_96px_90px]">
+              <span>발행일자</span>
+              <span>핵심 브리핑 요약</span>
+              <span className="hidden sm:flex items-center justify-end">
+                Top 100
+                <InfoTooltip
+                  text="순자산 상위 100개 대형 ETF의 시총가중 평균 수익률입니다."
+                  side="bottom"
+                  align="right"
+                />
+              </span>
+              <span className="flex items-center justify-end">
+                시장 전체
+                <InfoTooltip
+                  text="일반 실물 ETF 1,018개 전체의 순자산 가중수익률(시장 체온)입니다."
+                  side="bottom"
+                  align="right"
+                />
+              </span>
+            </div>
+
+            <ol className="divide-y divide-[#E8EDE2]">
+              {items.map((item, index) => {
+                const isActive = item.asOfDate === activeDate;
+                const isPastItem = index > 0;
+                return (
+                  <li key={item.asOfDate}>
+                    <button
+                      type="button"
+                      onClick={() => onSelectDate(item.asOfDate)}
+                      aria-pressed={isActive}
+                      className={`grid w-full grid-cols-[minmax(94px,0.9fr)_minmax(0,1.8fr)_auto] items-center gap-3 px-4 py-3.5 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#7DAD55] sm:grid-cols-[132px_minmax(0,1.8fr)_96px_90px] ${isActive ? "bg-[#F1F8E3]" : "bg-white hover:bg-[#FBFDF8]"}`}
+                    >
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-sm font-extrabold text-neutral-900">{dateLabel(item.asOfDate)}</p>
+                          {isPastItem && !authenticated && (
+                            <span className="inline-flex items-center rounded-full bg-[#FAFDF4] px-1.5 py-0.2 text-[9px] font-bold text-[#5A7050] border border-[#D7EABB]">
+                              🔒 회원
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-0.5 text-[11px] text-neutral-500">기준일 {item.asOfDate}</p>
                       </div>
-                      <p className="mt-0.5 text-[11px] text-neutral-500">기준일 {item.asOfDate}</p>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-neutral-800">{item.headline || `${item.marketTemperature} 흐름`}</p>
-                      <p className="mt-0.5 text-[11px] text-neutral-500">일반 ETF {item.generalEtfCount.toLocaleString("ko-KR")}개 · 상승 비중 {decimal.format(item.breadthRatioPct)}%</p>
-                    </div>
-                    <p className={`hidden text-right text-sm font-extrabold tabular-nums sm:block ${changeTone(item.top100AumWeightedReturnPct)}`}>{signed(item.top100AumWeightedReturnPct)}</p>
-                    <div className="text-right">
-                      <p className={`text-base font-extrabold tabular-nums ${changeTone(item.generalAumWeightedReturnPct)}`}>{signed(item.generalAumWeightedReturnPct)}</p>
-                      <p className="mt-0.5 text-[11px] text-neutral-500">전체 ETF</p>
-                    </div>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-neutral-800">{item.headline || `${item.marketTemperature} 흐름`}</p>
+                        <p className="mt-0.5 text-[11px] text-neutral-500">일반 ETF {item.generalEtfCount.toLocaleString("ko-KR")}개 · 상승 비중 {decimal.format(item.breadthRatioPct)}%</p>
+                      </div>
+                      <p className={`hidden text-right text-sm font-bold tabular-nums sm:block ${changeTone(item.top100AumWeightedReturnPct)}`}>
+                        {signed(item.top100AumWeightedReturnPct)}
+                      </p>
+                      <div className="text-right">
+                        <p className={`text-base font-extrabold tabular-nums ${changeTone(item.generalAumWeightedReturnPct)}`}>
+                          {signed(item.generalAumWeightedReturnPct)}
+                        </p>
+                      </div>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
 
           {hasMore && (
             <div className="mt-4 flex justify-center">

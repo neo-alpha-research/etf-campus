@@ -103,8 +103,46 @@ export type MarketBriefing = {
   weeklyFundFlows?: { topInflows: FlowTrendRow[]; topOutflows: FlowTrendRow[] } | FlowTrendRow[];
   monthlyFundFlows?: { topInflows: FlowTrendRow[]; topOutflows: FlowTrendRow[] } | FlowTrendRow[];
   marketScale?: any;
+  marketScaleSnapshot?: MarketScaleSnapshot;
+  marketScaleTimeSeries?: MarketScaleTimeSeries;
   disparityWarning: DisparityWarning[];
   focusEtfs: FocusEtf[];
+};
+
+export type MarketScaleCategory = {
+  category: "general" | "parking" | "leveraged" | "inverse";
+  label: string;
+  aum: number; // 억원
+  aumSharePct: number; // %
+  tradeValue: number; // 억원
+  tradeSharePct: number; // %
+  turnoverPct: number; // %
+  etfCount: number;
+};
+
+export type MarketScaleSnapshot = {
+  totalAum: number; // 억원
+  totalTradeValue: number; // 억원
+  marketTurnoverPct: number; // %
+  totalEtfCount: number;
+  categories: MarketScaleCategory[];
+};
+
+export type TimeSeriesPoint = {
+  key: string;
+  label: string;
+  aum: number; // 억원
+  adtv: number; // 일평균 거래대금 (억원)
+  turnoverPct: number; // %
+  aumChange?: number; // 억원
+  aumChangePct?: number; // %
+};
+
+export type MarketScaleTimeSeries = {
+  daily: TimeSeriesPoint[];
+  weekly: TimeSeriesPoint[];
+  monthly: TimeSeriesPoint[];
+  yearly: TimeSeriesPoint[];
 };
 
 export type FlowTrendRow = {

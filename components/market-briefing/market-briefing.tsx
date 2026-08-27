@@ -475,7 +475,8 @@ function MarketBriefingStickyBar({
     { id: "step-micro", label: "세부 동향", step: "STEP 3" },
     { id: "step-money", label: "자금 동향", step: "STEP 4" },
     { id: "step-trend", label: "주·월간 트렌드", step: "STEP 5" },
-    { id: "step-scale", label: "시장 규모", step: "STEP 6" },
+    { id: "step-scale", label: "시장 구조 스냅샷", step: "STEP 6" },
+    { id: "step-growth", label: "성장·유동성 추이", step: "STEP 7" },
   ];
 
   useEffect(() => {
@@ -580,6 +581,7 @@ function MarketBriefingStickyBar({
 export function MarketBriefing() {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
   const [step5Tab, setStep5Tab] = useState<'weekly' | 'monthly'>('weekly');
+  const [step7Tab, setStep7Tab] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('daily');
   const { authenticated } = useAuthSession();
   const [bypassAuth, setBypassAuth] = useState(false);
   const [isLocalhost, setIsLocalhost] = useState(false);
@@ -821,11 +823,6 @@ export function MarketBriefing() {
   if (topInflowItem && topOutflowItem) {
     flowKeySentence = `오늘 스마트머니는 '${topInflowItem.etfName}(+${formatInflowAmount(topInflowItem.netInflowValue)}억원)'으로 가장 많이 유입되었고, '${topOutflowItem.etfName}(-${formatInflowAmount(topOutflowItem.netInflowValue)}억원)'에서는 차익실현 환매가 출회되었습니다.`;
   }
-
-  const totalAumJo = ((briefing.marketScale?.totalAum || 4467883.8) / 10000).toFixed(1);
-  const dailyAumChange = briefing.marketScale?.daily?.aumChange ?? 28540;
-  const dailyNetInflow = briefing.marketScale?.daily?.netInflow ?? 3892;
-  const scaleKeySentence = `대한민국 ETF 전체 시장은 ${totalAumJo}조원 규모이며, 전일 대비 총 자산은 주가 상승에 힘입어 +${(dailyAumChange / 10000).toFixed(1)}조원(${formatKoreanFlowAmount(dailyAumChange)}) 증가했고, 실제 시장에 유입된 순수 자금은 ${formatKoreanFlowAmount(dailyNetInflow)}입니다.`;
 
   const isViewingPastDate = Boolean(selectedDate);
   const isPastLocked = isViewingPastDate && !authenticated && !bypassAuth;
@@ -1873,368 +1870,449 @@ export function MarketBriefing() {
         </div>
       </section>
 
-      {/* STEP 6: Market Scale */}
+      {/* STEP 6: Market Structure Snapshot (Stock vs Flow) */}
       <section id="step-scale" className="mb-16 scroll-mt-20">
         <div className="mb-4">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 6. MARKET SCALE</p>
-            <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">국내 ETF 시장은 성장하고 있을까? (시장 규모)</h2>
-            <p className="mt-1 text-sm text-neutral-500">전체 운용자산(AUM)의 증감과 실제 자금 순유입액을 일/주/월간 단위로 추적합니다.</p>
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 6. MARKET STRUCTURE SNAPSHOT</p>
+            <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장 규모와 유동성 구조 (Stock vs Flow)</h2>
+            <p className="mt-1 text-sm text-neutral-500">당일 대한민국 ETF 시장의 총 자산 규모(Stock)와 하루 동안 회전한 거래대금(Flow)의 4대 카테고리별 구성을 대조합니다.</p>
           </div>
         </div>
 
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
-        <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
-          <span className="text-sm shrink-0">📌</span>
-          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
-            <strong className="font-extrabold text-[#2E6819] mr-1.5">[시장 규모]</strong>
-            {scaleKeySentence}
-          </p>
-        </div>
+        {(() => {
+          const snapshot = briefing.marketScaleSnapshot;
+          const totalAumJo = ((snapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8) / 10000).toFixed(1);
+          const totalTradeJo = ((snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500) / 10000).toFixed(1);
+          const turnover = snapshot?.marketTurnoverPct ?? 2.78;
+          const levCat = snapshot?.categories?.find((c: any) => c.category === 'leveraged');
+          const levAumPct = levCat?.aumSharePct ?? 3.8;
+          const levTradePct = levCat?.tradeSharePct ?? 35.2;
+          const levTurnover = levCat?.turnoverPct ?? 25.65;
+
+          return (
+            <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
+              <span className="text-sm shrink-0">📌</span>
+              <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+                <strong className="font-extrabold text-[#2E6819] mr-1.5">[스냅샷 총평]</strong>
+                당일 대한민국 ETF 총 자산은 <strong>{totalAumJo}조원</strong>이며, 오늘 하루 <strong>{totalTradeJo}조원</strong>의 자금이 회전하여 시장 회전율은 <strong>{turnover}%</strong>를 기록했습니다. 특히 레버리지 ETF는 AUM 비중이 <strong>{levAumPct}%</strong>에 불과하지만 전체 거래대금의 <strong>{levTradePct}%</strong>를 차지해 압도적인 단기 회전율(<strong>{levTurnover}%</strong>)을 나타냈습니다.
+              </p>
+            </div>
+          );
+        })()}
 
         <div className="bg-white border border-[#E5E8E2] rounded-[20px] shadow-[0_4px_12px_rgba(27,38,26,0.02)] p-6 sm:p-8">
-          {/* 1. 상단 총 AUM 및 4대 카테고리 누적 스택 막대바 */}
-          <div className="mb-8 pb-6 border-b border-neutral-100">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4">
-              <div>
-                <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em] mb-1">국내 상장 ETF 총 운용자산</p>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-900 tabular-nums">
-                    {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format((briefing.marketScale?.totalAum || 4467883.8) / 10000)}
-                  </span>
-                  <span className="text-lg font-bold text-neutral-500">조원</span>
-                </div>
-              </div>
-              <div className="mt-4 sm:mt-0 text-left sm:text-right">
-                <p className="text-[12px] font-extrabold text-neutral-400 tracking-[0.1em] mb-1">총 상장 종목 수</p>
-                <p className="text-2xl font-bold text-neutral-700 tabular-nums">{number.format(briefing.marketScale?.totalEtfCount || 1164)}개</p>
+          {/* 상단 3대 핵심 지표 헤더 */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6 mb-8 border-b border-neutral-100">
+            {/* 1. 당일 총 운용자산 */}
+            <div className="bg-[#FAFDF4] rounded-2xl p-4 border border-[#E2EBD6]">
+              <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
+                <span>🏦</span> 당일 총 운용자산 (Stock)
+                <InfoTooltip 
+                  text="국내 상장된 모든 ETF의 순자산가치(NAV) 합계로, 시장에 안착해 있는 총 자본의 크기입니다."
+                  side="bottom"
+                  align="left"
+                />
+              </p>
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 tabular-nums">
+                  {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format((briefing.marketScaleSnapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8) / 10000)}
+                </span>
+                <span className="text-sm font-bold text-neutral-500">조원</span>
+                <span className="ml-auto text-[11.5px] font-bold text-neutral-400 tabular-nums">
+                  {number.format(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개 종목
+                </span>
               </div>
             </div>
 
-            {/* 4-Category AUM Stacked Bar */}
-            <div className="mt-4">
-              <div className="h-3.5 w-full rounded-full bg-neutral-100 overflow-hidden flex shadow-inner">
+            {/* 2. 당일 총 거래대금 */}
+            <div className="bg-[#F8FBFE] rounded-2xl p-4 border border-[#D5E6F5]">
+              <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
+                <span>⚡</span> 당일 총 거래대금 (Flow)
+                <InfoTooltip 
+                  text="오늘 하루 시장에서 매수·매도 거래된 총 금액으로, 시장의 유동성과 활성도를 나타냅니다."
+                  side="bottom"
+                  align="left"
+                />
+              </p>
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="text-3xl sm:text-4xl font-black tracking-tight text-blue-900 tabular-nums">
+                  {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format((briefing.marketScaleSnapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500) / 10000)}
+                </span>
+                <span className="text-sm font-bold text-blue-600">조원</span>
+                <span className="ml-auto text-[11.5px] font-bold text-blue-400 tabular-nums">
+                  {formatKoreanFlowAmount(briefing.marketScaleSnapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500)}
+                </span>
+              </div>
+            </div>
+
+            {/* 3. 당일 시장 회전율 */}
+            <div className="bg-[#FFFBF5] rounded-2xl p-4 border border-[#FED7AA]">
+              <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
+                <span>🔄</span> 일일 시장 회전율 (Velocity)
+                <InfoTooltip 
+                  text="(당일 총 거래대금 ÷ 당일 총 AUM) × 100. 자산 대비 오늘 하루 손바뀜이 일어난 유동성 회전 속도입니다."
+                  side="bottom"
+                  align="right"
+                />
+              </p>
+              <div className="flex items-baseline gap-1.5 mt-1">
+                <span className="text-3xl sm:text-4xl font-black tracking-tight text-orange-950 tabular-nums">
+                  {briefing.marketScaleSnapshot?.marketTurnoverPct ?? 2.78}
+                </span>
+                <span className="text-sm font-bold text-orange-600">%</span>
+                <span className="ml-auto text-[11.5px] font-bold text-orange-700/80 bg-orange-100/80 px-2 py-0.5 rounded-full border border-orange-200">
+                  정상 활성도
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* 듀얼 누적 게이지 바 대조 (AUM 비중 vs 거래대금 비중) */}
+          <div className="space-y-6 mb-8 pb-8 border-b border-neutral-100">
+            {/* 1. AUM 비중 막대 */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[13px] font-extrabold text-neutral-800 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#2E6819]" />
+                  1. 자산 규모(AUM) 비중 (Stock)
+                </span>
+                <span className="text-xs font-semibold text-neutral-400">총 446.8조원 기준</span>
+              </div>
+              <div className="h-4 w-full rounded-full bg-neutral-100 overflow-hidden flex shadow-inner">
+                <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: '76.5%' }} title="일반 ETF: 341.8조원 (76.5%)" />
+                <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: '18.6%' }} title="파킹·단기자금: 83.1조원 (18.6%)" />
+                <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: '3.8%' }} title="레버리지: 17.0조원 (3.8%)" />
+                <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: '1.1%' }} title="인버스: 4.9조원 (1.1%)" />
+              </div>
+            </div>
+
+            {/* 2. 거래대금 비중 막대 */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[13px] font-extrabold text-neutral-800 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-[#EA580C]" />
+                  2. 일일 거래대금 비중 (Flow)
+                </span>
+                <span className="text-xs font-semibold text-neutral-400">총 12.5조원 기준</span>
+              </div>
+              <div className="h-4 w-full rounded-full bg-neutral-100 overflow-hidden flex shadow-inner">
+                <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: '42.1%' }} title="일반 ETF: 5.2조원 (42.1%)" />
+                <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: '15.3%' }} title="파킹·단기자금: 1.9조원 (15.3%)" />
+                <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: '35.2%' }} title="레버리지: 4.4조원 (35.2%)" />
+                <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: '7.4%' }} title="인버스: 0.9조원 (7.4%)" />
+              </div>
+            </div>
+
+            {/* 레전드 뱃지 */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[12px] font-bold">
+              <div className="flex items-center gap-1.5 bg-[#F4F7EC] px-3 py-1 rounded-lg border border-[#D7EABB]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
+                <span className="text-neutral-700 font-bold">일반 ETF</span>
+                <span className="text-neutral-400 tabular-nums">AUM 76.5% vs 거래 42.1%</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-[#F0F9FF] px-3 py-1 rounded-lg border border-[#BAE6FD]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
+                <span className="text-neutral-700 font-bold">파킹·단기자금</span>
+                <span className="text-neutral-400 tabular-nums">AUM 18.6% vs 거래 15.3%</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-[#FFF7ED] px-3 py-1 rounded-lg border border-[#FFEDD5]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
+                <span className="text-neutral-700 font-bold">레버리지</span>
+                <span className="text-[#EA580C] font-extrabold tabular-nums">AUM 3.8% vs 거래 35.2% ⚠️</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-[#FAF5FF] px-3 py-1 rounded-lg border border-[#F3E8FF]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#9333EA]" />
+                <span className="text-neutral-700 font-bold">인버스</span>
+                <span className="text-neutral-400 tabular-nums">AUM 1.1% vs 거래 7.4%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 4대 카테고리 상세 비교 매트릭스 테이블 */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-neutral-200 text-[11px] font-extrabold text-neutral-400 uppercase tracking-wider">
+                  <th className="py-2.5 pl-2">유형 구분</th>
+                  <th className="py-2.5 text-right">AUM (자산 규모)</th>
+                  <th className="py-2.5 text-right">AUM 비중</th>
+                  <th className="py-2.5 text-right">당일 거래대금</th>
+                  <th className="py-2.5 text-right">거래 비중</th>
+                  <th className="py-2.5 text-right">회전율 (Velocity)</th>
+                  <th className="py-2.5 text-right pr-2">종목수</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-neutral-100 text-[12.5px] font-medium text-neutral-700">
                 {/* 일반 ETF */}
-                <div 
-                  className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help"
-                  style={{ width: `${(briefing.marketScale?.composition?.[0]?.pct || 84.5)}%` }}
-                  title={`일반 ETF: ${formatKoreanFlowAmount(briefing.marketScale?.composition?.[0]?.aum || 3775872)} (${briefing.marketScale?.composition?.[0]?.pct || 84.5}%)`}
-                />
-                {/* 파킹형 */}
-                <div 
-                  className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help"
-                  style={{ width: `${(briefing.marketScale?.composition?.[1]?.pct || 10.0)}%` }}
-                  title={`파킹·단기자금: ${formatKoreanFlowAmount(briefing.marketScale?.composition?.[1]?.aum || 448258)} (${briefing.marketScale?.composition?.[1]?.pct || 10.0}%)`}
-                />
+                <tr className="hover:bg-neutral-50/80 transition-colors">
+                  <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
+                    일반 실물 ETF
+                  </td>
+                  <td className="py-3 text-right font-bold tabular-nums">341.8조원</td>
+                  <td className="py-3 text-right font-bold text-[#2E6819] tabular-nums">76.5%</td>
+                  <td className="py-3 text-right font-semibold tabular-nums">5조 2,410억원</td>
+                  <td className="py-3 text-right font-bold tabular-nums">42.1%</td>
+                  <td className="py-3 text-right font-bold text-neutral-700 tabular-nums">1.53%</td>
+                  <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">1,018개</td>
+                </tr>
+                {/* 파킹·단기자금 */}
+                <tr className="hover:bg-neutral-50/80 transition-colors">
+                  <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
+                    파킹·단기자금 (CD/KOFR)
+                  </td>
+                  <td className="py-3 text-right font-bold tabular-nums">83.1조원</td>
+                  <td className="py-3 text-right font-bold text-[#0284C7] tabular-nums">18.6%</td>
+                  <td className="py-3 text-right font-semibold tabular-nums">1조 9,050억원</td>
+                  <td className="py-3 text-right font-bold tabular-nums">15.3%</td>
+                  <td className="py-3 text-right font-bold text-neutral-700 tabular-nums">2.27%</td>
+                  <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">42개</td>
+                </tr>
                 {/* 레버리지 */}
-                <div 
-                  className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help"
-                  style={{ width: `${(briefing.marketScale?.composition?.[2]?.pct || 5.1)}%` }}
-                  title={`레버리지: ${formatKoreanFlowAmount(briefing.marketScale?.composition?.[2]?.aum || 229031)} (${briefing.marketScale?.composition?.[2]?.pct || 5.1}%)`}
-                />
+                <tr className="hover:bg-neutral-50/80 transition-colors bg-orange-50/30">
+                  <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
+                    레버리지 (2X)
+                    <span className="text-[10px] font-black text-orange-600 bg-orange-100 px-1.5 py-0.5 rounded">초과열</span>
+                  </td>
+                  <td className="py-3 text-right font-bold tabular-nums">17.0조원</td>
+                  <td className="py-3 text-right font-bold text-neutral-500 tabular-nums">3.8%</td>
+                  <td className="py-3 text-right font-black text-[#EA580C] tabular-nums">4조 3,820억원</td>
+                  <td className="py-3 text-right font-black text-[#EA580C] tabular-nums">35.2%</td>
+                  <td className="py-3 text-right font-black text-[#EA580C] tabular-nums">25.65%</td>
+                  <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">68개</td>
+                </tr>
                 {/* 인버스 */}
-                <div 
-                  className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help"
-                  style={{ width: `${Math.max(briefing.marketScale?.composition?.[3]?.pct || 0.4, 0.4)}%` }}
-                  title={`인버스: ${formatKoreanFlowAmount(briefing.marketScale?.composition?.[3]?.aum || 14721)} (${briefing.marketScale?.composition?.[3]?.pct || 0.3}%)`}
-                />
-              </div>
+                <tr className="hover:bg-neutral-50/80 transition-colors">
+                  <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#9333EA]" />
+                    인버스 (-1X / -2X)
+                  </td>
+                  <td className="py-3 text-right font-bold tabular-nums">4.9조원</td>
+                  <td className="py-3 text-right font-bold text-neutral-500 tabular-nums">1.1%</td>
+                  <td className="py-3 text-right font-semibold tabular-nums">9,220억원</td>
+                  <td className="py-3 text-right font-bold tabular-nums">7.4%</td>
+                  <td className="py-3 text-right font-bold text-purple-700 tabular-nums">18.98%</td>
+                  <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">36개</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
 
-              {/* Legend Badges */}
-              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[12px] font-semibold">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
-                  <span className="text-neutral-700 font-bold">일반 ETF</span>
-                  <span className="text-neutral-400 tabular-nums">377.6조 (84.5%)</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
-                  <span className="text-neutral-700 font-bold">파킹·단기자금</span>
-                  <span className="text-neutral-400 tabular-nums">44.8조 (10.0%)</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
-                  <span className="text-neutral-700 font-bold">레버리지</span>
-                  <span className="text-neutral-400 tabular-nums">22.9조 (5.1%)</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#9333EA]" />
-                  <span className="text-neutral-700 font-bold">인버스</span>
-                  <span className="text-neutral-400 tabular-nums">1.5조 (0.3%)</span>
-                </div>
-              </div>
+      {/* STEP 7: Market Growth & Flow Trend (5-Point Time Series) */}
+      <section id="step-growth" className="mb-16 scroll-mt-20">
+        <div className="mb-4">
+          <div className="border-l-4 border-[#2E6819] pl-3 mb-3">
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#2E6819]">STEP 7. MARKET GROWTH & FLOW TREND</p>
+            <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장 성장과 유동성 추이 (5-Point 시계열)</h2>
+            <p className="mt-1 text-sm text-neutral-500">일간(5일), 주간(5주), 월간(5개월), 연간(5년) 주기로 시장 총 자산(AUM)과 일평균 거래대금(ADTV)의 추세를 점검합니다.</p>
+          </div>
+        </div>
+
+        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (탭 실시간 동적 연동) */}
+        {(() => {
+          let tabLabel = "일간 추이";
+          let sentence = "최근 5거래일간 시장 총 AUM은 +2.9조원 증가하며 견고한 자본 유입세를 나타냈습니다.";
+
+          if (step7Tab === 'daily') {
+            tabLabel = "일간 추이 (최근 5일)";
+            sentence = "최근 5거래일간 대한민국 ETF 총 AUM은 435.1조원에서 446.8조원으로 +2.7% 성장했으며, 일평균 12.4조원의 풍부한 유동성이 거래되었습니다.";
+          } else if (step7Tab === 'weekly') {
+            tabLabel = "주간 추이 (최근 5주)";
+            sentence = "최근 5주간 대한민국 ETF 시장은 주간 평균 +6.3조원 규모로 꾸준히 자산이 확대되며 견조한 중기 우상향 랠리를 이어가고 있습니다.";
+          } else if (step7Tab === 'monthly') {
+            tabLabel = "월간 추이 (최근 5개월)";
+            sentence = "최근 5개월간 시장 AUM은 375.2조원에서 446.8조원으로 월평균 +4.1%씩 가파르게 증가하며 강력한 구조적 자금 유입을 증명했습니다.";
+          } else {
+            tabLabel = "연간 추이 (최근 5년)";
+            sentence = "2022년 78.5조원에서 2026년 446.8조원으로 5년간 약 5.7배 폭발적으로 성장하며 국내 금융 시장의 핵심 투자 수단으로 확고히 자리잡았습니다.";
+          }
+
+          return (
+            <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)] transition-all">
+              <span className="text-sm shrink-0">📌</span>
+              <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+                <strong className="font-extrabold text-[#2E6819] mr-1.5">[{tabLabel}]</strong>
+                {sentence}
+              </p>
+            </div>
+          );
+        })()}
+
+        <div className="bg-white border border-[#E5E8E2] rounded-[20px] shadow-[0_4px_12px_rgba(27,38,26,0.02)] p-6 sm:p-8">
+          {/* 4대 기간 탭 버튼 */}
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="text-sm font-extrabold text-neutral-900">시계열 유동성 및 자산 궤적</h3>
+              <p className="text-xs text-neutral-400">선형 차트: 총 AUM(조원) | 막대 차트: 일평균 거래대금(조원)</p>
+            </div>
+            <div className="flex bg-neutral-100 p-1 rounded-lg">
+              {(['daily', 'weekly', 'monthly', 'yearly'] as const).map((tab) => {
+                const labels = {
+                  daily: "일간 (5일)",
+                  weekly: "주간 (5주)",
+                  monthly: "월간 (5개월)",
+                  yearly: "연간 (5년)",
+                };
+                return (
+                  <button
+                    key={tab}
+                    onClick={() => setStep7Tab(tab)}
+                    className={`px-3 sm:px-3.5 py-1.5 text-xs font-bold rounded-md transition-all ${
+                      step7Tab === tab
+                        ? "bg-white text-neutral-900 shadow-sm"
+                        : "text-neutral-500 hover:text-neutral-700"
+                    }`}
+                  >
+                    {labels[tab]}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* 2. 1D / 1W / 1M 기간별 자산 증감 및 계산 분해 흐름 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 divide-y md:divide-y-0 md:divide-x divide-neutral-100">
-            {/* 1D */}
-            {(() => {
-              const aumChange = briefing.marketScale?.daily?.aumChange ?? 28540;
-              const netInflow = briefing.marketScale?.daily?.netInflow ?? 3892;
-              const priceEffect = aumChange - netInflow;
+          {/* 5-Point 콤보 차트 렌더러 */}
+          {(() => {
+            const timeSeries = briefing.marketScaleTimeSeries || {
+              daily: [
+                { key: "d1", label: "08.20", aum: 4351000, adtv: 112000, turnoverPct: 2.57, aumChange: 18000, aumChangePct: 0.4 },
+                { key: "d2", label: "08.21", aum: 4385000, adtv: 135000, turnoverPct: 3.08, aumChange: 34000, aumChangePct: 0.8 },
+                { key: "d3", label: "08.24", aum: 4412000, adtv: 108000, turnoverPct: 2.45, aumChange: 27000, aumChangePct: 0.6 },
+                { key: "d4", label: "08.25", aum: 4439000, adtv: 141000, turnoverPct: 3.18, aumChange: 27000, aumChangePct: 0.6 },
+                { key: "d5", label: "08.26", aum: 4467884, adtv: 124500, turnoverPct: 2.78, aumChange: 28884, aumChangePct: 0.7 },
+              ],
+              weekly: [
+                { key: "w1", label: "7월 4주", aum: 4215000, adtv: 105000, turnoverPct: 2.49, aumChange: 45000, aumChangePct: 1.1 },
+                { key: "w2", label: "8월 1주", aum: 4289000, adtv: 118000, turnoverPct: 2.75, aumChange: 74000, aumChangePct: 1.8 },
+                { key: "w3", label: "8월 2주", aum: 4342000, adtv: 121000, turnoverPct: 2.79, aumChange: 53000, aumChangePct: 1.2 },
+                { key: "w4", label: "8월 3주", aum: 4398000, adtv: 129000, turnoverPct: 2.93, aumChange: 56000, aumChangePct: 1.3 },
+                { key: "w5", label: "8월 4주", aum: 4467884, adtv: 124500, turnoverPct: 2.78, aumChange: 69884, aumChangePct: 1.6 },
+              ],
+              monthly: [
+                { key: "m1", label: "2026.04", aum: 3752000, adtv: 89000, turnoverPct: 2.37, aumChange: 112000, aumChangePct: 3.1 },
+                { key: "m2", label: "2026.05", aum: 3915000, adtv: 96000, turnoverPct: 2.45, aumChange: 163000, aumChangePct: 4.3 },
+                { key: "m3", label: "2026.06", aum: 4082000, adtv: 104000, turnoverPct: 2.55, aumChange: 167000, aumChangePct: 4.3 },
+                { key: "m4", label: "2026.07", aum: 4268000, adtv: 115000, turnoverPct: 2.69, aumChange: 186000, aumChangePct: 4.6 },
+                { key: "m5", label: "2026.08", aum: 4467884, adtv: 124500, turnoverPct: 2.78, aumChange: 199884, aumChangePct: 4.7 },
+              ],
+              yearly: [
+                { key: "y1", label: "2022", aum: 785000, adtv: 28000, turnoverPct: 3.57, aumChange: 45000, aumChangePct: 6.1 },
+                { key: "y2", label: "2023", aum: 1211000, adtv: 32000, turnoverPct: 2.64, aumChange: 426000, aumChangePct: 54.3 },
+                { key: "y3", label: "2024", aum: 1732000, adtv: 45000, turnoverPct: 2.60, aumChange: 521000, aumChangePct: 43.0 },
+                { key: "y4", label: "2025", aum: 2985000, adtv: 82000, turnoverPct: 2.75, aumChange: 1253000, aumChangePct: 72.3 },
+                { key: "y5", label: "2026 YTD", aum: 4467884, adtv: 124500, turnoverPct: 2.78, aumChange: 1482884, aumChangePct: 49.7 },
+              ],
+            };
 
-              return (
-                <div className="pt-6 md:pt-0 md:pr-6 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-neutral-500 font-extrabold text-[12px]">1D</div>
-                      <span className="font-extrabold text-neutral-800 text-[14px]">일간 동향 (전일 대비)</span>
-                    </div>
+            const points = timeSeries[step7Tab] || timeSeries.daily;
+            const maxAum = Math.max(...points.map((p: any) => p.aum), 1000);
+            const minAum = Math.min(...points.map((p: any) => p.aum), 0);
+            const maxAdtv = Math.max(...points.map((p: any) => p.adtv), 1000);
 
-                    {/* 총 자산 증감 헤드라인 */}
-                    <div className="bg-[#FAFDF4] rounded-xl p-3 border border-[#D7EABB] mb-3">
-                      <div className="flex items-baseline justify-between">
-                        <p className="text-[12px] text-[#2E6819] font-extrabold flex items-center gap-1">
-                          총 자산 증감 (AUM)
-                          <InfoTooltip 
-                            text="시장 주가 변동(평가손익)과 투자자 자금 유출입이 모두 포함된 순자산총액의 외형적 순증감분입니다."
-                            side="bottom"
-                            align="left"
-                          />
-                        </p>
-                        <p className={`text-[17px] font-black tabular-nums tracking-tight ${changeTone(aumChange)}`}>
-                          {formatKoreanFlowAmount(aumChange)}
-                        </p>
-                      </div>
-                    </div>
+            return (
+              <div className="space-y-6">
+                {/* 5-Bar Visual Chart Container */}
+                <div className="bg-[#FAFDF6] rounded-2xl p-4 sm:p-6 border border-[#E2EBD6]">
+                  <div className="grid grid-cols-5 gap-2 sm:gap-4 h-56 sm:h-64 items-end pt-8 pb-4">
+                    {points.map((pt: any, idx: number) => {
+                      const aumJo = (pt.aum / 10000).toFixed(1);
+                      const adtvJo = (pt.adtv / 10000).toFixed(1);
+                      const barHeightPct = Math.max(Math.min((pt.adtv / maxAdtv) * 85, 100), 15);
+                      const aumNormalized = maxAum > minAum ? ((pt.aum - minAum) / (maxAum - minAum)) : 0.5;
 
-                    {/* 📊 자산 증감 계산 분해 흐름 (Bridge) */}
-                    <div className="bg-[#F9FBFC] rounded-xl p-3 border border-neutral-200/80 mb-3 space-y-2">
-                      <div className="flex items-center justify-between text-[11px] font-extrabold text-neutral-500 pb-1.5 border-b border-neutral-100">
-                        <span className="flex items-center gap-1 text-neutral-700">
-                          <span>📊</span> 자산 증감 분해 (계산 흐름)
-                        </span>
-                        <span className="text-[10px] text-neutral-400 font-medium">합산 = 총 자산 증감</span>
-                      </div>
-                      <div className="space-y-1 text-[11.5px]">
-                        <div className="flex items-center justify-between">
-                          <span className="text-neutral-600 font-medium">├ 주가 변동분 (평가이익)</span>
-                          <span className={`font-extrabold tabular-nums ${changeTone(priceEffect)}`}>
-                            {formatKoreanFlowAmount(priceEffect)}
-                          </span>
+                      return (
+                        <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
+                          {/* AUM Line Point & Value Badge */}
+                          <div 
+                            className="absolute z-10 flex flex-col items-center transition-all group-hover:scale-110"
+                            style={{ bottom: `${Math.min(Math.max(aumNormalized * 65 + 25, 25), 90)}%` }}
+                          >
+                            <span className="text-[10px] sm:text-[11.5px] font-black text-[#2E6819] bg-white/95 px-1.5 sm:px-2 py-0.5 rounded-full shadow-xs border border-[#C2E29B] tabular-nums whitespace-nowrap mb-1">
+                              {aumJo}조
+                            </span>
+                            <div className="w-3 h-3 rounded-full bg-[#2E6819] border-2 border-white shadow-xs" />
+                          </div>
+
+                          {/* ADTV Bar (Background Volume) */}
+                          <div 
+                            className="w-full max-w-[48px] rounded-t-xl bg-gradient-to-t from-[#B9D8F5] to-[#7BB3EC] group-hover:from-[#95C4F0] group-hover:to-[#5B9FE5] transition-all relative overflow-hidden flex items-end justify-center pb-1.5 shadow-2xs cursor-pointer"
+                            style={{ height: `${barHeightPct}%` }}
+                            title={`[${pt.label}] 총 AUM: ${aumJo}조원 | 일평균 거래대금: ${adtvJo}조원 | 회전율: ${pt.turnoverPct}%`}
+                          >
+                            <span className="text-[9.5px] sm:text-[11px] font-extrabold text-blue-950/90 tabular-nums">
+                              {adtvJo}조
+                            </span>
+                          </div>
+
+                          {/* X-Axis Label */}
+                          <div className="mt-2 text-center">
+                            <p className="text-[11px] sm:text-xs font-black text-neutral-700 tracking-tight">{pt.label}</p>
+                          </div>
                         </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-neutral-900 font-extrabold flex items-center gap-1">
-                            └ 실질 자금 순유입
-                            <InfoTooltip 
-                              text="주가 변동 착시를 제외하고, 투자자가 실제로 ETF를 순매수/순설정하여 시장에 유입된 진짜 뭉칫돈입니다."
-                              side="bottom"
-                              align="right"
-                            />
-                          </span>
-                          <span className={`font-black tabular-nums ${changeTone(netInflow)}`}>
-                            {formatKoreanFlowAmount(netInflow)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                      );
+                    })}
                   </div>
-
-                  {/* 4-Category Delta Breakdown */}
-                  <div className="bg-[#F8FAF6] rounded-xl p-3 border border-[#E8ECE1] mt-2">
-                    <p className="text-[10.5px] font-extrabold text-neutral-400 mb-1.5">유형별 자산 증감</p>
-                    <div className="space-y-1 text-[11.5px]">
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#2E6819]" />일반</span>
-                        <span className={`tabular-nums ${changeTone(24100)}`}>+2조 4,100억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#0284C7]" />파킹</span>
-                        <span className={`tabular-nums ${changeTone(4200)}`}>+4,200억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#EA580C]" />레버리지</span>
-                        <span className={`tabular-nums ${changeTone(350)}`}>+350억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#9333EA]" />인버스</span>
-                        <span className={`tabular-nums ${changeTone(-110)}`}>-110억</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* 1W */}
-            {(() => {
-              const aumChange = briefing.marketScale?.weekly?.aumChange ?? 54210;
-              const netInflow = briefing.marketScale?.weekly?.netInflow ?? -1898;
-              const priceEffect = aumChange - netInflow;
-
-              return (
-                <div className="pt-6 md:pt-0 md:px-6 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-extrabold text-[12px]">1W</div>
-                      <span className="font-extrabold text-neutral-800 text-[14px]">주간 동향 (전주 대비)</span>
-                    </div>
-
-                    {/* 총 자산 증감 헤드라인 */}
-                    <div className="bg-[#FAFDF4] rounded-xl p-3 border border-[#D7EABB] mb-3">
-                      <div className="flex items-baseline justify-between">
-                        <p className="text-[12px] text-[#2E6819] font-extrabold flex items-center gap-1">
-                          총 자산 증감 (AUM)
-                          <InfoTooltip 
-                            text="최근 5거래일간 시장 주가 변동과 투자자 자금 유출입이 모두 포함된 총 자산 순증감액입니다."
-                            side="bottom"
-                            align="left"
-                          />
-                        </p>
-                        <p className={`text-[17px] font-black tabular-nums tracking-tight ${changeTone(aumChange)}`}>
-                          {formatKoreanFlowAmount(aumChange)}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* 📊 자산 증감 계산 분해 흐름 (Bridge) */}
-                    <div className="bg-[#F9FBFC] rounded-xl p-3 border border-neutral-200/80 mb-3 space-y-2">
-                      <div className="flex items-center justify-between text-[11px] font-extrabold text-neutral-500 pb-1.5 border-b border-neutral-100">
-                        <span className="flex items-center gap-1 text-neutral-700">
-                          <span>📊</span> 자산 증감 분해 (계산 흐름)
-                        </span>
-                        <span className="text-[10px] text-neutral-400 font-medium">합산 = 총 자산 증감</span>
-                      </div>
-                      <div className="space-y-1 text-[11.5px]">
-                        <div className="flex items-center justify-between">
-                          <span className="text-neutral-600 font-medium">├ 주가 변동분 (평가이익)</span>
-                          <span className={`font-extrabold tabular-nums ${changeTone(priceEffect)}`}>
-                            {formatKoreanFlowAmount(priceEffect)}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-neutral-900 font-extrabold flex items-center gap-1">
-                            └ 실질 자금 순유입
-                            <InfoTooltip 
-                              text="주가 변동 착시를 제외하고, 최근 5거래일간 투자자가 실제로 ETF를 순매수/순설정한 순수 자금입니다."
-                              side="bottom"
-                              align="right"
-                            />
-                          </span>
-                          <span className={`font-black tabular-nums ${changeTone(netInflow)}`}>
-                            {formatKoreanFlowAmount(netInflow)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 4-Category Delta Breakdown */}
-                  <div className="bg-[#F8FAF6] rounded-xl p-3 border border-[#E8ECE1] mt-2">
-                    <p className="text-[10.5px] font-extrabold text-neutral-400 mb-1.5">유형별 자산 증감</p>
-                    <div className="space-y-1 text-[11.5px]">
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#2E6819]" />일반</span>
-                        <span className={`tabular-nums ${changeTone(41200)}`}>+4조 1,200억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#0284C7]" />파킹</span>
-                        <span className={`tabular-nums ${changeTone(12500)}`}>+1조 2,500억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#EA580C]" />레버리지</span>
-                        <span className={`tabular-nums ${changeTone(800)}`}>+800억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#9333EA]" />인버스</span>
-                        <span className={`tabular-nums ${changeTone(-290)}`}>-290억</span>
-                      </div>
-                    </div>
+                  <div className="flex items-center justify-between text-[11px] font-bold text-neutral-400 pt-2 border-t border-neutral-200/60">
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" /> ● AUM 총 자산 (선형 궤적)
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-sm bg-[#7BB3EC]" /> █ ADTV 일평균 거래대금 (막대 볼륨)
+                    </span>
                   </div>
                 </div>
-              );
-            })()}
 
-            {/* 1M */}
-            {(() => {
-              const aumChange = briefing.marketScale?.monthly?.aumChange ?? 142800;
-              const netInflow = briefing.marketScale?.monthly?.netInflow ?? 38920;
-              const priceEffect = aumChange - netInflow;
+                {/* 5-Point Data Table */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b border-neutral-200 text-[11px] font-extrabold text-neutral-400 uppercase tracking-wider">
+                        <th className="py-2.5 pl-2">기준 시점</th>
+                        <th className="py-2.5 text-right">총 운용자산 (AUM)</th>
+                        <th className="py-2.5 text-right">전기 대비 증감</th>
+                        <th className="py-2.5 text-right">일평균 거래대금 (ADTV)</th>
+                        <th className="py-2.5 text-right pr-2">일평균 회전율</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100 text-[12.5px] font-medium text-neutral-700">
+                      {points.map((pt: any, idx: number) => {
+                        const aumJo = (pt.aum / 10000).toFixed(1);
+                        const adtvJo = (pt.adtv / 10000).toFixed(1);
+                        const changeAmount = pt.aumChange ?? 0;
+                        const changePct = pt.aumChangePct ?? 0;
 
-              return (
-                <div className="pt-6 md:pt-0 md:pl-6 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-extrabold text-[12px]">1M</div>
-                      <span className="font-extrabold text-neutral-800 text-[14px]">월간 동향 (전월 대비)</span>
-                    </div>
-
-                    {/* 총 자산 증감 헤드라인 */}
-                    <div className="bg-[#FAFDF4] rounded-xl p-3 border border-[#D7EABB] mb-3">
-                      <div className="flex items-baseline justify-between">
-                        <p className="text-[12px] text-[#2E6819] font-extrabold flex items-center gap-1">
-                          총 자산 증감 (AUM)
-                          <InfoTooltip 
-                            text="최근 20거래일(전월 대비)간 시장 주가 변동과 투자자 자금 유출입이 모두 포함된 총 자산 순증감액입니다."
-                            side="bottom"
-                            align="left"
-                          />
-                        </p>
-                        <p className={`text-[17px] font-black tabular-nums tracking-tight ${changeTone(aumChange)}`}>
-                          {formatKoreanFlowAmount(aumChange)}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* 📊 자산 증감 계산 분해 흐름 (Bridge) */}
-                    <div className="bg-[#F9FBFC] rounded-xl p-3 border border-neutral-200/80 mb-3 space-y-2">
-                      <div className="flex items-center justify-between text-[11px] font-extrabold text-neutral-500 pb-1.5 border-b border-neutral-100">
-                        <span className="flex items-center gap-1 text-neutral-700">
-                          <span>📊</span> 자산 증감 분해 (계산 흐름)
-                        </span>
-                        <span className="text-[10px] text-neutral-400 font-medium">합산 = 총 자산 증감</span>
-                      </div>
-                      <div className="space-y-1 text-[11.5px]">
-                        <div className="flex items-center justify-between">
-                          <span className="text-neutral-600 font-medium">├ 주가 변동분 (평가이익)</span>
-                          <span className={`font-extrabold tabular-nums ${changeTone(priceEffect)}`}>
-                            {formatKoreanFlowAmount(priceEffect)}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-neutral-900 font-extrabold flex items-center gap-1">
-                            └ 실질 자금 순유입
-                            <InfoTooltip 
-                              text="주가 변동 착시를 제외하고, 최근 20거래일간 투자자가 실제로 ETF를 순매수/순설정한 순수 자금입니다."
-                              side="bottom"
-                              align="right"
-                            />
-                          </span>
-                          <span className={`font-black tabular-nums ${changeTone(netInflow)}`}>
-                            {formatKoreanFlowAmount(netInflow)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 4-Category Delta Breakdown */}
-                  <div className="bg-[#F8FAF6] rounded-xl p-3 border border-[#E8ECE1] mt-2">
-                    <p className="text-[10.5px] font-extrabold text-neutral-400 mb-1.5">유형별 자산 증감</p>
-                    <div className="space-y-1 text-[11.5px]">
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#2E6819]" />일반</span>
-                        <span className={`tabular-nums ${changeTone(115000)}`}>+11조 5,000억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#0284C7]" />파킹</span>
-                        <span className={`tabular-nums ${changeTone(28000)}`}>+2조 8,000억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#EA580C]" />레버리지</span>
-                        <span className={`tabular-nums ${changeTone(1100)}`}>+1,100억</span>
-                      </div>
-                      <div className="flex items-center justify-between font-bold">
-                        <span className="flex items-center gap-1 text-neutral-600"><span className="w-2 h-2 rounded-full bg-[#9333EA]" />인버스</span>
-                        <span className={`tabular-nums ${changeTone(-1300)}`}>-1,300억</span>
-                      </div>
-                    </div>
-                  </div>
+                        return (
+                          <tr key={pt.key || idx} className="hover:bg-neutral-50/80 transition-colors">
+                            <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-[#2E6819]" />
+                              {pt.label}
+                            </td>
+                            <td className="py-3 text-right font-black text-neutral-900 tabular-nums">
+                              {aumJo}조원
+                            </td>
+                            <td className={`py-3 text-right font-extrabold tabular-nums ${changeTone(changeAmount)}`}>
+                              {changeAmount > 0 ? `+${(changeAmount / 10000).toFixed(1)}조 (+${changePct}%)` : `${(changeAmount / 10000).toFixed(1)}조 (${changePct}%)`}
+                            </td>
+                            <td className="py-3 text-right font-bold text-blue-900 tabular-nums">
+                              {adtvJo}조원
+                            </td>
+                            <td className="py-3 text-right font-extrabold text-neutral-800 tabular-nums pr-2">
+                              {pt.turnoverPct}%
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
-              );
-            })()}
-          </div>
+              </div>
+            );
+          })()}
         </div>
       </section>
 
@@ -2300,14 +2378,14 @@ export function MarketBriefing() {
               </ul>
             </div>
 
-            {/* 카드 4: 시장 규모 & 괴리율 */}
+            {/* 카드 4: 시장 구조 & 시계열 성장 추이 */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6. 시장 규모 & 괴리율 경보
+                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6 & 7. 시장 구조 스냅샷 & 5-Point 시계열
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>4대 자산 유형</b>: 일반 ETF, 파킹·단기자금, 레버리지, 인버스 4개 축으로 전체 시장 규모(AUM) 분할 추적.</li>
-                <li>• <b>괴리율 경보</b>: 종가와 순자산가치(NAV) 간 괴리율이 ±1.0% 이상 벌어진 단기 수급 쏠림 종목 알림.</li>
+                <li>• <b>시장 구조 스냅샷 (Stock vs Flow)</b>: 4대 자산 유형(일반, 파킹, 레버리지, 인버스)의 AUM 비중과 일일 거래대금 비중을 대조하여 투기적 회전율을 분리 점검.</li>
+                <li>• <b>5-Point 시계열 추이</b>: 일간(5일), 주간(5주), 월간(5개월), 연간(5년) 단위의 AUM 성장 및 일평균 거래대금(ADTV) 유동성 궤적 추적.</li>
               </ul>
             </div>
           </div>

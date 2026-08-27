@@ -29,17 +29,12 @@ jobs:
           cache: npm
           cache-dependency-path: |
             package-lock.json
-            workers/market-event-dispatcher/package-lock.json
             workers/market-briefing-publisher/package-lock.json
       - run: npm ci
       - run: npm run lint
       - run: npx tsc --noEmit -p tsconfig.ci.json
       - run: npm test
       - run: npm run build
-      - working-directory: workers/market-event-dispatcher
-        run: |
-          npm ci
-          npm run typecheck
       - working-directory: workers/market-briefing-publisher
         run: |
           npm ci

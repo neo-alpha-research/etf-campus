@@ -35,7 +35,6 @@ jobs:
           cache: npm
           cache-dependency-path: |
             package-lock.json
-            workers/market-event-dispatcher/package-lock.json
             workers/market-briefing-publisher/package-lock.json
 
       - name: Install web application dependencies
@@ -54,12 +53,6 @@ jobs:
           npm run lint
           npm test
           npm run build
-
-      - name: Install and validate event dispatcher Worker
-        working-directory: workers/market-event-dispatcher
-        run: |
-          npm ci
-          npm run typecheck
 
       - name: Install and validate publisher Worker
         working-directory: workers/market-briefing-publisher
@@ -92,27 +85,9 @@ jobs:
       - name: Apply pending migrations
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} d1 migrations apply etf-prices --remote
 
-  deploy_dispatcher:
-    name: Deploy market event dispatcher
-    needs: migrate_d1
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    environment: production
-    steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-
-      - name: Install dispatcher dependencies
-        working-directory: workers/market-event-dispatcher
-        run: npm ci
-
-      - name: Deploy dispatcher
-        working-directory: workers/market-event-dispatcher
-        run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy
-
   deploy_publisher:
     name: Deploy market briefing publisher
-    needs: deploy_dispatcher
+    needs: migrate_d1
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: production

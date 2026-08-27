@@ -1,4 +1,5 @@
-export const STYLE_STORAGE_KEY = "etfcampus.style.v3";
+export const STYLE_STORAGE_KEY = "etfcampus.style.v4";
+export const STYLE_STORAGE_KEY_V3 = "etfcampus.style.v3";
 export const STYLE_CHANGE_EVENT = "etfcampus-style-change";
 
 export const SCALE_ANSWERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
@@ -110,6 +111,107 @@ export const DIAGNOSIS_QUESTIONS = [
   right: { emoji: string; label: string; detail: string };
 }[];
 
+export const PRESCRIPTION_QUESTIONS = [
+  {
+    id: "gap",
+    scene: "처방 1 · 비어 있는 축",
+    title: "지금 내 퇴직연금 계좌에서 가장 답답하거나 비어 있는 것은?",
+    weight: 3,
+    options: [
+      { need: "signal", label: "무엇을 언제 살지 고르는 교체 신호가 없다", detail: "어느 ETF가 더 강한지 객관적인 신호로 비교하고 싶다" },
+      { need: "map", label: "전체 자산을 얼마씩 나눌지 계좌 지도가 없다", detail: "국내·해외·안전자산의 목표 비율과 허용 밴드를 세우고 싶다" },
+      { need: "income", label: "들어오는 분배금을 어떻게 다룰지 기준이 없다", detail: "높은 분배율의 함정을 거르고 지속 가능한 현금흐름을 만들고 싶다" },
+    ],
+  },
+  {
+    id: "regret",
+    scene: "처방 2 · 아쉬웠던 장면",
+    title: "최근 내 계좌를 돌아볼 때 가장 아쉬웠던 순간은?",
+    weight: 2,
+    options: [
+      { need: "signal", label: "이미 많이 오른 뒤에 소식을 듣고 따라 들어갔다", detail: "진입과 교체의 명확한 규칙 없이 감정으로 움직였다" },
+      { need: "map", label: "한쪽에 크게 쏠려 계좌가 흔들리는 걸 뒤늦게 알았다", detail: "계좌 전체의 자산 배분 비중을 미리 정해두지 못했다" },
+      { need: "income", label: "단순히 분배율 숫자만 보고 골랐다가 원금이 깎였다", detail: "분배금의 지속 가능성과 지급 재원을 점검하지 못했다" },
+    ],
+  },
+  {
+    id: "goal",
+    scene: "처방 3 · 앞으로의 12개월",
+    title: "앞으로 12개월 동안 내 계좌에 가장 확실히 남기고 싶은 시스템은?",
+    weight: 2,
+    options: [
+      { need: "signal", label: "시장 변화에 흔들리지 않는 객관적 ETF 교체 신호", detail: "강한 종목을 고르고 약해지면 정리하는 규칙 엔진" },
+      { need: "map", label: "한 장의 운용 규정서로 정리된 자산 배분 지도", detail: "목표 비율, 허용 밴드, 정기 리밸런싱 점검일" },
+      { need: "income", label: "월별·분기별로 예측 가능한 현금흐름 점검 루틴", detail: "배당 재원 검증, 함정 필터, 재투자 및 인출 원칙" },
+    ],
+  },
+] as const;
+
+export type PrescriptionQuestionId = (typeof PRESCRIPTION_QUESTIONS)[number]["id"];
+
+export const BOOK_SLUG_BY_NEED = {
+  signal: "momentum-etf-system",
+  map: "index-asset-allocation",
+  income: "dividend-cashflow",
+} as const;
+
+export type SeriesBookMetadata = {
+  slug: string;
+  seriesIndex: number;
+  title: string;
+  shortTitle: string;
+  summary: string;
+  topic: string;
+  reader: string;
+  status: "published" | "coming-soon";
+  affiliateUrl?: string;
+};
+
+export const PRESCRIPTION_BOOK_METADATA: Record<string, SeriesBookMetadata> = {
+  "momentum-etf-system": {
+    slug: "momentum-etf-system",
+    seriesIndex: 1,
+    title: "감정을 끄고 시스템으로 ① 모멘텀",
+    shortTitle: "① 모멘텀",
+    summary: "강한 흐름을 읽되 신호가 없을 때는 기다리는 법을 30일에 걸쳐 정리합니다. 위험자산 안에서 후보를 비교하는 신호 엔진입니다.",
+    topic: "모멘텀 판단 기준과 교체 조건",
+    reader: "시장이 오르면 뒤늦게 따라가고, 흔들리면 급하게 판단하는 DC형 가입자",
+    status: "published",
+    affiliateUrl: "https://ctee.kr/item/store/99321",
+  },
+  "index-asset-allocation": {
+    slug: "index-asset-allocation",
+    seriesIndex: 2,
+    title: "감정을 끄고 시스템으로 ② 지수·자산배분",
+    shortTitle: "② 지수·자산배분",
+    summary: "국내 주식·해외 주식·방어 축의 역할을 나누고, 목표 비율·허용 밴드·점검일을 한 장의 규정서에 적는 30일 DC형 퇴직연금 운용 규정서입니다.",
+    topic: "목표 비율·허용 밴드·운용 규정서",
+    reader: "ETF는 보지만 계좌 전체가 실제로 어떻게 나뉘어 있는지 모르는 DC형 가입자",
+    status: "coming-soon",
+  },
+  "dividend-cashflow": {
+    slug: "dividend-cashflow",
+    seriesIndex: 3,
+    title: "감정을 끄고 시스템으로 ③ 배당·현금흐름",
+    shortTitle: "③ 배당·현금흐름",
+    summary: "분배금의 재원·지급 이력·함정 필터·분기 루틴을 통해 배당을 현금흐름의 언어로 읽는 30일 DC형 퇴직연금 ETF 운용법입니다.",
+    topic: "분배금 구조·현금흐름·함정 필터",
+    reader: "높은 분배율과 월분배라는 말에 시선이 먼저 가는 DC형 가입자",
+    status: "coming-soon",
+  },
+};
+
+export type NeedId = keyof typeof BOOK_SLUG_BY_NEED;
+export type NeedScores = Record<NeedId, number>;
+export type PrescriptionAnswers = Record<PrescriptionQuestionId, NeedId>;
+
+export type PrescriptionResult = {
+  answers: PrescriptionAnswers;
+  needScores: NeedScores;
+  primaryBookSlug: string;
+  order: string[];
+};
+
 export type QuestionId = (typeof DIAGNOSIS_QUESTIONS)[number]["id"];
 export type DiagnosisAnswers = Record<QuestionId, ScaleAnswer>;
 export type StyleId = "turtle" | "owl" | "squirrel" | "dolphin" | "elephant" | "fox" | "octopus" | "eagle" | "hedgehog" | "otter";
@@ -119,6 +221,7 @@ export type StyleProfile = {
   name: string;
   emoji: string;
   tagline: string;
+  punchline: string;
   summary: string;
   strengths: readonly [string, string];
   habit: string;
@@ -132,6 +235,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "원칙을 지키는 거북이",
     emoji: "🐢",
     tagline: "서두르지 않고 익숙한 기준부터 확인해요",
+    punchline: "숫자가 춤을 춰도 내가 정한 점검 날짜가 되기 전엔 움직이지 않습니다.",
     summary: "큰 흐름과 핵심 조건을 정해진 리듬으로 살피는 편입니다. 복잡한 목록에서도 먼저 확인할 순서를 스스로 만들어 갑니다.",
     strengths: ["복잡한 화면에서도 핵심을 놓치지 않아요", "한 번 세운 확인 순서를 꾸준히 지켜요"],
     habit: "익숙한 범위만 보면 새로운 자산군의 역할을 놓칠 수 있어요. 가끔은 가이드로 시야를 넓혀 보세요.",
@@ -143,6 +247,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "숫자를 읽는 부엉이",
     emoji: "🦉",
     tagline: "변화가 보이면 세부 수치를 끝까지 살펴봐요",
+    punchline: "설명글보다 숫자 표를 먼저 열고, 작은 소수점 차이까지 확인해야 잠이 옵니다.",
     summary: "익숙한 시장 안에서도 종목별 차이를 세밀하게 비교하는 편입니다. 숫자와 조건을 나란히 놓을 때 판단 재료가 또렷해집니다.",
     strengths: ["같아 보이는 ETF의 차이를 잘 발견해요", "변화가 생기면 필요한 수치를 빠르게 찾아요"],
     habit: "세부 수치에 집중할수록 자산군 전체 흐름을 놓칠 수 있어요. 비교 전에 큰 맥락을 한 번 확인해 보세요.",
@@ -154,6 +259,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "차곡차곡 살피는 다람쥐",
     emoji: "🐿️",
     tagline: "정한 날마다 필요한 숫자를 꼼꼼히 모아요",
+    punchline: "매월 정한 날마다 지난달 메모와 오늘 숫자를 나란히 두고 차곡차곡 모아갑니다.",
     summary: "익숙한 자산군을 중심으로 여러 기준을 꾸준히 점검하는 편입니다. 비교한 내용을 차곡차곡 쌓을수록 탐색이 편해집니다.",
     strengths: ["정기 점검을 생활 리듬으로 만들기 쉬워요", "조건별 차이를 기록하고 다시 확인해요"],
     habit: "점검 항목이 너무 많아지면 중요한 변화가 묻힐 수 있어요. 이번 점검의 핵심 질문을 먼저 정해 보세요.",
@@ -165,6 +271,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "흐름을 타는 돌고래",
     emoji: "🐬",
     tagline: "새로운 시장의 움직임을 빠르게 연결해요",
+    punchline: "새로운 테마나 시장 소식이 들려오면 관련된 ETF부터 지도처럼 빠르게 펼쳐봅니다.",
     summary: "새로운 자산군을 넓게 둘러보고 시장 변화의 공통 흐름을 찾는 편입니다. 핵심 기준이 간결할수록 탐색이 가벼워집니다.",
     strengths: ["낯선 시장도 부담 없이 살펴봐요", "여러 시장의 움직임을 빠르게 연결해요"],
     habit: "넓게 보는 동안 상품 구조의 세부 조건을 지나칠 수 있어요. 관심 항목은 상세 화면에서 다시 확인해 보세요.",
@@ -176,6 +283,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "큰 그림을 기억하는 코끼리",
     emoji: "🐘",
     tagline: "전체 맥락을 기억하며 여러 기준을 차분히 엮어요",
+    punchline: "단기 등락보다 이 자산군이 내 계좌에서 맡은 원래 역할을 먼저 떠올립니다.",
     summary: "익숙한 자산군의 역할을 중심에 두고 여러 조건을 정기적으로 확인하는 편입니다. 이전 점검과 달라진 점을 비교할 때 강점이 드러납니다.",
     strengths: ["자산군의 역할과 과거 맥락을 잘 기억해요", "하나의 수치보다 여러 조건을 함께 봐요"],
     habit: "익숙한 설명이 지금도 유효한지는 별도 확인이 필요해요. 모든 수치의 기준일을 함께 살펴보세요.",
@@ -187,6 +295,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "조건을 엮는 여우",
     emoji: "🦊",
     tagline: "새로운 변화 속에서 비교 기준을 빠르게 조합해요",
+    punchline: "변화가 감지되면 필터와 정렬 기준을 바꿔가며 숨은 차이와 후보를 빠르게 좁힙니다.",
     summary: "넓은 시장을 탐색하면서 종목별 수치와 여러 조건을 함께 보는 편입니다. 필터와 정렬을 바꾸며 차이를 찾는 과정에 익숙합니다.",
     strengths: ["새로운 정보에서 비교할 조건을 빨리 찾아요", "여러 필터를 조합해 목록을 구조화해요"],
     habit: "조건을 많이 바꾸면 처음 세운 질문이 흐려질 수 있어요. 비교 목적과 기준 기간을 먼저 고정해 보세요.",
@@ -198,6 +307,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "여러 기준을 다루는 문어",
     emoji: "🐙",
     tagline: "다양한 시장과 숫자를 한 번에 차분히 조율해요",
+    punchline: "서로 다른 시장과 여러 지표를 한 화면에 띄워두고 종합적인 균형을 맞춥니다.",
     summary: "새로운 자산군을 넓게 탐색하면서도 정한 리듬 안에서 여러 비교 기준을 다루는 편입니다. 복잡한 정보를 자기 방식으로 정리합니다.",
     strengths: ["여러 조건을 동시에 놓고 관계를 살펴봐요", "새로운 분야도 정기 점검 체계에 담아내요"],
     habit: "확인할 기준이 늘어날수록 결론보다 과정이 길어질 수 있어요. 가장 중요한 기준부터 순서를 붙여 보세요.",
@@ -209,6 +319,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "시장을 넓게 보는 독수리",
     emoji: "🦅",
     tagline: "큰 흐름을 보면서 중요한 변화를 놓치지 않아요",
+    punchline: "개별 종목의 잔물결보다 글로벌 거시 흐름과 자산군 전체의 큰 방향을 먼저 봅니다.",
     summary: "새로운 시장을 넓은 시야로 살피고 변화가 있을 때 여러 조건을 확인하는 편입니다. 먼저 지도를 보고 필요한 곳에 집중합니다.",
     strengths: ["여러 자산군의 큰 흐름을 한눈에 봐요", "시장 변화와 세부 조건을 연결해요"],
     habit: "큰 흐름이 비슷해 보여도 ETF마다 구조와 위험은 다를 수 있어요. 최종 확인은 종목 상세에서 해보세요.",
@@ -220,6 +331,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "근거를 확인하는 고슴도치",
     emoji: "🦔",
     tagline: "중요한 변화가 보이면 경계와 근거부터 확인해요",
+    punchline: "화려한 수익률 문구보다 공시와 투자설명서의 원문 근거부터 꼼꼼히 확인합니다.",
     summary: "익숙한 시장 안에서 핵심 기준을 빠르게 좁히고, 필요한 원문과 근거를 깊이 확인하는 편입니다. 무엇을 더 확인해야 하는지 경계를 잘 세웁니다.",
     strengths: ["핵심 조건과 추가 확인 항목을 구분해요", "변화가 생겼을 때 근거를 놓치지 않아요"],
     habit: "확인해야 할 위험에 집중하다 보면 전체 자산군의 역할이 작게 보일 수 있어요. 상세 확인 전후로 큰 흐름도 함께 살펴보세요.",
@@ -231,6 +343,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     name: "핵심을 건지는 수달",
     emoji: "🦦",
     tagline: "새로운 시장에서도 중요한 흐름을 가볍게 건져요",
+    punchline: "복잡한 수치에 얽매이기보다 핵심 요약과 간결한 질문으로 중요한 맥락만 건져냅니다.",
     summary: "새로운 자산군을 넓게 탐색하면서 핵심 요약과 간결한 기준으로 정보를 정리하는 편입니다. 정기적인 탐색을 부담 없이 이어 갑니다.",
     strengths: ["낯선 정보에서도 핵심을 빠르게 찾아요", "복잡한 시장을 간결한 질문으로 바꿔요"],
     habit: "요약이 편할수록 상품 구조의 예외를 놓칠 수 있어요. 관심이 생긴 ETF는 상세 설명과 기준일을 한 번 더 확인해 보세요.",
@@ -240,14 +353,16 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
 };
 
 export type CompletedDiagnosis = {
-  version: 3;
+  version: 4;
   status: "completed";
+  resultId: string;
   answers: DiagnosisAnswers;
   style: StyleId;
   axisScores: AxisScores;
+  prescription?: PrescriptionResult;
   completedAt: string;
 };
-export type SkippedDiagnosis = { version: 3; status: "skipped"; skippedAt: string };
+export type SkippedDiagnosis = { version: 4; status: "skipped"; skippedAt: string };
 export type StoredDiagnosis = CompletedDiagnosis | SkippedDiagnosis;
 
 export function getAxisScores(answers: DiagnosisAnswers): AxisScores {
@@ -282,6 +397,80 @@ export function diagnoseStyle(answers: DiagnosisAnswers): StyleId {
   return nearest;
 }
 
+export function getOppositeStyle(styleId: StyleId): StyleId {
+  const currentProfile = STYLE_PROFILES[styleId];
+  if (!currentProfile) return "turtle";
+
+  let maxDistance = -1;
+  let opposite = styleId;
+
+  for (const [otherId, otherProfile] of Object.entries(STYLE_PROFILES) as [StyleId, StyleProfile][]) {
+    if (otherId === styleId) continue;
+    const distance = AXIS_DEFINITIONS.reduce(
+      (sum, axis) => sum + (currentProfile.vector[axis.id] - otherProfile.vector[axis.id]) ** 2,
+      0,
+    );
+    if (distance > maxDistance) {
+      maxDistance = distance;
+      opposite = otherId;
+    }
+  }
+
+  return opposite;
+}
+
+export function prescribeBooks(answers: Partial<PrescriptionAnswers>): PrescriptionResult | null {
+  if (!answers.gap || !answers.regret || !answers.goal) return null;
+  const fullAnswers = answers as PrescriptionAnswers;
+
+  const needScores: NeedScores = { signal: 0, map: 0, income: 0 };
+  for (const question of PRESCRIPTION_QUESTIONS) {
+    const chosenNeed = fullAnswers[question.id];
+    if (chosenNeed && Object.hasOwn(needScores, chosenNeed)) {
+      needScores[chosenNeed] += question.weight;
+    }
+  }
+
+  const needs: NeedId[] = ["signal", "map", "income"];
+
+  // Tie-breaking:
+  // 1. Need chosen in "gap" question
+  // 2. Map (Book 2 priority as higher-level roadmap)
+  const compareNeeds = (a: NeedId, b: NeedId) => {
+    if (needScores[b] !== needScores[a]) {
+      return needScores[b] - needScores[a];
+    }
+    if (fullAnswers.gap === a) return -1;
+    if (fullAnswers.gap === b) return 1;
+    if (a === "map") return -1;
+    if (b === "map") return 1;
+    return 0;
+  };
+
+  const sortedNeeds = [...needs].sort(compareNeeds);
+  const primaryNeed = sortedNeeds[0];
+  const primaryBookSlug = BOOK_SLUG_BY_NEED[primaryNeed];
+  const order = sortedNeeds.map((need) => BOOK_SLUG_BY_NEED[need]);
+
+  return {
+    answers: fullAnswers,
+    needScores,
+    primaryBookSlug,
+    order,
+  };
+}
+
+export function generateClientUUID(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 function isScaleAnswer(value: unknown): value is ScaleAnswer {
   return SCALE_ANSWERS.includes(value as ScaleAnswer);
 }
@@ -296,24 +485,67 @@ export function parseStoredDiagnosis(raw: string | null): StoredDiagnosis | null
   if (!raw) return null;
   try {
     const value = JSON.parse(raw) as Record<string, unknown>;
-    if (value.version !== 3) return null;
-    if (value.status === "skipped" && typeof value.skippedAt === "string") {
-      return { version: 3, status: "skipped", skippedAt: value.skippedAt };
-    }
-    if (value.status !== "completed" || !isAnswers(value.answers) || typeof value.completedAt !== "string") {
-      return null;
+
+    // v4 parse
+    if (value.version === 4) {
+      if (value.status === "skipped" && typeof value.skippedAt === "string") {
+        return { version: 4, status: "skipped", skippedAt: value.skippedAt };
+      }
+      if (value.status !== "completed" || !isAnswers(value.answers) || typeof value.completedAt !== "string") {
+        return null;
+      }
+
+      const style = diagnoseStyle(value.answers);
+      if (value.style !== style) return null;
+
+      let prescription: PrescriptionResult | undefined;
+      if (value.prescription && typeof value.prescription === "object") {
+        const p = value.prescription as Record<string, unknown>;
+        if (p.answers && typeof p.answers === "object") {
+          const prescribed = prescribeBooks(p.answers as Partial<PrescriptionAnswers>);
+          if (prescribed) {
+            prescription = prescribed;
+          }
+        }
+      }
+
+      return {
+        version: 4,
+        status: "completed",
+        resultId: typeof value.resultId === "string" && value.resultId ? value.resultId : generateClientUUID(),
+        answers: value.answers,
+        style,
+        axisScores: getAxisScores(value.answers),
+        prescription,
+        completedAt: value.completedAt,
+      };
     }
 
-    const style = diagnoseStyle(value.answers);
-    if (value.style !== style) return null;
-    return {
-      version: 3,
-      status: "completed",
-      answers: value.answers,
-      style,
-      axisScores: getAxisScores(value.answers),
-      completedAt: value.completedAt,
-    };
+    // v3 lossless upgrade
+    if (value.version === 3) {
+      if (value.status === "skipped" && typeof value.skippedAt === "string") {
+        return { version: 4, status: "skipped", skippedAt: value.skippedAt };
+      }
+      if (value.status !== "completed" || !isAnswers(value.answers) || typeof value.completedAt !== "string") {
+        return null;
+      }
+
+      const style = diagnoseStyle(value.answers);
+      if (value.style !== style) return null;
+
+      return {
+        version: 4,
+        status: "completed",
+        resultId: generateClientUUID(),
+        answers: value.answers,
+        style,
+        axisScores: getAxisScores(value.answers),
+        prescription: undefined,
+        completedAt: value.completedAt,
+      };
+    }
+
+    return null;
   } catch {
     return null;
   }

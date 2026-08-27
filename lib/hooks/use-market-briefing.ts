@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback } from "react";
+import useSWR from "swr";
 
 export type MarketIndex = {
   code: string;
@@ -138,98 +139,61 @@ export type MarketBriefingQuery = {
   refresh: () => Promise<void>;
 };
 
-function messageFromResponse(payload: BriefingApiResponse | null, fallback: string) {
-  return payload?.message?.trim() || fallback;
-}
+const fetcher = async (url: string) => {
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
+    const contentType = res.headers.get("content-type") || "";
+    if (res.ok && contentType.includes("application/json")) {
+      const payload = await res.json();
+      return payload as BriefingApiResponse;
+    }
+    // Local dev or non-JSON fallback (e.g. Next.js 404 HTML during local development)
+    const fallbackRes = await fetch("/mock-briefing.json");
+    if (fallbackRes.ok) {
+      return (await fallbackRes.json()) as BriefingApiResponse;
+    }
+    throw new Error("브리핑 데이터를 불러오지 못했습니다.");
+  } catch (err) {
+    const fallbackRes = await fetch("/mock-briefing.json").catch(() => null);
+    if (fallbackRes && fallbackRes.ok) {
+      return (await fallbackRes.json()) as BriefingApiResponse;
+    }
+    throw err instanceof Error ? err : new Error("브리핑 데이터를 불러오지 못했습니다.");
+  }
+};
 
-/**
- * Pages API가 KV 최신 pointer를 먼저 읽고 D1 ready row로 fallback한 결과를 조회합니다.
- * API가 마지막 ready 브리핑을 반환하면 stale 상태는 briefing.isStale로 UI에 전달됩니다.
- */
 export function useMarketBriefing({
   asOfDate,
   revalidateOnFocus = true,
   revalidateIntervalMs = 0,
 }: UseMarketBriefingOptions = {}): MarketBriefingQuery {
-  const [briefing, setBriefing] = useState<MarketBriefing | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const abortRef = useRef<AbortController | null>(null);
-  const mountedRef = useRef(true);
+  const endpoint = asOfDate ? `/api/briefings/${encodeURIComponent(asOfDate)}` : "/api/briefings/latest";
 
-  const load = useCallback(async (mode: LoadMode) => {
-    abortRef.current?.abort();
-    const controller = new AbortController();
-    abortRef.current = controller;
-
-    if (mode === "initial") setIsLoading(true);
-    if (mode === "manual") setIsRefreshing(true);
-
-    try {
-      const endpoint = asOfDate ? `/api/briefings/${encodeURIComponent(asOfDate)}` : "/api/briefings/latest";
-      const response = await fetch(endpoint, {
-        method: "GET",
-        headers: { Accept: "application/json" },
-        cache: "no-store",
-        signal: controller.signal,
-      });
-      const payload = (await response.json()) as BriefingApiResponse;
-
-      if (!response.ok) {
-        throw new Error(messageFromResponse(payload, "브리핑 데이터를 불러오지 못했습니다."));
-      }
-
-      if (!mountedRef.current) return;
-      setBriefing(payload.briefing);
-      setError(payload.briefing ? null : messageFromResponse(payload, "검증된 브리핑이 아직 없습니다."));
-    } catch (reason: unknown) {
-      if (reason instanceof DOMException && reason.name === "AbortError") return;
-      if (!mountedRef.current) return;
-      setError(reason instanceof Error ? reason.message : "브리핑 데이터를 불러오지 못했습니다.");
-    } finally {
-      if (!mountedRef.current || controller.signal.aborted) return;
-      if (mode === "initial") setIsLoading(false);
-      if (mode === "manual") setIsRefreshing(false);
+  const { data, error, isLoading, isValidating, mutate } = useSWR<BriefingApiResponse>(
+    endpoint,
+    fetcher,
+    {
+      revalidateOnFocus,
+      refreshInterval: revalidateIntervalMs,
+      shouldRetryOnError: false,
     }
-  }, [asOfDate]);
+  );
 
   const refresh = useCallback(async () => {
-    await load("manual");
-  }, [load]);
+    await mutate();
+  }, [mutate]);
 
-  useEffect(() => {
-    mountedRef.current = true;
-    const initialTimer = window.setTimeout(() => {
-      void load("initial");
-    }, 0);
+  const customError = error instanceof Error ? error.message : error ? String(error) : null;
+  const missingDataError = data && !data.briefing ? (data.message?.trim() || "검증된 브리핑이 아직 없습니다.") : null;
 
-    const revalidate = () => {
-      if (document.visibilityState === "visible") void load("background");
-    };
-
-    if (revalidateOnFocus) {
-      window.addEventListener("focus", revalidate);
-      document.addEventListener("visibilitychange", revalidate);
-    }
-
-    const interval = revalidateIntervalMs > 0
-      ? window.setInterval(() => {
-          if (document.visibilityState === "visible") void load("background");
-        }, revalidateIntervalMs)
-      : null;
-
-    return () => {
-      mountedRef.current = false;
-      window.clearTimeout(initialTimer);
-      if (interval) window.clearInterval(interval);
-      if (revalidateOnFocus) {
-        window.removeEventListener("focus", revalidate);
-        document.removeEventListener("visibilitychange", revalidate);
-      }
-      abortRef.current?.abort();
-    };
-  }, [load, revalidateIntervalMs, revalidateOnFocus]);
-
-  return { briefing, isLoading, isRefreshing, error, refresh };
+  return { 
+    briefing: data?.briefing || null, 
+    isLoading, 
+    isRefreshing: isValidating && !isLoading, 
+    error: customError || missingDataError, 
+    refresh 
+  };
 }

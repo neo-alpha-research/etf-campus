@@ -68,29 +68,45 @@ def canonical_hash(value: object) -> str:
 def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
     import csv, re
     
-    # Read classification mapping from both review draft and comparison classification
+    # Read classification mapping from comparison classification (PRIMARY SSOT) and review draft (fallback)
     class_map = {}
-    draft_path = Path("data/classification/etf_classification_review_draft.csv")
-    if draft_path.exists():
-        with draft_path.open("r", encoding="utf-8-sig") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                detail = row.get("final_asset_detail") or row.get("suggested_asset_detail") or ""
-                if detail.strip():
-                    class_map[row["ticker"].strip().upper()] = detail.strip()
-
+    asset_class_map = {}
+    
     comparison_path = Path("data/comparison/etf_comparison_classification.csv")
     if comparison_path.exists():
         with comparison_path.open("r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             for row in reader:
                 ticker = (row.get("ticker") or "").strip().upper()
+                af = (row.get("asset_family") or "").strip()
+                reg = (row.get("region_primary") or "").strip()
+                if af == "주식":
+                    ac = "주식-국내" if reg == "국내" else "주식-해외"
+                elif af:
+                    ac = af
+                else:
+                    ac = ""
+                
+                topic = (row.get("comparison_topic") or "").strip()
+                if topic and topic not in ["미확인 주식전략", "미분류"]:
+                    class_map[ticker] = topic
+                if ac:
+                    asset_class_map[ticker] = ac
+
+    draft_path = Path("data/classification/etf_classification_review_draft.csv")
+    if draft_path.exists():
+        with draft_path.open("r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                ticker = (row.get("ticker") or "").strip().upper()
                 if ticker and ticker not in class_map:
-                    topic = (row.get("comparison_topic") or "").strip()
-                    if topic and topic not in ["미확인 주식전략", "미분류"]:
-                        class_map[ticker] = topic
-    else:
-        print(f"Warning: {comparison_path} does not exist. Equity peer group themes will be empty.", file=sys.stderr)
+                    detail = row.get("final_asset_detail") or row.get("suggested_asset_detail") or ""
+                    if detail.strip():
+                        class_map[ticker] = detail.strip()
+                if ticker and ticker not in asset_class_map:
+                    ac = row.get("final_asset_class") or row.get("suggested_asset_class") or ""
+                    if ac.strip():
+                        asset_class_map[ticker] = ac.strip()
 
     print(f"Classification map loaded: {len(class_map)} items mapped.")
 
@@ -124,6 +140,10 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
         aum_value = compact_number(row.get("aum"))
         if close < 0 or trade_value < 0 or aum_value < 0:
             raise RuntimeError(f"Negative monetary value for {ticker}")
+        
+        raw_ac = str(row.get("asset_class") or "").strip()
+        final_ac = asset_class_map.get(ticker, raw_ac) or raw_ac or None
+        final_detail = class_map.get(ticker, "")
         records.append({
             "ticker": ticker,
             "name": name,
@@ -132,12 +152,12 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
             "tradeValue": trade_value,
             "aumValue": aum_value,
             "riskType": normalize_risk_type(str(row.get("risk_type") or "")),
-            "assetClass": str(row.get("asset_class") or "").strip() or None,
-            "assetDetail": class_map.get(ticker, ""),
+            "assetClass": final_ac,
+            "assetDetail": final_detail,
             "navValue": compact_number(row.get("nav")) if row.get("nav") else None,
             "disparityPct": compact_number(row.get("disparity")) if row.get("disparity") else None,
             "shares": int(compact_number(row.get("shares"))) if row.get("shares") else None,
-            "isGeneralEtf": 1 if normalize_risk_type(str(row.get("risk_type") or "")) == "normal" and str(row.get("asset_class") or "").strip() != "금리·파킹" else 0,
+            "isGeneralEtf": 1 if normalize_risk_type(str(row.get("risk_type") or "")) == "normal" and final_ac != "금리·파킹" else 0,
         })
     return as_of_date, sorted(records, key=lambda row: row["ticker"])
 

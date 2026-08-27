@@ -2020,7 +2020,7 @@ export function MarketBriefing() {
               <div className="flex items-center gap-1.5 bg-[#FFF7ED] px-3 py-1 rounded-lg border border-[#FFEDD5]">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
                 <span className="text-neutral-700 font-bold">레버리지</span>
-                <span className="text-[#EA580C] font-extrabold tabular-nums">AUM 3.8% vs 거래 35.2% ⚠️</span>
+                <span className="text-neutral-500 font-semibold tabular-nums">AUM 3.8% vs 거래 35.2%</span>
               </div>
               <div className="flex items-center gap-1.5 bg-[#FAF5FF] px-3 py-1 rounded-lg border border-[#F3E8FF]">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#9333EA]" />
@@ -2072,17 +2072,16 @@ export function MarketBriefing() {
                   <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">42개</td>
                 </tr>
                 {/* 레버리지 */}
-                <tr className="hover:bg-neutral-50/80 transition-colors bg-orange-50/30">
+                <tr className="hover:bg-neutral-50/80 transition-colors">
                   <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
                     레버리지 (2X)
-                    <span className="text-[10px] font-black text-orange-600 bg-orange-100 px-1.5 py-0.5 rounded">초과열</span>
                   </td>
                   <td className="py-3 text-right font-bold tabular-nums">17.0조원</td>
                   <td className="py-3 text-right font-bold text-neutral-500 tabular-nums">3.8%</td>
-                  <td className="py-3 text-right font-black text-[#EA580C] tabular-nums">4조 3,820억원</td>
-                  <td className="py-3 text-right font-black text-[#EA580C] tabular-nums">35.2%</td>
-                  <td className="py-3 text-right font-black text-[#EA580C] tabular-nums">25.65%</td>
+                  <td className="py-3 text-right font-semibold tabular-nums">4조 3,820억원</td>
+                  <td className="py-3 text-right font-bold tabular-nums">35.2%</td>
+                  <td className="py-3 text-right font-bold text-[#EA580C] tabular-nums">25.65%</td>
                   <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">68개</td>
                 </tr>
                 {/* 인버스 */}

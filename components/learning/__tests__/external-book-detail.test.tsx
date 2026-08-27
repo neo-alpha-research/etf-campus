@@ -6,7 +6,7 @@ import { findExternalBook } from "@/lib/content/learning-content";
 
 describe("ExternalBookDetail", () => {
   it("renders detail view with pros/cons, one-line review, and cross-sell banner", () => {
-    const book = findExternalBook("practical-etf-for-workers");
+    const book = findExternalBook("the-little-book-of-common-sense-investing");
     expect(book).toBeDefined();
     if (!book) return;
 
@@ -16,7 +16,7 @@ describe("ExternalBookDetail", () => {
     expect(screen.getByRole("heading", { level: 1, name: book.title })).toBeInTheDocument();
     expect(screen.getByText(book.author)).toBeInTheDocument();
     expect(screen.getByText(book.publisher)).toBeInTheDocument();
-    expect(screen.getByText(/4.8/)).toBeInTheDocument();
+    expect(screen.getByText(/4.9/)).toBeInTheDocument();
     expect(screen.getByText(/IRP 편입 가능/)).toBeInTheDocument();
 
     // One-line review
@@ -32,7 +32,7 @@ describe("ExternalBookDetail", () => {
     expect(screen.getByText("함께 읽는 추천 콘텐츠")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /가이드 읽기|큐레이션/ })).toHaveAttribute(
       "href",
-      "/books/momentum-etf-system",
+      "/books/index-asset-allocation",
     );
 
     // Backtest Ticker CTA (Customer F requirement)
@@ -40,6 +40,12 @@ describe("ExternalBookDetail", () => {
     expect(screen.getByRole("link", { name: /ETF 상세 데이터 분석/ })).toHaveAttribute(
       "href",
       "/etf/069500",
+    );
+
+    // Affiliate purchase link
+    expect(screen.getByRole("link", { name: /도서 구매처 바로가기/ })).toHaveAttribute(
+      "href",
+      book.affiliateUrl,
     );
   });
 });

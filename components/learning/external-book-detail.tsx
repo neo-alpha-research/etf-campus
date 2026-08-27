@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 
 import { CrossSellBanner } from "@/components/learning/cross-sell-banner";
-import { SampleBadge, SampleNotice } from "@/components/learning/sample-badge";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
 import type { ExternalBook } from "@/lib/content/learning-content";
 
@@ -36,7 +35,6 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
       <header className="mt-4">
         <div className="flex flex-wrap items-center gap-2">
           <span className="chip text-xs font-bold">{book.category}</span>
-          <SampleBadge />
           {book.irpEligible && (
             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-1 text-[0.6875rem] font-extrabold text-emerald-800">
               <CheckCircle2 className="h-3 w-3 text-emerald-600" />
@@ -113,11 +111,6 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
           </p>
         </div>
       </section>
-
-      {/* 학습용 예시 고지 */}
-      <div className="mt-6">
-        <SampleNotice />
-      </div>
 
       {/* Pros & Cons 2열 대칭 패널 (E 고객: 동등한 무게감, 색상 단독 의존 금지) */}
       <section className="mt-8">
@@ -206,23 +199,41 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
         <MarkdownContent source={book.content} />
       </section>
 
-      {/* 제휴 링크 (선택) */}
+      {/* 제휴 구매처 배너 */}
       {book.affiliateUrl && (
-        <section className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/80 p-5">
-          <p className="text-xs font-extrabold text-amber-900">광고 · 제휴 링크</p>
-          <p className="mt-1 text-xs text-amber-800 leading-relaxed">
-            아래 링크를 통해 도서를 구매하시면 ETF 캠퍼스 운영에 소정의 수수료가 지원될 수 있습니다.
+        <section className="mt-8 rounded-3xl border-2 border-brand-200 bg-brand-50/80 p-6 sm:p-8 shadow-xs">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="rounded-full bg-brand-100 px-2.5 py-0.5 text-xs font-bold text-brand-800 border border-brand-300/60">
+                  도서 공식 제휴처
+                </span>
+                <span className="text-xs font-semibold text-neutral-600">
+                  {book.publisher} 정식 출간 도서
+                </span>
+              </div>
+              <h3 className="mt-2 text-lg sm:text-xl font-extrabold text-brand-950">
+                『{book.title}』 도서 소장 및 실전 독서하기
+              </h3>
+              <p className="mt-1.5 text-xs sm:text-sm text-brand-900/80 leading-relaxed">
+                온라인 공식 서점에서 할인 혜택과 빠른 배송으로 도서를 바로 만나보실 수 있습니다.
+              </p>
+            </div>
+
+            <a
+              href={book.affiliateUrl}
+              rel="sponsored nofollow noopener"
+              target="_blank"
+              aria-label={`${book.title} 도서 구매처 바로가기 (새 창 열림)`}
+              className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-brand-700 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-brand-800 focus-visible:ring-2 focus-visible:ring-brand-500"
+            >
+              <span>도서 구매처 바로가기</span>
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+          <p className="mt-4 border-t border-brand-200/60 pt-3 text-[11px] text-brand-800/70">
+            * 본 링크는 제휴 마케팅 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있으며 도서 구매 가격에는 일체 영향이 없습니다.
           </p>
-          <a
-            href={book.affiliateUrl}
-            rel="sponsored nofollow noopener"
-            target="_blank"
-            aria-label="외부 도서 구매처 바로가기 (새 창 열림)"
-            className="mt-3 inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-brand-700 px-5 py-2.5 text-sm font-extrabold text-white transition-colors hover:bg-brand-800"
-          >
-            <span>외부 도서 구매처 바로가기</span>
-            <ExternalLink className="h-4 w-4" />
-          </a>
         </section>
       )}
 

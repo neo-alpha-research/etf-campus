@@ -46,8 +46,13 @@ describe("learning content", () => {
 
   it("loads validated external book reviews with rating, pros/cons, and compliance metadata", () => {
     const externalBooks = loadExternalBooks();
-    expect(externalBooks.length).toBe(4);
+    expect(externalBooks.length).toBe(9);
     expect(BOOK_COVER_BASE_PATH).toBe("/images/books");
+
+    for (const cat of EXTERNAL_BOOK_CATEGORIES) {
+      const catBooks = externalBooks.filter((b) => b.category === cat);
+      expect(catBooks.length).toBe(3);
+    }
 
     for (const book of externalBooks) {
       expect(book.kind).toBe("external-book");

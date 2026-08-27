@@ -103,6 +103,14 @@ export function ExternalBooksIndex({
 
                   {/* 도서명 및 저자 정보 */}
                   <div>
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="rounded-md bg-brand-800 px-1.5 py-0.5 text-[10px] font-black text-white">
+                        TOP {filteredBooks.indexOf(book) + 1}
+                      </span>
+                      <span className="text-[11px] font-bold text-brand-700">
+                        {book.category} 추천 {filteredBooks.indexOf(book) + 1}위
+                      </span>
+                    </div>
                     <h3 className="text-base font-extrabold tracking-[-0.02em] text-strong line-clamp-2 leading-snug">
                       {book.title}
                     </h3>
@@ -142,20 +150,38 @@ export function ExternalBooksIndex({
                   </div>
                 </div>
 
-                {/* 상세 보기 CTA (터치 타깃 최소 44px 보장) */}
-                <div className="mt-4 pt-2">
+                {/* 2단 CTA 버튼: 상세 리뷰 보기 + 제휴 구매처 바로가기 */}
+                <div className="mt-4 pt-2 flex flex-col gap-2">
                   <Link
                     href={`/books/review/${book.slug}`}
-                    className="inline-flex w-full min-h-[44px] items-center justify-center rounded-xl bg-brand-50 px-4 text-xs font-extrabold text-brand-800 transition-colors hover:bg-brand-100 active:scale-[0.99] border border-brand-200/60"
+                    className="inline-flex w-full min-h-[40px] items-center justify-center rounded-xl bg-brand-50 px-4 text-xs font-extrabold text-brand-800 transition-colors hover:bg-brand-100 active:scale-[0.99] border border-brand-200/60"
                   >
                     리뷰 상세 보기 →
                   </Link>
+
+                  {book.affiliateUrl && (
+                    <a
+                      href={book.affiliateUrl}
+                      target="_blank"
+                      rel="sponsored nofollow noopener"
+                      className="inline-flex w-full min-h-[38px] items-center justify-center gap-1.5 rounded-xl bg-surface px-4 text-xs font-bold text-neutral-700 transition-colors hover:bg-neutral-100 hover:text-brand-700 active:scale-[0.99] border border-line"
+                      aria-label={`${book.title} 도서 구매처 바로가기 (새 창 열림)`}
+                    >
+                      <span>도서 구매처 바로가기</span>
+                      <span className="text-[10px] text-muted">↗</span>
+                    </a>
+                  )}
                 </div>
               </article>
             );
           })
         )}
       </div>
+
+      {/* 하단 제휴 마케팅 공정위 고지 */}
+      <p className="mt-4 text-right text-[11px] text-muted">
+        ※ 본 페이지의 도서 구매 링크는 제휴 마케팅 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
+      </p>
     </div>
   );
 }

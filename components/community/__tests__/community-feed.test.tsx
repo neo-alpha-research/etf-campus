@@ -46,7 +46,9 @@ describe("CommunityFeed", () => {
     render(<CommunityFeed />);
     expect(screen.getByRole("button", { name: /글 작성/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /전체/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /연금 ETF Q&A/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /자유·질문/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /전략·포트폴리오/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /종목·비용 분석/i })).toBeInTheDocument();
   });
 
   it("D-3: 초기 렌더링 시 팝업 다이얼로그가 열리지 않는다", () => {

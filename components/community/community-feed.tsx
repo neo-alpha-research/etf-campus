@@ -8,11 +8,9 @@ import { getCommunityBoardNotice } from "@/lib/community/community-notices";
 
 const categories = [
   { slug: "", name: "전체" },
-  { slug: "notice", name: "공지" },
-  { slug: "pension-etf-qna", name: "연금 ETF Q&A" },
-  { slug: "etf-questions", name: "ETF 정보·질문" },
-  { slug: "challenge-30", name: "30일 챌린지" },
-  { slug: "feedback", name: "오류·기능 제안" },
+  { slug: "free-qna", name: "자유·질문" },
+  { slug: "strategy-portfolio", name: "전략·포트폴리오" },
+  { slug: "stock-cost-analysis", name: "종목·비용 분석" },
 ] as const;
 
 type Post = {
@@ -60,7 +58,12 @@ export function CommunityFeed() {
             const fallbackData = await fallbackRes.json();
             let list = fallbackData.posts || [];
             if (selected) {
-              list = list.filter((p: { category?: { slug?: string } }) => p.category?.slug === selected);
+              list = list.filter((p: { category?: { slug?: string } }) => {
+                if (selected === "free-qna") return p.category?.slug === "free-qna" || p.category?.slug === "pension-etf-qna";
+                if (selected === "strategy-portfolio") return p.category?.slug === "strategy-portfolio";
+                if (selected === "stock-cost-analysis") return p.category?.slug === "stock-cost-analysis" || p.category?.slug === "etf-questions";
+                return p.category?.slug === selected;
+              });
             }
             return { posts: list, nextCursor: null };
           }
@@ -109,10 +112,10 @@ export function CommunityFeed() {
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 pb-5">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
-            커뮤니티
+            ETF 이야기
           </h1>
           <p className="mt-1.5 text-xs sm:text-sm text-slate-600">
-            특정 종목 매수 권유가 아닌, 연금·상품 구조·실부담비용·판단 기준을 자유롭게 공유하고 토론하는 공간입니다.
+            특정 종목 매수 권유가 아닌, 연금·절세부터 실전 ETF 전략과 종목 판단 기준을 자유롭게 나누는 공간입니다.
           </p>
         </div>
         <div className="flex shrink-0 items-center">

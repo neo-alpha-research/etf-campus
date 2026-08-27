@@ -1,4 +1,7 @@
 export const COMMUNITY_CATEGORY_SLUGS = [
+  "free-qna",
+  "strategy-portfolio",
+  "stock-cost-analysis",
   "pension-etf-qna",
   "etf-questions",
   "challenge-30",

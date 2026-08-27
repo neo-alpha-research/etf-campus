@@ -1,82 +1,66 @@
 {
   "posts": [
     {
-      "slug": "notice-community-guidelines",
-      "title": "[공지] ETF Campus 커뮤니티 운영 원칙 및 객관적 검증 가이드라인",
-      "excerpt": "ETF Campus 커뮤니티는 특정 종목의 매수·매도 리딩이 아닌, 상품 구조·총보수·괴리율 등 객관적 판단 기준을 함께 공유하고 검증하는 공간입니다.",
-      "bodyText": "ETF Campus 커뮤니티는 특정 종목의 매수·매도 리딩이 아닌, 상품 구조·총보수·괴리율 등 객관적 판단 기준을 함께 공유하고 검증하는 공간입니다.\n\n1. 매수/매도 강요, 목표가 제시, 리딩방 홍보는 즉시 차단됩니다.\n2. 실부담비용율, 괴리율, 기초지수 추종력 등 데이터 기반의 의견을 권장합니다.\n3. 게시물에  또는  와 같이 캐시태그를 입력하면 종목 상세 분석으로 바로 연결됩니다.",
-      "category": {
-        "slug": "notice",
-        "name": "공지"
-      },
-      "authorNickname": "운영진",
-      "createdAt": "2026-08-25T09:00:00.000Z",
-      "commentCount": 3,
-      "upvoteCount": 42,
-      "isPinned": true,
-      "isAuthorSeed": true
-    },
-    {
       "slug": "pension-allocation-kospi-sp500",
-      "title": "개인연금(IRP)에서  및  비중 배분 기준 공유",
-      "excerpt": "현재 연금저축펀드에서 KOSPI 200 추종  과 미국 S&P500 추종  을 4:6 비율로 모아가고 있습니다. 리밸런싱 주기와 배당금 재투자 팁을 공유해 봅니다.",
-      "bodyText": "현재 연금저축펀드에서 KOSPI 200 추종  과 미국 S&P500 추종  을 4:6 비율로 모아가고 있습니다.\n\n적립식 투자 시 매월 25일 자동 매수를 진행하며, 분기별로 목표 비중 대비 5%p 이상 괴리가 발생할 때만 리밸런싱을 실시합니다. 분배금은 전액 재투자하여 복리 효과를 극대화하고 있습니다.",
+      "title": "3040 직장인의 연금저축+IRP $069500 및 $379800 분할 적립식 포트폴리오 공유",
+      "excerpt": "현재 개인연금에서 KOSPI 200 추종 $069500 과 미국 S&P500 추종 $379800 을 3:7 비율로 모아가고 있습니다. 리밸런싱 주기와 배당금 재투자 팁을 공유합니다.",
+      "bodyText": "현재 개인연금(연금저축펀드+IRP)에서 KOSPI 200 추종 $069500 과 미국 S&P500 추종 $379800 을 3:7 비율로 모아가고 있습니다.\n\n적립식 투자 시 매월 25일 월급날 자동 매수를 진행하며, 분기별로 목표 비중 대비 5%p 이상 괴리가 발생할 때만 리밸런싱을 실시합니다. 분배금은 전액 재투자하여 복리 효과를 극대화하고 있습니다.",
       "category": {
-        "slug": "pension-etf-qna",
-        "name": "연금 ETF Q&A"
+        "slug": "strategy-portfolio",
+        "name": "전략·포트폴리오"
       },
       "authorNickname": "연금마스터",
       "createdAt": "2026-08-26T14:30:00.000Z",
       "commentCount": 8,
-      "upvoteCount": 14,
-      "isPinned": false,
-      "isAuthorSeed": false
-    },
-    {
-      "slug": "challenge-day7-fx-hedged-vs-unhedged",
-      "title": "30일 챌린지 (7일차) - 환율 변동과  환노출 ETF 구조 분석",
-      "excerpt": "환노출(UH)과 환헤지(H)의 장기 성과 차이를 백테스팅해 보았습니다. 달러 강세 국면에서  추종 국내 상장 ETF의 실질 총보수와 괴리율을 추적해 정리했습니다.",
-      "bodyText": "환노출(UH)과 환헤지(H)의 장기 성과 차이를 비교해 보았습니다.\n\n달러 원 환율이 1,350원 이상 고환율 구간일 때 환헤지 비용이 실질 수익률에 미치는 영향을 계산해 보았습니다. 장기 10년 이상 보유 시에는 통화 분산 효과로 인해 환노출 상품이 유리하다는 점을 확인했습니다.",
-      "category": {
-        "slug": "challenge-30",
-        "name": "30일 챌린지"
-      },
-      "authorNickname": "성장하는투자자",
-      "createdAt": "2026-08-26T18:20:00.000Z",
-      "commentCount": 5,
-      "upvoteCount": 21,
+      "upvoteCount": 24,
       "isPinned": false,
       "isAuthorSeed": false
     },
     {
       "slug": "covered-call-nav-erosion-analysis",
-      "title": "월배당 커버드콜 ETF  원금 삭감 이슈와 실질 분배율 검증",
-      "excerpt": "연 12% 목표 프리미엄 분배금을 지급하는  의 NAV 추이를 최근 6개월간 추적했습니다. 제자리걸음 장세와 상승장 각각에서 총수익률을 비교한 데이터입니다.",
-      "bodyText": "고배당 월분배형 커버드콜 ETF인  을 6개월간 추적 분석했습니다.\n\n주가 상승 시 상방이 제한되는 구조적 특성 때문에, 기초자산 지수가 급등할 때 NAV 언더퍼폼이 발생할 수 있습니다. 반면 횡보장에서는 옵션 프리미엄 분배금이 원금 방어 역할을 충실히 수행했습니다.",
+      "title": "월배당 커버드콜 ETF $441640 원금 삭감 이슈와 실질 분배율 검증",
+      "excerpt": "연 12% 목표 프리미엄 분배금을 지급하는 $441640 의 NAV 추이를 최근 6개월간 추적했습니다. 제자리걸음 장세와 상승장 각각에서 총수익률을 비교한 데이터입니다.",
+      "bodyText": "고배당 월분배형 커버드콜 ETF인 $441640 을 6개월간 추적 분석했습니다.\n\n주가 상승 시 상방이 제한되는 구조적 특성 때문에, 기초자산 지수가 급등할 때 NAV 언더퍼폼이 발생할 수 있습니다. 반면 횡보장에서는 옵션 프리미엄 분배금이 원금 방어 역할을 충실히 수행했습니다.",
       "category": {
-        "slug": "etf-questions",
-        "name": "ETF 정보·질문"
+        "slug": "stock-cost-analysis",
+        "name": "종목·비용 분석"
       },
       "authorNickname": "데이터분석가",
       "createdAt": "2026-08-27T08:15:00.000Z",
       "commentCount": 12,
-      "upvoteCount": 19,
+      "upvoteCount": 31,
       "isPinned": false,
       "isAuthorSeed": false
     },
     {
-      "slug": "isa-to-irp-tax-credit-walkthrough",
-      "title": "ISA 만기 후 연금계좌 이전 시 10% 추가 세액공제 실행 후기",
-      "excerpt": "ISA 3년 만기 도래 후 60일 이내에 연금저축/IRP로 납입 시 10%(최대 300만원) 추가 세액공제를 받을 수 있는 절차를 직접 실행하고 후기를 남깁니다.",
-      "bodyText": "ISA 계좌가 3년 만기가 되어 연금저축으로 이전하는 절차를 완료했습니다.\n\n이전 금액의 10%(최대 300만원 한도)가 추가 세액공제 대상이 되어, 올해 총 900만원+300만원=1,200만원까지 세액공제 혜택을 챙길 수 있었습니다. 서류 준비와 증권사 앱 신청 동선을 정리해 공유합니다.",
+      "slug": "sp500-etf-total-expense-comparison",
+      "title": "미국 S&P500 국내상장 ETF 운용사별 실부담비용(TER+기타비용) 전격 비교",
+      "excerpt": "국내 상장된 미국 S&P500 ETF 4종의 총보수, 기타비용, 매매중개수수료율을 합산한 실제 실부담비용을 금융투자협회 공시 기준으로 전격 비교해 보았습니다.",
+      "bodyText": "국내 상장 미국 S&P500 ETF들의 표기 보수와 실제 주주가 부담하는 총비용(TER+기타비용)을 비교했습니다.\n\n표기된 운용보수가 0.01%대라 하더라도, 회계감사비/예탁원수수료 등 기타비용에 따라 실부담비용은 0.15%~0.25%까지 차이가 날 수 있습니다. $379800 및 주요 상품들의 장기 복리 비용 영향을 정리했습니다.",
       "category": {
-        "slug": "pension-etf-qna",
-        "name": "연금 ETF Q&A"
+        "slug": "stock-cost-analysis",
+        "name": "종목·비용 분석"
       },
-      "authorNickname": "절세전략가",
+      "authorNickname": "비용탐정",
+      "createdAt": "2026-08-27T09:30:00.000Z",
+      "commentCount": 15,
+      "upvoteCount": 45,
+      "isPinned": false,
+      "isAuthorSeed": true
+    },
+    {
+      "slug": "isa-to-irp-tax-credit-walkthrough",
+      "title": "초보 직장인 질문: ISA 만기 후 연금계좌 이전 시 10% 추가 세액공제 어떻게 챙기나요?",
+      "excerpt": "ISA 3년 만기 도래 후 60일 이내에 연금저축/IRP로 납입 시 10%(최대 300만원) 추가 세액공제를 받을 수 있는 절차에 대해 질문과 경험담을 나눕니다.",
+      "bodyText": "ISA 계좌가 3년 만기가 되어 연금저축으로 이전하는 절차를 진행 중입니다.\n\n이전 금액의 10%(최대 300만원 한도)가 추가 세액공제 대상이 되어, 올해 총 900만원+300만원=1,200만원까지 세액공제 혜택을 챙길 수 있는지, 증권사 앱에서 어떤 메뉴를 선택해야 하는지 궁금합니다.",
+      "category": {
+        "slug": "free-qna",
+        "name": "자유·질문"
+      },
+      "authorNickname": "절세꿈나무",
       "createdAt": "2026-08-27T10:45:00.000Z",
-      "commentCount": 6,
-      "upvoteCount": 16,
+      "commentCount": 7,
+      "upvoteCount": 18,
       "isPinned": false,
       "isAuthorSeed": false
     }

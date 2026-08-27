@@ -40,31 +40,31 @@ describe("CommunityComposer", () => {
     render(<CommunityComposer />);
     const body = await screen.findByLabelText(/본문/);
 
-    expect((body as HTMLTextAreaElement).value).toContain("계좌 유형");
-    fireEvent.change(screen.getByLabelText(/게시판/), { target: { value: "feedback" } });
+    expect((body as HTMLTextAreaElement).value).toContain("질문 내용");
+    fireEvent.change(screen.getByLabelText(/게시판/), { target: { value: "stock-cost-analysis" } });
 
-    expect((body as HTMLTextAreaElement).value).toContain("확인한 화면 또는 페이지 주소");
-    expect(screen.getByLabelText(/제목/)).toHaveAttribute("placeholder", expect.stringContaining("오류"));
+    expect((body as HTMLTextAreaElement).value).toContain("분석 대상 ETF");
+    expect(screen.getByLabelText(/제목/)).toHaveAttribute("placeholder", expect.stringContaining("실부담비용"));
   });
 
   it("빠른 경로의 category 쿼리값을 선택한 게시판과 템플릿에 반영한다", async () => {
     Object.defineProperty(window, "location", {
-      value: { search: "?category=feedback" },
+      value: { search: "?category=stock-cost-analysis" },
       writable: true,
     });
     render(<CommunityComposer />);
 
     await waitFor(() => {
-      expect(screen.getByLabelText(/게시판/)).toHaveValue("feedback");
+      expect(screen.getByLabelText(/게시판/)).toHaveValue("stock-cost-analysis");
     });
-    expect((screen.getByLabelText(/본문/) as HTMLTextAreaElement).value).toContain("확인한 화면 또는 페이지 주소");
+    expect((screen.getByLabelText(/본문/) as HTMLTextAreaElement).value).toContain("분석 대상 ETF");
   });
 
   it("사용자가 작성한 본문은 게시판을 바꿔도 덮어쓰지 않는다", async () => {
     render(<CommunityComposer />);
     const body = await screen.findByLabelText(/본문/);
     fireEvent.change(body, { target: { value: "운영자가 확인할 수 있도록 재현한 실제 오류 내용입니다." } });
-    fireEvent.change(screen.getByLabelText(/게시판/), { target: { value: "feedback" } });
+    fireEvent.change(screen.getByLabelText(/게시판/), { target: { value: "strategy-portfolio" } });
 
     expect(body).toHaveValue("운영자가 확인할 수 있도록 재현한 실제 오류 내용입니다.");
     expect(screen.getByRole("status")).toHaveTextContent("작성 중인 본문은 유지했습니다");

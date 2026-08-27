@@ -8,10 +8,9 @@ import { clearCommunityDraft, communityFetch, getCommunitySession, loadCommunity
 import { convertImageToWebp } from "@/lib/community/image-upload";
 
 const categories = [
-  { slug: "pension-etf-qna", name: "연금 ETF Q&A" },
-  { slug: "etf-questions", name: "ETF 정보·질문" },
-  { slug: "challenge-30", name: "30일 챌린지" },
-  { slug: "feedback", name: "오류·기능 제안" },
+  { slug: "free-qna", name: "자유·질문" },
+  { slug: "strategy-portfolio", name: "전략·포트폴리오" },
+  { slug: "stock-cost-analysis", name: "종목·비용 분석" },
 ] as const;
 
 type CategorySlug = (typeof categories)[number]["slug"];
@@ -22,26 +21,41 @@ type WritingTemplate = {
   body: string;
 };
 
-const WRITING_TEMPLATES: Record<CategorySlug, WritingTemplate> = {
+const WRITING_TEMPLATES: Record<string, WritingTemplate> = {
+  "free-qna": {
+    titlePlaceholder: "ETF 투자나 연금 계좌에서 궁금한 점을 자유롭게 적어 주세요",
+    hint: "초보적인 질문도 환영합니다. 계좌 종류(연금저축/IRP/일반)나 상황을 함께 적어주시면 더 유익한 답변을 받을 수 있습니다.",
+    body: "## 질문 내용\n\n## 현재 계좌 또는 투자 상황\n예: 연금저축펀드 시작 3개월차 / ISA 계좌 운용 중\n\n## 확인해 본 내용\n\n",
+  },
+  "strategy-portfolio": {
+    titlePlaceholder: "나만의 ETF 자산배분 포트폴리오나 적립식 투자 전략을 공유해 주세요",
+    hint: "수익률 자랑보다는 목표 비중, 리밸런싱 주기, 월배당 재투자 방식 등 '전략의 기준'을 적어주시면 큰 도움이 됩니다.",
+    body: "## 투자 목적 및 기간\n예: 노후 연금 마련 (15년 장기 투자) / 월배당 현금흐름 구축\n\n## 포트폴리오 구성 및 목표 비중\n- ETF 종목 1 ($069500): 40%\n- ETF 종목 2 ($379800): 40%\n- 안전자산/현금: 20%\n\n## 리밸런싱 및 분배금 운용 규칙\n\n## 이 전략을 선택한 이유\n",
+  },
+  "stock-cost-analysis": {
+    titlePlaceholder: "특정 ETF의 실부담비용, 괴리율, 분배금 구조 분석 내용을 적어 주세요",
+    hint: "글 본문에 $069500 또는 $SPY 처럼 $티커를 입력하면 ETF 상세 분석 페이지로 자동 연결됩니다.",
+    body: "## 분석 대상 ETF\n예: $069500 vs $379800\n\n## 확인한 데이터 (실부담비용 / 괴리율 / 분배금)\n\n## 분석 및 비교 포인트\n\n## 최종 판단 기준 및 유의점\n",
+  },
   "pension-etf-qna": {
     titlePlaceholder: "연금 계좌에서 무엇을 확인하고 싶은지 적어 주세요",
     hint: "계좌 유형과 확인한 자료를 함께 적으면 더 구체적인 답변을 받을 수 있습니다.",
-    body: "## 계좌 유형\n연금저축 / IRP / DC 중 해당하는 범위:\n\n## 확인한 자료\n예: ETF 상세 화면, 운용사 상품 설명, 공시 제목\n\n## 현재 질문\n\n## 아직 판단하지 않은 부분\n예: 추종 지수, 비용, 분배 방식 중 더 확인할 내용\n",
+    body: "## 계좌 유형\n\n## 확인한 자료\n\n## 현재 질문\n",
   },
   "etf-questions": {
     titlePlaceholder: "ETF 정보에서 무엇이 헷갈리는지 적어 주세요",
     hint: "상품명 대신 공식 자료에서 확인한 구조·비용·공시 정보를 적어 주세요.",
-    body: "## 확인한 ETF 또는 페이지\n\n## 확인한 공식 자료\n예: 운용사 상품 설명, ETF 상세 화면, 공시 제목\n\n## 이해한 점\n\n## 아직 헷갈리는 점\n\n## 다음에 확인할 기준\n",
+    body: "## 확인한 ETF 또는 페이지\n\n## 질문 내용\n",
   },
   "challenge-30": {
     titlePlaceholder: "오늘 확인한 ETF 판단 기준을 한 줄로 적어 주세요",
     hint: "수익률·보유 금액·매매 계획 대신, 읽은 출처와 다음 학습 기준을 기록해 주세요.",
-    body: "## 오늘의 학습 주제\n\n## 오늘 확인한 출처\n\n## 오늘의 판단 기준 점검\n\n## 다음에 확인할 내용\n",
+    body: "## 오늘의 학습 주제\n\n## 오늘 확인한 출처\n",
   },
   feedback: {
     titlePlaceholder: "오류가 보인 화면과 ETF 코드 또는 기능을 적어 주세요",
     hint: "개인정보·로그인 정보·인증 코드는 적지 말고, 재현 가능한 정보만 남겨 주세요.",
-    body: "## 확인한 화면 또는 페이지 주소\n\n## ETF 코드 또는 기능 이름\n\n## 확인한 날짜\n\n## 화면에 표시된 값 또는 동작\n\n## 기대한 값 또는 동작\n\n## 재현 방법\n",
+    body: "## 확인한 화면\n\n## 재현 방법\n",
   },
 };
 
@@ -54,7 +68,7 @@ function isCategorySlug(value: string): value is CategorySlug {
 }
 
 export function CommunityComposer() {
-  const [categorySlug, setCategorySlug] = useState<CategorySlug>("pension-etf-qna");
+  const [categorySlug, setCategorySlug] = useState<CategorySlug>("free-qna");
   const [title, setTitle] = useState("");
   const [bodyText, setBodyText] = useState("");
   const [signedIn, setSignedIn] = useState(false);
@@ -77,7 +91,7 @@ export function CommunityComposer() {
       setDraftRestored(true);
     } else {
       const requestedCategory = new URLSearchParams(window.location.search).get("category");
-      const initialCategory = requestedCategory && isCategorySlug(requestedCategory) ? requestedCategory : "pension-etf-qna";
+      const initialCategory = requestedCategory && isCategorySlug(requestedCategory) ? requestedCategory : "free-qna";
       setCategorySlug(initialCategory);
       setBodyText(WRITING_TEMPLATES[initialCategory].body);
     }

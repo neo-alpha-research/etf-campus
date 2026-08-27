@@ -155,6 +155,52 @@ export const BOOK_SLUG_BY_NEED = {
   income: "dividend-cashflow",
 } as const;
 
+export type SeriesBookMetadata = {
+  slug: string;
+  seriesIndex: number;
+  title: string;
+  shortTitle: string;
+  summary: string;
+  topic: string;
+  reader: string;
+  status: "published" | "coming-soon";
+  affiliateUrl?: string;
+};
+
+export const PRESCRIPTION_BOOK_METADATA: Record<string, SeriesBookMetadata> = {
+  "momentum-etf-system": {
+    slug: "momentum-etf-system",
+    seriesIndex: 1,
+    title: "감정을 끄고 시스템으로 ① 모멘텀",
+    shortTitle: "① 모멘텀",
+    summary: "강한 흐름을 읽되 신호가 없을 때는 기다리는 법을 30일에 걸쳐 정리합니다. 위험자산 안에서 후보를 비교하는 신호 엔진입니다.",
+    topic: "모멘텀 판단 기준과 교체 조건",
+    reader: "시장이 오르면 뒤늦게 따라가고, 흔들리면 급하게 판단하는 DC형 가입자",
+    status: "published",
+    affiliateUrl: "https://ctee.kr/item/store/99321",
+  },
+  "index-asset-allocation": {
+    slug: "index-asset-allocation",
+    seriesIndex: 2,
+    title: "감정을 끄고 시스템으로 ② 지수·자산배분",
+    shortTitle: "② 지수·자산배분",
+    summary: "국내 주식·해외 주식·방어 축의 역할을 나누고, 목표 비율·허용 밴드·점검일을 한 장의 규정서에 적는 30일 DC형 퇴직연금 운용 규정서입니다.",
+    topic: "목표 비율·허용 밴드·운용 규정서",
+    reader: "ETF는 보지만 계좌 전체가 실제로 어떻게 나뉘어 있는지 모르는 DC형 가입자",
+    status: "coming-soon",
+  },
+  "dividend-cashflow": {
+    slug: "dividend-cashflow",
+    seriesIndex: 3,
+    title: "감정을 끄고 시스템으로 ③ 배당·현금흐름",
+    shortTitle: "③ 배당·현금흐름",
+    summary: "분배금의 재원·지급 이력·함정 필터·분기 루틴을 통해 배당을 현금흐름의 언어로 읽는 30일 DC형 퇴직연금 ETF 운용법입니다.",
+    topic: "분배금 구조·현금흐름·함정 필터",
+    reader: "높은 분배율과 월분배라는 말에 시선이 먼저 가는 DC형 가입자",
+    status: "coming-soon",
+  },
+};
+
 export type NeedId = keyof typeof BOOK_SLUG_BY_NEED;
 export type NeedScores = Record<NeedId, number>;
 export type PrescriptionAnswers = Record<PrescriptionQuestionId, NeedId>;

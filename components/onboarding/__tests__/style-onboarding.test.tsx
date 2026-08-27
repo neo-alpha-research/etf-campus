@@ -19,7 +19,7 @@ describe("StyleOnboarding Component", () => {
     openStyleOnboarding();
     expect(await screen.findByRole("dialog", { name: "ETF 투자 스타일 점검" })).toBeInTheDocument();
     expect(screen.getByText(/약 3분 · 13문항/)).toBeInTheDocument();
-    expect(screen.getByText("나의 ETF 투자 스타일 점검")).toBeInTheDocument();
+    expect(screen.getByText("나의 ETF 전공 적성 검사")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "건너뛰기" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

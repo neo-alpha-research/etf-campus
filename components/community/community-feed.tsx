@@ -54,7 +54,7 @@ export function CommunityFeed() {
     fetch(`/api/community/posts?${params.toString()}`)
       .then(async (response) => {
         const contentType = response.headers?.get ? response.headers.get("content-type") || "" : "application/json";
-        if (!response.ok || (response.headers?.get && !contentType.includes("application/json"))) {
+        if (!response.ok || !contentType.includes("application/json")) {
           const fallbackRes = await fetch("/mock-community-posts.json");
           if (fallbackRes.ok) {
             const fallbackData = await fallbackRes.json();

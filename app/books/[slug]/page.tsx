@@ -64,14 +64,14 @@ export default async function BookPage({ params }: Props) {
 
         {/* 도서 제목 및 표지 헤더 카드 */}
         <div className="mt-5 flex flex-col sm:flex-row gap-5 rounded-2xl border border-line bg-surface p-5 sm:p-6 items-center sm:items-start shadow-xs">
-          <div className="flex aspect-[3/4] w-28 sm:w-32 shrink-0 items-center justify-center rounded-xl bg-neutral-100 border border-line/60 overflow-hidden shadow-xs">
+          <div className="flex aspect-[4/3] w-36 sm:w-48 shrink-0 items-center justify-center rounded-xl bg-neutral-50 border border-line/60 overflow-hidden shadow-xs">
             {book.coverImage ? (
               <Image
                 src={book.coverImage}
                 alt={book.title}
-                width={128}
-                height={170}
-                className="h-full w-full object-cover"
+                width={192}
+                height={144}
+                className="h-full w-full object-contain"
                 unoptimized
               />
             ) : (

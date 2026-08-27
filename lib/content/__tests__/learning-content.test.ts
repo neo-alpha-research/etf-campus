@@ -30,7 +30,7 @@ describe("learning content", () => {
     expect(momentumBook).toBeDefined();
     expect(momentumBook?.seriesIndex).toBe(1);
     expect(momentumBook?.status).toBe("published");
-    expect(momentumBook?.coverImage).toBe("/images/books/momentum-cover.jpg");
+    expect(momentumBook?.coverImage).toBe("/images/books/momentum-cover.png");
 
     const assetAllocationBook = findBook("index-asset-allocation");
     expect(assetAllocationBook).toBeDefined();

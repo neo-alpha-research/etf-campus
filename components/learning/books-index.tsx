@@ -54,14 +54,14 @@ export function BooksIndex({ books }: { books: Book[] }) {
                 </div>
 
                 {/* 책 표지 영역 */}
-                <div className="my-4 flex aspect-[3/4] w-28 sm:w-32 mx-auto items-center justify-center rounded-xl bg-neutral-100 border border-line/60 overflow-hidden relative shadow-xs">
+                <div className="my-4 flex aspect-[4/3] w-full max-w-[240px] mx-auto items-center justify-center rounded-xl bg-neutral-50 border border-line/60 overflow-hidden relative shadow-xs">
                   {book.coverImage ? (
                     <Image
                       src={book.coverImage}
                       alt={book.title}
-                      width={128}
-                      height={170}
-                      className="h-full w-full object-cover"
+                      width={240}
+                      height={180}
+                      className="h-full w-full object-contain"
                       unoptimized
                     />
                   ) : (

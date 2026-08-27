@@ -118,15 +118,31 @@ export function CommunityComposer() {
   async function handleImageFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
-    if (!getCommunitySession() && !(await refreshCommunitySession())) {
-      setMessage("이미지를 업로드하려면 먼저 이메일 인증이 필요합니다.");
-      setAuthOpen(true);
-      return;
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      if (!getCommunitySession() && !(await refreshCommunitySession())) {
+        setMessage("이미지를 업로드하려면 먼저 이메일 인증이 필요합니다.");
+        setAuthOpen(true);
+        return;
+      }
     }
     setUploadingImage(true);
     setMessage("");
     try {
       const webpBlob = await convertImageToWebp(file);
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64data = reader.result as string;
+          const imageMarkdown = `\n\n![이미지](${base64data})\n\n`;
+          setBodyText((prev) => prev + imageMarkdown);
+          setMessage("이미지가 본문에 추가되었습니다 (로컬 미리보기).");
+        };
+        reader.readAsDataURL(webpBlob);
+        setUploadingImage(false);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", webpBlob, `${crypto.randomUUID()}.webp`);
 
@@ -157,14 +173,42 @@ export function CommunityComposer() {
       setMessage("템플릿의 안내 문구를 실제 확인 내용과 질문으로 바꾼 뒤 등록해 주세요.");
       return;
     }
-    if (!getCommunitySession() && !(await refreshCommunitySession())) {
-      setMessage("작성 중인 초안을 보관했습니다. 이메일 인증 후 이어서 작성할 수 있습니다.");
-      setAuthOpen(true);
-      return;
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      if (!getCommunitySession() && !(await refreshCommunitySession())) {
+        setMessage("작성 중인 초안을 보관했습니다. 이메일 인증 후 이어서 작성할 수 있습니다.");
+        setAuthOpen(true);
+        return;
+      }
     }
     setLoading(true);
     setMessage("");
     try {
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        const newSlug = `local-${Date.now()}`;
+        const newPost = {
+          slug: newSlug,
+          title,
+          bodyText,
+          category: {
+            slug: categorySlug,
+            name: categories.find((c) => c.slug === categorySlug)?.name || "게시판",
+          },
+          authorNickname: "테스트작성자",
+          createdAt: new Date().toISOString(),
+          commentCount: 0,
+          upvoteCount: 1,
+        };
+        try {
+          const stored = localStorage.getItem("etf-campus:local-posts");
+          const list = stored ? JSON.parse(stored) : [];
+          list.unshift(newPost);
+          localStorage.setItem("etf-campus:local-posts", JSON.stringify(list));
+        } catch {}
+        clearCommunityDraft();
+        window.location.assign(`/community/read/?slug=${encodeURIComponent(newSlug)}`);
+        return;
+      }
+
       const result = await communityFetch("/api/community/posts", {
         method: "POST",
         body: JSON.stringify({ categorySlug, title, bodyText }),

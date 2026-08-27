@@ -80,6 +80,32 @@ export function CommunityPostDetail() {
     } catch (error) {
       if (typeof window !== "undefined") {
         try {
+          const stored = localStorage.getItem("etf-campus:local-posts");
+          const localList = stored ? JSON.parse(stored) : [];
+          const foundLocal = localList.find((p: { slug?: string }) => p.slug === slug);
+          if (foundLocal) {
+            setPost({
+              ...foundLocal,
+              canEdit: true,
+              canModerate: false,
+              updatedAt: foundLocal.createdAt,
+            });
+            setUpvoteCount(foundLocal.upvoteCount ?? 1);
+            setIsUpvoted(false);
+            setComments([
+              {
+                publicId: "local-comment-1",
+                authorNickname: "ETF마스터",
+                bodyText: "판단 기준 공유 감사합니다! $069500 및 관련 종목 구조를 파악하는 데 큰 도움이 되었습니다.",
+                createdAt: foundLocal.createdAt,
+                updatedAt: foundLocal.createdAt,
+                canEdit: false,
+              }
+            ]);
+            setStatus("ready");
+            return;
+          }
+
           const fallbackRes = await fetch("/mock-community-posts.json");
           if (fallbackRes.ok) {
             const fallbackData = await fallbackRes.json();
@@ -108,7 +134,7 @@ export function CommunityPostDetail() {
             }
           }
         } catch {
-          // ignore fallback error
+          // ignore
         }
       }
       const code = error && typeof error === "object" && "code" in error ? error.code : undefined;
@@ -203,13 +229,23 @@ export function CommunityPostDetail() {
 
   async function toggleUpvote() {
     if (upvoting) return;
-    if (!getCommunitySession() && !(await refreshCommunitySession())) {
-      setAuthOpen(true);
-      return;
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      if (!getCommunitySession() && !(await refreshCommunitySession())) {
+        setAuthOpen(true);
+        return;
+      }
     }
     setUpvoting(true);
     setMessage("");
     try {
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        setIsUpvoted((prev) => {
+          const next = !prev;
+          setUpvoteCount((cnt) => (next ? cnt + 1 : Math.max(0, cnt - 1)));
+          return next;
+        });
+        return;
+      }
       const result = await communityFetch(`/api/community/posts/${slug}/upvote`, {
         method: "POST",
       });
@@ -228,8 +264,27 @@ export function CommunityPostDetail() {
 
   async function submitComment(event: React.FormEvent) {
     event.preventDefault();
-    if (!getCommunitySession() && !(await refreshCommunitySession())) { setAuthOpen(true); return; }
+    if (!commentBody.trim()) return;
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+      if (!getCommunitySession() && !(await refreshCommunitySession())) { setAuthOpen(true); return; }
+    }
     try {
+      if (typeof window !== "undefined" && window.location.hostname === "localhost") {
+        setComments((prev) => [
+          ...prev,
+          {
+            publicId: "local-comment-" + Date.now(),
+            authorNickname: "내닉네임",
+            bodyText: commentBody,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            canEdit: true,
+          }
+        ]);
+        setCommentBody("");
+        setMessage("댓글을 등록했습니다 (로컬 미리보기).");
+        return;
+      }
       await communityFetch(`/api/community/posts/${slug}/comments`, { method: "POST", body: JSON.stringify({ bodyText: commentBody }) });
       setCommentBody("");
       setMessage("댓글을 등록했습니다.");

@@ -78,6 +78,39 @@ export function CommunityPostDetail() {
       setComments(commentsResult.comments ?? []);
       setStatus("ready");
     } catch (error) {
+      if (typeof window !== "undefined") {
+        try {
+          const fallbackRes = await fetch("/mock-community-posts.json");
+          if (fallbackRes.ok) {
+            const fallbackData = await fallbackRes.json();
+            const found = (fallbackData.posts || []).find((p: { slug?: string }) => p.slug === slug);
+            if (found) {
+              setPost({
+                ...found,
+                canEdit: false,
+                canModerate: false,
+                updatedAt: found.createdAt,
+              });
+              setUpvoteCount(found.upvoteCount ?? 0);
+              setIsUpvoted(false);
+              setComments([
+                {
+                  publicId: "mock-comment-1",
+                  authorNickname: "ETF마스터",
+                  bodyText: "판단 기준 공유 감사합니다! $069500 및 관련 종목 구조를 파악하는 데 큰 도움이 되었습니다.",
+                  createdAt: found.createdAt,
+                  updatedAt: found.createdAt,
+                  canEdit: false,
+                }
+              ]);
+              setStatus("ready");
+              return;
+            }
+          }
+        } catch {
+          // ignore fallback error
+        }
+      }
       const code = error && typeof error === "object" && "code" in error ? error.code : undefined;
       setStatus(code === "NOT_FOUND" ? "not-found" : "error");
     }

@@ -32,6 +32,14 @@ export async function onRequestGet(context) {
 
   try {
     if (ticker === "ALL") {
+      const cacheKey = `returns:ALL:${start}:${end}`;
+      if (env.BRIEFING_KV) {
+        const cached = await env.BRIEFING_KV.get(cacheKey, "json");
+        if (cached) {
+          return json(cached, 200);
+        }
+      }
+
       // Bulk query for all ETFs
       const startRows = await db.prepare(
         "SELECT ticker, MAX(date) as date, close FROM etf_prices WHERE date <= ? GROUP BY ticker"
@@ -57,7 +65,13 @@ export async function onRequestGet(context) {
         }
         results[endRow.ticker] = ret;
       }
-      return json({ start, end, returns: results }, 200);
+      
+      const responseData = { start, end, returns: results };
+      if (env.BRIEFING_KV) {
+        await env.BRIEFING_KV.put(cacheKey, JSON.stringify(responseData), { expirationTtl: 86400 });
+      }
+      
+      return json(responseData, 200);
     }
 
     // Nearest close on or before start (handles pre-listing: falls back to IPO date)

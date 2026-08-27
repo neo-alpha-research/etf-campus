@@ -4,10 +4,10 @@ import { render, screen } from "@testing-library/react";
 import { LegalDisclaimer, DISCLAIMER_TEXTS } from "../disclaimer";
 
 describe("LegalDisclaimer Component", () => {
-  it("renders standard disclaimer by default", () => {
+  it("renders compact disclaimer by default", () => {
     render(<LegalDisclaimer />);
-    expect(screen.getByRole("complementary")).toHaveTextContent(DISCLAIMER_TEXTS.standard.title);
-    expect(screen.getByRole("complementary")).toHaveTextContent("모든 투자 결정과 그에 따른 손익의 최종 책임은 투자자 본인에게 있습니다");
+    expect(screen.getByRole("complementary")).toHaveTextContent(DISCLAIMER_TEXTS.compact.title);
+    expect(screen.getByRole("complementary")).toHaveTextContent("ETF Campus는 투자 권유 및 종목 추천을 하지 않습니다");
   });
 
   it("renders strict variant correctly", () => {

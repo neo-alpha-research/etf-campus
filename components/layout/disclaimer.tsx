@@ -18,7 +18,7 @@ export const DISCLAIMER_TEXTS: Record<DisclaimerVariant, { title: string; body: 
 };
 
 export function LegalDisclaimer({
-  variant = "standard",
+  variant = "compact",
   className = "",
 }: {
   variant?: DisclaimerVariant;

@@ -58,11 +58,15 @@ export function StyleChip() {
       type="button"
     >
       <span
-        aria-hidden="true"
-        className="grid size-8 shrink-0 place-items-center rounded-full border border-brand-200/90 bg-white text-lg shadow-2xs transition-transform group-hover:scale-105"
-      >
-        {profile ? profile.emoji : "🧭"}
-      </span>
+          aria-hidden="true"
+          className="grid size-8 shrink-0 place-items-center rounded-full border border-brand-200/90 bg-white text-lg shadow-2xs transition-transform group-hover:scale-105 overflow-hidden"
+        >
+          {profile ? (
+            <img src={profile.imagePath} alt={profile.name} className="size-full object-cover" />
+          ) : (
+            "🧭"
+          )}
+        </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[10px] font-extrabold tracking-[0.04em] text-brand-700">
           {profile

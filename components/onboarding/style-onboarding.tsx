@@ -499,9 +499,9 @@ export function StyleOnboarding() {
           <div className="pb-3 pt-4">
             {/* Top Animal Identity Card */}
             <div className="rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-50 via-surface to-neutral-50 p-5 text-center sm:p-7">
-              <div className="mx-auto grid size-24 place-items-center rounded-full border-4 border-white bg-white text-6xl shadow-md" aria-hidden="true">
-                {profile.emoji}
-              </div>
+              <div className="mx-auto grid size-24 place-items-center rounded-full border-4 border-white bg-white shadow-md overflow-hidden" aria-hidden="true">
+                  <img src={profile.imagePath} alt={profile.name} className="size-full object-cover" />
+                </div>
 
               {/* Rarity Badge */}
               <div className="mt-4 flex justify-center">
@@ -569,9 +569,9 @@ export function StyleOnboarding() {
                   <span className="text-[11px] font-bold text-muted">탐색 벡터 최대 거리</span>
                 </div>
                 <div className="mt-3 flex items-center gap-3">
-                  <span className="grid size-12 place-items-center rounded-2xl bg-neutral-100 text-2xl" aria-hidden="true">
-                    {oppositeProfile.emoji}
-                  </span>
+                  <span className="grid size-12 place-items-center rounded-2xl bg-neutral-100 overflow-hidden" aria-hidden="true">
+                      <img src={oppositeProfile.imagePath} alt={oppositeProfile.name} className="size-full object-cover" />
+                    </span>
                   <div>
                     <h3 className="text-base font-extrabold text-strong">{oppositeProfile.name}</h3>
                     <p className="text-xs text-muted">&ldquo;{oppositeProfile.punchline}&rdquo;</p>

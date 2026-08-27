@@ -220,6 +220,7 @@ export type StyleProfile = {
   animal: string;
   name: string;
   emoji: string;
+  imagePath: string;
   tagline: string;
   punchline: string;
   summary: string;
@@ -234,6 +235,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "거북이",
     name: "원칙을 지키는 거북이",
     emoji: "🐢",
+      imagePath: "/images/animals/turtle.jpg",
     tagline: "서두르지 않고 익숙한 기준부터 확인해요",
     punchline: "숫자가 춤을 춰도 내가 정한 점검 날짜가 되기 전엔 움직이지 않습니다.",
     summary: "큰 흐름과 핵심 조건을 정해진 리듬으로 살피는 편입니다. 복잡한 목록에서도 먼저 확인할 순서를 스스로 만들어 갑니다.",
@@ -246,6 +248,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "부엉이",
     name: "숫자를 읽는 부엉이",
     emoji: "🦉",
+      imagePath: "/images/animals/owl.jpg",
     tagline: "변화가 보이면 세부 수치를 끝까지 살펴봐요",
     punchline: "설명글보다 숫자 표를 먼저 열고, 작은 소수점 차이까지 확인해야 잠이 옵니다.",
     summary: "익숙한 시장 안에서도 종목별 차이를 세밀하게 비교하는 편입니다. 숫자와 조건을 나란히 놓을 때 판단 재료가 또렷해집니다.",
@@ -258,6 +261,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "다람쥐",
     name: "차곡차곡 살피는 다람쥐",
     emoji: "🐿️",
+      imagePath: "/images/animals/squirrel.jpg",
     tagline: "정한 날마다 필요한 숫자를 꼼꼼히 모아요",
     punchline: "매월 정한 날마다 지난달 메모와 오늘 숫자를 나란히 두고 차곡차곡 모아갑니다.",
     summary: "익숙한 자산군을 중심으로 여러 기준을 꾸준히 점검하는 편입니다. 비교한 내용을 차곡차곡 쌓을수록 탐색이 편해집니다.",
@@ -270,6 +274,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "돌고래",
     name: "흐름을 타는 돌고래",
     emoji: "🐬",
+      imagePath: "/images/animals/dolphin.jpg",
     tagline: "새로운 시장의 움직임을 빠르게 연결해요",
     punchline: "새로운 테마나 시장 소식이 들려오면 관련된 ETF부터 지도처럼 빠르게 펼쳐봅니다.",
     summary: "새로운 자산군을 넓게 둘러보고 시장 변화의 공통 흐름을 찾는 편입니다. 핵심 기준이 간결할수록 탐색이 가벼워집니다.",
@@ -282,6 +287,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "코끼리",
     name: "큰 그림을 기억하는 코끼리",
     emoji: "🐘",
+      imagePath: "/images/animals/elephant.jpg",
     tagline: "전체 맥락을 기억하며 여러 기준을 차분히 엮어요",
     punchline: "단기 등락보다 이 자산군이 내 계좌에서 맡은 원래 역할을 먼저 떠올립니다.",
     summary: "익숙한 자산군의 역할을 중심에 두고 여러 조건을 정기적으로 확인하는 편입니다. 이전 점검과 달라진 점을 비교할 때 강점이 드러납니다.",
@@ -294,6 +300,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "여우",
     name: "조건을 엮는 여우",
     emoji: "🦊",
+      imagePath: "/images/animals/fox.jpg",
     tagline: "새로운 변화 속에서 비교 기준을 빠르게 조합해요",
     punchline: "변화가 감지되면 필터와 정렬 기준을 바꿔가며 숨은 차이와 후보를 빠르게 좁힙니다.",
     summary: "넓은 시장을 탐색하면서 종목별 수치와 여러 조건을 함께 보는 편입니다. 필터와 정렬을 바꾸며 차이를 찾는 과정에 익숙합니다.",
@@ -306,6 +313,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "문어",
     name: "여러 기준을 다루는 문어",
     emoji: "🐙",
+      imagePath: "/images/animals/octopus.jpg",
     tagline: "다양한 시장과 숫자를 한 번에 차분히 조율해요",
     punchline: "서로 다른 시장과 여러 지표를 한 화면에 띄워두고 종합적인 균형을 맞춥니다.",
     summary: "새로운 자산군을 넓게 탐색하면서도 정한 리듬 안에서 여러 비교 기준을 다루는 편입니다. 복잡한 정보를 자기 방식으로 정리합니다.",
@@ -318,6 +326,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "독수리",
     name: "시장을 넓게 보는 독수리",
     emoji: "🦅",
+      imagePath: "/images/animals/eagle.jpg",
     tagline: "큰 흐름을 보면서 중요한 변화를 놓치지 않아요",
     punchline: "개별 종목의 잔물결보다 글로벌 거시 흐름과 자산군 전체의 큰 방향을 먼저 봅니다.",
     summary: "새로운 시장을 넓은 시야로 살피고 변화가 있을 때 여러 조건을 확인하는 편입니다. 먼저 지도를 보고 필요한 곳에 집중합니다.",
@@ -330,6 +339,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "고슴도치",
     name: "근거를 확인하는 고슴도치",
     emoji: "🦔",
+      imagePath: "/images/animals/hedgehog.jpg",
     tagline: "중요한 변화가 보이면 경계와 근거부터 확인해요",
     punchline: "화려한 수익률 문구보다 공시와 투자설명서의 원문 근거부터 꼼꼼히 확인합니다.",
     summary: "익숙한 시장 안에서 핵심 기준을 빠르게 좁히고, 필요한 원문과 근거를 깊이 확인하는 편입니다. 무엇을 더 확인해야 하는지 경계를 잘 세웁니다.",
@@ -342,6 +352,7 @@ export const STYLE_PROFILES: Record<StyleId, StyleProfile> = {
     animal: "수달",
     name: "핵심을 건지는 수달",
     emoji: "🦦",
+      imagePath: "/images/animals/otter.jpg",
     tagline: "새로운 시장에서도 중요한 흐름을 가볍게 건져요",
     punchline: "복잡한 수치에 얽매이기보다 핵심 요약과 간결한 질문으로 중요한 맥락만 건져냅니다.",
     summary: "새로운 자산군을 넓게 탐색하면서 핵심 요약과 간결한 기준으로 정보를 정리하는 편입니다. 정기적인 탐색을 부담 없이 이어 갑니다.",

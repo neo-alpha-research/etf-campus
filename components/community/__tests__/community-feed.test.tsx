@@ -42,20 +42,15 @@ describe("CommunityFeed", () => {
     expect(link.getAttribute("href")).not.toContain("/community/test-slug-123/");
   });
 
-  it("D-5: 배너 문구에 '신고' 문자열 부재", () => {
+  it("D-2: 게시판 카테고리 탭과 글 작성 버튼을 제공한다", () => {
     render(<CommunityFeed />);
-    const notice = screen.getByText(/게시물은 공개로 읽을 수 있으며/);
-    expect(notice.textContent).not.toContain("신고");
-    expect(notice.textContent).toContain("작성·댓글은");
+    expect(screen.getByRole("button", { name: /글 작성/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /전체/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /연금 ETF Q&A/i })).toBeInTheDocument();
   });
 
-  it("P1: 팝업 없이 목적 기반 4개 빠른 경로를 제공한다", () => {
+  it("D-3: 초기 렌더링 시 팝업 다이얼로그가 열리지 않는다", () => {
     render(<CommunityFeed />);
-
-    expect(screen.getByRole("link", { name: /질문하기/ }).getAttribute("href")).toBe("/community/write?category=pension-etf-qna");
-    expect(screen.getByRole("link", { name: /ETF 읽기/ }).getAttribute("href")).toBe("/community/learning-bundles");
-    expect(screen.getByRole("link", { name: /30일 기록/ }).getAttribute("href")).toBe("/community/challenge");
-    expect(screen.getByRole("link", { name: /오류 제보/ }).getAttribute("href")).toBe("/community/write?category=feedback");
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });

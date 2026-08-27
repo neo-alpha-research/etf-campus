@@ -14,6 +14,7 @@ export default defineConfig([
     ".next/**",
     "out/**",
     "coverage/**",
+    ".worktrees/**",
     "next-env.d.ts",
     "add_borders.js",
     "add_precise_borders.js",

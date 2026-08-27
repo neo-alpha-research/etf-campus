@@ -174,6 +174,27 @@ export function useMarketBriefing({
         cache: "no-store",
         signal: controller.signal,
       });
+
+      const contentType = response.headers.get("content-type") || "";
+      if (!response.ok || !contentType.includes("application/json")) {
+        // Fallback for local development when Cloudflare Workers D1/KV functions are not bound
+        if (typeof window !== "undefined") {
+          try {
+            const fallbackRes = await fetch("/mock-briefing.json");
+            if (fallbackRes.ok) {
+              const fallbackData = (await fallbackRes.json()) as BriefingApiResponse;
+              if (!mountedRef.current) return;
+              setBriefing(fallbackData.briefing);
+              setError(null);
+              return;
+            }
+          } catch {
+            // ignore fallback fetch error
+          }
+        }
+        throw new Error("브리핑 데이터를 불러오지 못했습니다.");
+      }
+
       const payload = (await response.json()) as BriefingApiResponse;
 
       if (!response.ok) {

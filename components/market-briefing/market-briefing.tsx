@@ -1870,13 +1870,13 @@ export function MarketBriefing() {
         </div>
       </section>
 
-      {/* STEP 6: Market Structure Snapshot (Stock vs Flow) */}
+      {/* STEP 6: Market Structure Snapshot */}
       <section id="step-scale" className="mb-16 scroll-mt-20">
         <div className="mb-4">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 6. MARKET STRUCTURE SNAPSHOT</p>
-            <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장 규모와 유동성 구조 (Stock vs Flow)</h2>
-            <p className="mt-1 text-sm text-neutral-500">당일 대한민국 ETF 시장의 총 자산 규모(Stock)와 하루 동안 회전한 거래대금(Flow)의 4대 카테고리별 구성을 대조합니다.</p>
+            <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장 규모와 유동성 구조</h2>
+            <p className="mt-1 text-sm text-neutral-500">당일 대한민국 ETF 시장의 총 자산 규모와 하루 동안 회전한 거래대금의 4대 카테고리별 구성을 대조합니다.</p>
           </div>
         </div>
 
@@ -1908,7 +1908,7 @@ export function MarketBriefing() {
             {/* 1. 당일 총 운용자산 */}
             <div className="bg-[#FAFDF4] rounded-2xl p-4 border border-[#E2EBD6]">
               <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                <span>🏦</span> 당일 총 운용자산 (Stock)
+                <span>🏦</span> 당일 총 운용자산
                 <InfoTooltip 
                   text="국내 상장된 모든 ETF의 순자산가치(NAV) 합계로, 시장에 안착해 있는 총 자본의 크기입니다."
                   side="bottom"
@@ -1929,7 +1929,7 @@ export function MarketBriefing() {
             {/* 2. 당일 총 거래대금 */}
             <div className="bg-[#F8FBFE] rounded-2xl p-4 border border-[#D5E6F5]">
               <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                <span>⚡</span> 당일 총 거래대금 (Flow)
+                <span>⚡</span> 당일 총 거래대금
                 <InfoTooltip 
                   text="오늘 하루 시장에서 매수·매도 거래된 총 금액으로, 시장의 유동성과 활성도를 나타냅니다."
                   side="bottom"
@@ -1950,7 +1950,7 @@ export function MarketBriefing() {
             {/* 3. 당일 시장 회전율 */}
             <div className="bg-[#FFFBF5] rounded-2xl p-4 border border-[#FED7AA]">
               <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                <span>🔄</span> 일일 시장 회전율 (Velocity)
+                <span>🔄</span> 일일 시장 회전율
                 <InfoTooltip 
                   text="(당일 총 거래대금 ÷ 당일 총 AUM) × 100. 자산 대비 오늘 하루 손바뀜이 일어난 유동성 회전 속도입니다."
                   side="bottom"
@@ -1976,7 +1976,7 @@ export function MarketBriefing() {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[13px] font-extrabold text-neutral-800 flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-[#2E6819]" />
-                  1. 자산 규모(AUM) 비중 (Stock)
+                  1. 자산 규모(AUM) 비중
                 </span>
                 <span className="text-xs font-semibold text-neutral-400">총 446.8조원 기준</span>
               </div>
@@ -1993,7 +1993,7 @@ export function MarketBriefing() {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[13px] font-extrabold text-neutral-800 flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-[#EA580C]" />
-                  2. 일일 거래대금 비중 (Flow)
+                  2. 일일 거래대금 비중
                 </span>
                 <span className="text-xs font-semibold text-neutral-400">총 12.5조원 기준</span>
               </div>
@@ -2040,7 +2040,7 @@ export function MarketBriefing() {
                   <th className="py-2.5 text-right">AUM 비중</th>
                   <th className="py-2.5 text-right">당일 거래대금</th>
                   <th className="py-2.5 text-right">거래 비중</th>
-                  <th className="py-2.5 text-right">회전율 (Velocity)</th>
+                  <th className="py-2.5 text-right">회전율</th>
                   <th className="py-2.5 text-right pr-2">종목수</th>
                 </tr>
               </thead>
@@ -2104,11 +2104,11 @@ export function MarketBriefing() {
         </div>
       </section>
 
-      {/* STEP 7: Market Growth & Flow Trend (5-Point Time Series) */}
+      {/* STEP 7: Market Growth & Trend (5-Point Time Series) */}
       <section id="step-growth" className="mb-16 scroll-mt-20">
         <div className="mb-4">
           <div className="border-l-4 border-[#2E6819] pl-3 mb-3">
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#2E6819]">STEP 7. MARKET GROWTH & FLOW TREND</p>
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#2E6819]">STEP 7. MARKET GROWTH & TREND</p>
             <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장 성장과 유동성 추이 (5-Point 시계열)</h2>
             <p className="mt-1 text-sm text-neutral-500">일간(5일), 주간(5주), 월간(5개월), 연간(5년) 주기로 시장 총 자산(AUM)과 일평균 거래대금(ADTV)의 추세를 점검합니다.</p>
           </div>
@@ -2384,7 +2384,7 @@ export function MarketBriefing() {
                 <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6 & 7. 시장 구조 스냅샷 & 5-Point 시계열
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>시장 구조 스냅샷 (Stock vs Flow)</b>: 4대 자산 유형(일반, 파킹, 레버리지, 인버스)의 AUM 비중과 일일 거래대금 비중을 대조하여 투기적 회전율을 분리 점검.</li>
+                <li>• <b>시장 구조 스냅샷 (자산 vs 거래대금)</b>: 4대 자산 유형(일반, 파킹, 레버리지, 인버스)의 AUM 비중과 일일 거래대금 비중을 대조하여 투기적 회전율을 분리 점검.</li>
                 <li>• <b>5-Point 시계열 추이</b>: 일간(5일), 주간(5주), 월간(5개월), 연간(5년) 단위의 AUM 성장 및 일평균 거래대금(ADTV) 유동성 궤적 추적.</li>
               </ul>
             </div>

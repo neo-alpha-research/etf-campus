@@ -140,15 +140,29 @@ export type MarketBriefingQuery = {
 };
 
 const fetcher = async (url: string) => {
-  const res = await fetch(url, {
-    method: "GET",
-    headers: { Accept: "application/json" },
-  });
-  const payload = await res.json();
-  if (!res.ok) {
-    throw new Error(payload?.message?.trim() || "브리핑 데이터를 불러오지 못했습니다.");
+  try {
+    const res = await fetch(url, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
+    const contentType = res.headers.get("content-type") || "";
+    if (res.ok && contentType.includes("application/json")) {
+      const payload = await res.json();
+      return payload as BriefingApiResponse;
+    }
+    // Local dev or non-JSON fallback (e.g. Next.js 404 HTML during local development)
+    const fallbackRes = await fetch("/mock-briefing.json");
+    if (fallbackRes.ok) {
+      return (await fallbackRes.json()) as BriefingApiResponse;
+    }
+    throw new Error("브리핑 데이터를 불러오지 못했습니다.");
+  } catch (err) {
+    const fallbackRes = await fetch("/mock-briefing.json").catch(() => null);
+    if (fallbackRes && fallbackRes.ok) {
+      return (await fallbackRes.json()) as BriefingApiResponse;
+    }
+    throw err instanceof Error ? err : new Error("브리핑 데이터를 불러오지 못했습니다.");
   }
-  return payload as BriefingApiResponse;
 };
 
 export function useMarketBriefing({

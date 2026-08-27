@@ -20,5 +20,6 @@ export default defineConfig([
     "compact_table.js",
     "update_tooltips.js",
     "scratch/**",
+    "workers/**/.wrangler/**",
   ]),
 ]);

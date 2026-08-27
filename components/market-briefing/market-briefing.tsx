@@ -822,12 +822,6 @@ export function MarketBriefing() {
     flowKeySentence = `오늘 스마트머니는 '${topInflowItem.etfName}(+${formatInflowAmount(topInflowItem.netInflowValue)}억원)'으로 가장 많이 유입되었고, '${topOutflowItem.etfName}(-${formatInflowAmount(topOutflowItem.netInflowValue)}억원)'에서는 차익실현 환매가 출회되었습니다.`;
   }
 
-  const weeklyTopTheme = (Array.isArray(briefing.weeklyFundFlows) ? briefing.weeklyFundFlows[0] : briefing.weeklyFundFlows?.topInflows?.[0]);
-  let trendKeySentence = "주간 및 월간 중기 자금 흐름이 특정 우량 섹터로 집중되는 경향을 보이고 있습니다.";
-  if (weeklyTopTheme) {
-    trendKeySentence = `최근 5거래일(주간) 기준 '${weeklyTopTheme.peerGroup}(+${number.format(Math.abs(weeklyTopTheme.netInflow))}억원)' 테마로 가장 꾸준한 중기 자금 유입세가 지속되고 있습니다.`;
-  }
-
   const totalAumJo = ((briefing.marketScale?.totalAum || 4467883.8) / 10000).toFixed(1);
   const dailyAumChange = briefing.marketScale?.daily?.aumChange ?? 28540;
   const dailyNetInflow = briefing.marketScale?.daily?.netInflow ?? 3892;
@@ -1692,14 +1686,40 @@ export function MarketBriefing() {
           <p className="mt-1 text-sm text-neutral-500">일간 노이즈를 걷어내고, 국내 ETF 시장으로 구조적 자금이 유입되는 주도 테마를 점검합니다.</p>
         </div>
 
-        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
-        <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
-          <span className="text-sm shrink-0">📌</span>
-          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
-            <strong className="font-extrabold text-[#2E6819] mr-1.5">[트렌드 총평]</strong>
-            {trendKeySentence}
-          </p>
-        </div>
+        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (주간/월간 탭 실시간 동적 연동 & 유입·유출 페어링) */}
+        {(() => {
+          const rawData = (step5Tab === 'weekly' ? briefing.weeklyFundFlows : briefing.monthlyFundFlows) as any;
+          const topInflow = Array.isArray(rawData)
+            ? rawData.find((x: any) => (x.netInflow || 0) > 0)
+            : (rawData?.topInflows?.[0]);
+          const topOutflow = Array.isArray(rawData)
+            ? rawData.find((x: any) => (x.netInflow || 0) < 0)
+            : (rawData?.topOutflows?.[0]);
+
+          const periodLabel = step5Tab === 'weekly' ? '최근 5거래일(주간)' : '최근 20거래일(월간)';
+          const tabLabel = step5Tab === 'weekly' ? '주간 트렌드 총평' : '월간 트렌드 총평';
+
+          let sentence = `${periodLabel} 동안 특정 우량 테마로의 중기 자금 흐름이 지속되고 있습니다.`;
+          if (topInflow && topOutflow) {
+            if (step5Tab === 'weekly') {
+              sentence = `최근 5거래일(주간) 스마트머니는 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 집중 유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})'에서는 단기 차익실현 환매가 두드러졌습니다.`;
+            } else {
+              sentence = `최근 20거래일(월간) 묵직한 중장기 자금은 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 꾸준히 순유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})' 테마에서는 지속적인 자금 이탈이 관찰되었습니다.`;
+            }
+          } else if (topInflow) {
+            sentence = `${periodLabel} 기준 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 꾸준한 자금 유입세가 지속되고 있습니다.`;
+          }
+
+          return (
+            <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)] transition-all">
+              <span className="text-sm shrink-0">📌</span>
+              <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+                <strong className="font-extrabold text-[#2E6819] mr-1.5">[{tabLabel}]</strong>
+                {sentence}
+              </p>
+            </div>
+          );
+        })()}
 
         <div className="mb-6 flex justify-end">
           {/* Tabs */}

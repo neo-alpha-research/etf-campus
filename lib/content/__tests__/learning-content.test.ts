@@ -31,6 +31,7 @@ describe("learning content", () => {
     expect(momentumBook?.seriesIndex).toBe(1);
     expect(momentumBook?.status).toBe("published");
     expect(momentumBook?.coverImage).toBe("/images/books/momentum-cover.png");
+    expect(momentumBook?.affiliateUrl).toBe("https://ctee.kr/item/store/99321");
 
     const assetAllocationBook = findBook("index-asset-allocation");
     expect(assetAllocationBook).toBeDefined();

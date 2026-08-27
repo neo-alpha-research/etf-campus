@@ -128,13 +128,7 @@ export function FundFlowRanking({
 
                   {/* 종목 정보 */}
                   <div className="relative z-10 flex min-w-0 flex-1 items-center gap-3 pr-2">
-                    <span
-                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[11px] font-black tabular-nums transition-transform group-hover:scale-105 ${
-                        isTop3
-                          ? "bg-[#3D6E26] text-white shadow-xs"
-                          : "bg-neutral-100 text-neutral-500 font-bold"
-                      }`}
-                    >
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[11px] font-extrabold tabular-nums bg-neutral-100 text-neutral-600 border border-neutral-200/70">
                       {idx + 1}
                     </span>
                     <div className="min-w-0 flex-1">
@@ -196,13 +190,7 @@ export function FundFlowRanking({
 
                   {/* 종목 정보 */}
                   <div className="relative z-10 flex min-w-0 flex-1 items-center gap-3 pr-2">
-                    <span
-                      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[11px] font-black tabular-nums transition-transform group-hover:scale-105 ${
-                        isTop3
-                          ? "bg-[#1E5F74] text-white shadow-xs"
-                          : "bg-neutral-100 text-neutral-500 font-bold"
-                      }`}
-                    >
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md text-[11px] font-extrabold tabular-nums bg-neutral-100 text-neutral-600 border border-neutral-200/70">
                       {idx + 1}
                     </span>
                     <div className="min-w-0 flex-1">

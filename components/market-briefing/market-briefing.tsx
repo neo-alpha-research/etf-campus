@@ -1769,9 +1769,7 @@ export function MarketBriefing() {
                     return items.map((row: any, idx: number) => (
                       <tr key={row.peerGroup} className="hover:bg-[#F9FBFC] transition-colors">
                         <td className="py-3 px-3 text-center">
-                          <span className={`inline-flex h-5 w-5 items-center justify-center rounded-md text-[11px] font-black tabular-nums ${
-                            idx < 3 ? "bg-[#3D6E26] text-white" : "bg-neutral-100 text-neutral-500 font-bold"
-                          }`}>
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md text-[11px] font-extrabold tabular-nums bg-neutral-100 text-neutral-600 border border-neutral-200/70">
                             {idx + 1}
                           </span>
                         </td>
@@ -1832,9 +1830,7 @@ export function MarketBriefing() {
                     return items.map((row: any, idx: number) => (
                       <tr key={row.peerGroup} className="hover:bg-[#F9FBFC] transition-colors">
                         <td className="py-3 px-3 text-center">
-                          <span className={`inline-flex h-5 w-5 items-center justify-center rounded-md text-[11px] font-black tabular-nums ${
-                            idx < 3 ? "bg-[#1E5F74] text-white" : "bg-neutral-100 text-neutral-500 font-bold"
-                          }`}>
+                          <span className="inline-flex h-5 w-5 items-center justify-center rounded-md text-[11px] font-extrabold tabular-nums bg-neutral-100 text-neutral-600 border border-neutral-200/70">
                             {idx + 1}
                           </span>
                         </td>

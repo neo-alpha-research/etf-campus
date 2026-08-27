@@ -297,7 +297,18 @@ export function StyleOnboarding() {
         role="dialog"
       >
         <div className="flex items-center justify-between gap-4">
-          <p className="eyebrow">ETF CAMPUS STYLE CHECK</p>
+          <div className="flex items-center gap-2.5">
+            <p className="eyebrow">ETF CAMPUS STYLE CHECK</p>
+            {screen === "result" && completed ? (
+              <button
+                className="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-neutral-50 px-2.5 py-0.5 text-[11px] font-bold text-neutral-600 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-800 transition-colors"
+                onClick={begin}
+                type="button"
+              >
+                <RotateCcw className="h-3 w-3" /> 다시 진단
+              </button>
+            ) : null}
+          </div>
           <button
             aria-label="닫기"
             className="grid size-10 place-items-center rounded-full text-xl text-muted hover:bg-neutral-100"
@@ -518,7 +529,7 @@ export function StyleOnboarding() {
           <div className="pb-3 pt-4">
             {/* Top Animal Identity Card */}
             <div className="rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-50 via-surface to-neutral-50 p-5 text-center sm:p-7">
-              <div className="mx-auto grid size-24 place-items-center rounded-full border-4 border-surface bg-brand-100 text-6xl shadow-sm" aria-hidden="true">
+              <div className="mx-auto grid size-24 place-items-center rounded-full border-4 border-white bg-white text-6xl shadow-md" aria-hidden="true">
                 {profile.emoji}
               </div>
 
@@ -819,9 +830,21 @@ export function StyleOnboarding() {
             <p className="mt-5 text-xs leading-5 text-muted">
               이 결과는 ETF 정보 탐색 습관을 돌아보기 위한 교육용 콘텐츠이며, 금융회사의 투자성향 진단·투자 적합성 평가·종목 추천이 아닙니다. 응답 통계는 익명 UUID 기반으로 안전하게 처리되며 개인 식별 정보는 수집하지 않습니다.
             </p>
-            <div className="mt-4 flex justify-between">
-              <button className="min-h-10 text-sm font-bold text-muted" onClick={begin} type="button">다시 진단</button>
-              <button className="min-h-10 text-sm font-bold text-brand-700" onClick={() => setOpenIntent(false)} type="button">결과 닫기</button>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-line/60 pt-4">
+              <button
+                className="inline-flex min-h-[42px] items-center gap-1.5 rounded-xl border border-neutral-300 bg-white px-4 py-2 text-xs font-extrabold text-neutral-700 shadow-2xs hover:border-neutral-400 hover:bg-neutral-50"
+                onClick={begin}
+                type="button"
+              >
+                <RotateCcw className="h-3.5 w-3.5" /> 처음부터 다시 진단하기 (10문항)
+              </button>
+              <button
+                className="inline-flex min-h-[42px] items-center rounded-xl bg-neutral-900 px-5 py-2 text-xs font-extrabold text-white hover:bg-neutral-800"
+                onClick={() => setOpenIntent(false)}
+                type="button"
+              >
+                결과 닫기
+              </button>
             </div>
           </div>
         ) : null}

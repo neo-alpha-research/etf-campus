@@ -28,10 +28,10 @@ export function StyleChip() {
     return (
       <div
         aria-hidden="true"
-        className="inline-flex h-11 w-40 items-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 opacity-60 sm:w-52"
+        className="inline-flex h-11 w-44 sm:w-56 items-center gap-2.5 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1.5 opacity-60"
       >
-        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-neutral-200 text-sm text-neutral-400">
-          🐾
+        <span className="grid size-8 shrink-0 place-items-center rounded-full border border-neutral-200 bg-white text-base text-neutral-400 shadow-2xs">
+          🧭
         </span>
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <div className="h-2 w-16 rounded bg-neutral-200" />
@@ -47,23 +47,38 @@ export function StyleChip() {
 
   return (
     <button
-      aria-label={profile ? `ETF 투자 스타일 결과 보기: ${profile.name}` : "ETF 투자 스타일 점검 시작하기"}
-      className="group inline-flex min-h-11 w-40 items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-left text-brand-900 transition-all hover:border-brand-400 hover:bg-brand-100 hover:shadow-sm sm:w-52"
+      aria-label={
+        profile
+          ? `ETF 투자 스타일: ${profile.name} (클릭하여 결과 보기 및 다시 진단)`
+          : "ETF 투자 스타일 점검 시작하기"
+      }
+      className="group inline-flex min-h-11 w-44 sm:w-56 items-center gap-2.5 rounded-full border border-brand-200 bg-brand-50/90 px-3 py-1.5 text-left text-brand-900 transition-all hover:border-brand-400 hover:bg-brand-100 hover:shadow-sm"
       onClick={() => window.dispatchEvent(new CustomEvent(STYLE_CHANGE_EVENT, { detail: { open: true } }))}
+      title={profile ? `${profile.name} - 클릭하여 결과 확인 및 다시 진단` : "ETF 투자 스타일 점검 시작하기"}
       type="button"
     >
-      <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-700 text-base text-white">
-        {profile?.emoji ?? "🐾"}
+      <span
+        aria-hidden="true"
+        className="grid size-8 shrink-0 place-items-center rounded-full border border-brand-200/90 bg-white text-lg shadow-2xs transition-transform group-hover:scale-105"
+      >
+        {profile ? profile.emoji : "🧭"}
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[10px] font-extrabold tracking-[0.04em] text-brand-700">
-          {profile ? (completedDiagnosis?.prescription ? "내 ETF 투자 스타일" : "내 동물 확인 (처방 대기)") : "약 3분 · 13문항"}
+          {profile
+            ? completedDiagnosis?.prescription
+              ? "내 ETF 투자 스타일"
+              : "내 동물 확인 (처방 대기)"
+            : "약 3분 · 13문항"}
         </span>
-        <span className="block truncate text-xs font-extrabold sm:text-sm">
-          {profile ? `${profile.animal} 유형` : "투자 스타일 점검"}
+        <span className="block truncate text-xs font-extrabold sm:text-sm text-strong">
+          {profile ? profile.name : "투자 스타일 점검"}
         </span>
       </span>
-      <span aria-hidden="true" className="hidden shrink-0 text-brand-600 transition-transform group-hover:translate-x-0.5 sm:block">
+      <span
+        aria-hidden="true"
+        className="hidden shrink-0 text-brand-600 transition-transform group-hover:translate-x-0.5 sm:block text-xs font-bold"
+      >
         ›
       </span>
     </button>

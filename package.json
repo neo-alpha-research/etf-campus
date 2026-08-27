@@ -11,6 +11,7 @@
     "newsletter:snapshot": "node scripts/newsletter/create-weekly-snapshot.mjs",
     "newsletter:build": "node scripts/newsletter/generate-weekly-newsletter.mjs",
     "verify:utf8": "node scripts/verify-utf8.mjs",
+    "books:sync-covers": "node scripts/fetch-book-covers.mjs",
     "test": "npm run verify:utf8 && vitest run",
     "test:watch": "vitest"
   },

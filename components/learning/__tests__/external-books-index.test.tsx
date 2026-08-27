@@ -38,8 +38,8 @@ describe("ExternalBooksIndex", () => {
 
     // Pension books should now be shown
     expect(screen.getByText("마법의 연금 굴리기")).toBeInTheDocument();
-    expect(screen.getByText("ETF로 시작하는 연금투자 백서")).toBeInTheDocument();
-    expect(screen.getByText("절세의 신: 연금·노후 설계편")).toBeInTheDocument();
+    expect(screen.getByText("박곰희 연금 부자 수업")).toBeInTheDocument();
+    expect(screen.getByText("단 3개의 미국 ETF로 은퇴하라")).toBeInTheDocument();
 
     // Check FTC compliance notice is rendered
     expect(screen.getByText(/제휴 마케팅 활동의 일환으로/)).toBeInTheDocument();

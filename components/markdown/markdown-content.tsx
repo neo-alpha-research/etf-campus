@@ -1,4 +1,6 @@
 import ReactMarkdown from "react-markdown";
+import { ProfessorTooltip } from "@/components/briefing/professor-tooltip";
+
 import remarkGfm from "remark-gfm";
 
 export function MarkdownContent({ source }: { source: string }) {
@@ -12,7 +14,13 @@ export function MarkdownContent({ source }: { source: string }) {
           p: ({ children }) => <p className="mt-4">{children}</p>,
           ul: ({ children }) => <ul className="mt-4 list-disc space-y-2 pl-6">{children}</ul>,
           ol: ({ children }) => <ol className="mt-4 list-decimal space-y-2 pl-6">{children}</ol>,
-          a: ({ children, href }) => <a className="font-bold text-brand-700 underline underline-offset-2" href={href}>{children}</a>,
+          a: ({ children, href }) => {
+            if (href?.startsWith('tooltip:')) {
+              const definition = decodeURIComponent(href.replace('tooltip:', ''));
+              return <ProfessorTooltip definition={definition}>{children}</ProfessorTooltip>;
+            }
+            return <a className="font-bold text-brand-700 underline underline-offset-2" href={href} target="_blank" rel="noopener noreferrer">{children}</a>;
+          },
           table: ({ children }) => <div className="mt-5 overflow-x-auto rounded-xl border border-line"><table className="w-full text-left text-sm">{children}</table></div>,
           th: ({ children }) => <th className="bg-neutral-50 px-4 py-3 font-extrabold text-strong">{children}</th>,
           td: ({ children }) => <td className="border-t border-line px-4 py-3">{children}</td>,

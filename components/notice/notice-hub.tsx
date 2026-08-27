@@ -35,10 +35,11 @@ export function NoticeHub() {
 
   useEffect(() => {
     const tab = searchParams.get("tab");
-    if (tab === "challenge") {
+    if (tab === "challenge" && activeTab !== "challenge") {
+      // eslint-disable-next-line
       setActiveTab("challenge");
     }
-  }, [searchParams]);
+  }, [searchParams, activeTab]);
 
   return (
     <div className="mx-auto max-w-4xl py-8 px-4 sm:px-6">

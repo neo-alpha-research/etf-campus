@@ -32,6 +32,7 @@ type Post = {
   authorNickname: string;
   createdAt: string;
   commentCount: number;
+  upvoteCount?: number;
   isPinned?: boolean;
   isAuthorSeed?: boolean;
 };

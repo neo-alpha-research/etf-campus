@@ -27,6 +27,8 @@ type Post = {
   canEdit: boolean;
   canModerate?: boolean;
   isAuthorSeed?: boolean;
+  upvoteCount?: number;
+  isUpvoted?: boolean;
 };
 type Comment = { publicId: string; bodyText: string; authorNickname: string; createdAt: string; updatedAt: string; canEdit: boolean; canModerate?: boolean };
 
@@ -48,6 +50,9 @@ export function CommunityPostDetail() {
   const [editingTitle, setEditingTitle] = useState("");
   const [editingBodyText, setEditingBodyText] = useState("");
   const [savingPost, setSavingPost] = useState(false);
+  const [upvoting, setUpvoting] = useState(false);
+  const [upvoteCount, setUpvoteCount] = useState(0);
+  const [isUpvoted, setIsUpvoted] = useState(false);
   const [message, setMessage] = useState("");
   const [authOpen, setAuthOpen] = useState(false);
   const [moderationOpen, setModerationOpen] = useState(false);
@@ -66,6 +71,8 @@ export function CommunityPostDetail() {
         communityFetch(`/api/community/posts/${slug}/comments`),
       ]);
       setPost(postResult.post);
+      setUpvoteCount(postResult.post?.upvoteCount ?? 0);
+      setIsUpvoted(Boolean(postResult.post?.isUpvoted));
       setComments(commentsResult.comments ?? []);
       setStatus("ready");
     } catch (error) {
@@ -159,6 +166,31 @@ export function CommunityPostDetail() {
     }
   }
 
+  async function toggleUpvote() {
+    if (upvoting) return;
+    if (!getCommunitySession() && !(await refreshCommunitySession())) {
+      setAuthOpen(true);
+      return;
+    }
+    setUpvoting(true);
+    setMessage("");
+    try {
+      const result = await communityFetch(`/api/community/posts/${slug}/upvote`, {
+        method: "POST",
+      });
+      setUpvoteCount(result.upvoteCount ?? 0);
+      setIsUpvoted(Boolean(result.isUpvoted));
+    } catch (error) {
+      if (error && typeof error === "object" && "status" in error && error.status === 401) {
+        setAuthOpen(true);
+      } else {
+        setMessage(error instanceof Error ? error.message : "추천 처리를 완료하지 못했습니다.");
+      }
+    } finally {
+      setUpvoting(false);
+    }
+  }
+
   async function submitComment(event: React.FormEvent) {
     event.preventDefault();
     if (!getCommunitySession() && !(await refreshCommunitySession())) { setAuthOpen(true); return; }
@@ -211,6 +243,22 @@ export function CommunityPostDetail() {
           <h1 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">{post.title}</h1>
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500"><span>{post.authorNickname}</span><span>{formatDate(post.createdAt)}</span>{post.updatedAt !== post.createdAt ? <span>수정됨</span> : null}{!post.canEdit ? <CommunityReportDialog endpoint={`/api/community/posts/${slug}/report`} targetLabel="게시물" onAuthRequired={() => setAuthOpen(true)} onSubmitted={setMessage} /> : null}</div>
           <div className="mt-7 whitespace-pre-wrap break-words text-[15px] leading-8 text-slate-800">{post.bodyText}</div>
+          <div className="mt-6 flex items-center gap-3">
+            <button
+              type="button"
+              onClick={toggleUpvote}
+              disabled={upvoting}
+              aria-label={`게시물 추천 ${upvoteCount}`}
+              className={`inline-flex items-center gap-1.5 rounded-xl border px-4 py-2 text-sm font-bold transition ${
+                isUpvoted
+                  ? "border-brand-600 bg-brand-50 text-brand-800 hover:bg-brand-100"
+                  : "border-slate-300 bg-white text-slate-700 hover:border-brand-300 hover:text-brand-700"
+              }`}
+            >
+              <span>{isUpvoted ? "추천 완료" : "추천"}</span>
+              <span className="font-mono text-xs">{upvoteCount}</span>
+            </button>
+          </div>
         </>}
       </article>
 

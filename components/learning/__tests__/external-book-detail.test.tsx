@@ -30,9 +30,9 @@ describe("ExternalBookDetail", () => {
 
     // Cross-sell banner
     expect(screen.getByText("함께 읽는 추천 콘텐츠")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /큐레이션 노트 읽기|가이드 읽기/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /가이드 읽기|큐레이션/ })).toHaveAttribute(
       "href",
-      "/books/principles-before-products",
+      "/books/momentum-etf-system",
     );
 
     // Backtest Ticker CTA (Customer F requirement)

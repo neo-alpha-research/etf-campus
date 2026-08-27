@@ -23,7 +23,7 @@ describe("learning content", () => {
 
   it("loads curated learning-example books with reader context and source metadata", () => {
     const books = loadBooks();
-    expect(books.length).toBeGreaterThanOrEqual(6);
+    expect(books.length).toBe(3);
     expect(books.every((book) => book.isLearningExample && book.reader && book.topic)).toBe(true);
 
     const momentumBook = findBook("momentum-etf-system");

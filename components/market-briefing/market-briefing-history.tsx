@@ -126,19 +126,11 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
       ) : (
         <>
           <div className="mt-5 overflow-hidden rounded-xl border border-[#E4EBDC]">
-            <div className="grid grid-cols-[minmax(94px,0.9fr)_minmax(0,1.8fr)_auto] items-center gap-3 px-4 py-2.5 bg-[#F8FAF6] border-b border-[#E4EBDC] text-[11.5px] font-extrabold text-neutral-500 sm:grid-cols-[132px_minmax(0,1.8fr)_96px_90px]">
+            <div className="grid grid-cols-[minmax(94px,0.9fr)_minmax(0,1fr)_auto] items-center gap-4 px-4 py-2.5 bg-[#F8FAF6] border-b border-[#E4EBDC] text-[11.5px] font-extrabold text-neutral-500 sm:grid-cols-[132px_minmax(0,1fr)_100px]">
               <span>기준일자</span>
               <span>핵심 브리핑 요약</span>
-              <span className="hidden sm:flex items-center justify-end">
-                Top 100
-                <InfoTooltip
-                  text="순자산 상위 100개 대형 ETF의 시총가중 평균 수익률입니다."
-                  side="bottom"
-                  align="right"
-                />
-              </span>
               <span className="flex items-center justify-end">
-                시장 전체
+                시장 체온
                 <InfoTooltip
                   text="일반 실물 ETF 1,018개 전체의 순자산 가중수익률(시장 체온)입니다."
                   side="bottom"
@@ -157,7 +149,7 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
                       type="button"
                       onClick={() => onSelectDate(item.asOfDate)}
                       aria-pressed={isActive}
-                      className={`grid w-full grid-cols-[minmax(94px,0.9fr)_minmax(0,1.8fr)_auto] items-center gap-3 px-4 py-3.5 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#7DAD55] sm:grid-cols-[132px_minmax(0,1.8fr)_96px_90px] ${isActive ? "bg-[#F1F8E3]" : "bg-white hover:bg-[#FBFDF8]"}`}
+                      className={`grid w-full grid-cols-[minmax(94px,0.9fr)_minmax(0,1fr)_auto] items-center gap-4 px-4 py-3.5 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#7DAD55] sm:grid-cols-[132px_minmax(0,1fr)_100px] ${isActive ? "bg-[#F1F8E3]" : "bg-white hover:bg-[#FBFDF8]"}`}
                     >
                       <div className="flex items-center gap-1.5">
                         <p className="text-sm font-extrabold text-neutral-900">{dateLabel(item.asOfDate)}</p>
@@ -171,9 +163,6 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
                         <p className="truncate text-sm font-semibold text-neutral-800">{item.headline || `${item.marketTemperature} 흐름`}</p>
                         <p className="mt-0.5 text-[11px] text-neutral-500">일반 ETF {item.generalEtfCount.toLocaleString("ko-KR")}개 · 상승 비중 {decimal.format(item.breadthRatioPct)}%</p>
                       </div>
-                      <p className={`hidden text-right text-sm font-bold tabular-nums sm:block ${changeTone(item.top100AumWeightedReturnPct)}`}>
-                        {signed(item.top100AumWeightedReturnPct)}
-                      </p>
                       <div className="text-right">
                         <p className={`text-base font-extrabold tabular-nums ${changeTone(item.generalAumWeightedReturnPct)}`}>
                           {signed(item.generalAumWeightedReturnPct)}

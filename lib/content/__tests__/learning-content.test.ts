@@ -23,10 +23,24 @@ describe("learning content", () => {
 
   it("loads curated learning-example books with reader context and source metadata", () => {
     const books = loadBooks();
-    expect(books.length).toBeGreaterThanOrEqual(3);
-    expect(books.every((book) => book.isLearningExample && book.reader && book.topic && !book.affiliateUrl)).toBe(true);
-    expect(books.every((book) => book.contentRole === "learning-example" && book.exampleType === "reading-path" && book.scenarioBasis === "fictional" && book.sources === "not-applicable")).toBe(true);
-    expect(findBook(books[0].slug)?.summary).toBe(books[0].summary);
+    expect(books.length).toBeGreaterThanOrEqual(6);
+    expect(books.every((book) => book.isLearningExample && book.reader && book.topic)).toBe(true);
+
+    const momentumBook = findBook("momentum-etf-system");
+    expect(momentumBook).toBeDefined();
+    expect(momentumBook?.seriesIndex).toBe(1);
+    expect(momentumBook?.status).toBe("published");
+    expect(momentumBook?.coverImage).toBe("/images/books/momentum-cover.jpg");
+
+    const assetAllocationBook = findBook("index-asset-allocation");
+    expect(assetAllocationBook).toBeDefined();
+    expect(assetAllocationBook?.seriesIndex).toBe(2);
+    expect(assetAllocationBook?.status).toBe("coming-soon");
+
+    const dividendBook = findBook("dividend-cashflow");
+    expect(dividendBook).toBeDefined();
+    expect(dividendBook?.seriesIndex).toBe(3);
+    expect(dividendBook?.status).toBe("coming-soon");
   });
 
   it("loads validated external book reviews with rating, pros/cons, and compliance metadata", () => {

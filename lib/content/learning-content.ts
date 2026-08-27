@@ -28,6 +28,8 @@ export type Guide = LearningExampleMetadata & {
   content: string;
 };
 
+export type BookStatus = "published" | "coming-soon";
+
 export type Book = LearningExampleMetadata & {
   kind: "book";
   slug: string;
@@ -35,6 +37,9 @@ export type Book = LearningExampleMetadata & {
   summary: string;
   reader: string;
   topic: string;
+  status?: BookStatus;
+  seriesIndex?: number;
+  coverImage?: string;
   affiliateUrl?: string;
   content: string;
 };
@@ -169,17 +174,35 @@ export function loadGuides(): Guide[] {
 }
 
 export function loadBooks(): Book[] {
-  return readFiles("books").map(({ filename, slug, metadata, content }) => ({
-    kind: "book",
-    slug,
-    title: required(metadata, "title", filename),
-    summary: required(metadata, "summary", filename),
-    reader: required(metadata, "reader", filename),
-    topic: required(metadata, "topic", filename),
-    affiliateUrl: metadata.affiliateUrl || undefined,
-    content,
-    ...learningExampleMetadata(metadata, filename),
-  }));
+  return readFiles("books").map(({ filename, slug, metadata, content }) => {
+    const rawStatus = findMetadataValue(metadata, ["status"]);
+    const status: BookStatus = rawStatus === "coming-soon" ? "coming-soon" : "published";
+    const rawSeriesIndex = findMetadataValue(metadata, ["seriesIndex", "series_index"]);
+    const seriesIndex = rawSeriesIndex ? Number(rawSeriesIndex) : undefined;
+    const coverImage = resolveBookCoverUrl(findMetadataValue(metadata, ["coverImage", "cover_image"])) ?? undefined;
+
+    return {
+      kind: "book" as const,
+      slug,
+      title: required(metadata, "title", filename),
+      summary: required(metadata, "summary", filename),
+      reader: required(metadata, "reader", filename),
+      topic: required(metadata, "topic", filename),
+      status,
+      seriesIndex,
+      coverImage,
+      affiliateUrl: metadata.affiliateUrl || undefined,
+      content,
+      ...learningExampleMetadata(metadata, filename),
+    };
+  }).sort((a, b) => {
+    if (a.seriesIndex !== undefined && b.seriesIndex !== undefined) {
+      return a.seriesIndex - b.seriesIndex;
+    }
+    if (a.seriesIndex !== undefined) return -1;
+    if (b.seriesIndex !== undefined) return 1;
+    return 0;
+  });
 }
 
 export function loadExternalBooks(): ExternalBook[] {

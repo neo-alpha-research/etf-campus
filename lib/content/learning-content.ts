@@ -39,6 +39,34 @@ export type Book = LearningExampleMetadata & {
   content: string;
 };
 
+export const EXTERNAL_BOOK_CATEGORIES = ["초보·입문", "연금·절세", "배당·현금흐름"] as const;
+export type ExternalBookCategory = typeof EXTERNAL_BOOK_CATEGORIES[number];
+
+export const BOOK_COVER_BASE_PATH = "/images/books";
+
+export type ExternalBook = LearningExampleMetadata & {
+  kind: "external-book";
+  slug: string;
+  title: string;
+  author: string;
+  publisher: string;
+  category: ExternalBookCategory;
+  tags: string[];
+  rating: number;
+  reviewCount: number;
+  ratingSource: string;
+  irpEligible: boolean;
+  oneLineReview: string;
+  summary: string;
+  pros: string[];
+  cons: string[];
+  coverImage?: string;
+  affiliateUrl?: string;
+  relatedInternalLink?: string;
+  backtestTicker?: string;
+  content: string;
+};
+
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 const EXAMPLE_MARKER = "[LEARNING_EXAMPLE]";
 const FILE_PATTERN = /^\[LEARNING_EXAMPLE\]_([a-z0-9-]+)\.mdx$/;
@@ -64,6 +92,21 @@ function splitFrontmatter(source: string, filename: string) {
 function required(metadata: Record<string, string>, key: string, filename: string) {
   const value = metadata[key]?.trim();
   if (!value) throw new Error(`${filename}: ${key} 값이 필요합니다.`);
+  return value;
+}
+
+function findMetadataValue(metadata: Record<string, string>, keys: string[]): string | undefined {
+  for (const key of keys) {
+    if (metadata[key] !== undefined && metadata[key].trim() !== "") {
+      return metadata[key].trim();
+    }
+  }
+  return undefined;
+}
+
+function requiredWithAliases(metadata: Record<string, string>, keys: string[], filename: string): string {
+  const value = findMetadataValue(metadata, keys);
+  if (!value) throw new Error(`${filename}: ${keys.join(" 또는 ")} 값이 필요합니다.`);
   return value;
 }
 
@@ -94,7 +137,7 @@ function learningExampleMetadata(metadata: Record<string, string>, filename: str
   return { contentRole: "learning-example", exampleType, scenarioBasis, asOf, sources, isLearningExample: true };
 }
 
-function readFiles(directory: "guides" | "books") {
+function readFiles(directory: "guides" | "books" | "external-books") {
   const fullPath = path.join(CONTENT_ROOT, directory);
   return readdirSync(fullPath).filter((filename) => filename.endsWith(".mdx")).map((filename) => {
     const match = filename.match(FILE_PATTERN);
@@ -139,5 +182,78 @@ export function loadBooks(): Book[] {
   }));
 }
 
+export function loadExternalBooks(): ExternalBook[] {
+  return readFiles("external-books").map(({ filename, slug, metadata, content }) => {
+    const rawCategory = requiredWithAliases(metadata, ["category"], filename);
+    if (!EXTERNAL_BOOK_CATEGORIES.includes(rawCategory as ExternalBookCategory)) {
+      throw new Error(`${filename}: 유효하지 않은 도서 카테고리('${rawCategory}')입니다. 허용된 카테고리: ${EXTERNAL_BOOK_CATEGORIES.join(", ")}`);
+    }
+    const category = rawCategory as ExternalBookCategory;
+
+    const rawRating = requiredWithAliases(metadata, ["rating"], filename);
+    const rating = Number(rawRating);
+    if (isNaN(rating) || rating < 0 || rating > 5) {
+      throw new Error(`${filename}: 평점(rating)은 0.0에서 5.0 사이의 숫자여야 합니다. (입력값: ${rawRating})`);
+    }
+
+    const rawReviewCount = requiredWithAliases(metadata, ["reviewCount", "review_count"], filename);
+    const reviewCount = Number(rawReviewCount);
+    if (isNaN(reviewCount) || reviewCount < 0 || !Number.isInteger(reviewCount)) {
+      throw new Error(`${filename}: 리뷰 수(reviewCount)는 0 이상의 정수여야 합니다. (입력값: ${rawReviewCount})`);
+    }
+
+    const rawIrp = requiredWithAliases(metadata, ["irpEligible", "irp_eligible"], filename).toLowerCase();
+    if (!["true", "false", "yes", "no"].includes(rawIrp)) {
+      throw new Error(`${filename}: irpEligible은 true 또는 false여야 합니다. (입력값: ${rawIrp})`);
+    }
+    const irpEligible = rawIrp === "true" || rawIrp === "yes";
+
+    const tags = list(requiredWithAliases(metadata, ["tags"], filename));
+    const pros = list(requiredWithAliases(metadata, ["pros"], filename));
+    const cons = list(requiredWithAliases(metadata, ["cons"], filename));
+    if (pros.length === 0) throw new Error(`${filename}: 장점(pros)이 1개 이상 필요합니다.`);
+    if (cons.length === 0) throw new Error(`${filename}: 단점(cons)이 1개 이상 필요합니다.`);
+
+    const backtestTicker = findMetadataValue(metadata, ["backtestTicker", "backtest_ticker"]);
+    if (backtestTicker && !/^\d{6}$/.test(backtestTicker)) {
+      throw new Error(`${filename}: backtestTicker는 6자리 숫자여야 합니다. (입력값: ${backtestTicker})`);
+    }
+
+    return {
+      kind: "external-book",
+      slug,
+      title: requiredWithAliases(metadata, ["title"], filename),
+      author: requiredWithAliases(metadata, ["author"], filename),
+      publisher: requiredWithAliases(metadata, ["publisher"], filename),
+      category,
+      tags,
+      rating,
+      reviewCount,
+      ratingSource: requiredWithAliases(metadata, ["ratingSource", "rating_source"], filename),
+      irpEligible,
+      oneLineReview: requiredWithAliases(metadata, ["oneLineReview", "one_line_review"], filename),
+      summary: requiredWithAliases(metadata, ["summary"], filename),
+      pros,
+      cons,
+      coverImage: findMetadataValue(metadata, ["coverImage", "cover_image"]),
+      affiliateUrl: findMetadataValue(metadata, ["affiliateUrl", "affiliate_url"]),
+      relatedInternalLink: findMetadataValue(metadata, ["relatedInternalLink", "related_internal_link"]),
+      backtestTicker,
+      content,
+      ...learningExampleMetadata(metadata, filename),
+    };
+  });
+}
+
+export function resolveBookCoverUrl(coverImage?: string): string | null {
+  if (!coverImage || coverImage.trim() === "") return null;
+  const trimmed = coverImage.trim();
+  if (trimmed.startsWith("/") || trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
+  }
+  return `${BOOK_COVER_BASE_PATH}/${trimmed.replace(/^\/+/, "")}`;
+}
+
 export function findGuide(slug: string) { return loadGuides().find((guide) => guide.slug === slug); }
 export function findBook(slug: string) { return loadBooks().find((book) => book.slug === slug); }
+export function findExternalBook(slug: string) { return loadExternalBooks().find((book) => book.slug === slug); }

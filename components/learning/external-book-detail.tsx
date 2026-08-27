@@ -220,6 +220,7 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
             href={book.affiliateUrl}
             rel="sponsored nofollow noopener"
             target="_blank"
+            aria-label="외부 도서 구매처 바로가기 (새 창 열림)"
             className="mt-3 inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-brand-700 px-5 py-2.5 text-sm font-extrabold text-white transition-colors hover:bg-brand-800"
           >
             <span>외부 도서 구매처 바로가기</span>
@@ -229,11 +230,18 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
       )}
 
       {/* 컴플라이언스 및 면책 고지 */}
-      <footer className="mt-8 border-t border-line pt-6 text-xs leading-relaxed text-muted">
+      <footer className="mt-8 border-t border-line pt-6 text-xs leading-relaxed text-muted space-y-1.5">
         <p>
-          본 도서 소개 및 리뷰는 ETF 투자 판단 기준을 익히기 위한 학습 목적의 큐레이션 콘텐츠입니다.
-          특정 금융투자상품의 매수·매도 권유나 수익률을 보장하지 않으며, 투자에 대한 모든 결정과 책임은 투자자 본인에게 있습니다.
+          • 본 도서 소개 및 리뷰는 ETF 투자 판단 기준을 익히기 위한 학습 목적의 큐레이션 콘텐츠입니다.
         </p>
+        <p>
+          • 특정 금융투자상품의 매수·매도 권유나 수익률을 보장하지 않으며, 투자에 대한 모든 결정과 책임은 투자자 본인에게 있습니다.
+        </p>
+        {book.irpEligible && (
+          <p>
+            • 연금저축 및 IRP 계좌의 세제 혜택과 인출 조건은 관련 세법 및 관계 법령의 개정에 따라 달라질 수 있으므로 금융감독원 및 국세청 공시를 함께 확인하시기 바랍니다.
+          </p>
+        )}
       </footer>
     </div>
   );

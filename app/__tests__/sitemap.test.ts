@@ -11,5 +11,6 @@ describe("sitemap", () => {
     expect(entries.every((entry) => entry.url.startsWith("https://"))).toBe(true);
     expect(entries.some((entry) => entry.url.endsWith("/guides/foundation-first"))).toBe(true);
     expect(entries.some((entry) => entry.url.endsWith("/books/principles-before-products"))).toBe(true);
+    expect(entries.some((entry) => entry.url.endsWith("/books/review/practical-etf-for-workers"))).toBe(true);
   });
 });

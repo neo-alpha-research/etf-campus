@@ -15,9 +15,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const book = findExternalBook(slug);
   if (!book) return {};
 
+  const rawDescription = `${book.oneLineReview} - ${book.summary}`;
+  const description = rawDescription.length > 155 ? `${rawDescription.slice(0, 152)}...` : rawDescription;
+
   return {
     title: `${book.title} 리뷰 | ETF Campus`,
-    description: `${book.oneLineReview} - ${book.summary}`,
+    description,
     alternates: {
       canonical: `/books/review/${book.slug}`,
     },

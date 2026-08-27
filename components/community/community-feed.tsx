@@ -16,13 +16,6 @@ const categories = [
   { slug: "feedback", name: "오류·기능 제안" },
 ] as const;
 
-const quickPaths = [
-  { label: "질문하기", description: "연금 계좌와 ETF 판단 기준에서 막히는 점을 적어 보세요.", href: "/community/write/?category=pension-etf-qna", eyebrow: "01 · 질문" },
-  { label: "ETF 읽기", description: "추종 대상·구조·비용·공시를 읽는 순서를 확인하세요.", href: "/community/learning-bundles/", eyebrow: "02 · 학습" },
-  { label: "30일 기록", description: "수익 경쟁 없이 오늘 확인한 판단 기준을 남겨 보세요.", href: "/community/challenge/", eyebrow: "03 · 기록" },
-  { label: "오류 제보", description: "화면·ETF 코드·확인 날짜를 바탕으로 재현 가능한 제보를 남겨 주세요.", href: "/community/write/?category=feedback", eyebrow: "04 · 개선" },
-] as const;
-
 type Post = {
   slug: string;
   title: string;
@@ -145,65 +138,38 @@ export function CommunityFeed() {
 
   return (
     <div className="page-shell py-6 sm:py-8">
-      {/* Community Top Header & Quick Paths */}
-      <section className="rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-50 via-white to-white px-5 py-6 shadow-sm sm:px-8 sm:py-7">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-bold tracking-[0.18em] text-brand-700 uppercase">ETF Campus Community</p>
-            <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
-              ETF 지식 공유 & 토론 커뮤니티
-            </h1>
-            <p className="mt-1.5 text-xs sm:text-sm text-slate-600">
-              특정 종목 매수 권유가 아닌, 연금·상품 구조·실부담비용·위험 요소를 함께 공유하고 검증하는 공간입니다.
-            </p>
-          </div>
-          <div className="flex shrink-0 items-center gap-2">
-            <button
-              onClick={goToWrite}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-brand-800 transition cursor-pointer"
-            >
-              ✏️ 글 작성
-            </button>
-            {signedIn ? (
-              <button
-                onClick={() => setAccountOpen((current) => !current)}
-                className="rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
-              >
-                내 계정
-              </button>
-            ) : (
-              <button
-                onClick={() => setAuthOpen(true)}
-                className="rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
-              >
-                이메일 로그인
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* 목적별 퀵 가이드 (컴팩트 카드) */}
-        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {quickPaths.map((path) => (
-            <Link
-              key={path.label}
-              href={path.href}
-              className="group flex items-center justify-between rounded-xl border border-slate-200/80 bg-white/90 px-3.5 py-2.5 text-xs shadow-2xs hover:border-brand-300 hover:bg-white hover:shadow-xs transition"
-            >
-              <div className="truncate">
-                <span className="text-[10px] font-bold text-brand-600 block">{path.eyebrow}</span>
-                <span className="font-bold text-slate-900 text-xs sm:text-sm group-hover:text-brand-800">{path.label}</span>
-              </div>
-              <span className="text-slate-400 text-xs group-hover:text-brand-700 transition">→</span>
-            </Link>
-          ))}
-        </div>
-
-        {/* 운영 공지 */}
-        <div className="mt-4 rounded-xl border border-amber-200/80 bg-amber-50/80 px-3.5 py-2 text-xs leading-5 text-amber-950">
-          <p>
-            <span className="font-bold">운영 공지</span><span className="mx-2 text-amber-400">|</span>게시물은 공개로 읽을 수 있으며, 작성·댓글은 이메일 인증 회원만 가능합니다. 매수·매도 강요, 목표가, 수익 보장, 리딩방·광고 유도는 허용하지 않습니다.
+      {/* Community Top Header (Clean & Board-First) */}
+      <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 pb-5">
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
+            커뮤니티
+          </h1>
+          <p className="mt-1.5 text-xs sm:text-sm text-slate-600">
+            특정 종목 매수 권유가 아닌, 연금·상품 구조·실부담비용·판단 기준을 자유롭게 공유하고 토론하는 공간입니다.
           </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <button
+            onClick={goToWrite}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-brand-700 px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-brand-800 transition cursor-pointer"
+          >
+            ✏️ 글 작성
+          </button>
+          {signedIn ? (
+            <button
+              onClick={() => setAccountOpen((current) => !current)}
+              className="rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
+            >
+              내 계정
+            </button>
+          ) : (
+            <button
+              onClick={() => setAuthOpen(true)}
+              className="rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer"
+            >
+              이메일 로그인
+            </button>
+          )}
         </div>
       </section>
 

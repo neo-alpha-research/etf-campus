@@ -15,13 +15,10 @@ import {
 import { CrossSellBanner } from "@/components/learning/cross-sell-banner";
 import { SampleBadge, SampleNotice } from "@/components/learning/sample-badge";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
-import {
-  type ExternalBook,
-  resolveBookCoverUrl,
-} from "@/lib/content/learning-content";
+import type { ExternalBook } from "@/lib/content/learning-content";
 
 export function ExternalBookDetail({ book }: { book: ExternalBook }) {
-  const coverUrl = resolveBookCoverUrl(book.coverImage);
+  const coverUrl = book.coverImage;
 
   return (
     <div className="mx-auto max-w-3xl">

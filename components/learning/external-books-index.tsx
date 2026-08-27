@@ -5,15 +5,18 @@ import { Star, ThumbsUp, AlertCircle, BookOpen, CheckCircle2 } from "lucide-reac
 import { useState } from "react";
 import Image from "next/image";
 
-import {
-  EXTERNAL_BOOK_CATEGORIES,
-  type ExternalBook,
-  type ExternalBookCategory,
-  resolveBookCoverUrl,
-} from "@/lib/content/learning-content";
+import type { ExternalBook, ExternalBookCategory } from "@/lib/content/learning-content";
 
-export function ExternalBooksIndex({ books }: { books: ExternalBook[] }) {
-  const [activeCategory, setActiveCategory] = useState<ExternalBookCategory>(EXTERNAL_BOOK_CATEGORIES[0]);
+const DEFAULT_CATEGORIES: readonly ExternalBookCategory[] = ["초보·입문", "연금·절세", "배당·현금흐름"] as const;
+
+export function ExternalBooksIndex({
+  books,
+  categories = DEFAULT_CATEGORIES,
+}: {
+  books: ExternalBook[];
+  categories?: readonly ExternalBookCategory[];
+}) {
+  const [activeCategory, setActiveCategory] = useState<ExternalBookCategory>(categories[0] ?? "초보·입문");
 
   const filteredBooks = books
     .filter((book) => book.category === activeCategory)
@@ -24,7 +27,7 @@ export function ExternalBooksIndex({ books }: { books: ExternalBook[] }) {
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         {/* 탭 네비게이션 (모바일 터치 타깃 44px 이상 + 포커스 링) */}
         <div className="flex flex-wrap gap-2">
-          {EXTERNAL_BOOK_CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <button
               key={cat}
               type="button"
@@ -54,7 +57,7 @@ export function ExternalBooksIndex({ books }: { books: ExternalBook[] }) {
           </div>
         ) : (
           filteredBooks.map((book) => {
-            const coverUrl = resolveBookCoverUrl(book.coverImage);
+            const coverUrl = book.coverImage;
             return (
               <article
                 key={book.slug}

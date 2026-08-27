@@ -235,7 +235,7 @@ export function loadExternalBooks(): ExternalBook[] {
       summary: requiredWithAliases(metadata, ["summary"], filename),
       pros,
       cons,
-      coverImage: findMetadataValue(metadata, ["coverImage", "cover_image"]),
+      coverImage: resolveBookCoverUrl(findMetadataValue(metadata, ["coverImage", "cover_image"])) ?? undefined,
       affiliateUrl: findMetadataValue(metadata, ["affiliateUrl", "affiliate_url"]),
       relatedInternalLink: findMetadataValue(metadata, ["relatedInternalLink", "related_internal_link"]),
       backtestTicker,

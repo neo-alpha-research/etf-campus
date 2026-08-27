@@ -127,7 +127,7 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
         <>
           <div className="mt-5 overflow-hidden rounded-xl border border-[#E4EBDC]">
             <div className="grid grid-cols-[minmax(94px,0.9fr)_minmax(0,1.8fr)_auto] items-center gap-3 px-4 py-2.5 bg-[#F8FAF6] border-b border-[#E4EBDC] text-[11.5px] font-extrabold text-neutral-500 sm:grid-cols-[132px_minmax(0,1.8fr)_96px_90px]">
-              <span>발행일자</span>
+              <span>기준일자</span>
               <span>핵심 브리핑 요약</span>
               <span className="hidden sm:flex items-center justify-end">
                 Top 100
@@ -159,16 +159,13 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
                       aria-pressed={isActive}
                       className={`grid w-full grid-cols-[minmax(94px,0.9fr)_minmax(0,1.8fr)_auto] items-center gap-3 px-4 py-3.5 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#7DAD55] sm:grid-cols-[132px_minmax(0,1.8fr)_96px_90px] ${isActive ? "bg-[#F1F8E3]" : "bg-white hover:bg-[#FBFDF8]"}`}
                     >
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <p className="text-sm font-extrabold text-neutral-900">{dateLabel(item.asOfDate)}</p>
-                          {isPastItem && !authenticated && (
-                            <span className="inline-flex items-center rounded-full bg-[#FAFDF4] px-1.5 py-0.2 text-[9px] font-bold text-[#5A7050] border border-[#D7EABB]">
-                              🔒 회원
-                            </span>
-                          )}
-                        </div>
-                        <p className="mt-0.5 text-[11px] text-neutral-500">기준일 {item.asOfDate}</p>
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-sm font-extrabold text-neutral-900">{dateLabel(item.asOfDate)}</p>
+                        {isPastItem && !authenticated && (
+                          <span className="inline-flex items-center rounded-full bg-[#FAFDF4] px-1.5 py-0.2 text-[9px] font-bold text-[#5A7050] border border-[#D7EABB]">
+                            🔒 회원
+                          </span>
+                        )}
                       </div>
                       <div className="min-w-0">
                         <p className="truncate text-sm font-semibold text-neutral-800">{item.headline || `${item.marketTemperature} 흐름`}</p>

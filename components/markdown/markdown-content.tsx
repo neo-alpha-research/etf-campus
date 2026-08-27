@@ -17,17 +17,19 @@ export function MarkdownContent({ source }: { source: string }) {
           th: ({ children }) => <th className="bg-neutral-50 px-4 py-3 font-extrabold text-strong">{children}</th>,
           td: ({ children }) => <td className="border-t border-line px-4 py-3">{children}</td>,
           blockquote: ({ children }) => <blockquote className="mt-5 rounded-xl border-l-4 border-brand-500 bg-brand-50/70 p-4 text-brand-950">{children}</blockquote>,
-          pre: ({ children }) => <pre className="mt-5 overflow-x-auto rounded-2xl border border-line bg-neutral-900 p-4.5 text-xs font-mono leading-relaxed text-neutral-100 shadow-xs">{children}</pre>,
+          pre: ({ children }) => <pre className="mt-5 overflow-x-auto rounded-2xl border border-line/80 bg-neutral-50/80 p-4.5 text-xs font-mono leading-relaxed text-neutral-800 shadow-xs">{children}</pre>,
           code: ({ children, className }) => className ? <code className={className}>{children}</code> : <code className="rounded-md bg-neutral-100 px-1.5 py-0.5 text-xs font-semibold text-brand-900 border border-line/60">{children}</code>,
           img: ({ src, alt }) => (
-            <figure className="my-6 flex flex-col items-center justify-center">
-              <img
-                src={src}
-                alt={alt || ""}
-                className="max-h-[500px] w-auto max-w-full rounded-2xl border border-line/80 bg-surface shadow-xs"
-                loading="lazy"
-              />
-              {alt ? <figcaption className="mt-2 text-center text-xs font-semibold text-neutral-500">▲ {alt}</figcaption> : null}
+            <figure className="my-7 flex flex-col items-center justify-center">
+              <div className="overflow-hidden rounded-2xl border border-line/80 bg-white p-2.5 shadow-xs sm:p-4">
+                <img
+                  src={src}
+                  alt={alt || ""}
+                  className="max-h-[520px] w-auto max-w-full rounded-xl object-contain"
+                  loading="lazy"
+                />
+              </div>
+              {alt ? <figcaption className="mt-2.5 text-center text-xs font-bold text-neutral-500">▲ {alt}</figcaption> : null}
             </figure>
           ),
         }}

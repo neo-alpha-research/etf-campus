@@ -1130,7 +1130,7 @@ export function MarketBriefing() {
 
       {briefing.marketIndices.length > 0 && (
         <section id="step-macro" aria-labelledby="market-index-title" className="mb-14 scroll-mt-20">
-          <div className="mb-5 border-l-4 border-[#9ACD68] pl-3.5">
+          <div className="mb-4 border-l-4 border-[#9ACD68] pl-3.5">
             <div className="flex items-center gap-2">
               <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 1. MACRO ECONOMY</p>
             </div>
@@ -1139,6 +1139,15 @@ export function MarketBriefing() {
             </h2>
             <p className="mt-0.5 text-xs sm:text-sm text-neutral-500">
               ETF 가격 변동의 원인이 되는 주요 지표와 전 거래일 대비 변동폭입니다.
+            </p>
+          </div>
+
+          {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
+          <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
+            <span className="text-sm shrink-0">📌</span>
+            <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+              <strong className="font-extrabold text-[#2E6819] mr-1.5">[거시 총평]</strong>
+              {macroSentence}
             </p>
           </div>
 
@@ -1219,15 +1228,6 @@ export function MarketBriefing() {
               </div>
             </div>
           </div>
-
-          {/* STEP 1 하단 1줄 핵심 인사이트 박스 */}
-          <div className="mt-4 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
-            <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
-              <strong className="font-extrabold text-[#2E6819] mr-1.5">[거시 총평]</strong>
-              {macroSentence}
-            </p>
-          </div>
         </section>
       )}
 
@@ -1235,7 +1235,7 @@ export function MarketBriefing() {
 
       {/* STEP 2: Market Pulse & My Portfolio */}
       <section id="step-pulse" aria-labelledby="market-pulse-title" className="mb-16 scroll-mt-20">
-        <div className="mb-6">
+        <div className="mb-4">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 2. MARKET PULSE</p>
             <h2 id="market-pulse-title" className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">
@@ -1266,6 +1266,15 @@ export function MarketBriefing() {
 
           return (
             <>
+            {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
+            <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
+              <span className="text-sm shrink-0">📌</span>
+              <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+                <strong className="font-extrabold text-[#2E6819] mr-1.5">[체온 & 수급]</strong>
+                일반 ETF {number.format(pulse.generalEtfCount)}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {decimal.format(pulse.top10TradeSharePct)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
+              </p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               
               {/* 1. Market Breadth (시장 체온) */}
@@ -1439,15 +1448,6 @@ export function MarketBriefing() {
               </div>
 
             </div>
-
-            {/* STEP 2 하단 1줄 핵심 인사이트 박스 */}
-            <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
-              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
-              <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
-                <strong className="font-extrabold text-[#2E6819] mr-1.5">[체온 & 수급]</strong>
-                일반 ETF {number.format(pulse.generalEtfCount)}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {decimal.format(pulse.top10TradeSharePct)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
-              </p>
-            </div>
             </>
           );
         })()}
@@ -1459,6 +1459,15 @@ export function MarketBriefing() {
           <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 3. MICRO TRENDS</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">어떤 자산과 테마가 주도? (세부 동향)</h2>
           <p className="mt-1 text-sm text-neutral-500">자산군별 뼈대 흐름과 이를 주도한 세부 테마들의 성과입니다.</p>
+        </div>
+
+        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
+        <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
+          <span className="text-sm shrink-0">📌</span>
+          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+            <strong className="font-extrabold text-[#2E6819] mr-1.5">[테마 총평]</strong>
+            {themeKeySentence}
+          </p>
         </div>
 
         {/* Part A: Macro Table (0-Scroll Responsive) */}
@@ -1651,15 +1660,6 @@ export function MarketBriefing() {
             );
           })}
         </div>
-
-        {/* STEP 3 하단 1줄 핵심 인사이트 박스 */}
-        <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
-          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
-            <strong className="font-extrabold text-[#2E6819] mr-1.5">[테마 총평]</strong>
-            {themeKeySentence}
-          </p>
-        </div>
       </section>
 
       {/* STEP 4: Smart Money & Risk */}
@@ -1670,31 +1670,38 @@ export function MarketBriefing() {
           <p className="mt-1 text-sm text-neutral-500">스마트머니의 자금 순유입 및 순유출을 통해 일일 자금 흐름을 점검합니다.</p>
         </div>
 
-        <div className="flex flex-col gap-8 sm:gap-10">
-          {briefing.fundFlow && <FundFlowRanking fundFlow={briefing.fundFlow} />}
-        </div>
-
-        {/* STEP 4 하단 1줄 핵심 인사이트 박스 */}
-        <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
+        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
+        <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
+          <span className="text-sm shrink-0">📌</span>
           <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
             <strong className="font-extrabold text-[#2E6819] mr-1.5">[자금 흐름]</strong>
             {flowKeySentence}
           </p>
         </div>
+
+        <div className="flex flex-col gap-8 sm:gap-10">
+          {briefing.fundFlow && <FundFlowRanking fundFlow={briefing.fundFlow} />}
+        </div>
       </section>
 
       {/* STEP 5: Macro Trends (Weekly / Monthly Fund Flow) */}
       <section id="step-trend" className="mb-16 scroll-mt-20">
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div>
-            <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
-              <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 5. TREND & FLOW</p>
-              <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">큰 돈의 흐름은 어디로? (주/월간 트렌드)</h2>
-              <p className="mt-1 text-sm text-neutral-500">일간 노이즈를 걷어내고, 국내 ETF 시장으로 구조적 자금이 유입되는 주도 테마를 점검합니다.</p>
-            </div>
-          </div>
-          
+        <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 5. TREND & FLOW</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">큰 돈의 흐름은 어디로? (주/월간 트렌드)</h2>
+          <p className="mt-1 text-sm text-neutral-500">일간 노이즈를 걷어내고, 국내 ETF 시장으로 구조적 자금이 유입되는 주도 테마를 점검합니다.</p>
+        </div>
+
+        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
+        <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
+          <span className="text-sm shrink-0">📌</span>
+          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+            <strong className="font-extrabold text-[#2E6819] mr-1.5">[트렌드 총평]</strong>
+            {trendKeySentence}
+          </p>
+        </div>
+
+        <div className="mb-6 flex justify-end">
           {/* Tabs */}
           <div className="flex bg-neutral-100 p-1 rounded-lg self-start sm:self-auto">
             <button
@@ -1848,25 +1855,25 @@ export function MarketBriefing() {
             </div>
           </div>
         </div>
-
-        {/* STEP 5 하단 1줄 핵심 인사이트 박스 */}
-        <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
-          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
-            <strong className="font-extrabold text-[#2E6819] mr-1.5">[트렌드 총평]</strong>
-            {trendKeySentence}
-          </p>
-        </div>
       </section>
 
       {/* STEP 6: Market Scale */}
       <section id="step-scale" className="mb-16 scroll-mt-20">
-        <div className="mb-6">
+        <div className="mb-4">
           <div className="border-l-4 border-[#9ACD68] pl-3 mb-3">
             <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 6. MARKET SCALE</p>
             <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">국내 ETF 시장은 성장하고 있을까? (시장 규모)</h2>
             <p className="mt-1 text-sm text-neutral-500">전체 운용자산(AUM)의 증감과 실제 자금 순유입액을 일/주/월간 단위로 추적합니다.</p>
           </div>
+        </div>
+
+        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
+        <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
+          <span className="text-sm shrink-0">📌</span>
+          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
+            <strong className="font-extrabold text-[#2E6819] mr-1.5">[시장 규모]</strong>
+            {scaleKeySentence}
+          </p>
         </div>
 
         <div className="bg-white border border-[#E5E8E2] rounded-[20px] shadow-[0_4px_12px_rgba(27,38,26,0.02)] p-6 sm:p-8">
@@ -2212,15 +2219,6 @@ export function MarketBriefing() {
               );
             })()}
           </div>
-        </div>
-
-        {/* STEP 6 하단 1줄 핵심 인사이트 박스 */}
-        <div className="mt-5 rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-center gap-3">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EAF3DF] text-sm">💡</span>
-          <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
-            <strong className="font-extrabold text-[#2E6819] mr-1.5">[시장 규모]</strong>
-            {scaleKeySentence}
-          </p>
         </div>
       </section>
 

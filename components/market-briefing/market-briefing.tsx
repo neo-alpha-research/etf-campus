@@ -2673,5 +2673,4 @@ export function MarketBriefing() {
 }
 
 
- 
- 
+

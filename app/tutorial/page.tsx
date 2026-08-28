@@ -168,17 +168,17 @@ function TutorialContent() {
             <div className="flex mb-2 items-end justify-between">
               <div className="mb-0.5">
                 <span className="text-xs sm:text-sm font-extrabold inline-flex items-center gap-1 py-1 px-3 rounded-full text-brand-700 bg-brand-100 border border-brand-200">
-                  <span>📖</span> 제{currentStep}강 이수 중
+                  <span>📖</span> OT 퀴즈 {currentStep}/10단계
                 </span>
               </div>
               <div className="text-right flex flex-col items-end">
                 {!(currentStep === 10 && isGraded) && (
                   <span className="text-[10px] sm:text-[11px] font-semibold text-amber-700 mb-1">
-                    🎁 10강 완주 시 <span className="underline underline-offset-2">체크리스트 PDF</span> 수여!
+                    🎁 퀴즈 완주 시 <span className="underline underline-offset-2">체크리스트 PDF</span> 증정!
                   </span>
                 )}
                 <span className="text-xs sm:text-sm font-extrabold inline-block text-muted">
-                  학사 진도율 {currentStep * 10}%
+                  진행률 {currentStep * 10}%
                 </span>
               </div>
             </div>
@@ -195,7 +195,7 @@ function TutorialContent() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-100 pb-5">
               <div>
                 <span className="text-xs font-bold text-brand-600 tracking-wider uppercase">
-                  STEP {currentStep} / 10
+                  QUIZ {currentStep} / 10
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-strong mt-0.5 break-keep">
                   {stepData.title}
@@ -208,7 +208,7 @@ function TutorialContent() {
                   disabled={currentStep === 1}
                   className="px-3.5 py-1.5 rounded-xl border border-neutral-200 text-xs font-bold text-neutral-600 hover:bg-neutral-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 >
-                  ◀ 이전 강의
+                  ◀ 이전 퀴즈
                 </button>
                 <button
                   type="button"
@@ -216,7 +216,7 @@ function TutorialContent() {
                   disabled={currentStep === 10 || !isGraded}
                   className="px-3.5 py-1.5 rounded-xl border border-brand-200 bg-brand-50 text-xs font-bold text-brand-700 hover:bg-brand-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 >
-                  다음 강의 ▶
+                  다음 퀴즈 ▶
                 </button>
               </div>
             </div>
@@ -330,7 +330,7 @@ function TutorialContent() {
                 <div className="text-5xl animate-bounce">🏆</div>
                 <div>
                   <h2 className="text-2xl sm:text-3xl font-black text-amber-900 tracking-tight break-keep">
-                    축하합니다! 신입생 필수 10강 수료 완료!
+                    축하합니다! 신입생 오리엔테이션 퀴즈 완료!
                   </h2>
                   <p className="text-amber-800 font-medium text-base mt-2 break-keep">
                     설립자 Neo가 제공하는 [연금 ETF 운용 체크리스트]를 다운로드하여 실전에 활용해 보십시오.
@@ -350,7 +350,7 @@ function TutorialContent() {
                 onClick={nextStep}
                 className="w-full bg-gradient-to-b from-brand-600 to-brand-700 border-b-4 border-brand-900 text-white font-black py-4 sm:py-5 rounded-2xl hover:brightness-110 active:border-b-0 active:translate-y-1 transition-all shadow-lg text-lg tracking-wide animate-fade-in-up"
               >
-                🎉 {currentStep}강 통과! 다음 제{currentStep + 1}강으로 이동 👉
+                🎉 {currentStep}단계 통과! 다음 제{currentStep + 1}단계로 이동 👉
               </button>
             )}
           </div>

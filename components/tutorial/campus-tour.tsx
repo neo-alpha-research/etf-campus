@@ -230,20 +230,27 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
         ))}
       </div>
 
-      {/* Graduation Challenge Callout Banner */}
-      <div className="relative overflow-hidden rounded-3xl border-2 border-brand-300 bg-gradient-to-r from-brand-800 via-brand-900 to-indigo-950 p-6 sm:p-8 text-white shadow-lg">
+      {/* Celebratory Admission & Orientation Quiz Callout Banner */}
+      <div className="relative overflow-hidden rounded-3xl border-2 border-amber-300/90 bg-gradient-to-br from-amber-50/95 via-orange-50/60 to-brand-50/80 p-6 sm:p-9 shadow-md">
+        {/* Subtle festive background glow */}
+        <div className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full bg-amber-200/50 blur-3xl" />
+        <div className="pointer-events-none absolute -left-10 -bottom-10 size-44 rounded-full bg-brand-100/60 blur-2xl" />
+
         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center md:text-left">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-brand-700 text-brand-100">
-              <span>🎓</span> 신입생 필수 졸업 미션
+          <div className="space-y-2.5 text-center md:text-left">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-amber-100 text-amber-950 border border-amber-300 shadow-2xs">
+              <span>🎉</span>
+              <span>신입생 입학 축하 & OT 퀴즈</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black tracking-tight break-keep">
-              캠퍼스 투어를 마치셨습니까? <br className="hidden sm:inline" />
-              이제 <span className="text-amber-400">신입생 필수 10강 퀴즈</span>에 도전해 보십시오!
+
+            <h3 className="text-xl sm:text-2xl lg:text-[26px] font-black text-neutral-950 tracking-tight break-keep leading-snug">
+              캠퍼스 시설을 모두 둘러보셨나요? <br className="hidden sm:inline" />
+              이제 <span className="text-brand-700 underline decoration-amber-400 decoration-wavy decoration-2 underline-offset-4">&lsquo;신입생 오리엔테이션 퀴즈&rsquo;</span>에 도전해 보세요!
             </h3>
-            <p className="text-xs sm:text-sm text-brand-100/90 font-medium break-keep">
-              10단계를 모두 통과한 학우에게는 특별 졸업 선물로 <br className="hidden sm:inline" />
-              <strong className="text-white font-bold underline decoration-amber-400">
+
+            <p className="text-xs sm:text-sm text-neutral-700 font-medium break-keep leading-relaxed">
+              10문항의 퀴즈를 모두 완료하신 신입생 학우분께는 입학 축하 선물로 <br className="hidden sm:inline" />
+              <strong className="text-brand-900 font-bold underline decoration-amber-500">
                 🎁 [연금 ETF 운용 체크리스트 PDF]
               </strong>
               를 즉시 수여합니다.
@@ -253,9 +260,9 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
           <button
             type="button"
             onClick={onStartQuiz}
-            className="shrink-0 w-full md:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-neutral-950 font-black px-7 py-4 rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all text-base"
+            className="shrink-0 w-full md:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-700 via-brand-800 to-indigo-900 hover:from-brand-600 hover:to-indigo-800 text-white font-black px-7 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all text-base tracking-wide"
           >
-            <span>🎯 10강 퀴즈 풀고 체크리스트 받기</span>
+            <span>🎯 OT 퀴즈 풀고 선물 받기</span>
             <span>➔</span>
           </button>
         </div>

@@ -92,7 +92,7 @@ export function FounderLetter({
             }`}
           >
             <span>🎓</span>
-            <span>신입생 필수 10강 퀴즈</span>
+            <span>신입생 오리엔테이션 퀴즈</span>
             <span
               className={`ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
                 activeTab === "quiz"
@@ -100,7 +100,7 @@ export function FounderLetter({
                   : "bg-neutral-200 text-neutral-600"
               }`}
             >
-              LV.{quizProgress}
+              {quizProgress}/10
             </span>
           </button>
         </div>
@@ -109,7 +109,7 @@ export function FounderLetter({
         <div className="text-xs text-muted font-medium flex items-center gap-1.5 self-center sm:self-auto">
           <span>🎁</span>
           <span>
-            10강 수료 시{" "}
+            퀴즈 완료 시{" "}
             <strong className="text-amber-800 font-bold underline decoration-amber-300">
               체크리스트 PDF
             </strong>{" "}

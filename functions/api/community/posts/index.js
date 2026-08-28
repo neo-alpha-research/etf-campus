@@ -3,8 +3,17 @@ import { enforceDatabaseRateLimit, parseJsonBody } from "../_lib/request-securit
 import { errorResponse, jsonResponse } from "../_lib/api-security";
 import { CommunityValidationError, toPublicPost, validatePostInput } from "../_lib/contracts";
 
-const LISTABLE_CATEGORY_SLUGS = new Set(["notice", "pension-etf-qna", "etf-questions", "challenge-30", "feedback"]);
-const CURSOR_SLUG_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const LISTABLE_CATEGORY_SLUGS = new Set([
+  "notice",
+  "free-qna",
+  "strategy-portfolio",
+  "stock-cost-analysis",
+  "pension-etf-qna",
+  "etf-questions",
+  "challenge-30",
+  "feedback",
+]);
+const CURSOR_SLUG_PATTERN = /^[a-z0-9-_]{2,128}$/i;
 
 function listLimit(value) {
   const parsed = Number.parseInt(value ?? "20", 10);

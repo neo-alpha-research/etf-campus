@@ -3,6 +3,10 @@ import { enforceDatabaseRateLimit, parseJsonBody } from "../../../../_lib/reques
 import { errorResponse, jsonResponse } from "../../../../_lib/api-security";
 import { CommunityValidationError, validateCommunityReport } from "../../../../_lib/contracts";
 
+function validSlug(value) {
+  return typeof value === "string" && /^[a-z0-9-_]{2,128}$/i.test(value);
+}
+
 function validUuid(value) {
   return typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 }
@@ -18,7 +22,7 @@ function reportRpcError(error) {
 export async function onRequestPost(context) {
   const slug = context.params.slug;
   const commentId = context.params.commentId;
-  if (!validUuid(slug) || !validUuid(commentId)) return errorResponse(404, "NOT_FOUND", "신고할 댓글을 찾을 수 없습니다.");
+  if (!validSlug(slug) || !validUuid(commentId)) return errorResponse(404, "NOT_FOUND", "신고할 댓글을 찾을 수 없습니다.");
 
   const auth = await authenticatedSupabase(context);
   if (auth.error) return auth.error;

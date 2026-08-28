@@ -4,7 +4,7 @@ import { errorResponse, jsonResponse } from "../../_lib/api-security";
 import { CommunityValidationError, toPublicComment, validateCommentInput } from "../../_lib/contracts";
 
 function validSlug(value) {
-  return typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+  return typeof value === "string" && /^[a-z0-9-_]{2,128}$/i.test(value);
 }
 
 async function ownCommentIds(env, authorization, postSlug) {

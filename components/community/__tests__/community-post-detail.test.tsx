@@ -105,4 +105,18 @@ describe("CommunityPostDetail 게시물 소유자 제어 UI", () => {
     expect(await screen.findByRole("heading", { name: "게시물을 찾을 수 없습니다." })).toBeInTheDocument();
     expect(screen.getByText("존재하지 않거나 삭제된 게시물입니다.")).toBeInTheDocument();
   });
+
+  it("상단에 '목록으로 가기' 링크를 제공하고 댓글을 정상 등록한다", async () => {
+    render(<CommunityPostDetail />);
+
+    expect(await screen.findByRole("heading", { name: "연금 ETF 질문" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "← 목록으로 가기" })).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText("댓글"), { target: { value: "좋은 분석 감사합니다!" } });
+    fireEvent.click(screen.getByRole("button", { name: "댓글 등록" }));
+
+    await waitFor(() => {
+      expect(screen.getByText("좋은 분석 감사합니다!")).toBeInTheDocument();
+    });
+  });
 });

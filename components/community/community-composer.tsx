@@ -239,7 +239,7 @@ export function CommunityComposer() {
 
   return (
     <div className="page-shell py-7 sm:py-10">
-      <Link href="/community/" className="text-sm font-bold text-brand-700 hover:underline">← 커뮤니티 목록</Link>
+      <Link href="/community/" className="text-sm font-bold text-brand-700 hover:underline">← 목록으로 가기</Link>
       <section className="mt-5 max-w-3xl rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
         <p className="text-xs font-bold tracking-[0.18em] text-brand-700">COMMUNITY WRITE</p>
         <h1 className="mt-2 text-2xl font-extrabold text-slate-950">판단 기준을 나누는 글쓰기</h1>

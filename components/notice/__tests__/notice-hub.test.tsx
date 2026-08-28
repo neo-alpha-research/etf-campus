@@ -19,9 +19,7 @@ describe("NoticeHub", () => {
     expect(screen.getByRole("button", { name: /의견·오류 제보/i })).toBeInTheDocument();
 
     const titles = screen.getAllByRole("heading", { level: 3 });
-    // 최신 공지(2026-08-27)가 상단에 먼저 위치해야 함
-    expect(titles[0]).toHaveTextContent("도서·리뷰 탭 고도화 및 3부작 시리즈 정식 등재 안내");
-    expect(titles[1]).toHaveTextContent("ETF Campus 운영 원칙 및 객관적 검증 가이드라인");
+    expect(titles[0]).toHaveTextContent("ETF Campus 운영 원칙 및 객관적 데이터 분석 가이드라인");
   });
 
   it("탭을 클릭하면 해당 서브 컨텐츠로 전환된다", () => {

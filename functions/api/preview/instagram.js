@@ -93,8 +93,8 @@ export async function onRequestGet(context) {
 
       <!-- Header Badge & Date -->
       <g transform="translate(80, 90)">
-        <rect width="240" height="48" rx="24" fill="url(#blueBadgeGrad)" stroke="#BFDBFE" stroke-width="1.5"/>
-        <circle cx="28" cy="24" r="6" fill="#1D4ED8"/>
+        <rect width="310" height="48" rx="24" fill="url(#blueBadgeGrad)" stroke="#BFDBFE" stroke-width="1.5"/>
+        <circle cx="26" cy="24" r="6" fill="#1D4ED8"/>
         <text x="44" y="31" fill="#1D4ED8" font-size="20" font-weight="800" letter-spacing="0.5">DAILY MARKET PULSE</text>
         <text x="920" y="32" fill="#64748B" font-size="24" font-weight="700" text-anchor="end" class="tabular">${formattedDate} 마켓 브리핑</text>
       </g>

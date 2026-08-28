@@ -25,7 +25,7 @@ function etf(overrides: Partial<Etf> = {}): Etf {
     isNew90d: null,
     isNew3m: false,
     ...overrides,
-  };
+  } as unknown as Etf;
 }
 
 describe("ETF 노출 계층", () => {

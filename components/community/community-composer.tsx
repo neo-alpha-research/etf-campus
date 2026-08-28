@@ -11,6 +11,7 @@ const categories = [
   { slug: "free-qna", name: "자유·질문" },
   { slug: "strategy-portfolio", name: "전략·포트폴리오" },
   { slug: "stock-cost-analysis", name: "종목·비용 분석" },
+  { slug: "feedback", name: "의견·오류 제보" },
 ] as const;
 
 type CategorySlug = (typeof categories)[number]["slug"];
@@ -53,9 +54,9 @@ const WRITING_TEMPLATES: Record<string, WritingTemplate> = {
     body: "## 오늘의 학습 주제\n\n## 오늘 확인한 출처\n",
   },
   feedback: {
-    titlePlaceholder: "오류가 보인 화면과 ETF 코드 또는 기능을 적어 주세요",
-    hint: "개인정보·로그인 정보·인증 코드는 적지 말고, 재현 가능한 정보만 남겨 주세요.",
-    body: "## 확인한 화면\n\n## 재현 방법\n",
+    titlePlaceholder: "개선 의견이나 오류가 발생한 화면/기능을 적어 주세요",
+    hint: "ETF Campus 개선을 위한 소중한 제안이나 데이터/기능 오류를 남겨주시면 빠르게 검토 후 반영하겠습니다.",
+    body: "## 제안 또는 오류 내용\n\n## 대상 화면 또는 기능\n예: ETF 비교 (/compare) 화면 / 특정 종목 상세 페이지\n\n## 상세 설명 / 개선 아이디어\n",
   },
 };
 

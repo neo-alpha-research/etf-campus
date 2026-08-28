@@ -104,8 +104,8 @@ export function CommunityPostDetail() {
             setIsUpvoted(false);
             const defaultComment = {
               publicId: "local-comment-1",
-              authorNickname: "ETF마스터",
-              bodyText: "판단 기준 공유 감사합니다! $069500 및 관련 종목 구조를 파악하는 데 큰 도움이 되었습니다.",
+              authorNickname: "Neo",
+              bodyText: "좋은 의견과 판단 기준 공유 감사합니다! 실전 ETF 투자에 큰 도움이 됩니다.",
               createdAt: foundLocal.createdAt,
               updatedAt: foundLocal.createdAt,
               canEdit: false,
@@ -128,15 +128,17 @@ export function CommunityPostDetail() {
               });
               setUpvoteCount(found.upvoteCount ?? 0);
               setIsUpvoted(false);
-              const defaultComment = {
-                publicId: "mock-comment-1",
-                authorNickname: "ETF마스터",
-                bodyText: "판단 기준 공유 감사합니다! $069500 및 관련 종목 구조를 파악하는 데 큰 도움이 되었습니다.",
-                createdAt: found.createdAt,
-                updatedAt: found.createdAt,
-                canEdit: false,
-              };
-              setComments(customComments.length > 0 ? customComments : [defaultComment]);
+              const postComments = (found.comments && found.comments.length > 0) ? found.comments : [
+                {
+                  publicId: "mock-comment-1",
+                  authorNickname: "Neo",
+                  bodyText: "좋은 의견과 판단 기준 공유 감사합니다! 실전 ETF 투자에 큰 도움이 됩니다.",
+                  createdAt: found.createdAt,
+                  updatedAt: found.createdAt,
+                  canEdit: false,
+                }
+              ];
+              setComments(customComments.length > 0 ? [...postComments, ...customComments] : postComments);
               setStatus("ready");
               return;
             }

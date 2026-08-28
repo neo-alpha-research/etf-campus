@@ -1,0 +1,52 @@
+name = "market-briefing-distributor"
+main = "src/index.ts"
+compatibility_date = "2026-08-28"
+
+# Event Queue Consumer: Triggered immediately when market briefing publishing succeeds.
+# No cron slot is used.
+[[queues.consumers]]
+queue = "etf-campus-market-briefing-distribute"
+max_batch_size = 1
+max_batch_timeout = 5
+max_retries = 5
+retry_delay = 60
+dead_letter_queue = "etf-campus-market-briefing-distribute-dlq"
+
+[[d1_databases]]
+binding = "ETF_PRICES"
+database_name = "etf-prices"
+database_id = "11c4e874-fba2-4e34-91d0-808892284c86"
+
+[[kv_namespaces]]
+binding = "BRIEFING_KV"
+id = "278805f22a4948b3b9b6c66e8a6a1466"
+
+[vars]
+SITE_BASE_URL = "https://etf-campus.pages.dev"
+MAX_ALLOWED_DISPARITY_PCT = "5.0"
+MAX_ALLOWED_DAILY_SPIKE_PCT = "15.0"
+
+[env.preview]
+name = "market-briefing-distributor-preview"
+
+[[env.preview.queues.consumers]]
+queue = "etf-campus-market-briefing-distribute-preview"
+max_batch_size = 1
+max_batch_timeout = 5
+max_retries = 5
+retry_delay = 60
+dead_letter_queue = "etf-campus-market-briefing-distribute-preview-dlq"
+
+[[env.preview.d1_databases]]
+binding = "ETF_PRICES"
+database_name = "etf-prices-preview"
+database_id = "ca4eec2e-1828-49f7-a881-3e20374fcf80"
+
+[[env.preview.kv_namespaces]]
+binding = "BRIEFING_KV"
+id = "1d05ee372504435dbb797169ff4202ce"
+
+[env.preview.vars]
+SITE_BASE_URL = "https://community-phase-3-preview-rc.etf-campus.pages.dev"
+MAX_ALLOWED_DISPARITY_PCT = "5.0"
+MAX_ALLOWED_DAILY_SPIKE_PCT = "15.0"

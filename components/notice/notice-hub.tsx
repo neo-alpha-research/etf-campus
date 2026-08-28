@@ -59,12 +59,12 @@ export function NoticeHub() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-4xl py-8 px-4 sm:px-6">
+    <main className="page-shell py-8 sm:py-12">
       <div className="mb-6 flex flex-wrap gap-2 border-b border-line pb-4">
         <button
           type="button"
           onClick={() => setActiveTab("notice")}
-          className={`rounded-xl px-4 py-2.5 text-sm font-extrabold transition-colors ${
+          className={`inline-flex min-h-[42px] items-center justify-center rounded-xl px-4 py-2 text-sm font-extrabold transition-colors ${
             activeTab === "notice"
               ? "bg-brand-700 text-white"
               : "bg-surface text-neutral-600 hover:bg-neutral-100"
@@ -75,7 +75,7 @@ export function NoticeHub() {
         <button
           type="button"
           onClick={() => setActiveTab("challenge")}
-          className={`flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-extrabold transition-colors ${
+          className={`inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-xl px-4 py-2 text-sm font-extrabold transition-colors ${
             activeTab === "challenge"
               ? "bg-brand-700 text-white"
               : "bg-surface text-neutral-600 hover:bg-neutral-100"
@@ -95,7 +95,7 @@ export function NoticeHub() {
         <button
           type="button"
           onClick={() => setActiveTab("feedback")}
-          className={`rounded-xl px-4 py-2.5 text-sm font-extrabold transition-colors ${
+          className={`inline-flex min-h-[42px] items-center justify-center rounded-xl px-4 py-2 text-sm font-extrabold transition-colors ${
             activeTab === "feedback"
               ? "bg-brand-700 text-white"
               : "bg-surface text-neutral-600 hover:bg-neutral-100"
@@ -129,7 +129,7 @@ export function NoticeHub() {
       {activeTab === "feedback" && (
         <FeedbackBoard />
       )}
-    </div>
+    </main>
   );
 }
 

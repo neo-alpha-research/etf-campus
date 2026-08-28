@@ -811,12 +811,20 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
     market_scale: marketScale,
   };
 
-  const metricsJson = JSON.stringify(metrics);
+  const statements: any[] = [
+    env.ETF_PRICES.prepare(`UPDATE market_briefings SET metrics_json = ?, updated_at = ? WHERE as_of_date = ?`).bind(metricsJson, nowIso(), asOfDate),
+    env.ETF_PRICES.prepare(`DELETE FROM market_briefing_asset_classes WHERE as_of_date = ?`).bind(asOfDate),
+    ...assetClasses.map((row) => env.ETF_PRICES
+      .prepare(
+        `INSERT INTO market_briefing_asset_classes (
+          as_of_date, asset_class, etf_count, up_count, flat_count, down_count,
+          breadth_ratio_pct, aum_weighted_return_pct, total_aum, aum_share_pct, total_trade_value, trade_share_pct
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      )
+      .bind(asOfDate, row.assetClass, row.etfCount, row.upCount, row.flatCount, row.downCount, row.breadthRatioPct, row.aumWeightedReturnPct, row.totalAum, row.aumSharePct, row.totalTradeValue, row.tradeSharePct)),
+  ];
 
-  await env.ETF_PRICES
-    .prepare(`UPDATE market_briefings SET metrics_json = ?, updated_at = ? WHERE as_of_date = ?`)
-    .bind(metricsJson, nowIso(), asOfDate)
-    .run();
+  await env.ETF_PRICES.batch(statements);
 
   await warmLatestBriefingCache(env, asOfDate);
 

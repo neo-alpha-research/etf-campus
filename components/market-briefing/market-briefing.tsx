@@ -685,12 +685,21 @@ export function MarketBriefing() {
 
 
   const sortedAssetClasses = useMemo(() => {
-    if (!briefing) return [];
+    if (!briefing || !briefing.assetClasses) return [];
     return [...briefing.assetClasses]
-      .map((row) => ({
-        ...row,
-        contribution_pct: ((row.aum_weighted_return_pct ?? 0) * row.aum_share_pct) / 100,
-      }))
+      .map((row: any) => {
+        const aum = row.total_aum ?? row.totalAum ?? 0;
+        const aumShare = row.aum_share_pct ?? row.aumSharePct ?? 0;
+        const weightedReturn = row.aum_weighted_return_pct ?? row.aumWeightedReturnPct ?? 0;
+        return {
+          ...row,
+          asset_class: row.asset_class || row.assetClass,
+          total_aum: aum,
+          aum_share_pct: aumShare,
+          aum_weighted_return_pct: weightedReturn,
+          contribution_pct: (weightedReturn * aumShare) / 100,
+        };
+      })
       .sort((a, b) => (b.total_aum ?? 0) - (a.total_aum ?? 0));
   }, [briefing]);
 
@@ -1506,40 +1515,47 @@ export function MarketBriefing() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#F0F3EC]">
-                {sortedAssetClasses.map(row => (
-                  <tr key={row.asset_class} className="hover:bg-[#F9FBFC] transition-colors group">
-                    <td className="py-3 px-2.5 sm:px-4 md:px-5 font-bold text-neutral-900 text-[12.5px] sm:text-[13.5px] truncate">
-                      {row.asset_class}
-                    </td>
-                    <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums text-neutral-700 font-semibold text-[12.5px] sm:text-[13px]">
-                      {(row.total_aum / 1_000_000_000_000).toFixed(1)}
-                      <span className="text-[10px] sm:text-[10.5px] font-normal text-neutral-400 ml-0.5">조</span>
-                    </td>
-                    <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-semibold text-neutral-700 text-[12.5px] sm:text-[13px]">
-                      {row.aum_share_pct.toFixed(1)}<span className="text-[10px] sm:text-[10.5px] font-normal text-neutral-400 ml-0.5">%</span>
-                    </td>
-                    <td className={`py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-bold text-[12.5px] sm:text-[13px] ${changeTone(row.aum_weighted_return_pct)}`}>
-                      {row.aum_weighted_return_pct === null ? "—" : signed(row.aum_weighted_return_pct)}
-                    </td>
-                    <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black text-[12.5px] sm:text-[13px]">
-                      <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
-                        row.contribution_pct > 0 
-                          ? "bg-[#FEF3F2] text-[#D92D20]" 
-                          : row.contribution_pct < 0 
-                          ? "bg-[#EFF8FF] text-[#175CD3]" 
-                          : "text-neutral-500"
-                      }`}>
-                        {signed(row.contribution_pct, "%p")}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                {sortedAssetClasses.map((row: any) => {
+                  const aumEok = normalizeToEok(row.total_aum);
+                  const aumJo = (aumEok / 10000).toFixed(1);
+                  const aumShare = Number(row.aum_share_pct || 0).toFixed(1);
+                  const returnPct = row.aum_weighted_return_pct;
+
+                  return (
+                    <tr key={row.asset_class} className="hover:bg-[#F9FBFC] transition-colors group">
+                      <td className="py-3 px-2.5 sm:px-4 md:px-5 font-bold text-neutral-900 text-[12.5px] sm:text-[13.5px] truncate">
+                        {row.asset_class}
+                      </td>
+                      <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums text-neutral-700 font-semibold text-[12.5px] sm:text-[13px]">
+                        {aumJo}
+                        <span className="text-[10px] sm:text-[10.5px] font-normal text-neutral-400 ml-0.5">조</span>
+                      </td>
+                      <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-semibold text-neutral-700 text-[12.5px] sm:text-[13px]">
+                        {aumShare}<span className="text-[10px] sm:text-[10.5px] font-normal text-neutral-400 ml-0.5">%</span>
+                      </td>
+                      <td className={`py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-bold text-[12.5px] sm:text-[13px] ${changeTone(returnPct)}`}>
+                        {returnPct === null || returnPct === undefined ? "—" : signed(returnPct)}
+                      </td>
+                      <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black text-[12.5px] sm:text-[13px]">
+                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
+                          row.contribution_pct > 0 
+                            ? "bg-[#FEF3F2] text-[#D92D20]" 
+                            : row.contribution_pct < 0 
+                            ? "bg-[#EFF8FF] text-[#175CD3]" 
+                            : "text-neutral-500"
+                        }`}>
+                          {signed(row.contribution_pct, "%p")}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
               <tfoot className="bg-[#F4F7EE] font-bold text-neutral-900 text-[12.5px] sm:text-[13px] border-t-2 border-[#D7EABB]">
                 <tr>
                   <td className="py-3 px-2.5 sm:px-4 md:px-5 font-black text-[#297160]">합계 (Total)</td>
                   <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums">
-                    {(sortedAssetClasses.reduce((sum, row) => sum + row.total_aum, 0) / 1_000_000_000_000).toFixed(1)}
+                    {(sortedAssetClasses.reduce((sum, row) => sum + normalizeToEok(row.total_aum), 0) / 10000).toFixed(1)}
                     <span className="text-[10px] sm:text-[10.5px] font-normal text-neutral-500 ml-0.5">조</span>
                   </td>
                   <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums">100.0%</td>

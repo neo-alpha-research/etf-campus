@@ -18,6 +18,7 @@ import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
 import globalIndicesData from "@/data/market_indices.json";
 
 import { useMarketBriefing, MarketIndex } from "@/lib/hooks/use-market-briefing";
+import { generateMarketNarrative } from "@/lib/domain/market-briefing-narrative";
 
 
 
@@ -776,60 +777,20 @@ export function MarketBriefing() {
     concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${decimal.format(pulse.top10TradeSharePct)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
   }
 
-  const flatCount = pulse.flatCount ?? 0;
-  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개, 보합 ${flatCount}개, 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${themeSentence}${concentrationSentence}`.trim();
+  const narrative = generateMarketNarrative({
+    generalEtfCount: pulse.generalEtfCount,
+    upCount: pulse.upCount,
+    flatCount: pulse.flatCount ?? 0,
+    downCount: pulse.downCount,
+    generalAumWeightedReturnPct: pulse.generalAumWeightedReturnPct,
+    breadthRatioPct: pulse.breadthRatioPct,
+    top50AumWeightedReturnPct: pulse.top50AumWeightedReturnPct,
+    top10TradeSharePct: pulse.top10TradeSharePct,
+    themeSentence,
+    concentrationSentence,
+  });
 
-
-
-  const ret = pulse.generalAumWeightedReturnPct;
-
-  const br = pulse.breadthRatioPct;
-
-  let dynamicTitle = "상승과 하락이 팽팽하게 맞서며 혼조세를 보인 하루였습니다 ⚖️";
-  if (ret < -1.0) {
-    dynamicTitle = "시장이 큰 폭으로 하락하며 투자 심리가 얼어붙은 하루였습니다 📉";
-  } else if (ret < 0) {
-    dynamicTitle = "전반적인 약세 흐름 속에 하락 마감한 하루였습니다 🌧️";
-  } else if (ret > 1.0) {
-    dynamicTitle = "강한 매수세가 유입되며 시장이 뜨겁게 달아오른 하루였습니다 🚀";
-  } else if (ret > 0) {
-    dynamicTitle = "훈훈한 온기가 퍼지며 소폭 상승 마감한 하루였습니다 ☀️";
-  }
-
-  const upRatio = pulse.upCount / pulse.generalEtfCount;
-  const downRatio = pulse.downCount / pulse.generalEtfCount;
-  let breadthSentence = "상승과 하락 종목 수가 팽팽하게 맞서며 시장 방향성을 탐색하고 있습니다.";
-  
-  if (ret > 1.0) {
-    if (upRatio > 0.6) {
-      breadthSentence = "시장 전반에 강한 매수세가 유입되며 다수의 ETF가 동반 상승하는 강세를 보였습니다.";
-    } else {
-      breadthSentence = "지수 대표주 및 일부 테마가 크게 오르며 전체 시장의 강한 상승을 견인했습니다.";
-    }
-  } else if (ret > 0) {
-    if (upRatio > 0.6) {
-      breadthSentence = "시장 전반적으로 온기가 퍼지며 다수의 ETF가 상승하는 흐름을 보였습니다.";
-    } else if (pulse.downCount > pulse.upCount) {
-      breadthSentence = "가중수익률은 상승했으나 하락한 ETF가 더 많아, 소수 주도 테마에 상승이 집중되었습니다.";
-    } else {
-      breadthSentence = "상승과 하락이 엇갈리는 가운데, 지수 대표주들의 방어로 소폭 강세를 보였습니다.";
-    }
-  } else if (ret >= -1.0) {
-    if (downRatio > 0.6) {
-      breadthSentence = "대다수의 ETF가 하락을 기록하며 시장 전반이 소폭 약세를 보였습니다.";
-    } else if (pulse.upCount > pulse.downCount) {
-      breadthSentence = "가중수익률은 하락했으나 상승한 ETF가 더 많아, 시장 내면의 투자 심리는 비교적 양호했습니다.";
-    } else {
-      breadthSentence = "뚜렷한 주도 테마가 부재한 가운데, 전반적으로 약보합 흐름을 나타냈습니다.";
-    }
-  } else {
-    // ret < -1.0
-    if (downRatio > 0.6) {
-      breadthSentence = "대부분의 ETF가 일제히 약세를 보이며 시장 전반의 투자 심리가 크게 위축되었습니다.";
-    } else {
-      breadthSentence = "지수 대표주 및 주요 테마의 낙폭이 커지며 전체 시장이 뚜렷한 하락세를 기록했습니다.";
-    }
-  }
+  const { dynamicTitle, headline, breadthSentence } = narrative;
 
   const kospi = orderedIndices.find(i => i.code === "KOSPI");
   const spx = orderedIndices.find(i => i.code === "SPX");

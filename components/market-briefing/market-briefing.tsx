@@ -2223,41 +2223,170 @@ export function MarketBriefing() {
           </div>
         </div>
 
-        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (탭 실시간 동적 연동) */}
+        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (금융 표준 동적 애널리스트 엔진 연동) */}
         {(() => {
-          const timeseries = briefing.marketScaleTimeSeries;
-          const points = timeseries?.[step7Tab] || [];
-          const startPt = points[0];
-          const endPt = points[points.length - 1];
+          const snapshot = briefing.marketScaleSnapshot;
+          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 5034780.9);
+          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 235503.6);
+          const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
 
-          const startJo = startPt ? (startPt.aum / 10000).toFixed(1) : "492.2";
-          const endJo = endPt ? (endPt.aum / 10000).toFixed(1) : "503.5";
-          const totalGrowthPct = startPt && endPt ? (((endPt.aum - startPt.aum) / startPt.aum) * 100).toFixed(1) : "2.3";
-          const avgAdtvJo = points.length ? ((points.reduce((s: number, p: any) => s + (p.adtv || 0), 0) / points.length) / 10000).toFixed(1) : "22.4";
+          const defaultTimeSeries = {
+            daily: [
+              { key: "d1", label: "8/20(수)", aum: 4922000, adtv: 211000, turnoverPct: 4.29, aumChange: -2000, aumChangePct: -0.04, priceEffect: -5200, netInflow: 3200 },
+              { key: "d2", label: "8/21(목)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 35000, aumChangePct: 0.71, priceEffect: 23500, netInflow: 11500 },
+              { key: "d3", label: "8/24(월)", aum: 4982000, adtv: 209000, turnoverPct: 4.20, aumChange: 25000, aumChangePct: 0.50, priceEffect: 15700, netInflow: 9300 },
+              { key: "d4", label: "8/25(화)", aum: 5005000, adtv: 242000, turnoverPct: 4.84, aumChange: 23000, aumChangePct: 0.46, priceEffect: 10500, netInflow: 12500 },
+              { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 5005000, aumChangePct: Number((((totalAumEok - 5005000) / 5005000) * 100).toFixed(2)), priceEffect: 12558, netInflow: 17223 },
+            ],
+            weekly: [
+              { key: "w1", label: "7월 5주 (7/31)", aum: 4739000, adtv: 195000, turnoverPct: 4.11, aumChange: 46000, aumChangePct: 0.98, priceEffect: -55000, netInflow: 101000 },
+              { key: "w2", label: "8월 1주 (8/7)", aum: 4822000, adtv: 211000, turnoverPct: 4.38, aumChange: 83000, aumChangePct: 1.75, priceEffect: 47000, netInflow: 36000 },
+              { key: "w3", label: "8월 2주 (8/14)", aum: 4886000, adtv: 216000, turnoverPct: 4.42, aumChange: 64000, aumChangePct: 1.33, priceEffect: 34000, netInflow: 30000 },
+              { key: "w4", label: "8월 3주 (8/21)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 71000, aumChangePct: 1.45, priceEffect: 41000, netInflow: 30000 },
+              { key: "w5", label: "8월 4주 (8/27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4957000, aumChangePct: Number((((totalAumEok - 4957000) / 4957000) * 100).toFixed(2)), priceEffect: 38800, netInflow: 38981 },
+            ],
+            monthly: [
+              { key: "m1", label: "2026년 4월", aum: 4251000, adtv: 171000, turnoverPct: 4.02, aumChange: 128000, aumChangePct: 3.10, priceEffect: 71000, netInflow: 57000 },
+              { key: "m2", label: "2026년 5월", aum: 4438000, adtv: 185000, turnoverPct: 4.17, aumChange: 187000, aumChangePct: 4.40, priceEffect: 107000, netInflow: 80000 },
+              { key: "m3", label: "2026년 6월", aum: 4625000, adtv: 197000, turnoverPct: 4.26, aumChange: 187000, aumChangePct: 4.21, priceEffect: 99000, netInflow: 88000 },
+              { key: "m4", label: "2026년 7월", aum: 4817000, adtv: 214000, turnoverPct: 4.44, aumChange: 192000, aumChangePct: 4.15, priceEffect: -163000, netInflow: 355000 },
+              { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4817000, aumChangePct: Number((((totalAumEok - 4817000) / 4817000) * 100).toFixed(2)), priceEffect: 121000, netInflow: 96781 },
+            ],
+            yearly: [
+              { key: "y1", label: "2022년", aum: 1026000, adtv: 67000, turnoverPct: 6.53, aumChange: 59000, aumChangePct: 6.09, priceEffect: -42000, netInflow: 101000 },
+              { key: "y2", label: "2023년", aum: 1583000, adtv: 76000, turnoverPct: 4.80, aumChange: 557000, aumChangePct: 54.29, priceEffect: 281000, netInflow: 276000 },
+              { key: "y3", label: "2024년", aum: 2264000, adtv: 107000, turnoverPct: 4.73, aumChange: 681000, aumChangePct: 43.02, priceEffect: 324000, netInflow: 357000 },
+              { key: "y4", label: "2025년", aum: 3595000, adtv: 162000, turnoverPct: 4.51, aumChange: 1331000, aumChangePct: 58.79, priceEffect: 724000, netInflow: 607000 },
+              { key: "y5", label: "2026년 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3595000, aumChangePct: Number((((totalAumEok - 3595000) / 3595000) * 100).toFixed(2)), priceEffect: 768781, netInflow: 671000 },
+            ],
+          };
 
-          let tabTag = "[일간 트렌드]";
-          let sentence = `5거래일간(8/20~8/27) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
+          const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || defaultTimeSeries[step7Tab] || defaultTimeSeries.daily;
+          const points = rawPoints.map((pt: any, idx: number) => {
+            if (idx === rawPoints.length - 1) {
+              const prevAum = rawPoints[idx - 1]?.aum || (totalAumEok - 22000);
+              const aumDiff = totalAumEok - prevAum;
+              return {
+                ...pt,
+                aum: totalAumEok,
+                adtv: totalTradeEok,
+                turnoverPct: turnover,
+                aumChange: aumDiff,
+                aumChangePct: Number(((aumDiff / prevAum) * 100).toFixed(2)),
+              };
+            }
+            return pt;
+          });
 
-          if (step7Tab === 'daily') {
-            tabTag = "[일간 트렌드]";
-            sentence = `5거래일간(8/20~8/27) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
-          } else if (step7Tab === 'weekly') {
-            tabTag = "[주간 트렌드]";
-            sentence = `최근 5주간(7월 5주~8월 4주) 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 확대되며, 주간 일평균 ${avgAdtvJo}조원의 견조한 유동성을 유지했습니다.`;
-          } else if (step7Tab === 'monthly') {
-            tabTag = "[월간 트렌드]";
-            sentence = `최근 5개월간(2026년 4월~8월) 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 가파르게 증가하며, 월간 일평균 ${avgAdtvJo}조원의 활발한 자금 유입을 기록했습니다.`;
+          // 펀드 애널리스트 4대 시나리오 & 브릿지 동적 코멘트 생성
+          const len = points.length;
+          const currPt = len > 0 ? points[len - 1] : { aum: 5034781, adtv: 235504, turnoverPct: 4.68 };
+          const prevPt = len > 1 ? points[len - 2] : { aum: 5005000, adtv: 242000, turnoverPct: 4.84 };
+
+          const currAum = currPt.aum;
+          const prevAum = prevPt.aum;
+          const aumDiff = currPt.aumChange !== undefined ? currPt.aumChange : (currAum - prevAum);
+          const aumDiffPct = prevAum > 0 ? ((currAum - prevAum) / prevAum) * 100 : (currPt.aumChangePct ?? 0);
+
+          const currAdtv = currPt.adtv;
+          const prevAdtv = prevPt.adtv;
+          const adtvDiff = currAdtv - prevAdtv;
+          const adtvDiffPct = prevAdtv > 0 ? ((currAdtv - prevAdtv) / prevAdtv) * 100 : 0;
+
+          const priceEffect = currPt.priceEffect ?? Math.round(aumDiff * 0.45);
+          const netInflow = currPt.netInflow ?? (aumDiff - priceEffect);
+
+          const currAumJo = (currAum / 10000).toFixed(1);
+          const currAdtvJo = (currAdtv / 10000).toFixed(1);
+          const aumDiffJo = (aumDiff > 0 ? `+${(aumDiff / 10000).toFixed(1)}` : `${(aumDiff / 10000).toFixed(1)}`) + '조원';
+          const aumDiffPctStr = (aumDiffPct > 0 ? `+${aumDiffPct.toFixed(2)}` : `${aumDiffPct.toFixed(2)}`) + '%';
+          const adtvDiffJo = (adtvDiff > 0 ? `+${(adtvDiff / 10000).toFixed(1)}` : `${(adtvDiff / 10000).toFixed(1)}`) + '조원';
+          const adtvDiffPctStr = (adtvDiffPct > 0 ? `+${adtvDiffPct.toFixed(2)}` : `${adtvDiffPct.toFixed(2)}`) + '%';
+          const priceEffectJo = (priceEffect > 0 ? `+${(priceEffect / 10000).toFixed(1)}` : `${(priceEffect / 10000).toFixed(1)}`) + '조원';
+          const netInflowJo = (netInflow > 0 ? `+${(netInflow / 10000).toFixed(1)}` : `${(netInflow / 10000).toFixed(1)}`) + '조원';
+
+          const tabConfig = {
+            daily: {
+              tag: '[일간 트렌드]',
+              aumBasis: '전일비',
+              adtvBasis: '전일 거래대금 대비',
+              adtvTerm: '거래대금',
+              timeframeDesc: '대한민국 ETF 총 자산',
+            },
+            weekly: {
+              tag: '[주간 트렌드]',
+              aumBasis: '전주말 대비',
+              adtvBasis: '전주 일평균 대비',
+              adtvTerm: '주간 일평균 거래대금',
+              timeframeDesc: '대한민국 ETF 총 자산',
+            },
+            monthly: {
+              tag: '[월간 트렌드]',
+              aumBasis: '전월말 대비',
+              adtvBasis: '전월 일평균 대비',
+              adtvTerm: '월간 일평균 거래대금',
+              timeframeDesc: '대한민국 ETF 총 자산',
+            },
+            yearly: {
+              tag: '[연간 트렌드]',
+              aumBasis: '전년말 대비',
+              adtvBasis: '전년 일평균 대비',
+              adtvTerm: '연간 일평균 거래대금',
+              timeframeDesc: '대한민국 ETF 총 자산',
+            },
+          }[step7Tab];
+
+          const aumClause = `${tabConfig.aumBasis} ${aumDiffJo}(${aumDiffPctStr})`;
+          const adtvClause = `${tabConfig.adtvBasis} ${adtvDiffJo}(${adtvDiffPctStr})`;
+
+          let driver = 'BALANCED';
+          if (priceEffect < 0 && netInflow > 0) {
+            driver = 'DIVERGENT';
+          } else if (Math.abs(netInflow) > Math.abs(priceEffect) * 1.3) {
+            driver = 'FLOW';
+          } else if (Math.abs(priceEffect) > Math.abs(netInflow) * 1.3) {
+            driver = 'PRICE';
+          }
+
+          const isAumUp = aumDiff >= 0;
+          const isAdtvUp = adtvDiff >= 0;
+          let sentence = '';
+
+          if (isAumUp && isAdtvUp) {
+            if (driver === 'FLOW' && netInflow > 0) {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 증가한 ${currAumJo}조원을 기록했습니다. 특히 ${netInflowJo} 규모의 견고한 실질 자금 순유입(진성수급)과 함께 ${tabConfig.adtvTerm}이 ${adtvClause} 늘어난 ${currAdtvJo}조원을 나타내며 자금 유입과 거래 활성화가 동반된 강력한 시장 확장세를 보였습니다.`;
+            } else if (driver === 'PRICE' && priceEffect > 0) {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 증가한 ${currAumJo}조원으로 팽창했습니다. 기초자산 가격 상승(가격효과 ${priceEffectJo})과 함께 ${tabConfig.adtvTerm}이 ${adtvClause} 급증한 ${currAdtvJo}조원을 기록하며 활발한 상승 랠리가 시장 유동성을 견인했습니다.`;
+            } else {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 증가한 ${currAumJo}조원을 달성했습니다. ${tabConfig.adtvTerm} 역시 ${adtvClause} 증가한 ${currAdtvJo}조원을 기록해 자산 규모(Stock)와 거래 유동성(Flow)이 동반 확장되는 최적의 성장 모멘텀을 나타냈습니다.`;
+            }
+          } else if (isAumUp && !isAdtvUp) {
+            if (driver === 'FLOW' && netInflow > 0) {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 증가한 ${currAumJo}조원으로 집계되었습니다. 단기 트레이딩 유동성은 ${adtvClause} 줄어든 ${currAdtvJo}조원에 머물렀으나, 연금 및 기관 중심의 질서 있는 실질 자금 순유입(${netInflowJo})이 유입되며 실속 있는 자산 성장을 이끌었습니다.`;
+            } else if (driver === 'PRICE') {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 늘어난 ${currAumJo}조원을 기록했습니다. ${tabConfig.adtvTerm}은 ${adtvClause} 감소한 ${currAdtvJo}조원으로 다소 진정되었으나, 지수 상승에 따른 평가익(가격효과 ${priceEffectJo}) 속 투자자들의 안정적인 장기 보유(Buy & Hold) 기조가 이어졌습니다.`;
+            } else {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 증가한 ${currAumJo}조원으로 견조한 성장을 이어갔으며, ${tabConfig.adtvTerm}은 ${adtvClause} 감소한 ${currAdtvJo}조원을 기록해 거래 과열 없는 차분한 포트폴리오 유지 양상을 나타냈습니다.`;
+            }
+          } else if (!isAumUp && isAdtvUp) {
+            if (driver === 'DIVERGENT' || netInflow > 0) {
+              sentence = `${tabConfig.timeframeDesc}은 지수 조정(가격효과 ${priceEffectJo}) 여파로 ${aumClause} 감소한 ${currAumJo}조원을 기록했습니다. 다만 ${tabConfig.adtvTerm}이 ${adtvClause} 급증한 ${currAdtvJo}조원에 달하고 ${netInflowJo}의 실질 자금이 유입되며 하락 구간에서의 활발한 저가 매수 손바뀜이 확인되었습니다.`;
+            } else {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 축소된 ${currAumJo}조원을 기록했습니다. 변동성 확대 속 리스크 관리성 물량 출회로 ${tabConfig.adtvTerm}이 ${adtvClause} 늘어난 ${currAdtvJo}조원을 기록하며 단기 차익 실현 및 비중 조절 매매 공방이 치열했습니다.`;
+            }
           } else {
-            tabTag = "[연간 트렌드]";
-            const multiple = startPt && endPt ? (endPt.aum / startPt.aum).toFixed(1) : "4.9";
-            sentence = `5개년(2022년~2026년) 동안 총 자산은 ${startJo}조원에서 ${endJo}조원으로 약 ${multiple}배 폭발적으로 성장하며 국내 핵심 투자 시장으로 도약했습니다.`;
+            if (netInflow < 0) {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 감소한 ${currAumJo}조원으로 축소되었습니다. ${tabConfig.adtvTerm}이 ${adtvClause} 둔화된 ${currAdtvJo}조원에 머문 가운데 실질 자금 순유출(${netInflowJo})이 동반되며 전형적인 위험 회피(Risk-Off) 소강상태를 보였습니다.`;
+            } else {
+              sentence = `${tabConfig.timeframeDesc}은 ${aumClause} 조정을 받은 ${currAumJo}조원을 기록했습니다. ${tabConfig.adtvTerm} 역시 ${adtvClause} 위축된 ${currAdtvJo}조원에 그쳐, 매크로 불확실성 속 시장 참여자들의 짙은 관망세와 방어적 숨고르기 국면이 지속되었습니다.`;
+            }
           }
 
           return (
             <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)] transition-all">
               <span className="text-sm shrink-0">📌</span>
               <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
-                <strong className="font-extrabold text-[#2E6819] mr-1.5">{tabTag}</strong>
+                <strong className="font-extrabold text-[#2E6819] mr-1.5">{tabConfig.tag}</strong>
                 {sentence}
               </p>
             </div>

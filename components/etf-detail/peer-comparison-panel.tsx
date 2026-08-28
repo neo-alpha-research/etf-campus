@@ -124,12 +124,22 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
         : totalPeerCount > displayedPeerCount
           ? `동종 후보 ${totalPeerCount}개 중 비교 가능성이 높은 ${displayedPeerCount}개를 표시합니다.`
           : `동종 ETF ${displayedPeerCount}개를 표시합니다.`;
+  // 헤더 생성
+  let headerLabel = "직접 비교그룹";
+  if (directPeerCount === 0) {
+    headerLabel = "자동 추천 비교그룹";
+  } else if (directPeerCount < selected.candidates.length) {
+    headerLabel = "직접/유사 비교그룹 (확장됨)";
+  } else {
+    headerLabel = "검증된 직접 비교그룹";
+  }
+
   return (
     <section className="space-y-5" aria-labelledby="peer-comparison-title">
       <div className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <p className="text-sm font-semibold text-brand-700">검증된 직접 비교그룹</p>
+            <p className="text-sm font-semibold text-brand-700">{headerLabel}</p>
             <h2 id="peer-comparison-title" className="mt-1 text-xl font-extrabold text-strong sm:text-2xl">{title}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">현재 ETF와 투자대상 및 수익 구조가 유사한 ETF를 비교합니다.</p>
           </div>

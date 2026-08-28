@@ -236,6 +236,7 @@ function candidatesForGroup(
         profile,
         similarityScore: calculateSimilarityScore(targetProfile, profile),
         reasons: candidateReasons(targetProfile, profile),
+        tier: "same_peer_group"
       };
     });
   return sortPeerCandidates(candidates).slice(0, MAX_PEERS);
@@ -331,84 +332,85 @@ function investmentReferenceTier(
   return null;
 }
 
-function expansionTier(
+function calculateRelativeDistance(
   target: ComparisonProfile,
   candidate: ComparisonProfile,
-): PeerCandidate["tier"] | null {
-  const sameCoreStructure =
-    target.assetFamily === candidate.assetFamily &&
-    target.payoffStructure === candidate.payoffStructure &&
-    target.direction === candidate.direction &&
-    target.leverageMultiple === candidate.leverageMultiple;
+): { score: number; tier: PeerCandidate["tier"]; reasons: string[] } | null {
+  let score = 0;
 
-  if (sameCoreStructure &&
-      hasCompatibleStructure(target, candidate) &&
-      target.comparisonCategory === candidate.comparisonCategory) {
-    if (sharesTopic(target, candidate)) return "similar_topic";
-    const broadCategories = new Set(["배당·주주환원", "대표지수", "스타일·팩터", "규모", "기업집단"]);
-    if (broadCategories.has(target.comparisonCategory)) return "similar_category";
+  const sameAssetFamily = sameNonEmpty(target.assetFamily, candidate.assetFamily);
+  const sameRegion = sameNonEmpty(target.regionPrimary, candidate.regionPrimary);
+  const sameCategory = sameNonEmpty(target.comparisonCategory, candidate.comparisonCategory);
+  const sameTopic = sameNonEmpty(target.comparisonTopic, candidate.comparisonTopic);
+  const sameSubtopic = sameNonEmpty(target.comparisonSubtopic, candidate.comparisonSubtopic);
+  const sameIndex = sameNonEmpty(target.indexFamily, candidate.indexFamily) && !target.indexFamily.startsWith("미확인");
+  const samePayoff = sameNonEmpty(target.payoffStructure, candidate.payoffStructure);
+  const sameDirection = sameNonEmpty(target.direction, candidate.direction);
+  const sameLeverage = sameNonEmpty(target.leverageMultiple, candidate.leverageMultiple);
+  const sameStyle = sameNonEmpty(target.strategyStyle, candidate.strategyStyle);
+
+  if (sameIndex) score += 40;
+  if (sameSubtopic) score += 30;
+  if (sameTopic || sharesTopic(target, candidate)) score += 20;
+  if (sameCategory) score += 15;
+  if (sameAssetFamily && sameRegion) score += 15;
+  else if (sameAssetFamily) score += 5;
+
+  if (samePayoff) score += 10;
+  if (sameDirection) score += 10;
+  if (sameLeverage) score += 10;
+  if (sameStyle) score += 5;
+  if (sameNonEmpty(target.fxHedge, candidate.fxHedge)) score += 5;
+
+  if (!sameAssetFamily && !sameCategory) return null;
+  if (score < 20) return null;
+
+  let tier: PeerCandidate["tier"] = "similar_category";
+  const reasons: string[] = [];
+
+  const existingTier = investmentReferenceTier(target, candidate) ?? structureReferenceTier(target, candidate);
+  if (existingTier) {
+    tier = existingTier;
+    if (tier === "investment_reference") reasons.push("투자 참고 구조");
+    else if (tier === "structure_reference") reasons.push("동일 자산군 참고");
+    else if (tier === "direction_reference") reasons.push("방향성 참고");
+    else if (tier === "leverage_reference") reasons.push("레버리지 참고");
+  } else if (sameTopic || sharesTopic(target, candidate)) {
+    tier = "similar_topic";
+    reasons.push("유사 투자 주제");
+  } else if (sameCategory) {
+    tier = "similar_category";
+    reasons.push("동일 비교 카테고리");
+  } else if (sameAssetFamily && sameRegion) {
+    tier = "similar_category";
+    reasons.push("동일 지역/자산군 대안");
+  } else {
+    tier = "similar_category";
   }
 
-  if (sameCoreStructure && target.comparisonCategory === candidate.comparisonCategory && sharesTopic(target, candidate)) {
-    return "similar_topic";
+  if (sameIndex) reasons.push("동일 지수 계열");
+  else if (samePayoff && sameDirection && sameLeverage) reasons.push("동일 상품 구조");
+  else if (sameAssetFamily && sameRegion) reasons.push("동일 자산군 대안");
+
+  const validFx = (fx: string) => fx === "hedged" || fx === "unhedged";
+  if (validFx(target.fxHedge) && validFx(candidate.fxHedge) && target.fxHedge !== candidate.fxHedge) {
+    reasons.push("환헤지/환노출 불일치");
   }
 
-  const sameSubtopic =
-    Boolean(target.comparisonSubtopic) &&
-    target.comparisonSubtopic === candidate.comparisonSubtopic;
-  const sameCategoryAndRegion =
-    Boolean(target.comparisonCategory) &&
-    target.comparisonCategory === candidate.comparisonCategory &&
-    target.regionPrimary === candidate.regionPrimary;
-  const commodityFuturesAlternative =
-    target.assetFamily === "원자재" &&
-    candidate.assetFamily === "원자재" &&
-    target.payoffStructure === "futures" &&
-    candidate.payoffStructure === "futures";
-  if (!sharesTopic(target, candidate) && !sameSubtopic && !sameCategoryAndRegion && !commodityFuturesAlternative) {
-    return null;
+  if (target.payoffStructure !== candidate.payoffStructure && (target.payoffStructure === "covered_call" || candidate.payoffStructure === "covered_call")) {
+    reasons.push("커버드콜 ↔ 일반형 (총수익 비교 주의)");
+  } else if (!samePayoff || !sameDirection || !sameLeverage) {
+    reasons.push("수익 구조 다름 (비교 주의)");
   }
 
-  return investmentReferenceTier(target, candidate) ?? structureReferenceTier(target, candidate);
-}
+  if (target.assetFamily === "채권" && candidate.assetFamily === "채권" && !sameSubtopic) {
+    reasons.push("만기 구간 다름");
+  }
 
-function expansionScore(
-  target: ComparisonProfile,
-  candidate: ComparisonProfile,
-  tier: PeerCandidate["tier"],
-): number {
-  let score = 30;
-  if (target.strategyStyle === candidate.strategyStyle) score += 8;
-  if (target.payoffStructure === candidate.payoffStructure) score += 8;
-  if (target.direction === candidate.direction) score += 8;
-  if (target.leverageMultiple === candidate.leverageMultiple) score += 8;
-  if (target.indexFamily === candidate.indexFamily) score += 10;
-  if (tier === "similar_topic") score += 28;
-  if (tier === "similar_category") score += 14;
-  if (tier === "structure_reference") score += 35;
-  if (tier === "direction_reference") score += 35;
-  if (tier === "leverage_reference") score += 33;
-  if (tier === "investment_reference") score += 45;
-  return score;
-}
+  if (reasons.length === 0) reasons.push("대체 투자 참고");
 
-function expansionReasons(target: ComparisonProfile, candidate: ComparisonProfile, tier: PeerCandidate["tier"]): string[] {
-  const reasons = [];
-  if (tier === "investment_reference") reasons.push("투자 참고 구조");
-  else if (tier === "structure_reference") reasons.push("동일 자산군 참고");
-  else if (tier === "direction_reference") reasons.push("방향성 참고");
-  else if (tier === "leverage_reference") reasons.push("레버리지 참고");
-  else if (tier === "similar_topic") reasons.push("유사 투자 주제");
-  else if (tier === "similar_category") reasons.push("동일 비교 카테고리");
-  
-  if (target.assetFamily === candidate.assetFamily) reasons.push("동일 자산군");
-  if (target.regionPrimary === candidate.regionPrimary) reasons.push("동일 지역");
-  if (target.payoffStructure === candidate.payoffStructure) reasons.push("동일 상품 구조");
-  if (target.indexFamily === candidate.indexFamily) reasons.push("동일 지수 계열");
-  return reasons;
+  return { score, tier, reasons: Array.from(new Set(reasons)) };
 }
-
-const EXPANSION_MIN_SCORE = 72;
 
 function expandPrimaryCandidates(
   target: Etf,
@@ -418,26 +420,57 @@ function expandPrimaryCandidates(
 ): PeerCandidate[] {
   if (existing.length >= MAX_PEERS) return existing.slice(0, MAX_PEERS);
 
-  const seen = new Set([target.ticker, ...existing.map((candidate) => candidate.etf.ticker)]);
-  const additions = universe.flatMap((candidate) => {
+  const direct = sortPeerCandidates(existing).slice(0, MAX_PEERS);
+  
+  const brandCounts = new Map<string, number>();
+  const baseIndexSet = new Set<string>();
+  
+  brandCounts.set(target.issuer.brand, 1);
+  if (target.baseIndex) baseIndexSet.add(target.baseIndex);
+  
+  for (const peer of direct) {
+    brandCounts.set(peer.etf.issuer.brand, (brandCounts.get(peer.etf.issuer.brand) ?? 0) + 1);
+    if (peer.etf.baseIndex) baseIndexSet.add(peer.etf.baseIndex);
+  }
+
+  const seen = new Set([target.ticker, ...direct.map((c) => c.etf.ticker)]);
+  
+  const additionsRaw = universe.flatMap((candidate) => {
     if (seen.has(candidate.ticker) || !hasUsableMarketData(candidate)) return [];
     const profile = data.profiles.get(candidate.ticker);
     if (!isAutomaticProfile(profile)) return [];
-    const tier = expansionTier(targetProfile, profile);
-    if (!tier) return [];
-    const similarityScore = expansionScore(targetProfile, profile, tier);
-    if (similarityScore < EXPANSION_MIN_SCORE) return [];
+    
+    const distance = calculateRelativeDistance(targetProfile, profile);
+    if (!distance) return [];
+    
     return [{
       etf: candidate,
       profile,
-      tier,
-      similarityScore,
-      reasons: expansionReasons(targetProfile, profile, tier),
+      tier: distance.tier,
+      similarityScore: distance.score,
+      reasons: distance.reasons,
     } as PeerCandidate];
   });
-  const direct = sortPeerCandidates(existing).slice(0, MAX_PEERS);
+  
+  const additionsSorted = sortPeerCandidates(additionsRaw);
+  const additionsFiltered: PeerCandidate[] = [];
+  
+  for (const cand of additionsSorted) {
+    const brand = cand.etf.issuer.brand;
+    const baseIndex = cand.etf.baseIndex;
+    
+    const currentBrandCount = brandCounts.get(brand) ?? 0;
+    
+    if (currentBrandCount >= 2) continue;
+    if (baseIndex && baseIndexSet.has(baseIndex)) continue;
+    
+    additionsFiltered.push(cand);
+    brandCounts.set(brand, currentBrandCount + 1);
+    if (baseIndex) baseIndexSet.add(baseIndex);
+  }
+  
   const remaining = Math.max(0, MAX_PEERS - direct.length);
-  return [...direct, ...sortPeerCandidates(additions).slice(0, remaining)];
+  return [...direct, ...additionsFiltered.slice(0, remaining)];
 }
 
 function groupOption(
@@ -457,34 +490,6 @@ function groupOption(
   let candidates = candidatesForGroup(target, profile, universe, groupId);
   if (isPrimary) {
     candidates = expandPrimaryCandidates(target, profile, universe, candidates);
-  }
-
-  const sparseReferenceTickers: Record<string, string> = {
-    "167860": "152380",
-    "451670": "152380",
-    "267490": "484790",
-    "452250": "484790",
-  };
-  const sparseReferenceTicker = sparseReferenceTickers[target.ticker];
-
-  if (isPrimary && candidates.length < MAX_PEERS && sparseReferenceTicker) {
-    const referenceEtf = universe.find(c => c.ticker === sparseReferenceTicker);
-    if (referenceEtf) {
-      const referenceProfile = data.profiles.get(referenceEtf.ticker);
-      if (isAutomaticProfile(referenceProfile)) {
-        candidates.push({
-          etf: referenceEtf,
-          profile: referenceProfile,
-          similarityScore: Math.max(calculateSimilarityScore(profile, referenceProfile), 10),
-          reasons: [
-            "동일 국가·국채 장기 만기의 비레버리지 기준 상품",
-            "2배 레버리지 롱 대비 1배 일반 노출 구조 참고",
-          ],
-          tier: "investment_reference",
-        });
-        candidates = sortPeerCandidates(candidates).slice(0, MAX_PEERS);
-      }
-    }
   }
 
   return {

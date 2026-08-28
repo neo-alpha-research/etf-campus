@@ -76,17 +76,16 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode,  co
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   return (
-                    <th key={etf.ticker} className={`relative px-4 py-4 w-48 min-w-[12rem] max-w-[12rem] snap-start border-b border-r border-neutral-200 font-bold text-strong align-top ${isBase ? "bg-brand-100/70" : "bg-neutral-100 backdrop-blur"}`}>
-                      <div className="flex flex-col items-center text-center gap-1 w-full overflow-hidden">
-
+                    <th key={etf.ticker} className={`relative px-3 py-4 w-56 min-w-[13.5rem] max-w-[14.5rem] snap-start border-b border-r border-neutral-200 font-bold text-strong align-top ${isBase ? "bg-brand-100/70" : "bg-neutral-100 backdrop-blur"}`}>
+                      <div className="flex flex-col items-center text-center gap-1.5 w-full">
                         <Link href={`/etf/${etf.ticker}`} className="flex flex-col items-center text-center gap-1 group w-full">
-                          <span className={`text-[12.5px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-600" : "text-neutral-500"}`}>{etf.ticker}</span>
-                          <span className="text-[15px] font-black leading-snug break-keep text-strong group-hover:text-brand-600 transition-colors line-clamp-2 w-full">{etf.name}</span>
+                          <span className={`text-[12px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-700" : "text-neutral-500"}`}>{etf.ticker}</span>
+                          <span className="text-[14px] sm:text-[14.5px] font-black leading-snug break-words [overflow-wrap:anywhere] text-strong group-hover:text-brand-600 transition-colors w-full px-0.5 text-center">{etf.name}</span>
                         </Link>
                         {!isBase && mode !== "peer-readonly" && (
                           <button 
                             onClick={() => onRemove(etf.ticker)}
-                            className="absolute right-2 top-2 p-1 text-rose-400 hover:text-rose-600 transition-all duration-200 flex items-center justify-center group/btn active:scale-90"
+                            className="absolute right-1.5 top-1.5 p-1 text-rose-400 hover:text-rose-600 transition-all duration-200 flex items-center justify-center group/btn active:scale-90"
                             aria-label={`${etf.name} 제외하기`}
                             title="제외하기"
                           >
@@ -143,8 +142,8 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode,  co
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   return (
-                    <td key={etf.ticker} className={`border-r border-neutral-200 px-4 py-1.5 snap-start transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
-                      <span className="text-[11.5px] font-semibold text-strong leading-tight break-keep" title={etf.baseIndex || ""}>{etf.baseIndex || "-"}</span>
+                    <td key={etf.ticker} className={`border-r border-neutral-200 px-3 py-1.5 snap-start transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
+                      <span className="text-[11.5px] font-semibold text-strong leading-tight break-words [overflow-wrap:anywhere] block max-w-full" title={etf.baseIndex || ""}>{etf.baseIndex || "-"}</span>
                     </td>
                   );
                 })}

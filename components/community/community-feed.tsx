@@ -142,13 +142,27 @@ export function CommunityFeed() {
     }
   }
 
+  const [sortBy, setSortBy] = useState<"latest" | "upvotes" | "comments">("latest");
+
+  const sortedPosts = [...posts].sort((a, b) => {
+    if (sortBy === "upvotes") {
+      return (b.upvoteCount ?? 0) - (a.upvoteCount ?? 0);
+    }
+    if (sortBy === "comments") {
+      return b.commentCount - a.commentCount;
+    }
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
+
+  const featuredPosts = selected === "" ? [...posts].sort((a, b) => (b.upvoteCount ?? 0) - (a.upvoteCount ?? 0)).slice(0, 2) : [];
+
   function goToWrite() {
     window.location.assign("/community/write/");
   }
 
   return (
     <div className="page-shell py-6 sm:py-8">
-      {/* Community Top Header (Clean & Board-First) */}
+      {/* Community Top Header */}
       <section className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 pb-5">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
@@ -168,9 +182,61 @@ export function CommunityFeed() {
         </div>
       </section>
 
-      {/* 게시판 카테고리 탭 (피드 직결) */}
-      <nav aria-label="커뮤니티 게시판" className="mt-6 flex items-center justify-between gap-2 overflow-x-auto pb-1 border-b border-slate-200/80">
-        <div className="flex gap-1.5 sm:gap-2">
+      {/* 추천/인기 토픽 하이라이트 (전체 탭 전용) */}
+      {selected === "" && featuredPosts.length > 0 && status === "ready" ? (
+        <section aria-label="추천 인기 게시글" className="mt-6">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="flex size-6 items-center justify-center rounded-full bg-amber-100 text-xs">
+              🔥
+            </span>
+            <h2 className="text-sm font-black text-slate-900">
+              커뮤니티 추천 인기 토픽
+            </h2>
+            <span className="text-xs text-neutral-400 font-medium">실시간 최다 추천</span>
+          </div>
+          <div className="grid gap-3.5 sm:grid-cols-2">
+            {featuredPosts.map((post) => (
+              <Link
+                key={`featured-${post.slug}`}
+                href={`/community/read/?slug=${encodeURIComponent(post.slug)}`}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-amber-200/90 bg-gradient-to-br from-amber-50/50 via-white to-surface p-4 sm:p-5 shadow-xs transition hover:-translate-y-0.5 hover:border-amber-400 hover:shadow-sm"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="inline-flex items-center rounded-md bg-amber-100/80 px-2 py-0.5 text-xs font-black text-amber-900">
+                      ★ 추천 TOP
+                    </span>
+                    <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-700">
+                      {post.category.name}
+                    </span>
+                  </div>
+                  <h3 className="mt-2.5 text-base font-extrabold text-slate-950 group-hover:text-brand-800 transition line-clamp-1">
+                    {post.title}
+                  </h3>
+                  <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-600">
+                    {post.excerpt ?? post.bodyText}
+                  </p>
+                </div>
+                <div className="mt-3.5 flex items-center justify-between border-t border-amber-100/80 pt-3 text-xs text-slate-500">
+                  <span className="font-semibold text-slate-700">{post.authorNickname}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="font-bold text-amber-900">
+                      👍 {post.upvoteCount ?? 0}
+                    </span>
+                    <span className="font-semibold text-slate-700">
+                      💬 {post.commentCount}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      {/* 게시판 카테고리 탭 & 정렬 옵션 */}
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-slate-200/80 pb-2">
+        <nav aria-label="커뮤니티 게시판" className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto">
           {categories.map((category) => (
             <button
               key={category.slug}
@@ -184,8 +250,41 @@ export function CommunityFeed() {
               {category.name}
             </button>
           ))}
+        </nav>
+
+        {/* 정렬 필터 */}
+        <div className="flex items-center gap-1 self-end sm:self-auto text-xs font-semibold text-slate-600">
+          <button
+            type="button"
+            onClick={() => setSortBy("latest")}
+            className={`rounded-md px-2.5 py-1 transition cursor-pointer ${
+              sortBy === "latest" ? "bg-slate-200 text-slate-950 font-bold" : "hover:text-slate-950"
+            }`}
+          >
+            최신순
+          </button>
+          <span className="text-slate-300">·</span>
+          <button
+            type="button"
+            onClick={() => setSortBy("upvotes")}
+            className={`rounded-md px-2.5 py-1 transition cursor-pointer ${
+              sortBy === "upvotes" ? "bg-slate-200 text-slate-950 font-bold" : "hover:text-slate-950"
+            }`}
+          >
+            추천순
+          </button>
+          <span className="text-slate-300">·</span>
+          <button
+            type="button"
+            onClick={() => setSortBy("comments")}
+            className={`rounded-md px-2.5 py-1 transition cursor-pointer ${
+              sortBy === "comments" ? "bg-slate-200 text-slate-950 font-bold" : "hover:text-slate-950"
+            }`}
+          >
+            댓글순
+          </button>
         </div>
-      </nav>
+      </div>
 
       {boardNotice ? (
         <aside aria-live="polite" className="mt-4 rounded-2xl border border-brand-200 bg-brand-50/70 px-4 py-3.5 text-xs sm:text-sm leading-6 text-brand-950 sm:px-5">
@@ -214,7 +313,7 @@ export function CommunityFeed() {
           </div>
         ) : null}
 
-        {status === "ready" && posts.length === 0 ? (
+        {status === "ready" && sortedPosts.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center">
             <h2 className="text-lg font-bold text-slate-900">아직 게시물이 없습니다.</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">첫 질문이나 학습 기록을 남겨 ETF 판단 기준을 함께 확인해 보세요.</p>
@@ -224,9 +323,9 @@ export function CommunityFeed() {
           </div>
         ) : null}
 
-        {status === "ready" && posts.length > 0 ? (
+        {status === "ready" && sortedPosts.length > 0 ? (
           <div className="space-y-3">
-            {posts.map((post) => (
+            {sortedPosts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/community/read/?slug=${encodeURIComponent(post.slug)}`}

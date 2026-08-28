@@ -36,10 +36,11 @@ describe("CommunityFeed", () => {
   it("D-1: 목록의 게시물 링크 href가 /community/read/?slug=<slug> 형태이다", async () => {
     render(<CommunityFeed />);
     
-    const link = await screen.findByRole("link", { name: /테스트 제목/i });
-    expect(link.getAttribute("href")).toContain("/community/read");
-    expect(link.getAttribute("href")).toContain("slug=test-slug-123");
-    expect(link.getAttribute("href")).not.toContain("/community/test-slug-123/");
+    const links = await screen.findAllByRole("link", { name: /테스트 제목/i });
+    expect(links.length).toBeGreaterThan(0);
+    expect(links[0].getAttribute("href")).toContain("/community/read");
+    expect(links[0].getAttribute("href")).toContain("slug=test-slug-123");
+    expect(links[0].getAttribute("href")).not.toContain("/community/test-slug-123/");
   });
 
   it("D-2: 게시판 카테고리 탭과 글 작성 버튼을 제공한다", () => {
@@ -87,7 +88,8 @@ describe("CommunityFeed", () => {
     }) as unknown as typeof fetch;
 
     render(<CommunityFeed />);
-    const link = await screen.findByRole("link", { name: /목업 fallback 제목/i });
-    expect(link).toBeInTheDocument();
+    const links = await screen.findAllByRole("link", { name: /목업 fallback 제목/i });
+    expect(links.length).toBeGreaterThan(0);
+    expect(links[0]).toBeInTheDocument();
   });
 });

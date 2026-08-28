@@ -2230,10 +2230,10 @@ export function MarketBriefing() {
           const startPt = points[0];
           const endPt = points[points.length - 1];
 
-          const startJo = startPt ? (startPt.aum / 10000).toFixed(1) : "376.5";
-          const endJo = endPt ? (endPt.aum / 10000).toFixed(1) : "385.2";
+          const startJo = startPt ? (startPt.aum / 10000).toFixed(1) : "492.2";
+          const endJo = endPt ? (endPt.aum / 10000).toFixed(1) : "503.5";
           const totalGrowthPct = startPt && endPt ? (((endPt.aum - startPt.aum) / startPt.aum) * 100).toFixed(1) : "2.3";
-          const avgAdtvJo = points.length ? ((points.reduce((s: number, p: any) => s + (p.adtv || 0), 0) / points.length) / 10000).toFixed(1) : "9.9";
+          const avgAdtvJo = points.length ? ((points.reduce((s: number, p: any) => s + (p.adtv || 0), 0) / points.length) / 10000).toFixed(1) : "22.4";
 
           let tabTag = "[일간 트렌드]";
           let sentence = `5거래일간(8/20~8/27) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
@@ -2299,37 +2299,37 @@ export function MarketBriefing() {
           {/* 5-Point 상하 듀얼 싱크 차트 (Linked Dual-Pane) */}
           {(() => {
             const snapshot = briefing.marketScaleSnapshot;
-            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8);
-            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500);
-            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.78);
+            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 5034780.9);
+            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 235503.6);
+            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
             const defaultTimeSeries = {
               daily: [
-                { key: "d1", label: "8/20(수)", aum: 3765000, adtv: 89000, turnoverPct: 2.36, aumChange: -1500, aumChangePct: -0.04, priceEffect: -4000, netInflow: 2500 },
-                { key: "d2", label: "8/21(목)", aum: 3792000, adtv: 94000, turnoverPct: 2.48, aumChange: 27000, aumChangePct: 0.72, priceEffect: 18000, netInflow: 9000 },
-                { key: "d3", label: "8/24(월)", aum: 3811000, adtv: 88000, turnoverPct: 2.31, aumChange: 19000, aumChangePct: 0.50, priceEffect: 12000, netInflow: 7000 },
-                { key: "d4", label: "8/25(화)", aum: 3829000, adtv: 102000, turnoverPct: 2.66, aumChange: 18000, aumChangePct: 0.47, priceEffect: 8000, netInflow: 10000 },
-                { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3829000, aumChangePct: 0.59, priceEffect: 9607, netInflow: 13000 },
+                { key: "d1", label: "8/20(수)", aum: 4922000, adtv: 211000, turnoverPct: 4.29, aumChange: -2000, aumChangePct: -0.04, priceEffect: -5200, netInflow: 3200 },
+                { key: "d2", label: "8/21(목)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 35000, aumChangePct: 0.71, priceEffect: 23500, netInflow: 11500 },
+                { key: "d3", label: "8/24(월)", aum: 4982000, adtv: 209000, turnoverPct: 4.20, aumChange: 25000, aumChangePct: 0.50, priceEffect: 15700, netInflow: 9300 },
+                { key: "d4", label: "8/25(화)", aum: 5005000, adtv: 242000, turnoverPct: 4.84, aumChange: 23000, aumChangePct: 0.46, priceEffect: 10500, netInflow: 12500 },
+                { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 5005000, aumChangePct: Number((((totalAumEok - 5005000) / 5005000) * 100).toFixed(2)), priceEffect: 12558, netInflow: 17223 },
               ],
               weekly: [
-                { key: "w1", label: "7월 5주 (7/31)", aum: 3625000, adtv: 82000, turnoverPct: 2.26, aumChange: 35000, aumChangePct: 0.98, priceEffect: -42000, netInflow: 77000 },
-                { key: "w2", label: "8월 1주 (8/7)", aum: 3689000, adtv: 89000, turnoverPct: 2.41, aumChange: 64000, aumChangePct: 1.77, priceEffect: 36000, netInflow: 28000 },
-                { key: "w3", label: "8월 2주 (8/14)", aum: 3738000, adtv: 91000, turnoverPct: 2.43, aumChange: 49000, aumChangePct: 1.33, priceEffect: 26000, netInflow: 23000 },
-                { key: "w4", label: "8월 3주 (8/21)", aum: 3792000, adtv: 94000, turnoverPct: 2.48, aumChange: 54000, aumChangePct: 1.44, priceEffect: 31000, netInflow: 23000 },
-                { key: "w5", label: "8월 4주 (8/27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3792000, aumChangePct: 1.57, priceEffect: 29607, netInflow: 30000 },
+                { key: "w1", label: "7월 5주 (7/31)", aum: 4739000, adtv: 195000, turnoverPct: 4.11, aumChange: 46000, aumChangePct: 0.98, priceEffect: -55000, netInflow: 101000 },
+                { key: "w2", label: "8월 1주 (8/7)", aum: 4822000, adtv: 211000, turnoverPct: 4.38, aumChange: 83000, aumChangePct: 1.75, priceEffect: 47000, netInflow: 36000 },
+                { key: "w3", label: "8월 2주 (8/14)", aum: 4886000, adtv: 216000, turnoverPct: 4.42, aumChange: 64000, aumChangePct: 1.33, priceEffect: 34000, netInflow: 30000 },
+                { key: "w4", label: "8월 3주 (8/21)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 71000, aumChangePct: 1.45, priceEffect: 41000, netInflow: 30000 },
+                { key: "w5", label: "8월 4주 (8/27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4957000, aumChangePct: Number((((totalAumEok - 4957000) / 4957000) * 100).toFixed(2)), priceEffect: 38800, netInflow: 38981 },
               ],
               monthly: [
-                { key: "m1", label: "2026년 4월", aum: 3252000, adtv: 72000, turnoverPct: 2.21, aumChange: 98000, aumChangePct: 3.11, priceEffect: 54000, netInflow: 44000 },
-                { key: "m2", label: "2026년 5월", aum: 3395000, adtv: 78000, turnoverPct: 2.30, aumChange: 143000, aumChangePct: 4.40, priceEffect: 82000, netInflow: 61000 },
-                { key: "m3", label: "2026년 6월", aum: 3538000, adtv: 83000, turnoverPct: 2.35, aumChange: 143000, aumChangePct: 4.21, priceEffect: 76000, netInflow: 67000 },
-                { key: "m4", label: "2026년 7월", aum: 3685000, adtv: 90000, turnoverPct: 2.44, aumChange: 147000, aumChangePct: 4.15, priceEffect: -125000, netInflow: 272000 },
-                { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3685000, aumChangePct: 4.52, priceEffect: 92607, netInflow: 74000 },
+                { key: "m1", label: "2026년 4월", aum: 4251000, adtv: 171000, turnoverPct: 4.02, aumChange: 128000, aumChangePct: 3.10, priceEffect: 71000, netInflow: 57000 },
+                { key: "m2", label: "2026년 5월", aum: 4438000, adtv: 185000, turnoverPct: 4.17, aumChange: 187000, aumChangePct: 4.40, priceEffect: 107000, netInflow: 80000 },
+                { key: "m3", label: "2026년 6월", aum: 4625000, adtv: 197000, turnoverPct: 4.26, aumChange: 187000, aumChangePct: 4.21, priceEffect: 99000, netInflow: 88000 },
+                { key: "m4", label: "2026년 7월", aum: 4817000, adtv: 214000, turnoverPct: 4.44, aumChange: 192000, aumChangePct: 4.15, priceEffect: -163000, netInflow: 355000 },
+                { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4817000, aumChangePct: Number((((totalAumEok - 4817000) / 4817000) * 100).toFixed(2)), priceEffect: 121000, netInflow: 96781 },
               ],
               yearly: [
-                { key: "y1", label: "2022년", aum: 785000, adtv: 28000, turnoverPct: 3.57, aumChange: 45000, aumChangePct: 6.08, priceEffect: -32000, netInflow: 77000 },
-                { key: "y2", label: "2023년", aum: 1211000, adtv: 32000, turnoverPct: 2.64, aumChange: 426000, aumChangePct: 54.27, priceEffect: 215000, netInflow: 211000 },
-                { key: "y3", label: "2024년", aum: 1732000, adtv: 45000, turnoverPct: 2.60, aumChange: 521000, aumChangePct: 43.02, priceEffect: 248000, netInflow: 273000 },
-                { key: "y4", label: "2025년", aum: 2750000, adtv: 68000, turnoverPct: 2.47, aumChange: 1018000, aumChangePct: 58.78, priceEffect: 554000, netInflow: 464000 },
-                { key: "y5", label: "2026년 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 2750000, aumChangePct: 40.06, priceEffect: 588607, netInflow: 513000 },
+                { key: "y1", label: "2022년", aum: 1026000, adtv: 67000, turnoverPct: 6.53, aumChange: 59000, aumChangePct: 6.09, priceEffect: -42000, netInflow: 101000 },
+                { key: "y2", label: "2023년", aum: 1583000, adtv: 76000, turnoverPct: 4.80, aumChange: 557000, aumChangePct: 54.29, priceEffect: 281000, netInflow: 276000 },
+                { key: "y3", label: "2024년", aum: 2264000, adtv: 107000, turnoverPct: 4.73, aumChange: 681000, aumChangePct: 43.02, priceEffect: 324000, netInflow: 357000 },
+                { key: "y4", label: "2025년", aum: 3595000, adtv: 162000, turnoverPct: 4.51, aumChange: 1331000, aumChangePct: 58.79, priceEffect: 724000, netInflow: 607000 },
+                { key: "y5", label: "2026년 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3595000, aumChangePct: Number((((totalAumEok - 3595000) / 3595000) * 100).toFixed(2)), priceEffect: 768781, netInflow: 671000 },
               ],
             };
 

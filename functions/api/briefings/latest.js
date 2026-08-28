@@ -49,12 +49,15 @@ function withFreshness(payload) {
   const briefing = payload?.briefing;
   if (!briefing?.asOfDate) return null;
   const staleDays = getBusinessDaysDiff(briefing.asOfDate, toKstDate());
+  const metrics = briefing.metrics || {};
   return {
     ...payload,
     briefing: {
       ...briefing,
       isStale: staleDays >= 3,
       staleDays,
+      marketScaleSnapshot: buildMarketScaleSnapshot(metrics, briefing),
+      marketScaleTimeSeries: buildMarketScaleTimeSeries(metrics, briefing),
     },
   };
 }
@@ -253,12 +256,14 @@ function buildMarketScaleSnapshot(metrics, briefing) {
 }
 
 function buildMarketScaleTimeSeries(metrics, briefing) {
-  const totalAumEok = briefing.general_total_aum >= 100_000_000 
-    ? Math.round(briefing.general_total_aum / 100_000_000) 
-    : (briefing.general_total_aum || 3851607);
-  const totalTradeEok = briefing.general_total_trade_value >= 100_000_000 
-    ? Math.round(briefing.general_total_trade_value / 100_000_000) 
-    : (briefing.general_total_trade_value || 99147);
+  const rawAum = briefing.general_total_aum || briefing.pulse?.generalTotalAum || 0;
+  const totalAumEok = rawAum >= 100_000_000 
+    ? Math.round(rawAum / 100_000_000) 
+    : (rawAum || 3851607);
+  const rawTrade = briefing.general_total_trade_value || briefing.pulse?.generalTotalTradeValue || 0;
+  const totalTradeEok = rawTrade >= 100_000_000 
+    ? Math.round(rawTrade / 100_000_000) 
+    : (rawTrade || 99147);
   const turnover = totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.57;
 
   return {

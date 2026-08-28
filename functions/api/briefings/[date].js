@@ -217,8 +217,6 @@ function buildMarketScaleSnapshot(metrics, briefing) {
 }
 
 function buildMarketScaleTimeSeries(metrics, briefing) {
-  if (metrics.market_scale_timeseries) return metrics.market_scale_timeseries;
-
   const totalAumEok = briefing.general_total_aum >= 100_000_000 
     ? Math.round(briefing.general_total_aum / 100_000_000) 
     : (briefing.general_total_aum || 3851607);

@@ -62,6 +62,19 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(window.location.search).toContain("asset=%EA%B8%88%EB%A6%AC%C2%B7%ED%8C%8C%ED%82%B9"); // 금리·파킹
   });
 
+  it("10개의 인기 퀵 필터 버튼이 정상 렌더링되고 테마 전환이 작동한다", () => {
+    render(<Screener etfs={items} />);
+    const labels = ["미국 주식", "국내 주식", "배당성장", "반도체", "AI·빅테크", "채권·파킹", "커버드콜", "금·원자재", "전력·원자력", "2차전지"];
+    for (const label of labels) {
+      expect(screen.getByRole("button", { name: label })).toBeInTheDocument();
+    }
+
+    const semiButton = screen.getByRole("button", { name: "반도체" });
+    fireEvent.click(semiButton);
+    expect(semiButton).toHaveAttribute("aria-pressed", "true");
+    expect(window.location.search).toContain("q=%EB%B0%98%EB%8F%84%EC%B2%B4"); // 반도체
+  });
+
   it("선택 조건 칩 하나를 제거해도 다른 조건이 유지된다", () => {
     render(<Screener etfs={items} />);
     // 기본 연금 조건을 유지한 채 미국 선택

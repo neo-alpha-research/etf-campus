@@ -311,51 +311,108 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
 
   const hasUnsupportedFilters = filters.marketScopes.length > 0 || filters.strategies.length > 0 || filters.fxHedges.length > 0 || filters.terRanges.length > 0 || filters.issuerIds.length > 0;
 
-  const isUsStockQuickActive = filters.assetClasses.length === 1 && filters.assetClasses.includes("주식-해외") && filters.marketScopes.length === 1 && filters.marketScopes.includes("미국") && filters.keyword === "";
+  const isUsStockQuickActive = filters.assetClasses.length === 1 && filters.assetClasses.includes("주식-해외") && filters.marketScopes.length === 1 && filters.marketScopes.includes("미국") && filters.keyword === "" && filters.strategies.length === 0;
   const toggleUsStockQuick = () => {
     if (isUsStockQuickActive) {
       updateFilters({ ...filters, assetClasses: [], marketScopes: [] });
     } else {
-      updateFilters({ ...filters, assetClasses: ["주식-해외"], marketScopes: ["미국"], keyword: "" });
+      updateFilters({ ...filters, assetClasses: ["주식-해외"], marketScopes: ["미국"], keyword: "", strategies: [] });
     }
   };
 
-  const isBondParkingQuickActive = filters.assetClasses.length === 2 && filters.assetClasses.includes("채권") && filters.assetClasses.includes("금리·파킹") && filters.marketScopes.length === 0 && filters.keyword === "";
-  const toggleBondParkingQuick = () => {
-    if (isBondParkingQuickActive) {
-      updateFilters({ ...filters, assetClasses: [] });
+  const isKrStockQuickActive = filters.assetClasses.length === 1 && filters.assetClasses.includes("주식-국내") && filters.marketScopes.length === 1 && filters.marketScopes.includes("국내") && filters.keyword === "" && filters.strategies.length === 0;
+  const toggleKrStockQuick = () => {
+    if (isKrStockQuickActive) {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [] });
     } else {
-      updateFilters({ ...filters, assetClasses: ["채권", "금리·파킹"], marketScopes: [], keyword: "" });
+      updateFilters({ ...filters, assetClasses: ["주식-국내"], marketScopes: ["국내"], keyword: "", strategies: [] });
     }
   };
 
-
-  const isSemiconductorQuickActive = filters.keyword === "반도체" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0;
-  const toggleSemiconductorQuick = () => {
-    if (isSemiconductorQuickActive) {
-      updateFilters({ ...filters, keyword: "" });
-    } else {
-      updateFilters({ ...filters, assetClasses: [], marketScopes: [], keyword: "반도체" });
-    }
-  };
-
-  const isAiQuickActive = filters.keyword === "ai" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0;
-  const toggleAiQuick = () => {
-    if (isAiQuickActive) {
-      updateFilters({ ...filters, keyword: "" });
-    } else {
-      updateFilters({ ...filters, assetClasses: [], marketScopes: [], keyword: "ai" });
-    }
-  };
-
-  const isDivGrowthQuickActive = filters.keyword === "배당성장" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0;
+  const isDivGrowthQuickActive = filters.keyword === "배당" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0 && filters.strategies.length === 0;
   const toggleDivGrowthQuick = () => {
     if (isDivGrowthQuickActive) {
       updateFilters({ ...filters, keyword: "" });
     } else {
-      updateFilters({ ...filters, assetClasses: [], marketScopes: [], keyword: "배당성장" });
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], strategies: [], keyword: "배당" });
     }
   };
+
+  const isSemiconductorQuickActive = filters.keyword === "반도체" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0 && filters.strategies.length === 0;
+  const toggleSemiconductorQuick = () => {
+    if (isSemiconductorQuickActive) {
+      updateFilters({ ...filters, keyword: "" });
+    } else {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], strategies: [], keyword: "반도체" });
+    }
+  };
+
+  const isAiQuickActive = filters.keyword === "ai" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0 && filters.strategies.length === 0;
+  const toggleAiQuick = () => {
+    if (isAiQuickActive) {
+      updateFilters({ ...filters, keyword: "" });
+    } else {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], strategies: [], keyword: "ai" });
+    }
+  };
+
+  const isBondParkingQuickActive = filters.assetClasses.length === 2 && filters.assetClasses.includes("채권") && filters.assetClasses.includes("금리·파킹") && filters.marketScopes.length === 0 && filters.keyword === "" && filters.strategies.length === 0;
+  const toggleBondParkingQuick = () => {
+    if (isBondParkingQuickActive) {
+      updateFilters({ ...filters, assetClasses: [] });
+    } else {
+      updateFilters({ ...filters, assetClasses: ["채권", "금리·파킹"], marketScopes: [], strategies: [], keyword: "" });
+    }
+  };
+
+  const isCoveredCallQuickActive = filters.strategies.length === 1 && filters.strategies.includes("커버드콜") && filters.assetClasses.length === 0 && filters.marketScopes.length === 0 && filters.keyword === "";
+  const toggleCoveredCallQuick = () => {
+    if (isCoveredCallQuickActive) {
+      updateFilters({ ...filters, strategies: [] });
+    } else {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], strategies: ["커버드콜"], keyword: "" });
+    }
+  };
+
+  const isGoldCommodityQuickActive = filters.assetClasses.length === 1 && filters.assetClasses.includes("원자재") && filters.marketScopes.length === 0 && filters.keyword === "" && filters.strategies.length === 0;
+  const toggleGoldCommodityQuick = () => {
+    if (isGoldCommodityQuickActive) {
+      updateFilters({ ...filters, assetClasses: [] });
+    } else {
+      updateFilters({ ...filters, assetClasses: ["원자재"], marketScopes: [], strategies: [], keyword: "" });
+    }
+  };
+
+  const isPowerNuclearQuickActive = filters.keyword === "전력" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0 && filters.strategies.length === 0;
+  const togglePowerNuclearQuick = () => {
+    if (isPowerNuclearQuickActive) {
+      updateFilters({ ...filters, keyword: "" });
+    } else {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], strategies: [], keyword: "전력" });
+    }
+  };
+
+  const isBatteryQuickActive = filters.keyword === "2차전지" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0 && filters.strategies.length === 0;
+  const toggleBatteryQuick = () => {
+    if (isBatteryQuickActive) {
+      updateFilters({ ...filters, keyword: "" });
+    } else {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], strategies: [], keyword: "2차전지" });
+    }
+  };
+
+  const quickFilterItems = [
+    { id: "us-stock", label: "미국 주식", active: isUsStockQuickActive, toggle: toggleUsStockQuick },
+    { id: "kr-stock", label: "국내 주식", active: isKrStockQuickActive, toggle: toggleKrStockQuick },
+    { id: "div-growth", label: "배당성장", active: isDivGrowthQuickActive, toggle: toggleDivGrowthQuick },
+    { id: "semi", label: "반도체", active: isSemiconductorQuickActive, toggle: toggleSemiconductorQuick },
+    { id: "ai", label: "AI·빅테크", active: isAiQuickActive, toggle: toggleAiQuick },
+    { id: "bond-parking", label: "채권·파킹", active: isBondParkingQuickActive, toggle: toggleBondParkingQuick },
+    { id: "covered-call", label: "커버드콜", active: isCoveredCallQuickActive, toggle: toggleCoveredCallQuick },
+    { id: "gold-commodity", label: "금·원자재", active: isGoldCommodityQuickActive, toggle: toggleGoldCommodityQuick },
+    { id: "power-nuclear", label: "전력·원자력", active: isPowerNuclearQuickActive, toggle: togglePowerNuclearQuick },
+    { id: "battery", label: "2차전지", active: isBatteryQuickActive, toggle: toggleBatteryQuick },
+  ];
 
   const activeFilters: { label: string; remove: () => void }[] = [];
   
@@ -461,57 +518,21 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
 
 
       <div className="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="빠른 시작 조건">
-        <button
-          type="button"
-          aria-pressed={isUsStockQuickActive}
-          onClick={toggleUsStockQuick}
-          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isUsStockQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-          }`}
-        >
-          미국 주식
-        </button>
-        <button
-          type="button"
-          aria-pressed={isBondParkingQuickActive}
-          onClick={toggleBondParkingQuick}
-          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isBondParkingQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-          }`}
-        >
-          채권·파킹
-        </button>
-        <button
-          type="button"
-          aria-pressed={isSemiconductorQuickActive}
-          onClick={toggleSemiconductorQuick}
-          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isSemiconductorQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-          }`}
-        >
-          반도체
-        </button>
-        <button
-          type="button"
-          aria-pressed={isAiQuickActive}
-          onClick={toggleAiQuick}
-          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isAiQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-          }`}
-        >
-          AI
-        </button>
-        <button
-          type="button"
-          aria-pressed={isDivGrowthQuickActive}
-          onClick={toggleDivGrowthQuick}
-          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isDivGrowthQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-          }`}
-        >
-          배당성장
-        </button>
-
+        {quickFilterItems.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            aria-pressed={item.active}
+            onClick={item.toggle}
+            className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
+              item.active
+                ? "border-brand-700 bg-brand-700 text-white shadow-sm"
+                : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
       </div>
 
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">

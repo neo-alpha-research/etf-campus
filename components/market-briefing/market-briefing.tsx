@@ -2063,17 +2063,22 @@ export function MarketBriefing() {
           {/* 듀얼 누적 게이지 바 대조 (AUM 비중 vs 거래대금 비중) */}
           {(() => {
             const snapshot = briefing.marketScaleSnapshot;
-            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8);
-            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500);
+            const genAumEok = normalizeToEok(briefing.pulse?.generalTotalAum || 3851607);
+            const genTradeEok = normalizeToEok(briefing.pulse?.generalTotalTradeValue || 99147);
+            const fallbackTotalAumEok = genAumEok / 0.765;
+            const fallbackTotalTradeEok = genTradeEok / 0.421;
+
+            const totalAumEok = normalizeToEok(snapshot?.totalAum || fallbackTotalAumEok);
+            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || fallbackTotalTradeEok);
             const totalAumJo = (totalAumEok / 10000).toFixed(1);
             const totalTradeJo = (totalTradeEok / 10000).toFixed(1);
-            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.78);
+            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.67);
 
             const categories = snapshot?.categories || [
-              { category: "general", label: "일반 실물 ETF", aum: totalAumEok * 0.765, aumSharePct: 76.5, tradeValue: totalTradeEok * 0.421, tradeSharePct: 42.1, turnoverPct: 1.53, etfCount: 1018 },
-              { category: "parking", label: "파킹·단기자금", aum: totalAumEok * 0.186, aumSharePct: 18.6, tradeValue: totalTradeEok * 0.153, tradeSharePct: 15.3, turnoverPct: 2.27, etfCount: 42 },
-              { category: "leveraged", label: "레버리지", aum: totalAumEok * 0.038, aumSharePct: 3.8, tradeValue: totalTradeEok * 0.352, tradeSharePct: 35.2, turnoverPct: 25.65, etfCount: 68 },
-              { category: "inverse", label: "인버스", aum: totalAumEok * 0.011, aumSharePct: 1.1, tradeValue: totalTradeEok * 0.074, tradeSharePct: 7.4, turnoverPct: 18.98, etfCount: 36 },
+              { category: "general", label: "일반 실물 ETF", aum: genAumEok, aumSharePct: 76.5, tradeValue: genTradeEok, tradeSharePct: 42.1, turnoverPct: 2.57, etfCount: briefing.generalEtfCount || 1022 },
+              { category: "parking", label: "파킹·단기자금", aum: totalAumEok * 0.186, aumSharePct: 18.6, tradeValue: totalTradeEok * 0.153, tradeSharePct: 15.3, turnoverPct: 3.85, etfCount: 42 },
+              { category: "leveraged", label: "레버리지", aum: totalAumEok * 0.038, aumSharePct: 3.8, tradeValue: totalTradeEok * 0.352, tradeSharePct: 35.2, turnoverPct: 43.45, etfCount: 68 },
+              { category: "inverse", label: "인버스", aum: totalAumEok * 0.011, aumSharePct: 1.1, tradeValue: totalTradeEok * 0.074, tradeSharePct: 7.4, turnoverPct: 30.91, etfCount: 36 },
             ];
 
             const genCat = categories.find((c: any) => c.category === 'general') || categories[0];

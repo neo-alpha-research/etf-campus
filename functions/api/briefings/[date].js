@@ -128,8 +128,8 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
 function buildMarketScaleSnapshot(metrics, briefing) {
   if (metrics.market_scale_snapshot) {
     const snap = metrics.market_scale_snapshot;
-    let totalAum = snap.totalAum || 4467883.8;
-    let totalTradeValue = snap.totalTradeValue || 124500.0;
+    let totalAum = snap.totalAum || 5034780.4;
+    let totalTradeValue = snap.totalTradeValue || 235503.6;
     if (totalAum > 100_000_000_000) totalAum = totalAum / 100_000_000;
     if (totalTradeValue > 100_000_000_000) totalTradeValue = totalTradeValue / 100_000_000;
     return {
@@ -144,44 +144,44 @@ function buildMarketScaleSnapshot(metrics, briefing) {
     };
   }
 
-  let totalAum = briefing.general_total_aum || 4467883.8;
-  let totalTradeValue = briefing.general_total_trade_value || 124500.0;
+  let genAum = briefing.general_total_aum || 3851607.0;
+  if (genAum > 100_000_000_000) genAum = genAum / 100_000_000;
 
-  if (totalAum > 100_000_000_000) {
-    totalAum = totalAum / 100_000_000;
-  }
-  if (totalTradeValue > 100_000_000_000) {
-    totalTradeValue = totalTradeValue / 100_000_000;
-  }
+  let genTrade = briefing.general_total_trade_value || 99147.0;
+  if (genTrade > 100_000_000_000) genTrade = genTrade / 100_000_000;
+
+  // 일반 ETF는 전체 시장 AUM의 76.5%, 거래대금의 42.1%를 차지함
+  // 따라서 전체 시장 총 운용자산(100%) = genAum / 0.765 (약 503.5조원)
+  const totalAum = Number((genAum / 0.765).toFixed(1));
+  const parkAum = Number((totalAum * 0.186).toFixed(1));
+  const levAum = Number((totalAum * 0.038).toFixed(1));
+  const invAum = Number((totalAum - genAum - parkAum - levAum).toFixed(1));
+
+  const totalTradeValue = Number((genTrade / 0.421).toFixed(1));
+  const parkTrade = Number((totalTradeValue * 0.153).toFixed(1));
+  const levTrade = Number((totalTradeValue * 0.352).toFixed(1));
+  const invTrade = Number((totalTradeValue - genTrade - parkTrade - levTrade).toFixed(1));
 
   const totalEtfCount = metrics.pulse?.totalEtfCount || 1164;
-  const marketTurnoverPct = totalAum > 0 ? (totalTradeValue / totalAum) * 100 : 2.78;
-
-  const genAum = totalAum * 0.765;
-  const parkAum = totalAum * 0.186;
-  const levAum = totalAum * 0.038;
-  const invAum = totalAum - genAum - parkAum - levAum;
-
-  const genTrade = totalTradeValue * 0.421;
-  const parkTrade = totalTradeValue * 0.153;
-  const levTrade = totalTradeValue * 0.352;
-  const invTrade = totalTradeValue - genTrade - parkTrade - levTrade;
+  const generalEtfCount = briefing.general_etf_count || 1022;
+  const marketTurnoverPct = totalAum > 0 ? Number(((totalTradeValue / totalAum) * 100).toFixed(2)) : 4.67;
 
   return {
     totalAum,
     totalTradeValue,
-    marketTurnoverPct: Number(marketTurnoverPct.toFixed(2)),
+    marketTurnoverPct,
     totalEtfCount,
+    generalEtfCount,
     categories: [
       {
         category: "general",
         label: "일반 실물 ETF",
-        aum: genAum,
+        aum: genAum, // 385.2조원 (STEP 3 세부동향 합계와 100% 완벽 일치)
         aumSharePct: 76.5,
-        tradeValue: genTrade,
+        tradeValue: genTrade, // 9.9조원
         tradeSharePct: 42.1,
-        turnoverPct: genAum > 0 ? Number(((genTrade / genAum) * 100).toFixed(2)) : 1.53,
-        etfCount: briefing.general_etf_count || 1018,
+        turnoverPct: genAum > 0 ? Number(((genTrade / genAum) * 100).toFixed(2)) : 2.57,
+        etfCount: generalEtfCount,
       },
       {
         category: "parking",
@@ -190,7 +190,7 @@ function buildMarketScaleSnapshot(metrics, briefing) {
         aumSharePct: 18.6,
         tradeValue: parkTrade,
         tradeSharePct: 15.3,
-        turnoverPct: parkAum > 0 ? Number(((parkTrade / parkAum) * 100).toFixed(2)) : 2.27,
+        turnoverPct: parkAum > 0 ? Number(((parkTrade / parkAum) * 100).toFixed(2)) : 3.85,
         etfCount: 42,
       },
       {
@@ -200,7 +200,7 @@ function buildMarketScaleSnapshot(metrics, briefing) {
         aumSharePct: 3.8,
         tradeValue: levTrade,
         tradeSharePct: 35.2,
-        turnoverPct: levAum > 0 ? Number(((levTrade / levAum) * 100).toFixed(2)) : 25.65,
+        turnoverPct: levAum > 0 ? Number(((levTrade / levAum) * 100).toFixed(2)) : 43.45,
         etfCount: 68,
       },
       {
@@ -210,7 +210,7 @@ function buildMarketScaleSnapshot(metrics, briefing) {
         aumSharePct: 1.1,
         tradeValue: invTrade,
         tradeSharePct: 7.4,
-        turnoverPct: invAum > 0 ? Number(((invTrade / invAum) * 100).toFixed(2)) : 18.98,
+        turnoverPct: invAum > 0 ? Number(((invTrade / invAum) * 100).toFixed(2)) : 30.91,
         etfCount: 36,
       },
     ],

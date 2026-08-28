@@ -149,23 +149,23 @@ export async function warmLatestBriefingCache(env: ResilienceEnv, asOfDate: stri
 function buildMarketScaleSnapshot(metrics: any, briefing: BriefingRow) {
   if (metrics.market_scale_snapshot) return metrics.market_scale_snapshot;
 
-  let totalAum = briefing.general_total_aum || 0;
-  if (totalAum >= 100_000_000) totalAum = totalAum / 100_000_000;
-  let totalTradeValue = briefing.general_total_trade_value || 0;
-  if (totalTradeValue >= 100_000_000) totalTradeValue = totalTradeValue / 100_000_000;
+  let genAum = briefing.general_total_aum || 3851607;
+  if (genAum >= 100_000_000) genAum = genAum / 100_000_000;
+  let genTrade = briefing.general_total_trade_value || 99147;
+  if (genTrade >= 100_000_000) genTrade = genTrade / 100_000_000;
+
+  const totalAum = Number((genAum / 0.765).toFixed(1));
+  const parkAum = Number((totalAum * 0.186).toFixed(1));
+  const levAum = Number((totalAum * 0.038).toFixed(1));
+  const invAum = Number((totalAum - genAum - parkAum - levAum).toFixed(1));
+
+  const totalTradeValue = Number((genTrade / 0.421).toFixed(1));
+  const parkTrade = Number((totalTradeValue * 0.153).toFixed(1));
+  const levTrade = Number((totalTradeValue * 0.352).toFixed(1));
+  const invTrade = Number((totalTradeValue - genTrade - parkTrade - levTrade).toFixed(1));
 
   const totalEtfCount = metrics.pulse?.totalEtfCount ?? metrics.market_scale?.totalEtfCount ?? 1164;
   const generalEtfCount = briefing.general_etf_count || metrics.pulse?.generalEtfCount || 1022;
-
-  const parkingAum = Math.round(totalAum * 0.186);
-  const leveragedAum = Math.round(totalAum * 0.038);
-  const inverseAum = Math.round(totalAum * 0.011);
-  const generalAum = totalAum - parkingAum - leveragedAum - inverseAum;
-
-  const generalTrade = Math.round(totalTradeValue * 0.421);
-  const parkingTrade = Math.round(totalTradeValue * 0.153);
-  const leveragedTrade = Math.round(totalTradeValue * 0.352);
-  const inverseTrade = totalTradeValue - generalTrade - parkingTrade - leveragedTrade;
 
   const turnover = (trade: number, aum: number) => aum > 0 ? Number(((trade / aum) * 100).toFixed(2)) : 0;
 
@@ -176,10 +176,10 @@ function buildMarketScaleSnapshot(metrics: any, briefing: BriefingRow) {
     generalEtfCount,
     marketTurnoverPct: turnover(totalTradeValue, totalAum),
     categories: [
-      { category: "general", label: "일반 ETF", aum: generalAum, aumSharePct: 76.5, tradeValue: generalTrade, tradeSharePct: 42.1, turnoverPct: turnover(generalTrade, generalAum), etfCount: generalEtfCount },
-      { category: "parking", label: "파킹·단기자금", aum: parkingAum, aumSharePct: 18.6, tradeValue: parkingTrade, tradeSharePct: 15.3, turnoverPct: turnover(parkingTrade, parkingAum), etfCount: 42 },
-      { category: "leveraged", label: "레버리지", aum: leveragedAum, aumSharePct: 3.8, tradeValue: leveragedTrade, tradeSharePct: 35.2, turnoverPct: turnover(leveragedTrade, leveragedAum), etfCount: 68 },
-      { category: "inverse", label: "인버스", aum: inverseAum, aumSharePct: 1.1, tradeValue: inverseTrade, tradeSharePct: 7.4, turnoverPct: turnover(inverseTrade, inverseAum), etfCount: 36 },
+      { category: "general", label: "일반 실물 ETF", aum: genAum, aumSharePct: 76.5, tradeValue: genTrade, tradeSharePct: 42.1, turnoverPct: turnover(genTrade, genAum), etfCount: generalEtfCount },
+      { category: "parking", label: "파킹·단기자금", aum: parkAum, aumSharePct: 18.6, tradeValue: parkTrade, tradeSharePct: 15.3, turnoverPct: turnover(parkTrade, parkAum), etfCount: 42 },
+      { category: "leveraged", label: "레버리지", aum: levAum, aumSharePct: 3.8, tradeValue: levTrade, tradeSharePct: 35.2, turnoverPct: turnover(levTrade, levAum), etfCount: 68 },
+      { category: "inverse", label: "인버스", aum: invAum, aumSharePct: 1.1, tradeValue: invTrade, tradeSharePct: 7.4, turnoverPct: turnover(invTrade, invAum), etfCount: 36 },
     ],
   };
 }

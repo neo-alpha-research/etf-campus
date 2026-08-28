@@ -1,0 +1,18 @@
+{
+  "ticker": "292770",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 99.99,
+      "shares": 345123534,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 국채선물3(신)",
+      "weight_pct": -100.47,
+      "shares": -3,
+      "item_code": null
+    }
+  ]
+}

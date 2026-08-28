@@ -1,0 +1,1800 @@
+{
+  "ticker": "0043B0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 8.84,
+      "shares": 9155938,
+      "item_code": null
+    },
+    {
+      "name": "비에스에프플러스제이차 20260610-92-1(단)",
+      "weight_pct": 4.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260630-92-1(단)",
+      "weight_pct": 3.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260827-1-14(단)",
+      "weight_pct": 2.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "옐로우퍼피 20260807-92-1(단)",
+      "weight_pct": 2.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권26변이0010-0819-1M",
+      "weight_pct": 1.72,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "큐브비스타 20260722-50-1(단)",
+      "weight_pct": 1.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "피씨씨제이차 20260630-92-2(단)",
+      "weight_pct": 1.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "컬티베이션제십일차 20260622-92-2(단)",
+      "weight_pct": 1.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데케미칼 20260827-26-4(단)",
+      "weight_pct": 1.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스타그린켐제일차 20260730-92-1(단)",
+      "weight_pct": 1.69,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이플러스제일차 20260824-92-1(단)",
+      "weight_pct": 1.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리베라알파제일차 20260615-92-1(단)",
+      "weight_pct": 1.56,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스디비제오차 20260629-92-5(단)",
+      "weight_pct": 1.53,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "더에이치에프원 20260724-61-1(단)",
+      "weight_pct": 1.36,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스비케이제십삼차 20260710-90-1(단)",
+      "weight_pct": 1.36,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "넥스트레벨제일차 20260629-92-1(단)",
+      "weight_pct": 1.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스타그린켐제일차 20260630-91-1(단)",
+      "weight_pct": 1.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데카드576-2",
+      "weight_pct": 1.04,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제십사차 20260706-92-1(단)",
+      "weight_pct": 1.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스비케이제십삼차 20260610-92-2(단)",
+      "weight_pct": 1.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국수출입금융2608타-할인-304",
+      "weight_pct": 0.97,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260710-90-2(단)",
+      "weight_pct": 0.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스이제이제십일차 20260720-92-1(단)",
+      "weight_pct": 0.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국수출입금융(변)2608차-이표-1",
+      "weight_pct": 0.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스플러스제삼십육차 20260724-67-1(단)",
+      "weight_pct": 0.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치엔에스제일차 20260629-92-1(단)",
+      "weight_pct": 0.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "피씨씨제이차 20260602-90-1(단)",
+      "weight_pct": 0.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스비케이제일차 20260528-92-1(단)",
+      "weight_pct": 0.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2026-01이1Y-C(변동)",
+      "weight_pct": 0.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260702-92-1(단)",
+      "weight_pct": 0.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "컬티베이션제십차 20260610-92-1(단)",
+      "weight_pct": 0.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에프엔아이알제일차 20260720-60-2(단)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260716-84-4(단)",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스플러스제삼십일차 20260714-66-1(단)",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리에스제육차 20260630-92-1(단)",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "컬티베이션제십일차 20260622-80-1(단)",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2026-03이1Y-B(K변동)",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데카드510-4",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "카카오엔터테인먼트 20250909-364-1",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스비케이제십삼차 20260810-92-1(단)",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비증권 20260624-183-180",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비증권 20260624-183-181",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비증권 20260624-183-182",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스디비제십차 20260529-91-3(단)",
+      "weight_pct": 0.3,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260730-92-11(단)",
+      "weight_pct": 0.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제삼차 20260630-92-4(단)",
+      "weight_pct": 0.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260724-91-9(단)",
+      "weight_pct": 0.25,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260612-91-4(단)",
+      "weight_pct": 0.25,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260724-91-10(단)",
+      "weight_pct": 0.24,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260610-92-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260715-85-3(단)",
+      "weight_pct": 0.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260610-92-2(단)",
+      "weight_pct": 0.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스에스에프제사십오차 20260805-76-1(단)",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "유진에오스제일차 20260730-32-1(단)",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스에스에프제삼십사차 20260715-92-1(단)",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-1",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-2",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-3",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-4",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-5",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-6",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-7",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-8",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-10",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-1",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-2",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-3",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-4",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-5",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-6",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-7",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-8",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-9",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본리아 20260630-92-10",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스하본로지스 20260630-92-9",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비아이콘제일차 20260626-94-6",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비아이콘제일차 20260626-94-7",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비아이콘제일차 20260626-94-8",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비아이콘제일차 20260626-94-9",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트엘에이치씨 20260629-92-2",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트엘에이치씨 20260629-92-3",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트엘에이치씨 20260629-92-4",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트엘에이치씨 20260629-92-5",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트엘에이치씨 20260629-92-6",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트엘에이치씨 20260629-92-7",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트엘에이치씨 20260629-92-8",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트엘에이치씨 20260629-92-9",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드 20260514-158-18",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드 20260514-158-19",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-33",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-34",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-35",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-36",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-37",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-38",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-39",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-40",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-41",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-42",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-43",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-44",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-45",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-46",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-47",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-48",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-21",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-22",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-23",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-24",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트마곡이 20260612-94-22",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트마곡이 20260612-94-23",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트마곡이 20260612-94-24",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프로젝트마곡이 20260612-94-25",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-19",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-17",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-20",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-18",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-16",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-1",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-2",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-3",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-4",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-5",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-6",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-7",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-8",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-9",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-10",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-11",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-12",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-13",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-14",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포스코이앤씨 20250919-364-15",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나스틸제일차 20260528-92-8",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스이제이제십일차 20260420-183-4",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스이제이제십일차 20260420-183-3",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스이제이제십일차 20260420-183-2",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스이제이제십일차 20260420-183-1",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260331-183-43",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260331-183-44",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260324-183-39",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260324-183-40",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260324-183-41",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260320-182-37",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-3",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-4",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-5",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-6",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-7",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-9",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-10",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-11",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-12",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260317-184-8",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260316-184-33",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260316-184-34",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260316-184-35",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260316-184-32",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈 20211020-1826-46",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-5",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-6",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-7",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-9",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-10",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-11",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-12",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-13",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-14",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이엔무브 20250924-363-8",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대한석탄공사 20241015-730-34",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "증금챔피온제오차 20250912-364-1",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-4",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-3",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-6",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-7",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-8",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-9",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-10",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-11",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-12",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-13",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-14",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-15",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-16",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-17",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-18",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-19",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-20",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-5",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-2",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "뉴스프린트제일차 20260826-92-1",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260723-92-7(단)",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "위드지엠제삼십구차 20260804-92-1(단)",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-3",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-4",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-5",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-6",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-7",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-8",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-9",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-10",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-11",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-12",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-13",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-14",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-15",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-16",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-17",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-23",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-22",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-21",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-20",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-19",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-18",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-2",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-1",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20251209-364-39",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251127-364-255",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260615-183-36",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260615-183-35",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260610-183-32",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260610-183-33",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘란제일차 20260507-183-26",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘란제일차 20260507-183-25",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘란제일차 20260507-183-24",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘란제일차 20260507-183-23",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘란제일차 20260507-183-22",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘란제일차 20260507-183-21",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260422-364-21",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260422-364-22",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260422-364-23",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260422-364-24",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20260420-364-30",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20260420-364-29",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20260420-364-28",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20260420-364-27",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20260420-364-26",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20260420-364-25",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-5",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-6",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-7",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-8",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-9",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-10",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-11",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-12",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-13",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260409-214-14",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20260324-364-70",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20260324-364-69",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20260324-364-68",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20260324-364-67",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "애큐온캐피탈 20260320-245-12",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "애큐온캐피탈 20260320-245-11",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260319-245-64",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260319-245-65",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260319-245-66",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260319-245-67",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260319-245-68",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260319-245-69",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260319-245-70",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260319-245-71",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권 20260319-364-39",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권 20260319-364-40",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권 20260319-364-41",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권 20260319-364-42",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈 20211112-1826-11",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈 20211112-1826-10",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈 20211112-1826-9",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한화투자증권 20260226-364-32",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한화투자증권 20260226-364-33",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251127-364-245",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251127-364-246",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251127-364-247",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251127-364-248",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251121-364-98",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251121-364-103",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251121-364-102",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251121-364-101",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251121-364-100",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251121-364-99",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한투자증권 20251120-364-53",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한투자증권 20251120-364-54",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한투자증권 20251120-364-55",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한투자증권 20251120-364-56",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비아이콘제일차 20260626-94-10",
+      "weight_pct": 0.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260324-183-42",
+      "weight_pct": 0.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디피에스제삼차 20260511-358-1",
+      "weight_pct": 0.13,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260320-182-38",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260615-183-37",
+      "weight_pct": 0.1,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260303-181-28",
+      "weight_pct": 0.1,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260610-183-34",
+      "weight_pct": 0.07,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디이에프베타제일차 20260724-91-8(단)",
+      "weight_pct": 0.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260731-182-24",
+      "weight_pct": 0.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이씨에스제십이차 20260529-91-1(단)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260316-184-36",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제십차 20260331-183-45",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔투글로리제이차 20260708-92-1(단)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

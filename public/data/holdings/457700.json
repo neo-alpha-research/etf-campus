@@ -1,0 +1,18 @@
+{
+  "ticker": "457700",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "국고03625-5309(23-7)",
+      "weight_pct": 99.12,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.87,
+      "shares": 810242,
+      "item_code": null
+    }
+  ]
+}

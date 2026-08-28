@@ -1,0 +1,72 @@
+{
+  "ticker": "0065G0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "텐센트",
+      "weight_pct": 15.2,
+      "shares": 852,
+      "item_code": "0700.HK"
+    },
+    {
+      "name": "샤오미",
+      "weight_pct": 14.8,
+      "shares": 12992,
+      "item_code": "1810.HK"
+    },
+    {
+      "name": "알리바바 그룹 홀딩",
+      "weight_pct": 14.63,
+      "shares": 3135,
+      "item_code": "9988.HK"
+    },
+    {
+      "name": "메이투안",
+      "weight_pct": 12.42,
+      "shares": 3976,
+      "item_code": "3690.HK"
+    },
+    {
+      "name": "넷이즈",
+      "weight_pct": 8.86,
+      "shares": 1133,
+      "item_code": "9999.HK"
+    },
+    {
+      "name": "중국 국제 반도체",
+      "weight_pct": 8.39,
+      "shares": 3009,
+      "item_code": "0981.HK"
+    },
+    {
+      "name": "비야디",
+      "weight_pct": 8.36,
+      "shares": 1945,
+      "item_code": "002594.SZ"
+    },
+    {
+      "name": "해광신식",
+      "weight_pct": 7.17,
+      "shares": 665,
+      "item_code": "688041.SS"
+    },
+    {
+      "name": "징동닷컴",
+      "weight_pct": 5.16,
+      "shares": 1140,
+      "item_code": "9618.HK"
+    },
+    {
+      "name": "바이두",
+      "weight_pct": 3.93,
+      "shares": 1082,
+      "item_code": "9888.HK"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.02,
+      "shares": 4519164,
+      "item_code": null
+    }
+  ]
+}

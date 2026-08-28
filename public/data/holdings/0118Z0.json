@@ -1,0 +1,108 @@
+{
+  "ticker": "0118Z0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 12.25,
+      "shares": 216,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 8.91,
+      "shares": 133,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 8.68,
+      "shares": 65,
+      "item_code": "TSM"
+    },
+    {
+      "name": "메타",
+      "weight_pct": 8.1,
+      "shares": 44,
+      "item_code": "META.O"
+    },
+    {
+      "name": "버티브 홀딩스",
+      "weight_pct": 8.09,
+      "shares": 96,
+      "item_code": "VRT"
+    },
+    {
+      "name": "테슬라",
+      "weight_pct": 7.96,
+      "shares": 72,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "오클로",
+      "weight_pct": 7.2,
+      "shares": 542,
+      "item_code": "OKLO.K"
+    },
+    {
+      "name": "에어로바이런먼트",
+      "weight_pct": 6.99,
+      "shares": 149,
+      "item_code": "AVAV.O"
+    },
+    {
+      "name": "카메코",
+      "weight_pct": 5.93,
+      "shares": 173,
+      "item_code": "CCJ"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 5.23,
+      "shares": 46,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "인튜이티브 서지컬",
+      "weight_pct": 4.61,
+      "shares": 39,
+      "item_code": "ISRG.O"
+    },
+    {
+      "name": "유아이패스",
+      "weight_pct": 4.58,
+      "shares": 856,
+      "item_code": "PATH.K"
+    },
+    {
+      "name": "코어위브",
+      "weight_pct": 3.46,
+      "shares": 123,
+      "item_code": "CRWV.O"
+    },
+    {
+      "name": "앱러빈",
+      "weight_pct": 3.15,
+      "shares": 32,
+      "item_code": "APP.O"
+    },
+    {
+      "name": "심보틱",
+      "weight_pct": 3.05,
+      "shares": 235,
+      "item_code": "SYM.O"
+    },
+    {
+      "name": "GE 버노바",
+      "weight_pct": 2.74,
+      "shares": 9,
+      "item_code": "GEV"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -1.01,
+      "shares": -4363609,
+      "item_code": null
+    }
+  ]
+}

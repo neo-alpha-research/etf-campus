@@ -1,0 +1,72 @@
+{
+  "ticker": "477730",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "Tata Consultancy Services Ltd",
+      "weight_pct": 21.23,
+      "shares": 2442,
+      "item_code": null
+    },
+    {
+      "name": "Titan Co Ltd",
+      "weight_pct": 19.29,
+      "shares": 987,
+      "item_code": null
+    },
+    {
+      "name": "Tata Steel Ltd",
+      "weight_pct": 14.23,
+      "shares": 19777,
+      "item_code": null
+    },
+    {
+      "name": "Tata Motors LTD/NEW",
+      "weight_pct": 9.25,
+      "shares": 4997,
+      "item_code": null
+    },
+    {
+      "name": "Trent Ltd",
+      "weight_pct": 8.86,
+      "shares": 796,
+      "item_code": null
+    },
+    {
+      "name": "Tata Consumer Products Ltd",
+      "weight_pct": 6.24,
+      "shares": 1558,
+      "item_code": null
+    },
+    {
+      "name": "Tata Motors Passenger Vehicles",
+      "weight_pct": 5.99,
+      "shares": 5000,
+      "item_code": null
+    },
+    {
+      "name": "Indian Hotels Co Ltd",
+      "weight_pct": 5.8,
+      "shares": 2101,
+      "item_code": null
+    },
+    {
+      "name": "Tata Power Co Ltd/The",
+      "weight_pct": 5.56,
+      "shares": 3990,
+      "item_code": null
+    },
+    {
+      "name": "VOLTAS LTD",
+      "weight_pct": 2.54,
+      "shares": 545,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.96,
+      "shares": 3645796,
+      "item_code": null
+    }
+  ]
+}

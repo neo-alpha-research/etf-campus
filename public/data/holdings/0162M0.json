@@ -1,0 +1,390 @@
+{
+  "ticker": "0162M0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "하나캐피탈486-5",
+      "weight_pct": 4.98,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드2269-1",
+      "weight_pct": 4.82,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비국민카드381-4",
+      "weight_pct": 2.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈515-8",
+      "weight_pct": 2.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈391-4",
+      "weight_pct": 2.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈529-3",
+      "weight_pct": 2.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈587-1",
+      "weight_pct": 2.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드293-2",
+      "weight_pct": 2.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈151-2",
+      "weight_pct": 2.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈586-2(사)",
+      "weight_pct": 2.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드234-6",
+      "weight_pct": 2.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드2168",
+      "weight_pct": 2.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행30-04-이-1.5-A",
+      "weight_pct": 2.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈748-2",
+      "weight_pct": 2.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대카드961",
+      "weight_pct": 2.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드299-1",
+      "weight_pct": 2.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈348-4",
+      "weight_pct": 2.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈543-1",
+      "weight_pct": 2.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드282-2",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠뱅크(CD)",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행(CD)",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행28-08-이-4-A",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈149-2",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비국민카드449-1",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민은행(CD)",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈150-2",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민은행4604이표일(03)2-22",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행30-04-이표02-갑-16",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비국민카드439-6",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈571-8(사)",
+      "weight_pct": 2.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈380-1",
+      "weight_pct": 2.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈469-3",
+      "weight_pct": 2.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부산은행2026-02이2A-23",
+      "weight_pct": 2.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈346-1",
+      "weight_pct": 2.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈754-2",
+      "weight_pct": 2.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈536-4",
+      "weight_pct": 2.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈127-2",
+      "weight_pct": 2.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈508-2",
+      "weight_pct": 2.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋캐피탈117-2",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋캐피탈124-1",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈764-2",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈522-2",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드262-3",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드263-2",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈768-4",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행29-04-이표03-갑-21",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2048-1",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈252-6",
+      "weight_pct": 2.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행48-09이3갑-04",
+      "weight_pct": 2.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2050-2(녹)",
+      "weight_pct": 2.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행29-07-이표03-갑-17",
+      "weight_pct": 2.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행48-04이3갑-28",
+      "weight_pct": 2.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행29-04-이표03-갑-28",
+      "weight_pct": 2.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈374-5",
+      "weight_pct": 2.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대카드930-1",
+      "weight_pct": 2.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈250-3",
+      "weight_pct": 2.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비국민카드433-1",
+      "weight_pct": 2.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈247-5",
+      "weight_pct": 2.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈379-5",
+      "weight_pct": 2.4,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행(CD)",
+      "weight_pct": 1.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민은행(CD)",
+      "weight_pct": 1.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행(CD)",
+      "weight_pct": 1.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행(CD)",
+      "weight_pct": 1.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -54.75,
+      "shares": -55176723,
+      "item_code": null
+    }
+  ]
+}

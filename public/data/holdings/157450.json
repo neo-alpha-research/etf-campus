@@ -1,0 +1,30 @@
+{
+  "ticker": "157450",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "통화안정증권02800-2610-02",
+      "weight_pct": 32.13,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02700-2701-02",
+      "weight_pct": 32.1,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02620-2704-02",
+      "weight_pct": 32.04,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.71,
+      "shares": 4176262,
+      "item_code": null
+    }
+  ]
+}

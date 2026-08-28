@@ -1,0 +1,24 @@
+{
+  "ticker": "0195R0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자선물2609",
+      "weight_pct": 115.01,
+      "shares": 122,
+      "item_code": null
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 84.49,
+      "shares": 898,
+      "item_code": "005930"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 15.5,
+      "shares": 43829396,
+      "item_code": null
+    }
+  ]
+}

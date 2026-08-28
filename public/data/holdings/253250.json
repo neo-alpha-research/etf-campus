@@ -1,0 +1,24 @@
+{
+  "ticker": "253250",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "선물2026년09월물",
+      "weight_pct": 178.34,
+      "shares": 6,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 78.97,
+      "shares": 798817877,
+      "item_code": null
+    },
+    {
+      "name": "KIWOOM 200",
+      "weight_pct": 21.02,
+      "shares": 1948,
+      "item_code": "069660"
+    }
+  ]
+}

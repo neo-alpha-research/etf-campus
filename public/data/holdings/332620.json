@@ -1,0 +1,252 @@
+{
+  "ticker": "332620",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "PFE 5.3 05/19/53",
+      "weight_pct": 4.86,
+      "shares": 3475,
+      "item_code": null
+    },
+    {
+      "name": "JPM 3.964 11/15/48",
+      "weight_pct": 4.74,
+      "shares": 4021,
+      "item_code": null
+    },
+    {
+      "name": "MSFT 3.7 08/08/46",
+      "weight_pct": 4.05,
+      "shares": 3475,
+      "item_code": null
+    },
+    {
+      "name": "KO 2 7/8 05/05/41",
+      "weight_pct": 4.0,
+      "shares": 3475,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 2 7/8 05/12/41",
+      "weight_pct": 3.88,
+      "shares": 3475,
+      "item_code": null
+    },
+    {
+      "name": "BRK 4 1/4 01/15/49",
+      "weight_pct": 3.71,
+      "shares": 3026,
+      "item_code": null
+    },
+    {
+      "name": "NEE 5.8 03/15/65",
+      "weight_pct": 3.55,
+      "shares": 2406,
+      "item_code": null
+    },
+    {
+      "name": "UNH 4.45 12/15/48",
+      "weight_pct": 3.55,
+      "shares": 2844,
+      "item_code": null
+    },
+    {
+      "name": "BPLN 3 02/24/50",
+      "weight_pct": 3.4,
+      "shares": 3475,
+      "item_code": null
+    },
+    {
+      "name": "MET 5 1/4 01/15/54",
+      "weight_pct": 3.35,
+      "shares": 2406,
+      "item_code": null
+    },
+    {
+      "name": "ABT 4.9 11/30/46",
+      "weight_pct": 3.34,
+      "shares": 2406,
+      "item_code": null
+    },
+    {
+      "name": "SO 3 03/15/52",
+      "weight_pct": 3.31,
+      "shares": 3475,
+      "item_code": null
+    },
+    {
+      "name": "CSCO 5.3 02/26/54",
+      "weight_pct": 2.94,
+      "shares": 2085,
+      "item_code": null
+    },
+    {
+      "name": "PFE 2.7 05/28/50",
+      "weight_pct": 2.76,
+      "shares": 2994,
+      "item_code": null
+    },
+    {
+      "name": "QCOM 6 05/20/53",
+      "weight_pct": 2.6,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "UPS 5.3 04/01/50",
+      "weight_pct": 2.43,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "BRKHEC 4.4 10/15/44",
+      "weight_pct": 2.42,
+      "shares": 1877,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 4 1/4 02/09/47",
+      "weight_pct": 2.37,
+      "shares": 1877,
+      "item_code": null
+    },
+    {
+      "name": "UNP 4.95 05/15/53",
+      "weight_pct": 2.3,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "TOTAL 3.461 07/12/49",
+      "weight_pct": 2.3,
+      "shares": 2149,
+      "item_code": null
+    },
+    {
+      "name": "WFC 5.013 04/04/51",
+      "weight_pct": 2.29,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 2.27,
+      "shares": 2025196,
+      "item_code": null
+    },
+    {
+      "name": "NEE 4 1/8 02/01/42",
+      "weight_pct": 2.2,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 5.35 05/15/53",
+      "weight_pct": 2.2,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "ONCRTX 3 3/4 04/01/45",
+      "weight_pct": 2.19,
+      "shares": 1877,
+      "item_code": null
+    },
+    {
+      "name": "PEP 4.2 07/18/52",
+      "weight_pct": 2.08,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "KMB 3.2 07/30/46",
+      "weight_pct": 2.01,
+      "shares": 1877,
+      "item_code": null
+    },
+    {
+      "name": "HD 4.2 04/01/43",
+      "weight_pct": 2.0,
+      "shares": 1550,
+      "item_code": null
+    },
+    {
+      "name": "BPLN 3.06 06/17/41",
+      "weight_pct": 1.96,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "DUK 4 09/30/42",
+      "weight_pct": 1.89,
+      "shares": 1513,
+      "item_code": null
+    },
+    {
+      "name": "CAT 3 1/4 04/09/50",
+      "weight_pct": 1.8,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "DUK 3.95 03/15/48",
+      "weight_pct": 1.76,
+      "shares": 1513,
+      "item_code": null
+    },
+    {
+      "name": "BAC 2.972 07/21/52",
+      "weight_pct": 1.64,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "BAC 4.33 03/15/50",
+      "weight_pct": 1.64,
+      "shares": 1331,
+      "item_code": null
+    },
+    {
+      "name": "KO 2 1/2 03/15/51",
+      "weight_pct": 1.51,
+      "shares": 1711,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/4 08/15/54",
+      "weight_pct": 1.42,
+      "shares": 1069,
+      "item_code": null
+    },
+    {
+      "name": "JPM 4.26 02/22/48",
+      "weight_pct": 1.2,
+      "shares": 967,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 6.332 03/09/44",
+      "weight_pct": 0.85,
+      "shares": 534,
+      "item_code": null
+    },
+    {
+      "name": "LIN 3.55 11/07/42",
+      "weight_pct": 0.43,
+      "shares": 363,
+      "item_code": null
+    },
+    {
+      "name": "PEP 3.45 10/06/46",
+      "weight_pct": 0.4,
+      "shares": 363,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 3.999 11/01/49",
+      "weight_pct": 0.23,
+      "shares": 224,
+      "item_code": null
+    }
+  ]
+}

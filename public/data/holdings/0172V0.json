@@ -1,0 +1,42 @@
+{
+  "ticker": "0172V0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "abrdn Physical Silver Shares ETF",
+      "weight_pct": 27.86,
+      "shares": 1385,
+      "item_code": "SIVR.K"
+    },
+    {
+      "name": "iShares Silver Trust",
+      "weight_pct": 27.85,
+      "shares": 1456,
+      "item_code": "SLV"
+    },
+    {
+      "name": "Sprott Physical Silver Trust USD",
+      "weight_pct": 18.46,
+      "shares": 2641,
+      "item_code": "PSLV.K"
+    },
+    {
+      "name": "UBS ETF SILVER",
+      "weight_pct": 16.93,
+      "shares": 86,
+      "item_code": null
+    },
+    {
+      "name": "ISHARES PHYSICAL SILVER ETC",
+      "weight_pct": 8.41,
+      "shares": 419,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.45,
+      "shares": 2031679,
+      "item_code": null
+    }
+  ]
+}

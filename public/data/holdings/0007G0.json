@@ -1,0 +1,78 @@
+{
+  "ticker": "0007G0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "카메코",
+      "weight_pct": 20.06,
+      "shares": 960,
+      "item_code": "CCJ"
+    },
+    {
+      "name": "플루오르",
+      "weight_pct": 19.13,
+      "shares": 1889,
+      "item_code": "FLR"
+    },
+    {
+      "name": "BWX 테크놀로지스",
+      "weight_pct": 14.35,
+      "shares": 481,
+      "item_code": "BWXT.K"
+    },
+    {
+      "name": "우라늄 에너지",
+      "weight_pct": 12.64,
+      "shares": 4948,
+      "item_code": "UEC"
+    },
+    {
+      "name": "SPROTT PHYSICAL URANIUM TR",
+      "weight_pct": 11.29,
+      "shares": 2769,
+      "item_code": null
+    },
+    {
+      "name": "센트러스 에너지",
+      "weight_pct": 6.8,
+      "shares": 186,
+      "item_code": "LEU"
+    },
+    {
+      "name": "뉴스케일 파워",
+      "weight_pct": 6.36,
+      "shares": 3526,
+      "item_code": "SMR"
+    },
+    {
+      "name": "AECON GROUP INC",
+      "weight_pct": 5.49,
+      "shares": 891,
+      "item_code": null
+    },
+    {
+      "name": "나노 뉴클리어 에너지",
+      "weight_pct": 1.94,
+      "shares": 539,
+      "item_code": "NNE.O"
+    },
+    {
+      "name": "유어-에너지",
+      "weight_pct": 1.12,
+      "shares": 3802,
+      "item_code": "URG"
+    },
+    {
+      "name": "엔코어 에너지",
+      "weight_pct": 0.51,
+      "shares": 1935,
+      "item_code": "EU.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.26,
+      "shares": 1901160,
+      "item_code": null
+    }
+  ]
+}

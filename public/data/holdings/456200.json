@@ -1,0 +1,30 @@
+{
+  "ticker": "456200",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(키움증권)_20240514",
+      "weight_pct": 82.01,
+      "shares": 98198307,
+      "item_code": null
+    },
+    {
+      "name": "스왑(KB증권)_20241031",
+      "weight_pct": 16.37,
+      "shares": 19604493,
+      "item_code": null
+    },
+    {
+      "name": "TIGER 미국달러SOFR금리액티브(합성)",
+      "weight_pct": 1.6,
+      "shares": 32,
+      "item_code": "456610"
+    },
+    {
+      "name": "[USD] 예금",
+      "weight_pct": 0.0,
+      "shares": 3,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "ticker": "426150",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "신한 자금부 20251121-364-1",
+      "weight_pct": 15.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민 자금부 20251120-365-1",
+      "weight_pct": 15.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고01375-3006(20-4)",
+      "weight_pct": 11.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03875-4309(23-9)",
+      "weight_pct": 8.88,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02625-5503(25-2)",
+      "weight_pct": 6.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03500-2809(23-6)",
+      "weight_pct": 6.32,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고04125-3312(23-11)",
+      "weight_pct": 6.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03500-3406(24-5)",
+      "weight_pct": 6.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03250-5403(24-2)",
+      "weight_pct": 5.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03250-2903(24-1)",
+      "weight_pct": 4.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고01875-4109(21-9)",
+      "weight_pct": 4.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02750-2812(25-10)",
+      "weight_pct": 4.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03000-2909(24-7)",
+      "weight_pct": 3.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03375-3206(22-5)",
+      "weight_pct": 3.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03250-4209(22-11)",
+      "weight_pct": 2.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고 03625-5309(23-7)",
+      "weight_pct": 2.73,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02625-5509(25-7)",
+      "weight_pct": 2.21,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02750-5409(24-8)",
+      "weight_pct": 1.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02875-4409(24-10)",
+      "weight_pct": 1.53,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02375-3112(21-11)",
+      "weight_pct": 1.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03250-5303(23-2)",
+      "weight_pct": 1.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02875-2712(24-12)",
+      "weight_pct": 0.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03500-5603(26-2)",
+      "weight_pct": 0.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화예금",
+      "weight_pct": -15.3,
+      "shares": -15767214,
+      "item_code": null
+    }
+  ]
+}

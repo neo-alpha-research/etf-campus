@@ -1,0 +1,36 @@
+{
+  "ticker": "291890",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "MSCI EM Index Futures 2026 09",
+      "weight_pct": 88.03,
+      "shares": 4,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 73.6,
+      "shares": 455746014,
+      "item_code": null
+    },
+    {
+      "name": "USD현금",
+      "weight_pct": 13.96,
+      "shares": 62606,
+      "item_code": null
+    },
+    {
+      "name": "iShares MSCI Emerging Markets ETF",
+      "weight_pct": 12.43,
+      "shares": 830,
+      "item_code": "EEM"
+    },
+    {
+      "name": "2026-09 달러선물",
+      "weight_pct": -56.84,
+      "shares": -25,
+      "item_code": null
+    }
+  ]
+}

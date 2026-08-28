@@ -1,0 +1,24 @@
+{
+  "ticker": "460270",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(메리츠증권)_251224_3229",
+      "weight_pct": 95.67,
+      "shares": 120215894,
+      "item_code": null
+    },
+    {
+      "name": "[USD] 예금",
+      "weight_pct": 3.19,
+      "shares": 2904,
+      "item_code": null
+    },
+    {
+      "name": "ACE 미국달러SOFR금리(합성)",
+      "weight_pct": 1.13,
+      "shares": 117,
+      "item_code": "456880"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "ticker": "491610",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 74.09,
+      "shares": 77656590,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2025-05이2Y-C",
+      "weight_pct": 12.76,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행28-12-이-2.5-A",
+      "weight_pct": 6.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력1504",
+      "weight_pct": 6.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "Kiwoom Index Swap 20250905_3",
+      "weight_pct": 0.28,
+      "shares": 303211,
+      "item_code": null
+    }
+  ]
+}

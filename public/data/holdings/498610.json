@@ -1,0 +1,324 @@
+{
+  "ticker": "498610",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "BHARTI AIRTEL LTD",
+      "weight_pct": 7.67,
+      "shares": 1161,
+      "item_code": null
+    },
+    {
+      "name": "RELIANCE INDUSTRIES LIMITED",
+      "weight_pct": 7.38,
+      "shares": 1638,
+      "item_code": null
+    },
+    {
+      "name": "ETERNAL LTD",
+      "weight_pct": 7.32,
+      "shares": 6451,
+      "item_code": null
+    },
+    {
+      "name": "INFOSYS LTD",
+      "weight_pct": 6.13,
+      "shares": 1575,
+      "item_code": null
+    },
+    {
+      "name": "TATA CONSULTANCY SVCS LTD",
+      "weight_pct": 6.13,
+      "shares": 778,
+      "item_code": null
+    },
+    {
+      "name": "HCL TECHNOLOGIES LTD",
+      "weight_pct": 5.64,
+      "shares": 1252,
+      "item_code": null
+    },
+    {
+      "name": "TECH MAHINDRA LTD",
+      "weight_pct": 4.16,
+      "shares": 762,
+      "item_code": null
+    },
+    {
+      "name": "PB FINTECH LTD",
+      "weight_pct": 3.7,
+      "shares": 580,
+      "item_code": null
+    },
+    {
+      "name": "JIO FINANCIAL SERVICES LTD",
+      "weight_pct": 3.66,
+      "shares": 4379,
+      "item_code": null
+    },
+    {
+      "name": "ONE 97 COMMUNICATIONS LTD",
+      "weight_pct": 3.63,
+      "shares": 609,
+      "item_code": null
+    },
+    {
+      "name": "DIXON TECHNOLOGIES INDIA LTD",
+      "weight_pct": 2.92,
+      "shares": 57,
+      "item_code": null
+    },
+    {
+      "name": "PERSISTENT SYSTEMS LTD",
+      "weight_pct": 2.82,
+      "shares": 145,
+      "item_code": null
+    },
+    {
+      "name": "SWIGGY LTD",
+      "weight_pct": 2.81,
+      "shares": 2825,
+      "item_code": null
+    },
+    {
+      "name": "COFORGE LIMITED",
+      "weight_pct": 2.66,
+      "shares": 408,
+      "item_code": null
+    },
+    {
+      "name": "WIPRO LTD",
+      "weight_pct": 2.51,
+      "shares": 4088,
+      "item_code": null
+    },
+    {
+      "name": "INDUS TOWERS LTD",
+      "weight_pct": 2.44,
+      "shares": 1863,
+      "item_code": null
+    },
+    {
+      "name": "INFO EDGE INDIA LTD",
+      "weight_pct": 2.4,
+      "shares": 523,
+      "item_code": null
+    },
+    {
+      "name": "FSN E-COMMERCE VENTURES LTD",
+      "weight_pct": 2.34,
+      "shares": 1981,
+      "item_code": null
+    },
+    {
+      "name": "VODAFONE IDEA LTD",
+      "weight_pct": 2.04,
+      "shares": 39052,
+      "item_code": null
+    },
+    {
+      "name": "BILLIONBRAINS GARAGE VENTURE",
+      "weight_pct": 1.72,
+      "shares": 2532,
+      "item_code": null
+    },
+    {
+      "name": "LTM LTD",
+      "weight_pct": 1.45,
+      "shares": 94,
+      "item_code": null
+    },
+    {
+      "name": "ORACLE FINANCIAL SERVICES",
+      "weight_pct": 1.43,
+      "shares": 35,
+      "item_code": null
+    },
+    {
+      "name": "메이크마이트립",
+      "weight_pct": 1.29,
+      "shares": 65,
+      "item_code": "MMYT.O"
+    },
+    {
+      "name": "MPHASIS LTD",
+      "weight_pct": 1.23,
+      "shares": 148,
+      "item_code": null
+    },
+    {
+      "name": "HFCL LTD",
+      "weight_pct": 1.17,
+      "shares": 1434,
+      "item_code": null
+    },
+    {
+      "name": "TATA COMMUNICATIONS LTD",
+      "weight_pct": 0.96,
+      "shares": 168,
+      "item_code": null
+    },
+    {
+      "name": "ANGEL ONE LTD",
+      "weight_pct": 0.95,
+      "shares": 920,
+      "item_code": null
+    },
+    {
+      "name": "COMPUTER AGE MANAGEMENT SERV",
+      "weight_pct": 0.92,
+      "shares": 357,
+      "item_code": null
+    },
+    {
+      "name": "REDINGTON LTD",
+      "weight_pct": 0.92,
+      "shares": 755,
+      "item_code": null
+    },
+    {
+      "name": "SBI CARDS & PAYMENT SERVICES",
+      "weight_pct": 0.78,
+      "shares": 343,
+      "item_code": null
+    },
+    {
+      "name": "TATA TECHNOLOGIES CO",
+      "weight_pct": 0.72,
+      "shares": 263,
+      "item_code": null
+    },
+    {
+      "name": "CARTRADE TECH LTD",
+      "weight_pct": 0.69,
+      "shares": 63,
+      "item_code": null
+    },
+    {
+      "name": "KAYNES TECHNOLOGY INDIA LTD",
+      "weight_pct": 0.63,
+      "shares": 45,
+      "item_code": null
+    },
+    {
+      "name": "BHARTI HEXACOM LTD",
+      "weight_pct": 0.59,
+      "shares": 108,
+      "item_code": null
+    },
+    {
+      "name": "TATA ELXSI LTD",
+      "weight_pct": 0.56,
+      "shares": 44,
+      "item_code": null
+    },
+    {
+      "name": "INVENTURUS KNOWLEDGE SOLUTIO",
+      "weight_pct": 0.53,
+      "shares": 89,
+      "item_code": null
+    },
+    {
+      "name": "AFFLE 3I LTD",
+      "weight_pct": 0.53,
+      "shares": 91,
+      "item_code": null
+    },
+    {
+      "name": "SAGILITY LTD",
+      "weight_pct": 0.5,
+      "shares": 3307,
+      "item_code": null
+    },
+    {
+      "name": "KFIN TECHNOLOGIES LTD",
+      "weight_pct": 0.49,
+      "shares": 146,
+      "item_code": null
+    },
+    {
+      "name": "KPIT TECHNOLOGIES LTD",
+      "weight_pct": 0.49,
+      "shares": 241,
+      "item_code": null
+    },
+    {
+      "name": "HEXAWARE TECHNOLOGIES LTD",
+      "weight_pct": 0.42,
+      "shares": 220,
+      "item_code": null
+    },
+    {
+      "name": "ZEN TECHNOLOGIES LTD",
+      "weight_pct": 0.41,
+      "shares": 63,
+      "item_code": null
+    },
+    {
+      "name": "CYIENT LTD",
+      "weight_pct": 0.37,
+      "shares": 104,
+      "item_code": null
+    },
+    {
+      "name": "L&T TECHNOLOGY SERVICES LTD",
+      "weight_pct": 0.35,
+      "shares": 29,
+      "item_code": null
+    },
+    {
+      "name": "FIRSTSOURCE SOLUTIONS LTD",
+      "weight_pct": 0.35,
+      "shares": 381,
+      "item_code": null
+    },
+    {
+      "name": "ECLERX SERVICES LTD",
+      "weight_pct": 0.33,
+      "shares": 50,
+      "item_code": null
+    },
+    {
+      "name": "INDIAN ENERGY EXCHANGE LTD",
+      "weight_pct": 0.26,
+      "shares": 629,
+      "item_code": null
+    },
+    {
+      "name": "INTELLECT DESIGN ARENA LTD",
+      "weight_pct": 0.23,
+      "shares": 100,
+      "item_code": null
+    },
+    {
+      "name": "INDIAMART INTERMESH LTD",
+      "weight_pct": 0.23,
+      "shares": 39,
+      "item_code": null
+    },
+    {
+      "name": "ZENSAR TECHNOLOGIES LTD",
+      "weight_pct": 0.23,
+      "shares": 144,
+      "item_code": null
+    },
+    {
+      "name": "TEJAS NETWORKS LTD",
+      "weight_pct": 0.21,
+      "shares": 120,
+      "item_code": null
+    },
+    {
+      "name": "BIRLASOFT LTD",
+      "weight_pct": 0.21,
+      "shares": 209,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.83,
+      "shares": -3455871,
+      "item_code": null
+    }
+  ]
+}

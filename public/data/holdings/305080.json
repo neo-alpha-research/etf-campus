@@ -1,0 +1,24 @@
+{
+  "ticker": "305080",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "[USD] 예금",
+      "weight_pct": 95.31,
+      "shares": 850000,
+      "item_code": null
+    },
+    {
+      "name": "US 10YR NOTE FUT (CBOT) DEC 2026",
+      "weight_pct": 94.82,
+      "shares": 7,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 4.68,
+      "shares": 57654888,
+      "item_code": null
+    }
+  ]
+}

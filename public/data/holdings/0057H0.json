@@ -1,0 +1,90 @@
+{
+  "ticker": "0057H0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "PLUS 미국S&P500",
+      "weight_pct": 14.22,
+      "shares": 8442,
+      "item_code": "429760"
+    },
+    {
+      "name": "iShares Core S&P 500 ETF",
+      "weight_pct": 11.53,
+      "shares": 126,
+      "item_code": "IVV"
+    },
+    {
+      "name": "Vanguard 500 Index Fund ETF",
+      "weight_pct": 11.31,
+      "shares": 135,
+      "item_code": "VOO"
+    },
+    {
+      "name": "iShares 0-3 Month Treasury Bond ETF",
+      "weight_pct": 10.82,
+      "shares": 907,
+      "item_code": "SGOV.K"
+    },
+    {
+      "name": "Vanguard 0-3 Month Treasury Bill ETF",
+      "weight_pct": 10.66,
+      "shares": 1189,
+      "item_code": "VBIL.O"
+    },
+    {
+      "name": "State Street SPDR Portfolio S&P 500 ETF",
+      "weight_pct": 10.33,
+      "shares": 967,
+      "item_code": "SPYM.K"
+    },
+    {
+      "name": "Vanguard Ultra-Short Treasury ETF",
+      "weight_pct": 10.16,
+      "shares": 1133,
+      "item_code": "VGUS.O"
+    },
+    {
+      "name": "B 09/17/26",
+      "weight_pct": 4.0,
+      "shares": 33823,
+      "item_code": null
+    },
+    {
+      "name": "B 10/01/26",
+      "weight_pct": 3.82,
+      "shares": 32352,
+      "item_code": null
+    },
+    {
+      "name": "B 11/27/26",
+      "weight_pct": 3.81,
+      "shares": 32500,
+      "item_code": null
+    },
+    {
+      "name": "B 12/17/26",
+      "weight_pct": 3.63,
+      "shares": 31029,
+      "item_code": null
+    },
+    {
+      "name": "B 01/21/27",
+      "weight_pct": 2.91,
+      "shares": 25000,
+      "item_code": null
+    },
+    {
+      "name": "삼성 S&P500 ETN",
+      "weight_pct": 2.79,
+      "shares": 1663,
+      "item_code": "530112"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.05,
+      "shares": -611120,
+      "item_code": null
+    }
+  ]
+}

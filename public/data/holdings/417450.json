@@ -1,0 +1,174 @@
+{
+  "ticker": "417450",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "두산퓨얼셀",
+      "weight_pct": 8.53,
+      "shares": 1518,
+      "item_code": "336260"
+    },
+    {
+      "name": "블룸 에너지",
+      "weight_pct": 8.14,
+      "shares": 217,
+      "item_code": "BE"
+    },
+    {
+      "name": "플러그 파워",
+      "weight_pct": 8.03,
+      "shares": 21566,
+      "item_code": "PLUG.O"
+    },
+    {
+      "name": "쉘 ADR",
+      "weight_pct": 7.35,
+      "shares": 469,
+      "item_code": "SHEL.K"
+    },
+    {
+      "name": "퓨얼셀 에너지",
+      "weight_pct": 6.64,
+      "shares": 2027,
+      "item_code": "FCEL.O"
+    },
+    {
+      "name": "레조낙 홀딩스",
+      "weight_pct": 4.76,
+      "shares": 276,
+      "item_code": "4004.T"
+    },
+    {
+      "name": "에어 프로덕츠 앤 케미컬스",
+      "weight_pct": 4.75,
+      "shares": 90,
+      "item_code": "APD"
+    },
+    {
+      "name": "CERES POWER HOLDINGS PLC",
+      "weight_pct": 4.69,
+      "shares": 4982,
+      "item_code": null
+    },
+    {
+      "name": "ITM POWER PLC",
+      "weight_pct": 4.63,
+      "shares": 18732,
+      "item_code": null
+    },
+    {
+      "name": "ENEOS 홀딩스",
+      "weight_pct": 4.61,
+      "shares": 3258,
+      "item_code": "5020.T"
+    },
+    {
+      "name": "SFC ENERGY AG-BR",
+      "weight_pct": 4.56,
+      "shares": 1108,
+      "item_code": null
+    },
+    {
+      "name": "AIR LIQUIDE SA",
+      "weight_pct": 4.49,
+      "shares": 133,
+      "item_code": null
+    },
+    {
+      "name": "린드",
+      "weight_pct": 4.41,
+      "shares": 52,
+      "item_code": "LIN.O"
+    },
+    {
+      "name": "BP ADR",
+      "weight_pct": 4.41,
+      "shares": 604,
+      "item_code": "BP"
+    },
+    {
+      "name": "NEL ASA",
+      "weight_pct": 4.34,
+      "shares": 110513,
+      "item_code": null
+    },
+    {
+      "name": "발라드 파워 시스템즈",
+      "weight_pct": 3.5,
+      "shares": 8915,
+      "item_code": "BLDP.O"
+    },
+    {
+      "name": "중국석유화학",
+      "weight_pct": 3.4,
+      "shares": 32941,
+      "item_code": "0386.HK"
+    },
+    {
+      "name": "효성중공업",
+      "weight_pct": 2.97,
+      "shares": 7,
+      "item_code": "298040"
+    },
+    {
+      "name": "HEXAGON PURUS ASA",
+      "weight_pct": 0.92,
+      "shares": 5975,
+      "item_code": null
+    },
+    {
+      "name": "Global X Hydrogen ETF",
+      "weight_pct": 0.79,
+      "shares": 105,
+      "item_code": "HYDR.O"
+    },
+    {
+      "name": "한국가스공사",
+      "weight_pct": 0.58,
+      "shares": 126,
+      "item_code": "036460"
+    },
+    {
+      "name": "이데미쓰 고산",
+      "weight_pct": 0.53,
+      "shares": 364,
+      "item_code": "5019.T"
+    },
+    {
+      "name": "하이스터-예일",
+      "weight_pct": 0.53,
+      "shares": 89,
+      "item_code": "HY"
+    },
+    {
+      "name": "원 가스",
+      "weight_pct": 0.51,
+      "shares": 36,
+      "item_code": "OGS"
+    },
+    {
+      "name": "에어 워터",
+      "weight_pct": 0.5,
+      "shares": 188,
+      "item_code": "4088.T"
+    },
+    {
+      "name": "다이요닛폰산소",
+      "weight_pct": 0.49,
+      "shares": 82,
+      "item_code": "4091.T"
+    },
+    {
+      "name": "CIMC엔릭홀딩스",
+      "weight_pct": 0.49,
+      "shares": 2941,
+      "item_code": "3899.HK"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.32,
+      "shares": 2644190,
+      "item_code": null
+    }
+  ]
+}

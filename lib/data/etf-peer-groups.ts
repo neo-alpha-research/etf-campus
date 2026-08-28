@@ -153,8 +153,7 @@ const data = loadData();
 export function isAutomaticProfile(profile: ComparisonProfile | undefined): profile is ComparisonProfile {
   return Boolean(
     profile &&
-      profile.primaryPeerGroupId &&
-      AUTOMATIC_STATUSES.has(profile.classificationStatus),
+      profile.primaryPeerGroupId
   );
 }
 
@@ -222,7 +221,7 @@ function candidatesForGroup(
   groupId: string,
 ): PeerCandidate[] {
   const group = data.groups.get(groupId);
-  if (!group || !group.automaticEligible) return [];
+  if (!group) return [];
   const candidates = universe
     .filter((candidate) => {
       if (candidate.ticker === target.ticker || !hasUsableMarketData(candidate)) return false;
@@ -452,7 +451,7 @@ function groupOption(
   isPrimary: boolean,
 ): PeerGroupOption | null {
   const group = data.groups.get(groupId);
-  if (!group || !group.automaticEligible) return null;
+  if (!group) return null;
   const memberCount = universe.filter((etf) => {
     const memberProfile = data.profiles.get(etf.ticker);
     return isAutomaticProfile(memberProfile) && memberProfile.primaryPeerGroupId === groupId;

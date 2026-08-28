@@ -1,0 +1,192 @@
+{
+  "ticker": "381560",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "기아",
+      "weight_pct": 9.79,
+      "shares": 691,
+      "item_code": "000270"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 9.18,
+      "shares": 181,
+      "item_code": "012330"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 9.15,
+      "shares": 220,
+      "item_code": "373220"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 8.92,
+      "shares": 234,
+      "item_code": "005490"
+    },
+    {
+      "name": "LG전자",
+      "weight_pct": 8.46,
+      "shares": 380,
+      "item_code": "066570"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 8.05,
+      "shares": 126,
+      "item_code": "006400"
+    },
+    {
+      "name": "현대차",
+      "weight_pct": 8.0,
+      "shares": 179,
+      "item_code": "005380"
+    },
+    {
+      "name": "LS ELECTRIC",
+      "weight_pct": 6.65,
+      "shares": 270,
+      "item_code": "010120"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 5.44,
+      "shares": 35,
+      "item_code": "009150"
+    },
+    {
+      "name": "SK이노베이션",
+      "weight_pct": 4.66,
+      "shares": 371,
+      "item_code": "096770"
+    },
+    {
+      "name": "에코프로비엠",
+      "weight_pct": 4.04,
+      "shares": 305,
+      "item_code": "247540"
+    },
+    {
+      "name": "포스코퓨처엠",
+      "weight_pct": 3.92,
+      "shares": 190,
+      "item_code": "003670"
+    },
+    {
+      "name": "LG이노텍",
+      "weight_pct": 3.82,
+      "shares": 57,
+      "item_code": "011070"
+    },
+    {
+      "name": "현대제철",
+      "weight_pct": 1.71,
+      "shares": 485,
+      "item_code": "004020"
+    },
+    {
+      "name": "한솔케미칼",
+      "weight_pct": 1.18,
+      "shares": 51,
+      "item_code": "014680"
+    },
+    {
+      "name": "두산퓨얼셀",
+      "weight_pct": 1.16,
+      "shares": 230,
+      "item_code": "336260"
+    },
+    {
+      "name": "HL만도",
+      "weight_pct": 1.04,
+      "shares": 184,
+      "item_code": "204320"
+    },
+    {
+      "name": "코오롱인더",
+      "weight_pct": 0.69,
+      "shares": 117,
+      "item_code": "120110"
+    },
+    {
+      "name": "SK이터닉스",
+      "weight_pct": 0.68,
+      "shares": 110,
+      "item_code": "475150"
+    },
+    {
+      "name": "롯데에너지머티리얼즈",
+      "weight_pct": 0.63,
+      "shares": 160,
+      "item_code": "020150"
+    },
+    {
+      "name": "현대위아",
+      "weight_pct": 0.59,
+      "shares": 89,
+      "item_code": "011210"
+    },
+    {
+      "name": "삼화콘덴서",
+      "weight_pct": 0.52,
+      "shares": 43,
+      "item_code": "001820"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.39,
+      "shares": 3484445,
+      "item_code": null
+    },
+    {
+      "name": "SFA넥셀",
+      "weight_pct": 0.26,
+      "shares": 292,
+      "item_code": "222080"
+    },
+    {
+      "name": "한국단자",
+      "weight_pct": 0.22,
+      "shares": 36,
+      "item_code": "025540"
+    },
+    {
+      "name": "SFA",
+      "weight_pct": 0.2,
+      "shares": 75,
+      "item_code": "056190"
+    },
+    {
+      "name": "비나텍",
+      "weight_pct": 0.2,
+      "shares": 27,
+      "item_code": "126340"
+    },
+    {
+      "name": "PI첨단소재",
+      "weight_pct": 0.16,
+      "shares": 78,
+      "item_code": "178920"
+    },
+    {
+      "name": "상아프론테크",
+      "weight_pct": 0.08,
+      "shares": 50,
+      "item_code": "089980"
+    },
+    {
+      "name": "일진하이솔루스",
+      "weight_pct": 0.07,
+      "shares": 61,
+      "item_code": "271940"
+    },
+    {
+      "name": "범한퓨얼셀",
+      "weight_pct": 0.04,
+      "shares": 24,
+      "item_code": "382900"
+    }
+  ]
+}

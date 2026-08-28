@@ -1,0 +1,132 @@
+{
+  "ticker": "0172Y0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 18.73,
+      "shares": 348,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 18.55,
+      "shares": 53,
+      "item_code": "000660"
+    },
+    {
+      "name": "현대건설",
+      "weight_pct": 4.42,
+      "shares": 169,
+      "item_code": "000720"
+    },
+    {
+      "name": "효성중공업",
+      "weight_pct": 4.36,
+      "shares": 7,
+      "item_code": "298040"
+    },
+    {
+      "name": "두산에너빌리티",
+      "weight_pct": 4.13,
+      "shares": 238,
+      "item_code": "034020"
+    },
+    {
+      "name": "파마리서치",
+      "weight_pct": 4.11,
+      "shares": 47,
+      "item_code": "214450"
+    },
+    {
+      "name": "한화에어로스페이스",
+      "weight_pct": 3.95,
+      "shares": 17,
+      "item_code": "012450"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 3.92,
+      "shares": 14,
+      "item_code": "009150"
+    },
+    {
+      "name": "LS ELECTRIC",
+      "weight_pct": 3.86,
+      "shares": 87,
+      "item_code": "010120"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 3.67,
+      "shares": 49,
+      "item_code": "373220"
+    },
+    {
+      "name": "테스",
+      "weight_pct": 3.63,
+      "shares": 123,
+      "item_code": "095610"
+    },
+    {
+      "name": "삼성바이오로직스",
+      "weight_pct": 3.54,
+      "shares": 11,
+      "item_code": "207940"
+    },
+    {
+      "name": "두산",
+      "weight_pct": 3.43,
+      "shares": 14,
+      "item_code": "000150"
+    },
+    {
+      "name": "삼성물산",
+      "weight_pct": 3.41,
+      "shares": 45,
+      "item_code": "028260"
+    },
+    {
+      "name": "현대차",
+      "weight_pct": 3.3,
+      "shares": 41,
+      "item_code": "005380"
+    },
+    {
+      "name": "SK스퀘어",
+      "weight_pct": 3.24,
+      "shares": 15,
+      "item_code": "402340"
+    },
+    {
+      "name": "HD현대중공업",
+      "weight_pct": 3.13,
+      "shares": 33,
+      "item_code": "329180"
+    },
+    {
+      "name": "기아",
+      "weight_pct": 2.65,
+      "shares": 104,
+      "item_code": "000270"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 2.64,
+      "shares": 29,
+      "item_code": "012330"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.64,
+      "shares": 3196643,
+      "item_code": null
+    },
+    {
+      "name": "삼양식품",
+      "weight_pct": 0.59,
+      "shares": 2,
+      "item_code": "003230"
+    }
+  ]
+}

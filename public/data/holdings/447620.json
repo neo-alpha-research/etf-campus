@@ -1,0 +1,60 @@
+{
+  "ticker": "447620",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "국고03875-2612(23-10)",
+      "weight_pct": 24.69,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SOL 초단기채권액티브",
+      "weight_pct": 15.7,
+      "shares": 4548,
+      "item_code": "469830"
+    },
+    {
+      "name": "마이크로소프트",
+      "weight_pct": 12.04,
+      "shares": 276,
+      "item_code": "MSFT.O"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 9.96,
+      "shares": 436,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "애플",
+      "weight_pct": 9.4,
+      "shares": 341,
+      "item_code": "AAPL.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 8.95,
+      "shares": 486,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 8.71,
+      "shares": 290,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "SOL CD금리&머니마켓액티브",
+      "weight_pct": 7.74,
+      "shares": 2436,
+      "item_code": "497880"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 2.76,
+      "shares": 43579511,
+      "item_code": null
+    }
+  ]
+}

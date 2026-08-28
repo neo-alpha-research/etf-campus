@@ -1,0 +1,132 @@
+{
+  "ticker": "368680",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "셀트리온",
+      "weight_pct": 11.27,
+      "shares": 488,
+      "item_code": "068270"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 11.2,
+      "shares": 163,
+      "item_code": "006400"
+    },
+    {
+      "name": "삼성바이오로직스",
+      "weight_pct": 10.2,
+      "shares": 53,
+      "item_code": "207940"
+    },
+    {
+      "name": "알테오젠",
+      "weight_pct": 9.63,
+      "shares": 256,
+      "item_code": "196170"
+    },
+    {
+      "name": "NAVER",
+      "weight_pct": 9.46,
+      "shares": 362,
+      "item_code": "035420"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 9.44,
+      "shares": 211,
+      "item_code": "373220"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 9.31,
+      "shares": 227,
+      "item_code": "005490"
+    },
+    {
+      "name": "LG화학",
+      "weight_pct": 7.09,
+      "shares": 214,
+      "item_code": "051910"
+    },
+    {
+      "name": "카카오",
+      "weight_pct": 6.43,
+      "shares": 1479,
+      "item_code": "035720"
+    },
+    {
+      "name": "포스코퓨처엠",
+      "weight_pct": 3.35,
+      "shares": 151,
+      "item_code": "003670"
+    },
+    {
+      "name": "크래프톤",
+      "weight_pct": 3.31,
+      "shares": 125,
+      "item_code": "259960"
+    },
+    {
+      "name": "NC",
+      "weight_pct": 2.15,
+      "shares": 80,
+      "item_code": "036570"
+    },
+    {
+      "name": "SK바이오팜",
+      "weight_pct": 1.9,
+      "shares": 179,
+      "item_code": "326030"
+    },
+    {
+      "name": "삼성에피스홀딩스",
+      "weight_pct": 1.39,
+      "shares": 30,
+      "item_code": "0126Z0"
+    },
+    {
+      "name": "대한광통신",
+      "weight_pct": 1.06,
+      "shares": 592,
+      "item_code": "010170"
+    },
+    {
+      "name": "펄어비스",
+      "weight_pct": 0.65,
+      "shares": 171,
+      "item_code": "263750"
+    },
+    {
+      "name": "넷마블",
+      "weight_pct": 0.6,
+      "shares": 139,
+      "item_code": "251270"
+    },
+    {
+      "name": "시프트업",
+      "weight_pct": 0.6,
+      "shares": 153,
+      "item_code": "462870"
+    },
+    {
+      "name": "RFHIC",
+      "weight_pct": 0.44,
+      "shares": 75,
+      "item_code": "218410"
+    },
+    {
+      "name": "인텔리안테크",
+      "weight_pct": 0.27,
+      "shares": 35,
+      "item_code": "189300"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.14,
+      "shares": 1202376,
+      "item_code": null
+    }
+  ]
+}

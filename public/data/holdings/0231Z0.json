@@ -1,0 +1,102 @@
+{
+  "ticker": "0231Z0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "RISE 코스피",
+      "weight_pct": 19.46,
+      "shares": 1394,
+      "item_code": "302450"
+    },
+    {
+      "name": "KODEX 200가치저변동",
+      "weight_pct": 12.7,
+      "shares": 2293,
+      "item_code": "223190"
+    },
+    {
+      "name": "KODEX ESG종합채권(A-이상)액티브",
+      "weight_pct": 12.22,
+      "shares": 550,
+      "item_code": "439860"
+    },
+    {
+      "name": "RISE 200",
+      "weight_pct": 9.72,
+      "shares": 452,
+      "item_code": "148020"
+    },
+    {
+      "name": "HANARO Fn K-반도체",
+      "weight_pct": 9.46,
+      "shares": 862,
+      "item_code": "395270"
+    },
+    {
+      "name": "KODEX 머니마켓액티브",
+      "weight_pct": 6.7,
+      "shares": 325,
+      "item_code": "488770"
+    },
+    {
+      "name": "PLUS 200",
+      "weight_pct": 5.18,
+      "shares": 239,
+      "item_code": "152100"
+    },
+    {
+      "name": "KODEX IT",
+      "weight_pct": 5.02,
+      "shares": 378,
+      "item_code": "266370"
+    },
+    {
+      "name": "KODEX 반도체",
+      "weight_pct": 4.75,
+      "shares": 191,
+      "item_code": "091160"
+    },
+    {
+      "name": "PLUS 코스피",
+      "weight_pct": 4.44,
+      "shares": 317,
+      "item_code": "227830"
+    },
+    {
+      "name": "ACE 200",
+      "weight_pct": 3.55,
+      "shares": 166,
+      "item_code": "105190"
+    },
+    {
+      "name": "ACE 코스피",
+      "weight_pct": 3.01,
+      "shares": 216,
+      "item_code": "305050"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 2.53,
+      "shares": 12938960,
+      "item_code": null
+    },
+    {
+      "name": "KODEX 단기채권PLUS",
+      "weight_pct": 0.56,
+      "shares": 25,
+      "item_code": "214980"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 0.33,
+      "shares": 1,
+      "item_code": "000660"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 0.31,
+      "shares": 6,
+      "item_code": "005930"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "ticker": "0224D0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 25.89,
+      "shares": 178,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "인텔",
+      "weight_pct": 20.23,
+      "shares": 758,
+      "item_code": "INTC.O"
+    },
+    {
+      "name": "퀄컴",
+      "weight_pct": 15.72,
+      "shares": 317,
+      "item_code": "QCOM.O"
+    },
+    {
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 13.0,
+      "shares": 171,
+      "item_code": "ARM.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 8.65,
+      "shares": 136,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "애플",
+      "weight_pct": 7.74,
+      "shares": 81,
+      "item_code": "AAPL.O"
+    },
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 3.9,
+      "shares": 30,
+      "item_code": "TSM"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 2.99,
+      "shares": 27,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.29,
+      "shares": 5924415,
+      "item_code": null
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 0.38,
+      "shares": 5,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "케이던스 디자인 시스템즈",
+      "weight_pct": 0.15,
+      "shares": 1,
+      "item_code": "CDNS.O"
+    }
+  ]
+}

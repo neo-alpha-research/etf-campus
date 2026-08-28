@@ -1,0 +1,24 @@
+{
+  "ticker": "0197W0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 101.97,
+      "shares": 130,
+      "item_code": "000660"
+    },
+    {
+      "name": "2026-09 SK하이닉스개별선물",
+      "weight_pct": 97.63,
+      "shares": 12,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -1.94,
+      "shares": -4311412,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "ticker": "465580",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "마이크로소프트",
+      "weight_pct": 18.56,
+      "shares": 324,
+      "item_code": "MSFT.O"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 15.32,
+      "shares": 510,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 14.74,
+      "shares": 609,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "애플",
+      "weight_pct": 14.36,
+      "shares": 397,
+      "item_code": "AAPL.O"
+    },
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 13.54,
+      "shares": 343,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "스페이스X",
+      "weight_pct": 9.01,
+      "shares": 559,
+      "item_code": "SPCX.O"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 8.78,
+      "shares": 214,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "메타",
+      "weight_pct": 1.52,
+      "shares": 23,
+      "item_code": "META.O"
+    },
+    {
+      "name": "마이크론 테크놀로지",
+      "weight_pct": 1.51,
+      "shares": 14,
+      "item_code": "MU.O"
+    },
+    {
+      "name": "테슬라",
+      "weight_pct": 1.39,
+      "shares": 35,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.22,
+      "shares": 14627726,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "ticker": "360150",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "2026-09 코스닥150선물",
+      "weight_pct": 80.98,
+      "shares": 17,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 72.05,
+      "shares": 229335152,
+      "item_code": null
+    },
+    {
+      "name": "KODEX 코스닥150",
+      "weight_pct": 19.43,
+      "shares": 4267,
+      "item_code": "229200"
+    },
+    {
+      "name": "KODEX 인버스",
+      "weight_pct": 8.5,
+      "shares": 26829,
+      "item_code": "114800"
+    },
+    {
+      "name": "2026-09 코스피200지수선물",
+      "weight_pct": -91.59,
+      "shares": -1,
+      "item_code": null
+    }
+  ]
+}

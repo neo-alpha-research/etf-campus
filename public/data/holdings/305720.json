@@ -1,0 +1,162 @@
+{
+  "ticker": "305720",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 20.76,
+      "shares": 851,
+      "item_code": "373220"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 18.43,
+      "shares": 492,
+      "item_code": "006400"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 13.63,
+      "shares": 610,
+      "item_code": "005490"
+    },
+    {
+      "name": "LG화학",
+      "weight_pct": 10.01,
+      "shares": 554,
+      "item_code": "051910"
+    },
+    {
+      "name": "에코프로비엠",
+      "weight_pct": 7.15,
+      "shares": 921,
+      "item_code": "247540"
+    },
+    {
+      "name": "에코프로",
+      "weight_pct": 6.59,
+      "shares": 1088,
+      "item_code": "086520"
+    },
+    {
+      "name": "포스코퓨처엠",
+      "weight_pct": 5.29,
+      "shares": 437,
+      "item_code": "003670"
+    },
+    {
+      "name": "SK이노베이션",
+      "weight_pct": 5.18,
+      "shares": 703,
+      "item_code": "096770"
+    },
+    {
+      "name": "엘앤에프",
+      "weight_pct": 3.09,
+      "shares": 362,
+      "item_code": "066970"
+    },
+    {
+      "name": "SKC",
+      "weight_pct": 1.4,
+      "shares": 237,
+      "item_code": "011790"
+    },
+    {
+      "name": "서진시스템",
+      "weight_pct": 1.36,
+      "shares": 501,
+      "item_code": "178320"
+    },
+    {
+      "name": "에코프로머티",
+      "weight_pct": 0.93,
+      "shares": 369,
+      "item_code": "450080"
+    },
+    {
+      "name": "나노신소재",
+      "weight_pct": 0.9,
+      "shares": 269,
+      "item_code": "121600"
+    },
+    {
+      "name": "코스모신소재",
+      "weight_pct": 0.77,
+      "shares": 289,
+      "item_code": "005070"
+    },
+    {
+      "name": "엔켐",
+      "weight_pct": 0.75,
+      "shares": 505,
+      "item_code": "348370"
+    },
+    {
+      "name": "대주전자재료",
+      "weight_pct": 0.7,
+      "shares": 116,
+      "item_code": "078600"
+    },
+    {
+      "name": "롯데에너지머티리얼즈",
+      "weight_pct": 0.7,
+      "shares": 304,
+      "item_code": "020150"
+    },
+    {
+      "name": "후성",
+      "weight_pct": 0.45,
+      "shares": 533,
+      "item_code": "093370"
+    },
+    {
+      "name": "SK아이이테크놀로지",
+      "weight_pct": 0.42,
+      "shares": 352,
+      "item_code": "361610"
+    },
+    {
+      "name": "피엔티",
+      "weight_pct": 0.38,
+      "shares": 194,
+      "item_code": "137400"
+    },
+    {
+      "name": "SFA넥셀",
+      "weight_pct": 0.3,
+      "shares": 559,
+      "item_code": "222080"
+    },
+    {
+      "name": "코스모화학",
+      "weight_pct": 0.2,
+      "shares": 281,
+      "item_code": "005420"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.17,
+      "shares": 2626781,
+      "item_code": null
+    },
+    {
+      "name": "한중엔시에스",
+      "weight_pct": 0.15,
+      "shares": 57,
+      "item_code": "107640"
+    },
+    {
+      "name": "솔브레인홀딩스",
+      "weight_pct": 0.11,
+      "shares": 39,
+      "item_code": "036830"
+    },
+    {
+      "name": "하나기술",
+      "weight_pct": 0.05,
+      "shares": 57,
+      "item_code": "299030"
+    }
+  ]
+}

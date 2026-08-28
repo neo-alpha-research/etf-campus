@@ -8,7 +8,7 @@ import { Suspense, useEffect, useLayoutEffect, useRef, useState, type KeyboardEv
 import { Tickery } from "@/components/brand/tickery";
 import { AsOfDate, PensionBadge, ReturnCell } from "@/components/etf";
 import { getClassificationFields } from "@/lib/domain/etf-classification";
-import { formatAsOfDate, formatAumNumber, formatTradeValueNumber, formatWonNumber } from "@/lib/domain/etf-format";
+import { formatAsOfDate, formatAumNumber, formatMoney, formatTradeValueNumber, formatWonNumber } from "@/lib/domain/etf-format";
 import {
   DEFAULT_EXPLORER_STATE,
   applyExplorerFilters,
@@ -92,10 +92,6 @@ function getAllowedRiskTypes(mode: InvestorMode): readonly RiskType[] {
   return [];
 }
 
-function SearchSuggestionMeta({ etf }: { etf: Pick<Etf, "assetClass" | "ticker"> }) {
-  const assetClass = etf.assetClass.replace("주식-", "");
-  return <span className="hidden shrink-0 text-xs text-muted sm:inline">{assetClass}</span>;
-}
 
 function CompactAssetClassLabel({ value }: { value: string }) {
   if (value === "금리/파킹" || value === "금리·파킹") {
@@ -285,7 +281,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
       <section aria-label="ETF 검색과 정렬" className="mt-3 rounded-2xl border border-brand-200 bg-brand-50/40 p-3 shadow-sm sm:p-4">
         <div
-          className="flex flex-col gap-2 sm:flex-row sm:items-center"
+          className="relative z-50 flex flex-col gap-2 sm:flex-row sm:items-center"
           onBlur={(event) => {
             if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
               setSearchFocused(false);
@@ -317,30 +313,81 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
             </label>
             {state.query ? <button aria-label="검색어 지우기" className="absolute right-2 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center rounded-lg text-lg text-muted hover:bg-neutral-100" onClick={() => { setExplorerState({ query: "" }); setActiveSuggestion(-1); }} type="button">×</button> : null}
             {showSearchSuggestions ? (
-              <div className="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-xl border border-line bg-surface shadow-xl">
+              <div className="absolute inset-x-0 top-full z-50 mt-2 max-h-[420px] overflow-y-auto rounded-2xl border border-line bg-surface shadow-2xl">
                 <ul aria-label="ETF 검색 자동완성" id="etf-search-suggestions" role="listbox">
-                  {searchSuggestions.map((etf, index) => (
-                    <li key={etf.ticker}>
-                      <Link
-                        aria-selected={activeSuggestion === index}
-                        className={`flex min-h-14 items-center gap-3 border-b border-line px-4 py-2.5 last:border-b-0 hover:bg-brand-50 ${activeSuggestion === index ? "bg-brand-50" : ""}`}
-                        href={`/etf/${etf.ticker}/`}
-                        id={`etf-suggestion-${index}`}
-                        onMouseEnter={() => setActiveSuggestion(index)}
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => {
-                          setSearchFocused(false);
-                          setActiveSuggestion(-1);
-                        }}
-                        role="option"
-                      >
-                        <span className="tabular-nums w-14 shrink-0 text-xs font-semibold text-muted">{etf.ticker}</span>
-                        <span className="line-clamp-2 min-w-0 flex-1 text-sm font-bold leading-5 text-strong [overflow-wrap:anywhere]">{etf.name}</span>
-                        <SearchSuggestionMeta etf={etf} />
-                        <PensionBadge compact status={etf.pension} />
-                      </Link>
-                    </li>
-                  ))}
+                  {searchSuggestions.map((etf, index) => {
+                    const isPositive = etf.changePct > 0;
+                    const isNegative = etf.changePct < 0;
+                    const cleanAssetClass = etf.assetClass.replace("주식-", "");
+
+                    return (
+                      <li key={etf.ticker}>
+                        <Link
+                          aria-selected={activeSuggestion === index}
+                          className={`flex flex-col gap-1 border-b border-line/60 px-4 py-2.5 last:border-b-0 hover:bg-brand-50/70 transition-colors ${
+                            activeSuggestion === index ? "bg-brand-50/70" : "bg-surface"
+                          }`}
+                          href={`/etf/${etf.ticker}/`}
+                          id={`etf-suggestion-${index}`}
+                          onMouseEnter={() => setActiveSuggestion(index)}
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => {
+                            setSearchFocused(false);
+                            setActiveSuggestion(-1);
+                          }}
+                          role="option"
+                        >
+                          {/* Row 1: ETF Name + Badges + ChangePct */}
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="line-clamp-1 min-w-0 flex-1 text-[14px] sm:text-[15px] font-bold text-strong tracking-tight">
+                              {etf.name}
+                            </span>
+                            <div className="flex items-center gap-2 shrink-0">
+                              {etf.pension === "가능" ? (
+                                <span className="rounded-md bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 text-[11px] font-bold text-emerald-700">
+                                  연금 가능
+                                </span>
+                              ) : etf.pension === "불가" ? (
+                                <span className="rounded-md bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 text-[11px] font-medium text-neutral-500">
+                                  일반 전용
+                                </span>
+                              ) : null}
+                              <span
+                                className={`text-xs font-black tabular-nums ${
+                                  isPositive
+                                    ? "text-rose-600"
+                                    : isNegative
+                                    ? "text-blue-600"
+                                    : "text-neutral-500"
+                                }`}
+                              >
+                                {isPositive ? `+${etf.changePct.toFixed(2)}%` : `${etf.changePct.toFixed(2)}%`}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Row 2: Ticker + AssetClass Badge + Strategy Badge + AUM */}
+                          <div className="flex items-center gap-2 text-xs text-muted">
+                            <span className="font-semibold tabular-nums text-neutral-600 bg-neutral-100 px-1.5 py-0.5 rounded text-[11px]">
+                              {etf.ticker}
+                            </span>
+                            <span className="rounded bg-brand-50 px-1.5 py-0.5 text-[11px] font-semibold text-brand-800 border border-brand-200">
+                              {cleanAssetClass}
+                            </span>
+                            {etf.classification?.strategy && etf.classification.strategy !== "패시브" && (
+                              <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] font-semibold text-amber-800 border border-amber-200">
+                                {etf.classification.strategy}
+                              </span>
+                            )}
+                            <span className="text-neutral-300">·</span>
+                            <span className="tabular-nums text-[11px] font-medium text-muted">
+                              순자산 {formatMoney(etf.aum)}
+                            </span>
+                          </div>
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ) : null}

@@ -1,0 +1,132 @@
+{
+  "ticker": "0005G0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 21.49,
+      "shares": 2058,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 20.37,
+      "shares": 300,
+      "item_code": "000660"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 18.54,
+      "shares": 341,
+      "item_code": "009150"
+    },
+    {
+      "name": "한미반도체",
+      "weight_pct": 12.5,
+      "shares": 1435,
+      "item_code": "042700"
+    },
+    {
+      "name": "이수페타시스",
+      "weight_pct": 8.23,
+      "shares": 1859,
+      "item_code": "007660"
+    },
+    {
+      "name": "리노공업",
+      "weight_pct": 4.43,
+      "shares": 1695,
+      "item_code": "058470"
+    },
+    {
+      "name": "심텍",
+      "weight_pct": 4.21,
+      "shares": 845,
+      "item_code": "222800"
+    },
+    {
+      "name": "ISC",
+      "weight_pct": 2.33,
+      "shares": 348,
+      "item_code": "095340"
+    },
+    {
+      "name": "한화비전",
+      "weight_pct": 2.3,
+      "shares": 1140,
+      "item_code": "489790"
+    },
+    {
+      "name": "피에스케이홀딩스",
+      "weight_pct": 1.21,
+      "shares": 243,
+      "item_code": "031980"
+    },
+    {
+      "name": "티엘비",
+      "weight_pct": 0.87,
+      "shares": 535,
+      "item_code": "356860"
+    },
+    {
+      "name": "와이씨",
+      "weight_pct": 0.64,
+      "shares": 1319,
+      "item_code": "232140"
+    },
+    {
+      "name": "디아이",
+      "weight_pct": 0.59,
+      "shares": 600,
+      "item_code": "003160"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.55,
+      "shares": 14251934,
+      "item_code": null
+    },
+    {
+      "name": "세미파이브",
+      "weight_pct": 0.36,
+      "shares": 594,
+      "item_code": "490470"
+    },
+    {
+      "name": "네오셈",
+      "weight_pct": 0.29,
+      "shares": 675,
+      "item_code": "253590"
+    },
+    {
+      "name": "AP시스템",
+      "weight_pct": 0.29,
+      "shares": 381,
+      "item_code": "265520"
+    },
+    {
+      "name": "오픈엣지테크놀로지",
+      "weight_pct": 0.27,
+      "shares": 757,
+      "item_code": "394280"
+    },
+    {
+      "name": "유니테스트",
+      "weight_pct": 0.23,
+      "shares": 550,
+      "item_code": "086390"
+    },
+    {
+      "name": "미래산업",
+      "weight_pct": 0.11,
+      "shares": 447,
+      "item_code": "025560"
+    },
+    {
+      "name": "아크릴",
+      "weight_pct": 0.08,
+      "shares": 148,
+      "item_code": "0007C0"
+    }
+  ]
+}

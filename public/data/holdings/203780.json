@@ -1,0 +1,1506 @@
+{
+  "ticker": "203780",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "암젠",
+      "weight_pct": 8.61,
+      "shares": 104,
+      "item_code": "AMGN.O"
+    },
+    {
+      "name": "버텍스 파마슈티컬",
+      "weight_pct": 8.05,
+      "shares": 78,
+      "item_code": "VRTX.O"
+    },
+    {
+      "name": "길리어드 사이언시스",
+      "weight_pct": 7.25,
+      "shares": 260,
+      "item_code": "GILD.O"
+    },
+    {
+      "name": "리제네론 파마슈티컬스",
+      "weight_pct": 5.27,
+      "shares": 34,
+      "item_code": "REGN.O"
+    },
+    {
+      "name": "모더나",
+      "weight_pct": 3.72,
+      "shares": 132,
+      "item_code": "MRNA.O"
+    },
+    {
+      "name": "레볼루션 메디신",
+      "weight_pct": 2.87,
+      "shares": 71,
+      "item_code": "RVMD.O"
+    },
+    {
+      "name": "일루미나",
+      "weight_pct": 2.13,
+      "shares": 50,
+      "item_code": "ILMN.O"
+    },
+    {
+      "name": "바이오젠",
+      "weight_pct": 2.04,
+      "shares": 49,
+      "item_code": "BIIB.O"
+    },
+    {
+      "name": "앨나일램 파마슈티컬스",
+      "weight_pct": 2.0,
+      "shares": 44,
+      "item_code": "ALNY.O"
+    },
+    {
+      "name": "아겐스 ADR",
+      "weight_pct": 1.81,
+      "shares": 9,
+      "item_code": "ARGX.O"
+    },
+    {
+      "name": "로열티 파마",
+      "weight_pct": 1.72,
+      "shares": 148,
+      "item_code": "RPRX.O"
+    },
+    {
+      "name": "인스메드",
+      "weight_pct": 1.69,
+      "shares": 72,
+      "item_code": "INSM.O"
+    },
+    {
+      "name": "로이반트 사이언시스",
+      "weight_pct": 1.66,
+      "shares": 240,
+      "item_code": "ROIV.O"
+    },
+    {
+      "name": "인사이트",
+      "weight_pct": 1.6,
+      "shares": 66,
+      "item_code": "INCY.O"
+    },
+    {
+      "name": "가단트 헬쓰",
+      "weight_pct": 1.42,
+      "shares": 44,
+      "item_code": "GH.O"
+    },
+    {
+      "name": "유나이티드 테라퓨틱스",
+      "weight_pct": 1.37,
+      "shares": 14,
+      "item_code": "UTHR.O"
+    },
+    {
+      "name": "비아트리스",
+      "weight_pct": 1.23,
+      "shares": 389,
+      "item_code": "VTRS.O"
+    },
+    {
+      "name": "메드페이스 홀딩스",
+      "weight_pct": 1.1,
+      "shares": 9,
+      "item_code": "MEDP.O"
+    },
+    {
+      "name": "뉴로크린 바이오사이언시스",
+      "weight_pct": 0.98,
+      "shares": 33,
+      "item_code": "NBIX.O"
+    },
+    {
+      "name": "재즈 파마슈티컬스",
+      "weight_pct": 0.98,
+      "shares": 20,
+      "item_code": "JAZZ.O"
+    },
+    {
+      "name": "브릿지바이오 파머",
+      "weight_pct": 0.97,
+      "shares": 65,
+      "item_code": "BBIO.O"
+    },
+    {
+      "name": "어센디스 파마 ADR",
+      "weight_pct": 0.96,
+      "shares": 20,
+      "item_code": "ASND.O"
+    },
+    {
+      "name": "엑셀리시스",
+      "weight_pct": 0.88,
+      "shares": 84,
+      "item_code": "EXEL.O"
+    },
+    {
+      "name": "바이오엔테크 ADR",
+      "weight_pct": 0.82,
+      "shares": 38,
+      "item_code": "BNTX.O"
+    },
+    {
+      "name": "할로자임 테라퓨틱스",
+      "weight_pct": 0.79,
+      "shares": 39,
+      "item_code": "HALO.O"
+    },
+    {
+      "name": "바이오마린 파마슈티컬",
+      "weight_pct": 0.79,
+      "shares": 64,
+      "item_code": "BMRN.O"
+    },
+    {
+      "name": "애로우헤드 파마슈티컬스",
+      "weight_pct": 0.78,
+      "shares": 47,
+      "item_code": "ARWR.O"
+    },
+    {
+      "name": "매드리갈 파마슈티컬스",
+      "weight_pct": 0.77,
+      "shares": 7,
+      "item_code": "MDGL.O"
+    },
+    {
+      "name": "비원 메디슨스 ADR",
+      "weight_pct": 0.77,
+      "shares": 11,
+      "item_code": "ONC.O"
+    },
+    {
+      "name": "템퍼스 AI",
+      "weight_pct": 0.75,
+      "shares": 58,
+      "item_code": "TEM.O"
+    },
+    {
+      "name": "서밋 테라퓨틱스 ADR",
+      "weight_pct": 0.69,
+      "shares": 259,
+      "item_code": "SMMT.O"
+    },
+    {
+      "name": "사이토키네틱스",
+      "weight_pct": 0.67,
+      "shares": 45,
+      "item_code": "CYTK.O"
+    },
+    {
+      "name": "크리스탈 바이오텍",
+      "weight_pct": 0.66,
+      "shares": 9,
+      "item_code": "KRYS.O"
+    },
+    {
+      "name": "사노피 ADR",
+      "weight_pct": 0.66,
+      "shares": 77,
+      "item_code": "SNY.O"
+    },
+    {
+      "name": "프락시스 프리시젼 메디신",
+      "weight_pct": 0.66,
+      "shares": 9,
+      "item_code": "PRAX.O"
+    },
+    {
+      "name": "액섬 테라퓨틱스",
+      "weight_pct": 0.66,
+      "shares": 17,
+      "item_code": "AXSM.O"
+    },
+    {
+      "name": "아이오니스 파마슈티컬스",
+      "weight_pct": 0.65,
+      "shares": 55,
+      "item_code": "IONS.O"
+    },
+    {
+      "name": "키메라 테라퓨틱스",
+      "weight_pct": 0.64,
+      "shares": 27,
+      "item_code": "KYMR.O"
+    },
+    {
+      "name": "프로타고니스트 테라퓨틱스",
+      "weight_pct": 0.61,
+      "shares": 21,
+      "item_code": "PTGX.O"
+    },
+    {
+      "name": "트위스트 바이오사이언스",
+      "weight_pct": 0.58,
+      "shares": 20,
+      "item_code": "TWST.O"
+    },
+    {
+      "name": "이뮤노반트",
+      "weight_pct": 0.56,
+      "shares": 68,
+      "item_code": "IMVT.O"
+    },
+    {
+      "name": "크리네틱스 파머슈티컬스",
+      "weight_pct": 0.56,
+      "shares": 35,
+      "item_code": "CRNX.O"
+    },
+    {
+      "name": "백사이트",
+      "weight_pct": 0.55,
+      "shares": 48,
+      "item_code": "PCVX.O"
+    },
+    {
+      "name": "이뮤니티바이오",
+      "weight_pct": 0.54,
+      "shares": 350,
+      "item_code": "IBRX.O"
+    },
+    {
+      "name": "아포지 테라퓨틱스",
+      "weight_pct": 0.52,
+      "shares": 20,
+      "item_code": "APGE.O"
+    },
+    {
+      "name": "스파이어 테라퓨틱스",
+      "weight_pct": 0.51,
+      "shares": 29,
+      "item_code": "SYRE.O"
+    },
+    {
+      "name": "앨커미스",
+      "weight_pct": 0.51,
+      "shares": 55,
+      "item_code": "ALKS.O"
+    },
+    {
+      "name": "리듬 파머수티컬스",
+      "weight_pct": 0.48,
+      "shares": 22,
+      "item_code": "RYTM.O"
+    },
+    {
+      "name": "카리스 라이프 사이언시스",
+      "weight_pct": 0.47,
+      "shares": 94,
+      "item_code": "CAI.O"
+    },
+    {
+      "name": "10X 제노믹스",
+      "weight_pct": 0.47,
+      "shares": 39,
+      "item_code": "TXG.O"
+    },
+    {
+      "name": "스칼러 락 홀딩",
+      "weight_pct": 0.45,
+      "shares": 40,
+      "item_code": "SRRK.O"
+    },
+    {
+      "name": "CG 온콜로지",
+      "weight_pct": 0.43,
+      "shares": 29,
+      "item_code": "CGON.O"
+    },
+    {
+      "name": "아비백스 ADR",
+      "weight_pct": 0.42,
+      "shares": 19,
+      "item_code": "ABVX.O"
+    },
+    {
+      "name": "트래버 테라퓨틱스",
+      "weight_pct": 0.39,
+      "shares": 31,
+      "item_code": "TVTX.O"
+    },
+    {
+      "name": "코젠트 바이오사이언시스",
+      "weight_pct": 0.39,
+      "shares": 57,
+      "item_code": "COGT.O"
+    },
+    {
+      "name": "제논 파마슈티컬",
+      "weight_pct": 0.38,
+      "shares": 32,
+      "item_code": "XENE.O"
+    },
+    {
+      "name": "PTC 테라퓨틱스",
+      "weight_pct": 0.37,
+      "shares": 27,
+      "item_code": "PTCT.O"
+    },
+    {
+      "name": "오루카 테라퓨틱스",
+      "weight_pct": 0.37,
+      "shares": 20,
+      "item_code": "ORKA.O"
+    },
+    {
+      "name": "미럼 파마슈티컬스",
+      "weight_pct": 0.37,
+      "shares": 20,
+      "item_code": "MIRM.O"
+    },
+    {
+      "name": "이래스카",
+      "weight_pct": 0.37,
+      "shares": 103,
+      "item_code": "ERAS.O"
+    },
+    {
+      "name": "리간드 파마슈티컬스",
+      "weight_pct": 0.36,
+      "shares": 6,
+      "item_code": "LGND.O"
+    },
+    {
+      "name": "엠닐 파마슈티컬",
+      "weight_pct": 0.36,
+      "shares": 106,
+      "item_code": "AMRX.O"
+    },
+    {
+      "name": "크리스퍼 테라퓨틱스",
+      "weight_pct": 0.35,
+      "shares": 32,
+      "item_code": "CRSP.O"
+    },
+    {
+      "name": "아카디아 파마슈티컬스",
+      "weight_pct": 0.31,
+      "shares": 57,
+      "item_code": "ACAD.O"
+    },
+    {
+      "name": "데피니움 테라퓨틱스",
+      "weight_pct": 0.29,
+      "shares": 36,
+      "item_code": "DFTX.O"
+    },
+    {
+      "name": "엣지와이즈 테라퓨틱스",
+      "weight_pct": 0.29,
+      "shares": 35,
+      "item_code": "EWTX.O"
+    },
+    {
+      "name": "인디비어 파마슈티컬스",
+      "weight_pct": 0.27,
+      "shares": 40,
+      "item_code": "INDV.O"
+    },
+    {
+      "name": "다인 테라퓨틱스",
+      "weight_pct": 0.27,
+      "shares": 55,
+      "item_code": "DYN.O"
+    },
+    {
+      "name": "릴레이 테라퓨틱스",
+      "weight_pct": 0.26,
+      "shares": 71,
+      "item_code": "RLAY.O"
+    },
+    {
+      "name": "어댑티브 바이오테크놀러지",
+      "weight_pct": 0.26,
+      "shares": 53,
+      "item_code": "ADPT.O"
+    },
+    {
+      "name": "아밀릭스 파마슈티컬스",
+      "weight_pct": 0.25,
+      "shares": 37,
+      "item_code": "AMLX.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.25,
+      "shares": 1877128,
+      "item_code": null
+    },
+    {
+      "name": "스트럭처 테라퓨틱스 ADR",
+      "weight_pct": 0.24,
+      "shares": 26,
+      "item_code": "GPCR.O"
+    },
+    {
+      "name": "디날리 테라퓨틱스",
+      "weight_pct": 0.24,
+      "shares": 53,
+      "item_code": "DNLI.O"
+    },
+    {
+      "name": "탱고 테라퓨틱스",
+      "weight_pct": 0.23,
+      "shares": 48,
+      "item_code": "TNGX.O"
+    },
+    {
+      "name": "앱셀레라 바이오로직스",
+      "weight_pct": 0.23,
+      "shares": 102,
+      "item_code": "ABCL.O"
+    },
+    {
+      "name": "인라이븐 테라퓨틱스",
+      "weight_pct": 0.23,
+      "shares": 20,
+      "item_code": "ELVN.O"
+    },
+    {
+      "name": "이오밴스 바이오테라퓨틱스",
+      "weight_pct": 0.22,
+      "shares": 149,
+      "item_code": "IOVA.O"
+    },
+    {
+      "name": "아이디야 바이오사이언스",
+      "weight_pct": 0.22,
+      "shares": 29,
+      "item_code": "IDYA.O"
+    },
+    {
+      "name": "베라사이트",
+      "weight_pct": 0.22,
+      "shares": 26,
+      "item_code": "VCYT.O"
+    },
+    {
+      "name": "키닉사 파마슈티컬스 인터내셔널",
+      "weight_pct": 0.22,
+      "shares": 15,
+      "item_code": "KNSA.O"
+    },
+    {
+      "name": "그레일",
+      "weight_pct": 0.21,
+      "shares": 14,
+      "item_code": "GRAL.O"
+    },
+    {
+      "name": "뉴암스테르담 파마 컴퍼니",
+      "weight_pct": 0.2,
+      "shares": 39,
+      "item_code": "NAMS.O"
+    },
+    {
+      "name": "유니큐어",
+      "weight_pct": 0.2,
+      "shares": 21,
+      "item_code": "QURE.O"
+    },
+    {
+      "name": "MBX 바이오사이언시스",
+      "weight_pct": 0.19,
+      "shares": 15,
+      "item_code": "MBX.O"
+    },
+    {
+      "name": "타서스 파마슈티컬스",
+      "weight_pct": 0.19,
+      "shares": 14,
+      "item_code": "TARS.O"
+    },
+    {
+      "name": "디스크 메디슨",
+      "weight_pct": 0.19,
+      "shares": 12,
+      "item_code": "IRON.O"
+    },
+    {
+      "name": "아커티스 바이오테라퓨틱스",
+      "weight_pct": 0.19,
+      "shares": 41,
+      "item_code": "ARQT.O"
+    },
+    {
+      "name": "빔 테라퓨틱스",
+      "weight_pct": 0.19,
+      "shares": 34,
+      "item_code": "BEAM.O"
+    },
+    {
+      "name": "알루미스",
+      "weight_pct": 0.18,
+      "shares": 41,
+      "item_code": "ALMS.O"
+    },
+    {
+      "name": "아타이버클리",
+      "weight_pct": 0.17,
+      "shares": 123,
+      "item_code": "ATAI.O"
+    },
+    {
+      "name": "누릭스 테라퓨틱스",
+      "weight_pct": 0.17,
+      "shares": 34,
+      "item_code": "NRIX.O"
+    },
+    {
+      "name": "파바비스 NV",
+      "weight_pct": 0.16,
+      "shares": 23,
+      "item_code": "PHVS.O"
+    },
+    {
+      "name": "젠맵 ADR",
+      "weight_pct": 0.16,
+      "shares": 25,
+      "item_code": "GMAB.O"
+    },
+    {
+      "name": "베라 테라퓨틱스",
+      "weight_pct": 0.16,
+      "shares": 23,
+      "item_code": "VERA.O"
+    },
+    {
+      "name": "울트라제닉스 파마슈티컬",
+      "weight_pct": 0.16,
+      "shares": 32,
+      "item_code": "RARE.O"
+    },
+    {
+      "name": "슈퍼누스 파마슈티컬스",
+      "weight_pct": 0.16,
+      "shares": 19,
+      "item_code": "SUPN.O"
+    },
+    {
+      "name": "프레시젠",
+      "weight_pct": 0.16,
+      "shares": 119,
+      "item_code": "PGEN.O"
+    },
+    {
+      "name": "코디악 사이언스",
+      "weight_pct": 0.15,
+      "shares": 20,
+      "item_code": "KOD.O"
+    },
+    {
+      "name": "트레비 테라퓨틱스",
+      "weight_pct": 0.15,
+      "shares": 47,
+      "item_code": "TRVI.O"
+    },
+    {
+      "name": "라포르 테라퓨틱스",
+      "weight_pct": 0.15,
+      "shares": 15,
+      "item_code": "RAPP.O"
+    },
+    {
+      "name": "바이오크리스트 파마슈티컬스",
+      "weight_pct": 0.15,
+      "shares": 84,
+      "item_code": "BCRX.O"
+    },
+    {
+      "name": "하모니 바이오사이언시스 홀딩스",
+      "weight_pct": 0.14,
+      "shares": 19,
+      "item_code": "HRMY.O"
+    },
+    {
+      "name": "오큘라 테라퓨틱스",
+      "weight_pct": 0.14,
+      "shares": 73,
+      "item_code": "OCUL.O"
+    },
+    {
+      "name": "ADMA 바이오로직스",
+      "weight_pct": 0.14,
+      "shares": 77,
+      "item_code": "ADMA.O"
+    },
+    {
+      "name": "유로젠 파마",
+      "weight_pct": 0.14,
+      "shares": 16,
+      "item_code": "URGN.O"
+    },
+    {
+      "name": "제나스 바이오파마",
+      "weight_pct": 0.13,
+      "shares": 21,
+      "item_code": "ZBIO.O"
+    },
+    {
+      "name": "자임웍스",
+      "weight_pct": 0.13,
+      "shares": 24,
+      "item_code": "ZYME.O"
+    },
+    {
+      "name": "젠코",
+      "weight_pct": 0.13,
+      "shares": 24,
+      "item_code": "XNCR.O"
+    },
+    {
+      "name": "베리셀",
+      "weight_pct": 0.13,
+      "shares": 17,
+      "item_code": "VCEL.O"
+    },
+    {
+      "name": "미네랄리스 테라퓨틱스",
+      "weight_pct": 0.13,
+      "shares": 27,
+      "item_code": "MLYS.O"
+    },
+    {
+      "name": "노보큐어",
+      "weight_pct": 0.13,
+      "shares": 38,
+      "item_code": "NVCR.O"
+    },
+    {
+      "name": "오리니아 파마슈티컬스",
+      "weight_pct": 0.13,
+      "shares": 42,
+      "item_code": "AUPH.O"
+    },
+    {
+      "name": "GH 리서치",
+      "weight_pct": 0.12,
+      "shares": 22,
+      "item_code": "GHRS.O"
+    },
+    {
+      "name": "스토케 테라퓨틱스",
+      "weight_pct": 0.12,
+      "shares": 20,
+      "item_code": "STOK.O"
+    },
+    {
+      "name": "사렙타 테라퓨틱스",
+      "weight_pct": 0.12,
+      "shares": 35,
+      "item_code": "SRPT.O"
+    },
+    {
+      "name": "애지오스 파마슈티컬스",
+      "weight_pct": 0.12,
+      "shares": 19,
+      "item_code": "AGIO.O"
+    },
+    {
+      "name": "컴퍼스패스웨이스 ADR",
+      "weight_pct": 0.12,
+      "shares": 44,
+      "item_code": "CMPS.O"
+    },
+    {
+      "name": "셉테르나",
+      "weight_pct": 0.11,
+      "shares": 15,
+      "item_code": "SEPN.O"
+    },
+    {
+      "name": "인텔리아 테라퓨틱스",
+      "weight_pct": 0.11,
+      "shares": 46,
+      "item_code": "NTLA.O"
+    },
+    {
+      "name": "인히브릭스 바이오사이언시스",
+      "weight_pct": 0.11,
+      "shares": 4,
+      "item_code": "INBX.O"
+    },
+    {
+      "name": "포트레아 홀딩스",
+      "weight_pct": 0.11,
+      "shares": 31,
+      "item_code": "FTRE.O"
+    },
+    {
+      "name": "버 바이오테크놀로지",
+      "weight_pct": 0.11,
+      "shares": 56,
+      "item_code": "VIR.O"
+    },
+    {
+      "name": "신닥스 파마슈티컬스",
+      "weight_pct": 0.11,
+      "shares": 29,
+      "item_code": "SNDX.O"
+    },
+    {
+      "name": "리커젼 파마슈티컬스",
+      "weight_pct": 0.11,
+      "shares": 175,
+      "item_code": "RXRX.O"
+    },
+    {
+      "name": "퍼스날리스",
+      "weight_pct": 0.11,
+      "shares": 35,
+      "item_code": "PSNL.O"
+    },
+    {
+      "name": "바이카라 테라퓨틱스",
+      "weight_pct": 0.1,
+      "shares": 21,
+      "item_code": "BCAX.O"
+    },
+    {
+      "name": "이튼 파마슈티컬즈",
+      "weight_pct": 0.1,
+      "shares": 9,
+      "item_code": "ETON.O"
+    },
+    {
+      "name": "메이즈 테라퓨틱스",
+      "weight_pct": 0.1,
+      "shares": 18,
+      "item_code": "MAZE.O"
+    },
+    {
+      "name": "레전드 바이오테크 ADR",
+      "weight_pct": 0.1,
+      "shares": 28,
+      "item_code": "LEGN.O"
+    },
+    {
+      "name": "이뮤노코어 홀딩스 ADR",
+      "weight_pct": 0.1,
+      "shares": 14,
+      "item_code": "IMCR.O"
+    },
+    {
+      "name": "타이샤 젠 테라피",
+      "weight_pct": 0.1,
+      "shares": 96,
+      "item_code": "TSHA.O"
+    },
+    {
+      "name": "어냅티스바이오",
+      "weight_pct": 0.1,
+      "shares": 9,
+      "item_code": "ANAB.O"
+    },
+    {
+      "name": "ANI 파마슈티컬스",
+      "weight_pct": 0.1,
+      "shares": 7,
+      "item_code": "ANIP.O"
+    },
+    {
+      "name": "퍼스트 트랙스 바이오테라퓨틱",
+      "weight_pct": 0.09,
+      "shares": 11,
+      "item_code": "TRAX.O"
+    },
+    {
+      "name": "이노비바",
+      "weight_pct": 0.09,
+      "shares": 24,
+      "item_code": "INVA.O"
+    },
+    {
+      "name": "해로우",
+      "weight_pct": 0.09,
+      "shares": 12,
+      "item_code": "HROW.O"
+    },
+    {
+      "name": "제리스 바이오파마 홀딩스",
+      "weight_pct": 0.09,
+      "shares": 57,
+      "item_code": "XERS.O"
+    },
+    {
+      "name": "타이라 바이오사이언시스",
+      "weight_pct": 0.09,
+      "shares": 19,
+      "item_code": "TYRA.O"
+    },
+    {
+      "name": "오릭 파마슈티컬스",
+      "weight_pct": 0.09,
+      "shares": 34,
+      "item_code": "ORIC.O"
+    },
+    {
+      "name": "노바백스",
+      "weight_pct": 0.09,
+      "shares": 54,
+      "item_code": "NVAX.O"
+    },
+    {
+      "name": "앱사이",
+      "weight_pct": 0.09,
+      "shares": 52,
+      "item_code": "ABSI.O"
+    },
+    {
+      "name": "알보테크",
+      "weight_pct": 0.09,
+      "shares": 104,
+      "item_code": "ALVO.O"
+    },
+    {
+      "name": "어라이번트 바이오파마",
+      "weight_pct": 0.09,
+      "shares": 15,
+      "item_code": "AVBP.O"
+    },
+    {
+      "name": "보어 바이오파마",
+      "weight_pct": 0.08,
+      "shares": 18,
+      "item_code": "VOR.O"
+    },
+    {
+      "name": "레플리뮨 그룹",
+      "weight_pct": 0.08,
+      "shares": 27,
+      "item_code": "REPL.O"
+    },
+    {
+      "name": "오메로스",
+      "weight_pct": 0.08,
+      "shares": 24,
+      "item_code": "OMER.O"
+    },
+    {
+      "name": "마라바이 라이프사이언시스 홀딩스",
+      "weight_pct": 0.08,
+      "shares": 49,
+      "item_code": "MRVI.O"
+    },
+    {
+      "name": "메이라 지티 엑스 홀딩스",
+      "weight_pct": 0.08,
+      "shares": 30,
+      "item_code": "MGTX.O"
+    },
+    {
+      "name": "컬리넌 테라퓨틱스",
+      "weight_pct": 0.08,
+      "shares": 20,
+      "item_code": "CGEM.O"
+    },
+    {
+      "name": "쿠라 온콜로지",
+      "weight_pct": 0.07,
+      "shares": 29,
+      "item_code": "KURA.O"
+    },
+    {
+      "name": "재넉스 테라퓨틱스",
+      "weight_pct": 0.07,
+      "shares": 20,
+      "item_code": "JANX.O"
+    },
+    {
+      "name": "사바라",
+      "weight_pct": 0.07,
+      "shares": 68,
+      "item_code": "SVRA.O"
+    },
+    {
+      "name": "사나 바이오테크놀로지",
+      "weight_pct": 0.07,
+      "shares": 93,
+      "item_code": "SANA.O"
+    },
+    {
+      "name": "몬테 로사 테라퓨틱스",
+      "weight_pct": 0.07,
+      "shares": 28,
+      "item_code": "GLUE.O"
+    },
+    {
+      "name": "맨카인드",
+      "weight_pct": 0.07,
+      "shares": 103,
+      "item_code": "MNKD.O"
+    },
+    {
+      "name": "코버스 파마슈티컬스",
+      "weight_pct": 0.07,
+      "shares": 28,
+      "item_code": "CRVS.O"
+    },
+    {
+      "name": "웨이브 라이프 사이언스",
+      "weight_pct": 0.06,
+      "shares": 64,
+      "item_code": "WVE.O"
+    },
+    {
+      "name": "캔델 테라퓨틱스",
+      "weight_pct": 0.06,
+      "shares": 24,
+      "item_code": "CADL.O"
+    },
+    {
+      "name": "제론",
+      "weight_pct": 0.06,
+      "shares": 214,
+      "item_code": "GERN.O"
+    },
+    {
+      "name": "그리폴스 ADR",
+      "weight_pct": 0.06,
+      "shares": 40,
+      "item_code": "GRFS.O"
+    },
+    {
+      "name": "솔리드 바이오사이언스",
+      "weight_pct": 0.06,
+      "shares": 32,
+      "item_code": "SLDB.O"
+    },
+    {
+      "name": "파시라 바이오사이언스",
+      "weight_pct": 0.06,
+      "shares": 13,
+      "item_code": "PCRX.O"
+    },
+    {
+      "name": "앰퍼스타 파마슈티컬스",
+      "weight_pct": 0.06,
+      "shares": 14,
+      "item_code": "AMPH.O"
+    },
+    {
+      "name": "아버터스 바이오파마",
+      "weight_pct": 0.06,
+      "shares": 66,
+      "item_code": "ABUS.O"
+    },
+    {
+      "name": "캐슬 바이오사이언스",
+      "weight_pct": 0.06,
+      "shares": 10,
+      "item_code": "CSTL.O"
+    },
+    {
+      "name": "디자인 테라퓨틱스",
+      "weight_pct": 0.06,
+      "shares": 20,
+      "item_code": "DSGN.O"
+    },
+    {
+      "name": "애클래리스 테라퓨틱스",
+      "weight_pct": 0.05,
+      "shares": 46,
+      "item_code": "ACRS.O"
+    },
+    {
+      "name": "4D 몰레큘러 테라퓨틱스",
+      "weight_pct": 0.05,
+      "shares": 17,
+      "item_code": "FDMT.O"
+    },
+    {
+      "name": "자이 랩 ADR",
+      "weight_pct": 0.05,
+      "shares": 11,
+      "item_code": "ZLAB.O"
+    },
+    {
+      "name": "리겔 파마슈티컬스",
+      "weight_pct": 0.05,
+      "shares": 6,
+      "item_code": "RIGL.O"
+    },
+    {
+      "name": "올레마 파마슈티컬",
+      "weight_pct": 0.05,
+      "shares": 29,
+      "item_code": "OLMA.O"
+    },
+    {
+      "name": "메조블라스트 ADR",
+      "weight_pct": 0.05,
+      "shares": 17,
+      "item_code": "MESO.O"
+    },
+    {
+      "name": "아넥슨",
+      "weight_pct": 0.05,
+      "shares": 54,
+      "item_code": "ANNX.O"
+    },
+    {
+      "name": "테라반스 바이오파마",
+      "weight_pct": 0.05,
+      "shares": 17,
+      "item_code": "TBPH.O"
+    },
+    {
+      "name": "콜레지움 파마슈티컬",
+      "weight_pct": 0.05,
+      "shares": 10,
+      "item_code": "COLL.O"
+    },
+    {
+      "name": "아델릭스",
+      "weight_pct": 0.05,
+      "shares": 82,
+      "item_code": "ARDX.O"
+    },
+    {
+      "name": "오라 바이오사이언시스",
+      "weight_pct": 0.05,
+      "shares": 34,
+      "item_code": "AURA.O"
+    },
+    {
+      "name": "사이톰엑스 테라퓨틱스",
+      "weight_pct": 0.04,
+      "shares": 72,
+      "item_code": "CTMX.O"
+    },
+    {
+      "name": "새기멧 바이오사이언시스",
+      "weight_pct": 0.04,
+      "shares": 20,
+      "item_code": "SGMT.O"
+    },
+    {
+      "name": "아이언우드 파마슈티컬스",
+      "weight_pct": 0.04,
+      "shares": 55,
+      "item_code": "IRWD.O"
+    },
+    {
+      "name": "제브러 테라퓨틱스",
+      "weight_pct": 0.04,
+      "shares": 19,
+      "item_code": "ZVRA.O"
+    },
+    {
+      "name": "텍토닉 테라퓨틱",
+      "weight_pct": 0.04,
+      "shares": 6,
+      "item_code": "TECX.O"
+    },
+    {
+      "name": "프라임 메디슨",
+      "weight_pct": 0.04,
+      "shares": 60,
+      "item_code": "PRME.O"
+    },
+    {
+      "name": "피브로 애니멀 헬스",
+      "weight_pct": 0.04,
+      "shares": 7,
+      "item_code": "PAHC.O"
+    },
+    {
+      "name": "패썸 파마슈티컬스",
+      "weight_pct": 0.04,
+      "shares": 26,
+      "item_code": "PHAT.O"
+    },
+    {
+      "name": "옴니AB",
+      "weight_pct": 0.04,
+      "shares": 48,
+      "item_code": "OABI.O"
+    },
+    {
+      "name": "어퀴스티브 테라퓨틱스",
+      "weight_pct": 0.04,
+      "shares": 41,
+      "item_code": "AQST.O"
+    },
+    {
+      "name": "알로진 테라퓨틱스",
+      "weight_pct": 0.04,
+      "shares": 115,
+      "item_code": "ALLO.O"
+    },
+    {
+      "name": "코메딕스",
+      "weight_pct": 0.04,
+      "shares": 26,
+      "item_code": "CRMD.O"
+    },
+    {
+      "name": "카발레타 바이오",
+      "weight_pct": 0.03,
+      "shares": 54,
+      "item_code": "CABA.O"
+    },
+    {
+      "name": "콘티네움 테라퓨틱스",
+      "weight_pct": 0.03,
+      "shares": 10,
+      "item_code": "CTNM.O"
+    },
+    {
+      "name": "카마다",
+      "weight_pct": 0.03,
+      "shares": 19,
+      "item_code": "KMDA.O"
+    },
+    {
+      "name": "카이버나 테라퓨틱스",
+      "weight_pct": 0.03,
+      "shares": 20,
+      "item_code": "KYTX.O"
+    },
+    {
+      "name": "ARS 파마슈티컬스",
+      "weight_pct": 0.03,
+      "shares": 33,
+      "item_code": "SPRY.O"
+    },
+    {
+      "name": "사일런스 테라퓨틱스 ADR",
+      "weight_pct": 0.03,
+      "shares": 15,
+      "item_code": "SLN.O"
+    },
+    {
+      "name": "리젠엑스바이오",
+      "weight_pct": 0.03,
+      "shares": 17,
+      "item_code": "RGNX.O"
+    },
+    {
+      "name": "퍼시픽 바이오사이언시스 오브 캘리포니아",
+      "weight_pct": 0.03,
+      "shares": 103,
+      "item_code": "PACB.O"
+    },
+    {
+      "name": "뉴로진",
+      "weight_pct": 0.03,
+      "shares": 5,
+      "item_code": "NGNE.O"
+    },
+    {
+      "name": "알티뮨",
+      "weight_pct": 0.03,
+      "shares": 65,
+      "item_code": "ALT.O"
+    },
+    {
+      "name": "프로테나",
+      "weight_pct": 0.03,
+      "shares": 17,
+      "item_code": "PRTA.O"
+    },
+    {
+      "name": "에디타스 메디신",
+      "weight_pct": 0.03,
+      "shares": 51,
+      "item_code": "EDIT.O"
+    },
+    {
+      "name": "에볼러스",
+      "weight_pct": 0.03,
+      "shares": 22,
+      "item_code": "EOLS.O"
+    },
+    {
+      "name": "아르비나스",
+      "weight_pct": 0.03,
+      "shares": 21,
+      "item_code": "ARVN.O"
+    },
+    {
+      "name": "레이크프론트 바이오테라퓨틱스",
+      "weight_pct": 0.02,
+      "shares": 5,
+      "item_code": "LKFT.O"
+    },
+    {
+      "name": "바이오에이지 랩스",
+      "weight_pct": 0.02,
+      "shares": 14,
+      "item_code": "BIOA.O"
+    },
+    {
+      "name": "이뮤니어링",
+      "weight_pct": 0.02,
+      "shares": 21,
+      "item_code": "IMRX.O"
+    },
+    {
+      "name": "퓨마 바이오테크놀러지",
+      "weight_pct": 0.02,
+      "shares": 17,
+      "item_code": "PBYI.O"
+    },
+    {
+      "name": "업스트림 바이오",
+      "weight_pct": 0.02,
+      "shares": 18,
+      "item_code": "UPB.O"
+    },
+    {
+      "name": "라리마 테라퓨틱스",
+      "weight_pct": 0.02,
+      "shares": 34,
+      "item_code": "LRMR.O"
+    },
+    {
+      "name": "렉시오 테라퓨틱스",
+      "weight_pct": 0.02,
+      "shares": 26,
+      "item_code": "LXEO.O"
+    },
+    {
+      "name": "포그혼 테라퓨틱스",
+      "weight_pct": 0.02,
+      "shares": 19,
+      "item_code": "FHTX.O"
+    },
+    {
+      "name": "반다 파마슈티컬스",
+      "weight_pct": 0.02,
+      "shares": 20,
+      "item_code": "VNDA.O"
+    },
+    {
+      "name": "로켓 파머슈티컬스",
+      "weight_pct": 0.02,
+      "shares": 36,
+      "item_code": "RCKT.O"
+    },
+    {
+      "name": "라이엘 이뮤노파마",
+      "weight_pct": 0.02,
+      "shares": 7,
+      "item_code": "LYEL.O"
+    },
+    {
+      "name": "알파 테크노바",
+      "weight_pct": 0.02,
+      "shares": 17,
+      "item_code": "TKNO.O"
+    },
+    {
+      "name": "C4 테라퓨틱스",
+      "weight_pct": 0.02,
+      "shares": 36,
+      "item_code": "CCCC.O"
+    },
+    {
+      "name": "에난타 파마슈티컬스",
+      "weight_pct": 0.02,
+      "shares": 9,
+      "item_code": "ENTA.O"
+    },
+    {
+      "name": "아크투루스 테라퓨틱스 홀딩스",
+      "weight_pct": 0.02,
+      "shares": 9,
+      "item_code": "ARCT.O"
+    },
+    {
+      "name": "아이포인트",
+      "weight_pct": 0.02,
+      "shares": 28,
+      "item_code": "EYPT.O"
+    },
+    {
+      "name": "오토러스 테라퓨틱스 ADR",
+      "weight_pct": 0.02,
+      "shares": 67,
+      "item_code": "AUTL.O"
+    },
+    {
+      "name": "아테아 파마슈티컬스",
+      "weight_pct": 0.02,
+      "shares": 26,
+      "item_code": "AVIR.O"
+    },
+    {
+      "name": "코히러스 온콜로지",
+      "weight_pct": 0.01,
+      "shares": 51,
+      "item_code": "CHRS.O"
+    },
+    {
+      "name": "풀크럼 테라퓨틱스",
+      "weight_pct": 0.01,
+      "shares": 22,
+      "item_code": "FULC.O"
+    },
+    {
+      "name": "노바브리지 바이오사이언스",
+      "weight_pct": 0.01,
+      "shares": 37,
+      "item_code": "NBP.O"
+    },
+    {
+      "name": "카리부 바이오사이언시스",
+      "weight_pct": 0.01,
+      "shares": 33,
+      "item_code": "CRBU.O"
+    },
+    {
+      "name": "오케스트라 바이오메드 홀딩스",
+      "weight_pct": 0.01,
+      "shares": 20,
+      "item_code": "OBIO.O"
+    },
+    {
+      "name": "시오나 테라퓨틱스",
+      "weight_pct": 0.01,
+      "shares": 15,
+      "item_code": "SION.O"
+    },
+    {
+      "name": "라이프코어 바이오메디컬",
+      "weight_pct": 0.01,
+      "shares": 12,
+      "item_code": "LFCR.O"
+    },
+    {
+      "name": "인비비드",
+      "weight_pct": 0.01,
+      "shares": 98,
+      "item_code": "IVVD.O"
+    },
+    {
+      "name": "지용 바이오테크",
+      "weight_pct": 0.01,
+      "shares": 25,
+      "item_code": "MENS.O"
+    },
+    {
+      "name": "케로스 테라퓨틱스",
+      "weight_pct": 0.01,
+      "shares": 6,
+      "item_code": "KROS.O"
+    },
+    {
+      "name": "시가 테크놀로지스",
+      "weight_pct": 0.01,
+      "shares": 23,
+      "item_code": "SIGA.O"
+    },
+    {
+      "name": "보이저 테라퓨틱스",
+      "weight_pct": 0.01,
+      "shares": 20,
+      "item_code": "VYGR.O"
+    },
+    {
+      "name": "픽시스 온콜로지",
+      "weight_pct": 0.01,
+      "shares": 21,
+      "item_code": "PYXS.O"
+    },
+    {
+      "name": "펩젠",
+      "weight_pct": 0.01,
+      "shares": 23,
+      "item_code": "PEPG.O"
+    },
+    {
+      "name": "뉴모라 테라퓨틱스",
+      "weight_pct": 0.01,
+      "shares": 61,
+      "item_code": "NMRA.O"
+    },
+    {
+      "name": "애너벡스 라이프 사이언시스",
+      "weight_pct": 0.01,
+      "shares": 30,
+      "item_code": "AVXL.O"
+    },
+    {
+      "name": "AC 이뮨",
+      "weight_pct": 0.01,
+      "shares": 34,
+      "item_code": "ACIU.O"
+    },
+    {
+      "name": "엔트라다 테라퓨틱스",
+      "weight_pct": 0.01,
+      "shares": 12,
+      "item_code": "TRDA.O"
+    },
+    {
+      "name": "바이시클 테라퓨틱스 ADR",
+      "weight_pct": 0.01,
+      "shares": 15,
+      "item_code": "BCYC.O"
+    },
+    {
+      "name": "고사머 바이오",
+      "weight_pct": 0.0,
+      "shares": 78,
+      "item_code": "GOSS.O"
+    },
+    {
+      "name": "블랙 다이아몬드 테라퓨틱스",
+      "weight_pct": 0.0,
+      "shares": 19,
+      "item_code": "BDTX.O"
+    },
+    {
+      "name": "퀀텀-Si",
+      "weight_pct": 0.0,
+      "shares": 66,
+      "item_code": "QSI.O"
+    },
+    {
+      "name": "라니 테라퓨틱스 홀딩스",
+      "weight_pct": 0.0,
+      "shares": 37,
+      "item_code": "RANI.O"
+    },
+    {
+      "name": "테나야 테라퓨틱스",
+      "weight_pct": 0.0,
+      "shares": 72,
+      "item_code": "TNYA.O"
+    },
+    {
+      "name": "아르드바크 테라퓨틱스",
+      "weight_pct": 0.0,
+      "shares": 7,
+      "item_code": "AARD.O"
+    },
+    {
+      "name": "렌즈 테라퓨틱스",
+      "weight_pct": 0.0,
+      "shares": 10,
+      "item_code": "LENZ.O"
+    },
+    {
+      "name": "휴마사이트",
+      "weight_pct": 0.0,
+      "shares": 74,
+      "item_code": "HUMA.O"
+    },
+    {
+      "name": "코덱시스",
+      "weight_pct": 0.0,
+      "shares": 30,
+      "item_code": "CDXS.O"
+    }
+  ]
+}

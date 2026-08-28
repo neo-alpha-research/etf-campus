@@ -1,0 +1,102 @@
+{
+  "ticker": "0177X0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "로보티즈",
+      "weight_pct": 20.99,
+      "shares": 390,
+      "item_code": "108490"
+    },
+    {
+      "name": "에스피지",
+      "weight_pct": 18.17,
+      "shares": 914,
+      "item_code": "058610"
+    },
+    {
+      "name": "현대차",
+      "weight_pct": 17.22,
+      "shares": 205,
+      "item_code": "005380"
+    },
+    {
+      "name": "레인보우로보틱스",
+      "weight_pct": 12.82,
+      "shares": 129,
+      "item_code": "277810"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 5.81,
+      "shares": 61,
+      "item_code": "012330"
+    },
+    {
+      "name": "삼현",
+      "weight_pct": 5.04,
+      "shares": 724,
+      "item_code": "437730"
+    },
+    {
+      "name": "HL만도",
+      "weight_pct": 4.69,
+      "shares": 441,
+      "item_code": "204320"
+    },
+    {
+      "name": "현대오토에버",
+      "weight_pct": 3.57,
+      "shares": 41,
+      "item_code": "307950"
+    },
+    {
+      "name": "뉴로메카",
+      "weight_pct": 2.87,
+      "shares": 706,
+      "item_code": "348340"
+    },
+    {
+      "name": "유일로보틱스",
+      "weight_pct": 2.85,
+      "shares": 198,
+      "item_code": "388720"
+    },
+    {
+      "name": "두산로보틱스",
+      "weight_pct": 1.83,
+      "shares": 119,
+      "item_code": "454910"
+    },
+    {
+      "name": "에스엘",
+      "weight_pct": 1.32,
+      "shares": 119,
+      "item_code": "005850"
+    },
+    {
+      "name": "클로봇",
+      "weight_pct": 0.96,
+      "shares": 171,
+      "item_code": "466100"
+    },
+    {
+      "name": "한국피아이엠",
+      "weight_pct": 0.88,
+      "shares": 87,
+      "item_code": "448900"
+    },
+    {
+      "name": "휴림로봇",
+      "weight_pct": 0.85,
+      "shares": 615,
+      "item_code": "090710"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.14,
+      "shares": 704649,
+      "item_code": null
+    }
+  ]
+}

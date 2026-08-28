@@ -1,0 +1,66 @@
+{
+  "ticker": "0066W0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "SPDR Gold MiniShares Trust",
+      "weight_pct": 27.98,
+      "shares": 1497,
+      "item_code": "GLDM.K"
+    },
+    {
+      "name": "iShares Gold Trust Micro",
+      "weight_pct": 27.21,
+      "shares": 2891,
+      "item_code": "IAUM.K"
+    },
+    {
+      "name": "GraniteShares Gold Trust",
+      "weight_pct": 22.62,
+      "shares": 2433,
+      "item_code": "BAR"
+    },
+    {
+      "name": "abrdn Physical Gold Shares ETF",
+      "weight_pct": 13.88,
+      "shares": 1544,
+      "item_code": "SGOL.K"
+    },
+    {
+      "name": "Goldman Sachs Physical Gold ETF",
+      "weight_pct": 8.33,
+      "shares": 896,
+      "item_code": "AAAU.K"
+    },
+    {
+      "name": "VanEck Merk Gold ETF",
+      "weight_pct": 0.0,
+      "shares": 0,
+      "item_code": "OUNZ.K"
+    },
+    {
+      "name": "SPDR Gold Shares",
+      "weight_pct": 0.0,
+      "shares": 0,
+      "item_code": "GLD"
+    },
+    {
+      "name": "iShares Gold Trust",
+      "weight_pct": 0.0,
+      "shares": 0,
+      "item_code": "IAU"
+    },
+    {
+      "name": "Franklin Responsibly Sourced Gold ETF",
+      "weight_pct": 0.0,
+      "shares": 0,
+      "item_code": "FGDL.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.05,
+      "shares": -393155,
+      "item_code": null
+    }
+  ]
+}

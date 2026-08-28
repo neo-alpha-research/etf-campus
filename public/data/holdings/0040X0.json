@@ -1,0 +1,78 @@
+{
+  "ticker": "0040X0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 27.43,
+      "shares": 531,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "Vanguard Long-Term Treasury Index Fund",
+      "weight_pct": 23.42,
+      "shares": 1506,
+      "item_code": "VGLT.O"
+    },
+    {
+      "name": "iShares 20+ Year Treasury Bond ETF",
+      "weight_pct": 23.23,
+      "shares": 959,
+      "item_code": "TLT.O"
+    },
+    {
+      "name": "State Street SPDR Portfolio Long Term Treasury ETF",
+      "weight_pct": 10.78,
+      "shares": 1459,
+      "item_code": "SPTL.K"
+    },
+    {
+      "name": "iShares 0-3 Month Treasury Bond ETF",
+      "weight_pct": 9.8,
+      "shares": 335,
+      "item_code": "SGOV.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.36,
+      "shares": 15960522,
+      "item_code": null
+    },
+    {
+      "name": "GraniteShares 2x Long PLTR Daily ETF",
+      "weight_pct": 1.74,
+      "shares": 308,
+      "item_code": "PTIR.O"
+    },
+    {
+      "name": "Schwab Long-Term US Treasury ETF",
+      "weight_pct": 0.23,
+      "shares": 27,
+      "item_code": "SCHQ.K"
+    },
+    {
+      "name": "iShares 25+ Year Treasury STRIPS Bond ETF",
+      "weight_pct": 0.01,
+      "shares": 1,
+      "item_code": "GOVZ.K"
+    },
+    {
+      "name": "Vanguard Extended Duration Treasury Index Fd",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": "EDV"
+    },
+    {
+      "name": "Schwab Intermediate-Term US Treasury ETF",
+      "weight_pct": 0.01,
+      "shares": 1,
+      "item_code": "SCHR.K"
+    },
+    {
+      "name": "TLT US 08/28/26 C82.5 EQUITY",
+      "weight_pct": -0.07,
+      "shares": -2,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "ticker": "468630",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares iBoxx $ Inv Grade Corporate Bond ETF",
+      "weight_pct": 99.38,
+      "shares": 733,
+      "item_code": "LQD"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.6,
+      "shares": 663569,
+      "item_code": null
+    },
+    {
+      "name": "USD현금",
+      "weight_pct": 0.0,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "ticker": "269370",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "S&P글로벌인프라 TRS(한국투자증권)",
+      "weight_pct": 53.5,
+      "shares": 462667441,
+      "item_code": null
+    },
+    {
+      "name": "S&P글로벌인프라 TRS(KB증권)",
+      "weight_pct": 34.52,
+      "shares": 298568989,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 6.17,
+      "shares": 53372616,
+      "item_code": null
+    },
+    {
+      "name": "iShares Global Infrastructure ETF",
+      "weight_pct": 5.79,
+      "shares": 548,
+      "item_code": "IGF.O"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "ticker": "0113D0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "State Street SPDR Portfolio MSCI Global Sk Mkt ETF",
+      "weight_pct": 27.62,
+      "shares": 1372,
+      "item_code": "SPGM.K"
+    },
+    {
+      "name": "Vanguard Total World Stock Index Fund",
+      "weight_pct": 26.98,
+      "shares": 731,
+      "item_code": "VT"
+    },
+    {
+      "name": "iShares MSCI ACWI ETF",
+      "weight_pct": 26.77,
+      "shares": 725,
+      "item_code": "ACWI.O"
+    },
+    {
+      "name": "iShares MSCI World ETF",
+      "weight_pct": 18.03,
+      "shares": 376,
+      "item_code": "URTH.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.58,
+      "shares": 3529034,
+      "item_code": null
+    }
+  ]
+}

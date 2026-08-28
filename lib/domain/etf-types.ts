@@ -162,7 +162,7 @@ export type Etf = {
   classification?: EtfClassification | null;
 };
 
-export type EtfSlim = Pick<Etf, "ticker" | "name" | "baseIndex" | "assetClass" | "riskType" | "pension" | "tradeValue"> & {
+export type EtfSlim = Pick<Etf, "ticker" | "name" | "baseIndex" | "assetClass" | "riskType" | "pension" | "tradeValue" | "changePct" | "aum" | "classification"> & {
   // We can include a pre-computed searchKey if we want, or just compute on the fly.
 };
 

@@ -1,0 +1,36 @@
+{
+  "ticker": "0191M0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "한국전력1507",
+      "weight_pct": 23.91,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산금24신이0206-1122-1",
+      "weight_pct": 23.89,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(신)2506이2A-19",
+      "weight_pct": 23.89,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국수출입금융2511바-이표-1.5",
+      "weight_pct": 23.88,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 4.4,
+      "shares": 4437672,
+      "item_code": null
+    }
+  ]
+}

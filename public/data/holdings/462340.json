@@ -1,0 +1,174 @@
+{
+  "ticker": "462340",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "Vanguard 500 Index Fund ETF",
+      "weight_pct": 19.11,
+      "shares": 66,
+      "item_code": "VOO"
+    },
+    {
+      "name": "일라이 릴리",
+      "weight_pct": 13.28,
+      "shares": 27,
+      "item_code": "LLY"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 4.4,
+      "shares": 41,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 4.32,
+      "shares": 14665715,
+      "item_code": null
+    },
+    {
+      "name": "블랙록",
+      "weight_pct": 4.03,
+      "shares": 8,
+      "item_code": "BLK"
+    },
+    {
+      "name": "라이프 타임 그룹 홀딩스",
+      "weight_pct": 3.95,
+      "shares": 216,
+      "item_code": "LTH"
+    },
+    {
+      "name": "로빈후드",
+      "weight_pct": 3.95,
+      "shares": 89,
+      "item_code": "HOOD.O"
+    },
+    {
+      "name": "Direxion Daily S&P 500 Bull 3X ETF",
+      "weight_pct": 3.63,
+      "shares": 31,
+      "item_code": "SPXL.K"
+    },
+    {
+      "name": "템퍼스 AI",
+      "weight_pct": 3.63,
+      "shares": 130,
+      "item_code": "TEM.O"
+    },
+    {
+      "name": "노보 노디스크 ADR",
+      "weight_pct": 3.09,
+      "shares": 160,
+      "item_code": "NVO"
+    },
+    {
+      "name": "존슨앤드존슨",
+      "weight_pct": 3.0,
+      "shares": 27,
+      "item_code": "JNJ"
+    },
+    {
+      "name": "린드블라드 익스퍼디션스 홀딩스",
+      "weight_pct": 2.97,
+      "shares": 234,
+      "item_code": "LIND.O"
+    },
+    {
+      "name": "벤타스",
+      "weight_pct": 2.91,
+      "shares": 76,
+      "item_code": "VTR"
+    },
+    {
+      "name": "로얄 캐리비안 크루즈",
+      "weight_pct": 2.81,
+      "shares": 23,
+      "item_code": "RCL"
+    },
+    {
+      "name": "나테라",
+      "weight_pct": 2.59,
+      "shares": 18,
+      "item_code": "NTRA.O"
+    },
+    {
+      "name": "인바디",
+      "weight_pct": 2.57,
+      "shares": 144,
+      "item_code": "041830"
+    },
+    {
+      "name": "웰타워",
+      "weight_pct": 2.52,
+      "shares": 25,
+      "item_code": "WELL.K"
+    },
+    {
+      "name": "노바티스 ADR",
+      "weight_pct": 2.5,
+      "shares": 39,
+      "item_code": "NVS"
+    },
+    {
+      "name": "애보트 래보라토리",
+      "weight_pct": 2.13,
+      "shares": 45,
+      "item_code": "ABT"
+    },
+    {
+      "name": "파마리서치",
+      "weight_pct": 1.65,
+      "shares": 13,
+      "item_code": "214450"
+    },
+    {
+      "name": "메리어트 인터내셔널",
+      "weight_pct": 1.61,
+      "shares": 11,
+      "item_code": "MAR.O"
+    },
+    {
+      "name": "아이큐비아 홀딩스",
+      "weight_pct": 1.53,
+      "shares": 14,
+      "item_code": "IQV"
+    },
+    {
+      "name": "할로자임 테라퓨틱스",
+      "weight_pct": 1.53,
+      "shares": 35,
+      "item_code": "HALO.O"
+    },
+    {
+      "name": "머크 앤 코",
+      "weight_pct": 1.49,
+      "shares": 23,
+      "item_code": "MRK"
+    },
+    {
+      "name": "달바글로벌",
+      "weight_pct": 1.37,
+      "shares": 21,
+      "item_code": "483650"
+    },
+    {
+      "name": "모더나",
+      "weight_pct": 1.29,
+      "shares": 21,
+      "item_code": "MRNA.O"
+    },
+    {
+      "name": "레볼루션 메디신",
+      "weight_pct": 1.1,
+      "shares": 12,
+      "item_code": "RVMD.O"
+    },
+    {
+      "name": "그레일",
+      "weight_pct": 0.9,
+      "shares": 27,
+      "item_code": "GRAL.O"
+    }
+  ]
+}

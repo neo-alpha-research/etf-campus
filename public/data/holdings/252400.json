@@ -1,0 +1,36 @@
+{
+  "ticker": "252400",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "선물2026년09월물",
+      "weight_pct": 168.5,
+      "shares": 63,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 73.89,
+      "shares": 7587248292,
+      "item_code": null
+    },
+    {
+      "name": "RISE 200TR",
+      "weight_pct": 10.82,
+      "shares": 17916,
+      "item_code": "361580"
+    },
+    {
+      "name": "RISE 200",
+      "weight_pct": 10.03,
+      "shares": 9365,
+      "item_code": "148020"
+    },
+    {
+      "name": "TIGER 200선물레버리지",
+      "weight_pct": 5.24,
+      "shares": 6382,
+      "item_code": "267770"
+    }
+  ]
+}

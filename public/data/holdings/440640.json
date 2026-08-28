@@ -1,0 +1,72 @@
+{
+  "ticker": "440640",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 22.93,
+      "shares": 25837295,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(신)2508이1.5A-21",
+      "weight_pct": 14.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채이자03260-27",
+      "weight_pct": 14.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채이자03290-26",
+      "weight_pct": 10.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국캐피탈553-1",
+      "weight_pct": 9.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈447-4",
+      "weight_pct": 9.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈250-1",
+      "weight_pct": 7.25,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK텔레콤71-3",
+      "weight_pct": 6.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한화252-1",
+      "weight_pct": 2.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권5-2",
+      "weight_pct": 1.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "지에스리테일36-1",
+      "weight_pct": 0.73,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

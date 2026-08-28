@@ -1,0 +1,162 @@
+{
+  "ticker": "459560",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "테슬라",
+      "weight_pct": 20.48,
+      "shares": 459,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 16.46,
+      "shares": 265,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "파나소닉 홀딩스",
+      "weight_pct": 10.77,
+      "shares": 3063,
+      "item_code": "6752.T"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 9.82,
+      "shares": 363,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "NXP 세미콘덕터",
+      "weight_pct": 9.8,
+      "shares": 340,
+      "item_code": "NXPI.O"
+    },
+    {
+      "name": "STMICROELECTRONICS NV",
+      "weight_pct": 5.68,
+      "shares": 894,
+      "item_code": null
+    },
+    {
+      "name": "큐니티 일렉트로닉스",
+      "weight_pct": 4.76,
+      "shares": 292,
+      "item_code": "Q"
+    },
+    {
+      "name": "ITT",
+      "weight_pct": 3.26,
+      "shares": 120,
+      "item_code": "ITT"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 2.31,
+      "shares": 67,
+      "item_code": "373220"
+    },
+    {
+      "name": "스카이웍스 솔루션스",
+      "weight_pct": 1.8,
+      "shares": 210,
+      "item_code": "SWKS.O"
+    },
+    {
+      "name": "CATL",
+      "weight_pct": 1.79,
+      "shares": 176,
+      "item_code": "3750.HK"
+    },
+    {
+      "name": "앱티브",
+      "weight_pct": 1.77,
+      "shares": 296,
+      "item_code": "APTV.K"
+    },
+    {
+      "name": "LG화학",
+      "weight_pct": 1.66,
+      "shares": 65,
+      "item_code": "051910"
+    },
+    {
+      "name": "저장 화우코발트",
+      "weight_pct": 1.61,
+      "shares": 2103,
+      "item_code": "603799.SS"
+    },
+    {
+      "name": "과달리실업",
+      "weight_pct": 1.14,
+      "shares": 333,
+      "item_code": "002850.SZ"
+    },
+    {
+      "name": "중광자원",
+      "weight_pct": 0.99,
+      "shares": 1010,
+      "item_code": "002738.SZ"
+    },
+    {
+      "name": "젠텍스",
+      "weight_pct": 0.92,
+      "shares": 299,
+      "item_code": "GNTX.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.82,
+      "shares": 8877776,
+      "item_code": null
+    },
+    {
+      "name": "중정홀딩스",
+      "weight_pct": 0.71,
+      "shares": 1836,
+      "item_code": "000887.SZ"
+    },
+    {
+      "name": "유니버설 디스플레이",
+      "weight_pct": 0.67,
+      "shares": 59,
+      "item_code": "OLED.O"
+    },
+    {
+      "name": "아화그룹",
+      "weight_pct": 0.58,
+      "shares": 1613,
+      "item_code": "002497.SZ"
+    },
+    {
+      "name": "PIRELLI C SPA",
+      "weight_pct": 0.5,
+      "shares": 489,
+      "item_code": null
+    },
+    {
+      "name": "강봉리튬",
+      "weight_pct": 0.44,
+      "shares": 673,
+      "item_code": "1772.HK"
+    },
+    {
+      "name": "화역자동차",
+      "weight_pct": 0.42,
+      "shares": 1436,
+      "item_code": "600741.SS"
+    },
+    {
+      "name": "Aumovio SE",
+      "weight_pct": 0.4,
+      "shares": 76,
+      "item_code": null
+    },
+    {
+      "name": "만향전조",
+      "weight_pct": 0.32,
+      "shares": 1490,
+      "item_code": "000559.SZ"
+    }
+  ]
+}

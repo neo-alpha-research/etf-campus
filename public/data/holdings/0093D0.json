@@ -1,0 +1,270 @@
+{
+  "ticker": "0093D0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 23.07,
+      "shares": 824,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "스노우플레이크",
+      "weight_pct": 6.38,
+      "shares": 128,
+      "item_code": "SNOW.K"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 4.43,
+      "shares": 108,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "마이크로소프트",
+      "weight_pct": 4.43,
+      "shares": 56,
+      "item_code": "MSFT.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 4.37,
+      "shares": 38336313,
+      "item_code": null
+    },
+    {
+      "name": "서비스나우",
+      "weight_pct": 2.96,
+      "shares": 149,
+      "item_code": "NOW"
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 2.96,
+      "shares": 76,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "델테크놀로지",
+      "weight_pct": 2.87,
+      "shares": 39,
+      "item_code": "DELL.K"
+    },
+    {
+      "name": "몽고DB",
+      "weight_pct": 2.84,
+      "shares": 44,
+      "item_code": "MDB.O"
+    },
+    {
+      "name": "후지쿠라",
+      "weight_pct": 2.61,
+      "shares": 498,
+      "item_code": "5803.T"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 2.55,
+      "shares": 84,
+      "item_code": "005930"
+    },
+    {
+      "name": "포티넷",
+      "weight_pct": 2.53,
+      "shares": 102,
+      "item_code": "FTNT.O"
+    },
+    {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 2.45,
+      "shares": 16,
+      "item_code": "LITE.O"
+    },
+    {
+      "name": "넷앱",
+      "weight_pct": 2.38,
+      "shares": 78,
+      "item_code": "NTAP.O"
+    },
+    {
+      "name": "데이터도그",
+      "weight_pct": 2.22,
+      "shares": 62,
+      "item_code": "DDOG.O"
+    },
+    {
+      "name": "아스테라 랩스",
+      "weight_pct": 2.22,
+      "shares": 48,
+      "item_code": "ALAB.O"
+    },
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 2.02,
+      "shares": 26,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "블룸 에너지",
+      "weight_pct": 1.94,
+      "shares": 56,
+      "item_code": "BE"
+    },
+    {
+      "name": "코히런트",
+      "weight_pct": 1.92,
+      "shares": 41,
+      "item_code": "COHR.K"
+    },
+    {
+      "name": "아카마이 테크놀로지",
+      "weight_pct": 1.77,
+      "shares": 104,
+      "item_code": "AKAM.O"
+    },
+    {
+      "name": "인텔",
+      "weight_pct": 1.77,
+      "shares": 127,
+      "item_code": "INTC.O"
+    },
+    {
+      "name": "클라우드플레어",
+      "weight_pct": 1.42,
+      "shares": 31,
+      "item_code": "NET"
+    },
+    {
+      "name": "키옥시아 홀딩스",
+      "weight_pct": 1.41,
+      "shares": 28,
+      "item_code": "285A.T"
+    },
+    {
+      "name": "LIG디펜스앤에어로스페이스",
+      "weight_pct": 1.27,
+      "shares": 15,
+      "item_code": "079550"
+    },
+    {
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 1.25,
+      "shares": 31,
+      "item_code": "ARM.O"
+    },
+    {
+      "name": "후루카와 전기공업",
+      "weight_pct": 1.12,
+      "shares": 292,
+      "item_code": "5801.T"
+    },
+    {
+      "name": "어드반테스트",
+      "weight_pct": 0.98,
+      "shares": 27,
+      "item_code": "6857.T"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 0.98,
+      "shares": 5,
+      "item_code": "000660"
+    },
+    {
+      "name": "네비우스 그룹",
+      "weight_pct": 0.96,
+      "shares": 28,
+      "item_code": "NBIS.O"
+    },
+    {
+      "name": "크라토스 디펜스 & 시큐리티 솔루션",
+      "weight_pct": 0.93,
+      "shares": 112,
+      "item_code": "KTOS.O"
+    },
+    {
+      "name": "무라타제작소",
+      "weight_pct": 0.86,
+      "shares": 121,
+      "item_code": "6981.T"
+    },
+    {
+      "name": "코어위브",
+      "weight_pct": 0.84,
+      "shares": 60,
+      "item_code": "CRWV.O"
+    },
+    {
+      "name": "에스피지",
+      "weight_pct": 0.83,
+      "shares": 78,
+      "item_code": "058610"
+    },
+    {
+      "name": "샌디스크",
+      "weight_pct": 0.83,
+      "shares": 3,
+      "item_code": "SNDK.O"
+    },
+    {
+      "name": "어플라이드 옵토일렉트로닉스",
+      "weight_pct": 0.81,
+      "shares": 45,
+      "item_code": "AAOI.O"
+    },
+    {
+      "name": "패스틀리",
+      "weight_pct": 0.78,
+      "shares": 215,
+      "item_code": "FSLY.O"
+    },
+    {
+      "name": "램 리서치",
+      "weight_pct": 0.71,
+      "shares": 14,
+      "item_code": "LRCX.O"
+    },
+    {
+      "name": "마이크론 테크놀로지",
+      "weight_pct": 0.7,
+      "shares": 4,
+      "item_code": "MU.O"
+    },
+    {
+      "name": "아처 에비에이션",
+      "weight_pct": 0.58,
+      "shares": 629,
+      "item_code": "ACHR.K"
+    },
+    {
+      "name": "노스롭 그루만",
+      "weight_pct": 0.48,
+      "shares": 5,
+      "item_code": "NOC"
+    },
+    {
+      "name": "에어로바이런먼트",
+      "weight_pct": 0.36,
+      "shares": 15,
+      "item_code": "AVAV.O"
+    },
+    {
+      "name": "온다스",
+      "weight_pct": 0.34,
+      "shares": 265,
+      "item_code": "ONDS.O"
+    },
+    {
+      "name": "헌팅턴 잉걸스 인더스트리즈",
+      "weight_pct": 0.31,
+      "shares": 6,
+      "item_code": "HII"
+    },
+    {
+      "name": "레이도스 홀딩스",
+      "weight_pct": 0.3,
+      "shares": 14,
+      "item_code": "LDOS.K"
+    }
+  ]
+}

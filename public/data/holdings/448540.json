@@ -1,0 +1,114 @@
+{
+  "ticker": "448540",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "엔비디아",
+      "weight_pct": 29.97,
+      "shares": 2701,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 21.37,
+      "shares": 557564216,
+      "item_code": null
+    },
+    {
+      "name": "국고03875-2612(23-10)",
+      "weight_pct": 13.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03250-2803(23-1)",
+      "weight_pct": 4.38,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03125-2709(22-8)",
+      "weight_pct": 4.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02250-2806(25-4)",
+      "weight_pct": 4.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02375-2712(17-7)",
+      "weight_pct": 4.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02125-2706(국고17-3)",
+      "weight_pct": 3.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02875-2609(24-9)",
+      "weight_pct": 2.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고01500-2612(16-8)",
+      "weight_pct": 2.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02250-2709(25-6)",
+      "weight_pct": 2.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02625-2703(25-1)",
+      "weight_pct": 1.94,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03000-2803(26-1)",
+      "weight_pct": 1.88,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채03250-2706(24-4)",
+      "weight_pct": 1.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고0525-2703",
+      "weight_pct": 0.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02375-2703(22-1)",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고01750-2609(21-7)",
+      "weight_pct": 0.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02875-2712(24-12)",
+      "weight_pct": 0.13,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

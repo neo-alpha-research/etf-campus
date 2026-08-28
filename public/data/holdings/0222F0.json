@@ -1,0 +1,144 @@
+{
+  "ticker": "0222F0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성SDI",
+      "weight_pct": 12.34,
+      "shares": 145,
+      "item_code": "006400"
+    },
+    {
+      "name": "NAVER",
+      "weight_pct": 10.3,
+      "shares": 318,
+      "item_code": "035420"
+    },
+    {
+      "name": "효성중공업",
+      "weight_pct": 9.67,
+      "shares": 21,
+      "item_code": "298040"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 9.51,
+      "shares": 239,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 9.32,
+      "shares": 36,
+      "item_code": "000660"
+    },
+    {
+      "name": "LG전자",
+      "weight_pct": 7.27,
+      "shares": 245,
+      "item_code": "066570"
+    },
+    {
+      "name": "HD현대일렉트릭",
+      "weight_pct": 6.26,
+      "shares": 51,
+      "item_code": "267260"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 6.04,
+      "shares": 109,
+      "item_code": "373220"
+    },
+    {
+      "name": "LS ELECTRIC",
+      "weight_pct": 5.84,
+      "shares": 178,
+      "item_code": "010120"
+    },
+    {
+      "name": "SK텔레콤",
+      "weight_pct": 5.13,
+      "shares": 346,
+      "item_code": "017670"
+    },
+    {
+      "name": "LS",
+      "weight_pct": 3.65,
+      "shares": 78,
+      "item_code": "006260"
+    },
+    {
+      "name": "한미반도체",
+      "weight_pct": 3.38,
+      "shares": 102,
+      "item_code": "042700"
+    },
+    {
+      "name": "현대건설",
+      "weight_pct": 3.3,
+      "shares": 171,
+      "item_code": "000720"
+    },
+    {
+      "name": "한화솔루션",
+      "weight_pct": 1.73,
+      "shares": 348,
+      "item_code": "009830"
+    },
+    {
+      "name": "대우건설",
+      "weight_pct": 1.42,
+      "shares": 475,
+      "item_code": "047040"
+    },
+    {
+      "name": "대한전선",
+      "weight_pct": 1.28,
+      "shares": 287,
+      "item_code": "001440"
+    },
+    {
+      "name": "HPSP",
+      "weight_pct": 0.94,
+      "shares": 125,
+      "item_code": "403870"
+    },
+    {
+      "name": "대한광통신",
+      "weight_pct": 0.73,
+      "shares": 329,
+      "item_code": "010170"
+    },
+    {
+      "name": "ISC",
+      "weight_pct": 0.71,
+      "shares": 28,
+      "item_code": "095340"
+    },
+    {
+      "name": "가온전선",
+      "weight_pct": 0.5,
+      "shares": 16,
+      "item_code": "000500"
+    },
+    {
+      "name": "LS에코에너지",
+      "weight_pct": 0.24,
+      "shares": 34,
+      "item_code": "229640"
+    },
+    {
+      "name": "LS머트리얼즈",
+      "weight_pct": 0.22,
+      "shares": 126,
+      "item_code": "417200"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.15,
+      "shares": 1018251,
+      "item_code": null
+    }
+  ]
+}

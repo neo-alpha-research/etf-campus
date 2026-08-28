@@ -1,0 +1,102 @@
+{
+  "ticker": "421320",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "한국항공우주",
+      "weight_pct": 13.85,
+      "shares": 1415,
+      "item_code": "047810"
+    },
+    {
+      "name": "한화에어로스페이스",
+      "weight_pct": 13.58,
+      "shares": 166,
+      "item_code": "012450"
+    },
+    {
+      "name": "LIG디펜스앤에어로스페이스",
+      "weight_pct": 12.87,
+      "shares": 243,
+      "item_code": "079550"
+    },
+    {
+      "name": "한화시스템",
+      "weight_pct": 11.03,
+      "shares": 1992,
+      "item_code": "272210"
+    },
+    {
+      "name": "스피어",
+      "weight_pct": 9.54,
+      "shares": 5797,
+      "item_code": "347700"
+    },
+    {
+      "name": "인텔리안테크",
+      "weight_pct": 8.01,
+      "shares": 1714,
+      "item_code": "189300"
+    },
+    {
+      "name": "에이치브이엠",
+      "weight_pct": 7.82,
+      "shares": 2252,
+      "item_code": "295310"
+    },
+    {
+      "name": "쎄트렉아이",
+      "weight_pct": 6.94,
+      "shares": 1316,
+      "item_code": "099320"
+    },
+    {
+      "name": "파이버프로",
+      "weight_pct": 5.25,
+      "shares": 5775,
+      "item_code": "368770"
+    },
+    {
+      "name": "이노스페이스",
+      "weight_pct": 3.07,
+      "shares": 7120,
+      "item_code": "462350"
+    },
+    {
+      "name": "켄코아에어로스페이스",
+      "weight_pct": 2.11,
+      "shares": 2886,
+      "item_code": "274090"
+    },
+    {
+      "name": "AP위성",
+      "weight_pct": 1.77,
+      "shares": 3043,
+      "item_code": "211270"
+    },
+    {
+      "name": "컨텍",
+      "weight_pct": 1.54,
+      "shares": 3054,
+      "item_code": "451760"
+    },
+    {
+      "name": "루미르",
+      "weight_pct": 1.22,
+      "shares": 2619,
+      "item_code": "474170"
+    },
+    {
+      "name": "제노코",
+      "weight_pct": 1.22,
+      "shares": 1371,
+      "item_code": "361390"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.08,
+      "shares": 1255139,
+      "item_code": null
+    }
+  ]
+}

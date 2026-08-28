@@ -1,0 +1,312 @@
+{
+  "ticker": "379790",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 10.4,
+      "shares": 91472216,
+      "item_code": null
+    },
+    {
+      "name": "ASML HOLDING NV",
+      "weight_pct": 10.14,
+      "shares": 37,
+      "item_code": null
+    },
+    {
+      "name": "SIEMENS AG-REG",
+      "weight_pct": 4.21,
+      "shares": 79,
+      "item_code": null
+    },
+    {
+      "name": "BANCO SANTANDER SA",
+      "weight_pct": 3.62,
+      "shares": 1559,
+      "item_code": null
+    },
+    {
+      "name": "SAP SE",
+      "weight_pct": 3.57,
+      "shares": 108,
+      "item_code": null
+    },
+    {
+      "name": "SCHNEIDER ELECTRIC SE",
+      "weight_pct": 3.35,
+      "shares": 61,
+      "item_code": null
+    },
+    {
+      "name": "ALLIANZ SE-REG",
+      "weight_pct": 3.34,
+      "shares": 40,
+      "item_code": null
+    },
+    {
+      "name": "토탈에너지스",
+      "weight_pct": 3.2,
+      "shares": 232,
+      "item_code": "TTE"
+    },
+    {
+      "name": "BANCO BILBAO VIZCAYA ARGENTA",
+      "weight_pct": 2.76,
+      "shares": 606,
+      "item_code": null
+    },
+    {
+      "name": "UNICREDIT SPA",
+      "weight_pct": 2.52,
+      "shares": 160,
+      "item_code": null
+    },
+    {
+      "name": "SAFRAN SA",
+      "weight_pct": 2.51,
+      "shares": 39,
+      "item_code": null
+    },
+    {
+      "name": "IBERDROLA SA",
+      "weight_pct": 2.43,
+      "shares": 658,
+      "item_code": null
+    },
+    {
+      "name": "AIRBUS SE",
+      "weight_pct": 2.35,
+      "shares": 62,
+      "item_code": null
+    },
+    {
+      "name": "SIEMENS ENERGY AG",
+      "weight_pct": 2.27,
+      "shares": 82,
+      "item_code": null
+    },
+    {
+      "name": "LVMH MOET HENNESSY LOUIS VUI",
+      "weight_pct": 2.2,
+      "shares": 26,
+      "item_code": null
+    },
+    {
+      "name": "BNP PARIBAS",
+      "weight_pct": 2.13,
+      "shares": 110,
+      "item_code": null
+    },
+    {
+      "name": "AIR LIQUIDE SA",
+      "weight_pct": 2.09,
+      "shares": 67,
+      "item_code": null
+    },
+    {
+      "name": "INTESA SANPAOLO",
+      "weight_pct": 2.04,
+      "shares": 1624,
+      "item_code": null
+    },
+    {
+      "name": "DEUTSCHE TELEKOM AG-REG",
+      "weight_pct": 1.97,
+      "shares": 373,
+      "item_code": null
+    },
+    {
+      "name": "LOREAL",
+      "weight_pct": 1.8,
+      "shares": 25,
+      "item_code": null
+    },
+    {
+      "name": "ING GROEP NV",
+      "weight_pct": 1.73,
+      "shares": 310,
+      "item_code": null
+    },
+    {
+      "name": "SANOFI",
+      "weight_pct": 1.72,
+      "shares": 120,
+      "item_code": null
+    },
+    {
+      "name": "AXA SA",
+      "weight_pct": 1.49,
+      "shares": 187,
+      "item_code": null
+    },
+    {
+      "name": "ENEL SPA",
+      "weight_pct": 1.43,
+      "shares": 825,
+      "item_code": null
+    },
+    {
+      "name": "INFINEON TECHNOLOGIES AG",
+      "weight_pct": 1.4,
+      "shares": 138,
+      "item_code": null
+    },
+    {
+      "name": "ANHEUSER-BUSCH INBEV SA/NV",
+      "weight_pct": 1.35,
+      "shares": 109,
+      "item_code": null
+    },
+    {
+      "name": "VINCI SA",
+      "weight_pct": 1.35,
+      "shares": 61,
+      "item_code": null
+    },
+    {
+      "name": "MUENCHENER RUECKVER AG-REG",
+      "weight_pct": 1.31,
+      "shares": 13,
+      "item_code": null
+    },
+    {
+      "name": "도이치은행",
+      "weight_pct": 1.28,
+      "shares": 202,
+      "item_code": "DB"
+    },
+    {
+      "name": "INDUSTRIA DE DISENO TEXTIL",
+      "weight_pct": 1.25,
+      "shares": 118,
+      "item_code": null
+    },
+    {
+      "name": "NORDEA BANK ABP",
+      "weight_pct": 1.15,
+      "shares": 361,
+      "item_code": null
+    },
+    {
+      "name": "ARGENX SE",
+      "weight_pct": 1.08,
+      "shares": 6,
+      "item_code": null
+    },
+    {
+      "name": "HERMES INTERNATIONAL",
+      "weight_pct": 1.04,
+      "shares": 3,
+      "item_code": null
+    },
+    {
+      "name": "DHL GROUP",
+      "weight_pct": 1.04,
+      "shares": 100,
+      "item_code": null
+    },
+    {
+      "name": "DEUTSCHE BOERSE AG",
+      "weight_pct": 1.03,
+      "shares": 19,
+      "item_code": null
+    },
+    {
+      "name": "RHEINMETALL AG",
+      "weight_pct": 1.02,
+      "shares": 4,
+      "item_code": null
+    },
+    {
+      "name": "ESSILORLUXOTTICA",
+      "weight_pct": 0.96,
+      "shares": 33,
+      "item_code": null
+    },
+    {
+      "name": "BAYER AG-REG",
+      "weight_pct": 0.93,
+      "shares": 104,
+      "item_code": null
+    },
+    {
+      "name": "PROSUS NV",
+      "weight_pct": 0.9,
+      "shares": 130,
+      "item_code": null
+    },
+    {
+      "name": "BASF SE",
+      "weight_pct": 0.89,
+      "shares": 94,
+      "item_code": null
+    },
+    {
+      "name": "ENI SPA",
+      "weight_pct": 0.86,
+      "shares": 206,
+      "item_code": null
+    },
+    {
+      "name": "페라리",
+      "weight_pct": 0.83,
+      "shares": 12,
+      "item_code": "RACE.K"
+    },
+    {
+      "name": "DANONE",
+      "weight_pct": 0.81,
+      "shares": 68,
+      "item_code": null
+    },
+    {
+      "name": "COMPAGNIE DE SAINT GOBAIN",
+      "weight_pct": 0.79,
+      "shares": 52,
+      "item_code": null
+    },
+    {
+      "name": "ADYEN NV",
+      "weight_pct": 0.64,
+      "shares": 3,
+      "item_code": null
+    },
+    {
+      "name": "MERCEDES-BENZ GROUP AG",
+      "weight_pct": 0.62,
+      "shares": 76,
+      "item_code": null
+    },
+    {
+      "name": "KONINKLIJKE AHOLD DELHAIZE N",
+      "weight_pct": 0.53,
+      "shares": 94,
+      "item_code": null
+    },
+    {
+      "name": "ADIDAS AG",
+      "weight_pct": 0.52,
+      "shares": 19,
+      "item_code": null
+    },
+    {
+      "name": "BAYERISCHE MOTOREN WERKE AG",
+      "weight_pct": 0.31,
+      "shares": 29,
+      "item_code": null
+    },
+    {
+      "name": "WOLTERS KLUWER",
+      "weight_pct": 0.31,
+      "shares": 24,
+      "item_code": null
+    },
+    {
+      "name": "VOLKSWAGEN AG-PREF",
+      "weight_pct": 0.29,
+      "shares": 21,
+      "item_code": null
+    }
+  ]
+}

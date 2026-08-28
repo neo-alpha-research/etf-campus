@@ -1,0 +1,24 @@
+{
+  "ticker": "276970",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": 49.18,
+      "shares": 397148056,
+      "item_code": null
+    },
+    {
+      "name": "스왑(키움증권)",
+      "weight_pct": 48.97,
+      "shares": 395379530,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.83,
+      "shares": 14851325,
+      "item_code": null
+    }
+  ]
+}

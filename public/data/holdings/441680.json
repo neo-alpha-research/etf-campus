@@ -1,0 +1,54 @@
+{
+  "ticker": "441680",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "나스닥100커버드콜 TRS 260624-05",
+      "weight_pct": 43.16,
+      "shares": 231148204,
+      "item_code": null
+    },
+    {
+      "name": "나스닥100커버드콜 TRS 260624-03",
+      "weight_pct": 29.15,
+      "shares": 156111747,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 11.17,
+      "shares": 59865169,
+      "item_code": null
+    },
+    {
+      "name": "나스닥100커버드콜 TRS 260811-01",
+      "weight_pct": 7.29,
+      "shares": 39045382,
+      "item_code": null
+    },
+    {
+      "name": "나스닥100커버드콜 TRS 260323-01",
+      "weight_pct": 3.12,
+      "shares": 16722601,
+      "item_code": null
+    },
+    {
+      "name": "나스닥100커버드콜 TRS 250923-02",
+      "weight_pct": 2.93,
+      "shares": 15717672,
+      "item_code": null
+    },
+    {
+      "name": "Global X NASDAQ 100 Covered Call ETF",
+      "weight_pct": 2.18,
+      "shares": 466,
+      "item_code": "QYLD.O"
+    },
+    {
+      "name": "나스닥100커버드콜 TRS 251107-04",
+      "weight_pct": 0.96,
+      "shares": 5191049,
+      "item_code": null
+    }
+  ]
+}

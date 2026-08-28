@@ -1,0 +1,210 @@
+{
+  "ticker": "371470",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "야오밍바이오",
+      "weight_pct": 10.79,
+      "shares": 4262,
+      "item_code": "2269.HK"
+    },
+    {
+      "name": "우시앱텍",
+      "weight_pct": 10.49,
+      "shares": 1131,
+      "item_code": "603259.SS"
+    },
+    {
+      "name": "비원 메디슨스 ADR",
+      "weight_pct": 10.14,
+      "shares": 69,
+      "item_code": "ONC.O"
+    },
+    {
+      "name": "이노벤트 바이오로직스",
+      "weight_pct": 9.88,
+      "shares": 1803,
+      "item_code": "1801.HK"
+    },
+    {
+      "name": "항서의약",
+      "weight_pct": 6.81,
+      "shares": 2502,
+      "item_code": "600276.SS"
+    },
+    {
+      "name": "중산강방생물의약",
+      "weight_pct": 5.58,
+      "shares": 1188,
+      "item_code": "9926.HK"
+    },
+    {
+      "name": "중국바이오제약",
+      "weight_pct": 4.39,
+      "shares": 15344,
+      "item_code": "1177.HK"
+    },
+    {
+      "name": "한삼제약",
+      "weight_pct": 3.41,
+      "shares": 2158,
+      "item_code": "3692.HK"
+    },
+    {
+      "name": "젠스크립트 바이오테크",
+      "weight_pct": 3.34,
+      "shares": 1894,
+      "item_code": "1548.HK"
+    },
+    {
+      "name": "강룡화성 Class A",
+      "weight_pct": 3.14,
+      "shares": 1224,
+      "item_code": "300759.SZ"
+    },
+    {
+      "name": "3S바이오",
+      "weight_pct": 2.94,
+      "shares": 3360,
+      "item_code": "1530.HK"
+    },
+    {
+      "name": "과륜박태생물",
+      "weight_pct": 2.49,
+      "shares": 96,
+      "item_code": "6990.HK"
+    },
+    {
+      "name": "래사혈액제재",
+      "weight_pct": 2.47,
+      "shares": 8576,
+      "item_code": "002252.SZ"
+    },
+    {
+      "name": "간&리 제약",
+      "weight_pct": 2.12,
+      "shares": 512,
+      "item_code": "603087.SS"
+    },
+    {
+      "name": "예력사",
+      "weight_pct": 2.1,
+      "shares": 322,
+      "item_code": "688578.SS"
+    },
+    {
+      "name": "태격제약",
+      "weight_pct": 2.05,
+      "shares": 693,
+      "item_code": "300347.SZ"
+    },
+    {
+      "name": "영창생물",
+      "weight_pct": 1.84,
+      "shares": 263,
+      "item_code": "688331.SS"
+    },
+    {
+      "name": "택경제약",
+      "weight_pct": 1.69,
+      "shares": 243,
+      "item_code": "688266.SS"
+    },
+    {
+      "name": "사천 백리천항약업",
+      "weight_pct": 1.64,
+      "shares": 105,
+      "item_code": "688506.SS"
+    },
+    {
+      "name": "정태과기",
+      "weight_pct": 1.63,
+      "shares": 4349,
+      "item_code": "2228.HK"
+    },
+    {
+      "name": "상해 군지생물",
+      "weight_pct": 1.51,
+      "shares": 735,
+      "item_code": "688180.SS"
+    },
+    {
+      "name": "상산생화학",
+      "weight_pct": 1.36,
+      "shares": 982,
+      "item_code": "300255.SZ"
+    },
+    {
+      "name": "북경천단생물제품",
+      "weight_pct": 1.16,
+      "shares": 1600,
+      "item_code": "600161.SS"
+    },
+    {
+      "name": "강철제약",
+      "weight_pct": 1.11,
+      "shares": 1929,
+      "item_code": "0867.HK"
+    },
+    {
+      "name": "화란생물공학",
+      "weight_pct": 1.09,
+      "shares": 1415,
+      "item_code": "002007.SZ"
+    },
+    {
+      "name": "특보생물",
+      "weight_pct": 1.08,
+      "shares": 310,
+      "item_code": "688278.SS"
+    },
+    {
+      "name": "제천제약",
+      "weight_pct": 1.05,
+      "shares": 727,
+      "item_code": "600566.SS"
+    },
+    {
+      "name": "여주제약",
+      "weight_pct": 0.91,
+      "shares": 596,
+      "item_code": "000513.SZ"
+    },
+    {
+      "name": "만태생물약업",
+      "weight_pct": 0.77,
+      "shares": 428,
+      "item_code": "603392.SS"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.59,
+      "shares": 2096134,
+      "item_code": null
+    },
+    {
+      "name": "삼생국건",
+      "weight_pct": 0.52,
+      "shares": 208,
+      "item_code": "688336.SS"
+    },
+    {
+      "name": "SOLACTIVE CHINA BIOTECH INDEX CNH TRS 26",
+      "weight_pct": -0.01,
+      "shares": -65876,
+      "item_code": null
+    },
+    {
+      "name": "SOLACTIVE CHINA BIOTECH INDEX CNH TRS 26",
+      "weight_pct": -0.04,
+      "shares": -164962,
+      "item_code": null
+    },
+    {
+      "name": "SOLACTIVE CHINA BIOTECH INDEX CNH TRS 26",
+      "weight_pct": -0.19,
+      "shares": -689792,
+      "item_code": null
+    }
+  ]
+}

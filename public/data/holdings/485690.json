@@ -1,0 +1,102 @@
+{
+  "ticker": "485690",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "엔비디아",
+      "weight_pct": 15.74,
+      "shares": 592,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 14.79,
+      "shares": 341,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 12.65,
+      "shares": 407,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 6.41,
+      "shares": 285,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "마이크로소프트",
+      "weight_pct": 6.04,
+      "shares": 96,
+      "item_code": "MSFT.O"
+    },
+    {
+      "name": "아리스타 네트웍스",
+      "weight_pct": 5.82,
+      "shares": 227,
+      "item_code": "ANET.K"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 5.15,
+      "shares": 156,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "메타",
+      "weight_pct": 4.75,
+      "shares": 65,
+      "item_code": "META.O"
+    },
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 4.61,
+      "shares": 87,
+      "item_code": "TSM"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 4.42,
+      "shares": 98,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 4.27,
+      "shares": 70,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "마이크론 테크놀로지",
+      "weight_pct": 4.16,
+      "shares": 35,
+      "item_code": "MU.O"
+    },
+    {
+      "name": "버티브 홀딩스",
+      "weight_pct": 4.11,
+      "shares": 123,
+      "item_code": "VRT"
+    },
+    {
+      "name": "오라클",
+      "weight_pct": 3.77,
+      "shares": 200,
+      "item_code": "ORCL.K"
+    },
+    {
+      "name": "아스테라 랩스",
+      "weight_pct": 3.64,
+      "shares": 99,
+      "item_code": "ALAB.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.4,
+      "shares": -4380538,
+      "item_code": null
+    }
+  ]
+}

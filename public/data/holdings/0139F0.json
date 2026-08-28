@@ -1,0 +1,1044 @@
+{
+  "ticker": "0139F0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "현대카드949-1",
+      "weight_pct": 5.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈342-1",
+      "weight_pct": 2.81,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(중앙회)2025-12이1Y-A",
+      "weight_pct": 2.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드252-3",
+      "weight_pct": 1.9,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2005-3",
+      "weight_pct": 1.9,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈507-7",
+      "weight_pct": 1.88,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2001-1",
+      "weight_pct": 1.88,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈778-1",
+      "weight_pct": 1.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비국민카드440-1",
+      "weight_pct": 1.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈571-1(사)",
+      "weight_pct": 1.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈470-1",
+      "weight_pct": 1.86,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드293-1",
+      "weight_pct": 1.86,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "수산금융채권(중앙회)16-12이표12-16호",
+      "weight_pct": 1.86,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈546-6",
+      "weight_pct": 1.86,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(변)2601이1A-15",
+      "weight_pct": 1.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드2829",
+      "weight_pct": 1.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드293-2",
+      "weight_pct": 1.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비국민카드394-1",
+      "weight_pct": 0.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈496-2",
+      "weight_pct": 0.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈225-4",
+      "weight_pct": 0.94,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "평택도시공사2025-06",
+      "weight_pct": 0.94,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드254-3",
+      "weight_pct": 0.94,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈222-4",
+      "weight_pct": 0.94,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드2245-1",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데카드534-2",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈779-1",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드2826",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드236-5(사)",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈513-2",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈438-4(지)",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드256-1",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2002-3",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드255-1",
+      "weight_pct": 0.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈540-2",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈144-2",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드273-1",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드274-1",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대커머셜546-1",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈321-1",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈777-2",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈754-1",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈509-1",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈443-1",
+      "weight_pct": 0.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈542-1",
+      "weight_pct": 0.91,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권25신할0100-1022-1",
+      "weight_pct": 0.9,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-61",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-60",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-59",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-58",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-57",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-56",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-55",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-54",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-53",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드 20260128-321-52",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-16",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-15",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-13",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-12",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-11",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-10",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-9",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-8",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-7",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20260127-364-14",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-17",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-11",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-13",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-14",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-15",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-16",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-12",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-18",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-32",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-31",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-30",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-29",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-28",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-26",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-25",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-24",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-23",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-22",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-20",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-19",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-27",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260123-326-21",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-209",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드 20251230-364-99",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드 20251230-364-100",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드 20251230-364-101",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드 20251230-364-98",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-180",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-181",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-182",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-183",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-184",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-185",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-186",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-187",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-189",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-190",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-191",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-192",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-193",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-194",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-195",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-202",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-203",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-204",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-205",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-206",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-207",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-208",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251230-364-188",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251230-335-60",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251230-335-59",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251230-335-58",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251230-335-57",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251230-335-56",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251230-335-55",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251219-364-146",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-2",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-4",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-5",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-7",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-13",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-14",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-15",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-16",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-17",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-18",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-21",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-22",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-23",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-25",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-26",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-27",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-28",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-29",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-30",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20251209-364-33",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20251208-364-26",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20251208-364-27",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20251209-364-32",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-1",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-3",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251229-312-24",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-346-38",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-358-40",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-358-41",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-358-42",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-358-43",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-358-44",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-358-45",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-358-39",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-346-36",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-358-46",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-346-35",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20251229-346-37",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20251211-364-85",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권 20251211-364-84",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-70",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-71",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-68",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-67",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-69",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-75",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-74",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-73",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-76",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251216-364-72",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -20.29,
+      "shares": -20711951,
+      "item_code": null
+    }
+  ]
+}

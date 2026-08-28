@@ -1,0 +1,30 @@
+{
+  "ticker": "256750",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(미래에셋증권)",
+      "weight_pct": 54.44,
+      "shares": 8389318,
+      "item_code": null
+    },
+    {
+      "name": "스왑(하나금융투자)",
+      "weight_pct": 45.56,
+      "shares": 7020880,
+      "item_code": null
+    },
+    {
+      "name": "CSOP SZSE ChiNext ETF",
+      "weight_pct": 0.05,
+      "shares": 3,
+      "item_code": "3147.HK"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.05,
+      "shares": -8470,
+      "item_code": null
+    }
+  ]
+}

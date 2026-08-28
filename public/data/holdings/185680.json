@@ -1,0 +1,30 @@
+{
+  "ticker": "185680",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(하나금융투자)",
+      "weight_pct": 81.71,
+      "shares": 40572036,
+      "item_code": null
+    },
+    {
+      "name": "스왑(미래에셋증권)",
+      "weight_pct": 9.08,
+      "shares": 4513124,
+      "item_code": null
+    },
+    {
+      "name": "State Street SPDR S&P Biotech ETF",
+      "weight_pct": 8.8,
+      "shares": 18,
+      "item_code": "XBI"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.39,
+      "shares": 194078,
+      "item_code": null
+    }
+  ]
+}

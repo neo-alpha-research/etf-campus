@@ -1,0 +1,96 @@
+{
+  "ticker": "0122W0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "한국전력1440",
+      "weight_pct": 8.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "토지주택채권458",
+      "weight_pct": 8.83,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "자산관리공사제74회3011-21(사)",
+      "weight_pct": 8.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행47-05이2.5갑-09",
+      "weight_pct": 8.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행29-07-이-1.25-A",
+      "weight_pct": 8.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국서부발전50-2",
+      "weight_pct": 8.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "수산금융채권(일반)07-11이표60-08호",
+      "weight_pct": 8.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB금융지주29",
+      "weight_pct": 8.77,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20251114-364-48",
+      "weight_pct": 4.36,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대커머셜 20211111-1826-50",
+      "weight_pct": 4.36,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "동아지질 20251031-364-1",
+      "weight_pct": 4.36,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성증권 20251117-364-47",
+      "weight_pct": 4.36,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신증권 20251124-364-97",
+      "weight_pct": 4.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신증권 20251124-364-96",
+      "weight_pct": 4.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.4,
+      "shares": 3466479,
+      "item_code": null
+    }
+  ]
+}

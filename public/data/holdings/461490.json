@@ -1,0 +1,72 @@
+{
+  "ticker": "461490",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "RISE 미국S&P500",
+      "weight_pct": 24.2,
+      "shares": 7777,
+      "item_code": "379780"
+    },
+    {
+      "name": "KODEX 종합채권(AA-이상)액티브",
+      "weight_pct": 17.35,
+      "shares": 1164,
+      "item_code": "273130"
+    },
+    {
+      "name": "RISE 종합채권(A-이상)액티브",
+      "weight_pct": 15.43,
+      "shares": 1106,
+      "item_code": "385540"
+    },
+    {
+      "name": "TIGER 종합채권(AA-이상)액티브",
+      "weight_pct": 14.61,
+      "shares": 2040,
+      "item_code": "451540"
+    },
+    {
+      "name": "TIGER KRX금현물",
+      "weight_pct": 13.4,
+      "shares": 7246,
+      "item_code": "0072R0"
+    },
+    {
+      "name": "RISE 머니마켓액티브",
+      "weight_pct": 5.8,
+      "shares": 775,
+      "item_code": "455890"
+    },
+    {
+      "name": "TIGER 미국S&P500",
+      "weight_pct": 3.56,
+      "shares": 1001,
+      "item_code": "360750"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 2.66,
+      "shares": 19728635,
+      "item_code": null
+    },
+    {
+      "name": "KODEX 미국S&P500",
+      "weight_pct": 1.61,
+      "shares": 500,
+      "item_code": "379800"
+    },
+    {
+      "name": "ACE KRX금현물",
+      "weight_pct": 1.06,
+      "shares": 274,
+      "item_code": "411060"
+    },
+    {
+      "name": "TIME 미국S&P500액티브",
+      "weight_pct": 0.28,
+      "shares": 65,
+      "item_code": "426020"
+    }
+  ]
+}

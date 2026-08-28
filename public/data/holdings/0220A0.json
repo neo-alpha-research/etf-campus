@@ -1,0 +1,78 @@
+{
+  "ticker": "0220A0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "현대차",
+      "weight_pct": 26.26,
+      "shares": 615,
+      "item_code": "005380"
+    },
+    {
+      "name": "기아",
+      "weight_pct": 14.51,
+      "shares": 1073,
+      "item_code": "000270"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 9.3,
+      "shares": 192,
+      "item_code": "012330"
+    },
+    {
+      "name": "국고채권03250-2706(24-4)",
+      "weight_pct": 8.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권05250-2703(07-3)",
+      "weight_pct": 6.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권03875-2612(23-10)",
+      "weight_pct": 6.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02375-2703(22-1)",
+      "weight_pct": 6.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권01500-2612(16-8)",
+      "weight_pct": 6.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02125-2706(17-3)",
+      "weight_pct": 6.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02400-2707-02",
+      "weight_pct": 5.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02625-2703(25-1)",
+      "weight_pct": 3.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.0,
+      "shares": -24423,
+      "item_code": null
+    }
+  ]
+}

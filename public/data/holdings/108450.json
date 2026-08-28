@@ -1,0 +1,108 @@
+{
+  "ticker": "108450",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 23.93,
+      "shares": 3659,
+      "item_code": "005930"
+    },
+    {
+      "name": "에스원",
+      "weight_pct": 12.98,
+      "shares": 6177,
+      "item_code": "012750"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 12.97,
+      "shares": 381,
+      "item_code": "009150"
+    },
+    {
+      "name": "삼성중공업",
+      "weight_pct": 8.99,
+      "shares": 17425,
+      "item_code": "010140"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 8.8,
+      "shares": 629,
+      "item_code": "006400"
+    },
+    {
+      "name": "삼성물산",
+      "weight_pct": 7.72,
+      "shares": 837,
+      "item_code": "028260"
+    },
+    {
+      "name": "삼성바이오로직스",
+      "weight_pct": 5.6,
+      "shares": 143,
+      "item_code": "207940"
+    },
+    {
+      "name": "삼성증권",
+      "weight_pct": 4.44,
+      "shares": 2047,
+      "item_code": "016360"
+    },
+    {
+      "name": "삼성생명",
+      "weight_pct": 4.22,
+      "shares": 560,
+      "item_code": "032830"
+    },
+    {
+      "name": "삼성E&A",
+      "weight_pct": 3.18,
+      "shares": 2581,
+      "item_code": "028050"
+    },
+    {
+      "name": "삼성에스디에스",
+      "weight_pct": 2.27,
+      "shares": 395,
+      "item_code": "018260"
+    },
+    {
+      "name": "삼성화재",
+      "weight_pct": 2.09,
+      "shares": 125,
+      "item_code": "000810"
+    },
+    {
+      "name": "제일기획",
+      "weight_pct": 0.8,
+      "shares": 1720,
+      "item_code": "030000"
+    },
+    {
+      "name": "삼성에피스홀딩스",
+      "weight_pct": 0.73,
+      "shares": 77,
+      "item_code": "0126Z0"
+    },
+    {
+      "name": "호텔신라",
+      "weight_pct": 0.63,
+      "shares": 612,
+      "item_code": "008770"
+    },
+    {
+      "name": "삼성카드",
+      "weight_pct": 0.33,
+      "shares": 294,
+      "item_code": "029780"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.22,
+      "shares": 9311459,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "ticker": "462900",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "알테오젠",
+      "weight_pct": 9.3,
+      "shares": 220,
+      "item_code": "196170"
+    },
+    {
+      "name": "에이비엘바이오",
+      "weight_pct": 8.41,
+      "shares": 815,
+      "item_code": "298380"
+    },
+    {
+      "name": "올릭스",
+      "weight_pct": 7.87,
+      "shares": 553,
+      "item_code": "226950"
+    },
+    {
+      "name": "에스티팜",
+      "weight_pct": 7.74,
+      "shares": 514,
+      "item_code": "237690"
+    },
+    {
+      "name": "셀트리온",
+      "weight_pct": 7.43,
+      "shares": 286,
+      "item_code": "068270"
+    },
+    {
+      "name": "한미약품",
+      "weight_pct": 7.11,
+      "shares": 104,
+      "item_code": "128940"
+    },
+    {
+      "name": "한올바이오파마",
+      "weight_pct": 6.47,
+      "shares": 741,
+      "item_code": "009420"
+    },
+    {
+      "name": "파마리서치",
+      "weight_pct": 5.93,
+      "shares": 101,
+      "item_code": "214450"
+    },
+    {
+      "name": "디앤디파마텍",
+      "weight_pct": 5.06,
+      "shares": 663,
+      "item_code": "347850"
+    },
+    {
+      "name": "알지노믹스",
+      "weight_pct": 4.23,
+      "shares": 986,
+      "item_code": "476830"
+    },
+    {
+      "name": "리가켐바이오",
+      "weight_pct": 4.16,
+      "shares": 308,
+      "item_code": "141080"
+    },
+    {
+      "name": "오스코텍",
+      "weight_pct": 3.4,
+      "shares": 715,
+      "item_code": "039200"
+    },
+    {
+      "name": "휴젤",
+      "weight_pct": 3.26,
+      "shares": 98,
+      "item_code": "145020"
+    },
+    {
+      "name": "녹십자",
+      "weight_pct": 3.07,
+      "shares": 178,
+      "item_code": "006280"
+    },
+    {
+      "name": "보로노이",
+      "weight_pct": 2.72,
+      "shares": 120,
+      "item_code": "310210"
+    },
+    {
+      "name": "에이프릴바이오",
+      "weight_pct": 2.49,
+      "shares": 955,
+      "item_code": "397030"
+    },
+    {
+      "name": "앱클론",
+      "weight_pct": 2.48,
+      "shares": 663,
+      "item_code": "174900"
+    },
+    {
+      "name": "HLB이노베이션",
+      "weight_pct": 2.18,
+      "shares": 1127,
+      "item_code": "024850"
+    },
+    {
+      "name": "넥스트바이오메디컬",
+      "weight_pct": 1.67,
+      "shares": 369,
+      "item_code": "389650"
+    },
+    {
+      "name": "큐라클",
+      "weight_pct": 1.62,
+      "shares": 1125,
+      "item_code": "365270"
+    },
+    {
+      "name": "인제니아테라퓨틱스(Reg.S)",
+      "weight_pct": 1.43,
+      "shares": 607,
+      "item_code": "950260"
+    },
+    {
+      "name": "삼성바이오로직스",
+      "weight_pct": 0.64,
+      "shares": 3,
+      "item_code": "207940"
+    },
+    {
+      "name": "뉴로핏",
+      "weight_pct": 0.61,
+      "shares": 570,
+      "item_code": "380550"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.31,
+      "shares": 2344463,
+      "item_code": null
+    },
+    {
+      "name": "씨어스",
+      "weight_pct": 0.3,
+      "shares": 102,
+      "item_code": "458870"
+    }
+  ]
+}

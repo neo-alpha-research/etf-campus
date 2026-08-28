@@ -1,0 +1,42 @@
+{
+  "ticker": "204480",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 120.02,
+      "shares": 592153360,
+      "item_code": null
+    },
+    {
+      "name": "차이나CSI300레버리지(합성) TRS 260803-02",
+      "weight_pct": -0.33,
+      "shares": -1671120,
+      "item_code": null
+    },
+    {
+      "name": "차이나CSI300레버리지(합성) TRS 260511-07",
+      "weight_pct": -1.0,
+      "shares": -4979094,
+      "item_code": null
+    },
+    {
+      "name": "차이나CSI300레버리지(합성) TRS 260803-01",
+      "weight_pct": -1.28,
+      "shares": -6327545,
+      "item_code": null
+    },
+    {
+      "name": "차이나CSI300레버리지(합성) TRS 260511-02",
+      "weight_pct": -4.31,
+      "shares": -21291925,
+      "item_code": null
+    },
+    {
+      "name": "차이나CSI300레버리지(합성) TRS 260511-04",
+      "weight_pct": -13.08,
+      "shares": -64544176,
+      "item_code": null
+    }
+  ]
+}

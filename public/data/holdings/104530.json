@@ -1,0 +1,132 @@
+{
+  "ticker": "104530",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "현대엘리베이터",
+      "weight_pct": 9.7,
+      "shares": 1130,
+      "item_code": "017800"
+    },
+    {
+      "name": "케이카",
+      "weight_pct": 7.34,
+      "shares": 10398,
+      "item_code": "381970"
+    },
+    {
+      "name": "한국쉘석유",
+      "weight_pct": 6.51,
+      "shares": 115,
+      "item_code": "002960"
+    },
+    {
+      "name": "한일시멘트",
+      "weight_pct": 6.36,
+      "shares": 3427,
+      "item_code": "300720"
+    },
+    {
+      "name": "GS",
+      "weight_pct": 6.05,
+      "shares": 432,
+      "item_code": "078930"
+    },
+    {
+      "name": "DB손해보험",
+      "weight_pct": 6.04,
+      "shares": 289,
+      "item_code": "005830"
+    },
+    {
+      "name": "제일기획",
+      "weight_pct": 6.02,
+      "shares": 2786,
+      "item_code": "030000"
+    },
+    {
+      "name": "서울보증보험",
+      "weight_pct": 5.5,
+      "shares": 1134,
+      "item_code": "031210"
+    },
+    {
+      "name": "메가스터디교육",
+      "weight_pct": 5.47,
+      "shares": 1348,
+      "item_code": "215200"
+    },
+    {
+      "name": "삼성카드",
+      "weight_pct": 5.16,
+      "shares": 979,
+      "item_code": "029780"
+    },
+    {
+      "name": "TKG휴켐스",
+      "weight_pct": 5.02,
+      "shares": 2731,
+      "item_code": "069260"
+    },
+    {
+      "name": "이노션",
+      "weight_pct": 4.95,
+      "shares": 2332,
+      "item_code": "214320"
+    },
+    {
+      "name": "E1",
+      "weight_pct": 4.8,
+      "shares": 434,
+      "item_code": "017940"
+    },
+    {
+      "name": "오리온홀딩스",
+      "weight_pct": 4.05,
+      "shares": 1410,
+      "item_code": "001800"
+    },
+    {
+      "name": "LX인터내셔널",
+      "weight_pct": 3.58,
+      "shares": 825,
+      "item_code": "001120"
+    },
+    {
+      "name": "NH투자증권",
+      "weight_pct": 3.13,
+      "shares": 1036,
+      "item_code": "005940"
+    },
+    {
+      "name": "유안타증권",
+      "weight_pct": 2.94,
+      "shares": 5442,
+      "item_code": "003470"
+    },
+    {
+      "name": "에스엘",
+      "weight_pct": 2.62,
+      "shares": 438,
+      "item_code": "005850"
+    },
+    {
+      "name": "한국금융지주",
+      "weight_pct": 2.52,
+      "shares": 116,
+      "item_code": "071050"
+    },
+    {
+      "name": "삼성증권",
+      "weight_pct": 2.14,
+      "shares": 214,
+      "item_code": "016360"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.14,
+      "shares": 1288700,
+      "item_code": null
+    }
+  ]
+}

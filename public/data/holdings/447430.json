@@ -1,0 +1,192 @@
+{
+  "ticker": "447430",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 11.34,
+      "shares": 92464874,
+      "item_code": null
+    },
+    {
+      "name": "서희건설",
+      "weight_pct": 10.04,
+      "shares": 35492,
+      "item_code": "035890"
+    },
+    {
+      "name": "더블유게임즈",
+      "weight_pct": 8.53,
+      "shares": 1216,
+      "item_code": "192080"
+    },
+    {
+      "name": "영원무역홀딩스",
+      "weight_pct": 7.51,
+      "shares": 364,
+      "item_code": "009970"
+    },
+    {
+      "name": "KSS해운",
+      "weight_pct": 6.44,
+      "shares": 5221,
+      "item_code": "044450"
+    },
+    {
+      "name": "쿠쿠홀딩스",
+      "weight_pct": 6.41,
+      "shares": 1863,
+      "item_code": "192400"
+    },
+    {
+      "name": "SK가스",
+      "weight_pct": 6.16,
+      "shares": 218,
+      "item_code": "018670"
+    },
+    {
+      "name": "세방전지",
+      "weight_pct": 5.08,
+      "shares": 689,
+      "item_code": "004490"
+    },
+    {
+      "name": "NICE",
+      "weight_pct": 4.62,
+      "shares": 2817,
+      "item_code": "034310"
+    },
+    {
+      "name": "세아제강",
+      "weight_pct": 4.31,
+      "shares": 253,
+      "item_code": "306200"
+    },
+    {
+      "name": "SNT모티브",
+      "weight_pct": 3.37,
+      "shares": 1070,
+      "item_code": "064960"
+    },
+    {
+      "name": "SNT홀딩스",
+      "weight_pct": 3.17,
+      "shares": 558,
+      "item_code": "036530"
+    },
+    {
+      "name": "세아제강지주",
+      "weight_pct": 3.16,
+      "shares": 259,
+      "item_code": "003030"
+    },
+    {
+      "name": "나이스정보통신",
+      "weight_pct": 2.4,
+      "shares": 2717,
+      "item_code": "036800"
+    },
+    {
+      "name": "메가스터디교육",
+      "weight_pct": 2.23,
+      "shares": 510,
+      "item_code": "215200"
+    },
+    {
+      "name": "강원랜드",
+      "weight_pct": 2.08,
+      "shares": 1167,
+      "item_code": "035250"
+    },
+    {
+      "name": "모토닉",
+      "weight_pct": 1.63,
+      "shares": 1315,
+      "item_code": "009680"
+    },
+    {
+      "name": "유니드",
+      "weight_pct": 1.56,
+      "shares": 201,
+      "item_code": "014830"
+    },
+    {
+      "name": "빅솔론",
+      "weight_pct": 1.46,
+      "shares": 1427,
+      "item_code": "093190"
+    },
+    {
+      "name": "블랙야크아이앤씨",
+      "weight_pct": 1.16,
+      "shares": 3005,
+      "item_code": "478560"
+    },
+    {
+      "name": "대양전기공업",
+      "weight_pct": 1.03,
+      "shares": 451,
+      "item_code": "108380"
+    },
+    {
+      "name": "SNT다이내믹스",
+      "weight_pct": 0.98,
+      "shares": 258,
+      "item_code": "003570"
+    },
+    {
+      "name": "HS애드",
+      "weight_pct": 0.96,
+      "shares": 1238,
+      "item_code": "035000"
+    },
+    {
+      "name": "다우기술",
+      "weight_pct": 0.87,
+      "shares": 185,
+      "item_code": "023590"
+    },
+    {
+      "name": "노바렉스",
+      "weight_pct": 0.66,
+      "shares": 474,
+      "item_code": "194700"
+    },
+    {
+      "name": "네오팜",
+      "weight_pct": 0.62,
+      "shares": 215,
+      "item_code": "092730"
+    },
+    {
+      "name": "백산",
+      "weight_pct": 0.5,
+      "shares": 387,
+      "item_code": "035150"
+    },
+    {
+      "name": "동원산업",
+      "weight_pct": 0.49,
+      "shares": 107,
+      "item_code": "006040"
+    },
+    {
+      "name": "이노션",
+      "weight_pct": 0.48,
+      "shares": 213,
+      "item_code": "214320"
+    },
+    {
+      "name": "KT나스미디어",
+      "weight_pct": 0.33,
+      "shares": 203,
+      "item_code": "089600"
+    },
+    {
+      "name": "대창단조",
+      "weight_pct": 0.29,
+      "shares": 384,
+      "item_code": "015230"
+    }
+  ]
+}

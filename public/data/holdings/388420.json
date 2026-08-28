@@ -1,0 +1,108 @@
+{
+  "ticker": "388420",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 28.27,
+      "shares": 578,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 19.08,
+      "shares": 60,
+      "item_code": "000660"
+    },
+    {
+      "name": "심텍",
+      "weight_pct": 7.09,
+      "shares": 304,
+      "item_code": "222800"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 6.11,
+      "shares": 24,
+      "item_code": "009150"
+    },
+    {
+      "name": "테스",
+      "weight_pct": 6.01,
+      "shares": 224,
+      "item_code": "095610"
+    },
+    {
+      "name": "피에스케이",
+      "weight_pct": 5.93,
+      "shares": 242,
+      "item_code": "319660"
+    },
+    {
+      "name": "브이엠",
+      "weight_pct": 4.98,
+      "shares": 448,
+      "item_code": "089970"
+    },
+    {
+      "name": "기가비스",
+      "weight_pct": 4.23,
+      "shares": 213,
+      "item_code": "420770"
+    },
+    {
+      "name": "두산테스나",
+      "weight_pct": 3.6,
+      "shares": 236,
+      "item_code": "131970"
+    },
+    {
+      "name": "코미코",
+      "weight_pct": 3.27,
+      "shares": 700,
+      "item_code": "183300"
+    },
+    {
+      "name": "네패스아크",
+      "weight_pct": 3.21,
+      "shares": 642,
+      "item_code": "330860"
+    },
+    {
+      "name": "원익QnC",
+      "weight_pct": 2.88,
+      "shares": 588,
+      "item_code": "074600"
+    },
+    {
+      "name": "이수페타시스",
+      "weight_pct": 2.48,
+      "shares": 120,
+      "item_code": "007660"
+    },
+    {
+      "name": "대덕전자",
+      "weight_pct": 1.88,
+      "shares": 92,
+      "item_code": "353200"
+    },
+    {
+      "name": "주성엔지니어링",
+      "weight_pct": 1.38,
+      "shares": 42,
+      "item_code": "036930"
+    },
+    {
+      "name": "원익IPS",
+      "weight_pct": 1.36,
+      "shares": 66,
+      "item_code": "240810"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -1.84,
+      "shares": -10032298,
+      "item_code": null
+    }
+  ]
+}

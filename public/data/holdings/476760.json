@@ -1,0 +1,162 @@
+{
+  "ticker": "476760",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "[USD] 예금",
+      "weight_pct": 31.27,
+      "shares": 203944,
+      "item_code": null
+    },
+    {
+      "name": "Vanguard Extended Duration Treasury Index Fd",
+      "weight_pct": 17.29,
+      "shares": 1845,
+      "item_code": "EDV"
+    },
+    {
+      "name": "iShares 20+ Year Treasury Bond ETF",
+      "weight_pct": 11.96,
+      "shares": 936,
+      "item_code": "TLT.O"
+    },
+    {
+      "name": "T 4 5/8 11/15/55",
+      "weight_pct": 10.27,
+      "shares": 73036,
+      "item_code": null
+    },
+    {
+      "name": "PIMCO 25+ Year Zero Coupon US Treasury Index ETF",
+      "weight_pct": 8.46,
+      "shares": 925,
+      "item_code": "ZROZ.K"
+    },
+    {
+      "name": "T 4 3/4 02/15/56",
+      "weight_pct": 4.56,
+      "shares": 31796,
+      "item_code": null
+    },
+    {
+      "name": "SP 0 05/15/55",
+      "weight_pct": 2.35,
+      "shares": 67961,
+      "item_code": null
+    },
+    {
+      "name": "SP 0 02/15/55",
+      "weight_pct": 2.29,
+      "shares": 65533,
+      "item_code": null
+    },
+    {
+      "name": "SP 0 08/15/55",
+      "weight_pct": 2.16,
+      "shares": 63106,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/4 08/15/54",
+      "weight_pct": 1.98,
+      "shares": 15048,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/4 05/15/55",
+      "weight_pct": 1.74,
+      "shares": 12135,
+      "item_code": null
+    },
+    {
+      "name": "T 4 5/8 02/15/55",
+      "weight_pct": 1.67,
+      "shares": 11893,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/4 08/15/55",
+      "weight_pct": 1.56,
+      "shares": 10922,
+      "item_code": null
+    },
+    {
+      "name": "SP 0 05/15/56",
+      "weight_pct": 1.53,
+      "shares": 46116,
+      "item_code": null
+    },
+    {
+      "name": "SP 0 11/15/55",
+      "weight_pct": 1.35,
+      "shares": 40048,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/2 11/15/54",
+      "weight_pct": 1.33,
+      "shares": 9708,
+      "item_code": null
+    },
+    {
+      "name": "SP 0 02/15/56",
+      "weight_pct": 1.14,
+      "shares": 33980,
+      "item_code": null
+    },
+    {
+      "name": "iShares 25+ Year Treasury STRIPS Bond ETF",
+      "weight_pct": 1.02,
+      "shares": 194,
+      "item_code": "GOVZ.K"
+    },
+    {
+      "name": "T 4 1/4 02/15/54",
+      "weight_pct": 0.81,
+      "shares": 6189,
+      "item_code": null
+    },
+    {
+      "name": "T 4 5/8 05/15/54",
+      "weight_pct": 0.63,
+      "shares": 4490,
+      "item_code": null
+    },
+    {
+      "name": "T 3 5/8 05/15/53",
+      "weight_pct": 0.6,
+      "shares": 5097,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/4 11/15/53",
+      "weight_pct": 0.53,
+      "shares": 3762,
+      "item_code": null
+    },
+    {
+      "name": "T 1 7/8 02/15/51",
+      "weight_pct": 0.39,
+      "shares": 4854,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/8 08/15/53",
+      "weight_pct": 0.39,
+      "shares": 3033,
+      "item_code": null
+    },
+    {
+      "name": "T 5 05/15/56",
+      "weight_pct": 0.36,
+      "shares": 2427,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -7.77,
+      "shares": -69981772,
+      "item_code": null
+    }
+  ]
+}

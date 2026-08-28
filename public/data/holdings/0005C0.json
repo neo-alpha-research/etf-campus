@@ -1,0 +1,36 @@
+{
+  "ticker": "0005C0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 102.6,
+      "shares": 574192231,
+      "item_code": null
+    },
+    {
+      "name": "스왑(삼성증권)_44H9_20260226",
+      "weight_pct": 0.6,
+      "shares": 3365020,
+      "item_code": null
+    },
+    {
+      "name": "스왑(키움증권)_44H9_20260807",
+      "weight_pct": -0.37,
+      "shares": -2096198,
+      "item_code": null
+    },
+    {
+      "name": "스왑(메리츠증권)_44H9_260114",
+      "weight_pct": -1.4,
+      "shares": -7884773,
+      "item_code": null
+    },
+    {
+      "name": "스왑(한국투자증권)_44H9_260720",
+      "weight_pct": -1.42,
+      "shares": -7967001,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "ticker": "0088N0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "이오테크닉스",
+      "weight_pct": 12.62,
+      "shares": 169,
+      "item_code": "039030"
+    },
+    {
+      "name": "RFHIC",
+      "weight_pct": 10.05,
+      "shares": 1121,
+      "item_code": "218410"
+    },
+    {
+      "name": "코오롱인더",
+      "weight_pct": 7.03,
+      "shares": 722,
+      "item_code": "120110"
+    },
+    {
+      "name": "ISC",
+      "weight_pct": 6.35,
+      "shares": 202,
+      "item_code": "095340"
+    },
+    {
+      "name": "두산테스나",
+      "weight_pct": 6.33,
+      "shares": 415,
+      "item_code": "131970"
+    },
+    {
+      "name": "테크윙",
+      "weight_pct": 5.54,
+      "shares": 607,
+      "item_code": "089030"
+    },
+    {
+      "name": "일동제약",
+      "weight_pct": 5.27,
+      "shares": 1999,
+      "item_code": "249420"
+    },
+    {
+      "name": "코미코",
+      "weight_pct": 5.19,
+      "shares": 1110,
+      "item_code": "183300"
+    },
+    {
+      "name": "신세계",
+      "weight_pct": 4.92,
+      "shares": 63,
+      "item_code": "004170"
+    },
+    {
+      "name": "세아베스틸지주",
+      "weight_pct": 3.56,
+      "shares": 446,
+      "item_code": "001430"
+    },
+    {
+      "name": "HPSP",
+      "weight_pct": 3.56,
+      "shares": 384,
+      "item_code": "403870"
+    },
+    {
+      "name": "티씨케이",
+      "weight_pct": 3.52,
+      "shares": 79,
+      "item_code": "064760"
+    },
+    {
+      "name": "와이씨",
+      "weight_pct": 3.5,
+      "shares": 1528,
+      "item_code": "232140"
+    },
+    {
+      "name": "에이프릴바이오",
+      "weight_pct": 3.39,
+      "shares": 959,
+      "item_code": "397030"
+    },
+    {
+      "name": "하나머티리얼즈",
+      "weight_pct": 3.36,
+      "shares": 339,
+      "item_code": "166090"
+    },
+    {
+      "name": "씨젠",
+      "weight_pct": 3.32,
+      "shares": 568,
+      "item_code": "096530"
+    },
+    {
+      "name": "한국콜마",
+      "weight_pct": 3.32,
+      "shares": 124,
+      "item_code": "161890"
+    },
+    {
+      "name": "달바글로벌",
+      "weight_pct": 2.82,
+      "shares": 69,
+      "item_code": "483650"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 2.29,
+      "shares": 9,
+      "item_code": "009150"
+    },
+    {
+      "name": "현대백화점",
+      "weight_pct": 2.27,
+      "shares": 130,
+      "item_code": "069960"
+    },
+    {
+      "name": "엘앤씨바이오",
+      "weight_pct": 1.73,
+      "shares": 187,
+      "item_code": "290650"
+    },
+    {
+      "name": "원화예금",
+      "weight_pct": 0.0,
+      "shares": 32379,
+      "item_code": null
+    }
+  ]
+}

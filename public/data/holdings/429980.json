@@ -1,0 +1,198 @@
+{
+  "ticker": "429980",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "테슬라",
+      "weight_pct": 7.82,
+      "shares": 56,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 6.06,
+      "shares": 31,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 5.9,
+      "shares": 76,
+      "item_code": "005930"
+    },
+    {
+      "name": "BYD",
+      "weight_pct": 5.36,
+      "shares": 1126,
+      "item_code": "1211.HK"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 4.82,
+      "shares": 29,
+      "item_code": "006400"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 4.8,
+      "shares": 56,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 4.5,
+      "shares": 11,
+      "item_code": "LITE.O"
+    },
+    {
+      "name": "이튼",
+      "weight_pct": 4.48,
+      "shares": 26,
+      "item_code": "ETN"
+    },
+    {
+      "name": "Infineon Technologies AG",
+      "weight_pct": 4.36,
+      "shares": 167,
+      "item_code": null
+    },
+    {
+      "name": "퀄컴",
+      "weight_pct": 4.2,
+      "shares": 63,
+      "item_code": "QCOM.O"
+    },
+    {
+      "name": "STMicroelectronics NV",
+      "weight_pct": 3.91,
+      "shares": 196,
+      "item_code": null
+    },
+    {
+      "name": "Invesco QQQ Trust  Series 1",
+      "weight_pct": 3.82,
+      "shares": 13,
+      "item_code": "QQQ.O"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 3.69,
+      "shares": 28,
+      "item_code": "012330"
+    },
+    {
+      "name": "ABB LTD-REG",
+      "weight_pct": 3.56,
+      "shares": 89,
+      "item_code": null
+    },
+    {
+      "name": "Hon Hai Precision-GDR REG S",
+      "weight_pct": 3.54,
+      "shares": 569,
+      "item_code": null
+    },
+    {
+      "name": "NXP 세미콘덕터",
+      "weight_pct": 3.43,
+      "shares": 38,
+      "item_code": "NXPI.O"
+    },
+    {
+      "name": "온 세미콘덕터",
+      "weight_pct": 3.23,
+      "shares": 109,
+      "item_code": "ON.O"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 2.48,
+      "shares": 23,
+      "item_code": "373220"
+    },
+    {
+      "name": "에코프로",
+      "weight_pct": 2.33,
+      "shares": 87,
+      "item_code": "086520"
+    },
+    {
+      "name": "Hexagon AB-B",
+      "weight_pct": 2.2,
+      "shares": 517,
+      "item_code": null
+    },
+    {
+      "name": "마그나 인터내셔널",
+      "weight_pct": 2.16,
+      "shares": 81,
+      "item_code": "MGA"
+    },
+    {
+      "name": "후루카와 전기공업",
+      "weight_pct": 1.96,
+      "shares": 198,
+      "item_code": "5801.T"
+    },
+    {
+      "name": "CATL",
+      "weight_pct": 1.73,
+      "shares": 54,
+      "item_code": "3750.HK"
+    },
+    {
+      "name": "리비안",
+      "weight_pct": 1.66,
+      "shares": 252,
+      "item_code": "RIVN.O"
+    },
+    {
+      "name": "엘앤에프",
+      "weight_pct": 1.59,
+      "shares": 42,
+      "item_code": "066970"
+    },
+    {
+      "name": "앱티브",
+      "weight_pct": 1.21,
+      "shares": 64,
+      "item_code": "APTV.K"
+    },
+    {
+      "name": "이브에너지",
+      "weight_pct": 1.09,
+      "shares": 325,
+      "item_code": "300014.SZ"
+    },
+    {
+      "name": "샤오펑 Class A",
+      "weight_pct": 1.02,
+      "shares": 427,
+      "item_code": "9868.HK"
+    },
+    {
+      "name": "니오",
+      "weight_pct": 1.01,
+      "shares": 561,
+      "item_code": "9866.HK"
+    },
+    {
+      "name": "리 오토",
+      "weight_pct": 0.91,
+      "shares": 368,
+      "item_code": "2015.HK"
+    },
+    {
+      "name": "LS",
+      "weight_pct": 0.91,
+      "shares": 10,
+      "item_code": "006260"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.1,
+      "shares": 352685,
+      "item_code": null
+    }
+  ]
+}

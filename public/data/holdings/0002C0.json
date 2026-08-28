@@ -1,0 +1,162 @@
+{
+  "ticker": "0002C0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 9.09,
+      "shares": 18336785,
+      "item_code": null
+    },
+    {
+      "name": "WELSPUN CORP LTD",
+      "weight_pct": 8.51,
+      "shares": 514,
+      "item_code": null
+    },
+    {
+      "name": "SYRMA SGS TECHNOLOGY LTD",
+      "weight_pct": 6.72,
+      "shares": 636,
+      "item_code": null
+    },
+    {
+      "name": "ETERNAL LTD",
+      "weight_pct": 6.4,
+      "shares": 2730,
+      "item_code": null
+    },
+    {
+      "name": "Larsen & Toubro Ltd",
+      "weight_pct": 5.34,
+      "shares": 184,
+      "item_code": null
+    },
+    {
+      "name": "RELIANCE INDUSTRIES LTD",
+      "weight_pct": 5.02,
+      "shares": 540,
+      "item_code": null
+    },
+    {
+      "name": "DIVI'S LABORATORIES LTD",
+      "weight_pct": 4.15,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "STERLITE TECHNOLOGIES LTD",
+      "weight_pct": 3.83,
+      "shares": 806,
+      "item_code": null
+    },
+    {
+      "name": "Indian Hotels Co Ltd",
+      "weight_pct": 3.77,
+      "shares": 729,
+      "item_code": null
+    },
+    {
+      "name": "MTAR TECHNOLOGIES LTD",
+      "weight_pct": 3.64,
+      "shares": 71,
+      "item_code": null
+    },
+    {
+      "name": "MAHINDRA & MAHINDRA",
+      "weight_pct": 3.61,
+      "shares": 148,
+      "item_code": null
+    },
+    {
+      "name": "RADICO KHAITAN LTD",
+      "weight_pct": 3.51,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "HFCL LTD",
+      "weight_pct": 3.47,
+      "shares": 2051,
+      "item_code": null
+    },
+    {
+      "name": "HONASA CONSUMER LTD",
+      "weight_pct": 3.19,
+      "shares": 937,
+      "item_code": null
+    },
+    {
+      "name": "FSN E-COMMERCE VENTURES LTD",
+      "weight_pct": 3.13,
+      "shares": 1287,
+      "item_code": null
+    },
+    {
+      "name": "BILLIONBRAINS GARAGE VENTURE",
+      "weight_pct": 3.03,
+      "shares": 2155,
+      "item_code": null
+    },
+    {
+      "name": "ICICI BANK LTD",
+      "weight_pct": 2.98,
+      "shares": 291,
+      "item_code": null
+    },
+    {
+      "name": "ATHER ENERGY LTD",
+      "weight_pct": 2.9,
+      "shares": 270,
+      "item_code": null
+    },
+    {
+      "name": "STATE BANK OF INDIA",
+      "weight_pct": 2.73,
+      "shares": 362,
+      "item_code": null
+    },
+    {
+      "name": "LAURUS LAB LTD",
+      "weight_pct": 2.42,
+      "shares": 179,
+      "item_code": null
+    },
+    {
+      "name": "ASTRA MICROWAVE PRODUCTS LTD",
+      "weight_pct": 2.36,
+      "shares": 193,
+      "item_code": null
+    },
+    {
+      "name": "ABB INDIA LTD",
+      "weight_pct": 2.16,
+      "shares": 39,
+      "item_code": null
+    },
+    {
+      "name": "GLENMARK PHARMACEUTICALS LTD",
+      "weight_pct": 2.15,
+      "shares": 122,
+      "item_code": null
+    },
+    {
+      "name": "SAMVARDHAN MOTHERSON INTERNATIONAL",
+      "weight_pct": 2.13,
+      "shares": 1803,
+      "item_code": null
+    },
+    {
+      "name": "CG POWER AND INDUSTRIAL SOLU",
+      "weight_pct": 1.82,
+      "shares": 294,
+      "item_code": null
+    },
+    {
+      "name": "HITACHI ENERGY INDIA LTD",
+      "weight_pct": 1.81,
+      "shares": 7,
+      "item_code": null
+    }
+  ]
+}

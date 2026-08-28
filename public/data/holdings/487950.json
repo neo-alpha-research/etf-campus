@@ -1,0 +1,192 @@
+{
+  "ticker": "487950",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "ASUSTEK COMPUTER",
+      "weight_pct": 14.34,
+      "shares": 2253,
+      "item_code": null
+    },
+    {
+      "name": "NOVATEK MICROELECTRONICS LTD",
+      "weight_pct": 11.84,
+      "shares": 3245,
+      "item_code": null
+    },
+    {
+      "name": "PEGATRON",
+      "weight_pct": 9.36,
+      "shares": 15999,
+      "item_code": null
+    },
+    {
+      "name": "QUANTA COMPUTER",
+      "weight_pct": 8.64,
+      "shares": 3966,
+      "item_code": null
+    },
+    {
+      "name": "CATCHER TECHNOLIGY",
+      "weight_pct": 6.89,
+      "shares": 5092,
+      "item_code": null
+    },
+    {
+      "name": "SYNNEX TECHNOLOGY INTL CORP",
+      "weight_pct": 6.66,
+      "shares": 11673,
+      "item_code": null
+    },
+    {
+      "name": "Simplo Technology Co Ltd",
+      "weight_pct": 4.13,
+      "shares": 1577,
+      "item_code": null
+    },
+    {
+      "name": "CHICONY ELECTRONICS CO LTD",
+      "weight_pct": 3.91,
+      "shares": 5588,
+      "item_code": null
+    },
+    {
+      "name": "Transcend Information Inc",
+      "weight_pct": 3.73,
+      "shares": 1892,
+      "item_code": null
+    },
+    {
+      "name": "TXC Corp",
+      "weight_pct": 3.06,
+      "shares": 2523,
+      "item_code": null
+    },
+    {
+      "name": "Getac Holdings Corp",
+      "weight_pct": 2.77,
+      "shares": 3650,
+      "item_code": null
+    },
+    {
+      "name": "Taiwan Surface Mounting Technology Corp",
+      "weight_pct": 2.65,
+      "shares": 2028,
+      "item_code": null
+    },
+    {
+      "name": "Systex Corp",
+      "weight_pct": 2.45,
+      "shares": 2073,
+      "item_code": null
+    },
+    {
+      "name": "Elan Microelectronics Corp",
+      "weight_pct": 2.18,
+      "shares": 2388,
+      "item_code": null
+    },
+    {
+      "name": "Sitronix Technology Corp",
+      "weight_pct": 1.92,
+      "shares": 991,
+      "item_code": null
+    },
+    {
+      "name": "Nichidenbo Corp",
+      "weight_pct": 1.66,
+      "shares": 1532,
+      "item_code": null
+    },
+    {
+      "name": "Primax Electronics Ltd",
+      "weight_pct": 1.6,
+      "shares": 4056,
+      "item_code": null
+    },
+    {
+      "name": "Everlight Electronics Co Ltd",
+      "weight_pct": 1.59,
+      "shares": 3650,
+      "item_code": null
+    },
+    {
+      "name": "Pixart Imaging Inc",
+      "weight_pct": 1.57,
+      "shares": 1216,
+      "item_code": null
+    },
+    {
+      "name": "Weikeng Industrial Co Ltd",
+      "weight_pct": 1.11,
+      "shares": 3740,
+      "item_code": null
+    },
+    {
+      "name": "ITE Technology Inc",
+      "weight_pct": 1.09,
+      "shares": 1261,
+      "item_code": null
+    },
+    {
+      "name": "Global Mixed Mode Technology Inc",
+      "weight_pct": 1.0,
+      "shares": 585,
+      "item_code": null
+    },
+    {
+      "name": "Fitipower Integrated Technology Inc",
+      "weight_pct": 0.92,
+      "shares": 856,
+      "item_code": null
+    },
+    {
+      "name": "Zero One Technology Co Ltd",
+      "weight_pct": 0.9,
+      "shares": 1261,
+      "item_code": null
+    },
+    {
+      "name": "Flytech Technology Co Ltd",
+      "weight_pct": 0.88,
+      "shares": 946,
+      "item_code": null
+    },
+    {
+      "name": "Stark Technology Inc",
+      "weight_pct": 0.87,
+      "shares": 856,
+      "item_code": null
+    },
+    {
+      "name": "Raydium Semiconductor Corp",
+      "weight_pct": 0.8,
+      "shares": 540,
+      "item_code": null
+    },
+    {
+      "name": "Posiflex Technology Inc",
+      "weight_pct": 0.7,
+      "shares": 540,
+      "item_code": null
+    },
+    {
+      "name": "Promate Electronic Co Ltd",
+      "weight_pct": 0.64,
+      "shares": 2028,
+      "item_code": null
+    },
+    {
+      "name": "Channel Well Technology Co Ltd",
+      "weight_pct": 0.6,
+      "shares": 1757,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.62,
+      "shares": -4172387,
+      "item_code": null
+    }
+  ]
+}

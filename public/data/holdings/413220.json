@@ -1,0 +1,36 @@
+{
+  "ticker": "413220",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 133.12,
+      "shares": 623043477,
+      "item_code": null
+    },
+    {
+      "name": "스왑(NH투자증권)",
+      "weight_pct": -5.42,
+      "shares": -25391620,
+      "item_code": null
+    },
+    {
+      "name": "스왑(키움증권)",
+      "weight_pct": -6.24,
+      "shares": -29227224,
+      "item_code": null
+    },
+    {
+      "name": "스왑(미래에셋증권)",
+      "weight_pct": -8.02,
+      "shares": -37547222,
+      "item_code": null
+    },
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": -13.43,
+      "shares": -62880378,
+      "item_code": null
+    }
+  ]
+}

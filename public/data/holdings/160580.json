@@ -1,0 +1,30 @@
+{
+  "ticker": "160580",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "창고증권(구리)",
+      "weight_pct": 97.79,
+      "shares": 20060,
+      "item_code": null
+    },
+    {
+      "name": "COPPER FUT COMEX SEPT 2026",
+      "weight_pct": 2.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 2.17,
+      "shares": 9018845,
+      "item_code": null
+    },
+    {
+      "name": "United States Copper Index Fund",
+      "weight_pct": 0.03,
+      "shares": 2,
+      "item_code": "CPER.K"
+    }
+  ]
+}

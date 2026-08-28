@@ -1,0 +1,162 @@
+{
+  "ticker": "463690",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "메타",
+      "weight_pct": 16.71,
+      "shares": 188,
+      "item_code": "META.O"
+    },
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 10.28,
+      "shares": 195,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "알파벳 Class C",
+      "weight_pct": 8.21,
+      "shares": 157,
+      "item_code": "GOOG.O"
+    },
+    {
+      "name": "AT&T",
+      "weight_pct": 5.19,
+      "shares": 1308,
+      "item_code": "T"
+    },
+    {
+      "name": "버라이존",
+      "weight_pct": 4.98,
+      "shares": 647,
+      "item_code": "VZ"
+    },
+    {
+      "name": "컴캐스트",
+      "weight_pct": 4.92,
+      "shares": 1178,
+      "item_code": "CMCSA.O"
+    },
+    {
+      "name": "월트 디즈니",
+      "weight_pct": 4.87,
+      "shares": 289,
+      "item_code": "DIS"
+    },
+    {
+      "name": "넷플릭스",
+      "weight_pct": 4.83,
+      "shares": 386,
+      "item_code": "NFLX.O"
+    },
+    {
+      "name": "워너 브로스 디스커버리",
+      "weight_pct": 4.64,
+      "shares": 1052,
+      "item_code": "WBD.O"
+    },
+    {
+      "name": "T-모바일 US",
+      "weight_pct": 4.52,
+      "shares": 164,
+      "item_code": "TMUS.O"
+    },
+    {
+      "name": "옴니콤 그룹",
+      "weight_pct": 4.51,
+      "shares": 334,
+      "item_code": "OMC"
+    },
+    {
+      "name": "라이브 네이션 엔터테인먼트",
+      "weight_pct": 4.38,
+      "shares": 156,
+      "item_code": "LYV"
+    },
+    {
+      "name": "테이크-투 인터랙티브 소프트웨어",
+      "weight_pct": 4.13,
+      "shares": 115,
+      "item_code": "TTWO.O"
+    },
+    {
+      "name": "차터 커뮤니케이션",
+      "weight_pct": 3.17,
+      "shares": 134,
+      "item_code": "CHTR.O"
+    },
+    {
+      "name": "폭스 Class A",
+      "weight_pct": 2.5,
+      "shares": 234,
+      "item_code": "FOXA.O"
+    },
+    {
+      "name": "TKO 그룹 홀딩스",
+      "weight_pct": 2.13,
+      "shares": 73,
+      "item_code": "TKO"
+    },
+    {
+      "name": "에코스타",
+      "weight_pct": 2.1,
+      "shares": 159,
+      "item_code": "ECHO.O"
+    },
+    {
+      "name": "뉴스 코퍼레이션 Class A",
+      "weight_pct": 2.03,
+      "shares": 428,
+      "item_code": "NWSA.O"
+    },
+    {
+      "name": "폭스 Class B",
+      "weight_pct": 1.55,
+      "shares": 163,
+      "item_code": "FOX.O"
+    },
+    {
+      "name": "앱러빈",
+      "weight_pct": 1.29,
+      "shares": 27,
+      "item_code": "APP.O"
+    },
+    {
+      "name": "트레이드 데스크",
+      "weight_pct": 1.0,
+      "shares": 501,
+      "item_code": "TTD.O"
+    },
+    {
+      "name": "뉴스 코퍼레이션 Class B",
+      "weight_pct": 0.76,
+      "shares": 141,
+      "item_code": "NWS.O"
+    },
+    {
+      "name": "파라마운트 스카이댄스",
+      "weight_pct": 0.61,
+      "shares": 370,
+      "item_code": "PSKY.O"
+    },
+    {
+      "name": "레딧",
+      "weight_pct": 0.31,
+      "shares": 13,
+      "item_code": "RDDT.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.2,
+      "shares": 1843709,
+      "item_code": null
+    },
+    {
+      "name": "State Street Com Svc Sel Sec SPDR ETF",
+      "weight_pct": 0.06,
+      "shares": 3,
+      "item_code": "XLC"
+    }
+  ]
+}

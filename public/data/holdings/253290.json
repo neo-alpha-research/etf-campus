@@ -1,0 +1,318 @@
+{
+  "ticker": "253290",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "국고채권03375-3103(26-3)",
+      "weight_pct": 23.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "RISE 국고채3년",
+      "weight_pct": 19.84,
+      "shares": 4422,
+      "item_code": "114100"
+    },
+    {
+      "name": "국고채권02750-2812(25-10)",
+      "weight_pct": 13.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02250-2806(25-4)",
+      "weight_pct": 13.73,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "RISE 헬스케어",
+      "weight_pct": 10.87,
+      "shares": 19141,
+      "item_code": "253280"
+    },
+    {
+      "name": "삼성바이오로직스",
+      "weight_pct": 2.27,
+      "shares": 34,
+      "item_code": "207940"
+    },
+    {
+      "name": "알테오젠",
+      "weight_pct": 2.13,
+      "shares": 163,
+      "item_code": "196170"
+    },
+    {
+      "name": "셀트리온",
+      "weight_pct": 2.09,
+      "shares": 261,
+      "item_code": "068270"
+    },
+    {
+      "name": "3년국채 F 202609",
+      "weight_pct": 1.91,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "유한양행",
+      "weight_pct": 1.07,
+      "shares": 310,
+      "item_code": "000100"
+    },
+    {
+      "name": "HLB",
+      "weight_pct": 0.98,
+      "shares": 663,
+      "item_code": "028300"
+    },
+    {
+      "name": "SK바이오팜",
+      "weight_pct": 0.82,
+      "shares": 224,
+      "item_code": "326030"
+    },
+    {
+      "name": "에이비엘바이오",
+      "weight_pct": 0.75,
+      "shares": 237,
+      "item_code": "298380"
+    },
+    {
+      "name": "한미약품",
+      "weight_pct": 0.74,
+      "shares": 35,
+      "item_code": "128940"
+    },
+    {
+      "name": "파마리서치",
+      "weight_pct": 0.67,
+      "shares": 37,
+      "item_code": "214450"
+    },
+    {
+      "name": "리가켐바이오",
+      "weight_pct": 0.61,
+      "shares": 148,
+      "item_code": "141080"
+    },
+    {
+      "name": "삼성에피스홀딩스",
+      "weight_pct": 0.59,
+      "shares": 37,
+      "item_code": "0126Z0"
+    },
+    {
+      "name": "삼천당제약",
+      "weight_pct": 0.56,
+      "shares": 78,
+      "item_code": "000250"
+    },
+    {
+      "name": "한올바이오파마",
+      "weight_pct": 0.53,
+      "shares": 197,
+      "item_code": "009420"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.5,
+      "shares": 12035506,
+      "item_code": null
+    },
+    {
+      "name": "에스티팜",
+      "weight_pct": 0.33,
+      "shares": 73,
+      "item_code": "237690"
+    },
+    {
+      "name": "휴젤",
+      "weight_pct": 0.3,
+      "shares": 30,
+      "item_code": "145020"
+    },
+    {
+      "name": "오름테라퓨틱",
+      "weight_pct": 0.28,
+      "shares": 103,
+      "item_code": "475830"
+    },
+    {
+      "name": "SK바이오사이언스",
+      "weight_pct": 0.23,
+      "shares": 148,
+      "item_code": "302440"
+    },
+    {
+      "name": "씨젠",
+      "weight_pct": 0.23,
+      "shares": 179,
+      "item_code": "096530"
+    },
+    {
+      "name": "엘앤씨바이오",
+      "weight_pct": 0.21,
+      "shares": 102,
+      "item_code": "290650"
+    },
+    {
+      "name": "한미사이언스",
+      "weight_pct": 0.2,
+      "shares": 114,
+      "item_code": "008930"
+    },
+    {
+      "name": "클래시스",
+      "weight_pct": 0.2,
+      "shares": 149,
+      "item_code": "214150"
+    },
+    {
+      "name": "셀트리온제약",
+      "weight_pct": 0.2,
+      "shares": 114,
+      "item_code": "068760"
+    },
+    {
+      "name": "녹십자",
+      "weight_pct": 0.16,
+      "shares": 31,
+      "item_code": "006280"
+    },
+    {
+      "name": "루닛",
+      "weight_pct": 0.14,
+      "shares": 392,
+      "item_code": "328130"
+    },
+    {
+      "name": "파미셀",
+      "weight_pct": 0.14,
+      "shares": 313,
+      "item_code": "005690"
+    },
+    {
+      "name": "HK이노엔",
+      "weight_pct": 0.14,
+      "shares": 79,
+      "item_code": "195940"
+    },
+    {
+      "name": "대웅제약",
+      "weight_pct": 0.13,
+      "shares": 25,
+      "item_code": "069620"
+    },
+    {
+      "name": "종근당",
+      "weight_pct": 0.12,
+      "shares": 44,
+      "item_code": "185750"
+    },
+    {
+      "name": "차바이오텍",
+      "weight_pct": 0.11,
+      "shares": 335,
+      "item_code": "085660"
+    },
+    {
+      "name": "동국제약",
+      "weight_pct": 0.1,
+      "shares": 132,
+      "item_code": "086450"
+    },
+    {
+      "name": "아이센스",
+      "weight_pct": 0.09,
+      "shares": 122,
+      "item_code": "099190"
+    },
+    {
+      "name": "JW중외제약",
+      "weight_pct": 0.08,
+      "shares": 75,
+      "item_code": "001060"
+    },
+    {
+      "name": "신풍제약",
+      "weight_pct": 0.08,
+      "shares": 222,
+      "item_code": "019170"
+    },
+    {
+      "name": "메디톡스",
+      "weight_pct": 0.08,
+      "shares": 31,
+      "item_code": "086900"
+    },
+    {
+      "name": "일동제약",
+      "weight_pct": 0.07,
+      "shares": 118,
+      "item_code": "249420"
+    },
+    {
+      "name": "티앤엘",
+      "weight_pct": 0.06,
+      "shares": 51,
+      "item_code": "340570"
+    },
+    {
+      "name": "HLB제약",
+      "weight_pct": 0.06,
+      "shares": 207,
+      "item_code": "047920"
+    },
+    {
+      "name": "유바이오로직스",
+      "weight_pct": 0.06,
+      "shares": 174,
+      "item_code": "206650"
+    },
+    {
+      "name": "큐렉소",
+      "weight_pct": 0.06,
+      "shares": 163,
+      "item_code": "060280"
+    },
+    {
+      "name": "녹십자홀딩스",
+      "weight_pct": 0.05,
+      "shares": 121,
+      "item_code": "005250"
+    },
+    {
+      "name": "덴티움",
+      "weight_pct": 0.05,
+      "shares": 37,
+      "item_code": "145720"
+    },
+    {
+      "name": "원텍",
+      "weight_pct": 0.04,
+      "shares": 241,
+      "item_code": "336570"
+    },
+    {
+      "name": "바이넥스",
+      "weight_pct": 0.04,
+      "shares": 161,
+      "item_code": "053030"
+    },
+    {
+      "name": "휴온스글로벌",
+      "weight_pct": 0.03,
+      "shares": 30,
+      "item_code": "084110"
+    },
+    {
+      "name": "코오롱생명과학",
+      "weight_pct": 0.02,
+      "shares": 42,
+      "item_code": "102940"
+    }
+  ]
+}

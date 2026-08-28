@@ -1,0 +1,174 @@
+{
+  "ticker": "404540",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "씨에스윈드",
+      "weight_pct": 10.5,
+      "shares": 2593,
+      "item_code": "112610"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 9.75,
+      "shares": 211,
+      "item_code": "006400"
+    },
+    {
+      "name": "한화솔루션",
+      "weight_pct": 8.19,
+      "shares": 3019,
+      "item_code": "009830"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 7.6,
+      "shares": 352,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 7.02,
+      "shares": 50,
+      "item_code": "000660"
+    },
+    {
+      "name": "한화",
+      "weight_pct": 6.7,
+      "shares": 634,
+      "item_code": "000880"
+    },
+    {
+      "name": "포스코DX",
+      "weight_pct": 6.66,
+      "shares": 3880,
+      "item_code": "022100"
+    },
+    {
+      "name": "현대차",
+      "weight_pct": 5.69,
+      "shares": 176,
+      "item_code": "005380"
+    },
+    {
+      "name": "두산퓨얼셀",
+      "weight_pct": 5.47,
+      "shares": 1492,
+      "item_code": "336260"
+    },
+    {
+      "name": "SK오션플랜트",
+      "weight_pct": 5.2,
+      "shares": 4606,
+      "item_code": "100090"
+    },
+    {
+      "name": "기아",
+      "weight_pct": 3.7,
+      "shares": 362,
+      "item_code": "000270"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 3.6,
+      "shares": 32,
+      "item_code": "009150"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 3.03,
+      "shares": 110,
+      "item_code": "005490"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 2.67,
+      "shares": 73,
+      "item_code": "012330"
+    },
+    {
+      "name": "HD한국조선해양",
+      "weight_pct": 2.19,
+      "shares": 75,
+      "item_code": "009540"
+    },
+    {
+      "name": "삼성중공업",
+      "weight_pct": 1.89,
+      "shares": 1109,
+      "item_code": "010140"
+    },
+    {
+      "name": "LS ELECTRIC",
+      "weight_pct": 1.8,
+      "shares": 101,
+      "item_code": "010120"
+    },
+    {
+      "name": "SK",
+      "weight_pct": 1.71,
+      "shares": 38,
+      "item_code": "034730"
+    },
+    {
+      "name": "LG화학",
+      "weight_pct": 1.65,
+      "shares": 74,
+      "item_code": "051910"
+    },
+    {
+      "name": "LG전자",
+      "weight_pct": 1.61,
+      "shares": 100,
+      "item_code": "066570"
+    },
+    {
+      "name": "두산",
+      "weight_pct": 0.88,
+      "shares": 9,
+      "item_code": "000150"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.79,
+      "shares": 9752657,
+      "item_code": null
+    },
+    {
+      "name": "LG이노텍",
+      "weight_pct": 0.43,
+      "shares": 9,
+      "item_code": "011070"
+    },
+    {
+      "name": "현대제철",
+      "weight_pct": 0.38,
+      "shares": 149,
+      "item_code": "004020"
+    },
+    {
+      "name": "LG디스플레이",
+      "weight_pct": 0.32,
+      "shares": 417,
+      "item_code": "034220"
+    },
+    {
+      "name": "주성엔지니어링",
+      "weight_pct": 0.29,
+      "shares": 20,
+      "item_code": "036930"
+    },
+    {
+      "name": "코오롱인더",
+      "weight_pct": 0.13,
+      "shares": 31,
+      "item_code": "120110"
+    },
+    {
+      "name": "덕산네오룩스",
+      "weight_pct": 0.06,
+      "shares": 24,
+      "item_code": "213420"
+    }
+  ]
+}

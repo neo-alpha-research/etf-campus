@@ -1,0 +1,132 @@
+{
+  "ticker": "261140",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자우",
+      "weight_pct": 26.78,
+      "shares": 683,
+      "item_code": "005935"
+    },
+    {
+      "name": "현대차2우B",
+      "weight_pct": 16.36,
+      "shares": 408,
+      "item_code": "005387"
+    },
+    {
+      "name": "미래에셋증권2우B",
+      "weight_pct": 7.13,
+      "shares": 3015,
+      "item_code": "00680K"
+    },
+    {
+      "name": "삼성전기우",
+      "weight_pct": 7.11,
+      "shares": 71,
+      "item_code": "009155"
+    },
+    {
+      "name": "LG전자우",
+      "weight_pct": 6.19,
+      "shares": 424,
+      "item_code": "066575"
+    },
+    {
+      "name": "삼성화재우",
+      "weight_pct": 5.71,
+      "shares": 67,
+      "item_code": "000815"
+    },
+    {
+      "name": "LG화학우",
+      "weight_pct": 4.74,
+      "shares": 190,
+      "item_code": "051915"
+    },
+    {
+      "name": "한국금융지주우",
+      "weight_pct": 4.18,
+      "shares": 139,
+      "item_code": "071055"
+    },
+    {
+      "name": "두산우",
+      "weight_pct": 3.92,
+      "shares": 45,
+      "item_code": "000155"
+    },
+    {
+      "name": "한화3우B",
+      "weight_pct": 3.21,
+      "shares": 397,
+      "item_code": "00088K"
+    },
+    {
+      "name": "NH투자증권우",
+      "weight_pct": 2.17,
+      "shares": 466,
+      "item_code": "005945"
+    },
+    {
+      "name": "아모레퍼시픽우",
+      "weight_pct": 1.98,
+      "shares": 221,
+      "item_code": "090435"
+    },
+    {
+      "name": "대신증권우",
+      "weight_pct": 1.88,
+      "shares": 463,
+      "item_code": "003545"
+    },
+    {
+      "name": "삼성물산우B",
+      "weight_pct": 1.75,
+      "shares": 36,
+      "item_code": "02826K"
+    },
+    {
+      "name": "삼성SDI우",
+      "weight_pct": 1.6,
+      "shares": 36,
+      "item_code": "006405"
+    },
+    {
+      "name": "S-Oil우",
+      "weight_pct": 1.14,
+      "shares": 86,
+      "item_code": "010955"
+    },
+    {
+      "name": "CJ4우(전환)",
+      "weight_pct": 1.12,
+      "shares": 45,
+      "item_code": "00104K"
+    },
+    {
+      "name": "LG생활건강우",
+      "weight_pct": 1.11,
+      "shares": 52,
+      "item_code": "051905"
+    },
+    {
+      "name": "LG우",
+      "weight_pct": 1.05,
+      "shares": 74,
+      "item_code": "003555"
+    },
+    {
+      "name": "금호석유화학우",
+      "weight_pct": 0.76,
+      "shares": 75,
+      "item_code": "011785"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.22,
+      "shares": 1125463,
+      "item_code": null
+    }
+  ]
+}

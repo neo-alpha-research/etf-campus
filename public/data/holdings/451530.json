@@ -1,0 +1,30 @@
+{
+  "ticker": "451530",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "국고채원금분리채권01220-5503(25-2)",
+      "weight_pct": 33.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채원금분리채권01210-5509(25-7)",
+      "weight_pct": 32.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채원금분리채권01210-5603(26-2)",
+      "weight_pct": 31.82,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 2.34,
+      "shares": 1670941,
+      "item_code": null
+    }
+  ]
+}

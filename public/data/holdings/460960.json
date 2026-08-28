@@ -1,0 +1,72 @@
+{
+  "ticker": "460960",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "Invesco KBW High Dividend Yield Financial ETF",
+      "weight_pct": 16.03,
+      "shares": 5167,
+      "item_code": "KBWD.O"
+    },
+    {
+      "name": "Northern Trust High Yield Value-Scored Bond ETF",
+      "weight_pct": 15.76,
+      "shares": 1570,
+      "item_code": "HYGV.K"
+    },
+    {
+      "name": "Global X NASDAQ 100 Covered Call ETF",
+      "weight_pct": 13.37,
+      "shares": 2957,
+      "item_code": "QYLD.O"
+    },
+    {
+      "name": "State Street SPDR Portfolio High Yield Bond ETF",
+      "weight_pct": 12.79,
+      "shares": 2196,
+      "item_code": "SPHY.K"
+    },
+    {
+      "name": "Global X Russell 2000 Covered Call ETF",
+      "weight_pct": 10.0,
+      "shares": 2468,
+      "item_code": "RYLD.K"
+    },
+    {
+      "name": "Global X Us Preferred Etf",
+      "weight_pct": 9.85,
+      "shares": 2136,
+      "item_code": "PFFD.K"
+    },
+    {
+      "name": "Pacer Metaurus US Large Cap Div Multiplier 400 ETF",
+      "weight_pct": 7.11,
+      "shares": 616,
+      "item_code": "QDPL.K"
+    },
+    {
+      "name": "State Street SPDR Portfolio Corporate Bond ETF",
+      "weight_pct": 6.86,
+      "shares": 964,
+      "item_code": "SPBO.K"
+    },
+    {
+      "name": "Invesco High Yield Equity Dividend Achvrs ETF",
+      "weight_pct": 3.98,
+      "shares": 632,
+      "item_code": "PEY.O"
+    },
+    {
+      "name": "iShares iBonds Dec 2032 Term Corporate ETF",
+      "weight_pct": 3.91,
+      "shares": 630,
+      "item_code": "IBDX.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.3,
+      "shares": 1668595,
+      "item_code": null
+    }
+  ]
+}

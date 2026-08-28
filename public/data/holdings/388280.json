@@ -1,0 +1,162 @@
+{
+  "ticker": "388280",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "대한항공",
+      "weight_pct": 13.8,
+      "shares": 696,
+      "item_code": "003490"
+    },
+    {
+      "name": "하이브",
+      "weight_pct": 9.92,
+      "shares": 79,
+      "item_code": "352820"
+    },
+    {
+      "name": "신세계",
+      "weight_pct": 7.17,
+      "shares": 24,
+      "item_code": "004170"
+    },
+    {
+      "name": "강원랜드",
+      "weight_pct": 6.89,
+      "shares": 674,
+      "item_code": "035250"
+    },
+    {
+      "name": "영원무역",
+      "weight_pct": 5.98,
+      "shares": 116,
+      "item_code": "111770"
+    },
+    {
+      "name": "이마트",
+      "weight_pct": 5.51,
+      "shares": 106,
+      "item_code": "139480"
+    },
+    {
+      "name": "호텔신라",
+      "weight_pct": 4.86,
+      "shares": 164,
+      "item_code": "008770"
+    },
+    {
+      "name": "BGF리테일",
+      "weight_pct": 4.61,
+      "shares": 47,
+      "item_code": "282330"
+    },
+    {
+      "name": "현대백화점",
+      "weight_pct": 4.48,
+      "shares": 67,
+      "item_code": "069960"
+    },
+    {
+      "name": "롯데쇼핑",
+      "weight_pct": 4.24,
+      "shares": 58,
+      "item_code": "023530"
+    },
+    {
+      "name": "JYP Ent.",
+      "weight_pct": 4.16,
+      "shares": 149,
+      "item_code": "035900"
+    },
+    {
+      "name": "에스엠",
+      "weight_pct": 3.77,
+      "shares": 72,
+      "item_code": "041510"
+    },
+    {
+      "name": "F&F",
+      "weight_pct": 3.32,
+      "shares": 75,
+      "item_code": "383220"
+    },
+    {
+      "name": "GS리테일",
+      "weight_pct": 3.29,
+      "shares": 182,
+      "item_code": "007070"
+    },
+    {
+      "name": "롯데렌탈",
+      "weight_pct": 2.36,
+      "shares": 71,
+      "item_code": "089860"
+    },
+    {
+      "name": "롯데관광개발",
+      "weight_pct": 2.31,
+      "shares": 255,
+      "item_code": "032350"
+    },
+    {
+      "name": "아시아나항공",
+      "weight_pct": 2.13,
+      "shares": 403,
+      "item_code": "020560"
+    },
+    {
+      "name": "와이지엔터테인먼트",
+      "weight_pct": 2.1,
+      "shares": 75,
+      "item_code": "122870"
+    },
+    {
+      "name": "파라다이스",
+      "weight_pct": 1.66,
+      "shares": 242,
+      "item_code": "034230"
+    },
+    {
+      "name": "CJ CGV",
+      "weight_pct": 1.53,
+      "shares": 405,
+      "item_code": "079160"
+    },
+    {
+      "name": "서부T&D",
+      "weight_pct": 1.29,
+      "shares": 169,
+      "item_code": "006730"
+    },
+    {
+      "name": "하나투어",
+      "weight_pct": 1.29,
+      "shares": 57,
+      "item_code": "039130"
+    },
+    {
+      "name": "GKL",
+      "weight_pct": 1.07,
+      "shares": 165,
+      "item_code": "114090"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.8,
+      "shares": 1151158,
+      "item_code": null
+    },
+    {
+      "name": "한섬",
+      "weight_pct": 0.7,
+      "shares": 64,
+      "item_code": "020000"
+    },
+    {
+      "name": "신세계인터내셔날",
+      "weight_pct": 0.64,
+      "shares": 87,
+      "item_code": "031430"
+    }
+  ]
+}

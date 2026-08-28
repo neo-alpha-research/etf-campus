@@ -1,0 +1,84 @@
+{
+  "ticker": "412570",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "섹터지수 2차전지 TOP 10 F 202609",
+      "weight_pct": 115.81,
+      "shares": 20,
+      "item_code": null
+    },
+    {
+      "name": "TIGER 2차전지TOP10",
+      "weight_pct": 25.61,
+      "shares": 1623,
+      "item_code": "364980"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 19.06,
+      "shares": 22,
+      "item_code": "006400"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 17.84,
+      "shares": 12073046,
+      "item_code": null
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 13.47,
+      "shares": 24,
+      "item_code": "373220"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 12.92,
+      "shares": 25,
+      "item_code": "005490"
+    },
+    {
+      "name": "LG화학",
+      "weight_pct": 2.91,
+      "shares": 7,
+      "item_code": "051910"
+    },
+    {
+      "name": "에코프로",
+      "weight_pct": 2.02,
+      "shares": 14,
+      "item_code": "086520"
+    },
+    {
+      "name": "SK이노베이션",
+      "weight_pct": 1.86,
+      "shares": 11,
+      "item_code": "096770"
+    },
+    {
+      "name": "포스코퓨처엠",
+      "weight_pct": 1.48,
+      "shares": 5,
+      "item_code": "003670"
+    },
+    {
+      "name": "에코프로비엠",
+      "weight_pct": 1.41,
+      "shares": 8,
+      "item_code": "247540"
+    },
+    {
+      "name": "엘앤에프",
+      "weight_pct": 0.82,
+      "shares": 4,
+      "item_code": "066970"
+    },
+    {
+      "name": "SKC",
+      "weight_pct": 0.55,
+      "shares": 4,
+      "item_code": "011790"
+    }
+  ]
+}

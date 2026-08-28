@@ -1,0 +1,162 @@
+{
+  "ticker": "407830",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "테슬라",
+      "weight_pct": 20.07,
+      "shares": 598,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 14.02,
+      "shares": 199540253,
+      "item_code": null
+    },
+    {
+      "name": "알파벳 Class C",
+      "weight_pct": 4.67,
+      "shares": 142,
+      "item_code": "GOOG.O"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 4.62,
+      "shares": 183,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "삼성전자우",
+      "weight_pct": 4.34,
+      "shares": 318,
+      "item_code": "005935"
+    },
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 4.32,
+      "shares": 250,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 4.32,
+      "shares": 106,
+      "item_code": "TSM"
+    },
+    {
+      "name": "템퍼스 AI",
+      "weight_pct": 4.29,
+      "shares": 646,
+      "item_code": "TEM.O"
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 4.27,
+      "shares": 179,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 4.18,
+      "shares": 205,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "로빈후드",
+      "weight_pct": 3.36,
+      "shares": 319,
+      "item_code": "HOOD.O"
+    },
+    {
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 3.18,
+      "shares": 130,
+      "item_code": "ARM.O"
+    },
+    {
+      "name": "우시앱텍",
+      "weight_pct": 2.47,
+      "shares": 1001,
+      "item_code": "2359.HK"
+    },
+    {
+      "name": "알리바바 그룹 홀딩 ADR",
+      "weight_pct": 2.42,
+      "shares": 208,
+      "item_code": "BABA.K"
+    },
+    {
+      "name": "데이터도그",
+      "weight_pct": 2.23,
+      "shares": 101,
+      "item_code": "DDOG.O"
+    },
+    {
+      "name": "써클 인터넷 그룹",
+      "weight_pct": 2.23,
+      "shares": 256,
+      "item_code": "CRCL.K"
+    },
+    {
+      "name": "퀄컴",
+      "weight_pct": 1.95,
+      "shares": 122,
+      "item_code": "QCOM.O"
+    },
+    {
+      "name": "핀터레스트",
+      "weight_pct": 1.89,
+      "shares": 839,
+      "item_code": "PINS.K"
+    },
+    {
+      "name": "레딧",
+      "weight_pct": 1.86,
+      "shares": 123,
+      "item_code": "RDDT.K"
+    },
+    {
+      "name": "유나이티드 마이크로일렉트로닉 ADR",
+      "weight_pct": 1.82,
+      "shares": 989,
+      "item_code": "UMC"
+    },
+    {
+      "name": "힘스 & 허즈",
+      "weight_pct": 1.6,
+      "shares": 554,
+      "item_code": "HIMS.K"
+    },
+    {
+      "name": "스페이스X",
+      "weight_pct": 1.4,
+      "shares": 103,
+      "item_code": "SPCX.O"
+    },
+    {
+      "name": "와비 파커",
+      "weight_pct": 1.4,
+      "shares": 568,
+      "item_code": "WRBY.K"
+    },
+    {
+      "name": "모더나",
+      "weight_pct": 1.27,
+      "shares": 87,
+      "item_code": "MRNA.O"
+    },
+    {
+      "name": "레모네이드",
+      "weight_pct": 1.05,
+      "shares": 203,
+      "item_code": "LMND.K"
+    },
+    {
+      "name": "젭 헬스 ADR",
+      "weight_pct": 0.63,
+      "shares": 1233,
+      "item_code": "ZEPP.K"
+    }
+  ]
+}

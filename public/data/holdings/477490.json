@@ -1,0 +1,96 @@
+{
+  "ticker": "477490",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 9.73,
+      "shares": 64,
+      "item_code": "TSM"
+    },
+    {
+      "name": "일라이 릴리",
+      "weight_pct": 9.01,
+      "shares": 20,
+      "item_code": "LLY"
+    },
+    {
+      "name": "iShares MSCI World ETF",
+      "weight_pct": 8.99,
+      "shares": 118,
+      "item_code": "URTH.K"
+    },
+    {
+      "name": "알파벳 Class C",
+      "weight_pct": 8.97,
+      "shares": 72,
+      "item_code": "GOOG.O"
+    },
+    {
+      "name": "닝더스다이",
+      "weight_pct": 8.93,
+      "shares": 436,
+      "item_code": "300750.SZ"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 8.34,
+      "shares": 88,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 7.4,
+      "shares": 21,
+      "item_code": "LITE.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 7.24,
+      "shares": 95,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 7.18,
+      "shares": 27311628,
+      "item_code": null
+    },
+    {
+      "name": "테슬라",
+      "weight_pct": 6.26,
+      "shares": 49,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "삼성전자우",
+      "weight_pct": 4.65,
+      "shares": 91,
+      "item_code": "005935"
+    },
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 4.06,
+      "shares": 63,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "라이프 타임 그룹 홀딩스",
+      "weight_pct": 3.59,
+      "shares": 220,
+      "item_code": "LTH"
+    },
+    {
+      "name": "테크닙FMC",
+      "weight_pct": 3.02,
+      "shares": 109,
+      "item_code": "FTI"
+    },
+    {
+      "name": "써클 인터넷 그룹",
+      "weight_pct": 2.56,
+      "shares": 78,
+      "item_code": "CRCL.K"
+    }
+  ]
+}

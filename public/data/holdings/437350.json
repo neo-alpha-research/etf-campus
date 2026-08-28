@@ -1,0 +1,234 @@
+{
+  "ticker": "437350",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "HYUCAP 5 1/4 01/22/28",
+      "weight_pct": 5.16,
+      "shares": 22727,
+      "item_code": null
+    },
+    {
+      "name": "RY 4.965 01/24/29",
+      "weight_pct": 5.16,
+      "shares": 22727,
+      "item_code": null
+    },
+    {
+      "name": "BATSLN 5.931 02/02/29",
+      "weight_pct": 2.63,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "AMT 5.8 11/15/28",
+      "weight_pct": 2.62,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "HYNCRD 5 3/4 04/24/29",
+      "weight_pct": 2.61,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "HCA 5 5/8 09/01/28",
+      "weight_pct": 2.6,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "GM 5.45 07/15/30",
+      "weight_pct": 2.6,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "USB 5.384 01/23/30",
+      "weight_pct": 2.6,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "ET 5 1/4 07/01/29",
+      "weight_pct": 2.59,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "MPC 5.15 03/01/30",
+      "weight_pct": 2.59,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "JPM 5.012 01/23/30",
+      "weight_pct": 2.58,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "BNP 5.198 01/10/30",
+      "weight_pct": 2.58,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "BACR 5.367 02/25/31",
+      "weight_pct": 2.58,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5.162 01/24/31",
+      "weight_pct": 2.58,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "BAC 4.979 01/24/29",
+      "weight_pct": 2.58,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "NTT 5.11 07/02/29",
+      "weight_pct": 2.58,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.123 02/01/29",
+      "weight_pct": 2.58,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "D 5 06/15/30",
+      "weight_pct": 2.57,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "C 4.786 03/04/29",
+      "weight_pct": 2.57,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "MS 4.466 07/06/28",
+      "weight_pct": 2.56,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "PCG 5.05 11/15/31",
+      "weight_pct": 2.54,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "KDP 5.05 03/26/31",
+      "weight_pct": 2.54,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 4 1/2 05/06/28",
+      "weight_pct": 2.54,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "BAX 4.9 12/15/30",
+      "weight_pct": 2.53,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "AER 4 1/8 02/28/29",
+      "weight_pct": 2.52,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 4.675 03/10/32",
+      "weight_pct": 2.51,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "HPE 4.4 10/15/30",
+      "weight_pct": 2.51,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "MS 4.708 03/12/32",
+      "weight_pct": 2.51,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "MITHCC 4.558 01/14/31",
+      "weight_pct": 2.51,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "BMO 4.439 01/14/32",
+      "weight_pct": 2.5,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "ENELIM 4 3/8 09/30/30",
+      "weight_pct": 2.5,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "HCA 4.3 11/15/30",
+      "weight_pct": 2.5,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "JPM 4.347 01/22/32",
+      "weight_pct": 2.49,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "DAESEC 4 3/8 03/11/31",
+      "weight_pct": 2.46,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "GM 2.4 10/15/28",
+      "weight_pct": 2.44,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.86,
+      "shares": 11416210,
+      "item_code": null
+    },
+    {
+      "name": "T 3 7/8 04/30/31",
+      "weight_pct": 1.76,
+      "shares": 7954,
+      "item_code": null
+    },
+    {
+      "name": "B 10/15/26",
+      "weight_pct": 1.68,
+      "shares": 7500,
+      "item_code": null
+    }
+  ]
+}

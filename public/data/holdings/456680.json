@@ -1,0 +1,48 @@
+{
+  "ticker": "456680",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 172.64,
+      "shares": 114281280,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차레버리지 TRS 260130-01",
+      "weight_pct": -1.06,
+      "shares": -706439,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차레버리지 TRS 250512-08",
+      "weight_pct": -11.51,
+      "shares": -7624641,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차레버리지 TRS 260305-01",
+      "weight_pct": -13.73,
+      "shares": -9091536,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차레버리지 TRS 260123-01",
+      "weight_pct": -13.84,
+      "shares": -9167443,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차레버리지 TRS 260306-02",
+      "weight_pct": -13.98,
+      "shares": -9254446,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차레버리지 TRS 260313-03",
+      "weight_pct": -18.49,
+      "shares": -12241824,
+      "item_code": null
+    }
+  ]
+}

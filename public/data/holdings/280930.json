@@ -1,0 +1,30 @@
+{
+  "ticker": "280930",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 90.97,
+      "shares": 772917722,
+      "item_code": null
+    },
+    {
+      "name": "E-mini Russell 2000 2026 09",
+      "weight_pct": 90.75,
+      "shares": 3,
+      "item_code": null
+    },
+    {
+      "name": "iShares Russell 2000 ETF",
+      "weight_pct": 9.02,
+      "shares": 185,
+      "item_code": "IWM"
+    },
+    {
+      "name": "2026-09 달러선물",
+      "weight_pct": -42.42,
+      "shares": -26,
+      "item_code": null
+    }
+  ]
+}

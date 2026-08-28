@@ -1,0 +1,132 @@
+{
+  "ticker": "469150",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 27.4,
+      "shares": 3002,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 25.34,
+      "shares": 427,
+      "item_code": "000660"
+    },
+    {
+      "name": "한미반도체",
+      "weight_pct": 23.5,
+      "shares": 3085,
+      "item_code": "042700"
+    },
+    {
+      "name": "파크시스템스",
+      "weight_pct": 1.86,
+      "shares": 200,
+      "item_code": "140860"
+    },
+    {
+      "name": "HPSP",
+      "weight_pct": 1.66,
+      "shares": 960,
+      "item_code": "403870"
+    },
+    {
+      "name": "이수페타시스",
+      "weight_pct": 1.66,
+      "shares": 429,
+      "item_code": "007660"
+    },
+    {
+      "name": "ISC",
+      "weight_pct": 1.62,
+      "shares": 277,
+      "item_code": "095340"
+    },
+    {
+      "name": "테크윙",
+      "weight_pct": 1.47,
+      "shares": 864,
+      "item_code": "089030"
+    },
+    {
+      "name": "하나마이크론",
+      "weight_pct": 1.46,
+      "shares": 1101,
+      "item_code": "067310"
+    },
+    {
+      "name": "이오테크닉스",
+      "weight_pct": 1.46,
+      "shares": 105,
+      "item_code": "039030"
+    },
+    {
+      "name": "제주반도체",
+      "weight_pct": 1.45,
+      "shares": 544,
+      "item_code": "080220"
+    },
+    {
+      "name": "원익IPS",
+      "weight_pct": 1.44,
+      "shares": 374,
+      "item_code": "240810"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 1.37,
+      "shares": 29,
+      "item_code": "009150"
+    },
+    {
+      "name": "주성엔지니어링",
+      "weight_pct": 1.32,
+      "shares": 215,
+      "item_code": "036930"
+    },
+    {
+      "name": "대덕전자",
+      "weight_pct": 1.28,
+      "shares": 337,
+      "item_code": "353200"
+    },
+    {
+      "name": "리노공업",
+      "weight_pct": 1.21,
+      "shares": 529,
+      "item_code": "058470"
+    },
+    {
+      "name": "파두",
+      "weight_pct": 1.17,
+      "shares": 532,
+      "item_code": "440110"
+    },
+    {
+      "name": "DB하이텍",
+      "weight_pct": 1.11,
+      "shares": 340,
+      "item_code": "000990"
+    },
+    {
+      "name": "LG이노텍",
+      "weight_pct": 1.0,
+      "shares": 49,
+      "item_code": "011070"
+    },
+    {
+      "name": "두산테스나",
+      "weight_pct": 0.98,
+      "shares": 347,
+      "item_code": "131970"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.15,
+      "shares": 4494757,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "ticker": "488080",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 41.47,
+      "shares": 2634,
+      "item_code": "005930"
+    },
+    {
+      "name": "TIGER 반도체TOP10",
+      "weight_pct": 37.64,
+      "shares": 17762,
+      "item_code": "396500"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 30.92,
+      "shares": 302,
+      "item_code": "000660"
+    },
+    {
+      "name": "SK스퀘어",
+      "weight_pct": 22.5,
+      "shares": 356,
+      "item_code": "402340"
+    },
+    {
+      "name": "SK하이닉스선물2609",
+      "weight_pct": 8.92,
+      "shares": 8,
+      "item_code": null
+    },
+    {
+      "name": "삼성전자선물2609",
+      "weight_pct": 8.69,
+      "shares": 55,
+      "item_code": null
+    },
+    {
+      "name": "SK스퀘어선물2609",
+      "weight_pct": 8.49,
+      "shares": 13,
+      "item_code": null
+    },
+    {
+      "name": "이수페타시스선물2609",
+      "weight_pct": 5.45,
+      "shares": 81,
+      "item_code": null
+    },
+    {
+      "name": "주성엔지니어링선물2609",
+      "weight_pct": 5.28,
+      "shares": 49,
+      "item_code": null
+    },
+    {
+      "name": "한미반도체선물2609",
+      "weight_pct": 4.44,
+      "shares": 33,
+      "item_code": null
+    },
+    {
+      "name": "한미반도체",
+      "weight_pct": 4.42,
+      "shares": 337,
+      "item_code": "042700"
+    },
+    {
+      "name": "DB하이텍",
+      "weight_pct": 3.41,
+      "shares": 604,
+      "item_code": "000990"
+    },
+    {
+      "name": "이수페타시스",
+      "weight_pct": 2.91,
+      "shares": 436,
+      "item_code": "007660"
+    },
+    {
+      "name": "원익IPS선물2609",
+      "weight_pct": 2.85,
+      "shares": 43,
+      "item_code": null
+    },
+    {
+      "name": "주성엔지니어링",
+      "weight_pct": 2.8,
+      "shares": 265,
+      "item_code": "036930"
+    },
+    {
+      "name": "이오테크닉스선물2609",
+      "weight_pct": 2.7,
+      "shares": 11,
+      "item_code": null
+    },
+    {
+      "name": "리노공업선물2609",
+      "weight_pct": 1.93,
+      "shares": 48,
+      "item_code": null
+    },
+    {
+      "name": "원익IPS",
+      "weight_pct": 1.7,
+      "shares": 256,
+      "item_code": "240810"
+    },
+    {
+      "name": "이오테크닉스",
+      "weight_pct": 1.61,
+      "shares": 67,
+      "item_code": "039030"
+    },
+    {
+      "name": "리노공업",
+      "weight_pct": 1.57,
+      "shares": 398,
+      "item_code": "058470"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -50.98,
+      "shares": -861407295,
+      "item_code": null
+    }
+  ]
+}

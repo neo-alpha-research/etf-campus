@@ -1,0 +1,108 @@
+{
+  "ticker": "322400",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "카카오",
+      "weight_pct": 20.33,
+      "shares": 2958,
+      "item_code": "035720"
+    },
+    {
+      "name": "NAVER",
+      "weight_pct": 20.09,
+      "shares": 486,
+      "item_code": "035420"
+    },
+    {
+      "name": "실리콘투",
+      "weight_pct": 10.16,
+      "shares": 1083,
+      "item_code": "257720"
+    },
+    {
+      "name": "카카오페이",
+      "weight_pct": 9.82,
+      "shares": 1097,
+      "item_code": "377300"
+    },
+    {
+      "name": "이마트",
+      "weight_pct": 8.3,
+      "shares": 588,
+      "item_code": "139480"
+    },
+    {
+      "name": "제일기획",
+      "weight_pct": 7.39,
+      "shares": 2039,
+      "item_code": "030000"
+    },
+    {
+      "name": "현대백화점",
+      "weight_pct": 6.7,
+      "shares": 369,
+      "item_code": "069960"
+    },
+    {
+      "name": "CJ대한통운",
+      "weight_pct": 4.5,
+      "shares": 322,
+      "item_code": "000120"
+    },
+    {
+      "name": "케이아이엔엑스",
+      "weight_pct": 2.38,
+      "shares": 88,
+      "item_code": "093320"
+    },
+    {
+      "name": "다날",
+      "weight_pct": 1.95,
+      "shares": 1908,
+      "item_code": "064260"
+    },
+    {
+      "name": "NHN KCP",
+      "weight_pct": 1.83,
+      "shares": 639,
+      "item_code": "060250"
+    },
+    {
+      "name": "SOOP",
+      "weight_pct": 1.76,
+      "shares": 242,
+      "item_code": "067160"
+    },
+    {
+      "name": "카페24",
+      "weight_pct": 1.72,
+      "shares": 530,
+      "item_code": "042000"
+    },
+    {
+      "name": "디어유",
+      "weight_pct": 1.25,
+      "shares": 349,
+      "item_code": "376300"
+    },
+    {
+      "name": "KG이니시스",
+      "weight_pct": 0.85,
+      "shares": 447,
+      "item_code": "035600"
+    },
+    {
+      "name": "갤럭시아머니트리",
+      "weight_pct": 0.59,
+      "shares": 530,
+      "item_code": "094480"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.29,
+      "shares": 1565455,
+      "item_code": null
+    }
+  ]
+}

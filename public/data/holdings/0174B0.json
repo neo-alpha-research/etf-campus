@@ -1,0 +1,180 @@
+{
+  "ticker": "0174B0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "마이크론 테크놀로지",
+      "weight_pct": 15.6,
+      "shares": 85,
+      "item_code": "MU.O"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 14.33,
+      "shares": 59,
+      "item_code": "000660"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 13.48,
+      "shares": 361,
+      "item_code": "005930"
+    },
+    {
+      "name": "어드반테스트",
+      "weight_pct": 4.6,
+      "shares": 105,
+      "item_code": "6857.T"
+    },
+    {
+      "name": "램 리서치",
+      "weight_pct": 4.55,
+      "shares": 75,
+      "item_code": "LRCX.O"
+    },
+    {
+      "name": "샌디스크",
+      "weight_pct": 4.52,
+      "shares": 15,
+      "item_code": "SNDK.O"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 4.27,
+      "shares": 22,
+      "item_code": "009150"
+    },
+    {
+      "name": "어플라이드 머티어리얼즈",
+      "weight_pct": 4.15,
+      "shares": 44,
+      "item_code": "AMAT.O"
+    },
+    {
+      "name": "도쿄일렉트론",
+      "weight_pct": 4.02,
+      "shares": 59,
+      "item_code": "8035.T"
+    },
+    {
+      "name": "씨게이트",
+      "weight_pct": 3.9,
+      "shares": 23,
+      "item_code": "STX.O"
+    },
+    {
+      "name": "웨스턴 디지털",
+      "weight_pct": 3.7,
+      "shares": 40,
+      "item_code": "WDC.O"
+    },
+    {
+      "name": "키옥시아 홀딩스",
+      "weight_pct": 3.42,
+      "shares": 56,
+      "item_code": "285A.T"
+    },
+    {
+      "name": "대덕전자",
+      "weight_pct": 2.78,
+      "shares": 178,
+      "item_code": "353200"
+    },
+    {
+      "name": "이비덴",
+      "weight_pct": 2.45,
+      "shares": 100,
+      "item_code": "4062.T"
+    },
+    {
+      "name": "테스",
+      "weight_pct": 2.13,
+      "shares": 104,
+      "item_code": "095610"
+    },
+    {
+      "name": "니혼 마이크로닉스",
+      "weight_pct": 1.44,
+      "shares": 87,
+      "item_code": "6871.T"
+    },
+    {
+      "name": "무라타제작소",
+      "weight_pct": 1.37,
+      "shares": 156,
+      "item_code": "6981.T"
+    },
+    {
+      "name": "테라다인",
+      "weight_pct": 1.27,
+      "shares": 18,
+      "item_code": "TER.O"
+    },
+    {
+      "name": "티씨케이",
+      "weight_pct": 1.19,
+      "shares": 35,
+      "item_code": "064760"
+    },
+    {
+      "name": "폼팩터",
+      "weight_pct": 1.13,
+      "shares": 54,
+      "item_code": "FORM.O"
+    },
+    {
+      "name": "피에스케이홀딩스",
+      "weight_pct": 1.08,
+      "shares": 61,
+      "item_code": "031980"
+    },
+    {
+      "name": "액셀리스 테크놀로지스",
+      "weight_pct": 1.0,
+      "shares": 42,
+      "item_code": "ACLS.O"
+    },
+    {
+      "name": "HPSP",
+      "weight_pct": 0.92,
+      "shares": 130,
+      "item_code": "403870"
+    },
+    {
+      "name": "피에스케이",
+      "weight_pct": 0.73,
+      "shares": 39,
+      "item_code": "319660"
+    },
+    {
+      "name": "MKS",
+      "weight_pct": 0.65,
+      "shares": 12,
+      "item_code": "MKSI.O"
+    },
+    {
+      "name": "코쿠사이 엘렉트릭",
+      "weight_pct": 0.55,
+      "shares": 53,
+      "item_code": "6525.T"
+    },
+    {
+      "name": "레이져테크",
+      "weight_pct": 0.27,
+      "shares": 6,
+      "item_code": "6920.T"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.24,
+      "shares": 1761682,
+      "item_code": null
+    },
+    {
+      "name": "인스펙",
+      "weight_pct": 0.13,
+      "shares": 140,
+      "item_code": "6656.T"
+    }
+  ]
+}

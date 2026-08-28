@@ -1,0 +1,144 @@
+{
+  "ticker": "481050",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 46.55,
+      "shares": 47533433,
+      "item_code": null
+    },
+    {
+      "name": "스왑(하나금융투자)",
+      "weight_pct": 15.27,
+      "shares": 15595782,
+      "item_code": null
+    },
+    {
+      "name": "국고03500-5603(26-2)",
+      "weight_pct": 7.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02625-5509(25-7)",
+      "weight_pct": 4.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "물가00750-3406(24-6)",
+      "weight_pct": 2.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": 2.57,
+      "shares": 2632670,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3827",
+      "weight_pct": 2.39,
+      "shares": 2431414,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3834",
+      "weight_pct": 1.99,
+      "shares": 2026178,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3832",
+      "weight_pct": 1.99,
+      "shares": 2026178,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3830",
+      "weight_pct": 1.99,
+      "shares": 2026178,
+      "item_code": null
+    },
+    {
+      "name": "국고02875-4409(24-10)",
+      "weight_pct": 1.94,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3822",
+      "weight_pct": 1.2,
+      "shares": 1215707,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3819",
+      "weight_pct": 1.2,
+      "shares": 1215707,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3817",
+      "weight_pct": 1.2,
+      "shares": 1215707,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3823",
+      "weight_pct": 0.8,
+      "shares": 810471,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3820",
+      "weight_pct": 0.8,
+      "shares": 810471,
+      "item_code": null
+    },
+    {
+      "name": "NH증권4233",
+      "weight_pct": 0.8,
+      "shares": 810471,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3836",
+      "weight_pct": 0.79,
+      "shares": 810471,
+      "item_code": null
+    },
+    {
+      "name": "하나증권3811",
+      "weight_pct": 0.79,
+      "shares": 810471,
+      "item_code": null
+    },
+    {
+      "name": "교보증권533",
+      "weight_pct": 0.79,
+      "shares": 810471,
+      "item_code": null
+    },
+    {
+      "name": "교보증권532",
+      "weight_pct": 0.79,
+      "shares": 810471,
+      "item_code": null
+    },
+    {
+      "name": "NH증권4234",
+      "weight_pct": 0.4,
+      "shares": 405236,
+      "item_code": null
+    },
+    {
+      "name": "교보증권534",
+      "weight_pct": 0.39,
+      "shares": 405236,
+      "item_code": null
+    }
+  ]
+}

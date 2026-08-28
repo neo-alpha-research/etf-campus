@@ -1,0 +1,126 @@
+{
+  "ticker": "490590",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "엔비디아",
+      "weight_pct": 14.38,
+      "shares": 347,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 13.49,
+      "shares": 199,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 11.56,
+      "shares": 238,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 5.86,
+      "shares": 167,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "마이크로소프트",
+      "weight_pct": 5.52,
+      "shares": 56,
+      "item_code": "MSFT.O"
+    },
+    {
+      "name": "아리스타 네트웍스",
+      "weight_pct": 5.32,
+      "shares": 133,
+      "item_code": "ANET.K"
+    },
+    {
+      "name": "NASDAQ 100 E-MINI INDEX SEPT 2026",
+      "weight_pct": 5.31,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 4.71,
+      "shares": 91,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "RISE 미국AI밸류체인TOP3Plus",
+      "weight_pct": 4.65,
+      "shares": 1471,
+      "item_code": "485690"
+    },
+    {
+      "name": "메타",
+      "weight_pct": 4.32,
+      "shares": 37,
+      "item_code": "META.O"
+    },
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 4.21,
+      "shares": 51,
+      "item_code": "TSM"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 4.01,
+      "shares": 57,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 3.91,
+      "shares": 41,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "마이크론 테크놀로지",
+      "weight_pct": 3.84,
+      "shares": 20,
+      "item_code": "MU.O"
+    },
+    {
+      "name": "버티브 홀딩스",
+      "weight_pct": 3.76,
+      "shares": 72,
+      "item_code": "VRT"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.63,
+      "shares": 25409654,
+      "item_code": null
+    },
+    {
+      "name": "오라클",
+      "weight_pct": 3.44,
+      "shares": 116,
+      "item_code": "ORCL.K"
+    },
+    {
+      "name": "아스테라 랩스",
+      "weight_pct": 3.32,
+      "shares": 57,
+      "item_code": "ALAB.O"
+    },
+    {
+      "name": "QHTWQ6C4 29280 INDEX",
+      "weight_pct": 0.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NDXP US 08/27/26 C29210 INDEX",
+      "weight_pct": -0.04,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

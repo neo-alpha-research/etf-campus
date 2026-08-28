@@ -1,0 +1,72 @@
+{
+  "ticker": "0047N0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "빅토리 자이언트 테크놀로지",
+      "weight_pct": 11.02,
+      "shares": 1342,
+      "item_code": "2476.HK"
+    },
+    {
+      "name": "샤오미",
+      "weight_pct": 10.61,
+      "shares": 10745,
+      "item_code": "1810.HK"
+    },
+    {
+      "name": "중국 국제 반도체",
+      "weight_pct": 10.56,
+      "shares": 4367,
+      "item_code": "0981.HK"
+    },
+    {
+      "name": "기가디바이스 세미컨덕터",
+      "weight_pct": 10.22,
+      "shares": 611,
+      "item_code": "3986.HK"
+    },
+    {
+      "name": "BYD",
+      "weight_pct": 10.17,
+      "shares": 3166,
+      "item_code": "1211.HK"
+    },
+    {
+      "name": "넷이즈",
+      "weight_pct": 9.94,
+      "shares": 1465,
+      "item_code": "9999.HK"
+    },
+    {
+      "name": "CATL",
+      "weight_pct": 9.62,
+      "shares": 448,
+      "item_code": "3750.HK"
+    },
+    {
+      "name": "알리바바 그룹 홀딩",
+      "weight_pct": 9.38,
+      "shares": 2318,
+      "item_code": "9988.HK"
+    },
+    {
+      "name": "텐센트",
+      "weight_pct": 9.32,
+      "shares": 603,
+      "item_code": "0700.HK"
+    },
+    {
+      "name": "바이두",
+      "weight_pct": 8.36,
+      "shares": 2651,
+      "item_code": "9888.HK"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.74,
+      "shares": 3806627,
+      "item_code": null
+    }
+  ]
+}

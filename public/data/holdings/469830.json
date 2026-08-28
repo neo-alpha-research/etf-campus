@@ -1,0 +1,786 @@
+{
+  "ticker": "469830",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "비케이프로제구차 20260811-52-2(단)",
+      "weight_pct": 3.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리투자증권 20260612-90-18(단)",
+      "weight_pct": 2.54,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "모멘텀제일차 20260820-92-1(단)",
+      "weight_pct": 2.48,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "트루프렌드상생제일차 20260810-31-3(단)",
+      "weight_pct": 2.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이썸제이십삼차 20260721-63-1(단)",
+      "weight_pct": 2.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이186-3",
+      "weight_pct": 2.04,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈267-1",
+      "weight_pct": 2.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈483-5",
+      "weight_pct": 2.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈291-3",
+      "weight_pct": 2.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈498-4",
+      "weight_pct": 2.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈56-2(녹)",
+      "weight_pct": 1.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260819-91-7(단)",
+      "weight_pct": 1.97,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘지디스플레이43-2(녹)",
+      "weight_pct": 1.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융에프앤아이4-2",
+      "weight_pct": 1.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "애큐온캐피탈234-3",
+      "weight_pct": 1.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈449-4",
+      "weight_pct": 1.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260724-91-12(단)",
+      "weight_pct": 1.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이 20260715-92-7(단)",
+      "weight_pct": 1.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈254-3",
+      "weight_pct": 1.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "옐로우퍼피 20260807-92-1(단)",
+      "weight_pct": 1.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260707-92-1(단)",
+      "weight_pct": 1.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이 20260707-92-1(단)",
+      "weight_pct": 1.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자캐피탈98-3",
+      "weight_pct": 1.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이187-3",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈265-4",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈259-5",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이41-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠지캐피탈387-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈418-5",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈451-2",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대커머셜507",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈60-2",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "벤츠파이낸셜46-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋캐피탈92-3",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈499-2",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈55-2(녹)",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈551-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈459-7",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대트랜시스47-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈313-3",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드251-4",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈236-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈438-3",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드251-2",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈533-3",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "씨제이프레시웨이15-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국캐피탈544-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농금채(중앙회)2024-1이3Y-C",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권2411-3",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대건설307-2",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈59-2",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈326",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "애큐온캐피탈245-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스전선29-2",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이190-1",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈144-1",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈281-2",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권2311-3",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "애큐온캐피탈241-3",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행(CD)",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈420-4",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈358-2",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK실트론51-1",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대카드945-1",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "LX하우시스13-2",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈254-2",
+      "weight_pct": 0.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국동서발전",
+      "weight_pct": 0.98,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(CD)",
+      "weight_pct": 0.98,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈459-6",
+      "weight_pct": 0.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "동원F&B12-2",
+      "weight_pct": 0.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이프로제칠차(CP)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움캐피탈203-4",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이189-1",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋증권69-2",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행(CD)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데쇼핑(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데쇼핑(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데쇼핑(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이프로제칠차(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이프로제칠차(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이프로제칠차(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데오토리스(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데오토리스(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "GS(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "애큐온캐피탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "애큐온캐피탈(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데오토리스(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데오토리스(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이프로제칠차(CP)",
+      "weight_pct": 0.48,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아워홈(CP)",
+      "weight_pct": 0.48,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이씨에스제이십이차 20260610-92-1(단)",
+      "weight_pct": 0.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈105-4",
+      "weight_pct": 0.4,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이프로제칠차(CP)",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(단)2603할184A-13",
+      "weight_pct": 0.07,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데웰푸드66-2",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국동서발전52-1",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈254-1",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드2825",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈61-2",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국캐피탈537-2",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈266-1",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260720-92-5(단)",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대카드883-2",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치케이이노엔5-1",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행(CD)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데쇼핑(CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이(CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데오토리스(CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -9.87,
+      "shares": -10735195,
+      "item_code": null
+    }
+  ]
+}

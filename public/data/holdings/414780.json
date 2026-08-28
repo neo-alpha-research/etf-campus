@@ -1,0 +1,54 @@
+{
+  "ticker": "414780",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "차이나과창판STAR50 TRS 230111-05",
+      "weight_pct": 31.87,
+      "shares": 220068875,
+      "item_code": null
+    },
+    {
+      "name": "차이나과창판STAR50 TRS 230426-04",
+      "weight_pct": 28.4,
+      "shares": 196121920,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 20.72,
+      "shares": 143107107,
+      "item_code": null
+    },
+    {
+      "name": "차이나과창판STAR50 TRS 230111-04",
+      "weight_pct": 10.22,
+      "shares": 70605310,
+      "item_code": null
+    },
+    {
+      "name": "차이나과창판STAR50 TRS 230426-05",
+      "weight_pct": 2.85,
+      "shares": 19722309,
+      "item_code": null
+    },
+    {
+      "name": "차이나과창판STAR50 TRS 230421-01",
+      "weight_pct": 2.45,
+      "shares": 16922447,
+      "item_code": null
+    },
+    {
+      "name": "차이나과창판STAR50 TRS 260616-02",
+      "weight_pct": 2.1,
+      "shares": 14514150,
+      "item_code": null
+    },
+    {
+      "name": "차이나과창판STAR50 TRS 251017-07",
+      "weight_pct": 1.34,
+      "shares": 9311670,
+      "item_code": null
+    }
+  ]
+}

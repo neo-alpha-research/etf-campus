@@ -1,0 +1,132 @@
+{
+  "ticker": "486450",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "오클로",
+      "weight_pct": 8.92,
+      "shares": 1531,
+      "item_code": "OKLO.K"
+    },
+    {
+      "name": "버티브 홀딩스",
+      "weight_pct": 8.85,
+      "shares": 239,
+      "item_code": "VRT"
+    },
+    {
+      "name": "콘스텔레이션 에너지",
+      "weight_pct": 8.84,
+      "shares": 225,
+      "item_code": "CEG.O"
+    },
+    {
+      "name": "이튼",
+      "weight_pct": 7.73,
+      "shares": 131,
+      "item_code": "ETN"
+    },
+    {
+      "name": "콴타 서비스",
+      "weight_pct": 6.73,
+      "shares": 77,
+      "item_code": "PWR"
+    },
+    {
+      "name": "GE 버노바",
+      "weight_pct": 6.37,
+      "shares": 47,
+      "item_code": "GEV"
+    },
+    {
+      "name": "블룸 에너지",
+      "weight_pct": 5.52,
+      "shares": 180,
+      "item_code": "BE"
+    },
+    {
+      "name": "엔터지",
+      "weight_pct": 4.87,
+      "shares": 324,
+      "item_code": "ETR"
+    },
+    {
+      "name": "카메코",
+      "weight_pct": 4.77,
+      "shares": 317,
+      "item_code": "CCJ"
+    },
+    {
+      "name": "엑셀론",
+      "weight_pct": 4.59,
+      "shares": 737,
+      "item_code": "EXC.O"
+    },
+    {
+      "name": "비스트라",
+      "weight_pct": 4.42,
+      "shares": 225,
+      "item_code": "VST"
+    },
+    {
+      "name": "퍼블릭 서비스 엔터프라이즈",
+      "weight_pct": 3.83,
+      "shares": 369,
+      "item_code": "PEG"
+    },
+    {
+      "name": "센트러스 에너지",
+      "weight_pct": 3.76,
+      "shares": 143,
+      "item_code": "LEU"
+    },
+    {
+      "name": "오마트 테크놀로지스",
+      "weight_pct": 3.2,
+      "shares": 220,
+      "item_code": "ORA"
+    },
+    {
+      "name": "뉴스케일 파워",
+      "weight_pct": 3.11,
+      "shares": 2396,
+      "item_code": "SMR"
+    },
+    {
+      "name": "엔벤트 일렉트릭",
+      "weight_pct": 3.08,
+      "shares": 141,
+      "item_code": "NVT"
+    },
+    {
+      "name": "나노 뉴클리어 에너지",
+      "weight_pct": 2.94,
+      "shares": 1137,
+      "item_code": "NNE.O"
+    },
+    {
+      "name": "에너시스",
+      "weight_pct": 2.78,
+      "shares": 102,
+      "item_code": "ENS"
+    },
+    {
+      "name": "탈렌 에너지",
+      "weight_pct": 2.68,
+      "shares": 62,
+      "item_code": "TLN.O"
+    },
+    {
+      "name": "파월 인더스트리스",
+      "weight_pct": 2.25,
+      "shares": 83,
+      "item_code": "POWL.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.65,
+      "shares": 6431921,
+      "item_code": null
+    }
+  ]
+}

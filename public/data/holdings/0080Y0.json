@@ -1,0 +1,96 @@
+{
+  "ticker": "0080Y0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "2026-09 SOL 조선TOP3플러스개별선물",
+      "weight_pct": 94.85,
+      "shares": 306,
+      "item_code": null
+    },
+    {
+      "name": "한화오션",
+      "weight_pct": 26.86,
+      "shares": 2751,
+      "item_code": "042660"
+    },
+    {
+      "name": "삼성중공업",
+      "weight_pct": 26.07,
+      "shares": 11394,
+      "item_code": "010140"
+    },
+    {
+      "name": "HD현대중공업",
+      "weight_pct": 25.6,
+      "shares": 500,
+      "item_code": "329180"
+    },
+    {
+      "name": "HD한국조선해양",
+      "weight_pct": 15.71,
+      "shares": 400,
+      "item_code": "009540"
+    },
+    {
+      "name": "HD현대마린솔루션",
+      "weight_pct": 4.09,
+      "shares": 170,
+      "item_code": "443060"
+    },
+    {
+      "name": "한화엔진",
+      "weight_pct": 2.55,
+      "shares": 486,
+      "item_code": "082740"
+    },
+    {
+      "name": "HD현대마린엔진",
+      "weight_pct": 1.13,
+      "shares": 195,
+      "item_code": "071970"
+    },
+    {
+      "name": "대한조선",
+      "weight_pct": 0.92,
+      "shares": 172,
+      "item_code": "439260"
+    },
+    {
+      "name": "한국카본",
+      "weight_pct": 0.72,
+      "shares": 278,
+      "item_code": "017960"
+    },
+    {
+      "name": "성광벤드",
+      "weight_pct": 0.49,
+      "shares": 150,
+      "item_code": "014620"
+    },
+    {
+      "name": "STX엔진",
+      "weight_pct": 0.38,
+      "shares": 135,
+      "item_code": "077970"
+    },
+    {
+      "name": "태광",
+      "weight_pct": 0.32,
+      "shares": 119,
+      "item_code": "023160"
+    },
+    {
+      "name": "세진중공업",
+      "weight_pct": 0.21,
+      "shares": 186,
+      "item_code": "075580"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -5.11,
+      "shares": -46952830,
+      "item_code": null
+    }
+  ]
+}

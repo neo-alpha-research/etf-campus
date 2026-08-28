@@ -1,0 +1,24 @@
+{
+  "ticker": "256440",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": 68.95,
+      "shares": 367911499,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 32.07,
+      "shares": 171119565,
+      "item_code": null
+    },
+    {
+      "name": "스왑(NH투자증권)",
+      "weight_pct": -1.02,
+      "shares": -5477447,
+      "item_code": null
+    }
+  ]
+}

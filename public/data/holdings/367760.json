@@ -1,0 +1,150 @@
+{
+  "ticker": "367760",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 22.95,
+      "shares": 2535,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 21.25,
+      "shares": 361,
+      "item_code": "000660"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 19.75,
+      "shares": 419,
+      "item_code": "009150"
+    },
+    {
+      "name": "LG이노텍",
+      "weight_pct": 11.72,
+      "shares": 577,
+      "item_code": "011070"
+    },
+    {
+      "name": "이수페타시스",
+      "weight_pct": 8.61,
+      "shares": 2243,
+      "item_code": "007660"
+    },
+    {
+      "name": "리노공업",
+      "weight_pct": 4.64,
+      "shares": 2045,
+      "item_code": "058470"
+    },
+    {
+      "name": "제주반도체",
+      "weight_pct": 3.19,
+      "shares": 1209,
+      "item_code": "080220"
+    },
+    {
+      "name": "대한광통신",
+      "weight_pct": 2.69,
+      "shares": 5328,
+      "item_code": "010170"
+    },
+    {
+      "name": "RFHIC",
+      "weight_pct": 1.12,
+      "shares": 680,
+      "item_code": "218410"
+    },
+    {
+      "name": "쏠리드",
+      "weight_pct": 0.7,
+      "shares": 2232,
+      "item_code": "050890"
+    },
+    {
+      "name": "케이엠더블유",
+      "weight_pct": 0.61,
+      "shares": 1185,
+      "item_code": "032500"
+    },
+    {
+      "name": "비에이치",
+      "weight_pct": 0.56,
+      "shares": 974,
+      "item_code": "090460"
+    },
+    {
+      "name": "대덕",
+      "weight_pct": 0.37,
+      "shares": 672,
+      "item_code": "008060"
+    },
+    {
+      "name": "오이솔루션",
+      "weight_pct": 0.3,
+      "shares": 358,
+      "item_code": "138080"
+    },
+    {
+      "name": "파트론",
+      "weight_pct": 0.22,
+      "shares": 1239,
+      "item_code": "091700"
+    },
+    {
+      "name": "LIG아큐버",
+      "weight_pct": 0.22,
+      "shares": 220,
+      "item_code": "073490"
+    },
+    {
+      "name": "디케이티",
+      "weight_pct": 0.2,
+      "shares": 396,
+      "item_code": "290550"
+    },
+    {
+      "name": "에치에프알",
+      "weight_pct": 0.17,
+      "shares": 374,
+      "item_code": "230240"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.14,
+      "shares": 4180353,
+      "item_code": null
+    },
+    {
+      "name": "와이솔",
+      "weight_pct": 0.13,
+      "shares": 682,
+      "item_code": "122990"
+    },
+    {
+      "name": "유니퀘스트",
+      "weight_pct": 0.11,
+      "shares": 473,
+      "item_code": "077500"
+    },
+    {
+      "name": "다산네트웍스",
+      "weight_pct": 0.1,
+      "shares": 1239,
+      "item_code": "039560"
+    },
+    {
+      "name": "우리넷",
+      "weight_pct": 0.07,
+      "shares": 312,
+      "item_code": "115440"
+    },
+    {
+      "name": "머큐리",
+      "weight_pct": 0.04,
+      "shares": 354,
+      "item_code": "100590"
+    }
+  ]
+}

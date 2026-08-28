@@ -1,0 +1,18 @@
+{
+  "ticker": "363510",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "통안02620-2704-02",
+      "weight_pct": 80.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 19.54,
+      "shares": 21915980,
+      "item_code": null
+    }
+  ]
+}

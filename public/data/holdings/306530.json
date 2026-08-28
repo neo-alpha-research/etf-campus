@@ -1,0 +1,30 @@
+{
+  "ticker": "306530",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "코스닥150선물2026년09월물",
+      "weight_pct": 177.79,
+      "shares": 18,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 80.09,
+      "shares": 120333438,
+      "item_code": null
+    },
+    {
+      "name": "HANARO 코스닥150",
+      "weight_pct": 17.88,
+      "shares": 1846,
+      "item_code": "304770"
+    },
+    {
+      "name": "KODEX 코스닥150레버리지",
+      "weight_pct": 2.02,
+      "shares": 409,
+      "item_code": "233740"
+    }
+  ]
+}

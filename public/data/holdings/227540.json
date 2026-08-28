@@ -1,0 +1,96 @@
+{
+  "ticker": "227540",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성바이오로직스",
+      "weight_pct": 22.13,
+      "shares": 56,
+      "item_code": "207940"
+    },
+    {
+      "name": "셀트리온",
+      "weight_pct": 20.68,
+      "shares": 436,
+      "item_code": "068270"
+    },
+    {
+      "name": "유한양행",
+      "weight_pct": 12.96,
+      "shares": 632,
+      "item_code": "000100"
+    },
+    {
+      "name": "SK바이오팜",
+      "weight_pct": 9.77,
+      "shares": 448,
+      "item_code": "326030"
+    },
+    {
+      "name": "한미약품",
+      "weight_pct": 9.0,
+      "shares": 72,
+      "item_code": "128940"
+    },
+    {
+      "name": "한올바이오파마",
+      "weight_pct": 6.47,
+      "shares": 406,
+      "item_code": "009420"
+    },
+    {
+      "name": "삼성에피스홀딩스",
+      "weight_pct": 6.03,
+      "shares": 63,
+      "item_code": "0126Z0"
+    },
+    {
+      "name": "한미사이언스",
+      "weight_pct": 3.35,
+      "shares": 321,
+      "item_code": "008930"
+    },
+    {
+      "name": "SK바이오사이언스",
+      "weight_pct": 2.82,
+      "shares": 296,
+      "item_code": "302440"
+    },
+    {
+      "name": "녹십자",
+      "weight_pct": 1.95,
+      "shares": 62,
+      "item_code": "006280"
+    },
+    {
+      "name": "대웅제약",
+      "weight_pct": 1.61,
+      "shares": 52,
+      "item_code": "069620"
+    },
+    {
+      "name": "종근당",
+      "weight_pct": 1.49,
+      "shares": 90,
+      "item_code": "185750"
+    },
+    {
+      "name": "대웅",
+      "weight_pct": 0.95,
+      "shares": 220,
+      "item_code": "003090"
+    },
+    {
+      "name": "에스디바이오센서",
+      "weight_pct": 0.6,
+      "shares": 401,
+      "item_code": "137310"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.13,
+      "shares": 538819,
+      "item_code": null
+    }
+  ]
+}

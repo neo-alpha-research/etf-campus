@@ -46,13 +46,13 @@ export function FounderLetter({
               사회에 나와 마주하는 삶 속에서 <strong className="font-extrabold text-neutral-950 underline decoration-brand-400 decoration-2 underline-offset-4">&apos;내 자산을 지키고 키우는 투자&apos;는 이제 누구에게나 생존을 위한 필수 과목</strong>이 되었습니다.
             </p>
             <p>
-              금융 현업에서 펀드를 운용하고 강의하며, 개인적으로 <strong className="font-extrabold text-neutral-950 underline decoration-brand-400 decoration-2 underline-offset-4">DC형 퇴직연금을 오랫동안 직접 운용해 온 실전 경험</strong>을 토대로 이 배움의 공간을 세우게 되었습니다.
+              금융 현업에서 투자하고 강의하며, 개인적으로 <strong className="font-extrabold text-neutral-950 underline decoration-brand-400 decoration-2 underline-offset-4">DC형 퇴직연금을 오랫동안 직접 운용해 온 실전 경험</strong>을 토대로 이 배움의 공간을 세우게 되었습니다.
             </p>
             <p>
-              기초 개념부터 데이터 탐색, 종목 비교, 자산배분 전략까지 <strong className="font-extrabold text-brand-900 underline decoration-brand-400 decoration-2 underline-offset-4">&apos;국내 상장 ETF 투자에 필요한 모든 것&apos;</strong>을 한곳에서 체계적으로 배울 수 있도록 돕겠습니다.
+              기초 개념부터 데이터 탐색, 종목 비교, 자산배분 전략까지 <strong className="font-extrabold text-brand-900 underline decoration-brand-400 decoration-2 underline-offset-4">&apos;국내 상장 ETF 투자에 필요한 모든 것&apos;</strong>을 한곳에서 체계적으로 알아 갈 수 있는 공간이 되었으면 합니다.
             </p>
             <p>
-              투자는 긴 호흡으로 이어가는 평생의 여정입니다. 신입생 여러분의 입학을 진심으로 환영합니다.
+              투자는 긴 호흡으로 이어가는 평생의 여정입니다. 여러분의 입학을 진심으로 환영합니다.
             </p>
           </div>
 

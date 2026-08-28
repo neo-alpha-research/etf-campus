@@ -311,49 +311,51 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
 
   const hasUnsupportedFilters = filters.marketScopes.length > 0 || filters.strategies.length > 0 || filters.fxHedges.length > 0 || filters.terRanges.length > 0 || filters.issuerIds.length > 0;
 
-  const isPensionQuickActive = filters.pensionOnly;
-  const togglePensionQuick = () => updateFilters({ ...filters, pensionOnly: !filters.pensionOnly });
-
-  const isUsStockQuickActive = filters.assetClasses.includes("주식-해외") && filters.marketScopes.includes("미국");
+  const isUsStockQuickActive = filters.assetClasses.length === 1 && filters.assetClasses.includes("주식-해외") && filters.marketScopes.length === 1 && filters.marketScopes.includes("미국") && filters.keyword === "";
   const toggleUsStockQuick = () => {
     if (isUsStockQuickActive) {
-      updateFilters({
-        ...filters,
-        assetClasses: filters.assetClasses.filter(v => v !== "주식-해외"),
-        marketScopes: filters.marketScopes.filter(v => v !== "미국"),
-      });
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [] });
     } else {
-      updateFilters({
-        ...filters,
-        assetClasses: Array.from(new Set([...filters.assetClasses, "주식-해외"])),
-        marketScopes: Array.from(new Set([...filters.marketScopes, "미국"])),
-      });
+      updateFilters({ ...filters, assetClasses: ["주식-해외"], marketScopes: ["미국"], keyword: "" });
     }
   };
 
-  const isBondParkingQuickActive = filters.assetClasses.includes("채권") && filters.assetClasses.includes("금리·파킹");
+  const isBondParkingQuickActive = filters.assetClasses.length === 2 && filters.assetClasses.includes("채권") && filters.assetClasses.includes("금리·파킹") && filters.marketScopes.length === 0 && filters.keyword === "";
   const toggleBondParkingQuick = () => {
     if (isBondParkingQuickActive) {
-      updateFilters({
-        ...filters,
-        assetClasses: filters.assetClasses.filter(v => v !== "채권" && v !== "금리·파킹")
-      });
+      updateFilters({ ...filters, assetClasses: [] });
     } else {
-      updateFilters({
-        ...filters,
-        assetClasses: Array.from(new Set([...filters.assetClasses, "채권", "금리·파킹"]))
-      });
+      updateFilters({ ...filters, assetClasses: ["채권", "금리·파킹"], marketScopes: [], keyword: "" });
     }
   };
 
-  const isSemiconductorQuickActive = filters.keyword === "반도체";
-  const toggleSemiconductorQuick = () => updateFilters({ ...filters, keyword: isSemiconductorQuickActive ? "" : "반도체" });
 
-  const isAiQuickActive = filters.keyword === "ai";
-  const toggleAiQuick = () => updateFilters({ ...filters, keyword: isAiQuickActive ? "" : "ai" });
+  const isSemiconductorQuickActive = filters.keyword === "반도체" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0;
+  const toggleSemiconductorQuick = () => {
+    if (isSemiconductorQuickActive) {
+      updateFilters({ ...filters, keyword: "" });
+    } else {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], keyword: "반도체" });
+    }
+  };
 
-  const isDivGrowthQuickActive = filters.keyword === "배당성장";
-  const toggleDivGrowthQuick = () => updateFilters({ ...filters, keyword: isDivGrowthQuickActive ? "" : "배당성장" });
+  const isAiQuickActive = filters.keyword === "ai" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0;
+  const toggleAiQuick = () => {
+    if (isAiQuickActive) {
+      updateFilters({ ...filters, keyword: "" });
+    } else {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], keyword: "ai" });
+    }
+  };
+
+  const isDivGrowthQuickActive = filters.keyword === "배당성장" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0;
+  const toggleDivGrowthQuick = () => {
+    if (isDivGrowthQuickActive) {
+      updateFilters({ ...filters, keyword: "" });
+    } else {
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], keyword: "배당성장" });
+    }
+  };
 
   const activeFilters: { label: string; remove: () => void }[] = [];
   
@@ -459,16 +461,6 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
 
 
       <div className="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="빠른 시작 조건">
-        <button
-          type="button"
-          aria-pressed={isPensionQuickActive}
-          onClick={togglePensionQuick}
-          className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-            isPensionQuickActive ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-          }`}
-        >
-          연금 가능 ETF
-        </button>
         <button
           type="button"
           aria-pressed={isUsStockQuickActive}

@@ -141,5 +141,22 @@ describe("classification data contracts", () => {
     expect(plainCount / total).toBeLessThan(0.6);
     expect(unknownFxCount / total).toBeLessThan(0.2);
   });
+
+  it("전력기기 테마 매칭: TIGER 코리아AI전력기기TOP3플러스(0117V0)의 피어 후보는 전력/인프라 테마 종목이며 대표지수가 아니다", () => {
+    const target = byTicker.get("0117V0");
+    expect(target).toBeDefined();
+    const comparison = getPeerComparison(target!, etfs);
+    const primary = comparison.groups.find((group) => group.isPrimary);
+    expect(primary).toBeDefined();
+    expect(primary!.candidates.length).toBe(4);
+
+    const candidateTickers = primary!.candidates.map((c) => c.etf.ticker);
+    // KODEX 200 등 단순 미확인 지수가 아닌 전력 테마 ETF들이 매칭되어야 함
+    expect(candidateTickers).not.toContain("069500");
+    expect(candidateTickers).not.toContain("278530");
+    expect(candidateTickers).toContain("491820"); // HANARO 전력설비투자
+    expect(candidateTickers).toContain("0209Z0"); // ACE 코리아AI전력TOP10
+    expect(candidateTickers).toContain("487240"); // KODEX AI전력핵심설비
+  });
 });
 

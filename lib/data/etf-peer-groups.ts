@@ -251,15 +251,25 @@ function candidatesForGroup(
 }
 
 
+const isUnconfirmed = (s: string) => !s || s.includes("미확인") || s.includes("unknown");
+const STOP_WORDS = new Set(["미확인", "주식전략", "국내", "미국", "글로벌", "기타", "일반", "지수", "전략", "투자"]);
+
 function normalizedTokens(value: string): Set<string> {
-  return new Set(value.toLowerCase().split(/[\s|,;·/()\-]+/).map((token) => token.trim()).filter((token) => token.length >= 2));
+  return new Set(
+    value
+      .toLowerCase()
+      .split(/[\s|,;·/()\-]+/)
+      .map((token) => token.trim())
+      .filter((token) => token.length >= 2 && !STOP_WORDS.has(token))
+  );
 }
 
 function sharesTopic(left: ComparisonProfile, right: ComparisonProfile): boolean {
   if (!left.comparisonTopic || !right.comparisonTopic) return false;
-  if (left.comparisonTopic === right.comparisonTopic || left.comparisonSubtopic === right.comparisonSubtopic) return true;
-  const leftTokens = normalizedTokens(`${left.comparisonTopic} ${left.comparisonSubtopic}`);
-  const rightTokens = normalizedTokens(`${right.comparisonTopic} ${right.comparisonSubtopic}`);
+  if (isUnconfirmed(left.comparisonTopic) || isUnconfirmed(right.comparisonTopic)) return false;
+  if (left.comparisonTopic === right.comparisonTopic) return true;
+  const leftTokens = normalizedTokens(`${left.comparisonTopic} ${isUnconfirmed(left.comparisonSubtopic) ? "" : left.comparisonSubtopic}`);
+  const rightTokens = normalizedTokens(`${right.comparisonTopic} ${isUnconfirmed(right.comparisonSubtopic) ? "" : right.comparisonSubtopic}`);
   return [...leftTokens].some((token) => rightTokens.has(token));
 }
 
@@ -313,8 +323,8 @@ function investmentReferenceTier(
     target.assetFamily === candidate.assetFamily &&
     target.direction === candidate.direction &&
     target.leverageMultiple === candidate.leverageMultiple &&
-    (target.comparisonTopic === candidate.comparisonTopic ||
-      target.comparisonCategory === candidate.comparisonCategory);
+    ((sameNonEmpty(target.comparisonTopic, candidate.comparisonTopic) && !isUnconfirmed(target.comparisonTopic)) ||
+      (sameNonEmpty(target.comparisonCategory, candidate.comparisonCategory) && !isUnconfirmed(target.comparisonCategory)));
   if (sameThemeReference) return "investment_reference";
 
   const sameAssetStructureReference =
@@ -348,10 +358,10 @@ function calculateRelativeDistance(
 
   const sameAssetFamily = sameNonEmpty(target.assetFamily, candidate.assetFamily);
   const sameRegion = sameNonEmpty(target.regionPrimary, candidate.regionPrimary);
-  const sameCategory = sameNonEmpty(target.comparisonCategory, candidate.comparisonCategory);
-  const sameTopic = sameNonEmpty(target.comparisonTopic, candidate.comparisonTopic);
-  const sameSubtopic = sameNonEmpty(target.comparisonSubtopic, candidate.comparisonSubtopic);
-  const sameIndex = sameNonEmpty(target.indexFamily, candidate.indexFamily) && !target.indexFamily.startsWith("미확인");
+  const sameCategory = sameNonEmpty(target.comparisonCategory, candidate.comparisonCategory) && !isUnconfirmed(target.comparisonCategory);
+  const sameTopic = sameNonEmpty(target.comparisonTopic, candidate.comparisonTopic) && !isUnconfirmed(target.comparisonTopic);
+  const sameSubtopic = sameNonEmpty(target.comparisonSubtopic, candidate.comparisonSubtopic) && !isUnconfirmed(target.comparisonSubtopic);
+  const sameIndex = sameNonEmpty(target.indexFamily, candidate.indexFamily) && !isUnconfirmed(target.indexFamily);
   const samePayoff = sameNonEmpty(target.payoffStructure, candidate.payoffStructure);
   const sameDirection = sameNonEmpty(target.direction, candidate.direction);
   const sameLeverage = sameNonEmpty(target.leverageMultiple, candidate.leverageMultiple);
@@ -359,7 +369,8 @@ function calculateRelativeDistance(
 
   if (sameIndex) score += 40;
   if (sameSubtopic) score += 30;
-  if (sameTopic || sharesTopic(target, candidate)) score += 20;
+  if (sameTopic) score += 40;
+  else if (sharesTopic(target, candidate)) score += 25;
   if (sameCategory) score += 15;
   if (sameAssetFamily && sameRegion) score += 15;
   else if (sameAssetFamily) score += 5;
@@ -370,7 +381,7 @@ function calculateRelativeDistance(
   if (sameStyle) score += 5;
   if (sameNonEmpty(target.fxHedge, candidate.fxHedge)) score += 5;
 
-  if (!sameAssetFamily && !sameCategory) return null;
+  if (!sameAssetFamily && !sameCategory && !sameTopic && !sharesTopic(target, candidate)) return null;
   if (score < 20) return null;
 
   let tier: PeerCandidate["tier"] = "similar_category";

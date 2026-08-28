@@ -1,0 +1,54 @@
+{
+  "ticker": "459750",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
+      "weight_pct": 25.16,
+      "shares": 2229,
+      "item_code": "VEA"
+    },
+    {
+      "name": "RISE 미국S&P500",
+      "weight_pct": 25.06,
+      "shares": 9771,
+      "item_code": "379780"
+    },
+    {
+      "name": "State Street SPDR S&P 500 ETF Trust",
+      "weight_pct": 24.6,
+      "shares": 209,
+      "item_code": "SPY"
+    },
+    {
+      "name": "Vanguard Emerging Markets Stock Index Fund",
+      "weight_pct": 13.93,
+      "shares": 1495,
+      "item_code": "VWO"
+    },
+    {
+      "name": "iShares MSCI EAFE ETF",
+      "weight_pct": 4.94,
+      "shares": 297,
+      "item_code": "EFA"
+    },
+    {
+      "name": "iShares MSCI Emerging Markets ETF",
+      "weight_pct": 3.0,
+      "shares": 291,
+      "item_code": "EEM"
+    },
+    {
+      "name": "Schwab Emerging Markets Equity ETF",
+      "weight_pct": 2.91,
+      "shares": 511,
+      "item_code": "SCHE.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.36,
+      "shares": 3278760,
+      "item_code": null
+    }
+  ]
+}

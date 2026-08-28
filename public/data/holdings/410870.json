@@ -1,0 +1,150 @@
+{
+  "ticker": "410870",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "실리콘투",
+      "weight_pct": 10.49,
+      "shares": 2109,
+      "item_code": "257720"
+    },
+    {
+      "name": "파마리서치",
+      "weight_pct": 8.84,
+      "shares": 202,
+      "item_code": "214450"
+    },
+    {
+      "name": "삼양식품",
+      "weight_pct": 8.38,
+      "shares": 56,
+      "item_code": "003230"
+    },
+    {
+      "name": "코스메카코리아",
+      "weight_pct": 7.63,
+      "shares": 543,
+      "item_code": "241710"
+    },
+    {
+      "name": "휴젤",
+      "weight_pct": 7.08,
+      "shares": 285,
+      "item_code": "145020"
+    },
+    {
+      "name": "에이피알",
+      "weight_pct": 6.28,
+      "shares": 143,
+      "item_code": "278470"
+    },
+    {
+      "name": "펄어비스",
+      "weight_pct": 5.0,
+      "shares": 1566,
+      "item_code": "263750"
+    },
+    {
+      "name": "에스엠",
+      "weight_pct": 4.34,
+      "shares": 575,
+      "item_code": "041510"
+    },
+    {
+      "name": "하이브",
+      "weight_pct": 4.26,
+      "shares": 236,
+      "item_code": "352820"
+    },
+    {
+      "name": "농심",
+      "weight_pct": 4.01,
+      "shares": 93,
+      "item_code": "004370"
+    },
+    {
+      "name": "크래프톤",
+      "weight_pct": 3.73,
+      "shares": 168,
+      "item_code": "259960"
+    },
+    {
+      "name": "올릭스",
+      "weight_pct": 3.59,
+      "shares": 339,
+      "item_code": "226950"
+    },
+    {
+      "name": "달바글로벌",
+      "weight_pct": 3.46,
+      "shares": 154,
+      "item_code": "483650"
+    },
+    {
+      "name": "와이지엔터테인먼트",
+      "weight_pct": 3.39,
+      "shares": 841,
+      "item_code": "122870"
+    },
+    {
+      "name": "NC",
+      "weight_pct": 3.0,
+      "shares": 133,
+      "item_code": "036570"
+    },
+    {
+      "name": "서부T&D",
+      "weight_pct": 2.6,
+      "shares": 2352,
+      "item_code": "006730"
+    },
+    {
+      "name": "엘앤씨바이오",
+      "weight_pct": 2.55,
+      "shares": 500,
+      "item_code": "290650"
+    },
+    {
+      "name": "JYP Ent.",
+      "weight_pct": 2.24,
+      "shares": 558,
+      "item_code": "035900"
+    },
+    {
+      "name": "클래시스",
+      "weight_pct": 2.12,
+      "shares": 650,
+      "item_code": "214150"
+    },
+    {
+      "name": "CJ",
+      "weight_pct": 1.9,
+      "shares": 149,
+      "item_code": "001040"
+    },
+    {
+      "name": "시프트업",
+      "weight_pct": 1.79,
+      "shares": 542,
+      "item_code": "462870"
+    },
+    {
+      "name": "CJ ENM",
+      "weight_pct": 1.65,
+      "shares": 500,
+      "item_code": "035760"
+    },
+    {
+      "name": "스튜디오드래곤",
+      "weight_pct": 1.1,
+      "shares": 504,
+      "item_code": "253450"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.47,
+      "shares": 4661813,
+      "item_code": null
+    }
+  ]
+}

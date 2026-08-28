@@ -1,0 +1,24 @@
+{
+  "ticker": "468370",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares TIPS Bond ETF",
+      "weight_pct": 99.61,
+      "shares": 717,
+      "item_code": "TIP"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.38,
+      "shares": 406573,
+      "item_code": null
+    },
+    {
+      "name": "USD현금",
+      "weight_pct": 0.0,
+      "shares": 6,
+      "item_code": null
+    }
+  ]
+}

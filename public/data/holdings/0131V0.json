@@ -1,0 +1,96 @@
+{
+  "ticker": "0131V0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 15.48,
+      "shares": 359,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "스페이스X",
+      "weight_pct": 13.33,
+      "shares": 393,
+      "item_code": "SPCX.O"
+    },
+    {
+      "name": "조비 에비에이션",
+      "weight_pct": 11.2,
+      "shares": 6457,
+      "item_code": "JOBY.K"
+    },
+    {
+      "name": "베타 테크놀로지스",
+      "weight_pct": 10.57,
+      "shares": 2002,
+      "item_code": "BETA.K"
+    },
+    {
+      "name": "GE 에어로스페이스",
+      "weight_pct": 9.64,
+      "shares": 112,
+      "item_code": "GE"
+    },
+    {
+      "name": "아처 에비에이션",
+      "weight_pct": 8.2,
+      "shares": 5726,
+      "item_code": "ACHR.K"
+    },
+    {
+      "name": "AST 스페이스모바일",
+      "weight_pct": 5.48,
+      "shares": 377,
+      "item_code": "ASTS.O"
+    },
+    {
+      "name": "로켓 랩",
+      "weight_pct": 5.3,
+      "shares": 330,
+      "item_code": "RKLB.O"
+    },
+    {
+      "name": "RTX",
+      "weight_pct": 4.53,
+      "shares": 88,
+      "item_code": "RTX"
+    },
+    {
+      "name": "록히드 마틴",
+      "weight_pct": 4.53,
+      "shares": 33,
+      "item_code": "LMT"
+    },
+    {
+      "name": "노스롭 그루만",
+      "weight_pct": 4.4,
+      "shares": 33,
+      "item_code": "NOC"
+    },
+    {
+      "name": "허니웰 에어로스페이스",
+      "weight_pct": 3.02,
+      "shares": 76,
+      "item_code": "HONA.O"
+    },
+    {
+      "name": "인튜이티브 머신스",
+      "weight_pct": 2.12,
+      "shares": 543,
+      "item_code": "LUNR.O"
+    },
+    {
+      "name": "플래닛 랩스 PBC",
+      "weight_pct": 1.82,
+      "shares": 355,
+      "item_code": "PL"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.3,
+      "shares": 1729035,
+      "item_code": null
+    }
+  ]
+}

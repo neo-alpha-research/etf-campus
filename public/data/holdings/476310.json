@@ -1,0 +1,72 @@
+{
+  "ticker": "476310",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "일라이 릴리",
+      "weight_pct": 27.55,
+      "shares": 86,
+      "item_code": "LLY"
+    },
+    {
+      "name": "노보 노디스크 ADR",
+      "weight_pct": 27.41,
+      "shares": 2156,
+      "item_code": "NVO"
+    },
+    {
+      "name": "머크 앤 코",
+      "weight_pct": 10.88,
+      "shares": 264,
+      "item_code": "MRK"
+    },
+    {
+      "name": "노바티스 ADR",
+      "weight_pct": 8.74,
+      "shares": 206,
+      "item_code": "NVS"
+    },
+    {
+      "name": "아스트라제네카",
+      "weight_pct": 7.16,
+      "shares": 160,
+      "item_code": "AZN"
+    },
+    {
+      "name": "암젠",
+      "weight_pct": 6.05,
+      "shares": 51,
+      "item_code": "AMGN.O"
+    },
+    {
+      "name": "애보트 래보라토리",
+      "weight_pct": 4.7,
+      "shares": 153,
+      "item_code": "ABT"
+    },
+    {
+      "name": "라이프 타임 그룹 홀딩스",
+      "weight_pct": 3.27,
+      "shares": 271,
+      "item_code": "LTH"
+    },
+    {
+      "name": "룰루레몬 애슬레티카",
+      "weight_pct": 3.04,
+      "shares": 97,
+      "item_code": "LULU.O"
+    },
+    {
+      "name": "딕스 스포팅 굿즈",
+      "weight_pct": 1.71,
+      "shares": 49,
+      "item_code": "DKS"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.54,
+      "shares": -2796265,
+      "item_code": null
+    }
+  ]
+}

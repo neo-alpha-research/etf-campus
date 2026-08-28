@@ -1,0 +1,36 @@
+{
+  "ticker": "143850",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 97.85,
+      "shares": 1892074470,
+      "item_code": null
+    },
+    {
+      "name": "S&P500 EMINI FUT SEPT 2026",
+      "weight_pct": 88.34,
+      "shares": 3,
+      "item_code": null
+    },
+    {
+      "name": "iShares Core S&P 500 ETF",
+      "weight_pct": 1.19,
+      "shares": 21,
+      "item_code": "IVV"
+    },
+    {
+      "name": "State Street SPDR S&P 500 ETF Trust",
+      "weight_pct": 0.95,
+      "shares": 17,
+      "item_code": "SPY"
+    },
+    {
+      "name": "미달러선물26년09월물",
+      "weight_pct": -60.89,
+      "shares": -85,
+      "item_code": null
+    }
+  ]
+}

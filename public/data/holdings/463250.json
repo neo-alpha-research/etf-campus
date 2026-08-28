@@ -1,0 +1,72 @@
+{
+  "ticker": "463250",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "한화에어로스페이스",
+      "weight_pct": 22.88,
+      "shares": 358,
+      "item_code": "012450"
+    },
+    {
+      "name": "LIG디펜스앤에어로스페이스",
+      "weight_pct": 20.37,
+      "shares": 492,
+      "item_code": "079550"
+    },
+    {
+      "name": "한국항공우주",
+      "weight_pct": 17.4,
+      "shares": 2276,
+      "item_code": "047810"
+    },
+    {
+      "name": "현대로템",
+      "weight_pct": 16.37,
+      "shares": 2126,
+      "item_code": "064350"
+    },
+    {
+      "name": "한화시스템",
+      "weight_pct": 15.55,
+      "shares": 3591,
+      "item_code": "272210"
+    },
+    {
+      "name": "풍산",
+      "weight_pct": 3.77,
+      "shares": 819,
+      "item_code": "103140"
+    },
+    {
+      "name": "인텔리안테크",
+      "weight_pct": 1.37,
+      "shares": 377,
+      "item_code": "189300"
+    },
+    {
+      "name": "쎄트렉아이",
+      "weight_pct": 1.36,
+      "shares": 331,
+      "item_code": "099320"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.48,
+      "shares": 8683632,
+      "item_code": null
+    },
+    {
+      "name": "AP위성",
+      "weight_pct": 0.23,
+      "shares": 514,
+      "item_code": "211270"
+    },
+    {
+      "name": "제노코",
+      "weight_pct": 0.16,
+      "shares": 232,
+      "item_code": "361390"
+    }
+  ]
+}

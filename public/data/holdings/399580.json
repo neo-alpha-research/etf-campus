@@ -1,0 +1,498 @@
+{
+  "ticker": "399580",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares Global Clean Energy ETF",
+      "weight_pct": 14.33,
+      "shares": 5480,
+      "item_code": "ICLN.O"
+    },
+    {
+      "name": "블룸 에너지",
+      "weight_pct": 11.78,
+      "shares": 365,
+      "item_code": "BE"
+    },
+    {
+      "name": "퍼스트 솔라",
+      "weight_pct": 8.12,
+      "shares": 266,
+      "item_code": "FSLR.O"
+    },
+    {
+      "name": "장강전력",
+      "weight_pct": 6.89,
+      "shares": 11100,
+      "item_code": "600900.SS"
+    },
+    {
+      "name": "넥스트파워",
+      "weight_pct": 5.93,
+      "shares": 460,
+      "item_code": "NXT.O"
+    },
+    {
+      "name": "인페이즈 에너지",
+      "weight_pct": 4.21,
+      "shares": 741,
+      "item_code": "ENPH.O"
+    },
+    {
+      "name": "VESTAS WIND SYSTEMS A/S",
+      "weight_pct": 3.96,
+      "shares": 827,
+      "item_code": null
+    },
+    {
+      "name": "EQUATORIAL SA - ORD",
+      "weight_pct": 2.69,
+      "shares": 2550,
+      "item_code": null
+    },
+    {
+      "name": "EDP SA",
+      "weight_pct": 2.61,
+      "shares": 3231,
+      "item_code": null
+    },
+    {
+      "name": "플러그 파워",
+      "weight_pct": 2.53,
+      "shares": 7886,
+      "item_code": "PLUG.O"
+    },
+    {
+      "name": "주부전력",
+      "weight_pct": 2.34,
+      "shares": 860,
+      "item_code": "9502.T"
+    },
+    {
+      "name": "클리어웨이 에너지 Class C",
+      "weight_pct": 1.68,
+      "shares": 350,
+      "item_code": "CWEN.K"
+    },
+    {
+      "name": "ORSTED A/S",
+      "weight_pct": 1.68,
+      "shares": 518,
+      "item_code": null
+    },
+    {
+      "name": "솔라에지 테크놀로지스",
+      "weight_pct": 1.65,
+      "shares": 338,
+      "item_code": "SEDG.O"
+    },
+    {
+      "name": "두산퓨얼셀",
+      "weight_pct": 1.31,
+      "shares": 271,
+      "item_code": "336260"
+    },
+    {
+      "name": "ENERGISA SA-UNITS",
+      "weight_pct": 1.3,
+      "shares": 955,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.22,
+      "shares": 11452771,
+      "item_code": null
+    },
+    {
+      "name": "중국장강삼협",
+      "weight_pct": 1.06,
+      "shares": 12970,
+      "item_code": "600905.SS"
+    },
+    {
+      "name": "숄즈 테크놀로지스 그룹",
+      "weight_pct": 1.02,
+      "shares": 948,
+      "item_code": "SHLS.O"
+    },
+    {
+      "name": "EDP RENEWABLES SA",
+      "weight_pct": 0.96,
+      "shares": 404,
+      "item_code": null
+    },
+    {
+      "name": "NORDEX SE",
+      "weight_pct": 0.95,
+      "shares": 144,
+      "item_code": null
+    },
+    {
+      "name": "융기실리콘자재",
+      "weight_pct": 0.92,
+      "shares": 3440,
+      "item_code": "601012.SS"
+    },
+    {
+      "name": "화능란창강수력발전",
+      "weight_pct": 0.9,
+      "shares": 4230,
+      "item_code": "600025.SS"
+    },
+    {
+      "name": "그린 플레인스",
+      "weight_pct": 0.87,
+      "shares": 396,
+      "item_code": "GPRE.O"
+    },
+    {
+      "name": "금풍과기",
+      "weight_pct": 0.84,
+      "shares": 4460,
+      "item_code": "2208.HK"
+    },
+    {
+      "name": "CPFL ENERGIA SA",
+      "weight_pct": 0.84,
+      "shares": 660,
+      "item_code": null
+    },
+    {
+      "name": "SOLARIA ENERGIA Y MEDIO AMBI",
+      "weight_pct": 0.84,
+      "shares": 288,
+      "item_code": null
+    },
+    {
+      "name": "용원전력",
+      "weight_pct": 0.8,
+      "shares": 7600,
+      "item_code": "0916.HK"
+    },
+    {
+      "name": "T1 에너지",
+      "weight_pct": 0.76,
+      "shares": 1150,
+      "item_code": "TE"
+    },
+    {
+      "name": "천투에너지",
+      "weight_pct": 0.76,
+      "shares": 2210,
+      "item_code": "600674.SS"
+    },
+    {
+      "name": "매위과기",
+      "weight_pct": 0.63,
+      "shares": 130,
+      "item_code": "300751.SZ"
+    },
+    {
+      "name": "어레이 테크놀로지스",
+      "weight_pct": 0.6,
+      "shares": 865,
+      "item_code": "ARRY.O"
+    },
+    {
+      "name": "CERES POWER HOLDINGS PLC",
+      "weight_pct": 0.56,
+      "shares": 698,
+      "item_code": null
+    },
+    {
+      "name": "ENGIE BRASIL ENERGIA SA",
+      "weight_pct": 0.54,
+      "shares": 658,
+      "item_code": null
+    },
+    {
+      "name": "캐나디안 솔라",
+      "weight_pct": 0.52,
+      "shares": 258,
+      "item_code": "CSIQ.O"
+    },
+    {
+      "name": "리뉴 에너지 글로벌",
+      "weight_pct": 0.51,
+      "shares": 510,
+      "item_code": "RNW.O"
+    },
+    {
+      "name": "VERBUND AG",
+      "weight_pct": 0.5,
+      "shares": 50,
+      "item_code": null
+    },
+    {
+      "name": "Brhc 홀딩스",
+      "weight_pct": 0.43,
+      "shares": 90,
+      "item_code": "BEPC.K"
+    },
+    {
+      "name": "정과능원",
+      "weight_pct": 0.43,
+      "shares": 4537,
+      "item_code": "688223.SS"
+    },
+    {
+      "name": "ERG SPA",
+      "weight_pct": 0.43,
+      "shares": 114,
+      "item_code": null
+    },
+    {
+      "name": "AUREN ENERGIA SA - ON",
+      "weight_pct": 0.42,
+      "shares": 1361,
+      "item_code": null
+    },
+    {
+      "name": "씨에스윈드",
+      "weight_pct": 0.4,
+      "shares": 75,
+      "item_code": "112610"
+    },
+    {
+      "name": "중국남방전망",
+      "weight_pct": 0.39,
+      "shares": 1450,
+      "item_code": "600995.SS"
+    },
+    {
+      "name": "CORP ACCIONA ENERGIAS RENOVA",
+      "weight_pct": 0.39,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "광서계관전력",
+      "weight_pct": 0.38,
+      "shares": 1790,
+      "item_code": "600236.SS"
+    },
+    {
+      "name": "TCL 중환신능원",
+      "weight_pct": 0.37,
+      "shares": 1835,
+      "item_code": "002129.SZ"
+    },
+    {
+      "name": "아특사",
+      "weight_pct": 0.37,
+      "shares": 1652,
+      "item_code": "688472.SS"
+    },
+    {
+      "name": "렉스 아메리칸 리소시즈",
+      "weight_pct": 0.33,
+      "shares": 53,
+      "item_code": "REX"
+    },
+    {
+      "name": "트리나 솔라",
+      "weight_pct": 0.29,
+      "shares": 1062,
+      "item_code": "688599.SS"
+    },
+    {
+      "name": "SMA SOLAR TECHNOLOGY AG",
+      "weight_pct": 0.29,
+      "shares": 31,
+      "item_code": null
+    },
+    {
+      "name": "CONTACT ENERGY LTD",
+      "weight_pct": 0.27,
+      "shares": 352,
+      "item_code": null
+    },
+    {
+      "name": "금랑과기",
+      "weight_pct": 0.25,
+      "shares": 180,
+      "item_code": "300763.SZ"
+    },
+    {
+      "name": "정오태양능과기",
+      "weight_pct": 0.24,
+      "shares": 1500,
+      "item_code": "002459.SZ"
+    },
+    {
+      "name": "애욱고분",
+      "weight_pct": 0.24,
+      "shares": 960,
+      "item_code": "600732.SS"
+    },
+    {
+      "name": "명양스마트에너지",
+      "weight_pct": 0.24,
+      "shares": 1030,
+      "item_code": "601615.SS"
+    },
+    {
+      "name": "MERIDIAN ENERGY LTD",
+      "weight_pct": 0.23,
+      "shares": 489,
+      "item_code": null
+    },
+    {
+      "name": "사천화학",
+      "weight_pct": 0.22,
+      "shares": 840,
+      "item_code": "000155.SZ"
+    },
+    {
+      "name": "대금중공",
+      "weight_pct": 0.22,
+      "shares": 290,
+      "item_code": "002487.SZ"
+    },
+    {
+      "name": "레노바",
+      "weight_pct": 0.21,
+      "shares": 240,
+      "item_code": "9519.T"
+    },
+    {
+      "name": "절능풍력발전",
+      "weight_pct": 0.21,
+      "shares": 2920,
+      "item_code": "601016.SS"
+    },
+    {
+      "name": "심천 첩가위창신능원장비",
+      "weight_pct": 0.19,
+      "shares": 160,
+      "item_code": "300724.SZ"
+    },
+    {
+      "name": "대당그룹신에너지",
+      "weight_pct": 0.19,
+      "shares": 8900,
+      "item_code": "1798.HK"
+    },
+    {
+      "name": "VERBIO SE",
+      "weight_pct": 0.16,
+      "shares": 30,
+      "item_code": null
+    },
+    {
+      "name": "협흠집성",
+      "weight_pct": 0.16,
+      "shares": 2650,
+      "item_code": "002506.SZ"
+    },
+    {
+      "name": "중절태양광",
+      "weight_pct": 0.16,
+      "shares": 1782,
+      "item_code": "000591.SZ"
+    },
+    {
+      "name": "고덕위기술",
+      "weight_pct": 0.15,
+      "shares": 110,
+      "item_code": "688390.SS"
+    },
+    {
+      "name": "천진중녹전투자",
+      "weight_pct": 0.15,
+      "shares": 940,
+      "item_code": "000537.SZ"
+    },
+    {
+      "name": "무석 오특유과기",
+      "weight_pct": 0.14,
+      "shares": 143,
+      "item_code": "688516.SS"
+    },
+    {
+      "name": "삼일중능",
+      "weight_pct": 0.13,
+      "shares": 452,
+      "item_code": "688349.SS"
+    },
+    {
+      "name": "절강신능",
+      "weight_pct": 0.12,
+      "shares": 820,
+      "item_code": "600032.SS"
+    },
+    {
+      "name": "중경삼협수리전력",
+      "weight_pct": 0.12,
+      "shares": 870,
+      "item_code": "600116.SS"
+    },
+    {
+      "name": "절능환경",
+      "weight_pct": 0.12,
+      "shares": 1050,
+      "item_code": "300140.SZ"
+    },
+    {
+      "name": "금개신능",
+      "weight_pct": 0.12,
+      "shares": 910,
+      "item_code": "600821.SS"
+    },
+    {
+      "name": "동방일승신에너지",
+      "weight_pct": 0.11,
+      "shares": 520,
+      "item_code": "300118.SZ"
+    },
+    {
+      "name": "가택신능원",
+      "weight_pct": 0.11,
+      "shares": 1320,
+      "item_code": "601619.SS"
+    },
+    {
+      "name": "천순풍력에너지",
+      "weight_pct": 0.11,
+      "shares": 815,
+      "item_code": "002531.SZ"
+    },
+    {
+      "name": "화매고분",
+      "weight_pct": 0.09,
+      "shares": 56,
+      "item_code": "688032.SS"
+    },
+    {
+      "name": "운달고분",
+      "weight_pct": 0.08,
+      "shares": 360,
+      "item_code": "300772.SZ"
+    },
+    {
+      "name": "해력풍전",
+      "weight_pct": 0.08,
+      "shares": 100,
+      "item_code": "301155.SZ"
+    },
+    {
+      "name": "근체고분",
+      "weight_pct": 0.08,
+      "shares": 100,
+      "item_code": "002865.SZ"
+    },
+    {
+      "name": "중래고분",
+      "weight_pct": 0.06,
+      "shares": 490,
+      "item_code": "300393.SZ"
+    },
+    {
+      "name": "금뢰풍력발전",
+      "weight_pct": 0.06,
+      "shares": 150,
+      "item_code": "300443.SZ"
+    }
+  ]
+}

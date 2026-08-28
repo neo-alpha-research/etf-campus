@@ -1,0 +1,84 @@
+{
+  "ticker": "442560",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "RISE 미국S&P500",
+      "weight_pct": 20.42,
+      "shares": 7251,
+      "item_code": "379780"
+    },
+    {
+      "name": "RISE 미국나스닥100",
+      "weight_pct": 16.57,
+      "shares": 4527,
+      "item_code": "368590"
+    },
+    {
+      "name": "RISE 종합채권(A-이상)액티브",
+      "weight_pct": 14.44,
+      "shares": 1143,
+      "item_code": "385540"
+    },
+    {
+      "name": "RISE 단기채권알파액티브",
+      "weight_pct": 11.21,
+      "shares": 804,
+      "item_code": "385550"
+    },
+    {
+      "name": "RISE 200",
+      "weight_pct": 7.02,
+      "shares": 522,
+      "item_code": "148020"
+    },
+    {
+      "name": "Vanguard European Stock Index Fund",
+      "weight_pct": 6.54,
+      "shares": 418,
+      "item_code": "VGK"
+    },
+    {
+      "name": "JPMorgan BetaBuilders Japan ETF",
+      "weight_pct": 5.11,
+      "shares": 393,
+      "item_code": "BBJP.K"
+    },
+    {
+      "name": "Vanguard Emerging Markets Stock Index Fund",
+      "weight_pct": 5.02,
+      "shares": 491,
+      "item_code": "VWO"
+    },
+    {
+      "name": "RISE 국고채10년액티브",
+      "weight_pct": 4.21,
+      "shares": 348,
+      "item_code": "481430"
+    },
+    {
+      "name": "RISE 미국반도체NYSE",
+      "weight_pct": 3.73,
+      "shares": 878,
+      "item_code": "469060"
+    },
+    {
+      "name": "RISE KIS국고채30년Enhanced",
+      "weight_pct": 2.96,
+      "shares": 462,
+      "item_code": "385560"
+    },
+    {
+      "name": "RISE 국채선물10년",
+      "weight_pct": 2.05,
+      "shares": 325,
+      "item_code": "295000"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.66,
+      "shares": 5406652,
+      "item_code": null
+    }
+  ]
+}

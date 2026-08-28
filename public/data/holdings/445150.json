@@ -1,0 +1,150 @@
+{
+  "ticker": "445150",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "HD한국조선해양",
+      "weight_pct": 7.87,
+      "shares": 314,
+      "item_code": "009540"
+    },
+    {
+      "name": "동성화인텍",
+      "weight_pct": 7.6,
+      "shares": 6147,
+      "item_code": "033500"
+    },
+    {
+      "name": "한화오션",
+      "weight_pct": 7.51,
+      "shares": 1205,
+      "item_code": "042660"
+    },
+    {
+      "name": "HMM",
+      "weight_pct": 7.35,
+      "shares": 4928,
+      "item_code": "011200"
+    },
+    {
+      "name": "팬오션",
+      "weight_pct": 7.32,
+      "shares": 18731,
+      "item_code": "028670"
+    },
+    {
+      "name": "삼성중공업",
+      "weight_pct": 7.07,
+      "shares": 4840,
+      "item_code": "010140"
+    },
+    {
+      "name": "대한해운",
+      "weight_pct": 6.53,
+      "shares": 44384,
+      "item_code": "005880"
+    },
+    {
+      "name": "HD현대중공업",
+      "weight_pct": 6.41,
+      "shares": 196,
+      "item_code": "329180"
+    },
+    {
+      "name": "한국카본",
+      "weight_pct": 5.79,
+      "shares": 3500,
+      "item_code": "017960"
+    },
+    {
+      "name": "대한조선",
+      "weight_pct": 5.2,
+      "shares": 1515,
+      "item_code": "439260"
+    },
+    {
+      "name": "HD현대마린솔루션",
+      "weight_pct": 5.18,
+      "shares": 337,
+      "item_code": "443060"
+    },
+    {
+      "name": "한화엔진",
+      "weight_pct": 4.81,
+      "shares": 1432,
+      "item_code": "082740"
+    },
+    {
+      "name": "HD현대마린엔진",
+      "weight_pct": 4.69,
+      "shares": 1258,
+      "item_code": "071970"
+    },
+    {
+      "name": "S-Oil",
+      "weight_pct": 2.73,
+      "shares": 287,
+      "item_code": "010950"
+    },
+    {
+      "name": "세진중공업",
+      "weight_pct": 2.6,
+      "shares": 3489,
+      "item_code": "075580"
+    },
+    {
+      "name": "SK가스",
+      "weight_pct": 1.74,
+      "shares": 109,
+      "item_code": "018670"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 1.66,
+      "shares": 42,
+      "item_code": "006400"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 1.41,
+      "shares": 55,
+      "item_code": "373220"
+    },
+    {
+      "name": "현대힘스",
+      "weight_pct": 1.33,
+      "shares": 1389,
+      "item_code": "460930"
+    },
+    {
+      "name": "한국가스공사",
+      "weight_pct": 1.21,
+      "shares": 474,
+      "item_code": "036460"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.1,
+      "shares": 15886516,
+      "item_code": null
+    },
+    {
+      "name": "STX엔진",
+      "weight_pct": 1.05,
+      "shares": 578,
+      "item_code": "077970"
+    },
+    {
+      "name": "롯데케미칼",
+      "weight_pct": 0.9,
+      "shares": 226,
+      "item_code": "011170"
+    },
+    {
+      "name": "에코프로비엠",
+      "weight_pct": 0.84,
+      "shares": 103,
+      "item_code": "247540"
+    }
+  ]
+}

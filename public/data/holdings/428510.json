@@ -1,0 +1,210 @@
+{
+  "ticker": "428510",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "Elite Material Co Ltd",
+      "weight_pct": 6.95,
+      "shares": 323,
+      "item_code": null
+    },
+    {
+      "name": "Nanya Technology Corp",
+      "weight_pct": 6.92,
+      "shares": 3676,
+      "item_code": null
+    },
+    {
+      "name": "Unimicron Technology Corp",
+      "weight_pct": 6.46,
+      "shares": 1529,
+      "item_code": null
+    },
+    {
+      "name": "장천과기",
+      "weight_pct": 5.5,
+      "shares": 1158,
+      "item_code": "300604.SZ"
+    },
+    {
+      "name": "CXMT Corporation",
+      "weight_pct": 5.49,
+      "shares": 5691,
+      "item_code": "688825.SS"
+    },
+    {
+      "name": "척형과기",
+      "weight_pct": 5.19,
+      "shares": 447,
+      "item_code": "688072.SS"
+    },
+    {
+      "name": "생익과기",
+      "weight_pct": 5.0,
+      "shares": 2235,
+      "item_code": "600183.SS"
+    },
+    {
+      "name": "나우리지 아틀라스 테크놀로지",
+      "weight_pct": 4.51,
+      "shares": 297,
+      "item_code": "2513.HK"
+    },
+    {
+      "name": "ASE INDUSTRIAL HOLDINGS",
+      "weight_pct": 4.37,
+      "shares": 2029,
+      "item_code": null
+    },
+    {
+      "name": "해광신식",
+      "weight_pct": 3.63,
+      "shares": 915,
+      "item_code": "688041.SS"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.46,
+      "shares": 41414303,
+      "item_code": null
+    },
+    {
+      "name": "화훙 그레이스 반도체",
+      "weight_pct": 3.46,
+      "shares": 2000,
+      "item_code": "1347.HK"
+    },
+    {
+      "name": "동산정밀",
+      "weight_pct": 3.15,
+      "shares": 944,
+      "item_code": "002384.SZ"
+    },
+    {
+      "name": "한무기",
+      "weight_pct": 2.94,
+      "shares": 167,
+      "item_code": "688256.SS"
+    },
+    {
+      "name": "AMEC(중미반도체)",
+      "weight_pct": 2.71,
+      "shares": 428,
+      "item_code": "688012.SS"
+    },
+    {
+      "name": "백유존저과기",
+      "weight_pct": 2.59,
+      "shares": 675,
+      "item_code": "688525.SS"
+    },
+    {
+      "name": "호사전자",
+      "weight_pct": 2.52,
+      "shares": 1232,
+      "item_code": "002463.SZ"
+    },
+    {
+      "name": "MEDIATEK INC",
+      "weight_pct": 2.11,
+      "shares": 147,
+      "item_code": null
+    },
+    {
+      "name": "북방화창",
+      "weight_pct": 2.05,
+      "shares": 170,
+      "item_code": "002371.SZ"
+    },
+    {
+      "name": "알리바바 그룹 홀딩",
+      "weight_pct": 1.91,
+      "shares": 1114,
+      "item_code": "9988.HK"
+    },
+    {
+      "name": "몬타지 테크놀로지",
+      "weight_pct": 1.87,
+      "shares": 542,
+      "item_code": "688008.SS"
+    },
+    {
+      "name": "Powerchip Semiconductor Manufacturing Co",
+      "weight_pct": 1.79,
+      "shares": 7000,
+      "item_code": null
+    },
+    {
+      "name": "MACRONIX INTERNATIONAL CO",
+      "weight_pct": 1.77,
+      "shares": 3882,
+      "item_code": null
+    },
+    {
+      "name": "기가디바이스",
+      "weight_pct": 1.72,
+      "shares": 255,
+      "item_code": "603986.SS"
+    },
+    {
+      "name": "강소형통광전",
+      "weight_pct": 1.69,
+      "shares": 1523,
+      "item_code": "600487.SS"
+    },
+    {
+      "name": "천악선진",
+      "weight_pct": 1.68,
+      "shares": 935,
+      "item_code": "688234.SS"
+    },
+    {
+      "name": "중제욱창",
+      "weight_pct": 1.55,
+      "shares": 105,
+      "item_code": "300308.SZ"
+    },
+    {
+      "name": "심남전로",
+      "weight_pct": 1.49,
+      "shares": 250,
+      "item_code": "002916.SZ"
+    },
+    {
+      "name": "신역성통신기술",
+      "weight_pct": 1.31,
+      "shares": 191,
+      "item_code": "300502.SZ"
+    },
+    {
+      "name": "녹적해파",
+      "weight_pct": 1.13,
+      "shares": 226,
+      "item_code": "688017.SS"
+    },
+    {
+      "name": "광신과기",
+      "weight_pct": 0.99,
+      "shares": 344,
+      "item_code": "002281.SZ"
+    },
+    {
+      "name": "ACM 리서치",
+      "weight_pct": 0.68,
+      "shares": 134,
+      "item_code": "688082.SS"
+    },
+    {
+      "name": "Chroma ATE Inc",
+      "weight_pct": 0.63,
+      "shares": 88,
+      "item_code": null
+    },
+    {
+      "name": "성굉과기",
+      "weight_pct": 0.59,
+      "shares": 138,
+      "item_code": "300476.SZ"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "ticker": "218420",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(미래에셋증권)",
+      "weight_pct": 51.28,
+      "shares": 10290437,
+      "item_code": null
+    },
+    {
+      "name": "스왑(하나금융투자)",
+      "weight_pct": 32.61,
+      "shares": 6545272,
+      "item_code": null
+    },
+    {
+      "name": "State Street Energy Select Sector SPDR ETF",
+      "weight_pct": 15.97,
+      "shares": 37,
+      "item_code": "XLE"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.12,
+      "shares": 25126,
+      "item_code": null
+    }
+  ]
+}

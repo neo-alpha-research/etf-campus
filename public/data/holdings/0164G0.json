@@ -1,0 +1,102 @@
+{
+  "ticker": "0164G0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "북방화창",
+      "weight_pct": 18.87,
+      "shares": 817,
+      "item_code": "002371.SZ"
+    },
+    {
+      "name": "중국 국제 반도체",
+      "weight_pct": 15.3,
+      "shares": 7766,
+      "item_code": "0981.HK"
+    },
+    {
+      "name": "한무기",
+      "weight_pct": 13.35,
+      "shares": 397,
+      "item_code": "688256.SS"
+    },
+    {
+      "name": "중제욱창",
+      "weight_pct": 12.96,
+      "shares": 462,
+      "item_code": "300308.SZ"
+    },
+    {
+      "name": "신역성통신기술",
+      "weight_pct": 6.68,
+      "shares": 508,
+      "item_code": "300502.SZ"
+    },
+    {
+      "name": "해광신식",
+      "weight_pct": 5.59,
+      "shares": 734,
+      "item_code": "688041.SS"
+    },
+    {
+      "name": "천부광통신",
+      "weight_pct": 5.0,
+      "shares": 599,
+      "item_code": "300394.SZ"
+    },
+    {
+      "name": "광신과기",
+      "weight_pct": 3.41,
+      "shares": 617,
+      "item_code": "002281.SZ"
+    },
+    {
+      "name": "화훙 그레이스 반도체",
+      "weight_pct": 3.25,
+      "shares": 980,
+      "item_code": "1347.HK"
+    },
+    {
+      "name": "척형과기",
+      "weight_pct": 3.22,
+      "shares": 145,
+      "item_code": "688072.SS"
+    },
+    {
+      "name": "AMEC(중미반도체)",
+      "weight_pct": 3.14,
+      "shares": 259,
+      "item_code": "688012.SS"
+    },
+    {
+      "name": "삼배그룹",
+      "weight_pct": 2.97,
+      "shares": 831,
+      "item_code": "300408.SZ"
+    },
+    {
+      "name": "몬타지 테크놀로지",
+      "weight_pct": 2.54,
+      "shares": 384,
+      "item_code": "688008.SS"
+    },
+    {
+      "name": "백유존저과기",
+      "weight_pct": 2.33,
+      "shares": 317,
+      "item_code": "688525.SS"
+    },
+    {
+      "name": "상하이 일루바타르 코어엑스 반도체",
+      "weight_pct": 0.81,
+      "shares": 79,
+      "item_code": "9903.HK"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.5,
+      "shares": 3123353,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "ticker": "415340",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": 56.34,
+      "shares": 79464420,
+      "item_code": null
+    },
+    {
+      "name": "스왑(미래에셋증권)",
+      "weight_pct": 24.16,
+      "shares": 34085989,
+      "item_code": null
+    },
+    {
+      "name": "스왑(KB증권)",
+      "weight_pct": 19.46,
+      "shares": 27455006,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.01,
+      "shares": 22880,
+      "item_code": null
+    }
+  ]
+}

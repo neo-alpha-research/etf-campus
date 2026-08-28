@@ -1,0 +1,102 @@
+{
+  "ticker": "475080",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "테슬라",
+      "weight_pct": 20.04,
+      "shares": 163,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "국고채03250-2706(24-4)",
+      "weight_pct": 14.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 12.2,
+      "shares": 47586232,
+      "item_code": null
+    },
+    {
+      "name": "통안02620-2704-02",
+      "weight_pct": 10.53,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03875-2612(23-10)",
+      "weight_pct": 9.21,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "YieldMax TSLA Option Income Strategy ETF",
+      "weight_pct": 8.89,
+      "shares": 1161,
+      "item_code": "TSLY.K"
+    },
+    {
+      "name": "통안02400-2707-02",
+      "weight_pct": 6.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안03730-2807-02",
+      "weight_pct": 3.53,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02800-2610-02",
+      "weight_pct": 3.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02700-2701-02",
+      "weight_pct": 3.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "USD현금",
+      "weight_pct": 3.17,
+      "shares": 8956,
+      "item_code": null
+    },
+    {
+      "name": "국고02875-2712(24-12)",
+      "weight_pct": 2.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02625-2703(25-1)",
+      "weight_pct": 1.76,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력1094",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "TSLA US 09/18/26 C360 Equity",
+      "weight_pct": -0.12,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "TSLA US 09/18/26 C350 Equity",
+      "weight_pct": -0.17,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

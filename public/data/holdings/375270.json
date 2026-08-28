@@ -1,0 +1,24 @@
+{
+  "ticker": "375270",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 118.82,
+      "shares": 828697266,
+      "item_code": null
+    },
+    {
+      "name": "스왑(NH투자증권)_210112_44B2",
+      "weight_pct": -6.9,
+      "shares": -48149204,
+      "item_code": null
+    },
+    {
+      "name": "스왑(키움증권)_210112_44B2",
+      "weight_pct": -11.91,
+      "shares": -83122638,
+      "item_code": null
+    }
+  ]
+}

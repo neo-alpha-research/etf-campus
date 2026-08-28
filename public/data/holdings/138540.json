@@ -1,0 +1,132 @@
+{
+  "ticker": "138540",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "기아",
+      "weight_pct": 24.72,
+      "shares": 2005,
+      "item_code": "000270"
+    },
+    {
+      "name": "현대차",
+      "weight_pct": 20.39,
+      "shares": 524,
+      "item_code": "005380"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 14.39,
+      "shares": 326,
+      "item_code": "012330"
+    },
+    {
+      "name": "현대제철",
+      "weight_pct": 10.76,
+      "shares": 3500,
+      "item_code": "004020"
+    },
+    {
+      "name": "현대글로비스",
+      "weight_pct": 7.71,
+      "shares": 388,
+      "item_code": "086280"
+    },
+    {
+      "name": "현대건설",
+      "weight_pct": 5.3,
+      "shares": 420,
+      "item_code": "000720"
+    },
+    {
+      "name": "HD한국조선해양",
+      "weight_pct": 3.94,
+      "shares": 112,
+      "item_code": "009540"
+    },
+    {
+      "name": "HD현대",
+      "weight_pct": 2.7,
+      "shares": 128,
+      "item_code": "267250"
+    },
+    {
+      "name": "현대위아",
+      "weight_pct": 1.78,
+      "shares": 308,
+      "item_code": "011210"
+    },
+    {
+      "name": "HD현대일렉트릭",
+      "weight_pct": 1.6,
+      "shares": 20,
+      "item_code": "267260"
+    },
+    {
+      "name": "HD건설기계",
+      "weight_pct": 1.6,
+      "shares": 117,
+      "item_code": "267270"
+    },
+    {
+      "name": "현대로템",
+      "weight_pct": 1.57,
+      "shares": 116,
+      "item_code": "064350"
+    },
+    {
+      "name": "HD현대마린솔루션",
+      "weight_pct": 0.92,
+      "shares": 43,
+      "item_code": "443060"
+    },
+    {
+      "name": "HD현대중공업",
+      "weight_pct": 0.91,
+      "shares": 20,
+      "item_code": "329180"
+    },
+    {
+      "name": "이노션",
+      "weight_pct": 0.62,
+      "shares": 342,
+      "item_code": "214320"
+    },
+    {
+      "name": "현대오토에버",
+      "weight_pct": 0.24,
+      "shares": 6,
+      "item_code": "307950"
+    },
+    {
+      "name": "현대비앤지스틸",
+      "weight_pct": 0.22,
+      "shares": 198,
+      "item_code": "004560"
+    },
+    {
+      "name": "HD현대마린엔진",
+      "weight_pct": 0.2,
+      "shares": 39,
+      "item_code": "071970"
+    },
+    {
+      "name": "현대차증권",
+      "weight_pct": 0.15,
+      "shares": 194,
+      "item_code": "001500"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.15,
+      "shares": 1628012,
+      "item_code": null
+    },
+    {
+      "name": "HD현대에너지솔루션",
+      "weight_pct": 0.15,
+      "shares": 11,
+      "item_code": "322000"
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "ticker": "446690",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "Unimicron Technology Corp",
+      "weight_pct": 7.88,
+      "shares": 4700,
+      "item_code": null
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 7.05,
+      "shares": 798,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 6.95,
+      "shares": 121,
+      "item_code": "000660"
+    },
+    {
+      "name": "이비덴",
+      "weight_pct": 6.64,
+      "shares": 1150,
+      "item_code": "4062.T"
+    },
+    {
+      "name": "키옥시아 홀딩스",
+      "weight_pct": 6.47,
+      "shares": 450,
+      "item_code": "285A.T"
+    },
+    {
+      "name": "Nanya Technology Corp",
+      "weight_pct": 6.05,
+      "shares": 8100,
+      "item_code": null
+    },
+    {
+      "name": "테스",
+      "weight_pct": 5.79,
+      "shares": 1195,
+      "item_code": "095610"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 5.19,
+      "shares": 113,
+      "item_code": "009150"
+    },
+    {
+      "name": "Elite Material Co Ltd",
+      "weight_pct": 5.11,
+      "shares": 600,
+      "item_code": null
+    },
+    {
+      "name": "후루카와 전기공업",
+      "weight_pct": 4.9,
+      "shares": 4360,
+      "item_code": "5801.T"
+    },
+    {
+      "name": "ASE INDUSTRIAL HOLDINGS",
+      "weight_pct": 4.88,
+      "shares": 5700,
+      "item_code": null
+    },
+    {
+      "name": "어드반테스트",
+      "weight_pct": 3.69,
+      "shares": 360,
+      "item_code": "6857.T"
+    },
+    {
+      "name": "도쿄일렉트론",
+      "weight_pct": 3.19,
+      "shares": 200,
+      "item_code": "8035.T"
+    },
+    {
+      "name": "무라타제작소",
+      "weight_pct": 2.87,
+      "shares": 1390,
+      "item_code": "6981.T"
+    },
+    {
+      "name": "피에스케이",
+      "weight_pct": 2.4,
+      "shares": 543,
+      "item_code": "319660"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 2.36,
+      "shares": 71139938,
+      "item_code": null
+    },
+    {
+      "name": "MEDIATEK INC",
+      "weight_pct": 2.28,
+      "shares": 400,
+      "item_code": null
+    },
+    {
+      "name": "기가비스",
+      "weight_pct": 2.21,
+      "shares": 617,
+      "item_code": "420770"
+    },
+    {
+      "name": "브이엠",
+      "weight_pct": 1.94,
+      "shares": 969,
+      "item_code": "089970"
+    },
+    {
+      "name": "호야",
+      "weight_pct": 1.86,
+      "shares": 260,
+      "item_code": "7741.T"
+    },
+    {
+      "name": "두산",
+      "weight_pct": 1.65,
+      "shares": 41,
+      "item_code": "000150"
+    },
+    {
+      "name": "니혼 마이크로닉스",
+      "weight_pct": 1.48,
+      "shares": 380,
+      "item_code": "6871.T"
+    },
+    {
+      "name": "주성엔지니어링",
+      "weight_pct": 1.38,
+      "shares": 232,
+      "item_code": "036930"
+    },
+    {
+      "name": "Chroma ATE Inc",
+      "weight_pct": 1.14,
+      "shares": 400,
+      "item_code": null
+    },
+    {
+      "name": "소니 그룹",
+      "weight_pct": 1.01,
+      "shares": 910,
+      "item_code": "6758.T"
+    },
+    {
+      "name": "신에츠화학",
+      "weight_pct": 0.94,
+      "shares": 550,
+      "item_code": "4063.T"
+    },
+    {
+      "name": "피에스케이홀딩스",
+      "weight_pct": 0.94,
+      "shares": 224,
+      "item_code": "031980"
+    },
+    {
+      "name": "레조낙 홀딩스",
+      "weight_pct": 0.92,
+      "shares": 200,
+      "item_code": "4004.T"
+    },
+    {
+      "name": "엘티씨",
+      "weight_pct": 0.7,
+      "shares": 596,
+      "item_code": "170920"
+    }
+  ]
+}

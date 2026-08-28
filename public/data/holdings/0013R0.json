@@ -1,0 +1,18 @@
+{
+  "ticker": "0013R0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 103.12,
+      "shares": 400910007,
+      "item_code": null
+    },
+    {
+      "name": "스왑(메리츠증권)_44I1_20260429",
+      "weight_pct": -3.12,
+      "shares": -12135680,
+      "item_code": null
+    }
+  ]
+}

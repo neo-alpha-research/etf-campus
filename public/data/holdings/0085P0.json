@@ -1,0 +1,102 @@
+{
+  "ticker": "0085P0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "USD현금",
+      "weight_pct": 34.69,
+      "shares": 247387,
+      "item_code": null
+    },
+    {
+      "name": "iShares 10-20 Year Treasury Bond ETF",
+      "weight_pct": 25.41,
+      "shares": 1853,
+      "item_code": "TLH"
+    },
+    {
+      "name": "iShares iBonds Dec 2035 Term Treasury ETF",
+      "weight_pct": 11.92,
+      "shares": 3440,
+      "item_code": "IBTQ.O"
+    },
+    {
+      "name": "iShares 7-10 Year Treasury Bond ETF",
+      "weight_pct": 9.66,
+      "shares": 738,
+      "item_code": "IEF.O"
+    },
+    {
+      "name": "T 4 3/8 05/15/36",
+      "weight_pct": 6.02,
+      "shares": 43859,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/4 08/15/35",
+      "weight_pct": 5.63,
+      "shares": 41228,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/8 02/15/36",
+      "weight_pct": 5.2,
+      "shares": 38596,
+      "item_code": null
+    },
+    {
+      "name": "T 4 11/15/35",
+      "weight_pct": 4.92,
+      "shares": 36842,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/4 05/15/35",
+      "weight_pct": 3.36,
+      "shares": 24561,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/4 02/15/37",
+      "weight_pct": 1.05,
+      "shares": 7456,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/8 11/15/39",
+      "weight_pct": 0.93,
+      "shares": 7017,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/8 02/15/38",
+      "weight_pct": 0.72,
+      "shares": 5263,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/2 02/15/36",
+      "weight_pct": 0.48,
+      "shares": 3464,
+      "item_code": null
+    },
+    {
+      "name": "T 4 5/8 02/15/35",
+      "weight_pct": 0.18,
+      "shares": 1315,
+      "item_code": null
+    },
+    {
+      "name": "iShares iBonds Dec 2034 Term Treasury ETF",
+      "weight_pct": 0.06,
+      "shares": 17,
+      "item_code": "IBTP.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -10.29,
+      "shares": -101411619,
+      "item_code": null
+    }
+  ]
+}

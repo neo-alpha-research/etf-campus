@@ -1,0 +1,180 @@
+{
+  "ticker": "227560",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "KT&G",
+      "weight_pct": 19.24,
+      "shares": 295,
+      "item_code": "033780"
+    },
+    {
+      "name": "한국전력",
+      "weight_pct": 14.74,
+      "shares": 1162,
+      "item_code": "015760"
+    },
+    {
+      "name": "에이피알",
+      "weight_pct": 14.61,
+      "shares": 90,
+      "item_code": "278470"
+    },
+    {
+      "name": "삼양식품",
+      "weight_pct": 7.74,
+      "shares": 14,
+      "item_code": "003230"
+    },
+    {
+      "name": "아모레퍼시픽",
+      "weight_pct": 6.06,
+      "shares": 114,
+      "item_code": "090430"
+    },
+    {
+      "name": "LG생활건강",
+      "weight_pct": 3.79,
+      "shares": 34,
+      "item_code": "051900"
+    },
+    {
+      "name": "오리온",
+      "weight_pct": 3.77,
+      "shares": 80,
+      "item_code": "271560"
+    },
+    {
+      "name": "한국콜마",
+      "weight_pct": 3.43,
+      "shares": 63,
+      "item_code": "161890"
+    },
+    {
+      "name": "코스맥스",
+      "weight_pct": 3.17,
+      "shares": 30,
+      "item_code": "192820"
+    },
+    {
+      "name": "달바글로벌",
+      "weight_pct": 3.07,
+      "shares": 37,
+      "item_code": "483650"
+    },
+    {
+      "name": "CJ",
+      "weight_pct": 2.41,
+      "shares": 51,
+      "item_code": "001040"
+    },
+    {
+      "name": "이마트",
+      "weight_pct": 2.01,
+      "shares": 73,
+      "item_code": "139480"
+    },
+    {
+      "name": "CJ제일제당",
+      "weight_pct": 2.01,
+      "shares": 29,
+      "item_code": "097950"
+    },
+    {
+      "name": "한국가스공사",
+      "weight_pct": 1.87,
+      "shares": 136,
+      "item_code": "036460"
+    },
+    {
+      "name": "농심",
+      "weight_pct": 1.75,
+      "shares": 11,
+      "item_code": "004370"
+    },
+    {
+      "name": "BGF리테일",
+      "weight_pct": 1.72,
+      "shares": 33,
+      "item_code": "282330"
+    },
+    {
+      "name": "GS리테일",
+      "weight_pct": 1.18,
+      "shares": 123,
+      "item_code": "007070"
+    },
+    {
+      "name": "동서",
+      "weight_pct": 1.1,
+      "shares": 114,
+      "item_code": "026960"
+    },
+    {
+      "name": "롯데지주",
+      "weight_pct": 0.91,
+      "shares": 103,
+      "item_code": "004990"
+    },
+    {
+      "name": "아모레퍼시픽홀딩스",
+      "weight_pct": 0.88,
+      "shares": 90,
+      "item_code": "002790"
+    },
+    {
+      "name": "오리온홀딩스",
+      "weight_pct": 0.71,
+      "shares": 76,
+      "item_code": "001800"
+    },
+    {
+      "name": "하이트진로",
+      "weight_pct": 0.64,
+      "shares": 114,
+      "item_code": "000080"
+    },
+    {
+      "name": "오뚜기",
+      "weight_pct": 0.6,
+      "shares": 5,
+      "item_code": "007310"
+    },
+    {
+      "name": "동원산업",
+      "weight_pct": 0.5,
+      "shares": 36,
+      "item_code": "006040"
+    },
+    {
+      "name": "롯데칠성",
+      "weight_pct": 0.47,
+      "shares": 13,
+      "item_code": "005300"
+    },
+    {
+      "name": "대상",
+      "weight_pct": 0.45,
+      "shares": 70,
+      "item_code": "001680"
+    },
+    {
+      "name": "롯데웰푸드",
+      "weight_pct": 0.45,
+      "shares": 9,
+      "item_code": "280360"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.35,
+      "shares": 955072,
+      "item_code": null
+    },
+    {
+      "name": "지역난방공사",
+      "weight_pct": 0.25,
+      "shares": 9,
+      "item_code": "071320"
+    }
+  ]
+}

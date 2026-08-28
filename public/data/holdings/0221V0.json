@@ -1,0 +1,138 @@
+{
+  "ticker": "0221V0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "하나캐피탈406-5",
+      "weight_pct": 9.4,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "광주은행2026-03이(변)1갑-31",
+      "weight_pct": 9.32,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국수출입금융 2510가-할인-1",
+      "weight_pct": 9.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈55-2(녹)",
+      "weight_pct": 8.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치투자65-2",
+      "weight_pct": 4.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "HS효성첨단소재 20260729-30-2",
+      "weight_pct": 4.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20250908-364-23",
+      "weight_pct": 4.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20250908-364-24",
+      "weight_pct": 4.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리투자증권 20260410-185-34",
+      "weight_pct": 4.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데위탁관리부동산투자회사 20260721-71-1",
+      "weight_pct": 4.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋증권 20260331-175-74",
+      "weight_pct": 4.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋증권 20260331-175-76",
+      "weight_pct": 4.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260723-91-10(단)",
+      "weight_pct": 4.63,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260724-91-12(단)",
+      "weight_pct": 4.63,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스비케이제십차 20260720-92-1(단)",
+      "weight_pct": 4.63,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일차 20260720-92-2(단)",
+      "weight_pct": 4.63,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경남 서울영업부 20251125-365-1",
+      "weight_pct": 4.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한화갤러리아 20260820-92-1",
+      "weight_pct": 4.61,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "넥스트레벨제일차 20260729-92-2(단)",
+      "weight_pct": 3.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제육차 20260807-91-1(단)",
+      "weight_pct": 2.77,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "데이터스트림 20260806-92-1(단)",
+      "weight_pct": 2.77,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -10.42,
+      "shares": -10460912,
+      "item_code": null
+    }
+  ]
+}

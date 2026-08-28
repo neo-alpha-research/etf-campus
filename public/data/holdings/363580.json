@@ -1,0 +1,108 @@
+{
+  "ticker": "363580",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 21.12,
+      "shares": 678,
+      "item_code": "000660"
+    },
+    {
+      "name": "SK스퀘어",
+      "weight_pct": 20.69,
+      "shares": 1076,
+      "item_code": "402340"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 18.0,
+      "shares": 3760,
+      "item_code": "005930"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 16.28,
+      "shares": 653,
+      "item_code": "009150"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 7.31,
+      "shares": 714,
+      "item_code": "006400"
+    },
+    {
+      "name": "LG전자",
+      "weight_pct": 4.53,
+      "shares": 1270,
+      "item_code": "066570"
+    },
+    {
+      "name": "LG",
+      "weight_pct": 2.17,
+      "shares": 1054,
+      "item_code": "003550"
+    },
+    {
+      "name": "한미반도체",
+      "weight_pct": 1.98,
+      "shares": 496,
+      "item_code": "042700"
+    },
+    {
+      "name": "삼성에스디에스",
+      "weight_pct": 1.88,
+      "shares": 448,
+      "item_code": "018260"
+    },
+    {
+      "name": "LG이노텍",
+      "weight_pct": 1.8,
+      "shares": 168,
+      "item_code": "011070"
+    },
+    {
+      "name": "이수페타시스",
+      "weight_pct": 1.3,
+      "shares": 642,
+      "item_code": "007660"
+    },
+    {
+      "name": "LG씨엔에스",
+      "weight_pct": 0.75,
+      "shares": 561,
+      "item_code": "064400"
+    },
+    {
+      "name": "LG디스플레이",
+      "weight_pct": 0.64,
+      "shares": 3722,
+      "item_code": "034220"
+    },
+    {
+      "name": "DB하이텍",
+      "weight_pct": 0.61,
+      "shares": 360,
+      "item_code": "000990"
+    },
+    {
+      "name": "현대오토에버",
+      "weight_pct": 0.55,
+      "shares": 75,
+      "item_code": "307950"
+    },
+    {
+      "name": "포스코DX",
+      "weight_pct": 0.22,
+      "shares": 593,
+      "item_code": "022100"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.09,
+      "shares": 5174452,
+      "item_code": null
+    }
+  ]
+}

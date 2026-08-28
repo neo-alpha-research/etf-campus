@@ -1,0 +1,54 @@
+{
+  "ticker": "423160",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 36.31,
+      "shares": 40170124,
+      "item_code": null
+    },
+    {
+      "name": "스왑(한국투자증권)",
+      "weight_pct": 14.31,
+      "shares": 15838857,
+      "item_code": null
+    },
+    {
+      "name": "스왑(하나금융투자)",
+      "weight_pct": 13.91,
+      "shares": 15390575,
+      "item_code": null
+    },
+    {
+      "name": "스왑(현대차증권)",
+      "weight_pct": 9.09,
+      "shares": 10060540,
+      "item_code": null
+    },
+    {
+      "name": "스왑(유안타증권)",
+      "weight_pct": 9.05,
+      "shares": 10016684,
+      "item_code": null
+    },
+    {
+      "name": "스왑(한화투자증권)",
+      "weight_pct": 8.47,
+      "shares": 9379784,
+      "item_code": null
+    },
+    {
+      "name": "스왑(삼성증권)",
+      "weight_pct": 5.94,
+      "shares": 6572682,
+      "item_code": null
+    },
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": 2.87,
+      "shares": 3182127,
+      "item_code": null
+    }
+  ]
+}

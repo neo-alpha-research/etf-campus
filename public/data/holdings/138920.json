@@ -1,0 +1,36 @@
+{
+  "ticker": "138920",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 92.03,
+      "shares": 1152182344,
+      "item_code": null
+    },
+    {
+      "name": "Soybeans 2026 11",
+      "weight_pct": 90.77,
+      "shares": 13,
+      "item_code": null
+    },
+    {
+      "name": "WisdomTree Soybeans ETC",
+      "weight_pct": 6.61,
+      "shares": 2020,
+      "item_code": "1697.T"
+    },
+    {
+      "name": "USD현금",
+      "weight_pct": 1.34,
+      "shares": 12188,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 달러선물",
+      "weight_pct": -39.03,
+      "shares": -35,
+      "item_code": null
+    }
+  ]
+}

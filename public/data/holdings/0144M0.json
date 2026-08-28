@@ -1,0 +1,72 @@
+{
+  "ticker": "0144M0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "조비 에비에이션",
+      "weight_pct": 20.82,
+      "shares": 7719,
+      "item_code": "JOBY.K"
+    },
+    {
+      "name": "베타 테크놀로지스",
+      "weight_pct": 14.77,
+      "shares": 1798,
+      "item_code": "BETA.K"
+    },
+    {
+      "name": "아처 에비에이션",
+      "weight_pct": 13.28,
+      "shares": 5961,
+      "item_code": "ACHR.K"
+    },
+    {
+      "name": "온다스",
+      "weight_pct": 9.52,
+      "shares": 3068,
+      "item_code": "ONDS.O"
+    },
+    {
+      "name": "GE 에어로스페이스",
+      "weight_pct": 9.51,
+      "shares": 71,
+      "item_code": "GE"
+    },
+    {
+      "name": "하우멧 에어로스페이스",
+      "weight_pct": 9.23,
+      "shares": 90,
+      "item_code": "HWM"
+    },
+    {
+      "name": "어플라이드 에어로스페이스 앤 디펜스",
+      "weight_pct": 8.26,
+      "shares": 1529,
+      "item_code": "AADX.K"
+    },
+    {
+      "name": "FTAI 애비에이션",
+      "weight_pct": 6.57,
+      "shares": 86,
+      "item_code": "FTAI.O"
+    },
+    {
+      "name": "로켓 랩",
+      "weight_pct": 3.76,
+      "shares": 150,
+      "item_code": "RKLB.O"
+    },
+    {
+      "name": "크라토스 디펜스 & 시큐리티 솔루션",
+      "weight_pct": 3.44,
+      "shares": 172,
+      "item_code": "KTOS.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.79,
+      "shares": 2900947,
+      "item_code": null
+    }
+  ]
+}

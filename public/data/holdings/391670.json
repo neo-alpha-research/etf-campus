@@ -1,0 +1,78 @@
+{
+  "ticker": "391670",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 29.15,
+      "shares": 1555,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 25.48,
+      "shares": 209,
+      "item_code": "000660"
+    },
+    {
+      "name": "SK텔레콤",
+      "weight_pct": 8.03,
+      "shares": 1151,
+      "item_code": "017670"
+    },
+    {
+      "name": "두산에너빌리티",
+      "weight_pct": 7.63,
+      "shares": 1262,
+      "item_code": "034020"
+    },
+    {
+      "name": "SK",
+      "weight_pct": 7.36,
+      "shares": 188,
+      "item_code": "034730"
+    },
+    {
+      "name": "S-Oil",
+      "weight_pct": 6.57,
+      "shares": 683,
+      "item_code": "010950"
+    },
+    {
+      "name": "DB하이텍",
+      "weight_pct": 4.75,
+      "shares": 707,
+      "item_code": "000990"
+    },
+    {
+      "name": "삼성물산",
+      "weight_pct": 3.83,
+      "shares": 145,
+      "item_code": "028260"
+    },
+    {
+      "name": "SK스퀘어",
+      "weight_pct": 2.93,
+      "shares": 39,
+      "item_code": "402340"
+    },
+    {
+      "name": "NAVER",
+      "weight_pct": 1.8,
+      "shares": 118,
+      "item_code": "035420"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 1.4,
+      "shares": 44,
+      "item_code": "012330"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.09,
+      "shares": 15473878,
+      "item_code": null
+    }
+  ]
+}

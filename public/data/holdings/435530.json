@@ -1,0 +1,102 @@
+{
+  "ticker": "435530",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "JPMorgan BetaBuilders US Aggregate Bond ETF",
+      "weight_pct": 20.99,
+      "shares": 2582,
+      "item_code": "BBAG.K"
+    },
+    {
+      "name": "Vanguard Short-Term Treasury Index Fund",
+      "weight_pct": 15.79,
+      "shares": 1513,
+      "item_code": "VGSH.O"
+    },
+    {
+      "name": "iShares Core International Aggregate Bond ETF",
+      "weight_pct": 13.67,
+      "shares": 1528,
+      "item_code": "IAGG.K"
+    },
+    {
+      "name": "KIWOOM 종합채권(AA-이상)액티브",
+      "weight_pct": 9.01,
+      "shares": 695,
+      "item_code": "454780"
+    },
+    {
+      "name": "Vanguard 500 Index Fund ETF",
+      "weight_pct": 6.95,
+      "shares": 55,
+      "item_code": "VOO"
+    },
+    {
+      "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
+      "weight_pct": 6.67,
+      "shares": 506,
+      "item_code": "VEA"
+    },
+    {
+      "name": "iShares Russell 2000 ETF",
+      "weight_pct": 4.98,
+      "shares": 93,
+      "item_code": "IWM"
+    },
+    {
+      "name": "iShares Core MSCI Emerging Markets ETF",
+      "weight_pct": 3.55,
+      "shares": 242,
+      "item_code": "IEMG.K"
+    },
+    {
+      "name": "Invesco NASDAQ 100 ETF",
+      "weight_pct": 3.1,
+      "shares": 59,
+      "item_code": "QQQM.O"
+    },
+    {
+      "name": "State Street SPDR Portfolio S&P 500 Value ETF",
+      "weight_pct": 2.98,
+      "shares": 261,
+      "item_code": "SPYV.K"
+    },
+    {
+      "name": "State Street SPDR S&P 500 ETF Trust",
+      "weight_pct": 2.61,
+      "shares": 19,
+      "item_code": "SPY"
+    },
+    {
+      "name": "Vanguard Total World Stock Index Fund",
+      "weight_pct": 2.56,
+      "shares": 89,
+      "item_code": "VT"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 2.44,
+      "shares": 18828293,
+      "item_code": null
+    },
+    {
+      "name": "JPMorgan BetaBuilders Europe ETF",
+      "weight_pct": 2.0,
+      "shares": 138,
+      "item_code": "BBEU.K"
+    },
+    {
+      "name": "[USD] 예금",
+      "weight_pct": 1.68,
+      "shares": 9363,
+      "item_code": null
+    },
+    {
+      "name": "KIWOOM 국고채3년",
+      "weight_pct": 0.95,
+      "shares": 68,
+      "item_code": "114470"
+    }
+  ]
+}

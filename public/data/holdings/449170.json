@@ -1,0 +1,30 @@
+{
+  "ticker": "449170",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 99.27,
+      "shares": 110875000,
+      "item_code": null
+    },
+    {
+      "name": "KOFR Index TRS 230614-03",
+      "weight_pct": 0.73,
+      "shares": 816547,
+      "item_code": null
+    },
+    {
+      "name": "KOFR금리액티브 TRS 14",
+      "weight_pct": 0.01,
+      "shares": 21649,
+      "item_code": null
+    },
+    {
+      "name": "KOFR Index TRS 230922-06",
+      "weight_pct": -0.02,
+      "shares": -27639,
+      "item_code": null
+    }
+  ]
+}

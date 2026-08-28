@@ -1,0 +1,36 @@
+{
+  "ticker": "276000",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "글로벌자원생산기업 TRS(한국투자증권)",
+      "weight_pct": 65.34,
+      "shares": 700200785,
+      "item_code": null
+    },
+    {
+      "name": "글로벌자원생산기업 TRS(KB증권)",
+      "weight_pct": 21.09,
+      "shares": 226073570,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 6.66,
+      "shares": 71382804,
+      "item_code": null
+    },
+    {
+      "name": "글로벌자원생산기업 TRS(키움증권)",
+      "weight_pct": 6.08,
+      "shares": 65162382,
+      "item_code": null
+    },
+    {
+      "name": "Northern Trust Morningstar Glbl Upstm Ntrl Res ETF",
+      "weight_pct": 0.81,
+      "shares": 112,
+      "item_code": "GUNR.K"
+    }
+  ]
+}

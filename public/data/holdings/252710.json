@@ -1,0 +1,24 @@
+{
+  "ticker": "252710",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 69.78,
+      "shares": 5688494,
+      "item_code": null
+    },
+    {
+      "name": "TIGER 인버스",
+      "weight_pct": 30.22,
+      "shares": 2192,
+      "item_code": "123310"
+    },
+    {
+      "name": "선물2026년09월물",
+      "weight_pct": -171.45,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

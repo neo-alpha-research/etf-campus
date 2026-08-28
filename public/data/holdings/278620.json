@@ -1,0 +1,132 @@
+{
+  "ticker": "278620",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 16.38,
+      "shares": 19514332,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20251216-364-17",
+      "weight_pct": 7.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드2207-3",
+      "weight_pct": 6.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈477-1",
+      "weight_pct": 6.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈580-3",
+      "weight_pct": 6.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈149-2",
+      "weight_pct": 5.98,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드261-2(사)",
+      "weight_pct": 5.89,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신증권 20260727-270-105",
+      "weight_pct": 5.84,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신증권 20260727-270-106",
+      "weight_pct": 5.84,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈263-1",
+      "weight_pct": 4.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2078-3",
+      "weight_pct": 4.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋캐피탈132-1",
+      "weight_pct": 2.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데위탁관리부동산투자회사8",
+      "weight_pct": 2.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "보령52-1",
+      "weight_pct": 2.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈64-1",
+      "weight_pct": 2.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB증권47-1",
+      "weight_pct": 2.99,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "코오롱인더스트리68-2",
+      "weight_pct": 2.96,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02750-2812(25-10)",
+      "weight_pct": 2.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋캐피탈121-2",
+      "weight_pct": 2.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대한제당127",
+      "weight_pct": 1.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "PLUS 국채선물3년",
+      "weight_pct": 0.33,
+      "shares": 6,
+      "item_code": "298340"
+    }
+  ]
+}

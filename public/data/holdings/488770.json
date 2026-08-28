@@ -1,0 +1,3678 @@
+{
+  "ticker": "488770",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 24.39,
+      "shares": 25701427,
+      "item_code": null
+    },
+    {
+      "name": "케이그레이스 20260707-59-1(단)",
+      "weight_pct": 3.39,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "세이브노들 20260528-92-2(단)",
+      "weight_pct": 1.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국주택금융공사 20260825-14-34(단)",
+      "weight_pct": 1.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260806-42-19(단)",
+      "weight_pct": 1.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260806-41-9(단)",
+      "weight_pct": 1.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "용산프로젝트제일차 20260818-92-1(단)",
+      "weight_pct": 1.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "티알에이성포제오차 20260630-62-1(단)",
+      "weight_pct": 1.13,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이영신제일차 20260821-91-1(단)",
+      "weight_pct": 0.81,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권 20260626-76-17(단)",
+      "weight_pct": 0.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "르네상스지엠제일차 20260604-92-1(단)",
+      "weight_pct": 0.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20260827-11-3(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신영증권 20260827-1-54(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260826-26-188(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "티겔러리제일차 20260826-33-1(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260825-27-182(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260824-30-168(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260824-28-159(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스증권 20260821-14-9(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이프로제구차 20260810-31-1(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "LG이노텍 20260806-54-2(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "맥쿼리한국인프라투융자회사 20260723-90-1",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아망제팔차 20260710-88-1(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이위탁관리부동산투자회사 20260703-",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20260610-90-252(단)",
+      "weight_pct": 0.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "이터널하이브 20260724-88-1(단)",
+      "weight_pct": 0.56,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "티알비성포제오차 20260630-62-1(단)",
+      "weight_pct": 0.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "블루베어제일차 20260605-91-1(단)",
+      "weight_pct": 0.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디에스관수제일차 20260630-62-2(단)",
+      "weight_pct": 0.54,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "유안타증권 20260827-1-32(단)",
+      "weight_pct": 0.53,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260806-22-28(단)",
+      "weight_pct": 0.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260806-41-8(단)",
+      "weight_pct": 0.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260806-42-18(단)",
+      "weight_pct": 0.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "골든이어즈한남제일차 20260819-33-1(단)",
+      "weight_pct": 0.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디에스만세 20260728-83-2(단)",
+      "weight_pct": 0.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이에이치엘제이십일차 20260724-91-1(단)",
+      "weight_pct": 0.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비에스에프플러스제이차 20260710-90-1(단)",
+      "weight_pct": 0.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아망제사차 20260707-92-1(단)",
+      "weight_pct": 0.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이위탁관리부동산투자회사 20260703-",
+      "weight_pct": 0.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "골든이어즈한남제이차 20260819-33-1(단)",
+      "weight_pct": 0.39,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "트레쥬어마운틴제삼차 20260821-91-1(단)",
+      "weight_pct": 0.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "지와이디제이차 20260731-31-5(단)",
+      "weight_pct": 0.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260825-24-174(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠에스피엠씨제일차 20260731-45-2(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이위탁관리부동산투자회사 20260821-",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아크원청라제일차 20260820-32-3(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이지마포제일차 20260803-64-1(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엑스에프알파제일차 20260731-31-1(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "어썸제일차 20260730-92-1(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스더블유제이차 20260528-92-1(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "컬티베이션제십차 20260710-90-1(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "씨이에이제일차 20260630-62-1(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권 20260625-90-14(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디에스유니버스업성 20260622-91-2(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리투자증권 20260611-78-16(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권 20260602-91-2(단)",
+      "weight_pct": 0.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디에스동묘 20260710-62-1(단)",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠에스제삼차 20260701-92-1(단)",
+      "weight_pct": 0.32,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디어버디제오차 20260605-91-1(단)",
+      "weight_pct": 0.3,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치음성 20260818-31-1(단)",
+      "weight_pct": 0.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈 20260722-62-2(단)",
+      "weight_pct": 0.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이더블유제일차 20260702-92-1(단)",
+      "weight_pct": 0.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스디디피제삼차 20260701-92-1(단)",
+      "weight_pct": 0.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스디제삼차 20260724-91-1(단)",
+      "weight_pct": 0.24,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신영증권 20260827-1-55(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소벤처기업진흥공단 20260825-38-2(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260813-29-94(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이위탁관리부동산투자회사 20260821-",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이위탁관리부동산투자회사 20260821-",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스에스에프제사십육차 20260820-92-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비에스디제이차 20260819-12-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스엠트론 20260812-79-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치엘이천제일차 20260811-31-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260810-28-56(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260810-31-65(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260810-38-36(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260810-39-35(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이 20260805-92-3(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디에스을지로제일차 20260730-92-2(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "딜라이트풀제이차 20260716-55-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스더블유제일차 20260528-92-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베스트솔루션제이차 20260715-62-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부전마산비티엘(CP)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국남동발전 20260702-74-1(단)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이더블유투금제이십일차 20260619-91-1(",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "드림플랜트제일차 20260615-91-1(단)",
+      "weight_pct": 0.21,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리에스제삼차 20260813-32-1(단)",
+      "weight_pct": 0.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "알에이청라제일차 20260813-92-1(단)",
+      "weight_pct": 0.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "써클웨이브제일차 20260710-82-1(단)",
+      "weight_pct": 0.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스도미노제이차 20260701-62-1(단)",
+      "weight_pct": 0.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "필릭스에코비 20260729-92-1(단)",
+      "weight_pct": 0.18,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치색달제일차 20260702-92-1(단)",
+      "weight_pct": 0.18,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "제이디제삼차 20260825-92-1(단)",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "마이트일산레저제삼차 20260821-31-1(단)",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치엘이천제이차 20260811-31-1(단)",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "더모스트성수제이차 20260803-29-1(단)",
+      "weight_pct": 0.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "마일하이스테이션 20260819-33-1(단)",
+      "weight_pct": 0.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "밀키웨이제일차 20260601-91-1(단)",
+      "weight_pct": 0.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이지아이제이차 20260818-91-1(단)",
+      "weight_pct": 0.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "플랜업구로 20260810-35-1(단)",
+      "weight_pct": 0.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠마포비제일차 20260728-31-1(단)",
+      "weight_pct": 0.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "블랙래빗제일차 20260729-33-1(단)",
+      "weight_pct": 0.12,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비엠비피제사차 20260728-92-2(단)",
+      "weight_pct": 0.12,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260827-27-191(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260825-58-113(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260824-57-94(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사 20260824-56-93(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "더에이치챔피언제삼차 20260824-63-1(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260821-24-138(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이위탁관리부동산투자회사 20260821-",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "성수디에스코너 20260731-61-1(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국가스공사 20260806-32-31(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스에스에프제사십오차 20260805-76-1(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠아이제구차 20260804-30-1(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비한남이제이차 유한 (CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비한남이제이차 유한 (CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비한남이제이차 유한 (CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "문래깨비제삼차 20260730-32-1(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "럭키비키제이차 20260608-92-1(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부전마산비티엘(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부전마산비티엘(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국서부발전 20260701-75-5(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이위탁관리부동산투자회사 20260609-",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스케이위탁관리부동산투자회사 20260609-",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠에이제이차 20260608-92-1(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "드림제일차 20260529-91-2(단)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부산교통공사(CP)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2025-11이1Y-F(변동)",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부전마산비티엘(CP)",
+      "weight_pct": 0.1,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제삼차 20260730-92-7(단)",
+      "weight_pct": 0.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제삼차 20260731-91-8(단)",
+      "weight_pct": 0.08,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20260610-90-254(단)",
+      "weight_pct": 0.08,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이더블유투금제이십오차 20260827-32-1(",
+      "weight_pct": 0.07,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "위비트러플제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "위비트러플제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "위비트러플제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "위비트러플제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비프렌즈제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "노바에이비일차 20260529-91-1(단)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "가온전선(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디온제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디온제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디온제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디온제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디온제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아나제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아나제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아나제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아나제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아나제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디온제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디온제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아나제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아나제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아나제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "브이알제이차 20260821-91-1(단)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비시그니쳐제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비시그니쳐제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비시그니쳐제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비시그니쳐제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "마이트한남제일차 20260818-28-1(단)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠아이엘제육차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠아이엘제육차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠아이엘제육차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠아이엘제육차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베어버드제칠차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베어버드제칠차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베어버드제십차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베어버드제십차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베어버드제십차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베어버드제십차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "리브디에스제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "효성중공업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비한남이제이차 유한 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비클래스트제일차 유 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "NH투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스프로젝트뉴월드제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스프로젝트뉴월드제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스프로젝트뉴월드제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스프로젝트뉴월드제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스프로젝트뉴월드제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스프로젝트뉴월드제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스프로젝트뉴월드제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제사 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "셀트리온(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK인천석유화학(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통영일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통영일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통영일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통영일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "씨아이비송복(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "씨아이비송복(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "씨아이비송복(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "씨아이비송복(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "씨아이비송복(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "씨아이비송복(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스피에스제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "카카오엔터테인먼트(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한화솔루션(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한화솔루션(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한화솔루션(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스에프씨제일차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스에프씨제일차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스에프씨제일차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스에프씨제일차 주식회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치에스에프씨 유한 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치에스에프씨 유한 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치에스에프씨 유한 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치에스에프씨 유한 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리원제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리원제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리원제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리원제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리원제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리원제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "페이레터케이디비제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "페이레터케이디비제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "페이레터케이디비제이차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "세라젬케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비용산제일차 유한회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비용산제일차 유한회 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "세라젬케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "세라젬케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이디비첨단전략이에스지(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스엔케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스엔케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스엔케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스엔케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스엔케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치디디피 유한회사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치디디피 유한회사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치디디피 유한회사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치디디피 유한회사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치디디피 유한회사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비케이디비제일차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국항공우주산업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국항공우주산업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국항공우주산업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국항공우주산업(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대상홀딩스(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대상홀딩스(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대상홀딩스(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대상홀딩스(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대상홀딩스(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼양사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이투자증권(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스엠트론(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스엠트론(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스엠트론(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엘에스엠트론(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "더웨일제십사차 주식회사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "더웨일제십사차 주식회사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "더웨일제십사차 주식회사(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "니드원제구차(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주(CP)",
+      "weight_pct": 0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "넥스트영종제일차 20260827-20-2(단)",
+      "weight_pct": 0.04,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제십사차 20260706-92-1(단)",
+      "weight_pct": 0.04,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제삼차 20260727-92-6(단)",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제삼차 20260727-92-5(단)",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "송도알엠제이차 20260716-92-1(단)",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "주노제일차 20260714-92-1(단)",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "페이레터케이디비제이차(CP)",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠에스엠제삼차 20260601-91-1(단)",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스프로젝트뉴월드제이차(CP)",
+      "weight_pct": 0.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치씨디제삼차 20260720-92-4(단)",
+      "weight_pct": 0.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리원제일 (CP)",
+      "weight_pct": 0.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엠아이엘제육차(CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이제주드림제일차 20260811-31-1(단)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디비크레딧제팔차 주식회 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "위비트러플제이차(CP)",
+      "weight_pct": 0.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.0,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "ticker": "494670",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "한화오션",
+      "weight_pct": 23.18,
+      "shares": 2919,
+      "item_code": "042660"
+    },
+    {
+      "name": "HD현대중공업",
+      "weight_pct": 21.75,
+      "shares": 522,
+      "item_code": "329180"
+    },
+    {
+      "name": "HD한국조선해양",
+      "weight_pct": 21.54,
+      "shares": 674,
+      "item_code": "009540"
+    },
+    {
+      "name": "삼성중공업",
+      "weight_pct": 15.61,
+      "shares": 8384,
+      "item_code": "010140"
+    },
+    {
+      "name": "HD현대마린솔루션",
+      "weight_pct": 8.42,
+      "shares": 430,
+      "item_code": "443060"
+    },
+    {
+      "name": "한화엔진",
+      "weight_pct": 3.43,
+      "shares": 801,
+      "item_code": "082740"
+    },
+    {
+      "name": "대한조선",
+      "weight_pct": 1.6,
+      "shares": 366,
+      "item_code": "439260"
+    },
+    {
+      "name": "HD현대마린엔진",
+      "weight_pct": 1.54,
+      "shares": 326,
+      "item_code": "071970"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.33,
+      "shares": 15045791,
+      "item_code": null
+    },
+    {
+      "name": "한국카본",
+      "weight_pct": 1.04,
+      "shares": 496,
+      "item_code": "017960"
+    },
+    {
+      "name": "세진중공업",
+      "weight_pct": 0.51,
+      "shares": 546,
+      "item_code": "075580"
+    }
+  ]
+}

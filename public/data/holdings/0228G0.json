@@ -1,0 +1,72 @@
+{
+  "ticker": "0228G0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 24.94,
+      "shares": 487,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 24.31,
+      "shares": 73,
+      "item_code": "000660"
+    },
+    {
+      "name": "현대차",
+      "weight_pct": 10.88,
+      "shares": 142,
+      "item_code": "005380"
+    },
+    {
+      "name": "한화에어로스페이스",
+      "weight_pct": 9.96,
+      "shares": 45,
+      "item_code": "012450"
+    },
+    {
+      "name": "두산에너빌리티",
+      "weight_pct": 9.19,
+      "shares": 556,
+      "item_code": "034020"
+    },
+    {
+      "name": "HD한국조선해양",
+      "weight_pct": 6.03,
+      "shares": 87,
+      "item_code": "009540"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 5.21,
+      "shares": 60,
+      "item_code": "012330"
+    },
+    {
+      "name": "한화오션",
+      "weight_pct": 4.34,
+      "shares": 252,
+      "item_code": "042660"
+    },
+    {
+      "name": "한국항공우주",
+      "weight_pct": 2.62,
+      "shares": 99,
+      "item_code": "047810"
+    },
+    {
+      "name": "현대건설",
+      "weight_pct": 2.26,
+      "shares": 91,
+      "item_code": "000720"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.28,
+      "shares": 1468220,
+      "item_code": null
+    }
+  ]
+}

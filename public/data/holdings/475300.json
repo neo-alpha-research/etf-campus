@@ -1,0 +1,72 @@
+{
+  "ticker": "475300",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "주성엔지니어링",
+      "weight_pct": 19.89,
+      "shares": 1206,
+      "item_code": "036930"
+    },
+    {
+      "name": "원익IPS",
+      "weight_pct": 15.21,
+      "shares": 1466,
+      "item_code": "240810"
+    },
+    {
+      "name": "HPSP",
+      "weight_pct": 13.72,
+      "shares": 2950,
+      "item_code": "403870"
+    },
+    {
+      "name": "피에스케이",
+      "weight_pct": 10.95,
+      "shares": 892,
+      "item_code": "319660"
+    },
+    {
+      "name": "유진테크",
+      "weight_pct": 8.03,
+      "shares": 632,
+      "item_code": "084370"
+    },
+    {
+      "name": "한솔케미칼",
+      "weight_pct": 7.74,
+      "shares": 408,
+      "item_code": "014680"
+    },
+    {
+      "name": "테스",
+      "weight_pct": 7.05,
+      "shares": 525,
+      "item_code": "095610"
+    },
+    {
+      "name": "솔브레인",
+      "weight_pct": 6.06,
+      "shares": 193,
+      "item_code": "357780"
+    },
+    {
+      "name": "브이엠",
+      "weight_pct": 5.71,
+      "shares": 1025,
+      "item_code": "089970"
+    },
+    {
+      "name": "티씨케이",
+      "weight_pct": 5.15,
+      "shares": 231,
+      "item_code": "064760"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.44,
+      "shares": 4853270,
+      "item_code": null
+    }
+  ]
+}

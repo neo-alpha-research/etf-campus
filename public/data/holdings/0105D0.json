@@ -1,0 +1,102 @@
+{
+  "ticker": "0105D0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "NAVER",
+      "weight_pct": 25.71,
+      "shares": 585,
+      "item_code": "035420"
+    },
+    {
+      "name": "삼성에스디에스",
+      "weight_pct": 19.67,
+      "shares": 414,
+      "item_code": "018260"
+    },
+    {
+      "name": "카카오",
+      "weight_pct": 17.32,
+      "shares": 2370,
+      "item_code": "035720"
+    },
+    {
+      "name": "현대오토에버",
+      "weight_pct": 12.34,
+      "shares": 147,
+      "item_code": "307950"
+    },
+    {
+      "name": "LG씨엔에스",
+      "weight_pct": 7.99,
+      "shares": 529,
+      "item_code": "064400"
+    },
+    {
+      "name": "카카오페이",
+      "weight_pct": 6.89,
+      "shares": 724,
+      "item_code": "377300"
+    },
+    {
+      "name": "NHN",
+      "weight_pct": 2.49,
+      "shares": 175,
+      "item_code": "181710"
+    },
+    {
+      "name": "클로봇",
+      "weight_pct": 2.18,
+      "shares": 404,
+      "item_code": "466100"
+    },
+    {
+      "name": "다우기술",
+      "weight_pct": 1.81,
+      "shares": 232,
+      "item_code": "023590"
+    },
+    {
+      "name": "아이티센글로벌",
+      "weight_pct": 0.95,
+      "shares": 124,
+      "item_code": "124500"
+    },
+    {
+      "name": "NHN KCP",
+      "weight_pct": 0.65,
+      "shares": 215,
+      "item_code": "060250"
+    },
+    {
+      "name": "한컴",
+      "weight_pct": 0.46,
+      "shares": 129,
+      "item_code": "030520"
+    },
+    {
+      "name": "다날",
+      "weight_pct": 0.44,
+      "shares": 405,
+      "item_code": "064260"
+    },
+    {
+      "name": "카페24",
+      "weight_pct": 0.44,
+      "shares": 129,
+      "item_code": "042000"
+    },
+    {
+      "name": "DB",
+      "weight_pct": 0.32,
+      "shares": 1076,
+      "item_code": "012030"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.29,
+      "shares": 1439594,
+      "item_code": null
+    }
+  ]
+}

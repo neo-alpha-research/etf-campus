@@ -1,0 +1,102 @@
+{
+  "ticker": "0085N0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares 10-20 Year Treasury Bond ETF",
+      "weight_pct": 25.72,
+      "shares": 1862,
+      "item_code": "TLH"
+    },
+    {
+      "name": "USD현금",
+      "weight_pct": 14.64,
+      "shares": 103663,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 11.53,
+      "shares": 112779188,
+      "item_code": null
+    },
+    {
+      "name": "iShares iBonds Dec 2035 Term Treasury ETF",
+      "weight_pct": 10.54,
+      "shares": 3019,
+      "item_code": "IBTQ.O"
+    },
+    {
+      "name": "T 4 1/8 02/15/36",
+      "weight_pct": 10.19,
+      "shares": 75000,
+      "item_code": null
+    },
+    {
+      "name": "iShares 7-10 Year Treasury Bond ETF",
+      "weight_pct": 9.13,
+      "shares": 692,
+      "item_code": "IEF.O"
+    },
+    {
+      "name": "T 4 3/8 05/15/36",
+      "weight_pct": 6.57,
+      "shares": 47500,
+      "item_code": null
+    },
+    {
+      "name": "T 4 11/15/35",
+      "weight_pct": 3.2,
+      "shares": 23750,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/8 11/15/39",
+      "weight_pct": 2.52,
+      "shares": 18750,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/4 02/15/37",
+      "weight_pct": 1.6,
+      "shares": 11250,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/4 08/15/35",
+      "weight_pct": 1.54,
+      "shares": 11250,
+      "item_code": null
+    },
+    {
+      "name": "T 4 3/8 02/15/38",
+      "weight_pct": 1.37,
+      "shares": 10000,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/4 05/15/35",
+      "weight_pct": 0.72,
+      "shares": 5250,
+      "item_code": null
+    },
+    {
+      "name": "T 4 5/8 02/15/35",
+      "weight_pct": 0.46,
+      "shares": 3250,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/2 02/15/36",
+      "weight_pct": 0.19,
+      "shares": 1375,
+      "item_code": null
+    },
+    {
+      "name": "외국환포워드USD",
+      "weight_pct": -85.38,
+      "shares": -834555264,
+      "item_code": null
+    }
+  ]
+}

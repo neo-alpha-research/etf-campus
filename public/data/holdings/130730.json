@@ -1,0 +1,84 @@
+{
+  "ticker": "130730",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "통화안정증권02700-2703-01",
+      "weight_pct": 8.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권24신이0200-1223-2",
+      "weight_pct": 8.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02550-2701-01",
+      "weight_pct": 8.07,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국수출입금융2501바-이표-2",
+      "weight_pct": 8.07,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02900-2705-01",
+      "weight_pct": 8.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02620-2704-02",
+      "weight_pct": 8.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행29-11-이표01-갑-21",
+      "weight_pct": 8.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행30-05-이01-갑-08(녹)",
+      "weight_pct": 8.04,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행49-02이1갑-25",
+      "weight_pct": 8.04,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(신)2512할1A-18",
+      "weight_pct": 7.98,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민은행4601할인일1-27",
+      "weight_pct": 7.94,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(신)2605할1A-13",
+      "weight_pct": 7.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.6,
+      "shares": 3707744,
+      "item_code": null
+    }
+  ]
+}

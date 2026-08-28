@@ -1,0 +1,252 @@
+{
+  "ticker": "0008E0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 5.72,
+      "shares": 35497521,
+      "item_code": null
+    },
+    {
+      "name": "크라토스 디펜스 & 시큐리티 솔루션",
+      "weight_pct": 4.61,
+      "shares": 391,
+      "item_code": "KTOS.O"
+    },
+    {
+      "name": "오시코시",
+      "weight_pct": 4.49,
+      "shares": 128,
+      "item_code": "OSK"
+    },
+    {
+      "name": "어플라이드 인더스트리얼 테크놀로지",
+      "weight_pct": 4.42,
+      "shares": 58,
+      "item_code": "AIT"
+    },
+    {
+      "name": "코어 & 메인",
+      "weight_pct": 3.81,
+      "shares": 395,
+      "item_code": "CNM"
+    },
+    {
+      "name": "사이아",
+      "weight_pct": 3.66,
+      "shares": 47,
+      "item_code": "SAIA.O"
+    },
+    {
+      "name": "SPX 테크놀로지스",
+      "weight_pct": 3.66,
+      "shares": 80,
+      "item_code": "SPXC.K"
+    },
+    {
+      "name": "커비",
+      "weight_pct": 3.47,
+      "shares": 112,
+      "item_code": "KEX"
+    },
+    {
+      "name": "전 엘케이 워터 솔루션스",
+      "weight_pct": 3.42,
+      "shares": 312,
+      "item_code": "ZWS"
+    },
+    {
+      "name": "페더럴 시그널",
+      "weight_pct": 3.41,
+      "shares": 126,
+      "item_code": "FSS"
+    },
+    {
+      "name": "넥스트파워",
+      "weight_pct": 3.2,
+      "shares": 165,
+      "item_code": "NXT.O"
+    },
+    {
+      "name": "제네락 홀딩스",
+      "weight_pct": 3.08,
+      "shares": 67,
+      "item_code": "GNRC.K"
+    },
+    {
+      "name": "랜드스타 시스템",
+      "weight_pct": 2.87,
+      "shares": 71,
+      "item_code": "LSTR.O"
+    },
+    {
+      "name": "다이콤 인더스트리스",
+      "weight_pct": 2.7,
+      "shares": 39,
+      "item_code": "DY"
+    },
+    {
+      "name": "MSC 인더스트리얼 다이렉트",
+      "weight_pct": 2.64,
+      "shares": 97,
+      "item_code": "MSM"
+    },
+    {
+      "name": "파월 인더스트리스",
+      "weight_pct": 2.6,
+      "shares": 61,
+      "item_code": "POWL.O"
+    },
+    {
+      "name": "에이에이온",
+      "weight_pct": 2.57,
+      "shares": 145,
+      "item_code": "AAON.O"
+    },
+    {
+      "name": "컨스트럭션 파트너스",
+      "weight_pct": 2.55,
+      "shares": 100,
+      "item_code": "ROAD.O"
+    },
+    {
+      "name": "그래니트 컨스트럭션",
+      "weight_pct": 2.54,
+      "shares": 92,
+      "item_code": "GVA"
+    },
+    {
+      "name": "머큐리 시스템즈",
+      "weight_pct": 2.5,
+      "shares": 125,
+      "item_code": "MRCY.O"
+    },
+    {
+      "name": "CSW 인더스트리얼즈",
+      "weight_pct": 2.44,
+      "shares": 34,
+      "item_code": "CSW"
+    },
+    {
+      "name": "허크 홀딩스",
+      "weight_pct": 2.4,
+      "shares": 69,
+      "item_code": "HRI"
+    },
+    {
+      "name": "아이트론",
+      "weight_pct": 2.02,
+      "shares": 92,
+      "item_code": "ITRI.O"
+    },
+    {
+      "name": "IES 홀딩스",
+      "weight_pct": 1.99,
+      "shares": 27,
+      "item_code": "IESC.O"
+    },
+    {
+      "name": "프리모리스 서비시스",
+      "weight_pct": 1.98,
+      "shares": 114,
+      "item_code": "PRIM.K"
+    },
+    {
+      "name": "사이트원 랜드스케이프 서플라이",
+      "weight_pct": 1.96,
+      "shares": 92,
+      "item_code": "SITE.K"
+    },
+    {
+      "name": "튜터 페리니",
+      "weight_pct": 1.87,
+      "shares": 95,
+      "item_code": "TPC"
+    },
+    {
+      "name": "배저 미터",
+      "weight_pct": 1.86,
+      "shares": 61,
+      "item_code": "BMI"
+    },
+    {
+      "name": "뮬러 워터 프로덕츠",
+      "weight_pct": 1.84,
+      "shares": 328,
+      "item_code": "MWA"
+    },
+    {
+      "name": "RXO",
+      "weight_pct": 1.71,
+      "shares": 347,
+      "item_code": "RXO"
+    },
+    {
+      "name": "앳코어",
+      "weight_pct": 1.46,
+      "shares": 70,
+      "item_code": "ATKR.K"
+    },
+    {
+      "name": "레전스",
+      "weight_pct": 1.45,
+      "shares": 113,
+      "item_code": "LGN.O"
+    },
+    {
+      "name": "레오나르도 DRS",
+      "weight_pct": 1.38,
+      "shares": 161,
+      "item_code": "DRS.O"
+    },
+    {
+      "name": "DXP 엔터프라이지스",
+      "weight_pct": 1.14,
+      "shares": 27,
+      "item_code": "DXPE.O"
+    },
+    {
+      "name": "트리니티 인더스트리스",
+      "weight_pct": 1.09,
+      "shares": 166,
+      "item_code": "TRN"
+    },
+    {
+      "name": "웨너 엔터프라이즈",
+      "weight_pct": 1.08,
+      "shares": 125,
+      "item_code": "WERN.O"
+    },
+    {
+      "name": "블루 버드",
+      "weight_pct": 0.88,
+      "shares": 66,
+      "item_code": "BLBD.O"
+    },
+    {
+      "name": "슈나이더 내셔널",
+      "weight_pct": 0.87,
+      "shares": 111,
+      "item_code": "SNDR.K"
+    },
+    {
+      "name": "센추리 홀딩스",
+      "weight_pct": 0.86,
+      "shares": 183,
+      "item_code": "CTRI.K"
+    },
+    {
+      "name": "워딩턴 엔터프라이즈",
+      "weight_pct": 0.83,
+      "shares": 65,
+      "item_code": "WOR"
+    },
+    {
+      "name": "고먼-러프",
+      "weight_pct": 0.76,
+      "shares": 44,
+      "item_code": "GRC"
+    }
+  ]
+}

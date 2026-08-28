@@ -1,0 +1,48 @@
+{
+  "ticker": "261260",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 72.66,
+      "shares": 38848907,
+      "item_code": null
+    },
+    {
+      "name": "KODEX 미국달러선물인버스",
+      "weight_pct": 15.56,
+      "shares": 1029,
+      "item_code": "261270"
+    },
+    {
+      "name": "키움 인버스 미국달러선물 ETN",
+      "weight_pct": 8.39,
+      "shares": 462,
+      "item_code": "760004"
+    },
+    {
+      "name": "KIWOOM 미국달러선물인버스2X",
+      "weight_pct": 1.28,
+      "shares": 148,
+      "item_code": "230480"
+    },
+    {
+      "name": "KIWOOM 미국달러선물인버스",
+      "weight_pct": 1.14,
+      "shares": 73,
+      "item_code": "139660"
+    },
+    {
+      "name": "RISE 미국달러선물인버스",
+      "weight_pct": 0.94,
+      "shares": 54,
+      "item_code": "469530"
+    },
+    {
+      "name": "2026-09 달러선물",
+      "weight_pct": -171.45,
+      "shares": -6,
+      "item_code": null
+    }
+  ]
+}

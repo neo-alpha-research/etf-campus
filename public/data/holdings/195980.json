@@ -1,0 +1,30 @@
+{
+  "ticker": "195980",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(미래에셋증권_231030)",
+      "weight_pct": 59.26,
+      "shares": 182423039,
+      "item_code": null
+    },
+    {
+      "name": "스왑(KB증권)_6285_250219",
+      "weight_pct": 33.26,
+      "shares": 102386201,
+      "item_code": null
+    },
+    {
+      "name": "스왑(NH투자증권)_6285_240716",
+      "weight_pct": 7.06,
+      "shares": 21756277,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.41,
+      "shares": 1262327,
+      "item_code": null
+    }
+  ]
+}

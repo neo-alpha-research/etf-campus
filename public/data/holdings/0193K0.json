@@ -1,0 +1,36 @@
+{
+  "ticker": "0193K0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자선물2609",
+      "weight_pct": 85.66,
+      "shares": 100,
+      "item_code": null
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 77.34,
+      "shares": 908,
+      "item_code": "005930"
+    },
+    {
+      "name": "RISE 삼성전자단일종목레버리지",
+      "weight_pct": 10.68,
+      "shares": 2932,
+      "item_code": "0192M0"
+    },
+    {
+      "name": "TIGER 삼성전자단일종목레버리지",
+      "weight_pct": 6.28,
+      "shares": 1752,
+      "item_code": "0195R0"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 5.68,
+      "shares": 17761433,
+      "item_code": null
+    }
+  ]
+}

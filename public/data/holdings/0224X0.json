@@ -1,0 +1,48 @@
+{
+  "ticker": "0224X0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 24.84,
+      "shares": 253,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 24.08,
+      "shares": 400,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "B 01/28/27",
+      "weight_pct": 20.18,
+      "shares": 71429,
+      "item_code": null
+    },
+    {
+      "name": "iShares 0-1 Year Treasury Bond ETF",
+      "weight_pct": 16.16,
+      "shares": 510,
+      "item_code": "SHV"
+    },
+    {
+      "name": "iShares 0-3 Month Treasury Bond ETF",
+      "weight_pct": 7.37,
+      "shares": 255,
+      "item_code": "SGOV.K"
+    },
+    {
+      "name": "State Street SPDR Bloomberg 1-3 Month T-Bill ETF",
+      "weight_pct": 6.15,
+      "shares": 234,
+      "item_code": "BIL"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.19,
+      "shares": 5764904,
+      "item_code": null
+    }
+  ]
+}

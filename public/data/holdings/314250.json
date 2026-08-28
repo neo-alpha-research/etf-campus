@@ -1,0 +1,78 @@
+{
+  "ticker": "314250",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 12.67,
+      "shares": 319,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "마이크로소프트",
+      "weight_pct": 12.22,
+      "shares": 109,
+      "item_code": "MSFT.O"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 10.22,
+      "shares": 175,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "애플",
+      "weight_pct": 9.88,
+      "shares": 140,
+      "item_code": "AAPL.O"
+    },
+    {
+      "name": "넷플릭스",
+      "weight_pct": 9.87,
+      "shares": 541,
+      "item_code": "NFLX.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 9.55,
+      "shares": 203,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "메타",
+      "weight_pct": 9.47,
+      "shares": 73,
+      "item_code": "META.O"
+    },
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 8.77,
+      "shares": 114,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 8.44,
+      "shares": 106,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "마이크론 테크놀로지",
+      "weight_pct": 8.39,
+      "shares": 39,
+      "item_code": "MU.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.46,
+      "shares": 2892856,
+      "item_code": null
+    },
+    {
+      "name": "외국환포워드USD",
+      "weight_pct": -87.61,
+      "shares": -540403258,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "ticker": "0113P0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "기업은행(변)2601이1A-21",
+      "weight_pct": 9.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(케이비캐피탈 20211020-1794-19)",
+      "weight_pct": 9.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(대한석탄공사 20260120-273-23)",
+      "weight_pct": 9.38,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(NH투자증권 20251125-364-226)",
+      "weight_pct": 9.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(대한석탄공사 20251219-364-44)",
+      "weight_pct": 9.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(대한석탄공사 20251219-364-42)",
+      "weight_pct": 9.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(아이비케이투자증권 20260703-210-5)",
+      "weight_pct": 9.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(와이디피제팔차 20260514-146-29)",
+      "weight_pct": 5.63,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(신한챔피온제칠차 20250926-353-46)",
+      "weight_pct": 3.76,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한화투자증권 20251010-363-4)",
+      "weight_pct": 3.75,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디베스제사차1",
+      "weight_pct": 1.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "멀리건제구차2",
+      "weight_pct": 1.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "프레스티지제십삼차3-2",
+      "weight_pct": 1.81,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "포르투나제팔차2",
+      "weight_pct": 1.76,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.63,
+      "shares": 1669041,
+      "item_code": null
+    },
+    {
+      "name": "CP(엑스퍼트제이차 20260520-323-49)",
+      "weight_pct": 0.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(수협희망제4차 20251117-294-49)",
+      "weight_pct": 0.76,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(국민베스트제2차 20251103-345-49)",
+      "weight_pct": 0.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(디베스제십차 20260513-294-49)",
+      "weight_pct": 0.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(경남희망제1차 20251110-301-49)",
+      "weight_pct": 0.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(국민넘버원제구차 20251103-329-49)",
+      "weight_pct": 0.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(레티스제사차 20260429-303-49)",
+      "weight_pct": 0.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리사랑제9차 20260203-280-49)",
+      "weight_pct": 0.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리베스트제3차 20260203-280-49)",
+      "weight_pct": 0.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(시그니처제팔차 20250929-343-49)",
+      "weight_pct": 0.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(농협희망제3차 20251104-307-49)",
+      "weight_pct": 0.61,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(오션뷰제일차 20251112-300-46)",
+      "weight_pct": 0.54,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한솔제사십구차 20251113-327-49)",
+      "weight_pct": 0.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리챔피온제구차 20251030-328-49)",
+      "weight_pct": 0.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한솔제육십삼차 20260406-274-49)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리행복제8차 20260527-294-1)",
+      "weight_pct": 0.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한솔제사십칠차 20251027-316-37)",
+      "weight_pct": 0.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(리치맨제팔차 20251029-313-30)",
+      "weight_pct": 0.44,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(하나챔피온제이차 20251028-330-33)",
+      "weight_pct": 0.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(오션러브제오차 20251027-346-49)",
+      "weight_pct": 0.3,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(한솔제오십칠차 20251114-297-27)",
+      "weight_pct": 0.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(우리사랑제8차 20260527-266-63)",
+      "weight_pct": 0.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(리치맨제팔차 20251103-308-7)",
+      "weight_pct": 0.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "CP(국민행복제12차 20251103-311-49)",
+      "weight_pct": 0.01,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

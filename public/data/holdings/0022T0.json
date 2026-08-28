@@ -1,0 +1,42 @@
+{
+  "ticker": "0022T0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "SPDR Gold MiniShares Trust",
+      "weight_pct": 29.82,
+      "shares": 3267,
+      "item_code": "GLDM.K"
+    },
+    {
+      "name": "iShares Gold Trust Micro",
+      "weight_pct": 29.8,
+      "shares": 6481,
+      "item_code": "IAUM.K"
+    },
+    {
+      "name": "abrdn Physical Gold Shares ETF",
+      "weight_pct": 29.61,
+      "shares": 6743,
+      "item_code": "SGOL.K"
+    },
+    {
+      "name": "SPDR Gold Shares",
+      "weight_pct": 11.19,
+      "shares": 264,
+      "item_code": "GLD"
+    },
+    {
+      "name": "GLD US 08/28/26 C420 EQUITY",
+      "weight_pct": -0.1,
+      "shares": -2,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.33,
+      "shares": -4589261,
+      "item_code": null
+    }
+  ]
+}

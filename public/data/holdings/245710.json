@@ -1,0 +1,48 @@
+{
+  "ticker": "245710",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 32.79,
+      "shares": 962748991,
+      "item_code": null
+    },
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": 25.23,
+      "shares": 740846534,
+      "item_code": null
+    },
+    {
+      "name": "스왑(한국투자증권)",
+      "weight_pct": 22.49,
+      "shares": 660486632,
+      "item_code": null
+    },
+    {
+      "name": "스왑(삼성증권)",
+      "weight_pct": 20.48,
+      "shares": 601396472,
+      "item_code": null
+    },
+    {
+      "name": "KIM GROWTH VN30 ETF",
+      "weight_pct": 1.08,
+      "shares": 42857,
+      "item_code": null
+    },
+    {
+      "name": "스왑(NH투자증권)",
+      "weight_pct": -0.03,
+      "shares": -1112896,
+      "item_code": null
+    },
+    {
+      "name": "스왑(미래에셋증권)",
+      "weight_pct": -2.06,
+      "shares": -60566792,
+      "item_code": null
+    }
+  ]
+}

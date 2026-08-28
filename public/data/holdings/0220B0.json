@@ -1,0 +1,216 @@
+{
+  "ticker": "0220B0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "피에스케이홀딩스",
+      "weight_pct": 7.73,
+      "shares": 300,
+      "item_code": "031980"
+    },
+    {
+      "name": "테스",
+      "weight_pct": 7.26,
+      "shares": 245,
+      "item_code": "095610"
+    },
+    {
+      "name": "피에스케이",
+      "weight_pct": 6.22,
+      "shares": 230,
+      "item_code": "319660"
+    },
+    {
+      "name": "이오테크닉스",
+      "weight_pct": 6.1,
+      "shares": 74,
+      "item_code": "039030"
+    },
+    {
+      "name": "티에스이",
+      "weight_pct": 5.34,
+      "shares": 104,
+      "item_code": "131290"
+    },
+    {
+      "name": "파두",
+      "weight_pct": 4.84,
+      "shares": 370,
+      "item_code": "440110"
+    },
+    {
+      "name": "심텍",
+      "weight_pct": 4.63,
+      "shares": 180,
+      "item_code": "222800"
+    },
+    {
+      "name": "네오셈",
+      "weight_pct": 4.56,
+      "shares": 2039,
+      "item_code": "253590"
+    },
+    {
+      "name": "엠케이전자",
+      "weight_pct": 4.19,
+      "shares": 1416,
+      "item_code": "033160"
+    },
+    {
+      "name": "티씨케이",
+      "weight_pct": 4.08,
+      "shares": 83,
+      "item_code": "064760"
+    },
+    {
+      "name": "샘씨엔에스",
+      "weight_pct": 3.93,
+      "shares": 1456,
+      "item_code": "252990"
+    },
+    {
+      "name": "솔브레인",
+      "weight_pct": 3.25,
+      "shares": 47,
+      "item_code": "357780"
+    },
+    {
+      "name": "엘티씨",
+      "weight_pct": 3.2,
+      "shares": 443,
+      "item_code": "170920"
+    },
+    {
+      "name": "원익QnC",
+      "weight_pct": 2.98,
+      "shares": 551,
+      "item_code": "074600"
+    },
+    {
+      "name": "성호전자",
+      "weight_pct": 2.97,
+      "shares": 888,
+      "item_code": "043260"
+    },
+    {
+      "name": "저스템",
+      "weight_pct": 2.43,
+      "shares": 942,
+      "item_code": "417840"
+    },
+    {
+      "name": "디케이티",
+      "weight_pct": 2.28,
+      "shares": 727,
+      "item_code": "290550"
+    },
+    {
+      "name": "기가비스",
+      "weight_pct": 2.15,
+      "shares": 98,
+      "item_code": "420770"
+    },
+    {
+      "name": "ISC",
+      "weight_pct": 2.08,
+      "shares": 60,
+      "item_code": "095340"
+    },
+    {
+      "name": "브이엠",
+      "weight_pct": 2.06,
+      "shares": 168,
+      "item_code": "089970"
+    },
+    {
+      "name": "네패스",
+      "weight_pct": 1.72,
+      "shares": 352,
+      "item_code": "033640"
+    },
+    {
+      "name": "원익IPS",
+      "weight_pct": 1.6,
+      "shares": 70,
+      "item_code": "240810"
+    },
+    {
+      "name": "이엔에프테크놀로지",
+      "weight_pct": 1.43,
+      "shares": 156,
+      "item_code": "102710"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.38,
+      "shares": 6834446,
+      "item_code": null
+    },
+    {
+      "name": "GST",
+      "weight_pct": 1.36,
+      "shares": 149,
+      "item_code": "083450"
+    },
+    {
+      "name": "코세스",
+      "weight_pct": 1.35,
+      "shares": 261,
+      "item_code": "089890"
+    },
+    {
+      "name": "하나마이크론",
+      "weight_pct": 1.1,
+      "shares": 141,
+      "item_code": "067310"
+    },
+    {
+      "name": "덕산하이메탈",
+      "weight_pct": 1.08,
+      "shares": 535,
+      "item_code": "077360"
+    },
+    {
+      "name": "파크시스템스",
+      "weight_pct": 1.04,
+      "shares": 19,
+      "item_code": "140860"
+    },
+    {
+      "name": "두산테스나",
+      "weight_pct": 1.02,
+      "shares": 61,
+      "item_code": "131970"
+    },
+    {
+      "name": "동진쎄미켐",
+      "weight_pct": 1.02,
+      "shares": 118,
+      "item_code": "005290"
+    },
+    {
+      "name": "원익머트리얼즈",
+      "weight_pct": 0.92,
+      "shares": 138,
+      "item_code": "104830"
+    },
+    {
+      "name": "인텍플러스",
+      "weight_pct": 0.88,
+      "shares": 132,
+      "item_code": "064290"
+    },
+    {
+      "name": "와이지-원",
+      "weight_pct": 0.83,
+      "shares": 284,
+      "item_code": "019210"
+    },
+    {
+      "name": "싸이맥스",
+      "weight_pct": 0.8,
+      "shares": 154,
+      "item_code": "160980"
+    }
+  ]
+}

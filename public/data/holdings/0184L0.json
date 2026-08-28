@@ -1,0 +1,96 @@
+{
+  "ticker": "0184L0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "국고채권03500-2906(26-5)",
+      "weight_pct": 15.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권03375-3103(26-3)",
+      "weight_pct": 8.91,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권03730-2807-02",
+      "weight_pct": 7.54,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK에코플랜트186-3",
+      "weight_pct": 7.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권03420-2804-02",
+      "weight_pct": 7.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자캐피탈137-3",
+      "weight_pct": 7.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권26신이0109-0508-2",
+      "weight_pct": 7.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02400-2707-02",
+      "weight_pct": 7.46,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데카드556-2",
+      "weight_pct": 7.39,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국자산관리공사채권제112회(사)",
+      "weight_pct": 7.38,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국도로공사고속도로건설채권956",
+      "weight_pct": 7.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드265-2(사)",
+      "weight_pct": 7.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(신)2605할1A-08",
+      "weight_pct": 7.3,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -5.72,
+      "shares": -5769999,
+      "item_code": null
+    },
+    {
+      "name": "3년국채 F 202609",
+      "weight_pct": -5.81,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

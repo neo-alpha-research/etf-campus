@@ -1,0 +1,36 @@
+{
+  "ticker": "475260",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 42.77,
+      "shares": 45952524,
+      "item_code": null
+    },
+    {
+      "name": "농금채(중앙회)2024-2이3Y-B",
+      "weight_pct": 19.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경기주택도시공사25-02-95",
+      "weight_pct": 19.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데웰푸드66-2",
+      "weight_pct": 8.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대트랜시스48-1",
+      "weight_pct": 8.86,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "ticker": "387270",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "Invesco NASDAQ 100 ETF",
+      "weight_pct": 20.91,
+      "shares": 127,
+      "item_code": "QQQM.O"
+    },
+    {
+      "name": "Invesco QQQ Trust  Series 1",
+      "weight_pct": 20.4,
+      "shares": 51,
+      "item_code": "QQQ.O"
+    },
+    {
+      "name": "iShares Semiconductor ETF",
+      "weight_pct": 8.69,
+      "shares": 30,
+      "item_code": "SOXX.O"
+    },
+    {
+      "name": "TIGER 200 철강소재",
+      "weight_pct": 5.15,
+      "shares": 1091,
+      "item_code": "139240"
+    },
+    {
+      "name": "블룸 에너지",
+      "weight_pct": 5.03,
+      "shares": 41,
+      "item_code": "BE"
+    },
+    {
+      "name": "First Trust NASDAQ Cybersecurity ETF",
+      "weight_pct": 5.0,
+      "shares": 95,
+      "item_code": "CIBR.O"
+    },
+    {
+      "name": "셈텍",
+      "weight_pct": 4.98,
+      "shares": 63,
+      "item_code": "SMTC.O"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 4.98,
+      "shares": 46,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 4.93,
+      "shares": 7,
+      "item_code": "000660"
+    },
+    {
+      "name": "Roundhill Memory ETF",
+      "weight_pct": 4.69,
+      "shares": 148,
+      "item_code": "DRAM.K"
+    },
+    {
+      "name": "Defiance AI and Power Infrastructure ETF",
+      "weight_pct": 4.55,
+      "shares": 280,
+      "item_code": "AIPO.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.27,
+      "shares": 8035963,
+      "item_code": null
+    },
+    {
+      "name": "TIGER 코리아AI전력기기TOP3플러스",
+      "weight_pct": 2.58,
+      "shares": 317,
+      "item_code": "0117V0"
+    },
+    {
+      "name": "인텔",
+      "weight_pct": 2.53,
+      "shares": 51,
+      "item_code": "INTC.O"
+    },
+    {
+      "name": "Roundhill Photonics & Optics ETF",
+      "weight_pct": 2.26,
+      "shares": 161,
+      "item_code": "LYTE.K"
+    }
+  ]
+}

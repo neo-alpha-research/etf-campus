@@ -1,0 +1,210 @@
+{
+  "ticker": "329650",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares MSCI World ETF",
+      "weight_pct": 18.94,
+      "shares": 930,
+      "item_code": "URTH.K"
+    },
+    {
+      "name": "KODEX MSCI선진국",
+      "weight_pct": 5.1,
+      "shares": 1836,
+      "item_code": "251350"
+    },
+    {
+      "name": "iShares MSCI ACWI ETF",
+      "weight_pct": 4.93,
+      "shares": 315,
+      "item_code": "ACWI.O"
+    },
+    {
+      "name": "국고02000-4903(19-2)",
+      "weight_pct": 4.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03500-2906(26-5)",
+      "weight_pct": 4.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산금26신이0300-0403-2",
+      "weight_pct": 4.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02540-2611-01",
+      "weight_pct": 4.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02625-3003(25-3)",
+      "weight_pct": 4.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈503-2",
+      "weight_pct": 3.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "인천도시공사233",
+      "weight_pct": 3.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "인천도시공사235",
+      "weight_pct": 3.41,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02690-2803-03",
+      "weight_pct": 3.39,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안03730-2807-02",
+      "weight_pct": 3.22,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03250-2903(24-1)",
+      "weight_pct": 2.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈348-5",
+      "weight_pct": 2.56,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03500-5603(26-2)",
+      "weight_pct": 2.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02375-2812(18-10)",
+      "weight_pct": 2.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국서부발전70-1",
+      "weight_pct": 2.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03250-4209(22-11)",
+      "weight_pct": 2.25,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안03430-2703-03",
+      "weight_pct": 2.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02250-3709(17-5)",
+      "weight_pct": 1.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KODEX 국고채10년액티브",
+      "weight_pct": 1.78,
+      "shares": 242,
+      "item_code": "471230"
+    },
+    {
+      "name": "국고03250-5303(23-2)",
+      "weight_pct": 1.75,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03125-5209(22-9)",
+      "weight_pct": 1.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈524-3",
+      "weight_pct": 1.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고04250-3606(26-6)",
+      "weight_pct": 1.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.29,
+      "shares": 18356047,
+      "item_code": null
+    },
+    {
+      "name": "국고02375-3809(18-7)",
+      "weight_pct": 1.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02000-4603(국고16-1)",
+      "weight_pct": 0.88,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고01875-2906(19-4)",
+      "weight_pct": 0.81,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KODEX 53-09 국고채액티브",
+      "weight_pct": 0.39,
+      "shares": 606,
+      "item_code": "457700"
+    },
+    {
+      "name": "국고채권01500-3012(20-9)",
+      "weight_pct": 0.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권01375-2912(19-8)",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KODEX 33-06 국고채액티브",
+      "weight_pct": 0.22,
+      "shares": 303,
+      "item_code": "457690"
+    }
+  ]
+}

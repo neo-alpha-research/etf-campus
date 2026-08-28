@@ -1,0 +1,252 @@
+{
+  "ticker": "458030",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "국고채이자03290-2609",
+      "weight_pct": 24.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소벤처기업진흥공단 20260423-193-3(단)",
+      "weight_pct": 19.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대구도시개발공사 20260205-328-2(단)",
+      "weight_pct": 19.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "수산금융채권(중앙회)20-03이표12-09호",
+      "weight_pct": 12.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "예금보험공사 20260722-104-5(단)",
+      "weight_pct": 12.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠뱅크 증권운용부 20251031-364-1",
+      "weight_pct": 6.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "제일베스트제3차 20260319-363-1",
+      "weight_pct": 1.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농협사랑제1차 20260109-285-1",
+      "weight_pct": 1.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민글로리제1차 20251217-358-98",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민행복제16차 20251001-344-1",
+      "weight_pct": 0.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민챔피온제십삼차 20251215-329-49",
+      "weight_pct": 0.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농협베스트제1차 20251010-335-49",
+      "weight_pct": 0.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한챔피온제십삼차 20251222-336-49",
+      "weight_pct": 0.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민챔피온제십차 20260429-327-49",
+      "weight_pct": 0.54,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "제이드림제27차 20260403-320-49",
+      "weight_pct": 0.54,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한솔제사십칠차 20260320-322-49",
+      "weight_pct": 0.54,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신디제일차 20251219-287-43",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농협베스트제1차 20251211-364-49",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민행복제13차 20251013-332-49",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농협사랑제8차 20251224-351-49",
+      "weight_pct": 0.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민챔피온제십사차 20260114-266-49",
+      "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민행복제13차 20251218-266-49",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한솔제사십육차 20251211-361-9",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민베스트제1차 20260106-275-49",
+      "weight_pct": 0.32,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "나무크레딧제구차 20251013-326-49",
+      "weight_pct": 0.31,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민베스트제1차 20260115-266-147",
+      "weight_pct": 0.3,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민행복제18차 20260225-258-49",
+      "weight_pct": 0.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농협베스트제1차 20251104-310-33",
+      "weight_pct": 0.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베어버드제십차 20260320-294-41",
+      "weight_pct": 0.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "와이제이제사차 20260318-296-34",
+      "weight_pct": 0.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이하나제삼차 20251203-275-41",
+      "weight_pct": 0.25,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "베어버드제십차 20260320-322-37",
+      "weight_pct": 0.24,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민행복제16차 20250912-363-49",
+      "weight_pct": 0.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민넘버원제삼차 20260115-265-31",
+      "weight_pct": 0.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "솔편한제일차 20251218-322-49",
+      "weight_pct": 0.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한솔제사십사차 20251121-291-49",
+      "weight_pct": 0.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "솔편한제이차 20251222-318-49",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신디제십오차 20251120-288-47",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한솔제육십차 20251120-291-49",
+      "weight_pct": 0.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한솔제오십삼차 20251124-288-49",
+      "weight_pct": 0.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화예금",
+      "weight_pct": -8.48,
+      "shares": -9329443,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "ticker": "0102X0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "Rolls-Royce Holdings PLC",
+      "weight_pct": 20.53,
+      "shares": 3439,
+      "item_code": null
+    },
+    {
+      "name": "Kongsberg Gruppen ASA",
+      "weight_pct": 19.83,
+      "shares": 2082,
+      "item_code": null
+    },
+    {
+      "name": "Rheinmetall AG",
+      "weight_pct": 17.0,
+      "shares": 45,
+      "item_code": null
+    },
+    {
+      "name": "BAE Systems PLC",
+      "weight_pct": 11.17,
+      "shares": 1383,
+      "item_code": null
+    },
+    {
+      "name": "CSG NV",
+      "weight_pct": 6.97,
+      "shares": 1132,
+      "item_code": null
+    },
+    {
+      "name": "Saab AB",
+      "weight_pct": 6.15,
+      "shares": 321,
+      "item_code": null
+    },
+    {
+      "name": "Thales SA",
+      "weight_pct": 6.13,
+      "shares": 74,
+      "item_code": null
+    },
+    {
+      "name": "Leonardo SpA",
+      "weight_pct": 4.5,
+      "shares": 251,
+      "item_code": null
+    },
+    {
+      "name": "Dassault Aviation SA",
+      "weight_pct": 4.26,
+      "shares": 44,
+      "item_code": null
+    },
+    {
+      "name": "Indra Sistemas SA",
+      "weight_pct": 3.42,
+      "shares": 171,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.0,
+      "shares": -10374,
+      "item_code": null
+    }
+  ]
+}

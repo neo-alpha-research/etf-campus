@@ -1,0 +1,72 @@
+{
+  "ticker": "0008T0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "실리콘투",
+      "weight_pct": 21.18,
+      "shares": 4152,
+      "item_code": "257720"
+    },
+    {
+      "name": "한국콜마",
+      "weight_pct": 20.17,
+      "shares": 1333,
+      "item_code": "161890"
+    },
+    {
+      "name": "에이피알",
+      "weight_pct": 17.5,
+      "shares": 388,
+      "item_code": "278470"
+    },
+    {
+      "name": "코스메카코리아",
+      "weight_pct": 9.39,
+      "shares": 651,
+      "item_code": "241710"
+    },
+    {
+      "name": "코스맥스",
+      "weight_pct": 8.54,
+      "shares": 291,
+      "item_code": "192820"
+    },
+    {
+      "name": "LG생활건강",
+      "weight_pct": 6.32,
+      "shares": 204,
+      "item_code": "051900"
+    },
+    {
+      "name": "아모레퍼시픽",
+      "weight_pct": 6.22,
+      "shares": 421,
+      "item_code": "090430"
+    },
+    {
+      "name": "달바글로벌",
+      "weight_pct": 5.56,
+      "shares": 241,
+      "item_code": "483650"
+    },
+    {
+      "name": "펌텍코리아",
+      "weight_pct": 2.89,
+      "shares": 492,
+      "item_code": "251970"
+    },
+    {
+      "name": "제닉",
+      "weight_pct": 1.97,
+      "shares": 562,
+      "item_code": "123330"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.22,
+      "shares": 2154237,
+      "item_code": null
+    }
+  ]
+}

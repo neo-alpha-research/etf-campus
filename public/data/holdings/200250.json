@@ -1,0 +1,18 @@
+{
+  "ticker": "200250",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(하나증권)_260624_3165_3",
+      "weight_pct": 99.15,
+      "shares": 1072552708,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.84,
+      "shares": 9184159,
+      "item_code": null
+    }
+  ]
+}

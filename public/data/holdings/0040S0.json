@@ -1,0 +1,210 @@
+{
+  "ticker": "0040S0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 9.56,
+      "shares": 455,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "마이크로소프트",
+      "weight_pct": 9.35,
+      "shares": 159,
+      "item_code": "MSFT.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 8.18,
+      "shares": 329,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "애플",
+      "weight_pct": 8.07,
+      "shares": 217,
+      "item_code": "AAPL.O"
+    },
+    {
+      "name": "테슬라",
+      "weight_pct": 7.34,
+      "shares": 179,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "서비스나우",
+      "weight_pct": 4.54,
+      "shares": 305,
+      "item_code": "NOW"
+    },
+    {
+      "name": "세일즈포스",
+      "weight_pct": 4.44,
+      "shares": 182,
+      "item_code": "CRM"
+    },
+    {
+      "name": "아처 에비에이션",
+      "weight_pct": 4.35,
+      "shares": 6232,
+      "item_code": "ACHR.K"
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 4.15,
+      "shares": 143,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "프로셉트 바이오로보틱스",
+      "weight_pct": 3.49,
+      "shares": 1403,
+      "item_code": "PRCT.O"
+    },
+    {
+      "name": "가민",
+      "weight_pct": 3.48,
+      "shares": 101,
+      "item_code": "GRMN.K"
+    },
+    {
+      "name": "인튜이티브 서지컬",
+      "weight_pct": 3.43,
+      "shares": 78,
+      "item_code": "ISRG.O"
+    },
+    {
+      "name": "메타",
+      "weight_pct": 3.26,
+      "shares": 47,
+      "item_code": "META.O"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 2.88,
+      "shares": 68,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "헤사이 그룹 ADR",
+      "weight_pct": 2.81,
+      "shares": 1391,
+      "item_code": "HSAI.O"
+    },
+    {
+      "name": "온 세미콘덕터",
+      "weight_pct": 2.42,
+      "shares": 279,
+      "item_code": "ON.O"
+    },
+    {
+      "name": "베리스크 애널리틱스",
+      "weight_pct": 2.31,
+      "shares": 104,
+      "item_code": "VRSK.O"
+    },
+    {
+      "name": "크레도 테크놀로지 그룹 홀딩",
+      "weight_pct": 2.06,
+      "shares": 77,
+      "item_code": "CRDO.O"
+    },
+    {
+      "name": "모빌아이 글로벌",
+      "weight_pct": 1.74,
+      "shares": 1727,
+      "item_code": "MBLY.O"
+    },
+    {
+      "name": "온다스",
+      "weight_pct": 1.69,
+      "shares": 1746,
+      "item_code": "ONDS.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.47,
+      "shares": 17171022,
+      "item_code": null
+    },
+    {
+      "name": "나테라",
+      "weight_pct": 1.39,
+      "shares": 34,
+      "item_code": "NTRA.O"
+    },
+    {
+      "name": "팔로 알토 네트웍스",
+      "weight_pct": 1.0,
+      "shares": 25,
+      "item_code": "PANW.O"
+    },
+    {
+      "name": "인디 세미컨덕터",
+      "weight_pct": 0.99,
+      "shares": 2165,
+      "item_code": "INDI.O"
+    },
+    {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 0.95,
+      "shares": 8,
+      "item_code": "LITE.O"
+    },
+    {
+      "name": "아리스타 네트웍스",
+      "weight_pct": 0.88,
+      "shares": 37,
+      "item_code": "ANET.K"
+    },
+    {
+      "name": "아우스터",
+      "weight_pct": 0.65,
+      "shares": 155,
+      "item_code": "OUST.O"
+    },
+    {
+      "name": "인텔",
+      "weight_pct": 0.62,
+      "shares": 59,
+      "item_code": "INTC.O"
+    },
+    {
+      "name": "ASE 테크놀로지 홀딩 ADR",
+      "weight_pct": 0.55,
+      "shares": 126,
+      "item_code": "ASX"
+    },
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 0.52,
+      "shares": 9,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "제이프로그",
+      "weight_pct": 0.5,
+      "shares": 46,
+      "item_code": "FROG.O"
+    },
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 0.36,
+      "shares": 7,
+      "item_code": "TSM"
+    },
+    {
+      "name": "사운드하운드 AI",
+      "weight_pct": 0.19,
+      "shares": 240,
+      "item_code": "SOUN.O"
+    },
+    {
+      "name": "암바렐라",
+      "weight_pct": 0.19,
+      "shares": 23,
+      "item_code": "AMBA.O"
+    }
+  ]
+}

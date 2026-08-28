@@ -1,0 +1,30 @@
+{
+  "ticker": "304660",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 99.19,
+      "shares": 727738263,
+      "item_code": null
+    },
+    {
+      "name": "US ULT30YR NOTE (CBT) 2026 12",
+      "weight_pct": 96.87,
+      "shares": 4,
+      "item_code": null
+    },
+    {
+      "name": "iShares 20+ Year Treasury Bond ETF",
+      "weight_pct": 0.8,
+      "shares": 51,
+      "item_code": "TLT.O"
+    },
+    {
+      "name": "2026-09 달러선물",
+      "weight_pct": -6.71,
+      "shares": -3,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "ticker": "0103T0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "NAVER",
+      "weight_pct": 25.24,
+      "shares": 518,
+      "item_code": "035420"
+    },
+    {
+      "name": "카카오",
+      "weight_pct": 22.55,
+      "shares": 2783,
+      "item_code": "035720"
+    },
+    {
+      "name": "삼성에스디에스",
+      "weight_pct": 17.22,
+      "shares": 327,
+      "item_code": "018260"
+    },
+    {
+      "name": "LG씨엔에스",
+      "weight_pct": 6.73,
+      "shares": 402,
+      "item_code": "064400"
+    },
+    {
+      "name": "현대오토에버",
+      "weight_pct": 5.3,
+      "shares": 57,
+      "item_code": "307950"
+    },
+    {
+      "name": "NHN",
+      "weight_pct": 3.96,
+      "shares": 251,
+      "item_code": "181710"
+    },
+    {
+      "name": "플리토",
+      "weight_pct": 2.66,
+      "shares": 1334,
+      "item_code": "300080"
+    },
+    {
+      "name": "우리기술투자",
+      "weight_pct": 2.65,
+      "shares": 1919,
+      "item_code": "041190"
+    },
+    {
+      "name": "다날",
+      "weight_pct": 2.41,
+      "shares": 2003,
+      "item_code": "064260"
+    },
+    {
+      "name": "솔트룩스",
+      "weight_pct": 2.36,
+      "shares": 647,
+      "item_code": "304100"
+    },
+    {
+      "name": "포스코DX",
+      "weight_pct": 2.09,
+      "shares": 441,
+      "item_code": "022100"
+    },
+    {
+      "name": "한컴",
+      "weight_pct": 2.01,
+      "shares": 506,
+      "item_code": "030520"
+    },
+    {
+      "name": "아이티센글로벌",
+      "weight_pct": 1.97,
+      "shares": 232,
+      "item_code": "124500"
+    },
+    {
+      "name": "노타",
+      "weight_pct": 1.55,
+      "shares": 369,
+      "item_code": "486990"
+    },
+    {
+      "name": "세미파이브",
+      "weight_pct": 1.32,
+      "shares": 373,
+      "item_code": "490470"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.07,
+      "shares": -318957,
+      "item_code": null
+    }
+  ]
+}

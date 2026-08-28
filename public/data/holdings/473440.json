@@ -1,0 +1,60 @@
+{
+  "ticker": "473440",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 43.64,
+      "shares": 47337735,
+      "item_code": null
+    },
+    {
+      "name": "서울교통공사2021-4",
+      "weight_pct": 10.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈298-2",
+      "weight_pct": 9.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈363-5",
+      "weight_pct": 8.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(신)2411이2A-14",
+      "weight_pct": 8.48,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농금채(중앙회)2024-11이2Y-A",
+      "weight_pct": 8.47,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "서울교통공사2025-9",
+      "weight_pct": 6.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국철도공사139",
+      "weight_pct": 3.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드2057-2",
+      "weight_pct": 1.06,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

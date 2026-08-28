@@ -1,0 +1,144 @@
+{
+  "ticker": "385710",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성SDI",
+      "weight_pct": 15.01,
+      "shares": 296,
+      "item_code": "006400"
+    },
+    {
+      "name": "셀트리온",
+      "weight_pct": 8.95,
+      "shares": 525,
+      "item_code": "068270"
+    },
+    {
+      "name": "NAVER",
+      "weight_pct": 8.64,
+      "shares": 448,
+      "item_code": "035420"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 8.58,
+      "shares": 260,
+      "item_code": "373220"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 7.98,
+      "shares": 264,
+      "item_code": "005490"
+    },
+    {
+      "name": "NC",
+      "weight_pct": 7.83,
+      "shares": 394,
+      "item_code": "036570"
+    },
+    {
+      "name": "알테오젠",
+      "weight_pct": 7.55,
+      "shares": 272,
+      "item_code": "196170"
+    },
+    {
+      "name": "삼성바이오로직스",
+      "weight_pct": 5.68,
+      "shares": 40,
+      "item_code": "207940"
+    },
+    {
+      "name": "크래프톤",
+      "weight_pct": 4.91,
+      "shares": 251,
+      "item_code": "259960"
+    },
+    {
+      "name": "서진시스템",
+      "weight_pct": 4.42,
+      "shares": 1200,
+      "item_code": "178320"
+    },
+    {
+      "name": "삼성전기",
+      "weight_pct": 2.96,
+      "shares": 24,
+      "item_code": "009150"
+    },
+    {
+      "name": "파마리서치",
+      "weight_pct": 2.69,
+      "shares": 70,
+      "item_code": "214450"
+    },
+    {
+      "name": "티엘비",
+      "weight_pct": 2.31,
+      "shares": 625,
+      "item_code": "356860"
+    },
+    {
+      "name": "심텍",
+      "weight_pct": 2.11,
+      "shares": 187,
+      "item_code": "222800"
+    },
+    {
+      "name": "한미약품",
+      "weight_pct": 1.84,
+      "shares": 41,
+      "item_code": "128940"
+    },
+    {
+      "name": "더블유게임즈",
+      "weight_pct": 1.52,
+      "shares": 299,
+      "item_code": "192080"
+    },
+    {
+      "name": "한화솔루션",
+      "weight_pct": 1.33,
+      "shares": 450,
+      "item_code": "009830"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 1.18,
+      "shares": 50,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK텔레콤",
+      "weight_pct": 1.11,
+      "shares": 126,
+      "item_code": "017670"
+    },
+    {
+      "name": "삼성E&A",
+      "weight_pct": 1.11,
+      "shares": 249,
+      "item_code": "028050"
+    },
+    {
+      "name": "LS ELECTRIC",
+      "weight_pct": 0.97,
+      "shares": 50,
+      "item_code": "010120"
+    },
+    {
+      "name": "SK이노베이션",
+      "weight_pct": 0.7,
+      "shares": 71,
+      "item_code": "096770"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.53,
+      "shares": 6057923,
+      "item_code": null
+    }
+  ]
+}

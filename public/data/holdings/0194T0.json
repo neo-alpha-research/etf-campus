@@ -1,0 +1,30 @@
+{
+  "ticker": "0194T0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 92.93,
+      "shares": 121,
+      "item_code": "000660"
+    },
+    {
+      "name": "2026-09 SK하이닉스개별선물",
+      "weight_pct": 75.59,
+      "shares": 9,
+      "item_code": null
+    },
+    {
+      "name": "RISE SK하이닉스단일종목레버리지",
+      "weight_pct": 15.27,
+      "shares": 3786,
+      "item_code": "0192L0"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -8.18,
+      "shares": -18435637,
+      "item_code": null
+    }
+  ]
+}

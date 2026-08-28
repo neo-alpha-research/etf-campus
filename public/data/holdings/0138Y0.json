@@ -1,0 +1,90 @@
+{
+  "ticker": "0138Y0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "SPDR Gold MiniShares Trust",
+      "weight_pct": 25.89,
+      "shares": 1038,
+      "item_code": "GLDM.K"
+    },
+    {
+      "name": "iShares Gold Trust Micro",
+      "weight_pct": 23.21,
+      "shares": 1848,
+      "item_code": "IAUM.K"
+    },
+    {
+      "name": "국고채권03375-3103(26-3)",
+      "weight_pct": 13.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02750-2812(25-10)",
+      "weight_pct": 13.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02250-2806(25-4)",
+      "weight_pct": 13.61,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "PLUS 국채선물3년",
+      "weight_pct": 9.16,
+      "shares": 813,
+      "item_code": "298340"
+    },
+    {
+      "name": "RISE 국고채3년",
+      "weight_pct": 0.29,
+      "shares": 13,
+      "item_code": "114100"
+    },
+    {
+      "name": "TIGER 국채3년",
+      "weight_pct": 0.29,
+      "shares": 13,
+      "item_code": "114820"
+    },
+    {
+      "name": "Goldman Sachs Physical Gold ETF",
+      "weight_pct": 0.07,
+      "shares": 6,
+      "item_code": "AAAU.K"
+    },
+    {
+      "name": "abrdn Physical Gold Shares ETF",
+      "weight_pct": 0.07,
+      "shares": 6,
+      "item_code": "SGOL.K"
+    },
+    {
+      "name": "GraniteShares Gold Trust",
+      "weight_pct": 0.07,
+      "shares": 6,
+      "item_code": "BAR"
+    },
+    {
+      "name": "iShares Gold Trust",
+      "weight_pct": 0.04,
+      "shares": 1,
+      "item_code": "IAU"
+    },
+    {
+      "name": "VanEck Merk Gold ETF",
+      "weight_pct": 0.03,
+      "shares": 3,
+      "item_code": "OUNZ.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.18,
+      "shares": -926511,
+      "item_code": null
+    }
+  ]
+}

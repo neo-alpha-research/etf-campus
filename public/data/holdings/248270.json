@@ -1,0 +1,36 @@
+{
+  "ticker": "248270",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "글로벌헬스케어 TRS(메리츠증권)",
+      "weight_pct": 41.71,
+      "shares": 226172276,
+      "item_code": null
+    },
+    {
+      "name": "글로벌헬스케어 TRS(KB증권)",
+      "weight_pct": 23.11,
+      "shares": 125315558,
+      "item_code": null
+    },
+    {
+      "name": "iShares Global Healthcare ETF",
+      "weight_pct": 15.27,
+      "shares": 564,
+      "item_code": "IXJ"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 11.52,
+      "shares": 62511031,
+      "item_code": null
+    },
+    {
+      "name": "글로벌헬스케어 TRS(한국투자증권)",
+      "weight_pct": 8.37,
+      "shares": 45391519,
+      "item_code": null
+    }
+  ]
+}

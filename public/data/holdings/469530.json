@@ -1,0 +1,18 @@
+{
+  "ticker": "469530",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 99.99,
+      "shares": 94073855,
+      "item_code": null
+    },
+    {
+      "name": "미달러선물26년09월물",
+      "weight_pct": -99.96,
+      "shares": -6,
+      "item_code": null
+    }
+  ]
+}

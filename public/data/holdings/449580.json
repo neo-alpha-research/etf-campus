@@ -1,0 +1,72 @@
+{
+  "ticker": "449580",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "국고채권02250-2806(25-4)",
+      "weight_pct": 15.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 13.53,
+      "shares": 607,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "애플",
+      "weight_pct": 13.29,
+      "shares": 495,
+      "item_code": "AAPL.O"
+    },
+    {
+      "name": "테슬라",
+      "weight_pct": 10.87,
+      "shares": 367,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "국고채권03375-3103(26-3)",
+      "weight_pct": 10.25,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02625-3003(25-3)",
+      "weight_pct": 10.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권03250-2903(24-1)",
+      "weight_pct": 7.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권03000-2909(24-7)",
+      "weight_pct": 7.69,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02500-3009(25-8)",
+      "weight_pct": 7.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권03875-2612(23-10)",
+      "weight_pct": 2.61,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.22,
+      "shares": 19749198,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,246 @@
+{
+  "ticker": "440650",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "[USD] 예금",
+      "weight_pct": 5.33,
+      "shares": 44796,
+      "item_code": null
+    },
+    {
+      "name": "KOLAHO 4 1/4 05/28/27",
+      "weight_pct": 4.18,
+      "shares": 35135,
+      "item_code": null
+    },
+    {
+      "name": "EIBKOR 5 1/8 09/18/28",
+      "weight_pct": 3.26,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "KDB 4 3/4 06/26/27",
+      "weight_pct": 3.23,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "KHFC 4.875 08/27/27 REGS",
+      "weight_pct": 3.23,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "HIGHWY 5 05/14/27 REGS",
+      "weight_pct": 3.23,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "SKBTAM 4 7/8 01/23/27",
+      "weight_pct": 3.22,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "T 4 01/15/27",
+      "weight_pct": 3.22,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "HYNMTR 5 1/4 01/08/27",
+      "weight_pct": 3.22,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/4 03/15/27",
+      "weight_pct": 3.22,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "KORWAT 4 3/8 05/21/27",
+      "weight_pct": 3.21,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "SHNHAN 1 3/8 10/21/26",
+      "weight_pct": 3.2,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "T 3.25 06/30/27",
+      "weight_pct": 3.19,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "KOHNPW 3 1/8 07/25/27",
+      "weight_pct": 3.18,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "T 2.625 05/31/27",
+      "weight_pct": 3.18,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "T 0 5/8 11/30/27",
+      "weight_pct": 3.08,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "KDB 5 3/8 10/23/26",
+      "weight_pct": 2.58,
+      "shares": 21621,
+      "item_code": null
+    },
+    {
+      "name": "KORELE 4 7/8 01/31/27",
+      "weight_pct": 2.58,
+      "shares": 21621,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/2 04/15/27",
+      "weight_pct": 2.58,
+      "shares": 21621,
+      "item_code": null
+    },
+    {
+      "name": "KOMRMR 4 1/8 04/20/27",
+      "weight_pct": 2.57,
+      "shares": 21621,
+      "item_code": null
+    },
+    {
+      "name": "KORGAS 3.875 07/13/27 REGS",
+      "weight_pct": 2.56,
+      "shares": 21621,
+      "item_code": null
+    },
+    {
+      "name": "HKAA 1.75 01/12/27 REGS",
+      "weight_pct": 2.55,
+      "shares": 21621,
+      "item_code": null
+    },
+    {
+      "name": "T 0 1/2 10/31/27",
+      "weight_pct": 2.47,
+      "shares": 21621,
+      "item_code": null
+    },
+    {
+      "name": "INDKOR Float 09/30/27",
+      "weight_pct": 2.25,
+      "shares": 18918,
+      "item_code": null
+    },
+    {
+      "name": "T 2 3/8 05/15/27",
+      "weight_pct": 2.22,
+      "shares": 18918,
+      "item_code": null
+    },
+    {
+      "name": "CITNAT 5 3/8 05/08/27",
+      "weight_pct": 1.94,
+      "shares": 16216,
+      "item_code": null
+    },
+    {
+      "name": "T 4 5/8 06/15/27",
+      "weight_pct": 1.94,
+      "shares": 16216,
+      "item_code": null
+    },
+    {
+      "name": "KOBCOP 5 3/8 05/02/27",
+      "weight_pct": 1.94,
+      "shares": 16216,
+      "item_code": null
+    },
+    {
+      "name": "T 3 1/2 09/30/26",
+      "weight_pct": 1.93,
+      "shares": 16216,
+      "item_code": null
+    },
+    {
+      "name": "HWFPCO 4 3/4 04/30/28",
+      "weight_pct": 1.61,
+      "shares": 13513,
+      "item_code": null
+    },
+    {
+      "name": "KHFC 4.625 02/24/28 REGS",
+      "weight_pct": 1.61,
+      "shares": 13513,
+      "item_code": null
+    },
+    {
+      "name": "KOROIL 5.25 11/14/26 REGS",
+      "weight_pct": 1.61,
+      "shares": 13513,
+      "item_code": null
+    },
+    {
+      "name": "KTGC 5 05/02/28",
+      "weight_pct": 1.61,
+      "shares": 13513,
+      "item_code": null
+    },
+    {
+      "name": "KOSOPW 5 3/8 09/21/26",
+      "weight_pct": 1.61,
+      "shares": 13513,
+      "item_code": null
+    },
+    {
+      "name": "KOROIL 3 3/8 03/27/27",
+      "weight_pct": 1.6,
+      "shares": 13513,
+      "item_code": null
+    },
+    {
+      "name": "NHSECS 1 7/8 10/07/26",
+      "weight_pct": 1.6,
+      "shares": 13513,
+      "item_code": null
+    },
+    {
+      "name": "KOREAT 1 3/8 01/21/27",
+      "weight_pct": 1.27,
+      "shares": 10810,
+      "item_code": null
+    },
+    {
+      "name": "KEBHNB 1 1/4 12/16/26",
+      "weight_pct": 1.27,
+      "shares": 10810,
+      "item_code": null
+    },
+    {
+      "name": "EIBKOR 4 09/11/27",
+      "weight_pct": 0.96,
+      "shares": 8108,
+      "item_code": null
+    },
+    {
+      "name": "State Street SPDR Bloomberg 1-3 Month T-Bill ETF",
+      "weight_pct": 0.59,
+      "shares": 54,
+      "item_code": "BIL"
+    }
+  ]
+}

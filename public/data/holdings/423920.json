@@ -1,0 +1,60 @@
+{
+  "ticker": "423920",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 123.85,
+      "shares": 989196915,
+      "item_code": null
+    },
+    {
+      "name": "Invesco PHLX Semiconductor ETF",
+      "weight_pct": 16.66,
+      "shares": 1054,
+      "item_code": "SOXQ.O"
+    },
+    {
+      "name": "PHLX Semiconductor Sector Index USD (LEV",
+      "weight_pct": 4.85,
+      "shares": 38800718,
+      "item_code": null
+    },
+    {
+      "name": "iShares Semiconductor ETF",
+      "weight_pct": 1.4,
+      "shares": 15,
+      "item_code": "SOXX.O"
+    },
+    {
+      "name": "PHLX Semiconductor Sector Index USD (LEV",
+      "weight_pct": -0.95,
+      "shares": -7646885,
+      "item_code": null
+    },
+    {
+      "name": "PHLX Semiconductor Sector Index USD (LEV",
+      "weight_pct": -1.16,
+      "shares": -9337006,
+      "item_code": null
+    },
+    {
+      "name": "PHLX Semiconductor Sector Index USD (LEV",
+      "weight_pct": -2.53,
+      "shares": -20207799,
+      "item_code": null
+    },
+    {
+      "name": "PHLX Semiconductor Sector Index USD (LEV",
+      "weight_pct": -16.25,
+      "shares": -129803632,
+      "item_code": null
+    },
+    {
+      "name": "PHLX Semiconductor Sector Index USD (LEV",
+      "weight_pct": -25.87,
+      "shares": -206672792,
+      "item_code": null
+    }
+  ]
+}

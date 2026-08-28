@@ -1,0 +1,72 @@
+{
+  "ticker": "465780",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "토지주택채권(용지)23-09",
+      "weight_pct": 10.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국철도공사245",
+      "weight_pct": 9.94,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2023-10이3Y-D",
+      "weight_pct": 9.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "도로공사781",
+      "weight_pct": 9.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "수산금융채권(은행)24-10이2-15",
+      "weight_pct": 9.9,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농금채(중앙회)2024-10이2Y-C",
+      "weight_pct": 9.89,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2024-11이2Y-C",
+      "weight_pct": 9.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산금24신이0200-1125-2",
+      "weight_pct": 9.86,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "수산금융채권(일반)07-11이표60-08호",
+      "weight_pct": 9.86,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농금채(중앙회)2024-1이3Y-C",
+      "weight_pct": 6.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.12,
+      "shares": 3327337,
+      "item_code": null
+    }
+  ]
+}

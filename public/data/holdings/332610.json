@@ -1,0 +1,156 @@
+{
+  "ticker": "332610",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "AMZN 1.2 06/03/27",
+      "weight_pct": 7.79,
+      "shares": 7250,
+      "item_code": null
+    },
+    {
+      "name": "ACAFP 4.631 09/11/28",
+      "weight_pct": 7.33,
+      "shares": 6666,
+      "item_code": null
+    },
+    {
+      "name": "AZN 4.85 02/26/29",
+      "weight_pct": 5.76,
+      "shares": 5208,
+      "item_code": null
+    },
+    {
+      "name": "CRM 4.65 03/15/29",
+      "weight_pct": 5.71,
+      "shares": 5208,
+      "item_code": null
+    },
+    {
+      "name": "BK 4.026 01/22/30",
+      "weight_pct": 5.64,
+      "shares": 5208,
+      "item_code": null
+    },
+    {
+      "name": "STT 4.993 03/18/27",
+      "weight_pct": 4.83,
+      "shares": 4375,
+      "item_code": null
+    },
+    {
+      "name": "JPM 5.11 12/08/26",
+      "weight_pct": 4.81,
+      "shares": 4375,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5.933 09/15/27",
+      "weight_pct": 4.81,
+      "shares": 4375,
+      "item_code": null
+    },
+    {
+      "name": "C 3.2 10/21/26",
+      "weight_pct": 4.8,
+      "shares": 4375,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 4.583 06/19/29",
+      "weight_pct": 4.79,
+      "shares": 4375,
+      "item_code": null
+    },
+    {
+      "name": "LLOYDS 4 3/8 03/22/28",
+      "weight_pct": 4.79,
+      "shares": 4375,
+      "item_code": null
+    },
+    {
+      "name": "BMY 3 1/4 02/27/27",
+      "weight_pct": 4.79,
+      "shares": 4375,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5.202 04/25/29",
+      "weight_pct": 4.39,
+      "shares": 3958,
+      "item_code": null
+    },
+    {
+      "name": "WFC 5.707 04/22/28",
+      "weight_pct": 3.46,
+      "shares": 3125,
+      "item_code": null
+    },
+    {
+      "name": "DTRGR 5 1/8 01/19/28",
+      "weight_pct": 3.45,
+      "shares": 3125,
+      "item_code": null
+    },
+    {
+      "name": "JPM 6.07 10/22/27",
+      "weight_pct": 2.41,
+      "shares": 2187,
+      "item_code": null
+    },
+    {
+      "name": "GS 3.85 01/26/27",
+      "weight_pct": 2.4,
+      "shares": 2187,
+      "item_code": null
+    },
+    {
+      "name": "EPD 3.95 02/15/27",
+      "weight_pct": 2.4,
+      "shares": 2187,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 3.3 04/01/27",
+      "weight_pct": 2.39,
+      "shares": 2187,
+      "item_code": null
+    },
+    {
+      "name": "C 4.075 04/23/29",
+      "weight_pct": 2.38,
+      "shares": 2187,
+      "item_code": null
+    },
+    {
+      "name": "UNP 2.15 02/05/27",
+      "weight_pct": 2.38,
+      "shares": 2187,
+      "item_code": null
+    },
+    {
+      "name": "NWG 3.073 05/22/28",
+      "weight_pct": 2.38,
+      "shares": 2187,
+      "item_code": null
+    },
+    {
+      "name": "SANTAN 5.294 08/18/27",
+      "weight_pct": 2.3,
+      "shares": 2083,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.449 07/20/29",
+      "weight_pct": 1.97,
+      "shares": 1770,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.74,
+      "shares": 2189753,
+      "item_code": null
+    }
+  ]
+}

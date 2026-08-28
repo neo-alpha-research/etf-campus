@@ -1,0 +1,42 @@
+{
+  "ticker": "139320",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 90.57,
+      "shares": 868135904,
+      "item_code": null
+    },
+    {
+      "name": "GOLD 100 OZ FUT COMEX DEC 2026",
+      "weight_pct": 83.42,
+      "shares": 1,
+      "item_code": null
+    },
+    {
+      "name": "SILVER FUT COMEX DEC 2026",
+      "weight_pct": 7.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SPDR Gold Shares",
+      "weight_pct": 6.07,
+      "shares": 100,
+      "item_code": "GLD"
+    },
+    {
+      "name": "iShares Silver Trust",
+      "weight_pct": 3.35,
+      "shares": 377,
+      "item_code": "SLV"
+    },
+    {
+      "name": "미달러선물26년09월물",
+      "weight_pct": -57.4,
+      "shares": -39,
+      "item_code": null
+    }
+  ]
+}

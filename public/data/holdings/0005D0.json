@@ -1,0 +1,72 @@
+{
+  "ticker": "0005D0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성SDI",
+      "weight_pct": 26.26,
+      "shares": 351,
+      "item_code": "006400"
+    },
+    {
+      "name": "이수스페셜티케미컬",
+      "weight_pct": 17.65,
+      "shares": 2012,
+      "item_code": "457190"
+    },
+    {
+      "name": "에코프로비엠",
+      "weight_pct": 16.42,
+      "shares": 1058,
+      "item_code": "247540"
+    },
+    {
+      "name": "롯데에너지머티리얼즈",
+      "weight_pct": 11.07,
+      "shares": 2392,
+      "item_code": "020150"
+    },
+    {
+      "name": "대주전자재료",
+      "weight_pct": 10.04,
+      "shares": 826,
+      "item_code": "078600"
+    },
+    {
+      "name": "포스코퓨처엠",
+      "weight_pct": 7.18,
+      "shares": 297,
+      "item_code": "003670"
+    },
+    {
+      "name": "레이크머티리얼즈",
+      "weight_pct": 3.64,
+      "shares": 2269,
+      "item_code": "281740"
+    },
+    {
+      "name": "나노신소재",
+      "weight_pct": 3.07,
+      "shares": 459,
+      "item_code": "121600"
+    },
+    {
+      "name": "피엔티",
+      "weight_pct": 2.66,
+      "shares": 667,
+      "item_code": "137400"
+    },
+    {
+      "name": "SFA넥셀",
+      "weight_pct": 1.81,
+      "shares": 1696,
+      "item_code": "222080"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.15,
+      "shares": 1162071,
+      "item_code": null
+    }
+  ]
+}

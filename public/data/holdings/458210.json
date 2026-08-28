@@ -1,0 +1,30 @@
+{
+  "ticker": "458210",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(메리츠증권)_260324_3202",
+      "weight_pct": 41.15,
+      "shares": 45493547,
+      "item_code": null
+    },
+    {
+      "name": "스왑(삼성증권)_260319_3202",
+      "weight_pct": 34.11,
+      "shares": 37707870,
+      "item_code": null
+    },
+    {
+      "name": "스왑(KB증권)_260528_3202",
+      "weight_pct": 20.35,
+      "shares": 22502803,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 4.37,
+      "shares": 4835840,
+      "item_code": null
+    }
+  ]
+}

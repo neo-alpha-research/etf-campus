@@ -1,0 +1,30 @@
+{
+  "ticker": "400570",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 91.63,
+      "shares": 104392745,
+      "item_code": null
+    },
+    {
+      "name": "ECX EMISSION 2026 12",
+      "weight_pct": 91.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KraneShares Global Carbon Strategy ETF",
+      "weight_pct": 8.36,
+      "shares": 200,
+      "item_code": "KRBN.K"
+    },
+    {
+      "name": "2026-09 달러선물",
+      "weight_pct": -7.87,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

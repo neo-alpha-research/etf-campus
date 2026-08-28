@@ -1,0 +1,54 @@
+{
+  "ticker": "0040Y0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 38.89,
+      "shares": 156811399,
+      "item_code": null
+    },
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 28.38,
+      "shares": 466,
+      "item_code": "PLTR.O"
+    },
+    {
+      "name": "국고02250-2806(25-4)",
+      "weight_pct": 15.9,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02750-2812(25-10)",
+      "weight_pct": 8.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "USD현금",
+      "weight_pct": 8.1,
+      "shares": 23660,
+      "item_code": null
+    },
+    {
+      "name": "국고02875-2712(24-12)",
+      "weight_pct": 0.83,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "PLTR US 08/28/26 P180 EQUITY",
+      "weight_pct": -0.05,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "PLTR US 08/28/26 C180 EQUITY",
+      "weight_pct": -0.33,
+      "shares": -4,
+      "item_code": null
+    }
+  ]
+}

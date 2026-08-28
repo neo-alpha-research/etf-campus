@@ -1,0 +1,72 @@
+{
+  "ticker": "396500",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성전자",
+      "weight_pct": 30.23,
+      "shares": 2042,
+      "item_code": "005930"
+    },
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 25.51,
+      "shares": 265,
+      "item_code": "000660"
+    },
+    {
+      "name": "SK스퀘어",
+      "weight_pct": 20.09,
+      "shares": 338,
+      "item_code": "402340"
+    },
+    {
+      "name": "한미반도체",
+      "weight_pct": 5.0,
+      "shares": 405,
+      "item_code": "042700"
+    },
+    {
+      "name": "이수페타시스",
+      "weight_pct": 4.74,
+      "shares": 756,
+      "item_code": "007660"
+    },
+    {
+      "name": "주성엔지니어링",
+      "weight_pct": 4.67,
+      "shares": 469,
+      "item_code": "036930"
+    },
+    {
+      "name": "원익IPS",
+      "weight_pct": 2.89,
+      "shares": 461,
+      "item_code": "240810"
+    },
+    {
+      "name": "이오테크닉스",
+      "weight_pct": 2.53,
+      "shares": 112,
+      "item_code": "039030"
+    },
+    {
+      "name": "DB하이텍",
+      "weight_pct": 2.19,
+      "shares": 414,
+      "item_code": "000990"
+    },
+    {
+      "name": "리노공업",
+      "weight_pct": 2.04,
+      "shares": 552,
+      "item_code": "058470"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.05,
+      "shares": 1022535,
+      "item_code": null
+    }
+  ]
+}

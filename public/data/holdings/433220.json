@@ -1,0 +1,168 @@
+{
+  "ticker": "433220",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "알파벳 Class C",
+      "weight_pct": 9.15,
+      "shares": 115,
+      "item_code": "GOOG.O"
+    },
+    {
+      "name": "Vanguard 500 Index Fund ETF",
+      "weight_pct": 9.11,
+      "shares": 55,
+      "item_code": "VOO"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 7.29,
+      "shares": 43073126,
+      "item_code": null
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 7.18,
+      "shares": 146,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "삼성전자우",
+      "weight_pct": 6.84,
+      "shares": 208,
+      "item_code": "005935"
+    },
+    {
+      "name": "닝더스다이",
+      "weight_pct": 6.33,
+      "shares": 480,
+      "item_code": "300750.SZ"
+    },
+    {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 5.77,
+      "shares": 26,
+      "item_code": "LITE.O"
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 4.78,
+      "shares": 78,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "ASML 홀딩 ADR",
+      "weight_pct": 4.28,
+      "shares": 10,
+      "item_code": "ASML.O"
+    },
+    {
+      "name": "SK하이닉스 ADR",
+      "weight_pct": 3.56,
+      "shares": 96,
+      "item_code": "SKHY.O"
+    },
+    {
+      "name": "테크닙FMC",
+      "weight_pct": 3.29,
+      "shares": 186,
+      "item_code": "FTI"
+    },
+    {
+      "name": "레조낙 홀딩스",
+      "weight_pct": 3.29,
+      "shares": 140,
+      "item_code": "4004.T"
+    },
+    {
+      "name": "코히런트",
+      "weight_pct": 3.24,
+      "shares": 47,
+      "item_code": "COHR.K"
+    },
+    {
+      "name": "GE 버노바",
+      "weight_pct": 2.58,
+      "shares": 11,
+      "item_code": "GEV"
+    },
+    {
+      "name": "라이온델바젤 인더스트리스",
+      "weight_pct": 2.37,
+      "shares": 162,
+      "item_code": "LYB"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 2.25,
+      "shares": 27,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "램 리서치",
+      "weight_pct": 2.04,
+      "shares": 28,
+      "item_code": "LRCX.O"
+    },
+    {
+      "name": "코닝",
+      "weight_pct": 1.95,
+      "shares": 54,
+      "item_code": "GLW"
+    },
+    {
+      "name": "블룸 에너지",
+      "weight_pct": 1.91,
+      "shares": 37,
+      "item_code": "BE"
+    },
+    {
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 1.9,
+      "shares": 32,
+      "item_code": "ARM.O"
+    },
+    {
+      "name": "케이던스 디자인 시스템즈",
+      "weight_pct": 1.82,
+      "shares": 23,
+      "item_code": "CDNS.O"
+    },
+    {
+      "name": "셰니어 에너지",
+      "weight_pct": 1.76,
+      "shares": 26,
+      "item_code": "LNG"
+    },
+    {
+      "name": "어플라이드 머티어리얼즈",
+      "weight_pct": 1.74,
+      "shares": 15,
+      "item_code": "AMAT.O"
+    },
+    {
+      "name": "산텍 홀딩스",
+      "weight_pct": 1.48,
+      "shares": 54,
+      "item_code": "6777.T"
+    },
+    {
+      "name": "대족수공",
+      "weight_pct": 1.43,
+      "shares": 154,
+      "item_code": "301200.SZ"
+    },
+    {
+      "name": "센트러스 에너지",
+      "weight_pct": 1.3,
+      "shares": 29,
+      "item_code": "LEU"
+    },
+    {
+      "name": "AIXTRON SE",
+      "weight_pct": 1.23,
+      "shares": 123,
+      "item_code": null
+    }
+  ]
+}

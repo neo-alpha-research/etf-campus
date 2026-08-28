@@ -1,0 +1,210 @@
+{
+  "ticker": "0094K0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "통영에코파워5",
+      "weight_pct": 6.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈545-4",
+      "weight_pct": 6.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데쇼핑106-2",
+      "weight_pct": 6.32,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드2820",
+      "weight_pct": 6.22,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈465-2",
+      "weight_pct": 3.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데카드584-4",
+      "weight_pct": 3.32,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈283-4",
+      "weight_pct": 3.3,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈282-3",
+      "weight_pct": 3.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에코비트7(녹)",
+      "weight_pct": 3.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "알씨아이파이낸셜서비스코리아131",
+      "weight_pct": 3.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "알씨아이파이낸셜서비스코리아130",
+      "weight_pct": 3.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권30-1",
+      "weight_pct": 3.25,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈483-2",
+      "weight_pct": 3.22,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈136-2",
+      "weight_pct": 3.22,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈244-4",
+      "weight_pct": 3.21,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈531-3",
+      "weight_pct": 3.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈560-7",
+      "weight_pct": 3.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈251-4",
+      "weight_pct": 3.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈464-4",
+      "weight_pct": 3.18,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈562-4",
+      "weight_pct": 3.18,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈528-4",
+      "weight_pct": 3.18,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신증권25-4",
+      "weight_pct": 3.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈773-3(녹)",
+      "weight_pct": 3.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈381-8",
+      "weight_pct": 3.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈382-6",
+      "weight_pct": 3.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈771-2",
+      "weight_pct": 3.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데카드571-2",
+      "weight_pct": 3.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자캐피탈130-2",
+      "weight_pct": 3.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈518-1",
+      "weight_pct": 3.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데카드572-2",
+      "weight_pct": 3.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈520-4",
+      "weight_pct": 3.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈55-3(녹)",
+      "weight_pct": 3.11,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈467-4",
+      "weight_pct": 3.1,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -18.17,
+      "shares": -18135226,
+      "item_code": null
+    }
+  ]
+}

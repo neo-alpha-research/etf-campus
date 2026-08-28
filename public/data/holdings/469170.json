@@ -1,0 +1,72 @@
+{
+  "ticker": "469170",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "포스코퓨처엠",
+      "weight_pct": 26.69,
+      "shares": 430,
+      "item_code": "003670"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 25.43,
+      "shares": 222,
+      "item_code": "005490"
+    },
+    {
+      "name": "포스코인터내셔널",
+      "weight_pct": 24.21,
+      "shares": 1367,
+      "item_code": "047050"
+    },
+    {
+      "name": "포스코DX",
+      "weight_pct": 12.77,
+      "shares": 1790,
+      "item_code": "022100"
+    },
+    {
+      "name": "포스코엠텍",
+      "weight_pct": 3.22,
+      "shares": 728,
+      "item_code": "009520"
+    },
+    {
+      "name": "삼성E&A",
+      "weight_pct": 1.47,
+      "shares": 87,
+      "item_code": "028050"
+    },
+    {
+      "name": "포스코스틸리온",
+      "weight_pct": 1.47,
+      "shares": 920,
+      "item_code": "058430"
+    },
+    {
+      "name": "현대제철",
+      "weight_pct": 1.31,
+      "shares": 124,
+      "item_code": "004020"
+    },
+    {
+      "name": "LX인터내셔널",
+      "weight_pct": 1.27,
+      "shares": 99,
+      "item_code": "001120"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 1.25,
+      "shares": 10,
+      "item_code": "373220"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.87,
+      "shares": 2591601,
+      "item_code": null
+    }
+  ]
+}

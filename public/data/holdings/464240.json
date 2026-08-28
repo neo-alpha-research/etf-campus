@@ -1,0 +1,84 @@
+{
+  "ticker": "464240",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 21.24,
+      "shares": 111299831,
+      "item_code": null
+    },
+    {
+      "name": "인천국제공항공사189",
+      "weight_pct": 6.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈517-4",
+      "weight_pct": 6.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "연합자산관리33-1",
+      "weight_pct": 6.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권23신이0300-0908-1",
+      "weight_pct": 6.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈361-6",
+      "weight_pct": 6.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사채권1067",
+      "weight_pct": 6.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드266-3",
+      "weight_pct": 6.56,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB증권45-1",
+      "weight_pct": 6.56,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행28-09-이-2-C",
+      "weight_pct": 6.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(신)2509할1A-04",
+      "weight_pct": 6.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국수출입금융2512마-할인-274",
+      "weight_pct": 6.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나 금융기관영업팀 20250912-364-1",
+      "weight_pct": 6.5,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

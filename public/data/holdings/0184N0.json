@@ -1,0 +1,78 @@
+{
+  "ticker": "0184N0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares Silver Trust",
+      "weight_pct": 26.38,
+      "shares": 1399,
+      "item_code": "SLV"
+    },
+    {
+      "name": "abrdn Physical Silver Shares ETF",
+      "weight_pct": 21.64,
+      "shares": 1091,
+      "item_code": "SIVR.K"
+    },
+    {
+      "name": "국고채권03375-3103(26-3)",
+      "weight_pct": 11.56,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02750-2812(25-10)",
+      "weight_pct": 11.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02250-2806(25-4)",
+      "weight_pct": 11.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "PLUS 국채선물3년",
+      "weight_pct": 8.06,
+      "shares": 642,
+      "item_code": "298340"
+    },
+    {
+      "name": "RISE 국고채3년",
+      "weight_pct": 2.99,
+      "shares": 126,
+      "item_code": "114100"
+    },
+    {
+      "name": "TIGER 국채3년",
+      "weight_pct": 2.45,
+      "shares": 105,
+      "item_code": "114820"
+    },
+    {
+      "name": "ACE 국고채3년",
+      "weight_pct": 2.35,
+      "shares": 105,
+      "item_code": "114460"
+    },
+    {
+      "name": "TIGER 단기통안채",
+      "weight_pct": 0.91,
+      "shares": 36,
+      "item_code": "157450"
+    },
+    {
+      "name": "KODEX 국고채3년",
+      "weight_pct": 0.72,
+      "shares": 52,
+      "item_code": "114260"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.06,
+      "shares": -291941,
+      "item_code": null
+    }
+  ]
+}

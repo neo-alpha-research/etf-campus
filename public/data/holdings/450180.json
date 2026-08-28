@@ -1,0 +1,42 @@
+{
+  "ticker": "450180",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(NH투자증권)",
+      "weight_pct": 30.93,
+      "shares": 173615085,
+      "item_code": null
+    },
+    {
+      "name": "스왑(키움증권)",
+      "weight_pct": 30.91,
+      "shares": 173506982,
+      "item_code": null
+    },
+    {
+      "name": "스왑(미래에셋증권)",
+      "weight_pct": 15.46,
+      "shares": 86807725,
+      "item_code": null
+    },
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": 15.46,
+      "shares": 86807725,
+      "item_code": null
+    },
+    {
+      "name": "스왑(KB증권)",
+      "weight_pct": 7.23,
+      "shares": 40614721,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.03,
+      "shares": -180276,
+      "item_code": null
+    }
+  ]
+}

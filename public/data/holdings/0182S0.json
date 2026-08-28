@@ -1,0 +1,60 @@
+{
+  "ticker": "0182S0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "SK하이닉스",
+      "weight_pct": 25.14,
+      "shares": 91,
+      "item_code": "000660"
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 25.06,
+      "shares": 590,
+      "item_code": "005930"
+    },
+    {
+      "name": "국고03875-2612(23-10)",
+      "weight_pct": 17.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "1Q 단기특수은행채액티브",
+      "weight_pct": 8.46,
+      "shares": 519,
+      "item_code": "0131W0"
+    },
+    {
+      "name": "1Q 머니마켓액티브",
+      "weight_pct": 8.21,
+      "shares": 957,
+      "item_code": "479080"
+    },
+    {
+      "name": "국고02875-2609(24-9)",
+      "weight_pct": 7.96,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02800-2610-02",
+      "weight_pct": 4.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고01500-2612(16-8)",
+      "weight_pct": 2.96,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.63,
+      "shares": 3986165,
+      "item_code": null
+    }
+  ]
+}

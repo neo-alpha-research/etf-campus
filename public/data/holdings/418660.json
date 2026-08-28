@@ -1,0 +1,54 @@
+{
+  "ticker": "418660",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 93.75,
+      "shares": 1842700656,
+      "item_code": null
+    },
+    {
+      "name": "NASDAQ 100 E-MINI INDEX SEPT 2026",
+      "weight_pct": 61.32,
+      "shares": 1,
+      "item_code": null
+    },
+    {
+      "name": "[USD] 예금",
+      "weight_pct": 3.0,
+      "shares": 42700,
+      "item_code": null
+    },
+    {
+      "name": "미국나스닥100 TRS 2",
+      "weight_pct": 1.7,
+      "shares": 33432823,
+      "item_code": null
+    },
+    {
+      "name": "미국나스닥100 TRS 1",
+      "weight_pct": 0.68,
+      "shares": 13479660,
+      "item_code": null
+    },
+    {
+      "name": "미국나스닥100 TRS 231103-01",
+      "weight_pct": 0.66,
+      "shares": 13075713,
+      "item_code": null
+    },
+    {
+      "name": "미국나스닥100 TRS 3",
+      "weight_pct": 0.32,
+      "shares": 6335883,
+      "item_code": null
+    },
+    {
+      "name": "미국나스닥100 TRS 260722-15",
+      "weight_pct": -0.12,
+      "shares": -2538079,
+      "item_code": null
+    }
+  ]
+}

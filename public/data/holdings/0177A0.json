@@ -1,0 +1,84 @@
+{
+  "ticker": "0177A0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "두산에너빌리티",
+      "weight_pct": 29.97,
+      "shares": 1593,
+      "item_code": "034020"
+    },
+    {
+      "name": "두산",
+      "weight_pct": 23.13,
+      "shares": 87,
+      "item_code": "000150"
+    },
+    {
+      "name": "두산로보틱스",
+      "weight_pct": 20.67,
+      "shares": 1291,
+      "item_code": "454910"
+    },
+    {
+      "name": "두산밥캣",
+      "weight_pct": 5.93,
+      "shares": 438,
+      "item_code": "241560"
+    },
+    {
+      "name": "두산퓨얼셀",
+      "weight_pct": 3.96,
+      "shares": 400,
+      "item_code": "336260"
+    },
+    {
+      "name": "두산테스나",
+      "weight_pct": 3.36,
+      "shares": 185,
+      "item_code": "131970"
+    },
+    {
+      "name": "한전기술",
+      "weight_pct": 2.21,
+      "shares": 80,
+      "item_code": "052690"
+    },
+    {
+      "name": "HD건설기계",
+      "weight_pct": 2.0,
+      "shares": 65,
+      "item_code": "267270"
+    },
+    {
+      "name": "원화예금",
+      "weight_pct": 1.93,
+      "shares": 8846107,
+      "item_code": null
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 1.8,
+      "shares": 31,
+      "item_code": "005930"
+    },
+    {
+      "name": "일진하이솔루스",
+      "weight_pct": 1.8,
+      "shares": 765,
+      "item_code": "271940"
+    },
+    {
+      "name": "파미셀",
+      "weight_pct": 1.62,
+      "shares": 681,
+      "item_code": "005690"
+    },
+    {
+      "name": "씨메스로보틱스",
+      "weight_pct": 1.56,
+      "shares": 384,
+      "item_code": "475400"
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "ticker": "0176E0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "블룸 에너지",
+      "weight_pct": 9.57,
+      "shares": 154,
+      "item_code": "BE"
+    },
+    {
+      "name": "버티브 홀딩스",
+      "weight_pct": 9.37,
+      "shares": 124,
+      "item_code": "VRT"
+    },
+    {
+      "name": "GE 버노바",
+      "weight_pct": 9.1,
+      "shares": 33,
+      "item_code": "GEV"
+    },
+    {
+      "name": "콴타 서비스",
+      "weight_pct": 7.47,
+      "shares": 42,
+      "item_code": "PWR"
+    },
+    {
+      "name": "이튼",
+      "weight_pct": 6.21,
+      "shares": 52,
+      "item_code": "ETN"
+    },
+    {
+      "name": "카메코",
+      "weight_pct": 6.04,
+      "shares": 197,
+      "item_code": "CCJ"
+    },
+    {
+      "name": "엔벤트 일렉트릭",
+      "weight_pct": 5.54,
+      "shares": 125,
+      "item_code": "NVT"
+    },
+    {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 5.21,
+      "shares": 19,
+      "item_code": "LITE.O"
+    },
+    {
+      "name": "넥스트에라 에너지",
+      "weight_pct": 5.05,
+      "shares": 210,
+      "item_code": "NEE"
+    },
+    {
+      "name": "솔라리스 에너지 인프라스트럭처",
+      "weight_pct": 4.73,
+      "shares": 320,
+      "item_code": "SEI"
+    },
+    {
+      "name": "넥스트파워",
+      "weight_pct": 4.51,
+      "shares": 181,
+      "item_code": "NXT.O"
+    },
+    {
+      "name": "크레도 테크놀로지 그룹 홀딩",
+      "weight_pct": 4.33,
+      "shares": 67,
+      "item_code": "CRDO.O"
+    },
+    {
+      "name": "모딘 매뉴팩처링",
+      "weight_pct": 4.18,
+      "shares": 78,
+      "item_code": "MOD"
+    },
+    {
+      "name": "제네락 홀딩스",
+      "weight_pct": 4.17,
+      "shares": 70,
+      "item_code": "GNRC.K"
+    },
+    {
+      "name": "다이콤 인더스트리스",
+      "weight_pct": 3.68,
+      "shares": 41,
+      "item_code": "DY"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.49,
+      "shares": 16937218,
+      "item_code": null
+    },
+    {
+      "name": "마스텍",
+      "weight_pct": 3.28,
+      "shares": 46,
+      "item_code": "MTZ"
+    },
+    {
+      "name": "코히런트",
+      "weight_pct": 2.33,
+      "shares": 27,
+      "item_code": "COHR.K"
+    },
+    {
+      "name": "플루언스 에너지",
+      "weight_pct": 1.65,
+      "shares": 525,
+      "item_code": "FLNC.O"
+    }
+  ]
+}

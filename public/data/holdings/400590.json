@@ -1,0 +1,24 @@
+{
+  "ticker": "400590",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스왑(미래에셋증권)",
+      "weight_pct": 79.63,
+      "shares": 1131591862,
+      "item_code": null
+    },
+    {
+      "name": "스왑(메리츠증권)",
+      "weight_pct": 20.11,
+      "shares": 285868933,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.25,
+      "shares": 3596873,
+      "item_code": null
+    }
+  ]
+}

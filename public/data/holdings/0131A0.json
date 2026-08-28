@@ -1,0 +1,72 @@
+{
+  "ticker": "0131A0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "로포황금",
+      "weight_pct": 22.56,
+      "shares": 1300,
+      "item_code": "6181.HK"
+    },
+    {
+      "name": "안타 스포츠",
+      "weight_pct": 19.73,
+      "shares": 5857,
+      "item_code": "2020.HK"
+    },
+    {
+      "name": "팝마트 인터내셔널 그룹",
+      "weight_pct": 18.1,
+      "shares": 2741,
+      "item_code": "9992.HK"
+    },
+    {
+      "name": "고명강고",
+      "weight_pct": 11.87,
+      "shares": 11019,
+      "item_code": "1364.HK"
+    },
+    {
+      "name": "밀설 그룹",
+      "weight_pct": 8.34,
+      "shares": 784,
+      "item_code": "2097.HK"
+    },
+    {
+      "name": "미니소 그룹 홀딩",
+      "weight_pct": 5.36,
+      "shares": 5566,
+      "item_code": "9896.HK"
+    },
+    {
+      "name": "육복집단",
+      "weight_pct": 5.34,
+      "shares": 5244,
+      "item_code": "0590.HK"
+    },
+    {
+      "name": "다마이 엔터테인먼트 홀딩스",
+      "weight_pct": 3.64,
+      "shares": 167175,
+      "item_code": "1060.HK"
+    },
+    {
+      "name": "달세고분",
+      "weight_pct": 3.63,
+      "shares": 2268,
+      "item_code": "1405.HK"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.85,
+      "shares": 3501183,
+      "item_code": null
+    },
+    {
+      "name": "361도",
+      "weight_pct": 0.53,
+      "shares": 2617,
+      "item_code": "1361.HK"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "ticker": "476690",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "노보 노디스크 ADR",
+      "weight_pct": 24.88,
+      "shares": 2085,
+      "item_code": "NVO"
+    },
+    {
+      "name": "일라이 릴리",
+      "weight_pct": 23.75,
+      "shares": 78,
+      "item_code": "LLY"
+    },
+    {
+      "name": "애브비",
+      "weight_pct": 10.57,
+      "shares": 159,
+      "item_code": "ABBV.K"
+    },
+    {
+      "name": "머크 앤 코",
+      "weight_pct": 8.6,
+      "shares": 222,
+      "item_code": "MRK"
+    },
+    {
+      "name": "ROCHE HOLDING AG-BR",
+      "weight_pct": 8.52,
+      "shares": 72,
+      "item_code": null
+    },
+    {
+      "name": "노바티스 ADR",
+      "weight_pct": 7.25,
+      "shares": 182,
+      "item_code": "NVS"
+    },
+    {
+      "name": "아스트라제네카",
+      "weight_pct": 5.86,
+      "shares": 139,
+      "item_code": "AZN"
+    },
+    {
+      "name": "암젠",
+      "weight_pct": 5.4,
+      "shares": 48,
+      "item_code": "AMGN.O"
+    },
+    {
+      "name": "화이자",
+      "weight_pct": 3.67,
+      "shares": 512,
+      "item_code": "PFE"
+    },
+    {
+      "name": "주가이제약",
+      "weight_pct": 1.69,
+      "shares": 151,
+      "item_code": "4519.T"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.22,
+      "shares": -1238106,
+      "item_code": null
+    }
+  ]
+}

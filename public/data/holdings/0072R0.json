@@ -1,0 +1,18 @@
+{
+  "ticker": "0072R0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "금 현물 99.99_1Kg",
+      "weight_pct": 99.99,
+      "shares": 3334,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.0,
+      "shares": 65920,
+      "item_code": null
+    }
+  ]
+}

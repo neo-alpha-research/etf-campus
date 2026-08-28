@@ -1,0 +1,72 @@
+{
+  "ticker": "456250",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "CIE FINANCIERE RICHEMONT-REG",
+      "weight_pct": 21.81,
+      "shares": 298,
+      "item_code": null
+    },
+    {
+      "name": "HERMES INTERNATIONAL",
+      "weight_pct": 19.03,
+      "shares": 34,
+      "item_code": null
+    },
+    {
+      "name": "LVMH MOET HENNESSY LOUIS VUI",
+      "weight_pct": 18.58,
+      "shares": 114,
+      "item_code": null
+    },
+    {
+      "name": "페라리",
+      "weight_pct": 16.24,
+      "shares": 127,
+      "item_code": "RACE.K"
+    },
+    {
+      "name": "ESSILOR LUXOTTICA",
+      "weight_pct": 9.5,
+      "shares": 166,
+      "item_code": null
+    },
+    {
+      "name": "KERING",
+      "weight_pct": 6.86,
+      "shares": 75,
+      "item_code": null
+    },
+    {
+      "name": "MONCLER SPA",
+      "weight_pct": 4.07,
+      "shares": 238,
+      "item_code": null
+    },
+    {
+      "name": "BURBERRY GROUP PLC",
+      "weight_pct": 1.76,
+      "shares": 386,
+      "item_code": null
+    },
+    {
+      "name": "Brunello Cucinelli SpA",
+      "weight_pct": 1.14,
+      "shares": 36,
+      "item_code": null
+    },
+    {
+      "name": "CHRISTIAN DIOR SE",
+      "weight_pct": 0.7,
+      "shares": 4,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.28,
+      "shares": 1258612,
+      "item_code": null
+    }
+  ]
+}

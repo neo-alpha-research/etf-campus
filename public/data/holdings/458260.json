@@ -1,0 +1,3792 @@
+{
+  "ticker": "458260",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares iBoxx $ Inv Grade Corporate Bond ETF",
+      "weight_pct": 18.86,
+      "shares": 119,
+      "item_code": "LQD"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 4.0,
+      "shares": 3720888,
+      "item_code": null
+    },
+    {
+      "name": "PCG 3 1/4 06/01/31",
+      "weight_pct": 0.58,
+      "shares": 424,
+      "item_code": null
+    },
+    {
+      "name": "WFC 3.35 03/02/33",
+      "weight_pct": 0.56,
+      "shares": 415,
+      "item_code": null
+    },
+    {
+      "name": "ENBCN 6.2 11/15/30",
+      "weight_pct": 0.46,
+      "shares": 297,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 5.402 08/11/33",
+      "weight_pct": 0.41,
+      "shares": 276,
+      "item_code": null
+    },
+    {
+      "name": "WMB 2.6 03/15/31",
+      "weight_pct": 0.39,
+      "shares": 297,
+      "item_code": null
+    },
+    {
+      "name": "JPM 5.766 04/22/35",
+      "weight_pct": 0.38,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "SUMIBK 5.808 09/14/33",
+      "weight_pct": 0.38,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6 1/4 11/09/32",
+      "weight_pct": 0.37,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "AER 4 5/8 09/10/29",
+      "weight_pct": 0.37,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "AJG 4.85 12/15/29",
+      "weight_pct": 0.37,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "META 4.8 05/15/30",
+      "weight_pct": 0.37,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "ABBV 4.85 06/15/44",
+      "weight_pct": 0.36,
+      "shares": 276,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5.015 07/22/33",
+      "weight_pct": 0.36,
+      "shares": 246,
+      "item_code": null
+    },
+    {
+      "name": "CVS 2 1/8 09/15/31",
+      "weight_pct": 0.35,
+      "shares": 276,
+      "item_code": null
+    },
+    {
+      "name": "JPM 4.912 07/25/33",
+      "weight_pct": 0.34,
+      "shares": 233,
+      "item_code": null
+    },
+    {
+      "name": "AVGO 4.926 05/15/37",
+      "weight_pct": 0.34,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "MS 6.342 10/18/33",
+      "weight_pct": 0.33,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "C 3.057 01/25/33",
+      "weight_pct": 0.33,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "RY 5 02/01/33",
+      "weight_pct": 0.31,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "PNC 5.068 01/24/34",
+      "weight_pct": 0.31,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6.15 11/09/29",
+      "weight_pct": 0.31,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.424 07/21/34",
+      "weight_pct": 0.31,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 4 3/4 05/12/35",
+      "weight_pct": 0.31,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5.468 01/23/35",
+      "weight_pct": 0.31,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "TMUS 5.2 01/15/33",
+      "weight_pct": 0.31,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "BAC 4.456 02/06/32",
+      "weight_pct": 0.3,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "MMC 5 03/15/35",
+      "weight_pct": 0.3,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "ABBV 3.2 11/21/29",
+      "weight_pct": 0.3,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "BA 5.805 05/01/50",
+      "weight_pct": 0.3,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "AVGO 4.9 07/15/32",
+      "weight_pct": 0.3,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "TRPCN 4.1 04/15/30",
+      "weight_pct": 0.3,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "WSTP 2.15 06/03/31",
+      "weight_pct": 0.28,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "GS 4.411 04/23/39",
+      "weight_pct": 0.27,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "T 3 1/2 09/15/53",
+      "weight_pct": 0.27,
+      "shares": 297,
+      "item_code": null
+    },
+    {
+      "name": "SANTAN 6.938 11/07/33",
+      "weight_pct": 0.27,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BAC 1.922 10/24/31",
+      "weight_pct": 0.27,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "SO 5 1/4 03/15/34",
+      "weight_pct": 0.27,
+      "shares": 187,
+      "item_code": null
+    },
+    {
+      "name": "PM 5 3/4 11/17/32",
+      "weight_pct": 0.26,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "PFE 2.55 05/28/40",
+      "weight_pct": 0.26,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "TRGP 6 1/8 03/15/33",
+      "weight_pct": 0.26,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "JPM 5.572 04/22/36",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "JPM 5.103 04/22/31",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.32 07/19/35",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "MUFG 5.472 09/13/33",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "ABIBB 5.45 01/23/39",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5.511 01/24/36",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BACR 5.367 02/25/31",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "CVX 4.3 10/15/30",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "CFG 5.718 07/23/32",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "DE 5.05 06/12/34",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "DELL 5.3 10/01/29",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "DB 4.999 09/11/30",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "DVN 5.2 09/15/34",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "D 5 04/01/33",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "MPLX 4.95 09/01/32",
+      "weight_pct": 0.24,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "HPE 4.55 10/15/29",
+      "weight_pct": 0.24,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "GS 5.016 10/23/35",
+      "weight_pct": 0.24,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "AMT 3.8 08/15/29",
+      "weight_pct": 0.24,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BACR 5.86 08/11/46",
+      "weight_pct": 0.24,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "UNP 3.2 05/20/41",
+      "weight_pct": 0.24,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 5.65 03/13/46",
+      "weight_pct": 0.23,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "GS 5.541 01/21/47",
+      "weight_pct": 0.23,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "RTX 2 1/4 07/01/30",
+      "weight_pct": 0.23,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 5 1/2 08/03/35",
+      "weight_pct": 0.23,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "SBUX 2.55 11/15/30",
+      "weight_pct": 0.23,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "NOVNVX 4.2 09/18/34",
+      "weight_pct": 0.23,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "MS 3.217 04/22/42",
+      "weight_pct": 0.23,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "BHP 5 09/30/43",
+      "weight_pct": 0.23,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BNS 2.45 02/02/32",
+      "weight_pct": 0.23,
+      "shares": 182,
+      "item_code": null
+    },
+    {
+      "name": "PFE 5.3 05/19/53",
+      "weight_pct": 0.22,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "MSFT 2.921 03/17/52",
+      "weight_pct": 0.22,
+      "shares": 254,
+      "item_code": null
+    },
+    {
+      "name": "BPLN 2.721 01/12/32",
+      "weight_pct": 0.22,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "GM 2.7 06/10/31",
+      "weight_pct": 0.22,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "GILD 2.6 10/01/40",
+      "weight_pct": 0.22,
+      "shares": 212,
+      "item_code": null
+    },
+    {
+      "name": "V 1.1 02/15/31",
+      "weight_pct": 0.21,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BRKHEC 4.6 05/01/53",
+      "weight_pct": 0.2,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BA 6.528 05/01/34",
+      "weight_pct": 0.2,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "C 5.449 06/11/35",
+      "weight_pct": 0.2,
+      "shares": 140,
+      "item_code": null
+    },
+    {
+      "name": "DIS 3 1/2 05/13/40",
+      "weight_pct": 0.2,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "LMT 4.15 06/15/53",
+      "weight_pct": 0.19,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "LLY 4 7/8 02/27/53",
+      "weight_pct": 0.19,
+      "shares": 148,
+      "item_code": null
+    },
+    {
+      "name": "IR 5.45 06/15/34",
+      "weight_pct": 0.19,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MPC 5.15 03/01/30",
+      "weight_pct": 0.19,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "ABBV 4 1/4 11/21/49",
+      "weight_pct": 0.19,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "FANG 5.55 04/01/35",
+      "weight_pct": 0.19,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "XOM 4.227 03/19/40",
+      "weight_pct": 0.19,
+      "shares": 148,
+      "item_code": null
+    },
+    {
+      "name": "F 7.122 11/07/33",
+      "weight_pct": 0.19,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "WFC 5.605 04/23/36",
+      "weight_pct": 0.19,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "USB 5.836 06/12/34",
+      "weight_pct": 0.19,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "UNH 5.3 02/15/30",
+      "weight_pct": 0.19,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "HD 4 1/2 09/15/32",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "INTC 4 08/05/29",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "JPM 3.157 04/22/42",
+      "weight_pct": 0.18,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "PEP 4.65 07/23/32",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "PPL 5 1/4 09/01/34",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.192 04/17/31",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MLM 5.15 12/01/34",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "GS 5.33 07/23/35",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MO 3.4 02/04/41",
+      "weight_pct": 0.18,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 3.95 04/13/52",
+      "weight_pct": 0.18,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "AMGN 5.6 03/02/43",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "AON 5.45 03/01/34",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "BRK 3.85 03/15/52",
+      "weight_pct": 0.18,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "C 4.952 05/07/31",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "C 5.333 03/27/36",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "DELL 5 04/01/30",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "DUK 4 1/2 08/15/32",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "ET 5.6 09/01/34",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "FI 4 3/4 03/15/30",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 4.95 03/31/30",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "VICI 5 1/8 05/15/32",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "WFC 5.15 04/23/31",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "VMC 5.35 12/01/34",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "UNH 5 7/8 02/15/53",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "UNH 5.15 07/15/34",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "VZ 5.05 05/09/33",
+      "weight_pct": 0.18,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "SPCX 5 7/8 07/15/36",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 5.8 03/13/56",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "WFC 5.433 01/23/47",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 4.65 11/20/35",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "META 4 7/8 11/15/35",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "VZ 5 3/4 11/30/45",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "LOW 5 5/8 04/15/53",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "AMGN 4.2 03/01/33",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 2 3/8 02/08/41",
+      "weight_pct": 0.17,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 3.969 11/01/47",
+      "weight_pct": 0.17,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 3 3/4 04/01/40",
+      "weight_pct": 0.17,
+      "shares": 148,
+      "item_code": null
+    },
+    {
+      "name": "ED 5.7 05/15/54",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "CRBG 3.9 04/05/32",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "DUK 5.8 06/15/54",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "CARR 2.722 02/15/30",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "UPS 5.3 04/01/50",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "UNH 5 3/8 04/15/54",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "UNH 5 1/2 07/15/44",
+      "weight_pct": 0.17,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MS 1.928 04/28/32",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "ABIBB 4.9 02/01/46",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "HCA 5 1/4 06/15/49",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "JPM 3.109 04/22/51",
+      "weight_pct": 0.16,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "INTC 5.7 02/10/53",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "ROP 1 3/4 02/15/31",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "NXPI 2.65 02/15/32",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MET 5 07/15/52",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MA 2 11/18/31",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "ABT 4.9 11/30/46",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 1.9 08/15/40",
+      "weight_pct": 0.16,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "CVS 5.05 03/25/48",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "STZ 2 1/4 08/01/31",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "VZ 2.355 03/15/32",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "VZ 5 1/2 02/23/54",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "VZ 4.78 02/15/35",
+      "weight_pct": 0.16,
+      "shares": 119,
+      "item_code": null
+    },
+    {
+      "name": "TMUS 5.65 01/15/53",
+      "weight_pct": 0.16,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MS 4.465 11/19/31",
+      "weight_pct": 0.15,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "HCA 5.6 04/01/34",
+      "weight_pct": 0.15,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "KMI 5.2 06/01/33",
+      "weight_pct": 0.15,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "PAYX 5.1 04/15/30",
+      "weight_pct": 0.15,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "T 4.3 12/15/42",
+      "weight_pct": 0.15,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "AMGN 4 7/8 03/01/53",
+      "weight_pct": 0.15,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "BNSF 4.45 01/15/53",
+      "weight_pct": 0.15,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "ETP 5 05/15/50",
+      "weight_pct": 0.15,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "RTX 4.15 05/15/45",
+      "weight_pct": 0.15,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "TMUS 5 1/4 06/15/55",
+      "weight_pct": 0.15,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "INTC 5 5/8 02/10/43",
+      "weight_pct": 0.14,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 3.6 04/01/50",
+      "weight_pct": 0.14,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "NOC 4.03 10/15/47",
+      "weight_pct": 0.14,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MRK 2 3/4 12/10/51",
+      "weight_pct": 0.14,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BMY 3.55 03/15/42",
+      "weight_pct": 0.14,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "KO 2 7/8 05/05/41",
+      "weight_pct": 0.14,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "DT 8 1/4 06/15/30",
+      "weight_pct": 0.14,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TELEFO 8 1/4 09/15/30",
+      "weight_pct": 0.14,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GS 3.436 02/24/43",
+      "weight_pct": 0.13,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 6.332 03/09/44",
+      "weight_pct": 0.13,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "IBM 4 1/4 05/15/49",
+      "weight_pct": 0.13,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "LYB 3 3/8 10/01/40",
+      "weight_pct": 0.13,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "MCD 3 5/8 09/01/49",
+      "weight_pct": 0.13,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "T 3.65 09/15/59",
+      "weight_pct": 0.13,
+      "shares": 148,
+      "item_code": null
+    },
+    {
+      "name": "BATSLN 6.343 08/02/30",
+      "weight_pct": 0.13,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BATSLN 7.081 08/02/53",
+      "weight_pct": 0.13,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BAC 2.676 06/19/41",
+      "weight_pct": 0.13,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "C 2.904 11/03/42",
+      "weight_pct": 0.13,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "META 4.45 08/15/52",
+      "weight_pct": 0.13,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "GEHC 5.857 03/15/30",
+      "weight_pct": 0.13,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GM 5.2 04/01/45",
+      "weight_pct": 0.13,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "JPM 5.041 07/23/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GS 5.425 06/03/37",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MIZUHO 4.965 07/13/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 5.3 07/09/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NVDA 4.95 06/15/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.296 04/10/37",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MUFG 5.325 04/21/37",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "VST 5 04/30/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BHI 5.85 06/15/56",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CRM 6.4 03/15/46",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CRM 5.55 03/15/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CSCO 4.95 02/26/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TMO 4.215 02/12/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "FDX 4.65 03/15/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.073 01/30/37",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "META 4.6 11/15/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "DB 4.469 12/10/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 4.1 11/20/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 4.1 11/15/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 4.7 11/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MRK 4.95 09/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "RPRX 5.2 09/25/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "T 4.55 11/01/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "LOW 4 1/4 03/15/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "LOW 4 1/2 10/15/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HD 4.65 09/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ABIBB 4.7 02/01/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ELV 4.6 09/15/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ELV 5 01/15/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "SANUK 5.136 09/22/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "INTNED 5.55 03/19/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "C 4.503 09/11/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "LLY 5.1 02/12/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "LLY 4 1/4 03/15/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "LLY 4.55 10/15/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "LLOYDS 5.59 11/26/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "LLOYDS 5.679 01/05/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HCA 3 1/2 07/15/51",
+      "weight_pct": 0.12,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 5.45 03/03/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 5.79 05/13/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HPQ 6 09/15/41",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HPE 5 10/15/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HD 4.95 06/25/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HNDA 4.688 07/08/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HUM 5.55 05/01/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "INTNED 5.066 03/25/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "INTC 5.15 02/21/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "JEF 6.2 04/14/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "JNJ 4.7 03/01/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "KMI 3.6 02/15/51",
+      "weight_pct": 0.12,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "KHC 4 7/8 10/01/49",
+      "weight_pct": 0.12,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "KR 5 09/15/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HUM 5 3/8 04/15/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "SPG 3 1/4 09/13/49",
+      "weight_pct": 0.12,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "SANUSA 5.741 03/20/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "SPGI 5 1/4 09/15/33",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BATSLN 5.85 08/15/45",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AEP 5.45 01/15/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "PLD 5 1/4 05/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "PM 4.9 11/01/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "PYPL 5.15 06/01/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "OXY 5.55 10/01/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NOC 4.7 03/15/33",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NOMURA 4.904 07/01/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NEE 5.45 03/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NWG 5.115 05/23/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MIZUHO 5.323 07/08/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MIZUHO 4.711 07/08/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MUFG 5.615 04/24/36",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MUFG 5.159 04/24/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MCHP 5.05 02/15/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MRK 4.3 05/17/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MCD 4.6 09/09/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ABBV 5.2 03/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AWK 5 1/4 03/01/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AMP 5.2 04/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "APP 5 1/8 12/01/29",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BACR 4.942 09/10/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ABXCN 5.7 05/30/41",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BXP 5 3/4 01/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BRO 4.9 06/23/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CRHID 5 1/2 01/09/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CVS 6 06/01/44",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 5 1/2 11/15/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CMI 5.3 05/09/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "DELL 5 1/2 04/01/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "DGELN 5 1/8 08/15/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "EPD 3.3 02/15/53",
+      "weight_pct": 0.12,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "F 5.303 09/06/29",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GIS 4 7/8 01/30/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GSK 4 7/8 04/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "XEL 5.6 04/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "WES 5.45 11/15/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "WFC 5.244 01/24/31",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "WM 4.15 04/15/32",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TSN 5.7 03/15/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "UNANA 4 5/8 08/12/34",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "UNH 4.8 01/15/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TMO 5.086 08/10/33",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TMO 4.977 08/10/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TGT 5 04/15/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TPR 5.1 03/11/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TACHEM 5.2 07/07/35",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TMUS 3 7/8 04/15/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "SYY 5.95 04/01/30",
+      "weight_pct": 0.12,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NVDA 5 5/8 06/15/56",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ETN 5.45 03/06/56",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "META 6.45 05/15/66",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ABT 5 1/2 03/15/56",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MRK 4.9 05/17/44",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CAG 5.3 11/01/38",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "T 6.05 08/15/56",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "JPM 1.953 02/04/32",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "T 4.9 11/01/35",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AMGN 5.65 03/02/53",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "F 4 11/13/30",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GS 5.561 11/19/45",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GS 2.383 07/21/32",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GS 2.65 10/21/32",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HAL 2.92 03/01/30",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HD 5.3 06/25/54",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "IBM 5 1/4 02/05/44",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "INTC 5.9 02/10/63",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "KDP 4.05 04/15/32",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "KR 5 1/2 09/15/54",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6.9 11/09/52",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NOMURA 2.679 07/16/30",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NI 5.85 04/01/55",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NXPI 2 1/2 05/11/31",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.516 11/19/55",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MDT 4 5/8 03/15/45",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ACN 4 1/2 10/04/34",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 5 1/4 05/15/55",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AMGN 5 3/4 03/02/63",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 4.85 05/10/53",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CHTR 6.484 10/23/45",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CSCO 5.35 02/26/64",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "EQIX 3.9 04/15/32",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GE 4.418 11/15/35",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "VOD 5 3/4 06/28/54",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TWC 5 7/8 11/15/40",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TTEFP 5.488 04/05/54",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "SNPS 5.7 04/01/55",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MSFT 4 1/4 02/06/47",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "META 5 5/8 11/15/55",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "META 5 1/2 11/15/45",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TELEFO 5.213 03/08/47",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "PLD 1 1/4 10/15/30",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "HD 4.95 09/15/52",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ICE 4.95 06/15/52",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "LYB 4 7/8 03/15/44",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "SO 4.4 07/01/46",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "NEE 5 1/4 02/28/53",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CB 4.35 11/03/45",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BATSLN 6.421 08/02/33",
+      "weight_pct": 0.1,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "CI 4.9 12/15/48",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CSX 4 1/2 11/15/52",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CAT 3.803 08/15/42",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 5.65 06/01/54",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "COP 3.758 03/15/42",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "META 5.4 08/15/54",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "WFC 4.611 04/25/53",
+      "weight_pct": 0.1,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 3.8 11/15/37",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "JPM 3.964 11/15/48",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "JBSSBZ 4 3/8 02/02/52",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "RDSALN 3 3/4 09/12/46",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "RCICN 4.55 03/15/52",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "O 5 5/8 10/13/32",
+      "weight_pct": 0.09,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "QCOM 4 1/2 05/20/52",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 4.1 08/08/62",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 4 1/2 05/12/32",
+      "weight_pct": 0.09,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "F 4 3/4 01/15/43",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "WFC 3.068 04/30/41",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "WFC 3.9 05/01/45",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TOTAL 2.986 06/29/41",
+      "weight_pct": 0.09,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TMUS 3 02/15/41",
+      "weight_pct": 0.08,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 3.6 04/01/40",
+      "weight_pct": 0.08,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "AER 3.3 01/30/32",
+      "weight_pct": 0.08,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 4.1 04/13/62",
+      "weight_pct": 0.08,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BMY 3.7 03/15/52",
+      "weight_pct": 0.08,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CI 3.4 03/15/51",
+      "weight_pct": 0.08,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CHTR 4.4 04/01/33",
+      "weight_pct": 0.08,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "DIS 3.6 01/13/51",
+      "weight_pct": 0.08,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "EMN 5 5/8 02/20/34",
+      "weight_pct": 0.08,
+      "shares": 55,
+      "item_code": null
+    },
+    {
+      "name": "UBER 5.35 09/15/54",
+      "weight_pct": 0.08,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "BPLN 3 02/24/50",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "JNJ 2 1/4 09/01/50",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "SOLV 5.9 04/30/54",
+      "weight_pct": 0.07,
+      "shares": 54,
+      "item_code": null
+    },
+    {
+      "name": "RDSALN 3 11/26/51",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 3.85 04/01/60",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "T 3.55 09/15/55",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "BPLN 3.001 03/17/52",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CCI 3 1/4 01/15/51",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "WMT 2.65 09/22/51",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "VZ 2.85 09/03/41",
+      "weight_pct": 0.07,
+      "shares": 72,
+      "item_code": null
+    },
+    {
+      "name": "VZ 2.987 10/30/56",
+      "weight_pct": 0.07,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GS 5.655 07/21/37",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 6.1 07/09/56",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 6 07/09/46",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ACGL 5.95 06/15/56",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CRM 6.55 03/15/56",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TFC 4.68 04/23/32",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ONCRTX 5.9 03/15/56",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MRVL 5.3 04/15/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 4.1 02/15/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TWC 6.55 05/01/37",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TRGP 5.4 07/30/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CQP 5.55 10/30/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "JBS 5 1/2 01/15/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "JBS 6 3/8 02/25/55",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MRK 4.15 03/15/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SIXSLP 6 1/8 07/15/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "DOW 4.8 01/15/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EQT 4 3/4 01/15/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GLPI 5 5/8 09/15/34",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ALLY 8 11/01/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GM 5 5/8 04/15/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MTB 5.385 01/16/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BCRED 6 01/29/32",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ARESSI 5.6 02/15/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "APODS 6.7 07/29/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CVS 6.2 09/15/55",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CM 4.58 09/08/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "LOW 5 04/15/33",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MTB 5.179 07/08/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MPLX 5.4 04/01/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MPLX 5.4 09/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "LLY 4 3/4 02/12/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "LLY 4.9 10/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GS 5.218 04/23/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "HCA 5 1/4 03/01/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "HES 5.6 02/15/41",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "KVUE 4.85 05/22/32",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "LHX 5.35 06/01/34",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SYK 5.2 02/10/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SYK 4.85 02/10/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SYK 4 5/8 09/11/34",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SYK 4 1/4 09/11/29",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MPLX 6.2 09/15/55",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SJM 6 1/2 11/15/53",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SOBOCN 5.584 10/01/34",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "RIOLN 5 3/4 03/14/55",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "RIOLN 5 1/4 03/14/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "RIOLN 4 7/8 03/14/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "RRX 6.4 04/15/33",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "PRU 3.7 03/13/51",
+      "weight_pct": 0.06,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "PNC 5.373 07/21/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "OKE 6 1/4 10/15/55",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "OKE 5.4 10/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "OKE 4.95 10/15/32",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "OKE 6 5/8 09/01/53",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "OXY 6.6 03/15/46",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "NI 5.35 07/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "NDAQ 6.1 06/28/63",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MSI 5.55 08/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MPC 5.7 03/01/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MSCI 5 1/4 09/01/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "T 4.7 08/15/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "T 5 3/8 08/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "HNDA 5.15 07/09/32",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AMGN 5 1/4 03/02/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 4.2 05/12/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BATSLN 5 5/8 08/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5 7/8 02/07/42",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5.162 01/24/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BMO 5.511 06/04/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "OCINCC 5.8 03/15/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BA 7.008 05/01/64",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AVGO 5.05 04/15/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BRO 5.55 06/23/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CVS 5.45 09/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "NOVNVX 3.8 09/18/29",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CVX 4.98 04/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 2.887 11/01/51",
+      "weight_pct": 0.06,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 2.987 11/01/63",
+      "weight_pct": 0.06,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 5.3 05/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CEG 6 1/2 10/01/53",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "RABOBK 5 1/4 05/24/41",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "DTE 5.2 04/01/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "DAL 5 1/4 07/10/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "D 5 06/15/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EOG 5 07/15/32",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EOG 5.35 01/15/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ENBCN 5.95 04/05/54",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ENBCN 5.55 06/20/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ET 6.2 04/01/55",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "FI 4.55 02/15/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GEHC 4.8 08/14/29",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GEHC 6.377 11/22/52",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GD 4.95 08/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GE 4.9 01/29/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GM 5.9 01/07/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GM 6.15 07/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GSK 4 1/2 04/15/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ZTS 5 08/17/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SNPS 4.85 04/01/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "WDSAU 5.1 09/12/34",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "WMB 5.3 09/30/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "WMT 4.35 04/28/30",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "V 2 08/15/50",
+      "weight_pct": 0.06,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "TRV 5.7 07/24/55",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TFC 5.122 01/26/34",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TFC 5.711 01/24/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TFC 5.153 08/05/32",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TFC 5.071 05/20/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "UPS 5.15 05/22/34",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TFC 6.123 10/28/33",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TELEFO 7.045 06/20/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TRGP 5.65 02/15/36",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TGT 4 1/2 09/15/32",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TMUS 5.3 05/15/35",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CHTR 5.85 12/01/35",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SPCX 6.6 07/15/46",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "APH 5.3 11/15/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "META 6.3 05/15/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 5.7 02/04/36",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "D 5.7 03/15/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "T 5 1/4 10/30/36",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 4.8 02/15/36",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 5 1/2 02/15/46",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 5.65 02/15/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GOOGL 5 3/4 02/15/66",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "WMB 5.1 09/15/45",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CRM 1.95 07/15/31",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EXC 4.45 04/15/46",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EXC 4.95 03/15/36",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GPN 5.55 11/15/35",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MAR 5.1 05/01/38",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AVGO 4.8 02/15/36",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6.7 02/04/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6.55 02/04/46",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TMUS 5.85 02/15/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AVGO 5.7 01/15/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BNSF 5.55 03/15/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "JBS 6 1/4 03/01/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 5.55 11/20/65",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AMZN 5.45 11/20/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "META 5 3/4 11/15/65",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "VZ 6 11/30/65",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ANTM 4.65 01/15/43",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "PFE 5.34 05/19/63",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "LH 4.7 02/01/45",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "LLY 5.65 10/15/65",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORAFP 5 1/2 02/06/44",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 5 7/8 09/26/45",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6 1/8 07/08/39",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "T 5.7 11/01/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "UPS 5 1/2 05/22/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "VOD 5 7/8 06/28/64",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ET 6.05 09/01/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "JPM 1.764 11/19/31",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "XOM 4.327 03/19/50",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CF 5 3/8 03/15/44",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MPLX 5.95 04/01/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "LLY 5.55 10/15/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GS 2.615 04/22/32",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "HCA 3 5/8 03/15/32",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "HAL 4 3/4 08/01/43",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "HD 4.2 04/01/43",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GS 1.992 01/27/32",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "JPM 5.534 11/29/45",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "KLAC 4.95 07/15/52",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "KVUE 5.1 03/22/43",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "PG 3 03/25/30",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "NOVNVX 4.7 09/18/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "NEE 5.9 03/15/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MCD 2 5/8 09/01/29",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MMC 5.4 03/15/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ONCRTX 5.55 06/15/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AES 2.45 01/15/31",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ABBV 5.6 03/15/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AWK 5.7 09/01/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ABIBB 4.439 10/06/48",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ABIBB 3 1/2 06/01/30",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ELV 5.7 02/15/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AZN 4 3/8 08/17/48",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ATH 6 1/4 04/01/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BAC 5 01/21/44",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BAC 2.972 07/21/52",
+      "weight_pct": 0.05,
+      "shares": 64,
+      "item_code": null
+    },
+    {
+      "name": "BRKHEC 4 1/2 02/01/45",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BLK 5 1/4 03/14/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BA 5.93 05/01/60",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BMY 5.55 02/22/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AVGO 5.2 07/15/35",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BNCN 5.968 03/04/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BNSF 5 1/2 03/15/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CI 4.8 07/15/46",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CI 2.4 03/15/30",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "KO 5.4 05/13/64",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "COP 5 1/2 01/15/55",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CEG 5 3/4 03/15/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "DHR 2.6 11/15/29",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "DE 3.9 06/09/42",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "FANG 5 3/4 04/18/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "DOW 2.1 11/15/30",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BRKHEC 5.65 10/15/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EPD 4.45 02/15/43",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EPD 4.85 03/15/44",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EPD 5.1 02/15/45",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "EPD 4.9 05/15/46",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "META 5 3/4 05/15/63",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "FOXA 5.476 01/25/39",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "FCX 5.45 03/15/43",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "GILD 5.55 10/15/53",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "WM 5.35 10/15/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "WDSAU 5.7 09/12/54",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "UNH 5 1/2 04/15/64",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TXN 5.05 05/18/63",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "QCOM 4.3 05/20/47",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 3.65 03/25/41",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ANTM 4 3/8 12/01/47",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6.1 09/26/65",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 5.95 09/26/55",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6 08/03/55",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "UNP 3 1/4 02/05/50",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "KPERM 4.15 05/01/47",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "JPM 4.032 07/24/48",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "XOM 3.452 04/15/51",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BNSF 3.9 08/01/46",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "RJF 3 3/4 04/01/51",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SUCN 4 11/15/47",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "NVDA 3 1/2 04/01/50",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "NKE 3 7/8 11/01/45",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "TAP 4.2 07/15/46",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ELV 3.6 03/15/51",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BAC 3.946 01/23/49",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BAC 3.311 04/22/42",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BMY 4 1/4 10/26/49",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "DOW 3.6 11/15/50",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "META 5.55 08/15/64",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "WMT 4.05 06/29/48",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "UNH 3.7 08/15/49",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "VZ 3.55 03/22/51",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "VZ 3.7 03/22/61",
+      "weight_pct": 0.04,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "SWK 2 3/4 11/15/50",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 4 11/15/47",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AAPL 2.65 02/08/51",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "AMT 2.95 01/15/51",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "ICE 3 09/15/60",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CRM 2.9 07/15/51",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "RIOLN 2 3/4 11/02/51",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "PSX 3.3 03/15/52",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "PEP 2 3/4 10/21/51",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "BIIB 3.15 05/01/50",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 2.45 08/15/52",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 2.937 11/01/56",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "VZ 2 7/8 11/20/50",
+      "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    }
+  ]
+}

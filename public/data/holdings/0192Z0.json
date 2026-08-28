@@ -1,0 +1,114 @@
+{
+  "ticker": "0192Z0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "국고채권02250-2806(25-4)",
+      "weight_pct": 10.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02625-3003(25-3)",
+      "weight_pct": 9.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 8.92,
+      "shares": 9023167,
+      "item_code": null
+    },
+    {
+      "name": "경기주택도시공사26-05-138",
+      "weight_pct": 5.22,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드307",
+      "weight_pct": 5.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비증권 20260520-120-71",
+      "weight_pct": 5.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비씨카드190-2",
+      "weight_pct": 5.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈583-1",
+      "weight_pct": 5.17,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02875-2712(24-12)",
+      "weight_pct": 5.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권03375-3103(26-3)",
+      "weight_pct": 5.13,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행48-11이2갑-06",
+      "weight_pct": 5.13,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권25신이0200-1020-1",
+      "weight_pct": 5.12,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02750-2812(25-10)",
+      "weight_pct": 5.1,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국전력공사채권1126",
+      "weight_pct": 5.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(신)2607할1A-09",
+      "weight_pct": 5.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02500-3009(25-8)",
+      "weight_pct": 4.96,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성증권 20250908-364-14",
+      "weight_pct": 2.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20250904-364-28",
+      "weight_pct": 2.58,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

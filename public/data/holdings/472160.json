@@ -1,0 +1,84 @@
+{
+  "ticker": "472160",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "엔비디아",
+      "weight_pct": 17.05,
+      "shares": 542,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "애플",
+      "weight_pct": 16.11,
+      "shares": 343,
+      "item_code": "AAPL.O"
+    },
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 14.41,
+      "shares": 281,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "마이크로소프트",
+      "weight_pct": 12.72,
+      "shares": 171,
+      "item_code": "MSFT.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 9.87,
+      "shares": 90990749,
+      "item_code": null
+    },
+    {
+      "name": "아마존닷컴",
+      "weight_pct": 8.93,
+      "shares": 229,
+      "item_code": "AMZN.O"
+    },
+    {
+      "name": "브로드컴",
+      "weight_pct": 5.81,
+      "shares": 109,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "메타",
+      "weight_pct": 5.11,
+      "shares": 59,
+      "item_code": "META.O"
+    },
+    {
+      "name": "마이크론 테크놀로지",
+      "weight_pct": 3.69,
+      "shares": 26,
+      "item_code": "MU.O"
+    },
+    {
+      "name": "테슬라",
+      "weight_pct": 3.53,
+      "shares": 68,
+      "item_code": "TSLA.O"
+    },
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 2.73,
+      "shares": 37,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "FX스왑 USD 260612-48",
+      "weight_pct": -18.72,
+      "shares": -172549504,
+      "item_code": null
+    },
+    {
+      "name": "FX스왑 USD 260612-34",
+      "weight_pct": -78.7,
+      "shares": -725214524,
+      "item_code": null
+    }
+  ]
+}

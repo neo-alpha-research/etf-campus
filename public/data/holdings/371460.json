@@ -1,0 +1,240 @@
+{
+  "ticker": "371460",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "닝더스다이",
+      "weight_pct": 19.85,
+      "shares": 1069,
+      "item_code": "300750.SZ"
+    },
+    {
+      "name": "비야디",
+      "weight_pct": 17.69,
+      "shares": 3920,
+      "item_code": "002594.SZ"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 8.75,
+      "shares": 36716037,
+      "item_code": null
+    },
+    {
+      "name": "이브에너지",
+      "weight_pct": 5.47,
+      "shares": 1999,
+      "item_code": "300014.SZ"
+    },
+    {
+      "name": "삼화",
+      "weight_pct": 5.33,
+      "shares": 3010,
+      "item_code": "002050.SZ"
+    },
+    {
+      "name": "회천기술",
+      "weight_pct": 4.58,
+      "shares": 1512,
+      "item_code": "300124.SZ"
+    },
+    {
+      "name": "Global X China Elec Vehicle & Battery ETF",
+      "weight_pct": 4.1,
+      "shares": 1000,
+      "item_code": "2845.HK"
+    },
+    {
+      "name": "복요유리",
+      "weight_pct": 3.95,
+      "shares": 1409,
+      "item_code": "600660.SS"
+    },
+    {
+      "name": "탁보그룹",
+      "weight_pct": 3.53,
+      "shares": 1549,
+      "item_code": "601689.SS"
+    },
+    {
+      "name": "천사첨단신소재",
+      "weight_pct": 2.57,
+      "shares": 1431,
+      "item_code": "002709.SZ"
+    },
+    {
+      "name": "리 오토",
+      "weight_pct": 2.37,
+      "shares": 1175,
+      "item_code": "2015.HK"
+    },
+    {
+      "name": "새력사집단",
+      "weight_pct": 2.31,
+      "shares": 935,
+      "item_code": "601127.SS"
+    },
+    {
+      "name": "시대전기",
+      "weight_pct": 1.73,
+      "shares": 744,
+      "item_code": "688187.SS"
+    },
+    {
+      "name": "선도지능장비",
+      "weight_pct": 1.7,
+      "shares": 1035,
+      "item_code": "300450.SZ"
+    },
+    {
+      "name": "창신신소재",
+      "weight_pct": 1.69,
+      "shares": 633,
+      "item_code": "002812.SZ"
+    },
+    {
+      "name": "국헌고과",
+      "weight_pct": 1.47,
+      "shares": 1081,
+      "item_code": "002074.SZ"
+    },
+    {
+      "name": "캡켐기술",
+      "weight_pct": 1.46,
+      "shares": 487,
+      "item_code": "300037.SZ"
+    },
+    {
+      "name": "덕새서위",
+      "weight_pct": 1.25,
+      "shares": 298,
+      "item_code": "002920.SZ"
+    },
+    {
+      "name": "과달리실업",
+      "weight_pct": 1.24,
+      "shares": 141,
+      "item_code": "002850.SZ"
+    },
+    {
+      "name": "특예덕전기",
+      "weight_pct": 1.21,
+      "shares": 688,
+      "item_code": "300001.SZ"
+    },
+    {
+      "name": "중웨이신소재",
+      "weight_pct": 1.2,
+      "shares": 608,
+      "item_code": "300919.SZ"
+    },
+    {
+      "name": "강봉이업(리튬)",
+      "weight_pct": 1.18,
+      "shares": 451,
+      "item_code": "002460.SZ"
+    },
+    {
+      "name": "만향전조",
+      "weight_pct": 1.08,
+      "shares": 1959,
+      "item_code": "000559.SZ"
+    },
+    {
+      "name": "흔왕달전자",
+      "weight_pct": 1.05,
+      "shares": 1184,
+      "item_code": "300207.SZ"
+    },
+    {
+      "name": "천제리튬(톈치리튬)",
+      "weight_pct": 0.98,
+      "shares": 421,
+      "item_code": "002466.SZ"
+    },
+    {
+      "name": "거린메이",
+      "weight_pct": 0.96,
+      "shares": 2952,
+      "item_code": "002340.SZ"
+    },
+    {
+      "name": "Suzhou Inovance Automotive Co Ltd Class A",
+      "weight_pct": 0.93,
+      "shares": 1251,
+      "item_code": "301656.SZ"
+    },
+    {
+      "name": "중창신항",
+      "weight_pct": 0.86,
+      "shares": 1064,
+      "item_code": "3931.HK"
+    },
+    {
+      "name": "호남유능",
+      "weight_pct": 0.81,
+      "shares": 261,
+      "item_code": "301358.SZ"
+    },
+    {
+      "name": "천화신능",
+      "weight_pct": 0.7,
+      "shares": 231,
+      "item_code": "300390.SZ"
+    },
+    {
+      "name": "쌍환전동기계",
+      "weight_pct": 0.7,
+      "shares": 404,
+      "item_code": "002472.SZ"
+    },
+    {
+      "name": "성신리튬",
+      "weight_pct": 0.37,
+      "shares": 241,
+      "item_code": "002240.SZ"
+    },
+    {
+      "name": "차이나전기차 TRS 260116-04",
+      "weight_pct": -0.05,
+      "shares": -245799,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차SOLACTIVE TRS 260410-01",
+      "weight_pct": -0.09,
+      "shares": -401472,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차 TRS 260204-02",
+      "weight_pct": -0.2,
+      "shares": -863468,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차SOLACTIVE TRS 260415-01",
+      "weight_pct": -0.24,
+      "shares": -1016982,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차 TRS 260119-01",
+      "weight_pct": -0.33,
+      "shares": -1417706,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차 TRS 260312-06",
+      "weight_pct": -0.4,
+      "shares": -1706057,
+      "item_code": null
+    },
+    {
+      "name": "차이나전기차SOLACTIVE TRS 260615-01",
+      "weight_pct": -1.89,
+      "shares": -7957020,
+      "item_code": null
+    }
+  ]
+}

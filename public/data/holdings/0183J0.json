@@ -1,0 +1,72 @@
+{
+  "ticker": "0183J0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "스페이스X",
+      "weight_pct": 26.21,
+      "shares": 521,
+      "item_code": "SPCX.O"
+    },
+    {
+      "name": "레드와이어",
+      "weight_pct": 17.73,
+      "shares": 4370,
+      "item_code": "RDW"
+    },
+    {
+      "name": "인튜이티브 머신스",
+      "weight_pct": 14.49,
+      "shares": 2498,
+      "item_code": "LUNR.O"
+    },
+    {
+      "name": "로켓 랩",
+      "weight_pct": 12.53,
+      "shares": 525,
+      "item_code": "RKLB.O"
+    },
+    {
+      "name": "에코스타",
+      "weight_pct": 7.57,
+      "shares": 245,
+      "item_code": "ECHO.O"
+    },
+    {
+      "name": "AST 스페이스모바일",
+      "weight_pct": 6.05,
+      "shares": 280,
+      "item_code": "ASTS.O"
+    },
+    {
+      "name": "플래닛 랩스 PBC",
+      "weight_pct": 5.73,
+      "shares": 752,
+      "item_code": "PL"
+    },
+    {
+      "name": "보이저 테크놀로지스",
+      "weight_pct": 4.13,
+      "shares": 331,
+      "item_code": "VOYG.K"
+    },
+    {
+      "name": "파이어플라이 에어로스페이스",
+      "weight_pct": 2.91,
+      "shares": 363,
+      "item_code": "FLY.O"
+    },
+    {
+      "name": "MDA 스페이스",
+      "weight_pct": 2.75,
+      "shares": 258,
+      "item_code": "MDA"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.14,
+      "shares": -549490,
+      "item_code": null
+    }
+  ]
+}

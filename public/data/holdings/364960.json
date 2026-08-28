@@ -1,0 +1,84 @@
+{
+  "ticker": "364960",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "삼성SDI",
+      "weight_pct": 12.63,
+      "shares": 75,
+      "item_code": "006400"
+    },
+    {
+      "name": "알테오젠",
+      "weight_pct": 10.05,
+      "shares": 109,
+      "item_code": "196170"
+    },
+    {
+      "name": "NC",
+      "weight_pct": 9.24,
+      "shares": 140,
+      "item_code": "036570"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 8.77,
+      "shares": 80,
+      "item_code": "373220"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 8.54,
+      "shares": 85,
+      "item_code": "005490"
+    },
+    {
+      "name": "삼성바이오로직스",
+      "weight_pct": 8.49,
+      "shares": 18,
+      "item_code": "207940"
+    },
+    {
+      "name": "셀트리온",
+      "weight_pct": 8.49,
+      "shares": 150,
+      "item_code": "068270"
+    },
+    {
+      "name": "NAVER",
+      "weight_pct": 8.46,
+      "shares": 132,
+      "item_code": "035420"
+    },
+    {
+      "name": "크래프톤",
+      "weight_pct": 8.32,
+      "shares": 128,
+      "item_code": "259960"
+    },
+    {
+      "name": "카카오",
+      "weight_pct": 6.13,
+      "shares": 575,
+      "item_code": "035720"
+    },
+    {
+      "name": "넷마블",
+      "weight_pct": 5.93,
+      "shares": 552,
+      "item_code": "251270"
+    },
+    {
+      "name": "서진시스템",
+      "weight_pct": 4.87,
+      "shares": 398,
+      "item_code": "178320"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.0,
+      "shares": 19093,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "ticker": "316300",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 10.24,
+      "shares": 134627977,
+      "item_code": null
+    },
+    {
+      "name": "CapitaLand Integrated Commercial Trust",
+      "weight_pct": 9.22,
+      "shares": 46840,
+      "item_code": null
+    },
+    {
+      "name": "MAPLETREE LOGIS TRUST",
+      "weight_pct": 8.79,
+      "shares": 90120,
+      "item_code": null
+    },
+    {
+      "name": "CAPITALAND ASCENDAS REIT",
+      "weight_pct": 8.76,
+      "shares": 43220,
+      "item_code": null
+    },
+    {
+      "name": "KEPPEL DC REIT",
+      "weight_pct": 8.64,
+      "shares": 47060,
+      "item_code": null
+    },
+    {
+      "name": "MAPLETREE PAN ASIA COMMER",
+      "weight_pct": 8.42,
+      "shares": 80140,
+      "item_code": null
+    },
+    {
+      "name": "KEPPEL REIT",
+      "weight_pct": 7.49,
+      "shares": 102320,
+      "item_code": null
+    },
+    {
+      "name": "MAPLETREE INDUS TRUST",
+      "weight_pct": 7.0,
+      "shares": 43840,
+      "item_code": null
+    },
+    {
+      "name": "FRASERS LOGIS & COMMERCIAL TRUST",
+      "weight_pct": 6.71,
+      "shares": 86360,
+      "item_code": null
+    },
+    {
+      "name": "SUNTEC REIT",
+      "weight_pct": 6.52,
+      "shares": 52200,
+      "item_code": null
+    },
+    {
+      "name": "FRASERS CENTREPOINT TRUST",
+      "weight_pct": 5.33,
+      "shares": 29600,
+      "item_code": null
+    },
+    {
+      "name": "Lendlease Global Commercial RE",
+      "weight_pct": 3.3,
+      "shares": 70640,
+      "item_code": null
+    },
+    {
+      "name": "CAPITALAND ASCOTT TRUST",
+      "weight_pct": 2.82,
+      "shares": 39740,
+      "item_code": null
+    },
+    {
+      "name": "PARKWAY LIFE REAL EST INV TRU  ST",
+      "weight_pct": 2.15,
+      "shares": 6300,
+      "item_code": null
+    },
+    {
+      "name": "ESR-REIT",
+      "weight_pct": 1.33,
+      "shares": 7000,
+      "item_code": null
+    },
+    {
+      "name": "Centurion Accommodation Reit",
+      "weight_pct": 0.96,
+      "shares": 10280,
+      "item_code": null
+    },
+    {
+      "name": "CAPITALAND CHINA TRUST",
+      "weight_pct": 0.79,
+      "shares": 14940,
+      "item_code": null
+    },
+    {
+      "name": "STARHILL GLOBAL REIT",
+      "weight_pct": 0.73,
+      "shares": 16880,
+      "item_code": null
+    },
+    {
+      "name": "OUE COMMER REAL EST INV TRUST",
+      "weight_pct": 0.4,
+      "shares": 13520,
+      "item_code": null
+    },
+    {
+      "name": "FAR EAST HOSPITALITY TRUST",
+      "weight_pct": 0.31,
+      "shares": 6900,
+      "item_code": null
+    }
+  ]
+}

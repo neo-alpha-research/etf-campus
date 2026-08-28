@@ -1,0 +1,54 @@
+{
+  "ticker": "190620",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 29.06,
+      "shares": 29633851,
+      "item_code": null
+    },
+    {
+      "name": "통안02800-2610-02",
+      "weight_pct": 12.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02400-2707-02",
+      "weight_pct": 12.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02500-2710-02",
+      "weight_pct": 12.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02270-2609-01",
+      "weight_pct": 9.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02700-2701-02",
+      "weight_pct": 9.7,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02620-2704-02",
+      "weight_pct": 6.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02540-2611-01",
+      "weight_pct": 6.45,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

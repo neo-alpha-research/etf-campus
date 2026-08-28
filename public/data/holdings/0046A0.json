@@ -1,0 +1,48 @@
+{
+  "ticker": "0046A0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares 0-3 Month Treasury Bond ETF",
+      "weight_pct": 26.07,
+      "shares": 179,
+      "item_code": "SGOV.K"
+    },
+    {
+      "name": "State Street SPDR Bloomberg 1-3 Month T-Bill ETF",
+      "weight_pct": 21.35,
+      "shares": 161,
+      "item_code": "BIL"
+    },
+    {
+      "name": "Vanguard 0-3 Month Treasury Bill ETF",
+      "weight_pct": 17.96,
+      "shares": 164,
+      "item_code": "VBIL.O"
+    },
+    {
+      "name": "B 09/29/26",
+      "weight_pct": 12.39,
+      "shares": 8588,
+      "item_code": null
+    },
+    {
+      "name": "B 10/29/26",
+      "weight_pct": 11.95,
+      "shares": 8311,
+      "item_code": null
+    },
+    {
+      "name": "Global X 1-3 Month T-Bill ETF",
+      "weight_pct": 10.88,
+      "shares": 75,
+      "item_code": "CLIP.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -0.63,
+      "shares": -603488,
+      "item_code": null
+    }
+  ]
+}

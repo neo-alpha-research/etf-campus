@@ -1,0 +1,72 @@
+{
+  "ticker": "091220",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "신한지주",
+      "weight_pct": 23.44,
+      "shares": 724,
+      "item_code": "055550"
+    },
+    {
+      "name": "하나금융지주",
+      "weight_pct": 22.1,
+      "shares": 556,
+      "item_code": "086790"
+    },
+    {
+      "name": "KB금융",
+      "weight_pct": 20.31,
+      "shares": 406,
+      "item_code": "105560"
+    },
+    {
+      "name": "우리금융지주",
+      "weight_pct": 16.06,
+      "shares": 1638,
+      "item_code": "316140"
+    },
+    {
+      "name": "카카오뱅크",
+      "weight_pct": 5.34,
+      "shares": 831,
+      "item_code": "323410"
+    },
+    {
+      "name": "기업은행",
+      "weight_pct": 4.05,
+      "shares": 665,
+      "item_code": "024110"
+    },
+    {
+      "name": "JB금융지주",
+      "weight_pct": 3.19,
+      "shares": 383,
+      "item_code": "175330"
+    },
+    {
+      "name": "BNK금융지주",
+      "weight_pct": 2.94,
+      "shares": 662,
+      "item_code": "138930"
+    },
+    {
+      "name": "iM금융지주",
+      "weight_pct": 1.78,
+      "shares": 339,
+      "item_code": "139130"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.64,
+      "shares": 2152453,
+      "item_code": null
+    },
+    {
+      "name": "제주은행",
+      "weight_pct": 0.09,
+      "shares": 33,
+      "item_code": "006220"
+    }
+  ]
+}

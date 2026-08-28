@@ -1,0 +1,150 @@
+{
+  "ticker": "0051A0",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "브로드컴",
+      "weight_pct": 18.26,
+      "shares": 430,
+      "item_code": "AVGO.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 14.16,
+      "shares": 566,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "TSMC ADR",
+      "weight_pct": 5.89,
+      "shares": 118,
+      "item_code": "TSM"
+    },
+    {
+      "name": "인텔",
+      "weight_pct": 4.62,
+      "shares": 440,
+      "item_code": "INTC.O"
+    },
+    {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 4.58,
+      "shares": 80,
+      "item_code": "AMD.O"
+    },
+    {
+      "name": "어플라이드 머티어리얼즈",
+      "weight_pct": 4.52,
+      "shares": 79,
+      "item_code": "AMAT.O"
+    },
+    {
+      "name": "알파벳 Class A",
+      "weight_pct": 4.48,
+      "shares": 110,
+      "item_code": "GOOGL.O"
+    },
+    {
+      "name": "마이크론 테크놀로지",
+      "weight_pct": 4.47,
+      "shares": 40,
+      "item_code": "MU.O"
+    },
+    {
+      "name": "램 리서치",
+      "weight_pct": 4.47,
+      "shares": 120,
+      "item_code": "LRCX.O"
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 3.87,
+      "shares": 132,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "알파벳 Class C",
+      "weight_pct": 3.73,
+      "shares": 92,
+      "item_code": "GOOG.O"
+    },
+    {
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 3.69,
+      "shares": 123,
+      "item_code": "ARM.O"
+    },
+    {
+      "name": "ASE 테크놀로지 홀딩 ADR",
+      "weight_pct": 3.47,
+      "shares": 782,
+      "item_code": "ASX"
+    },
+    {
+      "name": "테라다인",
+      "weight_pct": 3.28,
+      "shares": 75,
+      "item_code": "TER.O"
+    },
+    {
+      "name": "코히런트",
+      "weight_pct": 2.48,
+      "shares": 70,
+      "item_code": "COHR.K"
+    },
+    {
+      "name": "타워 세미컨덕터",
+      "weight_pct": 2.26,
+      "shares": 85,
+      "item_code": "TSEM.O"
+    },
+    {
+      "name": "ASML 홀딩 ADR",
+      "weight_pct": 2.25,
+      "shares": 10,
+      "item_code": "ASML.O"
+    },
+    {
+      "name": "코닝",
+      "weight_pct": 1.82,
+      "shares": 100,
+      "item_code": "GLW"
+    },
+    {
+      "name": "키사이트 테크놀로지스",
+      "weight_pct": 1.72,
+      "shares": 45,
+      "item_code": "KEYS.K"
+    },
+    {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 1.58,
+      "shares": 14,
+      "item_code": "LITE.O"
+    },
+    {
+      "name": "KLA",
+      "weight_pct": 1.51,
+      "shares": 69,
+      "item_code": "KLAC.O"
+    },
+    {
+      "name": "마이크로칩 테크놀러지",
+      "weight_pct": 1.06,
+      "shares": 120,
+      "item_code": "MCHP.O"
+    },
+    {
+      "name": "바이두 ADR",
+      "weight_pct": 0.87,
+      "shares": 78,
+      "item_code": "BIDU.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.85,
+      "shares": 9936537,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "ticker": "273140",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 17.73,
+      "shares": 20326280,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권 25변이0100-1010-1M",
+      "weight_pct": 14.31,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행49-08이1갑-24(1-변)",
+      "weight_pct": 10.72,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산금25변이0100-0917-1M",
+      "weight_pct": 7.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부산은행2026-08이(변)1A-26",
+      "weight_pct": 7.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2023-09이3Y-J",
+      "weight_pct": 3.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "수산금융채권(은행)25-9이12-22",
+      "weight_pct": 3.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부산은행2026-04이(변)1A-15",
+      "weight_pct": 3.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠뱅크47-04이(변)12A-14",
+      "weight_pct": 3.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행30-04-이(변)01-갑-03",
+      "weight_pct": 3.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행49-03이1갑-12(1-변)",
+      "weight_pct": 3.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민은행4603이(01)1변-05",
+      "weight_pct": 3.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(변)2601이1A-14",
+      "weight_pct": 3.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(변) 2601이1A-09",
+      "weight_pct": 3.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "공급망안정화기금(변) 2601가-이표-1",
+      "weight_pct": 3.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부산은행2026-06이(변)1A-04",
+      "weight_pct": 3.56,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행49-03이1갑-26(1-변)",
+      "weight_pct": 3.56,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

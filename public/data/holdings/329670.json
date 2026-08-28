@@ -1,0 +1,120 @@
+{
+  "ticker": "329670",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "iShares MSCI World ETF",
+      "weight_pct": 26.19,
+      "shares": 2007,
+      "item_code": "URTH.K"
+    },
+    {
+      "name": "State Street SPDR Portfolio MSCI Global Sk Mkt ETF",
+      "weight_pct": 21.57,
+      "shares": 3938,
+      "item_code": "SPGM.K"
+    },
+    {
+      "name": "iShares MSCI ACWI ETF",
+      "weight_pct": 19.31,
+      "shares": 1922,
+      "item_code": "ACWI.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 7.18,
+      "shares": 158895025,
+      "item_code": null
+    },
+    {
+      "name": "통안03730-2807-02",
+      "weight_pct": 4.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고04250-3606(26-6)",
+      "weight_pct": 3.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈348-5",
+      "weight_pct": 3.38,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고03250-2903(24-1)",
+      "weight_pct": 2.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈524-3",
+      "weight_pct": 2.21,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02375-2812(18-10)",
+      "weight_pct": 2.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KODEX MSCI선진국",
+      "weight_pct": 1.95,
+      "shares": 1100,
+      "item_code": "251350"
+    },
+    {
+      "name": "국고03500-5603(26-2)",
+      "weight_pct": 1.93,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안03430-2703-03",
+      "weight_pct": 1.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "인천도시공사233",
+      "weight_pct": 1.13,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈503-2",
+      "weight_pct": 0.56,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고01875-2906(19-4)",
+      "weight_pct": 0.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권01375-2912(19-8)",
+      "weight_pct": 0.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02375-3809(18-7)",
+      "weight_pct": 0.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02000-4903(19-2)",
+      "weight_pct": 0.14,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "ticker": "117690",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "텐센트",
+      "weight_pct": 14.16,
+      "shares": 1798,
+      "item_code": "0700.HK"
+    },
+    {
+      "name": "알리바바 그룹 홀딩",
+      "weight_pct": 13.59,
+      "shares": 6592,
+      "item_code": "9988.HK"
+    },
+    {
+      "name": "CCB(중국건설은행)",
+      "weight_pct": 8.81,
+      "shares": 54081,
+      "item_code": "0939.HK"
+    },
+    {
+      "name": "ICBC(중국공상은행)",
+      "weight_pct": 6.17,
+      "shares": 46248,
+      "item_code": "1398.HK"
+    },
+    {
+      "name": "샤오미",
+      "weight_pct": 4.97,
+      "shares": 9885,
+      "item_code": "1810.HK"
+    },
+    {
+      "name": "차이나 모바일",
+      "weight_pct": 4.74,
+      "shares": 3348,
+      "item_code": "0941.HK"
+    },
+    {
+      "name": "메이투안",
+      "weight_pct": 4.28,
+      "shares": 3104,
+      "item_code": "3690.HK"
+    },
+    {
+      "name": "BOC(중국은행)",
+      "weight_pct": 3.89,
+      "shares": 39657,
+      "item_code": "3988.HK"
+    },
+    {
+      "name": "핑안 인슈어런스 오브 차이나",
+      "weight_pct": 3.77,
+      "shares": 3698,
+      "item_code": "2318.HK"
+    },
+    {
+      "name": "시누크",
+      "weight_pct": 3.76,
+      "shares": 8545,
+      "item_code": "0883.HK"
+    },
+    {
+      "name": "BYD",
+      "weight_pct": 3.26,
+      "shares": 1996,
+      "item_code": "1211.HK"
+    },
+    {
+      "name": "중국 국제 반도체",
+      "weight_pct": 2.66,
+      "shares": 2165,
+      "item_code": "0981.HK"
+    },
+    {
+      "name": "비원 메디슨스",
+      "weight_pct": 2.62,
+      "shares": 651,
+      "item_code": "6160.HK"
+    },
+    {
+      "name": "자금광업 Class H",
+      "weight_pct": 2.2,
+      "shares": 3272,
+      "item_code": "2899.HK"
+    },
+    {
+      "name": "중국생명",
+      "weight_pct": 2.12,
+      "shares": 4115,
+      "item_code": "2628.HK"
+    },
+    {
+      "name": "페트로차이나",
+      "weight_pct": 2.04,
+      "shares": 11639,
+      "item_code": "0857.HK"
+    },
+    {
+      "name": "초상은행",
+      "weight_pct": 1.9,
+      "shares": 2179,
+      "item_code": "3968.HK"
+    },
+    {
+      "name": "중국 농업은행",
+      "weight_pct": 1.8,
+      "shares": 16250,
+      "item_code": "1288.HK"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.4,
+      "shares": 13966890,
+      "item_code": null
+    },
+    {
+      "name": "중국신화에너지",
+      "weight_pct": 1.39,
+      "shares": 1753,
+      "item_code": "1088.HK"
+    },
+    {
+      "name": "염 차이나 홀딩스",
+      "weight_pct": 1.26,
+      "shares": 193,
+      "item_code": "YUMC.K"
+    },
+    {
+      "name": "길리자동차",
+      "weight_pct": 1.15,
+      "shares": 3552,
+      "item_code": "0175.HK"
+    },
+    {
+      "name": "팝마트 인터내셔널 그룹",
+      "weight_pct": 1.1,
+      "shares": 406,
+      "item_code": "9992.HK"
+    },
+    {
+      "name": "화룬부동산",
+      "weight_pct": 1.09,
+      "shares": 1773,
+      "item_code": "1109.HK"
+    },
+    {
+      "name": "안타 스포츠",
+      "weight_pct": 1.07,
+      "shares": 774,
+      "item_code": "2020.HK"
+    },
+    {
+      "name": "콰이쇼우",
+      "weight_pct": 0.99,
+      "shares": 1679,
+      "item_code": "1024.HK"
+    },
+    {
+      "name": "농푸스프링",
+      "weight_pct": 0.85,
+      "shares": 1095,
+      "item_code": "9633.HK"
+    },
+    {
+      "name": "중국굉교",
+      "weight_pct": 0.79,
+      "shares": 1888,
+      "item_code": "1378.HK"
+    },
+    {
+      "name": "중신그룹",
+      "weight_pct": 0.72,
+      "shares": 3171,
+      "item_code": "0267.HK"
+    },
+    {
+      "name": "교통은행",
+      "weight_pct": 0.65,
+      "shares": 4864,
+      "item_code": "3328.HK"
+    },
+    {
+      "name": "리 오토",
+      "weight_pct": 0.65,
+      "shares": 770,
+      "item_code": "2015.HK"
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "ticker": "486830",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 9.53,
+      "shares": 10159590,
+      "item_code": null
+    },
+    {
+      "name": "한국도로공사고속도로건설채권883",
+      "weight_pct": 5.42,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20250911-364-40",
+      "weight_pct": 2.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이투자증권 20250916-364-2",
+      "weight_pct": 2.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20250918-364-116",
+      "weight_pct": 2.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈 20220916-1461-28",
+      "weight_pct": 2.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움증권 20250904-364-27",
+      "weight_pct": 2.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈 20211019-1822-39",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20260722-92-37",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB국민카드 20260722-92-36",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20251029-364-4",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한투자증권 20260702-91-8(단)",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신증권 20260617-126-61",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드 20260331-183-69",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드 20260624-91-32(단)",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈 20260331-182-29",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "제이비우리캐피탈 20220920-1459-23",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한캐피탈 20211019-1826-8",
+      "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251125-364-126",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권 20251201-364-21",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권 20251201-364-22",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드 20260730-96-77",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "유안타증권 20260707-122-3",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈 20260629-147-11",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20251120-364-107",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신증권 20251121-364-31",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권 20251119-364-23",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "연합자산관리 20251121-363-48",
+      "weight_pct": 2.65,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드 20260820-119-46",
+      "weight_pct": 2.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드 20260820-119-47",
+      "weight_pct": 2.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대백화점 20260722-139-34",
+      "weight_pct": 2.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비증권 20260619-188-100",
+      "weight_pct": 2.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권 20260729-243-27",
+      "weight_pct": 2.61,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "교보증권 20260729-243-28",
+      "weight_pct": 2.61,
+      "shares": 0,
+      "item_code": null
+    }
+  ]
+}

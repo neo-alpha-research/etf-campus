@@ -1,0 +1,240 @@
+{
+  "ticker": "462330",
+  "as_of_date": "2026-08-28",
+  "holdings": [
+    {
+      "name": "KODEX 2차전지산업",
+      "weight_pct": 29.04,
+      "shares": 2131,
+      "item_code": "305720"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 26.35,
+      "shares": 79,
+      "item_code": "373220"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 22.54,
+      "shares": 44,
+      "item_code": "006400"
+    },
+    {
+      "name": "POSCO홀딩스",
+      "weight_pct": 14.06,
+      "shares": 46,
+      "item_code": "005490"
+    },
+    {
+      "name": "2026-09 삼성SDI개별선물",
+      "weight_pct": 9.3,
+      "shares": 1,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 LG화학개별선물",
+      "weight_pct": 9.3,
+      "shares": 3,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 POSCO홀딩스개별선물",
+      "weight_pct": 9.29,
+      "shares": 3,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 LG에너지솔루션개별선물",
+      "weight_pct": 9.28,
+      "shares": 2,
+      "item_code": null
+    },
+    {
+      "name": "LG화학",
+      "weight_pct": 7.91,
+      "shares": 32,
+      "item_code": "051910"
+    },
+    {
+      "name": "2026-09 에코프로비엠개별선물",
+      "weight_pct": 7.76,
+      "shares": 7,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 에코프로개별선물",
+      "weight_pct": 7.29,
+      "shares": 8,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 SK이노베이션개별선물",
+      "weight_pct": 6.3,
+      "shares": 6,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 포스코퓨처엠개별선물",
+      "weight_pct": 6.05,
+      "shares": 3,
+      "item_code": null
+    },
+    {
+      "name": "에코프로비엠",
+      "weight_pct": 4.46,
+      "shares": 42,
+      "item_code": "247540"
+    },
+    {
+      "name": "에코프로",
+      "weight_pct": 3.97,
+      "shares": 48,
+      "item_code": "086520"
+    },
+    {
+      "name": "2026-09 엘앤에프개별선물",
+      "weight_pct": 3.27,
+      "shares": 2,
+      "item_code": null
+    },
+    {
+      "name": "포스코퓨처엠",
+      "weight_pct": 3.14,
+      "shares": 19,
+      "item_code": "003670"
+    },
+    {
+      "name": "SK이노베이션",
+      "weight_pct": 2.52,
+      "shares": 25,
+      "item_code": "096770"
+    },
+    {
+      "name": "서진시스템",
+      "weight_pct": 2.34,
+      "shares": 63,
+      "item_code": "178320"
+    },
+    {
+      "name": "엘앤에프",
+      "weight_pct": 1.98,
+      "shares": 17,
+      "item_code": "066970"
+    },
+    {
+      "name": "2026-09 SKC개별선물",
+      "weight_pct": 1.91,
+      "shares": 2,
+      "item_code": null
+    },
+    {
+      "name": "나노신소재",
+      "weight_pct": 1.55,
+      "shares": 34,
+      "item_code": "121600"
+    },
+    {
+      "name": "코스모신소재",
+      "weight_pct": 1.32,
+      "shares": 36,
+      "item_code": "005070"
+    },
+    {
+      "name": "엔켐",
+      "weight_pct": 1.29,
+      "shares": 63,
+      "item_code": "348370"
+    },
+    {
+      "name": "대주전자재료",
+      "weight_pct": 1.24,
+      "shares": 15,
+      "item_code": "078600"
+    },
+    {
+      "name": "롯데에너지머티리얼즈",
+      "weight_pct": 1.2,
+      "shares": 38,
+      "item_code": "020150"
+    },
+    {
+      "name": "2026-09 에코프로머티개별선물",
+      "weight_pct": 1.18,
+      "shares": 3,
+      "item_code": null
+    },
+    {
+      "name": "후성",
+      "weight_pct": 0.78,
+      "shares": 67,
+      "item_code": "093370"
+    },
+    {
+      "name": "피엔티",
+      "weight_pct": 0.65,
+      "shares": 24,
+      "item_code": "137400"
+    },
+    {
+      "name": "SFA넥셀",
+      "weight_pct": 0.51,
+      "shares": 70,
+      "item_code": "222080"
+    },
+    {
+      "name": "SKC",
+      "weight_pct": 0.48,
+      "shares": 6,
+      "item_code": "011790"
+    },
+    {
+      "name": "SK아이이테크놀로지",
+      "weight_pct": 0.42,
+      "shares": 26,
+      "item_code": "361610"
+    },
+    {
+      "name": "에코프로머티",
+      "weight_pct": 0.41,
+      "shares": 12,
+      "item_code": "450080"
+    },
+    {
+      "name": "코스모화학",
+      "weight_pct": 0.35,
+      "shares": 35,
+      "item_code": "005420"
+    },
+    {
+      "name": "2026-09 SK아이이테크놀로지개별선물",
+      "weight_pct": 0.3,
+      "shares": 2,
+      "item_code": null
+    },
+    {
+      "name": "한중엔시에스",
+      "weight_pct": 0.25,
+      "shares": 7,
+      "item_code": "107640"
+    },
+    {
+      "name": "솔브레인홀딩스",
+      "weight_pct": 0.19,
+      "shares": 5,
+      "item_code": "036830"
+    },
+    {
+      "name": "하나기술",
+      "weight_pct": 0.09,
+      "shares": 7,
+      "item_code": "299030"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": -29.19,
+      "shares": -32416467,
+      "item_code": null
+    }
+  ]
+}

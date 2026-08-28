@@ -9,6 +9,7 @@ import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classificati
 import { EtfDetailClient } from "./etf-detail-client";
 import { DistributionHistoryCard } from "./distribution-history-card";
 import { PriceHistoryChart } from "./price-history-chart";
+import { EtfHoldings } from "./etf-holdings";
 
 import type { PeerComparison } from "@/lib/data/etf-peer-groups";
 import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
@@ -253,6 +254,8 @@ export function EtfDetail({
                   ))}
                 </div>
               </div>
+
+              <EtfHoldings ticker={etf.ticker} />
             </div>
 
             {/* 오른쪽 영역 (약 30%): 투자 전 체크 지표 */}

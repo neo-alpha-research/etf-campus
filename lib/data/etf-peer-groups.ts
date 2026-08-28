@@ -2,10 +2,7 @@ import path from "node:path";
 import type { Etf } from "@/lib/domain/etf-types";
 import { readCsv, type CsvRow } from "./csv";
 
-const AUTOMATIC_STATUSES = new Set([
-  "verified_official",
-  "auto_high_confidence",
-]);
+
 const MAX_PEERS = 4;
 
 export type ComparisonProfile = {

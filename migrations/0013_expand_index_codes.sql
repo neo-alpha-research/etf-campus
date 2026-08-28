@@ -1,6 +1,6 @@
 CREATE TABLE market_index_daily_new (
   as_of_date TEXT NOT NULL CHECK (as_of_date GLOB '????-??-??'),
-  index_code TEXT NOT NULL CHECK (index_code IN ('KOSPI', 'KOSDAQ', 'TNX', 'VIX', 'CLF')),
+  index_code TEXT NOT NULL,
   index_name TEXT NOT NULL,
   close_value REAL NOT NULL CHECK (close_value > 0),
   change_points REAL,

@@ -184,9 +184,12 @@ export function parseExplorerQuery(query: URLSearchParams): ExplorerState {
   const periods = getReturnPeriods(mode);
   const period = validValue(query.get("period"), periods, getDefaultPeriod(mode));
   const parsedPage = Number(query.get("page"));
+  
+  const defaultScope = mode === "tdf" || mode === "new" ? "all" : DEFAULT_EXPLORER_STATE.scope;
+  
   return {
     mode,
-    scope: validValue(query.get("scope"), AUM_SCOPES, DEFAULT_EXPLORER_STATE.scope),
+    scope: validValue(query.get("scope"), AUM_SCOPES, defaultScope),
     period,
     sort: validValue(query.get("sort"), SORT_KEYS, mode === "new" ? "listingDate" : DEFAULT_EXPLORER_STATE.sort),
     direction: validValue(query.get("direction"), SORT_DIRECTIONS, DEFAULT_EXPLORER_STATE.direction),

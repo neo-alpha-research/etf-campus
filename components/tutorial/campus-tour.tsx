@@ -15,8 +15,8 @@ const campusFacilities = [
     icon: "🧭",
     title: "전공 적성 검사 (투자 성향 진단)",
     subtitle: "내 투자 DNA를 진단하고 최적의 ETF 전공 찾기",
-    professorQuote:
-      "투자의 출발점은 나만의 투자 성향을 명확히 아는 것입니다. 10가지 동물 성향 진단으로 나의 투자 스타일을 점검하고, 맞춤형 포트폴리오 방향과 추천 도서를 확인해 보세요.",
+    description:
+      "투자의 출발점은 나만의 투자 성향을 명확히 아는 것입니다. 10가지 동물 성향 진단을 통해 나의 투자 스타일을 점검하고, 맞춤형 자산배분 포트폴리오와 추천 도서를 확인해 보세요.",
     features: [
       "10가지 동물 유형 기반 투자 성향 진단",
       "성향별 자산배분 방향 및 포트폴리오 가이드",
@@ -35,8 +35,8 @@ const campusFacilities = [
     icon: "📰",
     title: "오늘의 시사 교양 & 출석체크 (마켓 브리핑)",
     subtitle: "매일 아침 글로벌 시황과 ETF 주요 지표 점검",
-    professorQuote:
-      "단기 시황에 흔들리지 않고 거시적 시장 흐름을 읽는 안목이 중요합니다. 매일 아침 12대 핵심 거시지표와 주요 자산군별 ETF 자금 흐름을 브리핑으로 점검해 보세요.",
+    description:
+      "단기 시황에 흔들리지 않고 거시적 시장 흐름을 읽는 안목을 기릅니다. 매일 아침 12대 핵심 거시지표와 주요 자산군별 ETF 자금 흐름을 마켓 브리핑으로 점검해 보세요.",
     features: [
       "12대 글로벌 거시경제 지표 및 신호등 요약",
       "주요 자산군별 ETF 일간 등락 순위 및 자금 동향",
@@ -55,8 +55,8 @@ const campusFacilities = [
     icon: "📚",
     title: "전공 도서관 (ETF 탐색·스크리너)",
     subtitle: "국내 900+개 ETF 조건별·계좌별 정밀 탐색",
-    professorQuote:
-      "국내 상장된 900여 개 ETF 중 내 투자 목적에 맞는 종목을 찾는 곳입니다. 연금 편입 가능 여부와 총보수, 순자산 규모, 환헤지 여부를 꼼꼼하게 필터링해 보세요.",
+    description:
+      "국내 상장된 900여 개 ETF 중 내 투자 목적에 꼭 맞는 종목을 찾는 곳입니다. 연금 편입 가능 여부와 총보수, 순자산 규모, 환헤지 여부를 꼼꼼하게 필터링해 보세요.",
     features: [
       "연금 편입 가능 여부 및 자산군별 조건 검색",
       "총보수(TER), 순자산(AUM), 거래대금 정렬",
@@ -75,8 +75,8 @@ const campusFacilities = [
     icon: "🔬",
     title: "전공 비교 분석실 (ETF 비교)",
     subtitle: "헷갈리는 ETF들의 보수, 기초지수, 과거 수익률 대조",
-    professorQuote:
-      "이름이 비슷하다고 같은 ETF가 아닙니다. 비교할 종목들을 최대 5개까지 나란히 올려두고 총보수, 순자산 규모, 거래대금, 구간별 수익률을 한눈에 대조해 보세요.",
+    description:
+      "이름이 비슷하다고 같은 ETF가 아닙니다. 비교할 관심 종목들을 최대 5개까지 나란히 올려두고 총보수, 순자산 규모, 거래대금, 구간별 수익률을 한눈에 대조해 보세요.",
     features: [
       "관심 ETF 최대 5개 핵심 스펙 나란히 맞비교",
       "총보수, 순자산(AUM), 일일 거래대금 대조",
@@ -95,8 +95,8 @@ const campusFacilities = [
     icon: "📖",
     title: "캠퍼스 필독서 서재 (도서·리뷰)",
     subtitle: "검증된 투자 대가들의 고전과 실전 연금 가이드",
-    professorQuote:
-      "검증된 투자 대가들의 고전과 연금 관련 도서가 모인 서재입니다. 나의 투자 성향에 맞는 도서를 살펴보고 원칙 중심의 투자 철학을 정립해 보세요.",
+    description:
+      "존 보글, 벤저민 그레이엄 등 검증된 대가들의 투자 고전과 연금 관련 도서가 모인 서재입니다. 나의 투자 성향에 맞는 도서를 살펴보고 원칙 중심의 투자 철학을 정립해 보세요.",
     features: [
       "투자 대가들의 고전 및 연금 도서 핵심 리뷰",
       "나의 동물 투자 성향(전공)별 맞춤 도서 안내",
@@ -115,8 +115,8 @@ const campusFacilities = [
     icon: "☕",
     title: "학생회 & 동아리방 (ETF 이야기)",
     subtitle: "함께 공부하고 실전 인사이트를 나누는 동문 커뮤니티",
-    professorQuote:
-      "연금 투자는 수십 년을 이어가는 긴 마라톤입니다. 혼자 고민하지 마시고, 동문들과 함께 포트폴리오 고민과 투자 경험을 자유롭게 나누어 보세요.",
+    description:
+      "연금 투자는 수십 년을 이어가는 긴 마라톤입니다. 혼자 고민하지 마시고, 동문들과 함께 포트폴리오 고민과 실전 투자 경험을 자유롭게 나누어 보세요.",
     features: [
       "ETF 투자 경험 및 연금 포트폴리오 이야기 공유",
       "주간 · 월간 학습 챌린지 참여 및 인증",
@@ -147,11 +147,11 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
           🗺️ 캠퍼스 6대 핵심 시설 안내
         </span>
         <h2 className="text-2xl sm:text-3xl font-black text-strong tracking-tight break-keep">
-          &ldquo;ETF 캠퍼스 6대 시설, 이렇게 200% 활용해 보세요!&rdquo;
+          ETF 캠퍼스 6대 시설, 이렇게 200% 활용해 보세요!
         </h2>
         <p className="text-sm sm:text-base text-muted font-medium max-w-2xl mx-auto break-keep">
           신입생 여러분이 성공적인 연금 및 ETF 투자자로 거듭날 수 있도록 설계된 캠퍼스 주요 시설입니다.
-          각 시설의 팁을 읽어보고 필요한 곳으로 바로 이동해 보십시오.
+          각 시설의 특징을 확인하고 필요한 곳으로 바로 이동해 보십시오.
         </p>
       </div>
 
@@ -160,7 +160,7 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
         {campusFacilities.map((facility) => (
           <div
             key={facility.id}
-            className={`relative flex flex-col justify-between rounded-3xl border bg-gradient-to-br p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 ${facility.theme}`}
+            className={`relative flex flex-col justify-between rounded-3xl border bg-gradient-to-br p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 ${facility.theme}`}
           >
             <div className="space-y-4">
               {/* Card Top: Badge & Tag */}
@@ -184,14 +184,11 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
                 </p>
               </div>
 
-              {/* Professor Owl's Speech Box (High Contrast & Respectful) */}
+              {/* Clean Descriptive Box */}
               <div className="relative rounded-2xl bg-surface p-4 border border-current/15 shadow-2xs">
-                <div className="flex items-start gap-2.5">
-                  <span className="shrink-0 text-lg select-none">🦉</span>
-                  <p className="text-xs sm:text-sm font-semibold text-neutral-900 break-keep leading-relaxed">
-                    &ldquo;{facility.professorQuote}&rdquo;
-                  </p>
-                </div>
+                <p className="text-xs sm:text-sm font-medium text-neutral-800 break-keep leading-relaxed">
+                  {facility.description}
+                </p>
               </div>
 
               {/* Key Feature Bullets */}
@@ -245,7 +242,7 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
               이제 <span className="text-amber-400">신입생 필수 10강 퀴즈</span>에 도전해 보십시오!
             </h3>
             <p className="text-xs sm:text-sm text-brand-100/90 font-medium break-keep">
-              10단계를 모두 통과한 학우에게는 부엉이 교수님이 특별 졸업 선물로 <br className="hidden sm:inline" />
+              10단계를 모두 통과한 학우에게는 특별 졸업 선물로 <br className="hidden sm:inline" />
               <strong className="text-white font-bold underline decoration-amber-400">
                 🎁 [연금 ETF 운용 체크리스트 PDF]
               </strong>

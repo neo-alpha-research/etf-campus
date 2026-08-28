@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { tutorialSteps } from "@/data/tutorial-content";
 import { useAuthSession } from "@/components/auth/use-auth-session";
-import { ProfessorHero } from "@/components/tutorial/professor-hero";
+import { FounderLetter } from "@/components/tutorial/founder-letter";
 import { CampusTour } from "@/components/tutorial/campus-tour";
 
 function TutorialContent() {
@@ -59,38 +59,33 @@ function TutorialContent() {
     }
   }, [isLoading, isValidating, authenticated, currentStep]);
 
-  // 진행 상태가 바뀔 때마다 로컬스토리지에 저장
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("tutorial_progress", currentStep.toString());
-      localStorage.setItem("tutorial_answers", JSON.stringify(answers));
-      localStorage.setItem("tutorial_isGraded", isGraded.toString());
-    }
-  }, [currentStep, answers, isGraded, isLoaded]);
-
-  const handleAnswer = (questionId: string, answer: boolean) => {
-    if (isGraded) return;
-    setAnswers((prev) => ({ ...prev, [questionId]: answer }));
-    setGradeError(false);
+  // 답변 선택 핸들러
+  const handleSelectAnswer = (qId: string, value: boolean) => {
+    if (isGraded) return; // 이미 채점 완료된 경우 수정 불가
+    const newAnswers = { ...answers, [qId]: value };
+    setAnswers(newAnswers);
+    localStorage.setItem("tutorial_answers", JSON.stringify(newAnswers));
   };
 
+  // 현재 단계 채점 핸들러
   const handleGrade = () => {
     if (!stepData) return;
 
-    const allAnswered = stepData.questions.every(
-      (q) => answers[q.id] !== undefined
-    );
+    // 모든 문제에 답변했는지 확인
+    const allAnswered = stepData.questions.every((q) => answers[q.id] !== undefined && answers[q.id] !== null);
     if (!allAnswered) {
-      alert("모든 문항을 선택(O/X)해야 채점할 수 있습니다.");
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
       return;
     }
 
-    const allCorrect = stepData.questions.every(
-      (q) => answers[q.id] === q.answer
-    );
+    // 모든 답변이 정답인지 검증
+    const allCorrect = stepData.questions.every((q) => answers[q.id] === q.answer);
+
     if (allCorrect) {
       setIsGraded(true);
       setGradeError(false);
+      localStorage.setItem("tutorial_isGraded", "true");
     } else {
       setGradeError(true);
       setShake(true);
@@ -98,41 +93,55 @@ function TutorialContent() {
     }
   };
 
+  // 다음 단계로 이동
   const nextStep = () => {
-    // 3단계 완료 후 미로그인 상태라면 강제 로그인/회원가입 유도
+    // 3단계 완료 후 4단계로 넘어갈 때 로그인 체크
     if (currentStep === 3 && !authenticated) {
-      const confirmSignup = window.confirm(
-        "🔒 [학사 행정 안내] 4강부터는 나의 학습 데이터 보존을 위해 학생 등록(로그인/회원가입)이 필요합니다.\n\n로그인/회원가입 화면으로 이동하시겠습니까?"
-      );
-      if (confirmSignup) {
-        // 성공적으로 로그인 후 돌아오면 4단계부터 시작하도록 미리 세팅
-        localStorage.setItem("tutorial_progress", "4");
-        localStorage.removeItem("tutorial_answers");
-        localStorage.removeItem("tutorial_isGraded");
-        router.push("/login?returnTo=/tutorial?tab=quiz");
-      }
-      return; // UI 진행 차단
+      router.push("/login?returnTo=/tutorial?tab=quiz");
+      return;
     }
 
-    setCurrentStep((prev) => Math.min(prev + 1, 10));
-    setAnswers({});
-    setIsGraded(false);
-    setGradeError(false);
+    if (currentStep < 10) {
+      const next = currentStep + 1;
+      setCurrentStep(next);
+      setIsGraded(false);
+      setGradeError(false);
+      localStorage.setItem("tutorial_progress", next.toString());
+      localStorage.removeItem("tutorial_isGraded");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
-  // 클라이언트 렌더링 전 깜빡임 방지 (hydration)
+  // 이전 단계로 이동
+  const prevStep = () => {
+    if (currentStep > 1) {
+      const prev = currentStep - 1;
+      setCurrentStep(prev);
+      setIsGraded(false);
+      setGradeError(false);
+      localStorage.setItem("tutorial_progress", prev.toString());
+      localStorage.removeItem("tutorial_isGraded");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   if (!isLoaded || !stepData) {
     return (
-      <div className="p-16 text-center text-muted font-medium animate-pulse">
-        🏛️ ETF 캠퍼스 신입생 오리엔테이션 자료 불러오는 중...
+      <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+        <div className="size-10 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
+        <p className="text-muted font-medium text-sm">신입생 오리엔테이션 불러오는 중...</p>
       </div>
     );
   }
 
+  const allCurrentAnswered = stepData.questions.every(
+    (q) => answers[q.id] !== undefined && answers[q.id] !== null
+  );
+
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-8 select-none">
-      {/* 🦉 Professor Owl Hero Section */}
-      <ProfessorHero
+      {/* 🏛️ Founder Neo's Letter Section */}
+      <FounderLetter
         activeTab={activeTab}
         onTabChange={(tab) => {
           setActiveTab(tab);
@@ -141,7 +150,7 @@ function TutorialContent() {
         quizProgress={currentStep}
       />
 
-      {/* Tab 1: Campus Tour (6 Facilities) */}
+      {/* Tab 1: Campus Facility Tour */}
       {activeTab === "tour" && (
         <CampusTour
           onStartQuiz={() => {
@@ -181,120 +190,134 @@ function TutorialContent() {
             </div>
           </div>
 
-          {/* 🎮 Lesson Header & Professor Owl Tip */}
-          <div className="rounded-3xl border border-brand-200/80 bg-surface p-6 sm:p-8 space-y-3 shadow-sm text-center md:text-left">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-brand-50 text-brand-700 border border-brand-200/60">
-              <span>제 {currentStep}강</span>
-              <span className="text-neutral-300">|</span>
-              <span>신입생 필수 기초 소양</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-strong break-keep">
-              {stepData.title}
-            </h2>
-            <div className="relative rounded-2xl bg-brand-50/70 p-4 border border-brand-100/80 text-left">
-              <div className="flex items-start gap-2.5">
-                <span className="shrink-0 text-base">🦉</span>
-                <p className="text-xs sm:text-sm font-medium text-brand-900 break-keep leading-relaxed italic">
-                  &ldquo;{stepData.intro}&rdquo;
-                </p>
+          {/* 📜 Lesson Step Card */}
+          <div className="bg-surface rounded-3xl p-6 sm:p-8 shadow-sm border border-neutral-200 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-100 pb-5">
+              <div>
+                <span className="text-xs font-bold text-brand-600 tracking-wider uppercase">
+                  STEP {currentStep} / 10
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-strong mt-0.5 break-keep">
+                  {stepData.title}
+                </h2>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  disabled={currentStep === 1}
+                  className="px-3.5 py-1.5 rounded-xl border border-neutral-200 text-xs font-bold text-neutral-600 hover:bg-neutral-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  ◀ 이전 강의
+                </button>
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  disabled={currentStep === 10 || !isGraded}
+                  className="px-3.5 py-1.5 rounded-xl border border-brand-200 bg-brand-50 text-xs font-bold text-brand-700 hover:bg-brand-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  다음 강의 ▶
+                </button>
               </div>
             </div>
-          </div>
 
-          {/* 🎮 Distinct Quiz Cards */}
-          <div className="space-y-4">
-            {stepData.questions.map((q, idx) => {
-              const isSelectedO = answers[q.id] === true;
-              const isSelectedX = answers[q.id] === false;
-              const isAnswered = answers[q.id] !== undefined;
+            {/* Intro Quote Box */}
+            <div className="bg-gradient-to-r from-neutral-50 to-brand-50/30 p-4 sm:p-5 rounded-2xl border-l-4 border-brand-600 text-neutral-800 text-sm sm:text-base font-medium leading-relaxed break-keep">
+              💡 {stepData.intro}
+            </div>
 
-              const cardBg = isAnswered
-                ? "bg-neutral-50/80 border-neutral-200 shadow-none"
-                : "bg-surface border-brand-200 shadow-sm ring-1 ring-brand-50";
-              const textColor = isAnswered ? "text-muted" : "text-strong";
-              const badgeStyle = isAnswered
-                ? "bg-neutral-200 text-muted"
-                : "bg-brand-700 text-white shadow-2xs";
+            {/* ❓ Question Items */}
+            <div className="space-y-6">
+              {stepData.questions.map((q, idx) => {
+                const userAns = answers[q.id];
+                const isSelectedTrue = userAns === true;
+                const isSelectedFalse = userAns === false;
+                const isCorrect = userAns === q.answer;
 
-              return (
-                <div
-                  key={q.id}
-                  className={`p-4 sm:p-5 border-2 rounded-2xl transition-all duration-300 ${cardBg}`}
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex-1 flex items-start gap-3">
-                      <span
-                        className={`shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-xl font-black text-base mt-0.5 transition-colors ${badgeStyle}`}
-                      >
-                        {isGraded ? "⭕" : `Q${idx + 1}`}
+                return (
+                  <div
+                    key={q.id}
+                    className={`p-5 rounded-2xl border transition-all duration-200 ${
+                      isGraded
+                        ? isCorrect
+                          ? "bg-emerald-50/50 border-emerald-200"
+                          : "bg-rose-50/50 border-rose-200"
+                        : "bg-surface border-neutral-200 hover:border-neutral-300"
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className="shrink-0 size-6 rounded-full bg-neutral-100 text-neutral-700 font-black text-xs flex items-center justify-center mt-0.5">
+                        {idx + 1}
                       </span>
-                      <div className="flex-1">
-                        {!isGraded ? (
-                          <p
-                            className={`font-bold text-base sm:text-lg leading-snug break-keep transition-colors mt-1.5 ${textColor}`}
+                      <div className="flex-1 space-y-4">
+                        <p className="text-base sm:text-lg font-bold text-strong break-keep leading-snug">
+                          {q.text}
+                        </p>
+
+                        {/* O / X Selection Buttons */}
+                        <div className="grid grid-cols-2 gap-3 max-w-sm">
+                          <button
+                            type="button"
+                            onClick={() => handleSelectAnswer(q.id, true)}
+                            disabled={isGraded}
+                            className={`py-3.5 px-4 rounded-xl font-black text-lg sm:text-xl flex items-center justify-center gap-2 border-2 transition-all active:scale-[0.98] ${
+                              isSelectedTrue
+                                ? "bg-blue-600 text-white border-blue-600 shadow-md ring-2 ring-blue-200"
+                                : "bg-neutral-50 text-neutral-700 border-neutral-200 hover:bg-neutral-100"
+                            } ${isGraded ? "cursor-default" : ""}`}
                           >
-                            {q.text}
-                          </p>
-                        ) : (
-                          <div className="animate-fade-in-up mt-1">
-                            <p className="text-xs sm:text-sm text-neutral-400 line-through mb-1 break-keep">
-                              {q.text}
-                            </p>
-                            <p className="font-bold text-base sm:text-lg text-emerald-700 leading-snug break-keep">
-                              💡 {q.correctFeedback.replace("정답입니다! ", "")}
-                            </p>
+                            <span className="text-2xl leading-none">⭕</span>
+                            <span>그렇다</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleSelectAnswer(q.id, false)}
+                            disabled={isGraded}
+                            className={`py-3.5 px-4 rounded-xl font-black text-lg sm:text-xl flex items-center justify-center gap-2 border-2 transition-all active:scale-[0.98] ${
+                              isSelectedFalse
+                                ? "bg-rose-600 text-white border-rose-600 shadow-md ring-2 ring-rose-200"
+                                : "bg-neutral-50 text-neutral-700 border-neutral-200 hover:bg-neutral-100"
+                            } ${isGraded ? "cursor-default" : ""}`}
+                          >
+                            <span className="text-2xl leading-none">❌</span>
+                            <span>아니다</span>
+                          </button>
+                        </div>
+
+                        {/* Feedback Banner */}
+                        {isGraded && (
+                          <div
+                            className={`p-3.5 rounded-xl text-xs sm:text-sm font-semibold break-keep leading-relaxed animate-fade-in-up ${
+                              isCorrect
+                                ? "bg-emerald-100/80 text-emerald-900 border border-emerald-200"
+                                : "bg-rose-100/80 text-rose-900 border border-rose-200"
+                            }`}
+                          >
+                            {isCorrect ? q.correctFeedback : q.incorrectFeedback}
                           </div>
                         )}
                       </div>
                     </div>
-
-                    {/* Game-like Toggle Buttons (Hidden when graded) */}
-                    {!isGraded && (
-                      <div className="flex shrink-0 gap-3 sm:self-center self-end pl-12 sm:pl-0">
-                        <button
-                          type="button"
-                          onClick={() => handleAnswer(q.id, true)}
-                          className={`w-16 h-12 rounded-xl font-black text-xl transition-all duration-200 ${
-                            isSelectedO
-                              ? "bg-blue-600 text-white shadow-inner scale-95 border-b-0 translate-y-1"
-                              : "bg-surface text-neutral-400 border-2 border-b-4 border-neutral-200 hover:border-blue-300 hover:text-blue-600 active:translate-y-1 active:border-b-2"
-                          }`}
-                        >
-                          O
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleAnswer(q.id, false)}
-                          className={`w-16 h-12 rounded-xl font-black text-xl transition-all duration-200 ${
-                            isSelectedX
-                              ? "bg-red-600 text-white shadow-inner scale-95 border-b-0 translate-y-1"
-                              : "bg-surface text-neutral-400 border-2 border-b-4 border-neutral-200 hover:border-red-300 hover:text-red-600 active:translate-y-1 active:border-b-2"
-                          }`}
-                        >
-                          X
-                        </button>
-                      </div>
-                    )}
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
 
-          {/* 🎮 Grading & Action Area */}
-          <div className="pt-4">
+            {/* 🎯 Bottom Action (Grading or Navigation) */}
             {!isGraded ? (
-              <div
-                className={`space-y-3 transition-transform ${
-                  shake ? "animate-shake" : ""
-                }`}
-              >
+              <div className="pt-2 space-y-3">
                 <button
                   type="button"
                   onClick={handleGrade}
-                  className="w-full bg-gradient-to-b from-neutral-800 to-neutral-950 border-b-4 border-black text-white font-black py-4 sm:py-5 rounded-2xl hover:brightness-110 active:border-b-0 active:translate-y-1 transition-all shadow-lg text-lg tracking-wide"
+                  disabled={!allCurrentAnswered}
+                  className={`w-full py-4 sm:py-5 rounded-2xl font-black text-lg tracking-wide transition-all shadow-md active:scale-[0.99] ${
+                    allCurrentAnswered
+                      ? "bg-brand-700 hover:bg-brand-800 text-white shadow-brand-700/20"
+                      : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
+                  } ${shake ? "animate-shake" : ""}`}
                 >
-                  🎯 채점하고 해설 확인하기
+                  {allCurrentAnswered ? "제출하고 채점하기 🎯" : "모든 문제의 O / X를 선택해 주세요"}
                 </button>
                 {gradeError && (
                   <div className="text-center p-3 sm:p-4 bg-red-50 rounded-xl border border-red-200 text-red-700 text-base font-bold animate-pulse break-keep">
@@ -310,7 +333,7 @@ function TutorialContent() {
                     축하합니다! 신입생 필수 10강 수료 완료!
                   </h2>
                   <p className="text-amber-800 font-medium text-base mt-2 break-keep">
-                    부엉이 교수님이 수여하는 [연금 ETF 운용 체크리스트]를 다운로드하여 실전에 활용해 보십시오.
+                    설립자 Neo가 제공하는 [연금 ETF 운용 체크리스트]를 다운로드하여 실전에 활용해 보십시오.
                   </p>
                 </div>
                 <a

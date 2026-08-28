@@ -401,9 +401,15 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
     }
   };
 
-  const quickFilterItems = [
-    { id: "us-stock", icon: "🇺🇸", label: "미국 주식", active: isUsStockQuickActive, toggle: toggleUsStockQuick },
-    { id: "kr-stock", icon: "🇰🇷", label: "국내 주식", active: isKrStockQuickActive, toggle: toggleKrStockQuick },
+  const quickFilterItems: {
+    id: string;
+    icon: React.ReactNode;
+    label: string;
+    active: boolean;
+    toggle: () => void;
+  }[] = [
+    { id: "us-stock", icon: <img src="https://flagcdn.com/w40/us.png" alt="미국" width={18} height={13} className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0 inline-block" />, label: "미국 주식", active: isUsStockQuickActive, toggle: toggleUsStockQuick },
+    { id: "kr-stock", icon: <img src="https://flagcdn.com/w40/kr.png" alt="한국" width={18} height={13} className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0 inline-block" />, label: "국내 주식", active: isKrStockQuickActive, toggle: toggleKrStockQuick },
     { id: "div-growth", icon: "💰", label: "배당성장", active: isDivGrowthQuickActive, toggle: toggleDivGrowthQuick },
     { id: "semi", icon: "⚡", label: "반도체", active: isSemiconductorQuickActive, toggle: toggleSemiconductorQuick },
     { id: "ai", icon: "🤖", label: "AI·빅테크", active: isAiQuickActive, toggle: toggleAiQuick },

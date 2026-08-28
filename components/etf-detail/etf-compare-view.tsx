@@ -37,13 +37,16 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
     const el = scrollRef.current;
     if (!el) return;
     
+    el.scrollLeft = 0;
+    setIsScrolled(false);
+
     const handleScroll = () => {
       setIsScrolled(el.scrollLeft > 5);
     };
     
     el.addEventListener("scroll", handleScroll, { passive: true });
     return () => el.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [compareList]);
 
   const shadowClass = isScrolled ? "shadow-[4px_0_12px_-4px_rgba(0,0,0,0.08)]" : "";
 
@@ -71,12 +74,12 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
       <div className="relative border border-line bg-surface">
         <div 
           ref={scrollRef}
-          className="relative text-center overflow-x-auto overscroll-x-contain scroll-smooth snap-x snap-mandatory [scrollbar-width:none] [-webkit-overflow-scrolling:touch]" 
+          className="relative text-center overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:none] [-webkit-overflow-scrolling:touch]" 
           role="region" 
           aria-label="ETF 비교 표. 좌우로 스크롤할 수 있습니다." 
           tabIndex={0}
         >
-          <table className="w-full table-fixed text-sm border-collapse" style={{ tableLayout: "fixed" }}>
+          <table className="w-full table-fixed text-sm border-separate border-spacing-0" style={{ tableLayout: "fixed" }}>
             <thead className="sticky top-0 z-30 shadow-[0_2px_0_0_#e5e7eb]">
               <tr>
                 <th className={`sticky left-0 z-40 w-32 min-w-[8rem] max-w-[8rem] bg-neutral-100 backdrop-blur px-4 py-4 text-sm font-extrabold text-neutral-600 border-b border-r border-line transition-shadow duration-200 align-middle text-center ${shadowClass}`}>비교 항목</th>
@@ -84,7 +87,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const reasons = selectionReasons?.get(etf.ticker) || [];
                   return (
-                    <th key={etf.ticker} className={`relative px-3 py-4 w-56 min-w-[13.5rem] max-w-[14.5rem] snap-start border-b border-r border-neutral-200 font-bold text-strong align-top ${isBase ? "bg-brand-100/70" : "bg-neutral-100 backdrop-blur"}`}>
+                    <th key={etf.ticker} className={`relative px-3 py-4 w-56 min-w-[13.5rem] max-w-[14.5rem] border-b border-r border-neutral-200 font-bold text-strong align-top ${isBase ? "bg-brand-100/70" : "bg-neutral-100 backdrop-blur"}`}>
                       <div className="flex flex-col items-center text-center gap-1.5 w-full">
                         <Link href={`/etf/${etf.ticker}`} className="flex flex-col items-center text-center gap-1 group w-full">
                           <span className={`text-[12px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-700" : "text-neutral-500"}`}>{etf.ticker}</span>
@@ -126,14 +129,14 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 })}
               </tr>
             </thead>
-            <tbody className="divide-y divide-line [&>tr]:h-[36px] [&>tr:nth-child(even)]:bg-neutral-50/40 [&>tr:nth-child(even)>th]:!bg-neutral-50/95">
+            <tbody className="[&>tr]:h-[36px] [&>tr:nth-child(even)]:bg-neutral-50/40 [&>tr:nth-child(even)>th]:!bg-neutral-50/95">
               {/* 투자 분류 */}
               <tr>
-                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>투자 분류</th>
+                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>투자 분류</th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-r border-neutral-200 px-4 py-1.5 snap-start transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
+                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-4 py-1.5 transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
                       <div className="flex flex-wrap justify-center gap-1 items-center overflow-hidden [&_span]:!px-1.5 [&_span]:!py-0.5 [&_span]:!text-[11px]">
                         {etf.classification?.marketScope && <span className="inline-flex rounded-sm border border-blue-300 bg-blue-50 font-semibold text-blue-700">{etf.classification.marketScope}</span>}
                         {etf.classification?.assetClass && <span className="inline-flex rounded-sm border border-purple-300 bg-purple-50 font-semibold text-purple-700">{etf.classification.assetClass}</span>}
@@ -150,13 +153,13 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               </tr>
               {/* 총보수 */}
               <tr>
-                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>총보수</th>
+                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>총보수</th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const feeInfo = etf.fee;
                   const hasFee = feeInfo?.totalFeePct != null;
                   return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-r border-neutral-200 px-4 py-1.5 snap-start transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
+                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-4 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
                       <span className={`text-[11.5px] font-semibold ${hasFee ? "text-strong" : "text-muted"}`}>
                         {hasFee ? `${feeInfo.totalFeePct}%` : "-"}
                       </span>
@@ -166,11 +169,11 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               </tr>
               {/* 기초 지수 */}
               <tr>
-                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>기초 지수</th>
+                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>기초 지수</th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   return (
-                    <td key={etf.ticker} className={`border-r border-neutral-200 px-3 py-1.5 snap-start transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
+                    <td key={etf.ticker} className={`border-b border-r border-neutral-200 px-3 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
                       <span className="text-[11.5px] font-semibold text-strong leading-tight break-words [overflow-wrap:anywhere] block max-w-full" title={etf.baseIndex || ""}>{etf.baseIndex || "-"}</span>
                     </td>
                   );
@@ -179,7 +182,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
 
               {/* 순자산 */}
               <tr>
-                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
+                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
                     <span>순자산</span>
                     <span className="text-[10px] text-neutral-400 cursor-help">ⓘ</span>
@@ -192,7 +195,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-r border-neutral-200 relative px-4 py-1.5 text-center tabular-nums snap-start transition-colors ${isBase ? "bg-brand-50/40" : ""} text-strong font-extrabold`}>
+                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 relative px-4 py-1.5 text-center tabular-nums transition-colors ${isBase ? "bg-brand-50/40" : ""} text-strong font-extrabold`}>
                       <div className="flex justify-center items-center gap-1">
                         <span>{formatMoney(etf.aum)}</span>
                       </div>
@@ -202,7 +205,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               </tr>
               {/* 일일 거래대금 */}
               <tr>
-                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
+                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
                     <span>일일 거래대금</span>
                     <span className="text-[10px] text-neutral-400 cursor-help">ⓘ</span>
@@ -215,7 +218,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-r border-neutral-200 relative px-4 py-1.5 text-center tabular-nums snap-start transition-colors ${isBase ? "bg-brand-50/40" : ""} text-strong font-extrabold`}>
+                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 relative px-4 py-1.5 text-center tabular-nums transition-colors ${isBase ? "bg-brand-50/40" : ""} text-strong font-extrabold`}>
                       <div className="flex justify-center items-center gap-1">
                         <span>{formatMoney(etf.tradeValue)}</span>
                       </div>
@@ -225,23 +228,21 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               </tr>
               {/* 종가 */}
               <tr>
-                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>종가</th>
+                <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>종가</th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-r border-neutral-200 px-4 py-1.5 text-center tabular-nums font-extrabold text-strong snap-start ${isBase ? "bg-brand-50/40" : ""}`}>
+                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-4 py-1.5 text-center tabular-nums font-extrabold text-strong ${isBase ? "bg-brand-50/40" : ""}`}>
                       {formatWon(etf.close)}
                     </td>
                   );
                 })}
               </tr>
 
-
-  
               {orderedPeriods.map((period, index) => {
                 return (
                   <tr key={period}>
-                    <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-r border-line transition-shadow duration-200 text-right align-middle ${shadowClass}`}>
+                    <th className={`sticky left-0 z-20 bg-surface px-4 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-right align-middle ${shadowClass}`}>
                       {index === 0 ? (
                         <div className="flex justify-between items-center w-full">
                           <span>수익률</span>
@@ -255,7 +256,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                       const val = etf.returns[period];
                       const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                       return (
-                        <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-r border-neutral-200 px-4 py-1.5 text-right tabular-nums snap-start transition-colors font-semibold ${isBase ? "bg-brand-50/40" : ""} font-bold`}>
+                        <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-4 py-1.5 text-right tabular-nums transition-colors font-semibold ${isBase ? "bg-brand-50/40" : ""} font-bold`}>
                           <div className="flex justify-end items-center gap-1">
                             <ReturnCell value={val} />
                           </div>

@@ -811,6 +811,8 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
     market_scale: marketScale,
   };
 
+  const metricsJson = JSON.stringify(metrics);
+
   const statements: any[] = [
     env.ETF_PRICES.prepare(`UPDATE market_briefings SET metrics_json = ?, updated_at = ? WHERE as_of_date = ?`).bind(metricsJson, nowIso(), asOfDate),
     env.ETF_PRICES.prepare(`DELETE FROM market_briefing_asset_classes WHERE as_of_date = ?`).bind(asOfDate),

@@ -776,7 +776,8 @@ export function MarketBriefing() {
     concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${decimal.format(pulse.top10TradeSharePct)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
   }
 
-  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${themeSentence}${concentrationSentence}`.trim();
+  const flatCount = pulse.flatCount ?? 0;
+  const headline = `일반 ETF ${number.format(pulse.generalEtfCount)}개 중 상승 ${pulse.upCount}개, 보합 ${flatCount}개, 하락 ${pulse.downCount}개로 평균 ${signed(pulse.generalAumWeightedReturnPct)} ${isPositive ? '상승' : '하락'}하며 전반적인 ${isPositive ? '강세' : '약세'}를 보였습니다. ${themeSentence}${concentrationSentence}`.trim();
 
 
 
@@ -1159,11 +1160,6 @@ export function MarketBriefing() {
                     <span className="text-[15px]">💡</span>
                     <p className="text-[12px] font-extrabold tracking-wide text-neutral-500">3줄 요약 브리핑</p>
                   </div>
-                  {briefing.disparityWarning && briefing.disparityWarning.length > 0 && (
-                    <span className="inline-flex items-center rounded-full bg-[#FFF5F5] px-2 py-0.5 text-[10px] font-bold text-[#D84957] ring-1 ring-inset ring-[#F3C5C9]">
-                      ⚠️ 괴리율 주의
-                    </span>
-                  )}
                 </div>
                 <div className="space-y-2">
                   {headline.split('. ').map((sentence, i) => {

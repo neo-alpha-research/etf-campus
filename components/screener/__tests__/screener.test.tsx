@@ -77,7 +77,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(window.location.search).toContain("q=%EB%B0%98%EB%8F%84%EC%B2%B4"); // 반도체
 
     // 필터 해제 버튼 확인
-    const clearButton = screen.getByRole("button", { name: "반도체 필터 해제 ✕" });
+    const clearButton = screen.getByRole("button", { name: "반도체 필터 해제" });
     expect(clearButton).toBeInTheDocument();
     fireEvent.click(clearButton);
     expect(semiButton).toHaveAttribute("aria-pressed", "false");

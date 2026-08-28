@@ -331,84 +331,70 @@ function investmentReferenceTier(
   return null;
 }
 
-function expansionTier(
+function calculateRelativeDistance(
   target: ComparisonProfile,
   candidate: ComparisonProfile,
-): PeerCandidate["tier"] | null {
-  const sameCoreStructure =
-    target.assetFamily === candidate.assetFamily &&
-    target.payoffStructure === candidate.payoffStructure &&
-    target.direction === candidate.direction &&
-    target.leverageMultiple === candidate.leverageMultiple;
+): { score: number; tier: PeerCandidate["tier"]; reasons: string[] } | null {
+  let score = 0;
 
-  if (sameCoreStructure &&
-      hasCompatibleStructure(target, candidate) &&
-      target.comparisonCategory === candidate.comparisonCategory) {
-    if (sharesTopic(target, candidate)) return "similar_topic";
-    const broadCategories = new Set(["배당·주주환원", "대표지수", "스타일·팩터", "규모", "기업집단"]);
-    if (broadCategories.has(target.comparisonCategory)) return "similar_category";
+  const sameAssetFamily = sameNonEmpty(target.assetFamily, candidate.assetFamily);
+  const sameRegion = sameNonEmpty(target.regionPrimary, candidate.regionPrimary);
+  const sameCategory = sameNonEmpty(target.comparisonCategory, candidate.comparisonCategory);
+  const sameTopic = sameNonEmpty(target.comparisonTopic, candidate.comparisonTopic);
+  const sameSubtopic = sameNonEmpty(target.comparisonSubtopic, candidate.comparisonSubtopic);
+  const sameIndex = sameNonEmpty(target.indexFamily, candidate.indexFamily);
+  const samePayoff = sameNonEmpty(target.payoffStructure, candidate.payoffStructure);
+  const sameDirection = sameNonEmpty(target.direction, candidate.direction);
+  const sameLeverage = sameNonEmpty(target.leverageMultiple, candidate.leverageMultiple);
+  const sameStyle = sameNonEmpty(target.strategyStyle, candidate.strategyStyle);
+
+  if (sameIndex) score += 40;
+  if (sameSubtopic) score += 30;
+  if (sameTopic || sharesTopic(target, candidate)) score += 20;
+  if (sameCategory) score += 15;
+  if (sameAssetFamily && sameRegion) score += 15;
+  else if (sameAssetFamily) score += 5;
+
+  if (samePayoff) score += 10;
+  if (sameDirection) score += 10;
+  if (sameLeverage) score += 10;
+  if (sameStyle) score += 5;
+  if (sameNonEmpty(target.fxHedge, candidate.fxHedge)) score += 5;
+
+  if (!sameAssetFamily && !sameCategory) return null;
+  if (score < 20) return null;
+
+  let tier: PeerCandidate["tier"] = "similar_category";
+  const reasons: string[] = [];
+
+  const existingTier = investmentReferenceTier(target, candidate) ?? structureReferenceTier(target, candidate);
+  if (existingTier) {
+    tier = existingTier;
+    if (tier === "investment_reference") reasons.push("투자 참고 구조");
+    else if (tier === "structure_reference") reasons.push("동일 자산군 참고");
+    else if (tier === "direction_reference") reasons.push("방향성 참고");
+    else if (tier === "leverage_reference") reasons.push("레버리지 참고");
+  } else if (sameTopic || sharesTopic(target, candidate)) {
+    tier = "similar_topic";
+    reasons.push("유사 투자 주제");
+  } else if (sameCategory) {
+    tier = "similar_category";
+    reasons.push("동일 비교 카테고리");
+  } else if (sameAssetFamily && sameRegion) {
+    tier = "similar_category";
+    reasons.push("동일 지역/자산군 대안");
+  } else {
+    tier = "similar_category";
   }
 
-  if (sameCoreStructure && target.comparisonCategory === candidate.comparisonCategory && sharesTopic(target, candidate)) {
-    return "similar_topic";
-  }
+  if (sameIndex) reasons.push("동일 지수 계열");
+  else if (samePayoff && sameDirection && sameLeverage) reasons.push("동일 상품 구조");
+  else if (sameAssetFamily && sameRegion) reasons.push("동일 자산군 대안");
 
-  const sameSubtopic =
-    Boolean(target.comparisonSubtopic) &&
-    target.comparisonSubtopic === candidate.comparisonSubtopic;
-  const sameCategoryAndRegion =
-    Boolean(target.comparisonCategory) &&
-    target.comparisonCategory === candidate.comparisonCategory &&
-    target.regionPrimary === candidate.regionPrimary;
-  const commodityFuturesAlternative =
-    target.assetFamily === "원자재" &&
-    candidate.assetFamily === "원자재" &&
-    target.payoffStructure === "futures" &&
-    candidate.payoffStructure === "futures";
-  if (!sharesTopic(target, candidate) && !sameSubtopic && !sameCategoryAndRegion && !commodityFuturesAlternative) {
-    return null;
-  }
+  if (reasons.length === 0) reasons.push("대체 투자 참고");
 
-  return investmentReferenceTier(target, candidate) ?? structureReferenceTier(target, candidate);
+  return { score, tier, reasons: Array.from(new Set(reasons)) };
 }
-
-function expansionScore(
-  target: ComparisonProfile,
-  candidate: ComparisonProfile,
-  tier: PeerCandidate["tier"],
-): number {
-  let score = 30;
-  if (target.strategyStyle === candidate.strategyStyle) score += 8;
-  if (target.payoffStructure === candidate.payoffStructure) score += 8;
-  if (target.direction === candidate.direction) score += 8;
-  if (target.leverageMultiple === candidate.leverageMultiple) score += 8;
-  if (target.indexFamily === candidate.indexFamily) score += 10;
-  if (tier === "similar_topic") score += 28;
-  if (tier === "similar_category") score += 14;
-  if (tier === "structure_reference") score += 35;
-  if (tier === "direction_reference") score += 35;
-  if (tier === "leverage_reference") score += 33;
-  if (tier === "investment_reference") score += 45;
-  return score;
-}
-
-function expansionReasons(target: ComparisonProfile, candidate: ComparisonProfile, tier: PeerCandidate["tier"]): string[] {
-  const reasons = [];
-  if (tier === "investment_reference") reasons.push("투자 참고 구조");
-  else if (tier === "structure_reference") reasons.push("동일 자산군 참고");
-  else if (tier === "direction_reference") reasons.push("방향성 참고");
-  else if (tier === "leverage_reference") reasons.push("레버리지 참고");
-  else if (tier === "similar_topic") reasons.push("유사 투자 주제");
-  else if (tier === "similar_category") reasons.push("동일 비교 카테고리");
-  
-  if (target.assetFamily === candidate.assetFamily) reasons.push("동일 자산군");
-  if (target.regionPrimary === candidate.regionPrimary) reasons.push("동일 지역");
-  if (target.payoffStructure === candidate.payoffStructure) reasons.push("동일 상품 구조");
-  if (target.indexFamily === candidate.indexFamily) reasons.push("동일 지수 계열");
-  return reasons;
-}
-
-const EXPANSION_MIN_SCORE = 72;
 
 function expandPrimaryCandidates(
   target: Etf,
@@ -423,18 +409,19 @@ function expandPrimaryCandidates(
     if (seen.has(candidate.ticker) || !hasUsableMarketData(candidate)) return [];
     const profile = data.profiles.get(candidate.ticker);
     if (!isAutomaticProfile(profile)) return [];
-    const tier = expansionTier(targetProfile, profile);
-    if (!tier) return [];
-    const similarityScore = expansionScore(targetProfile, profile, tier);
-    if (similarityScore < EXPANSION_MIN_SCORE) return [];
+    
+    const distance = calculateRelativeDistance(targetProfile, profile);
+    if (!distance) return [];
+    
     return [{
       etf: candidate,
       profile,
-      tier,
-      similarityScore,
-      reasons: expansionReasons(targetProfile, profile, tier),
+      tier: distance.tier,
+      similarityScore: distance.score,
+      reasons: distance.reasons,
     } as PeerCandidate];
   });
+  
   const direct = sortPeerCandidates(existing).slice(0, MAX_PEERS);
   const remaining = Math.max(0, MAX_PEERS - direct.length);
   return [...direct, ...sortPeerCandidates(additions).slice(0, remaining)];

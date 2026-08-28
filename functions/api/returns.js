@@ -40,14 +40,14 @@ export async function onRequestGet(context) {
         }
       }
 
-      // Bulk query for all ETFs
+      // Bulk query for all ETFs with a 14-day lookback window to prevent full table scans
       const startRows = await db.prepare(
-        "SELECT ticker, MAX(date) as date, close FROM etf_prices WHERE date <= ? GROUP BY ticker"
-      ).bind(start).all();
+        "SELECT ticker, MAX(date) as date, close FROM etf_prices WHERE date <= ? AND date >= date(?, '-14 days') GROUP BY ticker"
+      ).bind(start, start).all();
 
       const endRows = await db.prepare(
-        "SELECT ticker, MAX(date) as date, close FROM etf_prices WHERE date <= ? GROUP BY ticker"
-      ).bind(end).all();
+        "SELECT ticker, MAX(date) as date, close FROM etf_prices WHERE date <= ? AND date >= date(?, '-14 days') GROUP BY ticker"
+      ).bind(end, end).all();
 
       const startMap = new Map(startRows.results.map(r => [r.ticker, r]));
       

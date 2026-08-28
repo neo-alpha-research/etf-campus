@@ -81,7 +81,7 @@ def infer_asset(text: str, review: dict[str, str]) -> str:
         return "금리·파킹"
     if contains(text, "국채", "회사채", "금융채", "통안채", "채권", "BOND", "TREASURY", "UST"):
         return "채권"
-    if contains(text, "골드", "GOLD", "은", "SILVER", "원유", "WTI", "OIL", "천연가스", "COPPER", "구리", "농산물", "COMMODITY"):
+    if contains(text, "골드", "GOLD", "은선물", "은현물", "실버", "SILVER", "원유", "WTI", "OIL", "천연가스", "COPPER", "구리", "농산물", "COMMODITY"):
         if contains(text, "생산", "광산", "MINERS", "EQUITY", "기업"):
             return "주식"
         return "원자재"

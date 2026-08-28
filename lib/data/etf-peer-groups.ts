@@ -166,7 +166,7 @@ function sameNonEmpty(left: string, right: string): boolean {
 
 export function calculateSimilarityScore(target: ComparisonProfile, candidate: ComparisonProfile): PeerCandidate["similarityScore"] {
   let score = 0;
-  if (sameNonEmpty(target.indexFamily, candidate.indexFamily)) score += 30;
+  if (sameNonEmpty(target.indexFamily, candidate.indexFamily) && !target.indexFamily.startsWith("미확인")) score += 30;
   if (sameNonEmpty(target.comparisonSubtopic, candidate.comparisonSubtopic)) score += 25;
   if (sameNonEmpty(target.strategyStyle, candidate.strategyStyle)) score += 15;
   if (sameNonEmpty(target.fxHedge, candidate.fxHedge)) score += 10;

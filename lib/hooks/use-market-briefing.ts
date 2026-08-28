@@ -136,6 +136,8 @@ export type TimeSeriesPoint = {
   turnoverPct: number; // %
   aumChange?: number; // 억원
   aumChangePct?: number; // %
+  priceEffect?: number; // 주가 변동 효과 (억원)
+  netInflow?: number; // 실질 자금 순유입액 (억원)
 };
 
 export type MarketScaleTimeSeries = {

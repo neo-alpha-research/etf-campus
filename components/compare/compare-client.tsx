@@ -18,50 +18,90 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // 로그인 완료 후 URL의 action 파라미터 처리
+  // URL 파라미터(tickers, base, action 등) 처리 및 초기 바구니 설정
   useEffect(() => {
-    if (!mounted || isLoading || !authenticated) return;
-    
-    const action = searchParams.get("action");
-    if (!action) return;
+    if (!mounted) return;
 
-    let modified = false;
-    const newParams = new URLSearchParams(searchParams.toString());
+    // 1. URL에 tickers 또는 base 파라미터가 전달된 경우 (로그인 여부 무관 즉시 바구니 채우기)
+    const tickersParam = searchParams.get("tickers");
+    const baseParam = searchParams.get("base");
 
-    if (action === "add") {
-      const ticker = searchParams.get("ticker");
-      if (ticker) {
-        const etf = etfs.find(e => e.ticker === ticker);
-        if (etf) addEtf(etf);
+    if (tickersParam || baseParam) {
+      let targetTickers: string[] = [];
+      if (tickersParam) {
+        targetTickers = tickersParam.split(",").map((t) => t.trim()).filter(Boolean);
+      } else if (baseParam) {
+        targetTickers = [baseParam.trim()];
       }
-      newParams.delete("ticker");
-      modified = true;
-    } else if (action === "remove") {
-      const ticker = searchParams.get("ticker");
-      if (ticker) removeEtf(ticker);
-      newParams.delete("ticker");
-      modified = true;
-    } else if (action === "clear") {
-      clearBasket();
-      modified = true;
-    } else if (action === "theme") {
-      const tickers = searchParams.get("tickers");
-      if (tickers) {
-        const tickerArray = tickers.split(",");
-        const themeEtfs = etfs.filter(e => tickerArray.includes(e.ticker));
-        if (themeEtfs.length > 0) overwriteBasket(themeEtfs);
+
+      if (targetTickers.length > 0) {
+        const matchedEtfs = targetTickers
+          .map((ticker) => etfs.find((e) => e.ticker === ticker))
+          .filter((e): e is EtfSlim => e !== undefined);
+        if (matchedEtfs.length > 0) {
+          overwriteBasket(matchedEtfs);
+        }
       }
+
+      const newParams = new URLSearchParams(searchParams.toString());
       newParams.delete("tickers");
-      modified = true;
+      newParams.delete("base");
+      newParams.delete("group");
+      newParams.delete("action");
+      const qs = newParams.toString();
+      router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+      return;
     }
 
-    if (modified) {
-      newParams.delete("action");
-      router.replace(`${pathname}${newParams.toString() ? `?${newParams.toString()}` : ""}`, { scroll: false });
-    } else if (!localStorage.getItem("etfcampus_compare_basket")) {
-      // 최초 접속 시(로컬스토리지 비어있을 때) 대표지수 5종목 자동 채우기
+    // 2. 로그인 완료 후 URL의 action 파라미터 처리
+    const action = searchParams.get("action");
+    if (action) {
+      if (isLoading || !authenticated) return;
+
+      let modified = false;
+      const newParams = new URLSearchParams(searchParams.toString());
+
+      if (action === "add") {
+        const ticker = searchParams.get("ticker");
+        if (ticker) {
+          const etf = etfs.find((e) => e.ticker === ticker);
+          if (etf) addEtf(etf);
+        }
+        newParams.delete("ticker");
+        modified = true;
+      } else if (action === "remove") {
+        const ticker = searchParams.get("ticker");
+        if (ticker) removeEtf(ticker);
+        newParams.delete("ticker");
+        modified = true;
+      } else if (action === "clear") {
+        clearBasket();
+        modified = true;
+      } else if (action === "theme") {
+        const tickers = searchParams.get("tickers");
+        if (tickers) {
+          const tickerArray = tickers.split(",");
+          const themeEtfs = etfs.filter((e) => tickerArray.includes(e.ticker));
+          if (themeEtfs.length > 0) overwriteBasket(themeEtfs);
+        }
+        newParams.delete("tickers");
+        modified = true;
+      }
+
+      if (modified) {
+        newParams.delete("action");
+        const qs = newParams.toString();
+        router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+        return;
+      }
+    }
+
+    // 3. 최초 접속 시 (로컬스토리지 비어있을 때) 대표지수 5종목 자동 채우기
+    if (!localStorage.getItem("etfcampus_compare_basket")) {
       const defaultTickers = ["069500", "229200", "245340", "360750", "133690"];
-      const themeEtfs = etfs.filter(e => defaultTickers.includes(e.ticker));
+      const themeEtfs = defaultTickers
+        .map((ticker) => etfs.find((e) => e.ticker === ticker))
+        .filter((e): e is EtfSlim => e !== undefined);
       if (themeEtfs.length > 0) {
         overwriteBasket(themeEtfs);
       }

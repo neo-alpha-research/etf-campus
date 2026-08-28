@@ -21,51 +21,53 @@ export async function onRequestGet(context) {
   const up = briefing?.up_count || 642;
   const down = briefing?.down_count || 288;
 
-  const post1 = `[${formattedDate} 마켓 브리핑 🧵 (1/4)]
+  const utmLink = `https://etf-campus.pages.dev/briefing?utm_source=threads&utm_medium=social&utm_campaign=daily_briefing_${targetDate.replace(/-/g, "")}`;
 
-오늘 대한민국 ETF 시장 체온은 '${temp}'입니다.
+  // 1단: 강력한 Hook & 감정적 질문
+  const post1 = `어제 나스닥 조정받을 때 한국 ETF 시장에서 오히려 뭉칫돈이 쏠린 곳이 있습니다. 💸
 
-📊 코스피: ${kospiClose.toLocaleString()} (+${kospiChangePct.toFixed(2)}%)
-📊 코스닥: ${kosdaqClose.toLocaleString()} (+${kosdaqChangePct.toFixed(2)}%)
-💰 시장 AUM: ${aumJo}조원 | 거래대금: ${tradeJo}조원
-📈 등락 비율: ${up}종목 상승 vs ${down}종목 하락
+반도체는 차익실현 매물이 나왔는데, 배당주와 대표지수로 갈아타는 흐름... 단순한 일시적 피난처일까요?
 
-"${briefing?.headline_text || '대형 지수형 ETF의 안정적 방어 속 기관의 실질 진성수급 유입이 두드러졌습니다.'}"
+📊 ${formattedDate} 시장 체온: '${temp}'
+• 코스피: ${kospiClose.toLocaleString()} (+${kospiChangePct.toFixed(2)}%)
+• 시장 AUM: ${aumJo}조원 돌파 (상승 ${up} vs 하락 ${down})
 
-오늘 스마트머니가 베팅한 곳은 어디였을까요? 타래로 이어집니다 👇`;
+오늘 Smart Money가 움직인 방향을 뜯어봤습니다. 🧵👇`;
 
-  const post2 = `[오늘의 롱숏 테마 배틀 🔥 (2/4)]
+  // 2단: 핵심 데이터와 섹터 로테이션 Context
+  const post2 = `[오늘의 특징 테마 & 섹터 로테이션 요약 📊]
 
-🔥 최고 상승 테마 TOP 3
-1. 반도체 및 소부장 (+3.42%)
-2. 미국 빅테크 Top10 (+2.85%)
-3. 조선·방산 (+2.15%)
+🔥 강세 테마
+1️⃣ $069500 (KODEX 200) : 기관 대규모 저가 매수세 유입
+2️⃣ $379800 (KODEX 미국S&P500TR) : 환율 방어 & 해외 배당 수급
+3️⃣ $448290 (PLUS 고배당주) : 금리 인하 기대감에 방어주 부각
 
-❄️ 최다 하락 테마
-• 2차전지 소재 (-2.85%)
-• 중국 전기차·태양광 (-1.95%)
+❄️ 약세 테마
+• $305540 (2차전지소재) : 차익실현 및 숨고르기 진행
 
-전체 62개 피어그룹 간 수익률 양극화가 뚜렷했습니다. 단기 지수 등락보다 테마별 수급 분화에 주목할 시점입니다.`;
+무작정 지수가 오른 게 아니라, '성장 ➔ 배당·안정형'으로의 명확한 자금 이동이 관전 포인트입니다.`;
 
-  const post3 = `[스마트머니 순유입 TOP 3 💰 (3/4)]
+  // 3단: 투자자를 위한 실질 행동 지침 (Actionable Insight)
+  const post3 = `[그렇다면 투자자는 어떻게 대응해야 할까요? 💡]
 
-오늘 실질 자금(순유입)이 가장 많이 몰린 ETF:
-1. KODEX 200 (069500) : +4,250억원
-2. KODEX 미국S&P500TR (379800) : +3,120억원
-3. TIGER 미국나스닥100 (133690) : +2,850억원
+1. 연금/퇴직연금 장기 투자자:
+단기 등락에 흔들리기보다, YTD(연초 대비) 우상향 궤적을 그리는 대표지수 & 월배당 ETF를 차분히 모아갈 구간입니다.
 
-💡 단순 거래대금 쏠림이 아닌, 신규 설정액 기준의 '진성수급' 유입 상위 종목들입니다.`;
+2. 액티브/스윙 트레이더:
+괴리율이 정상 범위(0.2% 미만)로 안정화되고 있으므로, 거래량이 급증한 대형 섹터 로테이션 선두주자에 주목할 만합니다.
 
-  const post4 = `[풀버전 인터랙티브 맵 보기 🌐 (4/4)]
+👉 [62개 테마 인터랙티브 롱숏 맵 풀버전 확인]
+${utmLink}`;
 
-✓ 62개 테마 인터랙티브 롱숏 맵
-✓ 5개 시점(일/주/월/연) AUM 브릿지 주가/수급 분해
-✓ 1,164개 전 종목 괴리율 & 거래대금 랭킹
+  // 4단: 토론 유발 & 참여형 CTA
+  const post4 = `[여러분의 포트폴리오는 지금 어느 쪽에 더 가깝나요? 💬]
 
-👉 지금 웹에서 확인하기:
-https://etf-campus.pages.dev/briefing?utm_source=threads&utm_medium=social&utm_campaign=daily_briefing_${targetDate.replace(/-/g, "")}
+1️⃣ 변동성을 즐긴다 (빅테크/반도체 저가 줍줍)
+2️⃣ 방어가 최선이다 (고배당/단기채 비중 확대)
 
-* 본 자료는 정보 제공 목적이며 특정 금융투자상품의 매수·매도를 권유하지 않습니다.`;
+댓글로 여러분의 오늘 투자 전략을 공유해 주세요! 💬👇
+
+* 본 자료는 투자 판단을 위한 정보 제공 목적이며 특정 종목의 매수/매도 권유가 아닙니다.`;
 
   const html = `
 <!DOCTYPE html>
@@ -77,20 +79,20 @@ https://etf-campus.pages.dev/briefing?utm_source=threads&utm_medium=social&utm_c
   <style>
     body { background: #0A0F1D; color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 24px 16px; margin: 0; }
     .container { max-width: 580px; margin: 0 auto; }
-    .card { background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 20px; margin-bottom: 16px; white-space: pre-wrap; font-size: 15px; line-height: 1.6; }
-    .badge { background: #1E293B; color: #4ADE80; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; display: inline-block; margin-bottom: 10px; }
+    .card { background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 22px; margin-bottom: 18px; white-space: pre-wrap; font-size: 15px; line-height: 1.65; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .badge { background: #1E293B; color: #34D399; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; display: inline-block; margin-bottom: 12px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div style="text-align: center; margin-bottom: 24px;">
-      <h2 style="margin: 0 0 8px; color: #4ADE80;">🧵 Threads 마켓 브리핑 타래 미리보기</h2>
-      <div style="color: #94A3B8; font-size: 14px;">${formattedDate} 기준</div>
+      <h2 style="margin: 0 0 8px; color: #34D399;">🧵 Threads 바이럴 마케팅 타래 (고도화 버전)</h2>
+      <div style="color: #94A3B8; font-size: 14px;">${formattedDate} 마켓 브리핑</div>
     </div>
-    <div class="card"><span class="badge">POST 1/4 (HOOK)</span>\n${post1}</div>
-    <div class="card"><span class="badge">POST 2/4 (THEMES)</span>\n${post2}</div>
-    <div class="card"><span class="badge">POST 3/4 (FLOW)</span>\n${post3}</div>
-    <div class="card"><span class="badge">POST 4/4 (CTA)</span>\n${post4}</div>
+    <div class="card"><span class="badge">POST 1/4 (EMOTIONAL HOOK)</span>\n${post1}</div>
+    <div class="card"><span class="badge">POST 2/4 (SECTOR ROTATION DATA)</span>\n${post2}</div>
+    <div class="card"><span class="badge">POST 3/4 (ACTIONABLE INSIGHT)</span>\n${post3}</div>
+    <div class="card"><span class="badge">POST 4/4 (COMMUNITY POLL &amp; CTA)</span>\n${post4}</div>
   </div>
 </body>
 </html>

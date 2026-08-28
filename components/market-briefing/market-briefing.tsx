@@ -1045,7 +1045,7 @@ export function MarketBriefing() {
                       <span className="text-[10px] font-bold text-[#6941C6] bg-white px-2 py-0.5 rounded border border-[#D6BBFB]">체질 & AUM 분해</span>
                     </div>
                     <p className="text-neutral-600 leading-relaxed text-[11.5px]">
-                      4대 유형별 <b>듀얼 게이지 & 회전율</b>로 시장 체질을 진단하고, <b>AUM 브릿지</b>로 시장 성장이 '단순 주가 상승'인지 '신규 자금 순유입'인지 정밀 분해합니다.
+                      4대 유형별 <b>듀얼 게이지 & 회전율</b>로 시장 체질을 진단하고, <b>AUM 브릿지</b>로 시장 성장이 &apos;단순 주가 상승&apos;인지 &apos;신규 자금 순유입&apos;인지 정밀 분해합니다.
                     </p>
                   </div>
 

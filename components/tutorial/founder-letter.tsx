@@ -19,21 +19,12 @@ export function FounderLetter({
         <div className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-brand-100/60 blur-3xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 size-48 rounded-full bg-amber-100/40 blur-2xl" />
 
-        <div className="relative space-y-6">
-          {/* Header & Badges */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-brand-200/60 pb-4">
+        <div className="relative space-y-5">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-brand-200/60 pb-3.5">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 text-brand-900 text-xs font-black tracking-wide">
               <span>🏛️</span>
               <span>설립자 인사말</span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-bold text-neutral-600">
-              <span className="px-2.5 py-1 rounded-lg bg-surface border border-neutral-200/80 shadow-2xs">
-                💼 금융권 운용 경력
-              </span>
-              <span className="px-2.5 py-1 rounded-lg bg-surface border border-neutral-200/80 shadow-2xs">
-                📈 실전 DC 연금 운용
-              </span>
             </div>
           </div>
 
@@ -43,13 +34,19 @@ export function FounderLetter({
               안녕하세요, ETF 캠퍼스를 설립한 <strong className="font-extrabold text-neutral-950">Neo</strong>입니다.
             </p>
             <p>
-              사회에 나와 마주하는 삶 속에서 <strong className="font-extrabold text-neutral-950 underline decoration-brand-400 decoration-2 underline-offset-4">&apos;내 자산을 지키고 키우는 투자&apos;는 이제 누구에게나 생존을 위한 필수 과목</strong>이 되었습니다.
+              우리는 대학을 졸업하고 사회에 나온 후에도 실제로 살아가기 위해 끊임없이 배우고 공부해야 합니다. 그중에서도 <strong className="font-extrabold text-neutral-950 underline decoration-brand-400 decoration-2 underline-offset-4">&apos;내 자산을 지키고 키우는 투자&apos;는 이제 누구에게나 생존을 위한 필수 과목</strong>이 되었습니다.
             </p>
             <p>
-              금융 현업에서 투자하고 강의하며, 개인적으로 <strong className="font-extrabold text-neutral-950 underline decoration-brand-400 decoration-2 underline-offset-4">DC형 퇴직연금을 오랫동안 직접 운용해 온 실전 경험</strong>을 토대로 이 배움의 공간을 세우게 되었습니다.
+              특히 주식과 ETF를 비롯한 증권 시장에 대한 이해와 정석 투자를 체계적으로 배울 수 있다면 얼마나 좋을까 늘 생각해 왔습니다.
             </p>
             <p>
-              기초 개념부터 데이터 탐색, 종목 비교, 자산배분 전략까지 <strong className="font-extrabold text-brand-900 underline decoration-brand-400 decoration-2 underline-offset-4">&apos;국내 상장 ETF 투자에 필요한 모든 것&apos;</strong>을 한곳에서 체계적으로 알아 갈 수 있는 공간이 되었으면 합니다.
+              하지만 오늘날 현실에서는 수많은 동영상, 책, 강의가 넘쳐남에도 불구하고 기초부터 차근차근 배울 수 있는 신뢰할 만한 곳을 찾기 어렵습니다. 오히려 검증되지 않은 정보나 자극적인 단타 소음, 심지어 리딩방이나 투자 사기로 이어져 소중한 자산을 잃는 일들도 많아지고 있습니다.
+            </p>
+            <p>
+              그런 우려와 불안 없이, 정말 대학교처럼 투자의 기초와 원칙을 체계적으로 함께 공부해 나갈 수 있는 곳을 만들고자 했습니다. 이에 금융 현업에서 투자하고 강의하며, 개인적으로 DC형 퇴직연금을 오랫동안 직접 운용해 온 실전 경험을 토대로 이 배움의 공간을 세우게 되었습니다.
+            </p>
+            <p>
+              이곳이 기초 개념부터 데이터 탐색, 종목 비교, 자산배분 전략까지 &apos;국내 상장 ETF 투자에 필요한 모든 것&apos;을 한곳에서 체계적으로 끝낼 수 있는 공간이 되기를 바랍니다. 그리고 여러분과 함께 더 좋은 배움터로 만들어가고 싶습니다.
             </p>
             <p>
               투자는 긴 호흡으로 이어가는 평생의 여정입니다. 여러분의 입학을 진심으로 환영합니다.

@@ -20,6 +20,7 @@ function getTaskForDay(day: number) {
 
 interface CohortItem {
   id: string;
+  title: string;
   name?: string;
   status: string;
   starts_on?: string;

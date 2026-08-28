@@ -30,11 +30,7 @@ export default function ExplorePage() {
     pension: etf.pension,
     asOfDate: etf.asOfDate,
     returns: etf.returns,
-    classification: etf.classification ? {
-      marketScope: etf.classification.marketScope,
-      fxHedge: etf.classification.fxHedge,
-      strategy: etf.classification.strategy,
-    } : null,
+    classification: etf.classification,
   })) as ScreenerEtf[];
 
   return <Screener etfs={screenerEtfs} />;

@@ -2310,7 +2310,7 @@ export function MarketBriefing() {
                 { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3829000, aumChangePct: 0.59, priceEffect: 9607, netInflow: 13000 },
               ],
               weekly: [
-                { key: "w1", label: "7월 5주 (7/31)", aum: 3625000, adtv: 82000, turnoverPct: 2.26, aumChange: 35000, aumChangePct: 0.98, priceEffect: 18000, netInflow: 17000 },
+                { key: "w1", label: "7월 5주 (7/31)", aum: 3625000, adtv: 82000, turnoverPct: 2.26, aumChange: 35000, aumChangePct: 0.98, priceEffect: -42000, netInflow: 77000 },
                 { key: "w2", label: "8월 1주 (8/7)", aum: 3689000, adtv: 89000, turnoverPct: 2.41, aumChange: 64000, aumChangePct: 1.77, priceEffect: 36000, netInflow: 28000 },
                 { key: "w3", label: "8월 2주 (8/14)", aum: 3738000, adtv: 91000, turnoverPct: 2.43, aumChange: 49000, aumChangePct: 1.33, priceEffect: 26000, netInflow: 23000 },
                 { key: "w4", label: "8월 3주 (8/21)", aum: 3792000, adtv: 94000, turnoverPct: 2.48, aumChange: 54000, aumChangePct: 1.44, priceEffect: 31000, netInflow: 23000 },
@@ -2320,7 +2320,7 @@ export function MarketBriefing() {
                 { key: "m1", label: "2026년 4월", aum: 3252000, adtv: 72000, turnoverPct: 2.21, aumChange: 98000, aumChangePct: 3.11, priceEffect: 54000, netInflow: 44000 },
                 { key: "m2", label: "2026년 5월", aum: 3395000, adtv: 78000, turnoverPct: 2.30, aumChange: 143000, aumChangePct: 4.40, priceEffect: 82000, netInflow: 61000 },
                 { key: "m3", label: "2026년 6월", aum: 3538000, adtv: 83000, turnoverPct: 2.35, aumChange: 143000, aumChangePct: 4.21, priceEffect: 76000, netInflow: 67000 },
-                { key: "m4", label: "2026년 7월", aum: 3685000, adtv: 90000, turnoverPct: 2.44, aumChange: 147000, aumChangePct: 4.15, priceEffect: 81000, netInflow: 66000 },
+                { key: "m4", label: "2026년 7월", aum: 3685000, adtv: 90000, turnoverPct: 2.44, aumChange: 147000, aumChangePct: 4.15, priceEffect: -125000, netInflow: 272000 },
                 { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3685000, aumChangePct: 4.52, priceEffect: 92607, netInflow: 74000 },
               ],
               yearly: [

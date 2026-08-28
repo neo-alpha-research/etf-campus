@@ -60,6 +60,12 @@ jobs:
           npm ci
           npm run typecheck
 
+      - name: Install and validate distributor Worker
+        working-directory: workers/market-briefing-distributor
+        run: |
+          npm ci
+          npm run typecheck
+
   migrate_d1:
     name: Apply production D1 migrations
     needs: validate
@@ -103,9 +109,27 @@ jobs:
         working-directory: workers/market-briefing-publisher
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy
 
+  deploy_distributor:
+    name: Deploy market briefing distributor (OSMU)
+    needs: migrate_d1
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install distributor dependencies
+        working-directory: workers/market-briefing-distributor
+        run: npm ci
+
+      - name: Deploy distributor
+        working-directory: workers/market-briefing-distributor
+        run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy
+
   deploy_pages:
     name: Deploy ETF Campus Pages
-    needs: deploy_publisher
+    needs: [deploy_publisher, deploy_distributor]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: production

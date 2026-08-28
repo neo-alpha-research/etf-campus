@@ -141,7 +141,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
   it("CTA 버튼은 레버리지/인버스만 선택 시 mode=derivatives를 포함한다", () => {
     render(<Screener etfs={items} />);
     // 파생상품 탐색으로 전환할 때는 기본 연금 조건을 먼저 해제한다.
-    fireEvent.click(screen.getByRole("button", { name: "연금 가능 ETF" }));
+    fireEvent.click(screen.getByRole("switch", { name: "DC·IRP 가능만" }));
 
     // 레버리지 선택
     const leverageLabel = screen.getByLabelText("레버리지");

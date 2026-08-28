@@ -70,13 +70,14 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
         <p className="text-sm font-semibold text-brand-700">동종 ETF 분류를 확인하고 있습니다.</p>
         <h2 id="peer-comparison-title" className="mt-2 text-xl font-extrabold text-strong">동종 ETF 분류를 확인하고 있습니다.</h2>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">정확하지 않은 후보를 자동으로 제시하지 않습니다. ETF 비교 화면에서 직접 종목을 선택할 수 있습니다.</p>
-        <Link href="/compare" className="mt-5 inline-flex rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-700">ETF 직접 비교하기</Link>
+        <Link href={`/compare?tickers=${encodeURIComponent(etf.ticker)}&base=${encodeURIComponent(etf.ticker)}`} className="mt-5 inline-flex rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand-700">ETF 직접 비교하기</Link>
       </section>
     );
   }
 
   const displayedCount = 1 + selected.candidates.length;
-  const comparisonHref = `/compare?base=${encodeURIComponent(etf.ticker)}&group=${encodeURIComponent(selected.id)}`;
+  const comparisonTickers = [etf.ticker, ...selected.candidates.map((candidate) => candidate.etf.ticker)].filter(Boolean);
+  const comparisonHref = `/compare?tickers=${encodeURIComponent(comparisonTickers.join(","))}&base=${encodeURIComponent(etf.ticker)}&group=${encodeURIComponent(selected.id)}`;
   
   // 제목 생성
   let title = "동종 ETF 비교";

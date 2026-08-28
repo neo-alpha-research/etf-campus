@@ -785,7 +785,7 @@ export function MarketBriefing() {
   
   let concentrationSentence = "";
   if (pulse.top10TradeSharePct > 40) {
-    concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${decimal.format(pulse.top10TradeSharePct)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
+    concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${pulse.top10TradeSharePct.toFixed(1)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
   }
 
   const narrative = generateMarketNarrative({
@@ -1220,7 +1220,7 @@ export function MarketBriefing() {
               <span className="text-sm shrink-0">📌</span>
               <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
                 <strong className="font-extrabold text-[#2E6819] mr-1.5">[체온 & 수급]</strong>
-                일반 ETF {number.format(pulse.generalEtfCount)}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {decimal.format(pulse.top10TradeSharePct)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
+                일반 ETF {number.format(pulse.generalEtfCount)}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {pulse.top10TradeSharePct.toFixed(1)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
               </p>
             </div>
 
@@ -1339,7 +1339,7 @@ export function MarketBriefing() {
                       </div>
                       <div className="mt-1 flex items-baseline gap-1">
                         <span className="text-3xl font-black tabular-nums tracking-tight text-neutral-900">
-                          {decimal.format(pulse.top10TradeSharePct)}
+                          {pulse.top10TradeSharePct.toFixed(1)}
                         </span>
                         <span className="text-base font-extrabold text-neutral-400">%</span>
                       </div>
@@ -1352,7 +1352,7 @@ export function MarketBriefing() {
                         </div>
                         <div className="mt-1 flex items-baseline gap-1">
                           <span className="text-2xl font-extrabold text-neutral-700 tabular-nums">
-                            {decimal.format(pulse.allTop10TradeSharePct)}%
+                            {pulse.allTop10TradeSharePct.toFixed(1)}%
                           </span>
                           {pulse.allTop10TradeSharePct > pulse.top10TradeSharePct && (
                             <span className="text-[11px] font-bold text-rose-500 ml-1">
@@ -1863,7 +1863,7 @@ export function MarketBriefing() {
               <span className="text-sm shrink-0">📌</span>
               <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
                 <strong className="font-extrabold text-[#2E6819] mr-1.5">[스냅샷 총평]</strong>
-                당일 대한민국 ETF 총 자산은 <strong>{totalAumJo}조원</strong>이며, 오늘 하루 <strong>{totalTradeJo}조원</strong>의 자금이 회전하여 시장 회전율은 <strong>{turnover}%</strong>를 기록했습니다. 특히 레버리지 ETF는 AUM 비중이 <strong>{levAumPct}%</strong>에 불과하지만 전체 거래대금의 <strong>{levTradePct}%</strong>를 차지해 압도적인 단기 회전율(<strong>{levTurnover}%</strong>)을 나타냈습니다.
+                당일 대한민국 ETF 총 자산은 <strong>{totalAumJo}조원</strong>이며, 오늘 하루 <strong>{totalTradeJo}조원</strong>의 자금이 회전하여 시장 회전율은 <strong>{Number(turnover).toFixed(1)}%</strong>를 기록했습니다. 특히 레버리지 ETF는 AUM 비중이 <strong>{Number(levAumPct).toFixed(1)}%</strong>에 불과하지만 전체 거래대금의 <strong>{Number(levTradePct).toFixed(1)}%</strong>를 차지해 압도적인 단기 회전율(<strong>{Number(levTurnover).toFixed(1)}%</strong>)을 나타냈습니다.
               </p>
             </div>
           );
@@ -1933,7 +1933,7 @@ export function MarketBriefing() {
                   </p>
                   <div className="flex items-baseline gap-1.5 mt-1">
                     <span className="text-3xl sm:text-4xl font-black tracking-tight text-orange-950 tabular-nums">
-                      {turnover}
+                      {Number(turnover).toFixed(1)}
                     </span>
                     <span className="text-sm font-bold text-orange-600">%</span>
                     <span className="ml-auto text-[11.5px] font-bold text-orange-700/80 bg-orange-100/80 px-2 py-0.5 rounded-full border border-orange-200">
@@ -1984,10 +1984,10 @@ export function MarketBriefing() {
                       <span className="text-xs font-semibold text-neutral-400">총 {totalAumJo}조원 기준</span>
                     </div>
                     <div className="h-4.5 w-full rounded-full bg-neutral-100 overflow-hidden flex shadow-inner">
-                      <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: `${genCat?.aumSharePct ?? 76.5}%` }} title={`일반 ETF: ${((normalizeToEok(genCat?.aum) || 0) / 10000).toFixed(1)}조원 (${genCat?.aumSharePct}%)`} />
-                      <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: `${parkCat?.aumSharePct ?? 18.6}%` }} title={`파킹·단기자금: ${((normalizeToEok(parkCat?.aum) || 0) / 10000).toFixed(1)}조원 (${parkCat?.aumSharePct}%)`} />
-                      <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: `${levCat?.aumSharePct ?? 3.8}%` }} title={`레버리지: ${((normalizeToEok(levCat?.aum) || 0) / 10000).toFixed(1)}조원 (${levCat?.aumSharePct}%)`} />
-                      <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: `${invCat?.aumSharePct ?? 1.1}%` }} title={`인버스: ${((normalizeToEok(invCat?.aum) || 0) / 10000).toFixed(1)}조원 (${invCat?.aumSharePct}%)`} />
+                      <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: `${genCat?.aumSharePct ?? 76.5}%` }} title={`일반 ETF: ${((normalizeToEok(genCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(genCat?.aumSharePct).toFixed(1)}%)`} />
+                      <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: `${parkCat?.aumSharePct ?? 18.6}%` }} title={`파킹·단기자금: ${((normalizeToEok(parkCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(parkCat?.aumSharePct).toFixed(1)}%)`} />
+                      <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: `${levCat?.aumSharePct ?? 3.8}%` }} title={`레버리지: ${((normalizeToEok(levCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(levCat?.aumSharePct).toFixed(1)}%)`} />
+                      <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: `${invCat?.aumSharePct ?? 1.1}%` }} title={`인버스: ${((normalizeToEok(invCat?.aum) || 0) / 10000).toFixed(1)}조원 (${Number(invCat?.aumSharePct).toFixed(1)}%)`} />
                     </div>
                   </div>
 
@@ -2001,10 +2001,10 @@ export function MarketBriefing() {
                       <span className="text-xs font-semibold text-neutral-400">총 {totalTradeJo}조원 기준</span>
                     </div>
                     <div className="h-4.5 w-full rounded-full bg-neutral-100 overflow-hidden flex shadow-inner">
-                      <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: `${genCat?.tradeSharePct ?? 42.1}%` }} title={`일반 ETF: ${((normalizeToEok(genCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${genCat?.tradeSharePct}%)`} />
-                      <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: `${parkCat?.tradeSharePct ?? 15.3}%` }} title={`파킹·단기자금: ${((normalizeToEok(parkCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${parkCat?.tradeSharePct}%)`} />
-                      <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: `${levCat?.tradeSharePct ?? 35.2}%` }} title={`레버리지: ${((normalizeToEok(levCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${levCat?.tradeSharePct}%)`} />
-                      <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: `${invCat?.tradeSharePct ?? 7.4}%` }} title={`인버스: ${((normalizeToEok(invCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${invCat?.tradeSharePct}%)`} />
+                      <div className="bg-[#2E6819] transition-all hover:opacity-90 cursor-help" style={{ width: `${genCat?.tradeSharePct ?? 42.1}%` }} title={`일반 ETF: ${((normalizeToEok(genCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(genCat?.tradeSharePct).toFixed(1)}%)`} />
+                      <div className="bg-[#0284C7] transition-all hover:opacity-90 cursor-help" style={{ width: `${parkCat?.tradeSharePct ?? 15.3}%` }} title={`파킹·단기자금: ${((normalizeToEok(parkCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(parkCat?.tradeSharePct).toFixed(1)}%)`} />
+                      <div className="bg-[#EA580C] transition-all hover:opacity-90 cursor-help" style={{ width: `${levCat?.tradeSharePct ?? 35.2}%` }} title={`레버리지: ${((normalizeToEok(levCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(levCat?.tradeSharePct).toFixed(1)}%)`} />
+                      <div className="bg-[#9333EA] transition-all hover:opacity-90 cursor-help" style={{ width: `${invCat?.tradeSharePct ?? 7.4}%` }} title={`인버스: ${((normalizeToEok(invCat?.tradeValue) || 0) / 10000).toFixed(1)}조원 (${Number(invCat?.tradeSharePct).toFixed(1)}%)`} />
                     </div>
                   </div>
 
@@ -2015,28 +2015,28 @@ export function MarketBriefing() {
                         <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
                         일반 ETF
                       </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {genCat?.aumSharePct}% · 거래 {genCat?.tradeSharePct}%</span>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(genCat?.aumSharePct).toFixed(1)}% · 거래 {Number(genCat?.tradeSharePct).toFixed(1)}%</span>
                     </div>
                     <div className="flex items-center justify-between gap-1.5 bg-[#F0F9FF] px-3 py-1.5 rounded-lg border border-[#BAE6FD]">
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
                         파킹·단기
                       </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {parkCat?.aumSharePct}% · 거래 {parkCat?.tradeSharePct}%</span>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(parkCat?.aumSharePct).toFixed(1)}% · 거래 {Number(parkCat?.tradeSharePct).toFixed(1)}%</span>
                     </div>
                     <div className="flex items-center justify-between gap-1.5 bg-[#FFF7ED] px-3 py-1.5 rounded-lg border border-[#FFEDD5]">
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
                         레버리지
                       </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {levCat?.aumSharePct}% · 거래 {levCat?.tradeSharePct}%</span>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(levCat?.aumSharePct).toFixed(1)}% · 거래 {Number(levCat?.tradeSharePct).toFixed(1)}%</span>
                     </div>
                     <div className="flex items-center justify-between gap-1.5 bg-[#FAF5FF] px-3 py-1.5 rounded-lg border border-[#F3E8FF]">
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#9333EA]" />
                         인버스
                       </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {invCat?.aumSharePct}% · 거래 {invCat?.tradeSharePct}%</span>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {Number(invCat?.aumSharePct).toFixed(1)}% · 거래 {Number(invCat?.tradeSharePct).toFixed(1)}%</span>
                     </div>
                   </div>
                 </div>
@@ -2069,10 +2069,10 @@ export function MarketBriefing() {
                               {cat.label || cat.category}
                             </td>
                             <td className="py-3 text-right font-bold tabular-nums">{aumJo}조원</td>
-                            <td className="py-3 text-right font-bold tabular-nums" style={{ color }}>{cat.aumSharePct}%</td>
+                            <td className="py-3 text-right font-bold tabular-nums" style={{ color }}>{Number(cat.aumSharePct).toFixed(1)}%</td>
                             <td className="py-3 text-right font-semibold tabular-nums">{formatKoreanTradeAmount(tradeEok)}</td>
-                            <td className="py-3 text-right font-bold tabular-nums">{cat.tradeSharePct}%</td>
-                            <td className="py-3 text-right font-bold text-neutral-700 tabular-nums">{cat.turnoverPct}%</td>
+                            <td className="py-3 text-right font-bold tabular-nums">{Number(cat.tradeSharePct).toFixed(1)}%</td>
+                            <td className="py-3 text-right font-bold text-neutral-700 tabular-nums">{Number(cat.turnoverPct).toFixed(1)}%</td>
                             <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">{cat.etfCount}개</td>
                           </tr>
                         );
@@ -2088,7 +2088,7 @@ export function MarketBriefing() {
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums">100.0%</td>
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums">{formatKoreanTradeAmount(totalTradeEok)}</td>
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums">100.0%</td>
-                        <td className="py-3 text-right font-black text-neutral-900 tabular-nums">{turnover}%</td>
+                        <td className="py-3 text-right font-black text-neutral-900 tabular-nums">{Number(turnover).toFixed(1)}%</td>
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums pr-2">
                           {(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개
                         </td>
@@ -2152,6 +2152,9 @@ export function MarketBriefing() {
 
           const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || defaultTimeSeries[step7Tab] || defaultTimeSeries.daily;
           const points = rawPoints.map((pt: any, idx: number) => {
+            const prevAdtv = idx > 0 ? (idx === rawPoints.length - 1 ? (rawPoints[idx - 1]?.adtv || (totalTradeEok - 6500)) : rawPoints[idx - 1]?.adtv) : undefined;
+            const adtvDiff = prevAdtv !== undefined ? ((idx === rawPoints.length - 1 ? totalTradeEok : pt.adtv) - prevAdtv) : 0;
+
             if (idx === rawPoints.length - 1) {
               const prevAum = rawPoints[idx - 1]?.aum || (totalAumEok - 22000);
               const aumDiff = totalAumEok - prevAum;
@@ -2162,9 +2165,15 @@ export function MarketBriefing() {
                 turnoverPct: turnover,
                 aumChange: aumDiff,
                 aumChangePct: Number(((aumDiff / prevAum) * 100).toFixed(2)),
+                adtvChange: adtvDiff,
+                adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
               };
             }
-            return pt;
+            return {
+              ...pt,
+              adtvChange: adtvDiff,
+              adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
+            };
           });
 
           // 펀드 애널리스트 4대 시나리오 & 브릿지 동적 코멘트 생성
@@ -2353,6 +2362,9 @@ export function MarketBriefing() {
 
             const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || defaultTimeSeries[step7Tab] || defaultTimeSeries.daily;
             const points = rawPoints.map((pt: any, idx: number) => {
+              const prevAdtv = idx > 0 ? (idx === rawPoints.length - 1 ? (rawPoints[idx - 1]?.adtv || (totalTradeEok - 6500)) : rawPoints[idx - 1]?.adtv) : undefined;
+              const adtvDiff = prevAdtv !== undefined ? ((idx === rawPoints.length - 1 ? totalTradeEok : pt.adtv) - prevAdtv) : 0;
+
               if (idx === rawPoints.length - 1) {
                 const prevAum = rawPoints[idx - 1]?.aum || (totalAumEok - 22000);
                 const aumDiff = totalAumEok - prevAum;
@@ -2363,9 +2375,15 @@ export function MarketBriefing() {
                   turnoverPct: turnover,
                   aumChange: aumDiff,
                   aumChangePct: Number(((aumDiff / prevAum) * 100).toFixed(2)),
+                  adtvChange: adtvDiff,
+                  adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
                 };
               }
-              return pt;
+              return {
+                ...pt,
+                adtvChange: adtvDiff,
+                adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
+              };
             });
             const maxAum = Math.max(...points.map((p: any) => p.aum), 1000);
             const minAum = Math.min(...points.map((p: any) => p.aum), 0);
@@ -2426,35 +2444,48 @@ export function MarketBriefing() {
                   <div>
                     <div className="flex items-center justify-between mb-2.5">
                       <span className="text-xs font-extrabold text-neutral-800 flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
+                        <span className="w-2.5 h-2.5 rounded-xs bg-[#0284C7]" />
                         일평균 거래대금 (조원) & 회전율
                       </span>
                       <span className="text-[11px] font-semibold text-neutral-400">Flow 유동성 활성도</span>
                     </div>
 
-                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-28 sm:h-32 items-end pt-3 pb-2 bg-white/70 rounded-xl px-3 border border-[#E0EDF8]">
+                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-36 sm:h-40 items-end pt-5 pb-2 bg-white/70 rounded-xl px-3 border border-[#E0EDF8]">
                       {points.map((pt: any, idx: number) => {
                         const adtvJo = (pt.adtv / 10000).toFixed(1);
                         const adtvRatio = maxAdtv > minAdtv ? (pt.adtv - minAdtv) / (maxAdtv - minAdtv) : 0.5;
-                        const barHeightPct = Math.max(adtvRatio * 40 + 30, 20); // 30% ~ 70%
+                        const barHeightPct = Math.max(adtvRatio * 45 + 35, 20); // 35% ~ 80%
+                        const adtvChangeAmount = pt.adtvChange ?? (idx > 0 ? pt.adtv - points[idx - 1].adtv : 0);
+                        const adtvChangeJo = (Math.abs(adtvChangeAmount) / 10000).toFixed(1);
                         const isLatest = idx === points.length - 1;
 
                         return (
                           <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
+                            {isLatest && (
+                              <div className="absolute -top-3.5 z-20 flex flex-col items-center pointer-events-none">
+                                <span className={`text-[9.5px] sm:text-[10.5px] font-black px-2 py-0.5 rounded-full shadow-xs border tabular-nums whitespace-nowrap ${
+                                  adtvChangeAmount >= 0 
+                                    ? "text-sky-900 bg-sky-100 border-sky-300" 
+                                    : "text-blue-900 bg-blue-100 border-blue-300"
+                                }`}>
+                                  {adtvChangeAmount >= 0 ? `▲ +${adtvChangeJo}조` : `▼ -${adtvChangeJo}조`}
+                                </span>
+                              </div>
+                            )}
                             <span className="text-[10.5px] sm:text-[11.5px] font-black text-[#0369A1] tabular-nums mb-1 tracking-tight">
                               {adtvJo}조
                             </span>
                             <div 
-                              className={`w-full max-w-[36px] rounded-t-md transition-all shadow-2xs cursor-pointer ${
+                              className={`w-full max-w-[44px] rounded-t-md transition-all shadow-2xs cursor-pointer ${
                                 isLatest
                                   ? "bg-gradient-to-t from-[#0369A1] via-[#0284C7] to-[#38BDF8] ring-2 ring-sky-300 shadow-sm"
                                   : "bg-gradient-to-t from-[#0284C7] to-[#38BDF8] group-hover:from-[#0369A1] group-hover:to-[#0284C7]"
                               }`}
                               style={{ height: `${barHeightPct}%` }}
-                              title={`[${pt.label}] 일평균 거래대금: ${adtvJo}조원 | 회전율: ${pt.turnoverPct}%`}
+                              title={`[${pt.label}] 일평균 거래대금: ${adtvJo}조원 | 회전율: ${Number(pt.turnoverPct).toFixed(1)}%`}
                             />
                             <span className="text-[9.5px] sm:text-[10px] font-bold text-neutral-500 tabular-nums mt-1">
-                              {pt.turnoverPct}%
+                              {Number(pt.turnoverPct).toFixed(1)}%
                             </span>
                           </div>
                         );
@@ -2528,7 +2559,7 @@ export function MarketBriefing() {
                               changeAmount > 0 ? "text-[#D92D20]" : changeAmount < 0 ? "text-[#175CD3]" : "text-neutral-500"
                             }`}>
                               {changeAmount > 0 ? `+${changeJo}조` : `${changeJo}조`}
-                              <span className="text-[10.5px] ml-1 font-semibold opacity-80">({changePct > 0 ? `+${changePct}%` : `${changePct}%`})</span>
+                              <span className="text-[10.5px] ml-1 font-semibold opacity-80">({changePct > 0 ? `+${Number(changePct).toFixed(1)}%` : `${Number(changePct).toFixed(1)}%`})</span>
                             </td>
                             {/* 📈 주가 변동분 (가격효과: + 빨강, - 파랑) */}
                             <td className={`py-3 text-right font-bold tabular-nums ${
@@ -2546,7 +2577,7 @@ export function MarketBriefing() {
                               {adtvJo}조원
                             </td>
                             <td className="py-3 text-right font-extrabold text-neutral-800 tabular-nums pr-2">
-                              {pt.turnoverPct}%
+                              {Number(pt.turnoverPct).toFixed(1)}%
                             </td>
                           </tr>
                         );

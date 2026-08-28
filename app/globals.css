@@ -132,3 +132,34 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   font-size: 0.75rem;
   font-weight: 700;
 }
+
+
+/* --- Mobile App (Capacitor) Specific Styles --- */
+.is-app .site-header {
+  display: none !important;
+}
+
+.is-app .site-footer {
+  display: none !important;
+  /* Option: hide footer entirely in app, or adjust its padding */
+}
+
+.is-app body {
+  overscroll-behavior: none; /* Prevent web bounce */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app-bottom-tab {
+  display: none !important;
+}
+
+.is-app .app-bottom-tab {
+  display: flex !important;
+}
+
+/* Make sure the main content has bottom padding so tab bar doesn't overlap */
+.is-app #main-content {
+  padding-bottom: env(safe-area-inset-bottom, 64px);
+  margin-bottom: 64px;
+}

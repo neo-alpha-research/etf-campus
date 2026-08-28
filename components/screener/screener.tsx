@@ -402,17 +402,19 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   };
 
   const quickFilterItems = [
-    { id: "us-stock", label: "미국 주식", active: isUsStockQuickActive, toggle: toggleUsStockQuick },
-    { id: "kr-stock", label: "국내 주식", active: isKrStockQuickActive, toggle: toggleKrStockQuick },
-    { id: "div-growth", label: "배당성장", active: isDivGrowthQuickActive, toggle: toggleDivGrowthQuick },
-    { id: "semi", label: "반도체", active: isSemiconductorQuickActive, toggle: toggleSemiconductorQuick },
-    { id: "ai", label: "AI·빅테크", active: isAiQuickActive, toggle: toggleAiQuick },
-    { id: "bond-parking", label: "채권·파킹", active: isBondParkingQuickActive, toggle: toggleBondParkingQuick },
-    { id: "covered-call", label: "커버드콜", active: isCoveredCallQuickActive, toggle: toggleCoveredCallQuick },
-    { id: "gold-commodity", label: "금·원자재", active: isGoldCommodityQuickActive, toggle: toggleGoldCommodityQuick },
-    { id: "power-nuclear", label: "전력·원자력", active: isPowerNuclearQuickActive, toggle: togglePowerNuclearQuick },
-    { id: "battery", label: "2차전지", active: isBatteryQuickActive, toggle: toggleBatteryQuick },
+    { id: "us-stock", icon: "🇺🇸", label: "미국 주식", active: isUsStockQuickActive, toggle: toggleUsStockQuick },
+    { id: "kr-stock", icon: "🇰🇷", label: "국내 주식", active: isKrStockQuickActive, toggle: toggleKrStockQuick },
+    { id: "div-growth", icon: "💰", label: "배당성장", active: isDivGrowthQuickActive, toggle: toggleDivGrowthQuick },
+    { id: "semi", icon: "⚡", label: "반도체", active: isSemiconductorQuickActive, toggle: toggleSemiconductorQuick },
+    { id: "ai", icon: "🤖", label: "AI·빅테크", active: isAiQuickActive, toggle: toggleAiQuick },
+    { id: "bond-parking", icon: "🛡️", label: "채권·파킹", active: isBondParkingQuickActive, toggle: toggleBondParkingQuick },
+    { id: "covered-call", icon: "📈", label: "커버드콜", active: isCoveredCallQuickActive, toggle: toggleCoveredCallQuick },
+    { id: "gold-commodity", icon: "🪙", label: "금·원자재", active: isGoldCommodityQuickActive, toggle: toggleGoldCommodityQuick },
+    { id: "power-nuclear", icon: "⚛️", label: "전력·원자력", active: isPowerNuclearQuickActive, toggle: togglePowerNuclearQuick },
+    { id: "battery", icon: "🔋", label: "2차전지", active: isBatteryQuickActive, toggle: toggleBatteryQuick },
   ];
+
+  const activeQuickItem = quickFilterItems.find((item) => item.active);
 
   const activeFilters: { label: string; remove: () => void }[] = [];
   
@@ -517,23 +519,50 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
       </div>
 
 
-      <div className="mt-4 flex flex-wrap items-center gap-2" role="group" aria-label="빠른 시작 조건">
-        {quickFilterItems.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            aria-pressed={item.active}
-            onClick={item.toggle}
-            className={`inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-bold transition-colors ${
-              item.active
-                ? "border-brand-700 bg-brand-700 text-white shadow-sm"
-                : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
+      {/* 🔥 TOP 10 인기 테마 퀵 필터 전용 섹션 */}
+      <section aria-label="인기 테마 퀵 필터" className="mt-3.5 rounded-2xl border border-neutral-200/90 bg-gradient-to-br from-neutral-50/90 via-white to-brand-50/25 p-3.5 sm:p-4 shadow-2xs">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-black text-amber-950 border border-amber-300 shadow-2xs">
+              <span aria-hidden="true">🔥</span>
+              <span>TOP 10 인기 테마</span>
+            </span>
+            <p className="text-xs font-medium text-neutral-600 hidden sm:inline">
+              가장 많이 찾는 핵심 테마 ETF를 원클릭으로 빠르게 확인하세요
+            </p>
+          </div>
+          {activeQuickItem && (
+            <button
+              type="button"
+              onClick={activeQuickItem.toggle}
+              className="inline-flex items-center gap-1 text-[11px] font-bold text-brand-800 hover:text-brand-950 bg-brand-100/70 hover:bg-brand-100 px-2 py-0.5 rounded-md border border-brand-200 transition-colors"
+            >
+              <span>{activeQuickItem.label} 필터 해제</span>
+              <span aria-hidden="true">✕</span>
+            </button>
+          )}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2" role="group" aria-label="빠른 시작 조건">
+          {quickFilterItems.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              aria-pressed={item.active}
+              onClick={item.toggle}
+              className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs sm:text-[13px] font-bold transition-all active:scale-[0.97] ${
+                item.active
+                  ? "border-brand-700 bg-brand-700 text-white shadow-sm ring-2 ring-brand-700/20"
+                  : "border-neutral-200/90 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50/60 hover:text-brand-900 shadow-2xs"
+              }`}
+            >
+              <span aria-hidden="true" className="text-sm shrink-0">{item.icon}</span>
+              <span>{item.label}</span>
+              {item.active && <span aria-hidden="true" className="text-[11px] font-black text-amber-300">✓</span>}
+            </button>
+          ))}
+        </div>
+      </section>
 
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}

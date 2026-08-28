@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { MarketTicker } from "@/components/market-ticker";
+import { AppBottomTab } from "@/components/app-bottom-tab";
 import { StyleOnboarding } from "@/components/onboarding/style-onboarding";
 import { siteConfig } from "@/config/site";
 
@@ -22,6 +23,17 @@ import { UtmTracker } from "@/components/utm-tracker";
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (navigator.userAgent.includes('ETFCampusApp')) {
+                document.documentElement.classList.add('is-app');
+              }
+            `,
+          }}
+        />
+      </head>
       <body className="flex min-h-screen flex-col antialiased">
         <Suspense fallback={null}>
           <UtmTracker />
@@ -38,6 +50,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </Suspense>
         <div className="flex flex-1 flex-col" id="main-content">{children}</div>
         <SiteFooter />
+        <AppBottomTab />
         <StyleOnboarding />
       </body>
       {process.env.NEXT_PUBLIC_GA_ID ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} /> : null}

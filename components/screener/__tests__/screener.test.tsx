@@ -64,6 +64,8 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
   it("10개의 인기 퀵 필터 버튼이 정상 렌더링되고 테마 전환이 작동한다", () => {
     render(<Screener etfs={items} />);
+    expect(screen.getByText("TOP 10 인기 테마")).toBeInTheDocument();
+
     const labels = ["미국 주식", "국내 주식", "배당성장", "반도체", "AI·빅테크", "채권·파킹", "커버드콜", "금·원자재", "전력·원자력", "2차전지"];
     for (const label of labels) {
       expect(screen.getByRole("button", { name: label })).toBeInTheDocument();
@@ -73,6 +75,12 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     fireEvent.click(semiButton);
     expect(semiButton).toHaveAttribute("aria-pressed", "true");
     expect(window.location.search).toContain("q=%EB%B0%98%EB%8F%84%EC%B2%B4"); // 반도체
+
+    // 필터 해제 버튼 확인
+    const clearButton = screen.getByRole("button", { name: "반도체 필터 해제 ✕" });
+    expect(clearButton).toBeInTheDocument();
+    fireEvent.click(clearButton);
+    expect(semiButton).toHaveAttribute("aria-pressed", "false");
   });
 
   it("선택 조건 칩 하나를 제거해도 다른 조건이 유지된다", () => {

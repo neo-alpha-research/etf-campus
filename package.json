@@ -16,6 +16,9 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/core": "^8.5.0",
+    "@capacitor/ios": "^8.5.0",
     "@next/third-parties": "^16.3.2",
     "@tanstack/react-virtual": "^3.14.9",
     "csv-parse": "^7.0.1",
@@ -30,6 +33,7 @@
     "swr": "^2.5.0"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.0",
     "@tailwindcss/postcss": "4.3.3",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",

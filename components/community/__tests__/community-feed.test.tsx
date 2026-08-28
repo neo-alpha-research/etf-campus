@@ -55,4 +55,39 @@ describe("CommunityFeed", () => {
     render(<CommunityFeed />);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
+
+  it("D-4: 서버가 빈 목록을 반환하면 mock 데이터를 fallback으로 불러온다", async () => {
+    global.fetch = vi.fn((url: string) => {
+      if (url.includes("/api/community/posts")) {
+        return Promise.resolve({
+          ok: true,
+          headers: new Headers({ "content-type": "application/json" }),
+          json: () => Promise.resolve({ posts: [] }),
+        });
+      }
+      if (url.includes("/mock-community-posts.json")) {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve({
+            posts: [
+              {
+                slug: "mock-fallback-slug",
+                title: "목업 fallback 제목",
+                bodyText: "목업 fallback 본문",
+                category: { slug: "free-qna", name: "자유·질문" },
+                authorNickname: "목업작성자",
+                createdAt: "2026-08-27T00:00:00.000Z",
+                commentCount: 2,
+              },
+            ],
+          }),
+        });
+      }
+      return Promise.reject(new Error("Unknown URL"));
+    }) as unknown as typeof fetch;
+
+    render(<CommunityFeed />);
+    const link = await screen.findByRole("link", { name: /목업 fallback 제목/i });
+    expect(link).toBeInTheDocument();
+  });
 });

@@ -47,41 +47,81 @@ export function CommunityFeed() {
     let active = true;
     setStatus("loading");
     setNextCursor(null);
-    const params = new URLSearchParams({ limit: "12" });
-    if (selected) params.set("category", selected);
-    fetch(`/api/community/posts?${params.toString()}`)
-      .then(async (response) => {
-        const contentType = response.headers?.get ? response.headers.get("content-type") || "" : "application/json";
-        if (!response.ok || !contentType.includes("application/json")) {
+
+    async function loadFeed() {
+      try {
+        const params = new URLSearchParams({ limit: "12" });
+        if (selected) params.set("category", selected);
+
+        let feedList: Post[] = [];
+        let cursor: string | null = null;
+
+        try {
+          const response = await fetch(`/api/community/posts?${params.toString()}`);
+          if (response.ok) {
+            const contentType = response.headers?.get ? response.headers.get("content-type") || "" : "application/json";
+            if (contentType.includes("application/json")) {
+              const result = await response.json();
+              if (Array.isArray(result.posts) && result.posts.length > 0) {
+                feedList = result.posts;
+                cursor = typeof result.nextCursor === "string" ? result.nextCursor : null;
+              }
+            }
+          }
+        } catch {
+          // ignore API error and fallback
+        }
+
+        // If backend returned no posts or failed, fallback to mock-community-posts.json
+        if (feedList.length === 0) {
           const fallbackRes = await fetch("/mock-community-posts.json");
           if (fallbackRes.ok) {
             const fallbackData = await fallbackRes.json();
-            let list = fallbackData.posts || [];
+            let mockList: Post[] = fallbackData.posts || [];
             if (selected) {
-              list = list.filter((p: { category?: { slug?: string } }) => {
+              mockList = mockList.filter((p: { category?: { slug?: string } }) => {
                 if (selected === "free-qna") return p.category?.slug === "free-qna" || p.category?.slug === "pension-etf-qna";
                 if (selected === "strategy-portfolio") return p.category?.slug === "strategy-portfolio";
                 if (selected === "stock-cost-analysis") return p.category?.slug === "stock-cost-analysis" || p.category?.slug === "etf-questions";
                 return p.category?.slug === selected;
               });
+            } else {
+              // '전체' tab: show all general community posts (exclude feedback / notice)
+              mockList = mockList.filter((p: { category?: { slug?: string } }) => p.category?.slug !== "feedback" && p.category?.slug !== "notice");
             }
-            return { posts: list, nextCursor: null };
+            feedList = mockList;
           }
-          throw new Error("게시물을 불러오지 못했습니다.");
         }
-        return response.json();
-      })
-      .then((result) => {
+
+        // Merge locally created posts from localStorage
+        if (typeof window !== "undefined") {
+          try {
+            const stored = localStorage.getItem("etf-campus:local-posts");
+            if (stored) {
+              const allLocal = JSON.parse(stored);
+              const filteredLocal = allLocal.filter((p: { category?: { slug?: string } }) => {
+                if (!selected) return p.category?.slug !== "feedback" && p.category?.slug !== "notice";
+                return p.category?.slug === selected;
+              });
+              feedList = [...filteredLocal, ...feedList];
+            }
+          } catch {}
+        }
+
         if (!active) return;
-        setPosts(result.posts ?? []);
-        setNextCursor(typeof result.nextCursor === "string" ? result.nextCursor : null);
+        setPosts(feedList);
+        setNextCursor(cursor);
         setStatus("ready");
-      })
-      .catch(() => {
+      } catch {
         if (!active) return;
         setStatus("error");
-      });
-    return () => { active = false; };
+      }
+    }
+
+    loadFeed();
+    return () => {
+      active = false;
+    };
   }, [selected]);
 
   async function loadMore() {

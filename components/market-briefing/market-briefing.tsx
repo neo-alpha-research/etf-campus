@@ -2125,6 +2125,22 @@ export function MarketBriefing() {
                         );
                       })}
                     </tbody>
+                    <tfoot className="bg-[#F8FAF6] font-bold text-neutral-900 text-[12.5px] border-t-2 border-[#D7EABB]">
+                      <tr>
+                        <td className="py-3 pl-2 font-black text-[#2E6819] flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
+                          합계 (Total)
+                        </td>
+                        <td className="py-3 text-right font-black tabular-nums">{totalAumJo}조원</td>
+                        <td className="py-3 text-right font-black text-[#2E6819] tabular-nums">100.0%</td>
+                        <td className="py-3 text-right font-bold tabular-nums">{formatKoreanFlowAmount(totalTradeEok)}</td>
+                        <td className="py-3 text-right font-black text-[#0284C7] tabular-nums">100.0%</td>
+                        <td className="py-3 text-right font-black text-neutral-800 tabular-nums">{marketTurnoverPct}%</td>
+                        <td className="py-3 text-right font-black text-neutral-700 tabular-nums pr-2">
+                          {categories.reduce((sum: number, cat: any) => sum + (cat.etfCount || 0), 0) || totalEtfCount}개
+                        </td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
               </>
@@ -2145,21 +2161,32 @@ export function MarketBriefing() {
 
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (탭 실시간 동적 연동) */}
         {(() => {
+          const timeseries = briefing.marketScaleTimeSeries;
+          const points = timeseries?.[step7Tab] || [];
+          const startPt = points[0];
+          const endPt = points[points.length - 1];
+
+          const startJo = startPt ? (startPt.aum / 10000).toFixed(1) : "376.5";
+          const endJo = endPt ? (endPt.aum / 10000).toFixed(1) : "385.2";
+          const totalGrowthPct = startPt && endPt ? (((endPt.aum - startPt.aum) / startPt.aum) * 100).toFixed(1) : "2.3";
+          const avgAdtvJo = points.length ? ((points.reduce((s: number, p: any) => s + (p.adtv || 0), 0) / points.length) / 10000).toFixed(1) : "9.9";
+
           let tabTag = "[일간 트렌드]";
-          let sentence = "5거래일간(08.20~08.27) 대한민국 ETF 총 자산은 435.1조원에서 446.8조원으로 +2.7% 성장했으며, 일평균 12.4조원의 유동성이 거래되었습니다.";
+          let sentence = `5거래일간(${startPt?.label || '08.20'}~${endPt?.label || '08.27'}) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
 
           if (step7Tab === 'daily') {
             tabTag = "[일간 트렌드]";
-            sentence = "5거래일간(08.20~08.27) 대한민국 ETF 총 자산은 435.1조원에서 446.8조원으로 +2.7% 성장했으며, 일평균 12.4조원의 유동성이 거래되었습니다.";
+            sentence = `5거래일간(${startPt?.label || '08.20'}~${endPt?.label || '08.27'}) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
           } else if (step7Tab === 'weekly') {
             tabTag = "[주간 트렌드]";
-            sentence = "최근 5주간(7월 5주~8월 4주) 총 자산은 421.5조원에서 446.8조원으로 +6.0% 확대되며, 주간 평균 12.0조원의 견조한 유동성을 유지했습니다.";
+            sentence = `최근 5주간(7월 5주~8월 4주) 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 확대되며, 주간 일평균 ${avgAdtvJo}조원의 견조한 유동성을 유지했습니다.`;
           } else if (step7Tab === 'monthly') {
             tabTag = "[월간 트렌드]";
-            sentence = "최근 5개월간(4월말~8월) 총 자산은 375.2조원에서 446.8조원으로 +19.1% 가파르게 증가하며, 월평균 10.6조원의 활발한 자금 유입을 기록했습니다.";
+            sentence = `최근 5개월간(4월말~8월) 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 가파르게 증가하며, 월간 일평균 ${avgAdtvJo}조원의 활발한 자금 유입을 기록했습니다.`;
           } else {
             tabTag = "[연간 트렌드]";
-            sentence = "5개년(2022년말~2026년) 동안 총 자산은 78.5조원에서 446.8조원으로 약 5.7배 폭발적으로 성장하며 국내 핵심 투자 시장으로 도약했습니다.";
+            const multiple = startPt && endPt ? (endPt.aum / startPt.aum).toFixed(1) : "4.9";
+            sentence = `5개년(2022년말~2026년) 동안 총 자산은 ${startJo}조원에서 ${endJo}조원으로 약 ${multiple}배 폭발적으로 성장하며 국내 핵심 투자 시장으로 도약했습니다.`;
           }
 
           return (

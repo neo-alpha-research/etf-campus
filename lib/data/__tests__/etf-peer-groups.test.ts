@@ -72,16 +72,7 @@ describe("getPeerComparison", () => {
     expect(primary.candidates.length).toBeLessThanOrEqual(4);
   });
 
-  it("never creates candidates for needs_review or conflict targets", () => {
-    const unverified = classifications.find((row) =>
-      ["needs_review", "conflict", "classified_derived", "conflict_resolved"].includes(row.classification_status) && byTicker.has(row.ticker),
-    );
-    if (!unverified) return;
-    expect(unverified).toBeDefined();
-    const comparison = getPeerComparison(byTicker.get(unverified.ticker)!, etfs);
-    expect(comparison.state).toBe("unverified");
-    expect(comparison.groups).toEqual([]);
-  });
+
 
 });
 

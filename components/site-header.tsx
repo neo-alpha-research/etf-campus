@@ -13,8 +13,8 @@ const navigation = [
   { href: "/", label: "마켓 브리핑" },
   { href: "/explore/", label: "ETF 탐색" },
   { href: "/compare", label: "ETF 비교" },
-  { href: "/tutorial/", label: "캠퍼스 투어" },
   { href: "/community/", label: "ETF 이야기" },
+  { href: "/tutorial/", label: "캠퍼스 투어" },
   { href: "/books/", label: "도서·리뷰" },
   { href: "/notice/", label: "알림·참여" },
 ] as const;

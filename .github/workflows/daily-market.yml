@@ -6,16 +6,17 @@ on:
     # close lands as early as the official feed publishes it. The first run
     # that finds new data commits; later runs that day exit early as no-ops.
     # GitHub's on-the-hour schedule queue is congested and can drop runs, so
-    # use minute 45 and let the retry ladder absorb a transient API delay.
+    # use minute 53 and 13 and let the retry ladder absorb a transient API delay.
     #
     #   UTC (cron)      KST (local)          covers
-    #   Mon-Fri 23:45   Tue-Sat 08:45        previous trading day close
-    #   Tue-Sat 00:45   Tue-Sat 09:45        
-    #   Tue-Sat 01:45   Tue-Sat 10:45
-    #   Tue-Sat 02:45   Tue-Sat 11:45
-    #   Tue-Sat 03:45   Tue-Sat 12:45        final retry
-    - cron: "45 23 * * 1-5"
-    - cron: "45 0-3 * * 2-6"
+    #   Mon-Fri 22:53   Tue-Sat 07:53        previous trading day close
+    #   Tue-Sat 00:13   Tue-Sat 09:13        
+    #   Tue-Sat 01:13   Tue-Sat 10:13
+    #   Tue-Sat 02:13   Tue-Sat 11:13
+    #   Tue-Sat 03:13   Tue-Sat 12:13        final retry
+    - cron: "53 22 * * 1-5"
+    - cron: "13 23 * * 1-5"
+    - cron: "13 0-3 * * 2-6"
   workflow_dispatch:
     inputs:
       target:
@@ -24,7 +25,7 @@ on:
         type: string
 
 env:
-  # [주의] ??값을 바꾸�??�래 schedule ?�론??최종 ?�계(03:45)?�?
+  # [주의] ??값을 바꾸�??�래 schedule ?�론??최종 ?�계(03:13)?�
   # guard ?�텝??최종 ?�계 ?�정 로직??모두 ?�께 바뀌어???�니??
   FINAL_RETRY_UTC_HOUR: "03"
 
@@ -69,7 +70,7 @@ jobs:
           if python scripts/check_workflow_success_today.py --workflow daily-market.yml; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "skip_reason=already_succeeded" >> "$GITHUB_OUTPUT"
-            echo "??*Skipping**: This workflow has already succeeded today." >> "$GITHUB_STEP_SUMMARY"
+            echo "✅**Skipping**: This workflow has already succeeded today." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
           

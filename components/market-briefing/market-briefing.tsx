@@ -2124,7 +2124,120 @@ export function MarketBriefing() {
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
                         일반 ETF
-             if (step7Tab === 'daily') {
+                      </span>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {genCat?.aumSharePct}% · 거래 {genCat?.tradeSharePct}%</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-1.5 bg-[#F0F9FF] px-3 py-1.5 rounded-lg border border-[#BAE6FD]">
+                      <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
+                        파킹·단기
+                      </span>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {parkCat?.aumSharePct}% · 거래 {parkCat?.tradeSharePct}%</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-1.5 bg-[#FFF7ED] px-3 py-1.5 rounded-lg border border-[#FFEDD5]">
+                      <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
+                        레버리지
+                      </span>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {levCat?.aumSharePct}% · 거래 {levCat?.tradeSharePct}%</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-1.5 bg-[#FAF5FF] px-3 py-1.5 rounded-lg border border-[#F3E8FF]">
+                      <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#9333EA]" />
+                        인버스
+                      </span>
+                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {invCat?.aumSharePct}% · 거래 {invCat?.tradeSharePct}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4대 카테고리 상세 비교 매트릭스 테이블 */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b border-neutral-200 text-[11px] font-extrabold text-neutral-400 uppercase tracking-wider">
+                        <th className="py-2.5 pl-2">유형 구분</th>
+                        <th className="py-2.5 text-right">AUM (자산 규모)</th>
+                        <th className="py-2.5 text-right">AUM 비중</th>
+                        <th className="py-2.5 text-right">당일 거래대금</th>
+                        <th className="py-2.5 text-right">거래 비중</th>
+                        <th className="py-2.5 text-right">회전율</th>
+                        <th className="py-2.5 text-right pr-2">종목수</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100 text-[12.5px] font-medium text-neutral-700">
+                      {categories.map((cat: any) => {
+                        const aumEok = normalizeToEok(cat.aum);
+                        const tradeEok = normalizeToEok(cat.tradeValue);
+                        const aumJo = (aumEok / 10000).toFixed(1);
+                        const color = cat.category === 'general' ? '#2E6819' : cat.category === 'parking' ? '#0284C7' : cat.category === 'leveraged' ? '#EA580C' : '#9333EA';
+
+                        return (
+                          <tr key={cat.category} className="hover:bg-neutral-50/80 transition-colors">
+                            <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
+                              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
+                              {cat.label || cat.category}
+                            </td>
+                            <td className="py-3 text-right font-bold tabular-nums">{aumJo}조원</td>
+                            <td className="py-3 text-right font-bold tabular-nums" style={{ color }}>{cat.aumSharePct}%</td>
+                            <td className="py-3 text-right font-semibold tabular-nums">{formatKoreanTradeAmount(tradeEok)}</td>
+                            <td className="py-3 text-right font-bold tabular-nums">{cat.tradeSharePct}%</td>
+                            <td className="py-3 text-right font-bold text-neutral-700 tabular-nums">{cat.turnoverPct}%</td>
+                            <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">{cat.etfCount}개</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                    <tfoot className="bg-[#F8FAF6] font-bold text-neutral-900 text-[12.5px] border-t-2 border-[#D7EABB]">
+                      <tr>
+                        <td className="py-3 pl-2 font-black text-neutral-900 flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
+                          합계 (Total)
+                        </td>
+                        <td className="py-3 text-right font-black text-neutral-900 tabular-nums">{totalAumJo}조원</td>
+                        <td className="py-3 text-right font-black text-neutral-900 tabular-nums">100.0%</td>
+                        <td className="py-3 text-right font-black text-neutral-900 tabular-nums">{formatKoreanTradeAmount(totalTradeEok)}</td>
+                        <td className="py-3 text-right font-black text-neutral-900 tabular-nums">100.0%</td>
+                        <td className="py-3 text-right font-black text-neutral-900 tabular-nums">{turnover}%</td>
+                        <td className="py-3 text-right font-black text-neutral-900 tabular-nums pr-2">
+                          {(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </>
+            );
+          })()}
+        </div>
+      </section>
+
+      {/* STEP 7: Market Growth & Trend (Time Series) */}
+      <section id="step-growth" className="mb-16 scroll-mt-20">
+        <div className="mb-4">
+          <div className="border-l-4 border-[#2E6819] pl-3 mb-3">
+            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#2E6819]">STEP 7. MARKET GROWTH & TREND</p>
+            <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장 성장과 거래 유동성 추이</h2>
+            <p className="mt-1 text-sm text-neutral-500">일간·주간·월간·연간 주기로 시장 총 자산(AUM)과 일평균 거래대금의 추세를 점검합니다.</p>
+          </div>
+        </div>
+
+        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (탭 실시간 동적 연동) */}
+        {(() => {
+          const timeseries = briefing.marketScaleTimeSeries;
+          const points = timeseries?.[step7Tab] || [];
+          const startPt = points[0];
+          const endPt = points[points.length - 1];
+
+          const startJo = startPt ? (startPt.aum / 10000).toFixed(1) : "376.5";
+          const endJo = endPt ? (endPt.aum / 10000).toFixed(1) : "385.2";
+          const totalGrowthPct = startPt && endPt ? (((endPt.aum - startPt.aum) / startPt.aum) * 100).toFixed(1) : "2.3";
+          const avgAdtvJo = points.length ? ((points.reduce((s: number, p: any) => s + (p.adtv || 0), 0) / points.length) / 10000).toFixed(1) : "9.9";
+
+          let tabTag = "[일간 트렌드]";
+          let sentence = `5거래일간(8/20~8/27) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
+
+          if (step7Tab === 'daily') {
             tabTag = "[일간 트렌드]";
             sentence = `5거래일간(8/20~8/27) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
           } else if (step7Tab === 'weekly') {
@@ -2550,6 +2663,5 @@ export function MarketBriefing() {
   );
 
 }
-
 
 

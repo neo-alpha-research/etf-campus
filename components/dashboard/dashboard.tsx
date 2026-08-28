@@ -374,9 +374,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                             <span className="rounded bg-brand-50 px-1.5 py-0.5 text-[11px] font-semibold text-brand-800 border border-brand-200">
                               {cleanAssetClass}
                             </span>
-                            {etf.strategy && etf.strategy !== "패시브" && (
+                            {etf.classification?.strategy && etf.classification.strategy !== "패시브" && (
                               <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] font-semibold text-amber-800 border border-amber-200">
-                                {etf.strategy}
+                                {etf.classification.strategy}
                               </span>
                             )}
                             <span className="text-neutral-300">·</span>

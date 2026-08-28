@@ -19,6 +19,9 @@ export default function ComparePage() {
     riskType: etf.riskType,
     pension: etf.pension,
     tradeValue: etf.tradeValue,
+    changePct: etf.changePct,
+    aum: etf.aum,
+    classification: etf.classification,
   }));
 
   return (

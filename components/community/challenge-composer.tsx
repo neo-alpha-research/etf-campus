@@ -18,6 +18,13 @@ function getTaskForDay(day: number) {
   };
 }
 
+interface CohortItem {
+  id: string;
+  name?: string;
+  status: string;
+  starts_on?: string;
+}
+
 export function ChallengeComposer() {
   const [dayNumber, setDayNumber] = useState<number>(1);
   const [bodyText, setBodyText] = useState("");
@@ -28,7 +35,7 @@ export function ChallengeComposer() {
   const [authOpen, setAuthOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [cohorts, setCohorts] = useState<unknown[]>([]);
+  const [cohorts, setCohorts] = useState<CohortItem[]>([]);
   const [selectedCohortId, setSelectedCohortId] = useState<string>("");
 
   useEffect(() => {
@@ -47,7 +54,7 @@ export function ChallengeComposer() {
     fetch("/api/community/challenges")
       .then(r => r.ok ? r.json() : { cohorts: [] })
       .then(result => {
-        const activeCohorts = (result.cohorts ?? []).filter((c: unknown) => c.status === "active" || c.status === "recruiting");
+        const activeCohorts = ((result.cohorts as CohortItem[]) ?? []).filter((c) => c.status === "active" || c.status === "recruiting");
         setCohorts(activeCohorts);
         if (activeCohorts.length > 0) {
           setSelectedCohortId(activeCohorts[0].id);

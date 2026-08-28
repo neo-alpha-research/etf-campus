@@ -1,35 +1,33 @@
 "use client";
 
 interface FounderLetterProps {
-  activeTab: "tour" | "quiz";
-  onTabChange: (tab: "tour" | "quiz") => void;
-  quizProgress?: number; // 1 ~ 10
+  onNavigateTour: () => void;
+  onNavigateQuiz: () => void;
 }
 
 export function FounderLetter({
-  activeTab,
-  onTabChange,
-  quizProgress = 1,
+  onNavigateTour,
+  onNavigateQuiz,
 }: FounderLetterProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in-up">
       {/* Founder's Letter Card */}
       <div className="relative overflow-hidden rounded-3xl border border-brand-200/90 bg-gradient-to-br from-brand-50/80 via-surface to-brand-50/40 p-6 sm:p-10 shadow-sm">
         {/* Decorative background blur */}
         <div className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-brand-100/60 blur-3xl" />
         <div className="pointer-events-none absolute -left-12 -bottom-12 size-48 rounded-full bg-amber-100/40 blur-2xl" />
 
-        <div className="relative space-y-5">
+        <div className="relative space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-brand-200/60 pb-3.5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 text-brand-900 text-xs font-black tracking-wide">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100 text-brand-900 text-xs font-black tracking-wide">
               <span>🏛️</span>
-              <span>설립자 인사말</span>
+              <span>설립 취지문 | FOUNDER&apos;S MISSION</span>
             </div>
           </div>
 
           {/* Letter Body */}
-          <div className="space-y-3.5 text-sm sm:text-[15px] text-neutral-700 font-normal leading-relaxed break-keep">
+          <div className="space-y-4 text-sm sm:text-[15px] text-neutral-700 font-normal leading-relaxed break-keep">
             <p>
               안녕하세요, ETF 캠퍼스를 설립한 <strong className="font-extrabold text-neutral-950">Neo</strong>입니다.
             </p>
@@ -61,57 +59,31 @@ export function FounderLetter({
               </span>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Mode Navigation Tabs */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-1">
-        <div className="w-full sm:w-auto inline-flex p-1 rounded-2xl bg-neutral-100 border border-neutral-200/90 text-xs sm:text-sm font-bold shadow-inner">
-          <button
-            type="button"
-            onClick={() => onTabChange("tour")}
-            className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl transition-all ${
-              activeTab === "tour"
-                ? "bg-surface text-brand-800 shadow-sm ring-1 ring-neutral-200"
-                : "text-muted hover:text-strong"
-            }`}
-          >
-            <span>🏛️</span>
-            <span>캠퍼스 시설 안내</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => onTabChange("quiz")}
-            className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl transition-all ${
-              activeTab === "quiz"
-                ? "bg-brand-700 text-white shadow-sm"
-                : "text-muted hover:text-strong"
-            }`}
-          >
-            <span>🎓</span>
-            <span>신입생 오리엔테이션 퀴즈</span>
-            <span
-              className={`ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
-                activeTab === "quiz"
-                  ? "bg-brand-800 text-brand-100"
-                  : "bg-neutral-200 text-neutral-600"
-              }`}
-            >
-              {quizProgress}/10
-            </span>
-          </button>
-        </div>
-
-        {/* Quick hint / motivation badge */}
-        <div className="text-xs text-muted font-medium flex items-center gap-1.5 self-center sm:self-auto">
-          <span>🎁</span>
-          <span>
-            퀴즈 완료 시{" "}
-            <strong className="text-amber-800 font-bold underline decoration-amber-300">
-              체크리스트 PDF
-            </strong>{" "}
-            100% 무료 증정
-          </span>
+          {/* Next Action CTAs */}
+          <div className="pt-4 border-t border-neutral-200/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-xs sm:text-sm font-semibold text-neutral-600">
+              다음 단계로 이동해 캠퍼스를 탐방해 보세요 👉
+            </p>
+            <div className="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-2.5">
+              <button
+                type="button"
+                onClick={onNavigateTour}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-brand-700 hover:bg-brand-800 text-white text-xs sm:text-sm font-black shadow-md shadow-brand-700/20 transition-all active:scale-[0.98]"
+              >
+                <span>🗺️ 캠퍼스 시설 둘러보기</span>
+                <span>➔</span>
+              </button>
+              <button
+                type="button"
+                onClick={onNavigateQuiz}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-surface border border-neutral-300 hover:bg-neutral-50 text-neutral-800 text-xs sm:text-sm font-black shadow-2xs transition-all active:scale-[0.98]"
+              >
+                <span>🎓 바로 OT 퀴즈 풀기</span>
+                <span>➔</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

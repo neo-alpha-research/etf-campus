@@ -12,8 +12,10 @@ function TutorialContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<"tour" | "quiz">(() => {
-    return searchParams.get("tab") === "quiz" ? "quiz" : "tour";
+  const [activeTab, setActiveTab] = useState<"letter" | "tour" | "quiz">(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "tour" || tab === "quiz" || tab === "letter") return tab;
+    return "letter";
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [answers, setAnswers] = useState<Record<string, boolean | null>>({});
@@ -140,17 +142,95 @@ function TutorialContent() {
 
   return (
     <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-8 select-none">
-      {/* 🏛️ Founder Neo's Letter Section */}
-      <FounderLetter
-        activeTab={activeTab}
-        onTabChange={(tab) => {
-          setActiveTab(tab);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-        quizProgress={currentStep}
-      />
+      {/* 🏛️ Top 3-Tab Segmented Navigation Bar */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-1.5 rounded-2xl bg-neutral-100/90 border border-neutral-200/90 shadow-inner">
+        <div className="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab("letter");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+              activeTab === "letter"
+                ? "bg-surface text-brand-900 shadow-sm ring-1 ring-neutral-200"
+                : "text-muted hover:text-strong"
+            }`}
+          >
+            <span>🏛️</span>
+            <span>설립 취지문</span>
+          </button>
 
-      {/* Tab 1: Campus Facility Tour */}
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab("tour");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+              activeTab === "tour"
+                ? "bg-surface text-brand-900 shadow-sm ring-1 ring-neutral-200"
+                : "text-muted hover:text-strong"
+            }`}
+          >
+            <span>🗺️</span>
+            <span>캠퍼스 시설 안내</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveTab("quiz");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+              activeTab === "quiz"
+                ? "bg-brand-700 text-white shadow-sm"
+                : "text-muted hover:text-strong"
+            }`}
+          >
+            <span>🎓</span>
+            <span>신입생 OT 퀴즈</span>
+            <span
+              className={`ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
+                activeTab === "quiz"
+                  ? "bg-brand-800 text-brand-100"
+                  : "bg-neutral-200 text-neutral-600"
+              }`}
+            >
+              {currentStep}/10
+            </span>
+          </button>
+        </div>
+
+        {/* Quick Motivation Tag */}
+        <div className="text-xs text-muted font-medium flex items-center gap-1.5 px-2 self-center sm:self-auto">
+          <span>🎁</span>
+          <span>
+            퀴즈 완료 시{" "}
+            <strong className="text-amber-800 font-bold underline decoration-amber-300">
+              체크리스트 PDF
+            </strong>{" "}
+            100% 증정
+          </span>
+        </div>
+      </div>
+
+      {/* Tab 1: Founder's Mission Letter */}
+      {activeTab === "letter" && (
+        <FounderLetter
+          onNavigateTour={() => {
+            setActiveTab("tour");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          onNavigateQuiz={() => {
+            setActiveTab("quiz");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
+      )}
+
+      {/* Tab 2: Campus Facility Tour */}
       {activeTab === "tour" && (
         <CampusTour
           onStartQuiz={() => {
@@ -160,7 +240,7 @@ function TutorialContent() {
         />
       )}
 
-      {/* Tab 2: 10-Lesson Orientation Quiz */}
+      {/* Tab 3: 10-Lesson Orientation Quiz */}
       {activeTab === "quiz" && (
         <div className="space-y-6 animate-fade-in-up">
           {/* 🎮 EXP Bar & Academic Progress */}

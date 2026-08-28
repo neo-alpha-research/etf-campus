@@ -2124,132 +2124,19 @@ export function MarketBriefing() {
                       <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
                         일반 ETF
-                      </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {genCat?.aumSharePct}% · 거래 {genCat?.tradeSharePct}%</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-1.5 bg-[#F0F9FF] px-3 py-1.5 rounded-lg border border-[#BAE6FD]">
-                      <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
-                        파킹·단기
-                      </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {parkCat?.aumSharePct}% · 거래 {parkCat?.tradeSharePct}%</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-1.5 bg-[#FFF7ED] px-3 py-1.5 rounded-lg border border-[#FFEDD5]">
-                      <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#EA580C]" />
-                        레버리지
-                      </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {levCat?.aumSharePct}% · 거래 {levCat?.tradeSharePct}%</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-1.5 bg-[#FAF5FF] px-3 py-1.5 rounded-lg border border-[#F3E8FF]">
-                      <span className="flex items-center gap-1.5 text-neutral-800 font-extrabold">
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#9333EA]" />
-                        인버스
-                      </span>
-                      <span className="text-neutral-500 tabular-nums text-[11px]">AUM {invCat?.aumSharePct}% · 거래 {invCat?.tradeSharePct}%</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 4대 카테고리 상세 비교 매트릭스 테이블 */}
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr className="border-b border-neutral-200 text-[11px] font-extrabold text-neutral-400 uppercase tracking-wider">
-                        <th className="py-2.5 pl-2">유형 구분</th>
-                        <th className="py-2.5 text-right">AUM (자산 규모)</th>
-                        <th className="py-2.5 text-right">AUM 비중</th>
-                        <th className="py-2.5 text-right">당일 거래대금</th>
-                        <th className="py-2.5 text-right">거래 비중</th>
-                        <th className="py-2.5 text-right">회전율</th>
-                        <th className="py-2.5 text-right pr-2">종목수</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-neutral-100 text-[12.5px] font-medium text-neutral-700">
-                      {categories.map((cat: any) => {
-                        const aumEok = normalizeToEok(cat.aum);
-                        const tradeEok = normalizeToEok(cat.tradeValue);
-                        const aumJo = (aumEok / 10000).toFixed(1);
-                        const color = cat.category === 'general' ? '#2E6819' : cat.category === 'parking' ? '#0284C7' : cat.category === 'leveraged' ? '#EA580C' : '#9333EA';
-
-                        return (
-                          <tr key={cat.category} className="hover:bg-neutral-50/80 transition-colors">
-                            <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
-                              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
-                              {cat.label || cat.category}
-                            </td>
-                            <td className="py-3 text-right font-bold tabular-nums">{aumJo}조원</td>
-                            <td className="py-3 text-right font-bold tabular-nums" style={{ color }}>{cat.aumSharePct}%</td>
-                            <td className="py-3 text-right font-semibold tabular-nums">{formatKoreanTradeAmount(tradeEok)}</td>
-                            <td className="py-3 text-right font-bold tabular-nums">{cat.tradeSharePct}%</td>
-                            <td className="py-3 text-right font-bold text-neutral-700 tabular-nums">{cat.turnoverPct}%</td>
-                            <td className="py-3 text-right font-semibold text-neutral-400 tabular-nums pr-2">{cat.etfCount}개</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                    <tfoot className="bg-[#F8FAF6] font-bold text-neutral-900 text-[12.5px] border-t-2 border-[#D7EABB]">
-                      <tr>
-                        <td className="py-3 pl-2 font-black text-[#2E6819] flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
-                          합계 (Total)
-                        </td>
-                        <td className="py-3 text-right font-black tabular-nums">{totalAumJo}조원</td>
-                        <td className="py-3 text-right font-black text-[#2E6819] tabular-nums">100.0%</td>
-                        <td className="py-3 text-right font-bold tabular-nums">{formatKoreanTradeAmount(totalTradeEok)}</td>
-                        <td className="py-3 text-right font-black text-[#0284C7] tabular-nums">100.0%</td>
-                        <td className="py-3 text-right font-black text-neutral-800 tabular-nums">{turnover}%</td>
-                        <td className="py-3 text-right font-black text-neutral-700 tabular-nums pr-2">
-                          {(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </>
-            );
-          })()}
-        </div>
-      </section>
-
-      {/* STEP 7: Market Growth & Trend (Time Series) */}
-      <section id="step-growth" className="mb-16 scroll-mt-20">
-        <div className="mb-4">
-          <div className="border-l-4 border-[#2E6819] pl-3 mb-3">
-            <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#2E6819]">STEP 7. MARKET GROWTH & TREND</p>
-            <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">시장 성장과 거래 유동성 추이</h2>
-            <p className="mt-1 text-sm text-neutral-500">일간·주간·월간·연간 주기로 시장 총 자산(AUM)과 일평균 거래대금의 추세를 점검합니다.</p>
-          </div>
-        </div>
-
-        {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (탭 실시간 동적 연동) */}
-        {(() => {
-          const timeseries = briefing.marketScaleTimeSeries;
-          const points = timeseries?.[step7Tab] || [];
-          const startPt = points[0];
-          const endPt = points[points.length - 1];
-
-          const startJo = startPt ? (startPt.aum / 10000).toFixed(1) : "376.5";
-          const endJo = endPt ? (endPt.aum / 10000).toFixed(1) : "385.2";
-          const totalGrowthPct = startPt && endPt ? (((endPt.aum - startPt.aum) / startPt.aum) * 100).toFixed(1) : "2.3";
-          const avgAdtvJo = points.length ? ((points.reduce((s: number, p: any) => s + (p.adtv || 0), 0) / points.length) / 10000).toFixed(1) : "9.9";
-
-          let tabTag = "[일간 트렌드]";
-          let sentence = `5거래일간(${startPt?.label || '08.20'}~${endPt?.label || '08.27'}) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
-
-          if (step7Tab === 'daily') {
+             if (step7Tab === 'daily') {
             tabTag = "[일간 트렌드]";
-            sentence = `5거래일간(${startPt?.label || '08.20'}~${endPt?.label || '08.27'}) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
+            sentence = `5거래일간(8/20~8/27) 대한민국 ETF 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 성장했으며, 일평균 ${avgAdtvJo}조원의 유동성이 거래되었습니다.`;
           } else if (step7Tab === 'weekly') {
             tabTag = "[주간 트렌드]";
             sentence = `최근 5주간(7월 5주~8월 4주) 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 확대되며, 주간 일평균 ${avgAdtvJo}조원의 견조한 유동성을 유지했습니다.`;
           } else if (step7Tab === 'monthly') {
             tabTag = "[월간 트렌드]";
-            sentence = `최근 5개월간(4월말~8월) 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 가파르게 증가하며, 월간 일평균 ${avgAdtvJo}조원의 활발한 자금 유입을 기록했습니다.`;
+            sentence = `최근 5개월간(2026년 4월~8월) 총 자산은 ${startJo}조원에서 ${endJo}조원으로 +${totalGrowthPct}% 가파르게 증가하며, 월간 일평균 ${avgAdtvJo}조원의 활발한 자금 유입을 기록했습니다.`;
           } else {
             tabTag = "[연간 트렌드]";
             const multiple = startPt && endPt ? (endPt.aum / startPt.aum).toFixed(1) : "4.9";
-            sentence = `5개년(2022년말~2026년) 동안 총 자산은 ${startJo}조원에서 ${endJo}조원으로 약 ${multiple}배 폭발적으로 성장하며 국내 핵심 투자 시장으로 도약했습니다.`;
+            sentence = `5개년(2022년~2026년) 동안 총 자산은 ${startJo}조원에서 ${endJo}조원으로 약 ${multiple}배 폭발적으로 성장하며 국내 핵심 투자 시장으로 도약했습니다.`;
           }
 
           return (
@@ -2268,7 +2155,7 @@ export function MarketBriefing() {
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h3 className="text-sm font-extrabold text-neutral-900">시계열 자산 궤적 및 거래 유동성</h3>
-              <p className="text-xs text-neutral-400">막대: 총 운용자산(AUM, 조원) | 꺾은선: 일평균 거래대금(조원)</p>
+              <p className="text-xs text-neutral-400">상단: 총 운용자산(AUM, 조원) | 하단: 일평균 거래대금(조원) 및 회전율</p>
             </div>
             <div className="flex bg-neutral-100 p-1 rounded-lg">
               {(['daily', 'weekly', 'monthly', 'yearly'] as const).map((tab) => {
@@ -2295,7 +2182,7 @@ export function MarketBriefing() {
             </div>
           </div>
 
-          {/* 5-Point 콤보 차트 렌더러 (Dual-Zone 완벽 분리) */}
+          {/* 5-Point 상하 듀얼 싱크 차트 (Linked Dual-Pane) */}
           {(() => {
             const snapshot = briefing.marketScaleSnapshot;
             const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8);
@@ -2303,32 +2190,32 @@ export function MarketBriefing() {
             const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.78);
             const defaultTimeSeries = {
               daily: [
-                { key: "d1", label: "08.20", aum: 3765000, adtv: 89000, turnoverPct: 2.36, aumChange: -1500, aumChangePct: -0.04, priceEffect: -4000, netInflow: 2500 },
-                { key: "d2", label: "08.21", aum: 3792000, adtv: 94000, turnoverPct: 2.48, aumChange: 27000, aumChangePct: 0.72, priceEffect: 18000, netInflow: 9000 },
-                { key: "d3", label: "08.24", aum: 3811000, adtv: 88000, turnoverPct: 2.31, aumChange: 19000, aumChangePct: 0.50, priceEffect: 12000, netInflow: 7000 },
-                { key: "d4", label: "08.25", aum: 3829000, adtv: 102000, turnoverPct: 2.66, aumChange: 18000, aumChangePct: 0.47, priceEffect: 8000, netInflow: 10000 },
-                { key: "d5", label: "08.27", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3829000, aumChangePct: 0.59, priceEffect: 9607, netInflow: 13000 },
+                { key: "d1", label: "8/20(수)", aum: 3765000, adtv: 89000, turnoverPct: 2.36, aumChange: -1500, aumChangePct: -0.04, priceEffect: -4000, netInflow: 2500 },
+                { key: "d2", label: "8/21(목)", aum: 3792000, adtv: 94000, turnoverPct: 2.48, aumChange: 27000, aumChangePct: 0.72, priceEffect: 18000, netInflow: 9000 },
+                { key: "d3", label: "8/24(월)", aum: 3811000, adtv: 88000, turnoverPct: 2.31, aumChange: 19000, aumChangePct: 0.50, priceEffect: 12000, netInflow: 7000 },
+                { key: "d4", label: "8/25(화)", aum: 3829000, adtv: 102000, turnoverPct: 2.66, aumChange: 18000, aumChangePct: 0.47, priceEffect: 8000, netInflow: 10000 },
+                { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3829000, aumChangePct: 0.59, priceEffect: 9607, netInflow: 13000 },
               ],
               weekly: [
-                { key: "w1", label: "7월 5주 (07.31)", aum: 3625000, adtv: 82000, turnoverPct: 2.26, aumChange: 35000, aumChangePct: 0.98, priceEffect: 18000, netInflow: 17000 },
-                { key: "w2", label: "8월 1주 (08.07)", aum: 3689000, adtv: 89000, turnoverPct: 2.41, aumChange: 64000, aumChangePct: 1.77, priceEffect: 36000, netInflow: 28000 },
-                { key: "w3", label: "8월 2주 (08.14)", aum: 3738000, adtv: 91000, turnoverPct: 2.43, aumChange: 49000, aumChangePct: 1.33, priceEffect: 26000, netInflow: 23000 },
-                { key: "w4", label: "8월 3주 (08.21)", aum: 3792000, adtv: 94000, turnoverPct: 2.48, aumChange: 54000, aumChangePct: 1.44, priceEffect: 31000, netInflow: 23000 },
-                { key: "w5", label: "8월 4주 (08.27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3792000, aumChangePct: 1.57, priceEffect: 29607, netInflow: 30000 },
+                { key: "w1", label: "7월 5주 (7/31)", aum: 3625000, adtv: 82000, turnoverPct: 2.26, aumChange: 35000, aumChangePct: 0.98, priceEffect: 18000, netInflow: 17000 },
+                { key: "w2", label: "8월 1주 (8/7)", aum: 3689000, adtv: 89000, turnoverPct: 2.41, aumChange: 64000, aumChangePct: 1.77, priceEffect: 36000, netInflow: 28000 },
+                { key: "w3", label: "8월 2주 (8/14)", aum: 3738000, adtv: 91000, turnoverPct: 2.43, aumChange: 49000, aumChangePct: 1.33, priceEffect: 26000, netInflow: 23000 },
+                { key: "w4", label: "8월 3주 (8/21)", aum: 3792000, adtv: 94000, turnoverPct: 2.48, aumChange: 54000, aumChangePct: 1.44, priceEffect: 31000, netInflow: 23000 },
+                { key: "w5", label: "8월 4주 (8/27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3792000, aumChangePct: 1.57, priceEffect: 29607, netInflow: 30000 },
               ],
               monthly: [
-                { key: "m1", label: "2026.04 (04.30)", aum: 3252000, adtv: 72000, turnoverPct: 2.21, aumChange: 98000, aumChangePct: 3.11, priceEffect: 54000, netInflow: 44000 },
-                { key: "m2", label: "2026.05 (05.31)", aum: 3395000, adtv: 78000, turnoverPct: 2.30, aumChange: 143000, aumChangePct: 4.40, priceEffect: 82000, netInflow: 61000 },
-                { key: "m3", label: "2026.06 (06.30)", aum: 3538000, adtv: 83000, turnoverPct: 2.35, aumChange: 143000, aumChangePct: 4.21, priceEffect: 76000, netInflow: 67000 },
-                { key: "m4", label: "2026.07 (07.31)", aum: 3685000, adtv: 90000, turnoverPct: 2.44, aumChange: 147000, aumChangePct: 4.15, priceEffect: 81000, netInflow: 66000 },
-                { key: "m5", label: "2026.08 (08.27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3685000, aumChangePct: 4.52, priceEffect: 92607, netInflow: 74000 },
+                { key: "m1", label: "2026년 4월", aum: 3252000, adtv: 72000, turnoverPct: 2.21, aumChange: 98000, aumChangePct: 3.11, priceEffect: 54000, netInflow: 44000 },
+                { key: "m2", label: "2026년 5월", aum: 3395000, adtv: 78000, turnoverPct: 2.30, aumChange: 143000, aumChangePct: 4.40, priceEffect: 82000, netInflow: 61000 },
+                { key: "m3", label: "2026년 6월", aum: 3538000, adtv: 83000, turnoverPct: 2.35, aumChange: 143000, aumChangePct: 4.21, priceEffect: 76000, netInflow: 67000 },
+                { key: "m4", label: "2026년 7월", aum: 3685000, adtv: 90000, turnoverPct: 2.44, aumChange: 147000, aumChangePct: 4.15, priceEffect: 81000, netInflow: 66000 },
+                { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3685000, aumChangePct: 4.52, priceEffect: 92607, netInflow: 74000 },
               ],
               yearly: [
-                { key: "y1", label: "2022 (12.30)", aum: 785000, adtv: 28000, turnoverPct: 3.57, aumChange: 45000, aumChangePct: 6.08, priceEffect: -32000, netInflow: 77000 },
-                { key: "y2", label: "2023 (12.28)", aum: 1211000, adtv: 32000, turnoverPct: 2.64, aumChange: 426000, aumChangePct: 54.27, priceEffect: 215000, netInflow: 211000 },
-                { key: "y3", label: "2024 (12.30)", aum: 1732000, adtv: 45000, turnoverPct: 2.60, aumChange: 521000, aumChangePct: 43.02, priceEffect: 248000, netInflow: 273000 },
-                { key: "y4", label: "2025 (12.30)", aum: 2750000, adtv: 68000, turnoverPct: 2.47, aumChange: 1018000, aumChangePct: 58.78, priceEffect: 554000, netInflow: 464000 },
-                { key: "y5", label: "2026 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 2750000, aumChangePct: 40.06, priceEffect: 588607, netInflow: 513000 },
+                { key: "y1", label: "2022년", aum: 785000, adtv: 28000, turnoverPct: 3.57, aumChange: 45000, aumChangePct: 6.08, priceEffect: -32000, netInflow: 77000 },
+                { key: "y2", label: "2023년", aum: 1211000, adtv: 32000, turnoverPct: 2.64, aumChange: 426000, aumChangePct: 54.27, priceEffect: 215000, netInflow: 211000 },
+                { key: "y3", label: "2024년", aum: 1732000, adtv: 45000, turnoverPct: 2.60, aumChange: 521000, aumChangePct: 43.02, priceEffect: 248000, netInflow: 273000 },
+                { key: "y4", label: "2025년", aum: 2750000, adtv: 68000, turnoverPct: 2.47, aumChange: 1018000, aumChangePct: 58.78, priceEffect: 554000, netInflow: 464000 },
+                { key: "y5", label: "2026년 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 2750000, aumChangePct: 40.06, priceEffect: 588607, netInflow: 513000 },
               ],
             };
 
@@ -2351,68 +2238,190 @@ export function MarketBriefing() {
             const maxAum = Math.max(...points.map((p: any) => p.aum), 1000);
             const minAum = Math.min(...points.map((p: any) => p.aum), 0);
             const maxAdtv = Math.max(...points.map((p: any) => p.adtv), 1000);
-            const minAdtv = Math.min(...points.map((p: any) => p.adtv), 0);            // Calculate SVG Polyline points for Trading Value Line (Upper Zone: Y: 34px ~ 96px in 220px SVG)
-            const svgPoints = points.map((pt: any, idx: number) => {
-              const x = 100 + idx * 200; // 100, 300, 500, 700, 900
-              const adtvRatio = maxAdtv > minAdtv ? (pt.adtv - minAdtv) / (maxAdtv - minAdtv) : 0.5;
-              const y = 220 - (adtvRatio * 58 + 128); 
-              return `${x},${y}`;
-            }).join(' ');
+            const minAdtv = Math.min(...points.map((p: any) => p.adtv), 0);
 
             return (
               <div className="space-y-6">
-                {/* Visual Chart Container */}
-                <div className="bg-[#FAFDF6] rounded-2xl p-4 sm:p-6 border border-[#E2EBD6] relative overflow-hidden">
-                  {/* SVG Line Overlay (Upper Zone) */}
-                  <div className="absolute inset-x-4 sm:inset-x-6 top-8 bottom-16 pointer-events-none z-10">
-                    <svg className="w-full h-full" viewBox="0 0 1000 220" preserveAspectRatio="none">
-                      <defs>
-                        <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-                          <stop offset="0%" stopColor="#0284C7" />
-                          <stop offset="100%" stopColor="#2563EB" />
-                        </linearGradient>
-                      </defs>
-                      <polyline
-                        points={svgPoints}
-                        fill="none"
-                        stroke="url(#lineGrad)"
-                        strokeWidth="3.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="drop-shadow-xs"
-                      />
-                    </svg>
+                {/* Visual Linked Dual-Pane Chart Container */}
+                <div className="bg-[#FAFDF6] rounded-2xl p-5 sm:p-7 border border-[#E2EBD6] space-y-5">
+                  {/* PANE 1: 총 자산 규모 (AUM, 조원) */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5">
+                      <span className="text-xs font-extrabold text-neutral-800 flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-xs bg-[#2E6819]" />
+                        총 운용자산 추이 (AUM, 조원)
+                      </span>
+                      <span className="text-[11px] font-semibold text-neutral-400">Stock 규모 성장</span>
+                    </div>
+
+                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-36 sm:h-40 items-end pt-5 pb-2 bg-white/70 rounded-xl px-3 border border-[#E8EFE0]">
+                      {points.map((pt: any, idx: number) => {
+                        const aumJo = (pt.aum / 10000).toFixed(1);
+                        const aumRatio = maxAum > minAum ? (pt.aum - minAum) / (maxAum - minAum) : 0.5;
+                        const barHeightPct = Math.max(aumRatio * 45 + 35, 20); // 35% ~ 80%
+                        const changeAmount = pt.aumChange ?? 0;
+                        const changeJo = (changeAmount / 10000).toFixed(1);
+                        const isLatest = idx === points.length - 1;
+
+                        return (
+                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
+                            {isLatest && (
+                              <div className="absolute -top-3.5 z-20 flex flex-col items-center pointer-events-none">
+                                <span className="text-[9.5px] sm:text-[10.5px] font-black text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-full shadow-xs border border-emerald-300 tabular-nums whitespace-nowrap">
+                                  {changeAmount >= 0 ? `▲ +${changeJo}조` : `▼ ${changeJo}조`}
+                                </span>
+                              </div>
+                            )}
+                            <span className="text-[11px] sm:text-xs font-black text-[#1F4E12] tabular-nums mb-1 tracking-tight">
+                              {aumJo}조
+                            </span>
+                            <div 
+                              className={`w-full max-w-[44px] rounded-t-lg transition-all shadow-2xs cursor-pointer ${
+                                isLatest
+                                  ? "bg-gradient-to-t from-[#1F4E12] via-[#2E6819] to-[#4F8E2E] ring-2 ring-emerald-400/60 shadow-sm"
+                                  : "bg-gradient-to-t from-[#2E6819] to-[#4F8E2E] group-hover:from-[#255614] group-hover:to-[#437D26]"
+                              }`}
+                              style={{ height: `${barHeightPct}%` }}
+                              title={`[${pt.label}] 총 AUM: ${aumJo}조원`}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
 
-                  {/* 5 Columns Grid (Dual-Zone 완벽 분리) */}
-                  <div className="grid grid-cols-5 gap-2 sm:gap-4 h-64 sm:h-72 items-end pt-10 pb-3 relative z-0">
+                  {/* PANE 2: 일평균 거래 유동성 (조원) & 회전율 */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5">
+                      <span className="text-xs font-extrabold text-neutral-800 flex items-center gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7]" />
+                        일평균 거래대금 (조원) & 회전율
+                      </span>
+                      <span className="text-[11px] font-semibold text-neutral-400">Flow 유동성 활성도</span>
+                    </div>
+
+                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-28 sm:h-32 items-end pt-3 pb-2 bg-white/70 rounded-xl px-3 border border-[#E0EDF8]">
+                      {points.map((pt: any, idx: number) => {
+                        const adtvJo = (pt.adtv / 10000).toFixed(1);
+                        const adtvRatio = maxAdtv > minAdtv ? (pt.adtv - minAdtv) / (maxAdtv - minAdtv) : 0.5;
+                        const barHeightPct = Math.max(adtvRatio * 40 + 30, 20); // 30% ~ 70%
+                        const isLatest = idx === points.length - 1;
+
+                        return (
+                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
+                            <span className="text-[10.5px] sm:text-[11.5px] font-black text-[#0369A1] tabular-nums mb-1 tracking-tight">
+                              {adtvJo}조
+                            </span>
+                            <div 
+                              className={`w-full max-w-[36px] rounded-t-md transition-all shadow-2xs cursor-pointer ${
+                                isLatest
+                                  ? "bg-gradient-to-t from-[#0369A1] via-[#0284C7] to-[#38BDF8] ring-2 ring-sky-300 shadow-sm"
+                                  : "bg-gradient-to-t from-[#0284C7] to-[#38BDF8] group-hover:from-[#0369A1] group-hover:to-[#0284C7]"
+                              }`}
+                              style={{ height: `${barHeightPct}%` }}
+                              title={`[${pt.label}] 일평균 거래대금: ${adtvJo}조원 | 회전율: ${pt.turnoverPct}%`}
+                            />
+                            <span className="text-[9.5px] sm:text-[10px] font-bold text-neutral-500 tabular-nums mt-1">
+                              {pt.turnoverPct}%
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* X-Axis Timeline (5개 시점 X축 레이블 동기화) */}
+                  <div className="grid grid-cols-5 gap-2 sm:gap-4 pt-2 border-t border-neutral-200/80 px-3">
                     {points.map((pt: any, idx: number) => {
-                      const aumJo = (pt.aum / 10000).toFixed(1);
-                      const adtvJo = (pt.adtv / 10000).toFixed(1);
-
-                      // Lower Zone: AUM 막대 높이 (24% ~ 42%로 제한하여 상단과 절대 충돌하지 않음)
-                      const aumRatio = maxAum > minAum ? (pt.aum - minAum) / (maxAum - minAum) : 0.5;
-                      const aumBarHeightPct = aumRatio * 18 + 24;
-
-                      // Upper Zone: 거래대금 점 위치 (58% ~ 84% 영역)
-                      const adtvRatio = maxAdtv > minAdtv ? (pt.adtv - minAdtv) / (maxAdtv - minAdtv) : 0.5;
-                      const dotBottomPct = adtvRatio * 26 + 58;
-
-                      const changeAmount = pt.aumChange ?? 0;
-                      const changePct = pt.aumChangePct ?? 0;
-                      const priceEffect = pt.priceEffect ?? Math.round(changeAmount * 0.4);
-                      const netInflow = pt.netInflow ?? (changeAmount - priceEffect);
-
-                      const changeJo = (changeAmount / 10000).toFixed(1);
-                      const priceJo = (priceEffect / 10000).toFixed(1);
-                      const netFlowJo = (netInflow / 10000).toFixed(1);
                       const isLatest = idx === points.length - 1;
-
                       return (
-                        <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
-                          {/* 최신 데이터 포인트 상단 모멘텀 뱃지 (차트 최상단 고정) */}
-                          {isLatest && (
-                            <div className="absolute top-0 z-30 flex flex-col items-center pointer-events-none">
+                        <div key={pt.key || idx} className="text-center">
+                          <p className={`text-[11px] sm:text-xs font-black tracking-tight ${isLatest ? "text-[#2E6819]" : "text-neutral-700"}`}>
+                            {pt.label}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 5-Point Data Table (AUM Bridge Breakdown) */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b border-neutral-200 text-[11px] font-extrabold text-neutral-400 uppercase tracking-wider">
+                        <th className="py-2.5 pl-2">기준 시점</th>
+                        <th className="py-2.5 text-right">총 운용자산 (AUM)</th>
+                        <th className="py-2.5 text-right font-black text-neutral-800">AUM 총 증감</th>
+                        <th className="py-2.5 text-right text-neutral-600 font-bold">
+                          <span className="inline-flex items-center gap-1.5 justify-end">
+                            <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-600">가격효과</span>
+                            주가 변동분
+                            <InfoTooltip text="지수 및 시장 가격 변동으로 인해 발생한 자산 가치 평가 증감액입니다." />
+                          </span>
+                        </th>
+                        <th className="py-2.5 text-right text-neutral-600 font-bold">
+                          <span className="inline-flex items-center gap-1.5 justify-end">
+                            <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-sky-100 text-sky-800">진성수급</span>
+                            실질 순유입
+                            <InfoTooltip text="주가 변동을 제외하고, 투자자가 실제로 ETF를 순매수/순설정(Creation-Redemption)한 순수 자금 유입액입니다." />
+                          </span>
+                        </th>
+                        <th className="py-2.5 text-right">일평균 거래대금</th>
+                        <th className="py-2.5 text-right pr-2">일평균 회전율</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-100 text-[12.5px] font-medium text-neutral-700">
+                      {points.map((pt: any, idx: number) => {
+                        const aumJo = (pt.aum / 10000).toFixed(1);
+                        const adtvJo = (pt.adtv / 10000).toFixed(1);
+                        const changeAmount = pt.aumChange ?? 0;
+                        const changePct = pt.aumChangePct ?? 0;
+                        const priceEffect = pt.priceEffect ?? Math.round(changeAmount * 0.4);
+                        const netInflow = pt.netInflow ?? (changeAmount - priceEffect);
+
+                        const changeJo = (changeAmount / 10000).toFixed(1);
+                        const priceJo = (priceEffect / 10000).toFixed(1);
+                        const netFlowJo = (netInflow / 10000).toFixed(1);
+
+                        return (
+                          <tr key={pt.key || idx} className="hover:bg-neutral-50/80 transition-colors">
+                            <td className="py-3 pl-2 font-black text-neutral-900 tabular-nums">
+                              {pt.label}
+                            </td>
+                            <td className="py-3 text-right font-black text-neutral-900 tabular-nums">
+                              {aumJo}조원
+                            </td>
+                            <td className={`py-3 text-right font-black tabular-nums ${
+                              changeAmount > 0 ? "text-[#D92D20]" : changeAmount < 0 ? "text-[#175CD3]" : "text-neutral-500"
+                            }`}>
+                              {changeAmount > 0 ? `+${changeJo}조` : `${changeJo}조`}
+                              <span className="text-[10.5px] ml-1 font-semibold opacity-80">({changePct > 0 ? `+${changePct}%` : `${changePct}%`})</span>
+                            </td>
+                            {/* 📈 주가 변동분 (가격효과: + 빨강, - 파랑) */}
+                            <td className={`py-3 text-right font-bold tabular-nums ${
+                              priceEffect > 0 ? "text-[#D92D20]" : priceEffect < 0 ? "text-[#175CD3]" : "text-neutral-500"
+                            }`}>
+                              {priceEffect > 0 ? `+${priceJo}조` : `${priceJo}조`}
+                            </td>
+                            {/* 💧 실질 순유입 (진성수급: + 빨강, - 파랑) */}
+                            <td className={`py-3 text-right font-black tabular-nums ${
+                              netInflow > 0 ? "text-[#D92D20]" : netInflow < 0 ? "text-[#175CD3]" : "text-neutral-500"
+                            }`}>
+                              {netInflow > 0 ? `+${netFlowJo}조` : `${netFlowJo}조`}
+                            </td>
+                            <td className="py-3 text-right font-bold text-[#0369A1] tabular-nums">
+                              {adtvJo}조원
+                            </td>
+                            <td className="py-3 text-right font-extrabold text-neutral-800 tabular-nums pr-2">
+                              {pt.turnoverPct}%
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>-30 flex flex-col items-center pointer-events-none">
                               <span className="text-[9.5px] sm:text-[10.5px] font-black text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-full shadow-xs border border-emerald-300 tabular-nums whitespace-nowrap">
                                 {changeAmount >= 0 ? `▲ +${changeJo}조` : `▼ ${changeJo}조`}
                               </span>
@@ -2510,24 +2519,27 @@ export function MarketBriefing() {
 
                         return (
                           <tr key={pt.key || idx} className="hover:bg-neutral-50/80 transition-colors">
-                            <td className="py-3 pl-2 font-bold text-neutral-900 flex items-center gap-1.5">
-                              <span className="w-2.5 h-2.5 rounded-full bg-[#2E6819]" />
+                            <td className="py-3 pl-2 font-black text-neutral-900 tabular-nums">
                               {pt.label}
                             </td>
                             <td className="py-3 text-right font-black text-neutral-900 tabular-nums">
                               {aumJo}조원
                             </td>
-                            <td className={`py-3 text-right font-black tabular-nums ${changeTone(changeAmount)}`}>
+                            <td className={`py-3 text-right font-black tabular-nums ${
+                              changeAmount > 0 ? "text-[#D92D20]" : changeAmount < 0 ? "text-[#175CD3]" : "text-neutral-500"
+                            }`}>
                               {changeAmount > 0 ? `+${changeJo}조` : `${changeJo}조`}
                               <span className="text-[10.5px] ml-1 font-semibold opacity-80">({changePct > 0 ? `+${changePct}%` : `${changePct}%`})</span>
                             </td>
-                            {/* 📈 주가 변동분 */}
-                            <td className={`py-3 text-right font-bold tabular-nums ${changeTone(priceEffect)}`}>
+                            {/* 📈 주가 변동분 (가격효과: + 빨강, - 파랑) */}
+                            <td className={`py-3 text-right font-bold tabular-nums ${
+                              priceEffect > 0 ? "text-[#D92D20]" : priceEffect < 0 ? "text-[#175CD3]" : "text-neutral-500"
+                            }`}>
                               {priceEffect > 0 ? `+${priceJo}조` : `${priceJo}조`}
                             </td>
-                            {/* 💰 실질 자금 순유입 */}
-                            <td className={`py-3 text-right font-extrabold tabular-nums ${
-                              netInflow > 0 ? "text-[#0284C7]" : netInflow < 0 ? "text-[#D92D20]" : "text-neutral-500"
+                            {/* 💧 실질 순유입 (진성수급: + 빨강, - 파랑) */}
+                            <td className={`py-3 text-right font-black tabular-nums ${
+                              netInflow > 0 ? "text-[#D92D20]" : netInflow < 0 ? "text-[#175CD3]" : "text-neutral-500"
                             }`}>
                               {netInflow > 0 ? `+${netFlowJo}조` : `${netFlowJo}조`}
                             </td>

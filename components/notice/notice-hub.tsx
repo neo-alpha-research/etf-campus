@@ -123,15 +123,11 @@ export function NoticeHub() {
       )}
 
       {activeTab === "challenge" && (
-        <div>
-          <CommunityChallenge />
-        </div>
+        <CommunityChallenge embedded />
       )}
 
       {activeTab === "feedback" && (
-        <div>
-          <FeedbackBoard />
-        </div>
+        <FeedbackBoard />
       )}
     </div>
   );

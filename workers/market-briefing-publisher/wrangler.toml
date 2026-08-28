@@ -24,6 +24,10 @@ max_retries = 5
 retry_delay = 60
 dead_letter_queue = "etf-campus-market-data-ready-dlq"
 
+[[queues.producers]]
+binding = "DISTRIBUTION_QUEUE"
+queue = "etf-campus-market-briefing-distribute"
+
 [vars]
 FLAT_THRESHOLD_PCT = "0.01"
 
@@ -46,6 +50,10 @@ max_batch_timeout = 5
 max_retries = 5
 retry_delay = 60
 dead_letter_queue = "etf-campus-market-data-ready-preview-dlq"
+
+[[env.preview.queues.producers]]
+binding = "DISTRIBUTION_QUEUE"
+queue = "etf-campus-market-briefing-distribute-preview"
 
 [env.preview.vars]
 FLAT_THRESHOLD_PCT = "0.01"

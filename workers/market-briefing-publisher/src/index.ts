@@ -7,6 +7,7 @@ export interface Env {
   BRIEFING_KV: KVNamespace;
   MANUAL_RUN_TOKEN?: string;
   FLAT_THRESHOLD_PCT: string;
+  DISTRIBUTION_QUEUE?: Queue<any>;
 }
 
 type PublicationStatus = "queued" | "publishing" | "ready" | "failed" | "skipped_locked" | "skipped_no_new_data";
@@ -756,6 +757,21 @@ async function publishReadyBriefing(env: Env, triggerType: "scheduled" | "manual
       console.warn(JSON.stringify({ publicationRunId, asOfDate: readiness.as_of_date, event: "kv_warm_failed", message: String(cacheError) }));
     }
     await updatePublicationRun(env.ETF_PRICES, publicationRunId, "ready", { finished_at: nowIso() });
+
+    if (env.DISTRIBUTION_QUEUE) {
+      try {
+        await env.DISTRIBUTION_QUEUE.send({
+          event_id: crypto.randomUUID(),
+          as_of_date: readiness.as_of_date,
+          publication_version: 1,
+          trigger_type: "queue",
+        });
+        console.log(JSON.stringify({ publicationRunId, asOfDate: readiness.as_of_date, event: "distribution_queue_dispatched" }));
+      } catch (distErr) {
+        console.warn(JSON.stringify({ publicationRunId, asOfDate: readiness.as_of_date, event: "distribution_queue_failed", message: String(distErr) }));
+      }
+    }
+
     return { status: "ready", publicationRunId, asOfDate: readiness.as_of_date };
   } catch (error) {
     await updatePublicationRun(env.ETF_PRICES, publicationRunId, "failed", {
@@ -852,6 +868,20 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
   await env.ETF_PRICES.batch(statements);
 
   await warmLatestBriefingCache(env, asOfDate);
+
+  if (env.DISTRIBUTION_QUEUE) {
+    try {
+      await env.DISTRIBUTION_QUEUE.send({
+        event_id: crypto.randomUUID(),
+        as_of_date: asOfDate,
+        publication_version: 1,
+        trigger_type: "manual",
+      });
+      console.log(JSON.stringify({ asOfDate, event: "distribution_queue_dispatched_from_recompute" }));
+    } catch (distErr) {
+      console.warn(JSON.stringify({ asOfDate, event: "distribution_queue_failed_from_recompute", message: String(distErr) }));
+    }
+  }
 
   return {
     asOfDate,

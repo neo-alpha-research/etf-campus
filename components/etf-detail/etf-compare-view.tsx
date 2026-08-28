@@ -15,7 +15,14 @@ type Props = {
   comparisonProfiles?: Map<string, any>;
 };
 
-export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode,  comparisonProfiles }: Props) {
+const CAUTION_REASONS = new Set([
+  "환헤지/환노출 불일치",
+  "커버드콜 ↔ 일반형 (총수익 비교 주의)",
+  "수익 구조 다름 (비교 주의)",
+  "만기 구간 다름",
+]);
+
+export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, selectionReasons, comparisonProfiles }: Props) {
   const compareList = useMemo(() => {
     if (!mainEtf) return basket;
     const filtered = basket.filter((e) => e.ticker !== mainEtf.ticker);
@@ -75,6 +82,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode,  co
                 <th className={`sticky left-0 z-40 w-32 min-w-[8rem] max-w-[8rem] bg-neutral-100 backdrop-blur px-4 py-4 text-sm font-extrabold text-neutral-600 border-b border-r border-line transition-shadow duration-200 align-middle text-center ${shadowClass}`}>비교 항목</th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  const reasons = selectionReasons?.get(etf.ticker) || [];
                   return (
                     <th key={etf.ticker} className={`relative px-3 py-4 w-56 min-w-[13.5rem] max-w-[14.5rem] snap-start border-b border-r border-neutral-200 font-bold text-strong align-top ${isBase ? "bg-brand-100/70" : "bg-neutral-100 backdrop-blur"}`}>
                       <div className="flex flex-col items-center text-center gap-1.5 w-full">
@@ -82,6 +90,26 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode,  co
                           <span className={`text-[12px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-700" : "text-neutral-500"}`}>{etf.ticker}</span>
                           <span className="text-[14px] sm:text-[14.5px] font-black leading-snug break-words [overflow-wrap:anywhere] text-strong group-hover:text-brand-600 transition-colors w-full px-0.5 text-center">{etf.name}</span>
                         </Link>
+                        {mode === "peer-readonly" && !isBase && reasons.length > 0 && (
+                          <div className="mt-1 flex flex-wrap justify-center gap-1">
+                            {reasons.map((reason, idx) => {
+                              const isCaution = CAUTION_REASONS.has(reason);
+                              return (
+                                <span
+                                  key={idx}
+                                  data-testid="peer-reason-badge"
+                                  className={`inline-block rounded px-1.5 py-0.5 text-[11px] font-medium leading-tight border ${
+                                    isCaution
+                                      ? "border-amber-300 bg-amber-50 text-amber-800"
+                                      : "border-neutral-200 bg-neutral-100 text-neutral-600"
+                                  }`}
+                                >
+                                  {reason}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
                         {!isBase && mode !== "peer-readonly" && (
                           <button 
                             onClick={() => onRemove(etf.ticker)}

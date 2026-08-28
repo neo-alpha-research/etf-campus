@@ -77,7 +77,7 @@ def first_match(text: str, rules: list[tuple[str, tuple[str, ...]]], default: st
 
 def infer_asset(text: str, review: dict[str, str]) -> str:
     stated = norm(review.get("final_asset_class"), review.get("suggested_asset_class"), review.get("current_asset_class"))
-    if contains(text, "KOF R", "KOFR", "CD금리", "CD 금리", "머니마켓", "MMF", "파킹"):
+    if contains(text, "KOF R", "KOFR", "CD금리", "CD 금리", "머니마켓", "MMF", "파킹", "CD1년금리", "CD+추가금리", "CD 1년", "금리플러스", "추가금리"):
         return "금리·파킹"
     if contains(text, "국채", "회사채", "금융채", "통안채", "채권", "BOND", "TREASURY", "UST"):
         return "채권"
@@ -99,7 +99,7 @@ def infer_asset(text: str, review: dict[str, str]) -> str:
         return "리츠·인프라"
     if contains(stated, "혼합"):
         return "혼합자산"
-    if contains(stated, "주식") or contains(text, "ETF", "TOP", "INDEX", "지수"):
+    if contains(stated, "주식") or contains(text, "ETF", "TOP", "INDEX", "지수", "KRX", "KOSPI", "코스피", "코스닥", "은행", "증권", "보험", "금융", "반도체", "2차전지", "바이오", "배당"):
         return "주식"
     return "미확인"
 

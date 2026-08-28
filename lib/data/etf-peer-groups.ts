@@ -179,10 +179,18 @@ export function calculateSimilarityScore(target: ComparisonProfile, candidate: C
 function candidateReasons(target: ComparisonProfile, candidate: ComparisonProfile): string[] {
   const reasons = [`같은 ${candidate.comparisonSubtopic || "동종"} 비교그룹`];
   if (sameNonEmpty(target.strategyStyle, candidate.strategyStyle)) {
-    reasons.push(`동일 ${candidate.strategyStyle} 구조`);
+    if (candidate.strategyStyle === "passive") {
+      reasons.push("동일 지수추종형 구조");
+    } else if (candidate.strategyStyle === "active") {
+      reasons.push("동일 액티브형 구조");
+    }
   }
-  if (sameNonEmpty(target.fxHedge, candidate.fxHedge)) {
-    reasons.push(`같은 ${candidate.fxHedge} 유형`);
+  if (
+    sameNonEmpty(target.fxHedge, candidate.fxHedge) &&
+    (candidate.fxHedge === "hedged" || candidate.fxHedge === "unhedged")
+  ) {
+    const hedgeLabel = candidate.fxHedge === "hedged" ? "환헤지형" : "환노출형";
+    reasons.push(`같은 ${hedgeLabel} 유형`);
   }
   if (candidate.classificationStatus === "verified_official") {
     reasons.push("공식 확인 분류");

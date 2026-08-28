@@ -17,7 +17,7 @@ export function CommunityWriteWrapper() {
           setTimeout(() => setCategory(draft.categorySlug), 0);
           return;
         }
-      } catch (e) {}
+      } catch {}
     }
     const params = new URLSearchParams(window.location.search);
     setTimeout(() => setCategory(params.get("category") || "pension-etf-qna"), 0);

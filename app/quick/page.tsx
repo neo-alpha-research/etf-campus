@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "빠른 ETF 검색", description: "�
 
 export default function QuickSearchPage() {
   const etfs = loadEtfs().map((etf) => {
-    const { distributionSummary, itdAnchor, ...rest } = etf;
+    const {   ...rest } = etf;
     return rest as unknown as typeof etf;
   });
   return <Dashboard etfs={etfs} />;

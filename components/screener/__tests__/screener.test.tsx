@@ -31,12 +31,12 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
   it("연금 가능 칩은 기본 선택되며 해제 상태도 URL에 보존된다", () => {
     render(<Screener etfs={items} />);
-    const pensionQuick = screen.getByRole("button", { name: "연금 가능 ETF" });
-    expect(pensionQuick).toHaveAttribute("aria-pressed", "true");
+    const pensionSwitch = screen.getByRole("switch", { name: "DC·IRP 가능만" });
+    expect(pensionSwitch).toBeChecked();
     expect(screen.getByRole("button", { name: "DC·IRP 가능 조건 제거" })).toBeInTheDocument();
 
-    fireEvent.click(pensionQuick);
-    expect(pensionQuick).toHaveAttribute("aria-pressed", "false");
+    fireEvent.click(pensionSwitch);
+    expect(pensionSwitch).not.toBeChecked();
     expect(window.location.search).toContain("pension=all");
     expect(screen.queryByRole("button", { name: "DC·IRP 가능 조건 제거" })).not.toBeInTheDocument();
   });

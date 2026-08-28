@@ -28,7 +28,7 @@ export function ChallengeComposer() {
   const [authOpen, setAuthOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [cohorts, setCohorts] = useState<any[]>([]);
+  const [cohorts, setCohorts] = useState<unknown[]>([]);
   const [selectedCohortId, setSelectedCohortId] = useState<string>("");
 
   useEffect(() => {
@@ -40,14 +40,14 @@ export function ChallengeComposer() {
       try {
         const prefs = JSON.parse(saved);
         if (prefs.visibility) setTimeout(() => setVisibility(prefs.visibility), 0);
-      } catch (e) {}
+      } catch {}
     }
 
     // 기수 목록 불러오기 (시작일 기반 Day 자동 계산용)
     fetch("/api/community/challenges")
       .then(r => r.ok ? r.json() : { cohorts: [] })
       .then(result => {
-        const activeCohorts = (result.cohorts ?? []).filter((c: any) => c.status === "active" || c.status === "recruiting");
+        const activeCohorts = (result.cohorts ?? []).filter((c: unknown) => c.status === "active" || c.status === "recruiting");
         setCohorts(activeCohorts);
         if (activeCohorts.length > 0) {
           setSelectedCohortId(activeCohorts[0].id);

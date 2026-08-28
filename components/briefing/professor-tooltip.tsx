@@ -33,7 +33,8 @@ export function ProfessorTooltip({ children, definition }: Props) {
       >
         <span className="flex gap-3 text-left">
           <span className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-full border border-brand-100 shadow-sm">
-            <img src="/images/professor_owl.jpg" alt="부엉이 교수님" className="size-full object-cover" />
+            /* eslint-disable-next-line @next/next/no-img-element */
+          <img src="/images/professor_owl.jpg" alt="부엉이 교수님" className="size-full object-cover" />
           </span>
           <span className="flex-1">
             <span className="block text-[13px] font-extrabold tracking-[0.02em] text-brand-900">

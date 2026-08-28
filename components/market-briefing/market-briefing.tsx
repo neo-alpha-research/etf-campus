@@ -14,6 +14,7 @@ import { MarketBriefingHistory } from "@/components/market-briefing/market-brief
 import { FundFlowRanking } from "@/components/market-briefing/fund-flow-ranking";
 
 import { DisparityAlert } from "@/components/market-briefing/disparity-alert";
+import { MarketBriefingGuideModal } from "@/components/market-briefing/market-briefing-guide-modal";
 
 import globalIndicesData from "@/data/market_indices.json";
 
@@ -611,9 +612,19 @@ export function MarketBriefing() {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
   const [step5Tab, setStep5Tab] = useState<'weekly' | 'monthly'>('weekly');
   const [step7Tab, setStep7Tab] = useState<'daily' | 'weekly' | 'monthly' | 'yearly'>('daily');
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   const { authenticated } = useAuthSession();
   const [bypassAuth, setBypassAuth] = useState(false);
   const [isLocalhost, setIsLocalhost] = useState(false);
+
+  const scrollToStep = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const yOffset = -75;
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     // eslint-disable-next-line
@@ -925,7 +936,11 @@ export function MarketBriefing() {
       ) : (
         <>
       {/* Tickery's 3-Point Mini Dashboard */}
-      <section className="relative overflow-hidden rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-6 shadow-[0_8px_24px_rgba(43,61,39,0.04)] sm:p-8">
+      <section className="relative rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-6 shadow-[0_8px_24px_rgba(43,61,39,0.04)] sm:p-8">
+        {/* Background decorative glow (isolated with overflow-hidden) */}
+        <div className="absolute inset-0 overflow-hidden rounded-[26px] pointer-events-none">
+          <div className="absolute -right-20 -top-20 z-0 h-64 w-64 rounded-full bg-gradient-to-br from-[#E5F5D5] to-transparent blur-3xl" />
+        </div>
 
         <div className="relative z-10">
 
@@ -947,108 +962,17 @@ export function MarketBriefing() {
 
             </div>
 
-            <details className="group relative">
-              <summary className="list-none cursor-pointer flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] transition-all select-none focus:outline-none focus:ring-2 focus:ring-[#2E6819]/20">
-                <BookOpen className="h-3.5 w-3.5 text-[#5A7050]" />
-                <span>이 화면 읽는 법</span>
-                <span className="text-[10px] text-neutral-400 group-open:rotate-180 transition-transform duration-200">▾</span>
-              </summary>
-
-              <div className="absolute right-0 top-full mt-2.5 w-[340px] sm:w-[440px] md:w-[480px] max-w-[calc(100vw-2rem)] rounded-2xl bg-white p-5 text-sm leading-relaxed text-neutral-700 shadow-2xl border border-[#D7EABB] z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                
-                {/* 모달 헤더 */}
-                <div className="flex items-center justify-between pb-3.5 border-b border-[#EDF2DE]">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#EAF3DF] text-sm shadow-xs">🧭</span>
-                    <div>
-                      <h4 className="font-extrabold text-neutral-900 text-[14.5px] leading-tight">마켓 브리핑 100% 활용 가이드</h4>
-                      <p className="text-[11px] text-neutral-400 font-medium">전문가 스타일 4단계 Top-Down 분석 워크플로우</p>
-                    </div>
-                  </div>
-                  <span className="text-[10.5px] font-extrabold text-[#2E6819] bg-[#FAFDF4] px-2.5 py-1 rounded-full border border-[#D7EABB] shrink-0">
-                    7 STEP 완성형
-                  </span>
-                </div>
-
-                {/* 4단계 Top-Down 가이드 본문 */}
-                <div className="mt-3.5 space-y-2.5 text-xs max-h-[62vh] overflow-y-auto pr-1">
-                  
-                  {/* 1단계: 거시 판도 & 시장 체온 (STEP 1~2) */}
-                  <div className="rounded-xl bg-[#F8FAFC] p-3.5 border border-[#E2E8F0] hover:border-[#CBD5E1] transition-colors">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-extrabold text-[#1D4ED8] flex items-center gap-1.5 text-[12.5px]">
-                        <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[#DBEAFE] text-[10px] font-black text-[#1E40AF]">1</span>
-                        STEP 1~2. 거시 판도 & 시장 체온
-                      </span>
-                      <span className="text-[10px] font-bold text-[#3B82F6] bg-white px-2 py-0.5 rounded border border-[#BFDBFE]">시장 위험도 진단</span>
-                    </div>
-                    <p className="text-neutral-600 leading-relaxed text-[11.5px]">
-                      환율·금리·유가 등 <b>12개 거시 지표</b>로 글로벌 환경을 파악하고, 1,000+개 ETF의 <b>상승 체온계와 거래 쏠림도</b>로 장세의 건전성을 즉시 판별합니다.
-                    </p>
-                  </div>
-
-                  {/* 2단계: 자산 배분 & 주도 테마 (STEP 3) */}
-                  <div className="rounded-xl bg-[#F4F9EE] p-3.5 border border-[#DCEDC8] hover:border-[#C5E1A5] transition-colors">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-extrabold text-[#2E6819] flex items-center gap-1.5 text-[12.5px]">
-                        <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[#DCEDC8] text-[10px] font-black text-[#1B5E20]">2</span>
-                        STEP 3. 자산 배분 & 주도 테마
-                      </span>
-                      <span className="text-[10px] font-bold text-[#2E6819] bg-white px-2 py-0.5 rounded border border-[#C5E1A5]">알파 테마 발굴</span>
-                    </div>
-                    <p className="text-neutral-600 leading-relaxed text-[11.5px]">
-                      <b>7대 자산군 기여도 매트릭스</b>로 자금 이동 축을 찾고, 국내/해외/채권/대체 <b>세부 테마의 롱숏(Top/Bottom) 성과</b>로 오늘 장의 주도주를 선별합니다.
-                    </p>
-                  </div>
-
-                  {/* 3단계: 스마트머니 수급 트렌드 (STEP 4~5) */}
-                  <div className="rounded-xl bg-[#FEF6EE] p-3.5 border border-[#FADEC9] hover:border-[#F7C6A0] transition-colors">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-extrabold text-[#C2410C] flex items-center gap-1.5 text-[12.5px]">
-                        <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[#FFEDD5] text-[10px] font-black text-[#9A3412]">3</span>
-                        STEP 4~5. 스마트머니 수급 트렌드
-                      </span>
-                      <span className="text-[10px] font-bold text-[#C2410C] bg-white px-2 py-0.5 rounded border border-[#FED7AA]">진성 수급 검증</span>
-                    </div>
-                    <p className="text-neutral-600 leading-relaxed text-[11.5px]">
-                      단순 가격 착시를 넘어 <b>당일 순유입 TOP 5</b>와 <b>5일/20일 중기 누적 궤적</b>을 비교하여, 일회성 반등인지 기관의 추세적 매집인지 확인합니다.
-                    </p>
-                  </div>
-
-                  {/* 4단계: 시장 구조 & 펀더멘털 성장 (STEP 6~7) */}
-                  <div className="rounded-xl bg-[#F9F5FF] p-3.5 border border-[#E9D7FE] hover:border-[#D6BBFB] transition-colors">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-extrabold text-[#6941C6] flex items-center gap-1.5 text-[12.5px]">
-                        <span className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[#F4EBFF] text-[10px] font-black text-[#53389E]">4</span>
-                        STEP 6~7. 시장 구조 & 성장 궤적
-                      </span>
-                      <span className="text-[10px] font-bold text-[#6941C6] bg-white px-2 py-0.5 rounded border border-[#D6BBFB]">체질 & AUM 분해</span>
-                    </div>
-                    <p className="text-neutral-600 leading-relaxed text-[11.5px]">
-                      4대 유형별 <b>듀얼 게이지 & 회전율</b>로 시장 체질을 진단하고, <b>AUM 브릿지</b>로 시장 성장이 &apos;단순 주가 상승&apos;인지 &apos;신규 자금 순유입&apos;인지 정밀 분해합니다.
-                    </p>
-                  </div>
-
-                </div>
-
-                {/* 하단 퀵루트 팁 (Dual Routine) */}
-                <div className="mt-3.5 pt-3.5 border-t border-[#EDF2DE] bg-[#F7FAEE] -mx-5 -mb-5 p-4 rounded-b-2xl space-y-2 text-[11.5px]">
-                  <div className="flex items-start gap-2 text-[#2E6819]">
-                    <span className="text-xs font-black shrink-0 px-1.5 py-0.5 bg-[#E2EBD6] rounded text-[#224E12]">⚡ 30초 퀵루트</span>
-                    <p className="leading-snug text-neutral-700">
-                      바쁜 장전에는 상단 <b>‘핵심 요약 3줄’</b> ➔ <b>‘시장 체온계’</b> ➔ <b>‘당일 수급 1위’</b>만 빠르게 스캔하세요.
-                    </p>
-                  </div>
-                  <div className="flex items-start gap-2 text-[#445A39]">
-                    <span className="text-xs font-black shrink-0 px-1.5 py-0.5 bg-[#E8EDDF] rounded text-[#33442B]">🔍 3분 딥다이브</span>
-                    <p className="leading-snug text-neutral-600">
-                      장마감 후에는 <b>STEP 3 테마 롱숏</b>과 <b>STEP 5 중기 누적 궤적</b>을 분석하여 다음 날 전략을 수립하세요.
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-            </details>
+            <button
+              type="button"
+              onClick={() => setIsGuideOpen(true)}
+              className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] hover:border-[#CAD8BC] transition-all select-none focus:outline-none focus:ring-2 focus:ring-[#2E6819]/20 cursor-pointer"
+            >
+              <BookOpen className="h-3.5 w-3.5 text-[#5A7050]" />
+              <span>이 화면 읽는 법</span>
+              <span className="text-[10px] font-extrabold text-[#2E6819] bg-[#FAFDF4] px-1.5 py-0.5 rounded-full border border-[#D7EABB]">
+                가이드
+              </span>
+            </button>
 
           </div>
 
@@ -1066,7 +990,7 @@ export function MarketBriefing() {
 
           
 
-                    <div className="grid gap-4 lg:grid-cols-[1fr_2fr] md:grid-cols-[1fr_1.5fr]">
+          <div className="grid gap-4 lg:grid-cols-[1fr_2fr] md:grid-cols-[1fr_1.5fr]">
             {/* Card 1: Today's Highlights */}
             <div className="rounded-[20px] border border-[#E5E8E2] bg-white p-5 shadow-[0_4px_12px_rgba(27,38,26,0.02)] flex flex-col justify-between hover:-translate-y-0.5 transition-transform">
               <div>
@@ -1139,10 +1063,14 @@ export function MarketBriefing() {
             </div>
           </div>
         </div>
-
-        <div className="absolute -right-20 -top-20 z-0 h-64 w-64 rounded-full bg-gradient-to-br from-[#E5F5D5] to-transparent blur-3xl pointer-events-none" />
-
       </section>
+
+      {/* 마켓 브리핑 활용 가이드 모달 다이얼로그 */}
+      <MarketBriefingGuideModal
+        isOpen={isGuideOpen}
+        onClose={() => setIsGuideOpen(false)}
+        onNavigateToStep={scrollToStep}
+      />
 
 
 
@@ -2666,9 +2594,9 @@ export function MarketBriefing() {
                 <span className="w-2 h-2 rounded-full bg-[#2E6819]" /> STEP 1 & 2. 유니버스 및 시장 체온
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>순수 일반 ETF</b>: 레버리지, 인버스, 파킹형(CD/KOFR/MMF)을 제외한 실물 투자 ETF (1,018개) 대상.</li>
+                <li>• <b>순수 일반 ETF</b>: 레버리지, 인버스, 파킹형(CD/KOFR/MMF)을 제외한 실물 투자 ETF (1,000+개) 대상.</li>
                 <li>• <b>시장 체온</b>: 시가총액 왜곡을 방지한 일반 ETF 전체의 가중 평균 수익률.</li>
-                <li>• <b>수급 건전성</b>: 전체 거래대금 중 상위 10개 종목이 차지하는 비중 (70% 이상 시 수급 과열).</li>
+                <li>• <b>수급 건전성</b>: 전체 거래대금 중 상위 10개 종목이 차지하는 비중 (45% 이하 양호, 60% 초과 시 수급 과열).</li>
               </ul>
             </div>
 

@@ -59,7 +59,7 @@ export default function ChallengeDashboard() {
       } else {
         alert("상태 변경 실패");
       }
-    } catch (error) {
+    } catch {
       alert("네트워크 오류");
     }
   };

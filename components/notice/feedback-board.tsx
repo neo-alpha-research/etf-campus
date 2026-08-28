@@ -150,14 +150,14 @@ export function FeedbackBoard() {
               <span className="inline-flex items-center rounded-md bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-800 border border-brand-200">
                 의견 및 오류 제보
               </span>
-              <span className="text-xs text-neutral-400">피드백 게시판</span>
+              <span className="text-xs text-neutral-400">서비스 피드백 창구</span>
             </div>
             <h2 className="mt-2 text-lg sm:text-xl font-extrabold text-strong">
-              ETF Campus 개선 의견 및 오류 제보
+              ETF Campus 개선 제안 및 오류 제보
             </h2>
             <p className="mt-1.5 text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-2xl">
-              서비스 이용 중 발견하신 데이터 오류나 불편한 점, 제안하고 싶은 기능이 있다면 자유롭게 남겨주세요.
-              운영진이 직접 확인하고 검토하여 서비스에 신속히 반영합니다.
+              서비스 이용 중 발견하신 데이터 이상, 계산 오류, 사용 불편이나 새로운 기능 제안을 남겨주세요.
+              운영팀이 신속히 확인하여 데이터 검증 및 서비스 개선에 적극 반영하겠습니다.
             </p>
           </div>
           <div className="shrink-0">
@@ -171,13 +171,22 @@ export function FeedbackBoard() {
         </div>
 
         {/* Tip Box */}
-        <div className="mt-4 rounded-xl border border-amber-200/80 bg-amber-50/60 p-3.5 text-xs text-amber-900 leading-relaxed">
-          <p className="font-bold flex items-center gap-1.5">
-            💡 제보 작성 팁
-          </p>
-          <p className="mt-1 text-amber-800">
-            특정 종목 데이터 이상 제보 시 <strong>종목코드($티커)</strong>나 <strong>해당 화면 주소</strong>를 함께 기재해 주시면 더 신속한 확인 및 조치가 가능합니다.
-          </p>
+        <div className="mt-5 rounded-xl border border-amber-200/80 bg-amber-50/70 p-4 text-xs text-amber-900 leading-relaxed">
+          <div className="flex items-center gap-2 font-bold text-amber-950">
+            <span>💡</span>
+            <span>신속하고 정확한 처리를 위한 제보 작성 팁</span>
+          </div>
+          <ul className="mt-2 space-y-1 text-amber-900/90 pl-5 list-disc">
+            <li>
+              <strong>발생 위치</strong>: 오류나 이상 현상이 발생한 <strong>화면명 또는 웹페이지 주소(URL)</strong>를 적어주세요.
+            </li>
+            <li>
+              <strong>종목 정보</strong>: 특정 ETF 데이터 문의 시 <strong>종목명(예: KODEX 200)</strong> 또는 <strong>6자리 종목코드(예: 069500)</strong>를 함께 기재해 주세요.
+            </li>
+            <li>
+              <strong>현상 설명</strong>: 화면에 잘못 표시된 수치나 기대하셨던 정상 동작 내용을 간략히 남겨주시면 원인 파악이 훨씬 빨라집니다.
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -185,7 +194,7 @@ export function FeedbackBoard() {
       <section aria-label="의견 및 오류 제보 목록" className="space-y-4">
         <div className="flex items-center justify-between px-1">
           <h3 className="text-sm font-extrabold text-strong">
-            등록된 제보 목록 ({posts.length})
+            접수된 제보 목록 ({posts.length})
           </h3>
           <span className="text-xs text-neutral-400">최신순 정렬</span>
         </div>
@@ -214,20 +223,20 @@ export function FeedbackBoard() {
         {status === "ready" && posts.length === 0 && (
           <div className="rounded-2xl border border-dashed border-line bg-surface px-6 py-12 text-center">
             <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-brand-50 text-xl">
-              📝
+              📋
             </div>
             <h4 className="mt-3 text-base font-bold text-strong">
-              아직 등록된 의견 또는 오류 제보가 없습니다.
+              아직 등록된 제보가 없습니다.
             </h4>
             <p className="mt-1.5 text-xs sm:text-sm text-neutral-600">
-              ETF Campus를 더 좋은 서비스로 만들기 위한 첫 번째 의견을 남겨주세요!
+              ETF Campus를 더 신뢰할 수 있는 서비스로 만들기 위한 소중한 첫 의견을 남겨주세요!
             </p>
             <div className="mt-5">
               <Link
                 href="/community/write?category=feedback"
-                className="inline-flex min-h-[40px] items-center justify-center rounded-xl bg-brand-700 px-4 py-2 text-xs sm:text-sm font-extrabold text-white transition-colors hover:bg-brand-800"
+                className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-brand-700 px-4 py-2 text-xs sm:text-sm font-extrabold text-white transition-colors hover:bg-brand-800"
               >
-                첫 제보 작성하기
+                ✏️ 첫 제보 작성하기
               </Link>
             </div>
           </div>

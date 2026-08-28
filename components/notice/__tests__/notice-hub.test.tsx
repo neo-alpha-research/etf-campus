@@ -28,7 +28,7 @@ describe("NoticeHub", () => {
     expect(screen.getByTestId("challenge-component")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /의견·오류 제보/i }));
-    expect(screen.getByText(/ETF Campus 개선 의견 및 오류 제보/i)).toBeInTheDocument();
+    expect(screen.getByText(/ETF Campus 개선 제안 및 오류 제보/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /의견·오류 제보하기/i })).toHaveAttribute(
       "href",
       "/community/write?category=feedback"

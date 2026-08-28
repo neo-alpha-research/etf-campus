@@ -237,7 +237,7 @@ function buildMarketScaleTimeSeries(metrics, briefing) {
       { key: "d5", label: "08.27", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3829000, aumChangePct: Number((((totalAumEok - 3829000) / 3829000) * 100).toFixed(2)), priceEffect: 9607, netInflow: 13000 },
     ],
     weekly: [
-      { key: "w1", label: "7월 5주 (07.31)", aum: 3625000, adtv: 82000, turnoverPct: 2.26, aumChange: 35000, aumChangePct: 0.98, priceEffect: 18000, netInflow: 17000 },
+      { key: "w1", label: "7월 5주 (07.31)", aum: 3625000, adtv: 82000, turnoverPct: 2.26, aumChange: 35000, aumChangePct: 0.98, priceEffect: -42000, netInflow: 77000 },
       { key: "w2", label: "8월 1주 (08.07)", aum: 3689000, adtv: 89000, turnoverPct: 2.41, aumChange: 64000, aumChangePct: 1.77, priceEffect: 36000, netInflow: 28000 },
       { key: "w3", label: "8월 2주 (08.14)", aum: 3738000, adtv: 91000, turnoverPct: 2.43, aumChange: 49000, aumChangePct: 1.33, priceEffect: 26000, netInflow: 23000 },
       { key: "w4", label: "8월 3주 (08.21)", aum: 3792000, adtv: 94000, turnoverPct: 2.48, aumChange: 54000, aumChangePct: 1.44, priceEffect: 31000, netInflow: 23000 },
@@ -247,7 +247,7 @@ function buildMarketScaleTimeSeries(metrics, briefing) {
       { key: "m1", label: "2026.04 (04.30)", aum: 3252000, adtv: 72000, turnoverPct: 2.21, aumChange: 98000, aumChangePct: 3.11, priceEffect: 54000, netInflow: 44000 },
       { key: "m2", label: "2026.05 (05.31)", aum: 3395000, adtv: 78000, turnoverPct: 2.30, aumChange: 143000, aumChangePct: 4.40, priceEffect: 82000, netInflow: 61000 },
       { key: "m3", label: "2026.06 (06.30)", aum: 3538000, adtv: 83000, turnoverPct: 2.35, aumChange: 143000, aumChangePct: 4.21, priceEffect: 76000, netInflow: 67000 },
-      { key: "m4", label: "2026.07 (07.31)", aum: 3685000, adtv: 90000, turnoverPct: 2.44, aumChange: 147000, aumChangePct: 4.15, priceEffect: 81000, netInflow: 66000 },
+      { key: "m4", label: "2026.07 (07.31)", aum: 3685000, adtv: 90000, turnoverPct: 2.44, aumChange: 147000, aumChangePct: 4.15, priceEffect: -125000, netInflow: 272000 },
       { key: "m5", label: "2026.08 (08.27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3685000, aumChangePct: Number((((totalAumEok - 3685000) / 3685000) * 100).toFixed(2)), priceEffect: 92607, netInflow: 74000 },
     ],
     yearly: [

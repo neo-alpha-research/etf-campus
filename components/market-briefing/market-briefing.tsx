@@ -2075,7 +2075,7 @@ export function MarketBriefing() {
             const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.67);
 
             const categories = snapshot?.categories || [
-              { category: "general", label: "일반 실물 ETF", aum: genAumEok, aumSharePct: 76.5, tradeValue: genTradeEok, tradeSharePct: 42.1, turnoverPct: 2.57, etfCount: briefing.generalEtfCount || 1022 },
+              { category: "general", label: "일반 실물 ETF", aum: genAumEok, aumSharePct: 76.5, tradeValue: genTradeEok, tradeSharePct: 42.1, turnoverPct: 2.57, etfCount: briefing.pulse?.generalEtfCount || 1022 },
               { category: "parking", label: "파킹·단기자금", aum: totalAumEok * 0.186, aumSharePct: 18.6, tradeValue: totalTradeEok * 0.153, tradeSharePct: 15.3, turnoverPct: 3.85, etfCount: 42 },
               { category: "leveraged", label: "레버리지", aum: totalAumEok * 0.038, aumSharePct: 3.8, tradeValue: totalTradeEok * 0.352, tradeSharePct: 35.2, turnoverPct: 43.45, etfCount: 68 },
               { category: "inverse", label: "인버스", aum: totalAumEok * 0.011, aumSharePct: 1.1, tradeValue: totalTradeEok * 0.074, tradeSharePct: 7.4, turnoverPct: 30.91, etfCount: 36 },

@@ -36,11 +36,28 @@ const BRAND_BAR_COLORS = [
   "#D8D8E0", // Light Slate
 ];
 
-const CASH_KEYWORDS = ["원화예금", "USD예금", "예수금", "원화현금", "USD현금", "단기예금", "RP", "설정해지", "콜론"];
+const CASH_KEYWORDS = [
+  "원화예금",
+  "USD예금",
+  "외화예금",
+  "예수금",
+  "원화현금",
+  "외화현금",
+  "USD현금",
+  "단기예금",
+  "단기대여금",
+  "설정해지",
+  "콜론",
+  "MMDA",
+  "CMA",
+  "환매조건부채권",
+];
 
 function isCashEquivalent(name: string): boolean {
-  const clean = name.replace(/\s+/g, "").toUpperCase();
-  return CASH_KEYWORDS.some((kw) => clean.includes(kw));
+  const upper = name.toUpperCase().trim();
+  // Match exact word 'RP' (with word boundary) to avoid false positives like 'SPDR Portfolio'
+  if (/\bRP\b/.test(upper)) return true;
+  return CASH_KEYWORDS.some((kw) => upper.includes(kw.toUpperCase()));
 }
 
 export function EtfHoldings({ ticker }: { ticker: string }) {
@@ -227,10 +244,14 @@ function HoldingsDetailView({
           <table className="w-full text-left text-[13px] border-collapse">
             <thead>
               <tr className="border-b border-line bg-surface-hover/50 text-[11px] font-bold text-muted uppercase tracking-wider">
-                <th className="py-2.5 pl-4 pr-2 w-12 text-center">순위</th>
-                <th className="py-2.5 px-3">구성 종목명</th>
-                <th className="py-2.5 px-3 text-right hidden sm:table-cell">수량 (주/계약)</th>
-                <th className="py-2.5 pr-4 pl-3 text-right w-44">보유 비중</th>
+                <th className="py-2.5 pl-4 pr-2 w-12 text-center whitespace-nowrap">순위</th>
+                <th className="py-2.5 px-3 whitespace-nowrap">구성 종목명</th>
+                <th className="py-2.5 px-3 text-right hidden sm:table-cell whitespace-nowrap w-32 min-w-[120px]">
+                  수량 (주/계약)
+                </th>
+                <th className="py-2.5 pr-4 pl-3 text-right w-44 min-w-[150px] whitespace-nowrap">
+                  보유 비중
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line/60">
@@ -245,7 +266,7 @@ function HoldingsDetailView({
                     className="group relative hover:bg-surface-hover/80 transition-colors"
                   >
                     {/* Rank */}
-                    <td className="py-3 pl-4 pr-2 text-center">
+                    <td className="py-3 pl-4 pr-2 text-center whitespace-nowrap">
                       <span
                         className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold tabular-nums ${
                           isTop3
@@ -257,17 +278,23 @@ function HoldingsDetailView({
                       </span>
                     </td>
 
-                    {/* Stock Name + Tags */}
+                    {/* Stock Name + Code + Badges */}
                     <td className="py-3 px-3">
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                         <span
-                          className={`font-semibold tracking-tight truncate max-w-[160px] sm:max-w-[280px] ${
-                            isTop3 ? "text-strong text-[14px]" : "text-neutral-700"
+                          className={`font-semibold tracking-tight ${
+                            isTop3 ? "text-strong text-[14px]" : "text-neutral-800 text-[13px]"
                           }`}
                           title={h.name}
                         >
                           {h.name}
                         </span>
+
+                        {h.item_code && (
+                          <span className="shrink-0 rounded bg-neutral-100 px-1.5 py-0.5 text-[10px] font-semibold text-neutral-500 tabular-nums">
+                            {h.item_code}
+                          </span>
+                        )}
 
                         {isTop3 && (
                           <span className="shrink-0 rounded-md bg-brand-50 px-1.5 py-0.5 text-[10px] font-bold text-brand-700 border border-brand-200">
@@ -284,12 +311,12 @@ function HoldingsDetailView({
                     </td>
 
                     {/* Shares */}
-                    <td className="py-3 px-3 text-right text-muted tabular-nums text-xs hidden sm:table-cell">
+                    <td className="py-3 px-3 text-right text-muted tabular-nums text-xs hidden sm:table-cell whitespace-nowrap">
                       {h.shares != null ? `${new Intl.NumberFormat("ko-KR").format(h.shares)}` : "—"}
                     </td>
 
                     {/* Weight + In-line Background Gauge Bar */}
-                    <td className="py-3 pr-4 pl-3 text-right">
+                    <td className="py-3 pr-4 pl-3 text-right whitespace-nowrap">
                       <div className="relative flex items-center justify-end">
                         {/* Soft visual progress fill behind the number */}
                         <div

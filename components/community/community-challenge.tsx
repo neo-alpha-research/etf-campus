@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect -- Client-only session and data loading update state after hydration. */
 "use client";
 
 import Link from 'next/link';
@@ -16,22 +17,19 @@ type Cohort = {
 };
 
 type PublicRecord = {
-  public_id: string;
-  day_number: number;
-  metric_key: string;
-  metric_value: number;
-  note: string | null;
-  author_nickname: string;
-  created_at: string;
+  slug: string;
+  challengeDayNumber?: number;
+  challengeMetricKey?: string;
+  metric_key?: string;
+  metric_value?: number;
+  note?: string | null;
+  bodyText?: string;
+  excerpt?: string;
+  authorNickname?: string;
+  author_nickname?: string;
+  createdAt?: string;
+  created_at?: string;
 };
-
-const topics = [
-  { value: "cost_comparison", label: "ETF 비용 비교 기준 정리" },
-  { value: "distribution_notice", label: "분배금·공시 읽기" },
-  { value: "pension_account", label: "연금 계좌 ETF 판단 기준 점검" },
-  { value: "risk_check", label: "위험·구조 확인 기준 점검" },
-  { value: "weekly_learning", label: "주간 학습 기록 유지" },
-] as const;
 
 const metricLabels: Record<string, string> = {
   study_checkin: "학습 기록",
@@ -130,19 +128,6 @@ export function CommunityChallenge() {
     }
   }
 
-  async function support(publicId: string) {
-    if (!getCommunitySession()) {
-      setAuthOpen(true);
-      return;
-    }
-    try {
-      await communityFetch(`/api/community/challenges/records/${encodeURIComponent(publicId)}/support`, { method: "POST", body: JSON.stringify({}) });
-      setMessage("응원을 남겼습니다. 응원 수는 순위나 인기 지표로 사용하지 않습니다.");
-    } catch (error) {
-      setMessage(error instanceof Error ? error.message : "응원을 남기지 못했습니다.");
-    }
-  }
-
   return (
     <main className="page-shell py-7 sm:py-10">
       <section className="rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-50 via-white to-white px-5 py-7 shadow-sm sm:px-8 sm:py-10">
@@ -207,7 +192,26 @@ export function CommunityChallenge() {
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-lg font-bold text-slate-950">공개 학습 기록</h2>
           <p className="mt-1 text-sm leading-6 text-slate-600">전체 공개를 선택한 비금전 학습 기록만 표시합니다. 응원 수는 순위나 인기 지표로 사용하지 않습니다.</p>
-          <div className="mt-4 space-y-3">{records.length === 0 ? <p className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">아직 공개된 학습 기록이 없습니다.</p> : records.map((post: any) => <article key={post.slug} className="rounded-xl border border-slate-200 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="text-sm font-bold text-brand-700">{post.challengeDayNumber}일차 · {metricLabels[post.challengeMetricKey] ?? "학습 기록"}</p><Link href={`/community/read/?slug=${encodeURIComponent(post.slug)}`} className="rounded-lg border border-brand-200 px-3 py-1.5 text-xs font-bold text-brand-800 hover:bg-brand-50">자세히 보기</Link></div><p className="mt-2 text-sm leading-6 text-slate-700 line-clamp-3">{post.bodyText || post.excerpt || "학습 기록을 남겼습니다."}</p><p className="mt-3 text-xs text-slate-500">{post.authorNickname}</p></article>)}</div>
+          <div className="mt-4 space-y-3">
+            {records.length === 0 ? (
+              <p className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">아직 공개된 학습 기록이 없습니다.</p>
+            ) : (
+              records.map((post) => (
+                <article key={post.slug} className="rounded-xl border border-slate-200 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-sm font-bold text-brand-700">
+                      {post.challengeDayNumber ?? 1}일차 · {post.challengeMetricKey ? (metricLabels[post.challengeMetricKey] ?? "학습 기록") : "학습 기록"}
+                    </p>
+                    <Link href={`/community/read/?slug=${encodeURIComponent(post.slug)}`} className="rounded-lg border border-brand-200 px-3 py-1.5 text-xs font-bold text-brand-800 hover:bg-brand-50">
+                      자세히 보기
+                    </Link>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-slate-700 line-clamp-3">{post.bodyText || post.excerpt || "학습 기록을 남겼습니다."}</p>
+                  <p className="mt-3 text-xs text-slate-500">{post.authorNickname || post.author_nickname || "익명"}</p>
+                </article>
+              ))
+            )}
+          </div>
         </div>
       </section>
 

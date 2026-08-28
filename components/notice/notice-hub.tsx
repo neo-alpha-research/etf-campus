@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect -- URL searchParams sync intentionally updates activeTab state after hydration. */
 "use client";
 
 import { useSearchParams } from "next/navigation";

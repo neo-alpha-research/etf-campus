@@ -2,6 +2,7 @@
 
 import { useMarketBriefingHistory } from "@/lib/hooks/use-market-briefing-history";
 import { useAuthSession } from "@/components/auth/use-auth-session";
+import { generateMarketNarrative } from "@/lib/domain/market-briefing-narrative";
 import { Info } from "lucide-react";
 
 function InfoTooltip({
@@ -143,6 +144,17 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
               {items.map((item, index) => {
                 const isActive = item.asOfDate === activeDate;
                 const isPastItem = index > 0;
+
+                const narrative = generateMarketNarrative({
+                  generalEtfCount: item.generalEtfCount,
+                  upCount: Math.round(item.generalEtfCount * ((item.breadthRatioPct || 50) / 100)),
+                  downCount: item.generalEtfCount - Math.round(item.generalEtfCount * ((item.breadthRatioPct || 50) / 100)),
+                  generalAumWeightedReturnPct: item.generalAumWeightedReturnPct,
+                  breadthRatioPct: item.breadthRatioPct,
+                });
+                const firstSummarySentence = narrative.headline.split('. ')[0]?.trim() || item.headline || `${item.marketTemperature} 흐름`;
+                const displayHeadline = firstSummarySentence.endsWith('.') ? firstSummarySentence : `${firstSummarySentence}.`;
+
                 return (
                   <li key={item.asOfDate}>
                     <button
@@ -160,7 +172,9 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
                         )}
                       </div>
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-neutral-800">{item.headline || `${item.marketTemperature} 흐름`}</p>
+                        <p className="truncate text-sm font-semibold text-neutral-800" title={displayHeadline}>
+                          {displayHeadline}
+                        </p>
                         <p className="mt-0.5 text-[11px] text-neutral-500">일반 ETF {item.generalEtfCount.toLocaleString("ko-KR")}개 · 상승 비중 {decimal.format(item.breadthRatioPct)}%</p>
                       </div>
                       <div className="text-right">

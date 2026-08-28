@@ -350,9 +350,18 @@ function investmentReferenceTier(
   return null;
 }
 
+function sharesNameKeyword(targetEtf?: Etf, candidateEtf?: Etf): boolean {
+  if (!targetEtf || !candidateEtf) return false;
+  const targetTokens = normalizedTokens(`${targetEtf.name} ${targetEtf.baseIndex || ""}`);
+  const candidateTokens = normalizedTokens(`${candidateEtf.name} ${candidateEtf.baseIndex || ""}`);
+  return [...targetTokens].some((token) => candidateTokens.has(token));
+}
+
 function calculateRelativeDistance(
   target: ComparisonProfile,
   candidate: ComparisonProfile,
+  targetEtf?: Etf,
+  candidateEtf?: Etf,
 ): { score: number; tier: PeerCandidate["tier"]; reasons: string[] } | null {
   let score = 0;
 
@@ -366,11 +375,14 @@ function calculateRelativeDistance(
   const sameDirection = sameNonEmpty(target.direction, candidate.direction);
   const sameLeverage = sameNonEmpty(target.leverageMultiple, candidate.leverageMultiple);
   const sameStyle = sameNonEmpty(target.strategyStyle, candidate.strategyStyle);
+  const sameKeyword = sharesNameKeyword(targetEtf, candidateEtf);
 
   if (sameIndex) score += 40;
   if (sameSubtopic) score += 30;
   if (sameTopic) score += 40;
   else if (sharesTopic(target, candidate)) score += 25;
+  else if (sameKeyword) score += 25;
+
   if (sameCategory) score += 15;
   if (sameAssetFamily && sameRegion) score += 15;
   else if (sameAssetFamily) score += 5;
@@ -381,7 +393,7 @@ function calculateRelativeDistance(
   if (sameStyle) score += 5;
   if (sameNonEmpty(target.fxHedge, candidate.fxHedge)) score += 5;
 
-  if (!sameAssetFamily && !sameCategory && !sameTopic && !sharesTopic(target, candidate)) return null;
+  if (!sameAssetFamily && !sameCategory && !sameTopic && !sharesTopic(target, candidate) && !sameKeyword) return null;
   if (score < 20) return null;
 
   let tier: PeerCandidate["tier"] = "similar_category";
@@ -394,7 +406,7 @@ function calculateRelativeDistance(
     else if (tier === "structure_reference") reasons.push("동일 자산군 참고");
     else if (tier === "direction_reference") reasons.push("방향성 참고");
     else if (tier === "leverage_reference") reasons.push("레버리지 참고");
-  } else if (sameTopic || sharesTopic(target, candidate)) {
+  } else if (sameTopic || sharesTopic(target, candidate) || sameKeyword) {
     tier = "similar_topic";
     reasons.push("유사 투자 주제");
   } else if (sameCategory) {
@@ -459,7 +471,7 @@ function expandPrimaryCandidates(
     const profile = data.profiles.get(candidate.ticker);
     if (!isAutomaticProfile(profile)) return [];
     
-    const distance = calculateRelativeDistance(targetProfile, profile);
+    const distance = calculateRelativeDistance(targetProfile, profile, target, candidate);
     if (!distance) return [];
     
     return [{

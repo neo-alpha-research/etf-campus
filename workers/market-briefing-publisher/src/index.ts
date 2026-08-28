@@ -813,9 +813,25 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
 
   const metricsJson = JSON.stringify(metrics);
 
+  const focusEtfs = quotes
+    .filter((q) => q.is_general_etf === 1)
+    .sort((a, b) => (b.trade_value || 0) - (a.trade_value || 0))
+    .slice(0, 3)
+    .map((q, idx) => ({
+      rank_no: idx + 1,
+      ticker: q.ticker,
+      etf_name: q.etf_name,
+      asset_class: q.asset_class,
+      close_value: q.close_value,
+      change_pct: q.change_pct,
+      trade_value: q.trade_value,
+      trade_share_pct: pulse.generalTotalTradeValue === 0 ? 0 : Number((((q.trade_value || 0) / pulse.generalTotalTradeValue) * 100).toFixed(2)),
+    }));
+
   const statements: any[] = [
     env.ETF_PRICES.prepare(`UPDATE market_briefings SET metrics_json = ?, updated_at = ? WHERE as_of_date = ?`).bind(metricsJson, nowIso(), asOfDate),
     env.ETF_PRICES.prepare(`DELETE FROM market_briefing_asset_classes WHERE as_of_date = ?`).bind(asOfDate),
+    env.ETF_PRICES.prepare(`DELETE FROM market_briefing_focus_etfs WHERE as_of_date = ?`).bind(asOfDate),
     ...assetClasses.map((row) => env.ETF_PRICES
       .prepare(
         `INSERT INTO market_briefing_asset_classes (
@@ -824,6 +840,13 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .bind(asOfDate, row.assetClass, row.etfCount, row.upCount, row.flatCount, row.downCount, row.breadthRatioPct, row.aumWeightedReturnPct, row.totalAum, row.aumSharePct, row.totalTradeValue, row.tradeSharePct)),
+    ...focusEtfs.map((row) => env.ETF_PRICES
+      .prepare(
+        `INSERT INTO market_briefing_focus_etfs (
+          as_of_date, rank_no, ticker, etf_name, asset_class, close_value, change_pct, trade_value, trade_share_pct
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      )
+      .bind(asOfDate, row.rank_no, row.ticker, row.etf_name, row.asset_class, row.close_value, row.change_pct, row.trade_value, row.trade_share_pct)),
   ];
 
   await env.ETF_PRICES.batch(statements);

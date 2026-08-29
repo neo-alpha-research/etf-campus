@@ -431,8 +431,13 @@ function calculateRelativeDistance(
   const sameDirection = sameNonEmpty(target.direction, candidate.direction);
   const sameLeverage = sameNonEmpty(target.leverageMultiple, candidate.leverageMultiple);
   const sameStyle = sameNonEmpty(target.strategyStyle, candidate.strategyStyle);
+  const sameConcentration = sameNonEmpty(target.concentrationBucket, candidate.concentrationBucket) && target.concentrationBucket !== "unknown";
   const hasFrontKeywordMatch = sharesFrontPositionKeyword(targetEtf, candidateEtf);
   const sameKeyword = sharesNameKeyword(targetEtf, candidateEtf);
+
+  const isTargetTR = Boolean(targetEtf?.name.includes("TR") || targetEtf?.baseIndex?.includes("TR"));
+  const isCandTR = Boolean(candidateEtf?.name.includes("TR") || candidateEtf?.baseIndex?.includes("TR"));
+  const sameDistributionType = isTargetTR === isCandTR;
 
   if (sameIndex) score += 40;
   if (sameSubtopic) score += 30;
@@ -453,6 +458,8 @@ function calculateRelativeDistance(
   if (sameDirection) score += 10;
   if (sameLeverage) score += 10;
   if (sameStyle) score += 5;
+  if (sameConcentration) score += 10; // Match concentration style (ultra-concentrated vs broad)
+  if (sameDistributionType && isTargetTR) score += 15; // Match TR/reinvestment structure
   if (sameNonEmpty(target.fxHedge, candidate.fxHedge)) score += 5;
 
   if (!sameAssetFamily && !sameCategory && !sameTopic && !sharesTopic(target, candidate) && !sameKeyword) return null;

@@ -64,7 +64,8 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
     );
   }
 
-  const validFees = compareList.map((e) => e.fee).filter((f): f is number => typeof f === "number" && f > 0);
+  const getFee = (e: Etf) => e.fee?.totalFeePct;
+  const validFees = compareList.map(getFee).filter((f): f is number => typeof f === "number" && f > 0);
   const minFee = validFees.length > 0 ? Math.min(...validFees) : null;
 
   const validTrades = compareList.map((e) => e.tradeValue).filter((t): t is number => typeof t === "number" && t > 0);
@@ -74,7 +75,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
   const maxAum = validAums.length > 0 ? Math.max(...validAums) : null;
 
   const valid1YReturns = compareList
-    .map((e) => e.returns?.["1Y"])
+    .map((e) => e.returns?.["12m"])
     .filter((r): r is number => typeof r === "number" && Number.isFinite(r));
   const max1YReturn = valid1YReturns.length > 0 ? Math.max(...valid1YReturns) : null;
 
@@ -100,6 +101,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const reasons = selectionReasons?.get(etf.ticker) || [];
+                  const feePct = getFee(etf);
                   return (
                     <th key={etf.ticker} className={`relative px-2.5 py-3 min-w-[145px] sm:min-w-[160px] border-b border-r border-neutral-200 font-bold text-strong align-top transition-colors ${isBase ? "bg-brand-100/80 shadow-[inset_0_3px_0_0_#0f766e]" : "bg-neutral-100 backdrop-blur"}`}>
                       <div className="flex flex-col items-center text-center gap-1 w-full">
@@ -114,11 +116,11 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                         </Link>
                         {compareList.length > 1 && (
                           <div className="flex flex-wrap justify-center gap-1 mt-0.5">
-                            {minFee !== null && etf.fee === minFee && (
+                            {minFee !== null && feePct === minFee && (
                               <span
                                 data-testid="smart-advantage-badge"
                                 className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-emerald-100/90 text-emerald-800 border border-emerald-300 shadow-xs"
-                                title={`총보수 ${etf.fee}% (비교군 중 최저)`}
+                                title={`총보수 ${feePct}% (비교군 중 최저)`}
                               >
                                 최저 보수 🥇
                               </span>
@@ -141,7 +143,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                                 순자산 1위 🏛️
                               </span>
                             )}
-                            {max1YReturn !== null && etf.returns?.["1Y"] === max1YReturn && max1YReturn > 0 && (
+                            {max1YReturn !== null && etf.returns?.["12m"] === max1YReturn && max1YReturn > 0 && (
                               <span
                                 data-testid="smart-advantage-badge"
                                 className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-amber-100/90 text-amber-800 border border-amber-300 shadow-xs"

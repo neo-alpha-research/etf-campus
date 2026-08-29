@@ -141,15 +141,17 @@ function getNewEtfThemeTag(name: string): string | null {
   return null;
 }
 
-function getDerivMultiplierInfo(etf: Etf): { label: string; badgeClass: string } | null {
+export type DerivMultiplierType = "lev2x" | "inv2x" | "inv1x";
+
+function getDerivMultiplierInfo(etf: Etf): { type: DerivMultiplierType; label: string; badgeClass: string } | null {
   if (etf.name.includes("2X") && etf.name.includes("인버스")) {
-    return { label: "-2X 곱버스", badgeClass: "bg-purple-900 text-white border border-purple-950 font-black shadow-sm" };
+    return { type: "inv2x", label: "-2X 곱버스", badgeClass: "bg-purple-950 text-purple-100 border border-purple-800 font-extrabold shadow-sm" };
   }
   if (etf.name.includes("레버리지") || etf.name.includes("2X")) {
-    return { label: "+2X 레버리지", badgeClass: "bg-emerald-600 text-white font-black shadow-sm" };
+    return { type: "lev2x", label: "+2X 레버리지", badgeClass: "bg-emerald-700 text-white font-extrabold shadow-sm" };
   }
   if (etf.name.includes("인버스")) {
-    return { label: "-1X 인버스", badgeClass: "bg-purple-100 text-purple-800 border border-purple-300 font-bold" };
+    return { type: "inv1x", label: "-1X 인버스", badgeClass: "bg-purple-100 text-purple-900 border border-purple-300 font-bold" };
   }
   return null;
 }
@@ -243,7 +245,17 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   // Mode-specific sub-filters
   const [selectedVintage, setSelectedVintage] = useState<string | null>(null);
   const [selectedNewRange, setSelectedNewRange] = useState<"all" | "30d" | "60d" | "90d">("all");
-  const [selectedDerivMultiplier, setSelectedDerivMultiplier] = useState<"all" | "lev2x" | "inv2x" | "inv1x">("all");
+  const [activeDerivMultipliers, setActiveDerivMultipliers] = useState<DerivMultiplierType[]>([
+    "lev2x",
+    "inv2x",
+    "inv1x",
+  ]);
+
+  const toggleDerivMultiplier = (type: DerivMultiplierType) => {
+    setActiveDerivMultipliers((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+    );
+  };
 
   // Compare basket
   const { basket, addEtf, removeEtf, isStored, clearBasket } = useCompareBasket();
@@ -294,6 +306,12 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const copy = modeCopy[state.mode];
   const pendingListingDates = state.mode === "new" ? modeEtfs.filter((etf) => !etf.listingDate).length : 0;
 
+  const derivCounts = {
+    lev2x: modeEtfs.filter((e) => getDerivMultiplierInfo(e)?.type === "lev2x").length,
+    inv2x: modeEtfs.filter((e) => getDerivMultiplierInfo(e)?.type === "inv2x").length,
+    inv1x: modeEtfs.filter((e) => getDerivMultiplierInfo(e)?.type === "inv1x").length,
+  };
+
   // Apply mode-specific sub-filtering
   let filteredResults = results;
   if (state.mode === "tdf" && selectedVintage) {
@@ -307,14 +325,11 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
       if (selectedNewRange === "90d") return days > 60;
       return true;
     });
-  } else if (state.mode === "derivatives" && selectedDerivMultiplier !== "all") {
+  } else if (state.mode === "derivatives") {
     filteredResults = filteredResults.filter((etf) => {
       const info = getDerivMultiplierInfo(etf);
       if (!info) return false;
-      if (selectedDerivMultiplier === "lev2x") return info.label.includes("+2X");
-      if (selectedDerivMultiplier === "inv2x") return info.label.includes("-2X");
-      if (selectedDerivMultiplier === "inv1x") return info.label.includes("-1X");
-      return true;
+      return activeDerivMultipliers.includes(info.type);
     });
   }
 
@@ -353,7 +368,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
     setExplorerState({ assetClasses: [], riskTypes: [] });
     setSelectedVintage(null);
     setSelectedNewRange("all");
-    setSelectedDerivMultiplier("all");
+    setActiveDerivMultipliers(["lev2x", "inv2x", "inv1x"]);
   };
 
   const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -645,31 +660,73 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           </div>
         ) : null}
 
-        {/* 3. 레버리지·인버스 탭 전용 배수 구분 퀵 필터 바 */}
+        {/* 3. 레버리지·인버스 탭 전용 배수 다중 체크박스 필터 바 */}
         {state.mode === "derivatives" ? (
-          <div className="mt-3 pt-3 border-t border-brand-100 flex flex-wrap items-center gap-2">
-            <span className="text-xs font-bold text-slate-700 mr-1 flex items-center gap-1">
-              <span>⚡ 배수 구분</span>
-            </span>
-            {[
-              { value: "all", label: "전체 파생" },
-              { value: "lev2x", label: "+2X 레버리지", activeClass: "bg-emerald-600 text-white" },
-              { value: "inv2x", label: "-2X 곱버스", activeClass: "bg-purple-900 text-white" },
-              { value: "inv1x", label: "-1X 인버스", activeClass: "bg-purple-600 text-white" },
-            ].map((opt) => (
+          <div className="mt-3 pt-3 border-t border-brand-100 flex flex-wrap items-center justify-between gap-2.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-bold text-slate-700 mr-1 flex items-center gap-1">
+                <span>⚡ 배수 필터</span>
+              </span>
+              {[
+                {
+                  id: "lev2x" as const,
+                  label: "+2X 레버리지",
+                  count: derivCounts.lev2x,
+                  activeColor: "border-emerald-500 bg-emerald-50 text-emerald-950 ring-1 ring-emerald-400",
+                },
+                {
+                  id: "inv2x" as const,
+                  label: "-2X 곱버스",
+                  count: derivCounts.inv2x,
+                  activeColor: "border-purple-800 bg-purple-50 text-purple-950 ring-1 ring-purple-500",
+                },
+                {
+                  id: "inv1x" as const,
+                  label: "-1X 인버스",
+                  count: derivCounts.inv1x,
+                  activeColor: "border-purple-300 bg-purple-50/70 text-purple-900 ring-1 ring-purple-300",
+                },
+              ].map((item) => {
+                const checked = activeDerivMultipliers.includes(item.id);
+                return (
+                  <label
+                    key={item.id}
+                    className={`flex items-center gap-1.5 px-3 py-1 rounded-lg border text-xs font-bold cursor-pointer select-none transition-all ${
+                      checked
+                        ? item.activeColor + " shadow-sm"
+                        : "border-neutral-200 bg-surface text-neutral-400 opacity-60 hover:opacity-80"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleDerivMultiplier(item.id)}
+                      className="size-3.5 rounded accent-neutral-800 cursor-pointer"
+                    />
+                    <span>{item.label}</span>
+                    <span className="text-[11px] font-mono font-medium text-neutral-500">({item.count})</span>
+                  </label>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center gap-2">
               <button
-                key={opt.value}
                 type="button"
-                onClick={() => setSelectedDerivMultiplier(opt.value as any)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-colors ${
-                  selectedDerivMultiplier === opt.value
-                    ? (opt.activeClass || "bg-neutral-800 text-white") + " shadow-sm"
-                    : "bg-surface border border-line text-neutral-600 hover:bg-neutral-100"
-                }`}
+                onClick={() => setActiveDerivMultipliers(["lev2x", "inv2x", "inv1x"])}
+                className="text-xs font-bold text-brand-700 hover:text-brand-800 hover:underline cursor-pointer"
               >
-                {opt.label}
+                전체 선택
               </button>
-            ))}
+              <span className="text-neutral-300">|</span>
+              <button
+                type="button"
+                onClick={() => setActiveDerivMultipliers([])}
+                className="text-xs font-medium text-muted hover:text-strong cursor-pointer"
+              >
+                선택 해제
+              </button>
+            </div>
           </div>
         ) : null}
 
@@ -792,9 +849,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                           <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">
                             <span className="font-mono font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded text-[10.5px]">{etf.ticker}</span>
                             
-                            {/* 파생형 배수 뱃지 */}
+                            {/* 파생형 배수 뱃지 (독립 선명 표기) */}
                             {isDeriv && derivInfo ? (
-                              <span className={`select-none rounded px-1.5 py-0.2 text-[9.5px] ${derivInfo.badgeClass}`}>
+                              <span className={`select-none rounded px-1.5 py-0.2 text-[10px] ${derivInfo.badgeClass}`}>
                                 {derivInfo.label}
                               </span>
                             ) : null}
@@ -811,21 +868,24 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                               </span>
                             ) : null}
 
-                            {/* 신규 상장 D-Day 뱃지 */}
-                            {isNew && newDays !== null ? (
-                              newDays <= 7 ? (
-                                <span className="rounded bg-rose-500 px-1.5 py-0.2 text-[9.5px] font-extrabold text-white shadow-sm animate-pulse">
-                                  🔥 NEW D+{newDays}
-                                </span>
-                              ) : (
-                                <span className="rounded bg-amber-100 border border-amber-300 px-1 py-0.2 text-[9.5px] font-bold text-amber-900">
-                                  D+{newDays}
-                                </span>
-                              )
+                            {/* 신규 상장 상장일 독립 표기 */}
+                            {isNew && etf.listingDate ? (
+                              <span className="inline-flex items-center gap-1 rounded bg-neutral-100 border border-neutral-200 px-1.5 py-0.2 text-[10px] font-semibold text-neutral-700 whitespace-nowrap">
+                                <span aria-hidden="true">📅</span>
+                                <span className="whitespace-nowrap">{formatAsOfDate(etf.listingDate)}</span>
+                                {newDays !== null ? (
+                                  newDays <= 7 ? (
+                                    <span className="rounded bg-rose-500 px-1 py-0 text-[9px] font-extrabold text-white animate-pulse">
+                                      🔥 NEW D+{newDays}
+                                    </span>
+                                  ) : (
+                                    <span className="rounded bg-amber-200/90 border border-amber-400 px-1 py-0 text-[9px] font-bold text-amber-950">
+                                      D+{newDays}
+                                    </span>
+                                  )
+                                ) : null}
+                              </span>
                             ) : null}
-
-                            {/* 신규 상장 날짜 */}
-                            {isNew && etf.listingDate ? <span className="text-[10px] text-neutral-500 whitespace-nowrap">{formatAsOfDate(etf.listingDate)}</span> : null}
 
                             {/* 신규 상장 테마 태그 */}
                             {isNew && newThemeTag ? (

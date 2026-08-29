@@ -29,7 +29,17 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
   }, [mainEtf, basket]);
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const orderedPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
+  const [showAllPeriods, setShowAllPeriods] = useState(false);
+  const corePeriods: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
+  const allPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
+  const orderedPeriods = showAllPeriods ? allPeriods : corePeriods;
+
+  const hasDifferentClassification = compareList.some((e) =>
+    e.classification?.marketScope !== compareList[0]?.classification?.marketScope ||
+    e.classification?.assetClass !== compareList[0]?.classification?.assetClass ||
+    e.pension !== compareList[0]?.pension ||
+    e.riskType !== compareList[0]?.riskType
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -194,27 +204,30 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               </tr>
             </thead>
             <tbody className="[&>tr]:h-[36px] [&>tr]:transition-colors [&>tr:hover]:bg-neutral-100/50 [&>tr:nth-child(even)]:bg-neutral-50/40 [&>tr:nth-child(even)>th]:!bg-neutral-50/95">
-              {/* 투자 분류 */}
-              <tr className="hover:bg-brand-50/20">
-                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>투자 분류</th>
-                {compareList.map((etf) => {
-                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                  return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
-                      <div className="flex flex-wrap justify-center gap-1 items-center overflow-hidden [&_span]:!px-1.5 [&_span]:!py-0.5 [&_span]:!text-[10.5px]">
-                        {etf.classification?.marketScope && <span className="inline-flex rounded-sm border border-blue-300 bg-blue-50 font-semibold text-blue-700">{etf.classification.marketScope}</span>}
-                        {etf.classification?.assetClass && <span className="inline-flex rounded-sm border border-purple-300 bg-purple-50 font-semibold text-purple-700">{etf.classification.assetClass}</span>}
-                        <RiskBadge riskType={etf.riskType} />
-                        {etf.pension === "가능" && (
-                          <span className="inline-flex rounded-sm border border-emerald-300 bg-emerald-50 font-semibold text-emerald-700">
-                            연금
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
+              {/* 투자 분류 (차이점이 있을 때만 노출) */}
+              {hasDifferentClassification && (
+                <tr className="hover:bg-brand-50/20">
+                  <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>투자 분류</th>
+                  {compareList.map((etf) => {
+                    const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                    return (
+                      <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
+                        <div className="flex flex-wrap justify-center gap-1 items-center overflow-hidden [&_span]:!px-1.5 [&_span]:!py-0.5 [&_span]:!text-[10.5px]">
+                          {etf.classification?.marketScope && <span className="inline-flex rounded-sm border border-blue-300 bg-blue-50 font-semibold text-blue-700">{etf.classification.marketScope}</span>}
+                          {etf.classification?.assetClass && <span className="inline-flex rounded-sm border border-purple-300 bg-purple-50 font-semibold text-purple-700">{etf.classification.assetClass}</span>}
+                          <RiskBadge riskType={etf.riskType} />
+                          {etf.pension === "가능" && (
+                            <span className="inline-flex rounded-sm border border-emerald-300 bg-emerald-50 font-semibold text-emerald-700">
+                              연금
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              )}
+
               {/* 총보수 */}
               <tr className="hover:bg-brand-50/20">
                 <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>총보수</th>
@@ -224,21 +237,9 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   const hasFee = feeInfo?.totalFeePct != null;
                   return (
                     <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
-                      <span className={`text-[11.5px] font-bold tabular-nums ${hasFee ? "text-strong" : "text-muted"}`}>
+                      <span className={`text-[11.5px] font-bold tabular-nums font-mono ${hasFee ? "text-strong" : "text-muted"}`}>
                         {formatFeePct(feeInfo?.totalFeePct)}
                       </span>
-                    </td>
-                  );
-                })}
-              </tr>
-              {/* 기초 지수 */}
-              <tr className="hover:bg-brand-50/20">
-                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>기초 지수</th>
-                {compareList.map((etf) => {
-                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                  return (
-                    <td key={etf.ticker} className={`border-b border-r border-neutral-200 px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
-                      <span className="text-[11px] sm:text-[11.5px] font-semibold text-strong leading-tight break-words [overflow-wrap:anywhere] line-clamp-2 block max-w-full" title={etf.baseIndex || ""}>{etf.baseIndex || "-"}</span>
                     </td>
                   );
                 })}
@@ -267,6 +268,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   );
                 })}
               </tr>
+
               {/* 일일 거래대금 */}
               <tr className="hover:bg-brand-50/20">
                 <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
@@ -290,20 +292,57 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   );
                 })}
               </tr>
-              {/* 종가 */}
+
+              {/* 괴리율 */}
               <tr className="hover:bg-brand-50/20">
-                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>종가</th>
+                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+                    <span>괴리율</span>
+                    <span className="text-[10px] text-neutral-400 cursor-help">ⓘ</span>
+                    <div className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 w-60 bg-neutral-800/95 backdrop-blur-sm text-white text-[12px] font-medium p-3 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] shadow-xl whitespace-normal leading-relaxed text-left border border-neutral-700/50">
+                      <div className="absolute top-1/2 -left-2 -translate-y-1/2 border-[4px] border-transparent border-r-neutral-800/95" />
+                      시장가격(종가)과 순자산가치(NAV)의 차이 비율입니다. 0%에 가까울수록 적정 가격에 정상 거래되고 있음을 의미합니다.
+                    </div>
+                  </div>
+                </th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  const d = etf.disparity;
+                  const hasDisparity = typeof d === "number" && Number.isFinite(d);
                   return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center tabular-nums font-extrabold text-strong text-[12px] sm:text-[13px] ${isBase ? "bg-brand-50/40" : ""}`}>
-                      {formatWon(etf.close)}
+                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center tabular-nums font-bold text-[12px] sm:text-[13px] ${isBase ? "bg-brand-50/40" : ""}`}>
+                      {hasDisparity ? (
+                        <span className={d > 0 ? "text-rose-600" : d < 0 ? "text-blue-600" : "text-neutral-700"}>
+                          {d > 0 ? `+${d.toFixed(2)}%` : `${d.toFixed(2)}%`}
+                        </span>
+                      ) : (
+                        <span className="text-muted">-</span>
+                      )}
                     </td>
                   );
                 })}
               </tr>
 
+              {/* 기초 지수 */}
+              <tr className="hover:bg-brand-50/20">
+                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>기초 지수</th>
+                {compareList.map((etf) => {
+                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  return (
+                    <td key={etf.ticker} className={`border-b border-r border-neutral-200 px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
+                      <span className="text-[11px] sm:text-[11.5px] font-semibold text-strong leading-tight break-words [overflow-wrap:anywhere] line-clamp-2 block max-w-full" title={etf.baseIndex || ""}>{etf.baseIndex || "-"}</span>
+                    </td>
+                  );
+                })}
+              </tr>
+
+              {/* 수익률 행들 (1위 하이라이트 탑재) */}
               {orderedPeriods.map((period, index) => {
+                const periodValues = compareList
+                  .map((e) => e.returns?.[period])
+                  .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+                const maxReturnForPeriod = periodValues.length > 0 ? Math.max(...periodValues) : null;
+
                 return (
                   <tr key={period} className="hover:bg-brand-50/20">
                     <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-right align-middle ${shadowClass}`}>
@@ -317,12 +356,20 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                       )}
                     </th>
                     {compareList.map((etf) => {
-                      const val = etf.returns[period];
+                      const val = etf.returns?.[period];
                       const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const isTop = maxReturnForPeriod !== null && val === maxReturnForPeriod && compareList.length > 1;
                       return (
-                        <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-right tabular-nums transition-colors font-bold ${isBase ? "bg-brand-50/40" : ""}`}>
+                        <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-right tabular-nums transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
                           <div className="flex justify-end items-center gap-1">
-                            <ReturnCell value={val} />
+                            {isTop && val != null && val > 0 && (
+                              <span className="text-[9px] font-black text-rose-600 bg-rose-100/90 px-1 py-0.2 rounded border border-rose-300 shadow-2xs">
+                                1위
+                              </span>
+                            )}
+                            <span className={isTop ? "font-black" : "font-semibold"}>
+                              <ReturnCell value={val} />
+                            </span>
                           </div>
                         </td>
                       );
@@ -332,6 +379,18 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               })}
             </tbody>
           </table>
+        </div>
+
+        {/* 기간 더보기 토글 바 */}
+        <div className="flex items-center justify-center py-2 px-4 bg-neutral-50/70 border-t border-neutral-200">
+          <button
+            type="button"
+            onClick={() => setShowAllPeriods(!showAllPeriods)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1 text-xs font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 shadow-xs border border-neutral-200 bg-white"
+          >
+            <span>{showAllPeriods ? "핵심 기간만 보기 (1개월~1년)" : "전체 세부 기간 보기 (1일~3년)"}</span>
+            <span className="text-[10px]">{showAllPeriods ? "▲" : "▼"}</span>
+          </button>
         </div>
       </div>
     </div>

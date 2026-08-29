@@ -392,7 +392,7 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   };
 
   return (
-    <main aria-labelledby="dashboard-title" className="page-shell flex-1 py-4 sm:py-6">
+    <div aria-labelledby="dashboard-title" className="page-shell flex-1 py-3 sm:py-4">
       <Suspense fallback={null}>
         <SearchParamsSync onSync={(params) => {
           setState(parseExplorerQuery(params));
@@ -900,6 +900,6 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           {!visibleEtfs.length ? <div className="px-5 py-16 text-center"><p className="font-extrabold text-strong">조건에 맞는 ETF가 없습니다</p><p className="mt-2 text-sm text-muted">검색어나 필터, 순자산 범위를 조정해 보세요.</p></div> : null}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

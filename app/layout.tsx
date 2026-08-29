@@ -51,7 +51,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <SiteHeader />
           </Suspense>
         </div>
-        <main className="flex flex-1 flex-col pt-36 sm:pt-32 lg:pt-28" id="main-content">{children}</main>
+        <main className="flex flex-1 flex-col pt-[196px] sm:pt-[196px] lg:pt-[156px]" id="main-content">{children}</main>
         <SiteFooter />
         <AppBottomTab />
         <AppPushInitializer />

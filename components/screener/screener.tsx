@@ -481,7 +481,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   }
 
   return (
-    <main className="page-shell flex flex-col flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
+    <div className="page-shell flex flex-col flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
       <div className="flex flex-wrap items-center justify-between gap-3 shrink-0">
         <div className="shrink-0 mb-1 sm:mb-0">
           <p className="eyebrow text-xs">ETF Screener</p>
@@ -924,6 +924,6 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

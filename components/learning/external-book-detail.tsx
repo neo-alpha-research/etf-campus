@@ -175,7 +175,7 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
                 도서에서 언급된 ETF의 실제 구성종목 및 보수 확인하기
               </h3>
               <p className="mt-1 text-xs text-neutral-600">
-                책에서 배운 투자 기준을 바탕으로 해당 종목의 실시간 괴리율, 총보수, 배당 이력을 확인해 보세요.
+                책에서 배운 투자 기준을 바탕으로 해당 종목의 괴리율, 총보수, 배당 이력을 확인해 보세요.
               </p>
             </div>
 

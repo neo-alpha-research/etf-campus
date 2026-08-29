@@ -781,8 +781,8 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
             {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
           </div>
           
-          <div className="overflow-hidden rounded-2xl border border-line w-full bg-surface shadow-xs">
-            <div className="w-full overflow-x-auto [scrollbar-width:thin]">
+          <div className="rounded-2xl border border-line w-full bg-surface shadow-xs overflow-x-auto md:overflow-visible [scrollbar-width:thin]">
+            <div className="w-full">
               <table className="w-full text-left text-sm whitespace-nowrap min-w-[770px]">
                 <colgroup>
                   <col style={{ width: 210, minWidth: 190 }} />
@@ -797,46 +797,47 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                   <col style={{ width: 68, minWidth: 64 }} />
                   <col style={{ width: 68, minWidth: 64 }} />
                 </colgroup>
+                {/* 2단 헤더 (윈도우 스크롤 연동 완벽 상단 고정) */}
                 <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
                   <tr className="border-b border-neutral-200">
-                    <th className="px-3 py-0 h-[32px] text-center" colSpan={1} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">수익률(%)</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">비용·규모·가격</th>
+                    <th className="sticky top-0 left-0 z-40 px-3 py-0 h-[32px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
+                    <th className="sticky top-0 z-30 px-2 py-0 h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">수익률(%)</th>
+                    <th className="sticky top-0 z-30 px-2 py-0 h-[32px] text-center border-l border-neutral-200 bg-neutral-100" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
-                    <th className="sticky left-0 z-20 min-w-[190px] w-[210px] bg-neutral-100 px-3 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목 정보</th>
+                    <th className="sticky top-[32px] left-0 z-40 min-w-[190px] w-[210px] bg-neutral-100 px-3 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
                     
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                    <th className={`sticky top-[32px] z-30 min-w-[60px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1일</span>
                     </th>
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                    <th className={`sticky top-[32px] z-30 min-w-[60px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
                     </th>
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                    <th className={`sticky top-[32px] z-30 min-w-[60px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
                     </th>
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                    <th className={`sticky top-[32px] z-30 min-w-[60px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
                     </th>
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                    <th className={`sticky top-[32px] z-30 min-w-[60px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
                     </th>
                     {comparisonPeriod && (
-                      <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-brand-100" scope="col">
+                      <th className="sticky top-[32px] z-30 min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300" scope="col">
                         <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
                       </th>
                     )}
                     {customDateRange && !comparisonPeriod && (
-                      <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-amber-50" scope="col">
+                      <th className="sticky top-[32px] z-30 min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300" scope="col">
                         <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
                         <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
                       </th>
                     )}
 
-                    <th className="min-w-[54px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200" scope="col"><UnitHeaderLabel align="right" label="총보수" unit="%" /></th>
-                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
-                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
-                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                    <th className="sticky top-[32px] z-30 min-w-[54px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="총보수" unit="%" /></th>
+                    <th className="sticky top-[32px] z-30 min-w-[64px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
+                    <th className="sticky top-[32px] z-30 min-w-[64px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
+                    <th className="sticky top-[32px] z-30 min-w-[64px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
                   </tr>
                 </thead>
                 <tbody ref={tbodyRef} className="divide-y divide-line text-[12px]">

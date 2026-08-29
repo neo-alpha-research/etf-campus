@@ -41,12 +41,13 @@ function UnitHeaderLabel({ label, unit, align = "center" }: { label: string; uni
   );
 }
 
-type ScreenerSortKey = "return_1d" | "return_1m" | "return_3m" | "return_12m" | "return_custom" | "aum" | "tradeValue" | "ter";
+type ScreenerSortKey = "return_1d" | "return_1m" | "return_3m" | "return_12m" | "return_36m" | "return_custom" | "aum" | "tradeValue" | "ter";
 const sortLabels: Record<ScreenerSortKey, string> = {
   return_1d: "1일 수익률",
   return_1m: "1개월 수익률",
   return_3m: "3개월 수익률",
   return_12m: "1년 수익률",
+  return_36m: "3년 수익률",
   return_custom: "비교 기간 수익률",
   aum: "순자산액",
   tradeValue: "거래대금",
@@ -220,7 +221,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
       let cmp = 0;
-      if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_custom") {
+      if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_36m" || sort === "return_custom") {
         let aVal = a.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
         let bVal = b.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
         
@@ -782,14 +783,15 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
           
           <div className="overflow-hidden rounded-2xl border border-line w-full bg-surface shadow-xs">
             <div className="w-full overflow-x-auto [scrollbar-width:thin]">
-              <table className="w-full text-left text-sm whitespace-nowrap min-w-[720px]">
+              <table className="w-full text-left text-sm whitespace-nowrap min-w-[770px]">
                 <colgroup>
                   <col style={{ width: 210, minWidth: 190 }} />
-                  <col style={{ width: 64, minWidth: 60 }} />
-                  <col style={{ width: 64, minWidth: 60 }} />
-                  <col style={{ width: 64, minWidth: 60 }} />
-                  <col style={{ width: 64, minWidth: 60 }} />
-                  {(comparisonPeriod || customDateRange) && <col style={{ width: 64, minWidth: 60 }} />}
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  {(comparisonPeriod || customDateRange) && <col style={{ width: 62, minWidth: 58 }} />}
                   <col style={{ width: 56, minWidth: 54 }} />
                   <col style={{ width: 68, minWidth: 64 }} />
                   <col style={{ width: 68, minWidth: 64 }} />
@@ -798,7 +800,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                 <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
                   <tr className="border-b border-neutral-200">
                     <th className="px-3 py-0 h-[32px] text-center" colSpan={1} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={(comparisonPeriod || customDateRange) ? 5 : 4} scope="colgroup">수익률(%)</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">수익률(%)</th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
@@ -815,6 +817,9 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                     </th>
                     <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
+                    </th>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
                     </th>
                     {comparisonPeriod && (
                       <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-brand-100" scope="col">
@@ -837,7 +842,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                 <tbody ref={tbodyRef} className="divide-y divide-line text-[12px]">
                   {rowVirtualizer.getVirtualItems().length > 0 && (
                     <tr style={{ height: `${Math.max(0, rowVirtualizer.getVirtualItems()[0].start - tableOffsetTop)}px` }}>
-                      <td colSpan={(comparisonPeriod || customDateRange) ? 10 : 9} className="p-0 border-0"></td>
+                      <td colSpan={(comparisonPeriod || customDateRange) ? 11 : 10} className="p-0 border-0"></td>
                     </tr>
                   )}
                   {rowVirtualizer.getVirtualItems().map((virtualRow) => {
@@ -866,7 +871,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                         </div>
                       </th>
                       
-                      {/* 2. 핵심 4대 수익률 */}
+                      {/* 2. 핵심 5대 수익률 (1일, 1개월, 3개월, 1년, 3년) */}
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["1d"]} />
                       </td>
@@ -878,6 +883,9 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["12m"]} />
+                      </td>
+                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_36m" ? "bg-brand-50" : ""}`}>
+                        <ReturnCell showUnit={false} value={etf.returns["36m"]} />
                       </td>
                       {comparisonPeriod && (
                         <td className="min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
@@ -906,7 +914,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                   })}
                   {rowVirtualizer.getVirtualItems().length > 0 && (
                     <tr style={{ height: `${rowVirtualizer.getTotalSize() - rowVirtualizer.getVirtualItems()[rowVirtualizer.getVirtualItems().length - 1].end}px` }}>
-                      <td colSpan={(comparisonPeriod || customDateRange) ? 10 : 9} className="p-0 border-0"></td>
+                      <td colSpan={(comparisonPeriod || customDateRange) ? 11 : 10} className="p-0 border-0"></td>
                     </tr>
                   )}
                 </tbody>

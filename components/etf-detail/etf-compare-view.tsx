@@ -104,12 +104,21 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   return (
                     <th key={etf.ticker} className={`relative px-2.5 py-3 min-w-[145px] sm:min-w-[160px] border-b border-r border-neutral-200 font-bold text-strong align-top transition-colors ${isBase ? "bg-brand-100/80 shadow-[inset_0_3px_0_0_#0f766e]" : "bg-neutral-100 backdrop-blur"}`}>
                       <div className="flex flex-col items-center text-center gap-1 w-full">
-                        {isBase && (
-                          <span className="inline-flex items-center rounded-full bg-brand-700 px-2 py-0.5 text-[10px] font-extrabold text-white shadow-xs">
-                            기준 ETF
-                          </span>
-                        )}
-                        <Link href={`/etf/${etf.ticker}`} className="flex flex-col items-center text-center gap-0.5 group w-full">
+                        <Link
+                          href={`/etf/${etf.ticker}`}
+                          onClick={() => {
+                            if (typeof window !== "undefined" && window.location.pathname.includes(`/etf/${etf.ticker}`)) {
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }
+                          }}
+                          className="flex flex-col items-center text-center gap-0.5 group w-full cursor-pointer"
+                          title={`${etf.name} (${etf.ticker}) 상세 보기`}
+                        >
+                          {isBase && (
+                            <span className="inline-flex items-center rounded-full bg-brand-700 px-2 py-0.5 text-[10px] font-extrabold text-white shadow-xs mb-0.5 group-hover:bg-brand-800 transition-colors">
+                              기준 ETF
+                            </span>
+                          )}
                           <span className={`text-[11px] sm:text-[12px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-800" : "text-neutral-500"}`}>{etf.ticker}</span>
                           <span className="text-[13px] sm:text-[13.5px] font-black leading-snug break-words [overflow-wrap:anywhere] line-clamp-2 text-strong group-hover:text-brand-700 transition-colors w-full px-0.5 text-center" title={etf.name}>{etf.name}</span>
                         </Link>

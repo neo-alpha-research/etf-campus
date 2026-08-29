@@ -229,8 +229,26 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               )}
 
               {/* 총보수 */}
-              <tr className="hover:bg-brand-50/20">
-                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>총보수</th>
+              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
+                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
+                    <span>총보수</span>
+                    <span className="text-[10px] text-neutral-400">ⓘ</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
+                        <span className="text-[12px] font-black text-brand-300">총보수 (Total Fee)</span>
+                        <span className="text-[10px] text-neutral-400 font-mono">연간</span>
+                      </div>
+                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                        ETF를 보유하는 동안 연 단위로 차감되는 운용·신탁 등의 총비용 비율입니다.
+                      </p>
+                      <div className="text-[10.5px] text-emerald-200/95 bg-emerald-500/10 rounded-md p-1.5 leading-snug border border-emerald-500/20">
+                        <strong className="text-emerald-300">💡 팁:</strong> 장기 적립식 또는 연금 계좌일수록 보수가 낮을수록 복리 수익에 절대적으로 유리합니다.
+                      </div>
+                    </div>
+                  </div>
+                </th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const feeInfo = etf.fee;
@@ -246,14 +264,23 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               </tr>
 
               {/* 순자산 */}
-              <tr className="hover:bg-brand-50/20">
-                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
+                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>순자산</span>
-                    <span className="text-[10px] text-neutral-400 cursor-help">ⓘ</span>
-                    <div className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 w-60 bg-neutral-800/95 backdrop-blur-sm text-white text-[12px] font-medium p-3 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] shadow-xl whitespace-normal leading-relaxed text-left border border-neutral-700/50">
-                      <div className="absolute top-1/2 -left-2 -translate-y-1/2 border-[4px] border-transparent border-r-neutral-800/95" />
-                      ETF의 총 순자산 규모입니다. 규모가 클수록 상장폐지의 위험이 적고 호가창이 촘촘하여 안정적입니다.
+                    <span className="text-[10px] text-neutral-400">ⓘ</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
+                        <span className="text-[12px] font-black text-brand-300">순자산 (AUM)</span>
+                        <span className="text-[10px] text-neutral-400 font-mono">규모</span>
+                      </div>
+                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                        ETF가 실제로 운용하는 전체 자산의 총 규모입니다.
+                      </p>
+                      <div className="text-[10.5px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
+                        <strong className="text-amber-300">💡 팁:</strong> 규모가 클수록 상장폐지 위험이 낮고 호가가 촘촘하여 매매가 유리합니다.
+                      </div>
                     </div>
                   </div>
                 </th>
@@ -270,14 +297,23 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               </tr>
 
               {/* 일일 거래대금 */}
-              <tr className="hover:bg-brand-50/20">
-                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
+                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>거래대금</span>
-                    <span className="text-[10px] text-neutral-400 cursor-help">ⓘ</span>
-                    <div className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 w-60 bg-neutral-800/95 backdrop-blur-sm text-white text-[12px] font-medium p-3 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] shadow-xl whitespace-normal leading-relaxed text-left border border-neutral-700/50">
-                      <div className="absolute top-1/2 -left-2 -translate-y-1/2 border-[4px] border-transparent border-r-neutral-800/95" />
-                      최근 하루 동안 시장에서 거래된 금액입니다. 클수록 내가 원하는 가격에 매수/매도하기가 수월합니다.
+                    <span className="text-[10px] text-neutral-400">ⓘ</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
+                        <span className="text-[12px] font-black text-brand-300">거래대금 (유동성)</span>
+                        <span className="text-[10px] text-neutral-400 font-mono">1일</span>
+                      </div>
+                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                        최근 1영업일 동안 시장에서 실제 거래된 총액입니다.
+                      </p>
+                      <div className="text-[10.5px] text-sky-200/95 bg-sky-500/10 rounded-md p-1.5 leading-snug border border-sky-500/20">
+                        <strong className="text-sky-300">💡 팁:</strong> 유동성이 풍부할수록 원하는 가격과 수량으로 즉시 체결하기 수월합니다.
+                      </div>
                     </div>
                   </div>
                 </th>
@@ -294,14 +330,23 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               </tr>
 
               {/* 괴리율 */}
-              <tr className="hover:bg-brand-50/20">
-                <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
+                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>괴리율</span>
-                    <span className="text-[10px] text-neutral-400 cursor-help">ⓘ</span>
-                    <div className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 w-60 bg-neutral-800/95 backdrop-blur-sm text-white text-[12px] font-medium p-3 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] shadow-xl whitespace-normal leading-relaxed text-left border border-neutral-700/50">
-                      <div className="absolute top-1/2 -left-2 -translate-y-1/2 border-[4px] border-transparent border-r-neutral-800/95" />
-                      시장가격(종가)과 순자산가치(NAV)의 차이 비율입니다. 0%에 가까울수록 적정 가격에 정상 거래되고 있음을 의미합니다.
+                    <span className="text-[10px] text-neutral-400">ⓘ</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
+                        <span className="text-[12px] font-black text-brand-300">괴리율 (Disparity)</span>
+                        <span className="text-[10px] text-neutral-400 font-mono">NAV 대조</span>
+                      </div>
+                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                        시장 거래가격(종가)과 순자산가치(NAV)의 차이 비율입니다.
+                      </p>
+                      <div className="text-[10.5px] text-emerald-200/95 bg-emerald-500/10 rounded-md p-1.5 leading-snug border border-emerald-500/20">
+                        <strong className="text-emerald-300">💡 팁:</strong> 0%에 가까울수록 적정 가치에 거래 중이며, 크게 벌어지면 매매에 주의가 필요합니다.
+                      </div>
                     </div>
                   </div>
                 </th>

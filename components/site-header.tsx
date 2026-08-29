@@ -66,7 +66,7 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="site-header relative border-b border-line bg-surface/95 shadow-[0_1px_0_rgba(23,32,30,0.03)]">
+    <header className="site-header relative border-b border-line bg-white shadow-[0_1px_0_rgba(23,32,30,0.03)] w-full">
       <div className="page-shell flex min-h-16 items-center justify-between gap-4">
         {/* Left: Logo & Menus */}
         <div className="flex items-center gap-4 lg:gap-8 min-w-0">

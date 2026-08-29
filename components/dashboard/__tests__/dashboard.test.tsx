@@ -90,16 +90,14 @@ describe("Dashboard", () => {
     expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
   });
 
-  it("데스크톱 데이터 행만 압축하고 모바일 터치 여백과 2줄 종목명은 유지한다", () => {
+  it("데이터 행 패딩과 2줄 종목명 및 좌측 고정을 유지한다", () => {
     render(<Dashboard etfs={items} />);
     const nameCell = screen.getByRole("rowheader", { name: "대형 일반 ETF" });
-    const mobileChangeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ }).find((cell) => cell.classList.contains("md:hidden"));
-    const desktopChangeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ }).find((cell) => cell.classList.contains("md:table-cell"));
+    const changeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ })[0];
 
-    expect(nameCell).toHaveClass("py-1.5");
+    expect(nameCell).toHaveClass("py-1.5", "sticky", "left-0");
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toHaveClass("whitespace-normal");
-    expect(desktopChangeCell).toHaveClass("py-2");
-    expect(mobileChangeCell).toHaveClass("py-4");
+    expect(changeCell).toHaveClass("py-2");
     expect(screen.getByRole("cell", { name: "국내" })).toHaveClass("py-2");
   });
 

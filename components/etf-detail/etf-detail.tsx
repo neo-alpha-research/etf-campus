@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { AsOfDate, PensionBadge, RiskBadge, ReturnCell } from "@/components/etf";
 import { siteConfig } from "@/config/site";
-import { formatMoney, formatWon } from "@/lib/domain/etf-format";
+import { formatMoney, formatWon, formatFeePct } from "@/lib/domain/etf-format";
 import { isNewListing } from "@/lib/domain/etf-explorer";
 import { RETURN_PERIOD_LABELS, type Etf, type ReturnPeriod } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
@@ -279,13 +279,13 @@ export function EtfDetail({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </dt>
-                    <dd className="mt-1 flex flex-wrap items-baseline gap-2 text-lg font-bold text-strong">
+                    <dd className="mt-1 flex flex-wrap items-baseline gap-2 text-lg font-bold text-strong font-mono tabular-nums">
                       {isFeeVerified ? (
                         <span>
-                          {fee?.totalFeePct != null ? `${fee.totalFeePct}%` : "-"}
+                          {formatFeePct(fee?.totalFeePct)}
                         </span>
                       ) : (
-                        <span className="text-sm font-medium text-amber-600">
+                        <span className="text-sm font-medium text-amber-600 font-sans">
                           {getFeeStatusText(fee?.verificationStatus)}
                         </span>
                       )}

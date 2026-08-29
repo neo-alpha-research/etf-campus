@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   formatAumNumber,
   formatAsOfDate,
+  formatFeePct,
   formatMoney,
   formatMoneyNumber,
   formatReturn,
@@ -21,6 +22,15 @@ describe("ETF 표시 포맷", () => {
     expect(formatReturn(-0.5)).toBe("-0.50%");
     expect(formatReturn(0)).toBe("0.00%");
     expect(formatReturnNumber(2.34)).toBe("+2.34");
+  });
+
+  it("총보수는 끝자리가 0이더라도 일관되게 소수점 둘째 자리까지 표시한다", () => {
+    expect(formatFeePct(0.2)).toBe("0.20%");
+    expect(formatFeePct(0.08)).toBe("0.08%");
+    expect(formatFeePct(0.45)).toBe("0.45%");
+    expect(formatFeePct(0.5)).toBe("0.50%");
+    expect(formatFeePct(null)).toBe("-");
+    expect(formatFeePct(undefined)).toBe("-");
   });
 
   it("원 단위 금액을 읽기 쉬운 한국식 단위로 표시한다", () => {

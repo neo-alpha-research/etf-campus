@@ -109,18 +109,23 @@ def fetch_krx_snapshot(auth_key: str, day_text: str) -> dict[str, dict]:
     query = urllib.parse.urlencode({"basDd": day_text})
     request = urllib.request.Request(
         f"{KRX_ETF_DAILY_URL}?{query}",
-        headers={"AUTH_KEY": auth_key},
+        headers={
+            "AUTH_KEY": auth_key,
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "application/json",
+        },
     )
     last_error: Exception | None = None
-    for attempt in range(MAX_REQUEST_ATTEMPTS):
+    for attempt in range(4):
         try:
+            time.sleep(0.3)
             with urllib.request.urlopen(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
                 payload = json.loads(response.read().decode("utf-8"))
             return normalize_krx_snapshot(payload)
         except Exception as error:
             last_error = error
-            if attempt < MAX_REQUEST_ATTEMPTS - 1:
-                time.sleep(1)
+            if attempt < 3:
+                time.sleep(2 * (attempt + 1))
     if isinstance(last_error, urllib.error.HTTPError):
         detail = f"HTTP {last_error.code}"
     elif isinstance(last_error, urllib.error.URLError):
@@ -612,12 +617,19 @@ def main() -> None:
         
         anchor_dates[field] = target_day
         if source == "KRX Open API" and krx_auth_key:
-            anchor_text, anchor = krx_on_or_before(
-                krx_auth_key,
-                target_day,
-                krx_cache,
-                expected_count=len(old_master),
-            )
+            try:
+                anchor_text, anchor = krx_on_or_before(
+                    krx_auth_key,
+                    target_day,
+                    krx_cache,
+                    expected_count=len(old_master),
+                )
+            except Exception as error:
+                if service_key:
+                    print(f"KRX lookup failed for {field} ({error}); falling back to FSC...")
+                    anchor_text, anchor = on_or_before(service_key, target_day, public_cache)
+                else:
+                    raise
         elif service_key:
             anchor_text, anchor = on_or_before(service_key, target_day, public_cache)
         else:

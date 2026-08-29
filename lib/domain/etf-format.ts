@@ -15,6 +15,11 @@ export function formatReturnNumber(value: number | null): string {
   return formatReturn(value).replace("%", "");
 }
 
+export function formatFeePct(value: number | null | undefined): string {
+  if (value === null || value === undefined || !Number.isFinite(value)) return "-";
+  return `${value.toFixed(2)}%`;
+}
+
 export function formatMoney(value: number): string {
   const eok = Math.round(value / 100_000_000);
   return `${new Intl.NumberFormat("ko-KR", {

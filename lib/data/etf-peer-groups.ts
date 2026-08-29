@@ -251,6 +251,44 @@ function candidatesForGroup(
 const isUnconfirmed = (s: string) => !s || s.includes("미확인") || s.includes("unknown");
 const STOP_WORDS = new Set(["미확인", "주식전략", "국내", "미국", "글로벌", "기타", "일반", "지수", "전략", "투자"]);
 
+const THEME_SYNONYMS: Record<string, string> = {
+  "배터리": "2차전지",
+  "전고체": "2차전지",
+  "양극재": "2차전지",
+  "음극재": "2차전지",
+  "smr": "원자력",
+  "원전": "원자력",
+  "인공지능": "ai",
+  "생성형ai": "ai",
+  "온디바이스": "ai",
+  "온디바이스ai": "ai",
+  "광통신": "통신네트워크",
+  "데이터센터": "통신네트워크",
+  "클라우드": "통신네트워크",
+  "위성": "우주항공",
+  "우주": "우주항공",
+  "방위산업": "방산",
+  "k방산": "방산",
+  "전력설비": "전력기기",
+  "전력인프라": "전력기기",
+  "변압기": "전력기기",
+  "그리드": "전력기기",
+  "전력망": "전력기기",
+  "헬스케어": "바이오",
+  "제약": "바이오",
+  "비만치료제": "바이오",
+  "glp-1": "바이오",
+  "조선기자재": "조선",
+  "해운": "조선",
+  "m7": "빅테크",
+  "매그니피센트": "빅테크",
+  "테크top10": "빅테크",
+};
+
+function canonicalToken(token: string): string {
+  return THEME_SYNONYMS[token] || token;
+}
+
 function normalizedTokens(value: string): Set<string> {
   return new Set(
     value
@@ -258,6 +296,7 @@ function normalizedTokens(value: string): Set<string> {
       .split(/[\s|,;·/()\-]+/)
       .map((token) => token.trim())
       .filter((token) => token.length >= 2 && !STOP_WORDS.has(token))
+      .map(canonicalToken)
   );
 }
 
@@ -355,6 +394,7 @@ function extractCoreFrontTokens(name: string): string[] {
     .split(/[\s|,;·/()\-]+/)
     .map((token) => token.trim())
     .filter((token) => token.length >= 2 && !STOP_WORDS.has(token))
+    .map(canonicalToken)
     .slice(0, 3); // Take top 3 front-position tokens
 }
 
@@ -391,8 +431,13 @@ function calculateRelativeDistance(
   const sameDirection = sameNonEmpty(target.direction, candidate.direction);
   const sameLeverage = sameNonEmpty(target.leverageMultiple, candidate.leverageMultiple);
   const sameStyle = sameNonEmpty(target.strategyStyle, candidate.strategyStyle);
+  const sameConcentration = sameNonEmpty(target.concentrationBucket, candidate.concentrationBucket) && target.concentrationBucket !== "unknown";
   const hasFrontKeywordMatch = sharesFrontPositionKeyword(targetEtf, candidateEtf);
   const sameKeyword = sharesNameKeyword(targetEtf, candidateEtf);
+
+  const isTargetTR = Boolean(targetEtf?.name.includes("TR") || targetEtf?.baseIndex?.includes("TR"));
+  const isCandTR = Boolean(candidateEtf?.name.includes("TR") || candidateEtf?.baseIndex?.includes("TR"));
+  const sameDistributionType = isTargetTR === isCandTR;
 
   if (sameIndex) score += 40;
   if (sameSubtopic) score += 30;
@@ -413,6 +458,8 @@ function calculateRelativeDistance(
   if (sameDirection) score += 10;
   if (sameLeverage) score += 10;
   if (sameStyle) score += 5;
+  if (sameConcentration) score += 10; // Match concentration style (ultra-concentrated vs broad)
+  if (sameDistributionType && isTargetTR) score += 15; // Match TR/reinvestment structure
   if (sameNonEmpty(target.fxHedge, candidate.fxHedge)) score += 5;
 
   if (!sameAssetFamily && !sameCategory && !sameTopic && !sharesTopic(target, candidate) && !sameKeyword) return null;

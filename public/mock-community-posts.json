@@ -1,6 +1,258 @@
 {
   "posts": [
     {
+      "slug": "dividend-growth-plus-growth-barbell-strategy",
+      "title": "40대 가장의 바벨 전략: 미국배당다우존스 60% + 미국빅테크TOP10 40% 3년 운용 실전기",
+      "excerpt": "배당성장 ETF(SCHD 기반)의 안정적 현금흐름과 나스닥 빅테크 ETF의 고성장 잠재력을 6:4로 결합한 바벨 포트폴리오의 성과와 배당금 재투자 프로세스를 정리했습니다.",
+      "bodyText": "## 투자 목적 및 기간\n- 목표: 10년 후 월 배당 150만원 현금 파이프라인 구축 + 원금 자산의 실질 복리 성장\n- 대상 계좌: ISA (3년 만기 후 연금 이전 루틴) + 개인연금저축\n\n## 포트폴리오 구성 및 목표 비중\n- [현금흐름 축] ACE 미국배당다우존스 (): 60% (배당수익률 약 3.6%, 연평균 배당성장률 8~10%)\n- [성장 엔진 축] TIGER 미국테크TOP10 INDXX (): 40% (빅테크 AI 생태계 주도주 10개 집중)\n\n## 리밸런싱 및 분배금 운용 규칙\n- 분배금 전액을 분기마다 TIGER 미국테크TOP10의 적립 매수금에 보태어 '배당으로 기술주를 모으는 구조' 구축\n- 빅테크 비중이 50%를 초과할 경우 40%로 부분 익절하여 미국배당다우존스로 이동 (수익 실현의 자동화)\n\n## 이 전략을 선택한 이유\n배당만 담으면 기술주 랠리에서 소외되고, 기술주만 담으면 하락장에서 멘탈이 흔들립니다. 6:4 바벨 구조는 하락장엔 배당으로 버티고 상승장엔 빅테크로 초과수익을 누릴 수 있습니다.",
+      "category": {
+        "slug": "strategy-portfolio",
+        "name": "전략·포트폴리오"
+      },
+      "authorNickname": "바벨투자자",
+      "createdAt": "2026-08-29T11:10:00.000Z",
+      "commentCount": 3,
+      "upvoteCount": 27,
+      "isPinned": false,
+      "isAuthorSeed": false,
+      "comments": [
+        {
+          "publicId": "comment-barbell-1",
+          "authorNickname": "연금마스터",
+          "bodyText": "성장과 분배의 균형이 아주 뛰어난 바벨 전략입니다. 특히 배당으로 빅테크를 추가 매수하는 역발상 재투자 방식은 달러 코스트 애버리징 효과를 극대화하는 훌륭한 시스템입니다.",
+          "createdAt": "2026-08-29T11:25:00.000Z",
+          "updatedAt": "2026-08-29T11:25:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-barbell-2",
+          "authorNickname": "Neo",
+          "bodyText": "미국배당다우존스의 방어력과 테크TOP10의 모멘텀이 상호 보완되어 변동성 대비 수익률(샤프 비율)이 매우 높게 유지되는 포트폴리오입니다. 공유 감사합니다!",
+          "createdAt": "2026-08-29T11:35:00.000Z",
+          "updatedAt": "2026-08-29T11:35:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-barbell-3",
+          "authorNickname": "바벨투자자",
+          "bodyText": "격려 감사합니다! 흔들리지 않고 10년 완주하여 연금 수령기까지 이어가겠습니다.",
+          "createdAt": "2026-08-29T11:45:00.000Z",
+          "updatedAt": "2026-08-29T11:45:00.000Z",
+          "canEdit": false
+        }
+      ]
+    },
+    {
+      "slug": "krx-gold-vs-us-gold-etf-cost-pension-analysis",
+      "title": "ACE KRX금현물() vs 미국달러골드 ETF: 연금 계좌 편입 기준과 롤오버 비용 차이 분석",
+      "excerpt": "국내 상장된 금 ETF 중 유일하게 실물 기반으로 선물 롤오버 비용이 없고 퇴직연금(DC/IRP) 100% 편입이 가능한 ACE KRX금현물의 구조적 장점과 총보수를 비교 분석했습니다.",
+      "bodyText": "## 분석 대상 ETF\n- ACE KRX금현물 () - 실물 금 기반, 환노출\n- TIGER 골드선물(H) () - 미국 COMEX 금 선물 기반, 환헤지\n\n## 확인한 데이터 (비용 및 제도적 편입 기준)\n1. 롤오버(Roll-over) 비용: 선물 ETF는 만기 월물 교체 시 콘탱고(Contango)로 인한 비용 누수가 발생할 수 있으나, KRX금현물은 한국거래소 금시장 실물 보관 방식이므로 롤오버 비용이 0원입니다.\n2. 연금 계좌 편입 적격성: 파생상품 위험평가 규정으로 인해 선물형 금 ETF는 퇴직연금 DC/IRP 매매가 불가하지만, ACE KRX금현물은 실물형으로 인정되어 DC/IRP에서 70% 위험자산 한도 내 자유롭게 매매 가능합니다.\n3. 총보수 및 환노출 효과: ACE KRX금현물(총보수 연 0.50%)은 환노출형으로, 경제 위기나 달러 강세 시 금 가격 상승 + 달러 환차익의 이중 방어 효과를 누릴 수 있습니다.\n\n## 분석 및 비교 포인트\n- 연금저축/IRP에서 자산배분용 안전/헤지 자산으로 금을 담을 때는 선물형이 아닌 실물형()이 유일하고도 확실한 선택지입니다.\n\n## 최종 판단 기준 및 유의점\n환헤지형()은 달러 환율 변동을 제거하고 순수 금 시세만 추종하지만 연금 계좌 편입이 제한되므로, 계좌 유형과 장기 보유 목적에 따라 선택해야 합니다.",
+      "category": {
+        "slug": "stock-cost-analysis",
+        "name": "종목·비용 분석"
+      },
+      "authorNickname": "데이터분석가",
+      "createdAt": "2026-08-29T10:50:00.000Z",
+      "commentCount": 3,
+      "upvoteCount": 34,
+      "isPinned": false,
+      "isAuthorSeed": false,
+      "comments": [
+        {
+          "publicId": "comment-gold-1",
+          "authorNickname": "자산배분연구원",
+          "bodyText": "선물 롤오버 비용 누수와 IRP 편입 여부는 금 투자 시 가장 중요한 핵심 체크포인트입니다. 아주 명쾌하게 정리된 분석입니다.",
+          "createdAt": "2026-08-29T11:05:00.000Z",
+          "updatedAt": "2026-08-29T11:05:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-gold-2",
+          "authorNickname": "은퇴준비생",
+          "bodyText": "IRP에서 금을 사고 싶어도 선물 ETF는 매수가 안 되어 의아했는데, 실물 기반인  가능하다는 걸 덕분에 배웠습니다. 바로 편입했습니다!",
+          "createdAt": "2026-08-29T11:15:00.000Z",
+          "updatedAt": "2026-08-29T11:15:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-gold-3",
+          "authorNickname": "데이터분석가",
+          "bodyText": "피드백 감사합니다. 장기 연금 투자에서는 작은 구조적 차이가 10년 뒤 큰 수익률 격차를 만듭니다. 성공적인 자산배분을 응원합니다.",
+          "createdAt": "2026-08-29T11:25:00.000Z",
+          "updatedAt": "2026-08-29T11:25:00.000Z",
+          "canEdit": false
+        }
+      ]
+    },
+    {
+      "slug": "monthly-dividend-reinvestment-tax-strategy",
+      "title": "월배당 ETF 분배금 입금일, 일반 계좌 vs ISA/연금저축 세금 차이 실감나네요",
+      "excerpt": "월배당 ETF를 일반 위탁계좌와 ISA/연금 계좌에서 동시에 운용해보니 15.4% 배당소득세 원천징수 유무가 복리 재투자에 미치는 영향이 매우 큽니다. 분배금 재투자 타이밍 질문드립니다.",
+      "bodyText": "## 질문 내용\n매월 15일과 말일에 들어오는 월분배금을 어떻게 재투자하는 것이 가장 효율적인지 질문드립니다.\n\n분배금이 입금되는 당일에 바로 같은 종목을 매수하시나요, 아니면 월말 정기 적립 매수일에 월급과 합쳐서 한 번에 매수하시나요?\n\n## 현재 계좌 또는 투자 상황\n- 계좌: ISA 중개형 + 연금저축펀드\n- 보유 종목: SOL 미국배당다우존스 (), TIGER 미국나스닥100+15%프리미엄초단기옵션 ()\n- 월 수령 분배금: 약 25만원 선\n\n## 확인해 본 내용\n일반 계좌에서는 15.4%가 바로 원천징수되어 21만 1,500원만 들어오는데, 연금/ISA에서는 25만원이 세금 없이 온전히 입금되어 1주를 더 살 수 있더군요. 과세이연의 힘을 체감하고 있습니다!",
+      "category": {
+        "slug": "free-qna",
+        "name": "자유·질문"
+      },
+      "authorNickname": "워킹맘재테크",
+      "createdAt": "2026-08-29T09:40:00.000Z",
+      "commentCount": 3,
+      "upvoteCount": 25,
+      "isPinned": false,
+      "isAuthorSeed": false,
+      "comments": [
+        {
+          "publicId": "comment-divtax-1",
+          "authorNickname": "절세꿈나무",
+          "bodyText": "저도 그 차이를 느끼고 일반 계좌의 배당 ETF를 전액 ISA로 옮겼습니다. 저는 분배금이 들어올 때마다 매수하기보다, 예수금에 모아두었다가 월급날 정기 매수 시점에 목표 비중이 가장 낮은 종목에 보태서 매수하는 '스마트 리밸런싱' 방식으로 재투자하고 있습니다.",
+          "createdAt": "2026-08-29T09:55:00.000Z",
+          "updatedAt": "2026-08-29T09:55:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-divtax-2",
+          "authorNickname": "데이터분석가",
+          "bodyText": "수수료와 매매 편의성을 고려할 때 월 1회 정기 매수일에 합산 매수하는 것이 시간 절약과 원칙 준수에 훨씬 유리합니다. 15.4% 비과세/과세이연 효과는 10년 이상 누적 시 원금의 20% 이상 차이를 만들어냅니다.",
+          "createdAt": "2026-08-29T10:10:00.000Z",
+          "updatedAt": "2026-08-29T10:10:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-divtax-3",
+          "authorNickname": "워킹맘재테크",
+          "bodyText": "목표 비중이 낮은 종목에 분배금을 보태는 스마트 리밸런싱 아이디어 정말 좋네요! 월급날 한 번에 모아서 집행하겠습니다. 감사합니다!",
+          "createdAt": "2026-08-29T10:30:00.000Z",
+          "updatedAt": "2026-08-29T10:30:00.000Z",
+          "canEdit": false
+        }
+      ]
+    },
+    {
+      "slug": "sp500-top4-issuer-total-cost-deep-dive",
+      "title": "국내 상장 미국 S&P500 ETF 4대 운용사 총보수 및 기타비용·매매수수료 정밀 분석 (2026년 8월 최신 공시)",
+      "excerpt": "TIGER(), ACE(), KODEX(), RISE()의 표기 보수와 DART 및 금융투자협회 공시 기준 실부담비용(기타비용+매매수수료)을 전격 대조했습니다.",
+      "bodyText": "## 분석 대상 ETF\n- TIGER 미국S&P500 () - 미래에셋자산운용\n- ACE 미국S&P500 () - 한국투자신탁운용\n- KODEX 미국S&P500TR () - 삼성자산운용\n- RISE 미국S&P500 () - KB자산운용\n\n## 확인한 데이터 (총보수 vs 기타비용 및 매매수수료)\n- 표기 총보수: 4개사 모두 연 0.0098%~0.07% 수준으로 초저보수 경쟁 중\n- 실제 기타비용(지수사용료/해외보관비/회계감사비): 연 0.08%~0.14% 수준 발생\n- 매매중개수수료율: 포트폴리오 교체율에 따라 연 0.02%~0.06% 추가\n- 총투자비용(실부담비용): 순자산 규모가 3조원 이상인 대형 상품일수록 기타비용 희석 효과로 실부담비용이 연 0.12%대로 가장 저렴하게 유지됨.\n\n## 분석 및 비교 포인트\n1. AUM(순자산 규모) 효과: 순자산이 큰 대형 ETF일수록 고정 지출인 기타비용이 분모로 나누어져 주주 1인당 부담 비율이 낮아집니다.\n2. TR(재투자형) vs PR(분배형): 연금저축 계좌에서는 분배금 재투자가 번거로울 경우 TR 상품()이 편리하지만, 현금흐름 체크가 목적이라면 PR형이 적합합니다.\n\n## 최종 판단 기준 및 유의점\n광고에 나오는 '총보수 0.00%대' 숫자만 보지 마시고, ETF 캠퍼스 비교 화면에서 순자산(AUM)과 거래대금을 함께 확인하여 규모가 크고 실부담비용이 낮은 종목을 선택하세요.",
+      "category": {
+        "slug": "stock-cost-analysis",
+        "name": "종목·비용 분석"
+      },
+      "authorNickname": "비용탐정",
+      "createdAt": "2026-08-28T16:00:00.000Z",
+      "commentCount": 3,
+      "upvoteCount": 39,
+      "isPinned": false,
+      "isAuthorSeed": false,
+      "comments": [
+        {
+          "publicId": "comment-spcost-1",
+          "authorNickname": "데이터분석가",
+          "bodyText": "기타비용 희석 효과를 정확히 짚어주셨네요. AUM 1,000억 미만 신규 ETF는 표기 보수가 0.001%라도 기타비용이 0.3%까지 치솟을 수 있으므로 대형 ETF를 선택하는 것이 장기적으로 절대 유리합니다.",
+          "createdAt": "2026-08-28T16:20:00.000Z",
+          "updatedAt": "2026-08-28T16:20:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-spcost-2",
+          "authorNickname": "초보연금러",
+          "bodyText": "와, 총보수만 보고 싼 줄 알았는데 순자산 규모가 왜 중요한지 이제야 완벽히 이해했습니다. 소중한 분석글 스크랩해둡니다!",
+          "createdAt": "2026-08-28T16:40:00.000Z",
+          "updatedAt": "2026-08-28T16:40:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-spcost-3",
+          "authorNickname": "비용탐정",
+          "bodyText": "도움이 되셨다니 기쁩니다. 매월 금투협 정기 공시가 나오면 업데이트 공유해 드리겠습니다.",
+          "createdAt": "2026-08-28T17:00:00.000Z",
+          "updatedAt": "2026-08-28T17:00:00.000Z",
+          "canEdit": false
+        }
+      ]
+    },
+    {
+      "slug": "all-weather-korea-pension-model",
+      "title": "레이 달리오 올웨더 포트폴리오를 국내 연금 계좌(연금저축+IRP) ETF로 최적화한 5개년 운용 모델",
+      "excerpt": "글로벌 거시경제 사계절(성장/인플레 상승·하락)에 대응하는 올웨더 전략을 국내 상장 ETF 5종으로 구성하여 최근 변동성 장세에서도 연환산 8.4%, MDD -6.2%를 기록한 모델을 공유합니다.",
+      "bodyText": "## 투자 목적 및 기간\n- 목표: 퇴직연금 20년 장기 자산 증식 및 은퇴 자금 안정적 방어\n- 철학: 경제 상황(인플레이션, 고금리, 경기 침체)을 예측하지 않고 자산 간 음의 상관관계를 통해 연 7~9% 복리 달성\n\n## 포트폴리오 구성 및 목표 비중\n- 미국 성장 주식 (30%): TIGER 미국S&P500 ()\n- 미국 장기 국채 (40%): ACE 미국30년국채액티브(H) ()\n- 원자재/금 현물 (15%): ACE KRX금현물 ()\n- 한국 단기 유동성 (15%): KODEX CD금리액티브 ()\n\n## 리밸런싱 및 분배금 운용 규칙\n1. 매년 6월/12월 반기 1회 정기 점검\n2. 특정 자산 비중이 목표치 대비 ±5%p 이상 벗어날 경우에만 초과 자산 매도 후 부족 자산 매수\n3. 분배금은 전액 KODEX CD금리액티브에 임시 예치 후 리밸런싱 재원으로 활용\n\n## 이 전략을 선택한 이유\n2022년 금리 급등기와 최근 환율 변동성 국면에서도 KRX금현물과 CD금리가 든든하게 하방을 지지해주어 심리적 안정감이 탁월했습니다.",
+      "category": {
+        "slug": "strategy-portfolio",
+        "name": "전략·포트폴리오"
+      },
+      "authorNickname": "자산배분연구원",
+      "createdAt": "2026-08-28T14:20:00.000Z",
+      "commentCount": 3,
+      "upvoteCount": 32,
+      "isPinned": false,
+      "isAuthorSeed": false,
+      "comments": [
+        {
+          "publicId": "comment-allweather-1",
+          "authorNickname": "포트폴리오장인",
+          "bodyText": "국내 퇴직연금 규정(IRP 30% 안전자산)과 완벽하게 맞아떨어지는 모범적인 자산배분입니다! 채권 40%와 금 15%, 단기현금 15%가 모두 IRP 안전자산으로 인정되므로 계좌 분할 없이도 손쉽게 구현 가능하네요.",
+          "createdAt": "2026-08-28T14:45:00.000Z",
+          "updatedAt": "2026-08-28T14:45:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-allweather-2",
+          "authorNickname": "은퇴준비생",
+          "bodyText": "연환산 8%대에 MDD가 -6% 수준이면 밤에 발 뻗고 잘 수 있겠네요. 연금저축 계좌에 그대로 복사해서 적용해봐야겠습니다.",
+          "createdAt": "2026-08-28T15:10:00.000Z",
+          "updatedAt": "2026-08-28T15:10:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-allweather-3",
+          "authorNickname": "자산배분연구원",
+          "bodyText": "맞습니다. 투자의 지속 가능성은 '수익률의 극대화'보다 '최악의 순간 계좌를 지킬 수 있는 멘탈'에서 나옵니다. 도움 되셨길 바랍니다!",
+          "createdAt": "2026-08-28T15:30:00.000Z",
+          "updatedAt": "2026-08-28T15:30:00.000Z",
+          "canEdit": false
+        }
+      ]
+    },
+    {
+      "slug": "irp-safe-asset-rebalancing-deposit-vs-bond",
+      "title": "IRP 의무 안전자산 30%, 정기예금 대신 채권혼합 ETF로 채우면 어떤가요?",
+      "excerpt": "IRP 계좌의 30% 안전자산 의무 비중을 예금으로 묶어두기 아쉬워 미국S&P500채권혼합 ETF()나 단기채 ETF로 운용하려 합니다. 실질 주식 편입 비중과 변동성 관리에 대해 조언 부탁드립니다.",
+      "bodyText": "## 질문 내용\nIRP 계좌에서 주식형 ETF를 70% 꽉 채우고 남은 30% 안전자산 의무 비중을 어떻게 운용할지 고민입니다.\n\n정기예금에 넣어두자니 물가상승률 방어가 아쉽고, TIGER 미국S&P500채권혼합()이나 KODEX 단기채권PLUS()를 담으면 실질 주식 노출도를 높이거나 안정적인 이자수익을 얻을 수 있다고 들었습니다.\n\n## 현재 계좌 또는 투자 상황\n- 계좌: 증권사 IRP 계좌 (운용 2년차)\n- 위험자산 70%: TIGER 미국S&P500 () 50% + ACE 미국배당다우존스 () 20%\n- 고민 중인 안전자산 30%: 채권혼합 ETF vs CD금리/단기채\n\n## 확인해 본 내용\n채권혼합 ETF는 주식이 약 40%, 채권이 60% 섞여 있어 제도상 안전자산으로 인정되므로, 전체 계좌의 실질 주식 비중을 약 82%까지 끌어올릴 수 있다고 하더군요. 실전에서 이렇게 운용하시는 선배님들의 후기가 궁금합니다!",
+      "category": {
+        "slug": "free-qna",
+        "name": "자유·질문"
+      },
+      "authorNickname": "초보연금러",
+      "createdAt": "2026-08-28T10:15:00.000Z",
+      "commentCount": 3,
+      "upvoteCount": 22,
+      "isPinned": false,
+      "isAuthorSeed": false,
+      "comments": [
+        {
+          "publicId": "comment-safe-1",
+          "authorNickname": "연금마스터",
+          "bodyText": "아주 훌륭한 전략입니다! 저도 IRP 30%를 미국S&P500채권혼합으로 채워 실질 주식 비중 82%를 유지하고 있습니다. 다만 은퇴가 5년 이내로 다가온 시점이라면 채권혼합보다는 CD금리액티브나 단기국채로 변동성을 낮추는 것이 안전합니다. 적립기라면 강추합니다.",
+          "createdAt": "2026-08-28T10:35:00.000Z",
+          "updatedAt": "2026-08-28T10:35:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-safe-2",
+          "authorNickname": "Neo",
+          "bodyText": "포인트는 '재밸런싱의 용이성'입니다. 하락장이 왔을 때 안전자산 30%에 있는 채권혼합 또는 단기채를 매도하여 저평가된 70% 주식형 ETF를 저가 매수하는 버퍼로 활용할 수 있습니다. 훌륭한 접근입니다.",
+          "createdAt": "2026-08-28T10:50:00.000Z",
+          "updatedAt": "2026-08-28T10:50:00.000Z",
+          "canEdit": false
+        },
+        {
+          "publicId": "comment-safe-3",
+          "authorNickname": "초보연금러",
+          "bodyText": "상세한 조언 감사합니다! 아직 은퇴까지 15년 이상 남은 적립기라 채권혼합으로 실질 주식 비중을 높여 복리 효과를 극대화해 보겠습니다.",
+          "createdAt": "2026-08-28T11:10:00.000Z",
+          "updatedAt": "2026-08-28T11:10:00.000Z",
+          "canEdit": false
+        }
+      ]
+    },
+    {
       "slug": "isa-to-irp-tax-credit-walkthrough",
       "title": "초보 직장인 질문: ISA 만기 후 연금계좌 이전 시 10% 추가 세액공제 어떻게 챙기나요?",
       "excerpt": "ISA 3년 만기 도래 후 60일 이내에 연금저축/IRP로 납입 시 10%(최대 300만원) 추가 세액공제를 받을 수 있는 절차에 대해 질문과 경험담을 나눕니다.",

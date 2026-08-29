@@ -859,8 +859,8 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                             {etf.classification?.fxHedge && etf.classification.fxHedge !== "환노출" && (
                               <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded">{etf.classification.fxHedge}</span>
                             )}
-                            {etf.pension === "가능" && (
-                              <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded">연금O</span>
+                            {etf.pension === "불가" && (
+                              <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
                             )}
                           </div>
                         </div>

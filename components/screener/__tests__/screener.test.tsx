@@ -136,12 +136,15 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     const returns = screen.getAllByText("+1.20%");
     expect(returns.length).toBeGreaterThan(0);
     
-    // 연금 뱃지 확인
-    expect(screen.getAllByText("연금O")[0]).toBeInTheDocument();
-    
     // 지역 정보 확인 (미국)
     const regions = screen.getAllByText("미국");
     expect(regions.length).toBeGreaterThan(0);
+  });
+
+  it("연금 불가 종목에는 연금불가 배지를 노출한다", () => {
+    render(<Screener etfs={[etf({ ticker: "X", name: "일반 비연금 ETF", pension: "불가" })]} />);
+    fireEvent.click(screen.getByRole("switch", { name: "DC·IRP 가능만" }));
+    expect(screen.getAllByText("연금불가")[0]).toBeInTheDocument();
   });
 
   it("정렬 기준을 순자산으로 변경하면 URL에 동기화된다", () => {

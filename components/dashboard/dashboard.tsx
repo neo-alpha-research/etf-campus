@@ -102,18 +102,23 @@ function getTdfVintageInfo(name: string): { vintage: string; equityPct: number }
 }
 
 function getDaysSinceListing(listingDate: string | null, asOfDate?: string): number | null {
-  if (!listingDate || listingDate.length < 8) return null;
-  const yr = parseInt(listingDate.slice(0, 4), 10);
-  const mo = parseInt(listingDate.slice(4, 6), 10) - 1;
-  const da = parseInt(listingDate.slice(6, 8), 10);
+  if (!listingDate) return null;
+  const cleanList = listingDate.replace(/\D/g, "");
+  if (cleanList.length < 8) return null;
+  const yr = parseInt(cleanList.slice(0, 4), 10);
+  const mo = parseInt(cleanList.slice(4, 6), 10) - 1;
+  const da = parseInt(cleanList.slice(6, 8), 10);
   const listTime = new Date(yr, mo, da).getTime();
   
   let refTime = Date.now();
-  if (asOfDate && asOfDate.length >= 8) {
-    const aYr = parseInt(asOfDate.slice(0, 4), 10);
-    const aMo = parseInt(asOfDate.slice(4, 6), 10) - 1;
-    const aDa = parseInt(asOfDate.slice(6, 8), 10);
-    refTime = new Date(aYr, aMo, aDa).getTime();
+  if (asOfDate) {
+    const cleanAsOf = asOfDate.replace(/\D/g, "");
+    if (cleanAsOf.length >= 8) {
+      const aYr = parseInt(cleanAsOf.slice(0, 4), 10);
+      const aMo = parseInt(cleanAsOf.slice(4, 6), 10) - 1;
+      const aDa = parseInt(cleanAsOf.slice(6, 8), 10);
+      refTime = new Date(aYr, aMo, aDa).getTime();
+    }
   }
   const diffDays = Math.max(0, Math.floor((refTime - listTime) / (1000 * 60 * 60 * 24)));
   return diffDays;
@@ -841,20 +846,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
                             {/* 신규 상장 상장일 독립 표기 */}
                             {isNew && etf.listingDate ? (
-                              <span className="inline-flex items-center gap-1 rounded bg-neutral-100 border border-neutral-200 px-1.5 py-0.2 text-[10px] font-semibold text-neutral-700 whitespace-nowrap">
+                              <span className="inline-flex items-center gap-1 rounded bg-neutral-100 border border-neutral-200 px-1.5 py-0.2 text-[10px] font-semibold text-neutral-700 whitespace-nowrap" title={`상장일: ${formatAsOfDate(etf.listingDate)}`}>
                                 <span aria-hidden="true">📅</span>
                                 <span className="whitespace-nowrap">{formatAsOfDate(etf.listingDate)}</span>
-                                {newDays !== null ? (
-                                  newDays <= 7 ? (
-                                    <span className="rounded bg-rose-500 px-1 py-0 text-[9px] font-extrabold text-white animate-pulse">
-                                      🔥 NEW D+{newDays}
-                                    </span>
-                                  ) : (
-                                    <span className="rounded bg-amber-200/90 border border-amber-400 px-1 py-0 text-[9px] font-bold text-amber-950">
-                                      D+{newDays}
-                                    </span>
-                                  )
-                                ) : null}
                               </span>
                             ) : null}
 

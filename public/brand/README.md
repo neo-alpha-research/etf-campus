@@ -19,9 +19,9 @@
 
 | 파일 | 콘셉트 | 권장 용도 | 상태 |
 | --- | --- | --- | --- |
-| `concepts/tickery-a-librarian.png` | 꼼꼼한 사서형 | 대표 캐릭터·서비스 안내·빈 데이터 화면 | 1순위 기본형 |
-| `concepts/tickery-b-campus-assistant.png` | 활기찬 캠퍼스 조교형 | 온보딩·SNS·입체 표현 | 보조형 후보 |
-| `concepts/tickery-c-explorer.png` | 영리한 탐험가형 | 투자 가이드·브리핑·여정 표현 | 보조형 후보 |
+| `concepts/tickery-a-librarian.webp` | 꼼꼼한 사서형 | 대표 캐릭터·서비스 안내·빈 데이터 화면 | 1순위 기본형 |
+| `concepts/tickery-b-campus-assistant.webp` | 활기찬 캠퍼스 조교형 | 온보딩·SNS·입체 표현 | 보조형 후보 |
+| `concepts/tickery-c-explorer.webp` | 영리한 탐험가형 | 투자 가이드·브리핑·여정 표현 | 보조형 후보 |
 
 현재 방향은 A안의 사서형을 기본으로 하고 C안의 지도·탐험 소품을 보조 요소로 결합한다.
 

@@ -155,12 +155,15 @@ function RiskBadge({ label, compact = false }: { label?: string | null, compact?
   );
 }
 
+const CORE_RETURN_PERIODS: readonly ReturnPeriod[] = ["1d", "1m", "3m", "12m", "36m"];
+
 export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const [state, setState] = useState<ExplorerState>(DEFAULT_EXPLORER_STATE);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [urlReady, setUrlReady] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(-1);
+  const [isFullPeriods, setIsFullPeriods] = useState(false);
 
   // We handle initial load and popstate in a separate effect just to be safe,
   // but SearchParamsSync handles Next.js router soft-navigations.
@@ -193,6 +196,9 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const allowedRiskTypes = getAllowedRiskTypes(state.mode);
   const activeRiskTypes = state.riskTypes.filter((value) => allowedRiskTypes.includes(value));
   const periods = getReturnPeriods(state.mode);
+  const displayPeriods = isFullPeriods || state.mode === "new"
+    ? periods 
+    : CORE_RETURN_PERIODS.filter((p) => periods.includes(p));
   const normalizedPeriod = periods.includes(state.period) ? state.period : getDefaultPeriod(state.mode);
   const selectedScope = scopeOptions.find((option) => option.value === state.scope) ?? scopeOptions[0];
 
@@ -207,14 +213,13 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
   const copy = modeCopy[state.mode];
   const pendingListingDates = state.mode === "new" ? modeEtfs.filter((etf) => !etf.listingDate).length : 0;
 
-  
   const isGeneral = state.mode === "general";
   const isPension = state.mode === "pension";
   const isDeriv = state.mode === "derivatives";
   const isNew = state.mode === "new";
 
-  const productInfoColSpan = isGeneral ? 6 : isPension ? 5 : isDeriv ? 6 : isNew ? 7 : 6;
-  const returnsColSpan = periods.length;
+  const productInfoColSpan = 1;
+  const returnsColSpan = displayPeriods.length;
   const costSizePriceColSpan = 4;
   const desktopColumnCount = productInfoColSpan + returnsColSpan + costSizePriceColSpan;
 
@@ -461,61 +466,62 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
 
       <div className="mt-5 rounded-2xl border border-line bg-surface w-full overflow-x-auto [scrollbar-width:thin]" ref={tableWrapperRef}>
         <div className="w-full">
-          <table className="w-full border-collapse text-left text-sm whitespace-nowrap min-w-[800px] md:min-w-[1140px]"><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
+          <table className={`w-full border-collapse text-left text-sm whitespace-nowrap ${isFullPeriods ? "min-w-[1100px]" : "min-w-[770px]"}`}><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             {/* 명시적 열 너비 제어 */}
             <colgroup>
-              <col style={{ width: 192, minWidth: 160 }} />
-              <col style={{ width: 65, minWidth: 60 }} />
-              {isDeriv ? <col style={{ width: 44 }} /> : null}
-              {isNew ? <col style={{ width: 80 }} /> : null}
-              <col style={{ width: 36 }} />
-              <col style={{ width: 56 }} />
-              <col style={{ width: 40 }} />
-              {!isPension && !isDeriv ? <col style={{ width: 36 }} /> : null}
-              {periods.map((period) => (
-                <col key={period} style={{ width: 80, minWidth: 80 }} />
+              <col style={{ width: 210, minWidth: 190 }} />
+              {displayPeriods.map((period) => (
+                <col key={period} style={{ width: 62, minWidth: 58 }} />
               ))}
-              <col style={{ width: 80, minWidth: 80 }} />
-              <col style={{ width: 80, minWidth: 80 }} />
-              <col style={{ width: 80, minWidth: 80 }} />
-              <col style={{ width: 80, minWidth: 80 }} />
+              <col style={{ width: 56, minWidth: 54 }} />
+              <col style={{ width: 68, minWidth: 64 }} />
+              <col style={{ width: 68, minWidth: 64 }} />
+              <col style={{ width: 68, minWidth: 64 }} />
             </colgroup>
             
             {/* 2단 헤더 */}
             <thead className="border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-bold text-neutral-700">
               {/* 1단 그룹 헤더 */}
               <tr className="border-b border-neutral-200">
-                <th className="sticky top-0 z-30 h-[32px] bg-neutral-100 px-2 py-0 text-center" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
-                <th className="sticky top-0 z-20 h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">수익률(%)</th>
+                <th className="sticky top-0 z-30 h-[32px] bg-neutral-100 px-3 py-0 text-center" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
+                <th className="sticky top-0 z-20 h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">
+                  <div className="flex items-center justify-center gap-1.5">
+                    <span>수익률(%)</span>
+                    {state.mode !== "new" && (
+                      <button
+                        type="button"
+                        onClick={() => setIsFullPeriods(!isFullPeriods)}
+                        className="inline-flex items-center gap-0.5 rounded border border-brand-200 bg-brand-50 px-1.5 py-0.5 text-[10px] font-bold text-brand-700 hover:bg-brand-100 hover:text-brand-900 transition-colors cursor-pointer"
+                        title={isFullPeriods ? "핵심 5대 수익률만 보기" : "10개 전 구간 수익률 펼치기"}
+                      >
+                        <span>{isFullPeriods ? "5개 핵심으로 접기 ▴" : "전 구간 10개 펼치기 ▾"}</span>
+                      </button>
+                    )}
+                  </div>
+                </th>
                 <th className="sticky top-0 z-20 h-[32px] bg-neutral-100 px-2 py-0 text-center border-l border-neutral-200" colSpan={costSizePriceColSpan} scope="colgroup">비용·규모·가격</th>
               </tr>
               {/* 2단 세부 헤더 */}
               <tr className="text-[12px]">
-                <th className="sticky top-[32px] left-0 z-30 w-[192px] min-w-[160px] h-[48px] bg-neutral-100 px-2.5 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목명</th>
-                <th className="sticky top-[32px] z-20 min-w-[65px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">종목코드</th>
-                {isDeriv ? <th className="sticky top-[32px] z-20 w-[44px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">유형</th> : null}
-                {isNew ? <th className="sticky top-[32px] z-20 h-[48px] w-[80px] min-w-[80px] bg-neutral-100 px-1 py-0 text-center" scope="col">상장일</th> : null}
-                <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">지역</th>
-                <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">자산</th>
-                <th className="sticky top-[32px] z-20 w-[40px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center text-[10px] tracking-tighter" scope="col">환헤지</th>
-                {!isPension && !isDeriv ? <th className="sticky top-[32px] z-20 w-[36px] h-[48px] bg-neutral-100 px-0.5 py-0 text-center" scope="col">연금</th> : null}
+                <th className="sticky top-[32px] left-0 z-30 min-w-[190px] w-[210px] bg-neutral-100 px-3 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목 정보</th>
                 
-                {periods.map((period, index) => {
+                {displayPeriods.map((period, index) => {
                   const isYtd = period === "ytd" || period === "itd";
                   const borderL = isYtd ? 'border-l-2 border-neutral-200' : index === 0 ? 'border-l border-neutral-200' : '';
-                  const bg = normalizedPeriod === period && !isYtd ? "bg-brand-100 text-brand-900" : "bg-neutral-50";
+                  const isSorted = normalizedPeriod === period;
+                  const bg = isSorted ? "bg-brand-100 text-brand-900" : "bg-neutral-50";
                   return (
-                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률`} className={`sticky top-[32px] z-20 h-[48px] min-w-[80px] px-1.5 py-0 text-right ${borderL} ${bg}`} key={period} scope="col">
+                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률`} className={`sticky top-[32px] z-20 h-[48px] min-w-[60px] px-1.5 py-0 text-right ${borderL} ${bg}`} key={period} scope="col">
                       <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">{RETURN_PERIOD_LABELS[period]}</span>
                     </th>
                   );
                 })}
                 
-                <th aria-label="총보수, 단위 퍼센트" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-l border-neutral-200" scope="col"><UnitHeaderLabel align="right" label="총보수" unit="%" /></th>
-                <th aria-label="순자산, 단위 억원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
-                <th aria-label="거래대금, 단위 억원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
+                <th aria-label="총보수, 단위 퍼센트" className="sticky top-[32px] z-20 min-w-[54px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-l border-neutral-200" scope="col"><UnitHeaderLabel align="right" label="총보수" unit="%" /></th>
+                <th aria-label="순자산, 단위 억원" className="sticky top-[32px] z-20 min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
+                <th aria-label="거래대금, 단위 억원" className="sticky top-[32px] z-20 min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
                 
-                <th aria-label="종가, 단위 원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                <th aria-label="종가, 단위 원" className="sticky top-[32px] z-20 min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line text-[12px]">
@@ -526,48 +532,46 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 const fields = getClassificationFields(etf);
                 return (
                   <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60 h-[44px]" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
-                    {/* 1. 종목명 (Sticky Left Column) */}
-                    <th className="sticky left-0 z-10 bg-white w-[192px] min-w-[160px] px-2 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
-                      <Link className="line-clamp-2 break-all whitespace-normal text-left text-[12px] font-bold leading-[16px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}/`} title={etf.name}>{etf.name}</Link>
+                    {/* 1. 종목 정보 (Sticky Left Column - 2단 통합) */}
+                    <th className="sticky left-0 z-10 bg-white min-w-[190px] max-w-[230px] px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                      <div className="flex flex-col gap-0.5">
+                        <Link className="line-clamp-1 truncate block text-left text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}/`} title={etf.name}>{etf.name}</Link>
+                        <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">
+                          <span className="font-mono font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded text-[10.5px]">{etf.ticker}</span>
+                          {isDeriv && fields.riskLabel ? <RiskBadge compact label={fields.riskLabel} /> : null}
+                          {isNew && etf.listingDate ? <span className="text-[10px] text-neutral-500 whitespace-nowrap">{formatAsOfDate(etf.listingDate)}</span> : null}
+                          <span className="text-neutral-500 font-medium">{etf.assetClass}</span>
+                          {fields.marketScope && fields.marketScope !== "국내" ? <span className="text-neutral-400">· {fields.marketScope}</span> : null}
+                          {fields.fxHedge && fields.fxHedge !== "노출" && fields.fxHedge !== "비헤지" ? (
+                            <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded"><FxHedgeMarker value={fields.fxHedge} /></span>
+                          ) : null}
+                          {!isPension && !isDeriv && etf.pension === "불가" ? (
+                            <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                          ) : null}
+                        </div>
+                      </div>
                     </th>
 
-                    {/* 2. 종목코드 */}
-                    <td className="tabular-nums min-w-[65px] px-1 py-2 text-center text-[11.5px] font-mono text-muted bg-inherit">{etf.ticker}</td>
-                    
-                    {/* 3. 메타데이터 (유형/상장일/지역/자산/환헤지/연금) */}
-                    {isDeriv ? <td className="px-0.5 py-2 text-center"><RiskBadge compact label={fields.riskLabel} /></td> : null}
-                    {isNew ? <td className="tabular-nums w-[80px] min-w-[80px] whitespace-nowrap px-1 py-2 text-center text-muted text-[11px]">{etf.listingDate ? formatAsOfDate(etf.listingDate) : "확인 중"}</td> : null}
-                    
-                    <td className="px-0.5 py-2 text-center text-[11px] font-semibold text-muted">{fields.marketScope ?? ""}</td>
-                    <td className="px-0.5 py-2 text-center">
-                      <div className="flex flex-wrap items-center justify-center gap-1">
-                        <CompactAssetClassLabel value={fields.assetClass} />
-                        {!isDeriv ? <RiskBadge label={fields.riskLabel} /> : null}
-                      </div>
-                    </td>
-                    <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted"><FxHedgeMarker value={fields.fxHedge} /></td>
-                    {!isPension && !isDeriv ? <td className="px-0.5 py-2 text-center"><PensionBadge compact status={etf.pension} /></td> : null}
-                    
-                    {/* 4. 기간별 수익률 */}
-                    {periods.map((period, index) => {
+                    {/* 2. 기간별 수익률 */}
+                    {displayPeriods.map((period, index) => {
                       const isYtd = period === "ytd" || period === "itd";
                       const borderL = isYtd ? 'border-l-2 border-neutral-100' : index === 0 ? 'border-l border-neutral-100' : '';
                       const bg = normalizedPeriod === period ? "bg-brand-50" : "";
                       return (
-                        <td className={`min-w-[80px] px-1 py-2 text-right font-semibold tabular-nums ${borderL} ${bg}`} key={period}>
+                        <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${borderL} ${bg}`} key={period}>
                           <ReturnCell showUnit={false} value={etf.returns[period]} />
                         </td>
                       );
                     })}
                     
-                    {/* 5. 총보수 */}
-                    <td className="min-w-[80px] px-1 py-2 text-right font-semibold tabular-nums text-muted border-l border-neutral-100 font-mono">{(etf.fee?.verificationStatus === "verified_official" || etf.fee?.verificationStatus === "official_single_source") && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
-                    {/* 6. 순자산 */}
-                    <td className="min-w-[80px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatAumNumber(etf.aum)}</td>
-                    {/* 7. 거래대금 */}
-                    <td className="min-w-[80px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatTradeValueNumber(etf.tradeValue)}</td>
-                    {/* 8. 종가 */}
-                    <td className="min-w-[80px] px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
+                    {/* 3. 총보수 */}
+                    <td className="min-w-[54px] px-1 py-1 text-right font-semibold tabular-nums text-muted border-l border-neutral-100 font-mono">{(etf.fee?.verificationStatus === "verified_official" || etf.fee?.verificationStatus === "official_single_source") && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
+                    {/* 4. 순자산 */}
+                    <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatAumNumber(etf.aum)}</td>
+                    {/* 5. 거래대금 */}
+                    <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatTradeValueNumber(etf.tradeValue)}</td>
+                    {/* 6. 종가 */}
+                    <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
                   </tr>
                 );
               })}

@@ -335,17 +335,36 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>괴리율</span>
                     <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-72 p-3.5 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
                       <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
-                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
+                      <div className="flex items-center justify-between gap-1 mb-1.5 pb-1 border-b border-neutral-700/50">
                         <span className="text-[12px] font-black text-brand-300">괴리율 (Disparity)</span>
-                        <span className="text-[10px] text-neutral-400 font-mono">NAV 대조</span>
+                        <span className="text-[10px] text-neutral-400 font-mono">산식 & 해석</span>
                       </div>
-                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
-                        시장 거래가격(종가)과 순자산가치(NAV)의 차이 비율입니다.
-                      </p>
-                      <div className="text-[10.5px] text-emerald-200/95 bg-emerald-500/10 rounded-md p-1.5 leading-snug border border-emerald-500/20">
-                        <strong className="text-emerald-300">💡 팁:</strong> 0%에 가까울수록 적정 가치에 거래 중이며, 크게 벌어지면 매매에 주의가 필요합니다.
+                      
+                      {/* 산식 박스 */}
+                      <div className="bg-neutral-800/90 rounded px-2 py-1 mb-2 font-mono text-[10.5px] text-brand-200 border border-neutral-700/50">
+                        산식: (시장가격 - NAV) ÷ NAV × 100
+                      </div>
+
+                      {/* 상태별 직관 가이드 */}
+                      <div className="space-y-1 text-[11px] mb-2 leading-tight">
+                        <div className="flex items-start gap-1.5">
+                          <span className="font-extrabold text-blue-300 shrink-0">• - (음수):</span>
+                          <span className="text-neutral-200"><strong className="text-blue-300 font-bold">저평가 (할인)</strong> - 실제가치(NAV)보다 싸게 거래 중</span>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <span className="font-extrabold text-rose-300 shrink-0">• + (양수):</span>
+                          <span className="text-neutral-200"><strong className="text-rose-300 font-bold">고평가 (웃돈)</strong> - 실제가치(NAV)보다 비싸게 거래 중</span>
+                        </div>
+                        <div className="flex items-start gap-1.5">
+                          <span className="font-extrabold text-emerald-300 shrink-0">• 0% 근처:</span>
+                          <span className="text-neutral-200"><strong className="text-emerald-300 font-bold">적정가</strong> - 실제가치에 부합하게 정상 거래 중</span>
+                        </div>
+                      </div>
+
+                      <div className="text-[10.5px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
+                        <strong className="text-amber-300">💡 실전 팁:</strong> 매수 시에는 고평가(+)된 ETF보다 적정가 또는 저평가(-) 상태인 ETF를 매수하는 것이 유리합니다.
                       </div>
                     </div>
                   </div>
@@ -355,11 +374,25 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   const d = etf.disparity;
                   const hasDisparity = typeof d === "number" && Number.isFinite(d);
                   return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center tabular-nums font-bold text-[12px] sm:text-[13px] ${isBase ? "bg-brand-50/40" : ""}`}>
+                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center tabular-nums font-bold text-[12px] sm:text-[12.5px] ${isBase ? "bg-brand-50/40" : ""}`}>
                       {hasDisparity ? (
-                        <span className={d > 0 ? "text-rose-600" : d < 0 ? "text-blue-600" : "text-neutral-700"}>
-                          {d > 0 ? `+${d.toFixed(2)}%` : `${d.toFixed(2)}%`}
-                        </span>
+                        <div className="flex items-center justify-center gap-1 font-bold">
+                          <span className={d > 0 ? "text-rose-600 font-mono" : d < 0 ? "text-blue-600 font-mono" : "text-neutral-700 font-mono"}>
+                            {d > 0 ? `+${d.toFixed(2)}%` : `${d.toFixed(2)}%`}
+                          </span>
+                          <span
+                            className={`text-[9.5px] sm:text-[10px] font-extrabold px-1 py-0.2 rounded border shadow-2xs ${
+                              Math.abs(d) <= 0.1
+                                ? "text-emerald-800 bg-emerald-50 border-emerald-300"
+                                : d > 0
+                                ? "text-rose-800 bg-rose-50 border-rose-300"
+                                : "text-blue-800 bg-blue-50 border-blue-300"
+                            }`}
+                            title={Math.abs(d) <= 0.1 ? "실제 가치와 일치하는 적정가 거래 상태" : d > 0 ? "실제 가치(NAV)보다 비싸게 거래되는 고평가(웃돈) 상태" : "실제 가치(NAV)보다 싸게 거래되는 저평가(할인) 상태"}
+                          >
+                            {Math.abs(d) <= 0.1 ? "적정가" : d > 0 ? "고평가" : "저평가"}
+                          </span>
+                        </div>
                       ) : (
                         <span className="text-muted">-</span>
                       )}

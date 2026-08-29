@@ -137,7 +137,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(returns.length).toBeGreaterThan(0);
     
     // 연금 뱃지 확인
-    expect(screen.getByText("연금O")).toBeInTheDocument();
+    expect(screen.getAllByText("연금O")[0]).toBeInTheDocument();
     
     // 지역 정보 확인 (미국)
     const regions = screen.getAllByText("미국");

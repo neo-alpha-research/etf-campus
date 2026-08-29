@@ -34,8 +34,8 @@ export function formatMoneyNumber(value: number): string {
 
 export function formatTradeValueNumber(value: number): string {
   return new Intl.NumberFormat("ko-KR", {
-    maximumFractionDigits: 1,
-    minimumFractionDigits: 1,
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
   }).format(value / 100_000_000);
 }
 

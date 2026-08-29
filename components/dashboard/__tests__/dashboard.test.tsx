@@ -43,14 +43,13 @@ describe("Dashboard", () => {
     render(<Dashboard etfs={items} />);
     expect(screen.getByText("순자산 1,000억 이상 · 1종목")).toBeInTheDocument();
     expect(screen.getByRole("combobox", { name: "순자산 기준" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "종목 정보" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-right");
+    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-right");
+    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-right");
     expect(screen.getAllByRole("columnheader", { name: "1일 수익률" })[0]).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
-    expect(screen.getByText("30.0")).toBeInTheDocument();
+    expect(screen.getByText("30")).toBeInTheDocument();
     expect(screen.queryByText("레버리지 ETF")).not.toBeInTheDocument();
   });
 
@@ -66,7 +65,7 @@ describe("Dashboard", () => {
     expect(screen.queryByLabelText("소규모 ETF: 순자산 100억원 미만")).not.toBeInTheDocument();
   });
 
-  it("일반 계좌에 2주, 2년, 3년 수익률이 포함된다", () => {
+  it("일반 계좌에 2주, 2년, 3년 수익률이 포함되며 전 구간 토글이 작동한다", () => {
     const items = [
       etf({ ticker: "000001", aum: 1100 }),
     ];
@@ -74,33 +73,38 @@ describe("Dashboard", () => {
     expect(screen.getByRole("option", { name: "2주" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "2년" })).toBeInTheDocument();
     expect(screen.getByRole("option", { name: "3년" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "3년 수익률" })).toBeInTheDocument();
+
+    // 전 구간 10개 펼치기 토글 클릭
+    fireEvent.click(screen.getByRole("button", { name: "전 구간 10개 펼치기 ▾" }));
     expect(screen.getByRole("columnheader", { name: "2년 수익률" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "2주 수익률" })).toBeInTheDocument();
+
+    // 다시 5개 핵심으로 접기
+    fireEvent.click(screen.getByRole("button", { name: "5개 핵심으로 접기 ▴" }));
+    expect(screen.queryByRole("columnheader", { name: "2년 수익률" })).not.toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "3년 수익률" })).toBeInTheDocument();
   });
 
-  it("긴 종목명과 분류·연금 정보를 검색하기 쉽게 분리한다", () => {
+  it("긴 종목명과 분류·티커 정보를 2줄로 통합 표시한다", () => {
     render(<Dashboard etfs={items} />);
-    const nameHeader = screen.getByRole("columnheader", { name: "종목명" });
-    const classificationHeaders = ["지역", "자산", "환헤지", "연금"].map((name) => screen.getByRole("columnheader", { name }));
+    const infoHeader = screen.getByRole("columnheader", { name: "종목 정보" });
     const nameLink = screen.getByRole("link", { name: "대형 일반 ETF" });
 
-    expect(nameHeader).toHaveClass("w-[192px]", "text-center");
-    classificationHeaders.forEach((header) => expect(header).toHaveClass("text-center"));
-    expect(nameLink).toHaveClass("line-clamp-2", "break-all", "whitespace-normal", "text-left", "text-[12px]");
-    expect(screen.getByLabelText("연금 가능")).toHaveTextContent("O");
+    expect(infoHeader).toHaveClass("w-[210px]", "text-center");
+    expect(nameLink).toHaveClass("line-clamp-1", "truncate", "block", "text-left", "text-[13px]");
+    expect(screen.getByText("A")).toBeInTheDocument();
+    expect(screen.getByText("주식-국내")).toBeInTheDocument();
   });
 
-  it("데스크톱 데이터 행만 압축하고 모바일 터치 여백과 2줄 종목명은 유지한다", () => {
+  it("데이터 행 패딩과 2줄 종목명 및 좌측 고정을 유지한다", () => {
     render(<Dashboard etfs={items} />);
-    const nameCell = screen.getByRole("rowheader", { name: "대형 일반 ETF" });
-    const mobileChangeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ }).find((cell) => cell.classList.contains("md:hidden"));
-    const desktopChangeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ }).find((cell) => cell.classList.contains("md:table-cell"));
+    const nameCell = screen.getByRole("rowheader", { name: /대형 일반 ETF/ });
+    const changeCell = screen.getAllByRole("cell", { name: /\+1\.20%/ })[0];
 
-    expect(nameCell).toHaveClass("py-1.5");
-    expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toHaveClass("whitespace-normal");
-    expect(desktopChangeCell).toHaveClass("py-2");
-    expect(mobileChangeCell).toHaveClass("py-4");
-    expect(screen.getByRole("cell", { name: "국내" })).toHaveClass("py-2");
+    expect(nameCell).toHaveClass("py-1.5", "sticky", "left-0");
+    expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
+    expect(changeCell).toHaveClass("py-2");
   });
 
   it("표 헤더를 고정하고 단위를 두 번째 줄에 표시한다", () => {
@@ -110,8 +114,8 @@ describe("Dashboard", () => {
 
     expect(closeHeader).toHaveClass("sticky", "top-[32px]");
     expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-bold", "text-neutral-700");
-    expect(closeHeader).toHaveClass("text-center");
-    expect(oneMonthHeader).toHaveClass("text-center");
+    expect(closeHeader).toHaveClass("text-right");
+    expect(oneMonthHeader).toHaveClass("text-right");
   });
 
   it("환헤지는 노출을 비우고 헤지·부분·탄력을 짧게 표기한다", () => {
@@ -144,13 +148,13 @@ describe("Dashboard", () => {
     expect(screen.getByLabelText("환헤지 적용")).toHaveTextContent("(탄력 H)");
   });
 
-  it("긴 자산 분류는 좁은 열에서 의미 단위로 두 줄 표시한다", () => {
+  it("자산 분류를 종목 정보 내에 표시한다", () => {
     render(<Dashboard etfs={[
       etf({ ticker: "P", name: "파킹 ETF", assetClass: "금리·파킹" }),
       etf({ ticker: "R", name: "리츠 ETF", assetClass: "리츠·인프라" }),
     ]} />);
-    expect(screen.getByLabelText("금리")).toHaveTextContent("금리");
-    expect(screen.getByLabelText("리츠/인프라")).toHaveTextContent("리츠/인프라");
+    expect(screen.getByText("금리·파킹")).toBeInTheDocument();
+    expect(screen.getByText("리츠·인프라")).toBeInTheDocument();
   });
 
   it("신규 상장은 2주와 상장 후 ITD를 표시하고 3개월은 제외한다", async () => {
@@ -163,7 +167,6 @@ describe("Dashboard", () => {
     expect(screen.getByRole("option", { name: "상장 후" })).toBeInTheDocument();
     expect(screen.queryByRole("option", { name: "3개월" })).not.toBeInTheDocument();
     expect(screen.getByText("소규모 신규 ETF")).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "상장일" })).toHaveClass("w-[80px]", "min-w-[80px]");
     expect(screen.getByText("2026.07.01")).toHaveClass("whitespace-nowrap");
     expect(screen.queryByLabelText("소규모 ETF: 순자산 100억원 미만")).not.toBeInTheDocument();
   });
@@ -173,7 +176,7 @@ describe("Dashboard", () => {
     const explorer = screen.getByRole("region", { name: "ETF 검색과 정렬" });
     const search = screen.getByRole("combobox", { name: "종목명 또는 티커 검색" });
     const scope = screen.getByRole("combobox", { name: "순자산 기준" });
-    const tableHeader = screen.getByRole("columnheader", { name: "종목코드" }).closest("thead");
+    const tableHeader = screen.getByRole("columnheader", { name: "종목 정보" }).closest("thead");
     expect(search.compareDocumentPosition(scope) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(explorer).toContainElement(search);
     expect(explorer).toHaveClass("border-brand-200", "bg-brand-50/40");

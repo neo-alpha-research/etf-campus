@@ -1,35 +1,40 @@
 import type { MarketBriefingPayload } from "../types";
 
 export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: string): { subject: string; html: string } {
-  const dateStr = payload.asOfDate || "2026-08-27";
+  const dateStr = payload.asOfDate || "2026-08-28";
   const formattedDate = dateStr.replace(/-/g, ".");
-  const temp = payload.marketTemperature || "상승 우세";
+  const temp = payload.marketTemperature || "하락 우세";
 
-  const kospiClose = payload.kospiClose || 3185.42;
-  const kospiChangePct = payload.kospiChangePct ?? 1.07;
+  const kospiClose = payload.kospiClose || 6788.88;
+  const kospiChangePct = payload.kospiChangePct ?? -1.79;
   const kospiColor = kospiChangePct > 0 ? "#EF4444" : kospiChangePct < 0 ? "#38BDF8" : "#94A3B8";
   const kospiSign = kospiChangePct > 0 ? "+" : "";
 
-  const aumJo = ((payload.generalTotalAum || 3851607) / 10000).toFixed(1);
-  const tradeJo = ((payload.generalTotalTradeValue || 99147) / 10000).toFixed(1);
+  const etfReturn = payload.generalAumWeightedReturnPct ?? -0.86;
+  const etfSign = etfReturn > 0 ? "+" : "";
+  const etfColor = etfReturn > 0 ? "#EF4444" : etfReturn < 0 ? "#38BDF8" : "#94A3B8";
+  const spread = etfReturn - kospiChangePct;
+  const spreadSign = spread > 0 ? "+" : "";
 
-  const up = payload.upCount || 642;
-  const flat = payload.flatCount || 88;
-  const down = payload.downCount || 288;
-  const headline = payload.headlineText || "대형 지수형 ETF의 안정적 방어 속 기관의 2.3조원 규모 실질 진성수급이 유입되었습니다.";
+  const aumJo = ((payload.generalTotalAum || 3851607) / 10000).toFixed(1);
+  const tradeJo = ((payload.generalTotalTradeValue || 87792) / 10000).toFixed(1);
+
+  const up = payload.upCount || 350;
+  const flat = payload.flatCount || 35;
+  const down = payload.downCount || 637;
+  const headline = payload.headlineText || "일반 ETF 1,022개 중 350개가 상승해 하락 우세 흐름을 보였습니다. KOSPI -1.79% 대비 일반 ETF는 -0.86%로 +0.93%p 초과 방어력을 나타냈습니다.";
   const utmLink = `${baseUrl}/briefing?utm_source=newsletter&utm_medium=email&utm_campaign=daily_briefing_${dateStr.replace(/-/g, "")}`;
 
   const defaultAssetClasses = [
-    { assetClass: "국내주식", aumSharePct: 48.0, aumWeightedReturnPct: 1.45, ytd: 18.2 },
-    { assetClass: "해외주식", aumSharePct: 29.1, aumWeightedReturnPct: 1.12, ytd: 24.5 },
-    { assetClass: "채권", aumSharePct: 13.5, aumWeightedReturnPct: 0.15, ytd: 4.8 },
-    { assetClass: "파생형(레버리지/인버스)", aumSharePct: 3.8, aumWeightedReturnPct: -0.42, ytd: -8.5 },
-    { assetClass: "원자재", aumSharePct: 2.1, aumWeightedReturnPct: 0.85, ytd: 11.2 },
-    { assetClass: "부동산/리츠", aumSharePct: 1.7, aumWeightedReturnPct: 0.35, ytd: 6.4 },
-    { assetClass: "통화/기타", aumSharePct: 1.8, aumWeightedReturnPct: -0.65, ytd: -3.2 },
+    { assetClass: "원자재", aumSharePct: 2.0, aumWeightedReturnPct: 1.25, ytd: 14.5 },
+    { assetClass: "채권", aumSharePct: 14.2, aumWeightedReturnPct: -0.08, ytd: 4.2 },
+    { assetClass: "국내주식", aumSharePct: 47.3, aumWeightedReturnPct: -0.12, ytd: 16.8 },
+    { assetClass: "혼합·자산배분", aumSharePct: 0.8, aumWeightedReturnPct: -0.90, ytd: 5.1 },
+    { assetClass: "해외주식", aumSharePct: 33.9, aumWeightedReturnPct: -1.18, ytd: 22.4 },
+    { assetClass: "부동산/리츠", aumSharePct: 1.8, aumWeightedReturnPct: -1.53, ytd: 3.5 },
   ];
 
-  const subject = `🚨 [ETF 브리핑] ${formattedDate} 시장 체온 '${temp}' · AUM ${aumJo}조원 돌파`;
+  const subject = `🚨 [ETF 브리핑] ${formattedDate} 시장 체온 '${temp}' · KOSPI 대비 +0.93%p 방어`;
 
   const html = `
 <!DOCTYPE html>
@@ -100,15 +105,17 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
         <div class="grid-2">
           <div class="grid-col" style="padding-left: 0;">
             <div class="metric-card">
-              <div class="metric-label">KOSPI 지수</div>
-              <div class="metric-value tabular">${kospiClose.toLocaleString()}</div>
-              <div style="font-size: 13px; font-weight: 800; color: ${kospiColor};" class="tabular">${kospiSign}${kospiChangePct.toFixed(2)}%</div>
+              <div class="metric-label">KOSPI vs 일반 ETF</div>
+              <div class="metric-value tabular" style="font-size: 19px;">
+                <span style="color: ${kospiColor};">${kospiSign}${kospiChangePct.toFixed(2)}%</span> / <span style="color: ${etfColor};">${etfSign}${etfReturn.toFixed(2)}%</span>
+              </div>
+              <div style="font-size: 12px; font-weight: 800; color: #10B981;" class="tabular">+${spread.toFixed(2)}%p 초과 방어 🛡️</div>
             </div>
           </div>
           <div class="grid-col" style="padding-right: 0;">
             <div class="metric-card">
-              <div class="metric-label">시장 체온 (등락폭)</div>
-              <div class="metric-value" style="color: #10B981;">${temp}</div>
+              <div class="metric-label">시장 체온 (등락 분포)</div>
+              <div class="metric-value" style="color: #38BDF8;">${temp}</div>
               <div style="font-size: 12px; color: #94A3B8;" class="tabular">상승 ${up} · 보합 ${flat} · 하락 ${down}</div>
             </div>
           </div>
@@ -119,14 +126,14 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             <div class="metric-card">
               <div class="metric-label">총 운용자산 (AUM)</div>
               <div class="metric-value tabular">${aumJo}조원</div>
-              <div style="font-size: 12px; color: #94A3B8;">1,164개 상장 ETF</div>
+              <div style="font-size: 12px; color: #94A3B8;">1,022개 일반 ETF 기준</div>
             </div>
           </div>
           <div class="grid-col" style="padding-right: 0;">
             <div class="metric-card">
               <div class="metric-label">일 거래대금 / 회전율</div>
               <div class="metric-value tabular">${tradeJo}조원</div>
-              <div style="font-size: 12px; color: #94A3B8;" class="tabular">회전율 2.57%</div>
+              <div style="font-size: 12px; color: #94A3B8;" class="tabular">회전율 2.28%</div>
             </div>
           </div>
         </div>

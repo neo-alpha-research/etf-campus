@@ -225,8 +225,8 @@ export function ReturnRankingChart({
                         <span className="tabular-nums font-semibold">{etf.ticker}</span>
                         <span className="text-neutral-300">|</span>
                         <span className="truncate max-w-[80px]">{etf.classification?.marketScope || etf.assetClass}</span>
-                        {etf.pension === "가능" && (
-                          <span className="shrink-0 rounded-[3px] bg-brand-100 px-1 py-0.5 font-bold text-brand-800">연금O</span>
+                        {etf.pension === "불가" && (
+                          <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
                         )}
                       </div>
                     </div>

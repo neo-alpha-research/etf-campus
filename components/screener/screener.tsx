@@ -32,21 +32,22 @@ function FxHedgeMarker({ value }: { value: string | null }) {
   );
 }
 
-function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
+function UnitHeaderLabel({ label, unit, align = "center" }: { label: string; unit: string; align?: "center" | "right" }) {
   return (
-    <div className="flex flex-col items-center justify-center leading-[1.2]">
+    <div className={`flex flex-col ${align === "right" ? "items-end justify-center text-right pr-0.5" : "items-center justify-center text-center"} leading-[1.2]`}>
       <span className="text-[11px] font-bold text-strong">{label}</span>
       <span className="text-[10px] font-bold text-neutral-500">({unit})</span>
     </div>
   );
 }
 
-type ScreenerSortKey = "return_1d" | "return_1m" | "return_3m" | "return_12m" | "return_custom" | "aum" | "tradeValue" | "ter";
+type ScreenerSortKey = "return_1d" | "return_1m" | "return_3m" | "return_12m" | "return_36m" | "return_custom" | "aum" | "tradeValue" | "ter";
 const sortLabels: Record<ScreenerSortKey, string> = {
   return_1d: "1일 수익률",
   return_1m: "1개월 수익률",
   return_3m: "3개월 수익률",
   return_12m: "1년 수익률",
+  return_36m: "3년 수익률",
   return_custom: "비교 기간 수익률",
   aum: "순자산액",
   tradeValue: "거래대금",
@@ -220,7 +221,7 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
   const results = useMemo(() => {
     return filterEtfs(etfs, filters).sort((a, b) => {
       let cmp = 0;
-      if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_custom") {
+      if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_36m" || sort === "return_custom") {
         let aVal = a.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
         let bVal = b.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
         
@@ -780,113 +781,119 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
             {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
           </div>
           
-          <div className="overflow-hidden rounded-2xl border border-line">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm whitespace-nowrap">
+          <div className="overflow-hidden rounded-2xl border border-line w-full bg-surface shadow-xs">
+            <div className="w-full overflow-x-auto [scrollbar-width:thin]">
+              <table className="w-full text-left text-sm whitespace-nowrap min-w-[770px]">
                 <colgroup>
-                  <col style={{ width: 56 }} />
-                  <col style={{ width: 168 }} />
-                  <col style={{ width: 40 }} />
-                  <col style={{ width: 36 }} />
-                  <col style={{ width: 40 }} />
-                  <col style={{ width: 36 }} />
-                  <col style={{ width: 54 }} />
-                  <col style={{ width: 54 }} />
-                  <col style={{ width: 54 }} />
-                  <col style={{ width: 54 }} />
-                  {(comparisonPeriod || customDateRange) && <col style={{ width: 54 }} />}
-                  <col style={{ width: 40 }} />
-                  <col style={{ width: 48 }} />
-                  <col style={{ width: 52 }} />
-                  <col style={{ width: 48 }} />
+                  <col style={{ width: 210, minWidth: 190 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  <col style={{ width: 62, minWidth: 58 }} />
+                  {(comparisonPeriod || customDateRange) && <col style={{ width: 62, minWidth: 58 }} />}
+                  <col style={{ width: 56, minWidth: 54 }} />
+                  <col style={{ width: 68, minWidth: 64 }} />
+                  <col style={{ width: 68, minWidth: 64 }} />
+                  <col style={{ width: 68, minWidth: 64 }} />
                 </colgroup>
                 <thead className="bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300">
                   <tr className="border-b border-neutral-200">
-                    <th className="px-2 py-0 h-[32px] text-center" colSpan={6} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={(comparisonPeriod || customDateRange) ? 5 : 4} scope="colgroup">수익률(%)</th>
+                    <th className="px-3 py-0 h-[32px] text-center" colSpan={1} scope="colgroup">상품 정보</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">수익률(%)</th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">종목코드</th>
-                    <th className="px-2 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목명</th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">자산</th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">지역</th>
-                    <th className="px-0.5 py-0 h-[48px] text-center tracking-tighter" scope="col">환헤지</th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col">연금</th>
+                    <th className="sticky left-0 z-20 min-w-[190px] w-[210px] bg-neutral-100 px-3 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목 정보</th>
                     
-                    <th className={`px-0.5 py-0 h-[48px] text-center border-l border-neutral-200 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1일</span>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1일</span>
                     </th>
-                    <th className={`px-0.5 py-0 h-[48px] text-center ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1개월</span>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
                     </th>
-                    <th className={`px-0.5 py-0 h-[48px] text-center ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">3개월</span>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
                     </th>
-                    <th className={`px-0.5 py-0 h-[48px] text-center ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1년</span>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
+                    </th>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
                     </th>
                     {comparisonPeriod && (
-                      <th className="px-0.5 py-0 h-[48px] text-center bg-brand-100" scope="col">
-                        <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-brand-900">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
+                      <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-brand-100" scope="col">
+                        <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
                       </th>
                     )}
                     {customDateRange && !comparisonPeriod && (
-                      <th className="px-0.5 py-0 h-[48px] text-center bg-amber-50" scope="col">
-                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
-                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
+                      <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-amber-50" scope="col">
+                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
+                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
                       </th>
                     )}
-                    
 
-                    <th className="px-0.5 py-0 h-[48px] text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
-                    <th className="px-0.5 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
+                    <th className="min-w-[54px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200" scope="col"><UnitHeaderLabel align="right" label="총보수" unit="%" /></th>
+                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
+                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
+                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
                   </tr>
                 </thead>
                 <tbody ref={tbodyRef} className="divide-y divide-line text-[12px]">
                   {rowVirtualizer.getVirtualItems().length > 0 && (
                     <tr style={{ height: `${Math.max(0, rowVirtualizer.getVirtualItems()[0].start - tableOffsetTop)}px` }}>
-                      <td colSpan={14} className="p-0 border-0"></td>
+                      <td colSpan={(comparisonPeriod || customDateRange) ? 11 : 10} className="p-0 border-0"></td>
                     </tr>
                   )}
                   {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                     const etf = results[virtualRow.index];
                     return (
-                    <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-100/40" key={etf.ticker} data-index={virtualRow.index} ref={rowVirtualizer.measureElement}>
-                      <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted tabular-nums">{etf.ticker}</td>
-                      <th className="w-[168px] px-2 py-2 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
-                        <Link className="line-clamp-2 break-all whitespace-normal text-left text-[13px] font-bold leading-[18px] text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>{etf.name}</Link>
+                    <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" key={etf.ticker} data-index={virtualRow.index} ref={rowVirtualizer.measureElement}>
+                      {/* 1. 종목 정보 (종목명 + 티커 + 자산/지역/환헤지/연금 뱃지 통합) */}
+                      <th className="sticky left-0 z-10 bg-white min-w-[190px] max-w-[230px] px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                        <div className="flex flex-col gap-0.5">
+                          <Link className="line-clamp-1 truncate block text-left text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>
+                            {etf.name}
+                          </Link>
+                          <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">
+                            <span className="font-mono font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded text-[10.5px]">{etf.ticker}</span>
+                            <span className="text-neutral-500 font-medium">{etf.assetClass}</span>
+                            {etf.classification?.marketScope && etf.classification.marketScope !== "국내" && (
+                              <span className="text-neutral-400">· {etf.classification.marketScope}</span>
+                            )}
+                            {etf.classification?.fxHedge && etf.classification.fxHedge !== "환노출" && (
+                              <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded">{etf.classification.fxHedge}</span>
+                            )}
+                            {etf.pension === "불가" && (
+                              <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                            )}
+                          </div>
+                        </div>
                       </th>
-                      <td className="px-0.5 py-2 text-center text-[11px] font-semibold text-muted">
-                        {etf.assetClass}
-                      </td>
-                      <td className="px-0.5 py-2 text-center text-[11px] font-semibold text-muted">
-                        {etf.classification?.marketScope}
-                      </td>
-                      <td className="px-0.5 py-2 text-center text-[11px] font-bold text-muted"><FxHedgeMarker value={etf.classification?.fxHedge || null} /></td>
-                      <td className="px-0.5 py-2 text-center"><PensionBadge compact status={etf.pension} /></td>
                       
-                      <td className={`px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
+                      {/* 2. 핵심 5대 수익률 (1일, 1개월, 3개월, 1년, 3년) */}
+                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["1d"]} />
                       </td>
-                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
+                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["1m"]} />
                       </td>
-                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
+                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["3m"]} />
                       </td>
-                      <td className={`px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
+                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={etf.returns["12m"]} />
                       </td>
+                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_36m" ? "bg-brand-50" : ""}`}>
+                        <ReturnCell showUnit={false} value={etf.returns["36m"]} />
+                      </td>
                       {comparisonPeriod && (
-                        <td className="px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
+                        <td className="min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
                           <ReturnCell showUnit={false} value={etf.returns[comparisonPeriod]} />
                         </td>
                       )}
                       {customDateRange && !comparisonPeriod && (
-                        <td className="px-3 py-3 font-semibold text-right border-l-2 border-line bg-amber-50/30">
+                        <td className="min-w-[60px] px-2 py-2 font-semibold text-right border-l-2 border-line bg-amber-50/30">
                           {isCustomReturnsLoading ? (
                             <span className="text-muted text-xs">...</span>
                           ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
@@ -897,16 +904,17 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                         </td>
                       )}
                       
-                      <td className="px-1 py-1 text-right font-semibold tabular-nums text-muted border-l border-neutral-100">{(etf.fee?.verificationStatus === "verified_official" || etf.fee?.verificationStatus === "official_single_source") && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatAumNumber(etf.aum)}</td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatTradeValueNumber(etf.tradeValue)}</td>
-                      <td className="px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
+                      {/* 3. 총보수, 순자산, 거래대금, 종가 */}
+                      <td className="min-w-[54px] px-1 py-1 text-right font-semibold tabular-nums text-muted border-l border-neutral-100 font-mono">{(etf.fee?.verificationStatus === "verified_official" || etf.fee?.verificationStatus === "official_single_source") && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
+                      <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatAumNumber(etf.aum)}</td>
+                      <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatTradeValueNumber(etf.tradeValue)}</td>
+                      <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
                     </tr>
                     );
                   })}
                   {rowVirtualizer.getVirtualItems().length > 0 && (
                     <tr style={{ height: `${rowVirtualizer.getTotalSize() - rowVirtualizer.getVirtualItems()[rowVirtualizer.getVirtualItems().length - 1].end}px` }}>
-                      <td colSpan={14} className="p-0 border-0"></td>
+                      <td colSpan={(comparisonPeriod || customDateRange) ? 11 : 10} className="p-0 border-0"></td>
                     </tr>
                   )}
                 </tbody>

@@ -76,6 +76,15 @@ async function claimEvent(db: D1Database, event: MarketSnapshotReadyEvent): Prom
        WHERE consumer_name=? AND event_id=?`,
     ).bind(now, now, CONSUMER_NAME, event.event_id).run();
   } else {
+    try {
+      await db.prepare(
+        `INSERT OR IGNORE INTO market_source_event_outbox (event_id, event_type, target_name, as_of_date, source_version, payload_json, delivery_status)
+         VALUES (?, ?, ?, ?, ?, ?, 'sent')`,
+      ).bind(event.event_id, event.event_type, event.target_name, event.as_of_date, event.source_version, JSON.stringify(event)).run();
+    } catch {
+      // Ignored if outbox already exists or table doesn't have FK
+    }
+
     await db.prepare(
       `INSERT INTO market_source_consumer_runs (
         consumer_name, event_id, as_of_date, source_version, status, started_at, updated_at

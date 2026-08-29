@@ -467,6 +467,16 @@ def main() -> None:
         raise RuntimeError(f"Unexpected finalization response: {final}")
     print(json.dumps({"status": "ready", "as_of_date": as_of_date, "source_version": source_version, "accepted": accepted, "event_id": final.get("eventId")}, ensure_ascii=False))
 
+    # Trigger publisher worker to materialize snapshot and compute/publish briefing immediately
+    publisher_url = f"https://market-briefing-publisher.neo-alpha-research.workers.dev/internal/publish-date?date={as_of_date}"
+    try:
+        req = urllib.request.Request(publisher_url, headers={"User-Agent": "ETF-Campus-Publisher-Trigger/1.0"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            pub_res = json.loads(resp.read().decode("utf-8"))
+            print(f"Briefing publisher triggered successfully for {as_of_date}: {pub_res}")
+    except Exception as pub_err:
+        print(f"Warning: Publisher worker trigger returned: {pub_err}", file=sys.stderr)
+
 
 if __name__ == "__main__":
     try:

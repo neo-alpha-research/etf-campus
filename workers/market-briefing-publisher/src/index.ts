@@ -924,6 +924,31 @@ export default {
 
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname === "/internal/publish-date" || url.pathname === "/api/publish-date") {
+      const targetDate = url.searchParams.get("date") || "2026-08-28";
+      try {
+        const manifest = await env.ETF_PRICES.prepare(
+          `SELECT as_of_date, source_version FROM market_source_snapshot_manifest WHERE as_of_date = ? AND status = 'ready' ORDER BY ready_at DESC LIMIT 1`
+        ).bind(targetDate).first<{ as_of_date: string; source_version: string }>();
+
+        let matResult = null;
+        if (manifest) {
+          const event: MarketSnapshotReadyEvent = {
+            event_id: `market_snapshot_ready:${manifest.as_of_date}:${manifest.source_version}:market_briefing`,
+            event_type: "market_snapshot_ready",
+            target_name: "market_briefing",
+            as_of_date: manifest.as_of_date,
+            source_version: manifest.source_version,
+          };
+          matResult = await materializeMarketSnapshot(env.ETF_PRICES, event);
+        }
+
+        const pubResult = await publishReadyBriefing(env, "manual", "manual", targetDate);
+        return Response.json({ success: true, manifest, matResult, pubResult });
+      } catch (err: any) {
+        return Response.json({ success: false, error: String(err), stack: err.stack }, { status: 500 });
+      }
+    }
     if (url.pathname === "/internal/republish" || url.pathname === "/api/republish") {
       const targetDate = url.searchParams.get("date") || "2026-08-26";
       try {

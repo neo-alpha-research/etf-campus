@@ -848,7 +848,7 @@ export function MarketBriefing() {
                 <span className="w-1.5 h-1.5 rounded-full bg-[#65A30D] animate-pulse" />
                 DAILY MARKET PULSE
               </span>
-              <span className="text-xs font-semibold text-neutral-400">KRX 전종목 전수 분석</span>
+              <span className="text-xs font-semibold text-neutral-400">KRX 상장 일반 ETF {briefing.pulse?.generalEtfCount?.toLocaleString() ?? 1022}개 전수 분석</span>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-neutral-900">
               ETF 데일리 마켓 브리핑

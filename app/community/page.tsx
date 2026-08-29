@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CommunityFeed } from "@/components/community/community-feed";
-import { CommunityNoticeBanner } from "@/components/community/community-notice-banner";
 
 export const metadata: Metadata = {
   title: "ETF 이야기",
@@ -8,10 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function CommunityPage() {
-  return (
-    <>
-      <CommunityNoticeBanner />
-      <CommunityFeed />
-    </>
-  );
+  return <CommunityFeed />;
 }

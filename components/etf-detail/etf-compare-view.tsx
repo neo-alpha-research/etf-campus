@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { formatWon, formatMoney } from "@/lib/domain/etf-format";
+import { formatWon, formatMoney, formatFeePct } from "@/lib/domain/etf-format";
 import { ReturnCell, RiskBadge, AsOfDate } from "@/components/etf";
 import type { Etf, ReturnPeriod } from "@/lib/domain/etf-types";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
@@ -120,7 +119,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                               <span
                                 data-testid="smart-advantage-badge"
                                 className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-emerald-100/90 text-emerald-800 border border-emerald-300 shadow-xs"
-                                title={`총보수 ${feePct}% (비교군 중 최저)`}
+                                title={`총보수 ${formatFeePct(feePct)} (비교군 중 최저)`}
                               >
                                 최저 보수 🥇
                               </span>
@@ -222,7 +221,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   return (
                     <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
                       <span className={`text-[11.5px] font-bold tabular-nums ${hasFee ? "text-strong" : "text-muted"}`}>
-                        {hasFee ? `${feeInfo.totalFeePct}%` : "-"}
+                        {formatFeePct(feeInfo?.totalFeePct)}
                       </span>
                     </td>
                   );

@@ -218,6 +218,12 @@ async function runMonitor(env: Env) {
     return;
   }
 
+  const kstNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+  if (kstNow.getHours() < 10 || (kstNow.getHours() === 10 && kstNow.getMinutes() < 3)) {
+    console.log(`[Monitor] Current time (${kstNow.getHours()}:${kstNow.getMinutes()} KST) is before 10:03 KST daily collection window; monitoring is skipped.`);
+    return;
+  }
+
   let payload: any = null;
   let transportError: string | null = null;
   
@@ -297,8 +303,8 @@ async function runMonitor(env: Env) {
 
 export default {
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
-    // Determine whether this is the monitor (14:15 KST = 05:15 UTC) or the probe based on the cron string
-    if (event.cron === "15 5 * * 2-6") {
+    // Determine whether this is the monitor (10:03 KST = 01:03 UTC) or the probe based on the cron string
+    if (event.cron === "3 1 * * 2-6" || event.cron === "03 1 * * 2-6" || event.cron === "15 5 * * 2-6") {
       await runMonitor(env);
     } else {
       await runProbe(env);

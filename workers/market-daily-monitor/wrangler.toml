@@ -3,10 +3,10 @@ main = "src/index.ts"
 compatibility_date = "2026-08-25"
 
 [triggers]
-# [Monitor] UTC Tue-Sat 05:15 = KST Tue-Sat 14:15.
+# [Monitor] UTC Tue-Sat 01:03 = KST Tue-Sat 10:03.
 # [Probe] KST Tue-Sat 05:00~13:45 = UTC Mon-Fri 20:00~23:45, Tue-Sat 00:00~04:45
 crons = [
-  "15 5 * * 2-6",
+  "3 1 * * 2-6",
   "*/15 * * * *"
 ]
 

@@ -20,6 +20,8 @@ export default defineConfig([
     "add_precise_borders.js",
     "compact_table.js",
     "update_tooltips.js",
+    "compress_final.js",
+    "compress_images.js",
     "scratch/**",
     "workers/**/.wrangler/**",
   ]),

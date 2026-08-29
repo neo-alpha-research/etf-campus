@@ -19,6 +19,7 @@
     "@capacitor/android": "^8.5.0",
     "@capacitor/core": "^8.5.0",
     "@capacitor/ios": "^8.5.0",
+    "@capacitor/push-notifications": "^8.1.2",
     "@next/third-parties": "^16.3.2",
     "@tanstack/react-virtual": "^3.14.9",
     "csv-parse": "^7.0.1",

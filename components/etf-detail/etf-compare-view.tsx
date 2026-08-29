@@ -64,6 +64,20 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
     );
   }
 
+  const validFees = compareList.map((e) => e.fee).filter((f): f is number => typeof f === "number" && f > 0);
+  const minFee = validFees.length > 0 ? Math.min(...validFees) : null;
+
+  const validTrades = compareList.map((e) => e.tradeValue).filter((t): t is number => typeof t === "number" && t > 0);
+  const maxTrade = validTrades.length > 0 ? Math.max(...validTrades) : null;
+
+  const validAums = compareList.map((e) => e.aum).filter((a): a is number => typeof a === "number" && a > 0);
+  const maxAum = validAums.length > 0 ? Math.max(...validAums) : null;
+
+  const valid1YReturns = compareList
+    .map((e) => e.returns?.["1Y"])
+    .filter((r): r is number => typeof r === "number" && Number.isFinite(r));
+  const max1YReturn = valid1YReturns.length > 0 ? Math.max(...valid1YReturns) : null;
+
   return (
     <div className="space-y-4">
       {mode !== "peer-readonly" && (
@@ -98,6 +112,46 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                           <span className={`text-[11px] sm:text-[12px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-800" : "text-neutral-500"}`}>{etf.ticker}</span>
                           <span className="text-[13px] sm:text-[13.5px] font-black leading-snug break-words [overflow-wrap:anywhere] line-clamp-2 text-strong group-hover:text-brand-700 transition-colors w-full px-0.5 text-center" title={etf.name}>{etf.name}</span>
                         </Link>
+                        {compareList.length > 1 && (
+                          <div className="flex flex-wrap justify-center gap-1 mt-0.5">
+                            {minFee !== null && etf.fee === minFee && (
+                              <span
+                                data-testid="smart-advantage-badge"
+                                className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-emerald-100/90 text-emerald-800 border border-emerald-300 shadow-xs"
+                                title={`총보수 ${etf.fee}% (비교군 중 최저)`}
+                              >
+                                최저 보수 🥇
+                              </span>
+                            )}
+                            {maxTrade !== null && etf.tradeValue === maxTrade && (
+                              <span
+                                data-testid="smart-advantage-badge"
+                                className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-sky-100/90 text-sky-800 border border-sky-300 shadow-xs"
+                                title="비교군 중 거래대금 1위 (풍부한 유동성)"
+                              >
+                                거래대금 1위 💧
+                              </span>
+                            )}
+                            {maxAum !== null && etf.aum === maxAum && (
+                              <span
+                                data-testid="smart-advantage-badge"
+                                className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-indigo-100/90 text-indigo-800 border border-indigo-300 shadow-xs"
+                                title="비교군 중 순자산 1위"
+                              >
+                                순자산 1위 🏛️
+                              </span>
+                            )}
+                            {max1YReturn !== null && etf.returns?.["1Y"] === max1YReturn && max1YReturn > 0 && (
+                              <span
+                                data-testid="smart-advantage-badge"
+                                className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-amber-100/90 text-amber-800 border border-amber-300 shadow-xs"
+                                title={`1년 수익률 +${max1YReturn.toFixed(1)}% (비교군 1위)`}
+                              >
+                                1년 성과 1위 📈
+                              </span>
+                            )}
+                          </div>
+                        )}
                         {mode === "peer-readonly" && !isBase && reasons.length > 0 && (
                           <div className="mt-0.5 flex flex-wrap justify-center gap-1">
                             {reasons.map((reason, idx) => {

@@ -60,4 +60,40 @@ describe("EtfCompareView selectionReasons", () => {
     const normalBadge = screen.getByText("동일 지수 계열");
     expect(normalBadge.className).toContain("border-neutral-200");
   });
+
+  it("비교 종목 간 스마트 장점 칩(최저 보수, 거래대금 1위 등)이 정상 렌더링된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "보수 저렴 ETF",
+      fee: 0.05,
+      tradeValue: 10000000,
+      aum: 50000000,
+      asOfDate: "20260715",
+      returns: { "1Y": 15.2 },
+    };
+    const etfB: Partial<Etf> = {
+      ticker: "000002",
+      name: "유동성 풍부 ETF",
+      fee: 0.35,
+      tradeValue: 90000000,
+      aum: 200000000,
+      asOfDate: "20260715",
+      returns: { "1Y": 5.0 },
+    };
+
+    render(
+      <EtfCompareView
+        mainEtf={etfA as Etf}
+        basket={[etfB as Etf]}
+        mode="peer-readonly"
+      />
+    );
+
+    const badges = screen.getAllByTestId("smart-advantage-badge");
+    expect(badges.length).toBeGreaterThan(0);
+    expect(screen.getByText("최저 보수 🥇")).toBeDefined();
+    expect(screen.getByText("거래대금 1위 💧")).toBeDefined();
+    expect(screen.getByText("순자산 1위 🏛️")).toBeDefined();
+    expect(screen.getByText("1년 성과 1위 📈")).toBeDefined();
+  });
 });

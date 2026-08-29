@@ -103,9 +103,9 @@ function CompactAssetClassLabel({ value }: { value: string }) {
   return <span className="whitespace-nowrap text-[11px] font-bold text-strong">{value}</span>;
 }
 
-function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
+function UnitHeaderLabel({ label, unit, align = "center" }: { label: string; unit: string; align?: "center" | "right" }) {
   return (
-    <span className="inline-flex flex-col items-center leading-tight">
+    <span className={`inline-flex flex-col ${align === "right" ? "items-end text-right pr-0.5" : "items-center text-center"} leading-tight`}>
       <span>{label}</span>
       <span className="block pt-0.5 text-[10px] font-bold text-neutral-500">({unit})</span>
     </span>
@@ -505,17 +505,17 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                   const borderL = isYtd ? 'border-l-2 border-neutral-200' : index === 0 ? 'border-l border-neutral-200' : '';
                   const bg = normalizedPeriod === period && !isYtd ? "bg-brand-100 text-brand-900" : "bg-neutral-50";
                   return (
-                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률`} className={`sticky top-[32px] z-20 h-[48px] min-w-[80px] px-1 py-0 text-center ${borderL} ${bg}`} key={period} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">{RETURN_PERIOD_LABELS[period]}</span>
+                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률`} className={`sticky top-[32px] z-20 h-[48px] min-w-[80px] px-1.5 py-0 text-right ${borderL} ${bg}`} key={period} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">{RETURN_PERIOD_LABELS[period]}</span>
                     </th>
                   );
                 })}
                 
-                <th aria-label="총보수, 단위 퍼센트" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1 py-0 text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
-                <th aria-label="순자산, 단위 억원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
-                <th aria-label="거래대금, 단위 억원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
+                <th aria-label="총보수, 단위 퍼센트" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-l border-neutral-200" scope="col"><UnitHeaderLabel align="right" label="총보수" unit="%" /></th>
+                <th aria-label="순자산, 단위 억원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
+                <th aria-label="거래대금, 단위 억원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
                 
-                <th aria-label="종가, 단위 원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1 py-0 text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
+                <th aria-label="종가, 단위 원" className="sticky top-[32px] z-20 min-w-[80px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line text-[12px]">

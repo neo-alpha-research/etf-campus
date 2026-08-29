@@ -44,13 +44,12 @@ describe("Dashboard", () => {
     expect(screen.getByText("순자산 1,000억 이상 · 1종목")).toBeInTheDocument();
     expect(screen.getByRole("combobox", { name: "순자산 기준" })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: "종목코드" })).toBeInTheDocument();
-    expect(screen.getByRole("columnheader", { name: "종목명" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-center");
-    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-center");
+    expect(screen.getByRole("columnheader", { name: "종가, 단위 원" })).toHaveClass("text-right");
+    expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveClass("text-right");
+    expect(screen.getByRole("columnheader", { name: "순자산, 단위 억원" })).toHaveClass("text-right");
     expect(screen.getAllByRole("columnheader", { name: "1일 수익률" })[0]).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "대형 일반 ETF" })).toBeInTheDocument();
-    expect(screen.getByText("30.0")).toBeInTheDocument();
+    expect(screen.getByText("30")).toBeInTheDocument();
     expect(screen.queryByText("레버리지 ETF")).not.toBeInTheDocument();
   });
 
@@ -108,8 +107,8 @@ describe("Dashboard", () => {
 
     expect(closeHeader).toHaveClass("sticky", "top-[32px]");
     expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-bold", "text-neutral-700");
-    expect(closeHeader).toHaveClass("text-center");
-    expect(oneMonthHeader).toHaveClass("text-center");
+    expect(closeHeader).toHaveClass("text-right");
+    expect(oneMonthHeader).toHaveClass("text-right");
   });
 
   it("환헤지는 노출을 비우고 헤지·부분·탄력을 짧게 표기한다", () => {

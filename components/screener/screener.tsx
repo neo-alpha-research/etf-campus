@@ -32,9 +32,9 @@ function FxHedgeMarker({ value }: { value: string | null }) {
   );
 }
 
-function UnitHeaderLabel({ label, unit }: { label: string; unit: string }) {
+function UnitHeaderLabel({ label, unit, align = "center" }: { label: string; unit: string; align?: "center" | "right" }) {
   return (
-    <div className="flex flex-col items-center justify-center leading-[1.2]">
+    <div className={`flex flex-col ${align === "right" ? "items-end justify-center text-right pr-0.5" : "items-center justify-center text-center"} leading-[1.2]`}>
       <span className="text-[11px] font-bold text-strong">{label}</span>
       <span className="text-[10px] font-bold text-neutral-500">({unit})</span>
     </div>
@@ -804,34 +804,34 @@ export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
                   <tr className="text-[12px]">
                     <th className="sticky left-0 z-20 min-w-[190px] w-[210px] bg-neutral-100 px-3 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5]" scope="col">종목 정보</th>
                     
-                    <th className={`min-w-[60px] px-1 py-0 h-[48px] text-center border-l border-neutral-200 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1일</span>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1일</span>
                     </th>
-                    <th className={`min-w-[60px] px-1 py-0 h-[48px] text-center ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1개월</span>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
                     </th>
-                    <th className={`min-w-[60px] px-1 py-0 h-[48px] text-center ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">3개월</span>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
                     </th>
-                    <th className={`min-w-[60px] px-1 py-0 h-[48px] text-center ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong">1년</span>
+                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : ""}`} scope="col">
+                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
                     </th>
                     {comparisonPeriod && (
-                      <th className="min-w-[60px] px-1 py-0 h-[48px] text-center bg-brand-100" scope="col">
-                        <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-brand-900">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
+                      <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-brand-100" scope="col">
+                        <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
                       </th>
                     )}
                     {customDateRange && !comparisonPeriod && (
-                      <th className="min-w-[60px] px-1 py-0 h-[48px] text-center bg-amber-50" scope="col">
-                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
-                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
+                      <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-amber-50" scope="col">
+                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
+                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
                       </th>
                     )}
 
-                    <th className="min-w-[54px] px-1 py-0 h-[48px] text-center border-l border-neutral-200" scope="col"><UnitHeaderLabel label="총보수" unit="%" /></th>
-                    <th className="min-w-[64px] px-1 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="순자산" unit="억원" /></th>
-                    <th className="min-w-[64px] px-1 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="거래대금" unit="억원" /></th>
-                    <th className="min-w-[64px] px-1 py-0 h-[48px] text-center" scope="col"><UnitHeaderLabel label="종가" unit="원" /></th>
+                    <th className="min-w-[54px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200" scope="col"><UnitHeaderLabel align="right" label="총보수" unit="%" /></th>
+                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
+                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
+                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
                   </tr>
                 </thead>
                 <tbody ref={tbodyRef} className="divide-y divide-line text-[12px]">

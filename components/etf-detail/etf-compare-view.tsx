@@ -362,8 +362,11 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                       return (
                         <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-right tabular-nums transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
                           <div className="flex justify-end items-center gap-1">
-                            {isTop && val != null && val > 0 && (
-                              <span className="text-[9px] font-black text-rose-600 bg-rose-100/90 px-1 py-0.2 rounded border border-rose-300 shadow-2xs">
+                            {isTop && val != null && (
+                              <span
+                                className="inline-flex items-center rounded px-1.5 py-0.5 text-[9px] font-black leading-none bg-amber-100/90 text-amber-900 border border-amber-300 shadow-2xs"
+                                title="해당 기간 비교군 1위 성과"
+                              >
                                 1위
                               </span>
                             )}

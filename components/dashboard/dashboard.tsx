@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Suspense, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
-import { useCompareBasket } from "@/lib/hooks/use-compare-basket";
 import { Tickery } from "@/components/brand/tickery";
 import { AsOfDate, PensionBadge, ReturnCell } from "@/components/etf";
 import { getClassificationFields } from "@/lib/domain/etf-classification";
@@ -256,9 +255,6 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
       prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
-
-  // Compare basket
-  const { basket, addEtf, removeEtf, isStored, clearBasket } = useCompareBasket();
 
   // We handle initial load and popstate in a separate effect just to be safe,
   // but SearchParamsSync handles Next.js router soft-navigations.
@@ -815,39 +811,15 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                 const tdfInfo = state.mode === "tdf" ? getTdfVintageInfo(etf.name) : null;
                 const newDays = isNew ? getDaysSinceListing(etf.listingDate, asOfDate) : null;
                 const newThemeTag = isNew ? getNewEtfThemeTag(etf.name) : null;
-                const inBasket = isStored(etf.ticker);
 
                 return (
                   <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60 h-[44px]" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
-                    {/* 1. 종목 정보 (Sticky Left Column - 2단 통합 + 1초 비교함 담기 버튼) */}
-                    <th className="sticky left-0 z-10 bg-white min-w-[200px] max-w-[240px] px-2.5 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
-                      <div className="flex items-start gap-1.5">
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            if (inBasket) {
-                              removeEtf(etf.ticker);
-                            } else {
-                              addEtf(etf);
-                            }
-                          }}
-                          className={`mt-0.5 inline-flex size-5 shrink-0 items-center justify-center rounded text-[11px] font-bold transition-all ${
-                            inBasket
-                              ? "bg-brand-600 text-white shadow-sm"
-                              : "border border-neutral-200 bg-neutral-100 text-neutral-500 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700"
-                          }`}
-                          title={inBasket ? "비교 바구니에서 제거" : "비교 바구니에 담기 (최대 5개)"}
-                          aria-label={`${etf.name} 비교 바구니 담기`}
-                        >
-                          {inBasket ? "✓" : "+"}
-                        </button>
-                        
-                        <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                          <Link className="line-clamp-1 truncate block text-left text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}/`} title={etf.name}>{etf.name}</Link>
-                          <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">
-                            <span className="font-mono font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded text-[10.5px]">{etf.ticker}</span>
+                    {/* 1. 종목 정보 (Sticky Left Column - 2단 통합) */}
+                    <th className="sticky left-0 z-10 bg-white min-w-[190px] max-w-[230px] px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                      <div className="flex flex-col gap-0.5 min-w-0">
+                        <Link className="line-clamp-1 truncate block text-left text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}/`} title={etf.name}>{etf.name}</Link>
+                        <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">
+                          <span className="font-mono font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded text-[10.5px]">{etf.ticker}</span>
                             
                             {/* 파생형 배수 뱃지 (독립 선명 표기) */}
                             {isDeriv && derivInfo ? (
@@ -902,7 +874,6 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
                             ) : null}
                           </div>
                         </div>
-                      </div>
                     </th>
 
                     {/* 2. 기간별 수익률 */}
@@ -936,43 +907,6 @@ export function Dashboard({ etfs }: { etfs: Etf[] }) {
           {!visibleEtfs.length ? <div className="px-5 py-16 text-center"><p className="font-extrabold text-strong">조건에 맞는 ETF가 없습니다</p><p className="mt-2 text-sm text-muted">검색어나 필터, 순자산 범위를 조정해 보세요.</p></div> : null}
         </div>
       </div>
-
-      {/* Floating Compare Basket Drawer */}
-      {basket.length > 0 ? (
-        <aside
-          aria-label="ETF 비교 바구니"
-          className="fixed bottom-4 inset-x-4 max-w-2xl mx-auto z-50 rounded-2xl bg-neutral-900/95 backdrop-blur-md text-white p-3 shadow-2xl border border-neutral-700 flex flex-wrap items-center justify-between gap-3 animate-in fade-in slide-in-from-bottom-4 duration-200"
-        >
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-500 text-slate-950 font-black text-xs">
-              {basket.length}
-            </span>
-            <div className="min-w-0">
-              <p className="text-xs font-bold text-neutral-300">비교 바구니 ({basket.length}/5)</p>
-              <p className="text-xs font-semibold text-white truncate max-w-[260px] sm:max-w-[360px]">
-                {basket.map((b) => b.name).join(", ")}
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={clearBasket}
-              className="text-xs font-bold text-neutral-400 hover:text-white px-2 py-1 rounded transition-colors"
-            >
-              비우기
-            </button>
-            <Link
-              href={`/compare?tickers=${encodeURIComponent(basket.map((b) => b.ticker).join(","))}&base=${encodeURIComponent(basket[0]?.ticker ?? "")}`}
-              className="inline-flex items-center gap-1 rounded-xl bg-brand-500 hover:bg-brand-400 text-neutral-950 font-extrabold px-3.5 py-1.5 text-xs transition-colors shadow-md"
-            >
-              <span>1:1 비교하기</span>
-              <span>→</span>
-            </Link>
-          </div>
-        </aside>
-      ) : null}
-
     </main>
   );
 }

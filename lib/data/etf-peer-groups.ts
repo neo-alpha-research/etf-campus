@@ -347,6 +347,25 @@ function investmentReferenceTier(
   return null;
 }
 
+function extractCoreFrontTokens(name: string): string[] {
+  const parts = name.normalize("NFKC").trim().split(/\s+/);
+  const withoutBrand = parts.length > 1 ? parts.slice(1).join(" ") : parts[0];
+  return withoutBrand
+    .toLowerCase()
+    .split(/[\s|,;·/()\-]+/)
+    .map((token) => token.trim())
+    .filter((token) => token.length >= 2 && !STOP_WORDS.has(token))
+    .slice(0, 3); // Take top 3 front-position tokens
+}
+
+function sharesFrontPositionKeyword(targetEtf?: Etf, candidateEtf?: Etf): boolean {
+  if (!targetEtf || !candidateEtf) return false;
+  const targetFront = extractCoreFrontTokens(targetEtf.name);
+  const candFront = extractCoreFrontTokens(candidateEtf.name);
+  if (targetFront.length === 0 || candFront.length === 0) return false;
+  return targetFront.some((token) => candFront.includes(token));
+}
+
 function sharesNameKeyword(targetEtf?: Etf, candidateEtf?: Etf): boolean {
   if (!targetEtf || !candidateEtf) return false;
   const targetTokens = normalizedTokens(`${targetEtf.name} ${targetEtf.baseIndex || ""}`);
@@ -372,13 +391,19 @@ function calculateRelativeDistance(
   const sameDirection = sameNonEmpty(target.direction, candidate.direction);
   const sameLeverage = sameNonEmpty(target.leverageMultiple, candidate.leverageMultiple);
   const sameStyle = sameNonEmpty(target.strategyStyle, candidate.strategyStyle);
+  const hasFrontKeywordMatch = sharesFrontPositionKeyword(targetEtf, candidateEtf);
   const sameKeyword = sharesNameKeyword(targetEtf, candidateEtf);
 
   if (sameIndex) score += 40;
   if (sameSubtopic) score += 30;
   if (sameTopic) score += 40;
   else if (sharesTopic(target, candidate)) score += 25;
-  else if (sameKeyword) score += 25;
+  else if (hasFrontKeywordMatch) score += 35; // Strong positional boost for front-position domain keywords
+  else if (sameKeyword) score += 20;
+
+  if (hasFrontKeywordMatch && (sameTopic || sharesTopic(target, candidate))) {
+    score += 15; // Extra synergy boost when both taxonomy and front name align
+  }
 
   if (sameCategory) score += 15;
   if (sameAssetFamily && sameRegion) score += 15;

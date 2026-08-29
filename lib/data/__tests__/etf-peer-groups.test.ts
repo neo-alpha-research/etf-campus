@@ -182,5 +182,32 @@ describe("classification data contracts", () => {
       }
     }
   });
+
+  it("SOL 미국AI전력인프라(486450) 매칭: 리츠가 아닌 미국 AI 전력 주식형 ETF들과 매칭된다", () => {
+    const target = byTicker.get("486450");
+    expect(target).toBeDefined();
+    const comparison = getPeerComparison(target!, etfs);
+    const primary = comparison.groups.find((group) => group.isPrimary);
+    expect(primary).toBeDefined();
+    expect(primary!.candidates.length).toBe(4);
+
+    const candidateTickers = primary!.candidates.map((c) => c.etf.ticker);
+    expect(candidateTickers).not.toContain("329200"); // TIGER 리츠부동산인프라
+    expect(candidateTickers).toContain("487230"); // KODEX 미국AI전력핵심인프라
+  });
+
+  it("RISE 미국AI클라우드인프라(0127R0) 매칭: 리츠가 아닌 AI 데이터센터/클라우드 테마와 매칭된다", () => {
+    const target = byTicker.get("0127R0");
+    expect(target).toBeDefined();
+    const comparison = getPeerComparison(target!, etfs);
+    const primary = comparison.groups.find((group) => group.isPrimary);
+    expect(primary).toBeDefined();
+    expect(primary!.candidates.length).toBe(4);
+
+    const candidateTickers = primary!.candidates.map((c) => c.etf.ticker);
+    expect(candidateTickers).not.toContain("329200");
+    expect(candidateTickers).toContain("0207Z0"); // KIWOOM 미국우주데이터센터인프라
+  });
 });
+
 

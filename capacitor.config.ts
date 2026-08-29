@@ -7,7 +7,6 @@ const config: CapacitorConfig = {
   server: {
     url: 'https://etf-campus.pages.dev',
     cleartext: true,
-    appendUserAgent: 'ETFCampusApp'
   },
   plugins: {
     PushNotifications: {

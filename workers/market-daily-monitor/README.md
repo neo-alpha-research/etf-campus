@@ -1,4 +1,4 @@
-﻿# Retired: `market-daily-monitor`
+# Retired: `market-daily-monitor`
 
 이 Cloudflare Worker는 1주일간의 데이터 공급 시간대 관측(Probe) 및 실시간 모니터링을 위해 한시적으로 운영되었던 Worker입니다.
 

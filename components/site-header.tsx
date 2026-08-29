@@ -57,6 +57,18 @@ export function SiteHeader() {
   const isEtfSection = pathname.startsWith("/explore") || pathname.startsWith("/screener") || pathname === "/quick" || pathname === "/quick/";
   const showFinderNav = isEtfSection;
 
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      const headerEl = document.getElementById("site-fixed-header");
+      if (headerEl) {
+        document.documentElement.style.setProperty("--site-header-height", `${headerEl.offsetHeight}px`);
+      }
+    };
+    updateHeaderHeight();
+    window.addEventListener("resize", updateHeaderHeight);
+    return () => window.removeEventListener("resize", updateHeaderHeight);
+  }, [showFinderNav, pathname]);
+
   const isPrimaryActive = (href: string) => {
     if (href === "/") return pathname === "/" || pathname.startsWith("/briefing");
     if (href === "/explore/") return isEtfSection;

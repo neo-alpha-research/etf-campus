@@ -5,8 +5,8 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { MarketTicker } from "@/components/market-ticker";
-import { AppPushInitializer } from "@/components/app-push-initializer";
-import { AppBottomTab } from "@/components/app-bottom-tab";
+import { AppPushInitializer } from "@/components/native/app-push-initializer";
+import { AppBottomTab } from "@/components/native/app-bottom-tab";
 import { StyleOnboarding } from "@/components/onboarding/style-onboarding";
 import { siteConfig } from "@/config/site";
 

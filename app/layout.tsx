@@ -5,6 +5,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { MarketTicker } from "@/components/market-ticker";
+import { AppPushInitializer } from "@/components/app-push-initializer";
 import { AppBottomTab } from "@/components/app-bottom-tab";
 import { StyleOnboarding } from "@/components/onboarding/style-onboarding";
 import { siteConfig } from "@/config/site";
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <div className="flex flex-1 flex-col" id="main-content">{children}</div>
         <SiteFooter />
         <AppBottomTab />
+        <AppPushInitializer />
         <StyleOnboarding />
       </body>
       {process.env.NEXT_PUBLIC_GA_ID ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} /> : null}

@@ -5,18 +5,14 @@ on:
     # Retry ladder on the morning AFTER each trading day (KST), so the prior
     # close lands as early as the official feed publishes it. The first run
     # that finds new data commits; later runs that day exit early as no-ops.
-    # GitHub's on-the-hour schedule queue is congested and can drop runs, so
-    # use minute 53 and 13 and let the retry ladder absorb a transient API delay.
     #
     #   UTC (cron)      KST (local)          covers
-    #   Mon-Fri 22:53   Tue-Sat 07:53        previous trading day close
-    #   Tue-Sat 00:13   Tue-Sat 09:13        
-    #   Tue-Sat 01:13   Tue-Sat 10:13
-    #   Tue-Sat 02:13   Tue-Sat 11:13
-    #   Tue-Sat 03:13   Tue-Sat 12:13        final retry
+    #   Mon-Fri 22:53   Tue-Sat 07:53        1st attempt (previous trading day close)
+    #   Mon-Fri 23:53   Tue-Sat 08:53        2nd attempt
+    #   Tue-Sat 00:53   Tue-Sat 09:53        3rd final retry
     - cron: "53 22 * * 1-5"
-    - cron: "13 23 * * 1-5"
-    - cron: "13 0-3 * * 2-6"
+    - cron: "53 23 * * 1-5"
+    - cron: "53 0 * * 2-6"
   workflow_dispatch:
     inputs:
       target:
@@ -25,9 +21,9 @@ on:
         type: string
 
 env:
-  # [주의] ??값을 바꾸�??�래 schedule ?�론??최종 ?�계(03:13)?�
-  # guard ?�텝??최종 ?�계 ?�정 로직??모두 ?�께 바뀌어???�니??
-  FINAL_RETRY_UTC_HOUR: "03"
+  # [주의] 이 값을 바꿀 때 위의 schedule 크론의 최종 단계(00:53)와
+  # guard 스텝의 최종 단계 판정 로직이 함께 일치해야 합니다.
+  FINAL_RETRY_UTC_HOUR: "00"
 
 permissions:
   contents: write

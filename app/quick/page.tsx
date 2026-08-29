@@ -7,7 +7,18 @@ export const metadata: Metadata = { title: "빠른 ETF 검색", description: "�
 
 export default function QuickSearchPage() {
   const etfs = loadEtfs().map((etf) => {
-    const {   ...rest } = etf;
+    // 🔥 [최적화] 웹뷰 메모리 크래시 방지 및 페이로드 다이어트를 위한 DTO (Data Transfer Object)
+    // - distributionSummary, itdAnchor 등 불필요하게 거대한 메타 데이터를 제거합니다.
+    const {
+      distributionSummary,
+      itdAnchor,
+      listingDateSource,
+      firstTradedDateSource,
+      listingDateVerifiedAt,
+      listingDateEvidenceId,
+      pensionSource,
+      ...rest
+    } = etf;
     return rest as unknown as typeof etf;
   });
   return <Dashboard etfs={etfs} />;

@@ -158,5 +158,29 @@ describe("classification data contracts", () => {
     expect(candidateTickers).toContain("0209Z0"); // ACE 코리아AI전력TOP10
     expect(candidateTickers).toContain("487240"); // KODEX AI전력핵심설비
   });
+
+  it("RISE AI전력인프라(0101N0) 매칭: 부동산 리츠가 아닌 전력/AI 주식형 ETF와 매칭된다", () => {
+    const target = byTicker.get("0101N0");
+    expect(target).toBeDefined();
+    const comparison = getPeerComparison(target!, etfs);
+    const primary = comparison.groups.find((group) => group.isPrimary);
+    expect(primary).toBeDefined();
+    expect(primary!.candidates.length).toBe(4);
+
+    const candidateTickers = primary!.candidates.map((c) => c.etf.ticker);
+    // 부동산 리츠(329200 등)가 아닌 전력 테마 종목이어야 함
+    expect(candidateTickers).not.toContain("329200"); // TIGER 리츠부동산인프라
+    expect(candidateTickers).toContain("487240"); // KODEX AI전력핵심설비
+  });
+
+  it("UI 노이즈 방어: 피어 추천 사유에 '공식 확인 분류' 중복 배지가 포함되지 않는다", () => {
+    const target = byTicker.get("0101N0");
+    const comparison = getPeerComparison(target!, etfs);
+    for (const group of comparison.groups) {
+      for (const cand of group.candidates) {
+        expect(cand.reasons).not.toContain("공식 확인 분류");
+      }
+    }
+  });
 });
 

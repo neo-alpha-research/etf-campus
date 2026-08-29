@@ -192,9 +192,6 @@ function candidateReasons(target: ComparisonProfile, candidate: ComparisonProfil
     const hedgeLabel = candidate.fxHedge === "hedged" ? "환헤지형" : "환노출형";
     reasons.push(`같은 ${hedgeLabel} 유형`);
   }
-  if (candidate.classificationStatus === "verified_official") {
-    reasons.push("공식 확인 분류");
-  }
   return reasons;
 }
 

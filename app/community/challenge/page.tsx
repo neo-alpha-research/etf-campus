@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CommunityChallenge } from "@/components/community/community-challenge";
-import { CommunityNoticeBanner } from "@/components/community/community-notice-banner";
 
 export const metadata: Metadata = {
   title: "30일 과제 챌린지",
@@ -8,10 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ChallengePage() {
-  return (
-    <>
-      <CommunityNoticeBanner />
-      <CommunityChallenge />
-    </>
-  );
+  return <CommunityChallenge />;
 }

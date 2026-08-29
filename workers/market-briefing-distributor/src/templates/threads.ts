@@ -6,27 +6,35 @@ export interface ThreadsPost {
 }
 
 export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: string): ThreadsPost[] {
-  const dateStr = payload.asOfDate || "2026-08-27";
+  const dateStr = payload.asOfDate || "2026-08-28";
   const formattedDate = dateStr.replace(/-/g, ".");
-  const temp = payload.marketTemperature || "상승 우세";
-  const kospiClose = payload.kospiClose || 3185.42;
-  const kospiChangePct = payload.kospiChangePct ?? 1.07;
+  const temp = payload.marketTemperature || "하락 우세";
+  const kospiClose = payload.kospiClose || 6788.88;
+  const kospiChangePct = payload.kospiChangePct ?? -1.79;
   const aumJo = ((payload.generalTotalAum || 3851607) / 10000).toFixed(1);
-  const up = payload.upCount || 642;
-  const down = payload.downCount || 288;
+  const up = payload.upCount || 350;
+  const down = payload.downCount || 637;
+
+  const etfReturn = payload.generalAumWeightedReturnPct ?? -0.86;
+  const etfSign = etfReturn > 0 ? "+" : "";
+  const spread = etfReturn - kospiChangePct;
+  const spreadSign = spread > 0 ? "+" : "";
 
   const utmLink = `${baseUrl}/briefing?utm_source=threads&utm_medium=social&utm_campaign=daily_briefing_${dateStr.replace(/-/g, "")}`;
 
-  // 1단: 강력한 Hook & 감정적 질문
-  const post1 = `어제 나스닥 조정받을 때 한국 ETF 시장에서 오히려 뭉칫돈이 쏠린 곳이 있습니다. 💸
+  const sign = kospiChangePct > 0 ? "+" : "";
 
-반도체는 차익실현 매물이 나왔는데, 배당주와 대표지수로 갈아타는 흐름... 단순한 일시적 피난처일까요?
+  // 1단: 강력한 Hook & 감정적 질문
+  const post1 = `어제 코스피가 -1.79% 급락할 때, 한국 ETF 시장은 -0.86%로 +0.93%p 초과 방어력을 보여줬습니다. 🛡️
+
+글로벌 분산과 K-푸드/원자재가 버텨주는 가운데, 오히려 스마트머니는 5,325억원을 쓸어담았습니다. 💸
 
 📊 ${formattedDate} 시장 체온: '${temp}'
-• 코스피: ${kospiClose.toLocaleString()} (+${kospiChangePct.toFixed(2)}%)
-• 시장 AUM: ${aumJo}조원 돌파 (상승 ${up} vs 하락 ${down})
+• 코스피: ${kospiClose.toLocaleString()}pt (${sign}${kospiChangePct.toFixed(2)}%)
+• 일반 ETF 가중수익률: ${etfSign}${etfReturn.toFixed(2)}% (${spreadSign}${spread.toFixed(2)}%p 방어 🛡️)
+• 시장 AUM: ${aumJo}조원 (상승 ${up} vs 하락 ${down})
 
-오늘 Smart Money가 움직인 방향을 뜯어봤습니다. 🧵👇`;
+오늘 큰손들이 저가 줍줍한 종목과 섹터 로테이션을 뜯어봤습니다. 🧵👇`;
 
   // 2단: 핵심 데이터와 섹터 로테이션 Context
   const post2 = `[오늘의 특징 테마 & 섹터 로테이션 요약 📊]

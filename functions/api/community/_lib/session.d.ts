@@ -1,0 +1,14 @@
+export function encodeBase64Url(str: string): string;
+export function decodeBase64Url(str: string): string;
+export function sessionHeaders(session: { access_token: string; refresh_token: string }, csrfToken?: string, rememberMe?: boolean): Headers;
+export function clearSessionHeaders(): Headers;
+export function passwordSetupHeaders(session: { access_token?: string }, options: { rememberMe?: boolean; csrfToken?: string }): Headers;
+export function readPasswordSetup(request: Request): { accessToken: string; rememberMe: boolean } | null;
+export function clearPasswordSetupHeaders(): Headers;
+export function mergeSessionHeaders(response: Response, session: { headers: Headers; cookies?: string[] }): Response;
+export function clearSessionResponse(response: Response): Response;
+export function requestCsrfToken(request: Request): string;
+export function enforceCsrf(context: any): Response | null;
+export function requestSessionTokens(request: Request): { accessToken: string; refreshToken: string; rememberMe: boolean };
+export function authenticatedSession(context: any): Promise<any>;
+export const COMMUNITY_SESSION_COOKIE_NAMES: Record<string, string>;

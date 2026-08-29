@@ -162,25 +162,24 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                             )}
                           </div>
                         )}
-                        {mode === "peer-readonly" && !isBase && reasons.length > 0 && (
-                          <div className="mt-0.5 flex flex-wrap justify-center gap-1">
-                            {reasons.map((reason, idx) => {
-                              const isCaution = CAUTION_REASONS.has(reason);
-                              return (
-                                <span
-                                  key={idx}
-                                  data-testid="peer-reason-badge"
-                                  className={`inline-block rounded px-1.5 py-0.5 text-[10px] sm:text-[10.5px] font-semibold leading-tight border ${
-                                    isCaution
-                                      ? "border-amber-300 bg-amber-50 text-amber-800"
-                                      : "border-neutral-200 bg-neutral-50 text-neutral-600"
-                                  }`}
-                                >
-                                  {reason}
-                                </span>
-                              );
-                            })}
-                          </div>
+                        {mode === "peer-readonly" && !isBase && (
+                          (() => {
+                            const cautionReasons = reasons.filter((r) => CAUTION_REASONS.has(r));
+                            if (cautionReasons.length === 0) return null;
+                            return (
+                              <div className="mt-1 flex flex-wrap justify-center gap-1">
+                                {cautionReasons.map((reason, idx) => (
+                                  <span
+                                    key={idx}
+                                    data-testid="peer-reason-badge"
+                                    className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-bold leading-tight border border-amber-300 bg-amber-50 text-amber-900 shadow-xs"
+                                  >
+                                    <span aria-hidden="true">⚠️</span> {reason}
+                                  </span>
+                                ))}
+                              </div>
+                            );
+                          })()
                         )}
                         {!isBase && mode !== "peer-readonly" && (
                           <button 

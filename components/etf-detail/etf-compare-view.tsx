@@ -112,14 +112,10 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                             }
                           }}
                           className="flex flex-col items-center text-center gap-0.5 group w-full cursor-pointer"
-                          title={`${etf.name} (${etf.ticker}) 상세 보기`}
+                          title={isBase ? `${etf.name} (${etf.ticker}) [현재 기준 ETF]` : `${etf.name} (${etf.ticker}) 상세 보기`}
+                          aria-label={isBase ? `${etf.name} (기준 ETF)` : etf.name}
                         >
-                          {isBase && (
-                            <span className="inline-flex items-center rounded-full bg-brand-700 px-2 py-0.5 text-[10px] font-extrabold text-white shadow-xs mb-0.5 group-hover:bg-brand-800 transition-colors">
-                              기준 ETF
-                            </span>
-                          )}
-                          <span className={`text-[11px] sm:text-[12px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-800" : "text-neutral-500"}`}>{etf.ticker}</span>
+                          <span className={`text-[11px] sm:text-[12px] font-extrabold tracking-wider font-mono group-hover:underline transition-colors ${isBase ? "text-brand-800 group-hover:text-brand-900" : "text-neutral-500 group-hover:text-neutral-700"}`}>{etf.ticker}</span>
                           <span className="text-[13px] sm:text-[13.5px] font-black leading-snug break-words [overflow-wrap:anywhere] line-clamp-2 text-strong group-hover:text-brand-700 transition-colors w-full px-0.5 text-center" title={etf.name}>{etf.name}</span>
                         </Link>
                         {compareList.length > 1 && (

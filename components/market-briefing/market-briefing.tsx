@@ -2622,12 +2622,12 @@ export function MarketBriefing() {
             {/* 카드 1: 유니버스 & 시장 체온 */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#2E6819]" /> STEP 1 & 2. 유니버스 및 시장 체온
+                <span className="w-2 h-2 rounded-full bg-[#2E6819]" /> STEP 1 &amp; 2. 유니버스 및 시장 체온
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
                 <li>• <b>순수 일반 ETF</b>: 레버리지, 인버스, 파킹형(CD/KOFR/MMF)을 제외한 실물 투자 ETF (1,000+개) 대상.</li>
-                <li>• <b>시장 체온</b>: 시가총액 왜곡을 방지한 일반 ETF 전체의 가중 평균 수익률.</li>
-                <li>• <b>수급 건전성</b>: 전체 거래대금 중 상위 10개 종목이 차지하는 비중 (45% 이하 양호, 60% 초과 시 수급 과열).</li>
+                <li>• <b>시장 체온계</b>: 상승/보합/하락 종목 비율(Market Breadth)과 AUM 가중수익률 구간(전체, TOP 50, TOP 100, TOP 200)을 결합하여 장세 분위기 진단.</li>
+                <li>• <b>수급 건전성(3-Zone)</b>: 전체 거래대금 중 상위 10개 종목 쏠림도 (45% 이하 정상, 45~60% 주의, 60% 초과 과열).</li>
               </ul>
             </div>
 
@@ -2637,30 +2637,30 @@ export function MarketBriefing() {
                 <span className="w-2 h-2 rounded-full bg-[#3B6D22]" /> STEP 3. 테마 성과 및 기여도
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>자산군 기여도(%p)</b>: <code>자산군 AUM 비중 × 가중수익률</code> (합산 시 시장 가중수익률과 일치).</li>
-                <li>• <b>세부 테마(피어그룹)</b>: 최소 3개 이상 종목으로 구성된 유의미한 테마군별 가중 성과 집계.</li>
+                <li>• <b>자산군 기여도(%p)</b>: <code>자산군 AUM 비중 × 가중수익률</code> (합산 시 일반 ETF 시장 가중수익률과 일치).</li>
+                <li>• <b>세부 테마(피어그룹)</b>: 최소 3개 이상 종목으로 구성된 60여 개 테마군별 가중 성과 및 롱숏(Top 3 vs Worst 3) 성과 집계.</li>
               </ul>
             </div>
 
-            {/* 카드 3: 자금 흐름 */}
+            {/* 카드 3: 실질 펀드 플로우 */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#0284C7]" /> STEP 4 & 5. 자금 흐름 (순유입 / 순유출)
+                <span className="w-2 h-2 rounded-full bg-[#0284C7]" /> STEP 4 &amp; 5. 실질 펀드 플로우 (Fund Flow)
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>실질 자금 순유입</b>: 단순 AUM 변화가 아닌, 가격 변동분을 배제한 <code>역산 좌수 증감(ΔShares) × 기준일 NAV</code> 기준의 순수 자금 설정/환매액 집계.</li>
-                <li>• 주간(최근 5거래일) 및 월간(최근 20거래일) 단위 테마별 자금 유입/유출 추적.</li>
+                <li>• <b>실질 자금 순유입(Net Inflow)</b>: 단순 AUM 장부상 변동이 아닌, 가격 변동분(Price Effect)을 배제한 <code>역산 좌수 증감(ΔShares) × 기준일 NAV</code> 기준의 순수 1차 시장(설정·환매) 진성 자금 집계.</li>
+                <li>• <b>중기 수급 궤적</b>: 주간(최근 5거래일) 및 월간(최근 20거래일) 단위 테마별 누적 펀드 플로우를 추적하여 기관/대형 자금의 구조적 수급 궤적 분석.</li>
               </ul>
             </div>
 
-            {/* 카드 4: 시장 구조 & 시계열 성장 추이 */}
+            {/* 카드 4: 시장 구조 & 5-Point 성장 궤적 */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6 & 7. 시장 구조 스냅샷 & 5-Point 시계열
+                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6 &amp; 7. 시장 구조 스냅샷 &amp; 5-Point 성장 궤적
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
                 <li>• <b>시장 구조 스냅샷 (자산 vs 거래대금)</b>: 4대 자산 유형(일반, 파킹, 레버리지, 인버스)의 AUM 비중과 일일 거래대금 비중을 대조하여 투기적 회전율을 분리 점검.</li>
-                <li>• <b>5-Point 시계열 추이</b>: 일간(5일), 주간(5주), 월간(5개월), 연간(5년) 단위의 AUM 성장 및 일평균 거래대금(ADTV) 유동성 궤적 추적.</li>
+                <li>• <b>5-Point 시계열 추이 &amp; AUM 브릿지</b>: 일간(5일), 주간(5주), 월간(5개월), 연간(5년) 주기로 AUM 성장과 일평균 거래대금(ADTV) 유동성을 추적하며 자산 성장을 가격효과와 진성수급으로 분해.</li>
               </ul>
             </div>
           </div>

@@ -101,7 +101,7 @@ export function MarketBriefingGuideModal({
           <div className="rounded-2xl bg-[#FAFDF4] p-3.5 sm:p-4 border border-[#D7EABB] flex items-start gap-3">
             <Sparkles className="w-4 h-4 text-[#2E6819] mt-0.5 shrink-0" />
             <p className="text-xs sm:text-[12.5px] text-neutral-700 leading-relaxed">
-              ETF 마켓 브리핑은 <b>거시 지표(Macro)부터 세부 테마(Micro), 그리고 스마트머니 자금 궤적(Flow)까지</b> 
+              ETF 마켓 브리핑은 <b>거시 지표(Macro)부터 세부 테마(Micro), 그리고 실질 펀드 플로우(Fund Flow)까지</b> 
               시장의 전체적인 맥락을 논리적으로 추적할 수 있도록 <b>7단계 체계</b>로 설계되었습니다.
             </p>
           </div>
@@ -165,7 +165,7 @@ export function MarketBriefingGuideModal({
               </p>
             </div>
 
-            {/* 3단계: 스마트머니 수급 트렌드 (STEP 4~5) */}
+            {/* 3단계: 실질 자금 흐름(Fund Flow) & 수급 트렌드 (STEP 4~5) */}
             <div className="rounded-2xl bg-[#FEF6EE] p-4 border border-[#FADEC9] hover:border-[#F7C6A0] transition-all">
               <div className="flex items-center justify-between gap-2 mb-2">
                 <div className="flex items-center gap-2">
@@ -173,7 +173,7 @@ export function MarketBriefingGuideModal({
                     3
                   </span>
                   <h5 className="font-extrabold text-[#C2410C] text-[13px] sm:text-[13.5px]">
-                    STEP 4~5. 스마트머니 수급 트렌드
+                    STEP 4~5. 실질 자금 흐름(Fund Flow) &amp; 수급 트렌드
                   </h5>
                 </div>
                 <button
@@ -186,8 +186,8 @@ export function MarketBriefingGuideModal({
                 </button>
               </div>
               <p className="text-neutral-600 text-xs leading-relaxed">
-                단순 가격 착시를 넘어, 실제 발행·환매 좌수 증감 기반의 <b>당일 실질 순유입 TOP 5</b>와 
-                <b>주간(5일)·월간(20일) 중기 누적 궤적</b>을 비교하여 일회성 기술적 반등인지 기관의 지속적 매집인지 검증합니다.
+                단순 주가 변동에 따른 장부상 AUM 착시(가격 효과)를 배제하고, 1차 시장의 실제 발행·환매(Creation &amp; Redemption) 좌수 증감에 기반한 <b>당일 실질 순유입 TOP 5</b>와 
+                <b>주간(5일)·월간(20일) 중기 펀드 플로우</b>를 비교하여 기관/대형 자금의 지속적 매집 여부를 검증합니다.
               </p>
             </div>
 

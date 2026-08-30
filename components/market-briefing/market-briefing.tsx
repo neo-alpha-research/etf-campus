@@ -1621,9 +1621,9 @@ export function MarketBriefing() {
       {/* STEP 4: Smart Money & Risk */}
       <section id="step-money" className="scroll-mt-20">
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
-          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. SMART MONEY FLOW</p>
-          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 자금은 어디로? (일일 동향)</h2>
-          <p className="mt-1 text-sm text-neutral-500">스마트머니의 자금 순유입 및 순유출을 통해 일일 자금 흐름을 점검합니다.</p>
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 4. FUND FLOW DYNAMICS</p>
+          <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">오늘 자금은 어디로? (일일 펀드 플로우)</h2>
+          <p className="mt-1 text-sm text-neutral-500">발행좌수 증감 기반의 실질 자금 순유입·순유출(Creation &amp; Redemption)을 통해 일일 자금 흐름을 점검합니다.</p>
         </div>
 
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
@@ -1643,9 +1643,9 @@ export function MarketBriefing() {
       {/* STEP 5: Macro Trends (Weekly / Monthly Fund Flow) */}
       <section id="step-trend" className="mb-16 scroll-mt-20">
         <div className="mb-4 border-l-4 border-[#9ACD68] pl-3">
-          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 5. TREND & FLOW</p>
+          <p className="text-[11px] font-extrabold tracking-[0.14em] text-[#5A7050]">STEP 5. TREND &amp; FLOW</p>
           <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-900">큰 돈의 흐름은 어디로? (주/월간 트렌드)</h2>
-          <p className="mt-1 text-sm text-neutral-500">일간 노이즈를 걷어내고, 국내 ETF 시장으로 구조적 자금이 유입되는 주도 테마를 점검합니다.</p>
+          <p className="mt-1 text-sm text-neutral-500">일간 노이즈를 걷어내고, 1차 시장(설정·환매)을 통해 대형/기관 자금이 구조적으로 유입되는 주도 테마를 점검합니다.</p>
         </div>
 
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (주간/월간 탭 실시간 동적 연동 & 유입·유출 페어링) */}
@@ -1664,9 +1664,9 @@ export function MarketBriefing() {
           let sentence = `${periodLabel} 동안 특정 우량 테마로의 중기 자금 흐름이 지속되고 있습니다.`;
           if (topInflow && topOutflow) {
             if (step5Tab === 'weekly') {
-              sentence = `최근 5거래일(주간) 스마트머니는 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 집중 유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})'에서는 단기 차익실현 환매가 두드러졌습니다.`;
+              sentence = `최근 5거래일(주간) 실질 순유입(Fund Flow)은 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 집중 유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})'에서는 단기 차익실현 환매가 두드러졌습니다.`;
             } else {
-              sentence = `최근 20거래일(월간) 묵직한 중장기 자금은 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 꾸준히 순유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})' 테마에서는 지속적인 자금 이탈이 관찰되었습니다.`;
+              sentence = `최근 20거래일(월간) 기관/대형 중장기 자금은 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 꾸준히 순유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})' 테마에서는 지속적인 자금 이탈이 관찰되었습니다.`;
             }
           } else if (topInflow) {
             sentence = `${periodLabel} 기준 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 꾸준한 자금 유입세가 지속되고 있습니다.`;

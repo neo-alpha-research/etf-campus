@@ -70,33 +70,47 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
   const topInflowName = topInflowItem.name;
   const topInflowAmount = topInflowItem.inflow.toLocaleString();
 
-  // Dynamic Cover Headline logic (코스피 등락폭 기반 궁금증 유발 - 세분화)
+  // Dynamic Cover Headline logic (코스피 등락폭 기반 궁금증 유발 - 2줄 압축)
   let coverLine1 = "";
   let coverLine2 = "";
-  let coverLine3 = `스마트머니가 픽한 1위 종목 공개 🔍`;
   
   if (kospiChangePct >= 2.0) {
-    coverLine1 = `코스피 +${kospiChangePct.toFixed(2)}% 폭등! ETF 성적표는?`;
-    coverLine2 = `역대급 불장 속 가장 뜨거웠던 1위 테마와`;
+    coverLine1 = `코스피 +${kospiChangePct.toFixed(2)}% 폭등장!`;
+    coverLine2 = `역대급 불장을 주도한 ETF는? 🚀`;
   } else if (kospiChangePct >= 1.0) {
-    coverLine1 = `코스피 +${kospiChangePct.toFixed(2)}% 급등! ETF 성적표는?`;
-    coverLine2 = `오늘 상승을 하드캐리한 1위 테마와`;
+    coverLine1 = `코스피 +${kospiChangePct.toFixed(2)}% 급등장!`;
+    coverLine2 = `오늘 상승을 하드캐리한 테마는? 🔥`;
   } else if (kospiChangePct > 0.0) {
-    coverLine1 = `코스피 +${kospiChangePct.toFixed(2)}% 상승 마감! ETF 성적표는?`;
-    coverLine2 = `소리 없이 강했던 오늘 1위 테마와`;
+    coverLine1 = `코스피 +${kospiChangePct.toFixed(2)}% 상승 마감!`;
+    coverLine2 = `소리 없이 강했던 1위 테마는? 👀`;
   } else if (kospiChangePct <= -2.0) {
-    coverLine1 = `코스피 ${kospiChangePct.toFixed(2)}% 패닉셀 폭락 속 ETF는?`;
-    coverLine2 = `이 와중에도 나홀로 급등한 1위 테마와`;
-    coverLine3 = `큰손들이 ${topInflowAmount}억 쓸어담은 종목 🔍`;
+    coverLine1 = `코스피 ${kospiChangePct.toFixed(2)}% 패닉셀!`;
+    coverLine2 = `폭락장에도 나홀로 급등한 ETF는? 🛡️`;
   } else if (kospiChangePct <= -1.0) {
-    coverLine1 = `코스피 ${kospiChangePct.toFixed(2)}% 급락 속 ETF 시장은?`;
-    coverLine2 = `얼어붙은 투심 속 나홀로 빛난 1위 테마와`;
-    coverLine3 = `큰손들이 ${topInflowAmount}억 줍줍한 종목 🔍`;
+    coverLine1 = `코스피 ${kospiChangePct.toFixed(2)}% 급락장!`;
+    coverLine2 = `얼어붙은 투심 속 빛난 테마는? 🔍`;
   } else {
-    // 0 ~ -1.0% 사이 약보합/하락
-    coverLine1 = `코스피 ${kospiChangePct.toFixed(2)}% 약세 마감 속 ETF 시장은?`;
-    coverLine2 = `지루한 조정장 속 돋보인 1위 테마와`;
-    coverLine3 = `기관이 ${topInflowAmount}억 담은 종목 공개 🔍`;
+    coverLine1 = `코스피 ${kospiChangePct.toFixed(2)}% 약세 마감...`;
+    coverLine2 = `지루한 조정장 속 돋보인 ETF는? 💡`;
+  }
+
+  // 1-Line Summaries for Pulse Cards (Fund Flow / Precision Logic)
+  let pulse1Summary = "";
+  if (down > up) {
+    pulse1Summary = `전반적 약세 장세 속, 글로벌 자산배분 테마의 견고한 방어력`;
+  } else {
+    pulse1Summary = `상승 종목 우세 속, 시장을 견인한 대형주 중심의 훈풍`;
+  }
+
+  const pulse2Summary = `주도 테마로 거래대금 쏠림 심화, 부진 섹터는 철저히 소외`;
+
+  let pulse3Summary = "";
+  if (kospiChangePct < 0 && topInflowItem.inflow > 0) {
+    pulse3Summary = `지수 급락에도 1위 종목을 향한 대형 바스켓 설정(저가 매수)`;
+  } else if (kospiChangePct > 0 && topInflowItem.inflow > 0) {
+    pulse3Summary = `상승장에 올라타는 대형 자금, 1위 종목 대규모 설정(순증)`;
+  } else {
+    pulse3Summary = `실질 자금은 1위 종목으로 집중, 견고한 발행좌수 순증`;
   }
 
   const baseDefs = `
@@ -158,78 +172,86 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
 
         <!-- Hooking Headline -->
         <g transform="translate(50, 150)">
-          <text x="0" y="0" fill="#0F172A" font-size="54" font-weight="900" letter-spacing="-1.5">${coverLine1}</text>
-          <text x="0" y="70" fill="#1D4ED8" font-size="54" font-weight="900" letter-spacing="-1.5">${coverLine2}</text>
-          <text x="0" y="140" fill="#0F172A" font-size="54" font-weight="900" letter-spacing="-1.5">${coverLine3}</text>
+          <text x="0" y="10" fill="#0F172A" font-size="56" font-weight="900" letter-spacing="-1.5">${coverLine1}</text>
+          <text x="0" y="85" fill="#1D4ED8" font-size="56" font-weight="900" letter-spacing="-1.5">${coverLine2}</text>
         </g>
 
-        <text x="50" y="345" fill="#64748B" font-size="21" font-weight="600" letter-spacing="-0.5">
-          KOSPI ${kospiClose.toLocaleString()}pt (${kospiSign}${kospiChangePct.toFixed(2)}%) 대비 일반 ETF ${spreadBadgeText} · 일반 ETF ${total}개 분석
+        <!-- Subtext (Cleaned up duplication) -->
+        <text x="50" y="340" fill="#64748B" font-size="22" font-weight="600" letter-spacing="-0.5">
+          오늘 일반 ETF 시장은 <tspan font-weight="800" fill="${spreadBadgeColor}">${spreadBadgeText}</tspan>
         </text>
 
-        <line x1="50" y1="380" x2="890" y2="380" stroke="#F1F5F9" stroke-width="2"/>
+        <line x1="50" y1="280" x2="890" y2="280" stroke="#F1F5F9" stroke-width="2"/>
 
         <!-- 3 Key Daily Pulse Cards (오늘의 3대 핵심 사건) -->
         <!-- Pulse 1: Market Temperature & ETF vs KOSPI/KOSDAQ Comparison -->
-        <g transform="translate(50, 415)">
-          <rect width="840" height="150" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-          <text x="35" y="45" fill="#475569" font-size="16" font-weight="800">🌡️ 1. 오늘 시장 체온 &amp; 벤치마크 대비 성과</text>
+        <g transform="translate(50, 320)">
+          <rect width="840" height="220" rx="26" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text x="40" y="55" fill="#475569" font-size="20" font-weight="800">🌡️ 1. 오늘 시장 체온 &amp; 벤치마크 대비 성과</text>
           
-          <!-- KOSPI vs KOSDAQ vs ETF Returns -->
-          <g transform="translate(35, 96)">
-            <text x="0" y="0" fill="#64748B" font-size="16" font-weight="700">KOSPI</text>
-            <text x="55" y="0" fill="${kospiColor}" font-size="24" font-weight="900" class="tabular">${kospiSign}${kospiChangePct.toFixed(2)}%</text>
+          <!-- KOSPI vs KOSDAQ vs ETF Returns (Centered vertically more) -->
+          <g transform="translate(40, 130)">
+            <text x="0" y="0" fill="#64748B" font-size="20" font-weight="700">KOSPI</text>
+            <text x="75" y="0" fill="${kospiColor}" font-size="36" font-weight="900" class="tabular">${kospiSign}${kospiChangePct.toFixed(2)}%</text>
             
-            <text x="145" y="-3" fill="#CBD5E1" font-size="20" font-weight="400">|</text>
+            <text x="210" y="-5" fill="#CBD5E1" font-size="28" font-weight="400">|</text>
             
-            <text x="160" y="0" fill="#64748B" font-size="16" font-weight="700">KOSDAQ</text>
-            <text x="235" y="0" fill="${kosdaqColor}" font-size="24" font-weight="900" class="tabular">${kosdaqSign}${kosdaqChangePct.toFixed(2)}%</text>
+            <text x="235" y="0" fill="#64748B" font-size="20" font-weight="700">KOSDAQ</text>
+            <text x="330" y="0" fill="${kosdaqColor}" font-size="36" font-weight="900" class="tabular">${kosdaqSign}${kosdaqChangePct.toFixed(2)}%</text>
             
-            <text x="330" y="-3" fill="#CBD5E1" font-size="20" font-weight="400">|</text>
+            <text x="470" y="-5" fill="#CBD5E1" font-size="28" font-weight="400">|</text>
             
-            <text x="350" y="0" fill="#0F172A" font-size="16" font-weight="800">일반 ETF</text>
-            <text x="420" y="0" fill="${etfColor}" font-size="24" font-weight="900" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
-            
-            <rect x="525" y="-24" width="240" height="34" rx="10" fill="${spreadBadgeBg}" stroke="${spreadBadgeBorder}" stroke-width="1.5"/>
-            <text x="645" y="-1" fill="${spreadBadgeColor}" font-size="15" font-weight="900" text-anchor="middle" class="tabular">${spreadBadgeText}</text>
+            <text x="495" y="0" fill="#0F172A" font-size="20" font-weight="800">일반 ETF</text>
+            <text x="590" y="0" fill="${etfColor}" font-size="36" font-weight="900" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
           </g>
 
-          <text x="35" y="132" fill="#64748B" font-size="14" font-weight="600">
-            KOSPI ${kospiClose.toLocaleString()}pt · 전체 ${total}개 중 하락 ${down}개 우세 속 글로벌/자산배분 방어력 작동
-          </text>
+          <rect x="40" y="170" width="130" height="30" rx="8" fill="#E2E8F0"/>
+          <text x="105" y="190" fill="#475569" font-size="14" font-weight="800" text-anchor="middle">한줄 요약</text>
+          <text x="185" y="191" fill="#475569" font-size="18" font-weight="700">${pulse1Summary}</text>
+          
+          <!-- Right side badge -->
+          <rect x="580" y="30" width="220" height="42" rx="12" fill="${spreadBadgeBg}" stroke="${spreadBadgeBorder}" stroke-width="1.5"/>
+          <text x="690" y="57" fill="${spreadBadgeColor}" font-size="17" font-weight="900" text-anchor="middle" class="tabular">${spreadBadgeText}</text>
         </g>
 
         <!-- Pulse 2: Top 1 vs Bottom 1 Theme -->
-        <g transform="translate(50, 590)">
-          <rect width="840" height="150" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-          <text x="35" y="48" fill="#0F172A" font-size="17" font-weight="800">🔥 2. 오늘의 극과 극 테마 (1위 vs 꼴찌)</text>
+        <g transform="translate(50, 565)">
+          <rect width="840" height="220" rx="26" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text x="40" y="55" fill="#0F172A" font-size="20" font-weight="800">🔥 2. 오늘의 극과 극 테마 (1위 vs 꼴찌)</text>
           
           <!-- Top Theme -->
-          <text x="35" y="90" fill="#B42318" font-size="15" font-weight="800">상승 1위</text>
-          <text x="105" y="90" fill="#0F172A" font-size="22" font-weight="900">${topThemeName}</text>
-          <text x="340" y="90" fill="#D92D20" font-size="24" font-weight="900" class="tabular">${topThemeReturn}%</text>
+          <text x="40" y="110" fill="#B42318" font-size="18" font-weight="800">상승 1위</text>
+          <text x="125" y="110" fill="#0F172A" font-size="28" font-weight="900">${topThemeName}</text>
+          <text x="420" y="110" fill="#D92D20" font-size="32" font-weight="900" class="tabular">${topThemeReturn}%</text>
           
           <!-- Bottom Theme -->
-          <text x="35" y="125" fill="#175CD3" font-size="15" font-weight="800">하락 1위</text>
-          <text x="105" y="125" fill="#0F172A" font-size="22" font-weight="900">${bottomThemeName}</text>
-          <text x="340" y="125" fill="#175CD3" font-size="24" font-weight="900" class="tabular">${bottomThemeReturn}%</text>
+          <text x="40" y="155" fill="#175CD3" font-size="18" font-weight="800">하락 1위</text>
+          <text x="125" y="155" fill="#0F172A" font-size="28" font-weight="900">${bottomThemeName}</text>
+          <text x="420" y="155" fill="#175CD3" font-size="32" font-weight="900" class="tabular">${bottomThemeReturn}%</text>
           
-          <rect x="625" y="55" width="180" height="40" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
-          <text x="715" y="81" fill="#475569" font-size="15" font-weight="800" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
+          <rect x="620" y="32" width="180" height="42" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+          <text x="710" y="59" fill="#475569" font-size="16" font-weight="800" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
+
+          <rect x="40" y="185" width="130" height="30" rx="8" fill="#E2E8F0"/>
+          <text x="105" y="205" fill="#475569" font-size="14" font-weight="800" text-anchor="middle">한줄 요약</text>
+          <text x="185" y="206" fill="#475569" font-size="18" font-weight="700">${pulse2Summary}</text>
         </g>
 
         <!-- Pulse 3: Top 1 Smart Money Inflow -->
-        <g transform="translate(50, 765)">
-          <rect width="840" height="150" rx="22" fill="#FAFDF4" stroke="#D7EABB" stroke-width="1.5"/>
-          <text x="35" y="48" fill="#2E6819" font-size="17" font-weight="800">💸 3. 오늘 스마트머니 순유입 1위</text>
-          <text x="35" y="105" fill="#0F172A" font-size="34" font-weight="900">
-            ${topInflowName} <tspan fill="#2E6819" font-size="30" font-weight="900" class="tabular">(+${topInflowAmount}억원)</tspan>
+        <g transform="translate(50, 810)">
+          <rect width="840" height="220" rx="26" fill="#FAFDF4" stroke="#D7EABB" stroke-width="1.5"/>
+          <text x="40" y="55" fill="#2E6819" font-size="20" font-weight="800">💸 3. 오늘 실질 자금(Fund Flow) 유입 1위</text>
+          
+          <!-- Increased Font Sizes -->
+          <text x="40" y="140" fill="#0F172A" font-size="52" font-weight="900">
+            ${topInflowName} <tspan fill="#2E6819" font-size="44" font-weight="900" class="tabular">(+${topInflowAmount}억원)</tspan>
           </text>
-          <text x="35" y="132" fill="#5A7050" font-size="15" font-weight="600">
-            지수 급락을 틈탄 기관/큰손의 대규모 저가 매수 포착
-          </text>
-          <rect x="645" y="45" width="160" height="58" rx="16" fill="#2E6819"/>
-          <text x="725" y="81" fill="#FFFFFF" font-size="17" font-weight="900" text-anchor="middle">수급 1위 💰</text>
+          <rect x="650" y="32" width="150" height="42" rx="12" fill="#2E6819"/>
+          <text x="725" y="59" fill="#FFFFFF" font-size="17" font-weight="900" text-anchor="middle">수급 1위 💰</text>
+
+          <rect x="40" y="185" width="130" height="30" rx="8" fill="#E2E8F0"/>
+          <text x="105" y="205" fill="#475569" font-size="14" font-weight="800" text-anchor="middle">한줄 요약</text>
+          <text x="185" y="206" fill="#475569" font-size="18" font-weight="700">${pulse3Summary}</text>
         </g>
       </g>
 

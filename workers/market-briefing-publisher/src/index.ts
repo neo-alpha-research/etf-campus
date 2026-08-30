@@ -332,25 +332,53 @@ async function calculatePeriodicFundFlows(
   asOfDate: string
 ): Promise<{ weeklyFundFlows: any; monthlyFundFlows: any }> {
   const general = quotes.filter((q) => q.is_general_etf === 1);
-  const distinctDates = await db
+
+  // Fetch past distinct dates from briefing_etf_daily for true creation/redemption fund flow
+  const distinctBriefingDates = await db
+    .prepare("SELECT DISTINCT as_of_date FROM briefing_etf_daily WHERE as_of_date <= ? ORDER BY as_of_date DESC LIMIT 25")
+    .bind(asOfDate)
+    .all<{ as_of_date: string }>();
+
+  const briefingDates = (distinctBriefingDates.results || []).map((r) => r.as_of_date);
+  const t5Date = briefingDates[5] || briefingDates[briefingDates.length - 1];
+  const t20Date = briefingDates[20] || briefingDates[briefingDates.length - 1];
+
+  let quotesT5 = new Map<string, { aum_value: number; nav_value: number; shares?: number; close_value: number }>();
+  let quotesT20 = new Map<string, { aum_value: number; nav_value: number; shares?: number; close_value: number }>();
+
+  if (t5Date && t5Date !== asOfDate) {
+    const res5 = await db
+      .prepare("SELECT ticker, aum_value, nav_value, close_value, shares FROM briefing_etf_daily WHERE as_of_date = ?")
+      .bind(t5Date)
+      .all<any>();
+    quotesT5 = new Map((res5.results || []).map((r) => [r.ticker, r]));
+  }
+  if (t20Date && t20Date !== asOfDate) {
+    const res20 = await db
+      .prepare("SELECT ticker, aum_value, nav_value, close_value, shares FROM briefing_etf_daily WHERE as_of_date = ?")
+      .bind(t20Date)
+      .all<any>();
+    quotesT20 = new Map((res20.results || []).map((r) => [r.ticker, r]));
+  }
+
+  // Also query price table for fallback returns if needed
+  const distinctPriceDates = await db
     .prepare("SELECT DISTINCT date FROM etf_prices WHERE date <= ? ORDER BY date DESC LIMIT 25")
     .bind(asOfDate)
     .all<{ date: string }>();
-
-  const dateList = (distinctDates.results || []).map((r) => r.date);
-  const t5 = dateList[5] || dateList[dateList.length - 1];
-  const t20 = dateList[20] || dateList[dateList.length - 1];
+  const priceDates = (distinctPriceDates.results || []).map((r) => r.date);
+  const p5Date = priceDates[5] || priceDates[priceDates.length - 1];
+  const p20Date = priceDates[20] || priceDates[priceDates.length - 1];
 
   let pricesT5 = new Map<string, number>();
   let pricesT20 = new Map<string, number>();
-
-  if (t5) {
-    const res5 = await db.prepare("SELECT ticker, close FROM etf_prices WHERE date = ?").bind(t5).all<{ ticker: string; close: number }>();
-    pricesT5 = new Map((res5.results || []).map((r) => [r.ticker, r.close]));
+  if (p5Date) {
+    const pRes5 = await db.prepare("SELECT ticker, close FROM etf_prices WHERE date = ?").bind(p5Date).all<{ ticker: string; close: number }>();
+    pricesT5 = new Map((pRes5.results || []).map((r) => [r.ticker, r.close]));
   }
-  if (t20) {
-    const res20 = await db.prepare("SELECT ticker, close FROM etf_prices WHERE date = ?").bind(t20).all<{ ticker: string; close: number }>();
-    pricesT20 = new Map((res20.results || []).map((r) => [r.ticker, r.close]));
+  if (p20Date) {
+    const pRes20 = await db.prepare("SELECT ticker, close FROM etf_prices WHERE date = ?").bind(p20Date).all<{ ticker: string; close: number }>();
+    pricesT20 = new Map((pRes20.results || []).map((r) => [r.ticker, r.close]));
   }
 
   const groups = new Map<string, { peerGroup: string; assetClass: string; members: EtfSnapshot[] }>();
@@ -372,39 +400,49 @@ async function calculatePeriodicFundFlows(
 
     const ret5List: number[] = [];
     const ret20List: number[] = [];
+    let groupFlow5Won = 0;
+    let groupFlow20Won = 0;
 
     for (const m of g.members) {
       const c0 = m.close_value || 0;
-      const c5 = pricesT5.get(m.ticker) || c0;
-      const c20 = pricesT20.get(m.ticker) || c0;
+      const nav0 = m.nav_value || c0;
+      const aum0 = m.aum_value || 0;
+      const shares0 = m.shares ? Number(m.shares) : (nav0 > 0 ? aum0 / nav0 : 0);
 
-      const r5 = c5 > 0 ? ((c0 - c5) / c5) * 100 : m.change_pct || 0;
-      const r20 = c20 > 0 ? ((c0 - c20) / c20) * 100 : m.change_pct || 0;
+      // T-5
+      const q5 = quotesT5.get(m.ticker);
+      const c5 = q5?.close_value || pricesT5.get(m.ticker) || c0;
+      const nav5 = q5?.nav_value || c5;
+      const aum5 = q5?.aum_value || (q5 ? 0 : aum0);
+      const shares5 = q5 ? (q5.shares ? Number(q5.shares) : (nav5 > 0 ? aum5 / nav5 : 0)) : shares0;
+
+      const r5 = c5 > 0 ? ((c0 - c5) / c5) * 100 : (m.change_pct || 0);
       ret5List.push(r5);
+      groupFlow5Won += (shares0 - shares5) * nav0;
+
+      // T-20
+      const q20 = quotesT20.get(m.ticker);
+      const c20 = q20?.close_value || pricesT20.get(m.ticker) || c0;
+      const nav20 = q20?.nav_value || c20;
+      const aum20 = q20?.aum_value || (q20 ? 0 : aum0);
+      const shares20 = q20 ? (q20.shares ? Number(q20.shares) : (nav20 > 0 ? aum20 / nav20 : 0)) : (shares0 + (shares0 - shares5) * 3);
+
+      const r20 = c20 > 0 ? ((c0 - c20) / c20) * 100 : (m.change_pct || 0);
       ret20List.push(r20);
+      groupFlow20Won += (shares0 - shares20) * nav0;
     }
 
-    const avgRet5 = ret5List.reduce((a, b) => a + b, 0) / ret5List.length;
-    const avgRet20 = ret20List.reduce((a, b) => a + b, 0) / ret20List.length;
-    const totAumOk = g.members.reduce((sum, m) => sum + (m.aum_value || 0), 0) / 100000000;
+    const avgRet5 = ret5List.length > 0 ? ret5List.reduce((a, b) => a + b, 0) / ret5List.length : 0;
+    const avgRet20 = ret20List.length > 0 ? ret20List.reduce((a, b) => a + b, 0) / ret20List.length : 0;
 
-    let baseFlowRatio5 = avgRet5 > 0 ? 0.015 : -0.009;
-    if (g.peerGroup.includes("배당") || g.peerGroup.includes("인컴") || g.peerGroup.includes("커버드콜")) {
-      baseFlowRatio5 = 0.028;
-    } else if (g.peerGroup.includes("2차전지") || g.peerGroup.includes("바이오") || g.peerGroup.includes("게임")) {
-      baseFlowRatio5 = -0.019;
-    } else if (g.peerGroup.includes("단기") || g.peerGroup.includes("머니마켓")) {
-      baseFlowRatio5 = -0.014;
-    }
-
-    const netInflow5 = Math.round(totAumOk * baseFlowRatio5);
-    const netInflow20 = Math.round(netInflow5 * 3.7 + (netInflow5 > 0 ? totAumOk * 0.022 : -totAumOk * 0.016));
+    const netInflow5Ok = Math.round(groupFlow5Won / 100000000);
+    const netInflow20Ok = Math.round(groupFlow20Won / 100000000);
 
     weeklyAll.push({
       peerGroup: g.peerGroup,
       assetClass: g.assetClass,
       etfCount: g.members.length,
-      netInflow: netInflow5,
+      netInflow: netInflow5Ok,
       returnPct: Number(avgRet5.toFixed(2)),
     });
 
@@ -412,7 +450,7 @@ async function calculatePeriodicFundFlows(
       peerGroup: g.peerGroup,
       assetClass: g.assetClass,
       etfCount: g.members.length,
-      netInflow: netInflow20,
+      netInflow: netInflow20Ok,
       returnPct: Number(avgRet20.toFixed(2)),
     });
   }

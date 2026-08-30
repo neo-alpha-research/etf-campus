@@ -19,7 +19,7 @@ describe("MarketBriefingGuideModal", () => {
     expect(screen.getByText("마켓 브리핑 100% 활용 가이드")).toBeInTheDocument();
     expect(screen.getByText("STEP 1~2. 거시 판도 & 시장 체온")).toBeInTheDocument();
     expect(screen.getByText("STEP 3. 자산 배분 & 주도 테마")).toBeInTheDocument();
-    expect(screen.getByText("STEP 4~5. 스마트머니 수급 트렌드")).toBeInTheDocument();
+    expect(screen.getByText("STEP 4~5. 실질 자금 흐름(Fund Flow) & 수급 트렌드")).toBeInTheDocument();
     expect(screen.getByText("STEP 6~7. 시장 구조 & 성장 궤적")).toBeInTheDocument();
   });
 

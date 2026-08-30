@@ -2619,48 +2619,51 @@ export function MarketBriefing() {
 
         <div className="mt-4 pt-4 border-t border-[#EDF2DE]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* 카드 1: 유니버스 & 시장 체온 */}
+            {/* 카드 1: 거시 지표 & 시장 체온 (STEP 1 & 2) */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#2E6819]" /> STEP 1 &amp; 2. 유니버스 및 시장 체온
+                <span className="w-2 h-2 rounded-full bg-[#2E6819]" /> STEP 1 &amp; 2. 거시 지표 &amp; 시장 체온
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>순수 일반 ETF</b>: 레버리지, 인버스, 파킹형(CD/KOFR/MMF)을 제외한 실물 투자 ETF (1,000+개) 대상.</li>
-                <li>• <b>시장 체온계</b>: 상승/보합/하락 종목 비율(Market Breadth)과 AUM 가중수익률 구간(전체, TOP 50, TOP 100, TOP 200)을 결합하여 장세 분위기 진단.</li>
-                <li>• <b>수급 건전성(3-Zone)</b>: 전체 거래대금 중 상위 10개 종목 쏠림도 (45% 이하 정상, 45~60% 주의, 60% 초과 과열).</li>
+                <li>• <b>12대 거시 지표 (STEP 1)</b>: 국내외 증시(코스피/코스닥/S&amp;P500/나스닥), 환율·금리(원달러/한미 10년물), 변동성(VIX/VKOSPI), 원자재(유가/금/은) 등 시장 배경 점검.</li>
+                <li>• <b>순수 일반 ETF 유니버스</b>: 시장 왜곡 방지를 위해 파킹형(CD/KOFR/MMF) 및 레버리지·인버스를 제외한 실물 일반 ETF(1,000+개) 전수 대상.</li>
+                <li>• <b>시장 체온계 (STEP 2)</b>: 일반 ETF 전체의 AUM 가중수익률과 상승·보합·하락 종목 비율(Breadth) 게이지로 시장 분위기 진단.</li>
+                <li>• <b>수급 건전성 (3-Zone)</b>: 거래대금 상위 10개 종목 쏠림도 (45% 이하 정상 🟢, 45~60% 주의 🟡, 60% 초과 과열 🔴).</li>
               </ul>
             </div>
 
-            {/* 카드 2: 테마 성과 & 기여도 */}
+            {/* 카드 2: 자산 배분 & 주도 테마 (STEP 3) */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#3B6D22]" /> STEP 3. 테마 성과 및 기여도
+                <span className="w-2 h-2 rounded-full bg-[#3B6D22]" /> STEP 3. 자산 배분 &amp; 주도 테마
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>자산군 기여도(%p)</b>: <code>자산군 AUM 비중 × 가중수익률</code> (합산 시 일반 ETF 시장 가중수익률과 일치).</li>
-                <li>• <b>세부 테마(피어그룹)</b>: 최소 3개 이상 종목으로 구성된 60여 개 테마군별 가중 성과 및 롱숏(Top 3 vs Worst 3) 성과 집계.</li>
+                <li>• <b>7대 자산군 기여도(%p)</b>: <code>자산군 AUM 비중 × 가중수익률</code> (합산 시 일반 시장 전체 가중수익률과 일치).</li>
+                <li>• <b>세부 테마 롱숏(Long/Short)</b>: 60여 개 피어그룹(Peer Group) 중 자산군별 상승 Top 3 vs 하락 Worst 3 테마 랭킹 집계.</li>
               </ul>
             </div>
 
-            {/* 카드 3: 실질 펀드 플로우 */}
+            {/* 카드 3: 실질 펀드 플로우 (STEP 4 & 5) */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#0284C7]" /> STEP 4 &amp; 5. 실질 펀드 플로우 (Fund Flow)
+                <span className="w-2 h-2 rounded-full bg-[#0284C7]" /> STEP 4 &amp; 5. 실질 펀드 플로우 (일일 / 주·월간)
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>실질 자금 순유입(Net Inflow)</b>: 단순 AUM 장부상 변동이 아닌, 가격 변동분(Price Effect)을 배제한 <code>역산 좌수 증감(ΔShares) × 기준일 NAV</code> 기준의 순수 1차 시장(설정·환매) 진성 자금 집계.</li>
-                <li>• <b>중기 수급 궤적</b>: 주간(최근 5거래일) 및 월간(최근 20거래일) 단위 테마별 누적 펀드 플로우를 추적하여 기관/대형 자금의 구조적 수급 궤적 분석.</li>
+                <li>• <b>실질 순유입(Net Inflow) 산출</b>: 주가 변동분(가격 효과)을 배제한 <code>역산 좌수 증감(ΔShares = AUM / NAV) × 현재 NAV</code> 기준 1차 시장(설정·환매) 진성 자금 집계.</li>
+                <li>• <b>일일 종목 플로우 (STEP 4)</b>: 당일 실질 자금 순유입 TOP 5 및 순유출 TOP 5 종목 랭킹.</li>
+                <li>• <b>중기 테마 플로우 (STEP 5)</b>: 최근 5거래일(주간) 및 20거래일(월간) 누적 자금 순유입·순유출 TOP 5 테마 추적.</li>
               </ul>
             </div>
 
-            {/* 카드 4: 시장 구조 & 5-Point 성장 궤적 */}
+            {/* 카드 4: 시장 구조 & 5-Point 성장 궤적 (STEP 6 & 7) */}
             <div className="bg-white/80 p-4 rounded-xl border border-[#E2EBD6]">
               <h5 className="font-extrabold text-neutral-900 text-[13px] mb-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6 &amp; 7. 시장 구조 스냅샷 &amp; 5-Point 성장 궤적
+                <span className="w-2 h-2 rounded-full bg-[#EA580C]" /> STEP 6 &amp; 7. 시장 구조 &amp; 5-Point 성장 궤적
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
-                <li>• <b>시장 구조 스냅샷 (자산 vs 거래대금)</b>: 4대 자산 유형(일반, 파킹, 레버리지, 인버스)의 AUM 비중과 일일 거래대금 비중을 대조하여 투기적 회전율을 분리 점검.</li>
-                <li>• <b>5-Point 시계열 추이 &amp; AUM 브릿지</b>: 일간(5일), 주간(5주), 월간(5개월), 연간(5년) 주기로 AUM 성장과 일평균 거래대금(ADTV) 유동성을 추적하며 자산 성장을 가격효과와 진성수급으로 분해.</li>
+                <li>• <b>시장 구조 스냅샷 (STEP 6)</b>: 4대 자산 유형(일반, 파킹, 레버리지, 인버스)의 AUM 비중 vs 거래대금 비중을 대조하여 투기적 회전율 분리 점검.</li>
+                <li>• <b>5-Point 시계열 추이 (STEP 7)</b>: 일간(5일), 주간(5주), 월간(5개월), 연간(5년) 주기로 AUM 성장 및 일평균 거래대금(ADTV) 추적.</li>
+                <li>• <b>AUM 성장 브릿지 분해</b>: 총자산 증감을 <b>주가 변동분(가격효과)</b>과 <b>실질 자금 순유입(수급효과)</b>으로 수학적 분해.</li>
               </ul>
             </div>
           </div>

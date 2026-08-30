@@ -12,10 +12,10 @@ function TutorialContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [activeTab, setActiveTab] = useState<"letter" | "tour" | "quiz">(() => {
+  const [activeTab, setActiveTab] = useState<"tour" | "quiz" | "letter">(() => {
     const tab = searchParams.get("tab");
-    if (tab === "tour" || tab === "quiz" || tab === "letter") return tab;
-    return "letter";
+    if (tab === "quiz" || tab === "letter" || tab === "tour") return tab;
+    return "tour";
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [answers, setAnswers] = useState<Record<string, boolean | null>>({});
@@ -23,6 +23,16 @@ function TutorialContent() {
   const [gradeError, setGradeError] = useState(false);
   const [shake, setShake] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const handleTabChange = (tab: "tour" | "quiz" | "letter") => {
+    setActiveTab(tab);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("tab", tab);
+      window.history.replaceState({}, "", url.toString());
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const stepData = tutorialSteps.find((s) => s.step === currentStep);
 
@@ -141,58 +151,40 @@ function TutorialContent() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-8 select-none">
+    <div className="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* 🏛️ Top 3-Tab Segmented Navigation Bar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-1.5 rounded-2xl bg-neutral-100/90 border border-neutral-200/90 shadow-inner">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 p-1.5 rounded-2xl bg-neutral-100/90 border border-neutral-200/90 shadow-inner">
         <div className="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-1">
+          {/* 1st Tab: Campus Tour (Default) */}
           <button
             type="button"
-            onClick={() => {
-              setActiveTab("letter");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
-              activeTab === "letter"
-                ? "bg-surface text-brand-900 shadow-sm ring-1 ring-neutral-200"
-                : "text-muted hover:text-strong"
-            }`}
-          >
-            <span>🏛️</span>
-            <span>설립 취지문</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab("tour");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+            onClick={() => handleTabChange("tour")}
+            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
               activeTab === "tour"
                 ? "bg-surface text-brand-900 shadow-sm ring-1 ring-neutral-200"
                 : "text-muted hover:text-strong"
             }`}
           >
             <span>🗺️</span>
-            <span>캠퍼스 시설 안내</span>
+            <span className="hidden sm:inline">캠퍼스 시설 안내</span>
+            <span className="sm:hidden">시설 안내</span>
           </button>
 
+          {/* 2nd Tab: Orientation Quiz */}
           <button
             type="button"
-            onClick={() => {
-              setActiveTab("quiz");
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all ${
+            onClick={() => handleTabChange("quiz")}
+            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
               activeTab === "quiz"
                 ? "bg-brand-700 text-white shadow-sm"
                 : "text-muted hover:text-strong"
             }`}
           >
             <span>🎓</span>
-            <span>신입생 OT 퀴즈</span>
+            <span className="hidden sm:inline">신입생 OT 퀴즈</span>
+            <span className="sm:hidden">OT 퀴즈</span>
             <span
-              className={`ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
+              className={`ml-0.5 sm:ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
                 activeTab === "quiz"
                   ? "bg-brand-800 text-brand-100"
                   : "bg-neutral-200 text-neutral-600"
@@ -200,6 +192,20 @@ function TutorialContent() {
             >
               {currentStep}/10
             </span>
+          </button>
+
+          {/* 3rd Tab: Founder's Mission Letter */}
+          <button
+            type="button"
+            onClick={() => handleTabChange("letter")}
+            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
+              activeTab === "letter"
+                ? "bg-surface text-brand-900 shadow-sm ring-1 ring-neutral-200"
+                : "text-muted hover:text-strong"
+            }`}
+          >
+            <span>🏛️</span>
+            <span>설립 취지문</span>
           </button>
         </div>
 
@@ -216,33 +222,16 @@ function TutorialContent() {
         </div>
       </div>
 
-      {/* Tab 1: Founder's Mission Letter */}
-      {activeTab === "letter" && (
-        <FounderLetter
-          onNavigateTour={() => {
-            setActiveTab("tour");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-          onNavigateQuiz={() => {
-            setActiveTab("quiz");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        />
-      )}
-
-      {/* Tab 2: Campus Facility Tour */}
+      {/* Tab 1: Campus Facility Tour (Default) */}
       {activeTab === "tour" && (
         <CampusTour
-          onStartQuiz={() => {
-            setActiveTab("quiz");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
+          onStartQuiz={() => handleTabChange("quiz")}
         />
       )}
 
-      {/* Tab 3: 10-Lesson Orientation Quiz */}
+      {/* Tab 2: 10-Lesson Orientation Quiz */}
       {activeTab === "quiz" && (
-        <div className="space-y-6 animate-fade-in-up">
+        <div className="space-y-5 sm:space-y-6 animate-fade-in-up">
           {/* 🎮 EXP Bar & Academic Progress */}
           <div className="relative pt-1">
             <div className="flex mb-2 items-end justify-between">
@@ -435,6 +424,14 @@ function TutorialContent() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Tab 3: Founder's Mission Letter */}
+      {activeTab === "letter" && (
+        <FounderLetter
+          onNavigateTour={() => handleTabChange("tour")}
+          onNavigateQuiz={() => handleTabChange("quiz")}
+        />
       )}
 
       {/* Global Animation Styles */}

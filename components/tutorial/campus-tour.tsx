@@ -140,18 +140,17 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in-up">
+    <div className="space-y-5 sm:space-y-6 animate-fade-in-up">
       {/* Tour Intro Header */}
-      <div className="text-center space-y-2">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-brand-100 text-brand-800">
+      <div className="text-center space-y-1.5 sm:space-y-2">
+        <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-extrabold bg-brand-100 text-brand-800">
           🗺️ 캠퍼스 6대 핵심 시설 안내
         </span>
-        <h2 className="text-2xl sm:text-3xl font-black text-strong tracking-tight break-keep">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-strong tracking-tight break-keep">
           ETF 캠퍼스 6대 시설, 이렇게 200% 활용해 보세요!
         </h2>
-        <p className="text-sm sm:text-base text-muted font-medium max-w-2xl mx-auto break-keep">
+        <p className="text-xs sm:text-sm md:text-base text-muted font-medium max-w-2xl mx-auto break-keep">
           신입생 여러분이 성공적인 연금 및 ETF 투자자로 거듭날 수 있도록 설계된 캠퍼스 주요 시설입니다.
-          각 시설의 특징을 확인하고 필요한 곳으로 바로 이동해 보십시오.
         </p>
       </div>
 

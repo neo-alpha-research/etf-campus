@@ -31,6 +31,12 @@ function displayDate(value: string) {
   return new Intl.DateTimeFormat("ko-KR", { month: "long", day: "numeric" }).format(new Date(value));
 }
 
+function getCleanSnippet(post: Post) {
+  if (post.excerpt) return post.excerpt;
+  if (!post.bodyText) return "";
+  return post.bodyText.replace(/#+\s*/g, "").replace(/[*_~`]/g, "").replace(/\[(.*?)\]\(.*?\)/g, "$1").trim();
+}
+
 export function CommunityFeed() {
   const [selected, setSelected] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
@@ -214,7 +220,7 @@ export function CommunityFeed() {
                     {post.title}
                   </h3>
                   <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-slate-600">
-                    {post.excerpt ?? post.bodyText}
+                    {getCleanSnippet(post)}
                   </p>
                 </div>
                 <div className="mt-3.5 flex items-center justify-between border-t border-amber-100/80 pt-3 text-xs text-slate-500">
@@ -352,7 +358,7 @@ export function CommunityFeed() {
                   {post.title}
                 </h2>
                 <p className="mt-1.5 line-clamp-2 text-xs sm:text-sm leading-6 text-slate-600">
-                  {post.excerpt ?? post.bodyText}
+                  {getCleanSnippet(post)}
                 </p>
                 <div className="mt-3.5 flex items-center justify-between border-t border-slate-100 pt-3 text-xs text-slate-500">
                   <span className="font-medium text-slate-700">{post.authorNickname}</span>

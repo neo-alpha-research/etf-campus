@@ -40,6 +40,7 @@ type EtfSnapshot = {
   nav_value: number | null;
   disparity_pct: number | null;
   is_general_etf: 0 | 1;
+  shares?: string | number | null;
 };
 
 type IndexSnapshot = {

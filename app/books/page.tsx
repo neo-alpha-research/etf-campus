@@ -19,7 +19,9 @@ export default function BooksPage() {
       const meta = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
       if (meta.lastUpdated) lastUpdated = meta.lastUpdated;
     }
-  } catch (e) {}
+  } catch {
+    // Ignore missing metadata file
+  }
 
   return <main className="page-shell flex-1 pt-4 pb-5 sm:pt-6 sm:pb-7">
     <div className="flex items-center justify-between gap-4 rounded-2xl bg-brand-50/70 px-4 py-3.5 sm:px-6 sm:py-4">

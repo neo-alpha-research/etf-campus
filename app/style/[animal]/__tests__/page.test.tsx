@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import StyleAnimalPage, { generateMetadata, generateStaticParams } from "../page";
+import { generateMetadata, generateStaticParams } from "../page";
 
 describe("StyleAnimalPage Static Generation & Metadata", () => {
   it("10가지 동물 유형에 대해 generateStaticParams를 반환한다", () => {

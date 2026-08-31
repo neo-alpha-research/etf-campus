@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       { message: "Missing path or tag parameter" },
       { status: 400 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Error revalidating" }, { status: 500 });
   }
 }

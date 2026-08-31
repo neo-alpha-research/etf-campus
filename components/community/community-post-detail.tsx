@@ -309,7 +309,6 @@ export function CommunityPostDetail() {
       }
 
       // Local / Mock fallback saving
-      const currentSession = getCommunitySession();
       const newComment: Comment = {
         publicId: "local-comment-" + Date.now(),
         authorNickname: (typeof window !== "undefined" && localStorage.getItem("etf-campus:nickname")) || "ETF투자자",

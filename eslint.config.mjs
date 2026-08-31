@@ -8,6 +8,7 @@ export default defineConfig([
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "warn",
+      "@next/next/no-img-element": "off",
     },
   },
   globalIgnores([

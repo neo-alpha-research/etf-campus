@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { Screener } from "@/components/screener/screener";
 // loadEtfs removed to reduce HTML payload size
-import type { ScreenerEtf } from "@/lib/domain/etf-screener";
+
 
 export const metadata: Metadata = { 
   title: "ETF 탐색 | ETF Campus", 

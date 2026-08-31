@@ -177,15 +177,7 @@ function getAllowedRiskTypes(mode: InvestorMode): readonly RiskType[] {
   return [];
 }
 
-function CompactAssetClassLabel({ value }: { value: string }) {
-  if (value === "금리/파킹" || value === "금리·파킹") {
-    return <span aria-label="금리" className="whitespace-nowrap text-[11px] font-bold text-strong" title="금리">금리</span>;
-  }
-  if (value === "리츠/인프라" || value === "리츠·인프라") {
-    return <span aria-label="리츠/인프라" className="inline-flex flex-col whitespace-nowrap text-[11px] font-bold leading-4 text-strong" title="리츠/인프라"><span aria-hidden="true">리츠/</span><span aria-hidden="true">인프라</span></span>;
-  }
-  return <span className="whitespace-nowrap text-[11px] font-bold text-strong">{value}</span>;
-}
+
 
 function UnitHeaderLabel({ label, unit, align = "center" }: { label: string; unit: string; align?: "center" | "right" }) {
   return (
@@ -223,19 +215,7 @@ function SearchParamsSync({ onSync }: { onSync: (searchParams: URLSearchParams) 
   return null;
 }
 
-function RiskBadge({ label, compact = false }: { label?: string | null, compact?: boolean }) {
-  if (!label) return null;
-  const isInverse = label.includes("인버스");
-  const colorClass = isInverse ? "bg-purple-50 text-purple-700" : "bg-emerald-50 text-emerald-700";
-  const sizeClass = compact 
-    ? "px-0.5 py-0.5 text-[9px] tracking-tighter" 
-    : "px-1.5 py-0.5 text-[10px]";
-  return (
-    <span aria-label={label} className={`select-none rounded font-extrabold ${colorClass} ${sizeClass}`} title={label}>
-      {label}
-    </span>
-  );
-}
+
 
 const CORE_RETURN_PERIODS: readonly ReturnPeriod[] = ["1d", "1m", "3m", "12m", "36m"];
 
@@ -244,7 +224,6 @@ const fetcher = (url: string) => fetch(url).then(r => r.json());
 export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
   const { data: fetchedEtfs } = useSWR<Etf[]>('/data/screener.json', fetcher);
   const etfs = (initialEtfs && initialEtfs.length > 0) ? initialEtfs : (fetchedEtfs || []);
-  const isLoading = !initialEtfs?.length && !fetchedEtfs;
   const [state, setState] = useState<ExplorerState>(DEFAULT_EXPLORER_STATE);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [urlReady, setUrlReady] = useState(false);

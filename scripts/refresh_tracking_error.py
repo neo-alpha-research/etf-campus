@@ -139,5 +139,7 @@ if __name__ == "__main__":
     te_data = fetch_krx_tracking_error(trd_dd)
     if te_data:
         update_master_draft(te_data)
+        from calculate_pure_tracking_error import update_pure_tracking_errors
+        update_pure_tracking_errors()
     else:
         logging.warning("No tracking error data fetched.")

@@ -113,8 +113,9 @@ jobs:
             python scripts/update_daily_data.py
           fi
           
-          # 새 API 업데이트 후 추적오차율 별도 수집 및 병합 (WAF 차단 발생 시 무시됨)
+          # 새 API 업데이트 후 추적오차율 별도 수집 및 배당 보정 순수 추적오차 산출
           python scripts/refresh_tracking_error.py || true
+          python scripts/calculate_pure_tracking_error.py || true
 
       - name: Detect recent-listing reference-price work
         if: steps.guard.outputs.skip != 'true'

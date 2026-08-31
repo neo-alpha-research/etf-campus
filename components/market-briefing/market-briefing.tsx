@@ -540,10 +540,10 @@ function MarketBriefingStickyBar({
 
   return (
     <div
-      className={`sticky top-0 z-30 w-full transition-all duration-300 ${
+      className={`fixed top-[var(--site-header-height,64px)] left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
           ? "bg-white/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.06)] border-b border-[#E2E8D8] py-2"
-          : "bg-transparent py-0 pointer-events-none"
+          : "bg-transparent py-0 pointer-events-none opacity-0 invisible"
       }`}
     >
       <div className={`mx-auto max-w-7xl px-4 sm:px-6 transition-opacity duration-300 ${isScrolled ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
@@ -838,9 +838,18 @@ export function MarketBriefing() {
   const isPastLocked = isViewingPastDate && !authenticated && !bypassAuth;
 
   return (
-    <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12">
-      {/* Master Hero Header */}
-      <header className="pt-0">
+    <>
+      <MarketBriefingStickyBar
+        asOfDate={briefing.asOfDate}
+        generalReturnPct={pulse.generalAumWeightedReturnPct}
+        onOpenHistory={() => {
+          const el = document.getElementById("briefing-history-section");
+          if (el) el.scrollIntoView({ behavior: "smooth" });
+        }}
+      />
+      <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12">
+        {/* Master Hero Header */}
+        <header className="pt-0">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-neutral-200/80">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -870,15 +879,7 @@ export function MarketBriefing() {
         </div>
       </header>
 
-      {/* Sticky Floating As-of-Date & Quick Step Navigation Bar */}
-      <MarketBriefingStickyBar
-        asOfDate={briefing.asOfDate}
-        generalReturnPct={pulse.generalAumWeightedReturnPct}
-        onOpenHistory={() => {
-          const el = document.getElementById("briefing-history-section");
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }}
-      />
+
 
 
       {selectedDate && !isPastLocked && (
@@ -2708,6 +2709,7 @@ export function MarketBriefing() {
       />
 
     </div>
+    </>
 
   );
 

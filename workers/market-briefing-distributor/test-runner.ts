@@ -1,10 +1,13 @@
-import { generateInstagramCarousel } from "./src/templates/instagram";
-import { generateThreadsThread } from "./src/templates/threads";
+import * as dotenv from 'dotenv';
+dotenv.config();
+import { generateInstagramCarousel, generateInstagramCaption } from "./src/templates/instagram";
+import { generateThreadsThread, generateThreadsImageSvg } from "./src/templates/threads";
 import { generateNewsletterHtml } from "./src/templates/newsletter";
 import { validateBriefingPayload } from "./src/circuit-breaker";
 import type { MarketBriefingPayload } from "./src/types";
 import * as fs from "fs";
 import * as path from "path";
+import sharp from "sharp";
 
 const payload20260828: MarketBriefingPayload = {
   asOfDate: "2026-08-28",
@@ -44,7 +47,7 @@ const payload20260828: MarketBriefingPayload = {
     { assetClass: "국내주식", peerGroup: "K-푸드 & K-뷰티", etfCount: 12, cappedAumWeightedReturnPct: 6.62 },
     { assetClass: "원자재", peerGroup: "금 (실물 & 선물)", etfCount: 6, cappedAumWeightedReturnPct: 1.28 },
     { assetClass: "국내주식", peerGroup: "철강화학", etfCount: 8, cappedAumWeightedReturnPct: 1.19 },
-    { assetClass: "해외주식", peerGroup: "국내 일반 반도체", etfCount: 18, cappedAumWeightedReturnPct: -1.83 },
+    { assetClass: "해외주식", peerGroup: "국내 일반 반도체", etfCount: 18, cappedAumWeightedReturnPct: -1.55 },
     { assetClass: "해외주식", peerGroup: "AI 반도체 & HBM", etfCount: 14, cappedAumWeightedReturnPct: -1.83 },
     { assetClass: "해외주식", peerGroup: "미국 반도체 소부장", etfCount: 9, cappedAumWeightedReturnPct: -2.24 },
   ],
@@ -74,55 +77,205 @@ const payload20260828: MarketBriefingPayload = {
 
 const baseUrl = "https://etf-campus.pages.dev";
 
-console.log("=== 1. Circuit Breaker Validation ===");
-const validation = validateBriefingPayload(payload20260828, {
-  ETF_PRICES: {} as any,
-  BRIEFING_KV: {} as any,
-  SITE_BASE_URL: baseUrl,
-});
-console.log("Circuit Breaker Valid:", validation.isSafe, validation.reasons);
+async function run() {
+  console.log("=== 1. Circuit Breaker Validation ===");
+  const validation = validateBriefingPayload(payload20260828, {
+    ETF_PRICES: {} as any,
+    BRIEFING_KV: {} as any,
+    SITE_BASE_URL: baseUrl,
+  });
+  console.log("Circuit Breaker Valid:", validation.isSafe, validation.reasons);
 
-console.log("\n=== 2. Instagram 6-Slide Standardized Carousel Generation ===");
-const slides = generateInstagramCarousel(payload20260828, baseUrl);
-console.log(`Generated ${slides.length} slides.`);
+  console.log("\n=== 2. Instagram 6-Slide Generation ===");
+  const slides = generateInstagramCarousel(payload20260828, baseUrl);
+  console.log(`Generated ${slides.length} slides.`);
 
-const outputDir = path.resolve(process.cwd(), "distributor-preview");
-fs.mkdirSync(outputDir, { recursive: true });
+  const dateStr = payload20260828.asOfDate || "YYYY-MM-DD";
+  
+  // Destination 1: Root OSMU Archive
+  const rootArchiveDir = path.resolve(process.cwd(), "..", "..", "OSMU_Archive", dateStr);
+  const rootInstaDir = path.join(rootArchiveDir, "1_Instagram");
+  const rootThreadsDir = path.join(rootArchiveDir, "2_Threads");
+  const rootEmailDir = path.join(rootArchiveDir, "3_Email");
 
-slides.forEach((s) => {
-  fs.writeFileSync(path.join(outputDir, `instagram_slide_${s.slideNumber}.svg`), s.svgContent, "utf-8");
-  console.log(`- Slide ${s.slideNumber}: [${s.title}] ${s.subtitle} -> Saved (${s.svgContent.length} bytes)`);
-});
+  // Destination 2: Local Preview Directory (for distributor-preview/index.html)
+  const localPreviewDir = path.resolve(process.cwd(), "distributor-preview");
 
-console.log("\n=== 3. Threads 4-Post Thread Generation ===");
-const threads = generateThreadsThread(payload20260828, baseUrl);
-threads.forEach((t) => {
-  console.log(`\n--- Post ${t.sequence}/4 ---\n${t.content}`);
-});
-fs.writeFileSync(path.join(outputDir, "threads_thread.json"), JSON.stringify(threads, null, 2), "utf-8");
+  [rootInstaDir, rootThreadsDir, rootEmailDir, localPreviewDir].forEach(d => fs.mkdirSync(d, { recursive: true }));
 
-console.log("\n=== 4. Newsletter Responsive HTML Generation ===");
-const newsletter = generateNewsletterHtml(payload20260828, baseUrl);
-console.log(`Subject: ${newsletter.subject}`);
-console.log(`HTML Length: ${newsletter.html.length} chars`);
-fs.writeFileSync(path.join(outputDir, "newsletter.html"), newsletter.html, "utf-8");
+  // Render & Save Slides
+  for (const s of slides) {
+    const safeSvg = s.svgContent.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
+    
+    // Save to root OSMU Archive
+    const rootSvgPath = path.join(rootInstaDir, `instagram_slide_${s.slideNumber}.svg`);
+    const rootPngPath = path.join(rootInstaDir, `instagram_slide_${s.slideNumber}.png`);
+    fs.writeFileSync(rootSvgPath, safeSvg, "utf-8");
+    await sharp(Buffer.from(safeSvg)).png().toFile(rootPngPath);
 
-// Generate Integrated Local Preview Dashboard HTML
-const slidesJson = JSON.stringify(slides.map(s => ({
-  slideNumber: s.slideNumber,
-  title: s.title,
-  subtitle: s.subtitle,
-  svgContent: s.svgContent,
-})));
+    // Save to local distributor-preview
+    const localSvgPath = path.join(localPreviewDir, `instagram_slide_${s.slideNumber}.svg`);
+    const localPngPath = path.join(localPreviewDir, `instagram_slide_${s.slideNumber}.png`);
+    fs.writeFileSync(localSvgPath, safeSvg, "utf-8");
+    await sharp(Buffer.from(safeSvg)).png().toFile(localPngPath);
 
-const threadsJson = JSON.stringify(threads);
+    console.log(`- Slide ${s.slideNumber}: [${s.title}] ${s.subtitle} -> Rendered PNG & SVG`);
+  }
 
-const previewDashboardHtml = `<!DOCTYPE html>
+  // Instagram Caption
+  const caption = generateInstagramCaption(payload20260828).replace(/\r?\n/g, "\r\n");
+  const captionBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(caption, "utf-8")]);
+  fs.writeFileSync(path.join(rootInstaDir, "instagram_caption.txt"), captionBuf);
+  fs.writeFileSync(path.join(localPreviewDir, "instagram_caption.txt"), captionBuf);
+  console.log("- Instagram Caption -> Saved to both locations");
+
+  // Threads Content & Image
+  console.log("\n=== 3. Threads Generation ===");
+  const threads = generateThreadsThread(payload20260828, baseUrl);
+  let threadsText = "";
+  threads.forEach((t) => {
+    const label = t.sequence === 1 ? "Main Post" : "First Comment (CTA)";
+    threadsText += `--- ${label} ---\n${t.content}\n\n`;
+  });
+  const threadsBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(threadsText.replace(/\r?\n/g, "\r\n"), "utf-8")]);
+  fs.writeFileSync(path.join(rootThreadsDir, "threads_script.txt"), threadsBuf);
+  fs.writeFileSync(path.join(localPreviewDir, "threads_script.txt"), threadsBuf);
+
+  const threadsSvgContent = generateThreadsImageSvg(payload20260828);
+  const safeThreadsSvg = threadsSvgContent.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
+  
+  // Save Threads SVG & PNG to both
+  const rootThreadsSvg = path.join(rootThreadsDir, "threads_image.svg");
+  const rootThreadsPng = path.join(rootThreadsDir, "threads_image.png");
+  fs.writeFileSync(rootThreadsSvg, safeThreadsSvg, "utf-8");
+  await sharp(Buffer.from(safeThreadsSvg)).png().toFile(rootThreadsPng);
+
+  const localThreadsSvg = path.join(localPreviewDir, "threads_image.svg");
+  const localThreadsPng = path.join(localPreviewDir, "threads_image.png");
+  fs.writeFileSync(localThreadsSvg, safeThreadsSvg, "utf-8");
+  await sharp(Buffer.from(safeThreadsSvg)).png().toFile(localThreadsPng);
+  console.log("- Threads Image -> Rendered PNG & SVG to both locations");
+
+  // Newsletter
+  console.log("\n=== 4. Newsletter HTML Generation ===");
+  const newsletter = generateNewsletterHtml(payload20260828, baseUrl);
+  const newsBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(newsletter.html, "utf-8")]);
+
+  fs.writeFileSync(path.join(rootEmailDir, "email_body.html"), newsBuf);
+  fs.writeFileSync(path.join(localPreviewDir, "newsletter.html"), newsBuf);
+
+  console.log("\n=== 5. Email Puppeteer High-Res Capture (Actual Webpage) ===");
+  console.log("Launching headless browser to snapshot actual Market Briefing webpage...");
+  console.log(`Navigating to: ${baseUrl}/briefing`);
+  const emailPngPath = path.join(rootEmailDir, "email_snapshot.png");
+
+  try {
+    const puppeteer = (await import("puppeteer")).default;
+    const browser = await puppeteer.launch({ 
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+    });
+    const page = await browser.newPage();
+    await page.setViewport({ width: 600, height: 1800, deviceScaleFactor: 2 });
+    await page.goto(`${baseUrl}/briefing`, { waitUntil: "domcontentloaded", timeout: 20000 });
+    await new Promise((r) => setTimeout(r, 2000));
+
+    await page.evaluate(() => {
+      document.querySelectorAll('header, nav, [class*="ticker"], [class*="sticky"]').forEach(el => el.remove());
+      document.querySelectorAll('h1').forEach(h1 => {
+        const parentSection = h1.closest('section') || h1.closest('header') || h1.parentElement;
+        if (parentSection) parentSection.remove();
+      });
+      document.querySelectorAll('details').forEach(el => el.remove());
+      const historyTitle = document.getElementById('briefing-history-title');
+      if (historyTitle) {
+        const parentSec = historyTitle.closest('section') || historyTitle.closest('div');
+        if (parentSec) parentSec.remove();
+      }
+      document.querySelectorAll('footer').forEach(el => el.remove());
+      document.body.style.padding = '0';
+      document.body.style.margin = '0';
+      const main = document.querySelector('main');
+      if (main) {
+        main.style.padding = '0';
+        main.style.margin = '0';
+        main.style.minHeight = 'auto';
+      }
+    });
+
+    await new Promise((r) => setTimeout(r, 500));
+
+    const mainElement = (await page.$('main')) || page;
+    await mainElement.screenshot({ path: emailPngPath });
+    await browser.close();
+    fs.copyFileSync(emailPngPath, path.join(localPreviewDir, "email_snapshot.png"));
+    console.log(`Tight Webpage snapshot saved to: ${emailPngPath}`);
+  } catch(e) {
+    console.error("Puppeteer capture failed:", e);
+  }
+
+  console.log("\n=== 6. Send QA Email via Nodemailer ===");
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    try {
+      const nodemailer = (await import("nodemailer")).default;
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        }
+      });
+      const mailOptions = {
+        from: `"ETF Campus" <${process.env.SMTP_USER}>`,
+        to: "neo.alpharesearch@gmail.com",
+        subject: `🚨 [QA 테스트] 🚨 ${newsletter.subject}`,
+        html: `
+          <div style="background-color: #0F172A; padding: 40px 0; font-family: sans-serif; text-align: center; width: 100%;">
+            <div style="max-width: 600px; margin: 0 auto;">
+              <a href="${baseUrl}/briefing" style="display: block; text-decoration: none;">
+                <img src="cid:newsletter_full_image" alt="Market Briefing" style="max-width: 100%; border-radius: 20px; display: block; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);" />
+              </a>
+              <p style="margin-top: 32px; font-size: 12px; color: #94A3B8; line-height: 1.6;">
+                 본 메일은 ETF 캠퍼스 뉴스레터 자동 발송 테스트입니다.<br/>
+                 © 2026 ETF Campus. All rights reserved.
+              </p>
+            </div>
+          </div>
+        `,
+        attachments: [
+          {
+            filename: "email_snapshot.png",
+            path: emailPngPath,
+            cid: "newsletter_full_image"
+          }
+        ]
+      };
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`QA Email sent successfully: <${info.messageId}>`);
+    } catch(e) {
+      console.error("Nodemailer sending failed:", e);
+    }
+  } else {
+    console.log("No SMTP credentials found. Skipping Nodemailer.");
+  }
+
+
+  // Generate Integrated Preview Dashboard HTML
+  const slidesJson = JSON.stringify(slides.map(s => ({
+    slideNumber: s.slideNumber,
+    title: s.title,
+    subtitle: s.subtitle,
+    svgContent: s.svgContent,
+  })));
+
+  const threadsJson = JSON.stringify(threads);
+
+  const previewDashboardHtml = `<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ETF Campus - OSMU Multi-Channel Local Preview (2026.08.28)</title>
+  <title>ETF Campus - OSMU Multi-Channel Local Preview (${dateStr})</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
   <style>
@@ -132,61 +285,43 @@ const previewDashboardHtml = `<!DOCTYPE html>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
   <div class="max-w-7xl mx-auto space-y-8">
-    <!-- Header -->
     <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
       <div>
         <div class="flex items-center gap-2 mb-1">
           <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-950 px-3 py-1 text-xs font-bold text-emerald-400 border border-emerald-800">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            LOCAL FAST PREVIEW (3초 생성)
+            LOCAL FAST PREVIEW
           </span>
-          <span class="text-sm font-semibold text-slate-400">2026.08.28 (금) 장마감 기준</span>
+          <span class="text-sm font-semibold text-slate-400">${dateStr} 장마감 기준</span>
         </div>
         <h1 class="text-2xl md:text-3xl font-extrabold text-white">
           ETF Campus OSMU 자동 배포 통합 프리뷰 대시보드
         </h1>
       </div>
-      <div class="flex items-center gap-3">
+      <div>
         <button onclick="window.location.reload()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-bold border border-slate-700 transition">
           🔄 새로고침
         </button>
-        <span class="px-3 py-2 bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 rounded-xl text-xs font-bold">
-          ✅ 6-Slide 표준 템플릿 검증 완료
-        </span>
       </div>
     </header>
 
     <!-- 3-Channel Tabs -->
     <div class="flex border-b border-slate-800 gap-2" id="channelTabs">
       <button onclick="switchTab('instagram')" id="tab-instagram" class="px-6 py-3 font-bold text-sm border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2">
-        📸 인스타그램 6-Slide 카드뉴스 (1080x1350)
+        📷 인스타그램 6-Slide 카드뉴스 & 캡션
       </button>
       <button onclick="switchTab('threads')" id="tab-threads" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-        🧵 Threads 4단 타래
+        🧵 Threads 모닝 브리핑 & 이미지
       </button>
       <button onclick="switchTab('newsletter')" id="tab-newsletter" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-        📧 이메일 뉴스레터 (반응형)
+        📧 이메일 뉴스레터
       </button>
     </div>
 
     <!-- TAB 1: Instagram Carousel -->
     <section id="panel-instagram" class="space-y-6">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60">
-        <div>
-          <h2 class="text-lg font-bold text-white flex items-center gap-2">
-            <span>6-Slide 표준 캐러셀 갤러리</span>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-400/30">페르소나 9.50점 만장일치 S등급</span>
-          </h2>
-          <p class="text-xs text-slate-400 mt-0.5">올블랙 탈피 프리미엄 에디토리얼 테마 (#F8FAFC) + 4:5 모바일 최적화</p>
-        </div>
-        <!-- Slide Selectors -->
-        <div class="flex items-center gap-1.5 flex-wrap" id="slidePills"></div>
-      </div>
-
-      <!-- Main Visual Carousel -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <!-- Main Single Slide Focused View -->
-        <div class="lg:col-span-7 bg-slate-950 p-4 sm:p-6 rounded-3xl border border-slate-800 shadow-2xl flex flex-col items-center">
+        <div class="lg:col-span-7 bg-slate-950 p-6 rounded-3xl border border-slate-800 shadow-2xl flex flex-col items-center">
           <div class="flex items-center justify-between w-full mb-3 text-xs text-slate-400 font-bold px-2">
             <span id="activeSlideTitle">Slide 1 / 6</span>
             <div class="flex gap-2">
@@ -197,17 +332,28 @@ const previewDashboardHtml = `<!DOCTYPE html>
           <div id="focusedSlideContainer" class="w-full max-w-[500px] slide-svg shadow-2xl rounded-2xl overflow-hidden border border-slate-700/50"></div>
         </div>
 
-        <!-- All 6 Slides Grid Overview -->
         <div class="lg:col-span-5 space-y-4">
-          <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">전체 6개 슬라이드 한눈에 보기</h3>
-          <div class="grid grid-cols-2 gap-3" id="thumbnailsContainer"></div>
+          <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3">
+            <h3 class="text-sm font-extrabold text-slate-300">📝 인스타그램 캡션 미리보기</h3>
+            <pre class="text-xs text-slate-300 whitespace-pre-wrap bg-slate-900 p-4 rounded-xl border border-slate-800 max-h-[380px] overflow-y-auto">${caption}</pre>
+          </div>
+          <h3 class="text-sm font-extrabold text-slate-300 uppercase tracking-wider">전체 6장 슬라이드 썸네일</h3>
+          <div class="grid grid-cols-3 gap-2" id="thumbnailsContainer"></div>
         </div>
       </div>
     </section>
 
     <!-- TAB 2: Threads Thread -->
     <section id="panel-threads" class="hidden space-y-6">
-      <div class="max-w-2xl mx-auto space-y-4" id="threadsContainer"></div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-6 space-y-4" id="threadsContainer"></div>
+        <div class="lg:col-span-6 bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center">
+          <h3 class="text-sm font-bold text-slate-300 mb-4 self-start">🖼️ 스레드 단일 첨부 이미지</h3>
+          <div class="slide-svg max-w-[420px] rounded-2xl overflow-hidden shadow-2xl border border-slate-700 w-full">
+            ${threadsSvgContent}
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- TAB 3: Newsletter HTML -->
@@ -215,14 +361,17 @@ const previewDashboardHtml = `<!DOCTYPE html>
       <div class="bg-slate-800 p-4 rounded-2xl flex items-center justify-between">
         <div>
           <span class="text-xs text-slate-400">제목:</span>
-          <span class="font-bold text-white text-sm ml-2">${newsletter.subject}</span>
+          <span class="font-bold text-white text-sm ml-2">🚨 [QA 테스트] 🚨 ${newsletter.subject}</span>
         </div>
-        <a href="./newsletter.html" target="_blank" class="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold">
-          새 창에서 원본 열기 ↗
-        </a>
       </div>
-      <div class="bg-white rounded-2xl overflow-hidden shadow-2xl p-2 border border-slate-700">
-        <iframe src="./newsletter.html" class="w-full h-[850px] rounded-xl border-0"></iframe>
+      <div class="bg-[#0F172A] rounded-2xl overflow-hidden shadow-2xl p-8 border border-slate-700 flex flex-col items-center">
+        <div class="max-w-[480px] w-full">
+          <img src="./email_snapshot.png" class="w-full rounded-2xl shadow-2xl border border-slate-700" alt="Full Email Snapshot" />
+          <p class="mt-8 text-[12px] text-slate-400 leading-relaxed text-center">
+            본 메일은 ETF 캠퍼스 뉴스레터 자동 발송 테스트입니다.<br/>
+            © 2026 ETF Campus. All rights reserved.
+          </p>
+        </div>
       </div>
     </section>
   </div>
@@ -233,27 +382,14 @@ const previewDashboardHtml = `<!DOCTYPE html>
     let currentIdx = 0;
 
     function renderSlides() {
-      // Render Focused
       const s = slides[currentIdx];
-      document.getElementById('activeSlideTitle').innerText = 'Slide ' + s.slideNumber + ' : ' + s.title + ' (' + s.subtitle + ')';
+      document.getElementById('activeSlideTitle').innerText = 'Slide ' + s.slideNumber + ' : ' + s.title;
       document.getElementById('focusedSlideContainer').innerHTML = s.svgContent;
 
-      // Render Pills
-      const pillsContainer = document.getElementById('slidePills');
-      pillsContainer.innerHTML = slides.map((item, idx) => \`
-        <button onclick="setSlide(\${idx})" class="px-3 py-1.5 rounded-lg text-xs font-bold transition \${idx === currentIdx ? 'bg-emerald-500 text-slate-950 shadow-lg' : 'bg-slate-700 hover:bg-slate-600 text-slate-200'}">
-          \${item.slideNumber}. \${item.title}
-        </button>
-      \`).join('');
-
-      // Render Thumbnails
       const thumbContainer = document.getElementById('thumbnailsContainer');
       thumbContainer.innerHTML = slides.map((item, idx) => \`
-        <div onclick="setSlide(\${idx})" class="cursor-pointer group bg-slate-950 p-2 rounded-xl border \${idx === currentIdx ? 'border-emerald-500 ring-2 ring-emerald-500/30' : 'border-slate-800 hover:border-slate-600'} transition">
-          <div class="flex justify-between items-center mb-1 text-[11px] font-bold text-slate-400 group-hover:text-white">
-            <span>\${item.slideNumber}. \${item.title}</span>
-          </div>
-          <div class="slide-svg rounded-lg overflow-hidden scale-95 origin-top">\${item.svgContent}</div>
+        <div onclick="setSlide(\${idx})" class="cursor-pointer bg-slate-950 p-1.5 rounded-xl border \${idx === currentIdx ? 'border-emerald-500 ring-2 ring-emerald-500/30' : 'border-slate-800'} transition">
+          <div class="slide-svg rounded-lg overflow-hidden">\${item.svgContent}</div>
         </div>
       \`).join('');
     }
@@ -277,12 +413,8 @@ const previewDashboardHtml = `<!DOCTYPE html>
       const c = document.getElementById('threadsContainer');
       c.innerHTML = threads.map(t => {
         return '<div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3">' +
-          '<div class="flex items-center justify-between border-b border-slate-800/80 pb-3">' +
-            '<div class="flex items-center gap-2">' +
-              '<span class="w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center font-bold text-xs text-white">@</span>' +
-              '<span class="font-bold text-sm text-white">etfcampus</span>' +
-              '<span class="text-xs text-slate-500">· Post ' + t.sequence + '/4</span>' +
-            '</div>' +
+          '<div class="flex items-center gap-2 border-b border-slate-800/80 pb-3">' +
+            '<span class="font-bold text-sm text-emerald-400">Post ' + t.sequence + '</span>' +
           '</div>' +
           '<div class="text-sm leading-relaxed text-slate-200 whitespace-pre-wrap">' + t.content + '</div>' +
         '</div>';
@@ -309,7 +441,13 @@ const previewDashboardHtml = `<!DOCTYPE html>
 </body>
 </html>`;
 
-fs.writeFileSync(path.join(outputDir, "index.html"), previewDashboardHtml, "utf-8");
+  const dashboardBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(previewDashboardHtml, "utf-8")]);
+  fs.writeFileSync(path.join(rootArchiveDir, "index.html"), dashboardBuf);
+  fs.writeFileSync(path.join(localPreviewDir, "index.html"), dashboardBuf);
 
-console.log(`\n🎉 Integrated Local Multi-Channel Preview Dashboard generated!`);
-console.log(`👉 Open in browser: file://${path.join(outputDir, "index.html")}`);
+  console.log(`\n🎉 All PNGs, SVGs, and Previews freshly synchronized to BOTH:`);
+  console.log(`1. file://${path.join(localPreviewDir, "index.html")}`);
+  console.log(`2. file://${path.join(rootArchiveDir, "index.html")}`);
+}
+
+run().catch(console.error);

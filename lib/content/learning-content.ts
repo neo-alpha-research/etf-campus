@@ -58,6 +58,9 @@ export type ExternalBook = LearningExampleMetadata & {
   category: ExternalBookCategory;
   tags: string[];
   rating: number;
+  aladinRating?: number;
+  yes24Rating?: number;
+  kyoboRating?: number;
   reviewCount: number;
   ratingSource: string;
   shortTargetTag?: string;
@@ -252,6 +255,9 @@ export function loadExternalBooks(): ExternalBook[] {
       category,
       tags,
       rating,
+      aladinRating: findMetadataValue(metadata, ["aladinRating", "aladin_rating"]) ? Number(findMetadataValue(metadata, ["aladinRating", "aladin_rating"])) : undefined,
+      yes24Rating: findMetadataValue(metadata, ["yes24Rating", "yes24_rating"]) ? Number(findMetadataValue(metadata, ["yes24Rating", "yes24_rating"])) : undefined,
+      kyoboRating: findMetadataValue(metadata, ["kyoboRating", "kyobo_rating"]) ? Number(findMetadataValue(metadata, ["kyoboRating", "kyobo_rating"])) : undefined,
       reviewCount,
       ratingSource: requiredWithAliases(metadata, ["ratingSource", "rating_source"], filename),
       irpEligible,

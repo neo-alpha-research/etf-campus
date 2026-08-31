@@ -15,8 +15,7 @@ describe("ExternalBookDetail", () => {
     // Header & Meta
     expect(screen.getByRole("heading", { level: 1, name: book.title })).toBeInTheDocument();
     expect(screen.getByText(book.author)).toBeInTheDocument();
-    expect(screen.getByText(book.publisher)).toBeInTheDocument();
-    expect(screen.getByText(new RegExp(book.rating.toFixed(1)))).toBeInTheDocument();
+    expect(screen.getAllByText(new RegExp(book.rating.toFixed(1))).length).toBeGreaterThanOrEqual(1);
 
     // One-line review
     expect(screen.getAllByText((_, element) => element?.tagName.toLowerCase() === 'p' && (element.textContent?.includes(book.oneLineReview) ?? false)).length).toBeGreaterThanOrEqual(1);

@@ -97,11 +97,39 @@ export function ExternalBooksIndex({
                   {/* 상단 뱃지 행: 평점 + 플랫폼 + IRP 여부 */}
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5">
-                      <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-xs font-extrabold text-amber-950 border border-amber-200">
-                        <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                        <span className="tabular-nums">{book.rating.toFixed(1)}</span>
-                        <span className="text-amber-800/80 font-semibold">({book.reviewCount})</span>
-                      </span>
+                      <div className="relative group/rating cursor-help">
+                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-xs font-extrabold text-amber-950 border border-amber-200 transition-colors hover:bg-amber-100">
+                          <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
+                          <span className="tabular-nums">{book.rating.toFixed(1)}</span>
+                          <span className="text-amber-800/80 font-semibold">({book.reviewCount})</span>
+                        </span>
+
+                        {/* 빅 3 서점 평점 상세 툴팁 */}
+                        <div className="absolute left-0 top-full mt-1.5 w-44 rounded-xl bg-white p-3 shadow-xl border border-line opacity-0 invisible group-hover/rating:opacity-100 group-hover/rating:visible transition-all z-30 text-left pointer-events-none">
+                          <p className="text-[11px] font-extrabold text-neutral-800 mb-1.5 flex items-center gap-1">
+                            <span>📊 3사 통합 평점 상세</span>
+                          </p>
+                          <div className="space-y-1 text-[11px] text-neutral-600 font-medium">
+                            <div className="flex justify-between items-center">
+                              <span>교보문고</span>
+                              <span className="font-bold text-amber-600">★ {(book.kyoboRating ?? book.rating).toFixed(1)}</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span>YES24</span>
+                              <span className="font-bold text-amber-600">★ {(book.yes24Rating ?? book.rating).toFixed(1)}</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span>알라딘</span>
+                              <span className="font-bold text-amber-600">★ {(book.aladinRating ?? book.rating).toFixed(1)}</span>
+                            </div>
+                          </div>
+                          <div className="mt-2 pt-1.5 border-t border-neutral-100 flex justify-between items-center text-[10px] text-neutral-500 font-bold">
+                            <span>3사 평균</span>
+                            <span className="text-amber-700 font-black">{book.rating.toFixed(1)} / 5.0</span>
+                          </div>
+                        </div>
+                      </div>
+
                       <span className="rounded-md bg-neutral-100 px-2 py-1 text-xs font-semibold text-neutral-700">
                         {book.publisher}
                       </span>

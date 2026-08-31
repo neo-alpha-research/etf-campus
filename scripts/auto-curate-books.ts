@@ -93,6 +93,9 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, li
       author: item.author.split(",")[0].trim(), // 메인 저자만
       publisher: item.publisher,
       rating: parseFloat(avgRating),
+      aladinRating: parseFloat(aladinRating.toFixed(1)),
+      yes24Rating: parseFloat(yes24Rating.toFixed(1)),
+      kyoboRating: parseFloat(kyoboRating.toFixed(1)),
       reviewCount: 150 + Math.floor(Math.random() * 300), // API에서 바로 제공 안되는 경우 보정
       isbn: isbn,
       description: item.description || "도서 상세 정보 없음",
@@ -213,6 +216,9 @@ publisher: ${book.publisher.replace(/:/g, ' -').replace(/\n/g, ' ')}
 category: ${categoryName}
 tags: AI선정 | 베스트셀러 | 실전투자
 rating: ${book.rating}
+aladinRating: ${book.aladinRating || book.rating}
+yes24Rating: ${book.yes24Rating || book.rating}
+kyoboRating: ${book.kyoboRating || book.rating}
 reviewCount: ${book.reviewCount}
 ratingSource: 알라딘·교보·예스24 빅3 통합
 irpEligible: false

@@ -100,7 +100,9 @@ export function ExternalBooksIndex({
                       <div className="relative group/rating cursor-help">
                         <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-xs font-extrabold text-amber-950 border border-amber-200 transition-colors hover:bg-amber-100">
                           <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
-                          <span className="tabular-nums">{book.rating.toFixed(1)}</span>
+                          <span className="tabular-nums">
+                            {(((book.kyoboRating ?? book.rating) + (book.yes24Rating ?? book.rating) + (book.aladinRating ?? book.rating)) / 3).toFixed(1)}
+                          </span>
                           <span className="text-amber-800/80 font-semibold">({book.reviewCount})</span>
                         </span>
 
@@ -125,7 +127,9 @@ export function ExternalBooksIndex({
                           </div>
                           <div className="mt-2 pt-1.5 border-t border-neutral-100 flex justify-between items-center text-[10px] text-neutral-500 font-bold">
                             <span>3사 평균</span>
-                            <span className="text-amber-700 font-black">{book.rating.toFixed(1)} / 5.0</span>
+                            <span className="text-amber-700 font-black">
+                              {(((book.kyoboRating ?? book.rating) + (book.yes24Rating ?? book.rating) + (book.aladinRating ?? book.rating)) / 3).toFixed(1)} / 5.0
+                            </span>
                           </div>
                         </div>
                       </div>

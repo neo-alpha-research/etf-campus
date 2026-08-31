@@ -19,7 +19,7 @@ describe("ExternalBookDetail", () => {
     expect(screen.getByText(new RegExp(book.rating.toFixed(1)))).toBeInTheDocument();
 
     // One-line review
-    expect(screen.getAllByText((content) => content.includes(book.oneLineReview)).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText((_, element) => element?.tagName.toLowerCase() === 'p' && (element.textContent?.includes(book.oneLineReview) ?? false)).length).toBeGreaterThanOrEqual(1);
 
     // Pros & Cons
     expect(screen.getByText("주요 장점 (Pros)")).toBeInTheDocument();

@@ -1,4 +1,5 @@
 from datetime import date
+import unittest
 from unittest import TestCase
 
 from scripts.calculate_page3_total_return_metrics import (

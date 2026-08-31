@@ -463,7 +463,7 @@ def main() -> None:
     final = signed_post(args.endpoint, hmac_secret, {
         "action": "finalize", "asOfDate": as_of_date, "sourceVersion": source_version, "indices": indices,
     })
-    if final.get("status") != "ready":
+    if final.get("status") not in ("ready", "already_ready"):
         raise RuntimeError(f"Unexpected finalization response: {final}")
     print(json.dumps({"status": "ready", "as_of_date": as_of_date, "source_version": source_version, "accepted": accepted, "event_id": final.get("eventId")}, ensure_ascii=False))
 

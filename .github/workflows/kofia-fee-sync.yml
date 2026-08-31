@@ -1,4 +1,4 @@
-name: KOFIA Fee Registry Sync
+name: KOFIA Fee Registry Auto-Sync
 
 on:
   schedule:
@@ -7,12 +7,14 @@ on:
   workflow_dispatch: # 수동 실행 트리거
 
 jobs:
-  sync-and-pr:
+  sync-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
@@ -23,28 +25,58 @@ jobs:
       - name: 📦 Install dependencies
         run: npm ci
 
-      - name: 🔄 Run KOFIA Scraping Pipeline
-        run: npx tsx scripts/sync-kofia-fees.ts
+      - name: 🔄 Run KOFIA Scraping Pipeline (with Retry)
+        id: scrape
+        run: |
+          for i in 1 2 3; do
+            echo "Attempt $i of 3..."
+            if npx tsx scripts/sync-kofia-fees.ts; then
+              echo "Pipeline succeeded!"
+              exit 0
+            fi
+            if [ $i -lt 3 ]; then
+              echo "Attempt $i failed. Waiting 5 minutes before retrying..."
+              sleep 300
+            fi
+          done
+          echo "Pipeline failed after 3 attempts."
+          exit 1
         env:
           NODE_ENV: production
+          # KOFIA_ID: ${{ secrets.KOFIA_ID }} (필요 시)
 
-      - name: 🔀 Create Pull Request (Human-in-the-loop)
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore(data): KOFIA 월간 실부담 총비용(합성보수) 정기 동기화"
-          title: "🔄 KOFIA 실질비용 월간 동기화 (자동화)"
-          body: |
-            ## 📊 KOFIA 전자공시 ETF 비용 데이터 업데이트
+      - name: 🚨 Notify Slack on Failure
+        if: failure()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"🚨 [ETF Campus] KOFIA 실부담비용 파이프라인 실패 (서킷 브레이커 발동 의심)"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
 
-            `scripts/sync-kofia-fees.ts` 파이프라인에 의해 자동 생성된 PR입니다.
-            이번 달 수집된 기타비용 및 매매중개수수료를 기존 레지스트리에 병합했습니다.
+      - name: 💾 Commit and Push Changes directly to Main
+        id: commit
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/fees/etf_fee_registry.json
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "chore(data): 🤖 KOFIA 월간 실부담비용 자동 동기화 완료"
+            git push origin main
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
 
-            ### 🛡️ 체크리스트 (운영자 리뷰용)
-            - [ ] `etf_fee_registry.json` 파일의 `diff`를 확인하여 튀는 값(Anomaly)이 없는지 검토해주세요.
-            - [ ] 서킷 브레이커 통과 여부를 Actions 로그에서 확인하세요.
-            
-            > **전문가 위원회 권고사항:** 데이터를 병합하기 전에 `ter_pct` 또는 `trading_cost_pct`가 ±0.5%p 이상 급격하게 변한 종목이 없는지 주의 깊게 살펴보시기 바랍니다.
-          branch: auto-sync/kofia-fees
-          delete-branch: true
-          labels: "data-update, human-review-required"
+      - name: ♻️ Revalidate Next.js Cache
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          curl -X POST "https://etfcampus.com/api/revalidate?tag=etf-fees" \
+          -H "Authorization: Bearer ${{ secrets.REVALIDATION_SECRET }}"
+
+      - name: ✅ Notify Slack on Success
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"✅ [ETF Campus] KOFIA 실부담비용 월간 업데이트 완료 및 캐시 무효화 성공!"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}

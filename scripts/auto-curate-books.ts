@@ -10,9 +10,9 @@ const ALADIN_TTB_KEY = process.env.ALADIN_TTB_KEY || "ttbshinkib1816001";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AIzaSyBIuUD4m3gzQmclZIxjm45QkPnXrZNFxOQ";
 
 const CATEGORY_MAP = {
-  "초보·입문": { keyword: "ETF 기초" },
-  "연금·절세": { keyword: "연금저축 ETF" },
-  "배당·현금흐름": { keyword: "배당 ETF" },
+  "초보·입문": { keyword: "ETF", slug: "beginner" },
+  "연금·절세": { keyword: "연금저축", slug: "pension" },
+  "배당·현금흐름": { keyword: "배당 ETF", slug: "dividend" },
 };
 
 async function fetchYes24Rating(isbn: string): Promise<number | null> {
@@ -57,10 +57,17 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, li
   }
 
   // 1. 알라딘 ItemSearch API 호출 (정확도 및 판매량 기준 정렬)
-  const url = `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ALADIN_TTB_KEY}&Query=${encodeURIComponent(keyword)}&QueryType=Keyword&MaxResults=${limit}&SearchTarget=Book&output=js&Version=20131101&Sort=SalesPoint`;
+  const url = `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ALADIN_TTB_KEY}&Query=${encodeURIComponent(keyword)}&QueryType=Keyword&MaxResults=10&SearchTarget=Book&output=js&Version=20131101&Sort=SalesPoint`;
   
-  const response = await fetch(url);
-  const data = await response.json();
+  let response = await fetch(url);
+  let data = await response.json();
+
+  if (!data || !data.item || data.item.length === 0) {
+    console.log(`⚠️ [API] ${keyword} 검색 결과 없음. 'ETF'로 대체 검색합니다.`);
+    const fallbackUrl = `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ALADIN_TTB_KEY}&Query=ETF&QueryType=Keyword&MaxResults=10&SearchTarget=Book&output=js&Version=20131101&Sort=SalesPoint`;
+    response = await fetch(fallbackUrl);
+    data = await response.json();
+  }
 
   if (!data || !data.item || data.item.length === 0) {
     throw new Error(`알라딘 API에서 데이터를 가져오지 못했습니다. 카테고리: ${categoryName}`);
@@ -95,9 +102,10 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, li
     
     // API 과부하 방지 딜레이
     await new Promise(r => setTimeout(r, 500));
+    if (aggregatedBooks.length >= limit) break;
   }
   
-  return aggregatedBooks;
+  return aggregatedBooks.slice(0, limit);
 }
 
 async function generateAIReview(bookMetadata: any) {
@@ -186,27 +194,42 @@ async function generateAIReview(bookMetadata: any) {
   };
 }
 
-async function updateMdxFile(categoryName: string, rank: number, book: any, aiReview: any) {
-  // 제목에서 특수문자 제거 후 slug 생성
-  const safeTitle = book.title.replace(/[^a-zA-Z0-9가-힣\s]/g, '').trim().replace(/\s+/g, '-').toLowerCase();
-  const filePath = path.join(CONTENT_DIR, `[LEARNING_EXAMPLE]_${safeTitle}.mdx`);
+async function updateMdxFile(categoryName: string, categorySlug: string, rank: number, book: any, aiReview: any) {
+  const filePath = path.join(CONTENT_DIR, `[LEARNING_EXAMPLE]_${categorySlug}-top-${rank}.mdx`);
   
-  const mdxContent = `---
-kind: 'external-book'
-title: '${book.title.replace(/'/g, "''")}'
-author: '${book.author.replace(/'/g, "''")}'
-publisher: '${book.publisher.replace(/'/g, "''")}'
-category: '${categoryName}'
-tags: ['AI선정', '베스트셀러']
+  const prosText = Array.isArray(aiReview.pros) ? aiReview.pros.join(" | ") : String(aiReview.pros);
+  const consText = Array.isArray(aiReview.cons) ? aiReview.cons.join(" | ") : String(aiReview.cons);
+
+  const mdxContent = `[LEARNING_EXAMPLE]
+---
+contentRole: learning-example
+exampleType: reading-path
+scenarioBasis: fictional
+asOf: not-applicable
+sources: not-applicable
+title: ${book.title.replace(/:/g, ' -').replace(/\n/g, ' ')}
+author: ${book.author.replace(/:/g, ' -').replace(/\n/g, ' ')}
+publisher: ${book.publisher.replace(/:/g, ' -').replace(/\n/g, ' ')}
+category: ${categoryName}
+tags: AI선정 | 베스트셀러 | 실전투자
 rating: ${book.rating}
 reviewCount: ${book.reviewCount}
-ratingSource: 'Aladin/Kyobo/Yes24 통합'
+ratingSource: 알라딘·교보·예스24 빅3 통합
 irpEligible: false
-coverImage: '${book.coverUrl}'
-affiliateUrl: '${book.link}'
-oneLineReview: '${aiReview.oneLineReview.replace(/'/g, "''")}'
-targetPersona: '${aiReview.targetPersona.replace(/'/g, "''")}'
-shortTargetTag: '${aiReview.shortTargetTag.replace(/'/g, "''")}'
+oneLineReview: ${aiReview.oneLineReview.replace(/:/g, ' -').replace(/\n/g, ' ')}
+summary: ${aiReview.summary.replace(/:/g, ' -').replace(/\n/g, ' ')}
+pros: ${prosText.replace(/:/g, ' -').replace(/\n/g, ' ')}
+cons: ${consText.replace(/:/g, ' -').replace(/\n/g, ' ')}
+targetPersona: ${aiReview.targetPersona.replace(/:/g, ' -').replace(/\n/g, ' ')}
+shortTargetTag: ${aiReview.shortTargetTag.replace(/:/g, ' -').replace(/\n/g, ' ')}
+coverImage: ${book.coverUrl}
+affiliateUrl: ${book.link}
+---
+
+# ${book.title}
+
+> **"${aiReview.oneLineReview}"**
+
 ---
 
 ### 🎯 이런 분께 강력 추천합니다
@@ -217,10 +240,10 @@ ${aiReview.targetRationale}
 ${aiReview.summary}
 
 ### 👍 추천 포인트 (Pros)
-- ${aiReview.pros[0]}
+- ${Array.isArray(aiReview.pros) ? aiReview.pros[0] : aiReview.pros}
 
 ### ⚠️ 유의할 점 (Cons)
-- ${aiReview.cons[0]}
+- ${Array.isArray(aiReview.cons) ? aiReview.cons[0] : aiReview.cons}
 `;
 
   await fs.writeFile(filePath, mdxContent, 'utf-8');
@@ -250,7 +273,7 @@ async function runAutomation() {
     let rank = 1;
     for (const book of topBooks) {
       const aiReview = await generateAIReview(book);
-      await updateMdxFile(categoryName, rank, book, aiReview);
+      await updateMdxFile(categoryName, data.slug, rank, book, aiReview);
       rank++;
       
       // AI API Rate Limit(429) 및 서점 크롤링 차단 방지를 위해 도서당 10초 딜레이 추가

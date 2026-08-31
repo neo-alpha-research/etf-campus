@@ -47,9 +47,14 @@ export function FeeStackedBar({ etf, isLowest, maxFee = 1.0 }: Props) {
   
   return (
     <div className="relative group flex flex-col items-center w-full px-1 cursor-help">
-      {isLowest && (
-        <span className="mb-1 text-[9px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full whitespace-nowrap">★ 최저 비용</span>
-      )}
+      <div className="flex items-center gap-1 mb-1">
+        {ctx.isStale && (
+          <span className="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded-full whitespace-nowrap" title={ctx.staleMessage}>과거 데이터</span>
+        )}
+        {isLowest && (
+          <span className="text-[9px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded-full whitespace-nowrap">★ 최저 비용</span>
+        )}
+      </div>
       
       <div className={`text-[12px] font-bold tabular-nums font-mono mb-1 ${isLowest ? "text-emerald-600" : "text-strong"}`}>
         {syntheticFee.toFixed(3)}%

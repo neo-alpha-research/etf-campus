@@ -34,7 +34,30 @@ export type FeeDisplayContext = {
   syntheticFee: number | null;
   nominalFee: number | null;
   hasHiddenCostWarning: boolean;
+  isStale: boolean;
+  staleMessage?: string;
 };
+
+/**
+ * 데이터 지연 여부 판별 (90일 초과 시 Stale 처리)
+ */
+function checkIsStale(effectiveDate?: string | null): boolean {
+  if (!effectiveDate) return false;
+  // YYYYMM 형식 파싱 (예: "202607")
+  let dateObj: Date;
+  if (effectiveDate.length === 6 && /^\d{6}$/.test(effectiveDate)) {
+    const year = parseInt(effectiveDate.slice(0, 4), 10);
+    const month = parseInt(effectiveDate.slice(4, 6), 10);
+    dateObj = new Date(year, month - 1, 1);
+  } else {
+    dateObj = new Date(effectiveDate);
+  }
+  
+  if (isNaN(dateObj.getTime())) return false;
+  
+  const daysDiff = (Date.now() - dateObj.getTime()) / (1000 * 60 * 60 * 24);
+  return daysDiff > 90;
+}
 
 /**
  * 컴플라이언스 및 마스킹 룰을 적용한 최종 UI 렌더링용 보수 컨텍스트 산출
@@ -43,19 +66,22 @@ export function getFeeDisplayContext(etf: any): FeeDisplayContext {
   const nominalFee = etf.fee?.totalFeePct ?? null;
   const syntheticFee = getSyntheticFee(etf);
   
+  const isStale = checkIsStale(etf.fee?.effectiveDate);
+  const staleMessage = isStale ? `협회 공시 지연으로 ${etf.fee?.effectiveDate} 기준 데이터를 표시 중입니다.` : undefined;
+  
   if (nominalFee === null) {
-    return { type: "unknown", syntheticFee: null, nominalFee: null, hasHiddenCostWarning: false };
+    return { type: "unknown", syntheticFee: null, nominalFee: null, hasHiddenCostWarning: false, isStale: false };
   }
   
   if (isNewEtfForFeeMasking(etf)) {
-    return { type: "masked_new", syntheticFee: null, nominalFee, hasHiddenCostWarning: false };
+    return { type: "masked_new", syntheticFee: null, nominalFee, hasHiddenCostWarning: false, isStale, staleMessage };
   }
   
   if (syntheticFee !== null && syntheticFee > nominalFee) {
-    // 경고 뱃지 조건: 명목 대비 실질비용이 0.5%p 이상 높을 때 (숨은 비용 폭탄)
+    // 경고 뱃지 조건: 명목 보수와 실질비용이 0.5%p 이상 차이 날 때 (숨은 비용 주의)
     const hasHiddenCostWarning = (syntheticFee - nominalFee) >= 0.5;
-    return { type: "synthetic", syntheticFee, nominalFee, hasHiddenCostWarning };
+    return { type: "synthetic", syntheticFee, nominalFee, hasHiddenCostWarning, isStale, staleMessage };
   }
   
-  return { type: "nominal_only", syntheticFee: nominalFee, nominalFee, hasHiddenCostWarning: false };
+  return { type: "nominal_only", syntheticFee: nominalFee, nominalFee, hasHiddenCostWarning: false, isStale, staleMessage };
 }

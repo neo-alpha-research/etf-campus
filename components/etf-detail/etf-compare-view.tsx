@@ -261,11 +261,22 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                     </div>
                   </div>
                 </th>
-                {compareList.map((etf) => {
+                {compareList.map((etf, index) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  const align =
+                    index === compareList.length - 1
+                      ? "right"
+                      : index === 0
+                      ? "left"
+                      : "center";
                   return (
                     <td key={etf.ticker} className={`border-b border-r border-neutral-200 px-1 py-1.5 transition-colors align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
-                      <FeeStackedBar etf={etf} isLowest={etf.ticker === lowestSyntheticTicker} maxFee={maxSyntheticFee} />
+                      <FeeStackedBar
+                        etf={etf}
+                        isLowest={etf.ticker === lowestSyntheticTicker}
+                        maxFee={maxSyntheticFee}
+                        align={align}
+                      />
                     </td>
                   );
                 })}

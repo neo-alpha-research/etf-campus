@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { loadEtfs } from "@/lib/data/etf-repository";
 
 export const dynamic = "force-static";

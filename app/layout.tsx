@@ -41,7 +41,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <UtmTracker />
         </Suspense>
         <a className="sr-only z-[110] rounded-lg bg-brand-800 px-4 py-3 font-bold text-white focus:not-sr-only focus:fixed focus:left-3 focus:top-3" href="#main-content">본문으로 건너뛰기</a>
-        <div id="site-fixed-header" className="fixed top-0 left-0 w-full z-[100] bg-white border-b border-line shadow-xs">
+        <div id="site-fixed-header" className="sticky top-0 w-full shrink-0 z-[100] bg-white border-b border-line shadow-xs">
           <MarketTicker />
           {siteConfig.isBeta ? (
             <div className="border-b border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-xs font-bold leading-5 text-amber-900" role="status">
@@ -52,7 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <SiteHeader />
           </Suspense>
         </div>
-        <main className="flex flex-1 flex-col pt-[196px] sm:pt-[196px] lg:pt-[156px]" id="main-content">{children}</main>
+        <main className="flex flex-1 flex-col" id="main-content">{children}</main>
         <SiteFooter />
         <AppBottomTab />
         <AppPushInitializer />

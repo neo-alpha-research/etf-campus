@@ -165,13 +165,24 @@ export function EtfDetail({
                   <span className="text-3xl font-black text-brand-700 tabular-nums tracking-tight">{formatWon(etf.close)}</span>
                   <span className="text-lg font-bold"><ReturnCell value={etf.changePct} /></span>
                 </div>
-                {(etf.nav != null || etf.disparity != null) && (
-                  <div className="flex items-center gap-2 text-[13px] font-semibold text-neutral-600 bg-neutral-100/80 px-2.5 py-1 rounded-md max-w-fit">
+                {(etf.nav != null || etf.disparity != null || etf.trackingError != null) && (
+                  <div className="flex items-center gap-2 text-[13px] font-semibold text-neutral-600 bg-neutral-100/80 px-2.5 py-1 rounded-md max-w-fit flex-wrap">
                     {etf.nav != null && <span>NAV: {formatWon(etf.nav)}</span>}
-                    {etf.nav != null && etf.disparity != null && <span className="w-px h-3 bg-neutral-300 mx-0.5"></span>}
+                    {etf.nav != null && (etf.disparity != null || etf.trackingError != null) && <span className="w-px h-3 bg-neutral-300 mx-0.5 hidden sm:block"></span>}
                     {etf.disparity != null && (
                       <span className="flex items-center gap-1">
                         괴리율: <ReturnCell value={etf.disparity} />
+                      </span>
+                    )}
+                    {etf.disparity != null && etf.trackingError != null && <span className="w-px h-3 bg-neutral-300 mx-0.5 hidden sm:block"></span>}
+                    {etf.trackingError != null && (
+                      <span className="flex items-center gap-1 group relative cursor-help text-neutral-700 font-mono">
+                        <span className="font-sans font-semibold">추적오차율:</span> {etf.trackingError.toFixed(2)}%
+                        <div className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-[calc(100%+8px)] w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] font-sans font-normal">
+                          <div className="absolute -top-1.5 left-4 sm:left-1/2 sm:-translate-x-1/2 border-[6px] border-transparent border-b-neutral-900/95" />
+                          <div className="text-[12px] font-black text-brand-300 mb-1">추적 오차율 (Tracking Error)</div>
+                          <div className="text-[11px] text-neutral-200 leading-tight">과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 숫자가 낮을수록 지수를 안정적으로 잘 추종함을 의미합니다.</div>
+                        </div>
                       </span>
                     )}
                   </div>

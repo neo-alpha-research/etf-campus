@@ -426,36 +426,33 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>괴리율</span>
                     <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-72 p-3.5 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
-                      <div className="flex items-center justify-between gap-1 mb-1.5 pb-1 border-b border-neutral-700/50">
-                        <span className="text-[12px] font-black text-brand-300">괴리율 (Disparity)</span>
-                        <span className="text-[10px] text-neutral-400 font-mono">산식 & 해석</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
+                        <span className="text-[13px] font-black text-emerald-400">괴리율이란?</span>
+                        <span className="text-[10px] text-neutral-400 font-mono bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
+                          시장가 vs 실제가치
+                        </span>
                       </div>
                       
-                      {/* 산식 박스 */}
-                      <div className="bg-neutral-800/90 rounded px-2 py-1 mb-2 font-mono text-[10.5px] text-brand-200 border border-neutral-700/50">
-                        산식: (시장가격 - NAV) ÷ NAV × 100
-                      </div>
+                      <p className="text-xs text-slate-100 leading-relaxed mb-3 font-normal">
+                        주식시장에서 거래되는 <strong>현재 가격이 ETF의 진짜 가치(NAV) 대비 얼마나 웃돈이나 할인이 붙었는지</strong> 나타내는 지표입니다.
+                      </p>
 
-                      {/* 상태별 직관 가이드 */}
-                      <div className="space-y-1 text-[11px] mb-2 leading-tight">
-                        <div className="flex items-start gap-1.5">
-                          <span className="font-extrabold text-blue-300 shrink-0">• - (음수):</span>
-                          <span className="text-neutral-200"><strong className="text-blue-300 font-bold">저평가 (할인)</strong> - 실제가치(NAV)보다 싸게 거래 중</span>
+                      <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
+                        <div className="flex items-start gap-2 text-slate-200">
+                          <span className="text-rose-400 font-bold shrink-0">• + (양수):</span>
+                          <span>실제 가치보다 <strong>웃돈(고평가)</strong>을 주고 사는 상태</span>
                         </div>
-                        <div className="flex items-start gap-1.5">
-                          <span className="font-extrabold text-rose-300 shrink-0">• + (양수):</span>
-                          <span className="text-neutral-200"><strong className="text-rose-300 font-bold">고평가 (웃돈)</strong> - 실제가치(NAV)보다 비싸게 거래 중</span>
-                        </div>
-                        <div className="flex items-start gap-1.5">
-                          <span className="font-extrabold text-emerald-300 shrink-0">• 0% 근처:</span>
-                          <span className="text-neutral-200"><strong className="text-emerald-300 font-bold">적정가</strong> - 실제가치에 부합하게 정상 거래 중</span>
+                        <div className="flex items-start gap-2 text-slate-200">
+                          <span className="text-blue-400 font-bold shrink-0">• - (음수):</span>
+                          <span>실제 가치보다 <strong>할인(저평가)</strong>되어 싸게 사는 상태</span>
                         </div>
                       </div>
 
-                      <div className="text-[10.5px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
-                        <strong className="text-amber-300">💡 실전 팁:</strong> 매수 시에는 고평가(+)된 ETF보다 적정가 또는 저평가(-) 상태인 ETF를 매수하는 것이 유리합니다.
+                      <div className="text-[11.5px] text-amber-300 bg-amber-950/60 rounded-lg p-2.5 leading-relaxed border border-amber-800/60">
+                        <strong className="text-amber-200 block mb-0.5">⚠️ 고평가 주의 기준:</strong>
+                        국내 ETF는 +0.5%, 해외 ETF는 +1.0% 이상 비정상적으로 웃돈이 붙었을 때만 <strong>[고평가 주의]</strong> 경고가 켜집니다.
                       </div>
                     </div>
                   </div>
@@ -464,24 +461,71 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const d = etf.disparity;
                   const hasDisparity = typeof d === "number" && Number.isFinite(d);
+                  
+                  // 자산군별 동적 고평가 주의 임계치 (국내: +0.5% 초과, 해외: +1.0% 초과)
+                  const isOverseas = etf.classification?.marketScope === "미국" || etf.classification?.marketScope === "글로벌" || etf.classification?.marketScope === "신흥국";
+                  const overvalueThreshold = isOverseas ? 1.0 : 0.5;
+                  const isAbnormallyOvervalued = hasDisparity && d > overvalueThreshold;
+
                   return (
                     <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center tabular-nums font-bold text-[12px] sm:text-[12.5px] ${isBase ? "bg-brand-50/40" : ""}`}>
                       {hasDisparity ? (
-                        <div className="flex items-center justify-center gap-1 font-bold">
+                        <div className="flex items-center justify-center gap-1.5 font-bold">
                           <span className={d > 0 ? "text-rose-600 font-mono" : d < 0 ? "text-blue-600 font-mono" : "text-neutral-700 font-mono"}>
                             {d > 0 ? `+${d.toFixed(2)}%` : `${d.toFixed(2)}%`}
                           </span>
-                          <span
-                            className={`text-[9.5px] sm:text-[10px] font-extrabold px-1 py-0.2 rounded border shadow-2xs ${
-                              Math.abs(d) <= 0.1
-                                ? "text-emerald-800 bg-emerald-50 border-emerald-300"
-                                : d > 0
-                                ? "text-rose-800 bg-rose-50 border-rose-300"
-                                : "text-blue-800 bg-blue-50 border-blue-300"
-                            }`}
-                            title={Math.abs(d) <= 0.1 ? "실제 가치와 일치하는 적정가 거래 상태" : d > 0 ? "실제 가치(NAV)보다 비싸게 거래되는 고평가(웃돈) 상태" : "실제 가치(NAV)보다 싸게 거래되는 저평가(할인) 상태"}
-                          >
-                            {Math.abs(d) <= 0.1 ? "적정가" : d > 0 ? "고평가" : "저평가"}
+                          {isAbnormallyOvervalued && (
+                            <span
+                              className="text-[9.5px] sm:text-[10px] font-extrabold px-1.5 py-0.5 rounded border text-rose-800 bg-rose-50 border-rose-300 shadow-2xs leading-none"
+                              title={`실제 가치(NAV)보다 ${d.toFixed(2)}% 비싸게 거래되는 비정상 고평가 상태입니다. 매수 시 주의하세요.`}
+                            >
+                              ⚠️ 고평가 주의
+                            </span>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-muted">-</span>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+              
+              {/* 추적 오차율 */}
+              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
+                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
+                    <span>추적오차율</span>
+                    <span className="text-[10px] text-neutral-400">ⓘ</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-72 p-3.5 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
+                      <div className="flex items-center justify-between gap-1 mb-1.5 pb-1 border-b border-neutral-700/50">
+                        <span className="text-[12px] font-black text-brand-300">추적 오차율 (Tracking Error)</span>
+                        <span className="text-[10px] text-neutral-400 font-mono">신뢰 지표</span>
+                      </div>
+                      
+                      <div className="text-[11px] mb-2 leading-tight text-neutral-200">
+                        과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성(표준편차)입니다.
+                      </div>
+                      <div className="text-[11px] mb-2 leading-tight text-neutral-200">
+                        <strong className="text-blue-300 font-bold">숫자가 낮을수록</strong> ETF가 목표 기초지수를 안정적으로 잘 추종하고 있음을 의미합니다.
+                      </div>
+                      <div className="text-[10.5px] text-brand-200/95 bg-brand-500/10 rounded-md p-1.5 leading-snug border border-brand-500/20">
+                        💡 액티브 ETF는 펀드매니저의 개입으로 추적 오차율이 패시브 ETF보다 상대적으로 높게 나타납니다.
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                {compareList.map((etf) => {
+                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  const te = etf.trackingError;
+                  const hasTE = typeof te === "number" && Number.isFinite(te);
+                  return (
+                    <td key={`te-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center tabular-nums font-bold text-[12px] sm:text-[12.5px] ${isBase ? "bg-brand-50/40" : ""}`}>
+                      {hasTE ? (
+                        <div className="flex items-center justify-center gap-1 font-bold">
+                          <span className="text-neutral-700 font-mono">
+                            {te.toFixed(2)}%
                           </span>
                         </div>
                       ) : (

@@ -724,8 +724,8 @@ def main() -> None:
                 stats_missing_disp_blank += 1
                 disparity_val = ""
 
-        # KRX 와 FSC 모두 추적오차율을 제공하지 않음. 2026-08-26 UI 제거
-        te_val = ""
+        # 기존 수집된 추적오차율 데이터 유지 (refresh_tracking_error.py가 별도로 수집)
+        te_val = existing.get("tracking_error", "")
 
         # Anomaly detection stats
         old_close = as_float(existing.get("close"))

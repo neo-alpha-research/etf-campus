@@ -14,20 +14,6 @@
       "status": "official_verified",
       "ticker": "0189Z0"
     },
-    "0191M0": {
-      "existing_anchor_close": 100045.0,
-      "isin": "KR70191M0007",
-      "listing_date": "2026-06-02",
-      "name": "마이티 5월만기자동연장특수채(AAA)액티브",
-      "notice_applied_date": "2026-06-02",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260601001980",
-      "reference_price": 100035.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/01/001980/20260601003118/99401.htm",
-      "status": "official_verified",
-      "ticker": "0191M0"
-    },
     "0193M0": {
       "existing_anchor_close": 50020.0,
       "isin": "KR70193M0005",
@@ -56,62 +42,6 @@
       "status": "official_verified",
       "ticker": "0198A0"
     },
-    "0199C0": {
-      "existing_anchor_close": 10290.0,
-      "isin": "KR70199C0001",
-      "listing_date": "2026-06-02",
-      "name": "ACE 고배당주Plus커버드콜액티브",
-      "notice_applied_date": "2026-06-02",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260601001983",
-      "reference_price": 10145.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/01/001983/20260601003121/99401.htm",
-      "status": "official_verified",
-      "ticker": "0199C0"
-    },
-    "0203D0": {
-      "existing_anchor_close": 10430.0,
-      "isin": "KR70203D0004",
-      "listing_date": "2026-06-02",
-      "name": "PLUS 200위클리커버드콜채권혼합",
-      "notice_applied_date": "2026-06-02",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260601001981",
-      "reference_price": 10365.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/01/001981/20260601003119/99401.htm",
-      "status": "official_verified",
-      "ticker": "0203D0"
-    },
-    "0203R0": {
-      "existing_anchor_close": 49955.0,
-      "isin": "KR70203R0008",
-      "listing_date": "2026-06-02",
-      "name": "WON 중단기종합채권(A-이상)액티브",
-      "notice_applied_date": "2026-06-02",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260601001978",
-      "reference_price": 49975.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/01/001978/20260601003116/99401.htm",
-      "status": "official_verified",
-      "ticker": "0203R0"
-    },
-    "0203S0": {
-      "existing_anchor_close": 10615.0,
-      "isin": "KR70203S0007",
-      "listing_date": "2026-06-02",
-      "name": "WON 삼성전자현대차채권혼합50",
-      "notice_applied_date": "2026-06-02",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260601001979",
-      "reference_price": 10590.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/01/001979/20260601003117/99401.htm",
-      "status": "official_verified",
-      "ticker": "0203S0"
-    },
     "0204D0": {
       "existing_anchor_close": 8500.0,
       "isin": "KR70204D0003",
@@ -125,20 +55,6 @@
       "source_url": "https://kind.krx.co.kr/external/2026/06/08/001076/20260608002148/99401.htm",
       "status": "official_verified",
       "ticker": "0204D0"
-    },
-    "0204S0": {
-      "existing_anchor_close": 8880.0,
-      "isin": "KR70204S0006",
-      "listing_date": "2026-06-02",
-      "name": "TIGER 코스닥액티브",
-      "notice_applied_date": "2026-06-02",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260601001982",
-      "reference_price": 9065.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/01/001982/20260601003120/99401.htm",
-      "status": "official_verified",
-      "ticker": "0204S0"
     },
     "0206G0": {
       "existing_anchor_close": 9650.0,
@@ -561,6 +477,6 @@
       "ticker": "0226G0"
     }
   },
-  "updated_at": "2026-08-26T08:38:38+09:00",
+  "updated_at": "2026-09-01T00:05:50+09:00",
   "version": 1
 }

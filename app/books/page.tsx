@@ -27,12 +27,6 @@ export default function BooksPage() {
       <Tickery className="h-24 w-24 shrink-0 sm:h-32 sm:w-32" pose="learning" priority sizes="(max-width: 640px) 96px, 128px" />
     </div>
     
-    {/* TODO: 외부 도서 리뷰 연동이 모두 완료되면 아래 안내 문구 삭제 */}
-    <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-900 font-bold">
-      🚧 현재 새로운 &apos;도서·리뷰&apos; 서비스 준비 중입니다. 화면에 보이는 리뷰는 임시 샘플 데이터이므로 이용에 참고 부탁드립니다.
-    </div>
-
-    <div className="mt-4 rounded-xl border border-line bg-neutral-50 px-4 py-3 text-xs leading-5 text-muted">제휴 링크가 포함되는 콘텐츠에는 해당 링크 가까이에 광고·제휴 사실을 명확히 표시합니다. 현재 샘플에는 구매 링크가 없습니다.</div>
     
     <div className="mt-8 flex flex-col gap-2">
       <h2 className="text-xl font-extrabold tracking-[-0.03em] text-strong">독자 리뷰 종합 리포트</h2>

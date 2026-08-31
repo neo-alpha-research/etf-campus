@@ -34,7 +34,7 @@ export function LegalDisclaimer({
       <p className="font-bold text-slate-800">※ {text.title}</p>
       <p className="mt-1">{text.body}</p>
       <p className="mt-2 text-[11px] text-slate-500 font-medium">
-        ※ 비용 데이터 안내: 본 서비스에서 제공하는 '실부담 총비용(합성 보수)' 데이터는 금융투자협회 공시 자료를 자동 수집하여 제공하는 것으로, 원천 데이터의 변경, 오류 또는 지연이 발생할 수 있습니다.
+        ※ 비용 데이터 안내: 본 서비스에서 제공하는 &apos;실부담 총비용(합성 보수)&apos; 데이터는 금융투자협회 공시 자료를 자동 수집하여 제공하는 것으로, 원천 데이터의 변경, 오류 또는 지연이 발생할 수 있습니다.
       </p>
     </aside>
   );

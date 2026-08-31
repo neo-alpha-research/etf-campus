@@ -277,7 +277,10 @@ export function loadExternalBooks(): ExternalBook[] {
 
 export function resolveBookCoverUrl(coverImage?: string): string | null {
   if (!coverImage || coverImage.trim() === "") return null;
-  const trimmed = coverImage.trim();
+  let trimmed = coverImage.trim();
+  if (trimmed.includes("image.aladin.co.kr")) {
+    trimmed = trimmed.replace("/coversum/", "/cover500/").replace("/cover200/", "/cover500/");
+  }
   if (trimmed.startsWith("/") || trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
     return trimmed;
   }

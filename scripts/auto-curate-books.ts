@@ -99,7 +99,7 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, li
       reviewCount: 150 + Math.floor(Math.random() * 300), // API에서 바로 제공 안되는 경우 보정
       isbn: isbn,
       description: item.description || "도서 상세 정보 없음",
-      coverUrl: item.cover,
+      coverUrl: (item.cover || "").replace("/coversum/", "/cover500/").replace("/cover200/", "/cover500/"),
       link: item.link
     });
     

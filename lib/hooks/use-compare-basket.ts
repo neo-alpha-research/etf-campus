@@ -72,15 +72,15 @@ export function useCompareBasket(allEtfs?: readonly Etf[]) {
       }
     }
 
-    // If nothing was stored or array is empty on fresh visit, default to 5 representative index ETFs
-    if (!stored || tickers.length === 0) {
+    // If nothing was stored on fresh first-time visit, default to 5 representative index ETFs
+    if (stored === null) {
       tickers = DEFAULT_TICKERS;
     }
 
     const freshEtfs = await resolveEtfs(tickers);
     if (freshEtfs.length > 0) {
       setBasket(freshEtfs);
-      if (!stored) {
+      if (stored === null) {
         persistTickers(freshEtfs.map((e) => e.ticker));
       }
     } else {
@@ -152,7 +152,8 @@ export function useCompareBasket(allEtfs?: readonly Etf[]) {
   const clearBasket = useCallback(() => {
     setBasket([]);
     persistTickers([]);
-  }, [persistTickers]);
+    showToast("비교 종목을 모두 비웠습니다.");
+  }, [persistTickers, showToast]);
 
   const overwriteBasket = useCallback(async (tickersOrEtfs: (string | Etf | { ticker: string })[]) => {
     const limited = tickersOrEtfs.slice(0, MAX_ITEMS);

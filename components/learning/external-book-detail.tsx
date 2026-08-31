@@ -229,9 +229,7 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
       </section>
 
       {/* 크로스셀 배너 (Pros/Cons 요약 직후 상향 배치) */}
-      {book.relatedInternalLink && (
-        <CrossSellBanner internalLink={book.relatedInternalLink} />
-      )}
+      {crossSellBanner}
 
       {/* 고객 F 요구: Backtest Ticker 연계 실행 CTA */}
       {book.backtestTicker && (

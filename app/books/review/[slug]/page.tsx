@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ExternalBookDetail } from "@/components/learning/external-book-detail";
+import { CrossSellBanner } from "@/components/learning/cross-sell-banner";
 import { findExternalBook, loadExternalBooks } from "@/lib/content/learning-content";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -37,7 +38,10 @@ export default async function ExternalBookReviewPage({ params }: Props) {
 
   return (
     <main className="page-shell flex-1 py-8 sm:py-12">
-      <ExternalBookDetail book={book} />
+      <ExternalBookDetail
+        book={book}
+        crossSellBanner={book.relatedInternalLink ? <CrossSellBanner internalLink={book.relatedInternalLink} /> : undefined}
+      />
     </main>
   );
 }

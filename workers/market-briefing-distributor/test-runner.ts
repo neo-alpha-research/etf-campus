@@ -247,6 +247,10 @@ async function run() {
     });
 
     const mainElement = (await page.$('main')) || page;
+    await page.evaluate(() => {
+      const header = document.getElementById('site-fixed-header');
+      if (header) header.style.display = 'none';
+    });
     await mainElement.screenshot({ path: emailPngPath });
     await browser.close();
     fs.copyFileSync(emailPngPath, path.join(localPreviewDir, "email_snapshot.png"));

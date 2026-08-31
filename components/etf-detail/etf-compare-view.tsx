@@ -246,17 +246,32 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>실부담비용</span>
                     <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
-                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
-                        <span className="text-[12px] font-black text-brand-300">투자자 실부담 총비용</span>
-                        <span className="text-[10px] text-neutral-400 font-mono">연간</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-80 p-4 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/98" />
+                      <div className="flex items-center justify-between gap-1 mb-2 pb-1.5 border-b border-neutral-700/80">
+                        <span className="text-[13px] font-black text-emerald-400">실부담비용이란?</span>
+                        <span className="text-[10px] text-neutral-400 font-mono bg-neutral-800 px-1.5 py-0.5 rounded">내 계좌 실제 차감</span>
                       </div>
-                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
-                        총보수·비용비율(TER) 및 매매·중개수수료율을 합산한 실제 부담 비용입니다.
+                      <p className="text-[11.5px] text-neutral-100 leading-relaxed mb-2.5 font-medium">
+                        ETF 광고에 표기된 <strong>기본 간판 보수</strong>뿐만 아니라, 펀드를 굴리면서 매일 수익률에서 실제로 빠져나가는 <strong>모든 숨은 비용(주식 매매수수료 + 회계/전산비)을 합산한 진짜 총비용</strong>입니다.
                       </p>
-                      <div className="text-[10.5px] text-emerald-200/95 bg-emerald-500/10 rounded-md p-1.5 leading-snug border border-emerald-500/20">
-                        <strong className="text-emerald-300">💡 팁:</strong> 신탁보수(명목)가 낮더라도 기타비용이 커서 실비용이 비쌀 수 있습니다. 비교 시 막대그래프 전체 길이를 확인하세요.
+                      <div className="space-y-1.5 text-[11px] bg-neutral-800/80 p-2.5 rounded-lg border border-neutral-700/60 mb-2.5">
+                        <div className="flex items-start gap-1.5 text-neutral-300">
+                          <span className="text-brand-400 font-bold shrink-0">1. 명목보수:</span>
+                          <span>운용사에 지불하는 기본 간판 수수료</span>
+                        </div>
+                        <div className="flex items-start gap-1.5 text-neutral-300">
+                          <span className="text-sky-400 font-bold shrink-0">2. 기타비용:</span>
+                          <span>예탁결제원, 지수사용료 등 펀드 유지비</span>
+                        </div>
+                        <div className="flex items-start gap-1.5 text-neutral-300">
+                          <span className="text-orange-400 font-bold shrink-0">3. 매매수수료:</span>
+                          <span>펀드가 주식을 사고팔 때 드는 거래비용</span>
+                        </div>
+                      </div>
+                      <div className="text-[11px] text-emerald-200/95 bg-emerald-500/10 rounded-lg p-2 leading-relaxed border border-emerald-500/20">
+                        <strong className="text-emerald-300 block mb-0.5">💡 투자 팁:</strong>
+                        별도로 돈을 낼 필요 없이 매일 펀드 가격(수익률)에서 자동 차감되므로, <strong>장기 투자 시 이 수치가 가장 낮은 ETF를 고르는 것이 무조건 유리</strong>합니다.
                       </div>
                     </div>
                   </div>

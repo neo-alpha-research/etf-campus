@@ -18,10 +18,9 @@ import {
   X,
 } from "lucide-react";
 
-import { CrossSellBanner } from "@/components/learning/cross-sell-banner";
 import type { ExternalBook } from "@/lib/content/learning-content";
 
-export function ExternalBookDetail({ book }: { book: ExternalBook }) {
+export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBook, crossSellBanner?: React.ReactNode }) {
   const [showCoverModal, setShowCoverModal] = useState(false);
   const coverUrl = book.coverImage;
 

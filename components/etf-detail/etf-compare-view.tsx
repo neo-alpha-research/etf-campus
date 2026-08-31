@@ -375,6 +375,51 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 })}
               </tr>
 
+              {/* 수익률 행들 (1위 하이라이트 탑재) */}
+              {orderedPeriods.map((period, index) => {
+                const periodValues = compareList
+                  .map((e) => e.returns?.[period])
+                  .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+                const maxReturnForPeriod = periodValues.length > 0 ? Math.max(...periodValues) : null;
+
+                return (
+                  <tr key={period} className="hover:bg-brand-50/20">
+                    <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-right align-middle ${shadowClass}`}>
+                      {index === 0 ? (
+                        <div className="flex justify-between items-center w-full">
+                          <span className="text-neutral-700">수익률</span>
+                          <span>{RETURN_PERIOD_LABELS[period]}</span>
+                        </div>
+                      ) : (
+                        RETURN_PERIOD_LABELS[period]
+                      )}
+                    </th>
+                    {compareList.map((etf) => {
+                      const val = etf.returns?.[period];
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const isTop = maxReturnForPeriod !== null && val === maxReturnForPeriod && compareList.length > 1;
+                      return (
+                        <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-right tabular-nums transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
+                          <div className="flex justify-end items-center gap-1">
+                            {isTop && val != null && (
+                              <span
+                                className="inline-flex items-center rounded px-1.5 py-0.5 text-[9px] font-black leading-none bg-amber-100/90 text-amber-900 border border-amber-300 shadow-2xs"
+                                title="해당 기간 비교군 1위 성과"
+                              >
+                                1위
+                              </span>
+                            )}
+                            <span className={isTop ? "font-black" : "font-semibold"}>
+                              <ReturnCell value={val} />
+                            </span>
+                          </div>
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+
               {/* 괴리율 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
@@ -459,51 +504,6 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   );
                 })}
               </tr>
-
-              {/* 수익률 행들 (1위 하이라이트 탑재) */}
-              {orderedPeriods.map((period, index) => {
-                const periodValues = compareList
-                  .map((e) => e.returns?.[period])
-                  .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
-                const maxReturnForPeriod = periodValues.length > 0 ? Math.max(...periodValues) : null;
-
-                return (
-                  <tr key={period} className="hover:bg-brand-50/20">
-                    <th className={`sticky left-0 z-20 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-shadow duration-200 text-right align-middle ${shadowClass}`}>
-                      {index === 0 ? (
-                        <div className="flex justify-between items-center w-full">
-                          <span className="text-neutral-700">수익률</span>
-                          <span>{RETURN_PERIOD_LABELS[period]}</span>
-                        </div>
-                      ) : (
-                        RETURN_PERIOD_LABELS[period]
-                      )}
-                    </th>
-                    {compareList.map((etf) => {
-                      const val = etf.returns?.[period];
-                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                      const isTop = maxReturnForPeriod !== null && val === maxReturnForPeriod && compareList.length > 1;
-                      return (
-                        <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-right tabular-nums transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
-                          <div className="flex justify-end items-center gap-1">
-                            {isTop && val != null && (
-                              <span
-                                className="inline-flex items-center rounded px-1.5 py-0.5 text-[9px] font-black leading-none bg-amber-100/90 text-amber-900 border border-amber-300 shadow-2xs"
-                                title="해당 기간 비교군 1위 성과"
-                              >
-                                1위
-                              </span>
-                            )}
-                            <span className={isTop ? "font-black" : "font-semibold"}>
-                              <ReturnCell value={val} />
-                            </span>
-                          </div>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
             </tbody>
           </table>
         </div>

@@ -247,7 +247,7 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
             <div>
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-brand-100 px-2.5 py-0.5 text-xs font-bold text-brand-800 border border-brand-300/60">
-                  도서 공식 제휴처
+                  온라인 서점 구매처
                 </span>
                 <span className="text-xs font-semibold text-neutral-600">
                   {book.publisher} 정식 출간 도서
@@ -257,7 +257,7 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
                 『{book.title}』 도서 소장 및 실전 독서하기
               </h3>
               <p className="mt-1.5 text-xs sm:text-sm text-brand-900/80 leading-relaxed">
-                온라인 공식 서점에서 할인 혜택과 빠른 배송으로 도서를 바로 만나보실 수 있습니다.
+                온라인 서점에서 할인 혜택과 빠른 로켓/당일 배송으로 도서를 바로 만나보실 수 있습니다.
               </p>
             </div>
 
@@ -273,25 +273,10 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
             </a>
           </div>
           <p className="mt-4 border-t border-brand-200/60 pt-3 text-[11px] text-brand-800/70">
-            * 본 링크는 제휴 마케팅 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있으며 도서 구매 가격에는 일체 영향이 없습니다.
+            * 본 링크는 제휴 마케팅(쿠팡 파트너스 등) 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
           </p>
         </section>
       )}
-
-      {/* 컴플라이언스 및 면책 고지 */}
-      <footer className="mt-8 border-t border-line pt-6 text-xs leading-relaxed text-muted space-y-1.5">
-        <p>
-          • 본 도서 소개 및 리뷰는 ETF 투자 판단 기준을 익히기 위한 학습 목적의 큐레이션 콘텐츠입니다.
-        </p>
-        <p>
-          • 특정 금융투자상품의 매수·매도 권유나 수익률을 보장하지 않으며, 투자에 대한 모든 결정과 책임은 투자자 본인에게 있습니다.
-        </p>
-        {book.irpEligible && (
-          <p>
-            • 연금저축 및 IRP 계좌의 세제 혜택과 인출 조건은 관련 세법 및 관계 법령의 개정에 따라 달라질 수 있으므로 금융감독원 및 국세청 공시를 함께 확인하시기 바랍니다.
-          </p>
-        )}
-      </footer>
     </div>
   );
 }

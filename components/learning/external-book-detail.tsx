@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import {
   Star,
   ThumbsUp,
@@ -11,12 +14,15 @@ import {
   ExternalLink,
   Info,
   Target,
+  ZoomIn,
+  X,
 } from "lucide-react";
 
 import { CrossSellBanner } from "@/components/learning/cross-sell-banner";
 import type { ExternalBook } from "@/lib/content/learning-content";
 
 export function ExternalBookDetail({ book }: { book: ExternalBook }) {
+  const [showCoverModal, setShowCoverModal] = useState(false);
   const coverUrl = book.coverImage;
 
   return (
@@ -114,17 +120,34 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
       </header>
 
       {/* 한 줄 총평 (D 고객 요구: 1분 안에 결론 도달) + 표지 카드 */}
-      <section className="mt-6 flex flex-col sm:flex-row gap-5 rounded-2xl border-2 border-brand-100 bg-brand-50/40 p-5 sm:p-6 items-center">
-        <div className="flex aspect-[3/4] w-28 sm:w-32 shrink-0 items-center justify-center rounded-xl bg-white border border-line/60 overflow-hidden shadow-xs">
+      <section className="mt-6 flex flex-col sm:flex-row gap-6 rounded-3xl border-2 border-brand-100 bg-brand-50/40 p-5 sm:p-7 items-center">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => coverUrl && setShowCoverModal(true)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              coverUrl && setShowCoverModal(true);
+            }
+          }}
+          className="group/cover flex aspect-[3/4] w-36 sm:w-44 shrink-0 items-center justify-center rounded-2xl bg-white border border-neutral-200/90 overflow-hidden relative shadow-sm hover:shadow-md transition-all cursor-zoom-in"
+          aria-label={`${book.title} 표지 크게 보기`}
+        >
           {coverUrl ? (
-            <Image
-              src={coverUrl}
-              alt={book.title}
-              width={128}
-              height={170}
-              className="h-full w-full object-cover"
-              unoptimized
-            />
+            <>
+              <Image
+                src={coverUrl}
+                alt={book.title}
+                width={176}
+                height={235}
+                className="h-full w-full object-contain p-1.5 transition-transform duration-200 group-hover/cover:scale-105"
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/cover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-xs font-extrabold text-white backdrop-blur-[1px]">
+                <ZoomIn className="h-4 w-4" />
+                <span>표지 크게 보기</span>
+              </div>
+            </>
           ) : (
             <BookOpen className="h-10 w-10 text-neutral-300" strokeWidth={1.5} />
           )}
@@ -280,6 +303,51 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
             * 본 링크는 제휴 마케팅(쿠팡 파트너스 등) 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
           </p>
         </section>
+      )}
+
+      {/* 고해상도 표지 확대 모달 (Lightbox) */}
+      {showCoverModal && coverUrl && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="도서 표지 고해상도 확대"
+          onClick={() => setShowCoverModal(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-xs animate-in fade-in duration-150"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-xs sm:max-w-md w-full rounded-2xl bg-white p-5 shadow-2xl border border-neutral-200"
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-neutral-100 mb-3">
+              <h4 className="text-sm font-extrabold text-neutral-800 line-clamp-1 pr-2">
+                {book.title}
+              </h4>
+              <button
+                type="button"
+                onClick={() => setShowCoverModal(false)}
+                className="rounded-lg p-1.5 text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 transition-colors"
+                aria-label="닫기"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="flex aspect-[3/4] w-full items-center justify-center rounded-xl bg-neutral-50 overflow-hidden border border-neutral-100 shadow-inner">
+              <Image
+                src={coverUrl}
+                alt={book.title}
+                width={500}
+                height={680}
+                className="h-full w-full object-contain p-2"
+                unoptimized
+              />
+            </div>
+
+            <p className="mt-3 text-center text-xs text-neutral-500 font-medium">
+              {book.author} 저 · {book.publisher}
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

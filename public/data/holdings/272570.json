@@ -1,6 +1,6 @@
 {
   "ticker": "272570",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "국고채권03375-3103(26-3)",
@@ -10,25 +10,25 @@
     },
     {
       "name": "한국전력공사채권1413",
-      "weight_pct": 13.07,
+      "weight_pct": 13.09,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03500-2809(23-6)",
-      "weight_pct": 12.18,
+      "weight_pct": 12.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3003(25-3)",
-      "weight_pct": 6.49,
+      "weight_pct": 6.5,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "10년국채 F 202609",
-      "weight_pct": 3.55,
+      "weight_pct": 3.53,
       "shares": 0,
       "item_code": null
     },
@@ -40,8 +40,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.4,
-      "shares": -1518234,
+      "weight_pct": -1.43,
+      "shares": -1546988,
       "item_code": null
     }
   ]

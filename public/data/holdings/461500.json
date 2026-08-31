@@ -1,45 +1,45 @@
 {
   "ticker": "461500",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
-      "name": "국고채권03000-2803(26-1)",
-      "weight_pct": 15.62,
+      "name": "국고채권03500-2906(26-5)",
+      "weight_pct": 17.12,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "국고채권03500-2906(26-5)",
-      "weight_pct": 7.78,
+      "name": "국고채권03000-2803(26-1)",
+      "weight_pct": 15.64,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비캐피탈 20260709-63-9",
-      "weight_pct": 7.76,
+      "weight_pct": 7.78,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03500-5603(26-2)",
-      "weight_pct": 6.7,
+      "weight_pct": 6.05,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권04250-3606(26-6)",
-      "weight_pct": 3.93,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "신한은행30-08-이-3-A",
-      "weight_pct": 3.9,
+      "weight_pct": 3.91,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국민은행4608이표일(03)3-27",
+      "weight_pct": 3.89,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행30-08-이-3-A",
       "weight_pct": 3.89,
       "shares": 0,
       "item_code": null
@@ -51,32 +51,32 @@
       "item_code": null
     },
     {
+      "name": "우리 여의도중앙기업영업지원팀 20260701-9",
+      "weight_pct": 3.88,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스타이거에이치제삼차 20260724-94-7",
+      "weight_pct": 3.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "신한 자금부 20260723-92-1",
       "weight_pct": 3.87,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "우리 여의도중앙기업영업지원팀 20260701-9",
+      "name": "미래에셋증권 20260102-294-4",
       "weight_pct": 3.87,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "에스타이거에이치제삼차 20260724-94-7",
-      "weight_pct": 3.86,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "미래에셋증권 20260102-294-4",
-      "weight_pct": 3.86,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "신한투자증권 20251107-364-10",
-      "weight_pct": 3.86,
+      "weight_pct": 3.87,
       "shares": 0,
       "item_code": null
     },
@@ -88,7 +88,7 @@
     },
     {
       "name": "우리카드 20251202-364-18",
-      "weight_pct": 3.85,
+      "weight_pct": 3.86,
       "shares": 0,
       "item_code": null
     },
@@ -130,7 +130,7 @@
     },
     {
       "name": "서울도시철도공채증권23-06",
-      "weight_pct": 1.58,
+      "weight_pct": 1.57,
       "shares": 0,
       "item_code": null
     },
@@ -244,7 +244,7 @@
     },
     {
       "name": "국고채권02375-3112(21-11)",
-      "weight_pct": 0.72,
+      "weight_pct": 0.71,
       "shares": 0,
       "item_code": null
     },
@@ -400,8 +400,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -28.18,
-      "shares": -29750780,
+      "weight_pct": -36.94,
+      "shares": -38941347,
       "item_code": null
     }
   ]

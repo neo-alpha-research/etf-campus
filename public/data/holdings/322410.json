@@ -1,88 +1,88 @@
 {
   "ticker": "322410",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "하나금융지주",
-      "weight_pct": 10.97,
+      "weight_pct": 11.01,
       "shares": 940,
       "item_code": "086790"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 10.74,
+      "weight_pct": 10.85,
       "shares": 3733,
       "item_code": "316140"
     },
     {
       "name": "KT",
-      "weight_pct": 10.32,
+      "weight_pct": 10.07,
       "shares": 2193,
       "item_code": "030200"
     },
     {
       "name": "기업은행",
-      "weight_pct": 9.71,
+      "weight_pct": 9.65,
       "shares": 5424,
       "item_code": "024110"
     },
     {
-      "name": "현대엘리베이터",
-      "weight_pct": 8.76,
-      "shares": 1329,
-      "item_code": "017800"
-    },
-    {
       "name": "LG",
-      "weight_pct": 8.69,
+      "weight_pct": 8.92,
       "shares": 869,
       "item_code": "003550"
     },
     {
+      "name": "현대엘리베이터",
+      "weight_pct": 8.48,
+      "shares": 1329,
+      "item_code": "017800"
+    },
+    {
       "name": "기아",
-      "weight_pct": 7.98,
+      "weight_pct": 8.16,
       "shares": 725,
       "item_code": "000270"
     },
     {
       "name": "삼성카드",
-      "weight_pct": 5.13,
+      "weight_pct": 5.12,
       "shares": 1268,
       "item_code": "029780"
     },
     {
       "name": "JB금융지주",
-      "weight_pct": 4.15,
+      "weight_pct": 4.14,
       "shares": 1699,
       "item_code": "175330"
     },
     {
       "name": "강원랜드",
-      "weight_pct": 3.28,
+      "weight_pct": 3.25,
       "shares": 2582,
       "item_code": "035250"
     },
     {
-      "name": "동서",
-      "weight_pct": 2.19,
-      "shares": 970,
-      "item_code": "026960"
-    },
-    {
       "name": "제일기획",
-      "weight_pct": 2.18,
+      "weight_pct": 2.17,
       "shares": 1317,
       "item_code": "030000"
     },
     {
+      "name": "동서",
+      "weight_pct": 2.15,
+      "shares": 970,
+      "item_code": "026960"
+    },
+    {
       "name": "이지홀딩스",
-      "weight_pct": 1.7,
+      "weight_pct": 1.72,
       "shares": 4329,
       "item_code": "035810"
     },
     {
       "name": "한일시멘트",
-      "weight_pct": 1.56,
+      "weight_pct": 1.6,
       "shares": 1098,
       "item_code": "300720"
     },
@@ -94,27 +94,21 @@
     },
     {
       "name": "한국쉘석유",
-      "weight_pct": 0.91,
+      "weight_pct": 0.9,
       "shares": 21,
       "item_code": "002960"
     },
     {
       "name": "이노션",
-      "weight_pct": 0.79,
+      "weight_pct": 0.8,
       "shares": 490,
       "item_code": "214320"
     },
     {
       "name": "케이카",
-      "weight_pct": 0.75,
+      "weight_pct": 0.76,
       "shares": 1397,
       "item_code": "381970"
-    },
-    {
-      "name": "빙그레",
-      "weight_pct": 0.72,
-      "shares": 91,
-      "item_code": "005180"
     },
     {
       "name": "TKG휴켐스",
@@ -123,32 +117,38 @@
       "item_code": "069260"
     },
     {
-      "name": "메가스터디교육",
-      "weight_pct": 0.53,
-      "shares": 170,
-      "item_code": "215200"
+      "name": "빙그레",
+      "weight_pct": 0.7,
+      "shares": 91,
+      "item_code": "005180"
     },
     {
       "name": "대상",
-      "weight_pct": 0.53,
+      "weight_pct": 0.54,
       "shares": 348,
       "item_code": "001680"
     },
     {
-      "name": "대덕",
-      "weight_pct": 0.53,
-      "shares": 369,
-      "item_code": "008060"
+      "name": "메가스터디교육",
+      "weight_pct": 0.52,
+      "shares": 170,
+      "item_code": "215200"
     },
     {
       "name": "SOOP",
-      "weight_pct": 0.52,
+      "weight_pct": 0.51,
       "shares": 156,
       "item_code": "067160"
     },
     {
-      "name": "넥스틸",
+      "name": "대덕",
       "weight_pct": 0.51,
+      "shares": 369,
+      "item_code": "008060"
+    },
+    {
+      "name": "넥스틸",
+      "weight_pct": 0.5,
       "shares": 464,
       "item_code": "092790"
     },
@@ -167,7 +167,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.45,
-      "shares": 5258921,
+      "shares": 5241210,
       "item_code": null
     },
     {
@@ -178,7 +178,7 @@
     },
     {
       "name": "아이스크림미디어",
-      "weight_pct": 0.43,
+      "weight_pct": 0.42,
       "shares": 257,
       "item_code": "461300"
     },
@@ -196,19 +196,19 @@
     },
     {
       "name": "케이프",
-      "weight_pct": 0.3,
+      "weight_pct": 0.29,
       "shares": 443,
       "item_code": "064820"
     },
     {
       "name": "AJ네트웍스",
-      "weight_pct": 0.28,
+      "weight_pct": 0.27,
       "shares": 727,
       "item_code": "095570"
     },
     {
       "name": "경농",
-      "weight_pct": 0.24,
+      "weight_pct": 0.23,
       "shares": 298,
       "item_code": "002100"
     },
@@ -220,7 +220,7 @@
     },
     {
       "name": "와이솔",
-      "weight_pct": 0.19,
+      "weight_pct": 0.2,
       "shares": 378,
       "item_code": "122990"
     },

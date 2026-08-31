@@ -1,124 +1,124 @@
 {
   "ticker": "418670",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
+      "name": "옥타",
+      "weight_pct": 8.48,
+      "shares": 265,
+      "item_code": "OKTA.O"
+    },
+    {
       "name": "팔로 알토 네트웍스",
-      "weight_pct": 7.64,
+      "weight_pct": 7.78,
       "shares": 108,
       "item_code": "PANW.O"
     },
     {
       "name": "포티넷",
-      "weight_pct": 7.55,
+      "weight_pct": 7.39,
       "shares": 231,
       "item_code": "FTNT.O"
     },
     {
-      "name": "옥타",
-      "weight_pct": 7.37,
-      "shares": 265,
-      "item_code": "OKTA.O"
-    },
-    {
       "name": "크라우드 스트라이크 홀딩스",
-      "weight_pct": 6.86,
+      "weight_pct": 7.36,
       "shares": 175,
       "item_code": "CRWD.O"
     },
     {
       "name": "퀄리스",
-      "weight_pct": 6.16,
+      "weight_pct": 6.06,
       "shares": 168,
       "item_code": "QLYS.O"
     },
     {
-      "name": "루브릭",
-      "weight_pct": 5.47,
-      "shares": 275,
-      "item_code": "RBRK.K"
-    },
-    {
       "name": "지스케일러",
-      "weight_pct": 5.26,
+      "weight_pct": 5.29,
       "shares": 149,
       "item_code": "ZS.O"
     },
     {
       "name": "테너블 홀딩스",
-      "weight_pct": 4.88,
+      "weight_pct": 5.08,
       "shares": 700,
       "item_code": "TENB.O"
     },
     {
+      "name": "루브릭",
+      "weight_pct": 4.93,
+      "shares": 275,
+      "item_code": "RBRK.K"
+    },
+    {
       "name": "세일포인트",
-      "weight_pct": 4.83,
+      "weight_pct": 4.89,
       "shares": 1282,
       "item_code": "SAIL.O"
     },
     {
       "name": "바로니스 시스템즈",
-      "weight_pct": 4.77,
+      "weight_pct": 4.7,
       "shares": 556,
       "item_code": "VRNS.O"
     },
     {
       "name": "젠 디지털",
-      "weight_pct": 4.65,
+      "weight_pct": 4.53,
       "shares": 759,
       "item_code": "GEN.O"
     },
     {
       "name": "센티넬원",
-      "weight_pct": 4.39,
+      "weight_pct": 4.28,
       "shares": 1034,
       "item_code": "S"
     },
     {
-      "name": "아카마이 테크놀로지",
-      "weight_pct": 4.24,
-      "shares": 189,
-      "item_code": "AKAM.O"
-    },
-    {
       "name": "넷스코프",
-      "weight_pct": 4.23,
+      "weight_pct": 4.26,
       "shares": 1470,
       "item_code": "NTSK.O"
     },
     {
+      "name": "아카마이 테크놀로지",
+      "weight_pct": 3.92,
+      "shares": 189,
+      "item_code": "AKAM.O"
+    },
+    {
       "name": "컴볼트 시스템즈",
-      "weight_pct": 4.11,
+      "weight_pct": 3.88,
       "shares": 148,
       "item_code": "CVLT.O"
     },
     {
       "name": "체크 포인트 소프트웨어 테크놀로지",
-      "weight_pct": 3.47,
+      "weight_pct": 3.46,
       "shares": 130,
       "item_code": "CHKP.O"
     },
     {
       "name": "트렌드마이크로",
-      "weight_pct": 3.02,
+      "weight_pct": 3.04,
       "shares": 418,
       "item_code": "4704.T"
     },
     {
       "name": "A10 네트웍스",
-      "weight_pct": 2.66,
+      "weight_pct": 2.45,
       "shares": 496,
       "item_code": "ATEN.K"
     },
     {
       "name": "라드웨어",
-      "weight_pct": 1.75,
+      "weight_pct": 1.64,
       "shares": 298,
       "item_code": "RDWR.O"
     },
     {
       "name": "래피드7",
-      "weight_pct": 1.12,
+      "weight_pct": 1.18,
       "shares": 462,
       "item_code": "RPD.O"
     },
@@ -130,62 +130,62 @@
     },
     {
       "name": "NCC GROUP PLC",
-      "weight_pct": 0.78,
+      "weight_pct": 0.74,
       "shares": 1966,
       "item_code": null
     },
     {
       "name": "안랩",
-      "weight_pct": 0.65,
+      "weight_pct": 0.63,
       "shares": 76,
       "item_code": "053800"
     },
     {
-      "name": "고릴라 테크놀로지 그룹",
-      "weight_pct": 0.61,
-      "shares": 191,
-      "item_code": "GRRR.O"
-    },
-    {
       "name": "디지털 아트",
-      "weight_pct": 0.56,
+      "weight_pct": 0.55,
       "shares": 97,
       "item_code": "2326.T"
     },
     {
+      "name": "고릴라 테크놀로지 그룹",
+      "weight_pct": 0.53,
+      "shares": 191,
+      "item_code": "GRRR.O"
+    },
+    {
       "name": "텔로스",
-      "weight_pct": 0.49,
+      "weight_pct": 0.5,
       "shares": 542,
       "item_code": "TLS.O"
     },
     {
       "name": "FFRI Inc",
-      "weight_pct": 0.36,
+      "weight_pct": 0.39,
       "shares": 56,
       "item_code": "3692.T"
     },
     {
       "name": "헨지 KK",
-      "weight_pct": 0.31,
+      "weight_pct": 0.34,
       "shares": 160,
       "item_code": "4475.T"
     },
     {
-      "name": "아르킷 퀀텀",
-      "weight_pct": 0.28,
-      "shares": 67,
-      "item_code": "ARQQ.O"
-    },
-    {
       "name": "아미야",
-      "weight_pct": 0.28,
+      "weight_pct": 0.29,
       "shares": 52,
       "item_code": "4258.T"
     },
     {
+      "name": "아르킷 퀀텀",
+      "weight_pct": 0.26,
+      "shares": 67,
+      "item_code": "ARQQ.O"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.27,
-      "shares": 1847501,
+      "weight_pct": 0.2,
+      "shares": 1442543,
       "item_code": null
     }
   ]

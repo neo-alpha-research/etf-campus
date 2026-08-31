@@ -1,35 +1,35 @@
 {
   "ticker": "219480",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "Emini S&P500 FUT(ES) 2026 09",
-      "weight_pct": 93.65,
+      "weight_pct": 94.08,
       "shares": 2,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 91.6,
-      "shares": 1516470551,
+      "weight_pct": 91.69,
+      "shares": 1524420442,
       "item_code": null
     },
     {
       "name": "State Street SPDR S&P 500 ETF Trust",
-      "weight_pct": 5.82,
+      "weight_pct": 5.77,
       "shares": 91,
       "item_code": "SPY"
     },
     {
       "name": "USD현금",
-      "weight_pct": 2.57,
-      "shares": 30892,
+      "weight_pct": 2.53,
+      "shares": 30784,
       "item_code": null
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -23.2,
-      "shares": -27,
+      "weight_pct": -23.56,
+      "shares": -28,
       "item_code": null
     }
   ]

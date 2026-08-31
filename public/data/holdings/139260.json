@@ -1,108 +1,108 @@
 {
   "ticker": "139260",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "SK하이닉스",
-      "weight_pct": 22.42,
-      "shares": 356,
+      "weight_pct": 20.45,
+      "shares": 335,
       "item_code": "000660"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 22.28,
-      "shares": 573,
+      "weight_pct": 20.08,
+      "shares": 531,
       "item_code": "402340"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 18.32,
-      "shares": 1892,
+      "weight_pct": 17.59,
+      "shares": 1855,
       "item_code": "005930"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 16.59,
-      "shares": 329,
+      "weight_pct": 17.12,
+      "shares": 322,
       "item_code": "009150"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 6.17,
-      "shares": 298,
+      "weight_pct": 7.4,
+      "shares": 352,
       "item_code": "006400"
     },
     {
       "name": "LG전자",
-      "weight_pct": 3.82,
-      "shares": 530,
+      "weight_pct": 4.95,
+      "shares": 627,
       "item_code": "066570"
     },
     {
       "name": "LG",
-      "weight_pct": 1.83,
-      "shares": 440,
+      "weight_pct": 2.26,
+      "shares": 520,
       "item_code": "003550"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 1.67,
-      "shares": 207,
+      "weight_pct": 1.97,
+      "shares": 245,
       "item_code": "042700"
     },
     {
-      "name": "삼성에스디에스",
-      "weight_pct": 1.59,
-      "shares": 187,
-      "item_code": "018260"
-    },
-    {
       "name": "LG이노텍",
-      "weight_pct": 1.52,
-      "shares": 70,
+      "weight_pct": 1.94,
+      "shares": 83,
       "item_code": "011070"
     },
     {
+      "name": "삼성에스디에스",
+      "weight_pct": 1.93,
+      "shares": 221,
+      "item_code": "018260"
+    },
+    {
       "name": "이수페타시스",
-      "weight_pct": 1.1,
-      "shares": 268,
+      "weight_pct": 1.31,
+      "shares": 317,
       "item_code": "007660"
     },
     {
       "name": "LG씨엔에스",
-      "weight_pct": 0.63,
-      "shares": 234,
+      "weight_pct": 0.77,
+      "shares": 277,
       "item_code": "064400"
     },
     {
       "name": "LG디스플레이",
-      "weight_pct": 0.54,
-      "shares": 1553,
+      "weight_pct": 0.63,
+      "shares": 1837,
       "item_code": "034220"
     },
     {
       "name": "DB하이텍",
-      "weight_pct": 0.52,
-      "shares": 150,
+      "weight_pct": 0.61,
+      "shares": 178,
       "item_code": "000990"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 0.46,
-      "shares": 31,
+      "weight_pct": 0.56,
+      "shares": 37,
       "item_code": "307950"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.28,
-      "shares": 7773775,
-      "item_code": null
+      "name": "포스코DX",
+      "weight_pct": 0.23,
+      "shares": 293,
+      "item_code": "022100"
     },
     {
-      "name": "포스코DX",
-      "weight_pct": 0.19,
-      "shares": 247,
-      "item_code": "022100"
+      "name": "원화현금",
+      "weight_pct": 0.12,
+      "shares": 3391819,
+      "item_code": null
     }
   ]
 }

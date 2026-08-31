@@ -1,16 +1,16 @@
 {
   "ticker": "0184L0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "국고채권03500-2906(26-5)",
-      "weight_pct": 15.0,
+      "weight_pct": 14.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 8.91,
+      "weight_pct": 8.89,
       "shares": 0,
       "item_code": null
     },
@@ -21,14 +21,20 @@
       "item_code": null
     },
     {
-      "name": "SK에코플랜트186-3",
-      "weight_pct": 7.52,
+      "name": "통화안정증권03420-2804-02",
+      "weight_pct": 7.5,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "통화안정증권03420-2804-02",
-      "weight_pct": 7.5,
+      "name": "SK에코플랜트186-3",
+      "weight_pct": 7.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권26신이0109-0508-2",
+      "weight_pct": 7.48,
       "shares": 0,
       "item_code": null
     },
@@ -39,26 +45,20 @@
       "item_code": null
     },
     {
-      "name": "산업금융채권26신이0109-0508-2",
+      "name": "통화안정증권02400-2707-02",
       "weight_pct": 7.47,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "통화안정증권02400-2707-02",
-      "weight_pct": 7.46,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "롯데카드556-2",
-      "weight_pct": 7.39,
+      "weight_pct": 7.4,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국자산관리공사채권제112회(사)",
-      "weight_pct": 7.38,
+      "weight_pct": 7.39,
       "shares": 0,
       "item_code": null
     },
@@ -76,19 +76,19 @@
     },
     {
       "name": "중소기업은행(신)2605할1A-08",
-      "weight_pct": 7.3,
+      "weight_pct": 7.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -5.72,
-      "shares": -5769999,
+      "weight_pct": -5.68,
+      "shares": -5722997,
       "item_code": null
     },
     {
       "name": "3년국채 F 202609",
-      "weight_pct": -5.81,
+      "weight_pct": -5.8,
       "shares": 0,
       "item_code": null
     }

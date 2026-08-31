@@ -1,28 +1,34 @@
 {
   "ticker": "440910",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "액손 엔터프라이스",
-      "weight_pct": 3.67,
+      "weight_pct": 3.69,
       "shares": 55,
       "item_code": "AXON.O"
     },
     {
       "name": "VSE",
-      "weight_pct": 3.54,
+      "weight_pct": 3.43,
       "shares": 142,
       "item_code": "VSEC.O"
     },
     {
       "name": "RTX",
-      "weight_pct": 3.23,
+      "weight_pct": 3.28,
       "shares": 139,
       "item_code": "RTX"
     },
     {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 3.17,
+      "shares": 152,
+      "item_code": "PLTR.O"
+    },
+    {
       "name": "ATI",
-      "weight_pct": 3.14,
+      "weight_pct": 3.16,
       "shares": 134,
       "item_code": "ATI"
     },
@@ -34,75 +40,69 @@
     },
     {
       "name": "제너럴 다이내믹스",
-      "weight_pct": 3.03,
+      "weight_pct": 3.06,
       "shares": 72,
       "item_code": "GD"
     },
     {
       "name": "GE 에어로스페이스",
-      "weight_pct": 3.01,
+      "weight_pct": 2.96,
       "shares": 77,
       "item_code": "GE"
     },
     {
-      "name": "팔란티어 테크놀로지스",
-      "weight_pct": 2.96,
-      "shares": 152,
-      "item_code": "PLTR.O"
-    },
-    {
-      "name": "헤이코",
-      "weight_pct": 2.92,
-      "shares": 77,
-      "item_code": "HEI"
-    },
-    {
       "name": "록히드 마틴",
-      "weight_pct": 2.91,
+      "weight_pct": 2.95,
       "shares": 47,
       "item_code": "LMT"
     },
     {
-      "name": "카르만 홀딩스",
-      "weight_pct": 2.85,
-      "shares": 538,
-      "item_code": "KRMN.K"
+      "name": "헤이코",
+      "weight_pct": 2.88,
+      "shares": 77,
+      "item_code": "HEI"
     },
     {
       "name": "헥셀",
-      "weight_pct": 2.79,
+      "weight_pct": 2.85,
       "shares": 269,
       "item_code": "HXL"
     },
     {
       "name": "스탠다드에어로",
-      "weight_pct": 2.75,
+      "weight_pct": 2.78,
       "shares": 997,
       "item_code": "SARO.K"
     },
     {
       "name": "노스롭 그루만",
-      "weight_pct": 2.74,
+      "weight_pct": 2.76,
       "shares": 45,
       "item_code": "NOC"
     },
     {
       "name": "보잉",
-      "weight_pct": 2.74,
+      "weight_pct": 2.76,
       "shares": 118,
       "item_code": "BA"
     },
     {
+      "name": "카르만 홀딩스",
+      "weight_pct": 2.73,
+      "shares": 538,
+      "item_code": "KRMN.K"
+    },
+    {
       "name": "무그 Class A",
-      "weight_pct": 2.71,
+      "weight_pct": 2.69,
       "shares": 64,
       "item_code": "MOGa"
     },
     {
-      "name": "AAR",
+      "name": "우드워드",
       "weight_pct": 2.69,
-      "shares": 177,
-      "item_code": "AIR"
+      "shares": 70,
+      "item_code": "WWD.O"
     },
     {
       "name": "트랜스다임 그룹",
@@ -111,16 +111,22 @@
       "item_code": "TDG"
     },
     {
-      "name": "우드워드",
-      "weight_pct": 2.67,
-      "shares": 70,
-      "item_code": "WWD.O"
-    },
-    {
       "name": "카펜터 테크놀로지",
-      "weight_pct": 2.63,
+      "weight_pct": 2.64,
       "shares": 49,
       "item_code": "CRS"
+    },
+    {
+      "name": "AAR",
+      "weight_pct": 2.63,
+      "shares": 177,
+      "item_code": "AIR"
+    },
+    {
+      "name": "헌팅턴 잉걸스 인더스트리즈",
+      "weight_pct": 2.62,
+      "shares": 79,
+      "item_code": "HII"
     },
     {
       "name": "크라토스 디펜스 & 시큐리티 솔루션",
@@ -129,106 +135,100 @@
       "item_code": "KTOS.O"
     },
     {
-      "name": "헌팅턴 잉걸스 인더스트리즈",
-      "weight_pct": 2.59,
-      "shares": 79,
-      "item_code": "HII"
-    },
-    {
       "name": "텍스트론",
-      "weight_pct": 2.47,
+      "weight_pct": 2.5,
       "shares": 270,
       "item_code": "TXT"
     },
     {
-      "name": "FTAI 애비에이션",
-      "weight_pct": 2.41,
-      "shares": 109,
-      "item_code": "FTAI.O"
-    },
-    {
       "name": "L3 해리스 테크놀러지스",
-      "weight_pct": 2.34,
+      "weight_pct": 2.38,
       "shares": 81,
       "item_code": "LHX"
     },
     {
-      "name": "커티스 라이트",
-      "weight_pct": 2.32,
-      "shares": 34,
-      "item_code": "CW"
+      "name": "FTAI 애비에이션",
+      "weight_pct": 2.37,
+      "shares": 109,
+      "item_code": "FTAI.O"
     },
     {
       "name": "에어로바이런먼트",
-      "weight_pct": 2.3,
+      "weight_pct": 2.35,
       "shares": 142,
       "item_code": "AVAV.O"
     },
     {
       "name": "BWX 테크놀로지스",
-      "weight_pct": 2.26,
+      "weight_pct": 2.3,
       "shares": 135,
       "item_code": "BWXT.K"
     },
     {
+      "name": "커티스 라이트",
+      "weight_pct": 2.28,
+      "shares": 34,
+      "item_code": "CW"
+    },
+    {
       "name": "아스트로닉스",
-      "weight_pct": 2.08,
+      "weight_pct": 2.07,
       "shares": 245,
       "item_code": "ATRO.O"
     },
     {
       "name": "로어 홀딩스",
-      "weight_pct": 1.94,
+      "weight_pct": 1.92,
       "shares": 241,
       "item_code": "LOAR.K"
     },
     {
       "name": "레오나르도 DRS",
-      "weight_pct": 1.88,
+      "weight_pct": 1.91,
       "shares": 445,
       "item_code": "DRS.O"
     },
     {
       "name": "머큐리 시스템즈",
-      "weight_pct": 1.73,
+      "weight_pct": 1.74,
       "shares": 176,
       "item_code": "MRCY.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 1.7,
+      "weight_pct": 1.68,
       "shares": 235,
       "item_code": "RKLB.O"
     },
     {
       "name": "인튜이티브 머신스",
-      "weight_pct": 1.64,
+      "weight_pct": 1.59,
       "shares": 931,
       "item_code": "LUNR.O"
     },
     {
       "name": "레드와이어",
-      "weight_pct": 1.55,
+      "weight_pct": 1.52,
       "shares": 1255,
       "item_code": "RDW"
     },
     {
       "name": "듀코먼",
-      "weight_pct": 1.49,
+      "weight_pct": 1.44,
       "shares": 73,
       "item_code": "DCO"
     },
     {
-      "name": "레드 캣 홀딩스",
-      "weight_pct": 1.17,
-      "shares": 1198,
-      "item_code": "RCAT.O"
-    },
-    {
       "name": "브이투엑스(V2X)",
-      "weight_pct": 1.15,
+      "weight_pct": 1.16,
       "shares": 134,
       "item_code": "VVX"
+    },
+    {
+      "name": "레드 캣 홀딩스",
+      "weight_pct": 1.13,
+      "shares": 1198,
+      "item_code": "RCAT.O"
     },
     {
       "name": "아처 에비에이션",
@@ -237,38 +237,38 @@
       "item_code": "ACHR.K"
     },
     {
+      "name": "원화예금",
+      "weight_pct": 0.67,
+      "shares": 8243739,
+      "item_code": null
+    },
+    {
       "name": "조비 에비에이션",
       "weight_pct": 0.65,
       "shares": 842,
       "item_code": "JOBY.K"
     },
     {
-      "name": "원화예금",
-      "weight_pct": 0.65,
-      "shares": 8215253,
-      "item_code": null
-    },
-    {
       "name": "캐드리 홀딩스",
-      "weight_pct": 0.63,
+      "weight_pct": 0.62,
       "shares": 182,
       "item_code": "CDRE.K"
     },
     {
       "name": "파이어플라이 에어로스페이스",
-      "weight_pct": 0.6,
+      "weight_pct": 0.59,
       "shares": 249,
       "item_code": "FLY.O"
     },
     {
       "name": "베타 테크놀로지스",
-      "weight_pct": 0.59,
+      "weight_pct": 0.55,
       "shares": 247,
       "item_code": "BETA.K"
     },
     {
       "name": "내셔널 프레스토 인더스트리스",
-      "weight_pct": 0.37,
+      "weight_pct": 0.38,
       "shares": 22,
       "item_code": "NPK"
     },
@@ -280,13 +280,13 @@
     },
     {
       "name": "스텔로직",
-      "weight_pct": 0.27,
+      "weight_pct": 0.26,
       "shares": 497,
       "item_code": "SATL.O"
     },
     {
       "name": "보이저 테크놀로지스",
-      "weight_pct": 0.2,
+      "weight_pct": 0.21,
       "shares": 55,
       "item_code": "VOYG.K"
     },

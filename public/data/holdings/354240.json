@@ -1,113 +1,113 @@
 {
   "ticker": "354240",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 20.08,
-      "shares": 106369091,
+      "weight_pct": 19.77,
+      "shares": 103587402,
       "item_code": null
     },
     {
       "name": "제이피모간체이스 우선주 시리즈 EE 6%",
-      "weight_pct": 2.2,
-      "shares": 341,
+      "weight_pct": 2.22,
+      "shares": 344,
       "item_code": "JPM_pc"
     },
     {
       "name": "제이피모간체이스 우선주 시리즈 DD 5.75%",
-      "weight_pct": 1.88,
-      "shares": 313,
+      "weight_pct": 1.91,
+      "shares": 315,
       "item_code": "JPM_pd"
     },
     {
       "name": "웰스파고 우선주 시리즈 Z 4.75%",
       "weight_pct": 1.78,
-      "shares": 371,
+      "shares": 374,
       "item_code": "WFC_pz"
     },
     {
-      "name": "제이피모간체이스 우선주 시리즈 LL 4.625%",
-      "weight_pct": 1.6,
-      "shares": 341,
-      "item_code": "JPM_pl"
-    },
-    {
       "name": "제이피모간체이스 우선주 시리즈 MM 4.20%",
-      "weight_pct": 1.6,
-      "shares": 369,
+      "weight_pct": 1.62,
+      "shares": 372,
       "item_code": "JPM_pm"
     },
     {
+      "name": "제이피모간체이스 우선주 시리즈 LL 4.625%",
+      "weight_pct": 1.61,
+      "shares": 344,
+      "item_code": "JPM_pl"
+    },
+    {
       "name": "뱅크오브아메리카 우선주 시리즈 GG 6%",
-      "weight_pct": 1.58,
-      "shares": 249,
+      "weight_pct": 1.59,
+      "shares": 251,
       "item_code": "BAC_pb"
     },
     {
       "name": "AT&T 우선주 시리즈 C 4.750%",
-      "weight_pct": 1.42,
-      "shares": 323,
+      "weight_pct": 1.43,
+      "shares": 325,
       "item_code": "T_pc"
     },
     {
       "name": "뱅크오브아메리카 우선주 KK 5.375%",
-      "weight_pct": 1.39,
-      "shares": 255,
+      "weight_pct": 1.4,
+      "shares": 257,
       "item_code": "BAC_pm"
     },
     {
       "name": "제이피모간체이스 우선주 시리즈 JJ 4.55%",
-      "weight_pct": 1.27,
-      "shares": 276,
+      "weight_pct": 1.28,
+      "shares": 279,
       "item_code": "JPM_pk"
     },
     {
       "name": "캐피탈 원 파이낸셜 우선주 시리즈 I 5%",
-      "weight_pct": 1.26,
-      "shares": 276,
+      "weight_pct": 1.27,
+      "shares": 279,
       "item_code": "COF_pi"
     },
     {
       "name": "AT and T 5 350 Global Notes Due 2066",
       "weight_pct": 1.24,
-      "shares": 244,
+      "shares": 246,
       "item_code": "TBB"
     },
     {
       "name": "모간스탠리 우선주 Series Q",
-      "weight_pct": 1.22,
-      "shares": 184,
+      "weight_pct": 1.23,
+      "shares": 186,
       "item_code": "MS_pq"
     },
     {
       "name": "뱅크오브아메리카 우선주 LL 5%",
-      "weight_pct": 1.22,
-      "shares": 240,
+      "weight_pct": 1.23,
+      "shares": 242,
       "item_code": "BAC_pn"
     },
     {
       "name": "모간스탠리 우선주 시리즈 P 6.5%",
-      "weight_pct": 1.2,
-      "shares": 184,
+      "weight_pct": 1.21,
+      "shares": 186,
       "item_code": "MS_pp"
     },
     {
       "name": "모간스탠리 우선주 시리즈 I",
-      "weight_pct": 1.17,
-      "shares": 184,
+      "weight_pct": 1.19,
+      "shares": 186,
       "item_code": "MS_pi"
     },
     {
       "name": "듀크 에너지 우선주 시리즈 A 5.75%",
-      "weight_pct": 1.15,
-      "shares": 184,
+      "weight_pct": 1.16,
+      "shares": 186,
       "item_code": "DUK_pa"
     },
     {
       "name": "모간스탠리 우선주 시리즈 K",
-      "weight_pct": 1.07,
-      "shares": 184,
+      "weight_pct": 1.09,
+      "shares": 186,
       "item_code": "MS_pk"
     },
     {
@@ -117,9 +117,15 @@
       "item_code": "MS_pe"
     },
     {
+      "name": "올스테이트 우선주 Series H 5.1%",
+      "weight_pct": 1.04,
+      "shares": 214,
+      "item_code": "ALL_ph"
+    },
+    {
       "name": "모간스탠리 우선주 시리즈 O 4.25%",
       "weight_pct": 1.03,
-      "shares": 240,
+      "shares": 242,
       "item_code": "MS_po"
     },
     {
@@ -129,33 +135,27 @@
       "item_code": "MS_pf"
     },
     {
-      "name": "올스테이트 우선주 Series H 5.1%",
-      "weight_pct": 1.03,
-      "shares": 212,
-      "item_code": "ALL_ph"
-    },
-    {
       "name": "AT&T 우선주 시리즈 A 5.000%",
-      "weight_pct": 1.02,
-      "shares": 221,
+      "weight_pct": 1.03,
+      "shares": 223,
       "item_code": "T_pa"
     },
     {
       "name": "캐피탈 원 파이낸셜 우선주 시리즈 J 4.8%",
-      "weight_pct": 1.01,
-      "shares": 230,
+      "weight_pct": 1.02,
+      "shares": 232,
       "item_code": "COF_pj"
     },
     {
       "name": "뱅크오브아메리카 우선주 시리즈 QQ 4.25%",
-      "weight_pct": 1.01,
-      "shares": 239,
+      "weight_pct": 1.02,
+      "shares": 241,
       "item_code": "BAC_pq"
     },
     {
       "name": "웰스파고 우선주 시리즈 AA 4.7%",
-      "weight_pct": 1.01,
-      "shares": 216,
+      "weight_pct": 1.02,
+      "shares": 217,
       "item_code": "WFC_pa"
     },
     {
@@ -166,21 +166,21 @@
     },
     {
       "name": "웰스파고 우선주 시리즈 DD 4.25%",
-      "weight_pct": 0.98,
-      "shares": 230,
+      "weight_pct": 0.99,
+      "shares": 232,
       "item_code": "WFC_pd"
+    },
+    {
+      "name": "M&T 뱅크 우선주 Series J",
+      "weight_pct": 0.97,
+      "shares": 139,
+      "item_code": "MTB_pj"
     },
     {
       "name": "뱅크오브아메리카 우선주 HH 5.875%",
       "weight_pct": 0.97,
       "shares": 158,
       "item_code": "BAC_pk"
-    },
-    {
-      "name": "M&T 뱅크 우선주 Series J",
-      "weight_pct": 0.96,
-      "shares": 139,
-      "item_code": "MTB_pj"
     },
     {
       "name": "씨티그룹 우선주 Series II",
@@ -191,13 +191,13 @@
     {
       "name": "메트라이프 우선주 시리즈 F 4.75%",
       "weight_pct": 0.87,
-      "shares": 184,
+      "shares": 186,
       "item_code": "MET_pf"
     },
     {
       "name": "뱅크오브아메리카 우선주 NN 4.375%",
-      "weight_pct": 0.86,
-      "shares": 198,
+      "weight_pct": 0.87,
+      "shares": 200,
       "item_code": "BAC_po"
     },
     {
@@ -207,39 +207,39 @@
       "item_code": "RZC"
     },
     {
-      "name": "찰스 슈왑 우선주 시리즈 D 5.95%",
+      "name": "웰스파고 우선주 시리즈 CC 4.375%",
       "weight_pct": 0.85,
+      "shares": 195,
+      "item_code": "WFC_pc"
+    },
+    {
+      "name": "찰스 슈왑 우선주 시리즈 D 5.95%",
+      "weight_pct": 0.84,
       "shares": 139,
       "item_code": "SCHW_pd.K"
     },
     {
-      "name": "웰스파고 우선주 시리즈 CC 4.375%",
-      "weight_pct": 0.85,
-      "shares": 194,
-      "item_code": "WFC_pc"
-    },
-    {
       "name": "메트라이프 우선주 시리즈 E 5.625%",
-      "weight_pct": 0.84,
+      "weight_pct": 0.83,
       "shares": 149,
       "item_code": "MET_pe"
     },
     {
-      "name": "제이피모간체이스 우선주 시리즈 GG 4.75%",
+      "name": "아에곤 펀딩 컴퍼니 후순위 채권 5.100% 2049년 만기",
       "weight_pct": 0.81,
+      "shares": 172,
+      "item_code": "AEFC.K"
+    },
+    {
+      "name": "제이피모간체이스 우선주 시리즈 GG 4.75%",
+      "weight_pct": 0.8,
       "shares": 167,
       "item_code": "JPM_pj"
     },
     {
-      "name": "아에곤 펀딩 컴퍼니 후순위 채권 5.100% 2049년 만기",
-      "weight_pct": 0.8,
-      "shares": 170,
-      "item_code": "AEFC.K"
-    },
-    {
       "name": "트루이스트 파이낸셜 우선주 시리즈 R 4.75%",
-      "weight_pct": 0.77,
-      "shares": 170,
+      "weight_pct": 0.79,
+      "shares": 172,
       "item_code": "TFC_pr"
     },
     {
@@ -255,6 +255,12 @@
       "item_code": "ALL_pj"
     },
     {
+      "name": "웰스파고 우선주 시리즈 Y 5.625%",
+      "weight_pct": 0.74,
+      "shares": 128,
+      "item_code": "WFC_py"
+    },
+    {
       "name": "M&T 뱅크 우선주 Series L",
       "weight_pct": 0.73,
       "shares": 111,
@@ -267,27 +273,21 @@
       "item_code": "KEY_pl"
     },
     {
-      "name": "웰스파고 우선주 시리즈 Y 5.625%",
-      "weight_pct": 0.73,
-      "shares": 128,
-      "item_code": "WFC_py"
-    },
-    {
       "name": "Ford Motor Company 6 20 Notes Due 1 June 2059",
-      "weight_pct": 0.72,
+      "weight_pct": 0.73,
       "shares": 139,
       "item_code": "F_pb"
     },
     {
       "name": "에퀴터블 홀딩스 우선주 시리즈 A 5.25%",
-      "weight_pct": 0.72,
+      "weight_pct": 0.73,
       "shares": 148,
       "item_code": "EQH_pa"
     },
     {
       "name": "뱅크오브아메리카 우선주 PP 4.125%",
-      "weight_pct": 0.7,
-      "shares": 168,
+      "weight_pct": 0.71,
+      "shares": 170,
       "item_code": "BAC_pp"
     },
     {
@@ -351,28 +351,28 @@
       "item_code": "BANC_pf.K"
     },
     {
+      "name": "Ford Motor 6 500 Notes due August 15 2062",
+      "weight_pct": 0.61,
+      "shares": 111,
+      "item_code": "F_pd"
+    },
+    {
+      "name": "뉴욕멜론은행 우선주 Series K",
+      "weight_pct": 0.61,
+      "shares": 93,
+      "item_code": "BNY_pk"
+    },
+    {
       "name": "아테네 홀딩 DRC",
       "weight_pct": 0.61,
       "shares": 93,
       "item_code": "ATH_pe"
     },
     {
-      "name": "Ford Motor 6 500 Notes due August 15 2062",
-      "weight_pct": 0.6,
-      "shares": 111,
-      "item_code": "F_pd"
-    },
-    {
       "name": "뱅크오브아메리카 우선주 시리즈 SS 4.75%",
       "weight_pct": 0.6,
       "shares": 127,
       "item_code": "BAC_ps"
-    },
-    {
-      "name": "뉴욕멜론은행 우선주 Series K",
-      "weight_pct": 0.6,
-      "shares": 93,
-      "item_code": "BNY_pk"
     },
     {
       "name": "리전스 파이낸셜 우선주 시리즈 C",
@@ -388,7 +388,7 @@
     },
     {
       "name": "US 뱅코프 우선주 시리즈 M 4%",
-      "weight_pct": 0.55,
+      "weight_pct": 0.54,
       "shares": 139,
       "item_code": "USB_pr"
     },
@@ -411,12 +411,6 @@
       "item_code": "MTB_pk"
     },
     {
-      "name": "캐피탈 원 파이낸셜 우선주 시리즈 L 4.375%",
-      "weight_pct": 0.5,
-      "shares": 125,
-      "item_code": "COF_pl"
-    },
-    {
       "name": "스테이트 스트리트 우선주 시리즈 G",
       "weight_pct": 0.5,
       "shares": 93,
@@ -429,16 +423,16 @@
       "item_code": "FITB_pm.K"
     },
     {
+      "name": "캐피탈 원 파이낸셜 우선주 시리즈 L 4.375%",
+      "weight_pct": 0.49,
+      "shares": 125,
+      "item_code": "COF_pl"
+    },
+    {
       "name": "시티즌스 파이낸셜 그룹 우선주 Series H",
       "weight_pct": 0.49,
       "shares": 74,
       "item_code": "CFG_ph"
-    },
-    {
-      "name": "액시스 캐피털 홀딩스 우선주 시리즈 E 5.5%",
-      "weight_pct": 0.49,
-      "shares": 102,
-      "item_code": "AXS_pe"
     },
     {
       "name": "찰스 슈왑 우선주 시리즈 J 4.450%",
@@ -453,6 +447,18 @@
       "item_code": "FCNCN.O"
     },
     {
+      "name": "시티즌스 파이낸셜 그룹 우선주 Series I",
+      "weight_pct": 0.48,
+      "shares": 74,
+      "item_code": "CFG_pi"
+    },
+    {
+      "name": "액시스 캐피털 홀딩스 우선주 시리즈 E 5.5%",
+      "weight_pct": 0.48,
+      "shares": 102,
+      "item_code": "AXS_pe"
+    },
+    {
       "name": "퍼스트 호라이즌 우선주 Series H",
       "weight_pct": 0.47,
       "shares": 74,
@@ -463,12 +469,6 @@
       "weight_pct": 0.47,
       "shares": 105,
       "item_code": "PSA_pl"
-    },
-    {
-      "name": "시티즌스 파이낸셜 그룹 우선주 Series I",
-      "weight_pct": 0.47,
-      "shares": 74,
-      "item_code": "CFG_pi"
     },
     {
       "name": "키코프 우선주 시리즈 G 5.625%",
@@ -483,6 +483,18 @@
       "item_code": "MS_pl"
     },
     {
+      "name": "T모바일 US 선순위채권 6.250% 만기 69년",
+      "weight_pct": 0.44,
+      "shares": 73,
+      "item_code": "TMUSL.O"
+    },
+    {
+      "name": "아테네 홀딩 우선주 시리즈 D 4.875%",
+      "weight_pct": 0.44,
+      "shares": 107,
+      "item_code": "ATH_pd"
+    },
+    {
       "name": "키코프 우선주 시리즈 F 5.65%",
       "weight_pct": 0.43,
       "shares": 79,
@@ -493,18 +505,6 @@
       "weight_pct": 0.43,
       "shares": 112,
       "item_code": "PSA_pp"
-    },
-    {
-      "name": "T모바일 US 선순위채권 6.250% 만기 69년",
-      "weight_pct": 0.43,
-      "shares": 73,
-      "item_code": "TMUSL.O"
-    },
-    {
-      "name": "아테네 홀딩 우선주 시리즈 D 4.875%",
-      "weight_pct": 0.43,
-      "shares": 107,
-      "item_code": "ATH_pd"
     },
     {
       "name": "TPG Operating Group II 6 950 Fixed Rate Junior Subordinated Notes due 2064",
@@ -531,22 +531,22 @@
       "item_code": "HIG_pg"
     },
     {
-      "name": "헌팅턴 뱅크셰어스 우선주 시리즈 H 4.5%",
-      "weight_pct": 0.4,
-      "shares": 93,
-      "item_code": "HBANP.O"
-    },
-    {
       "name": "F&G 어뉴어티 앤 라이프 선순위 채권 7.95% 만기 2053년 12월 15일",
       "weight_pct": 0.4,
       "shares": 64,
       "item_code": "FGN"
     },
     {
-      "name": "KKR Group Finance Co IX 4.625% Subordinated Notes due 2061",
+      "name": "Carlyle Group 4 625 Subordinated Notes due 2061",
       "weight_pct": 0.39,
       "shares": 93,
-      "item_code": "KKRS.K"
+      "item_code": "CGABL.O"
+    },
+    {
+      "name": "헌팅턴 뱅크셰어스 우선주 시리즈 H 4.5%",
+      "weight_pct": 0.39,
+      "shares": 93,
+      "item_code": "HBANP.O"
     },
     {
       "name": "헌팅턴 뱅그셰어스 우선주 Series J",
@@ -567,10 +567,10 @@
       "item_code": "CFG_pe"
     },
     {
-      "name": "T모바일 US 선순위채권 5.500% 만기 70년 6월",
+      "name": "T모바일 US 선순위채권 5.500% 만기 70년 3월",
       "weight_pct": 0.39,
-      "shares": 73,
-      "item_code": "TMUSI.O"
+      "shares": 74,
+      "item_code": "TMUSZ.O"
     },
     {
       "name": "UMB 파이낸셜 우선주 Series B 7.750%",
@@ -585,10 +585,10 @@
       "item_code": "SCE_pn"
     },
     {
-      "name": "Carlyle Group 4 625 Subordinated Notes due 2061",
+      "name": "KKR Group Finance Co IX 4.625% Subordinated Notes due 2061",
       "weight_pct": 0.38,
       "shares": 93,
-      "item_code": "CGABL.O"
+      "item_code": "KKRS.K"
     },
     {
       "name": "아치 캐피탈 그룹 우선주 시리즈 G 4.55%",
@@ -597,16 +597,10 @@
       "item_code": "ACGLN.O"
     },
     {
-      "name": "T모바일 US 선순위채권 5.500% 만기 70년 3월",
+      "name": "T모바일 US 선순위채권 5.500% 만기 70년 6월",
       "weight_pct": 0.38,
-      "shares": 74,
-      "item_code": "TMUSZ.O"
-    },
-    {
-      "name": "US 뱅코프 우선주 시리즈 O",
-      "weight_pct": 0.37,
-      "shares": 83,
-      "item_code": "USB_ps"
+      "shares": 73,
+      "item_code": "TMUSI.O"
     },
     {
       "name": "Pitney Bowes 6.70% Notes Exp 01 Mar 2043",
@@ -621,6 +615,12 @@
       "item_code": "RNR_pg"
     },
     {
+      "name": "US 뱅코프 우선주 시리즈 O",
+      "weight_pct": 0.36,
+      "shares": 83,
+      "item_code": "USB_ps"
+    },
+    {
       "name": "Associated Banc 6 625 Fixed Rate Reset Subordinated Notes due 2033",
       "weight_pct": 0.35,
       "shares": 56,
@@ -633,6 +633,12 @@
       "item_code": "NTRSO.O"
     },
     {
+      "name": "아메리칸 내셔널 그룹 우선주 Series D",
+      "weight_pct": 0.34,
+      "shares": 56,
+      "item_code": "ANG_pd"
+    },
+    {
       "name": "US 뱅코프 우선주 시리즈 L 3.75%",
       "weight_pct": 0.34,
       "shares": 93,
@@ -643,12 +649,6 @@
       "weight_pct": 0.33,
       "shares": 55,
       "item_code": "VOYA_pb.K"
-    },
-    {
-      "name": "아메리칸 내셔널 그룹 우선주 Series D",
-      "weight_pct": 0.33,
-      "shares": 56,
-      "item_code": "ANG_pd"
     }
   ]
 }

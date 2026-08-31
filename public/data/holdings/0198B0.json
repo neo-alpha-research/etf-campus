@@ -1,22 +1,22 @@
 {
   "ticker": "0198B0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼성전자   F 202609 (  10)",
-      "weight_pct": 154.85,
-      "shares": 34,
+      "weight_pct": 153.6,
+      "shares": 33,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 54.85,
-      "shares": 32324564,
+      "weight_pct": 53.47,
+      "shares": 29886994,
       "item_code": null
     },
     {
       "name": "삼성전자",
-      "weight_pct": 45.14,
+      "weight_pct": 46.52,
       "shares": 100,
       "item_code": "005930"
     }

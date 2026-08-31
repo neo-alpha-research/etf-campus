@@ -1,10 +1,10 @@
 {
   "ticker": "0066W0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "SPDR Gold MiniShares Trust",
-      "weight_pct": 27.98,
+      "weight_pct": 27.99,
       "shares": 1497,
       "item_code": "GLDM.K"
     },
@@ -16,7 +16,7 @@
     },
     {
       "name": "GraniteShares Gold Trust",
-      "weight_pct": 22.62,
+      "weight_pct": 22.6,
       "shares": 2433,
       "item_code": "BAR"
     },
@@ -28,7 +28,7 @@
     },
     {
       "name": "Goldman Sachs Physical Gold ETF",
-      "weight_pct": 8.33,
+      "weight_pct": 8.34,
       "shares": 896,
       "item_code": "AAAU.K"
     },
@@ -58,8 +58,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.05,
-      "shares": -393155,
+      "weight_pct": -0.04,
+      "shares": -293096,
       "item_code": null
     }
   ]

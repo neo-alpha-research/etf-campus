@@ -1,17 +1,17 @@
 {
   "ticker": "456200",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스왑(키움증권)_20240514",
-      "weight_pct": 82.01,
-      "shares": 98198307,
+      "weight_pct": 82.02,
+      "shares": 97343538,
       "item_code": null
     },
     {
       "name": "스왑(KB증권)_20241031",
       "weight_pct": 16.37,
-      "shares": 19604493,
+      "shares": 19433845,
       "item_code": null
     },
     {
@@ -23,7 +23,7 @@
     {
       "name": "[USD] 예금",
       "weight_pct": 0.0,
-      "shares": 3,
+      "shares": 2,
       "item_code": null
     }
   ]

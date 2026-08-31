@@ -1,58 +1,58 @@
 {
   "ticker": "435040",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
+      "name": "마이크로소프트",
+      "weight_pct": 11.06,
+      "shares": 152,
+      "item_code": "MSFT.O"
+    },
+    {
       "name": "제이피모간체이스",
-      "weight_pct": 11.1,
+      "weight_pct": 11.05,
       "shares": 218,
       "item_code": "JPM"
     },
     {
       "name": "일라이 릴리",
-      "weight_pct": 10.87,
+      "weight_pct": 10.65,
       "shares": 64,
       "item_code": "LLY"
     },
     {
-      "name": "마이크로소프트",
-      "weight_pct": 10.78,
-      "shares": 152,
-      "item_code": "MSFT.O"
-    },
-    {
       "name": "코카콜라",
-      "weight_pct": 10.55,
+      "weight_pct": 10.42,
       "shares": 820,
       "item_code": "KO"
     },
     {
       "name": "P&G(프록터 & 갬블)",
-      "weight_pct": 9.73,
+      "weight_pct": 9.58,
       "shares": 470,
       "item_code": "PG"
     },
     {
       "name": "애플",
-      "weight_pct": 9.36,
+      "weight_pct": 9.47,
       "shares": 209,
       "item_code": "AAPL.O"
     },
     {
       "name": "LVMH Moet Hennessy Louis Vuitton SE",
-      "weight_pct": 9.14,
+      "weight_pct": 9.1,
       "shares": 121,
       "item_code": null
     },
     {
       "name": "엔비디아",
-      "weight_pct": 8.74,
+      "weight_pct": 9.0,
       "shares": 292,
       "item_code": "NVDA.O"
     },
     {
       "name": "넷플릭스",
-      "weight_pct": 8.51,
+      "weight_pct": 8.47,
       "shares": 731,
       "item_code": "NFLX.O"
     },
@@ -64,8 +64,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.65,
-      "shares": 35315561,
+      "weight_pct": 3.62,
+      "shares": 35028100,
       "item_code": null
     }
   ]

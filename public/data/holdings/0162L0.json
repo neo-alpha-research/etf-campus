@@ -1,71 +1,71 @@
 {
   "ticker": "0162L0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "CXMT Corporation",
-      "weight_pct": 20.6,
-      "shares": 11698,
+      "weight_pct": 20.8,
+      "shares": 11687,
       "item_code": "688825.SS"
     },
     {
       "name": "한무기",
-      "weight_pct": 10.31,
+      "weight_pct": 10.22,
       "shares": 321,
       "item_code": "688256.SS"
     },
     {
+      "name": "생익과기",
+      "weight_pct": 10.08,
+      "shares": 2279,
+      "item_code": "600183.SS"
+    },
+    {
       "name": "중제욱창",
-      "weight_pct": 9.88,
-      "shares": 370,
+      "weight_pct": 9.67,
+      "shares": 371,
       "item_code": "300308.SZ"
     },
     {
       "name": "동산정밀",
-      "weight_pct": 9.69,
-      "shares": 1588,
+      "weight_pct": 9.42,
+      "shares": 1587,
       "item_code": "002384.SZ"
     },
     {
-      "name": "생익과기",
-      "weight_pct": 9.31,
-      "shares": 2281,
-      "item_code": "600183.SS"
-    },
-    {
-      "name": "척형과기",
-      "weight_pct": 9.26,
-      "shares": 437,
-      "item_code": "688072.SS"
+      "name": "해광신식",
+      "weight_pct": 9.07,
+      "shares": 1217,
+      "item_code": "688041.SS"
     },
     {
       "name": "장천과기",
-      "weight_pct": 9.22,
+      "weight_pct": 8.94,
       "shares": 1063,
       "item_code": "300604.SZ"
     },
     {
-      "name": "해광신식",
-      "weight_pct": 8.83,
-      "shares": 1218,
-      "item_code": "688041.SS"
+      "name": "척형과기",
+      "weight_pct": 8.87,
+      "shares": 436,
+      "item_code": "688072.SS"
     },
     {
       "name": "호사전자",
-      "weight_pct": 7.63,
-      "shares": 2038,
+      "weight_pct": 7.52,
+      "shares": 2036,
       "item_code": "002463.SZ"
     },
     {
       "name": "몬타지 테크놀로지",
-      "weight_pct": 5.15,
-      "shares": 817,
+      "weight_pct": 5.28,
+      "shares": 816,
       "item_code": "688008.SS"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.07,
-      "shares": 501466,
+      "shares": 499859,
       "item_code": null
     }
   ]

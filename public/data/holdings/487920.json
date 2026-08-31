@@ -1,82 +1,82 @@
 {
   "ticker": "487920",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "Bajaj Finance Ltd",
-      "weight_pct": 5.77,
+      "weight_pct": 5.76,
       "shares": 1476,
       "item_code": null
     },
     {
-      "name": "Adani Ports & Special Economic Zone Ltd",
-      "weight_pct": 5.54,
-      "shares": 910,
-      "item_code": null
-    },
-    {
       "name": "Titan Co Ltd",
-      "weight_pct": 5.53,
+      "weight_pct": 5.62,
       "shares": 301,
       "item_code": null
     },
     {
+      "name": "Adani Ports & Special Economic Zone Ltd",
+      "weight_pct": 5.61,
+      "shares": 910,
+      "item_code": null
+    },
+    {
       "name": "Reliance Industries Ltd",
-      "weight_pct": 5.44,
+      "weight_pct": 5.41,
       "shares": 1164,
       "item_code": null
     },
     {
+      "name": "Tata Consultancy Services Ltd",
+      "weight_pct": 5.1,
+      "shares": 603,
+      "item_code": null
+    },
+    {
+      "name": "Bajaj Auto Ltd",
+      "weight_pct": 5.03,
+      "shares": 117,
+      "item_code": null
+    },
+    {
       "name": "Tata Power Co Ltd/The",
-      "weight_pct": 5.13,
+      "weight_pct": 4.97,
       "shares": 3914,
       "item_code": null
     },
     {
       "name": "Bajaj Finserv Ltd",
-      "weight_pct": 4.97,
+      "weight_pct": 4.96,
       "shares": 686,
       "item_code": null
     },
     {
-      "name": "Bajaj Auto Ltd",
-      "weight_pct": 4.94,
-      "shares": 117,
-      "item_code": null
-    },
-    {
-      "name": "Tata Consultancy Services Ltd",
-      "weight_pct": 4.93,
-      "shares": 603,
-      "item_code": null
-    },
-    {
       "name": "Indian Hotels Co Ltd/The",
-      "weight_pct": 4.88,
+      "weight_pct": 4.8,
       "shares": 1880,
       "item_code": null
     },
     {
       "name": "Voltas Ltd",
-      "weight_pct": 4.73,
+      "weight_pct": 4.68,
       "shares": 1080,
       "item_code": null
     },
     {
-      "name": "UltraTech Cement Ltd",
-      "weight_pct": 4.47,
-      "shares": 106,
-      "item_code": null
-    },
-    {
       "name": "Adani Enterprises Ltd",
-      "weight_pct": 4.4,
+      "weight_pct": 4.5,
       "shares": 393,
       "item_code": null
     },
     {
+      "name": "UltraTech Cement Ltd",
+      "weight_pct": 4.44,
+      "shares": 106,
+      "item_code": null
+    },
+    {
       "name": "Hindalco Industries Ltd",
-      "weight_pct": 4.25,
+      "weight_pct": 4.2,
       "shares": 1120,
       "item_code": null
     },
@@ -94,50 +94,50 @@
     },
     {
       "name": "Tata Steel Ltd",
-      "weight_pct": 3.97,
+      "weight_pct": 3.95,
       "shares": 5871,
       "item_code": null
     },
     {
       "name": "Jio Financial Services Ltd",
-      "weight_pct": 3.96,
+      "weight_pct": 3.93,
       "shares": 4564,
       "item_code": null
     },
     {
       "name": "Tata Consumer Products Ltd",
-      "weight_pct": 3.92,
+      "weight_pct": 3.91,
       "shares": 1041,
       "item_code": null
     },
     {
       "name": "Mahindra & Mahindra Ltd",
-      "weight_pct": 3.78,
+      "weight_pct": 3.72,
       "shares": 309,
       "item_code": null
     },
     {
       "name": "Ambuja Cements Ltd",
-      "weight_pct": 3.69,
+      "weight_pct": 3.63,
       "shares": 2443,
       "item_code": null
     },
     {
       "name": "Larsen & Toubro Ltd",
-      "weight_pct": 3.46,
+      "weight_pct": 3.48,
       "shares": 238,
       "item_code": null
     },
     {
       "name": "Tata Motors Passenger Vehicles Limited",
-      "weight_pct": 3.21,
+      "weight_pct": 3.29,
       "shares": 2849,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.62,
-      "shares": 2519471,
+      "weight_pct": 0.61,
+      "shares": 2430987,
       "item_code": null
     }
   ]

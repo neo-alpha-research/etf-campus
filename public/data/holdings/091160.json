@@ -1,102 +1,102 @@
 {
   "ticker": "091160",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "SK하이닉스",
-      "weight_pct": 37.41,
+      "weight_pct": 37.0,
       "shares": 1384,
       "item_code": "000660"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 22.99,
+      "weight_pct": 22.97,
       "shares": 5532,
       "item_code": "005930"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 5.98,
+      "weight_pct": 6.07,
       "shares": 1726,
       "item_code": "042700"
     },
     {
       "name": "주성엔지니어링",
-      "weight_pct": 3.58,
+      "weight_pct": 3.62,
       "shares": 1282,
       "item_code": "036930"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 2.38,
+      "weight_pct": 2.41,
       "shares": 1354,
       "item_code": "240810"
     },
     {
       "name": "이오테크닉스",
-      "weight_pct": 2.19,
+      "weight_pct": 2.22,
       "shares": 345,
       "item_code": "039030"
     },
     {
       "name": "리노공업",
-      "weight_pct": 2.12,
+      "weight_pct": 2.16,
       "shares": 2039,
       "item_code": "058470"
     },
     {
       "name": "HPSP",
-      "weight_pct": 2.11,
+      "weight_pct": 2.14,
       "shares": 2676,
       "item_code": "403870"
     },
     {
       "name": "심텍",
-      "weight_pct": 2.01,
+      "weight_pct": 2.1,
       "shares": 1018,
       "item_code": "222800"
     },
     {
       "name": "DB하이텍",
-      "weight_pct": 1.86,
+      "weight_pct": 1.9,
       "shares": 1253,
       "item_code": "000990"
     },
     {
       "name": "피에스케이",
-      "weight_pct": 1.69,
+      "weight_pct": 1.65,
       "shares": 811,
       "item_code": "319660"
     },
     {
-      "name": "제주반도체",
-      "weight_pct": 1.51,
-      "shares": 1248,
-      "item_code": "080220"
-    },
-    {
       "name": "파두",
-      "weight_pct": 1.49,
+      "weight_pct": 1.55,
       "shares": 1485,
       "item_code": "440110"
     },
     {
+      "name": "제주반도체",
+      "weight_pct": 1.55,
+      "shares": 1248,
+      "item_code": "080220"
+    },
+    {
       "name": "유진테크",
-      "weight_pct": 1.22,
+      "weight_pct": 1.2,
       "shares": 566,
       "item_code": "084370"
     },
     {
-      "name": "하나마이크론",
-      "weight_pct": 1.19,
-      "shares": 1970,
-      "item_code": "067310"
-    },
-    {
       "name": "ISC",
-      "weight_pct": 1.12,
+      "weight_pct": 1.13,
       "shares": 419,
       "item_code": "095340"
+    },
+    {
+      "name": "하나마이크론",
+      "weight_pct": 1.11,
+      "shares": 1970,
+      "item_code": "067310"
     },
     {
       "name": "고영",
@@ -106,19 +106,19 @@
     },
     {
       "name": "티씨케이",
-      "weight_pct": 0.87,
+      "weight_pct": 0.91,
       "shares": 230,
       "item_code": "064760"
     },
     {
       "name": "테크윙",
-      "weight_pct": 0.85,
+      "weight_pct": 0.86,
       "shares": 1098,
       "item_code": "089030"
     },
     {
       "name": "태성",
-      "weight_pct": 0.69,
+      "weight_pct": 0.68,
       "shares": 880,
       "item_code": "323280"
     },
@@ -135,20 +135,20 @@
       "item_code": "031980"
     },
     {
-      "name": "RFHIC",
-      "weight_pct": 0.51,
-      "shares": 678,
-      "item_code": "218410"
-    },
-    {
       "name": "코미코",
-      "weight_pct": 0.47,
+      "weight_pct": 0.5,
       "shares": 1184,
       "item_code": "183300"
     },
     {
+      "name": "RFHIC",
+      "weight_pct": 0.5,
+      "shares": 678,
+      "item_code": "218410"
+    },
+    {
       "name": "HD현대에너지솔루션",
-      "weight_pct": 0.47,
+      "weight_pct": 0.48,
       "shares": 212,
       "item_code": "322000"
     },
@@ -159,22 +159,16 @@
       "item_code": "101490"
     },
     {
-      "name": "하나머티리얼즈",
-      "weight_pct": 0.36,
-      "shares": 431,
-      "item_code": "166090"
-    },
-    {
       "name": "케이씨텍",
-      "weight_pct": 0.35,
+      "weight_pct": 0.36,
       "shares": 334,
       "item_code": "281820"
     },
     {
-      "name": "와이씨",
-      "weight_pct": 0.31,
-      "shares": 1621,
-      "item_code": "232140"
+      "name": "하나머티리얼즈",
+      "weight_pct": 0.35,
+      "shares": 431,
+      "item_code": "166090"
     },
     {
       "name": "필옵틱스",
@@ -183,16 +177,22 @@
       "item_code": "161580"
     },
     {
+      "name": "덕산네오룩스",
+      "weight_pct": 0.29,
+      "shares": 531,
+      "item_code": "213420"
+    },
+    {
+      "name": "와이씨",
+      "weight_pct": 0.27,
+      "shares": 1621,
+      "item_code": "232140"
+    },
+    {
       "name": "SFA반도체",
       "weight_pct": 0.27,
       "shares": 3046,
       "item_code": "036540"
-    },
-    {
-      "name": "덕산네오룩스",
-      "weight_pct": 0.26,
-      "shares": 531,
-      "item_code": "213420"
     },
     {
       "name": "LX세미콘",
@@ -202,20 +202,20 @@
     },
     {
       "name": "가온칩스",
-      "weight_pct": 0.18,
+      "weight_pct": 0.17,
       "shares": 254,
       "item_code": "399720"
     },
     {
       "name": "넥스틴",
-      "weight_pct": 0.16,
+      "weight_pct": 0.15,
       "shares": 310,
       "item_code": "348210"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.1,
-      "shares": 6725545,
+      "weight_pct": 0.09,
+      "shares": 5856608,
       "item_code": null
     }
   ]

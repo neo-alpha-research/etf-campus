@@ -1,167 +1,167 @@
 {
   "ticker": "266410",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "KT&G",
-      "weight_pct": 20.65,
+      "weight_pct": 20.25,
       "shares": 2413,
       "item_code": "033780"
     },
     {
       "name": "에이피알",
-      "weight_pct": 18.3,
+      "weight_pct": 18.8,
       "shares": 859,
       "item_code": "278470"
     },
     {
       "name": "삼양식품",
-      "weight_pct": 10.01,
+      "weight_pct": 9.95,
       "shares": 138,
       "item_code": "003230"
     },
     {
       "name": "아모레퍼시픽",
-      "weight_pct": 7.64,
+      "weight_pct": 7.59,
       "shares": 1094,
       "item_code": "090430"
     },
     {
       "name": "오리온",
-      "weight_pct": 4.74,
+      "weight_pct": 4.7,
       "shares": 767,
       "item_code": "271560"
     },
     {
       "name": "LG생활건강",
-      "weight_pct": 4.64,
+      "weight_pct": 4.67,
       "shares": 317,
       "item_code": "051900"
     },
     {
       "name": "한국콜마",
-      "weight_pct": 4.29,
+      "weight_pct": 4.52,
       "shares": 600,
       "item_code": "161890"
     },
     {
       "name": "코스맥스",
-      "weight_pct": 3.99,
+      "weight_pct": 4.07,
       "shares": 288,
       "item_code": "192820"
     },
     {
       "name": "이마트",
-      "weight_pct": 2.54,
+      "weight_pct": 2.45,
       "shares": 701,
       "item_code": "139480"
     },
     {
       "name": "CJ제일제당",
-      "weight_pct": 2.52,
+      "weight_pct": 2.42,
       "shares": 276,
       "item_code": "097950"
     },
     {
       "name": "농심",
-      "weight_pct": 2.24,
+      "weight_pct": 2.23,
       "shares": 107,
       "item_code": "004370"
     },
     {
       "name": "BGF리테일",
-      "weight_pct": 2.13,
+      "weight_pct": 2.16,
       "shares": 311,
       "item_code": "282330"
     },
     {
-      "name": "GS리테일",
-      "weight_pct": 1.49,
-      "shares": 1180,
-      "item_code": "007070"
-    },
-    {
       "name": "코스메카코리아",
-      "weight_pct": 1.46,
+      "weight_pct": 1.51,
       "shares": 215,
       "item_code": "241710"
     },
     {
+      "name": "GS리테일",
+      "weight_pct": 1.46,
+      "shares": 1180,
+      "item_code": "007070"
+    },
+    {
       "name": "동서",
-      "weight_pct": 1.38,
+      "weight_pct": 1.32,
       "shares": 1091,
       "item_code": "026960"
     },
     {
       "name": "아모레퍼시픽홀딩스",
-      "weight_pct": 1.11,
+      "weight_pct": 1.1,
       "shares": 863,
       "item_code": "002790"
     },
     {
       "name": "현대바이오",
-      "weight_pct": 0.97,
+      "weight_pct": 0.96,
       "shares": 3099,
       "item_code": "048410"
     },
     {
       "name": "오리온홀딩스",
-      "weight_pct": 0.86,
+      "weight_pct": 0.85,
       "shares": 701,
       "item_code": "001800"
     },
     {
-      "name": "하이트진로",
-      "weight_pct": 0.81,
-      "shares": 1089,
-      "item_code": "000080"
-    },
-    {
       "name": "오뚜기",
-      "weight_pct": 0.81,
+      "weight_pct": 0.8,
       "shares": 51,
       "item_code": "007310"
     },
     {
-      "name": "하림지주",
+      "name": "하이트진로",
       "weight_pct": 0.79,
+      "shares": 1089,
+      "item_code": "000080"
+    },
+    {
+      "name": "하림지주",
+      "weight_pct": 0.78,
       "shares": 1542,
       "item_code": "003380"
     },
     {
       "name": "빙그레",
-      "weight_pct": 0.75,
+      "weight_pct": 0.72,
       "shares": 170,
       "item_code": "005180"
     },
     {
       "name": "동원산업",
-      "weight_pct": 0.63,
+      "weight_pct": 0.62,
       "shares": 343,
       "item_code": "006040"
     },
     {
-      "name": "롯데칠성",
-      "weight_pct": 0.59,
-      "shares": 124,
-      "item_code": "005300"
-    },
-    {
       "name": "롯데웰푸드",
-      "weight_pct": 0.58,
+      "weight_pct": 0.6,
       "shares": 88,
       "item_code": "280360"
     },
     {
+      "name": "롯데칠성",
+      "weight_pct": 0.58,
+      "shares": 124,
+      "item_code": "005300"
+    },
+    {
       "name": "대상",
-      "weight_pct": 0.57,
+      "weight_pct": 0.58,
       "shares": 672,
       "item_code": "001680"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.57,
-      "shares": 11787052,
+      "weight_pct": 0.55,
+      "shares": 11685711,
       "item_code": null
     },
     {
@@ -172,19 +172,19 @@
     },
     {
       "name": "큐렉소",
-      "weight_pct": 0.44,
+      "weight_pct": 0.42,
       "shares": 1019,
       "item_code": "060280"
     },
     {
       "name": "삼양홀딩스",
-      "weight_pct": 0.39,
+      "weight_pct": 0.38,
       "shares": 134,
       "item_code": "000070"
     },
     {
       "name": "삼양바이오팜",
-      "weight_pct": 0.38,
+      "weight_pct": 0.37,
       "shares": 142,
       "item_code": "0120G0"
     },

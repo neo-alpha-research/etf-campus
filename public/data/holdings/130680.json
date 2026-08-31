@@ -1,29 +1,29 @@
 {
   "ticker": "130680",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 90.78,
-      "shares": 308327966,
+      "weight_pct": 90.82,
+      "shares": 312727013,
       "item_code": null
     },
     {
       "name": "CRUDE OIL FUT NYMX OCT 2026",
-      "weight_pct": 90.51,
+      "weight_pct": 89.74,
       "shares": 2,
       "item_code": null
     },
     {
       "name": "United States Oil Fund LP",
-      "weight_pct": 9.21,
+      "weight_pct": 9.17,
       "shares": 178,
       "item_code": "USO"
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -75.09,
-      "shares": -18,
+      "weight_pct": -75.61,
+      "shares": -19,
       "item_code": null
     }
   ]

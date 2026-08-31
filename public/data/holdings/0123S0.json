@@ -1,6 +1,6 @@
 {
   "ticker": "0123S0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "신한은행28-12-이-2-A",
@@ -41,7 +41,7 @@
     {
       "name": "원화현금",
       "weight_pct": 4.83,
-      "shares": 4924033,
+      "shares": 4925135,
       "item_code": null
     }
   ]

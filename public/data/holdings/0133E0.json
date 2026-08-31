@@ -1,83 +1,83 @@
 {
   "ticker": "0133E0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "동화순네트워크",
-      "weight_pct": 10.35,
+      "weight_pct": 10.55,
       "shares": 1014,
       "item_code": "300033.SZ"
     },
     {
       "name": "GF증권",
-      "weight_pct": 10.09,
+      "weight_pct": 9.92,
       "shares": 14060,
       "item_code": "1776.HK"
     },
     {
       "name": "동방재부정보",
-      "weight_pct": 9.99,
+      "weight_pct": 9.89,
       "shares": 11277,
       "item_code": "300059.SZ"
     },
     {
       "name": "CITIC 증권",
-      "weight_pct": 9.93,
+      "weight_pct": 9.73,
       "shares": 9160,
       "item_code": "6030.HK"
     },
     {
       "name": "중국국제금융공사",
-      "weight_pct": 8.89,
+      "weight_pct": 9.0,
       "shares": 10163,
       "item_code": "3908.HK"
     },
     {
       "name": "국태해통증권",
-      "weight_pct": 8.53,
+      "weight_pct": 8.38,
       "shares": 13803,
       "item_code": "2611.HK"
     },
     {
       "name": "중신건투증권",
-      "weight_pct": 8.03,
+      "weight_pct": 8.04,
       "shares": 16990,
       "item_code": "6066.HK"
     },
     {
-      "name": "화태증권",
-      "weight_pct": 8.01,
-      "shares": 11776,
-      "item_code": "6886.HK"
-    },
-    {
       "name": "초상증권",
-      "weight_pct": 7.88,
+      "weight_pct": 8.0,
       "shares": 12809,
       "item_code": "6099.HK"
     },
     {
+      "name": "화태증권",
+      "weight_pct": 7.94,
+      "shares": 11776,
+      "item_code": "6886.HK"
+    },
+    {
       "name": "중국은하증권",
-      "weight_pct": 6.76,
+      "weight_pct": 6.63,
       "shares": 21512,
       "item_code": "6881.HK"
     },
     {
       "name": "화안증권",
-      "weight_pct": 6.63,
+      "weight_pct": 6.53,
       "shares": 17376,
       "item_code": "600909.SS"
     },
     {
       "name": "선전 포춘 트렌드 테크놀로지",
-      "weight_pct": 4.78,
+      "weight_pct": 5.26,
       "shares": 1347,
       "item_code": "688318.SS"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.07,
-      "shares": 354329,
+      "shares": 341673,
       "item_code": null
     }
   ]

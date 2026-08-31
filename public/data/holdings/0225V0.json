@@ -1,70 +1,70 @@
 {
   "ticker": "0225V0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
+      "name": "인텔",
+      "weight_pct": 25.9,
+      "shares": 1019,
+      "item_code": "INTC.O"
+    },
+    {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 25.56,
+      "weight_pct": 25.05,
       "shares": 369,
       "item_code": "ARM.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 25.12,
+      "weight_pct": 25.04,
       "shares": 189,
       "item_code": "AMD.O"
     },
     {
-      "name": "인텔",
-      "weight_pct": 24.81,
-      "shares": 1019,
-      "item_code": "INTC.O"
-    },
-    {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 8.34,
+      "weight_pct": 7.59,
       "shares": 123,
       "item_code": "MRVL.O"
     },
     {
       "name": "퀄컴",
-      "weight_pct": 6.76,
+      "weight_pct": 6.98,
       "shares": 149,
       "item_code": "QCOM.O"
     },
     {
-      "name": "나비타스 세미컨덕터",
-      "weight_pct": 2.48,
-      "shares": 711,
-      "item_code": "NVTS.O"
-    },
-    {
       "name": "ASE 테크놀로지 홀딩 ADR",
-      "weight_pct": 2.24,
+      "weight_pct": 2.34,
       "shares": 218,
       "item_code": "ASX"
     },
     {
+      "name": "나비타스 세미컨덕터",
+      "weight_pct": 2.32,
+      "shares": 711,
+      "item_code": "NVTS.O"
+    },
+    {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 2.2,
+      "weight_pct": 2.3,
       "shares": 23,
       "item_code": "CDNS.O"
     },
     {
       "name": "앰코 테크놀로지",
-      "weight_pct": 1.11,
+      "weight_pct": 1.13,
       "shares": 83,
       "item_code": "AMKR.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.72,
-      "shares": 3628452,
+      "weight_pct": 0.71,
+      "shares": 3423937,
       "item_code": null
     },
     {
       "name": "울프스피드",
-      "weight_pct": 0.61,
+      "weight_pct": 0.6,
       "shares": 82,
       "item_code": "WOLF.K"
     }

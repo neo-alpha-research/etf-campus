@@ -1,71 +1,71 @@
 {
   "ticker": "336160",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
-      "name": "우리은행28-08-이표05-갑-30",
-      "weight_pct": 18.89,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "하나은행47-09이5갑-06",
-      "weight_pct": 18.87,
+      "weight_pct": 19.62,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "농업금융채권(은행)2024-09이5Y-H",
-      "weight_pct": 18.81,
+      "weight_pct": 19.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행28-08-이표05-갑-30",
+      "weight_pct": 19.48,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03500-2906(26-5)",
-      "weight_pct": 13.44,
+      "weight_pct": 11.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "JB 우리캐피탈562-3",
-      "weight_pct": 5.79,
+      "weight_pct": 5.96,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "미래에셋캐피탈112-3",
-      "weight_pct": 5.65,
+      "weight_pct": 5.87,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대커머셜562-4",
-      "weight_pct": 5.64,
+      "weight_pct": 5.87,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나카드289-2",
-      "weight_pct": 5.6,
+      "weight_pct": 5.83,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "알씨아이파이낸셜서비스코리아125",
-      "weight_pct": 4.82,
+      "weight_pct": 5.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "3년국채 F 202609",
-      "weight_pct": 2.97,
+      "weight_pct": 3.08,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.45,
-      "shares": 2461253,
+      "weight_pct": 0.76,
+      "shares": 762945,
       "item_code": null
     }
   ]

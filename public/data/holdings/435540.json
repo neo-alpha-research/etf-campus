@@ -1,40 +1,40 @@
 {
   "ticker": "435540",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "Vanguard 500 Index Fund ETF",
-      "weight_pct": 16.59,
+      "weight_pct": 16.67,
       "shares": 148,
       "item_code": "VOO"
     },
     {
       "name": "JPMorgan BetaBuilders US Aggregate Bond ETF",
-      "weight_pct": 12.74,
+      "weight_pct": 12.71,
       "shares": 1767,
       "item_code": "BBAG.K"
     },
     {
       "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
-      "weight_pct": 10.61,
+      "weight_pct": 10.56,
       "shares": 908,
       "item_code": "VEA"
     },
     {
       "name": "Vanguard Short-Term Treasury Index Fund",
-      "weight_pct": 9.32,
+      "weight_pct": 9.31,
       "shares": 1007,
       "item_code": "VGSH.O"
     },
     {
       "name": "iShares Russell 2000 ETF",
-      "weight_pct": 8.94,
+      "weight_pct": 8.85,
       "shares": 188,
       "item_code": "IWM"
     },
     {
       "name": "iShares Core International Aggregate Bond ETF",
-      "weight_pct": 8.58,
+      "weight_pct": 8.56,
       "shares": 1081,
       "item_code": "IAGG.K"
     },
@@ -46,19 +46,19 @@
     },
     {
       "name": "Invesco NASDAQ 100 ETF",
-      "weight_pct": 5.82,
+      "weight_pct": 5.87,
       "shares": 125,
       "item_code": "QQQM.O"
     },
     {
       "name": "State Street SPDR Portfolio S&P 500 Value ETF",
-      "weight_pct": 5.61,
+      "weight_pct": 5.6,
       "shares": 554,
       "item_code": "SPYV.K"
     },
     {
       "name": "KIWOOM 종합채권(AA-이상)액티브",
-      "weight_pct": 4.49,
+      "weight_pct": 4.53,
       "shares": 391,
       "item_code": "454780"
     },
@@ -76,14 +76,14 @@
     },
     {
       "name": "JPMorgan BetaBuilders Europe ETF",
-      "weight_pct": 2.35,
+      "weight_pct": 2.33,
       "shares": 183,
       "item_code": "BBEU.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.1,
-      "shares": 18221755,
+      "weight_pct": 2.14,
+      "shares": 18409091,
       "item_code": null
     },
     {

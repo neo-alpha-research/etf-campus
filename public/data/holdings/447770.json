@@ -1,22 +1,22 @@
 {
   "ticker": "447770",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "테슬라",
-      "weight_pct": 29.43,
+      "weight_pct": 29.49,
       "shares": 422,
       "item_code": "TSLA.O"
     },
     {
       "name": "국고채권03250-3512(25-11)",
-      "weight_pct": 16.52,
+      "weight_pct": 16.46,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3506(25-5)",
-      "weight_pct": 15.79,
+      "weight_pct": 15.73,
       "shares": 0,
       "item_code": null
     },
@@ -28,20 +28,20 @@
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 11.64,
+      "weight_pct": 11.65,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 11.59,
+      "weight_pct": 11.6,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.34,
-      "shares": 16096790,
+      "weight_pct": 2.38,
+      "shares": 16331840,
       "item_code": null
     },
     {

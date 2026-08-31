@@ -1,622 +1,592 @@
 {
   "ticker": "487340",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "비엔케이썸제이십사차 20260814-61-1(단)",
-      "weight_pct": 4.52,
+      "weight_pct": 4.79,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이엠캐피탈105-4",
-      "weight_pct": 3.45,
+      "weight_pct": 3.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "부국증권 20260827-11-63(단)",
-      "weight_pct": 3.4,
+      "weight_pct": 3.61,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신세계센트럴 20260814-35-1(단)",
-      "weight_pct": 3.4,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "비에스에프플러스제일차 20260811-92-2(단)",
-      "weight_pct": 3.38,
+      "weight_pct": 3.6,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에이치씨디제십일차 20260824-92-1(단)",
-      "weight_pct": 3.37,
+      "weight_pct": 3.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비에스에프플러스제일차 20260811-92-2(단)",
+      "weight_pct": 3.58,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엑스에프알파제일차 20260831-30-2(단)",
+      "weight_pct": 3.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "루시드제육차 20260824-24-1(단)",
-      "weight_pct": 2.83,
+      "weight_pct": 3.0,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KB증권45-1",
-      "weight_pct": 2.29,
+      "weight_pct": 2.42,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "삼성바이오로직스8-1",
-      "weight_pct": 2.28,
+      "weight_pct": 2.41,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "에스디비제오차 20260602-92-3(단)",
-      "weight_pct": 2.27,
+      "name": "에프엔사나제일차 20260803-29-1(단)",
+      "weight_pct": 2.4,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "컬티베이션제십차 20260610-92-1(단)",
-      "weight_pct": 2.26,
+      "weight_pct": 2.4,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스디비제오차 20260602-92-3(단)",
+      "weight_pct": 2.4,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "세인트알파제일차 20260831-88-1(단)",
+      "weight_pct": 1.84,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이그레이스 20260604-92-1(단)",
-      "weight_pct": 1.7,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "뉴스타도곡제일차 20260821-10-1(단)",
-      "weight_pct": 1.59,
+      "weight_pct": 1.8,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "뉴스타이더제일차 20260824-30-1(단)",
-      "weight_pct": 1.3,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "S-Oil50-3",
-      "weight_pct": 1.14,
+      "weight_pct": 1.38,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나캐피탈401-5",
-      "weight_pct": 1.14,
+      "weight_pct": 1.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "SK308-1",
-      "weight_pct": 1.14,
+      "weight_pct": 1.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "메리츠캐피탈263-1",
-      "weight_pct": 1.14,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "연합자산관리33-1",
-      "weight_pct": 1.14,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "메리츠증권2410-1",
-      "weight_pct": 1.14,
+      "weight_pct": 1.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KT&G2-2",
-      "weight_pct": 1.14,
+      "weight_pct": 1.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "삼성물산115-1",
-      "weight_pct": 1.14,
+      "weight_pct": 1.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "키움증권7-2",
-      "weight_pct": 1.14,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "JB 우리캐피탈562-1",
-      "weight_pct": 1.14,
+      "weight_pct": 1.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "메리츠캐피탈252-5",
-      "weight_pct": 1.14,
+      "weight_pct": 1.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치헌인리파제일차 20260826-33-1(단)",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KB캐피탈(CP)",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "부국증권 20260821-11-52(단)",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "스위트에이치한남제일차 20260820-56-1(단)",
-      "weight_pct": 1.13,
+      "name": "S-Oil50-3",
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "부국증권 20260819-9-44(단)",
-      "weight_pct": 1.13,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "케이비흑석제일차 20260810-63-1(단)",
-      "weight_pct": 1.13,
+      "name": "메리츠증권2410-1",
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "큐브에스엔 20260729-62-1(단)",
-      "weight_pct": 1.13,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "에스유제일차 20260723-91-1(단)",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나금융지주69-1",
-      "weight_pct": 1.13,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "디아망제팔차 20260710-88-1(단)",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "예스코 20260710-82-1(단)",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "뉴스타글로벌본드제일차 20260702-92-1(단)",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국중부발전 20260615-81-11(단)",
-      "weight_pct": 1.13,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국민은행(CD)",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "메리츠캐피탈277-1",
-      "weight_pct": 1.13,
+      "weight_pct": 1.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경남은 (CD)",
+      "weight_pct": 1.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "스위트에이치한남제일차 20260820-56-1(단)",
+      "weight_pct": 1.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비흑석제일차 20260810-63-1(단)",
+      "weight_pct": 1.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에스유제일차 20260723-91-1(단)",
+      "weight_pct": 1.19,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "디아망제팔차 20260710-88-1(단)",
+      "weight_pct": 1.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KB증권(CP)",
-      "weight_pct": 1.12,
+      "weight_pct": 1.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KB증권(CP)",
-      "weight_pct": 1.12,
+      "weight_pct": 1.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KB증권(CP)",
-      "weight_pct": 1.12,
+      "weight_pct": 1.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에이치씨디제십일차 20260826-92-2(단)",
-      "weight_pct": 0.86,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "메리츠캐피탈262-3",
-      "weight_pct": 0.57,
+      "weight_pct": 0.91,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한카드 20260826-28-43(단)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "에이치아이베타제일 (CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "에이치아이베타제일 (CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "에이치아이베타제일 (CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.6,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신에프앤아이(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.6,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신에프앤아이(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경남은 (CD)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경남은 (CD)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK(CP)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK(CP)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "나이스을지로제일차 주식 (CP)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "나이스을지로제일차 주식 (CP)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "나이스을지로제일차 주식 (CP)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "나이스을지로제일차 주식 (CP)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈(CP)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈(CP)",
+      "weight_pct": 0.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "네오스타제팔차(CP)",
+      "weight_pct": 0.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "네오스타제팔차(CP)",
+      "weight_pct": 0.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "에이치아이베타제일 (CP)",
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "서울역제일차(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "경남은 (CD)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "경남은 (CD)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "제주은행(CD)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리서울역세권제일차 주 (CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "SK(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "SK(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리서울역세권제일차 주 (CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신증권(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신증권(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신증권(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신증권(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "유안타증권(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "유안타증권(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "나이스을지로제일차 주식 (CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "나이스을지로제일차 주식 (CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "나이스을지로제일차 주식 (CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "나이스을지로제일차 주식 (CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나증권(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나증권(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치에스에프씨 유한 (CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치에스에프씨 유한 (CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "클린에너지원큐제이차(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나증권(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "수협은행(CD)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "투에스제일차 주식회사(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "투에스제일차 주식회사(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "투에스제일차 주식회사(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "투에스제일차 주식회사(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "투에스제일차 주식회사(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "투에스제일차 주식회사(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "디비엠비피제십차(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이비케이캐피탈(CP)",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이비케이캐피탈(CP)",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이투자증권(CP)",
-      "weight_pct": 0.55,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이투자증권(CP)",
-      "weight_pct": 0.55,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이투자증권(CP)",
-      "weight_pct": 0.55,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이투자증권(CP)",
-      "weight_pct": 0.55,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈(CP)",
-      "weight_pct": 0.55,
+      "weight_pct": 0.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈(CP)",
-      "weight_pct": 0.55,
+      "weight_pct": 0.59,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "블랙래빗제일차 20260831-29-1(단)",
+      "weight_pct": 0.46,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "구로공간제이차 20260824-30-1(단)",
-      "weight_pct": 0.36,
+      "weight_pct": 0.39,
       "shares": 0,
       "item_code": null
     },
@@ -640,8 +610,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -5.21,
-      "shares": -5517407,
+      "weight_pct": -11.5,
+      "shares": -12171015,
       "item_code": null
     }
   ]

@@ -1,23 +1,23 @@
 {
   "ticker": "269420",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스왑(미래에셋증권)",
-      "weight_pct": 89.65,
-      "shares": 20145520,
+      "weight_pct": 89.68,
+      "shares": 19658568,
       "item_code": null
     },
     {
       "name": "iShares Global Infrastructure ETF",
-      "weight_pct": 10.15,
-      "shares": 24,
+      "weight_pct": 10.27,
+      "shares": 25,
       "item_code": "IGF.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.18,
-      "shares": 42289,
+      "weight_pct": 0.04,
+      "shares": 8826,
       "item_code": null
     }
   ]

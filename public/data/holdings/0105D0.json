@@ -1,52 +1,52 @@
 {
   "ticker": "0105D0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "NAVER",
-      "weight_pct": 25.71,
+      "weight_pct": 25.43,
       "shares": 585,
       "item_code": "035420"
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 19.67,
+      "weight_pct": 19.9,
       "shares": 414,
       "item_code": "018260"
     },
     {
       "name": "카카오",
-      "weight_pct": 17.32,
+      "weight_pct": 17.35,
       "shares": 2370,
       "item_code": "035720"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 12.34,
+      "weight_pct": 12.41,
       "shares": 147,
       "item_code": "307950"
     },
     {
       "name": "LG씨엔에스",
-      "weight_pct": 7.99,
+      "weight_pct": 8.18,
       "shares": 529,
       "item_code": "064400"
     },
     {
       "name": "카카오페이",
-      "weight_pct": 6.89,
+      "weight_pct": 6.73,
       "shares": 724,
       "item_code": "377300"
     },
     {
       "name": "NHN",
-      "weight_pct": 2.49,
+      "weight_pct": 2.6,
       "shares": 175,
       "item_code": "181710"
     },
     {
       "name": "클로봇",
-      "weight_pct": 2.18,
+      "weight_pct": 2.04,
       "shares": 404,
       "item_code": "466100"
     },
@@ -58,7 +58,7 @@
     },
     {
       "name": "아이티센글로벌",
-      "weight_pct": 0.95,
+      "weight_pct": 0.89,
       "shares": 124,
       "item_code": "124500"
     },
@@ -76,26 +76,26 @@
     },
     {
       "name": "다날",
-      "weight_pct": 0.44,
+      "weight_pct": 0.43,
       "shares": 405,
       "item_code": "064260"
     },
     {
       "name": "카페24",
-      "weight_pct": 0.44,
+      "weight_pct": 0.43,
       "shares": 129,
       "item_code": "042000"
     },
     {
       "name": "DB",
-      "weight_pct": 0.32,
+      "weight_pct": 0.34,
       "shares": 1076,
       "item_code": "012030"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.29,
-      "shares": 1439594,
+      "weight_pct": 0.27,
+      "shares": 1392921,
       "item_code": null
     }
   ]

@@ -1,11 +1,11 @@
 {
   "ticker": "273140",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 17.73,
-      "shares": 20326280,
+      "weight_pct": 21.31,
+      "shares": 24445592,
       "item_code": null
     },
     {
@@ -21,14 +21,14 @@
       "item_code": null
     },
     {
-      "name": "산금25변이0100-0917-1M",
+      "name": "부산은행2026-08이(변)1A-26",
       "weight_pct": 7.15,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "부산은행2026-08이(변)1A-26",
-      "weight_pct": 7.14,
+      "name": "산금25변이0100-0917-1M",
+      "weight_pct": 7.15,
       "shares": 0,
       "item_code": null
     },
@@ -39,8 +39,8 @@
       "item_code": null
     },
     {
-      "name": "수산금융채권(은행)25-9이12-22",
-      "weight_pct": 3.58,
+      "name": "부산은행2026-06이(변)1A-04",
+      "weight_pct": 3.57,
       "shares": 0,
       "item_code": null
     },
@@ -89,12 +89,6 @@
     {
       "name": "공급망안정화기금(변) 2601가-이표-1",
       "weight_pct": 3.57,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "부산은행2026-06이(변)1A-04",
-      "weight_pct": 3.56,
       "shares": 0,
       "item_code": null
     },

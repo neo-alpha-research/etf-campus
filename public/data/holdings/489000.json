@@ -1,23 +1,23 @@
 {
   "ticker": "489000",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 107.68,
-      "shares": 493777538,
+      "weight_pct": 109.01,
+      "shares": 493872437,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)_6369_20250710",
-      "weight_pct": -0.8,
-      "shares": -3679789,
+      "weight_pct": -0.92,
+      "shares": -4192953,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)_6369_20250430",
-      "weight_pct": -6.88,
-      "shares": -31553882,
+      "weight_pct": -8.08,
+      "shares": -36627391,
       "item_code": null
     }
   ]

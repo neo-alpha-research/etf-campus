@@ -1,17 +1,17 @@
 {
   "ticker": "145670",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 95.6,
-      "shares": 122686662,
+      "weight_pct": 92.77,
+      "shares": 121471133,
       "item_code": null
     },
     {
       "name": "KODEX 인버스",
-      "weight_pct": 4.23,
-      "shares": 5386,
+      "weight_pct": 7.06,
+      "shares": 9023,
       "item_code": "114800"
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "name": "2026-09 코스피200지수선물",
-      "weight_pct": -95.54,
+      "weight_pct": -91.75,
       "shares": 0,
       "item_code": null
     }

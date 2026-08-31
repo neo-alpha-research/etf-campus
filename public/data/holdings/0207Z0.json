@@ -1,83 +1,83 @@
 {
   "ticker": "0207Z0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스페이스X",
-      "weight_pct": 26.19,
+      "weight_pct": 26.55,
       "shares": 467,
       "item_code": "SPCX.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 20.8,
+      "weight_pct": 20.24,
       "shares": 783,
       "item_code": "RKLB.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 8.98,
+      "weight_pct": 9.32,
       "shares": 106,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 8.07,
+      "weight_pct": 8.19,
       "shares": 58,
       "item_code": "GOOGL.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 7.88,
+      "weight_pct": 8.06,
       "shares": 75,
       "item_code": "AMZN.O"
     },
     {
-      "name": "루멘텀 홀딩스",
-      "weight_pct": 5.13,
-      "shares": 13,
-      "item_code": "LITE.O"
-    },
-    {
       "name": "인텔",
-      "weight_pct": 4.87,
+      "weight_pct": 4.94,
       "shares": 137,
       "item_code": "INTC.O"
     },
     {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 4.89,
+      "shares": 13,
+      "item_code": "LITE.O"
+    },
+    {
       "name": "퍼스트 솔라",
-      "weight_pct": 4.29,
+      "weight_pct": 4.26,
       "shares": 51,
       "item_code": "FSLR.O"
     },
     {
       "name": "AST 스페이스모바일",
-      "weight_pct": 4.21,
+      "weight_pct": 4.09,
       "shares": 175,
       "item_code": "ASTS.O"
     },
     {
       "name": "ST 마이크로 일렉트로닉스 ADR",
-      "weight_pct": 3.81,
+      "weight_pct": 3.79,
       "shares": 191,
       "item_code": "STM"
     },
     {
       "name": "마이크로칩 테크놀러지",
-      "weight_pct": 3.55,
+      "weight_pct": 3.5,
       "shares": 119,
       "item_code": "MCHP.O"
     },
     {
       "name": "허니웰 에어로스페이스",
-      "weight_pct": 3.52,
+      "weight_pct": 3.49,
       "shares": 53,
       "item_code": "HONA.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.36,
-      "shares": -4693318,
+      "weight_pct": -1.37,
+      "shares": -4675242,
       "item_code": null
     }
   ]

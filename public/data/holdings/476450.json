@@ -1,6 +1,6 @@
 {
   "ticker": "476450",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "WON 전단채플러스액티브",
@@ -16,12 +16,6 @@
     },
     {
       "name": "삼성카드2651",
-      "weight_pct": 7.54,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "BNK캐피탈355-1",
       "weight_pct": 7.54,
       "shares": 0,
       "item_code": null
@@ -130,8 +124,8 @@
     },
     {
       "name": "원화예금",
-      "weight_pct": -34.96,
-      "shares": -36884330,
+      "weight_pct": -27.41,
+      "shares": -28931391,
       "item_code": null
     }
   ]

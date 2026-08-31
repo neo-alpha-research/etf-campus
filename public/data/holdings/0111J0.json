@@ -1,46 +1,46 @@
 {
   "ticker": "0111J0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "한국금융지주",
-      "weight_pct": 20.45,
+      "weight_pct": 20.69,
       "shares": 679,
       "item_code": "071050"
     },
     {
       "name": "키움증권",
-      "weight_pct": 20.14,
+      "weight_pct": 20.15,
       "shares": 458,
       "item_code": "039490"
     },
     {
       "name": "미래에셋증권",
-      "weight_pct": 17.37,
+      "weight_pct": 16.82,
       "shares": 3058,
       "item_code": "006800"
     },
     {
       "name": "NH투자증권",
-      "weight_pct": 15.72,
+      "weight_pct": 15.81,
       "shares": 3757,
       "item_code": "005940"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 14.56,
+      "weight_pct": 14.62,
       "shares": 1048,
       "item_code": "016360"
     },
     {
       "name": "신영증권",
-      "weight_pct": 5.25,
+      "weight_pct": 5.33,
       "shares": 215,
       "item_code": "001720"
     },
     {
       "name": "대신증권",
-      "weight_pct": 2.71,
+      "weight_pct": 2.76,
       "shares": 643,
       "item_code": "003540"
     },
@@ -52,20 +52,20 @@
     },
     {
       "name": "유진투자증권",
-      "weight_pct": 0.86,
+      "weight_pct": 0.88,
       "shares": 1266,
       "item_code": "001200"
     },
     {
       "name": "DB증권",
-      "weight_pct": 0.85,
+      "weight_pct": 0.86,
       "shares": 555,
       "item_code": "016610"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.16,
-      "shares": 1026410,
+      "shares": 1018844,
       "item_code": null
     }
   ]

@@ -1,46 +1,46 @@
 {
   "ticker": "449450",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 24.42,
+      "weight_pct": 24.36,
       "shares": 237,
       "item_code": "012450"
     },
     {
       "name": "한화오션",
-      "weight_pct": 18.42,
+      "weight_pct": 18.84,
       "shares": 2295,
       "item_code": "042660"
     },
     {
-      "name": "LIG디펜스앤에어로스페이스",
-      "weight_pct": 15.22,
-      "shares": 228,
-      "item_code": "079550"
-    },
-    {
       "name": "현대로템",
-      "weight_pct": 15.17,
+      "weight_pct": 15.52,
       "shares": 1222,
       "item_code": "064350"
     },
     {
+      "name": "LIG디펜스앤에어로스페이스",
+      "weight_pct": 14.76,
+      "shares": 228,
+      "item_code": "079550"
+    },
+    {
       "name": "한국항공우주",
-      "weight_pct": 14.68,
+      "weight_pct": 14.55,
       "shares": 1191,
       "item_code": "047810"
     },
     {
       "name": "한화시스템",
-      "weight_pct": 8.5,
+      "weight_pct": 8.31,
       "shares": 1218,
       "item_code": "272210"
     },
     {
       "name": "풍산",
-      "weight_pct": 2.19,
+      "weight_pct": 2.25,
       "shares": 295,
       "item_code": "103140"
     },
@@ -52,20 +52,20 @@
     },
     {
       "name": "SNT다이내믹스",
-      "weight_pct": 0.45,
+      "weight_pct": 0.44,
       "shares": 164,
       "item_code": "003570"
     },
     {
       "name": "엠앤씨솔루션",
-      "weight_pct": 0.15,
+      "weight_pct": 0.19,
       "shares": 117,
       "item_code": "484870"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.13,
-      "shares": 1490830,
+      "shares": 1408172,
       "item_code": null
     }
   ]

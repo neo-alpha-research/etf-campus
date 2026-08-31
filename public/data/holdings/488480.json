@@ -1,125 +1,125 @@
 {
   "ticker": "488480",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "히타치",
-      "weight_pct": 11.47,
+      "weight_pct": 11.92,
       "shares": 1631,
       "item_code": "6501.T"
     },
     {
       "name": "토요타자동차",
-      "weight_pct": 11.25,
+      "weight_pct": 11.35,
       "shares": 2768,
       "item_code": "7203.T"
     },
     {
       "name": "미쓰비시 UFJ 파이낸셜 그룹",
-      "weight_pct": 11.04,
+      "weight_pct": 11.21,
       "shares": 2330,
       "item_code": "8306.T"
     },
     {
       "name": "호야",
-      "weight_pct": 8.52,
+      "weight_pct": 8.28,
       "shares": 257,
       "item_code": "7741.T"
     },
     {
       "name": "어드반테스트",
-      "weight_pct": 6.77,
+      "weight_pct": 6.65,
       "shares": 143,
       "item_code": "6857.T"
     },
     {
       "name": "미쓰비시상사",
-      "weight_pct": 6.0,
+      "weight_pct": 6.05,
       "shares": 961,
       "item_code": "8058.T"
     },
     {
       "name": "소니 그룹",
-      "weight_pct": 5.98,
+      "weight_pct": 6.02,
       "shares": 1165,
       "item_code": "6758.T"
     },
     {
       "name": "미즈호 파이낸셜그룹",
-      "weight_pct": 5.54,
+      "weight_pct": 5.61,
       "shares": 503,
       "item_code": "8411.T"
     },
     {
       "name": "오츠카 홀딩스",
-      "weight_pct": 5.42,
+      "weight_pct": 5.37,
       "shares": 335,
       "item_code": "4578.T"
     },
     {
       "name": "키옥시아 홀딩스",
-      "weight_pct": 5.0,
+      "weight_pct": 4.76,
       "shares": 75,
       "item_code": "285A.T"
     },
     {
       "name": "후지쿠라",
-      "weight_pct": 4.49,
+      "weight_pct": 4.5,
       "shares": 640,
       "item_code": "5803.T"
     },
     {
       "name": "아스텔라스제약",
-      "weight_pct": 4.12,
+      "weight_pct": 4.01,
       "shares": 1285,
       "item_code": "4503.T"
     },
     {
       "name": "스미토모전기공업",
-      "weight_pct": 3.19,
+      "weight_pct": 3.12,
       "shares": 1090,
       "item_code": "5802.T"
     },
     {
       "name": "재팬토바코",
-      "weight_pct": 3.1,
+      "weight_pct": 3.07,
       "shares": 335,
       "item_code": "2914.T"
     },
     {
       "name": "시오노기제약",
-      "weight_pct": 2.29,
+      "weight_pct": 2.26,
       "shares": 591,
       "item_code": "4507.T"
     },
     {
       "name": "유초은행",
-      "weight_pct": 1.58,
+      "weight_pct": 1.61,
       "shares": 368,
       "item_code": "7182.T"
     },
     {
       "name": "후루카와 전기공업",
-      "weight_pct": 1.32,
+      "weight_pct": 1.31,
       "shares": 256,
       "item_code": "5801.T"
     },
     {
       "name": "이비덴",
-      "weight_pct": 1.32,
+      "weight_pct": 1.31,
       "shares": 49,
       "item_code": "4062.T"
     },
     {
       "name": "미쓰비시부동산",
-      "weight_pct": 1.17,
+      "weight_pct": 1.18,
       "shares": 234,
       "item_code": "8802.T"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.31,
-      "shares": 2088039,
+      "shares": 2017679,
       "item_code": null
     }
   ]

@@ -1,29 +1,29 @@
 {
   "ticker": "319640",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 90.33,
-      "shares": 1222325128,
+      "weight_pct": 90.45,
+      "shares": 1191213101,
       "item_code": null
     },
     {
       "name": "GOLD 100 OZ FUT COMEX DEC 2026",
-      "weight_pct": 90.17,
+      "weight_pct": 89.38,
       "shares": 1,
       "item_code": null
     },
     {
       "name": "SPDR Gold Shares",
-      "weight_pct": 9.66,
+      "weight_pct": 9.54,
       "shares": 224,
       "item_code": "GLD"
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -56.66,
-      "shares": -55,
+      "weight_pct": -56.99,
+      "shares": -54,
       "item_code": null
     }
   ]

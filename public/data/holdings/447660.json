@@ -1,58 +1,58 @@
 {
   "ticker": "447660",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "애플",
-      "weight_pct": 30.01,
-      "shares": 474,
+      "weight_pct": 30.32,
+      "shares": 475,
       "item_code": "AAPL.O"
     },
     {
       "name": "PLUS 국채선물3년",
-      "weight_pct": 20.56,
+      "weight_pct": 20.49,
       "shares": 2483,
       "item_code": "298340"
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 9.34,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고채권02750-2812(25-10)",
       "weight_pct": 9.29,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "국고채권02750-2812(25-10)",
+      "weight_pct": 9.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 9.25,
+      "weight_pct": 9.22,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "RISE 국고채3년",
-      "weight_pct": 7.55,
+      "weight_pct": 7.53,
       "shares": 483,
       "item_code": "114100"
     },
     {
       "name": "TIGER 국채3년",
-      "weight_pct": 7.44,
+      "weight_pct": 7.42,
       "shares": 483,
       "item_code": "114820"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.97,
-      "shares": 34026397,
+      "weight_pct": 4.9,
+      "shares": 33665552,
       "item_code": null
     },
     {
       "name": "ACE 국고채3년",
-      "weight_pct": 0.95,
+      "weight_pct": 0.94,
       "shares": 64,
       "item_code": "114460"
     },

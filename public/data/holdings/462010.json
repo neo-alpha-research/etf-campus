@@ -1,66 +1,66 @@
 {
   "ticker": "462010",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 21.87,
+      "weight_pct": 23.17,
       "shares": 302,
       "item_code": "003670"
     },
     {
       "name": "에코프로",
-      "weight_pct": 20.09,
+      "weight_pct": 19.39,
       "shares": 555,
       "item_code": "086520"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 18.34,
+      "weight_pct": 18.26,
       "shares": 395,
       "item_code": "247540"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 17.77,
+      "weight_pct": 17.23,
       "shares": 133,
       "item_code": "005490"
     },
     {
       "name": "LG화학",
-      "weight_pct": 10.47,
+      "weight_pct": 10.39,
       "shares": 97,
       "item_code": "051910"
     },
     {
       "name": "엘앤에프",
-      "weight_pct": 2.91,
+      "weight_pct": 3.2,
       "shares": 57,
       "item_code": "066970"
     },
     {
       "name": "SKC",
-      "weight_pct": 1.77,
+      "weight_pct": 1.72,
       "shares": 50,
       "item_code": "011790"
     },
     {
       "name": "에코프로머티",
-      "weight_pct": 1.09,
+      "weight_pct": 1.06,
       "shares": 72,
       "item_code": "450080"
     },
     {
-      "name": "대주전자재료",
-      "weight_pct": 0.83,
-      "shares": 23,
-      "item_code": "078600"
-    },
-    {
       "name": "롯데에너지머티리얼즈",
-      "weight_pct": 0.8,
+      "weight_pct": 0.83,
       "shares": 58,
       "item_code": "020150"
+    },
+    {
+      "name": "대주전자재료",
+      "weight_pct": 0.81,
+      "shares": 23,
+      "item_code": "078600"
     },
     {
       "name": "코스모신소재",
@@ -70,37 +70,37 @@
     },
     {
       "name": "후성",
-      "weight_pct": 0.57,
+      "weight_pct": 0.55,
       "shares": 111,
       "item_code": "093370"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 0.44,
+      "shares": 1163343,
+      "item_code": null
+    },
+    {
       "name": "SK아이이테크놀로지",
-      "weight_pct": 0.5,
+      "weight_pct": 0.43,
       "shares": 71,
       "item_code": "361610"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.46,
-      "shares": 1174888,
-      "item_code": null
-    },
-    {
       "name": "나노신소재",
-      "weight_pct": 0.38,
+      "weight_pct": 0.37,
       "shares": 19,
       "item_code": "121600"
     },
     {
       "name": "엔켐",
-      "weight_pct": 0.36,
+      "weight_pct": 0.34,
       "shares": 41,
       "item_code": "348370"
     },
     {
       "name": "성일하이텍",
-      "weight_pct": 0.24,
+      "weight_pct": 0.25,
       "shares": 17,
       "item_code": "365340"
     },
@@ -118,13 +118,13 @@
     },
     {
       "name": "더블유씨피",
-      "weight_pct": 0.17,
+      "weight_pct": 0.16,
       "shares": 45,
       "item_code": "393890"
     },
     {
       "name": "에코앤드림",
-      "weight_pct": 0.09,
+      "weight_pct": 0.11,
       "shares": 31,
       "item_code": "101360"
     }

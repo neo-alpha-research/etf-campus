@@ -1,65 +1,65 @@
 {
   "ticker": "0114X0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "마이크로소프트",
-      "weight_pct": 24.84,
+      "weight_pct": 25.47,
       "shares": 156,
       "item_code": "MSFT.O"
     },
     {
       "name": "닌텐도",
-      "weight_pct": 24.59,
+      "weight_pct": 24.55,
       "shares": 1379,
       "item_code": "7974.T"
     },
     {
       "name": "델테크놀로지",
-      "weight_pct": 20.6,
+      "weight_pct": 20.08,
       "shares": 139,
       "item_code": "DELL.K"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 5.63,
+      "weight_pct": 5.78,
       "shares": 84,
       "item_code": "NVDA.O"
     },
     {
       "name": "텐센트",
-      "weight_pct": 5.1,
+      "weight_pct": 5.16,
       "shares": 281,
       "item_code": "0700.HK"
     },
     {
-      "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 5.09,
-      "shares": 33,
-      "item_code": "AMD.O"
-    },
-    {
       "name": "테이크-투 인터랙티브 소프트웨어",
-      "weight_pct": 5.09,
+      "weight_pct": 5.08,
       "shares": 68,
       "item_code": "TTWO.O"
     },
     {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 4.88,
+      "shares": 33,
+      "item_code": "AMD.O"
+    },
+    {
       "name": "넷이즈",
-      "weight_pct": 5.01,
+      "weight_pct": 4.88,
       "shares": 629,
       "item_code": "9999.HK"
     },
     {
       "name": "로블록스",
-      "weight_pct": 3.73,
+      "weight_pct": 3.79,
       "shares": 311,
       "item_code": "RBLX.K"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.28,
-      "shares": 1253021,
+      "shares": 1214917,
       "item_code": null
     }
   ]

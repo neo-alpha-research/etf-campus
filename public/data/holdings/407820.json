@@ -1,54 +1,54 @@
 {
   "ticker": "407820",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼성전자우",
-      "weight_pct": 10.11,
+      "weight_pct": 9.73,
       "shares": 323,
       "item_code": "005935"
     },
     {
       "name": "NAVER",
-      "weight_pct": 8.47,
+      "weight_pct": 8.52,
       "shares": 243,
       "item_code": "035420"
     },
     {
       "name": "SK",
-      "weight_pct": 8.24,
+      "weight_pct": 8.1,
       "shares": 92,
       "item_code": "034730"
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.37,
-      "shares": 45740905,
+      "weight_pct": 7.38,
+      "shares": 45691287,
       "item_code": null
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 6.87,
+      "weight_pct": 6.92,
       "shares": 223,
       "item_code": "071050"
     },
     {
       "name": "영원무역",
-      "weight_pct": 5.45,
+      "weight_pct": 5.38,
       "shares": 461,
       "item_code": "111770"
     },
     {
-      "name": "인바디",
-      "weight_pct": 4.9,
-      "shares": 503,
-      "item_code": "041830"
-    },
-    {
       "name": "한국콜마",
-      "weight_pct": 4.62,
+      "weight_pct": 5.09,
       "shares": 197,
       "item_code": "161890"
+    },
+    {
+      "name": "인바디",
+      "weight_pct": 4.89,
+      "shares": 503,
+      "item_code": "041830"
     },
     {
       "name": "LS",
@@ -64,91 +64,91 @@
     },
     {
       "name": "제닉",
-      "weight_pct": 3.31,
+      "weight_pct": 3.63,
       "shares": 609,
       "item_code": "123330"
     },
     {
       "name": "아이센스",
-      "weight_pct": 3.3,
+      "weight_pct": 3.38,
       "shares": 1163,
       "item_code": "099190"
     },
     {
       "name": "두산테스나",
-      "weight_pct": 3.18,
+      "weight_pct": 3.08,
       "shares": 238,
       "item_code": "131970"
     },
     {
+      "name": "에이피알",
+      "weight_pct": 2.85,
+      "shares": 38,
+      "item_code": "278470"
+    },
+    {
       "name": "SK텔레콤",
-      "weight_pct": 2.89,
+      "weight_pct": 2.75,
       "shares": 181,
       "item_code": "017670"
     },
     {
       "name": "에스티팜",
-      "weight_pct": 2.71,
+      "weight_pct": 2.58,
       "shares": 152,
       "item_code": "237690"
     },
     {
-      "name": "에이피알",
-      "weight_pct": 2.66,
-      "shares": 38,
-      "item_code": "278470"
-    },
-    {
       "name": "씨어스",
-      "weight_pct": 2.5,
+      "weight_pct": 2.43,
       "shares": 713,
       "item_code": "458870"
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 1.99,
+      "weight_pct": 2.05,
       "shares": 53,
       "item_code": "018260"
     },
     {
-      "name": "미래에셋증권",
-      "weight_pct": 1.98,
-      "shares": 341,
-      "item_code": "006800"
-    },
-    {
-      "name": "토모큐브",
-      "weight_pct": 1.97,
-      "shares": 398,
-      "item_code": "475960"
-    },
-    {
       "name": "노타",
-      "weight_pct": 1.96,
+      "weight_pct": 1.97,
       "shares": 650,
       "item_code": "486990"
     },
     {
+      "name": "토모큐브",
+      "weight_pct": 1.96,
+      "shares": 398,
+      "item_code": "475960"
+    },
+    {
+      "name": "미래에셋증권",
+      "weight_pct": 1.91,
+      "shares": 341,
+      "item_code": "006800"
+    },
+    {
       "name": "에이비엘바이오",
-      "weight_pct": 1.78,
+      "weight_pct": 1.71,
       "shares": 146,
       "item_code": "298380"
     },
     {
-      "name": "에이디테크놀로지",
-      "weight_pct": 1.73,
-      "shares": 407,
-      "item_code": "200710"
-    },
-    {
       "name": "현대백화점",
-      "weight_pct": 1.67,
+      "weight_pct": 1.68,
       "shares": 109,
       "item_code": "069960"
     },
     {
+      "name": "에이디테크놀로지",
+      "weight_pct": 1.66,
+      "shares": 407,
+      "item_code": "200710"
+    },
+    {
       "name": "오픈엣지테크놀로지",
-      "weight_pct": 1.63,
+      "weight_pct": 1.62,
       "shares": 1088,
       "item_code": "394280"
     }

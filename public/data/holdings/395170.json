@@ -1,28 +1,28 @@
 {
   "ticker": "395170",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 11.62,
+      "weight_pct": 11.9,
       "shares": 493,
       "item_code": "373220"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 11.04,
+      "weight_pct": 11.11,
       "shares": 462,
       "item_code": "028260"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 10.73,
+      "weight_pct": 10.52,
       "shares": 634,
       "item_code": "005930"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 10.47,
+      "weight_pct": 10.2,
       "shares": 154,
       "item_code": "402340"
     },
@@ -33,39 +33,39 @@
       "item_code": "032830"
     },
     {
+      "name": "삼성전기",
+      "weight_pct": 9.77,
+      "shares": 105,
+      "item_code": "009150"
+    },
+    {
       "name": "SK하이닉스",
-      "weight_pct": 9.91,
+      "weight_pct": 9.62,
       "shares": 90,
       "item_code": "000660"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 9.45,
+      "weight_pct": 9.53,
       "shares": 329,
       "item_code": "012330"
     },
     {
-      "name": "삼성전기",
-      "weight_pct": 9.25,
-      "shares": 105,
-      "item_code": "009150"
-    },
-    {
       "name": "HD현대중공업",
-      "weight_pct": 8.76,
+      "weight_pct": 8.41,
       "shares": 293,
       "item_code": "329180"
     },
     {
       "name": "현대차",
-      "weight_pct": 8.05,
+      "weight_pct": 8.19,
       "shares": 318,
       "item_code": "005380"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.58,
-      "shares": 9146656,
+      "weight_pct": 0.56,
+      "shares": 8834805,
       "item_code": null
     }
   ]

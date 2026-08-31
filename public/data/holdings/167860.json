@@ -1,35 +1,35 @@
 {
   "ticker": "167860",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "10년국채 F 202609",
-      "weight_pct": 94.23,
+      "weight_pct": 94.98,
       "shares": 8,
       "item_code": null
     },
     {
       "name": "국고채권03250-3512(25-11)",
-      "weight_pct": 35.36,
+      "weight_pct": 35.6,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03000-3412(24-13)",
-      "weight_pct": 35.01,
+      "weight_pct": 35.28,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3506(25-5)",
-      "weight_pct": 33.8,
+      "weight_pct": 34.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -4.18,
-      "shares": -39186554,
+      "weight_pct": -4.93,
+      "shares": -45512232,
       "item_code": null
     }
   ]

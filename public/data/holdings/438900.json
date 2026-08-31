@@ -1,101 +1,101 @@
 {
   "ticker": "438900",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼양식품",
-      "weight_pct": 18.34,
+      "weight_pct": 18.44,
       "shares": 73,
       "item_code": "003230"
     },
     {
       "name": "농심",
-      "weight_pct": 15.95,
+      "weight_pct": 16.1,
       "shares": 220,
       "item_code": "004370"
     },
     {
       "name": "오리온",
-      "weight_pct": 13.28,
+      "weight_pct": 13.3,
       "shares": 620,
       "item_code": "271560"
     },
     {
       "name": "CJ제일제당",
-      "weight_pct": 13.0,
+      "weight_pct": 12.65,
       "shares": 411,
       "item_code": "097950"
     },
     {
       "name": "오뚜기",
-      "weight_pct": 6.31,
+      "weight_pct": 6.33,
       "shares": 114,
       "item_code": "007310"
     },
     {
       "name": "빙그레",
-      "weight_pct": 5.52,
+      "weight_pct": 5.36,
       "shares": 359,
       "item_code": "005180"
     },
     {
       "name": "롯데칠성",
-      "weight_pct": 4.85,
+      "weight_pct": 4.82,
       "shares": 293,
       "item_code": "005300"
     },
     {
       "name": "동원산업",
-      "weight_pct": 4.69,
+      "weight_pct": 4.64,
       "shares": 732,
       "item_code": "006040"
     },
     {
       "name": "대상",
-      "weight_pct": 4.55,
+      "weight_pct": 4.62,
       "shares": 1532,
       "item_code": "001680"
     },
     {
       "name": "롯데웰푸드",
-      "weight_pct": 3.85,
+      "weight_pct": 4.01,
       "shares": 167,
       "item_code": "280360"
     },
     {
       "name": "CJ프레시웨이",
-      "weight_pct": 1.97,
+      "weight_pct": 1.94,
       "shares": 487,
       "item_code": "051500"
     },
     {
-      "name": "농심홀딩스",
-      "weight_pct": 1.93,
-      "shares": 121,
-      "item_code": "072710"
-    },
-    {
       "name": "이지홀딩스",
-      "weight_pct": 1.9,
+      "weight_pct": 1.91,
       "shares": 2496,
       "item_code": "035810"
     },
     {
+      "name": "농심홀딩스",
+      "weight_pct": 1.9,
+      "shares": 121,
+      "item_code": "072710"
+    },
+    {
       "name": "풀무원",
-      "weight_pct": 1.75,
+      "weight_pct": 1.76,
       "shares": 1083,
       "item_code": "017810"
     },
     {
       "name": "선진",
-      "weight_pct": 1.61,
+      "weight_pct": 1.57,
       "shares": 939,
       "item_code": "136490"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.6,
-      "shares": 3544993,
+      "weight_pct": 0.57,
+      "shares": 3495671,
       "item_code": null
     }
   ]

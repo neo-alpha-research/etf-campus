@@ -1,17 +1,17 @@
 {
   "ticker": "465620",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 98.42,
-      "shares": 322642662,
+      "weight_pct": 99.83,
+      "shares": 322688254,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)",
-      "weight_pct": 1.57,
-      "shares": 5162373,
+      "weight_pct": 0.16,
+      "shares": 533927,
       "item_code": null
     }
   ]

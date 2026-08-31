@@ -1,23 +1,23 @@
 {
   "ticker": "160580",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "창고증권(구리)",
-      "weight_pct": 97.79,
+      "weight_pct": 97.8,
       "shares": 20060,
       "item_code": null
     },
     {
-      "name": "COPPER FUT COMEX SEPT 2026",
-      "weight_pct": 2.74,
-      "shares": 0,
+      "name": "원화현금",
+      "weight_pct": 2.16,
+      "shares": 8886909,
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.17,
-      "shares": 9018845,
+      "name": "COPPER FUT COMEX DEC 2026",
+      "weight_pct": 1.66,
+      "shares": 0,
       "item_code": null
     },
     {

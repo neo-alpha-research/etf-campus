@@ -1,58 +1,58 @@
 {
   "ticker": "473490",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "TSMC ADR",
-      "weight_pct": 20.32,
+      "weight_pct": 20.05,
       "shares": 520,
       "item_code": "TSM"
     },
     {
-      "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 20.09,
-      "shares": 447,
-      "item_code": "AMD.O"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 19.26,
+      "weight_pct": 19.73,
       "shares": 983,
       "item_code": "NVDA.O"
     },
     {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 19.2,
+      "shares": 447,
+      "item_code": "AMD.O"
+    },
+    {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 12.16,
+      "weight_pct": 12.21,
       "shares": 388,
       "item_code": "CDNS.O"
     },
     {
       "name": "시놉시스",
-      "weight_pct": 9.91,
+      "weight_pct": 10.57,
       "shares": 258,
       "item_code": "SNPS.O"
     },
     {
       "name": "ASE 테크놀로지 홀딩 ADR",
-      "weight_pct": 7.67,
+      "weight_pct": 7.68,
       "shares": 2203,
       "item_code": "ASX"
     },
     {
       "name": "유나이티드 마이크로일렉트로닉 ADR",
-      "weight_pct": 5.91,
+      "weight_pct": 6.07,
       "shares": 3324,
       "item_code": "UMC"
     },
     {
       "name": "래티스 세미컨덕터",
-      "weight_pct": 2.22,
+      "weight_pct": 2.1,
       "shares": 199,
       "item_code": "LSCC.O"
     },
     {
       "name": "글로벌파운드리",
-      "weight_pct": 0.75,
+      "weight_pct": 0.73,
       "shares": 177,
       "item_code": "GFS.O"
     },
@@ -88,13 +88,13 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.1,
-      "shares": 1503511,
+      "weight_pct": 0.09,
+      "shares": 1418401,
       "item_code": null
     },
     {
       "name": "SFA반도체",
-      "weight_pct": 0.04,
+      "weight_pct": 0.03,
       "shares": 103,
       "item_code": "036540"
     }

@@ -1,160 +1,160 @@
 {
   "ticker": "385590",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 24.35,
+      "weight_pct": 23.98,
       "shares": 2197,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 15.35,
+      "weight_pct": 14.97,
       "shares": 213,
       "item_code": "000660"
     },
     {
+      "name": "삼성전기",
+      "weight_pct": 5.87,
+      "shares": 96,
+      "item_code": "009150"
+    },
+    {
       "name": "SK스퀘어",
-      "weight_pct": 5.96,
+      "weight_pct": 5.83,
       "shares": 134,
       "item_code": "402340"
     },
     {
       "name": "KB금융",
-      "weight_pct": 5.6,
+      "weight_pct": 5.82,
       "shares": 800,
       "item_code": "105560"
     },
     {
-      "name": "삼성전기",
-      "weight_pct": 5.54,
-      "shares": 96,
-      "item_code": "009150"
-    },
-    {
       "name": "두산에너빌리티",
-      "weight_pct": 4.71,
+      "weight_pct": 4.56,
       "shares": 1317,
       "item_code": "034020"
     },
     {
       "name": "신한지주",
-      "weight_pct": 4.42,
+      "weight_pct": 4.46,
       "shares": 976,
       "item_code": "055550"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 3.89,
+      "weight_pct": 3.93,
       "shares": 249,
       "item_code": "028260"
     },
     {
       "name": "하나금융지주",
-      "weight_pct": 3.77,
+      "weight_pct": 3.88,
       "shares": 678,
       "item_code": "086790"
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.02,
-      "shares": 72476801,
+      "weight_pct": 3.03,
+      "shares": 72285812,
       "item_code": null
     },
     {
       "name": "SK",
-      "weight_pct": 2.96,
+      "weight_pct": 2.92,
       "shares": 128,
       "item_code": "034730"
     },
     {
       "name": "LG전자",
-      "weight_pct": 2.62,
+      "weight_pct": 2.89,
       "shares": 318,
       "item_code": "066570"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 2.6,
+      "weight_pct": 2.68,
       "shares": 169,
       "item_code": "373220"
     },
     {
       "name": "HD현대일렉트릭",
-      "weight_pct": 2.56,
+      "weight_pct": 2.45,
       "shares": 75,
       "item_code": "267260"
     },
     {
       "name": "LG화학",
-      "weight_pct": 1.39,
+      "weight_pct": 1.43,
       "shares": 122,
       "item_code": "051910"
     },
     {
       "name": "NAVER",
-      "weight_pct": 1.38,
+      "weight_pct": 1.4,
       "shares": 154,
       "item_code": "035420"
     },
     {
-      "name": "효성중공업",
-      "weight_pct": 1.28,
-      "shares": 10,
-      "item_code": "298040"
-    },
-    {
       "name": "삼양식품",
-      "weight_pct": 1.23,
+      "weight_pct": 1.28,
       "shares": 20,
       "item_code": "003230"
     },
     {
-      "name": "SK텔레콤",
-      "weight_pct": 1.14,
-      "shares": 278,
-      "item_code": "017670"
+      "name": "효성중공업",
+      "weight_pct": 1.24,
+      "shares": 10,
+      "item_code": "298040"
     },
     {
       "name": "HD현대",
-      "weight_pct": 1.08,
+      "weight_pct": 1.11,
       "shares": 121,
       "item_code": "267250"
     },
     {
       "name": "현대글로비스",
-      "weight_pct": 1.08,
+      "weight_pct": 1.11,
       "shares": 128,
       "item_code": "086280"
     },
     {
+      "name": "SK텔레콤",
+      "weight_pct": 1.09,
+      "shares": 278,
+      "item_code": "017670"
+    },
+    {
+      "name": "SK이노베이션",
+      "weight_pct": 0.96,
+      "shares": 184,
+      "item_code": "096770"
+    },
+    {
       "name": "삼성바이오로직스",
-      "weight_pct": 0.99,
+      "weight_pct": 0.95,
       "shares": 15,
       "item_code": "207940"
     },
     {
       "name": "셀트리온",
-      "weight_pct": 0.9,
+      "weight_pct": 0.89,
       "shares": 113,
       "item_code": "068270"
     },
     {
-      "name": "SK이노베이션",
-      "weight_pct": 0.85,
-      "shares": 184,
-      "item_code": "096770"
-    },
-    {
       "name": "현대건설",
-      "weight_pct": 0.66,
+      "weight_pct": 0.64,
       "shares": 124,
       "item_code": "000720"
     },
     {
       "name": "한전기술",
-      "weight_pct": 0.54,
+      "weight_pct": 0.5,
       "shares": 104,
       "item_code": "052690"
     }

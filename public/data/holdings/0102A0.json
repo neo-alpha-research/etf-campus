@@ -1,71 +1,71 @@
 {
   "ticker": "0102A0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 25.05,
+      "weight_pct": 24.55,
       "shares": 438,
       "item_code": "PLTR.O"
     },
     {
       "name": "세일즈포스",
-      "weight_pct": 18.08,
+      "weight_pct": 21.02,
       "shares": 273,
       "item_code": "CRM"
     },
     {
       "name": "오라클",
-      "weight_pct": 13.99,
+      "weight_pct": 13.24,
       "shares": 292,
       "item_code": "ORCL.K"
     },
     {
       "name": "피그마",
-      "weight_pct": 9.6,
+      "weight_pct": 9.56,
       "shares": 1104,
       "item_code": "FIG"
     },
     {
       "name": "앱러빈",
-      "weight_pct": 8.24,
+      "weight_pct": 7.93,
       "shares": 83,
       "item_code": "APP.O"
     },
     {
       "name": "스노우플레이크",
-      "weight_pct": 7.96,
+      "weight_pct": 7.73,
       "shares": 78,
       "item_code": "SNOW.K"
     },
     {
       "name": "템퍼스 AI",
-      "weight_pct": 7.6,
+      "weight_pct": 6.63,
       "shares": 344,
       "item_code": "TEM.O"
     },
     {
-      "name": "패스틀리",
-      "weight_pct": 3.49,
-      "shares": 466,
-      "item_code": "FSLY.O"
-    },
-    {
       "name": "서비스나우",
-      "weight_pct": 3.49,
+      "weight_pct": 3.75,
       "shares": 86,
       "item_code": "NOW"
     },
     {
+      "name": "패스틀리",
+      "weight_pct": 3.22,
+      "shares": 466,
+      "item_code": "FSLY.O"
+    },
+    {
       "name": "이노데이터",
-      "weight_pct": 2.03,
+      "weight_pct": 1.92,
       "shares": 113,
       "item_code": "INOD.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.41,
-      "shares": 1767230,
+      "weight_pct": 0.39,
+      "shares": 1798033,
       "item_code": null
     }
   ]

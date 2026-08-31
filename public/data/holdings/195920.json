@@ -1,28 +1,28 @@
 {
   "ticker": "195920",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "일본TOPIX TRS(미래에셋증권) TRS 230605-0",
-      "weight_pct": 49.02,
-      "shares": 347642234,
+      "weight_pct": 49.13,
+      "shares": 351402807,
       "item_code": null
     },
     {
       "name": "일본TOPIX TRS(KB증권) TRS 230605-02",
       "weight_pct": 29.88,
-      "shares": 211892496,
+      "shares": 213755735,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 19.95,
-      "shares": 141492384,
+      "weight_pct": 19.85,
+      "shares": 141988360,
       "item_code": null
     },
     {
       "name": "Nomura NF TOPIX ETF",
-      "weight_pct": 1.13,
+      "weight_pct": 1.12,
       "shares": 2175,
       "item_code": "1306.T"
     }

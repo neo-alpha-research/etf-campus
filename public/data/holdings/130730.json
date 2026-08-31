@@ -1,6 +1,6 @@
 {
   "ticker": "130730",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "통화안정증권02700-2703-01",
@@ -11,6 +11,12 @@
     {
       "name": "산업금융채권24신이0200-1223-2",
       "weight_pct": 8.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02620-2704-02",
+      "weight_pct": 8.07,
       "shares": 0,
       "item_code": null
     },
@@ -33,13 +39,7 @@
       "item_code": null
     },
     {
-      "name": "통화안정증권02620-2704-02",
-      "weight_pct": 8.06,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리은행29-11-이표01-갑-21",
+      "name": "하나은행49-04이1갑-30",
       "weight_pct": 8.05,
       "shares": 0,
       "item_code": null
@@ -57,8 +57,8 @@
       "item_code": null
     },
     {
-      "name": "중소기업은행(신)2512할1A-18",
-      "weight_pct": 7.98,
+      "name": "산업금융채권25신이0200-0717-2",
+      "weight_pct": 7.99,
       "shares": 0,
       "item_code": null
     },
@@ -76,8 +76,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.6,
-      "shares": 3707744,
+      "weight_pct": 3.58,
+      "shares": 3691428,
       "item_code": null
     }
   ]

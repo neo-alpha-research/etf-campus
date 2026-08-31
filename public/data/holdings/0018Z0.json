@@ -1,132 +1,126 @@
 {
   "ticker": "0018Z0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
+      "name": "알파벳 Class A",
+      "weight_pct": 8.66,
+      "shares": 161,
+      "item_code": "GOOGL.O"
+    },
+    {
       "name": "마이크로소프트",
-      "weight_pct": 8.75,
-      "shares": 113,
+      "weight_pct": 8.45,
+      "shares": 106,
       "item_code": "MSFT.O"
     },
     {
       "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 8.46,
-      "shares": 237,
+      "weight_pct": 7.68,
+      "shares": 210,
       "item_code": "IBM"
     },
     {
-      "name": "알파벳 Class A",
-      "weight_pct": 6.96,
-      "shares": 131,
-      "item_code": "GOOGL.O"
-    },
-    {
-      "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 6.79,
-      "shares": 179,
-      "item_code": "MRVL.O"
-    },
-    {
       "name": "아마존닷컴",
-      "weight_pct": 6.7,
-      "shares": 166,
+      "weight_pct": 7.36,
+      "shares": 178,
       "item_code": "AMZN.O"
     },
     {
-      "name": "휴렛패커드 엔터프라이즈",
-      "weight_pct": 6.41,
-      "shares": 750,
-      "item_code": "HPE"
-    },
-    {
-      "name": "팔로 알토 네트웍스",
-      "weight_pct": 5.82,
-      "shares": 111,
-      "item_code": "PANW.O"
-    },
-    {
       "name": "아이온큐",
-      "weight_pct": 5.77,
-      "shares": 932,
+      "weight_pct": 6.79,
+      "shares": 1115,
       "item_code": "IONQ.K"
     },
     {
+      "name": "퀀텀 컴퓨팅",
+      "weight_pct": 6.11,
+      "shares": 4827,
+      "item_code": "QUBT.O"
+    },
+    {
+      "name": "마이크로칩 테크놀러지",
+      "weight_pct": 5.82,
+      "shares": 514,
+      "item_code": "MCHP.O"
+    },
+    {
       "name": "엔비디아",
-      "weight_pct": 5.74,
-      "shares": 177,
+      "weight_pct": 5.71,
+      "shares": 169,
       "item_code": "NVDA.O"
     },
     {
       "name": "리게티 컴퓨팅",
-      "weight_pct": 5.42,
-      "shares": 2198,
+      "weight_pct": 5.47,
+      "shares": 2259,
       "item_code": "RGTI.O"
     },
     {
-      "name": "마이크로칩 테크놀러지",
-      "weight_pct": 5.35,
-      "shares": 467,
-      "item_code": "MCHP.O"
-    },
-    {
-      "name": "퀀텀 컴퓨팅",
-      "weight_pct": 5.07,
-      "shares": 3925,
-      "item_code": "QUBT.O"
-    },
-    {
-      "name": "인플렉션",
-      "weight_pct": 5.01,
-      "shares": 2395,
-      "item_code": "INFQ.K"
-    },
-    {
       "name": "디 웨이브 퀀텀",
-      "weight_pct": 4.75,
-      "shares": 1754,
+      "weight_pct": 4.86,
+      "shares": 1842,
       "item_code": "QBTS.O"
     },
     {
-      "name": "포티넷",
-      "weight_pct": 2.94,
-      "shares": 121,
-      "item_code": "FTNT.O"
+      "name": "인플렉션",
+      "weight_pct": 4.73,
+      "shares": 2382,
+      "item_code": "INFQ.K"
+    },
+    {
+      "name": "팔로 알토 네트웍스",
+      "weight_pct": 4.61,
+      "shares": 80,
+      "item_code": "PANW.O"
+    },
+    {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 4.2,
+      "shares": 125,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "시스코 시스템즈",
+      "weight_pct": 4.08,
+      "shares": 239,
+      "item_code": "CSCO.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 3.69,
+      "shares": 32560592,
+      "item_code": null
+    },
+    {
+      "name": "휴렛패커드 엔터프라이즈",
+      "weight_pct": 3.52,
+      "shares": 434,
+      "item_code": "HPE"
     },
     {
       "name": "유니시스",
-      "weight_pct": 2.77,
-      "shares": 6871,
+      "weight_pct": 3.25,
+      "shares": 7790,
       "item_code": "UIS"
     },
     {
       "name": "폼팩터",
-      "weight_pct": 2.67,
-      "shares": 159,
+      "weight_pct": 2.03,
+      "shares": 129,
       "item_code": "FORM.O"
     },
     {
       "name": "실바코 그룹",
-      "weight_pct": 1.69,
-      "shares": 1630,
+      "weight_pct": 1.89,
+      "shares": 1781,
       "item_code": "SVCO.O"
     },
     {
-      "name": "온투 이노베이션",
-      "weight_pct": 1.53,
-      "shares": 33,
-      "item_code": "ONTO.K"
-    },
-    {
       "name": "줌 커뮤니케이션스",
-      "weight_pct": 0.93,
-      "shares": 64,
+      "weight_pct": 0.99,
+      "shares": 65,
       "item_code": "ZM.O"
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 0.36,
-      "shares": 3271493,
-      "item_code": null
     }
   ]
 }

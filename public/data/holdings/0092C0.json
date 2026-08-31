@@ -1,197 +1,197 @@
 {
   "ticker": "0092C0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "LG유플러스117-1",
-      "weight_pct": 4.37,
+      "weight_pct": 4.41,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에이치엘만도15-1",
-      "weight_pct": 4.37,
+      "weight_pct": 4.41,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에스케이하이닉스224-2",
-      "weight_pct": 4.37,
+      "weight_pct": 4.41,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "미래에셋캐피탈108",
-      "weight_pct": 4.35,
+      "weight_pct": 4.39,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대커머셜531-5",
-      "weight_pct": 4.35,
+      "weight_pct": 4.39,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "지에스에너지17-1",
-      "weight_pct": 4.33,
+      "weight_pct": 4.37,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대캐피탈2029-4",
-      "weight_pct": 4.33,
+      "weight_pct": 4.37,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비국민카드439-6",
-      "weight_pct": 4.32,
+      "weight_pct": 4.36,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "롯데카드565-2",
-      "weight_pct": 4.32,
+      "weight_pct": 4.36,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "롯데쇼핑106-1",
-      "weight_pct": 4.31,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "메리츠증권2508-1",
-      "weight_pct": 4.31,
+      "weight_pct": 4.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈317-5",
-      "weight_pct": 4.31,
+      "weight_pct": 4.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산은캐피탈777-3",
-      "weight_pct": 4.3,
+      "weight_pct": 4.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "JB금융지주38-2",
-      "weight_pct": 4.3,
+      "weight_pct": 4.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "SK텔레콤72-3",
-      "weight_pct": 4.3,
+      "weight_pct": 4.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠증권2508-1",
+      "weight_pct": 4.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나캐피탈458-2",
-      "weight_pct": 4.3,
+      "weight_pct": 4.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한화시스템7-1",
-      "weight_pct": 4.29,
+      "weight_pct": 4.33,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "JB 우리캐피탈534-2",
-      "weight_pct": 4.29,
+      "weight_pct": 4.33,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "BNK캐피탈379-4",
-      "weight_pct": 4.29,
+      "weight_pct": 4.33,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "코웨이7-1",
-      "weight_pct": 4.29,
+      "weight_pct": 4.33,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비캐피탈553-5",
-      "weight_pct": 4.28,
+      "weight_pct": 4.32,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리금융캐피탈524-3",
-      "weight_pct": 4.28,
+      "weight_pct": 4.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치농협캐피탈249-6",
-      "weight_pct": 4.28,
+      "weight_pct": 4.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나은행(CD)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치투자증권(CP)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치투자증권(CP)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비증권(CP)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "키움증권(CP)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "키움증권(CP)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비증권(CP)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "부산은행(CD)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -16.75,
-      "shares": -16839828,
+      "weight_pct": -17.78,
+      "shares": -17882365,
       "item_code": null
     }
   ]

@@ -1,126 +1,132 @@
 {
   "ticker": "489860",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "SCHNEIDER ELECTRIC SE",
-      "weight_pct": 9.66,
+      "weight_pct": 9.8,
       "shares": 151,
       "item_code": null
     },
     {
       "name": "이튼",
-      "weight_pct": 9.12,
+      "weight_pct": 8.86,
       "shares": 118,
       "item_code": "ETN"
     },
     {
       "name": "존슨 컨트롤스 인터내셔널",
-      "weight_pct": 8.58,
+      "weight_pct": 8.4,
       "shares": 325,
       "item_code": "JCI"
     },
     {
       "name": "ABB LTD-REG",
-      "weight_pct": 8.07,
+      "weight_pct": 8.17,
       "shares": 446,
       "item_code": null
     },
     {
       "name": "콴타 서비스",
-      "weight_pct": 7.55,
+      "weight_pct": 7.47,
       "shares": 66,
       "item_code": "PWR"
     },
     {
       "name": "NATIONAL GRID PLC",
-      "weight_pct": 4.35,
+      "weight_pct": 4.34,
       "shares": 1480,
       "item_code": null
     },
     {
       "name": "E.ON SE",
-      "weight_pct": 4.27,
+      "weight_pct": 4.28,
       "shares": 1123,
       "item_code": null
     },
     {
       "name": "PRYSMIAN SPA",
-      "weight_pct": 3.58,
+      "weight_pct": 3.61,
       "shares": 138,
       "item_code": null
     },
     {
       "name": "엔벤트 일렉트릭",
-      "weight_pct": 2.85,
+      "weight_pct": 2.76,
       "shares": 100,
       "item_code": "NVT"
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.57,
-      "shares": 19443267,
+      "weight_pct": 2.66,
+      "shares": 19733162,
       "item_code": null
     },
     {
       "name": "허벨",
-      "weight_pct": 2.56,
+      "weight_pct": 2.52,
       "shares": 29,
       "item_code": "HUBB.K"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 2.16,
+      "weight_pct": 2.27,
       "shares": 56,
       "item_code": "NVDA.O"
     },
     {
       "name": "TERNA-RETE ELETTRICA NAZIONA",
-      "weight_pct": 1.86,
+      "weight_pct": 1.85,
       "shares": 884,
       "item_code": null
     },
     {
       "name": "테슬라",
-      "weight_pct": 1.73,
+      "weight_pct": 1.76,
       "shares": 27,
       "item_code": "TSLA.O"
     },
     {
       "name": "시스코 시스템즈",
-      "weight_pct": 1.73,
+      "weight_pct": 1.72,
       "shares": 84,
       "item_code": "CSCO.O"
     },
     {
-      "name": "HD현대일렉트릭",
-      "weight_pct": 1.53,
-      "shares": 14,
-      "item_code": "267260"
-    },
-    {
       "name": "HYDRO ONE LTD",
-      "weight_pct": 1.51,
+      "weight_pct": 1.52,
       "shares": 215,
       "item_code": null
     },
     {
-      "name": "LS ELECTRIC",
-      "weight_pct": 1.27,
-      "shares": 43,
-      "item_code": "010120"
+      "name": "HD현대일렉트릭",
+      "weight_pct": 1.48,
+      "shares": 14,
+      "item_code": "267260"
     },
     {
       "name": "BELIMO HOLDING AG-REG",
-      "weight_pct": 1.17,
+      "weight_pct": 1.25,
       "shares": 6,
       "item_code": null
     },
     {
+      "name": "LS ELECTRIC",
+      "weight_pct": 1.22,
+      "shares": 43,
+      "item_code": "010120"
+    },
+    {
       "name": "오라클",
-      "weight_pct": 1.14,
+      "weight_pct": 1.17,
       "shares": 42,
       "item_code": "ORCL.K"
+    },
+    {
+      "name": "SAP SE",
+      "weight_pct": 1.09,
+      "shares": 26,
+      "item_code": null
     },
     {
       "name": "앱티브",
@@ -129,28 +135,22 @@
       "item_code": "APTV.K"
     },
     {
-      "name": "SAP SE",
-      "weight_pct": 1.02,
-      "shares": 26,
-      "item_code": null
-    },
-    {
       "name": "SIEMENS AG-REG",
-      "weight_pct": 1.01,
+      "weight_pct": 1.02,
       "shares": 16,
       "item_code": null
     },
     {
       "name": "SPIE SA",
-      "weight_pct": 1.0,
+      "weight_pct": 0.99,
       "shares": 105,
       "item_code": null
     },
     {
-      "name": "GE 버노바",
-      "weight_pct": 0.94,
-      "shares": 5,
-      "item_code": "GEV"
+      "name": "ELIA GROUP SA/NV",
+      "weight_pct": 0.93,
+      "shares": 33,
+      "item_code": null
     },
     {
       "name": "텍사스 인스트루먼트",
@@ -159,16 +159,16 @@
       "item_code": "TXN.O"
     },
     {
-      "name": "ELIA GROUP SA/NV",
+      "name": "NKT A/S",
       "weight_pct": 0.92,
-      "shares": 33,
+      "shares": 34,
       "item_code": null
     },
     {
-      "name": "NKT A/S",
-      "weight_pct": 0.9,
-      "shares": 34,
-      "item_code": null
+      "name": "GE 버노바",
+      "weight_pct": 0.91,
+      "shares": 5,
+      "item_code": "GEV"
     },
     {
       "name": "REDEIA CORP SA",
@@ -178,49 +178,49 @@
     },
     {
       "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 0.84,
+      "weight_pct": 0.87,
       "shares": 20,
       "item_code": "IBM"
     },
     {
       "name": "NEXANS SA",
-      "weight_pct": 0.79,
+      "weight_pct": 0.8,
       "shares": 26,
       "item_code": null
     },
     {
       "name": "애널로그 디바이시스",
-      "weight_pct": 0.7,
+      "weight_pct": 0.69,
       "shares": 10,
       "item_code": "ADI.O"
     },
     {
-      "name": "퀄컴",
-      "weight_pct": 0.66,
-      "shares": 22,
-      "item_code": "QCOM.O"
-    },
-    {
       "name": "히타치",
-      "weight_pct": 0.64,
+      "weight_pct": 0.68,
       "shares": 106,
       "item_code": "6501.T"
     },
     {
+      "name": "퀄컴",
+      "weight_pct": 0.67,
+      "shares": 22,
+      "item_code": "QCOM.O"
+    },
+    {
       "name": "IBERDROLA SA",
-      "weight_pct": 0.61,
+      "weight_pct": 0.62,
       "shares": 143,
       "item_code": null
     },
     {
       "name": "MYR 그룹",
-      "weight_pct": 0.51,
+      "weight_pct": 0.49,
       "shares": 9,
       "item_code": "MYRG.O"
     },
     {
       "name": "인페이즈 에너지",
-      "weight_pct": 0.49,
+      "weight_pct": 0.48,
       "shares": 70,
       "item_code": "ENPH.O"
     },
@@ -232,7 +232,7 @@
     },
     {
       "name": "메이덴샤",
-      "weight_pct": 0.4,
+      "weight_pct": 0.41,
       "shares": 30,
       "item_code": "6508.T"
     },
@@ -250,7 +250,7 @@
     },
     {
       "name": "INFINEON TECHNOLOGIES AG",
-      "weight_pct": 0.34,
+      "weight_pct": 0.35,
       "shares": 29,
       "item_code": null
     },
@@ -273,16 +273,16 @@
       "item_code": "6752.T"
     },
     {
+      "name": "대한전선",
+      "weight_pct": 0.29,
+      "shares": 73,
+      "item_code": "001440"
+    },
+    {
       "name": "허니웰 인터내셔널",
       "weight_pct": 0.28,
       "shares": 7,
       "item_code": "HON.O"
-    },
-    {
-      "name": "대한전선",
-      "weight_pct": 0.28,
-      "shares": 73,
-      "item_code": "001440"
     },
     {
       "name": "후지쿠라",
@@ -297,12 +297,6 @@
       "item_code": "062040"
     },
     {
-      "name": "솔라에지 테크놀로지스",
-      "weight_pct": 0.22,
-      "shares": 37,
-      "item_code": "SEDG.O"
-    },
-    {
       "name": "다이헨",
       "weight_pct": 0.22,
       "shares": 15,
@@ -315,13 +309,31 @@
       "item_code": null
     },
     {
+      "name": "솔라에지 테크놀로지스",
+      "weight_pct": 0.21,
+      "shares": 37,
+      "item_code": "SEDG.O"
+    },
+    {
       "name": "ENGIE",
       "weight_pct": 0.21,
       "shares": 40,
       "item_code": null
     },
     {
+      "name": "NXP 세미콘덕터",
+      "weight_pct": 0.2,
+      "shares": 4,
+      "item_code": "NXPI.O"
+    },
+    {
       "name": "HAMMOND POWER SOLUTIONS INC",
+      "weight_pct": 0.19,
+      "shares": 6,
+      "item_code": null
+    },
+    {
+      "name": "LEGRAND SA",
       "weight_pct": 0.19,
       "shares": 6,
       "item_code": null
@@ -331,18 +343,6 @@
       "weight_pct": 0.19,
       "shares": 75,
       "item_code": "5802.T"
-    },
-    {
-      "name": "NXP 세미콘덕터",
-      "weight_pct": 0.19,
-      "shares": 4,
-      "item_code": "NXPI.O"
-    },
-    {
-      "name": "LEGRAND SA",
-      "weight_pct": 0.18,
-      "shares": 6,
-      "item_code": null
     },
     {
       "name": "LANDIS + GYR GROUP AG",
@@ -357,16 +357,16 @@
       "item_code": null
     },
     {
-      "name": "아메리칸 수퍼컨덕터",
-      "weight_pct": 0.16,
-      "shares": 30,
-      "item_code": "AMSC.O"
-    },
-    {
       "name": "SSE PLC",
       "weight_pct": 0.15,
       "shares": 25,
       "item_code": null
+    },
+    {
+      "name": "윌댄 그룹",
+      "weight_pct": 0.15,
+      "shares": 9,
+      "item_code": "WLDN.O"
     },
     {
       "name": "SMA SOLAR TECHNOLOGY AG",
@@ -387,10 +387,10 @@
       "item_code": "103590"
     },
     {
-      "name": "윌댄 그룹",
-      "weight_pct": 0.14,
-      "shares": 9,
-      "item_code": "WLDN.O"
+      "name": "아메리칸 수퍼컨덕터",
+      "weight_pct": 0.15,
+      "shares": 30,
+      "item_code": "AMSC.O"
     },
     {
       "name": "포르티스",
@@ -495,12 +495,6 @@
       "item_code": "GNRC.K"
     },
     {
-      "name": "리틀휴즈",
-      "weight_pct": 0.04,
-      "shares": 0,
-      "item_code": "LFUS.O"
-    },
-    {
       "name": "AES",
       "weight_pct": 0.04,
       "shares": 15,
@@ -517,6 +511,12 @@
       "weight_pct": 0.03,
       "shares": 0,
       "item_code": "VMI"
+    },
+    {
+      "name": "리틀휴즈",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": "LFUS.O"
     },
     {
       "name": "ALFEN N.V.",

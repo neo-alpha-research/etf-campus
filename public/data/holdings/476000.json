@@ -1,112 +1,112 @@
 {
   "ticker": "476000",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "코스모로보틱스",
-      "weight_pct": 10.11,
+      "weight_pct": 9.81,
       "shares": 2039,
       "item_code": "439960"
     },
     {
       "name": "씨어스",
-      "weight_pct": 9.73,
+      "weight_pct": 9.49,
       "shares": 1161,
       "item_code": "458870"
     },
     {
       "name": "세미티에스",
-      "weight_pct": 8.74,
+      "weight_pct": 8.92,
       "shares": 8534,
       "item_code": "0017J0"
     },
     {
       "name": "리센스메디컬",
-      "weight_pct": 8.56,
+      "weight_pct": 8.37,
       "shares": 1906,
       "item_code": "394420"
     },
     {
       "name": "마키나락스",
-      "weight_pct": 8.47,
+      "weight_pct": 8.33,
       "shares": 896,
       "item_code": "477850"
     },
     {
       "name": "액스비스",
-      "weight_pct": 7.6,
+      "weight_pct": 7.71,
       "shares": 2327,
       "item_code": "0011A0"
     },
     {
       "name": "카나프테라퓨틱스",
-      "weight_pct": 6.89,
+      "weight_pct": 7.52,
       "shares": 1119,
       "item_code": "0082N0"
     },
     {
       "name": "케이뱅크",
-      "weight_pct": 5.85,
+      "weight_pct": 5.96,
       "shares": 2700,
       "item_code": "279570"
     },
     {
       "name": "메쥬",
-      "weight_pct": 5.02,
+      "weight_pct": 4.91,
       "shares": 980,
       "item_code": "0088M0"
     },
     {
       "name": "아이엠바이오로직스",
-      "weight_pct": 4.54,
+      "weight_pct": 4.66,
       "shares": 750,
       "item_code": "493280"
     },
     {
       "name": "지투지바이오",
-      "weight_pct": 4.42,
+      "weight_pct": 4.46,
       "shares": 279,
       "item_code": "456160"
     },
     {
       "name": "에임드바이오",
-      "weight_pct": 3.66,
+      "weight_pct": 3.51,
       "shares": 371,
       "item_code": "0009K0"
     },
     {
       "name": "원화현금",
       "weight_pct": 3.34,
-      "shares": 8683804,
+      "shares": 8662183,
       "item_code": null
     },
     {
       "name": "스트라드비젼",
-      "weight_pct": 3.16,
+      "weight_pct": 3.18,
       "shares": 2700,
       "item_code": "475040"
     },
     {
       "name": "져스텍",
-      "weight_pct": 3.05,
+      "weight_pct": 2.76,
       "shares": 650,
       "item_code": "153890"
     },
     {
       "name": "매드업",
-      "weight_pct": 2.32,
+      "weight_pct": 2.58,
       "shares": 880,
       "item_code": "0039P0"
     },
     {
       "name": "씨엠티엑스",
-      "weight_pct": 2.3,
+      "weight_pct": 2.24,
       "shares": 80,
       "item_code": "388210"
     },
     {
       "name": "노타",
-      "weight_pct": 2.16,
+      "weight_pct": 2.17,
       "shares": 300,
       "item_code": "486990"
     }

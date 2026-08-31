@@ -1,58 +1,58 @@
 {
   "ticker": "196230",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "통화안정증권02700-2703-01",
-      "weight_pct": 19.52,
+      "weight_pct": 19.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02550-2701-01",
-      "weight_pct": 15.58,
+      "weight_pct": 15.44,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02700-2701-02",
-      "weight_pct": 15.21,
+      "weight_pct": 15.07,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02270-2609-01",
-      "weight_pct": 11.72,
+      "weight_pct": 11.61,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02620-2704-02",
-      "weight_pct": 11.68,
+      "weight_pct": 11.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02800-2610-02",
-      "weight_pct": 7.8,
+      "weight_pct": 7.73,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02900-2705-01",
-      "weight_pct": 7.78,
+      "weight_pct": 7.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.79,
-      "shares": 7944302,
+      "weight_pct": 7.63,
+      "shares": 8926027,
       "item_code": null
     },
     {
       "name": "통화안정증권02540-2611-01",
-      "weight_pct": 3.89,
+      "weight_pct": 3.85,
       "shares": 0,
       "item_code": null
     }

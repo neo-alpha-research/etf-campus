@@ -1,137 +1,137 @@
 {
   "ticker": "396520",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "CXMT Corporation",
-      "weight_pct": 10.32,
+      "weight_pct": 10.57,
       "shares": 4833,
       "item_code": "688825.SS"
     },
     {
       "name": "AMEC(중미반도체)",
-      "weight_pct": 9.37,
+      "weight_pct": 9.16,
       "shares": 669,
       "item_code": "688012.SS"
     },
     {
       "name": "북방화창",
-      "weight_pct": 9.23,
+      "weight_pct": 9.0,
       "shares": 346,
       "item_code": "002371.SZ"
     },
     {
       "name": "한무기",
-      "weight_pct": 8.81,
+      "weight_pct": 8.86,
       "shares": 227,
       "item_code": "688256.SS"
     },
     {
       "name": "중신 국제집성전로제조",
-      "weight_pct": 8.23,
+      "weight_pct": 8.17,
       "shares": 1741,
       "item_code": "688981.SS"
     },
     {
       "name": "기가디바이스",
-      "weight_pct": 7.75,
+      "weight_pct": 7.68,
       "shares": 519,
       "item_code": "603986.SS"
     },
     {
       "name": "해광신식",
-      "weight_pct": 6.85,
+      "weight_pct": 7.13,
       "shares": 779,
       "item_code": "688041.SS"
     },
     {
       "name": "몬타지 테크놀로지",
-      "weight_pct": 6.75,
+      "weight_pct": 7.01,
       "shares": 882,
       "item_code": "688008.SS"
     },
     {
       "name": "장천과기",
-      "weight_pct": 4.39,
+      "weight_pct": 4.32,
       "shares": 418,
       "item_code": "300604.SZ"
     },
     {
-      "name": "척형과기",
-      "weight_pct": 3.54,
-      "shares": 138,
-      "item_code": "688072.SS"
-    },
-    {
       "name": "강소장전기술",
-      "weight_pct": 3.51,
+      "weight_pct": 3.5,
       "shares": 1254,
       "item_code": "600584.SS"
     },
     {
+      "name": "척형과기",
+      "weight_pct": 3.44,
+      "shares": 138,
+      "item_code": "688072.SS"
+    },
+    {
       "name": "화훙 그레이스반도체",
-      "weight_pct": 2.9,
+      "weight_pct": 2.89,
       "shares": 313,
       "item_code": "688347.SS"
     },
     {
       "name": "화해청과",
-      "weight_pct": 2.73,
+      "weight_pct": 2.66,
       "shares": 274,
       "item_code": "688120.SS"
     },
     {
       "name": "백유존저과기",
-      "weight_pct": 2.53,
+      "weight_pct": 2.56,
       "shares": 298,
       "item_code": "688525.SS"
     },
     {
       "name": "통푸마이크로",
-      "weight_pct": 2.47,
+      "weight_pct": 2.52,
       "shares": 1062,
       "item_code": "002156.SZ"
     },
     {
       "name": "웨이얼반도체",
-      "weight_pct": 2.27,
+      "weight_pct": 2.17,
       "shares": 711,
       "item_code": "603501.SS"
     },
     {
       "name": "정성기전",
-      "weight_pct": 2.05,
+      "weight_pct": 2.02,
       "shares": 1243,
       "item_code": "300316.SZ"
     },
     {
       "name": "항주 사란미전자",
-      "weight_pct": 1.98,
+      "weight_pct": 2.01,
       "shares": 1580,
       "item_code": "600460.SS"
     },
     {
       "name": "강파룡",
-      "weight_pct": 1.81,
+      "weight_pct": 1.84,
       "shares": 131,
       "item_code": "301308.SZ"
     },
     {
       "name": "화천과기",
-      "weight_pct": 1.38,
+      "weight_pct": 1.37,
       "shares": 2178,
       "item_code": "002185.SZ"
     },
     {
       "name": "보염고분",
-      "weight_pct": 1.28,
+      "weight_pct": 1.27,
       "shares": 85,
       "item_code": "688766.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.25,
-      "shares": -1391395,
+      "weight_pct": -0.26,
+      "shares": -1437378,
       "item_code": null
     }
   ]

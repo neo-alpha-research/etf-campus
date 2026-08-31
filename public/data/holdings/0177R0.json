@@ -1,64 +1,64 @@
 {
   "ticker": "0177R0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "SK하이닉스",
-      "weight_pct": 25.87,
+      "weight_pct": 25.44,
       "shares": 168,
       "item_code": "000660"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 23.46,
+      "weight_pct": 23.3,
       "shares": 991,
       "item_code": "005930"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 14.45,
+      "weight_pct": 14.25,
       "shares": 152,
       "item_code": "402340"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 11.09,
+      "weight_pct": 11.87,
       "shares": 90,
       "item_code": "009150"
     },
     {
       "name": "TIGER 반도체TOP10",
-      "weight_pct": 10.64,
+      "weight_pct": 10.57,
       "shares": 3341,
       "item_code": "396500"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 2.84,
+      "weight_pct": 2.86,
       "shares": 284,
       "item_code": "240810"
     },
     {
       "name": "이오테크닉스",
-      "weight_pct": 2.71,
+      "weight_pct": 2.74,
       "shares": 75,
       "item_code": "039030"
     },
     {
       "name": "DB하이텍",
-      "weight_pct": 2.3,
+      "weight_pct": 2.32,
       "shares": 271,
       "item_code": "000990"
     },
     {
       "name": "리노공업",
-      "weight_pct": 1.35,
+      "weight_pct": 1.37,
       "shares": 229,
       "item_code": "058470"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 1.22,
+      "weight_pct": 1.23,
       "shares": 62,
       "item_code": "042700"
     },
@@ -76,30 +76,30 @@
     },
     {
       "name": "피에스케이",
-      "weight_pct": 0.74,
+      "weight_pct": 0.72,
       "shares": 63,
       "item_code": "319660"
     },
     {
       "name": "브이엠",
-      "weight_pct": 0.63,
+      "weight_pct": 0.59,
       "shares": 117,
       "item_code": "089970"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 41,
       "item_code": "007660"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.39,
-      "shares": 4404831,
+      "weight_pct": 0.4,
+      "shares": 4461579,
       "item_code": null
     },
     {
-      "name": "코스피위클리M C 2608W5 1100.0",
+      "name": "코스피위클리 C 2609W1 1080.0",
       "weight_pct": -0.08,
       "shares": 0,
       "item_code": null

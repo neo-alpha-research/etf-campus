@@ -1,52 +1,64 @@
 {
   "ticker": "190620",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 29.06,
-      "shares": 29633851,
+      "weight_pct": 19.67,
+      "shares": 20065388,
       "item_code": null
     },
     {
       "name": "통안02800-2610-02",
-      "weight_pct": 12.95,
+      "weight_pct": 12.9,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02400-2707-02",
-      "weight_pct": 12.85,
+      "weight_pct": 12.81,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02500-2710-02",
-      "weight_pct": 12.8,
+      "weight_pct": 12.75,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02270-2609-01",
-      "weight_pct": 9.71,
+      "weight_pct": 9.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02700-2701-02",
-      "weight_pct": 9.7,
+      "weight_pct": 9.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안03420-2804-02",
+      "weight_pct": 6.43,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02620-2704-02",
-      "weight_pct": 6.45,
+      "weight_pct": 6.43,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02540-2611-01",
-      "weight_pct": 6.45,
+      "weight_pct": 6.43,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "통안02840-2801-02",
+      "weight_pct": 3.19,
       "shares": 0,
       "item_code": null
     }

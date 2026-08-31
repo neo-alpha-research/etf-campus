@@ -1,94 +1,94 @@
 {
   "ticker": "251600",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 9.96,
+      "weight_pct": 9.92,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 9.83,
+      "weight_pct": 9.8,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 9.79,
+      "weight_pct": 9.76,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "PLUS 고배당주",
-      "weight_pct": 7.27,
-      "shares": 4444,
+      "weight_pct": 7.18,
+      "shares": 4393,
       "item_code": "161510"
     },
     {
       "name": "TIGER 국채3년",
-      "weight_pct": 5.57,
-      "shares": 819,
+      "weight_pct": 5.64,
+      "shares": 832,
       "item_code": "114820"
     },
     {
       "name": "PLUS 국채선물3년",
-      "weight_pct": 4.84,
-      "shares": 1323,
+      "weight_pct": 5.03,
+      "shares": 1378,
       "item_code": "298340"
     },
     {
       "name": "3년국채 F 202609",
-      "weight_pct": 4.55,
+      "weight_pct": 4.53,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "PLUS 국공채머니마켓액티브",
-      "weight_pct": 4.25,
-      "shares": 1254,
+      "weight_pct": 4.33,
+      "shares": 1280,
       "item_code": "491230"
     },
     {
-      "name": "PLUS 중기종합채권(A-이상)액티브",
+      "name": "RISE 국고채3년",
       "weight_pct": 2.65,
-      "shares": 407,
-      "item_code": "0184L0"
-    },
-    {
-      "name": "DB손해보험",
-      "weight_pct": 2.62,
-      "shares": 221,
-      "item_code": "005830"
+      "shares": 385,
+      "item_code": "114100"
     },
     {
       "name": "GS",
-      "weight_pct": 2.52,
+      "weight_pct": 2.6,
       "shares": 317,
       "item_code": "078930"
     },
     {
-      "name": "RISE 국고채3년",
-      "weight_pct": 2.48,
-      "shares": 359,
-      "item_code": "114100"
+      "name": "DB손해보험",
+      "weight_pct": 2.58,
+      "shares": 221,
+      "item_code": "005830"
+    },
+    {
+      "name": "PLUS 중기종합채권(A-이상)액티브",
+      "weight_pct": 2.4,
+      "shares": 370,
+      "item_code": "0184L0"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 2.27,
+      "weight_pct": 2.32,
       "shares": 1066,
       "item_code": "316140"
     },
     {
       "name": "기업은행",
-      "weight_pct": 2.22,
+      "weight_pct": 2.24,
       "shares": 1679,
       "item_code": "024110"
     },
     {
       "name": "하나금융지주",
-      "weight_pct": 1.99,
+      "weight_pct": 2.03,
       "shares": 231,
       "item_code": "086790"
     },
@@ -100,55 +100,55 @@
     },
     {
       "name": "삼성카드",
-      "weight_pct": 1.89,
+      "weight_pct": 1.91,
       "shares": 633,
       "item_code": "029780"
     },
     {
       "name": "제일기획",
-      "weight_pct": 1.88,
+      "weight_pct": 1.89,
       "shares": 1531,
       "item_code": "030000"
     },
     {
-      "name": "삼성화재",
-      "weight_pct": 1.76,
-      "shares": 40,
-      "item_code": "000810"
-    },
-    {
-      "name": "KT",
-      "weight_pct": 1.75,
-      "shares": 503,
-      "item_code": "030200"
-    },
-    {
       "name": "기아",
-      "weight_pct": 1.73,
+      "weight_pct": 1.8,
       "shares": 213,
       "item_code": "000270"
     },
     {
+      "name": "KT",
+      "weight_pct": 1.73,
+      "shares": 503,
+      "item_code": "030200"
+    },
+    {
+      "name": "삼성화재",
+      "weight_pct": 1.71,
+      "shares": 40,
+      "item_code": "000810"
+    },
+    {
       "name": "JB금융지주",
-      "weight_pct": 1.64,
+      "weight_pct": 1.65,
       "shares": 906,
       "item_code": "175330"
     },
     {
       "name": "HD한국조선해양",
-      "weight_pct": 1.58,
+      "weight_pct": 1.52,
       "shares": 68,
       "item_code": "009540"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 1.43,
+      "weight_pct": 1.42,
       "shares": 251,
       "item_code": "016360"
     },
     {
       "name": "강원랜드",
-      "weight_pct": 1.29,
+      "weight_pct": 1.3,
       "shares": 1378,
       "item_code": "035250"
     },
@@ -160,27 +160,27 @@
     },
     {
       "name": "BNK금융지주",
-      "weight_pct": 1.23,
+      "weight_pct": 1.25,
       "shares": 1278,
       "item_code": "138930"
     },
     {
       "name": "KT&G",
-      "weight_pct": 1.2,
+      "weight_pct": 1.22,
       "shares": 107,
       "item_code": "033780"
     },
     {
-      "name": "SK텔레콤",
-      "weight_pct": 1.16,
-      "shares": 182,
-      "item_code": "017670"
-    },
-    {
       "name": "LG유플러스",
-      "weight_pct": 1.09,
+      "weight_pct": 1.11,
       "shares": 1149,
       "item_code": "032640"
+    },
+    {
+      "name": "SK텔레콤",
+      "weight_pct": 1.1,
+      "shares": 182,
+      "item_code": "017670"
     },
     {
       "name": "키움증권",
@@ -189,52 +189,46 @@
       "item_code": "039490"
     },
     {
-      "name": "현대엘리베이터",
-      "weight_pct": 1.0,
-      "shares": 206,
-      "item_code": "017800"
-    },
-    {
       "name": "LX인터내셔널",
-      "weight_pct": 0.97,
+      "weight_pct": 0.99,
       "shares": 396,
       "item_code": "001120"
     },
     {
+      "name": "현대엘리베이터",
+      "weight_pct": 0.98,
+      "shares": 206,
+      "item_code": "017800"
+    },
+    {
       "name": "코리안리",
-      "weight_pct": 0.96,
+      "weight_pct": 0.95,
       "shares": 1032,
       "item_code": "003690"
     },
     {
       "name": "포스코인터내셔널",
-      "weight_pct": 0.86,
+      "weight_pct": 0.88,
       "shares": 254,
       "item_code": "047050"
     },
     {
       "name": "한국가스공사",
-      "weight_pct": 0.79,
+      "weight_pct": 0.8,
       "shares": 333,
       "item_code": "036460"
     },
     {
       "name": "iM금융지주",
-      "weight_pct": 0.71,
+      "weight_pct": 0.74,
       "shares": 627,
       "item_code": "139130"
     },
     {
       "name": "한국앤컴퍼니",
-      "weight_pct": 0.67,
+      "weight_pct": 0.69,
       "shares": 434,
       "item_code": "000240"
-    },
-    {
-      "name": "PLUS 머니마켓액티브",
-      "weight_pct": 0.62,
-      "shares": 180,
-      "item_code": "477050"
     },
     {
       "name": "대신증권",
@@ -243,21 +237,27 @@
       "item_code": "003540"
     },
     {
+      "name": "PLUS 머니마켓액티브",
+      "weight_pct": 0.53,
+      "shares": 154,
+      "item_code": "477050"
+    },
+    {
       "name": "세아베스틸지주",
-      "weight_pct": 0.56,
+      "weight_pct": 0.53,
       "shares": 202,
       "item_code": "001430"
     },
     {
       "name": "KODEX 국고채3년",
-      "weight_pct": 0.54,
-      "shares": 137,
+      "weight_pct": 0.42,
+      "shares": 106,
       "item_code": "114260"
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.53,
-      "shares": -8301173,
+      "weight_pct": -0.57,
+      "shares": -8854800,
       "item_code": null
     }
   ]

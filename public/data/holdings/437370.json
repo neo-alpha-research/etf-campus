@@ -1,24 +1,24 @@
 {
   "ticker": "437370",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "BAYER AG-REG",
-      "weight_pct": 9.35,
+      "weight_pct": 9.22,
       "shares": 634,
       "item_code": null
     },
     {
-      "name": "디어",
-      "weight_pct": 8.64,
-      "shares": 52,
-      "item_code": "DE"
-    },
-    {
       "name": "코르테바",
-      "weight_pct": 8.49,
+      "weight_pct": 8.6,
       "shares": 397,
       "item_code": "CTVA.K"
+    },
+    {
+      "name": "디어",
+      "weight_pct": 8.59,
+      "shares": 52,
+      "item_code": "DE"
     },
     {
       "name": "뉴트리엔",
@@ -34,85 +34,85 @@
     },
     {
       "name": "아처 대니얼스 미들랜드",
-      "weight_pct": 5.16,
+      "weight_pct": 5.27,
       "shares": 250,
       "item_code": "ADM"
     },
     {
       "name": "CF 인더스트리스 홀딩스",
-      "weight_pct": 4.93,
+      "weight_pct": 4.94,
       "shares": 152,
       "item_code": "CF"
     },
     {
       "name": "구보다",
-      "weight_pct": 4.79,
+      "weight_pct": 4.84,
       "shares": 1061,
       "item_code": "6326.T"
     },
     {
       "name": "타이슨 푸드",
-      "weight_pct": 4.18,
+      "weight_pct": 4.1,
       "shares": 287,
       "item_code": "TSN"
     },
     {
       "name": "번지 글로벌",
-      "weight_pct": 3.47,
+      "weight_pct": 3.54,
       "shares": 119,
       "item_code": "BG"
     },
     {
       "name": "MOWI ASA",
-      "weight_pct": 3.25,
+      "weight_pct": 3.21,
       "shares": 558,
       "item_code": null
     },
     {
       "name": "달링 인그리디언츠",
-      "weight_pct": 2.71,
+      "weight_pct": 2.79,
       "shares": 168,
       "item_code": "DAR"
     },
     {
       "name": "CNH 인더스트리얼",
-      "weight_pct": 2.58,
+      "weight_pct": 2.6,
       "shares": 864,
       "item_code": "CNH"
     },
     {
-      "name": "YARA INTERNATIONAL ASA",
-      "weight_pct": 2.54,
-      "shares": 202,
-      "item_code": null
-    },
-    {
       "name": "WILMAR INTERNATIONAL LTD",
-      "weight_pct": 2.51,
+      "weight_pct": 2.55,
       "shares": 3310,
       "item_code": null
     },
     {
+      "name": "YARA INTERNATIONAL ASA",
+      "weight_pct": 2.49,
+      "shares": 202,
+      "item_code": null
+    },
+    {
       "name": "토로",
-      "weight_pct": 2.44,
+      "weight_pct": 2.41,
       "shares": 94,
       "item_code": "TTC"
     },
     {
       "name": "멍뉴유업",
-      "weight_pct": 2.11,
+      "weight_pct": 2.08,
       "shares": 3446,
       "item_code": "2319.HK"
     },
     {
       "name": "모자이크",
-      "weight_pct": 1.84,
+      "weight_pct": 1.8,
       "shares": 297,
       "item_code": "MOS"
     },
     {
       "name": "애그코",
-      "weight_pct": 1.71,
+      "weight_pct": 1.74,
       "shares": 59,
       "item_code": "AGCO.K"
     },
@@ -124,21 +124,15 @@
     },
     {
       "name": "엘란코 애니멀 헬스",
-      "weight_pct": 1.48,
+      "weight_pct": 1.42,
       "shares": 229,
       "item_code": "ELAN.K"
     },
     {
       "name": "RUMO SA",
-      "weight_pct": 1.13,
+      "weight_pct": 1.15,
       "shares": 1559,
       "item_code": null
-    },
-    {
-      "name": "칼 메인 푸즈",
-      "weight_pct": 1.05,
-      "shares": 49,
-      "item_code": "CALM.O"
     },
     {
       "name": "DYNO NOBEL LTD",
@@ -153,8 +147,14 @@
       "item_code": null
     },
     {
+      "name": "칼 메인 푸즈",
+      "weight_pct": 1.02,
+      "shares": 49,
+      "item_code": "CALM.O"
+    },
+    {
       "name": "이스라엘 케미컬스",
-      "weight_pct": 1.0,
+      "weight_pct": 0.98,
       "shares": 683,
       "item_code": "ICL"
     },
@@ -172,27 +172,27 @@
     },
     {
       "name": "TREASURY WINE ESTATES LTD",
-      "weight_pct": 0.82,
+      "weight_pct": 0.8,
       "shares": 788,
       "item_code": null
     },
     {
       "name": "BAKKAFROST P/F",
-      "weight_pct": 0.73,
+      "weight_pct": 0.72,
       "shares": 52,
       "item_code": null
-    },
-    {
-      "name": "니쑤이",
-      "weight_pct": 0.64,
-      "shares": 308,
-      "item_code": "1332.T"
     },
     {
       "name": "니오젠",
       "weight_pct": 0.63,
       "shares": 209,
       "item_code": "NEOG.O"
+    },
+    {
+      "name": "니쑤이",
+      "weight_pct": 0.63,
+      "shares": 308,
+      "item_code": "1332.T"
     },
     {
       "name": "GOLDEN AGRI-RESOURCES LTD",
@@ -202,7 +202,7 @@
     },
     {
       "name": "GENUS PLC",
-      "weight_pct": 0.53,
+      "weight_pct": 0.54,
       "shares": 66,
       "item_code": null
     },
@@ -225,21 +225,21 @@
       "item_code": "PPC.O"
     },
     {
-      "name": "우미오스",
-      "weight_pct": 0.38,
-      "shares": 181,
-      "item_code": "1333.T"
-    },
-    {
       "name": "FMC",
-      "weight_pct": 0.36,
+      "weight_pct": 0.37,
       "shares": 129,
       "item_code": "FMC"
     },
     {
+      "name": "우미오스",
+      "weight_pct": 0.37,
+      "shares": 181,
+      "item_code": "1333.T"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.29,
-      "shares": 1568199,
+      "weight_pct": 0.32,
+      "shares": 1716339,
       "item_code": null
     }
   ]

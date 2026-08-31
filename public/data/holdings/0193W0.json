@@ -1,23 +1,23 @@
 {
   "ticker": "0193W0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "2026-09 삼성전자개별선물",
-      "weight_pct": 105.52,
-      "shares": 122,
+      "weight_pct": 109.92,
+      "shares": 124,
       "item_code": null
     },
     {
       "name": "삼성전자",
-      "weight_pct": 94.5,
-      "shares": 1103,
+      "weight_pct": 90.1,
+      "shares": 1022,
       "item_code": "005930"
     },
     {
       "name": "원화현금",
-      "weight_pct": 5.49,
-      "shares": 17066098,
+      "weight_pct": 9.89,
+      "shares": 29191505,
       "item_code": null
     }
   ]

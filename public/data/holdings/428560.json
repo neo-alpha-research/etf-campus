@@ -1,77 +1,77 @@
 {
   "ticker": "428560",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "블랙록",
-      "weight_pct": 15.52,
+      "weight_pct": 15.25,
       "shares": 79,
       "item_code": "BLK"
     },
     {
       "name": "S&P 글로벌",
-      "weight_pct": 14.47,
+      "weight_pct": 14.54,
       "shares": 198,
       "item_code": "SPGI.K"
     },
     {
       "name": "MSCI",
-      "weight_pct": 12.47,
+      "weight_pct": 12.49,
       "shares": 132,
       "item_code": "MSCI.K"
     },
     {
-      "name": "나스닥",
-      "weight_pct": 10.09,
-      "shares": 605,
-      "item_code": "NDAQ.O"
-    },
-    {
       "name": "인터컨티넨털 익스체인지",
-      "weight_pct": 10.07,
+      "weight_pct": 10.0,
       "shares": 371,
       "item_code": "ICE"
     },
     {
+      "name": "나스닥",
+      "weight_pct": 9.97,
+      "shares": 605,
+      "item_code": "NDAQ.O"
+    },
+    {
       "name": "CME 그룹",
-      "weight_pct": 9.35,
+      "weight_pct": 9.42,
       "shares": 198,
       "item_code": "CME.O"
     },
     {
       "name": "팩트셋 리서치 시스템즈",
-      "weight_pct": 7.13,
+      "weight_pct": 7.39,
       "shares": 144,
       "item_code": "FDS"
     },
     {
       "name": "모닝스타",
-      "weight_pct": 6.8,
+      "weight_pct": 6.9,
       "shares": 191,
       "item_code": "MORN.O"
     },
     {
       "name": "무디스",
-      "weight_pct": 6.59,
+      "weight_pct": 6.53,
       "shares": 76,
       "item_code": "MCO"
     },
     {
       "name": "트레이드웹 마켓",
-      "weight_pct": 6.22,
+      "weight_pct": 6.24,
       "shares": 345,
       "item_code": "TW.O"
     },
     {
       "name": "모빌리티 글로벌",
-      "weight_pct": 0.68,
+      "weight_pct": 0.66,
       "shares": 198,
       "item_code": "MBGL.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.57,
-      "shares": 4739909,
+      "weight_pct": 0.56,
+      "shares": 4665143,
       "item_code": null
     }
   ]

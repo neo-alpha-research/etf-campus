@@ -1,76 +1,76 @@
 {
   "ticker": "483280",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 20.08,
-      "shares": 789,
+      "weight_pct": 20.39,
+      "shares": 787,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 16.93,
-      "shares": 408,
+      "weight_pct": 16.79,
+      "shares": 407,
       "item_code": "GOOGL.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 15.89,
-      "shares": 264,
+      "weight_pct": 16.09,
+      "shares": 263,
       "item_code": "MSFT.O"
     },
     {
       "name": "메타",
-      "weight_pct": 9.69,
+      "weight_pct": 9.51,
       "shares": 138,
       "item_code": "META.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 8.96,
-      "shares": 284,
+      "weight_pct": 8.98,
+      "shares": 283,
       "item_code": "AMZN.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 8.29,
-      "shares": 192,
+      "weight_pct": 8.42,
+      "shares": 191,
       "item_code": "AVGO.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 6.55,
+      "weight_pct": 6.41,
       "shares": 129,
       "item_code": "TSM"
     },
     {
       "name": "테슬라",
-      "weight_pct": 5.86,
+      "weight_pct": 5.78,
       "shares": 139,
       "item_code": "TSLA.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 4.04,
+      "weight_pct": 3.94,
       "shares": 35,
       "item_code": "MU.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 3.67,
-      "shares": 63,
+      "weight_pct": 3.48,
+      "shares": 62,
       "item_code": "AMD.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.13,
-      "shares": 1537396,
+      "weight_pct": 0.31,
+      "shares": 3609400,
       "item_code": null
     },
     {
-      "name": "NDXP US 08/28/26 C29225 Index",
-      "weight_pct": -0.14,
+      "name": "NDXP US 09/04/26 C29650 Index",
+      "weight_pct": -0.15,
       "shares": 0,
       "item_code": null
     }

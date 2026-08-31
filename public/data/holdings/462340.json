@@ -1,102 +1,102 @@
 {
   "ticker": "462340",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "Vanguard 500 Index Fund ETF",
-      "weight_pct": 19.11,
+      "weight_pct": 19.46,
       "shares": 66,
       "item_code": "VOO"
     },
     {
       "name": "일라이 릴리",
-      "weight_pct": 13.28,
-      "shares": 27,
+      "weight_pct": 10.07,
+      "shares": 20,
       "item_code": "LLY"
     },
     {
+      "name": "Direxion Daily S&P 500 Bull 3X ETF",
+      "weight_pct": 6.81,
+      "shares": 56,
+      "item_code": "SPXL.K"
+    },
+    {
       "name": "아마존닷컴",
-      "weight_pct": 4.4,
+      "weight_pct": 4.57,
       "shares": 41,
       "item_code": "AMZN.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.32,
-      "shares": 14665715,
+      "weight_pct": 4.12,
+      "shares": 13656583,
       "item_code": null
     },
     {
-      "name": "블랙록",
-      "weight_pct": 4.03,
-      "shares": 8,
-      "item_code": "BLK"
-    },
-    {
       "name": "라이프 타임 그룹 홀딩스",
-      "weight_pct": 3.95,
+      "weight_pct": 3.89,
       "shares": 216,
       "item_code": "LTH"
     },
     {
-      "name": "로빈후드",
-      "weight_pct": 3.95,
-      "shares": 89,
-      "item_code": "HOOD.O"
-    },
-    {
-      "name": "Direxion Daily S&P 500 Bull 3X ETF",
-      "weight_pct": 3.63,
-      "shares": 31,
-      "item_code": "SPXL.K"
+      "name": "엔비디아",
+      "weight_pct": 3.85,
+      "shares": 42,
+      "item_code": "NVDA.O"
     },
     {
       "name": "템퍼스 AI",
-      "weight_pct": 3.63,
+      "weight_pct": 3.44,
       "shares": 130,
       "item_code": "TEM.O"
     },
     {
-      "name": "노보 노디스크 ADR",
-      "weight_pct": 3.09,
-      "shares": 160,
-      "item_code": "NVO"
+      "name": "블랙록",
+      "weight_pct": 3.06,
+      "shares": 6,
+      "item_code": "BLK"
     },
     {
       "name": "존슨앤드존슨",
-      "weight_pct": 3.0,
+      "weight_pct": 3.02,
       "shares": 27,
       "item_code": "JNJ"
     },
     {
-      "name": "린드블라드 익스퍼디션스 홀딩스",
-      "weight_pct": 2.97,
-      "shares": 234,
-      "item_code": "LIND.O"
-    },
-    {
       "name": "벤타스",
-      "weight_pct": 2.91,
+      "weight_pct": 2.9,
       "shares": 76,
       "item_code": "VTR"
     },
     {
+      "name": "로빈후드",
+      "weight_pct": 2.88,
+      "shares": 67,
+      "item_code": "HOOD.O"
+    },
+    {
+      "name": "린드블라드 익스퍼디션스 홀딩스",
+      "weight_pct": 2.86,
+      "shares": 234,
+      "item_code": "LIND.O"
+    },
+    {
       "name": "로얄 캐리비안 크루즈",
-      "weight_pct": 2.81,
+      "weight_pct": 2.74,
       "shares": 23,
       "item_code": "RCL"
     },
     {
-      "name": "나테라",
-      "weight_pct": 2.59,
-      "shares": 18,
-      "item_code": "NTRA.O"
-    },
-    {
       "name": "인바디",
-      "weight_pct": 2.57,
+      "weight_pct": 2.61,
       "shares": 144,
       "item_code": "041830"
+    },
+    {
+      "name": "나테라",
+      "weight_pct": 2.53,
+      "shares": 18,
+      "item_code": "NTRA.O"
     },
     {
       "name": "웰타워",
@@ -106,7 +106,7 @@
     },
     {
       "name": "노바티스 ADR",
-      "weight_pct": 2.5,
+      "weight_pct": 2.47,
       "shares": 39,
       "item_code": "NVS"
     },
@@ -117,20 +117,20 @@
       "item_code": "ABT"
     },
     {
-      "name": "파마리서치",
-      "weight_pct": 1.65,
-      "shares": 13,
-      "item_code": "214450"
+      "name": "알파벳 Class C",
+      "weight_pct": 2.05,
+      "shares": 14,
+      "item_code": "GOOG.O"
     },
     {
       "name": "메리어트 인터내셔널",
-      "weight_pct": 1.61,
+      "weight_pct": 1.6,
       "shares": 11,
       "item_code": "MAR.O"
     },
     {
       "name": "아이큐비아 홀딩스",
-      "weight_pct": 1.53,
+      "weight_pct": 1.55,
       "shares": 14,
       "item_code": "IQV"
     },
@@ -142,31 +142,37 @@
     },
     {
       "name": "머크 앤 코",
-      "weight_pct": 1.49,
+      "weight_pct": 1.46,
       "shares": 23,
       "item_code": "MRK"
     },
     {
       "name": "달바글로벌",
-      "weight_pct": 1.37,
+      "weight_pct": 1.39,
       "shares": 21,
       "item_code": "483650"
     },
     {
       "name": "모더나",
-      "weight_pct": 1.29,
+      "weight_pct": 1.2,
       "shares": 21,
       "item_code": "MRNA.O"
     },
     {
+      "name": "파마리서치",
+      "weight_pct": 1.15,
+      "shares": 9,
+      "item_code": "214450"
+    },
+    {
       "name": "레볼루션 메디신",
-      "weight_pct": 1.1,
+      "weight_pct": 1.08,
       "shares": 12,
       "item_code": "RVMD.O"
     },
     {
       "name": "그레일",
-      "weight_pct": 0.9,
+      "weight_pct": 0.92,
       "shares": 27,
       "item_code": "GRAL.O"
     }

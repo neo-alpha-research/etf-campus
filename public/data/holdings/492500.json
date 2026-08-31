@@ -1,16 +1,16 @@
 {
   "ticker": "492500",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "현대카드914-4",
-      "weight_pct": 12.72,
+      "weight_pct": 12.73,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대건설310-1(녹)",
-      "weight_pct": 12.7,
+      "weight_pct": 12.71,
       "shares": 0,
       "item_code": null
     },
@@ -28,26 +28,26 @@
     },
     {
       "name": "현대건설310-2(녹)",
-      "weight_pct": 12.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "현대캐피탈2066(연)",
       "weight_pct": 12.5,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "현대제철141-1",
+      "name": "현대캐피탈2066(연)",
       "weight_pct": 12.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대제철141-1",
+      "weight_pct": 12.48,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 11.81,
-      "shares": 12137248,
+      "shares": 12136689,
       "item_code": null
     }
   ]

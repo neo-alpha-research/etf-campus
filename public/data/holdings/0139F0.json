@@ -1,6 +1,6 @@
 {
   "ticker": "0139F0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "현대카드949-1",
@@ -1036,8 +1036,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -20.29,
-      "shares": -20711951,
+      "weight_pct": -20.3,
+      "shares": -20725104,
       "item_code": null
     }
   ]

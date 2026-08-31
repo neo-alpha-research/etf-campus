@@ -1,130 +1,130 @@
 {
   "ticker": "419650",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "블룸 에너지",
-      "weight_pct": 10.78,
+      "weight_pct": 10.47,
       "shares": 91,
       "item_code": "BE"
     },
     {
       "name": "퓨얼셀 에너지",
-      "weight_pct": 6.81,
+      "weight_pct": 6.38,
       "shares": 658,
       "item_code": "FCEL.O"
     },
     {
       "name": "SFC ENERGY AG-BR",
-      "weight_pct": 6.02,
+      "weight_pct": 5.99,
       "shares": 466,
       "item_code": null
     },
     {
       "name": "THYSSENKRUPP NUCERA AG & CO",
-      "weight_pct": 5.58,
+      "weight_pct": 5.61,
       "shares": 1127,
       "item_code": null
     },
     {
       "name": "에어 프로덕츠 앤 케미컬스",
-      "weight_pct": 5.13,
+      "weight_pct": 5.18,
       "shares": 30,
       "item_code": "APD"
     },
     {
       "name": "ITM POWER PLC",
-      "weight_pct": 5.07,
+      "weight_pct": 5.06,
       "shares": 6495,
       "item_code": null
     },
     {
       "name": "플러그 파워",
-      "weight_pct": 4.96,
+      "weight_pct": 5.03,
       "shares": 4215,
       "item_code": "PLUG.O"
     },
     {
       "name": "북경 억화통과기",
-      "weight_pct": 4.7,
+      "weight_pct": 4.83,
       "shares": 5557,
       "item_code": "2402.HK"
     },
     {
       "name": "AIR LIQUIDE SA",
-      "weight_pct": 4.69,
+      "weight_pct": 4.72,
       "shares": 43,
       "item_code": null
     },
     {
       "name": "NEL ASA",
-      "weight_pct": 4.56,
+      "weight_pct": 4.51,
       "shares": 36732,
       "item_code": null
     },
     {
       "name": "린드",
-      "weight_pct": 4.46,
+      "weight_pct": 4.47,
       "shares": 16,
       "item_code": "LIN.O"
     },
     {
-      "name": "상해 중소능원집단",
-      "weight_pct": 4.2,
-      "shares": 4236,
-      "item_code": "2570.HK"
-    },
-    {
-      "name": "CERES POWER HOLDINGS PLC",
-      "weight_pct": 4.17,
-      "shares": 1402,
-      "item_code": null
-    },
-    {
-      "name": "두산퓨얼셀",
-      "weight_pct": 4.16,
-      "shares": 234,
-      "item_code": "336260"
-    },
-    {
       "name": "H-POWER PLC",
-      "weight_pct": 4.1,
+      "weight_pct": 4.23,
       "shares": 53274,
       "item_code": null
     },
     {
+      "name": "상해 중소능원집단",
+      "weight_pct": 4.22,
+      "shares": 4236,
+      "item_code": "2570.HK"
+    },
+    {
+      "name": "두산퓨얼셀",
+      "weight_pct": 4.21,
+      "shares": 234,
+      "item_code": "336260"
+    },
+    {
+      "name": "CERES POWER HOLDINGS PLC",
+      "weight_pct": 4.07,
+      "shares": 1402,
+      "item_code": null
+    },
+    {
       "name": "범한퓨얼셀",
-      "weight_pct": 3.84,
+      "weight_pct": 4.01,
       "shares": 582,
       "item_code": "382900"
     },
     {
       "name": "일진하이솔루스",
-      "weight_pct": 3.45,
+      "weight_pct": 3.56,
       "shares": 818,
       "item_code": "271940"
     },
     {
       "name": "POWERCELL SWEDEN AB",
-      "weight_pct": 3.27,
+      "weight_pct": 3.26,
       "shares": 2833,
       "item_code": null
     },
     {
-      "name": "발라드 파워 시스템즈",
-      "weight_pct": 3.03,
-      "shares": 2437,
-      "item_code": "BLDP.O"
-    },
-    {
       "name": "국부경능기술장비",
-      "weight_pct": 2.98,
+      "weight_pct": 3.02,
       "shares": 4915,
       "item_code": "2582.HK"
     },
     {
+      "name": "발라드 파워 시스템즈",
+      "weight_pct": 3.0,
+      "shares": 2437,
+      "item_code": "BLDP.O"
+    },
+    {
       "name": "미쓰비시 케미컬 그룹",
-      "weight_pct": 1.05,
+      "weight_pct": 1.1,
       "shares": 272,
       "item_code": "4188.T"
     },
@@ -135,21 +135,21 @@
       "item_code": "4091.T"
     },
     {
-      "name": "SOL SPA",
-      "weight_pct": 0.72,
-      "shares": 21,
-      "item_code": null
-    },
-    {
       "name": "덕양에너젠",
-      "weight_pct": 0.69,
+      "weight_pct": 0.75,
       "shares": 201,
       "item_code": "0001A0"
     },
     {
+      "name": "SOL SPA",
+      "weight_pct": 0.73,
+      "shares": 21,
+      "item_code": null
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.42,
-      "shares": 1069498,
+      "weight_pct": 0.41,
+      "shares": 1052352,
       "item_code": null
     }
   ]

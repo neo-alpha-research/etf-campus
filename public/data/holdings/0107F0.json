@@ -1,46 +1,46 @@
 {
   "ticker": "0107F0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
-      "name": "웨스턴유니온",
-      "weight_pct": 6.35,
-      "shares": 3627,
-      "item_code": "WU"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 6.18,
+      "weight_pct": 6.41,
       "shares": 122,
       "item_code": "NVDA.O"
     },
     {
+      "name": "웨스턴유니온",
+      "weight_pct": 6.33,
+      "shares": 3627,
+      "item_code": "WU"
+    },
+    {
       "name": "마이크로소프트",
-      "weight_pct": 5.71,
+      "weight_pct": 5.9,
       "shares": 47,
       "item_code": "MSFT.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 5.29,
+      "weight_pct": 5.36,
       "shares": 64,
       "item_code": "GOOGL.O"
     },
     {
       "name": "버라이존",
-      "weight_pct": 4.83,
+      "weight_pct": 4.82,
       "shares": 398,
       "item_code": "VZ"
     },
     {
       "name": "UPS(유나이티드 파셀 서비스)",
-      "weight_pct": 4.47,
+      "weight_pct": 4.45,
       "shares": 175,
       "item_code": "UPS"
     },
     {
       "name": "베스트 바이",
-      "weight_pct": 4.17,
+      "weight_pct": 3.93,
       "shares": 197,
       "item_code": "BBY"
     },
@@ -52,7 +52,7 @@
     },
     {
       "name": "옴니콤 그룹",
-      "weight_pct": 3.84,
+      "weight_pct": 3.86,
       "shares": 181,
       "item_code": "OMC"
     },
@@ -70,13 +70,13 @@
     },
     {
       "name": "셰브론",
-      "weight_pct": 3.6,
+      "weight_pct": 3.63,
       "shares": 74,
       "item_code": "CVX"
     },
     {
       "name": "티 로웨 프라이스 그룹",
-      "weight_pct": 3.58,
+      "weight_pct": 3.54,
       "shares": 132,
       "item_code": "TROW.O"
     },
@@ -88,49 +88,49 @@
     },
     {
       "name": "컬럼비아 뱅킹 시스템",
-      "weight_pct": 3.29,
+      "weight_pct": 3.22,
       "shares": 444,
       "item_code": "COLB.O"
     },
     {
       "name": "펩시코",
-      "weight_pct": 3.08,
+      "weight_pct": 3.05,
       "shares": 89,
       "item_code": "PEP.O"
     },
     {
       "name": "앤테로 미드스트림",
-      "weight_pct": 2.85,
+      "weight_pct": 2.81,
       "shares": 523,
       "item_code": "AM"
     },
     {
+      "name": "브로드컴",
+      "weight_pct": 2.72,
+      "shares": 30,
+      "item_code": "AVGO.O"
+    },
+    {
       "name": "리전스 파이낸셜",
-      "weight_pct": 2.71,
+      "weight_pct": 2.68,
       "shares": 367,
       "item_code": "RF"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 2.68,
+      "weight_pct": 2.67,
       "shares": 26,
       "item_code": "TSM"
     },
     {
       "name": "CVB 파이낸셜",
-      "weight_pct": 2.67,
+      "weight_pct": 2.65,
       "shares": 495,
       "item_code": "CVBF.O"
     },
     {
-      "name": "브로드컴",
-      "weight_pct": 2.62,
-      "shares": 30,
-      "item_code": "AVGO.O"
-    },
-    {
       "name": "뱅크 오즈크",
-      "weight_pct": 2.5,
+      "weight_pct": 2.49,
       "shares": 209,
       "item_code": "OZK.O"
     },
@@ -142,50 +142,50 @@
     },
     {
       "name": "레이놀드 컨슈머 프라덕츠",
-      "weight_pct": 2.37,
+      "weight_pct": 2.32,
       "shares": 400,
       "item_code": "REYN.O"
     },
     {
       "name": "퍼스트 하와이안",
-      "weight_pct": 2.33,
+      "weight_pct": 2.31,
       "shares": 371,
       "item_code": "FHB.O"
     },
     {
       "name": "메타",
-      "weight_pct": 1.76,
+      "weight_pct": 1.77,
       "shares": 12,
       "item_code": "META.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 1.67,
+      "weight_pct": 1.66,
       "shares": 7,
       "item_code": "MU.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 1.57,
+      "weight_pct": 1.58,
       "shares": 18,
       "item_code": "TSLA.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 1.28,
+      "weight_pct": 1.24,
       "shares": 11,
       "item_code": "AMD.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 0.74,
+      "weight_pct": 0.75,
       "shares": 35,
       "item_code": "INTC.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.66,
-      "shares": 3804740,
+      "weight_pct": 0.69,
+      "shares": 3919782,
       "item_code": null
     }
   ]

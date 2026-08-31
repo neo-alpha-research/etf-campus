@@ -1,35 +1,35 @@
 {
   "ticker": "144600",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 95.47,
-      "shares": 1056442656,
+      "weight_pct": 95.58,
+      "shares": 1041383743,
       "item_code": null
     },
     {
       "name": "Silver 2026 12",
-      "weight_pct": 95.33,
+      "weight_pct": 95.36,
       "shares": 2,
       "item_code": null
     },
     {
       "name": "iShares Silver Trust",
-      "weight_pct": 4.42,
-      "shares": 575,
+      "weight_pct": 4.35,
+      "shares": 577,
       "item_code": "SLV"
     },
     {
       "name": "USD현금",
-      "weight_pct": 0.09,
-      "shares": 759,
+      "weight_pct": 0.06,
+      "shares": 501,
       "item_code": null
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -21.13,
-      "shares": -16,
+      "weight_pct": -17.86,
+      "shares": -14,
       "item_code": null
     }
   ]

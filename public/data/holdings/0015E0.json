@@ -1,46 +1,46 @@
 {
   "ticker": "0015E0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 26.29,
+      "weight_pct": 25.81,
       "shares": 2400,
       "item_code": "TLT.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 20.95,
+      "weight_pct": 21.45,
       "shares": 760,
       "item_code": "NVDA.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 19.23,
-      "shares": 201976854,
+      "weight_pct": 19.66,
+      "shares": 207368441,
       "item_code": null
     },
     {
       "name": "KB 미국채 30년 ETN",
-      "weight_pct": 11.9,
+      "weight_pct": 11.8,
       "shares": 13000,
       "item_code": "580061"
     },
     {
       "name": "메리츠 미국채30년 ETN(H)",
-      "weight_pct": 10.52,
+      "weight_pct": 10.43,
       "shares": 15000,
       "item_code": "610037"
     },
     {
       "name": "T 4 1/2 11/15/54",
-      "weight_pct": 8.98,
+      "weight_pct": 8.8,
       "shares": 76000,
       "item_code": null
     },
     {
       "name": "Direxion Daily 20 Year Treasury Bull 3X ETF",
-      "weight_pct": 2.09,
+      "weight_pct": 2.03,
       "shares": 500,
       "item_code": "TMF"
     }

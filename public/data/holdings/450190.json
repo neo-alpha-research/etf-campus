@@ -1,41 +1,41 @@
 {
   "ticker": "450190",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스왑(NH투자증권)",
-      "weight_pct": 33.53,
-      "shares": 804126490,
+      "weight_pct": 33.54,
+      "shares": 806909146,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)",
-      "weight_pct": 16.76,
-      "shares": 402064212,
+      "weight_pct": 16.77,
+      "shares": 403455544,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)",
       "weight_pct": 16.76,
-      "shares": 401827227,
+      "shares": 403217738,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)",
       "weight_pct": 16.68,
-      "shares": 399996154,
+      "shares": 401380329,
       "item_code": null
     },
     {
       "name": "스왑(KB증권)",
       "weight_pct": 16.16,
-      "shares": 387555135,
+      "shares": 388873939,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.08,
-      "shares": 1959051,
+      "weight_pct": 0.07,
+      "shares": 1879900,
       "item_code": null
     }
   ]

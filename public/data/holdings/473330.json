@@ -1,35 +1,35 @@
 {
   "ticker": "473330",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스왑(메리츠증권)",
       "weight_pct": 32.65,
-      "shares": 131581717,
+      "shares": 129924842,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)",
       "weight_pct": 32.13,
-      "shares": 129459458,
+      "shares": 127823755,
       "item_code": null
     },
     {
       "name": "스왑(삼성증권)",
-      "weight_pct": 22.81,
-      "shares": 91926066,
+      "weight_pct": 22.46,
+      "shares": 89362693,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)",
       "weight_pct": 12.61,
-      "shares": 50807397,
+      "shares": 50165453,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.21,
-      "shares": -873857,
+      "weight_pct": 0.13,
+      "shares": 537039,
       "item_code": null
     }
   ]

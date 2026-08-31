@@ -1,197 +1,197 @@
 {
   "ticker": "483330",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "마이크로소프트",
-      "weight_pct": 22.02,
+      "weight_pct": 21.87,
       "shares": 234,
       "item_code": "MSFT.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 11.05,
+      "weight_pct": 10.86,
       "shares": 224,
       "item_code": "AMZN.O"
     },
     {
       "name": "메타",
-      "weight_pct": 8.3,
+      "weight_pct": 7.99,
       "shares": 76,
       "item_code": "META.O"
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 4.64,
+      "weight_pct": 4.67,
       "shares": 138,
       "item_code": "PLTR.O"
     },
     {
-      "name": "오라클",
-      "weight_pct": 3.95,
-      "shares": 140,
-      "item_code": "ORCL.K"
-    },
-    {
       "name": "팔로 알토 네트웍스",
-      "weight_pct": 3.86,
+      "weight_pct": 4.05,
       "shares": 60,
       "item_code": "PANW.O"
     },
     {
+      "name": "오라클",
+      "weight_pct": 3.84,
+      "shares": 140,
+      "item_code": "ORCL.K"
+    },
+    {
       "name": "SAP ADR",
-      "weight_pct": 3.65,
+      "weight_pct": 3.66,
       "shares": 91,
       "item_code": "SAP"
     },
     {
-      "name": "쇼피파이",
-      "weight_pct": 3.02,
-      "shares": 106,
-      "item_code": "SHOP.O"
-    },
-    {
-      "name": "크라우드 스트라이크 홀딩스",
-      "weight_pct": 2.97,
-      "shares": 83,
-      "item_code": "CRWD.O"
-    },
-    {
       "name": "세일즈포스",
-      "weight_pct": 2.88,
+      "weight_pct": 3.44,
       "shares": 74,
       "item_code": "CRM"
     },
     {
+      "name": "크라우드 스트라이크 홀딩스",
+      "weight_pct": 3.29,
+      "shares": 83,
+      "item_code": "CRWD.O"
+    },
+    {
+      "name": "쇼피파이",
+      "weight_pct": 2.95,
+      "shares": 106,
+      "item_code": "SHOP.O"
+    },
+    {
       "name": "서비스나우",
-      "weight_pct": 2.48,
+      "weight_pct": 2.73,
       "shares": 104,
       "item_code": "NOW"
     },
     {
-      "name": "엔비디아",
-      "weight_pct": 2.34,
-      "shares": 59,
-      "item_code": "NVDA.O"
-    },
-    {
       "name": "어도비",
-      "weight_pct": 2.33,
+      "weight_pct": 2.38,
       "shares": 45,
       "item_code": "ADBE.O"
     },
     {
-      "name": "스노우플레이크",
+      "name": "엔비디아",
       "weight_pct": 2.33,
+      "shares": 59,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "스노우플레이크",
+      "weight_pct": 2.32,
       "shares": 39,
       "item_code": "SNOW.K"
     },
     {
-      "name": "네비우스 그룹",
-      "weight_pct": 2.27,
-      "shares": 56,
-      "item_code": "NBIS.O"
-    },
-    {
       "name": "인튜이트",
-      "weight_pct": 2.23,
+      "weight_pct": 2.21,
       "shares": 34,
       "item_code": "INTU.O"
     },
     {
+      "name": "네비우스 그룹",
+      "weight_pct": 2.13,
+      "shares": 56,
+      "item_code": "NBIS.O"
+    },
+    {
       "name": "클라우드플레어",
-      "weight_pct": 2.05,
+      "weight_pct": 2.07,
       "shares": 38,
       "item_code": "NET"
     },
     {
-      "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 1.9,
-      "shares": 30,
-      "item_code": "CDNS.O"
-    },
-    {
       "name": "시놉시스",
-      "weight_pct": 1.78,
+      "weight_pct": 1.85,
       "shares": 23,
       "item_code": "SNPS.O"
     },
     {
+      "name": "케이던스 디자인 시스템즈",
+      "weight_pct": 1.85,
+      "shares": 30,
+      "item_code": "CDNS.O"
+    },
+    {
       "name": "워크데이",
-      "weight_pct": 1.7,
+      "weight_pct": 1.75,
       "shares": 47,
       "item_code": "WDAY.O"
     },
     {
       "name": "데이터도그",
-      "weight_pct": 1.64,
+      "weight_pct": 1.63,
       "shares": 38,
       "item_code": "DDOG.O"
     },
     {
       "name": "몽고DB",
-      "weight_pct": 1.46,
+      "weight_pct": 1.54,
       "shares": 19,
       "item_code": "MDB.O"
     },
     {
-      "name": "코어위브",
-      "weight_pct": 1.31,
-      "shares": 79,
-      "item_code": "CRWV.O"
-    },
-    {
       "name": "앱러빈",
-      "weight_pct": 1.28,
+      "weight_pct": 1.27,
       "shares": 22,
       "item_code": "APP.O"
     },
     {
+      "name": "코어위브",
+      "weight_pct": 1.21,
+      "shares": 79,
+      "item_code": "CRWV.O"
+    },
+    {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 1.27,
+      "weight_pct": 1.18,
       "shares": 14,
       "item_code": "AMD.O"
     },
     {
-      "name": "암 홀딩스 ADR",
-      "weight_pct": 0.99,
-      "shares": 21,
-      "item_code": "ARM.O"
-    },
-    {
       "name": "디지털오션 홀딩스",
-      "weight_pct": 0.98,
+      "weight_pct": 0.91,
       "shares": 45,
       "item_code": "DOCN.K"
     },
     {
-      "name": "헛 8",
-      "weight_pct": 0.95,
-      "shares": 59,
-      "item_code": "HUT.O"
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 0.91,
+      "shares": 21,
+      "item_code": "ARM.O"
     },
     {
       "name": "로블록스",
-      "weight_pct": 0.91,
+      "weight_pct": 0.89,
       "shares": 128,
       "item_code": "RBLX.K"
     },
     {
+      "name": "헛 8",
+      "weight_pct": 0.85,
+      "shares": 59,
+      "item_code": "HUT.O"
+    },
+    {
       "name": "아이렌",
-      "weight_pct": 0.75,
+      "weight_pct": 0.64,
       "shares": 100,
       "item_code": "IREN.O"
     },
     {
       "name": "소프트뱅크 그룹",
-      "weight_pct": 0.63,
+      "weight_pct": 0.61,
       "shares": 104,
       "item_code": "9984.T"
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.04,
-      "shares": -306444,
+      "weight_pct": -0.05,
+      "shares": -388082,
       "item_code": null
     }
   ]

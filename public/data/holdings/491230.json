@@ -1,11 +1,11 @@
 {
   "ticker": "491230",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 34.91,
-      "shares": 36641551,
+      "shares": 36653304,
       "item_code": null
     },
     {

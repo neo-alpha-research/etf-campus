@@ -1,64 +1,58 @@
 {
   "ticker": "463290",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 29.67,
-      "shares": 32406115,
-      "item_code": null
-    },
-    {
-      "name": "산금24신이0200-0829-2",
-      "weight_pct": 7.85,
-      "shares": 0,
+      "weight_pct": 37.68,
+      "shares": 41165909,
       "item_code": null
     },
     {
       "name": "신한캐피탈497-2",
-      "weight_pct": 7.85,
+      "weight_pct": 7.83,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국민은행4409이표일(03)2-10",
-      "weight_pct": 7.84,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리카드254-1",
       "weight_pct": 7.82,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "우리카드254-1",
+      "weight_pct": 7.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "케이비캐피탈546-5",
-      "weight_pct": 7.81,
+      "weight_pct": 7.79,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔에이치농협캐피탈240-2",
-      "weight_pct": 7.81,
+      "weight_pct": 7.79,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산은캐피탈743-4",
-      "weight_pct": 7.78,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이엠캐피탈145",
       "weight_pct": 7.76,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "아이엠캐피탈145",
+      "weight_pct": 7.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "기업은행(단)2603할214A-23",
-      "weight_pct": 7.75,
+      "weight_pct": 7.73,
       "shares": 0,
       "item_code": null
     }

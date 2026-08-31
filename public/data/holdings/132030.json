@@ -1,35 +1,35 @@
 {
   "ticker": "132030",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 93.52,
-      "shares": 2413975642,
+      "weight_pct": 93.61,
+      "shares": 2352122087,
       "item_code": null
     },
     {
       "name": "GOLD 2026 12",
-      "weight_pct": 93.36,
+      "weight_pct": 93.51,
       "shares": 3,
       "item_code": null
     },
     {
       "name": "SPDR Gold Shares",
-      "weight_pct": 6.38,
+      "weight_pct": 6.31,
       "shares": 283,
       "item_code": "GLD"
     },
     {
       "name": "USD현금",
-      "weight_pct": 0.08,
-      "shares": 1568,
+      "weight_pct": 0.07,
+      "shares": 1394,
       "item_code": null
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -21.7,
-      "shares": -40,
+      "weight_pct": -19.37,
+      "shares": -35,
       "item_code": null
     }
   ]

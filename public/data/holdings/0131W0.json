@@ -1,6 +1,6 @@
 {
   "ticker": "0131W0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "토지주택채권(용지)23-09",
@@ -89,7 +89,7 @@
     {
       "name": "원화현금",
       "weight_pct": 1.07,
-      "shares": 1092939,
+      "shares": 1092932,
       "item_code": null
     }
   ]

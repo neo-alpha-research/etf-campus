@@ -1,64 +1,64 @@
 {
   "ticker": "453660",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "아마존닷컴",
-      "weight_pct": 21.25,
+      "weight_pct": 21.74,
       "shares": 516,
       "item_code": "AMZN.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 14.14,
+      "weight_pct": 14.25,
       "shares": 258,
       "item_code": "TSLA.O"
     },
     {
       "name": "State Street Consumer Disc Sel Sect SPDR ETF",
-      "weight_pct": 6.61,
+      "weight_pct": 6.6,
       "shares": 357,
       "item_code": "XLY"
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.06,
-      "shares": 53016376,
+      "weight_pct": 6.1,
+      "shares": 52890909,
       "item_code": null
     },
     {
       "name": "홈디포",
-      "weight_pct": 4.84,
+      "weight_pct": 4.77,
       "shares": 91,
       "item_code": "HD"
     },
     {
       "name": "맥도날드",
-      "weight_pct": 3.59,
+      "weight_pct": 3.56,
       "shares": 85,
       "item_code": "MCD"
     },
     {
       "name": "부킹 홀딩스",
-      "weight_pct": 3.52,
+      "weight_pct": 3.46,
       "shares": 106,
       "item_code": "BKNG.O"
     },
     {
       "name": "TJX 컴퍼니스",
-      "weight_pct": 3.1,
+      "weight_pct": 3.06,
       "shares": 143,
       "item_code": "TJX"
     },
     {
       "name": "스타벅스",
-      "weight_pct": 2.69,
+      "weight_pct": 2.67,
       "shares": 157,
       "item_code": "SBUX.O"
     },
     {
       "name": "로우스 컴퍼니",
-      "weight_pct": 2.56,
+      "weight_pct": 2.53,
       "shares": 77,
       "item_code": "LOW"
     },
@@ -69,14 +69,8 @@
       "item_code": "DASH.O"
     },
     {
-      "name": "메리어트 인터내셔널",
-      "weight_pct": 1.71,
-      "shares": 30,
-      "item_code": "MAR.O"
-    },
-    {
       "name": "에어비앤비",
-      "weight_pct": 1.71,
+      "weight_pct": 1.72,
       "shares": 57,
       "item_code": "ABNB.O"
     },
@@ -87,26 +81,32 @@
       "item_code": "GM"
     },
     {
+      "name": "메리어트 인터내셔널",
+      "weight_pct": 1.67,
+      "shares": 30,
+      "item_code": "MAR.O"
+    },
+    {
       "name": "로스 스토어스",
-      "weight_pct": 1.65,
+      "weight_pct": 1.6,
       "shares": 44,
       "item_code": "ROST.O"
     },
     {
-      "name": "힐튼 월드와이드 홀딩스",
-      "weight_pct": 1.65,
-      "shares": 31,
-      "item_code": "HLT"
-    },
-    {
       "name": "오레일리 오토모티브",
-      "weight_pct": 1.61,
+      "weight_pct": 1.59,
       "shares": 114,
       "item_code": "ORLY.O"
     },
     {
+      "name": "힐튼 월드와이드 홀딩스",
+      "weight_pct": 1.59,
+      "shares": 31,
+      "item_code": "HLT"
+    },
+    {
       "name": "로얄 캐리비안 크루즈",
-      "weight_pct": 1.57,
+      "weight_pct": 1.51,
       "shares": 34,
       "item_code": "RCL"
     },
@@ -124,33 +124,33 @@
     },
     {
       "name": "오토존",
-      "weight_pct": 1.08,
+      "weight_pct": 1.07,
       "shares": 2,
       "item_code": "AZO"
     },
     {
       "name": "치폴레 멕시칸 그릴",
-      "weight_pct": 1.04,
+      "weight_pct": 1.06,
       "shares": 176,
       "item_code": "CMG"
     },
     {
-      "name": "가민",
-      "weight_pct": 1.03,
-      "shares": 22,
-      "item_code": "GRMN.K"
-    },
-    {
       "name": "나이키",
-      "weight_pct": 1.0,
+      "weight_pct": 1.03,
       "shares": 165,
       "item_code": "NKE"
     },
     {
       "name": "이베이",
-      "weight_pct": 1.0,
+      "weight_pct": 1.02,
       "shares": 61,
       "item_code": "EBAY.O"
+    },
+    {
+      "name": "가민",
+      "weight_pct": 1.01,
+      "shares": 22,
+      "item_code": "GRMN.K"
     },
     {
       "name": "염 브랜즈",
@@ -160,19 +160,19 @@
     },
     {
       "name": "D.R. 호튼",
-      "weight_pct": 0.85,
+      "weight_pct": 0.84,
       "shares": 36,
       "item_code": "DHI"
     },
     {
       "name": "익스피디아그룹",
-      "weight_pct": 0.83,
+      "weight_pct": 0.82,
       "shares": 15,
       "item_code": "EXPE.O"
     },
     {
       "name": "카니발",
-      "weight_pct": 0.71,
+      "weight_pct": 0.69,
       "shares": 177,
       "item_code": "CCL"
     },
@@ -184,25 +184,25 @@
     },
     {
       "name": "태피스트리",
-      "weight_pct": 0.57,
+      "weight_pct": 0.55,
       "shares": 27,
       "item_code": "TPR"
     },
     {
       "name": "풀티 그룹",
-      "weight_pct": 0.54,
+      "weight_pct": 0.53,
       "shares": 26,
       "item_code": "PHM"
     },
     {
       "name": "다든 레스토랑",
-      "weight_pct": 0.54,
+      "weight_pct": 0.53,
       "shares": 15,
       "item_code": "DRI"
     },
     {
       "name": "울타 뷰티",
-      "weight_pct": 0.51,
+      "weight_pct": 0.49,
       "shares": 6,
       "item_code": "ULTA.O"
     },
@@ -213,22 +213,16 @@
       "item_code": "GPC"
     },
     {
-      "name": "트랙터 서플라이",
-      "weight_pct": 0.4,
-      "shares": 72,
-      "item_code": "TSCO.O"
-    },
-    {
       "name": "레나 Class A",
       "weight_pct": 0.4,
       "shares": 29,
       "item_code": "LEN"
     },
     {
-      "name": "베스트 바이",
-      "weight_pct": 0.37,
-      "shares": 27,
-      "item_code": "BBY"
+      "name": "트랙터 서플라이",
+      "weight_pct": 0.39,
+      "shares": 72,
+      "item_code": "TSCO.O"
     },
     {
       "name": "NVR",
@@ -237,20 +231,32 @@
       "item_code": "NVR"
     },
     {
+      "name": "베스트 바이",
+      "weight_pct": 0.35,
+      "shares": 27,
+      "item_code": "BBY"
+    },
+    {
       "name": "랄프 로렌",
-      "weight_pct": 0.3,
+      "weight_pct": 0.29,
       "shares": 5,
       "item_code": "RL"
     },
     {
       "name": "라스베이거스 샌즈",
-      "weight_pct": 0.3,
+      "weight_pct": 0.29,
       "shares": 41,
       "item_code": "LVS"
     },
     {
+      "name": "룰루레몬 애슬레티카",
+      "weight_pct": 0.27,
+      "shares": 14,
+      "item_code": "LULU.O"
+    },
+    {
       "name": "해즈브로",
-      "weight_pct": 0.28,
+      "weight_pct": 0.27,
       "shares": 18,
       "item_code": "HAS.O"
     },
@@ -261,14 +267,8 @@
       "item_code": "DECK.K"
     },
     {
-      "name": "룰루레몬 애슬레티카",
-      "weight_pct": 0.26,
-      "shares": 14,
-      "item_code": "LULU.O"
-    },
-    {
       "name": "도미노피자",
-      "weight_pct": 0.22,
+      "weight_pct": 0.23,
       "shares": 4,
       "item_code": "DPZ.O"
     },
@@ -279,20 +279,20 @@
       "item_code": "APTV.K"
     },
     {
-      "name": "MGM 리조트 인터내셔널",
-      "weight_pct": 0.18,
-      "shares": 26,
-      "item_code": "MGM"
-    },
-    {
       "name": "윈 리조트",
       "weight_pct": 0.17,
       "shares": 11,
       "item_code": "WYNN.O"
     },
     {
-      "name": "노르웨이지안 크루즈 라인 홀딩스",
+      "name": "MGM 리조트 인터내셔널",
       "weight_pct": 0.17,
+      "shares": 26,
+      "item_code": "MGM"
+    },
+    {
+      "name": "노르웨이지안 크루즈 라인 홀딩스",
+      "weight_pct": 0.16,
       "shares": 63,
       "item_code": "NCLH.K"
     }

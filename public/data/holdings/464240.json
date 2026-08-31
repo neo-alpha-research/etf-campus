@@ -1,11 +1,11 @@
 {
   "ticker": "464240",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 21.24,
-      "shares": 111299831,
+      "weight_pct": 27.82,
+      "shares": 145847726,
       "item_code": null
     },
     {
@@ -16,12 +16,6 @@
     },
     {
       "name": "케이비캐피탈517-4",
-      "weight_pct": 6.58,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "연합자산관리33-1",
       "weight_pct": 6.58,
       "shares": 0,
       "item_code": null

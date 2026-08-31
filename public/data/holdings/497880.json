@@ -1,227 +1,227 @@
 {
   "ticker": "497880",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "기업은행(단)2603할184A-13",
-      "weight_pct": 7.32,
+      "weight_pct": 7.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리투자증권 20260612-90-18(단)",
-      "weight_pct": 5.49,
+      "weight_pct": 5.43,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "비케이프로제구차 20260811-52-2(단)",
-      "weight_pct": 4.67,
+      "weight_pct": 4.62,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대카드883-2",
-      "weight_pct": 3.7,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "메리츠캐피탈254-3",
-      "weight_pct": 3.69,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나에프앤아이186-3",
-      "weight_pct": 3.69,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "삼성카드2825",
-      "weight_pct": 3.68,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국캐피탈537-2",
-      "weight_pct": 3.68,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "에이치케이이노엔5-1",
-      "weight_pct": 3.68,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "롯데렌탈61-2",
-      "weight_pct": 3.67,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "메리츠캐피탈266-1",
-      "weight_pct": 3.67,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "엔에이치농협캐피탈254-1",
       "weight_pct": 3.66,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "롯데웰푸드66-2",
+      "name": "메리츠캐피탈254-3",
       "weight_pct": 3.65,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "키움에프앤아이 20260707-92-1(단)",
+      "name": "하나에프앤아이186-3",
       "weight_pct": 3.65,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "대신에프앤아이 20260707-92-1(단)",
-      "weight_pct": 3.65,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국동서발전52-1",
+      "name": "삼성카드2825",
       "weight_pct": 3.64,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "키움에프앤아이 20260720-92-5(단)",
+      "name": "한국캐피탈537-2",
       "weight_pct": 3.64,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "옐로우퍼피 20260807-92-1(단)",
+      "name": "에이치케이이노엔5-1",
+      "weight_pct": 3.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈120-1",
       "weight_pct": 3.63,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "동원F&B12-2",
-      "weight_pct": 1.85,
+      "name": "엔에이치농협캐피탈254-1",
+      "weight_pct": 3.63,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈61-2",
+      "weight_pct": 3.63,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "메리츠캐피탈266-1",
+      "weight_pct": 3.63,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데웰푸드66-2",
+      "weight_pct": 3.62,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260707-92-1(단)",
+      "weight_pct": 3.61,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "대신에프앤아이 20260707-92-1(단)",
+      "weight_pct": 3.61,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국동서발전52-1",
+      "weight_pct": 3.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260720-92-5(단)",
+      "weight_pct": 3.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "옐로우퍼피 20260807-92-1(단)",
+      "weight_pct": 3.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "키움캐피탈203-4",
-      "weight_pct": 1.84,
+      "weight_pct": 1.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "애큐온캐피탈234-3",
-      "weight_pct": 1.84,
+      "weight_pct": 1.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리금융에프앤아이4-2",
-      "weight_pct": 1.84,
+      "weight_pct": 1.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "롯데캐피탈449-4",
-      "weight_pct": 1.84,
+      "weight_pct": 1.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나에프앤아이189-1",
-      "weight_pct": 1.84,
+      "weight_pct": 1.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "미래에셋증권69-2",
-      "weight_pct": 1.84,
+      "weight_pct": 1.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신에프앤아이(CP)",
-      "weight_pct": 1.83,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "키움에프앤아이 20260724-91-12(단)",
-      "weight_pct": 1.82,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "비엔케이썸제이십삼차 20260721-63-1(단)",
-      "weight_pct": 1.82,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리은행(CD)",
-      "weight_pct": 1.82,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나에프앤아이 20260715-92-7(단)",
-      "weight_pct": 1.82,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "롯데쇼핑(CP)",
-      "weight_pct": 1.82,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "롯데오토리스(CP)",
-      "weight_pct": 1.82,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "모멘텀제일차 20260820-92-1(단)",
       "weight_pct": 1.81,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "롯데오토리스(CP)",
+      "weight_pct": 1.81,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키움에프앤아이 20260724-91-12(단)",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비엔케이썸제이십삼차 20260721-63-1(단)",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리은행(CD)",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이 20260715-92-7(단)",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데쇼핑(CP)",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "모멘텀제일차 20260820-92-1(단)",
+      "weight_pct": 1.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "롯데캐피탈459-6",
-      "weight_pct": 1.1,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "엘지디스플레이43-2(녹)",
-      "weight_pct": 1.1,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "트루프렌드상생제일차 20260810-31-3(단)",
       "weight_pct": 1.09,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "엘지디스플레이43-2(녹)",
+      "weight_pct": 1.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "트루프렌드상생제일차 20260810-31-3(단)",
+      "weight_pct": 1.08,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "원화현금",
-      "weight_pct": -3.4,
-      "shares": -3407090,
+      "weight_pct": -4.11,
+      "shares": -4118410,
       "item_code": null
     }
   ]

@@ -1,10 +1,10 @@
 {
   "ticker": "0013P0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "제이피모간체이스",
-      "weight_pct": 20.58,
+      "weight_pct": 20.62,
       "shares": 269,
       "item_code": "JPM"
     },
@@ -16,56 +16,56 @@
     },
     {
       "name": "모간스탠리",
-      "weight_pct": 12.33,
+      "weight_pct": 12.35,
       "shares": 268,
       "item_code": "MS"
     },
     {
       "name": "골드만삭스",
-      "weight_pct": 11.32,
+      "weight_pct": 11.23,
       "shares": 50,
       "item_code": "GS"
     },
     {
       "name": "웰스파고",
-      "weight_pct": 9.82,
+      "weight_pct": 9.98,
       "shares": 538,
       "item_code": "WFC"
     },
     {
       "name": "씨티그룹",
-      "weight_pct": 8.65,
+      "weight_pct": 8.6,
       "shares": 302,
       "item_code": "C"
     },
     {
       "name": "찰스 슈왑",
-      "weight_pct": 7.57,
+      "weight_pct": 7.61,
       "shares": 323,
       "item_code": "SCHW.K"
     },
     {
       "name": "뉴욕멜론은행",
-      "weight_pct": 4.97,
+      "weight_pct": 4.95,
       "shares": 142,
       "item_code": "BNY"
     },
     {
       "name": "US 뱅코프",
-      "weight_pct": 4.39,
+      "weight_pct": 4.36,
       "shares": 326,
       "item_code": "USB"
     },
     {
       "name": "PNC 파이낸셜 서비스",
-      "weight_pct": 4.36,
+      "weight_pct": 4.31,
       "shares": 83,
       "item_code": "PNC"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.1,
-      "shares": 654910,
+      "weight_pct": 0.09,
+      "shares": 603981,
       "item_code": null
     }
   ]

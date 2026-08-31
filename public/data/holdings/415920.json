@@ -1,94 +1,94 @@
 {
   "ticker": "415920",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "VanEck Rare Earth and Strategic Metals ETF",
-      "weight_pct": 26.93,
+      "weight_pct": 26.72,
       "shares": 926,
       "item_code": "REMX.K"
     },
     {
       "name": "PLS GROUP LTD",
-      "weight_pct": 6.14,
+      "weight_pct": 6.21,
       "shares": 4344,
       "item_code": null
     },
     {
       "name": "앨버말",
-      "weight_pct": 5.97,
+      "weight_pct": 6.1,
       "shares": 119,
       "item_code": "ALB"
     },
     {
-      "name": "MP 머터리얼즈",
-      "weight_pct": 5.44,
-      "shares": 246,
-      "item_code": "MP"
-    },
-    {
       "name": "LYNAS RARE EARTHS LTD",
-      "weight_pct": 5.13,
+      "weight_pct": 5.22,
       "shares": 1205,
       "item_code": null
     },
     {
+      "name": "MP 머터리얼즈",
+      "weight_pct": 5.15,
+      "shares": 246,
+      "item_code": "MP"
+    },
+    {
       "name": "북방희토",
-      "weight_pct": 4.9,
+      "weight_pct": 4.97,
       "shares": 2212,
       "item_code": "600111.SS"
     },
     {
       "name": "알몬티 인더스트리스",
-      "weight_pct": 4.38,
+      "weight_pct": 4.33,
       "shares": 645,
       "item_code": "ALM.O"
     },
     {
       "name": "소시에다드 퀴미카 B ADR",
-      "weight_pct": 4.3,
+      "weight_pct": 4.33,
       "shares": 147,
       "item_code": "SQM"
     },
     {
       "name": "금두몰리브덴",
-      "weight_pct": 4.05,
+      "weight_pct": 4.07,
       "shares": 3176,
       "item_code": "601958.SS"
     },
     {
       "name": "하문텅스텐",
-      "weight_pct": 3.74,
+      "weight_pct": 3.88,
       "shares": 1284,
       "item_code": "600549.SS"
     },
     {
       "name": "ILUKA RESOURCES LTD",
-      "weight_pct": 2.94,
+      "weight_pct": 2.89,
       "shares": 1537,
       "item_code": null
     },
     {
       "name": "성화자원",
-      "weight_pct": 2.71,
+      "weight_pct": 2.76,
       "shares": 2180,
       "item_code": "600392.SS"
     },
     {
       "name": "강봉리튬",
-      "weight_pct": 2.66,
+      "weight_pct": 2.71,
       "shares": 1382,
       "item_code": "1772.HK"
     },
     {
       "name": "LIONTOWN LTD",
-      "weight_pct": 2.37,
+      "weight_pct": 2.35,
       "shares": 7388,
       "item_code": null
     },
     {
       "name": "AMG CRITICAL MATERIALS N.V.",
-      "weight_pct": 1.85,
+      "weight_pct": 1.88,
       "shares": 134,
       "item_code": null
     },
@@ -100,27 +100,33 @@
     },
     {
       "name": "삼상신재",
-      "weight_pct": 1.67,
+      "weight_pct": 1.76,
       "shares": 736,
       "item_code": "603663.SS"
     },
     {
       "name": "엘레브라 리튬",
-      "weight_pct": 1.6,
+      "weight_pct": 1.52,
       "shares": 69,
       "item_code": "ELVR.O"
     },
     {
       "name": "리튬 아메리카스",
-      "weight_pct": 1.51,
+      "weight_pct": 1.44,
       "shares": 1266,
       "item_code": "LAC"
     },
     {
       "name": "리튬 아르헨티나",
-      "weight_pct": 1.27,
+      "weight_pct": 1.3,
       "shares": 509,
       "item_code": "LAR"
+    },
+    {
+      "name": "시그마 리튬",
+      "weight_pct": 1.07,
+      "shares": 235,
+      "item_code": "SGML.O"
     },
     {
       "name": "VULCAN ENERGY RESOURCES LTD",
@@ -129,45 +135,39 @@
       "item_code": null
     },
     {
-      "name": "시그마 리튬",
-      "weight_pct": 1.06,
-      "shares": 235,
-      "item_code": "SGML.O"
-    },
-    {
       "name": "트로녹스 홀딩스",
-      "weight_pct": 0.91,
+      "weight_pct": 0.9,
       "shares": 449,
       "item_code": "TROX.K"
     },
     {
       "name": "보태고분",
-      "weight_pct": 0.88,
+      "weight_pct": 0.89,
       "shares": 594,
       "item_code": "600456.SS"
     },
     {
       "name": "유나이티드 스테이츠 앤티모니",
-      "weight_pct": 0.87,
+      "weight_pct": 0.84,
       "shares": 466,
       "item_code": "UAMY.K"
     },
     {
       "name": "스탠다드 리튬",
-      "weight_pct": 0.86,
+      "weight_pct": 0.84,
       "shares": 889,
       "item_code": "SLI"
     },
     {
       "name": "ERAMET",
-      "weight_pct": 0.83,
+      "weight_pct": 0.84,
       "shares": 42,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.74,
-      "shares": 2753236,
+      "weight_pct": 0.73,
+      "shares": 2707924,
       "item_code": null
     },
     {
@@ -178,7 +178,7 @@
     },
     {
       "name": "자신 인터내셔널 리소시스 인베스트먼트",
-      "weight_pct": 0.57,
+      "weight_pct": 0.59,
       "shares": 188,
       "item_code": "3858.HK"
     }

@@ -1,101 +1,101 @@
 {
   "ticker": "0050E0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
-      "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 11.44,
-      "shares": 145,
-      "item_code": "IBM"
-    },
-    {
       "name": "크라우드 스트라이크 홀딩스",
-      "weight_pct": 11.37,
+      "weight_pct": 12.05,
       "shares": 175,
       "item_code": "CRWD.O"
     },
     {
       "name": "서비스나우",
-      "weight_pct": 10.74,
+      "weight_pct": 11.35,
       "shares": 249,
       "item_code": "NOW"
     },
     {
+      "name": "IBM(인터내셔널 비지니스 머신)",
+      "weight_pct": 10.76,
+      "shares": 145,
+      "item_code": "IBM"
+    },
+    {
       "name": "시놉시스",
-      "weight_pct": 9.59,
+      "weight_pct": 9.51,
       "shares": 68,
       "item_code": "SNPS.O"
     },
     {
       "name": "SAP ADR",
-      "weight_pct": 9.54,
+      "weight_pct": 9.17,
       "shares": 131,
       "item_code": "SAP"
     },
     {
-      "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 8.39,
-      "shares": 73,
-      "item_code": "CDNS.O"
-    },
-    {
       "name": "세일즈포스",
-      "weight_pct": 7.92,
+      "weight_pct": 9.06,
       "shares": 112,
       "item_code": "CRM"
     },
     {
+      "name": "케이던스 디자인 시스템즈",
+      "weight_pct": 7.84,
+      "shares": 73,
+      "item_code": "CDNS.O"
+    },
+    {
       "name": "앱러빈",
-      "weight_pct": 6.73,
+      "weight_pct": 6.38,
       "shares": 63,
       "item_code": "APP.O"
     },
     {
       "name": "페가시스템즈",
-      "weight_pct": 5.44,
+      "weight_pct": 5.34,
       "shares": 469,
       "item_code": "PEGA.O"
     },
     {
       "name": "어도비",
-      "weight_pct": 4.34,
+      "weight_pct": 4.24,
       "shares": 46,
       "item_code": "ADBE.O"
     },
     {
       "name": "액센추어",
-      "weight_pct": 3.78,
+      "weight_pct": 3.62,
       "shares": 60,
       "item_code": "ACN"
     },
     {
       "name": "피그마",
-      "weight_pct": 3.42,
+      "weight_pct": 3.35,
       "shares": 369,
       "item_code": "FIG"
     },
     {
       "name": "클라비요",
-      "weight_pct": 2.78,
+      "weight_pct": 2.89,
       "shares": 456,
       "item_code": "KVYO.K"
     },
     {
       "name": "제타 글로벌 홀딩스",
-      "weight_pct": 2.37,
+      "weight_pct": 2.35,
       "shares": 245,
       "item_code": "ZETA.K"
     },
     {
       "name": "스프링클러",
-      "weight_pct": 1.42,
+      "weight_pct": 1.43,
       "shares": 557,
       "item_code": "CXM"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.64,
-      "shares": 2593716,
+      "weight_pct": 0.58,
+      "shares": 2547750,
       "item_code": null
     }
   ]

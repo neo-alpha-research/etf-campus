@@ -1,23 +1,23 @@
 {
   "ticker": "237440",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 22.81,
+      "weight_pct": 22.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 22.69,
+      "weight_pct": 22.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 19.03,
-      "shares": 198474268,
+      "weight_pct": 19.06,
+      "shares": 198479941,
       "item_code": null
     },
     {
@@ -28,67 +28,67 @@
     },
     {
       "name": "셀트리온",
-      "weight_pct": 4.2,
+      "weight_pct": 4.15,
       "shares": 229,
       "item_code": "068270"
     },
     {
-      "name": "삼성바이오로직스",
-      "weight_pct": 2.29,
-      "shares": 15,
-      "item_code": "207940"
-    },
-    {
       "name": "KT&G",
-      "weight_pct": 2.19,
+      "weight_pct": 2.24,
       "shares": 131,
       "item_code": "033780"
     },
     {
+      "name": "삼성바이오로직스",
+      "weight_pct": 2.18,
+      "shares": 15,
+      "item_code": "207940"
+    },
+    {
       "name": "SK텔레콤",
-      "weight_pct": 2.07,
+      "weight_pct": 1.97,
       "shares": 218,
       "item_code": "017670"
     },
     {
       "name": "KT",
-      "weight_pct": 1.66,
+      "weight_pct": 1.65,
       "shares": 323,
       "item_code": "030200"
     },
     {
-      "name": "한국전력",
-      "weight_pct": 1.5,
-      "shares": 463,
-      "item_code": "015760"
-    },
-    {
       "name": "에이피알",
-      "weight_pct": 1.5,
+      "weight_pct": 1.6,
       "shares": 36,
       "item_code": "278470"
     },
     {
+      "name": "한국전력",
+      "weight_pct": 1.41,
+      "shares": 463,
+      "item_code": "015760"
+    },
+    {
       "name": "삼양식품",
-      "weight_pct": 0.85,
+      "weight_pct": 0.88,
       "shares": 6,
       "item_code": "003230"
     },
     {
       "name": "유한양행",
-      "weight_pct": 0.69,
+      "weight_pct": 0.7,
       "shares": 88,
       "item_code": "000100"
     },
     {
       "name": "아모레퍼시픽",
-      "weight_pct": 0.62,
+      "weight_pct": 0.65,
       "shares": 46,
       "item_code": "090430"
     },
     {
       "name": "LG유플러스",
-      "weight_pct": 0.56,
+      "weight_pct": 0.57,
       "shares": 400,
       "item_code": "032640"
     },
@@ -100,51 +100,51 @@
     },
     {
       "name": "한미약품",
-      "weight_pct": 0.43,
+      "weight_pct": 0.42,
       "shares": 9,
       "item_code": "128940"
     },
     {
       "name": "LG생활건강",
-      "weight_pct": 0.4,
+      "weight_pct": 0.42,
       "shares": 14,
       "item_code": "051900"
     },
     {
       "name": "오리온",
-      "weight_pct": 0.38,
+      "weight_pct": 0.39,
       "shares": 32,
       "item_code": "271560"
     },
     {
       "name": "한국콜마",
-      "weight_pct": 0.34,
+      "weight_pct": 0.38,
       "shares": 25,
       "item_code": "161890"
     },
     {
-      "name": "달바글로벌",
-      "weight_pct": 0.32,
-      "shares": 15,
-      "item_code": "483650"
-    },
-    {
-      "name": "한올바이오파마",
-      "weight_pct": 0.32,
-      "shares": 52,
-      "item_code": "009420"
-    },
-    {
       "name": "코스맥스",
-      "weight_pct": 0.32,
+      "weight_pct": 0.34,
       "shares": 12,
       "item_code": "192820"
+    },
+    {
+      "name": "달바글로벌",
+      "weight_pct": 0.31,
+      "shares": 15,
+      "item_code": "483650"
     },
     {
       "name": "삼성에피스홀딩스",
       "weight_pct": 0.29,
       "shares": 8,
       "item_code": "0126Z0"
+    },
+    {
+      "name": "한올바이오파마",
+      "weight_pct": 0.29,
+      "shares": 52,
+      "item_code": "009420"
     },
     {
       "name": "CJ",
@@ -172,19 +172,19 @@
     },
     {
       "name": "BGF리테일",
-      "weight_pct": 0.17,
+      "weight_pct": 0.18,
       "shares": 13,
       "item_code": "282330"
     },
     {
       "name": "한미사이언스",
-      "weight_pct": 0.16,
+      "weight_pct": 0.17,
       "shares": 41,
       "item_code": "008930"
     },
     {
       "name": "농심",
-      "weight_pct": 0.16,
+      "weight_pct": 0.17,
       "shares": 4,
       "item_code": "004370"
     },

@@ -1,65 +1,65 @@
 {
   "ticker": "484790",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "State Street SPDR Portfolio Long Term Treasury ETF",
-      "weight_pct": 25.28,
-      "shares": 598,
+      "weight_pct": 25.37,
+      "shares": 606,
       "item_code": "SPTL.K"
     },
     {
       "name": "Vanguard Long-Term Treasury Index Fund",
-      "weight_pct": 25.22,
-      "shares": 283,
+      "weight_pct": 25.3,
+      "shares": 287,
       "item_code": "VGLT.O"
     },
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 14.55,
-      "shares": 105,
+      "weight_pct": 14.67,
+      "shares": 106,
       "item_code": "TLT.O"
     },
     {
       "name": "Vanguard Extended Duration Treasury Index Fd",
-      "weight_pct": 12.74,
-      "shares": 125,
+      "weight_pct": 12.76,
+      "shares": 127,
       "item_code": "EDV"
     },
     {
       "name": "원화현금",
-      "weight_pct": 8.98,
-      "shares": 7469524,
+      "weight_pct": 8.66,
+      "shares": 7165298,
       "item_code": null
     },
     {
       "name": "T 4 5/8 11/15/55",
-      "weight_pct": 2.98,
-      "shares": 1960,
+      "weight_pct": 2.99,
+      "shares": 1984,
       "item_code": null
     },
     {
       "name": "T 4 3/4 08/15/55",
-      "weight_pct": 2.94,
-      "shares": 1894,
+      "weight_pct": 2.95,
+      "shares": 1918,
       "item_code": null
     },
     {
       "name": "T 1 3/8 08/15/50",
       "weight_pct": 2.7,
-      "shares": 3442,
+      "shares": 3485,
       "item_code": null
     },
     {
       "name": "T 4 3/4 05/15/55",
-      "weight_pct": 2.37,
-      "shares": 1529,
+      "weight_pct": 2.38,
+      "shares": 1549,
       "item_code": null
     },
     {
       "name": "T 4 1/2 11/15/54",
       "weight_pct": 2.18,
-      "shares": 1461,
+      "shares": 1479,
       "item_code": null
     }
   ]

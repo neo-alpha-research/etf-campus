@@ -1,52 +1,52 @@
 {
   "ticker": "0040Y0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 38.89,
-      "shares": 156811399,
+      "weight_pct": 39.01,
+      "shares": 157915633,
       "item_code": null
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 28.38,
-      "shares": 466,
+      "weight_pct": 29.27,
+      "shares": 464,
       "item_code": "PLTR.O"
     },
     {
       "name": "국고02250-2806(25-4)",
-      "weight_pct": 15.9,
+      "weight_pct": 15.75,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02750-2812(25-10)",
-      "weight_pct": 8.26,
+      "weight_pct": 8.18,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "USD현금",
-      "weight_pct": 8.1,
-      "shares": 23660,
+      "weight_pct": 7.3,
+      "shares": 21591,
       "item_code": null
     },
     {
       "name": "국고02875-2712(24-12)",
-      "weight_pct": 0.83,
+      "weight_pct": 0.82,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "PLTR US 08/28/26 P180 EQUITY",
-      "weight_pct": -0.05,
+      "name": "PLTR US 09/04/26 P192.5 EQUITY",
+      "weight_pct": -0.02,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "PLTR US 08/28/26 C180 EQUITY",
-      "weight_pct": -0.33,
+      "name": "PLTR US 09/04/26 C192.5 EQUITY",
+      "weight_pct": -0.32,
       "shares": -4,
       "item_code": null
     }

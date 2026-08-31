@@ -1,23 +1,23 @@
 {
   "ticker": "256450",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스왑(미래에셋증권_231030)",
       "weight_pct": 62.08,
-      "shares": 186720425,
+      "shares": 185530129,
       "item_code": null
     },
     {
       "name": "스왑(NH투자증권_231030)",
       "weight_pct": 37.62,
-      "shares": 113168520,
+      "shares": 112452744,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.29,
-      "shares": 880735,
+      "weight_pct": 0.28,
+      "shares": 862133,
       "item_code": null
     }
   ]

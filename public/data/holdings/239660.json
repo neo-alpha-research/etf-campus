@@ -1,10 +1,10 @@
 {
   "ticker": "239660",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "국고채권03250-2706(24-4)",
-      "weight_pct": 22.93,
+      "weight_pct": 22.94,
       "shares": 0,
       "item_code": null
     },
@@ -16,8 +16,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 8.7,
-      "shares": 211899433,
+      "weight_pct": 8.72,
+      "shares": 212491141,
       "item_code": null
     },
     {
@@ -52,13 +52,13 @@
     },
     {
       "name": "미래에셋캐피탈132-1",
-      "weight_pct": 4.55,
+      "weight_pct": 4.54,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KB증권47-1",
-      "weight_pct": 4.55,
+      "weight_pct": 4.52,
       "shares": 0,
       "item_code": null
     },
@@ -82,19 +82,19 @@
     },
     {
       "name": "대신증권 20260727-270-106",
-      "weight_pct": 4.44,
+      "weight_pct": 4.45,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신증권 20260727-270-105",
-      "weight_pct": 4.44,
+      "weight_pct": 4.45,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "3년국채 F 202609",
-      "weight_pct": 2.83,
+      "weight_pct": 2.82,
       "shares": 0,
       "item_code": null
     },

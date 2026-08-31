@@ -1,143 +1,143 @@
 {
   "ticker": "272560",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "경기주택도시공사23-09-61",
-      "weight_pct": 6.44,
+      "weight_pct": 6.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "중소벤처기업진흥채권804(사)",
-      "weight_pct": 6.42,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국전력공사채권1428",
-      "weight_pct": 6.42,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "중소기업은행(신)2606이1.5A-18",
-      "weight_pct": 6.4,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국철도공사204",
-      "weight_pct": 6.4,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고채권02625-2703(25-1)",
-      "weight_pct": 6.4,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "경기주택도시공사24-01-67",
-      "weight_pct": 6.38,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국공항공사17",
-      "weight_pct": 6.38,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고채권03250-2706(24-4)",
-      "weight_pct": 6.38,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "산업금융채권25신이0106-0609-1",
-      "weight_pct": 6.37,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "농업금융채권(중앙회)2024-2이3Y-A",
-      "weight_pct": 6.36,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "경기주택도시공사24-09-81(지)",
-      "weight_pct": 6.35,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "중소기업은행(신)2411이2A-20",
-      "weight_pct": 6.35,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고채권02250-2709(25-6)",
       "weight_pct": 6.33,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "수산금융채권(중앙회)15-11이표18-07호",
-      "weight_pct": 6.32,
+      "name": "한국전력공사채권1428",
+      "weight_pct": 6.33,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "수산금융채권(중앙회)19-01이표24-15호",
+      "name": "국고채권02625-2703(25-1)",
+      "weight_pct": 6.31,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(신)2606이1.5A-18",
       "weight_pct": 6.3,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경기주택도시공사24-01-67",
+      "weight_pct": 6.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국공항공사17",
+      "weight_pct": 6.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권03250-2706(24-4)",
+      "weight_pct": 6.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권25신이0106-0609-1",
+      "weight_pct": 6.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(중앙회)2024-2이3Y-A",
+      "weight_pct": 6.27,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경기주택도시공사24-09-81(지)",
+      "weight_pct": 6.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "중소기업은행(신)2411이2A-20",
+      "weight_pct": 6.26,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업금융채권26신이0106-0828-2",
+      "weight_pct": 6.25,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고채권02250-2709(25-6)",
+      "weight_pct": 6.24,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "수산금융채권(중앙회)15-11이표18-07호",
+      "weight_pct": 6.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "농업금융채권(은행)2025-05이2Y-C",
-      "weight_pct": 6.3,
+      "weight_pct": 6.21,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "수산금융채권(중앙회)19-01이표24-15호",
+      "weight_pct": 6.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력공사채권1455",
-      "weight_pct": 6.29,
+      "weight_pct": 6.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "농업금융채권(중앙회)2025-11이2Y-C",
-      "weight_pct": 6.29,
+      "weight_pct": 6.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "NH농협은행 본점영업부 20260605-91-1",
-      "weight_pct": 3.17,
+      "weight_pct": 3.12,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한 자금부 20260721-92-1",
-      "weight_pct": 3.16,
+      "weight_pct": 3.11,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리 여의도중앙기업영업지원팀 20251121-3",
-      "weight_pct": 3.15,
+      "weight_pct": 3.1,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -30.44,
-      "shares": -34960756,
+      "weight_pct": -28.52,
+      "shares": -32765044,
       "item_code": null
     }
   ]

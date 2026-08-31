@@ -1,6 +1,6 @@
 {
   "ticker": "332610",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "AMZN 1.2 06/03/27",
@@ -16,19 +16,19 @@
     },
     {
       "name": "AZN 4.85 02/26/29",
-      "weight_pct": 5.76,
+      "weight_pct": 5.75,
       "shares": 5208,
       "item_code": null
     },
     {
       "name": "CRM 4.65 03/15/29",
-      "weight_pct": 5.71,
+      "weight_pct": 5.7,
       "shares": 5208,
       "item_code": null
     },
     {
       "name": "BK 4.026 01/22/30",
-      "weight_pct": 5.64,
+      "weight_pct": 5.63,
       "shares": 5208,
       "item_code": null
     },
@@ -40,7 +40,7 @@
     },
     {
       "name": "JPM 5.11 12/08/26",
-      "weight_pct": 4.81,
+      "weight_pct": 4.82,
       "shares": 4375,
       "item_code": null
     },
@@ -76,7 +76,7 @@
     },
     {
       "name": "BAC 5.202 04/25/29",
-      "weight_pct": 4.39,
+      "weight_pct": 4.38,
       "shares": 3958,
       "item_code": null
     },
@@ -142,14 +142,14 @@
     },
     {
       "name": "MS 5.449 07/20/29",
-      "weight_pct": 1.97,
+      "weight_pct": 1.96,
       "shares": 1770,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.74,
-      "shares": 2189753,
+      "weight_pct": 1.77,
+      "shares": 2208499,
       "item_code": null
     }
   ]

@@ -1,71 +1,71 @@
 {
   "ticker": "0192T0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "알테오젠",
-      "weight_pct": 28.23,
+      "weight_pct": 28.11,
       "shares": 340,
       "item_code": "196170"
     },
     {
       "name": "에코프로",
-      "weight_pct": 16.6,
+      "weight_pct": 16.62,
       "shares": 677,
       "item_code": "086520"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 11.7,
+      "weight_pct": 12.08,
       "shares": 372,
       "item_code": "247540"
     },
     {
       "name": "HLB",
-      "weight_pct": 7.66,
+      "weight_pct": 7.76,
       "shares": 811,
       "item_code": "028300"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 6.84,
+      "weight_pct": 6.83,
       "shares": 228,
       "item_code": "240810"
     },
     {
       "name": "레인보우로보틱스",
-      "weight_pct": 6.77,
+      "weight_pct": 6.68,
       "shares": 54,
       "item_code": "277810"
     },
     {
       "name": "이오테크닉스",
-      "weight_pct": 6.28,
+      "weight_pct": 6.3,
       "shares": 58,
       "item_code": "039030"
     },
     {
       "name": "리노공업",
-      "weight_pct": 6.09,
+      "weight_pct": 6.14,
       "shares": 343,
       "item_code": "058470"
     },
     {
       "name": "에이비엘바이오",
-      "weight_pct": 5.81,
+      "weight_pct": 5.61,
       "shares": 287,
       "item_code": "298380"
     },
     {
       "name": "우리기술",
-      "weight_pct": 3.56,
+      "weight_pct": 3.41,
       "shares": 1093,
       "item_code": "032820"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.4,
-      "shares": 1535094,
+      "weight_pct": 0.41,
+      "shares": 1530445,
       "item_code": null
     }
   ]

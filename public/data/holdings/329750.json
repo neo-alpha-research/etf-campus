@@ -1,21 +1,15 @@
 {
   "ticker": "329750",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "[USD] 예금",
-      "weight_pct": 21.89,
+      "weight_pct": 21.9,
       "shares": 20703,
       "item_code": null
     },
     {
       "name": "KEBHNB 5 3/8 04/23/27",
-      "weight_pct": 1.99,
-      "shares": 1875,
-      "item_code": null
-    },
-    {
-      "name": "EIBKOR 4 5/8 01/14/28",
       "weight_pct": 1.99,
       "shares": 1875,
       "item_code": null
@@ -39,20 +33,8 @@
       "item_code": null
     },
     {
-      "name": "KHFC 4.625 02/24/28 REGS",
-      "weight_pct": 1.99,
-      "shares": 1875,
-      "item_code": null
-    },
-    {
       "name": "HYNMTR Float 06/23/27",
       "weight_pct": 1.99,
-      "shares": 1875,
-      "item_code": null
-    },
-    {
-      "name": "KOHNPW 4 1/4 07/27/27",
-      "weight_pct": 1.98,
       "shares": 1875,
       "item_code": null
     },
@@ -69,6 +51,12 @@
       "item_code": null
     },
     {
+      "name": "EIBKOR 4 5/8 01/14/28",
+      "weight_pct": 1.98,
+      "shares": 1875,
+      "item_code": null
+    },
+    {
       "name": "KOROIL F 11/14/26 REGS",
       "weight_pct": 1.98,
       "shares": 1875,
@@ -76,6 +64,12 @@
     },
     {
       "name": "KORELE 4 7/8 01/31/27",
+      "weight_pct": 1.98,
+      "shares": 1875,
+      "item_code": null
+    },
+    {
+      "name": "KHFC 4.625 02/24/28 REGS",
       "weight_pct": 1.98,
       "shares": 1875,
       "item_code": null
@@ -99,25 +93,7 @@
       "item_code": null
     },
     {
-      "name": "EIBKOR 4.25 09/15/27",
-      "weight_pct": 1.98,
-      "shares": 1875,
-      "item_code": null
-    },
-    {
       "name": "WOORIB 4 3/4 01/24/27",
-      "weight_pct": 1.98,
-      "shares": 1875,
-      "item_code": null
-    },
-    {
-      "name": "KOLAHO 4 1/4 05/28/27",
-      "weight_pct": 1.98,
-      "shares": 1875,
-      "item_code": null
-    },
-    {
-      "name": "SMIND 2 1/8 08/30/26",
       "weight_pct": 1.98,
       "shares": 1875,
       "item_code": null
@@ -153,6 +129,12 @@
       "item_code": null
     },
     {
+      "name": "KOHNPW 4 1/4 07/27/27",
+      "weight_pct": 1.97,
+      "shares": 1875,
+      "item_code": null
+    },
+    {
       "name": "KOROIL 4.125 09/30/27 REGS",
       "weight_pct": 1.97,
       "shares": 1875,
@@ -171,7 +153,19 @@
       "item_code": null
     },
     {
+      "name": "EIBKOR 4.25 09/15/27",
+      "weight_pct": 1.97,
+      "shares": 1875,
+      "item_code": null
+    },
+    {
       "name": "SHNHAN 1 3/8 10/21/26",
+      "weight_pct": 1.97,
+      "shares": 1875,
+      "item_code": null
+    },
+    {
+      "name": "KOLAHO 4 1/4 05/28/27",
       "weight_pct": 1.97,
       "shares": 1875,
       "item_code": null
@@ -196,12 +190,6 @@
     },
     {
       "name": "T 4 1/4 12/31/26",
-      "weight_pct": 1.54,
-      "shares": 1457,
-      "item_code": null
-    },
-    {
-      "name": "T 3 3/4 08/31/26",
       "weight_pct": 1.54,
       "shares": 1457,
       "item_code": null
@@ -286,8 +274,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -5.97,
-      "shares": -7796398,
+      "weight_pct": -2.42,
+      "shares": -3140327,
       "item_code": null
     }
   ]

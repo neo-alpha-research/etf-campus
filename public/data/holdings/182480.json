@@ -1,40 +1,40 @@
 {
   "ticker": "182480",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "MSCI US REIT Net Total Return USD Index",
-      "weight_pct": 33.93,
-      "shares": 238437319,
+      "weight_pct": 33.9,
+      "shares": 234245903,
       "item_code": null
     },
     {
       "name": "MSCI US REIT Net Total Return USD Index",
-      "weight_pct": 26.75,
-      "shares": 188001989,
+      "weight_pct": 26.65,
+      "shares": 184154843,
       "item_code": null
     },
     {
       "name": "MSCI US REIT Net Total Return USD Index",
       "weight_pct": 19.25,
-      "shares": 135258671,
+      "shares": 132988037,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 10.0,
-      "shares": 70258984,
+      "weight_pct": 10.17,
+      "shares": 70322191,
       "item_code": null
     },
     {
       "name": "MSCI US REIT Net Total Return USD Index",
       "weight_pct": 4.96,
-      "shares": 34866679,
+      "shares": 34281360,
       "item_code": null
     },
     {
       "name": "웰타워",
-      "weight_pct": 0.64,
+      "weight_pct": 0.63,
       "shares": 13,
       "item_code": "WELL.K"
     },
@@ -46,7 +46,7 @@
     },
     {
       "name": "이퀴닉스",
-      "weight_pct": 0.4,
+      "weight_pct": 0.39,
       "shares": 1,
       "item_code": "EQIX.O"
     },
@@ -58,13 +58,13 @@
     },
     {
       "name": "디지털 리얼티 트러스트",
-      "weight_pct": 0.25,
+      "weight_pct": 0.24,
       "shares": 6,
       "item_code": "DLR"
     },
     {
       "name": "리얼티 인컴",
-      "weight_pct": 0.21,
+      "weight_pct": 0.22,
       "shares": 17,
       "item_code": "O"
     },
@@ -76,7 +76,7 @@
     },
     {
       "name": "비브마크 레지덴셜",
-      "weight_pct": 0.18,
+      "weight_pct": 0.17,
       "shares": 13,
       "item_code": "VMRK.K"
     },
@@ -105,16 +105,16 @@
       "item_code": "VICI.K"
     },
     {
-      "name": "에섹스 프로퍼티 트러스트",
-      "weight_pct": 0.07,
-      "shares": 1,
-      "item_code": "ESS"
-    },
-    {
       "name": "킴코 리얼티",
       "weight_pct": 0.06,
       "shares": 12,
       "item_code": "KIM"
+    },
+    {
+      "name": "에섹스 프로퍼티 트러스트",
+      "weight_pct": 0.06,
+      "shares": 1,
+      "item_code": "ESS"
     },
     {
       "name": "인비테이션 홈스",
@@ -175,12 +175,6 @@
       "weight_pct": 0.04,
       "shares": 3,
       "item_code": "REG.O"
-    },
-    {
-      "name": "BXP",
-      "weight_pct": 0.04,
-      "shares": 2,
-      "item_code": "BXP"
     },
     {
       "name": "아메리칸 홈스 포 렌트",
@@ -249,6 +243,12 @@
       "item_code": "BRX"
     },
     {
+      "name": "BXP",
+      "weight_pct": 0.03,
+      "shares": 2,
+      "item_code": "BXP"
+    },
+    {
       "name": "알렉산드리아 리얼에스테이트 이쿼티",
       "weight_pct": 0.03,
       "shares": 3,
@@ -289,12 +289,6 @@
       "weight_pct": 0.02,
       "shares": 3,
       "item_code": "STAG.K"
-    },
-    {
-      "name": "사브라 헬스케어 리츠",
-      "weight_pct": 0.02,
-      "shares": 4,
-      "item_code": "SBRA.O"
     },
     {
       "name": "라이먼 호스피탤리티 프로퍼티스",
@@ -379,6 +373,12 @@
       "weight_pct": 0.01,
       "shares": 2,
       "item_code": "SKT"
+    },
+    {
+      "name": "사브라 헬스케어 리츠",
+      "weight_pct": 0.01,
+      "shares": 4,
+      "item_code": "SBRA.O"
     },
     {
       "name": "SL 그린 리얼티",

@@ -1,34 +1,34 @@
 {
   "ticker": "364990",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "NC",
-      "weight_pct": 29.74,
+      "weight_pct": 29.27,
       "shares": 314,
       "item_code": "036570"
     },
     {
       "name": "크래프톤",
-      "weight_pct": 28.62,
+      "weight_pct": 28.93,
       "shares": 307,
       "item_code": "259960"
     },
     {
       "name": "넷마블",
-      "weight_pct": 18.78,
+      "weight_pct": 19.06,
       "shares": 1218,
       "item_code": "251270"
     },
     {
       "name": "펄어비스",
-      "weight_pct": 6.28,
+      "weight_pct": 6.15,
       "shares": 469,
       "item_code": "263750"
     },
     {
       "name": "NHN",
-      "weight_pct": 5.06,
+      "weight_pct": 5.24,
       "shares": 170,
       "item_code": "181710"
     },
@@ -40,32 +40,32 @@
     },
     {
       "name": "시프트업",
-      "weight_pct": 2.56,
+      "weight_pct": 2.5,
       "shares": 185,
       "item_code": "462870"
     },
     {
       "name": "카카오게임즈",
-      "weight_pct": 1.89,
+      "weight_pct": 1.99,
       "shares": 546,
       "item_code": "293490"
     },
     {
       "name": "위메이드",
-      "weight_pct": 1.73,
+      "weight_pct": 1.69,
       "shares": 270,
       "item_code": "112040"
     },
     {
       "name": "넥슨게임즈",
-      "weight_pct": 1.5,
+      "weight_pct": 1.48,
       "shares": 322,
       "item_code": "225570"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.22,
-      "shares": 519792,
+      "weight_pct": 0.07,
+      "shares": 187451,
       "item_code": null
     }
   ]

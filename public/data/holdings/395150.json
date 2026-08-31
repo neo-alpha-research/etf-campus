@@ -1,70 +1,70 @@
 {
   "ticker": "395150",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "NAVER",
-      "weight_pct": 15.85,
+      "weight_pct": 15.46,
       "shares": 134,
       "item_code": "035420"
     },
     {
       "name": "카카오",
-      "weight_pct": 14.98,
+      "weight_pct": 14.8,
       "shares": 762,
       "item_code": "035720"
     },
     {
       "name": "스튜디오드래곤",
-      "weight_pct": 14.31,
+      "weight_pct": 14.37,
       "shares": 1207,
       "item_code": "253450"
     },
     {
       "name": "CJ ENM",
-      "weight_pct": 14.02,
+      "weight_pct": 14.16,
       "shares": 786,
       "item_code": "035760"
     },
     {
       "name": "SAMG엔터",
-      "weight_pct": 7.88,
+      "weight_pct": 7.63,
       "shares": 718,
       "item_code": "419530"
     },
     {
       "name": "키다리스튜디오",
-      "weight_pct": 5.82,
+      "weight_pct": 6.83,
       "shares": 1839,
       "item_code": "020120"
     },
     {
       "name": "노머스",
-      "weight_pct": 4.62,
+      "weight_pct": 4.5,
       "shares": 718,
       "item_code": "473980"
     },
     {
       "name": "더핑크퐁컴퍼니",
-      "weight_pct": 4.45,
+      "weight_pct": 4.43,
       "shares": 712,
       "item_code": "403850"
     },
     {
       "name": "애니플러스",
-      "weight_pct": 3.32,
+      "weight_pct": 3.21,
       "shares": 2937,
       "item_code": "310200"
     },
     {
       "name": "포바이포",
-      "weight_pct": 3.09,
+      "weight_pct": 3.03,
       "shares": 1089,
       "item_code": "389140"
     },
     {
       "name": "쇼박스",
-      "weight_pct": 2.79,
+      "weight_pct": 2.69,
       "shares": 2511,
       "item_code": "086980"
     },
@@ -76,32 +76,32 @@
     },
     {
       "name": "대원미디어",
-      "weight_pct": 2.2,
+      "weight_pct": 2.28,
       "shares": 708,
       "item_code": "048910"
     },
     {
       "name": "초록뱀미디어",
-      "weight_pct": 2.18,
+      "weight_pct": 2.14,
       "shares": 1284,
       "item_code": "047820"
     },
     {
       "name": "팬엔터테인먼트",
-      "weight_pct": 1.01,
+      "weight_pct": 0.99,
       "shares": 1612,
       "item_code": "068050"
     },
     {
       "name": "스튜디오미르",
-      "weight_pct": 0.59,
+      "weight_pct": 0.62,
       "shares": 1000,
       "item_code": "408900"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.28,
-      "shares": 529940,
+      "weight_pct": 0.24,
+      "shares": 459775,
       "item_code": null
     }
   ]

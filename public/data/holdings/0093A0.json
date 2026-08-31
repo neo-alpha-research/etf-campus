@@ -1,52 +1,52 @@
 {
   "ticker": "0093A0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 14.7,
+      "weight_pct": 14.62,
       "shares": 890,
       "item_code": "005930"
     },
     {
       "name": "ISC",
-      "weight_pct": 12.37,
+      "weight_pct": 12.46,
       "shares": 1163,
       "item_code": "095340"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 12.14,
+      "weight_pct": 11.95,
       "shares": 113,
       "item_code": "000660"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 11.0,
+      "weight_pct": 11.08,
       "shares": 1572,
       "item_code": "240810"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 10.55,
+      "weight_pct": 10.66,
       "shares": 765,
       "item_code": "042700"
     },
     {
       "name": "제주반도체",
-      "weight_pct": 10.24,
+      "weight_pct": 10.49,
       "shares": 2123,
       "item_code": "080220"
     },
     {
       "name": "파두",
-      "weight_pct": 9.2,
+      "weight_pct": 9.54,
       "shares": 2297,
       "item_code": "440110"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 8.22,
+      "weight_pct": 8.12,
       "shares": 124,
       "item_code": "402340"
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "와이씨",
-      "weight_pct": 4.09,
+      "weight_pct": 3.6,
       "shares": 5279,
       "item_code": "232140"
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.24,
-      "shares": -3884530,
+      "weight_pct": -0.25,
+      "shares": -3965773,
       "item_code": null
     }
   ]

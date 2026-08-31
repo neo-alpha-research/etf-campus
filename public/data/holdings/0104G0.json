@@ -1,71 +1,71 @@
 {
   "ticker": "0104G0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 48.63,
-      "shares": 141,
+      "weight_pct": 48.48,
+      "shares": 135,
       "item_code": "012450"
     },
     {
       "name": "한화오션",
-      "weight_pct": 36.63,
-      "shares": 1363,
+      "weight_pct": 37.62,
+      "shares": 1312,
       "item_code": "042660"
     },
     {
-      "name": "LIG디펜스앤에어로스페이스",
-      "weight_pct": 30.16,
-      "shares": 135,
-      "item_code": "079550"
-    },
-    {
       "name": "현대로템",
-      "weight_pct": 30.14,
-      "shares": 725,
+      "weight_pct": 30.98,
+      "shares": 698,
       "item_code": "064350"
     },
     {
+      "name": "LIG디펜스앤에어로스페이스",
+      "weight_pct": 29.4,
+      "shares": 130,
+      "item_code": "079550"
+    },
+    {
       "name": "한국항공우주",
-      "weight_pct": 29.17,
-      "shares": 707,
+      "weight_pct": 29.02,
+      "shares": 680,
       "item_code": "047810"
     },
     {
       "name": "한화시스템",
-      "weight_pct": 16.84,
-      "shares": 721,
+      "weight_pct": 16.43,
+      "shares": 689,
       "item_code": "272210"
     },
     {
       "name": "풍산",
-      "weight_pct": 4.35,
-      "shares": 175,
+      "weight_pct": 4.45,
+      "shares": 167,
       "item_code": "103140"
     },
     {
       "name": "STX엔진",
-      "weight_pct": 1.2,
-      "shares": 153,
+      "weight_pct": 1.19,
+      "shares": 147,
       "item_code": "077970"
     },
     {
       "name": "SNT다이내믹스",
-      "weight_pct": 0.9,
-      "shares": 97,
+      "weight_pct": 0.88,
+      "shares": 93,
       "item_code": "003570"
     },
     {
       "name": "엠앤씨솔루션",
-      "weight_pct": 0.3,
-      "shares": 68,
+      "weight_pct": 0.39,
+      "shares": 66,
       "item_code": "484870"
     },
     {
       "name": "원화현금",
-      "weight_pct": -98.37,
-      "shares": -327968982,
+      "weight_pct": -98.88,
+      "shares": -303446285,
       "item_code": null
     }
   ]

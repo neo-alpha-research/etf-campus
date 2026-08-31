@@ -1,35 +1,35 @@
 {
   "ticker": "217780",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 87.29,
-      "shares": 240202254,
+      "weight_pct": 86.86,
+      "shares": 240141501,
       "item_code": null
     },
     {
       "name": "차이나CSI300 TRS(미래에셋증권)",
-      "weight_pct": 8.56,
-      "shares": 23576370,
+      "weight_pct": 8.93,
+      "shares": 24709266,
       "item_code": null
     },
     {
       "name": "ChinaAMC CSI 300 Index ETF",
-      "weight_pct": 2.12,
+      "weight_pct": 2.1,
       "shares": 600,
       "item_code": "3188.HK"
     },
     {
       "name": "차이나CSI300 TRS(키움증권)",
-      "weight_pct": 1.46,
-      "shares": 4035594,
+      "weight_pct": 1.52,
+      "shares": 4229514,
       "item_code": null
     },
     {
       "name": "차이나CSI300 TRS(삼성증권)",
-      "weight_pct": 0.54,
-      "shares": 1486798,
+      "weight_pct": 0.56,
+      "shares": 1558242,
       "item_code": null
     }
   ]

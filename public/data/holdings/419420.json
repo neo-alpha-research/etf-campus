@@ -1,66 +1,60 @@
 {
   "ticker": "419420",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "First Trust NASDAQ Clean Edge Green Energy Idx Fd",
-      "weight_pct": 22.18,
+      "weight_pct": 22.17,
       "shares": 2916,
       "item_code": "QCLN.O"
     },
     {
       "name": "모놀리식 파워 시스템즈",
-      "weight_pct": 6.92,
+      "weight_pct": 6.8,
       "shares": 34,
       "item_code": "MPWR.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 6.6,
+      "weight_pct": 6.79,
       "shares": 125,
       "item_code": "TSLA.O"
     },
     {
       "name": "블룸 에너지",
-      "weight_pct": 6.37,
+      "weight_pct": 6.28,
       "shares": 191,
       "item_code": "BE"
     },
     {
       "name": "퍼스트 솔라",
-      "weight_pct": 5.58,
+      "weight_pct": 5.65,
       "shares": 177,
       "item_code": "FSLR.O"
     },
     {
       "name": "온 세미콘덕터",
-      "weight_pct": 5.05,
+      "weight_pct": 5.11,
       "shares": 452,
       "item_code": "ON.O"
     },
     {
       "name": "리비안",
-      "weight_pct": 4.16,
+      "weight_pct": 4.18,
       "shares": 1674,
       "item_code": "RIVN.O"
     },
     {
       "name": "앨버말",
-      "weight_pct": 3.17,
+      "weight_pct": 3.3,
       "shares": 154,
       "item_code": "ALB"
     },
     {
       "name": "어드밴스드 에너지 인더스트리스",
-      "weight_pct": 3.04,
+      "weight_pct": 2.99,
       "shares": 70,
       "item_code": "AEIS.O"
-    },
-    {
-      "name": "MP 머터리얼즈",
-      "weight_pct": 2.99,
-      "shares": 330,
-      "item_code": "MP"
     },
     {
       "name": "어큐이티",
@@ -69,62 +63,74 @@
       "item_code": "AYI"
     },
     {
+      "name": "MP 머터리얼즈",
+      "weight_pct": 2.88,
+      "shares": 330,
+      "item_code": "MP"
+    },
+    {
       "name": "Brookfield Renewable Partners Non Voting Units",
-      "weight_pct": 2.79,
+      "weight_pct": 2.78,
       "shares": 563,
       "item_code": "BEP"
     },
     {
       "name": "넥스트파워",
-      "weight_pct": 2.32,
+      "weight_pct": 2.31,
       "shares": 174,
       "item_code": "NXT.O"
     },
     {
       "name": "에너시스",
-      "weight_pct": 1.99,
+      "weight_pct": 1.95,
       "shares": 67,
       "item_code": "ENS"
     },
     {
       "name": "알레그로 마이크로시스템즈",
-      "weight_pct": 1.94,
+      "weight_pct": 1.92,
       "shares": 346,
       "item_code": "ALGM.O"
     },
     {
-      "name": "비코",
-      "weight_pct": 1.89,
-      "shares": 62,
-      "item_code": "VICR.O"
-    },
-    {
       "name": "오마트 테크놀로지스",
-      "weight_pct": 1.8,
+      "weight_pct": 1.83,
       "shares": 114,
       "item_code": "ORA"
     },
     {
+      "name": "비코",
+      "weight_pct": 1.83,
+      "shares": 62,
+      "item_code": "VICR.O"
+    },
+    {
       "name": "HA 서스테이너블 인프라 캐피털",
-      "weight_pct": 1.45,
+      "weight_pct": 1.48,
       "shares": 238,
       "item_code": "HASI.K"
     },
     {
       "name": "인페이즈 에너지",
-      "weight_pct": 1.43,
+      "weight_pct": 1.41,
       "shares": 245,
       "item_code": "ENPH.O"
     },
     {
       "name": "아이트론",
-      "weight_pct": 1.24,
+      "weight_pct": 1.25,
       "shares": 82,
       "item_code": "ITRI.O"
     },
     {
+      "name": "소시에다드 퀴미카 B ADR",
+      "weight_pct": 1.13,
+      "shares": 92,
+      "item_code": "SQM"
+    },
+    {
       "name": "유니버설 디스플레이",
-      "weight_pct": 1.15,
+      "weight_pct": 1.12,
       "shares": 86,
       "item_code": "OLED.O"
     },
@@ -135,50 +141,44 @@
       "item_code": "CWEN.K"
     },
     {
-      "name": "소시에다드 퀴미카 B ADR",
-      "weight_pct": 1.1,
-      "shares": 92,
-      "item_code": "SQM"
-    },
-    {
-      "name": "파워 인티그레이션",
-      "weight_pct": 0.86,
-      "shares": 103,
-      "item_code": "POWI.O"
-    },
-    {
       "name": "플러그 파워",
-      "weight_pct": 0.85,
+      "weight_pct": 0.88,
       "shares": 2593,
       "item_code": "PLUG.O"
     },
     {
+      "name": "파워 인티그레이션",
+      "weight_pct": 0.82,
+      "shares": 103,
+      "item_code": "POWI.O"
+    },
+    {
       "name": "나비타스 세미컨덕터",
-      "weight_pct": 0.83,
+      "weight_pct": 0.77,
       "shares": 434,
       "item_code": "NVTS.O"
     },
     {
       "name": "선런",
-      "weight_pct": 0.61,
+      "weight_pct": 0.6,
       "shares": 443,
       "item_code": "RUN.O"
     },
     {
-      "name": "솔라에지 테크놀로지스",
-      "weight_pct": 0.57,
-      "shares": 113,
-      "item_code": "SEDG.O"
-    },
-    {
       "name": "루시드 그룹",
-      "weight_pct": 0.54,
+      "weight_pct": 0.56,
       "shares": 725,
       "item_code": "LCID.O"
     },
     {
+      "name": "솔라에지 테크놀로지스",
+      "weight_pct": 0.55,
+      "shares": 113,
+      "item_code": "SEDG.O"
+    },
+    {
       "name": "리뉴 에너지 글로벌",
-      "weight_pct": 0.47,
+      "weight_pct": 0.48,
       "shares": 456,
       "item_code": "RNW.O"
     },
@@ -195,16 +195,28 @@
       "item_code": "AMPX.K"
     },
     {
+      "name": "시그마 리튬",
+      "weight_pct": 0.39,
+      "shares": 207,
+      "item_code": "SGML.O"
+    },
+    {
       "name": "아메리칸 수퍼컨덕터",
       "weight_pct": 0.39,
       "shares": 88,
       "item_code": "AMSC.O"
     },
     {
-      "name": "시그마 리튬",
+      "name": "T1 에너지",
       "weight_pct": 0.38,
-      "shares": 207,
-      "item_code": "SGML.O"
+      "shares": 518,
+      "item_code": "TE"
+    },
+    {
+      "name": "윌댄 그룹",
+      "weight_pct": 0.38,
+      "shares": 28,
+      "item_code": "WLDN.O"
     },
     {
       "name": "울프스피드",
@@ -213,28 +225,10 @@
       "item_code": "WOLF.K"
     },
     {
-      "name": "윌댄 그룹",
-      "weight_pct": 0.36,
-      "shares": 28,
-      "item_code": "WLDN.O"
-    },
-    {
-      "name": "T1 에너지",
-      "weight_pct": 0.35,
-      "shares": 518,
-      "item_code": "TE"
-    },
-    {
       "name": "숄즈 테크놀로지스 그룹",
       "weight_pct": 0.34,
       "shares": 311,
       "item_code": "SHLS.O"
-    },
-    {
-      "name": "이오스 에너지 엔터프라이시스",
-      "weight_pct": 0.32,
-      "shares": 631,
-      "item_code": "EOSE.O"
     },
     {
       "name": "XPLR 인프라스트럭처",
@@ -243,10 +237,22 @@
       "item_code": "XIFR.K"
     },
     {
+      "name": "이오스 에너지 엔터프라이시스",
+      "weight_pct": 0.31,
+      "shares": 631,
+      "item_code": "EOSE.O"
+    },
+    {
       "name": "FUELCELL ENERGY INC",
-      "weight_pct": 0.28,
+      "weight_pct": 0.27,
       "shares": 98,
       "item_code": null
+    },
+    {
+      "name": "아메리스코",
+      "weight_pct": 0.22,
+      "shares": 65,
+      "item_code": "AMRC.K"
     },
     {
       "name": "이노빅스",
@@ -256,15 +262,9 @@
     },
     {
       "name": "LSI 인더스트리",
-      "weight_pct": 0.21,
+      "weight_pct": 0.2,
       "shares": 68,
       "item_code": "LYTS.O"
-    },
-    {
-      "name": "아메리스코",
-      "weight_pct": 0.21,
-      "shares": 65,
-      "item_code": "AMRC.K"
     },
     {
       "name": "어레이 테크놀로지스",
@@ -279,28 +279,28 @@
       "item_code": "BLDP.O"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.18,
-      "shares": 1720406,
-      "item_code": null
-    },
-    {
       "name": "폴스타 오토모티브 홀딩 UK ADR",
-      "weight_pct": 0.17,
+      "weight_pct": 0.18,
       "shares": 91,
       "item_code": "PSNY.O"
     },
     {
-      "name": "아스펜 에어로젤",
-      "weight_pct": 0.12,
-      "shares": 154,
-      "item_code": "ASPN.K"
+      "name": "원화현금",
+      "weight_pct": 0.18,
+      "shares": 1661378,
+      "item_code": null
     },
     {
       "name": "제보",
       "weight_pct": 0.11,
       "shares": 452,
       "item_code": "GEVO.O"
+    },
+    {
+      "name": "아스펜 에어로젤",
+      "weight_pct": 0.11,
+      "shares": 154,
+      "item_code": "ASPN.K"
     },
     {
       "name": "클린 에너지 퓨얼스",

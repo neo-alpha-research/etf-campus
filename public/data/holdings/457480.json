@@ -1,54 +1,54 @@
 {
   "ticker": "457480",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "테슬라",
-      "weight_pct": 22.72,
+      "weight_pct": 22.66,
       "shares": 440,
       "item_code": "TSLA.O"
     },
     {
       "name": "Direxion Daily TSLA Bull 2X ETF",
-      "weight_pct": 15.37,
-      "shares": 11601,
+      "weight_pct": 15.57,
+      "shares": 11739,
       "item_code": "TSLL.O"
     },
     {
-      "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 4.09,
-      "shares": 57,
-      "item_code": "AMD.O"
-    },
-    {
       "name": "엘앤에프",
-      "weight_pct": 3.95,
+      "weight_pct": 4.46,
       "shares": 282,
       "item_code": "066970"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 3.92,
-      "shares": 28,
+      "weight_pct": 3.99,
+      "shares": 29,
       "item_code": "MU.O"
     },
     {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 3.85,
+      "shares": 56,
+      "item_code": "AMD.O"
+    },
+    {
       "name": "샤오미",
-      "weight_pct": 3.61,
+      "weight_pct": 3.49,
       "shares": 6667,
       "item_code": "1810.HK"
     },
     {
-      "name": "MP 머터리얼즈",
-      "weight_pct": 3.33,
-      "shares": 376,
-      "item_code": "MP"
-    },
-    {
       "name": "에코프로비엠",
-      "weight_pct": 3.26,
+      "weight_pct": 3.33,
       "shares": 256,
       "item_code": "247540"
+    },
+    {
+      "name": "파나소닉 홀딩스",
+      "weight_pct": 3.19,
+      "shares": 783,
+      "item_code": "6752.T"
     },
     {
       "name": "니덱",
@@ -57,94 +57,94 @@
       "item_code": "6594.T"
     },
     {
-      "name": "파나소닉 홀딩스",
-      "weight_pct": 3.18,
-      "shares": 783,
-      "item_code": "6752.T"
+      "name": "브로드컴",
+      "weight_pct": 3.05,
+      "shares": 56,
+      "item_code": "AVGO.O"
     },
     {
       "name": "앨버말",
-      "weight_pct": 2.99,
-      "shares": 149,
+      "weight_pct": 3.04,
+      "shares": 150,
       "item_code": "ALB"
     },
     {
+      "name": "엔비디아",
+      "weight_pct": 3.02,
+      "shares": 94,
+      "item_code": "NVDA.O"
+    },
+    {
+      "name": "MP 머터리얼즈",
+      "weight_pct": 2.94,
+      "shares": 355,
+      "item_code": "MP"
+    },
+    {
       "name": "과달리실업",
-      "weight_pct": 2.96,
+      "weight_pct": 2.89,
       "shares": 742,
       "item_code": "002850.SZ"
     },
     {
-      "name": "브로드컴",
-      "weight_pct": 2.92,
-      "shares": 55,
-      "item_code": "AVGO.O"
-    },
-    {
-      "name": "엔비디아",
-      "weight_pct": 2.88,
-      "shares": 92,
-      "item_code": "NVDA.O"
-    },
-    {
       "name": "저장 화우코발트",
-      "weight_pct": 2.68,
+      "weight_pct": 2.65,
       "shares": 3018,
       "item_code": "603799.SS"
     },
     {
       "name": "선도지능장비",
-      "weight_pct": 2.59,
+      "weight_pct": 2.55,
       "shares": 3481,
       "item_code": "300450.SZ"
     },
     {
-      "name": "호남유능",
-      "weight_pct": 2.54,
-      "shares": 1806,
-      "item_code": "301358.SZ"
-    },
-    {
       "name": "성신리튬",
-      "weight_pct": 2.48,
+      "weight_pct": 2.51,
       "shares": 3511,
       "item_code": "002240.SZ"
     },
     {
+      "name": "호남유능",
+      "weight_pct": 2.49,
+      "shares": 1806,
+      "item_code": "301358.SZ"
+    },
+    {
       "name": "천제리튬(톈치리튬)",
-      "weight_pct": 2.22,
+      "weight_pct": 2.32,
       "shares": 2108,
       "item_code": "002466.SZ"
     },
     {
       "name": "낙양몰리브덴",
-      "weight_pct": 2.22,
+      "weight_pct": 2.19,
       "shares": 5120,
       "item_code": "603993.SS"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 1.47,
-      "shares": 13647771,
-      "item_code": null
-    },
-    {
       "name": "강봉이업(리튬)",
-      "weight_pct": 1.41,
+      "weight_pct": 1.43,
       "shares": 1186,
       "item_code": "002460.SZ"
     },
     {
-      "name": "낙양몰리브덴",
-      "weight_pct": 1.09,
-      "shares": 3168,
-      "item_code": "3993.HK"
+      "name": "원화현금",
+      "weight_pct": 1.2,
+      "shares": 11189702,
+      "item_code": null
     },
     {
       "name": "강봉리튬",
-      "weight_pct": 1.08,
+      "weight_pct": 1.09,
       "shares": 1400,
       "item_code": "1772.HK"
+    },
+    {
+      "name": "낙양몰리브덴",
+      "weight_pct": 1.05,
+      "shares": 3168,
+      "item_code": "3993.HK"
     },
     {
       "name": "스페이스X",
@@ -154,7 +154,7 @@
     },
     {
       "name": "천제리튬(톈치리튬) Class H",
-      "weight_pct": 0.74,
+      "weight_pct": 0.77,
       "shares": 1073,
       "item_code": "9696.HK"
     }

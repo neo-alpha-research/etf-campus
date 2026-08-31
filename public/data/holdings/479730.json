@@ -1,100 +1,100 @@
 {
   "ticker": "479730",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 20.61,
-      "shares": 104487884,
+      "weight_pct": 20.57,
+      "shares": 103092626,
       "item_code": null
     },
     {
       "name": "ETERNAL LTD",
-      "weight_pct": 8.01,
+      "weight_pct": 8.06,
       "shares": 8591,
       "item_code": null
     },
     {
       "name": "TITAN CO LTD",
-      "weight_pct": 6.66,
+      "weight_pct": 6.77,
       "shares": 458,
       "item_code": null
     },
     {
       "name": "BAJAJ AUTO LTD",
-      "weight_pct": 6.18,
+      "weight_pct": 6.3,
       "shares": 185,
       "item_code": null
     },
     {
       "name": "MAHINDRA & MAHINDRA LTD",
-      "weight_pct": 6.12,
+      "weight_pct": 6.03,
       "shares": 632,
       "item_code": null
     },
     {
       "name": "MARUTI SUZUKI INDIA LTD",
-      "weight_pct": 5.78,
+      "weight_pct": 5.74,
       "shares": 150,
       "item_code": null
     },
     {
       "name": "HINDUSTAN UNILEVER LTD",
-      "weight_pct": 5.51,
+      "weight_pct": 5.5,
       "shares": 957,
       "item_code": null
     },
     {
       "name": "NESTLE INDIA LTD",
-      "weight_pct": 5.02,
+      "weight_pct": 5.05,
       "shares": 1214,
       "item_code": null
     },
     {
       "name": "EICHER MOTORS LTD",
-      "weight_pct": 4.88,
+      "weight_pct": 4.91,
       "shares": 213,
       "item_code": null
     },
     {
       "name": "TVS MOTOR CO LTD",
-      "weight_pct": 4.68,
+      "weight_pct": 4.53,
       "shares": 368,
       "item_code": null
     },
     {
       "name": "HERO MOTOCORP LTD",
-      "weight_pct": 3.36,
+      "weight_pct": 3.38,
       "shares": 211,
       "item_code": null
     },
     {
       "name": "TATA CONSUMER PRODUCTS LTD",
-      "weight_pct": 3.22,
+      "weight_pct": 3.21,
       "shares": 1080,
       "item_code": null
     },
     {
       "name": "BRITANNIA INDUSTRIES LTD",
-      "weight_pct": 3.1,
+      "weight_pct": 3.11,
       "shares": 205,
       "item_code": null
     },
     {
       "name": "TATA MOTORS PASSENGER VEHICL",
-      "weight_pct": 2.89,
+      "weight_pct": 2.96,
       "shares": 3240,
       "item_code": null
     },
     {
       "name": "INDIAN HOTELS CO LTD",
-      "weight_pct": 2.83,
+      "weight_pct": 2.78,
       "shares": 1378,
       "item_code": null
     },
     {
       "name": "VARUN BEVERAGES LTD",
-      "weight_pct": 2.63,
+      "weight_pct": 2.6,
       "shares": 2197,
       "item_code": null
     },
@@ -106,25 +106,25 @@
     },
     {
       "name": "LENSKART SOLUTIONS LTD",
-      "weight_pct": 2.19,
+      "weight_pct": 2.16,
       "shares": 1191,
       "item_code": null
     },
     {
       "name": "GODREJ CONSUMER PRODUCTS LTD",
-      "weight_pct": 1.66,
+      "weight_pct": 1.65,
       "shares": 631,
       "item_code": null
     },
     {
       "name": "HYUNDAI MOTOR INDIA LTD",
-      "weight_pct": 1.54,
+      "weight_pct": 1.56,
       "shares": 241,
       "item_code": null
     },
     {
       "name": "LG ELECTRONICS INDIA LTD",
-      "weight_pct": 0.77,
+      "weight_pct": 0.78,
       "shares": 162,
       "item_code": null
     }

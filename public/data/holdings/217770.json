@@ -1,28 +1,28 @@
 {
   "ticker": "217770",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 96.37,
-      "shares": 62486102,
+      "weight_pct": 96.42,
+      "shares": 61631319,
       "item_code": null
     },
     {
       "name": "ProShares UltraShort Bloomberg Crude Oil",
-      "weight_pct": 3.62,
+      "weight_pct": 3.57,
       "shares": 66,
       "item_code": "SCO"
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -50.05,
+      "weight_pct": -50.43,
       "shares": -2,
       "item_code": null
     },
     {
       "name": "CRUDE OIL FUT NYMX OCT 2026",
-      "weight_pct": -93.11,
+      "weight_pct": -93.41,
       "shares": 0,
       "item_code": null
     }

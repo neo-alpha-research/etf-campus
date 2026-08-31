@@ -1,70 +1,70 @@
 {
   "ticker": "446700",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 9.43,
+      "weight_pct": 9.33,
       "shares": 36,
       "item_code": "006400"
     },
     {
-      "name": "고려아연",
-      "weight_pct": 8.21,
-      "shares": 13,
-      "item_code": "010130"
+      "name": "엘앤에프",
+      "weight_pct": 7.78,
+      "shares": 118,
+      "item_code": "066970"
     },
     {
       "name": "성일하이텍",
-      "weight_pct": 7.51,
+      "weight_pct": 7.69,
       "shares": 444,
       "item_code": "365340"
     },
     {
+      "name": "고려아연",
+      "weight_pct": 7.46,
+      "shares": 13,
+      "item_code": "010130"
+    },
+    {
       "name": "LG에너지솔루션",
-      "weight_pct": 7.34,
+      "weight_pct": 7.3,
       "shares": 43,
       "item_code": "373220"
     },
     {
       "name": "에코프로",
-      "weight_pct": 7.33,
+      "weight_pct": 7.09,
       "shares": 173,
       "item_code": "086520"
     },
     {
-      "name": "엘앤에프",
-      "weight_pct": 7.05,
-      "shares": 118,
-      "item_code": "066970"
-    },
-    {
       "name": "코스모화학",
-      "weight_pct": 6.37,
+      "weight_pct": 6.46,
       "shares": 1229,
       "item_code": "005420"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 6.25,
+      "weight_pct": 6.08,
       "shares": 40,
       "item_code": "005490"
     },
     {
       "name": "SK이노베이션",
-      "weight_pct": 5.46,
+      "weight_pct": 5.97,
       "shares": 106,
       "item_code": "096770"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 5.42,
+      "weight_pct": 5.76,
       "shares": 64,
       "item_code": "003670"
     },
     {
       "name": "아이에스동서",
-      "weight_pct": 4.83,
+      "weight_pct": 4.68,
       "shares": 648,
       "item_code": "010780"
     },
@@ -76,13 +76,13 @@
     },
     {
       "name": "현대글로비스",
-      "weight_pct": 3.84,
+      "weight_pct": 3.82,
       "shares": 41,
       "item_code": "086280"
     },
     {
       "name": "킵스파마",
-      "weight_pct": 3.17,
+      "weight_pct": 3.08,
       "shares": 1222,
       "item_code": "256940"
     },
@@ -94,13 +94,13 @@
     },
     {
       "name": "스맥",
-      "weight_pct": 2.89,
+      "weight_pct": 2.68,
       "shares": 1551,
       "item_code": "099440"
     },
     {
       "name": "DS단석",
-      "weight_pct": 2.56,
+      "weight_pct": 2.53,
       "shares": 469,
       "item_code": "017860"
     },
@@ -112,8 +112,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.5,
-      "shares": 3277250,
+      "weight_pct": 1.49,
+      "shares": 3318972,
       "item_code": null
     },
     {

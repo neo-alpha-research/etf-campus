@@ -1,112 +1,112 @@
 {
   "ticker": "228800",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
-      "name": "대한항공",
-      "weight_pct": 10.35,
-      "shares": 294,
-      "item_code": "003490"
-    },
-    {
       "name": "아시아나항공",
-      "weight_pct": 10.31,
+      "weight_pct": 10.25,
       "shares": 1096,
       "item_code": "020560"
     },
     {
+      "name": "대한항공",
+      "weight_pct": 10.15,
+      "shares": 294,
+      "item_code": "003490"
+    },
+    {
       "name": "강원랜드",
-      "weight_pct": 10.17,
+      "weight_pct": 10.08,
       "shares": 560,
       "item_code": "035250"
     },
     {
       "name": "롯데관광개발",
-      "weight_pct": 8.61,
+      "weight_pct": 8.73,
       "shares": 535,
       "item_code": "032350"
     },
     {
       "name": "호텔신라",
-      "weight_pct": 8.48,
+      "weight_pct": 8.72,
       "shares": 161,
       "item_code": "008770"
     },
     {
       "name": "파라다이스",
-      "weight_pct": 7.82,
+      "weight_pct": 8.02,
       "shares": 640,
       "item_code": "034230"
     },
     {
-      "name": "아난티",
-      "weight_pct": 6.51,
-      "shares": 1006,
-      "item_code": "025980"
-    },
-    {
-      "name": "하나투어",
-      "weight_pct": 6.43,
-      "shares": 160,
-      "item_code": "039130"
-    },
-    {
       "name": "GS피앤엘",
-      "weight_pct": 6.41,
+      "weight_pct": 6.52,
       "shares": 121,
       "item_code": "499790"
     },
     {
+      "name": "하나투어",
+      "weight_pct": 6.42,
+      "shares": 160,
+      "item_code": "039130"
+    },
+    {
       "name": "서부T&D",
-      "weight_pct": 6.4,
+      "weight_pct": 6.41,
       "shares": 469,
       "item_code": "006730"
     },
     {
+      "name": "아난티",
+      "weight_pct": 6.36,
+      "shares": 1006,
+      "item_code": "025980"
+    },
+    {
       "name": "GKL",
-      "weight_pct": 5.33,
+      "weight_pct": 5.48,
       "shares": 461,
       "item_code": "114090"
     },
     {
       "name": "제주항공",
-      "weight_pct": 3.12,
+      "weight_pct": 3.1,
       "shares": 564,
       "item_code": "089590"
     },
     {
       "name": "에어부산",
-      "weight_pct": 2.65,
+      "weight_pct": 2.57,
       "shares": 1363,
       "item_code": "298690"
     },
     {
       "name": "모두투어",
-      "weight_pct": 2.53,
+      "weight_pct": 2.45,
       "shares": 224,
       "item_code": "080160"
     },
     {
       "name": "진에어",
-      "weight_pct": 2.34,
+      "weight_pct": 2.24,
       "shares": 318,
       "item_code": "272450"
     },
     {
       "name": "모나용평",
-      "weight_pct": 0.98,
+      "weight_pct": 0.95,
       "shares": 373,
       "item_code": "070960"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.83,
-      "shares": 668484,
+      "weight_pct": 0.81,
+      "shares": 662028,
       "item_code": null
     },
     {
       "name": "레드캡투어",
-      "weight_pct": 0.66,
+      "weight_pct": 0.65,
       "shares": 53,
       "item_code": "038390"
     }

@@ -1,58 +1,58 @@
 {
   "ticker": "494840",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "RTX",
-      "weight_pct": 22.66,
+      "weight_pct": 22.75,
       "shares": 504,
       "item_code": "RTX"
     },
     {
       "name": "록히드 마틴",
-      "weight_pct": 20.38,
+      "weight_pct": 20.43,
       "shares": 170,
       "item_code": "LMT"
     },
     {
       "name": "제너럴 다이내믹스",
-      "weight_pct": 18.4,
+      "weight_pct": 18.37,
       "shares": 227,
       "item_code": "GD"
     },
     {
       "name": "노스롭 그루만",
-      "weight_pct": 13.55,
+      "weight_pct": 13.51,
       "shares": 116,
       "item_code": "NOC"
     },
     {
       "name": "보잉",
-      "weight_pct": 10.72,
+      "weight_pct": 10.66,
       "shares": 238,
       "item_code": "BA"
     },
     {
       "name": "L3 해리스 테크놀러지스",
-      "weight_pct": 5.72,
+      "weight_pct": 5.75,
       "shares": 102,
       "item_code": "LHX"
     },
     {
       "name": "헌팅턴 잉걸스 인더스트리즈",
-      "weight_pct": 4.55,
+      "weight_pct": 4.54,
       "shares": 72,
       "item_code": "HII"
     },
     {
       "name": "엘빗 시스템즈",
-      "weight_pct": 2.78,
+      "weight_pct": 2.75,
       "shares": 18,
       "item_code": "ESLT.O"
     },
     {
       "name": "에어로바이런먼트",
-      "weight_pct": 0.58,
+      "weight_pct": 0.59,
       "shares": 18,
       "item_code": "AVAV.O"
     },
@@ -64,8 +64,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.24,
-      "shares": 1586655,
+      "weight_pct": 0.25,
+      "shares": 1666667,
       "item_code": null
     }
   ]

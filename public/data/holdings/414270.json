@@ -1,42 +1,48 @@
 {
   "ticker": "414270",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "테슬라",
-      "weight_pct": 6.86,
+      "weight_pct": 6.91,
       "shares": 85,
       "item_code": "TSLA.O"
     },
     {
       "name": "YTCO(정주우통버스)",
-      "weight_pct": 4.74,
+      "weight_pct": 4.68,
       "shares": 4492,
       "item_code": "600066.SS"
     },
     {
       "name": "이브에너지",
-      "weight_pct": 4.41,
+      "weight_pct": 4.28,
       "shares": 2273,
       "item_code": "300014.SZ"
     },
     {
-      "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 4.26,
-      "shares": 38,
-      "item_code": "AMD.O"
-    },
-    {
       "name": "앨버말",
-      "weight_pct": 4.05,
+      "weight_pct": 4.13,
       "shares": 129,
       "item_code": "ALB"
     },
     {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 4.12,
+      "shares": 38,
+      "item_code": "AMD.O"
+    },
+    {
       "name": "알파벳 Class A",
-      "weight_pct": 3.99,
+      "weight_pct": 4.04,
       "shares": 50,
       "item_code": "GOOGL.O"
+    },
+    {
+      "name": "엔비디아",
+      "weight_pct": 4.0,
+      "shares": 79,
+      "item_code": "NVDA.O"
     },
     {
       "name": "제너럴 모터스",
@@ -45,14 +51,8 @@
       "item_code": "GM"
     },
     {
-      "name": "엔비디아",
-      "weight_pct": 3.86,
-      "shares": 79,
-      "item_code": "NVDA.O"
-    },
-    {
       "name": "애플",
-      "weight_pct": 3.8,
+      "weight_pct": 3.87,
       "shares": 52,
       "item_code": "AAPL.O"
     },
@@ -63,16 +63,16 @@
       "item_code": "F"
     },
     {
-      "name": "BYD",
-      "weight_pct": 3.6,
-      "shares": 1306,
-      "item_code": "1211.HK"
-    },
-    {
       "name": "우버",
-      "weight_pct": 3.57,
+      "weight_pct": 3.58,
       "shares": 195,
       "item_code": "UBER.K"
+    },
+    {
+      "name": "BYD",
+      "weight_pct": 3.57,
+      "shares": 1306,
+      "item_code": "1211.HK"
     },
     {
       "name": "저장 화우코발트",
@@ -82,67 +82,67 @@
     },
     {
       "name": "인텔",
-      "weight_pct": 3.02,
+      "weight_pct": 3.06,
       "shares": 147,
       "item_code": "INTC.O"
     },
     {
-      "name": "장성자동차",
-      "weight_pct": 2.82,
-      "shares": 11525,
-      "item_code": "2333.HK"
-    },
-    {
       "name": "복전자동차",
-      "weight_pct": 2.7,
+      "weight_pct": 2.8,
       "shares": 26849,
       "item_code": "600166.SS"
     },
     {
-      "name": "온다스",
-      "weight_pct": 2.65,
-      "shares": 1385,
-      "item_code": "ONDS.O"
+      "name": "장성자동차",
+      "weight_pct": 2.73,
+      "shares": 11525,
+      "item_code": "2333.HK"
     },
     {
       "name": "플러그 파워",
-      "weight_pct": 2.58,
+      "weight_pct": 2.6,
       "shares": 5096,
       "item_code": "PLUG.O"
     },
     {
+      "name": "온다스",
+      "weight_pct": 2.55,
+      "shares": 1385,
+      "item_code": "ONDS.O"
+    },
+    {
       "name": "길리자동차",
-      "weight_pct": 2.48,
+      "weight_pct": 2.44,
       "shares": 4551,
       "item_code": "0175.HK"
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.38,
-      "shares": 14108713,
+      "weight_pct": 2.35,
+      "shares": 13841554,
       "item_code": null
     },
     {
       "name": "포니 AI",
-      "weight_pct": 2.26,
+      "weight_pct": 2.33,
       "shares": 1332,
       "item_code": "2026.HK"
     },
     {
       "name": "텍사스 인스트루먼트",
-      "weight_pct": 1.95,
+      "weight_pct": 1.93,
       "shares": 32,
       "item_code": "TXN.O"
     },
     {
       "name": "위라이드",
-      "weight_pct": 1.75,
+      "weight_pct": 1.76,
       "shares": 3755,
       "item_code": "0800.HK"
     },
     {
       "name": "상하자동차",
-      "weight_pct": 1.74,
+      "weight_pct": 1.73,
       "shares": 4827,
       "item_code": "600104.SS"
     },
@@ -154,7 +154,7 @@
     },
     {
       "name": "리비안",
-      "weight_pct": 1.39,
+      "weight_pct": 1.37,
       "shares": 366,
       "item_code": "RIVN.O"
     },
@@ -166,13 +166,13 @@
     },
     {
       "name": "블루 버드",
-      "weight_pct": 1.35,
+      "weight_pct": 1.32,
       "shares": 96,
       "item_code": "BLBD.O"
     },
     {
       "name": "하문금룡자동차",
-      "weight_pct": 1.23,
+      "weight_pct": 1.26,
       "shares": 3174,
       "item_code": "600686.SS"
     },
@@ -184,51 +184,51 @@
     },
     {
       "name": "샤오펑 Class A",
-      "weight_pct": 0.95,
+      "weight_pct": 0.91,
       "shares": 688,
       "item_code": "9868.HK"
     },
     {
       "name": "니오",
-      "weight_pct": 0.92,
+      "weight_pct": 0.89,
       "shares": 887,
       "item_code": "9866.HK"
     },
     {
       "name": "장안자동차",
-      "weight_pct": 0.87,
+      "weight_pct": 0.86,
       "shares": 3525,
       "item_code": "000625.SZ"
     },
     {
       "name": "보그워너",
-      "weight_pct": 0.77,
+      "weight_pct": 0.76,
       "shares": 51,
       "item_code": "BWA"
     },
     {
       "name": "한무기",
-      "weight_pct": 0.74,
+      "weight_pct": 0.76,
       "shares": 21,
       "item_code": "688256.SS"
     },
     {
       "name": "체리 오토모빌",
-      "weight_pct": 0.71,
+      "weight_pct": 0.7,
       "shares": 916,
       "item_code": "9973.HK"
     },
     {
       "name": "상하이 일루바타르 코어엑스 반도체",
-      "weight_pct": 0.63,
+      "weight_pct": 0.68,
       "shares": 58,
       "item_code": "9903.HK"
     },
     {
-      "name": "영포과기",
-      "weight_pct": 0.62,
-      "shares": 524,
-      "item_code": "9863.HK"
+      "name": "Suzhou K-Hiragawa Electronic Technology Co Ltd Class A",
+      "weight_pct": 0.61,
+      "shares": 302,
+      "item_code": "603052.SS"
     },
     {
       "name": "사서포미 전자과기",
@@ -237,28 +237,28 @@
       "item_code": "688536.SS"
     },
     {
-      "name": "Suzhou K-Hiragawa Electronic Technology Co Ltd Class A",
+      "name": "영포과기",
       "weight_pct": 0.6,
-      "shares": 302,
-      "item_code": "603052.SS"
+      "shares": 524,
+      "item_code": "9863.HK"
     },
     {
-      "name": "M/A-컴 테크놀로지 솔루션스 홀딩스",
-      "weight_pct": 0.57,
-      "shares": 9,
-      "item_code": "MTSI.O"
+      "name": "상하이 비렌 테크놀로지",
+      "weight_pct": 0.58,
+      "shares": 498,
+      "item_code": "6082.HK"
     },
     {
       "name": "국과미전자",
-      "weight_pct": 0.56,
+      "weight_pct": 0.58,
       "shares": 100,
       "item_code": "300672.SZ"
     },
     {
-      "name": "상하이 비렌 테크놀로지",
-      "weight_pct": 0.54,
-      "shares": 498,
-      "item_code": "6082.HK"
+      "name": "M/A-컴 테크놀로지 솔루션스 홀딩스",
+      "weight_pct": 0.55,
+      "shares": 9,
+      "item_code": "MTSI.O"
     },
     {
       "name": "온 세미콘덕터",
@@ -268,19 +268,19 @@
     },
     {
       "name": "아적홀딩스",
-      "weight_pct": 0.52,
+      "weight_pct": 0.51,
       "shares": 1795,
       "item_code": "1585.HK"
     },
     {
       "name": "중경 천리과기",
-      "weight_pct": 0.47,
+      "weight_pct": 0.48,
       "shares": 1693,
       "item_code": "601777.SS"
     },
     {
       "name": "바이두",
-      "weight_pct": 0.43,
+      "weight_pct": 0.45,
       "shares": 159,
       "item_code": "9888.HK"
     },

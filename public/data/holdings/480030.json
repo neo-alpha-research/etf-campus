@@ -1,23 +1,23 @@
 {
   "ticker": "480030",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 103.03,
-      "shares": 1024009698,
+      "weight_pct": 103.39,
+      "shares": 1024237009,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)",
-      "weight_pct": -1.11,
-      "shares": -11076196,
+      "weight_pct": -1.24,
+      "shares": -12333794,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)",
-      "weight_pct": -1.92,
-      "shares": -19087461,
+      "weight_pct": -2.14,
+      "shares": -21278606,
       "item_code": null
     }
   ]

@@ -1,41 +1,41 @@
 {
   "ticker": "225060",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "iShares MSCI Emerging Markets ETF",
-      "weight_pct": 62.73,
+      "weight_pct": 61.88,
       "shares": 2247,
       "item_code": "EEM"
     },
     {
       "name": "원화현금",
-      "weight_pct": 38.77,
-      "shares": 128795299,
+      "weight_pct": 39.17,
+      "shares": 130721363,
       "item_code": null
     },
     {
       "name": "MSCI이머징마켓 TRS(키움증권)",
-      "weight_pct": -0.06,
-      "shares": -210521,
+      "weight_pct": -0.04,
+      "shares": -148902,
       "item_code": null
     },
     {
       "name": "MSCI이머징마켓 TRS(메리츠증권)",
-      "weight_pct": -0.28,
-      "shares": -956014,
+      "weight_pct": -0.2,
+      "shares": -676191,
       "item_code": null
     },
     {
       "name": "MSCI이머징마켓 TRS(미래에셋증권)",
-      "weight_pct": -0.41,
-      "shares": -1394394,
+      "weight_pct": -0.29,
+      "shares": -986259,
       "item_code": null
     },
     {
       "name": "MSCI이머징마켓 TRS(한국투자증권)",
-      "weight_pct": -0.73,
-      "shares": -2454430,
+      "weight_pct": -0.52,
+      "shares": -1736026,
       "item_code": null
     }
   ]

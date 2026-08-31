@@ -1,28 +1,28 @@
 {
   "ticker": "480460",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "이지스밸류플러스리츠",
-      "weight_pct": 20.26,
+      "weight_pct": 20.79,
       "shares": 24474,
       "item_code": "334890"
     },
     {
-      "name": "SK리츠",
-      "weight_pct": 19.37,
-      "shares": 16432,
-      "item_code": "395400"
-    },
-    {
       "name": "맥쿼리인프라",
-      "weight_pct": 19.35,
+      "weight_pct": 19.2,
       "shares": 9180,
       "item_code": "088980"
     },
     {
+      "name": "SK리츠",
+      "weight_pct": 18.93,
+      "shares": 16432,
+      "item_code": "395400"
+    },
+    {
       "name": "KB발해인프라",
-      "weight_pct": 6.6,
+      "weight_pct": 6.68,
       "shares": 2992,
       "item_code": "415640"
     },
@@ -34,33 +34,27 @@
     },
     {
       "name": "코람코라이프인프라리츠",
-      "weight_pct": 5.92,
+      "weight_pct": 5.71,
       "shares": 6425,
       "item_code": "357120"
     },
     {
       "name": "롯데리츠",
-      "weight_pct": 5.23,
+      "weight_pct": 5.18,
       "shares": 6243,
       "item_code": "330590"
     },
     {
-      "name": "원화예금",
-      "weight_pct": 4.27,
-      "shares": 19959686,
-      "item_code": null
-    },
-    {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 4.25,
+      "weight_pct": 4.28,
       "shares": 6503,
       "item_code": "365550"
     },
     {
-      "name": "신한서부티엔디리츠",
-      "weight_pct": 2.98,
-      "shares": 3571,
-      "item_code": "404990"
+      "name": "원화예금",
+      "weight_pct": 4.21,
+      "shares": 19945119,
+      "item_code": null
     },
     {
       "name": "신한알파리츠",
@@ -69,14 +63,20 @@
       "item_code": "293940"
     },
     {
+      "name": "신한서부티엔디리츠",
+      "weight_pct": 2.92,
+      "shares": 3571,
+      "item_code": "404990"
+    },
+    {
       "name": "디앤디플랫폼리츠",
-      "weight_pct": 2.22,
+      "weight_pct": 2.24,
       "shares": 4832,
       "item_code": "377190"
     },
     {
       "name": "코람코더원리츠",
-      "weight_pct": 0.64,
+      "weight_pct": 0.73,
       "shares": 1488,
       "item_code": "417310"
     }

@@ -1,6 +1,6 @@
 {
   "ticker": "0091M0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "연합자산관리36-1",
@@ -39,12 +39,6 @@
       "item_code": null
     },
     {
-      "name": "대신증권25-3",
-      "weight_pct": 9.37,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "신한투자증권2507-1",
       "weight_pct": 9.36,
       "shares": 0,
@@ -63,9 +57,15 @@
       "item_code": null
     },
     {
+      "name": "대신증권25-3",
+      "weight_pct": 9.31,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 4.43,
-      "shares": 4502441,
+      "weight_pct": 4.49,
+      "shares": 4568743,
       "item_code": null
     },
     {

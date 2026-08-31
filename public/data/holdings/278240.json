@@ -1,34 +1,34 @@
 {
   "ticker": "278240",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "코스닥150선물2026년09월물",
-      "weight_pct": 158.31,
-      "shares": 9,
+      "weight_pct": 157.74,
+      "shares": 8,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 66.44,
-      "shares": 55876323,
+      "weight_pct": 65.76,
+      "shares": 53559086,
       "item_code": null
     },
     {
       "name": "RISE 코스닥150",
-      "weight_pct": 28.52,
+      "weight_pct": 29.13,
       "shares": 1659,
       "item_code": "270810"
     },
     {
       "name": "KODEX 코스닥150레버리지",
-      "weight_pct": 4.08,
-      "shares": 461,
+      "weight_pct": 4.12,
+      "shares": 462,
       "item_code": "233740"
     },
     {
       "name": "PLUS 코스닥150",
-      "weight_pct": 0.94,
+      "weight_pct": 0.97,
       "shares": 54,
       "item_code": "301400"
     }

@@ -1,16 +1,16 @@
 {
   "ticker": "497520",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "일라이 릴리",
-      "weight_pct": 25.62,
+      "weight_pct": 25.59,
       "shares": 104,
       "item_code": "LLY"
     },
     {
       "name": "써모 피셔 사이언티픽",
-      "weight_pct": 10.24,
+      "weight_pct": 10.16,
       "shares": 78,
       "item_code": "TMO"
     },
@@ -22,56 +22,56 @@
     },
     {
       "name": "인사이트",
-      "weight_pct": 8.3,
+      "weight_pct": 8.15,
       "shares": 313,
       "item_code": "INCY.O"
     },
     {
       "name": "주가이제약",
-      "weight_pct": 7.82,
+      "weight_pct": 7.87,
       "shares": 854,
       "item_code": "4519.T"
     },
     {
-      "name": "삼성바이오로직스",
-      "weight_pct": 7.41,
-      "shares": 31,
-      "item_code": "207940"
-    },
-    {
       "name": "셀트리온",
-      "weight_pct": 7.37,
+      "weight_pct": 7.43,
       "shares": 257,
       "item_code": "068270"
     },
     {
-      "name": "시오노기제약",
-      "weight_pct": 7.08,
-      "shares": 1863,
-      "item_code": "4507.T"
+      "name": "삼성바이오로직스",
+      "weight_pct": 7.2,
+      "shares": 31,
+      "item_code": "207940"
     },
     {
       "name": "유나이티드 테라퓨틱스",
-      "weight_pct": 7.06,
+      "weight_pct": 7.12,
       "shares": 66,
       "item_code": "UTHR.O"
     },
     {
+      "name": "시오노기제약",
+      "weight_pct": 7.11,
+      "shares": 1863,
+      "item_code": "4507.T"
+    },
+    {
       "name": "앰퍼스타 파마슈티컬스",
-      "weight_pct": 6.95,
+      "weight_pct": 7.03,
       "shares": 1525,
       "item_code": "AMPH.O"
     },
     {
       "name": "비바 시스템즈",
-      "weight_pct": 1.57,
+      "weight_pct": 1.79,
       "shares": 31,
       "item_code": "VEEV.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.58,
-      "shares": 3928446,
+      "weight_pct": 0.56,
+      "shares": 3697496,
       "item_code": null
     },
     {

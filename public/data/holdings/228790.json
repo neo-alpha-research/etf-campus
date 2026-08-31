@@ -1,88 +1,88 @@
 {
   "ticker": "228790",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "코스맥스",
-      "weight_pct": 12.5,
+      "weight_pct": 12.59,
       "shares": 63,
       "item_code": "192820"
     },
     {
       "name": "실리콘투",
-      "weight_pct": 10.75,
+      "weight_pct": 11.26,
       "shares": 312,
       "item_code": "257720"
     },
     {
-      "name": "파마리서치",
-      "weight_pct": 10.31,
-      "shares": 34,
-      "item_code": "214450"
-    },
-    {
       "name": "한국콜마",
-      "weight_pct": 10.23,
+      "weight_pct": 10.66,
       "shares": 100,
       "item_code": "161890"
     },
     {
       "name": "에이피알",
-      "weight_pct": 9.75,
+      "weight_pct": 9.9,
       "shares": 32,
       "item_code": "278470"
     },
     {
+      "name": "파마리서치",
+      "weight_pct": 9.65,
+      "shares": 34,
+      "item_code": "214450"
+    },
+    {
       "name": "코스메카코리아",
-      "weight_pct": 8.97,
+      "weight_pct": 9.18,
       "shares": 92,
       "item_code": "241710"
     },
     {
       "name": "LG생활건강",
-      "weight_pct": 8.79,
+      "weight_pct": 8.75,
       "shares": 42,
       "item_code": "051900"
     },
     {
       "name": "아모레퍼시픽",
-      "weight_pct": 8.49,
+      "weight_pct": 8.33,
       "shares": 85,
       "item_code": "090430"
     },
     {
       "name": "달바글로벌",
-      "weight_pct": 8.11,
+      "weight_pct": 7.62,
       "shares": 52,
       "item_code": "483650"
     },
     {
       "name": "펌텍코리아",
-      "weight_pct": 2.58,
+      "weight_pct": 2.55,
       "shares": 65,
       "item_code": "251970"
     },
     {
       "name": "브이티",
-      "weight_pct": 2.53,
+      "weight_pct": 2.54,
       "shares": 295,
       "item_code": "018290"
     },
     {
       "name": "제닉",
-      "weight_pct": 1.75,
+      "weight_pct": 1.81,
       "shares": 74,
       "item_code": "123330"
     },
     {
       "name": "마녀공장",
-      "weight_pct": 1.3,
+      "weight_pct": 1.27,
       "shares": 110,
       "item_code": "439090"
     },
     {
       "name": "아이패밀리에스씨",
-      "weight_pct": 0.82,
+      "weight_pct": 0.86,
       "shares": 129,
       "item_code": "114840"
     },
@@ -94,26 +94,26 @@
     },
     {
       "name": "씨앤씨인터내셔널",
-      "weight_pct": 0.79,
+      "weight_pct": 0.75,
       "shares": 50,
       "item_code": "352480"
     },
     {
       "name": "토니모리",
-      "weight_pct": 0.62,
+      "weight_pct": 0.6,
       "shares": 161,
       "item_code": "214420"
     },
     {
       "name": "잇츠한불",
-      "weight_pct": 0.46,
+      "weight_pct": 0.45,
       "shares": 61,
       "item_code": "226320"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.34,
-      "shares": 488694,
+      "weight_pct": 0.32,
+      "shares": 480468,
       "item_code": null
     }
   ]

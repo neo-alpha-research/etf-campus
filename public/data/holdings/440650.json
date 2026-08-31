@@ -1,28 +1,22 @@
 {
   "ticker": "440650",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "[USD] 예금",
-      "weight_pct": 5.33,
-      "shares": 44796,
+      "weight_pct": 5.37,
+      "shares": 45063,
       "item_code": null
     },
     {
       "name": "KOLAHO 4 1/4 05/28/27",
-      "weight_pct": 4.18,
+      "weight_pct": 4.17,
       "shares": 35135,
       "item_code": null
     },
     {
       "name": "EIBKOR 5 1/8 09/18/28",
       "weight_pct": 3.26,
-      "shares": 27027,
-      "item_code": null
-    },
-    {
-      "name": "KDB 4 3/4 06/26/27",
-      "weight_pct": 3.23,
       "shares": 27027,
       "item_code": null
     },
@@ -35,6 +29,12 @@
     {
       "name": "HIGHWY 5 05/14/27 REGS",
       "weight_pct": 3.23,
+      "shares": 27027,
+      "item_code": null
+    },
+    {
+      "name": "KDB 4 3/4 06/26/27",
+      "weight_pct": 3.22,
       "shares": 27027,
       "item_code": null
     },
@@ -117,13 +117,13 @@
       "item_code": null
     },
     {
-      "name": "KOMRMR 4 1/8 04/20/27",
-      "weight_pct": 2.57,
+      "name": "KORGAS 3.875 07/13/27 REGS",
+      "weight_pct": 2.56,
       "shares": 21621,
       "item_code": null
     },
     {
-      "name": "KORGAS 3.875 07/13/27 REGS",
+      "name": "KOMRMR 4 1/8 04/20/27",
       "weight_pct": 2.56,
       "shares": 21621,
       "item_code": null
@@ -136,13 +136,13 @@
     },
     {
       "name": "T 0 1/2 10/31/27",
-      "weight_pct": 2.47,
+      "weight_pct": 2.46,
       "shares": 21621,
       "item_code": null
     },
     {
       "name": "INDKOR Float 09/30/27",
-      "weight_pct": 2.25,
+      "weight_pct": 2.26,
       "shares": 18918,
       "item_code": null
     },

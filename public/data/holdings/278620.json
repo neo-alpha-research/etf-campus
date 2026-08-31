@@ -1,16 +1,16 @@
 {
   "ticker": "278620",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 16.38,
-      "shares": 19514332,
+      "weight_pct": 16.43,
+      "shares": 19570147,
       "item_code": null
     },
     {
       "name": "비엔케이투자증권 20251216-364-17",
-      "weight_pct": 7.41,
+      "weight_pct": 7.42,
       "shares": 0,
       "item_code": null
     },
@@ -46,13 +46,13 @@
     },
     {
       "name": "대신증권 20260727-270-105",
-      "weight_pct": 5.84,
+      "weight_pct": 5.85,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신증권 20260727-270-106",
-      "weight_pct": 5.84,
+      "weight_pct": 5.85,
       "shares": 0,
       "item_code": null
     },
@@ -65,12 +65,6 @@
     {
       "name": "현대캐피탈2078-3",
       "weight_pct": 4.44,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "미래에셋캐피탈132-1",
-      "weight_pct": 2.99,
       "shares": 0,
       "item_code": null
     },
@@ -93,8 +87,14 @@
       "item_code": null
     },
     {
+      "name": "미래에셋캐피탈132-1",
+      "weight_pct": 2.98,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "KB증권47-1",
-      "weight_pct": 2.99,
+      "weight_pct": 2.97,
       "shares": 0,
       "item_code": null
     },
@@ -112,7 +112,7 @@
     },
     {
       "name": "미래에셋캐피탈121-2",
-      "weight_pct": 2.95,
+      "weight_pct": 2.92,
       "shares": 0,
       "item_code": null
     },

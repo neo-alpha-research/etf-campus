@@ -1,64 +1,64 @@
 {
   "ticker": "139230",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "두산에너빌리티",
-      "weight_pct": 19.77,
+      "weight_pct": 19.53,
       "shares": 627,
       "item_code": "034020"
     },
     {
       "name": "HD현대일렉트릭",
-      "weight_pct": 11.45,
+      "weight_pct": 11.2,
       "shares": 38,
       "item_code": "267260"
     },
     {
       "name": "HD한국조선해양",
-      "weight_pct": 10.32,
+      "weight_pct": 10.26,
       "shares": 78,
       "item_code": "009540"
     },
     {
       "name": "HD현대중공업",
-      "weight_pct": 9.49,
+      "weight_pct": 9.33,
       "shares": 55,
       "item_code": "329180"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 9.04,
+      "weight_pct": 8.95,
       "shares": 8,
       "item_code": "298040"
     },
     {
       "name": "삼성중공업",
-      "weight_pct": 8.54,
+      "weight_pct": 8.74,
       "shares": 1108,
       "item_code": "010140"
     },
     {
       "name": "한화오션",
-      "weight_pct": 7.26,
+      "weight_pct": 7.34,
       "shares": 221,
       "item_code": "042660"
     },
     {
       "name": "현대로템",
-      "weight_pct": 6.25,
+      "weight_pct": 6.32,
       "shares": 123,
       "item_code": "064350"
     },
     {
       "name": "두산",
-      "weight_pct": 5.34,
+      "weight_pct": 5.72,
       "shares": 12,
       "item_code": "000150"
     },
     {
       "name": "HD건설기계",
-      "weight_pct": 2.42,
+      "weight_pct": 2.36,
       "shares": 47,
       "item_code": "267270"
     },
@@ -70,13 +70,13 @@
     },
     {
       "name": "두산밥캣",
-      "weight_pct": 1.97,
+      "weight_pct": 2.04,
       "shares": 87,
       "item_code": "241560"
     },
     {
       "name": "한화엔진",
-      "weight_pct": 1.61,
+      "weight_pct": 1.63,
       "shares": 91,
       "item_code": "082740"
     },
@@ -88,7 +88,7 @@
     },
     {
       "name": "현대엘리베이터",
-      "weight_pct": 1.19,
+      "weight_pct": 1.2,
       "shares": 43,
       "item_code": "017800"
     },
@@ -107,7 +107,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.27,
-      "shares": 737685,
+      "shares": 725618,
       "item_code": null
     }
   ]

@@ -1,6 +1,6 @@
 {
   "ticker": "473290",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "현대캐피탈2031-1(녹)",
@@ -9,19 +9,13 @@
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 3.15,
+      "shares": 3433563,
+      "item_code": null
+    },
+    {
       "name": "케이비국민카드394-1",
-      "weight_pct": 2.24,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "BNK금융지주42",
-      "weight_pct": 2.24,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "케이비국민카드405-4",
       "weight_pct": 2.24,
       "shares": 0,
       "item_code": null
@@ -57,12 +51,6 @@
       "item_code": null
     },
     {
-      "name": "신한카드2221-1",
-      "weight_pct": 2.23,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "하나카드257-3",
       "weight_pct": 2.23,
       "shares": 0,
@@ -82,12 +70,6 @@
     },
     {
       "name": "신한카드2209-1",
-      "weight_pct": 2.23,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리금융캐피탈511-1",
       "weight_pct": 2.23,
       "shares": 0,
       "item_code": null
@@ -147,6 +129,12 @@
       "item_code": null
     },
     {
+      "name": "신한카드2221-1",
+      "weight_pct": 2.22,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "우리카드243-5(사)",
       "weight_pct": 2.22,
       "shares": 0,
@@ -172,6 +160,12 @@
     },
     {
       "name": "신한카드2137-3",
+      "weight_pct": 2.22,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈511-1",
       "weight_pct": 2.22,
       "shares": 0,
       "item_code": null
@@ -225,6 +219,12 @@
       "item_code": null
     },
     {
+      "name": "케이비국민카드405-4",
+      "weight_pct": 2.21,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "BNK캐피탈372-3",
       "weight_pct": 2.21,
       "shares": 0,
@@ -264,12 +264,6 @@
       "name": "농협금융지주51-1",
       "weight_pct": 1.1,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 0.86,
-      "shares": 943729,
       "item_code": null
     }
   ]

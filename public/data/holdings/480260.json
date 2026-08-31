@@ -1,7 +1,13 @@
 {
   "ticker": "480260",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 7.06,
+      "shares": 7608435,
+      "item_code": null
+    },
     {
       "name": "TIGER 우량회사채액티브",
       "weight_pct": 5.81,
@@ -10,20 +16,20 @@
     },
     {
       "name": "신한캐피탈526-1",
-      "weight_pct": 5.03,
+      "weight_pct": 5.04,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "TIGER 28-04 회사채(A+이상)액티브",
-      "weight_pct": 5.0,
+      "weight_pct": 5.01,
       "shares": 54,
       "item_code": "0094K0"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 4.7,
-      "shares": 5064119,
+      "name": "CJ대한통운99-2",
+      "weight_pct": 2.52,
+      "shares": 0,
       "item_code": null
     },
     {
@@ -33,7 +39,31 @@
       "item_code": null
     },
     {
+      "name": "아이엠캐피탈129-4",
+      "weight_pct": 2.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈558-2",
+      "weight_pct": 2.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "경남은행2026-02이(변)1A-03",
+      "weight_pct": 2.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "SK이노베이션14-1",
+      "weight_pct": 2.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "인천도시공사228",
       "weight_pct": 2.52,
       "shares": 0,
       "item_code": null
@@ -51,20 +81,8 @@
       "item_code": null
     },
     {
-      "name": "CJ대한통운99-2",
-      "weight_pct": 2.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이엠캐피탈129-4",
-      "weight_pct": 2.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "JB 우리캐피탈558-2",
-      "weight_pct": 2.51,
+      "name": "아이비케이캐피탈314-5",
+      "weight_pct": 2.52,
       "shares": 0,
       "item_code": null
     },
@@ -75,19 +93,13 @@
       "item_code": null
     },
     {
-      "name": "경남은행2026-02이(변)1A-03",
+      "name": "광주은행2026-02이(변)1갑-25",
       "weight_pct": 2.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이엠뱅크47-01이(변)11A-30",
-      "weight_pct": 2.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "광주은행2025-09이(변)1갑-29",
       "weight_pct": 2.51,
       "shares": 0,
       "item_code": null
@@ -111,7 +123,7 @@
       "item_code": null
     },
     {
-      "name": "인천도시공사228",
+      "name": "롯데카드536-3",
       "weight_pct": 2.51,
       "shares": 0,
       "item_code": null
@@ -123,19 +135,19 @@
       "item_code": null
     },
     {
-      "name": "아이비케이캐피탈314-5",
-      "weight_pct": 2.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "광주은행2026-02이(변)1갑-25",
+      "name": "하나캐피탈473-3",
       "weight_pct": 2.5,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "롯데카드536-3",
+      "name": "한국서부발전33-2",
+      "weight_pct": 2.5,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대커머셜550-1",
       "weight_pct": 2.5,
       "shares": 0,
       "item_code": null
@@ -147,55 +159,37 @@
       "item_code": null
     },
     {
-      "name": "KB증권47-1",
+      "name": "롯데카드539-6",
       "weight_pct": 2.5,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "하나캐피탈473-3",
-      "weight_pct": 2.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국서부발전33-2",
-      "weight_pct": 2.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "현대커머셜550-1",
-      "weight_pct": 2.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "롯데카드539-6",
-      "weight_pct": 2.49,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "엘엑스홀딩스1-1",
-      "weight_pct": 2.48,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국투자증권30-1",
-      "weight_pct": 2.48,
+      "weight_pct": 2.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하남도시공사2025-06(녹)",
-      "weight_pct": 2.48,
+      "weight_pct": 2.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "충청남도개발공사2025-1회(녹)",
+      "weight_pct": 2.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "KB증권47-1",
+      "weight_pct": 2.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자증권30-1",
       "weight_pct": 2.48,
       "shares": 0,
       "item_code": null
@@ -220,7 +214,7 @@
     },
     {
       "name": "롯데카드546-3",
-      "weight_pct": 1.24,
+      "weight_pct": 1.25,
       "shares": 0,
       "item_code": null
     },

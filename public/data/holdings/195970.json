@@ -1,23 +1,23 @@
 {
   "ticker": "195970",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스왑(NH투자증권_231030)",
-      "weight_pct": 63.3,
-      "shares": 211356793,
+      "weight_pct": 63.31,
+      "shares": 210969784,
       "item_code": null
     },
     {
       "name": "스왑(키움증권_231030)",
       "weight_pct": 36.37,
-      "shares": 121440693,
+      "shares": 121225759,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.31,
-      "shares": 1053370,
+      "weight_pct": 0.3,
+      "shares": 1032840,
       "item_code": null
     }
   ]

@@ -1,16 +1,16 @@
 {
   "ticker": "437070",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "Vanguard Long-Term Corporate Bond Idx Fund",
-      "weight_pct": 7.82,
+      "weight_pct": 7.81,
       "shares": 92,
       "item_code": "VCLT.O"
     },
     {
       "name": "WOORIB 6 3/8 PERP",
-      "weight_pct": 6.92,
+      "weight_pct": 6.93,
       "shares": 5780,
       "item_code": null
     },
@@ -22,37 +22,37 @@
     },
     {
       "name": "SHNHAN 5 3/4 04/15/34",
-      "weight_pct": 6.84,
+      "weight_pct": 6.83,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "KRKPSC 6 3/8 06/11/27",
-      "weight_pct": 6.75,
+      "weight_pct": 6.77,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "OCBCSP 4.55 09/08/35",
-      "weight_pct": 6.6,
+      "weight_pct": 6.59,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "BABA 4 1/2 11/28/34",
-      "weight_pct": 6.44,
+      "weight_pct": 6.41,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "LENOVO 3.421 11/02/30",
-      "weight_pct": 6.33,
+      "weight_pct": 6.32,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "NIPLIF 3.4 01/23/50",
-      "weight_pct": 6.3,
+      "weight_pct": 6.31,
       "shares": 5780,
       "item_code": null
     },
@@ -64,7 +64,7 @@
     },
     {
       "name": "HAOHUA 3 09/22/30",
-      "weight_pct": 6.26,
+      "weight_pct": 6.25,
       "shares": 5780,
       "item_code": null
     },
@@ -76,8 +76,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.68,
-      "shares": 5555264,
+      "weight_pct": 4.74,
+      "shares": 5555449,
       "item_code": null
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "name": "INDON 6 3/4 01/15/44",
-      "weight_pct": 3.58,
+      "weight_pct": 3.59,
       "shares": 2890,
       "item_code": null
     },

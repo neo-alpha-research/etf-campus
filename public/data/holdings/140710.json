@@ -1,52 +1,52 @@
 {
   "ticker": "140710",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "현대글로비스",
-      "weight_pct": 25.66,
+      "weight_pct": 26.04,
       "shares": 822,
       "item_code": "086280"
     },
     {
       "name": "대한항공",
-      "weight_pct": 21.74,
+      "weight_pct": 21.56,
       "shares": 5026,
       "item_code": "003490"
     },
     {
       "name": "HMM",
-      "weight_pct": 15.52,
+      "weight_pct": 15.45,
       "shares": 4717,
       "item_code": "011200"
     },
     {
       "name": "팬오션",
-      "weight_pct": 11.02,
+      "weight_pct": 11.07,
       "shares": 12791,
       "item_code": "028670"
     },
     {
       "name": "CJ대한통운",
-      "weight_pct": 7.01,
+      "weight_pct": 7.0,
       "shares": 624,
       "item_code": "000120"
     },
     {
       "name": "롯데렌탈",
-      "weight_pct": 5.4,
+      "weight_pct": 5.38,
       "shares": 745,
       "item_code": "089860"
     },
     {
       "name": "아시아나항공",
-      "weight_pct": 5.01,
+      "weight_pct": 5.04,
       "shares": 4342,
       "item_code": "020560"
     },
     {
       "name": "대한해운",
-      "weight_pct": 3.1,
+      "weight_pct": 3.05,
       "shares": 9562,
       "item_code": "005880"
     },
@@ -58,7 +58,7 @@
     },
     {
       "name": "진에어",
-      "weight_pct": 1.18,
+      "weight_pct": 1.14,
       "shares": 1309,
       "item_code": "272450"
     },
@@ -69,16 +69,22 @@
       "item_code": "004360"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 1.04,
-      "shares": 6831857,
-      "item_code": null
+      "name": "트리니티항공",
+      "weight_pct": 0.92,
+      "shares": 2032,
+      "item_code": "091810"
     },
     {
       "name": "흥아해운",
       "weight_pct": 0.92,
       "shares": 3561,
       "item_code": "003280"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.03,
+      "shares": 261129,
+      "item_code": null
     }
   ]
 }

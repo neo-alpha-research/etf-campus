@@ -1,216 +1,216 @@
 {
   "ticker": "411420",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "마이크로소프트",
-      "weight_pct": 9.46,
-      "shares": 179,
+      "weight_pct": 9.53,
+      "shares": 175,
       "item_code": "MSFT.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 8.63,
-      "shares": 311,
+      "weight_pct": 8.6,
+      "shares": 305,
       "item_code": "AMZN.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 8.35,
-      "shares": 374,
+      "weight_pct": 8.44,
+      "shares": 366,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 7.78,
-      "shares": 213,
+      "weight_pct": 7.68,
+      "shares": 209,
       "item_code": "GOOGL.O"
     },
     {
       "name": "메타",
-      "weight_pct": 7.27,
-      "shares": 118,
+      "weight_pct": 7.1,
+      "shares": 116,
       "item_code": "META.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 6.98,
-      "shares": 184,
+      "weight_pct": 7.05,
+      "shares": 180,
       "item_code": "AVGO.O"
     },
     {
       "name": "애플",
-      "weight_pct": 6.7,
-      "shares": 200,
+      "weight_pct": 6.66,
+      "shares": 196,
       "item_code": "AAPL.O"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 3.8,
+      "shares": 49185354,
+      "item_code": null
+    },
+    {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 3.97,
-      "shares": 77,
+      "weight_pct": 3.74,
+      "shares": 75,
       "item_code": "AMD.O"
     },
     {
       "name": "ASML 홀딩 ADR",
-      "weight_pct": 3.47,
+      "weight_pct": 3.29,
       "shares": 18,
       "item_code": "ASML.O"
     },
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 3.1,
-      "shares": 31,
+      "weight_pct": 2.87,
+      "shares": 30,
       "item_code": "LITE.O"
     },
     {
-      "name": "월마트",
-      "weight_pct": 2.89,
-      "shares": 260,
-      "item_code": "WMT.O"
-    },
-    {
       "name": "유니티소프트웨어",
-      "weight_pct": 2.44,
-      "shares": 518,
+      "weight_pct": 2.32,
+      "shares": 507,
       "item_code": "U"
     },
     {
+      "name": "월마트",
+      "weight_pct": 2.31,
+      "shares": 212,
+      "item_code": "WMT.O"
+    },
+    {
       "name": "인텔",
-      "weight_pct": 2.09,
-      "shares": 223,
+      "weight_pct": 2.07,
+      "shares": 218,
       "item_code": "INTC.O"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.06,
-      "shares": 26794123,
-      "item_code": null
-    },
-    {
       "name": "샌디스크",
-      "weight_pct": 1.98,
+      "weight_pct": 1.91,
       "shares": 12,
       "item_code": "SNDK.O"
     },
     {
       "name": "시스코 시스템즈",
-      "weight_pct": 1.93,
-      "shares": 162,
+      "weight_pct": 1.84,
+      "shares": 158,
       "item_code": "CSCO.O"
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 1.92,
-      "shares": 37,
+      "weight_pct": 1.8,
+      "shares": 36,
       "item_code": "AMAT.O"
     },
     {
       "name": "넷플릭스",
-      "weight_pct": 1.52,
-      "shares": 176,
+      "weight_pct": 1.49,
+      "shares": 172,
       "item_code": "NFLX.O"
     },
     {
       "name": "ASE 테크놀로지 홀딩 ADR",
-      "weight_pct": 1.49,
-      "shares": 376,
+      "weight_pct": 1.47,
+      "shares": 368,
       "item_code": "ASX"
     },
     {
-      "name": "램 리서치",
-      "weight_pct": 1.49,
-      "shares": 44,
-      "item_code": "LRCX.O"
-    },
-    {
       "name": "디지털오션 홀딩스",
-      "weight_pct": 1.48,
-      "shares": 121,
+      "weight_pct": 1.4,
+      "shares": 118,
       "item_code": "DOCN.K"
     },
     {
+      "name": "램 리서치",
+      "weight_pct": 1.4,
+      "shares": 43,
+      "item_code": "LRCX.O"
+    },
+    {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 1.21,
-      "shares": 12,
+      "weight_pct": 1.17,
+      "shares": 11,
       "item_code": "MU.O"
     },
     {
       "name": "시냅틱스",
-      "weight_pct": 1.15,
-      "shares": 112,
+      "weight_pct": 1.11,
+      "shares": 110,
       "item_code": "SYNA.O"
     },
     {
-      "name": "델테크놀로지",
-      "weight_pct": 1.13,
-      "shares": 23,
-      "item_code": "DELL.K"
-    },
-    {
       "name": "퀄컴",
-      "weight_pct": 1.12,
-      "shares": 64,
+      "weight_pct": 1.1,
+      "shares": 63,
       "item_code": "QCOM.O"
     },
     {
-      "name": "씨 ADR",
-      "weight_pct": 1.12,
-      "shares": 88,
-      "item_code": "SE"
-    },
-    {
       "name": "테이크-투 인터랙티브 소프트웨어",
-      "weight_pct": 1.12,
-      "shares": 45,
+      "weight_pct": 1.1,
+      "shares": 44,
       "item_code": "TTWO.O"
     },
     {
-      "name": "로빈후드",
+      "name": "씨 ADR",
+      "weight_pct": 1.09,
+      "shares": 86,
+      "item_code": "SE"
+    },
+    {
+      "name": "델테크놀로지",
       "weight_pct": 1.08,
-      "shares": 94,
+      "shares": 22,
+      "item_code": "DELL.K"
+    },
+    {
+      "name": "로빈후드",
+      "weight_pct": 1.01,
+      "shares": 92,
       "item_code": "HOOD.O"
     },
     {
+      "name": "블룸 에너지",
+      "weight_pct": 0.99,
+      "shares": 44,
+      "item_code": "BE"
+    },
+    {
       "name": "포전트 파워 솔루션스",
-      "weight_pct": 0.96,
-      "shares": 281,
+      "weight_pct": 0.88,
+      "shares": 275,
       "item_code": "FPS"
     },
     {
       "name": "컴포트 시스템즈 USA",
-      "weight_pct": 0.93,
+      "weight_pct": 0.85,
       "shares": 5,
       "item_code": "FIX"
     },
     {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 0.81,
+      "shares": 41,
+      "item_code": "PLTR.O"
+    },
+    {
       "name": "스카이웍스 솔루션스",
-      "weight_pct": 0.8,
-      "shares": 113,
+      "weight_pct": 0.77,
+      "shares": 111,
       "item_code": "SWKS.O"
     },
     {
-      "name": "블룸 에너지",
-      "weight_pct": 0.76,
-      "shares": 32,
-      "item_code": "BE"
-    },
-    {
       "name": "블랙베리",
-      "weight_pct": 0.69,
-      "shares": 839,
+      "weight_pct": 0.71,
+      "shares": 821,
       "item_code": "BB"
     },
     {
       "name": "아리스타 네트웍스",
-      "weight_pct": 0.32,
+      "weight_pct": 0.3,
       "shares": 14,
       "item_code": "ANET.K"
-    },
-    {
-      "name": "팔란티어 테크놀로지스",
-      "weight_pct": 0.3,
-      "shares": 16,
-      "item_code": "PLTR.O"
     },
     {
       "name": "GE 버노바",

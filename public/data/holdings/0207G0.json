@@ -1,71 +1,71 @@
 {
   "ticker": "0207G0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스피어",
-      "weight_pct": 15.94,
+      "weight_pct": 15.17,
       "shares": 2374,
       "item_code": "347700"
     },
     {
       "name": "인텔리안테크",
-      "weight_pct": 13.59,
+      "weight_pct": 13.67,
       "shares": 713,
       "item_code": "189300"
     },
     {
       "name": "한화시스템",
-      "weight_pct": 13.36,
+      "weight_pct": 13.17,
       "shares": 591,
       "item_code": "272210"
     },
     {
       "name": "쎄트렉아이",
-      "weight_pct": 11.88,
+      "weight_pct": 12.28,
       "shares": 552,
       "item_code": "099320"
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 11.24,
+      "weight_pct": 11.76,
       "shares": 419,
       "item_code": "078600"
     },
     {
       "name": "에이치브이엠",
-      "weight_pct": 10.6,
+      "weight_pct": 10.45,
       "shares": 748,
       "item_code": "295310"
     },
     {
       "name": "RFHIC",
-      "weight_pct": 7.84,
+      "weight_pct": 7.91,
       "shares": 554,
       "item_code": "218410"
     },
     {
       "name": "알멕",
-      "weight_pct": 6.8,
+      "weight_pct": 6.87,
       "shares": 758,
       "item_code": "354320"
     },
     {
       "name": "세아베스틸지주",
-      "weight_pct": 5.28,
+      "weight_pct": 5.23,
       "shares": 419,
       "item_code": "001430"
     },
     {
       "name": "RF머트리얼즈",
-      "weight_pct": 3.19,
+      "weight_pct": 3.22,
       "shares": 288,
       "item_code": "327260"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.22,
-      "shares": 779935,
+      "weight_pct": 0.23,
+      "shares": 765163,
       "item_code": null
     }
   ]

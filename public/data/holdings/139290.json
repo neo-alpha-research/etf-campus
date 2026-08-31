@@ -1,102 +1,102 @@
 {
   "ticker": "139290",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "현대모비스",
-      "weight_pct": 21.46,
+      "weight_pct": 21.18,
       "shares": 240,
       "item_code": "012330"
     },
     {
       "name": "기아",
-      "weight_pct": 17.46,
+      "weight_pct": 17.81,
       "shares": 699,
       "item_code": "000270"
     },
     {
       "name": "현대차",
-      "weight_pct": 16.0,
+      "weight_pct": 15.94,
       "shares": 203,
       "item_code": "005380"
     },
     {
       "name": "한진칼",
-      "weight_pct": 7.12,
+      "weight_pct": 7.35,
       "shares": 284,
       "item_code": "180640"
     },
     {
       "name": "코웨이",
-      "weight_pct": 6.36,
+      "weight_pct": 6.16,
       "shares": 327,
       "item_code": "021240"
     },
     {
       "name": "한국타이어앤테크놀로지",
-      "weight_pct": 5.66,
+      "weight_pct": 5.65,
       "shares": 436,
       "item_code": "161390"
     },
     {
       "name": "신세계",
-      "weight_pct": 3.19,
+      "weight_pct": 3.06,
       "shares": 38,
       "item_code": "004170"
     },
     {
-      "name": "강원랜드",
-      "weight_pct": 1.98,
-      "shares": 688,
-      "item_code": "035250"
-    },
-    {
       "name": "HL만도",
-      "weight_pct": 1.96,
+      "weight_pct": 1.98,
       "shares": 197,
       "item_code": "204320"
     },
     {
+      "name": "강원랜드",
+      "weight_pct": 1.96,
+      "shares": 688,
+      "item_code": "035250"
+    },
+    {
       "name": "영원무역",
-      "weight_pct": 1.91,
+      "weight_pct": 1.85,
       "shares": 132,
       "item_code": "111770"
     },
     {
       "name": "호텔신라",
-      "weight_pct": 1.55,
+      "weight_pct": 1.59,
       "shares": 186,
       "item_code": "008770"
     },
     {
       "name": "미스토홀딩스",
-      "weight_pct": 1.48,
+      "weight_pct": 1.49,
       "shares": 184,
       "item_code": "081660"
     },
     {
       "name": "한온시스템",
-      "weight_pct": 1.46,
+      "weight_pct": 1.44,
       "shares": 2119,
       "item_code": "018880"
     },
     {
       "name": "현대백화점",
-      "weight_pct": 1.33,
+      "weight_pct": 1.31,
       "shares": 71,
       "item_code": "069960"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 1.28,
-      "shares": 6461651,
-      "item_code": null
-    },
-    {
       "name": "롯데쇼핑",
-      "weight_pct": 1.27,
+      "weight_pct": 1.28,
       "shares": 62,
       "item_code": "023530"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.25,
+      "shares": 6438682,
+      "item_code": null
     },
     {
       "name": "DN오토모티브",
@@ -106,31 +106,31 @@
     },
     {
       "name": "현대위아",
-      "weight_pct": 1.1,
+      "weight_pct": 1.09,
       "shares": 94,
       "item_code": "011210"
     },
     {
       "name": "F&F",
-      "weight_pct": 1.05,
+      "weight_pct": 1.09,
       "shares": 84,
       "item_code": "383220"
     },
     {
       "name": "영원무역홀딩스",
-      "weight_pct": 1.03,
+      "weight_pct": 1.01,
       "shares": 31,
       "item_code": "009970"
     },
     {
       "name": "에스엘",
-      "weight_pct": 1.0,
+      "weight_pct": 0.99,
       "shares": 96,
       "item_code": "005850"
     },
     {
       "name": "금호타이어",
-      "weight_pct": 0.95,
+      "weight_pct": 0.97,
       "shares": 680,
       "item_code": "073240"
     },
@@ -142,13 +142,13 @@
     },
     {
       "name": "한국앤컴퍼니",
-      "weight_pct": 0.68,
+      "weight_pct": 0.69,
       "shares": 144,
       "item_code": "000240"
     },
     {
       "name": "파라다이스",
-      "weight_pct": 0.51,
+      "weight_pct": 0.52,
       "shares": 264,
       "item_code": "034230"
     },

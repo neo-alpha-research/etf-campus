@@ -1,72 +1,72 @@
 {
   "ticker": "486240",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 22.16,
+      "weight_pct": 22.19,
       "shares": 2471,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 12.19,
+      "weight_pct": 12.08,
       "shares": 209,
       "item_code": "000660"
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 11.47,
+      "weight_pct": 11.11,
       "shares": 1551,
       "item_code": "010120"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 4.0,
+      "weight_pct": 4.16,
       "shares": 209,
       "item_code": "006400"
     },
     {
       "name": "티엘비",
-      "weight_pct": 3.97,
+      "weight_pct": 4.12,
       "shares": 2841,
       "item_code": "356860"
     },
     {
       "name": "티에스이",
-      "weight_pct": 3.89,
+      "weight_pct": 3.74,
       "shares": 457,
       "item_code": "131290"
     },
     {
       "name": "피에스케이",
-      "weight_pct": 3.77,
+      "weight_pct": 3.7,
       "shares": 840,
       "item_code": "319660"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 3.52,
+      "weight_pct": 3.47,
       "shares": 34,
       "item_code": "298040"
     },
     {
-      "name": "브이엠",
-      "weight_pct": 3.22,
-      "shares": 1581,
-      "item_code": "089970"
-    },
-    {
       "name": "티씨케이",
-      "weight_pct": 3.19,
+      "weight_pct": 3.34,
       "shares": 391,
       "item_code": "064760"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 2.94,
+      "weight_pct": 3.17,
       "shares": 63,
       "item_code": "009150"
+    },
+    {
+      "name": "브이엠",
+      "weight_pct": 3.08,
+      "shares": 1581,
+      "item_code": "089970"
     },
     {
       "name": "엠케이전자",
@@ -76,73 +76,73 @@
     },
     {
       "name": "HD현대일렉트릭",
-      "weight_pct": 2.54,
+      "weight_pct": 2.48,
       "shares": 92,
       "item_code": "267260"
     },
     {
       "name": "대한전선",
-      "weight_pct": 2.41,
+      "weight_pct": 2.43,
       "shares": 2401,
       "item_code": "001440"
     },
     {
-      "name": "프로텍",
-      "weight_pct": 2.05,
-      "shares": 971,
-      "item_code": "053610"
-    },
-    {
       "name": "원익IPS",
-      "weight_pct": 2.02,
+      "weight_pct": 2.05,
       "shares": 533,
       "item_code": "240810"
     },
     {
-      "name": "일진전기",
-      "weight_pct": 1.8,
-      "shares": 714,
-      "item_code": "103590"
+      "name": "프로텍",
+      "weight_pct": 2.03,
+      "shares": 971,
+      "item_code": "053610"
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 1.77,
+      "weight_pct": 1.86,
       "shares": 225,
       "item_code": "018260"
     },
     {
+      "name": "일진전기",
+      "weight_pct": 1.75,
+      "shares": 714,
+      "item_code": "103590"
+    },
+    {
       "name": "제주반도체",
-      "weight_pct": 1.65,
+      "weight_pct": 1.7,
       "shares": 631,
       "item_code": "080220"
     },
     {
       "name": "원익머트리얼즈",
-      "weight_pct": 1.39,
+      "weight_pct": 1.41,
       "shares": 1244,
       "item_code": "104830"
     },
     {
       "name": "파크시스템스",
-      "weight_pct": 1.23,
+      "weight_pct": 1.22,
       "shares": 135,
       "item_code": "140860"
     },
     {
       "name": "이엔에프테크놀로지",
-      "weight_pct": 1.07,
+      "weight_pct": 1.08,
       "shares": 706,
       "item_code": "102710"
     },
     {
       "name": "한컴",
-      "weight_pct": 1.03,
+      "weight_pct": 1.07,
       "shares": 1731,
       "item_code": "030520"
     },
     {
       "name": "한화솔루션",
-      "weight_pct": 0.91,
+      "weight_pct": 0.95,
       "shares": 815,
       "item_code": "009830"
     },
@@ -154,20 +154,20 @@
     },
     {
       "name": "리노공업",
-      "weight_pct": 0.77,
+      "weight_pct": 0.79,
       "shares": 345,
       "item_code": "058470"
     },
     {
       "name": "네패스아크",
-      "weight_pct": 0.67,
+      "weight_pct": 0.64,
       "shares": 732,
       "item_code": "330860"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.62,
-      "shares": 18670935,
+      "weight_pct": 0.64,
+      "shares": 18575942,
       "item_code": null
     }
   ]

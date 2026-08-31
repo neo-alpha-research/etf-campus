@@ -1,71 +1,71 @@
 {
   "ticker": "487230",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
-      "name": "GE 버노바",
-      "weight_pct": 16.17,
-      "shares": 119,
-      "item_code": "GEV"
-    },
-    {
       "name": "버티브 홀딩스",
-      "weight_pct": 16.14,
+      "weight_pct": 16.4,
       "shares": 429,
       "item_code": "VRT"
     },
     {
+      "name": "GE 버노바",
+      "weight_pct": 16.13,
+      "shares": 119,
+      "item_code": "GEV"
+    },
+    {
       "name": "블룸 에너지",
-      "weight_pct": 15.78,
-      "shares": 508,
+      "weight_pct": 15.9,
+      "shares": 507,
       "item_code": "BE"
     },
     {
-      "name": "컴포트 시스템즈 USA",
-      "weight_pct": 11.41,
-      "shares": 49,
-      "item_code": "FIX"
-    },
-    {
       "name": "콴타 서비스",
-      "weight_pct": 11.17,
+      "weight_pct": 11.39,
       "shares": 127,
       "item_code": "PWR"
     },
     {
+      "name": "컴포트 시스템즈 USA",
+      "weight_pct": 11.19,
+      "shares": 49,
+      "item_code": "FIX"
+    },
+    {
       "name": "카메코",
-      "weight_pct": 9.54,
-      "shares": 624,
+      "weight_pct": 9.27,
+      "shares": 623,
       "item_code": "CCJ"
     },
     {
       "name": "스털링 인프라스트럭처",
-      "weight_pct": 5.83,
+      "weight_pct": 5.75,
       "shares": 82,
       "item_code": "STRL.O"
     },
     {
       "name": "포전트 파워 솔루션스",
-      "weight_pct": 4.39,
-      "shares": 958,
+      "weight_pct": 4.32,
+      "shares": 957,
       "item_code": "FPS"
     },
     {
-      "name": "파월 인더스트리스",
-      "weight_pct": 4.29,
-      "shares": 157,
-      "item_code": "POWL.O"
-    },
-    {
       "name": "마스텍",
-      "weight_pct": 4.24,
+      "weight_pct": 4.28,
       "shares": 119,
       "item_code": "MTZ"
     },
     {
+      "name": "파월 인더스트리스",
+      "weight_pct": 4.26,
+      "shares": 157,
+      "item_code": "POWL.O"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.98,
-      "shares": 9568301,
+      "weight_pct": 1.05,
+      "shares": 9687419,
       "item_code": null
     }
   ]

@@ -1,30 +1,36 @@
 {
   "ticker": "488290",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "파나소닉 홀딩스",
-      "weight_pct": 8.56,
+      "weight_pct": 8.65,
       "shares": 2481,
       "item_code": "6752.T"
     },
     {
       "name": "미쓰비시전기",
-      "weight_pct": 8.51,
+      "weight_pct": 8.5,
       "shares": 1906,
       "item_code": "6503.T"
     },
     {
+      "name": "르네사스 일렉트로닉스",
+      "weight_pct": 8.4,
+      "shares": 3112,
+      "item_code": "6723.T"
+    },
+    {
       "name": "어드반테스트",
-      "weight_pct": 8.44,
+      "weight_pct": 8.28,
       "shares": 297,
       "item_code": "6857.T"
     },
     {
-      "name": "르네사스 일렉트로닉스",
-      "weight_pct": 8.34,
-      "shares": 3112,
-      "item_code": "6723.T"
+      "name": "TDK",
+      "weight_pct": 8.13,
+      "shares": 3308,
+      "item_code": "6762.T"
     },
     {
       "name": "후지쿠라",
@@ -33,20 +39,14 @@
       "item_code": "5803.T"
     },
     {
-      "name": "TDK",
-      "weight_pct": 7.97,
-      "shares": 3308,
-      "item_code": "6762.T"
-    },
-    {
       "name": "키옥시아 홀딩스",
-      "weight_pct": 7.17,
+      "weight_pct": 6.82,
       "shares": 180,
       "item_code": "285A.T"
     },
     {
       "name": "무라타제작소",
-      "weight_pct": 5.45,
+      "weight_pct": 5.57,
       "shares": 954,
       "item_code": "6981.T"
     },
@@ -58,85 +58,85 @@
     },
     {
       "name": "도쿄일렉트론",
-      "weight_pct": 5.1,
+      "weight_pct": 5.14,
       "shares": 115,
       "item_code": "8035.T"
     },
     {
       "name": "후루카와 전기공업",
-      "weight_pct": 4.19,
+      "weight_pct": 4.16,
       "shares": 1352,
       "item_code": "5801.T"
     },
     {
       "name": "세이코 엡손",
-      "weight_pct": 3.06,
+      "weight_pct": 3.12,
       "shares": 1231,
       "item_code": "6724.T"
     },
     {
       "name": "롬",
-      "weight_pct": 3.02,
+      "weight_pct": 3.05,
       "shares": 802,
       "item_code": "6963.T"
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.96,
-      "shares": 32334014,
+      "weight_pct": 2.95,
+      "shares": 32049163,
       "item_code": null
     },
     {
       "name": "레이져테크",
-      "weight_pct": 2.95,
+      "weight_pct": 2.93,
       "shares": 107,
       "item_code": "6920.T"
     },
     {
       "name": "히로세 전기",
-      "weight_pct": 2.73,
+      "weight_pct": 2.75,
       "shares": 134,
       "item_code": "6806.T"
     },
     {
       "name": "스크린 홀딩스",
-      "weight_pct": 2.03,
+      "weight_pct": 2.09,
       "shares": 193,
       "item_code": "7735.T"
     },
     {
       "name": "후지전기",
-      "weight_pct": 1.47,
+      "weight_pct": 1.45,
       "shares": 133,
       "item_code": "6504.T"
     },
     {
       "name": "오므론",
-      "weight_pct": 1.24,
+      "weight_pct": 1.27,
       "shares": 242,
       "item_code": "6645.T"
     },
     {
       "name": "동경정밀",
-      "weight_pct": 1.04,
+      "weight_pct": 1.03,
       "shares": 72,
       "item_code": "7729.T"
     },
     {
-      "name": "야스카와 전기",
-      "weight_pct": 0.99,
-      "shares": 253,
-      "item_code": "6506.T"
-    },
-    {
       "name": "하마마쓰 포토닉스",
-      "weight_pct": 0.98,
+      "weight_pct": 0.97,
       "shares": 528,
       "item_code": "6965.T"
     },
     {
+      "name": "야스카와 전기",
+      "weight_pct": 0.96,
+      "shares": 253,
+      "item_code": "6506.T"
+    },
+    {
       "name": "니콘",
-      "weight_pct": 0.43,
+      "weight_pct": 0.42,
       "shares": 278,
       "item_code": "7731.T"
     },

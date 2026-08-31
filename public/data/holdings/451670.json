@@ -1,17 +1,17 @@
 {
   "ticker": "451670",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 94.07,
-      "shares": 293987136,
+      "weight_pct": 94.12,
+      "shares": 294035281,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)_44E2_20260223",
-      "weight_pct": 5.92,
-      "shares": 18523402,
+      "weight_pct": 5.87,
+      "shares": 18347714,
       "item_code": null
     }
   ]

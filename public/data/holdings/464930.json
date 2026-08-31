@@ -1,71 +1,71 @@
 {
   "ticker": "464930",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "마이크로소프트",
-      "weight_pct": 11.97,
+      "weight_pct": 12.29,
       "shares": 185,
       "item_code": "MSFT.O"
     },
     {
       "name": "일라이 릴리",
-      "weight_pct": 11.32,
+      "weight_pct": 11.1,
       "shares": 73,
       "item_code": "LLY"
     },
     {
       "name": "암젠",
-      "weight_pct": 11.22,
+      "weight_pct": 10.94,
       "shares": 195,
       "item_code": "AMGN.O"
     },
     {
       "name": "애플",
-      "weight_pct": 10.76,
+      "weight_pct": 10.9,
       "shares": 263,
       "item_code": "AAPL.O"
     },
     {
-      "name": "TSMC ADR",
-      "weight_pct": 10.08,
-      "shares": 185,
-      "item_code": "TSM"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 9.94,
+      "weight_pct": 10.24,
       "shares": 364,
       "item_code": "NVDA.O"
     },
     {
+      "name": "TSMC ADR",
+      "weight_pct": 10.0,
+      "shares": 185,
+      "item_code": "TSM"
+    },
+    {
       "name": "아마존닷컴",
-      "weight_pct": 9.77,
+      "weight_pct": 9.92,
       "shares": 288,
       "item_code": "AMZN.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 9.64,
+      "weight_pct": 9.7,
       "shares": 216,
       "item_code": "GOOGL.O"
     },
     {
-      "name": "닝더스다이",
-      "weight_pct": 8.28,
-      "shares": 1127,
-      "item_code": "300750.SZ"
-    },
-    {
       "name": "비야디",
-      "weight_pct": 8.23,
+      "weight_pct": 8.19,
       "shares": 4609,
       "item_code": "002594.SZ"
     },
     {
+      "name": "닝더스다이",
+      "weight_pct": 7.99,
+      "shares": 1127,
+      "item_code": "300750.SZ"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": -1.27,
-      "shares": -13510628,
+      "weight_pct": -1.31,
+      "shares": -13953550,
       "item_code": null
     }
   ]

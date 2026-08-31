@@ -1,180 +1,168 @@
 {
   "ticker": "0204S0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "심텍",
-      "weight_pct": 5.55,
+      "weight_pct": 5.68,
       "shares": 30,
       "item_code": "222800"
     },
     {
       "name": "티에스이",
-      "weight_pct": 5.54,
+      "weight_pct": 5.2,
       "shares": 15,
       "item_code": "131290"
     },
     {
       "name": "ISC",
-      "weight_pct": 4.74,
+      "weight_pct": 4.71,
       "shares": 19,
       "item_code": "095340"
     },
     {
       "name": "피에스케이홀딩스",
-      "weight_pct": 4.63,
+      "weight_pct": 4.56,
       "shares": 25,
       "item_code": "031980"
     },
     {
+      "name": "오킨스전자",
+      "weight_pct": 3.72,
+      "shares": 121,
+      "item_code": "080580"
+    },
+    {
       "name": "인텍플러스",
-      "weight_pct": 3.63,
+      "weight_pct": 3.66,
       "shares": 75,
       "item_code": "064290"
     },
     {
-      "name": "파마리서치",
-      "weight_pct": 3.15,
-      "shares": 5,
-      "item_code": "214450"
-    },
-    {
       "name": "펌텍코리아",
-      "weight_pct": 3.14,
+      "weight_pct": 3.28,
       "shares": 38,
       "item_code": "251970"
     },
     {
-      "name": "SFA반도체",
-      "weight_pct": 2.97,
-      "shares": 353,
-      "item_code": "036540"
-    },
-    {
       "name": "제닉",
-      "weight_pct": 2.96,
+      "weight_pct": 3.24,
       "shares": 60,
       "item_code": "123330"
     },
     {
-      "name": "오킨스전자",
-      "weight_pct": 2.8,
-      "shares": 99,
-      "item_code": "080580"
-    },
-    {
-      "name": "티엘비",
-      "weight_pct": 2.78,
-      "shares": 46,
-      "item_code": "356860"
-    },
-    {
-      "name": "한중엔시에스",
-      "weight_pct": 2.62,
-      "shares": 44,
-      "item_code": "107640"
+      "name": "파마리서치",
+      "weight_pct": 3.11,
+      "shares": 5,
+      "item_code": "214450"
     },
     {
       "name": "글로벌텍스프리",
-      "weight_pct": 2.57,
+      "weight_pct": 2.86,
       "shares": 341,
       "item_code": "204620"
     },
     {
+      "name": "티엘비",
+      "weight_pct": 2.82,
+      "shares": 46,
+      "item_code": "356860"
+    },
+    {
+      "name": "SFA반도체",
+      "weight_pct": 2.76,
+      "shares": 331,
+      "item_code": "036540"
+    },
+    {
+      "name": "한중엔시에스",
+      "weight_pct": 2.69,
+      "shares": 44,
+      "item_code": "107640"
+    },
+    {
       "name": "샘씨엔에스",
-      "weight_pct": 2.47,
+      "weight_pct": 2.39,
       "shares": 127,
       "item_code": "252990"
     },
     {
       "name": "테스",
-      "weight_pct": 2.34,
+      "weight_pct": 2.29,
       "shares": 11,
       "item_code": "095610"
     },
     {
       "name": "알지노믹스",
-      "weight_pct": 2.16,
+      "weight_pct": 2.07,
       "shares": 47,
       "item_code": "476830"
     },
     {
-      "name": "엘티씨",
-      "weight_pct": 1.92,
-      "shares": 37,
-      "item_code": "170920"
+      "name": "지투지바이오",
+      "weight_pct": 2.05,
+      "shares": 34,
+      "item_code": "456160"
+    },
+    {
+      "name": "알테오젠",
+      "weight_pct": 1.8,
+      "shares": 4,
+      "item_code": "196170"
     },
     {
       "name": "서부T&D",
-      "weight_pct": 1.65,
+      "weight_pct": 1.69,
       "shares": 104,
       "item_code": "006730"
     },
     {
+      "name": "실리콘투",
+      "weight_pct": 1.5,
+      "shares": 19,
+      "item_code": "257720"
+    },
+    {
       "name": "지엔씨에너지",
-      "weight_pct": 1.61,
+      "weight_pct": 1.48,
       "shares": 22,
       "item_code": "119850"
     },
     {
-      "name": "지투지바이오",
-      "weight_pct": 1.5,
-      "shares": 25,
-      "item_code": "456160"
-    },
-    {
-      "name": "브이엠",
-      "weight_pct": 1.5,
-      "shares": 17,
-      "item_code": "089970"
-    },
-    {
       "name": "비에이치아이",
-      "weight_pct": 1.49,
+      "weight_pct": 1.47,
       "shares": 16,
       "item_code": "083650"
     },
     {
       "name": "네오티스",
-      "weight_pct": 1.49,
+      "weight_pct": 1.43,
       "shares": 59,
       "item_code": "085910"
     },
     {
-      "name": "실리콘투",
-      "weight_pct": 1.36,
-      "shares": 19,
-      "item_code": "257720"
-    },
-    {
-      "name": "알테오젠",
-      "weight_pct": 1.36,
-      "shares": 3,
-      "item_code": "196170"
+      "name": "브이엠",
+      "weight_pct": 1.4,
+      "shares": 17,
+      "item_code": "089970"
     },
     {
       "name": "제주반도체",
-      "weight_pct": 1.36,
+      "weight_pct": 1.37,
       "shares": 12,
       "item_code": "080220"
     },
     {
-      "name": "RFHIC",
-      "weight_pct": 1.35,
-      "shares": 19,
-      "item_code": "218410"
+      "name": "엘티씨",
+      "weight_pct": 1.27,
+      "shares": 26,
+      "item_code": "170920"
     },
     {
       "name": "엠케이전자",
-      "weight_pct": 1.23,
+      "weight_pct": 1.2,
       "shares": 58,
       "item_code": "033160"
-    },
-    {
-      "name": "지투파워",
-      "weight_pct": 1.12,
-      "shares": 75,
-      "item_code": "388050"
     },
     {
       "name": "HPSP",
@@ -183,188 +171,194 @@
       "item_code": "403870"
     },
     {
-      "name": "오름테라퓨틱",
-      "weight_pct": 1.07,
-      "shares": 11,
-      "item_code": "475830"
-    },
-    {
-      "name": "하나마이크론",
-      "weight_pct": 1.07,
-      "shares": 19,
-      "item_code": "067310"
-    },
-    {
-      "name": "티씨케이",
-      "weight_pct": 1.06,
-      "shares": 3,
-      "item_code": "064760"
-    },
-    {
       "name": "지앤비에스 에코",
-      "weight_pct": 1.05,
+      "weight_pct": 1.09,
       "shares": 140,
       "item_code": "382800"
     },
     {
+      "name": "티씨케이",
+      "weight_pct": 1.08,
+      "shares": 3,
+      "item_code": "064760"
+    },
+    {
       "name": "삼양컴텍",
-      "weight_pct": 1.01,
+      "weight_pct": 1.06,
       "shares": 106,
       "item_code": "484590"
     },
     {
-      "name": "리가켐바이오",
-      "weight_pct": 1.01,
-      "shares": 7,
-      "item_code": "141080"
-    },
-    {
-      "name": "아스플로",
-      "weight_pct": 0.98,
-      "shares": 33,
-      "item_code": "159010"
+      "name": "오름테라퓨틱",
+      "weight_pct": 1.04,
+      "shares": 11,
+      "item_code": "475830"
     },
     {
       "name": "성광벤드",
-      "weight_pct": 0.96,
+      "weight_pct": 1.03,
       "shares": 22,
       "item_code": "014620"
     },
     {
+      "name": "아스플로",
+      "weight_pct": 1.03,
+      "shares": 33,
+      "item_code": "159010"
+    },
+    {
+      "name": "하나마이크론",
+      "weight_pct": 0.98,
+      "shares": 19,
+      "item_code": "067310"
+    },
+    {
+      "name": "리가켐바이오",
+      "weight_pct": 0.98,
+      "shares": 7,
+      "item_code": "141080"
+    },
+    {
+      "name": "RFHIC",
+      "weight_pct": 0.96,
+      "shares": 14,
+      "item_code": "218410"
+    },
+    {
+      "name": "네패스",
+      "weight_pct": 0.93,
+      "shares": 28,
+      "item_code": "033640"
+    },
+    {
       "name": "인텔리안테크",
-      "weight_pct": 0.95,
+      "weight_pct": 0.92,
       "shares": 10,
       "item_code": "189300"
     },
     {
-      "name": "뉴파워프라즈마",
-      "weight_pct": 0.93,
-      "shares": 64,
-      "item_code": "144960"
+      "name": "원화현금",
+      "weight_pct": 0.9,
+      "shares": 619417,
+      "item_code": null
     },
     {
       "name": "올릭스",
-      "weight_pct": 0.91,
+      "weight_pct": 0.9,
       "shares": 6,
       "item_code": "226950"
     },
     {
-      "name": "대명에너지",
-      "weight_pct": 0.9,
-      "shares": 45,
-      "item_code": "389260"
+      "name": "뉴파워프라즈마",
+      "weight_pct": 0.87,
+      "shares": 64,
+      "item_code": "144960"
     },
     {
       "name": "에이비엘바이오",
-      "weight_pct": 0.88,
+      "weight_pct": 0.85,
       "shares": 8,
       "item_code": "298380"
     },
     {
       "name": "싸이맥스",
-      "weight_pct": 0.83,
+      "weight_pct": 0.77,
       "shares": 22,
       "item_code": "160980"
     },
     {
-      "name": "에이치브이엠",
-      "weight_pct": 0.78,
-      "shares": 11,
-      "item_code": "295310"
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 0.78,
-      "shares": 540612,
-      "item_code": null
-    },
-    {
-      "name": "피에스케이",
-      "weight_pct": 0.77,
-      "shares": 4,
-      "item_code": "319660"
-    },
-    {
-      "name": "로보티즈",
-      "weight_pct": 0.74,
-      "shares": 2,
-      "item_code": "108490"
-    },
-    {
-      "name": "고영",
-      "weight_pct": 0.72,
-      "shares": 17,
-      "item_code": "098460"
-    },
-    {
       "name": "덕산하이메탈",
-      "weight_pct": 0.71,
+      "weight_pct": 0.74,
       "shares": 49,
       "item_code": "077360"
     },
     {
-      "name": "비츠로셀",
-      "weight_pct": 0.63,
-      "shares": 15,
-      "item_code": "082920"
+      "name": "피에스케이",
+      "weight_pct": 0.74,
+      "shares": 4,
+      "item_code": "319660"
+    },
+    {
+      "name": "에이치브이엠",
+      "weight_pct": 0.73,
+      "shares": 11,
+      "item_code": "295310"
+    },
+    {
+      "name": "고영",
+      "weight_pct": 0.7,
+      "shares": 17,
+      "item_code": "098460"
     },
     {
       "name": "저스템",
-      "weight_pct": 0.57,
+      "weight_pct": 0.63,
       "shares": 31,
       "item_code": "417840"
     },
     {
       "name": "나노",
-      "weight_pct": 0.56,
+      "weight_pct": 0.59,
       "shares": 131,
       "item_code": "187790"
     },
     {
-      "name": "씨엠티엑스",
-      "weight_pct": 0.54,
-      "shares": 5,
-      "item_code": "388210"
+      "name": "지투파워",
+      "weight_pct": 0.58,
+      "shares": 40,
+      "item_code": "388050"
     },
     {
-      "name": "네패스",
-      "weight_pct": 0.52,
-      "shares": 15,
-      "item_code": "033640"
-    },
-    {
-      "name": "코스텍시스",
-      "weight_pct": 0.5,
-      "shares": 15,
-      "item_code": "355150"
-    },
-    {
-      "name": "슈프리마",
-      "weight_pct": 0.48,
-      "shares": 6,
-      "item_code": "236200"
-    },
-    {
-      "name": "기가비스",
-      "weight_pct": 0.47,
-      "shares": 3,
-      "item_code": "420770"
-    },
-    {
-      "name": "한라IMS",
-      "weight_pct": 0.47,
-      "shares": 18,
-      "item_code": "092460"
+      "name": "대명에너지",
+      "weight_pct": 0.58,
+      "shares": 30,
+      "item_code": "389260"
     },
     {
       "name": "아로마티카",
-      "weight_pct": 0.46,
+      "weight_pct": 0.57,
       "shares": 36,
       "item_code": "0015N0"
     },
     {
+      "name": "비츠로셀",
+      "weight_pct": 0.56,
+      "shares": 15,
+      "item_code": "082920"
+    },
+    {
+      "name": "씨엠티엑스",
+      "weight_pct": 0.53,
+      "shares": 5,
+      "item_code": "388210"
+    },
+    {
+      "name": "기가비스",
+      "weight_pct": 0.49,
+      "shares": 3,
+      "item_code": "420770"
+    },
+    {
+      "name": "슈프리마",
+      "weight_pct": 0.49,
+      "shares": 6,
+      "item_code": "236200"
+    },
+    {
+      "name": "코스텍시스",
+      "weight_pct": 0.46,
+      "shares": 15,
+      "item_code": "355150"
+    },
+    {
+      "name": "한라IMS",
+      "weight_pct": 0.45,
+      "shares": 18,
+      "item_code": "092460"
+    },
+    {
       "name": "코스메카코리아",
-      "weight_pct": 0.4,
+      "weight_pct": 0.43,
       "shares": 2,
       "item_code": "241710"
     },
@@ -375,16 +369,22 @@
       "item_code": "078600"
     },
     {
-      "name": "에이프릴바이오",
-      "weight_pct": 0.39,
-      "shares": 14,
-      "item_code": "397030"
-    },
-    {
       "name": "파두",
-      "weight_pct": 0.37,
+      "weight_pct": 0.38,
       "shares": 4,
       "item_code": "440110"
+    },
+    {
+      "name": "로보티즈",
+      "weight_pct": 0.37,
+      "shares": 1,
+      "item_code": "108490"
+    },
+    {
+      "name": "에이프릴바이오",
+      "weight_pct": 0.36,
+      "shares": 14,
+      "item_code": "397030"
     },
     {
       "name": "다우데이타",
@@ -394,7 +394,7 @@
     },
     {
       "name": "디앤디파마텍",
-      "weight_pct": 0.32,
+      "weight_pct": 0.31,
       "shares": 4,
       "item_code": "347850"
     }

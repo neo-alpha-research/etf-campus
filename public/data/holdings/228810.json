@@ -1,83 +1,83 @@
 {
   "ticker": "228810",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "CJ ENM",
-      "weight_pct": 11.07,
+      "weight_pct": 11.34,
       "shares": 315,
       "item_code": "035760"
     },
     {
       "name": "스튜디오드래곤",
-      "weight_pct": 10.67,
+      "weight_pct": 10.87,
       "shares": 457,
       "item_code": "253450"
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 10.38,
+      "weight_pct": 10.57,
       "shares": 242,
       "item_code": "122870"
     },
     {
       "name": "에스엠",
-      "weight_pct": 10.36,
+      "weight_pct": 10.25,
       "shares": 129,
       "item_code": "041510"
     },
     {
       "name": "디어유",
-      "weight_pct": 9.44,
+      "weight_pct": 9.2,
       "shares": 467,
       "item_code": "376300"
     },
     {
       "name": "SAMG엔터",
-      "weight_pct": 8.93,
+      "weight_pct": 8.77,
       "shares": 413,
       "item_code": "419530"
     },
     {
       "name": "하이브",
-      "weight_pct": 8.45,
+      "weight_pct": 8.38,
       "shares": 44,
       "item_code": "352820"
     },
     {
       "name": "JYP Ent.",
-      "weight_pct": 8.26,
+      "weight_pct": 8.17,
       "shares": 193,
       "item_code": "035900"
     },
     {
       "name": "노머스",
-      "weight_pct": 6.88,
+      "weight_pct": 6.8,
       "shares": 543,
       "item_code": "473980"
     },
     {
       "name": "더핑크퐁컴퍼니",
-      "weight_pct": 6.65,
+      "weight_pct": 6.71,
       "shares": 539,
       "item_code": "403850"
     },
     {
       "name": "SM C&C",
-      "weight_pct": 4.22,
+      "weight_pct": 4.38,
       "shares": 3072,
       "item_code": "048550"
     },
     {
       "name": "쇼박스",
-      "weight_pct": 4.16,
+      "weight_pct": 4.06,
       "shares": 1899,
       "item_code": "086980"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.46,
-      "shares": 428620,
+      "weight_pct": 0.44,
+      "shares": 422855,
       "item_code": null
     }
   ]

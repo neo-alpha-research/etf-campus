@@ -1,82 +1,82 @@
 {
   "ticker": "0183V0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "SK하이닉스",
-      "weight_pct": 25.09,
-      "shares": 172,
+      "weight_pct": 25.18,
+      "shares": 176,
       "item_code": "000660"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 25.07,
-      "shares": 1118,
+      "weight_pct": 25.13,
+      "shares": 1131,
       "item_code": "005930"
     },
     {
       "name": "국고채권02375-2703(22-1)",
-      "weight_pct": 8.68,
+      "weight_pct": 8.81,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권01500-2612(16-8)",
-      "weight_pct": 8.21,
+      "weight_pct": 8.33,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02125-2706(17-3)",
-      "weight_pct": 5.72,
+      "weight_pct": 5.8,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-2703(25-1)",
-      "weight_pct": 4.56,
+      "weight_pct": 4.62,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권05250-2703(07-3)",
-      "weight_pct": 4.25,
+      "weight_pct": 4.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03875-2612(23-10)",
-      "weight_pct": 4.15,
+      "weight_pct": 4.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03250-2706(24-4)",
-      "weight_pct": 4.13,
+      "weight_pct": 4.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.85,
-      "shares": 45676252,
+      "weight_pct": 3.05,
+      "shares": 35699939,
       "item_code": null
     },
     {
       "name": "통화안정증권02400-2707-02",
-      "weight_pct": 2.86,
+      "weight_pct": 2.9,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KIWOOM 단기자금",
-      "weight_pct": 2.54,
+      "weight_pct": 2.58,
       "shares": 293,
       "item_code": "130730"
     },
     {
       "name": "통화안정증권03430-2703-03",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 0,
       "item_code": null
     },

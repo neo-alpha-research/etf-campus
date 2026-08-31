@@ -1,83 +1,83 @@
 {
   "ticker": "0177A0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
-      "name": "두산에너빌리티",
-      "weight_pct": 29.97,
-      "shares": 1593,
-      "item_code": "034020"
-    },
-    {
       "name": "두산",
-      "weight_pct": 23.13,
-      "shares": 87,
+      "weight_pct": 25.67,
+      "shares": 92,
       "item_code": "000150"
     },
     {
+      "name": "두산에너빌리티",
+      "weight_pct": 23.69,
+      "shares": 1300,
+      "item_code": "034020"
+    },
+    {
       "name": "두산로보틱스",
-      "weight_pct": 20.67,
-      "shares": 1291,
+      "weight_pct": 22.0,
+      "shares": 1403,
       "item_code": "454910"
     },
     {
       "name": "두산밥캣",
-      "weight_pct": 5.93,
-      "shares": 438,
+      "weight_pct": 6.55,
+      "shares": 476,
       "item_code": "241560"
     },
     {
       "name": "두산퓨얼셀",
-      "weight_pct": 3.96,
-      "shares": 400,
+      "weight_pct": 4.33,
+      "shares": 435,
       "item_code": "336260"
     },
     {
       "name": "두산테스나",
-      "weight_pct": 3.36,
-      "shares": 185,
+      "weight_pct": 3.56,
+      "shares": 201,
       "item_code": "131970"
     },
     {
+      "name": "원화예금",
+      "weight_pct": 2.37,
+      "shares": 10754254,
+      "item_code": null
+    },
+    {
       "name": "한전기술",
-      "weight_pct": 2.21,
-      "shares": 80,
+      "weight_pct": 2.23,
+      "shares": 87,
       "item_code": "052690"
     },
     {
       "name": "HD건설기계",
-      "weight_pct": 2.0,
-      "shares": 65,
+      "weight_pct": 2.09,
+      "shares": 71,
       "item_code": "267270"
     },
     {
-      "name": "원화예금",
-      "weight_pct": 1.93,
-      "shares": 8846107,
-      "item_code": null
-    },
-    {
-      "name": "삼성전자",
-      "weight_pct": 1.8,
-      "shares": 31,
-      "item_code": "005930"
-    },
-    {
       "name": "일진하이솔루스",
-      "weight_pct": 1.8,
-      "shares": 765,
+      "weight_pct": 2.0,
+      "shares": 831,
       "item_code": "271940"
     },
     {
+      "name": "삼성전자",
+      "weight_pct": 1.95,
+      "shares": 34,
+      "item_code": "005930"
+    },
+    {
       "name": "파미셀",
-      "weight_pct": 1.62,
-      "shares": 681,
+      "weight_pct": 1.81,
+      "shares": 740,
       "item_code": "005690"
     },
     {
       "name": "씨메스로보틱스",
-      "weight_pct": 1.56,
-      "shares": 384,
+      "weight_pct": 1.69,
+      "shares": 418,
       "item_code": "475400"
     }
   ]

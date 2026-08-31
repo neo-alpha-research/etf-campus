@@ -1,82 +1,82 @@
 {
   "ticker": "102970",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "미래에셋증권",
-      "weight_pct": 24.54,
+      "weight_pct": 23.83,
       "shares": 6320,
       "item_code": "006800"
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 19.62,
+      "weight_pct": 19.9,
       "shares": 953,
       "item_code": "071050"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 17.32,
+      "weight_pct": 17.44,
       "shares": 1824,
       "item_code": "016360"
     },
     {
       "name": "키움증권",
-      "weight_pct": 13.98,
+      "weight_pct": 14.02,
       "shares": 465,
       "item_code": "039490"
     },
     {
       "name": "NH투자증권",
-      "weight_pct": 13.01,
+      "weight_pct": 13.11,
       "shares": 4546,
       "item_code": "005940"
     },
     {
       "name": "신영증권",
-      "weight_pct": 2.22,
+      "weight_pct": 2.26,
       "shares": 133,
       "item_code": "001720"
     },
     {
       "name": "대신증권",
-      "weight_pct": 2.18,
+      "weight_pct": 2.23,
       "shares": 759,
       "item_code": "003540"
     },
     {
       "name": "한화투자증권",
-      "weight_pct": 1.66,
+      "weight_pct": 1.72,
       "shares": 3222,
       "item_code": "003530"
     },
     {
       "name": "SK증권",
-      "weight_pct": 1.32,
+      "weight_pct": 1.31,
       "shares": 4723,
       "item_code": "001510"
     },
     {
       "name": "유안타증권",
-      "weight_pct": 1.12,
+      "weight_pct": 1.13,
       "shares": 2199,
       "item_code": "003470"
     },
     {
-      "name": "현대차증권",
-      "weight_pct": 0.89,
-      "shares": 1040,
-      "item_code": "001500"
-    },
-    {
       "name": "유진투자증권",
-      "weight_pct": 0.88,
+      "weight_pct": 0.9,
       "shares": 1891,
       "item_code": "001200"
     },
     {
+      "name": "현대차증권",
+      "weight_pct": 0.9,
+      "shares": 1040,
+      "item_code": "001500"
+    },
+    {
       "name": "교보증권",
-      "weight_pct": 0.55,
+      "weight_pct": 0.56,
       "shares": 513,
       "item_code": "030610"
     },
@@ -89,7 +89,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.18,
-      "shares": 1734339,
+      "shares": 1657374,
       "item_code": null
     }
   ]

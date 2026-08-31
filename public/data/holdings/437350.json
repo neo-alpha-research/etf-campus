@@ -1,10 +1,10 @@
 {
   "ticker": "437350",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "HYUCAP 5 1/4 01/22/28",
-      "weight_pct": 5.16,
+      "weight_pct": 5.17,
       "shares": 22727,
       "item_code": null
     },
@@ -118,18 +118,12 @@
     },
     {
       "name": "MS 4.466 07/06/28",
-      "weight_pct": 2.56,
+      "weight_pct": 2.57,
       "shares": 11363,
       "item_code": null
     },
     {
       "name": "PCG 5.05 11/15/31",
-      "weight_pct": 2.54,
-      "shares": 11363,
-      "item_code": null
-    },
-    {
-      "name": "KDP 5.05 03/26/31",
       "weight_pct": 2.54,
       "shares": 11363,
       "item_code": null
@@ -141,7 +135,7 @@
       "item_code": null
     },
     {
-      "name": "BAX 4.9 12/15/30",
+      "name": "KDP 5.05 03/26/31",
       "weight_pct": 2.53,
       "shares": 11363,
       "item_code": null
@@ -153,14 +147,8 @@
       "item_code": null
     },
     {
-      "name": "HSBC 4.675 03/10/32",
-      "weight_pct": 2.51,
-      "shares": 11363,
-      "item_code": null
-    },
-    {
-      "name": "HPE 4.4 10/15/30",
-      "weight_pct": 2.51,
+      "name": "BAX 4.9 12/15/30",
+      "weight_pct": 2.52,
       "shares": 11363,
       "item_code": null
     },
@@ -171,13 +159,19 @@
       "item_code": null
     },
     {
-      "name": "MITHCC 4.558 01/14/31",
-      "weight_pct": 2.51,
+      "name": "HSBC 4.675 03/10/32",
+      "weight_pct": 2.5,
       "shares": 11363,
       "item_code": null
     },
     {
-      "name": "BMO 4.439 01/14/32",
+      "name": "HPE 4.4 10/15/30",
+      "weight_pct": 2.5,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "MITHCC 4.558 01/14/31",
       "weight_pct": 2.5,
       "shares": 11363,
       "item_code": null
@@ -189,13 +183,19 @@
       "item_code": null
     },
     {
-      "name": "HCA 4.3 11/15/30",
-      "weight_pct": 2.5,
+      "name": "JPM 4.347 01/22/32",
+      "weight_pct": 2.49,
       "shares": 11363,
       "item_code": null
     },
     {
-      "name": "JPM 4.347 01/22/32",
+      "name": "BMO 4.439 01/14/32",
+      "weight_pct": 2.49,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
+      "name": "HCA 4.3 11/15/30",
       "weight_pct": 2.49,
       "shares": 11363,
       "item_code": null
@@ -214,19 +214,19 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.86,
-      "shares": 11416210,
+      "weight_pct": 1.89,
+      "shares": 11456635,
       "item_code": null
     },
     {
       "name": "T 3 7/8 04/30/31",
-      "weight_pct": 1.76,
+      "weight_pct": 1.75,
       "shares": 7954,
       "item_code": null
     },
     {
       "name": "B 10/15/26",
-      "weight_pct": 1.68,
+      "weight_pct": 1.69,
       "shares": 7500,
       "item_code": null
     }

@@ -1,46 +1,46 @@
 {
   "ticker": "0017Y0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 14.39,
+      "weight_pct": 14.41,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산금25신이0200-1021-1",
-      "weight_pct": 12.01,
+      "weight_pct": 12.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고04250-3606(26-6)",
-      "weight_pct": 9.57,
+      "weight_pct": 9.27,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02500-3009(25-8)",
-      "weight_pct": 6.28,
+      "weight_pct": 6.27,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(케이비개포오단지제일차 20260824-30-11",
-      "weight_pct": 6.05,
+      "weight_pct": 6.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CD(KB국민 자금부 20251118-365-1)",
-      "weight_pct": 6.02,
+      "weight_pct": 6.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(한국투자금융지주 20260703-361-109)",
-      "weight_pct": 5.86,
+      "weight_pct": 5.88,
       "shares": 0,
       "item_code": null
     },
@@ -51,8 +51,8 @@
       "item_code": null
     },
     {
-      "name": "SK텔레콤91-2",
-      "weight_pct": 4.86,
+      "name": "국고04125-3109(26-9)",
+      "weight_pct": 4.98,
       "shares": 0,
       "item_code": null
     },
@@ -63,20 +63,20 @@
       "item_code": null
     },
     {
+      "name": "SK텔레콤91-2",
+      "weight_pct": 4.85,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국고02750-4509(25-9)",
-      "weight_pct": 4.04,
+      "weight_pct": 4.05,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "기업은행(신)2608이3A-13(사)",
       "weight_pct": 4.01,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고03375-3103(26-3)",
-      "weight_pct": 3.72,
       "shares": 0,
       "item_code": null
     },
@@ -93,21 +93,21 @@
       "item_code": null
     },
     {
-      "name": "국고03000-2803(26-1)",
-      "weight_pct": 3.04,
+      "name": "국고03625-2809(26-7)",
+      "weight_pct": 3.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02875-4409(24-10)",
-      "weight_pct": 2.67,
+      "weight_pct": 2.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.01,
-      "shares": -9884,
+      "weight_pct": -1.01,
+      "shares": -955174,
       "item_code": null
     }
   ]

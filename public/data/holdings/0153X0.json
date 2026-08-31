@@ -1,102 +1,96 @@
 {
   "ticker": "0153X0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "액센추어",
-      "weight_pct": 7.83,
+      "weight_pct": 8.21,
       "shares": 180,
       "item_code": "ACN"
     },
     {
       "name": "AT&T",
-      "weight_pct": 7.36,
-      "shares": 1191,
+      "weight_pct": 7.42,
+      "shares": 1189,
       "item_code": "T"
     },
     {
       "name": "버라이존",
       "weight_pct": 7.19,
-      "shares": 599,
+      "shares": 598,
       "item_code": "VZ"
     },
     {
       "name": "캐나다 내추럴 리소시스",
-      "weight_pct": 6.53,
-      "shares": 551,
+      "weight_pct": 6.46,
+      "shares": 550,
       "item_code": "CNQ"
     },
     {
       "name": "브리스톨-마이어스 스큅",
-      "weight_pct": 6.5,
+      "weight_pct": 6.42,
       "shares": 402,
       "item_code": "BMY"
     },
     {
       "name": "컴캐스트",
-      "weight_pct": 6.33,
-      "shares": 975,
+      "weight_pct": 6.32,
+      "shares": 973,
       "item_code": "CMCSA.O"
     },
     {
       "name": "블랙스톤",
-      "weight_pct": 5.9,
+      "weight_pct": 5.89,
       "shares": 172,
       "item_code": "BX"
     },
     {
       "name": "메드트로닉",
-      "weight_pct": 5.5,
-      "shares": 250,
+      "weight_pct": 5.47,
+      "shares": 249,
       "item_code": "MDT"
     },
     {
       "name": "뱅크 오브 노바 스코샤",
-      "weight_pct": 5.41,
-      "shares": 242,
+      "weight_pct": 5.36,
+      "shares": 241,
       "item_code": "BNS"
     },
     {
       "name": "원오케이",
-      "weight_pct": 4.91,
-      "shares": 217,
+      "weight_pct": 4.92,
+      "shares": 216,
       "item_code": "OKE"
     },
     {
       "name": "앵글로골드 아샨티",
-      "weight_pct": 4.7,
+      "weight_pct": 4.51,
       "shares": 166,
       "item_code": "AU"
     },
     {
       "name": "US 뱅코프",
-      "weight_pct": 4.14,
-      "shares": 276,
+      "weight_pct": 4.13,
+      "shares": 275,
       "item_code": "USB"
     },
     {
       "name": "허니웰 인터내셔널",
-      "weight_pct": 4.09,
+      "weight_pct": 4.05,
       "shares": 77,
       "item_code": "HON.O"
     },
     {
       "name": "몬덜리즈 인터내셔널",
-      "weight_pct": 3.96,
-      "shares": 263,
+      "weight_pct": 3.93,
+      "shares": 262,
       "item_code": "MDLZ.O"
     },
     {
       "name": "트루이스트 파이낸셜",
       "weight_pct": 3.87,
-      "shares": 320,
+      "shares": 319,
       "item_code": "TFC"
-    },
-    {
-      "name": "매뉴라이프 파이낸셜",
-      "weight_pct": 3.69,
-      "shares": 358,
-      "item_code": "MFC"
     },
     {
       "name": "타겟",
@@ -105,15 +99,21 @@
       "item_code": "TGT"
     },
     {
+      "name": "매뉴라이프 파이낸셜",
+      "weight_pct": 3.66,
+      "shares": 357,
+      "item_code": "MFC"
+    },
+    {
       "name": "도미니언 에너지",
-      "weight_pct": 3.22,
+      "weight_pct": 3.17,
       "shares": 201,
       "item_code": "D"
     },
     {
       "name": "킨더 모건",
-      "weight_pct": 3.12,
-      "shares": 408,
+      "weight_pct": 3.08,
+      "shares": 407,
       "item_code": "KMI"
     },
     {
@@ -124,8 +124,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.11,
-      "shares": 650207,
+      "weight_pct": 0.3,
+      "shares": 1726731,
       "item_code": null
     }
   ]

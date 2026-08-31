@@ -1,11 +1,11 @@
 {
   "ticker": "214980",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 15.09,
-      "shares": 17299171,
+      "weight_pct": 15.11,
+      "shares": 17321586,
       "item_code": null
     },
     {
@@ -123,12 +123,6 @@
       "item_code": null
     },
     {
-      "name": "하나캐피탈481-1",
-      "weight_pct": 1.65,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "엔에이치농협캐피탈262-2",
       "weight_pct": 1.64,
       "shares": 0,
@@ -149,6 +143,12 @@
     {
       "name": "신한카드2278-1",
       "weight_pct": 1.64,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈481-1",
+      "weight_pct": 1.63,
       "shares": 0,
       "item_code": null
     },

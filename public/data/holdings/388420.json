@@ -1,70 +1,70 @@
 {
   "ticker": "388420",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 28.27,
+      "weight_pct": 28.07,
       "shares": 578,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 19.08,
+      "weight_pct": 18.76,
       "shares": 60,
       "item_code": "000660"
     },
     {
       "name": "심텍",
-      "weight_pct": 7.09,
+      "weight_pct": 7.34,
       "shares": 304,
       "item_code": "222800"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 6.11,
+      "weight_pct": 6.53,
       "shares": 24,
       "item_code": "009150"
     },
     {
       "name": "테스",
-      "weight_pct": 6.01,
+      "weight_pct": 5.96,
       "shares": 224,
       "item_code": "095610"
     },
     {
       "name": "피에스케이",
-      "weight_pct": 5.93,
+      "weight_pct": 5.77,
       "shares": 242,
       "item_code": "319660"
     },
     {
       "name": "브이엠",
-      "weight_pct": 4.98,
+      "weight_pct": 4.72,
       "shares": 448,
       "item_code": "089970"
     },
     {
       "name": "기가비스",
-      "weight_pct": 4.23,
+      "weight_pct": 4.48,
       "shares": 213,
       "item_code": "420770"
     },
     {
       "name": "두산테스나",
-      "weight_pct": 3.6,
+      "weight_pct": 3.53,
       "shares": 236,
       "item_code": "131970"
     },
     {
       "name": "코미코",
-      "weight_pct": 3.27,
+      "weight_pct": 3.45,
       "shares": 700,
       "item_code": "183300"
     },
     {
       "name": "네패스아크",
-      "weight_pct": 3.21,
+      "weight_pct": 3.07,
       "shares": 642,
       "item_code": "330860"
     },
@@ -76,13 +76,13 @@
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 2.48,
+      "weight_pct": 2.55,
       "shares": 120,
       "item_code": "007660"
     },
     {
       "name": "대덕전자",
-      "weight_pct": 1.88,
+      "weight_pct": 1.93,
       "shares": 92,
       "item_code": "353200"
     },
@@ -94,14 +94,14 @@
     },
     {
       "name": "원익IPS",
-      "weight_pct": 1.36,
+      "weight_pct": 1.37,
       "shares": 66,
       "item_code": "240810"
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.84,
-      "shares": -10032298,
+      "weight_pct": -1.87,
+      "shares": -10060058,
       "item_code": null
     }
   ]

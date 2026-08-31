@@ -1,17 +1,17 @@
 {
   "ticker": "0197X0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 99.99,
-      "shares": 167650889,
+      "shares": 178431429,
       "item_code": null
     },
     {
       "name": "2026-09 SK하이닉스개별선물",
-      "weight_pct": -202.61,
-      "shares": -19,
+      "weight_pct": -202.44,
+      "shares": -21,
       "item_code": null
     }
   ]

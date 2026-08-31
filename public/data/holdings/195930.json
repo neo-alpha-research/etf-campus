@@ -1,35 +1,35 @@
 {
   "ticker": "195930",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "유로스탁스50 TRS(키움증권)",
       "weight_pct": 38.96,
-      "shares": 463973512,
+      "shares": 465026905,
       "item_code": null
     },
     {
       "name": "유로스탁스50 TRS(KB증권)",
       "weight_pct": 24.59,
-      "shares": 292873554,
+      "shares": 293539938,
       "item_code": null
     },
     {
       "name": "유로스탁스50 TRS(미래에셋증권)",
       "weight_pct": 23.88,
-      "shares": 284428048,
+      "shares": 285076052,
       "item_code": null
     },
     {
       "name": "ISHARES CORE EURO STOXX50 DE",
-      "weight_pct": 9.18,
+      "weight_pct": 9.05,
       "shares": 1031,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.36,
-      "shares": 40060723,
+      "weight_pct": 3.49,
+      "shares": 41665022,
       "item_code": null
     }
   ]

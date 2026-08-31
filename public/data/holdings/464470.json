@@ -1,24 +1,24 @@
 {
   "ticker": "464470",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 32.5,
-      "shares": 31447272,
+      "weight_pct": 34.18,
+      "shares": 32601527,
       "item_code": null
     },
     {
-      "name": "Direxion Daily 20 Year Treasury Bull 3X ETF",
-      "weight_pct": 18.13,
-      "shares": 398,
-      "item_code": "TMF"
+      "name": "iShares 20+ Year Treasury Bond ETF",
+      "weight_pct": 18.96,
+      "shares": 159,
+      "item_code": "TLT.O"
     },
     {
-      "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 17.24,
-      "shares": 145,
-      "item_code": "TLT.O"
+      "name": "Direxion Daily 20 Year Treasury Bull 3X ETF",
+      "weight_pct": 15.45,
+      "shares": 343,
+      "item_code": "TMF"
     },
     {
       "name": "T 3 1/8 05/15/48",
@@ -28,7 +28,7 @@
     },
     {
       "name": "T 3 02/15/49",
-      "weight_pct": 5.08,
+      "weight_pct": 5.07,
       "shares": 5036,
       "item_code": null
     },
@@ -39,8 +39,14 @@
       "item_code": null
     },
     {
+      "name": "T 3 1/8 08/15/44",
+      "weight_pct": 3.84,
+      "shares": 3534,
+      "item_code": null
+    },
+    {
       "name": "ProShares Ultra 20+ Year Treasury",
-      "weight_pct": 3.54,
+      "weight_pct": 3.52,
       "shares": 162,
       "item_code": "UBT"
     },
@@ -57,21 +63,9 @@
       "item_code": null
     },
     {
-      "name": "T 3 1/8 08/15/44",
-      "weight_pct": 2.85,
-      "shares": 2617,
-      "item_code": null
-    },
-    {
       "name": "T 1 7/8 02/15/51",
       "weight_pct": 2.59,
       "shares": 3387,
-      "item_code": null
-    },
-    {
-      "name": "T 1 7/8 11/15/51",
-      "weight_pct": 1.67,
-      "shares": 2212,
       "item_code": null
     }
   ]

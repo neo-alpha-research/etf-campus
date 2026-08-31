@@ -1,46 +1,46 @@
 {
   "ticker": "475080",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "테슬라",
-      "weight_pct": 20.04,
+      "weight_pct": 20.07,
       "shares": 163,
       "item_code": "TSLA.O"
     },
     {
       "name": "국고채03250-2706(24-4)",
-      "weight_pct": 14.46,
+      "weight_pct": 14.48,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 12.2,
-      "shares": 47586232,
+      "weight_pct": 11.99,
+      "shares": 46773942,
       "item_code": null
     },
     {
       "name": "통안02620-2704-02",
-      "weight_pct": 10.53,
+      "weight_pct": 10.55,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03875-2612(23-10)",
-      "weight_pct": 9.21,
+      "weight_pct": 9.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "YieldMax TSLA Option Income Strategy ETF",
-      "weight_pct": 8.89,
-      "shares": 1161,
+      "weight_pct": 8.91,
+      "shares": 1162,
       "item_code": "TSLY.K"
     },
     {
       "name": "통안02400-2707-02",
-      "weight_pct": 6.29,
+      "weight_pct": 6.3,
       "shares": 0,
       "item_code": null
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "통안02700-2701-02",
-      "weight_pct": 3.51,
+      "weight_pct": 3.52,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "USD현금",
-      "weight_pct": 3.17,
-      "shares": 8956,
+      "weight_pct": 3.22,
+      "shares": 9179,
       "item_code": null
     },
     {
@@ -76,7 +76,7 @@
     },
     {
       "name": "국고02625-2703(25-1)",
-      "weight_pct": 1.76,
+      "weight_pct": 1.77,
       "shares": 0,
       "item_code": null
     },
@@ -88,7 +88,7 @@
     },
     {
       "name": "TSLA US 09/18/26 C360 Equity",
-      "weight_pct": -0.12,
+      "weight_pct": -0.11,
       "shares": 0,
       "item_code": null
     },

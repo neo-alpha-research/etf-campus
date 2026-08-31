@@ -1,82 +1,82 @@
 {
   "ticker": "448630",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 17.44,
-      "shares": 271177289,
+      "weight_pct": 17.55,
+      "shares": 270743876,
       "item_code": null
     },
     {
       "name": "삼성전자",
-      "weight_pct": 16.99,
+      "weight_pct": 16.73,
       "shares": 992,
       "item_code": "005930"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 10.53,
+      "weight_pct": 10.76,
       "shares": 287,
       "item_code": "006400"
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 9.88,
+      "weight_pct": 9.92,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02500-3009(25-8)",
-      "weight_pct": 9.36,
+      "weight_pct": 9.4,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 8.93,
+      "weight_pct": 8.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 8.19,
+      "weight_pct": 7.85,
       "shares": 79,
       "item_code": "207940"
     },
     {
       "name": "국고채권02625-3003(25-3)",
-      "weight_pct": 4.69,
+      "weight_pct": 4.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03000-2909(24-7)",
-      "weight_pct": 4.64,
+      "weight_pct": 4.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03250-2903(24-1)",
-      "weight_pct": 4.54,
+      "weight_pct": 4.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 3.85,
+      "weight_pct": 3.87,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03875-2612(23-10)",
-      "weight_pct": 0.91,
+      "weight_pct": 0.92,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "삼성전자선물2609",
-      "weight_pct": 0.8,
+      "weight_pct": 0.78,
       "shares": 4,
       "item_code": null
     }

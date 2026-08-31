@@ -1,28 +1,28 @@
 {
   "ticker": "304670",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 83.85,
-      "shares": 1027981351,
+      "weight_pct": 83.98,
+      "shares": 1033075844,
       "item_code": null
     },
     {
       "name": "ProShares Short 20+ Yr Treasury",
-      "weight_pct": 16.14,
+      "weight_pct": 16.01,
       "shares": 5700,
       "item_code": "TBF"
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -59.3,
+      "weight_pct": -58.61,
       "shares": -52,
       "item_code": null
     },
     {
       "name": "US ULT30YR NOTE (CBT) 2026 12",
-      "weight_pct": -85.51,
+      "weight_pct": -84.15,
       "shares": -6,
       "item_code": null
     }

@@ -1,22 +1,22 @@
 {
   "ticker": "442550",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "RISE 단기채권알파액티브",
-      "weight_pct": 16.65,
+      "weight_pct": 16.74,
       "shares": 1071,
       "item_code": "385550"
     },
     {
       "name": "RISE 종합채권(A-이상)액티브",
-      "weight_pct": 15.27,
+      "weight_pct": 15.34,
       "shares": 1085,
       "item_code": "385540"
     },
     {
       "name": "RISE 미국S&P500",
-      "weight_pct": 14.22,
+      "weight_pct": 14.18,
       "shares": 4531,
       "item_code": "379780"
     },
@@ -28,37 +28,37 @@
     },
     {
       "name": "KODEX 종합채권(AA-이상)액티브",
-      "weight_pct": 6.77,
+      "weight_pct": 6.79,
       "shares": 450,
       "item_code": "273130"
     },
     {
       "name": "RISE 국고채10년액티브",
-      "weight_pct": 5.55,
+      "weight_pct": 5.56,
       "shares": 412,
       "item_code": "481430"
     },
     {
       "name": "RISE 200",
-      "weight_pct": 5.02,
+      "weight_pct": 4.98,
       "shares": 335,
       "item_code": "148020"
     },
     {
       "name": "RISE KIS국고채30년Enhanced",
-      "weight_pct": 4.57,
+      "weight_pct": 4.58,
       "shares": 640,
       "item_code": "385560"
     },
     {
       "name": "Vanguard European Stock Index Fund",
-      "weight_pct": 4.25,
+      "weight_pct": 4.2,
       "shares": 244,
       "item_code": "VGK"
     },
     {
       "name": "JPMorgan BetaBuilders Japan ETF",
-      "weight_pct": 4.01,
+      "weight_pct": 4.02,
       "shares": 277,
       "item_code": "BBJP.K"
     },
@@ -70,20 +70,20 @@
     },
     {
       "name": "RISE 국채선물10년",
-      "weight_pct": 3.8,
+      "weight_pct": 3.79,
       "shares": 539,
       "item_code": "295000"
     },
     {
       "name": "RISE 미국반도체NYSE",
-      "weight_pct": 3.03,
+      "weight_pct": 2.95,
       "shares": 641,
       "item_code": "469060"
     },
     {
       "name": "원화현금",
       "weight_pct": 1.15,
-      "shares": 8449217,
+      "shares": 8442358,
       "item_code": null
     }
   ]

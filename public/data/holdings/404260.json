@@ -1,82 +1,82 @@
 {
   "ticker": "404260",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "씨에스윈드",
-      "weight_pct": 10.5,
+      "weight_pct": 10.25,
       "shares": 5189,
       "item_code": "112610"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 9.75,
+      "weight_pct": 9.84,
       "shares": 422,
       "item_code": "006400"
     },
     {
       "name": "한화솔루션",
-      "weight_pct": 8.19,
+      "weight_pct": 8.26,
       "shares": 6041,
       "item_code": "009830"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 7.6,
+      "weight_pct": 7.39,
       "shares": 704,
       "item_code": "005930"
     },
     {
-      "name": "SK하이닉스",
-      "weight_pct": 7.02,
-      "shares": 100,
-      "item_code": "000660"
-    },
-    {
       "name": "한화",
-      "weight_pct": 6.71,
+      "weight_pct": 6.95,
       "shares": 1270,
       "item_code": "000880"
     },
     {
       "name": "포스코DX",
-      "weight_pct": 6.67,
+      "weight_pct": 6.79,
       "shares": 7765,
       "item_code": "022100"
     },
     {
+      "name": "SK하이닉스",
+      "weight_pct": 6.76,
+      "shares": 100,
+      "item_code": "000660"
+    },
+    {
       "name": "현대차",
-      "weight_pct": 5.69,
+      "weight_pct": 5.74,
       "shares": 352,
       "item_code": "005380"
     },
     {
       "name": "두산퓨얼셀",
-      "weight_pct": 5.48,
+      "weight_pct": 5.44,
       "shares": 2985,
       "item_code": "336260"
     },
     {
       "name": "SK오션플랜트",
-      "weight_pct": 5.21,
+      "weight_pct": 5.14,
       "shares": 9217,
       "item_code": "100090"
     },
     {
-      "name": "기아",
-      "weight_pct": 3.71,
-      "shares": 725,
-      "item_code": "000270"
-    },
-    {
       "name": "삼성전기",
-      "weight_pct": 3.65,
+      "weight_pct": 3.83,
       "shares": 65,
       "item_code": "009150"
     },
     {
+      "name": "기아",
+      "weight_pct": 3.83,
+      "shares": 725,
+      "item_code": "000270"
+    },
+    {
       "name": "POSCO홀딩스",
-      "weight_pct": 3.02,
+      "weight_pct": 2.99,
       "shares": 219,
       "item_code": "005490"
     },
@@ -88,79 +88,79 @@
     },
     {
       "name": "HD한국조선해양",
-      "weight_pct": 2.21,
+      "weight_pct": 2.12,
       "shares": 151,
       "item_code": "009540"
     },
     {
       "name": "삼성중공업",
-      "weight_pct": 1.89,
+      "weight_pct": 1.87,
       "shares": 2220,
       "item_code": "010140"
     },
     {
-      "name": "LS ELECTRIC",
-      "weight_pct": 1.81,
-      "shares": 203,
-      "item_code": "010120"
-    },
-    {
-      "name": "SK",
-      "weight_pct": 1.69,
-      "shares": 75,
-      "item_code": "034730"
-    },
-    {
-      "name": "LG화학",
-      "weight_pct": 1.65,
-      "shares": 148,
-      "item_code": "051910"
-    },
-    {
       "name": "LG전자",
-      "weight_pct": 1.6,
+      "weight_pct": 1.74,
       "shares": 199,
       "item_code": "066570"
     },
     {
+      "name": "LS ELECTRIC",
+      "weight_pct": 1.7,
+      "shares": 203,
+      "item_code": "010120"
+    },
+    {
+      "name": "LG화학",
+      "weight_pct": 1.67,
+      "shares": 148,
+      "item_code": "051910"
+    },
+    {
+      "name": "SK",
+      "weight_pct": 1.65,
+      "shares": 75,
+      "item_code": "034730"
+    },
+    {
       "name": "두산",
-      "weight_pct": 0.83,
+      "weight_pct": 0.86,
       "shares": 17,
       "item_code": "000150"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.74,
-      "shares": 18348508,
+      "shares": 18316276,
       "item_code": null
     },
     {
       "name": "LG이노텍",
-      "weight_pct": 0.46,
+      "weight_pct": 0.49,
       "shares": 19,
       "item_code": "011070"
     },
     {
       "name": "현대제철",
-      "weight_pct": 0.38,
+      "weight_pct": 0.36,
       "shares": 298,
       "item_code": "004020"
     },
     {
       "name": "LG디스플레이",
-      "weight_pct": 0.32,
+      "weight_pct": 0.31,
       "shares": 835,
       "item_code": "034220"
     },
     {
       "name": "주성엔지니어링",
-      "weight_pct": 0.28,
+      "weight_pct": 0.27,
       "shares": 39,
       "item_code": "036930"
     },
     {
       "name": "코오롱인더",
-      "weight_pct": 0.13,
+      "weight_pct": 0.14,
       "shares": 62,
       "item_code": "120110"
     },

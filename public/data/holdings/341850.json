@@ -1,16 +1,16 @@
 {
   "ticker": "341850",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "TIGER 중장기국채",
-      "weight_pct": 24.36,
+      "weight_pct": 24.15,
       "shares": 1112,
       "item_code": "302190"
     },
     {
       "name": "SK리츠",
-      "weight_pct": 11.61,
+      "weight_pct": 11.44,
       "shares": 4839,
       "item_code": "395400"
     },
@@ -22,67 +22,67 @@
     },
     {
       "name": "KB발해인프라",
-      "weight_pct": 8.37,
+      "weight_pct": 8.53,
       "shares": 1863,
       "item_code": "415640"
     },
     {
       "name": "롯데리츠",
-      "weight_pct": 8.06,
+      "weight_pct": 8.05,
       "shares": 4728,
       "item_code": "330590"
     },
     {
       "name": "한화리츠",
-      "weight_pct": 6.27,
+      "weight_pct": 6.32,
       "shares": 2730,
       "item_code": "451800"
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.16,
-      "shares": 14156403,
+      "weight_pct": 6.12,
+      "shares": 14152185,
       "item_code": null
     },
     {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 4.98,
+      "weight_pct": 5.06,
       "shares": 3744,
       "item_code": "365550"
     },
     {
-      "name": "맵스리얼티",
-      "weight_pct": 4.41,
-      "shares": 1411,
-      "item_code": "094800"
-    },
-    {
       "name": "신한알파리츠",
-      "weight_pct": 4.36,
+      "weight_pct": 4.39,
       "shares": 1838,
       "item_code": "293940"
     },
     {
+      "name": "맵스리얼티",
+      "weight_pct": 4.39,
+      "shares": 1411,
+      "item_code": "094800"
+    },
+    {
       "name": "삼성FN리츠",
-      "weight_pct": 3.3,
+      "weight_pct": 3.29,
       "shares": 1384,
       "item_code": "448730"
     },
     {
       "name": "코람코라이프인프라리츠",
-      "weight_pct": 2.77,
+      "weight_pct": 2.69,
       "shares": 1480,
       "item_code": "357120"
     },
     {
       "name": "이지스밸류플러스리츠",
-      "weight_pct": 1.78,
+      "weight_pct": 1.84,
       "shares": 1056,
       "item_code": "334890"
     },
     {
       "name": "신한서부티엔디리츠",
-      "weight_pct": 1.58,
+      "weight_pct": 1.56,
       "shares": 931,
       "item_code": "404990"
     },
@@ -94,7 +94,7 @@
     },
     {
       "name": "코람코더원리츠",
-      "weight_pct": 0.54,
+      "weight_pct": 0.62,
       "shares": 614,
       "item_code": "417310"
     }

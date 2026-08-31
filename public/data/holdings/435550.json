@@ -1,22 +1,22 @@
 {
   "ticker": "435550",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "Vanguard 500 Index Fund ETF",
-      "weight_pct": 18.49,
+      "weight_pct": 18.59,
       "shares": 170,
       "item_code": "VOO"
     },
     {
       "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
-      "weight_pct": 14.59,
+      "weight_pct": 14.52,
       "shares": 1286,
       "item_code": "VEA"
     },
     {
       "name": "iShares Russell 2000 ETF",
-      "weight_pct": 11.82,
+      "weight_pct": 11.7,
       "shares": 256,
       "item_code": "IWM"
     },
@@ -28,13 +28,13 @@
     },
     {
       "name": "Invesco NASDAQ 100 ETF",
-      "weight_pct": 8.01,
+      "weight_pct": 8.07,
       "shares": 177,
       "item_code": "QQQM.O"
     },
     {
       "name": "State Street SPDR Portfolio S&P 500 Value ETF",
-      "weight_pct": 7.28,
+      "weight_pct": 7.27,
       "shares": 740,
       "item_code": "SPYV.K"
     },
@@ -46,19 +46,19 @@
     },
     {
       "name": "JPMorgan BetaBuilders US Aggregate Bond ETF",
-      "weight_pct": 4.89,
+      "weight_pct": 4.88,
       "shares": 699,
       "item_code": "BBAG.K"
     },
     {
       "name": "iShares Core International Aggregate Bond ETF",
-      "weight_pct": 4.48,
+      "weight_pct": 4.47,
       "shares": 582,
       "item_code": "IAGG.K"
     },
     {
       "name": "KIWOOM 종합채권(AA-이상)액티브",
-      "weight_pct": 3.51,
+      "weight_pct": 3.54,
       "shares": 315,
       "item_code": "454780"
     },
@@ -70,7 +70,7 @@
     },
     {
       "name": "JPMorgan BetaBuilders Europe ETF",
-      "weight_pct": 2.53,
+      "weight_pct": 2.51,
       "shares": 203,
       "item_code": "BBEU.K"
     },
@@ -81,16 +81,16 @@
       "item_code": null
     },
     {
-      "name": "State Street SPDR S&P 500 ETF Trust",
-      "weight_pct": 1.89,
-      "shares": 16,
-      "item_code": "SPY"
+      "name": "원화현금",
+      "weight_pct": 1.91,
+      "shares": 16954861,
+      "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 1.88,
-      "shares": 16809307,
-      "item_code": null
+      "name": "State Street SPDR S&P 500 ETF Trust",
+      "weight_pct": 1.9,
+      "shares": 16,
+      "item_code": "SPY"
     },
     {
       "name": "KIWOOM 국고채3년",

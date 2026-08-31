@@ -1,41 +1,41 @@
 {
   "ticker": "455030",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "스왑(하나금융투자)",
-      "weight_pct": 34.39,
-      "shares": 40703276,
+      "weight_pct": 38.98,
+      "shares": 45725133,
       "item_code": null
     },
     {
       "name": "스왑(KB증권)",
-      "weight_pct": 27.37,
-      "shares": 32396782,
+      "weight_pct": 24.57,
+      "shares": 28820856,
       "item_code": null
     },
     {
       "name": "스왑(NH투자증권)",
       "weight_pct": 19.23,
-      "shares": 22760088,
+      "shares": 22562038,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)",
       "weight_pct": 13.77,
-      "shares": 16302543,
+      "shares": 16160685,
       "item_code": null
     },
     {
       "name": "스왑(유안타증권)",
       "weight_pct": 3.04,
-      "shares": 3605237,
+      "shares": 3573866,
       "item_code": null
     },
     {
       "name": "USD현금",
-      "weight_pct": 2.16,
-      "shares": 1851,
+      "weight_pct": 0.38,
+      "shares": 328,
       "item_code": null
     }
   ]

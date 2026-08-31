@@ -1,6 +1,6 @@
 {
   "ticker": "272580",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "한국수출입금융2605마-할인-214",
@@ -99,8 +99,14 @@
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 2.74,
+      "shares": 3131420,
+      "item_code": null
+    },
+    {
       "name": "중소벤처기업진흥채권799(사)",
-      "weight_pct": 1.67,
+      "weight_pct": 1.65,
       "shares": 0,
       "item_code": null
     },
@@ -136,12 +142,6 @@
     },
     {
       "name": "한국자산관리공사채권제80회3012-15(사)",
-      "weight_pct": 1.62,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "중소기업은행(신)2408이2A-28",
       "weight_pct": 1.62,
       "shares": 0,
       "item_code": null
@@ -210,12 +210,6 @@
       "name": "중소벤처기업진흥채권894(사)",
       "weight_pct": 1.57,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 1.1,
-      "shares": 1261020,
       "item_code": null
     },
     {

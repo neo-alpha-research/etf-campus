@@ -1,34 +1,34 @@
 {
   "ticker": "0215T0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 16.91,
+      "weight_pct": 17.2,
       "shares": 58,
       "item_code": "LITE.O"
     },
     {
       "name": "코히런트",
-      "weight_pct": 14.27,
+      "weight_pct": 14.44,
       "shares": 157,
       "item_code": "COHR.K"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 11.67,
+      "weight_pct": 11.0,
       "shares": 154,
       "item_code": "MRVL.O"
     },
     {
       "name": "코닝",
-      "weight_pct": 10.19,
+      "weight_pct": 10.6,
       "shares": 216,
       "item_code": "GLW"
     },
     {
       "name": "어플라이드 옵토일렉트로닉스",
-      "weight_pct": 9.25,
+      "weight_pct": 9.21,
       "shares": 263,
       "item_code": "AAOI.O"
     },
@@ -39,33 +39,33 @@
       "item_code": "CIEN.K"
     },
     {
-      "name": "AXT",
-      "weight_pct": 7.66,
-      "shares": 381,
-      "item_code": "AXTI.O"
-    },
-    {
       "name": "타워 세미컨덕터",
-      "weight_pct": 7.37,
+      "weight_pct": 7.4,
       "shares": 108,
       "item_code": "TSEM.O"
     },
     {
+      "name": "AXT",
+      "weight_pct": 7.36,
+      "shares": 381,
+      "item_code": "AXTI.O"
+    },
+    {
       "name": "폼팩터",
-      "weight_pct": 6.96,
+      "weight_pct": 6.98,
       "shares": 208,
       "item_code": "FORM.O"
     },
     {
       "name": "비아비 솔루션스",
-      "weight_pct": 6.74,
+      "weight_pct": 6.77,
       "shares": 563,
       "item_code": "VIAV.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.88,
-      "shares": 3943534,
+      "weight_pct": 0.94,
+      "shares": 3908175,
       "item_code": null
     }
   ]

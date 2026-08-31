@@ -1,41 +1,41 @@
 {
   "ticker": "458250",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "STPL Index TRS 251209-01",
-      "weight_pct": 52.92,
-      "shares": 37138351,
+      "weight_pct": 52.96,
+      "shares": 36939515,
       "item_code": null
     },
     {
       "name": "SP 0 11/15/53",
-      "weight_pct": 27.59,
+      "weight_pct": 27.17,
       "shares": 58000,
       "item_code": null
     },
     {
       "name": "PIMCO 25+ Year Zero Coupon US Treasury Index ETF",
-      "weight_pct": 14.07,
+      "weight_pct": 13.95,
       "shares": 120,
       "item_code": "ZROZ.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 5.08,
-      "shares": 3570252,
+      "weight_pct": 5.77,
+      "shares": 4028659,
       "item_code": null
     },
     {
       "name": "STPL Index TRS 260122-03",
       "weight_pct": 1.81,
-      "shares": 1275116,
+      "shares": 1267897,
       "item_code": null
     },
     {
       "name": "STPL Index TRS 251218-18",
-      "weight_pct": -1.5,
-      "shares": -1054701,
+      "weight_pct": -1.68,
+      "shares": -1177269,
       "item_code": null
     }
   ]

@@ -1,71 +1,71 @@
 {
   "ticker": "0023B0",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "인플렉션",
-      "weight_pct": 15.59,
+      "weight_pct": 14.86,
       "shares": 6635,
       "item_code": "INFQ.K"
     },
     {
       "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 13.06,
+      "weight_pct": 13.48,
       "shares": 327,
       "item_code": "IBM"
     },
     {
       "name": "리게티 컴퓨팅",
-      "weight_pct": 11.75,
+      "weight_pct": 11.57,
       "shares": 4244,
       "item_code": "RGTI.O"
     },
     {
       "name": "디 웨이브 퀀텀",
-      "weight_pct": 11.59,
+      "weight_pct": 11.32,
       "shares": 3810,
       "item_code": "QBTS.O"
     },
     {
       "name": "아이온큐",
-      "weight_pct": 10.7,
+      "weight_pct": 10.55,
       "shares": 1539,
       "item_code": "IONQ.K"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 9.82,
+      "weight_pct": 10.23,
       "shares": 113,
       "item_code": "MSFT.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 7.9,
+      "weight_pct": 8.26,
       "shares": 217,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class C",
-      "weight_pct": 7.32,
+      "weight_pct": 7.45,
       "shares": 124,
       "item_code": "GOOG.O"
     },
     {
       "name": "퀀텀 컴퓨팅",
-      "weight_pct": 6.5,
+      "weight_pct": 6.39,
       "shares": 4483,
       "item_code": "QUBT.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 5.48,
+      "weight_pct": 5.59,
       "shares": 357,
       "item_code": "INTC.O"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.23,
-      "shares": 1902431,
+      "shares": 1847283,
       "item_code": null
     }
   ]

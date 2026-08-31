@@ -1,82 +1,82 @@
 {
   "ticker": "363570",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "국고02625-5503(25-2)",
-      "weight_pct": 12.35,
+      "weight_pct": 12.4,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-3512(25-11)",
-      "weight_pct": 10.27,
+      "weight_pct": 10.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-3003(25-3)",
-      "weight_pct": 8.23,
+      "weight_pct": 8.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "토지주택채권559",
-      "weight_pct": 8.18,
+      "weight_pct": 8.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-5403(24-2)",
-      "weight_pct": 7.6,
+      "weight_pct": 7.63,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02500-3009(25-8)",
-      "weight_pct": 6.9,
+      "weight_pct": 6.91,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03000-3412(24-13)",
-      "weight_pct": 6.26,
+      "weight_pct": 6.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02875-4409(24-10)",
-      "weight_pct": 5.88,
+      "weight_pct": 5.9,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한캐피탈483-2",
-      "weight_pct": 4.33,
+      "weight_pct": 4.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 4.19,
+      "weight_pct": 4.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고01875-5103(21-2)",
-      "weight_pct": 3.69,
+      "weight_pct": 3.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "토지주택채권430",
-      "weight_pct": 3.03,
+      "weight_pct": 3.04,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 2.89,
+      "weight_pct": 2.9,
       "shares": 0,
       "item_code": null
     },
@@ -88,19 +88,19 @@
     },
     {
       "name": "국고03125-5209(22-9)",
-      "weight_pct": 2.71,
+      "weight_pct": 2.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03625-5309(23-7)",
-      "weight_pct": 2.6,
+      "weight_pct": 2.61,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고01500-4009(20-7)",
-      "weight_pct": 2.34,
+      "weight_pct": 2.33,
       "shares": 0,
       "item_code": null
     },
@@ -112,7 +112,7 @@
     },
     {
       "name": "국고02750-5409(24-8)",
-      "weight_pct": 2.17,
+      "weight_pct": 2.18,
       "shares": 0,
       "item_code": null
     },
@@ -124,7 +124,7 @@
     },
     {
       "name": "한국가스공사500",
-      "weight_pct": 2.06,
+      "weight_pct": 2.07,
       "shares": 0,
       "item_code": null
     },
@@ -148,13 +148,13 @@
     },
     {
       "name": "국고03875-4309(23-9)",
-      "weight_pct": 1.6,
+      "weight_pct": 1.61,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02750-4509(25-9)",
-      "weight_pct": 1.34,
+      "weight_pct": 1.35,
       "shares": 0,
       "item_code": null
     },
@@ -196,7 +196,7 @@
     },
     {
       "name": "국고02500-5203(22-2)",
-      "weight_pct": 0.89,
+      "weight_pct": 0.9,
       "shares": 0,
       "item_code": null
     },
@@ -208,7 +208,7 @@
     },
     {
       "name": "국고03250-3306(23-5)",
-      "weight_pct": 0.81,
+      "weight_pct": 0.8,
       "shares": 0,
       "item_code": null
     },
@@ -238,8 +238,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -23.13,
-      "shares": -20178668,
+      "weight_pct": -23.35,
+      "shares": -20323353,
       "item_code": null
     }
   ]

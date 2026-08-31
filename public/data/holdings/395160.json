@@ -1,46 +1,46 @@
 {
   "ticker": "395160",
-  "as_of_date": "2026-08-28",
+  "as_of_date": "2026-09-01",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 26.46,
+      "weight_pct": 26.18,
       "shares": 3945,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 24.26,
+      "weight_pct": 23.76,
       "shares": 556,
       "item_code": "000660"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 23.03,
+      "weight_pct": 22.63,
       "shares": 855,
       "item_code": "402340"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 18.2,
+      "weight_pct": 19.39,
       "shares": 521,
       "item_code": "009150"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 2.24,
+      "weight_pct": 2.25,
       "shares": 401,
       "item_code": "042700"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 1.47,
+      "weight_pct": 1.51,
       "shares": 519,
       "item_code": "007660"
     },
     {
       "name": "리노공업",
-      "weight_pct": 0.79,
+      "weight_pct": 0.8,
       "shares": 473,
       "item_code": "058470"
     },
@@ -58,7 +58,7 @@
     },
     {
       "name": "피에스케이",
-      "weight_pct": 0.62,
+      "weight_pct": 0.6,
       "shares": 185,
       "item_code": "319660"
     },
@@ -70,13 +70,13 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.36,
-      "shares": 14531695,
+      "weight_pct": 0.31,
+      "shares": 12441193,
       "item_code": null
     },
     {
       "name": "두산테스나",
-      "weight_pct": 0.23,
+      "weight_pct": 0.22,
       "shares": 111,
       "item_code": "131970"
     },

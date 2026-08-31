@@ -1,6 +1,6 @@
 "use client";
 
-import type { EtfSlim } from "@/lib/domain/etf-types";
+import type { Etf } from "@/lib/domain/etf-types";
 
 const THEMES = [
   { name: "대표지수", tickers: ["069500", "229200", "245340", "360750", "133690"] },
@@ -12,10 +12,10 @@ const THEMES = [
   { name: "한국·미국 파킹형", tickers: ["459580", "423160", "357870", "456610", "455030"] },
 ];
 
-export function CompareThemes({ etfs, onSelectTheme }: { etfs: readonly EtfSlim[]; onSelectTheme: (etfs: EtfSlim[]) => void }) {
+export function CompareThemes({ etfs, onSelectTheme }: { etfs: readonly Etf[]; onSelectTheme: (etfs: Etf[]) => void }) {
   const handleTheme = (tickers: string[]) => {
     // Find matching ETFs, keep the order defined in the tickers array
-    const themeEtfs = tickers.map(t => etfs.find(e => e.ticker === t)).filter((e): e is EtfSlim => e !== undefined);
+    const themeEtfs = tickers.map(t => etfs.find(e => e.ticker === t)).filter((e): e is Etf => e !== undefined);
     onSelectTheme(themeEtfs);
   };
 

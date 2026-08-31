@@ -11,23 +11,11 @@ export const metadata: Metadata = {
 
 export default function ComparePage() {
   const etfs = loadEtfs();
-  const searchIndex = etfs.map((etf) => ({
-    ticker: etf.ticker,
-    name: etf.name,
-    baseIndex: etf.baseIndex,
-    assetClass: etf.assetClass,
-    riskType: etf.riskType,
-    pension: etf.pension,
-    tradeValue: etf.tradeValue,
-    changePct: etf.changePct,
-    aum: etf.aum,
-    classification: etf.classification,
-  }));
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <Suspense fallback={<div className="h-36 animate-pulse rounded-2xl border border-line bg-brand-50/60" />}>
-        <CompareClient etfs={searchIndex} />
+        <CompareClient etfs={etfs} />
       </Suspense>
     </main>
   );

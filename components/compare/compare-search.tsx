@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useDeferredValue } from "react";
 import type { Etf, EtfSlim } from "@/lib/domain/etf-types";
 import { getEtfSearchSuggestions } from "@/lib/domain/etf-explorer";
 
-export function CompareSearch({ etfs, onAdd, disabled }: { etfs: readonly EtfSlim[]; onAdd: (etf: EtfSlim) => void; disabled?: boolean }) {
+export function CompareSearch({ etfs, onAdd, disabled }: { etfs: readonly Etf[]; onAdd: (etf: EtfSlim) => void; disabled?: boolean }) {
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
   const [focused, setFocused] = useState(false);

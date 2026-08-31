@@ -8,21 +8,17 @@ import { EtfCompareView } from "@/components/etf-detail/etf-compare-view";
 import { EtfCompareChart } from "./etf-compare-chart";
 import { useEffect, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useAuthSession } from "@/components/auth/use-auth-session";
-import { withReturnTo } from "@/lib/auth/return-to";
 
-export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
-  const { basket, mounted, toastMessage, addEtf, removeEtf, clearBasket, overwriteBasket, MAX_ITEMS } = useCompareBasket();
-  const { authenticated, isLoading } = useAuthSession();
+export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
+  const { basket, mounted, toastMessage, addEtf, removeEtf, clearBasket, overwriteBasket, MAX_ITEMS } = useCompareBasket(etfs);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // URL 파라미터(tickers, base, action 등) 처리 및 초기 바구니 설정
+  // URL 파라미터(tickers, base 등) 처리 및 초기 바구니 설정
   useEffect(() => {
     if (!mounted) return;
 
-    // 1. URL에 tickers 또는 base 파라미터가 전달된 경우 (로그인 여부 무관 즉시 바구니 채우기)
     const tickersParam = searchParams.get("tickers");
     const baseParam = searchParams.get("base");
 
@@ -37,7 +33,7 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
       if (targetTickers.length > 0) {
         const matchedEtfs = targetTickers
           .map((ticker) => etfs.find((e) => e.ticker === ticker))
-          .filter((e): e is EtfSlim => e !== undefined);
+          .filter((e): e is Etf => e !== undefined);
         if (matchedEtfs.length > 0) {
           overwriteBasket(matchedEtfs);
         }
@@ -50,95 +46,22 @@ export function CompareClient({ etfs }: { etfs: readonly EtfSlim[] }) {
       newParams.delete("action");
       const qs = newParams.toString();
       router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
-      return;
     }
+  }, [mounted, searchParams, etfs, overwriteBasket, pathname, router]);
 
-    // 2. 로그인 완료 후 URL의 action 파라미터 처리
-    const action = searchParams.get("action");
-    if (action) {
-      if (isLoading || !authenticated) return;
-
-      let modified = false;
-      const newParams = new URLSearchParams(searchParams.toString());
-
-      if (action === "add") {
-        const ticker = searchParams.get("ticker");
-        if (ticker) {
-          const etf = etfs.find((e) => e.ticker === ticker);
-          if (etf) addEtf(etf);
-        }
-        newParams.delete("ticker");
-        modified = true;
-      } else if (action === "remove") {
-        const ticker = searchParams.get("ticker");
-        if (ticker) removeEtf(ticker);
-        newParams.delete("ticker");
-        modified = true;
-      } else if (action === "clear") {
-        clearBasket();
-        modified = true;
-      } else if (action === "theme") {
-        const tickers = searchParams.get("tickers");
-        if (tickers) {
-          const tickerArray = tickers.split(",");
-          const themeEtfs = etfs.filter((e) => tickerArray.includes(e.ticker));
-          if (themeEtfs.length > 0) overwriteBasket(themeEtfs);
-        }
-        newParams.delete("tickers");
-        modified = true;
-      }
-
-      if (modified) {
-        newParams.delete("action");
-        const qs = newParams.toString();
-        router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
-        return;
-      }
-    }
-
-    // 3. 최초 접속 시 (로컬스토리지 비어있을 때) 대표지수 5종목 자동 채우기
-    if (!localStorage.getItem("etfcampus_compare_basket")) {
-      const defaultTickers = ["069500", "229200", "245340", "360750", "133690"];
-      const themeEtfs = defaultTickers
-        .map((ticker) => etfs.find((e) => e.ticker === ticker))
-        .filter((e): e is EtfSlim => e !== undefined);
-      if (themeEtfs.length > 0) {
-        overwriteBasket(themeEtfs);
-      }
-    }
-  }, [mounted, isLoading, authenticated, searchParams, etfs, addEtf, removeEtf, clearBasket, overwriteBasket, pathname, router]);
-
-  const requireAuth = useCallback((actionPath: string) => {
-    if (isLoading) return true; // 로딩 중에는 액션 차단
-    if (!authenticated) {
-      const currentQuery = searchParams.toString();
-      const currentPath = `${pathname}${currentQuery ? `?${currentQuery}` : ""}`;
-      const returnUrl = currentPath.includes("?") 
-        ? `${currentPath}&${actionPath}` 
-        : `${currentPath}?${actionPath}`;
-      router.push(withReturnTo("/login/", returnUrl));
-      return true;
-    }
-    return false;
-  }, [authenticated, isLoading, pathname, searchParams, router]);
-
-  const handleAddEtf = useCallback((etf: EtfSlim) => {
-    if (requireAuth(`action=add&ticker=${etf.ticker}`)) return;
+  const handleAddEtf = useCallback((etf: Etf | EtfSlim) => {
     addEtf(etf);
-  }, [requireAuth, addEtf]);
+  }, [addEtf]);
 
   const handleRemoveEtf = useCallback((ticker: string) => {
-    if (requireAuth(`action=remove&ticker=${ticker}`)) return;
     removeEtf(ticker);
-  }, [requireAuth, removeEtf]);
+  }, [removeEtf]);
 
   const handleClearBasket = useCallback(() => {
-    if (requireAuth(`action=clear`)) return;
     clearBasket();
-  }, [requireAuth, clearBasket]);
+  }, [clearBasket]);
 
-  const handleSelectTheme = useCallback((themeEtfs: EtfSlim[]) => {
-    // 추천 테마 클릭은 회원가입/로그인 없이 체험 가능하도록 requireAuth 제거
+  const handleSelectTheme = useCallback((themeEtfs: Etf[]) => {
     overwriteBasket(themeEtfs);
   }, [overwriteBasket]);
 

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { formatWon, formatMoney, formatFeePct, formatAumNumber, formatWonNumber, formatTradeValueNumber } from "@/lib/domain/etf-format";
+import { formatMoney } from "@/lib/domain/etf-format";
 import { ReturnCell, RiskBadge, AsOfDate, FeeStackedBar } from "@/components/etf";
 import type { Etf, ReturnPeriod } from "@/lib/domain/etf-types";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
@@ -12,7 +12,7 @@ type Props = {
   onRemove?: (ticker: string) => void;
   mode?: string;
   selectionReasons?: Map<string, string[]>;
-  comparisonProfiles?: Map<string, any>;
+  comparisonProfiles?: Map<string, unknown>;
 };
 
 const CAUTION_REASONS = new Set([

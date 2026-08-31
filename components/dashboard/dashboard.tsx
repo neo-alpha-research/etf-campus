@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Suspense, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { Tickery } from "@/components/brand/tickery";
-import { AsOfDate, PensionBadge, ReturnCell, FeeDoubleStack } from "@/components/etf";
+import { AsOfDate, ReturnCell, FeeDoubleStack } from "@/components/etf";
 import { getClassificationFields } from "@/lib/domain/etf-classification";
 import { formatAsOfDate, formatAumNumber, formatMoney, formatTradeValueNumber, formatWonNumber } from "@/lib/domain/etf-format";
 import {
@@ -322,7 +322,6 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
   const visibleEtfs = filteredResults;
   const activeFilterCount = state.assetClasses.length + activeRiskTypes.length;
 
-  const isGeneral = state.mode === "general";
   const isPension = state.mode === "pension";
   const isDeriv = state.mode === "derivatives";
   const isNew = state.mode === "new";
@@ -633,7 +632,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
               <button
                 key={opt.value}
                 type="button"
-                onClick={() => setSelectedNewRange(opt.value as any)}
+                onClick={() => setSelectedNewRange(opt.value as "all" | "30d" | "60d" | "90d")}
                 className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-colors ${
                   selectedNewRange === opt.value
                     ? "bg-brand-600 text-white shadow-sm"
@@ -798,7 +797,6 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                 const fields = getClassificationFields(etf);
                 const derivInfo = isDeriv ? getDerivMultiplierInfo(etf) : null;
                 const tdfInfo = state.mode === "tdf" ? getTdfVintageInfo(etf.name) : null;
-                const newDays = isNew ? getDaysSinceListing(etf.listingDate, asOfDate) : null;
                 const newThemeTag = isNew ? getNewEtfThemeTag(etf.name) : null;
 
                 return (

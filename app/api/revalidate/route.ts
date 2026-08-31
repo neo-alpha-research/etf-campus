@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     const path = searchParams.get("path");
 
     if (tag) {
-      revalidateTag(tag);
+      revalidateTag(tag, 'max');
       return NextResponse.json({ revalidated: true, tag, now: Date.now() });
     }
 

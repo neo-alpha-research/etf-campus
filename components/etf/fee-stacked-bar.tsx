@@ -71,20 +71,17 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
             최저
           </span>
         )}
-        {ctx.isStale && (
-          <span className="text-[9px] font-bold text-slate-500 bg-slate-100 px-1 py-0.5 rounded leading-none shrink-0" title={ctx.staleMessage}>
-            과거
-          </span>
-        )}
       </div>
       
-      {/* Clean 3-Tier Breakdown Tooltip on hover (아래 불필요한 영역 삭제) */}
+      {/* Clean 3-Tier Breakdown Tooltip on hover */}
       <div className={`absolute top-[calc(100%+6px)] ${positionClass} w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]`}>
         <div className={`absolute -top-1.5 ${arrowClass} border-[6px] border-transparent border-b-neutral-900/98`} />
         
         <div className="flex items-center justify-between pb-2 mb-2 border-b border-neutral-700/80">
           <span className="font-extrabold text-[13px] text-white">실부담 비용 상세 내역</span>
-          <span className="text-[10px] text-neutral-400 font-mono bg-neutral-800 px-1.5 py-0.5 rounded">연환산 기준</span>
+          <span className="text-[10px] text-neutral-400 font-mono bg-neutral-800 px-1.5 py-0.5 rounded">
+            {etf.fee?.effectiveDate ? `${etf.fee.effectiveDate} 공시` : "연환산 기준"}
+          </span>
         </div>
 
         <div className="space-y-2 text-xs">

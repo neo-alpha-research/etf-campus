@@ -33,8 +33,8 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
   // Use actual asset classes from payload, fallback if missing
   const assetClasses = payload.assetClasses && payload.assetClasses.length > 0 ? payload.assetClasses : [];
   
-  // Use actual top inflows, fallback to empty array
-  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
+  // Use actual top inflows, fallback to fundFlow or empty array
+  const topInflows: any[] = (payload.fundFlow?.general?.topInflows || payload.periodicFlows?.dailyFundFlows?.topInflows || []) as any[];
 
   const html = `<!DOCTYPE html>
 <html lang="ko">
@@ -149,18 +149,22 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             </tr>
           </thead>
           <tbody>
-            ${assetClasses.map(ac => `
+            ${assetClasses.map(ac => {
+              const aumShare = ac.aumSharePct ?? 0;
+              const ret = ac.aumWeightedReturnPct ?? 0;
+              const ytd = ac.ytdReturnPct ?? 0;
+              return `
               <tr>
                 <td style="font-weight: 700;">${ac.assetClass}</td>
-                <td style="text-align: right;" class="tabular">${ac.aumSharePct.toFixed(1)}%</td>
-                <td style="text-align: right; font-weight: 800; color: ${ac.aumWeightedReturnPct > 0 ? '#EF4444' : ac.aumWeightedReturnPct < 0 ? '#38BDF8' : '#94A3B8'};" class="tabular">${ac.aumWeightedReturnPct > 0 ? '+' : ''}${ac.aumWeightedReturnPct.toFixed(2)}%</td>
-                <td style="text-align: right; font-weight: 800; color: ${(ac.ytdReturnPct || 0) > 0 ? '#EF4444' : (ac.ytdReturnPct || 0) < 0 ? '#38BDF8' : '#94A3B8'};" class="tabular">${(ac.ytdReturnPct || 0) > 0 ? '+' : ''}${(ac.ytdReturnPct || 0).toFixed(1)}%</td>
+                <td style="text-align: right;" class="tabular">${aumShare.toFixed(1)}%</td>
+                <td style="text-align: right; font-weight: 800; color: ${ret > 0 ? '#EF4444' : ret < 0 ? '#38BDF8' : '#94A3B8'};" class="tabular">${ret > 0 ? '+' : ''}${ret.toFixed(2)}%</td>
+                <td style="text-align: right; font-weight: 800; color: ${ytd > 0 ? '#EF4444' : ytd < 0 ? '#38BDF8' : '#94A3B8'};" class="tabular">${ytd > 0 ? '+' : ''}${ytd.toFixed(1)}%</td>
               </tr>
-            `).join("")}
+            `;}).join("")}
           </tbody>
         </table>
 
-        <div class="section-title" style="margin-top: 32px; margin-bottom: 12px; font-size: 16px; font-weight: 800;">💸 스마트머니 당일 실질 순유입 TOP 5</div>
+        <div class="section-title" style="margin-top: 32px; margin-bottom: 12px; font-size: 16px; font-weight: 800;">💸 실질 순유입 TOP 5</div>
         <table class="table-custom">
           <thead>
             <tr>
@@ -171,14 +175,20 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             </tr>
           </thead>
           <tbody>
-            ${topInflows.slice(0, 5).map((item, idx) => `
+            ${topInflows.slice(0, 5).map((item, idx) => {
+              const name = item.name || item.etfName || item.ticker || "";
+              const ticker = item.ticker || "";
+              const assetClass = item.assetClass || "주식";
+              const inflowEok = item.inflow ? Math.round(item.inflow) : item.inflowAmount ? Math.round(item.inflowAmount / 100000000) : item.netInflowValue ? Math.round(item.netInflowValue / 100000000) : 0;
+              const chg = item.changePct ?? item.change_pct ?? 0;
+              return `
             <tr>
               <td style="font-weight: 900; color: #10B981;">${idx + 1}</td>
-              <td><div style="font-weight: 700;">${item.name}</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">${item.ticker} · ${item.assetClass || "기타"}</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+${item.inflowAmount ? Math.floor(item.inflowAmount/100000000).toLocaleString() : item.inflow.toLocaleString()}억원</td>
-              <td style="text-align: right; font-weight: 800; color: ${(item.changePct || 0) > 0 ? '#EF4444' : (item.changePct || 0) < 0 ? '#38BDF8' : '#94A3B8'};" class="tabular">${(item.changePct || 0) > 0 ? '+' : ''}${(item.changePct || 0).toFixed(2)}%</td>
+              <td><div style="font-weight: 700;">${name}</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">${ticker} · ${assetClass}</div></td>
+              <td style="text-align: right; font-weight: 900;" class="tabular">+${inflowEok.toLocaleString()}억원</td>
+              <td style="text-align: right; font-weight: 800; color: ${chg > 0 ? '#EF4444' : chg < 0 ? '#38BDF8' : '#94A3B8'};" class="tabular">${chg > 0 ? '+' : ''}${chg.toFixed(2)}%</td>
             </tr>
-            `).join("")}
+            `;}).join("")}
           </tbody>
         </table>
 

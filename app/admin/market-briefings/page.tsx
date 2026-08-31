@@ -27,7 +27,7 @@ export default function AdminBriefingsList() {
       .finally(() => setLoading(false));
   }, [router]);
 
-  if (loading) return <div className="p-8 text-center text-gray-500">로딩 ?..</div>;
+  if (loading) return <div className="p-8 text-center text-gray-500">로딩 중...</div>;
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -38,9 +38,9 @@ export default function AdminBriefingsList() {
             await fetch("/api/admin/auth/logout", { method: "POST" });
             router.push("/admin/login");
           }}
-          className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition"
+          className="text-sm bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition cursor-pointer"
         >
-          로그?웃
+          로그아웃
         </button>
       </div>
 
@@ -48,10 +48,10 @@ export default function AdminBriefingsList() {
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200 text-gray-500 text-sm">
-              <th className="p-4 font-medium">Title</th>
-              <th className="p-4 font-medium">Status</th>
-              <th className="p-4 font-medium">Progress</th>
-              <th className="p-4 font-medium">Action</th>
+              <th className="p-4 font-medium">기준일</th>
+              <th className="p-4 font-medium">상태</th>
+              <th className="p-4 font-medium">시장 체온</th>
+              <th className="p-4 font-medium">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -61,11 +61,11 @@ export default function AdminBriefingsList() {
                 <td className="p-4">
                   {b.editorial?.state === 'published' ? (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      발행??(v{b.editorial.publishedRevision})
+                      발행 완료 (v{b.editorial.publishedRevision})
                     </span>
                   ) : b.editorial?.state === 'draft' ? (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                      ?성 ?(v{b.editorial.currentRevision})
+                      작성 중 (v{b.editorial.currentRevision})
                     </span>
                   ) : b.editorial?.state === 'withdrawn' ? (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
@@ -73,7 +73,7 @@ export default function AdminBriefingsList() {
                     </span>
                   ) : (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                      ?동 ?성???
+                      자동 생성 완료
                     </span>
                   )}
                 </td>
@@ -83,14 +83,14 @@ export default function AdminBriefingsList() {
                     href={`/admin/market-briefings/editor?date=${b.asOfDate}`}
                     className="text-emerald-600 hover:text-emerald-700 font-medium text-sm transition"
                   >
-                    ?집 / ?세
+                    편집 / 상세
                   </Link>
                 </td>
               </tr>
             ))}
             {briefings.length === 0 && (
               <tr>
-                <td colSpan={4} className="p-8 text-center text-gray-500">?이?? ?습?다.</td>
+                <td colSpan={4} className="p-8 text-center text-gray-500">브리핑 데이터가 없습니다.</td>
               </tr>
             )}
           </tbody>

@@ -5,12 +5,42 @@ import { generateThreadsThread } from "./templates/threads";
 import type { BriefingDistributeEvent, Env, MarketBriefingPayload } from "./types";
 
 async function loadBriefingPayload(env: Env, asOfDate?: string): Promise<MarketBriefingPayload | null> {
-  if (asOfDate) {
-    const raw = await env.BRIEFING_KV.get(`briefing:${asOfDate}`, "json") as MarketBriefingPayload | null;
-    if (raw) return raw;
+  // 1. Try pointer if no date or looking for latest
+  if (!asOfDate) {
+    const pointer = await env.BRIEFING_KV.get<{ payloadKey?: string; asOfDate?: string }>("market-briefing:v0:latest-pointer", "json");
+    if (pointer?.payloadKey) {
+      const payload = await env.BRIEFING_KV.get<any>(pointer.payloadKey, "json");
+      if (payload?.briefing) return payload.briefing;
+      if (payload) return payload;
+    }
+  } else {
+    // Try version 1 to 5 in KV
+    for (const v of [1, 2, 3, 4, 5]) {
+      const key = `market-briefing:v0:payload:${asOfDate}:v${v}`;
+      const payload = await env.BRIEFING_KV.get<any>(key, "json");
+      if (payload?.briefing) return payload.briefing;
+      if (payload) return payload;
+    }
   }
-  const latest = await env.BRIEFING_KV.get("briefing:latest", "json") as MarketBriefingPayload | null;
-  return latest;
+
+  // 2. Direct fetch from Pages public API fallback
+  try {
+    const target = asOfDate || "latest";
+    const endpoint = target === "latest" 
+      ? "https://etf-campus.pages.dev/api/briefings/latest" 
+      : `https://etf-campus.pages.dev/api/briefings/${target}`;
+    const res = await fetch(endpoint, {
+      headers: { "User-Agent": "ETF-Campus-Distributor/1.0" }
+    });
+    if (res.ok) {
+      const json: any = await res.json();
+      if (json?.briefing) return json.briefing;
+    }
+  } catch (err) {
+    console.warn("[Distributor] Failed to fetch from API fallback:", err);
+  }
+
+  return null;
 }
 
 export default {

@@ -27,6 +27,7 @@ env:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: daily-market
@@ -262,6 +263,14 @@ jobs:
               git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break || sleep 5
             done
           fi
+
+      - name: Trigger site deployment
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run market-briefing-production.yml --ref ${{ github.ref_name }}
+          echo "Triggered production deployment."
 
       - name: Write refresh summary
         if: always() && steps.guard.outputs.skip != 'true'

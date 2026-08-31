@@ -11,7 +11,14 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260818.1",
+    "@types/nodemailer": "^8.0.1",
     "typescript": "^5.9.0",
     "wrangler": "^4.31.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "nodemailer": "^9.0.6",
+    "puppeteer": "^25.9.0",
+    "sharp": "^0.35.4"
   }
 }

@@ -8,11 +8,15 @@ on:
     #
     #   UTC (cron)      KST (local)          covers
     #   Mon-Fri 22:53   Tue-Sat 07:53        1st attempt (previous trading day close)
-    #   Mon-Fri 23:53   Tue-Sat 08:53        2nd attempt
-    #   Tue-Sat 00:53   Tue-Sat 09:53        3rd final retry
+    #   Mon-Fri 23:03   Tue-Sat 08:03        2nd attempt
+    #   Mon-Fri 23:13   Tue-Sat 08:13        3rd attempt
+    #   Mon-Fri 23:23   Tue-Sat 08:23        4th attempt
+    #   Mon-Fri 23:33   Tue-Sat 08:33        5th attempt
     - cron: "53 22 * * 1-5"
-    - cron: "53 23 * * 1-5"
-    - cron: "53 0 * * 2-6"
+    - cron: "3 23 * * 1-5"
+    - cron: "13 23 * * 1-5"
+    - cron: "23 23 * * 1-5"
+    - cron: "33 23 * * 1-5"
   workflow_dispatch:
     inputs:
       target:

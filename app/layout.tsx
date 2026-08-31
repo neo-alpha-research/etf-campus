@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 import { MarketTicker } from "@/components/market-ticker";
 import { AppPushInitializer } from "@/components/native/app-push-initializer";
 import { AppBottomTab } from "@/components/native/app-bottom-tab";
+import { AppBackButtonHandler } from "@/components/native/app-back-button-handler";
 import { StyleOnboarding } from "@/components/onboarding/style-onboarding";
 import { siteConfig } from "@/config/site";
 
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteFooter />
         <AppBottomTab />
         <AppPushInitializer />
+        <AppBackButtonHandler />
         <StyleOnboarding />
       </body>
       {process.env.NEXT_PUBLIC_GA_ID ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} /> : null}

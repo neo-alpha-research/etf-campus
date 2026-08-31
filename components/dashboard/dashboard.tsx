@@ -2,6 +2,7 @@
 
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
 import Link from "next/link";
 import { Suspense, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
@@ -238,7 +239,12 @@ function RiskBadge({ label, compact = false }: { label?: string | null, compact?
 
 const CORE_RETURN_PERIODS: readonly ReturnPeriod[] = ["1d", "1m", "3m", "12m", "36m"];
 
-export function Dashboard({ etfs }: { etfs: Etf[] }) {
+const fetcher = (url: string) => fetch(url).then(r => r.json());
+
+export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
+  const { data: fetchedEtfs } = useSWR<Etf[]>('/data/screener.json', fetcher);
+  const etfs = (initialEtfs && initialEtfs.length > 0) ? initialEtfs : (fetchedEtfs || []);
+  const isLoading = !initialEtfs?.length && !fetchedEtfs;
   const [state, setState] = useState<ExplorerState>(DEFAULT_EXPLORER_STATE);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [urlReady, setUrlReady] = useState(false);

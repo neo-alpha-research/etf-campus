@@ -97,7 +97,10 @@ function toggleValue<T>(values: readonly T[], value: T): T[] {
   return values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
 }
 
-export function Screener({ etfs }: { etfs: ScreenerEtf[] }) {
+export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
+  const { data: fetchedEtfs } = useSWR<ScreenerEtf[]>('/data/screener.json', fetcher);
+  const etfs = (initialEtfs && initialEtfs.length > 0) ? initialEtfs : (fetchedEtfs || []);
+  const isLoading = !initialEtfs?.length && !fetchedEtfs;
   const [filters, setFilters] = useState<ScreenerFilters>(DEFAULT_SCREENER_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");

@@ -20,24 +20,38 @@ export function AppPushInitializer() {
         return;
       }
 
+      // Android 8.0+ 필수: 알림 채널 생성
+      if (Capacitor.getPlatform() === "android") {
+        await PushNotifications.createChannel({
+          id: "fcm_default_channel",
+          name: "기본 알림",
+          description: "ETF Campus 시황 및 중요 공지 알림",
+          importance: 5, // High importance (헤드업 팝업 표시)
+          visibility: 1,
+          vibration: true,
+        });
+      }
+
       await PushNotifications.register();
 
       // Listeners
       PushNotifications.addListener("registration", (token) => {
-        console.log("Push registration success, token: " + token.value);
-        // Here you would typically send the token to your backend/D1 database
+        console.log("==========================================");
+        console.log("[FCM Push Token] " + token.value);
+        console.log("==========================================");
+        // 추후 이 토큰을 백엔드 DB(Cloudflare D1)로 저장하는 API 연동 예정
       });
 
       PushNotifications.addListener("registrationError", (error: any) => {
-        console.error("Error on registration: " + JSON.stringify(error));
+        console.error("[FCM Push Error] " + JSON.stringify(error));
       });
 
       PushNotifications.addListener("pushNotificationReceived", (notification) => {
-        console.log("Push received: " + JSON.stringify(notification));
+        console.log("[FCM Push Received]", notification);
       });
 
       PushNotifications.addListener("pushNotificationActionPerformed", (notification) => {
-        console.log("Push action performed: " + JSON.stringify(notification));
+        console.log("[FCM Action Performed]", notification);
       });
     };
 

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node -e \"const fs=require('fs'); fs.mkdirSync('public/data', {recursive: true}); fs.copyFileSync('data/market_holidays.txt', 'public/data/market_holidays.txt');\"",
+    "prebuild": "node -e \"const fs=require('fs'); fs.mkdirSync('public/data', {recursive: true}); fs.copyFileSync('data/market_holidays.txt', 'public/data/market_holidays.txt');\" && npx tsx scripts/generate-screener-json.ts",
     "build": "next build",
     "check:release": "node scripts/check-release-readiness.mjs",
     "lint": "eslint .",
@@ -17,9 +17,11 @@
   },
   "dependencies": {
     "@capacitor/android": "^8.5.0",
+    "@capacitor/app": "^8.1.1",
     "@capacitor/core": "^8.5.0",
     "@capacitor/ios": "^8.5.0",
     "@capacitor/push-notifications": "^8.1.2",
+    "@capacitor/status-bar": "^8.0.3",
     "@next/third-parties": "^16.3.2",
     "@tanstack/react-virtual": "^3.14.9",
     "csv-parse": "^7.0.1",

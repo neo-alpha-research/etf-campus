@@ -410,10 +410,14 @@ async function runAutomation() {
     }
   }
   
-  // 3. 업데이트 기준일 기록
-  const today = new Date();
-  const kst = new Date(today.getTime() + 9 * 60 * 60 * 1000);
-  const formattedDate = `${kst.getFullYear()}. ${kst.getMonth() + 1}. ${kst.getDate()}.`;
+  // 3. 업데이트 기준일 기록 (KST 기준)
+  const now = new Date();
+  const formattedDate = now.toLocaleDateString("ko-KR", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  });
   await fs.writeFile(path.join(CONTENT_DIR, "_metadata.json"), JSON.stringify({ lastUpdated: formattedDate }), 'utf-8');
   
   console.log("\n✅ 100% 자동화 큐레이션 스크립트 실행 완료 (9권 중복 0% 달성)");

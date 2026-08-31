@@ -68,6 +68,15 @@ export interface PeerGroupItem {
   totalAum?: number;
 }
 
+export interface DisparityItem {
+  ticker: string;
+  name: string;
+  assetClass: string;
+  nav: number;
+  price: number;
+  disparityPct: number;
+}
+
 export interface MarketBriefingPayload {
   asOfDate: string;
   publicationVersion: number;
@@ -89,6 +98,10 @@ export interface MarketBriefingPayload {
   allTop10TradeSharePct: number;
   generalAumWeightedReturnPct: number;
   top50WeightedReturnPct?: number;
+  disparityAlerts?: {
+    overvalued: DisparityItem[];
+    undervalued: DisparityItem[];
+  };
   assetClasses: AssetClassItem[];
   focusEtfs: FocusEtfItem[];
   peerGroups?: PeerGroupItem[];

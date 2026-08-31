@@ -7,74 +7,114 @@ export interface ThreadsPost {
 
 export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: string): ThreadsPost[] {
   const dateStr = payload.asOfDate || "2026-08-28";
-  const formattedDate = dateStr.replace(/-/g, ".");
-  const temp = payload.marketTemperature || "하락 우세";
-  const kospiClose = payload.kospiClose || 6788.88;
   const kospiChangePct = payload.kospiChangePct ?? -1.79;
-  const aumJo = ((payload.generalTotalAum || 3851607) / 10000).toFixed(1);
-  const up = payload.upCount || 350;
-  const down = payload.downCount || 637;
-
   const etfReturn = payload.generalAumWeightedReturnPct ?? -0.86;
   const etfSign = etfReturn > 0 ? "+" : "";
-  const spread = etfReturn - kospiChangePct;
-  const spreadSign = spread > 0 ? "+" : "";
-
-  const utmLink = `${baseUrl}/briefing?utm_source=threads&utm_medium=social&utm_campaign=daily_briefing_${dateStr.replace(/-/g, "")}`;
-
   const sign = kospiChangePct > 0 ? "+" : "";
+  const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];
+  const strongThemeText = strongThemes.length > 0 
+    ? strongThemes.map(t => `${t.peerGroup}(+${t.cappedAumWeightedReturnPct.toFixed(2)}%)`).join(', ') 
+    : "필수소비재, 배당 등 방어형 자산";
+  const topInflow = payload.periodicFlows?.dailyFundFlows?.topInflows?.[0];
+  const topInflowName = topInflow?.name || "KODEX 200";
+  const topInflowAmount = topInflow?.inflow ? topInflow.inflow.toLocaleString() : "5,325";
 
-  // 1단: 강력한 Hook & 감정적 질문
-  const post1 = `어제 코스피가 -1.79% 급락할 때, 한국 ETF 시장은 -0.86%로 +0.93%p 초과 방어력을 보여줬습니다. 🛡️
+  const mainPost = `출근길 ETF 모닝 브리핑
 
-글로벌 분산과 K-푸드/원자재가 버텨주는 가운데, 오히려 스마트머니는 5,325억원을 쓸어담았습니다. 💸
+지난 장 코스피가 ${sign}${kospiChangePct.toFixed(2)}% 출렁였지만, 한국 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 든든한 방어력을 보여줬습니다.
+하락장 속에서도 ${strongThemeText} 테마는 환하게 웃었네요.
 
-📊 ${formattedDate} 시장 체온: '${temp}'
-• 코스피: ${kospiClose.toLocaleString()}pt (${sign}${kospiChangePct.toFixed(2)}%)
-• 일반 ETF 가중수익률: ${etfSign}${etfReturn.toFixed(2)}% (${spreadSign}${spread.toFixed(2)}%p 방어 🛡️)
-• 시장 AUM: ${aumJo}조원 (상승 ${up} vs 하락 ${down})
+외국인과 기관은 ${topInflowName} 등을 ${topInflowAmount}억원 담으며, 고변동성 종목에서 필수소비재와 고배당 등 방어형 자산으로의 뚜렷한 자금 이동을 보여줬습니다.
 
-오늘 큰손들이 저가 줍줍한 종목과 섹터 로테이션을 뜯어봤습니다. 🧵👇`;
+Q. 장 시작 전, 여러분의 오늘 포지션은?
+1. "조정은 바겐세일!" (우량 ETF 분할 매수)
+2. "방패를 들 시간!" (안전자산 및 배당 확대)
+3. "일단 팝콘각!" (현금 쥐고 관망)
 
-  // 2단: 핵심 데이터와 섹터 로테이션 Context
-  const post2 = `[오늘의 특징 테마 & 섹터 로테이션 요약 📊]
+든든한 하루 보내세요!`;
 
-🔥 강세 테마
-1️⃣ $069500 (KODEX 200) : 기관 대규모 저가 매수세 유입
-2️⃣ $379800 (KODEX 미국S&P500TR) : 환율 방어 & 해외 배당 수급
-3️⃣ $448290 (PLUS 고배당주) : 금리 인하 기대감에 방어주 부각
+  const replyPost = `내 계좌 속 ETF는 지난 장에서 어디쯤 있었을까요?
 
-❄️ 약세 테마
-• $305540 (2차전지소재) : 차익실현 및 숨고르기 진행
-
-무작정 지수가 오른 게 아니라, '성장 ➔ 배당·안정형'으로의 명확한 자금 이동이 관전 포인트입니다.`;
-
-  // 3단: 투자자를 위한 실질 행동 지침 (Actionable Insight)
-  const post3 = `[그렇다면 투자자는 어떻게 대응해야 할까요? 💡]
-
-1. 연금/퇴직연금 장기 투자자:
-단기 등락에 흔들리기보다, YTD(연초 대비) 우상향 궤적을 그리는 대표지수 & 월배당 ETF를 차분히 모아갈 구간입니다.
-
-2. 액티브/스윙 트레이더:
-괴리율이 정상 범위(0.2% 미만)로 안정화되고 있으므로, 거래량이 급증한 대형 섹터 로테이션 선두주자에 주목할 만합니다.
-
-👉 [62개 테마 인터랙티브 롱숏 맵 풀버전 확인]
-${utmLink}`;
-
-  // 4단: 토론 유발 & 참여형 CTA
-  const post4 = `[여러분의 포트폴리오는 지금 어느 쪽에 더 가깝나요? 💬]
-
-1️⃣ 변동성을 즐긴다 (빅테크/반도체 저가 줍줍)
-2️⃣ 방어가 최선이다 (고배당/단기채 비중 확대)
-
-댓글로 여러분의 오늘 투자 전략을 공유해 주세요! 💬👇
-
-* 본 자료는 투자 판단을 위한 정보 제공 목적이며 특정 종목의 매수/매도 권유가 아닙니다.`;
+외국인이 쓸어 담은 종목부터 주도 테마 상세 분석까지,
+프로필 링크에서 바로 확인해 보세요!`;
 
   return [
-    { sequence: 1, content: post1 },
-    { sequence: 2, content: post2 },
-    { sequence: 3, content: post3 },
-    { sequence: 4, content: post4 },
+    { sequence: 1, content: mainPost },
+    { sequence: 2, content: replyPost }
   ];
+}
+
+export function generateThreadsImageSvg(payload: MarketBriefingPayload): string {
+  const dateStr = payload.asOfDate || "2026.08.28";
+  const formattedDate = dateStr.replace(/-/g, '.');
+  
+  const winners = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0)
+    .sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct).slice(0, 3) || [];
+  const losers = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct < 0)
+    .sort((a, b) => a.cappedAumWeightedReturnPct - b.cappedAumWeightedReturnPct).slice(0, 3) || [];
+
+  const formatNum = (n: number) => (n > 0 ? "+" : "") + n.toFixed(2) + "%";
+
+  let winnersSvg = "";
+  if (winners.length > 0) {
+    const w1 = winners[0];
+    winnersSvg += `
+      <rect x="60" y="225" width="600" height="505" rx="24" fill="#EF4444" opacity="0.95" />
+      <text x="360" y="465" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="44" font-weight="800" text-anchor="middle">${w1.peerGroup}</text>
+      <text x="360" y="540" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="76" font-weight="900" text-anchor="middle">${formatNum(w1.cappedAumWeightedReturnPct)}</text>
+    `;
+  }
+  if (winners.length > 1) {
+    const w2 = winners[1];
+    winnersSvg += `
+      <rect x="680" y="225" width="340" height="242" rx="20" fill="#EF4444" opacity="0.8" />
+      <text x="850" y="335" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="32" font-weight="800" text-anchor="middle">${w2.peerGroup}</text>
+      <text x="850" y="390" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="46" font-weight="900" text-anchor="middle">${formatNum(w2.cappedAumWeightedReturnPct)}</text>
+    `;
+  }
+  if (winners.length > 2) {
+    const w3 = winners[2];
+    winnersSvg += `
+      <rect x="680" y="487" width="340" height="243" rx="20" fill="#EF4444" opacity="0.65" />
+      <text x="850" y="597" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="30" font-weight="800" text-anchor="middle">${w3.peerGroup}</text>
+      <text x="850" y="652" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="40" font-weight="900" text-anchor="middle">${formatNum(w3.cappedAumWeightedReturnPct)}</text>
+    `;
+  }
+
+  let losersSvg = "";
+  if (losers.length > 0) {
+    const l1 = losers[0];
+    losersSvg += `
+      <rect x="60" y="745" width="600" height="505" rx="24" fill="#3B82F6" opacity="0.95" />
+      <text x="360" y="985" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="44" font-weight="800" text-anchor="middle">${l1.peerGroup}</text>
+      <text x="360" y="1060" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="76" font-weight="900" text-anchor="middle">${formatNum(l1.cappedAumWeightedReturnPct)}</text>
+    `;
+  }
+  if (losers.length > 1) {
+    const l2 = losers[1];
+    losersSvg += `
+      <rect x="680" y="745" width="340" height="242" rx="20" fill="#3B82F6" opacity="0.8" />
+      <text x="850" y="855" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="32" font-weight="800" text-anchor="middle">${l2.peerGroup}</text>
+      <text x="850" y="910" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="46" font-weight="900" text-anchor="middle">${formatNum(l2.cappedAumWeightedReturnPct)}</text>
+    `;
+  }
+  if (losers.length > 2) {
+    const l3 = losers[2];
+    losersSvg += `
+      <rect x="680" y="1007" width="340" height="243" rx="20" fill="#3B82F6" opacity="0.65" />
+      <text x="850" y="1117" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="30" font-weight="800" text-anchor="middle">${l3.peerGroup}</text>
+      <text x="850" y="1172" fill="#FFFFFF" font-family="'Pretendard', sans-serif" font-size="40" font-weight="900" text-anchor="middle">${formatNum(l3.cappedAumWeightedReturnPct)}</text>
+    `;
+  }
+
+  return `<svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1080" height="1350" fill="#0F172A" />
+    <rect x="60" y="75" width="240" height="42" rx="10" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+    <text x="180" y="103" fill="#38BDF8" font-family="'Pretendard', sans-serif" font-size="20" font-weight="800" text-anchor="middle">기준일 : ${formattedDate} 종가</text>
+    <text x="60" y="178" fill="#F8FAFC" font-family="'Pretendard', sans-serif" font-size="54" font-weight="900">상승/하락 주도 테마 히트맵</text>
+    ${winnersSvg}
+    ${losersSvg}
+    <rect x="60" y="1265" width="960" height="54" rx="27" fill="#1E293B" stroke="#475569" stroke-width="1.5" />
+    <text x="540" y="1300" fill="#F8FAFC" font-family="'Pretendard', sans-serif" font-size="23" font-weight="700" text-anchor="middle">전체 시장 브리핑 리포트는 프로필 링크 확인  ·  etf-campus.pages.dev</text>
+  </svg>`;
 }

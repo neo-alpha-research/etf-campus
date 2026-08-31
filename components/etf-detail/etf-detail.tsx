@@ -181,7 +181,12 @@ export function EtfDetail({
                         <div className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-[calc(100%+8px)] w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] font-sans font-normal">
                           <div className="absolute -top-1.5 left-4 sm:left-1/2 sm:-translate-x-1/2 border-[6px] border-transparent border-b-neutral-900/95" />
                           <div className="text-[12px] font-black text-brand-300 mb-1">추적 오차율 (Tracking Error)</div>
-                          <div className="text-[11px] text-neutral-200 leading-tight">과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 숫자가 낮을수록 지수를 안정적으로 잘 추종함을 의미합니다.</div>
+                          <div className="text-[11px] text-neutral-200 leading-tight mb-1.5">과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 숫자가 낮을수록 지수를 안정적으로 잘 추종함을 의미합니다.</div>
+                          {etf.name.includes("액티브") && (
+                            <div className="text-[11px] bg-brand-900/40 text-brand-200 p-2 rounded border border-brand-700/50 mt-1">
+                              💡 <strong>액티브 ETF 안내:</strong> 펀드매니저가 비교지수 대비 초과수익을 목표로 적극적으로 자산을 운용하므로, 패시브 ETF보다 <strong>추적오차율이 자연스럽게 높게 나타납니다.</strong>
+                            </div>
+                          )}
                         </div>
                       </span>
                     )}

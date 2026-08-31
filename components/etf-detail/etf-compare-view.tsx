@@ -502,7 +502,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                       <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
                         <span className="text-[13px] font-black text-emerald-400">추적오차율이란?</span>
                         <span className="text-[10px] text-neutral-300 font-mono bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
-                          배당 조정 순수 운용 지표
+                          KRX 공식 지표
                         </span>
                       </div>
                       
@@ -517,13 +517,8 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                         </div>
                       </div>
 
-                      <div className="text-[11px] text-sky-200 bg-sky-950/70 rounded-lg p-2.5 leading-relaxed border border-sky-800/60 mb-2">
-                        <strong className="text-sky-300 block mb-0.5">🔍 배당 조정 투명 공시:</strong>
-                        거래소 단순 공시치는 배당락(약 2%)이 오차로 잡히는 착시가 있습니다. 본 서비스는 <strong>배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]</strong>를 제공합니다.
-                      </div>
-
-                      <div className="text-[10.5px] text-neutral-400">
-                        💡 액티브 ETF는 펀드매니저의 초과수익 추구로 추적오차율이 상대적으로 높게 나타납니다.
+                      <div className="text-[11px] text-neutral-400 bg-neutral-800/50 p-2 rounded-lg border border-neutral-700/50">
+                        💡 <strong>액티브 ETF의 경우</strong>, 펀드매니저가 초과수익을 목표로 적극 운용하므로 <strong>패시브 ETF 대비 추적오차율이 자연스럽게 높게</strong> 나타납니다. 이는 운용 결함이 아닙니다.
                       </div>
                     </div>
                   </div>

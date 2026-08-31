@@ -89,6 +89,7 @@ export function useCompareBasket(allEtfs?: readonly Etf[]) {
   }, [resolveEtfs, persistTickers]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     loadBasket();
     

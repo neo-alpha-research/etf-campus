@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import fs from "fs";
-import path from "path";
 
+import booksMetadata from "@/content/external-books/_metadata.json";
 import { Tickery } from "@/components/brand/tickery";
 import { BooksIndex } from "@/components/learning/books-index";
 import { ExternalBooksIndex } from "@/components/learning/external-books-index";
@@ -11,17 +10,7 @@ export const metadata: Metadata = { title: "도서·리뷰", description: "운�
 
 export default function BooksPage() {
   const externalBooks = loadExternalBooks();
-  
-  let lastUpdated = "업데이트 예정";
-  try {
-    const metaPath = path.join(process.cwd(), "content/external-books/_metadata.json");
-    if (fs.existsSync(metaPath)) {
-      const meta = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
-      if (meta.lastUpdated) lastUpdated = meta.lastUpdated;
-    }
-  } catch {
-    // Ignore missing metadata file
-  }
+  const lastUpdated = booksMetadata.lastUpdated || "2026. 8. 31.";
 
   return <main className="page-shell flex-1 pt-4 pb-5 sm:pt-6 sm:pb-7">
     <div className="flex items-center justify-between gap-4 rounded-2xl bg-brand-50/70 px-4 py-3.5 sm:px-6 sm:py-4">

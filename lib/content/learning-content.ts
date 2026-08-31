@@ -60,6 +60,7 @@ export type ExternalBook = LearningExampleMetadata & {
   rating: number;
   reviewCount: number;
   ratingSource: string;
+  shortTargetTag?: string;
   irpEligible: boolean;
   oneLineReview: string;
   summary: string;

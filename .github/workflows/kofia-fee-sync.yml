@@ -1,0 +1,50 @@
+name: KOFIA Fee Registry Sync
+
+on:
+  schedule:
+    # 매월 1일 오전 2시 (KST 기준 오전 11시) 실행
+    - cron: '0 2 1 * *'
+  workflow_dispatch: # 수동 실행 트리거
+
+jobs:
+  sync-and-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔄 Run KOFIA Scraping Pipeline
+        run: npx tsx scripts/sync-kofia-fees.ts
+        env:
+          NODE_ENV: production
+
+      - name: 🔀 Create Pull Request (Human-in-the-loop)
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(data): KOFIA 월간 실부담 총비용(합성보수) 정기 동기화"
+          title: "🔄 KOFIA 실질비용 월간 동기화 (자동화)"
+          body: |
+            ## 📊 KOFIA 전자공시 ETF 비용 데이터 업데이트
+
+            `scripts/sync-kofia-fees.ts` 파이프라인에 의해 자동 생성된 PR입니다.
+            이번 달 수집된 기타비용 및 매매중개수수료를 기존 레지스트리에 병합했습니다.
+
+            ### 🛡️ 체크리스트 (운영자 리뷰용)
+            - [ ] `etf_fee_registry.json` 파일의 `diff`를 확인하여 튀는 값(Anomaly)이 없는지 검토해주세요.
+            - [ ] 서킷 브레이커 통과 여부를 Actions 로그에서 확인하세요.
+            
+            > **전문가 위원회 권고사항:** 데이터를 병합하기 전에 `ter_pct` 또는 `trading_cost_pct`가 ±0.5%p 이상 급격하게 변한 종목이 없는지 주의 깊게 살펴보시기 바랍니다.
+          branch: auto-sync/kofia-fees
+          delete-branch: true
+          labels: "data-update, human-review-required"

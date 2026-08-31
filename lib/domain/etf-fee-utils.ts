@@ -3,7 +3,7 @@ import { Etf } from "./etf-types";
 /**
  * 합성 총보수(실부담 총비용) 산출: TER(명목보수+기타비용) + 매매중개수수료율
  */
-export function getSyntheticFee(etf: Etf): number | null {
+export function getSyntheticFee(etf: any): number | null {
   if (!etf.fee) return null;
   if (etf.fee.totalFeePct === null) return null;
 
@@ -17,7 +17,7 @@ export function getSyntheticFee(etf: Etf): number | null {
  * 상장 1년 미만 신규 ETF 여부 판별 (비용 왜곡 마스킹 목적)
  * 기준 시점: ETF 데이터의 기준일 (asOfDate)
  */
-export function isNewEtfForFeeMasking(etf: Etf): boolean {
+export function isNewEtfForFeeMasking(etf: any): boolean {
   if (!etf.listingDate || !etf.asOfDate) return false;
   
   const listingDate = new Date(etf.listingDate);
@@ -39,7 +39,7 @@ export type FeeDisplayContext = {
 /**
  * 컴플라이언스 및 마스킹 룰을 적용한 최종 UI 렌더링용 보수 컨텍스트 산출
  */
-export function getFeeDisplayContext(etf: Etf): FeeDisplayContext {
+export function getFeeDisplayContext(etf: any): FeeDisplayContext {
   const nominalFee = etf.fee?.totalFeePct ?? null;
   const syntheticFee = getSyntheticFee(etf);
   

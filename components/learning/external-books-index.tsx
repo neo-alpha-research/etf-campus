@@ -214,6 +214,7 @@ export function ExternalBooksIndex({
                   </Link>
                 </div>
               </article>
+            );
           })
         )}
       </div>

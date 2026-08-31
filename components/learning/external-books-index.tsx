@@ -132,6 +132,9 @@ export function ExternalBooksIndex({
                               {(((book.kyoboRating ?? book.rating) + (book.yes24Rating ?? book.rating) + (book.aladinRating ?? book.rating)) / 3).toFixed(1)} / 5.0
                             </span>
                           </div>
+                          <p className="mt-1.5 text-[9px] text-neutral-400 leading-tight">
+                            ※ 카드 순위는 서점 누적 판매량(베스트셀러) 기준입니다.
+                          </p>
                         </div>
                       </div>
 
@@ -185,13 +188,13 @@ export function ExternalBooksIndex({
                   <div>
                     <div className="flex items-center gap-1.5 mb-1 flex-wrap">
                       <span className="rounded-md bg-brand-800 px-1.5 py-0.5 text-[10px] font-black text-white">
-                        TOP {filteredBooks.indexOf(book) + 1}
+                        베스트셀러 {filteredBooks.indexOf(book) + 1}위
                       </span>
                       <span className="rounded-md bg-indigo-100 text-indigo-700 px-1.5 py-0.5 text-[10px] font-bold border border-indigo-200">
                         {book.shortTargetTag ? `🎯 ${book.shortTargetTag}` : book.category === "초보·입문" ? "🎯 사회초년생 입문" : book.category === "연금·절세" ? "🎯 연금저축·IRP" : "🎯 월배당 파이프라인"}
                       </span>
-                      <span className="text-[11px] font-bold text-brand-700 ml-auto">
-                        {book.category} {filteredBooks.indexOf(book) + 1}위
+                      <span className="text-[11px] font-bold text-neutral-500 ml-auto">
+                        판매량 {filteredBooks.indexOf(book) + 1}위
                       </span>
                     </div>
                     <h3 className="text-sm sm:text-base font-extrabold tracking-[-0.02em] text-strong line-clamp-2 leading-snug">

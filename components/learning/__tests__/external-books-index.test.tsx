@@ -10,7 +10,7 @@ describe("ExternalBooksIndex", () => {
     render(<ExternalBooksIndex books={books} />);
 
     // Check rank badges
-    expect(screen.getAllByText(/TOP 1/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/베스트셀러 1위/).length).toBeGreaterThanOrEqual(1);
 
     // Check detail link href is /books/review/[slug]
     const reviewLinks = screen.getAllByRole("link", { name: /리뷰 상세 보기/ });

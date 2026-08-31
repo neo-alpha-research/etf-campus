@@ -35,7 +35,7 @@ export default function BooksPage() {
     
     <div className="mt-5 flex flex-col gap-1">
       <h2 className="text-lg sm:text-xl font-extrabold tracking-[-0.03em] text-strong">독자 리뷰 종합 리포트</h2>
-      <p className="text-xs sm:text-sm text-muted">국내 빅 3 서점 독자들의 실제 리뷰와 평점을 교차 검증하여, 핵심만 객관적으로 요약했습니다.</p>
+      <p className="text-xs sm:text-sm text-muted">국내 대형 서점 실시간 누적 판매량(베스트셀러) 순으로 선정하고, 빅 3 서점 평점과 리뷰를 교차 검증하여 요약했습니다.</p>
     </div>
     <ExternalBooksIndex books={externalBooks} lastUpdated={lastUpdated} />
 

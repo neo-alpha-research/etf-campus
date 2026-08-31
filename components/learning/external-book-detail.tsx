@@ -95,6 +95,9 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
                     {(((book.kyoboRating ?? book.rating) + (book.yes24Rating ?? book.rating) + (book.aladinRating ?? book.rating)) / 3).toFixed(1)} / 5.0
                   </span>
                 </div>
+                <p className="mt-1.5 text-[9px] text-neutral-400 leading-tight">
+                  ※ 도서 추천 순위는 서점 누적 판매량(베스트셀러) 기준입니다.
+                </p>
               </div>
             </div>
           </div>

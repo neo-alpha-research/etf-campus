@@ -2404,23 +2404,21 @@ export function MarketBriefing() {
                       <span className="text-[11px] font-semibold text-neutral-400">Stock 규모 성장</span>
                     </div>
 
-                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-36 sm:h-40 items-end pt-5 pb-2 bg-white/70 rounded-xl px-3 border border-[#E8EFE0]">
+                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-40 sm:h-44 items-end pt-6 pb-2 bg-white/70 rounded-xl px-3 border border-[#E8EFE0]">
                       {points.map((pt: any, idx: number) => {
                         const aumJo = (pt.aum / 10000).toFixed(1);
                         const aumRatio = maxAum > minAum ? (pt.aum - minAum) / (maxAum - minAum) : 0.5;
-                        const barHeightPct = Math.max(aumRatio * 45 + 35, 20); // 35% ~ 80%
+                        const barHeightPct = Math.max(aumRatio * 38 + 25, 20); // 25% ~ 63%
                         const changeAmount = pt.aumChange ?? 0;
-                        const changeJo = (changeAmount / 10000).toFixed(1);
+                        const changeJo = (Math.abs(changeAmount) / 10000).toFixed(1);
                         const isLatest = idx === points.length - 1;
 
                         return (
-                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
+                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group">
                             {isLatest && (
-                              <div className="absolute -top-3.5 z-20 flex flex-col items-center pointer-events-none">
-                                <span className="text-[9.5px] sm:text-[10.5px] font-black text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-full shadow-xs border border-emerald-300 tabular-nums whitespace-nowrap">
-                                  {changeAmount >= 0 ? `▲ +${changeJo}조` : `▼ ${changeJo}조`}
-                                </span>
-                              </div>
+                              <span className="text-[9px] sm:text-[10px] font-black text-emerald-900 bg-emerald-100 px-1.5 py-0.5 rounded-full shadow-2xs border border-emerald-300 tabular-nums whitespace-nowrap mb-1">
+                                {changeAmount >= 0 ? `▲ +${changeJo}조` : `▼ -${changeJo}조`}
+                              </span>
                             )}
                             <span className="text-[11px] sm:text-xs font-black text-[#1F4E12] tabular-nums mb-1 tracking-tight">
                               {aumJo}조
@@ -2450,27 +2448,25 @@ export function MarketBriefing() {
                       <span className="text-[11px] font-semibold text-neutral-400">Flow 유동성 활성도</span>
                     </div>
 
-                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-36 sm:h-40 items-end pt-5 pb-2 bg-white/70 rounded-xl px-3 border border-[#E0EDF8]">
+                    <div className="grid grid-cols-5 gap-2 sm:gap-4 h-40 sm:h-44 items-end pt-6 pb-2 bg-white/70 rounded-xl px-3 border border-[#E0EDF8]">
                       {points.map((pt: any, idx: number) => {
                         const adtvJo = (pt.adtv / 10000).toFixed(1);
                         const adtvRatio = maxAdtv > minAdtv ? (pt.adtv - minAdtv) / (maxAdtv - minAdtv) : 0.5;
-                        const barHeightPct = Math.max(adtvRatio * 45 + 35, 20); // 35% ~ 80%
+                        const barHeightPct = Math.max(adtvRatio * 38 + 25, 20); // 25% ~ 63%
                         const adtvChangeAmount = pt.adtvChange ?? (idx > 0 ? pt.adtv - points[idx - 1].adtv : 0);
                         const adtvChangeJo = (Math.abs(adtvChangeAmount) / 10000).toFixed(1);
                         const isLatest = idx === points.length - 1;
 
                         return (
-                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group relative">
+                          <div key={pt.key || idx} className="flex flex-col items-center h-full justify-end group">
                             {isLatest && (
-                              <div className="absolute -top-3.5 z-20 flex flex-col items-center pointer-events-none">
-                                <span className={`text-[9.5px] sm:text-[10.5px] font-black px-2 py-0.5 rounded-full shadow-xs border tabular-nums whitespace-nowrap ${
-                                  adtvChangeAmount >= 0 
-                                    ? "text-sky-900 bg-sky-100 border-sky-300" 
-                                    : "text-blue-900 bg-blue-100 border-blue-300"
-                                }`}>
-                                  {adtvChangeAmount >= 0 ? `▲ +${adtvChangeJo}조` : `▼ -${adtvChangeJo}조`}
-                                </span>
-                              </div>
+                              <span className={`text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 rounded-full shadow-2xs border tabular-nums whitespace-nowrap mb-1 ${
+                                adtvChangeAmount >= 0 
+                                  ? "text-sky-900 bg-sky-100 border-sky-300" 
+                                  : "text-blue-900 bg-blue-100 border-blue-300"
+                              }`}>
+                                {adtvChangeAmount >= 0 ? `▲ +${adtvChangeJo}조` : `▼ -${adtvChangeJo}조`}
+                              </span>
                             )}
                             <span className="text-[10.5px] sm:text-[11.5px] font-black text-[#0369A1] tabular-nums mb-1 tracking-tight">
                               {adtvJo}조

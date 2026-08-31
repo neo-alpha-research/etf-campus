@@ -102,9 +102,21 @@ def update_master_draft(tracking_errors: dict[str, float]) -> None:
     logging.info(f"Updated {updated_count} rows with tracking error data.")
 
 if __name__ == "__main__":
-    import datetime
-    # Use yesterday as default trading day (approximation)
-    trd_dd = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y%m%d")
+    # Use bas_dt from etf_master_draft.csv to match the target date of the current run
+    master_path = Path("data/etf_master_draft.csv")
+    trd_dd = ""
+    if master_path.exists():
+        with master_path.open(encoding="utf-8-sig", newline="") as f:
+            reader = csv.DictReader(f)
+            first_row = next(reader, None)
+            if first_row and "bas_dt" in first_row:
+                trd_dd = first_row["bas_dt"].strip()
+                
+    if not trd_dd:
+        import datetime
+        trd_dd = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y%m%d")
+
+    logging.info(f"Fetching Tracking Error for date: {trd_dd}")
     te_data = fetch_krx_tracking_error(trd_dd)
     if te_data:
         update_master_draft(te_data)

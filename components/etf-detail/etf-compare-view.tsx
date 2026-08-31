@@ -240,75 +240,6 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 </tr>
               )}
 
-              {/* 실부담비용 */}
-              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
-                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>실부담비용</span>
-                    <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
-                      <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
-                        <span className="text-[13px] font-black text-emerald-400">실부담비용이란?</span>
-                        <span className="text-[10.5px] font-bold text-slate-300 bg-slate-800 border border-slate-700/80 px-2 py-0.5 rounded-full">
-                          실제 차감 총비용
-                        </span>
-                      </div>
-                      <p className="text-[11.5px] text-slate-100 leading-relaxed mb-3 font-normal">
-                        광고에 표기되는 <strong>기본 간판 보수</strong> 외에, 펀드 운용 중 발생하는 <strong>모든 숨은 비용(주식 매매수수료 + 회계/전산 유지비)</strong>을 합산한 <strong>투자자 실제 부담 비용</strong>입니다.
-                      </p>
-                      <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
-                        <div className="flex items-center justify-between text-slate-200">
-                          <span className="flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-brand-400 shrink-0" />
-                            <strong className="text-white">명목보수</strong>
-                          </span>
-                          <span className="text-[11px] text-slate-300">기본 간판 운용 수수료</span>
-                        </div>
-                        <div className="flex items-center justify-between text-slate-200">
-                          <span className="flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-sky-400 shrink-0" />
-                            <strong className="text-white">기타비용</strong>
-                          </span>
-                          <span className="text-[11px] text-slate-300">예탁원·지수사용 펀드 유지비</span>
-                        </div>
-                        <div className="flex items-center justify-between text-slate-200">
-                          <span className="flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-orange-400 shrink-0" />
-                            <strong className="text-white">매매수수료</strong>
-                          </span>
-                          <span className="text-[11px] text-slate-300">주식 매매 시 발생하는 거래비용</span>
-                        </div>
-                      </div>
-                      <div className="text-[11.5px] text-emerald-300 bg-emerald-950/60 rounded-lg p-2.5 leading-relaxed border border-emerald-800/60">
-                        <p className="text-emerald-200 font-medium">
-                          별도 납부 없이 매일 펀드 순자산(수익률)에서 자동 차감되므로, <strong>동일 지수를 추종한다면 실부담비용이 낮은 ETF를 선택하는 것이 장기 성과에 유리</strong>합니다.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </th>
-                {compareList.map((etf, index) => {
-                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                  const align =
-                    index === compareList.length - 1
-                      ? "right"
-                      : index === 0
-                      ? "left"
-                      : "center";
-                  return (
-                    <td key={etf.ticker} className={`border-b border-r border-neutral-200 px-1 py-1.5 transition-colors align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
-                      <FeeStackedBar
-                        etf={etf}
-                        isLowest={etf.ticker === lowestSyntheticTicker}
-                        maxFee={maxSyntheticFee}
-                        align={align}
-                      />
-                    </td>
-                  );
-                })}
-              </tr>
-
               {/* 순자산 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
@@ -419,6 +350,75 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   </tr>
                 );
               })}
+
+              {/* 실부담비용 (수익률 바로 아래 배치) */}
+              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
+                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
+                    <span>실부담비용</span>
+                    <span className="text-[10px] text-neutral-400">ⓘ</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
+                        <span className="text-[13px] font-black text-emerald-400">실부담비용이란?</span>
+                        <span className="text-[10.5px] font-bold text-slate-300 bg-slate-800 border border-slate-700/80 px-2 py-0.5 rounded-full">
+                          실제 차감 총비용
+                        </span>
+                      </div>
+                      <p className="text-[11.5px] text-slate-100 leading-relaxed mb-3 font-normal">
+                        광고에 표기되는 <strong>기본 간판 보수</strong> 외에, 펀드 운용 중 발생하는 <strong>모든 숨은 비용(주식 매매수수료 + 회계/전산 유지비)</strong>을 합산한 <strong>투자자 실제 부담 비용</strong>입니다.
+                      </p>
+                      <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
+                        <div className="flex items-center justify-between text-slate-200">
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-brand-400 shrink-0" />
+                            <strong className="text-white">명목보수</strong>
+                          </span>
+                          <span className="text-[11px] text-slate-300">기본 간판 운용 수수료</span>
+                        </div>
+                        <div className="flex items-center justify-between text-slate-200">
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0" />
+                            <strong className="text-white">기타비용</strong>
+                          </span>
+                          <span className="text-[11px] text-slate-300">예탁원·지수사용 펀드 유지비</span>
+                        </div>
+                        <div className="flex items-center justify-between text-slate-200">
+                          <span className="flex items-center gap-1.5">
+                            <span className="w-2.5 h-2.5 rounded-full bg-orange-400 shrink-0" />
+                            <strong className="text-white">매매수수료</strong>
+                          </span>
+                          <span className="text-[11px] text-slate-300">주식 매매 시 발생하는 거래비용</span>
+                        </div>
+                      </div>
+                      <div className="text-[11.5px] text-emerald-300 bg-emerald-950/60 rounded-lg p-2.5 leading-relaxed border border-emerald-800/60">
+                        <p className="text-emerald-200 font-medium">
+                          별도 납부 없이 매일 펀드 순자산(수익률)에서 자동 차감되므로, <strong>동일 지수를 추종한다면 실부담비용이 낮은 ETF를 선택하는 것이 장기 성과에 유리</strong>합니다.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                {compareList.map((etf, index) => {
+                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  const align =
+                    index === compareList.length - 1
+                      ? "right"
+                      : index === 0
+                      ? "left"
+                      : "center";
+                  return (
+                    <td key={etf.ticker} className={`border-b border-r border-neutral-200 px-1 py-1.5 transition-colors align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
+                      <FeeStackedBar
+                        etf={etf}
+                        isLowest={etf.ticker === lowestSyntheticTicker}
+                        maxFee={maxSyntheticFee}
+                        align={align}
+                      />
+                    </td>
+                  );
+                })}
+              </tr>
 
               {/* 괴리율 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">

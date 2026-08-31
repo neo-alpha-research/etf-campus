@@ -322,6 +322,30 @@ export function EtfDetail({
                       </div>
                     </div>
                   </div>
+                  
+                  {/* 추적 오차율 추가 */}
+                  {etf.trackingError != null && (
+                    <div className="flex flex-col justify-center group relative cursor-help">
+                      <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
+                        추적 오차율
+                        <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </dt>
+                      <dd className="mt-1 text-lg font-bold text-strong font-mono tabular-nums">
+                        {etf.trackingError.toFixed(2)}%
+                      </dd>
+                      
+                      <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none">
+                        <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
+                          과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 
+                          <br/><br/>
+                          <span className="text-brand-300 font-bold">숫자가 낮을수록</span> ETF가 목표 기초지수를 잘 추종하고 있음을 의미하는 신뢰 지표입니다.
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex flex-col justify-center group relative cursor-help">
                     <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
                       기본 수익률 기준

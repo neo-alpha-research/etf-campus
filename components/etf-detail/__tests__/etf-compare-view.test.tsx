@@ -98,7 +98,7 @@ describe("EtfCompareView selectionReasons", () => {
 
     const badges = screen.getAllByTestId("smart-advantage-badge");
     expect(badges.length).toBeGreaterThan(0);
-    expect(screen.getByText("최저 보수 🥇")).toBeDefined();
+    expect(screen.getByText("최저 비용 🥇")).toBeDefined();
     expect(screen.getByText("거래대금 1위 💧")).toBeDefined();
     expect(screen.getByText("순자산 1위 🏛️")).toBeDefined();
     expect(screen.getByText("1년 성과 1위 📈")).toBeDefined();

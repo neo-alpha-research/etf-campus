@@ -12,9 +12,11 @@ const DEFAULT_CATEGORIES: readonly ExternalBookCategory[] = ["초보·입문", "
 export function ExternalBooksIndex({
   books,
   categories = DEFAULT_CATEGORIES,
+  lastUpdated = "업데이트 예정",
 }: {
   books: ExternalBook[];
   categories?: readonly ExternalBookCategory[];
+  lastUpdated?: string;
 }) {
   const [activeCategory, setActiveCategory] = useState<ExternalBookCategory>(categories[0] ?? "초보·입문");
 
@@ -43,36 +45,37 @@ export function ExternalBooksIndex({
           ))}
         </div>
         
-        <div className="relative group cursor-help">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-brand-700 bg-brand-50 px-3 py-2 rounded-lg border border-brand-200 transition-colors hover:bg-brand-100">
-            <Bot className="h-4 w-4 text-brand-600 shrink-0" />
-            <span>데이터 기반 AI 선정 기준 ℹ️</span>
-          </div>
-          
-          <div className="absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 top-full mt-2 w-[300px] rounded-xl bg-white p-4 shadow-xl border border-line opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-left">
-            <h4 className="font-extrabold text-sm text-strong mb-3 flex items-center gap-1.5">
-              <Bot className="w-4 h-4 text-brand-600"/> 데이터 기반 100% 자동 큐레이션
-            </h4>
-            <ul className="text-xs text-neutral-700 space-y-2.5 font-medium leading-relaxed">
-              <li className="flex items-start gap-1.5">
-                <span className="text-brand-500 mt-0.5 font-bold">1.</span>
-                <span><strong>시장성 검증:</strong> 국내 주요 서점 누적 판매지수 상위 1% 이내의 공인된 베스트셀러</span>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <span className="text-brand-500 mt-0.5 font-bold">2.</span>
-                <span><strong>대중성 검증:</strong> 실구매자 평균 평점 4.0 이상 (표본 100건 이상)</span>
-              </li>
-              <li className="flex items-start gap-1.5">
-                <span className="text-brand-500 mt-0.5 font-bold">3.</span>
-                <span><strong>AI 심층 분석:</strong> 도서 목차, 서평, 독자 피드백 키워드를 AI 알고리즘이 종합 분석하여 실전 투자 적용성이 높은 도서 자동 선별</span>
-              </li>
-            </ul>
-            <div className="mt-3.5 pt-3 border-t border-line/50">
-              <p className="text-[10.5px] text-neutral-500 leading-tight">
-                ※ 본 큐레이션은 운영자의 주관을 배제하고, 객관적 판매 데이터와 AI 분석 모델을 연동하여 시스템에 의해 정기적으로 자동 업데이트됩니다.
-              </p>
+        <div className="flex flex-col items-end gap-1.5">
+          <div className="relative group cursor-help">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-brand-700 bg-brand-50 px-3 py-2 rounded-lg border border-brand-200 transition-colors hover:bg-brand-100">
+              <Bot className="h-4 w-4 text-brand-600 shrink-0" />
+              <span>데이터 기반 AI 선정 기준 ℹ️</span>
+            </div>
+            
+            <div className="absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 top-full mt-2 w-[300px] rounded-xl bg-white p-4 shadow-xl border border-line opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-left">
+              <h4 className="font-extrabold text-sm text-strong mb-3 flex items-center gap-1.5">
+                <Bot className="w-4 h-4 text-brand-600"/> 데이터 기반 100% 자동 큐레이션
+              </h4>
+              <ul className="text-xs text-neutral-700 space-y-2.5 font-medium leading-relaxed">
+                <li className="flex items-start gap-1.5">
+                  <span className="text-brand-500 mt-0.5 font-bold">1.</span>
+                  <span><strong>시장성 검증:</strong> 국내 빅 3 서점(알라딘, 교보, 예스24) 누적 판매지수 상위권 공인 베스트셀러</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-brand-500 mt-0.5 font-bold">2.</span>
+                  <span><strong>대중성 확보:</strong> 특정 서점 왜곡을 막기 위한 <strong>빅 3 통합 평점 4.0 이상</strong> 압도적 호평 도서</span>
+                </li>
+                <li className="flex items-start gap-1.5">
+                  <span className="text-brand-500 mt-0.5 font-bold">3.</span>
+                  <span><strong>AI 페르소나 분석:</strong> 6인의 고객 페르소나와 전문가 위원회가 난상토론하여 장/단점을 추출</span>
+                </li>
+              </ul>
+              <div className="mt-4 pt-3 border-t border-line text-[10px] text-neutral-400 font-medium">
+                운영자의 주관이 전혀 개입되지 않은 알고리즘 선정 결과입니다.
+              </div>
             </div>
           </div>
+          <span className="text-[11px] font-medium text-neutral-500 mr-1">업데이트: {lastUpdated} 기준</span>
         </div>
       </div>
 
@@ -135,7 +138,7 @@ export function ExternalBooksIndex({
                         TOP {filteredBooks.indexOf(book) + 1}
                       </span>
                       <span className="rounded-md bg-indigo-100 text-indigo-700 px-1.5 py-0.5 text-[10px] font-bold border border-indigo-200">
-                        {book.category === "초보·입문" ? "👶 사회초년생 추천" : book.category === "연금·절세" ? "💼 직장인 필수" : "🏖️ 은퇴 준비 추천"}
+                        {book.shortTargetTag ? `🎯 ${book.shortTargetTag}` : book.category === "초보·입문" ? "👶 사회초년생 추천" : book.category === "연금·절세" ? "💼 직장인 필수" : "🏖️ 은퇴 준비 추천"}
                       </span>
                       <span className="text-[11px] font-bold text-brand-700 ml-auto">
                         {book.category} {filteredBooks.indexOf(book) + 1}위
@@ -211,33 +214,7 @@ export function ExternalBooksIndex({
                   </Link>
                 </div>
               </article>
-            );
-          }).flatMap((element, idx) => 
-            idx === 1 
-              ? [
-                  element,
-                  <article key="inline-promo" className="flex flex-col justify-center items-center rounded-2xl border-2 border-dashed border-brand-200 bg-brand-50 p-6 text-center transition-colors hover:bg-brand-100 h-full">
-                    <div className="mb-3 rounded-full bg-brand-100 p-3 text-brand-600">
-                      <BookOpen className="h-6 w-6" />
-                    </div>
-                    <h3 className="mb-2 text-sm font-extrabold text-brand-900">
-                      초보자를 위한 실전 가이드
-                    </h3>
-                    <p className="mb-4 text-xs font-medium text-brand-700/80 leading-relaxed">
-                      감정을 끄고 시스템으로 수익을 내는<br/>캠퍼스 오리지널 전자책
-                    </p>
-                    <a
-                      href="https://ctee.kr/item/store/99321"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex w-full min-h-[40px] items-center justify-center rounded-xl bg-brand-800 px-4 text-xs font-bold text-white transition-colors hover:bg-brand-900 shadow-sm"
-                    >
-                      오리지널 전자책 보기 ↗
-                    </a>
-                  </article>
-                ] 
-              : [element]
-          )
+          })
         )}
       </div>
 

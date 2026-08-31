@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Suspense, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { Tickery } from "@/components/brand/tickery";
-import { AsOfDate, PensionBadge, ReturnCell } from "@/components/etf";
+import { AsOfDate, PensionBadge, ReturnCell, FeeDoubleStack } from "@/components/etf";
 import { getClassificationFields } from "@/lib/domain/etf-classification";
 import { formatAsOfDate, formatAumNumber, formatMoney, formatTradeValueNumber, formatWonNumber } from "@/lib/domain/etf-format";
 import {
@@ -805,7 +805,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                   );
                 })}
                 
-                <th aria-label="총보수, 단위 퍼센트" className="min-w-[54px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-l border-neutral-200 border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="총보수" unit="%" /></th>
+                <th aria-label="투자자 실부담 총비용, 단위 퍼센트" className="min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-l border-neutral-200 border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="실부담비용" unit="%" /></th>
                 <th aria-label="순자산, 단위 억원" className="min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
                 <th aria-label="거래대금, 단위 억원" className="min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
                 <th aria-label="종가, 단위 원" className="min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
@@ -887,8 +887,10 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                       );
                     })}
                     
-                    {/* 3. 총보수 */}
-                    <td className="min-w-[54px] px-1 py-1 text-right font-semibold tabular-nums text-muted border-l border-neutral-100 font-mono">{(etf.fee?.verificationStatus === "verified_official" || etf.fee?.verificationStatus === "official_single_source") && etf.fee.totalFeePct !== null ? etf.fee.totalFeePct.toFixed(2) : "-"}</td>
+                    {/* 3. 총보수(실부담) */}
+                    <td className="min-w-[64px] px-1 py-1 text-right border-l border-neutral-100 align-middle">
+                      <FeeDoubleStack etf={etf} />
+                    </td>
                     {/* 4. 순자산 */}
                     <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatAumNumber(etf.aum)}</td>
                     {/* 5. 거래대금 */}

@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { formatWon, formatMoney, formatFeePct } from "@/lib/domain/etf-format";
-import { ReturnCell, RiskBadge, AsOfDate } from "@/components/etf";
+import { formatWon, formatMoney, formatFeePct, formatAumNumber, formatWonNumber, formatTradeValueNumber } from "@/lib/domain/etf-format";
+import { ReturnCell, RiskBadge, AsOfDate, FeeStackedBar } from "@/components/etf";
 import type { Etf, ReturnPeriod } from "@/lib/domain/etf-types";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
+import { getSyntheticFee, isNewEtfForFeeMasking } from "@/lib/domain/etf-fee-utils";
 
 type Props = {
   mainEtf?: Etf;
@@ -40,6 +41,22 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
     e.pension !== compareList[0]?.pension ||
     e.riskType !== compareList[0]?.riskType
   );
+  
+  const { maxSyntheticFee, lowestSyntheticTicker } = useMemo(() => {
+    let max = 0;
+    let min = Infinity;
+    let lowestTicker = "";
+    compareList.forEach(e => {
+      if (isNewEtfForFeeMasking(e)) return;
+      const fee = getSyntheticFee(e);
+      if (fee !== null) {
+        if (fee > max) max = fee;
+        if (fee < min) { min = fee; lowestTicker = e.ticker; }
+      }
+    });
+    return { maxSyntheticFee: max, lowestSyntheticTicker: lowestTicker };
+  }, [compareList]);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,10 +89,6 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
       </div>
     );
   }
-
-  const getFee = (e: Etf) => e.fee?.totalFeePct;
-  const validFees = compareList.map(getFee).filter((f): f is number => typeof f === "number" && f > 0);
-  const minFee = validFees.length > 0 ? Math.min(...validFees) : null;
 
   const validTrades = compareList.map((e) => e.tradeValue).filter((t): t is number => typeof t === "number" && t > 0);
   const maxTrade = validTrades.length > 0 ? Math.max(...validTrades) : null;
@@ -110,7 +123,6 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const reasons = selectionReasons?.get(etf.ticker) || [];
-                  const feePct = getFee(etf);
                   return (
                     <th key={etf.ticker} className={`relative px-2.5 py-3 min-w-[145px] sm:min-w-[160px] border-b border-r border-neutral-200 font-bold text-strong align-top transition-colors ${isBase ? "bg-brand-100/80 shadow-[inset_0_3px_0_0_#0f766e]" : "bg-neutral-100 backdrop-blur"}`}>
                       <div className="flex flex-col items-center text-center gap-1 w-full">
@@ -130,13 +142,13 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                         </Link>
                         {compareList.length > 1 && (
                           <div className="flex flex-wrap justify-center gap-1 mt-0.5">
-                            {minFee !== null && feePct === minFee && (
+                            {lowestSyntheticTicker === etf.ticker && (
                               <span
                                 data-testid="smart-advantage-badge"
                                 className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-emerald-100/90 text-emerald-800 border border-emerald-300 shadow-xs"
-                                title={`총보수 ${formatFeePct(feePct)} (비교군 중 최저)`}
+                                title="비교군 중 실부담비용 최저"
                               >
-                                최저 보수 🥇
+                                최저 비용 🥇
                               </span>
                             )}
                             {maxTrade !== null && etf.tradeValue === maxTrade && (
@@ -228,36 +240,32 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 </tr>
               )}
 
-              {/* 총보수 */}
+              {/* 실부담비용 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>총보수</span>
+                    <span>실부담비용</span>
                     <span className="text-[10px] text-neutral-400">ⓘ</span>
                     <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
                       <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
                       <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
-                        <span className="text-[12px] font-black text-brand-300">총보수 (Total Fee)</span>
+                        <span className="text-[12px] font-black text-brand-300">투자자 실부담 총비용</span>
                         <span className="text-[10px] text-neutral-400 font-mono">연간</span>
                       </div>
                       <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
-                        ETF를 보유하는 동안 연 단위로 차감되는 운용·신탁 등의 총비용 비율입니다.
+                        총보수·비용비율(TER) 및 매매·중개수수료율을 합산한 실제 부담 비용입니다.
                       </p>
                       <div className="text-[10.5px] text-emerald-200/95 bg-emerald-500/10 rounded-md p-1.5 leading-snug border border-emerald-500/20">
-                        <strong className="text-emerald-300">💡 팁:</strong> 장기 적립식 또는 연금 계좌일수록 보수가 낮을수록 복리 수익에 절대적으로 유리합니다.
+                        <strong className="text-emerald-300">💡 팁:</strong> 신탁보수(명목)가 낮더라도 기타비용이 커서 실비용이 비쌀 수 있습니다. 비교 시 막대그래프 전체 길이를 확인하세요.
                       </div>
                     </div>
                   </div>
                 </th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                  const feeInfo = etf.fee;
-                  const hasFee = feeInfo?.totalFeePct != null;
                   return (
-                    <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
-                      <span className={`text-[11.5px] font-bold tabular-nums font-mono ${hasFee ? "text-strong" : "text-muted"}`}>
-                        {formatFeePct(feeInfo?.totalFeePct)}
-                      </span>
+                    <td key={etf.ticker} className={`border-b border-r border-neutral-200 px-1 py-1.5 transition-colors align-middle ${isBase ? "bg-brand-50/40" : ""}`}>
+                      <FeeStackedBar etf={etf} isLowest={etf.ticker === lowestSyntheticTicker} maxFee={maxSyntheticFee} />
                     </td>
                   );
                 })}

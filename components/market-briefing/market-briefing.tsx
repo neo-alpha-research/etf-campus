@@ -840,7 +840,7 @@ export function MarketBriefing() {
   return (
     <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12">
       {/* Master Hero Header */}
-      <header className="pt-2">
+      <header className="pt-0">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-neutral-200/80">
           <div>
             <div className="flex items-center gap-2 mb-2">

@@ -10,10 +10,10 @@ import {
   ArrowRight,
   ExternalLink,
   Info,
+  Target,
 } from "lucide-react";
 
 import { CrossSellBanner } from "@/components/learning/cross-sell-banner";
-import { MarkdownContent } from "@/components/markdown/markdown-content";
 import type { ExternalBook } from "@/lib/content/learning-content";
 
 export function ExternalBookDetail({ book }: { book: ExternalBook }) {
@@ -139,6 +139,28 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
         </div>
       </section>
 
+      {/* 🎯 이런 분께 강력 추천합니다 (추천 대상 및 선정 근거 카드) */}
+      {(book.targetPersona || book.targetRationale) && (
+        <section className="mt-6 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-5 sm:p-6 shadow-2xs">
+          <div className="flex items-center gap-2 text-sm font-extrabold text-indigo-950 mb-3 border-b border-indigo-200/70 pb-2.5">
+            <Target className="h-4 w-4 text-indigo-600 shrink-0" />
+            <span>🎯 이런 투자자분께 강력 추천합니다</span>
+          </div>
+          <div className="space-y-2 text-xs sm:text-sm text-neutral-800 leading-relaxed">
+            {book.targetPersona && (
+              <p>
+                <strong className="font-bold text-indigo-950">[추천 대상]</strong> {book.targetPersona}
+              </p>
+            )}
+            {book.targetRationale && (
+              <p className="text-neutral-700">
+                <strong className="font-bold text-indigo-950">[선정 근거]</strong> {book.targetRationale}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* Pros & Cons 2열 대칭 패널 (E 고객: 동등한 무게감, 색상 단독 의존 금지) */}
       <section className="mt-8">
         <h2 className="text-xl font-extrabold tracking-[-0.03em] text-strong mb-4">
@@ -217,14 +239,6 @@ export function ExternalBookDetail({ book }: { book: ExternalBook }) {
           </div>
         </section>
       )}
-
-      {/* 마크다운 본문 영역 */}
-      <section className="mt-8 rounded-2xl border border-line bg-surface p-5 sm:p-8">
-        <h2 className="text-xl font-extrabold tracking-[-0.03em] text-strong mb-6 pb-3 border-b border-line">
-          도서 심층 리뷰 및 상세 분석
-        </h2>
-        <MarkdownContent source={book.content} />
-      </section>
 
       {/* 제휴 구매처 배너 */}
       {book.affiliateUrl && (

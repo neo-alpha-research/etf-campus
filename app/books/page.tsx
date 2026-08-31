@@ -21,7 +21,7 @@ export default function BooksPage() {
     }
   } catch (e) {}
 
-  return <main className="page-shell flex-1 py-5 sm:py-7">
+  return <main className="page-shell flex-1 pt-4 pb-5 sm:pt-6 sm:pb-7">
     <div className="flex items-center justify-between gap-4 rounded-2xl bg-brand-50/70 px-4 py-3.5 sm:px-6 sm:py-4">
       <div>
         <p className="eyebrow text-xs">Campus Library</p>

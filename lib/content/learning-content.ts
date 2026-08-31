@@ -64,6 +64,8 @@ export type ExternalBook = LearningExampleMetadata & {
   reviewCount: number;
   ratingSource: string;
   shortTargetTag?: string;
+  targetPersona?: string;
+  targetRationale?: string;
   irpEligible: boolean;
   oneLineReview: string;
   summary: string;
@@ -260,6 +262,9 @@ export function loadExternalBooks(): ExternalBook[] {
       kyoboRating: findMetadataValue(metadata, ["kyoboRating", "kyobo_rating"]) ? Number(findMetadataValue(metadata, ["kyoboRating", "kyobo_rating"])) : undefined,
       reviewCount,
       ratingSource: requiredWithAliases(metadata, ["ratingSource", "rating_source"], filename),
+      shortTargetTag: findMetadataValue(metadata, ["shortTargetTag", "short_target_tag"]),
+      targetPersona: findMetadataValue(metadata, ["targetPersona", "target_persona"]),
+      targetRationale: findMetadataValue(metadata, ["targetRationale", "target_rationale"]),
       irpEligible,
       oneLineReview: requiredWithAliases(metadata, ["oneLineReview", "one_line_review"], filename),
       summary: requiredWithAliases(metadata, ["summary"], filename),

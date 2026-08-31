@@ -319,6 +319,7 @@ summary: ${aiReview.summary.replace(/:/g, ' -').replace(/\n/g, ' ')}
 pros: ${prosText.replace(/:/g, ' -').replace(/\n/g, ' ')}
 cons: ${consText.replace(/:/g, ' -').replace(/\n/g, ' ')}
 targetPersona: ${aiReview.targetPersona.replace(/:/g, ' -').replace(/\n/g, ' ')}
+targetRationale: ${(aiReview.targetRationale || "").replace(/:/g, ' -').replace(/\n/g, ' ')}
 shortTargetTag: ${aiReview.shortTargetTag.replace(/:/g, ' -').replace(/\n/g, ' ')}
 coverImage: ${book.coverUrl}
 affiliateUrl: ${book.link}

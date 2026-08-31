@@ -151,7 +151,7 @@ function TutorialContent() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
+    <div className="mx-auto max-w-4xl px-4 pt-2 pb-24 sm:pt-6 sm:pb-32 space-y-4 sm:space-y-6">
       {/* 🏛️ Top 3-Tab Segmented Navigation Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 p-1.5 rounded-2xl bg-neutral-100/90 border border-neutral-200/90 shadow-inner">
         <div className="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-1">

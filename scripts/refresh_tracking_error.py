@@ -3,76 +3,97 @@ import json
 import logging
 import time
 from pathlib import Path
-
-import requests
+import datetime
+import urllib.parse
+from playwright.sync_api import sync_playwright
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-KRX_MDC_URL = "http://data.krx.co.kr/comm/bldAttendant/getJsonData.cmd"
-
 def fetch_krx_tracking_error(trd_dd: str) -> dict[str, float]:
     """
-    KRX 정보데이터시스템 (data.krx.co.kr) 에서 전종목 기본정보(MDCSTAT04601) 또는 
-    전종목 시세(MDCSTAT04301) 등을 통해 추적오차율 데이터를 수집합니다.
-    (현재 WAF 등에 의해 로컬 차단이 발생할 수 있으나, 정상 응답 시 데이터를 파싱합니다.)
+    Playwright(Headless Browser)를 사용하여 KRX 정보데이터시스템의 WAF를 우회하고 
+    추적오차율 데이터를 안정적으로 수집합니다.
     """
-    session = requests.Session()
-    session.headers.update({
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Referer': 'http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201010101',
-        'Origin': 'http://data.krx.co.kr',
-        'X-Requested-With': 'XMLHttpRequest'
-    })
-
-    # Get initial cookies
-    try:
-        session.get('http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201010101', timeout=10)
-    except Exception as e:
-        logging.warning(f"Failed to get initial cookies: {e}")
-
-    # OTP Request
-    url_otp = 'http://data.krx.co.kr/comm/fileDn/GenerateOTP/generate.cmd'
-    data_otp = {
-        'mktId': 'ALL',
-        'trdDd': trd_dd,
-        'share': '1',
-        'money': '1',
-        'csvxls_isNo': 'false',
-        'name': 'fileDown',
-        'url': 'dbms/MDC/STAT/standard/MDCSTAT04301'
-    }
+    tracking_errors = {}
     
-    try:
-        otp = session.post(url_otp, data=data_otp, timeout=10).text
-        if otp == "LOGOUT" or not otp:
-            logging.error("KRX OTP fetch returned LOGOUT or empty. WAF blocking active.")
-            return {}
-    except Exception as e:
-        logging.error(f"OTP request failed: {e}")
-        return {}
-
-    # Download Data
-    url_dn = 'http://data.krx.co.kr/comm/fileDn/download_csv/download.cmd'
-    try:
-        res = session.post(url_dn, data={'code': otp}, timeout=15)
-        res.encoding = 'euc-kr'
+    with sync_playwright() as p:
+        # headless=True 로 백그라운드 실행 (CI 환경 최적화)
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        )
+        page = context.new_page()
         
-        # Parse CSV
-        reader = csv.DictReader(res.text.splitlines())
-        tracking_errors = {}
-        for row in reader:
-            # KRX CSV 컬럼명에 따라 수정 필요. 일반적으로 '종목코드', '추적오차율' 등 포함
-            ticker = row.get('종목코드', '').strip()
-            te_str = row.get('추적오차율', '').strip()
-            if ticker and te_str:
-                try:
-                    tracking_errors[ticker] = float(te_str)
-                except ValueError:
-                    pass
-        return tracking_errors
-    except Exception as e:
-        logging.error(f"Failed to download or parse KRX data: {e}")
-        return {}
+        try:
+            # 1. 메인 페이지 접속을 통해 세션 및 쿠키(WAF 토큰 등) 발급
+            logging.info("Visiting KRX main page to bypass WAF...")
+            page.goto("http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201010101", wait_until="domcontentloaded")
+            
+            # 2. OTP 발급 (AJAX Request 에뮬레이션)
+            logging.info("Fetching OTP...")
+            otp_response = page.evaluate('''async (trdDd) => {
+                const formData = new URLSearchParams();
+                formData.append('mktId', 'ALL');
+                formData.append('trdDd', trdDd);
+                formData.append('share', '1');
+                formData.append('money', '1');
+                formData.append('csvxls_isNo', 'false');
+                formData.append('name', 'fileDown');
+                formData.append('url', 'dbms/MDC/STAT/standard/MDCSTAT04301');
+                
+                const res = await fetch('/comm/fileDn/GenerateOTP/generate.cmd', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: formData.toString()
+                });
+                return await res.text();
+            }''', trd_dd)
+            
+            if not otp_response or "LOGOUT" in otp_response:
+                logging.error(f"OTP fetch failed or returned LOGOUT. Response: {otp_response}")
+                return tracking_errors
+
+            # 3. CSV 데이터 다운로드
+            logging.info("Downloading CSV data via OTP...")
+            csv_response = page.evaluate('''async (otp) => {
+                const formData = new URLSearchParams();
+                formData.append('code', otp);
+                
+                const res = await fetch('/comm/fileDn/download_csv/download.cmd', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: formData.toString()
+                });
+                
+                // EUC-KR 디코딩
+                const buffer = await res.arrayBuffer();
+                const decoder = new TextDecoder('euc-kr');
+                return decoder.decode(buffer);
+            }''', otp_response)
+            
+            # 파싱
+            reader = csv.DictReader(csv_response.splitlines())
+            for row in reader:
+                ticker = row.get('종목코드', '').strip()
+                te_str = row.get('추적오차율', '').strip()
+                if ticker and te_str:
+                    try:
+                        tracking_errors[ticker] = float(te_str)
+                    except ValueError:
+                        pass
+                        
+            logging.info(f"Successfully parsed {len(tracking_errors)} tracking errors.")
+        except Exception as e:
+            logging.error(f"Playwright crawling failed: {e}")
+        finally:
+            browser.close()
+
+    return tracking_errors
 
 def update_master_draft(tracking_errors: dict[str, float]) -> None:
     master_path = Path("data/etf_master_draft.csv")
@@ -102,7 +123,6 @@ def update_master_draft(tracking_errors: dict[str, float]) -> None:
     logging.info(f"Updated {updated_count} rows with tracking error data.")
 
 if __name__ == "__main__":
-    # Use bas_dt from etf_master_draft.csv to match the target date of the current run
     master_path = Path("data/etf_master_draft.csv")
     trd_dd = ""
     if master_path.exists():
@@ -113,7 +133,6 @@ if __name__ == "__main__":
                 trd_dd = first_row["bas_dt"].strip()
                 
     if not trd_dd:
-        import datetime
         trd_dd = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y%m%d")
 
     logging.info(f"Fetching Tracking Error for date: {trd_dd}")

@@ -111,13 +111,13 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
       <div className="relative rounded-2xl border border-line bg-surface overflow-hidden shadow-sm">
         <div 
           ref={scrollRef}
-          className="relative text-center overflow-x-auto overscroll-x-contain scroll-smooth [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]" 
+          className="relative text-center overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]" 
           role="region" 
           aria-label="ETF 비교 표. 좌우로 스크롤할 수 있습니다." 
           tabIndex={0}
         >
           <table className="w-full table-fixed text-sm border-separate border-spacing-0" style={{ tableLayout: "fixed" }}>
-            <thead className="sticky top-0 z-30 shadow-[0_2px_0_0_#e5e7eb]">
+            <thead className="shadow-[0_2px_0_0_#e5e7eb]">
               <tr>
                 <th className={`sticky left-0 z-40 w-[104px] min-w-[104px] max-w-[110px] bg-neutral-100 backdrop-blur px-2.5 py-3 text-xs sm:text-sm font-extrabold text-neutral-700 border-b border-r border-line transition-shadow duration-200 align-middle text-center ${shadowClass}`}>비교 항목</th>
                 {compareList.map((etf) => {

@@ -73,9 +73,9 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
         )}
       </div>
       
-      {/* Clean 3-Tier Breakdown Tooltip on hover */}
-      <div className={`absolute top-[calc(100%+6px)] ${positionClass} w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]`}>
-        <div className={`absolute -top-1.5 ${arrowClass} border-[6px] border-transparent border-b-neutral-900/98`} />
+      {/* Clean 3-Tier Breakdown Tooltip on hover (Pops upwards into spacious return rows above) */}
+      <div className={`absolute bottom-[calc(100%+6px)] ${positionClass} w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]`}>
+        <div className={`absolute -bottom-1.5 ${arrowClass} border-[6px] border-transparent border-t-neutral-900/98`} />
         
         <div className="flex items-center justify-between pb-2 mb-2 border-b border-neutral-700/80">
           <span className="font-extrabold text-[13px] text-white">실부담 비용 상세 내역</span>

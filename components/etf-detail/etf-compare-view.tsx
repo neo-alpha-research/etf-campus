@@ -357,8 +357,8 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>실부담비용</span>
                     <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                    <div className="absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
                       <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
                         <span className="text-[13px] font-black text-emerald-400">실부담비용이란?</span>
                         <span className="text-[10.5px] font-bold text-slate-300 bg-slate-800 border border-slate-700/80 px-2 py-0.5 rounded-full">
@@ -426,8 +426,8 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>괴리율</span>
                     <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                    <div className="absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
                       <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
                         <span className="text-[13px] font-black text-emerald-400">괴리율이란?</span>
                         <span className="text-[10px] text-neutral-400 font-mono bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
@@ -497,21 +497,28 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                   <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
                     <span>추적오차율</span>
                     <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-72 p-3.5 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
-                      <div className="flex items-center justify-between gap-1 mb-1.5 pb-1 border-b border-neutral-700/50">
-                        <span className="text-[12px] font-black text-brand-300">추적 오차율 (Tracking Error)</span>
-                        <span className="text-[10px] text-neutral-400 font-mono">신뢰 지표</span>
+                    <div className="absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
+                        <span className="text-[13px] font-black text-emerald-400">추적 오차율이란?</span>
+                        <span className="text-[10px] text-neutral-400 font-mono bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
+                          지수 복제 정밀도
+                        </span>
                       </div>
                       
-                      <div className="text-[11px] mb-2 leading-tight text-neutral-200">
-                        과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성(표준편차)입니다.
+                      <p className="text-xs text-slate-100 leading-relaxed mb-3 font-normal">
+                        과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 <strong>일간 수익률 차이의 변동성(표준편차)</strong>입니다.
+                      </p>
+
+                      <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
+                        <div className="flex items-start gap-2 text-slate-200">
+                          <span className="text-emerald-400 font-bold shrink-0">• 숫자가 낮을수록:</span>
+                          <span>운용사가 목표 기초지수를 <strong>안정적이고 완벽하게 복제</strong>하고 있음을 의미합니다.</span>
+                        </div>
                       </div>
-                      <div className="text-[11px] mb-2 leading-tight text-neutral-200">
-                        <strong className="text-blue-300 font-bold">숫자가 낮을수록</strong> ETF가 목표 기초지수를 안정적으로 잘 추종하고 있음을 의미합니다.
-                      </div>
-                      <div className="text-[10.5px] text-brand-200/95 bg-brand-500/10 rounded-md p-1.5 leading-snug border border-brand-500/20">
-                        💡 액티브 ETF는 펀드매니저의 개입으로 추적 오차율이 패시브 ETF보다 상대적으로 높게 나타납니다.
+
+                      <div className="text-[11.5px] text-brand-300 bg-brand-950/60 rounded-lg p-2.5 leading-relaxed border border-brand-800/60">
+                        💡 액티브 ETF는 펀드매니저의 재량 개입으로 패시브 ETF보다 추적 오차율이 상대적으로 높게 나타납니다.
                       </div>
                     </div>
                   </div>

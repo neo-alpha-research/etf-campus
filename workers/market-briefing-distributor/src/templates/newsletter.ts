@@ -34,7 +34,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
   const assetClasses = payload.assetClasses && payload.assetClasses.length > 0 ? payload.assetClasses : [];
   
   // Use actual top inflows, fallback to fundFlow or empty array
-  const topInflows: any[] = (payload.fundFlow?.general?.topInflows || payload.periodicFlows?.dailyFundFlows?.topInflows || []) as any[];
+  const topInflows: any[] = (payload.periodicFlows?.dailyFundFlows?.topInflows || []) as any[];
 
   const html = `<!DOCTYPE html>
 <html lang="ko">

@@ -553,54 +553,25 @@ async function run() {
 
     <!-- TAB 3: Newsletter HTML -->
     <section id="panel-newsletter" class="hidden space-y-6">
-      <div class="bg-slate-800 p-4 rounded-2xl flex items-center justify-between">
+      <div class="bg-slate-800 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
         <div>
-          <span class="text-xs text-slate-400">제목:</span>
-          <span class="font-bold text-white text-sm ml-2">🚨 [QA 테스트] 🚨 ${newsletter.subject}</span>
+          <span class="text-xs text-slate-400">이메일 제목:</span>
+          <span class="font-bold text-white text-sm ml-2">${newsletter.subject}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="./newsletter.html" target="_blank" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+            <span>🌐 새 창에서 이메일 전체보기</span>
+          </a>
         </div>
       </div>
-      <div class="bg-[#0F172A] rounded-2xl overflow-hidden shadow-2xl p-8 border border-slate-700 flex flex-col items-center">
-        <div class="max-w-[520px] w-full">
-          <div class="mb-3 text-center">
-            <span class="inline-block bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
-              💡 화면 속 ETF 종목(티커)을 터치하시면 상세 분석 페이지로 바로 이동합니다!
-            </span>
-          </div>
-          <img src="./email_snapshot.png" class="w-full rounded-2xl shadow-2xl border border-slate-700" alt="Full Email Snapshot" />
-          
-          <!-- Bottom CTA Banners Preview in Dashboard -->
-          <div class="mt-6 space-y-4 text-center">
-            <!-- Banner 1: Market Briefing Features -->
-            <a href="${baseUrl}/briefing" target="_blank" class="block p-5 rounded-2xl text-center shadow-lg transition hover:opacity-90" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 1px solid #10B981; text-decoration: none;">
-              <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-white/20 text-white mb-1.5">
-                ✨ ETF 시장 전수 분석 일일 리포트
-              </span>
-              <div class="text-base font-black text-white leading-snug">
-                📊 테마별 동향 &amp; 스마트머니 펀드 플로우 보러가기 👉
-              </div>
-              <div class="text-xs text-emerald-200 mt-1 font-medium">
-                KRX 공시 전수 데이터 기반 · 일간 마켓 브리핑
-              </div>
-            </a>
 
-            <!-- Banner 2: Munpia Novel -->
-            <a href="https://nlink.munpia.com/link/munpia/novel/578267" target="_blank" class="block p-5 rounded-2xl text-center shadow-lg transition hover:opacity-90" style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border: 1px solid #334155; text-decoration: none;">
-              <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-600 text-white mb-1.5">
-                🔥 문피아 인기 금융 웹소설
-              </span>
-              <div class="text-base font-black text-slate-100 leading-snug">
-                📚 여의도 펀드매니저들의 치열한 두뇌 싸움 <span class="text-amber-300">&lt;알파를 읽는 자&gt;</span> 감상 ➔
-              </div>
-              <div class="text-xs text-slate-400 mt-1 font-medium">
-                신규 에피소드 매일 업데이트 · 지금 무료로 읽기
-              </div>
-            </a>
+      <div class="bg-[#0F172A] rounded-2xl overflow-hidden shadow-2xl p-6 border border-slate-700 flex flex-col items-center">
+        <div class="max-w-[680px] w-full bg-slate-900 p-3 rounded-2xl border border-slate-800">
+          <div class="flex items-center justify-between px-3 py-2 text-xs text-slate-400 border-b border-slate-800 mb-3">
+            <span class="font-bold text-slate-300">✉️ 반응형 HTML 뉴스레터 라이브 뷰 (620px 이메일 표준 규격)</span>
+            <span class="text-[11px] bg-slate-800 px-2 py-0.5 rounded text-emerald-400 font-bold">100% 팩트 정합성 검증</span>
           </div>
-
-          <p class="mt-8 text-[12px] text-slate-400 leading-relaxed text-center">
-            본 메일은 ETF 캠퍼스 뉴스레터 자동 발송 테스트입니다.<br/>
-            © 2026 ETF Campus. All rights reserved.
-          </p>
+          <iframe src="./newsletter.html" class="w-full h-[1180px] rounded-xl border border-slate-700 bg-white" title="뉴스레터 미리보기"></iframe>
         </div>
       </div>
     </section>

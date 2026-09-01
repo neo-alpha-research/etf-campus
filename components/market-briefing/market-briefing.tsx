@@ -1859,65 +1859,71 @@ export function MarketBriefing() {
             const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.78);
 
             return (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-6 mb-8 border-b border-neutral-100">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-6 mb-8 border-b border-neutral-100">
                 {/* 1. 당일 총 운용자산 */}
-                <div className="bg-[#FAFDF4] rounded-2xl p-4 border border-[#E2EBD6]">
-                  <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                    <span>🏦</span> 당일 총 운용자산
+                <div className="bg-[#FAFDF4] rounded-2xl p-4 sm:p-5 border border-[#E2EBD6] flex flex-col justify-between">
+                  <div className="flex items-center justify-between text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1">
+                    <span className="flex items-center gap-1"><span>🏦</span> 당일 총 운용자산</span>
                     <InfoTooltip 
                       text="국내 상장된 모든 ETF의 순자산가치(NAV) 합계로, 시장에 안착해 있는 총 자본의 크기입니다."
                       side="bottom"
                       align="left"
                     />
-                  </p>
-                  <div className="flex items-baseline gap-1.5 mt-1">
-                    <span className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 tabular-nums">
-                      {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalAumEok / 10000)}
-                    </span>
-                    <span className="text-sm font-bold text-neutral-500">조원</span>
-                    <span className="ml-auto text-[11.5px] font-bold text-neutral-400 tabular-nums">
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 mt-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 tabular-nums">
+                        {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalAumEok / 10000)}
+                      </span>
+                      <span className="text-sm font-bold text-neutral-500">조원</span>
+                    </div>
+                    <span className="text-[11.5px] font-bold text-neutral-400 tabular-nums whitespace-nowrap">
                       {number.format(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개 종목
                     </span>
                   </div>
                 </div>
 
                 {/* 2. 당일 총 거래대금 */}
-                <div className="bg-[#F8FBFE] rounded-2xl p-4 border border-[#D5E6F5]">
-                  <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                    <span>⚡</span> 당일 총 거래대금
+                <div className="bg-[#F8FBFE] rounded-2xl p-4 sm:p-5 border border-[#D5E6F5] flex flex-col justify-between">
+                  <div className="flex items-center justify-between text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1">
+                    <span className="flex items-center gap-1"><span>⚡</span> 당일 총 거래대금</span>
                     <InfoTooltip 
                       text="오늘 하루 시장에서 매수·매도 거래된 총 금액으로, 시장의 유동성과 활성도를 나타냅니다."
                       side="bottom"
                       align="left"
                     />
-                  </p>
-                  <div className="flex items-baseline gap-1.5 mt-1">
-                    <span className="text-3xl sm:text-4xl font-black tracking-tight text-blue-900 tabular-nums">
-                      {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalTradeEok / 10000)}
-                    </span>
-                    <span className="text-sm font-bold text-blue-600">조원</span>
-                    <span className="ml-auto text-[11.5px] font-bold text-[#0284C7] bg-[#F0F9FF] px-2 py-0.5 rounded-full border border-[#BAE6FD] tabular-nums">
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 mt-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl sm:text-4xl font-black tracking-tight text-blue-900 tabular-nums">
+                        {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalTradeEok / 10000)}
+                      </span>
+                      <span className="text-sm font-bold text-blue-600">조원</span>
+                    </div>
+                    <span className="text-[11.5px] font-bold text-[#0284C7] bg-[#F0F9FF] px-2 py-0.5 rounded-full border border-[#BAE6FD] tabular-nums whitespace-nowrap">
                       {formatKoreanTradeAmount(totalTradeEok)}
                     </span>
                   </div>
                 </div>
 
                 {/* 3. 당일 시장 회전율 */}
-                <div className="bg-[#FFFBF5] rounded-2xl p-4 border border-[#FED7AA]">
-                  <p className="text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1 flex items-center gap-1">
-                    <span>🔄</span> 일일 시장 회전율
+                <div className="bg-[#FFFBF5] rounded-2xl p-4 sm:p-5 border border-[#FED7AA] flex flex-col justify-between">
+                  <div className="flex items-center justify-between text-[11.5px] font-extrabold text-neutral-500 tracking-[0.05em] mb-1">
+                    <span className="flex items-center gap-1"><span>🔄</span> 일일 시장 회전율</span>
                     <InfoTooltip 
                       text="(당일 총 거래대금 ÷ 당일 총 AUM) × 100. 자산 대비 오늘 하루 손바뀜이 일어난 유동성 회전 속도입니다."
                       side="bottom"
                       align="right"
                     />
-                  </p>
-                  <div className="flex items-baseline gap-1.5 mt-1">
-                    <span className="text-3xl sm:text-4xl font-black tracking-tight text-orange-950 tabular-nums">
-                      {Number(turnover).toFixed(1)}
-                    </span>
-                    <span className="text-sm font-bold text-orange-600">%</span>
-                    <span className="ml-auto text-[11.5px] font-bold text-orange-700/80 bg-orange-100/80 px-2 py-0.5 rounded-full border border-orange-200">
+                  </div>
+                  <div className="flex items-baseline justify-between gap-2 mt-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl sm:text-4xl font-black tracking-tight text-orange-950 tabular-nums">
+                        {Number(turnover).toFixed(1)}
+                      </span>
+                      <span className="text-sm font-bold text-orange-600">%</span>
+                    </div>
+                    <span className="text-[11.5px] font-bold text-orange-700/80 bg-orange-100/80 px-2 py-0.5 rounded-full border border-orange-200 whitespace-nowrap">
                       정상 활성도
                     </span>
                   </div>

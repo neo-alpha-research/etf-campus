@@ -3,82 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[마켓 브리핑] 2026.08.31 ETF 시장 핵심 요약</title>
+  <title>[ETF 마켓 브리핑] 2026.08.31 시장 핵심 요약 & 수급 분석</title>
   <style>
-    body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #0F172A; color: #F8FAFC; -webkit-font-smoothing: antialiased; }
-    .container { max-width: 600px; margin: 0 auto; background-color: #1E293B; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #334155; }
-    .header { background: #0B0F19; padding: 32px 24px; text-align: center; border-bottom: 1px solid #334155; }
-    .badge { display: inline-block; background-color: #2563EB; color: #FFFFFF; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 16px; }
-    .title { font-size: 28px; font-weight: 900; margin: 0 0 8px; color: #F8FAFC; letter-spacing: -0.5px; }
-    .subtitle { font-size: 14px; color: #94A3B8; font-weight: 500; }
+    body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; background-color: #F1F5F9; color: #1E293B; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 620px; margin: 24px auto; background-color: #FFFFFF; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08); border: 1px solid #E2E8F0; }
+    .header { background: linear-gradient(135deg, #064E3B 0%, #047857 100%); padding: 36px 28px; text-align: center; color: #FFFFFF; }
+    .badge { display: inline-block; background-color: rgba(255, 255, 255, 0.2); color: #A7F3D0; padding: 5px 14px; border-radius: 999px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.25); }
+    .title { font-size: 26px; font-weight: 900; margin: 0 0 6px; color: #FFFFFF; letter-spacing: -0.5px; }
+    .subtitle { font-size: 13.5px; color: #D1FAE5; font-weight: 600; }
     .content { padding: 32px 24px; }
     
-    .quote-box { background-color: #0F172A; border-left: 4px solid #38BDF8; padding: 20px; border-radius: 0 8px 8px 0; margin-bottom: 32px; font-size: 16px; line-height: 1.6; font-weight: 600; color: #E2E8F0; }
+    .quote-box { background-color: #F8FAFC; border-left: 4px solid #10B981; padding: 18px 20px; border-radius: 0 12px 12px 0; margin-bottom: 26px; font-size: 15px; line-height: 1.65; font-weight: 600; color: #334155; border-top: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; }
     .tabular { font-variant-numeric: tabular-nums; }
     
-    .quick-cta { display: block; text-align: center; background-color: #334155; color: #F8FAFC !important; text-decoration: none; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: 700; margin-bottom: 32px; }
+    .grid-2 { display: table; width: 100%; margin-bottom: 14px; border-spacing: 0; }
+    .grid-col { display: table-cell; width: 50%; padding: 0 6px; vertical-align: top; box-sizing: border-box; }
     
-    .grid-2 { display: table; width: 100%; margin-bottom: 16px; }
-    .grid-col { display: table-cell; width: 50%; padding: 0 8px; vertical-align: top; box-sizing: border-box; }
+    .metric-card { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px; text-align: center; box-sizing: border-box; }
+    .metric-label { font-size: 11.5px; color: #64748B; font-weight: 700; margin-bottom: 4px; }
+    .metric-value { font-size: 22px; font-weight: 900; margin: 4px 0; color: #0F172A; }
     
-    .metric-card { background-color: #0F172A; border: 1px solid #334155; border-radius: 12px; padding: 20px; text-align: center; height: 100%; box-sizing: border-box; }
-    .metric-label { font-size: 12px; color: #94A3B8; font-weight: 700; }
-    .metric-value { font-size: 22px; font-weight: 900; margin: 6px 0 4px; color: #F8FAFC; }
+    .section-title { margin-top: 30px; margin-bottom: 12px; font-size: 16px; font-weight: 900; color: #0F172A; }
     
-    .table-custom { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px; }
-    .table-custom th { background-color: #1E293B; padding: 12px 10px; text-align: left; font-weight: 700; color: #94A3B8; border-bottom: 2px solid #334155; }
-    .table-custom td { padding: 12px 10px; border-bottom: 1px solid #1E293B; color: #E2E8F0; }
+    .table-custom { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13.5px; border-radius: 12px; overflow: hidden; border: 1px solid #E2E8F0; }
+    .table-custom th { background-color: #F8FAFC; padding: 11px 12px; text-align: left; font-weight: 800; color: #475569; border-bottom: 1px solid #E2E8F0; font-size: 12.5px; }
+    .table-custom td { padding: 11px 12px; border-bottom: 1px solid #F1F5F9; color: #334155; }
+    .table-custom tr:last-child td { border-bottom: none; }
     
-    .btn-primary { display: block; width: 100%; background-color: #2563EB; color: #FFFFFF !important; text-align: center; padding: 16px 0; border-radius: 10px; font-size: 16px; font-weight: 800; text-decoration: none; margin: 32px 0 16px; box-sizing: border-box; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); }
-    .footer { background-color: #0B0F19; padding: 28px 24px; text-align: center; font-size: 12px; color: #64748B; border-top: 1px solid #1E293B; line-height: 1.7; }
-
-    @media (prefers-color-scheme: light) {
-      body { background-color: #F8FAFC; color: #1E293B; }
-      .container { background-color: #FFFFFF; border-color: #E2E8F0; }
-      .header { background: #0F172A; }
-      .quote-box { background-color: #F1F5F9; color: #334155; }
-      .metric-card { background-color: #F8FAFC; border-color: #E2E8F0; }
-      .metric-value { color: #0F172A; }
-      .table-custom th { background-color: #F1F5F9; color: #475569; border-color: #E2E8F0; }
-      .table-custom td { border-color: #F1F5F9; color: #334155; }
-      .section-title { color: #0F172A; }
-      .footer { background-color: #F8FAFC; border-color: #E2E8F0; color: #64748B; }
-    }
+    .btn-primary { display: block; width: 100%; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #FFFFFF !important; text-align: center; padding: 16px 0; border-radius: 12px; font-size: 16px; font-weight: 900; text-decoration: none; margin: 30px 0 10px; box-sizing: border-box; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35); }
+    .footer { background-color: #F8FAFC; padding: 26px 24px; text-align: center; font-size: 12px; color: #64748B; border-top: 1px solid #E2E8F0; line-height: 1.65; }
   </style>
 </head>
 <body>
-  <div style="padding: 24px 12px;">
+  <div style="padding: 16px 8px;">
     <div class="container">
+      <!-- Header -->
       <div class="header">
-        <span class="badge">ETF CAMPUS · 18:30 DAILY BRIEFING</span>
-        <div class="title">2026.08.31 마켓 브리핑</div>
-        <div class="subtitle">국내 상장 ETF 시장 7-STEP 정량 분석 뉴스레터</div>
+        <span class="badge">ETF CAMPUS · DAILY BRIEFING</span>
+        <div class="title">2026.08.31 ETF 마켓 브리핑</div>
+        <div class="subtitle">국내 상장 일반 ETF 1022개 전수 데이터 분석 뉴스레터</div>
       </div>
 
+      <!-- Content -->
       <div class="content">
+        <!-- Headline Quote -->
         <div class="quote-box">
           "일반 ETF 1,022개 중 305개가 상승해 하락 우세 흐름을 보였습니다. KOSPI는 +0.46%, KOSDAQ은 -0.49%였습니다."
         </div>
 
-        <a href="https://etf-campus.pages.dev/briefing?utm_source=newsletter&utm_medium=email&utm_campaign=daily_briefing_20260831" class="quick-cta">
-          👉 1분 만에 오늘의 테마 롱숏 맵 & AUM 브릿지 분석하기 👈
-        </a>
-
+        <!-- 4-Card Overview Grid -->
         <div class="grid-2">
           <div class="grid-col" style="padding-left: 0;">
             <div class="metric-card">
               <div class="metric-label">KOSPI vs 일반 ETF</div>
-              <div class="metric-value tabular" style="font-size: 19px;">
-                <span style="color: #EF4444;">+0.46%</span> / <span style="color: #38BDF8;">-0.28%</span>
+              <div class="metric-value tabular" style="font-size: 18px;">
+                <span style="color: #DC2626;">+0.46%</span> / <span style="color: #2563EB;">-0.28%</span>
               </div>
-              <div style="font-size: 12px; font-weight: 800; color: #10B981;" class="tabular">-0.74%p 초과 방어력</div>
+              <div style="font-size: 11px; font-weight: 700; color: #64748B;">KOSDAQ -0.49%</div>
             </div>
           </div>
           <div class="grid-col" style="padding-right: 0;">
             <div class="metric-card">
               <div class="metric-label">시장 체온 (등락 분포)</div>
-              <div class="metric-value" style="color: #38BDF8;">하락 우세</div>
-              <div style="font-size: 12px; color: #94A3B8;" class="tabular">상승 305 · 보합 47 · 하락 670</div>
+              <div class="metric-value" style="color: #2563EB; font-size: 18px;">하락 우세</div>
+              <div style="font-size: 11px; color: #64748B;" class="tabular">상승 305 · 보합 47 · 하락 670</div>
             </div>
           </div>
         </div>
@@ -86,138 +74,196 @@
         <div class="grid-2">
           <div class="grid-col" style="padding-left: 0;">
             <div class="metric-card">
-              <div class="metric-label">총 운용자산 (AUM)</div>
-              <div class="metric-value tabular">38147290053.1조원</div>
-              <div style="font-size: 12px; color: #94A3B8;">1,022개 일반 ETF 기준</div>
+              <div class="metric-label">일반 ETF 총 순자산 (AUM)</div>
+              <div class="metric-value tabular">381.5조원</div>
+              <div style="font-size: 11px; color: #64748B;">1022개 일반 종목 기준</div>
             </div>
           </div>
           <div class="grid-col" style="padding-right: 0;">
             <div class="metric-card">
-              <div class="metric-label">일 거래대금 / 회전율</div>
-              <div class="metric-value tabular">1005510909.4조원</div>
-              <div style="font-size: 12px; color: #94A3B8;" class="tabular">회전율 2.28%</div>
+              <div class="metric-label">일 거래대금 / 시장 회전율</div>
+              <div class="metric-value tabular">10.1조원</div>
+              <div style="font-size: 11px; color: #64748B;" class="tabular">일일 회전율 2.6%</div>
             </div>
           </div>
         </div>
 
-        <div class="section-title" style="margin-top: 32px; margin-bottom: 12px; font-size: 16px; font-weight: 800;">📊 6대 자산군 성과 매트릭스</div>
+        <!-- Section 1: Themes Long/Short -->
+        <div class="section-title">🔥 주도 테마 TOP 3 vs 부진 테마 TOP 3</div>
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>테마명</th>
+              <th style="text-align: right;">AUM 가중수익률</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td style="font-weight: 900; color: #DC2626;">상승 1위</td>
+                <td style="font-weight: 800; color: #0F172A;">2차전지 셀 &amp; 소재</td>
+                <td style="text-align: right; font-weight: 900; color: #DC2626;" class="tabular">▲ +2.71%</td>
+              </tr>
+            
+              <tr>
+                <td style="font-weight: 900; color: #DC2626;">상승 2위</td>
+                <td style="font-weight: 800; color: #0F172A;">에너지 (원유·천연가스)</td>
+                <td style="text-align: right; font-weight: 900; color: #DC2626;" class="tabular">▲ +1.51%</td>
+              </tr>
+            
+              <tr>
+                <td style="font-weight: 900; color: #DC2626;">상승 3위</td>
+                <td style="font-weight: 800; color: #0F172A;">자동차 &amp; 스마트모빌리티</td>
+                <td style="text-align: right; font-weight: 900; color: #DC2626;" class="tabular">▲ +1.35%</td>
+              </tr>
+            
+            
+              <tr>
+                <td style="font-weight: 900; color: #2563EB;">하락 1위</td>
+                <td style="font-weight: 800; color: #0F172A;">원자력 &amp; SMR</td>
+                <td style="text-align: right; font-weight: 900; color: #2563EB;" class="tabular">▼ -4.78%</td>
+              </tr>
+            
+              <tr>
+                <td style="font-weight: 900; color: #2563EB;">하락 2위</td>
+                <td style="font-weight: 800; color: #0F172A;">글로벌 원자력 &amp; SMR</td>
+                <td style="text-align: right; font-weight: 900; color: #2563EB;" class="tabular">▼ -4.60%</td>
+              </tr>
+            
+              <tr>
+                <td style="font-weight: 900; color: #2563EB;">하락 3위</td>
+                <td style="font-weight: 800; color: #0F172A;">사이버보안 &amp; 양자컴퓨팅</td>
+                <td style="text-align: right; font-weight: 900; color: #2563EB;" class="tabular">▼ -3.47%</td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        <!-- Section 2: Top Inflows -->
+        <div class="section-title">💸 스마트머니(기관·외인) 실질 순유입 TOP 5</div>
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th style="width: 40px;">순위</th>
+              <th>종목명 / 티커</th>
+              <th style="text-align: right;">실질 순유입액</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td style="font-weight: 900; color: #059669; text-align: center;">1</td>
+                <td>
+                  <div style="font-weight: 800; color: #0F172A;">TIGER 미국필라델피아반도체나스닥</div>
+                  <div style="font-size: 11px; color: #64748B;" class="tabular">381180</div>
+                </td>
+                <td style="text-align: right; font-weight: 900; color: #047857;" class="tabular">+1,130억원</td>
+              </tr>
+              
+              <tr>
+                <td style="font-weight: 900; color: #64748B; text-align: center;">2</td>
+                <td>
+                  <div style="font-weight: 800; color: #0F172A;">TIGER 미국S&amp;P500</div>
+                  <div style="font-size: 11px; color: #64748B;" class="tabular">360750</div>
+                </td>
+                <td style="text-align: right; font-weight: 900; color: #047857;" class="tabular">+925억원</td>
+              </tr>
+              
+              <tr>
+                <td style="font-weight: 900; color: #64748B; text-align: center;">3</td>
+                <td>
+                  <div style="font-weight: 800; color: #0F172A;">TIGER 미국나스닥100</div>
+                  <div style="font-size: 11px; color: #64748B;" class="tabular">133690</div>
+                </td>
+                <td style="text-align: right; font-weight: 900; color: #047857;" class="tabular">+850억원</td>
+              </tr>
+              
+              <tr>
+                <td style="font-weight: 900; color: #64748B; text-align: center;">4</td>
+                <td>
+                  <div style="font-weight: 800; color: #0F172A;">WON 전단채플러스액티브</div>
+                  <div style="font-size: 11px; color: #64748B;" class="tabular">496020</div>
+                </td>
+                <td style="text-align: right; font-weight: 900; color: #047857;" class="tabular">+661억원</td>
+              </tr>
+              
+              <tr>
+                <td style="font-weight: 900; color: #64748B; text-align: center;">5</td>
+                <td>
+                  <div style="font-weight: 800; color: #0F172A;">TIGER 미국테크TOP10 INDXX</div>
+                  <div style="font-size: 11px; color: #64748B;" class="tabular">381170</div>
+                </td>
+                <td style="text-align: right; font-weight: 900; color: #047857;" class="tabular">+623억원</td>
+              </tr>
+              
+          </tbody>
+        </table>
+
+        <!-- Section 3: Asset Classes -->
+        <div class="section-title">📊 6대 자산군 성과 & 비중</div>
         <table class="table-custom">
           <thead>
             <tr>
               <th>자산군</th>
               <th style="text-align: right;">AUM 비중</th>
-              <th style="text-align: right;">당일 수익률</th>
-              <th style="text-align: right;">연초후(YTD)</th>
+              <th style="text-align: right;">당일 가중수익률</th>
             </tr>
           </thead>
           <tbody>
             
               <tr>
-                <td style="font-weight: 700;">주식-국내</td>
+                <td style="font-weight: 800; color: #0F172A;">주식-국내</td>
                 <td style="text-align: right;" class="tabular">46.2%</td>
-                <td style="text-align: right; font-weight: 800; color: #EF4444;" class="tabular">+0.14%</td>
-                <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.0%</td>
+                <td style="text-align: right; font-weight: 900; color: #DC2626;" class="tabular">+0.14%</td>
               </tr>
             
               <tr>
-                <td style="font-weight: 700;">주식-해외</td>
+                <td style="font-weight: 800; color: #0F172A;">주식-해외</td>
                 <td style="text-align: right;" class="tabular">33.4%</td>
-                <td style="text-align: right; font-weight: 800; color: #38BDF8;" class="tabular">-0.71%</td>
-                <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.0%</td>
+                <td style="text-align: right; font-weight: 900; color: #2563EB;" class="tabular">-0.71%</td>
               </tr>
             
               <tr>
-                <td style="font-weight: 700;">채권</td>
+                <td style="font-weight: 800; color: #0F172A;">채권</td>
                 <td style="text-align: right;" class="tabular">15.4%</td>
-                <td style="text-align: right; font-weight: 800; color: #38BDF8;" class="tabular">-0.09%</td>
-                <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.0%</td>
+                <td style="text-align: right; font-weight: 900; color: #2563EB;" class="tabular">-0.09%</td>
               </tr>
             
               <tr>
-                <td style="font-weight: 700;">원자재</td>
+                <td style="font-weight: 800; color: #0F172A;">원자재</td>
                 <td style="text-align: right;" class="tabular">2.5%</td>
-                <td style="text-align: right; font-weight: 800; color: #38BDF8;" class="tabular">-2.49%</td>
-                <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.0%</td>
+                <td style="text-align: right; font-weight: 900; color: #2563EB;" class="tabular">-2.49%</td>
               </tr>
             
               <tr>
-                <td style="font-weight: 700;">리츠·인프라</td>
+                <td style="font-weight: 800; color: #0F172A;">리츠·인프라</td>
                 <td style="text-align: right;" class="tabular">1.7%</td>
-                <td style="text-align: right; font-weight: 800; color: #38BDF8;" class="tabular">-1.46%</td>
-                <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.0%</td>
+                <td style="text-align: right; font-weight: 900; color: #2563EB;" class="tabular">-1.46%</td>
               </tr>
             
               <tr>
-                <td style="font-weight: 700;">혼합자산</td>
+                <td style="font-weight: 800; color: #0F172A;">혼합자산</td>
                 <td style="text-align: right;" class="tabular">0.8%</td>
-                <td style="text-align: right; font-weight: 800; color: #38BDF8;" class="tabular">-0.58%</td>
-                <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.0%</td>
+                <td style="text-align: right; font-weight: 900; color: #2563EB;" class="tabular">-0.58%</td>
               </tr>
             
           </tbody>
         </table>
 
-        <div class="section-title" style="margin-top: 32px; margin-bottom: 12px; font-size: 16px; font-weight: 800;">💸 실질 순유입 TOP 5</div>
-        <table class="table-custom">
-          <thead>
-            <tr>
-              <th>순위</th>
-              <th>종목명 / 티커</th>
-              <th style="text-align: right;">실질 순유입액</th>
-              <th style="text-align: right;">당일 등락률</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">1</td>
-              <td><div style="font-weight: 700;">TIGER 미국필라델피아반도체나스닥</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">381180 · 주식</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+1,130억원</td>
-              <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.00%</td>
-            </tr>
-            
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">2</td>
-              <td><div style="font-weight: 700;">TIGER 미국S&P500</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">360750 · 주식</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+925억원</td>
-              <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.00%</td>
-            </tr>
-            
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">3</td>
-              <td><div style="font-weight: 700;">TIGER 미국나스닥100</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">133690 · 주식</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+850억원</td>
-              <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.00%</td>
-            </tr>
-            
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">4</td>
-              <td><div style="font-weight: 700;">WON 전단채플러스액티브</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">496020 · 주식</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+661억원</td>
-              <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.00%</td>
-            </tr>
-            
-            <tr>
-              <td style="font-weight: 900; color: #10B981;">5</td>
-              <td><div style="font-weight: 700;">TIGER 미국테크TOP10 INDXX</div><div style="font-size: 11px; color: #94A3B8;" class="tabular">381170 · 주식</div></td>
-              <td style="text-align: right; font-weight: 900;" class="tabular">+623억원</td>
-              <td style="text-align: right; font-weight: 800; color: #94A3B8;" class="tabular">0.00%</td>
-            </tr>
-            
-          </tbody>
-        </table>
-
+        <!-- Call to Action -->
         <a href="https://etf-campus.pages.dev/briefing?utm_source=newsletter&utm_medium=email&utm_campaign=daily_briefing_20260831" class="btn-primary">
-          👉 완벽 비교기 & 테마 롱숏 맵 풀버전 분석하기 👈
+          👉 전체 ETF 괴리율 & 완벽 비교 리포트 보러가기 📊
         </a>
       </div>
 
+      <!-- Footer -->
       <div class="footer">
         <div><strong>ETF CAMPUS (ETF 캠퍼스)</strong></div>
-        <div style="margin: 6px 0 12px;">매일 아침 가장 정확한 정량 ETF 마켓 브리핑</div>
-        <div style="font-size: 11px; color: #64748B;">
-          본 뉴스레터는 정보 제공을 목적으로 발송되며, 특정 금융투자상품의 매수·매도를 권유하지 않습니다.<br>
-          투자 원금의 손실 위험이 따를 수 있으며, 최종 투자 책임은 투자자 본인에게 있습니다.
+        <div style="margin: 4px 0 10px; font-size: 11px; color: #475569;">매일 아침 가장 정확한 정량 ETF 마켓 브리핑</div>
+        <div style="font-size: 11px; color: #94A3B8;">
+          본 메일은 정보 제공을 목적으로 발송되며, 특정 종목에 대한 투자 권유가 아닙니다.<br>
+          © 2026 ETF Campus. All rights reserved.
         </div>
       </div>
     </div>

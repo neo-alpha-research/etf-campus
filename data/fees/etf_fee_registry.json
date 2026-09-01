@@ -13940,7 +13940,7 @@
     "isin": "KR7379800006",
     "name": "KODEX 미국S&P500",
     "issuer": "삼성자산운용",
-    "total_fee_pct": 0.05,
+    "total_fee_pct": 0.006,
     "ter_pct": 0.13,
     "other_cost_pct": 0.08,
     "trading_cost_pct": 0.04,

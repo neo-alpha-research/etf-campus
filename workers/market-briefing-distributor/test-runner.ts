@@ -267,7 +267,7 @@ async function run() {
       ]
     });
     const page = await browser.newPage();
-    await page.setViewport({ width: 640, height: 900, deviceScaleFactor: 1 });
+    await page.setViewport({ width: 720, height: 900, deviceScaleFactor: 2 });
     await page.goto(`${baseUrl}/briefing`, { waitUntil: "domcontentloaded", timeout: 20000 });
     await new Promise((r) => setTimeout(r, 2000));
 
@@ -283,6 +283,22 @@ async function run() {
 
       const historySection = document.getElementById('briefing-history-section');
       if (historySection) historySection.remove();
+
+      // Remove STEP 5, STEP 6, STEP 7 sections
+      document.querySelectorAll('#step-trend, #step-scale, #step-growth').forEach(el => {
+        const sec = el.closest('section') || el;
+        sec.remove();
+      });
+
+      document.querySelectorAll('p, span, h2, h3').forEach(el => {
+        const t = el.textContent || '';
+        if (t.includes('STEP 5.') || t.includes('STEP 6.') || t.includes('STEP 7.') || t.includes('TREND & FLOW') || t.includes('MARKET STRUCTURE SNAPSHOT') || t.includes('MARKET GROWTH')) {
+          const sec = el.closest('section');
+          if (sec && sec.tagName === 'SECTION') {
+            sec.remove();
+          }
+        }
+      });
 
       document.body.style.padding = '0';
       document.body.style.margin = '0';

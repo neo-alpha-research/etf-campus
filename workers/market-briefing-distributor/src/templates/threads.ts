@@ -157,8 +157,8 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect width="960" height="175" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
         <text x="35" y="42" fill="#0F172A" font-size="22" font-weight="900">🌡️ 1. 시장 체온 &amp; 벤치마크 대비 성과</text>
-        <rect x="670" y="16" width="255" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="797" y="41" fill="#1E293B" font-size="15" font-weight="800" text-anchor="middle">상승 ${up} · 보합 ${flat} · 하락 ${down} (${temp})</text>
+        <rect x="605" y="15" width="320" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+        <text x="765" y="39" fill="#1E293B" font-size="14" font-weight="800" text-anchor="middle">상승 ${up} · 보합 ${flat} · 하락 ${down} (${temp})</text>
 
         <!-- 3 Big Metric Boxes -->
         <g transform="translate(35, 74)">

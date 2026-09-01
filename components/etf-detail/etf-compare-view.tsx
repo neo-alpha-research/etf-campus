@@ -501,8 +501,8 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                       <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
                       <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
                         <span className="text-[13px] font-black text-emerald-400">추적오차율이란?</span>
-                        <span className="text-[10px] text-neutral-300 font-mono bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
-                          KRX 공식 지표
+                        <span className="text-[10px] text-emerald-300 font-mono bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-700/60 font-semibold">
+                          배당 조정(TR)
                         </span>
                       </div>
                       
@@ -510,15 +510,20 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                         과거 1년간 ETF 순자산가치(NAV)가 목표 기초지수를 얼마나 똑같이 따라갔는지 나타내는 <strong>운용 복제 정밀도(표준편차)</strong>입니다.
                       </p>
 
-                      <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
+                      {/* 사용자 강조 핵심 문구 */}
+                      <div className="text-[12px] text-emerald-200 bg-emerald-950/90 rounded-lg p-2.5 leading-snug border border-emerald-600/80 mb-3 shadow-inner">
+                        💡 <strong>본 서비스는 배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]를 제공합니다.</strong>
+                      </div>
+
+                      <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-2.5">
                         <div className="flex items-start gap-2 text-slate-200">
                           <span className="text-emerald-400 font-bold shrink-0">• 숫자가 낮을수록:</span>
                           <span>운용사가 지수를 <strong>오차 없이 안정적이고 완벽하게 복제</strong>하고 있음을 의미합니다.</span>
                         </div>
                       </div>
 
-                      <div className="text-[11px] text-neutral-400 bg-neutral-800/50 p-2 rounded-lg border border-neutral-700/50">
-                        💡 <strong>액티브 ETF의 경우</strong>, 펀드매니저가 초과수익을 목표로 적극 운용하므로 <strong>패시브 ETF 대비 추적오차율이 자연스럽게 높게</strong> 나타납니다. 이는 운용 결함이 아닙니다.
+                      <div className="text-[10.5px] text-neutral-400">
+                        💡 액티브 ETF는 펀드매니저의 초과수익 추구로 추적오차율이 상대적으로 높게 나타납니다.
                       </div>
                     </div>
                   </div>

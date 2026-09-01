@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect -- Client-only session and data loading update state after hydration. */
+ 
 "use client";
 
 import Link from 'next/link';

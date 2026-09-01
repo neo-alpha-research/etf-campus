@@ -1,20 +1,21 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import { type Etf } from "@/lib/domain/etf-types";
 import { ReturnCell } from "@/components/etf";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
+import { GENERAL_RETURN_PERIODS, NEW_RETURN_PERIODS, isNewListing } from "@/lib/domain/etf-explorer";
 
 const EN_PERIOD_LABELS: Record<string, string> = {
   "1d": "1D", "1w": "1W", "2w": "2W", "1m": "1M", "2m": "2M", "3m": "3M",
-  "6m": "6M", "ytd": "YTD", "12m": "1Y", "24m": "2Y", "36m": "3Y", "itd": "상장후"
+  "6m": "6M", "ytd": "YTD", "12m": "1Y", "24m": "2Y", "36m": "3Y", "itd": "ITD"
 };
-
-const defaultPeriods = ["1m", "3m", "6m", "ytd", "12m", "36m"] as const;
 
 export function ReturnPeriodGrid({ etf }: { etf: Etf }) {
   const [isTrMode, setIsTrMode] = useState(false);
   const activeReturns = isTrMode && etf.returnsTr ? etf.returnsTr : etf.returns;
+  const isNew = isNewListing(etf);
+  const periods = (isNew && etf.returns.itd !== null) ? NEW_RETURN_PERIODS : GENERAL_RETURN_PERIODS;
   
   return (
     <div className="flex flex-col gap-2">
@@ -44,9 +45,9 @@ export function ReturnPeriodGrid({ etf }: { etf: Etf }) {
           aria-label={`${etf.name} 기본 기간별 ${isTrMode ? '총수익률(TR)' : '가격 수익률(PR)'}`}
           data-testid="return-period-table"
           className="grid gap-px transition-colors duration-300"
-          style={{ gridTemplateColumns: `repeat(${defaultPeriods.length}, minmax(0, 1fr))` }}
+          style={{ gridTemplateColumns: `repeat(${periods.length}, minmax(0, 1fr))` }}
         >
-          {defaultPeriods.map((period) => (
+          {periods.map((period) => (
             <div key={period} role="cell" className={`py-2.5 px-0.5 sm:px-1 flex flex-col items-center justify-center text-center transition-colors duration-300 ${isTrMode ? 'bg-brand-50/30' : 'bg-surface'}`}>
               <div className="text-[11px] font-bold text-muted mb-1" title={RETURN_PERIOD_LABELS[period]} aria-label={RETURN_PERIOD_LABELS[period]}>
                 <span aria-hidden="true">{EN_PERIOD_LABELS[period] || period}</span>

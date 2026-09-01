@@ -643,21 +643,21 @@ export function MarketBriefing() {
     if (!briefing) return [];
 
     const mergedIndices = [...(briefing.marketIndices || [])];
-
     const addGlobalIndex = (label: string, code: string) => {
       const found = globalIndicesData.indices.find(
         (i) => i.code === code || i.label === label || i.label === label.replace(" ", "")
       );
-      if (found && !mergedIndices.some((m) => m.code === code)) {
+      if (!mergedIndices.some((m) => m.code === code)) {
         mergedIndices.push({
           code: code,
           label: label,
-          close: found.value,
-          change_pct: found.change,
-          as_of_date: found.as_of_date || briefing.asOfDate,
+          close: found?.value,
+          change_pct: found?.change,
+          as_of_date: found?.as_of_date || briefing.asOfDate,
         });
       }
     };
+
 
     addGlobalIndex("코스피 변동성지수", "VKOSPI");
     addGlobalIndex("S&P 500", "SPX");

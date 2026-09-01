@@ -212,14 +212,14 @@ function money(value: number) {
 
 
 function dateLabel(value?: string) {
-
   if (!value) return "-";
-
-  const [year, month, day] = value.split("-");
-
-  return `${year}.${month}.${day}`;
-
+  const match = value.match(/(\d{4})[-.](\d{2})[-.](\d{2})/);
+  if (match) {
+    return `${match[1]}.${match[2]}.${match[3]}`;
+  }
+  return value.replace(/-/g, ".");
 }
+
 
 
 
@@ -2458,7 +2458,7 @@ export function MarketBriefing() {
                       return (
                         <div key={pt.key || idx} className="text-center">
                           <p className={`text-[11px] sm:text-xs font-black tracking-tight ${isLatest ? "text-[#2E6819]" : "text-neutral-700"}`}>
-                            {pt.label}
+                            {dateLabel(pt.date || pt.label)}
                           </p>
                         </div>
                       );
@@ -2471,7 +2471,7 @@ export function MarketBriefing() {
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
                       <tr className="border-b border-neutral-200 text-[11px] font-extrabold text-neutral-400 uppercase tracking-wider">
-                        <th className="py-2.5 pl-2">기준 시점</th>
+                        <th className="py-2.5 text-center px-3">기준 일자</th>
                         <th className="py-2.5 text-right">총 운용자산 (AUM)</th>
                         <th className="py-2.5 text-right font-black text-neutral-800">AUM 총 증감</th>
                         <th className="py-2.5 text-right text-neutral-600 font-bold">
@@ -2507,12 +2507,13 @@ export function MarketBriefing() {
 
                         return (
                           <tr key={pt.key || idx} className="hover:bg-neutral-50/80 transition-colors">
-                            <td className="py-3 pl-2 font-black text-neutral-900 tabular-nums">
-                              {pt.label}
+                            <td className="py-3 text-center px-3 font-black text-neutral-900 tabular-nums">
+                              {dateLabel(pt.date || pt.label)}
                             </td>
                             <td className="py-3 text-right font-black text-neutral-900 tabular-nums">
                               {aumJo}조원
                             </td>
+
                             <td className={`py-3 text-right font-black tabular-nums ${
                               changeAmount > 0 ? "text-[#D92D20]" : changeAmount < 0 ? "text-[#175CD3]" : "text-neutral-500"
                             }`}>

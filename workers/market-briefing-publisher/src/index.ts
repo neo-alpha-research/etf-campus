@@ -282,13 +282,15 @@ interface ConstituentFlowAndPriceEffect {
 }
 
 function calculateConstituentFlowAndPriceEffect(
-  current: { ticker: string; etf_name: string; aum_value?: number; nav_value?: number; close_value?: number; change_pct?: number; is_general_etf?: number; shares?: number },
-  previous?: { aum_value?: number; nav_value?: number; close_value?: number; shares?: number }
+  current: { ticker: string; etf_name: string; aum_value?: number | null; nav_value?: number | null; close_value?: number | null; change_pct?: number | null; is_general_etf?: number | null; shares?: number | string | null },
+  previous?: { aum_value?: number | null; nav_value?: number | null; close_value?: number | null; shares?: number | string | null }
 ): ConstituentFlowAndPriceEffect {
+
   const c0 = current.close_value || 0;
   const nav0 = current.nav_value || c0;
   const aum0 = current.aum_value || 0;
   const shares0 = current.shares ? Number(current.shares) : (nav0 > 0 ? aum0 / nav0 : 0);
+
 
   if (!previous || (!previous.aum_value && !previous.nav_value)) {
     return {

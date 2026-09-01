@@ -4,22 +4,55 @@ import { generateNewsletterHtml } from "./templates/newsletter";
 import { generateThreadsThread } from "./templates/threads";
 import type { BriefingDistributeEvent, Env, MarketBriefingPayload } from "./types";
 
+function normalizeBriefingPayload(raw: any): MarketBriefingPayload | null {
+  if (!raw) return null;
+  const briefing = raw.briefing || raw;
+  const pulse = briefing.pulse || {};
+  const kospi = briefing.marketIndices?.find((i: any) => i.code === "KOSPI");
+  const kosdaq = briefing.marketIndices?.find((i: any) => i.code === "KOSDAQ");
+
+  return {
+    ...briefing,
+    pulse,
+    headlineText: briefing.headline?.text || briefing.headlineText || "",
+    marketTemperature: pulse.marketTemperature || briefing.marketTemperature || "하락 우세",
+    kospiClose: kospi?.close ?? briefing.kospiClose ?? 0,
+    kospiChangePct: kospi?.change_pct ?? briefing.kospiChangePct ?? 0,
+    kosdaqClose: kosdaq?.close ?? briefing.kosdaqClose ?? 0,
+    kosdaqChangePct: kosdaq?.change_pct ?? briefing.kosdaqChangePct ?? 0,
+    generalEtfCount: pulse.generalEtfCount ?? briefing.generalEtfCount ?? 0,
+    generalTotalAum: pulse.generalTotalAum ?? briefing.generalTotalAum ?? 0,
+    generalTotalTradeValue: pulse.generalTotalTradeValue ?? briefing.generalTotalTradeValue ?? 0,
+    generalAumWeightedReturnPct: pulse.generalAumWeightedReturnPct ?? briefing.generalAumWeightedReturnPct ?? 0,
+    upCount: pulse.upCount ?? briefing.upCount ?? 0,
+    flatCount: pulse.flatCount ?? briefing.flatCount ?? 0,
+    downCount: pulse.downCount ?? briefing.downCount ?? 0,
+    breadthRatioPct: pulse.breadthRatioPct ?? briefing.breadthRatioPct ?? 0,
+    top10TradeSharePct: pulse.top10TradeSharePct ?? briefing.top10TradeSharePct ?? 0,
+    allTop10TradeSharePct: pulse.allTop10TradeSharePct ?? briefing.allTop10TradeSharePct ?? 0,
+    assetClasses: briefing.assetClasses || [],
+    focusEtfs: briefing.focusEtfs || [],
+    peerGroups: briefing.peerGroups || [],
+    periodicFlows: briefing.periodicFlows || (briefing.fundFlow?.general ? {
+      dailyFundFlows: briefing.fundFlow.general,
+    } : undefined),
+  };
+}
+
 async function loadBriefingPayload(env: Env, asOfDate?: string): Promise<MarketBriefingPayload | null> {
   // 1. Try pointer if no date or looking for latest
   if (!asOfDate) {
     const pointer = await env.BRIEFING_KV.get<{ payloadKey?: string; asOfDate?: string }>("market-briefing:v0:latest-pointer", "json");
     if (pointer?.payloadKey) {
       const payload = await env.BRIEFING_KV.get<any>(pointer.payloadKey, "json");
-      if (payload?.briefing) return payload.briefing;
-      if (payload) return payload;
+      if (payload) return normalizeBriefingPayload(payload);
     }
   } else {
     // Try version 1 to 5 in KV
     for (const v of [1, 2, 3, 4, 5]) {
       const key = `market-briefing:v0:payload:${asOfDate}:v${v}`;
       const payload = await env.BRIEFING_KV.get<any>(key, "json");
-      if (payload?.briefing) return payload.briefing;
-      if (payload) return payload;
+      if (payload) return normalizeBriefingPayload(payload);
     }
   }
 
@@ -34,7 +67,7 @@ async function loadBriefingPayload(env: Env, asOfDate?: string): Promise<MarketB
     });
     if (res.ok) {
       const json: any = await res.json();
-      if (json?.briefing) return json.briefing;
+      if (json) return normalizeBriefingPayload(json);
     }
   } catch (err) {
     console.warn("[Distributor] Failed to fetch from API fallback:", err);

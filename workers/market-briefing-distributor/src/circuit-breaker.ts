@@ -10,14 +10,15 @@ export function validateBriefingPayload(payload: MarketBriefingPayload, env: Env
   const maxDisparity = Number(env.MAX_ALLOWED_DISPARITY_PCT || "5.0");
   const maxSpike = Number(env.MAX_ALLOWED_DAILY_SPIKE_PCT || "15.0");
 
-  const generalEtfCount = payload.generalEtfCount;
-  const generalTotalAum = payload.generalTotalAum;
-  const upCount = payload.upCount ?? 0;
-  const flatCount = payload.flatCount ?? 0;
-  const downCount = payload.downCount ?? 0;
+  const pulse = payload.pulse || {};
+  const generalEtfCount = payload.generalEtfCount ?? pulse.generalEtfCount;
+  const generalTotalAum = payload.generalTotalAum ?? pulse.generalTotalAum;
+  const upCount = payload.upCount ?? pulse.upCount ?? 0;
+  const flatCount = payload.flatCount ?? pulse.flatCount ?? 0;
+  const downCount = payload.downCount ?? pulse.downCount ?? 0;
 
-  const kospiChangePct = payload.kospiChangePct ?? 0;
-  const kosdaqChangePct = payload.kosdaqChangePct ?? 0;
+  const kospiChangePct = payload.kospiChangePct ?? payload.marketIndices?.find(i => i.code === "KOSPI")?.change_pct ?? 0;
+  const kosdaqChangePct = payload.kosdaqChangePct ?? payload.marketIndices?.find(i => i.code === "KOSDAQ")?.change_pct ?? 0;
 
   // 1. 기본 데이터 존재 및 종목 수 검증
   if (!payload.asOfDate) {

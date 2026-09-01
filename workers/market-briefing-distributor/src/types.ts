@@ -77,34 +77,71 @@ export interface DisparityItem {
   disparityPct: number;
 }
 
+export interface MarketIndexItem {
+  code: string;
+  label: string;
+  close: number;
+  change_pct: number;
+  as_of_date: string;
+}
+
+export interface MarketBriefingPulse {
+  totalEtfCount?: number;
+  generalEtfCount?: number;
+  upCount?: number;
+  flatCount?: number;
+  downCount?: number;
+  breadthRatioPct?: number;
+  marketTemperature?: string;
+  generalAumWeightedReturnPct?: number;
+  top50AumWeightedReturnPct?: number;
+  top100AumWeightedReturnPct?: number;
+  top200AumWeightedReturnPct?: number;
+  generalTotalAum?: number;
+  generalTotalTradeValue?: number;
+  top10TradeSharePct?: number;
+  allTop10TradeSharePct?: number;
+}
+
 export interface MarketBriefingPayload {
   asOfDate: string;
   publicationVersion: number;
+  publishedAt?: string;
+  updatedAt?: string;
+  isStale?: boolean;
+  staleDays?: number;
+  headline?: {
+    text: string;
+    generationStatus?: string;
+  };
+  marketIndices?: MarketIndexItem[];
+  pulse?: MarketBriefingPulse;
   headlineText?: string;
-  marketTemperature: string;
-  kospiClose: number;
-  kospiChangePct: number;
-  kosdaqClose: number;
-  kosdaqChangePct: number;
-  generalEtfCount: number;
-  upCount: number;
-  flatCount: number;
-  downCount: number;
-  breadthRatioPct: number;
-  generalTotalAum: number;
-  generalTotalTradeValue: number;
+  marketTemperature?: string;
+  kospiClose?: number;
+  kospiChangePct?: number;
+  kosdaqClose?: number;
+  kosdaqChangePct?: number;
+  generalEtfCount?: number;
+  upCount?: number;
+  flatCount?: number;
+  downCount?: number;
+  breadthRatioPct?: number;
+  generalTotalAum?: number;
+  generalTotalTradeValue?: number;
   marketTurnoverPct?: number;
-  top10TradeSharePct: number;
-  allTop10TradeSharePct: number;
-  generalAumWeightedReturnPct: number;
+  top10TradeSharePct?: number;
+  allTop10TradeSharePct?: number;
+  generalAumWeightedReturnPct?: number;
   top50WeightedReturnPct?: number;
   disparityAlerts?: {
     overvalued: DisparityItem[];
     undervalued: DisparityItem[];
   };
-  assetClasses: AssetClassItem[];
-  focusEtfs: FocusEtfItem[];
+  assetClasses?: AssetClassItem[];
+  focusEtfs?: FocusEtfItem[];
   peerGroups?: PeerGroupItem[];
+  fundFlow?: any;
   periodicFlows?: {
     dailyFundFlows?: {
       topInflows: InflowItem[];

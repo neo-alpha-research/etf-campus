@@ -31,16 +31,18 @@
     </defs>
   
       <rect width="1080" height="1350" fill="#F8FAFC"/>
+      <circle cx="950" cy="180" r="300" fill="#1D4ED8" fill-opacity="0.035"/>
+      <circle cx="100" cy="1150" r="260" fill="#0284C7" fill-opacity="0.03"/>
 
       <g transform="translate(70, 60)">
-        <text x="0" y="30" fill="#2E6819" font-size="16" font-weight="900" letter-spacing="1">STEP 4. SMART MONEY FLOW</text>
+        <text x="0" y="30" fill="#1D4ED8" font-size="16" font-weight="900" letter-spacing="1">STEP 4. SMART MONEY FLOW</text>
         <text x="0" y="72" fill="#0F172A" font-size="38" font-weight="900">실질 자금 순유입 TOP 5</text>
         <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 발행좌수 증감으로 산출된 기관·외국인의 실질 자금 순유입액</text>
         <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
         <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">4 / 6</text>
       </g>
 
-      <!-- Summary Banner (compact) -->
+      <!-- Summary Banner (Sapphire Blue Theme) -->
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
         <rect width="940" height="94" rx="22" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
         <rect x="30" y="15" width="125" height="34" rx="10" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.2"/>
@@ -51,31 +53,31 @@
         </text>
       </g>
 
-      <!-- TOP 5 Inflow Ranking Cards — ETF명+티커 2줄 분리로 겹침 완전 해소 -->
+      <!-- TOP 5 Inflow Ranking Cards (Royal Sapphire Blue Palette) -->
       <g transform="translate(70, 290)">
         
             <g transform="translate(0, 0)" filter="url(#cardShadow)">
-              <rect width="940" height="182" rx="22" fill="#FFFFFF" stroke="#D7EABB" stroke-width="2"/>
-              <rect x="0" y="0" width="10" height="182" rx="5" fill="#2E6819"/>
+              <rect width="940" height="182" rx="22" fill="#F8FAFF" stroke="#93C5FD" stroke-width="2"/>
+              <rect x="0" y="0" width="8" height="182" rx="4" fill="#1D4ED8"/>
 
               <!-- 순위 뱃지 -->
-              <circle cx="62" cy="91" r="28" fill="#2E6819" />
+              <circle cx="62" cy="91" r="28" fill="#1D4ED8" />
               <text x="62" y="100" fill="#FFFFFF" font-size="24" font-weight="900" text-anchor="middle">1</text>
 
-              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <!-- ETF명 -->
               <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">TIGER 미국필라델피아반도체나스닥</text>
 
-              <!-- 티커: 항상 ETF명 아래 독립 행 -->
+              <!-- 티커 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="148" y="105" fill="#64748B" font-size="14" font-weight="700" text-anchor="middle" class="tabular">381180</text>
 
               <!-- 테마 태그 -->
-              <rect x="200" y="88" width="120" height="26" rx="7" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1"/>
-              <text x="260" y="105" fill="#15803D" font-size="13" font-weight="800" text-anchor="middle">핵심ETF</text>
+              <rect x="200" y="88" width="120" height="26" rx="7" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+              <text x="260" y="105" fill="#1D4ED8" font-size="13" font-weight="800" text-anchor="middle">핵심ETF</text>
 
-              <!-- 순유입 금액 44px 대형 숫자 -->
-              <text x="912" y="82" fill="#2E6819" font-size="44" font-weight="900" text-anchor="end" class="tabular">+1,130<tspan font-size="24" font-weight="700">억원</tspan></text>
-              <text x="912" y="118" fill="#5A7050" font-size="16" font-weight="800" text-anchor="end">🥇 당일 최대 실질 순유입</text>
+              <!-- 순유입 금액 -->
+              <text x="912" y="82" fill="#1D4ED8" font-size="44" font-weight="900" text-anchor="end" class="tabular">+1,130<tspan font-size="24" font-weight="700" fill="#2563EB">억원</tspan></text>
+              <text x="912" y="118" fill="#2563EB" font-size="16" font-weight="800" text-anchor="end">🥇 당일 최대 실질 순유입</text>
             </g>
           
             <g transform="translate(0, 196)" filter="url(#cardShadow)">
@@ -83,13 +85,13 @@
               
 
               <!-- 순위 뱃지 -->
-              <circle cx="62" cy="91" r="28" fill="#EBF5DC" stroke="#CDE5B1" stroke-width="1.5"/>
-              <text x="62" y="100" fill="#2E6819" font-size="24" font-weight="900" text-anchor="middle">2</text>
+              <circle cx="62" cy="91" r="28" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1.5"/>
+              <text x="62" y="100" fill="#475569" font-size="24" font-weight="900" text-anchor="middle">2</text>
 
-              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <!-- ETF명 -->
               <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">TIGER 미국S&amp;P500</text>
 
-              <!-- 티커: 항상 ETF명 아래 독립 행 -->
+              <!-- 티커 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="148" y="105" fill="#64748B" font-size="14" font-weight="700" text-anchor="middle" class="tabular">360750</text>
 
@@ -97,9 +99,9 @@
               <rect x="200" y="88" width="120" height="26" rx="7" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="260" y="105" fill="#64748B" font-size="13" font-weight="800" text-anchor="middle">핵심ETF</text>
 
-              <!-- 순유입 금액 44px 대형 숫자 -->
-              <text x="912" y="82" fill="#2E6819" font-size="44" font-weight="900" text-anchor="end" class="tabular">+925<tspan font-size="24" font-weight="700">억원</tspan></text>
-              <text x="912" y="118" fill="#5A7050" font-size="16" font-weight="800" text-anchor="end">순유입 상위 종목</text>
+              <!-- 순유입 금액 -->
+              <text x="912" y="82" fill="#1E293B" font-size="44" font-weight="900" text-anchor="end" class="tabular">+925<tspan font-size="24" font-weight="700" fill="#64748B">억원</tspan></text>
+              <text x="912" y="118" fill="#64748B" font-size="16" font-weight="800" text-anchor="end">순유입 상위 종목</text>
             </g>
           
             <g transform="translate(0, 392)" filter="url(#cardShadow)">
@@ -107,13 +109,13 @@
               
 
               <!-- 순위 뱃지 -->
-              <circle cx="62" cy="91" r="28" fill="#EBF5DC" stroke="#CDE5B1" stroke-width="1.5"/>
-              <text x="62" y="100" fill="#2E6819" font-size="24" font-weight="900" text-anchor="middle">3</text>
+              <circle cx="62" cy="91" r="28" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1.5"/>
+              <text x="62" y="100" fill="#475569" font-size="24" font-weight="900" text-anchor="middle">3</text>
 
-              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <!-- ETF명 -->
               <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">TIGER 미국나스닥100</text>
 
-              <!-- 티커: 항상 ETF명 아래 독립 행 -->
+              <!-- 티커 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="148" y="105" fill="#64748B" font-size="14" font-weight="700" text-anchor="middle" class="tabular">133690</text>
 
@@ -121,9 +123,9 @@
               <rect x="200" y="88" width="120" height="26" rx="7" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="260" y="105" fill="#64748B" font-size="13" font-weight="800" text-anchor="middle">핵심ETF</text>
 
-              <!-- 순유입 금액 44px 대형 숫자 -->
-              <text x="912" y="82" fill="#2E6819" font-size="44" font-weight="900" text-anchor="end" class="tabular">+850<tspan font-size="24" font-weight="700">억원</tspan></text>
-              <text x="912" y="118" fill="#5A7050" font-size="16" font-weight="800" text-anchor="end">순유입 상위 종목</text>
+              <!-- 순유입 금액 -->
+              <text x="912" y="82" fill="#1E293B" font-size="44" font-weight="900" text-anchor="end" class="tabular">+850<tspan font-size="24" font-weight="700" fill="#64748B">억원</tspan></text>
+              <text x="912" y="118" fill="#64748B" font-size="16" font-weight="800" text-anchor="end">순유입 상위 종목</text>
             </g>
           
             <g transform="translate(0, 588)" filter="url(#cardShadow)">
@@ -131,13 +133,13 @@
               
 
               <!-- 순위 뱃지 -->
-              <circle cx="62" cy="91" r="28" fill="#EBF5DC" stroke="#CDE5B1" stroke-width="1.5"/>
-              <text x="62" y="100" fill="#2E6819" font-size="24" font-weight="900" text-anchor="middle">4</text>
+              <circle cx="62" cy="91" r="28" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1.5"/>
+              <text x="62" y="100" fill="#475569" font-size="24" font-weight="900" text-anchor="middle">4</text>
 
-              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <!-- ETF명 -->
               <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">WON 전단채플러스액티브</text>
 
-              <!-- 티커: 항상 ETF명 아래 독립 행 -->
+              <!-- 티커 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="148" y="105" fill="#64748B" font-size="14" font-weight="700" text-anchor="middle" class="tabular">496020</text>
 
@@ -145,9 +147,9 @@
               <rect x="200" y="88" width="120" height="26" rx="7" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="260" y="105" fill="#64748B" font-size="13" font-weight="800" text-anchor="middle">핵심ETF</text>
 
-              <!-- 순유입 금액 44px 대형 숫자 -->
-              <text x="912" y="82" fill="#2E6819" font-size="44" font-weight="900" text-anchor="end" class="tabular">+661<tspan font-size="24" font-weight="700">억원</tspan></text>
-              <text x="912" y="118" fill="#5A7050" font-size="16" font-weight="800" text-anchor="end">순유입 상위 종목</text>
+              <!-- 순유입 금액 -->
+              <text x="912" y="82" fill="#1E293B" font-size="44" font-weight="900" text-anchor="end" class="tabular">+661<tspan font-size="24" font-weight="700" fill="#64748B">억원</tspan></text>
+              <text x="912" y="118" fill="#64748B" font-size="16" font-weight="800" text-anchor="end">순유입 상위 종목</text>
             </g>
           
             <g transform="translate(0, 784)" filter="url(#cardShadow)">
@@ -155,13 +157,13 @@
               
 
               <!-- 순위 뱃지 -->
-              <circle cx="62" cy="91" r="28" fill="#EBF5DC" stroke="#CDE5B1" stroke-width="1.5"/>
-              <text x="62" y="100" fill="#2E6819" font-size="24" font-weight="900" text-anchor="middle">5</text>
+              <circle cx="62" cy="91" r="28" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1.5"/>
+              <text x="62" y="100" fill="#475569" font-size="24" font-weight="900" text-anchor="middle">5</text>
 
-              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <!-- ETF명 -->
               <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">TIGER 미국테크TOP10 INDX…</text>
 
-              <!-- 티커: 항상 ETF명 아래 독립 행 -->
+              <!-- 티커 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="148" y="105" fill="#64748B" font-size="14" font-weight="700" text-anchor="middle" class="tabular">381170</text>
 
@@ -169,9 +171,9 @@
               <rect x="200" y="88" width="120" height="26" rx="7" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="260" y="105" fill="#64748B" font-size="13" font-weight="800" text-anchor="middle">핵심ETF</text>
 
-              <!-- 순유입 금액 44px 대형 숫자 -->
-              <text x="912" y="82" fill="#2E6819" font-size="44" font-weight="900" text-anchor="end" class="tabular">+623<tspan font-size="24" font-weight="700">억원</tspan></text>
-              <text x="912" y="118" fill="#5A7050" font-size="16" font-weight="800" text-anchor="end">순유입 상위 종목</text>
+              <!-- 순유입 금액 -->
+              <text x="912" y="82" fill="#1E293B" font-size="44" font-weight="900" text-anchor="end" class="tabular">+623<tspan font-size="24" font-weight="700" fill="#64748B">억원</tspan></text>
+              <text x="912" y="118" fill="#64748B" font-size="16" font-weight="800" text-anchor="end">순유입 상위 종목</text>
             </g>
           
       </g>

@@ -337,22 +337,24 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
   `;
 
   // =========================================================================
-  // SLIDE 4: Smart Money Flow
+  // SLIDE 4: Smart Money Flow (Theme: Royal Sapphire Blue)
   // =========================================================================
   const slide4Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
       ${commonDefs}
       <rect width="1080" height="1350" fill="#F8FAFC"/>
+      <circle cx="950" cy="180" r="300" fill="#1D4ED8" fill-opacity="0.035"/>
+      <circle cx="100" cy="1150" r="260" fill="#0284C7" fill-opacity="0.03"/>
 
       <g transform="translate(70, 60)">
-        <text x="0" y="30" fill="#2E6819" font-size="16" font-weight="900" letter-spacing="1">STEP 4. SMART MONEY FLOW</text>
+        <text x="0" y="30" fill="#1D4ED8" font-size="16" font-weight="900" letter-spacing="1">STEP 4. SMART MONEY FLOW</text>
         <text x="0" y="72" fill="#0F172A" font-size="38" font-weight="900">실질 자금 순유입 TOP 5</text>
         <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 발행좌수 증감으로 산출된 기관·외국인의 실질 자금 순유입액</text>
         <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
         <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">4 / 6</text>
       </g>
 
-      <!-- Summary Banner (compact) -->
+      <!-- Summary Banner (Sapphire Blue Theme) -->
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
         <rect width="940" height="94" rx="22" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
         <rect x="30" y="15" width="125" height="34" rx="10" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.2"/>
@@ -363,34 +365,34 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         </text>
       </g>
 
-      <!-- TOP 5 Inflow Ranking Cards — ETF명+티커 2줄 분리로 겹침 완전 해소 -->
+      <!-- TOP 5 Inflow Ranking Cards (Royal Sapphire Blue Palette) -->
       <g transform="translate(70, 290)">
         ${topInflows.slice(0, 5).map((item, idx) => {
           const inflowJo = item.inflow ? item.inflow.toLocaleString() : "1,000";
           const isTop = idx === 0;
           return `
             <g transform="translate(0, ${idx * 196})" filter="url(#cardShadow)">
-              <rect width="940" height="182" rx="22" fill="#FFFFFF" stroke="${isTop ? '#D7EABB' : '#E2E8F0'}" stroke-width="${isTop ? '2' : '1.5'}"/>
-              ${isTop ? '<rect x="0" y="0" width="10" height="182" rx="5" fill="#2E6819"/>' : ''}
+              <rect width="940" height="182" rx="22" fill="${isTop ? '#F8FAFF' : '#FFFFFF'}" stroke="${isTop ? '#93C5FD' : '#E2E8F0'}" stroke-width="${isTop ? '2' : '1.5'}"/>
+              ${isTop ? '<rect x="0" y="0" width="8" height="182" rx="4" fill="#1D4ED8"/>' : ''}
 
               <!-- 순위 뱃지 -->
-              <circle cx="62" cy="91" r="28" fill="${isTop ? '#2E6819' : '#EBF5DC'}" ${!isTop ? 'stroke="#CDE5B1" stroke-width="1.5"' : ''}/>
-              <text x="62" y="100" fill="${isTop ? '#FFFFFF' : '#2E6819'}" font-size="24" font-weight="900" text-anchor="middle">${idx + 1}</text>
+              <circle cx="62" cy="91" r="28" fill="${isTop ? '#1D4ED8' : '#F1F5F9'}" ${!isTop ? 'stroke="#E2E8F0" stroke-width="1.5"' : ''}/>
+              <text x="62" y="100" fill="${isTop ? '#FFFFFF' : '#475569'}" font-size="24" font-weight="900" text-anchor="middle">${idx + 1}</text>
 
-              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <!-- ETF명 -->
               <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">${item.name.length > 20 ? item.name.slice(0, 20) + '…' : item.name}</text>
 
-              <!-- 티커: 항상 ETF명 아래 독립 행 -->
+              <!-- 티커 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="148" y="105" fill="#64748B" font-size="14" font-weight="700" text-anchor="middle" class="tabular">${item.ticker}</text>
 
               <!-- 테마 태그 -->
-              <rect x="200" y="88" width="120" height="26" rx="7" fill="${isTop ? '#F0FDF4' : '#F8FAFC'}" stroke="${isTop ? '#BBF7D0' : '#E2E8F0'}" stroke-width="1"/>
-              <text x="260" y="105" fill="${isTop ? '#15803D' : '#64748B'}" font-size="13" font-weight="800" text-anchor="middle">${item.theme || "핵심ETF"}</text>
+              <rect x="200" y="88" width="120" height="26" rx="7" fill="${isTop ? '#EFF6FF' : '#F8FAFC'}" stroke="${isTop ? '#BFDBFE' : '#E2E8F0'}" stroke-width="1"/>
+              <text x="260" y="105" fill="${isTop ? '#1D4ED8' : '#64748B'}" font-size="13" font-weight="800" text-anchor="middle">${item.theme || "핵심ETF"}</text>
 
-              <!-- 순유입 금액 44px 대형 숫자 -->
-              <text x="912" y="82" fill="#2E6819" font-size="44" font-weight="900" text-anchor="end" class="tabular">+${inflowJo}<tspan font-size="24" font-weight="700">억원</tspan></text>
-              <text x="912" y="118" fill="#5A7050" font-size="16" font-weight="800" text-anchor="end">${isTop ? '🥇 당일 최대 실질 순유입' : '순유입 상위 종목'}</text>
+              <!-- 순유입 금액 -->
+              <text x="912" y="82" fill="${isTop ? '#1D4ED8' : '#1E293B'}" font-size="44" font-weight="900" text-anchor="end" class="tabular">+${inflowJo}<tspan font-size="24" font-weight="700" fill="${isTop ? '#2563EB' : '#64748B'}">억원</tspan></text>
+              <text x="912" y="118" fill="${isTop ? '#2563EB' : '#64748B'}" font-size="16" font-weight="800" text-anchor="end">${isTop ? '🥇 당일 최대 실질 순유입' : '순유입 상위 종목'}</text>
             </g>
           `;
         }).join("")}
@@ -405,7 +407,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
   `;
 
   // =========================================================================
-  // SLIDE 5: Disparity Alert
+  // SLIDE 5: Disparity Alert (Theme: Tangerine Amber Warning)
   // =========================================================================
   const disparityList = (payload.disparityWarning && payload.disparityWarning.length > 0) ? payload.disparityWarning : [];
 
@@ -413,16 +415,18 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
       ${commonDefs}
       <rect width="1080" height="1350" fill="#F8FAFC"/>
+      <circle cx="950" cy="180" r="300" fill="#EA580C" fill-opacity="0.035"/>
+      <circle cx="100" cy="1150" r="260" fill="#D97706" fill-opacity="0.03"/>
 
       <g transform="translate(70, 60)">
-        <text x="0" y="30" fill="#2E6819" font-size="16" font-weight="900" letter-spacing="1">STEP 5. DISPARITY ALERT</text>
+        <text x="0" y="30" fill="#C2410C" font-size="16" font-weight="900" letter-spacing="1">STEP 5. DISPARITY ALERT</text>
         <text x="0" y="72" fill="#0F172A" font-size="38" font-weight="900">괴리율 왜곡 주의 종목 TOP 5</text>
         <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 순자산가치(NAV) 대비 시장 종가의 가격 왜곡 정도를 나타냅니다.</text>
         <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
         <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">5 / 6</text>
       </g>
 
-      <!-- Alert Banner (compact) -->
+      <!-- Alert Banner (Tangerine Warning Theme) -->
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
         <rect width="940" height="94" rx="22" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.5"/>
         <rect x="30" y="15" width="135" height="34" rx="10" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1.2"/>
@@ -433,7 +437,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         </text>
       </g>
 
-      <!-- Disparity List Cards — ETF명+티커 2줄 분리로 겹침 완전 해소 -->
+      <!-- Disparity List Cards (Tangerine Alert Palette) -->
       <g transform="translate(70, 290)">
         ${disparityList.slice(0, 5).map((d: any, idx: number) => {
           const isDiscount = d.disparityPct < 0;
@@ -441,19 +445,21 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           const badgeText = isDiscount ? '#15803D' : '#B45309';
           const label = isDiscount ? '🟢 저평가 (Discount)' : '🟡 고평가 (Premium)';
           const sign = d.disparityPct > 0 ? "+" : "";
+          const isTop = idx === 0;
 
           return `
             <g transform="translate(0, ${idx * 192})" filter="url(#cardShadow)">
-              <rect width="940" height="178" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+              <rect width="940" height="178" rx="22" fill="#FFFFFF" stroke="${isTop ? (isDiscount ? '#86EFAC' : '#FDBA74') : '#E2E8F0'}" stroke-width="${isTop ? '2' : '1.5'}"/>
+              ${isTop ? `<rect x="0" y="0" width="8" height="178" rx="4" fill="${isDiscount ? '#15803D' : '#EA580C'}"/>` : ''}
 
               <!-- 순위 뱃지 -->
-              <circle cx="60" cy="89" r="27" fill="${badgeBg}"/>
-              <text x="60" y="97" fill="${badgeText}" font-size="22" font-weight="900" text-anchor="middle">${idx + 1}</text>
+              <circle cx="60" cy="89" r="27" fill="${isTop ? (isDiscount ? '#15803D' : '#EA580C') : badgeBg}"/>
+              <text x="60" y="97" fill="${isTop ? '#FFFFFF' : badgeText}" font-size="22" font-weight="900" text-anchor="middle">${idx + 1}</text>
 
-              <!-- ETF명: 자연 렌더링 + 18자 초과 시 말줄임으로 우측 수치와 겹침 방지 -->
+              <!-- ETF명 -->
               <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">${d.etfName.length > 18 ? d.etfName.slice(0, 18) + '…' : d.etfName}</text>
 
-              <!-- 티커: 항상 ETF명 아래 독립 행 -->
+              <!-- 티커 -->
               <rect x="105" y="85" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="145" y="102" fill="#64748B" font-size="14" font-weight="700" text-anchor="middle" class="tabular">${d.ticker}</text>
 
@@ -461,7 +467,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
               <rect x="198" y="85" width="180" height="26" rx="8" fill="${badgeBg}" stroke="${isDiscount ? '#BBF7D0' : '#FDE68A'}" stroke-width="1"/>
               <text x="288" y="102" fill="${badgeText}" font-size="14" font-weight="800" text-anchor="middle">${label}</text>
 
-              <!-- 괴리율 수치: 44px 대형 숫자 -->
+              <!-- 괴리율 수치 -->
               <text x="912" y="82" fill="${badgeText}" font-size="44" font-weight="900" text-anchor="end" class="tabular">${sign}${d.disparityPct.toFixed(2)}%</text>
               <text x="912" y="118" fill="#64748B" font-size="15" font-weight="700" text-anchor="end">NAV 대비 시장 괴리율</text>
             </g>

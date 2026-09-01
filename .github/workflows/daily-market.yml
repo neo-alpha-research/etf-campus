@@ -95,7 +95,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install beautifulsoup4 certifi requests xlrd playwright
+          python -m pip install beautifulsoup4 certifi requests xlrd playwright curl_cffi
           python -m playwright install chromium --with-deps
 
       - name: Refresh official ETF data

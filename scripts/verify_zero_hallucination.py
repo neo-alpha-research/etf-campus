@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Zero-Hallucination & Financial Integrity Verification Script
 Enforces strict Zero-Hallucination policy across the ETF Campus market briefing pipeline.
@@ -80,6 +80,12 @@ def check_d1_database():
         ts = m.get("market_scale_time_series")
         if not ts or len(ts.get("daily", [])) == 0:
             errors.append(f"Date {d}: Empty market_scale_time_series.daily")
+        if not ts or len(ts.get("weekly", [])) == 0:
+            errors.append(f"Date {d}: Empty market_scale_time_series.weekly")
+        if not ts or len(ts.get("monthly", [])) == 0:
+            errors.append(f"Date {d}: Empty market_scale_time_series.monthly")
+        if not ts or len(ts.get("yearly", [])) == 0:
+            errors.append(f"Date {d}: Empty market_scale_time_series.yearly")
 
     if errors:
         for e in errors:

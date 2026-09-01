@@ -126,10 +126,10 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
         <div
           role="button"
           tabIndex={0}
-          onClick={() => coverUrl && setShowCoverModal(true)}
+          onClick={() => { if (coverUrl) setShowCoverModal(true); }}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
-              coverUrl && setShowCoverModal(true);
+              if (coverUrl) setShowCoverModal(true);
             }
           }}
           className="group/cover flex aspect-[3/4] w-36 sm:w-44 shrink-0 items-center justify-center rounded-2xl bg-white border border-neutral-200/90 overflow-hidden relative shadow-sm hover:shadow-md transition-all cursor-zoom-in"

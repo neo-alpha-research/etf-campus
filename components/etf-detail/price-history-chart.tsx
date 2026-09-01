@@ -49,7 +49,7 @@ const PERIODS = [
   { id: "itd", label: "ITD", title: "상장 후 수익률" },
 ];
 
-export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, fixedReturns }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: EtfReturns }) {
+export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: EtfReturns }) {
 
   const [period, setPeriod] = useState<PricePeriod>(isNewListing ? "1d" : "12m");
   const hasItdAnchor = Boolean(isNewListing && itdAnchor?.price && itdAnchor?.date);

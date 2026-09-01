@@ -87,7 +87,7 @@ export function ExternalBooksIndex({
             <p>해당 카테고리의 추천 도서가 준비 중입니다.</p>
           </div>
         ) : (
-          filteredBooks.map((book, index) => {
+          filteredBooks.map((book) => {
             const coverUrl = book.coverImage;
             return (
               <article
@@ -155,10 +155,10 @@ export function ExternalBooksIndex({
                   <div
                     role="button"
                     tabIndex={0}
-                    onClick={() => coverUrl && setPreviewBook(book)}
+                    onClick={() => { if (coverUrl) setPreviewBook(book); }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
-                        coverUrl && setPreviewBook(book);
+                        if (coverUrl) setPreviewBook(book);
                       }
                     }}
                     className="group/cover my-3 flex aspect-[3/4] w-28 sm:w-32 mx-auto items-center justify-center rounded-xl bg-white border border-neutral-200/80 overflow-hidden relative shadow-2xs hover:shadow-md transition-all cursor-zoom-in"

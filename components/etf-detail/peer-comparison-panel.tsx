@@ -103,18 +103,9 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
   }
 
   // 보조 문구 생성
-  const totalPeerCount = Math.max(selected.totalCount - 1, 0);
   const directPeerCount = selected.candidates.filter(
     (candidate) => candidate.tier === "same_peer_group",
   ).length;
-  const structureReferenceCount = selected.candidates.filter(
-    (candidate) => candidate.tier === "structure_reference",
-  ).length;
-  const investmentReferenceCount = selected.candidates.filter(
-    (candidate) => candidate.tier === "investment_reference",
-  ).length;
-  const similarPeerCount = selected.candidates.length - directPeerCount - structureReferenceCount - investmentReferenceCount;
-  const displayedPeerCount = selected.candidates.length;
 
   // 헤더 생성
   let headerLabel = "직접 비교그룹";

@@ -12,11 +12,13 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
   const { premiums, discounts } = useMemo(() => {
     if (!warnings || warnings.length === 0) return { premiums: [], discounts: [] };
 
+    type LegacyWarning = DisparityWarning & { disparity_pct?: number; etf_name?: string; asset_class?: string };
     const premList: DisparityWarning[] = [];
     const discList: DisparityWarning[] = [];
 
     warnings.forEach((w) => {
-      const pct = Number(w.disparityPct ?? (w as any).disparity_pct ?? 0);
+      const legacyW = w as LegacyWarning;
+      const pct = Number(legacyW.disparityPct ?? legacyW.disparity_pct ?? 0);
       if (pct > 0) {
         premList.push(w);
       } else if (pct < 0) {
@@ -25,14 +27,14 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
     });
 
     premList.sort((a, b) => {
-      const pctA = Number(a.disparityPct ?? (a as any).disparity_pct ?? 0);
-      const pctB = Number(b.disparityPct ?? (b as any).disparity_pct ?? 0);
+      const pctA = Number((a as LegacyWarning).disparityPct ?? (a as LegacyWarning).disparity_pct ?? 0);
+      const pctB = Number((b as LegacyWarning).disparityPct ?? (b as LegacyWarning).disparity_pct ?? 0);
       return pctB - pctA; // 높은 순 (내림차순)
     });
 
     discList.sort((a, b) => {
-      const pctA = Number(a.disparityPct ?? (a as any).disparity_pct ?? 0);
-      const pctB = Number(b.disparityPct ?? (b as any).disparity_pct ?? 0);
+      const pctA = Number((a as LegacyWarning).disparityPct ?? (a as LegacyWarning).disparity_pct ?? 0);
+      const pctB = Number((b as LegacyWarning).disparityPct ?? (b as LegacyWarning).disparity_pct ?? 0);
       return pctA - pctB; // 음수 절댓값 큰 순 (오름차순: -4% -> -2%)
     });
 
@@ -87,9 +89,10 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
               <div className="mt-3 space-y-2.5">
                 {topPremiums.length > 0 ? (
                   topPremiums.map((w, idx) => {
-                    const pct = Number(w.disparityPct ?? (w as any).disparity_pct ?? 0);
-                    const name = w.etfName ?? (w as any).etf_name ?? "";
-                    const assetClass = w.assetClass ?? (w as any).asset_class ?? "";
+                    const legacyW = w as DisparityWarning & { disparity_pct?: number; etf_name?: string; asset_class?: string };
+                    const pct = Number(legacyW.disparityPct ?? legacyW.disparity_pct ?? 0);
+                    const name = legacyW.etfName ?? legacyW.etf_name ?? "";
+                    const assetClass = legacyW.assetClass ?? legacyW.asset_class ?? "";
 
                     return (
                       <Link
@@ -155,9 +158,10 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
               <div className="mt-3 space-y-2.5">
                 {topDiscounts.length > 0 ? (
                   topDiscounts.map((w, idx) => {
-                    const pct = Number(w.disparityPct ?? (w as any).disparity_pct ?? 0);
-                    const name = w.etfName ?? (w as any).etf_name ?? "";
-                    const assetClass = w.assetClass ?? (w as any).asset_class ?? "";
+                    const legacyW = w as DisparityWarning & { disparity_pct?: number; etf_name?: string; asset_class?: string };
+                    const pct = Number(legacyW.disparityPct ?? legacyW.disparity_pct ?? 0);
+                    const name = legacyW.etfName ?? legacyW.etf_name ?? "";
+                    const assetClass = legacyW.assetClass ?? legacyW.asset_class ?? "";
 
                     return (
                       <Link

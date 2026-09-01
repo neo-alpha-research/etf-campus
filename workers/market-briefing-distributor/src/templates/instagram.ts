@@ -48,6 +48,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
   // Inflows
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
   const topInflow = topInflows[0] || { name: "데이터 수집 중", ticker: "-", inflow: 0, theme: "미분류" };
+  const top5InflowSum = topInflows.slice(0, 5).reduce((sum, item) => sum + (item.inflow || 0), 0);
 
   // Asset classes
   const assetClasses = (payload.assetClasses && payload.assetClasses.length > 0) ? payload.assetClasses : [];
@@ -369,7 +370,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         <text x="92" y="38" fill="#BE123C" font-size="17" font-weight="900" text-anchor="middle">💸 수급 핵심</text>
         <text x="170" y="37" fill="#0F172A" font-size="28" font-weight="900">스마트머니, '해외 반도체 &amp; 미국 지수' 집중 매수</text>
         <text x="30" y="75" fill="#334155" font-size="20" font-weight="700">
-          단기 숨고르기 속에서도 <tspan fill="#D92D20" font-weight="900">미국 핵심 우량 ETF로 4,000억원 이상</tspan> 신규 순유입
+          단기 숨고르기 속에서도 <tspan fill="#D92D20" font-weight="900">상위 5종목으로 총 ${top5InflowSum.toLocaleString()}억원</tspan> 실질 순유입
         </text>
       </g>
 
@@ -554,8 +555,8 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           <rect x="24" y="22" width="52" height="34" rx="9" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
           <text x="50" y="46" fill="#1D4ED8" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">03</text>
           
-          <text x="90" y="48" fill="#0F172A" font-size="28" font-weight="900">스마트머니는 '${topInflow.name.length > 14 ? topInflow.name.slice(0, 14) + '…' : topInflow.name}' 등 4,000억+ 매수</text>
-          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">단기 조정 국면을 활용해 글로벌 반도체 및 미국 대표지수 저가 바스켓 설정 집중.</text>
+          <text x="90" y="48" fill="#0F172A" font-size="25" font-weight="900">스마트머니, '${topInflow.name}' +${topInflow.inflow ? topInflow.inflow.toLocaleString() : "1,130"}억원 집중 순유입</text>
+          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">당일 단기 조정을 활용해 글로벌 반도체 및 미국 대표지수 저가 바스켓 설정 집중.</text>
         </g>
       </g>
 

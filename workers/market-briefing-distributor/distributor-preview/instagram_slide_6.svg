@@ -61,7 +61,7 @@
           <text x="50" y="46" fill="#15803D" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">01</text>
           
           <text x="90" y="48" fill="#0F172A" font-size="28" font-weight="900">코스피 +0.46% vs 일반 ETF -0.28% 혼조세</text>
-          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">국내 대형주 지지 속에서도 일반 ETF 670개가 하락하며 소폭 약세 흐름을 보였습니다.</text>
+          <text x="24" y="104" fill="#334155" font-size="20" font-weight="700">국내 대형주 지지 속 일반 ETF는 상승 305개 · 보합 47개 · 하락 670개로 소폭 약세 흐름.</text>
         </g>
 
         <!-- Block 2 -->

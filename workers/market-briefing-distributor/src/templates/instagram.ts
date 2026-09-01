@@ -131,8 +131,8 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           <rect width="840" height="185" rx="24" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
           <text x="40" y="42" fill="#475569" font-size="21" font-weight="800">🌡️ 1. 오늘 시장 체온 &amp; 지수 대비 성과</text>
           
-          <rect x="580" y="16" width="220" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-          <text x="690" y="41" fill="#1E293B" font-size="15" font-weight="800" text-anchor="middle">상승 ${up}개 · 하락 ${down}개 (${temp})</text>
+          <rect x="475" y="16" width="325" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+          <text x="637" y="41" fill="#1E293B" font-size="13.5" font-weight="800" text-anchor="middle">상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개 (${temp})</text>
 
           <g transform="translate(40, 95)">
             <text x="0" y="0" fill="#64748B" font-size="20" font-weight="700">KOSPI</text>
@@ -536,7 +536,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           <text x="50" y="46" fill="#15803D" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">01</text>
           
           <text x="90" y="48" fill="#0F172A" font-size="28" font-weight="900">코스피 ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% 혼조세</text>
-          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">국내 대형주 지지 속에서도 일반 ETF ${down}개가 하락하며 소폭 약세 흐름을 보였습니다.</text>
+          <text x="24" y="104" fill="#334155" font-size="20" font-weight="700">국내 대형주 지지 속 일반 ETF는 상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개로 소폭 약세 흐름.</text>
         </g>
 
         <!-- Block 2 -->

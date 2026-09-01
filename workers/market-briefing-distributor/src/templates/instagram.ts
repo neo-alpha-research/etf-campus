@@ -659,7 +659,7 @@ export function generateInstagramCaption(payload: MarketBriefingPayload): string
   const formattedDate = (payload.asOfDate || "2026.08.31").replace(/-/g, '.');
 
   return `📌 ETF 투자자 출근길 필수 체크! [ETF 마켓 브리핑] ☕
-기준일(${formattedDate}) 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수조사! (레버리지·인버스 제외)
+${formattedDate} 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수조사! (레버리지·인버스 제외)
 내 계좌 속 ETF의 성적표는 어땠을까요?
 
 코스피가 ${sign}${kospiChangePct.toFixed(2)}%로 마감한 가운데, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%(상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개)로 차별화된 흐름을 보였습니다. 📊

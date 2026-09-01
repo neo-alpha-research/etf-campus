@@ -472,7 +472,7 @@ function IndexRow({ index }: { index: MarketIndex }) {
       {/* 2열 + 3열: 종가 수치 (68px) + 등락 배지 (66px) */}
       <div className="flex items-center gap-2 shrink-0">
         <div className="w-[68px] text-center flex items-baseline justify-center gap-0.5">
-          <span className="text-[13.5px] sm:text-[14px] font-extrabold tracking-tight text-neutral-900 tabular-nums">{decimal.format(index.close)}</span>
+          <span className="text-[13.5px] sm:text-[14px] font-extrabold tracking-tight text-neutral-900 tabular-nums">{index.close !== undefined && index.close !== null ? decimal.format(index.close) : "-"}</span>
           {unit && <span className="text-[10px] font-semibold text-neutral-400">{unit}</span>}
         </div>
 
@@ -672,8 +672,8 @@ export function MarketBriefing() {
       mergedIndices.push({
         code: "KR10Y",
         label: "국채 10년",
-        close: foundKr ? foundKr.value : 3.15,
-        change_pct: foundKr ? foundKr.change : 0.02,
+        close: foundKr?.value,
+        change_pct: foundKr?.change,
         as_of_date: foundKr?.as_of_date || briefing.asOfDate,
       });
     }
@@ -684,9 +684,9 @@ export function MarketBriefing() {
       );
       mergedIndices.push({
         code: "DGS10",
-        label: "국채 10년",
-        close: foundUs ? foundUs.value : 4.64,
-        change_pct: foundUs ? foundUs.change : -0.07,
+        label: "미 국채 10년",
+        close: foundUs?.value,
+        change_pct: foundUs?.change,
         as_of_date: foundUs?.as_of_date || briefing.asOfDate,
       });
     }
@@ -742,6 +742,7 @@ export function MarketBriefing() {
 
 
   const { pulse } = briefing;
+  if (!pulse) return <div className="p-8 text-center text-gray-500">시장 체감 지표(Pulse) 데이터를 불러올 수 없습니다.</div>;
   if (!pulse) return <div className="p-8 text-center text-gray-500">시장 체감 지표(Pulse) 데이터를 불러올 수 없습니다.</div>;
 
   const scopeReturns = new Map((pulse?.aumWeightedReturns || []).map((item) => [item.scope, item]));

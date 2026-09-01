@@ -34,7 +34,7 @@ ACTION_COLUMNS = [
 ]
 METRIC_COLUMNS = [
     "etf_id", "ticker", "period", "as_of_date", "target_start_date",
-    "actual_start_date", "actual_end_date", "total_return_pct", "return_basis",
+    "actual_start_date", "actual_end_date", "total_return_pct", "net_total_return_pct", "return_basis",
     "calculation_status", "distribution_event_count", "blocking_event_ids",
     "price_observation_count", "calculation_version", "calculated_at",
 ]
@@ -189,7 +189,7 @@ def calculate_for_period(code: str, isin: str, period: str, points: list[PricePo
     base = {
         "etf_id": isin, "ticker": code, "period": period, "as_of_date": as_of.isoformat(),
         "target_start_date": wanted.isoformat(), "actual_start_date": "", "actual_end_date": as_of.isoformat(),
-        "total_return_pct": "", "return_basis": "market_price_tr_pre_tax_ex_date_reinvested",
+        "total_return_pct": "", "net_total_return_pct": "", "return_basis": "market_price_tr_pre_tax_ex_date_reinvested",
         "calculation_status": "", "distribution_event_count": "0", "blocking_event_ids": "",
         "price_observation_count": "0", "calculation_version": "1", "calculated_at": now_iso(),
     }
@@ -217,12 +217,15 @@ def calculate_for_period(code: str, isin: str, period: str, points: list[PricePo
             distribution_by_day[event_day] += amount
             count += 1
     factor = 1.0
+    net_factor = 1.0
     previous = in_range[0]
     for current in in_range[1:]:
         cash = distribution_by_day.get(current.day, 0.0)
         factor *= (current.close + cash) / previous.close
+        net_factor *= (current.close + cash * 0.846) / previous.close
         previous = current
     base["total_return_pct"] = f"{(factor - 1.0) * 100:.6f}"
+    base["net_total_return_pct"] = f"{(net_factor - 1.0) * 100:.6f}"
     base["distribution_event_count"] = str(count)
     base["calculation_status"] = "calculated"
     return base

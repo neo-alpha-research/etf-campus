@@ -21,14 +21,7 @@ const screenerEtfs = fullEtfs.map((etf) => ({
   asOfDate: etf.asOfDate,
   returns: etf.returns,
   returnsTr: etf.returnsTr,
-  returnsNetTr: etf.returnsTr ? Object.fromEntries(
-    Object.entries(etf.returnsTr).map(([key, trValue]) => {
-      const prValue = etf.returns[key as keyof typeof etf.returns];
-      if (typeof trValue !== 'number' || typeof prValue !== 'number') return [key, trValue];
-      const dividendComponent = Math.max(0, trValue - prValue);
-      return [key, prValue + dividendComponent * 0.846];
-    })
-  ) : null,
+  returnsNetTr: etf.returnsNetTr,
   classification: etf.classification,
   listingDate: etf.listingDate,
 }));

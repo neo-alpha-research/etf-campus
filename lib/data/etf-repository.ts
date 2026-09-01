@@ -86,12 +86,12 @@ function parseClassification(row: CsvRow | undefined): EtfClassification | null 
   };
 }
 
-function loadTrReturnsIndex(dataDirectory: string): Map<string, Record<string, number | null>> {
+function loadTrReturnsIndex(dataDirectory: string): Map<string, { tr: Record<string, number | null>, netTr: Record<string, number | null> }> {
   const trPath = path.join(dataDirectory, "returns", "etf_total_return_metrics.csv");
   if (!fs.existsSync(trPath)) return new Map();
   
   const rows = readCsv(trPath);
-  const result = new Map<string, Record<string, number | null>>();
+  const result = new Map<string, { tr: Record<string, number | null>, netTr: Record<string, number | null> }>();
   
   for (const row of rows) {
     const ticker = row.ticker?.trim();
@@ -99,25 +99,38 @@ function loadTrReturnsIndex(dataDirectory: string): Map<string, Record<string, n
     
     if (!result.has(ticker)) {
       result.set(ticker, {
-        "1d": null, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null,
-        "12m": null, "24m": null, "36m": null, "ytd": null, "itd": null
+        tr: {
+          "1d": null, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null,
+          "12m": null, "24m": null, "36m": null, "ytd": null, "itd": null
+        },
+        netTr: {
+          "1d": null, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null,
+          "12m": null, "24m": null, "36m": null, "ytd": null, "itd": null
+        }
       });
     }
     
     const period = row.period?.trim();
     const status = row.calculation_status?.trim();
     const pctStr = row.total_return_pct?.trim();
+    const netPctStr = row.net_total_return_pct?.trim();
     
-    // Map script periods to TS ReturnPeriod
-    let tsPeriod = period;
-    if (period === "1y") tsPeriod = "12m";
-    if (period === "2y") tsPeriod = "24m";
-    if (period === "3y") tsPeriod = "36m";
+    let mappedPeriod: string | undefined;
+    if (period === "1y") mappedPeriod = "12m";
+    else if (period === "2y") mappedPeriod = "24m";
+    else if (period === "3y") mappedPeriod = "36m";
+    else if (["1d", "1w", "2w", "1m", "2m", "3m", "6m", "ytd", "itd"].includes(period || "")) mappedPeriod = period;
     
-    if (status === "calculated" && pctStr) {
-      const val = Number(pctStr);
-      if (Number.isFinite(val)) {
-        result.get(ticker)![tsPeriod as string] = val;
+    if (mappedPeriod && status === "calculated" && pctStr) {
+      const parsed = parseFloat(pctStr);
+      if (!isNaN(parsed)) {
+        result.get(ticker)!.tr[mappedPeriod] = parsed;
+      }
+      if (netPctStr) {
+        const netParsed = parseFloat(netPctStr);
+        if (!isNaN(netParsed)) {
+          result.get(ticker)!.netTr[mappedPeriod] = netParsed;
+        }
       }
     }
   }
@@ -145,6 +158,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   return masterRows.map((master) => {
     const ticker = requireField(master, "ticker", "etf_master_draft.csv");
     const returns = returnsByTicker.get(ticker)!;
+    const trData = trReturnsByTicker.get(ticker) || { tr: {}, netTr: {} };
     const pension = pensionByTicker.get(ticker)!;
 
     const changePct = parseNumberField(master, "change_pct", `master:${ticker}`);

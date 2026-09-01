@@ -103,7 +103,7 @@
         <rect x="785" y="16" width="140" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="855" y="41" fill="#1E293B" font-size="15" font-weight="800" text-anchor="middle">기관·외국인 합산</text>
 
-        <!-- 3 Inflow Rows (Perfect Ticker Badges) -->
+        <!-- 3 Inflow Rows (Full Name + Ticker Attached) -->
         <g transform="translate(35, 72)">
           
             <g transform="translate(0, 0)">
@@ -111,43 +111,40 @@
               <circle cx="28" cy="23" r="13" fill="#10B981"/>
               <text x="28" y="28" fill="#FFFFFF" font-size="12" font-weight="900" text-anchor="middle">1</text>
               
-              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국필라델피아반도체…</text>
-              
-              <!-- Ticker Badge nicely positioned right after name space -->
-              <rect x="560" y="11" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-              <text x="595" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">381180</text>
+              <!-- Full ETF Name + Ticker right next to it -->
+              <text x="56" y="29" fill="#0F172A" font-size="16.5" font-weight="900">
+                TIGER 미국필라델피아반도체나스닥 <tspan fill="#64748B" font-size="13.5" font-weight="700">(381180)</tspan>
+              </text>
               
               <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+1,130억원</text>
             </g>
-            
+          
             <g transform="translate(0, 54)">
               <rect width="890" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <circle cx="28" cy="23" r="13" fill="#E2E8F0"/>
               <text x="28" y="28" fill="#475569" font-size="12" font-weight="900" text-anchor="middle">2</text>
               
-              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국S&amp;P500</text>
-              
-              <!-- Ticker Badge nicely positioned right after name space -->
-              <rect x="560" y="11" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-              <text x="595" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">360750</text>
+              <!-- Full ETF Name + Ticker right next to it -->
+              <text x="56" y="29" fill="#0F172A" font-size="16.5" font-weight="900">
+                TIGER 미국S&amp;P500 <tspan fill="#64748B" font-size="13.5" font-weight="700">(360750)</tspan>
+              </text>
               
               <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+925억원</text>
             </g>
-            
+          
             <g transform="translate(0, 108)">
               <rect width="890" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <circle cx="28" cy="23" r="13" fill="#E2E8F0"/>
               <text x="28" y="28" fill="#475569" font-size="12" font-weight="900" text-anchor="middle">3</text>
               
-              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국나스닥100</text>
-              
-              <!-- Ticker Badge nicely positioned right after name space -->
-              <rect x="560" y="11" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-              <text x="595" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">133690</text>
+              <!-- Full ETF Name + Ticker right next to it -->
+              <text x="56" y="29" fill="#0F172A" font-size="16.5" font-weight="900">
+                TIGER 미국나스닥100 <tspan fill="#64748B" font-size="13.5" font-weight="700">(133690)</tspan>
+              </text>
               
               <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+850억원</text>
             </g>
-            
+          
         </g>
       </g>
 
@@ -159,18 +156,20 @@
         <rect x="740" y="16" width="185" height="38" rx="10" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1.2"/>
         <text x="832" y="41" fill="#9A3412" font-size="15" font-weight="900" text-anchor="middle">NAV 대비 왜곡 경보</text>
 
-        <!-- 2 Disparity Cards -->
+        <!-- 2 Disparity Cards (Full Name + Ticker Subtitle) -->
         <g transform="translate(35, 72)">
           
             <g transform="translate(0, 0)">
               <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
-              <text x="20" y="39" fill="#0F172A" font-size="16.5" font-weight="900">KoAct 차이나바이오헬스…</text>
+              <text x="20" y="28" fill="#0F172A" font-size="15" font-weight="900">KoAct 차이나바이오헬스케어액티브</text>
+              <text x="20" y="48" fill="#64748B" font-size="12.5" font-weight="700">0154H0 · 주식-해외</text>
               <text x="410" y="40" fill="#C2410C" font-size="22" font-weight="900" text-anchor="end" class="tabular">-4.36%</text>
             </g>
           
             <g transform="translate(460, 0)">
               <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
-              <text x="20" y="39" fill="#0F172A" font-size="16.5" font-weight="900">SOL 차이나소비트렌드</text>
+              <text x="20" y="28" fill="#0F172A" font-size="15" font-weight="900">SOL 차이나소비트렌드</text>
+              <text x="20" y="48" fill="#64748B" font-size="12.5" font-weight="700">0131A0 · 주식-해외</text>
               <text x="410" y="40" fill="#C2410C" font-size="22" font-weight="900" text-anchor="end" class="tabular">-3.50%</text>
             </g>
           
@@ -181,7 +180,7 @@
       <g transform="translate(60, 1040)" filter="url(#cardShadow)">
         <rect width="960" height="75" rx="18" fill="url(#brandGrad)"/>
         <text x="480" y="45" fill="#FFFFFF" font-size="21" font-weight="900" text-anchor="middle">
-          💬 첫 번째 댓글 링크에서 1,022개 전체 ETF 상세 리포트를 확인하세요! 👉
+          👉 62개 테마 롱숏 맵 &amp; 스마트머니 실시간 마켓 브리핑 보러가기 🔗
         </text>
       </g>
 

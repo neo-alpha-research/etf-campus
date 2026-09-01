@@ -115,5 +115,24 @@ def main():
 
     logging.info(f"Successfully wrote {len(all_rows)} TR index records to {out_path.name}")
 
+    # 5. Write to JSON files for frontend charts
+    import json
+    json_dir = root_dir / "public" / "data" / "returns" / "tr_index"
+    json_dir.mkdir(parents=True, exist_ok=True)
+    
+    ticker_groups = defaultdict(list)
+    for row in all_rows:
+        ticker_groups[row["ticker"]].append({
+            "date": row["date"],
+            "close": row["pr_close"],
+            "tr_index": row["tr_index"]
+        })
+        
+    for ticker, rows in ticker_groups.items():
+        with open(json_dir / f"{ticker}.json", "w", encoding="utf-8") as f:
+            json.dump({"ticker": ticker, "points": rows}, f)
+            
+    logging.info(f"Successfully wrote {len(ticker_groups)} TR index JSON files to {json_dir}")
+
 if __name__ == "__main__":
     main()

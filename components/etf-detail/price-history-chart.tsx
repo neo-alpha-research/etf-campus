@@ -49,7 +49,7 @@ const PERIODS = [
   { id: "itd", label: "ITD", title: "상장 후 수익률" },
 ];
 
-export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, fixedReturns }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: Record<string, number | null> }) {
+export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor }) {
 
   const [period, setPeriod] = useState<PricePeriod>(isNewListing ? "1d" : "12m");
   const hasItdAnchor = Boolean(isNewListing && itdAnchor?.price && itdAnchor?.date);
@@ -110,6 +110,12 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     !startStr ? null : `${baseUrl}/api/prices/history?ticker=${ticker}&start=${startStr}&end=${endStr}&basis=pr`,
     fetcher
   );
+  
+  const [isTrMode, setIsTrMode] = useState(false);
+  const { data: trDataFull } = useSWR(
+    (!startStr || !isTrMode) ? null : `/data/returns/tr_index/${ticker}.json`,
+    fetcher
+  );
 
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const sourcePoints = data?.points ?? EMPTY_POINTS;
@@ -132,6 +138,24 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     return rawPoints;
   }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor]);
 
+  const trPoints = useMemo<ChartPoint[]>(() => {
+    if (!isTrMode || !trDataFull?.points || points.length === 0) return [];
+    
+    // Filter trDataFull to match the current date range
+    const start = points[0].date;
+    const end = points[points.length - 1].date;
+    const visiblePoints = trDataFull.points.filter(p => p.date >= start && p.date <= end);
+    if (visiblePoints.length === 0) return [];
+    
+    // Map tr_index to returnPct
+    // @ts-expect-error - tr_index is injected via JSON
+    const baseTr = visiblePoints[0].tr_index || visiblePoints[0].close;
+    return visiblePoints.map((point: any) => ({
+      ...point,
+      returnPct: baseTr > 0 ? ((point.tr_index || point.close) / baseTr - 1) * 100 : 0,
+    }));
+  }, [trDataFull, isTrMode, points]);
+
   const isShort = useMemo(() => {
     if (isNewListing) return false;
     if (!startStr || points.length === 0) return false;
@@ -141,16 +165,17 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     return diffDays > 7; // more than 7 days gap means the ETF is likely newer than the requested period
   }, [points, startStr, isNewListing]);
 
-    const { pathData, minReturn, xScale, yScale, height, width } = useMemo(() => {
-
+    const { prPathData, trPathData, minReturn, xScale, yScale, height, width } = useMemo(() => {
     const w = 800;
-    const h = 160; // Reduced height for better readability
-        if (points.length === 0) return { pathData: "", minReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
+    const h = 160;
+    if (points.length === 0) return { prPathData: "", trPathData: "", minReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
     
-    const returns = points.map((point) => point.returnPct);
+    const prReturns = points.map((point) => point.returnPct);
+    const trReturns = trPoints.map((point) => point.returnPct);
+    const allReturns = [...prReturns, ...trReturns];
 
-    const minR = Math.min(...returns, 0);
-    const maxR = Math.max(...returns, 0);
+    const minR = Math.min(...allReturns, 0);
+    const maxR = Math.max(...allReturns, 0);
     
     // add padding
     const pad = Math.max(Math.abs(maxR - minR) * 0.15, 1);
@@ -160,16 +185,20 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     const xS = w / Math.max(points.length - 1, 1);
     const yS = h / (max - min);
 
-        const path = points.map((p, i) => {
-
+    const prPath = points.map((p, i) => {
       const x = i * xS;
       const y = h - (p.returnPct - min) * yS;
       return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
     }).join(" ");
 
-        return { pathData: path, minReturn: min, xScale: xS, yScale: yS, height: h, width: w };
+    const trPath = isTrMode && trPoints.length > 0 ? trPoints.map((p, i) => {
+      const x = i * xS;
+      const y = h - (p.returnPct - min) * yS;
+      return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
+    }).join(" ") : "";
 
-  }, [points]);
+    return { prPathData: prPath, trPathData: trPath, minReturn: min, xScale: xS, yScale: yS, height: h, width: w };
+  }, [points, trPoints, isTrMode]);
 
   const zeroY = height - (0 - minReturn) * yScale;
 
@@ -268,17 +297,30 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
             )}
           </div>
           
-          <button 
-            onClick={handleDownload}
-            className="shrink-0 flex h-8 items-center gap-1.5 rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
-            title="차트를 PNG로 다운로드"
-            aria-label="차트를 PNG로 다운로드"
-          >
-            <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" />
-            </svg>
-            <span className="hidden sm:inline">저장</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsTrMode(!isTrMode)}
+              className="shrink-0 flex h-8 items-center gap-2 rounded-lg bg-neutral-50 px-3 py-1 text-xs font-bold text-neutral-600 transition-colors hover:bg-neutral-100 border border-neutral-200 shadow-xs"
+              title="TR (배당 재투자) 모드 토글"
+            >
+              <span className={isTrMode ? "text-brand-700" : ""}>TR {isTrMode ? "ON" : "OFF"}</span>
+              <div className={`relative inline-flex h-3 w-6 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
+                <span className={`inline-block h-2 w-2 transform rounded-full bg-white transition-transform`} style={{ transform: isTrMode ? 'translateX(14px)' : 'translateX(2px)' }} />
+              </div>
+            </button>
+            <button 
+              onClick={handleDownload}
+              className="shrink-0 flex h-8 items-center gap-1.5 rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
+              title="차트를 PNG로 다운로드"
+              aria-label="차트를 PNG로 다운로드"
+            >
+              <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" />
+              </svg>
+              <span className="hidden sm:inline">저장</span>
+            </button>
+          </div>
         </div>
       )}
 
@@ -363,8 +405,13 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
             <line x1="0" y1={zeroY} x2={width} y2={zeroY} stroke="#e5e7eb" strokeWidth="2" strokeDasharray="6 4" />
             <text x="-6" y={zeroY + 4} fontSize="11" fill="#9ca3af" fontWeight="600" textAnchor="end" style={{ pointerEvents: 'none' }}>0</text>
             
-            {/* Main Line */}
-            <path d={pathData} fill="none" stroke="#047857" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+            {/* Main PR Line */}
+            <path d={prPathData} fill="none" stroke={isTrMode ? "#9ca3af" : "#047857"} strokeWidth={isTrMode ? "2" : "3"} strokeDasharray={isTrMode ? "5 5" : "none"} strokeLinejoin="round" strokeLinecap="round" />
+            
+            {/* Main TR Line */}
+            {isTrMode && trPathData && (
+              <path d={trPathData} fill="none" stroke="#6366f1" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+            )}
             
             {/* Interactive Hover Layer */}
                         {points.map((p, i) => {
@@ -399,7 +446,12 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
           </svg>
 
           {/* Tooltip Overlay (HTML) */}
-          {hoverIndex !== null && points[hoverIndex] && (
+          {hoverIndex !== null && points[hoverIndex] && (() => {
+            const prPt = points[hoverIndex];
+            const trPt = isTrMode && trPoints[hoverIndex] ? trPoints[hoverIndex] : null;
+            const activePt = trPt || prPt;
+            
+            return (
             <div 
               className="absolute top-0 pointer-events-none bg-neutral-900/90 text-white p-3 rounded-xl shadow-xl border border-neutral-700/50 backdrop-blur-md z-10 transition-all duration-75 ease-out flex flex-col gap-1 min-w-[120px]"
               style={{ 
@@ -407,16 +459,34 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
                 transform: `translateX(${hoverIndex > points.length / 2 ? 'calc(-100% - 16px)' : '16px'}) translateY(12px)`
               }}
             >
-              <div className="text-[12px] font-bold text-neutral-400 leading-none mb-1">{formatDate(points[hoverIndex].date)}</div>
-              <div className={`text-xl font-black tracking-tighter font-mono leading-none ${points[hoverIndex].returnPct > 0 ? 'text-rose-400' : points[hoverIndex].returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
-                {points[hoverIndex].returnPct > 0 ? '+' : ''}{points[hoverIndex].returnPct.toFixed(2)}%
+              <div className="text-[12px] font-bold text-neutral-400 leading-none mb-1">{formatDate(activePt.date)}</div>
+              
+              {isTrMode ? (
+                <>
+                  <div className="flex justify-between items-baseline gap-3 border-b border-neutral-700 pb-1 mb-1">
+                    <span className="text-[10px] text-brand-300 font-bold">TR</span>
+                    <span className={`text-lg font-black tracking-tighter font-mono ${trPt!.returnPct > 0 ? 'text-rose-400' : trPt!.returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
+                      {trPt!.returnPct > 0 ? '+' : ''}{trPt!.returnPct.toFixed(2)}%
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-baseline gap-3">
+                    <span className="text-[10px] text-neutral-400 font-bold">PR</span>
+                    <span className={`text-sm font-bold tracking-tighter font-mono ${prPt.returnPct > 0 ? 'text-rose-400/70' : prPt.returnPct < 0 ? 'text-blue-400/70' : 'text-neutral-400'}`}>
+                      {prPt.returnPct > 0 ? '+' : ''}{prPt.returnPct.toFixed(2)}%
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <div className={`text-xl font-black tracking-tighter font-mono leading-none ${prPt.returnPct > 0 ? 'text-rose-400' : prPt.returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
+                  {prPt.returnPct > 0 ? '+' : ''}{prPt.returnPct.toFixed(2)}%
+                </div>
+              )}
+              
+              <div className="text-[13px] font-semibold text-neutral-300 mt-0.5">
+                {prPt.close.toLocaleString()}원
               </div>
-                            <div className="text-[13px] font-semibold text-neutral-300 mt-0.5">
-                {points[hoverIndex].close.toLocaleString()}원
-              </div>
-
             </div>
-          )}
+          )})()}
         </div>
       )}
 

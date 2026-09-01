@@ -25,7 +25,7 @@ EVENTS_PATH = DIST_DIR / "etf_distribution_events.csv"
 COVERAGE_PATH = DIST_DIR / "etf_tr_data_coverage.csv"
 ACTIONS_PATH = ROOT / "data" / "corporate_actions" / "etf_corporate_actions.csv"
 OUT_PATH = ROOT / "data" / "returns" / "etf_total_return_metrics.csv"
-PRICE_PATHS = [ROOT / "data" / "income_page2_price_history.csv", ROOT / "data" / "page3_price_history.csv"]
+PRICE_PATHS = [ROOT / "data" / "returns" / "etf_price_history.csv"]
 
 ACTION_COLUMNS = [
     "action_id", "etf_id", "ticker", "action_type", "effective_date",

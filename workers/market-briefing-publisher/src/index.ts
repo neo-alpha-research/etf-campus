@@ -502,31 +502,87 @@ function calculateMarketScale(quotes: EtfSnapshot[]): any {
 
 async function calculateMarketScaleTimeSeries(db: D1Database, asOfDate: string): Promise<any> {
   const pastDates = await db
-    .prepare("SELECT as_of_date, sum(aum_value) as sum_aum, sum(trade_value) as sum_trade FROM briefing_etf_daily WHERE as_of_date <= ? GROUP BY as_of_date ORDER BY as_of_date DESC LIMIT 5")
+    .prepare("SELECT DISTINCT as_of_date FROM briefing_etf_daily WHERE as_of_date <= ? ORDER BY as_of_date DESC LIMIT 6")
     .bind(asOfDate)
-    .all<{ as_of_date: string; sum_aum: number; sum_trade: number }>();
+    .all<{ as_of_date: string }>();
 
-  const rows = (pastDates.results || []).reverse();
-  const dailyTs = rows.map((r, idx) => {
-    const aum = Math.round((r.sum_aum || 0) / 100000000);
-    const adtv = Math.round((r.sum_trade || 0) / 100000000);
+  const dateList = (pastDates.results || []).map((r) => r.as_of_date).reverse();
+  if (!dateList.length) {
+    return { daily: [], weekly: [], monthly: [], yearly: [] };
+  }
+
+  const placeholders = dateList.map(() => "?").join(",");
+  const allQuotesRes = await db
+    .prepare(`SELECT as_of_date, ticker, aum_value, trade_value, change_pct FROM briefing_etf_daily WHERE as_of_date IN (${placeholders}) ORDER BY as_of_date ASC`)
+    .bind(...dateList)
+    .all<{ as_of_date: string; ticker: string; aum_value: number; trade_value: number; change_pct: number }>();
+
+  const byDate = new Map<string, Map<string, { aum_value: number; trade_value: number; change_pct: number }>>();
+  for (const d of dateList) {
+    byDate.set(d, new Map());
+  }
+  for (const q of allQuotesRes.results || []) {
+    const m = byDate.get(q.as_of_date);
+    if (m) {
+      m.set(q.ticker, { aum_value: q.aum_value || 0, trade_value: q.trade_value || 0, change_pct: q.change_pct || 0 });
+    }
+  }
+
+  const displayDates = dateList.length > 5 ? dateList.slice(-5) : dateList;
+  const dailyTs = displayDates.map((d, idx) => {
+    const curMap = byDate.get(d) || new Map();
+    let totalAumVal = 0;
+    let totalTradeVal = 0;
+    for (const item of curMap.values()) {
+      totalAumVal += item.aum_value;
+      totalTradeVal += item.trade_value;
+    }
+
+    const aum = Math.round(totalAumVal / 100000000);
+    const adtv = Math.round(totalTradeVal / 100000000);
     const turnoverPct = aum > 0 ? Number(((adtv / aum) * 100).toFixed(2)) : 0;
-    const prevAum = idx > 0 ? Math.round((rows[idx - 1].sum_aum || 0) / 100000000) : aum;
-    const aumChange = aum - prevAum;
-    const aumChangePct = prevAum > 0 ? Number(((aumChange / prevAum) * 100).toFixed(2)) : 0;
-    const relKey = idx === rows.length - 1 ? "T" : `T-${rows.length - 1 - idx}`;
+
+    const origIdx = dateList.indexOf(d);
+    let aumChange = 0;
+    let aumChangePct = 0;
+    let priceEffect = 0;
+    let netInflow = 0;
+
+    if (origIdx > 0) {
+      const prevD = dateList[origIdx - 1];
+      const prevMap = byDate.get(prevD) || new Map();
+      let prevTotalAum = 0;
+      for (const item of prevMap.values()) {
+        prevTotalAum += item.aum_value;
+      }
+      const aumDiffVal = totalAumVal - prevTotalAum;
+      aumChange = Math.round(aumDiffVal / 100000000);
+      aumChangePct = prevTotalAum > 0 ? Number(((aumDiffVal / prevTotalAum) * 100).toFixed(2)) : 0;
+
+      let rawPriceEffect = 0;
+      for (const [ticker, curItem] of curMap.entries()) {
+        const prevItem = prevMap.get(ticker);
+        if (prevItem) {
+          rawPriceEffect += prevItem.aum_value * (curItem.change_pct / 100.0);
+        }
+      }
+      priceEffect = Math.round(rawPriceEffect / 100000000);
+      netInflow = aumChange - priceEffect;
+    }
+
+    const relKey = idx === displayDates.length - 1 ? "T" : `T-${displayDates.length - 1 - idx}`;
 
     return {
       key: relKey,
-      label: r.as_of_date.slice(5),
-      date: r.as_of_date,
+      label: d.slice(5),
+      date: d,
       aum,
       adtv,
       turnoverPct,
       aumChange,
       aumChangePct,
-      priceEffect: 0,
-      netInflow: 0,
+      priceEffect,
+      netInflow,
     };
   });
 

@@ -574,16 +574,16 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             내 계좌 속 ETF, 지금 바로 비교해 보세요!
           </text>
 
-          <!-- 3 Value Props -->
-          <g transform="translate(0, 155)">
-            <text x="470" y="40" fill="#334155" font-size="21" font-weight="700" text-anchor="middle">
-              ✅ <tspan font-weight="900" fill="#0F172A">1,022개 전종목</tspan> 총보수 &amp; 괴리율 1초 완벽 비교
+          <!-- 3 Value Props (Left-Aligned Starting at x=175, Font Size 24px) -->
+          <g transform="translate(0, 152)">
+            <text x="175" y="40" fill="#334155" font-size="24" font-weight="700" text-anchor="start">
+              ✅  <tspan font-weight="900" fill="#0F172A">1,022개 전종목</tspan> 총보수 &amp; 괴리율 1초 완벽 비교
             </text>
-            <text x="470" y="78" fill="#334155" font-size="21" font-weight="700" text-anchor="middle">
-              ✅ 주도 테마별 등락 동향부터 스마트머니 자금 유입까지
+            <text x="175" y="82" fill="#334155" font-size="24" font-weight="700" text-anchor="start">
+              ✅  주도 테마별 등락 동향부터 스마트머니 자금 유입까지
             </text>
-            <text x="470" y="116" fill="#334155" font-size="21" font-weight="700" text-anchor="middle">
-              ✅ 매일 아침 업데이트되는 기관·외국인 수급 전수 분석
+            <text x="175" y="124" fill="#334155" font-size="24" font-weight="700" text-anchor="start">
+              ✅  매일 아침 업데이트되는 기관·외국인 수급 전수 분석
             </text>
           </g>
 
@@ -595,8 +595,8 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             </text>
           </g>
 
-          <!-- Sub Guarantee -->
-          <text x="470" y="462" fill="#15803D" font-size="16" font-weight="700" text-anchor="middle">
+          <!-- Sub Guarantee (Large & High Contrast) -->
+          <text x="470" y="464" fill="#14532D" font-size="20" font-weight="900" text-anchor="middle">
             별도 가입 없이 프로필 링크에서 누구나 즉시 무료로 확인하실 수 있습니다.
           </text>
         </g>

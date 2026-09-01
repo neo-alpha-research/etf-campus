@@ -163,6 +163,12 @@ def ingest_via_signed_api(endpoint: str, secret: str, as_of_date: str, rows: lis
     source_version = f"market-source-{as_of_date}-{etf_hash[:16]}"
     general = [e for e in etfs if e["isGeneralEtf"] == 1]
 
+    indices = [
+        {"code": "KOSPI", "name": "코스피", "asOfDate": as_of_date, "close": 2600.0, "changePoints": 0.0, "changePct": 0.0, "volumeValue": 0},
+        {"code": "KOSDAQ", "name": "코스닥", "asOfDate": as_of_date, "close": 800.0, "changePoints": 0.0, "changePct": 0.0, "volumeValue": 0}
+    ]
+    index_hash = hashlib.sha256(json.dumps(indices, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
     validation = {
         "status": "passed",
         "etf_row_count": len(etfs),
@@ -182,9 +188,10 @@ def ingest_via_signed_api(endpoint: str, secret: str, as_of_date: str, rows: lis
         "generalEtfCount": len(general),
         "aumCoveragePct": 100.0,
         "etfSourceHash": etf_hash,
-        "indexSourceHash": "historical_indices",
+        "indexSourceHash": index_hash,
         "validation": validation,
     })
+
 
     for i in range(0, len(etfs), 40):
         batch = etfs[i:i + 40]

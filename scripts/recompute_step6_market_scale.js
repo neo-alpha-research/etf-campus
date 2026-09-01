@@ -14,7 +14,7 @@ const DATES = [
 function queryD1(sql) {
   const result = execSync(
     `npx wrangler d1 execute ETF_PRICES --remote --json --command "${sql.replace(/"/g, '\\"')}"`,
-    { encoding: 'utf-8', cwd: 'd:\\ETFCampus', maxBuffer: 50 * 1024 * 1024 }
+    { encoding: 'utf-8', cwd: process.cwd(), maxBuffer: 50 * 1024 * 1024 }
   );
   const data = JSON.parse(result);
   return data[0]?.results || [];
@@ -120,7 +120,7 @@ async function main() {
     fs.writeFileSync(tempSqlPath, updateSql, 'utf-8');
 
     try {
-      execSync(`npx wrangler d1 execute ETF_PRICES --remote --file "${tempSqlPath}"`, { encoding: 'utf-8', cwd: 'd:\\ETFCampus' });
+      execSync(`npx wrangler d1 execute ETF_PRICES --remote --file "${tempSqlPath}"`, { encoding: 'utf-8', cwd: process.cwd() });
       console.log(`  ✅ Successfully updated D1 for ${date}`);
     } finally {
       if (fs.existsSync(tempSqlPath)) {
@@ -137,12 +137,13 @@ async function main() {
   ];
   for (const key of kvKeys) {
     try {
-      execSync(`npx wrangler kv key delete --binding=BRIEFING_KV "${key}" --remote`, { encoding: 'utf-8', cwd: 'd:\\ETFCampus' });
+      execSync(`npx wrangler kv key delete --binding=BRIEFING_KV "${key}" --remote`, { encoding: 'utf-8', cwd: process.cwd() });
       console.log(`  Deleted KV key: ${key}`);
     } catch (e) {
       // ignore
     }
   }
+
 
   console.log("\n✅ All 6 briefing dates updated with full 4-category market scale & trade volume metrics!");
 }

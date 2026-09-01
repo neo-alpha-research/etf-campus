@@ -16,7 +16,7 @@ function queryD1(sql, retries = 3) {
     try {
       const result = execSync(
         `npx wrangler d1 execute ETF_PRICES --remote --json --command "${sql.replace(/"/g, '\\"')}"`,
-        { encoding: 'utf-8', cwd: 'd:\\ETFCampus', maxBuffer: 50 * 1024 * 1024 }
+        { encoding: 'utf-8', cwd: process.cwd(), maxBuffer: 50 * 1024 * 1024 }
       );
       const data = JSON.parse(result);
       if (data?.error) {
@@ -26,11 +26,12 @@ function queryD1(sql, retries = 3) {
     } catch (e) {
       if (i === retries - 1) throw e;
       console.warn(`  Retry ${i + 1}/${retries} for query...`);
-      execSync(`ping 127.0.0.1 -n 2 > nul`, { shell: 'cmd.exe' });
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1500);
     }
   }
   return [];
 }
+
 
 
 async function main() {
@@ -91,7 +92,7 @@ async function main() {
     fs.writeFileSync(tempSqlPath, updateSql, 'utf-8');
 
     try {
-      execSync(`npx wrangler d1 execute ETF_PRICES --remote --file "${tempSqlPath}"`, { encoding: 'utf-8', cwd: 'd:\\ETFCampus' });
+      execSync(`npx wrangler d1 execute ETF_PRICES --remote --file "${tempSqlPath}"`, { encoding: 'utf-8', cwd: process.cwd() });
       console.log(`  ✅ Successfully updated monthly time series for ${date}`);
     } finally {
       if (fs.existsSync(tempSqlPath)) {
@@ -107,10 +108,11 @@ async function main() {
   ];
   for (const key of kvKeys) {
     try {
-      execSync(`npx wrangler kv key delete --binding=BRIEFING_KV "${key}" --remote`, { encoding: 'utf-8', cwd: 'd:\\ETFCampus' });
+      execSync(`npx wrangler kv key delete --binding=BRIEFING_KV "${key}" --remote`, { encoding: 'utf-8', cwd: process.cwd() });
       console.log(`  Deleted KV key: ${key}`);
     } catch (e) {}
   }
+
 
   console.log("\n✅ All 6 briefing records updated with official KRX monthly data!");
 }

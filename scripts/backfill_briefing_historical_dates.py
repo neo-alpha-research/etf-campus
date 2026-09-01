@@ -189,9 +189,10 @@ def main():
                 subprocess.run(
                     ["npx", "wrangler", "d1", "execute", "ETF_PRICES", "--remote", "--file", str(temp_file)],
                     check=True,
-                    cwd=r"d:\ETFCampus"
+                    cwd=Path.cwd()
                 )
                 print(f"  ✅ Successfully inserted {len(rows)} rows into briefing_etf_daily for {as_of}")
+
             finally:
                 if temp_file.exists():
                     temp_file.unlink()

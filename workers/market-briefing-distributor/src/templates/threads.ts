@@ -72,6 +72,16 @@ ${inflowText}${disparityText}
   ];
 }
 
+function escapeXml(unsafe?: string): string {
+  if (!unsafe) return "";
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 export function generateThreadsImageSvg(payload: MarketBriefingPayload): string {
   const dateStr = payload.asOfDate || "2026-08-31";
   const formattedDate = formatDateWithDay(dateStr);
@@ -180,25 +190,25 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
           <!-- Top 1 Winner -->
           <rect x="0" y="0" width="430" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
           <text x="20" y="37" fill="#B91C1C" font-size="16" font-weight="900">상승 1위</text>
-          <text x="95" y="37" fill="#0F172A" font-size="18" font-weight="900">${winners[0]?.peerGroup || "2차전지 셀 &amp; 소재"}</text>
+          <text x="95" y="37" fill="#0F172A" font-size="18" font-weight="900">${escapeXml(winners[0]?.peerGroup || "2차전지 셀 & 소재")}</text>
           <text x="410" y="38" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${winners[0]?.cappedAumWeightedReturnPct.toFixed(2) || "2.71"}%</text>
 
           <!-- Top 2 Winner -->
           <rect x="0" y="68" width="430" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
           <text x="20" y="105" fill="#B91C1C" font-size="16" font-weight="900">상승 2위</text>
-          <text x="95" y="105" fill="#0F172A" font-size="18" font-weight="900">${winners[1]?.peerGroup || "에너지 (원유·천연가스)"}</text>
+          <text x="95" y="105" fill="#0F172A" font-size="18" font-weight="900">${escapeXml(winners[1]?.peerGroup || "에너지 (원유·천연가스)")}</text>
           <text x="410" y="106" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${winners[1]?.cappedAumWeightedReturnPct.toFixed(2) || "1.51"}%</text>
 
           <!-- Top 1 Loser -->
           <rect x="460" y="0" width="430" height="58" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
           <text x="480" y="37" fill="#1D4ED8" font-size="16" font-weight="900">하락 1위</text>
-          <text x="555" y="37" fill="#0F172A" font-size="18" font-weight="900">${losers[0]?.peerGroup || "원자력 &amp; SMR"}</text>
+          <text x="555" y="37" fill="#0F172A" font-size="18" font-weight="900">${escapeXml(losers[0]?.peerGroup || "원자력 & SMR")}</text>
           <text x="870" y="38" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${losers[0]?.cappedAumWeightedReturnPct.toFixed(2) || "-4.78"}%</text>
 
           <!-- Top 2 Loser -->
           <rect x="460" y="68" width="430" height="58" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
           <text x="480" y="105" fill="#1D4ED8" font-size="16" font-weight="900">하락 2위</text>
-          <text x="555" y="105" fill="#0F172A" font-size="18" font-weight="900">${losers[1]?.peerGroup || "글로벌 원자력 &amp; SMR"}</text>
+          <text x="555" y="105" fill="#0F172A" font-size="18" font-weight="900">${escapeXml(losers[1]?.peerGroup || "글로벌 원자력 & SMR")}</text>
           <text x="870" y="106" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${losers[1]?.cappedAumWeightedReturnPct.toFixed(2) || "-4.60"}%</text>
         </g>
       </g>
@@ -221,7 +231,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
               
               <!-- Full ETF Name + Ticker right next to it -->
               <text x="56" y="29" fill="#0F172A" font-size="16.5" font-weight="900">
-                ${item.name} <tspan fill="#64748B" font-size="13.5" font-weight="700">(${item.ticker})</tspan>
+                ${escapeXml(item.name)} <tspan fill="#64748B" font-size="13.5" font-weight="700">(${escapeXml(item.ticker)})</tspan>
               </text>
               
               <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+${item.inflow?.toLocaleString() || "0"}억원</text>
@@ -243,8 +253,8 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
           ${disparityList.length > 0 ? disparityList.map((d: any, idx: number) => `
             <g transform="translate(${idx * 460}, 0)">
               <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
-              <text x="20" y="28" fill="#0F172A" font-size="15" font-weight="900">${d.etfName}</text>
-              <text x="20" y="48" fill="#64748B" font-size="12.5" font-weight="700">${d.ticker} · ${d.assetClass || "해외주식"}</text>
+              <text x="20" y="28" fill="#0F172A" font-size="15" font-weight="900">${escapeXml(d.etfName)}</text>
+              <text x="20" y="48" fill="#64748B" font-size="12.5" font-weight="700">${escapeXml(d.ticker)} · ${escapeXml(d.assetClass || "해외주식")}</text>
               <text x="410" y="40" fill="#C2410C" font-size="22" font-weight="900" text-anchor="end" class="tabular">${d.disparityPct.toFixed(2)}%</text>
             </g>
           `).join("") : `<text x="0" y="28" fill="#64748B" font-size="15" font-weight="600">왜곡 경보 없음</text>`}

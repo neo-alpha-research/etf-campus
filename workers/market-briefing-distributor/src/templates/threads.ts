@@ -223,26 +223,22 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect x="785" y="16" width="140" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="855" y="41" fill="#1E293B" font-size="15" font-weight="800" text-anchor="middle">기관·외국인 합산</text>
 
-        <!-- 3 Inflow Rows (Perfect Ticker Badges) -->
+        <!-- 3 Inflow Rows (Full Name + Ticker Attached) -->
         <g transform="translate(35, 72)">
-          ${topInflows.map((item, idx) => {
-            const shortName = item.name.length > 17 ? item.name.slice(0, 16) + '…' : item.name;
-            return `
+          ${topInflows.map((item, idx) => `
             <g transform="translate(0, ${idx * 54})">
               <rect width="890" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <circle cx="28" cy="23" r="13" fill="${idx === 0 ? '#10B981' : '#E2E8F0'}"/>
               <text x="28" y="28" fill="${idx === 0 ? '#FFFFFF' : '#475569'}" font-size="12" font-weight="900" text-anchor="middle">${idx + 1}</text>
               
-              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">${shortName}</text>
-              
-              <!-- Ticker Badge nicely positioned right after name space -->
-              <rect x="560" y="11" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-              <text x="595" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">${item.ticker}</text>
+              <!-- Full ETF Name + Ticker right next to it -->
+              <text x="56" y="29" fill="#0F172A" font-size="16.5" font-weight="900">
+                ${item.name} <tspan fill="#64748B" font-size="13.5" font-weight="700">(${item.ticker})</tspan>
+              </text>
               
               <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+${item.inflow?.toLocaleString() || "1,000"}억원</text>
             </g>
-            `;
-          }).join("")}
+          `).join("")}
         </g>
       </g>
 
@@ -254,12 +250,13 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect x="740" y="16" width="185" height="38" rx="10" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1.2"/>
         <text x="832" y="41" fill="#9A3412" font-size="15" font-weight="900" text-anchor="middle">NAV 대비 왜곡 경보</text>
 
-        <!-- 2 Disparity Cards -->
+        <!-- 2 Disparity Cards (Full Name + Ticker Subtitle) -->
         <g transform="translate(35, 72)">
           ${disparityList.map((d, idx) => `
             <g transform="translate(${idx * 460}, 0)">
               <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
-              <text x="20" y="39" fill="#0F172A" font-size="16.5" font-weight="900">${d.etfName.length > 15 ? d.etfName.slice(0, 14) + '…' : d.etfName}</text>
+              <text x="20" y="28" fill="#0F172A" font-size="15" font-weight="900">${d.etfName}</text>
+              <text x="20" y="48" fill="#64748B" font-size="12.5" font-weight="700">${d.ticker} · ${d.assetClass || "해외주식"}</text>
               <text x="410" y="40" fill="#C2410C" font-size="22" font-weight="900" text-anchor="end" class="tabular">${d.disparityPct.toFixed(2)}%</text>
             </g>
           `).join("")}

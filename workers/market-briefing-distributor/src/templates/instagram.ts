@@ -62,6 +62,17 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
       <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="125%">
         <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.04"/>
       </filter>
+      <linearGradient id="midnightNavyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0F172A"/>
+        <stop offset="100%" stop-color="#1E293B"/>
+      </linearGradient>
+      <linearGradient id="goldButtonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F59E0B"/>
+        <stop offset="100%" stop-color="#D97706"/>
+      </linearGradient>
+      <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#F59E0B" flood-opacity="0.3"/>
+      </filter>
       <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#10B981"/>
         <stop offset="100%" stop-color="#047857"/>
@@ -560,43 +571,45 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         </g>
       </g>
 
-      <!-- 2. Grand Hero CTA Card (Soft Mint & Subtle Honey-Gold) -->
+      <!-- 2. Grand Hero CTA Card (Alternative 1: Midnight Navy & Luxury Gold) -->
       <g transform="translate(70, 720)" filter="url(#softShadow)">
-        <rect width="940" height="510" rx="30" fill="url(#heroSoftGrad)" stroke="#86EFAC" stroke-width="1.5"/>
+        <rect width="940" height="510" rx="30" fill="url(#midnightNavyGrad)" stroke="#334155" stroke-width="1.5"/>
+        <circle cx="850" cy="100" r="180" fill="#3B82F6" fill-opacity="0.08"/>
+        <circle cx="120" cy="420" r="150" fill="#F59E0B" fill-opacity="0.05"/>
         
         <g transform="translate(0, 0)">
           <!-- Top Mini Tag -->
-          <rect x="320" y="40" width="300" height="38" rx="19" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.2"/>
-          <text x="470" y="65" fill="#15803D" font-size="16" font-weight="900" text-anchor="middle">💡 100% 무료 ETF 진단 &amp; 마켓 브리핑</text>
+          <rect x="320" y="38" width="300" height="38" rx="19" fill="#1E293B" stroke="#475569" stroke-width="1.2"/>
+          <text x="470" y="63" fill="#FBBF24" font-size="16" font-weight="900" text-anchor="middle">💡 100% 무료 ETF 진단 &amp; 마켓 브리핑</text>
           
           <!-- Main Action Headline -->
-          <text x="470" y="136" fill="#0F172A" font-size="36" font-weight="900" text-anchor="middle" letter-spacing="-0.8">
+          <text x="470" y="136" fill="#FFFFFF" font-size="36" font-weight="900" text-anchor="middle" letter-spacing="-0.8">
             내 계좌 속 ETF, 지금 바로 비교해 보세요!
           </text>
 
           <!-- 3 Value Props (Left-Aligned Starting at x=175, Font Size 24px) -->
           <g transform="translate(0, 152)">
-            <text x="175" y="40" fill="#334155" font-size="24" font-weight="700" text-anchor="start">
-              ✅  <tspan font-weight="900" fill="#0F172A">1,022개 전종목</tspan> 총보수 &amp; 괴리율 1초 완벽 비교
+            <text x="175" y="40" fill="#E2E8F0" font-size="24" font-weight="700" text-anchor="start">
+              ✨  <tspan font-weight="900" fill="#FFFFFF">1,022개 전종목</tspan> 총보수 &amp; 괴리율 1초 완벽 비교
             </text>
-            <text x="175" y="82" fill="#334155" font-size="24" font-weight="700" text-anchor="start">
-              ✅  주도 테마별 등락 동향부터 스마트머니 자금 유입까지
+            <text x="175" y="82" fill="#E2E8F0" font-size="24" font-weight="700" text-anchor="start">
+              ✨  주도 테마별 등락 동향부터 스마트머니 자금 유입까지
             </text>
-            <text x="175" y="124" fill="#334155" font-size="24" font-weight="700" text-anchor="start">
-              ✅  매일 아침 업데이트되는 기관·외국인 수급 전수 분석
+            <text x="175" y="124" fill="#E2E8F0" font-size="24" font-weight="700" text-anchor="start">
+              ✨  매일 아침 업데이트되는 기관·외국인 수급 전수 분석
             </text>
           </g>
 
-          <!-- Big Action Button (Soft Warm Honey-Gold) -->
+          <!-- Big Action Button (Luminous Warm Gold Gradient) -->
           <g transform="translate(100, 325)">
-            <rect width="740" height="92" rx="26" fill="url(#ctaGoldGrad)" stroke="#FACC15" stroke-width="1.5" filter="url(#cardShadow)"/>
-            <text x="370" y="58" fill="#78350F" font-size="30" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
+            <rect width="740" height="92" rx="26" fill="url(#goldButtonGrad)" stroke="#FDE68A" stroke-width="1.5" filter="url(#goldGlow)"/>
+            <text x="370" y="58" fill="#0F172A" font-size="30" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
               👉 프로필 링크 'ETF 캠퍼스' 바로가기 🔗
             </text>
           </g>
 
-          <!-- Sub Guarantee (Large & High Contrast) -->
-          <text x="470" y="464" fill="#14532D" font-size="20" font-weight="900" text-anchor="middle">
+          <!-- Sub Guarantee (Crisp Silver Slate) -->
+          <text x="470" y="464" fill="#94A3B8" font-size="20" font-weight="800" text-anchor="middle">
             별도 가입 없이 프로필 링크에서 누구나 즉시 무료로 확인하실 수 있습니다.
           </text>
         </g>

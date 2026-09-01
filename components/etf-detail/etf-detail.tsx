@@ -122,7 +122,7 @@ export function EtfDetail({
             
             <div className="space-y-3">
               <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
-                <Link className="inline-flex items-center justify-center rounded-md bg-neutral-100 p-1.5 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors mr-1" href="/" aria-label="목록으로 돌아가기">
+                <Link className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md bg-neutral-100 p-1.5 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors mr-1" href="/" aria-label="목록으로 돌아가기">
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 </Link>
                 {marketScope && <span className="rounded-md border border-sky-200 bg-sky-50 px-2 py-1 text-xs font-semibold text-sky-700">{marketScope}</span>}
@@ -251,7 +251,7 @@ export function EtfDetail({
             <div className="w-full lg:w-[30%] lg:min-w-[300px]">
               <div className="rounded-2xl border border-line bg-surface p-5 shadow-sm h-full flex flex-col gap-5">
                 <h3 className="text-base font-extrabold text-strong">투자 전 체크 지표</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-1 gap-5">
                   <div className="flex flex-col justify-center">
                     <dt className="text-sm font-bold text-gray-500">순자산</dt>
                     <dd className="mt-1 text-lg font-bold text-strong">{formatMoney(etf.aum)}</dd>

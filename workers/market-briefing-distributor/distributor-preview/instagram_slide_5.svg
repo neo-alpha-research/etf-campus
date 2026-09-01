@@ -12,6 +12,14 @@
         <stop offset="0%" stop-color="#10B981"/>
         <stop offset="100%" stop-color="#047857"/>
       </linearGradient>
+      <linearGradient id="heroSoftGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#F0FDF4"/>
+        <stop offset="100%" stop-color="#DCFCE7"/>
+      </linearGradient>
+      <linearGradient id="ctaGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FEF08A"/>
+        <stop offset="100%" stop-color="#FDE047"/>
+      </linearGradient>
       <linearGradient id="blueBadgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#EFF6FF"/>
         <stop offset="100%" stop-color="#DBEAFE"/>

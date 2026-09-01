@@ -138,13 +138,19 @@ export async function warmLatestBriefingCache(env: ResilienceEnv, asOfDate: stri
             })),
         marketScaleSnapshot: buildMarketScaleSnapshot(metrics as any, briefing),
         marketScaleTimeSeries: buildMarketScaleTimeSeries(metrics as any, briefing),
+        peerGroups: (metrics as any).peer_groups ?? (metrics as any).peerGroups ?? [],
+        fundFlow: (metrics as any).fund_flow ?? (metrics as any).fundFlow ?? null,
+        disparityWarning: (metrics as any).disparity_warning ?? (metrics as any).disparityWarning ?? [],
+        weeklyFundFlows: (metrics as any).weekly_fund_flows ?? (metrics as any).weeklyFundFlows ?? [],
+        monthlyFundFlows: (metrics as any).monthly_fund_flows ?? (metrics as any).monthlyFundFlows ?? [],
         focusEtfs: focusEtfs.results ?? [],
-        sourceDates: JSON.parse(briefing.source_dates_json),
-        validation: JSON.parse(briefing.validation_json),
+        sourceDates: JSON.parse(briefing.source_dates_json || "{}"),
+        validation: JSON.parse(briefing.validation_json || "{}"),
       },
     },
   });
 }
+
 
 function buildMarketScaleSnapshot(metrics: any, briefing: BriefingRow) {
   if (metrics.market_scale_snapshot) {

@@ -2258,11 +2258,35 @@ export function MarketBriefing() {
         })()}
 
         <div className="bg-white border border-[#E5E8E2] rounded-[20px] shadow-[0_4px_12px_rgba(27,38,26,0.02)] p-6 sm:p-8">
-          {/* 4대 기간 탭 버튼 */}
+          {/* 4대 기간 탭 버튼 및 핵심 변동 요약 배지 */}
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h3 className="text-sm font-extrabold text-neutral-900">시계열 자산 궤적 및 거래 유동성</h3>
-              <p className="text-xs text-neutral-400">상단: 총 운용자산(AUM, 조원) | 하단: 일평균 거래대금(조원) 및 회전율</p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <div>
+                <h3 className="text-sm font-extrabold text-neutral-900">시계열 자산 궤적 및 거래 유동성</h3>
+                <p className="text-xs text-neutral-400">상단: 총 운용자산(AUM, 조원) | 하단: 일평균 거래대금(조원) 및 회전율</p>
+              </div>
+              {(() => {
+                const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || [];
+                if (rawPoints.length < 2) return null;
+                const curr = rawPoints[rawPoints.length - 1];
+                const prev = rawPoints[rawPoints.length - 2];
+                const diff = curr.aumChange !== undefined ? curr.aumChange : (curr.aum - prev.aum);
+                const diffPct = prev.aum > 0 ? ((curr.aum - prev.aum) / prev.aum) * 100 : (curr.aumChangePct || 0);
+                const isUp = diff >= 0;
+                const tabLabels = { daily: "전일 대비", weekly: "전주 대비", monthly: "전월 대비", yearly: "연초(YTD) 대비" };
+                const diffJo = (diff > 0 ? `+${(diff / 10000).toFixed(1)}` : `${(diff / 10000).toFixed(1)}`) + "조원";
+                const diffPctStr = (diffPct > 0 ? `+${diffPct.toFixed(2)}` : `${diffPct.toFixed(2)}`) + "%";
+
+                return (
+                  <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold tracking-tight ${
+                    isUp ? "bg-red-50 text-red-600 border border-red-200" : "bg-blue-50 text-blue-600 border border-blue-200"
+                  }`}>
+                    {isUp ? <ArrowUp className="w-3.5 h-3.5 text-red-500" /> : <TrendingDown className="w-3.5 h-3.5 text-blue-500" />}
+                    <span>{tabLabels[step7Tab]} {diffJo} ({diffPctStr})</span>
+                  </div>
+                );
+              })()}
             </div>
             <div className="flex bg-neutral-100 p-1 rounded-lg">
               {(['daily', 'weekly', 'monthly', 'yearly'] as const).map((tab) => {
@@ -2288,6 +2312,7 @@ export function MarketBriefing() {
               })}
             </div>
           </div>
+
 
           {/* 5-Point 상하 듀얼 싱크 차트 (Linked Dual-Pane) */}
           {(() => {

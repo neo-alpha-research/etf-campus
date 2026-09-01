@@ -272,60 +272,90 @@ function calculateDisparityWarning(quotes: any[]): any {
   return warnings.sort((a, b) => Math.abs(b.disparityPct) - Math.abs(a.disparityPct));
 }
 
+interface ConstituentFlowAndPriceEffect {
+  ticker: string;
+  etfName: string;
+  isGeneralEtf: boolean;
+  netInflowValue: number;
+  priceEffectValue: number;
+  returnPct: number;
+}
+
+function calculateConstituentFlowAndPriceEffect(
+  current: { ticker: string; etf_name: string; aum_value?: number; nav_value?: number; close_value?: number; change_pct?: number; is_general_etf?: number; shares?: number },
+  previous?: { aum_value?: number; nav_value?: number; close_value?: number; shares?: number }
+): ConstituentFlowAndPriceEffect {
+  const c0 = current.close_value || 0;
+  const nav0 = current.nav_value || c0;
+  const aum0 = current.aum_value || 0;
+  const shares0 = current.shares ? Number(current.shares) : (nav0 > 0 ? aum0 / nav0 : 0);
+
+  if (!previous || (!previous.aum_value && !previous.nav_value)) {
+    return {
+      ticker: current.ticker,
+      etfName: current.etf_name,
+      isGeneralEtf: current.is_general_etf === 1,
+      netInflowValue: 0,
+      priceEffectValue: 0,
+      returnPct: current.change_pct || 0,
+    };
+  }
+
+  const cPrev = previous.close_value || c0;
+  const navPrev = previous.nav_value || cPrev;
+  const aumPrev = previous.aum_value || 0;
+  const sharesPrev = previous.shares ? Number(previous.shares) : (navPrev > 0 ? aumPrev / navPrev : shares0);
+
+  const netInflowValue = (shares0 - sharesPrev) * nav0;
+  const returnPct = cPrev > 0 ? ((c0 - cPrev) / cPrev) * 100 : (current.change_pct || 0);
+  const priceEffectValue = aumPrev * (returnPct / 100.0);
+
+  return {
+    ticker: current.ticker,
+    etfName: current.etf_name,
+    isGeneralEtf: current.is_general_etf === 1,
+    netInflowValue,
+    priceEffectValue,
+    returnPct,
+  };
+}
+
 function calculateFundFlow(quotes: any[], previousQuotes: any[] = []): any {
   const prevMap = new Map((previousQuotes || []).map(q => [q.ticker, q]));
-  const allResults = [];
-  const generalResults = [];
-  
-  let skippedDueToNav = 0;
-  
+  const allResults: any[] = [];
+  const generalResults: any[] = [];
+
   for (const q of quotes) {
-    if (!q.aum_value || !q.nav_value) {
-      skippedDueToNav++;
-      continue;
-    }
+    if (!q.aum_value || !q.nav_value) continue;
     const prev = prevMap.get(q.ticker);
-    if (!prev || !prev.aum_value || !prev.nav_value) {
-      skippedDueToNav++;
-      continue;
-    }
-    
-    // Shares Outstanding = AUM / NAV (To avoid disparity distortion)
-    const currentShares = q.aum_value / q.nav_value;
-    const prevShares = prev.aum_value / prev.nav_value;
-    
-    // Net Inflow = (Current Shares - Prev Shares) * Current NAV
-    const netInflow = (currentShares - prevShares) * q.nav_value;
-    
+    const flow = calculateConstituentFlowAndPriceEffect(q, prev);
+
     const row = {
-      ticker: q.ticker,
-      etfName: q.etf_name,
-      netInflowValue: netInflow,
+      ticker: flow.ticker,
+      etfName: flow.etfName,
+      netInflowValue: flow.netInflowValue,
     };
     allResults.push(row);
-    if (q.is_general_etf === 1) {
+    if (flow.isGeneralEtf) {
       generalResults.push(row);
     }
   }
-  if (skippedDueToNav > 0) {
-    console.warn(`[calculateFundFlow] Skipped ${skippedDueToNav} ETFs due to missing NAV or AUM data.`);
-  }
 
-  // Sorting
   allResults.sort((a, b) => b.netInflowValue - a.netInflowValue);
   generalResults.sort((a, b) => b.netInflowValue - a.netInflowValue);
-  
+
   return {
     general: {
       topInflows: generalResults.slice(0, 5),
-      topOutflows: generalResults.slice().reverse().slice(0, 5)
+      topOutflows: generalResults.slice().reverse().slice(0, 5),
     },
     all: {
       topInflows: allResults.slice(0, 5),
-      topOutflows: allResults.slice().reverse().slice(0, 5)
-    }
+      topOutflows: allResults.slice().reverse().slice(0, 5),
+    },
   };
 }
+
 
 async function calculatePeriodicFundFlows(
   db: D1Database,
@@ -405,33 +435,19 @@ async function calculatePeriodicFundFlows(
     let groupFlow20Won = 0;
 
     for (const m of g.members) {
-      const c0 = m.close_value || 0;
-      const nav0 = m.nav_value || c0;
-      const aum0 = m.aum_value || 0;
-      const shares0 = m.shares ? Number(m.shares) : (nav0 > 0 ? aum0 / nav0 : 0);
-
       // T-5
-      const q5 = quotesT5.get(m.ticker);
-      const c5 = q5?.close_value || pricesT5.get(m.ticker) || c0;
-      const nav5 = q5?.nav_value || c5;
-      const aum5 = q5?.aum_value || (q5 ? 0 : aum0);
-      const shares5 = q5 ? (q5.shares ? Number(q5.shares) : (nav5 > 0 ? aum5 / nav5 : 0)) : shares0;
-
-      const r5 = c5 > 0 ? ((c0 - c5) / c5) * 100 : (m.change_pct || 0);
-      ret5List.push(r5);
-      groupFlow5Won += (shares0 - shares5) * nav0;
+      const q5 = quotesT5.get(m.ticker) || (pricesT5.has(m.ticker) ? { close_value: pricesT5.get(m.ticker) } : undefined);
+      const flow5 = calculateConstituentFlowAndPriceEffect(m, q5 as any);
+      ret5List.push(flow5.returnPct);
+      groupFlow5Won += flow5.netInflowValue;
 
       // T-20
-      const q20 = quotesT20.get(m.ticker);
-      const c20 = q20?.close_value || pricesT20.get(m.ticker) || c0;
-      const nav20 = q20?.nav_value || c20;
-      const aum20 = q20?.aum_value || (q20 ? 0 : aum0);
-      const shares20 = q20 ? (q20.shares ? Number(q20.shares) : (nav20 > 0 ? aum20 / nav20 : 0)) : shares0;
-
-      const r20 = c20 > 0 ? ((c0 - c20) / c20) * 100 : (m.change_pct || 0);
-      ret20List.push(r20);
-      groupFlow20Won += (shares0 - shares20) * nav0;
+      const q20 = quotesT20.get(m.ticker) || (pricesT20.has(m.ticker) ? { close_value: pricesT20.get(m.ticker) } : undefined);
+      const flow20 = calculateConstituentFlowAndPriceEffect(m, q20 as any);
+      ret20List.push(flow20.returnPct);
+      groupFlow20Won += flow20.netInflowValue;
     }
+
 
     const avgRet5 = ret5List.length > 0 ? ret5List.reduce((a, b) => a + b, 0) / ret5List.length : 0;
     const avgRet20 = ret20List.length > 0 ? ret20List.reduce((a, b) => a + b, 0) / ret20List.length : 0;

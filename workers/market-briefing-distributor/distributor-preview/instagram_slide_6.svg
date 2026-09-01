@@ -31,124 +31,97 @@
     </defs>
   
       <rect width="1080" height="1350" fill="#F8FAFC"/>
+      <circle cx="950" cy="180" r="300" fill="#2E6819" fill-opacity="0.04"/>
+      <circle cx="100" cy="1150" r="260" fill="#10B981" fill-opacity="0.03"/>
 
-      <g transform="translate(70, 75)">
+      <!-- Header -->
+      <g transform="translate(70, 55)">
         <text x="0" y="30" fill="#2E6819" font-size="16" font-weight="900" letter-spacing="1">STEP 6. SUMMARY &amp; NEXT ACTION</text>
-        <text x="0" y="68" fill="#0F172A" font-size="34" font-weight="900">시장 총정리</text>
-        <rect x="830" y="20" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="47" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">6 / 6</text>
+        <text x="0" y="72" fill="#0F172A" font-size="38" font-weight="900">오늘 시장 총정리 &amp; 내 ETF 진단</text>
+        <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
+        <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">6 / 6</text>
       </g>
 
-      <!-- 3-Bullet Market Summary Card (Expanded &amp; High Readability) -->
-      <g transform="translate(70, 160)" filter="url(#cardShadow)">
-        <rect width="940" height="515" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <!-- 1. 3-Bullet Market Summary Card (Expanded &amp; High Readability) -->
+      <g transform="translate(70, 155)" filter="url(#cardShadow)">
+        <rect width="940" height="540" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
         <!-- Block 1 -->
-        <g transform="translate(24, 20)">
-          <rect width="892" height="142" rx="20" fill="#F0FDF4" stroke="#DCFCE7" stroke-width="1.2"/>
-          <rect x="24" y="20" width="50" height="34" rx="9" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
-          <text x="49" y="44" fill="#15803D" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">01</text>
+        <g transform="translate(25, 22)">
+          <rect width="890" height="150" rx="20" fill="#F0FDF4" stroke="#DCFCE7" stroke-width="1.2"/>
+          <rect x="24" y="22" width="52" height="34" rx="9" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+          <text x="50" y="46" fill="#15803D" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">01</text>
           
-          <text x="88" y="46" fill="#0F172A" font-size="28" font-weight="900">코스피 +0.46% vs 일반 ETF -0.28% 혼조세</text>
-          <text x="24" y="100" fill="#334155" font-size="21" font-weight="700">국내 대형주 지지 속에서도 일반 ETF 670개가 하락하며 소폭 약세 흐름을 보였습니다.</text>
+          <text x="90" y="48" fill="#0F172A" font-size="28" font-weight="900">코스피 +0.46% vs 일반 ETF -0.28% 혼조세</text>
+          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">국내 대형주 지지 속에서도 일반 ETF 670개가 하락하며 소폭 약세 흐름을 보였습니다.</text>
         </g>
 
         <!-- Block 2 -->
-        <g transform="translate(24, 180)">
-          <rect width="892" height="142" rx="20" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.2"/>
-          <rect x="24" y="20" width="50" height="34" rx="9" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1"/>
-          <text x="49" y="44" fill="#BE123C" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">02</text>
+        <g transform="translate(25, 192)">
+          <rect width="890" height="150" rx="20" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.2"/>
+          <rect x="24" y="22" width="52" height="34" rx="9" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1"/>
+          <text x="50" y="46" fill="#BE123C" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">02</text>
           
-          <text x="88" y="46" fill="#0F172A" font-size="28" font-weight="900">'2차전지 셀 &amp; 소재' 반등 vs '원자력 &amp; SMR' 차익실현</text>
-          <text x="24" y="100" fill="#334155" font-size="21" font-weight="700">주도 테마 간 수익률 격차가 7.49%p까지 벌어지는 강한 섹터 로테이션 전개.</text>
+          <text x="90" y="48" fill="#0F172A" font-size="28" font-weight="900">'2차전지 셀 &amp; 소재' 반등 vs '원자력 &amp; SMR' 차익실현</text>
+          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">주도 테마 간 수익률 격차가 7.49%p까지 벌어지는 강한 섹터 로테이션 전개.</text>
         </g>
 
         <!-- Block 3 -->
-        <g transform="translate(24, 340)">
-          <rect width="892" height="142" rx="20" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.2"/>
-          <rect x="24" y="20" width="50" height="34" rx="9" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
-          <text x="49" y="44" fill="#1D4ED8" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">03</text>
+        <g transform="translate(25, 362)">
+          <rect width="890" height="150" rx="20" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.2"/>
+          <rect x="24" y="22" width="52" height="34" rx="9" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+          <text x="50" y="46" fill="#1D4ED8" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">03</text>
           
-          <text x="88" y="46" fill="#0F172A" font-size="28" font-weight="900">스마트머니는 'TIGER 미국필라델피아반…' 등 4,000억+ 매수</text>
-          <text x="24" y="100" fill="#334155" font-size="21" font-weight="700">단기 조정 국면을 활용해 글로벌 반도체 및 미국 대표지수 저가 바스켓 설정 집중.</text>
+          <text x="90" y="48" fill="#0F172A" font-size="28" font-weight="900">스마트머니는 'TIGER 미국필라델피아반…' 등 4,000억+ 매수</text>
+          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">단기 조정 국면을 활용해 글로벌 반도체 및 미국 대표지수 저가 바스켓 설정 집중.</text>
         </g>
       </g>
 
-      <!-- Main Action &amp; Conversion CTA Banner (Streamlined with Inline Icon) -->
-      <g transform="translate(70, 695)" filter="url(#cardShadow)">
-        <rect width="940" height="215" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <!-- 2. Grand Hero CTA Card (High-Converting Single Action) -->
+      <g transform="translate(70, 720)" filter="url(#softShadow)">
+        <rect width="940" height="510" rx="30" fill="url(#brandGrad)"/>
         
         <g transform="translate(0, 0)">
-          <text x="470" y="52" fill="#0F172A" font-size="30" font-weight="900" text-anchor="middle">
-            🔍  내 연금·ISA 계좌용 맞춤 ETF 탐색
-          </text>
-          <text x="470" y="90" fill="#475569" font-size="20" font-weight="700" text-anchor="middle">
-            일반·연금 계좌, 자산군, 분배금 조건별 ETF 스크리닝
-          </text>
-          <text x="470" y="120" fill="#475569" font-size="20" font-weight="700" text-anchor="middle">
-            안전하고 효율적인 절세 포트폴리오를 구성해 보세요.
-          </text>
+          <!-- Top Mini Tag -->
+          <rect x="320" y="40" width="300" height="38" rx="19" fill="#064E3B" fill-opacity="0.6" stroke="#6EE7B7" stroke-width="1.2"/>
+          <text x="470" y="65" fill="#A7F3D0" font-size="16" font-weight="900" text-anchor="middle">💡 100% 무료 ETF 진단 &amp; 마켓 브리핑</text>
           
-          <g transform="translate(180, 142)">
-            <rect width="580" height="52" rx="15" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
-            <text x="290" y="34" fill="#0F172A" font-size="21" font-weight="900" text-anchor="middle">
-              상단 <tspan fill="#CA8A04">프로필 링크</tspan>에서 무료로 확인하세요! 🔗
+          <!-- Main Action Headline -->
+          <text x="470" y="136" fill="#FFFFFF" font-size="36" font-weight="900" text-anchor="middle" letter-spacing="-0.8">
+            내 계좌 속 ETF, 지금 바로 비교해 보세요!
+          </text>
+
+          <!-- 3 Value Props -->
+          <g transform="translate(0, 155)">
+            <text x="470" y="40" fill="#ECFDF5" font-size="21" font-weight="700" text-anchor="middle">
+              ✅ <tspan font-weight="900" fill="#FFFFFF">1,022개 전종목</tspan> 총보수 &amp; 실시간 괴리율 1초 완벽 비교
+            </text>
+            <text x="470" y="78" fill="#ECFDF5" font-size="21" font-weight="700" text-anchor="middle">
+              ✅ 주도 테마별 등락 동향부터 스마트머니 자금 유입까지
+            </text>
+            <text x="470" y="116" fill="#ECFDF5" font-size="21" font-weight="700" text-anchor="middle">
+              ✅ 매일 아침 업데이트되는 기관·외국인 수급 전수 분석
             </text>
           </g>
+
+          <!-- Big Action Button -->
+          <g transform="translate(100, 325)">
+            <rect width="740" height="92" rx="26" fill="#F59E0B" filter="url(#cardShadow)"/>
+            <text x="370" y="58" fill="#0F172A" font-size="30" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
+              👉 프로필 링크 'ETF 캠퍼스' 바로가기 🔗
+            </text>
+          </g>
+
+          <!-- Sub Guarantee -->
+          <text x="470" y="462" fill="#A7F3D0" font-size="16" font-weight="700" text-anchor="middle">
+            별도 가입 없이 프로필 링크에서 누구나 즉시 무료로 확인하실 수 있습니다.
+          </text>
         </g>
       </g>
 
-      <!-- Subscription Channels -->
-      <g transform="translate(70, 935)">
-        <text x="470" y="24" fill="#0F172A" font-size="23" font-weight="900" text-anchor="middle">
-          거래일 다음날 오전, 마켓 브리핑은 아래 3개 채널과 ETF 캠퍼스에서 발행됩니다.
-        </text>
-        <text x="470" y="55" fill="#2E6819" font-size="21" font-weight="900" text-anchor="middle">
-          "하루 3분, 시장의 맥을 짚는 ETF 모닝 브리핑을 받아보세요!"
-        </text>
-        
-        <g transform="translate(0, 75)">
-          <!-- Instagram -->
-          <g transform="translate(0, 0)">
-            <rect width="290" height="195" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-            <circle cx="145" cy="55" r="30" fill="#FDF2F8"/>
-            <g transform="translate(130, 40) scale(1.3)">
-              <rect x="0" y="0" width="24" height="24" rx="6" fill="none" stroke="#E1306C" stroke-width="2"/>
-              <circle cx="12" cy="12" r="5" fill="none" stroke="#E1306C" stroke-width="2"/>
-              <circle cx="18" cy="6" r="1.5" fill="#E1306C"/>
-            </g>
-            <text x="145" y="118" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle">Instagram</text>
-            <text x="145" y="146" fill="#64748B" font-size="18" font-weight="700" text-anchor="middle">@neo.alphareader</text>
-            <text x="145" y="170" fill="#94A3B8" font-size="15" font-weight="600" text-anchor="middle">카드뉴스로 핵심만 빠르게</text>
-          </g>
-
-          <!-- Threads -->
-          <g transform="translate(325, 0)">
-            <rect width="290" height="195" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-            <circle cx="145" cy="55" r="30" fill="#F1F5F9"/>
-            <text x="145" y="66" fill="#0F172A" font-size="36" font-weight="900" text-anchor="middle" font-family="Arial, sans-serif">@</text>
-            <text x="145" y="118" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle">Threads</text>
-            <text x="145" y="146" fill="#64748B" font-size="18" font-weight="700" text-anchor="middle">@neo.alphareader</text>
-            <text x="145" y="170" fill="#94A3B8" font-size="15" font-weight="600" text-anchor="middle">자유로운 소통과 인사이트</text>
-          </g>
-
-          <!-- Email -->
-          <g transform="translate(650, 0)">
-            <rect width="290" height="195" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-            <circle cx="145" cy="55" r="30" fill="#EFF6FF"/>
-            <g transform="translate(130, 40) scale(1.3)">
-              <rect x="2" y="5" width="20" height="14" rx="2" fill="none" stroke="#2563EB" stroke-width="2"/>
-              <path d="M2,6 L12,13 L22,6" fill="none" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>
-            </g>
-            <text x="145" y="118" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle">Newsletter</text>
-            <text x="145" y="146" fill="#64748B" font-size="18" font-weight="700" text-anchor="middle">ETF 캠퍼스 회원 전용</text>
-            <text x="145" y="170" fill="#94A3B8" font-size="15" font-weight="600" text-anchor="middle">풀버전 데이터 자동 발송</text>
-          </g>
-        </g>
-      </g>
-      
+      <!-- Footer Disclaimer -->
       <g transform="translate(540, 1268)">
-        <text x="0" y="0" fill="#64748B" font-size="17" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
         <rect x="-215" y="14" width="430" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="0" y="41" fill="#1E293B" font-size="19" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>

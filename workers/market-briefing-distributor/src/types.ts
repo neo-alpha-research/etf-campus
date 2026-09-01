@@ -138,6 +138,15 @@ export interface MarketBriefingPayload {
     overvalued: DisparityItem[];
     undervalued: DisparityItem[];
   };
+  disparityWarning?: Array<{
+    ticker: string;
+    etfName?: string;
+    name?: string;
+    assetClass?: string;
+    disparityPct: number;
+    nav?: number;
+    price?: number;
+  }>;
   assetClasses?: AssetClassItem[];
   focusEtfs?: FocusEtfItem[];
   peerGroups?: PeerGroupItem[];

@@ -251,7 +251,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
 
         <!-- 2 Disparity Cards (Full Name + Ticker Subtitle) -->
         <g transform="translate(35, 72)">
-          ${disparityList.map((d, idx) => `
+          ${disparityList.map((d: any, idx: number) => `
             <g transform="translate(${idx * 460}, 0)">
               <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
               <text x="20" y="28" fill="#0F172A" font-size="15" font-weight="900">${d.etfName}</text>

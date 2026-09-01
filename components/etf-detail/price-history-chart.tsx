@@ -445,10 +445,10 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
             <text x="-6" y={zeroY + 4} fontSize="11" fill="#9ca3af" fontWeight="600" textAnchor="end" style={{ pointerEvents: 'none' }}>0</text>
             
             {/* Main PR Line */}
-            <path d={prPathData} fill="none" stroke={trMode !== "pr" ? "#9ca3af" : "#047857"} strokeWidth={trMode !== "pr" ? "2" : "3"} strokeDasharray={trMode !== "pr" ? "5 5" : "none"} strokeLinejoin="round" strokeLinecap="round" />
+            <path d={prPathData} fill="none" stroke={isTrMode ? "#9ca3af" : "#047857"} strokeWidth={isTrMode ? "2" : "3"} strokeDasharray={isTrMode ? "5 5" : "none"} strokeLinejoin="round" strokeLinecap="round" />
             
             {/* Main TR Line */}
-            {(trMode !== "pr") && trPathData && (
+            {isTrMode && trPathData && (
               <path d={trPathData} fill="none" stroke="#6366f1" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
             )}
             
@@ -487,7 +487,7 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
           {/* Tooltip Overlay (HTML) */}
           {hoverIndex !== null && points[hoverIndex] && (() => {
             const prPt = points[hoverIndex];
-            const trPt = (trMode !== "pr") && trPoints[hoverIndex] ? trPoints[hoverIndex] : null;
+            const trPt = isTrMode && trPoints[hoverIndex] ? trPoints[hoverIndex] : null;
             
             return (
             <div 

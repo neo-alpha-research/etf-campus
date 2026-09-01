@@ -445,7 +445,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
 
       <!-- Disparity List Cards -->
       <g transform="translate(70, 315)">
-        ${disparityList.slice(0, 5).map((d, idx) => {
+        ${disparityList.slice(0, 5).map((d: any, idx: number) => {
           const isDiscount = d.disparityPct < 0;
           const badgeBg = isDiscount ? '#DCFCE7' : '#FEF3C7';
           const badgeText = isDiscount ? '#15803D' : '#B45309';

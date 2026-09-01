@@ -33,14 +33,13 @@ afterEach(() => {
 });
 
 describe("PriceHistoryChart PR", () => {
-  it("배당형 ETF를 포함해 가격 수익률(PR)만 조회하고 분배금 수익률 전환을 노출하지 않는다", async () => {
+  it("기본으로 가격 수익률(PR)을 조회하고 기간 설정이 정상 동작한다", async () => {
     const fetchMock = vi.fn(() => Promise.resolve(responseFor()));
     vi.stubGlobal("fetch", fetchMock);
 
     render(<PriceHistoryChart ticker="458730" asOfDate="20260629" />);
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining("basis=pr")));
-    expect(screen.queryByRole("button", { name: /분배금/ })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "기간 직접 설정" })).toBeEnabled();
   });
 

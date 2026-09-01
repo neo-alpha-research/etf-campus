@@ -17,7 +17,7 @@ describe("ExternalBooksIndex", () => {
     expect(reviewLinks.length).toBeGreaterThanOrEqual(3);
 
     // Check affiliate purchase button
-    const purchaseLinks = screen.getAllByRole("link", { name: /도서 구매처 바로가기/ });
+    const purchaseLinks = screen.getAllByRole("link", { name: /쿠팡 도서 구매처 바로가기/ });
     expect(purchaseLinks.length).toBeGreaterThanOrEqual(3);
 
     // Switch tab to '연금·절세'
@@ -28,6 +28,6 @@ describe("ExternalBooksIndex", () => {
     expect(screen.getAllByText(/연금·절세/).length).toBeGreaterThanOrEqual(1);
 
     // Check FTC compliance notice is rendered
-    expect(screen.getByText(/제휴 마케팅 활동의 일환으로/)).toBeInTheDocument();
+    expect(screen.getByText(/쿠팡 파트너스 활동의 일환으로/)).toBeInTheDocument();
   });
 });

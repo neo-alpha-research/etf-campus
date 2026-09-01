@@ -8,12 +8,24 @@ import path from "path";
 const CONTENT_DIR = path.join(process.cwd(), "content/external-books");
 const ALADIN_TTB_KEY = process.env.ALADIN_TTB_KEY || "ttbshinkib1816001";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AIzaSyBIuUD4m3gzQmclZIxjm45QkPnXrZNFxOQ";
+const COUPANG_TRACKING_ID = process.env.COUPANG_TRACKING_ID || "AF8609639";
 
 const CATEGORY_MAP = {
   "초보·입문": { keyword: "ETF", slug: "beginner" },
   "연금·절세": { keyword: "연금저축 ETF", slug: "pension" },
   "배당·현금흐름": { keyword: "월배당 ETF", slug: "dividend" },
 };
+
+function getCoupangAffiliateUrl(title: string, author: string, trackingId = COUPANG_TRACKING_ID): string {
+  const cleanTitle = title
+    .replace(/\[.*?\]|\(.*?\)/g, "")
+    .replace(/전면\s*개정판|개정판|개정\s*\d+판|최신판|개정\s*증보판/g, "")
+    .replace(/[-–—:·].*$/, "")
+    .trim();
+  const cleanAuthor = (author || "").replace(/\(.*?\)/g, "").replace(/\s+/g, " ").trim();
+  const query = `${cleanTitle} ${cleanAuthor}`.trim();
+  return `https://link.coupang.com/re/AFFSDP?lptag=${trackingId}&subId=etfcampus&pageKey=search&traceid=V0-153&keyword=${encodeURIComponent(query)}`;
+}
 
 function getBookKey(title: string, author: string): string {
   const normalizedTitle = title
@@ -362,7 +374,7 @@ targetPersona: ${aiReview.targetPersona.replace(/:/g, ' -').replace(/\n/g, ' ')}
 targetRationale: ${(aiReview.targetRationale || "").replace(/:/g, ' -').replace(/\n/g, ' ')}
 shortTargetTag: ${aiReview.shortTargetTag.replace(/:/g, ' -').replace(/\n/g, ' ')}
 coverImage: ${book.coverUrl}
-affiliateUrl: ${book.link}
+affiliateUrl: ${getCoupangAffiliateUrl(book.title, book.author)}
 ---
 
 # ${book.title}

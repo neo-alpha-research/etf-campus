@@ -253,9 +253,9 @@ export function ExternalBooksIndex({
                       target="_blank"
                       rel="sponsored nofollow noopener"
                       className="inline-flex w-full min-h-[38px] items-center justify-center gap-1.5 rounded-xl bg-brand-700 px-4 text-xs font-bold text-white transition-colors hover:bg-brand-800 active:scale-[0.99] shadow-sm"
-                      aria-label={`${book.title} 도서 구매처 바로가기 (새 창 열림)`}
+                      aria-label={`${book.title} 쿠팡 도서 구매처 바로가기 (새 창 열림)`}
                     >
-                      <span>도서 구매처 바로가기</span>
+                      <span>쿠팡에서 도서 구매하기</span>
                       <span className="text-[10px] text-white/80">↗</span>
                     </a>
                   )}
@@ -275,7 +275,7 @@ export function ExternalBooksIndex({
 
       {/* 하단 제휴 마케팅 공정위 고지 */}
       <p className="mt-4 text-right text-[11px] text-muted">
-        ※ 본 페이지의 도서 구매 링크는 제휴 마케팅 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
+        ※ 본 페이지의 도서 구매 링크는 쿠팡 파트너스 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
       </p>
 
       {/* 고해상도 표지 확대 모달 (Lightbox) */}

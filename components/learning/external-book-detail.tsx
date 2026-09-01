@@ -274,7 +274,7 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
             <div>
               <div className="flex items-center gap-2">
                 <span className="rounded-full bg-brand-100 px-2.5 py-0.5 text-xs font-bold text-brand-800 border border-brand-300/60">
-                  온라인 서점 구매처
+                  쿠팡 파트너스 구매처
                 </span>
                 <span className="text-xs font-semibold text-neutral-600">
                   {book.publisher} 정식 출간 도서
@@ -284,7 +284,7 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
                 『{book.title}』 도서 소장 및 실전 독서하기
               </h3>
               <p className="mt-1.5 text-xs sm:text-sm text-brand-900/80 leading-relaxed">
-                온라인 서점에서 할인 혜택과 빠른 로켓/당일 배송으로 도서를 바로 만나보실 수 있습니다.
+                쿠팡에서 할인 혜택과 빠른 로켓/당일 배송으로 도서를 바로 만나보실 수 있습니다.
               </p>
             </div>
 
@@ -292,15 +292,15 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
               href={book.affiliateUrl}
               rel="sponsored nofollow noopener"
               target="_blank"
-              aria-label={`${book.title} 도서 구매처 바로가기 (새 창 열림)`}
+              aria-label={`${book.title} 쿠팡 도서 구매처 바로가기 (새 창 열림)`}
               className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-brand-700 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-brand-800 focus-visible:ring-2 focus-visible:ring-brand-500"
             >
-              <span>도서 구매처 바로가기</span>
+              <span>쿠팡에서 도서 구매하기</span>
               <ExternalLink className="h-4 w-4" />
             </a>
           </div>
           <p className="mt-4 border-t border-brand-200/60 pt-3 text-[11px] text-brand-800/70">
-            * 본 링크는 제휴 마케팅(쿠팡 파트너스 등) 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
+            * 본 링크는 쿠팡 파트너스 제휴 마케팅 활동의 일환으로, 구매 시 운영자에게 일정액의 수수료가 제공될 수 있습니다.
           </p>
         </section>
       )}

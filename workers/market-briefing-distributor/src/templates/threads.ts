@@ -58,7 +58,7 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
 
 (자세한 데이터 팩트는 아래 인포그래픽 카드 1장으로 한눈에 확인하세요 👇)
 
-🔗 62개 테마 롱숏 맵과 스마트머니 실질 순유입 분석은 프로필 링크 '마켓 브리핑'에서 바로 확인해 보세요! 📊
+🔗 주도 테마별 등락 동향부터 스마트머니 자금 유입까지, 프로필 링크 '마켓 브리핑'에서 전체 리포트를 확인해 보세요! 📊
 
 든든한 하루 보내세요!`;
 
@@ -263,7 +263,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <g transform="translate(60, 1040)" filter="url(#cardShadow)">
         <rect width="960" height="75" rx="18" fill="url(#brandGrad)"/>
         <text x="480" y="45" fill="#FFFFFF" font-size="21" font-weight="900" text-anchor="middle">
-          👉 62개 테마 롱숏 맵 &amp; 스마트머니 실시간 마켓 브리핑 보러가기 🔗
+          👉 테마별 등락 동향 &amp; 스마트머니 펀드 플로우 | 마켓 브리핑 보러가기 🔗
         </text>
       </g>
 

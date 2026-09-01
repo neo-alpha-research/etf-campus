@@ -387,17 +387,17 @@ async function run() {
 
               <!-- Bottom CTA Banners -->
               <div style="margin-top: 24px; text-align: center;">
-                <!-- Banner 1: Real-time intelligence -->
+                <!-- Banner 1: Market Briefing Features -->
                 <div style="margin-bottom: 16px;">
                   <a href="${baseUrl}/briefing" target="_blank" style="display: block; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #FFFFFF; padding: 20px 24px; text-decoration: none; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3); text-align: center; border: 1px solid #10B981;">
                     <div style="display: inline-block; background-color: rgba(255, 255, 255, 0.2); color: #FFFFFF; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-bottom: 6px;">
-                      ✨ 실시간 인텔리전스 무료 진단
+                      ✨ ETF 시장 전수 분석 일일 리포트
                     </div>
                     <div style="font-size: 16px; font-weight: 900; letter-spacing: -0.2px; line-height: 1.4; color: #FFFFFF;">
-                      📊 62개 테마 롱숏 맵 &amp; 내 ETF 괴리율 보러가기 👉
+                      📊 테마별 동향 &amp; 스마트머니 펀드 플로우 보러가기 👉
                     </div>
                     <div style="font-size: 11px; color: #D1FAE5; font-weight: 500; margin-top: 4px;">
-                      KRX 공시 전수 데이터 기반 · 실시간 인터랙티브 차트
+                      KRX 공시 전수 데이터 기반 · 일간 마켓 브리핑
                     </div>
                   </a>
                 </div>
@@ -553,16 +553,16 @@ async function run() {
           
           <!-- Bottom CTA Banners Preview in Dashboard -->
           <div class="mt-6 space-y-4 text-center">
-            <!-- Banner 1: Real-time intelligence -->
+            <!-- Banner 1: Market Briefing Features -->
             <a href="${baseUrl}/briefing" target="_blank" class="block p-5 rounded-2xl text-center shadow-lg transition hover:opacity-90" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); border: 1px solid #10B981; text-decoration: none;">
               <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-white/20 text-white mb-1.5">
-                ✨ 실시간 인텔리전스 무료 진단
+                ✨ ETF 시장 전수 분석 일일 리포트
               </span>
               <div class="text-base font-black text-white leading-snug">
-                📊 62개 테마 롱숏 맵 &amp; 내 ETF 괴리율 보러가기 👉
+                📊 테마별 동향 &amp; 스마트머니 펀드 플로우 보러가기 👉
               </div>
               <div class="text-xs text-emerald-200 mt-1 font-medium">
-                KRX 공시 전수 데이터 기반 · 실시간 인터랙티브 차트
+                KRX 공시 전수 데이터 기반 · 일간 마켓 브리핑
               </div>
             </a>
 

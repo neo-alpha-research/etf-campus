@@ -62,8 +62,8 @@
               <circle cx="62" cy="91" r="28" fill="#2E6819" />
               <text x="62" y="100" fill="#FFFFFF" font-size="24" font-weight="900" text-anchor="middle">1</text>
 
-              <!-- ETF명: 570px 고정폭 렌더링으로 어떤 이름도 우측 숫자와 겹침 없음 -->
-              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900" textLength="570" lengthAdjust="spacingAndGlyphs">TIGER 미국필라델피아반도체나스닥</text>
+              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">TIGER 미국필라델피아반도체나스닥</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -86,8 +86,8 @@
               <circle cx="62" cy="91" r="28" fill="#EBF5DC" stroke="#CDE5B1" stroke-width="1.5"/>
               <text x="62" y="100" fill="#2E6819" font-size="24" font-weight="900" text-anchor="middle">2</text>
 
-              <!-- ETF명: 570px 고정폭 렌더링으로 어떤 이름도 우측 숫자와 겹침 없음 -->
-              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900" textLength="570" lengthAdjust="spacingAndGlyphs">TIGER 미국S&amp;P500</text>
+              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">TIGER 미국S&amp;P500</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -110,8 +110,8 @@
               <circle cx="62" cy="91" r="28" fill="#EBF5DC" stroke="#CDE5B1" stroke-width="1.5"/>
               <text x="62" y="100" fill="#2E6819" font-size="24" font-weight="900" text-anchor="middle">3</text>
 
-              <!-- ETF명: 570px 고정폭 렌더링으로 어떤 이름도 우측 숫자와 겹침 없음 -->
-              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900" textLength="570" lengthAdjust="spacingAndGlyphs">TIGER 미국나스닥100</text>
+              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">TIGER 미국나스닥100</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -134,8 +134,8 @@
               <circle cx="62" cy="91" r="28" fill="#EBF5DC" stroke="#CDE5B1" stroke-width="1.5"/>
               <text x="62" y="100" fill="#2E6819" font-size="24" font-weight="900" text-anchor="middle">4</text>
 
-              <!-- ETF명: 570px 고정폭 렌더링으로 어떤 이름도 우측 숫자와 겹침 없음 -->
-              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900" textLength="570" lengthAdjust="spacingAndGlyphs">WON 전단채플러스액티브</text>
+              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">WON 전단채플러스액티브</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -158,8 +158,8 @@
               <circle cx="62" cy="91" r="28" fill="#EBF5DC" stroke="#CDE5B1" stroke-width="1.5"/>
               <text x="62" y="100" fill="#2E6819" font-size="24" font-weight="900" text-anchor="middle">5</text>
 
-              <!-- ETF명: 570px 고정폭 렌더링으로 어떤 이름도 우측 숫자와 겹침 없음 -->
-              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900" textLength="570" lengthAdjust="spacingAndGlyphs">TIGER 미국테크TOP10 INDXX</text>
+              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">TIGER 미국테크TOP10 INDX…</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>

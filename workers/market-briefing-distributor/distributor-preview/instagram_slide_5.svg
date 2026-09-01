@@ -61,8 +61,8 @@
               <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
               <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">1</text>
 
-              <!-- ETF명: 570px 고정폭으로 어떤 이름도 우측 수치와 겹침 없음 -->
-              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900" textLength="530" lengthAdjust="spacingAndGlyphs">KoAct 차이나바이오헬스케어액티브</text>
+              <!-- ETF명: 자연 렌더링 + 18자 초과 시 말줄임으로 우측 수치와 겹침 방지 -->
+              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">KoAct 차이나바이오헬스케어액티…</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="105" y="85" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -84,8 +84,8 @@
               <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
               <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">2</text>
 
-              <!-- ETF명: 570px 고정폭으로 어떤 이름도 우측 수치와 겹침 없음 -->
-              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900" textLength="530" lengthAdjust="spacingAndGlyphs">SOL 차이나소비트렌드</text>
+              <!-- ETF명: 자연 렌더링 + 18자 초과 시 말줄임으로 우측 수치와 겹침 방지 -->
+              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">SOL 차이나소비트렌드</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="105" y="85" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -107,8 +107,8 @@
               <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
               <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">3</text>
 
-              <!-- ETF명: 570px 고정폭으로 어떤 이름도 우측 수치와 겹침 없음 -->
-              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900" textLength="530" lengthAdjust="spacingAndGlyphs">TIGER 200커버드콜</text>
+              <!-- ETF명: 자연 렌더링 + 18자 초과 시 말줄임으로 우측 수치와 겹침 방지 -->
+              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">TIGER 200커버드콜</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="105" y="85" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -130,8 +130,8 @@
               <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
               <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">4</text>
 
-              <!-- ETF명: 570px 고정폭으로 어떤 이름도 우측 수치와 겹침 없음 -->
-              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900" textLength="530" lengthAdjust="spacingAndGlyphs">KODEX 한국대만IT프리미어</text>
+              <!-- ETF명: 자연 렌더링 + 18자 초과 시 말줄임으로 우측 수치와 겹침 방지 -->
+              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">KODEX 한국대만IT프리미어</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="105" y="85" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -153,8 +153,8 @@
               <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
               <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">5</text>
 
-              <!-- ETF명: 570px 고정폭으로 어떤 이름도 우측 수치와 겹침 없음 -->
-              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900" textLength="530" lengthAdjust="spacingAndGlyphs">HK 200</text>
+              <!-- ETF명: 자연 렌더링 + 18자 초과 시 말줄임으로 우측 수치와 겹침 방지 -->
+              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">HK 200</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="105" y="85" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>

@@ -377,8 +377,8 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
               <circle cx="62" cy="91" r="28" fill="${isTop ? '#2E6819' : '#EBF5DC'}" ${!isTop ? 'stroke="#CDE5B1" stroke-width="1.5"' : ''}/>
               <text x="62" y="100" fill="${isTop ? '#FFFFFF' : '#2E6819'}" font-size="24" font-weight="900" text-anchor="middle">${idx + 1}</text>
 
-              <!-- ETF명: 570px 고정폭 렌더링으로 어떤 이름도 우측 숫자와 겹침 없음 -->
-              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900" textLength="570" lengthAdjust="spacingAndGlyphs">${item.name}</text>
+              <!-- ETF명: 자연 렌더링 + 20자 초과 시 말줄임으로 우측 숫자와 겹침 방지 -->
+              <text x="108" y="75" fill="#0F172A" font-size="27" font-weight="900">${item.name.length > 20 ? item.name.slice(0, 20) + '…' : item.name}</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="108" y="88" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
@@ -450,8 +450,8 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
               <circle cx="60" cy="89" r="27" fill="${badgeBg}"/>
               <text x="60" y="97" fill="${badgeText}" font-size="22" font-weight="900" text-anchor="middle">${idx + 1}</text>
 
-              <!-- ETF명: 570px 고정폭으로 어떤 이름도 우측 수치와 겹침 없음 -->
-              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900" textLength="530" lengthAdjust="spacingAndGlyphs">${d.etfName}</text>
+              <!-- ETF명: 자연 렌더링 + 18자 초과 시 말줄임으로 우측 수치와 겹침 방지 -->
+              <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">${d.etfName.length > 18 ? d.etfName.slice(0, 18) + '…' : d.etfName}</text>
 
               <!-- 티커: 항상 ETF명 아래 독립 행 -->
               <rect x="105" y="85" width="80" height="26" rx="7" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>

@@ -11,10 +11,6 @@
           <stop offset="0%" stop-color="#10B981"/>
           <stop offset="100%" stop-color="#047857"/>
         </linearGradient>
-        <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#0F172A"/>
-          <stop offset="100%" stop-color="#1E293B"/>
-        </linearGradient>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&amp;display=swap');
           * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
@@ -27,170 +23,173 @@
       <circle cx="980" cy="120" r="280" fill="#10B981" fill-opacity="0.05"/>
       <circle cx="100" cy="1200" r="240" fill="#3B82F6" fill-opacity="0.04"/>
 
-      <!-- Header -->
+      <!-- Clean Minimal Header (Perfect Baseline Alignment) -->
       <g transform="translate(60, 55)">
-        <text x="0" y="24" fill="#047857" font-size="15" font-weight="900" letter-spacing="1.5">THREADS DAILY INFOGRAPHIC · 한눈에 보는 시장 4대 펄스</text>
-        <text x="0" y="62" fill="#0F172A" font-size="34" font-weight="900">ETF 모닝 브리핑 올인원</text>
+        <text x="0" y="34" fill="#0F172A" font-size="34" font-weight="900">ETF 모닝 브리핑</text>
+        <text x="0" y="62" fill="#64748B" font-size="16" font-weight="700">KRX 일반 ETF 1022개 전수 분석 요약</text>
         
-        <rect x="760" y="14" width="200" height="44" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <text x="860" y="42" fill="#0F172A" font-size="18" font-weight="900" text-anchor="middle" class="tabular">📅 2026.08.31 (월)</text>
+        <rect x="735" y="10" width="225" height="46" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
+        <text x="847" y="39" fill="#0F172A" font-size="17" font-weight="900" text-anchor="middle" class="tabular">📅 2026.08.31 (월)</text>
       </g>
 
-      <!-- SECTION 1: 시장 체온 &amp; 벤치마크 (Y: 145, H: 215) -->
-      <g transform="translate(60, 145)" filter="url(#cardShadow)">
-        <rect width="960" height="215" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <!-- SECTION 1: 시장 체온 &amp; 벤치마크 (Y: 140, H: 175) -->
+      <g transform="translate(60, 140)" filter="url(#cardShadow)">
+        <rect width="960" height="175" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
-        <!-- Header -->
-        <text x="35" y="42" fill="#0F172A" font-size="21" font-weight="900">🌡️ 1. 시장 체온 &amp; 벤치마크 대비 성과</text>
-        <rect x="680" y="16" width="245" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="802" y="41" fill="#1E293B" font-size="15" font-weight="800" text-anchor="middle">상승 305 · 보합 47 · 하락 670 (하락 우세)</text>
+        <text x="35" y="42" fill="#0F172A" font-size="22" font-weight="900">🌡️ 1. 시장 체온 &amp; 벤치마크 대비 성과</text>
+        <rect x="605" y="15" width="320" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+        <text x="765" y="39" fill="#1E293B" font-size="14" font-weight="800" text-anchor="middle">상승 305 · 보합 47 · 하락 670 (하락 우세)</text>
 
-        <!-- 3 Metrics -->
-        <g transform="translate(35, 95)">
+        <!-- 3 Big Metric Boxes with Dynamic Status Tints -->
+        <g transform="translate(35, 74)">
           <!-- KOSPI -->
-          <rect x="0" y="0" width="275" height="68" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="25" y="42" fill="#64748B" font-size="18" font-weight="700">KOSPI</text>
-          <text x="250" y="44" fill="#D92D20" font-size="28" font-weight="900" text-anchor="end" class="tabular">+0.46%</text>
+          <rect x="0" y="0" width="275" height="74" rx="14" fill="#FEF2F2" stroke="#FECACA" stroke-width="1.2"/>
+          <text x="25" y="46" fill="#991B1B" font-size="18" font-weight="800">KOSPI</text>
+          <text x="250" y="48" fill="#D92D20" font-size="30" font-weight="900" text-anchor="end" class="tabular">+0.46%</text>
 
           <!-- KOSDAQ -->
-          <rect x="307" y="0" width="275" height="68" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="332" y="42" fill="#64748B" font-size="18" font-weight="700">KOSDAQ</text>
-          <text x="557" y="44" fill="#175CD3" font-size="28" font-weight="900" text-anchor="end" class="tabular">-0.49%</text>
+          <rect x="307" y="0" width="275" height="74" rx="14" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.2"/>
+          <text x="332" y="46" fill="#1E40AF" font-size="18" font-weight="800">KOSDAQ</text>
+          <text x="557" y="48" fill="#175CD3" font-size="30" font-weight="900" text-anchor="end" class="tabular">-0.49%</text>
 
           <!-- 일반 ETF -->
-          <rect x="615" y="0" width="275" height="68" rx="14" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.2"/>
-          <text x="640" y="42" fill="#15803D" font-size="18" font-weight="800">일반 ETF</text>
-          <text x="865" y="44" fill="#175CD3" font-size="28" font-weight="900" text-anchor="end" class="tabular">-0.28%</text>
+          <rect x="615" y="0" width="275" height="74" rx="14" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
+          <text x="640" y="46" fill="#15803D" font-size="18" font-weight="800">일반 ETF</text>
+          <text x="865" y="48" fill="#175CD3" font-size="30" font-weight="900" text-anchor="end" class="tabular">-0.28%</text>
         </g>
-
-        <text x="35" y="192" fill="#475569" font-size="16" font-weight="700">💡 코스피 대형주 지지 속에서도 일반 ETF는 중소형주 조정 영향으로 -0.28% 기록</text>
       </g>
 
-      <!-- SECTION 2: 주도 테마 vs 부진 테마 (Y: 380, H: 250) -->
-      <g transform="translate(60, 380)" filter="url(#cardShadow)">
-        <rect width="960" height="250" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <!-- SECTION 2: 주도 테마 vs 부진 테마 (Y: 335, H: 220) -->
+      <g transform="translate(60, 335)" filter="url(#cardShadow)">
+        <rect width="960" height="220" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
-        <text x="35" y="42" fill="#0F172A" font-size="21" font-weight="900">🔥 2. 오늘의 극과 극 테마 (주도 vs 부진)</text>
-        <rect x="740" y="16" width="185" height="38" rx="10" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
-        <text x="832" y="41" fill="#C2410C" font-size="15" font-weight="900" text-anchor="middle">테마 온도차 7.49%p ⚡</text>
+        <text x="35" y="42" fill="#0F172A" font-size="22" font-weight="900">🔥 2. 오늘의 극과 극 테마 (주도 vs 부진)</text>
+        <rect x="735" y="16" width="190" height="38" rx="10" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
+        <text x="830" y="41" fill="#C2410C" font-size="15" font-weight="900" text-anchor="middle">테마 온도차 7.49%p ⚡</text>
 
         <!-- 2x2 Grid -->
-        <g transform="translate(35, 75)">
+        <g transform="translate(35, 72)">
           <!-- Top 1 Winner -->
-          <rect x="0" y="0" width="430" height="62" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
-          <text x="20" y="38" fill="#B91C1C" font-size="16" font-weight="900">상승 1위</text>
-          <text x="95" y="38" fill="#0F172A" font-size="18" font-weight="900">2차전지 셀 &amp; 소재</text>
-          <text x="410" y="39" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +2.71%</text>
+          <rect x="0" y="0" width="430" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
+          <text x="20" y="37" fill="#B91C1C" font-size="16" font-weight="900">상승 1위</text>
+          <text x="95" y="37" fill="#0F172A" font-size="18" font-weight="900">2차전지 셀 &amp; 소재</text>
+          <text x="410" y="38" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +2.71%</text>
 
           <!-- Top 2 Winner -->
-          <rect x="0" y="74" width="430" height="62" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
-          <text x="20" y="112" fill="#B91C1C" font-size="16" font-weight="900">상승 2위</text>
-          <text x="95" y="112" fill="#0F172A" font-size="18" font-weight="900">에너지 (원유·천연가스)</text>
-          <text x="410" y="113" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +1.51%</text>
+          <rect x="0" y="68" width="430" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
+          <text x="20" y="105" fill="#B91C1C" font-size="16" font-weight="900">상승 2위</text>
+          <text x="95" y="105" fill="#0F172A" font-size="18" font-weight="900">에너지 (원유·천연가스)</text>
+          <text x="410" y="106" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +1.51%</text>
 
           <!-- Top 1 Loser -->
-          <rect x="460" y="0" width="430" height="62" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
-          <text x="480" y="38" fill="#1D4ED8" font-size="16" font-weight="900">하락 1위</text>
-          <text x="555" y="38" fill="#0F172A" font-size="18" font-weight="900">원자력 &amp; SMR</text>
-          <text x="870" y="39" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ -4.78%</text>
+          <rect x="460" y="0" width="430" height="58" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+          <text x="480" y="37" fill="#1D4ED8" font-size="16" font-weight="900">하락 1위</text>
+          <text x="555" y="37" fill="#0F172A" font-size="18" font-weight="900">원자력 &amp; SMR</text>
+          <text x="870" y="38" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ -4.78%</text>
 
           <!-- Top 2 Loser -->
-          <rect x="460" y="74" width="430" height="62" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
-          <text x="480" y="112" fill="#1D4ED8" font-size="16" font-weight="900">하락 2위</text>
-          <text x="555" y="112" fill="#0F172A" font-size="18" font-weight="900">글로벌 원자력 &amp; SMR</text>
-          <text x="870" y="113" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ -4.60%</text>
+          <rect x="460" y="68" width="430" height="58" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+          <text x="480" y="105" fill="#1D4ED8" font-size="16" font-weight="900">하락 2위</text>
+          <text x="555" y="105" fill="#0F172A" font-size="18" font-weight="900">글로벌 원자력 &amp; SMR</text>
+          <text x="870" y="106" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ -4.60%</text>
         </g>
-
-        <text x="35" y="228" fill="#475569" font-size="16" font-weight="700">💡 2차전지·모빌리티 숏커버링 반등 vs 원자력·방산 차익실현 매물 출회 뚜렷</text>
       </g>
 
-      <!-- SECTION 3: 스마트머니 순유입 TOP 3 (Y: 650, H: 260) -->
-      <g transform="translate(60, 650)" filter="url(#cardShadow)">
-        <rect width="960" height="260" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <!-- SECTION 3: 스마트머니 순유입 TOP 3 (Y: 575, H: 250) -->
+      <g transform="translate(60, 575)" filter="url(#cardShadow)">
+        <rect width="960" height="250" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
-        <text x="35" y="42" fill="#0F172A" font-size="21" font-weight="900">🏦 3. 스마트머니(외인/기관) 실질 순유입 TOP 3</text>
+        <text x="35" y="42" fill="#0F172A" font-size="22" font-weight="900">🏦 3. 스마트머니(외인/기관) 실질 순유입 TOP 3</text>
         <rect x="785" y="16" width="140" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="855" y="41" fill="#1E293B" font-size="15" font-weight="800" text-anchor="middle">기관·외국인 합산</text>
 
-        <!-- 3 Inflow Rows -->
-        <g transform="translate(35, 75)">
+        <!-- 3 Inflow Rows (Perfect Ticker Badges) -->
+        <g transform="translate(35, 72)">
           
             <g transform="translate(0, 0)">
-              <rect width="890" height="48" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-              <circle cx="28" cy="24" r="14" fill="#10B981"/>
-              <text x="28" y="29" fill="#FFFFFF" font-size="13" font-weight="900" text-anchor="middle">1</text>
-              <text x="56" y="30" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국필라델피아반도체나스닥</text>
-              <rect x="420" y="12" width="65" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-              <text x="452" y="28" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">381180</text>
-              <text x="865" y="32" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+1,130억원</text>
+              <rect width="890" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+              <circle cx="28" cy="23" r="13" fill="#10B981"/>
+              <text x="28" y="28" fill="#FFFFFF" font-size="12" font-weight="900" text-anchor="middle">1</text>
+              
+              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국필라델피아반도체…</text>
+              
+              <!-- Ticker Badge nicely positioned right after name space -->
+              <rect x="560" y="11" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+              <text x="595" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">381180</text>
+              
+              <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+1,130억원</text>
             </g>
-          
-            <g transform="translate(0, 56)">
-              <rect width="890" height="48" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-              <circle cx="28" cy="24" r="14" fill="#E2E8F0"/>
-              <text x="28" y="29" fill="#475569" font-size="13" font-weight="900" text-anchor="middle">2</text>
-              <text x="56" y="30" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국S&amp;P500</text>
-              <rect x="340" y="12" width="65" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-              <text x="372" y="28" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">360750</text>
-              <text x="865" y="32" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+925억원</text>
+            
+            <g transform="translate(0, 54)">
+              <rect width="890" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+              <circle cx="28" cy="23" r="13" fill="#E2E8F0"/>
+              <text x="28" y="28" fill="#475569" font-size="12" font-weight="900" text-anchor="middle">2</text>
+              
+              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국S&amp;P500</text>
+              
+              <!-- Ticker Badge nicely positioned right after name space -->
+              <rect x="560" y="11" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+              <text x="595" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">360750</text>
+              
+              <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+925억원</text>
             </g>
-          
-            <g transform="translate(0, 112)">
-              <rect width="890" height="48" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-              <circle cx="28" cy="24" r="14" fill="#E2E8F0"/>
-              <text x="28" y="29" fill="#475569" font-size="13" font-weight="900" text-anchor="middle">3</text>
-              <text x="56" y="30" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국나스닥100</text>
-              <rect x="340" y="12" width="65" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-              <text x="372" y="28" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">133690</text>
-              <text x="865" y="32" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+850억원</text>
+            
+            <g transform="translate(0, 108)">
+              <rect width="890" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+              <circle cx="28" cy="23" r="13" fill="#E2E8F0"/>
+              <text x="28" y="28" fill="#475569" font-size="12" font-weight="900" text-anchor="middle">3</text>
+              
+              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">TIGER 미국나스닥100</text>
+              
+              <!-- Ticker Badge nicely positioned right after name space -->
+              <rect x="560" y="11" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+              <text x="595" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">133690</text>
+              
+              <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+850억원</text>
             </g>
-          
+            
         </g>
-
-        <text x="35" y="238" fill="#475569" font-size="16" font-weight="700">💡 단기 조정에도 글로벌 반도체 및 미국 대표지수를 향한 대규모 저가 분할 매수 집중</text>
       </g>
 
-      <!-- SECTION 4: 괴리율 왜곡 경보 (Y: 930, H: 200) -->
-      <g transform="translate(60, 930)" filter="url(#cardShadow)">
-        <rect width="960" height="200" rx="24" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.5"/>
+      <!-- SECTION 4: 괴리율 왜곡 경보 (Y: 845, H: 175) -->
+      <g transform="translate(60, 845)" filter="url(#cardShadow)">
+        <rect width="960" height="175" rx="22" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.5"/>
         
-        <text x="35" y="42" fill="#C2410C" font-size="21" font-weight="900">⚠️ 4. 오늘 장 괴리율 왜곡 주의 종목 (지뢰 회피)</text>
+        <text x="35" y="42" fill="#C2410C" font-size="22" font-weight="900">⚠️ 4. 오늘 장 괴리율 왜곡 주의 종목 (지뢰 회피)</text>
         <rect x="740" y="16" width="185" height="38" rx="10" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1.2"/>
         <text x="832" y="41" fill="#9A3412" font-size="15" font-weight="900" text-anchor="middle">NAV 대비 왜곡 경보</text>
 
         <!-- 2 Disparity Cards -->
-        <g transform="translate(35, 75)">
+        <g transform="translate(35, 72)">
           
             <g transform="translate(0, 0)">
-              <rect width="430" height="60" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1"/>
-              <text x="20" y="37" fill="#0F172A" font-size="16" font-weight="900">KoAct 차이나바이오헬스…</text>
-              <text x="410" y="38" fill="#C2410C" font-size="20" font-weight="900" text-anchor="end" class="tabular">-4.36%</text>
+              <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
+              <text x="20" y="39" fill="#0F172A" font-size="16.5" font-weight="900">KoAct 차이나바이오헬스…</text>
+              <text x="410" y="40" fill="#C2410C" font-size="22" font-weight="900" text-anchor="end" class="tabular">-4.36%</text>
             </g>
           
             <g transform="translate(460, 0)">
-              <rect width="430" height="60" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1"/>
-              <text x="20" y="37" fill="#0F172A" font-size="16" font-weight="900">SOL 차이나소비트렌드</text>
-              <text x="410" y="38" fill="#C2410C" font-size="20" font-weight="900" text-anchor="end" class="tabular">-3.50%</text>
+              <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
+              <text x="20" y="39" fill="#0F172A" font-size="16.5" font-weight="900">SOL 차이나소비트렌드</text>
+              <text x="410" y="40" fill="#C2410C" font-size="22" font-weight="900" text-anchor="end" class="tabular">-3.50%</text>
             </g>
           
         </g>
-
-        <text x="35" y="175" fill="#7C2D12" font-size="15" font-weight="700">💡 해외 시차 및 호가 공백으로 발생한 괴리율이므로 장 초반 무리한 추격 매매에 유의하세요.</text>
       </g>
 
-      <!-- Bottom Banner &amp; CTA (Y: 1150, H: 140) -->
-      <g transform="translate(60, 1150)" filter="url(#cardShadow)">
-        <rect width="960" height="80" rx="20" fill="url(#brandGrad)"/>
-        <text x="480" y="48" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">
+      <!-- Bottom Banner &amp; CTA (Y: 1040, H: 75) -->
+      <g transform="translate(60, 1040)" filter="url(#cardShadow)">
+        <rect width="960" height="75" rx="18" fill="url(#brandGrad)"/>
+        <text x="480" y="45" fill="#FFFFFF" font-size="21" font-weight="900" text-anchor="middle">
           💬 첫 번째 댓글 링크에서 1,022개 전체 ETF 상세 리포트를 확인하세요! 👉
         </text>
       </g>
 
-      <!-- Watermark &amp; Disclaimer -->
-      <g transform="translate(540, 1275)">
-        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-210" y="14" width="420" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="39" fill="#1E293B" font-size="17" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+      <!-- Watermark &amp; Disclaimer (Y: 1145 ~ 1210) -->
+      <g transform="translate(540, 1150)">
+        <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <rect x="-200" y="14" width="400" height="36" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+        <text x="0" y="38" fill="#1E293B" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   

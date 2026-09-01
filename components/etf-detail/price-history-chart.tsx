@@ -492,7 +492,6 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
           {hoverIndex !== null && points[hoverIndex] && (() => {
             const prPt = points[hoverIndex];
             const trPt = (trMode !== "pr") && trPoints[hoverIndex] ? trPoints[hoverIndex] : null;
-            const activePt = trPt || prPt;
             
             return (
             <div 
@@ -502,19 +501,19 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
                 transform: `translateX(${hoverIndex > points.length / 2 ? 'calc(-100% - 16px)' : '16px'}) translateY(12px)`
               }}
             >
-              <div className="text-[12px] font-bold text-neutral-400 leading-none mb-1">{formatDate(activePt.date)}</div>
+              <div className="text-[12px] font-bold text-neutral-400 leading-none mb-1">{formatDate(prPt.date)}</div>
               
-              {trMode !== "pr" ? (
+              {trPt ? (
                 <>
                   <div className="flex justify-between items-baseline gap-3 border-b border-neutral-700 pb-1 mb-1">
                     <span className="text-[10px] text-brand-300 font-bold">TR</span>
-                    <span className={`text-lg font-black tracking-tighter font-mono ${trPt!.returnPct > 0 ? 'text-rose-400' : trPt!.returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
-                      {trPt!.returnPct > 0 ? '+' : ''}{trPt!.returnPct.toFixed(2)}%
+                    <span className={`text-[14px] font-extrabold ${trPt.returnPct >= 0 ? "text-rose-400" : "text-blue-400"}`}>
+                      {trPt.returnPct > 0 ? '+' : ''}{trPt.returnPct.toFixed(2)}%
                     </span>
                   </div>
-                  <div className="flex justify-between items-baseline gap-3">
-                    <span className="text-[10px] text-neutral-400 font-bold">PR</span>
-                    <span className={`text-sm font-bold tracking-tighter font-mono ${prPt.returnPct > 0 ? 'text-rose-400/70' : prPt.returnPct < 0 ? 'text-blue-400/70' : 'text-neutral-400'}`}>
+                  <div className="flex justify-between items-baseline gap-3 opacity-70">
+                    <span className="text-[10px]">PR</span>
+                    <span className={`text-[12px] ${prPt.returnPct >= 0 ? "text-rose-300" : "text-blue-300"}`}>
                       {prPt.returnPct > 0 ? '+' : ''}{prPt.returnPct.toFixed(2)}%
                     </span>
                   </div>

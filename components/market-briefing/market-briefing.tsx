@@ -742,6 +742,7 @@ export function MarketBriefing() {
 
 
   const { pulse } = briefing;
+  if (!pulse) return <div className="p-8 text-center text-gray-500">시장 체감 지표(Pulse) 데이터를 불러올 수 없습니다.</div>;
 
   const scopeReturns = new Map((pulse?.aumWeightedReturns || []).map((item) => [item.scope, item]));
 
@@ -1048,7 +1049,7 @@ export function MarketBriefing() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  {headline.split('. ').map((sentence, i) => {
+                  {(headline || "").split('. ').map((sentence, i) => {
                     if (!sentence) return null;
                     return (
                       <div key={i} className="flex items-start gap-2">
@@ -1078,7 +1079,7 @@ export function MarketBriefing() {
       {/* STEP 1: Macro */}
 
 
-      {briefing.marketIndices.length > 0 && (
+      {(briefing.marketIndices?.length ?? 0) > 0 && (
         <section id="step-macro" aria-labelledby="market-index-title" className="mb-14 scroll-mt-20">
           <div className="mb-4 border-l-4 border-[#9ACD68] pl-3.5">
             <div className="flex items-center gap-2">

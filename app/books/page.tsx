@@ -16,14 +16,17 @@ export default function BooksPage() {
     {/* 대안 A: 슬림 일체형 헤더 (Compact Hero) */}
     <div className="flex items-center justify-between gap-3 rounded-2xl bg-brand-50/70 px-4 py-2.5 sm:px-5 sm:py-3 border border-brand-100/60">
       <div className="min-w-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <h1 className="text-xl sm:text-2xl font-extrabold tracking-[-0.03em] text-strong">도서·리뷰</h1>
           <span className="rounded-full bg-brand-100/80 px-2 py-0.5 text-[11px] font-bold text-brand-800 border border-brand-200">
             빅 3 서점 교차 검증
           </span>
+          <span className="rounded-full bg-blue-50 text-blue-700 px-2 py-0.5 text-[11px] font-bold border border-blue-200">
+            🚀 전 도서 로켓배송 (내일 도착)
+          </span>
         </div>
         <p className="mt-0.5 text-xs sm:text-sm text-neutral-600 truncate sm:whitespace-normal">
-          국내 대형 서점 실시간 베스트셀러 및 빅 3 서점 평점을 교차 검증한 ETF 추천 도서 리포트입니다.
+          국내 대형 서점 실시간 베스트셀러 교차 검증 및 전 도서 쿠팡 로켓배송 지원 리포트입니다.
         </p>
       </div>
       <Tickery className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" pose="learning" priority sizes="(max-width: 640px) 40px, 48px" />

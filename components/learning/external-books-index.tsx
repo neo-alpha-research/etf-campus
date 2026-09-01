@@ -253,9 +253,9 @@ export function ExternalBooksIndex({
                       target="_blank"
                       rel="sponsored nofollow noopener"
                       className="inline-flex w-full min-h-[38px] items-center justify-center gap-1.5 rounded-xl bg-brand-700 px-4 text-xs font-bold text-white transition-colors hover:bg-brand-800 active:scale-[0.99] shadow-sm"
-                      aria-label={`${book.title} 쿠팡 도서 구매처 바로가기 (새 창 열림)`}
+                      aria-label={`${book.title} 쿠팡 로켓배송 도서 구매처 바로가기 (새 창 열림)`}
                     >
-                      <span>쿠팡에서 도서 구매하기</span>
+                      <span>🚀 로켓배송으로 내일 받기</span>
                       <span className="text-[10px] text-white/80">↗</span>
                     </a>
                   )}

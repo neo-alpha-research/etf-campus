@@ -28,7 +28,7 @@ describe("ExternalBookDetail", () => {
 
     // Affiliate purchase link
     if (book.affiliateUrl) {
-      expect(screen.getByRole("link", { name: /쿠팡 도서 구매처 바로가기/ })).toHaveAttribute(
+      expect(screen.getByRole("link", { name: /쿠팡 로켓배송 도서 구매처 바로가기/ })).toHaveAttribute(
         "href",
         book.affiliateUrl,
       );

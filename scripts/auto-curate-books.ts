@@ -16,7 +16,25 @@ const CATEGORY_MAP = {
   "배당·현금흐름": { keyword: "월배당 ETF", slug: "dividend" },
 };
 
-function getCoupangAffiliateUrl(title: string, author: string, trackingId = COUPANG_TRACKING_ID): string {
+let coupangRegistry: Record<string, string> = {};
+try {
+  const regPath = path.join(process.cwd(), "data/coupang-links.json");
+  coupangRegistry = JSON.parse(await fs.readFile(regPath, "utf-8"));
+} catch {
+  // Registry missing
+}
+
+function getCoupangAffiliateUrl(title: string, author: string, existingUrl?: string): string {
+  if (existingUrl && existingUrl.includes("link.coupang.com/a/")) {
+    return existingUrl;
+  }
+
+  for (const [key, link] of Object.entries(coupangRegistry)) {
+    if (title.includes(key) || key.includes(title.slice(0, 8))) {
+      return link;
+    }
+  }
+
   const cleanTitle = title
     .replace(/\[.*?\]|\(.*?\)/g, "")
     .replace(/전면\s*개정판|개정판|개정\s*\d+판|최신판|개정\s*증보판/g, "")
@@ -24,7 +42,7 @@ function getCoupangAffiliateUrl(title: string, author: string, trackingId = COUP
     .trim();
   const cleanAuthor = (author || "").replace(/\(.*?\)/g, "").replace(/\s+/g, " ").trim();
   const query = `${cleanTitle} ${cleanAuthor}`.trim();
-  return `https://link.coupang.com/re/AFFSDP?lptag=${trackingId}&subId=etfcampus&pageKey=search&traceid=V0-153&keyword=${encodeURIComponent(query)}`;
+  return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}`;
 }
 
 function getBookKey(title: string, author: string): string {
@@ -338,6 +356,24 @@ function getProfessionalReviewFallback(book: any, categoryName: string) {
 async function updateMdxFile(categoryName: string, categorySlug: string, rank: number, book: any, aiReview: any) {
   const filePath = path.join(CONTENT_DIR, `[LEARNING_EXAMPLE]_${categorySlug}-top-${rank}.mdx`);
   
+  let existingAffiliateUrl = "";
+  try {
+    const oldContent = await fs.readFile(filePath, "utf-8");
+    const oldTitleMatch = oldContent.match(/title:\s*(.*)/);
+    const oldAffiliateMatch = oldContent.match(/affiliateUrl:\s*(.*)/);
+    if (oldTitleMatch && oldAffiliateMatch) {
+      const oldTitleKey = getBookKey(oldTitleMatch[1], "");
+      const newTitleKey = getBookKey(book.title, "");
+      if (oldTitleKey === newTitleKey) {
+        existingAffiliateUrl = oldAffiliateMatch[1].trim();
+      }
+    }
+  } catch {
+    // New file
+  }
+
+  const finalAffiliateUrl = getCoupangAffiliateUrl(book.title, book.author, existingAffiliateUrl);
+
   const prosText = Array.isArray(aiReview.pros) ? aiReview.pros.join(" | ") : String(aiReview.pros);
   const consText = Array.isArray(aiReview.cons) ? aiReview.cons.join(" | ") : String(aiReview.cons);
 
@@ -374,7 +410,7 @@ targetPersona: ${aiReview.targetPersona.replace(/:/g, ' -').replace(/\n/g, ' ')}
 targetRationale: ${(aiReview.targetRationale || "").replace(/:/g, ' -').replace(/\n/g, ' ')}
 shortTargetTag: ${aiReview.shortTargetTag.replace(/:/g, ' -').replace(/\n/g, ' ')}
 coverImage: ${book.coverUrl}
-affiliateUrl: ${getCoupangAffiliateUrl(book.title, book.author)}
+affiliateUrl: ${finalAffiliateUrl}
 ---
 
 # ${book.title}

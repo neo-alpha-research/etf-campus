@@ -381,6 +381,13 @@ async function run() {
           <div style="background-color: #0F172A; padding: 40px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; text-align: center; width: 100%;">
             ${mapHtml}
             <div style="max-width: 600px; margin: 0 auto; padding: 0 12px;">
+              <!-- Interactive Guide Badge -->
+              <div style="margin-bottom: 14px; text-align: center;">
+                <span style="display: inline-block; background-color: rgba(16, 185, 129, 0.15); color: #34D399; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; border: 1px solid rgba(16, 185, 129, 0.3); letter-spacing: -0.2px;">
+                  💡 화면 속 ETF 종목(티커)을 터치하시면 상세 분석 페이지로 바로 이동합니다!
+                </span>
+              </div>
+
               <a href="${baseUrl}/briefing" style="display: block; text-decoration: none;">
                 <img src="cid:newsletter_full_image" alt="${preHeaderText}" usemap="#etf-map" style="max-width: 100%; border-radius: 20px; display: block; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);" />
               </a>
@@ -549,6 +556,11 @@ async function run() {
       </div>
       <div class="bg-[#0F172A] rounded-2xl overflow-hidden shadow-2xl p-8 border border-slate-700 flex flex-col items-center">
         <div class="max-w-[520px] w-full">
+          <div class="mb-3 text-center">
+            <span class="inline-block bg-emerald-950/80 text-emerald-400 border border-emerald-800/80 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm">
+              💡 화면 속 ETF 종목(티커)을 터치하시면 상세 분석 페이지로 바로 이동합니다!
+            </span>
+          </div>
           <img src="./email_snapshot.png" class="w-full rounded-2xl shadow-2xl border border-slate-700" alt="Full Email Snapshot" />
           
           <!-- Bottom CTA Banners Preview in Dashboard -->

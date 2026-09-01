@@ -41,12 +41,15 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
   const disparityList = payload.disparityWarning || [];
   const topDisparity = disparityList[0] || { etfName: "KoAct 차이나바이오헬스케어액티브", disparityPct: -4.36 };
 
+  const kospiAction = kospi >= 0 ? "상승" : "하락";
+  const dominantText = up >= down ? `${up}개 상승(상승 우세)` : `${down}개 하락(하락 우세)`;
+
   const mainPost = `출근길 ETF 모닝 브리핑 ☕ (${dateStr.slice(5).replace('-', '.')} 기준)
 
-지난 장 코스피는 ${sign}${kospi.toFixed(2)}% 상승 마감했지만, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 차분한 숨고르기를 보였습니다.
+지난 장 코스피는 ${sign}${kospi.toFixed(2)}% ${kospiAction} 마감했지만, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 차분한 숨고르기를 보였습니다.
 
 📊 지난 장 핵심 시그널 4가지:
-1️⃣ [체온] 1,022개 중 ${down}개 하락(하락 우세). 대형주 위주 지수 방어 속 체감 온도는 차분
+1️⃣ [체온] 1,022개 중 ${dominantText}. 대형주 위주 지수 방어 속 체감 온도는 차분
 2️⃣ [테마] ${topTheme.peerGroup}(+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 반등 vs ${bottomTheme.peerGroup}(${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 차익실현 (온도차 ${themeGap}%p)
 3️⃣ [수급] 외인·기관은 ${topInflowName} 등 해외 반도체/지수 ETF에 ${topInflowAmount}억원 규모 저가 매수 집중
 4️⃣ [경보] ${topDisparity.etfName}(${topDisparity.disparityPct.toFixed(2)}%) 등 해외 액티브 ETF 괴리율 왜곡 주의
@@ -179,7 +182,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <g transform="translate(60, 335)" filter="url(#cardShadow)">
         <rect width="960" height="220" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
-        <text x="35" y="42" fill="#0F172A" font-size="22" font-weight="900">🔥 2. 오늘의 극과 극 테마 (주도 vs 부진)</text>
+        <text x="35" y="42" fill="#0F172A" font-size="22" font-weight="900">🔥 2. 극과 극 테마 (주도 vs 부진)</text>
         <rect x="735" y="16" width="190" height="38" rx="10" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
         <text x="830" y="41" fill="#C2410C" font-size="15" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
 
@@ -242,7 +245,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <g transform="translate(60, 845)" filter="url(#cardShadow)">
         <rect width="960" height="175" rx="22" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.5"/>
         
-        <text x="35" y="42" fill="#C2410C" font-size="22" font-weight="900">⚠️ 4. 오늘 장 괴리율 왜곡 주의 종목 (지뢰 회피)</text>
+        <text x="35" y="42" fill="#C2410C" font-size="22" font-weight="900">⚠️ 4. 괴리율 왜곡 주의 종목 (지뢰 회피)</text>
         <rect x="740" y="16" width="185" height="38" rx="10" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1.2"/>
         <text x="832" y="41" fill="#9A3412" font-size="15" font-weight="900" text-anchor="middle">NAV 대비 왜곡 경보</text>
 

@@ -10,6 +10,7 @@ import { EtfDetailClient } from "./etf-detail-client";
 import { DistributionHistoryCard } from "./distribution-history-card";
 import { PriceHistoryChart } from "./price-history-chart";
 import { EtfHoldings } from "./etf-holdings";
+import { ReturnPeriodGrid } from "./return-period-grid";
 
 import type { PeerComparison } from "@/lib/data/etf-peer-groups";
 import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
@@ -246,30 +247,7 @@ export function EtfDetail({
               {newListing && !itdAvailable ? <p className="px-1 text-xs font-medium text-muted">상장일 기준 가격 확인 후 상장 후 수익률(PR)을 제공합니다.</p> : null}
               {itdPendingVerification ? <p className="px-1 text-xs font-medium text-amber-700">ITD는 상장일 기준 가격으로 산출한 PR이며, KRX 기준가격 공식 대조는 진행 중입니다.</p> : null}
               
-              <div className="overflow-hidden rounded-xl border border-line bg-line">
-                <div
-                  role="table"
-                  aria-label={`${etf.name} 기본 기간별 가격 수익률`}
-                  data-testid="return-period-table"
-                  className="grid gap-px"
-                  style={{ gridTemplateColumns: `repeat(${defaultPeriods.length}, minmax(0, 1fr))` }}
-                >
-                  {defaultPeriods.map((period) => (
-                    <div key={period} role="cell" className="bg-surface py-2.5 px-0.5 sm:px-1 flex flex-col items-center justify-center text-center">
-                      <div className="text-[11px] font-bold text-muted mb-1" title={RETURN_PERIOD_LABELS[period]} aria-label={RETURN_PERIOD_LABELS[period]}>
-                        <span aria-hidden="true">{EN_PERIOD_LABELS[period] || period}</span>
-                      </div>
-                      <div className="text-[11px] sm:text-[12px] font-bold tabular-nums tracking-tighter">
-                        {etf.returns[period] === null ? (
-                          <span aria-label="데이터 없음" className="text-muted font-medium">—</span>
-                        ) : (
-                          <ReturnCell value={etf.returns[period]!} />
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <ReturnPeriodGrid etf={etf} />
 
               <EtfHoldings ticker={etf.ticker} />
             </div>

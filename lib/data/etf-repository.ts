@@ -86,6 +86,44 @@ function parseClassification(row: CsvRow | undefined): EtfClassification | null 
   };
 }
 
+function loadTrReturnsIndex(dataDirectory: string): Map<string, Record<string, number | null>> {
+  const trPath = path.join(dataDirectory, "returns", "etf_total_return_metrics.csv");
+  if (!fs.existsSync(trPath)) return new Map();
+  
+  const rows = readCsv(trPath);
+  const result = new Map<string, Record<string, number | null>>();
+  
+  for (const row of rows) {
+    const ticker = row.ticker?.trim();
+    if (!ticker) continue;
+    
+    if (!result.has(ticker)) {
+      result.set(ticker, {
+        "1d": null, "1w": null, "2w": null, "1m": null, "2m": null, "3m": null, "6m": null,
+        "12m": null, "24m": null, "36m": null, "ytd": null, "itd": null
+      });
+    }
+    
+    const period = row.period?.trim();
+    const status = row.calculation_status?.trim();
+    const pctStr = row.total_return_pct?.trim();
+    
+    // Map script periods to TS ReturnPeriod
+    let tsPeriod = period;
+    if (period === "1y") tsPeriod = "12m";
+    if (period === "2y") tsPeriod = "24m";
+    if (period === "3y") tsPeriod = "36m";
+    
+    if (status === "calculated" && pctStr) {
+      const val = Number(pctStr);
+      if (Number.isFinite(val)) {
+        result.get(ticker)![tsPeriod as string] = val;
+      }
+    }
+  }
+  return result;
+}
+
 export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const masterRows = readCsv(path.join(dataDirectory, "etf_master_draft.csv"));
   const feeByTicker = loadOfficialEtfFeeIndex(dataDirectory);
@@ -98,6 +136,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const returnsByTicker = indexUnique(returnRows, "ticker", "etf_returns_draft.csv");
   const pensionByTicker = indexUnique(pensionRows, "ticker", "pension_verify_sheet.csv");
   const classificationByTicker = loadClassificationIndex(dataDirectory);
+  const trReturnsByTicker = loadTrReturnsIndex(dataDirectory);
   const tickers = new Set(masterByTicker.keys());
 
   assertCompleteJoin(returnsByTicker, tickers, "etf_returns_draft.csv");
@@ -155,6 +194,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
         "36m": parseOptionalNullableNumber(returns, "r_36m", `returns:${ticker}`),
         itd: parseOptionalNullableNumber(returns, "r_itd", `returns:${ticker}`),
       },
+      returnsTr: trReturnsByTicker.get(ticker) as any,
       itdAnchor: {
         price: parseOptionalNullableNumber(returns, "itd_anchor_close", `returns:${ticker}`),
         date: optionalText(returns, "itd_anchor_date"),

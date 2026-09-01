@@ -156,6 +156,7 @@ export type Etf = {
   listingDateVerifiedAt: string | null;
   listingDateEvidenceId: string | null;
   returns: EtfReturns;
+  returnsTr?: EtfReturns;
   itdAnchor?: ItdAnchor;
   isNew90d: boolean | null;
   isNew3m: boolean;

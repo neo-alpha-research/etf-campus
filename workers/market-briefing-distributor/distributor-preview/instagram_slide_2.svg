@@ -62,27 +62,27 @@
             <rect width="870" height="102" rx="18" fill="#FAFDF4" stroke="#D7EABB" stroke-width="1.5"/>
             <circle cx="45" cy="51" r="23" fill="#D92D20"/>
             <text x="45" y="59" fill="#FFFFFF" font-size="20" font-weight="900" text-anchor="middle">1</text>
-            <text x="85" y="44" fill="#0F172A" font-size="25" font-weight="900">2차전지 셀 &amp; 소재</text>
-            <text x="85" y="75" fill="#64748B" font-size="17" font-weight="600">총 13개 ETF 구성 | 자산군: 주식-국내</text>
-            <text x="830" y="60" fill="#D92D20" font-size="34" font-weight="900" text-anchor="end" class="tabular">▲ +2.71%</text>
+            <text x="85" y="44" fill="#0F172A" font-size="28" font-weight="900">2차전지 셀 &amp; 소재</text>
+            <text x="85" y="76" fill="#64748B" font-size="17" font-weight="600">총 13개 ETF 구성 | 자산군: 주식-국내</text>
+            <text x="840" y="60" fill="#D92D20" font-size="38" font-weight="900" text-anchor="end" class="tabular">▲ +2.71%</text>
           </g>
         
           <g transform="translate(35, 195)">
             <rect width="870" height="102" rx="18" fill="#FAFDF4" stroke="#D7EABB" stroke-width="1.5"/>
             <circle cx="45" cy="51" r="23" fill="#FEE4E2"/>
             <text x="45" y="59" fill="#D92D20" font-size="20" font-weight="900" text-anchor="middle">2</text>
-            <text x="85" y="44" fill="#0F172A" font-size="25" font-weight="900">에너지 (원유·천연가스)</text>
-            <text x="85" y="75" fill="#64748B" font-size="17" font-weight="600">총 5개 ETF 구성 | 자산군: 원자재</text>
-            <text x="830" y="60" fill="#D92D20" font-size="34" font-weight="900" text-anchor="end" class="tabular">▲ +1.51%</text>
+            <text x="85" y="44" fill="#0F172A" font-size="28" font-weight="900">에너지 (원유·천연가스)</text>
+            <text x="85" y="76" fill="#64748B" font-size="17" font-weight="600">총 5개 ETF 구성 | 자산군: 원자재</text>
+            <text x="840" y="60" fill="#D92D20" font-size="38" font-weight="900" text-anchor="end" class="tabular">▲ +1.51%</text>
           </g>
         
           <g transform="translate(35, 310)">
             <rect width="870" height="102" rx="18" fill="#FAFDF4" stroke="#D7EABB" stroke-width="1.5"/>
             <circle cx="45" cy="51" r="23" fill="#FEE4E2"/>
             <text x="45" y="59" fill="#D92D20" font-size="20" font-weight="900" text-anchor="middle">3</text>
-            <text x="85" y="44" fill="#0F172A" font-size="25" font-weight="900">자동차 &amp; 스마트모빌리티</text>
-            <text x="85" y="75" fill="#64748B" font-size="17" font-weight="600">총 6개 ETF 구성 | 자산군: 주식-국내</text>
-            <text x="830" y="60" fill="#D92D20" font-size="34" font-weight="900" text-anchor="end" class="tabular">▲ +1.35%</text>
+            <text x="85" y="44" fill="#0F172A" font-size="28" font-weight="900">자동차 &amp; 스마트모빌리티</text>
+            <text x="85" y="76" fill="#64748B" font-size="17" font-weight="600">총 6개 ETF 구성 | 자산군: 주식-국내</text>
+            <text x="840" y="60" fill="#D92D20" font-size="38" font-weight="900" text-anchor="end" class="tabular">▲ +1.35%</text>
           </g>
         
       </g>
@@ -98,27 +98,27 @@
             <rect width="870" height="102" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
             <circle cx="45" cy="51" r="23" fill="#175CD3"/>
             <text x="45" y="59" fill="#FFFFFF" font-size="20" font-weight="900" text-anchor="middle">1</text>
-            <text x="85" y="44" fill="#0F172A" font-size="25" font-weight="900">원자력 &amp; SMR</text>
-            <text x="85" y="75" fill="#64748B" font-size="17" font-weight="600">총 5개 ETF 구성 | 자산군: 주식-국내</text>
-            <text x="830" y="60" fill="#175CD3" font-size="34" font-weight="900" text-anchor="end" class="tabular">▼ -4.78%</text>
+            <text x="85" y="44" fill="#0F172A" font-size="28" font-weight="900">원자력 &amp; SMR</text>
+            <text x="85" y="76" fill="#64748B" font-size="17" font-weight="600">총 5개 ETF 구성 | 자산군: 주식-국내</text>
+            <text x="840" y="60" fill="#175CD3" font-size="38" font-weight="900" text-anchor="end" class="tabular">▼ -4.78%</text>
           </g>
         
           <g transform="translate(35, 195)">
             <rect width="870" height="102" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
             <circle cx="45" cy="51" r="23" fill="#DBEAFE"/>
             <text x="45" y="59" fill="#175CD3" font-size="20" font-weight="900" text-anchor="middle">2</text>
-            <text x="85" y="44" fill="#0F172A" font-size="25" font-weight="900">글로벌 원자력 &amp; SMR</text>
-            <text x="85" y="75" fill="#64748B" font-size="17" font-weight="600">총 5개 ETF 구성 | 자산군: 주식-해외</text>
-            <text x="830" y="60" fill="#175CD3" font-size="34" font-weight="900" text-anchor="end" class="tabular">▼ -4.60%</text>
+            <text x="85" y="44" fill="#0F172A" font-size="28" font-weight="900">글로벌 원자력 &amp; SMR</text>
+            <text x="85" y="76" fill="#64748B" font-size="17" font-weight="600">총 5개 ETF 구성 | 자산군: 주식-해외</text>
+            <text x="840" y="60" fill="#175CD3" font-size="38" font-weight="900" text-anchor="end" class="tabular">▼ -4.60%</text>
           </g>
         
           <g transform="translate(35, 310)">
             <rect width="870" height="102" rx="18" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
             <circle cx="45" cy="51" r="23" fill="#DBEAFE"/>
             <text x="45" y="59" fill="#175CD3" font-size="20" font-weight="900" text-anchor="middle">3</text>
-            <text x="85" y="44" fill="#0F172A" font-size="25" font-weight="900">사이버보안 &amp; 양자컴퓨팅</text>
-            <text x="85" y="75" fill="#64748B" font-size="17" font-weight="600">총 5개 ETF 구성 | 자산군: 주식-해외</text>
-            <text x="830" y="60" fill="#175CD3" font-size="34" font-weight="900" text-anchor="end" class="tabular">▼ -3.47%</text>
+            <text x="85" y="44" fill="#0F172A" font-size="28" font-weight="900">사이버보안 &amp; 양자컴퓨팅</text>
+            <text x="85" y="76" fill="#64748B" font-size="17" font-weight="600">총 5개 ETF 구성 | 자산군: 주식-해외</text>
+            <text x="840" y="60" fill="#175CD3" font-size="38" font-weight="900" text-anchor="end" class="tabular">▼ -3.47%</text>
           </g>
         
       </g>

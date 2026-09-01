@@ -61,12 +61,12 @@
                 순자산 <tspan font-weight="900" fill="#0F172A">17616955386.2조원</tspan> (비중 <tspan font-weight="900" fill="#2E6819">46.2%</tspan>)
               </text>
               
-              <rect x="35" y="105" width="380" height="8" rx="4" fill="#F1F5F9"/>
-              <rect x="35" y="105" width="175.4893476687221" height="8" rx="4" fill="#2E6819"/>
+              <rect x="35" y="105" width="380" height="12" rx="6" fill="#F1F5F9"/>
+              <rect x="35" y="105" width="175.4893476687221" height="12" rx="6" fill="#2E6819"/>
               
               <rect x="490" y="18" width="415" height="108" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="515" y="54" fill="#475569" font-size="20" font-weight="800">당일 가중수익률</text>
-              <text x="880" y="56" fill="#D92D20" font-size="34" font-weight="900" text-anchor="end" class="tabular">▲ +0.14%</text>
+              <text x="880" y="56" fill="#D92D20" font-size="40" font-weight="900" text-anchor="end" class="tabular">▲ +0.14%</text>
               
               <text x="515" y="96" fill="#64748B" font-size="18" font-weight="700">시장 기여도</text>
               <text x="880" y="98" fill="#D92D20" font-size="22" font-weight="900" text-anchor="end" class="tabular">+0.07%p</text>
@@ -79,12 +79,12 @@
                 순자산 <tspan font-weight="900" fill="#0F172A">12738735697.2조원</tspan> (비중 <tspan font-weight="900" fill="#2E6819">33.4%</tspan>)
               </text>
               
-              <rect x="35" y="105" width="380" height="8" rx="4" fill="#F1F5F9"/>
-              <rect x="35" y="105" width="126.89550314577411" height="8" rx="4" fill="#2E6819"/>
+              <rect x="35" y="105" width="380" height="12" rx="6" fill="#F1F5F9"/>
+              <rect x="35" y="105" width="126.89550314577411" height="12" rx="6" fill="#2E6819"/>
               
               <rect x="490" y="18" width="415" height="108" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="515" y="54" fill="#475569" font-size="20" font-weight="800">당일 가중수익률</text>
-              <text x="880" y="56" fill="#175CD3" font-size="34" font-weight="900" text-anchor="end" class="tabular">▼ -0.71%</text>
+              <text x="880" y="56" fill="#175CD3" font-size="40" font-weight="900" text-anchor="end" class="tabular">▼ -0.71%</text>
               
               <text x="515" y="96" fill="#64748B" font-size="18" font-weight="700">시장 기여도</text>
               <text x="880" y="98" fill="#175CD3" font-size="22" font-weight="900" text-anchor="end" class="tabular">-0.24%p</text>
@@ -97,12 +97,12 @@
                 순자산 <tspan font-weight="900" fill="#0F172A">5861423627.7조원</tspan> (비중 <tspan font-weight="900" fill="#2E6819">15.4%</tspan>)
               </text>
               
-              <rect x="35" y="105" width="380" height="8" rx="4" fill="#F1F5F9"/>
-              <rect x="35" y="105" width="58.38792153820013" height="8" rx="4" fill="#2E6819"/>
+              <rect x="35" y="105" width="380" height="12" rx="6" fill="#F1F5F9"/>
+              <rect x="35" y="105" width="58.38792153820013" height="12" rx="6" fill="#2E6819"/>
               
               <rect x="490" y="18" width="415" height="108" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="515" y="54" fill="#475569" font-size="20" font-weight="800">당일 가중수익률</text>
-              <text x="880" y="56" fill="#175CD3" font-size="34" font-weight="900" text-anchor="end" class="tabular">▼ -0.09%</text>
+              <text x="880" y="56" fill="#175CD3" font-size="40" font-weight="900" text-anchor="end" class="tabular">▼ -0.09%</text>
               
               <text x="515" y="96" fill="#64748B" font-size="18" font-weight="700">시장 기여도</text>
               <text x="880" y="98" fill="#175CD3" font-size="22" font-weight="900" text-anchor="end" class="tabular">-0.01%p</text>
@@ -115,12 +115,12 @@
                 순자산 <tspan font-weight="900" fill="#0F172A">953472662.8조원</tspan> (비중 <tspan font-weight="900" fill="#2E6819">2.5%</tspan>)
               </text>
               
-              <rect x="35" y="105" width="380" height="8" rx="4" fill="#F1F5F9"/>
-              <rect x="35" y="105" width="9.497912207425394" height="8" rx="4" fill="#2E6819"/>
+              <rect x="35" y="105" width="380" height="12" rx="6" fill="#F1F5F9"/>
+              <rect x="35" y="105" width="9.497912207425394" height="12" rx="6" fill="#2E6819"/>
               
               <rect x="490" y="18" width="415" height="108" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="515" y="54" fill="#475569" font-size="20" font-weight="800">당일 가중수익률</text>
-              <text x="880" y="56" fill="#175CD3" font-size="34" font-weight="900" text-anchor="end" class="tabular">▼ -2.49%</text>
+              <text x="880" y="56" fill="#175CD3" font-size="40" font-weight="900" text-anchor="end" class="tabular">▼ -2.49%</text>
               
               <text x="515" y="96" fill="#64748B" font-size="18" font-weight="700">시장 기여도</text>
               <text x="880" y="98" fill="#175CD3" font-size="22" font-weight="900" text-anchor="end" class="tabular">-0.06%p</text>
@@ -133,12 +133,12 @@
                 순자산 <tspan font-weight="900" fill="#0F172A">663873296.5조원</tspan> (비중 <tspan font-weight="900" fill="#2E6819">1.7%</tspan>)
               </text>
               
-              <rect x="35" y="105" width="380" height="8" rx="4" fill="#F1F5F9"/>
-              <rect x="35" y="105" width="6.613100231202074" height="8" rx="4" fill="#2E6819"/>
+              <rect x="35" y="105" width="380" height="12" rx="6" fill="#F1F5F9"/>
+              <rect x="35" y="105" width="6.613100231202074" height="12" rx="6" fill="#2E6819"/>
               
               <rect x="490" y="18" width="415" height="108" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="515" y="54" fill="#475569" font-size="20" font-weight="800">당일 가중수익률</text>
-              <text x="880" y="56" fill="#175CD3" font-size="34" font-weight="900" text-anchor="end" class="tabular">▼ -1.46%</text>
+              <text x="880" y="56" fill="#175CD3" font-size="40" font-weight="900" text-anchor="end" class="tabular">▼ -1.46%</text>
               
               <text x="515" y="96" fill="#64748B" font-size="18" font-weight="700">시장 기여도</text>
               <text x="880" y="98" fill="#175CD3" font-size="22" font-weight="900" text-anchor="end" class="tabular">-0.03%p</text>
@@ -151,12 +151,12 @@
                 순자산 <tspan font-weight="900" fill="#0F172A">312829382.7조원</tspan> (비중 <tspan font-weight="900" fill="#2E6819">0.8%</tspan>)
               </text>
               
-              <rect x="35" y="105" width="380" height="8" rx="4" fill="#F1F5F9"/>
-              <rect x="35" y="105" width="3.1162152086761403" height="8" rx="4" fill="#2E6819"/>
+              <rect x="35" y="105" width="380" height="12" rx="6" fill="#F1F5F9"/>
+              <rect x="35" y="105" width="3.1162152086761403" height="12" rx="6" fill="#2E6819"/>
               
               <rect x="490" y="18" width="415" height="108" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="515" y="54" fill="#475569" font-size="20" font-weight="800">당일 가중수익률</text>
-              <text x="880" y="56" fill="#175CD3" font-size="34" font-weight="900" text-anchor="end" class="tabular">▼ -0.58%</text>
+              <text x="880" y="56" fill="#175CD3" font-size="40" font-weight="900" text-anchor="end" class="tabular">▼ -0.58%</text>
               
               <text x="515" y="96" fill="#64748B" font-size="18" font-weight="700">시장 기여도</text>
               <text x="880" y="98" fill="#175CD3" font-size="22" font-weight="900" text-anchor="end" class="tabular">-0.00%p</text>

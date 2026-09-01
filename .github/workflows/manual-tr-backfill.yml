@@ -1,0 +1,53 @@
+name: Manual TR Data Backfill
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright aiohttp
+          playwright install chromium
+
+      - name: Run Historical Price Collection
+        run: python scripts/collect_historical_prices.py
+
+      - name: Run KRX Distribution Collection
+        run: python scripts/collect_distributions.py
+
+      - name: Calculate Total Returns
+        run: python scripts/calculate_total_returns.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "etf-campus-data-bot"
+          git config user.email "etf-campus-data-bot@neo-alpha-research.local"
+          git add data/returns/etf_price_history.csv
+          git add data/distributions/etf_distribution_events.csv
+          git add data/distributions/etf_tr_data_coverage.csv
+          git add data/returns/etf_total_return_metrics.csv
+          git add data/corporate_actions/etf_corporate_actions.csv
+          
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(data): backfill historical TR data (prices and distributions)"
+            git push origin main
+          else
+            echo "No changes to commit."
+          fi

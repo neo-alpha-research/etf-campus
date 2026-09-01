@@ -31,6 +31,19 @@ describe("ETF 스크리너", () => {
     expect(result.map((item) => item.ticker)).toEqual(["B"]);
   });
 
+  it("상품구조에서 파킹·단기자금과 일반형을 독립적으로 필터링한다", () => {
+    const mixed = [
+      etf({ ticker: "STOCK", assetClass: "주식-국내", riskType: "normal" }),
+      etf({ ticker: "PARK", assetClass: "금리·파킹", riskType: "normal" }),
+      etf({ ticker: "LEV", assetClass: "주식-국내", riskType: "leverage" }),
+    ];
+    const normalOnly = filterEtfs(mixed, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, riskTypes: ["normal"], aumScope: "all" });
+    expect(normalOnly.map((i) => i.ticker)).toEqual(["STOCK"]);
+
+    const parkingOnly = filterEtfs(mixed, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, riskTypes: ["parking"], aumScope: "all" });
+    expect(parkingOnly.map((i) => i.ticker)).toEqual(["PARK"]);
+  });
+
   it("복수 선택 필터를 URL 쿼리로 왕복한다", () => {
     const filters: ScreenerFilters = {
       ...DEFAULT_SCREENER_FILTERS,

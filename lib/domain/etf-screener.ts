@@ -84,7 +84,20 @@ export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilter
     }
 
     if (filters.assetClasses.length && !filters.assetClasses.includes(etf.assetClass)) return false;
-    if (filters.riskTypes.length && !filters.riskTypes.includes(etf.riskType)) return false;
+    if (filters.riskTypes.length > 0) {
+      const hasNormal = filters.riskTypes.includes("normal");
+      const hasLeverage = filters.riskTypes.includes("leverage");
+      const hasInverse = filters.riskTypes.includes("inverse");
+      const hasParking = filters.riskTypes.includes("parking");
+
+      const matches = (
+        (hasNormal && etf.riskType === "normal" && etf.assetClass !== "금리·파킹") ||
+        (hasLeverage && etf.riskType === "leverage") ||
+        (hasInverse && etf.riskType === "inverse") ||
+        (hasParking && etf.assetClass === "금리·파킹")
+      );
+      if (!matches) return false;
+    }
     
     if (filters.strategies.length > 0) {
       const strategies = getEtfStrategies(etf as unknown as Etf);

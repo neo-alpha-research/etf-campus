@@ -75,7 +75,7 @@ const scopeOptions: { value: AumScope; label: string; summary: string }[] = [
   { value: "all", label: "전체", summary: "전체" },
 ];
 
-const riskLabels: Record<RiskType, string> = { normal: "일반", leverage: "레버리지", inverse: "인버스" };
+const riskLabels: Record<RiskType, string> = { normal: "일반", leverage: "레버리지", inverse: "인버스", parking: "파킹·단기자금" };
 
 const TDF_VINTAGES = ["2030", "2035", "2040", "2045", "2050", "2055", "2060"] as const;
 const TDF_AGE_RECOMMENDATIONS = [

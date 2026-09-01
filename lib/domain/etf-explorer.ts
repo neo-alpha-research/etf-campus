@@ -113,7 +113,20 @@ export function getEtfsByAumScope(etfs: readonly Etf[], scope: AumScope): Etf[] 
 export function applyExplorerFilters(etfs: readonly Etf[], filters: ExplorerFilters): Etf[] {
   return etfs.filter((etf) => {
     if (filters.assetClasses.length && !filters.assetClasses.includes(etf.assetClass)) return false;
-    if (filters.riskTypes.length && !filters.riskTypes.includes(etf.riskType)) return false;
+    if (filters.riskTypes.length > 0) {
+      const hasNormal = filters.riskTypes.includes("normal");
+      const hasLeverage = filters.riskTypes.includes("leverage");
+      const hasInverse = filters.riskTypes.includes("inverse");
+      const hasParking = filters.riskTypes.includes("parking");
+
+      const matches = (
+        (hasNormal && etf.riskType === "normal" && etf.assetClass !== "금리·파킹") ||
+        (hasLeverage && etf.riskType === "leverage") ||
+        (hasInverse && etf.riskType === "inverse") ||
+        (hasParking && etf.assetClass === "금리·파킹")
+      );
+      if (!matches) return false;
+    }
     return true;
   });
 }

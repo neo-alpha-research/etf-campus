@@ -3,7 +3,7 @@ import type { Etf } from "../../lib/domain/etf-types";
 import { getFeeDisplayContext } from "../../lib/domain/etf-fee-utils";
 
 type Props = {
-  etf: any;
+  etf: Etf;
   className?: string;
 };
 

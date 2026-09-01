@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { type Etf } from "@/lib/domain/etf-types";
-import { ReturnCell } from "@/components/etf/etf-primitives";
+import { ReturnCell } from "@/components/etf";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
 
 const EN_PERIOD_LABELS: Record<string, string> = {
@@ -23,14 +23,18 @@ export function ReturnPeriodGrid({ etf }: { etf: Etf }) {
           기간별 수익률
         </h3>
         {etf.returnsTr && (
-          <label className="flex items-center gap-2 cursor-pointer group">
+          <button 
+            type="button"
+            onClick={() => setIsTrMode(!isTrMode)}
+            className="flex items-center gap-2 cursor-pointer group bg-transparent border-none p-0 outline-none"
+          >
             <span className={`text-[12px] font-bold transition-colors ${isTrMode ? 'text-brand-600' : 'text-neutral-400 group-hover:text-neutral-500'}`}>
               TR (배당 재투자)
             </span>
             <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
               <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${isTrMode ? 'translate-x-4.5' : 'translate-x-1'}`} style={{ transform: isTrMode ? 'translateX(18px)' : 'translateX(4px)' }} />
             </div>
-          </label>
+          </button>
         )}
       </div>
 

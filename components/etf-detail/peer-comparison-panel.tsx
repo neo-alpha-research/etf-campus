@@ -115,15 +115,7 @@ export function PeerComparisonPanel({ etf, comparison }: Props) {
   ).length;
   const similarPeerCount = selected.candidates.length - directPeerCount - structureReferenceCount - investmentReferenceCount;
   const displayedPeerCount = selected.candidates.length;
-  const guideText = investmentReferenceCount > 0
-    ? `동종 ETF ${directPeerCount}개, 유사 ETF ${similarPeerCount}개, 투자 참고 ${investmentReferenceCount}개를 표시합니다.`
-    : structureReferenceCount > 0
-      ? `동종 ETF ${directPeerCount}개, 유사 ETF ${similarPeerCount}개, 동일 수익구조 참고 ${structureReferenceCount}개를 표시합니다.`
-      : similarPeerCount > 0
-        ? `동종 ETF ${directPeerCount}개와 유사 ETF ${similarPeerCount}개를 표시합니다. 유사 ETF는 안전 기준을 통과한 후보입니다.`
-        : totalPeerCount > displayedPeerCount
-          ? `동종 후보 ${totalPeerCount}개 중 비교 가능성이 높은 ${displayedPeerCount}개를 표시합니다.`
-          : `동종 ETF ${displayedPeerCount}개를 표시합니다.`;
+
   // 헤더 생성
   let headerLabel = "직접 비교그룹";
   if (directPeerCount === 0) {

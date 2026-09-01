@@ -22,7 +22,7 @@ const CAUTION_REASONS = new Set([
   "만기 구간 다름",
 ]);
 
-export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, selectionReasons, comparisonProfiles }: Props) {
+export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, selectionReasons }: Props) {
   const compareList = useMemo(() => {
     if (!mainEtf) return basket;
     const filtered = basket.filter((e) => e.ticker !== mainEtf.ticker);

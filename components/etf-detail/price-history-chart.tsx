@@ -130,7 +130,7 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     }));
 
     return rawPoints;
-  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor, fixedReturns]);
+  }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor]);
 
   const isShort = useMemo(() => {
     if (isNewListing) return false;

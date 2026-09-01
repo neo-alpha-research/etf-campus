@@ -4,7 +4,7 @@ import { AsOfDate, PensionBadge, RiskBadge, ReturnCell } from "@/components/etf"
 import { siteConfig } from "@/config/site";
 import { formatMoney, formatWon, formatFeePct } from "@/lib/domain/etf-format";
 import { isNewListing } from "@/lib/domain/etf-explorer";
-import { RETURN_PERIOD_LABELS, type Etf, type ReturnPeriod } from "@/lib/domain/etf-types";
+import { type Etf } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
 import { EtfDetailClient } from "./etf-detail-client";
 import { DistributionHistoryCard } from "./distribution-history-card";
@@ -13,7 +13,6 @@ import { EtfHoldings } from "./etf-holdings";
 import { ReturnPeriodGrid } from "./return-period-grid";
 
 import type { PeerComparison } from "@/lib/data/etf-peer-groups";
-import type { EtfReturnDisplayStatus } from "@/lib/data/etf-return-status";
 
 function formatDate(dateString: string | null): string {
   if (!dateString) return "";
@@ -50,11 +49,9 @@ function formatStrategyLabel(
 export function EtfDetail({
   etf,
   peerComparison,
-  returnDisplayStatus,
 }: {
   etf: Etf;
   peerComparison?: PeerComparison;
-  returnDisplayStatus?: EtfReturnDisplayStatus;
 }) {
 
   const resolvedPeerComparison: PeerComparison = peerComparison ?? {
@@ -91,9 +88,6 @@ export function EtfDetail({
 
   const itdAvailable = Boolean(newListing && etf.itdAnchor?.price && etf.itdAnchor?.date && etf.returns.itd !== null);
   const itdPendingVerification = Boolean(itdAvailable && !etf.itdAnchor?.verified);
-  const defaultPeriods: ReturnPeriod[] = newListing
-    ? ["1d", "1w", "2w", "1m", "2m", ...(itdAvailable ? ["itd" as const] : [])]
-    : ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
 
   const fee = etf.fee;
   const isFeeVerified = fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source";
@@ -117,8 +111,6 @@ export function EtfDetail({
       default: return "공식 데이터 확인 중";
     }
   };
-
-  const EN_PERIOD_LABELS: Record<string, string> = { "1d": "1D", "1w": "1W", "2w": "2W", "1m": "1M", "2m": "2M", "3m": "3M", "6m": "6M", "12m": "1Y", "24m": "2Y", "36m": "3Y", "ytd": "YTD", "itd": "ITD" };
 
   return (
     <main className="page-shell flex-1 py-6 sm:py-8 space-y-3">

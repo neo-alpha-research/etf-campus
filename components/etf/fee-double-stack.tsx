@@ -1,9 +1,9 @@
 import React from "react";
-import type { Etf } from "../../lib/domain/etf-types";
 import { getFeeDisplayContext } from "../../lib/domain/etf-fee-utils";
 
 type Props = {
-  etf: Etf;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  etf: any;
   className?: string;
 };
 

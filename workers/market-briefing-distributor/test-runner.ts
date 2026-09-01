@@ -77,9 +77,90 @@ const payload20260828: MarketBriefingPayload = {
 
 const baseUrl = "https://etf-campus.pages.dev";
 
+async function fetchLatestPayload(): Promise<MarketBriefingPayload> {
+  try {
+    const res = await fetch(`${baseUrl}/api/briefings/latest`, {
+      headers: { "User-Agent": "ETF-Campus-Distributor/1.0" }
+    });
+    if (res.ok) {
+      const data: any = await res.json();
+      const raw = data.briefing || data;
+      const pulse = raw.pulse || {};
+      const kospi = raw.marketIndices?.find((i: any) => i.code === "KOSPI");
+      const kosdaq = raw.marketIndices?.find((i: any) => i.code === "KOSDAQ");
+
+      console.log(`[Test-Runner] Successfully fetched LIVE briefing payload for ${raw.asOfDate}!`);
+      return {
+        ...raw,
+        pulse,
+        asOfDate: raw.asOfDate || "2026-08-31",
+        headlineText: raw.headline?.text || raw.headlineText || "",
+        marketTemperature: pulse.marketTemperature || raw.marketTemperature || "하락 우세",
+        kospiClose: kospi?.close ?? raw.kospiClose ?? 0,
+        kospiChangePct: kospi?.change_pct ?? raw.kospiChangePct ?? 0,
+        kosdaqClose: kosdaq?.close ?? raw.kosdaqClose ?? 0,
+        kosdaqChangePct: kosdaq?.change_pct ?? raw.kosdaqChangePct ?? 0,
+        generalEtfCount: pulse.generalEtfCount ?? raw.generalEtfCount ?? 1022,
+        generalTotalAum: pulse.generalTotalAum ?? raw.generalTotalAum ?? 0,
+        generalTotalTradeValue: pulse.generalTotalTradeValue ?? raw.generalTotalTradeValue ?? 0,
+        generalAumWeightedReturnPct: pulse.generalAumWeightedReturnPct ?? raw.generalAumWeightedReturnPct ?? 0,
+        upCount: pulse.upCount ?? raw.upCount ?? 0,
+        flatCount: pulse.flatCount ?? raw.flatCount ?? 0,
+        downCount: pulse.downCount ?? raw.downCount ?? 0,
+        breadthRatioPct: pulse.breadthRatioPct ?? raw.breadthRatioPct ?? 0,
+        top10TradeSharePct: pulse.top10TradeSharePct ?? raw.top10TradeSharePct ?? 0,
+        allTop10TradeSharePct: pulse.allTop10TradeSharePct ?? raw.allTop10TradeSharePct ?? 0,
+        assetClasses: (raw.assetClasses || []).map((a: any) => ({
+          assetClass: a.assetClass || a.asset_class,
+          etfCount: a.etfCount || a.etf_count || 0,
+          upCount: a.upCount || a.up_count || 0,
+          flatCount: a.flatCount || a.flat_count || 0,
+          downCount: a.downCount || a.down_count || 0,
+          breadthRatioPct: a.breadthRatioPct ?? a.breadth_ratio_pct ?? 0,
+          aumWeightedReturnPct: a.aumWeightedReturnPct ?? a.aum_weighted_return_pct ?? 0,
+          totalAum: a.totalAum || a.total_aum || 0,
+          aumSharePct: a.aumSharePct ?? a.aum_share_pct ?? 0,
+          totalTradeValue: a.totalTradeValue || a.total_trade_value || 0,
+          tradeSharePct: a.tradeSharePct ?? a.trade_share_pct ?? 0,
+          ytdReturnPct: a.ytdReturnPct || 0,
+        })),
+        focusEtfs: raw.focusEtfs || [],
+        peerGroups: raw.peerGroups || [],
+        disparityWarning: raw.disparityWarning || [],
+        periodicFlows: raw.periodicFlows || (raw.fundFlow?.general ? {
+          dailyFundFlows: {
+            topInflows: (raw.fundFlow.general.topInflows || []).map((f: any, idx: number) => ({
+              rank: idx + 1,
+              ticker: f.ticker,
+              name: f.etfName,
+              theme: f.theme || "핵심ETF",
+              inflow: Math.round(f.netInflowValue / 100000000),
+              changePct: 0
+            })),
+            topOutflows: (raw.fundFlow.general.topOutflows || []).map((f: any, idx: number) => ({
+              rank: idx + 1,
+              ticker: f.ticker,
+              name: f.etfName,
+              theme: f.theme || "핵심ETF",
+              inflow: Math.round(f.netInflowValue / 100000000),
+              changePct: 0
+            }))
+          }
+        } : undefined),
+      };
+    }
+  } catch (e) {
+    console.warn("[Test-Runner] Live fetch failed, using fallback:", e);
+  }
+  return payload20260828;
+}
+
 async function run() {
-  console.log("=== 1. Circuit Breaker Validation ===");
-  const validation = validateBriefingPayload(payload20260828, {
+  const currentPayload = await fetchLatestPayload();
+  const dateStr = currentPayload.asOfDate || "YYYY-MM-DD";
+
+  console.log(`\n=== 1. Circuit Breaker Validation (${dateStr}) ===`);
+  const validation = validateBriefingPayload(currentPayload, {
     ETF_PRICES: {} as any,
     BRIEFING_KV: {} as any,
     SITE_BASE_URL: baseUrl,
@@ -87,10 +168,8 @@ async function run() {
   console.log("Circuit Breaker Valid:", validation.isSafe, validation.reasons);
 
   console.log("\n=== 2. Instagram 6-Slide Generation ===");
-  const slides = generateInstagramCarousel(payload20260828, baseUrl);
+  const slides = generateInstagramCarousel(currentPayload, baseUrl);
   console.log(`Generated ${slides.length} slides.`);
-
-  const dateStr = payload20260828.asOfDate || "YYYY-MM-DD";
   
   // Destination 1: Root OSMU Archive
   const rootArchiveDir = path.resolve(process.cwd(), "..", "..", "OSMU_Archive", dateStr);
@@ -123,7 +202,7 @@ async function run() {
   }
 
   // Instagram Caption
-  const caption = generateInstagramCaption(payload20260828).replace(/\r?\n/g, "\r\n");
+  const caption = generateInstagramCaption(currentPayload).replace(/\r?\n/g, "\r\n");
   const captionBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(caption, "utf-8")]);
   fs.writeFileSync(path.join(rootInstaDir, "instagram_caption.txt"), captionBuf);
   fs.writeFileSync(path.join(localPreviewDir, "instagram_caption.txt"), captionBuf);
@@ -131,7 +210,7 @@ async function run() {
 
   // Threads Content & Image
   console.log("\n=== 3. Threads Generation ===");
-  const threads = generateThreadsThread(payload20260828, baseUrl);
+  const threads = generateThreadsThread(currentPayload, baseUrl);
   let threadsText = "";
   threads.forEach((t) => {
     const label = t.sequence === 1 ? "Main Post" : "First Comment (CTA)";
@@ -141,7 +220,7 @@ async function run() {
   fs.writeFileSync(path.join(rootThreadsDir, "threads_script.txt"), threadsBuf);
   fs.writeFileSync(path.join(localPreviewDir, "threads_script.txt"), threadsBuf);
 
-  const threadsSvgContent = generateThreadsImageSvg(payload20260828);
+  const threadsSvgContent = generateThreadsImageSvg(currentPayload);
   const safeThreadsSvg = threadsSvgContent.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
   
   // Save Threads SVG & PNG to both
@@ -158,7 +237,7 @@ async function run() {
 
   // Newsletter
   console.log("\n=== 4. Newsletter HTML Generation ===");
-  const newsletter = generateNewsletterHtml(payload20260828, baseUrl);
+  const newsletter = generateNewsletterHtml(currentPayload, baseUrl);
   const newsBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(newsletter.html, "utf-8")]);
 
   fs.writeFileSync(path.join(rootEmailDir, "email_body.html"), newsBuf);
@@ -261,7 +340,8 @@ async function run() {
   }
 
   // Pre-header for Accessibility
-  const preHeaderText = `${payload20260828.asOfDate} 시장 브리핑 - KOSPI ${payload20260828.kospiChangePct}% / 오늘 실질 자금 유입 TOP 1위는? KODEX 200 등 주요 ETF 실시간 성과 확인하기`;
+  const topInflowName = currentPayload.periodicFlows?.dailyFundFlows?.topInflows?.[0]?.name || "TIGER 미국필라델피아반도체나스닥";
+  const preHeaderText = `${currentPayload.asOfDate} 시장 브리핑 - KOSPI ${currentPayload.kospiChangePct}% / 오늘 실질 자금 유입 TOP 1위는? ${topInflowName} 등 주요 ETF 실시간 성과 확인하기`;
 
   // Generate Image Map HTML
   let mapHtml = '<map name="etf-map">\n';

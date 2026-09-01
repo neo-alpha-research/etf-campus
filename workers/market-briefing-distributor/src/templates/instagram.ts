@@ -518,7 +518,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           <text x="48" y="43" fill="#15803D" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">01</text>
           
           <text x="85" y="44" fill="#0F172A" font-size="26" font-weight="900">코스피 ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% 혼조세</text>
-          <text x="25" y="90" fill="#334155" font-size="20" font-weight="700">국내 대형주 지지 속에서도 일반 ETF 1,022개 중 ${down}개가 하락하며 체감 온도는 차분했습니다.</text>
+          <text x="25" y="90" fill="#334155" font-size="20" font-weight="700">국내 대형주가 지수를 지탱했지만, 일반 ETF 1,022개 중 ${down}개가 하락하며 전반적으로 소폭 약세 흐름을 보였습니다.</text>
         </g>
 
         <!-- Block 2 -->

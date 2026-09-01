@@ -83,13 +83,13 @@
           <text x="470" y="50" fill="#CA8A04" font-size="30" font-weight="900" text-anchor="middle">🔍</text>
           
           <text x="470" y="105" fill="#0F172A" font-size="28" font-weight="900" text-anchor="middle">
-            내 연금·ISA 계좌용 ETF 탐색기
+            내 연금·ISA 계좌용 맞춤 ETF 탐색
           </text>
           <text x="470" y="140" fill="#475569" font-size="19" font-weight="700" text-anchor="middle">
-            계좌 유형, 자산군, 위험 등급별 맞춤형 ETF 스크리닝
+            일반·연금 계좌, 자산군, 분배금 조건별 ETF 스크리닝
           </text>
           <text x="470" y="168" fill="#475569" font-size="19" font-weight="700" text-anchor="middle">
-            안전하고 효율적인 절세 계좌 포트폴리오를 구성하세요.
+            안전하고 효율적인 절세 포트폴리오를 구성해 보세요.
           </text>
           
           <g transform="translate(180, 195)">

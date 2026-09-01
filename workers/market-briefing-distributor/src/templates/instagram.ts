@@ -513,62 +513,59 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         <text x="885" y="47" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">6 / 6</text>
       </g>
 
-      <!-- 3-Bullet Market Summary Card -->
-      <g transform="translate(70, 175)" filter="url(#cardShadow)">
-        <rect width="940" height="446" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <!-- 3-Bullet Market Summary Card (Expanded & High Readability) -->
+      <g transform="translate(70, 160)" filter="url(#cardShadow)">
+        <rect width="940" height="515" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
         <!-- Block 1 -->
-        <g transform="translate(25, 20)">
-          <rect width="890" height="122" rx="18" fill="#F0FDF4" stroke="#DCFCE7" stroke-width="1.2"/>
-          <rect x="25" y="20" width="46" height="32" rx="8" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
-          <text x="48" y="43" fill="#15803D" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">01</text>
+        <g transform="translate(24, 20)">
+          <rect width="892" height="142" rx="20" fill="#F0FDF4" stroke="#DCFCE7" stroke-width="1.2"/>
+          <rect x="24" y="20" width="50" height="34" rx="9" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+          <text x="49" y="44" fill="#15803D" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">01</text>
           
-          <text x="85" y="44" fill="#0F172A" font-size="26" font-weight="900">코스피 ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% 혼조세</text>
-          <text x="25" y="90" fill="#334155" font-size="20" font-weight="700">국내 대형주가 지수를 지탱했지만, 일반 ETF 1,022개 중 ${down}개가 하락하며 전반적으로 소폭 약세 흐름을 보였습니다.</text>
+          <text x="88" y="46" fill="#0F172A" font-size="28" font-weight="900">코스피 ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% 혼조세</text>
+          <text x="24" y="100" fill="#334155" font-size="21" font-weight="700">국내 대형주 지지 속에서도 일반 ETF ${down}개가 하락하며 소폭 약세 흐름을 보였습니다.</text>
         </g>
 
         <!-- Block 2 -->
-        <g transform="translate(25, 162)">
-          <rect width="890" height="122" rx="18" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.2"/>
-          <rect x="25" y="20" width="46" height="32" rx="8" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1"/>
-          <text x="48" y="43" fill="#BE123C" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">02</text>
+        <g transform="translate(24, 180)">
+          <rect width="892" height="142" rx="20" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.2"/>
+          <rect x="24" y="20" width="50" height="34" rx="9" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1"/>
+          <text x="49" y="44" fill="#BE123C" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">02</text>
           
-          <text x="85" y="44" fill="#0F172A" font-size="26" font-weight="900">'${topTheme.peerGroup}' 반등 vs '${bottomTheme.peerGroup}' 차익실현</text>
-          <text x="25" y="90" fill="#334155" font-size="20" font-weight="700">주도 테마 간 수익률 격차가 ${themeGap}%p까지 벌어지는 강한 섹터 로테이션이 전개되었습니다.</text>
+          <text x="88" y="46" fill="#0F172A" font-size="28" font-weight="900">'${topTheme.peerGroup}' 반등 vs '${bottomTheme.peerGroup}' 차익실현</text>
+          <text x="24" y="100" fill="#334155" font-size="21" font-weight="700">주도 테마 간 수익률 격차가 ${themeGap}%p까지 벌어지는 강한 섹터 로테이션 전개.</text>
         </g>
 
         <!-- Block 3 -->
-        <g transform="translate(25, 304)">
-          <rect width="890" height="122" rx="18" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.2"/>
-          <rect x="25" y="20" width="46" height="32" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
-          <text x="48" y="43" fill="#1D4ED8" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">03</text>
+        <g transform="translate(24, 340)">
+          <rect width="892" height="142" rx="20" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.2"/>
+          <rect x="24" y="20" width="50" height="34" rx="9" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1"/>
+          <text x="49" y="44" fill="#1D4ED8" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">03</text>
           
-          <text x="85" y="44" fill="#0F172A" font-size="26" font-weight="900">스마트머니는 '${topInflow.name}' 등 4,000억+ 매수</text>
-          <text x="25" y="90" fill="#334155" font-size="20" font-weight="700">단기 조정 국면을 활용해 글로벌 반도체 및 미국 대표지수를 향한 저가 바스켓 설정 집중.</text>
+          <text x="88" y="46" fill="#0F172A" font-size="28" font-weight="900">스마트머니는 '${topInflow.name.length > 14 ? topInflow.name.slice(0, 14) + '…' : topInflow.name}' 등 4,000억+ 매수</text>
+          <text x="24" y="100" fill="#334155" font-size="21" font-weight="700">단기 조정 국면을 활용해 글로벌 반도체 및 미국 대표지수 저가 바스켓 설정 집중.</text>
         </g>
       </g>
 
-      <!-- Main Action & Conversion CTA Banner -->
-      <g transform="translate(70, 640)" filter="url(#cardShadow)">
-        <rect width="940" height="270" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+      <!-- Main Action & Conversion CTA Banner (Streamlined with Inline Icon) -->
+      <g transform="translate(70, 695)" filter="url(#cardShadow)">
+        <rect width="940" height="215" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
-        <g transform="translate(0, 10)">
-          <circle cx="470" cy="38" r="32" fill="#FEFCE8"/>
-          <text x="470" y="50" fill="#CA8A04" font-size="30" font-weight="900" text-anchor="middle">${activeCta.icon}</text>
-          
-          <text x="470" y="105" fill="#0F172A" font-size="28" font-weight="900" text-anchor="middle">
-            ${activeCta.title}
+        <g transform="translate(0, 0)">
+          <text x="470" y="52" fill="#0F172A" font-size="30" font-weight="900" text-anchor="middle">
+            ${activeCta.icon}  ${activeCta.title}
           </text>
-          <text x="470" y="140" fill="#475569" font-size="19" font-weight="700" text-anchor="middle">
+          <text x="470" y="90" fill="#475569" font-size="20" font-weight="700" text-anchor="middle">
             ${activeCta.sub1}
           </text>
-          <text x="470" y="168" fill="#475569" font-size="19" font-weight="700" text-anchor="middle">
+          <text x="470" y="120" fill="#475569" font-size="20" font-weight="700" text-anchor="middle">
             ${activeCta.sub2}
           </text>
           
-          <g transform="translate(180, 195)">
-            <rect width="580" height="56" rx="16" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-            <text x="290" y="36" fill="#0F172A" font-size="20" font-weight="900" text-anchor="middle">
+          <g transform="translate(180, 142)">
+            <rect width="580" height="52" rx="15" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+            <text x="290" y="34" fill="#0F172A" font-size="21" font-weight="900" text-anchor="middle">
               상단 <tspan fill="#CA8A04">프로필 링크</tspan>에서 무료로 확인하세요! 🔗
             </text>
           </g>
@@ -577,14 +574,14 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
 
       <!-- Subscription Channels -->
       <g transform="translate(70, 935)">
-        <text x="470" y="24" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle">
+        <text x="470" y="24" fill="#0F172A" font-size="23" font-weight="900" text-anchor="middle">
           거래일 다음날 오전, 마켓 브리핑은 아래 3개 채널과 ETF 캠퍼스에서 발행됩니다.
         </text>
-        <text x="470" y="56" fill="#2E6819" font-size="22" font-weight="900" text-anchor="middle">
+        <text x="470" y="55" fill="#2E6819" font-size="21" font-weight="900" text-anchor="middle">
           "하루 3분, 시장의 맥을 짚는 ETF 모닝 브리핑을 받아보세요!"
         </text>
         
-        <g transform="translate(0, 80)">
+        <g transform="translate(0, 75)">
           <!-- Instagram -->
           <g transform="translate(0, 0)">
             <rect width="290" height="195" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>

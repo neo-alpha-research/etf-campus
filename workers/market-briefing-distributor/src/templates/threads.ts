@@ -48,7 +48,7 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
   const kospiAction = kospi >= 0 ? "상승" : "하락";
   const dominantText = up >= down ? `${up}개 상승(상승 우세)` : `${down}개 하락(하락 우세)`;
 
-  const mainPost = `출근길 ETF 모닝 브리핑 ☕ (${dateStr.slice(5).replace('-', '.')} 기준)
+  const mainPost = `출근길 ETF 모닝 브리핑 ☕ (${dateStr.replace(/-/g, '.')} 기준)
 
 지난 장 코스피는 ${sign}${kospi.toFixed(2)}% ${kospiAction} 마감했지만, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 차분한 숨고르기를 보였습니다.
 

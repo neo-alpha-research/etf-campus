@@ -12,20 +12,24 @@ export default function BooksPage() {
   const externalBooks = loadExternalBooks();
   const lastUpdated = booksMetadata.lastUpdated || "2026. 8. 31.";
 
-  return <main className="page-shell flex-1 pt-4 pb-5 sm:pt-6 sm:pb-7">
-    <div className="flex items-center justify-between gap-4 rounded-2xl bg-brand-50/70 px-4 py-3.5 sm:px-6 sm:py-4">
-      <div>
-        <p className="eyebrow text-xs">Campus Library</p>
-        <h1 className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-strong sm:text-3xl">도서·리뷰</h1>
-        <p className="mt-1 max-w-2xl text-xs sm:text-sm leading-relaxed text-muted">운영자가 직접 제작한 실전 가이드부터, 검증된 외부 ETF 전자책의 솔직한 평점과 리뷰를 모아 소개합니다.</p>
+  return <main className="page-shell flex-1 pt-3 pb-5 sm:pt-4 sm:pb-7">
+    {/* 대안 A: 슬림 일체형 헤더 (Compact Hero) */}
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-brand-50/70 px-4 py-2.5 sm:px-5 sm:py-3 border border-brand-100/60">
+      <div className="min-w-0">
+        <div className="flex items-center gap-2">
+          <h1 className="text-xl sm:text-2xl font-extrabold tracking-[-0.03em] text-strong">도서·리뷰</h1>
+          <span className="rounded-full bg-brand-100/80 px-2 py-0.5 text-[11px] font-bold text-brand-800 border border-brand-200">
+            빅 3 서점 교차 검증
+          </span>
+        </div>
+        <p className="mt-0.5 text-xs sm:text-sm text-neutral-600 truncate sm:whitespace-normal">
+          국내 대형 서점 실시간 베스트셀러 및 빅 3 서점 평점을 교차 검증한 ETF 추천 도서 리포트입니다.
+        </p>
       </div>
-      <Tickery className="h-16 w-16 shrink-0 sm:h-20 sm:w-20" pose="learning" priority sizes="(max-width: 640px) 64px, 80px" />
+      <Tickery className="h-10 w-10 shrink-0 sm:h-12 sm:w-12" pose="learning" priority sizes="(max-width: 640px) 40px, 48px" />
     </div>
-    
-    <div className="mt-5 flex flex-col gap-1">
-      <h2 className="text-lg sm:text-xl font-extrabold tracking-[-0.03em] text-strong">독자 리뷰 종합 리포트</h2>
-      <p className="text-xs sm:text-sm text-muted">국내 대형 서점 실시간 누적 판매량(베스트셀러) 순으로 선정하고, 빅 3 서점 평점과 리뷰를 교차 검증하여 요약했습니다.</p>
-    </div>
+
+    {/* 도서 큐레이션 인덱스 (카테고리 탭 및 도서 카드) */}
     <ExternalBooksIndex books={externalBooks} lastUpdated={lastUpdated} />
 
     <div className="mt-8 border-t border-line pt-6 flex flex-col gap-1.5">

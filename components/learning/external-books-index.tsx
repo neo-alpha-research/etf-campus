@@ -26,7 +26,7 @@ export function ExternalBooksIndex({
     .slice(0, 3); // 탭별 Top 3 노출
 
   return (
-    <div className="mt-4">
+    <div className="mt-3.5">
       <div className="sticky top-16 z-20 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between bg-white/90 backdrop-blur-md pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0">
         {/* 탭 네비게이션 (모바일 터치 타깃 44px 이상 + 포커스 링) */}
         <div className="flex flex-wrap gap-2">

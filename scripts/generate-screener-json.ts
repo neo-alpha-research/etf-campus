@@ -20,6 +20,7 @@ const screenerEtfs = fullEtfs.map((etf) => ({
   pension: etf.pension,
   asOfDate: etf.asOfDate,
   returns: etf.returns,
+  returnsTr: etf.returnsTr,
   classification: etf.classification,
   listingDate: etf.listingDate,
 }));

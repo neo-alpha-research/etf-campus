@@ -64,6 +64,7 @@ export type ScreenerEtf = Pick<Etf,
   | "pension"
   | "asOfDate"
   | "returns"
+  | "returnsTr"
   | "classification"
 >;
 

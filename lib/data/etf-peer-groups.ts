@@ -196,13 +196,26 @@ function candidateReasons(target: ComparisonProfile, candidate: ComparisonProfil
 }
 
 export function sortPeerCandidates(candidates: readonly PeerCandidate[]): PeerCandidate[] {
-  return [...candidates].sort(
-    (left, right) =>
-      right.similarityScore - left.similarityScore ||
+  return [...candidates].sort((left, right) => {
+    // 1. 유사도 스코어
+    if (right.similarityScore !== left.similarityScore) {
+      return right.similarityScore - left.similarityScore;
+    }
+    
+    // 2. TR 1년 수익률 (TR이 없으면 PR 1년 수익률)
+    const rightTr12m = right.etf.returnsTr?.["12m"] ?? right.etf.returns["12m"] ?? -Infinity;
+    const leftTr12m = left.etf.returnsTr?.["12m"] ?? left.etf.returns["12m"] ?? -Infinity;
+    if (rightTr12m !== leftTr12m) {
+      return rightTr12m - leftTr12m;
+    }
+
+    // 3. AUM, 4. 거래대금, 5. 티커순
+    return (
       right.etf.aum - left.etf.aum ||
       right.etf.tradeValue - left.etf.tradeValue ||
-      left.etf.ticker.localeCompare(right.etf.ticker),
-  );
+      left.etf.ticker.localeCompare(right.etf.ticker)
+    );
+  });
 }
 
 function meetsRequiredStructure(profile: ComparisonProfile, group: GroupRegistry): boolean {

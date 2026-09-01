@@ -4,7 +4,7 @@ import { useState, useMemo, useRef } from "react";
 import useSWR from "swr";
 import { toPng } from "html-to-image";
 import { getPricePeriodRange, type PricePeriod } from "@/lib/domain/etf-price-period";
-import type { ItdAnchor } from "@/lib/domain/etf-types";
+import type { ItdAnchor, EtfReturns } from "@/lib/domain/etf-types";
 
 type PricePoint = {
   date: string;
@@ -49,7 +49,7 @@ const PERIODS = [
   { id: "itd", label: "ITD", title: "상장 후 수익률" },
 ];
 
-export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor }) {
+export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, fixedReturns }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: EtfReturns }) {
 
   const [period, setPeriod] = useState<PricePeriod>(isNewListing ? "1d" : "12m");
   const hasItdAnchor = Boolean(isNewListing && itdAnchor?.price && itdAnchor?.date);

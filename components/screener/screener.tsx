@@ -216,6 +216,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     return d.toISOString().slice(0, 10);
   })();
 
+  const [isTrMode, setIsTrMode] = useState(false);
+
   const { data: customReturnsData, isLoading: isCustomReturnsLoading } = useSWR<{ returns: Record<string, number | null> }>(
     customDateRange ? `/api/returns?ticker=ALL&start=${customDateRange.start}&end=${customDateRange.end}` : null,
     fetcher
@@ -225,8 +227,10 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     return filterEtfs(etfs, filters).sort((a, b) => {
       let cmp = 0;
       if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_36m" || sort === "return_custom") {
-        let aVal = a.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
-        let bVal = b.returns[(sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod] ?? -Infinity;
+        const periodKey = (sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod;
+        
+        let aVal = (isTrMode && a.returnsTr ? a.returnsTr[periodKey] : a.returns[periodKey]) ?? -Infinity;
+        let bVal = (isTrMode && b.returnsTr ? b.returnsTr[periodKey] : b.returns[periodKey]) ?? -Infinity;
         
         if (sort === "return_custom" && customDateRange && customReturnsData?.returns) {
           const aCustom = customReturnsData.returns[a.ticker];
@@ -804,7 +808,22 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                 <thead className="sticky top-[var(--site-header-height,156px)] z-30 bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
                   <tr className="border-b border-neutral-200">
                     <th className="sticky left-0 z-40 px-3 py-0 h-[32px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">수익률(%)</th>
+                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">
+                      <div className="flex items-center justify-center gap-2">
+                        <span>수익률(%)</span>
+                        <button
+                          type="button"
+                          onClick={() => setIsTrMode(!isTrMode)}
+                          className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 border border-neutral-200 bg-white"
+                          title="TR (배당 재투자) 모드 토글"
+                        >
+                          <span className={isTrMode ? "text-brand-700" : ""}>TR {isTrMode ? "ON" : "OFF"}</span>
+                          <div className={`relative inline-flex h-2.5 w-5 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
+                            <span className={`inline-block h-1.5 w-1.5 transform rounded-full bg-white transition-transform`} style={{ transform: isTrMode ? 'translateX(10px)' : 'translateX(2px)' }} />
+                          </div>
+                        </button>
+                      </div>
+                    </th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200 bg-neutral-100" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[12px]">
@@ -877,23 +896,23 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       
                       {/* 2. 핵심 5대 수익률 (1일, 1개월, 3개월, 1년, 3년) */}
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={etf.returns["1d"]} />
+                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["1d"] : etf.returns["1d"])} />
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={etf.returns["1m"]} />
+                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["1m"] : etf.returns["1m"])} />
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={etf.returns["3m"]} />
+                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["3m"] : etf.returns["3m"])} />
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={etf.returns["12m"]} />
+                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["12m"] : etf.returns["12m"])} />
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_36m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={etf.returns["36m"]} />
+                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["36m"] : etf.returns["36m"])} />
                       </td>
                       {comparisonPeriod && (
                         <td className="min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
-                          <ReturnCell showUnit={false} value={etf.returns[comparisonPeriod]} />
+                          <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr[comparisonPeriod] : etf.returns[comparisonPeriod])} />
                         </td>
                       )}
                       {customDateRange && !comparisonPeriod && (

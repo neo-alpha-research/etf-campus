@@ -111,13 +111,6 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     fetcher
   );
   
-  const [isTrMode, setIsTrMode] = useState(false);
-  const [showMobileTrTooltip, setShowMobileTrTooltip] = useState(false);
-  const { data: trDataFull } = useSWR(
-    (!startStr || !isTrMode) ? null : `/data/returns/tr_index/${ticker}.json`,
-    fetcher
-  );
-
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const sourcePoints = data?.points ?? EMPTY_POINTS;
   const points = useMemo<ChartPoint[]>(() => {
@@ -139,24 +132,6 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     return rawPoints;
   }, [sourcePoints, period, isCustom, hasItdAnchor, itdAnchor]);
 
-  const trPoints = useMemo<ChartPoint[]>(() => {
-    if (!isTrMode || !trDataFull?.points || points.length === 0) return [];
-    
-    // Filter trDataFull to match the current date range
-    const start = points[0].date;
-    const end = points[points.length - 1].date;
-    const visiblePoints = trDataFull.points.filter((p: any) => p.date >= start && p.date <= end);
-    if (visiblePoints.length === 0) return [];
-    
-    // Use net_tr_index for actual TR (or tr_index as fallback)
-    const getTrValue = (point: any) => point.net_tr_index || point.tr_index || point.close;
-    const baseTr = getTrValue(visiblePoints[0]);
-    return visiblePoints.map((point: any) => ({
-      ...point,
-      returnPct: baseTr > 0 ? (getTrValue(point) / baseTr - 1) * 100 : 0,
-    }));
-  }, [trDataFull, isTrMode, points]);
-
   const isShort = useMemo(() => {
     if (isNewListing) return false;
     if (!startStr || points.length === 0) return false;
@@ -166,17 +141,14 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     return diffDays > 7; // more than 7 days gap means the ETF is likely newer than the requested period
   }, [points, startStr, isNewListing]);
 
-    const { prPathData, trPathData, minReturn, xScale, yScale, height, width } = useMemo(() => {
+  const { prPathData, minReturn, xScale, yScale, height, width } = useMemo(() => {
     const w = 800;
     const h = 160;
-    if (points.length === 0) return { prPathData: "", trPathData: "", minReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
+    if (points.length === 0) return { prPathData: "", minReturn: 0, xScale: 0, yScale: 0, height: h, width: w };
     
-    const prReturns = points.map((point) => point.returnPct);
-    const trReturns = trPoints.map((point) => point.returnPct);
-    const allReturns = [...prReturns, ...trReturns];
-
-    const minR = Math.min(...allReturns, 0);
-    const maxR = Math.max(...allReturns, 0);
+    const returns = points.map((point) => point.returnPct);
+    const minR = Math.min(...returns, 0);
+    const maxR = Math.max(...returns, 0);
     
     // add padding
     const pad = Math.max(Math.abs(maxR - minR) * 0.15, 1);
@@ -192,14 +164,8 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
       return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
     }).join(" ");
 
-    const trPath = isTrMode && trPoints.length > 0 ? trPoints.map((p, i) => {
-      const x = i * xS;
-      const y = h - (p.returnPct - min) * yS;
-      return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
-    }).join(" ") : "";
-
-    return { prPathData: prPath, trPathData: trPath, minReturn: min, xScale: xS, yScale: yS, height: h, width: w };
-  }, [points, trPoints, isTrMode]);
+    return { prPathData: prPath, minReturn: min, xScale: xS, yScale: yS, height: h, width: w };
+  }, [points]);
 
   const zeroY = height - (0 - minReturn) * yScale;
 
@@ -299,55 +265,6 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
           </div>
           
           <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setIsTrMode(prev => !prev)}
-                className="shrink-0 flex h-8 items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 border border-neutral-200 bg-white"
-              >
-                <span className={isTrMode ? "text-brand-700" : ""}>
-                  TR {isTrMode ? "(배당 재투자)" : "OFF"}
-                </span>
-              </button>
-              <button 
-                type="button"
-                onClick={() => setShowMobileTrTooltip(true)}
-                className="group relative inline-flex items-center justify-center w-7 h-7 sm:w-auto sm:h-auto rounded-full text-neutral-400 hover:text-neutral-600 bg-neutral-100 sm:bg-transparent"
-              >
-                <svg className="w-4 h-4 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
-                
-                {/* Desktop Tooltip */}
-                <div className="hidden sm:block absolute right-0 bottom-[calc(100%+8px)] w-64 p-3 rounded-lg bg-slate-900/98 backdrop-blur-md text-white text-left shadow-xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] text-[11px] font-normal tracking-tight leading-snug">
-                  <div className="absolute -bottom-1.5 right-3 border-[6px] border-transparent border-t-slate-900/98" />
-                  <strong>TR(Total Return) 모드 안내</strong><br/>
-                  <span className="text-brand-300 font-bold mt-1.5 block">배당 재투자</span>
-                  분배금(배당금)을 배당락일에 해당 ETF에 다시 투자했다고 가정했을 때의 실질 총수익률입니다.
-                  <br/><br/>
-                  <span className="text-slate-400 text-[10px]">※ 실제 수령 시 부과되는 배당소득세(15.4%)가 공제된 세후(Net) 수익률 기준입니다.</span>
-                </div>
-              </button>
-              {showMobileTrTooltip && (
-                <div className="fixed inset-0 z-[200] flex items-end sm:hidden bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setShowMobileTrTooltip(false)}>
-                  <div className="w-full bg-white rounded-t-2xl p-5 pb-8 animate-in slide-in-from-bottom-full duration-300" onClick={e => e.stopPropagation()}>
-                    <div className="w-12 h-1.5 bg-neutral-200 rounded-full mx-auto mb-4" />
-                    <h3 className="text-lg font-bold text-strong mb-1 text-left">TR(Total Return) 모드 안내</h3>
-                    <div className="space-y-4 mt-5 text-[14px] leading-relaxed text-neutral-600 text-left">
-                      <div className="bg-brand-50/50 p-3.5 rounded-xl border border-brand-100/50">
-                        <strong className="text-brand-700 block mb-1">배당 재투자</strong>
-                        분배금(배당금)을 배당락일에 해당 ETF에 다시 투자했다고 가정했을 때의 실질 총수익률입니다.
-                        <div className="text-[12px] text-brand-700/80 mt-2">
-                          ※ 실제 수령 시 부과되는 배당소득세(15.4%)가 공제된 세후(Net) 수익률 기준입니다.
-                        </div>
-                      </div>
-                    </div>
-                    <button 
-                      className="w-full py-3.5 mt-6 bg-neutral-900 text-white text-[15px] font-bold rounded-xl active:scale-[0.98] transition-transform"
-                      onClick={() => setShowMobileTrTooltip(false)}
-                    >
-                      확인
-                    </button>
-                  </div>
-                </div>
-              )}
             <button 
               onClick={handleDownload}
               className="shrink-0 flex h-8 items-center gap-1.5 rounded-lg bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700 transition-colors hover:bg-brand-100"
@@ -445,16 +362,10 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
             <text x="-6" y={zeroY + 4} fontSize="11" fill="#9ca3af" fontWeight="600" textAnchor="end" style={{ pointerEvents: 'none' }}>0</text>
             
             {/* Main PR Line */}
-            <path d={prPathData} fill="none" stroke={isTrMode ? "#9ca3af" : "#047857"} strokeWidth={isTrMode ? "2" : "3"} strokeDasharray={isTrMode ? "5 5" : "none"} strokeLinejoin="round" strokeLinecap="round" />
-            
-            {/* Main TR Line */}
-            {(isTrMode) && trPathData && (
-              <path d={trPathData} fill="none" stroke="#6366f1" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
-            )}
+            <path d={prPathData} fill="none" stroke="#047857" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
             
             {/* Interactive Hover Layer */}
-                        {points.map((p, i) => {
-
+            {points.map((p, i) => {
               const x = i * xScale;
               const y = height - (p.returnPct - minReturn) * yScale;
               const isHover = hoverIndex === i;
@@ -487,7 +398,6 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
           {/* Tooltip Overlay (HTML) */}
           {hoverIndex !== null && points[hoverIndex] && (() => {
             const prPt = points[hoverIndex];
-            const trPt = (isTrMode) && trPoints[hoverIndex] ? trPoints[hoverIndex] : null;
             
             return (
             <div 
@@ -499,26 +409,9 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
             >
               <div className="text-[12px] font-bold text-neutral-400 leading-none mb-1">{formatDate(prPt.date)}</div>
               
-              {trPt ? (
-                <>
-                  <div className="flex justify-between items-baseline gap-3 border-b border-neutral-700 pb-1 mb-1">
-                    <span className="text-[10px] text-brand-300 font-bold">TR</span>
-                    <span className={`text-[14px] font-extrabold ${trPt.returnPct >= 0 ? "text-rose-400" : "text-blue-400"}`}>
-                      {trPt.returnPct > 0 ? '+' : ''}{trPt.returnPct.toFixed(2)}%
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-baseline gap-3 opacity-70">
-                    <span className="text-[10px]">PR</span>
-                    <span className={`text-[12px] ${prPt.returnPct >= 0 ? "text-rose-300" : "text-blue-300"}`}>
-                      {prPt.returnPct > 0 ? '+' : ''}{prPt.returnPct.toFixed(2)}%
-                    </span>
-                  </div>
-                </>
-              ) : (
-                <div className={`text-xl font-black tracking-tighter font-mono leading-none ${prPt.returnPct > 0 ? 'text-rose-400' : prPt.returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
-                  {prPt.returnPct > 0 ? '+' : ''}{prPt.returnPct.toFixed(2)}%
-                </div>
-              )}
+              <div className={`text-xl font-black tracking-tighter font-mono leading-none ${prPt.returnPct > 0 ? 'text-rose-400' : prPt.returnPct < 0 ? 'text-blue-400' : 'text-neutral-200'}`}>
+                {prPt.returnPct > 0 ? '+' : ''}{prPt.returnPct.toFixed(2)}%
+              </div>
               
               <div className="text-[13px] font-semibold text-neutral-300 mt-0.5">
                 {prPt.close.toLocaleString()}원

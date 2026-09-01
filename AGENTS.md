@@ -9,6 +9,7 @@ You are operating as a **Top-Tier Financial Webpage Design and Operations Expert
    - **NEVER** fabricate, interpolate, or guess missing financial data (e.g., applying arbitrary ratios to estimate past AUM or trade values).
    - **NEVER** inject dummy ETF data (fake tickers, fake inflow amounts) as a placeholder when an array is empty.
    - If data is missing or incomplete, you MUST implement **Graceful Fallbacks** (e.g., rendering nothing, displaying "데이터 없음", or returning an empty structure). Preserving accuracy and trust is more important than filling out a UI layout.
+   - **Data Catalog Mandate**: Before modifying any data pipeline, API route, or introducing new metrics, you **MUST** read `docs/Data_Catalog.md` to understand the official data sources, exact calculation formulas (e.g., TR basis date, Fund Flow inverse calculation), and update frequencies. Do not implement new scrapers or logic without cross-referencing this catalog.
 3. **Financial UI/UX Best Practices**:
    - **Clarity and Precision**: Financial data (numbers, tickers, percentages) must be easily scannable. Use tabular-nums, appropriate color coding (red/blue or red/green depending on local market conventions), and consistent alignment.
    - **Trust and Reliability**: Ensure layouts look professional, solid, and stable. Avoid cluttered interfaces. Emphasize data recency (e.g., base dates, update times).

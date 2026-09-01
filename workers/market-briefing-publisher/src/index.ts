@@ -645,11 +645,12 @@ async function calculateMarketScaleTimeSeries(db: D1Database, asOfDate: string):
   ];
 
   const baseMonthly = [
-    { key: "T-4", label: "2026.04 (04.30)", date: "2026-04-30", aum: 3752000, adtv: 112000, turnoverPct: 2.99, aumChange: 163000, aumChangePct: 4.54, priceEffect: 89000, netInflow: 74000 },
-    { key: "T-3", label: "2026.05 (05.29)", date: "2026-05-29", aum: 3915000, adtv: 124000, turnoverPct: 3.17, aumChange: 163000, aumChangePct: 4.34, priceEffect: 95000, netInflow: 68000 },
-    { key: "T-2", label: "2026.06 (06.30)", date: "2026-06-30", aum: 4082000, adtv: 135000, turnoverPct: 3.31, aumChange: 167000, aumChangePct: 4.27, priceEffect: 102000, netInflow: 65000 },
-    { key: "T-1", label: "2026.07 (07.31)", date: "2026-07-31", aum: 4268000, adtv: 148000, turnoverPct: 3.47, aumChange: 186000, aumChangePct: 4.56, priceEffect: 114000, netInflow: 72000 },
+    { key: "T-4", label: "2026.04 (04.30)", date: "2026-04-30", aum: 4158000, adtv: 125000, turnoverPct: 3.01, aumChange: 385000, aumChangePct: 10.20, priceEffect: 242000, netInflow: 143000 },
+    { key: "T-3", label: "2026.05 (05.29)", date: "2026-05-29", aum: 5074075, adtv: 148000, turnoverPct: 2.92, aumChange: 916075, aumChangePct: 22.03, priceEffect: 595000, netInflow: 321075 },
+    { key: "T-2", label: "2026.06 (06.30)", date: "2026-06-30", aum: 5124080, adtv: 156000, turnoverPct: 3.04, aumChange: 50005, aumChangePct: 0.99, priceEffect: 18000, netInflow: 32005 },
+    { key: "T-1", label: "2026.07 (07.31)", date: "2026-07-31", aum: 4344000, adtv: 165000, turnoverPct: 3.80, aumChange: -780080, aumChangePct: -15.22, priceEffect: -624000, netInflow: -156080 },
   ];
+
 
   const baseWeekly = [
     { key: "T-4", label: "8월 1주 (08.07)", date: "2026-08-07", aum: 4289000, adtv: 149000, turnoverPct: 3.47, aumChange: 21000, aumChangePct: 0.49, priceEffect: 8000, netInflow: 13000 },

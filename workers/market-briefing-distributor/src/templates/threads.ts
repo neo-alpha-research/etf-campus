@@ -143,13 +143,13 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <circle cx="980" cy="120" r="280" fill="#10B981" fill-opacity="0.05"/>
       <circle cx="100" cy="1200" r="240" fill="#3B82F6" fill-opacity="0.04"/>
 
-      <!-- Clean Minimal Header -->
-      <g transform="translate(60, 60)">
-        <text x="0" y="32" fill="#0F172A" font-size="34" font-weight="900">ETF 모닝 브리핑</text>
-        <text x="0" y="58" fill="#64748B" font-size="16" font-weight="700">KRX 일반 ETF ${generalCount}개 전수 분석 요약</text>
+      <!-- Clean Minimal Header (Perfect Baseline Alignment) -->
+      <g transform="translate(60, 55)">
+        <text x="0" y="34" fill="#0F172A" font-size="34" font-weight="900">ETF 모닝 브리핑</text>
+        <text x="0" y="62" fill="#64748B" font-size="16" font-weight="700">KRX 일반 ETF ${generalCount}개 전수 분석 요약</text>
         
-        <rect x="740" y="8" width="220" height="46" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <text x="850" y="37" fill="#0F172A" font-size="18" font-weight="900" text-anchor="middle" class="tabular">📅 ${formattedDate}</text>
+        <rect x="735" y="10" width="225" height="46" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
+        <text x="847" y="39" fill="#0F172A" font-size="17" font-weight="900" text-anchor="middle" class="tabular">📅 ${formattedDate}</text>
       </g>
 
       <!-- SECTION 1: 시장 체온 & 벤치마크 (Y: 140, H: 175) -->
@@ -160,16 +160,16 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect x="605" y="15" width="320" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="765" y="39" fill="#1E293B" font-size="14" font-weight="800" text-anchor="middle">상승 ${up} · 보합 ${flat} · 하락 ${down} (${temp})</text>
 
-        <!-- 3 Big Metric Boxes -->
+        <!-- 3 Big Metric Boxes with Dynamic Status Tints -->
         <g transform="translate(35, 74)">
           <!-- KOSPI -->
-          <rect x="0" y="0" width="275" height="74" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="25" y="46" fill="#64748B" font-size="18" font-weight="700">KOSPI</text>
+          <rect x="0" y="0" width="275" height="74" rx="14" fill="${kospi >= 0 ? '#FEF2F2' : '#EFF6FF'}" stroke="${kospi >= 0 ? '#FECACA' : '#BFDBFE'}" stroke-width="1.2"/>
+          <text x="25" y="46" fill="${kospi >= 0 ? '#991B1B' : '#1E40AF'}" font-size="18" font-weight="800">KOSPI</text>
           <text x="250" y="48" fill="${kospiColor}" font-size="30" font-weight="900" text-anchor="end" class="tabular">${kospiSign}${kospi.toFixed(2)}%</text>
 
           <!-- KOSDAQ -->
-          <rect x="307" y="0" width="275" height="74" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="332" y="46" fill="#64748B" font-size="18" font-weight="700">KOSDAQ</text>
+          <rect x="307" y="0" width="275" height="74" rx="14" fill="${kosdaq >= 0 ? '#FEF2F2' : '#EFF6FF'}" stroke="${kosdaq >= 0 ? '#FECACA' : '#BFDBFE'}" stroke-width="1.2"/>
+          <text x="332" y="46" fill="${kosdaq >= 0 ? '#991B1B' : '#1E40AF'}" font-size="18" font-weight="800">KOSDAQ</text>
           <text x="557" y="48" fill="${kosdaqColor}" font-size="30" font-weight="900" text-anchor="end" class="tabular">${kosdaqSign}${kosdaq.toFixed(2)}%</text>
 
           <!-- 일반 ETF -->
@@ -184,8 +184,8 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect width="960" height="220" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
         <text x="35" y="42" fill="#0F172A" font-size="22" font-weight="900">🔥 2. 오늘의 극과 극 테마 (주도 vs 부진)</text>
-        <rect x="740" y="16" width="185" height="38" rx="10" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
-        <text x="832" y="41" fill="#C2410C" font-size="15" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
+        <rect x="735" y="16" width="190" height="38" rx="10" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
+        <text x="830" y="41" fill="#C2410C" font-size="15" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
 
         <!-- 2x2 Grid -->
         <g transform="translate(35, 72)">
@@ -223,19 +223,26 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect x="785" y="16" width="140" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="855" y="41" fill="#1E293B" font-size="15" font-weight="800" text-anchor="middle">기관·외국인 합산</text>
 
-        <!-- 3 Inflow Rows -->
+        <!-- 3 Inflow Rows (Perfect Ticker Badges) -->
         <g transform="translate(35, 72)">
-          ${topInflows.map((item, idx) => `
+          ${topInflows.map((item, idx) => {
+            const shortName = item.name.length > 17 ? item.name.slice(0, 16) + '…' : item.name;
+            return `
             <g transform="translate(0, ${idx * 54})">
               <rect width="890" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <circle cx="28" cy="23" r="13" fill="${idx === 0 ? '#10B981' : '#E2E8F0'}"/>
               <text x="28" y="28" fill="${idx === 0 ? '#FFFFFF' : '#475569'}" font-size="12" font-weight="900" text-anchor="middle">${idx + 1}</text>
-              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">${item.name}</text>
-              <rect x="${item.name.length > 15 ? 420 : 340}" y="11" width="65" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
-              <text x="${item.name.length > 15 ? 452 : 372}" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">${item.ticker}</text>
+              
+              <text x="56" y="29" fill="#0F172A" font-size="17" font-weight="900">${shortName}</text>
+              
+              <!-- Ticker Badge nicely positioned right after name space -->
+              <rect x="560" y="11" width="70" height="24" rx="6" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1"/>
+              <text x="595" y="27" fill="#64748B" font-size="12" font-weight="700" text-anchor="middle">${item.ticker}</text>
+              
               <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+${item.inflow?.toLocaleString() || "1,000"}억원</text>
             </g>
-          `).join("")}
+            `;
+          }).join("")}
         </g>
       </g>
 

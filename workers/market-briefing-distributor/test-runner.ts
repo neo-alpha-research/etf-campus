@@ -538,9 +538,14 @@ async function run() {
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div class="lg:col-span-6 space-y-4" id="threadsContainer"></div>
         <div class="lg:col-span-6 bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col items-center">
-          <h3 class="text-sm font-bold text-slate-300 mb-4 self-start">🖼️ 스레드 단일 첨부 이미지</h3>
-          <div class="slide-svg max-w-[420px] rounded-2xl overflow-hidden shadow-2xl border border-slate-700 w-full">
-            ${threadsSvgContent}
+          <div class="flex items-center justify-between w-full mb-4">
+            <h3 class="text-sm font-bold text-slate-300">🖼️ 스레드 단일 첨부 이미지 (1080×1350)</h3>
+            <a href="./threads_image.png" target="_blank" download="threads_image.png" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+              <span>💾 PNG 다운로드</span>
+            </a>
+          </div>
+          <div class="max-w-[420px] rounded-2xl overflow-hidden shadow-2xl border border-slate-700 w-full bg-slate-900">
+            <img src="./threads_image.png" class="w-full h-auto rounded-2xl block" alt="스레드 모닝 브리핑 카드" />
           </div>
         </div>
       </div>

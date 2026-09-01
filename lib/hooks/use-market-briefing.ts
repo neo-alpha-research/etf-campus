@@ -126,7 +126,19 @@ export type MarketScaleSnapshot = {
   marketTurnoverPct: number; // %
   totalEtfCount: number;
   categories: MarketScaleCategory[];
+  /** @deprecated 구버전 DB 하위호환용. categories로 마이그레이션 완료 후 제거 예정 */
+  composition?: Array<{
+    type: string;
+    label: string;
+    aum: number;
+    pct: number;
+    count: number;
+    tradeValue?: number;
+    tradeSharePct?: number;
+    turnoverPct?: number;
+  }>;
 };
+
 
 export type TimeSeriesPoint = {
   key: string;

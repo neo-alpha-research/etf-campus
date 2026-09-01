@@ -111,11 +111,10 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
     fetcher
   );
   
-  type TrMode = "pr" | "tr_pretax" | "tr_net";
-  const [trMode, setTrMode] = useState<TrMode>("pr");
+  const [isTrMode, setIsTrMode] = useState(false);
   const [showMobileTrTooltip, setShowMobileTrTooltip] = useState(false);
   const { data: trDataFull } = useSWR(
-    (!startStr || trMode === "pr") ? null : `/data/returns/tr_index/${ticker}.json`,
+    (!startStr || !isTrMode) ? null : `/data/returns/tr_index/${ticker}.json`,
     fetcher
   );
 

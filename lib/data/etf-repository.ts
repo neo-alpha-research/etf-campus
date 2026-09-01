@@ -208,7 +208,8 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
         "36m": parseOptionalNullableNumber(returns, "r_36m", `returns:${ticker}`),
         itd: parseOptionalNullableNumber(returns, "r_itd", `returns:${ticker}`),
       },
-      returnsTr: trReturnsByTicker.get(ticker) as any,
+      returnsTr: Object.keys(trData.tr).length > 0 ? (trData.tr as any) : undefined,
+      returnsNetTr: Object.keys(trData.netTr).length > 0 ? (trData.netTr as any) : undefined,
       itdAnchor: {
         price: parseOptionalNullableNumber(returns, "itd_anchor_close", `returns:${ticker}`),
         date: optionalText(returns, "itd_anchor_date"),

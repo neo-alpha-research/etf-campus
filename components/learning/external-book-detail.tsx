@@ -21,7 +21,15 @@ import {
 import type { ExternalBook } from "@/lib/content/learning-content";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
 
-export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBook, crossSellBanner?: React.ReactNode }) {
+export function ExternalBookDetail({
+  book,
+  relatedBooks,
+  crossSellBanner,
+}: {
+  book: ExternalBook;
+  relatedBooks?: ExternalBook[];
+  crossSellBanner?: React.ReactNode;
+}) {
   const [showCoverModal, setShowCoverModal] = useState(false);
   const coverUrl = book.coverImage;
 
@@ -235,17 +243,72 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
       {/* 도서 심층 리포트 및 챕터별 핵심 분석 (Editorial In-Depth Report) */}
       {book.content && book.content.trim() !== "" && (
         <section className="mt-10">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="rounded-md bg-brand-800 text-white px-2.5 py-1 text-xs font-black">
-              CAMPUS EDITORIAL REPORT
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <div className="flex items-center gap-2">
+              <span className="rounded-md bg-brand-800 text-white px-2.5 py-1 text-xs font-black">
+                CAMPUS EDITORIAL REPORT
+              </span>
+              <h2 className="text-xl sm:text-2xl font-extrabold tracking-[-0.03em] text-strong">
+                도서 심층 분석 &amp; 핵심 투자 인사이트
+              </h2>
+            </div>
+            <span className="rounded-md bg-neutral-100 text-neutral-600 px-2 py-0.5 text-xs font-semibold border border-line">
+              ⏱️ 약 3분 완독 리포트
             </span>
-            <h2 className="text-xl sm:text-2xl font-extrabold tracking-[-0.03em] text-strong">
-              도서 심층 분석 &amp; 핵심 투자 인사이트
-            </h2>
           </div>
 
           <div className="rounded-3xl border border-line bg-surface p-6 sm:p-8 sm:py-9 shadow-xs">
             <MarkdownContent source={book.content} />
+          </div>
+        </section>
+      )}
+
+      {/* 같은 분야 다른 추천 도서 비교 탐색 */}
+      {relatedBooks && relatedBooks.length > 0 && (
+        <section className="mt-10 border-t border-line pt-8">
+          <div className="flex items-center justify-between gap-2 mb-4">
+            <h3 className="text-base sm:text-lg font-extrabold text-strong flex items-center gap-2">
+              <span>📚 같은 『{book.category}』 분야 추천 도서</span>
+            </h3>
+            <Link href="/books" className="text-xs font-bold text-brand-700 hover:text-brand-800">
+              전체 도서 보기 →
+            </Link>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {relatedBooks.map((relBook) => (
+              <Link
+                key={relBook.slug}
+                href={`/books/review/${relBook.slug}`}
+                className="flex items-center gap-3.5 rounded-2xl border border-line bg-surface p-3.5 transition-all hover:border-brand-300 hover:shadow-xs group"
+              >
+                {relBook.coverImage ? (
+                  <div className="aspect-[3/4] w-12 sm:w-14 shrink-0 rounded-lg overflow-hidden bg-white border border-neutral-100 flex items-center justify-center p-1">
+                    <Image
+                      src={relBook.coverImage}
+                      alt={relBook.title}
+                      width={56}
+                      height={75}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                ) : (
+                  <div className="aspect-[3/4] w-12 sm:w-14 shrink-0 rounded-lg bg-neutral-100 flex items-center justify-center">
+                    <BookOpen className="h-5 w-5 text-neutral-400" />
+                  </div>
+                )}
+                <div className="min-w-0 flex-1">
+                  <span className="text-[10px] font-extrabold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-200/60">
+                    {relBook.shortTargetTag ? `🎯 ${relBook.shortTargetTag}` : relBook.publisher}
+                  </span>
+                  <h4 className="mt-1 text-xs sm:text-sm font-extrabold text-strong line-clamp-1 group-hover:text-brand-700 transition-colors">
+                    {relBook.title}
+                  </h4>
+                  <p className="mt-0.5 text-[11px] text-neutral-500 line-clamp-1">
+                    {relBook.author} 저 · ★ {(((relBook.kyoboRating ?? relBook.rating) + (relBook.yes24Rating ?? relBook.rating) + (relBook.aladinRating ?? relBook.rating)) / 3).toFixed(1)}
+                  </p>
+                </div>
+              </Link>
+            ))}
           </div>
         </section>
       )}

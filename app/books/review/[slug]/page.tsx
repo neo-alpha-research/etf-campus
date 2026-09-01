@@ -30,16 +30,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ExternalBookReviewPage({ params }: Props) {
   const { slug } = await params;
-  const book = findExternalBook(slug);
+  const allBooks = loadExternalBooks();
+  const book = allBooks.find((b) => b.slug === slug);
 
   if (!book) {
     notFound();
   }
 
+  const relatedBooks = allBooks.filter((b) => b.category === book.category && b.slug !== book.slug);
+
   return (
     <main className="page-shell flex-1 py-8 sm:py-12">
       <ExternalBookDetail
         book={book}
+        relatedBooks={relatedBooks}
         crossSellBanner={book.relatedInternalLink ? <CrossSellBanner internalLink={book.relatedInternalLink} /> : undefined}
       />
     </main>

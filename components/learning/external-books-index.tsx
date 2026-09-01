@@ -98,8 +98,8 @@ export function ExternalBooksIndex({
                   {/* 상단 뱃지 행: 평점 + 플랫폼 + IRP 여부 */}
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5">
-                      <div className="relative group/rating cursor-help">
-                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-xs font-extrabold text-amber-950 border border-amber-200 transition-colors hover:bg-amber-100">
+                      <div className="relative group/rating cursor-help" tabIndex={0} aria-label="3사 통합 평점 상세 보기">
+                        <span className="inline-flex items-center gap-1 rounded-md bg-amber-50 px-2 py-1 text-xs font-extrabold text-amber-950 border border-amber-200 transition-colors hover:bg-amber-100 focus:ring-2 focus:ring-amber-400">
                           <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
                           <span className="tabular-nums">
                             {(((book.kyoboRating ?? book.rating) + (book.yes24Rating ?? book.rating) + (book.aladinRating ?? book.rating)) / 3).toFixed(1)}
@@ -107,8 +107,8 @@ export function ExternalBooksIndex({
                           <span className="text-amber-800/80 font-semibold">({book.reviewCount})</span>
                         </span>
 
-                        {/* 빅 3 서점 평점 상세 툴팁 */}
-                        <div className="absolute left-0 top-full mt-1.5 w-44 rounded-xl bg-white p-3 shadow-xl border border-line opacity-0 invisible group-hover/rating:opacity-100 group-hover/rating:visible transition-all z-30 text-left pointer-events-none">
+                        {/* 빅 3 서점 평점 상세 툴팁 (PC 호버 및 모바일 터치/포커스 대응) */}
+                        <div className="absolute left-0 top-full mt-1.5 w-44 rounded-xl bg-white p-3 shadow-xl border border-line opacity-0 invisible group-hover/rating:opacity-100 group-hover/rating:visible group-focus-within/rating:opacity-100 group-focus-within/rating:visible transition-all z-30 text-left pointer-events-none">
                           <p className="text-[11px] font-extrabold text-neutral-800 mb-1.5 flex items-center gap-1">
                             <span>📊 3사 통합 평점 상세</span>
                           </p>
@@ -217,17 +217,18 @@ export function ExternalBooksIndex({
                   )}
 
                   {/* 한 줄 핵심 포인트 */}
-                  <div className="mt-2.5 rounded-xl bg-brand-50/70 p-2.5 border border-brand-100">
-                    <p className="text-[11px] font-bold text-brand-950 line-clamp-2 leading-relaxed">
+                  {/* AI 핵심 한 줄 평 (가독성 최적화) */}
+                  <div className="mt-2.5 rounded-xl bg-brand-50/90 p-2.5 sm:p-3 border border-brand-200/80 shadow-2xs">
+                    <p className="text-xs sm:text-[12px] font-extrabold text-brand-950 line-clamp-2 leading-relaxed">
                       💡 {book.oneLineReview}
                     </p>
                   </div>
 
                   {/* 주요 장점 (Pros) */}
                   {book.pros[0] && (
-                    <div className="mt-2 flex items-start gap-1.5 text-xs text-neutral-800 leading-snug rounded-lg bg-neutral-50 px-2.5 py-2 border border-line/50">
+                    <div className="mt-2 flex items-start gap-1.5 text-xs text-neutral-800 leading-snug rounded-lg bg-neutral-50 px-2.5 py-2 border border-line/60">
                       <ThumbsUp className="mt-0.5 h-3.5 w-3.5 shrink-0 text-blue-600" />
-                      <span className="line-clamp-1 font-medium">{book.pros[0]}</span>
+                      <span className="line-clamp-1 font-semibold">{book.pros[0]}</span>
                     </div>
                   )}
 
@@ -241,8 +242,8 @@ export function ExternalBooksIndex({
                 </div>
 
                 {/* 2단 CTA 버튼 및 구매 전 유의사항 안내 */}
-                <div className="mt-3.5 pt-1.5 flex flex-col gap-1.5">
-                  {/* 구매 전 유의사항 (이전 위치에서 구매 버튼 바로 위로 이동) */}
+                <div className="mt-4 pt-1.5 flex flex-col gap-2">
+                  {/* 구매 전 유의사항 */}
                   <p className="text-center text-[10px] text-neutral-400 leading-tight">
                     ※ 개별 투자 성향에 따라 적합도가 다를 수 있습니다.
                   </p>
@@ -252,7 +253,7 @@ export function ExternalBooksIndex({
                       href={book.affiliateUrl}
                       target="_blank"
                       rel="sponsored nofollow noopener"
-                      className="inline-flex w-full min-h-[38px] items-center justify-center gap-1.5 rounded-xl bg-brand-700 px-4 text-xs font-bold text-white transition-colors hover:bg-brand-800 active:scale-[0.99] shadow-sm"
+                      className="inline-flex w-full min-h-[42px] items-center justify-center gap-1.5 rounded-xl bg-brand-800 px-4 text-xs sm:text-sm font-extrabold text-white transition-all hover:bg-brand-900 active:scale-[0.99] shadow-sm"
                       aria-label={`${book.title} 쿠팡 로켓배송 도서 구매처 바로가기 (새 창 열림)`}
                     >
                       <span>🚀 로켓배송으로 내일 받기</span>
@@ -262,7 +263,7 @@ export function ExternalBooksIndex({
 
                   <Link
                     href={`/books/review/${book.slug}`}
-                    className="inline-flex w-full min-h-[36px] items-center justify-center rounded-xl bg-surface px-4 text-xs font-semibold text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 active:scale-[0.99] border border-line"
+                    className="inline-flex w-full min-h-[38px] items-center justify-center rounded-xl bg-surface px-4 text-xs font-bold text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 active:scale-[0.99] border border-line"
                   >
                     리뷰 상세 보기 →
                   </Link>

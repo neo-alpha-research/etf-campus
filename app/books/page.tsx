@@ -35,10 +35,15 @@ export default function BooksPage() {
     {/* 도서 큐레이션 인덱스 (카테고리 탭 및 도서 카드) */}
     <ExternalBooksIndex books={externalBooks} lastUpdated={lastUpdated} />
 
-    <div className="mt-8 border-t border-line pt-6 flex flex-col gap-1.5">
-      <div className="flex items-center gap-2">
+    <div className="mt-10 border-t border-line pt-7 flex flex-col gap-1.5">
+      <div className="flex items-center gap-2 flex-wrap">
         <h2 className="text-xl sm:text-2xl font-extrabold tracking-[-0.03em] text-strong">캠퍼스 오리지널 가이드</h2>
-        <span className="rounded-full bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-700">운영자 직접 제작</span>
+        <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 text-xs font-bold">
+          무료 열람 가이드
+        </span>
+        <span className="rounded-full bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-700">
+          운영자 직접 제작
+        </span>
       </div>
       <p className="text-xs sm:text-sm text-muted">넘쳐나는 정보 속에서 길을 잃지 않도록, ETF 캠퍼스가 직접 체계적으로 정리한 실전 가이드입니다.</p>
     </div>

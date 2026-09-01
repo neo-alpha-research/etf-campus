@@ -283,6 +283,23 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
               <h3 className="mt-2 text-lg sm:text-xl font-extrabold text-brand-950">
                 『{book.title}』 도서 소장 및 실전 독서하기
               </h3>
+
+              {book.discountPrice && (
+                <div className="mt-2 flex items-baseline gap-2">
+                  {book.originalPrice && (
+                    <span className="text-xs text-neutral-400 line-through tabular-nums">
+                      정가 {book.originalPrice.toLocaleString()}원
+                    </span>
+                  )}
+                  <span className="text-lg sm:text-xl font-black text-neutral-900 tabular-nums">
+                    {book.discountPrice.toLocaleString()}원
+                  </span>
+                  <span className="text-xs font-black text-red-600">
+                    (10% 할인 · 로켓배송 무료)
+                  </span>
+                </div>
+              )}
+
               <p className="mt-1.5 text-xs sm:text-sm text-brand-900/80 leading-relaxed">
                 쿠팡 로켓배송으로 주문 시 <strong>내일 바로 받아보실 수 있습니다.</strong> 빠른 배송과 할인 혜택으로 ETF 실전 학습을 시작해 보세요.
               </p>
@@ -293,7 +310,7 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
               rel="sponsored nofollow noopener"
               target="_blank"
               aria-label={`${book.title} 쿠팡 로켓배송 도서 구매처 바로가기 (새 창 열림)`}
-              className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-brand-700 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-brand-800 focus-visible:ring-2 focus-visible:ring-brand-500"
+              className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#0073E9] hover:bg-[#005fb8] px-6 py-3 text-sm font-black text-white shadow-sm transition-all hover:shadow-md active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               <span>🚀 로켓배송으로 내일 받기</span>
               <ExternalLink className="h-4 w-4" />

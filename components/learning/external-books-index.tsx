@@ -87,12 +87,19 @@ export function ExternalBooksIndex({
             <p>해당 카테고리의 추천 도서가 준비 중입니다.</p>
           </div>
         ) : (
-          filteredBooks.map((book) => {
+          filteredBooks.map((book, bookIdx) => {
             const coverUrl = book.coverImage;
+            const rank = bookIdx + 1;
+            const isTop1 = rank === 1;
+
             return (
               <article
                 key={book.slug}
-                className="flex flex-col justify-between rounded-2xl border border-line bg-surface p-5 transition-all duration-200 hover:border-brand-300 hover:shadow-sm"
+                className={`relative flex flex-col justify-between rounded-2xl p-5 transition-all duration-200 ${
+                  isTop1
+                    ? "border-2 border-amber-300/90 bg-gradient-to-b from-amber-50/25 via-surface to-surface shadow-xs ring-4 ring-amber-400/10 hover:border-amber-400 hover:shadow-md"
+                    : "border border-line bg-surface hover:border-brand-300 hover:shadow-sm"
+                }`}
               >
                 <div>
                   {/* 상단 뱃지 행: 평점 + 플랫폼 + IRP 여부 */}
@@ -158,6 +165,7 @@ export function ExternalBooksIndex({
                     onClick={() => { if (coverUrl) setPreviewBook(book); }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
                         if (coverUrl) setPreviewBook(book);
                       }
                     }}
@@ -172,8 +180,9 @@ export function ExternalBooksIndex({
                           width={140}
                           height={190}
                           className="h-full w-full object-contain p-1 transition-transform duration-200 group-hover/cover:scale-105"
-                          unoptimized
+                          loading="lazy"
                         />
+                        {/* 확대 아이콘 호버 오버레이 */}
                         <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/cover:opacity-100 transition-opacity flex items-center justify-center gap-1 text-[11px] font-extrabold text-white backdrop-blur-[1px]">
                           <ZoomIn className="h-3.5 w-3.5" />
                           <span>크게 보기</span>
@@ -187,14 +196,20 @@ export function ExternalBooksIndex({
                   {/* 도서명 및 저자 정보 */}
                   <div>
                     <div className="flex items-center gap-1.5 mb-1 flex-wrap">
-                      <span className="rounded-md bg-brand-800 px-1.5 py-0.5 text-[10px] font-black text-white">
-                        베스트셀러 {filteredBooks.indexOf(book) + 1}위
-                      </span>
-                      <span className="rounded-md bg-indigo-100 text-indigo-700 px-1.5 py-0.5 text-[10px] font-bold border border-indigo-200">
+                      {isTop1 ? (
+                        <span className="rounded-md bg-gradient-to-r from-amber-600 to-amber-700 px-2 py-0.5 text-[10px] font-black text-white shadow-2xs">
+                          👑 베스트셀러 1위
+                        </span>
+                      ) : (
+                        <span className="rounded-md bg-brand-800 px-1.5 py-0.5 text-[10px] font-black text-white">
+                          베스트셀러 {rank}위
+                        </span>
+                      )}
+                      <span className="rounded-md bg-indigo-50 text-indigo-700 px-1.5 py-0.5 text-[10px] font-extrabold border border-indigo-200/80">
                         {book.shortTargetTag ? `🎯 ${book.shortTargetTag}` : book.category === "초보·입문" ? "🎯 사회초년생 입문" : book.category === "연금·절세" ? "🎯 연금저축·IRP" : "🎯 월배당 파이프라인"}
                       </span>
                       <span className="text-[11px] font-bold text-neutral-500 ml-auto">
-                        판매량 {filteredBooks.indexOf(book) + 1}위
+                        판매량 {rank}위
                       </span>
                     </div>
                     <h3 className="text-sm sm:text-base font-extrabold tracking-[-0.02em] text-strong line-clamp-2 leading-snug">
@@ -204,6 +219,28 @@ export function ExternalBooksIndex({
                       {book.author} 저 · {book.publisher}
                     </p>
                   </div>
+
+                  {/* 가격 및 10% 도서정가제 할인 혜택 앵커 (손실회피 & 가치 인지) */}
+                  {book.discountPrice && (
+                    <div className="mt-2.5 flex items-baseline justify-between rounded-xl bg-neutral-50/90 px-3 py-2 border border-line/60">
+                      <div className="flex items-baseline gap-1.5 flex-wrap">
+                        {book.originalPrice && (
+                          <span className="text-[11px] text-neutral-400 line-through tabular-nums">
+                            {book.originalPrice.toLocaleString()}원
+                          </span>
+                        )}
+                        <span className="text-sm sm:text-base font-black text-neutral-900 tabular-nums">
+                          {book.discountPrice.toLocaleString()}원
+                        </span>
+                        <span className="text-xs font-black text-red-600">
+                          (10% 할인)
+                        </span>
+                      </div>
+                      <span className="text-[10px] font-extrabold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200/60">
+                        🚀 로켓배송
+                      </span>
+                    </div>
+                  )}
 
                   {/* 태그 칩 (AI선정 제거 필터링) */}
                   {book.tags.filter(t => !t.includes("AI")).length > 0 && (
@@ -253,7 +290,7 @@ export function ExternalBooksIndex({
                       href={book.affiliateUrl}
                       target="_blank"
                       rel="sponsored nofollow noopener"
-                      className="inline-flex w-full min-h-[42px] items-center justify-center gap-1.5 rounded-xl bg-brand-800 px-4 text-xs sm:text-sm font-extrabold text-white transition-all hover:bg-brand-900 active:scale-[0.99] shadow-sm"
+                      className="inline-flex w-full min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-[#0073E9] hover:bg-[#005fb8] px-4 text-xs sm:text-sm font-black text-white transition-all active:scale-[0.98] shadow-sm hover:shadow-md"
                       aria-label={`${book.title} 쿠팡 로켓배송 도서 구매처 바로가기 (새 창 열림)`}
                     >
                       <span>🚀 로켓배송으로 내일 받기</span>

@@ -67,6 +67,8 @@ export type ExternalBook = LearningExampleMetadata & {
   targetPersona?: string;
   targetRationale?: string;
   irpEligible: boolean;
+  originalPrice?: number;
+  discountPrice?: number;
   oneLineReview: string;
   summary: string;
   pros: string[];
@@ -266,6 +268,8 @@ export function loadExternalBooks(): ExternalBook[] {
       targetPersona: findMetadataValue(metadata, ["targetPersona", "target_persona"]),
       targetRationale: findMetadataValue(metadata, ["targetRationale", "target_rationale"]),
       irpEligible,
+      originalPrice: findMetadataValue(metadata, ["originalPrice", "original_price"]) ? Number(findMetadataValue(metadata, ["originalPrice", "original_price"])) : undefined,
+      discountPrice: findMetadataValue(metadata, ["discountPrice", "discount_price"]) ? Number(findMetadataValue(metadata, ["discountPrice", "discount_price"])) : undefined,
       oneLineReview: requiredWithAliases(metadata, ["oneLineReview", "one_line_review"], filename),
       summary: requiredWithAliases(metadata, ["summary"], filename),
       pros,

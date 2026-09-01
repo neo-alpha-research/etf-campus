@@ -494,9 +494,9 @@ function calculateMarketScale(quotes: EtfSnapshot[]): any {
       { type: "leveraged", label: "레버리지", aum: Math.round(leveragedAum), pct: Number(((leveragedAum / (totalAumOk || 1)) * 100).toFixed(1)), count: leveraged.length },
       { type: "inverse", label: "인버스", aum: Math.round(inverseAum), pct: Number(((inverseAum / (totalAumOk || 1)) * 100).toFixed(1)), count: inverse.length },
     ],
-    daily: { aumChange: 28540, netInflow: 3892 },
-    weekly: { aumChange: 54210, netInflow: -1898 },
-    monthly: { aumChange: 142800, netInflow: 38920 },
+    daily: { aumChange: 0, netInflow: 0 },
+    weekly: { aumChange: 0, netInflow: 0 },
+    monthly: { aumChange: 0, netInflow: 0 },
   };
 }
 

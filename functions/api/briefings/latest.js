@@ -166,35 +166,15 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
 
 function buildMarketScaleSnapshot(metrics, briefing) {
   if (metrics.market_scale) return metrics.market_scale;
+  if (metrics.market_scale_snapshot) return metrics.market_scale_snapshot;
   return { totalAum: 0, totalTradeValue: 0, categories: [] };
 }
 
 function buildMarketScaleTimeSeries(metrics, briefing) {
-  let genAum = briefing.general_total_aum || 3851607.0;
-  if (genAum > 100_000_000_000) genAum = genAum / 100_000_000;
-  let genTrade = briefing.general_total_trade_value || 99147.0;
-  if (genTrade > 100_000_000_000) genTrade = genTrade / 100_000_000;
-
-  const totalAumEok = Math.round(genAum / 0.765);
-  const totalTradeEok = Math.round(genTrade / 0.421);
-  const turnover = totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68;
-
-  const baseAum = totalAumEok;
+  if (metrics.market_scale_time_series) return metrics.market_scale_time_series;
   return {
-    daily: [
-      { key: "T-4", label: "T-4", aum: Math.round(baseAum * 0.98), adtv: Math.round(totalTradeEok * 0.9), turnoverPct: Number((turnover * 0.9).toFixed(2)), aumChange: 0, aumChangePct: 0, priceEffect: 0, netInflow: 0 },
-      { key: "T-3", label: "T-3", aum: Math.round(baseAum * 0.985), adtv: Math.round(totalTradeEok * 0.95), turnoverPct: Number((turnover * 0.95).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
-      { key: "T-2", label: "T-2", aum: Math.round(baseAum * 0.99), adtv: Math.round(totalTradeEok * 0.92), turnoverPct: Number((turnover * 0.92).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
-      { key: "T-1", label: "T-1", aum: Math.round(baseAum * 0.995), adtv: Math.round(totalTradeEok * 1.05), turnoverPct: Number((turnover * 1.05).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
-      { key: "T", label: "Today", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: Math.round(baseAum * 0.002), netInflow: Math.round(baseAum * 0.003) },
-    ],
-    weekly: [
-      { key: "W-4", label: "W-4", aum: Math.round(baseAum * 0.94), adtv: Math.round(totalTradeEok * 0.85), turnoverPct: Number((turnover * 0.85).toFixed(2)), aumChange: 0, aumChangePct: 0, priceEffect: 0, netInflow: 0 },
-      { key: "W-3", label: "W-3", aum: Math.round(baseAum * 0.955), adtv: Math.round(totalTradeEok * 0.9), turnoverPct: Number((turnover * 0.9).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
-      { key: "W-2", label: "W-2", aum: Math.round(baseAum * 0.97), adtv: Math.round(totalTradeEok * 0.95), turnoverPct: Number((turnover * 0.95).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
-      { key: "W-1", label: "W-1", aum: Math.round(baseAum * 0.985), adtv: Math.round(totalTradeEok * 1.0), turnoverPct: Number((turnover * 1.0).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
-      { key: "W", label: "This Wk", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: Math.round(baseAum * 0.005), netInflow: Math.round(baseAum * 0.01) },
-    ],
+    daily: [],
+    weekly: [],
     monthly: [],
     yearly: []
   };

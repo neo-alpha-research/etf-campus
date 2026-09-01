@@ -147,69 +147,33 @@ export async function warmLatestBriefingCache(env: ResilienceEnv, asOfDate: stri
 }
 
 function buildMarketScaleSnapshot(metrics: any, briefing: BriefingRow) {
+  if (metrics.market_scale_snapshot) {
+    const snap = metrics.market_scale_snapshot;
+    let totalAum = snap.totalAum || 0;
+    let totalTradeValue = snap.totalTradeValue || 0;
+    if (totalAum > 100_000_000_000) totalAum = totalAum / 100_000_000;
+    if (totalTradeValue > 100_000_000_000) totalTradeValue = totalTradeValue / 100_000_000;
+    return {
+      ...snap,
+      totalAum,
+      totalTradeValue,
+      categories: (snap.categories || []).map((c: any) => ({
+        ...c,
+        aum: c.aum > 100_000_000_000 ? c.aum / 100_000_000 : c.aum,
+        tradeValue: c.tradeValue > 100_000_000_000 ? c.tradeValue / 100_000_000 : c.tradeValue,
+      })),
+    };
+  }
+
   if (metrics.market_scale) return metrics.market_scale;
-
-  let genAum = briefing.general_total_aum || 3851607;
-  if (genAum >= 100_000_000) genAum = genAum / 100_000_000;
-  let genTrade = briefing.general_total_trade_value || 99147;
-  if (genTrade >= 100_000_000) genTrade = genTrade / 100_000_000;
-
-  const totalAum = Number((genAum / 0.765).toFixed(1));
-  const parkAum = Number((totalAum * 0.186).toFixed(1));
-  const levAum = Number((totalAum * 0.038).toFixed(1));
-  const invAum = Number((totalAum - genAum - parkAum - levAum).toFixed(1));
-
-  const totalTradeValue = Number((genTrade / 0.421).toFixed(1));
-  const parkTrade = Number((totalTradeValue * 0.153).toFixed(1));
-  const levTrade = Number((totalTradeValue * 0.352).toFixed(1));
-  const invTrade = Number((totalTradeValue - genTrade - parkTrade - levTrade).toFixed(1));
-
-  const totalEtfCount = metrics.pulse?.totalEtfCount ?? metrics.market_scale?.totalEtfCount ?? 1164;
-  const generalEtfCount = briefing.general_etf_count || metrics.pulse?.generalEtfCount || 1022;
-
-  const turnover = (trade: number, aum: number) => aum > 0 ? Number(((trade / aum) * 100).toFixed(2)) : 0;
-
-  return {
-    totalAum,
-    totalTradeValue,
-    totalEtfCount,
-    generalEtfCount,
-    marketTurnoverPct: turnover(totalTradeValue, totalAum),
-    categories: [
-      { category: "general", label: "일반 실물 ETF", aum: genAum, aumSharePct: 76.5, tradeValue: genTrade, tradeSharePct: 42.1, turnoverPct: turnover(genTrade, genAum), etfCount: generalEtfCount },
-      { category: "parking", label: "파킹·단기자금", aum: parkAum, aumSharePct: 18.6, tradeValue: parkTrade, tradeSharePct: 15.3, turnoverPct: turnover(parkTrade, parkAum), etfCount: 42 },
-      { category: "leveraged", label: "레버리지", aum: levAum, aumSharePct: 3.8, tradeValue: levTrade, tradeSharePct: 35.2, turnoverPct: turnover(levTrade, levAum), etfCount: 68 },
-      { category: "inverse", label: "인버스", aum: invAum, aumSharePct: 1.1, tradeValue: invTrade, tradeSharePct: 7.4, turnoverPct: turnover(invTrade, invAum), etfCount: 36 },
-    ],
-  };
+  return { totalAum: 0, totalTradeValue: 0, categories: [] };
 }
 
 function buildMarketScaleTimeSeries(metrics: any, briefing: any) {
-  let genAum = briefing.general_total_aum || 3851607.0;
-  if (genAum > 100_000_000_000) genAum = genAum / 100_000_000;
-  let genTrade = briefing.general_total_trade_value || 99147.0;
-  if (genTrade > 100_000_000_000) genTrade = genTrade / 100_000_000;
-
-  const totalAumEok = Math.round(genAum / 0.765);
-  const totalTradeEok = Math.round(genTrade / 0.421);
-  const turnover = totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68;
-
-  const baseAum = totalAumEok;
+  if (metrics.market_scale_time_series) return metrics.market_scale_time_series;
   return {
-    daily: [
-      { key: "T-4", label: "T-4", aum: Math.round(baseAum * 0.98), adtv: Math.round(totalTradeEok * 0.9), turnoverPct: Number((turnover * 0.9).toFixed(2)), aumChange: 0, aumChangePct: 0, priceEffect: 0, netInflow: 0 },
-      { key: "T-3", label: "T-3", aum: Math.round(baseAum * 0.985), adtv: Math.round(totalTradeEok * 0.95), turnoverPct: Number((turnover * 0.95).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
-      { key: "T-2", label: "T-2", aum: Math.round(baseAum * 0.99), adtv: Math.round(totalTradeEok * 0.92), turnoverPct: Number((turnover * 0.92).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
-      { key: "T-1", label: "T-1", aum: Math.round(baseAum * 0.995), adtv: Math.round(totalTradeEok * 1.05), turnoverPct: Number((turnover * 1.05).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
-      { key: "T", label: "Today", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: Math.round(baseAum * 0.002), netInflow: Math.round(baseAum * 0.003) },
-    ],
-    weekly: [
-      { key: "W-4", label: "W-4", aum: Math.round(baseAum * 0.94), adtv: Math.round(totalTradeEok * 0.85), turnoverPct: Number((turnover * 0.85).toFixed(2)), aumChange: 0, aumChangePct: 0, priceEffect: 0, netInflow: 0 },
-      { key: "W-3", label: "W-3", aum: Math.round(baseAum * 0.955), adtv: Math.round(totalTradeEok * 0.9), turnoverPct: Number((turnover * 0.9).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
-      { key: "W-2", label: "W-2", aum: Math.round(baseAum * 0.97), adtv: Math.round(totalTradeEok * 0.95), turnoverPct: Number((turnover * 0.95).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
-      { key: "W-1", label: "W-1", aum: Math.round(baseAum * 0.985), adtv: Math.round(totalTradeEok * 1.0), turnoverPct: Number((turnover * 1.0).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
-      { key: "W", label: "This Wk", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: Math.round(baseAum * 0.005), netInflow: Math.round(baseAum * 0.01) },
-    ],
+    daily: [],
+    weekly: [],
     monthly: [],
     yearly: []
   };

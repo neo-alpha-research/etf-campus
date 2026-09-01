@@ -34,12 +34,16 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
   const themeGap = Math.abs(topTheme.cappedAumWeightedReturnPct - bottomTheme.cappedAumWeightedReturnPct).toFixed(2);
 
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
-  const topInflow = topInflows[0] || { name: "TIGER 미국필라델피아반도체나스닥", inflow: 1130 };
-  const topInflowName = topInflow.name;
-  const topInflowAmount = topInflow.inflow ? topInflow.inflow.toLocaleString() : "1,130";
+  const topInflow = topInflows[0];
+  const inflowText = topInflow 
+    ? `3️⃣ [수급] 외인·기관은 ${topInflow.name} 등 ETF에 ${topInflow.inflow.toLocaleString()}억원 규모 순유입 집중\n`
+    : "";
 
   const disparityList = payload.disparityWarning || [];
-  const topDisparity = disparityList[0] || { etfName: "KoAct 차이나바이오헬스케어액티브", disparityPct: -4.36 };
+  const topDisparity = disparityList[0];
+  const disparityText = topDisparity 
+    ? `4️⃣ [경보] ${topDisparity.etfName}(${topDisparity.disparityPct.toFixed(2)}%) 등 괴리율 왜곡 주의\n`
+    : "";
 
   const kospiAction = kospi >= 0 ? "상승" : "하락";
   const dominantText = up >= down ? `${up}개 상승(상승 우세)` : `${down}개 하락(하락 우세)`;
@@ -48,12 +52,10 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
 
 지난 장 코스피는 ${sign}${kospi.toFixed(2)}% ${kospiAction} 마감했지만, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 차분한 숨고르기를 보였습니다.
 
-📊 지난 장 핵심 시그널 4가지:
+📊 지난 장 핵심 시그널:
 1️⃣ [체온] 1,022개 중 ${dominantText}. 대형주 위주 지수 방어 속 체감 온도는 차분
 2️⃣ [테마] ${topTheme.peerGroup}(+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 반등 vs ${bottomTheme.peerGroup}(${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 차익실현 (온도차 ${themeGap}%p)
-3️⃣ [수급] 외인·기관은 ${topInflowName} 등 해외 반도체/지수 ETF에 ${topInflowAmount}억원 규모 저가 매수 집중
-4️⃣ [경보] ${topDisparity.etfName}(${topDisparity.disparityPct.toFixed(2)}%) 등 해외 액티브 ETF 괴리율 왜곡 주의
-
+${inflowText}${disparityText}
 💬 Q. 장 시작 전, 여러분의 오늘 포지션은?
 1. "조정은 기회!" (우량 ETF 분할 매수)
 2. "방어가 최선!" (안전자산·배당 확대)
@@ -100,22 +102,9 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
 
   // Inflows
   const topInflows = (payload.periodicFlows?.dailyFundFlows?.topInflows || []).slice(0, 3);
-  if (topInflows.length === 0) {
-    topInflows.push(
-      { rank: 1, name: "TIGER 미국필라델피아반도체나스닥", ticker: "381180", inflow: 1130, theme: "반도체" },
-      { rank: 2, name: "TIGER 미국S&P500", ticker: "360750", inflow: 925, theme: "미국지수" },
-      { rank: 3, name: "TIGER 미국나스닥100", ticker: "133690", inflow: 850, theme: "미국지수" }
-    );
-  }
 
   // Disparity
   const disparityList = (payload.disparityWarning || []).slice(0, 2);
-  if (disparityList.length === 0) {
-    disparityList.push(
-      { ticker: "0154H0", etfName: "KoAct 차이나바이오헬스케어액티브", assetClass: "주식-해외", disparityPct: -4.36 },
-      { ticker: "0131A0", etfName: "SOL 차이나소비트렌드", assetClass: "주식-해외", disparityPct: -3.50 }
-    );
-  }
 
   return `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -224,7 +213,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
 
         <!-- 3 Inflow Rows (Full Name + Ticker Attached) -->
         <g transform="translate(35, 72)">
-          ${topInflows.map((item, idx) => `
+          ${topInflows.length > 0 ? topInflows.map((item, idx) => `
             <g transform="translate(0, ${idx * 54})">
               <rect width="890" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <circle cx="28" cy="23" r="13" fill="${idx === 0 ? '#10B981' : '#E2E8F0'}"/>
@@ -235,9 +224,9 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
                 ${item.name} <tspan fill="#64748B" font-size="13.5" font-weight="700">(${item.ticker})</tspan>
               </text>
               
-              <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+${item.inflow?.toLocaleString() || "1,000"}억원</text>
+              <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+${item.inflow?.toLocaleString() || "0"}억원</text>
             </g>
-          `).join("")}
+          `).join("") : `<text x="0" y="28" fill="#64748B" font-size="15" font-weight="600">특이동향 없음</text>`}
         </g>
       </g>
 
@@ -251,14 +240,14 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
 
         <!-- 2 Disparity Cards (Full Name + Ticker Subtitle) -->
         <g transform="translate(35, 72)">
-          ${disparityList.map((d: any, idx: number) => `
+          ${disparityList.length > 0 ? disparityList.map((d: any, idx: number) => `
             <g transform="translate(${idx * 460}, 0)">
               <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
               <text x="20" y="28" fill="#0F172A" font-size="15" font-weight="900">${d.etfName}</text>
               <text x="20" y="48" fill="#64748B" font-size="12.5" font-weight="700">${d.ticker} · ${d.assetClass || "해외주식"}</text>
               <text x="410" y="40" fill="#C2410C" font-size="22" font-weight="900" text-anchor="end" class="tabular">${d.disparityPct.toFixed(2)}%</text>
             </g>
-          `).join("")}
+          `).join("") : `<text x="0" y="28" fill="#64748B" font-size="15" font-weight="600">왜곡 경보 없음</text>`}
         </g>
       </g>
 

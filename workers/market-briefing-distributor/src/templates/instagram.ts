@@ -47,17 +47,10 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
 
   // Inflows
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
-  const topInflow = topInflows[0] || { name: "TIGER 미국필라델피아반도체나스닥", ticker: "381180", inflow: 1130, theme: "반도체" };
+  const topInflow = topInflows[0] || { name: "데이터 수집 중", ticker: "-", inflow: 0, theme: "미분류" };
 
   // Asset classes
-  const assetClasses = (payload.assetClasses && payload.assetClasses.length > 0) ? payload.assetClasses : [
-    { assetClass: "주식-국내", totalAum: 1761695, aumSharePct: 46.2, aumWeightedReturnPct: 0.14 },
-    { assetClass: "주식-해외", totalAum: 1273873, aumSharePct: 33.4, aumWeightedReturnPct: -0.71 },
-    { assetClass: "채권", totalAum: 586142, aumSharePct: 15.4, aumWeightedReturnPct: -0.09 },
-    { assetClass: "원자재", totalAum: 95347, aumSharePct: 2.5, aumWeightedReturnPct: -2.49 },
-    { assetClass: "리츠·인프라", totalAum: 66387, aumSharePct: 1.7, aumWeightedReturnPct: -1.46 },
-    { assetClass: "혼합자산", totalAum: 31282, aumSharePct: 0.8, aumWeightedReturnPct: -0.58 },
-  ];
+  const assetClasses = (payload.assetClasses && payload.assetClasses.length > 0) ? payload.assetClasses : [];
 
   // Common SVG Defs
   const commonDefs = `
@@ -411,13 +404,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
   // =========================================================================
   // SLIDE 5: Disparity Alert
   // =========================================================================
-  const disparityList = (payload.disparityWarning && payload.disparityWarning.length > 0) ? payload.disparityWarning : [
-    { ticker: "0154H0", etfName: "KoAct 차이나바이오헬스케어액티브", assetClass: "주식-해외", disparityPct: -4.36 },
-    { ticker: "0131A0", etfName: "SOL 차이나소비트렌드", assetClass: "주식-해외", disparityPct: -3.50 },
-    { ticker: "289480", etfName: "TIGER 200커버드콜", assetClass: "주식-국내", disparityPct: -1.68 },
-    { ticker: "298770", etfName: "KODEX 한국대만IT프리미어", assetClass: "주식-국내", disparityPct: -1.23 },
-    { ticker: "491700", etfName: "HK 200", assetClass: "주식-국내", disparityPct: -1.11 },
-  ];
+  const disparityList = (payload.disparityWarning && payload.disparityWarning.length > 0) ? payload.disparityWarning : [];
 
   const slide5Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -651,22 +638,22 @@ export function generateInstagramCaption(payload: MarketBriefingPayload): string
   const sign = kospiChangePct > 0 ? "+" : "";
   
   const topInflow = payload.periodicFlows?.dailyFundFlows?.topInflows?.[0];
-  const topInflowName = topInflow?.name || "TIGER 미국필라델피아반도체나스닥";
-  const topInflowAmount = topInflow?.inflow ? topInflow.inflow.toLocaleString() : "1,130";
+  const inflowText = topInflow 
+    ? `\n2. 외국인/기관 매수: ${topInflow.name} 등 ${topInflow.inflow.toLocaleString()}억원 규모 순유입 포착!` 
+    : "";
   
   const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];
   const themeText = strongThemes.length > 0 
     ? strongThemes.map(t => `${t.peerGroup}(+${t.cappedAumWeightedReturnPct.toFixed(2)}%)`).join(', ') 
-    : "2차전지, 모빌리티 등 반등 테마";
+    : "개별 종목 장세 연출";
 
   return `출근길에 가볍게 체크하는 지난 장의 핵심 시그널! ☕
 
 지난 거래일 우리 시장, 롤러코스터 같았는데 다들 무사히 넘기셨나요? 
 코스피가 ${sign}${kospiChangePct.toFixed(2)}% 상승 마감한 가운데, 한국 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 방어적인 흐름을 보였습니다. 
 
-[지난 장의 3가지 핵심 포인트]
-1. 차별화 장세 속 승자 테마: ${themeText}
-2. 외국인/기관 매수: ${topInflowName} 등 ${topInflowAmount}억원 규모 저가 매수 포착! 
+[지난 장의 핵심 포인트]
+1. 차별화 장세 속 승자 테마: ${themeText}${inflowText}
 3. 수급 흐름: 단기 숨고르기 속에서도 글로벌 대표지수 및 반도체 섹터로의 자금 유입 지속
 
 내 계좌 속 ETF는 직전 거래일에 어디쯤 있었을까요? 

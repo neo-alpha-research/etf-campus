@@ -6,7 +6,7 @@ import useSWR from "swr";
 export type MarketIndex = {
   code: string;
   label: string;
-  close: number;
+  close?: number | null;
   change_points?: number | null;
   change_pct?: number;
   as_of_date: string;

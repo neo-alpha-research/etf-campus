@@ -16,7 +16,7 @@ function formatDateWithDay(dateStr?: string): string {
 
 export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: string): ThreadsPost[] {
   const dateStr = payload.asOfDate || "2026-08-31";
-  const formattedDate = formatDateWithDay(dateStr);
+  const formattedDate = dateStr.replace(/-/g, '.');
   const kospi = payload.kospiChangePct ?? 0.46;
   const etfReturn = payload.generalAumWeightedReturnPct ?? -0.28;
   const etfSign = etfReturn > 0 ? "+" : "";
@@ -31,41 +31,36 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
   const losers = [...sortedPeerGroups].reverse().filter(p => p.cappedAumWeightedReturnPct < 0).slice(0, 2);
   const topTheme = winners[0] || { peerGroup: "2차전지 셀 & 소재", cappedAumWeightedReturnPct: 2.71 };
   const bottomTheme = losers[0] || { peerGroup: "원자력 & SMR", cappedAumWeightedReturnPct: -4.78 };
-  const themeGap = Math.abs(topTheme.cappedAumWeightedReturnPct - bottomTheme.cappedAumWeightedReturnPct).toFixed(2);
 
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
   const topInflow = topInflows[0];
   const inflowText = topInflow 
-    ? `3️⃣ [수급] 외인·기관은 ${topInflow.name} 등 ETF에 ${topInflow.inflow.toLocaleString()}억원 규모 순유입 집중\n`
+    ? `3️⃣ [수급] ${topInflow.name}에 +${topInflow.inflow.toLocaleString()}억 순유입\n`
     : "";
 
   const disparityList = payload.disparityWarning || [];
   const topDisparity = disparityList[0];
   const disparityText = topDisparity 
-    ? `4️⃣ [경보] ${topDisparity.etfName}(${topDisparity.disparityPct.toFixed(2)}%) 등 괴리율 왜곡 주의\n`
+    ? `4️⃣ [경보] ${topDisparity.etfName}(${topDisparity.disparityPct.toFixed(2)}%) 괴리율 주의\n`
     : "";
 
   const kospiAction = kospi >= 0 ? "상승" : "하락";
   const dominantText = up >= down ? `${up}개 상승(상승 우세)` : `${down}개 하락(하락 우세)`;
 
-  const mainPost = `출근길 ETF 모닝 브리핑 ☕ (${dateStr.replace(/-/g, '.')} 기준)
+  const mainPost = `출근길 ETF 모닝 브리핑 ☕ (${formattedDate} 기준)
 
-지난 장 코스피는 ${sign}${kospi.toFixed(2)}% ${kospiAction} 마감했지만, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 차분한 숨고르기를 보였습니다.
+코스피는 ${sign}${kospi.toFixed(2)}% ${kospiAction}했지만, 일반 ETF 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 숨고르기였습니다.
 
-📊 지난 장 핵심 시그널:
-1️⃣ [체온] 1,022개 중 ${dominantText}. 대형주 위주 지수 방어 속 체감 온도는 차분
-2️⃣ [테마] ${topTheme.peerGroup}(+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 반등 vs ${bottomTheme.peerGroup}(${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 차익실현 (온도차 ${themeGap}%p)
+📊 핵심 시그널:
+1️⃣ [체온] ${generalCount}개 중 ${dominantText}
+2️⃣ [테마] ${topTheme.peerGroup}(+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 반등 vs ${bottomTheme.peerGroup}(${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 조정
 ${inflowText}${disparityText}
-💬 Q. 장 시작 전, 여러분의 오늘 포지션은?
-1. "조정은 기회!" (우량 ETF 분할 매수)
-2. "방어가 최선!" (안전자산·배당 확대)
-3. "일단 팝콘각!" (현금 쥐고 관망)
+💬 Q. 오늘 여러분의 포지션은?
+1. 조정은 기회! (우량 ETF 분할매수)
+2. 방어가 최선! (배당·안전자산)
+3. 일단 관망! (현금 비중 확대)
 
-(자세한 데이터 팩트는 아래 인포그래픽 카드 1장으로 한눈에 확인하세요 👇)
-
-🔗 주도 테마별 등락 동향부터 스마트머니 자금 유입까지, 프로필 링크 '마켓 브리핑'에서 전체 리포트를 확인해 보세요! 📊
-
-든든한 하루 보내세요!`;
+(자세한 데이터는 아래 인포그래픽 1장과 프로필 링크 [마켓 브리핑]에서 확인하세요 👇)`;
 
   return [
     { sequence: 1, content: mainPost }

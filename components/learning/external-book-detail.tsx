@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import type { ExternalBook } from "@/lib/content/learning-content";
+import { MarkdownContent } from "@/components/markdown/markdown-content";
 
 export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBook, crossSellBanner?: React.ReactNode }) {
   const [showCoverModal, setShowCoverModal] = useState(false);
@@ -231,7 +232,25 @@ export function ExternalBookDetail({ book, crossSellBanner }: { book: ExternalBo
         </div>
       </section>
 
-      {/* 크로스셀 배너 (Pros/Cons 요약 직후 상향 배치) */}
+      {/* 도서 심층 리포트 및 챕터별 핵심 분석 (Editorial In-Depth Report) */}
+      {book.content && book.content.trim() !== "" && (
+        <section className="mt-10">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="rounded-md bg-brand-800 text-white px-2.5 py-1 text-xs font-black">
+              CAMPUS EDITORIAL REPORT
+            </span>
+            <h2 className="text-xl sm:text-2xl font-extrabold tracking-[-0.03em] text-strong">
+              도서 심층 분석 &amp; 핵심 투자 인사이트
+            </h2>
+          </div>
+
+          <div className="rounded-3xl border border-line bg-surface p-6 sm:p-8 sm:py-9 shadow-xs">
+            <MarkdownContent source={book.content} />
+          </div>
+        </section>
+      )}
+
+      {/* 크로스셀 배너 (심층 리포트 후 배치) */}
       {crossSellBanner}
 
       {/* 고객 F 요구: Backtest Ticker 연계 실행 CTA */}

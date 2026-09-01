@@ -357,15 +357,28 @@ async function updateMdxFile(categoryName: string, categorySlug: string, rank: n
   const filePath = path.join(CONTENT_DIR, `[LEARNING_EXAMPLE]_${categorySlug}-top-${rank}.mdx`);
   
   let existingAffiliateUrl = "";
+  let existingBody = "";
+  let existingOriginalPrice: number | undefined = undefined;
+  let existingDiscountPrice: number | undefined = undefined;
+
   try {
     const oldContent = await fs.readFile(filePath, "utf-8");
     const oldTitleMatch = oldContent.match(/title:\s*(.*)/);
     const oldAffiliateMatch = oldContent.match(/affiliateUrl:\s*(.*)/);
+    const oldOrigMatch = oldContent.match(/originalPrice:\s*(\d+)/);
+    const oldDiscMatch = oldContent.match(/discountPrice:\s*(\d+)/);
+
     if (oldTitleMatch && oldAffiliateMatch) {
       const oldTitleKey = getBookKey(oldTitleMatch[1], "");
       const newTitleKey = getBookKey(book.title, "");
       if (oldTitleKey === newTitleKey) {
         existingAffiliateUrl = oldAffiliateMatch[1].trim();
+        if (oldOrigMatch) existingOriginalPrice = Number(oldOrigMatch[1]);
+        if (oldDiscMatch) existingDiscountPrice = Number(oldDiscMatch[1]);
+        const parts = oldContent.split("---");
+        if (parts.length >= 3) {
+          existingBody = parts.slice(2).join("---").trim();
+        }
       }
     }
   } catch {
@@ -382,6 +395,27 @@ async function updateMdxFile(categoryName: string, categorySlug: string, rank: n
     : categoryName === "연금·절세"
     ? "연금절세 | IRP·ISA | 자산배분"
     : "월배당 | 배당성장 | 현금흐름";
+
+  const originalPriceStr = existingOriginalPrice ? `\noriginalPrice: ${existingOriginalPrice}` : "";
+  const discountPriceStr = existingDiscountPrice ? `\ndiscountPrice: ${existingDiscountPrice}` : "";
+
+  const finalBody = existingBody || `
+## 📖 이 책의 핵심 요약
+
+${aiReview.summary}
+
+---
+
+### 🔍 주요 챕터별 핵심 분석
+- **핵심 투자 전략**: ${aiReview.oneLineReview}
+- **장점 분석**: ${prosText}
+- **주의점 및 리스크**: ${consText}
+
+---
+
+### 💡 이 책에서 얻는 핵심 투자 통찰 (Key Takeaways)
+- ${aiReview.targetRationale || "시장 수익률과 복리 원리를 이해하고 장기 투자 원칙을 확립하는 데 큰 도움이 됩니다."}
+`;
 
   const mdxContent = `[LEARNING_EXAMPLE]
 ---
@@ -409,15 +443,11 @@ cons: ${consText.replace(/:/g, ' -').replace(/\n/g, ' ')}
 targetPersona: ${aiReview.targetPersona.replace(/:/g, ' -').replace(/\n/g, ' ')}
 targetRationale: ${(aiReview.targetRationale || "").replace(/:/g, ' -').replace(/\n/g, ' ')}
 shortTargetTag: ${aiReview.shortTargetTag.replace(/:/g, ' -').replace(/\n/g, ' ')}
-coverImage: ${book.coverUrl}
+coverImage: ${book.coverUrl}${originalPriceStr}${discountPriceStr}
 affiliateUrl: ${finalAffiliateUrl}
 ---
 
-# ${book.title}
-
-> **"${aiReview.oneLineReview}"**
-
-${aiReview.summary}
+${finalBody.trim()}
 `;
 
   await fs.writeFile(filePath, mdxContent, 'utf-8');

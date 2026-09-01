@@ -494,9 +494,47 @@ function calculateMarketScale(quotes: EtfSnapshot[]): any {
       { type: "leveraged", label: "레버리지", aum: Math.round(leveragedAum), pct: Number(((leveragedAum / (totalAumOk || 1)) * 100).toFixed(1)), count: leveraged.length },
       { type: "inverse", label: "인버스", aum: Math.round(inverseAum), pct: Number(((inverseAum / (totalAumOk || 1)) * 100).toFixed(1)), count: inverse.length },
     ],
-    daily: { aumChange: 0, netInflow: 0 },
+    daily: { aumChange: 0, aumChangePct: 0, netInflow: 0 },
     weekly: { aumChange: 0, netInflow: 0 },
     monthly: { aumChange: 0, netInflow: 0 },
+  };
+}
+
+async function calculateMarketScaleTimeSeries(db: D1Database, asOfDate: string): Promise<any> {
+  const pastDates = await db
+    .prepare("SELECT as_of_date, sum(aum_value) as sum_aum, sum(trade_value) as sum_trade FROM briefing_etf_daily WHERE as_of_date <= ? GROUP BY as_of_date ORDER BY as_of_date DESC LIMIT 5")
+    .bind(asOfDate)
+    .all<{ as_of_date: string; sum_aum: number; sum_trade: number }>();
+
+  const rows = (pastDates.results || []).reverse();
+  const dailyTs = rows.map((r, idx) => {
+    const aum = Math.round((r.sum_aum || 0) / 100000000);
+    const adtv = Math.round((r.sum_trade || 0) / 100000000);
+    const turnoverPct = aum > 0 ? Number(((adtv / aum) * 100).toFixed(2)) : 0;
+    const prevAum = idx > 0 ? Math.round((rows[idx - 1].sum_aum || 0) / 100000000) : aum;
+    const aumChange = aum - prevAum;
+    const aumChangePct = prevAum > 0 ? Number(((aumChange / prevAum) * 100).toFixed(2)) : 0;
+    const relKey = idx === rows.length - 1 ? "T" : `T-${rows.length - 1 - idx}`;
+
+    return {
+      key: relKey,
+      label: r.as_of_date.slice(5),
+      date: r.as_of_date,
+      aum,
+      adtv,
+      turnoverPct,
+      aumChange,
+      aumChangePct,
+      priceEffect: 0,
+      netInflow: 0,
+    };
+  });
+
+  return {
+    daily: dailyTs,
+    weekly: [],
+    monthly: [],
+    yearly: [],
   };
 }
 
@@ -667,6 +705,7 @@ async function publishSnapshot(
     const disparityWarning = calculateDisparityWarning(quotes);
     const periodicFlows = await calculatePeriodicFundFlows(db, quotes, readiness.as_of_date);
     const marketScale = calculateMarketScale(quotes);
+    const marketScaleTimeSeries = await calculateMarketScaleTimeSeries(db, readiness.as_of_date);
 
     const publishedAt = nowIso();
     const metrics = {
@@ -710,6 +749,7 @@ async function publishSnapshot(
     weekly_fund_flows: periodicFlows.weeklyFundFlows,
     monthly_fund_flows: periodicFlows.monthlyFundFlows,
     market_scale: marketScale,
+    market_scale_time_series: marketScaleTimeSeries,
   };
   const statements: D1PreparedStatement[] = [
     db
@@ -853,6 +893,7 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
   const disparityWarning = calculateDisparityWarning(quotes);
   const periodicFlows = await calculatePeriodicFundFlows(env.ETF_PRICES, quotes, asOfDate);
   const marketScale = calculateMarketScale(quotes);
+  const marketScaleTimeSeries = await calculateMarketScaleTimeSeries(env.ETF_PRICES, asOfDate);
 
   const metrics = {
     pulse,
@@ -864,6 +905,7 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
     weekly_fund_flows: periodicFlows.weeklyFundFlows,
     monthly_fund_flows: periodicFlows.monthlyFundFlows,
     market_scale: marketScale,
+    market_scale_time_series: marketScaleTimeSeries,
   };
 
   const metricsJson = JSON.stringify(metrics);

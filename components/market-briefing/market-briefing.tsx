@@ -2118,8 +2118,8 @@ export function MarketBriefing() {
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (금융 표준 동적 애널리스트 엔진 연동) */}
         {(() => {
           const snapshot = briefing.marketScaleSnapshot;
-          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 5034780.9);
-          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 235503.6);
+          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || (normalizeToEok(briefing.pulse?.generalTotalAum || 3851607) / 0.765));
+          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || (normalizeToEok(briefing.pulse?.generalTotalTradeValue || 99147) / 0.421));
           const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
 
           
@@ -2300,8 +2300,8 @@ export function MarketBriefing() {
           {/* 5-Point 상하 듀얼 싱크 차트 (Linked Dual-Pane) */}
           {(() => {
             const snapshot = briefing.marketScaleSnapshot;
-            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 5034780.9);
-            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 235503.6);
+            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || (normalizeToEok(briefing.pulse?.generalTotalAum || 3851607) / 0.765));
+            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || (normalizeToEok(briefing.pulse?.generalTotalTradeValue || 99147) / 0.421));
             const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
             
 

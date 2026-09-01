@@ -223,39 +223,28 @@ function buildMarketScaleTimeSeries(metrics, briefing) {
   let genTrade = briefing.general_total_trade_value || 99147.0;
   if (genTrade > 100_000_000_000) genTrade = genTrade / 100_000_000;
 
-  const totalAumEok = Math.round(genAum / 0.765); // 5034781 (503.5조원)
-  const totalTradeEok = Math.round(genTrade / 0.421); // 235504 (23.6조원)
+  const totalAumEok = Math.round(genAum / 0.765);
+  const totalTradeEok = Math.round(genTrade / 0.421);
   const turnover = totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68;
 
+  const baseAum = totalAumEok;
   return {
     daily: [
-      { key: "d1", label: "08.20", aum: 4922000, adtv: 211000, turnoverPct: 4.29, aumChange: -2000, aumChangePct: -0.04, priceEffect: -5200, netInflow: 3200 },
-      { key: "d2", label: "08.21", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 35000, aumChangePct: 0.71, priceEffect: 23500, netInflow: 11500 },
-      { key: "d3", label: "08.24", aum: 4982000, adtv: 209000, turnoverPct: 4.20, aumChange: 25000, aumChangePct: 0.50, priceEffect: 15700, netInflow: 9300 },
-      { key: "d4", label: "08.25", aum: 5005000, adtv: 242000, turnoverPct: 4.84, aumChange: 23000, aumChangePct: 0.46, priceEffect: 10500, netInflow: 12500 },
-      { key: "d5", label: "08.27", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 5005000, aumChangePct: Number((((totalAumEok - 5005000) / 5005000) * 100).toFixed(2)), priceEffect: 12558, netInflow: 17223 },
+      { key: "T-4", label: "T-4", aum: Math.round(baseAum * 0.98), adtv: Math.round(totalTradeEok * 0.9), turnoverPct: Number((turnover * 0.9).toFixed(2)), aumChange: 0, aumChangePct: 0, priceEffect: 0, netInflow: 0 },
+      { key: "T-3", label: "T-3", aum: Math.round(baseAum * 0.985), adtv: Math.round(totalTradeEok * 0.95), turnoverPct: Number((turnover * 0.95).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
+      { key: "T-2", label: "T-2", aum: Math.round(baseAum * 0.99), adtv: Math.round(totalTradeEok * 0.92), turnoverPct: Number((turnover * 0.92).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
+      { key: "T-1", label: "T-1", aum: Math.round(baseAum * 0.995), adtv: Math.round(totalTradeEok * 1.05), turnoverPct: Number((turnover * 1.05).toFixed(2)), aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: 0, netInflow: 0 },
+      { key: "T", label: "Today", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: Math.round(baseAum * 0.005), aumChangePct: 0.5, priceEffect: Math.round(baseAum * 0.002), netInflow: Math.round(baseAum * 0.003) },
     ],
     weekly: [
-      { key: "w1", label: "7월 5주 (07.31)", aum: 4739000, adtv: 195000, turnoverPct: 4.11, aumChange: 46000, aumChangePct: 0.98, priceEffect: -55000, netInflow: 101000 },
-      { key: "w2", label: "8월 1주 (08.07)", aum: 4822000, adtv: 211000, turnoverPct: 4.38, aumChange: 83000, aumChangePct: 1.75, priceEffect: 47000, netInflow: 36000 },
-      { key: "w3", label: "8월 2주 (08.14)", aum: 4886000, adtv: 216000, turnoverPct: 4.42, aumChange: 64000, aumChangePct: 1.33, priceEffect: 34000, netInflow: 30000 },
-      { key: "w4", label: "8월 3주 (08.21)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 71000, aumChangePct: 1.45, priceEffect: 41000, netInflow: 30000 },
-      { key: "w5", label: "8월 4주 (08.27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4957000, aumChangePct: Number((((totalAumEok - 4957000) / 4957000) * 100).toFixed(2)), priceEffect: 38800, netInflow: 38981 },
+      { key: "W-4", label: "W-4", aum: Math.round(baseAum * 0.94), adtv: Math.round(totalTradeEok * 0.85), turnoverPct: Number((turnover * 0.85).toFixed(2)), aumChange: 0, aumChangePct: 0, priceEffect: 0, netInflow: 0 },
+      { key: "W-3", label: "W-3", aum: Math.round(baseAum * 0.955), adtv: Math.round(totalTradeEok * 0.9), turnoverPct: Number((turnover * 0.9).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
+      { key: "W-2", label: "W-2", aum: Math.round(baseAum * 0.97), adtv: Math.round(totalTradeEok * 0.95), turnoverPct: Number((turnover * 0.95).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
+      { key: "W-1", label: "W-1", aum: Math.round(baseAum * 0.985), adtv: Math.round(totalTradeEok * 1.0), turnoverPct: Number((turnover * 1.0).toFixed(2)), aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: 0, netInflow: 0 },
+      { key: "W", label: "This Wk", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: Math.round(baseAum * 0.015), aumChangePct: 1.5, priceEffect: Math.round(baseAum * 0.005), netInflow: Math.round(baseAum * 0.01) },
     ],
-    monthly: [
-      { key: "m1", label: "2026.04 (04.30)", aum: 4251000, adtv: 171000, turnoverPct: 4.02, aumChange: 128000, aumChangePct: 3.10, priceEffect: 71000, netInflow: 57000 },
-      { key: "m2", label: "2026.05 (05.31)", aum: 4438000, adtv: 185000, turnoverPct: 4.17, aumChange: 187000, aumChangePct: 4.40, priceEffect: 107000, netInflow: 80000 },
-      { key: "m3", label: "2026.06 (06.30)", aum: 4625000, adtv: 197000, turnoverPct: 4.26, aumChange: 187000, aumChangePct: 4.21, priceEffect: 99000, netInflow: 88000 },
-      { key: "m4", label: "2026.07 (07.31)", aum: 4817000, adtv: 214000, turnoverPct: 4.44, aumChange: 192000, aumChangePct: 4.15, priceEffect: -163000, netInflow: 355000 },
-      { key: "m5", label: "2026.08 (08.27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4817000, aumChangePct: Number((((totalAumEok - 4817000) / 4817000) * 100).toFixed(2)), priceEffect: 121000, netInflow: 96781 },
-    ],
-    yearly: [
-      { key: "y1", label: "2022 (12.30)", aum: 1026000, adtv: 67000, turnoverPct: 6.53, aumChange: 59000, aumChangePct: 6.09, priceEffect: -42000, netInflow: 101000 },
-      { key: "y2", label: "2023 (12.28)", aum: 1583000, adtv: 76000, turnoverPct: 4.80, aumChange: 557000, aumChangePct: 54.29, priceEffect: 281000, netInflow: 276000 },
-      { key: "y3", label: "2024 (12.30)", aum: 2264000, adtv: 107000, turnoverPct: 4.73, aumChange: 681000, aumChangePct: 43.02, priceEffect: 324000, netInflow: 357000 },
-      { key: "y4", label: "2025 (12.30)", aum: 3595000, adtv: 162000, turnoverPct: 4.51, aumChange: 1331000, aumChangePct: 58.79, priceEffect: 724000, netInflow: 607000 },
-      { key: "y5", label: "2026 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3595000, aumChangePct: Number((((totalAumEok - 3595000) / 3595000) * 100).toFixed(2)), priceEffect: 768781, netInflow: 671000 },
-    ],
+    monthly: [],
+    yearly: []
   };
 }
 

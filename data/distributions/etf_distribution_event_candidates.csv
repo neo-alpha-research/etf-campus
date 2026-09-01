@@ -1,0 +1,1 @@
+﻿candidate_id,event_id,source_id,source_owner,etf_id,ticker,etf_name,issuer_ex_date,record_date,pay_date,distribution_per_share_krw,currency,distribution_type,row_locator,raw_row_text,parser_name,parser_version,extraction_status,candidate_status,created_at,updated_at,note

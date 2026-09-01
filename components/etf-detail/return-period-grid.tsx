@@ -13,7 +13,7 @@ const EN_PERIOD_LABELS: Record<string, string> = {
 
 export function ReturnPeriodGrid({ etf }: { etf: Etf }) {
   const [isTrMode, setIsTrMode] = useState(false);
-  const trReturns = etf.returnsNetTr || etf.returnsTr;
+  const trReturns = etf.returnsTr || etf.returnsNetTr;
   const activeReturns = isTrMode && trReturns ? trReturns : etf.returns;
   const isNew = isNewListing(etf);
   const periods = (isNew && etf.returns.itd !== null) ? NEW_RETURN_PERIODS : GENERAL_RETURN_PERIODS;
@@ -67,7 +67,7 @@ export function ReturnPeriodGrid({ etf }: { etf: Etf }) {
       
       {isTrMode && (
         <p className="text-[11px] text-neutral-400 px-1 leading-tight">
-          💡 <strong>TR (배당 재투자)</strong>: 분배금(배당금)을 배당락일에 해당 ETF에 다시 투자했다고 가정했을 때의 실질 총수익률입니다. 실제 수령 시 부과되는 배당소득세(15.4%)가 공제된 세후(Net) 수익률 기준입니다.
+          💡 <strong>TR (배당 재투자)</strong>: 분배금(배당금) 100% 전액을 배당락일에 해당 ETF에 다시 복리 투자했다고 가정한 총수익률입니다. ISA·연금저축 등 과세이연 계좌 기준이며, 일반계좌는 세금 차감 전 기준입니다.
         </p>
       )}
     </div>

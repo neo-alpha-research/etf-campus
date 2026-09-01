@@ -1,0 +1,3 @@
+﻿run_id,pipeline_step,status,started_at,completed_at,input_source_ids,input_hash_sha256,output_count,error_count,note
+run:04fb090fdfba59457a26,parse_issuer_notices,completed,2026-09-01T03:34:34+00:00,2026-09-01T03:34:34+00:00,,4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945,0,0,공식 공지 후보 추출 완료. 모든 후보는 KIND 대조 전 blocked 상태.
+run:fdb6dbc0a44a46fa602d,validate_distribution_candidates,completed,2026-09-01T03:34:34+00:00,2026-09-01T03:34:34+00:00,,4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945,0,0,후보·증거·원문 체인 검증

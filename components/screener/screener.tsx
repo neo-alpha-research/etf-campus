@@ -216,8 +216,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     return d.toISOString().slice(0, 10);
   })();
 
-  type TrMode = "pr" | "tr_pretax" | "tr_net";
-  const [trMode, setTrMode] = useState<TrMode>("pr");
+  const [isTrMode, setIsTrMode] = useState(false);
   const [showMobileTrTooltip, setShowMobileTrTooltip] = useState(false);
 
   const { data: customReturnsData, isLoading: isCustomReturnsLoading } = useSWR<{ returns: Record<string, number | null> }>(
@@ -233,12 +232,13 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         
         let aVal = -Infinity;
         let bVal = -Infinity;
-        if (trMode === "tr_net" && a.returnsNetTr) aVal = a.returnsNetTr[periodKey] ?? -Infinity;
-        else if (trMode === "tr_pretax" && a.returnsTr) aVal = a.returnsTr[periodKey] ?? -Infinity;
+        const aTr = a.returnsTr || a.returnsNetTr;
+        const bTr = b.returnsTr || b.returnsNetTr;
+
+        if (isTrMode && aTr) aVal = aTr[periodKey] ?? -Infinity;
         else aVal = a.returns[periodKey] ?? -Infinity;
 
-        if (trMode === "tr_net" && b.returnsNetTr) bVal = b.returnsNetTr[periodKey] ?? -Infinity;
-        else if (trMode === "tr_pretax" && b.returnsTr) bVal = b.returnsTr[periodKey] ?? -Infinity;
+        if (isTrMode && bTr) bVal = bTr[periodKey] ?? -Infinity;
         else bVal = b.returns[periodKey] ?? -Infinity;
         
         if (sort === "return_custom" && customDateRange && customReturnsData?.returns) {
@@ -822,13 +822,15 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         <span>수익률(%)</span>
                         <button
                           type="button"
-                          onClick={() => {
-                            setTrMode(prev => prev === "pr" ? "tr_pretax" : prev === "tr_pretax" ? "tr_net" : "pr");
-                          }}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 border border-neutral-200 bg-white"
+                          onClick={() => setIsTrMode(prev => !prev)}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold rounded-full transition-all active:scale-95 border ${
+                            isTrMode 
+                              ? "bg-brand-50 border-brand-300 text-brand-700 shadow-xs" 
+                              : "bg-white border-neutral-200 text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70"
+                          }`}
                         >
-                          <span className={trMode !== "pr" ? "text-brand-700" : ""}>
-                            TR {trMode === "tr_net" ? "(일반/세후)" : trMode === "tr_pretax" ? "(ISA·연금/세전)" : "OFF"}
+                          <span className={isTrMode ? "text-brand-700" : ""}>
+                            TR {isTrMode ? "ON" : "OFF"}
                           </span>
                         </button>
                         <button 
@@ -842,10 +844,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                           <div className="hidden sm:block absolute left-1/2 bottom-[calc(100%+8px)] -translate-x-1/2 w-64 p-3 rounded-lg bg-slate-900/98 backdrop-blur-md text-white text-left shadow-xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] text-[11px] font-normal tracking-tight leading-snug">
                             <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900/98" />
                             <strong>TR(Total Return) 모드 안내</strong><br/>
-                            <span className="text-brand-300 font-bold mt-1.5 block">일반계좌 (세후 TR)</span>
-                            배당소득세(15.4%) 차감 후 실질 배당금 재투자 수익률<br/>
-                            <span className="text-emerald-300 font-bold mt-1.5 block">ISA / 연금계좌 (세전 TR)</span>
-                            비과세 및 과세이연 혜택 반영 배당금 전액 재투자 수익률
+                            <span className="text-brand-300 font-bold mt-1.5 block">분배금 100% 전액 재투자 (세전 Gross TR)</span>
+                            분배금을 세금 차감 없이 전액 재투자했을 때의 복리 총수익률을 표시합니다. (ISA·연금저축 등 과세이연 계좌 기준)
                           </div>
                         </button>
                       </div>
@@ -856,12 +856,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                             <h3 className="text-lg font-bold text-strong mb-1 text-left">TR(Total Return) 모드 안내</h3>
                             <div className="space-y-4 mt-5 text-[14px] leading-relaxed text-neutral-600 text-left">
                               <div className="bg-brand-50/50 p-3.5 rounded-xl border border-brand-100/50">
-                                <strong className="text-brand-700 block mb-1">일반계좌 (세후 TR)</strong>
-                                배당소득세(15.4%)를 차감한 실질 배당금을 재투자했을 때의 수익률을 시뮬레이션합니다.
-                              </div>
-                              <div className="bg-emerald-50/50 p-3.5 rounded-xl border border-emerald-100/50">
-                                <strong className="text-emerald-700 block mb-1">ISA / 연금계좌 (세전 TR)</strong>
-                                비과세 및 과세이연 혜택을 반영하여 배당금 전액(100%)을 재투자했을 때의 수익률을 시뮬레이션합니다.
+                                <strong className="text-brand-700 block mb-1">분배금 100% 전액 재투자 (세전 Gross TR)</strong>
+                                분배금(배당금)을 세금 차감 없이 100% 전액 재투자했을 때의 복리 총수익률입니다. ISA·연금저축 등 과세이연 계좌 기준이며, 일반계좌는 세금 차감 전 기준입니다.
                               </div>
                             </div>
                             <button 
@@ -921,8 +917,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                     const etf = results[virtualRow.index];
                     const getRet = (key: ReturnPeriod) => {
-                      if (trMode === "tr_net" && etf.returnsNetTr) return etf.returnsNetTr[key];
-                      if (trMode === "tr_pretax" && etf.returnsTr) return etf.returnsTr[key];
+                      const tr = etf.returnsTr || etf.returnsNetTr;
+                      if (isTrMode && tr && tr[key] !== undefined && tr[key] !== null) return tr[key];
                       return etf.returns[key];
                     };
                     return (

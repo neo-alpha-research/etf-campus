@@ -83,8 +83,8 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         totalAum: briefing.general_total_aum,
         totalTradeValue: briefing.general_total_trade_value,
       },
-      marketScaleSnapshot: buildMarketScaleSnapshot(metrics, briefing),
-      marketScaleTimeSeries: buildMarketScaleTimeSeries(metrics, briefing),
+      marketScaleSnapshot: briefing.marketScaleSnapshot || buildMarketScaleSnapshot(metrics, briefing),
+      marketScaleTimeSeries: briefing.marketScaleTimeSeries || buildMarketScaleTimeSeries(metrics, briefing),
       weeklyFundFlows: metrics.weekly_fund_flows ?? metrics.weeklyFundFlows ?? [],
       monthlyFundFlows: metrics.monthly_fund_flows ?? metrics.monthlyFundFlows ?? [],
       assetClasses: ((assetClasses?.results && assetClasses.results.length > 0)

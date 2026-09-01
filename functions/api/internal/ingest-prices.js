@@ -79,10 +79,17 @@ export async function onRequest(context) {
   const expiresAt = Math.floor(now.getTime() / 1000) + REPLAY_RETENTION_SECONDS;
 
   try {
-    const requestsTable = db.prepare(
-      "CREATE TABLE IF NOT EXISTS etf_price_ingest_requests (" +
-        "request_id TEXT PRIMARY KEY, received_at TEXT NOT NULL, expires_at INTEGER NOT NULL)",
-    );
+    try {
+      await db
+        .prepare(
+          "CREATE TABLE IF NOT EXISTS etf_price_ingest_requests (" +
+            "request_id TEXT PRIMARY KEY, received_at TEXT NOT NULL, expires_at INTEGER NOT NULL)",
+        )
+        .run();
+    } catch {
+      // Best-effort table creation if not already present
+    }
+
     const purgeExpired = db
       .prepare("DELETE FROM etf_price_ingest_requests WHERE expires_at < ?")
       .bind(Math.floor(now.getTime() / 1000));
@@ -97,7 +104,7 @@ export async function onRequest(context) {
 
     // D1 executes this batch transactionally. A duplicate request_id fails before
     // a second set of price UPSERTs can be committed.
-    await db.batch([requestsTable, purgeExpired, recordRequest, ...upserts]);
+    await db.batch([purgeExpired, recordRequest, ...upserts]);
   } catch (error) {
     if (isDuplicateRequestError(error)) {
       return json({ error: "replayed_request" }, 409);
@@ -105,8 +112,15 @@ export async function onRequest(context) {
     console.error("Signed price ingestion failed", {
       requestId: validation.requestId,
       recordCount: validation.records.length,
+      error: error instanceof Error ? error.message : String(error),
     });
-    return json({ error: "ingestion_failed" }, 500);
+    return json(
+      {
+        error: "ingestion_failed",
+        message: error instanceof Error ? error.message : String(error),
+      },
+      500,
+    );
   }
 
   return json(

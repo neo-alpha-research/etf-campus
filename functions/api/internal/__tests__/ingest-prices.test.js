@@ -36,6 +36,7 @@ function createDb() {
         statements.push({ sql, params });
         return { sql, params };
       },
+      run: vi.fn().mockResolvedValue({}),
     })),
     batch: vi.fn().mockResolvedValue([]),
   };

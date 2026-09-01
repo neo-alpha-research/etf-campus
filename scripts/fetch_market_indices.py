@@ -243,7 +243,11 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
             return None
             
         price = closes[target_idx]
-        prev_close = closes[target_idx - 1]
+        prev_close = None
+        for j in range(target_idx - 1, -1, -1):
+            if closes[j] is not None:
+                prev_close = closes[j]
+                break
         
         if price is None or prev_close is None:
             logging.error(f"Missing price data in historical array for {ticker_symbol}")

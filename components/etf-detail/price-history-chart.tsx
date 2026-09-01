@@ -49,7 +49,7 @@ const PERIODS = [
   { id: "itd", label: "ITD", title: "상장 후 수익률" },
 ];
 
-export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, fixedReturns }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: EtfReturns }) {
+export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actualFirstTradingDate, isNewListing = false, itdAnchor, fixedReturns, hasDistributions = false }: { ticker: string; etfName?: string; asOfDate?: string; listingDate?: string | null; actualFirstTradingDate?: string | null; isNewListing?: boolean; itdAnchor?: ItdAnchor; fixedReturns?: EtfReturns; hasDistributions?: boolean }) {
 
   const [period, setPeriod] = useState<PricePeriod>(isNewListing ? "1d" : "12m");
   const hasItdAnchor = Boolean(isNewListing && itdAnchor?.price && itdAnchor?.date);
@@ -292,35 +292,40 @@ export function PriceHistoryChart({ ticker, etfName, asOfDate, listingDate, actu
                     const nextEnd = event.target.value;
                     if (nextEnd && nextEnd >= customStart) setCustomEnd(nextEnd);
                   }}
-                  className="h-8 w-[108px] rounded border border-line bg-white px-1 py-1 text-xs font-semibold tracking-tighter outline-none transition-shadow focus:border-brand-400 focus:ring-1 focus:ring-brand-400"
-                />
-              </div>
-            )}
-          </div>
-          
-          <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setIsTrMode(prev => !prev)}
-                className="shrink-0 flex h-8 items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 border border-neutral-200 bg-white"
-              >
-                <span className={isTrMode ? "text-brand-700" : ""}>
-                  TR {isTrMode ? "(배당 재투자)" : "OFF"}
-                </span>
-              </button>
-              <button 
-                type="button"
-                onClick={() => setShowMobileTrTooltip(true)}
-                className="group relative inline-flex items-center justify-center w-7 h-7 sm:w-auto sm:h-auto rounded-full text-neutral-400 hover:text-neutral-600 bg-neutral-100 sm:bg-transparent"
-              >
-                <svg className="w-4 h-4 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
-                
-                {/* Desktop Tooltip */}
-                <div className="hidden sm:block absolute right-0 bottom-[calc(100%+8px)] w-64 p-3 rounded-lg bg-slate-900/98 backdrop-blur-md text-white text-left shadow-xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] text-[11px] font-normal tracking-tight leading-snug">
-                  <div className="absolute -bottom-1.5 right-3 border-[6px] border-transparent border-t-slate-900/98" />
-                  <strong>TR(Total Return) 모드 안내</strong><br/>
-                  <span className="text-brand-300 font-bold mt-1.5 block">배당 재투자</span>
-                  분배금(배당금)을 배당락일에 해당 ETF에 다시 투자했다고 가정했을 때의 실질 총수익률입니다.
+                  className="h-8 w-[108px] rounded border border-line bg-white px-            <div className="flex items-center gap-2">
+              {hasDistributions && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setIsTrMode(prev => !prev)}
+                    className="flex items-center gap-2 cursor-pointer group bg-transparent border-none p-0 outline-none"
+                  >
+                    <span className={`text-[12px] font-bold transition-colors ${isTrMode ? 'text-brand-600' : 'text-neutral-400 group-hover:text-neutral-500'}`}>
+                      TR (배당 재투자)
+                    </span>
+                    <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
+                      <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${isTrMode ? 'translate-x-4.5' : 'translate-x-1'}`} style={{ transform: isTrMode ? 'translateX(18px)' : 'translateX(4px)' }} />
+                    </div>
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => setShowMobileTrTooltip(true)}
+                    className="group relative inline-flex items-center justify-center w-7 h-7 sm:w-auto sm:h-auto rounded-full text-neutral-400 hover:text-neutral-600 bg-neutral-100 sm:bg-transparent"
+                  >
+                    <svg className="w-4 h-4 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
+                    
+                    {/* Desktop Tooltip */}
+                    <div className="hidden sm:block absolute right-0 bottom-[calc(100%+8px)] w-64 p-3 rounded-lg bg-slate-900/98 backdrop-blur-md text-white text-left shadow-xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] text-[11px] font-normal tracking-tight leading-snug">
+                      <div className="absolute -bottom-1.5 right-3 border-[6px] border-transparent border-t-slate-900/98" />
+                      <strong>TR(Total Return) 모드 안내</strong><br/>
+                      <span className="text-brand-300 font-bold mt-1.5 block">배당 재투자</span>
+                      분배금(배당금)을 배당락일에 해당 ETF에 다시 투자했다고 가정했을 때의 실질 총수익률입니다.
+                      <br/><br/>
+                      <span className="text-slate-400 text-[10px]">※ 실제 수령 시 부과되는 배당소득세(15.4%)가 공제된 세후(Net) 수익률 기준입니다.</span>
+                    </div>
+                  </button>
+                </>
+              )}�배금(배당금)을 배당락일에 해당 ETF에 다시 투자했다고 가정했을 때의 실질 총수익률입니다.
                   <br/><br/>
                   <span className="text-slate-400 text-[10px]">※ 실제 수령 시 부과되는 배당소득세(15.4%)가 공제된 세후(Net) 수익률 기준입니다.</span>
                 </div>

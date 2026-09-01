@@ -23,44 +23,31 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
   const sign = kospi > 0 ? "+" : "";
 
   const up = payload.upCount ?? 305;
+  const flat = payload.flatCount ?? 47;
   const down = payload.downCount ?? 670;
   const generalCount = payload.generalEtfCount ?? 1022;
 
-  const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
-  const winners = sortedPeerGroups.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2);
-  const losers = [...sortedPeerGroups].reverse().filter(p => p.cappedAumWeightedReturnPct < 0).slice(0, 2);
-  const topTheme = winners[0] || { peerGroup: "2차전지 셀 & 소재", cappedAumWeightedReturnPct: 2.71 };
-  const bottomTheme = losers[0] || { peerGroup: "원자력 & SMR", cappedAumWeightedReturnPct: -4.78 };
-
-  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
-  const topInflow = topInflows[0];
-  const inflowText = topInflow 
-    ? `3️⃣ [수급] ${topInflow.name}에 +${topInflow.inflow.toLocaleString()}억 순유입\n`
+  const topInflow = payload.periodicFlows?.dailyFundFlows?.topInflows?.[0];
+  const inflowLine = topInflow 
+    ? `\n2. 💸 스마트머니: ${topInflow.name} (+${topInflow.inflow.toLocaleString()}억원)` 
     : "";
 
-  const disparityList = payload.disparityWarning || [];
-  const topDisparity = disparityList[0];
-  const disparityText = topDisparity 
-    ? `4️⃣ [경보] ${topDisparity.etfName}(${topDisparity.disparityPct.toFixed(2)}%) 괴리율 주의\n`
-    : "";
-
-  const kospiAction = kospi >= 0 ? "상승" : "하락";
-  const dominantText = up >= down ? `${up}개 상승(상승 우세)` : `${down}개 하락(하락 우세)`;
+  const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];
+  const themeText = strongThemes.length > 0 
+    ? strongThemes.map(t => `${t.peerGroup}(+${t.cappedAumWeightedReturnPct.toFixed(2)}%)`).join(', ') 
+    : "2차전지 셀 & 소재(+2.71%), 자동차 & 부품(+1.85%)";
 
   const mainPost = `출근길 ETF 모닝 브리핑 ☕ (${formattedDate} 기준)
+국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수조사! (레버리지·인버스·파킹형 제외)
 
-코스피는 ${sign}${kospi.toFixed(2)}% ${kospiAction}했지만, 일반 ETF 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 숨고르기였습니다.
+코스피가 ${sign}${kospi.toFixed(2)}%로 마감한 가운데, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%(상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개)로 차별화된 흐름을 보였습니다. 📊
 
-📊 핵심 시그널:
-1️⃣ [체온] ${generalCount}개 중 ${dominantText}
-2️⃣ [테마] ${topTheme.peerGroup}(+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 반등 vs ${bottomTheme.peerGroup}(${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 조정
-${inflowText}${disparityText}
-💬 Q. 오늘 여러분의 포지션은?
-1. 조정은 기회! (우량 ETF 분할매수)
-2. 방어가 최선! (배당·안전자산)
-3. 일단 관망! (현금 비중 확대)
+[🔍 지난 장 핵심 시그널]
+1. 🏆 주도 테마: ${themeText}${inflowLine}
+3. 🧭 시장 흐름: 단기 숨고르기 속 글로벌 반도체·미국 대표지수 저가 분할 매수 집중
 
-(자세한 데이터는 아래 인포그래픽 1장과 프로필 링크 [마켓 브리핑]에서 확인하세요 👇)`;
+💬 오늘 여러분의 ETF 포트폴리오에서 가장 기대되는 섹터는 어디인가요? 댓글로 생각을 나눠주세요! 👇
+🔗 상세 데이터는 첨부 이미지 & 프로필 링크 [마켓 브리핑]에서 확인하세요!`;
 
   return [
     { sequence: 1, content: mainPost }

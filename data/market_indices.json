@@ -36,6 +36,22 @@
       "as_of_date": "2026-08-31"
     },
     {
+      "value": 7686.14,
+      "change": -0.58,
+      "changePoints": -44.85,
+      "as_of_date": "2026-08-31",
+      "label": "S&P 500",
+      "code": "^GSPC"
+    },
+    {
+      "value": 26370.89,
+      "change": -0.64,
+      "changePoints": -170.46,
+      "as_of_date": "2026-08-31",
+      "label": "나스닥",
+      "code": "^IXIC"
+    },
+    {
       "value": 1377.11,
       "change": -0.24,
       "changePoints": -3.34,
@@ -44,28 +60,44 @@
       "code": "KRW=X"
     },
     {
-      "value": 83.4,
-      "change": -0.16,
-      "changePoints": -0.13,
-      "as_of_date": "2026-08-28",
+      "value": 85.76,
+      "change": 2.83,
+      "changePoints": 2.36,
+      "as_of_date": "2026-08-31",
       "label": "WTI 원유",
       "code": "CL=F"
     },
     {
-      "value": 4478.1,
-      "change": -2.85,
-      "changePoints": -131.6,
-      "as_of_date": "2026-08-28",
+      "value": 4431.1,
+      "change": -1.05,
+      "changePoints": -47.0,
+      "as_of_date": "2026-08-31",
       "label": "금 선물",
       "code": "GC=F"
     },
     {
-      "value": 67.0,
-      "change": -3.51,
-      "changePoints": -2.43,
-      "as_of_date": "2026-08-28",
+      "value": 66.22,
+      "change": -1.16,
+      "changePoints": -0.77,
+      "as_of_date": "2026-08-31",
       "label": "은 선물",
       "code": "SI=F"
+    },
+    {
+      "value": 4.76,
+      "change": 0.086,
+      "changePoints": 0.086,
+      "as_of_date": "2026-08-31",
+      "label": "미 국채 10년물",
+      "code": "^TNX"
+    },
+    {
+      "value": 14.92,
+      "change": 2.83,
+      "changePoints": 0.41,
+      "as_of_date": "2026-08-31",
+      "label": "VIX",
+      "code": "^VIX"
     }
   ]
 }

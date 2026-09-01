@@ -86,9 +86,10 @@ export function FundFlowRanking({
         <div className="flex items-center gap-2 self-end sm:self-auto text-[12px] text-neutral-500 font-medium">
           <span className="inline-flex items-center gap-1">
             <span>실질 자금 순유입·순유출 기준</span>
-            <InfoTooltip text="주가 등락에 따른 평가액 변동을 제외하고, 펀드 설정·환매(발행좌수 증감)로 인해 실제 오고 간 순수 자금 규모입니다." />
+            <InfoTooltip text="주가 등락에 따른 평가액 변동을 제외하고, 운용사-기관(LP) 간 1차 시장 펀드 설정·환매(발행좌수 증감: ΔShares × NAV)로 인해 실제 오고 간 순수 자금 규모입니다. (장내 단순 매매대금이 아님)" />
           </span>
           <span className="text-neutral-300">|</span>
+
           <span className="font-semibold text-neutral-600">단위: 억원</span>
         </div>
       </div>

@@ -590,7 +590,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           <!-- 3 Value Props (Left-Aligned Starting at x=175, Font Size 24px) -->
           <g transform="translate(0, 152)">
             <text x="175" y="40" fill="#E2E8F0" font-size="24" font-weight="700" text-anchor="start">
-              ✨  <tspan font-weight="900" fill="#FFFFFF">1,022개 전종목</tspan> 총보수 &amp; 괴리율 1초 완벽 비교
+              ✨  <tspan font-weight="900" fill="#FFFFFF">1,022개 일반 ETF</tspan> 총보수 &amp; 괴리율 1초 완벽 비교
             </text>
             <text x="175" y="82" fill="#E2E8F0" font-size="24" font-weight="700" text-anchor="start">
               ✨  주도 테마별 등락 동향부터 스마트머니 자금 유입까지
@@ -657,9 +657,10 @@ export function generateInstagramCaption(payload: MarketBriefingPayload): string
     : "개별 섹터 차별화 장세";
 
   return `📌 ETF 투자자 출근길 필수 체크! [ETF 마켓 브리핑] ☕
-직전 거래일 ${generalCount.toLocaleString()}개 한국 ETF 전수조사! 내 계좌 속 ETF의 성적표는 어땠을까요?
+직전 거래일 한국 일반 ETF ${generalCount.toLocaleString()}개 전수조사! (레버리지·인버스 제외)
+내 계좌 속 ETF의 성적표는 어땠을까요?
 
-코스피가 ${sign}${kospiChangePct.toFixed(2)}%로 마감한 가운데, 한국 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%(상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개)로 차별화된 흐름을 보였습니다. 📊
+코스피가 ${sign}${kospiChangePct.toFixed(2)}%로 마감한 가운데, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%(상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개)로 차별화된 흐름을 보였습니다. 📊
 
 [🔍 지난 장 ETF 시장 3대 핵심 포인트]
 1. 🏆 주도 테마: ${themeText}${inflowText}
@@ -668,7 +669,7 @@ export function generateInstagramCaption(payload: MarketBriefingPayload): string
 오늘 장 시작 전, 테마별 등락 랭킹과 스마트머니 수급 동향을 카드뉴스와 웹 리포트로 확인해 보세요! 📱
 
 💬 오늘 여러분의 ETF 포트폴리오에서 가장 기대되는 섹터는 어디인가요? 댓글로 생각을 나눠주세요! 👇
-🔗 프로필 링크에서 1,022개 ETF 완벽 비교 & [마켓 브리핑] 전체 리포트를 무료로 확인하세요!
+🔗 프로필 링크에서 1,022개 일반 ETF 완벽 비교 & [마켓 브리핑] 전체 리포트를 무료로 확인하세요!
 
-#ETF #ETF투자 #ETF추천 #연금저축 #퇴직연금 #IRP #마켓브리핑 #ETF캠퍼스 #주식공부 #자산배분 #재테크`;
+#ETF #ETF투자 #일반ETF #연금저축 #퇴직연금 #IRP #마켓브리핑 #ETF캠퍼스 #주식공부 #자산배분 #재테크`;
 }

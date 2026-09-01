@@ -638,34 +638,37 @@ export function generateInstagramCaption(payload: MarketBriefingPayload): string
   const dateStr = payload.asOfDate || "2026.08.31";
   const kospiChangePct = payload.kospiChangePct ?? 0.46;
   const etfReturn = payload.generalAumWeightedReturnPct ?? -0.28;
+  const generalCount = payload.generalEtfCount ?? 1022;
+  const up = payload.upCount ?? 305;
+  const flat = payload.flatCount ?? 47;
+  const down = payload.downCount ?? 670;
   
   const etfSign = etfReturn > 0 ? "+" : "";
   const sign = kospiChangePct > 0 ? "+" : "";
   
   const topInflow = payload.periodicFlows?.dailyFundFlows?.topInflows?.[0];
   const inflowText = topInflow 
-    ? `\n2. 외국인/기관 매수: ${topInflow.name} 등 ${topInflow.inflow.toLocaleString()}억원 규모 순유입 포착!` 
+    ? `\n2. 💸 스마트머니 순유입 1위: ${topInflow.name} (+${topInflow.inflow.toLocaleString()}억원)` 
     : "";
   
   const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];
   const themeText = strongThemes.length > 0 
     ? strongThemes.map(t => `${t.peerGroup}(+${t.cappedAumWeightedReturnPct.toFixed(2)}%)`).join(', ') 
-    : "개별 종목 장세 연출";
+    : "개별 섹터 차별화 장세";
 
-  return `출근길에 가볍게 체크하는 지난 장의 핵심 시그널! ☕
+  return `📌 ETF 투자자 출근길 필수 체크! [ETF 마켓 브리핑] ☕
+직전 거래일 ${generalCount.toLocaleString()}개 한국 ETF 전수조사! 내 계좌 속 ETF의 성적표는 어땠을까요?
 
-지난 거래일 우리 시장, 롤러코스터 같았는데 다들 무사히 넘기셨나요? 
-코스피가 ${sign}${kospiChangePct.toFixed(2)}% 상승 마감한 가운데, 한국 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%로 방어적인 흐름을 보였습니다. 
+코스피가 ${sign}${kospiChangePct.toFixed(2)}%로 마감한 가운데, 한국 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%(상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개)로 차별화된 흐름을 보였습니다. 📊
 
-[지난 장의 핵심 포인트]
-1. 차별화 장세 속 승자 테마: ${themeText}${inflowText}
-3. 수급 흐름: 단기 숨고르기 속에서도 글로벌 대표지수 및 반도체 섹터로의 자금 유입 지속
+[🔍 지난 장 ETF 시장 3대 핵심 포인트]
+1. 🏆 주도 테마: ${themeText}${inflowText}
+3. 🧭 시장 흐름: 단기 숨고르기 속에서도 글로벌 반도체 및 미국 대표지수 저가 분할 매수 집중
 
-내 계좌 속 ETF는 직전 거래일에 어디쯤 있었을까요? 
-오늘 장이 열리기 전, 테마별 등락 동향과 스마트머니 펀드 플로우를 [마켓 브리핑]에서 바로 확인해 보세요!
+오늘 장 시작 전, 테마별 등락 랭킹과 스마트머니 수급 동향을 카드뉴스와 웹 리포트로 확인해 보세요! 📱
 
-👉 오늘 가장 눈여겨본 테마는 무엇인가요? 댓글로 공유해주세요! 💬
-🔗 프로필 링크에서 [마켓 브리핑] 전체 리포트를 바로 확인해 보세요!
+💬 오늘 여러분의 ETF 포트폴리오에서 가장 기대되는 섹터는 어디인가요? 댓글로 생각을 나눠주세요! 👇
+🔗 프로필 링크에서 1,022개 ETF 완벽 비교 & [마켓 브리핑] 전체 리포트를 무료로 확인하세요!
 
-#ETF #주식 #투자 #재테크 #마켓브리핑 #ETF캠퍼스 #스마트머니 #주식공부 #자산배분`;
+#ETF #ETF투자 #ETF추천 #연금저축 #퇴직연금 #IRP #마켓브리핑 #ETF캠퍼스 #주식공부 #자산배분 #재테크`;
 }

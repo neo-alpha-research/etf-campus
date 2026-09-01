@@ -291,12 +291,6 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
               </table>
             `}
           </div>
-
-          ${undervalued.length > 3 ? `
-            <div style="text-align: center; margin-top: 10px; font-size: 11px; color: #64748B; font-weight: 600;">
-              외 ${undervalued.length - 3}개 저평가 종목 대기 중
-            </div>
-          ` : ''}
         </div>
 
         <!-- 6. Call to Action -->

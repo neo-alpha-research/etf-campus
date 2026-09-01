@@ -216,7 +216,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     return d.toISOString().slice(0, 10);
   })();
 
-  const [isTrMode, setIsTrMode] = useState(false);
+  type TrMode = "pr" | "tr_pretax" | "tr_net";
+  const [trMode, setTrMode] = useState<TrMode>("pr");
+  const [showMobileTrTooltip, setShowMobileTrTooltip] = useState(false);
 
   const { data: customReturnsData, isLoading: isCustomReturnsLoading } = useSWR<{ returns: Record<string, number | null> }>(
     customDateRange ? `/api/returns?ticker=ALL&start=${customDateRange.start}&end=${customDateRange.end}` : null,
@@ -229,8 +231,15 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
       if (sort === "return_1d" || sort === "return_1m" || sort === "return_3m" || sort === "return_12m" || sort === "return_36m" || sort === "return_custom") {
         const periodKey = (sort === "return_custom" ? (comparisonPeriod ?? "1d") : sort.replace("return_", "")) as ReturnPeriod;
         
-        let aVal = (isTrMode && a.returnsTr ? a.returnsTr[periodKey] : a.returns[periodKey]) ?? -Infinity;
-        let bVal = (isTrMode && b.returnsTr ? b.returnsTr[periodKey] : b.returns[periodKey]) ?? -Infinity;
+        let aVal = -Infinity;
+        let bVal = -Infinity;
+        if (trMode === "tr_net" && a.returnsNetTr) aVal = a.returnsNetTr[periodKey] ?? -Infinity;
+        else if (trMode === "tr_pretax" && a.returnsTr) aVal = a.returnsTr[periodKey] ?? -Infinity;
+        else aVal = a.returns[periodKey] ?? -Infinity;
+
+        if (trMode === "tr_net" && b.returnsNetTr) bVal = b.returnsNetTr[periodKey] ?? -Infinity;
+        else if (trMode === "tr_pretax" && b.returnsTr) bVal = b.returnsTr[periodKey] ?? -Infinity;
+        else bVal = b.returns[periodKey] ?? -Infinity;
         
         if (sort === "return_custom" && customDateRange && customReturnsData?.returns) {
           const aCustom = customReturnsData.returns[a.ticker];
@@ -813,16 +822,57 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         <span>수익률(%)</span>
                         <button
                           type="button"
-                          onClick={() => setIsTrMode(!isTrMode)}
-                          className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 border border-neutral-200 bg-white"
-                          title="TR (배당 재투자) 모드 토글"
+                          onClick={() => {
+                            setTrMode(prev => prev === "pr" ? "tr_pretax" : prev === "tr_pretax" ? "tr_net" : "pr");
+                          }}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 border border-neutral-200 bg-white"
                         >
-                          <span className={isTrMode ? "text-brand-700" : ""}>TR {isTrMode ? "ON" : "OFF"}</span>
-                          <div className={`relative inline-flex h-2.5 w-5 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
-                            <span className={`inline-block h-1.5 w-1.5 transform rounded-full bg-white transition-transform`} style={{ transform: isTrMode ? 'translateX(10px)' : 'translateX(2px)' }} />
+                          <span className={trMode !== "pr" ? "text-brand-700" : ""}>
+                            TR {trMode === "tr_net" ? "(일반/세후)" : trMode === "tr_pretax" ? "(ISA·연금/세전)" : "OFF"}
+                          </span>
+                        </button>
+                        <button 
+                          type="button"
+                          onClick={() => setShowMobileTrTooltip(true)}
+                          className="group relative inline-flex items-center justify-center w-7 h-7 sm:w-auto sm:h-auto rounded-full text-neutral-400 hover:text-neutral-600 bg-neutral-100 sm:bg-transparent"
+                        >
+                          <svg className="w-4 h-4 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
+                          
+                          {/* Desktop Tooltip */}
+                          <div className="hidden sm:block absolute left-1/2 bottom-[calc(100%+8px)] -translate-x-1/2 w-64 p-3 rounded-lg bg-slate-900/98 backdrop-blur-md text-white text-left shadow-xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] text-[11px] font-normal tracking-tight leading-snug">
+                            <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900/98" />
+                            <strong>TR(Total Return) 모드 안내</strong><br/>
+                            <span className="text-brand-300 font-bold mt-1.5 block">일반계좌 (세후 TR)</span>
+                            배당소득세(15.4%) 차감 후 실질 배당금 재투자 수익률<br/>
+                            <span className="text-emerald-300 font-bold mt-1.5 block">ISA / 연금계좌 (세전 TR)</span>
+                            비과세 및 과세이연 혜택 반영 배당금 전액 재투자 수익률
                           </div>
                         </button>
                       </div>
+                      {showMobileTrTooltip && (
+                        <div className="fixed inset-0 z-[200] flex items-end sm:hidden bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setShowMobileTrTooltip(false)}>
+                          <div className="w-full bg-white rounded-t-2xl p-5 pb-8 animate-in slide-in-from-bottom-full duration-300" onClick={e => e.stopPropagation()}>
+                            <div className="w-12 h-1.5 bg-neutral-200 rounded-full mx-auto mb-4" />
+                            <h3 className="text-lg font-bold text-strong mb-1 text-left">TR(Total Return) 모드 안내</h3>
+                            <div className="space-y-4 mt-5 text-[14px] leading-relaxed text-neutral-600 text-left">
+                              <div className="bg-brand-50/50 p-3.5 rounded-xl border border-brand-100/50">
+                                <strong className="text-brand-700 block mb-1">일반계좌 (세후 TR)</strong>
+                                배당소득세(15.4%)를 차감한 실질 배당금을 재투자했을 때의 수익률을 시뮬레이션합니다.
+                              </div>
+                              <div className="bg-emerald-50/50 p-3.5 rounded-xl border border-emerald-100/50">
+                                <strong className="text-emerald-700 block mb-1">ISA / 연금계좌 (세전 TR)</strong>
+                                비과세 및 과세이연 혜택을 반영하여 배당금 전액(100%)을 재투자했을 때의 수익률을 시뮬레이션합니다.
+                              </div>
+                            </div>
+                            <button 
+                              className="w-full py-3.5 mt-6 bg-neutral-900 text-white text-[15px] font-bold rounded-xl active:scale-[0.98] transition-transform"
+                              onClick={() => setShowMobileTrTooltip(false)}
+                            >
+                              확인
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </th>
                     <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200 bg-neutral-100" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
@@ -870,6 +920,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   )}
                   {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                     const etf = results[virtualRow.index];
+                    const getRet = (key: ReturnPeriod) => {
+                      if (trMode === "tr_net" && etf.returnsNetTr) return etf.returnsNetTr[key];
+                      if (trMode === "tr_pretax" && etf.returnsTr) return etf.returnsTr[key];
+                      return etf.returns[key];
+                    };
                     return (
                     <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" key={etf.ticker} data-index={virtualRow.index} ref={rowVirtualizer.measureElement}>
                       {/* 1. 종목 정보 (종목명 + 티커 + 자산/지역/환헤지/연금 뱃지 통합) */}
@@ -896,23 +951,23 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       
                       {/* 2. 핵심 5대 수익률 (1일, 1개월, 3개월, 1년, 3년) */}
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["1d"] : etf.returns["1d"])} />
+                        <ReturnCell showUnit={false} value={getRet("1d")} />
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["1m"] : etf.returns["1m"])} />
+                        <ReturnCell showUnit={false} value={getRet("1m")} />
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["3m"] : etf.returns["3m"])} />
+                        <ReturnCell showUnit={false} value={getRet("3m")} />
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["12m"] : etf.returns["12m"])} />
+                        <ReturnCell showUnit={false} value={getRet("12m")} />
                       </td>
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_36m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr["36m"] : etf.returns["36m"])} />
+                        <ReturnCell showUnit={false} value={getRet("36m")} />
                       </td>
                       {comparisonPeriod && (
                         <td className="min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
-                          <ReturnCell showUnit={false} value={(isTrMode && etf.returnsTr ? etf.returnsTr[comparisonPeriod] : etf.returns[comparisonPeriod])} />
+                          <ReturnCell showUnit={false} value={getRet(comparisonPeriod)} />
                         </td>
                       )}
                       {customDateRange && !comparisonPeriod && (

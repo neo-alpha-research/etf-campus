@@ -343,7 +343,7 @@ function ErrorState({ message }: { message: string }) {
 
 function BreadthBar({ pulse }: { pulse: Briefing["pulse"] }) {
 
-  const total = pulse.generalEtfCount || 1;
+  const total = (pulse?.generalEtfCount || 0) || 1;
 
   const up = (pulse.upCount / total) * 100;
 
@@ -642,7 +642,7 @@ export function MarketBriefing() {
   const orderedIndices = useMemo(() => {
     if (!briefing) return [];
 
-    const mergedIndices = [...briefing.marketIndices];
+    const mergedIndices = [...(briefing.marketIndices || [])];
 
     const addGlobalIndex = (label: string, code: string) => {
       const found = globalIndicesData.indices.find(
@@ -743,10 +743,10 @@ export function MarketBriefing() {
 
   const { pulse } = briefing;
 
-  const scopeReturns = new Map(pulse.aumWeightedReturns.map((item) => [item.scope, item]));
+  const scopeReturns = new Map((pulse?.aumWeightedReturns || []).map((item) => [item.scope, item]));
 
   const scaleRows = [
-    { scope: "all" as const, label: "전체 ETF", value: pulse.generalAumWeightedReturnPct, detail: `일반 ETF ${number.format(pulse.generalEtfCount)}개` },
+    { scope: "all" as const, label: "전체 ETF", value: pulse.generalAumWeightedReturnPct, detail: `일반 ETF ${number.format((pulse?.generalEtfCount || 0))}개` },
     { scope: "top_50" as const, label: "순자산 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "순자산 상위 50개 ETF" },
     { scope: "top_100" as const, label: "순자산 Top 100", value: pulse.top100AumWeightedReturnPct, detail: "순자산 상위 100개 ETF" },
     { scope: "top_200" as const, label: "순자산 Top 200", value: pulse.top200AumWeightedReturnPct, detail: "순자산 상위 200개 ETF" },
@@ -785,11 +785,11 @@ export function MarketBriefing() {
   
   let concentrationSentence = "";
   if (pulse.top10TradeSharePct > 40) {
-    concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${pulse.top10TradeSharePct.toFixed(1)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
+    concentrationSentence = `또한 상위 10개 종목이 전체 거래대금의 ${(pulse?.top10TradeSharePct || 0).toFixed(1)}%를 차지할 만큼 쏠림 현상이 뚜렷했습니다.`;
   }
 
   const narrative = generateMarketNarrative({
-    generalEtfCount: pulse.generalEtfCount,
+    generalEtfCount: (pulse?.generalEtfCount || 0),
     upCount: pulse.upCount,
     flatCount: pulse.flatCount ?? 0,
     downCount: pulse.downCount,
@@ -1198,7 +1198,7 @@ export function MarketBriefing() {
         </div>
 
         {(() => {
-          const totalCount = pulse.generalEtfCount || (pulse.upCount + pulse.flatCount + pulse.downCount) || 1;
+          const totalCount = (pulse?.generalEtfCount || 0) || ((pulse?.upCount || 0) + (pulse?.flatCount || 0) + (pulse?.downCount || 0)) || 1;
           const upRatio = ((pulse.upCount / totalCount) * 100).toFixed(1);
           const flatRatio = ((pulse.flatCount / totalCount) * 100).toFixed(1);
           const downRatio = ((pulse.downCount / totalCount) * 100).toFixed(1);
@@ -1221,7 +1221,7 @@ export function MarketBriefing() {
               <span className="text-sm shrink-0">📌</span>
               <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
                 <strong className="font-extrabold text-[#2E6819] mr-1.5">[체온 & 수급]</strong>
-                일반 ETF {number.format(pulse.generalEtfCount)}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {pulse.top10TradeSharePct.toFixed(1)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
+                일반 ETF {number.format((pulse?.generalEtfCount || 0))}개 중 {upRatio}%가 상승 마감했습니다. 상위 10개 거래대금 쏠림도는 {(pulse?.top10TradeSharePct || 0).toFixed(1)}%로 {isOverheated ? '수급 과열(🔴) 상태여서 단기 쏠림에 유의가 필요합니다.' : isCaution ? '주의(🟡) 구간입니다.' : '건강한 분산(🟢) 상태입니다.'}
               </p>
             </div>
 
@@ -1241,7 +1241,7 @@ export function MarketBriefing() {
                     <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-neutral-50 border border-neutral-200/70 text-[11px] font-medium text-neutral-500">
                       <span className="hidden sm:inline text-neutral-400">일반</span>
                       <strong className="font-extrabold text-neutral-800 tabular-nums">
-                        {number.format(pulse.generalEtfCount)}
+                        {number.format((pulse?.generalEtfCount || 0))}
                       </strong>
                       <span className="text-neutral-300">/</span>
                       <span className="text-[10.5px] text-neutral-400 tabular-nums">
@@ -1331,7 +1331,7 @@ export function MarketBriefing() {
                   <div className="my-4 grid grid-cols-2 gap-2 bg-[#F9FBFC] p-3.5 rounded-2xl border border-neutral-100">
                     <div>
                       <div className="flex items-center gap-1">
-                        <span className="text-[11px] font-bold text-neutral-700">일반 ETF ({number.format(pulse.generalEtfCount)}개)</span>
+                        <span className="text-[11px] font-bold text-neutral-700">일반 ETF ({number.format((pulse?.generalEtfCount || 0))}개)</span>
                         <InfoTooltip 
                           text="레버리지, 인버스, 파킹형(CD/KOFR) 상품을 제외한 순수 실물 주식·채권·섹터 ETF의 상위 10개 거래대금 쏠림도입니다. 왜곡 없는 산업/테마 시장의 실제 수급 건강도를 나타냅니다." 
                           side="bottom"
@@ -1340,7 +1340,7 @@ export function MarketBriefing() {
                       </div>
                       <div className="mt-1 flex items-baseline gap-1">
                         <span className="text-3xl font-black tabular-nums tracking-tight text-neutral-900">
-                          {pulse.top10TradeSharePct.toFixed(1)}
+                          {(pulse?.top10TradeSharePct || 0).toFixed(1)}
                         </span>
                         <span className="text-base font-extrabold text-neutral-400">%</span>
                       </div>
@@ -1390,7 +1390,7 @@ export function MarketBriefing() {
                     <div className="flex items-center justify-between text-[11px] text-neutral-400 pt-0.5">
                       <span>수급 집중도 게이지</span>
                       <span>
-                        현재 위치: <strong className="text-neutral-800 font-extrabold">{pulse.top10TradeSharePct.toFixed(1)}%</strong> ({isOverheated ? '과열 위험 구간' : isCaution ? '주의 구간' : '양호 분산 구간'})
+                        현재 위치: <strong className="text-neutral-800 font-extrabold">{(pulse?.top10TradeSharePct || 0).toFixed(1)}%</strong> ({isOverheated ? '과열 위험 구간' : isCaution ? '주의 구간' : '양호 분산 구간'})
                       </span>
                     </div>
                   </div>
@@ -2120,38 +2120,9 @@ export function MarketBriefing() {
           const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 235503.6);
           const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
 
-          const defaultTimeSeries = {
-            daily: [
-              { key: "d1", label: "8/20(수)", aum: 4922000, adtv: 211000, turnoverPct: 4.29, aumChange: -2000, aumChangePct: -0.04, priceEffect: -5200, netInflow: 3200 },
-              { key: "d2", label: "8/21(목)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 35000, aumChangePct: 0.71, priceEffect: 23500, netInflow: 11500 },
-              { key: "d3", label: "8/24(월)", aum: 4982000, adtv: 209000, turnoverPct: 4.20, aumChange: 25000, aumChangePct: 0.50, priceEffect: 15700, netInflow: 9300 },
-              { key: "d4", label: "8/25(화)", aum: 5005000, adtv: 242000, turnoverPct: 4.84, aumChange: 23000, aumChangePct: 0.46, priceEffect: 10500, netInflow: 12500 },
-              { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 5005000, aumChangePct: Number((((totalAumEok - 5005000) / 5005000) * 100).toFixed(2)), priceEffect: 12558, netInflow: 17223 },
-            ],
-            weekly: [
-              { key: "w1", label: "7월 5주 (7/31)", aum: 4739000, adtv: 195000, turnoverPct: 4.11, aumChange: 46000, aumChangePct: 0.98, priceEffect: -55000, netInflow: 101000 },
-              { key: "w2", label: "8월 1주 (8/7)", aum: 4822000, adtv: 211000, turnoverPct: 4.38, aumChange: 83000, aumChangePct: 1.75, priceEffect: 47000, netInflow: 36000 },
-              { key: "w3", label: "8월 2주 (8/14)", aum: 4886000, adtv: 216000, turnoverPct: 4.42, aumChange: 64000, aumChangePct: 1.33, priceEffect: 34000, netInflow: 30000 },
-              { key: "w4", label: "8월 3주 (8/21)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 71000, aumChangePct: 1.45, priceEffect: 41000, netInflow: 30000 },
-              { key: "w5", label: "8월 4주 (8/27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4957000, aumChangePct: Number((((totalAumEok - 4957000) / 4957000) * 100).toFixed(2)), priceEffect: 38800, netInflow: 38981 },
-            ],
-            monthly: [
-              { key: "m1", label: "2026년 4월", aum: 4251000, adtv: 171000, turnoverPct: 4.02, aumChange: 128000, aumChangePct: 3.10, priceEffect: 71000, netInflow: 57000 },
-              { key: "m2", label: "2026년 5월", aum: 4438000, adtv: 185000, turnoverPct: 4.17, aumChange: 187000, aumChangePct: 4.40, priceEffect: 107000, netInflow: 80000 },
-              { key: "m3", label: "2026년 6월", aum: 4625000, adtv: 197000, turnoverPct: 4.26, aumChange: 187000, aumChangePct: 4.21, priceEffect: 99000, netInflow: 88000 },
-              { key: "m4", label: "2026년 7월", aum: 4817000, adtv: 214000, turnoverPct: 4.44, aumChange: 192000, aumChangePct: 4.15, priceEffect: -163000, netInflow: 355000 },
-              { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4817000, aumChangePct: Number((((totalAumEok - 4817000) / 4817000) * 100).toFixed(2)), priceEffect: 121000, netInflow: 96781 },
-            ],
-            yearly: [
-              { key: "y1", label: "2022년", aum: 1026000, adtv: 67000, turnoverPct: 6.53, aumChange: 59000, aumChangePct: 6.09, priceEffect: -42000, netInflow: 101000 },
-              { key: "y2", label: "2023년", aum: 1583000, adtv: 76000, turnoverPct: 4.80, aumChange: 557000, aumChangePct: 54.29, priceEffect: 281000, netInflow: 276000 },
-              { key: "y3", label: "2024년", aum: 2264000, adtv: 107000, turnoverPct: 4.73, aumChange: 681000, aumChangePct: 43.02, priceEffect: 324000, netInflow: 357000 },
-              { key: "y4", label: "2025년", aum: 3595000, adtv: 162000, turnoverPct: 4.51, aumChange: 1331000, aumChangePct: 58.79, priceEffect: 724000, netInflow: 607000 },
-              { key: "y5", label: "2026년 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3595000, aumChangePct: Number((((totalAumEok - 3595000) / 3595000) * 100).toFixed(2)), priceEffect: 768781, netInflow: 671000 },
-            ],
-          };
+          
 
-          const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || defaultTimeSeries[step7Tab] || defaultTimeSeries.daily;
+          const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || [];
           const points = rawPoints.map((pt: any, idx: number) => {
             const prevAdtv = idx > 0 ? (idx === rawPoints.length - 1 ? (rawPoints[idx - 1]?.adtv || (totalTradeEok - 6500)) : rawPoints[idx - 1]?.adtv) : undefined;
             const adtvDiff = prevAdtv !== undefined ? ((idx === rawPoints.length - 1 ? totalTradeEok : pt.adtv) - prevAdtv) : 0;
@@ -2330,38 +2301,9 @@ export function MarketBriefing() {
             const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 5034780.9);
             const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 235503.6);
             const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
-            const defaultTimeSeries = {
-              daily: [
-                { key: "d1", label: "8/20(수)", aum: 4922000, adtv: 211000, turnoverPct: 4.29, aumChange: -2000, aumChangePct: -0.04, priceEffect: -5200, netInflow: 3200 },
-                { key: "d2", label: "8/21(목)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 35000, aumChangePct: 0.71, priceEffect: 23500, netInflow: 11500 },
-                { key: "d3", label: "8/24(월)", aum: 4982000, adtv: 209000, turnoverPct: 4.20, aumChange: 25000, aumChangePct: 0.50, priceEffect: 15700, netInflow: 9300 },
-                { key: "d4", label: "8/25(화)", aum: 5005000, adtv: 242000, turnoverPct: 4.84, aumChange: 23000, aumChangePct: 0.46, priceEffect: 10500, netInflow: 12500 },
-                { key: "d5", label: "8/27(목)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 5005000, aumChangePct: Number((((totalAumEok - 5005000) / 5005000) * 100).toFixed(2)), priceEffect: 12558, netInflow: 17223 },
-              ],
-              weekly: [
-                { key: "w1", label: "7월 5주 (7/31)", aum: 4739000, adtv: 195000, turnoverPct: 4.11, aumChange: 46000, aumChangePct: 0.98, priceEffect: -55000, netInflow: 101000 },
-                { key: "w2", label: "8월 1주 (8/7)", aum: 4822000, adtv: 211000, turnoverPct: 4.38, aumChange: 83000, aumChangePct: 1.75, priceEffect: 47000, netInflow: 36000 },
-                { key: "w3", label: "8월 2주 (8/14)", aum: 4886000, adtv: 216000, turnoverPct: 4.42, aumChange: 64000, aumChangePct: 1.33, priceEffect: 34000, netInflow: 30000 },
-                { key: "w4", label: "8월 3주 (8/21)", aum: 4957000, adtv: 223000, turnoverPct: 4.50, aumChange: 71000, aumChangePct: 1.45, priceEffect: 41000, netInflow: 30000 },
-                { key: "w5", label: "8월 4주 (8/27)", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4957000, aumChangePct: Number((((totalAumEok - 4957000) / 4957000) * 100).toFixed(2)), priceEffect: 38800, netInflow: 38981 },
-              ],
-              monthly: [
-                { key: "m1", label: "2026년 4월", aum: 4251000, adtv: 171000, turnoverPct: 4.02, aumChange: 128000, aumChangePct: 3.10, priceEffect: 71000, netInflow: 57000 },
-                { key: "m2", label: "2026년 5월", aum: 4438000, adtv: 185000, turnoverPct: 4.17, aumChange: 187000, aumChangePct: 4.40, priceEffect: 107000, netInflow: 80000 },
-                { key: "m3", label: "2026년 6월", aum: 4625000, adtv: 197000, turnoverPct: 4.26, aumChange: 187000, aumChangePct: 4.21, priceEffect: 99000, netInflow: 88000 },
-                { key: "m4", label: "2026년 7월", aum: 4817000, adtv: 214000, turnoverPct: 4.44, aumChange: 192000, aumChangePct: 4.15, priceEffect: -163000, netInflow: 355000 },
-                { key: "m5", label: "2026년 8월", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 4817000, aumChangePct: Number((((totalAumEok - 4817000) / 4817000) * 100).toFixed(2)), priceEffect: 121000, netInflow: 96781 },
-              ],
-              yearly: [
-                { key: "y1", label: "2022년", aum: 1026000, adtv: 67000, turnoverPct: 6.53, aumChange: 59000, aumChangePct: 6.09, priceEffect: -42000, netInflow: 101000 },
-                { key: "y2", label: "2023년", aum: 1583000, adtv: 76000, turnoverPct: 4.80, aumChange: 557000, aumChangePct: 54.29, priceEffect: 281000, netInflow: 276000 },
-                { key: "y3", label: "2024년", aum: 2264000, adtv: 107000, turnoverPct: 4.73, aumChange: 681000, aumChangePct: 43.02, priceEffect: 324000, netInflow: 357000 },
-                { key: "y4", label: "2025년", aum: 3595000, adtv: 162000, turnoverPct: 4.51, aumChange: 1331000, aumChangePct: 58.79, priceEffect: 724000, netInflow: 607000 },
-                { key: "y5", label: "2026년 YTD", aum: totalAumEok, adtv: totalTradeEok, turnoverPct: turnover, aumChange: totalAumEok - 3595000, aumChangePct: Number((((totalAumEok - 3595000) / 3595000) * 100).toFixed(2)), priceEffect: 768781, netInflow: 671000 },
-              ],
-            };
+            
 
-            const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || defaultTimeSeries[step7Tab] || defaultTimeSeries.daily;
+            const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || [];
             const points = rawPoints.map((pt: any, idx: number) => {
               const prevAdtv = idx > 0 ? (idx === rawPoints.length - 1 ? (rawPoints[idx - 1]?.adtv || (totalTradeEok - 6500)) : rawPoints[idx - 1]?.adtv) : undefined;
               const adtvDiff = prevAdtv !== undefined ? ((idx === rawPoints.length - 1 ? totalTradeEok : pt.adtv) - prevAdtv) : 0;

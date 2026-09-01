@@ -77,12 +77,14 @@ def main():
         # Initialize TR Index to the first available price
         prev_close = date_prices[0][1]
         current_tr = prev_close
+        current_net_tr = prev_close
         
         all_rows.append({
             "ticker": ticker,
             "date": date_prices[0][0].isoformat(),
             "pr_close": prev_close,
-            "tr_index": round(current_tr, 2)
+            "tr_index": round(current_tr, 2),
+            "net_tr_index": round(current_net_tr, 2)
         })
         
         for i in range(1, len(date_prices)):
@@ -93,12 +95,17 @@ def main():
             if prev_close > 0:
                 factor = (curr_close + cash) / prev_close
                 current_tr *= factor
+                
+                net_cash = cash * 0.846
+                net_factor = (curr_close + net_cash) / prev_close
+                current_net_tr *= net_factor
             
             all_rows.append({
                 "ticker": ticker,
                 "date": curr_date.isoformat(),
                 "pr_close": curr_close,
-                "tr_index": round(current_tr, 2)
+                "tr_index": round(current_tr, 2),
+                "net_tr_index": round(current_net_tr, 2)
             })
             
             prev_close = curr_close
@@ -109,7 +116,7 @@ def main():
     # 4. Write to CSV
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["ticker", "date", "pr_close", "tr_index"])
+        writer = csv.DictWriter(f, fieldnames=["ticker", "date", "pr_close", "tr_index", "net_tr_index"])
         writer.writeheader()
         writer.writerows(all_rows)
 
@@ -125,7 +132,8 @@ def main():
         ticker_groups[row["ticker"]].append({
             "date": row["date"],
             "close": row["pr_close"],
-            "tr_index": row["tr_index"]
+            "tr_index": row["tr_index"],
+            "net_tr_index": row["net_tr_index"]
         })
         
     for ticker, rows in ticker_groups.items():

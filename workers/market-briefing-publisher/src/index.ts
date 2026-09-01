@@ -426,7 +426,7 @@ async function calculatePeriodicFundFlows(
       const c20 = q20?.close_value || pricesT20.get(m.ticker) || c0;
       const nav20 = q20?.nav_value || c20;
       const aum20 = q20?.aum_value || (q20 ? 0 : aum0);
-      const shares20 = q20 ? (q20.shares ? Number(q20.shares) : (nav20 > 0 ? aum20 / nav20 : 0)) : (shares0 + (shares0 - shares5) * 3);
+      const shares20 = q20 ? (q20.shares ? Number(q20.shares) : (nav20 > 0 ? aum20 / nav20 : 0)) : shares0;
 
       const r20 = c20 > 0 ? ((c0 - c20) / c20) * 100 : (m.change_pct || 0);
       ret20List.push(r20);

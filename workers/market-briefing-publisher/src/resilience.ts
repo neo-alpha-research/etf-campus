@@ -22,6 +22,6 @@ export async function cacheReadyBriefing(
     publicationVersion: input.publicationVersion,
     updatedAt: nowIso(),
   };
-  await env.BRIEFING_KV.put(payloadKey, JSON.stringify(input.payload), { expirationTtl: 7 * 24 * 60 * 60 });
-  await env.BRIEFING_KV.put(briefingPointerKey, JSON.stringify(pointer), { expirationTtl: 8 * 24 * 60 * 60 });
+  await env.BRIEFING_KV.put(payloadKey, JSON.stringify(input.payload));
+  await env.BRIEFING_KV.put(briefingPointerKey, JSON.stringify(pointer));
 }

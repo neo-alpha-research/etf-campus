@@ -147,7 +147,7 @@ export async function warmLatestBriefingCache(env: ResilienceEnv, asOfDate: stri
 }
 
 function buildMarketScaleSnapshot(metrics: any, briefing: BriefingRow) {
-  if (metrics.market_scale_snapshot) return metrics.market_scale_snapshot;
+  if (metrics.market_scale) return metrics.market_scale;
 
   let genAum = briefing.general_total_aum || 3851607;
   if (genAum >= 100_000_000) genAum = genAum / 100_000_000;

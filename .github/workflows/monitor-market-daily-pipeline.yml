@@ -2,10 +2,10 @@ name: Monitor market daily pipeline
 
 on:
   schedule:
-    # UTC Tue-Sat 01:03 = KST Tue-Sat 10:03.
+    # UTC Tue-Sat 01:03 = KST Tue-Sat 10:33.
     # The daily ETF refresh has completed all 07:53, 08:53, 09:53 retry rungs,
-    # then leaves 10 minutes for signed snapshot ingest, D1 outbox, Queue and publisher.
-    - cron: "03 1 * * 2-6"
+    # then leaves 40 minutes for signed snapshot ingest, D1 outbox, Queue and publisher.
+    - cron: "33 1 * * 2-6"
   workflow_dispatch:
     inputs:
       expected_as_of_date:
@@ -87,16 +87,16 @@ jobs:
               raise SystemExit(0)
 
           # Daily ETF data refresh runs across a 3-step retry ladder (07:53, 08:53, 09:53 KST).
-          # If the monitor runs before 10:03 KST, data ingestion is still pending/in-progress.
+          # If the monitor runs before 10:33 KST, data ingestion is still pending/in-progress.
           # Skip gracefully to prevent premature false alarms.
           if not is_historical_check and (now_kst.hour < 10 or (now_kst.hour == 10 and now_kst.minute < 3)):
-              message = f"Current time ({now_kst.strftime('%H:%M')} KST) is before 10:03 KST daily collection window; monitoring is skipped."
+              message = f"Current time ({now_kst.strftime('%H:%M')} KST) is before 10:33 KST daily collection window; monitoring is skipped."
               output_path.write_text(
                   f"notify=false\nexpected_date={expected_iso}\nactual_date=pending-collection\nreason=before-collection-window\n",
                   encoding="utf-8",
               )
               summary_path.write_text(
-                  f"### Market Daily monitor\n\n- Expected close: `{expected_iso}`\n- Result: **skipped** (before 10:03 KST daily collection window)\n",
+                  f"### Market Daily monitor\n\n- Expected close: `{expected_iso}`\n- Result: **skipped** (before 10:33 KST daily collection window)\n",
                   encoding="utf-8",
               )
               raise SystemExit(0)

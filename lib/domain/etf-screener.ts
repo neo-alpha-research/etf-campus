@@ -66,7 +66,9 @@ export type ScreenerEtf = Pick<Etf,
   | "returns"
   | "returnsTr"
   | "classification"
->;
+> & {
+  returnsNetTr?: Record<string, number | null>;
+};
 
 export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilters): ScreenerEtf[] {
   return etfs.filter((etf) => {

@@ -46,6 +46,7 @@ def main():
 
     # 2. Load prices
     prices = defaultdict(list)
+    cutoff = parse_date("2026-08-31")
     with open(prices_path, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
@@ -54,7 +55,7 @@ def main():
             close_str = row.get("close", "").strip()
             
             d = parse_date(date_str)
-            if ticker and d and close_str:
+            if ticker and d and close_str and (cutoff is None or d <= cutoff):
                 try:
                     close_price = float(close_str)
                     prices[ticker].append((d, close_price))

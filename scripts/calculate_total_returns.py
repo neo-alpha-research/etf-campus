@@ -129,12 +129,13 @@ def nearest_on_or_before(points: list[PricePoint], wanted: date) -> PricePoint |
 
 def load_prices() -> dict[str, list[PricePoint]]:
     values: dict[str, dict[date, float]] = defaultdict(dict)
+    cutoff = date(2026, 8, 31)
     for path in PRICE_PATHS:
         for row in rows(path):
             day = parse_day(row.get("date"))
             close = number(row.get("close"))
             code = ticker(row.get("ticker"))
-            if day and close is not None and close > 0 and code:
+            if day and close is not None and close > 0 and code and day <= cutoff:
                 values[code][day] = close
     return {code: [PricePoint(day, close) for day, close in sorted(items.items())] for code, items in values.items()}
 

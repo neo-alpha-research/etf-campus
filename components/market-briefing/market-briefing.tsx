@@ -664,6 +664,8 @@ export function MarketBriefing() {
     addGlobalIndex("나스닥", "NDX");
     addGlobalIndex("VIX", "VIX");
     addGlobalIndex("원/달러", "USDKRW");
+    addGlobalIndex("국채 10년", "KR10Y");
+    addGlobalIndex("미 국채 10년물", "DGS10");
     
     
     

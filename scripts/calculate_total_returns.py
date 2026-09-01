@@ -234,9 +234,20 @@ def calculate_for_period(code: str, isin: str, period: str, points: list[PricePo
 def main() -> int:
     parser = argparse.ArgumentParser(description="Calculate verified fixed-period ETF total return metrics")
     parser.add_argument("--ticker", action="append", default=[], help="Optional ticker filter; repeatable")
+    parser.add_argument("--target_date", help="Target end date for calculations (YYYY-MM-DD). Defaults to the latest available date in prices.")
     args = parser.parse_args()
     ensure_actions_ledger()
     prices = load_prices()
+    if args.ticker:
+        target_tickers = set(args.ticker)
+        prices = {k: v for k, v in prices.items() if k in target_tickers}
+
+    target_end_date = date.fromisoformat(args.target_date) if args.target_date else None
+
+    # Apply target_date filter if provided
+    if target_end_date:
+        for ticker, points in prices.items():
+            prices[ticker] = [p for p in points if p.day <= target_end_date]
     master = load_master()
     events = grouped_events()
     actions = grouped_actions()
@@ -244,6 +255,8 @@ def main() -> int:
     wanted = {ticker(value) for value in args.ticker}
     result: list[dict[str, str]] = []
     for code, points in sorted(prices.items()):
+        if not points:
+            continue
         if wanted and code not in wanted:
             continue
         for period in PERIODS:

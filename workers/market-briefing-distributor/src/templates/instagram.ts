@@ -63,15 +63,15 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.04"/>
       </filter>
       <linearGradient id="midnightNavyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#0F172A"/>
-        <stop offset="100%" stop-color="#1E293B"/>
+        <stop offset="0%" stop-color="#1E293B"/>
+        <stop offset="100%" stop-color="#2D3748"/>
       </linearGradient>
       <linearGradient id="goldButtonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#F59E0B"/>
-        <stop offset="100%" stop-color="#D97706"/>
+        <stop offset="0%" stop-color="#FEF08A"/>
+        <stop offset="100%" stop-color="#FDE047"/>
       </linearGradient>
       <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
-        <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#F59E0B" flood-opacity="0.3"/>
+        <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#FDE047" flood-opacity="0.25"/>
       </filter>
       <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="#10B981"/>
@@ -571,16 +571,16 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         </g>
       </g>
 
-      <!-- 2. Grand Hero CTA Card (Alternative 1: Midnight Navy & Luxury Gold) -->
+      <!-- 2. Grand Hero CTA Card (Alternative 1: Soft Slate Navy & Warm Pastel Gold) -->
       <g transform="translate(70, 720)" filter="url(#softShadow)">
-        <rect width="940" height="510" rx="30" fill="url(#midnightNavyGrad)" stroke="#334155" stroke-width="1.5"/>
+        <rect width="940" height="510" rx="30" fill="url(#midnightNavyGrad)" stroke="#475569" stroke-width="1.5"/>
         <circle cx="850" cy="100" r="180" fill="#3B82F6" fill-opacity="0.08"/>
-        <circle cx="120" cy="420" r="150" fill="#F59E0B" fill-opacity="0.05"/>
+        <circle cx="120" cy="420" r="150" fill="#FDE047" fill-opacity="0.04"/>
         
         <g transform="translate(0, 0)">
-          <!-- Top Mini Tag -->
-          <rect x="320" y="38" width="300" height="38" rx="19" fill="#1E293B" stroke="#475569" stroke-width="1.2"/>
-          <text x="470" y="63" fill="#FBBF24" font-size="16" font-weight="900" text-anchor="middle">💡 100% 무료 ETF 진단 &amp; 마켓 브리핑</text>
+          <!-- Top Mini Tag (Enlarged & Refined) -->
+          <rect x="295" y="36" width="350" height="42" rx="21" fill="#334155" stroke="#64748B" stroke-width="1.2"/>
+          <text x="470" y="63" fill="#FDE68A" font-size="18.5" font-weight="900" text-anchor="middle">💡 100% 무료 ETF 시황 &amp; 마켓 브리핑</text>
           
           <!-- Main Action Headline -->
           <text x="470" y="136" fill="#FFFFFF" font-size="36" font-weight="900" text-anchor="middle" letter-spacing="-0.8">
@@ -600,10 +600,10 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             </text>
           </g>
 
-          <!-- Big Action Button (Luminous Warm Gold Gradient) -->
+          <!-- Big Action Button (Soft Warm Pastel Gold Gradient) -->
           <g transform="translate(100, 325)">
-            <rect width="740" height="92" rx="26" fill="url(#goldButtonGrad)" stroke="#FDE68A" stroke-width="1.5" filter="url(#goldGlow)"/>
-            <text x="370" y="58" fill="#0F172A" font-size="30" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
+            <rect width="740" height="92" rx="26" fill="url(#goldButtonGrad)" stroke="#FACC15" stroke-width="1.5" filter="url(#goldGlow)"/>
+            <text x="370" y="58" fill="#78350F" font-size="30" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
               👉 프로필 링크 'ETF 캠퍼스' 바로가기 🔗
             </text>
           </g>

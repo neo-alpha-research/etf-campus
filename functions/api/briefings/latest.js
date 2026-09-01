@@ -165,10 +165,36 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
 }
 
 function buildMarketScaleSnapshot(metrics, briefing) {
-  if (metrics.market_scale) return metrics.market_scale;
+  // 1순위: 이미 올바른 스키마(categories 포함)로 저장된 경우
   if (metrics.market_scale_snapshot) return metrics.market_scale_snapshot;
+
+  if (metrics.market_scale) {
+    const ms = metrics.market_scale;
+    // categories가 이미 있으면 그대로 반환
+    if (ms.categories && ms.categories.length > 0) return ms;
+
+    // 하위호환: composition → categories 변환
+    if (ms.composition && ms.composition.length > 0) {
+      return {
+        ...ms,
+        categories: ms.composition.map((c) => ({
+          category: c.type || c.category,
+          label: c.label,
+          aum: c.aum,
+          aumSharePct: c.pct ?? c.aumSharePct ?? 0,
+          tradeValue: c.tradeValue ?? 0,
+          tradeSharePct: c.tradeSharePct ?? 0,
+          turnoverPct: c.turnoverPct ?? 0,
+          etfCount: c.count ?? c.etfCount ?? 0,
+        })),
+      };
+    }
+    return ms;
+  }
+
   return { totalAum: 0, totalTradeValue: 0, categories: [] };
 }
+
 
 function buildMarketScaleTimeSeries(metrics, briefing) {
   if (metrics.market_scale_time_series) return metrics.market_scale_time_series;

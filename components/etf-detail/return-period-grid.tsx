@@ -27,14 +27,16 @@ export function ReturnPeriodGrid({ etf }: { etf: Etf }) {
         {trReturns && (
           <button 
             type="button"
+            role="switch"
+            aria-checked={isTrMode}
             onClick={() => setIsTrMode(!isTrMode)}
-            className="flex items-center gap-2 cursor-pointer group bg-transparent border-none p-0 outline-none"
+            className="flex items-center gap-2 cursor-pointer group bg-transparent border-none p-0 outline-none select-none"
           >
-            <span className={`text-[12px] font-bold transition-colors ${isTrMode ? 'text-brand-600' : 'text-neutral-400 group-hover:text-neutral-500'}`}>
+            <span className={`text-[12px] font-bold transition-colors ${isTrMode ? 'text-brand-700' : 'text-neutral-500 group-hover:text-neutral-700'}`}>
               TR (배당 재투자)
             </span>
             <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
-              <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${isTrMode ? 'translate-x-4.5' : 'translate-x-1'}`} style={{ transform: isTrMode ? 'translateX(18px)' : 'translateX(4px)' }} />
+              <span className={`inline-block size-4 transform rounded-full bg-white shadow-xs transition-transform ${isTrMode ? 'translate-x-4' : 'translate-x-1'}`} />
             </div>
           </button>
         )}
@@ -65,11 +67,19 @@ export function ReturnPeriodGrid({ etf }: { etf: Etf }) {
         </div>
       </div>
       
-      {isTrMode && (
-        <p className="text-[11px] text-neutral-400 px-1 leading-tight">
-          💡 <strong>TR (배당 재투자)</strong>: 분배금(배당금) 100% 전액을 배당락일에 해당 ETF에 다시 복리 투자했다고 가정한 총수익률입니다. ISA·연금저축 등 과세이연 계좌 기준이며, 일반계좌는 세금 차감 전 기준입니다.
+      <div className="min-h-[22px] sm:min-h-[18px] px-1 flex items-center">
+        <p className="text-[11px] text-neutral-500 leading-tight transition-opacity duration-150">
+          {isTrMode ? (
+            <span>
+              💡 <strong className="text-neutral-700">TR (배당 재투자)</strong>: 분배금 100% 전액을 배당락일에 복리 재투자한 총수익률입니다 (ISA·연금저축 등 과세이연 계좌 기준).
+            </span>
+          ) : (
+            <span className="text-neutral-400">
+              💡 기본 표는 분배금을 제외한 가격 수익률(PR) 기준입니다. 상단 토글로 배당 재투자(TR) 수익률을 확인할 수 있습니다.
+            </span>
+          )}
         </p>
-      )}
+      </div>
     </div>
   );
 }

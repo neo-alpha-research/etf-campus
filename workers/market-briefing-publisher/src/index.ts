@@ -483,17 +483,68 @@ function calculateMarketScale(quotes: EtfSnapshot[]): any {
   const leveragedAum = leveraged.reduce((sum, q) => sum + (q.aum_value || 0), 0) / 100000000;
   const inverseAum = inverse.reduce((sum, q) => sum + (q.aum_value || 0), 0) / 100000000;
 
+  const generalTrade = general.reduce((sum, q) => sum + (q.trade_value || 0), 0) / 100000000;
+  const parkingTrade = parking.reduce((sum, q) => sum + (q.trade_value || 0), 0) / 100000000;
+  const leveragedTrade = leveraged.reduce((sum, q) => sum + (q.trade_value || 0), 0) / 100000000;
+  const inverseTrade = inverse.reduce((sum, q) => sum + (q.trade_value || 0), 0) / 100000000;
+
+  const safeAum = totalAumOk || 1;
+  const safeTrade = totalTradeOk || 1;
+
+  // categories: API 및 프론트엔드가 기대하는 스키마 (category 영문키, aumSharePct, tradeSharePct, turnoverPct 포함)
+  const categories = [
+    {
+      category: "general",
+      label: "일반 실물 ETF",
+      aum: Math.round(generalAum),
+      aumSharePct: Number(((generalAum / safeAum) * 100).toFixed(1)),
+      tradeValue: Math.round(generalTrade),
+      tradeSharePct: Number(((generalTrade / safeTrade) * 100).toFixed(1)),
+      turnoverPct: Number(generalAum > 0 ? ((generalTrade / generalAum) * 100).toFixed(2) : "0"),
+      etfCount: general.length,
+    },
+    {
+      category: "parking",
+      label: "파킹·단기자금",
+      aum: Math.round(parkingAum),
+      aumSharePct: Number(((parkingAum / safeAum) * 100).toFixed(1)),
+      tradeValue: Math.round(parkingTrade),
+      tradeSharePct: Number(((parkingTrade / safeTrade) * 100).toFixed(1)),
+      turnoverPct: Number(parkingAum > 0 ? ((parkingTrade / parkingAum) * 100).toFixed(2) : "0"),
+      etfCount: parking.length,
+    },
+    {
+      category: "leveraged",
+      label: "레버리지",
+      aum: Math.round(leveragedAum),
+      aumSharePct: Number(((leveragedAum / safeAum) * 100).toFixed(1)),
+      tradeValue: Math.round(leveragedTrade),
+      tradeSharePct: Number(((leveragedTrade / safeTrade) * 100).toFixed(1)),
+      turnoverPct: Number(leveragedAum > 0 ? ((leveragedTrade / leveragedAum) * 100).toFixed(2) : "0"),
+      etfCount: leveraged.length,
+    },
+    {
+      category: "inverse",
+      label: "인버스",
+      aum: Math.round(inverseAum),
+      aumSharePct: Number(((inverseAum / safeAum) * 100).toFixed(1)),
+      tradeValue: Math.round(inverseTrade),
+      tradeSharePct: Number(((inverseTrade / safeTrade) * 100).toFixed(1)),
+      turnoverPct: Number(inverseAum > 0 ? ((inverseTrade / inverseAum) * 100).toFixed(2) : "0"),
+      etfCount: inverse.length,
+    },
+  ];
+
   return {
     totalEtfCount: totalEtfs,
     generalEtfCount: general.length,
     totalAum: totalAumOk,
     totalTradeValue: totalTradeOk,
-    composition: [
-      { type: "general", label: "일반 ETF", aum: Math.round(generalAum), pct: Number(((generalAum / (totalAumOk || 1)) * 100).toFixed(1)), count: general.length },
-      { type: "parking", label: "파킹·단기자금", aum: Math.round(parkingAum), pct: Number(((parkingAum / (totalAumOk || 1)) * 100).toFixed(1)), count: parking.length },
-      { type: "leveraged", label: "레버리지", aum: Math.round(leveragedAum), pct: Number(((leveragedAum / (totalAumOk || 1)) * 100).toFixed(1)), count: leveraged.length },
-      { type: "inverse", label: "인버스", aum: Math.round(inverseAum), pct: Number(((inverseAum / (totalAumOk || 1)) * 100).toFixed(1)), count: inverse.length },
-    ],
+    marketTurnoverPct: Number(totalAumOk > 0 ? ((totalTradeOk / totalAumOk) * 100).toFixed(2) : "0"),
+    // categories: 4대 유형 분류 (API·프론트 공통 스키마)
+    categories,
+    // composition: 하위호환 유지
+    composition: categories.map((c) => ({ type: c.category, label: c.label, aum: c.aum, pct: c.aumSharePct, count: c.etfCount })),
     daily: { aumChange: 0, aumChangePct: 0, netInflow: 0 },
     weekly: { aumChange: 0, netInflow: 0 },
     monthly: { aumChange: 0, netInflow: 0 },

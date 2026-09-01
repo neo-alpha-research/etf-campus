@@ -1938,9 +1938,22 @@ export function MarketBriefing() {
             const totalTradeJo = (totalTradeEok / 10000).toFixed(1);
             const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 0);
 
-            const categories = (snapshot?.categories && snapshot.categories.length > 0) ? snapshot.categories : [
+            // categories: 신규 스키마 우선 → composition 하위호환 → 최소 fallback (3중 방어)
+            const rawCategories = snapshot?.categories ?? snapshot?.composition ?? [];
+            const normalizedCategories = rawCategories.map((c: any) => ({
+              category: c.category || c.type || 'general',
+              label: c.label,
+              aum: c.aum,
+              aumSharePct: c.aumSharePct ?? c.pct ?? 0,
+              tradeValue: c.tradeValue ?? 0,
+              tradeSharePct: c.tradeSharePct ?? 0,
+              turnoverPct: c.turnoverPct ?? 0,
+              etfCount: c.etfCount ?? c.count ?? 0,
+            }));
+            const categories = normalizedCategories.length > 0 ? normalizedCategories : [
               { category: "general", label: "일반 실물 ETF", aum: genAumEok, aumSharePct: 100, tradeValue: genTradeEok, tradeSharePct: 100, turnoverPct: turnover, etfCount: briefing.pulse?.generalEtfCount || 1022 }
             ];
+
 
             const genCat = categories.find((c: any) => c.category === 'general');
             const parkCat = categories.find((c: any) => c.category === 'parking');

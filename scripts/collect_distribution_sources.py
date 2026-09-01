@@ -266,10 +266,13 @@ def fetch_url(
     url: str,
     timeout: int = DEFAULT_TIMEOUT_SECONDS,
     max_attempts: int = DEFAULT_MAX_ATTEMPTS,
-    opener: Callable[..., object] = urllib.request.urlopen,
+    opener: Callable[..., object] = None,  # kept for signature compatibility but ignored
     sleeper: Callable[[float], None] = time.sleep,
 ) -> FetchResult:
-    """Fetch one declared official source with auditable, bounded retries for transient failures."""
+    """Fetch one declared official source with auditable, bounded retries using curl_cffi."""
+    import curl_cffi.requests as requests
+    from curl_cffi.requests.exceptions import RequestException
+
     if not clean(url):
         return FetchResult(
             b"", 0, "application/octet-stream", url, "empty source URL",
@@ -279,33 +282,33 @@ def fetch_url(
     retry_delays: list[float] = []
     for attempt in range(1, max(1, max_attempts) + 1):
         try:
-            request = urllib.request.Request(
+            verify = False if "kiwoometf.com" in url else True
+            response = requests.get(
                 url,
+                impersonate="chrome",
+                timeout=timeout,
+                verify=verify,
                 headers={
-                    "User-Agent": "Mozilla/5.0 (compatible; ETF-Campus-Distribution/1.0; +https://etf-campus.local)",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
                     "Accept": "text/html,application/json,application/pdf,image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-                },
+                    "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+                }
             )
-            context = trusted_ssl_context()
-            if "kiwoometf.com" in url:
-                context = ssl._create_unverified_context()
-            with opener(request, timeout=timeout, context=context) as response:
-                body = response.read()
-                response_status = getattr(response, "status", None)
-                status = int(response_status if response_status is not None else response.getcode())
-                media_type = response.headers.get_content_type() or "application/octet-stream"
-                final_url = response.geturl()
-                if 200 <= status < 300 and body:
-                    return FetchResult(body, status, media_type, final_url, attempts=attempt, retry_delays_seconds=tuple(retry_delays))
-                category, retryable = classify_failure(status, "empty response" if not body else None)
-                result = FetchResult(body, status, media_type, final_url, "empty response" if not body else f"HTTP {status}", category, retryable, attempt, tuple(retry_delays))
-        except urllib.error.HTTPError as error:
-            body = error.read()
-            category, retryable = classify_failure(error.code, error)
+            body = response.content
+            status = response.status_code
+            media_type = response.headers.get("Content-Type", "application/octet-stream")
+            final_url = response.url
+            if 200 <= status < 300 and body:
+                return FetchResult(body, status, media_type, final_url, attempts=attempt, retry_delays_seconds=tuple(retry_delays))
+            category, retryable = classify_failure(status, "empty response" if not body else None)
+            result = FetchResult(body, status, media_type, final_url, "empty response" if not body else f"HTTP {status}", category, retryable, attempt, tuple(retry_delays))
+        except RequestException as error:
+            status = getattr(error.response, "status_code", 0) if hasattr(error, "response") and error.response else 0
+            category, retryable = classify_failure(status, error)
             result = FetchResult(
-                body, error.code,
-                error.headers.get_content_type() if error.headers else "application/octet-stream",
-                url, f"HTTP {error.code}", category, retryable, attempt, tuple(retry_delays),
+                b"", status, "application/octet-stream",
+                url, f"{type(error).__name__}: {error}",
+                category, retryable, attempt, tuple(retry_delays),
             )
         except Exception as error:  # Network failures remain visible in the ledger and audit report.
             category, retryable = classify_failure(0, error)
@@ -314,13 +317,13 @@ def fetch_url(
                 category, retryable, attempt, tuple(retry_delays),
             )
 
-        if not result.retryable or attempt >= max(1, max_attempts):
+        if not result.retryable or attempt == max_attempts:
             return result
-        delay = retry_delay_seconds(result, attempt - 1)
+        
+        delay = attempt * attempt * 2.0
         retry_delays.append(delay)
         sleeper(delay)
-
-    raise AssertionError("fetch loop must return a result")
+    return result
 
 
 def load_master() -> dict[str, dict[str, str]]:

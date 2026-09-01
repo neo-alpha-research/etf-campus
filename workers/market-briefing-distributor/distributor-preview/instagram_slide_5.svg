@@ -31,37 +31,37 @@
     </defs>
   
       <rect width="1080" height="1350" fill="#F8FAFC"/>
-      <circle cx="950" cy="180" r="300" fill="#EA580C" fill-opacity="0.035"/>
-      <circle cx="100" cy="1150" r="260" fill="#D97706" fill-opacity="0.03"/>
+      <circle cx="950" cy="180" r="300" fill="#EAB308" fill-opacity="0.04"/>
+      <circle cx="100" cy="1150" r="260" fill="#F59E0B" fill-opacity="0.035"/>
 
       <g transform="translate(70, 60)">
-        <text x="0" y="30" fill="#C2410C" font-size="16" font-weight="900" letter-spacing="1">STEP 5. DISPARITY ALERT</text>
+        <text x="0" y="30" fill="#B45309" font-size="16" font-weight="900" letter-spacing="1">STEP 5. DISPARITY ALERT</text>
         <text x="0" y="72" fill="#0F172A" font-size="38" font-weight="900">괴리율 왜곡 주의 종목 TOP 5</text>
         <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 순자산가치(NAV) 대비 시장 종가의 가격 왜곡 정도를 나타냅니다.</text>
         <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
         <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">5 / 6</text>
       </g>
 
-      <!-- Alert Banner (Tangerine Warning Theme) -->
+      <!-- Alert Banner (Amber Warning Theme) -->
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
-        <rect width="940" height="94" rx="22" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.5"/>
-        <rect x="30" y="15" width="135" height="34" rx="10" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1.2"/>
-        <text x="97" y="38" fill="#C2410C" font-size="17" font-weight="900" text-anchor="middle">⚠️ 왜곡 주의</text>
+        <rect width="940" height="94" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+        <rect x="30" y="15" width="135" height="34" rx="10" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.2"/>
+        <text x="97" y="38" fill="#B45309" font-size="17" font-weight="900" text-anchor="middle">⚠️ 왜곡 주의</text>
         <text x="180" y="37" fill="#0F172A" font-size="26" font-weight="900">'KoAct 차이나바이오헬스케어액티브' 등 할인/할증 주의</text>
         <text x="30" y="75" fill="#334155" font-size="20" font-weight="700">
-          해외 시차 및 호가 공백으로 발생한 괴리율입니다. <tspan fill="#C2410C" font-weight="900">시초가 추격 매수/투매에 유의</tspan>하세요.
+          해외 시차 및 호가 공백으로 발생한 괴리율입니다. <tspan fill="#B45309" font-weight="900">시초가 추격 매수/투매에 유의</tspan>하세요.
         </text>
       </g>
 
-      <!-- Disparity List Cards (Tangerine Alert Palette) -->
+      <!-- Disparity List Cards (Amber Yellow Alert Palette) -->
       <g transform="translate(70, 290)">
         
             <g transform="translate(0, 0)" filter="url(#cardShadow)">
-              <rect width="940" height="178" rx="22" fill="#FFFFFF" stroke="#86EFAC" stroke-width="2"/>
-              <rect x="0" y="0" width="8" height="178" rx="4" fill="#15803D"/>
+              <rect width="940" height="178" rx="22" fill="#FFFDF5" stroke="#FCD34D" stroke-width="2"/>
+              <rect x="0" y="0" width="8" height="178" rx="4" fill="#D97706"/>
 
               <!-- 순위 뱃지 -->
-              <circle cx="60" cy="89" r="27" fill="#15803D"/>
+              <circle cx="60" cy="89" r="27" fill="#D97706" />
               <text x="60" y="97" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">1</text>
 
               <!-- ETF명 -->
@@ -85,8 +85,8 @@
               
 
               <!-- 순위 뱃지 -->
-              <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
-              <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">2</text>
+              <circle cx="60" cy="89" r="27" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1.2"/>
+              <text x="60" y="97" fill="#B45309" font-size="22" font-weight="900" text-anchor="middle">2</text>
 
               <!-- ETF명 -->
               <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">SOL 차이나소비트렌드</text>
@@ -109,8 +109,8 @@
               
 
               <!-- 순위 뱃지 -->
-              <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
-              <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">3</text>
+              <circle cx="60" cy="89" r="27" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1.2"/>
+              <text x="60" y="97" fill="#B45309" font-size="22" font-weight="900" text-anchor="middle">3</text>
 
               <!-- ETF명 -->
               <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">TIGER 200커버드콜</text>
@@ -133,8 +133,8 @@
               
 
               <!-- 순위 뱃지 -->
-              <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
-              <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">4</text>
+              <circle cx="60" cy="89" r="27" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1.2"/>
+              <text x="60" y="97" fill="#B45309" font-size="22" font-weight="900" text-anchor="middle">4</text>
 
               <!-- ETF명 -->
               <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">KODEX 한국대만IT프리미어</text>
@@ -157,8 +157,8 @@
               
 
               <!-- 순위 뱃지 -->
-              <circle cx="60" cy="89" r="27" fill="#DCFCE7"/>
-              <text x="60" y="97" fill="#15803D" font-size="22" font-weight="900" text-anchor="middle">5</text>
+              <circle cx="60" cy="89" r="27" fill="#FEF3C7" stroke="#FDE68A" stroke-width="1.2"/>
+              <text x="60" y="97" fill="#B45309" font-size="22" font-weight="900" text-anchor="middle">5</text>
 
               <!-- ETF명 -->
               <text x="105" y="72" fill="#0F172A" font-size="27" font-weight="900">HK 200</text>

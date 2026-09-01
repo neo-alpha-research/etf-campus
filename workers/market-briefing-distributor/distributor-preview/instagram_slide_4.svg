@@ -31,37 +31,37 @@
     </defs>
   
       <rect width="1080" height="1350" fill="#F8FAFC"/>
-      <circle cx="950" cy="180" r="300" fill="#1D4ED8" fill-opacity="0.035"/>
-      <circle cx="100" cy="1150" r="260" fill="#0284C7" fill-opacity="0.03"/>
+      <circle cx="950" cy="180" r="300" fill="#D92D20" fill-opacity="0.035"/>
+      <circle cx="100" cy="1150" r="260" fill="#BE123C" fill-opacity="0.03"/>
 
       <g transform="translate(70, 60)">
-        <text x="0" y="30" fill="#1D4ED8" font-size="16" font-weight="900" letter-spacing="1">STEP 4. SMART MONEY FLOW</text>
+        <text x="0" y="30" fill="#D92D20" font-size="16" font-weight="900" letter-spacing="1">STEP 4. SMART MONEY FLOW</text>
         <text x="0" y="72" fill="#0F172A" font-size="38" font-weight="900">실질 자금 순유입 TOP 5</text>
         <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 발행좌수 증감으로 산출된 기관·외국인의 실질 자금 순유입액</text>
         <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
         <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">4 / 6</text>
       </g>
 
-      <!-- Summary Banner (Sapphire Blue Theme) -->
+      <!-- Summary Banner (Crimson Inflow Theme) -->
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
-        <rect width="940" height="94" rx="22" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
-        <rect x="30" y="15" width="125" height="34" rx="10" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.2"/>
-        <text x="92" y="38" fill="#1D4ED8" font-size="17" font-weight="900" text-anchor="middle">💸 수급 핵심</text>
+        <rect width="940" height="94" rx="22" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.5"/>
+        <rect x="30" y="15" width="125" height="34" rx="10" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1.2"/>
+        <text x="92" y="38" fill="#BE123C" font-size="17" font-weight="900" text-anchor="middle">💸 수급 핵심</text>
         <text x="170" y="37" fill="#0F172A" font-size="28" font-weight="900">스마트머니, '해외 반도체 &amp; 미국 지수' 집중 매수</text>
         <text x="30" y="75" fill="#334155" font-size="20" font-weight="700">
-          단기 숨고르기 속에서도 <tspan fill="#1D4ED8" font-weight="900">미국 핵심 우량 ETF로 4,000억원 이상</tspan> 신규 순유입
+          단기 숨고르기 속에서도 <tspan fill="#D92D20" font-weight="900">미국 핵심 우량 ETF로 4,000억원 이상</tspan> 신규 순유입
         </text>
       </g>
 
-      <!-- TOP 5 Inflow Ranking Cards (Royal Sapphire Blue Palette) -->
+      <!-- TOP 5 Inflow Ranking Cards (Crimson Palette) -->
       <g transform="translate(70, 290)">
         
             <g transform="translate(0, 0)" filter="url(#cardShadow)">
-              <rect width="940" height="182" rx="22" fill="#F8FAFF" stroke="#93C5FD" stroke-width="2"/>
-              <rect x="0" y="0" width="8" height="182" rx="4" fill="#1D4ED8"/>
+              <rect width="940" height="182" rx="22" fill="#FFF8F8" stroke="#FCA5A5" stroke-width="2"/>
+              <rect x="0" y="0" width="8" height="182" rx="4" fill="#D92D20"/>
 
               <!-- 순위 뱃지 -->
-              <circle cx="62" cy="91" r="28" fill="#1D4ED8" />
+              <circle cx="62" cy="91" r="28" fill="#D92D20" />
               <text x="62" y="100" fill="#FFFFFF" font-size="24" font-weight="900" text-anchor="middle">1</text>
 
               <!-- ETF명 -->
@@ -72,12 +72,12 @@
               <text x="148" y="105" fill="#64748B" font-size="14" font-weight="700" text-anchor="middle" class="tabular">381180</text>
 
               <!-- 테마 태그 -->
-              <rect x="200" y="88" width="120" height="26" rx="7" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
-              <text x="260" y="105" fill="#1D4ED8" font-size="13" font-weight="800" text-anchor="middle">핵심ETF</text>
+              <rect x="200" y="88" width="120" height="26" rx="7" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1"/>
+              <text x="260" y="105" fill="#BE123C" font-size="13" font-weight="800" text-anchor="middle">핵심ETF</text>
 
               <!-- 순유입 금액 -->
-              <text x="912" y="82" fill="#1D4ED8" font-size="44" font-weight="900" text-anchor="end" class="tabular">+1,130<tspan font-size="24" font-weight="700" fill="#2563EB">억원</tspan></text>
-              <text x="912" y="118" fill="#2563EB" font-size="16" font-weight="800" text-anchor="end">🥇 당일 최대 실질 순유입</text>
+              <text x="912" y="82" fill="#D92D20" font-size="44" font-weight="900" text-anchor="end" class="tabular">+1,130<tspan font-size="24" font-weight="700" fill="#BE123C">억원</tspan></text>
+              <text x="912" y="118" fill="#E11D48" font-size="16" font-weight="800" text-anchor="end">🥇 당일 최대 실질 순유입</text>
             </g>
           
             <g transform="translate(0, 196)" filter="url(#cardShadow)">

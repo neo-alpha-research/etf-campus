@@ -176,7 +176,7 @@ export function EtfDetail({
                           <div className="text-[12px] font-black text-brand-300 mb-1">추적 오차율 (Tracking Error)</div>
                           <div className="text-[11px] text-neutral-200 leading-tight mb-2">과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 숫자가 낮을수록 지수를 안정적으로 잘 추종함을 의미합니다.</div>
                           <div className="text-[11px] text-emerald-300 bg-emerald-950/70 p-2 rounded border border-emerald-700/60 leading-snug mb-1.5">
-                            💡 <strong>본 서비스는 배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]를 제공합니다.</strong>
+                            <strong>배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]입니다.</strong>
                           </div>
                           {etf.name.includes("액티브") && (
                             <div className="text-[10.5px] bg-brand-900/40 text-brand-200 p-1.5 rounded border border-brand-700/50 mt-1">

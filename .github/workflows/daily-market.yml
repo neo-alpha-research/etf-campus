@@ -169,6 +169,14 @@ jobs:
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
         run: python scripts/build_classification_review.py
 
+      - name: Calculate Total Returns (TR Index)
+        if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
+        run: |
+          python scripts/collect_historical_prices.py
+          python scripts/collect_distributions.py || true
+          python scripts/calculate_daily_tr_index.py
+          python scripts/calculate_total_returns.py
+
       # Only the retry rung that actually receives a new official close runs
       # the distribution pipeline. This keeps it coupled to the 06:17 KST
       # attempt while allowing a later retry to recover from a delayed feed.
@@ -194,7 +202,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns | grep -q .; then
+          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions | grep -q .; then
             echo "Publishable data changes detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
@@ -254,7 +262,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json; do
+          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
                     if ! git diff --cached --quiet; then

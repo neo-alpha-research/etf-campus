@@ -31,6 +31,10 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [showAllPeriods, setShowAllPeriods] = useState(false);
+  const [isTrMode, setIsTrMode] = useState(false);
+  
+  const getActiveReturns = (etf: Etf) => (isTrMode && etf.returnsTr) ? etf.returnsTr : etf.returns;
+
   const corePeriods: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
   const allPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
   const orderedPeriods = showAllPeriods ? allPeriods : corePeriods;
@@ -97,7 +101,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
   const maxAum = validAums.length > 0 ? Math.max(...validAums) : null;
 
   const valid1YReturns = compareList
-    .map((e) => e.returns?.["12m"])
+    .map((e) => getActiveReturns(e)?.["12m"])
     .filter((r): r is number => typeof r === "number" && Number.isFinite(r));
   const max1YReturn = valid1YReturns.length > 0 ? Math.max(...valid1YReturns) : null;
 
@@ -169,7 +173,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                                 순자산 1위 🏛️
                               </span>
                             )}
-                            {max1YReturn !== null && etf.returns?.["12m"] === max1YReturn && max1YReturn > 0 && (
+                            {max1YReturn !== null && getActiveReturns(etf)?.["12m"] === max1YReturn && max1YReturn > 0 && (
                               <span
                                 data-testid="smart-advantage-badge"
                                 className="inline-flex items-center rounded px-1.5 py-0.5 text-[9.5px] sm:text-[10px] font-extrabold bg-amber-100/90 text-amber-800 border border-amber-300 shadow-xs"
@@ -309,7 +313,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               {/* 수익률 행들 (1위 하이라이트 탑재) */}
               {orderedPeriods.map((period, index) => {
                 const periodValues = compareList
-                  .map((e) => e.returns?.[period])
+                  .map((e) => getActiveReturns(e)?.[period])
                   .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
                 const maxReturnForPeriod = periodValues.length > 0 ? Math.max(...periodValues) : null;
 
@@ -326,7 +330,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                       )}
                     </th>
                     {compareList.map((etf) => {
-                      const val = etf.returns?.[period];
+                      const val = getActiveReturns(etf)?.[period];
                       const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                       const isTop = maxReturnForPeriod !== null && val === maxReturnForPeriod && compareList.length > 1;
                       return (
@@ -512,7 +516,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
 
                       {/* 사용자 강조 핵심 문구 */}
                       <div className="text-[12px] text-emerald-200 bg-emerald-950/90 rounded-lg p-2.5 leading-snug border border-emerald-600/80 mb-3 shadow-inner">
-                        💡 <strong>본 서비스는 배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]를 제공합니다.</strong>
+                        <strong>배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]입니다.</strong>
                       </div>
 
                       <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-2.5">
@@ -564,12 +568,23 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
           </table>
         </div>
 
-        {/* 기간 더보기 토글 바 */}
-        <div className="flex items-center justify-center py-2 px-4 bg-neutral-50/70 border-t border-neutral-200">
+        {/* 기간 더보기 & TR 토글 바 */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 py-3 px-4 bg-neutral-50/70 border-t border-neutral-200">
+          <button
+            type="button"
+            onClick={() => setIsTrMode(!isTrMode)}
+            className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 shadow-xs border border-neutral-200 bg-white"
+          >
+            <span className={isTrMode ? "text-brand-700" : ""}>TR (배당 재투자) {isTrMode ? "ON" : "OFF"}</span>
+            <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
+              <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform`} style={{ transform: isTrMode ? 'translateX(14px)' : 'translateX(2px)' }} />
+            </div>
+          </button>
+          
           <button
             type="button"
             onClick={() => setShowAllPeriods(!showAllPeriods)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1 text-xs font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 shadow-xs border border-neutral-200 bg-white"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 shadow-xs border border-neutral-200 bg-white"
           >
             <span>{showAllPeriods ? "핵심 기간만 보기 (1개월~1년)" : "전체 세부 기간 보기 (1일~3년)"}</span>
             <span className="text-[10px]">{showAllPeriods ? "▲" : "▼"}</span>

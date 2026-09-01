@@ -58,16 +58,12 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
 
 (자세한 데이터 팩트는 아래 인포그래픽 카드 1장으로 한눈에 확인하세요 👇)
 
+🔗 외국인이 쓸어 담은 종목부터 62개 테마 상세 랭킹은 프로필 링크에서 바로 확인해 보세요!
+
 든든한 하루 보내세요!`;
 
-  const replyPost = `내 계좌 속 ETF는 지난 장에서 어디쯤 있었을까요?
-
-외국인이 쓸어 담은 종목부터 62개 테마 상세 랭킹까지,
-프로필 링크에서 바로 확인해 보세요! 🔗`;
-
   return [
-    { sequence: 1, content: mainPost },
-    { sequence: 2, content: replyPost }
+    { sequence: 1, content: mainPost }
   ];
 }
 
@@ -267,7 +263,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <g transform="translate(60, 1040)" filter="url(#cardShadow)">
         <rect width="960" height="75" rx="18" fill="url(#brandGrad)"/>
         <text x="480" y="45" fill="#FFFFFF" font-size="21" font-weight="900" text-anchor="middle">
-          💬 첫 번째 댓글 링크에서 1,022개 전체 ETF 상세 리포트를 확인하세요! 👉
+          👉 프로필 링크에서 1,022개 전체 ETF 상세 리포트를 확인하세요! 🔗
         </text>
       </g>
 

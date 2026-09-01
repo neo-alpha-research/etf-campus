@@ -213,8 +213,12 @@ async function run() {
   const threads = generateThreadsThread(currentPayload, baseUrl);
   let threadsText = "";
   threads.forEach((t) => {
-    const label = t.sequence === 1 ? "Main Post" : "First Comment (CTA)";
-    threadsText += `--- ${label} ---\n${t.content}\n\n`;
+    if (threads.length > 1) {
+      const label = t.sequence === 1 ? "Main Post" : `Post #${t.sequence}`;
+      threadsText += `--- ${label} ---\n${t.content}\n\n`;
+    } else {
+      threadsText += `${t.content}\n\n`;
+    }
   });
   const threadsBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(threadsText.replace(/\r?\n/g, "\r\n"), "utf-8")]);
   fs.writeFileSync(path.join(rootThreadsDir, "threads_script.txt"), threadsBuf);

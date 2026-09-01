@@ -36,7 +36,7 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
       <div className="relative group flex items-center justify-center w-full cursor-help">
         <div className="flex items-center justify-center gap-1 py-0.5">
           <span className="text-[12px] font-bold text-muted tabular-nums font-mono">
-            {ctx.nominalFee?.toFixed(3)}%
+            {ctx.nominalFee?.toFixed(2)}%
           </span>
           <span className="text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200/80 px-1 py-0.5 rounded leading-none shrink-0">
             신규
@@ -64,7 +64,7 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
       {/* Inline row: number + [최저] badge in a single compact line */}
       <div className="flex items-center justify-center gap-1.5 py-0.5">
         <span className={`text-[12.5px] font-bold tabular-nums font-mono ${isLowest ? "text-emerald-600 font-extrabold" : "text-strong"}`}>
-          {syntheticFee.toFixed(3)}%
+          {syntheticFee.toFixed(2)}%
         </span>
         {isLowest && (
           <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/90 border border-emerald-300/80 px-1.5 py-0.5 rounded leading-none shrink-0 shadow-xs">
@@ -90,7 +90,7 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
               <span className="w-2.5 h-2.5 rounded-sm bg-brand-500 shrink-0" />
               <span>명목보수 (운용/판매)</span>
             </span>
-            <span className="font-mono font-bold tabular-nums text-white">{nominalFee.toFixed(3)}%</span>
+            <span className="font-mono font-bold tabular-nums text-white">{nominalFee.toFixed(2)}%</span>
           </div>
 
           <div className="flex justify-between items-center text-neutral-200">
@@ -98,7 +98,7 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
               <span className="w-2.5 h-2.5 rounded-sm bg-sky-400 shrink-0" />
               <span>기타비용 (예탁/사무 등)</span>
             </span>
-            <span className="font-mono font-bold tabular-nums text-white">{otherCost.toFixed(3)}%</span>
+            <span className="font-mono font-bold tabular-nums text-white">{otherCost.toFixed(2)}%</span>
           </div>
 
           <div className="flex justify-between items-center text-neutral-200 pb-2 border-b border-neutral-700/80">
@@ -106,12 +106,12 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
               <span className="w-2.5 h-2.5 rounded-sm bg-orange-400 shrink-0" />
               <span>매매·중개수수료율</span>
             </span>
-            <span className="font-mono font-bold tabular-nums text-white">{tradingCost.toFixed(3)}%</span>
+            <span className="font-mono font-bold tabular-nums text-white">{tradingCost.toFixed(2)}%</span>
           </div>
 
           <div className="flex justify-between items-center pt-0.5">
             <span className="font-extrabold text-[13px] text-emerald-400">합성 총보수 (실부담비용)</span>
-            <span className="font-mono font-black tabular-nums text-[15px] text-emerald-400">{syntheticFee.toFixed(3)}%</span>
+            <span className="font-mono font-black tabular-nums text-[15px] text-emerald-400">{syntheticFee.toFixed(2)}%</span>
           </div>
         </div>
       </div>

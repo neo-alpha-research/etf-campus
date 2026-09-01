@@ -27,7 +27,7 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
             </p>
           </div>
         </div>
-        <span className="text-[11px] text-muted tabular-nums mt-0.5">명목 {ctx.nominalFee?.toFixed(3)}%</span>
+        <span className="text-[11px] text-muted tabular-nums mt-0.5">명목 {ctx.nominalFee?.toFixed(2)}%</span>
       </div>
     );
   }
@@ -49,7 +49,7 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
           )}
           <span className="text-[12px] font-bold text-strong tabular-nums">{ctx.syntheticFee?.toFixed(2)}%</span>
         </div>
-        <span className="text-[10px] text-muted tabular-nums mt-0.5">명목 {ctx.nominalFee?.toFixed(3)}%</span>
+        <span className="text-[10px] text-muted tabular-nums mt-0.5">명목 {ctx.nominalFee?.toFixed(2)}%</span>
       </div>
     );
   }

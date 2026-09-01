@@ -43,8 +43,10 @@ jobs:
       - name: Run Historical Snapshot Backfill
         env:
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+          PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: dd71905c19e313be635507cee431306d
+
         run: |
           if [ -n "${{ inputs.dates }}" ]; then
             python scripts/backfill_briefing_historical_dates.py --dates ${{ inputs.dates }}

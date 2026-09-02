@@ -1,98 +1,1693 @@
 {
-  "generated_at": "2026-08-28T16:35:50+00:00",
-  "source_document_count": 73,
-  "event_count": 23,
+  "generated_at": "2026-09-01T12:34:13+00:00",
+  "source_document_count": 14,
+  "event_count": 209,
   "coverage_count": 1163,
-  "error_count": 0,
-  "warning_count": 19,
-  "errors": [],
-  "warnings": [
+  "error_count": 417,
+  "warning_count": 1,
+  "errors": [
     {
       "event_id": "KR70073X0007:2026-07-30:ordinary_cash:kind-v1",
-      "issue": "tr_blocked_krx_verified"
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "KR70073X0007:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "verified_event_missing_source_chain"
     },
     {
       "event_id": "KR70176P0003:2026-07-30:ordinary_cash:kind-v1",
-      "issue": "tr_blocked_krx_verified"
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "KR70176P0003:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "verified_event_missing_source_chain"
     },
     {
       "event_id": "KR70189Z0006:2026-07-30:ordinary_cash:kind-v1",
-      "issue": "tr_blocked_krx_verified"
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "KR70189Z0006:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "verified_event_missing_source_chain"
     },
     {
       "event_id": "KR7192720001:2026-07-30:ordinary_cash:kind-v1",
-      "issue": "tr_blocked_krx_verified"
+      "issue": "verified_event_missing_required_verification"
     },
     {
-      "event_id": "KR7441640000:legacy:2026-07-15:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "KR7192720001:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "KR7266160001:2026-01-30:ordinary_cash:issuer-v1",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "KR7266160001:2026-01-30:ordinary_cash:issuer-v1",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "KR7266160001:2026-04-30:ordinary_cash:issuer-v1",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "KR7266160001:2026-04-30:ordinary_cash:issuer-v1",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "KR7266160001:2026-07-31:ordinary_cash:issuer-v1",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "KR7266160001:2026-07-31:ordinary_cash:issuer-v1",
+      "issue": "verified_event_missing_source_chain"
     },
     {
       "event_id": "KR7489030007:2026-07-30:ordinary_cash:kind-v1",
-      "issue": "tr_blocked_krx_verified"
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "KR7489030007:2026-07-30:ordinary_cash:kind-v1",
+      "issue": "verified_event_missing_source_chain"
     },
     {
       "event_id": "KR7489030007:2026-07-30:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "issue": "issuer_source_missing_from_source_ledger"
     },
     {
-      "event_id": "KR7490600004:legacy:2025-08-29:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0012b41260868916c99f",
+      "issue": "verified_event_missing_required_verification"
     },
     {
-      "event_id": "KR7490600004:legacy:2025-09-30:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0012b41260868916c99f",
+      "issue": "verified_event_missing_source_chain"
     },
     {
-      "event_id": "KR7490600004:legacy:2025-10-31:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0046a84efac6432a8747",
+      "issue": "verified_event_missing_required_verification"
     },
     {
-      "event_id": "KR7490600004:legacy:2025-11-28:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0046a84efac6432a8747",
+      "issue": "verified_event_missing_source_chain"
     },
     {
-      "event_id": "KR7490600004:legacy:2025-12-30:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0068cc91c60e31c00898",
+      "issue": "verified_event_missing_required_verification"
     },
     {
-      "event_id": "KR7490600004:legacy:2026-01-30:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0068cc91c60e31c00898",
+      "issue": "verified_event_missing_source_chain"
     },
     {
-      "event_id": "KR7490600004:legacy:2026-02-27:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0458ff288711ccde8572",
+      "issue": "verified_event_missing_required_verification"
     },
     {
-      "event_id": "KR7490600004:legacy:2026-03-31:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0458ff288711ccde8572",
+      "issue": "verified_event_missing_source_chain"
     },
     {
-      "event_id": "KR7490600004:legacy:2026-04-15:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:04f5562392f88ade76cf",
+      "issue": "verified_event_missing_required_verification"
     },
     {
-      "event_id": "KR7490600004:legacy:2026-05-15:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:04f5562392f88ade76cf",
+      "issue": "verified_event_missing_source_chain"
     },
     {
-      "event_id": "KR7490600004:legacy:2026-06-15:ordinary_cash:v1",
-      "issue": "tr_blocked_partial"
+      "event_id": "candidate:0554a9d94920afa7dd05",
+      "issue": "verified_event_missing_required_verification"
     },
     {
-      "event_id": "KR7490600004:legacy:2026-07-15:ordinary_cash:v1",
+      "event_id": "candidate:0554a9d94920afa7dd05",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:06f815a571b38b846805",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:06f815a571b38b846805",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:079c5d018f56cb23accf",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:079c5d018f56cb23accf",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:07edb7b556ed551dd299",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:07edb7b556ed551dd299",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:07ef73f84fc9b7718421",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:07ef73f84fc9b7718421",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:09c8aefd392a8cb84a82",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:09c8aefd392a8cb84a82",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:0b819af3597bcf852bf4",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:0b819af3597bcf852bf4",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:0c0fad75f715f22bedc5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:0c0fad75f715f22bedc5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:0c3dcbc71356d4820c39",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:0c3dcbc71356d4820c39",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:0ca25c43bf572833ce37",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:0ca25c43bf572833ce37",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:0fcb52a72913e5d7b2c5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:0fcb52a72913e5d7b2c5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:0ffa80867b00b24260dc",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:0ffa80867b00b24260dc",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:1228d06789a9d6d56f2d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:1228d06789a9d6d56f2d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:14498c8cd240a62ccd49",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:14498c8cd240a62ccd49",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:145702e92140e6829bc8",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:145702e92140e6829bc8",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:14591f2524ece058c1e3",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:14591f2524ece058c1e3",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:154455085d97ad81972d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:154455085d97ad81972d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:15697db461a334339aed",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:15697db461a334339aed",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:16cf3612b628fe2f6fac",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:16cf3612b628fe2f6fac",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:17ba2620e64b07c7343b",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:17ba2620e64b07c7343b",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:184ed547913c41799e19",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:184ed547913c41799e19",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:1a10bb14c98450bd79dd",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:1a10bb14c98450bd79dd",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:1eb97d1751d3d88a2168",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:1eb97d1751d3d88a2168",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:202fa42ee15c683c2883",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:202fa42ee15c683c2883",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:207b5b2ec2951fd9db86",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:207b5b2ec2951fd9db86",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:222d4d19f7788331a458",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:222d4d19f7788331a458",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:23455cdbca23bf470d78",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:23455cdbca23bf470d78",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:263cddd144aa34c520a7",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:263cddd144aa34c520a7",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:268c62de6fc3bd3d62ae",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:268c62de6fc3bd3d62ae",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:26a6877f2227208e989f",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:26a6877f2227208e989f",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:288b0c5ec6e77131b4f1",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:288b0c5ec6e77131b4f1",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:2bafa05f0805b93ddba5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:2bafa05f0805b93ddba5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:2c4c1ca3ffd768d5cf9e",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:2c4c1ca3ffd768d5cf9e",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:2d2cb56df9aab24c49d5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:2d2cb56df9aab24c49d5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:33533e709887c0a58442",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:33533e709887c0a58442",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:3389459056e0d1e3e7dd",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:3389459056e0d1e3e7dd",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:3439f3ecd4db8fe3edef",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:3439f3ecd4db8fe3edef",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:34a5b4758da167ff9d14",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:34a5b4758da167ff9d14",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:34fd0ad4b748cd63379c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:34fd0ad4b748cd63379c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:368ca7522e699f096a14",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:368ca7522e699f096a14",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:37db3a8079601d550033",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:37db3a8079601d550033",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:3829013d6f2c8a5cb8a3",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:3829013d6f2c8a5cb8a3",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:3b979094b64ba2da06f4",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:3b979094b64ba2da06f4",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:3e1e0c9bdafb2464ddc1",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:3e1e0c9bdafb2464ddc1",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:3ebaa4b284ac94e0d9fe",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:3ebaa4b284ac94e0d9fe",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:3fd63aee329eaa9fdccd",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:3fd63aee329eaa9fdccd",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:410de5e7b16458e9b5a6",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:410de5e7b16458e9b5a6",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:430ed638705d4a39f534",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:430ed638705d4a39f534",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:45872bc07be7d332457d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:45872bc07be7d332457d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:47d9113f9a9924a54909",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:47d9113f9a9924a54909",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:4837cdafd71e48444f95",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:4837cdafd71e48444f95",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:49b403aaf49a958ff00d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:49b403aaf49a958ff00d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:4a40d1eb08c9ce8b6d8d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:4a40d1eb08c9ce8b6d8d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:4af48c5d9e7188adb1ac",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:4af48c5d9e7188adb1ac",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:4dce095e76ab35e810cc",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:4dce095e76ab35e810cc",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:50d18577e72051afb483",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:50d18577e72051afb483",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:50e8a689b06b74657b52",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:50e8a689b06b74657b52",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:50ebea142f8c004a6864",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:50ebea142f8c004a6864",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:512670f9479475f541c1",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:512670f9479475f541c1",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:5183726281adffb0ca7f",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:5183726281adffb0ca7f",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:524d498d46d436f8040c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:524d498d46d436f8040c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:53a84633efd5c82e3d6a",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:53a84633efd5c82e3d6a",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:545199e4477498f09e16",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:545199e4477498f09e16",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:56309e93b002e4ffe870",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:56309e93b002e4ffe870",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:5bb1ef8125efe3cdc206",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:5bb1ef8125efe3cdc206",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:5bd5ecf32164170d0e58",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:5bd5ecf32164170d0e58",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:5c40511c020c814fab92",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:5c40511c020c814fab92",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:621b7f3306cd11b87600",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:621b7f3306cd11b87600",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:63bb3eecb7d9a4292f4c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:63bb3eecb7d9a4292f4c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:65043c5e9b85c379300f",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:65043c5e9b85c379300f",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:69f163b3f7ca932d2cc9",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:69f163b3f7ca932d2cc9",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:6a96ad4fef8576aa2ac0",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:6a96ad4fef8576aa2ac0",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:6efa91087b6f51ce1404",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:6efa91087b6f51ce1404",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:6f7e7466cbf5f850f411",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:6f7e7466cbf5f850f411",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:6fd4fc3dd41653039f68",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:6fd4fc3dd41653039f68",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:7011f69e36e3f066b26d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:7011f69e36e3f066b26d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:70c4eee104d539ace0e2",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:70c4eee104d539ace0e2",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:7203825ba249466450ab",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:7203825ba249466450ab",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:739fe2bfedb21c3522e4",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:739fe2bfedb21c3522e4",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:7443644eb1a65a8fe415",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:7443644eb1a65a8fe415",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:7445fe93371b19edec6c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:7445fe93371b19edec6c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:761761c9c5907c938667",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:761761c9c5907c938667",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:76a31609d8a1d15e3ec5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:76a31609d8a1d15e3ec5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:7cecc6597c2ea7f96e09",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:7cecc6597c2ea7f96e09",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:7d1bec9825d81615d3a6",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:7d1bec9825d81615d3a6",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:80bc723a2263e69b4b52",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:80bc723a2263e69b4b52",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:81c667a9a28dbfdc9cfc",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:81c667a9a28dbfdc9cfc",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:81cc7e49d5f834d4b5ab",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:81cc7e49d5f834d4b5ab",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:83014bfe54c53c0d7a1d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:83014bfe54c53c0d7a1d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:83a654b9f654f436ac1a",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:83a654b9f654f436ac1a",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:84c0d30fc78076dea39a",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:84c0d30fc78076dea39a",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:84c55ba3b09e411d85f1",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:84c55ba3b09e411d85f1",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:873dd49313ddcc501dba",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:873dd49313ddcc501dba",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:87f52aaa2d795baef82b",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:87f52aaa2d795baef82b",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:87fe13cdd73a51e13a4b",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:87fe13cdd73a51e13a4b",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:894dad0b8eebe2e4a582",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:894dad0b8eebe2e4a582",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:89b6c4d26091290eb3ba",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:89b6c4d26091290eb3ba",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:8b8c34aa7858a0dbc5ef",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:8b8c34aa7858a0dbc5ef",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:8e42c947112a55a03cb7",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:8e42c947112a55a03cb7",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:8e7fe68b903366752e2c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:8e7fe68b903366752e2c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:8fd7bea6edf36fcc75be",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:8fd7bea6edf36fcc75be",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:8fefa577b75fa2ac5af5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:8fefa577b75fa2ac5af5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:904612064dd4e76969ae",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:904612064dd4e76969ae",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9377f5f1386494e44c75",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9377f5f1386494e44c75",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9428163f156c25ecff6d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9428163f156c25ecff6d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9521249b055ac3fa020d",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9521249b055ac3fa020d",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:95709f4e85d0d2c1c20a",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:95709f4e85d0d2c1c20a",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:95c65ba28d0295951121",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:95c65ba28d0295951121",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:95ec8839cd31fceaafcc",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:95ec8839cd31fceaafcc",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:961220488b9f57366b9b",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:961220488b9f57366b9b",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:97753820cbf2abe11ba8",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:97753820cbf2abe11ba8",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:989002fb825606a96364",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:989002fb825606a96364",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:999ec7c522345997a12c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:999ec7c522345997a12c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9a6716b7946059bfbaeb",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9a6716b7946059bfbaeb",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9a87042af07020667424",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9a87042af07020667424",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9aa600e58e9f09d1b9e7",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9aa600e58e9f09d1b9e7",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9b88b09fa27b0c18a8c5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9b88b09fa27b0c18a8c5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9be491ae03b7bdc60d21",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9be491ae03b7bdc60d21",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9caf6b1b2ec0f400df63",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9caf6b1b2ec0f400df63",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9cd7a71e9fac25de3e4f",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9cd7a71e9fac25de3e4f",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9d0abac2b3444285f8e4",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9d0abac2b3444285f8e4",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9e647f82c0e3cd030f63",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9e647f82c0e3cd030f63",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:9f70bcafa38a89fafa8f",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:9f70bcafa38a89fafa8f",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:a3f9f986552e39a84511",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:a3f9f986552e39a84511",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:a67c88d3bf07d0a19d22",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:a67c88d3bf07d0a19d22",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:a85cdbf5f911e5f1bf51",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:a85cdbf5f911e5f1bf51",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:a932e240689e139b11b2",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:a932e240689e139b11b2",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:aa5d92939e46fafde979",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:aa5d92939e46fafde979",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:acae31de0990ac456efd",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:acae31de0990ac456efd",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ad88cc7c765623d495b7",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ad88cc7c765623d495b7",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ae29dfb313c9afd54e80",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ae29dfb313c9afd54e80",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:af4a7e76eff9e9328c85",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:af4a7e76eff9e9328c85",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:afbbc55f47e470e7d209",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:afbbc55f47e470e7d209",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:b1f8cf8dd8b413592fdb",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:b1f8cf8dd8b413592fdb",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:b346506b2ea0a4d62a43",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:b346506b2ea0a4d62a43",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:b3741dc4d433cfd3172e",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:b3741dc4d433cfd3172e",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:b3c7bde9b1962b89b3ee",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:b3c7bde9b1962b89b3ee",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:b597925c75115db2ab58",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:b597925c75115db2ab58",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:b75d5006c97128593256",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:b75d5006c97128593256",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:b94bd40f930adf6c3785",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:b94bd40f930adf6c3785",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:b9bb96343ac8ba1a3b5b",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:b9bb96343ac8ba1a3b5b",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ba2f817bd9a1f6358ac8",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ba2f817bd9a1f6358ac8",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:bad4ed044821612d9ff4",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:bad4ed044821612d9ff4",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:baf68eacef7f736b2b70",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:baf68eacef7f736b2b70",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:bb3a1266a51aeadcd5a6",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:bb3a1266a51aeadcd5a6",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:bc28a5734157599d4550",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:bc28a5734157599d4550",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:bd20aa2fd828688ad130",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:bd20aa2fd828688ad130",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:be373dff9cbda319ad91",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:be373dff9cbda319ad91",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:bf56798952b0a3ded3fc",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:bf56798952b0a3ded3fc",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:bfc8a6cd70d5b5ca1660",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:bfc8a6cd70d5b5ca1660",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:c0efb171116a359b2672",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:c0efb171116a359b2672",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:c290758f9e1d006d1735",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:c290758f9e1d006d1735",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:c329c6b46fd2b0d8de15",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:c329c6b46fd2b0d8de15",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:c53945e656e299986d17",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:c53945e656e299986d17",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:c6ca941069a8d65e78d9",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:c6ca941069a8d65e78d9",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:c99ed5437c89f0842dec",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:c99ed5437c89f0842dec",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:cb3a15e1556a27858099",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:cb3a15e1556a27858099",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:cb7b1b3cd57d83bc527e",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:cb7b1b3cd57d83bc527e",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:cc09a02de82404a0258f",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:cc09a02de82404a0258f",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:cc2f057b446e37bfb856",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:cc2f057b446e37bfb856",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:d217403f9a521b1503a9",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:d217403f9a521b1503a9",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:d3df808c8086a418db13",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:d3df808c8086a418db13",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:d843306f56511b44c8ec",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:d843306f56511b44c8ec",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:d85f33b432a2f6af4e23",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:d85f33b432a2f6af4e23",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:d8af390ae28cf92334dc",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:d8af390ae28cf92334dc",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:d8f66b92eff6e59f471c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:d8f66b92eff6e59f471c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:d966cc6ec4e5a2f567ca",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:d966cc6ec4e5a2f567ca",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:d9ce9843d9a532f8da41",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:d9ce9843d9a532f8da41",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:dbcac0766205a03cbb81",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:dbcac0766205a03cbb81",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:df10b3054776f0f4ca7a",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:df10b3054776f0f4ca7a",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:dfa78f8f8eaee6a62005",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:dfa78f8f8eaee6a62005",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:e664e47669768bf1c085",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:e664e47669768bf1c085",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:e70906ee33d76a924df5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:e70906ee33d76a924df5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:e7ccf150ec15c9d52f3b",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:e7ccf150ec15c9d52f3b",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ea4b9daa0b3cb3776a07",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ea4b9daa0b3cb3776a07",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ea84297e0644b3bed53c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ea84297e0644b3bed53c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:eb77b9793a8ec40de896",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:eb77b9793a8ec40de896",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ed4bec8a9c064b732ebc",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ed4bec8a9c064b732ebc",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:edf568d4ac2c1341dc57",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:edf568d4ac2c1341dc57",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ef16a585be940ba45fe0",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ef16a585be940ba45fe0",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:efb9025c68b83ae3efb1",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:efb9025c68b83ae3efb1",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f0c6a94b4b7738fe3a2e",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f0c6a94b4b7738fe3a2e",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f1fbd8243c056d438d08",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f1fbd8243c056d438d08",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f2311d418c8032b08c2b",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f2311d418c8032b08c2b",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f2c285bdad9e5e3e7fa5",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f2c285bdad9e5e3e7fa5",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f37ac3ef6458d4a91a71",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f37ac3ef6458d4a91a71",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f3e0120ed1f6618e91d2",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f3e0120ed1f6618e91d2",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f5ba6b82772cae767c0b",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f5ba6b82772cae767c0b",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f5fef6a3db915245649c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f5fef6a3db915245649c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f6f0af7510f6d3cae710",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f6f0af7510f6d3cae710",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:f8e0f089ccacea455a8f",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:f8e0f089ccacea455a8f",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:fc96257c456d4f62720c",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:fc96257c456d4f62720c",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:fe5588aa1ecbc85295c2",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:fe5588aa1ecbc85295c2",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ff29ff3fcd980c3c181a",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ff29ff3fcd980c3c181a",
+      "issue": "verified_event_missing_source_chain"
+    },
+    {
+      "event_id": "candidate:ff69d024b3adfa4d637e",
+      "issue": "verified_event_missing_required_verification"
+    },
+    {
+      "event_id": "candidate:ff69d024b3adfa4d637e",
+      "issue": "verified_event_missing_source_chain"
+    }
+  ],
+  "warnings": [
+    {
+      "event_id": "KR7489030007:2026-07-30:ordinary_cash:v1",
       "issue": "tr_blocked_partial"
     }
   ],
   "status_counts": {
-    "krx_verified": 5,
-    "issuer_notice": 3,
-    "verified": 1,
-    "partial": 14
+    "verified": 208,
+    "partial": 1
   },
   "source_integrity": {
-    "checked": 59,
-    "passed": 59,
+    "checked": 14,
+    "passed": 14,
     "issues": []
   }
 }

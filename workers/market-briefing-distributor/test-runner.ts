@@ -7,7 +7,7 @@ import { validateBriefingPayload } from "./src/circuit-breaker";
 import type { MarketBriefingPayload } from "./src/types";
 import * as fs from "fs";
 import * as path from "path";
-import sharp from "sharp";
+import * as puppeteerModule from "puppeteer";
 
 const payload20260831: MarketBriefingPayload = {
   asOfDate: "2026-08-31",
@@ -185,6 +185,29 @@ async function run() {
 
   [rootInstaDir, rootThreadsDir, rootEmailDir].forEach(d => fs.mkdirSync(d, { recursive: true }));
 
+  // Puppeteer Browser Launch for high-fidelity PNG rendering across all channels
+  const puppeteer = puppeteerModule.default || puppeteerModule;
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--hide-scrollbars'
+    ]
+  });
+  const renderPage = await browser.newPage();
+
+  async function convertSvgToPng(svg: string, outPng: string, w = 1080, h = 1350) {
+    await renderPage.setViewport({ width: w, height: h, deviceScaleFactor: 1 });
+    await renderPage.setContent(`<!DOCTYPE html><html><head><style>html,body{margin:0;padding:0;background:transparent;overflow:hidden;width:${w}px;height:${h}px;}</style></head><body>${svg}</body></html>`, { waitUntil: 'domcontentloaded' });
+    const el = await renderPage.$('svg') || await renderPage.$('body');
+    if (el) {
+      await el.screenshot({ path: outPng, omitBackground: false });
+    }
+  }
+
   // Render & Save Slides
   for (const s of slides) {
     const safeSvg = s.svgContent.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
@@ -193,7 +216,7 @@ async function run() {
     const rootSvgPath = path.join(rootInstaDir, `instagram_slide_${s.slideNumber}.svg`);
     const rootPngPath = path.join(rootInstaDir, `instagram_slide_${s.slideNumber}.png`);
     fs.writeFileSync(rootSvgPath, safeSvg, "utf-8");
-    await sharp(Buffer.from(safeSvg)).png().toFile(rootPngPath);
+    await convertSvgToPng(safeSvg, rootPngPath, 1080, 1350);
 
     console.log(`- Slide ${s.slideNumber}: [${s.title}] ${s.subtitle} -> Rendered PNG & SVG`);
   }
@@ -226,7 +249,7 @@ async function run() {
   const rootThreadsSvg = path.join(rootThreadsDir, "threads_image.svg");
   const rootThreadsPng = path.join(rootThreadsDir, "threads_image.png");
   fs.writeFileSync(rootThreadsSvg, safeThreadsSvg, "utf-8");
-  await sharp(Buffer.from(safeThreadsSvg)).png().toFile(rootThreadsPng);
+  await convertSvgToPng(safeThreadsSvg, rootThreadsPng, 1080, 1350);
   console.log("- Threads Image -> Rendered PNG & SVG");
 
   // Newsletter
@@ -238,24 +261,13 @@ async function run() {
   fs.writeFileSync(path.join(rootEmailDir, "newsletter.html"), newsBuf);
 
   console.log("\n=== 5. Email Puppeteer High-Res Capture (Actual Webpage) ===");
-  console.log("Launching headless browser to snapshot actual Market Briefing webpage...");
+  console.log("Capturing actual Market Briefing webpage snapshot...");
   console.log(`Navigating to: ${baseUrl}/briefing`);
   const emailPngPath = path.join(rootEmailDir, "email_snapshot.png");
 
   let imageMapAreas: { left: number, top: number, width: number, height: number, ticker: string }[] = [];
 
   try {
-    const puppeteer = (await import("puppeteer")).default;
-    const browser = await puppeteer.launch({ 
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--hide-scrollbars'
-      ]
-    });
     const page = await browser.newPage();
     await page.setViewport({ width: 720, height: 900, deviceScaleFactor: 2 });
     await page.goto(`${baseUrl}/briefing`, { waitUntil: "domcontentloaded", timeout: 20000 });
@@ -528,7 +540,27 @@ async function run() {
         </div>
 
         <div class="lg:col-span-5 space-y-4">
-          <div class="bg-slate-950 p-6           <div class="flex items-center justify-between w-full mb-4">
+          <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-slate-300">📝 인스타그램 캡션</h3>
+              <a href="./1_Instagram/instagram_caption.txt" download class="text-xs text-emerald-400 font-bold hover:underline">다운로드</a>
+            </div>
+            <div class="text-xs leading-relaxed text-slate-300 bg-slate-900 p-4 rounded-2xl max-h-[300px] overflow-y-auto whitespace-pre-wrap">${caption}</div>
+          </div>
+          <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-3">
+            <h3 class="text-sm font-bold text-slate-300">🖼️ 6개 슬라이드 썸네일</h3>
+            <div id="thumbnailsContainer" class="grid grid-cols-3 gap-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: Threads -->
+    <section id="panel-threads" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 space-y-4" id="threadsContainer"></div>
+        <div class="lg:col-span-5 bg-slate-950 p-6 rounded-3xl border border-slate-800 shadow-2xl flex flex-col items-center">
+          <div class="flex items-center justify-between w-full mb-4">
             <h3 class="text-sm font-bold text-slate-300">🖼️ 스레드 단일 첨부 이미지 (1080×1350)</h3>
             <a href="./2_Threads/threads_image.png" target="_blank" download="threads_image.png" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
               <span>💾 PNG 다운로드</span>

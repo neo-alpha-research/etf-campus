@@ -949,13 +949,21 @@ export function MarketBriefing() {
 
             <button
               type="button"
-              onClick={() => setIsGuideOpen(true)}
-              className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-bold text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] hover:border-[#CAD8BC] transition-all select-none focus:outline-none focus:ring-2 focus:ring-[#2E6819]/20 cursor-pointer w-fit"
+              onClick={() => setIsGuideOpen(!isGuideOpen)}
+              className={`flex items-center gap-1.5 rounded-full px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-bold transition-all select-none focus:outline-none focus:ring-2 focus:ring-[#2E6819]/20 cursor-pointer w-fit ${
+                isGuideOpen
+                  ? "bg-[#2E6819] text-white shadow-xs border border-[#2E6819]"
+                  : "bg-white text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] hover:border-[#CAD8BC]"
+              }`}
             >
-              <BookOpen className="h-3.5 w-3.5 text-[#5A7050]" />
+              <BookOpen className={`h-3.5 w-3.5 ${isGuideOpen ? "text-white" : "text-[#5A7050]"}`} />
               <span>이 화면 읽는 법</span>
-              <span className="text-[10px] font-extrabold text-[#2E6819] bg-[#FAFDF4] px-1.5 py-0.5 rounded-full border border-[#D7EABB]">
-                가이드
+              <span className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-full border ${
+                isGuideOpen 
+                  ? "bg-white/20 text-white border-white/30" 
+                  : "text-[#2E6819] bg-[#FAFDF4] border-[#D7EABB]"
+              }`}>
+                {isGuideOpen ? "접기 ▲" : "가이드 ▾"}
               </span>
             </button>
 

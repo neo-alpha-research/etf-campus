@@ -45,7 +45,8 @@ export async function onRequestGet(context) {
       market_temperature, general_aum_weighted_return_pct,
       top100_aum_weighted_return_pct, breadth_ratio_pct, general_etf_count
     FROM market_briefings
-    WHERE (? IS NULL OR as_of_date < ?)
+    WHERE as_of_date >= '2026-08-24' 
+      AND (? IS NULL OR as_of_date < ?)
     ORDER BY as_of_date DESC
     LIMIT ?`,
   );

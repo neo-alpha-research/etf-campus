@@ -189,18 +189,28 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
             </ol>
           </div>
 
-          {hasMore && (
-            <div className="mt-4 flex justify-center">
+          <div className="mt-5 flex justify-center">
+            <div className="relative inline-flex">
+              <input 
+                type="date" 
+                id="history-date-picker"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                onChange={(e) => {
+                  if (e.target.value) {
+                    onSelectDate(e.target.value);
+                  }
+                }}
+                max={new Date().toISOString().split('T')[0]}
+                title="날짜를 선택하여 과거 브리핑을 조회합니다"
+              />
               <button
                 type="button"
-                onClick={() => void loadMore()}
-                disabled={isLoadingMore}
-                className="rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-4 py-2 text-xs font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] disabled:cursor-wait disabled:opacity-60"
+                className="rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-5 py-2.5 text-[13px] font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] flex items-center gap-2 shadow-sm"
               >
-                {isLoadingMore ? "불러오는 중…" : "▾ 지난 마켓 브리핑 더 보기"}
+                📅 달력에서 이전 일자 찾기
               </button>
             </div>
-          )}
+          </div>
         </>
       )}
     </section>

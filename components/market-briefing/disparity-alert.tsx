@@ -76,12 +76,12 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
           {/* 좌측 패널: 고평가 (Premium) TOP 3 */}
           <div className="rounded-xl border border-rose-100 bg-rose-50/30 p-4 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between pb-3 border-b border-rose-100/80">
-                <div className="flex items-center gap-1.5">
-                  <TrendingUp className="h-4 w-4 text-rose-600 stroke-[2.5]" />
-                  <span className="text-[13.5px] font-bold text-rose-950">고평가 TOP 3 (Premium)</span>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-3 border-b border-rose-100/80">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <TrendingUp className="h-4 w-4 text-rose-600 stroke-[2.5] shrink-0" />
+                  <span className="text-[13.5px] font-bold text-rose-950 truncate">고평가 TOP 3 (Premium)</span>
                 </div>
-                <span className="text-[11px] font-semibold text-rose-700 bg-rose-100/70 px-2 py-0.5 rounded-md">
+                <span className="text-[10.5px] sm:text-[11px] font-semibold text-rose-700 bg-rose-100/70 px-2 py-0.5 rounded-md w-fit shrink-0 break-keep">
                   추격 매수 주의 (시장가 &gt; NAV)
                 </span>
               </div>
@@ -98,20 +98,20 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
                       <Link
                         key={w.ticker}
                         href={`/etf/${w.ticker}`}
-                        className="group flex items-center justify-between rounded-lg border border-rose-100 bg-white px-3.5 py-2.5 shadow-2xs transition-all hover:border-rose-300 hover:shadow-xs"
+                        className="group flex items-center justify-between gap-2 rounded-lg border border-rose-100 bg-white px-3 sm:px-3.5 py-2.5 shadow-2xs transition-all hover:border-rose-300 hover:shadow-xs w-full min-w-0"
                       >
-                        <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                        <div className="flex items-center gap-2 min-w-0 flex-1 pr-1">
                           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-rose-50 text-[11px] font-black text-rose-600">
                             {idx + 1}
                           </span>
-                          <div className="min-w-0">
-                            <p className="text-[13px] font-bold text-neutral-900 truncate group-hover:text-rose-700 group-hover:underline">
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[12.5px] sm:text-[13px] font-bold text-neutral-900 truncate group-hover:text-rose-700 group-hover:underline">
                               {name}
                             </p>
                             <div className="flex items-center gap-1.5 mt-0.5">
-                              <span className="text-[11px] font-medium text-neutral-400 tabular-nums">{w.ticker}</span>
+                              <span className="text-[10.5px] sm:text-[11px] font-medium text-neutral-400 tabular-nums">{w.ticker}</span>
                               {assetClass && (
-                                <span className="text-[10px] px-1.5 py-0.2 rounded bg-neutral-100 text-neutral-500 font-medium">
+                                <span className="text-[9.5px] sm:text-[10px] px-1.5 py-0.2 rounded bg-neutral-100 text-neutral-500 font-medium truncate">
                                   {assetClass}
                                 </span>
                               )}
@@ -119,17 +119,17 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
                           </div>
                         </div>
                         <div className="flex items-center gap-1 shrink-0">
-                          <span className="text-[12px] font-black tabular-nums px-2 py-0.5 rounded border bg-rose-50 border-rose-200 text-rose-600">
+                          <span className="text-[11px] sm:text-[12px] font-black tabular-nums px-2 py-0.5 rounded border bg-rose-50 border-rose-200 text-rose-600 whitespace-nowrap">
                             +{pct.toFixed(2)}% 고평가
                           </span>
-                          <ChevronRight className="h-3.5 w-3.5 text-neutral-300 transition-transform group-hover:translate-x-0.5 group-hover:text-rose-600" />
+                          <ChevronRight className="h-3.5 w-3.5 text-neutral-300 transition-transform group-hover:translate-x-0.5 group-hover:text-rose-600 shrink-0" />
                         </div>
                       </Link>
                     );
                   })
                 ) : (
                   <div className="py-6 text-center text-[12px] text-neutral-400 bg-white/60 rounded-lg border border-dashed border-rose-200 flex items-center justify-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
                     <span>현재 고평가 경보 종목이 없습니다.</span>
                   </div>
                 )}
@@ -145,12 +145,12 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
           {/* 우측 패널: 저평가 (Discount) TOP 3 */}
           <div className="rounded-xl border border-blue-100 bg-blue-50/30 p-4 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between pb-3 border-b border-blue-100/80">
-                <div className="flex items-center gap-1.5">
-                  <TrendingDown className="h-4 w-4 text-blue-600 stroke-[2.5]" />
-                  <span className="text-[13.5px] font-bold text-blue-950">저평가 TOP 3 (Discount)</span>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-3 border-b border-blue-100/80">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <TrendingDown className="h-4 w-4 text-blue-600 stroke-[2.5] shrink-0" />
+                  <span className="text-[13.5px] font-bold text-blue-950 truncate">저평가 TOP 3 (Discount)</span>
                 </div>
-                <span className="text-[11px] font-semibold text-blue-700 bg-blue-100/70 px-2 py-0.5 rounded-md">
+                <span className="text-[10.5px] sm:text-[11px] font-semibold text-blue-700 bg-blue-100/70 px-2 py-0.5 rounded-md w-fit shrink-0 break-keep">
                   헐값 매도 주의 / 기회 (시장가 &lt; NAV)
                 </span>
               </div>
@@ -167,20 +167,20 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
                       <Link
                         key={w.ticker}
                         href={`/etf/${w.ticker}`}
-                        className="group flex items-center justify-between rounded-lg border border-blue-100 bg-white px-3.5 py-2.5 shadow-2xs transition-all hover:border-blue-300 hover:shadow-xs"
+                        className="group flex items-center justify-between gap-2 rounded-lg border border-blue-100 bg-white px-3 sm:px-3.5 py-2.5 shadow-2xs transition-all hover:border-blue-300 hover:shadow-xs w-full min-w-0"
                       >
-                        <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                        <div className="flex items-center gap-2 min-w-0 flex-1 pr-1">
                           <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-blue-50 text-[11px] font-black text-blue-600">
                             {idx + 1}
                           </span>
-                          <div className="min-w-0">
-                            <p className="text-[13px] font-bold text-neutral-900 truncate group-hover:text-blue-700 group-hover:underline">
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[12.5px] sm:text-[13px] font-bold text-neutral-900 truncate group-hover:text-blue-700 group-hover:underline">
                               {name}
                             </p>
                             <div className="flex items-center gap-1.5 mt-0.5">
-                              <span className="text-[11px] font-medium text-neutral-400 tabular-nums">{w.ticker}</span>
+                              <span className="text-[10.5px] sm:text-[11px] font-medium text-neutral-400 tabular-nums">{w.ticker}</span>
                               {assetClass && (
-                                <span className="text-[10px] px-1.5 py-0.2 rounded bg-neutral-100 text-neutral-500 font-medium">
+                                <span className="text-[9.5px] sm:text-[10px] px-1.5 py-0.2 rounded bg-neutral-100 text-neutral-500 font-medium truncate">
                                   {assetClass}
                                 </span>
                               )}
@@ -188,17 +188,17 @@ export function DisparityAlert({ warnings }: { warnings: DisparityWarning[] }) {
                           </div>
                         </div>
                         <div className="flex items-center gap-1 shrink-0">
-                          <span className="text-[12px] font-black tabular-nums px-2 py-0.5 rounded border bg-blue-50 border-blue-200 text-blue-600">
+                          <span className="text-[11px] sm:text-[12px] font-black tabular-nums px-2 py-0.5 rounded border bg-blue-50 border-blue-200 text-blue-600 whitespace-nowrap">
                             {pct.toFixed(2)}% 저평가
                           </span>
-                          <ChevronRight className="h-3.5 w-3.5 text-neutral-300 transition-transform group-hover:translate-x-0.5 group-hover:text-blue-600" />
+                          <ChevronRight className="h-3.5 w-3.5 text-neutral-300 transition-transform group-hover:translate-x-0.5 group-hover:text-blue-600 shrink-0" />
                         </div>
                       </Link>
                     );
                   })
                 ) : (
                   <div className="py-6 text-center text-[12px] text-neutral-400 bg-white/60 rounded-lg border border-dashed border-blue-200 flex items-center justify-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
                     <span>현재 저평가 경보 종목이 없습니다. (모두 정상 범위)</span>
                   </div>
                 )}

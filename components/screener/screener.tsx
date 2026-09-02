@@ -800,24 +800,25 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           <div className="rounded-2xl border border-line w-full bg-surface shadow-xs overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin]">
             <div className="w-full">
               <table className="w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap min-w-[770px]">
+                {/* 명시적 열 너비 제어 */}
                 <colgroup>
-                  <col style={{ width: 210, minWidth: 190 }} />
-                  <col style={{ width: 62, minWidth: 58 }} />
-                  <col style={{ width: 62, minWidth: 58 }} />
-                  <col style={{ width: 62, minWidth: 58 }} />
-                  <col style={{ width: 62, minWidth: 58 }} />
-                  <col style={{ width: 62, minWidth: 58 }} />
-                  {(comparisonPeriod || customDateRange) && <col style={{ width: 62, minWidth: 58 }} />}
-                  <col style={{ width: 56, minWidth: 54 }} />
-                  <col style={{ width: 68, minWidth: 64 }} />
-                  <col style={{ width: 68, minWidth: 64 }} />
-                  <col style={{ width: 68, minWidth: 64 }} />
+                  <col style={{ width: 180, minWidth: 140 }} />
+                  <col style={{ width: 56, minWidth: 50 }} />
+                  <col style={{ width: 56, minWidth: 50 }} />
+                  <col style={{ width: 56, minWidth: 50 }} />
+                  <col style={{ width: 56, minWidth: 50 }} />
+                  <col style={{ width: 56, minWidth: 50 }} />
+                  {(comparisonPeriod || customDateRange) && <col style={{ width: 62, minWidth: 54 }} />}
+                  <col style={{ width: 56, minWidth: 52 }} />
+                  <col style={{ width: 68, minWidth: 60 }} />
+                  <col style={{ width: 68, minWidth: 60 }} />
+                  <col style={{ width: 68, minWidth: 60 }} />
                 </colgroup>
-                {/* 2단 헤더 (상단 고정 네비게이션 바로 아래 윈도우 스크롤 연동 완벽 고정) */}
-                <thead className="sticky top-[var(--site-header-height,156px)] z-30 bg-neutral-100 text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
+                {/* 2단 헤더 (윈도우 스크롤 시 상단 밀착 고정) */}
+                <thead className="sticky top-0 z-30 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
                   <tr className="border-b border-neutral-200">
-                    <th className="sticky left-0 z-40 px-3 py-0 h-[32px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">
+                    <th className="sticky left-0 z-40 px-2 sm:px-3 py-0 h-[30px] sm:h-[32px] w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
+                    <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">
                       <div className="flex items-center justify-center gap-2">
                         <span>수익률(%)</span>
                         <button
@@ -870,42 +871,42 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         </div>
                       )}
                     </th>
-                    <th className="px-2 py-0 h-[32px] text-center border-l border-neutral-200 bg-neutral-100" colSpan={4} scope="colgroup">비용·규모·가격</th>
+                    <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-100" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
-                  <tr className="text-[12px]">
-                    <th className="sticky left-0 z-40 min-w-[190px] w-[210px] bg-neutral-100 px-3 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
+                  <tr className="text-[11.5px] sm:text-[12px]">
+                    <th className="sticky left-0 z-40 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
                     
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1일</span>
+                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
+                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1일</span>
                     </th>
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
+                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
+                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
                     </th>
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
+                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
+                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
                     </th>
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
+                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
+                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
                     </th>
-                    <th className={`min-w-[60px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
+                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
+                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
                     </th>
                     {comparisonPeriod && (
-                      <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300" scope="col">
-                        <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
+                      <th className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300" scope="col">
+                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
                       </th>
                     )}
                     {customDateRange && !comparisonPeriod && (
-                      <th className="min-w-[60px] px-1.5 py-0 h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300" scope="col">
+                      <th className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300" scope="col">
                         <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
                         <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
                       </th>
                     )}
 
-                    <th aria-label="투자자 실부담 총비용, 단위 퍼센트" className="min-w-[64px] px-1.5 py-0 h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="실부담비용" unit="%" /></th>
-                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
-                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
-                    <th className="min-w-[64px] px-1.5 py-0 h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                    <th aria-label="투자자 실부담 총비용, 단위 퍼센트" className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="실부담비용" unit="%" /></th>
+                    <th className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
+                    <th className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
+                    <th className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
                   </tr>
                 </thead>
                 <tbody ref={tbodyRef} className="divide-y divide-line text-[12px]">
@@ -924,9 +925,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                     return (
                     <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" key={etf.ticker} data-index={virtualRow.index} ref={rowVirtualizer.measureElement}>
                       {/* 1. 종목 정보 (종목명 + 티커 + 자산/지역/환헤지/연금 뱃지 통합) */}
-                      <th className="sticky left-0 z-10 bg-white min-w-[190px] max-w-[230px] px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
-                        <div className="flex flex-col gap-0.5">
-                          <Link className="line-clamp-1 truncate block text-left text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>
+                      <th className="sticky left-0 z-10 bg-white w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] max-w-[210px] px-2 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                        <div className="flex flex-col gap-0.5 min-w-0">
+                          <Link className="line-clamp-1 truncate block text-left text-[12px] sm:text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>
                             {etf.name}
                           </Link>
                           <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">

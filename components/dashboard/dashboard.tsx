@@ -735,22 +735,22 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
           <table className={`w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap ${isFullPeriods ? "min-w-[1100px]" : "min-w-[770px]"}`}><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             {/* 명시적 열 너비 제어 */}
             <colgroup>
-              <col style={{ width: 210, minWidth: 190 }} />
+              <col style={{ width: 180, minWidth: 140 }} />
               {displayPeriods.map((period) => (
-                <col key={period} style={{ width: 62, minWidth: 58 }} />
+                <col key={period} style={{ width: 62, minWidth: 54 }} />
               ))}
-              <col style={{ width: 56, minWidth: 54 }} />
-              <col style={{ width: 68, minWidth: 64 }} />
-              <col style={{ width: 68, minWidth: 64 }} />
-              <col style={{ width: 68, minWidth: 64 }} />
+              <col style={{ width: 56, minWidth: 52 }} />
+              <col style={{ width: 68, minWidth: 60 }} />
+              <col style={{ width: 68, minWidth: 60 }} />
+              <col style={{ width: 68, minWidth: 60 }} />
             </colgroup>
             
-            {/* 2단 헤더 (상단 고정 네비게이션 바로 아래 윈도우 스크롤 연동 고정) */}
-            <thead className="sticky top-[var(--site-header-height,156px)] z-30 border-b-2 border-neutral-300 bg-neutral-100 text-[13px] font-bold text-neutral-700 shadow-sm">
+            {/* 2단 헤더 (윈도우 스크롤 시 상단 밀착 고정) */}
+            <thead className="sticky top-0 z-30 border-b-2 border-neutral-300 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 shadow-sm">
               {/* 1단 그룹 헤더 */}
               <tr className="border-b border-neutral-200">
-                <th className="sticky left-0 z-40 h-[32px] bg-neutral-100 px-3 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
-                <th className="h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">
+                <th className="sticky left-0 z-40 h-[30px] sm:h-[32px] w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
+                <th className="h-[30px] sm:h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">
                   <div className="flex items-center justify-center gap-1.5">
                     <span>수익률(%)</span>
                     {state.mode !== "new" && (
@@ -765,11 +765,11 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                     )}
                   </div>
                 </th>
-                <th className="h-[32px] bg-neutral-100 px-2 py-0 text-center border-l border-neutral-200" colSpan={costSizePriceColSpan} scope="colgroup">비용·규모·가격</th>
+                <th className="h-[30px] sm:h-[32px] bg-neutral-100 px-2 py-0 text-center border-l border-neutral-200" colSpan={costSizePriceColSpan} scope="colgroup">비용·규모·가격</th>
               </tr>
               {/* 2단 세부 헤더 */}
-              <tr className="text-[12px]">
-                <th className="sticky left-0 z-40 min-w-[190px] w-[210px] bg-neutral-100 px-3 py-0 h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
+              <tr className="text-[11.5px] sm:text-[12px]">
+                <th className="sticky left-0 z-40 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
                 
                 {displayPeriods.map((period, index) => {
                   const isYtd = period === "ytd" || period === "itd";
@@ -777,16 +777,16 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                   const isSorted = normalizedPeriod === period;
                   const bg = isSorted ? "bg-brand-100 text-brand-900" : "bg-neutral-50";
                   return (
-                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률`} className={`h-[48px] min-w-[60px] px-1.5 py-0 text-right ${borderL} ${bg} border-b-2 border-neutral-300`} key={period} scope="col">
-                      <span className="whitespace-nowrap text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">{RETURN_PERIOD_LABELS[period]}</span>
+                    <th aria-label={`${RETURN_PERIOD_LABELS[period]} 수익률`} className={`h-[44px] sm:h-[48px] min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 text-right ${borderL} ${bg} border-b-2 border-neutral-300`} key={period} scope="col">
+                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">{RETURN_PERIOD_LABELS[period]}</span>
                     </th>
                   );
                 })}
                 
-                <th aria-label="투자자 실부담 총비용, 단위 퍼센트" className="min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-l border-neutral-200 border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="실부담비용" unit="%" /></th>
-                <th aria-label="순자산, 단위 억원" className="min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
-                <th aria-label="거래대금, 단위 억원" className="min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
-                <th aria-label="종가, 단위 원" className="min-w-[64px] h-[48px] bg-neutral-100 px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                <th aria-label="투자자 실부담 총비용, 단위 퍼센트" className="min-w-[58px] sm:min-w-[64px] h-[44px] sm:h-[48px] bg-neutral-100 px-1 sm:px-1.5 py-0 text-right border-l border-neutral-200 border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="실부담비용" unit="%" /></th>
+                <th aria-label="순자산, 단위 억원" className="min-w-[58px] sm:min-w-[64px] h-[44px] sm:h-[48px] bg-neutral-100 px-1 sm:px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
+                <th aria-label="거래대금, 단위 억원" className="min-w-[58px] sm:min-w-[64px] h-[44px] sm:h-[48px] bg-neutral-100 px-1 sm:px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
+                <th aria-label="종가, 단위 원" className="min-w-[58px] sm:min-w-[64px] h-[44px] sm:h-[48px] bg-neutral-100 px-1 sm:px-1.5 py-0 text-right border-b-2 border-neutral-300" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line text-[12px]">
@@ -802,9 +802,9 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                 return (
                   <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60 h-[44px]" data-index={virtualRow.index} key={etf.ticker} ref={rowVirtualizer.measureElement}>
                     {/* 1. 종목 정보 (Sticky Left Column - 2단 통합) */}
-                    <th className="sticky left-0 z-10 bg-white min-w-[190px] max-w-[230px] px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                    <th className="sticky left-0 z-10 bg-white w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] max-w-[210px] px-2 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
                       <div className="flex flex-col gap-0.5 min-w-0">
-                        <Link className="line-clamp-1 truncate block text-left text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}/`} title={etf.name}>{etf.name}</Link>
+                        <Link className="line-clamp-1 truncate block text-left text-[12px] sm:text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}/`} title={etf.name}>{etf.name}</Link>
                         <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">
                           <span className="font-mono font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded text-[10.5px]">{etf.ticker}</span>
                             

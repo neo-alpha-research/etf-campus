@@ -91,8 +91,8 @@ describe("Dashboard", () => {
     const infoHeader = screen.getByRole("columnheader", { name: "종목 정보" });
     const nameLink = screen.getByRole("link", { name: "대형 일반 ETF" });
 
-    expect(infoHeader).toHaveClass("w-[210px]", "text-center");
-    expect(nameLink).toHaveClass("line-clamp-1", "truncate", "block", "text-left", "text-[13px]");
+    expect(infoHeader).toHaveClass("text-center");
+    expect(nameLink).toHaveClass("line-clamp-1", "truncate", "block", "text-left");
     expect(screen.getByText("A")).toBeInTheDocument();
     expect(screen.getByText("주식-국내")).toBeInTheDocument();
   });
@@ -112,8 +112,8 @@ describe("Dashboard", () => {
     const closeHeader = screen.getByRole("columnheader", { name: "종가, 단위 원" });
     const oneMonthHeader = screen.getByRole("columnheader", { name: "1개월 수익률" });
 
-    expect(closeHeader.closest("thead")).toHaveClass("sticky", "top-[var(--site-header-height,156px)]");
-    expect(closeHeader.closest("thead")).toHaveClass("text-[13px]", "font-bold", "text-neutral-700");
+    expect(closeHeader.closest("thead")).toHaveClass("sticky", "top-0");
+    expect(closeHeader.closest("thead")).toHaveClass("font-bold", "text-neutral-700");
     expect(closeHeader).toHaveClass("text-right");
     expect(oneMonthHeader).toHaveClass("text-right");
   });

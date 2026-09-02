@@ -921,26 +921,26 @@ export function MarketBriefing() {
       ) : (
         <>
       {/* Tickery's 3-Point Mini Dashboard */}
-      <section className="relative rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-6 shadow-[0_8px_24px_rgba(43,61,39,0.04)] sm:p-8">
+      <section className="relative rounded-[22px] sm:rounded-[26px] bg-gradient-to-b from-[#F5F9ED] to-[#FBFDF8] border border-[#D7EABB] p-4.5 sm:p-8 shadow-[0_8px_24px_rgba(43,61,39,0.04)]">
         {/* Background decorative glow (isolated with overflow-hidden) */}
-        <div className="absolute inset-0 overflow-hidden rounded-[26px] pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden rounded-[22px] sm:rounded-[26px] pointer-events-none">
           <div className="absolute -right-20 -top-20 z-0 h-64 w-64 rounded-full bg-gradient-to-br from-[#E5F5D5] to-transparent blur-3xl" />
         </div>
 
         <div className="relative z-10">
 
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 min-w-0">
 
-              <p className="flex items-center gap-2 text-base sm:text-lg font-black tracking-tight text-[#2B4C28]">
-                <span className="text-xl">💡</span> 오늘의 마켓 브리핑 핵심 요약
+              <p className="flex items-center gap-1.5 text-[15px] sm:text-lg font-black tracking-tight text-[#2B4C28]">
+                <span className="text-lg sm:text-xl">💡</span> 오늘의 마켓 브리핑 핵심 요약
               </p>
 
-              <span className="text-xs font-semibold text-neutral-400 border-l border-[#D7EABB] pl-3 tabular-nums">{dateLabel(briefing.asOfDate)} 기준</span>
+              <span className="text-[11px] sm:text-xs font-semibold text-neutral-400 border-l border-[#D7EABB] pl-2.5 sm:pl-3 tabular-nums">{dateLabel(briefing.asOfDate)} 기준</span>
 
               {briefing.isStale && briefing.staleDays >= 3 && (
-                <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200">
+                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-800 border border-amber-200">
                   갱신 지연
                 </span>
               )}
@@ -950,7 +950,7 @@ export function MarketBriefing() {
             <button
               type="button"
               onClick={() => setIsGuideOpen(true)}
-              className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-xs font-bold text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] hover:border-[#CAD8BC] transition-all select-none focus:outline-none focus:ring-2 focus:ring-[#2E6819]/20 cursor-pointer"
+              className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1 sm:px-3.5 sm:py-1.5 text-[11px] sm:text-xs font-bold text-neutral-700 shadow-xs border border-[#DDE6D0] hover:bg-[#F7FAEE] hover:text-[#2E6819] hover:border-[#CAD8BC] transition-all select-none focus:outline-none focus:ring-2 focus:ring-[#2E6819]/20 cursor-pointer w-fit"
             >
               <BookOpen className="h-3.5 w-3.5 text-[#5A7050]" />
               <span>이 화면 읽는 법</span>
@@ -963,9 +963,9 @@ export function MarketBriefing() {
 
           
 
-          <div className="mt-5 mb-6">
+          <div className="mt-4 sm:mt-5 mb-5 sm:mb-6">
 
-            <h2 className="text-2xl font-extrabold tracking-tight text-neutral-900 sm:text-3xl">
+            <h2 className="text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-neutral-900 break-keep leading-snug">
 
               {dynamicTitle}
 

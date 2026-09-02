@@ -120,15 +120,15 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
           aria-label="ETF 비교 표. 좌우로 스크롤할 수 있습니다." 
           tabIndex={0}
         >
-          <table className="w-full table-fixed whitespace-nowrap text-sm border-separate border-spacing-0" style={{ tableLayout: "fixed" }}>
+          <table className="min-w-full w-max border-separate border-spacing-0 whitespace-nowrap text-sm">
             <thead className="shadow-[0_2px_0_0_#e5e7eb]">
               <tr>
-                <th className={`sticky left-0 z-40 w-[104px] min-w-[104px] max-w-[110px] bg-neutral-100 backdrop-blur px-2.5 py-3 text-xs sm:text-sm font-extrabold text-neutral-700 border-b border-r border-line transition-shadow duration-200 align-middle text-center ${shadowClass}`}>비교 항목</th>
+                <th className={`sticky left-0 z-40 w-[96px] min-w-[96px] max-w-[104px] bg-neutral-100 backdrop-blur px-2 py-3 text-xs sm:text-sm font-extrabold text-neutral-700 border-b border-r border-line transition-shadow duration-200 align-middle text-center ${shadowClass}`}>비교 항목</th>
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const reasons = selectionReasons?.get(etf.ticker) || [];
                   return (
-                    <th key={etf.ticker} className={`relative px-2.5 py-3 min-w-[145px] sm:min-w-[160px] border-b border-r border-neutral-200 font-bold text-strong align-top transition-colors ${isBase ? "bg-brand-100/80 shadow-[inset_0_3px_0_0_#0f766e]" : "bg-neutral-100 backdrop-blur"}`}>
+                    <th key={etf.ticker} className={`relative px-2.5 py-3 w-[145px] min-w-[145px] sm:w-[160px] sm:min-w-[160px] border-b border-r border-neutral-200 font-bold text-strong align-top transition-colors ${isBase ? "bg-brand-100/80 shadow-[inset_0_3px_0_0_#0f766e]" : "bg-neutral-100 backdrop-blur"}`}>
                       <div className="flex flex-col items-center text-center gap-1 w-full">
                         <Link
                           href={`/etf/${etf.ticker}`}

@@ -159,3 +159,55 @@ jobs:
 
       - name: Deploy Pages assets and Functions
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} pages deploy out --project-name=${{ env.PAGES_PROJECT_NAME }}
+
+  generate_osmu_archive:
+    name: Generate OSMU Archive
+    needs: deploy_pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+          cache-dependency-path: workers/market-briefing-distributor/package-lock.json
+
+      - name: Install Korean Fonts for Puppeteer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-nanum fonts-nanum-coding fonts-nanum-extra
+
+      - name: Install distributor dependencies
+        working-directory: workers/market-briefing-distributor
+        run: npm ci
+
+      - name: Wait for API to serve latest data
+        run: |
+          echo "Waiting for Cloudflare Pages to flush cache and serve the latest API..."
+          TARGET_DATE=$(python3 -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
+          echo "Target Date: $TARGET_DATE"
+          for i in {1..20}; do
+            LATEST_DATE=$(curl -s https://etf-campus.pages.dev/api/briefings/latest | jq -r '.asOfDate')
+            if [ "$LATEST_DATE" == "$TARGET_DATE" ]; then
+              echo "Deployment is live! Proceeding..."
+              break
+            fi
+            echo "Latest is $LATEST_DATE. Still waiting... ($i/20)"
+            sleep 15
+          done
+
+      - name: Generate OSMU Assets
+        working-directory: workers/market-briefing-distributor
+        run: npx tsx generate-osmu.ts
+
+      - name: Upload OSMU Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: OSMU_Archive
+          path: OSMU_Archive
+          retention-days: 30

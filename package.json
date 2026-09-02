@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "osmu:download": "gh run download -n OSMU_Archive --dir OSMU_Archive",
     "dev": "next dev",
     "prebuild": "node -e \"const fs=require('fs'); fs.mkdirSync('public/data', {recursive: true}); fs.copyFileSync('data/market_holidays.txt', 'public/data/market_holidays.txt');\" && npx tsx scripts/generate-screener-json.ts",
     "build": "next build",

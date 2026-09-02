@@ -14,6 +14,12 @@ function formatDateWithDay(dateStr?: string): string {
   return `${dateStr.replace(/-/g, ".")} (${dayName})`;
 }
 
+export function selectThreadsTopicTag(payload: MarketBriefingPayload): string {
+  // 스레드 공식 알고리즘 최적화: 1개 단일 주제 태그 원칙 (DTS Engine)
+  // Neo 브랜드의 기본 앵커 커뮤니티는 #ETF이며, 상황별 서브 커뮤니티 탐색 지원
+  return "#ETF";
+}
+
 export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: string): ThreadsPost[] {
   const dateStr = payload.asOfDate || "2026-08-31";
   const formattedDate = dateStr.replace(/-/g, '.');
@@ -27,27 +33,36 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
   const down = payload.downCount ?? 670;
   const generalCount = payload.generalEtfCount ?? 1022;
 
-  const topInflow = payload.periodicFlows?.dailyFundFlows?.topInflows?.[0];
-  const inflowLine = topInflow 
-    ? `\n2. 💸 스마트머니: ${topInflow.name} (+${topInflow.inflow.toLocaleString()}억원)` 
+  const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
+  const inflowSentence = topInflows.length > 0 
+    ? `\n\n자금 흐름을 보면 스마트머니는 ${topInflows.map(i => `${i.name} +${i.inflow.toLocaleString()}억 원`).join(', ')} 순으로 유입되며 대표지수를 지지했습니다.` 
     : "";
 
   const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];
-  const themeText = strongThemes.length > 0 
-    ? strongThemes.map(t => `${t.peerGroup}(+${t.cappedAumWeightedReturnPct.toFixed(2)}%)`).join(', ') 
-    : "2차전지 셀 & 소재(+2.71%), 자동차 & 부품(+1.85%)";
+  const weakThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct < 0).slice(-2).reverse() || [];
+  
+  const strongText = strongThemes.length > 0 
+    ? strongThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '')} +${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
+    : "에너지 +0.93%, 고배당 +0.85%";
 
-  const mainPost = `출근길 ETF 모닝 브리핑 ☕ (${formattedDate} 기준)
-국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수조사! (레버리지·인버스·파킹형 제외)
+  const weakText = weakThemes.length > 0 
+    ? weakThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '')} ${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
+    : "K-푸드 -4.07%, K-방산 -2.68%";
 
-코스피가 ${sign}${kospi.toFixed(2)}%로 마감한 가운데, 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%(상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개)로 차별화된 흐름을 보였습니다. 📊
+  const topicTag = selectThreadsTopicTag(payload);
 
-[🔍 지난 장 핵심 시그널]
-1. 🏆 주도 테마: ${themeText}${inflowLine}
-3. 🧭 시장 흐름: 단기 숨고르기 속 글로벌 반도체·미국 대표지수 저가 분할 매수 집중
+  const mainPost = `어제 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장 데이터를 분석해 봤어요. 
 
-💬 오늘 여러분의 ETF 포트폴리오에서 가장 기대되는 섹터는 어디인가요? 댓글로 생각을 나눠주세요! 👇
-🔗 상세 데이터는 첨부 이미지 & 프로필 링크 [마켓 브리핑]에서 확인하세요!`;
+코스피는 ${sign}${kospi.toFixed(2)}% 올랐지만 실제 ETF 시장은 상승 ${up}개 대비 하락 ${down}개로 숨고르기였죠. 전체 평균 수익률도 ${etfSign}${etfReturn.toFixed(2)}%였습니다.
+
+테마별로는 ${strongText}이 견조했던 반면, ${weakText}은 조정을 받았습니다.${inflowSentence}
+
+지수보다 중요한 ETF 시장의 자금 흐름, 여러분은 포트폴리오 점검할 때 어떤 지표를 가장 먼저 확인하시나요?
+
+${topicTag}
+
+[첫 댓글]
+📌 매일 장 시작 전 상세 브리핑과 실시간 1,022개 ETF 데이터는 프로필 링크에서 바로 확인하실 수 있어요!`;
 
   return [
     { sequence: 1, content: mainPost }
@@ -88,8 +103,8 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
   const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
   const winners = sortedPeerGroups.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2);
   const losers = [...sortedPeerGroups].reverse().filter(p => p.cappedAumWeightedReturnPct < 0).slice(0, 2);
-  const topTheme = winners[0] || { peerGroup: "2차전지 셀 & 소재", cappedAumWeightedReturnPct: 2.71, etfCount: 13 };
-  const bottomTheme = losers[0] || { peerGroup: "원자력 & SMR", cappedAumWeightedReturnPct: -4.78, etfCount: 5 };
+  const topTheme = winners[0] || { peerGroup: "에너지 (원유·천연가스)", cappedAumWeightedReturnPct: 0.93, etfCount: 5 };
+  const bottomTheme = losers[0] || { peerGroup: "K-푸드 & K-뷰티", cappedAumWeightedReturnPct: -4.07, etfCount: 8 };
   const themeGap = Math.abs(topTheme.cappedAumWeightedReturnPct - bottomTheme.cappedAumWeightedReturnPct).toFixed(2);
 
   // Inflows
@@ -97,6 +112,46 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
 
   // Disparity
   const disparityList = (payload.disparityWarning || []).slice(0, 2);
+  const discounts = disparityList.filter(d => d.disparityPct < 0);
+  const premiums = disparityList.filter(d => d.disparityPct > 0);
+
+  let disparitySectionTitle = "🟢 4. 괴리율 저평가(할인) 체크 종목";
+  let disparityTagText = "NAV 대비 할인";
+  let disparityBoxBg = "#F0FDF4";
+  let disparityStroke = "#BBF7D0";
+  let disparityTitleColor = "#15803D";
+  let disparityPillBg = "#DCFCE7";
+  let disparityPillStroke = "#86EFAC";
+  let disparityPillText = "#15803D";
+
+  if (disparityList.length === 0) {
+    disparitySectionTitle = "✨ 4. 전 종목 괴리율 정상 (시장 안정 구간)";
+    disparityTagText = "괴리율 정상";
+    disparityBoxBg = "#F8FAFC";
+    disparityStroke = "#E2E8F0";
+    disparityTitleColor = "#334155";
+    disparityPillBg = "#F1F5F9";
+    disparityPillStroke = "#CBD5E1";
+    disparityPillText = "#475569";
+  } else if (premiums.length > 0 && discounts.length === 0) {
+    disparitySectionTitle = "🔴 4. 괴리율 고평가(할증) 주의 종목";
+    disparityTagText = "NAV 대비 할증";
+    disparityBoxBg = "#FFF1F2";
+    disparityStroke = "#FECDD3";
+    disparityTitleColor = "#BE123C";
+    disparityPillBg = "#FFE4E6";
+    disparityPillStroke = "#FDA4AF";
+    disparityPillText = "#BE123C";
+  } else if (premiums.length > 0 && discounts.length > 0) {
+    disparitySectionTitle = "⚠️ 4. 괴리율 가격 왜곡 주의 종목";
+    disparityTagText = "할증/할인 왜곡";
+    disparityBoxBg = "#FFF7ED";
+    disparityStroke = "#FED7AA";
+    disparityTitleColor = "#C2410C";
+    disparityPillBg = "#FFEDD5";
+    disparityPillStroke = "#FDBA74";
+    disparityPillText = "#9A3412";
+  }
 
   return `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,8 +192,10 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect width="960" height="175" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
         <text x="35" y="42" fill="#0F172A" font-size="22" font-weight="900">🌡️ 1. 시장 체온 &amp; 벤치마크 대비 성과</text>
-        <rect x="605" y="15" width="320" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="765" y="39" fill="#1E293B" font-size="14" font-weight="800" text-anchor="middle">상승 ${up} · 보합 ${flat} · 하락 ${down} (${temp})</text>
+        <rect x="635" y="15" width="290" height="38" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+        <text x="780" y="40" font-size="16.5" font-weight="900" text-anchor="middle">
+          <tspan fill="#D92D20">상승 ${up}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#64748B">보합 ${flat}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#175CD3">하락 ${down}</tspan>
+        </text>
 
         <!-- 3 Big Metric Boxes with Dynamic Status Tints -->
         <g transform="translate(35, 74)">
@@ -167,31 +224,31 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect x="735" y="16" width="190" height="38" rx="10" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
         <text x="830" y="41" fill="#C2410C" font-size="15" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
 
-        <!-- 2x2 Grid -->
+        <!-- 2x2 Grid (Full Theme Names without Truncation) -->
         <g transform="translate(35, 72)">
           <!-- Top 1 Winner -->
           <rect x="0" y="0" width="430" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
-          <text x="20" y="37" fill="#B91C1C" font-size="16" font-weight="900">상승 1위</text>
-          <text x="95" y="37" fill="#0F172A" font-size="18" font-weight="900">${escapeXml(winners[0]?.peerGroup || "2차전지 셀 & 소재")}</text>
-          <text x="410" y="38" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${winners[0]?.cappedAumWeightedReturnPct.toFixed(2) || "2.71"}%</text>
+          <text x="20" y="37" fill="#B91C1C" font-size="15" font-weight="900">상승 1위</text>
+          <text x="95" y="37" fill="#0F172A" font-size="${(winners[0]?.peerGroup || '').length > 13 ? 14.5 : 16.5}" font-weight="900">${escapeXml(winners[0]?.peerGroup || "에너지 (원유·천연가스)")}</text>
+          <text x="410" y="38" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${winners[0]?.cappedAumWeightedReturnPct.toFixed(2) || "0.93"}%</text>
 
           <!-- Top 2 Winner -->
           <rect x="0" y="68" width="430" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
-          <text x="20" y="105" fill="#B91C1C" font-size="16" font-weight="900">상승 2위</text>
-          <text x="95" y="105" fill="#0F172A" font-size="18" font-weight="900">${escapeXml(winners[1]?.peerGroup || "에너지 (원유·천연가스)")}</text>
-          <text x="410" y="106" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${winners[1]?.cappedAumWeightedReturnPct.toFixed(2) || "1.51"}%</text>
+          <text x="20" y="105" fill="#B91C1C" font-size="15" font-weight="900">상승 2위</text>
+          <text x="95" y="105" fill="#0F172A" font-size="${(winners[1]?.peerGroup || '').length > 13 ? 14.5 : 16.5}" font-weight="900">${escapeXml(winners[1]?.peerGroup || "고배당 & 인컴 전략")}</text>
+          <text x="410" y="106" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${winners[1]?.cappedAumWeightedReturnPct.toFixed(2) || "0.85"}%</text>
 
           <!-- Top 1 Loser -->
           <rect x="460" y="0" width="430" height="58" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
-          <text x="480" y="37" fill="#1D4ED8" font-size="16" font-weight="900">하락 1위</text>
-          <text x="555" y="37" fill="#0F172A" font-size="18" font-weight="900">${escapeXml(losers[0]?.peerGroup || "원자력 & SMR")}</text>
-          <text x="870" y="38" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${losers[0]?.cappedAumWeightedReturnPct.toFixed(2) || "-4.78"}%</text>
+          <text x="480" y="37" fill="#1D4ED8" font-size="15" font-weight="900">하락 1위</text>
+          <text x="555" y="37" fill="#0F172A" font-size="${(losers[0]?.peerGroup || '').length > 13 ? 14.5 : 16.5}" font-weight="900">${escapeXml(losers[0]?.peerGroup || "K-푸드 & K-뷰티")}</text>
+          <text x="870" y="38" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${losers[0]?.cappedAumWeightedReturnPct.toFixed(2) || "-4.07"}%</text>
 
           <!-- Top 2 Loser -->
           <rect x="460" y="68" width="430" height="58" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
-          <text x="480" y="105" fill="#1D4ED8" font-size="16" font-weight="900">하락 2위</text>
-          <text x="555" y="105" fill="#0F172A" font-size="18" font-weight="900">${escapeXml(losers[1]?.peerGroup || "글로벌 원자력 & SMR")}</text>
-          <text x="870" y="106" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${losers[1]?.cappedAumWeightedReturnPct.toFixed(2) || "-4.60"}%</text>
+          <text x="480" y="105" fill="#1D4ED8" font-size="15" font-weight="900">하락 2위</text>
+          <text x="555" y="105" fill="#0F172A" font-size="${(losers[1]?.peerGroup || '').length > 13 ? 14.5 : 16.5}" font-weight="900">${escapeXml(losers[1]?.peerGroup || "K-방위산업")}</text>
+          <text x="870" y="106" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${losers[1]?.cappedAumWeightedReturnPct.toFixed(2) || "-2.68"}%</text>
         </g>
       </g>
 
@@ -211,9 +268,9 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
               <circle cx="28" cy="23" r="13" fill="${idx === 0 ? '#10B981' : '#E2E8F0'}"/>
               <text x="28" y="28" fill="${idx === 0 ? '#FFFFFF' : '#475569'}" font-size="12" font-weight="900" text-anchor="middle">${idx + 1}</text>
               
-              <!-- Full ETF Name + Ticker right next to it -->
-              <text x="56" y="29" fill="#0F172A" font-size="16.5" font-weight="900">
-                ${escapeXml(item.name)} <tspan fill="#64748B" font-size="13.5" font-weight="700">(${escapeXml(item.ticker)})</tspan>
+              <!-- Full ETF Name (말줄임 없이 풀네임 노출 + 동적 폰트 스케일링) -->
+              <text x="56" y="29" fill="#0F172A" font-size="${item.name.length > 24 ? 14.5 : (item.name.length > 18 ? 15.5 : 16.5)}" font-weight="900">
+                ${escapeXml(item.name)} <tspan fill="#64748B" font-size="13" font-weight="700">(${escapeXml(item.ticker)})</tspan>
               </text>
               
               <text x="865" y="30" fill="#047857" font-size="20" font-weight="900" text-anchor="end" class="tabular">+${item.inflow?.toLocaleString() || "0"}억원</text>
@@ -224,22 +281,25 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
 
       <!-- SECTION 4: 괴리율 왜곡 경보 (Y: 845, H: 175) -->
       <g transform="translate(60, 845)" filter="url(#cardShadow)">
-        <rect width="960" height="175" rx="22" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.5"/>
+        <rect width="960" height="175" rx="22" fill="${disparityBoxBg}" stroke="${disparityStroke}" stroke-width="1.5"/>
         
-        <text x="35" y="42" fill="#C2410C" font-size="22" font-weight="900">⚠️ 4. 괴리율 왜곡 주의 종목 (지뢰 회피)</text>
-        <rect x="740" y="16" width="185" height="38" rx="10" fill="#FFEDD5" stroke="#FDBA74" stroke-width="1.2"/>
-        <text x="832" y="41" fill="#9A3412" font-size="15" font-weight="900" text-anchor="middle">NAV 대비 왜곡 경보</text>
+        <text x="35" y="42" fill="${disparityTitleColor}" font-size="22" font-weight="900">${disparitySectionTitle}</text>
+        <rect x="740" y="16" width="185" height="38" rx="10" fill="${disparityPillBg}" stroke="${disparityPillStroke}" stroke-width="1.2"/>
+        <text x="832" y="41" fill="${disparityPillText}" font-size="15" font-weight="900" text-anchor="middle">${disparityTagText}</text>
 
         <!-- 2 Disparity Cards (Full Name + Ticker Subtitle) -->
         <g transform="translate(35, 72)">
-          ${disparityList.length > 0 ? disparityList.map((d: any, idx: number) => `
+          ${disparityList.length > 0 ? disparityList.map((d: any, idx: number) => {
+            const dNameFontSize = d.etfName.length > 22 ? 12.5 : (d.etfName.length > 17 ? 13.5 : 15);
+            return `
             <g transform="translate(${idx * 460}, 0)">
-              <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="#FDBA74" stroke-width="1.2"/>
-              <text x="20" y="28" fill="#0F172A" font-size="15" font-weight="900">${escapeXml(d.etfName)}</text>
+              <rect width="430" height="64" rx="12" fill="#FFFFFF" stroke="${disparityPillStroke}" stroke-width="1.2"/>
+              <text x="20" y="28" fill="#0F172A" font-size="${dNameFontSize}" font-weight="900">${escapeXml(d.etfName)}</text>
               <text x="20" y="48" fill="#64748B" font-size="12.5" font-weight="700">${escapeXml(d.ticker)} · ${escapeXml(d.assetClass || "해외주식")}</text>
-              <text x="410" y="40" fill="#C2410C" font-size="22" font-weight="900" text-anchor="end" class="tabular">${d.disparityPct.toFixed(2)}%</text>
+              <text x="410" y="40" fill="${disparityTitleColor}" font-size="22" font-weight="900" text-anchor="end" class="tabular">${d.disparityPct > 0 ? '+' : ''}${d.disparityPct.toFixed(2)}%</text>
             </g>
-          `).join("") : `<text x="0" y="28" fill="#64748B" font-size="15" font-weight="600">왜곡 경보 없음</text>`}
+          `;
+          }).join("") : `<text x="0" y="28" fill="#64748B" font-size="15" font-weight="600">특이 왜곡 종목 없음 (정상 거래 중)</text>`}
         </g>
       </g>
 

@@ -109,10 +109,76 @@ export default {
         const threadsPosts = generateThreadsThread(payload, baseUrl);
         const newsletter = generateNewsletterHtml(payload, baseUrl);
 
-        // 3. 모의/실제 발송 파이프라인
+        // 3. Threads API 실발송 (토큰 존재 시)
+        let threadsPublishedId: string | null = null;
+        if (env.THREADS_ACCESS_TOKEN && env.THREADS_USER_ID) {
+          try {
+            const fullText = threadsPosts[0]?.content || "";
+            const parts = fullText.split("[첫 댓글]");
+            const mainPost = parts[0].trim();
+            const firstComment = parts[1] ? parts[1].trim() : "";
+
+            const createUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads`;
+            const createRes = await fetch(createUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams({
+                media_type: "TEXT",
+                text: mainPost,
+                access_token: env.THREADS_ACCESS_TOKEN,
+              }),
+            });
+            const createData: any = await createRes.json();
+            if (createData.id) {
+              const pubUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads_publish`;
+              const pubRes = await fetch(pubUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({
+                  creation_id: createData.id,
+                  access_token: env.THREADS_ACCESS_TOKEN,
+                }),
+              });
+              const pubData: any = await pubRes.json();
+              threadsPublishedId = pubData.id || null;
+
+              if (firstComment && threadsPublishedId) {
+                const replyCreateRes = await fetch(createUrl, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                  body: new URLSearchParams({
+                    media_type: "TEXT",
+                    text: firstComment,
+                    reply_to_id: threadsPublishedId,
+                    access_token: env.THREADS_ACCESS_TOKEN,
+                  }),
+                });
+                const replyCreateData: any = await replyCreateRes.json();
+                if (replyCreateData.id) {
+                  await fetch(pubUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: new URLSearchParams({
+                      creation_id: replyCreateData.id,
+                      access_token: env.THREADS_ACCESS_TOKEN,
+                    }),
+                  });
+                }
+              }
+            }
+          } catch (tErr) {
+            console.error("[Distributor] Threads Cloud publishing error:", tErr);
+          }
+        }
+
+        // 4. 모의/실제 발송 파이프라인 결과
         const dispatchResults = {
           instagram: { status: "rendered_ready", slideCount: instagramSlides.length },
-          threads: { status: "rendered_ready", postCount: threadsPosts.length },
+          threads: { 
+            status: threadsPublishedId ? "published_live" : "rendered_ready", 
+            postCount: threadsPosts.length,
+            publishedPostId: threadsPublishedId 
+          },
           newsletter: { status: "rendered_ready", subject: newsletter.subject, htmlLength: newsletter.html.length },
         };
 

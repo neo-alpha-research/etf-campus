@@ -390,75 +390,12 @@ async function run() {
       const mailOptions = {
         from: `"ETF Campus" <${process.env.SMTP_USER}>`,
         to: "neo.alpharesearch@gmail.com",
-        subject: `🚨 [QA 테스트] 🚨 ${newsletter.subject}`,
-        html: `
-          <div style="display: none; max-height: 0px; overflow: hidden; opacity: 0; mso-hide: all;">
-            ${preHeaderText}
-          </div>
-          <div style="background-color: #0F172A; padding: 40px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; text-align: center; width: 100%;">
-            ${mapHtml}
-            <div style="max-width: 600px; margin: 0 auto; padding: 0 12px;">
-              <!-- Interactive Guide Badge -->
-              <div style="margin-bottom: 14px; text-align: center;">
-                <span style="display: inline-block; background-color: rgba(16, 185, 129, 0.15); color: #34D399; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; border: 1px solid rgba(16, 185, 129, 0.3); letter-spacing: -0.2px;">
-                  💡 화면 속 ETF 종목(티커)을 터치하시면 상세 분석 페이지로 바로 이동합니다!
-                </span>
-              </div>
-
-              <a href="${baseUrl}/briefing" style="display: block; text-decoration: none;">
-                <img src="cid:newsletter_full_image" alt="${preHeaderText}" usemap="#etf-map" style="max-width: 100%; border-radius: 20px; display: block; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);" />
-              </a>
-
-              <!-- Bottom CTA Banners -->
-              <div style="margin-top: 24px; text-align: center;">
-                <!-- Banner 1: Market Briefing Features -->
-                <div style="margin-bottom: 16px;">
-                  <a href="${baseUrl}/briefing" target="_blank" style="display: block; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #FFFFFF; padding: 20px 24px; text-decoration: none; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3); text-align: center; border: 1px solid #10B981;">
-                    <div style="display: inline-block; background-color: rgba(255, 255, 255, 0.2); color: #FFFFFF; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-bottom: 6px;">
-                      ✨ ETF 시장 전수 분석 일일 리포트
-                    </div>
-                    <div style="font-size: 16px; font-weight: 900; letter-spacing: -0.2px; line-height: 1.4; color: #FFFFFF;">
-                      📊 테마별 동향 &amp; 스마트머니 펀드 플로우 보러가기 👉
-                    </div>
-                    <div style="font-size: 11px; color: #D1FAE5; font-weight: 500; margin-top: 4px;">
-                      KRX 공시 전수 데이터 기반 · 일간 마켓 브리핑
-                    </div>
-                  </a>
-                </div>
-
-                <!-- Banner 2: Munpia Novel -->
-                <div>
-                  <a href="https://nlink.munpia.com/link/munpia/novel/578267" target="_blank" style="display: block; background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); color: #F8FAFC; padding: 20px 24px; text-decoration: none; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4); text-align: center; border: 1px solid #334155;">
-                    <div style="display: inline-block; background-color: #D97706; color: #FFFFFF; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-bottom: 6px;">
-                      🔥 문피아 인기 금융 웹소설
-                    </div>
-                    <div style="font-size: 16px; font-weight: 900; letter-spacing: -0.2px; line-height: 1.4; color: #F1F5F9;">
-                      📚 여의도 펀드매니저들의 치열한 두뇌 싸움 <span style="color: #FDE047;">&lt;알파를 읽는 자&gt;</span> 감상 ➔
-                    </div>
-                    <div style="font-size: 11px; color: #94A3B8; font-weight: 500; margin-top: 4px;">
-                      신규 에피소드 매일 업데이트 · 지금 무료로 읽기
-                    </div>
-                  </a>
-                </div>
-              </div>
-
-              <p style="margin-top: 32px; font-size: 12px; color: #94A3B8; line-height: 1.6; text-align: center;">
-                 본 메일은 ETF 캠퍼스 뉴스레터 자동 발송 테스트입니다.<br/>
-                 © 2026 ETF Campus. All rights reserved.
-              </p>
-            </div>
-          </div>
-        `,
-        attachments: [
-          {
-            filename: "email_snapshot.png",
-            path: emailPngPath,
-            cid: "newsletter_full_image"
-          }
-        ]
+        subject: newsletter.subject,
+        html: newsletter.html,
       };
+
       const info = await transporter.sendMail(mailOptions);
-      console.log(`QA Email sent successfully: <${info.messageId}>`);
+      console.log(`Email sent successfully: <${info.messageId}>`);
     } catch(e) {
       console.error("Nodemailer sending failed:", e);
     }
@@ -466,6 +403,78 @@ async function run() {
     console.log("No SMTP credentials found. Skipping Nodemailer.");
   }
 
+  console.log("\n=== 7. Threads API Auto-Publishing ===");
+  const threadsToken = process.env.THREADS_ACCESS_TOKEN;
+  const threadsUserId = process.env.THREADS_USER_ID || "28281486568114006";
+  if (threadsToken && threadsUserId) {
+    try {
+      const fullText = threads[0]?.content || "";
+      const parts = fullText.split("[첫 댓글]");
+      const mainPost = parts[0].trim();
+      const firstComment = parts[1] ? parts[1].trim() : "";
+
+      // 1. Create Main Post Container
+      const createUrl = `https://graph.threads.net/v1.0/${threadsUserId}/threads`;
+      const createRes = await fetch(createUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          media_type: "TEXT",
+          text: mainPost,
+          access_token: threadsToken,
+        }),
+      });
+      const createData: any = await createRes.json();
+      if (createData.id) {
+        // 2. Publish Main Post
+        const pubUrl = `https://graph.threads.net/v1.0/${threadsUserId}/threads_publish`;
+        const pubRes = await fetch(pubUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            creation_id: createData.id,
+            access_token: threadsToken,
+          }),
+        });
+        const pubData: any = await pubRes.json();
+        console.log(`Threads Main Post Published successfully: ID ${pubData.id}`);
+
+        // 3. Publish First Comment if present
+        if (firstComment && pubData.id) {
+          await new Promise((r) => setTimeout(r, 2000));
+          const replyCreateRes = await fetch(createUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+              media_type: "TEXT",
+              text: firstComment,
+              reply_to_id: pubData.id,
+              access_token: threadsToken,
+            }),
+          });
+          const replyCreateData: any = await replyCreateRes.json();
+          if (replyCreateData.id) {
+            const replyPubRes = await fetch(pubUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams({
+                creation_id: replyCreateData.id,
+                access_token: threadsToken,
+              }),
+            });
+            const replyPubData: any = await replyPubRes.json();
+            console.log(`Threads First Reply Published successfully: ID ${replyPubData.id}`);
+          }
+        }
+      } else {
+        console.warn("Threads creation warning:", createData);
+      }
+    } catch (tErr) {
+      console.error("Threads API Publishing failed:", tErr);
+    }
+  } else {
+    console.log("No Threads credentials found. Skipping Threads API publishing.");
+  }
 
   // Generate Integrated Preview Dashboard HTML
   const slidesJson = JSON.stringify(slides.map(s => ({
@@ -607,12 +616,16 @@ async function run() {
     function renderSlides() {
       const s = slides[currentIdx];
       document.getElementById('activeSlideTitle').innerText = 'Slide ' + s.slideNumber + ' : ' + s.title;
-      document.getElementById('focusedSlideContainer').innerHTML = s.svgContent;
+      document.getElementById('focusedSlideContainer').innerHTML = \`
+        <img src="./1_Instagram/instagram_slide_\${s.slideNumber}.png?v=\${Date.now()}" class="w-full h-auto rounded-2xl block shadow-2xl" alt="Slide \${s.slideNumber}" />
+      \`;
 
       const thumbContainer = document.getElementById('thumbnailsContainer');
       thumbContainer.innerHTML = slides.map((item, idx) => \`
         <div onclick="setSlide(\${idx})" class="cursor-pointer bg-slate-950 p-1.5 rounded-xl border \${idx === currentIdx ? 'border-emerald-500 ring-2 ring-emerald-500/30' : 'border-slate-800'} transition">
-          <div class="slide-svg rounded-lg overflow-hidden">\${item.svgContent}</div>
+          <div class="rounded-lg overflow-hidden">
+            <img src="./1_Instagram/instagram_slide_\${item.slideNumber}.png?v=\${Date.now()}" class="w-full h-auto block" alt="Thumb \${item.slideNumber}" />
+          </div>
         </div>
       \`).join('');
     }

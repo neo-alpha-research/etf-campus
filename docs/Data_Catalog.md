@@ -497,4 +497,15 @@ app/sitemap.ts L27                        loadBriefings() 로컬 마크다운만
 
 **`2026-08-24` 상수가 두 파일에 각각 박혀 있습니다.** 공통 상수로 뽑는 것이 안전합니다.
 
-**`verify_zero_hallucination.py` 가 이 값을 통과시켰습니다.** 백필 워크플로가 같은 잡에서 실행하며 `ALL INTEGRITY CHECKS PASSED` 를 냈습니다. **지수 정합성 검사가 없습니다.**
+**`verify_zero_hallucination.py` 가 이 값을 통과시켰습니다.** 백필 워크플로가 같은 잡에서 실행하며 `ALL INTEGRITY CHECKS PASSED` 를 냈습니다. **지수 정합성 검사가 없습니다.** (2026-09-02 보완 완료: 지수 2600/800 더미 및 동시 0.00% 이상치 자동 검문 규칙 추가)
+
+### 2-19. STEP 5·6 일별 원장 테이블 적재 엔진 연동 [확인됨] (2026-09-02)
+
+**구조 확립:**
+- `market_scale_daily`: 시장 전체 순자산총액, 거래대금, 일/주/월간 AUM 변동 및 실질 순유입액을 일별 단위로 영구 보관
+- `peer_flow_daily`: 60여 개 동종 테마(Peer Group)별 주간/월간 실질 자금 순유입액 합계(억원) 및 AUM 가중 누적 수익률(%) 랭킹 보관
+
+**적재 경로:**
+- `workers/market-briefing-publisher/src/index.ts`: 브리핑 발행(`publishSnapshot`) 시 `market_briefings`, `market_briefing_asset_classes`, `market_briefing_focus_etfs`와 함께 `market_scale_daily` 및 `peer_flow_daily`에 원자적 D1 배치 트랜잭션으로 동시 INSERT
+- 정식 서비스 개시일(2026-08-24)부터 2026-09-01까지의 7개 거래일 데이터 전수 백필 및 정합성 검증 완료 (`scripts/backfill_scale_and_peer_flow.js`).
+

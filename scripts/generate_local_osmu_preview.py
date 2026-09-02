@@ -226,6 +226,7 @@ def main():
 </html>"""
 
     out_path = os.path.join(os.getcwd(), 'workers', 'market-briefing-distributor', 'distributor-preview', 'index.html')
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write(html_template)
     

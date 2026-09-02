@@ -359,11 +359,21 @@ function calculateFundFlow(quotes: any[], previousQuotes: any[] = []): any {
 }
 
 
+interface PeerFlowRow {
+  period: "weekly" | "monthly";
+  peerGroup: string;
+  assetClass: string | null;
+  etfCount: number;
+  netInflow: number;
+  returnPct: number;
+  rank: number;
+}
+
 async function calculatePeriodicFundFlows(
   db: D1Database,
   quotes: EtfSnapshot[],
   asOfDate: string
-): Promise<{ weeklyFundFlows: any; monthlyFundFlows: any }> {
+): Promise<{ weeklyFundFlows: any; monthlyFundFlows: any; peerFlowRows: PeerFlowRow[] }> {
   const general = quotes.filter((q) => q.is_general_etf === 1);
 
   // Fetch past distinct dates from briefing_etf_daily for true creation/redemption fund flow
@@ -474,6 +484,43 @@ async function calculatePeriodicFundFlows(
     });
   }
 
+  const sortedWeekly = weeklyAll.slice().sort((a, b) => b.netInflow - a.netInflow);
+  const sortedMonthly = monthlyAll.slice().sort((a, b) => b.netInflow - a.netInflow);
+
+  const peerFlowRows: Array<{
+    period: "weekly" | "monthly";
+    peerGroup: string;
+    assetClass: string | null;
+    etfCount: number;
+    netInflow: number;
+    returnPct: number;
+    rank: number;
+  }> = [];
+
+  sortedWeekly.forEach((item, idx) => {
+    peerFlowRows.push({
+      period: "weekly",
+      peerGroup: item.peerGroup,
+      assetClass: item.assetClass,
+      etfCount: item.etfCount,
+      netInflow: item.netInflow,
+      returnPct: item.returnPct,
+      rank: idx + 1,
+    });
+  });
+
+  sortedMonthly.forEach((item, idx) => {
+    peerFlowRows.push({
+      period: "monthly",
+      peerGroup: item.peerGroup,
+      assetClass: item.assetClass,
+      etfCount: item.etfCount,
+      netInflow: item.netInflow,
+      returnPct: item.returnPct,
+      rank: idx + 1,
+    });
+  });
+
   const weeklyInflows = weeklyAll.filter((x) => x.netInflow > 0).sort((a, b) => b.netInflow - a.netInflow).slice(0, 5).map((x, i) => ({ ...x, rank: i + 1 }));
   const weeklyOutflows = weeklyAll.filter((x) => x.netInflow < 0).sort((a, b) => a.netInflow - b.netInflow).slice(0, 5).map((x, i) => ({ ...x, rank: i + 1 }));
 
@@ -483,6 +530,7 @@ async function calculatePeriodicFundFlows(
   return {
     weeklyFundFlows: { topInflows: weeklyInflows, topOutflows: weeklyOutflows },
     monthlyFundFlows: { topInflows: monthlyInflows, topOutflows: monthlyOutflows },
+    peerFlowRows,
   };
 }
 
@@ -1005,6 +1053,58 @@ async function publishSnapshot(
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
       .bind(readiness.as_of_date, index + 1, quote.ticker, quote.etf_name, quote.asset_class, quote.close_value, quote.change_pct, quote.trade_value, pulse.generalTotalTradeValue === 0 ? 0 : (quote.trade_value / pulse.generalTotalTradeValue) * 100)),
+    db
+      .prepare(
+        `INSERT INTO market_scale_daily (
+          as_of_date, total_aum, total_etf_count, general_aum, general_etf_count,
+          daily_aum_change, daily_net_inflow, weekly_aum_change, weekly_net_inflow,
+          monthly_aum_change, monthly_net_inflow
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(as_of_date) DO UPDATE SET
+          total_aum = excluded.total_aum,
+          total_etf_count = excluded.total_etf_count,
+          general_aum = excluded.general_aum,
+          general_etf_count = excluded.general_etf_count,
+          daily_aum_change = excluded.daily_aum_change,
+          daily_net_inflow = excluded.daily_net_inflow,
+          weekly_aum_change = excluded.weekly_aum_change,
+          weekly_net_inflow = excluded.weekly_net_inflow,
+          monthly_aum_change = excluded.monthly_aum_change,
+          monthly_net_inflow = excluded.monthly_net_inflow,
+          updated_at = CURRENT_TIMESTAMP`,
+      )
+      .bind(
+        readiness.as_of_date,
+        marketScale.totalAum || 0,
+        marketScale.totalEtfCount || 0,
+        pulse.generalTotalAum || 0,
+        pulse.generalEtfCount || 0,
+        marketScaleTimeSeries?.daily?.[marketScaleTimeSeries.daily.length - 1]?.aumChange || 0,
+        marketScaleTimeSeries?.daily?.[marketScaleTimeSeries.daily.length - 1]?.netInflow || 0,
+        marketScaleTimeSeries?.weekly?.[marketScaleTimeSeries.weekly.length - 1]?.aumChange || 0,
+        marketScaleTimeSeries?.weekly?.[marketScaleTimeSeries.weekly.length - 1]?.netInflow || 0,
+        marketScaleTimeSeries?.monthly?.[marketScaleTimeSeries.monthly.length - 1]?.aumChange || 0,
+        marketScaleTimeSeries?.monthly?.[marketScaleTimeSeries.monthly.length - 1]?.netInflow || 0,
+      ),
+    db.prepare(`DELETE FROM peer_flow_daily WHERE as_of_date = ?`).bind(readiness.as_of_date),
+    ...periodicFlows.peerFlowRows.map((r) =>
+      db
+        .prepare(
+          `INSERT INTO peer_flow_daily (
+            as_of_date, period, peer_group, asset_class, etf_count, net_inflow, cumulative_return_pct, rank
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        )
+        .bind(
+          readiness.as_of_date,
+          r.period,
+          r.peerGroup,
+          r.assetClass,
+          r.etfCount,
+          r.netInflow,
+          r.returnPct,
+          r.rank,
+        ),
+    ),
   ];
   await db.batch(statements);
 }

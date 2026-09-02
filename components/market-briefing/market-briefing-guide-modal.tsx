@@ -23,7 +23,7 @@ export function MarketBriefingGuideModal({
 
   return (
     <div
-      className="mb-10 rounded-[24px] sm:rounded-[28px] bg-white border-2 border-[#D7EABB] shadow-[0_8px_30px_rgba(46,104,25,0.08)] overflow-hidden transition-all animate-in fade-in slide-in-from-top-3 duration-300"
+      className="mt-4 mb-6 rounded-[22px] sm:rounded-[24px] bg-white border-2 border-[#D7EABB] shadow-[0_8px_24px_rgba(46,104,25,0.06)] overflow-hidden transition-all animate-in fade-in slide-in-from-top-3 duration-300"
       role="region"
       aria-label="마켓 브리핑 100% 활용 가이드"
     >

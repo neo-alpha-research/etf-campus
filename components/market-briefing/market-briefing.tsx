@@ -969,7 +969,12 @@ export function MarketBriefing() {
 
           </div>
 
-          
+          {/* 마켓 브리핑 활용 가이드 인라인 아코디언 */}
+          <MarketBriefingGuideModal
+            isOpen={isGuideOpen}
+            onClose={() => setIsGuideOpen(false)}
+            onNavigateToStep={scrollToStep}
+          />
 
           <div className="mt-4 sm:mt-5 mb-5 sm:mb-6">
 
@@ -1057,15 +1062,6 @@ export function MarketBriefing() {
           </div>
         </div>
       </section>
-
-      {/* 마켓 브리핑 활용 가이드 모달 다이얼로그 */}
-      <MarketBriefingGuideModal
-        isOpen={isGuideOpen}
-        onClose={() => setIsGuideOpen(false)}
-        onNavigateToStep={scrollToStep}
-      />
-
-
 
       {/* STEP 1: Macro */}
 

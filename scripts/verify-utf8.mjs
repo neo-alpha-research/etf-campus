@@ -4,7 +4,7 @@ import { join, relative } from "node:path";
 const ROOT = process.cwd();
 const DIRECTORIES = ["app", "components", "functions", "lib", "scripts", "supabase", "workers"];
 const TEXT_EXTENSIONS = new Set([".js", ".mjs", ".cjs", ".ts", ".tsx", ".json", ".sql", ".md", ".yml", ".yaml", ".toml", ".css"]);
-const IGNORED_DIRECTORIES = new Set(["node_modules", ".git", ".next", "out", "coverage", "dist", "build"]);
+const IGNORED_DIRECTORIES = new Set(["node_modules", ".git", ".next", "out", "coverage", "dist", "build", ".data_raw", "scratch", "_archive"]);
 
 function extensionOf(file) {
   const index = file.lastIndexOf(".");

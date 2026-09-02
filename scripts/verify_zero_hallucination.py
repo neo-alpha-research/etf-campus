@@ -17,7 +17,7 @@ FORBIDDEN_PATTERNS = [
 ]
 
 EXCLUDE_DIRS = {
-    ".next", "node_modules", ".wrangler", "out", ".git", ".data_raw", "scratch"
+    ".next", "node_modules", ".wrangler", "out", ".git", ".data_raw", "scratch", "_archive"
 }
 
 def check_codebase():

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+<!-- 필요 정보는 아래에 나열 -->
+
+<!-- 인증 사용자 관련 -->
+
+
+
+    
+
+
+
+
+
+
+<script type="text/javascript">
+//window.gLang = '';
+</script>
+<html xml:lang="ko" lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>공지/이벤트 &lt; 고객지원 &lt; HANARO ETF</title>
+
+<meta name="description" content="SIMPLY HANARO - 투자의 미래를 하나로">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/assets/global/favicon/favicon_152.png">
+<meta name="facebook-domain-verification" content="zbioi6bnvl0k2j5qzqin3bpopw48ui" />
+<link rel="shortcut icon" href="/assets/global/favicon/favicon.ico">
+<link rel="icon" sizes="32x32" href="/assets/global/favicon/favicon_32.png">
+<link rel="icon" sizes="48x48" href="/assets/global/favicon/favicon_48.png">
+<link rel="icon" sizes="57x57" href="/assets/global/favicon/favicon_57.png">
+<link rel="icon" sizes="72x72" href="/assets/global/favicon/favicon_72.png">
+<link rel="icon" sizes="96x96" href="/assets/global/favicon/favicon_96.png">
+<link rel="icon" sizes="152x152" href="/assets/global/favicon/favicon_152.png">
+<link rel="icon" sizes="192x192" href="/assets/global/favicon/favicon_192.png">
+<link rel="apple-touch-icon-precomposed" sizes="192x192" href="/assets/global/favicon/favicon_192.png">
+<link rel="apple-touch-icon-precomposed" sizes="152x152" href="/assets/global/favicon/favicon_152.png">
+<link rel="apple-touch-icon-precomposed" sizes="96x96" href="/assets/global/favicon/favicon_96.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/global/favicon/favicon_72.png">
+<link rel="apple-touch-icon-precomposed" sizes="52x52" href="/assets/global/favicon/favicon_57.png">
+<link rel="apple-touch-icon-precomposed" sizes="48x48" href="/assets/global/favicon/favicon_48.png">
+<link rel="apple-touch-icon-precomposed" sizes="32x32" href="/assets/global/favicon/favicon_32.png">
+<link rel="stylesheet" type="text/css" href="/assets/global/css/swiper-bundle.css">
+<link rel="stylesheet" type="text/css" href="/assets/global/css/choices.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/global/css/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/etf/global/css/detail.css?v=260618">
+<link rel="stylesheet" type="text/css" href="/assets/etf/ko/css/detailKR.css">
+<script type="text/javascript" src="/assets/global/js/dotdotdot.js"></script>
+<script type="text/javascript" src="/assets/global/js/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="/assets/global/js/choices.min.js"></script>
+<script type="text/javascript" src="/assets/global/js/sweetalert2.min.js"></script>
+<script type="text/javascript" src="/assets/global/js/NTUtil.js"></script>
+<script type="text/javascript" src="/assets/etf/global/js/message.js"></script>
+<script type="text/javascript" src="/assets/etf/global/js/base.js?v=2501091521"></script>
+<script type="text/javascript" src="/assets/etf/ko/js/baseKR.js"></script>
+<script type="text/javascript" src="/assets/global/js/nh.common.js"></script>
+<script type="text/javascript" src="/assets/global/js/axios.js"></script>
+<!--begin::Editor-->
+<link href="/assets/froala/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/froala/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/froala/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<!--end::Editor-->
+<meta property="og:title" content="HANARO ETF">
+<meta property="og:description" content="투자의 미래를 하나로, HANARO ETF">
+<meta property="og:url" content="https://www.hanaroetf.com">
+<meta property="og:image" content="https://www.hanaroetf.com/assets/etf/global/images/etc/OG_img.png">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N8SWJ8ZQC3"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-N8SWJ8ZQC3');
+</script>
+
+<script type="application/javascript">
+    // sns 로그인 이후 콜백처리
+    window.oauth2Callback = async (redirectUrl) => {
+        // 리다이렉트 전 쿠키 셋팅
+        
+        const cookie = getCookie('access_token');
+        window.location.href = NHA_USER_URL + "/member/redirect?redirectUrl=" + redirectUrl + '&cookie=' + cookie;
+    }
+
+    const NHA_USER_URL = 'https://www.nh-amundi.com';
+    const NHA_MOD = 'PROD';
+</script>
+
+</head>
+
+<body>
+
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+
+<script src="https://accounts.google.com/gsi/client" defer></script>
+<!-- skip -->
+<div class="skip">
+    <menu>
+        <li><a href="#gnb">상단 바로가기</a></li>
+        <li><a href="#contents">본문 바로가기</a></li>
+        <li><a href="#foot">하단 바로가기</a></li>
+    </menu>
+</div>
+<!-- //skip -->
+
+<!-- 진행중 -->
+<div id="loadingOverlay" class="popup">
+    <div class="popArea">
+        <figure class="pic">
+            <span><img src="/assets/etf/global/images/ico/ico_loading.png" alt="진행중입니다"></span>
+            <figcaption>진행중입니다. 잠시만 기다려 주세요.</figcaption>
+        </figure>
+    </div>
+</div>
+<script>
+    // 팝업:진행중(확인용)
+    //initPop('loadingOverlay');
+</script>
+<!-- //진행중 -->
+<!-- 전체틀 -->
+<div id="wrapper">
+    <!-- 상단 -->
+    
+
+    <header id="head">
+        
+        <div class="headArea">
+            <h1><figure><a href="/"><img src="/assets/etf/global/images/txt/h1_hanaroETF01.png" alt="HANARO ETF - CreAtive & SmArter"></a><figcaption>HANARO ETF - CreAtive &amp; SmArter</figcaption></figure></h1>
+            <nav class="moreAmundi">
+                <menu>
+                    <li><a href="https://www.nh-amundi.com" target="_blank" title="새창열림">NH-Amundi</a></li>
+                    <li class="on">HANARO ETF</li>
+                </menu>
+            </nav> 
+            <nav class="gnbArea">
+                <menu id="gnb">
+                    <li>
+                        <h2><a href="/fund/fund-list">ETF 검색</a></h2>
+                        <menu class="gnbSub">
+                            <li><h3><a href="/fund/fund-list">ETF 검색</a></h3></li>
+                            <li><h3><a href="/fund/fund-list">상품명으로 검색</a></h3></li>
+                            <li><h3><a href="/fund/fund-holdings-list">보유종목으로 검색</a></h3></li>
+                        </menu>
+                    </li>
+                    <li>
+                        <h2><a href="/fund/etf-sumnmary">ETF 상품</a></h2>
+                        <menu class="gnbSub">
+                            <li><h3><a href="/fund/etf-sumnmary">한눈에 보는 ETF</a></h3></li>
+                            <li><h3><a href="/fund/pension-etf">연금투자가능 ETF</a></h3></li>
+                            <li><h3><a href="/fund/etf-data-board">HANARO ETF 자료실</a></h3></li>
+                        </menu>
+                    </li>
+                    <li>
+                        <h2><a href="/investment/insight">투자정보</a></h2>
+                        <menu class="gnbSub">
+                            <li><h3><a href="/investment/insight">HANARO 인사이트</a></h3></li>
+                            <li><h3><a href="/investment/report">HANARO 리포트</a></h3></li>
+                            <li><h3><a href="/investment/market-report">ETF 마켓리포트</a></h3></li>
+                            <li><h3><a href="/investment/news">HANARO 뉴스</a></h3></li>
+                        </menu>
+                    </li>
+                    <li>
+                        <h2><a href="/customer/notice">고객지원</a></h2>
+                        <menu class="gnbSub">
+                            <li><h3><a href="/customer/notice">공지/이벤트</a></h3></li>
+                            <li><h3><a href="/customer/disclosure/fund">공시</a></h3></li>
+                            <!--<li><h3><a href="/customer/faq">FAQ</a></h3></li>-->
+                            <li><h3><a href="/customer/about-hanaro-etf">About HANARO ETF</a></h3></li>
+                        </menu>
+                    </li>
+                </menu>
+                <ul class="etc">
+                    <li class="lang">
+                        <button type="button" class="btn txt lang01"><span>KOR</span></button>
+                        <menu>
+                            <li class="on"><a href="/">KOR</a></li>
+                            <li><a href="/en">ENG</a></li>
+                        </menu>
+                    </li>
+                    <li class="search"><button type="button" class="ico search01" data-target="totalSearchButton">검색</button></li>
+                    
+                    
+                        <li class="user"><a href="/login?redirectUrl=https://www.hanaroetf.com/mypage/keyword" class="ico user01">로그인</a></li>
+                    
+                    <li><button type="button" class="ico allmenu01">전체메뉴</button></li>
+                </ul>
+            </nav>
+        </div>
+        <nav id="allmenu">
+            <div class="anbArea">
+                
+                    
+                    
+                        <div class="userArea">
+                            <h2>로그인을 하고<br> 관심상품을 등록해보세요.</h2>
+                            <a href="/login?redirecturl=https://www.hanaroetf.com/mypage/keyword" class="btn base h01 w02"><span>로그인 / 회원가입</span></a>
+                        </div>
+                    
+                
+                <menu id="anb">
+                    
+                </menu>
+            </div>
+        </nav>
+        <div id="gSearch" class="blind">
+            <div class="searchArea">
+                <div class="keywordArea">
+                    <h2></h2>
+                    <div class="autoSearch">
+                        <div class="input">
+                            <label for="gKeyword" class="blind">검색어</label>
+                            <input type="text"
+                                   name="keyword"
+                                   id="gKeyword"
+                                   class="keyword"
+                                   placeholder="" autocomplete="off"
+                            >
+                            <button type="button"
+                                    id="gKeywordSearch"
+                                    class="ico circle search02"
+                                    title="검색"
+                            >
+                                검색
+                            </button>
+                        </div>
+                        <div class="autoword">
+                            <p class="note st02 em05 tr">'ESC'를 누르면 자동완성 창이 닫힙니다.</p>
+                            <ol class="auto" data-target="header-auto-complete-search-keyword">
+                                
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="tagArea">
+                        <ul class="tag">
+                            
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 배너 -->
+                <ul class="slide">
+                    
+                </ul>
+                <!-- //배너 -->
+            </div>
+            <div class="bestSearch">
+                <ol class="best">
+                    <li>
+                        <h5 class="sb">한 주간 인기 검색어</h5>
+                        <ol class="word">
+                            
+                        </ol>
+                    </li>
+                    <li>
+                        <h5 class="sb">한 주간 수익률 BEST</h5>
+                        <ol class="fund">
+                            
+                        </ol>
+                    </li>
+                    <li>
+                        <h5 class="sb">최근 설정된 신규 ETF 알아보기</h5>
+                        <ol class="fund">
+                            
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+            <button type="button" class="ico close" tabindex="0" onClick="initGclose();">닫기</button>
+        </div>
+    </header>
+<script>
+    const totalSearchButton = document.querySelector('button.ico.search01[data-target="totalSearchButton"]');
+    totalSearchButton.addEventListener('click', async (e) => {
+        if (!totalSearchButton.classList.contains('close')) {
+
+            const target = document.querySelector('div.bestSearch');
+            const response = await fetch('/api/v1/search/total-search');
+            const fragment = await response.text();
+
+            target.innerHTML = '';
+            target.insertAdjacentHTML('beforeend', fragment);
+
+            const gKeywordSearch = document.querySelector('button#gKeywordSearch');
+            gKeywordSearch.addEventListener('click', (e) => {
+                const keywordValue = document.querySelector('input#gKeyword').value;
+                const tempKeywordValue = keywordValue + '';
+                if (tempKeywordValue.replace(/\s/g, '') === '') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '검색어를 입력 후 검색을 실행해주세요.',
+                    });
+
+                    return;
+                }
+                location.href = '/search?searchWord=' + encodeURIComponent(keywordValue);
+            });
+
+
+            const autoSearch = document.querySelectorAll('.autoSearch');
+            autoSearch.forEach((auto) => {
+                const word = auto.querySelector('input.keyword');
+                word.onfocus = function() {
+                    // 자동완성 영역이 필요없으면 해당 data N값으로
+                    if('N' !== auto.dataset.isAuto) {
+                        auto.classList.add('on');
+                        auto.querySelector('.autoword').style.display = 'block';
+                        document.documentElement.classList.add('noScroll');
+                        document.body.classList.add('noScroll');
+                        //document.querySelector('div.dimmed').classList.add('on');
+                    }
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                // 자동완성 닫기
+                autoSearch.forEach((auto) => {
+                    const autoWord = auto.querySelector('.autoword');
+                    var isAutoword = auto.contains(e.target);
+                    if (!isAutoword && auto.classList.contains('on')) {
+                        autoWord.style.display = 'none';
+                        auto.classList.remove('on');
+                        //document.querySelector('div.dimmed').classList.remove('on');
+                        if (gSearch.classList.contains('blind')) {
+                            document.documentElement.classList.remove('noScroll');
+                            document.body.classList.remove('noScroll');
+                        }
+                    }
+                });
+            }, false);
+
+            const keywordSearchInput = document.querySelector('#gKeyword');
+            keywordSearchInput.addEventListener('input', async (e) => {
+                const keyword = e.target.value;
+                const response = await fetch(`/api/v1/fund/etc/get-auto-complete-search-keyword?keyword=`+encodeURIComponent(keyword)+`&type=total`);
+                const fragment = await response.text();
+                const target = document.querySelector('[data-target="header-auto-complete-search-keyword"]');
+                target.innerHTML = '';
+                target.insertAdjacentHTML('beforeend', fragment);
+            });
+            keywordSearchInput.addEventListener('focus', async (e) => {
+                const keyword = e.target.value;
+                const response = await fetch(`/api/v1/fund/etc/get-auto-complete-search-keyword?keyword=`+encodeURIComponent(keyword)+`&type=total`);
+                const fragment = await response.text();
+                const target = document.querySelector('[data-target="header-auto-complete-search-keyword"]');
+                target.innerHTML = '';
+                target.insertAdjacentHTML('beforeend', fragment);
+            });
+
+            setTimeout(function() {
+                keywordSearchInput.focus();
+            }, 100);
+        }
+    });
+</script>
+<style>
+    .swal2-container {
+        z-index: 3002;
+    }
+</style>
+    <!-- //상단 -->
+    <!-- 내용영역 -->
+    <main id="container" class="customer notice list">
+        <!-- 내용 -->
+        <div id="contents" class="contArea">
+            <!-- 현재위치 -->
+            
+        <ol class="locArea">
+            <li><i class="ico home">HANARO ETF</i></li>
+            <li></li>
+            <li></li>
+        </ol>
+
+            <!-- //현재위치 -->
+            <h2 class="blind" data-title="page">고객지원</h2>
+            <h3 data-title="local">공지/이벤트</h3>
+            <div class="keywordArea">
+                <div class="input">
+                    <label for="keywordSearch" class="blind">검색어</label>
+                    <input type="text" name="keywordSearch" id="keywordSearch" class="keyword" placeholder="검색어를 입력해주세요.">
+                    <button type="button" id="searchWord" class="ico circle search02" title="검색">검색</button>
+                </div>
+            </div>
+            <section>
+                <input type="hidden" name="pageNo" id="pageNo" value="1"/>
+                <p class="count" id="searchCount">Total : 89</p>
+                <ol id="noticeList" class="board">
+                </ol>
+                <div class="btnC" id="moreBtn">
+                    <button type="button" class="btn round w01 em02 counter"><span>더보기</span> <i class="count" id="count">10</i> /&nbsp;<i id="currentCount"> 89</i></button>
+                </div>
+                <h5 class="none" style="display: none">검색결과가 없습니다.<br> 다른 검색어를 입력해주세요.</h5>
+            </section>
+        </div>
+        <!-- //내용 -->
+    </main>
+    <!-- //내용영역 -->
+    <!-- 하단 -->
+    
+    <aside id="quick"><button type="button" class="ico top" title="위로 이동">위로 이동</button></aside>
+    <footer id="foot">
+        <div class="footArea">
+            <div class="navArea">
+                <h1><figure><span><img src="/assets/etf/global/images/txt/h1_hanaroETF01.png" alt="HANARO ETF - CreAtive & SmArter"></span><figcaption>HANARO ETF - CreAtive &amp; SmArter</figcaption></figure></h1>
+                <nav id="fnbArea">
+                    <menu id="fnb">
+                        <li><h4><a href="https://www.nh-amundi.com/policy/terms-of-use" target="_blank" title="새창열림">이용약관</a></h4></li>
+                        <li><h4><a href="https://www.nh-amundi.com/policy/customer-privacy-policy" target="_blank" title="새창열림">개인정보처리방침</a></h4></li>
+                        <li><h4><a href="https://www.nh-amundi.com/policy/customer-data-policy" target="_blank" title="새창열림">고객정보취급방침</a></h4></li>
+                        <li><h4><a href="https://www.nh-amundi.com/policy/credit-information-policy" target="_blank" title="새창열림">신용정보활용체제</a></h4></li>
+                        <li><h4><a href="https://www.nh-amundi.com/esg/stewardship/fiduciary-responsibility-policy" target="_blank" title="새창열림">스튜어드십코드</a></h4></li>
+                        <li><h4><button type="button" class="btn txt em06" onClick="initPop('popEmail');" title="팝업 열림"><span>이메일무단수집거부</span></button></h4></li>
+                        <li><h4><a href="https://www.nh-amundi.com/policy/cctv-policy" target="_blank" title="새창열림">CCTV운영 · 관리지침</a></h4></li>
+                        <li><h4><a href="https://nhamundi.ninehire.site" target="_blank" title="새창열림">인재채용</a></h4></li>
+                    </menu>
+                </nav>
+                <p class="copy">COPYRIGHT 2024 NH-Amundi자산운용(주),<br class="wbr"> ALL RIGHTS RESERVED.</p>
+                <address>
+                    <p>07330 서울특별시 영등포구 국제금융로8길 2, 농협재단빌딩 10층</p>
+                    <p>TEL. 02-368-3600</p>
+                </address>
+                <p class="bizNumber">사업자등록번호 107-86-29879</p>
+            </div>
+            <aside class="snsArea">
+                <ul class="site">
+                    <li>
+                        <button type="button" class="btn txt site01 full"><span>유관기관</span></button>
+                        <div class="subsite">
+                            <ul class="link">
+                                <li><a href="https://www.kofia.or.kr" target="_blink" title="새창열림">금융투자협회</a></li>
+                                <li><a href="https://www.fss.or.kr/fss/main/main.do?menuNo=200000" target="_blink" title="새창열림">금융감독원</a></li>
+                                <li><a href="https://dart.fss.or.kr" target="_blink" title="새창열림">전자공시시스템</a></li>
+                                <li><a href="https://www.fss.or.kr/fss/s1332/s1332Index/sub.do?menuNo=200037" target="_blink" title="새창열림">서민금융1332</a></li>
+                                <li><a href="https://fund.kofia.or.kr" target="_blink" title="새창열림">펀드정보 원클릭 시스템</a></li>
+                                <li><a href="https://www.krx.co.kr" target="_blink" title="새창열림">한국거래소</a></li>
+                                <li><a href="https://freesis.kofia.or.kr" target="_blink" title="새창열림">자본시장통계포털</a></li>
+                                <li><a href="https://ksd.or.kr" target="_blink" title="새창열림">한국예탁결제원</a></li>
+                            </ul>
+                        </div>
+                        <!-- <label for="footOrgan" class="blind">유관기관</label>
+                        <select name="footerOrganization" id="footOrgan" class="link01" onChange="if (this.value !== '') window.open(this.value)" title="선택시 새창열림">
+                            <option value="">유관기관</option>
+                            <option value="https://www.kofia.or.kr" title="새창열림">금융투자협회</option>
+                            <option value="https://www.fss.or.kr/fss/main/main.do?menuNo=200000" title="새창열림">금융감독원</option>
+                            <option value="https://dart.fss.or.kr" title="새창열림">전자공시시스템</option>
+                            <option value="https://www.fss.or.kr/fss/s1332/s1332Index/sub.do?menuNo=200037" title="새창열림">서민금융1332</option>
+                            <option value="https://fund.kofia.or.kr" title="새창열림">펀드정보 원클릭 시스템</option>
+                            <option value="https://www.krx.co.kr" title="새창열림">한국거래소</option>
+                            <option value="https://freesis.kofia.or.kr" title="새창열림">자본시장통계포털</option>
+                            <option value="https://ksd.or.kr" title="새창열림">한국예탁결제원</option>
+                        </select> -->
+                    </li>
+                    <li>
+                        <button type="button" class="btn txt site01 full"><span>패밀리 사이트</span></button>
+                        <div class="subsite">
+                            <ul class="link">
+                                <li><a href="https://www.nonghyup.com" target="_blink" title="새창열림">NH농협</a></li>
+                                <li><a href="https://www.nonghyupmall.com" target="_blink" title="새창열림">NH쇼핑</a></li>
+                                <li><a href="https://www.nhfngroup.com" target="_blink" title="새창열림">NH농협금융지주</a></li>
+                                <li><a href="https://www.nhvic.com" target="_blink" title="새창열림">NH벤처투자</a></li>
+                                <li><a href="https://banking.nonghyup.com" target="_blink" title="새창열림">NH농협은행</a></li>
+                                <li><a href="https://www.nhlife.co.kr" target="_blink" title="새창열림">NH농협생명</a></li>
+                                <li><a href="http://www.nhfire.co.kr" target="_blink" title="새창열림">NH농협손해보험</a></li>
+                                <li><a href="https://www.nhqv.com" target="_blink" title="새창열림">NH투자증권</a></li>
+                                <li><a href="https://www.nhcapital.co.kr" target="_blink" title="새창열림">NH농협캐피탈</a></li>
+                                <li><a href="https://www.nhsavingsbank.co.kr" target="_blink" title="새창열림">NH저축은행</a></li>
+                                <li><a href="https://www.nhreits.com/" target="_blink" title="새창열림">NH농협리츠운용</a></li>
+                                <li><a href="https://about.amundi.com" target="_blink" title="새창열림">Amundi</a></li>
+                                <li><a href="https://research-center.amundi.com" target="_blink" title="새창열림">Amundi Institute</a></li>
+                            </ul>
+                        </div>
+                        <!-- <label for="footFamily" class="blind">패밀리 사이트</label>
+                        <select name="footerFamilySite" id="footFamily" class="link01" onChange="if (this.value !== '') window.open(this.value)" title="선택시 새창열림">
+                            <option value="">패밀리 사이트</option>
+                            <option value="https://www.nonghyup.com" title="새창열림">NH농협</option>
+                            <option value="https://www.nonghyupmall.com" title="새창열림">NH쇼핑</option>
+                            <option value="https://www.nhfngroup.com" title="새창열림">NH농협금융지주</option>
+                            <option value="https://www.nhvic.com" title="새창열림">NH벤처투자</option>
+                            <option value="https://banking.nonghyup.com" title="새창열림">NH농협은행</option>
+                            <option value="https://www.nhlife.co.kr" title="새창열림">NH농협생명</option>
+                            <option value="http://www.nhfire.co.kr" title="새창열림">NH농협손해보험</option>
+                            <option value="https://www.nhqv.com" title="새창열림">NH투자증권</option>
+                            <option value="https://www.nhcapital.co.kr" title="새창열림">NH농협캐피탈</option>
+                            <option value="https://www.nhsavingsbank.co.kr" title="새창열림">NH저축은행</option>
+                            <option value="https://www.nhreits.com/" title="새창열림">NH농협리츠운용</option>
+                            <option value="https://about.amundi.com" title="새창열림">Amundi</option>
+                            <option value="https://research-center.amundi.com" title="새창열림">Amundi Institute</option>
+                        </select> -->
+                    </li>
+                </ul>
+                <ul class="sns">
+                    <li class="web"><figure class="pic"><span><img src="/assets/etf/global/images/txt/mark_WA.png" alt="과학기술정보통신부 WEB접근성"></span><figcaption>과학기술정보통신부 WEB접근성</figcaption></figure></li>
+                    <li><a href="https://www.instagram.com/hanaro_etf.official/" target="_blank" title="새창열림" class="ico circle sns insta">NH-Amundi자산운용 인스타그램</a></li>
+                    <li><a href="https://blog.naver.com/hanaro_etf" target="_blank" title="새창열림" class="ico circle sns naver">NH-Amundi자산운용 네이버블로그</a></li>
+                    <li><a href="https://www.youtube.com/@HANAROETF" target="_blank" title="새창열림" class="ico circle sns youtube">HANARO ETF 유튜브</a></li>
+                </ul>
+            </aside>
+        </div>
+    </footer>
+    <!-- 팝업:이메일무단수집거부 -->
+    <div id="popEmail" class="popup popEmail">
+        <div class="popArea">
+            <div class="popBody">
+                <header class="popHead">
+                    <h5 class="st01">이메일무단수집거부</h5>
+                </header>
+                <div class="popCont">
+                    <figure>
+                        <span><img src="/assets/etf/global/images/etc/fig_email01.png" alt="이메일무단수집거부"></span>
+                        <figcaption>
+                            본 홈페이지에 게시된 이메일 주소가 전자우편 수집 프로그램이나 그 밖의 기술적 장치를 이용하여 무단으로 수집되는 것을 거부하며, 이를 위반 시 정보통신망법에 의해 형사 처벌됨을 유념하시기 바랍니다.
+                        </figcaption>
+                    </figure>
+                    <h6>정보통신망법 제50조의2 <br class="mob">(전자우편주소의 무단 수집행위 등 금지)</h6>
+                    <ol class="list01">
+                        <li>누구든지 전자우편주소의 수집을 거부하는 의사가 명시된 인터넷 홈페이지에서 자동으로 전자우편주소를 수집하는 프로그램 그 밖의 기술적 장치를 이용하여 전자우편주소를 수집하여서는 아니된다.</li>
+                        <li>누구든지 제1항의 규정을 위반하여 수집된 전자우편주소를 판매·유통하여서는 아니된다.</li>
+                        <li>누구든지 제1항 및 제2항의 규정에 의하여 수집·판매 및 유통이 금지된 전자우편주소임을 알고 이를 정보전송에 이용하여서는 아니 된다.</li>
+                    </ol>
+                    <p class="note st03">만일, 위와 같은 기술적 장치를 사용한 이메일주소 무단수집 피해를 당하신 경우 불법스팸대응센터 전용전화(1336)나 홈페이지(<a href="https://www.spamcop.or.kr" target="_blank" title="불법스팸대응센터로 새창 이동">www.spamcop.or.kr</a>)의 신고창을 통하여 신고하여 주시기 바랍니다.</p>
+                </div>
+                <button type="button" class="ico close">닫기</button>
+            </div>
+        </div>
+    </div>
+    <!-- //팝업:이메일무단수집거부 -->
+    <!-- //하단 -->
+</div>
+<!-- //전체틀 -->
+</body>
+
+<div class="dimmed"></div>
+</html>
+<script type="text/javascript">
+    const moreBtn = document.querySelector('#moreBtn');
+    const keywordSearchInput = document.querySelector('#keywordSearch');
+    const searchWordBtn = document.querySelector('#searchWord');
+    let pageNo = document.getElementById('pageNo').value;
+
+    document.addEventListener('DOMContentLoaded', async function () {
+        //상세 페이지 들어갔다가 목록으로 돌아오는 경우 검색어, 페이지 유지
+        document.getElementById('keywordSearch').value = ``;
+        document.getElementById('noticeList').innerHTML = '';
+
+        for(let i = 1; i <= pageNo; i++){
+            await loadList(true, i);
+        }
+
+        moreBtn.addEventListener('click', function (){
+            pageNo = document.getElementById('pageNo').value;
+            loadList(true, pageNo);
+        });
+        searchWordBtn.addEventListener('click', function(){
+            pageNo = document.getElementById('pageNo').value;
+            loadList(false, pageNo);
+        });
+        keywordSearchInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                pageNo = document.getElementById('pageNo').value;
+                loadList(false, pageNo);
+            }
+        });
+    });
+
+    async function loadList(fromMoreBtn, pageNo){
+        let keywordSearch = document.getElementById('keywordSearch').value;
+        let pageListSize = 10;
+        let searchData = new FormData();
+
+        //검색하면 pageNo는 초기화 되어야하지만 검색 결과 내에서도 pageNo는 있어야함
+        if((!fromMoreBtn) && (keywordSearch != null)){
+            pageNo = 1;
+            document.getElementById('pageNo').value = 1;
+            document.getElementById('noticeList').innerHTML = '';
+        }
+
+        if(pageNo > 1){
+            pageListSize = 5;
+        }
+        searchData.append('currentPage', pageNo);
+        searchData.append('pageListSize', pageListSize);
+        searchData.append('searchWord', keywordSearch);
+
+        try {
+            const response = await fetch(`/customer/notice-list-ajax?currentPage=${pageNo}&pageListSize=${pageListSize}&searchWord=${keywordSearch}`, { method: 'GET' ,
+
+            });
+            const resultData = await response.text();
+            //불러온 리스트를 붙인다.
+            document.getElementsByClassName('none')[0].style.display = 'none';
+            document.getElementById('searchCount').style.display = 'block';
+            document.getElementById('moreBtn').style.display = 'block';
+            document.getElementById('noticeList').insertAdjacentHTML('beforeend', resultData);
+
+            //현재까지의 리스트 개수
+            let contentsCount = document.getElementById('noticeList').querySelectorAll('li').length;
+            let totalCount = document.querySelectorAll('.searchTotalCount')[0].value;
+            if(totalCount == 0){
+                document.getElementsByClassName('none')[0].style.display = 'block';
+                document.getElementById('searchCount').style.display = 'none';
+                document.getElementById('moreBtn').style.display = 'none';
+            }else {
+                document.getElementById('searchCount').textContent = 'Total : ' + totalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('currentCount').textContent = totalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('count').textContent = contentsCount;
+
+                if (totalCount <= ((pageNo - 1) * 5 + 10)) {
+                    //더이상 컨텐츠가 없으면 더보기 버튼은 숨김처리
+                    document.getElementById('moreBtn').style.display = 'none';
+                }
+
+                ++pageNo;
+                document.getElementById('pageNo').value = pageNo;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+</script>

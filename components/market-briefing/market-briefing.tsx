@@ -321,22 +321,26 @@ function Skeleton() {
 
 
 
-function ErrorState({ message }: { message: string }) {
-
+function ErrorState({ message, onReset }: { message: string; onReset?: () => void }) {
   return (
-
-    <section className="rounded-[22px] border border-amber-200 bg-amber-50 px-6 py-8 text-center">
-
+    <section className="rounded-[22px] border border-amber-200 bg-amber-50 px-6 py-8 text-center my-8">
       <p className="text-sm font-bold text-amber-950">마켓 브리핑을 준비하고 있습니다</p>
-
       <p className="mt-2 text-sm leading-6 text-amber-800">{message}</p>
-
-      <p className="mt-4 text-xs text-amber-700">기준일에 일치하는 검증된 데이터가 준비되면 자동으로 표시됩니다.</p>
-
+      {onReset ? (
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={onReset}
+            className="rounded-xl bg-[#2E6819] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#235013] shadow-sm"
+          >
+            최신 마켓 브리핑으로 돌아가기
+          </button>
+        </div>
+      ) : (
+        <p className="mt-4 text-xs text-amber-700">기준일에 일치하는 검증된 데이터가 준비되면 자동으로 표시됩니다.</p>
+      )}
     </section>
-
   );
-
 }
 
 
@@ -715,7 +719,7 @@ export function MarketBriefing() {
 
   if (isLoading && !briefing) return <Skeleton />;
 
-  if (!briefing) return <ErrorState message={error ?? "검증된 브리핑이 아직 없습니다."} />;
+  if (!briefing) return <ErrorState message={error ?? "검증된 브리핑이 아직 없습니다."} onReset={() => setSelectedDate(undefined)} />;
 
 
 
@@ -2559,6 +2563,10 @@ export function MarketBriefing() {
         <MarketBriefingHistory
           activeDate={briefing.asOfDate}
           onSelectDate={(date) => {
+            if (date < "2026-08-24") {
+              alert("마켓 브리핑은 2026년 8월 24일부터 정식 제공됩니다.");
+              return;
+            }
             setSelectedDate(date);
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}

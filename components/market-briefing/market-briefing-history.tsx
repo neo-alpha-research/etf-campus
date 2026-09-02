@@ -143,7 +143,7 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
             </div>
 
             <ol className="divide-y divide-[#E8EDE2]">
-              {items.map((item, index) => {
+              {items.filter(item => item.asOfDate >= "2026-08-24").map((item, index) => {
                 const isActive = item.asOfDate === activeDate;
                 const isPastItem = index > 0;
 
@@ -199,12 +199,19 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
                 id="history-date-picker"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 block"
                 onChange={(e) => {
-                  if (e.target.value) {
-                    onSelectDate(e.target.value);
+                  const val = e.target.value;
+                  if (val) {
+                    if (val < "2026-08-24") {
+                      alert("마켓 브리핑은 2026년 8월 24일부터 정식 제공됩니다.");
+                      e.target.value = "";
+                      return;
+                    }
+                    onSelectDate(val);
                   }
                 }}
+                min="2026-08-24"
                 max={new Date().toISOString().split('T')[0]}
-                title="날짜를 선택하여 과거 브리핑을 조회합니다"
+                title="2026년 8월 24일 이후의 날짜를 선택하여 과거 브리핑을 조회합니다"
               />
               <button
                 type="button"

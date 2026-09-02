@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="title" content="브이아이자산운용">
+    <meta name="keywords" content="브이아이자산운용, VI자산운용, 주식, 채권, 증권, ESG, 펀드, 해외투자, 대체투자">
+    <meta name="description" content="지속가능한 미래에 투자하는 브이아이자산운용입니다.">
+    <link rel="apple-touch-icon-precomposed" href="/asset/resource_pc/images/layout/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/asset/resource_pc/images/layout/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/asset/resource_pc/images/layout/favicon.ico">
+    <title>브이아이자산운용</title>
+    <link rel="stylesheet" type="text/css" href="/asset/resource_pc/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/asset/resource_pc/css/content.css">
+    <link rel="stylesheet" type="text/css" href="/asset/resource_pc/css/main.css">
+    <script src="/asset/resource_pc/js/lib/jquery-1.12.4.min.js"></script>
+    <script src="/asset/resource_pc/js/lib/jquery.easing.1.3.js"></script>
+    <script src="/asset/resource_pc/js/lib/swiper.min.js"></script>
+    <script src="/asset/resource_pc/js/common.js"></script>
+    <script src="/asset/resource_pc/js/main.js"></script>
+    <script src="/asset/js/common.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/asset/resource_pc/js/lib/html5shiv.js"></script>
+    <![endif]-->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src=https://www.googletagmanager.com/gtag/js?id=G-XT39PX67FY></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-XT39PX67FY');
+	</script>
+
+	<meta name="_csrf" content="601530ba-cd57-4ceb-86d7-a83b6551734e">
+	<meta name="_csrf_header" content="X-CSRF-TOKEN">
+	<script type="text/javascript">
+
+		$(document).ready(function(){
+			//fnSearchForm();
+			if(parseInt($("#totalCnt").val()) <= parseInt($("#pageUnit").val())){
+				$("#moreBtn").hide();
+			}
+			let onFlag = 0;
+			$('.tab_btn').removeClass('on');
+			$('#dep2').addClass('disabled');
+			$('#ftab').addClass('on');
+			$('#searchKeywordTemp').keypress(function(event){
+				if ( event.which == 13 ) {
+					$('#searchBtn').click();
+					return false;
+				}
+			});
+		});
+
+		function fnSearchForm(){
+			var search = $('#searchKeywordTemp').val().replace(/ /gi,"");
+			$('#searchKeyword').val(search);
+			fnPaging(1);
+		}
+
+		//페이징 이동
+		function fnPaging(pageIndex){
+			var frm = document.searchForm;
+			$("input[name='pageIndex']").val( pageIndex );
+			var queryString = $("form[name=searchForm]").serialize() ;
+
+			$.ajax({
+				type : 'get',
+				url : './ajaxList',
+				data : queryString,
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				dataType : 'json',
+				error: function(xhr, status, error){
+					alert(error);
+				},
+				success : function(json){
+					$("#pageIndex").val(json["searchVO"].pageIndex);
+					$("#pageUnit").val(json["searchVO"].pageUnit);
+					$("#totalCnt").val(json.totalCnt);
+					/*var sjasn = formatNumber(Math.round(json["resultList"][i].SJASAN/1000000));*/
+					var html = "";
+					var tot = $("#totalCnt").val();
+					html+='<tbody id="tbl">';
+					for(var i = 0 ; i < json["resultList"].length ; i++){
+						//var sjasn = Math.round(json["resultList"][i].SJASAN/1000000).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+						var sjasn = formatNumber(Math.round(json["resultList"][i].SJASAN/1000000));
+						tot++;
+						html+='<tr>';
+						html+='	<td>';
+						html+='		<div class="fund_info">';
+						html+='					<span class="checkbox">';
+						html+='						<input type="checkbox" name="chk" id="ck'+tot+'" value="'+json["resultList"][i].FCODE+'">';
+						html+='						<label for="ck'+tot+'"></label>';
+						html+='					</span>';
+						html+='			<div class="flag_area">';
+						html+='				<span class="flag">ETF</span>';
+						html+='				<span class="flag h_risk" >높은위험</span>';
+						html+='			</div>';
+						html+='			<a href="javascript:;" onclick="fnView2('+"'./view'"+','+json["resultList"][i].FIDX+'); return false;">';
+						html+='				<span class="tit">'+json["resultList"][i].FNAME+'</span>';
+						html+='			</a>';
+						/*html+='			<span class="info">순자산 '+sjasn+ '백만 / 설정일 ' + json["resultList"][i].FDATE+' </span>';*/
+						html+='		</div>';
+						html+='	</td>';
+						html+=' <td>'+sjasn+'</td>';
+						html+=' <td>'+json["resultList"][i].FDATE +'</td>';
+						html+=' <td>'+json["resultList"][i].PRICE.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+						if(json["resultList"][i].F1MPROFIT.toString().indexOf('999') == -1) {
+							html+='	<td>'+json["resultList"][i].F1MPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+						} else {
+							html+='	<td>-</td>';
+						}
+						if(json["resultList"][i].F3MPROFIT.toString().indexOf('999') == -1) {
+							html+='	<td>'+json["resultList"][i].F3MPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+						} else {
+							html+='	<td>-</td>';
+						}
+						if(json["resultList"][i].F6MPROFIT.toString().indexOf('999') == -1) {
+							html+='	<td>'+json["resultList"][i].F6MPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+						} else {
+							html+='	<td>-</td>';
+						}
+						if(json["resultList"][i].F1YPROFIT.toString().indexOf('999') == -1) {
+							html+='	<td>'+json["resultList"][i].F1YPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+						} else {
+							html+='	<td>-</td>';
+						}
+						if(json["resultList"][i].FDATEPROFIT.toString().indexOf('999') == -1) {
+							html+='	<td>'+json["resultList"][i].FDATEPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+						} else {
+							html+='	<td>-</td>';
+						}
+						html+='</tr>';
+					}
+					if(json["resultList"].length == 0 ){
+						html+='<tr>';
+						html+='	<td colspan="7">검색결과가 없습니다.';
+						html+=' </td>';
+						html+='</tr>';
+					}
+					html+='</tbody>';
+
+					$('#tbl').remove();
+					$('#tblhead').after(html);
+
+					var curTotal = parseInt($("#pageIndex").val()) * parseInt($("#pageUnit").val());
+					//console.log(curTotal);
+
+					if(parseInt($("#totalCnt").val()) <= parseInt(curTotal)){
+						$("#moreBtn").hide();
+					}else{
+						$("#moreBtn").show();
+						$("#moreBtn").text("더보기 ("+$('#pageUnit').val() * $('#pageIndex').val()+"/"+$('#totalCnt').val()+")");
+					}
+
+				}
+			});
+		}
+
+		//상세페이지 이동
+		function fnView2(_url, _seq) {
+			var frm = document.searchForm;
+			$("input[name='bidx']").val( _seq );
+			frm.action = _url;
+			frm.method = "get";
+			frm.submit();
+		}
+		//상세페이지 이동
+		function fnSearchFormMove(_url) {
+			if($('#gubunBox').text() == '펀드') {
+				var search = $('#searchKeywordTemp').val().replace(/ /gi,"");
+				$('#searchKeyword2').val(search);
+				var frm = document.searchForm2;
+				frm.action = _url;
+				frm.method = "get";
+				frm.submit();
+			} else{
+				var search = $('#searchKeywordTemp').val().replace(/ /gi,"");
+				$('#searchKeyword2').val(search);
+				var frm = document.searchForm2;
+				frm.action = '/web/kr/main/etfSearch';
+				frm.method = "get";
+				frm.submit();
+			}
+		}
+
+		function fnPopup(stat, val){
+			let fcodeArr = $('#fcodeArr').val();
+			let cnt = 0;
+			if(val == "empty"){
+				return;
+			}
+			if(stat == 0) {
+				fcodeArr = "";
+				$('input[name=chk]:checked').each(function () {
+					cnt++;
+					fcodeArr = fcodeArr + (fcodeArr == "" ? "" : ",") + $(this).val();
+				});
+
+				if(cnt > 3){
+					alert("최대 3개 까지만 가능합니다.");
+					return;
+				} else if(cnt == 0){
+					alert("비교하고자 하는 펀드를 선택해주세요.");
+					return;
+				}
+			} else if(stat != 0){
+				let fcodeTmp = fcodeArr.split(",");
+				fcodeTmp[stat-1] = val;
+				fcodeArr = fcodeTmp.join(",")
+			}
+			$('#fcodeArr').val(fcodeArr);
+
+			$.ajax({
+				type : 'post',
+				url : './popAjax',
+				data :  {
+					fcode : fcodeArr
+				},
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				dataType : 'html',
+				beforeSend: function (jqXHR, settings) {
+					var header = $("meta[name='_csrf_header']").attr("content");
+					var token = $("meta[name='_csrf']").attr("content");
+					jqXHR.setRequestHeader(header, token);
+				},
+				error: function(xhr, status, error){
+					alert(error);
+				},
+				success : function(json){
+					$('#layPopup').html(json);
+					layerOpen('popLayer');
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+<!-- skip nav -->
+<div id="skip_wrap">
+	<a href="#content" class="skip_nav">본문 바로가기</a>
+</div>
+<!-- //skip nav -->
+<!-- wrap -->
+<div id="wrap">
+	<!-- header -->
+	<div id="header">
+		<div class="header_wrap">
+    <h1 class="logo">
+        <a href="/web/kr/main/main"><span class="blind">브이아이자산운용</span></a>
+    </h1>
+    <div class="gnb_menu">
+        <ul>
+            <li>
+                <a href="/web/kr/fund/all/list" class="dep1">펀드상품</a>
+                <ul class="dep2">
+                    <!-- <li><a href="/web/kr/fund/recom/list">추천펀드</a></li>  -->
+                    <li><a href="/web/kr/fund/all/list">전체펀드</a></li>
+                    <li><a href="/web/kr/fund/etf/all/etflist">ETF</a></li>
+                    <!-- <li><a href="/web/kr/fund/map/map">펀드맵</a></li>  -->
+                </ul>
+            </li>
+            <li>
+                <a href="/web/kr/invsInfo/invGuide/list" class="dep1">투자정보</a>
+                <ul class="dep2">
+                    <li><a href="/web/kr/invsInfo/invGuide/list">투자가이드</a></li>
+                    <li><a href="/web/kr/invsInfo/esg/list">ESG</a></li>
+                    <!-- <li><a href="/web/kr/invsInfo/fndNews/list">펀드뉴스</a></li> -->
+                    <li><a href="/web/kr/invsInfo/fndTube/list">펀드SNS</a></li>
+                    <!--<li><a href="/web/kr/invsInfo/fndManager/list">펀드매니저정보</a></li>-->
+                </ul>
+            </li>
+            <li>
+                <a href="/web/kr/custLounge/disclosure/list" class="dep1">고객라운지</a>
+                <ul class="dep2">
+                    <li><a href="/web/kr/custLounge/notice/list">공지사항</a></li>
+                    <li><a href="/web/kr/custLounge/disclosure/list">공시정보</a></li>
+                    <li><a href="/web/kr/custLounge/faq/list">FAQ</a></li>
+                    <!-- <li><a href="/web/kr/custLounge/sns/list">SNS</a></li>  -->
+                    <li><a href="/web/kr/custLounge/stewardship/list">스튜어드십코드</a></li>
+                    <li><a href="/web/kr/custLounge/location/list">오시는길</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="/web/kr/compInfo/overView/list" class="dep1">회사소개</a>
+                <ul class="dep2">
+                    <li><a href="/web/kr/compInfo/overView/list">회사개요</a></li>
+                    <!--<li><a href="/web/kr/compInfo/ceo/list">CEO인사말</a></li>-->
+                    <li><a href="/web/kr/compInfo/history/list">연혁</a></li>
+                    <li><a href="/web/kr/compInfo/organize/list">조직도</a></li>
+                    <!--<li><a href="/web/kr/compInfo/ci/list">CI</a></li>-->
+                   <!-- <li><a href="/web/kr/compInfo/affiliate/list">계열사소개</a></li> -->
+                   <!-- <li><a href="/web/kr/compInfo/assetResult/list">경영실적/관리자산</a></li>-->
+                    <li>
+                        <span>운용시스템</span>
+                        <ul class="dep3">
+                            <li><a href="/web/kr/compInfo/oprSystem/process">운용프로세스</a></li>
+                            <li><a href="/web/kr/compInfo/oprSystem/risk">리스크관리프로세스</a></li>
+                            <li><a href="/web/kr/compInfo/oprSystem/compl">컴플라이언스</a></li>
+                        </ul>
+                    </li>
+                   <!--  <li><a href="/web/kr/compInfo/socialCont/list">사회공헌</a></li> -->
+                </ul>
+            </li>
+            <li>
+                <a href="/web/kr/hireNotice/hireInfo/list" class="dep1">채용안내</a>
+                <ul class="dep2">
+                    <li><a href="/web/kr/hireNotice/hireInfo/list">채용안내</a></li>
+                    <li><a href="/web/kr/hireNotice/hireNotice/list">채용공고</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="lang">
+        <a class="selected" href="/web/kr/main/main"><span>KR</span></a>
+        <div class="options">
+            <ul>
+                <li><a href="/web/en/main/main"><span>EN</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+	</div>
+	<!-- //header -->
+ 
+	<!-- container -->
+    <div id="container" class="fund"><!-- 각 메뉴명 고유 클래스 삽입 -->
+		<!-- title area -->
+		<div class="title_area">
+			<h3>ETF</h3>
+			<div class="loc">
+				<a href="/web/kr/main/main"><span class="home"><span class="blind">홈</span></span></a>
+				<a href="/web/kr/fund/recom/list"><span class="dep">펀드상품</span></a>
+				<span class="curr">ETF</span>
+			</div>
+		</div>
+		<!-- //title area -->
+
+		<form name="searchForm" id="searchForm"  action="./list" method="get">
+			<input type="hidden" name="bidx" id="bidx" />
+			<input type="hidden" name="pageIndex" id="pageIndex" value="1"/>
+			<input type="hidden" name="pageUnit" id="pageUnit" value="10"/>
+			<input type="hidden" id="totalCnt" value="6"/>
+			<input type="hidden" name="orderBy" id="orderBy" value="d"/>
+			<input type="hidden" name="orderCondition" id="orderCondition" value="d"/>
+		</form>
+
+		<form name="searchForm2" id="searchForm2"  action="./list" method="get">
+			<input type="hidden" name="searchKeyword" id="searchKeyword2" value=""/>
+		</form>
+
+		<!-- content -->
+		<div id="content">
+			<input type="hidden" name="fcodeArr" id="fcodeArr" value="" />
+			<!-- 컨텐츠 영역 -->
+			<div class="content_wrap">
+				<!-- 검색 영역 -->
+				<div class="search_area">
+					<div class="sch_input fund_sel">
+						<div class="select_box">
+							<div class="selected" id="gubunBox">ETF</div>
+							<ul class="select_option">
+								<li>ETF</li>
+							</ul>
+						</div>
+						<input type="text" class="input" title="검색어 입력" placeholder="검색어를 입력해 주세요" name="searchKeywordTemp" id="searchKeywordTemp" value="">
+						<a href="javascript:;" title="검색" class="btn_search" onclick="fnSearchFormMove(&#39;/web/kr/main/search&#39;); return false;" id="searchBtn"><span class="blind">검색</span></a>
+					</div>
+					<!-- 검색 옵션 -->
+					<!--<div class="sch_option">
+						<dl class="group">
+							<dt>구분</dt>
+							<dd>
+								<div class="tab_wrap">
+									<ul class="tab_menu">
+										<li class="tab_btn etf" id="ftab"><a href="javascript:;">ETF</a></li>
+									</ul>
+								</div>
+							</dd>
+						</dl>
+						<dl class="dep2" id="dep2">
+							<dt>지역</dt>
+							<dd>
+								<div class="tab_wrap">
+									<ul class="tab_menu">
+										<li class="tab_btn nat"><a href="javascript:;">전체</a></li>
+										<li class="tab_btn nat"><a href="javascript:;">국내</a></li>
+										<li class="tab_btn nat"><a href="javascript:;">해외</a></li>
+									</ul>
+								</div>	
+							</dd>
+							<dt>유형</dt>
+							<dd>
+								<div class="tab_wrap">
+									<ul class="tab_menu">
+										<li class="tab_btn tab"><a href="javascript:;">전체</a></li>
+										<li class="tab_btn tab"><a href="javascript:;">주식형</a></li>
+										<li class="tab_btn tab"><a href="javascript:;">채권형</a></li>
+										<li class="tab_btn tab"><a href="javascript:;">파생상품형</a></li>
+										<li class="tab_btn tab">
+											<a href="javascript:;">기타</a>
+											<select id="etcTab">
+												<option>선택해주세요</option>
+												<option>MMF</option>
+												<option>혼합형</option>
+												<option>부동산</option>
+												<option>특별자산</option>
+												<option>재간접</option>
+											</select>
+										</li>
+									</ul>
+								</div>	
+							</dd>
+						</dl>
+					</div>-->
+					<!-- //검색 옵션 -->
+				</div>
+				<!-- //검색 영역 -->
+				<!-- 목록 옵션 -->
+				<div class="list_option">
+					<div class="left_con">
+						<button type="button" class="btn_compare" onclick="fnPopup(0,0);"><span>비교하기</span></button><!-- 레이어 팝업 열기 : layerOpen('Id') -->
+					</div>
+				</div>
+				<!-- //목록 옵션 -->
+				<!-- 펀드 목록 -->
+				<div class="list_table fund_list">
+					<table>
+						<caption>전체펀드 목록</caption>
+						<colgroup>
+							<col width="*">
+							<col width="100px">
+							<col width="120px">
+							<col width="100px">
+							<col width="87px">
+							<col width="87px">
+							<col width="87px">
+							<col width="87px">
+							<col width="87px">
+						</colgroup>
+						<thead id="tblhead">
+						<tr>
+							<th rowspan="2">
+								<span class="txt_sort"><strong>펀드명</strong></span>
+								<!--<span>
+									<button type="button" class="btn_sort down" onclick="fnOrderBy('n','d', this);"><span>▲</span></button>
+									<button type="button" class="btn_sort up" style="display: none;" onclick="fnOrderBy('n','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+							<th rowspan="2">
+								<span class="txt_sort"><strong>순자산</strong><br><em>(백만원)</em></span>
+								<!--<span>
+								<button type="button" class="btn_sort down" onclick="fnOrderBy('s','d', this);"><span>▲</span></button>
+								<button type="button" class="btn_sort up" style="display: none;" onclick="fnOrderBy('s','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+							<th rowspan="2">
+								<span class="txt_sort"><strong>설정일</strong></span>
+								<!--<span>
+								<button type="button" class="btn_sort down" style="display: none;" onclick="fnOrderBy('d','d', this);"><span>▲</span></button>
+								<button type="button" class="btn_sort up" onclick="fnOrderBy('d','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+							<th rowspan="2">
+								<span class="txt_sort"><strong>기준가</strong><br><em>(원)</em></span>
+								<!--<span>
+								<button type="button" class="btn_sort down" onclick="fnOrderBy('p','d', this);"><span>▲</span></button>
+								<button type="button" class="btn_sort up" style="display: none;" onclick="fnOrderBy('p','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+							<th colspan="5" class="line_b"><strong>수익률</strong> <em>(%)</em></th>
+						</tr>
+						<tr>
+							<th>
+								<span class="txt_sort"><strong>1개월</strong></span>
+								<!--<span>
+								<button type="button" class="btn_sort down" onclick="fnOrderBy('m1','d', this);"><span>▲</span></button>
+								<button type="button" class="btn_sort up" style="display: none;" onclick="fnOrderBy('m1','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+							<th>
+								<span class="txt_sort"><strong>3개월</strong></span>
+								<!--<span>
+								<button type="button" class="btn_sort down" onclick="fnOrderBy('m3','d', this);"><span>▲</span></button>
+								<button type="button" class="btn_sort up" style="display: none;" onclick="fnOrderBy('m3','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+							<th>
+								<span class="txt_sort"><strong>6개월</strong></span>
+								<!--<span>
+								<button type="button" class="btn_sort down" onclick="fnOrderBy('m6','d', this);"><span>▲</span></button>
+								<button type="button" class="btn_sort up" style="display: none;" onclick="fnOrderBy('m6','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+							<th>
+								<span class="txt_sort"><strong>1년</strong></span>
+								<!--<span>
+								<button type="button" class="btn_sort down" onclick="fnOrderBy('y1','d', this);"><span>▲</span></button>
+								<button type="button" class="btn_sort up" style="display: none;" onclick="fnOrderBy('y1','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+							<th>
+								<span class="txt_sort"><strong>설정일<br>이후</strong></span>
+								<!--<span>
+								<button type="button" class="btn_sort down" onclick="fnOrderBy('fd','d', this);"><span>▲</span></button>
+								<button type="button" class="btn_sort up" style="display: none;" onclick="fnOrderBy('fd','a', this);"><span>▼</span></button>
+								</span>-->
+							</th>
+						</tr>
+						</thead>
+						<tbody id="tbl">
+							<tr>
+								<td>
+									<div class="fund_info">
+										<span class="checkbox">
+											<input type="checkbox" name="chk" id="ck1" value="AL992">
+											<label for="ck1"></label>
+										</span>
+										<div class="flag_area">
+											<span class="flag">ETF</span>
+											<span class="flag h_risk">높은위험</span>
+										</div>
+										<a href="javascript:;" onclick="fnView2(&#39;./view&#39;,8); return false;">
+											<span class="tit">브이아이 FOCUS 금융반도체지주채권혼합50액티브증권상장지수투자신탁[채권혼합]</span>
+										</a>
+										<!--<span class="info" th:text="|순자산 ${#numbers.formatDecimal((result.SJASAN/1000000), 0,'COMMA', 0, 'POINT')}백만 / 설정일 ${result.FDATE}|"></span>-->
+									</div>
+								</td>
+								<td>8,059</td>
+								<td>2026-08-11</td>
+								<td>10,074.92</td>
+								<td>-</td>
+								<td>-</td>
+								<td>-</td>
+								<td>-</td>
+								<td>3.20</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="fund_info">
+										<span class="checkbox">
+											<input type="checkbox" name="chk" id="ck2" value="AL993">
+											<label for="ck2"></label>
+										</span>
+										<div class="flag_area">
+											<span class="flag">ETF</span>
+											<span class="flag h_risk">높은위험</span>
+										</div>
+										<a href="javascript:;" onclick="fnView2(&#39;./view&#39;,7); return false;">
+											<span class="tit">브이아이 FOCUS AI반도체위클리고정커버드콜증권상장지수투자신탁[주식-파생형]</span>
+										</a>
+										<!--<span class="info" th:text="|순자산 ${#numbers.formatDecimal((result.SJASAN/1000000), 0,'COMMA', 0, 'POINT')}백만 / 설정일 ${result.FDATE}|"></span>-->
+									</div>
+								</td>
+								<td>6,910</td>
+								<td>2026-04-07</td>
+								<td>12,565.16</td>
+								<td>37.85</td>
+								<td>-20.88</td>
+								<td>-</td>
+								<td>-</td>
+								<td>40.38</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="fund_info">
+										<span class="checkbox">
+											<input type="checkbox" name="chk" id="ck3" value="AL994">
+											<label for="ck3"></label>
+										</span>
+										<div class="flag_area">
+											<span class="flag">ETF</span>
+											<span class="flag h_risk">높은위험</span>
+										</div>
+										<a href="javascript:;" onclick="fnView2(&#39;./view&#39;,6); return false;">
+											<span class="tit">브이아이 FOCUS 200 증권상장지수투자신탁[주식]</span>
+										</a>
+										<!--<span class="info" th:text="|순자산 ${#numbers.formatDecimal((result.SJASAN/1000000), 0,'COMMA', 0, 'POINT')}백만 / 설정일 ${result.FDATE}|"></span>-->
+									</div>
+								</td>
+								<td>69,080</td>
+								<td>2025-09-23</td>
+								<td>92,107.26</td>
+								<td>22.83</td>
+								<td>-20.06</td>
+								<td>14.04</td>
+								<td>-</td>
+								<td>126.01</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="fund_info">
+										<span class="checkbox">
+											<input type="checkbox" name="chk" id="ck4" value="AL995">
+											<label for="ck4"></label>
+										</span>
+										<div class="flag_area">
+											<span class="flag">ETF</span>
+											<span class="flag h_risk">높은위험</span>
+										</div>
+										<a href="javascript:;" onclick="fnView2(&#39;./view&#39;,5); return false;">
+											<span class="tit">브이아이 FOCUS BABA-UST커버드콜혼합증권상장지수투자신탁[채권혼합-파생재간접형]</span>
+										</a>
+										<!--<span class="info" th:text="|순자산 ${#numbers.formatDecimal((result.SJASAN/1000000), 0,'COMMA', 0, 'POINT')}백만 / 설정일 ${result.FDATE}|"></span>-->
+									</div>
+								</td>
+								<td>4,945</td>
+								<td>2025-07-01</td>
+								<td>8,992.64</td>
+								<td>-3.78</td>
+								<td>-11.55</td>
+								<td>-12.77</td>
+								<td>-1.04</td>
+								<td>3.24</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="fund_info">
+										<span class="checkbox">
+											<input type="checkbox" name="chk" id="ck5" value="AL996">
+											<label for="ck5"></label>
+										</span>
+										<div class="flag_area">
+											<span class="flag">ETF</span>
+											<span class="flag h_risk">높은위험</span>
+										</div>
+										<a href="javascript:;" onclick="fnView2(&#39;./view&#39;,4); return false;">
+											<span class="tit">브이아이 FOCUS AI코리아 액티브 증권 상장지수 투자신탁[주식]</span>
+										</a>
+										<!--<span class="info" th:text="|순자산 ${#numbers.formatDecimal((result.SJASAN/1000000), 0,'COMMA', 0, 'POINT')}백만 / 설정일 ${result.FDATE}|"></span>-->
+									</div>
+								</td>
+								<td>40,820</td>
+								<td>2022-11-14</td>
+								<td>30,237.33</td>
+								<td>19.18</td>
+								<td>-15.26</td>
+								<td>4.38</td>
+								<td>98.49</td>
+								<td>206.51</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="fund_info">
+										<span class="checkbox">
+											<input type="checkbox" name="chk" id="ck6" value="AL999">
+											<label for="ck6"></label>
+										</span>
+										<div class="flag_area">
+											<span class="flag">ETF</span>
+											<span class="flag h_risk">높은위험</span>
+										</div>
+										<a href="javascript:;" onclick="fnView2(&#39;./view&#39;,1); return false;">
+											<span class="tit">브이아이 FOCUS ESG Leaders 150 증권 상장지수 투자신탁[주식]</span>
+										</a>
+										<!--<span class="info" th:text="|순자산 ${#numbers.formatDecimal((result.SJASAN/1000000), 0,'COMMA', 0, 'POINT')}백만 / 설정일 ${result.FDATE}|"></span>-->
+									</div>
+								</td>
+								<td>7,709</td>
+								<td>2017-12-12</td>
+								<td>22,027.70</td>
+								<td>19.23</td>
+								<td>-14.02</td>
+								<td>2.19</td>
+								<td>61.03</td>
+								<td>155.66</td>
+							</tr>
+							
+						</tbody>
+					</table>
+				</div>
+				<!-- //펀드 목록 -->
+				<!-- 더보기 버튼 -->
+				<div class="btn_wrap" id="page">
+					<button type="button" class="btn_more" id="moreBtn" onclick="fnMore();">더보기 (10/6)</button>
+				</div>
+				<!-- //더보기 버튼 -->
+			</div>
+			<!-- //컨텐츠 영역 -->
+		</div>
+		<!-- //content --> 
+	</div>
+ 	<!-- //container -->
+	
+	<!-- footer -->
+	<div id="footer">
+		
+<!-- 2022-05-26 추가 -->
+<!-- top button -->
+<button type="button" onclick="topFunction()" id="topBtn"><span><em class="blind">TOP</em></span></button>
+<!-- top button -->
+<!-- //2022-05-26 추가 -->
+<div class="foot_top">
+    <div class="foot_content">
+        <span class="foot_logo"><em class="blind">브이아이자산운용</em></span>
+        <div class="foot_menu">
+            <ul>
+                <li><a href="/web/kr/custLounge/stewardship/list"><span>스튜어드십코드</span></a></li>
+                <li><a href="/web/kr/etc/privacy/list"><span class="privacy">개인정보처리방침</span></a></li>
+                <li><a href="/web/kr/etc/policy/list"><span>신용정보정책</span></a></li>
+                <li><a href="/web/kr/custLounge/faq/list"><span>FAQ</span></a></li>
+                <!--<li><a th:href="|/downloadIdx?fileSeq=1&fdtype=KA|"><span>회사소개서 다운로드</span></a></li>-->
+            </ul>
+            <ul>
+                <li><a href="https://www.fss.or.kr/fss/main/main.do" target="_blank"><span>금융감독원</span></a></li>
+                <li><a href="http://www.kofia.or.kr/index.do" target="_blank"><span>금융투자협회</span></a></li>
+                <li><a href="http://www.fss.or.kr/s1332/" target="_blank"><span>서민금융119서비스</span></a></li>
+                <li><a href="http://dart.fss.or.kr/" target="_blank"><span>DART</span></a></li>
+                <li><a href="/web/kr/etc/cctv/list"><span>영상정보처리기기 운영·관리 안내</span></a></li>
+            </ul>
+            <ul>
+                <li><a href="http://fund.kofia.or.kr/" target="_blank"><span>펀드정보 One-Click 시스템</span></a></li>
+                <li><a href="/web/kr/etc/protection/list"><span>금융사기 피해예방 홍보동영상</span></a></li>
+                <li><a href="/web/kr/etc/campaign/list"><span>개인정보 홍보 포스터</span></a></li>
+                <li><a href="/web/kr/etc/campaign/list?video=video"><span>개인정보 홍보 동영상</span></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="foot_bottom">
+    <div class="foot_content">
+        <p class="copy">COPYRIGHT(C) VI ASSET MANAGEMENT KOREA CO., LTD. ALL RIGHTS RESERVED.</p>
+        <div class="family_site">
+            <a href="#none">Family Site</a>
+            <div class="list">
+                <ul>
+                    <li><a href="https://www.en.vi-ventures.com/" target="_blank">VI벤처스</a></li>
+                    <li><a href="https://www.viamc.com" target="_blank">VIAMC</a></li>
+                    <!--<li><a href="https://vi-ib.com" target="_blank">VI금융투자</a></li>-->
+                    <li><a href="http://haping.org" target="_blank">HAPing</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+	</div>
+	<!-- //footer -->
+	
+	<!--<script>
+	$(function(){
+		layerOpen('popLayer'); //레이어 팝업 열기 : layerOpen('Id')
+	});
+	</script>-->
+	<!-- layer popup : 펀드비교 -->
+	<div id="popLayer" class="layer_pop">
+		<div class="layer_pop_wrap">
+			<div class="pop_area">
+				<div class="pop_cont">
+					<div class="pop_wrap">
+						<!-- 팝업내용 -->
+						<div class="head_area">
+							<h4>펀드비교</h4>
+						</div>
+						<div class="con_area" id="layPopup">
+
+						</div>
+						<button type="button" class="btn_close" onclick="layerClose('popLayer');"><span class="blind">닫기</span></button> <!-- 레이어 팝업 닫기 : layerClose('Id') -->
+						<!-- //팝업내용 -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //layer popup : 펀드비교 -->
+
+	<script>
+		let ckCnt = $("#totalCnt").val()>10 ? 10 : $("#totalCnt").val();
+
+		function fnMore(){
+		var frm = $("form[name=searchForm]");
+		var page = parseInt($("#pageIndex").val()) + 1;
+		$("#pageIndex").val(page);
+		var queryString = $("form[name=searchForm]").serialize() ;
+
+		$.ajax({
+		type : 'get',
+		url : './ajaxList',
+		data : queryString,
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		dataType : 'json',
+		error: function(xhr, status, error){
+		alert(error);
+		},
+		success : function(json){
+		var html = "";
+			var sjasn = formatNumber(Math.round(json["resultList"][i].SJASAN/1000000));
+			for(var i = 0 ; i < json["resultList"].length ; i++){
+				//var sjasn = Math.round(json["resultList"][i].SJASAN/1000000).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				var sjasn = formatNumber(Math.round(json["resultList"][i].SJASAN/1000000));
+				ckCnt++;
+				html+='<tr>';
+				html+='	<td>';
+				html+='		<div class="fund_info">';
+					html+='					<span class="checkbox">';
+								html+='						<input type="checkbox" name="chk" id="ck'+ckCnt+'" value="'+json["resultList"][i].FCODE+'">';
+								html+='						<label for="ck'+ckCnt+'"></label>';
+								html+='					</span>';
+					html+='			<div class="flag_area">';
+						html+='				<span class="flag">ETF</span>';
+						html+='				<span class="flag h_risk">높은위험</span>';
+						html+='			</div>';
+					html+='			<a href="javascript:;" onclick="fnView2('+"'./view'"+','+json["resultList"][i].FIDX+'); return false;">';
+					html+='				<span class="tit">'+json["resultList"][i].FNAME+'</span>';
+					html+='			</a>';
+					/*html+='			<span class="info">순자산 '+sjasn+ '백만 / 설정일 ' + json["resultList"][i].FDATE+' </span>';*/
+					html+='		</div>';
+				html+='	</td>';
+				html+=' <td>'+sjasn+'</td>';
+				html+=' <td>'+json["resultList"][i].FDATE +'</td>';
+				html+=' <td>'+json["resultList"][i].PRICE.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+				if(json["resultList"][i].F1MPROFIT.toString().indexOf('999') == -1) {
+					html+='	<td>'+json["resultList"][i].F1MPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+				} else {
+					html+='	<td>-</td>';
+				}
+				if(json["resultList"][i].F3MPROFIT.toString().indexOf('999') == -1) {
+					html+='	<td>'+json["resultList"][i].F3MPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+				} else {
+					html+='	<td>-</td>';
+				}
+				if(json["resultList"][i].F6MPROFIT.toString().indexOf('999') == -1) {
+					html+='	<td>'+json["resultList"][i].F6MPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+				} else {
+					html+='	<td>-</td>';
+				}
+			if(json["resultList"][i].F1YPROFIT.toString().indexOf('999') == -1) {
+				html+='	<td>'+json["resultList"][i].F1YPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+			} else {
+				html+='	<td>-</td>';
+			}
+				if(json["resultList"][i].FDATEPROFIT.toString().indexOf('999') == -1) {
+					html+='	<td>'+json["resultList"][i].FDATEPROFIT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</td>';
+				} else {
+					html+='	<td>-</td>';
+				}
+			html+='</tr>';
+			}
+			$('#tbl').append(html);
+
+			var curTotal = parseInt($("#pageIndex").val()) * parseInt($("#pageUnit").val());
+			//console.log(curTotal);
+
+			if(parseInt($("#totalCnt").val()) <= parseInt(curTotal)){
+			$("#moreBtn").hide();
+			}else{
+			$("#moreBtn").show();
+			$("#moreBtn").text("더보기 ("+$('#pageUnit').val() * $('#pageIndex').val()+"/"+$('#totalCnt').val()+")");
+			}
+			}
+			});
+		}
+
+		function fnOrderBy(c , o, _obj){
+			$(_obj).parent().parent().parent().parent().find('.down').show();
+			$(_obj).parent().parent().parent().parent().find('.up').hide();
+			if(o == 'a'){
+				$(_obj).parent().parent().find('.down').show();
+				$(_obj).parent().parent().find('.up').hide();
+			}else{
+				$(_obj).parent().parent().find('.down').hide();
+				$(_obj).parent().parent().find('.up').show();
+			}
+			$(_obj)
+			$('#orderCondition').val(o);
+			$('#orderBy').val(c);
+			fnPaging(1);
+		}
+	</script>
+</div>
+<!-- //wrap -->	
+</body>
+</html>

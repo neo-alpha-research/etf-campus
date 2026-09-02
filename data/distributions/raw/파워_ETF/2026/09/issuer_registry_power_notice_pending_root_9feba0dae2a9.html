@@ -1,0 +1,1261 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>교보악사 자산운용</title>
+<link class="include" rel="stylesheet" type="text/css" href="/redbean/css/jquery.jqplot.css" />
+<link href="/redbean/css/base.css" type="text/css" rel="stylesheet" media="all" />
+<link href="/redbean/css/default.css" type="text/css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="/redbean/js/common/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/redbean/js/common/all.js"></script>
+<script type="text/javascript" src="/redbean/js/common/menu.js"></script>
+<script type="text/javascript" src="/redbean/js/common/pagingUtil.js"></script>
+<script type="text/javascript" src="/redbean/js/common/string.js"></script>
+<script type="text/javascript" src="/redbean/js/common/number.js"></script>
+<script type="text/javascript" src="/redbean/js/common/ajax.js"></script>
+<script type="text/javascript" src="/redbean/js/common/json.js"></script>
+<!--[If lt IE 9]><script src="/redbean/js/common/PIE.js"></script><![endif]-->
+<style>
+.ui-widget{position:relative;padding-right:60px;margin:20px 10px}
+.ui-widget .jqplot-title{ display:none}
+.ui-widget *{font-size:11px; color:#555; font-family:'Dotum'}
+.ui-widget .jqplot-point-label{ display:none!important}
+.ui-widget table{ position:absolute; background-color:#fff;width: auto;margin-top: 0!important;border: 0}
+.ui-widget table .jqplot-table-legend-swatch{ display:block; width:10px; height:5px; margin-top:2px}
+.ui-widget table td{padding:5px;border:0!important}
+.ui-widget .jqplot-highlighter-tooltip{ background-color:#fff; padding:5px; border:1px solid #f1f1f1}
+
+/* skipnavi */
+.skip {display:block; height:1px; width:1px; margin:0 -1px -1px 0; padding:0; overflow:hidden; font-size:0; line-height:0; position:absolute; z-index:100;}
+.skip:hover, .skip:active,
+.skip:focus {width:100%; height:auto; margin:0; padding:15px 0; text-align:center; font-weight:bold; font-size:14px; background:#f9f9f9; color:#333; line-height:1; text-decoration:none !important;}
+
+</style>
+</head>
+<body>
+<!-- #wrap : S -->
+<div id="wrap">
+	<div id="skipnavi">
+	    <p><a href="#navi" class="skip">본문바로가기</a></p>
+	</div>  
+    
+
+<script>
+
+	$(document).ready(function() {
+		if (document.location.href.indexOf('kyoboitm') > -1) {
+			console.log(document.location.protocol);
+			console.log(document.location.host);
+			console.log(document.location.pathname);
+			location.href = "https://kyoboaxa-im.co.kr" + document.location.pathname;
+		}
+	});
+	
+var SelectMenuId='powerETFList';
+var SelectParentId='prdtInfo';
+
+	function mainSearch () {
+		if ($("#searchValueHeader").val() != '') {
+			$("#searchFormHeader").attr("method", "POST");
+			$("#searchFormHeader").attr("onsubmit", true);
+			$("#searchFormHeader").attr("action", "/cletCetr/mainSearch.do").submit();
+		} else {
+			alert('검색어를 입력해주세요.');
+			return false;
+		}
+	}
+	
+	function setValByFundCodeAjax() {
+		if ($("#fundCode") != 'undefined') {
+			if ($("#fundCode").val().length > 5) {
+				var url = "/common/setValByFundCodeAjax.do";
+				var params = "fundCode=" + $("#fundCode").val();
+				
+				$.ajaxSend({
+					url : url,
+					param : params,
+					callback : setValByFundCode
+				});
+				
+			}
+		}
+	}
+	
+	var setVal = 0;
+	function setValByFundCode(STATUS, REQUEST, RESPONSE) {
+		if (STATUS.CODE == "1100") {
+			if (RESPONSE.fundCodeByFee != '') {
+				//alert(RESPONSE.fundCodeByFee);
+				setVal = RESPONSE.fundCodeByFee;
+				viewClassInfo('',setVal);
+			}
+		}
+	}
+</script>
+<form id="downloadForm" name="downloadForm">
+	<input type="hidden" id="sysFileName" name="sysFileName" value=""/>
+	<input type="hidden" id="fileName" name="fileName" value=""/>
+	<input type="hidden" id="flag" name="flag" value=""/>
+</form>
+<form name="menuLinkFrm" method="post" action="">
+	<input type="hidden" name="menuId" id="menuId" value="" />
+</form>
+  <!-- #top_tab_wrap : S -->
+  <div id="top_tab_wrap" class="ct">
+  	<h1 class="logo"><a href="/cmmAct.do?act=index" id="logo_link"><img src="/redbean/images/header/logo_t.jpg" alt="KYOBO AXA 자산운용 로고" /></a></h1>
+    <!-- .tab_menu : S -->
+    <ul class="tab_menu">
+      <li class="nav">
+        <a href="/cmmAct.do?act=index" class="tx_skip img_box_j tmn_1">Home</a>
+        <a href="/cmmAct.do?act=sitemap" class="tx_skip img_box_j tmn_2">Sitemap</a>
+        <a href="/cmmAct.do?act=/cmpyInfo/location"><img src="/redbean/images/header/tx_contactus.gif" style="margin-bottom:2px"></a>
+        <a href="/eng/cmmAct.do?act=index" class="tx_skip img_box_j tmn_3">English</a>
+      </li>
+      <li class="sh_box">
+	<form id="searchFormHeader" name="searchFormHeader" method="POST" onsubmit="return false;">
+	 	<input type="hidden" name="act" id="act" value="cletCetr/search" />
+	 	<label class="u_skip" for="searchValueHeader">헤더검색</label>
+      	<input type="text" class="img_box_j" id="searchValueHeader" name="searchValueHeader">
+        <input type="submit" value="검색" class="img_box_j tx_skip" onclick="mainSearch();" title="통합검색" />
+    </form>
+      </li>
+      <li class="all_menu">
+      	<input type="button" value="전체메뉴 펼침" onClick="updow('allmenu'); return false;" class="img_box_j tx_skip" />
+      </li>
+    </ul>
+    <!-- //.tab_menu : E -->
+    <!-- #updowallmenu : S -->
+    <ul id="updowallmenu" class="all_menu_pop" style="display:none;z-index:1000;">
+    	<li class="ct">
+            <h3 class="img_box_j tx_skip">전체메뉴</h3>
+            <dl class="sta mn_1">
+                <dt><strong>상품정보</strong></dt>
+                <dd><a href="/prdtInfo/countryFundList.do">국내펀드</a></dd>
+                <dd><a href="/prdtInfo/foreignFundList.do">해외펀드</a></dd>
+                <dd><a href="/prdtInfo/indexFundList.do">인덱스펀드</a></dd>
+                <dd><a href="/prdtInfo/powerETFList.do">파워ETF</a></dd>
+                <dd><a href="/prdtInfo/benefitFundList.do">세제혜택펀드</a></dd>
+                <dd><a href="/prdtInfo/benefitFundList.do" class="ts_2">연금저축펀드</a></dd>
+                <dd><a href="/prdtInfo/benefitFundList.do?yuhungGubun=6" class="ts_2">재형저축펀드</a></dd>
+                <dd><a href="/prdtInfo/benefitFundList.do?yuhungGubun=7" class="ts_2">퇴직연금펀드</a></dd>
+                <dd><a href="/prdtInfo/benefitFundList.do?yuhungGubun=8" class="ts_2">소득공제장기펀드</a></dd>
+                <dd><a href="/cmmAct.do?act=prdtInfo/fundMapList">펀드MAP</a></dd>
+                <dd><a href="/prdtInfo/allOpitmList.do">전체운용상품</a></dd>
+            </dl>
+            <dl class="mn_2">
+                <dt><strong>운영정보</strong></dt>
+                <dd><a href="/cmmAct.do?act=oprtInfo/opfetr">운영특징</a></dd>
+                <dd><a href="/cmmAct.do?act=oprtInfo/mmpro">운용프로세스</a></dd>
+                <dd><a href="/cmmAct.do?act=oprtInfo/risk">리스크관리체계</a></dd>
+                <!-- <dd><a href="/cmmAct.do?act=oprtInfo/grvtitro">운용인력소개</a></dd>  -->
+            </dl>
+            <dl class="mn_3">
+                <dt><strong>투자정보</strong></dt>
+                <dd><a href="/cmmAct.do?act=ivttInfo/funjoin">펀드가입안내</a></dd>
+                <dd><a href="/ivttInfo/rtmtGuide.do">퇴직연금 안내</a></dd>
+                <dd><a href="/cmmAct.do?act=ivttInfo/funCal">펀드계산기</a></dd>
+            </dl>
+            <dl class="">
+                <dt><strong>책임투자</strong></dt>
+                 <dd><a href="/cmmAct.do?act=respInfo/respons">책임투자<br>프레임워크</a></dd>
+            	 <dd><a href="/cmmAct.do?act=scCode/stewardCode">스튜어드십코드</a></dd>
+            	 <dd><a href="/cmmAct.do?act=respInfo/responslist">자료실</a></dd>
+            </dl>
+            <dl class="mn_4">
+                <dt><strong>회사소개</strong></dt>
+                <dd><a href="/cmmAct.do?act=cmpyInfo/company">회사소개</a></dd>
+                <dd><a href="/cmmAct.do?act=cmpyInfo/company&tab=1">CEO인사말</a></dd>
+                <dd><a href="/cmmAct.do?act=cmpyInfo/company&tab=2">회사비전</a></dd>
+                <dd><a href="/cmmAct.do?act=cmpyInfo/history">회사연혁</a></dd>
+                <dd><a href="/cmmAct.do?act=cmpyInfo/group">조직도</a></dd>
+                <dd><a href="/cmmAct.do?act=cmpyInfo/prize">수상내역</a></dd>
+                <dd><a href="/cmmAct.do?act=cmpyInfo/mmprcd">경영현황</a></dd>
+				<!-- <dd><a href="/cmmAct.do?act=cmpyInfo/company&tab=3">주주현황</a></dd>  -->
+                <dd><a href="/cmmAct.do?act=cmpyInfo/company&tab=4">회사가치</a></dd>
+                <dd><a href="/cletCetr/recruitmentList.do">채용안내</a></dd>
+            </dl>
+            <dl class="end mn_5">
+                <dt><strong>고객센터</strong></dt>
+                <dd><a href="/cletCetr/faqList.do">FAQ</a></dd>
+                <dd><a href="/cletCetr/annoList.do">공시</a></dd>
+                <dd><a href="/cletCetr/pensionList.do">연금저축펀드비교공시</a></dd>                
+                <dd><a href="/cletCetr/mrReport.do">운용보고서</a></dd>
+                <dd><a href="/cmmAct.do?act=cletCetr/funCp">펀드판매회사</a></dd>
+                <dd><a href="/cmmAct.do?act=cletCetr/search">통합검색</a></dd>
+            </dl>
+            <input type="button" value="전체메뉴 닫기" onClick="updow('allmenu'); return false;" class="img_box_j tx_skip">
+            <label class="img_box_j ico_popup"></label>
+            <a href="javascript:void(0)" onClick="updow('allmenu'); return false;" title="닫기" class="img_box_j bt_allmenu_x tx_skip">x</a>
+        </li>
+    </ul>
+    <!-- //#updowallmenu : E -->
+  </div>
+  <!-- // #top_tab_wrap : E --> 
+  
+  <!-- #header : S -->
+  <div id="header" >
+	<!-- .header_box : S -->
+    <div class="header_box ct">
+      <ul id="nav" class="nav">
+        <li menuId="prdtInfo">
+			<a href="javascript:void(0);" onclick="return false;" url="/prdtInfo/countryFundList.do" title="상품정보" id="prdtInfo" epsrForm="S" menuId="prdtInfo" gbn="N" popWidth="" popHeight="" layout="ly01" img_check="" over_img="/redbean/images/menu/over_prdtInfo.gif" out_img="/redbean/images/menu/out_prdtInfo.gif" select_img="/redbean/images/menu/select_prdtInfo.gif"><img id="img_prdtInfo" src="/redbean/images/menu/out_prdtInfo.gif" alt="상품정보" /></a>
+		</li><li menuId="oprtInfo">
+			<a href="javascript:void(0);" onclick="return false;" url="/cmmAct.do?act=oprtInfo/opfetr" title="운용정보" id="oprtInfo" epsrForm="S" menuId="oprtInfo" gbn="N" popWidth="" popHeight="" layout="ly01" img_check="" over_img="/redbean/images/menu/over_oprtInfo.gif" out_img="/redbean/images/menu/out_oprtInfo.gif" select_img="/redbean/images/menu/select_oprtInfo.gif"><img id="img_oprtInfo" src="/redbean/images/menu/out_oprtInfo.gif" alt="운용정보" /></a>
+		</li><li menuId="ivttInfo">
+			<a href="javascript:void(0);" onclick="return false;" url="/cmmAct.do?act=ivttInfo/funjoin" title="투자정보" id="ivttInfo" epsrForm="S" menuId="ivttInfo" gbn="N" popWidth="" popHeight="" layout="ly01" img_check="" over_img="/redbean/images/menu/over_ivttInfo.gif" out_img="/redbean/images/menu/out_ivttInfo.gif" select_img="/redbean/images/menu/select_ivttInfo.gif"><img id="img_ivttInfo" src="/redbean/images/menu/out_ivttInfo.gif" alt="투자정보" /></a>
+		</li><li menuId="respInfo">
+			<a href="javascript:void(0);" onclick="return false;" url="/cmmAct.do?act=respInfo/respons" title="책임투자" id="respInfo" epsrForm="S" menuId="respInfo" gbn="N" popWidth="" popHeight="" layout="ly01" img_check="" over_img="/redbean/images/menu/over_respInfo.gif" out_img="/redbean/images/menu/out_respInfo.gif" select_img="/redbean/images/menu/select_respInfo.gif"><img id="img_respInfo" src="/redbean/images/menu/out_respInfo.gif" alt="책임투자" /></a>
+		</li><li menuId="cmpyInfo">
+			<a href="javascript:void(0);" onclick="return false;" url="/cmmAct.do?act=cmpyInfo/company" title="회사소개" id="cmpyInfo" epsrForm="S" menuId="cmpyInfo" gbn="N" popWidth="" popHeight="" layout="ly01" img_check="" over_img="/redbean/images/menu/over_cmpyInfo.gif" out_img="/redbean/images/menu/out_cmpyInfo.gif" select_img="/redbean/images/menu/select_cmpyInfo.gif"><img id="img_cmpyInfo" src="/redbean/images/menu/out_cmpyInfo.gif" alt="회사소개" /></a>
+		</li><li menuId="cletCetr">
+			<a href="javascript:void(0);" onclick="return false;" url="/cletCetr/faqList.do" title="고객센터" id="cletCetr" epsrForm="S" menuId="cletCetr" gbn="N" popWidth="" popHeight="" layout="ly01" img_check="" over_img="/redbean/images/menu/over_cletCetr.gif" out_img="/redbean/images/menu/out_cletCetr.gif" select_img="/redbean/images/menu/select_cletCetr.gif"><img id="img_cletCetr" src="/redbean/images/menu/out_cletCetr.gif" alt="고객센터" /></a>
+		</li>
+      </ul>
+    </div>
+    <!-- .header_box : E -->
+    <!-- .sub_nav : S -->
+    <div class="sub_nav"  style="display:none">
+        <dl menuId="prdtInfo" class="li_1">
+		        	<dt><img src="/redbean/images/header/gnb_img_icon_01.gif" alt="상품정보" /></dt>
+			        
+			        		
+								
+								
+									
+						            <dd class="st_1 mn1_1">
+						            	<a href="/prdtInfo/countryFundList.do"><strong>국내펀드</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn1_2">
+						            	<a href="/prdtInfo/foreignFundList.do"><strong>해외펀드</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn1_3">
+						            	<a href="/prdtInfo/indexFundList.do"><strong>인덱스펀드</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn1_4">
+						            	<a href="/prdtInfo/powerETFList.do"><strong>파워ETF</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+						            <dd class="st_2">
+						            	<a href="/prdtInfo/benefitFundList.do"><strong>세제혜택펀드</strong></a>
+						                <a href="/prdtInfo/benefitFundList.do" class="tx"><span class="ico_dot">연금저축펀드</span></a>
+						                <a href="/prdtInfo/benefitFundList.do?yuhungGubun=6" class="tx"><span class="ico_dot">재형저축펀드</span></a>
+						                <a href="/prdtInfo/benefitFundList.do?yuhungGubun=7" class="tx"><span class="ico_dot">퇴직연금펀드</span></a>
+						                <a href="/prdtInfo/benefitFundList.do?yuhungGubun=8" class="tx"><span class="ico_dot">소득제장기펀드</span></a>
+						            </dd>
+								
+								
+								
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn1_6">
+						            	<a href="/cmmAct.do?act=prdtInfo/fundMapList"><strong>펀드MAP</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn1_7">
+						            	<a href="/prdtInfo/allOpitmList.do"><strong>전체운용상품</strong></a>
+						            </dd>
+						            
+							
+			  					        	
+		</dl><dl menuId="oprtInfo" class="li_1">
+		        	<dt><img src="/redbean/images/header/gnb_img_icon_02.gif" alt="운용정보" /></dt>
+			        
+			        		
+								
+								
+									
+						            <dd class="st_1 mn2_1">
+						            	<a href="/cmmAct.do?act=oprtInfo/opfetr"><strong>운용특징</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+						            <dd class="st_2">
+						            	<a href="/cmmAct.do?act=oprtInfo/mmpro"><strong>운용프로세스</strong></a>
+						                <a href="/cmmAct.do?act=oprtInfo/mmpro&tab=0" class="tx"><span class="ico_dot">주식</span></a>
+						                <a href="/cmmAct.do?act=oprtInfo/mmpro&tab=1" class="tx"><span class="ico_dot">채권</span></a>
+						                <a href="/cmmAct.do?act=oprtInfo/mmpro&tab=2" class="tx"><span class="ico_dot">리서치</span></a>
+						                <a href="/cmmAct.do?act=oprtInfo/mmpro&tab=3" class="tx"><span class="ico_dot">인덱스</span></a>						            	
+						            </dd>
+								
+								
+								
+			  		
+			        		
+						            <dd class="st_2">
+						            	<a href="/cmmAct.do?act=oprtInfo/risk"><strong>리스크관리체계</strong></a>
+						                <a href="/cmmAct.do?act=oprtInfo/risk&tab=0" class="tx"><span class="ico_dot">리스크 관리</span></a>
+						                <a href="/cmmAct.do?act=oprtInfo/risk&tab=1" class="tx"><span class="ico_dot">컴플라이언스</span></a>					            	
+						            </dd>
+								
+								
+								
+			  		
+			        		
+								
+								
+									
+							
+			  					        	
+		</dl><dl menuId="ivttInfo" class="li_1">
+		        	<dt><img src="/redbean/images/header/gnb_img_icon_03.gif" alt="투자정보" /></dt>
+			        
+			        		
+								
+								
+									
+						            <dd class="st_1 mn3_1">
+						            	<a href="/cmmAct.do?act=ivttInfo/funjoin"><strong>펀드가입안내</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+						            <dd class="st_2">
+						            	<a href="/ivttInfo/rtmtGuide.do"><strong>퇴직연금 안내</strong></a>
+						                <a href="/ivttInfo/rtmtGuide.do" class="tx"><span class="ico_dot">퇴직연금제도 안내</span></a>
+						                <a href="/ivttInfo/rtmtGuide.do?tab=1" class="tx"><span class="ico_dot">퇴직연금 펀드상품</span></a>					            	
+						            </dd>
+								
+								
+			  		
+			        		
+								
+								
+									
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn3_4">
+						            	<a href="/cmmAct.do?act=ivttInfo/funCal"><strong>펀드계산기</strong></a>
+						            </dd>
+						            
+							
+			  					        	
+		</dl><dl menuId="respInfo" class="li_1">
+		        	<dt><img src="/redbean/images/header/gnb_img_icon_04.gif" alt="책임투자" /></dt>
+			        
+			        		
+								
+								
+									
+						            <dd class="st_1 mn4_1">
+						            	<a href="/cmmAct.do?act=respInfo/respons"><strong>책임투자 프레임워크</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn4_2">
+						            	<a href="/cmmAct.do?act=scCode/stewardCode"><strong>스튜어드십코드</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn4_3">
+						            	<a href="/cmmAct.do?act=respInfo/responslist"><strong>자료실</strong></a>
+						            </dd>
+						            
+							
+			  					        	
+		</dl><dl menuId="cmpyInfo" class="li_1">
+		        	<dt><img src="/redbean/images/header/gnb_img_icon_05.gif" alt="회사소개" /></dt>
+			        
+			        		
+								
+								
+						            <dd class="st_2">
+						            	<a href="/cmmAct.do?act=cmpyInfo/company"><strong>회사개요</strong></a>
+						                <a href="/cmmAct.do?act=cmpyInfo/company" class="tx"><span class="ico_dot">회사개요</span></a>
+						                <a href="/cmmAct.do?act=cmpyInfo/company&tab=1" class="tx"><span class="ico_dot">CEO인사말</span></a>
+						                <a href="/cmmAct.do?act=cmpyInfo/company&tab=2" class="tx"><span class="ico_dot">회사비전</span></a>
+						                <!-- <a href="/cmmAct.do?act=cmpyInfo/company&tab=3" class="tx"><span class="ico_dot">주주현황</span></a> -->
+						                <a href="/cmmAct.do?act=cmpyInfo/company&tab=4" class="tx"><span class="ico_dot">회사가치</span></a>				            	
+						            </dd>
+								
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn5_2">
+						            	<a href="/cmmAct.do?act=cmpyInfo/history"><strong>회사연혁</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn5_4">
+						            	<a href="/cmmAct.do?act=cmpyInfo/prize"><strong>수상내역</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn5_5">
+						            	<a href="/cmmAct.do?act=cmpyInfo/mmprcd"><strong>경영현황</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+						            <dd class="st_2">
+						            	<a href="/cletCetr/recruitmentList.do"><strong>채용안내</strong></a>
+						                <a href="/cletCetr/recruitmentList.do" class="tx"><span class="ico_dot">인재상</span></a>
+						                <a href="/cletCetr/recruitmentList.do?tab=1" class="tx"><span class="ico_dot">복리후생</span></a>
+						                <a href="/cletCetr/recruitmentList.do?tab=2" class="tx"><span class="ico_dot">채용공고</span></a>				            	
+						            </dd>
+								
+			  					        	
+		</dl><dl menuId="cletCetr" class="li_1">
+		        	<dt><img src="/redbean/images/header/gnb_img_icon_06.gif" alt="고객센터" /></dt>
+			        
+			        		
+								
+								
+									
+						            <dd class="st_1 mn6_1">
+						            	<a href="/cletCetr/faqList.do"><strong>FAQ</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn6_2">
+						            	<a href="/cletCetr/annoList.do"><strong>공시</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn6_4">
+						            	<a href="/cletCetr/mrReport.do"><strong>운용보고서</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn6_5">
+						            	<a href="/cmmAct.do?act=cletCetr/funCp"><strong>판매사안내</strong></a>
+						            </dd>
+						            
+							
+			  		
+			        		
+								
+								
+									
+						            <dd class="st_1 mn6_6">
+						            	<a href="/cmmAct.do?act=cletCetr/search"><strong>통합검색</strong></a>
+						            </dd>
+						            
+							
+			  					        	
+		</dl>  
+    </div>
+    <!-- .sub_nav : E  -->
+    </div>
+    <!-- //.sub_header_d : S -->
+	
+		<div class="sub_header_d">
+			<div>
+				<ul class="li_4">
+					<li menuId="countryFundList">
+								<a href="javascript:void(0);" onclick="return false;" class="sub_m1" url="/prdtInfo/countryFundList.do" title="국내펀드" epsrForm="S" gbn="N" menuId="countryFundList" layout="ly01" img_check="" over_img="/redbean/images/menu/over_countryFundList.gif" out_img="/redbean/images/menu/out_countryFundList.gif" select_img="/redbean/images/menu/select_countryFundList.gif"><img id="img_countryFundList" src="/redbean/images/menu/out_countryFundList.gif" alt="국내펀드" /></a>
+					</li><li menuId="foreignFundList">
+								<a href="javascript:void(0);" onclick="return false;" class="sub_m2" url="/prdtInfo/foreignFundList.do" title="해외펀드" epsrForm="S" gbn="N" menuId="foreignFundList" layout="ly01" img_check="" over_img="/redbean/images/menu/over_foreignFundList.gif" out_img="/redbean/images/menu/out_foreignFundList.gif" select_img="/redbean/images/menu/select_foreignFundList.gif"><img id="img_foreignFundList" src="/redbean/images/menu/out_foreignFundList.gif" alt="해외펀드" /></a>
+					</li><li menuId="indexFundList">
+								<a href="javascript:void(0);" onclick="return false;" class="sub_m3" url="/prdtInfo/indexFundList.do" title="인덱스펀드" epsrForm="S" gbn="N" menuId="indexFundList" layout="ly01" img_check="" over_img="/redbean/images/menu/over_indexFundList.gif" out_img="/redbean/images/menu/out_indexFundList.gif" select_img="/redbean/images/menu/select_indexFundList.gif"><img id="img_indexFundList" src="/redbean/images/menu/out_indexFundList.gif" alt="인덱스펀드" /></a>
+					</li><li menuId="powerETFList">
+								<a href="javascript:void(0);" onclick="return false;" class="sub_m4" url="/prdtInfo/powerETFList.do" title="파워ETF" epsrForm="S" gbn="N" menuId="powerETFList" layout="ly01" img_check="" over_img="/redbean/images/menu/over_powerETFList.gif" out_img="/redbean/images/menu/out_powerETFList.gif" select_img="/redbean/images/menu/select_powerETFList.gif"><img id="img_powerETFList" src="/redbean/images/menu/out_powerETFList.gif" alt="파워ETF" /></a>
+					</li><li menuId="benefitFundList">
+								<a href="javascript:void(0);" onclick="return false;" class="sub_m5" url="/prdtInfo/benefitFundList.do" title="세제혜택펀드" epsrForm="S" gbn="N" menuId="benefitFundList" layout="ly01" img_check="" over_img="/redbean/images/menu/over_benefitFundList.gif" out_img="/redbean/images/menu/out_benefitFundList.gif" select_img="/redbean/images/menu/select_benefitFundList.gif"><img id="img_benefitFundList" src="/redbean/images/menu/out_benefitFundList.gif" alt="세제혜택펀드" /></a>
+					</li><li menuId="fundMapList">
+								<a href="javascript:void(0);" onclick="return false;" class="sub_m6" url="/cmmAct.do?act=prdtInfo/fundMapList" title="펀드MAP" epsrForm="S" gbn="N" menuId="fundMapList" layout="ly01" img_check="" over_img="/redbean/images/menu/over_fundMapList.gif" out_img="/redbean/images/menu/out_fundMapList.gif" select_img="/redbean/images/menu/select_fundMapList.gif"><img id="img_fundMapList" src="/redbean/images/menu/out_fundMapList.gif" alt="펀드MAP" /></a>
+					</li><li menuId="allOpitmList">
+								<a href="javascript:void(0);" onclick="return false;" class="sub_m7" url="/prdtInfo/allOpitmList.do" title="전체운용상품" epsrForm="S" gbn="N" menuId="allOpitmList" layout="ly01" img_check="" over_img="/redbean/images/menu/over_allOpitmList.gif" out_img="/redbean/images/menu/out_allOpitmList.gif" select_img="/redbean/images/menu/select_allOpitmList.gif"><img id="img_allOpitmList" src="/redbean/images/menu/out_allOpitmList.gif" alt="전체운용상품" /></a>
+					</li>
+				</ul>
+			</div>
+			
+			<div id="navi" class="nv"><a href="/cmmAct.do?act=index" class="tx_skip img_box_j ico_home">home</a><span>&gt;</span><a href="#" id="navi_url1"></a><span>&gt;</span><a href="#" id="navi_url2"></a></div>
+			
+		</div>
+	
+    <!-- //.sub_header_d : E -->
+	
+  	
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	if ('' != '' && '' != '' && '' != '') {
+	    $("#gijunYear").val('').attr("selected", "selected");
+	    $("#gijunMonth").val('').attr("selected", "selected");
+	    $("#gijunDay").val('').attr("selected", "selected");
+	} else if ($("#isFirst").val() == 'Y') {
+    	var year = 2026;
+    	var month = 09;
+    	var day = 01;
+	    $("#gijunYear").val(year).attr("selected", "selected");
+	    $("#gijunMonth").val(month).attr("selected", "selected");
+	    $("#gijunDay").val(day).attr("selected", "selected");
+    }
+	
+	if ('' == 'Y') {
+    	var gijunDate = '';
+    	var gijunDateArray = gijunDate.split('-');
+    	var gijunYear, gijunMonth, gijunDay;
+    	
+    	gijunYear = gijunDateArray[0];
+    	gijunMonth = gijunDateArray[1];
+    	gijunDay = gijunDateArray[2];
+    	
+    	$("#gijunYear").val(parseInt(gijunYear)).attr("selected", "selected");
+	    $("#gijunMonth").val(parseInt(gijunMonth)).attr("selected", "selected");
+	    $("#gijunDay").val(parseInt(gijunDay)).attr("selected", "selected");
+	    
+	    $("#page").val('');
+	    $("#inputType").val('');
+    }
+    
+    if ('Y' == 'Y') {
+    	$("#yuhungGubun").val('4');
+    	$("#selGubunGijun").val('s3');
+    	fnOrderBySelBox();
+    }
+    
+    //$("#inputType0").addClass("on");
+    
+});
+	function fnOrderBySelBox() {
+		$("#selGubun").val($("#selGubunGijun").val());
+		searchFund();
+	}
+	
+	function searchFund() {
+		var gijunDate = $("select[name=gijunYear]").val() + "-";
+			gijunDate += $("select[name=gijunMonth]").val() > 9 ? "" + $("select[name=gijunMonth]").val() : "0" + $("select[name=gijunMonth]").val();
+			gijunDate += "-";
+			gijunDate += $("select[name=gijunDay]").val() > 9 ? "" + $("select[name=gijunDay]").val() : "0" + $("select[name=gijunDay]").val(); 							
+		
+		var url = "/prdtInfo/prdtInfoFundListAjax.do";
+		var params = "gijunDate=" + gijunDate;
+			params += "&yuhungGubun=" + $("#yuhungGubun").val();
+			params += "&selGubun=" + $("#selGubun").val();
+			//2020-09-22 권혁준 펀드명 조건 검색			
+			params += "&fundNm=" + $("#fundNm").val();
+		if ($("#page").val() != '' || $("#page").val() != null) {
+			params += "&page=" + $("#page").val();
+		}
+		
+		$.ajaxSend({url: url, param: params, layerId:"list_loading", callback: searchFundResult});
+	}
+		
+	function searchFundResult(STATUS, REQUEST, RESPONSE) {
+		var html = "";
+		if (STATUS.CODE=="1100") {
+			if (typeof RESPONSE != "undefined" && RESPONSE != null) {
+				if (RESPONSE.fundList.COUNT > 0) {
+					$("#searchFundResult").html('');
+					for (var i = 0; i < RESPONSE.fundList.COUNT; i++) {
+						html += "<tr>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].fn_code +"</td>";
+						//html += "	<td>"+ RESPONSE.fundList.ROWS[i].kofia_code +"</td>";
+						html += " <td class='name'><a href='javascript:fundView(\""+ RESPONSE.fundList.ROWS[i].fund_code +"\", \""
+								+ RESPONSE.fundList.ROWS[i].fund_type +"\", \""+ RESPONSE.fundList.ROWS[i].yuhung_gubun +"\" ,\""
+								+ RESPONSE.fundList.ROWS[i].fn_sul_date +"\", \"" + RESPONSE.fundList.ROWS[i].fn_code + "\");'>"
+								+ RESPONSE.fundList.ROWS[i].fn_name1 +"</a>"
+								if (RESPONSE.fundList.ROWS[i].etc != '' && RESPONSE.fundList.ROWS[i].etc != null) {
+									html += "<br/>&nbsp;&nbsp;&nbsp;("+ RESPONSE.fundList.ROWS[i].etc +")";
+								}
+						html += "	</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].fn_sul_date +"</td>";
+						html += "	<td>"+ formatNumber(RESPONSE.fundList.ROWS[i].gijunga, 2) +"</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].gijunga_jeng +"</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].m1 +"</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].m3 +"</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].m6 +"</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].m12 +"</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].m36 +"</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].rtn_ytd +"</td>";
+						html += "	<td>"+ RESPONSE.fundList.ROWS[i].rtn_nj +"</td>";
+						if(RESPONSE.fundList.ROWS[i].unit_gb == 3){
+							html += "	<td></td>";
+						}else
+							html += "	<td class='last'><span class='tx_skip img_box_j ico_sale'>판매중</span></td>";
+							
+						html += "</tr>";
+						//html += "	<td class='last'><span class='tx_skip img_box_j ico_sale'>판매중</span></td>";
+						//html += "</tr>";
+					}
+					
+					$("#paging").html('');
+					pageNavi(RESPONSE.ReqMap.ROWS[0].totlaCount, RESPONSE.ReqMap.ROWS[0].page, '10', '7', 'paging', 'pageSubmit');
+					
+				} else {
+					$("#paging").html('');
+					html = '<tr><td colspan="11" style="text-align:center" class="last">검색된 결과가 없습니다.</td></tr>';
+				}
+				$("#searchFundResult").html(html);
+				
+				if (RESPONSE.ReqMap && RESPONSE.ReqMap.ROWS && RESPONSE.ReqMap.ROWS.length > 0) {
+				    var reqMap = RESPONSE.ReqMap.ROWS[0];
+				    
+				    if (reqMap.wkdateMsg != 'OK') {
+				        alert(reqMap.wkdateMsg);
+				        
+				        if (reqMap.displayDate) {
+				            var dateParts = reqMap.displayDate.split('-');
+				            $("#gijunYear").val(dateParts[0]);
+				            $("#gijunYear").val(dateParts[0]);              
+				            $("#gijunMonth").val(parseInt(dateParts[1]));
+				            $("#gijunDay").val(parseInt(dateParts[2]));
+				        }
+				    }
+				}
+			}
+			
+			//tab 클래스 지우기
+		    $(".mn a").each(function(){
+		    	$(this).removeClass("on");
+		    });
+		    
+			//tab on처리
+		    if ($("#inputType").val() == '') {
+		    	$("#inputType0").addClass("on");
+		    } else {
+		    	$("#inputType"+$("#inputType").val()).addClass("on");
+		    }
+		}
+	}
+	
+	function pageSubmit (page) {
+		$("#page").val(page);
+		searchFund();
+	}
+	
+	function fundView(fundCode, fundType, yuhungGubun, fnSulDate) {
+
+		var gijunDate = $("select[name=gijunYear]").val() + "-";
+			gijunDate += $("select[name=gijunMonth]").val() > 9 ? "" + $("select[name=gijunMonth]").val() : "0" + $("select[name=gijunMonth]").val();
+			gijunDate += "-";
+			gijunDate += $("select[name=gijunDay]").val() > 9 ? "" + $("select[name=gijunDay]").val() : "0" + $("select[name=gijunDay]").val();
+		
+		$("#fundCode").val(fundCode);
+		$("#fundType").val(fundType);
+		$("#gijunDate").val(gijunDate);
+		$("#yuhungGubun").val(yuhungGubun);
+		$("#fnSulDate").val(fnSulDate);
+		$("#isFirst").val("N");
+		$("#frm").attr("onsubmit", true);
+		$("#frm").attr("method", "POST");
+		$("#frm").attr("action", "/prdtInfo/powerETFView.do").submit();
+	}
+	
+	function searchDateFund() {
+		$("#page").val(1);
+		searchFund();
+	}
+
+</script>
+<div class="sub_powetf_d">
+<!-- #visual_wrap : S -->
+
+<div id="visual_wrap" class="subpg_con_d">
+    <ul class="pg_ti_d img_int_fun">
+        <li class="tx">
+            <h2 class="tx_skip img_box_j ti_ixfun">파워ETF</h2>
+            <p>교보악사자산운용의 파워ETF를 유형별로 검색하여 원하시는 펀드정보를 확인하실 수 있습니다.</p>
+        </li>
+    </ul>
+    <div id="list_d">
+    	<div>
+            <form id="frm" name="frm" onsubmit="return false;">
+				<input type="hidden" id="page" name="page" value="" />
+				<input type="hidden" id="yuhungGubun" name="yuhungGubun" value="4" />
+				<input type="hidden" id="inputType" name="inputType" value="" />
+				<input type="hidden" id="fundCode" name="fundCode" value="" />
+				<input type="hidden" id="gijunDate" name="gijunDate" value="" />
+				<input type="hidden" id="fundType" name="fundType" value="" />
+				<input type="hidden" id="isFirst" name="isFirst" value="Y" />
+				<input type="hidden" id="selGubun" name="selGubun" value="" />
+				<input type="hidden" id="fnSulDate" name="fnSulDate" value="" />
+    	
+            <ul class="search_box">
+                <li>
+                    <strong>기준일</strong>
+                    <label class="tx_skip" for="gijunYear">기준일 검색 년도 선택</label>
+                    <select title="년도" id="gijunYear" name="gijunYear">
+                        
+							<option value="2012">2012</option>
+						
+							<option value="2013">2013</option>
+						
+							<option value="2014">2014</option>
+						
+							<option value="2015">2015</option>
+						
+							<option value="2016">2016</option>
+						
+							<option value="2017">2017</option>
+						
+							<option value="2018">2018</option>
+						
+							<option value="2019">2019</option>
+						
+							<option value="2020">2020</option>
+						
+							<option value="2021">2021</option>
+						
+							<option value="2022">2022</option>
+						
+							<option value="2023">2023</option>
+						
+							<option value="2024">2024</option>
+						
+							<option value="2025">2025</option>
+						
+							<option value="2026">2026</option>
+						
+                    </select>
+                    <span>년</span>
+                    <label class="tx_skip" for="gijunMonth">기준일  검색 월 선택</label>
+                    <select title="월" id="gijunMonth" name="gijunMonth">
+                        
+						<option>1</option>
+						
+						<option>2</option>
+						
+						<option>3</option>
+						
+						<option>4</option>
+						
+						<option>5</option>
+						
+						<option>6</option>
+						
+						<option>7</option>
+						
+						<option>8</option>
+						
+						<option>9</option>
+						
+						<option>10</option>
+						
+						<option>11</option>
+						
+						<option>12</option>
+						
+                    </select>
+                    <span>월</span>
+                    <label class="tx_skip" for="gijunDay">기준일  검색 일 선택</label>
+                    <select title="일" id="gijunDay" name="gijunDay">
+                        
+						<option>1</option>
+						
+						<option>2</option>
+						
+						<option>3</option>
+						
+						<option>4</option>
+						
+						<option>5</option>
+						
+						<option>6</option>
+						
+						<option>7</option>
+						
+						<option>8</option>
+						
+						<option>9</option>
+						
+						<option>10</option>
+						
+						<option>11</option>
+						
+						<option>12</option>
+						
+						<option>13</option>
+						
+						<option>14</option>
+						
+						<option>15</option>
+						
+						<option>16</option>
+						
+						<option>17</option>
+						
+						<option>18</option>
+						
+						<option>19</option>
+						
+						<option>20</option>
+						
+						<option>21</option>
+						
+						<option>22</option>
+						
+						<option>23</option>
+						
+						<option>24</option>
+						
+						<option>25</option>
+						
+						<option>26</option>
+						
+						<option>27</option>
+						
+						<option>28</option>
+						
+						<option>29</option>
+						
+						<option>30</option>
+						
+						<option>31</option>
+						
+                    </select>
+                    <span>일</span>
+                    <input id="fundNm" type="text" alt="펀드명" autocomplete="off" style="width:200px;"/>
+                    <input type="image" src="/redbean/images/sub/bt_sh.jpg" alt="검색" onclick="searchDateFund();" class="tx_skip bt_serch" />
+                     <div class="selGubun">
+	                	<strong>정렬기준</strong>
+	                	<select id="selGubunGijun" name="selGubunGijun" onchange="fnOrderBySelBox();">
+	                		<option value="s1">설정일</option>
+	                		<option value="s2">1개월(수익률)</option>
+	                		<option value="s3">3개월(수익률)</option>
+	                		<option value="s4">6개월(수익률)</option>
+	                		<option value="s5">1년(수익률)</option>
+	                		<option value="s6">3년(수익률)</option>
+	                		<option value="s7">연초이후(수익률)</option>
+	                		<option value="s8">설정일이후(수익률)</option>
+	                	</select>
+                    </div>
+                </li>
+            </ul>
+            </form>
+            <div id="list_loading">
+            <table class="funlist_1">
+                <caption>국내펀드 전체 리스트 : 펀드코드,금융투자협회단축코드,펀드명,설정일,기준가,전일대비,수익률,판매여부로 구성된 테이블입니다.</caption>
+                <colgroup>
+                    <col style="width:74px" />
+                    <col style="width:542px" />
+                    <col style="width:91px" />
+                    <col style="width:69px" />
+                    <col style="width:69px" />
+                    <col style="width:59px" />
+                    <col style="width:59px" />
+                    <col style="width:59px" />
+                    <col style="width:59px" />
+                    <col style="width:60px" />
+                    <col style="width:60px" />
+                    <col style="width:60px" />
+                    <col style="width:60px" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col" rowspan="2">펀드코드</th>
+                        <th scope="col" rowspan="2">펀드명</th>
+                        <th scope="col" rowspan="2">설정일</th>
+                        <th scope="col" rowspan="2">기준가</th>
+                        <th scope="col" rowspan="2">전일대비</th>
+                        <th scope="col" colspan="7">수익률</th>
+                        <th scope="col" rowspan="2" class="last">판매<br/>여부</th>
+                    </tr>
+                    <tr class="li_2">
+                      <th scope="col">1개월</th>
+                      <th scope="col">3개월</th>
+                      <th scope="col">6개월</th>
+                      <th scope="col">1년</th>
+                      <th scope="col" rowspan="2">3년</th>
+                      <th scope="col" rowspan="2">연초<br/>이후</th>
+                      <th scope="col" rowspan="2">설정일<br/>이후</th>       
+                  </tr>
+                </thead>
+                <tbody id="searchFundResult">
+                    <tr><td colspan="11" style="text-align:center" class="last">검색된 결과가 없습니다.</td></tr>
+                </tbody>
+            </table>
+            </div>
+            <div id="paging"></div>
+        </div>
+    </div>
+</div>
+<!-- //#visual_wrap : E -->
+
+	
+	
+<script>
+	function movePage(flag) {
+		if ($("select[name=relComp]").val() != '' || $("select[name=relSite]").val() != '') {
+			if (confirm('해당 페이지로 이동하시겠습니까?')) {
+				if (flag == 'relComp') {
+					window.open($("select[name=relComp]").val(), flag);
+				} else if (flag == 'relSite') {
+					window.open($("select[name=relSite]").val(), flag);
+				} 
+			}
+		} else if (flag == 'link1' || flag == 'link2' || flag == 'link3') {
+			window.open($("#"+flag).attr("value"));
+		}	
+	}
+	function schFooterFundList() {
+		$("#footerFrm").attr("method", "POST");
+		$("#footerFrm").attr("action", "/prdtInfo/allOpitmList.do").submit();
+	}
+	
+	function footPopup(popPath, popNm) {
+		if (confirm('팝업을 여시겠습니까?')) {
+			var url = 'popAction.do?popPath='+ popPath + '&popNm='+ popNm;
+			window.open(url, 'footerPop', "width=620,height=890,resizable=yes,depend=yes");
+		}
+	}
+$(document).ready(function() {	
+	$("#footer .bt_fund").click( function(){
+		updow('fund');
+		$("#footer .dbkfund .inp_shtx").focus();
+		return false;
+	});
+	$("#footer .bt_fund2").click( function(){
+		updow('fund');
+		$("#footer .bt_fund").focus();
+		return false;
+	});
+	
+	$("#footer .bt_fund2").keydown(function(e){
+		var keyCode = e.keyCode;
+		if(!e.shiftKey && keyCode == 9){// tap
+			$("#footer .dbkfund .inp_shtx").focus();
+			return false;
+		}
+	});
+	$("#footer .dbkfund .inp_shtx").keydown(function(e){
+		var keyCode = e.keyCode;
+		if(e.shiftKey && keyCode == 9){//shift + tap
+			$("#footer .bt_fund2").focus();
+			return false;
+		}
+	});
+	
+	$("#footer .information .mn_2").click(function(){
+		dbk('personal');
+		$("#dbkpersonal .personal .header a").focus();
+	});
+	
+	$("#dbkpersonal .personal .header a").click(function(){
+		dbk('personal');
+		$("#footer .information .mn_2").focus();
+	});
+	
+	$("#personalInfo2").click(function(){
+		dbk('personal2');
+		$("#dbkpersonal2 .personal .header a").focus();
+	});
+	
+	$("#dbkpersonal2 .personal .header a").click(function(){
+		dbk('personal2');
+		$("#footer .information .mn_2").focus();
+	});
+	
+});
+</script>
+
+  	<!-- dbkpersonal S -->
+	<div id="dbkpersonal" class="personal_d">
+      <div class="personal">
+      	<div class="header"><h3>개인정보처리방침</h3><a href="#"><img src="/redbean/images/main/bt_exit.gif" alt="닫기" /></a></div>
+        <div class="tx_con">
+        	<p class="ti">
+            	<em>개인정보처리방침</em>
+                <span>‘교보악사자산운용’(이하 '회사') 개인정보보호법등 관련법상의 개인정보보호 규정을 준수 합니다. 당사는 홈페이지에서 개인정보를 수집 및 처리하지 않고 있음을 알려드립니다. 향후 당사의 홈페이지를 통해 개인정보를 수집.처리할 경우 ‘개인정보처리방침’을 개정하여 개인정보보호법 제30조에 따라 다음 사항을 웹사이트 공지사항을 통하여 안내해 드리 겠습니다.</span>
+            </p>
+            <p>
+            	<strong>1.개인정보 수집항목 및 처리목적</strong>
+                <span>해당사항없음</span>
+            </p>
+            <p>
+            	<strong>2.개인정보의 처리 및 보유기간</strong>
+                <span>해당사항없음</span>
+            </p>
+            <p>
+            	<strong>3.개인정보의 제 3자 제공에 관한 사항</strong>
+                <span>해당사항없음</span>
+            </p>
+            <p>
+            	<strong>4.개인정보처리의 위탁에 관한 사항</strong>
+                <span>해당사항없음</span>
+            </p>
+            <p>
+            	<strong>5.직원의 권리, 의무 및 행사방법</strong>
+                <span>해당사항없음</span>
+            </p>
+            <p>
+            	<strong>6.개인정보의 파기 절차 및 방법</strong>
+                <span>해당사항없음</span>
+            </p>
+            <p>
+            	<strong>7.개인정보 안전성 확보조치</strong>
+                <span>해당사항없음</span>
+            </p>
+        </div>
+      </div>
+	</div>
+    <!-- dbkpersonal E -->
+    <!-- dbkpersonal S -->
+	<div id="dbkpersonal2" class="personal_d">
+      <div class="personal">
+      	<div class="header"><h3>신용정보활용체제</h3><a href="#"><img src="/redbean/images/main/bt_exit.gif" alt="닫기" /></a></div>
+        <div class="tx_con">
+        	<p class="ti">
+            	<em>신용정보활용체제</em>
+                <span>『신용정보의 이용 및 보호에 관한 법률』 제 31조 및 신용정보의 관리 및 보호에 관한 기준 제10조에 따라 당사가 관리하고 있는 신용정보의 활용체제에 대하여 다음과 같이 공시합니다.</span>
+                <span>※ 당사는 개인고객의 신용정보를 수집·처리하지 않으며, 따라서 본 신용정보활용체제는 기업 및 법인의 신용정보에 적용됩니다.</span>
+            </p>
+            <p>
+				<strong>■ 이용목적 및 신용정보의 종류</strong>
+				
+				<span>1.	이용목적</span><br>
+				<span>가.	고객 및 거래상대방 확인 </span><br>
+				<span>나.	집합투자재산 및 투자일임재산의 운용</span><br>
+				<span>다.	기타 동법 및 다른 법률의 규정에서 정한 경우</span>
+			</p>
+			<p>
+				<span>2.	신용정보의 종류</span><br>
+				<span>가.	식별정보 - 기업 및 법인의 상호, 사업자·법인 등록번호, 대표자 성명 등</span><br>
+				<span>나.	신용거래정보 - 기업 및 법인의 금융거래정보</span><br>
+				<span>다.	신용능력정보 - 회사의 개황, 사업의 내용 등 일반정보, 재무에 관한 사항 등</span>
+			</p>
+			<p>
+				<strong>■ 제공대상자, 제공받는 자의 이용목적 및 제공하는 신용정보의 종류</strong>
+				
+				<span>1.	제공대상자</span><br>
+				<span>가.	신용정보집중기관 (한국신용정보원)</span><br>
+				<span>나.	금융투자협회, 한국예탁결제원, 한국거래소, 금융투자업자</span><br>
+				<span>다.	기타 동법 및 다른 법률에 의해 제출을 요구하는 공공기관 등</span><br>
+				</p>
+				<p>
+				<span>2.	제공 받는 자의 목적</span><br>
+				<span>가.	금융기관에 대한 신용정보를 집중·수집·보관·제공</span><br>
+				<span>나.	기타 동법 및 다른 법률의 규정에서 정한 목적</span><br>
+			</p>
+			<p>
+				<span>3.	제공하는 신용정보의 종류 </span><br>
+				<span>식별정보, 신용거래정보, 신용능력정보, 공공기록정보 중 동법 및 다른 법률의 규정에 의해 제공 가능한 정보</span><br>
+			</p>
+			<p>
+				<strong>■ 보유 및 이용기간, 신용정보 파기 절차 및 방법</strong><br>
+				
+				<span>1.	보유 및 이용기간</span><br>
+				<span>당사가 제공하는 금융서비스를 제공 받으시는 경우 신용정보는 당사의 서비스 중단 시까지 보유·이용하게 됩니다. 단, 상기의 보유 및 이용기간은 법령 및 감독규정에서 요구하는 바에 따라 달라질 수 있습니다.</span><br>
+				
+				<span>2.	신용정보 파기절차 및 방법</span>
+				<span>신용정보는 당사의 내부통제기준, 문서관리기준 등 내부규정에 따라 해당 정보를 취급·관리하는 자가 파기하고 소관부서장이 확인합니다. 종이 문서의 경우 분쇄 또는 소각처리하고 전자적 파일의 경우 기록을 재생할 수 없는 방법으로 삭제합니다.</span><br>
+			</p>
+			<p>
+				<strong>■ 신용정보처리를 위탁하는 경우에 그 업무의 내용 및 수탁자</strong>
+				
+				<span>1.	수탁자</span>
+				<span>신한아이타스</span>
+				
+				<span>2.	위탁 업무</span>
+				<span>집합투재자산 및 투자일임재산의 회계처리 등</span>
+			</p>
+			<p>
+				<strong>■ 신용정보주체의 권리와 그 행사 방법</strong>
+				
+				<span>1.	본인신용정보 제공ㆍ열람청구권</span>
+				<span>신용정보주체는 본인의 신분을 나타내는 증표를 제시하고 당사가 보유하고 있는 본인 신용정보의 제공 또는 열람을 청구할 수 있습니다.</span><br>
+				
+				<span>2.	본인신용정보 정정청구권</span>
+				<span>신용정보주체는 본인의 신용정보가 사실과 다른 경우에는 정정을 청구할 수 있습니다.</span><br>
+				
+				<span>3.	신용정보제공사실의 통보요구권</span>
+				<span>신용정보주체는 최근 1년간 본인에 관한 신용정보를 제공한 내역을 통보하도록 요구할 수 있습니다.</span><br>
+			</p>
+			<p>
+				<strong>■ 신용정보관리·보호인</strong>
+				
+				<span>성명: 이동훈</span>
+				
+				<span>부서: 준법감시인</span>
+				
+				<span>연락처: 02-767-9767</span>
+			</p>
+        </div>
+      </div>
+	</div>
+    <!-- dbkpersonal E -->
+<form id="footerFrm" name="footerFrm">
+	<input type="hidden" name="popPath" id="popPath" value="" />
+	<input type="hidden" name="popNm" id="popNm" value="" />
+<!-- #footer_wrap : S -->
+  <div id="footer_wrap">
+	<!-- #footer : S -->
+    <div id="footer" class="ct">
+    	<a href="javascript:void(0)" class="tx_skip img_box_j bt_fund">펀드찾기 열기</a>
+        <!-- #dbkfund : S -->
+        <ul id="updowfund" class="dbkfund">
+            <li>
+            	<strong class="tx_skip img_box_j">펀드찾기</strong>
+            	<label for="searchValueFooter" class="tx_skip">펀드 찾기 검색어 입력</label>
+ 				<input type="text" name="searchValueFooter" id="searchValueFooter" class="inp_shtx" />
+                <input type="submit" value="검색" class="tx_skip img_box_j bt_sh_fund" onclick="schFooterFundList();"/>
+                <a href="javascript:void(0)" class="tx_skip img_box_j bt_fund2">펀드찾기 닫기</a>
+            </li>
+        </ul>
+        <!-- //#dbkfund : E -->
+      <!-- a class="footer_logo"><img src="/redbean/images/footer/logo_f.jpg" alt="교보악사" /></a-->
+      <!-- .information : S -->
+      <ul class="information">
+        <li><a href="/cmmAct.do?act=cmpyInfo/company" class="newtxt mn_1">회사소개</a></li>
+        <li><a href="#" class="newtxt mn_2">개인정보 처리방침</a></li>
+        <li><a href="#" id="personalInfo2" class="newtxt mn_3">신용정보활용체제</a></li>
+        <li><a href="/cmmAct.do?act=scCode/consumer" class="newtxt mn_4">금융소비자보호포탈</a></li>
+        <!-- <li><a href="/cmmAct.do?act=scCode/stewardCode" class="tx_skip img_box_j mn_4">스튜어십코드</a></li> -->
+      </ul>
+      <!-- //.information : E -->
+      <!-- .footer_address : S -->
+      <div class="footer_address">
+        <p>110-714 서울특별시 종로구 종로1 교보생명빌딩 15층 <span>|</span> 대표전화 <img src="/redbean/images/footer/ico_call.jpg" alt=""><strong>02-767-9600</strong></p>
+        <p class="copy">Copyright© KYOBO AXA INVESTMENT MANAGERS Co., Ltd. All rights reserved.</p>
+        <!-- <p style="position: absolute;left: 486px;top: 25px;"><a href="javascript:footPopup('popup', 'footerPop');"><img src="/redbean/images/fss_img.png" alt="금감원 금융사기 예방유의사항" height="40"></a></p> -->
+         <p style="position: absolute;left: 486px;top: 25px;"><a href=" http://www.fss.or.kr/fss/kr/popup/privacy_lock.html"><img src="/redbean/images/fss_img.png" alt="금감원 금융사기 예방유의사항" height="40"></a></p>
+        <p style="position: absolute;left: 636px;top: 21px;"><img src="/redbean/images/img_wa.jpg" alt="웹접근성 인증마크.WA2013" height="40"></p>
+      </div>
+      <!-- //.footer_address : E -->
+      <!-- .fm_site : S -->
+      <ul class="fm_site">
+      	<li class="sel_box">
+      		<label class="tx_skip" for="relComp">관계사</label>
+        	<select class="first_sel" title="관계사" onchange="movePage('relComp');" id="relComp" name="relComp">
+            	<option value="" selected>관계사</option>
+                <option value="">------------------</option>
+                <option value="https://www.kyobo.com/">교보생명</option>
+				<option value="https://www.bnpparibas-am.com/en/">BNPP AM</option>
+				<option value="https://www.iprovest.com/index.jsp">교보증권(주)</option>
+				<option value="https://www.lifeplanet.co.kr/startmain/main.dev">교보라이프플래닛생명(주)</option>
+				<option value="https://www.kyobobook.co.kr/">교보문고(주)</option>
+				<option value="https://www.kyoborealco.co.kr/">교보리얼코(주)</option>
+				<option value="https://www.kyobodts.co.kr/home">교보DTS(주)</option>
+				<option value="https://www.kcase.co.kr/index.do">KCA서비스(주)</option>
+				<option value="https://www.kcasonsa.co.kr/">KCA손해사정(주)</option>
+				<option value="https://www.kyobotrust.co.kr/front/main.do">교보자산신탁(주)</option>
+				<option value="https://www.andamc.com/index.do">A&amp;D신용정보(주)</option>
+				<option value="https://kyobo-aim.com/front/main.do">교보AIM자산운용(주)</option>
+				<option value="https://www.kyobodasomcare.com/main.do">교보다솜케어(주)</option>				
+            </select>
+            <label class="tx_skip" for="relSite">관련사이트</label>
+            <select title="관련사이트" onchange="movePage('relSite');" id="relSite" name="relSite">
+            	<option value="" selected>관련사이트</option>
+                <option value="">------------------</option>
+                <option value="http://www.fss.or.kr/">금융감독원</option>
+                <option value="http://www.fsc.go.kr/">금융감독위원회</option>
+                <option value="http://www.kofia.or.kr/">금융투자협회</option>
+                <option value="http://dart.fss.or.kr/">전자공시시스템</option>
+                <option value="http://www.krx.co.kr/">한국거래소</option>
+                <option value="http://www.fss.or.kr/fss/kr/popup/privacy_lock.html/">금융감독원(개인정보유출관련)</option>
+            </select>
+        </li>
+        <li class="txt_box">
+        	<a href="javascript:movePage('link1');" id="link1" value="http://s119.fss.or.kr/fss/seomin/index.jsp" title="새 창 열림">서민금융119</a>
+        	<span>|</span><a href="javascript:movePage('link2');" id="link2" value="http://www.kofia.or.kr" title="새 창 열림">금융투자협회</a>
+        	<span>|</span><a href="javascript:movePage('link3');" id="link3" value="http://www.kisia.or.kr/" title="새 창 열림">한국정보보호산업협회</a>
+        </li>
+      </ul>
+      <!-- //.fm_site : E -->
+      <!-- QR : S -->
+      <ul class="qrcode">
+      	<li><a href="http://kyoboaxa-im.co.kr/index.html" target="_blank" title="새창으로 열림"><img src="/redbean/images/footer/img_qr.gif" alt="교보악사 자산운용 홈페이지 QR코드 http://kyoboaxa-im.co.kr" /></a></li>
+      </ul>
+      <!-- QR : E -->
+    </div>
+    <!-- //#footer : E -->
+  </div>
+  </form>
+  <!-- //#footer_wrap : E -->
+  
+</div>
+<!-- //#wrap : E -->
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+		
+			
+			//console.log("템플릿 프로토콜 감지::::" + document.location.protocol);
+		});
+		
+        selectMenuSet();
+        menuMouseOverOut();             // GNB, LNB 메뉴 효과
+        menuLink();
+        setPageTitle();
+    </script>
+
+</body>
+</html>

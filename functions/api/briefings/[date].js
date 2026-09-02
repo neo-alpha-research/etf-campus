@@ -192,6 +192,13 @@ export async function onRequestGet(context) {
     );
   }
 
+  if (date < "2026-08-24") {
+    return Response.json(
+      { briefing: null, message: "마켓 브리핑은 2026년 8월 24일부터 정식 제공됩니다." },
+      { status: 404, headers: { ...JSON_HEADERS, "cache-control": "no-store" } },
+    );
+  }
+
   const briefing = await context.env.ETF_PRICES.prepare(
     `SELECT
       as_of_date, publication_version, headline_text, headline_generation_status,

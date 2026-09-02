@@ -198,20 +198,23 @@ const fetcher = async (url: string) => {
       headers: { Accept: "application/json" },
     });
     const contentType = res.headers.get("content-type") || "";
-    if (res.ok && contentType.includes("application/json")) {
+    if (contentType.includes("application/json")) {
       const payload = await res.json();
       return payload as BriefingApiResponse;
     }
-    // Local dev or non-JSON fallback (e.g. Next.js 404 HTML during local development)
-    const fallbackRes = await fetch("/mock-briefing.json");
-    if (fallbackRes.ok) {
-      return (await fallbackRes.json()) as BriefingApiResponse;
+    if (res.ok) {
+      throw new Error("올바른 JSON 응답이 아닙니다.");
     }
-    throw new Error("브리핑 데이터를 불러오지 못했습니다.");
+    return {
+      briefing: null,
+      message: res.status === 404 ? "해당 날짜의 마켓 브리핑을 찾을 수 없습니다." : "브리핑 서버와 통신할 수 없습니다.",
+    };
   } catch (err) {
-    const fallbackRes = await fetch("/mock-briefing.json").catch(() => null);
-    if (fallbackRes && fallbackRes.ok) {
-      return (await fallbackRes.json()) as BriefingApiResponse;
+    if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+      const fallbackRes = await fetch("/mock-briefing.json").catch(() => null);
+      if (fallbackRes && fallbackRes.ok) {
+        return (await fallbackRes.json()) as BriefingApiResponse;
+      }
     }
     throw err instanceof Error ? err : new Error("브리핑 데이터를 불러오지 못했습니다.");
   }

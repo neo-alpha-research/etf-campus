@@ -377,8 +377,11 @@ def bootstrap() -> None:
     ensure_csv(EVENTS_PATH, EVENT_COLUMNS)
     ensure_csv(COVERAGE_PATH, COVERAGE_COLUMNS)
 
-    if not TARGETS_PATH.exists():
-        targets: list[dict[str, str]] = [
+    targets: list[dict[str, str]] = []
+    if TARGETS_PATH.exists():
+        targets = read_csv(TARGETS_PATH)
+
+    legacy_targets: list[dict[str, str]] = [
             {
                 "source_id": "issuer:plus:489030:20260728:notice",
                 "etf_id": "KR7489030007", "ticker": "489030", "source_owner": "PLUS ETF",
@@ -410,25 +413,31 @@ def bootstrap() -> None:
                 "parse_note": "공시 적용일·분배락 기준가격 구조 검증용. 2026-07 이벤트에는 연결하지 않는다.",
             },
         ]
-        seen = {row["source_id"] for row in targets}
-        for legacy in read_csv(LEGACY_LEDGER_PATH):
-            ticker = normalise_ticker(legacy.get("ticker"))
-            url = clean(legacy.get("source_url"))
-            if not ticker or not url:
-                continue
-            source_id = deterministic_id("legacy", ticker, url)
-            if source_id in seen:
-                continue
-            seen.add(source_id)
-            targets.append({
-                "source_id": source_id, "etf_id": "", "ticker": ticker,
-                "source_owner": "legacy_candidate", "source_type": "issuer_product_or_notice",
-                "source_document_key": "", "source_title": clean(legacy.get("etf_name")),
-                "source_url": url, "published_at": "", "parser_name": "unparsed",
-                "parser_version": "1", "parse_status": "pending",
-                "parse_note": "기존 분배금 원장의 후보 원천 URL. 문서 수집 후 운용사별 파서를 지정한다.",
-            })
-        write_csv(TARGETS_PATH, TARGET_COLUMNS, targets)
+    
+    seen = {row["source_id"] for row in targets if "source_id" in row}
+    for lt in legacy_targets:
+        if lt["source_id"] not in seen:
+            targets.append(lt)
+            seen.add(lt["source_id"])
+            
+    for legacy in read_csv(LEGACY_LEDGER_PATH):
+        ticker = normalise_ticker(legacy.get("ticker"))
+        url = clean(legacy.get("source_url"))
+        if not ticker or not url:
+            continue
+        source_id = deterministic_id("legacy", ticker, url)
+        if source_id in seen:
+            continue
+        seen.add(source_id)
+        targets.append({
+            "source_id": source_id, "etf_id": "", "ticker": ticker,
+            "source_owner": "legacy_candidate", "source_type": "issuer_product_or_notice",
+            "source_document_key": "", "source_title": clean(legacy.get("etf_name")),
+            "source_url": url, "published_at": "", "parser_name": "unparsed",
+            "parser_version": "1", "parse_status": "pending",
+            "parse_note": "기존 분배금 원장의 후보 원천 URL. 문서 수집 후 운용사별 파서를 지정한다.",
+        })
+    write_csv(TARGETS_PATH, TARGET_COLUMNS, targets)
 
     if not MANUAL_EVENTS_PATH.exists():
         now = utc_now()

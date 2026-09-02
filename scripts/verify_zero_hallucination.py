@@ -76,7 +76,9 @@ def check_index_integrity(as_of_date: str, metrics: dict) -> list[str]:
 
 def check_d1_database(all_dates: bool = False):
     print("[2/2] Verifying D1 database market_briefings records...")
-    # Active production gate validates service records (as_of_date >= 2026-08-24)
+    # Active production gate validates service records (as_of_date >= 2026-08-24).
+    # NOTE: This date MUST match MARKET_BRIEFING_SERVICE_START_DATE in functions/api/briefings/_shared.js.
+    # If the service start date is changed, update both locations simultaneously.
     where_clause = "" if all_dates else "WHERE as_of_date >= '2026-08-24'"
     cmd = f'npx wrangler d1 execute etf-prices --remote --json --command "SELECT as_of_date, general_total_aum, up_count, down_count, headline_text, metrics_json FROM market_briefings {where_clause} ORDER BY as_of_date DESC;"'
     try:

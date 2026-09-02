@@ -48,6 +48,26 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
   const flat = payload.flatCount || 47;
   const down = payload.downCount || 670;
   const generalCount = payload.generalEtfCount || 1022;
+
+  const dailyTs = payload.marketScaleTimeSeries?.daily || [];
+  const latestTs = dailyTs.length > 0 ? dailyTs[dailyTs.length - 1] : null;
+  const prevTs = dailyTs.length > 1 ? dailyTs[dailyTs.length - 2] : null;
+  
+  let totalAumChangeStr = "";
+  let totalAdtvChangeStr = "";
+  if (latestTs) {
+    const aumChangeJo = (latestTs.aumChange / 10000);
+    const signAum = aumChangeJo > 0 ? "+" : "";
+    const colorAum = aumChangeJo >= 0 ? "#DC2626" : "#2563EB";
+    totalAumChangeStr = `<span style="color: ${colorAum};">${signAum}${aumChangeJo.toFixed(1)}조원</span>`;
+
+    if (prevTs) {
+      const adtvChangeJo = ((latestTs.adtv - prevTs.adtv) / 10000);
+      const signAdtv = adtvChangeJo > 0 ? "+" : "";
+      const colorAdtv = adtvChangeJo >= 0 ? "#DC2626" : "#2563EB";
+      totalAdtvChangeStr = `<span style="color: ${colorAdtv};">${signAdtv}${adtvChangeJo.toFixed(1)}조원</span>`;
+    }
+  }
   
   const headline = payload.headlineText || `국내 상장 일반 ETF ${generalCount.toLocaleString()}개 중 ${down}개가 하락한 숨고르기 장세입니다. 코스피(+0.46%) 대비 일반 ETF 시장 평균은 ${etfSign}${etfReturn.toFixed(2)}%를 기록했으나, 2차전지(+2.71%)와 스마트머니(+1,130억원)의 반도체 저가 분할 매수세가 돋보였습니다.`;
   
@@ -148,14 +168,16 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             <div class="metric-card">
               <div class="metric-label">일반 ETF 총 순자산 (AUM)</div>
               <div class="metric-value tabular">${aumJo}조원</div>
-              <div style="font-size: 10.5px; color: #64748B;">${generalCount}개 일반 종목 기준</div>
+              <div style="font-size: 10.5px; color: #64748B; margin-bottom: 3px;">${generalCount}개 일반 종목 기준</div>
+              ${totalAumChangeStr ? `<div style="font-size: 11.5px; font-weight: 700; color: #334155; margin-top: 5px; border-top: 1px dashed #CBD5E1; padding-top: 4px;">전체 ETF 기준 전일비 ${totalAumChangeStr}</div>` : ""}
             </div>
           </div>
           <div class="grid-col" style="padding-right: 0;">
             <div class="metric-card">
-              <div class="metric-label">일 거래대금 / 시장 회전율</div>
+              <div class="metric-label">일반 ETF 일 거래대금 / 회전율</div>
               <div class="metric-value tabular">${tradeJo}조원</div>
-              <div style="font-size: 10.5px; color: #64748B;" class="tabular">일일 회전율 ${turnoverPct.toFixed(1)}%</div>
+              <div style="font-size: 10.5px; color: #64748B; margin-bottom: 3px;" class="tabular">일일 회전율 ${turnoverPct.toFixed(1)}%</div>
+              ${totalAdtvChangeStr ? `<div style="font-size: 11.5px; font-weight: 700; color: #334155; margin-top: 5px; border-top: 1px dashed #CBD5E1; padding-top: 4px;">전체 ETF 기준 전일비 ${totalAdtvChangeStr}</div>` : ""}
             </div>
           </div>
         </div>

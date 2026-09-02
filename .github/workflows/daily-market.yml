@@ -95,8 +95,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         run: |
           python -m pip install --upgrade pip
-          python -m pip install beautifulsoup4 certifi requests xlrd playwright curl_cffi
-          python -m playwright install chromium --with-deps
+          python -m pip install beautifulsoup4 certifi requests xlrd curl_cffi
 
       - name: Refresh official ETF data
         if: steps.guard.outputs.skip != 'true'
@@ -172,7 +171,7 @@ jobs:
       - name: Calculate Total Returns (TR Index)
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
         run: |
-          python scripts/collect_historical_prices.py
+          python scripts/append_daily_prices.py
           python scripts/collect_distributions.py || true
           python scripts/calculate_daily_tr_index.py
           python scripts/calculate_total_returns.py
@@ -234,7 +233,7 @@ jobs:
           npm test
           npm run build
 
-      - name: Backfill ETF prices to D1
+      - name: Ingest daily ETF prices to D1
         continue-on-error: true
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true')
         env:

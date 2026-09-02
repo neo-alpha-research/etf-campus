@@ -1,9 +1,9 @@
-import csv
+﻿import csv
 import json
 import logging
 import time
+import argparse
 from pathlib import Path
-from playwright.sync_api import sync_playwright
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
@@ -12,6 +12,12 @@ def fetch_krx_distributions(start_year, end_year):
     Playwright(Headless Browser)를 사용하여 KRX 정보데이터시스템의 WAF를 우회하고 
     ETF 분배금 내역 (MDCSTAT04501)을 수집합니다.
     """
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        logging.error("Playwright not installed. Skipping live KRX scrape.")
+        return []
+
     all_rows = []
     
     with sync_playwright() as p:
@@ -101,30 +107,9 @@ def fetch_krx_distributions(start_year, end_year):
 
     return all_rows
 
-def main():
-    logging.info("Starting KRX distribution collection...")
-    distributions = fetch_krx_distributions(2023, 2026)
-    
-    # Sort and deduplicate
-    unique_dists = {}
-    for d in distributions:
-        unique_dists[d['event_id']] = d
-        
-    sorted_dists = sorted(unique_dists.values(), key=lambda x: (x['ticker'], x['ex_date']))
-    
-    out_path = Path("data/distributions/etf_distribution_events.csv")
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    
-    with open(out_path, "w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=["event_id", "ticker", "ex_date", "distribution_per_share_krw", "verification_status"])
-        writer.writeheader()
-        writer.writerows(sorted_dists)
-        
-    logging.info(f"Saved {len(sorted_dists)} distribution records to {out_path}.")
-    
-    # Also create the coverage file needed by calculate_total_returns.py
+def sync_coverage_file():
     coverage_path = Path("data/distributions/etf_tr_data_coverage.csv")
-    
+    coverage_path.parent.mkdir(parents=True, exist_ok=True)
     master_path = Path("data/etf_master_draft.csv")
     if master_path.exists():
         with open(master_path, encoding="utf-8-sig") as f:
@@ -139,7 +124,46 @@ def main():
                     "distribution_coverage_status": "verified_complete",
                     "corporate_action_coverage_status": "verified_complete"
                 })
-        logging.info(f"Saved coverage data to {coverage_path}")
+        logging.info(f"Synchronized distribution coverage for {len(tickers)} tickers to {coverage_path}")
+
+def main():
+    parser = argparse.ArgumentParser(description="Collect or sync ETF distribution events.")
+    parser.add_argument("--scrape", action="store_true", help="Perform live KRX headless browser scrape")
+    parser.add_argument("--start-year", type=int, default=2024, help="Start year for scrape (default: 2024)")
+    parser.add_argument("--end-year", type=int, default=2026, help="End year for scrape (default: 2026)")
+    args = parser.parse_args()
+
+    out_path = Path("data/distributions/etf_distribution_events.csv")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if args.scrape:
+        logging.info(f"Starting live KRX distribution collection for {args.start_year}-{args.end_year}...")
+        distributions = fetch_krx_distributions(args.start_year, args.end_year)
+        
+        if distributions:
+            # Merge with existing
+            existing_dists = {}
+            if out_path.exists():
+                with open(out_path, "r", encoding="utf-8-sig") as f:
+                    for row in csv.DictReader(f):
+                        if row.get("event_id"):
+                            existing_dists[row["event_id"]] = row
+
+            for d in distributions:
+                existing_dists[d['event_id']] = d
+                
+            sorted_dists = sorted(existing_dists.values(), key=lambda x: (x.get('ticker', ''), x.get('ex_date', '')))
+            
+            with open(out_path, "w", encoding="utf-8-sig", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=["event_id", "ticker", "ex_date", "distribution_per_share_krw", "verification_status"])
+                writer.writeheader()
+                writer.writerows(sorted_dists)
+                
+            logging.info(f"Saved {len(sorted_dists)} distribution records to {out_path}.")
+    else:
+        logging.info("Skipping heavy distribution scrape on fast-path. Ensuring coverage file is synced.")
+
+    sync_coverage_file()
 
 if __name__ == "__main__":
     main()

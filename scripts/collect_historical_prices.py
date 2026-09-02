@@ -1,3 +1,8 @@
+"""
+[MANUAL / MAINTENANCE USE ONLY]
+This script fetches multi-year historical prices from Naver Finance for initial bootstrapping or full backfills.
+DO NOT use this in daily CI/CD pipelines; use `scripts/append_daily_prices.py` instead for incremental daily updates.
+"""
 import urllib.request
 import ast
 import csv

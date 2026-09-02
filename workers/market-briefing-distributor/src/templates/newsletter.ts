@@ -38,11 +38,13 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
   const etfSign = etfReturn > 0 ? "+" : "";
   const etfColor = etfReturn >= 0 ? "#DC2626" : "#2563EB";
 
-  const genAumEok = normalizeToEok(payload.pulse?.generalTotalAum || payload.generalTotalAum || 3814729);
-  const genTradeEok = normalizeToEok(payload.pulse?.generalTotalTradeValue || payload.generalTotalTradeValue || 100551);
-  const aumJo = (genAumEok / 10000).toFixed(1);
-  const tradeJo = (genTradeEok / 10000).toFixed(1);
-  const turnoverPct = genAumEok > 0 ? ((genTradeEok / genAumEok) * 100) : (payload.marketTurnoverPct ?? 2.64);
+  // 전체 ETF 기준 총 순자산 & 거래대금 (marketScaleSnapshot 우선, 없으면 일반 ETF 값 fallback)
+  const totalAumEok = normalizeToEok(payload.marketScaleSnapshot?.totalAum || payload.pulse?.generalTotalAum || payload.generalTotalAum || 3814729);
+  const totalTradeEok = normalizeToEok(payload.marketScaleSnapshot?.totalTradeValue || payload.pulse?.generalTotalTradeValue || payload.generalTotalTradeValue || 100551);
+  const aumJo = (totalAumEok / 10000).toFixed(1);
+  const tradeJo = (totalTradeEok / 10000).toFixed(1);
+  const turnoverPct = totalAumEok > 0 ? ((totalTradeEok / totalAumEok) * 100) : (payload.marketScaleSnapshot?.marketTurnoverPct ?? payload.marketTurnoverPct ?? 2.64);
+  const totalEtfCount = payload.pulse?.totalEtfCount || 0;
 
   const up = payload.upCount || 305;
   const flat = payload.flatCount || 47;
@@ -166,15 +168,15 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
         <div class="grid-2">
           <div class="grid-col" style="padding-left: 0;">
             <div class="metric-card">
-              <div class="metric-label">일반 ETF 총 순자산 (AUM)</div>
+              <div class="metric-label">전체 ETF 총 순자산 (AUM)</div>
               <div class="metric-value tabular">${aumJo}조원</div>
-              <div style="font-size: 10.5px; color: #64748B; margin-bottom: 3px;">${generalCount}개 일반 종목 기준</div>
+              <div style="font-size: 10.5px; color: #64748B; margin-bottom: 3px;">${totalEtfCount > 0 ? `${totalEtfCount.toLocaleString()}개 전체 종목 기준` : `${generalCount}개 일반 종목 포함 전체 기준`}</div>
               ${totalAumChangeStr ? `<div style="font-size: 11.5px; font-weight: 700; color: #334155; margin-top: 5px; border-top: 1px dashed #CBD5E1; padding-top: 4px;">전체 ETF 기준 전일비 ${totalAumChangeStr}</div>` : ""}
             </div>
           </div>
           <div class="grid-col" style="padding-right: 0;">
             <div class="metric-card">
-              <div class="metric-label">일반 ETF 일 거래대금 / 회전율</div>
+              <div class="metric-label">전체 ETF 일 거래대금 / 회전율</div>
               <div class="metric-value tabular">${tradeJo}조원</div>
               <div style="font-size: 10.5px; color: #64748B; margin-bottom: 3px;" class="tabular">일일 회전율 ${turnoverPct.toFixed(1)}%</div>
               ${totalAdtvChangeStr ? `<div style="font-size: 11.5px; font-weight: 700; color: #334155; margin-top: 5px; border-top: 1px dashed #CBD5E1; padding-top: 4px;">전체 ETF 기준 전일비 ${totalAdtvChangeStr}</div>` : ""}

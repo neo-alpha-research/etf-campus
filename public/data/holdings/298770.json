@@ -1,6 +1,6 @@
 {
   "ticker": "298770",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "TAIWAN SEMICONDUCTOR MANUFAC",
@@ -10,74 +10,68 @@
     },
     {
       "name": "삼성전자",
-      "weight_pct": 17.64,
+      "weight_pct": 17.75,
       "shares": 5531,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 12.36,
+      "weight_pct": 12.53,
       "shares": 602,
       "item_code": "000660"
     },
     {
       "name": "MEDIATEK INC",
-      "weight_pct": 3.83,
+      "weight_pct": 3.8,
       "shares": 1818,
       "item_code": null
     },
     {
       "name": "ASE INDUSTRIAL HOLDINGS",
-      "weight_pct": 2.74,
+      "weight_pct": 2.6,
       "shares": 8363,
       "item_code": null
     },
     {
       "name": "HON HAI PRECISION INDUSTRY",
-      "weight_pct": 2.45,
+      "weight_pct": 2.44,
       "shares": 18363,
       "item_code": null
     },
     {
       "name": "Elite Material Co Ltd",
-      "weight_pct": 2.37,
+      "weight_pct": 2.38,
       "shares": 818,
       "item_code": null
     },
     {
-      "name": "삼성전기",
-      "weight_pct": 2.12,
-      "shares": 119,
-      "item_code": "009150"
-    },
-    {
       "name": "DELTA ELECTRONICS",
-      "weight_pct": 2.11,
+      "weight_pct": 2.13,
       "shares": 2181,
       "item_code": null
     },
     {
+      "name": "삼성전기",
+      "weight_pct": 2.09,
+      "shares": 119,
+      "item_code": "009150"
+    },
+    {
       "name": "UNITED MICROELECTRONICS",
-      "weight_pct": 1.93,
+      "weight_pct": 1.92,
       "shares": 28090,
       "item_code": null
     },
     {
       "name": "Unimicron Technology Corp",
-      "weight_pct": 1.86,
+      "weight_pct": 1.69,
       "shares": 3181,
       "item_code": null
     },
     {
       "name": "Asia Vital Components Co Ltd",
-      "weight_pct": 1.45,
+      "weight_pct": 1.49,
       "shares": 818,
-      "item_code": null
-    },
-    {
-      "name": "YAGEO CO",
-      "weight_pct": 1.43,
-      "shares": 4553,
       "item_code": null
     },
     {
@@ -87,63 +81,75 @@
       "item_code": null
     },
     {
-      "name": "ACCTON TECH",
+      "name": "YAGEO CO",
       "weight_pct": 1.32,
+      "shares": 4553,
+      "item_code": null
+    },
+    {
+      "name": "ACCTON TECH",
+      "weight_pct": 1.28,
       "shares": 1181,
       "item_code": null
     },
     {
       "name": "QUANTA COMPUTER",
-      "weight_pct": 1.15,
+      "weight_pct": 1.17,
       "shares": 6545,
       "item_code": null
     },
     {
       "name": "LARGAN PRECISION CO LTD",
-      "weight_pct": 1.05,
+      "weight_pct": 1.14,
       "shares": 281,
       "item_code": null
     },
     {
       "name": "WIWYNN CORP",
       "weight_pct": 1.03,
-      "shares": 272,
+      "shares": 813,
       "item_code": null
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 1.02,
+      "weight_pct": 1.01,
       "shares": 145,
       "item_code": "006400"
     },
     {
       "name": "Chroma ATE Inc",
-      "weight_pct": 0.96,
+      "weight_pct": 0.94,
       "shares": 909,
       "item_code": null
     },
     {
-      "name": "NAVER",
-      "weight_pct": 0.89,
-      "shares": 335,
-      "item_code": "035420"
-    },
-    {
       "name": "Nanya Technology Corp",
-      "weight_pct": 0.88,
+      "weight_pct": 0.89,
       "shares": 3090,
       "item_code": null
     },
     {
-      "name": "LITE ON TECHNOLOGY",
+      "name": "NAVER",
+      "weight_pct": 0.88,
+      "shares": 335,
+      "item_code": "035420"
+    },
+    {
+      "name": "ASUSTEK COMPUTER",
       "weight_pct": 0.87,
+      "shares": 1636,
+      "item_code": null
+    },
+    {
+      "name": "LITE ON TECHNOLOGY",
+      "weight_pct": 0.84,
       "shares": 5181,
       "item_code": null
     },
     {
-      "name": "ASUSTEK COMPUTER",
-      "weight_pct": 0.83,
-      "shares": 1636,
+      "name": "WINBOND ELECTRONICS CORP",
+      "weight_pct": 0.71,
+      "shares": 7363,
       "item_code": null
     },
     {
@@ -153,39 +159,39 @@
       "item_code": null
     },
     {
-      "name": "WINBOND ELECTRONICS CORP",
-      "weight_pct": 0.7,
-      "shares": 7363,
-      "item_code": null
-    },
-    {
       "name": "CHUNGHWA TELECOM CO LTD",
-      "weight_pct": 0.64,
+      "weight_pct": 0.65,
       "shares": 9000,
       "item_code": null
     },
     {
       "name": "Global Unichip Corp",
-      "weight_pct": 0.57,
+      "weight_pct": 0.59,
       "shares": 181,
       "item_code": null
     },
     {
       "name": "Jentech Precision Industrial Co Ltd",
-      "weight_pct": 0.55,
+      "weight_pct": 0.58,
       "shares": 181,
       "item_code": null
     },
     {
       "name": "Gold Circuit Electronics Ltd",
-      "weight_pct": 0.48,
+      "weight_pct": 0.5,
       "shares": 818,
       "item_code": null
     },
     {
       "name": "INNOLUX CO",
-      "weight_pct": 0.48,
+      "weight_pct": 0.5,
       "shares": 18999,
+      "item_code": null
+    },
+    {
+      "name": "Zhen Ding Technology Holding Ltd",
+      "weight_pct": 0.45,
+      "shares": 1727,
       "item_code": null
     },
     {
@@ -195,14 +201,8 @@
       "item_code": null
     },
     {
-      "name": "Zhen Ding Technology Holding Ltd",
-      "weight_pct": 0.43,
-      "shares": 1727,
-      "item_code": null
-    },
-    {
       "name": "Advantech Co Ltd",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 1181,
       "item_code": null
     },
@@ -220,13 +220,13 @@
     },
     {
       "name": "King Yuan Electronics Co Ltd",
-      "weight_pct": 0.39,
+      "weight_pct": 0.37,
       "shares": 2768,
       "item_code": null
     },
     {
       "name": "Kinsus Interconnect Technology Corp",
-      "weight_pct": 0.38,
+      "weight_pct": 0.35,
       "shares": 818,
       "item_code": null
     },
@@ -238,7 +238,7 @@
     },
     {
       "name": "Compeq Manufacturing Co Ltd",
-      "weight_pct": 0.32,
+      "weight_pct": 0.33,
       "shares": 2545,
       "item_code": null
     },
@@ -256,15 +256,21 @@
     },
     {
       "name": "Powerchip Semiconductor Manufacturing Co",
-      "weight_pct": 0.29,
+      "weight_pct": 0.31,
       "shares": 8090,
       "item_code": null
     },
     {
       "name": "SK텔레콤",
-      "weight_pct": 0.28,
+      "weight_pct": 0.29,
       "shares": 250,
       "item_code": "017670"
+    },
+    {
+      "name": "삼성에스디에스",
+      "weight_pct": 0.28,
+      "shares": 94,
+      "item_code": "018260"
     },
     {
       "name": "Tripod Technology Corp",
@@ -274,32 +280,20 @@
     },
     {
       "name": "한미반도체",
-      "weight_pct": 0.27,
+      "weight_pct": 0.26,
       "shares": 102,
       "item_code": "042700"
     },
     {
-      "name": "삼성에스디에스",
-      "weight_pct": 0.27,
-      "shares": 94,
-      "item_code": "018260"
-    },
-    {
-      "name": "LG이노텍",
-      "weight_pct": 0.25,
-      "shares": 33,
-      "item_code": "011070"
+      "name": "INVENTEC CORP",
+      "weight_pct": 0.26,
+      "shares": 7454,
+      "item_code": null
     },
     {
       "name": "TAIWAN MOBILE",
       "weight_pct": 0.25,
       "shares": 4181,
-      "item_code": null
-    },
-    {
-      "name": "INVENTEC CORP",
-      "weight_pct": 0.25,
-      "shares": 7454,
       "item_code": null
     },
     {
@@ -310,26 +304,32 @@
     },
     {
       "name": "Gigabyte Technology Co Ltd",
-      "weight_pct": 0.23,
+      "weight_pct": 0.24,
       "shares": 1272,
+      "item_code": null
+    },
+    {
+      "name": "LG이노텍",
+      "weight_pct": 0.23,
+      "shares": 33,
+      "item_code": "011070"
+    },
+    {
+      "name": "PEGATRON",
+      "weight_pct": 0.23,
+      "shares": 4909,
+      "item_code": null
+    },
+    {
+      "name": "AU OPTRINICS",
+      "weight_pct": 0.23,
+      "shares": 16327,
       "item_code": null
     },
     {
       "name": "FAR EASTONE TELECOM",
       "weight_pct": 0.22,
       "shares": 4181,
-      "item_code": null
-    },
-    {
-      "name": "PEGATRON",
-      "weight_pct": 0.22,
-      "shares": 4909,
-      "item_code": null
-    },
-    {
-      "name": "AU OPTRINICS",
-      "weight_pct": 0.22,
-      "shares": 16327,
       "item_code": null
     },
     {
@@ -340,7 +340,7 @@
     },
     {
       "name": "COMPAL ELECTRONICS",
-      "weight_pct": 0.2,
+      "weight_pct": 0.21,
       "shares": 9818,
       "item_code": null
     },
@@ -352,7 +352,7 @@
     },
     {
       "name": "크래프톤",
-      "weight_pct": 0.18,
+      "weight_pct": 0.19,
       "shares": 68,
       "item_code": "259960"
     },
@@ -361,12 +361,6 @@
       "weight_pct": 0.17,
       "shares": 127,
       "item_code": "007660"
-    },
-    {
-      "name": "주성엔지니어링",
-      "weight_pct": 0.16,
-      "shares": 74,
-      "item_code": "036930"
     },
     {
       "name": "WT Microelectronics Co Ltd",
@@ -381,8 +375,14 @@
       "item_code": null
     },
     {
+      "name": "주성엔지니어링",
+      "weight_pct": 0.15,
+      "shares": 74,
+      "item_code": "036930"
+    },
+    {
       "name": "CATCHER TECHNOLIGY",
-      "weight_pct": 0.14,
+      "weight_pct": 0.15,
       "shares": 1363,
       "item_code": null
     },
@@ -393,21 +393,27 @@
       "item_code": null
     },
     {
-      "name": "WALSIN TECHNOLOGY",
-      "weight_pct": 0.13,
-      "shares": 818,
+      "name": "MICRO STAR INT CO",
+      "weight_pct": 0.14,
+      "shares": 1727,
       "item_code": null
     },
     {
-      "name": "MICRO STAR INT CO",
-      "weight_pct": 0.13,
-      "shares": 1727,
+      "name": "WALSIN TECHNOLOGY",
+      "weight_pct": 0.12,
+      "shares": 818,
       "item_code": null
     },
     {
       "name": "Sigurd Microelectronics Corp",
       "weight_pct": 0.12,
       "shares": 1090,
+      "item_code": null
+    },
+    {
+      "name": "ACER INC",
+      "weight_pct": 0.12,
+      "shares": 7272,
       "item_code": null
     },
     {
@@ -429,12 +435,6 @@
       "item_code": "352820"
     },
     {
-      "name": "ACER INC",
-      "weight_pct": 0.11,
-      "shares": 7272,
-      "item_code": null
-    },
-    {
       "name": "LG씨엔에스",
       "weight_pct": 0.1,
       "shares": 115,
@@ -445,12 +445,6 @@
       "weight_pct": 0.09,
       "shares": 34,
       "item_code": "036570"
-    },
-    {
-      "name": "현대오토에버",
-      "weight_pct": 0.08,
-      "shares": 16,
-      "item_code": "307950"
     },
     {
       "name": "리노공업",
@@ -471,9 +465,15 @@
       "item_code": null
     },
     {
+      "name": "현대오토에버",
+      "weight_pct": 0.07,
+      "shares": 16,
+      "item_code": "307950"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": -0.49,
-      "shares": -40145962,
+      "weight_pct": -0.48,
+      "shares": -39227026,
       "item_code": null
     }
   ]

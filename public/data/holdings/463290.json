@@ -1,11 +1,11 @@
 {
   "ticker": "463290",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 37.68,
-      "shares": 41165909,
+      "weight_pct": 37.73,
+      "shares": 41226084,
       "item_code": null
     },
     {
@@ -22,7 +22,7 @@
     },
     {
       "name": "우리카드254-1",
-      "weight_pct": 7.8,
+      "weight_pct": 7.79,
       "shares": 0,
       "item_code": null
     },
@@ -34,7 +34,7 @@
     },
     {
       "name": "엔에이치농협캐피탈240-2",
-      "weight_pct": 7.79,
+      "weight_pct": 7.78,
       "shares": 0,
       "item_code": null
     },
@@ -52,7 +52,7 @@
     },
     {
       "name": "기업은행(단)2603할214A-23",
-      "weight_pct": 7.73,
+      "weight_pct": 7.72,
       "shares": 0,
       "item_code": null
     }

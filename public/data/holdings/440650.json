@@ -1,11 +1,11 @@
 {
   "ticker": "440650",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "[USD] 예금",
-      "weight_pct": 5.37,
-      "shares": 45063,
+      "weight_pct": 5.38,
+      "shares": 45152,
       "item_code": null
     },
     {
@@ -16,7 +16,7 @@
     },
     {
       "name": "EIBKOR 5 1/8 09/18/28",
-      "weight_pct": 3.26,
+      "weight_pct": 3.25,
       "shares": 27027,
       "item_code": null
     },
@@ -159,14 +159,14 @@
       "item_code": null
     },
     {
-      "name": "T 4 5/8 06/15/27",
+      "name": "KOBCOP 5 3/8 05/02/27",
       "weight_pct": 1.94,
       "shares": 16216,
       "item_code": null
     },
     {
-      "name": "KOBCOP 5 3/8 05/02/27",
-      "weight_pct": 1.94,
+      "name": "T 4 5/8 06/15/27",
+      "weight_pct": 1.93,
       "shares": 16216,
       "item_code": null
     },

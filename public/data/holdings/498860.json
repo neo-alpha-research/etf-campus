@@ -1,76 +1,76 @@
 {
   "ticker": "498860",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
-      "name": "KB금융",
-      "weight_pct": 12.73,
-      "shares": 620,
-      "item_code": "105560"
-    },
-    {
       "name": "DB손해보험",
-      "weight_pct": 12.57,
+      "weight_pct": 13.24,
       "shares": 586,
       "item_code": "005830"
     },
     {
+      "name": "KB금융",
+      "weight_pct": 12.45,
+      "shares": 620,
+      "item_code": "105560"
+    },
+    {
       "name": "기업은행",
-      "weight_pct": 11.32,
+      "weight_pct": 11.31,
       "shares": 4615,
       "item_code": "024110"
     },
     {
       "name": "신영증권",
-      "weight_pct": 9.89,
+      "weight_pct": 9.64,
       "shares": 534,
       "item_code": "001720"
     },
     {
       "name": "NH투자증권",
-      "weight_pct": 9.32,
+      "weight_pct": 9.21,
       "shares": 2963,
       "item_code": "005940"
     },
     {
       "name": "교보증권",
-      "weight_pct": 8.66,
+      "weight_pct": 8.69,
       "shares": 7172,
       "item_code": "030610"
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 8.51,
+      "weight_pct": 8.38,
       "shares": 374,
       "item_code": "071050"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 8.16,
+      "weight_pct": 8.11,
       "shares": 783,
       "item_code": "016360"
     },
     {
       "name": "키움증권",
-      "weight_pct": 8.02,
+      "weight_pct": 8.07,
       "shares": 244,
       "item_code": "039490"
     },
     {
       "name": "iM금융지주",
-      "weight_pct": 2.91,
+      "weight_pct": 2.95,
       "shares": 1329,
       "item_code": "139130"
     },
     {
       "name": "삼성생명",
-      "weight_pct": 2.82,
+      "weight_pct": 2.83,
       "shares": 78,
       "item_code": "032830"
     },
     {
       "name": "BNK금융지주",
-      "weight_pct": 2.5,
+      "weight_pct": 2.51,
       "shares": 1392,
       "item_code": "138930"
     },
@@ -82,8 +82,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.4,
-      "shares": 3425322,
+      "weight_pct": 0.43,
+      "shares": 3706764,
       "item_code": null
     }
   ]

@@ -1,76 +1,76 @@
 {
   "ticker": "0218K0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전기",
-      "weight_pct": 18.89,
+      "weight_pct": 18.81,
       "shares": 70,
       "item_code": "009150"
     },
     {
       "name": "현대차",
-      "weight_pct": 13.14,
+      "weight_pct": 13.24,
       "shares": 176,
       "item_code": "005380"
     },
     {
       "name": "기아",
-      "weight_pct": 9.28,
+      "weight_pct": 9.44,
       "shares": 383,
       "item_code": "000270"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 8.73,
+      "weight_pct": 8.66,
       "shares": 104,
       "item_code": "012330"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 8.54,
+      "weight_pct": 8.55,
       "shares": 80,
       "item_code": "006400"
     },
     {
       "name": "LG전자",
-      "weight_pct": 6.65,
+      "weight_pct": 6.44,
       "shares": 166,
       "item_code": "066570"
     },
     {
       "name": "HL만도",
-      "weight_pct": 5.69,
+      "weight_pct": 5.61,
       "shares": 594,
       "item_code": "204320"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 4.19,
+      "weight_pct": 4.13,
       "shares": 60,
       "item_code": "373220"
     },
     {
       "name": "SNT모티브",
-      "weight_pct": 3.22,
+      "weight_pct": 3.34,
       "shares": 669,
       "item_code": "064960"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 2.88,
+      "weight_pct": 2.82,
       "shares": 37,
       "item_code": "307950"
     },
     {
       "name": "삼현",
-      "weight_pct": 2.72,
+      "weight_pct": 2.67,
       "shares": 458,
       "item_code": "437730"
     },
     {
       "name": "에스엘",
-      "weight_pct": 2.59,
+      "weight_pct": 2.61,
       "shares": 263,
       "item_code": "005850"
     },
@@ -82,25 +82,25 @@
     },
     {
       "name": "한온시스템",
-      "weight_pct": 2.07,
+      "weight_pct": 2.12,
       "shares": 3195,
       "item_code": "018880"
     },
     {
       "name": "현대위아",
-      "weight_pct": 1.72,
+      "weight_pct": 1.71,
       "shares": 155,
       "item_code": "011210"
     },
     {
       "name": "한라캐스트",
-      "weight_pct": 1.49,
+      "weight_pct": 1.56,
       "shares": 756,
       "item_code": "125490"
     },
     {
       "name": "PS일렉트로닉스",
-      "weight_pct": 1.47,
+      "weight_pct": 1.54,
       "shares": 1054,
       "item_code": "332570"
     },
@@ -118,14 +118,14 @@
     },
     {
       "name": "슈어소프트테크",
-      "weight_pct": 1.11,
+      "weight_pct": 1.12,
       "shares": 1363,
       "item_code": "298830"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.53,
-      "shares": 2872631,
+      "shares": 2864253,
       "item_code": null
     }
   ]

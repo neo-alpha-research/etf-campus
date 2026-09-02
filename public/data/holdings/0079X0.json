@@ -1,47 +1,47 @@
 {
   "ticker": "0079X0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "BYD",
-      "weight_pct": 24.17,
+      "weight_pct": 22.97,
       "shares": 7660,
       "item_code": "1211.HK"
     },
     {
       "name": "비야디전자",
-      "weight_pct": 15.17,
+      "weight_pct": 16.58,
       "shares": 17857,
       "item_code": "0285.HK"
     },
     {
       "name": "항천기전",
-      "weight_pct": 4.76,
+      "weight_pct": 4.79,
       "shares": 11957,
       "item_code": "600151.SS"
     },
     {
-      "name": "중국소프트웨어국제",
-      "weight_pct": 4.68,
-      "shares": 35015,
-      "item_code": "0354.HK"
-    },
-    {
       "name": "덕새서위",
-      "weight_pct": 4.67,
+      "weight_pct": 4.7,
       "shares": 1329,
       "item_code": "002920.SZ"
     },
     {
+      "name": "중국소프트웨어국제",
+      "weight_pct": 4.6,
+      "shares": 35015,
+      "item_code": "0354.HK"
+    },
+    {
       "name": "천제리튬(톈치리튬)",
-      "weight_pct": 4.58,
+      "weight_pct": 4.57,
       "shares": 2286,
       "item_code": "002466.SZ"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.52,
-      "shares": 23025337,
+      "weight_pct": 4.53,
+      "shares": 23036821,
       "item_code": null
     },
     {
@@ -58,43 +58,43 @@
     },
     {
       "name": "호라이즌 로보틱스",
-      "weight_pct": 4.35,
+      "weight_pct": 4.34,
       "shares": 26768,
       "item_code": "9660.HK"
     },
     {
-      "name": "민실그룹",
-      "weight_pct": 4.28,
-      "shares": 4643,
-      "item_code": "0425.HK"
-    },
-    {
       "name": "하문텅스텐",
-      "weight_pct": 4.18,
+      "weight_pct": 4.14,
       "shares": 1914,
       "item_code": "600549.SS"
     },
     {
+      "name": "민실그룹",
+      "weight_pct": 4.13,
+      "shares": 4643,
+      "item_code": "0425.HK"
+    },
+    {
       "name": "천사첨단신소재",
-      "weight_pct": 4.16,
+      "weight_pct": 4.09,
       "shares": 2800,
       "item_code": "002709.SZ"
     },
     {
       "name": "삼화",
-      "weight_pct": 4.05,
+      "weight_pct": 4.07,
       "shares": 2800,
       "item_code": "002050.SZ"
     },
     {
       "name": "탁보그룹",
-      "weight_pct": 4.04,
+      "weight_pct": 4.02,
       "shares": 2143,
       "item_code": "601689.SS"
     },
     {
       "name": "상달실업",
-      "weight_pct": 3.52,
+      "weight_pct": 3.59,
       "shares": 6057,
       "item_code": "000032.SZ"
     }

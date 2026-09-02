@@ -1,70 +1,70 @@
 {
   "ticker": "367770",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 18.04,
+      "weight_pct": 17.65,
       "shares": 190,
       "item_code": "012450"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 15.57,
+      "weight_pct": 15.66,
       "shares": 2191,
       "item_code": "034020"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 12.85,
+      "weight_pct": 12.81,
       "shares": 329,
       "item_code": "012330"
     },
     {
       "name": "현대차",
-      "weight_pct": 11.3,
+      "weight_pct": 11.43,
       "shares": 325,
       "item_code": "005380"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 10.44,
+      "weight_pct": 10.72,
       "shares": 358,
       "item_code": "005490"
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 7.77,
+      "weight_pct": 7.81,
       "shares": 435,
       "item_code": "010120"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 7.4,
+      "weight_pct": 7.42,
       "shares": 29,
       "item_code": "298040"
     },
     {
       "name": "두산",
-      "weight_pct": 4.24,
+      "weight_pct": 4.13,
       "shares": 39,
       "item_code": "000150"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 3.17,
+      "weight_pct": 3.09,
       "shares": 184,
       "item_code": "003670"
     },
     {
       "name": "한화솔루션",
-      "weight_pct": 2.19,
+      "weight_pct": 2.18,
       "shares": 753,
       "item_code": "009830"
     },
     {
       "name": "현대제철",
-      "weight_pct": 1.22,
+      "weight_pct": 1.26,
       "shares": 469,
       "item_code": "004020"
     },
@@ -76,14 +76,14 @@
     },
     {
       "name": "한온시스템",
-      "weight_pct": 0.83,
+      "weight_pct": 0.85,
       "shares": 2748,
       "item_code": "018880"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.79,
-      "shares": 9243555,
+      "weight_pct": 0.83,
+      "shares": 9536610,
       "item_code": null
     },
     {
@@ -94,7 +94,7 @@
     },
     {
       "name": "SK이터닉스",
-      "weight_pct": 0.5,
+      "weight_pct": 0.48,
       "shares": 106,
       "item_code": "475150"
     },
@@ -105,16 +105,16 @@
       "item_code": "011210"
     },
     {
-      "name": "지엔씨에너지",
-      "weight_pct": 0.23,
-      "shares": 59,
-      "item_code": "119850"
-    },
-    {
       "name": "SK가스",
-      "weight_pct": 0.23,
+      "weight_pct": 0.24,
       "shares": 12,
       "item_code": "018670"
+    },
+    {
+      "name": "지엔씨에너지",
+      "weight_pct": 0.22,
+      "shares": 59,
+      "item_code": "119850"
     },
     {
       "name": "미코",
@@ -130,7 +130,7 @@
     },
     {
       "name": "시노펙스",
-      "weight_pct": 0.15,
+      "weight_pct": 0.16,
       "shares": 458,
       "item_code": "025320"
     },

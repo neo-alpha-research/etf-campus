@@ -1,60 +1,54 @@
 {
   "ticker": "0131V0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 16.44,
+      "weight_pct": 16.51,
       "shares": 359,
       "item_code": "PLTR.O"
     },
     {
       "name": "스페이스X",
-      "weight_pct": 13.67,
+      "weight_pct": 13.93,
       "shares": 393,
       "item_code": "SPCX.O"
     },
     {
       "name": "조비 에비에이션",
-      "weight_pct": 11.08,
+      "weight_pct": 10.9,
       "shares": 6457,
       "item_code": "JOBY.K"
     },
     {
       "name": "베타 테크놀로지스",
-      "weight_pct": 9.92,
+      "weight_pct": 9.93,
       "shares": 2002,
       "item_code": "BETA.K"
     },
     {
       "name": "GE 에어로스페이스",
-      "weight_pct": 9.43,
+      "weight_pct": 9.28,
       "shares": 112,
       "item_code": "GE"
     },
     {
       "name": "아처 에비에이션",
-      "weight_pct": 8.09,
+      "weight_pct": 8.16,
       "shares": 5726,
       "item_code": "ACHR.K"
     },
     {
       "name": "AST 스페이스모바일",
-      "weight_pct": 5.38,
+      "weight_pct": 5.49,
       "shares": 377,
       "item_code": "ASTS.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 5.22,
+      "weight_pct": 5.2,
       "shares": 330,
       "item_code": "RKLB.O"
-    },
-    {
-      "name": "RTX",
-      "weight_pct": 4.58,
-      "shares": 88,
-      "item_code": "RTX"
     },
     {
       "name": "록히드 마틴",
@@ -63,14 +57,20 @@
       "item_code": "LMT"
     },
     {
+      "name": "RTX",
+      "weight_pct": 4.51,
+      "shares": 88,
+      "item_code": "RTX"
+    },
+    {
       "name": "노스롭 그루만",
-      "weight_pct": 4.42,
+      "weight_pct": 4.39,
       "shares": 33,
       "item_code": "NOC"
     },
     {
       "name": "허니웰 에어로스페이스",
-      "weight_pct": 3.03,
+      "weight_pct": 2.96,
       "shares": 76,
       "item_code": "HONA.O"
     },
@@ -82,14 +82,14 @@
     },
     {
       "name": "플래닛 랩스 PBC",
-      "weight_pct": 1.74,
+      "weight_pct": 1.73,
       "shares": 355,
       "item_code": "PL"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.32,
-      "shares": 1784946,
+      "weight_pct": 0.34,
+      "shares": 1916011,
       "item_code": null
     }
   ]

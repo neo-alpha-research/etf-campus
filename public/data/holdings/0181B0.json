@@ -1,71 +1,71 @@
 {
   "ticker": "0181B0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 16.17,
+      "weight_pct": 16.48,
       "shares": 59,
       "item_code": "MU.O"
     },
     {
       "name": "샌디스크",
-      "weight_pct": 15.44,
+      "weight_pct": 16.15,
       "shares": 35,
       "item_code": "SNDK.O"
     },
     {
       "name": "씨게이트",
-      "weight_pct": 15.19,
+      "weight_pct": 15.04,
       "shares": 62,
       "item_code": "STX.O"
     },
     {
       "name": "웨스턴 디지털",
-      "weight_pct": 13.72,
+      "weight_pct": 13.34,
       "shares": 102,
       "item_code": "WDC.O"
     },
     {
       "name": "ASML 홀딩 ADR",
-      "weight_pct": 7.3,
+      "weight_pct": 7.24,
       "shares": 14,
       "item_code": "ASML.O"
     },
     {
       "name": "온투 이노베이션",
-      "weight_pct": 7.11,
+      "weight_pct": 6.96,
       "shares": 89,
       "item_code": "ONTO.K"
     },
     {
       "name": "KLA",
-      "weight_pct": 6.34,
+      "weight_pct": 6.29,
       "shares": 123,
       "item_code": "KLAC.O"
     },
     {
       "name": "램 리서치",
-      "weight_pct": 6.29,
+      "weight_pct": 6.22,
       "shares": 71,
       "item_code": "LRCX.O"
     },
     {
       "name": "실리콘 모션 테크놀로지 ADR",
-      "weight_pct": 5.8,
+      "weight_pct": 5.78,
       "shares": 80,
       "item_code": "SIMO.O"
     },
     {
       "name": "앰코 테크놀로지",
-      "weight_pct": 5.55,
+      "weight_pct": 5.43,
       "shares": 396,
       "item_code": "AMKR.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.03,
-      "shares": 4828895,
+      "weight_pct": 1.02,
+      "shares": 4822147,
       "item_code": null
     }
   ]

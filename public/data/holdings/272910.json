@@ -1,172 +1,178 @@
 {
   "ticker": "272910",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "부산항만공사42-2",
-      "weight_pct": 13.96,
+      "weight_pct": 13.6,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력980",
-      "weight_pct": 13.37,
+      "weight_pct": 13.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국철도공사139",
-      "weight_pct": 9.78,
+      "weight_pct": 9.53,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03000-2909(24-7)",
-      "weight_pct": 8.23,
+      "weight_pct": 8.01,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03375-3206(22-5)",
-      "weight_pct": 8.06,
+      "weight_pct": 7.83,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국민은행(CD)",
-      "weight_pct": 6.89,
+      "weight_pct": 6.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대한석탄공사(CP)",
-      "weight_pct": 6.88,
+      "weight_pct": 6.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03500-2809(23-6)",
-      "weight_pct": 5.61,
+      "weight_pct": 5.46,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력1567",
-      "weight_pct": 5.5,
+      "weight_pct": 5.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 4.11,
+      "weight_pct": 3.99,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권01500-3012(20-9)",
-      "weight_pct": 3.76,
+      "weight_pct": 3.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03500-3406(24-5)",
-      "weight_pct": 3.32,
+      "weight_pct": 3.22,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권01375-3006(20-4)",
-      "weight_pct": 3.29,
+      "weight_pct": 3.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "서울교통공사2025-3",
-      "weight_pct": 3.21,
+      "weight_pct": 3.12,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "경기주택도시공사23-06-59",
-      "weight_pct": 2.8,
+      "weight_pct": 2.73,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03000-2803(26-1)",
-      "weight_pct": 2.78,
+      "weight_pct": 2.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국민은행(CD)",
-      "weight_pct": 2.75,
+      "weight_pct": 2.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-2806(18-4)",
-      "weight_pct": 2.74,
+      "weight_pct": 2.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02375-2812(18-10)",
-      "weight_pct": 2.7,
+      "weight_pct": 2.63,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력1497",
-      "weight_pct": 2.65,
+      "weight_pct": 2.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03000-3412(24-13)",
-      "weight_pct": 2.54,
+      "weight_pct": 2.47,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고04250-3212(22-14)",
-      "weight_pct": 1.4,
+      "weight_pct": 1.36,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고00000-3109(26-9)",
+      "weight_pct": 1.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고04125-3312(23-11)",
-      "weight_pct": 1.39,
+      "weight_pct": 1.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-3306(23-5)",
-      "weight_pct": 1.32,
+      "weight_pct": 1.28,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-3512(25-11)",
-      "weight_pct": 1.28,
+      "weight_pct": 1.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "토지주택채권557",
-      "weight_pct": 1.28,
+      "weight_pct": 1.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02375-3112(21-11)",
-      "weight_pct": 1.28,
+      "weight_pct": 1.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3506(25-5)",
-      "weight_pct": 1.22,
+      "weight_pct": 1.19,
       "shares": 0,
       "item_code": null
     },
@@ -178,8 +184,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -24.22,
-      "shares": -25715290,
+      "weight_pct": -22.23,
+      "shares": -23568568,
       "item_code": null
     }
   ]

@@ -1,34 +1,34 @@
 {
   "ticker": "225040",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 77.36,
-      "shares": 1054575299,
+      "weight_pct": 77.78,
+      "shares": 1053301047,
       "item_code": null
     },
     {
       "name": "TIGER 미국S&P500선물(H)",
-      "weight_pct": 9.72,
+      "weight_pct": 9.77,
       "shares": 1710,
       "item_code": "143850"
     },
     {
       "name": "미국S&P500 TRS(미래에셋증권)",
-      "weight_pct": 8.07,
-      "shares": 110120632,
+      "weight_pct": 7.86,
+      "shares": 106517074,
       "item_code": null
     },
     {
       "name": "S&P500 Index USD (Leverage) TRS 260421-0",
-      "weight_pct": 3.05,
-      "shares": 41640158,
+      "weight_pct": 2.78,
+      "shares": 37702073,
       "item_code": null
     },
     {
       "name": "State Street SPDR S&P 500 ETF Trust",
-      "weight_pct": 1.77,
+      "weight_pct": 1.78,
       "shares": 23,
       "item_code": "SPY"
     }

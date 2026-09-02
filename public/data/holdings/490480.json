@@ -1,52 +1,52 @@
 {
   "ticker": "490480",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 29.17,
+      "weight_pct": 28.63,
       "shares": 384,
       "item_code": "012450"
     },
     {
       "name": "LIG디펜스앤에어로스페이스",
-      "weight_pct": 14.16,
+      "weight_pct": 14.29,
       "shares": 296,
       "item_code": "079550"
     },
     {
       "name": "한화오션",
-      "weight_pct": 13.58,
+      "weight_pct": 13.87,
       "shares": 2239,
       "item_code": "042660"
     },
     {
       "name": "한국항공우주",
-      "weight_pct": 13.23,
+      "weight_pct": 13.13,
       "shares": 1465,
       "item_code": "047810"
     },
     {
       "name": "HD현대중공업",
-      "weight_pct": 10.16,
+      "weight_pct": 10.47,
       "shares": 328,
       "item_code": "329180"
     },
     {
       "name": "한화시스템",
-      "weight_pct": 6.06,
+      "weight_pct": 5.97,
       "shares": 1201,
       "item_code": "272210"
     },
     {
       "name": "현대로템",
-      "weight_pct": 5.51,
+      "weight_pct": 5.39,
       "shares": 587,
       "item_code": "064350"
     },
     {
       "name": "풍산",
-      "weight_pct": 4.04,
+      "weight_pct": 4.08,
       "shares": 717,
       "item_code": "103140"
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "인텔리안테크",
-      "weight_pct": 1.93,
+      "weight_pct": 1.97,
       "shares": 445,
       "item_code": "189300"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.04,
-      "shares": 703996,
+      "weight_pct": 0.07,
+      "shares": 1104930,
       "item_code": null
     }
   ]

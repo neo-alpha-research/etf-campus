@@ -1,34 +1,34 @@
 {
   "ticker": "448330",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 28.81,
+      "weight_pct": 28.91,
       "shares": 1925,
       "item_code": "005930"
     },
     {
       "name": "국고02750-2812(25-10)",
-      "weight_pct": 20.32,
+      "weight_pct": 20.3,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 15.93,
+      "weight_pct": 15.89,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KODEX 국고채3년",
-      "weight_pct": 14.88,
+      "weight_pct": 14.86,
       "shares": 4179,
       "item_code": "114260"
     },
     {
       "name": "국고02250-2806(25-4)",
-      "weight_pct": 12.14,
+      "weight_pct": 12.13,
       "shares": 0,
       "item_code": null
     },
@@ -40,19 +40,19 @@
     },
     {
       "name": "2026-09 국채선물3(신)",
-      "weight_pct": 3.09,
+      "weight_pct": 2.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.68,
-      "shares": 46577538,
+      "weight_pct": 1.9,
+      "shares": 33160133,
       "item_code": null
     },
     {
       "name": "2026-09 삼성전자개별선물",
-      "weight_pct": 1.44,
+      "weight_pct": 1.45,
       "shares": 9,
       "item_code": null
     },
@@ -67,6 +67,12 @@
       "weight_pct": 0.89,
       "shares": 135,
       "item_code": "273140"
+    },
+    {
+      "name": "국고03500-2906(26-5)",
+      "weight_pct": 0.77,
+      "shares": 0,
+      "item_code": null
     }
   ]
 }

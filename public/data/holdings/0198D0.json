@@ -1,22 +1,22 @@
 {
   "ticker": "0198D0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "SK하이닉스 F 202609 (  10)",
-      "weight_pct": 153.85,
+      "weight_pct": 154.88,
       "shares": 4,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 54.04,
-      "shares": 23621733,
+      "weight_pct": 54.44,
+      "shares": 24279800,
       "item_code": null
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 45.95,
+      "weight_pct": 45.55,
       "shares": 12,
       "item_code": "000660"
     }

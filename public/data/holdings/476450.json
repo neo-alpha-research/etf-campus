@@ -1,6 +1,6 @@
 {
   "ticker": "476450",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "WON 전단채플러스액티브",
@@ -112,20 +112,20 @@
     },
     {
       "name": "대신에프앤아이 20251114-364-43",
-      "weight_pct": 3.7,
+      "weight_pct": 3.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "대신에프앤아이 20251114-364-44",
-      "weight_pct": 3.7,
+      "weight_pct": 3.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화예금",
       "weight_pct": -27.41,
-      "shares": -28931391,
+      "shares": -28934048,
       "item_code": null
     }
   ]

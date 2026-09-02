@@ -1,42 +1,42 @@
 {
   "ticker": "138530",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "LG유플러스",
-      "weight_pct": 17.94,
+      "weight_pct": 18.53,
       "shares": 3089,
       "item_code": "032640"
     },
     {
       "name": "LG화학",
-      "weight_pct": 15.62,
+      "weight_pct": 16.0,
       "shares": 144,
       "item_code": "051910"
     },
     {
       "name": "LG전자",
-      "weight_pct": 14.09,
+      "weight_pct": 13.67,
       "shares": 168,
       "item_code": "066570"
     },
     {
       "name": "LG",
-      "weight_pct": 9.3,
+      "weight_pct": 9.53,
       "shares": 201,
       "item_code": "003550"
     },
     {
-      "name": "GS건설",
-      "weight_pct": 7.62,
-      "shares": 542,
-      "item_code": "006360"
-    },
-    {
       "name": "GS",
-      "weight_pct": 7.19,
+      "weight_pct": 7.17,
       "shares": 146,
       "item_code": "078930"
+    },
+    {
+      "name": "GS건설",
+      "weight_pct": 7.11,
+      "shares": 542,
+      "item_code": "006360"
     },
     {
       "name": "LG디스플레이",
@@ -46,50 +46,50 @@
     },
     {
       "name": "LG생활건강",
-      "weight_pct": 4.48,
+      "weight_pct": 4.46,
       "shares": 37,
       "item_code": "051900"
     },
     {
       "name": "LG이노텍",
-      "weight_pct": 4.22,
+      "weight_pct": 3.95,
       "shares": 17,
       "item_code": "011070"
     },
     {
       "name": "GS리테일",
-      "weight_pct": 3.15,
+      "weight_pct": 3.2,
       "shares": 309,
       "item_code": "007070"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 2.92,
+      "weight_pct": 2.89,
       "shares": 20,
       "item_code": "373220"
     },
     {
       "name": "LG씨엔에스",
-      "weight_pct": 2.87,
+      "weight_pct": 2.86,
       "shares": 96,
       "item_code": "064400"
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 1.92,
+      "weight_pct": 1.93,
       "shares": 24,
       "item_code": "010120"
     },
     {
       "name": "LS",
-      "weight_pct": 1.56,
+      "weight_pct": 1.58,
       "shares": 13,
       "item_code": "006260"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.75,
-      "shares": 1947485,
+      "weight_pct": 0.76,
+      "shares": 1943243,
       "item_code": null
     },
     {
@@ -118,7 +118,7 @@
     },
     {
       "name": "로보스타",
-      "weight_pct": 0.06,
+      "weight_pct": 0.05,
       "shares": 2,
       "item_code": "090360"
     },

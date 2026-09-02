@@ -1,29 +1,29 @@
 {
   "ticker": "219390",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "스왑(키움증권) 200723_4443",
-      "weight_pct": 36.89,
-      "shares": 150892131,
+      "weight_pct": 36.87,
+      "shares": 153199160,
       "item_code": null
     },
     {
       "name": "스왑(NH투자증권) 200605 - 4443",
-      "weight_pct": 32.24,
-      "shares": 131855671,
+      "weight_pct": 32.26,
+      "shares": 134040589,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)_240109",
-      "weight_pct": 30.31,
-      "shares": 123970828,
+      "weight_pct": 30.32,
+      "shares": 125968261,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.54,
-      "shares": 2208889,
+      "weight_pct": 0.53,
+      "shares": 2202033,
       "item_code": null
     }
   ]

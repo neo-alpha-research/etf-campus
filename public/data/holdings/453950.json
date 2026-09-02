@@ -1,76 +1,76 @@
 {
   "ticker": "453950",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "TAIWAN SEMICONDUCTOR MANUFAC",
-      "weight_pct": 29.16,
+      "weight_pct": 29.39,
       "shares": 4556,
       "item_code": null
     },
     {
-      "name": "ASML HOLDING NV",
-      "weight_pct": 8.28,
-      "shares": 57,
-      "item_code": null
-    },
-    {
-      "name": "어드반테스트",
-      "weight_pct": 8.22,
-      "shares": 444,
-      "item_code": "6857.T"
-    },
-    {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 8.17,
+      "weight_pct": 8.21,
       "shares": 211,
       "item_code": "AMAT.O"
     },
     {
+      "name": "ASML HOLDING NV",
+      "weight_pct": 8.15,
+      "shares": 57,
+      "item_code": null
+    },
+    {
       "name": "도쿄일렉트론",
-      "weight_pct": 7.94,
+      "weight_pct": 8.05,
       "shares": 269,
       "item_code": "8035.T"
     },
     {
       "name": "램 리서치",
-      "weight_pct": 7.93,
+      "weight_pct": 8.01,
       "shares": 313,
       "item_code": "LRCX.O"
     },
     {
+      "name": "어드반테스트",
+      "weight_pct": 7.94,
+      "shares": 444,
+      "item_code": "6857.T"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 6.4,
-      "shares": 104433522,
+      "weight_pct": 6.44,
+      "shares": 104028348,
       "item_code": null
     },
     {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 4.79,
+      "weight_pct": 4.83,
       "shares": 168,
       "item_code": "CDNS.O"
     },
     {
       "name": "시놉시스",
-      "weight_pct": 4.16,
+      "weight_pct": 4.18,
       "shares": 112,
       "item_code": "SNPS.O"
     },
     {
       "name": "ASE TECHNOLOGY HOLDING CO LT",
-      "weight_pct": 3.11,
+      "weight_pct": 2.96,
       "shares": 1894,
       "item_code": null
     },
     {
       "name": "테라다인",
-      "weight_pct": 2.83,
+      "weight_pct": 2.82,
       "shares": 95,
       "item_code": "TER.O"
     },
     {
       "name": "ASM INTERNATIONAL NV",
-      "weight_pct": 2.32,
+      "weight_pct": 2.3,
       "shares": 29,
       "item_code": null
     },
@@ -82,13 +82,13 @@
     },
     {
       "name": "인테그리스",
-      "weight_pct": 1.04,
+      "weight_pct": 1.05,
       "shares": 92,
       "item_code": "ENTG.O"
     },
     {
       "name": "레이져테크",
-      "weight_pct": 0.85,
+      "weight_pct": 0.83,
       "shares": 47,
       "item_code": "6920.T"
     },
@@ -100,25 +100,25 @@
     },
     {
       "name": "GLOBAL UNICHIP CORP",
-      "weight_pct": 0.74,
+      "weight_pct": 0.76,
       "shares": 47,
       "item_code": null
     },
     {
       "name": "KLA",
-      "weight_pct": 0.69,
+      "weight_pct": 0.7,
       "shares": 47,
       "item_code": "KLAC.O"
     },
     {
       "name": "스크린 홀딩스",
-      "weight_pct": 0.66,
+      "weight_pct": 0.67,
       "shares": 93,
       "item_code": "7735.T"
     },
     {
       "name": "EMEMORY TECHNOLOGY INC",
-      "weight_pct": 0.27,
+      "weight_pct": 0.26,
       "shares": 41,
       "item_code": null
     },

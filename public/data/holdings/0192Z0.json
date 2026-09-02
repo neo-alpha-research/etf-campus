@@ -1,6 +1,6 @@
 {
   "ticker": "0192Z0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고채권02250-2806(25-4)",
@@ -10,13 +10,13 @@
     },
     {
       "name": "국고채권02625-3003(25-3)",
-      "weight_pct": 9.05,
+      "weight_pct": 9.04,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "경기주택도시공사26-05-138",
-      "weight_pct": 5.22,
+      "weight_pct": 5.21,
       "shares": 0,
       "item_code": null
     },
@@ -27,13 +27,13 @@
       "item_code": null
     },
     {
-      "name": "국고채권02875-2712(24-12)",
-      "weight_pct": 5.17,
+      "name": "케이비증권 20260520-120-71",
+      "weight_pct": 5.18,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "케이비증권 20260520-120-71",
+      "name": "국고채권02875-2712(24-12)",
       "weight_pct": 5.17,
       "shares": 0,
       "item_code": null
@@ -64,7 +64,7 @@
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 5.12,
+      "weight_pct": 5.11,
       "shares": 0,
       "item_code": null
     },
@@ -125,7 +125,13 @@
     {
       "name": "원화현금",
       "weight_pct": 1.22,
-      "shares": 1234516,
+      "shares": 1234688,
+      "item_code": null
+    },
+    {
+      "name": "3년국채 F 202609",
+      "weight_pct": 0.79,
+      "shares": 0,
       "item_code": null
     }
   ]

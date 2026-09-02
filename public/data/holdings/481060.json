@@ -1,35 +1,35 @@
 {
   "ticker": "481060",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 102.23,
-      "shares": 382595763,
+      "weight_pct": 102.47,
+      "shares": 382615283,
       "item_code": null
     },
     {
       "name": "스왑(하나금융투자)",
-      "weight_pct": -0.38,
-      "shares": -1458819,
-      "item_code": null
-    },
-    {
-      "name": "스왑(삼성증권)",
-      "weight_pct": -0.46,
-      "shares": -1727905,
+      "weight_pct": -0.44,
+      "shares": -1654323,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)",
-      "weight_pct": -0.48,
-      "shares": -1815346,
+      "weight_pct": -0.52,
+      "shares": -1953973,
+      "item_code": null
+    },
+    {
+      "name": "스왑(삼성증권)",
+      "weight_pct": -0.54,
+      "shares": -2037437,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)",
-      "weight_pct": -0.89,
-      "shares": -3347892,
+      "weight_pct": -0.96,
+      "shares": -3586436,
       "item_code": null
     }
   ]

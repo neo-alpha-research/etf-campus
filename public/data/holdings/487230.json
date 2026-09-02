@@ -1,52 +1,52 @@
 {
   "ticker": "487230",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "버티브 홀딩스",
-      "weight_pct": 16.4,
+      "weight_pct": 16.58,
       "shares": 429,
       "item_code": "VRT"
     },
     {
       "name": "GE 버노바",
-      "weight_pct": 16.13,
+      "weight_pct": 15.97,
       "shares": 119,
       "item_code": "GEV"
     },
     {
       "name": "블룸 에너지",
-      "weight_pct": 15.9,
-      "shares": 507,
+      "weight_pct": 15.63,
+      "shares": 508,
       "item_code": "BE"
     },
     {
       "name": "콴타 서비스",
-      "weight_pct": 11.39,
+      "weight_pct": 11.52,
       "shares": 127,
       "item_code": "PWR"
     },
     {
       "name": "컴포트 시스템즈 USA",
-      "weight_pct": 11.19,
+      "weight_pct": 11.44,
       "shares": 49,
       "item_code": "FIX"
     },
     {
       "name": "카메코",
-      "weight_pct": 9.27,
-      "shares": 623,
+      "weight_pct": 9.19,
+      "shares": 624,
       "item_code": "CCJ"
     },
     {
       "name": "스털링 인프라스트럭처",
-      "weight_pct": 5.75,
+      "weight_pct": 5.77,
       "shares": 82,
       "item_code": "STRL.O"
     },
     {
       "name": "포전트 파워 솔루션스",
-      "weight_pct": 4.32,
+      "weight_pct": 4.36,
       "shares": 957,
       "item_code": "FPS"
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "파월 인더스트리스",
-      "weight_pct": 4.26,
+      "weight_pct": 4.21,
       "shares": 157,
       "item_code": "POWL.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.05,
-      "shares": 9687419,
+      "weight_pct": 1.0,
+      "shares": 9221728,
       "item_code": null
     }
   ]

@@ -1,6 +1,6 @@
 {
   "ticker": "488980",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "우리금융캐피탈499-3",
@@ -111,6 +111,12 @@
       "item_code": null
     },
     {
+      "name": "연합자산관리38-1",
+      "weight_pct": 4.53,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "지에스리테일36-1",
       "weight_pct": 4.53,
       "shares": 0,
@@ -135,12 +141,6 @@
       "item_code": null
     },
     {
-      "name": "연합자산관리38-1",
-      "weight_pct": 4.52,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "국민은행(CD)",
       "weight_pct": 2.26,
       "shares": 0,
@@ -155,7 +155,7 @@
     {
       "name": "원화현금",
       "weight_pct": -9.15,
-      "shares": -9537949,
+      "shares": -9538971,
       "item_code": null
     }
   ]

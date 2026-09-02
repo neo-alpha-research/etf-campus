@@ -1,130 +1,130 @@
 {
   "ticker": "411860",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "SIEMENS AG-REG",
-      "weight_pct": 11.96,
+      "weight_pct": 11.93,
       "shares": 225,
       "item_code": null
     },
     {
       "name": "SAP SE",
-      "weight_pct": 10.91,
+      "weight_pct": 11.01,
       "shares": 310,
       "item_code": null
     },
     {
       "name": "ALLIANZ SE-REG",
-      "weight_pct": 9.68,
+      "weight_pct": 9.77,
       "shares": 116,
       "item_code": null
     },
     {
-      "name": "SIEMENS ENERGY AG",
-      "weight_pct": 6.88,
-      "shares": 249,
-      "item_code": null
-    },
-    {
       "name": "AIRBUS SE",
-      "weight_pct": 6.75,
+      "weight_pct": 6.63,
       "shares": 180,
       "item_code": null
     },
     {
+      "name": "SIEMENS ENERGY AG",
+      "weight_pct": 6.61,
+      "shares": 249,
+      "item_code": null
+    },
+    {
       "name": "DEUTSCHE TELEKOM AG-REG",
-      "weight_pct": 5.58,
+      "weight_pct": 5.61,
       "shares": 1064,
       "item_code": null
     },
     {
       "name": "INFINEON TECHNOLOGIES AG",
-      "weight_pct": 4.17,
+      "weight_pct": 4.2,
       "shares": 401,
       "item_code": null
     },
     {
       "name": "도이치은행",
-      "weight_pct": 3.76,
+      "weight_pct": 3.78,
       "shares": 587,
       "item_code": "DB"
     },
     {
       "name": "MUENCHENER RUECKVER AG-REG",
-      "weight_pct": 3.71,
+      "weight_pct": 3.75,
       "shares": 39,
       "item_code": null
     },
     {
       "name": "DEUTSCHE BOERSE AG",
-      "weight_pct": 3.08,
+      "weight_pct": 3.06,
       "shares": 57,
       "item_code": null
     },
     {
-      "name": "RHEINMETALL AG",
-      "weight_pct": 3.04,
-      "shares": 14,
-      "item_code": null
-    },
-    {
-      "name": "DHL GROUP",
-      "weight_pct": 3.0,
+      "name": "DHL AG",
+      "weight_pct": 3.02,
       "shares": 290,
       "item_code": null
     },
     {
+      "name": "RHEINMETALL AG",
+      "weight_pct": 2.96,
+      "shares": 14,
+      "item_code": null
+    },
+    {
       "name": "BAYER AG-REG",
-      "weight_pct": 2.7,
+      "weight_pct": 2.74,
       "shares": 301,
       "item_code": null
     },
     {
       "name": "BASF SE",
-      "weight_pct": 2.64,
+      "weight_pct": 2.68,
       "shares": 274,
       "item_code": null
     },
     {
       "name": "E.ON SE",
-      "weight_pct": 2.25,
+      "weight_pct": 2.27,
       "shares": 689,
       "item_code": null
     },
     {
       "name": "RWE AG",
-      "weight_pct": 2.12,
+      "weight_pct": 2.13,
       "shares": 196,
       "item_code": null
     },
     {
       "name": "MERCEDES-BENZ GROUP AG",
-      "weight_pct": 1.89,
+      "weight_pct": 1.93,
       "shares": 221,
       "item_code": null
     },
     {
       "name": "ADIDAS AG",
-      "weight_pct": 1.56,
+      "weight_pct": 1.55,
       "shares": 55,
       "item_code": null
     },
     {
       "name": "DAIMLER TRUCK HOLDING AG",
-      "weight_pct": 1.36,
+      "weight_pct": 1.38,
       "shares": 159,
       "item_code": null
     },
     {
       "name": "HEIDELBERG MATERIALS AG",
-      "weight_pct": 1.2,
+      "weight_pct": 1.18,
       "shares": 38,
       "item_code": null
     },
     {
       "name": "MTU AERO ENGINES AG",
-      "weight_pct": 1.09,
+      "weight_pct": 1.08,
       "shares": 16,
       "item_code": null
     },
@@ -136,25 +136,25 @@
     },
     {
       "name": "COMMERZBANK AG",
-      "weight_pct": 0.99,
+      "weight_pct": 1.0,
       "shares": 134,
       "item_code": null
     },
     {
       "name": "BAYERISCHE MOTOREN WERKE AG",
-      "weight_pct": 0.98,
+      "weight_pct": 0.99,
       "shares": 85,
       "item_code": null
     },
     {
       "name": "VOLKSWAGEN AG-PREF",
-      "weight_pct": 0.89,
+      "weight_pct": 0.91,
       "shares": 63,
       "item_code": null
     },
     {
       "name": "HANNOVER RUECK SE",
-      "weight_pct": 0.87,
+      "weight_pct": 0.88,
       "shares": 18,
       "item_code": null
     },
@@ -166,7 +166,7 @@
     },
     {
       "name": "VONOVIA SE",
-      "weight_pct": 0.81,
+      "weight_pct": 0.8,
       "shares": 224,
       "item_code": null
     },
@@ -178,7 +178,7 @@
     },
     {
       "name": "HENKEL AG & CO KGAA VOR-PREF",
-      "weight_pct": 0.64,
+      "weight_pct": 0.65,
       "shares": 46,
       "item_code": null
     },
@@ -190,9 +190,15 @@
     },
     {
       "name": "퀴아젠",
-      "weight_pct": 0.43,
+      "weight_pct": 0.44,
       "shares": 63,
       "item_code": "QGEN.K"
+    },
+    {
+      "name": "CONTINENTAL AG",
+      "weight_pct": 0.44,
+      "shares": 33,
+      "item_code": null
     },
     {
       "name": "FRESENIUS MEDICAL CARE AG",
@@ -202,19 +208,13 @@
     },
     {
       "name": "HOCHTIEF AG",
-      "weight_pct": 0.42,
+      "weight_pct": 0.41,
       "shares": 5,
       "item_code": null
     },
     {
-      "name": "CONTINENTAL AG",
-      "weight_pct": 0.42,
-      "shares": 33,
-      "item_code": null
-    },
-    {
       "name": "BRENNTAG SE",
-      "weight_pct": 0.4,
+      "weight_pct": 0.41,
       "shares": 35,
       "item_code": null
     },
@@ -232,14 +232,14 @@
     },
     {
       "name": "ZALANDO SE",
-      "weight_pct": 0.32,
+      "weight_pct": 0.33,
       "shares": 72,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.94,
-      "shares": -8146203,
+      "weight_pct": -0.96,
+      "shares": -8216300,
       "item_code": null
     }
   ]

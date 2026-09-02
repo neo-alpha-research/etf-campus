@@ -1,23 +1,23 @@
 {
   "ticker": "476750",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "BRJ iShares 20+ Year US Treasury Bond JPY H ETF",
-      "weight_pct": 19.04,
+      "weight_pct": 19.15,
       "shares": 16259,
       "item_code": "2621.T"
     },
     {
       "name": "[USD] 예금",
-      "weight_pct": 18.68,
-      "shares": 100289,
+      "weight_pct": 18.82,
+      "shares": 100271,
       "item_code": null
     },
     {
       "name": "[JPY] 예금",
-      "weight_pct": 13.16,
-      "shares": 11297317,
+      "weight_pct": 13.25,
+      "shares": 11297782,
       "item_code": null
     },
     {
@@ -27,20 +27,20 @@
       "item_code": "EDV"
     },
     {
-      "name": "SP 0 08/15/55",
+      "name": "T 4 5/8 11/15/55",
       "weight_pct": 6.34,
+      "shares": 37437,
+      "item_code": null
+    },
+    {
+      "name": "SP 0 08/15/55",
+      "weight_pct": 6.3,
       "shares": 154320,
       "item_code": null
     },
     {
-      "name": "T 4 5/8 11/15/55",
-      "weight_pct": 6.33,
-      "shares": 37317,
-      "item_code": null
-    },
-    {
       "name": "SP 0 11/15/55",
-      "weight_pct": 5.27,
+      "weight_pct": 5.23,
       "shares": 129629,
       "item_code": null
     },
@@ -52,19 +52,19 @@
     },
     {
       "name": "SP 0 05/15/55",
-      "weight_pct": 4.98,
+      "weight_pct": 4.95,
       "shares": 119753,
       "item_code": null
     },
     {
       "name": "SP 0 02/15/55",
-      "weight_pct": 4.67,
+      "weight_pct": 4.64,
       "shares": 111111,
       "item_code": null
     },
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 4.28,
+      "weight_pct": 4.3,
       "shares": 277,
       "item_code": "TLT.O"
     },
@@ -82,25 +82,25 @@
     },
     {
       "name": "T 1 7/8 02/15/51",
-      "weight_pct": 1.1,
+      "weight_pct": 1.09,
       "shares": 11111,
       "item_code": null
     },
     {
       "name": "T 4 1/8 08/15/53",
-      "weight_pct": 0.77,
+      "weight_pct": 0.76,
       "shares": 4938,
       "item_code": null
     },
     {
       "name": "T 4 1/4 08/15/54",
-      "weight_pct": 0.59,
+      "weight_pct": 0.58,
       "shares": 3703,
       "item_code": null
     },
     {
       "name": "T 4 1/4 02/15/54",
-      "weight_pct": 0.59,
+      "weight_pct": 0.58,
       "shares": 3703,
       "item_code": null
     },
@@ -148,8 +148,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -5.19,
-      "shares": -38169622,
+      "weight_pct": -5.35,
+      "shares": -39096461,
       "item_code": null
     }
   ]

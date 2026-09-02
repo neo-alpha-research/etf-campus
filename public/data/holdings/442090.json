@@ -1,70 +1,70 @@
 {
   "ticker": "442090",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "SK하이닉스",
-      "weight_pct": 12.09,
+      "weight_pct": 12.34,
       "shares": 216,
       "item_code": "000660"
     },
     {
       "name": "삼성전자우",
-      "weight_pct": 9.28,
+      "weight_pct": 9.56,
       "shares": 1488,
       "item_code": "005935"
     },
     {
-      "name": "한화에어로스페이스",
-      "weight_pct": 5.34,
-      "shares": 145,
-      "item_code": "012450"
-    },
-    {
       "name": "S-Oil",
-      "weight_pct": 5.27,
+      "weight_pct": 5.37,
       "shares": 1050,
       "item_code": "010950"
     },
     {
+      "name": "한화에어로스페이스",
+      "weight_pct": 5.18,
+      "shares": 145,
+      "item_code": "012450"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 4.99,
-      "shares": 149363740,
+      "weight_pct": 5.03,
+      "shares": 149225717,
       "item_code": null
     },
     {
       "name": "OCI홀딩스",
-      "weight_pct": 4.75,
+      "weight_pct": 4.55,
       "shares": 512,
       "item_code": "010060"
     },
     {
       "name": "이엔에프테크놀로지",
-      "weight_pct": 4.44,
+      "weight_pct": 4.35,
       "shares": 2985,
       "item_code": "102710"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 4.12,
+      "weight_pct": 4.11,
       "shares": 214,
       "item_code": "006400"
     },
     {
       "name": "SK가스",
-      "weight_pct": 3.94,
+      "weight_pct": 4.1,
       "shares": 517,
       "item_code": "018670"
     },
     {
       "name": "송원산업",
-      "weight_pct": 3.8,
+      "weight_pct": 3.9,
       "shares": 9924,
       "item_code": "004430"
     },
     {
       "name": "티씨케이",
-      "weight_pct": 3.69,
+      "weight_pct": 3.62,
       "shares": 446,
       "item_code": "064760"
     },
@@ -76,55 +76,55 @@
     },
     {
       "name": "티에스이",
-      "weight_pct": 3.03,
+      "weight_pct": 2.88,
       "shares": 383,
       "item_code": "131290"
     },
     {
       "name": "동진쎄미켐",
-      "weight_pct": 2.72,
+      "weight_pct": 2.71,
       "shares": 1916,
       "item_code": "005290"
     },
     {
       "name": "주성엔지니어링",
-      "weight_pct": 2.33,
+      "weight_pct": 2.3,
       "shares": 394,
       "item_code": "036930"
     },
     {
       "name": "효성티앤씨",
-      "weight_pct": 2.24,
+      "weight_pct": 2.2,
       "shares": 189,
       "item_code": "298020"
     },
     {
       "name": "에이치브이엠",
-      "weight_pct": 2.13,
+      "weight_pct": 2.12,
       "shares": 1394,
       "item_code": "295310"
     },
     {
       "name": "산일전기",
-      "weight_pct": 2.09,
+      "weight_pct": 2.1,
       "shares": 319,
       "item_code": "062040"
     },
     {
       "name": "와이지-원",
-      "weight_pct": 2.07,
+      "weight_pct": 2.01,
       "shares": 4339,
       "item_code": "019210"
     },
     {
       "name": "파크시스템스",
-      "weight_pct": 2.07,
+      "weight_pct": 1.99,
       "shares": 236,
       "item_code": "140860"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 1.98,
+      "weight_pct": 1.96,
       "shares": 20,
       "item_code": "298040"
     },
@@ -135,50 +135,50 @@
       "item_code": "005380"
     },
     {
-      "name": "이오테크닉스",
-      "weight_pct": 1.85,
-      "shares": 137,
-      "item_code": "039030"
-    },
-    {
       "name": "삼성전기",
-      "weight_pct": 1.85,
+      "weight_pct": 1.83,
       "shares": 38,
       "item_code": "009150"
     },
     {
-      "name": "RF머트리얼즈",
-      "weight_pct": 1.76,
-      "shares": 1440,
-      "item_code": "327260"
+      "name": "이오테크닉스",
+      "weight_pct": 1.82,
+      "shares": 137,
+      "item_code": "039030"
     },
     {
       "name": "솔루엠",
-      "weight_pct": 1.71,
+      "weight_pct": 1.74,
       "shares": 3836,
       "item_code": "248070"
     },
     {
+      "name": "RF머트리얼즈",
+      "weight_pct": 1.69,
+      "shares": 1440,
+      "item_code": "327260"
+    },
+    {
       "name": "비츠로셀",
-      "weight_pct": 1.39,
+      "weight_pct": 1.47,
       "shares": 1614,
       "item_code": "082920"
     },
     {
-      "name": "휴젤",
-      "weight_pct": 1.33,
-      "shares": 158,
-      "item_code": "145020"
-    },
-    {
       "name": "HD현대중공업",
-      "weight_pct": 1.33,
+      "weight_pct": 1.36,
       "shares": 89,
       "item_code": "329180"
     },
     {
+      "name": "휴젤",
+      "weight_pct": 1.3,
+      "shares": 158,
+      "item_code": "145020"
+    },
+    {
       "name": "코미코",
-      "weight_pct": 1.28,
+      "weight_pct": 1.25,
       "shares": 1458,
       "item_code": "183300"
     }

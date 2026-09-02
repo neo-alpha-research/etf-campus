@@ -1,113 +1,113 @@
 {
   "ticker": "0180V0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "스페이스X",
-      "weight_pct": 32.54,
-      "shares": 647,
+      "weight_pct": 32.88,
+      "shares": 645,
       "item_code": "SPCX.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 14.28,
-      "shares": 624,
+      "weight_pct": 14.58,
+      "shares": 643,
       "item_code": "RKLB.O"
     },
     {
       "name": "보이저 테크놀로지스",
-      "weight_pct": 4.5,
-      "shares": 370,
+      "weight_pct": 4.4,
+      "shares": 369,
       "item_code": "VOYG.K"
     },
     {
       "name": "글로벌스타",
-      "weight_pct": 4.41,
+      "weight_pct": 4.39,
       "shares": 152,
       "item_code": "GSAT.O"
     },
     {
-      "name": "블랙스카이 테크놀로지",
-      "weight_pct": 3.97,
-      "shares": 472,
-      "item_code": "BKSY.K"
-    },
-    {
       "name": "AST 스페이스모바일",
-      "weight_pct": 3.92,
-      "shares": 190,
+      "weight_pct": 3.96,
+      "shares": 189,
       "item_code": "ASTS.O"
     },
     {
+      "name": "블랙스카이 테크놀로지",
+      "weight_pct": 3.86,
+      "shares": 471,
+      "item_code": "BKSY.K"
+    },
+    {
       "name": "플래닛 랩스 PBC",
-      "weight_pct": 3.9,
-      "shares": 550,
+      "weight_pct": 3.86,
+      "shares": 549,
       "item_code": "PL"
     },
     {
       "name": "스텔로직",
       "weight_pct": 3.85,
-      "shares": 2239,
+      "shares": 2233,
       "item_code": "SATL.O"
     },
     {
       "name": "MDA 스페이스",
-      "weight_pct": 3.82,
-      "shares": 373,
+      "weight_pct": 3.81,
+      "shares": 372,
       "item_code": "MDA"
     },
     {
       "name": "텔레샛",
-      "weight_pct": 3.75,
+      "weight_pct": 3.8,
       "shares": 247,
       "item_code": "TSAT.O"
     },
     {
-      "name": "호크아이 360",
-      "weight_pct": 3.74,
-      "shares": 543,
-      "item_code": "HAWK.K"
-    },
-    {
-      "name": "레드와이어",
-      "weight_pct": 3.7,
-      "shares": 960,
-      "item_code": "RDW"
-    },
-    {
-      "name": "파이어플라이 에어로스페이스",
-      "weight_pct": 3.67,
-      "shares": 486,
-      "item_code": "FLY.O"
-    },
-    {
       "name": "스파이어 글로벌",
-      "weight_pct": 3.64,
-      "shares": 778,
+      "weight_pct": 3.65,
+      "shares": 776,
       "item_code": "SPIR.K"
     },
     {
+      "name": "호크아이 360",
+      "weight_pct": 3.64,
+      "shares": 542,
+      "item_code": "HAWK.K"
+    },
+    {
+      "name": "파이어플라이 에어로스페이스",
+      "weight_pct": 3.63,
+      "shares": 485,
+      "item_code": "FLY.O"
+    },
+    {
+      "name": "레드와이어",
+      "weight_pct": 3.63,
+      "shares": 957,
+      "item_code": "RDW"
+    },
+    {
       "name": "인튜이티브 머신스",
-      "weight_pct": 3.36,
-      "shares": 616,
+      "weight_pct": 3.34,
+      "shares": 614,
       "item_code": "LUNR.O"
     },
     {
       "name": "요크 스페이스 시스템즈",
-      "weight_pct": 1.65,
-      "shares": 519,
+      "weight_pct": 1.67,
+      "shares": 518,
       "item_code": "YSS"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 0.86,
+      "weight_pct": 0.84,
       "shares": 7,
       "item_code": "GOOGL.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.35,
-      "shares": 1365355,
+      "weight_pct": 0.13,
+      "shares": 540288,
       "item_code": null
     }
   ]

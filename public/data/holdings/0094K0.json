@@ -1,6 +1,6 @@
 {
   "ticker": "0094K0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "통영에코파워5",
@@ -70,7 +70,7 @@
     },
     {
       "name": "한국투자증권30-1",
-      "weight_pct": 3.25,
+      "weight_pct": 3.26,
       "shares": 0,
       "item_code": null
     },
@@ -202,8 +202,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -18.09,
-      "shares": -18032948,
+      "weight_pct": -18.1,
+      "shares": -18040852,
       "item_code": null
     }
   ]

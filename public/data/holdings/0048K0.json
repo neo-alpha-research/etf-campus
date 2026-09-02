@@ -1,48 +1,42 @@
 {
   "ticker": "0048K0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "회천기술",
-      "weight_pct": 7.46,
+      "weight_pct": 7.36,
       "shares": 2450,
       "item_code": "300124.SZ"
     },
     {
       "name": "녹적해파",
-      "weight_pct": 6.92,
+      "weight_pct": 7.04,
       "shares": 482,
       "item_code": "688017.SS"
     },
     {
       "name": "맥격미특전기",
-      "weight_pct": 6.33,
+      "weight_pct": 6.5,
       "shares": 1024,
       "item_code": "002851.SZ"
     },
     {
       "name": "영익지조",
-      "weight_pct": 6.31,
-      "shares": 10310,
+      "weight_pct": 6.4,
+      "shares": 10309,
       "item_code": "002600.SZ"
     },
     {
       "name": "닝더스다이",
-      "weight_pct": 6.26,
+      "weight_pct": 6.11,
       "shares": 346,
       "item_code": "300750.SZ"
     },
     {
       "name": "삼화",
-      "weight_pct": 6.15,
+      "weight_pct": 6.11,
       "shares": 3467,
       "item_code": "002050.SZ"
-    },
-    {
-      "name": "와룡전기",
-      "weight_pct": 5.91,
-      "shares": 4046,
-      "item_code": "600580.SS"
     },
     {
       "name": "항립유항",
@@ -51,81 +45,87 @@
       "item_code": "601100.SS"
     },
     {
+      "name": "와룡전기",
+      "weight_pct": 5.79,
+      "shares": 4045,
+      "item_code": "600580.SS"
+    },
+    {
       "name": "유비테크 로보틱스",
-      "weight_pct": 5.66,
+      "weight_pct": 5.68,
       "shares": 1611,
       "item_code": "9880.HK"
     },
     {
-      "name": "탁보그룹",
-      "weight_pct": 5.65,
-      "shares": 2446,
-      "item_code": "601689.SS"
-    },
-    {
       "name": "입신정밀",
-      "weight_pct": 5.59,
+      "weight_pct": 5.63,
       "shares": 2012,
       "item_code": "002475.SZ"
     },
     {
+      "name": "탁보그룹",
+      "weight_pct": 5.56,
+      "shares": 2446,
+      "item_code": "601689.SS"
+    },
+    {
       "name": "쌍환전동기계",
-      "weight_pct": 4.84,
+      "weight_pct": 4.77,
       "shares": 2766,
       "item_code": "002472.SZ"
     },
     {
       "name": "영파진유과기",
-      "weight_pct": 4.47,
+      "weight_pct": 4.43,
       "shares": 985,
       "item_code": "300953.SZ"
     },
     {
       "name": "애사돈자동화",
-      "weight_pct": 4.4,
+      "weight_pct": 4.38,
       "shares": 2853,
       "item_code": "002747.SZ"
     },
     {
       "name": "균승전자",
-      "weight_pct": 4.26,
+      "weight_pct": 4.25,
       "shares": 4568,
       "item_code": "600699.SS"
     },
     {
-      "name": "중대역덕",
-      "weight_pct": 3.5,
-      "shares": 1120,
-      "item_code": "002896.SZ"
-    },
-    {
       "name": "상해보과자동화",
-      "weight_pct": 3.49,
+      "weight_pct": 3.55,
       "shares": 724,
       "item_code": "688160.SS"
     },
     {
+      "name": "중대역덕",
+      "weight_pct": 3.53,
+      "shares": 1120,
+      "item_code": "002896.SZ"
+    },
+    {
       "name": "길성축승",
-      "weight_pct": 2.92,
+      "weight_pct": 2.94,
       "shares": 1074,
       "item_code": "300718.SZ"
     },
     {
       "name": "상해명지전기",
-      "weight_pct": 1.96,
+      "weight_pct": 2.06,
       "shares": 832,
       "item_code": "603728.SS"
     },
     {
       "name": "위창전기",
-      "weight_pct": 1.94,
+      "weight_pct": 1.93,
       "shares": 922,
       "item_code": "688698.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.01,
-      "shares": 45350,
+      "weight_pct": 0.0,
+      "shares": 27788,
       "item_code": null
     }
   ]

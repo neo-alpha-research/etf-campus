@@ -1,58 +1,58 @@
 {
   "ticker": "464600",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "LG전자",
-      "weight_pct": 11.9,
+      "weight_pct": 11.59,
       "shares": 654,
       "item_code": "066570"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 9.93,
+      "weight_pct": 9.94,
       "shares": 81,
       "item_code": "009150"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 9.8,
+      "weight_pct": 9.78,
       "shares": 257,
       "item_code": "012330"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 7.62,
+      "weight_pct": 7.49,
       "shares": 215,
       "item_code": "307950"
     },
     {
-      "name": "LG이노텍",
-      "weight_pct": 7.23,
-      "shares": 134,
-      "item_code": "011070"
-    },
-    {
       "name": "한온시스템",
-      "weight_pct": 6.86,
+      "weight_pct": 7.06,
       "shares": 23245,
       "item_code": "018880"
     },
     {
+      "name": "LG이노텍",
+      "weight_pct": 6.78,
+      "shares": 134,
+      "item_code": "011070"
+    },
+    {
       "name": "HL만도",
-      "weight_pct": 6.56,
+      "weight_pct": 6.5,
       "shares": 1507,
       "item_code": "204320"
     },
     {
       "name": "고영",
-      "weight_pct": 6.04,
+      "weight_pct": 6.08,
       "shares": 2527,
       "item_code": "098460"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 5.29,
+      "weight_pct": 5.42,
       "shares": 242,
       "item_code": "005930"
     },
@@ -64,55 +64,55 @@
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 3.94,
+      "weight_pct": 3.98,
       "shares": 509,
       "item_code": "078600"
     },
     {
       "name": "현대위아",
-      "weight_pct": 3.68,
+      "weight_pct": 3.7,
       "shares": 731,
       "item_code": "011210"
     },
     {
       "name": "삼화콘덴서",
-      "weight_pct": 3.29,
+      "weight_pct": 3.36,
       "shares": 348,
       "item_code": "001820"
     },
     {
       "name": "에스엘",
-      "weight_pct": 3.23,
+      "weight_pct": 3.28,
       "shares": 723,
       "item_code": "005850"
     },
     {
       "name": "피엔티",
-      "weight_pct": 2.28,
+      "weight_pct": 2.3,
       "shares": 894,
       "item_code": "137400"
     },
     {
       "name": "비에이치",
-      "weight_pct": 1.7,
+      "weight_pct": 2.1,
       "shares": 1114,
       "item_code": "090460"
     },
     {
       "name": "LS머트리얼즈",
-      "weight_pct": 1.65,
+      "weight_pct": 1.64,
       "shares": 1692,
       "item_code": "417200"
     },
     {
       "name": "삼현",
-      "weight_pct": 1.45,
+      "weight_pct": 1.43,
       "shares": 539,
       "item_code": "437730"
     },
     {
       "name": "한국단자",
-      "weight_pct": 1.36,
+      "weight_pct": 1.4,
       "shares": 296,
       "item_code": "025540"
     },
@@ -124,8 +124,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.87,
-      "shares": 10449457,
+      "weight_pct": 0.88,
+      "shares": 10337998,
       "item_code": null
     }
   ]

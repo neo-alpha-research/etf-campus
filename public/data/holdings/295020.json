@@ -1,16 +1,16 @@
 {
   "ticker": "295020",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 100.0,
-      "shares": 121144601,
+      "weight_pct": 99.99,
+      "shares": 121646653,
       "item_code": null
     },
     {
       "name": "10년국채 F 202609",
-      "weight_pct": -99.92,
+      "weight_pct": -99.11,
       "shares": -1,
       "item_code": null
     }

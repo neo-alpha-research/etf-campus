@@ -1,82 +1,82 @@
 {
   "ticker": "469060",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 9.3,
+      "weight_pct": 9.39,
       "shares": 521,
       "item_code": "NVDA.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 8.67,
+      "weight_pct": 8.87,
       "shares": 113,
       "item_code": "MU.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 8.14,
+      "weight_pct": 8.19,
       "shares": 213,
       "item_code": "AMD.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 7.45,
+      "weight_pct": 7.44,
       "shares": 246,
       "item_code": "AVGO.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 5.09,
+      "weight_pct": 5.07,
       "shares": 695,
       "item_code": "INTC.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 4.77,
+      "weight_pct": 4.63,
       "shares": 268,
       "item_code": "MRVL.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 4.68,
+      "weight_pct": 4.63,
       "shares": 136,
       "item_code": "TSM"
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 4.63,
+      "weight_pct": 4.57,
       "shares": 122,
       "item_code": "AMAT.O"
     },
     {
       "name": "램 리서치",
-      "weight_pct": 4.28,
+      "weight_pct": 4.25,
       "shares": 173,
       "item_code": "LRCX.O"
     },
     {
       "name": "KLA",
-      "weight_pct": 4.12,
+      "weight_pct": 4.1,
       "shares": 286,
       "item_code": "KLAC.O"
     },
     {
       "name": "애널로그 디바이시스",
-      "weight_pct": 3.94,
+      "weight_pct": 3.93,
       "shares": 133,
       "item_code": "ADI.O"
     },
     {
       "name": "텍사스 인스트루먼트",
-      "weight_pct": 3.82,
+      "weight_pct": 3.83,
       "shares": 180,
       "item_code": "TXN.O"
     },
     {
       "name": "모놀리식 파워 시스템즈",
-      "weight_pct": 3.34,
+      "weight_pct": 3.35,
       "shares": 32,
       "item_code": "MPWR.O"
     },
@@ -87,50 +87,50 @@
       "item_code": "NXPI.O"
     },
     {
-      "name": "테라다인",
-      "weight_pct": 3.1,
-      "shares": 106,
-      "item_code": "TER.O"
-    },
-    {
       "name": "퀄컴",
-      "weight_pct": 2.95,
+      "weight_pct": 3.05,
       "shares": 219,
       "item_code": "QCOM.O"
     },
     {
+      "name": "테라다인",
+      "weight_pct": 3.04,
+      "shares": 106,
+      "item_code": "TER.O"
+    },
+    {
       "name": "ASML 홀딩 ADR",
-      "weight_pct": 2.46,
+      "weight_pct": 2.45,
       "shares": 17,
       "item_code": "ASML.O"
     },
     {
       "name": "아스테라 랩스",
-      "weight_pct": 2.27,
+      "weight_pct": 2.32,
       "shares": 95,
       "item_code": "ALAB.O"
     },
     {
       "name": "마이크로칩 테크놀러지",
-      "weight_pct": 2.17,
+      "weight_pct": 2.18,
       "shares": 364,
       "item_code": "MCHP.O"
     },
     {
       "name": "크레도 테크놀로지 그룹 홀딩",
-      "weight_pct": 2.16,
+      "weight_pct": 2.09,
       "shares": 113,
       "item_code": "CRDO.O"
     },
     {
       "name": "온 세미콘덕터",
-      "weight_pct": 1.58,
+      "weight_pct": 1.61,
       "shares": 267,
       "item_code": "ON.O"
     },
     {
       "name": "ASE 테크놀로지 홀딩 ADR",
-      "weight_pct": 1.27,
+      "weight_pct": 1.24,
       "shares": 413,
       "item_code": "ASX"
     },
@@ -142,7 +142,7 @@
     },
     {
       "name": "M/A-컴 테크놀로지 솔루션스 홀딩스",
-      "weight_pct": 1.02,
+      "weight_pct": 1.01,
       "shares": 47,
       "item_code": "MTSI.O"
     },
@@ -160,32 +160,32 @@
     },
     {
       "name": "ST 마이크로 일렉트로닉스 ADR",
-      "weight_pct": 0.65,
+      "weight_pct": 0.66,
       "shares": 161,
       "item_code": "STM"
     },
     {
       "name": "노바 메저링 인스트루먼츠",
-      "weight_pct": 0.62,
+      "weight_pct": 0.61,
       "shares": 21,
       "item_code": "NVMI.O"
     },
     {
       "name": "스카이웍스 솔루션스",
-      "weight_pct": 0.55,
+      "weight_pct": 0.56,
       "shares": 102,
       "item_code": "SWKS.O"
     },
     {
       "name": "램버스",
-      "weight_pct": 0.51,
+      "weight_pct": 0.52,
       "shares": 73,
       "item_code": "RMBS.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.41,
-      "shares": 6961585,
+      "weight_pct": 0.4,
+      "shares": 6745305,
       "item_code": null
     }
   ]

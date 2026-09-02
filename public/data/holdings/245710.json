@@ -1,29 +1,29 @@
 {
   "ticker": "245710",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 32.84,
-      "shares": 962615934,
+      "weight_pct": 32.78,
+      "shares": 962831990,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)",
-      "weight_pct": 25.25,
-      "shares": 740077852,
+      "weight_pct": 25.24,
+      "shares": 741487525,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)",
-      "weight_pct": 22.51,
-      "shares": 659801330,
+      "weight_pct": 22.5,
+      "shares": 661058094,
       "item_code": null
     },
     {
       "name": "스왑(삼성증권)",
       "weight_pct": 20.49,
-      "shares": 600772480,
+      "shares": 601916808,
       "item_code": null
     },
     {
@@ -34,14 +34,14 @@
     },
     {
       "name": "스왑(NH투자증권)",
-      "weight_pct": -0.05,
-      "shares": -1671849,
+      "weight_pct": -0.03,
+      "shares": -922336,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)",
-      "weight_pct": -2.09,
-      "shares": -61286063,
+      "weight_pct": -2.05,
+      "shares": -60349659,
       "item_code": null
     }
   ]

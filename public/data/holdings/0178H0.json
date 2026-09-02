@@ -1,82 +1,82 @@
 {
   "ticker": "0178H0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고03000-2803(26-1)",
-      "weight_pct": 25.38,
+      "weight_pct": 25.42,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02250-2806(25-4)",
-      "weight_pct": 24.79,
+      "weight_pct": 24.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 12.36,
+      "weight_pct": 12.25,
       "shares": 87,
       "item_code": "MSFT.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 9.75,
+      "weight_pct": 9.93,
       "shares": 162,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 8.73,
+      "weight_pct": 8.57,
       "shares": 91,
       "item_code": "GOOGL.O"
     },
     {
       "name": "메타",
-      "weight_pct": 6.88,
+      "weight_pct": 6.83,
       "shares": 43,
       "item_code": "META.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 3.6,
+      "weight_pct": 3.65,
       "shares": 28,
       "item_code": "AMD.O"
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 2.11,
+      "weight_pct": 2.12,
       "shares": 41,
       "item_code": "PLTR.O"
     },
     {
       "name": "오라클",
-      "weight_pct": 2.04,
+      "weight_pct": 2.02,
       "shares": 49,
       "item_code": "ORCL.K"
     },
     {
       "name": "델테크놀로지",
-      "weight_pct": 1.38,
+      "weight_pct": 1.39,
       "shares": 11,
       "item_code": "DELL.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.05,
-      "shares": 5237850,
+      "weight_pct": 1.06,
+      "shares": 5254167,
       "item_code": null
     },
     {
       "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 1.04,
+      "weight_pct": 1.03,
       "shares": 16,
       "item_code": "IBM"
     },
     {
       "name": "퀄컴",
-      "weight_pct": 0.81,
+      "weight_pct": 0.85,
       "shares": 18,
       "item_code": "QCOM.O"
     }

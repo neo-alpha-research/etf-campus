@@ -1,47 +1,47 @@
 {
   "ticker": "0189B0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares Silver Trust",
-      "weight_pct": 26.77,
+      "weight_pct": 26.99,
       "shares": 1354,
       "item_code": "SLV"
     },
     {
       "name": "abrdn Physical Silver Shares ETF",
-      "weight_pct": 26.59,
+      "weight_pct": 26.82,
       "shares": 1279,
       "item_code": "SIVR.K"
     },
     {
       "name": "GLOBAL PHYSICAL SILVER STRU",
-      "weight_pct": 24.59,
+      "weight_pct": 23.97,
       "shares": 1186,
       "item_code": null
     },
     {
       "name": "Sprott Physical Silver Trust USD",
-      "weight_pct": 10.93,
+      "weight_pct": 11.02,
       "shares": 1520,
       "item_code": "PSLV.K"
     },
     {
       "name": "ISHARES PHYSICAL SILVER ETC",
-      "weight_pct": 5.79,
+      "weight_pct": 5.83,
       "shares": 267,
       "item_code": null
     },
     {
       "name": "BLACKROCK SILVER BULLION TRU",
-      "weight_pct": 4.76,
+      "weight_pct": 4.79,
       "shares": 581,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.53,
-      "shares": 2238610,
+      "weight_pct": 0.54,
+      "shares": 2235097,
       "item_code": null
     }
   ]

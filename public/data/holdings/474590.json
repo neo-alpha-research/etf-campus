@@ -1,40 +1,40 @@
 {
   "ticker": "474590",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 24.17,
+      "weight_pct": 24.54,
       "shares": 2001,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 21.78,
+      "weight_pct": 22.27,
       "shares": 280,
       "item_code": "000660"
     },
     {
       "name": "심텍",
-      "weight_pct": 5.51,
+      "weight_pct": 5.41,
       "shares": 918,
       "item_code": "222800"
     },
     {
       "name": "이오테크닉스",
-      "weight_pct": 5.38,
+      "weight_pct": 5.31,
       "shares": 287,
       "item_code": "039030"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 4.94,
+      "weight_pct": 4.9,
       "shares": 73,
       "item_code": "009150"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 4.28,
+      "weight_pct": 4.46,
       "shares": 89,
       "item_code": "402340"
     },
@@ -46,62 +46,62 @@
     },
     {
       "name": "피에스케이홀딩스",
-      "weight_pct": 3.99,
+      "weight_pct": 3.98,
       "shares": 689,
       "item_code": "031980"
     },
     {
-      "name": "기가비스",
-      "weight_pct": 3.82,
-      "shares": 730,
-      "item_code": "420770"
-    },
-    {
       "name": "테스",
-      "weight_pct": 3.76,
+      "weight_pct": 3.61,
       "shares": 568,
       "item_code": "095610"
     },
     {
+      "name": "기가비스",
+      "weight_pct": 3.59,
+      "shares": 730,
+      "item_code": "420770"
+    },
+    {
       "name": "피에스케이",
-      "weight_pct": 3.28,
+      "weight_pct": 3.27,
       "shares": 554,
       "item_code": "319660"
     },
     {
       "name": "인텍플러스",
-      "weight_pct": 3.13,
+      "weight_pct": 3.03,
       "shares": 2025,
       "item_code": "064290"
     },
     {
-      "name": "네오티스",
-      "weight_pct": 2.96,
-      "shares": 3839,
-      "item_code": "085910"
-    },
-    {
       "name": "샘씨엔에스",
-      "weight_pct": 2.89,
+      "weight_pct": 2.92,
       "shares": 4827,
       "item_code": "252990"
     },
     {
       "name": "브이엠",
-      "weight_pct": 2.89,
+      "weight_pct": 2.8,
       "shares": 1104,
       "item_code": "089970"
     },
     {
+      "name": "네오티스",
+      "weight_pct": 2.68,
+      "shares": 3839,
+      "item_code": "085910"
+    },
+    {
       "name": "타이거일렉",
-      "weight_pct": 1.75,
+      "weight_pct": 1.76,
       "shares": 598,
       "item_code": "219130"
     },
     {
       "name": "원화예금",
       "weight_pct": 1.36,
-      "shares": 29428092,
+      "shares": 28942655,
       "item_code": null
     }
   ]

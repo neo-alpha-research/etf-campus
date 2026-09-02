@@ -1,71 +1,71 @@
 {
   "ticker": "0067V0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "샤오미",
-      "weight_pct": 23.56,
+      "weight_pct": 23.78,
       "shares": 24498,
       "item_code": "1810.HK"
     },
     {
       "name": "비야디",
-      "weight_pct": 22.75,
+      "weight_pct": 22.1,
       "shares": 6113,
       "item_code": "002594.SZ"
     },
     {
       "name": "닝더스다이",
-      "weight_pct": 21.0,
+      "weight_pct": 21.07,
       "shares": 1414,
       "item_code": "300750.SZ"
     },
     {
       "name": "비원 메디슨스",
-      "weight_pct": 7.46,
+      "weight_pct": 7.28,
       "shares": 962,
       "item_code": "6160.HK"
     },
     {
       "name": "격력전기",
-      "weight_pct": 6.23,
+      "weight_pct": 6.33,
       "shares": 3968,
       "item_code": "000651.SZ"
     },
     {
       "name": "삼화",
-      "weight_pct": 5.16,
+      "weight_pct": 5.26,
       "shares": 3541,
       "item_code": "002050.SZ"
     },
     {
       "name": "몬타지 테크놀로지",
-      "weight_pct": 4.56,
+      "weight_pct": 4.46,
       "shares": 531,
       "item_code": "688008.SS"
     },
     {
       "name": "강파룡",
-      "weight_pct": 3.72,
+      "weight_pct": 3.83,
       "shares": 245,
       "item_code": "301308.SZ"
     },
     {
       "name": "기가디바이스",
-      "weight_pct": 3.66,
+      "weight_pct": 3.81,
       "shares": 229,
       "item_code": "603986.SS"
     },
     {
       "name": "백유존저과기",
-      "weight_pct": 3.37,
+      "weight_pct": 3.49,
       "shares": 362,
       "item_code": "688525.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.5,
-      "shares": -7620762,
+      "weight_pct": -1.46,
+      "shares": -7278350,
       "item_code": null
     }
   ]

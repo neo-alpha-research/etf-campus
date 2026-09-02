@@ -1,46 +1,46 @@
 {
   "ticker": "479620",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 23.16,
+      "weight_pct": 23.35,
       "shares": 923,
       "item_code": "NVDA.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 20.62,
+      "weight_pct": 20.56,
       "shares": 485,
       "item_code": "AVGO.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 19.55,
+      "weight_pct": 19.64,
       "shares": 364,
       "item_code": "AMD.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 12.98,
+      "weight_pct": 12.89,
       "shares": 1258,
       "item_code": "INTC.O"
     },
     {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 7.34,
+      "weight_pct": 7.37,
       "shares": 266,
       "item_code": "ARM.O"
     },
     {
       "name": "텍사스 인스트루먼트",
-      "weight_pct": 6.79,
+      "weight_pct": 6.8,
       "shares": 227,
       "item_code": "TXN.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 5.47,
+      "weight_pct": 5.31,
       "shares": 219,
       "item_code": "MRVL.O"
     },
@@ -64,8 +64,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.57,
-      "shares": 6806800,
+      "weight_pct": 0.56,
+      "shares": 6793600,
       "item_code": null
     }
   ]

@@ -1,96 +1,90 @@
 {
   "ticker": "0018Z0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "알파벳 Class A",
-      "weight_pct": 8.66,
+      "weight_pct": 8.49,
       "shares": 161,
       "item_code": "GOOGL.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 8.45,
+      "weight_pct": 8.35,
       "shares": 106,
       "item_code": "MSFT.O"
     },
     {
       "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 7.68,
+      "weight_pct": 7.63,
       "shares": 210,
       "item_code": "IBM"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 7.36,
+      "weight_pct": 7.18,
       "shares": 178,
       "item_code": "AMZN.O"
     },
     {
       "name": "아이온큐",
-      "weight_pct": 6.79,
+      "weight_pct": 6.81,
       "shares": 1115,
       "item_code": "IONQ.K"
     },
     {
       "name": "퀀텀 컴퓨팅",
-      "weight_pct": 6.11,
+      "weight_pct": 6.17,
       "shares": 4827,
       "item_code": "QUBT.O"
     },
     {
       "name": "마이크로칩 테크놀러지",
-      "weight_pct": 5.82,
+      "weight_pct": 5.86,
       "shares": 514,
       "item_code": "MCHP.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 5.71,
+      "weight_pct": 5.79,
       "shares": 169,
       "item_code": "NVDA.O"
     },
     {
       "name": "리게티 컴퓨팅",
-      "weight_pct": 5.47,
+      "weight_pct": 5.49,
       "shares": 2259,
       "item_code": "RGTI.O"
     },
     {
       "name": "디 웨이브 퀀텀",
-      "weight_pct": 4.86,
+      "weight_pct": 4.92,
       "shares": 1842,
       "item_code": "QBTS.O"
     },
     {
       "name": "인플렉션",
-      "weight_pct": 4.73,
+      "weight_pct": 4.83,
       "shares": 2382,
       "item_code": "INFQ.K"
     },
     {
       "name": "팔로 알토 네트웍스",
-      "weight_pct": 4.61,
+      "weight_pct": 4.75,
       "shares": 80,
       "item_code": "PANW.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 4.2,
+      "weight_pct": 4.11,
       "shares": 125,
       "item_code": "MRVL.O"
     },
     {
       "name": "시스코 시스템즈",
-      "weight_pct": 4.08,
+      "weight_pct": 4.1,
       "shares": 239,
       "item_code": "CSCO.O"
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 3.69,
-      "shares": 32560592,
-      "item_code": null
     },
     {
       "name": "휴렛패커드 엔터프라이즈",
@@ -100,27 +94,39 @@
     },
     {
       "name": "유니시스",
-      "weight_pct": 3.25,
+      "weight_pct": 3.26,
       "shares": 7790,
       "item_code": "UIS"
     },
     {
+      "name": "퀀티넘",
+      "weight_pct": 3.22,
+      "shares": 414,
+      "item_code": "QNT.O"
+    },
+    {
       "name": "폼팩터",
-      "weight_pct": 2.03,
+      "weight_pct": 2.01,
       "shares": 129,
       "item_code": "FORM.O"
     },
     {
       "name": "실바코 그룹",
-      "weight_pct": 1.89,
+      "weight_pct": 1.92,
       "shares": 1781,
       "item_code": "SVCO.O"
     },
     {
       "name": "줌 커뮤니케이션스",
-      "weight_pct": 0.99,
+      "weight_pct": 0.97,
       "shares": 65,
       "item_code": "ZM.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.51,
+      "shares": 4522939,
+      "item_code": null
     }
   ]
 }

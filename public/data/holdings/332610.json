@@ -1,6 +1,6 @@
 {
   "ticker": "332610",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "AMZN 1.2 06/03/27",
@@ -148,8 +148,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.77,
-      "shares": 2208499,
+      "weight_pct": 1.78,
+      "shares": 2224642,
       "item_code": null
     }
   ]

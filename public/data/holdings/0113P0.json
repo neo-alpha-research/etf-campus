@@ -1,6 +1,6 @@
 {
   "ticker": "0113P0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "기업은행(변)2601이1A-21",
@@ -89,7 +89,7 @@
     {
       "name": "원화현금",
       "weight_pct": 1.62,
-      "shares": 1668855,
+      "shares": 1668812,
       "item_code": null
     },
     {

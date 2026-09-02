@@ -1,52 +1,52 @@
 {
   "ticker": "0015F0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 27.49,
+      "weight_pct": 27.54,
       "shares": 2600,
       "item_code": "TLT.O"
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 24.47,
+      "weight_pct": 24.64,
       "shares": 1030,
       "item_code": "PLTR.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 15.19,
-      "shares": 162968333,
+      "weight_pct": 15.29,
+      "shares": 163198205,
       "item_code": null
     },
     {
       "name": "T 4 1/2 11/15/54",
-      "weight_pct": 9.1,
+      "weight_pct": 9.08,
       "shares": 80000,
       "item_code": null
     },
     {
-      "name": "KB 미국채 30년 ETN",
-      "weight_pct": 8.92,
-      "shares": 10000,
-      "item_code": "580061"
-    },
-    {
       "name": "메리츠 미국채30년 ETN(H)",
-      "weight_pct": 8.88,
+      "weight_pct": 8.84,
       "shares": 13000,
       "item_code": "610037"
     },
     {
+      "name": "KB 미국채 30년 ETN",
+      "weight_pct": 8.79,
+      "shares": 10000,
+      "item_code": "580061"
+    },
+    {
       "name": "Direxion Daily 20 Year Treasury Bull 3X ETF",
-      "weight_pct": 3.19,
+      "weight_pct": 3.17,
       "shares": 800,
       "item_code": "TMF"
     },
     {
       "name": "T 5 05/15/56",
-      "weight_pct": 2.71,
+      "weight_pct": 2.7,
       "shares": 22000,
       "item_code": null
     }

@@ -1,6 +1,6 @@
 {
   "ticker": "0092C0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "LG유플러스117-1",
@@ -16,7 +16,7 @@
     },
     {
       "name": "에스케이하이닉스224-2",
-      "weight_pct": 4.41,
+      "weight_pct": 4.4,
       "shares": 0,
       "item_code": null
     },
@@ -105,12 +105,6 @@
       "item_code": null
     },
     {
-      "name": "JB 우리캐피탈534-2",
-      "weight_pct": 4.33,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "BNK캐피탈379-4",
       "weight_pct": 4.33,
       "shares": 0,
@@ -124,6 +118,12 @@
     },
     {
       "name": "케이비캐피탈553-5",
+      "weight_pct": 4.32,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈534-2",
       "weight_pct": 4.32,
       "shares": 0,
       "item_code": null
@@ -191,7 +191,7 @@
     {
       "name": "원화현금",
       "weight_pct": -17.78,
-      "shares": -17882365,
+      "shares": -17884089,
       "item_code": null
     }
   ]

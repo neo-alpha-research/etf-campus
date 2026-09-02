@@ -1,16 +1,16 @@
 {
   "ticker": "304660",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 99.2,
-      "shares": 725211912,
+      "shares": 720447189,
       "item_code": null
     },
     {
       "name": "US ULT30YR NOTE (CBT) 2026 12",
-      "weight_pct": 95.99,
+      "weight_pct": 96.12,
       "shares": 4,
       "item_code": null
     },
@@ -22,7 +22,7 @@
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -6.68,
+      "weight_pct": -6.73,
       "shares": -3,
       "item_code": null
     }

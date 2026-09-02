@@ -1,6 +1,6 @@
 {
   "ticker": "434060",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "Vanguard Total World Stock Index Fund",
@@ -10,7 +10,7 @@
     },
     {
       "name": "State Street SPDR Portfolio MSCI Global Sk Mkt ETF",
-      "weight_pct": 25.84,
+      "weight_pct": 25.83,
       "shares": 1796,
       "item_code": "SPGM.K"
     },
@@ -22,7 +22,7 @@
     },
     {
       "name": "Invesco NASDAQ 100 ETF",
-      "weight_pct": 4.02,
+      "weight_pct": 4.03,
       "shares": 83,
       "item_code": "QQQM.O"
     },
@@ -34,7 +34,7 @@
     },
     {
       "name": "KODEX 종합채권(AA-이상)액티브",
-      "weight_pct": 3.44,
+      "weight_pct": 3.43,
       "shares": 261,
       "item_code": "273130"
     },
@@ -52,15 +52,21 @@
     },
     {
       "name": "KODEX 미국AI테크TOP10",
-      "weight_pct": 2.31,
+      "weight_pct": 2.32,
       "shares": 1293,
       "item_code": "485540"
     },
     {
       "name": "KODEX 미국휴머노이드로봇",
-      "weight_pct": 2.27,
+      "weight_pct": 2.29,
       "shares": 1298,
       "item_code": "0038A0"
+    },
+    {
+      "name": "KODEX 국고채3년",
+      "weight_pct": 2.18,
+      "shares": 294,
+      "item_code": "114260"
     },
     {
       "name": "KODEX 머니마켓액티브",
@@ -69,20 +75,14 @@
       "item_code": "488770"
     },
     {
-      "name": "KODEX 국고채3년",
-      "weight_pct": 2.17,
-      "shares": 294,
-      "item_code": "114260"
-    },
-    {
       "name": "TIME 글로벌우주테크&방산액티브",
-      "weight_pct": 2.02,
+      "weight_pct": 2.0,
       "shares": 874,
       "item_code": "478150"
     },
     {
       "name": "KODEX 반도체",
-      "weight_pct": 1.86,
+      "weight_pct": 1.87,
       "shares": 125,
       "item_code": "091160"
     },
@@ -94,25 +94,25 @@
     },
     {
       "name": "KODEX 미국AI전력핵심인프라",
-      "weight_pct": 1.7,
+      "weight_pct": 1.69,
       "shares": 766,
       "item_code": "487230"
     },
     {
       "name": "KODEX AI전력핵심설비",
-      "weight_pct": 1.49,
+      "weight_pct": 1.48,
       "shares": 340,
       "item_code": "487240"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.47,
-      "shares": 12343785,
+      "weight_pct": 1.48,
+      "shares": 12335828,
       "item_code": null
     },
     {
       "name": "KODEX AI반도체TOP2플러스",
-      "weight_pct": 1.46,
+      "weight_pct": 1.47,
       "shares": 313,
       "item_code": "395160"
     }

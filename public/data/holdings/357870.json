@@ -1,47 +1,47 @@
 {
   "ticker": "357870",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 38.76,
-      "shares": 44952760,
+      "shares": 44955896,
       "item_code": null
     },
     {
       "name": "CD금리투자KIS TRS 19",
       "weight_pct": 24.46,
-      "shares": 28368671,
+      "shares": 28371096,
       "item_code": null
     },
     {
       "name": "CD금리투자KIS TRS 15",
       "weight_pct": 12.83,
-      "shares": 14877394,
+      "shares": 14878665,
       "item_code": null
     },
     {
       "name": "KIS CD Total Return Index TRS 250926-04",
       "weight_pct": 9.75,
-      "shares": 11314572,
+      "shares": 11315539,
       "item_code": null
     },
     {
       "name": "CD금리투자KIS TRS 20",
       "weight_pct": 7.79,
-      "shares": 9034900,
+      "shares": 9035672,
       "item_code": null
     },
     {
       "name": "CD금리투자KIS TRS 3",
       "weight_pct": 4.86,
-      "shares": 5641701,
+      "shares": 5642184,
       "item_code": null
     },
     {
       "name": "KIS CD Total Return Index TRS 230407-01",
       "weight_pct": 1.52,
-      "shares": 1763097,
+      "shares": 1763248,
       "item_code": null
     }
   ]

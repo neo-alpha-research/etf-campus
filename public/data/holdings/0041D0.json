@@ -1,71 +1,71 @@
 {
   "ticker": "0041D0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 24.87,
+      "weight_pct": 24.77,
       "shares": 663,
       "item_code": "PLTR.O"
     },
     {
       "name": "스노우플레이크",
-      "weight_pct": 13.03,
+      "weight_pct": 13.11,
       "shares": 197,
       "item_code": "SNOW.K"
     },
     {
       "name": "세일즈포스",
-      "weight_pct": 11.55,
+      "weight_pct": 11.57,
       "shares": 224,
       "item_code": "CRM"
     },
     {
       "name": "오라클",
-      "weight_pct": 9.45,
+      "weight_pct": 9.3,
       "shares": 311,
       "item_code": "ORCL.K"
     },
     {
       "name": "클라우드플레어",
-      "weight_pct": 9.08,
+      "weight_pct": 9.2,
       "shares": 150,
       "item_code": "NET"
     },
     {
       "name": "서비스나우",
-      "weight_pct": 8.92,
+      "weight_pct": 9.08,
       "shares": 306,
       "item_code": "NOW"
     },
     {
       "name": "데이터도그",
-      "weight_pct": 7.09,
+      "weight_pct": 7.06,
       "shares": 148,
       "item_code": "DDOG.O"
     },
     {
       "name": "앱러빈",
-      "weight_pct": 6.09,
+      "weight_pct": 5.96,
       "shares": 95,
       "item_code": "APP.O"
     },
     {
       "name": "몽고DB",
-      "weight_pct": 5.2,
+      "weight_pct": 5.26,
       "shares": 57,
       "item_code": "MDB.O"
     },
     {
       "name": "디지털오션 홀딩스",
-      "weight_pct": 3.98,
+      "weight_pct": 3.95,
       "shares": 178,
       "item_code": "DOCN.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.69,
-      "shares": 4707323,
+      "weight_pct": 0.68,
+      "shares": 4701202,
       "item_code": null
     }
   ]

@@ -1,114 +1,120 @@
 {
   "ticker": "0094X0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "샤오미",
-      "weight_pct": 23.83,
+      "weight_pct": 23.74,
       "shares": 20567,
       "item_code": "1810.HK"
     },
     {
       "name": "화훙 그레이스 반도체",
-      "weight_pct": 8.37,
+      "weight_pct": 8.56,
       "shares": 1667,
       "item_code": "1347.HK"
     },
     {
       "name": "중국 국제 반도체",
-      "weight_pct": 7.62,
+      "weight_pct": 7.72,
       "shares": 2611,
       "item_code": "0981.HK"
     },
     {
       "name": "중지 이노라이트",
-      "weight_pct": 7.58,
+      "weight_pct": 7.52,
       "shares": 175,
       "item_code": "3308.HK"
     },
     {
       "name": "장비광섬유케이블",
-      "weight_pct": 4.73,
+      "weight_pct": 4.64,
       "shares": 667,
       "item_code": "6869.HK"
     },
     {
       "name": "건도적층판",
-      "weight_pct": 4.02,
+      "weight_pct": 4.14,
       "shares": 2139,
       "item_code": "1888.HK"
     },
     {
       "name": "텐센트",
-      "weight_pct": 4.0,
+      "weight_pct": 3.99,
       "shares": 211,
       "item_code": "0700.HK"
     },
     {
-      "name": "BYD",
-      "weight_pct": 3.93,
-      "shares": 1028,
-      "item_code": "1211.HK"
-    },
-    {
       "name": "레노버",
-      "weight_pct": 3.88,
+      "weight_pct": 3.9,
       "shares": 3111,
       "item_code": "0992.HK"
     },
     {
       "name": "징동닷컴",
-      "weight_pct": 3.7,
+      "weight_pct": 3.77,
       "shares": 806,
       "item_code": "9618.HK"
     },
     {
-      "name": "넷이즈",
-      "weight_pct": 3.69,
-      "shares": 461,
-      "item_code": "9999.HK"
+      "name": "BYD",
+      "weight_pct": 3.74,
+      "shares": 1028,
+      "item_code": "1211.HK"
     },
     {
       "name": "ZTE",
-      "weight_pct": 3.68,
+      "weight_pct": 3.73,
       "shares": 3756,
       "item_code": "0763.HK"
     },
     {
-      "name": "상해전기그룹",
-      "weight_pct": 3.6,
-      "shares": 29111,
-      "item_code": "2727.HK"
+      "name": "넷이즈",
+      "weight_pct": 3.7,
+      "shares": 461,
+      "item_code": "9999.HK"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 3.58,
+      "weight_pct": 3.6,
       "shares": 756,
       "item_code": "9988.HK"
     },
     {
-      "name": "CATL",
-      "weight_pct": 3.56,
-      "shares": 139,
-      "item_code": "3750.HK"
-    },
-    {
       "name": "메이투안",
-      "weight_pct": 3.49,
+      "weight_pct": 3.57,
       "shares": 1083,
       "item_code": "3690.HK"
     },
     {
+      "name": "상해전기그룹",
+      "weight_pct": 3.54,
+      "shares": 29111,
+      "item_code": "2727.HK"
+    },
+    {
+      "name": "CATL",
+      "weight_pct": 3.48,
+      "shares": 139,
+      "item_code": "3750.HK"
+    },
+    {
+      "name": "기가디바이스 세미컨덕터",
+      "weight_pct": 2.03,
+      "shares": 100,
+      "item_code": "3986.HK"
+    },
+    {
       "name": "몽타주 테크놀로지",
-      "weight_pct": 2.11,
+      "weight_pct": 2.0,
       "shares": 178,
       "item_code": "6809.HK"
     },
     {
-      "name": "기가디바이스 세미컨덕터",
-      "weight_pct": 2.02,
-      "shares": 100,
-      "item_code": "3986.HK"
+      "name": "유비테크 로보틱스",
+      "weight_pct": 0.98,
+      "shares": 278,
+      "item_code": "9880.HK"
     },
     {
       "name": "옴니비전 집적회로 그룹",
@@ -117,15 +123,9 @@
       "item_code": "0501.HK"
     },
     {
-      "name": "유비테크 로보틱스",
-      "weight_pct": 0.96,
-      "shares": 278,
-      "item_code": "9880.HK"
-    },
-    {
       "name": "원화현금",
-      "weight_pct": 0.59,
-      "shares": 2505096,
+      "weight_pct": 0.61,
+      "shares": 2561192,
       "item_code": null
     }
   ]

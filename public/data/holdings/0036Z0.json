@@ -1,52 +1,52 @@
 {
   "ticker": "0036Z0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엑슨모빌 홀딩스",
-      "weight_pct": 14.99,
+      "weight_pct": 15.13,
       "shares": 431,
       "item_code": "XOM"
     },
     {
       "name": "엔브리지",
-      "weight_pct": 13.67,
+      "weight_pct": 13.54,
       "shares": 1227,
       "item_code": "ENB"
     },
     {
       "name": "셰브론",
-      "weight_pct": 13.08,
+      "weight_pct": 13.13,
       "shares": 292,
       "item_code": "CVX"
     },
     {
       "name": "윌리엄스 컴퍼니즈",
-      "weight_pct": 11.37,
+      "weight_pct": 11.38,
       "shares": 695,
       "item_code": "WMB"
     },
     {
       "name": "TC 에너지",
-      "weight_pct": 8.14,
+      "weight_pct": 8.09,
       "shares": 593,
       "item_code": "TRP"
     },
     {
       "name": "킨더 모건",
-      "weight_pct": 7.76,
+      "weight_pct": 7.79,
       "shares": 1108,
       "item_code": "KMI"
     },
     {
       "name": "원오케이",
-      "weight_pct": 7.53,
+      "weight_pct": 7.5,
       "shares": 358,
       "item_code": "OKE"
     },
     {
       "name": "타르가 리소스",
-      "weight_pct": 5.74,
+      "weight_pct": 5.76,
       "shares": 90,
       "item_code": "TRGP.K"
     },
@@ -58,44 +58,44 @@
     },
     {
       "name": "다이아몬드백 에너지",
-      "weight_pct": 3.37,
+      "weight_pct": 3.36,
       "shares": 77,
       "item_code": "FANG.O"
     },
     {
       "name": "듀크 에너지",
-      "weight_pct": 3.22,
+      "weight_pct": 3.16,
       "shares": 121,
       "item_code": "DUK"
     },
     {
       "name": "CNX 리소스",
-      "weight_pct": 2.35,
+      "weight_pct": 2.32,
       "shares": 293,
       "item_code": "CNX"
     },
     {
       "name": "셰니어 에너지",
-      "weight_pct": 2.06,
+      "weight_pct": 2.1,
       "shares": 33,
       "item_code": "LNG"
     },
     {
       "name": "벤처 글로벌",
-      "weight_pct": 1.07,
+      "weight_pct": 1.09,
       "shares": 343,
       "item_code": "VG"
     },
     {
       "name": "골라 LNG",
-      "weight_pct": 0.93,
+      "weight_pct": 0.94,
       "shares": 84,
       "item_code": "GLNG.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.34,
-      "shares": 2103739,
+      "weight_pct": 0.33,
+      "shares": 2085099,
       "item_code": null
     }
   ]

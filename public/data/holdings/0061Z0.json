@@ -1,83 +1,107 @@
 {
   "ticker": "0061Z0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
-      "name": "원화현금",
-      "weight_pct": 21.45,
-      "shares": 21880462,
+      "name": "부국증권 20260901-29-4(단)",
+      "weight_pct": 6.92,
+      "shares": 0,
       "item_code": null
     },
     {
       "name": "한국수출입금융2608카-할인-184",
-      "weight_pct": 6.81,
+      "weight_pct": 6.83,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산금25신할0100-1022-1",
-      "weight_pct": 5.51,
+      "weight_pct": 5.53,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국수출입금융2607차-할인-184",
-      "weight_pct": 5.47,
+      "weight_pct": 5.48,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "기업은행(신)2210이4A-14",
-      "weight_pct": 4.19,
+      "weight_pct": 4.2,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드 20260901-1-5(단)",
+      "weight_pct": 4.16,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "기업 자금부 20250923-365-1",
-      "weight_pct": 4.15,
+      "weight_pct": 4.16,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국수출입금융2608바-할인-153",
-      "weight_pct": 4.1,
+      "weight_pct": 4.11,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "기업은행(단)2608할184A-13",
-      "weight_pct": 4.09,
+      "weight_pct": 4.1,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "기업은행(단)2608할237A-04",
-      "weight_pct": 4.07,
+      "weight_pct": 4.08,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나증권 20260901-1-4(단)",
+      "weight_pct": 2.77,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드 20260901-9-3(단)",
+      "weight_pct": 2.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "기업은행(단)2603할184A-13",
-      "weight_pct": 2.76,
+      "weight_pct": 2.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국수출입금융2505아-이표-1.5",
-      "weight_pct": 2.76,
+      "weight_pct": 2.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산업 여의도(지) 20260728-92-1",
-      "weight_pct": 2.75,
+      "weight_pct": 2.76,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산금26신할0006-0825-1",
-      "weight_pct": 2.72,
+      "weight_pct": 2.73,
       "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.83,
+      "shares": 1875038,
       "item_code": null
     },
     {
@@ -93,6 +117,18 @@
       "item_code": null
     },
     {
+      "name": "산금25신이0106-0421-2",
+      "weight_pct": 1.39,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(신)2411이2A-13",
+      "weight_pct": 1.39,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "한국수출입금융2410사-이표-2",
       "weight_pct": 1.39,
       "shares": 0,
@@ -100,6 +136,12 @@
     },
     {
       "name": "산금25신이0109-0110-1",
+      "weight_pct": 1.39,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산금23신이0306-0523-2",
       "weight_pct": 1.39,
       "shares": 0,
       "item_code": null
@@ -129,13 +171,13 @@
       "item_code": null
     },
     {
-      "name": "기업은행(단)2511할304A-17",
+      "name": "하나베스트제2차 20260901-1-1(단)",
       "weight_pct": 1.38,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "산금25신이0106-0421-2",
+      "name": "기업은행(단)2511할304A-17",
       "weight_pct": 1.38,
       "shares": 0,
       "item_code": null
@@ -159,20 +201,32 @@
       "item_code": null
     },
     {
-      "name": "기업은행(신)2411이2A-13",
-      "weight_pct": 1.38,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "산금23신이0306-0523-2",
-      "weight_pct": 1.38,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "한국수출입금융2512마-할인-274",
       "weight_pct": 1.38,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업 여의도(지) 20260831-91-1",
+      "weight_pct": 1.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(신)2601할1A-21",
+      "weight_pct": 1.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업 자금부 20260618-214-1",
+      "weight_pct": 1.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산업 여의도(지) 20260213-364-1",
+      "weight_pct": 1.37,
       "shares": 0,
       "item_code": null
     },
@@ -183,32 +237,14 @@
       "item_code": null
     },
     {
-      "name": "기업은행(신)2601할1A-21",
-      "weight_pct": 1.36,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "기업 자금부 20260618-214-1",
-      "weight_pct": 1.36,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "산업 여의도(지) 20260213-364-1",
-      "weight_pct": 1.36,
+      "name": "산업 여의도(지) 20260811-91-1",
+      "weight_pct": 0.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "기업은행(신)2411이2A-22",
       "weight_pct": 0.69,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "산업 여의도(지) 20260811-91-1",
-      "weight_pct": 0.68,
       "shares": 0,
       "item_code": null
     }

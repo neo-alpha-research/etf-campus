@@ -1,6 +1,6 @@
 {
   "ticker": "458030",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고채이자03290-2609",
@@ -245,7 +245,7 @@
     {
       "name": "원화예금",
       "weight_pct": -8.48,
-      "shares": -9333593,
+      "shares": -9334640,
       "item_code": null
     }
   ]

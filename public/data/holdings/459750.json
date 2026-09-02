@@ -1,28 +1,28 @@
 {
   "ticker": "459750",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "RISE 미국S&P500",
-      "weight_pct": 25.07,
+      "weight_pct": 25.09,
       "shares": 9771,
       "item_code": "379780"
     },
     {
       "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
-      "weight_pct": 25.03,
+      "weight_pct": 25.05,
       "shares": 2229,
       "item_code": "VEA"
     },
     {
       "name": "State Street SPDR S&P 500 ETF Trust",
-      "weight_pct": 24.71,
+      "weight_pct": 24.7,
       "shares": 209,
       "item_code": "SPY"
     },
     {
       "name": "Vanguard Emerging Markets Stock Index Fund",
-      "weight_pct": 13.96,
+      "weight_pct": 13.94,
       "shares": 1495,
       "item_code": "VWO"
     },
@@ -47,7 +47,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.36,
-      "shares": 3251434,
+      "shares": 3244123,
       "item_code": null
     }
   ]

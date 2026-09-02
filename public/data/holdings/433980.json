@@ -1,6 +1,6 @@
 {
   "ticker": "433980",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "Vanguard Total World Stock Index Fund",
@@ -10,37 +10,37 @@
     },
     {
       "name": "State Street SPDR Portfolio MSCI Global Sk Mkt ETF",
-      "weight_pct": 25.28,
+      "weight_pct": 25.27,
       "shares": 1659,
       "item_code": "SPGM.K"
     },
     {
       "name": "KODEX ESG종합채권(A-이상)액티브",
-      "weight_pct": 13.32,
+      "weight_pct": 13.31,
       "shares": 923,
       "item_code": "439860"
     },
     {
       "name": "KODEX 머니마켓액티브",
-      "weight_pct": 7.23,
+      "weight_pct": 7.24,
       "shares": 541,
       "item_code": "488770"
     },
     {
       "name": "KODEX 종합채권(AA-이상)액티브",
-      "weight_pct": 7.18,
+      "weight_pct": 7.16,
       "shares": 514,
       "item_code": "273130"
     },
     {
       "name": "Invesco NASDAQ 100 ETF",
-      "weight_pct": 3.63,
+      "weight_pct": 3.64,
       "shares": 71,
       "item_code": "QQQM.O"
     },
     {
       "name": "KODEX 단기채권PLUS",
-      "weight_pct": 3.63,
+      "weight_pct": 3.64,
       "shares": 250,
       "item_code": "214980"
     },
@@ -59,8 +59,14 @@
     {
       "name": "원화현금",
       "weight_pct": 1.94,
-      "shares": 15317109,
+      "shares": 15310933,
       "item_code": null
+    },
+    {
+      "name": "KODEX 미국휴머노이드로봇",
+      "weight_pct": 1.04,
+      "shares": 558,
+      "item_code": "0038A0"
     },
     {
       "name": "KODEX 미국AI테크TOP10",
@@ -69,14 +75,8 @@
       "item_code": "485540"
     },
     {
-      "name": "KODEX 미국휴머노이드로봇",
-      "weight_pct": 1.03,
-      "shares": 558,
-      "item_code": "0038A0"
-    },
-    {
       "name": "TIME 글로벌우주테크&방산액티브",
-      "weight_pct": 0.92,
+      "weight_pct": 0.91,
       "shares": 375,
       "item_code": "478150"
     },
@@ -94,7 +94,7 @@
     },
     {
       "name": "KODEX AI전력핵심설비",
-      "weight_pct": 0.7,
+      "weight_pct": 0.69,
       "shares": 151,
       "item_code": "487240"
     },

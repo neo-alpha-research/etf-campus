@@ -1,58 +1,58 @@
 {
   "ticker": "227540",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 21.41,
+      "weight_pct": 21.57,
       "shares": 56,
       "item_code": "207940"
     },
     {
       "name": "셀트리온",
-      "weight_pct": 20.75,
+      "weight_pct": 20.77,
       "shares": 436,
       "item_code": "068270"
     },
     {
       "name": "유한양행",
-      "weight_pct": 13.32,
+      "weight_pct": 13.24,
       "shares": 632,
       "item_code": "000100"
     },
     {
       "name": "SK바이오팜",
-      "weight_pct": 9.85,
+      "weight_pct": 10.1,
       "shares": 448,
       "item_code": "326030"
     },
     {
       "name": "한미약품",
-      "weight_pct": 8.93,
+      "weight_pct": 8.97,
       "shares": 72,
       "item_code": "128940"
     },
     {
       "name": "삼성에피스홀딩스",
-      "weight_pct": 6.14,
+      "weight_pct": 6.02,
       "shares": 63,
       "item_code": "0126Z0"
     },
     {
       "name": "한올바이오파마",
-      "weight_pct": 6.1,
+      "weight_pct": 5.67,
       "shares": 406,
       "item_code": "009420"
     },
     {
       "name": "한미사이언스",
-      "weight_pct": 3.62,
+      "weight_pct": 3.72,
       "shares": 321,
       "item_code": "008930"
     },
     {
       "name": "SK바이오사이언스",
-      "weight_pct": 2.86,
+      "weight_pct": 2.87,
       "shares": 296,
       "item_code": "302440"
     },
@@ -64,13 +64,13 @@
     },
     {
       "name": "대웅제약",
-      "weight_pct": 1.66,
+      "weight_pct": 1.67,
       "shares": 52,
       "item_code": "069620"
     },
     {
       "name": "종근당",
-      "weight_pct": 1.55,
+      "weight_pct": 1.56,
       "shares": 90,
       "item_code": "185750"
     },
@@ -82,14 +82,14 @@
     },
     {
       "name": "에스디바이오센서",
-      "weight_pct": 0.61,
+      "weight_pct": 0.62,
       "shares": 401,
       "item_code": "137310"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.13,
-      "shares": 520745,
+      "shares": 516270,
       "item_code": null
     }
   ]

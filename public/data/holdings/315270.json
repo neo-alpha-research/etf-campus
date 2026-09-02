@@ -1,71 +1,71 @@
 {
   "ticker": "315270",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "NAVER",
-      "weight_pct": 22.11,
+      "weight_pct": 21.86,
       "shares": 411,
       "item_code": "035420"
     },
     {
       "name": "SK텔레콤",
-      "weight_pct": 18.24,
+      "weight_pct": 18.27,
       "shares": 781,
       "item_code": "017670"
     },
     {
       "name": "카카오",
-      "weight_pct": 16.06,
+      "weight_pct": 16.01,
       "shares": 1773,
       "item_code": "035720"
     },
     {
       "name": "KT",
-      "weight_pct": 15.29,
+      "weight_pct": 15.43,
       "shares": 1155,
       "item_code": "030200"
     },
     {
       "name": "크래프톤",
-      "weight_pct": 8.27,
+      "weight_pct": 8.4,
       "shares": 147,
       "item_code": "259960"
     },
     {
       "name": "하이브",
-      "weight_pct": 5.87,
+      "weight_pct": 5.81,
       "shares": 132,
       "item_code": "352820"
     },
     {
       "name": "LG유플러스",
-      "weight_pct": 5.31,
+      "weight_pct": 5.38,
       "shares": 1431,
       "item_code": "032640"
     },
     {
       "name": "NC",
-      "weight_pct": 5.01,
+      "weight_pct": 4.98,
       "shares": 90,
       "item_code": "036570"
     },
     {
       "name": "제일기획",
-      "weight_pct": 1.73,
+      "weight_pct": 1.72,
       "shares": 364,
       "item_code": "030000"
     },
     {
       "name": "넷마블",
-      "weight_pct": 1.51,
+      "weight_pct": 1.55,
       "shares": 162,
       "item_code": "251270"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.55,
-      "shares": 2221253,
+      "weight_pct": 0.54,
+      "shares": 2216823,
       "item_code": null
     }
   ]

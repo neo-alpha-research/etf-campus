@@ -1,6 +1,6 @@
 {
   "ticker": "437350",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "HYUCAP 5 1/4 01/22/28",
@@ -45,14 +45,14 @@
       "item_code": null
     },
     {
-      "name": "USB 5.384 01/23/30",
+      "name": "ET 5 1/4 07/01/29",
       "weight_pct": 2.6,
       "shares": 11363,
       "item_code": null
     },
     {
-      "name": "ET 5 1/4 07/01/29",
-      "weight_pct": 2.59,
+      "name": "USB 5.384 01/23/30",
+      "weight_pct": 2.6,
       "shares": 11363,
       "item_code": null
     },
@@ -93,12 +93,6 @@
       "item_code": null
     },
     {
-      "name": "NTT 5.11 07/02/29",
-      "weight_pct": 2.58,
-      "shares": 11363,
-      "item_code": null
-    },
-    {
       "name": "MS 5.123 02/01/29",
       "weight_pct": 2.58,
       "shares": 11363,
@@ -117,20 +111,26 @@
       "item_code": null
     },
     {
+      "name": "NTT 5.11 07/02/29",
+      "weight_pct": 2.57,
+      "shares": 11363,
+      "item_code": null
+    },
+    {
       "name": "MS 4.466 07/06/28",
       "weight_pct": 2.57,
       "shares": 11363,
       "item_code": null
     },
     {
-      "name": "PCG 5.05 11/15/31",
+      "name": "ORCL 4 1/2 05/06/28",
       "weight_pct": 2.54,
       "shares": 11363,
       "item_code": null
     },
     {
-      "name": "ORCL 4 1/2 05/06/28",
-      "weight_pct": 2.54,
+      "name": "PCG 5.05 11/15/31",
+      "weight_pct": 2.53,
       "shares": 11363,
       "item_code": null
     },
@@ -202,7 +202,7 @@
     },
     {
       "name": "DAESEC 4 3/8 03/11/31",
-      "weight_pct": 2.46,
+      "weight_pct": 2.45,
       "shares": 11363,
       "item_code": null
     },
@@ -213,21 +213,27 @@
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 1.89,
-      "shares": 11456635,
-      "item_code": null
-    },
-    {
       "name": "T 3 7/8 04/30/31",
       "weight_pct": 1.75,
       "shares": 7954,
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 1.75,
+      "shares": 10602938,
+      "item_code": null
+    },
+    {
+      "name": "T 4 1/4 08/15/29",
+      "weight_pct": 1.23,
+      "shares": 5454,
+      "item_code": null
+    },
+    {
       "name": "B 10/15/26",
-      "weight_pct": 1.69,
-      "shares": 7500,
+      "weight_pct": 0.61,
+      "shares": 2727,
       "item_code": null
     }
   ]

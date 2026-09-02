@@ -1,65 +1,65 @@
 {
   "ticker": "0164G0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
+      "name": "한무기",
+      "weight_pct": 15.92,
+      "shares": 447,
+      "item_code": "688256.SS"
+    },
+    {
       "name": "중국 국제 반도체",
-      "weight_pct": 15.4,
-      "shares": 7892,
+      "weight_pct": 15.38,
+      "shares": 7916,
       "item_code": "0981.HK"
     },
     {
       "name": "북방화창",
-      "weight_pct": 15.1,
+      "weight_pct": 14.95,
       "shares": 667,
       "item_code": "002371.SZ"
     },
     {
-      "name": "한무기",
-      "weight_pct": 15.01,
-      "shares": 442,
-      "item_code": "688256.SS"
-    },
-    {
       "name": "중제욱창",
-      "weight_pct": 14.21,
+      "weight_pct": 13.91,
       "shares": 510,
       "item_code": "300308.SZ"
     },
     {
       "name": "신역성통신기술",
-      "weight_pct": 6.67,
+      "weight_pct": 6.62,
       "shares": 515,
       "item_code": "300502.SZ"
     },
     {
       "name": "해광신식",
-      "weight_pct": 5.64,
+      "weight_pct": 5.75,
       "shares": 708,
       "item_code": "688041.SS"
     },
     {
       "name": "천부광통신",
-      "weight_pct": 5.36,
+      "weight_pct": 5.28,
       "shares": 627,
       "item_code": "300394.SZ"
     },
     {
       "name": "화해청과",
-      "weight_pct": 3.7,
+      "weight_pct": 3.65,
       "shares": 438,
       "item_code": "688120.SS"
     },
     {
       "name": "광신과기",
-      "weight_pct": 3.31,
+      "weight_pct": 3.38,
       "shares": 588,
       "item_code": "002281.SZ"
     },
     {
       "name": "ACM 리서치",
-      "weight_pct": 3.16,
-      "shares": 329,
+      "weight_pct": 3.21,
+      "shares": 333,
       "item_code": "688082.SS"
     },
     {
@@ -70,32 +70,32 @@
     },
     {
       "name": "화훙 그레이스 반도체",
-      "weight_pct": 2.45,
+      "weight_pct": 2.47,
       "shares": 732,
       "item_code": "1347.HK"
     },
     {
       "name": "몬타지 테크놀로지",
-      "weight_pct": 2.44,
+      "weight_pct": 2.31,
       "shares": 353,
       "item_code": "688008.SS"
     },
     {
       "name": "백유존저과기",
-      "weight_pct": 2.25,
+      "weight_pct": 2.27,
       "shares": 301,
       "item_code": "688525.SS"
     },
     {
       "name": "AMEC(중미반도체)",
-      "weight_pct": 1.91,
-      "shares": 161,
+      "weight_pct": 1.92,
+      "shares": 166,
       "item_code": "688012.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.74,
-      "shares": 4674232,
+      "weight_pct": 0.31,
+      "shares": 2035201,
       "item_code": null
     }
   ]

@@ -1,6 +1,6 @@
 {
   "ticker": "0091M0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "연합자산관리36-1",
@@ -65,7 +65,7 @@
     {
       "name": "원화현금",
       "weight_pct": 4.49,
-      "shares": 4568743,
+      "shares": 4569010,
       "item_code": null
     },
     {

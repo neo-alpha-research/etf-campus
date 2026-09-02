@@ -1,28 +1,28 @@
 {
   "ticker": "277540",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "TAIWAN SEMICONDUCTOR MANUFAC",
-      "weight_pct": 28.57,
+      "weight_pct": 28.4,
       "shares": 4349,
       "item_code": null
     },
     {
       "name": "삼성전자",
-      "weight_pct": 14.49,
+      "weight_pct": 14.5,
       "shares": 886,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 10.11,
+      "weight_pct": 10.19,
       "shares": 96,
       "item_code": "000660"
     },
     {
       "name": "텐센트",
-      "weight_pct": 5.51,
+      "weight_pct": 5.47,
       "shares": 1102,
       "item_code": "0700.HK"
     },
@@ -34,67 +34,61 @@
     },
     {
       "name": "MEDIATEK INC",
-      "weight_pct": 3.12,
+      "weight_pct": 3.08,
       "shares": 289,
       "item_code": null
     },
     {
       "name": "DBS GROUP HOLDINGS LTD",
-      "weight_pct": 1.87,
+      "weight_pct": 1.9,
       "shares": 364,
       "item_code": null
     },
     {
       "name": "CCB(중국건설은행)",
-      "weight_pct": 1.78,
+      "weight_pct": 1.85,
       "shares": 17776,
       "item_code": "0939.HK"
     },
     {
-      "name": "DELTA ELECTRONICS INC",
-      "weight_pct": 1.72,
-      "shares": 347,
-      "item_code": null
-    },
-    {
       "name": "삼성전자우",
-      "weight_pct": 1.7,
+      "weight_pct": 1.73,
       "shares": 145,
       "item_code": "005935"
     },
     {
+      "name": "DELTA ELECTRONICS INC",
+      "weight_pct": 1.73,
+      "shares": 347,
+      "item_code": null
+    },
+    {
       "name": "AIA 그룹",
-      "weight_pct": 1.56,
+      "weight_pct": 1.57,
       "shares": 1885,
       "item_code": "1299.HK"
     },
     {
       "name": "HON HAI PRECISION INDUSTRY",
-      "weight_pct": 1.5,
+      "weight_pct": 1.49,
       "shares": 2197,
       "item_code": null
     },
     {
       "name": "OVERSEA-CHINESE BANKING CORP",
-      "weight_pct": 1.45,
+      "weight_pct": 1.47,
       "shares": 690,
       "item_code": null
     },
     {
       "name": "ICBC(중국공상은행)",
-      "weight_pct": 1.17,
+      "weight_pct": 1.19,
       "shares": 14400,
       "item_code": "1398.HK"
     },
     {
-      "name": "ASE TECHNOLOGY HOLDING CO LT",
-      "weight_pct": 1.07,
-      "shares": 635,
-      "item_code": null
-    },
-    {
       "name": "SK스퀘어",
-      "weight_pct": 1.04,
+      "weight_pct": 1.07,
       "shares": 16,
       "item_code": "402340"
     },
@@ -105,58 +99,64 @@
       "item_code": "0388.HK"
     },
     {
-      "name": "샤오미",
-      "weight_pct": 0.94,
-      "shares": 3085,
-      "item_code": "1810.HK"
+      "name": "ASE TECHNOLOGY HOLDING CO LT",
+      "weight_pct": 1.0,
+      "shares": 635,
+      "item_code": null
     },
     {
       "name": "BOC(중국은행)",
-      "weight_pct": 0.92,
+      "weight_pct": 0.97,
       "shares": 15080,
       "item_code": "3988.HK"
     },
     {
+      "name": "샤오미",
+      "weight_pct": 0.93,
+      "shares": 3085,
+      "item_code": "1810.HK"
+    },
+    {
       "name": "메이투안",
-      "weight_pct": 0.85,
+      "weight_pct": 0.87,
       "shares": 1009,
       "item_code": "3690.HK"
     },
     {
       "name": "UNITED MICROELECTRONICS CORP",
-      "weight_pct": 0.75,
+      "weight_pct": 0.74,
       "shares": 2132,
       "item_code": null
     },
     {
       "name": "핑안 인슈어런스 오브 차이나",
-      "weight_pct": 0.73,
+      "weight_pct": 0.72,
       "shares": 1168,
       "item_code": "2318.HK"
     },
     {
       "name": "UNITED OVERSEAS BANK LTD",
-      "weight_pct": 0.71,
+      "weight_pct": 0.72,
       "shares": 258,
       "item_code": null
     },
     {
       "name": "KB금융",
-      "weight_pct": 0.68,
+      "weight_pct": 0.67,
       "shares": 63,
       "item_code": "105560"
-    },
-    {
-      "name": "BYD",
-      "weight_pct": 0.67,
-      "shares": 664,
-      "item_code": "1211.HK"
     },
     {
       "name": "넷이즈",
       "weight_pct": 0.65,
       "shares": 311,
       "item_code": "9999.HK"
+    },
+    {
+      "name": "BYD",
+      "weight_pct": 0.63,
+      "shares": 664,
+      "item_code": "1211.HK"
     },
     {
       "name": "FUBON FINANCIAL HOLDING CO",
@@ -184,39 +184,39 @@
     },
     {
       "name": "신한지주",
-      "weight_pct": 0.55,
+      "weight_pct": 0.56,
       "shares": 81,
       "item_code": "055550"
     },
     {
       "name": "CATHAY FINANCIAL HOLDING CO",
-      "weight_pct": 0.5,
+      "weight_pct": 0.53,
       "shares": 1772,
       "item_code": null
     },
     {
-      "name": "자금광업 Class H",
-      "weight_pct": 0.45,
-      "shares": 1080,
-      "item_code": "2899.HK"
-    },
-    {
       "name": "QUANTA COMPUTER INC",
-      "weight_pct": 0.44,
+      "weight_pct": 0.45,
       "shares": 495,
       "item_code": null
     },
     {
       "name": "중국생명",
-      "weight_pct": 0.43,
+      "weight_pct": 0.44,
       "shares": 1342,
       "item_code": "2628.HK"
     },
     {
-      "name": "두산에너빌리티",
-      "weight_pct": 0.42,
-      "shares": 81,
-      "item_code": "034020"
+      "name": "자금광업 Class H",
+      "weight_pct": 0.43,
+      "shares": 1080,
+      "item_code": "2899.HK"
+    },
+    {
+      "name": "트립닷컴 그룹",
+      "weight_pct": 0.43,
+      "shares": 110,
+      "item_code": "9961.HK"
     },
     {
       "name": "페트로차이나",
@@ -225,22 +225,10 @@
       "item_code": "0857.HK"
     },
     {
-      "name": "트립닷컴 그룹",
-      "weight_pct": 0.42,
-      "shares": 110,
-      "item_code": "9961.HK"
-    },
-    {
-      "name": "비원 메디슨스",
+      "name": "두산에너빌리티",
       "weight_pct": 0.41,
-      "shares": 170,
-      "item_code": "6160.HK"
-    },
-    {
-      "name": "한화에어로스페이스",
-      "weight_pct": 0.41,
-      "shares": 6,
-      "item_code": "012450"
+      "shares": 81,
+      "item_code": "034020"
     },
     {
       "name": "바이두",
@@ -249,28 +237,34 @@
       "item_code": "9888.HK"
     },
     {
+      "name": "비원 메디슨스",
+      "weight_pct": 0.4,
+      "shares": 170,
+      "item_code": "6160.HK"
+    },
+    {
+      "name": "한화에어로스페이스",
+      "weight_pct": 0.39,
+      "shares": 6,
+      "item_code": "012450"
+    },
+    {
       "name": "SINGAPORE TELECOMMUNICATIONS",
       "weight_pct": 0.39,
       "shares": 1277,
       "item_code": null
     },
     {
-      "name": "창과실업",
-      "weight_pct": 0.38,
-      "shares": 257,
-      "item_code": "0669.HK"
-    },
-    {
       "name": "중국 농업은행",
-      "weight_pct": 0.37,
+      "weight_pct": 0.38,
       "shares": 5543,
       "item_code": "1288.HK"
     },
     {
-      "name": "신홍기부동산",
-      "weight_pct": 0.37,
-      "shares": 277,
-      "item_code": "0016.HK"
+      "name": "창과실업",
+      "weight_pct": 0.38,
+      "shares": 257,
+      "item_code": "0669.HK"
     },
     {
       "name": "CKH홀딩스",
@@ -285,10 +279,10 @@
       "item_code": "000270"
     },
     {
-      "name": "NAVER",
-      "weight_pct": 0.34,
-      "shares": 25,
-      "item_code": "035420"
+      "name": "신홍기부동산",
+      "weight_pct": 0.35,
+      "shares": 277,
+      "item_code": "0016.HK"
     },
     {
       "name": "셀트리온",
@@ -298,13 +292,19 @@
     },
     {
       "name": "초상은행",
-      "weight_pct": 0.32,
+      "weight_pct": 0.33,
       "shares": 596,
       "item_code": "3968.HK"
     },
     {
+      "name": "NAVER",
+      "weight_pct": 0.33,
+      "shares": 25,
+      "item_code": "035420"
+    },
+    {
       "name": "교통은행",
-      "weight_pct": 0.31,
+      "weight_pct": 0.32,
       "shares": 3851,
       "item_code": "3328.HK"
     },
@@ -323,7 +323,7 @@
     {
       "name": "원화현금",
       "weight_pct": -0.07,
-      "shares": -1260505,
+      "shares": -1202726,
       "item_code": null
     }
   ]

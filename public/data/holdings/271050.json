@@ -1,28 +1,28 @@
 {
   "ticker": "271050",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 95.99,
-      "shares": 48450386,
+      "weight_pct": 96.17,
+      "shares": 47181902,
       "item_code": null
     },
     {
       "name": "ProShares UltraShort Bloomberg Crude Oil",
-      "weight_pct": 4.0,
-      "shares": 58,
+      "weight_pct": 3.82,
+      "shares": 57,
       "item_code": "SCO"
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -38.76,
+      "weight_pct": -36.11,
       "shares": -1,
       "item_code": null
     },
     {
       "name": "Crude Oil 2026 10",
-      "weight_pct": -91.72,
+      "weight_pct": -92.51,
       "shares": 0,
       "item_code": null
     }

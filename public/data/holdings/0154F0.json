@@ -1,71 +1,71 @@
 {
   "ticker": "0154F0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "하나금융지주",
-      "weight_pct": 12.0,
+      "weight_pct": 11.98,
       "shares": 540,
       "item_code": "086790"
     },
     {
       "name": "메리츠금융지주",
-      "weight_pct": 11.65,
+      "weight_pct": 11.84,
       "shares": 585,
       "item_code": "138040"
     },
     {
-      "name": "KB금융",
-      "weight_pct": 11.55,
-      "shares": 409,
-      "item_code": "105560"
-    },
-    {
       "name": "신한지주",
-      "weight_pct": 11.36,
+      "weight_pct": 11.48,
       "shares": 640,
       "item_code": "055550"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 11.34,
+      "weight_pct": 11.48,
       "shares": 2059,
       "item_code": "316140"
     },
     {
+      "name": "KB금융",
+      "weight_pct": 11.3,
+      "shares": 409,
+      "item_code": "105560"
+    },
+    {
       "name": "BNK금융지주",
-      "weight_pct": 9.15,
+      "weight_pct": 9.18,
       "shares": 3692,
       "item_code": "138930"
     },
     {
       "name": "NH투자증권",
-      "weight_pct": 8.61,
+      "weight_pct": 8.51,
       "shares": 1990,
       "item_code": "005940"
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 8.46,
+      "weight_pct": 8.32,
       "shares": 270,
       "item_code": "071050"
     },
     {
       "name": "키움증권",
-      "weight_pct": 8.19,
+      "weight_pct": 8.24,
       "shares": 181,
       "item_code": "039490"
     },
     {
       "name": "미래에셋증권",
-      "weight_pct": 6.87,
+      "weight_pct": 6.84,
       "shares": 1215,
       "item_code": "006800"
     },
     {
       "name": "원화예금",
-      "weight_pct": 0.76,
-      "shares": 4692221,
+      "weight_pct": 0.75,
+      "shares": 4695746,
       "item_code": null
     }
   ]

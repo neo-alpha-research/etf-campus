@@ -1,77 +1,77 @@
 {
   "ticker": "442570",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "RISE 미국S&P500",
-      "weight_pct": 23.63,
+      "weight_pct": 23.64,
       "shares": 8918,
       "item_code": "379780"
     },
     {
       "name": "RISE 미국나스닥100",
-      "weight_pct": 19.33,
+      "weight_pct": 19.38,
       "shares": 5600,
       "item_code": "368590"
     },
     {
       "name": "RISE 종합채권(A-이상)액티브",
-      "weight_pct": 10.31,
+      "weight_pct": 10.27,
       "shares": 861,
       "item_code": "385540"
     },
     {
       "name": "RISE 단기채권알파액티브",
-      "weight_pct": 8.22,
+      "weight_pct": 8.23,
       "shares": 621,
       "item_code": "385550"
     },
     {
       "name": "RISE 200",
-      "weight_pct": 8.04,
+      "weight_pct": 8.07,
       "shares": 639,
       "item_code": "148020"
     },
     {
       "name": "Vanguard European Stock Index Fund",
-      "weight_pct": 7.58,
-      "shares": 519,
+      "weight_pct": 7.53,
+      "shares": 517,
       "item_code": "VGK"
     },
     {
       "name": "JPMorgan BetaBuilders Japan ETF",
-      "weight_pct": 5.6,
-      "shares": 456,
+      "weight_pct": 5.63,
+      "shares": 458,
       "item_code": "BBJP.K"
     },
     {
       "name": "Vanguard Emerging Markets Stock Index Fund",
-      "weight_pct": 5.53,
-      "shares": 573,
+      "weight_pct": 5.54,
+      "shares": 576,
       "item_code": "VWO"
     },
     {
       "name": "RISE 국고채10년액티브",
-      "weight_pct": 5.12,
+      "weight_pct": 5.1,
       "shares": 449,
       "item_code": "481430"
     },
     {
       "name": "RISE 미국반도체NYSE",
-      "weight_pct": 4.05,
+      "weight_pct": 4.06,
       "shares": 1038,
       "item_code": "469060"
     },
     {
       "name": "RISE KIS국고채30년Enhanced",
-      "weight_pct": 1.97,
+      "weight_pct": 1.94,
       "shares": 325,
       "item_code": "385560"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.56,
-      "shares": 4910319,
+      "shares": 4836741,
       "item_code": null
     }
   ]

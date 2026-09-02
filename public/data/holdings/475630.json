@@ -1,29 +1,29 @@
 {
   "ticker": "475630",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 96.08,
-      "shares": 103356699,
+      "weight_pct": 96.03,
+      "shares": 103309709,
       "item_code": null
     },
     {
       "name": "KIS CD 1Y TR Index TRS 240205-07",
-      "weight_pct": 3.81,
-      "shares": 4109086,
+      "weight_pct": 3.86,
+      "shares": 4161306,
       "item_code": null
     },
     {
       "name": "KIS CD 1Y TR Index TRS 240202-02",
-      "weight_pct": 0.09,
-      "shares": 103796,
+      "weight_pct": 0.1,
+      "shares": 107894,
       "item_code": null
     },
     {
       "name": "KIS CD 1Y TR Index TRS 240529-02",
       "weight_pct": 0.0,
-      "shares": 727,
+      "shares": 847,
       "item_code": null
     }
   ]

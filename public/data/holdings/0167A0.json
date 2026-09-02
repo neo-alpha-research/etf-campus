@@ -1,71 +1,71 @@
 {
   "ticker": "0167A0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 25.44,
+      "weight_pct": 25.56,
       "shares": 856,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 22.2,
+      "weight_pct": 22.47,
       "shares": 116,
       "item_code": "000660"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 16.0,
+      "weight_pct": 15.7,
       "shares": 96,
       "item_code": "009150"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 13.27,
+      "weight_pct": 13.67,
       "shares": 112,
       "item_code": "402340"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 7.5,
+      "weight_pct": 7.32,
       "shares": 576,
       "item_code": "007660"
     },
     {
       "name": "대덕전자",
-      "weight_pct": 4.52,
+      "weight_pct": 4.47,
       "shares": 351,
       "item_code": "353200"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 4.3,
+      "weight_pct": 4.25,
       "shares": 338,
       "item_code": "240810"
     },
     {
       "name": "피에스케이",
-      "weight_pct": 3.0,
+      "weight_pct": 2.96,
       "shares": 206,
       "item_code": "319660"
     },
     {
       "name": "테스",
-      "weight_pct": 1.97,
+      "weight_pct": 1.87,
       "shares": 121,
       "item_code": "095610"
     },
     {
       "name": "브이엠",
-      "weight_pct": 1.52,
+      "weight_pct": 1.46,
       "shares": 236,
       "item_code": "089970"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.22,
-      "shares": 1961887,
+      "shares": 1953596,
       "item_code": null
     }
   ]

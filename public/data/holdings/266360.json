@@ -1,34 +1,34 @@
 {
   "ticker": "266360",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "NAVER",
-      "weight_pct": 25.38,
+      "weight_pct": 25.15,
       "shares": 1175,
       "item_code": "035420"
     },
     {
       "name": "카카오",
-      "weight_pct": 16.78,
+      "weight_pct": 16.76,
       "shares": 4613,
       "item_code": "035720"
     },
     {
       "name": "크래프톤",
-      "weight_pct": 14.86,
+      "weight_pct": 15.13,
       "shares": 658,
       "item_code": "259960"
     },
     {
       "name": "하이브",
-      "weight_pct": 10.51,
+      "weight_pct": 10.43,
       "shares": 589,
       "item_code": "352820"
     },
     {
       "name": "NC",
-      "weight_pct": 8.96,
+      "weight_pct": 8.94,
       "shares": 401,
       "item_code": "036570"
     },
@@ -39,52 +39,52 @@
       "item_code": "030000"
     },
     {
-      "name": "펄어비스",
-      "weight_pct": 2.74,
-      "shares": 874,
-      "item_code": "263750"
-    },
-    {
       "name": "넷마블",
-      "weight_pct": 2.72,
+      "weight_pct": 2.8,
       "shares": 725,
       "item_code": "251270"
     },
     {
+      "name": "펄어비스",
+      "weight_pct": 2.72,
+      "shares": 874,
+      "item_code": "263750"
+    },
+    {
       "name": "JYP Ent.",
-      "weight_pct": 2.49,
+      "weight_pct": 2.48,
       "shares": 628,
       "item_code": "035900"
     },
     {
       "name": "에스엠",
-      "weight_pct": 2.36,
+      "weight_pct": 2.33,
       "shares": 318,
       "item_code": "041510"
     },
     {
       "name": "NHN",
-      "weight_pct": 2.16,
+      "weight_pct": 2.05,
       "shares": 293,
       "item_code": "181710"
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 1.37,
+      "weight_pct": 1.36,
       "shares": 335,
       "item_code": "122870"
     },
     {
-      "name": "시프트업",
-      "weight_pct": 0.99,
-      "shares": 305,
-      "item_code": "462870"
-    },
-    {
       "name": "카카오게임즈",
-      "weight_pct": 0.94,
+      "weight_pct": 1.06,
       "shares": 1082,
       "item_code": "293490"
+    },
+    {
+      "name": "시프트업",
+      "weight_pct": 1.0,
+      "shares": 305,
+      "item_code": "462870"
     },
     {
       "name": "CJ ENM",
@@ -94,25 +94,25 @@
     },
     {
       "name": "스튜디오드래곤",
-      "weight_pct": 0.71,
+      "weight_pct": 0.7,
       "shares": 319,
       "item_code": "253450"
     },
     {
-      "name": "SOOP",
-      "weight_pct": 0.69,
-      "shares": 182,
-      "item_code": "067160"
-    },
-    {
       "name": "위메이드",
-      "weight_pct": 0.68,
+      "weight_pct": 0.7,
       "shares": 456,
       "item_code": "112040"
     },
     {
+      "name": "SOOP",
+      "weight_pct": 0.7,
+      "shares": 182,
+      "item_code": "067160"
+    },
+    {
       "name": "넥슨게임즈",
-      "weight_pct": 0.59,
+      "weight_pct": 0.62,
       "shares": 543,
       "item_code": "225570"
     },
@@ -124,8 +124,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.44,
-      "shares": 4510893,
+      "weight_pct": 0.46,
+      "shares": 4631144,
       "item_code": null
     }
   ]

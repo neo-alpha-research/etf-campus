@@ -1,82 +1,82 @@
 {
   "ticker": "266390",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "LG전자",
-      "weight_pct": 21.37,
+      "weight_pct": 20.51,
       "shares": 1519,
       "item_code": "066570"
     },
     {
       "name": "한진칼",
-      "weight_pct": 15.18,
+      "weight_pct": 14.91,
       "shares": 1757,
       "item_code": "180640"
     },
     {
       "name": "코웨이",
-      "weight_pct": 12.73,
+      "weight_pct": 12.93,
       "shares": 2022,
       "item_code": "021240"
     },
     {
       "name": "신세계",
-      "weight_pct": 6.29,
+      "weight_pct": 6.67,
       "shares": 234,
       "item_code": "004170"
     },
     {
       "name": "실리콘투",
-      "weight_pct": 4.68,
+      "weight_pct": 4.51,
       "shares": 1331,
       "item_code": "257720"
     },
     {
       "name": "강원랜드",
-      "weight_pct": 4.05,
+      "weight_pct": 4.11,
       "shares": 4263,
       "item_code": "035250"
     },
     {
       "name": "영원무역",
-      "weight_pct": 3.83,
+      "weight_pct": 3.97,
       "shares": 816,
       "item_code": "111770"
     },
     {
       "name": "호텔신라",
-      "weight_pct": 3.29,
+      "weight_pct": 3.37,
       "shares": 1151,
       "item_code": "008770"
     },
     {
       "name": "미스토홀딩스",
-      "weight_pct": 3.09,
+      "weight_pct": 3.1,
       "shares": 1138,
       "item_code": "081660"
     },
     {
-      "name": "현대백화점",
-      "weight_pct": 2.71,
-      "shares": 438,
-      "item_code": "069960"
-    },
-    {
       "name": "롯데쇼핑",
-      "weight_pct": 2.64,
+      "weight_pct": 2.83,
       "shares": 383,
       "item_code": "023530"
     },
     {
+      "name": "현대백화점",
+      "weight_pct": 2.8,
+      "shares": 438,
+      "item_code": "069960"
+    },
+    {
       "name": "F&F",
-      "weight_pct": 2.25,
+      "weight_pct": 2.31,
       "shares": 519,
       "item_code": "383220"
     },
     {
       "name": "영원무역홀딩스",
-      "weight_pct": 2.08,
+      "weight_pct": 2.07,
       "shares": 190,
       "item_code": "009970"
     },
@@ -88,13 +88,13 @@
     },
     {
       "name": "더블유게임즈",
-      "weight_pct": 1.48,
+      "weight_pct": 1.49,
       "shares": 390,
       "item_code": "192080"
     },
     {
       "name": "파라다이스",
-      "weight_pct": 1.08,
+      "weight_pct": 1.09,
       "shares": 1637,
       "item_code": "034230"
     },
@@ -106,13 +106,19 @@
     },
     {
       "name": "아난티",
-      "weight_pct": 0.88,
+      "weight_pct": 0.91,
       "shares": 2634,
       "item_code": "025980"
     },
     {
+      "name": "GS피앤엘",
+      "weight_pct": 0.88,
+      "shares": 298,
+      "item_code": "499790"
+    },
+    {
       "name": "하나투어",
-      "weight_pct": 0.85,
+      "weight_pct": 0.87,
       "shares": 402,
       "item_code": "039130"
     },
@@ -123,14 +129,8 @@
       "item_code": "006730"
     },
     {
-      "name": "GS피앤엘",
-      "weight_pct": 0.84,
-      "shares": 298,
-      "item_code": "499790"
-    },
-    {
       "name": "한샘",
-      "weight_pct": 0.78,
+      "weight_pct": 0.77,
       "shares": 310,
       "item_code": "009240"
     },
@@ -147,12 +147,6 @@
       "item_code": "036620"
     },
     {
-      "name": "유진로봇",
-      "weight_pct": 0.55,
-      "shares": 704,
-      "item_code": "056080"
-    },
-    {
       "name": "메가스터디교육",
       "weight_pct": 0.54,
       "shares": 234,
@@ -165,9 +159,15 @@
       "item_code": "093050"
     },
     {
+      "name": "유진로봇",
+      "weight_pct": 0.53,
+      "shares": 704,
+      "item_code": "056080"
+    },
+    {
       "name": "원화현금",
       "weight_pct": 0.47,
-      "shares": 7273520,
+      "shares": 7254671,
       "item_code": null
     },
     {
@@ -184,7 +184,7 @@
     },
     {
       "name": "쿠쿠홈시스",
-      "weight_pct": 0.39,
+      "weight_pct": 0.38,
       "shares": 253,
       "item_code": "284740"
     },
@@ -196,7 +196,7 @@
     },
     {
       "name": "한세실업",
-      "weight_pct": 0.28,
+      "weight_pct": 0.29,
       "shares": 496,
       "item_code": "105630"
     },
@@ -207,16 +207,16 @@
       "item_code": "004700"
     },
     {
+      "name": "지누스",
+      "weight_pct": 0.23,
+      "shares": 462,
+      "item_code": "013890"
+    },
+    {
       "name": "케이카",
       "weight_pct": 0.21,
       "shares": 514,
       "item_code": "381970"
-    },
-    {
-      "name": "지누스",
-      "weight_pct": 0.21,
-      "shares": 462,
-      "item_code": "013890"
     },
     {
       "name": "더본코리아",

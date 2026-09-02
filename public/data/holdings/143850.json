@@ -1,16 +1,16 @@
 {
   "ticker": "143850",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 97.87,
-      "shares": 1899655869,
+      "weight_pct": 97.86,
+      "shares": 1894230036,
       "item_code": null
     },
     {
       "name": "S&P500 EMINI FUT SEPT 2026",
-      "weight_pct": 87.58,
+      "weight_pct": 87.69,
       "shares": 3,
       "item_code": null
     },
@@ -28,7 +28,7 @@
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -60.09,
+      "weight_pct": -60.34,
       "shares": -85,
       "item_code": null
     }

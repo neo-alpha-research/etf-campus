@@ -1,53 +1,53 @@
 {
   "ticker": "267440",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "US LONG BOND(CBOT) DEC 2026",
-      "weight_pct": 88.98,
+      "weight_pct": 89.09,
       "shares": 4,
       "item_code": null
     },
     {
       "name": "국고채권03875-2612(23-10)",
-      "weight_pct": 31.12,
+      "weight_pct": 31.29,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 29.47,
-      "shares": 239253749,
+      "weight_pct": 29.12,
+      "shares": 235209045,
       "item_code": null
     },
     {
       "name": "RISE 머니마켓액티브",
-      "weight_pct": 15.94,
+      "weight_pct": 16.02,
       "shares": 2333,
       "item_code": "455890"
     },
     {
       "name": "RISE 단기국공채액티브",
-      "weight_pct": 14.14,
+      "weight_pct": 14.22,
       "shares": 1000,
       "item_code": "272560"
     },
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 9.31,
+      "weight_pct": 9.33,
       "shares": 666,
       "item_code": "TLT.O"
     },
     {
-      "name": "FX스왑 USD 260831-92",
-      "weight_pct": -2.63,
-      "shares": -21371550,
+      "name": "FX스왑 USD 260901-07",
+      "weight_pct": -2.22,
+      "shares": -17991125,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260824-97",
-      "weight_pct": -11.25,
-      "shares": -91388875,
+      "weight_pct": -11.33,
+      "shares": -91518175,
       "item_code": null
     }
   ]

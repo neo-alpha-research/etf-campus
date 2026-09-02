@@ -1,52 +1,52 @@
 {
   "ticker": "091180",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "현대차",
-      "weight_pct": 25.4,
+      "weight_pct": 25.37,
       "shares": 895,
       "item_code": "005380"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 20.0,
+      "weight_pct": 19.68,
       "shares": 627,
       "item_code": "012330"
     },
     {
       "name": "기아",
-      "weight_pct": 16.95,
+      "weight_pct": 17.09,
       "shares": 1840,
       "item_code": "000270"
     },
     {
       "name": "한국타이어앤테크놀로지",
-      "weight_pct": 12.41,
+      "weight_pct": 12.64,
       "shares": 2649,
       "item_code": "161390"
     },
     {
       "name": "HL만도",
-      "weight_pct": 4.35,
+      "weight_pct": 4.25,
       "shares": 1195,
       "item_code": "204320"
     },
     {
       "name": "한온시스템",
-      "weight_pct": 3.17,
+      "weight_pct": 3.22,
       "shares": 12867,
       "item_code": "018880"
     },
     {
       "name": "DN오토모티브",
-      "weight_pct": 2.5,
+      "weight_pct": 2.46,
       "shares": 755,
       "item_code": "007340"
     },
     {
       "name": "현대위아",
-      "weight_pct": 2.41,
+      "weight_pct": 2.38,
       "shares": 572,
       "item_code": "011210"
     },
@@ -58,37 +58,37 @@
     },
     {
       "name": "금호타이어",
-      "weight_pct": 2.13,
+      "weight_pct": 2.17,
       "shares": 4131,
       "item_code": "073240"
     },
     {
       "name": "한국앤컴퍼니",
-      "weight_pct": 1.51,
+      "weight_pct": 1.52,
       "shares": 875,
       "item_code": "000240"
     },
     {
       "name": "세방전지",
-      "weight_pct": 1.39,
+      "weight_pct": 1.38,
       "shares": 291,
       "item_code": "004490"
     },
     {
       "name": "삼현",
-      "weight_pct": 0.95,
+      "weight_pct": 0.92,
       "shares": 421,
       "item_code": "437730"
     },
     {
       "name": "성우하이텍",
-      "weight_pct": 0.72,
+      "weight_pct": 0.73,
       "shares": 1711,
       "item_code": "015750"
     },
     {
       "name": "SNT모티브",
-      "weight_pct": 0.71,
+      "weight_pct": 0.73,
       "shares": 391,
       "item_code": "064960"
     },
@@ -100,14 +100,14 @@
     },
     {
       "name": "명신산업",
-      "weight_pct": 0.56,
+      "weight_pct": 0.6,
       "shares": 1006,
       "item_code": "009900"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.56,
-      "shares": 8008953,
+      "weight_pct": 0.58,
+      "shares": 8330598,
       "item_code": null
     },
     {

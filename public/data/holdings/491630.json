@@ -1,35 +1,35 @@
 {
   "ticker": "491630",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 95.49,
-      "shares": 131609531,
+      "weight_pct": 95.97,
+      "shares": 131608912,
       "item_code": null
     },
     {
       "name": "스왑(KB증권)_241022",
-      "weight_pct": 1.44,
-      "shares": 1990041,
+      "weight_pct": 1.28,
+      "shares": 1767787,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)_241022",
-      "weight_pct": 1.03,
-      "shares": 1423477,
+      "weight_pct": 0.92,
+      "shares": 1264498,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)_241022",
-      "weight_pct": 1.02,
-      "shares": 1419027,
+      "weight_pct": 0.91,
+      "shares": 1260049,
       "item_code": null
     },
     {
       "name": "스왑(NH증권)_241022",
-      "weight_pct": 1.0,
-      "shares": 1382311,
+      "weight_pct": 0.89,
+      "shares": 1227446,
       "item_code": null
     }
   ]

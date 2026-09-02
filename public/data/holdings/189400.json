@@ -1,22 +1,22 @@
 {
   "ticker": "189400",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "스왑(NH투자증권)_6281_240716",
-      "weight_pct": 57.83,
-      "shares": 452057477,
+      "weight_pct": 57.84,
+      "shares": 450623133,
       "item_code": null
     },
     {
       "name": "스왑(KB증권)_6281_20260831",
-      "weight_pct": 41.15,
-      "shares": 321705456,
+      "weight_pct": 41.14,
+      "shares": 320588791,
       "item_code": null
     },
     {
       "name": "PLUS 신흥국MSCI(합성 H)",
-      "weight_pct": 0.91,
+      "weight_pct": 0.92,
       "shares": 470,
       "item_code": "195980"
     },
@@ -29,7 +29,7 @@
     {
       "name": "원화현금",
       "weight_pct": -0.75,
-      "shares": -5894841,
+      "shares": -5906657,
       "item_code": null
     }
   ]

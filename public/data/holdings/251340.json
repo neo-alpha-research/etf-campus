@@ -1,17 +1,17 @@
 {
   "ticker": "251340",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 99.99,
-      "shares": 239475903,
+      "weight_pct": 100.0,
+      "shares": 245725281,
       "item_code": null
     },
     {
       "name": "2026-09 코스닥150선물",
-      "weight_pct": -99.88,
-      "shares": -16,
+      "weight_pct": -99.67,
+      "shares": -17,
       "item_code": null
     }
   ]

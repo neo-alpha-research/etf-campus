@@ -1,40 +1,40 @@
 {
   "ticker": "315930",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 24.98,
+      "weight_pct": 25.02,
       "shares": 7728,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 22.9,
+      "weight_pct": 23.1,
       "shares": 1100,
       "item_code": "000660"
     },
     {
       "name": "현대차",
-      "weight_pct": 10.04,
+      "weight_pct": 9.94,
       "shares": 2001,
       "item_code": "005380"
     },
     {
       "name": "KB금융",
-      "weight_pct": 8.96,
+      "weight_pct": 8.83,
       "shares": 4159,
       "item_code": "105560"
     },
     {
       "name": "신한지주",
-      "weight_pct": 7.44,
+      "weight_pct": 7.57,
       "shares": 5495,
       "item_code": "055550"
     },
     {
       "name": "하나금융지주",
-      "weight_pct": 6.01,
+      "weight_pct": 6.04,
       "shares": 3548,
       "item_code": "086790"
     },
@@ -46,26 +46,26 @@
     },
     {
       "name": "NAVER",
-      "weight_pct": 5.21,
+      "weight_pct": 5.15,
       "shares": 1934,
       "item_code": "035420"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 5.0,
+      "weight_pct": 4.88,
       "shares": 887,
       "item_code": "012330"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 4.06,
+      "weight_pct": 4.08,
       "shares": 965,
       "item_code": "005490"
     },
     {
       "name": "원화현금",
       "weight_pct": -0.56,
-      "shares": -45204217,
+      "shares": -45879139,
       "item_code": null
     }
   ]

@@ -1,35 +1,35 @@
 {
   "ticker": "275980",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "글로벌4차산업 TRS(한국투자증권) TRS 2302",
-      "weight_pct": 62.07,
-      "shares": 297132674,
+      "weight_pct": 62.06,
+      "shares": 296173658,
       "item_code": null
     },
     {
       "name": "Ishares Future Exponential Technologies ETF",
-      "weight_pct": 26.68,
+      "weight_pct": 26.82,
       "shares": 1129,
       "item_code": "XT.O"
     },
     {
       "name": "글로벌4차산업 TRS(KB증권) TRS 230223-04",
       "weight_pct": 24.93,
-      "shares": 119349914,
+      "shares": 118984497,
       "item_code": null
     },
     {
       "name": "글로벌4차산업 TRS(메리츠증권) TRS 230223",
       "weight_pct": 7.88,
-      "shares": 37730991,
+      "shares": 37615469,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -21.57,
-      "shares": -103287708,
+      "weight_pct": -21.7,
+      "shares": -103582526,
       "item_code": null
     }
   ]

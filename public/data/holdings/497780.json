@@ -1,70 +1,70 @@
 {
   "ticker": "497780",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "윌리엄스 컴퍼니즈",
-      "weight_pct": 9.46,
+      "weight_pct": 9.49,
       "shares": 488,
       "item_code": "WMB"
     },
     {
-      "name": "원오케이",
+      "name": "킨더 모건",
       "weight_pct": 9.24,
+      "shares": 1107,
+      "item_code": "KMI"
+    },
+    {
+      "name": "원오케이",
+      "weight_pct": 9.23,
       "shares": 371,
       "item_code": "OKE"
     },
     {
-      "name": "킨더 모건",
-      "weight_pct": 9.17,
-      "shares": 1108,
-      "item_code": "KMI"
-    },
-    {
       "name": "엔브리지",
-      "weight_pct": 9.1,
+      "weight_pct": 9.04,
       "shares": 690,
       "item_code": "ENB"
     },
     {
       "name": "TC 에너지",
-      "weight_pct": 9.03,
+      "weight_pct": 9.0,
       "shares": 556,
       "item_code": "TRP"
     },
     {
       "name": "셰니어 에너지",
-      "weight_pct": 4.15,
-      "shares": 56,
+      "weight_pct": 4.22,
+      "shares": 55,
       "item_code": "LNG"
     },
     {
-      "name": "DT 미드스트림",
-      "weight_pct": 4.08,
-      "shares": 120,
-      "item_code": "DTM"
-    },
-    {
       "name": "벤처 글로벌",
-      "weight_pct": 4.06,
+      "weight_pct": 4.13,
       "shares": 1092,
       "item_code": "VG"
     },
     {
-      "name": "베이커 휴즈",
-      "weight_pct": 4.05,
-      "shares": 247,
-      "item_code": "BKR.O"
+      "name": "DT 미드스트림",
+      "weight_pct": 4.07,
+      "shares": 120,
+      "item_code": "DTM"
     },
     {
       "name": "셰브론",
-      "weight_pct": 4.04,
+      "weight_pct": 4.06,
       "shares": 76,
       "item_code": "CVX"
     },
     {
+      "name": "베이커 휴즈",
+      "weight_pct": 4.06,
+      "shares": 247,
+      "item_code": "BKR.O"
+    },
+    {
       "name": "플렉스 LNG",
-      "weight_pct": 4.02,
+      "weight_pct": 3.99,
       "shares": 487,
       "item_code": "FLNG.K"
     },
@@ -82,55 +82,55 @@
     },
     {
       "name": "엑슨모빌 홀딩스",
-      "weight_pct": 3.83,
+      "weight_pct": 3.88,
       "shares": 93,
       "item_code": "XOM"
     },
     {
       "name": "에어 프로덕츠 앤 케미컬스",
-      "weight_pct": 3.18,
+      "weight_pct": 3.13,
       "shares": 39,
       "item_code": "APD"
     },
     {
       "name": "코디악 가스 서비시스",
-      "weight_pct": 2.96,
+      "weight_pct": 2.97,
       "shares": 195,
       "item_code": "KGS"
     },
     {
       "name": "아크록",
-      "weight_pct": 2.94,
+      "weight_pct": 2.92,
       "shares": 358,
       "item_code": "AROC.K"
     },
     {
       "name": "커민스",
-      "weight_pct": 2.92,
+      "weight_pct": 2.84,
       "shares": 19,
       "item_code": "CMI"
     },
     {
       "name": "플로우서브",
-      "weight_pct": 2.1,
+      "weight_pct": 2.03,
       "shares": 99,
       "item_code": "FLS"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 1.06,
+      "shares": 5664924,
+      "item_code": null
+    },
+    {
       "name": "듀크 에너지",
-      "weight_pct": 1.01,
+      "weight_pct": 0.99,
       "shares": 32,
       "item_code": "DUK"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.99,
-      "shares": 5196537,
-      "item_code": null
-    },
-    {
       "name": "EQT",
-      "weight_pct": 0.87,
+      "weight_pct": 0.85,
       "shares": 61,
       "item_code": "EQT"
     },

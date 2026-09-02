@@ -1,6 +1,6 @@
 {
   "ticker": "419890",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "산업금융채권26신이010007061(사)",
@@ -28,7 +28,7 @@
     },
     {
       "name": "우리은행3008할인01갑06(지)",
-      "weight_pct": 15.48,
+      "weight_pct": 15.49,
       "shares": 0,
       "item_code": null
     },
@@ -52,8 +52,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -3.44,
-      "shares": -37100338,
+      "weight_pct": -3.45,
+      "shares": -37162962,
       "item_code": null
     }
   ]

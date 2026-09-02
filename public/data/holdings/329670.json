@@ -1,6 +1,6 @@
 {
   "ticker": "329670",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares MSCI World ETF",
@@ -16,25 +16,25 @@
     },
     {
       "name": "iShares MSCI ACWI ETF",
-      "weight_pct": 19.28,
+      "weight_pct": 19.29,
       "shares": 1922,
       "item_code": "ACWI.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.21,
-      "shares": 158643480,
+      "weight_pct": 7.23,
+      "shares": 158682115,
       "item_code": null
     },
     {
       "name": "통안03730-2807-02",
-      "weight_pct": 4.57,
+      "weight_pct": 4.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고04250-3606(26-6)",
-      "weight_pct": 3.42,
+      "weight_pct": 3.41,
       "shares": 0,
       "item_code": null
     },
@@ -46,7 +46,13 @@
     },
     {
       "name": "국고03250-2903(24-1)",
-      "weight_pct": 2.27,
+      "weight_pct": 2.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고02375-2812(18-10)",
+      "weight_pct": 2.22,
       "shares": 0,
       "item_code": null
     },
@@ -57,26 +63,20 @@
       "item_code": null
     },
     {
-      "name": "국고02375-2812(18-10)",
-      "weight_pct": 2.21,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고03500-5603(26-2)",
-      "weight_pct": 1.94,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "KODEX MSCI선진국",
       "weight_pct": 1.94,
       "shares": 1100,
       "item_code": "251350"
     },
     {
+      "name": "국고03500-5603(26-2)",
+      "weight_pct": 1.9,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "통안03430-2703-03",
-      "weight_pct": 1.14,
+      "weight_pct": 1.15,
       "shares": 0,
       "item_code": null
     },

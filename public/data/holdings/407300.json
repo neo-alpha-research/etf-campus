@@ -1,82 +1,82 @@
 {
   "ticker": "407300",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "카카오",
-      "weight_pct": 11.76,
+      "weight_pct": 11.65,
       "shares": 1708,
       "item_code": "035720"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 10.83,
+      "weight_pct": 10.6,
       "shares": 697,
       "item_code": "034020"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 10.0,
+      "weight_pct": 10.29,
       "shares": 141,
       "item_code": "028260"
     },
     {
       "name": "금호석유화학",
-      "weight_pct": 9.03,
+      "weight_pct": 9.14,
       "shares": 376,
       "item_code": "011780"
     },
     {
       "name": "강원랜드",
-      "weight_pct": 8.98,
+      "weight_pct": 8.97,
       "shares": 3255,
       "item_code": "035250"
     },
     {
       "name": "카카오페이",
-      "weight_pct": 8.38,
+      "weight_pct": 8.22,
       "shares": 958,
       "item_code": "377300"
     },
     {
-      "name": "DB하이텍",
-      "weight_pct": 7.73,
-      "shares": 432,
-      "item_code": "000990"
-    },
-    {
       "name": "신세계",
-      "weight_pct": 7.72,
+      "weight_pct": 8.06,
       "shares": 99,
       "item_code": "004170"
     },
     {
+      "name": "DB하이텍",
+      "weight_pct": 7.62,
+      "shares": 432,
+      "item_code": "000990"
+    },
+    {
       "name": "미스토홀딩스",
-      "weight_pct": 6.26,
+      "weight_pct": 6.19,
       "shares": 794,
       "item_code": "081660"
     },
     {
       "name": "코오롱인더",
-      "weight_pct": 5.98,
+      "weight_pct": 5.88,
       "shares": 534,
       "item_code": "120110"
     },
     {
       "name": "F&F",
-      "weight_pct": 4.56,
+      "weight_pct": 4.62,
       "shares": 362,
       "item_code": "383220"
     },
     {
       "name": "한화머시너리앤서비스홀딩스",
-      "weight_pct": 3.92,
+      "weight_pct": 3.88,
       "shares": 2846,
       "item_code": "0220W0"
     },
     {
       "name": "하나투어",
-      "weight_pct": 1.69,
+      "weight_pct": 1.71,
       "shares": 276,
       "item_code": "039130"
     },
@@ -88,14 +88,14 @@
     },
     {
       "name": "감성코퍼레이션",
-      "weight_pct": 1.13,
+      "weight_pct": 1.12,
       "shares": 1590,
       "item_code": "036620"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.46,
-      "shares": 2458777,
+      "weight_pct": 0.45,
+      "shares": 2436203,
       "item_code": null
     }
   ]

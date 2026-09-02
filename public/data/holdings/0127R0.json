@@ -1,71 +1,71 @@
 {
   "ticker": "0127R0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "코어위브",
-      "weight_pct": 20.15,
+      "weight_pct": 20.36,
       "shares": 1383,
       "item_code": "CRWV.O"
     },
     {
       "name": "네비우스 그룹",
-      "weight_pct": 18.03,
+      "weight_pct": 17.83,
       "shares": 498,
       "item_code": "NBIS.O"
     },
     {
       "name": "아리스타 네트웍스",
-      "weight_pct": 10.95,
+      "weight_pct": 11.0,
       "shares": 324,
       "item_code": "ANET.K"
     },
     {
       "name": "오라클",
-      "weight_pct": 9.8,
+      "weight_pct": 9.71,
       "shares": 375,
       "item_code": "ORCL.K"
     },
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 8.69,
+      "weight_pct": 8.9,
       "shares": 56,
       "item_code": "LITE.O"
     },
     {
       "name": "크로노스케일",
-      "weight_pct": 8.03,
+      "weight_pct": 7.81,
       "shares": 2478,
       "item_code": "CHRN.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 6.92,
+      "weight_pct": 6.78,
       "shares": 184,
       "item_code": "MRVL.O"
     },
     {
       "name": "버티브 홀딩스",
-      "weight_pct": 6.39,
+      "weight_pct": 6.45,
       "shares": 143,
       "item_code": "VRT"
     },
     {
       "name": "코히런트",
-      "weight_pct": 5.9,
+      "weight_pct": 5.88,
       "shares": 122,
       "item_code": "COHR.K"
     },
     {
       "name": "아스테라 랩스",
-      "weight_pct": 4.99,
+      "weight_pct": 5.13,
       "shares": 99,
       "item_code": "ALAB.O"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.09,
-      "shares": 735446,
+      "shares": 725429,
       "item_code": null
     }
   ]

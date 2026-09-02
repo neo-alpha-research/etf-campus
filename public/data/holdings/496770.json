@@ -1,6 +1,6 @@
 {
   "ticker": "496770",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "RTX",
@@ -10,62 +10,62 @@
     },
     {
       "name": "록히드 마틴",
-      "weight_pct": 10.69,
+      "weight_pct": 10.83,
       "shares": 122,
       "item_code": "LMT"
     },
     {
-      "name": "제너럴 다이내믹스",
-      "weight_pct": 10.57,
-      "shares": 180,
-      "item_code": "GD"
-    },
-    {
       "name": "SAAB AB-B",
-      "weight_pct": 10.5,
+      "weight_pct": 10.6,
       "shares": 1021,
       "item_code": null
     },
     {
+      "name": "제너럴 다이내믹스",
+      "weight_pct": 10.54,
+      "shares": 180,
+      "item_code": "GD"
+    },
+    {
       "name": "THALES SA",
-      "weight_pct": 9.98,
+      "weight_pct": 10.14,
       "shares": 227,
       "item_code": null
     },
     {
       "name": "BAE SYSTEMS PLC",
-      "weight_pct": 9.84,
+      "weight_pct": 10.02,
       "shares": 2299,
       "item_code": null
     },
     {
       "name": "노스롭 그루만",
-      "weight_pct": 9.57,
+      "weight_pct": 9.65,
       "shares": 113,
       "item_code": "NOC"
     },
     {
-      "name": "하우멧 에어로스페이스",
-      "weight_pct": 9.38,
-      "shares": 229,
-      "item_code": "HWM"
-    },
-    {
       "name": "LEONARDO SPA",
-      "weight_pct": 9.25,
+      "weight_pct": 9.23,
       "shares": 977,
       "item_code": null
     },
     {
+      "name": "하우멧 에어로스페이스",
+      "weight_pct": 8.83,
+      "shares": 229,
+      "item_code": "HWM"
+    },
+    {
       "name": "RHEINMETALL AG",
-      "weight_pct": 8.22,
+      "weight_pct": 8.13,
       "shares": 39,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.33,
-      "shares": 2995844,
+      "weight_pct": 0.38,
+      "shares": 3313151,
       "item_code": null
     }
   ]

@@ -1,88 +1,88 @@
 {
   "ticker": "480310",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 14.6,
+      "weight_pct": 14.77,
       "shares": 418,
       "item_code": "ARM.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 12.38,
+      "weight_pct": 12.51,
       "shares": 182,
       "item_code": "AMD.O"
     },
     {
       "name": "MEDIATEK INC",
-      "weight_pct": 11.39,
+      "weight_pct": 11.25,
       "shares": 621,
       "item_code": null
     },
     {
       "name": "퀄컴",
-      "weight_pct": 10.6,
+      "weight_pct": 11.01,
       "shares": 442,
       "item_code": "QCOM.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 10.06,
+      "weight_pct": 10.07,
       "shares": 770,
       "item_code": "INTC.O"
     },
     {
       "name": "애플",
-      "weight_pct": 6.58,
+      "weight_pct": 6.52,
       "shares": 141,
       "item_code": "AAPL.O"
     },
     {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 5.22,
+      "weight_pct": 5.19,
       "shares": 105,
       "item_code": "CDNS.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 5.02,
+      "weight_pct": 4.96,
       "shares": 67,
       "item_code": "MSFT.O"
     },
     {
       "name": "시놉시스",
-      "weight_pct": 4.91,
+      "weight_pct": 4.88,
       "shares": 76,
       "item_code": "SNPS.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 4.75,
+      "weight_pct": 4.73,
       "shares": 78,
       "item_code": "TSM"
     },
     {
-      "name": "ASE TECHNOLOGY HOLDING CO LT",
-      "weight_pct": 4.5,
-      "shares": 1574,
-      "item_code": null
-    },
-    {
       "name": "알파벳 Class A",
-      "weight_pct": 4.4,
+      "weight_pct": 4.31,
       "shares": 87,
       "item_code": "GOOGL.O"
     },
     {
+      "name": "ASE TECHNOLOGY HOLDING CO LT",
+      "weight_pct": 4.24,
+      "shares": 1574,
+      "item_code": null
+    },
+    {
       "name": "메타",
-      "weight_pct": 3.63,
+      "weight_pct": 3.59,
       "shares": 43,
       "item_code": "META.O"
     },
     {
       "name": "GLOBAL UNICHIP CORP",
-      "weight_pct": 1.77,
+      "weight_pct": 1.8,
       "shares": 64,
       "item_code": null
     },
@@ -94,14 +94,14 @@
     },
     {
       "name": "ALCHIP TECHNOLOGIES LTD",
-      "weight_pct": 0.44,
+      "weight_pct": 0.45,
       "shares": 24,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.1,
-      "shares": -10313187,
+      "weight_pct": -1.11,
+      "shares": -10410590,
       "item_code": null
     }
   ]

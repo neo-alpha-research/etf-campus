@@ -1,28 +1,28 @@
 {
   "ticker": "253160",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 81.5,
-      "shares": 6478466,
+      "weight_pct": 83.7,
+      "shares": 6533202,
       "item_code": null
     },
     {
       "name": "KODEX 200선물인버스2X",
-      "weight_pct": 11.25,
-      "shares": 11618,
+      "weight_pct": 9.01,
+      "shares": 9254,
       "item_code": "252670"
     },
     {
       "name": "TIGER 200선물인버스2X",
-      "weight_pct": 7.23,
+      "weight_pct": 7.28,
       "shares": 6848,
       "item_code": "252710"
     },
     {
       "name": "선물2026년09월물",
-      "weight_pct": -162.55,
+      "weight_pct": -167.14,
       "shares": 0,
       "item_code": null
     }

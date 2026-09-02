@@ -1,52 +1,52 @@
 {
   "ticker": "465330",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
-      "name": "LG에너지솔루션",
-      "weight_pct": 14.64,
-      "shares": 116,
-      "item_code": "373220"
-    },
-    {
-      "name": "삼성SDI",
-      "weight_pct": 14.45,
-      "shares": 75,
-      "item_code": "006400"
-    },
-    {
-      "name": "POSCO홀딩스",
-      "weight_pct": 14.24,
-      "shares": 126,
-      "item_code": "005490"
-    },
-    {
       "name": "SK이노베이션",
-      "weight_pct": 13.37,
+      "weight_pct": 14.64,
       "shares": 319,
       "item_code": "096770"
     },
     {
+      "name": "POSCO홀딩스",
+      "weight_pct": 14.57,
+      "shares": 126,
+      "item_code": "005490"
+    },
+    {
+      "name": "삼성SDI",
+      "weight_pct": 14.48,
+      "shares": 75,
+      "item_code": "006400"
+    },
+    {
+      "name": "LG에너지솔루션",
+      "weight_pct": 14.44,
+      "shares": 116,
+      "item_code": "373220"
+    },
+    {
       "name": "에코프로",
-      "weight_pct": 12.59,
+      "weight_pct": 12.22,
       "shares": 413,
       "item_code": "086520"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 9.77,
+      "weight_pct": 9.47,
       "shares": 146,
       "item_code": "003670"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 8.91,
+      "weight_pct": 8.71,
       "shares": 221,
       "item_code": "247540"
     },
     {
       "name": "엘앤에프",
-      "weight_pct": 5.83,
+      "weight_pct": 5.29,
       "shares": 119,
       "item_code": "066970"
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "에코프로머티",
-      "weight_pct": 2.02,
+      "weight_pct": 1.99,
       "shares": 157,
       "item_code": "450080"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.05,
-      "shares": 3152690,
+      "weight_pct": 1.07,
+      "shares": 3162954,
       "item_code": null
     }
   ]

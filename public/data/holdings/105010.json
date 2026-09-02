@@ -1,34 +1,34 @@
 {
   "ticker": "105010",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "발레 ADR",
-      "weight_pct": 12.31,
+      "weight_pct": 12.25,
       "shares": 3690,
       "item_code": "VALE.K"
     },
     {
       "name": "이타우 우니방쿠 홀딩 ADR",
-      "weight_pct": 9.66,
+      "weight_pct": 9.72,
       "shares": 5805,
       "item_code": "ITUB.K"
     },
     {
       "name": "페트로브라스 우선주 ADR",
-      "weight_pct": 8.67,
+      "weight_pct": 8.92,
       "shares": 2330,
       "item_code": "PBRa"
     },
     {
       "name": "페트로브라스 ADR",
-      "weight_pct": 8.17,
+      "weight_pct": 8.46,
       "shares": 1987,
       "item_code": "PBR"
     },
     {
       "name": "아메리카 모빌 ADR 시리즈 L",
-      "weight_pct": 4.89,
+      "weight_pct": 4.82,
       "shares": 951,
       "item_code": "AMX"
     },
@@ -40,81 +40,81 @@
     },
     {
       "name": "포멘토 에코노미코 멕시카노 ADR",
-      "weight_pct": 4.43,
+      "weight_pct": 4.4,
       "shares": 166,
       "item_code": "FMX"
     },
     {
       "name": "시멕스 ADR",
-      "weight_pct": 4.23,
+      "weight_pct": 4.14,
       "shares": 1753,
       "item_code": "CX"
     },
     {
       "name": "임브라에르 ADR",
-      "weight_pct": 3.22,
+      "weight_pct": 3.15,
       "shares": 200,
       "item_code": "EMBJ.K"
     },
     {
       "name": "암베브 ADR",
-      "weight_pct": 3.05,
+      "weight_pct": 3.04,
       "shares": 4816,
       "item_code": "ABEV.K"
     },
     {
-      "name": "콤파니아 데 사네아멘투 바지쿠 상파울루 - SABESP",
-      "weight_pct": 2.9,
-      "shares": 2685,
-      "item_code": "SBS"
-    },
-    {
       "name": "소시에다드 퀴미카 B ADR",
-      "weight_pct": 2.89,
+      "weight_pct": 2.88,
       "shares": 165,
       "item_code": "SQM"
     },
     {
+      "name": "콤파니아 데 사네아멘투 바지쿠 상파울루 - SABESP",
+      "weight_pct": 2.87,
+      "shares": 2685,
+      "item_code": "SBS"
+    },
+    {
       "name": "그루포 시베스트 ADR",
-      "weight_pct": 2.7,
+      "weight_pct": 2.65,
       "shares": 125,
       "item_code": "CIB"
     },
     {
-      "name": "방코 데 칠레 ADR",
-      "weight_pct": 2.47,
-      "shares": 267,
-      "item_code": "BCH"
-    },
-    {
       "name": "YPF ADR",
-      "weight_pct": 2.46,
+      "weight_pct": 2.51,
       "shares": 221,
       "item_code": "YPF"
     },
     {
+      "name": "방코 데 칠레 ADR",
+      "weight_pct": 2.41,
+      "shares": 267,
+      "item_code": "BCH"
+    },
+    {
       "name": "그루포 에어로포르투아리오 파시피코 B ADR",
-      "weight_pct": 2.14,
+      "weight_pct": 2.1,
       "shares": 46,
       "item_code": "PAC"
     },
     {
       "name": "라탐 에어라인스 그룹 ADR",
-      "weight_pct": 1.61,
+      "weight_pct": 1.58,
       "shares": 144,
       "item_code": "LTM"
     },
     {
-      "name": "수자노 ADR",
-      "weight_pct": 1.53,
-      "shares": 776,
-      "item_code": "SUZ"
-    },
-    {
       "name": "코카콜라 펨사 ADR",
-      "weight_pct": 1.51,
+      "weight_pct": 1.48,
       "shares": 60,
       "item_code": "KOF"
+    },
+    {
+      "name": "수자노 ADR",
+      "weight_pct": 1.48,
+      "shares": 776,
+      "item_code": "SUZ"
     },
     {
       "name": "제르다우 ADR",
@@ -124,45 +124,45 @@
     },
     {
       "name": "미나스 부에나벤투라 ADR",
-      "weight_pct": 1.45,
+      "weight_pct": 1.4,
       "shares": 186,
       "item_code": "BVN"
     },
     {
-      "name": "방코 산탄데르 칠레 ADR",
-      "weight_pct": 1.37,
-      "shares": 176,
-      "item_code": "BSAC.K"
-    },
-    {
       "name": "그루포 피난시에로 갈리시아 ADR",
-      "weight_pct": 1.32,
+      "weight_pct": 1.36,
       "shares": 141,
       "item_code": "GGAL.O"
     },
     {
+      "name": "방코 산탄데르 칠레 ADR",
+      "weight_pct": 1.35,
+      "shares": 176,
+      "item_code": "BSAC.K"
+    },
+    {
       "name": "파라나인스 데 에네르히아 ADR",
-      "weight_pct": 1.31,
+      "weight_pct": 1.32,
       "shares": 525,
       "item_code": "ELPC.K"
     },
     {
       "name": "비스타 에너지",
-      "weight_pct": 1.25,
+      "weight_pct": 1.27,
       "shares": 80,
       "item_code": "VIST.K"
     },
     {
-      "name": "그루포 에어로포르투아리오 수레스테 ADR",
-      "weight_pct": 1.12,
-      "shares": 19,
-      "item_code": "ASR"
-    },
-    {
       "name": "울트라파르 팔티시파코에스 ADR",
-      "weight_pct": 1.11,
+      "weight_pct": 1.14,
       "shares": 781,
       "item_code": "UGP"
+    },
+    {
+      "name": "그루포 에어로포르투아리오 수레스테 ADR",
+      "weight_pct": 1.11,
+      "shares": 19,
+      "item_code": "ASR"
     },
     {
       "name": "텔레포니카 브라질 ADR",
@@ -184,7 +184,7 @@
     },
     {
       "name": "그루포 에어로포르투아리오 센트로노테 ADR",
-      "weight_pct": 0.85,
+      "weight_pct": 0.83,
       "shares": 38,
       "item_code": "OMAB.O"
     },
@@ -195,16 +195,16 @@
       "item_code": "VTMX.K"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.7,
-      "shares": 4333758,
-      "item_code": null
-    },
-    {
       "name": "팀 ADR",
       "weight_pct": 0.7,
       "shares": 179,
       "item_code": "TIMB.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.67,
+      "shares": 4214799,
+      "item_code": null
     }
   ]
 }

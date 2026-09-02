@@ -1,48 +1,54 @@
 {
   "ticker": "0087F0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "샤오미",
-      "weight_pct": 24.96,
-      "shares": 31385,
+      "weight_pct": 24.75,
+      "shares": 31386,
       "item_code": "1810.HK"
     },
     {
       "name": "샤오펑 Class A",
-      "weight_pct": 19.07,
-      "shares": 14885,
+      "weight_pct": 19.08,
+      "shares": 14886,
       "item_code": "9868.HK"
     },
     {
-      "name": "BYD",
-      "weight_pct": 4.98,
-      "shares": 1897,
-      "item_code": "1211.HK"
-    },
-    {
       "name": "부사강산업인터넷",
-      "weight_pct": 4.91,
+      "weight_pct": 4.96,
       "shares": 2301,
       "item_code": "601138.SS"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 4.74,
+      "weight_pct": 4.75,
       "shares": 1456,
       "item_code": "9988.HK"
     },
     {
+      "name": "BYD",
+      "weight_pct": 4.72,
+      "shares": 1897,
+      "item_code": "1211.HK"
+    },
+    {
       "name": "텐센트",
-      "weight_pct": 4.67,
+      "weight_pct": 4.65,
       "shares": 359,
       "item_code": "0700.HK"
     },
     {
       "name": "닝더스다이",
-      "weight_pct": 4.47,
+      "weight_pct": 4.41,
       "shares": 364,
       "item_code": "300750.SZ"
+    },
+    {
+      "name": "한무기",
+      "weight_pct": 3.08,
+      "shares": 83,
+      "item_code": "688256.SS"
     },
     {
       "name": "넷이즈",
@@ -52,105 +58,99 @@
     },
     {
       "name": "북방화창",
-      "weight_pct": 2.9,
+      "weight_pct": 2.91,
       "shares": 124,
       "item_code": "002371.SZ"
     },
     {
-      "name": "한무기",
-      "weight_pct": 2.9,
-      "shares": 83,
-      "item_code": "688256.SS"
-    },
-    {
       "name": "메이투안",
-      "weight_pct": 2.79,
+      "weight_pct": 2.84,
       "shares": 1262,
       "item_code": "3690.HK"
     },
     {
       "name": "해광신식",
-      "weight_pct": 2.55,
+      "weight_pct": 2.64,
       "shares": 312,
       "item_code": "688041.SS"
     },
     {
       "name": "중제욱창",
-      "weight_pct": 2.38,
+      "weight_pct": 2.36,
       "shares": 83,
       "item_code": "300308.SZ"
     },
     {
       "name": "합서원걸반도체과기",
-      "weight_pct": 2.13,
+      "weight_pct": 2.12,
       "shares": 41,
       "item_code": "688498.SS"
     },
     {
       "name": "AMEC(중미반도체)",
-      "weight_pct": 2.03,
+      "weight_pct": 2.0,
       "shares": 166,
       "item_code": "688012.SS"
     },
     {
       "name": "생익과기",
-      "weight_pct": 1.31,
+      "weight_pct": 1.38,
       "shares": 270,
       "item_code": "600183.SS"
     },
     {
       "name": "유시동력",
-      "weight_pct": 1.26,
+      "weight_pct": 1.24,
       "shares": 1374,
       "item_code": "000338.SZ"
     },
     {
-      "name": "회천기술",
-      "weight_pct": 0.88,
-      "shares": 426,
-      "item_code": "300124.SZ"
-    },
-    {
       "name": "심남전로",
-      "weight_pct": 0.88,
+      "weight_pct": 0.89,
       "shares": 72,
       "item_code": "002916.SZ"
     },
     {
+      "name": "회천기술",
+      "weight_pct": 0.87,
+      "shares": 426,
+      "item_code": "300124.SZ"
+    },
+    {
       "name": "항립유항",
-      "weight_pct": 0.84,
+      "weight_pct": 0.85,
       "shares": 249,
       "item_code": "601100.SS"
     },
     {
-      "name": "양광전력",
-      "weight_pct": 0.81,
-      "shares": 249,
-      "item_code": "300274.SZ"
+      "name": "상하이 비렌 테크놀로지",
+      "weight_pct": 0.83,
+      "shares": 623,
+      "item_code": "6082.HK"
     },
     {
       "name": "ZTE",
-      "weight_pct": 0.79,
+      "weight_pct": 0.8,
       "shares": 1180,
       "item_code": "0763.HK"
     },
     {
       "name": "나우리지 아틀라스 테크놀로지",
-      "weight_pct": 0.72,
+      "weight_pct": 0.79,
       "shares": 23,
       "item_code": "2513.HK"
     },
     {
-      "name": "장비광섬유케이블",
-      "weight_pct": 0.71,
-      "shares": 146,
-      "item_code": "6869.HK"
+      "name": "양광전력",
+      "weight_pct": 0.76,
+      "shares": 249,
+      "item_code": "300274.SZ"
     },
     {
-      "name": "상하이 비렌 테크놀로지",
+      "name": "장비광섬유케이블",
       "weight_pct": 0.69,
-      "shares": 623,
-      "item_code": "6082.HK"
+      "shares": 146,
+      "item_code": "6869.HK"
     },
     {
       "name": "신역성통신기술",
@@ -166,14 +166,14 @@
     },
     {
       "name": "녹적해파",
-      "weight_pct": 0.4,
+      "weight_pct": 0.41,
       "shares": 41,
       "item_code": "688017.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.33,
-      "shares": 2052425,
+      "weight_pct": 0.32,
+      "shares": 2014276,
       "item_code": null
     },
     {
@@ -184,7 +184,7 @@
     },
     {
       "name": "암로직 상하이",
-      "weight_pct": 0.18,
+      "weight_pct": 0.2,
       "shares": 62,
       "item_code": "688099.SS"
     }

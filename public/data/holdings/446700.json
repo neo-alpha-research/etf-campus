@@ -1,124 +1,124 @@
 {
   "ticker": "446700",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 9.33,
+      "weight_pct": 9.41,
       "shares": 36,
       "item_code": "006400"
     },
     {
-      "name": "엘앤에프",
-      "weight_pct": 7.78,
-      "shares": 118,
-      "item_code": "066970"
-    },
-    {
       "name": "성일하이텍",
-      "weight_pct": 7.69,
+      "weight_pct": 7.58,
       "shares": 444,
       "item_code": "365340"
     },
     {
       "name": "고려아연",
-      "weight_pct": 7.46,
+      "weight_pct": 7.47,
       "shares": 13,
       "item_code": "010130"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 7.3,
+      "weight_pct": 7.25,
       "shares": 43,
       "item_code": "373220"
     },
     {
+      "name": "엘앤에프",
+      "weight_pct": 7.11,
+      "shares": 118,
+      "item_code": "066970"
+    },
+    {
       "name": "에코프로",
-      "weight_pct": 7.09,
+      "weight_pct": 6.93,
       "shares": 173,
       "item_code": "086520"
     },
     {
+      "name": "SK이노베이션",
+      "weight_pct": 6.59,
+      "shares": 106,
+      "item_code": "096770"
+    },
+    {
       "name": "코스모화학",
-      "weight_pct": 6.46,
+      "weight_pct": 6.43,
       "shares": 1229,
       "item_code": "005420"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 6.08,
+      "weight_pct": 6.27,
       "shares": 40,
       "item_code": "005490"
     },
     {
-      "name": "SK이노베이션",
-      "weight_pct": 5.97,
-      "shares": 106,
-      "item_code": "096770"
-    },
-    {
       "name": "포스코퓨처엠",
-      "weight_pct": 5.76,
+      "weight_pct": 5.62,
       "shares": 64,
       "item_code": "003670"
     },
     {
       "name": "아이에스동서",
-      "weight_pct": 4.68,
+      "weight_pct": 4.7,
       "shares": 648,
       "item_code": "010780"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 4.56,
+      "weight_pct": 4.48,
       "shares": 84,
       "item_code": "247540"
     },
     {
       "name": "현대글로비스",
-      "weight_pct": 3.82,
+      "weight_pct": 3.94,
       "shares": 41,
       "item_code": "086280"
     },
     {
       "name": "킵스파마",
-      "weight_pct": 3.08,
+      "weight_pct": 3.11,
       "shares": 1222,
       "item_code": "256940"
     },
     {
       "name": "새빗켐",
-      "weight_pct": 2.96,
+      "weight_pct": 2.92,
       "shares": 394,
       "item_code": "107600"
     },
     {
       "name": "스맥",
-      "weight_pct": 2.68,
+      "weight_pct": 2.74,
       "shares": 1551,
       "item_code": "099440"
     },
     {
       "name": "DS단석",
-      "weight_pct": 2.53,
+      "weight_pct": 2.58,
       "shares": 469,
       "item_code": "017860"
     },
     {
       "name": "하나기술",
-      "weight_pct": 2.0,
+      "weight_pct": 1.98,
       "shares": 290,
       "item_code": "299030"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.49,
-      "shares": 3318972,
+      "weight_pct": 1.52,
+      "shares": 3324363,
       "item_code": null
     },
     {
       "name": "에이프로",
-      "weight_pct": 1.2,
+      "weight_pct": 1.25,
       "shares": 744,
       "item_code": "262260"
     }

@@ -1,113 +1,113 @@
 {
   "ticker": "0151P0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 32.25,
+      "weight_pct": 32.47,
       "shares": 899,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 21.25,
+      "weight_pct": 21.55,
       "shares": 92,
       "item_code": "000660"
     },
     {
       "name": "테스",
-      "weight_pct": 5.4,
+      "weight_pct": 5.15,
       "shares": 275,
       "item_code": "095610"
     },
     {
-      "name": "삼성전기",
-      "weight_pct": 5.02,
-      "shares": 25,
-      "item_code": "009150"
-    },
-    {
       "name": "SK스퀘어",
-      "weight_pct": 4.86,
+      "weight_pct": 5.02,
       "shares": 34,
       "item_code": "402340"
     },
     {
+      "name": "삼성전기",
+      "weight_pct": 4.94,
+      "shares": 25,
+      "item_code": "009150"
+    },
+    {
       "name": "LS",
-      "weight_pct": 4.38,
+      "weight_pct": 4.37,
       "shares": 102,
       "item_code": "006260"
     },
     {
       "name": "NAVER",
-      "weight_pct": 4.07,
+      "weight_pct": 4.04,
       "shares": 136,
       "item_code": "035420"
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 4.03,
+      "weight_pct": 3.99,
       "shares": 141,
       "item_code": "010120"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 3.67,
+      "weight_pct": 3.63,
       "shares": 9,
       "item_code": "298040"
     },
     {
       "name": "피에스케이",
-      "weight_pct": 3.33,
+      "weight_pct": 3.28,
       "shares": 189,
       "item_code": "319660"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 2.85,
+      "weight_pct": 2.82,
       "shares": 251,
       "item_code": "034020"
     },
     {
       "name": "현대차",
-      "weight_pct": 2.28,
+      "weight_pct": 2.27,
       "shares": 41,
       "item_code": "005380"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 2.12,
+      "weight_pct": 2.08,
       "shares": 34,
       "item_code": "012330"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 1.68,
+      "weight_pct": 1.64,
       "shares": 107,
       "item_code": "007660"
     },
     {
       "name": "로보티즈",
-      "weight_pct": 1.24,
+      "weight_pct": 1.23,
       "shares": 35,
       "item_code": "108490"
     },
     {
-      "name": "한화에어로스페이스",
-      "weight_pct": 0.91,
-      "shares": 6,
-      "item_code": "012450"
-    },
-    {
       "name": "현대글로비스",
-      "weight_pct": 0.88,
+      "weight_pct": 0.89,
       "shares": 31,
       "item_code": "086280"
     },
     {
+      "name": "한화에어로스페이스",
+      "weight_pct": 0.87,
+      "shares": 6,
+      "item_code": "012450"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": -0.3,
-      "shares": -2208784,
+      "weight_pct": -0.33,
+      "shares": -2428139,
       "item_code": null
     }
   ]

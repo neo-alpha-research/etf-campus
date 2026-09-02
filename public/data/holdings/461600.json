@@ -1,16 +1,16 @@
 {
   "ticker": "461600",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "T 4 11/15/52",
-      "weight_pct": 33.02,
+      "weight_pct": 33.03,
       "shares": 122849,
       "item_code": null
     },
     {
       "name": "T 4 1/4 08/15/54",
-      "weight_pct": 7.36,
+      "weight_pct": 7.37,
       "shares": 26316,
       "item_code": null
     },
@@ -22,19 +22,19 @@
     },
     {
       "name": "T 4 1/2 11/15/54",
-      "weight_pct": 4.96,
+      "weight_pct": 4.97,
       "shares": 17017,
       "item_code": null
     },
     {
       "name": "T 1.375 08/15/50",
-      "weight_pct": 4.69,
+      "weight_pct": 4.68,
       "shares": 30538,
       "item_code": null
     },
     {
       "name": "T 1.625 11/15/50",
-      "weight_pct": 4.32,
+      "weight_pct": 4.31,
       "shares": 26374,
       "item_code": null
     },
@@ -183,21 +183,15 @@
       "item_code": null
     },
     {
-      "name": "T 1.25 05/15/50",
-      "weight_pct": 0.51,
-      "shares": 3420,
-      "item_code": null
-    },
-    {
       "name": "T 2.5 05/15/46",
       "weight_pct": 0.5,
       "shares": 2316,
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.48,
-      "shares": 2036941,
+      "name": "T 1.25 05/15/50",
+      "weight_pct": 0.5,
+      "shares": 3420,
       "item_code": null
     },
     {
@@ -213,27 +207,33 @@
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 0.45,
+      "shares": 1882089,
+      "item_code": null
+    },
+    {
+      "name": "T 2.875 11/15/46",
+      "weight_pct": 0.45,
+      "shares": 1950,
+      "item_code": null
+    },
+    {
       "name": "T 2.75 08/15/47",
       "weight_pct": 0.45,
       "shares": 2023,
       "item_code": null
     },
     {
-      "name": "T 2.875 11/15/46",
+      "name": "T 2 7/8 08/15/45",
       "weight_pct": 0.44,
-      "shares": 1950,
+      "shares": 1874,
       "item_code": null
     },
     {
       "name": "T 3 02/15/47",
       "weight_pct": 0.44,
       "shares": 1889,
-      "item_code": null
-    },
-    {
-      "name": "T 2 7/8 08/15/45",
-      "weight_pct": 0.43,
-      "shares": 1874,
       "item_code": null
     },
     {

@@ -1,71 +1,71 @@
 {
   "ticker": "461950",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 20.22,
+      "weight_pct": 21.04,
       "shares": 161,
       "item_code": "005490"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 17.04,
+      "weight_pct": 16.79,
       "shares": 229,
       "item_code": "003670"
     },
     {
-      "name": "엘앤에프",
-      "weight_pct": 14.81,
-      "shares": 272,
-      "item_code": "066970"
-    },
-    {
       "name": "LG화학",
-      "weight_pct": 14.13,
+      "weight_pct": 14.7,
       "shares": 136,
       "item_code": "051910"
     },
     {
+      "name": "엘앤에프",
+      "weight_pct": 13.67,
+      "shares": 272,
+      "item_code": "066970"
+    },
+    {
       "name": "에코프로",
-      "weight_pct": 13.04,
+      "weight_pct": 12.86,
       "shares": 385,
       "item_code": "086520"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 12.33,
+      "weight_pct": 12.24,
       "shares": 275,
       "item_code": "247540"
     },
     {
       "name": "코스모신소재",
-      "weight_pct": 2.44,
+      "weight_pct": 2.45,
       "shares": 159,
       "item_code": "005070"
     },
     {
       "name": "롯데에너지머티리얼즈",
-      "weight_pct": 2.16,
+      "weight_pct": 2.35,
       "shares": 154,
       "item_code": "020150"
     },
     {
       "name": "나노신소재",
-      "weight_pct": 2.06,
+      "weight_pct": 2.07,
       "shares": 109,
       "item_code": "121600"
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 1.98,
+      "weight_pct": 2.02,
       "shares": 58,
       "item_code": "078600"
     },
     {
       "name": "원화현금",
       "weight_pct": -0.24,
-      "shares": -667455,
+      "shares": -627009,
       "item_code": null
     }
   ]

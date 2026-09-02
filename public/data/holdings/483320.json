@@ -1,137 +1,137 @@
 {
   "ticker": "483320",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 23.18,
-      "shares": 922,
+      "weight_pct": 23.59,
+      "shares": 926,
       "item_code": "NVDA.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 15.73,
-      "shares": 326,
+      "weight_pct": 15.67,
+      "shares": 327,
       "item_code": "TSM"
     },
     {
       "name": "2026-09 SK하이닉스개별선물",
-      "weight_pct": 8.49,
+      "weight_pct": 8.55,
       "shares": 6,
       "item_code": null
     },
     {
       "name": "삼성전자",
-      "weight_pct": 7.42,
-      "shares": 338,
+      "weight_pct": 7.45,
+      "shares": 339,
       "item_code": "005930"
     },
     {
-      "name": "델테크놀로지",
-      "weight_pct": 4.06,
-      "shares": 77,
-      "item_code": "DELL.K"
-    },
-    {
       "name": "버티브 홀딩스",
-      "weight_pct": 4.04,
-      "shares": 136,
+      "weight_pct": 4.09,
+      "shares": 137,
       "item_code": "VRT"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 3.98,
+      "weight_pct": 4.09,
       "shares": 37,
       "item_code": "MU.O"
     },
     {
+      "name": "델테크놀로지",
+      "weight_pct": 4.05,
+      "shares": 77,
+      "item_code": "DELL.K"
+    },
+    {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 3.86,
+      "weight_pct": 3.9,
       "shares": 140,
       "item_code": "ARM.O"
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 3.73,
+      "weight_pct": 3.7,
       "shares": 70,
       "item_code": "AMAT.O"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 3.69,
+      "weight_pct": 3.61,
       "shares": 30,
       "item_code": "009150"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 3.48,
+      "weight_pct": 3.39,
       "shares": 139,
       "item_code": "MRVL.O"
     },
     {
       "name": "ASE 테크놀로지 홀딩 ADR",
-      "weight_pct": 3.42,
-      "shares": 784,
+      "weight_pct": 3.35,
+      "shares": 787,
       "item_code": "ASX"
     },
     {
       "name": "인텔",
-      "weight_pct": 3.25,
-      "shares": 315,
+      "weight_pct": 3.26,
+      "shares": 316,
       "item_code": "INTC.O"
     },
     {
+      "name": "코히런트",
+      "weight_pct": 3.04,
+      "shares": 95,
+      "item_code": "COHR.K"
+    },
+    {
       "name": "테라다인",
-      "weight_pct": 3.07,
+      "weight_pct": 3.02,
       "shares": 75,
       "item_code": "TER.O"
     },
     {
-      "name": "코히런트",
-      "weight_pct": 3.03,
-      "shares": 94,
-      "item_code": "COHR.K"
-    },
-    {
       "name": "네비우스 그룹",
-      "weight_pct": 2.73,
+      "weight_pct": 2.69,
       "shares": 113,
       "item_code": "NBIS.O"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.7,
-      "shares": 31972147,
-      "item_code": null
-    },
-    {
       "name": "시놉시스",
-      "weight_pct": 2.55,
+      "weight_pct": 2.53,
       "shares": 50,
       "item_code": "SNPS.O"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 2.46,
+      "shares": 29321688,
+      "item_code": null
+    },
+    {
       "name": "ST 마이크로 일렉트로닉스 ADR",
-      "weight_pct": 1.62,
-      "shares": 284,
+      "weight_pct": 1.64,
+      "shares": 285,
       "item_code": "STM"
     },
     {
       "name": "코어위브",
-      "weight_pct": 1.56,
-      "shares": 161,
+      "weight_pct": 1.58,
+      "shares": 162,
       "item_code": "CRWV.O"
     },
     {
       "name": "크레도 테크놀로지 그룹 홀딩",
-      "weight_pct": 1.53,
-      "shares": 57,
+      "weight_pct": 1.51,
+      "shares": 58,
       "item_code": "CRDO.O"
     },
     {
       "name": "나비타스 세미컨덕터",
-      "weight_pct": 1.28,
-      "shares": 965,
+      "weight_pct": 1.29,
+      "shares": 969,
       "item_code": "NVTS.O"
     }
   ]

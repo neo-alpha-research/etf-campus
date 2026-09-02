@@ -1,6 +1,6 @@
 {
   "ticker": "0000Y0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "서울특별시채권2023-1",
@@ -65,7 +65,7 @@
     {
       "name": "원화현금",
       "weight_pct": 4.26,
-      "shares": 4347886,
+      "shares": 4348021,
       "item_code": null
     }
   ]

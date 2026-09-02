@@ -1,10 +1,10 @@
 {
   "ticker": "0203R0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "한국공항공사29",
-      "weight_pct": 26.18,
+      "weight_pct": 26.17,
       "shares": 0,
       "item_code": null
     },
@@ -15,14 +15,8 @@
       "item_code": null
     },
     {
-      "name": "한국투자증권32-1",
-      "weight_pct": 15.76,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "KB증권45-2",
-      "weight_pct": 15.71,
+      "weight_pct": 15.72,
       "shares": 0,
       "item_code": null
     },
@@ -33,8 +27,14 @@
       "item_code": null
     },
     {
+      "name": "한국투자증권32-1",
+      "weight_pct": 15.6,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "한국투자증권33-2",
-      "weight_pct": 10.48,
+      "weight_pct": 10.47,
       "shares": 0,
       "item_code": null
     },
@@ -46,8 +46,8 @@
     },
     {
       "name": "원화예금",
-      "weight_pct": -4.87,
-      "shares": -4920986,
+      "weight_pct": -4.7,
+      "shares": -4749222,
       "item_code": null
     }
   ]

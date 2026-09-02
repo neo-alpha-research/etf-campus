@@ -1,58 +1,58 @@
 {
   "ticker": "474800",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엑슨모빌 홀딩스",
-      "weight_pct": 21.69,
+      "weight_pct": 21.84,
       "shares": 789,
       "item_code": "XOM"
     },
     {
       "name": "셰브론",
-      "weight_pct": 14.03,
+      "weight_pct": 14.04,
       "shares": 396,
       "item_code": "CVX"
     },
     {
       "name": "코노코필립스",
-      "weight_pct": 6.02,
+      "weight_pct": 5.99,
       "shares": 263,
       "item_code": "COP"
     },
     {
       "name": "매러선 페트롤리엄",
-      "weight_pct": 4.09,
+      "weight_pct": 4.06,
       "shares": 63,
       "item_code": "MPC"
     },
     {
       "name": "발레로 에너지",
-      "weight_pct": 3.98,
+      "weight_pct": 3.97,
       "shares": 64,
       "item_code": "VLO"
     },
     {
       "name": "필립스 66",
-      "weight_pct": 3.7,
+      "weight_pct": 3.67,
       "shares": 86,
       "item_code": "PSX"
     },
     {
-      "name": "윌리엄스 컴퍼니즈",
-      "weight_pct": 3.37,
-      "shares": 260,
-      "item_code": "WMB"
-    },
-    {
       "name": "SLB",
-      "weight_pct": 3.27,
+      "weight_pct": 3.36,
       "shares": 325,
       "item_code": "SLB"
     },
     {
+      "name": "윌리엄스 컴퍼니즈",
+      "weight_pct": 3.36,
+      "shares": 260,
+      "item_code": "WMB"
+    },
+    {
       "name": "EOG 리소시스",
-      "weight_pct": 2.91,
+      "weight_pct": 2.89,
       "shares": 116,
       "item_code": "EOG"
     },
@@ -75,44 +75,44 @@
       "item_code": "KMI"
     },
     {
-      "name": "원오케이",
-      "weight_pct": 2.24,
-      "shares": 135,
-      "item_code": "OKE"
-    },
-    {
       "name": "셰니어 에너지",
-      "weight_pct": 2.22,
+      "weight_pct": 2.24,
       "shares": 44,
       "item_code": "LNG"
     },
     {
+      "name": "원오케이",
+      "weight_pct": 2.23,
+      "shares": 135,
+      "item_code": "OKE"
+    },
+    {
       "name": "데번 에너지",
-      "weight_pct": 2.01,
+      "weight_pct": 2.02,
       "shares": 242,
       "item_code": "DVN"
     },
     {
       "name": "옥시덴털 페트롤리움",
-      "weight_pct": 1.66,
+      "weight_pct": 1.65,
       "shares": 160,
       "item_code": "OXY"
     },
     {
       "name": "다이아몬드백 에너지",
-      "weight_pct": 1.4,
+      "weight_pct": 1.39,
       "shares": 40,
       "item_code": "FANG.O"
     },
     {
       "name": "EQT",
-      "weight_pct": 1.27,
+      "weight_pct": 1.24,
       "shares": 133,
       "item_code": "EQT"
     },
     {
       "name": "테크닙FMC",
-      "weight_pct": 1.18,
+      "weight_pct": 1.19,
       "shares": 89,
       "item_code": "FTI"
     },
@@ -124,25 +124,25 @@
     },
     {
       "name": "익스팬드 에너지",
-      "weight_pct": 0.89,
+      "weight_pct": 0.87,
       "shares": 52,
       "item_code": "EXE.O"
     },
     {
       "name": "텍사스 퍼시픽 랜드",
-      "weight_pct": 0.81,
+      "weight_pct": 0.82,
       "shares": 12,
       "item_code": "TPL"
     },
     {
       "name": "오빈티브",
-      "weight_pct": 0.72,
+      "weight_pct": 0.71,
       "shares": 63,
       "item_code": "OVV"
     },
     {
       "name": "페르미안 리소시스",
-      "weight_pct": 0.63,
+      "weight_pct": 0.64,
       "shares": 160,
       "item_code": "PR"
     },
@@ -166,7 +166,7 @@
     },
     {
       "name": "앤테로 리소스",
-      "weight_pct": 0.45,
+      "weight_pct": 0.44,
       "shares": 67,
       "item_code": "AR"
     },
@@ -183,16 +183,16 @@
       "item_code": "SM"
     },
     {
-      "name": "코드 에너지",
-      "weight_pct": 0.35,
-      "shares": 13,
-      "item_code": "CHRD.O"
-    },
-    {
       "name": "바이퍼 에너지",
       "weight_pct": 0.34,
       "shares": 44,
       "item_code": "VNOM.O"
+    },
+    {
+      "name": "코드 에너지",
+      "weight_pct": 0.34,
+      "shares": 13,
+      "item_code": "CHRD.O"
     },
     {
       "name": "앤테로 미드스트림",
@@ -213,40 +213,28 @@
       "item_code": "PBF"
     },
     {
+      "name": "웨더포드 인터네셔널",
+      "weight_pct": 0.28,
+      "shares": 16,
+      "item_code": "WFRD.O"
+    },
+    {
       "name": "마타도 리소시스",
       "weight_pct": 0.28,
       "shares": 28,
       "item_code": "MTDR.K"
     },
     {
-      "name": "웨더포드 인터네셔널",
-      "weight_pct": 0.27,
-      "shares": 16,
-      "item_code": "WFRD.O"
-    },
-    {
       "name": "매그놀리아 오일 & 가스",
-      "weight_pct": 0.25,
+      "weight_pct": 0.26,
       "shares": 56,
       "item_code": "MGY"
-    },
-    {
-      "name": "우라늄 에너지",
-      "weight_pct": 0.24,
-      "shares": 113,
-      "item_code": "UEC"
     },
     {
       "name": "노블",
       "weight_pct": 0.24,
       "shares": 30,
       "item_code": "NE"
-    },
-    {
-      "name": "트랜스오션",
-      "weight_pct": 0.24,
-      "shares": 238,
-      "item_code": "RIG"
     },
     {
       "name": "코디악 가스 서비시스",
@@ -259,6 +247,18 @@
       "weight_pct": 0.24,
       "shares": 49,
       "item_code": "PAGP.O"
+    },
+    {
+      "name": "우라늄 에너지",
+      "weight_pct": 0.23,
+      "shares": 113,
+      "item_code": "UEC"
+    },
+    {
+      "name": "트랜스오션",
+      "weight_pct": 0.23,
+      "shares": 238,
+      "item_code": "RIG"
     },
     {
       "name": "오셔니어링 인터내셔널",
@@ -316,27 +316,27 @@
     },
     {
       "name": "패터슨-UTI 에너지",
-      "weight_pct": 0.21,
+      "weight_pct": 0.2,
       "shares": 96,
       "item_code": "PTEN.O"
-    },
-    {
-      "name": "타이드워터",
-      "weight_pct": 0.2,
-      "shares": 12,
-      "item_code": "TDW"
-    },
-    {
-      "name": "인터네셔널 시웨이스",
-      "weight_pct": 0.2,
-      "shares": 11,
-      "item_code": "INSW.K"
     },
     {
       "name": "헬머리치 & 페인",
       "weight_pct": 0.19,
       "shares": 26,
       "item_code": "HP"
+    },
+    {
+      "name": "타이드워터",
+      "weight_pct": 0.19,
+      "shares": 12,
+      "item_code": "TDW"
+    },
+    {
+      "name": "인터네셔널 시웨이스",
+      "weight_pct": 0.19,
+      "shares": 11,
+      "item_code": "INSW.K"
     },
     {
       "name": "파 퍼시픽 홀딩스",
@@ -369,12 +369,6 @@
       "item_code": "BTU"
     },
     {
-      "name": "센트러스 에너지",
-      "weight_pct": 0.14,
-      "shares": 4,
-      "item_code": "LEU"
-    },
-    {
       "name": "걸프포트 에너지",
       "weight_pct": 0.13,
       "shares": 4,
@@ -385,6 +379,12 @@
       "weight_pct": 0.13,
       "shares": 14,
       "item_code": "KNTK.K"
+    },
+    {
+      "name": "센트러스 에너지",
+      "weight_pct": 0.13,
+      "shares": 4,
+      "item_code": "LEU"
     },
     {
       "name": "시드릴",
@@ -405,10 +405,10 @@
       "item_code": "WTTR.K"
     },
     {
-      "name": "도리안 LPG",
+      "name": "탈로스 에너지",
       "weight_pct": 0.12,
-      "shares": 13,
-      "item_code": "LPG"
+      "shares": 41,
+      "item_code": "TALO.K"
     },
     {
       "name": "솔라리스 에너지 인프라스트럭처",
@@ -417,16 +417,22 @@
       "item_code": "SEI"
     },
     {
-      "name": "탈로스 에너지",
-      "weight_pct": 0.11,
-      "shares": 41,
-      "item_code": "TALO.K"
-    },
-    {
       "name": "월드 키넥트",
       "weight_pct": 0.11,
       "shares": 18,
       "item_code": "WKC"
+    },
+    {
+      "name": "도리안 LPG",
+      "weight_pct": 0.11,
+      "shares": 13,
+      "item_code": "LPG"
+    },
+    {
+      "name": "코스모스 에너지",
+      "weight_pct": 0.11,
+      "shares": 224,
+      "item_code": "KOS"
     },
     {
       "name": "노던 오일 & 가스",
@@ -445,12 +451,6 @@
       "weight_pct": 0.1,
       "shares": 14,
       "item_code": "CVI"
-    },
-    {
-      "name": "코스모스 에너지",
-      "weight_pct": 0.1,
-      "shares": 224,
-      "item_code": "KOS"
     },
     {
       "name": "이노벡스 인터내셔널",
@@ -477,18 +477,6 @@
       "item_code": "REX"
     },
     {
-      "name": "그린 플레인스",
-      "weight_pct": 0.07,
-      "shares": 27,
-      "item_code": "GPRE.O"
-    },
-    {
-      "name": "캄스톡 리소시즈",
-      "weight_pct": 0.07,
-      "shares": 28,
-      "item_code": "CRK"
-    },
-    {
       "name": "네이보스 인더스트리스",
       "weight_pct": 0.07,
       "shares": 4,
@@ -507,10 +495,22 @@
       "item_code": "PUMP.K"
     },
     {
+      "name": "그린 플레인스",
+      "weight_pct": 0.06,
+      "shares": 27,
+      "item_code": "GPRE.O"
+    },
+    {
       "name": "브리스토우 그룹",
       "weight_pct": 0.06,
       "shares": 8,
       "item_code": "VTOL.K"
+    },
+    {
+      "name": "캄스톡 리소시즈",
+      "weight_pct": 0.06,
+      "shares": 28,
+      "item_code": "CRK"
     },
     {
       "name": "엑셀러레이트 에너지",
@@ -567,12 +567,6 @@
       "item_code": "GEVO.O"
     },
     {
-      "name": "BKV",
-      "weight_pct": 0.04,
-      "shares": 9,
-      "item_code": "BKV"
-    },
-    {
       "name": "코어 래보라토리스",
       "weight_pct": 0.04,
       "shares": 19,
@@ -597,16 +591,16 @@
       "item_code": "VTS"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.04,
-      "shares": 337803,
-      "item_code": null
-    },
-    {
       "name": "오일 스테이츠 인터내셔널",
       "weight_pct": 0.04,
       "shares": 31,
       "item_code": "OIS"
+    },
+    {
+      "name": "BKV",
+      "weight_pct": 0.03,
+      "shares": 9,
+      "item_code": "BKV"
     },
     {
       "name": "링 에너지",
@@ -625,6 +619,12 @@
       "weight_pct": 0.02,
       "shares": 102,
       "item_code": "CLNE.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.02,
+      "shares": 226760,
+      "item_code": null
     },
     {
       "name": "SunocoCorp Units",

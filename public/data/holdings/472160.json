@@ -1,83 +1,83 @@
 {
   "ticker": "472160",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 19.09,
+      "weight_pct": 19.45,
       "shares": 603,
       "item_code": "NVDA.O"
     },
     {
       "name": "애플",
-      "weight_pct": 17.73,
+      "weight_pct": 17.64,
       "shares": 381,
       "item_code": "AAPL.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 15.75,
+      "weight_pct": 15.49,
       "shares": 312,
       "item_code": "GOOGL.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 14.2,
+      "weight_pct": 14.08,
       "shares": 190,
       "item_code": "MSFT.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 9.86,
+      "weight_pct": 9.66,
       "shares": 254,
       "item_code": "AMZN.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 6.5,
+      "weight_pct": 6.56,
       "shares": 121,
       "item_code": "AVGO.O"
     },
     {
       "name": "메타",
-      "weight_pct": 5.53,
+      "weight_pct": 5.5,
       "shares": 65,
       "item_code": "META.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 3.95,
+      "weight_pct": 4.08,
       "shares": 29,
       "item_code": "MU.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 3.84,
+      "weight_pct": 4.07,
       "shares": 75,
       "item_code": "TSLA.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 2.85,
+      "weight_pct": 2.9,
       "shares": 42,
       "item_code": "AMD.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.65,
-      "shares": 6155080,
+      "weight_pct": 0.52,
+      "shares": 4922328,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260819-40",
       "weight_pct": -18.24,
-      "shares": -171635414,
+      "shares": -171158691,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260821-60",
-      "weight_pct": -77.41,
-      "shares": -728469211,
+      "weight_pct": -77.42,
+      "shares": -726412230,
       "item_code": null
     }
   ]

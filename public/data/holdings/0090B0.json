@@ -1,52 +1,52 @@
 {
   "ticker": "0090B0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엠앤씨솔루션",
-      "weight_pct": 17.52,
+      "weight_pct": 17.85,
       "shares": 3271,
       "item_code": "484870"
     },
     {
       "name": "SNT다이내믹스",
-      "weight_pct": 15.44,
+      "weight_pct": 15.43,
       "shares": 1801,
       "item_code": "003570"
     },
     {
       "name": "STX엔진",
-      "weight_pct": 15.09,
+      "weight_pct": 15.2,
       "shares": 2063,
       "item_code": "077970"
     },
     {
       "name": "퍼스텍",
-      "weight_pct": 12.27,
+      "weight_pct": 12.16,
       "shares": 7244,
       "item_code": "010820"
     },
     {
       "name": "삼양컴텍",
-      "weight_pct": 12.09,
+      "weight_pct": 11.93,
       "shares": 6004,
       "item_code": "484590"
     },
     {
       "name": "RFHIC",
-      "weight_pct": 7.31,
+      "weight_pct": 7.11,
       "shares": 533,
       "item_code": "218410"
     },
     {
       "name": "아이쓰리시스템",
-      "weight_pct": 6.07,
+      "weight_pct": 6.14,
       "shares": 346,
       "item_code": "214430"
     },
     {
       "name": "켄코아에어로스페이스",
-      "weight_pct": 5.62,
+      "weight_pct": 5.53,
       "shares": 1891,
       "item_code": "274090"
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "웨이비스",
-      "weight_pct": 2.83,
+      "weight_pct": 2.89,
       "shares": 1461,
       "item_code": "289930"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.34,
-      "shares": 1180441,
+      "shares": 1177526,
       "item_code": null
     }
   ]

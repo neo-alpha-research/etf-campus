@@ -1,17 +1,17 @@
 {
   "ticker": "292560",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "일본엔선물26년09월물",
-      "weight_pct": 103.85,
+      "weight_pct": 103.7,
       "shares": 95,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 100.0,
-      "shares": 791344124,
+      "shares": 792685210,
       "item_code": null
     }
   ]

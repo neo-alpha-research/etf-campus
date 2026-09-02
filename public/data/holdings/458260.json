@@ -1,17 +1,17 @@
 {
   "ticker": "458260",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares iBoxx $ Inv Grade Corporate Bond ETF",
-      "weight_pct": 18.69,
+      "weight_pct": 18.75,
       "shares": 119,
       "item_code": "LQD"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.91,
-      "shares": 4553607,
+      "weight_pct": 4.88,
+      "shares": 4515687,
       "item_code": null
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "name": "BAC 5.015 07/22/33",
-      "weight_pct": 0.35,
+      "weight_pct": 0.36,
       "shares": 246,
       "item_code": null
     },
@@ -291,6 +291,12 @@
       "item_code": null
     },
     {
+      "name": "DE 5.05 06/12/34",
+      "weight_pct": 0.25,
+      "shares": 170,
+      "item_code": null
+    },
+    {
       "name": "DELL 5.3 10/01/29",
       "weight_pct": 0.25,
       "shares": 170,
@@ -346,12 +352,6 @@
     },
     {
       "name": "CVX 4.3 10/15/30",
-      "weight_pct": 0.24,
-      "shares": 170,
-      "item_code": null
-    },
-    {
-      "name": "DE 5.05 06/12/34",
       "weight_pct": 0.24,
       "shares": 170,
       "item_code": null
@@ -465,12 +465,6 @@
       "item_code": null
     },
     {
-      "name": "BRKHEC 4.6 05/01/53",
-      "weight_pct": 0.2,
-      "shares": 170,
-      "item_code": null
-    },
-    {
       "name": "BA 6.528 05/01/34",
       "weight_pct": 0.2,
       "shares": 127,
@@ -496,6 +490,12 @@
     },
     {
       "name": "ABBV 4 1/4 11/21/49",
+      "weight_pct": 0.19,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "BRKHEC 4.6 05/01/53",
       "weight_pct": 0.19,
       "shares": 170,
       "item_code": null
@@ -1761,6 +1761,12 @@
       "item_code": null
     },
     {
+      "name": "JPM 1.953 02/04/32",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
       "name": "T 4.9 11/01/35",
       "weight_pct": 0.11,
       "shares": 85,
@@ -1792,6 +1798,12 @@
     },
     {
       "name": "GS 5.561 11/19/45",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "GS 2.383 07/21/32",
       "weight_pct": 0.11,
       "shares": 85,
       "item_code": null
@@ -1960,18 +1972,6 @@
     },
     {
       "name": "PLD 1 1/4 10/15/30",
-      "weight_pct": 0.1,
-      "shares": 85,
-      "item_code": null
-    },
-    {
-      "name": "JPM 1.953 02/04/32",
-      "weight_pct": 0.1,
-      "shares": 85,
-      "item_code": null
-    },
-    {
-      "name": "GS 2.383 07/21/32",
       "weight_pct": 0.1,
       "shares": 85,
       "item_code": null
@@ -2308,6 +2308,12 @@
     },
     {
       "name": "ONCRTX 5.9 03/15/56",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MRVL 5.3 04/15/36",
       "weight_pct": 0.06,
       "shares": 42,
       "item_code": null
@@ -2769,6 +2775,12 @@
       "item_code": null
     },
     {
+      "name": "FI 4.55 02/15/31",
+      "weight_pct": 0.06,
+      "shares": 42,
+      "item_code": null
+    },
+    {
       "name": "GEHC 4.8 08/14/29",
       "weight_pct": 0.06,
       "shares": 42,
@@ -2944,12 +2956,6 @@
     },
     {
       "name": "D 5.7 03/15/56",
-      "weight_pct": 0.05,
-      "shares": 42,
-      "item_code": null
-    },
-    {
-      "name": "MRVL 5.3 04/15/36",
       "weight_pct": 0.05,
       "shares": 42,
       "item_code": null
@@ -3484,12 +3490,6 @@
     },
     {
       "name": "META 5 3/4 05/15/63",
-      "weight_pct": 0.05,
-      "shares": 42,
-      "item_code": null
-    },
-    {
-      "name": "FI 4.55 02/15/31",
       "weight_pct": 0.05,
       "shares": 42,
       "item_code": null

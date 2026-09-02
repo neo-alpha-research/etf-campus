@@ -1,130 +1,130 @@
 {
   "ticker": "463690",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "메타",
-      "weight_pct": 16.71,
+      "weight_pct": 16.77,
       "shares": 188,
       "item_code": "META.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 10.38,
+      "weight_pct": 10.3,
       "shares": 195,
       "item_code": "GOOGL.O"
     },
     {
       "name": "알파벳 Class C",
-      "weight_pct": 8.27,
+      "weight_pct": 8.2,
       "shares": 157,
       "item_code": "GOOG.O"
     },
     {
       "name": "AT&T",
-      "weight_pct": 5.2,
+      "weight_pct": 5.25,
       "shares": 1308,
       "item_code": "T"
     },
     {
       "name": "버라이존",
-      "weight_pct": 4.96,
+      "weight_pct": 5.02,
       "shares": 647,
       "item_code": "VZ"
     },
     {
       "name": "컴캐스트",
-      "weight_pct": 4.88,
+      "weight_pct": 4.86,
       "shares": 1178,
       "item_code": "CMCSA.O"
     },
     {
       "name": "넷플릭스",
-      "weight_pct": 4.83,
+      "weight_pct": 4.86,
       "shares": 386,
       "item_code": "NFLX.O"
     },
     {
       "name": "월트 디즈니",
-      "weight_pct": 4.78,
+      "weight_pct": 4.82,
       "shares": 289,
       "item_code": "DIS"
     },
     {
       "name": "워너 브로스 디스커버리",
-      "weight_pct": 4.63,
+      "weight_pct": 4.65,
       "shares": 1052,
       "item_code": "WBD.O"
     },
     {
       "name": "T-모바일 US",
-      "weight_pct": 4.55,
+      "weight_pct": 4.59,
       "shares": 164,
       "item_code": "TMUS.O"
     },
     {
       "name": "옴니콤 그룹",
-      "weight_pct": 4.51,
+      "weight_pct": 4.54,
       "shares": 334,
       "item_code": "OMC"
     },
     {
       "name": "라이브 네이션 엔터테인먼트",
-      "weight_pct": 4.34,
+      "weight_pct": 4.36,
       "shares": 156,
       "item_code": "LYV"
     },
     {
       "name": "테이크-투 인터랙티브 소프트웨어",
-      "weight_pct": 4.16,
+      "weight_pct": 3.93,
       "shares": 115,
       "item_code": "TTWO.O"
     },
     {
       "name": "차터 커뮤니케이션",
-      "weight_pct": 3.15,
+      "weight_pct": 3.17,
       "shares": 134,
       "item_code": "CHTR.O"
     },
     {
       "name": "폭스 Class A",
-      "weight_pct": 2.45,
+      "weight_pct": 2.44,
       "shares": 234,
       "item_code": "FOXA.O"
     },
     {
       "name": "에코스타",
-      "weight_pct": 2.12,
+      "weight_pct": 2.14,
       "shares": 159,
       "item_code": "ECHO.O"
     },
     {
       "name": "TKO 그룹 홀딩스",
-      "weight_pct": 2.08,
+      "weight_pct": 2.09,
       "shares": 73,
       "item_code": "TKO"
     },
     {
       "name": "뉴스 코퍼레이션 Class A",
-      "weight_pct": 2.02,
+      "weight_pct": 2.03,
       "shares": 428,
       "item_code": "NWSA.O"
     },
     {
       "name": "폭스 Class B",
-      "weight_pct": 1.53,
+      "weight_pct": 1.52,
       "shares": 163,
       "item_code": "FOX.O"
     },
     {
       "name": "앱러빈",
-      "weight_pct": 1.33,
+      "weight_pct": 1.32,
       "shares": 27,
       "item_code": "APP.O"
     },
     {
       "name": "트레이드 데스크",
-      "weight_pct": 1.04,
+      "weight_pct": 1.06,
       "shares": 501,
       "item_code": "TTD.O"
     },
@@ -136,20 +136,20 @@
     },
     {
       "name": "파라마운트 스카이댄스",
-      "weight_pct": 0.61,
+      "weight_pct": 0.62,
       "shares": 370,
       "item_code": "PSKY.O"
     },
     {
       "name": "레딧",
-      "weight_pct": 0.31,
+      "weight_pct": 0.3,
       "shares": 13,
       "item_code": "RDDT.K"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.22,
-      "shares": 1989967,
+      "shares": 1985472,
       "item_code": null
     },
     {

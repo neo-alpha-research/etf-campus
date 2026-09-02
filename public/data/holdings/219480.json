@@ -1,17 +1,17 @@
 {
   "ticker": "219480",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "Emini S&P500 FUT(ES) 2026 09",
-      "weight_pct": 94.08,
+      "weight_pct": 94.2,
       "shares": 2,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 91.69,
-      "shares": 1524420442,
+      "weight_pct": 91.67,
+      "shares": 1519569044,
       "item_code": null
     },
     {
@@ -22,14 +22,14 @@
     },
     {
       "name": "USD현금",
-      "weight_pct": 2.53,
-      "shares": 30784,
+      "weight_pct": 2.54,
+      "shares": 30789,
       "item_code": null
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -23.56,
-      "shares": -28,
+      "weight_pct": -23.1,
+      "shares": -27,
       "item_code": null
     }
   ]

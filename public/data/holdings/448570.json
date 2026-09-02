@@ -1,60 +1,42 @@
 {
   "ticker": "448570",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 22.99,
+      "weight_pct": 23.22,
       "shares": 1337,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 18.49,
+      "weight_pct": 18.81,
       "shares": 167,
       "item_code": "000660"
     },
     {
-      "name": "LG전자",
-      "weight_pct": 5.48,
-      "shares": 383,
-      "item_code": "066570"
-    },
-    {
       "name": "S-Oil",
-      "weight_pct": 5.41,
+      "weight_pct": 5.5,
       "shares": 545,
       "item_code": "010950"
     },
     {
-      "name": "KB금융",
-      "weight_pct": 5.28,
-      "shares": 461,
-      "item_code": "105560"
-    },
-    {
       "name": "하나금융지주",
-      "weight_pct": 5.2,
+      "weight_pct": 5.27,
       "shares": 577,
       "item_code": "086790"
     },
     {
-      "name": "한화에어로스페이스",
-      "weight_pct": 5.17,
-      "shares": 71,
-      "item_code": "012450"
+      "name": "LG전자",
+      "weight_pct": 5.26,
+      "shares": 383,
+      "item_code": "066570"
     },
     {
-      "name": "현대로템",
-      "weight_pct": 5.08,
-      "shares": 564,
-      "item_code": "064350"
-    },
-    {
-      "name": "한국항공우주",
-      "weight_pct": 5.04,
-      "shares": 582,
-      "item_code": "047810"
+      "name": "KB금융",
+      "weight_pct": 5.25,
+      "shares": 461,
+      "item_code": "105560"
     },
     {
       "name": "현대차",
@@ -63,10 +45,10 @@
       "item_code": "005380"
     },
     {
-      "name": "현대모비스",
-      "weight_pct": 4.97,
-      "shares": 166,
-      "item_code": "012330"
+      "name": "한화에어로스페이스",
+      "weight_pct": 4.99,
+      "shares": 71,
+      "item_code": "012450"
     },
     {
       "name": "셀트리온",
@@ -75,14 +57,32 @@
       "item_code": "068270"
     },
     {
+      "name": "한국항공우주",
+      "weight_pct": 4.92,
+      "shares": 582,
+      "item_code": "047810"
+    },
+    {
+      "name": "현대모비스",
+      "weight_pct": 4.89,
+      "shares": 166,
+      "item_code": "012330"
+    },
+    {
+      "name": "현대로템",
+      "weight_pct": 4.89,
+      "shares": 564,
+      "item_code": "064350"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 4.7,
-      "shares": 71137611,
+      "weight_pct": 4.77,
+      "shares": 71690746,
       "item_code": null
     },
     {
       "name": "2026-09 코스피200지수선물",
-      "weight_pct": 3.53,
+      "weight_pct": 3.58,
       "shares": 0,
       "item_code": null
     },
@@ -94,25 +94,25 @@
     },
     {
       "name": "카카오뱅크",
-      "weight_pct": 0.54,
+      "weight_pct": 0.55,
       "shares": 379,
       "item_code": "323410"
     },
     {
       "name": "GS",
-      "weight_pct": 0.31,
+      "weight_pct": 0.3,
       "shares": 37,
       "item_code": "078930"
     },
     {
       "name": "대한유화",
-      "weight_pct": 0.24,
+      "weight_pct": 0.25,
       "shares": 39,
       "item_code": "006650"
     },
     {
       "name": "iM금융지주",
-      "weight_pct": 0.23,
+      "weight_pct": 0.24,
       "shares": 193,
       "item_code": "139130"
     },

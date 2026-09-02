@@ -1,166 +1,166 @@
 {
   "ticker": "498050",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "에이비엘바이오",
-      "weight_pct": 9.95,
+      "weight_pct": 9.85,
       "shares": 758,
       "item_code": "298380"
     },
     {
       "name": "한올바이오파마",
-      "weight_pct": 7.91,
+      "weight_pct": 7.4,
       "shares": 734,
       "item_code": "009420"
     },
     {
       "name": "리가켐바이오",
-      "weight_pct": 6.86,
+      "weight_pct": 6.84,
       "shares": 394,
       "item_code": "141080"
     },
     {
       "name": "한미약품",
-      "weight_pct": 6.13,
+      "weight_pct": 6.21,
       "shares": 69,
       "item_code": "128940"
     },
     {
       "name": "원화현금",
-      "weight_pct": 5.37,
-      "shares": 29735184,
+      "weight_pct": 5.44,
+      "shares": 29731499,
       "item_code": null
     },
     {
       "name": "알테오젠",
-      "weight_pct": 4.99,
+      "weight_pct": 4.96,
       "shares": 90,
       "item_code": "196170"
     },
     {
-      "name": "파마리서치",
-      "weight_pct": 4.77,
-      "shares": 62,
-      "item_code": "214450"
-    },
-    {
       "name": "에스티팜",
-      "weight_pct": 4.76,
+      "weight_pct": 4.73,
       "shares": 251,
       "item_code": "237690"
     },
     {
+      "name": "파마리서치",
+      "weight_pct": 4.7,
+      "shares": 62,
+      "item_code": "214450"
+    },
+    {
       "name": "셀트리온",
-      "weight_pct": 4.29,
+      "weight_pct": 4.33,
       "shares": 126,
       "item_code": "068270"
     },
     {
       "name": "유한양행",
-      "weight_pct": 4.26,
+      "weight_pct": 4.27,
       "shares": 282,
       "item_code": "000100"
     },
     {
       "name": "올릭스",
-      "weight_pct": 3.9,
+      "weight_pct": 4.03,
       "shares": 209,
       "item_code": "226950"
     },
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 3.56,
+      "weight_pct": 3.61,
       "shares": 13,
       "item_code": "207940"
     },
     {
       "name": "보로노이",
-      "weight_pct": 3.21,
+      "weight_pct": 3.28,
       "shares": 108,
       "item_code": "310210"
     },
     {
       "name": "오스코텍",
-      "weight_pct": 2.98,
+      "weight_pct": 3.19,
       "shares": 472,
       "item_code": "039200"
     },
     {
-      "name": "알지노믹스",
-      "weight_pct": 2.92,
-      "shares": 538,
-      "item_code": "476830"
-    },
-    {
       "name": "엘앤씨바이오",
-      "weight_pct": 2.79,
+      "weight_pct": 2.86,
       "shares": 291,
       "item_code": "290650"
     },
     {
+      "name": "알지노믹스",
+      "weight_pct": 2.83,
+      "shares": 538,
+      "item_code": "476830"
+    },
+    {
       "name": "휴젤",
-      "weight_pct": 2.5,
+      "weight_pct": 2.46,
       "shares": 55,
       "item_code": "145020"
     },
     {
       "name": "HK이노엔",
-      "weight_pct": 2.37,
+      "weight_pct": 2.44,
       "shares": 306,
       "item_code": "195940"
     },
     {
       "name": "클래시스",
-      "weight_pct": 2.36,
+      "weight_pct": 2.32,
       "shares": 387,
       "item_code": "214150"
     },
     {
       "name": "SK바이오팜",
-      "weight_pct": 2.22,
+      "weight_pct": 2.29,
       "shares": 141,
       "item_code": "326030"
     },
     {
       "name": "종근당",
-      "weight_pct": 2.17,
+      "weight_pct": 2.21,
       "shares": 176,
       "item_code": "185750"
     },
     {
-      "name": "디앤디파마텍",
-      "weight_pct": 2.02,
-      "shares": 210,
-      "item_code": "347850"
-    },
-    {
       "name": "녹십자",
-      "weight_pct": 2.0,
+      "weight_pct": 2.01,
       "shares": 86,
       "item_code": "006280"
     },
     {
+      "name": "디앤디파마텍",
+      "weight_pct": 1.99,
+      "shares": 210,
+      "item_code": "347850"
+    },
+    {
       "name": "씨어스",
-      "weight_pct": 1.85,
+      "weight_pct": 1.86,
       "shares": 486,
       "item_code": "458870"
     },
     {
       "name": "대웅제약",
-      "weight_pct": 1.81,
+      "weight_pct": 1.83,
       "shares": 79,
       "item_code": "069620"
     },
     {
       "name": "지아이이노베이션",
-      "weight_pct": 1.04,
+      "weight_pct": 1.02,
       "shares": 709,
       "item_code": "358570"
     },
     {
       "name": "퓨쳐켐",
-      "weight_pct": 0.85,
+      "weight_pct": 0.9,
       "shares": 601,
       "item_code": "220100"
     }

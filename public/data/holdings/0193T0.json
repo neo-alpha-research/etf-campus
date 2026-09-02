@@ -1,23 +1,23 @@
 {
   "ticker": "0193T0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "2026-09 SK하이닉스개별선물",
-      "weight_pct": 110.07,
+      "weight_pct": 109.74,
       "shares": 16,
       "item_code": null
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 90.09,
-      "shares": 133,
+      "weight_pct": 90.61,
+      "shares": 135,
       "item_code": "000660"
     },
     {
       "name": "원화현금",
-      "weight_pct": 9.9,
-      "shares": 24481210,
+      "weight_pct": 9.38,
+      "shares": 23676552,
       "item_code": null
     }
   ]

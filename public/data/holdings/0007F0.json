@@ -1,10 +1,10 @@
 {
   "ticker": "0007F0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "현대커머셜574-1",
-      "weight_pct": 3.66,
+      "weight_pct": 3.65,
       "shares": 0,
       "item_code": null
     },
@@ -51,25 +51,7 @@
       "item_code": null
     },
     {
-      "name": "BNK캐피탈387-3",
-      "weight_pct": 1.81,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "현대카드955-1",
-      "weight_pct": 1.81,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리금융캐피탈512-5",
-      "weight_pct": 1.81,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "엔에이치농협캐피탈240-5",
       "weight_pct": 1.81,
       "shares": 0,
       "item_code": null
@@ -123,6 +105,12 @@
       "item_code": null
     },
     {
+      "name": "BNK캐피탈387-3",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "농협금융지주46-2",
       "weight_pct": 1.8,
       "shares": 0,
@@ -130,6 +118,12 @@
     },
     {
       "name": "BNK캐피탈358-5",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리금융캐피탈512-5",
       "weight_pct": 1.8,
       "shares": 0,
       "item_code": null
@@ -171,24 +165,6 @@
       "item_code": null
     },
     {
-      "name": "현대캐피탈2035-4",
-      "weight_pct": 1.8,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "신한카드2240-1",
-      "weight_pct": 1.8,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "신한카드2246-3",
-      "weight_pct": 1.8,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "우리금융캐피탈519-2",
       "weight_pct": 1.8,
       "shares": 0,
@@ -196,6 +172,12 @@
     },
     {
       "name": "신한금융지주170-1",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "엔에이치농협캐피탈240-5",
       "weight_pct": 1.8,
       "shares": 0,
       "item_code": null
@@ -243,12 +225,6 @@
       "item_code": null
     },
     {
-      "name": "현대캐피탈2078-2",
-      "weight_pct": 1.79,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "하나캐피탈443-4",
       "weight_pct": 1.79,
       "shares": 0,
@@ -279,13 +255,19 @@
       "item_code": null
     },
     {
-      "name": "증권금융채권2025-1-2",
+      "name": "현대캐피탈2035-4",
       "weight_pct": 1.79,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "신한카드2254-1",
+      "name": "신한카드2240-1",
+      "weight_pct": 1.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드2246-3",
       "weight_pct": 1.79,
       "shares": 0,
       "item_code": null
@@ -303,25 +285,13 @@
       "item_code": null
     },
     {
-      "name": "SK텔레콤72-3",
-      "weight_pct": 1.79,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "현대커머셜545-2",
       "weight_pct": 1.79,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "BNK금융지주48",
-      "weight_pct": 1.79,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나캐피탈453-4",
+      "name": "현대캐피탈2078-2",
       "weight_pct": 1.78,
       "shares": 0,
       "item_code": null
@@ -339,7 +309,13 @@
       "item_code": null
     },
     {
-      "name": "신한금융지주173-2",
+      "name": "증권금융채권2025-1-2",
+      "weight_pct": 1.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한카드2254-1",
       "weight_pct": 1.78,
       "shares": 0,
       "item_code": null
@@ -351,7 +327,19 @@
       "item_code": null
     },
     {
+      "name": "SK텔레콤72-3",
+      "weight_pct": 1.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "현대커머셜543-3",
+      "weight_pct": 1.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "BNK금융지주48",
       "weight_pct": 1.78,
       "shares": 0,
       "item_code": null
@@ -364,6 +352,18 @@
     },
     {
       "name": "신한캐피탈512-2",
+      "weight_pct": 1.77,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈453-4",
+      "weight_pct": 1.77,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한금융지주173-2",
       "weight_pct": 1.77,
       "shares": 0,
       "item_code": null
@@ -400,8 +400,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -18.04,
-      "shares": -18381429,
+      "weight_pct": -17.89,
+      "shares": -18228140,
       "item_code": null
     }
   ]

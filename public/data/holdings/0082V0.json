@@ -1,6 +1,6 @@
 {
   "ticker": "0082V0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "Vanguard Total World Stock Index Fund",
@@ -10,7 +10,7 @@
     },
     {
       "name": "State Street SPDR Portfolio MSCI Global Sk Mkt ETF",
-      "weight_pct": 20.13,
+      "weight_pct": 20.12,
       "shares": 936,
       "item_code": "SPGM.K"
     },
@@ -28,19 +28,19 @@
     },
     {
       "name": "Invesco NASDAQ 100 ETF",
-      "weight_pct": 4.01,
+      "weight_pct": 4.02,
       "shares": 55,
       "item_code": "QQQM.O"
     },
     {
       "name": "KODEX 머니마켓액티브",
-      "weight_pct": 3.39,
+      "weight_pct": 3.4,
       "shares": 180,
       "item_code": "488770"
     },
     {
       "name": "KODEX 종합채권(AA-이상)액티브",
-      "weight_pct": 3.37,
+      "weight_pct": 3.36,
       "shares": 171,
       "item_code": "273130"
     },
@@ -58,7 +58,7 @@
     },
     {
       "name": "KODEX 미국휴머노이드로봇",
-      "weight_pct": 2.24,
+      "weight_pct": 2.26,
       "shares": 857,
       "item_code": "0038A0"
     },
@@ -69,27 +69,27 @@
       "item_code": "214980"
     },
     {
-      "name": "TIME 글로벌우주테크&방산액티브",
-      "weight_pct": 2.01,
-      "shares": 581,
-      "item_code": "478150"
-    },
-    {
       "name": "KODEX 국고채3년",
       "weight_pct": 2.0,
       "shares": 181,
       "item_code": "114260"
     },
     {
+      "name": "TIME 글로벌우주테크&방산액티브",
+      "weight_pct": 1.98,
+      "shares": 581,
+      "item_code": "478150"
+    },
+    {
       "name": "KODEX 미국반도체",
-      "weight_pct": 1.77,
+      "weight_pct": 1.78,
       "shares": 191,
       "item_code": "390390"
     },
     {
       "name": "원화현금",
       "weight_pct": 1.74,
-      "shares": 9738053,
+      "shares": 9733015,
       "item_code": null
     },
     {
@@ -100,7 +100,7 @@
     },
     {
       "name": "KODEX AI전력핵심설비",
-      "weight_pct": 1.52,
+      "weight_pct": 1.5,
       "shares": 231,
       "item_code": "487240"
     },
@@ -112,7 +112,7 @@
     },
     {
       "name": "KODEX AI반도체TOP2플러스",
-      "weight_pct": 1.36,
+      "weight_pct": 1.37,
       "shares": 195,
       "item_code": "395160"
     },

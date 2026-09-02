@@ -1,89 +1,89 @@
 {
   "ticker": "395280",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "크래프톤",
-      "weight_pct": 25.2,
+      "weight_pct": 25.51,
       "shares": 201,
       "item_code": "259960"
     },
     {
       "name": "NC",
-      "weight_pct": 22.44,
+      "weight_pct": 22.28,
       "shares": 181,
       "item_code": "036570"
     },
     {
-      "name": "펄어비스",
-      "weight_pct": 9.65,
-      "shares": 553,
-      "item_code": "263750"
-    },
-    {
       "name": "넷마블",
-      "weight_pct": 9.37,
+      "weight_pct": 9.59,
       "shares": 450,
       "item_code": "251270"
     },
     {
+      "name": "펄어비스",
+      "weight_pct": 9.52,
+      "shares": 553,
+      "item_code": "263750"
+    },
+    {
       "name": "시프트업",
-      "weight_pct": 8.94,
+      "weight_pct": 9.0,
       "shares": 496,
       "item_code": "462870"
     },
     {
       "name": "NHN",
-      "weight_pct": 7.96,
+      "weight_pct": 7.5,
       "shares": 194,
       "item_code": "181710"
     },
     {
       "name": "더블유게임즈",
-      "weight_pct": 4.97,
+      "weight_pct": 4.95,
       "shares": 154,
       "item_code": "192080"
     },
     {
       "name": "위메이드",
-      "weight_pct": 2.47,
+      "weight_pct": 2.51,
       "shares": 297,
       "item_code": "112040"
     },
     {
-      "name": "컴투스",
-      "weight_pct": 2.15,
-      "shares": 113,
-      "item_code": "078340"
-    },
-    {
       "name": "넥슨게임즈",
-      "weight_pct": 2.09,
+      "weight_pct": 2.16,
       "shares": 342,
       "item_code": "225570"
     },
     {
-      "name": "네오위즈",
-      "weight_pct": 1.67,
-      "shares": 167,
-      "item_code": "095660"
+      "name": "컴투스",
+      "weight_pct": 2.14,
+      "shares": 113,
+      "item_code": "078340"
     },
     {
       "name": "웹젠",
-      "weight_pct": 1.64,
+      "weight_pct": 1.66,
       "shares": 266,
       "item_code": "069080"
     },
     {
+      "name": "네오위즈",
+      "weight_pct": 1.65,
+      "shares": 167,
+      "item_code": "095660"
+    },
+    {
       "name": "데브시스터즈",
-      "weight_pct": 1.03,
+      "weight_pct": 1.1,
       "shares": 115,
       "item_code": "194480"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.36,
-      "shares": 657430,
+      "weight_pct": 0.35,
+      "shares": 651290,
       "item_code": null
     }
   ]

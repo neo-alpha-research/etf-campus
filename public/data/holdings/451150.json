@@ -1,120 +1,114 @@
 {
   "ticker": "451150",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
+      "name": "원화현금",
+      "weight_pct": 10.69,
+      "shares": 37376897,
+      "item_code": null
+    },
+    {
       "name": "Vanguard 500 Index Fund ETF",
-      "weight_pct": 10.04,
+      "weight_pct": 10.16,
       "shares": 36,
       "item_code": "VOO"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 9.57,
-      "shares": 33943224,
-      "item_code": null
-    },
-    {
       "name": "일라이 릴리",
-      "weight_pct": 8.97,
+      "weight_pct": 8.98,
       "shares": 19,
       "item_code": "LLY"
     },
     {
       "name": "알파벳 Class C",
-      "weight_pct": 8.95,
+      "weight_pct": 8.89,
       "shares": 67,
       "item_code": "GOOG.O"
     },
     {
       "name": "Direxion Daily S&P 500 Bull 3X ETF",
-      "weight_pct": 7.92,
+      "weight_pct": 7.96,
       "shares": 70,
       "item_code": "SPXL.K"
     },
     {
       "name": "에이피알",
-      "weight_pct": 5.76,
+      "weight_pct": 5.44,
       "shares": 44,
       "item_code": "278470"
     },
     {
       "name": "TKO 그룹 홀딩스",
-      "weight_pct": 3.21,
+      "weight_pct": 3.22,
       "shares": 45,
       "item_code": "TKO"
     },
     {
       "name": "빅토리아 시크릿",
-      "weight_pct": 3.15,
+      "weight_pct": 3.11,
       "shares": 93,
       "item_code": "VSXY.K"
     },
     {
       "name": "로스 스토어스",
-      "weight_pct": 2.96,
+      "weight_pct": 3.01,
       "shares": 33,
       "item_code": "ROST.O"
     },
     {
-      "name": "라이프 타임 그룹 홀딩스",
-      "weight_pct": 2.92,
-      "shares": 174,
-      "item_code": "LTH"
-    },
-    {
       "name": "랄프 로렌",
-      "weight_pct": 2.91,
+      "weight_pct": 2.9,
       "shares": 21,
       "item_code": "RL"
     },
     {
+      "name": "라이프 타임 그룹 홀딩스",
+      "weight_pct": 2.87,
+      "shares": 174,
+      "item_code": "LTH"
+    },
+    {
       "name": "패스트리테일링",
-      "weight_pct": 2.77,
+      "weight_pct": 2.86,
       "shares": 16,
       "item_code": "9983.T"
     },
     {
       "name": "레딧",
-      "weight_pct": 2.51,
+      "weight_pct": 2.46,
       "shares": 42,
       "item_code": "RDDT.K"
     },
     {
       "name": "몬스터 베버리지",
-      "weight_pct": 2.44,
+      "weight_pct": 2.42,
       "shares": 134,
       "item_code": "MNST.O"
     },
     {
       "name": "로빈후드",
-      "weight_pct": 2.18,
+      "weight_pct": 2.22,
       "shares": 54,
       "item_code": "HOOD.O"
     },
     {
       "name": "삼양식품",
-      "weight_pct": 2.15,
+      "weight_pct": 2.13,
       "shares": 5,
       "item_code": "003230"
     },
     {
-      "name": "ADIDAS AG",
-      "weight_pct": 2.03,
-      "shares": 29,
-      "item_code": null
-    },
-    {
       "name": "반다이남코 홀딩스",
-      "weight_pct": 1.98,
+      "weight_pct": 2.02,
       "shares": 144,
       "item_code": "7832.T"
     },
     {
-      "name": "핀터레스트",
-      "weight_pct": 1.98,
-      "shares": 222,
-      "item_code": "PINS.K"
+      "name": "아이맥스",
+      "weight_pct": 2.02,
+      "shares": 100,
+      "item_code": "IMAX.K"
     },
     {
       "name": "스타벅스",
@@ -123,62 +117,68 @@
       "item_code": "SBUX.O"
     },
     {
-      "name": "아이맥스",
-      "weight_pct": 1.96,
-      "shares": 100,
-      "item_code": "IMAX.K"
-    },
-    {
-      "name": "스피어 엔터테인먼트",
-      "weight_pct": 1.82,
-      "shares": 33,
-      "item_code": "SPHR.K"
+      "name": "핀터레스트",
+      "weight_pct": 1.89,
+      "shares": 222,
+      "item_code": "PINS.K"
     },
     {
       "name": "코인베이스 글로벌",
-      "weight_pct": 1.77,
+      "weight_pct": 1.89,
       "shares": 25,
       "item_code": "COIN.O"
     },
     {
+      "name": "스피어 엔터테인먼트",
+      "weight_pct": 1.78,
+      "shares": 33,
+      "item_code": "SPHR.K"
+    },
+    {
       "name": "와비 파커",
-      "weight_pct": 1.62,
+      "weight_pct": 1.61,
       "shares": 167,
       "item_code": "WRBY.K"
     },
     {
       "name": "에어비앤비",
-      "weight_pct": 1.51,
+      "weight_pct": 1.48,
       "shares": 20,
       "item_code": "ABNB.O"
     },
     {
-      "name": "제닉",
-      "weight_pct": 1.31,
-      "shares": 126,
-      "item_code": "123330"
-    },
-    {
       "name": "테슬라",
-      "weight_pct": 1.31,
+      "weight_pct": 1.41,
       "shares": 9,
       "item_code": "TSLA.O"
     },
     {
-      "name": "이해국제홀딩스",
+      "name": "제닉",
+      "weight_pct": 1.26,
+      "shares": 126,
+      "item_code": "123330"
+    },
+    {
+      "name": "ADIDAS AG",
       "weight_pct": 1.03,
+      "shares": 14,
+      "item_code": null
+    },
+    {
+      "name": "이해국제홀딩스",
+      "weight_pct": 1.02,
       "shares": 1290,
       "item_code": "1579.HK"
     },
     {
       "name": "프라이스스마트",
-      "weight_pct": 0.89,
+      "weight_pct": 0.9,
       "shares": 13,
       "item_code": "PSMT.O"
     },
     {
       "name": "젭 헬스 ADR",
-      "weight_pct": 0.25,
+      "weight_pct": 0.24,
       "shares": 131,
       "item_code": "ZEPP.K"
     }

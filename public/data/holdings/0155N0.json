@@ -1,71 +1,71 @@
 {
   "ticker": "0155N0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "레인보우로보틱스",
-      "weight_pct": 14.38,
+      "weight_pct": 14.41,
       "shares": 120,
       "item_code": "277810"
     },
     {
-      "name": "HL만도",
-      "weight_pct": 12.9,
-      "shares": 957,
-      "item_code": "204320"
-    },
-    {
       "name": "현대차",
-      "weight_pct": 12.81,
+      "weight_pct": 13.05,
       "shares": 122,
       "item_code": "005380"
     },
     {
+      "name": "HL만도",
+      "weight_pct": 12.86,
+      "shares": 957,
+      "item_code": "204320"
+    },
+    {
       "name": "에스피지",
-      "weight_pct": 11.95,
+      "weight_pct": 11.87,
       "shares": 492,
       "item_code": "058610"
     },
     {
       "name": "로보티즈",
-      "weight_pct": 11.32,
+      "weight_pct": 11.46,
       "shares": 169,
       "item_code": "108490"
     },
     {
       "name": "두산로보틱스",
-      "weight_pct": 8.2,
+      "weight_pct": 8.18,
       "shares": 444,
       "item_code": "454910"
     },
     {
       "name": "LG전자",
-      "weight_pct": 7.89,
+      "weight_pct": 7.72,
       "shares": 140,
       "item_code": "066570"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 7.46,
+      "weight_pct": 7.37,
       "shares": 68,
       "item_code": "307950"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 6.49,
+      "weight_pct": 6.51,
       "shares": 55,
       "item_code": "012330"
     },
     {
       "name": "삼현",
-      "weight_pct": 6.1,
+      "weight_pct": 6.05,
       "shares": 730,
       "item_code": "437730"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.45,
-      "shares": 1756664,
+      "weight_pct": 0.46,
+      "shares": 1747687,
       "item_code": null
     }
   ]

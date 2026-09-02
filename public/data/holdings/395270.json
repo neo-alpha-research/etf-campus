@@ -1,88 +1,88 @@
 {
   "ticker": "395270",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 25.74,
+      "weight_pct": 25.72,
       "shares": 2752,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 24.99,
+      "weight_pct": 25.16,
       "shares": 415,
       "item_code": "000660"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 20.4,
+      "weight_pct": 20.9,
       "shares": 547,
       "item_code": "402340"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 17.2,
+      "weight_pct": 16.8,
       "shares": 328,
       "item_code": "009150"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 1.99,
+      "weight_pct": 1.94,
       "shares": 252,
       "item_code": "042700"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 1.33,
+      "weight_pct": 1.29,
       "shares": 326,
       "item_code": "007660"
     },
     {
       "name": "주성엔지니어링",
-      "weight_pct": 1.26,
+      "weight_pct": 1.22,
       "shares": 198,
       "item_code": "036930"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 0.76,
+      "shares": 21344979,
+      "item_code": null
+    },
+    {
       "name": "원익IPS",
-      "weight_pct": 0.77,
+      "weight_pct": 0.75,
       "shares": 192,
       "item_code": "240810"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.76,
-      "shares": 21366881,
-      "item_code": null
+      "name": "HPSP",
+      "weight_pct": 0.7,
+      "shares": 386,
+      "item_code": "403870"
     },
     {
       "name": "이오테크닉스",
-      "weight_pct": 0.72,
+      "weight_pct": 0.7,
       "shares": 50,
       "item_code": "039030"
     },
     {
       "name": "리노공업",
-      "weight_pct": 0.71,
+      "weight_pct": 0.69,
       "shares": 298,
       "item_code": "058470"
     },
     {
-      "name": "HPSP",
-      "weight_pct": 0.69,
-      "shares": 386,
-      "item_code": "403870"
-    },
-    {
       "name": "DB하이텍",
-      "weight_pct": 0.62,
+      "weight_pct": 0.61,
       "shares": 183,
       "item_code": "000990"
     },
     {
       "name": "피에스케이",
-      "weight_pct": 0.53,
+      "weight_pct": 0.52,
       "shares": 117,
       "item_code": "319660"
     },
@@ -93,16 +93,16 @@
       "item_code": "084370"
     },
     {
-      "name": "ISC",
-      "weight_pct": 0.37,
-      "shares": 61,
-      "item_code": "095340"
-    },
-    {
       "name": "하나마이크론",
       "weight_pct": 0.36,
       "shares": 288,
       "item_code": "067310"
+    },
+    {
+      "name": "ISC",
+      "weight_pct": 0.34,
+      "shares": 61,
+      "item_code": "095340"
     },
     {
       "name": "솔브레인",
@@ -112,19 +112,19 @@
     },
     {
       "name": "동진쎄미켐",
-      "weight_pct": 0.3,
+      "weight_pct": 0.29,
       "shares": 199,
       "item_code": "005290"
     },
     {
       "name": "티씨케이",
-      "weight_pct": 0.26,
+      "weight_pct": 0.25,
       "shares": 30,
       "item_code": "064760"
     },
     {
       "name": "두산테스나",
-      "weight_pct": 0.2,
+      "weight_pct": 0.19,
       "shares": 70,
       "item_code": "131970"
     }

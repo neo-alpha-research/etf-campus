@@ -1,100 +1,100 @@
 {
   "ticker": "367740",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 10.41,
+      "weight_pct": 10.36,
       "shares": 393,
       "item_code": "006400"
     },
     {
       "name": "KT",
-      "weight_pct": 8.92,
+      "weight_pct": 9.11,
       "shares": 3639,
       "item_code": "030200"
     },
     {
       "name": "SK텔레콤",
-      "weight_pct": 8.91,
+      "weight_pct": 9.03,
       "shares": 2061,
       "item_code": "017670"
     },
     {
-      "name": "한미반도체",
-      "weight_pct": 7.93,
-      "shares": 783,
-      "item_code": "042700"
-    },
-    {
       "name": "삼성전자",
-      "weight_pct": 7.7,
+      "weight_pct": 7.8,
       "shares": 645,
       "item_code": "005930"
     },
     {
+      "name": "한미반도체",
+      "weight_pct": 7.8,
+      "shares": 783,
+      "item_code": "042700"
+    },
+    {
       "name": "삼성에스디에스",
-      "weight_pct": 7.49,
+      "weight_pct": 7.72,
       "shares": 680,
       "item_code": "018260"
     },
     {
-      "name": "이수페타시스",
-      "weight_pct": 7.33,
-      "shares": 1401,
-      "item_code": "007660"
-    },
-    {
       "name": "삼성전기",
-      "weight_pct": 7.3,
+      "weight_pct": 7.22,
       "shares": 109,
       "item_code": "009150"
     },
     {
+      "name": "이수페타시스",
+      "weight_pct": 7.21,
+      "shares": 1401,
+      "item_code": "007660"
+    },
+    {
       "name": "SK하이닉스",
-      "weight_pct": 5.61,
+      "weight_pct": 5.72,
       "shares": 73,
       "item_code": "000660"
     },
     {
       "name": "LG유플러스",
-      "weight_pct": 4.59,
+      "weight_pct": 4.71,
       "shares": 6676,
       "item_code": "032640"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 4.21,
+      "weight_pct": 4.19,
       "shares": 823,
       "item_code": "240810"
     },
     {
       "name": "LG이노텍",
-      "weight_pct": 3.98,
+      "weight_pct": 3.69,
       "shares": 135,
       "item_code": "011070"
     },
     {
       "name": "LG디스플레이",
-      "weight_pct": 3.35,
+      "weight_pct": 3.32,
       "shares": 7735,
       "item_code": "034220"
     },
     {
       "name": "ISC",
-      "weight_pct": 2.03,
+      "weight_pct": 1.9,
       "shares": 262,
       "item_code": "095340"
     },
     {
       "name": "파크시스템스",
-      "weight_pct": 1.41,
+      "weight_pct": 1.35,
       "shares": 117,
       "item_code": "140860"
     },
     {
       "name": "두산테스나",
-      "weight_pct": 1.1,
+      "weight_pct": 1.08,
       "shares": 299,
       "item_code": "131970"
     },
@@ -106,32 +106,38 @@
     },
     {
       "name": "RFHIC",
-      "weight_pct": 0.91,
+      "weight_pct": 0.88,
       "shares": 424,
       "item_code": "218410"
     },
     {
       "name": "코리아써키트",
-      "weight_pct": 0.83,
+      "weight_pct": 0.81,
       "shares": 297,
       "item_code": "007810"
     },
     {
+      "name": "비에이치",
+      "weight_pct": 0.62,
+      "shares": 608,
+      "item_code": "090460"
+    },
+    {
       "name": "인텔리안테크",
-      "weight_pct": 0.57,
+      "weight_pct": 0.58,
       "shares": 199,
       "item_code": "189300"
     },
     {
       "name": "쏠리드",
-      "weight_pct": 0.56,
+      "weight_pct": 0.57,
       "shares": 1394,
       "item_code": "050890"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.52,
-      "shares": 11424503,
+      "shares": 11411925,
       "item_code": null
     },
     {
@@ -141,22 +147,16 @@
       "item_code": "213420"
     },
     {
-      "name": "케이아이엔엑스",
-      "weight_pct": 0.5,
-      "shares": 75,
-      "item_code": "093320"
-    },
-    {
-      "name": "비에이치",
-      "weight_pct": 0.5,
-      "shares": 608,
-      "item_code": "090460"
-    },
-    {
       "name": "네패스",
-      "weight_pct": 0.45,
+      "weight_pct": 0.46,
       "shares": 440,
       "item_code": "033640"
+    },
+    {
+      "name": "케이아이엔엑스",
+      "weight_pct": 0.46,
+      "shares": 75,
+      "item_code": "093320"
     },
     {
       "name": "에이디테크놀로지",
@@ -178,7 +178,7 @@
     },
     {
       "name": "LIG아큐버",
-      "weight_pct": 0.19,
+      "weight_pct": 0.18,
       "shares": 137,
       "item_code": "073490"
     },

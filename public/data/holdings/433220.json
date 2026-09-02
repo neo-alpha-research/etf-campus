@@ -1,52 +1,52 @@
 {
   "ticker": "433220",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
-      "name": "알파벳 Class C",
-      "weight_pct": 9.32,
-      "shares": 115,
-      "item_code": "GOOG.O"
-    },
-    {
       "name": "Vanguard 500 Index Fund ETF",
-      "weight_pct": 9.22,
+      "weight_pct": 9.18,
       "shares": 55,
       "item_code": "VOO"
     },
     {
+      "name": "알파벳 Class C",
+      "weight_pct": 9.11,
+      "shares": 115,
+      "item_code": "GOOG.O"
+    },
+    {
       "name": "엔비디아",
-      "weight_pct": 7.5,
+      "weight_pct": 7.61,
       "shares": 146,
       "item_code": "NVDA.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.32,
-      "shares": 42561384,
+      "weight_pct": 7.31,
+      "shares": 42616551,
       "item_code": null
     },
     {
       "name": "삼성전자우",
-      "weight_pct": 6.67,
+      "weight_pct": 6.79,
       "shares": 208,
       "item_code": "005935"
     },
     {
       "name": "닝더스다이",
-      "weight_pct": 6.2,
+      "weight_pct": 6.11,
       "shares": 480,
       "item_code": "300750.SZ"
     },
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 5.54,
+      "weight_pct": 5.65,
       "shares": 26,
       "item_code": "LITE.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 4.93,
+      "weight_pct": 4.8,
       "shares": 78,
       "item_code": "AMZN.O"
     },
@@ -58,109 +58,109 @@
     },
     {
       "name": "SK하이닉스 ADR",
-      "weight_pct": 3.65,
+      "weight_pct": 3.73,
       "shares": 96,
       "item_code": "SKHY.O"
     },
     {
-      "name": "레조낙 홀딩스",
-      "weight_pct": 3.34,
-      "shares": 140,
-      "item_code": "4004.T"
-    },
-    {
       "name": "테크닙FMC",
-      "weight_pct": 3.32,
+      "weight_pct": 3.42,
       "shares": 186,
       "item_code": "FTI"
     },
     {
+      "name": "레조낙 홀딩스",
+      "weight_pct": 3.27,
+      "shares": 140,
+      "item_code": "4004.T"
+    },
+    {
       "name": "코히런트",
-      "weight_pct": 3.1,
+      "weight_pct": 3.08,
       "shares": 47,
       "item_code": "COHR.K"
     },
     {
-      "name": "GE 버노바",
-      "weight_pct": 2.48,
-      "shares": 11,
-      "item_code": "GEV"
-    },
-    {
       "name": "라이온델바젤 인더스트리스",
-      "weight_pct": 2.43,
+      "weight_pct": 2.48,
       "shares": 162,
       "item_code": "LYB"
     },
     {
+      "name": "GE 버노바",
+      "weight_pct": 2.44,
+      "shares": 11,
+      "item_code": "GEV"
+    },
+    {
       "name": "브로드컴",
-      "weight_pct": 2.35,
+      "weight_pct": 2.36,
       "shares": 27,
       "item_code": "AVGO.O"
     },
     {
       "name": "램 리서치",
-      "weight_pct": 1.99,
+      "weight_pct": 1.98,
       "shares": 28,
       "item_code": "LRCX.O"
     },
     {
       "name": "코닝",
-      "weight_pct": 1.92,
+      "weight_pct": 1.91,
       "shares": 54,
       "item_code": "GLW"
     },
     {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 1.87,
+      "weight_pct": 1.86,
       "shares": 23,
       "item_code": "CDNS.O"
     },
     {
-      "name": "블룸 에너지",
-      "weight_pct": 1.85,
-      "shares": 37,
-      "item_code": "BE"
-    },
-    {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 1.82,
+      "weight_pct": 1.84,
       "shares": 32,
       "item_code": "ARM.O"
     },
     {
       "name": "셰니어 에너지",
-      "weight_pct": 1.76,
+      "weight_pct": 1.82,
       "shares": 26,
       "item_code": "LNG"
     },
     {
+      "name": "블룸 에너지",
+      "weight_pct": 1.81,
+      "shares": 37,
+      "item_code": "BE"
+    },
+    {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 1.69,
+      "weight_pct": 1.68,
       "shares": 15,
       "item_code": "AMAT.O"
     },
     {
       "name": "산텍 홀딩스",
-      "weight_pct": 1.52,
+      "weight_pct": 1.55,
       "shares": 54,
       "item_code": "6777.T"
     },
     {
       "name": "대족수공",
-      "weight_pct": 1.44,
+      "weight_pct": 1.5,
       "shares": 154,
       "item_code": "301200.SZ"
     },
     {
       "name": "AIXTRON SE",
-      "weight_pct": 1.23,
+      "weight_pct": 1.2,
       "shares": 123,
       "item_code": null
     },
     {
       "name": "센트러스 에너지",
-      "weight_pct": 1.23,
+      "weight_pct": 1.19,
       "shares": 29,
       "item_code": "LEU"
     }

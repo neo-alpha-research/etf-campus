@@ -1,166 +1,172 @@
 {
   "ticker": "498180",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "신한투자증권2401-2",
-      "weight_pct": 7.56,
+      "weight_pct": 7.51,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한카드2279-1",
-      "weight_pct": 7.36,
+      "weight_pct": 7.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고04250-3606(26-6)",
-      "weight_pct": 4.53,
+      "weight_pct": 4.48,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03500-2906(26-5)",
-      "weight_pct": 4.5,
+      "weight_pct": 4.47,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-5403(24-2)",
-      "weight_pct": 4.05,
+      "weight_pct": 3.94,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나 금융기관영업팀 20250911-365-1",
-      "weight_pct": 3.75,
+      "weight_pct": 3.73,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국민은행(CD)",
-      "weight_pct": 3.72,
+      "weight_pct": 3.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "키움증권(CP)",
-      "weight_pct": 3.62,
+      "weight_pct": 3.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "키움증권(CP)",
-      "weight_pct": 3.62,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고03500-5603(26-2)",
-      "weight_pct": 3.2,
+      "weight_pct": 3.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국민주택1종23-10",
-      "weight_pct": 3.18,
+      "weight_pct": 3.16,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "국고02625-5509(25-7)",
+      "name": "국고03500-5603(26-2)",
       "weight_pct": 3.12,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "국고02625-5509(25-7)",
+      "weight_pct": 3.03,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 2.97,
+      "weight_pct": 2.94,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02500-3009(25-8)",
-      "weight_pct": 2.87,
+      "weight_pct": 2.85,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02750-4509(25-9)",
-      "weight_pct": 2.38,
+      "weight_pct": 2.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력1067",
-      "weight_pct": 2.27,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "에스케이하이닉스224-2",
       "weight_pct": 2.26,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "도로공사530",
+      "name": "에스케이하이닉스224-2",
       "weight_pct": 2.25,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "도로공사530",
+      "weight_pct": 2.23,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "2026-09 국채선물3(신)",
+      "weight_pct": 2.21,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국고채이자01880-29",
-      "weight_pct": 2.05,
+      "weight_pct": 2.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고01500-4009(20-7)",
-      "weight_pct": 1.85,
+      "weight_pct": 1.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고01875-5103(21-2)",
-      "weight_pct": 1.85,
+      "weight_pct": 1.81,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국민주택1종24-05",
-      "weight_pct": 1.8,
+      "weight_pct": 1.79,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03000-2803(26-1)",
-      "weight_pct": 1.5,
+      "weight_pct": 1.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "인천도시공사228",
-      "weight_pct": 1.5,
+      "weight_pct": 1.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에스케이하이닉스226-1",
-      "weight_pct": 1.48,
+      "weight_pct": 1.47,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3506(25-5)",
-      "weight_pct": 1.46,
+      "weight_pct": 1.44,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고01500-5003(20-2)",
-      "weight_pct": 1.24,
+      "weight_pct": 1.21,
       "shares": 0,
       "item_code": null
     },
@@ -177,38 +183,26 @@
       "item_code": null
     },
     {
-      "name": "2026-09 국채선물3(신)",
-      "weight_pct": 1.1,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "국고02750-5409(24-8)",
-      "weight_pct": 1.1,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "토지주택채권152",
       "weight_pct": 1.07,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "토지주택채권152",
+      "weight_pct": 1.06,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국고02625-5503(25-2)",
-      "weight_pct": 1.01,
+      "weight_pct": 0.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채이자01620-37",
-      "weight_pct": 0.93,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "S-Oil59-1",
-      "weight_pct": 0.76,
+      "weight_pct": 0.92,
       "shares": 0,
       "item_code": null
     },
@@ -219,19 +213,25 @@
       "item_code": null
     },
     {
-      "name": "농금채(중앙회)2022-1이5Y-E",
-      "weight_pct": 0.75,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국동서발전48-2(녹)",
+      "name": "S-Oil59-1",
       "weight_pct": 0.75,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국중부발전37-1",
+      "weight_pct": 0.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농금채(중앙회)2022-1이5Y-E",
+      "weight_pct": 0.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국동서발전48-2(녹)",
       "weight_pct": 0.74,
       "shares": 0,
       "item_code": null
@@ -250,12 +250,6 @@
     },
     {
       "name": "국민주택1종24-06",
-      "weight_pct": 0.72,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "고려아연13-2",
       "weight_pct": 0.71,
       "shares": 0,
       "item_code": null
@@ -267,13 +261,13 @@
       "item_code": null
     },
     {
-      "name": "국고채권01375-3006(20-4)",
-      "weight_pct": 0.68,
+      "name": "고려아연13-2",
+      "weight_pct": 0.7,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "SK텔레콤70-4",
+      "name": "국고채권01375-3006(20-4)",
       "weight_pct": 0.68,
       "shares": 0,
       "item_code": null
@@ -285,8 +279,14 @@
       "item_code": null
     },
     {
+      "name": "SK텔레콤70-4",
+      "weight_pct": 0.67,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국고03250-4209(22-11)",
-      "weight_pct": 0.65,
+      "weight_pct": 0.64,
       "shares": 0,
       "item_code": null
     },
@@ -298,19 +298,7 @@
     },
     {
       "name": "국고02625-3509(국고15-6)",
-      "weight_pct": 0.4,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "LG전자100-2",
-      "weight_pct": 0.38,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국민주택1종22-12",
-      "weight_pct": 0.38,
+      "weight_pct": 0.39,
       "shares": 0,
       "item_code": null
     },
@@ -322,6 +310,18 @@
     },
     {
       "name": "토지주택채권132",
+      "weight_pct": 0.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "LG전자100-2",
+      "weight_pct": 0.37,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민주택1종22-12",
       "weight_pct": 0.37,
       "shares": 0,
       "item_code": null
@@ -340,7 +340,7 @@
     },
     {
       "name": "한국장학재단17-10",
-      "weight_pct": 0.34,
+      "weight_pct": 0.33,
       "shares": 0,
       "item_code": null
     },
@@ -352,8 +352,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.09,
-      "shares": -1021888,
+      "weight_pct": 0.02,
+      "shares": 22055,
       "item_code": null
     }
   ]

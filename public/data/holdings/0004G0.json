@@ -1,22 +1,22 @@
 {
   "ticker": "0004G0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "돌비 래보라토리스",
-      "weight_pct": 5.84,
+      "weight_pct": 5.88,
       "shares": 632,
       "item_code": "DLB"
     },
     {
       "name": "블랙스톤",
-      "weight_pct": 5.69,
+      "weight_pct": 5.76,
       "shares": 266,
       "item_code": "BX"
     },
     {
       "name": "버라이존",
-      "weight_pct": 5.6,
+      "weight_pct": 5.62,
       "shares": 743,
       "item_code": "VZ"
     },
@@ -28,33 +28,21 @@
     },
     {
       "name": "브리스톨-마이어스 스큅",
-      "weight_pct": 5.48,
+      "weight_pct": 5.54,
       "shares": 548,
       "item_code": "BMY"
     },
     {
       "name": "넷앱",
-      "weight_pct": 5.37,
+      "weight_pct": 5.35,
       "shares": 191,
       "item_code": "NTAP.O"
     },
     {
       "name": "록히드 마틴",
-      "weight_pct": 5.08,
+      "weight_pct": 5.09,
       "shares": 60,
       "item_code": "LMT"
-    },
-    {
-      "name": "베스트 바이",
-      "weight_pct": 5.01,
-      "shares": 404,
-      "item_code": "BBY"
-    },
-    {
-      "name": "일리노이 툴 웍스",
-      "weight_pct": 4.97,
-      "shares": 118,
-      "item_code": "ITW"
     },
     {
       "name": "넥스타 미디어 그룹",
@@ -63,16 +51,22 @@
       "item_code": "NXST.O"
     },
     {
+      "name": "일리노이 툴 웍스",
+      "weight_pct": 4.91,
+      "shares": 118,
+      "item_code": "ITW"
+    },
+    {
+      "name": "베스트 바이",
+      "weight_pct": 4.9,
+      "shares": 404,
+      "item_code": "BBY"
+    },
+    {
       "name": "펩시코",
       "weight_pct": 4.69,
       "shares": 221,
       "item_code": "PEP.O"
-    },
-    {
-      "name": "시스코",
-      "weight_pct": 4.67,
-      "shares": 379,
-      "item_code": "SYY"
     },
     {
       "name": "홈디포",
@@ -81,38 +75,44 @@
       "item_code": "HD"
     },
     {
+      "name": "시스코",
+      "weight_pct": 4.65,
+      "shares": 379,
+      "item_code": "SYY"
+    },
+    {
       "name": "콜게이트-팜올리브",
-      "weight_pct": 4.62,
+      "weight_pct": 4.6,
       "shares": 339,
       "item_code": "CL"
     },
     {
       "name": "시그나",
-      "weight_pct": 4.57,
+      "weight_pct": 4.55,
       "shares": 109,
       "item_code": "CI"
     },
     {
-      "name": "UPS(유나이티드 파셀 서비스)",
-      "weight_pct": 4.54,
-      "shares": 287,
-      "item_code": "UPS"
-    },
-    {
       "name": "덴츠플라이 시로나",
-      "weight_pct": 4.48,
+      "weight_pct": 4.52,
       "shares": 2678,
       "item_code": "XRAY.O"
     },
     {
+      "name": "UPS(유나이티드 파셀 서비스)",
+      "weight_pct": 4.52,
+      "shares": 287,
+      "item_code": "UPS"
+    },
+    {
       "name": "알트리아그룹",
-      "weight_pct": 4.47,
+      "weight_pct": 4.48,
       "shares": 433,
       "item_code": "MO"
     },
     {
       "name": "버클",
-      "weight_pct": 2.56,
+      "weight_pct": 2.52,
       "shares": 392,
       "item_code": "BKE"
     },
@@ -124,19 +124,19 @@
     },
     {
       "name": "티 로웨 프라이스 그룹",
-      "weight_pct": 1.74,
+      "weight_pct": 1.75,
       "shares": 104,
       "item_code": "TROW.O"
     },
     {
       "name": "APA",
-      "weight_pct": 0.86,
+      "weight_pct": 0.88,
       "shares": 135,
       "item_code": "APA.O"
     },
     {
       "name": "해즈브로",
-      "weight_pct": 0.73,
+      "weight_pct": 0.74,
       "shares": 52,
       "item_code": "HAS.O"
     },
@@ -148,7 +148,7 @@
     },
     {
       "name": "젠텍스",
-      "weight_pct": 0.3,
+      "weight_pct": 0.29,
       "shares": 88,
       "item_code": "GNTX.O"
     },
@@ -160,7 +160,7 @@
     },
     {
       "name": "아티잔 파트너스 애셋 매니지먼트",
-      "weight_pct": 0.2,
+      "weight_pct": 0.19,
       "shares": 31,
       "item_code": "APAM.K"
     },
@@ -178,8 +178,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.11,
-      "shares": 1073571,
+      "weight_pct": 0.14,
+      "shares": 1353693,
       "item_code": null
     },
     {

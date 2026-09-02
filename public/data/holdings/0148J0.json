@@ -1,101 +1,101 @@
 {
   "ticker": "0148J0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "로보티즈",
-      "weight_pct": 16.69,
+      "weight_pct": 16.88,
       "shares": 297,
       "item_code": "108490"
     },
     {
       "name": "레인보우로보틱스",
-      "weight_pct": 14.47,
+      "weight_pct": 14.48,
       "shares": 144,
       "item_code": "277810"
     },
     {
       "name": "두산로보틱스",
-      "weight_pct": 12.55,
+      "weight_pct": 12.5,
       "shares": 810,
       "item_code": "454910"
     },
     {
       "name": "에스피지",
-      "weight_pct": 8.92,
+      "weight_pct": 8.85,
       "shares": 438,
       "item_code": "058610"
     },
     {
       "name": "로보스타",
-      "weight_pct": 7.05,
+      "weight_pct": 7.01,
       "shares": 413,
       "item_code": "090360"
     },
     {
       "name": "현대무벡스",
-      "weight_pct": 6.32,
+      "weight_pct": 6.3,
       "shares": 1232,
       "item_code": "319400"
     },
     {
       "name": "LG씨엔에스",
-      "weight_pct": 6.25,
+      "weight_pct": 6.29,
       "shares": 371,
       "item_code": "064400"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 5.52,
+      "weight_pct": 5.45,
       "shares": 60,
       "item_code": "307950"
     },
     {
       "name": "하이젠알앤엠",
-      "weight_pct": 4.46,
+      "weight_pct": 4.5,
       "shares": 1102,
       "item_code": "160190"
     },
     {
       "name": "뉴로메카",
-      "weight_pct": 4.33,
+      "weight_pct": 4.26,
       "shares": 1073,
       "item_code": "348340"
     },
     {
       "name": "유일로보틱스",
-      "weight_pct": 2.94,
+      "weight_pct": 2.96,
       "shares": 203,
       "item_code": "388720"
     },
     {
       "name": "유진로봇",
-      "weight_pct": 2.89,
+      "weight_pct": 2.87,
       "shares": 1096,
       "item_code": "056080"
     },
     {
       "name": "삼현",
-      "weight_pct": 2.82,
+      "weight_pct": 2.8,
       "shares": 403,
       "item_code": "437730"
     },
     {
       "name": "클로봇",
-      "weight_pct": 2.35,
+      "weight_pct": 2.42,
       "shares": 427,
       "item_code": "466100"
     },
     {
       "name": "엔젤로보틱스",
-      "weight_pct": 2.02,
+      "weight_pct": 2.01,
       "shares": 445,
       "item_code": "455900"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.35,
-      "shares": 1634464,
+      "weight_pct": 0.36,
+      "shares": 1629714,
       "item_code": null
     }
   ]

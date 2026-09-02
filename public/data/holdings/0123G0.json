@@ -1,71 +1,71 @@
 {
   "ticker": "0123G0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "뉴스케일 파워",
-      "weight_pct": 15.9,
+      "weight_pct": 15.87,
       "shares": 3890,
       "item_code": "SMR"
     },
     {
       "name": "오클로",
-      "weight_pct": 13.16,
+      "weight_pct": 13.31,
       "shares": 745,
       "item_code": "OKLO.K"
     },
     {
       "name": "콘스텔레이션 에너지",
-      "weight_pct": 12.75,
+      "weight_pct": 12.66,
       "shares": 104,
       "item_code": "CEG.O"
     },
     {
       "name": "비스트라",
-      "weight_pct": 9.89,
+      "weight_pct": 9.91,
       "shares": 164,
       "item_code": "VST"
     },
     {
       "name": "센트러스 에너지",
-      "weight_pct": 8.98,
+      "weight_pct": 8.76,
       "shares": 116,
       "item_code": "LEU"
     },
     {
       "name": "GE 버노바",
-      "weight_pct": 8.88,
+      "weight_pct": 8.75,
       "shares": 22,
       "item_code": "GEV"
     },
     {
       "name": "X-에너지",
-      "weight_pct": 8.05,
+      "weight_pct": 8.62,
       "shares": 1062,
       "item_code": "XE.O"
     },
     {
       "name": "블룸 에너지",
-      "weight_pct": 7.96,
+      "weight_pct": 7.8,
       "shares": 85,
       "item_code": "BE"
     },
     {
       "name": "플러그 파워",
-      "weight_pct": 6.93,
+      "weight_pct": 6.84,
       "shares": 7200,
       "item_code": "PLUG.O"
     },
     {
       "name": "BWX 테크놀로지스",
-      "weight_pct": 6.74,
+      "weight_pct": 6.71,
       "shares": 100,
       "item_code": "BWXT.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.72,
-      "shares": 2243572,
+      "weight_pct": 0.71,
+      "shares": 2240750,
       "item_code": null
     }
   ]

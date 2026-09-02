@@ -1,29 +1,29 @@
 {
   "ticker": "276000",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "글로벌자원생산기업 TRS(한국투자증권)",
-      "weight_pct": 65.34,
-      "shares": 697686260,
+      "weight_pct": 65.33,
+      "shares": 698435349,
       "item_code": null
     },
     {
       "name": "글로벌자원생산기업 TRS(KB증권)",
-      "weight_pct": 21.1,
-      "shares": 225300953,
+      "weight_pct": 21.09,
+      "shares": 225532866,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.66,
-      "shares": 71196777,
+      "weight_pct": 6.67,
+      "shares": 71314025,
       "item_code": null
     },
     {
       "name": "글로벌자원생산기업 TRS(키움증권)",
       "weight_pct": 6.08,
-      "shares": 64939686,
+      "shares": 65006532,
       "item_code": null
     },
     {

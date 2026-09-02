@@ -1,23 +1,23 @@
 {
   "ticker": "182490",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "단기선진하이일드 TRS(한국투자증권)",
-      "weight_pct": 80.25,
-      "shares": 557288958,
+      "weight_pct": 80.23,
+      "shares": 557069014,
       "item_code": null
     },
     {
       "name": "iShares 0-5 Year High Yield Corporate Bond ETF",
-      "weight_pct": 14.99,
+      "weight_pct": 15.03,
       "shares": 1800,
       "item_code": "SHYG.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.74,
-      "shares": 32952138,
+      "weight_pct": 4.72,
+      "shares": 32802369,
       "item_code": null
     }
   ]

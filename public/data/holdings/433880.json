@@ -1,28 +1,28 @@
 {
   "ticker": "433880",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares MSCI World ETF",
-      "weight_pct": 25.49,
+      "weight_pct": 25.46,
       "shares": 164,
       "item_code": "URTH.K"
     },
     {
       "name": "iShares Core S&P 500 ETF",
-      "weight_pct": 20.65,
+      "weight_pct": 20.63,
       "shares": 36,
       "item_code": "IVV"
     },
     {
       "name": "PLUS 미국S&P500성장주",
-      "weight_pct": 11.87,
+      "weight_pct": 11.88,
       "shares": 1551,
       "item_code": "494410"
     },
     {
       "name": "PLUS 종합채권(AA-이상)액티브",
-      "weight_pct": 8.21,
+      "weight_pct": 8.2,
       "shares": 141,
       "item_code": "451000"
     },
@@ -34,7 +34,7 @@
     },
     {
       "name": "iShares JPMorgan USD Emerging Markets Bond ETF",
-      "weight_pct": 6.47,
+      "weight_pct": 6.48,
       "shares": 92,
       "item_code": "EMB.O"
     },
@@ -46,19 +46,19 @@
     },
     {
       "name": "PLUS 미국S&P500",
-      "weight_pct": 4.59,
+      "weight_pct": 4.6,
       "shares": 436,
       "item_code": "429760"
     },
     {
       "name": "iShares International Treasury Bond ETF",
-      "weight_pct": 4.58,
+      "weight_pct": 4.59,
       "shares": 150,
       "item_code": "IGOV.O"
     },
     {
       "name": "PLUS K제조업핵심기업액티브",
-      "weight_pct": 3.58,
+      "weight_pct": 3.6,
       "shares": 605,
       "item_code": "0166S0"
     },
@@ -70,8 +70,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.59,
-      "shares": 1094030,
+      "weight_pct": 0.62,
+      "shares": 1142972,
       "item_code": null
     }
   ]

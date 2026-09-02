@@ -1,71 +1,71 @@
 {
   "ticker": "457990",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "한화솔루션",
-      "weight_pct": 23.2,
+      "weight_pct": 23.53,
       "shares": 13576,
       "item_code": "009830"
     },
     {
       "name": "OCI홀딩스",
-      "weight_pct": 19.0,
+      "weight_pct": 18.71,
       "shares": 1356,
       "item_code": "010060"
     },
     {
       "name": "HD현대에너지솔루션",
-      "weight_pct": 13.54,
+      "weight_pct": 13.21,
       "shares": 1885,
       "item_code": "322000"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 11.24,
+      "weight_pct": 11.5,
       "shares": 386,
       "item_code": "006400"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 8.55,
+      "weight_pct": 8.61,
       "shares": 448,
       "item_code": "373220"
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 6.9,
+      "weight_pct": 7.05,
       "shares": 659,
       "item_code": "010120"
     },
     {
       "name": "SK이터닉스",
-      "weight_pct": 6.58,
+      "weight_pct": 6.42,
       "shares": 2370,
       "item_code": "475150"
     },
     {
       "name": "레이크머티리얼즈",
-      "weight_pct": 3.78,
+      "weight_pct": 3.79,
       "shares": 6122,
       "item_code": "281740"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 3.55,
+      "weight_pct": 3.51,
       "shares": 351,
       "item_code": "003670"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 3.42,
+      "weight_pct": 3.41,
       "shares": 561,
       "item_code": "247540"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.19,
-      "shares": 3861287,
+      "weight_pct": 0.2,
+      "shares": 3861191,
       "item_code": null
     }
   ]

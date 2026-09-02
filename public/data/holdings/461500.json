@@ -1,28 +1,34 @@
 {
   "ticker": "461500",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고채권03500-2906(26-5)",
-      "weight_pct": 17.12,
+      "weight_pct": 17.18,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03000-2803(26-1)",
-      "weight_pct": 15.64,
+      "weight_pct": 15.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비캐피탈 20260709-63-9",
-      "weight_pct": 7.78,
+      "weight_pct": 7.81,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03500-5603(26-2)",
-      "weight_pct": 6.05,
+      "weight_pct": 5.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "신한은행30-08-이-3-A",
+      "weight_pct": 3.91,
       "shares": 0,
       "item_code": null
     },
@@ -34,121 +40,115 @@
     },
     {
       "name": "국민은행4608이표일(03)3-27",
-      "weight_pct": 3.89,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "신한은행30-08-이-3-A",
-      "weight_pct": 3.89,
+      "weight_pct": 3.9,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비증권 20260323-179-122",
-      "weight_pct": 3.88,
+      "weight_pct": 3.9,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리 여의도중앙기업영업지원팀 20260701-9",
-      "weight_pct": 3.88,
+      "weight_pct": 3.9,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에스타이거에이치제삼차 20260724-94-7",
-      "weight_pct": 3.87,
+      "weight_pct": 3.89,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한 자금부 20260723-92-1",
-      "weight_pct": 3.87,
+      "weight_pct": 3.89,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "미래에셋증권 20260102-294-4",
-      "weight_pct": 3.87,
+      "weight_pct": 3.89,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한투자증권 20251107-364-10",
-      "weight_pct": 3.87,
+      "weight_pct": 3.88,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국투자금융지주 20251114-364-72",
-      "weight_pct": 3.86,
+      "weight_pct": 3.88,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리카드 20251202-364-18",
-      "weight_pct": 3.86,
+      "weight_pct": 3.87,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리은행28-09-이표05-갑-09",
-      "weight_pct": 3.82,
+      "weight_pct": 3.83,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권01875-5103(21-2)",
-      "weight_pct": 2.88,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고채권02750-5409(24-8)",
       "weight_pct": 2.85,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "국고채권02750-5409(24-8)",
+      "weight_pct": 2.81,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "산업금융채권23신이0500-0103-1",
-      "weight_pct": 2.36,
+      "weight_pct": 2.37,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대제철136-2",
-      "weight_pct": 2.33,
+      "weight_pct": 2.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02750-4509(25-9)",
-      "weight_pct": 1.85,
+      "weight_pct": 1.84,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "서울도시철도공채증권23-06",
-      "weight_pct": 1.57,
+      "weight_pct": 1.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한화에어로스페이스127-3",
-      "weight_pct": 1.56,
+      "weight_pct": 1.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에스케이하이닉스224-2",
-      "weight_pct": 1.56,
+      "weight_pct": 1.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에스케이하이닉스225-2",
-      "weight_pct": 1.54,
+      "weight_pct": 1.55,
       "shares": 0,
       "item_code": null
     },
@@ -166,13 +166,13 @@
     },
     {
       "name": "토지주택채권(용지)24-10",
-      "weight_pct": 1.42,
+      "weight_pct": 1.43,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02875-4409(24-10)",
-      "weight_pct": 1.27,
+      "weight_pct": 1.26,
       "shares": 0,
       "item_code": null
     },
@@ -184,7 +184,7 @@
     },
     {
       "name": "국고채권02625-5509(25-7)",
-      "weight_pct": 0.82,
+      "weight_pct": 0.81,
       "shares": 0,
       "item_code": null
     },
@@ -196,19 +196,19 @@
     },
     {
       "name": "S-Oil59-1",
-      "weight_pct": 0.78,
+      "weight_pct": 0.79,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "LG유플러스114-2",
-      "weight_pct": 0.78,
+      "weight_pct": 0.79,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "LG전자100-2",
-      "weight_pct": 0.78,
+      "weight_pct": 0.79,
       "shares": 0,
       "item_code": null
     },
@@ -244,19 +244,19 @@
     },
     {
       "name": "국고채권02375-3112(21-11)",
-      "weight_pct": 0.71,
+      "weight_pct": 0.72,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "토지주택채권(용지)24-04",
-      "weight_pct": 0.7,
+      "weight_pct": 0.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "전남지역개발채권23-10",
-      "weight_pct": 0.64,
+      "weight_pct": 0.65,
       "shares": 0,
       "item_code": null
     },
@@ -268,7 +268,7 @@
     },
     {
       "name": "국고채권03250-5403(24-2)",
-      "weight_pct": 0.63,
+      "weight_pct": 0.62,
       "shares": 0,
       "item_code": null
     },
@@ -280,13 +280,13 @@
     },
     {
       "name": "국고채이자분리채권01270-4909",
-      "weight_pct": 0.55,
+      "weight_pct": 0.54,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채이자분리채권01250-5103",
-      "weight_pct": 0.51,
+      "weight_pct": 0.5,
       "shares": 0,
       "item_code": null
     },
@@ -340,13 +340,13 @@
     },
     {
       "name": "국고채권02500-5203(22-2)",
-      "weight_pct": 0.38,
+      "weight_pct": 0.37,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채이자분리채권01560-4209",
-      "weight_pct": 0.38,
+      "weight_pct": 0.37,
       "shares": 0,
       "item_code": null
     },
@@ -400,8 +400,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -36.94,
-      "shares": -38941347,
+      "weight_pct": -37.12,
+      "shares": -38956859,
       "item_code": null
     }
   ]

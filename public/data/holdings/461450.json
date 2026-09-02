@@ -1,96 +1,96 @@
 {
   "ticker": "461450",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "알테오젠",
-      "weight_pct": 19.28,
+      "weight_pct": 19.27,
       "shares": 1003,
       "item_code": "196170"
     },
     {
       "name": "에코프로",
-      "weight_pct": 10.57,
+      "weight_pct": 10.31,
       "shares": 1852,
       "item_code": "086520"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 7.69,
+      "weight_pct": 7.56,
       "shares": 1019,
       "item_code": "247540"
     },
     {
       "name": "주성엔지니어링",
-      "weight_pct": 6.52,
+      "weight_pct": 6.51,
       "shares": 590,
       "item_code": "036930"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 4.34,
+      "weight_pct": 4.37,
       "shares": 623,
       "item_code": "240810"
     },
     {
-      "name": "리노공업",
-      "weight_pct": 3.9,
-      "shares": 938,
-      "item_code": "058470"
-    },
-    {
       "name": "HPSP",
-      "weight_pct": 3.86,
+      "weight_pct": 4.01,
       "shares": 1232,
       "item_code": "403870"
     },
     {
+      "name": "리노공업",
+      "weight_pct": 3.92,
+      "shares": 938,
+      "item_code": "058470"
+    },
+    {
       "name": "심텍",
-      "weight_pct": 3.78,
+      "weight_pct": 3.75,
       "shares": 468,
       "item_code": "222800"
     },
     {
       "name": "에이비엘바이오",
-      "weight_pct": 3.56,
+      "weight_pct": 3.55,
       "shares": 785,
       "item_code": "298380"
     },
     {
       "name": "파마리서치",
-      "weight_pct": 3.46,
+      "weight_pct": 3.43,
       "shares": 130,
       "item_code": "214450"
     },
     {
       "name": "리가켐바이오",
-      "weight_pct": 2.96,
+      "weight_pct": 2.97,
       "shares": 491,
       "item_code": "141080"
     },
     {
       "name": "올릭스",
-      "weight_pct": 2.05,
+      "weight_pct": 2.14,
       "shares": 318,
       "item_code": "226950"
     },
     {
       "name": "테스",
-      "weight_pct": 1.96,
+      "weight_pct": 1.9,
       "shares": 220,
       "item_code": "095610"
     },
     {
-      "name": "티씨케이",
-      "weight_pct": 1.64,
-      "shares": 106,
-      "item_code": "064760"
-    },
-    {
       "name": "솔브레인",
-      "weight_pct": 1.64,
+      "weight_pct": 1.67,
       "shares": 77,
       "item_code": "357780"
+    },
+    {
+      "name": "티씨케이",
+      "weight_pct": 1.63,
+      "shares": 106,
+      "item_code": "064760"
     },
     {
       "name": "에스티팜",
@@ -100,31 +100,31 @@
     },
     {
       "name": "파크시스템스",
-      "weight_pct": 1.39,
+      "weight_pct": 1.35,
       "shares": 85,
       "item_code": "140860"
     },
     {
       "name": "JYP Ent.",
-      "weight_pct": 1.25,
+      "weight_pct": 1.28,
       "shares": 505,
       "item_code": "035900"
     },
     {
       "name": "씨젠",
-      "weight_pct": 1.22,
+      "weight_pct": 1.23,
       "shares": 584,
       "item_code": "096530"
     },
     {
       "name": "에스엠",
-      "weight_pct": 1.19,
+      "weight_pct": 1.2,
       "shares": 256,
       "item_code": "041510"
     },
     {
       "name": "클래시스",
-      "weight_pct": 1.15,
+      "weight_pct": 1.14,
       "shares": 544,
       "item_code": "214150"
     },
@@ -136,31 +136,31 @@
     },
     {
       "name": "코스메카코리아",
-      "weight_pct": 1.07,
+      "weight_pct": 1.03,
       "shares": 115,
       "item_code": "241710"
     },
     {
       "name": "비츠로셀",
-      "weight_pct": 0.83,
+      "weight_pct": 0.88,
       "shares": 515,
       "item_code": "082920"
     },
     {
       "name": "에스앤에스텍",
-      "weight_pct": 0.79,
+      "weight_pct": 0.82,
       "shares": 307,
       "item_code": "101490"
     },
     {
       "name": "HK이노엔",
-      "weight_pct": 0.73,
+      "weight_pct": 0.76,
       "shares": 274,
       "item_code": "195940"
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 0.69,
+      "weight_pct": 0.7,
       "shares": 269,
       "item_code": "122870"
     },
@@ -178,7 +178,7 @@
     },
     {
       "name": "성광벤드",
-      "weight_pct": 0.62,
+      "weight_pct": 0.6,
       "shares": 312,
       "item_code": "014620"
     },
@@ -190,9 +190,15 @@
     },
     {
       "name": "하림지주",
-      "weight_pct": 0.55,
+      "weight_pct": 0.56,
       "shares": 828,
       "item_code": "003380"
+    },
+    {
+      "name": "카카오게임즈",
+      "weight_pct": 0.55,
+      "shares": 873,
+      "item_code": "293490"
     },
     {
       "name": "SFA넥셀",
@@ -201,14 +207,8 @@
       "item_code": "222080"
     },
     {
-      "name": "카카오게임즈",
-      "weight_pct": 0.48,
-      "shares": 873,
-      "item_code": "293490"
-    },
-    {
       "name": "CJ ENM",
-      "weight_pct": 0.45,
+      "weight_pct": 0.46,
       "shares": 216,
       "item_code": "035760"
     },
@@ -220,7 +220,7 @@
     },
     {
       "name": "서부T&D",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 603,
       "item_code": "006730"
     },
@@ -232,25 +232,25 @@
     },
     {
       "name": "코나아이",
-      "weight_pct": 0.38,
+      "weight_pct": 0.39,
       "shares": 157,
       "item_code": "052400"
     },
     {
       "name": "SFA",
-      "weight_pct": 0.36,
+      "weight_pct": 0.38,
       "shares": 245,
       "item_code": "056190"
     },
     {
       "name": "SOOP",
-      "weight_pct": 0.35,
+      "weight_pct": 0.36,
       "shares": 146,
       "item_code": "067160"
     },
     {
       "name": "스튜디오드래곤",
-      "weight_pct": 0.35,
+      "weight_pct": 0.36,
       "shares": 256,
       "item_code": "253450"
     },
@@ -280,19 +280,19 @@
     },
     {
       "name": "이녹스첨단소재",
-      "weight_pct": 0.3,
+      "weight_pct": 0.31,
       "shares": 230,
       "item_code": "272290"
     },
     {
       "name": "솔브레인홀딩스",
-      "weight_pct": 0.26,
+      "weight_pct": 0.27,
       "shares": 97,
       "item_code": "036830"
     },
     {
       "name": "웹젠",
-      "weight_pct": 0.25,
+      "weight_pct": 0.26,
       "shares": 364,
       "item_code": "069080"
     },
@@ -304,8 +304,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.11,
-      "shares": 1910522,
+      "weight_pct": 0.12,
+      "shares": 1902711,
       "item_code": null
     }
   ]

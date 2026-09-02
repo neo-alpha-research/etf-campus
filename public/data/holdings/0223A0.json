@@ -1,78 +1,84 @@
 {
   "ticker": "0223A0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "테스",
-      "weight_pct": 6.3,
+      "weight_pct": 6.15,
       "shares": 233,
       "item_code": "095610"
     },
     {
       "name": "코스메카코리아",
-      "weight_pct": 6.11,
+      "weight_pct": 5.92,
       "shares": 215,
       "item_code": "241710"
     },
     {
-      "name": "심텍",
-      "weight_pct": 5.69,
-      "shares": 232,
-      "item_code": "222800"
-    },
-    {
-      "name": "피에스케이",
-      "weight_pct": 5.65,
-      "shares": 233,
-      "item_code": "319660"
-    },
-    {
       "name": "유진테크",
-      "weight_pct": 5.62,
+      "weight_pct": 5.71,
       "shares": 222,
       "item_code": "084370"
     },
     {
+      "name": "피에스케이",
+      "weight_pct": 5.71,
+      "shares": 233,
+      "item_code": "319660"
+    },
+    {
+      "name": "심텍",
+      "weight_pct": 5.68,
+      "shares": 232,
+      "item_code": "222800"
+    },
+    {
       "name": "알테오젠",
-      "weight_pct": 5.31,
+      "weight_pct": 5.34,
       "shares": 91,
       "item_code": "196170"
     },
     {
       "name": "피에스케이홀딩스",
-      "weight_pct": 5.14,
+      "weight_pct": 5.21,
       "shares": 217,
       "item_code": "031980"
     },
     {
       "name": "로보티즈",
-      "weight_pct": 4.94,
+      "weight_pct": 5.0,
       "shares": 101,
       "item_code": "108490"
     },
     {
       "name": "RF머트리얼즈",
-      "weight_pct": 4.78,
+      "weight_pct": 4.67,
       "shares": 686,
       "item_code": "327260"
     },
     {
       "name": "브이엠",
-      "weight_pct": 4.74,
+      "weight_pct": 4.66,
       "shares": 442,
       "item_code": "089970"
     },
     {
       "name": "두산테스나",
-      "weight_pct": 4.43,
+      "weight_pct": 4.44,
       "shares": 291,
       "item_code": "131970"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 4.15,
+      "weight_pct": 4.2,
       "shares": 196,
       "item_code": "240810"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 4.01,
+      "shares": 20577554,
+      "item_code": null
     },
     {
       "name": "코스닥150선물2026년09월물",
@@ -81,56 +87,50 @@
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 3.78,
-      "shares": 19922833,
-      "item_code": null
-    },
-    {
       "name": "대주전자재료",
-      "weight_pct": 3.71,
+      "weight_pct": 3.77,
       "shares": 212,
       "item_code": "078600"
     },
     {
       "name": "파마리서치",
-      "weight_pct": 3.56,
+      "weight_pct": 3.55,
       "shares": 44,
       "item_code": "214450"
     },
     {
+      "name": "올릭스",
+      "weight_pct": 3.33,
+      "shares": 162,
+      "item_code": "226950"
+    },
+    {
       "name": "기가비스",
-      "weight_pct": 3.48,
+      "weight_pct": 3.33,
       "shares": 163,
       "item_code": "420770"
     },
     {
       "name": "원익QnC",
-      "weight_pct": 3.27,
+      "weight_pct": 3.29,
       "shares": 656,
       "item_code": "074600"
     },
     {
-      "name": "올릭스",
-      "weight_pct": 3.18,
-      "shares": 162,
-      "item_code": "226950"
-    },
-    {
       "name": "스피어",
-      "weight_pct": 3.06,
+      "weight_pct": 3.01,
       "shares": 769,
       "item_code": "347700"
     },
     {
       "name": "네패스아크",
-      "weight_pct": 3.01,
+      "weight_pct": 3.0,
       "shares": 620,
       "item_code": "330860"
     },
     {
       "name": "비나텍",
-      "weight_pct": 2.92,
+      "weight_pct": 2.93,
       "shares": 248,
       "item_code": "126340"
     },
@@ -142,25 +142,25 @@
     },
     {
       "name": "디앤디파마텍",
-      "weight_pct": 2.51,
+      "weight_pct": 2.49,
       "shares": 247,
       "item_code": "347850"
     },
     {
       "name": "고영",
-      "weight_pct": 0.96,
+      "weight_pct": 0.97,
       "shares": 178,
       "item_code": "098460"
     },
     {
       "name": "네오티스",
-      "weight_pct": 0.92,
+      "weight_pct": 0.84,
       "shares": 292,
       "item_code": "085910"
     },
     {
       "name": "코스닥위클리 C 2609W1 1450",
-      "weight_pct": -0.36,
+      "weight_pct": -0.1,
       "shares": -12,
       "item_code": null
     }

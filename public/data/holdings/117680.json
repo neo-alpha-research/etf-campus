@@ -1,88 +1,88 @@
 {
   "ticker": "117680",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 21.62,
+      "weight_pct": 21.8,
       "shares": 569,
       "item_code": "005490"
     },
     {
-      "name": "고려아연",
-      "weight_pct": 19.64,
-      "shares": 137,
-      "item_code": "010130"
-    },
-    {
       "name": "현대제철",
-      "weight_pct": 19.21,
+      "weight_pct": 19.48,
       "shares": 5630,
       "item_code": "004020"
     },
     {
+      "name": "고려아연",
+      "weight_pct": 19.25,
+      "shares": 137,
+      "item_code": "010130"
+    },
+    {
       "name": "풍산",
-      "weight_pct": 10.35,
+      "weight_pct": 10.23,
       "shares": 1126,
       "item_code": "103140"
     },
     {
       "name": "삼아알미늄",
-      "weight_pct": 4.55,
+      "weight_pct": 4.51,
       "shares": 567,
       "item_code": "006110"
     },
     {
       "name": "세아베스틸지주",
-      "weight_pct": 3.75,
+      "weight_pct": 3.79,
       "shares": 816,
       "item_code": "001430"
     },
     {
-      "name": "에이치브이엠",
-      "weight_pct": 2.7,
-      "shares": 524,
-      "item_code": "295310"
-    },
-    {
       "name": "동국제강",
-      "weight_pct": 2.7,
+      "weight_pct": 2.75,
       "shares": 2359,
       "item_code": "460860"
     },
     {
+      "name": "에이치브이엠",
+      "weight_pct": 2.66,
+      "shares": 524,
+      "item_code": "295310"
+    },
+    {
       "name": "포스코엠텍",
-      "weight_pct": 2.03,
+      "weight_pct": 2.02,
       "shares": 1394,
       "item_code": "009520"
     },
     {
       "name": "풍산홀딩스",
-      "weight_pct": 2.0,
+      "weight_pct": 2.02,
       "shares": 473,
       "item_code": "005810"
     },
     {
       "name": "KG스틸",
-      "weight_pct": 1.63,
+      "weight_pct": 1.61,
       "shares": 2612,
       "item_code": "016380"
     },
     {
       "name": "TCC스틸",
-      "weight_pct": 1.5,
+      "weight_pct": 1.52,
       "shares": 1176,
       "item_code": "002710"
     },
     {
       "name": "영풍",
-      "weight_pct": 1.44,
+      "weight_pct": 1.45,
       "shares": 321,
       "item_code": "000670"
     },
     {
       "name": "KG케미칼",
-      "weight_pct": 1.1,
+      "weight_pct": 1.11,
       "shares": 2206,
       "item_code": "001390"
     },
@@ -94,19 +94,19 @@
     },
     {
       "name": "세아제강지주",
-      "weight_pct": 1.04,
+      "weight_pct": 1.05,
       "shares": 92,
       "item_code": "003030"
     },
     {
       "name": "KISCO홀딩스",
-      "weight_pct": 1.02,
+      "weight_pct": 1.01,
       "shares": 323,
       "item_code": "001940"
     },
     {
       "name": "넥스틸",
-      "weight_pct": 0.91,
+      "weight_pct": 0.92,
       "shares": 644,
       "item_code": "092790"
     },
@@ -118,14 +118,14 @@
     },
     {
       "name": "대한제강",
-      "weight_pct": 0.68,
+      "weight_pct": 0.69,
       "shares": 713,
       "item_code": "084010"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.2,
-      "shares": 1863072,
+      "weight_pct": 0.22,
+      "shares": 1989766,
       "item_code": null
     }
   ]

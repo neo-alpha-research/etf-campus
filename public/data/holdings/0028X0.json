@@ -1,72 +1,66 @@
 {
   "ticker": "0028X0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "쇼피파이",
-      "weight_pct": 8.82,
+      "weight_pct": 8.58,
       "shares": 253,
       "item_code": "SHOP.O"
     },
     {
       "name": "비자",
-      "weight_pct": 8.54,
+      "weight_pct": 8.56,
       "shares": 98,
       "item_code": "V"
     },
     {
       "name": "마스터카드",
-      "weight_pct": 8.52,
+      "weight_pct": 8.5,
       "shares": 62,
       "item_code": "MA"
     },
     {
+      "name": "누 홀딩스",
+      "weight_pct": 8.47,
+      "shares": 2531,
+      "item_code": "NU"
+    },
+    {
       "name": "블랙록",
-      "weight_pct": 8.4,
+      "weight_pct": 8.41,
       "shares": 31,
       "item_code": "BLK"
     },
     {
       "name": "뉴욕멜론은행",
-      "weight_pct": 8.38,
+      "weight_pct": 8.39,
       "shares": 226,
       "item_code": "BNY"
     },
     {
-      "name": "누 홀딩스",
-      "weight_pct": 8.25,
-      "shares": 2531,
-      "item_code": "NU"
-    },
-    {
       "name": "CME 그룹",
-      "weight_pct": 7.94,
+      "weight_pct": 8.0,
       "shares": 121,
       "item_code": "CME.O"
     },
     {
       "name": "페이팔 홀딩스",
-      "weight_pct": 6.65,
+      "weight_pct": 6.58,
       "shares": 543,
       "item_code": "PYPL.O"
     },
     {
       "name": "인터랙티브 브로커스 그룹",
-      "weight_pct": 4.23,
+      "weight_pct": 4.34,
       "shares": 193,
       "item_code": "IBKR.O"
     },
     {
       "name": "파이서브",
-      "weight_pct": 4.16,
+      "weight_pct": 4.21,
       "shares": 343,
       "item_code": "FISV.O"
-    },
-    {
-      "name": "어펌 홀딩스",
-      "weight_pct": 3.76,
-      "shares": 212,
-      "item_code": "AFRM.O"
     },
     {
       "name": "글로벌 페이먼츠",
@@ -75,8 +69,14 @@
       "item_code": "GPN"
     },
     {
+      "name": "어펌 홀딩스",
+      "weight_pct": 3.63,
+      "shares": 212,
+      "item_code": "AFRM.O"
+    },
+    {
       "name": "소파이 테크놀로지스",
-      "weight_pct": 3.31,
+      "weight_pct": 3.3,
       "shares": 804,
       "item_code": "SOFI.O"
     },
@@ -94,31 +94,31 @@
     },
     {
       "name": "토스트",
-      "weight_pct": 2.85,
+      "weight_pct": 2.79,
       "shares": 356,
       "item_code": "TOST.K"
     },
     {
       "name": "KKR & Co",
-      "weight_pct": 1.9,
+      "weight_pct": 1.93,
       "shares": 76,
       "item_code": "KKR"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.89,
-      "shares": 11350187,
+      "weight_pct": 1.9,
+      "shares": 11365270,
       "item_code": null
     },
     {
       "name": "빌닷컴 홀딩스",
-      "weight_pct": 0.69,
+      "weight_pct": 0.68,
       "shares": 60,
       "item_code": "BILL.K"
     },
     {
       "name": "Q2 홀딩스",
-      "weight_pct": 0.52,
+      "weight_pct": 0.53,
       "shares": 35,
       "item_code": "QTWO.K"
     },
@@ -142,13 +142,13 @@
     },
     {
       "name": "해픈",
-      "weight_pct": 0.24,
+      "weight_pct": 0.23,
       "shares": 59,
       "item_code": "HAPN.O"
     },
     {
       "name": "마케타",
-      "weight_pct": 0.21,
+      "weight_pct": 0.22,
       "shares": 58,
       "item_code": "MQ.O"
     }

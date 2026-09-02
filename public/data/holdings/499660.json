@@ -1,29 +1,29 @@
 {
   "ticker": "499660",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 72.51,
-      "shares": 72535620,
+      "weight_pct": 71.77,
+      "shares": 71797174,
       "item_code": null
     },
     {
       "name": "KIS CD PLUS CPI LINKED RATE MONTHLY DIST",
-      "weight_pct": 25.34,
-      "shares": 25352768,
+      "weight_pct": 26.03,
+      "shares": 26039919,
       "item_code": null
     },
     {
       "name": "KIS CD PLUS CPI LINKED RATE MONTHLY DIST",
-      "weight_pct": 2.12,
-      "shares": 2125440,
+      "weight_pct": 2.18,
+      "shares": 2183047,
       "item_code": null
     },
     {
       "name": "KIS CD PLUS CPI LINKED RATE MONTHLY DIST",
       "weight_pct": 0.01,
-      "shares": 12229,
+      "shares": 14601,
       "item_code": null
     }
   ]

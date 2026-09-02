@@ -1,82 +1,82 @@
 {
   "ticker": "470310",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "NHN",
-      "weight_pct": 14.2,
+      "weight_pct": 13.65,
       "shares": 1822,
       "item_code": "181710"
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 9.59,
+      "weight_pct": 9.93,
       "shares": 381,
       "item_code": "018260"
     },
     {
-      "name": "LG전자",
-      "weight_pct": 9.2,
-      "shares": 405,
-      "item_code": "066570"
+      "name": "원화현금",
+      "weight_pct": 9.23,
+      "shares": 86757183,
+      "item_code": null
     },
     {
       "name": "NAVER",
-      "weight_pct": 9.13,
+      "weight_pct": 9.17,
       "shares": 401,
       "item_code": "035420"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 9.1,
-      "shares": 86769191,
-      "item_code": null
-    },
-    {
       "name": "LG씨엔에스",
-      "weight_pct": 8.99,
+      "weight_pct": 8.95,
       "shares": 1110,
       "item_code": "064400"
     },
     {
+      "name": "LG전자",
+      "weight_pct": 8.9,
+      "shares": 405,
+      "item_code": "066570"
+    },
+    {
       "name": "카카오",
-      "weight_pct": 8.3,
+      "weight_pct": 8.41,
       "shares": 2166,
       "item_code": "035720"
     },
     {
       "name": "루닛",
-      "weight_pct": 7.16,
+      "weight_pct": 7.27,
       "shares": 7515,
       "item_code": "328130"
     },
     {
       "name": "한컴",
-      "weight_pct": 4.45,
+      "weight_pct": 4.51,
       "shares": 2358,
       "item_code": "030520"
     },
     {
       "name": "셀바스AI",
-      "weight_pct": 3.46,
+      "weight_pct": 3.5,
       "shares": 3566,
       "item_code": "108860"
     },
     {
       "name": "솔트룩스",
-      "weight_pct": 2.86,
+      "weight_pct": 2.96,
       "shares": 1700,
       "item_code": "304100"
     },
     {
       "name": "피에스케이홀딩스",
-      "weight_pct": 2.35,
+      "weight_pct": 2.36,
       "shares": 180,
       "item_code": "031980"
     },
     {
       "name": "지엔씨에너지",
-      "weight_pct": 2.2,
+      "weight_pct": 2.11,
       "shares": 455,
       "item_code": "119850"
     },
@@ -88,31 +88,31 @@
     },
     {
       "name": "플리토",
-      "weight_pct": 1.69,
+      "weight_pct": 1.73,
       "shares": 1800,
       "item_code": "300080"
     },
     {
       "name": "코난테크놀로지",
-      "weight_pct": 1.63,
+      "weight_pct": 1.65,
       "shares": 1100,
       "item_code": "402030"
     },
     {
       "name": "에스피지",
-      "weight_pct": 1.56,
+      "weight_pct": 1.53,
       "shares": 160,
       "item_code": "058610"
     },
     {
       "name": "엠로",
-      "weight_pct": 1.32,
+      "weight_pct": 1.33,
       "shares": 757,
       "item_code": "058970"
     },
     {
       "name": "뷰노",
-      "weight_pct": 0.93,
+      "weight_pct": 0.94,
       "shares": 1600,
       "item_code": "338220"
     }

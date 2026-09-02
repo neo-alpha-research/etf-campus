@@ -1,11 +1,11 @@
 {
   "ticker": "479080",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 6.83,
-      "shares": 7345704,
+      "weight_pct": 7.87,
+      "shares": 8468571,
       "item_code": null
     },
     {
@@ -261,6 +261,12 @@
       "item_code": null
     },
     {
+      "name": "CP(브릿지베타제일차 20260901-91-9)",
+      "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "CP(우리자이제일차 20260831-91-6)",
       "weight_pct": 0.51,
       "shares": 0,
@@ -447,19 +453,7 @@
       "item_code": null
     },
     {
-      "name": "CP(브릿지베타제일차 20260601-92-9)",
-      "weight_pct": 0.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "CP(비엔케이투자증권 20260519-136-31)",
-      "weight_pct": 0.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(아이엠증권 20260508-122-16)",
       "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
@@ -484,12 +478,6 @@
     },
     {
       "name": "CP(한국투자증권 20260508-152-25)",
-      "weight_pct": 0.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(아이엠증권 20260508-122-17)",
       "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
@@ -579,8 +567,8 @@
       "item_code": null
     },
     {
-      "name": "CP(브릿지베타제일차 20260601-92-10)",
-      "weight_pct": 0.31,
+      "name": "CP(브릿지베타제일차 20260901-91-10)",
+      "weight_pct": 0.3,
       "shares": 0,
       "item_code": null
     },

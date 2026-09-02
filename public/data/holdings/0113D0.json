@@ -1,10 +1,10 @@
 {
   "ticker": "0113D0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "State Street SPDR Portfolio MSCI Global Sk Mkt ETF",
-      "weight_pct": 27.59,
+      "weight_pct": 27.58,
       "shares": 1372,
       "item_code": "SPGM.K"
     },
@@ -16,7 +16,7 @@
     },
     {
       "name": "iShares MSCI ACWI ETF",
-      "weight_pct": 26.77,
+      "weight_pct": 26.78,
       "shares": 725,
       "item_code": "ACWI.O"
     },
@@ -29,7 +29,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.58,
-      "shares": 3481441,
+      "shares": 3482403,
       "item_code": null
     }
   ]

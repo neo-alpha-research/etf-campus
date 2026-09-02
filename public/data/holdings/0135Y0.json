@@ -1,27 +1,27 @@
 {
   "ticker": "0135Y0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고03000-2803(26-1)",
-      "weight_pct": 19.85,
+      "weight_pct": 19.87,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 15.54,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국수출입금융2607타-이표-2",
-      "weight_pct": 9.01,
+      "weight_pct": 15.52,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한캐피탈507-1",
+      "weight_pct": 9.02,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국수출입금융2607타-이표-2",
       "weight_pct": 9.01,
       "shares": 0,
       "item_code": null
@@ -40,13 +40,13 @@
     },
     {
       "name": "국민은행4602할인일1-23",
-      "weight_pct": 8.84,
+      "weight_pct": 8.85,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력1512",
-      "weight_pct": 8.56,
+      "weight_pct": 8.55,
       "shares": 0,
       "item_code": null
     },
@@ -58,13 +58,13 @@
     },
     {
       "name": "국고03500-2906(26-5)",
-      "weight_pct": 4.93,
+      "weight_pct": 5.38,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "광주도시공사24-2",
-      "weight_pct": 4.52,
+      "weight_pct": 4.53,
       "shares": 0,
       "item_code": null
     },
@@ -100,20 +100,14 @@
     },
     {
       "name": "국고04250-3606(26-6)",
-      "weight_pct": 0.45,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "2026-09 국채선물3(신)",
-      "weight_pct": -1.02,
+      "weight_pct": 0.44,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -18.27,
-      "shares": -18363189,
+      "weight_pct": -18.74,
+      "shares": -18814958,
       "item_code": null
     }
   ]

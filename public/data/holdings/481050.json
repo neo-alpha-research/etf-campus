@@ -1,41 +1,41 @@
 {
   "ticker": "481050",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 46.33,
-      "shares": 47324724,
+      "weight_pct": 44.24,
+      "shares": 45197144,
       "item_code": null
     },
     {
       "name": "스왑(하나금융투자)",
-      "weight_pct": 15.27,
-      "shares": 15601527,
+      "weight_pct": 15.36,
+      "shares": 15698304,
       "item_code": null
     },
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 7.59,
+      "weight_pct": 7.44,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-5509(25-7)",
-      "weight_pct": 4.73,
+      "weight_pct": 4.63,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "물가00750-3406(24-6)",
-      "weight_pct": 2.99,
+      "weight_pct": 2.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)",
-      "weight_pct": 2.6,
-      "shares": 2659424,
+      "weight_pct": 2.91,
+      "shares": 2972582,
       "item_code": null
     },
     {
@@ -63,8 +63,14 @@
       "item_code": null
     },
     {
+      "name": "교보증권535",
+      "weight_pct": 1.99,
+      "shares": 2038570,
+      "item_code": null
+    },
+    {
       "name": "국고02875-4409(24-10)",
-      "weight_pct": 1.95,
+      "weight_pct": 1.93,
       "shares": 0,
       "item_code": null
     },
@@ -75,14 +81,14 @@
       "item_code": null
     },
     {
-      "name": "하나증권3817",
-      "weight_pct": 1.21,
+      "name": "하나증권3822",
+      "weight_pct": 1.2,
       "shares": 1223142,
       "item_code": null
     },
     {
-      "name": "하나증권3822",
-      "weight_pct": 1.2,
+      "name": "하나증권3837",
+      "weight_pct": 1.19,
       "shares": 1223142,
       "item_code": null
     },

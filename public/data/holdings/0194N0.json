@@ -1,22 +1,22 @@
 {
   "ticker": "0194N0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자선물2609",
-      "weight_pct": 175.13,
-      "shares": 183,
+      "weight_pct": 174.94,
+      "shares": 184,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 75.5,
-      "shares": 205163432,
+      "weight_pct": 75.67,
+      "shares": 207893613,
       "item_code": null
     },
     {
       "name": "삼성전자",
-      "weight_pct": 24.49,
+      "weight_pct": 24.32,
       "shares": 256,
       "item_code": "005930"
     }

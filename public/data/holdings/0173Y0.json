@@ -1,71 +1,71 @@
 {
   "ticker": "0173Y0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 26.28,
+      "weight_pct": 26.73,
       "shares": 114,
       "item_code": "LITE.O"
     },
     {
       "name": "시에나",
-      "weight_pct": 20.35,
+      "weight_pct": 20.48,
       "shares": 210,
       "item_code": "CIEN.K"
     },
     {
       "name": "코히런트",
-      "weight_pct": 19.28,
+      "weight_pct": 19.09,
       "shares": 270,
       "item_code": "COHR.K"
     },
     {
       "name": "코닝",
-      "weight_pct": 6.01,
+      "weight_pct": 5.97,
       "shares": 157,
       "item_code": "GLW"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 5.91,
+      "weight_pct": 5.75,
       "shares": 106,
       "item_code": "MRVL.O"
     },
     {
+      "name": "노키아 ADR",
+      "weight_pct": 4.66,
+      "shares": 1808,
+      "item_code": "NOK"
+    },
+    {
       "name": "타워 세미컨덕터",
-      "weight_pct": 4.74,
+      "weight_pct": 4.65,
       "shares": 89,
       "item_code": "TSEM.O"
     },
     {
-      "name": "노키아 ADR",
-      "weight_pct": 4.72,
-      "shares": 1807,
-      "item_code": "NOK"
-    },
-    {
       "name": "어플라이드 옵토일렉트로닉스",
-      "weight_pct": 4.41,
+      "weight_pct": 4.44,
       "shares": 162,
       "item_code": "AAOI.O"
     },
     {
       "name": "패브리넷",
-      "weight_pct": 3.83,
+      "weight_pct": 3.8,
       "shares": 36,
       "item_code": "FN"
     },
     {
       "name": "M/A-컴 테크놀로지 솔루션스 홀딩스",
-      "weight_pct": 3.57,
+      "weight_pct": 3.54,
       "shares": 52,
       "item_code": "MTSI.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.84,
-      "shares": 4496494,
+      "weight_pct": 0.83,
+      "shares": 4517131,
       "item_code": null
     }
   ]

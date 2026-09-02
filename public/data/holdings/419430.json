@@ -1,41 +1,41 @@
 {
   "ticker": "419430",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "스왑(하나금융투자)",
       "weight_pct": 44.57,
-      "shares": 425041108,
+      "shares": 415027162,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)",
-      "weight_pct": 16.74,
-      "shares": 159645627,
+      "weight_pct": 16.61,
+      "shares": 154736816,
       "item_code": null
     },
     {
       "name": "스왑(KB증권)",
-      "weight_pct": 16.4,
-      "shares": 156405745,
+      "weight_pct": 16.39,
+      "shares": 152708712,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)",
       "weight_pct": 13.12,
-      "shares": 125172205,
+      "shares": 122211299,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 5.55,
-      "shares": 53016254,
+      "weight_pct": 5.69,
+      "shares": 53025438,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)",
       "weight_pct": 3.59,
-      "shares": 34280488,
+      "shares": 33470185,
       "item_code": null
     }
   ]

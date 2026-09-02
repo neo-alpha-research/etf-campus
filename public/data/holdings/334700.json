@@ -1,28 +1,28 @@
 {
   "ticker": "334700",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 88.89,
-      "shares": 136578127,
+      "weight_pct": 89.34,
+      "shares": 143059096,
       "item_code": null
     },
     {
       "name": "RISE 머니마켓액티브",
-      "weight_pct": 11.1,
+      "weight_pct": 10.65,
       "shares": 307,
       "item_code": "455890"
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -28.09,
+      "weight_pct": -30.95,
       "shares": -3,
       "item_code": null
     },
     {
       "name": "PALLADIUM FUT  DEC 26(NYMX)",
-      "weight_pct": -89.22,
+      "weight_pct": -90.73,
       "shares": 0,
       "item_code": null
     }

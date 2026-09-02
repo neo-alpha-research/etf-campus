@@ -1,28 +1,28 @@
 {
   "ticker": "0089D0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "KB금융",
-      "weight_pct": 22.84,
+      "weight_pct": 22.34,
       "shares": 1781,
       "item_code": "105560"
     },
     {
       "name": "하나금융지주",
-      "weight_pct": 16.78,
+      "weight_pct": 16.75,
       "shares": 1664,
       "item_code": "086790"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 14.22,
+      "weight_pct": 14.39,
       "shares": 5686,
       "item_code": "316140"
     },
     {
       "name": "삼성화재",
-      "weight_pct": 11.02,
+      "weight_pct": 11.11,
       "shares": 224,
       "item_code": "000810"
     },
@@ -34,38 +34,38 @@
     },
     {
       "name": "DB손해보험",
-      "weight_pct": 7.41,
+      "weight_pct": 7.8,
       "shares": 553,
       "item_code": "005830"
     },
     {
       "name": "NH투자증권",
-      "weight_pct": 5.36,
+      "weight_pct": 5.3,
       "shares": 2729,
       "item_code": "005940"
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 5.24,
+      "weight_pct": 5.16,
       "shares": 369,
       "item_code": "071050"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 3.47,
+      "weight_pct": 3.44,
       "shares": 533,
       "item_code": "016360"
     },
     {
       "name": "키움증권",
-      "weight_pct": 3.08,
+      "weight_pct": 3.1,
       "shares": 150,
       "item_code": "039490"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.09,
-      "shares": 1244582,
+      "weight_pct": 0.1,
+      "shares": 1483029,
       "item_code": null
     }
   ]

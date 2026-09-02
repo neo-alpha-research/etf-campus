@@ -1,34 +1,40 @@
 {
   "ticker": "475050",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "에스엠",
-      "weight_pct": 25.48,
+      "weight_pct": 25.31,
       "shares": 1166,
       "item_code": "041510"
     },
     {
       "name": "하이브",
-      "weight_pct": 24.9,
+      "weight_pct": 24.84,
       "shares": 475,
       "item_code": "352820"
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 22.38,
+      "weight_pct": 22.41,
       "shares": 1861,
       "item_code": "122870"
     },
     {
       "name": "JYP Ent.",
-      "weight_pct": 21.96,
+      "weight_pct": 21.99,
       "shares": 1886,
       "item_code": "035900"
     },
     {
+      "name": "드림어스컴퍼니",
+      "weight_pct": 0.97,
+      "shares": 819,
+      "item_code": "060570"
+    },
+    {
       "name": "큐브엔터",
-      "weight_pct": 0.91,
+      "weight_pct": 0.94,
       "shares": 544,
       "item_code": "182360"
     },
@@ -45,27 +51,21 @@
       "item_code": "037270"
     },
     {
-      "name": "드림어스컴퍼니",
-      "weight_pct": 0.84,
-      "shares": 819,
-      "item_code": "060570"
-    },
-    {
       "name": "노머스",
-      "weight_pct": 0.82,
+      "weight_pct": 0.8,
       "shares": 239,
       "item_code": "473980"
     },
     {
       "name": "디어유",
-      "weight_pct": 0.79,
+      "weight_pct": 0.8,
       "shares": 146,
       "item_code": "376300"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.11,
-      "shares": 390838,
+      "shares": 398646,
       "item_code": null
     }
   ]

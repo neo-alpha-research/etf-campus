@@ -1,71 +1,71 @@
 {
   "ticker": "0162L0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "CXMT Corporation",
-      "weight_pct": 20.8,
-      "shares": 11687,
+      "weight_pct": 20.29,
+      "shares": 11690,
       "item_code": "688825.SS"
     },
     {
       "name": "한무기",
-      "weight_pct": 10.22,
+      "weight_pct": 10.7,
       "shares": 321,
       "item_code": "688256.SS"
     },
     {
       "name": "생익과기",
-      "weight_pct": 10.08,
+      "weight_pct": 10.46,
       "shares": 2279,
       "item_code": "600183.SS"
     },
     {
       "name": "중제욱창",
-      "weight_pct": 9.67,
-      "shares": 371,
+      "weight_pct": 9.44,
+      "shares": 370,
       "item_code": "300308.SZ"
     },
     {
       "name": "동산정밀",
-      "weight_pct": 9.42,
-      "shares": 1587,
+      "weight_pct": 9.39,
+      "shares": 1586,
       "item_code": "002384.SZ"
     },
     {
       "name": "해광신식",
-      "weight_pct": 9.07,
+      "weight_pct": 9.25,
       "shares": 1217,
       "item_code": "688041.SS"
     },
     {
       "name": "장천과기",
-      "weight_pct": 8.94,
+      "weight_pct": 8.87,
       "shares": 1063,
       "item_code": "300604.SZ"
     },
     {
       "name": "척형과기",
-      "weight_pct": 8.87,
+      "weight_pct": 8.86,
       "shares": 436,
       "item_code": "688072.SS"
     },
     {
       "name": "호사전자",
-      "weight_pct": 7.52,
-      "shares": 2036,
+      "weight_pct": 7.61,
+      "shares": 2038,
       "item_code": "002463.SZ"
     },
     {
       "name": "몬타지 테크놀로지",
-      "weight_pct": 5.28,
+      "weight_pct": 5.0,
       "shares": 816,
       "item_code": "688008.SS"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.07,
-      "shares": 499859,
+      "shares": 501203,
       "item_code": null
     }
   ]

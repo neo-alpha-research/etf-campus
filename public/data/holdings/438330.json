@@ -1,6 +1,6 @@
 {
   "ticker": "438330",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "3년국채 F 202609",
@@ -10,7 +10,7 @@
     },
     {
       "name": "HK 26-12 회사채(AA-이상)액티브",
-      "weight_pct": 3.82,
+      "weight_pct": 3.83,
       "shares": 43,
       "item_code": "0000Y0"
     },
@@ -22,13 +22,13 @@
     },
     {
       "name": "롯데카드531-3",
-      "weight_pct": 3.76,
+      "weight_pct": 3.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "에스케이실트론52-2",
-      "weight_pct": 3.7,
+      "weight_pct": 3.71,
       "shares": 0,
       "item_code": null
     },
@@ -51,6 +51,12 @@
       "item_code": null
     },
     {
+      "name": "iM금융지주19",
+      "weight_pct": 1.89,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "롯데캐피탈459-7",
       "weight_pct": 1.89,
       "shares": 0,
@@ -64,12 +70,6 @@
     },
     {
       "name": "충북개발공사(음성) 2025-03",
-      "weight_pct": 1.88,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "iM금융지주19",
       "weight_pct": 1.88,
       "shares": 0,
       "item_code": null
@@ -111,6 +111,12 @@
       "item_code": null
     },
     {
+      "name": "BNK캐피탈375-1",
+      "weight_pct": 1.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "JB 우리캐피탈517-5",
       "weight_pct": 1.87,
       "shares": 0,
@@ -118,6 +124,12 @@
     },
     {
       "name": "메리츠캐피탈271-5",
+      "weight_pct": 1.87,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "고양도시관리공사2025-04",
       "weight_pct": 1.87,
       "shares": 0,
       "item_code": null
@@ -147,13 +159,13 @@
       "item_code": null
     },
     {
-      "name": "BNK캐피탈375-1",
+      "name": "SK케미칼15-2",
       "weight_pct": 1.86,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "고양도시관리공사2025-04",
+      "name": "국민은행조건부(상)3804이표일(03)10후25",
       "weight_pct": 1.86,
       "shares": 0,
       "item_code": null
@@ -166,18 +178,6 @@
     },
     {
       "name": "한온시스템11-3",
-      "weight_pct": 1.85,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "SK케미칼15-2",
-      "weight_pct": 1.85,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국민은행조건부(상)3804이표일(03)10후25",
       "weight_pct": 1.85,
       "shares": 0,
       "item_code": null
@@ -357,13 +357,13 @@
       "item_code": null
     },
     {
-      "name": "우리은행조건부자본증권(상)22-5이(후)15-",
-      "weight_pct": 1.73,
+      "name": "LG화학53-4",
+      "weight_pct": 1.72,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "LG화학53-4",
+      "name": "우리은행조건부자본증권(상)22-5이(후)15-",
       "weight_pct": 1.72,
       "shares": 0,
       "item_code": null
@@ -387,20 +387,20 @@
       "item_code": null
     },
     {
-      "name": "한국서부발전73-2",
-      "weight_pct": 1.7,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "국민주택1종채권25-07",
       "weight_pct": 1.69,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "한국남동발전42",
+      "name": "한국서부발전73-2",
       "weight_pct": 1.69,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국남동발전42",
+      "weight_pct": 1.68,
       "shares": 0,
       "item_code": null
     },
@@ -412,7 +412,7 @@
     },
     {
       "name": "한국중부발전44-2",
-      "weight_pct": 1.51,
+      "weight_pct": 1.5,
       "shares": 0,
       "item_code": null
     },
@@ -448,14 +448,14 @@
     },
     {
       "name": "10년국채 F 202609",
-      "weight_pct": -10.31,
+      "weight_pct": -10.28,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -38.58,
-      "shares": -44635789,
+      "weight_pct": -38.59,
+      "shares": -44601762,
       "item_code": null
     }
   ]

@@ -1,17 +1,17 @@
 {
   "ticker": "460270",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "스왑(메리츠증권)_251224_3229",
-      "weight_pct": 95.64,
-      "shares": 119169874,
+      "weight_pct": 95.65,
+      "shares": 119362796,
       "item_code": null
     },
     {
       "name": "[USD] 예금",
       "weight_pct": 3.21,
-      "shares": 2929,
+      "shares": 2925,
       "item_code": null
     },
     {

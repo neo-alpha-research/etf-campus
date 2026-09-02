@@ -1,28 +1,28 @@
 {
   "ticker": "442550",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "RISE 단기채권알파액티브",
-      "weight_pct": 16.74,
+      "weight_pct": 16.78,
       "shares": 1071,
       "item_code": "385550"
     },
     {
       "name": "RISE 종합채권(A-이상)액티브",
-      "weight_pct": 15.34,
+      "weight_pct": 15.31,
       "shares": 1085,
       "item_code": "385540"
     },
     {
       "name": "RISE 미국S&P500",
-      "weight_pct": 14.18,
+      "weight_pct": 14.2,
       "shares": 4531,
       "item_code": "379780"
     },
     {
       "name": "RISE 미국나스닥100",
-      "weight_pct": 11.66,
+      "weight_pct": 11.7,
       "shares": 2860,
       "item_code": "368590"
     },
@@ -34,19 +34,19 @@
     },
     {
       "name": "RISE 국고채10년액티브",
-      "weight_pct": 5.56,
+      "weight_pct": 5.54,
       "shares": 412,
       "item_code": "481430"
     },
     {
       "name": "RISE 200",
-      "weight_pct": 4.98,
+      "weight_pct": 5.0,
       "shares": 335,
       "item_code": "148020"
     },
     {
       "name": "RISE KIS국고채30년Enhanced",
-      "weight_pct": 4.58,
+      "weight_pct": 4.5,
       "shares": 640,
       "item_code": "385560"
     },
@@ -58,7 +58,7 @@
     },
     {
       "name": "JPMorgan BetaBuilders Japan ETF",
-      "weight_pct": 4.02,
+      "weight_pct": 4.03,
       "shares": 277,
       "item_code": "BBJP.K"
     },
@@ -70,20 +70,20 @@
     },
     {
       "name": "RISE 국채선물10년",
-      "weight_pct": 3.79,
+      "weight_pct": 3.78,
       "shares": 539,
       "item_code": "295000"
     },
     {
       "name": "RISE 미국반도체NYSE",
-      "weight_pct": 2.95,
+      "weight_pct": 2.96,
       "shares": 641,
       "item_code": "469060"
     },
     {
       "name": "원화현금",
       "weight_pct": 1.15,
-      "shares": 8442358,
+      "shares": 8441360,
       "item_code": null
     }
   ]

@@ -1,70 +1,70 @@
 {
   "ticker": "0080Y0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "2026-09 SOL 조선TOP3플러스개별선물",
-      "weight_pct": 94.65,
+      "weight_pct": 94.26,
       "shares": 298,
       "item_code": null
     },
     {
       "name": "한화오션",
-      "weight_pct": 27.0,
+      "weight_pct": 26.85,
       "shares": 2687,
       "item_code": "042660"
     },
     {
       "name": "삼성중공업",
-      "weight_pct": 26.56,
+      "weight_pct": 26.57,
       "shares": 11131,
       "item_code": "010140"
     },
     {
       "name": "HD현대중공업",
-      "weight_pct": 25.05,
+      "weight_pct": 25.13,
       "shares": 488,
       "item_code": "329180"
     },
     {
       "name": "HD한국조선해양",
-      "weight_pct": 15.56,
+      "weight_pct": 15.71,
       "shares": 391,
       "item_code": "009540"
     },
     {
       "name": "HD현대마린솔루션",
-      "weight_pct": 3.93,
+      "weight_pct": 3.83,
       "shares": 166,
       "item_code": "443060"
     },
     {
       "name": "한화엔진",
-      "weight_pct": 2.57,
+      "weight_pct": 2.58,
       "shares": 475,
       "item_code": "082740"
     },
     {
       "name": "HD현대마린엔진",
-      "weight_pct": 1.13,
+      "weight_pct": 1.12,
       "shares": 190,
       "item_code": "071970"
     },
     {
       "name": "대한조선",
-      "weight_pct": 0.91,
+      "weight_pct": 0.9,
       "shares": 168,
       "item_code": "439260"
     },
     {
       "name": "한국카본",
-      "weight_pct": 0.75,
+      "weight_pct": 0.73,
       "shares": 272,
       "item_code": "017960"
     },
     {
       "name": "성광벤드",
-      "weight_pct": 0.53,
+      "weight_pct": 0.5,
       "shares": 147,
       "item_code": "014620"
     },
@@ -76,7 +76,7 @@
     },
     {
       "name": "태광",
-      "weight_pct": 0.34,
+      "weight_pct": 0.33,
       "shares": 116,
       "item_code": "023160"
     },
@@ -88,8 +88,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -4.95,
-      "shares": -43425392,
+      "weight_pct": -4.9,
+      "shares": -43120370,
       "item_code": null
     }
   ]

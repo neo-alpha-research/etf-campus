@@ -1,46 +1,46 @@
 {
   "ticker": "421320",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "한국항공우주",
-      "weight_pct": 13.87,
+      "weight_pct": 13.8,
       "shares": 1415,
       "item_code": "047810"
     },
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 13.69,
+      "weight_pct": 13.47,
       "shares": 166,
       "item_code": "012450"
     },
     {
       "name": "LIG디펜스앤에어로스페이스",
-      "weight_pct": 12.62,
+      "weight_pct": 12.76,
       "shares": 243,
       "item_code": "079550"
     },
     {
       "name": "한화시스템",
-      "weight_pct": 10.91,
+      "weight_pct": 10.78,
       "shares": 1992,
       "item_code": "272210"
     },
     {
       "name": "스피어",
-      "weight_pct": 9.11,
+      "weight_pct": 8.93,
       "shares": 5797,
       "item_code": "347700"
     },
     {
       "name": "인텔리안테크",
-      "weight_pct": 8.08,
+      "weight_pct": 8.27,
       "shares": 1714,
       "item_code": "189300"
     },
     {
       "name": "에이치브이엠",
-      "weight_pct": 7.73,
+      "weight_pct": 7.8,
       "shares": 2252,
       "item_code": "295310"
     },
@@ -52,19 +52,19 @@
     },
     {
       "name": "파이버프로",
-      "weight_pct": 5.14,
+      "weight_pct": 5.31,
       "shares": 5775,
       "item_code": "368770"
     },
     {
       "name": "이노스페이스",
-      "weight_pct": 3.19,
+      "weight_pct": 3.2,
       "shares": 7120,
       "item_code": "462350"
     },
     {
       "name": "켄코아에어로스페이스",
-      "weight_pct": 2.19,
+      "weight_pct": 2.18,
       "shares": 2886,
       "item_code": "274090"
     },
@@ -76,26 +76,26 @@
     },
     {
       "name": "컨텍",
-      "weight_pct": 1.64,
+      "weight_pct": 1.67,
       "shares": 3054,
       "item_code": "451760"
     },
     {
       "name": "제노코",
-      "weight_pct": 1.31,
+      "weight_pct": 1.3,
       "shares": 1371,
       "item_code": "361390"
     },
     {
       "name": "루미르",
-      "weight_pct": 1.27,
+      "weight_pct": 1.26,
       "shares": 2619,
       "item_code": "474170"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.08,
-      "shares": 1105893,
+      "weight_pct": 0.1,
+      "shares": 1318732,
       "item_code": null
     }
   ]

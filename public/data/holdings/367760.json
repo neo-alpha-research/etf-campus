@@ -1,34 +1,34 @@
 {
   "ticker": "367760",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 22.3,
+      "weight_pct": 22.73,
       "shares": 2535,
       "item_code": "005930"
     },
     {
-      "name": "삼성전기",
-      "weight_pct": 20.67,
-      "shares": 419,
-      "item_code": "009150"
-    },
-    {
       "name": "SK하이닉스",
-      "weight_pct": 20.45,
+      "weight_pct": 21.0,
       "shares": 361,
       "item_code": "000660"
     },
     {
+      "name": "삼성전기",
+      "weight_pct": 20.59,
+      "shares": 419,
+      "item_code": "009150"
+    },
+    {
       "name": "LG이노텍",
-      "weight_pct": 12.53,
+      "weight_pct": 11.69,
       "shares": 577,
       "item_code": "011070"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 8.65,
+      "weight_pct": 8.56,
       "shares": 2243,
       "item_code": "007660"
     },
@@ -40,21 +40,27 @@
     },
     {
       "name": "제주반도체",
-      "weight_pct": 3.2,
+      "weight_pct": 3.21,
       "shares": 1209,
       "item_code": "080220"
     },
     {
       "name": "대한광통신",
-      "weight_pct": 2.51,
+      "weight_pct": 2.43,
       "shares": 5328,
       "item_code": "010170"
     },
     {
       "name": "RFHIC",
-      "weight_pct": 1.07,
+      "weight_pct": 1.05,
       "shares": 680,
       "item_code": "218410"
+    },
+    {
+      "name": "비에이치",
+      "weight_pct": 0.73,
+      "shares": 974,
+      "item_code": "090460"
     },
     {
       "name": "쏠리드",
@@ -64,15 +70,9 @@
     },
     {
       "name": "케이엠더블유",
-      "weight_pct": 0.61,
+      "weight_pct": 0.59,
       "shares": 1185,
       "item_code": "032500"
-    },
-    {
-      "name": "비에이치",
-      "weight_pct": 0.6,
-      "shares": 974,
-      "item_code": "090460"
     },
     {
       "name": "대덕",
@@ -82,7 +82,7 @@
     },
     {
       "name": "오이솔루션",
-      "weight_pct": 0.28,
+      "weight_pct": 0.27,
       "shares": 358,
       "item_code": "138080"
     },
@@ -106,7 +106,7 @@
     },
     {
       "name": "에치에프알",
-      "weight_pct": 0.16,
+      "weight_pct": 0.15,
       "shares": 374,
       "item_code": "230240"
     },
@@ -131,7 +131,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.09,
-      "shares": 2735539,
+      "shares": 2796010,
       "item_code": null
     },
     {

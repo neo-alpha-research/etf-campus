@@ -1,76 +1,76 @@
 {
   "ticker": "464610",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "파마리서치",
-      "weight_pct": 16.07,
+      "weight_pct": 15.71,
       "shares": 144,
       "item_code": "214450"
     },
     {
-      "name": "휴젤",
-      "weight_pct": 11.16,
-      "shares": 169,
-      "item_code": "145020"
-    },
-    {
       "name": "대웅제약",
-      "weight_pct": 11.15,
+      "weight_pct": 11.19,
       "shares": 335,
       "item_code": "069620"
     },
     {
+      "name": "휴젤",
+      "weight_pct": 10.91,
+      "shares": 169,
+      "item_code": "145020"
+    },
+    {
       "name": "메디톡스",
-      "weight_pct": 8.9,
+      "weight_pct": 9.48,
       "shares": 493,
       "item_code": "086900"
     },
     {
       "name": "클래시스",
-      "weight_pct": 8.3,
+      "weight_pct": 8.1,
       "shares": 936,
       "item_code": "214150"
     },
     {
       "name": "엘앤씨바이오",
-      "weight_pct": 7.55,
+      "weight_pct": 7.68,
       "shares": 543,
       "item_code": "290650"
     },
     {
       "name": "큐렉소",
-      "weight_pct": 6.07,
+      "weight_pct": 5.91,
       "shares": 2636,
       "item_code": "060280"
     },
     {
       "name": "덴티움",
-      "weight_pct": 5.79,
+      "weight_pct": 5.81,
       "shares": 591,
       "item_code": "145720"
     },
     {
       "name": "원텍",
-      "weight_pct": 5.16,
+      "weight_pct": 5.19,
       "shares": 3899,
       "item_code": "336570"
     },
     {
       "name": "한스바이오메드",
-      "weight_pct": 5.15,
+      "weight_pct": 5.13,
       "shares": 964,
       "item_code": "042520"
     },
     {
       "name": "휴메딕스",
-      "weight_pct": 4.34,
+      "weight_pct": 4.44,
       "shares": 634,
       "item_code": "200670"
     },
     {
       "name": "뷰웍스",
-      "weight_pct": 3.72,
+      "weight_pct": 3.77,
       "shares": 523,
       "item_code": "100120"
     },
@@ -82,14 +82,14 @@
     },
     {
       "name": "바텍",
-      "weight_pct": 3.11,
+      "weight_pct": 3.19,
       "shares": 633,
       "item_code": "043150"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.01,
-      "shares": 69399,
+      "weight_pct": -0.01,
+      "shares": -58008,
       "item_code": null
     }
   ]

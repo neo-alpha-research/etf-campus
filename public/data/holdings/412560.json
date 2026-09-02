@@ -1,94 +1,94 @@
 {
   "ticker": "412560",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "섹터지수 BBIG           F 202609",
-      "weight_pct": 114.65,
+      "weight_pct": 114.6,
       "shares": 57,
       "item_code": null
     },
     {
       "name": "TIGER BBIG",
-      "weight_pct": 21.1,
+      "weight_pct": 21.39,
       "shares": 2965,
       "item_code": "364960"
     },
     {
       "name": "원화현금",
-      "weight_pct": 15.92,
-      "shares": 15102018,
+      "weight_pct": 14.83,
+      "shares": 13804079,
       "item_code": null
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 7.99,
+      "weight_pct": 8.03,
       "shares": 13,
       "item_code": "006400"
     },
     {
       "name": "알테오젠",
-      "weight_pct": 6.25,
+      "weight_pct": 6.23,
       "shares": 19,
       "item_code": "196170"
     },
     {
       "name": "NC",
-      "weight_pct": 5.84,
+      "weight_pct": 5.94,
       "shares": 24,
       "item_code": "036570"
     },
     {
-      "name": "LG에너지솔루션",
-      "weight_pct": 5.57,
-      "shares": 14,
-      "item_code": "373220"
-    },
-    {
       "name": "크래프톤",
-      "weight_pct": 5.43,
+      "weight_pct": 5.63,
       "shares": 22,
       "item_code": "259960"
     },
     {
-      "name": "NAVER",
-      "weight_pct": 5.35,
-      "shares": 23,
-      "item_code": "035420"
+      "name": "LG에너지솔루션",
+      "weight_pct": 5.52,
+      "shares": 14,
+      "item_code": "373220"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 5.32,
+      "weight_pct": 5.46,
       "shares": 14,
       "item_code": "005490"
     },
     {
-      "name": "셀트리온",
-      "weight_pct": 5.27,
-      "shares": 26,
-      "item_code": "068270"
+      "name": "NAVER",
+      "weight_pct": 5.41,
+      "shares": 23,
+      "item_code": "035420"
     },
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 5.25,
+      "weight_pct": 5.36,
       "shares": 3,
       "item_code": "207940"
     },
     {
-      "name": "카카오",
-      "weight_pct": 3.9,
-      "shares": 101,
-      "item_code": "035720"
+      "name": "셀트리온",
+      "weight_pct": 5.35,
+      "shares": 26,
+      "item_code": "068270"
     },
     {
       "name": "넷마블",
-      "weight_pct": 3.86,
+      "weight_pct": 4.05,
       "shares": 97,
       "item_code": "251270"
     },
     {
+      "name": "카카오",
+      "weight_pct": 3.97,
+      "shares": 101,
+      "item_code": "035720"
+    },
+    {
       "name": "서진시스템",
-      "weight_pct": 2.86,
+      "weight_pct": 2.75,
       "shares": 69,
       "item_code": "178320"
     }

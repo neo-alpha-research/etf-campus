@@ -1,52 +1,52 @@
 {
   "ticker": "315960",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 26.67,
+      "weight_pct": 26.62,
       "shares": 3982,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 25.53,
+      "weight_pct": 25.67,
       "shares": 592,
       "item_code": "000660"
     },
     {
       "name": "현대차",
-      "weight_pct": 9.82,
+      "weight_pct": 9.69,
       "shares": 945,
       "item_code": "005380"
     },
     {
       "name": "KB금융",
-      "weight_pct": 7.68,
+      "weight_pct": 7.54,
       "shares": 1721,
       "item_code": "105560"
     },
     {
       "name": "삼성생명",
-      "weight_pct": 7.27,
+      "weight_pct": 7.31,
       "shares": 923,
       "item_code": "032830"
     },
     {
       "name": "신한지주",
-      "weight_pct": 6.14,
+      "weight_pct": 6.23,
       "shares": 2191,
       "item_code": "055550"
     },
     {
       "name": "기아",
-      "weight_pct": 6.08,
+      "weight_pct": 6.05,
       "shares": 1802,
       "item_code": "000270"
     },
     {
       "name": "하나금융지주",
-      "weight_pct": 4.44,
+      "weight_pct": 4.45,
       "shares": 1266,
       "item_code": "086790"
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 2.92,
+      "weight_pct": 2.97,
       "shares": 3360,
       "item_code": "316140"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.21,
-      "shares": 8155626,
+      "weight_pct": 0.2,
+      "shares": 8013649,
       "item_code": null
     }
   ]

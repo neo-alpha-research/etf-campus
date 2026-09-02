@@ -1,28 +1,28 @@
 {
   "ticker": "261110",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": 180.34,
+      "weight_pct": 180.06,
       "shares": 206,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 85.83,
-      "shares": 1347378174,
+      "weight_pct": 85.86,
+      "shares": 1351925297,
       "item_code": null
     },
     {
       "name": "TIGER 미국달러SOFR금리액티브(합성)",
-      "weight_pct": 7.56,
+      "weight_pct": 7.55,
       "shares": 2000,
       "item_code": "456610"
     },
     {
       "name": "TIGER 미국달러단기채권액티브",
-      "weight_pct": 6.59,
+      "weight_pct": 6.57,
       "shares": 8000,
       "item_code": "329750"
     }

@@ -1,34 +1,34 @@
 {
   "ticker": "365000",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "NAVER",
-      "weight_pct": 30.69,
+      "weight_pct": 30.86,
       "shares": 262,
       "item_code": "035420"
     },
     {
       "name": "카카오",
-      "weight_pct": 29.46,
+      "weight_pct": 29.85,
       "shares": 1493,
       "item_code": "035720"
     },
     {
       "name": "서진시스템",
-      "weight_pct": 16.59,
+      "weight_pct": 15.88,
       "shares": 788,
       "item_code": "178320"
     },
     {
       "name": "인텔리안테크",
-      "weight_pct": 4.76,
+      "weight_pct": 4.82,
       "shares": 140,
       "item_code": "189300"
     },
     {
       "name": "케이엠더블유",
-      "weight_pct": 4.22,
+      "weight_pct": 4.11,
       "shares": 514,
       "item_code": "032500"
     },
@@ -39,33 +39,33 @@
       "item_code": "042000"
     },
     {
+      "name": "안랩",
+      "weight_pct": 2.91,
+      "shares": 90,
+      "item_code": "053800"
+    },
+    {
       "name": "노타",
       "weight_pct": 2.9,
       "shares": 287,
       "item_code": "486990"
     },
     {
-      "name": "안랩",
-      "weight_pct": 2.87,
-      "shares": 90,
-      "item_code": "053800"
-    },
-    {
       "name": "SOOP",
-      "weight_pct": 2.81,
+      "weight_pct": 2.88,
       "shares": 136,
       "item_code": "067160"
     },
     {
       "name": "디어유",
-      "weight_pct": 2.1,
+      "weight_pct": 2.14,
       "shares": 210,
       "item_code": "376300"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.53,
-      "shares": 998671,
+      "weight_pct": 0.57,
+      "shares": 1052074,
       "item_code": null
     }
   ]

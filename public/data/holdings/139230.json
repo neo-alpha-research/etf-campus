@@ -1,113 +1,113 @@
 {
   "ticker": "139230",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "두산에너빌리티",
-      "weight_pct": 19.53,
+      "weight_pct": 19.46,
       "shares": 627,
       "item_code": "034020"
     },
     {
       "name": "HD현대일렉트릭",
-      "weight_pct": 11.2,
+      "weight_pct": 11.14,
       "shares": 38,
       "item_code": "267260"
     },
     {
       "name": "HD한국조선해양",
-      "weight_pct": 10.26,
+      "weight_pct": 10.51,
       "shares": 78,
       "item_code": "009540"
     },
     {
       "name": "HD현대중공업",
-      "weight_pct": 9.33,
+      "weight_pct": 9.5,
       "shares": 55,
       "item_code": "329180"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 8.95,
+      "weight_pct": 8.89,
       "shares": 8,
       "item_code": "298040"
     },
     {
       "name": "삼성중공업",
-      "weight_pct": 8.74,
+      "weight_pct": 8.87,
       "shares": 1108,
       "item_code": "010140"
     },
     {
       "name": "한화오션",
-      "weight_pct": 7.34,
+      "weight_pct": 7.4,
       "shares": 221,
       "item_code": "042660"
     },
     {
       "name": "현대로템",
-      "weight_pct": 6.32,
+      "weight_pct": 6.11,
       "shares": 123,
       "item_code": "064350"
     },
     {
       "name": "두산",
-      "weight_pct": 5.72,
+      "weight_pct": 5.51,
       "shares": 12,
       "item_code": "000150"
     },
     {
       "name": "HD건설기계",
-      "weight_pct": 2.36,
+      "weight_pct": 2.32,
       "shares": 47,
       "item_code": "267270"
     },
     {
       "name": "산일전기",
-      "weight_pct": 2.07,
+      "weight_pct": 2.08,
       "shares": 28,
       "item_code": "062040"
     },
     {
       "name": "두산밥캣",
-      "weight_pct": 2.04,
+      "weight_pct": 2.06,
       "shares": 87,
       "item_code": "241560"
     },
     {
       "name": "한화엔진",
-      "weight_pct": 1.63,
+      "weight_pct": 1.66,
       "shares": 91,
       "item_code": "082740"
     },
     {
       "name": "두산로보틱스",
-      "weight_pct": 1.5,
+      "weight_pct": 1.47,
       "shares": 56,
       "item_code": "454910"
     },
     {
       "name": "현대엘리베이터",
-      "weight_pct": 1.2,
+      "weight_pct": 1.22,
       "shares": 43,
       "item_code": "017800"
     },
     {
-      "name": "씨에스윈드",
-      "weight_pct": 0.73,
-      "shares": 40,
-      "item_code": "112610"
-    },
-    {
       "name": "HD현대마린엔진",
-      "weight_pct": 0.72,
+      "weight_pct": 0.73,
       "shares": 37,
       "item_code": "071970"
     },
     {
+      "name": "씨에스윈드",
+      "weight_pct": 0.72,
+      "shares": 40,
+      "item_code": "112610"
+    },
+    {
       "name": "원화현금",
       "weight_pct": 0.27,
-      "shares": 725618,
+      "shares": 722848,
       "item_code": null
     }
   ]

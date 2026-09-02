@@ -1,82 +1,82 @@
 {
   "ticker": "475080",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "테슬라",
-      "weight_pct": 20.07,
-      "shares": 163,
+      "weight_pct": 20.98,
+      "shares": 164,
       "item_code": "TSLA.O"
     },
     {
       "name": "국고채03250-2706(24-4)",
-      "weight_pct": 14.48,
+      "weight_pct": 14.33,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 11.99,
-      "shares": 46773942,
+      "weight_pct": 11.73,
+      "shares": 46285699,
       "item_code": null
     },
     {
       "name": "통안02620-2704-02",
-      "weight_pct": 10.55,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고03875-2612(23-10)",
-      "weight_pct": 9.23,
+      "weight_pct": 10.44,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "YieldMax TSLA Option Income Strategy ETF",
-      "weight_pct": 8.91,
-      "shares": 1162,
+      "weight_pct": 9.2,
+      "shares": 1164,
       "item_code": "TSLY.K"
     },
     {
+      "name": "국고03875-2612(23-10)",
+      "weight_pct": 9.13,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "통안02400-2707-02",
-      "weight_pct": 6.3,
+      "weight_pct": 6.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안03730-2807-02",
-      "weight_pct": 3.53,
+      "weight_pct": 3.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02800-2610-02",
-      "weight_pct": 3.52,
+      "weight_pct": 3.49,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02700-2701-02",
-      "weight_pct": 3.52,
+      "weight_pct": 3.48,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "USD현금",
-      "weight_pct": 3.22,
-      "shares": 9179,
+      "weight_pct": 3.19,
+      "shares": 9192,
       "item_code": null
     },
     {
       "name": "국고02875-2712(24-12)",
-      "weight_pct": 2.8,
+      "weight_pct": 2.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-2703(25-1)",
-      "weight_pct": 1.77,
+      "weight_pct": 1.75,
       "shares": 0,
       "item_code": null
     },
@@ -88,13 +88,13 @@
     },
     {
       "name": "TSLA US 09/18/26 C360 Equity",
-      "weight_pct": -0.11,
+      "weight_pct": -0.25,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "TSLA US 09/18/26 C350 Equity",
-      "weight_pct": -0.17,
+      "weight_pct": -0.35,
       "shares": 0,
       "item_code": null
     }

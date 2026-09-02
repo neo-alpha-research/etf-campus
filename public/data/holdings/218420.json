@@ -1,17 +1,17 @@
 {
   "ticker": "218420",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "스왑(미래에셋증권)",
       "weight_pct": 51.28,
-      "shares": 10236985,
+      "shares": 10457359,
       "item_code": null
     },
     {
       "name": "스왑(하나금융투자)",
       "weight_pct": 32.61,
-      "shares": 6511152,
+      "shares": 6651601,
       "item_code": null
     },
     {
@@ -23,7 +23,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.11,
-      "shares": 23682,
+      "shares": 23496,
       "item_code": null
     }
   ]

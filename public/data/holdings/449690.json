@@ -1,47 +1,47 @@
 {
   "ticker": "449690",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "한중반도체 TRS(키움증권)",
       "weight_pct": 26.95,
-      "shares": 128583611,
+      "shares": 130265785,
       "item_code": null
     },
     {
       "name": "한중반도체 TRS(NH투자증권)",
       "weight_pct": 20.2,
-      "shares": 96376244,
+      "shares": 97637070,
       "item_code": null
     },
     {
       "name": "한중반도체 TRS(미래에셋증권)",
       "weight_pct": 13.5,
-      "shares": 64414734,
+      "shares": 65257429,
       "item_code": null
     },
     {
       "name": "한중반도체 TRS(KB증권)",
       "weight_pct": 13.5,
-      "shares": 64414734,
+      "shares": 65257429,
       "item_code": null
     },
     {
       "name": "한중반도체 TRS(메리츠증권)",
-      "weight_pct": 11.73,
-      "shares": 55976006,
+      "weight_pct": 11.75,
+      "shares": 56798857,
       "item_code": null
     },
     {
       "name": "한중반도체 TRS(삼성증권)",
-      "weight_pct": 11.73,
-      "shares": 55976006,
+      "weight_pct": 11.75,
+      "shares": 56798857,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.34,
-      "shares": 11208287,
+      "weight_pct": 2.31,
+      "shares": 11203827,
       "item_code": null
     }
   ]

@@ -1,10 +1,10 @@
 {
   "ticker": "0117L0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "농업금융채권(은행) 2025-11이1Y-B",
-      "weight_pct": 10.85,
+      "weight_pct": 10.86,
       "shares": 0,
       "item_code": null
     },
@@ -87,6 +87,12 @@
       "item_code": null
     },
     {
+      "name": "중소기업은행(신)2311이3A-09",
+      "weight_pct": 1.09,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "JB 우리캐피탈557-2",
       "weight_pct": 1.09,
       "shares": 0,
@@ -148,12 +154,6 @@
     },
     {
       "name": "기업은행(신)2411이2A-07",
-      "weight_pct": 1.08,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "중소기업은행(신)2311이3A-09",
       "weight_pct": 1.08,
       "shares": 0,
       "item_code": null
@@ -430,8 +430,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -5.83,
-      "shares": -5920733,
+      "weight_pct": -5.84,
+      "shares": -5933352,
       "item_code": null
     }
   ]

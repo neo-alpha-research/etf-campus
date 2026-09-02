@@ -1,46 +1,46 @@
 {
   "ticker": "394670",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "글로벌리튬2차전지 TRS 260821-01",
       "weight_pct": 26.71,
-      "shares": 124428532,
+      "shares": 124444423,
       "item_code": null
     },
     {
       "name": "글로벌리튬2차전지 TRS 260729-04",
       "weight_pct": 26.34,
-      "shares": 122702755,
+      "shares": 122721183,
       "item_code": null
     },
     {
       "name": "글로벌리튬2차전지 TRS 260626-09",
       "weight_pct": 23.25,
-      "shares": 108302787,
+      "shares": 108342973,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 12.11,
-      "shares": 56429205,
+      "shares": 56423133,
       "item_code": null
     },
     {
       "name": "글로벌리튬2차전지 TRS 260618-01",
       "weight_pct": 4.22,
-      "shares": 19656467,
+      "shares": 19663722,
       "item_code": null
     },
     {
       "name": "글로벌리튬2차전지 TRS 260703-04",
       "weight_pct": 4.19,
-      "shares": 19541627,
+      "shares": 19548886,
       "item_code": null
     },
     {
       "name": "Global X Lithium & Battery Tech ETF",
-      "weight_pct": 3.15,
+      "weight_pct": 3.16,
       "shares": 140,
       "item_code": "LIT"
     }

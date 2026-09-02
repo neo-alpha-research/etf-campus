@@ -1,6 +1,6 @@
 {
   "ticker": "468380",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares Broad USD High Yield Corporate Bond ETF",
@@ -10,8 +10,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.36,
-      "shares": 389928,
+      "weight_pct": 0.35,
+      "shares": 389487,
       "item_code": null
     },
     {

@@ -1,64 +1,64 @@
 {
   "ticker": "0189Z0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "신한지주",
-      "weight_pct": 11.57,
+      "weight_pct": 11.67,
       "shares": 551,
       "item_code": "055550"
     },
     {
       "name": "하나금융지주",
-      "weight_pct": 10.99,
+      "weight_pct": 10.95,
       "shares": 418,
       "item_code": "086790"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 10.42,
+      "weight_pct": 10.53,
       "shares": 1599,
       "item_code": "316140"
     },
     {
       "name": "기업은행",
-      "weight_pct": 9.47,
+      "weight_pct": 9.44,
       "shares": 2371,
       "item_code": "024110"
     },
     {
-      "name": "삼성카드",
-      "weight_pct": 5.57,
-      "shares": 615,
-      "item_code": "029780"
-    },
-    {
       "name": "코리안리",
-      "weight_pct": 5.51,
+      "weight_pct": 5.6,
       "shares": 2001,
       "item_code": "003690"
     },
     {
+      "name": "삼성카드",
+      "weight_pct": 5.39,
+      "shares": 615,
+      "item_code": "029780"
+    },
+    {
       "name": "BNK금융지주",
-      "weight_pct": 5.12,
+      "weight_pct": 5.13,
       "shares": 1747,
       "item_code": "138930"
     },
     {
       "name": "iM금융지주",
-      "weight_pct": 4.45,
+      "weight_pct": 4.51,
       "shares": 1248,
       "item_code": "139130"
     },
     {
       "name": "서울보증보험",
-      "weight_pct": 4.38,
+      "weight_pct": 4.34,
       "shares": 522,
       "item_code": "031210"
     },
     {
       "name": "한국앤컴퍼니",
-      "weight_pct": 4.24,
+      "weight_pct": 4.18,
       "shares": 892,
       "item_code": "000240"
     },
@@ -70,26 +70,26 @@
     },
     {
       "name": "유안타증권",
-      "weight_pct": 3.21,
+      "weight_pct": 3.2,
       "shares": 3521,
       "item_code": "003470"
     },
     {
       "name": "한일홀딩스",
-      "weight_pct": 3.11,
+      "weight_pct": 3.04,
       "shares": 854,
       "item_code": "003300"
     },
     {
       "name": "SK디스커버리",
-      "weight_pct": 2.78,
+      "weight_pct": 2.85,
       "shares": 283,
       "item_code": "006120"
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.75,
-      "shares": 14261567,
+      "weight_pct": 2.73,
+      "shares": 14335112,
       "item_code": null
     },
     {
@@ -100,13 +100,13 @@
     },
     {
       "name": "대신증권",
-      "weight_pct": 2.4,
+      "weight_pct": 2.35,
       "shares": 459,
       "item_code": "003540"
     },
     {
       "name": "삼양홀딩스",
-      "weight_pct": 2.21,
+      "weight_pct": 2.23,
       "shares": 190,
       "item_code": "000070"
     },
@@ -118,13 +118,13 @@
     },
     {
       "name": "현대차증권",
-      "weight_pct": 2.08,
+      "weight_pct": 2.09,
       "shares": 1356,
       "item_code": "001500"
     },
     {
       "name": "DB증권",
-      "weight_pct": 1.85,
+      "weight_pct": 1.87,
       "shares": 980,
       "item_code": "016610"
     }

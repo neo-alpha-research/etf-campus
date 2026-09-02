@@ -1,64 +1,64 @@
 {
   "ticker": "0133E0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "동화순네트워크",
-      "weight_pct": 10.55,
+      "weight_pct": 10.5,
       "shares": 1014,
       "item_code": "300033.SZ"
     },
     {
       "name": "GF증권",
-      "weight_pct": 9.92,
+      "weight_pct": 10.12,
       "shares": 14060,
       "item_code": "1776.HK"
     },
     {
       "name": "동방재부정보",
-      "weight_pct": 9.89,
+      "weight_pct": 9.88,
       "shares": 11277,
       "item_code": "300059.SZ"
     },
     {
       "name": "CITIC 증권",
-      "weight_pct": 9.73,
+      "weight_pct": 9.71,
       "shares": 9160,
       "item_code": "6030.HK"
     },
     {
       "name": "중국국제금융공사",
-      "weight_pct": 9.0,
+      "weight_pct": 8.88,
       "shares": 10163,
       "item_code": "3908.HK"
     },
     {
       "name": "국태해통증권",
-      "weight_pct": 8.38,
+      "weight_pct": 8.13,
       "shares": 13803,
       "item_code": "2611.HK"
     },
     {
+      "name": "화태증권",
+      "weight_pct": 8.06,
+      "shares": 11776,
+      "item_code": "6886.HK"
+    },
+    {
       "name": "중신건투증권",
-      "weight_pct": 8.04,
+      "weight_pct": 8.01,
       "shares": 16990,
       "item_code": "6066.HK"
     },
     {
       "name": "초상증권",
-      "weight_pct": 8.0,
+      "weight_pct": 7.91,
       "shares": 12809,
       "item_code": "6099.HK"
     },
     {
-      "name": "화태증권",
-      "weight_pct": 7.94,
-      "shares": 11776,
-      "item_code": "6886.HK"
-    },
-    {
       "name": "중국은하증권",
-      "weight_pct": 6.63,
+      "weight_pct": 6.56,
       "shares": 21512,
       "item_code": "6881.HK"
     },
@@ -70,14 +70,14 @@
     },
     {
       "name": "선전 포춘 트렌드 테크놀로지",
-      "weight_pct": 5.26,
+      "weight_pct": 5.36,
       "shares": 1347,
       "item_code": "688318.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.07,
-      "shares": 341673,
+      "weight_pct": 0.26,
+      "shares": 1202880,
       "item_code": null
     }
   ]

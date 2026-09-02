@@ -1,11 +1,11 @@
 {
   "ticker": "480260",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 7.06,
-      "shares": 7608435,
+      "weight_pct": 7.07,
+      "shares": 7608852,
       "item_code": null
     },
     {
@@ -63,6 +63,18 @@
       "item_code": null
     },
     {
+      "name": "광주은행2025-11이(변)1갑-06",
+      "weight_pct": 2.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대커머셜546-1",
+      "weight_pct": 2.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "인천도시공사228",
       "weight_pct": 2.52,
       "shares": 0,
@@ -100,18 +112,6 @@
     },
     {
       "name": "아이엠뱅크47-01이(변)11A-30",
-      "weight_pct": 2.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "광주은행2025-11이(변)1갑-06",
-      "weight_pct": 2.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "현대커머셜546-1",
       "weight_pct": 2.51,
       "shares": 0,
       "item_code": null

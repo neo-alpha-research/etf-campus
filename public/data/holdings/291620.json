@@ -1,22 +1,22 @@
 {
   "ticker": "291620",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 96.08,
-      "shares": 40821554,
+      "weight_pct": 96.05,
+      "shares": 41878483,
       "item_code": null
     },
     {
       "name": "KODEX 코스닥150선물인버스",
-      "weight_pct": 3.91,
+      "weight_pct": 3.94,
       "shares": 701,
       "item_code": "251340"
     },
     {
       "name": "코스닥150선물2026년09월물",
-      "weight_pct": -95.14,
+      "weight_pct": -95.37,
       "shares": -2,
       "item_code": null
     }

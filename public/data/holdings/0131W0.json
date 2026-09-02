@@ -1,16 +1,10 @@
 {
   "ticker": "0131W0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "토지주택채권(용지)23-09",
       "weight_pct": 7.89,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "산금22신이0400-1201-4",
-      "weight_pct": 7.37,
       "shares": 0,
       "item_code": null
     },
@@ -35,6 +29,12 @@
     {
       "name": "산금24신이0200-0920-1",
       "weight_pct": 7.31,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산금22신이0400-1201-4",
+      "weight_pct": 7.29,
       "shares": 0,
       "item_code": null
     },
@@ -88,8 +88,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.07,
-      "shares": 1092932,
+      "weight_pct": 1.15,
+      "shares": 1177795,
       "item_code": null
     }
   ]

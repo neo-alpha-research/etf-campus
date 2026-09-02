@@ -1,10 +1,10 @@
 {
   "ticker": "469830",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "비케이프로제구차 20260811-52-2(단)",
-      "weight_pct": 3.52,
+      "weight_pct": 3.53,
       "shares": 0,
       "item_code": null
     },
@@ -34,7 +34,7 @@
     },
     {
       "name": "비엔케이썸제이십삼차 20260721-63-1(단)",
-      "weight_pct": 2.2,
+      "weight_pct": 2.21,
       "shares": 0,
       "item_code": null
     },
@@ -63,20 +63,20 @@
       "item_code": null
     },
     {
+      "name": "메리츠캐피탈267-1",
+      "weight_pct": 2.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "롯데렌탈56-2(녹)",
       "weight_pct": 1.99,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "메리츠캐피탈267-1",
-      "weight_pct": 1.99,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "키움에프앤아이 20260819-91-7(단)",
-      "weight_pct": 1.97,
+      "weight_pct": 1.98,
       "shares": 0,
       "item_code": null
     },
@@ -153,6 +153,12 @@
       "item_code": null
     },
     {
+      "name": "현대건설307-2",
+      "weight_pct": 1.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "하나에프앤아이187-3",
       "weight_pct": 1.0,
       "shares": 0,
@@ -172,6 +178,12 @@
     },
     {
       "name": "대신에프앤아이41-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈144-1",
       "weight_pct": 1.0,
       "shares": 0,
       "item_code": null
@@ -327,12 +339,6 @@
       "item_code": null
     },
     {
-      "name": "현대건설307-2",
-      "weight_pct": 1.0,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "롯데렌탈59-2",
       "weight_pct": 1.0,
       "shares": 0,
@@ -364,12 +370,6 @@
     },
     {
       "name": "한국동서발전",
-      "weight_pct": 0.99,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이엠캐피탈144-1",
       "weight_pct": 0.99,
       "shares": 0,
       "item_code": null
@@ -437,6 +437,18 @@
     {
       "name": "비케이프로제칠차(CP)",
       "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "비케이프로제칠차(CP)",
+      "weight_pct": 0.49,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아워홈(CP)",
+      "weight_pct": 0.49,
       "shares": 0,
       "item_code": null
     },
@@ -651,18 +663,6 @@
       "item_code": null
     },
     {
-      "name": "비케이프로제칠차(CP)",
-      "weight_pct": 0.48,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아워홈(CP)",
-      "weight_pct": 0.48,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "비케이씨에스제이십이차 20260610-92-1(단)",
       "weight_pct": 0.42,
       "shares": 0,
@@ -778,8 +778,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -11.03,
-      "shares": -11994623,
+      "weight_pct": -11.17,
+      "shares": -12152110,
       "item_code": null
     }
   ]

@@ -1,72 +1,72 @@
 {
   "ticker": "0226A0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "샌디스크",
-      "weight_pct": 24.61,
+      "weight_pct": 25.58,
       "shares": 64,
       "item_code": "SNDK.O"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 21.24,
+      "weight_pct": 21.01,
       "shares": 67,
       "item_code": "000660"
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 13.0,
+      "weight_pct": 12.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 12.95,
+      "weight_pct": 12.74,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 12.9,
+      "weight_pct": 12.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "PLUS 국채선물3년",
-      "weight_pct": 8.58,
-      "shares": 807,
+      "weight_pct": 9.48,
+      "shares": 907,
       "item_code": "298340"
     },
     {
       "name": "SK하이닉스선물2609",
-      "weight_pct": 4.72,
+      "weight_pct": 4.69,
       "shares": 1,
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.08,
-      "shares": 11073470,
-      "item_code": null
-    },
-    {
       "name": "PLUS 국공채머니마켓액티브",
-      "weight_pct": 1.97,
+      "weight_pct": 1.94,
       "shares": 200,
       "item_code": "491230"
     },
     {
       "name": "TIGER 국채3년",
-      "weight_pct": 1.34,
+      "weight_pct": 1.32,
       "shares": 68,
       "item_code": "114820"
     },
     {
       "name": "KODEX 국고채3년",
-      "weight_pct": 1.29,
+      "weight_pct": 1.26,
       "shares": 111,
       "item_code": "114260"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 1.17,
+      "shares": 6330382,
+      "item_code": null
     }
   ]
 }

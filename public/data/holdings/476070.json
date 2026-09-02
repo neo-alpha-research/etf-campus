@@ -1,71 +1,71 @@
 {
   "ticker": "476070",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "노보 노디스크 ADR",
-      "weight_pct": 23.88,
+      "weight_pct": 23.9,
       "shares": 2115,
       "item_code": "NVO"
     },
     {
       "name": "일라이 릴리",
-      "weight_pct": 23.17,
+      "weight_pct": 22.98,
       "shares": 79,
       "item_code": "LLY"
     },
     {
       "name": "리제네론 파마슈티컬스",
-      "weight_pct": 7.39,
+      "weight_pct": 7.49,
       "shares": 37,
       "item_code": "REGN.O"
     },
     {
       "name": "암젠",
-      "weight_pct": 7.17,
+      "weight_pct": 7.18,
       "shares": 67,
       "item_code": "AMGN.O"
     },
     {
       "name": "리듬 파머수티컬스",
-      "weight_pct": 7.0,
+      "weight_pct": 6.98,
       "shares": 264,
       "item_code": "RYTM.O"
     },
     {
       "name": "바이킹 테라퓨틱스",
-      "weight_pct": 6.49,
+      "weight_pct": 6.66,
       "shares": 815,
       "item_code": "VKTX.O"
     },
     {
-      "name": "Zealand Pharma A/S",
-      "weight_pct": 6.21,
-      "shares": 517,
-      "item_code": null
-    },
-    {
-      "name": "ROCHE HOLDING",
-      "weight_pct": 6.13,
-      "shares": 55,
-      "item_code": null
-    },
-    {
       "name": "화이자",
-      "weight_pct": 6.12,
+      "weight_pct": 6.27,
       "shares": 884,
       "item_code": "PFE"
     },
     {
+      "name": "ROCHE HOLDING",
+      "weight_pct": 6.07,
+      "shares": 55,
+      "item_code": null
+    },
+    {
+      "name": "Zealand Pharma A/S",
+      "weight_pct": 6.0,
+      "shares": 517,
+      "item_code": null
+    },
+    {
       "name": "ASTRAZENECA PLC-SP",
-      "weight_pct": 5.09,
+      "weight_pct": 5.11,
       "shares": 126,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.28,
-      "shares": 7123093,
+      "weight_pct": 1.29,
+      "shares": 7136786,
       "item_code": null
     }
   ]

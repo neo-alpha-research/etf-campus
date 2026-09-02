@@ -1,22 +1,22 @@
 {
   "ticker": "0151S0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 25.39,
+      "weight_pct": 25.49,
       "shares": 611,
       "item_code": "NVDA.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 20.79,
+      "weight_pct": 20.65,
       "shares": 295,
       "item_code": "AVGO.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 16.63,
+      "weight_pct": 16.45,
       "shares": 973,
       "item_code": "INTC.O"
     },
@@ -28,25 +28,25 @@
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 7.74,
+      "weight_pct": 7.87,
       "shares": 43,
       "item_code": "MU.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 7.28,
+      "weight_pct": 7.16,
       "shares": 91,
       "item_code": "TSM"
     },
     {
       "name": "세레브라스 시스템스",
-      "weight_pct": 5.34,
+      "weight_pct": 5.43,
       "shares": 156,
       "item_code": "CBRS.O"
     },
     {
       "name": "샌디스크",
-      "weight_pct": 4.05,
+      "weight_pct": 4.23,
       "shares": 14,
       "item_code": "SNDK.O"
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 1.3,
+      "weight_pct": 1.26,
       "shares": 31,
       "item_code": "MRVL.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.49,
-      "shares": 3568528,
+      "weight_pct": 0.48,
+      "shares": 3537937,
       "item_code": null
     }
   ]

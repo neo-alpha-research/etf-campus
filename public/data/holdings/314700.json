@@ -1,40 +1,40 @@
 {
   "ticker": "314700",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "KT&G",
-      "weight_pct": 21.06,
+      "weight_pct": 20.75,
       "shares": 648,
       "item_code": "033780"
     },
     {
       "name": "LG화학",
-      "weight_pct": 17.32,
+      "weight_pct": 17.5,
       "shares": 339,
       "item_code": "051910"
     },
     {
       "name": "동원산업",
-      "weight_pct": 16.33,
+      "weight_pct": 16.17,
       "shares": 2328,
       "item_code": "006040"
     },
     {
       "name": "CJ",
-      "weight_pct": 11.97,
+      "weight_pct": 12.35,
       "shares": 505,
       "item_code": "001040"
     },
     {
       "name": "LS",
-      "weight_pct": 8.75,
+      "weight_pct": 8.74,
       "shares": 154,
       "item_code": "006260"
     },
     {
       "name": "하림지주",
-      "weight_pct": 8.64,
+      "weight_pct": 8.55,
       "shares": 4381,
       "item_code": "003380"
     },
@@ -46,31 +46,31 @@
     },
     {
       "name": "이지홀딩스",
-      "weight_pct": 3.76,
+      "weight_pct": 3.81,
       "shares": 4449,
       "item_code": "035810"
     },
     {
       "name": "오뚜기",
-      "weight_pct": 2.14,
+      "weight_pct": 2.15,
       "shares": 35,
       "item_code": "007310"
     },
     {
       "name": "롯데정밀화학",
-      "weight_pct": 1.71,
+      "weight_pct": 1.72,
       "shares": 197,
       "item_code": "004000"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.83,
-      "shares": 4570378,
+      "shares": 4560364,
       "item_code": null
     },
     {
       "name": "파미셀",
-      "weight_pct": 0.83,
+      "weight_pct": 0.82,
       "shares": 412,
       "item_code": "005690"
     },

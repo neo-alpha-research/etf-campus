@@ -1,17 +1,17 @@
 {
   "ticker": "261920",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 109.7,
-      "shares": 1305746900,
+      "weight_pct": 109.47,
+      "shares": 1305753314,
       "item_code": null
     },
     {
       "name": "스왑(NH투자증권)",
-      "weight_pct": -9.7,
-      "shares": -115514795,
+      "weight_pct": -9.47,
+      "shares": -112989215,
       "item_code": null
     }
   ]

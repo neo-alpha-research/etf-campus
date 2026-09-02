@@ -1,209 +1,209 @@
 {
   "ticker": "453850",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 20.8,
-      "shares": 149527359,
+      "weight_pct": 20.14,
+      "shares": 143820235,
       "item_code": null
     },
     {
       "name": "Vanguard Extended Duration Treasury Index Fd",
-      "weight_pct": 17.3,
-      "shares": 1498,
+      "weight_pct": 17.46,
+      "shares": 1512,
       "item_code": "EDV"
     },
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 16.21,
-      "shares": 1027,
+      "weight_pct": 16.35,
+      "shares": 1032,
       "item_code": "TLT.O"
     },
     {
       "name": "T 4 5/8 11/15/55",
-      "weight_pct": 9.59,
-      "shares": 55303,
+      "weight_pct": 9.7,
+      "shares": 56020,
       "item_code": null
     },
     {
       "name": "SP 0 05/15/55",
-      "weight_pct": 4.29,
-      "shares": 100904,
+      "weight_pct": 4.3,
+      "shares": 101874,
       "item_code": null
     },
     {
       "name": "SP 0 08/15/55",
-      "weight_pct": 4.14,
-      "shares": 98524,
+      "weight_pct": 4.15,
+      "shares": 99471,
       "item_code": null
     },
     {
       "name": "PIMCO 25+ Year Zero Coupon US Treasury Index ETF",
-      "weight_pct": 3.7,
-      "shares": 328,
+      "weight_pct": 3.73,
+      "shares": 331,
       "item_code": "ZROZ.K"
     },
     {
       "name": "SP 0 02/15/55",
-      "weight_pct": 3.48,
-      "shares": 80913,
+      "weight_pct": 3.49,
+      "shares": 81691,
       "item_code": null
     },
     {
       "name": "T 4 1/4 02/15/54",
-      "weight_pct": 3.37,
-      "shares": 20704,
+      "weight_pct": 3.4,
+      "shares": 20903,
       "item_code": null
     },
     {
       "name": "[USD] 예금",
-      "weight_pct": 3.04,
-      "shares": 15990,
+      "weight_pct": 3.17,
+      "shares": 16539,
       "item_code": null
     },
     {
       "name": "T 4 3/4 02/15/56",
-      "weight_pct": 1.94,
-      "shares": 10947,
+      "weight_pct": 1.95,
+      "shares": 11052,
       "item_code": null
     },
     {
       "name": "iShares 25+ Year Treasury STRIPS Bond ETF",
-      "weight_pct": 1.24,
-      "shares": 192,
+      "weight_pct": 1.26,
+      "shares": 194,
       "item_code": "GOVZ.K"
     },
     {
       "name": "T 1 7/8 02/15/51",
-      "weight_pct": 1.2,
-      "shares": 11899,
+      "weight_pct": 1.21,
+      "shares": 12013,
       "item_code": null
     },
     {
       "name": "T 3 5/8 02/15/53",
       "weight_pct": 1.0,
-      "shares": 6853,
+      "shares": 6919,
       "item_code": null
     },
     {
       "name": "T 4 1/2 11/15/54",
       "weight_pct": 0.97,
-      "shares": 5711,
+      "shares": 5766,
       "item_code": null
     },
     {
       "name": "T 4 3/4 08/15/55",
-      "weight_pct": 0.92,
-      "shares": 5235,
+      "weight_pct": 0.93,
+      "shares": 5285,
       "item_code": null
     },
     {
       "name": "T 4 1/4 08/15/54",
       "weight_pct": 0.85,
-      "shares": 5235,
+      "shares": 5285,
       "item_code": null
     },
     {
       "name": "T 4 5/8 02/15/55",
-      "weight_pct": 0.82,
-      "shares": 4759,
+      "weight_pct": 0.83,
+      "shares": 4805,
       "item_code": null
     },
     {
       "name": "T 4 1/8 08/15/53",
-      "weight_pct": 0.79,
-      "shares": 4997,
+      "weight_pct": 0.8,
+      "shares": 5045,
       "item_code": null
     },
     {
       "name": "T 3 5/8 05/15/53",
-      "weight_pct": 0.76,
-      "shares": 5235,
+      "weight_pct": 0.77,
+      "shares": 5285,
       "item_code": null
     },
     {
       "name": "T 4 3/4 11/15/53",
-      "weight_pct": 0.58,
-      "shares": 3331,
+      "weight_pct": 0.59,
+      "shares": 3363,
       "item_code": null
     },
     {
       "name": "T 4 5/8 05/15/54",
-      "weight_pct": 0.57,
-      "shares": 3331,
+      "weight_pct": 0.58,
+      "shares": 3363,
       "item_code": null
     },
     {
       "name": "SP 0 05/15/56",
       "weight_pct": 0.42,
-      "shares": 10471,
+      "shares": 10571,
       "item_code": null
     },
     {
       "name": "T 4 3/4 05/15/55",
       "weight_pct": 0.42,
-      "shares": 2379,
+      "shares": 2402,
       "item_code": null
     },
     {
       "name": "SP 0 11/15/55",
       "weight_pct": 0.41,
-      "shares": 9995,
+      "shares": 10091,
       "item_code": null
     },
     {
       "name": "SP 0 02/15/56",
       "weight_pct": 0.39,
-      "shares": 9519,
+      "shares": 9610,
       "item_code": null
     },
     {
       "name": "T 3 08/15/52",
       "weight_pct": 0.19,
-      "shares": 1475,
+      "shares": 1489,
       "item_code": null
     },
     {
       "name": "T 5 05/15/56",
       "weight_pct": 0.17,
-      "shares": 951,
+      "shares": 961,
       "item_code": null
     },
     {
       "name": "T 2.875 05/15/52",
       "weight_pct": 0.17,
-      "shares": 1380,
+      "shares": 1393,
       "item_code": null
     },
     {
       "name": "ProShares Ultra 20+ Year Treasury",
       "weight_pct": 0.12,
-      "shares": 44,
+      "shares": 45,
       "item_code": "UBT"
     },
     {
       "name": "FX스왑 USD 260826-77",
-      "weight_pct": -10.28,
-      "shares": -73943317,
+      "weight_pct": -10.41,
+      "shares": -74357734,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260827-17",
-      "weight_pct": -13.82,
-      "shares": -99369440,
+      "weight_pct": -13.99,
+      "shares": -99926358,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260819-17",
-      "weight_pct": -21.56,
-      "shares": -155021516,
+      "weight_pct": -21.83,
+      "shares": -155890337,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260824-96",
-      "weight_pct": -25.31,
-      "shares": -181939478,
+      "weight_pct": -25.62,
+      "shares": -182959162,
       "item_code": null
     }
   ]

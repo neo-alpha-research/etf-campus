@@ -1,10 +1,10 @@
 {
   "ticker": "329660",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares MSCI World ETF",
-      "weight_pct": 18.25,
+      "weight_pct": 18.26,
       "shares": 1137,
       "item_code": "URTH.K"
     },
@@ -16,31 +16,31 @@
     },
     {
       "name": "iShares MSCI ACWI ETF",
-      "weight_pct": 11.79,
+      "weight_pct": 11.8,
       "shares": 955,
       "item_code": "ACWI.O"
     },
     {
       "name": "통안03730-2807-02",
-      "weight_pct": 10.18,
+      "weight_pct": 10.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.26,
-      "shares": 129721205,
+      "weight_pct": 7.25,
+      "shares": 129273659,
       "item_code": null
     },
     {
       "name": "신한캐피탈524-3",
-      "weight_pct": 4.65,
+      "weight_pct": 4.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국서부발전70-1",
-      "weight_pct": 4.64,
+      "weight_pct": 4.65,
       "shares": 0,
       "item_code": null
     },
@@ -52,19 +52,19 @@
     },
     {
       "name": "국고04250-3606(26-6)",
-      "weight_pct": 3.59,
+      "weight_pct": 3.58,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02000-4603(국고16-1)",
-      "weight_pct": 2.46,
+      "weight_pct": 2.43,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-2903(24-1)",
-      "weight_pct": 2.38,
+      "weight_pct": 2.39,
       "shares": 0,
       "item_code": null
     },
@@ -88,7 +88,7 @@
     },
     {
       "name": "국고02250-3709(17-5)",
-      "weight_pct": 1.97,
+      "weight_pct": 1.96,
       "shares": 0,
       "item_code": null
     },
@@ -118,7 +118,7 @@
     },
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 1.01,
+      "weight_pct": 0.99,
       "shares": 0,
       "item_code": null
     },
@@ -130,7 +130,7 @@
     },
     {
       "name": "국고02375-3809(18-7)",
-      "weight_pct": 0.49,
+      "weight_pct": 0.48,
       "shares": 0,
       "item_code": null
     },

@@ -1,77 +1,77 @@
 {
   "ticker": "140700",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성화재",
-      "weight_pct": 21.21,
+      "weight_pct": 20.88,
       "shares": 673,
       "item_code": "000810"
     },
     {
       "name": "DB손해보험",
-      "weight_pct": 20.02,
+      "weight_pct": 20.59,
       "shares": 2333,
       "item_code": "005830"
     },
     {
       "name": "삼성생명",
-      "weight_pct": 15.83,
+      "weight_pct": 15.49,
       "shares": 1092,
       "item_code": "032830"
     },
     {
       "name": "현대해상",
-      "weight_pct": 14.4,
+      "weight_pct": 14.61,
       "shares": 5971,
       "item_code": "001450"
     },
     {
       "name": "코리안리",
-      "weight_pct": 9.5,
+      "weight_pct": 9.44,
       "shares": 14042,
       "item_code": "003690"
     },
     {
       "name": "한화생명",
-      "weight_pct": 9.43,
+      "weight_pct": 9.36,
       "shares": 34506,
       "item_code": "088350"
     },
     {
       "name": "서울보증보험",
-      "weight_pct": 3.01,
+      "weight_pct": 2.92,
       "shares": 1460,
       "item_code": "031210"
     },
     {
       "name": "한화손해보험",
-      "weight_pct": 2.14,
+      "weight_pct": 2.18,
       "shares": 5370,
       "item_code": "000370"
     },
     {
       "name": "미래에셋생명",
-      "weight_pct": 2.02,
+      "weight_pct": 2.03,
       "shares": 1979,
       "item_code": "085620"
     },
     {
       "name": "인카금융서비스",
-      "weight_pct": 1.39,
+      "weight_pct": 1.41,
       "shares": 2730,
       "item_code": "211050"
     },
     {
       "name": "롯데손해보험",
-      "weight_pct": 0.69,
+      "weight_pct": 0.7,
       "shares": 7138,
       "item_code": "000400"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.32,
-      "shares": 6772709,
+      "weight_pct": 0.33,
+      "shares": 7342837,
       "item_code": null
     }
   ]

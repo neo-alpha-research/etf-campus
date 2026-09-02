@@ -1,46 +1,46 @@
 {
   "ticker": "464920",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "어드반테스트",
-      "weight_pct": 24.82,
+      "weight_pct": 23.99,
       "shares": 989,
       "item_code": "6857.T"
     },
     {
       "name": "도쿄일렉트론",
-      "weight_pct": 23.26,
+      "weight_pct": 23.62,
       "shares": 581,
       "item_code": "8035.T"
     },
     {
       "name": "신에츠화학",
-      "weight_pct": 13.93,
+      "weight_pct": 14.15,
       "shares": 3265,
       "item_code": "4063.T"
     },
     {
       "name": "호야",
-      "weight_pct": 11.21,
+      "weight_pct": 11.43,
       "shares": 645,
       "item_code": "7741.T"
     },
     {
       "name": "디스코",
-      "weight_pct": 7.34,
+      "weight_pct": 7.27,
       "shares": 174,
       "item_code": "6146.T"
     },
     {
       "name": "레조낙 홀딩스",
-      "weight_pct": 3.96,
+      "weight_pct": 3.93,
       "shares": 344,
       "item_code": "4004.T"
     },
     {
       "name": "스크린 홀딩스",
-      "weight_pct": 3.11,
+      "weight_pct": 3.12,
       "shares": 319,
       "item_code": "7735.T"
     },
@@ -52,25 +52,25 @@
     },
     {
       "name": "섬코",
-      "weight_pct": 1.61,
+      "weight_pct": 1.62,
       "shares": 662,
       "item_code": "3436.T"
     },
     {
       "name": "다이요닛폰산소",
-      "weight_pct": 1.44,
+      "weight_pct": 1.48,
       "shares": 363,
       "item_code": "4091.T"
     },
     {
       "name": "도쿄오카공업",
-      "weight_pct": 1.2,
+      "weight_pct": 1.21,
       "shares": 196,
       "item_code": "4186.T"
     },
     {
       "name": "스미토모화학",
-      "weight_pct": 1.09,
+      "weight_pct": 1.14,
       "shares": 2777,
       "item_code": "4005.T"
     },
@@ -82,19 +82,19 @@
     },
     {
       "name": "덱세리알즈",
-      "weight_pct": 0.63,
+      "weight_pct": 0.64,
       "shares": 292,
       "item_code": "4980.T"
     },
     {
       "name": "이와타니산업",
-      "weight_pct": 0.58,
+      "weight_pct": 0.59,
       "shares": 371,
       "item_code": "8088.T"
     },
     {
       "name": "아데카",
-      "weight_pct": 0.55,
+      "weight_pct": 0.56,
       "shares": 168,
       "item_code": "4401.T"
     },
@@ -125,7 +125,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.14,
-      "shares": 1733359,
+      "shares": 1713411,
       "item_code": null
     }
   ]

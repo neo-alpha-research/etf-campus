@@ -1,10 +1,10 @@
 {
   "ticker": "329750",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "[USD] 예금",
-      "weight_pct": 21.9,
+      "weight_pct": 21.89,
       "shares": 20703,
       "item_code": null
     },
@@ -33,19 +33,7 @@
       "item_code": null
     },
     {
-      "name": "HYNMTR Float 06/23/27",
-      "weight_pct": 1.99,
-      "shares": 1875,
-      "item_code": null
-    },
-    {
       "name": "NAB 4 1/2 10/26/27",
-      "weight_pct": 1.98,
-      "shares": 1875,
-      "item_code": null
-    },
-    {
-      "name": "KDB 4 3/8 02/15/28",
       "weight_pct": 1.98,
       "shares": 1875,
       "item_code": null
@@ -70,6 +58,12 @@
     },
     {
       "name": "KHFC 4.625 02/24/28 REGS",
+      "weight_pct": 1.98,
+      "shares": 1875,
+      "item_code": null
+    },
+    {
+      "name": "HYNMTR Float 06/23/27",
       "weight_pct": 1.98,
       "shares": 1875,
       "item_code": null
@@ -130,6 +124,12 @@
     },
     {
       "name": "KOHNPW 4 1/4 07/27/27",
+      "weight_pct": 1.97,
+      "shares": 1875,
+      "item_code": null
+    },
+    {
+      "name": "KDB 4 3/8 02/15/28",
       "weight_pct": 1.97,
       "shares": 1875,
       "item_code": null
@@ -274,8 +274,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -2.42,
-      "shares": -3140327,
+      "weight_pct": -2.39,
+      "shares": -3108494,
       "item_code": null
     }
   ]

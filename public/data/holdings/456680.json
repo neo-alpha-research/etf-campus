@@ -1,47 +1,47 @@
 {
   "ticker": "456680",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 177.36,
-      "shares": 114099281,
+      "weight_pct": 183.29,
+      "shares": 114103363,
       "item_code": null
     },
     {
       "name": "차이나전기차레버리지 TRS 260130-01",
-      "weight_pct": -1.47,
-      "shares": -947257,
+      "weight_pct": -2.0,
+      "shares": -1245254,
       "item_code": null
     },
     {
       "name": "차이나전기차레버리지 TRS 250512-08",
-      "weight_pct": -12.17,
-      "shares": -7832361,
+      "weight_pct": -12.99,
+      "shares": -8089206,
       "item_code": null
     },
     {
       "name": "차이나전기차레버리지 TRS 260305-01",
-      "weight_pct": -14.56,
-      "shares": -9371696,
+      "weight_pct": -15.61,
+      "shares": -9718434,
       "item_code": null
     },
     {
       "name": "차이나전기차레버리지 TRS 260123-01",
-      "weight_pct": -14.72,
-      "shares": -9475764,
+      "weight_pct": -15.83,
+      "shares": -9857354,
       "item_code": null
     },
     {
       "name": "차이나전기차레버리지 TRS 260306-02",
-      "weight_pct": -14.83,
-      "shares": -9542669,
+      "weight_pct": -15.9,
+      "shares": -9899387,
       "item_code": null
     },
     {
       "name": "차이나전기차레버리지 TRS 260313-03",
-      "weight_pct": -19.58,
-      "shares": -12599877,
+      "weight_pct": -20.95,
+      "shares": -13042610,
       "item_code": null
     }
   ]

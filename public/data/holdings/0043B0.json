@@ -1,11 +1,11 @@
 {
   "ticker": "0043B0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 10.28,
-      "shares": 10648966,
+      "weight_pct": 9.81,
+      "shares": 10158675,
       "item_code": null
     },
     {
@@ -191,6 +191,12 @@
     {
       "name": "에프엔아이알제일차 20260720-60-2(단)",
       "weight_pct": 0.51,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "키스도미노제이차 20260901-62-1(단)",
+      "weight_pct": 0.47,
       "shares": 0,
       "item_code": null
     },

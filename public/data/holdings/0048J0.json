@@ -1,214 +1,208 @@
 {
   "ticker": "0048J0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "USD현금",
-      "weight_pct": 18.78,
-      "shares": 1872,
+      "weight_pct": 20.52,
+      "shares": 2046,
       "item_code": null
     },
     {
       "name": "KOROIL Float 11/14/26",
-      "weight_pct": 4.01,
-      "shares": 399,
+      "weight_pct": 3.99,
+      "shares": 397,
       "item_code": null
     },
     {
       "name": "B 11/24/26",
-      "weight_pct": 2.98,
-      "shares": 299,
+      "weight_pct": 2.96,
+      "shares": 298,
       "item_code": null
     },
     {
       "name": "ANZ 4 3/4 01/18/27",
-      "weight_pct": 2.88,
-      "shares": 287,
+      "weight_pct": 2.87,
+      "shares": 285,
       "item_code": null
     },
     {
       "name": "TOYOTA Float 08/13/27",
-      "weight_pct": 2.5,
-      "shares": 249,
+      "weight_pct": 2.49,
+      "shares": 248,
       "item_code": null
     },
     {
       "name": "CAT Float 10/16/26",
-      "weight_pct": 2.5,
-      "shares": 249,
+      "weight_pct": 2.48,
+      "shares": 248,
       "item_code": null
     },
     {
       "name": "CM Float 10/02/26",
-      "weight_pct": 2.03,
-      "shares": 203,
+      "weight_pct": 2.02,
+      "shares": 202,
       "item_code": null
     },
     {
       "name": "HSBC Float 05/13/31",
-      "weight_pct": 1.7,
-      "shares": 166,
-      "item_code": null
-    },
-    {
-      "name": "B 09/01/26",
-      "weight_pct": 1.67,
-      "shares": 166,
-      "item_code": null
-    },
-    {
-      "name": "B 09/22/26",
-      "weight_pct": 1.66,
-      "shares": 166,
-      "item_code": null
-    },
-    {
-      "name": "B 09/29/26",
-      "weight_pct": 1.66,
-      "shares": 166,
+      "weight_pct": 1.69,
+      "shares": 165,
       "item_code": null
     },
     {
       "name": "B 09/03/26",
       "weight_pct": 1.66,
-      "shares": 166,
-      "item_code": null
-    },
-    {
-      "name": "B 10/29/26",
-      "weight_pct": 1.66,
-      "shares": 166,
-      "item_code": null
-    },
-    {
-      "name": "B 10/13/26",
-      "weight_pct": 1.66,
-      "shares": 166,
-      "item_code": null
-    },
-    {
-      "name": "B 10/22/26",
-      "weight_pct": 1.66,
-      "shares": 166,
-      "item_code": null
-    },
-    {
-      "name": "B 09/17/26",
-      "weight_pct": 1.66,
-      "shares": 166,
-      "item_code": null
-    },
-    {
-      "name": "B 09/15/26",
-      "weight_pct": 1.66,
-      "shares": 166,
+      "shares": 165,
       "item_code": null
     },
     {
       "name": "B 09/08/26",
       "weight_pct": 1.66,
-      "shares": 166,
+      "shares": 165,
       "item_code": null
     },
     {
-      "name": "B 11/12/26",
+      "name": "B 09/22/26",
       "weight_pct": 1.65,
-      "shares": 166,
+      "shares": 165,
       "item_code": null
     },
     {
-      "name": "B 11/10/26",
+      "name": "B 09/29/26",
       "weight_pct": 1.65,
-      "shares": 166,
+      "shares": 165,
       "item_code": null
     },
     {
       "name": "B 11/05/26",
       "weight_pct": 1.65,
-      "shares": 166,
+      "shares": 165,
       "item_code": null
     },
     {
       "name": "B 11/03/26",
       "weight_pct": 1.65,
-      "shares": 166,
+      "shares": 165,
+      "item_code": null
+    },
+    {
+      "name": "B 10/29/26",
+      "weight_pct": 1.65,
+      "shares": 165,
+      "item_code": null
+    },
+    {
+      "name": "B 10/13/26",
+      "weight_pct": 1.65,
+      "shares": 165,
+      "item_code": null
+    },
+    {
+      "name": "B 10/22/26",
+      "weight_pct": 1.65,
+      "shares": 165,
+      "item_code": null
+    },
+    {
+      "name": "B 09/17/26",
+      "weight_pct": 1.65,
+      "shares": 165,
+      "item_code": null
+    },
+    {
+      "name": "B 09/15/26",
+      "weight_pct": 1.65,
+      "shares": 165,
+      "item_code": null
+    },
+    {
+      "name": "B 11/12/26",
+      "weight_pct": 1.64,
+      "shares": 165,
+      "item_code": null
+    },
+    {
+      "name": "B 11/10/26",
+      "weight_pct": 1.64,
+      "shares": 165,
       "item_code": null
     },
     {
       "name": "HYNMTR Float 03/25/27",
-      "weight_pct": 1.62,
-      "shares": 161,
+      "weight_pct": 1.61,
+      "shares": 160,
       "item_code": null
     },
     {
       "name": "CAT Float 05/14/27",
-      "weight_pct": 1.37,
+      "weight_pct": 1.36,
       "shares": 136,
       "item_code": null
     },
     {
       "name": "RABOBK Float 05/27/27",
       "weight_pct": 1.33,
-      "shares": 133,
+      "shares": 132,
       "item_code": null
     },
     {
       "name": "CVX Float 02/26/27",
       "weight_pct": 1.33,
-      "shares": 133,
+      "shares": 132,
       "item_code": null
     },
     {
       "name": "KOROIL Float 04/03/27",
       "weight_pct": 1.33,
-      "shares": 133,
+      "shares": 132,
       "item_code": null
     },
     {
       "name": "DE Float 04/19/27",
       "weight_pct": 1.33,
-      "shares": 133,
-      "item_code": null
-    },
-    {
-      "name": "MRK Float 09/15/27",
-      "weight_pct": 1.17,
-      "shares": 116,
-      "item_code": null
-    },
-    {
-      "name": "DE Float 07/15/27",
-      "weight_pct": 1.17,
-      "shares": 116,
-      "item_code": null
-    },
-    {
-      "name": "HYNMTR Float 06/23/27",
-      "weight_pct": 1.17,
-      "shares": 116,
-      "item_code": null
-    },
-    {
-      "name": "MASSMU Float 01/29/27",
-      "weight_pct": 1.17,
-      "shares": 116,
+      "shares": 132,
       "item_code": null
     },
     {
       "name": "MQGAU Float 09/23/27",
       "weight_pct": 1.17,
-      "shares": 117,
+      "shares": 116,
+      "item_code": null
+    },
+    {
+      "name": "MRK Float 09/15/27",
+      "weight_pct": 1.16,
+      "shares": 115,
+      "item_code": null
+    },
+    {
+      "name": "DE Float 07/15/27",
+      "weight_pct": 1.16,
+      "shares": 115,
+      "item_code": null
+    },
+    {
+      "name": "HYNMTR Float 06/23/27",
+      "weight_pct": 1.16,
+      "shares": 115,
+      "item_code": null
+    },
+    {
+      "name": "MASSMU Float 01/29/27",
+      "weight_pct": 1.16,
+      "shares": 115,
       "item_code": null
     },
     {
       "name": "PSA Float 04/16/27",
       "weight_pct": 1.12,
-      "shares": 112,
+      "shares": 111,
       "item_code": null
     },
     {
       "name": "HYNMTR Float 03/27/30",
-      "weight_pct": 1.01,
+      "weight_pct": 1.0,
       "shares": 99,
       "item_code": null
     },
@@ -220,68 +214,68 @@
     },
     {
       "name": "BMO Float 09/15/26",
-      "weight_pct": 0.85,
+      "weight_pct": 0.84,
       "shares": 84,
       "item_code": null
     },
     {
       "name": "HYNMTR Float 01/07/28",
       "weight_pct": 0.83,
-      "shares": 83,
+      "shares": 82,
       "item_code": null
     },
     {
       "name": "EIBKOR Float 01/14/28",
       "weight_pct": 0.83,
-      "shares": 83,
+      "shares": 82,
       "item_code": null
     },
     {
       "name": "BNS Float 09/08/28",
       "weight_pct": 0.83,
-      "shares": 83,
+      "shares": 82,
       "item_code": null
     },
     {
       "name": "BAC Float 01/24/31",
       "weight_pct": 0.83,
-      "shares": 83,
+      "shares": 82,
       "item_code": null
     },
     {
       "name": "ANZ Float 12/16/26",
       "weight_pct": 0.83,
-      "shares": 83,
+      "shares": 82,
       "item_code": null
     },
     {
       "name": "INTNED Float 03/25/29",
       "weight_pct": 0.83,
-      "shares": 83,
+      "shares": 82,
       "item_code": null
     },
     {
       "name": "KORGAS Float 07/10/28",
       "weight_pct": 0.78,
-      "shares": 78,
+      "shares": 77,
       "item_code": null
     },
     {
       "name": "BMO Float 09/10/27",
       "weight_pct": 0.71,
-      "shares": 71,
+      "shares": 70,
       "item_code": null
     },
     {
       "name": "KOROIL Float 09/30/27",
       "weight_pct": 0.69,
-      "shares": 69,
+      "shares": 68,
       "item_code": null
     },
     {
       "name": "MASSMU Float 04/09/27",
       "weight_pct": 0.67,
-      "shares": 67,
+      "shares": 66,
       "item_code": null
     },
     {
@@ -311,7 +305,7 @@
     {
       "name": "NYLIFE Float 02/05/27",
       "weight_pct": 0.56,
-      "shares": 56,
+      "shares": 55,
       "item_code": null
     },
     {
@@ -322,49 +316,49 @@
     },
     {
       "name": "C Float 05/07/31",
-      "weight_pct": 0.51,
+      "weight_pct": 0.5,
       "shares": 49,
       "item_code": null
     },
     {
       "name": "MET Float 06/11/27",
-      "weight_pct": 0.5,
+      "weight_pct": 0.49,
       "shares": 49,
       "item_code": null
     },
     {
       "name": "MS Float 04/13/28",
-      "weight_pct": 0.5,
+      "weight_pct": 0.49,
       "shares": 49,
       "item_code": null
     },
     {
       "name": "RY Float 01/19/27",
-      "weight_pct": 0.5,
+      "weight_pct": 0.49,
       "shares": 49,
       "item_code": null
     },
     {
       "name": "STT Float 10/22/27",
-      "weight_pct": 0.5,
+      "weight_pct": 0.49,
       "shares": 49,
       "item_code": null
     },
     {
       "name": "BMO Float 06/04/27",
       "weight_pct": 0.45,
-      "shares": 45,
+      "shares": 44,
       "item_code": null
     },
     {
       "name": "NACF Float 07/22/27",
       "weight_pct": 0.44,
-      "shares": 44,
+      "shares": 43,
       "item_code": null
     },
     {
       "name": "GS Float 04/23/28",
-      "weight_pct": 0.44,
+      "weight_pct": 0.43,
       "shares": 43,
       "item_code": null
     },
@@ -388,14 +382,20 @@
     },
     {
       "name": "TD Float 04/05/27",
-      "weight_pct": 0.4,
+      "weight_pct": 0.39,
       "shares": 39,
       "item_code": null
     },
     {
       "name": "BMO Float 12/11/26",
       "weight_pct": 0.34,
-      "shares": 34,
+      "shares": 33,
+      "item_code": null
+    },
+    {
+      "name": "LGENSO 5 5/8 09/25/26",
+      "weight_pct": 0.33,
+      "shares": 33,
       "item_code": null
     },
     {
@@ -425,7 +425,7 @@
     {
       "name": "MUFG Float 04/24/31",
       "weight_pct": 0.29,
-      "shares": 29,
+      "shares": 28,
       "item_code": null
     },
     {
@@ -448,7 +448,7 @@
     },
     {
       "name": "WSTP Float 10/20/26",
-      "weight_pct": 0.25,
+      "weight_pct": 0.24,
       "shares": 24,
       "item_code": null
     },
@@ -490,8 +490,8 @@
     },
     {
       "name": "HYNMTR Float 03/19/27",
-      "weight_pct": 0.05,
-      "shares": 5,
+      "weight_pct": 0.04,
+      "shares": 4,
       "item_code": null
     },
     {

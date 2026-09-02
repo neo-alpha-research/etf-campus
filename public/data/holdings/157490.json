@@ -1,10 +1,10 @@
 {
   "ticker": "157490",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "NAVER",
-      "weight_pct": 26.25,
+      "weight_pct": 26.05,
       "shares": 208,
       "item_code": "035420"
     },
@@ -16,13 +16,13 @@
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 14.8,
+      "weight_pct": 15.12,
       "shares": 106,
       "item_code": "018260"
     },
     {
       "name": "크래프톤",
-      "weight_pct": 10.03,
+      "weight_pct": 10.22,
       "shares": 76,
       "item_code": "259960"
     },
@@ -34,27 +34,27 @@
     },
     {
       "name": "LG씨엔에스",
-      "weight_pct": 6.06,
+      "weight_pct": 5.96,
       "shares": 135,
       "item_code": "064400"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 4.16,
+      "weight_pct": 4.02,
       "shares": 17,
       "item_code": "307950"
     },
     {
-      "name": "펄어비스",
-      "weight_pct": 1.91,
-      "shares": 104,
-      "item_code": "263750"
-    },
-    {
       "name": "넷마블",
-      "weight_pct": 1.86,
+      "weight_pct": 1.92,
       "shares": 85,
       "item_code": "251270"
+    },
+    {
+      "name": "펄어비스",
+      "weight_pct": 1.89,
+      "shares": 104,
+      "item_code": "263750"
     },
     {
       "name": "포스코DX",
@@ -63,26 +63,26 @@
       "item_code": "022100"
     },
     {
-      "name": "아이티센글로벌",
-      "weight_pct": 1.0,
-      "shares": 48,
-      "item_code": "124500"
-    },
-    {
       "name": "더블유게임즈",
       "weight_pct": 0.98,
       "shares": 29,
       "item_code": "192080"
     },
     {
+      "name": "아이티센글로벌",
+      "weight_pct": 0.93,
+      "shares": 48,
+      "item_code": "124500"
+    },
+    {
       "name": "가비아",
-      "weight_pct": 0.71,
+      "weight_pct": 0.7,
       "shares": 27,
       "item_code": "079940"
     },
     {
       "name": "케이아이엔엑스",
-      "weight_pct": 0.67,
+      "weight_pct": 0.62,
       "shares": 8,
       "item_code": "093320"
     },
@@ -94,7 +94,7 @@
     },
     {
       "name": "NHN KCP",
-      "weight_pct": 0.52,
+      "weight_pct": 0.51,
       "shares": 59,
       "item_code": "060250"
     },
@@ -112,7 +112,7 @@
     },
     {
       "name": "카페24",
-      "weight_pct": 0.48,
+      "weight_pct": 0.47,
       "shares": 49,
       "item_code": "042000"
     },
@@ -124,7 +124,7 @@
     },
     {
       "name": "넥슨게임즈",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 64,
       "item_code": "225570"
     },
@@ -143,7 +143,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.11,
-      "shares": 199207,
+      "shares": 196511,
       "item_code": null
     }
   ]

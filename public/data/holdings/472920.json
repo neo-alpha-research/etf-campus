@@ -1,100 +1,88 @@
 {
   "ticker": "472920",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 7.35,
+      "weight_pct": 7.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국민주택1종26-04",
-      "weight_pct": 6.79,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "아이비케이캐피탈317-3",
-      "weight_pct": 5.86,
+      "weight_pct": 6.81,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국남동발전72-2",
-      "weight_pct": 3.94,
+      "weight_pct": 3.96,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한캐피탈497-5",
-      "weight_pct": 3.92,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국민은행4509이표일(03)1.5-30",
-      "weight_pct": 3.91,
+      "weight_pct": 3.94,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한캐피탈501-4",
-      "weight_pct": 3.91,
+      "weight_pct": 3.93,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국가철도공단채권405",
-      "weight_pct": 3.91,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국민은행4508이표일(03)1.5-22",
-      "weight_pct": 3.9,
+      "weight_pct": 3.93,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국수력원자력73-1(녹)",
-      "weight_pct": 3.9,
+      "weight_pct": 3.92,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국민은행4508이표일(03)1.5-22",
+      "weight_pct": 3.91,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비국민카드405-6",
-      "weight_pct": 3.86,
+      "weight_pct": 3.87,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나캐피탈414-8(지)",
-      "weight_pct": 3.84,
+      "weight_pct": 3.86,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "경기주택도시공사25-06-107",
-      "weight_pct": 3.84,
+      "weight_pct": 3.86,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산은캐피탈773-3(녹)",
-      "weight_pct": 3.82,
+      "weight_pct": 3.83,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나카드286-3",
-      "weight_pct": 3.8,
+      "weight_pct": 3.82,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이비국민카드434-4",
-      "weight_pct": 3.8,
+      "weight_pct": 3.82,
       "shares": 0,
       "item_code": null
     },
@@ -106,31 +94,37 @@
     },
     {
       "name": "국고03625-5309(23-7)",
-      "weight_pct": 3.43,
+      "weight_pct": 3.38,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 3.23,
+      "shares": 3170565,
+      "item_code": null
+    },
+    {
       "name": "국고02750-4509(25-9)",
-      "weight_pct": 3.1,
+      "weight_pct": 3.08,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-5503(25-2)",
-      "weight_pct": 3.06,
+      "weight_pct": 3.01,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-3003(25-3)",
-      "weight_pct": 2.65,
+      "weight_pct": 2.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-5509(25-7)",
-      "weight_pct": 2.44,
+      "weight_pct": 2.4,
       "shares": 0,
       "item_code": null
     },
@@ -142,13 +136,19 @@
     },
     {
       "name": "엔에이치농협캐피탈241-2",
-      "weight_pct": 2.32,
+      "weight_pct": 2.33,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고04250-3212(22-14)",
       "weight_pct": 1.98,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이비케이캐피탈317-3",
+      "weight_pct": 1.96,
       "shares": 0,
       "item_code": null
     },
@@ -160,13 +160,13 @@
     },
     {
       "name": "국고03875-4309(23-9)",
-      "weight_pct": 1.85,
+      "weight_pct": 1.84,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "우리카드237-3",
-      "weight_pct": 1.18,
+      "weight_pct": 1.19,
       "shares": 0,
       "item_code": null
     },
@@ -184,7 +184,7 @@
     },
     {
       "name": "국고03250-5403(24-2)",
-      "weight_pct": 0.95,
+      "weight_pct": 0.94,
       "shares": 0,
       "item_code": null
     },
@@ -192,12 +192,6 @@
       "name": "CP(와이디피제팔차 20260514-146-29)",
       "weight_pct": 0.78,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": -4.59,
-      "shares": -4526778,
       "item_code": null
     }
   ]

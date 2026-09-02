@@ -1,28 +1,28 @@
 {
   "ticker": "253230",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 83.73,
-      "shares": 6555971,
+      "weight_pct": 84.61,
+      "shares": 6503765,
       "item_code": null
     },
     {
       "name": "KODEX 200선물인버스2X",
-      "weight_pct": 13.5,
-      "shares": 13730,
+      "weight_pct": 12.6,
+      "shares": 12744,
       "item_code": "252670"
     },
     {
       "name": "KIWOOM 200선물인버스",
-      "weight_pct": 2.75,
+      "weight_pct": 2.78,
       "shares": 162,
       "item_code": "253240"
     },
     {
       "name": "선물2026년09월물",
-      "weight_pct": -168.1,
+      "weight_pct": -172.88,
       "shares": 0,
       "item_code": null
     }

@@ -1,76 +1,76 @@
 {
   "ticker": "0167Z0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "스페이스X",
-      "weight_pct": 26.34,
+      "weight_pct": 26.67,
       "shares": 508,
       "item_code": "SPCX.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 14.47,
+      "weight_pct": 14.33,
       "shares": 613,
       "item_code": "RKLB.O"
     },
     {
+      "name": "AST 스페이스모바일",
+      "weight_pct": 13.79,
+      "shares": 638,
+      "item_code": "ASTS.O"
+    },
+    {
       "name": "인튜이티브 머신스",
-      "weight_pct": 13.6,
+      "weight_pct": 13.55,
       "shares": 2416,
       "item_code": "LUNR.O"
     },
     {
-      "name": "AST 스페이스모바일",
-      "weight_pct": 13.58,
-      "shares": 639,
-      "item_code": "ASTS.O"
-    },
-    {
       "name": "플래닛 랩스 PBC",
-      "weight_pct": 8.33,
+      "weight_pct": 8.25,
       "shares": 1138,
       "item_code": "PL"
     },
     {
       "name": "보이저 테크놀로지스",
-      "weight_pct": 6.3,
+      "weight_pct": 6.16,
       "shares": 502,
       "item_code": "VOYG.K"
     },
     {
       "name": "카펜터 테크놀로지",
-      "weight_pct": 4.72,
+      "weight_pct": 4.71,
       "shares": 27,
       "item_code": "CRS"
     },
     {
       "name": "MDA 스페이스",
-      "weight_pct": 3.47,
+      "weight_pct": 3.46,
       "shares": 328,
       "item_code": "MDA"
     },
     {
       "name": "파이어플라이 에어로스페이스",
-      "weight_pct": 3.07,
+      "weight_pct": 3.04,
       "shares": 394,
       "item_code": "FLY.O"
     },
     {
       "name": "레드와이어",
-      "weight_pct": 2.64,
+      "weight_pct": 2.59,
       "shares": 664,
       "item_code": "RDW"
     },
     {
       "name": "블랙스카이 테크놀로지",
-      "weight_pct": 1.67,
+      "weight_pct": 1.62,
       "shares": 193,
       "item_code": "BKSY.K"
     },
     {
       "name": "요크 스페이스 시스템즈",
-      "weight_pct": 0.7,
+      "weight_pct": 0.71,
       "shares": 216,
       "item_code": "YSS"
     },
@@ -82,14 +82,14 @@
     },
     {
       "name": "스파이어 글로벌",
-      "weight_pct": 0.31,
+      "weight_pct": 0.32,
       "shares": 66,
       "item_code": "SPIR.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.28,
-      "shares": 1055859,
+      "weight_pct": 0.29,
+      "shares": 1102475,
       "item_code": null
     }
   ]

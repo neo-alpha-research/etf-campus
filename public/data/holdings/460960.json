@@ -1,71 +1,71 @@
 {
   "ticker": "460960",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "Invesco KBW High Dividend Yield Financial ETF",
-      "weight_pct": 16.1,
+      "weight_pct": 16.12,
       "shares": 5167,
       "item_code": "KBWD.O"
     },
     {
       "name": "Northern Trust High Yield Value-Scored Bond ETF",
-      "weight_pct": 15.73,
+      "weight_pct": 15.67,
       "shares": 1570,
       "item_code": "HYGV.K"
     },
     {
       "name": "Global X NASDAQ 100 Covered Call ETF",
-      "weight_pct": 13.46,
+      "weight_pct": 13.49,
       "shares": 2957,
       "item_code": "QYLD.O"
     },
     {
       "name": "State Street SPDR Portfolio High Yield Bond ETF",
-      "weight_pct": 12.77,
+      "weight_pct": 12.71,
       "shares": 2196,
       "item_code": "SPHY.K"
     },
     {
       "name": "Global X Russell 2000 Covered Call ETF",
-      "weight_pct": 9.97,
+      "weight_pct": 9.95,
       "shares": 2468,
       "item_code": "RYLD.K"
     },
     {
       "name": "Global X Us Preferred Etf",
-      "weight_pct": 9.8,
+      "weight_pct": 9.71,
       "shares": 2136,
       "item_code": "PFFD.K"
     },
     {
       "name": "Pacer Metaurus US Large Cap Div Multiplier 400 ETF",
-      "weight_pct": 7.11,
+      "weight_pct": 7.1,
       "shares": 616,
       "item_code": "QDPL.K"
     },
     {
       "name": "State Street SPDR Portfolio Corporate Bond ETF",
-      "weight_pct": 6.83,
+      "weight_pct": 6.81,
       "shares": 964,
       "item_code": "SPBO.K"
     },
     {
       "name": "Invesco High Yield Equity Dividend Achvrs ETF",
-      "weight_pct": 3.96,
+      "weight_pct": 3.92,
       "shares": 632,
       "item_code": "PEY.O"
     },
     {
       "name": "iShares iBonds Dec 2032 Term Corporate ETF",
-      "weight_pct": 3.89,
+      "weight_pct": 3.88,
       "shares": 630,
       "item_code": "IBDX.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.33,
-      "shares": 1829524,
+      "weight_pct": 0.6,
+      "shares": 3298051,
       "item_code": null
     }
   ]

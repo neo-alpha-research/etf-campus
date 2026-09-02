@@ -1,40 +1,40 @@
 {
   "ticker": "102780",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 25.1,
+      "weight_pct": 25.15,
       "shares": 2581,
       "item_code": "005930"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 20.99,
+      "weight_pct": 20.56,
       "shares": 385,
       "item_code": "009150"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 11.0,
+      "weight_pct": 11.38,
       "shares": 781,
       "item_code": "028260"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 10.36,
+      "weight_pct": 10.19,
       "shares": 480,
       "item_code": "006400"
     },
     {
       "name": "삼성생명",
-      "weight_pct": 7.84,
+      "weight_pct": 7.91,
       "shares": 685,
       "item_code": "032830"
     },
     {
       "name": "삼성화재",
-      "weight_pct": 5.97,
+      "weight_pct": 6.06,
       "shares": 240,
       "item_code": "000810"
     },
@@ -46,31 +46,31 @@
     },
     {
       "name": "삼성중공업",
-      "weight_pct": 4.15,
+      "weight_pct": 4.16,
       "shares": 5313,
       "item_code": "010140"
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 2.77,
+      "weight_pct": 2.82,
       "shares": 309,
       "item_code": "018260"
     },
     {
       "name": "삼성E&A",
-      "weight_pct": 2.16,
+      "weight_pct": 2.1,
       "shares": 1231,
       "item_code": "028050"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 1.62,
+      "weight_pct": 1.63,
       "shares": 495,
       "item_code": "016360"
     },
     {
       "name": "삼성에피스홀딩스",
-      "weight_pct": 0.76,
+      "weight_pct": 0.74,
       "shares": 53,
       "item_code": "0126Z0"
     },
@@ -82,7 +82,7 @@
     },
     {
       "name": "호텔신라",
-      "weight_pct": 0.4,
+      "weight_pct": 0.41,
       "shares": 247,
       "item_code": "008770"
     },
@@ -94,14 +94,14 @@
     },
     {
       "name": "삼성카드",
-      "weight_pct": 0.33,
+      "weight_pct": 0.32,
       "shares": 189,
       "item_code": "029780"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.15,
-      "shares": 4180474,
+      "weight_pct": 0.16,
+      "shares": 4449981,
       "item_code": null
     }
   ]

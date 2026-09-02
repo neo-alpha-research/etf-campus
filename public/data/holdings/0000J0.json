@@ -1,83 +1,83 @@
 {
   "ticker": "0000J0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 22.55,
+      "weight_pct": 22.08,
       "shares": 299,
       "item_code": "012450"
     },
     {
       "name": "한화오션",
-      "weight_pct": 17.5,
+      "weight_pct": 17.82,
       "shares": 2905,
       "item_code": "042660"
     },
     {
       "name": "한화시스템",
-      "weight_pct": 15.34,
+      "weight_pct": 15.08,
       "shares": 3061,
       "item_code": "272210"
     },
     {
       "name": "한화솔루션",
-      "weight_pct": 13.96,
+      "weight_pct": 13.91,
       "shares": 6024,
       "item_code": "009830"
     },
     {
-      "name": "한화",
-      "weight_pct": 7.8,
-      "shares": 841,
-      "item_code": "000880"
-    },
-    {
       "name": "한화엔진",
-      "weight_pct": 7.62,
+      "weight_pct": 7.84,
       "shares": 2348,
       "item_code": "082740"
     },
     {
+      "name": "한화",
+      "weight_pct": 7.53,
+      "shares": 841,
+      "item_code": "000880"
+    },
+    {
       "name": "한화생명",
-      "weight_pct": 5.99,
+      "weight_pct": 6.27,
       "shares": 15182,
       "item_code": "088350"
     },
     {
       "name": "한화비전",
-      "weight_pct": 4.87,
+      "weight_pct": 4.92,
       "shares": 1421,
       "item_code": "489790"
     },
     {
       "name": "한화투자증권",
-      "weight_pct": 1.54,
+      "weight_pct": 1.57,
       "shares": 4574,
       "item_code": "003530"
     },
     {
       "name": "한화손해보험",
-      "weight_pct": 1.28,
+      "weight_pct": 1.38,
       "shares": 2240,
       "item_code": "000370"
     },
     {
       "name": "한화머시너리앤서비스홀딩스",
-      "weight_pct": 0.67,
+      "weight_pct": 0.69,
       "shares": 1353,
       "item_code": "0220W0"
     },
     {
       "name": "한화갤러리아",
-      "weight_pct": 0.52,
+      "weight_pct": 0.54,
       "shares": 3719,
       "item_code": "452260"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.3,
-      "shares": 4437708,
+      "weight_pct": 0.31,
+      "shares": 4505927,
       "item_code": null
     }
   ]

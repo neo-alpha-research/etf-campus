@@ -1,11 +1,11 @@
 {
   "ticker": "278620",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 16.43,
-      "shares": 19570147,
+      "shares": 19571443,
       "item_code": null
     },
     {
@@ -64,7 +64,7 @@
     },
     {
       "name": "현대캐피탈2078-3",
-      "weight_pct": 4.44,
+      "weight_pct": 4.45,
       "shares": 0,
       "item_code": null
     },
@@ -99,13 +99,13 @@
       "item_code": null
     },
     {
-      "name": "코오롱인더스트리68-2",
-      "weight_pct": 2.96,
+      "name": "국고채권02750-2812(25-10)",
+      "weight_pct": 2.95,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "국고채권02750-2812(25-10)",
+      "name": "코오롱인더스트리68-2",
       "weight_pct": 2.95,
       "shares": 0,
       "item_code": null

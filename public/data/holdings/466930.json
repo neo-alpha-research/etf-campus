@@ -1,71 +1,71 @@
 {
   "ticker": "466930",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "기아",
-      "weight_pct": 26.32,
+      "weight_pct": 26.72,
       "shares": 2620,
       "item_code": "000270"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 25.53,
+      "weight_pct": 25.31,
       "shares": 734,
       "item_code": "012330"
     },
     {
       "name": "현대차",
-      "weight_pct": 21.5,
+      "weight_pct": 21.64,
       "shares": 695,
       "item_code": "005380"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 10.4,
+      "weight_pct": 10.34,
       "shares": 93,
       "item_code": "009150"
     },
     {
       "name": "LG전자",
-      "weight_pct": 5.91,
+      "weight_pct": 5.71,
       "shares": 356,
       "item_code": "066570"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 5.52,
+      "weight_pct": 5.62,
       "shares": 277,
       "item_code": "005930"
     },
     {
       "name": "LG이노텍",
-      "weight_pct": 2.26,
+      "weight_pct": 2.11,
       "shares": 46,
       "item_code": "011070"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 0.64,
+      "weight_pct": 0.63,
       "shares": 20,
       "item_code": "307950"
     },
     {
       "name": "한온시스템",
-      "weight_pct": 0.43,
+      "weight_pct": 0.44,
       "shares": 1633,
       "item_code": "018880"
     },
     {
       "name": "HL만도",
-      "weight_pct": 0.42,
+      "weight_pct": 0.41,
       "shares": 106,
       "item_code": "204320"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.32,
-      "shares": 4276700,
+      "shares": 4238754,
       "item_code": null
     },
     {

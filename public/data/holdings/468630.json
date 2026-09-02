@@ -1,6 +1,6 @@
 {
   "ticker": "468630",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares iBoxx $ Inv Grade Corporate Bond ETF",
@@ -11,7 +11,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.61,
-      "shares": 662633,
+      "shares": 662228,
       "item_code": null
     },
     {

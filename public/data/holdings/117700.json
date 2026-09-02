@@ -1,64 +1,64 @@
 {
   "ticker": "117700",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성E&A",
-      "weight_pct": 22.01,
+      "weight_pct": 22.19,
       "shares": 3221,
       "item_code": "028050"
     },
     {
       "name": "현대건설",
-      "weight_pct": 20.74,
+      "weight_pct": 21.04,
       "shares": 1159,
       "item_code": "000720"
     },
     {
       "name": "대우건설",
-      "weight_pct": 12.59,
+      "weight_pct": 12.06,
       "shares": 4769,
       "item_code": "047040"
     },
     {
       "name": "GS건설",
-      "weight_pct": 8.17,
+      "weight_pct": 7.77,
       "shares": 1552,
       "item_code": "006360"
     },
     {
-      "name": "한전기술",
-      "weight_pct": 7.65,
-      "shares": 453,
-      "item_code": "052690"
-    },
-    {
       "name": "DL이앤씨",
-      "weight_pct": 7.42,
+      "weight_pct": 7.64,
       "shares": 711,
       "item_code": "375500"
     },
     {
+      "name": "한전기술",
+      "weight_pct": 7.52,
+      "shares": 453,
+      "item_code": "052690"
+    },
+    {
       "name": "현대무벡스",
-      "weight_pct": 4.59,
+      "weight_pct": 4.62,
       "shares": 1347,
       "item_code": "319400"
     },
     {
       "name": "IPARK현대산업개발",
-      "weight_pct": 2.81,
+      "weight_pct": 2.87,
       "shares": 829,
       "item_code": "294870"
     },
     {
       "name": "HDC",
-      "weight_pct": 2.03,
+      "weight_pct": 2.08,
       "shares": 621,
       "item_code": "012630"
     },
     {
       "name": "성광벤드",
-      "weight_pct": 1.85,
+      "weight_pct": 1.82,
       "shares": 398,
       "item_code": "014620"
     },
@@ -70,13 +70,13 @@
     },
     {
       "name": "경동나비엔",
-      "weight_pct": 1.34,
+      "weight_pct": 1.37,
       "shares": 148,
       "item_code": "009450"
     },
     {
       "name": "한일시멘트",
-      "weight_pct": 1.27,
+      "weight_pct": 1.32,
       "shares": 516,
       "item_code": "300720"
     },
@@ -88,31 +88,31 @@
     },
     {
       "name": "한양이엔지",
-      "weight_pct": 0.86,
+      "weight_pct": 0.9,
       "shares": 199,
       "item_code": "045100"
     },
     {
-      "name": "아이에스동서",
-      "weight_pct": 0.78,
-      "shares": 336,
-      "item_code": "010780"
-    },
-    {
       "name": "KCC글라스",
-      "weight_pct": 0.77,
+      "weight_pct": 0.8,
       "shares": 212,
       "item_code": "344820"
     },
     {
+      "name": "아이에스동서",
+      "weight_pct": 0.79,
+      "shares": 336,
+      "item_code": "010780"
+    },
+    {
       "name": "LX하우시스",
-      "weight_pct": 0.73,
+      "weight_pct": 0.76,
       "shares": 145,
       "item_code": "108670"
     },
     {
       "name": "한일홀딩스",
-      "weight_pct": 0.63,
+      "weight_pct": 0.65,
       "shares": 231,
       "item_code": "003300"
     },
@@ -124,14 +124,14 @@
     },
     {
       "name": "수산인더스트리",
-      "weight_pct": 0.31,
+      "weight_pct": 0.32,
       "shares": 100,
       "item_code": "126720"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.03,
-      "shares": 216244,
+      "shares": 258054,
       "item_code": null
     }
   ]

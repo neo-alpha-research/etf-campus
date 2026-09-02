@@ -1,53 +1,53 @@
 {
   "ticker": "418660",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 94.06,
-      "shares": 1842828277,
+      "weight_pct": 93.82,
+      "shares": 1845185979,
       "item_code": null
     },
     {
       "name": "NASDAQ 100 E-MINI INDEX SEPT 2026",
-      "weight_pct": 61.39,
+      "weight_pct": 61.28,
       "shares": 1,
       "item_code": null
     },
     {
       "name": "[USD] 예금",
-      "weight_pct": 2.98,
+      "weight_pct": 2.97,
       "shares": 42700,
       "item_code": null
     },
     {
       "name": "미국나스닥100 TRS 2",
-      "weight_pct": 1.47,
-      "shares": 28813492,
+      "weight_pct": 1.67,
+      "shares": 32843408,
       "item_code": null
     },
     {
       "name": "미국나스닥100 TRS 1",
-      "weight_pct": 0.66,
-      "shares": 13032335,
+      "weight_pct": 0.68,
+      "shares": 13394933,
       "item_code": null
     },
     {
       "name": "미국나스닥100 TRS 231103-01",
-      "weight_pct": 0.64,
-      "shares": 12641793,
+      "weight_pct": 0.66,
+      "shares": 12993525,
       "item_code": null
     },
     {
       "name": "미국나스닥100 TRS 3",
-      "weight_pct": 0.31,
-      "shares": 6125625,
+      "weight_pct": 0.32,
+      "shares": 6296058,
       "item_code": null
     },
     {
       "name": "미국나스닥100 TRS 260722-15",
-      "weight_pct": -0.14,
-      "shares": -2798265,
+      "weight_pct": -0.13,
+      "shares": -2559399,
       "item_code": null
     }
   ]

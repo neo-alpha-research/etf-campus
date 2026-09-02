@@ -1,10 +1,10 @@
 {
   "ticker": "136340",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고채권03500-2906(26-5)",
-      "weight_pct": 6.2,
+      "weight_pct": 5.16,
       "shares": 0,
       "item_code": null
     },
@@ -45,6 +45,12 @@
       "item_code": null
     },
     {
+      "name": "SK텔레콤86-2",
+      "weight_pct": 3.45,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "교보증권11-1",
       "weight_pct": 3.45,
       "shares": 0,
@@ -63,7 +69,7 @@
       "item_code": null
     },
     {
-      "name": "SK텔레콤86-2",
+      "name": "연합자산관리36-2",
       "weight_pct": 3.44,
       "shares": 0,
       "item_code": null
@@ -76,12 +82,6 @@
     },
     {
       "name": "코웨이9-2",
-      "weight_pct": 3.43,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "연합자산관리36-2",
       "weight_pct": 3.43,
       "shares": 0,
       "item_code": null
@@ -148,7 +148,7 @@
     },
     {
       "name": "SK네트웍스186-3",
-      "weight_pct": 3.29,
+      "weight_pct": 3.28,
       "shares": 0,
       "item_code": null
     },
@@ -184,14 +184,14 @@
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 0.68,
+      "weight_pct": 2.04,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.57,
-      "shares": 595880,
+      "weight_pct": 0.23,
+      "shares": 247807,
       "item_code": null
     }
   ]

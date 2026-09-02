@@ -1,11 +1,11 @@
 {
   "ticker": "486830",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 9.53,
-      "shares": 10162245,
+      "weight_pct": 6.88,
+      "shares": 7334992,
       "item_code": null
     },
     {
@@ -107,6 +107,12 @@
     {
       "name": "신한캐피탈 20211019-1826-8",
       "weight_pct": 2.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국투자금융지주 20260507-195-38",
+      "weight_pct": 2.65,
       "shares": 0,
       "item_code": null
     },

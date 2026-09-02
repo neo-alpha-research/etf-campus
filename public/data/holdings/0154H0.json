@@ -1,28 +1,28 @@
 {
   "ticker": "0154H0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "이노벤트 바이오로직스",
-      "weight_pct": 11.85,
+      "weight_pct": 11.88,
       "shares": 2902,
       "item_code": "1801.HK"
     },
     {
       "name": "비원 메디슨스",
-      "weight_pct": 11.65,
+      "weight_pct": 11.61,
       "shares": 1367,
       "item_code": "6160.HK"
     },
     {
       "name": "한삼제약",
-      "weight_pct": 9.98,
+      "weight_pct": 9.97,
       "shares": 7158,
       "item_code": "3692.HK"
     },
     {
       "name": "젠스크립트 바이오테크",
-      "weight_pct": 7.46,
+      "weight_pct": 7.49,
       "shares": 5611,
       "item_code": "1548.HK"
     },
@@ -34,81 +34,75 @@
     },
     {
       "name": "우시앱텍",
-      "weight_pct": 3.72,
+      "weight_pct": 3.7,
       "shares": 496,
       "item_code": "2359.HK"
     },
     {
       "name": "CSPC제약",
-      "weight_pct": 3.31,
+      "weight_pct": 3.33,
       "shares": 9150,
       "item_code": "1093.HK"
     },
     {
       "name": "과륜박태생물",
-      "weight_pct": 3.26,
+      "weight_pct": 3.27,
       "shares": 166,
       "item_code": "6990.HK"
     },
     {
-      "name": "헨리우스 바이오테크",
-      "weight_pct": 2.95,
-      "shares": 1107,
-      "item_code": "2696.HK"
-    },
-    {
       "name": "자이 랩",
-      "weight_pct": 2.95,
+      "weight_pct": 2.93,
       "shares": 3764,
       "item_code": "9688.HK"
     },
     {
-      "name": "키메드 바이오사이언시스",
-      "weight_pct": 2.91,
-      "shares": 977,
-      "item_code": "2162.HK"
-    },
-    {
-      "name": "중산강방생물의약",
-      "weight_pct": 2.89,
-      "shares": 798,
-      "item_code": "9926.HK"
-    },
-    {
       "name": "중국바이오제약",
-      "weight_pct": 2.89,
+      "weight_pct": 2.92,
       "shares": 13621,
       "item_code": "1177.HK"
     },
     {
+      "name": "키메드 바이오사이언시스",
+      "weight_pct": 2.89,
+      "shares": 977,
+      "item_code": "2162.HK"
+    },
+    {
+      "name": "헨리우스 바이오테크",
+      "weight_pct": 2.88,
+      "shares": 1107,
+      "item_code": "2696.HK"
+    },
+    {
+      "name": "중산강방생물의약",
+      "weight_pct": 2.83,
+      "shares": 798,
+      "item_code": "9926.HK"
+    },
+    {
       "name": "이노케어제약-B",
-      "weight_pct": 2.74,
+      "weight_pct": 2.77,
       "shares": 4928,
       "item_code": "9969.HK"
     },
     {
-      "name": "3S바이오",
-      "weight_pct": 2.66,
-      "shares": 4137,
-      "item_code": "1530.HK"
-    },
-    {
       "name": "심시어 파마슈티컬 그룹",
-      "weight_pct": 2.62,
+      "weight_pct": 2.67,
       "shares": 6111,
       "item_code": "2096.HK"
     },
     {
-      "name": "강철제약",
-      "weight_pct": 2.52,
-      "shares": 5896,
-      "item_code": "0867.HK"
+      "name": "3S바이오",
+      "weight_pct": 2.63,
+      "shares": 4137,
+      "item_code": "1530.HK"
     },
     {
-      "name": "듀얼리티 바이오테라퓨틱스",
-      "weight_pct": 2.27,
-      "shares": 299,
-      "item_code": "9606.HK"
+      "name": "강철제약",
+      "weight_pct": 2.6,
+      "shares": 5896,
+      "item_code": "0867.HK"
     },
     {
       "name": "레미젠",
@@ -118,9 +112,15 @@
     },
     {
       "name": "정태과기",
-      "weight_pct": 2.16,
+      "weight_pct": 2.19,
       "shares": 7483,
       "item_code": "2228.HK"
+    },
+    {
+      "name": "듀얼리티 바이오테라퓨틱스",
+      "weight_pct": 2.17,
+      "shares": 299,
+      "item_code": "9606.HK"
     },
     {
       "name": "연방제약국제홀딩스",
@@ -130,9 +130,15 @@
     },
     {
       "name": "아성의약",
-      "weight_pct": 1.65,
+      "weight_pct": 1.64,
       "shares": 1245,
       "item_code": "6855.HK"
+    },
+    {
+      "name": "Ab&B 바이오 테크",
+      "weight_pct": 1.6,
+      "shares": 1392,
+      "item_code": "2627.HK"
     },
     {
       "name": "장수 헝루이 파머슈티컬스",
@@ -141,38 +147,32 @@
       "item_code": "1276.HK"
     },
     {
-      "name": "Ab&B 바이오 테크",
-      "weight_pct": 1.55,
-      "shares": 1392,
-      "item_code": "2627.HK"
-    },
-    {
       "name": "Hbm 홀딩스",
-      "weight_pct": 1.52,
+      "weight_pct": 1.48,
       "shares": 2669,
       "item_code": "2142.HK"
     },
     {
       "name": "젠플릿 테라퓨틱스",
-      "weight_pct": 1.39,
+      "weight_pct": 1.41,
       "shares": 1164,
       "item_code": "2595.HK"
     },
     {
       "name": "기석제약",
-      "weight_pct": 0.88,
+      "weight_pct": 0.89,
       "shares": 3940,
       "item_code": "2616.HK"
     },
     {
       "name": "우시 XDC 케이맨",
-      "weight_pct": 0.62,
+      "weight_pct": 0.61,
       "shares": 223,
       "item_code": "2268.HK"
     },
     {
-      "name": "가례제약",
-      "weight_pct": 0.47,
+      "name": "아스클레티스 파마",
+      "weight_pct": 0.48,
       "shares": 1233,
       "item_code": "1672.HK"
     },
@@ -184,8 +184,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.3,
-      "shares": 1389532,
+      "weight_pct": 0.31,
+      "shares": 1384029,
       "item_code": null
     }
   ]

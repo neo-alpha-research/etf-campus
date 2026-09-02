@@ -1,6 +1,6 @@
 {
   "ticker": "0046A0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares 0-3 Month Treasury Bond ETF",
@@ -41,7 +41,7 @@
     {
       "name": "원화현금",
       "weight_pct": -0.11,
-      "shares": -106316,
+      "shares": -107140,
       "item_code": null
     }
   ]

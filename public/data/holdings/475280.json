@@ -1,16 +1,16 @@
 {
   "ticker": "475280",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
-      "name": "한국전력1416",
-      "weight_pct": 10.05,
-      "shares": 0,
+      "name": "원화현금",
+      "weight_pct": 11.31,
+      "shares": 12148266,
       "item_code": null
     },
     {
-      "name": "주택금융공사236(변)(사)",
-      "weight_pct": 9.91,
+      "name": "한국전력1416",
+      "weight_pct": 10.05,
       "shares": 0,
       "item_code": null
     },
@@ -60,12 +60,6 @@
       "name": "스탠다드차타드은행25-08-이01-26",
       "weight_pct": 9.77,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 1.39,
-      "shares": 1501682,
       "item_code": null
     }
   ]

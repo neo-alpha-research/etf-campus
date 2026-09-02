@@ -1,22 +1,16 @@
 {
   "ticker": "464240",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 27.82,
-      "shares": 145847726,
+      "weight_pct": 27.85,
+      "shares": 145993861,
       "item_code": null
     },
     {
       "name": "인천국제공항공사189",
       "weight_pct": 6.64,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "케이비캐피탈517-4",
-      "weight_pct": 6.58,
       "shares": 0,
       "item_code": null
     },
@@ -35,6 +29,12 @@
     {
       "name": "한국전력공사채권1067",
       "weight_pct": 6.57,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산은캐피탈747-2",
+      "weight_pct": 6.56,
       "shares": 0,
       "item_code": null
     },

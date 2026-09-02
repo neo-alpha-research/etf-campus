@@ -1,28 +1,28 @@
 {
   "ticker": "322410",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "하나금융지주",
-      "weight_pct": 11.01,
+      "weight_pct": 11.02,
       "shares": 940,
       "item_code": "086790"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 10.85,
+      "weight_pct": 11.0,
       "shares": 3733,
       "item_code": "316140"
     },
     {
       "name": "KT",
-      "weight_pct": 10.07,
+      "weight_pct": 10.1,
       "shares": 2193,
       "item_code": "030200"
     },
     {
       "name": "기업은행",
-      "weight_pct": 9.65,
+      "weight_pct": 9.67,
       "shares": 5424,
       "item_code": "024110"
     },
@@ -40,19 +40,19 @@
     },
     {
       "name": "기아",
-      "weight_pct": 8.16,
+      "weight_pct": 8.11,
       "shares": 725,
       "item_code": "000270"
     },
     {
       "name": "삼성카드",
-      "weight_pct": 5.12,
+      "weight_pct": 4.98,
       "shares": 1268,
       "item_code": "029780"
     },
     {
       "name": "JB금융지주",
-      "weight_pct": 4.14,
+      "weight_pct": 4.24,
       "shares": 1699,
       "item_code": "175330"
     },
@@ -64,13 +64,13 @@
     },
     {
       "name": "제일기획",
-      "weight_pct": 2.17,
+      "weight_pct": 2.15,
       "shares": 1317,
       "item_code": "030000"
     },
     {
       "name": "동서",
-      "weight_pct": 2.15,
+      "weight_pct": 2.12,
       "shares": 970,
       "item_code": "026960"
     },
@@ -82,25 +82,25 @@
     },
     {
       "name": "한일시멘트",
-      "weight_pct": 1.6,
+      "weight_pct": 1.59,
       "shares": 1098,
       "item_code": "300720"
     },
     {
       "name": "오리온홀딩스",
-      "weight_pct": 1.2,
+      "weight_pct": 1.18,
       "shares": 544,
       "item_code": "001800"
     },
     {
       "name": "한국쉘석유",
-      "weight_pct": 0.9,
+      "weight_pct": 0.89,
       "shares": 21,
       "item_code": "002960"
     },
     {
       "name": "이노션",
-      "weight_pct": 0.8,
+      "weight_pct": 0.79,
       "shares": 490,
       "item_code": "214320"
     },
@@ -111,26 +111,26 @@
       "item_code": "381970"
     },
     {
-      "name": "TKG휴켐스",
-      "weight_pct": 0.71,
-      "shares": 504,
-      "item_code": "069260"
-    },
-    {
       "name": "빙그레",
-      "weight_pct": 0.7,
+      "weight_pct": 0.71,
       "shares": 91,
       "item_code": "005180"
     },
     {
+      "name": "TKG휴켐스",
+      "weight_pct": 0.7,
+      "shares": 504,
+      "item_code": "069260"
+    },
+    {
       "name": "대상",
-      "weight_pct": 0.54,
+      "weight_pct": 0.55,
       "shares": 348,
       "item_code": "001680"
     },
     {
       "name": "메가스터디교육",
-      "weight_pct": 0.52,
+      "weight_pct": 0.51,
       "shares": 170,
       "item_code": "215200"
     },
@@ -141,40 +141,40 @@
       "item_code": "067160"
     },
     {
-      "name": "대덕",
-      "weight_pct": 0.51,
-      "shares": 369,
-      "item_code": "008060"
-    },
-    {
       "name": "넥스틸",
       "weight_pct": 0.5,
       "shares": 464,
       "item_code": "092790"
     },
     {
+      "name": "대덕",
+      "weight_pct": 0.5,
+      "shares": 369,
+      "item_code": "008060"
+    },
+    {
       "name": "삼양홀딩스",
-      "weight_pct": 0.48,
+      "weight_pct": 0.49,
       "shares": 94,
       "item_code": "000070"
     },
     {
       "name": "LS증권",
-      "weight_pct": 0.48,
+      "weight_pct": 0.47,
       "shares": 833,
       "item_code": "078020"
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 0.45,
-      "shares": 5241210,
-      "item_code": null
     },
     {
       "name": "한세실업",
       "weight_pct": 0.44,
       "shares": 579,
       "item_code": "105630"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.44,
+      "shares": 5237406,
+      "item_code": null
     },
     {
       "name": "아이스크림미디어",
@@ -184,13 +184,13 @@
     },
     {
       "name": "노바텍",
-      "weight_pct": 0.41,
+      "weight_pct": 0.4,
       "shares": 398,
       "item_code": "285490"
     },
     {
       "name": "웹젠",
-      "weight_pct": 0.35,
+      "weight_pct": 0.36,
       "shares": 373,
       "item_code": "069080"
     },
@@ -244,7 +244,7 @@
     },
     {
       "name": "극동유화",
-      "weight_pct": 0.13,
+      "weight_pct": 0.12,
       "shares": 469,
       "item_code": "014530"
     }

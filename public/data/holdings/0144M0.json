@@ -1,58 +1,58 @@
 {
   "ticker": "0144M0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "조비 에비에이션",
-      "weight_pct": 21.12,
+      "weight_pct": 21.11,
       "shares": 7719,
       "item_code": "JOBY.K"
     },
     {
       "name": "베타 테크놀로지스",
-      "weight_pct": 14.21,
+      "weight_pct": 14.45,
       "shares": 1798,
       "item_code": "BETA.K"
     },
     {
       "name": "아처 에비에이션",
-      "weight_pct": 13.44,
+      "weight_pct": 13.77,
       "shares": 5961,
       "item_code": "ACHR.K"
     },
     {
       "name": "GE 에어로스페이스",
-      "weight_pct": 9.54,
+      "weight_pct": 9.53,
       "shares": 71,
       "item_code": "GE"
     },
     {
       "name": "온다스",
-      "weight_pct": 9.5,
+      "weight_pct": 9.39,
       "shares": 3068,
       "item_code": "ONDS.O"
     },
     {
       "name": "하우멧 에어로스페이스",
-      "weight_pct": 9.43,
+      "weight_pct": 8.89,
       "shares": 90,
       "item_code": "HWM"
     },
     {
       "name": "어플라이드 에어로스페이스 앤 디펜스",
-      "weight_pct": 7.97,
+      "weight_pct": 8.07,
       "shares": 1529,
       "item_code": "AADX.K"
     },
     {
       "name": "FTAI 애비에이션",
-      "weight_pct": 6.61,
+      "weight_pct": 6.57,
       "shares": 86,
       "item_code": "FTAI.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 3.8,
+      "weight_pct": 3.84,
       "shares": 150,
       "item_code": "RKLB.O"
     },
@@ -64,8 +64,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.82,
-      "shares": 2873722,
+      "weight_pct": 0.83,
+      "shares": 2869520,
       "item_code": null
     }
   ]

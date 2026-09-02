@@ -1,58 +1,58 @@
 {
   "ticker": "0083S0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "템퍼스 AI",
-      "weight_pct": 26.64,
+      "weight_pct": 26.31,
       "shares": 3211,
       "item_code": "TEM.O"
     },
     {
       "name": "리커젼 파마슈티컬스",
-      "weight_pct": 13.16,
+      "weight_pct": 13.43,
       "shares": 30413,
       "item_code": "RXRX.O"
     },
     {
       "name": "나테라",
-      "weight_pct": 7.44,
+      "weight_pct": 7.36,
       "shares": 176,
       "item_code": "NTRA.O"
     },
     {
       "name": "일라이 릴리",
-      "weight_pct": 7.0,
+      "weight_pct": 6.91,
       "shares": 46,
       "item_code": "LLY"
     },
     {
       "name": "카리스 라이프 사이언시스",
-      "weight_pct": 6.93,
+      "weight_pct": 6.91,
       "shares": 2088,
       "item_code": "CAI.O"
     },
     {
       "name": "인튜이티브 서지컬",
-      "weight_pct": 6.71,
+      "weight_pct": 6.8,
       "shares": 139,
       "item_code": "ISRG.O"
     },
     {
       "name": "애브비",
-      "weight_pct": 6.52,
+      "weight_pct": 6.56,
       "shares": 197,
       "item_code": "ABBV.K"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 6.23,
+      "weight_pct": 6.34,
       "shares": 221,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 5.12,
+      "weight_pct": 5.02,
       "shares": 114,
       "item_code": "GOOGL.O"
     },
@@ -64,15 +64,21 @@
     },
     {
       "name": "바이오엔테크 ADR",
-      "weight_pct": 2.43,
+      "weight_pct": 2.42,
       "shares": 184,
       "item_code": "BNTX.O"
     },
     {
       "name": "슈뢰딩거",
-      "weight_pct": 1.97,
+      "weight_pct": 1.96,
       "shares": 775,
       "item_code": "SDGR.O"
+    },
+    {
+      "name": "힘스 & 허즈",
+      "weight_pct": 1.7,
+      "shares": 444,
+      "item_code": "HIMS.K"
     },
     {
       "name": "제너레이트 바이오메디슨스",
@@ -81,21 +87,15 @@
       "item_code": "GENB.O"
     },
     {
-      "name": "힘스 & 허즈",
-      "weight_pct": 1.65,
-      "shares": 444,
-      "item_code": "HIMS.K"
-    },
-    {
       "name": "앱사이",
-      "weight_pct": 1.48,
+      "weight_pct": 1.54,
       "shares": 1312,
       "item_code": "ABSI.O"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.34,
-      "shares": 3679761,
+      "shares": 3675493,
       "item_code": null
     }
   ]

@@ -1,22 +1,22 @@
 {
   "ticker": "341850",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "TIGER 중장기국채",
-      "weight_pct": 24.15,
+      "weight_pct": 24.17,
       "shares": 1112,
       "item_code": "302190"
     },
     {
       "name": "SK리츠",
-      "weight_pct": 11.44,
+      "weight_pct": 11.33,
       "shares": 4839,
       "item_code": "395400"
     },
     {
       "name": "맥쿼리인프라",
-      "weight_pct": 10.37,
+      "weight_pct": 10.46,
       "shares": 2418,
       "item_code": "088980"
     },
@@ -28,43 +28,43 @@
     },
     {
       "name": "롯데리츠",
-      "weight_pct": 8.05,
+      "weight_pct": 7.91,
       "shares": 4728,
       "item_code": "330590"
     },
     {
       "name": "한화리츠",
-      "weight_pct": 6.32,
+      "weight_pct": 6.26,
       "shares": 2730,
       "item_code": "451800"
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.12,
-      "shares": 14152185,
+      "weight_pct": 6.15,
+      "shares": 14151206,
       "item_code": null
     },
     {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 5.06,
+      "weight_pct": 5.19,
       "shares": 3744,
       "item_code": "365550"
     },
     {
-      "name": "신한알파리츠",
-      "weight_pct": 4.39,
-      "shares": 1838,
-      "item_code": "293940"
-    },
-    {
       "name": "맵스리얼티",
-      "weight_pct": 4.39,
+      "weight_pct": 4.42,
       "shares": 1411,
       "item_code": "094800"
     },
     {
+      "name": "신한알파리츠",
+      "weight_pct": 4.33,
+      "shares": 1838,
+      "item_code": "293940"
+    },
+    {
       "name": "삼성FN리츠",
-      "weight_pct": 3.29,
+      "weight_pct": 3.32,
       "shares": 1384,
       "item_code": "448730"
     },
@@ -76,13 +76,13 @@
     },
     {
       "name": "이지스밸류플러스리츠",
-      "weight_pct": 1.84,
+      "weight_pct": 1.85,
       "shares": 1056,
       "item_code": "334890"
     },
     {
       "name": "신한서부티엔디리츠",
-      "weight_pct": 1.56,
+      "weight_pct": 1.58,
       "shares": 931,
       "item_code": "404990"
     },
@@ -94,7 +94,7 @@
     },
     {
       "name": "코람코더원리츠",
-      "weight_pct": 0.62,
+      "weight_pct": 0.63,
       "shares": 614,
       "item_code": "417310"
     }

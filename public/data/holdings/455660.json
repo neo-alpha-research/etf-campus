@@ -1,41 +1,41 @@
 {
   "ticker": "455660",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares Broad USD High Yield Corporate Bond ETF",
-      "weight_pct": 23.24,
-      "shares": 4342,
+      "weight_pct": 23.28,
+      "shares": 4341,
       "item_code": "USHY.K"
     },
     {
       "name": "Xtrackers USD High Yld Corporate Bd ETF",
-      "weight_pct": 22.88,
+      "weight_pct": 22.93,
       "shares": 4333,
       "item_code": "HYLB.K"
     },
     {
       "name": "State Street SPDR Portfolio High Yield Bond ETF",
-      "weight_pct": 22.81,
+      "weight_pct": 22.83,
       "shares": 6734,
       "item_code": "SPHY.K"
     },
     {
       "name": "Schwab High Yield Bond ETF",
-      "weight_pct": 13.59,
+      "weight_pct": 13.61,
       "shares": 3590,
       "item_code": "SCYB.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 5.1,
-      "shares": 48157721,
+      "weight_pct": 5.5,
+      "shares": 51914604,
       "item_code": null
     },
     {
       "name": "State Street SPDR Bloomberg Shrt Trm Hg Yld Bd ETF",
       "weight_pct": 3.8,
-      "shares": 1052,
+      "shares": 1051,
       "item_code": "SJNK.K"
     },
     {
@@ -52,7 +52,7 @@
     },
     {
       "name": "iShares iBoxx $ High Yield Corporate Bond ETF",
-      "weight_pct": 0.85,
+      "weight_pct": 0.86,
       "shares": 74,
       "item_code": "HYG"
     },
@@ -81,27 +81,27 @@
       "item_code": null
     },
     {
-      "name": "FX스왑 USD 260820-38",
-      "weight_pct": -7.05,
-      "shares": -66480781,
+      "name": "FX스왑 USD 260901-03",
+      "weight_pct": -10.46,
+      "shares": -98751854,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260825-64",
       "weight_pct": -11.2,
-      "shares": -105589563,
+      "shares": -105728436,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260819-11",
-      "weight_pct": -21.46,
-      "shares": -202283227,
+      "weight_pct": -18.33,
+      "shares": -172961090,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260827-18",
-      "weight_pct": -54.85,
-      "shares": -517061227,
+      "weight_pct": -54.87,
+      "shares": -517741272,
       "item_code": null
     }
   ]

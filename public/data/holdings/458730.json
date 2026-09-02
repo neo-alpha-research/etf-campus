@@ -1,30 +1,36 @@
 {
   "ticker": "458730",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "머크 앤 코",
-      "weight_pct": 4.79,
+      "weight_pct": 4.77,
       "shares": 178,
       "item_code": "MRK"
     },
     {
-      "name": "애보트 래보라토리",
-      "weight_pct": 4.78,
-      "shares": 234,
-      "item_code": "ABT"
-    },
-    {
       "name": "암젠",
-      "weight_pct": 4.73,
+      "weight_pct": 4.7,
       "shares": 60,
       "item_code": "AMGN.O"
     },
     {
+      "name": "애보트 래보라토리",
+      "weight_pct": 4.69,
+      "shares": 234,
+      "item_code": "ABT"
+    },
+    {
       "name": "코카콜라",
-      "weight_pct": 4.21,
+      "weight_pct": 4.17,
       "shares": 259,
       "item_code": "KO"
+    },
+    {
+      "name": "셰브론",
+      "weight_pct": 4.02,
+      "shares": 107,
+      "item_code": "CVX"
     },
     {
       "name": "버라이존",
@@ -33,50 +39,44 @@
       "item_code": "VZ"
     },
     {
-      "name": "셰브론",
-      "weight_pct": 3.94,
-      "shares": 107,
-      "item_code": "CVX"
-    },
-    {
-      "name": "홈디포",
-      "weight_pct": 3.9,
-      "shares": 65,
-      "item_code": "HD"
-    },
-    {
       "name": "코노코필립스",
-      "weight_pct": 3.87,
+      "weight_pct": 3.93,
       "shares": 163,
       "item_code": "COP"
     },
     {
-      "name": "유나이티드헬스 그룹",
-      "weight_pct": 3.86,
-      "shares": 54,
-      "item_code": "UNH"
+      "name": "홈디포",
+      "weight_pct": 3.88,
+      "shares": 65,
+      "item_code": "HD"
     },
     {
       "name": "P&G(프록터 & 갬블)",
-      "weight_pct": 3.79,
+      "weight_pct": 3.83,
       "shares": 145,
       "item_code": "PG"
     },
     {
+      "name": "유나이티드헬스 그룹",
+      "weight_pct": 3.82,
+      "shares": 54,
+      "item_code": "UNH"
+    },
+    {
       "name": "펩시코",
-      "weight_pct": 3.66,
+      "weight_pct": 3.64,
       "shares": 143,
       "item_code": "PEP.O"
     },
     {
       "name": "브리스톨-마이어스 스큅",
-      "weight_pct": 3.31,
+      "weight_pct": 3.32,
       "shares": 274,
       "item_code": "BMY"
     },
     {
       "name": "텍사스 인스트루먼트",
-      "weight_pct": 3.1,
+      "weight_pct": 3.13,
       "shares": 66,
       "item_code": "TXN.O"
     },
@@ -88,7 +88,7 @@
     },
     {
       "name": "오토매틱 데이터 프로세싱",
-      "weight_pct": 2.8,
+      "weight_pct": 2.79,
       "shares": 53,
       "item_code": "ADP.O"
     },
@@ -100,85 +100,85 @@
     },
     {
       "name": "록히드 마틴",
-      "weight_pct": 2.79,
+      "weight_pct": 2.77,
       "shares": 27,
       "item_code": "LMT"
     },
     {
       "name": "블랙스톤",
-      "weight_pct": 2.58,
+      "weight_pct": 2.59,
       "shares": 99,
       "item_code": "BX"
     },
     {
       "name": "퀄컴",
-      "weight_pct": 2.43,
+      "weight_pct": 2.52,
       "shares": 81,
       "item_code": "QCOM.O"
     },
     {
       "name": "컴캐스트",
-      "weight_pct": 2.35,
+      "weight_pct": 2.31,
       "shares": 479,
       "item_code": "CMCSA.O"
     },
     {
       "name": "SLB",
-      "weight_pct": 2.09,
+      "weight_pct": 2.19,
       "shares": 201,
       "item_code": "SLB"
     },
     {
       "name": "UPS(유나이티드 파셀 서비스)",
-      "weight_pct": 1.91,
+      "weight_pct": 1.89,
       "shares": 100,
       "item_code": "UPS"
     },
     {
       "name": "EOG 리소시스",
-      "weight_pct": 1.86,
+      "weight_pct": 1.88,
       "shares": 71,
       "item_code": "EOG"
     },
     {
       "name": "타겟",
-      "weight_pct": 1.8,
+      "weight_pct": 1.78,
       "shares": 61,
       "item_code": "TGT"
     },
     {
       "name": "원오케이",
-      "weight_pct": 1.45,
+      "weight_pct": 1.47,
       "shares": 84,
       "item_code": "OKE"
     },
     {
       "name": "패스널",
-      "weight_pct": 1.39,
+      "weight_pct": 1.38,
       "shares": 154,
       "item_code": "FAST.O"
     },
     {
       "name": "데번 에너지",
-      "weight_pct": 1.33,
+      "weight_pct": 1.36,
       "shares": 155,
       "item_code": "DVN"
     },
     {
       "name": "포드 모터",
-      "weight_pct": 1.32,
+      "weight_pct": 1.33,
       "shares": 526,
       "item_code": "F"
     },
     {
       "name": "피프스 서드 뱅코프",
-      "weight_pct": 1.2,
+      "weight_pct": 1.18,
       "shares": 121,
       "item_code": "FITB.K"
     },
     {
       "name": "페이첵스",
-      "weight_pct": 0.99,
+      "weight_pct": 1.0,
       "shares": 43,
       "item_code": "PAYX.O"
     },
@@ -190,7 +190,7 @@
     },
     {
       "name": "킴벌리클라크",
-      "weight_pct": 0.88,
+      "weight_pct": 0.87,
       "shares": 44,
       "item_code": "KMB.O"
     },
@@ -208,19 +208,19 @@
     },
     {
       "name": "허쉬",
-      "weight_pct": 0.64,
+      "weight_pct": 0.63,
       "shares": 19,
       "item_code": "HSY"
     },
     {
       "name": "리전스 파이낸셜",
-      "weight_pct": 0.63,
+      "weight_pct": 0.62,
       "shares": 114,
       "item_code": "RF"
     },
     {
       "name": "다든 레스토랑",
-      "weight_pct": 0.6,
+      "weight_pct": 0.59,
       "shares": 15,
       "item_code": "DRI"
     },
@@ -232,13 +232,13 @@
     },
     {
       "name": "제너럴 밀즈",
-      "weight_pct": 0.54,
+      "weight_pct": 0.53,
       "shares": 71,
       "item_code": "GIS"
     },
     {
       "name": "프린시펄 파이낸셜 그룹",
-      "weight_pct": 0.53,
+      "weight_pct": 0.52,
       "shares": 26,
       "item_code": "PFG.O"
     },
@@ -250,21 +250,27 @@
     },
     {
       "name": "스냅-온",
-      "weight_pct": 0.49,
+      "weight_pct": 0.48,
       "shares": 6,
       "item_code": "SNA"
     },
     {
       "name": "이스트 웨스트 뱅코프",
-      "weight_pct": 0.43,
+      "weight_pct": 0.42,
       "shares": 18,
       "item_code": "EWBC.O"
     },
     {
       "name": "베스트 바이",
-      "weight_pct": 0.39,
+      "weight_pct": 0.38,
       "shares": 26,
       "item_code": "BBY"
+    },
+    {
+      "name": "APA",
+      "weight_pct": 0.37,
+      "shares": 47,
+      "item_code": "APA.O"
     },
     {
       "name": "HF 싱클레어",
@@ -273,14 +279,8 @@
       "item_code": "DINO.K"
     },
     {
-      "name": "APA",
-      "weight_pct": 0.36,
-      "shares": 47,
-      "item_code": "APA.O"
-    },
-    {
       "name": "피델리티 내셔널 파이낸셜",
-      "weight_pct": 0.29,
+      "weight_pct": 0.28,
       "shares": 34,
       "item_code": "FNF"
     },
@@ -298,7 +298,7 @@
     },
     {
       "name": "올드 리퍼블릭 인터내셔널",
-      "weight_pct": 0.23,
+      "weight_pct": 0.22,
       "shares": 30,
       "item_code": "ORI"
     },
@@ -311,14 +311,8 @@
     {
       "name": "원화현금",
       "weight_pct": 0.21,
-      "shares": 1600901,
+      "shares": 1632328,
       "item_code": null
-    },
-    {
-      "name": "컬럼비아 뱅킹 시스템",
-      "weight_pct": 0.21,
-      "shares": 38,
-      "item_code": "COLB.O"
     },
     {
       "name": "오토리브",
@@ -327,8 +321,14 @@
       "item_code": "ALV"
     },
     {
+      "name": "컬럼비아 뱅킹 시스템",
+      "weight_pct": 0.2,
+      "shares": 38,
+      "item_code": "COLB.O"
+    },
+    {
       "name": "이리 인뎀니티",
-      "weight_pct": 0.16,
+      "weight_pct": 0.15,
       "shares": 3,
       "item_code": "ERIE.O"
     },
@@ -351,12 +351,6 @@
       "item_code": "OZK.O"
     },
     {
-      "name": "베일 리조트",
-      "weight_pct": 0.12,
-      "shares": 4,
-      "item_code": "MTN"
-    },
-    {
       "name": "모엘리스",
       "weight_pct": 0.12,
       "shares": 10,
@@ -367,6 +361,12 @@
       "weight_pct": 0.12,
       "shares": 3,
       "item_code": "NXST.O"
+    },
+    {
+      "name": "베일 리조트",
+      "weight_pct": 0.11,
+      "shares": 4,
+      "item_code": "MTN"
     },
     {
       "name": "머피 오일",
@@ -423,12 +423,6 @@
       "item_code": "MZTI.O"
     },
     {
-      "name": "페더럴 애그리컬처럴 모기지 Class C",
-      "weight_pct": 0.05,
-      "shares": 1,
-      "item_code": "AGM"
-    },
-    {
       "name": "OFG 뱅코프",
       "weight_pct": 0.05,
       "shares": 5,
@@ -463,6 +457,12 @@
       "weight_pct": 0.04,
       "shares": 6,
       "item_code": "NBHC.K"
+    },
+    {
+      "name": "페더럴 애그리컬처럴 모기지 Class C",
+      "weight_pct": 0.04,
+      "shares": 1,
+      "item_code": "AGM"
     },
     {
       "name": "시티 홀딩",
@@ -519,12 +519,6 @@
       "item_code": "FLO"
     },
     {
-      "name": "오스타운 파이낸셜 서비스",
-      "weight_pct": 0.02,
-      "shares": 2,
-      "item_code": "ORRF.O"
-    },
-    {
       "name": "한미 파이낸셜",
       "weight_pct": 0.02,
       "shares": 3,
@@ -559,6 +553,12 @@
       "weight_pct": 0.02,
       "shares": 1,
       "item_code": "THFF.O"
+    },
+    {
+      "name": "오스타운 파이낸셜 서비스",
+      "weight_pct": 0.01,
+      "shares": 2,
+      "item_code": "ORRF.O"
     },
     {
       "name": "인디펜던트 뱅크",

@@ -1,35 +1,35 @@
 {
   "ticker": "219900",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 96.73,
-      "shares": 404125745,
+      "weight_pct": 95.86,
+      "shares": 404154450,
       "item_code": null
     },
     {
       "name": "ChinaAMC CSI 300 Index ETF",
-      "weight_pct": 9.95,
+      "weight_pct": 9.91,
       "shares": 4285,
       "item_code": "3188.HK"
     },
     {
       "name": "ACE 중국본토CSI300",
-      "weight_pct": 3.81,
+      "weight_pct": 3.77,
       "shares": 464,
       "item_code": "168580"
     },
     {
       "name": "스왑(NH투자증권)",
-      "weight_pct": -3.32,
-      "shares": -13908993,
+      "weight_pct": -2.7,
+      "shares": -11423254,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)",
-      "weight_pct": -7.17,
-      "shares": -29974365,
+      "weight_pct": -6.83,
+      "shares": -28822827,
       "item_code": null
     }
   ]

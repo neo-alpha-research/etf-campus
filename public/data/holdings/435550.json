@@ -1,58 +1,58 @@
 {
   "ticker": "435550",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "Vanguard 500 Index Fund ETF",
-      "weight_pct": 18.59,
+      "weight_pct": 18.57,
       "shares": 170,
       "item_code": "VOO"
     },
     {
       "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
-      "weight_pct": 14.52,
+      "weight_pct": 14.53,
       "shares": 1286,
       "item_code": "VEA"
     },
     {
       "name": "iShares Russell 2000 ETF",
-      "weight_pct": 11.7,
+      "weight_pct": 11.66,
       "shares": 256,
       "item_code": "IWM"
     },
     {
       "name": "iShares Core MSCI Emerging Markets ETF",
-      "weight_pct": 8.36,
+      "weight_pct": 8.37,
       "shares": 661,
       "item_code": "IEMG.K"
     },
     {
       "name": "Invesco NASDAQ 100 ETF",
-      "weight_pct": 8.07,
+      "weight_pct": 8.09,
       "shares": 177,
       "item_code": "QQQM.O"
     },
     {
       "name": "State Street SPDR Portfolio S&P 500 Value ETF",
-      "weight_pct": 7.27,
+      "weight_pct": 7.26,
       "shares": 740,
       "item_code": "SPYV.K"
     },
     {
       "name": "Vanguard Short-Term Treasury Index Fund",
-      "weight_pct": 6.92,
+      "weight_pct": 6.93,
       "shares": 771,
       "item_code": "VGSH.O"
     },
     {
       "name": "JPMorgan BetaBuilders US Aggregate Bond ETF",
-      "weight_pct": 4.88,
+      "weight_pct": 4.89,
       "shares": 699,
       "item_code": "BBAG.K"
     },
     {
       "name": "iShares Core International Aggregate Bond ETF",
-      "weight_pct": 4.47,
+      "weight_pct": 4.48,
       "shares": 582,
       "item_code": "IAGG.K"
     },
@@ -76,14 +76,14 @@
     },
     {
       "name": "[USD] 예금",
-      "weight_pct": 2.2,
+      "weight_pct": 2.21,
       "shares": 14261,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.91,
-      "shares": 16954861,
+      "weight_pct": 1.95,
+      "shares": 17281169,
       "item_code": null
     },
     {

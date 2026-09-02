@@ -1,71 +1,71 @@
 {
   "ticker": "0094L0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "텐센트",
-      "weight_pct": 15.79,
-      "shares": 753,
+      "weight_pct": 15.83,
+      "shares": 754,
       "item_code": "0700.HK"
     },
     {
       "name": "CATL",
-      "weight_pct": 14.54,
+      "weight_pct": 14.24,
       "shares": 512,
       "item_code": "3750.HK"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 13.76,
-      "shares": 2625,
+      "weight_pct": 13.89,
+      "shares": 2626,
       "item_code": "9988.HK"
     },
     {
       "name": "BYD",
-      "weight_pct": 11.86,
-      "shares": 2803,
+      "weight_pct": 11.33,
+      "shares": 2804,
       "item_code": "1211.HK"
     },
     {
       "name": "샤오미",
       "weight_pct": 11.29,
-      "shares": 8822,
+      "shares": 8825,
       "item_code": "1810.HK"
     },
     {
       "name": "메이투안",
-      "weight_pct": 9.04,
-      "shares": 2536,
+      "weight_pct": 9.27,
+      "shares": 2537,
       "item_code": "3690.HK"
     },
     {
       "name": "넷이즈",
-      "weight_pct": 8.04,
-      "shares": 909,
+      "weight_pct": 8.11,
+      "shares": 910,
       "item_code": "9999.HK"
     },
     {
       "name": "징동닷컴",
-      "weight_pct": 6.05,
+      "weight_pct": 6.19,
       "shares": 1190,
       "item_code": "9618.HK"
     },
     {
       "name": "트립닷컴 그룹",
-      "weight_pct": 4.44,
+      "weight_pct": 4.6,
       "shares": 276,
       "item_code": "9961.HK"
     },
     {
       "name": "바이두",
-      "weight_pct": 4.41,
-      "shares": 1000,
+      "weight_pct": 4.46,
+      "shares": 1001,
       "item_code": "9888.HK"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.72,
-      "shares": 2745883,
+      "weight_pct": 0.77,
+      "shares": 2922674,
       "item_code": null
     },
     {
@@ -76,7 +76,7 @@
     },
     {
       "name": "WHSTECHA 09/04/26 C4630",
-      "weight_pct": -0.14,
+      "weight_pct": -0.13,
       "shares": -1,
       "item_code": null
     }

@@ -1,77 +1,77 @@
 {
   "ticker": "395160",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 26.18,
+      "weight_pct": 26.14,
       "shares": 3945,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 23.76,
+      "weight_pct": 23.9,
       "shares": 556,
       "item_code": "000660"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 22.63,
+      "weight_pct": 23.16,
       "shares": 855,
       "item_code": "402340"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 19.39,
+      "weight_pct": 18.91,
       "shares": 521,
       "item_code": "009150"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 2.25,
+      "weight_pct": 2.18,
       "shares": 401,
       "item_code": "042700"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 1.51,
+      "weight_pct": 1.46,
       "shares": 519,
       "item_code": "007660"
     },
     {
-      "name": "리노공업",
-      "weight_pct": 0.8,
-      "shares": 473,
-      "item_code": "058470"
-    },
-    {
       "name": "HPSP",
-      "weight_pct": 0.78,
+      "weight_pct": 0.79,
       "shares": 613,
       "item_code": "403870"
     },
     {
+      "name": "리노공업",
+      "weight_pct": 0.78,
+      "shares": 473,
+      "item_code": "058470"
+    },
+    {
       "name": "DB하이텍",
-      "weight_pct": 0.7,
+      "weight_pct": 0.69,
       "shares": 291,
       "item_code": "000990"
     },
     {
       "name": "피에스케이",
-      "weight_pct": 0.6,
+      "weight_pct": 0.59,
       "shares": 185,
       "item_code": "319660"
     },
     {
       "name": "ISC",
-      "weight_pct": 0.41,
+      "weight_pct": 0.38,
       "shares": 97,
       "item_code": "095340"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.31,
-      "shares": 12441193,
+      "weight_pct": 0.33,
+      "shares": 13219142,
       "item_code": null
     },
     {

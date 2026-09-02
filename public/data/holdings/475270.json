@@ -1,6 +1,6 @@
 {
   "ticker": "475270",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "미래에셋증권72",
@@ -47,7 +47,7 @@
     {
       "name": "원화현금",
       "weight_pct": -16.08,
-      "shares": -17254259,
+      "shares": -17255134,
       "item_code": null
     }
   ]

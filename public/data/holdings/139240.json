@@ -1,71 +1,71 @@
 {
   "ticker": "139240",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 21.4,
+      "weight_pct": 21.6,
       "shares": 143,
       "item_code": "005490"
     },
     {
-      "name": "고려아연",
-      "weight_pct": 20.32,
-      "shares": 36,
-      "item_code": "010130"
-    },
-    {
       "name": "현대제철",
-      "weight_pct": 19.66,
+      "weight_pct": 19.96,
       "shares": 1463,
       "item_code": "004020"
     },
     {
+      "name": "고려아연",
+      "weight_pct": 19.95,
+      "shares": 36,
+      "item_code": "010130"
+    },
+    {
       "name": "풍산",
-      "weight_pct": 19.19,
+      "weight_pct": 18.99,
       "shares": 530,
       "item_code": "103140"
     },
     {
       "name": "세아베스틸지주",
-      "weight_pct": 6.96,
+      "weight_pct": 7.03,
       "shares": 384,
       "item_code": "001430"
     },
     {
       "name": "영풍",
-      "weight_pct": 2.67,
+      "weight_pct": 2.69,
       "shares": 151,
       "item_code": "000670"
     },
     {
-      "name": "율촌화학",
-      "weight_pct": 2.44,
-      "shares": 328,
-      "item_code": "008730"
-    },
-    {
       "name": "아세아",
-      "weight_pct": 2.35,
+      "weight_pct": 2.37,
       "shares": 25,
       "item_code": "002030"
     },
     {
+      "name": "율촌화학",
+      "weight_pct": 2.36,
+      "shares": 328,
+      "item_code": "008730"
+    },
+    {
       "name": "세아제강지주",
-      "weight_pct": 1.92,
+      "weight_pct": 1.94,
       "shares": 43,
       "item_code": "003030"
     },
     {
       "name": "동원시스템즈",
-      "weight_pct": 1.77,
+      "weight_pct": 1.75,
       "shares": 173,
       "item_code": "014820"
     },
     {
       "name": "원화현금",
       "weight_pct": 1.29,
-      "shares": 2918550,
+      "shares": 2916051,
       "item_code": null
     }
   ]

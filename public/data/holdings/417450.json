@@ -1,112 +1,112 @@
 {
   "ticker": "417450",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "두산퓨얼셀",
-      "weight_pct": 8.67,
+      "weight_pct": 8.55,
       "shares": 1518,
       "item_code": "336260"
     },
     {
       "name": "플러그 파워",
-      "weight_pct": 8.18,
+      "weight_pct": 8.1,
       "shares": 21566,
       "item_code": "PLUG.O"
     },
     {
       "name": "블룸 에너지",
-      "weight_pct": 7.93,
+      "weight_pct": 7.8,
       "shares": 217,
       "item_code": "BE"
     },
     {
       "name": "쉘 ADR",
-      "weight_pct": 7.39,
+      "weight_pct": 7.48,
       "shares": 469,
       "item_code": "SHEL.K"
     },
     {
       "name": "퓨얼셀 에너지",
-      "weight_pct": 6.23,
+      "weight_pct": 6.07,
       "shares": 2027,
       "item_code": "FCEL.O"
     },
     {
-      "name": "레조낙 홀딩스",
-      "weight_pct": 4.84,
-      "shares": 276,
-      "item_code": "4004.T"
-    },
-    {
       "name": "에어 프로덕츠 앤 케미컬스",
-      "weight_pct": 4.81,
+      "weight_pct": 4.86,
       "shares": 90,
       "item_code": "APD"
     },
     {
+      "name": "레조낙 홀딩스",
+      "weight_pct": 4.76,
+      "shares": 276,
+      "item_code": "4004.T"
+    },
+    {
       "name": "ENEOS 홀딩스",
-      "weight_pct": 4.67,
+      "weight_pct": 4.74,
       "shares": 3258,
       "item_code": "5020.T"
     },
     {
       "name": "SFC ENERGY AG-BR",
-      "weight_pct": 4.64,
+      "weight_pct": 4.71,
       "shares": 1108,
       "item_code": null
     },
     {
       "name": "ITM POWER PLC",
-      "weight_pct": 4.63,
+      "weight_pct": 4.65,
       "shares": 18732,
       "item_code": null
     },
     {
       "name": "CERES POWER HOLDINGS PLC",
-      "weight_pct": 4.59,
+      "weight_pct": 4.61,
       "shares": 4982,
       "item_code": null
     },
     {
       "name": "AIR LIQUIDE SA",
-      "weight_pct": 4.53,
+      "weight_pct": 4.55,
       "shares": 133,
       "item_code": null
     },
     {
-      "name": "린드",
-      "weight_pct": 4.44,
-      "shares": 52,
-      "item_code": "LIN.O"
-    },
-    {
       "name": "BP ADR",
-      "weight_pct": 4.41,
+      "weight_pct": 4.51,
       "shares": 604,
       "item_code": "BP"
     },
     {
+      "name": "린드",
+      "weight_pct": 4.47,
+      "shares": 52,
+      "item_code": "LIN.O"
+    },
+    {
       "name": "NEL ASA",
-      "weight_pct": 4.31,
+      "weight_pct": 4.26,
       "shares": 110513,
       "item_code": null
     },
     {
       "name": "발라드 파워 시스템즈",
-      "weight_pct": 3.47,
+      "weight_pct": 3.58,
       "shares": 8915,
       "item_code": "BLDP.O"
     },
     {
       "name": "중국석유화학",
-      "weight_pct": 3.46,
+      "weight_pct": 3.5,
       "shares": 32941,
       "item_code": "0386.HK"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 2.91,
+      "weight_pct": 2.87,
       "shares": 7,
       "item_code": "298040"
     },
@@ -130,9 +130,15 @@
     },
     {
       "name": "이데미쓰 고산",
-      "weight_pct": 0.54,
+      "weight_pct": 0.56,
       "shares": 364,
       "item_code": "5019.T"
+    },
+    {
+      "name": "에어 워터",
+      "weight_pct": 0.53,
+      "shares": 188,
+      "item_code": "4088.T"
     },
     {
       "name": "하이스터-예일",
@@ -141,33 +147,27 @@
       "item_code": "HY"
     },
     {
-      "name": "에어 워터",
-      "weight_pct": 0.51,
-      "shares": 188,
-      "item_code": "4088.T"
-    },
-    {
       "name": "원 가스",
       "weight_pct": 0.5,
       "shares": 36,
       "item_code": "OGS"
     },
     {
-      "name": "CIMC엔릭홀딩스",
-      "weight_pct": 0.5,
-      "shares": 2941,
-      "item_code": "3899.HK"
-    },
-    {
       "name": "다이요닛폰산소",
-      "weight_pct": 0.49,
+      "weight_pct": 0.5,
       "shares": 82,
       "item_code": "4091.T"
     },
     {
+      "name": "CIMC엔릭홀딩스",
+      "weight_pct": 0.49,
+      "shares": 2941,
+      "item_code": "3899.HK"
+    },
+    {
       "name": "원화현금",
       "weight_pct": 0.32,
-      "shares": 2568032,
+      "shares": 2559453,
       "item_code": null
     }
   ]

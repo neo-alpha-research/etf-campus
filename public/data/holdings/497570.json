@@ -1,16 +1,16 @@
 {
   "ticker": "497570",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 22.04,
+      "weight_pct": 22.28,
       "shares": 771,
       "item_code": "NVDA.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 18.14,
+      "weight_pct": 17.97,
       "shares": 330,
       "item_code": "TSM"
     },
@@ -22,67 +22,67 @@
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 10.78,
+      "weight_pct": 10.85,
       "shares": 176,
       "item_code": "AMD.O"
     },
     {
       "name": "ASML 홀딩 ADR",
-      "weight_pct": 9.47,
+      "weight_pct": 9.43,
       "shares": 42,
       "item_code": "ASML.O"
     },
     {
       "name": "램 리서치",
-      "weight_pct": 5.36,
+      "weight_pct": 5.33,
       "shares": 135,
       "item_code": "LRCX.O"
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 5.2,
+      "weight_pct": 5.14,
       "shares": 85,
       "item_code": "AMAT.O"
     },
     {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 3.62,
+      "weight_pct": 3.65,
       "shares": 115,
       "item_code": "ARM.O"
     },
     {
       "name": "KLA",
-      "weight_pct": 3.25,
+      "weight_pct": 3.24,
       "shares": 141,
       "item_code": "KLAC.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 2.69,
+      "weight_pct": 2.61,
       "shares": 94,
       "item_code": "MRVL.O"
     },
     {
       "name": "퀄컴",
-      "weight_pct": 2.45,
+      "weight_pct": 2.54,
       "shares": 113,
       "item_code": "QCOM.O"
     },
     {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 1.33,
+      "weight_pct": 1.32,
       "shares": 29,
       "item_code": "CDNS.O"
     },
     {
       "name": "시놉시스",
-      "weight_pct": 1.2,
+      "weight_pct": 1.19,
       "shares": 20,
       "item_code": "SNPS.O"
     },
     {
       "name": "테라다인",
-      "weight_pct": 0.78,
+      "weight_pct": 0.77,
       "shares": 16,
       "item_code": "TER.O"
     },
@@ -113,7 +113,7 @@
     {
       "name": "원화현금",
       "weight_pct": -0.22,
-      "shares": -2325521,
+      "shares": -2309054,
       "item_code": null
     }
   ]

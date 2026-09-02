@@ -1,47 +1,47 @@
 {
   "ticker": "449680",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "한중전기차 TRS(키움증권)",
       "weight_pct": 35.83,
-      "shares": 39358204,
+      "shares": 39317351,
       "item_code": null
     },
     {
       "name": "한중전기차 TRS(NH투자증권)",
       "weight_pct": 17.96,
-      "shares": 19736812,
+      "shares": 19716325,
       "item_code": null
     },
     {
       "name": "한중전기차 TRS(KB증권)",
       "weight_pct": 11.97,
-      "shares": 13157874,
+      "shares": 13144217,
       "item_code": null
     },
     {
       "name": "한중전기차 TRS(미래에셋증권)",
       "weight_pct": 11.97,
-      "shares": 13157874,
+      "shares": 13144217,
       "item_code": null
     },
     {
       "name": "한중전기차 TRS(삼성증권)",
-      "weight_pct": 9.32,
-      "shares": 10238887,
+      "weight_pct": 9.31,
+      "shares": 10225258,
       "item_code": null
     },
     {
       "name": "한중전기차 TRS(메리츠증권)",
-      "weight_pct": 9.32,
-      "shares": 10238887,
+      "weight_pct": 9.31,
+      "shares": 10225258,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 3.6,
-      "shares": 3957132,
+      "shares": 3956204,
       "item_code": null
     }
   ]

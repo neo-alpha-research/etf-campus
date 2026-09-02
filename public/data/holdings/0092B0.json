@@ -1,83 +1,83 @@
 {
   "ticker": "0092B0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "두산에너빌리티",
-      "weight_pct": 19.28,
+      "weight_pct": 19.33,
       "shares": 1828,
       "item_code": "034020"
     },
     {
       "name": "현대건설",
-      "weight_pct": 14.97,
+      "weight_pct": 14.9,
       "shares": 950,
       "item_code": "000720"
     },
     {
       "name": "비에이치아이",
-      "weight_pct": 12.22,
+      "weight_pct": 12.11,
       "shares": 1523,
       "item_code": "083650"
     },
     {
       "name": "한전기술",
-      "weight_pct": 10.43,
+      "weight_pct": 10.06,
       "shares": 701,
       "item_code": "052690"
     },
     {
       "name": "한국전력",
-      "weight_pct": 9.32,
+      "weight_pct": 9.61,
       "shares": 2287,
       "item_code": "015760"
     },
     {
-      "name": "DL이앤씨",
-      "weight_pct": 6.17,
-      "shares": 671,
-      "item_code": "375500"
-    },
-    {
       "name": "삼성물산",
-      "weight_pct": 6.16,
+      "weight_pct": 6.49,
       "shares": 128,
       "item_code": "028260"
     },
     {
+      "name": "DL이앤씨",
+      "weight_pct": 6.23,
+      "shares": 671,
+      "item_code": "375500"
+    },
+    {
       "name": "대우건설",
-      "weight_pct": 5.95,
+      "weight_pct": 5.59,
       "shares": 2560,
       "item_code": "047040"
     },
     {
       "name": "한전KPS",
-      "weight_pct": 5.31,
+      "weight_pct": 5.35,
       "shares": 908,
       "item_code": "051600"
     },
     {
       "name": "태웅",
-      "weight_pct": 4.38,
+      "weight_pct": 4.75,
       "shares": 1097,
       "item_code": "044490"
     },
     {
       "name": "우리기술",
-      "weight_pct": 3.98,
+      "weight_pct": 3.75,
       "shares": 2686,
       "item_code": "032820"
     },
     {
       "name": "우진",
-      "weight_pct": 1.77,
+      "weight_pct": 1.76,
       "shares": 1046,
       "item_code": "105840"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.01,
-      "shares": 84192,
+      "shares": 77877,
       "item_code": null
     }
   ]

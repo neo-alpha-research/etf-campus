@@ -1,70 +1,70 @@
 {
   "ticker": "460660",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "킴벌리클라크",
-      "weight_pct": 4.31,
+      "weight_pct": 4.29,
       "shares": 172,
       "item_code": "KMB.O"
     },
     {
       "name": "펩시코",
-      "weight_pct": 4.17,
+      "weight_pct": 4.19,
       "shares": 129,
       "item_code": "PEP.O"
     },
     {
       "name": "켄뷰",
-      "weight_pct": 3.99,
+      "weight_pct": 3.97,
       "shares": 910,
       "item_code": "KVUE.K"
     },
     {
       "name": "타겟",
-      "weight_pct": 3.81,
+      "weight_pct": 3.79,
       "shares": 102,
       "item_code": "TGT"
     },
     {
-      "name": "제뉴인 파츠",
-      "weight_pct": 3.78,
-      "shares": 120,
-      "item_code": "GPC"
-    },
-    {
       "name": "호멜 푸즈",
-      "weight_pct": 3.7,
+      "weight_pct": 3.79,
       "shares": 750,
       "item_code": "HRL"
     },
     {
+      "name": "제뉴인 파츠",
+      "weight_pct": 3.76,
+      "shares": 120,
+      "item_code": "GPC"
+    },
+    {
       "name": "소노코 프로덕트",
-      "weight_pct": 3.61,
+      "weight_pct": 3.56,
       "shares": 279,
       "item_code": "SON"
     },
     {
       "name": "스탠리 블랙 & 데커",
-      "weight_pct": 3.56,
+      "weight_pct": 3.54,
       "shares": 159,
       "item_code": "SWK"
     },
     {
       "name": "마르제티",
-      "weight_pct": 3.39,
+      "weight_pct": 3.36,
       "shares": 129,
       "item_code": "MZTI.O"
     },
     {
       "name": "블랙 힐스",
-      "weight_pct": 3.37,
+      "weight_pct": 3.35,
       "shares": 202,
       "item_code": "BKH"
     },
     {
       "name": "오토매틱 데이터 프로세싱",
-      "weight_pct": 3.29,
+      "weight_pct": 3.31,
       "shares": 50,
       "item_code": "ADP.O"
     },
@@ -76,45 +76,45 @@
     },
     {
       "name": "페더럴 리얼티 인베스트먼트 트러스트",
-      "weight_pct": 3.13,
+      "weight_pct": 3.14,
       "shares": 117,
       "item_code": "FRT"
     },
     {
-      "name": "애보트 래보라토리",
-      "weight_pct": 2.86,
-      "shares": 111,
-      "item_code": "ABT"
-    },
-    {
       "name": "콘솔리데이티드 에디슨",
-      "weight_pct": 2.83,
+      "weight_pct": 2.84,
       "shares": 115,
       "item_code": "ED"
     },
     {
+      "name": "애보트 래보라토리",
+      "weight_pct": 2.83,
+      "shares": 111,
+      "item_code": "ABT"
+    },
+    {
+      "name": "P&G(프록터 & 갬블)",
+      "weight_pct": 2.68,
+      "shares": 80,
+      "item_code": "PG"
+    },
+    {
       "name": "내셔널 퓨얼 가스 컴퍼니",
-      "weight_pct": 2.64,
+      "weight_pct": 2.67,
       "shares": 139,
       "item_code": "NFG"
     },
     {
-      "name": "P&G(프록터 & 갬블)",
-      "weight_pct": 2.63,
-      "shares": 80,
-      "item_code": "PG"
+      "name": "애브비",
+      "weight_pct": 2.61,
+      "shares": 44,
+      "item_code": "ABBV.K"
     },
     {
       "name": "코카콜라",
       "weight_pct": 2.6,
       "shares": 127,
       "item_code": "KO"
-    },
-    {
-      "name": "애브비",
-      "weight_pct": 2.57,
-      "shares": 44,
-      "item_code": "ABBV.K"
     },
     {
       "name": "캘리포니아 워터 서비스 그룹",
@@ -124,128 +124,128 @@
     },
     {
       "name": "ABM 인더스트리즈",
-      "weight_pct": 2.42,
+      "weight_pct": 2.41,
       "shares": 224,
       "item_code": "ABM"
     },
     {
       "name": "아처 대니얼스 미들랜드",
-      "weight_pct": 2.33,
+      "weight_pct": 2.35,
       "shares": 125,
       "item_code": "ADM"
     },
     {
       "name": "아메리칸 스테이츠 워터",
-      "weight_pct": 2.3,
+      "weight_pct": 2.31,
       "shares": 112,
       "item_code": "AWR"
     },
     {
       "name": "일리노이 툴 웍스",
-      "weight_pct": 2.24,
+      "weight_pct": 2.23,
       "shares": 35,
       "item_code": "ITW"
     },
     {
       "name": "로우스 컴퍼니",
-      "weight_pct": 2.14,
+      "weight_pct": 2.13,
       "shares": 45,
       "item_code": "LOW"
     },
     {
       "name": "콜게이트-팜올리브",
-      "weight_pct": 2.1,
+      "weight_pct": 2.09,
       "shares": 101,
       "item_code": "CL"
     },
     {
       "name": "PPG 인더스트리스",
-      "weight_pct": 2.09,
+      "weight_pct": 2.07,
       "shares": 80,
       "item_code": "PPG"
     },
     {
       "name": "MGE 에너지",
-      "weight_pct": 2.02,
+      "weight_pct": 2.03,
       "shares": 113,
       "item_code": "MGEE.O"
     },
     {
       "name": "존슨앤드존슨",
-      "weight_pct": 2.02,
+      "weight_pct": 2.03,
       "shares": 33,
       "item_code": "JNJ"
     },
     {
-      "name": "RPM 인터내셔널",
-      "weight_pct": 1.78,
-      "shares": 73,
-      "item_code": "RPM"
-    },
-    {
       "name": "신시내티 파이낸셜",
-      "weight_pct": 1.77,
+      "weight_pct": 1.76,
       "shares": 45,
       "item_code": "CINF.O"
     },
     {
+      "name": "RPM 인터내셔널",
+      "weight_pct": 1.75,
+      "shares": 73,
+      "item_code": "RPM"
+    },
+    {
       "name": "커머스 뱅크셰어스",
-      "weight_pct": 1.72,
+      "weight_pct": 1.73,
       "shares": 130,
       "item_code": "CBSH.O"
     },
     {
       "name": "에머슨 일렉트릭",
-      "weight_pct": 1.6,
+      "weight_pct": 1.58,
       "shares": 45,
       "item_code": "EMR"
     },
     {
       "name": "풀러 H B",
-      "weight_pct": 1.54,
+      "weight_pct": 1.52,
       "shares": 120,
       "item_code": "FUL"
     },
     {
       "name": "MSA 세이프티",
-      "weight_pct": 1.26,
+      "weight_pct": 1.25,
       "shares": 29,
       "item_code": "MSA"
     },
     {
       "name": "뉴코",
-      "weight_pct": 0.97,
+      "weight_pct": 0.98,
       "shares": 17,
       "item_code": "NUE"
     },
     {
       "name": "S&P 글로벌",
-      "weight_pct": 0.91,
+      "weight_pct": 0.9,
       "shares": 9,
       "item_code": "SPGI.K"
     },
     {
-      "name": "도버",
-      "weight_pct": 0.77,
-      "shares": 17,
-      "item_code": "DOV"
-    },
-    {
       "name": "월마트",
-      "weight_pct": 0.75,
+      "weight_pct": 0.77,
       "shares": 32,
       "item_code": "WMT.O"
     },
     {
+      "name": "도버",
+      "weight_pct": 0.76,
+      "shares": 17,
+      "item_code": "DOV"
+    },
+    {
       "name": "W W 그레인저",
-      "weight_pct": 0.59,
+      "weight_pct": 0.6,
       "shares": 2,
       "item_code": "GWW"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.55,
-      "shares": 3341737,
+      "weight_pct": 0.56,
+      "shares": 3354207,
       "item_code": null
     },
     {

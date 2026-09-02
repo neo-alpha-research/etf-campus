@@ -1,16 +1,16 @@
 {
   "ticker": "114800",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 99.99,
-      "shares": 102903594,
+      "weight_pct": 100.0,
+      "shares": 101918017,
       "item_code": null
     },
     {
       "name": "2026-09 코스피200지수선물",
-      "weight_pct": -99.62,
+      "weight_pct": -100.41,
       "shares": 0,
       "item_code": null
     }

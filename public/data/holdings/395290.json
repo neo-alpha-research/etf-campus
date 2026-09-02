@@ -1,82 +1,82 @@
 {
   "ticker": "395290",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "하이브",
-      "weight_pct": 24.48,
+      "weight_pct": 24.41,
       "shares": 338,
       "item_code": "352820"
     },
     {
       "name": "JYP Ent.",
-      "weight_pct": 20.64,
+      "weight_pct": 20.67,
       "shares": 1283,
       "item_code": "035900"
     },
     {
       "name": "에스엠",
-      "weight_pct": 18.81,
+      "weight_pct": 18.68,
       "shares": 623,
       "item_code": "041510"
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 10.78,
+      "weight_pct": 10.8,
       "shares": 649,
       "item_code": "122870"
     },
     {
       "name": "CJ ENM",
-      "weight_pct": 7.32,
+      "weight_pct": 7.37,
       "shares": 535,
       "item_code": "035760"
     },
     {
       "name": "스튜디오드래곤",
-      "weight_pct": 5.73,
+      "weight_pct": 5.71,
       "shares": 634,
       "item_code": "253450"
     },
     {
       "name": "SAMG엔터",
-      "weight_pct": 2.85,
+      "weight_pct": 2.9,
       "shares": 353,
       "item_code": "419530"
     },
     {
       "name": "SBS",
-      "weight_pct": 2.57,
+      "weight_pct": 2.61,
       "shares": 522,
       "item_code": "034120"
     },
     {
       "name": "YG PLUS",
-      "weight_pct": 2.56,
+      "weight_pct": 2.57,
       "shares": 1970,
       "item_code": "037270"
     },
     {
       "name": "노머스",
-      "weight_pct": 1.68,
+      "weight_pct": 1.64,
       "shares": 353,
       "item_code": "473980"
     },
     {
       "name": "애니플러스",
-      "weight_pct": 1.2,
+      "weight_pct": 1.23,
       "shares": 1443,
       "item_code": "310200"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.69,
-      "shares": 1709718,
+      "shares": 1707507,
       "item_code": null
     },
     {
       "name": "큐브엔터",
-      "weight_pct": 0.66,
+      "weight_pct": 0.68,
       "shares": 284,
       "item_code": "182360"
     }

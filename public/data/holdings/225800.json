@@ -1,22 +1,22 @@
 {
   "ticker": "225800",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": 176.67,
+      "weight_pct": 176.46,
       "shares": 19,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 76.54,
-      "shares": 113096901,
+      "weight_pct": 76.62,
+      "shares": 113527099,
       "item_code": null
     },
     {
       "name": "KIWOOM 미국달러선물",
-      "weight_pct": 23.45,
+      "weight_pct": 23.37,
       "shares": 2160,
       "item_code": "138230"
     }

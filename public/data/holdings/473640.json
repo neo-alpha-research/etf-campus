@@ -1,22 +1,22 @@
 {
   "ticker": "473640",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "뉴몬트",
-      "weight_pct": 12.34,
+      "weight_pct": 12.36,
       "shares": 1264,
       "item_code": "NEM"
     },
     {
       "name": "애그니코 이글 마인스",
-      "weight_pct": 9.33,
+      "weight_pct": 9.34,
       "shares": 593,
       "item_code": "AEM"
     },
     {
       "name": "바릭 마이닝",
-      "weight_pct": 6.88,
+      "weight_pct": 6.87,
       "shares": 1975,
       "item_code": "B"
     },
@@ -28,57 +28,57 @@
     },
     {
       "name": "앵글로골드 아샨티",
-      "weight_pct": 5.15,
+      "weight_pct": 5.2,
       "shares": 597,
       "item_code": "AU"
     },
     {
       "name": "프랑코-네바다",
-      "weight_pct": 4.61,
+      "weight_pct": 4.63,
       "shares": 227,
       "item_code": "FNV"
     },
     {
       "name": "골드 필즈 ADR",
-      "weight_pct": 3.9,
+      "weight_pct": 4.0,
       "shares": 1112,
       "item_code": "GFI"
     },
     {
       "name": "킨로스 골드",
-      "weight_pct": 3.52,
+      "weight_pct": 3.51,
       "shares": 1476,
       "item_code": "KGC"
     },
     {
       "name": "자금광업 Class H",
-      "weight_pct": 2.76,
+      "weight_pct": 2.68,
       "shares": 7417,
       "item_code": "2899.HK"
     },
     {
       "name": "NORTHERN STAR RESOURCES LTD",
-      "weight_pct": 2.31,
+      "weight_pct": 2.22,
       "shares": 1708,
       "item_code": null
     },
     {
-      "name": "EVOLUTION MINING LTD",
-      "weight_pct": 2.14,
-      "shares": 2502,
-      "item_code": null
+      "name": "로얄 골드",
+      "weight_pct": 2.13,
+      "shares": 105,
+      "item_code": "RGLD.O"
     },
     {
       "name": "팬 아메리카 실버",
-      "weight_pct": 2.11,
+      "weight_pct": 2.1,
       "shares": 523,
       "item_code": "PAAS.K"
     },
     {
-      "name": "로얄 골드",
-      "weight_pct": 2.1,
-      "shares": 105,
-      "item_code": "RGLD.O"
+      "name": "EVOLUTION MINING LTD",
+      "weight_pct": 2.07,
+      "shares": 2502,
+      "item_code": null
     },
     {
       "name": "쾨르 마이닝",
@@ -88,31 +88,37 @@
     },
     {
       "name": "알라모스 골드",
-      "weight_pct": 1.45,
+      "weight_pct": 1.47,
       "shares": 520,
       "item_code": "AGI"
     },
     {
       "name": "ENDEAVOUR MINING PLC",
-      "weight_pct": 1.31,
+      "weight_pct": 1.33,
       "shares": 268,
       "item_code": null
     },
     {
       "name": "이퀴녹스 골드",
-      "weight_pct": 1.3,
+      "weight_pct": 1.31,
       "shares": 1318,
       "item_code": "EQX"
     },
     {
       "name": "헤클라 마이닝",
-      "weight_pct": 1.28,
+      "weight_pct": 1.27,
       "shares": 827,
       "item_code": "HL"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 1.19,
+      "shares": 21110875,
+      "item_code": null
+    },
+    {
       "name": "아이엠골드",
-      "weight_pct": 1.12,
+      "weight_pct": 1.13,
       "shares": 716,
       "item_code": "IAG"
     },
@@ -123,14 +129,8 @@
       "item_code": "EGO"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 1.08,
-      "shares": 19414938,
-      "item_code": null
-    },
-    {
       "name": "하모니 골드 마이닝 ADR",
-      "weight_pct": 1.06,
+      "weight_pct": 1.05,
       "shares": 690,
       "item_code": "HMY"
     },
@@ -142,25 +142,25 @@
     },
     {
       "name": "DPM METALS INC",
-      "weight_pct": 0.94,
+      "weight_pct": 0.93,
       "shares": 265,
       "item_code": null
     },
     {
       "name": "지진 골드 인터내셔널",
-      "weight_pct": 0.78,
+      "weight_pct": 0.75,
       "shares": 499,
       "item_code": "2259.HK"
     },
     {
       "name": "FRESNILLO PLC",
-      "weight_pct": 0.74,
+      "weight_pct": 0.75,
       "shares": 227,
       "item_code": null
     },
     {
       "name": "SSR 마이닝",
-      "weight_pct": 0.72,
+      "weight_pct": 0.74,
       "shares": 254,
       "item_code": "SSRM.O"
     },
@@ -172,7 +172,7 @@
     },
     {
       "name": "B2골드",
-      "weight_pct": 0.67,
+      "weight_pct": 0.66,
       "shares": 1555,
       "item_code": "BTG"
     },
@@ -189,26 +189,26 @@
       "item_code": "TFPM.K"
     },
     {
-      "name": "오셔나골드",
-      "weight_pct": 0.63,
-      "shares": 276,
-      "item_code": "OGC"
-    },
-    {
       "name": "G MINING VENTURE CORP",
       "weight_pct": 0.62,
       "shares": 214,
       "item_code": null
     },
     {
+      "name": "오셔나골드",
+      "weight_pct": 0.62,
+      "shares": 276,
+      "item_code": "OGC"
+    },
+    {
       "name": "GENESIS MINERALS LTD",
-      "weight_pct": 0.61,
+      "weight_pct": 0.6,
       "shares": 1323,
       "item_code": null
     },
     {
       "name": "PERSEUS MINING LTD",
-      "weight_pct": 0.61,
+      "weight_pct": 0.59,
       "shares": 1658,
       "item_code": null
     },
@@ -220,33 +220,33 @@
     },
     {
       "name": "K92 MINING",
-      "weight_pct": 0.49,
+      "weight_pct": 0.48,
       "shares": 296,
       "item_code": null
     },
     {
       "name": "RAMELIUS RESOURCES LTD",
-      "weight_pct": 0.49,
+      "weight_pct": 0.48,
       "shares": 2299,
       "item_code": null
     },
     {
-      "name": "CAPRICORN METALS LTD",
-      "weight_pct": 0.48,
-      "shares": 511,
-      "item_code": null
-    },
-    {
       "name": "VAULT MINERALS LTD",
-      "weight_pct": 0.47,
+      "weight_pct": 0.46,
       "shares": 1260,
       "item_code": null
     },
     {
       "name": "산동초금광업",
-      "weight_pct": 0.47,
+      "weight_pct": 0.46,
       "shares": 2048,
       "item_code": "1818.HK"
+    },
+    {
+      "name": "CAPRICORN METALS LTD",
+      "weight_pct": 0.46,
+      "shares": 511,
+      "item_code": null
     },
     {
       "name": "DISCOVERY MINING LTD",
@@ -255,14 +255,8 @@
       "item_code": null
     },
     {
-      "name": "GREATLAND RESOURCES LTD",
-      "weight_pct": 0.44,
-      "shares": 637,
-      "item_code": null
-    },
-    {
       "name": "센테라 골드",
-      "weight_pct": 0.44,
+      "weight_pct": 0.43,
       "shares": 246,
       "item_code": "CGAU.K"
     },
@@ -273,14 +267,20 @@
       "item_code": null
     },
     {
+      "name": "GREATLAND RESOURCES LTD",
+      "weight_pct": 0.42,
+      "shares": 637,
+      "item_code": null
+    },
+    {
       "name": "REGIS RESOURCES LTD",
-      "weight_pct": 0.43,
+      "weight_pct": 0.42,
       "shares": 916,
       "item_code": null
     },
     {
       "name": "WESTGOLD RESOURCES LTD",
-      "weight_pct": 0.42,
+      "weight_pct": 0.41,
       "shares": 1166,
       "item_code": null
     },
@@ -327,16 +327,16 @@
       "item_code": "SKE"
     },
     {
+      "name": "산동황금광업",
+      "weight_pct": 0.31,
+      "shares": 1184,
+      "item_code": "1787.HK"
+    },
+    {
       "name": "엔데버 실버",
       "weight_pct": 0.3,
       "shares": 367,
       "item_code": "EXK"
-    },
-    {
-      "name": "산동황금광업",
-      "weight_pct": 0.29,
-      "shares": 1184,
-      "item_code": "1787.HK"
     },
     {
       "name": "시브리지 골드",
@@ -349,6 +349,12 @@
       "weight_pct": 0.28,
       "shares": 44,
       "item_code": "AUGO.O"
+    },
+    {
+      "name": "HOCHSCHILD MINING PLC",
+      "weight_pct": 0.27,
+      "shares": 391,
+      "item_code": null
     },
     {
       "name": "퍼페투아 리소시스",
@@ -369,44 +375,38 @@
       "item_code": "3939.HK"
     },
     {
-      "name": "HOCHSCHILD MINING PLC",
-      "weight_pct": 0.26,
-      "shares": 391,
-      "item_code": null
-    },
-    {
-      "name": "WEST AFRICAN RESOURCES LTD",
-      "weight_pct": 0.25,
-      "shares": 1181,
-      "item_code": null
-    },
-    {
       "name": "실버코프 메탈스",
       "weight_pct": 0.25,
       "shares": 262,
       "item_code": "SVM"
     },
     {
+      "name": "WEST AFRICAN RESOURCES LTD",
+      "weight_pct": 0.24,
+      "shares": 1181,
+      "item_code": null
+    },
+    {
       "name": "EMERALD RESOURCES NL",
-      "weight_pct": 0.25,
+      "weight_pct": 0.24,
       "shares": 644,
       "item_code": null
     },
     {
       "name": "PREDICTIVE DISCOVERY LTD",
-      "weight_pct": 0.23,
+      "weight_pct": 0.22,
       "shares": 966,
       "item_code": null
     },
     {
       "name": "앨라이드 골드",
-      "weight_pct": 0.21,
+      "weight_pct": 0.22,
       "shares": 122,
       "item_code": "AAUC.K"
     },
     {
       "name": "령보황금",
-      "weight_pct": 0.2,
+      "weight_pct": 0.19,
       "shares": 884,
       "item_code": "3330.HK"
     },
@@ -423,12 +423,6 @@
       "item_code": null
     },
     {
-      "name": "BELLEVUE GOLD LTD",
-      "weight_pct": 0.16,
-      "shares": 1793,
-      "item_code": null
-    },
-    {
       "name": "SNOWLINE GOLD CORP",
       "weight_pct": 0.15,
       "shares": 163,
@@ -438,6 +432,12 @@
       "name": "ABRASILVER RESOURCE CORP",
       "weight_pct": 0.15,
       "shares": 178,
+      "item_code": null
+    },
+    {
+      "name": "BELLEVUE GOLD LTD",
+      "weight_pct": 0.15,
+      "shares": 1793,
       "item_code": null
     },
     {
@@ -465,16 +465,16 @@
       "item_code": "IAUX.K"
     },
     {
+      "name": "비즐라 실버",
+      "weight_pct": 0.13,
+      "shares": 415,
+      "item_code": "VZLA.K"
+    },
+    {
       "name": "GOGOLD RESOURCES INC",
       "weight_pct": 0.12,
       "shares": 511,
       "item_code": null
-    },
-    {
-      "name": "비즐라 실버",
-      "weight_pct": 0.12,
-      "shares": 415,
-      "item_code": "VZLA.K"
     },
     {
       "name": "ALKANE RESOURCES LTD",
@@ -495,16 +495,16 @@
       "item_code": "DRD"
     },
     {
-      "name": "CATALYST METALS LTD",
-      "weight_pct": 0.11,
-      "shares": 302,
-      "item_code": null
+      "name": "맥이웬",
+      "weight_pct": 0.1,
+      "shares": 64,
+      "item_code": "MUX"
     },
     {
-      "name": "통구안황금그룹",
+      "name": "CATALYST METALS LTD",
       "weight_pct": 0.1,
-      "shares": 2979,
-      "item_code": "0340.HK"
+      "shares": 302,
+      "item_code": null
     },
     {
       "name": "RIO2 LTD/NEW",
@@ -513,10 +513,16 @@
       "item_code": null
     },
     {
-      "name": "맥이웬",
+      "name": "KINGSGATE CONSOLIDATED LTD",
       "weight_pct": 0.09,
-      "shares": 64,
-      "item_code": "MUX"
+      "shares": 299,
+      "item_code": null
+    },
+    {
+      "name": "통구안황금그룹",
+      "weight_pct": 0.09,
+      "shares": 2979,
+      "item_code": "0340.HK"
     },
     {
       "name": "선샤인 실버 마이닝 앤 리파이닝",
@@ -525,28 +531,16 @@
       "item_code": "SSMR.K"
     },
     {
-      "name": "KINGSGATE CONSOLIDATED LTD",
+      "name": "OREZONE GOLD CORP",
       "weight_pct": 0.08,
-      "shares": 299,
+      "shares": 539,
       "item_code": null
-    },
-    {
-      "name": "츠펑 지룽 골드 마이닝",
-      "weight_pct": 0.08,
-      "shares": 192,
-      "item_code": "6693.HK"
     },
     {
       "name": "엘리멘탈 로열티 코퍼레이션",
       "weight_pct": 0.07,
       "shares": 43,
       "item_code": "ELE.O"
-    },
-    {
-      "name": "OREZONE GOLD CORP",
-      "weight_pct": 0.07,
-      "shares": 539,
-      "item_code": null
     },
     {
       "name": "산타크루즈 실버 마이닝",
@@ -559,6 +553,12 @@
       "weight_pct": 0.07,
       "shares": 61,
       "item_code": "CNL.O"
+    },
+    {
+      "name": "츠펑 지룽 골드 마이닝",
+      "weight_pct": 0.07,
+      "shares": 192,
+      "item_code": "6693.HK"
     },
     {
       "name": "오시스코 골드 그룹",

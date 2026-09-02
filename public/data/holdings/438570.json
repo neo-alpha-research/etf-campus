@@ -1,58 +1,58 @@
 {
   "ticker": "438570",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고03250-3512(25-11)",
-      "weight_pct": 34.34,
+      "weight_pct": 34.09,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3506(25-5)",
-      "weight_pct": 32.46,
+      "weight_pct": 32.22,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03000-3412(24-13)",
-      "weight_pct": 15.7,
+      "weight_pct": 15.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고04250-3606(26-6)",
-      "weight_pct": 9.3,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고04125-3312(23-11)",
-      "weight_pct": 3.37,
+      "weight_pct": 9.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "2026-09 국채선물10(신)",
-      "weight_pct": 3.22,
+      "weight_pct": 4.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "국고04125-3312(23-11)",
+      "weight_pct": 3.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.83,
-      "shares": 1805679,
+      "weight_pct": 2.55,
+      "shares": 2502945,
       "item_code": null
     },
     {
       "name": "국고04250-3212(22-14)",
-      "weight_pct": 1.67,
+      "weight_pct": 1.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-3306(23-5)",
-      "weight_pct": 0.8,
+      "weight_pct": 0.79,
       "shares": 0,
       "item_code": null
     },

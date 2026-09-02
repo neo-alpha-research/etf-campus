@@ -1,46 +1,46 @@
 {
   "ticker": "271060",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 91.78,
-      "shares": 254500493,
+      "weight_pct": 91.6,
+      "shares": 253621087,
       "item_code": null
     },
     {
       "name": "Corn 2026 12",
-      "weight_pct": 40.77,
+      "weight_pct": 41.38,
       "shares": 3,
       "item_code": null
     },
     {
       "name": "Wheat 2026 12",
-      "weight_pct": 26.11,
+      "weight_pct": 26.05,
       "shares": 1,
       "item_code": null
     },
     {
       "name": "Soybeans 2026 11",
-      "weight_pct": 24.47,
+      "weight_pct": 24.86,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KODEX 콩선물(H)",
-      "weight_pct": 5.41,
-      "shares": 1186,
+      "weight_pct": 5.54,
+      "shares": 1196,
       "item_code": "138920"
     },
     {
       "name": "Teucrium Corn Fund",
-      "weight_pct": 2.8,
-      "shares": 284,
+      "weight_pct": 2.85,
+      "shares": 287,
       "item_code": "CORN.K"
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -25.81,
+      "weight_pct": -25.89,
       "shares": -5,
       "item_code": null
     }

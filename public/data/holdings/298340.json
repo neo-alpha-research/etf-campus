@@ -1,23 +1,23 @@
 {
   "ticker": "298340",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 99.21,
-      "shares": 224397642,
+      "weight_pct": 99.22,
+      "shares": 224227527,
       "item_code": null
     },
     {
       "name": "3년국채 F 202609",
-      "weight_pct": 98.53,
+      "weight_pct": 98.56,
       "shares": 2,
       "item_code": null
     },
     {
       "name": "PLUS KOFR금리",
-      "weight_pct": 0.78,
-      "shares": 16,
+      "weight_pct": 0.77,
+      "shares": 15,
       "item_code": "453010"
     }
   ]

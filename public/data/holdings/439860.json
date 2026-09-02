@@ -1,6 +1,6 @@
 {
   "ticker": "439860",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "2026-09 국채선물3(신)",
@@ -15,13 +15,13 @@
       "item_code": null
     },
     {
-      "name": "하나금융지주72-2",
-      "weight_pct": 5.38,
+      "name": "하나캐피탈440-3(지)",
+      "weight_pct": 5.39,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "하나캐피탈440-3(지)",
+      "name": "하나금융지주72-2",
       "weight_pct": 5.38,
       "shares": 0,
       "item_code": null
@@ -45,6 +45,12 @@
       "item_code": null
     },
     {
+      "name": "주택금융공사95(사)",
+      "weight_pct": 2.72,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "우리카드241-5(사)",
       "weight_pct": 2.72,
       "shares": 0,
@@ -57,7 +63,25 @@
       "item_code": null
     },
     {
+      "name": "BNK캐피탈357-1(사)",
+      "weight_pct": 2.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(신)2305이4A-24(사)",
+      "weight_pct": 2.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "SK텔레콤83-2(지)",
+      "weight_pct": 2.71,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "미래에셋캐피탈133-2",
       "weight_pct": 2.71,
       "shares": 0,
       "item_code": null
@@ -69,7 +93,7 @@
       "item_code": null
     },
     {
-      "name": "주택금융공사95(사)",
+      "name": "하나금융지주62-1",
       "weight_pct": 2.71,
       "shares": 0,
       "item_code": null
@@ -87,25 +111,7 @@
       "item_code": null
     },
     {
-      "name": "BNK캐피탈357-1(사)",
-      "weight_pct": 2.7,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "기업은행(신)2305이4A-24(사)",
-      "weight_pct": 2.7,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "미래에셋캐피탈133-2",
-      "weight_pct": 2.7,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나금융지주62-1",
+      "name": "미래에셋증권83-2",
       "weight_pct": 2.7,
       "shares": 0,
       "item_code": null
@@ -118,12 +124,6 @@
     },
     {
       "name": "메리츠증권2605-1",
-      "weight_pct": 2.69,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "미래에셋증권83-2",
       "weight_pct": 2.69,
       "shares": 0,
       "item_code": null
@@ -153,20 +153,20 @@
       "item_code": null
     },
     {
-      "name": "한국남부발전74-2(녹)",
-      "weight_pct": 2.68,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "케이비캐피탈559-2(녹)",
-      "weight_pct": 2.68,
+      "weight_pct": 2.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KB금융지주60-2",
-      "weight_pct": 2.67,
+      "weight_pct": 2.68,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한국남부발전74-2(녹)",
+      "weight_pct": 2.68,
       "shares": 0,
       "item_code": null
     },
@@ -232,19 +232,19 @@
     },
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 2.3,
+      "weight_pct": 2.26,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 1.87,
+      "weight_pct": 1.86,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "케이티스카이라이프19-2",
-      "weight_pct": 1.33,
+      "weight_pct": 1.34,
       "shares": 0,
       "item_code": null
     },
@@ -262,7 +262,7 @@
     },
     {
       "name": "도로공사888",
-      "weight_pct": 1.22,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
@@ -292,14 +292,14 @@
     },
     {
       "name": "2026-09 국채선물10(신)",
-      "weight_pct": -2.78,
+      "weight_pct": -2.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -18.79,
-      "shares": -21382510,
+      "weight_pct": -18.82,
+      "shares": -21387752,
       "item_code": null
     }
   ]

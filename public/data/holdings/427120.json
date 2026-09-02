@@ -1,124 +1,124 @@
 {
   "ticker": "427120",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "NHN",
-      "weight_pct": 14.94,
+      "weight_pct": 14.24,
       "shares": 219,
       "item_code": "181710"
     },
     {
       "name": "NICE평가정보",
-      "weight_pct": 8.75,
+      "weight_pct": 8.83,
       "shares": 595,
       "item_code": "030190"
     },
     {
       "name": "NAVER",
-      "weight_pct": 7.77,
+      "weight_pct": 7.74,
       "shares": 39,
       "item_code": "035420"
     },
     {
       "name": "카카오",
-      "weight_pct": 7.48,
+      "weight_pct": 7.52,
       "shares": 223,
       "item_code": "035720"
     },
     {
       "name": "SOOP",
-      "weight_pct": 6.79,
+      "weight_pct": 6.89,
       "shares": 193,
       "item_code": "067160"
     },
     {
       "name": "카페24",
-      "weight_pct": 6.67,
+      "weight_pct": 6.61,
       "shares": 428,
       "item_code": "042000"
     },
     {
       "name": "코나아이",
-      "weight_pct": 6.37,
+      "weight_pct": 6.43,
       "shares": 176,
       "item_code": "052400"
     },
     {
       "name": "한컴",
-      "weight_pct": 6.09,
+      "weight_pct": 6.13,
       "shares": 369,
       "item_code": "030520"
     },
     {
       "name": "노타",
-      "weight_pct": 5.53,
+      "weight_pct": 5.48,
       "shares": 321,
       "item_code": "486990"
     },
     {
       "name": "디어유",
-      "weight_pct": 4.8,
+      "weight_pct": 4.85,
       "shares": 282,
       "item_code": "376300"
     },
     {
       "name": "쿠콘",
-      "weight_pct": 4.46,
+      "weight_pct": 4.67,
       "shares": 171,
       "item_code": "294570"
     },
     {
       "name": "솔트룩스",
-      "weight_pct": 3.83,
+      "weight_pct": 3.93,
       "shares": 260,
       "item_code": "304100"
     },
     {
       "name": "헥토이노베이션",
-      "weight_pct": 2.42,
+      "weight_pct": 2.48,
       "shares": 180,
       "item_code": "214180"
     },
     {
       "name": "갤럭시아머니트리",
-      "weight_pct": 2.37,
+      "weight_pct": 2.36,
       "shares": 428,
       "item_code": "094480"
     },
     {
       "name": "플리토",
-      "weight_pct": 2.14,
+      "weight_pct": 2.17,
       "shares": 260,
       "item_code": "300080"
     },
     {
       "name": "GC메디아이",
-      "weight_pct": 1.62,
+      "weight_pct": 1.63,
       "shares": 569,
       "item_code": "032620"
     },
     {
       "name": "아톤",
-      "weight_pct": 1.62,
+      "weight_pct": 1.63,
       "shares": 380,
       "item_code": "158430"
     },
     {
       "name": "핑거",
-      "weight_pct": 1.4,
+      "weight_pct": 1.44,
       "shares": 153,
       "item_code": "163730"
     },
     {
       "name": "에스투더블유",
-      "weight_pct": 1.37,
+      "weight_pct": 1.35,
       "shares": 144,
       "item_code": "488280"
     },
     {
       "name": "엑셈",
-      "weight_pct": 1.31,
+      "weight_pct": 1.33,
       "shares": 1045,
       "item_code": "205100"
     },
@@ -130,8 +130,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.92,
-      "shares": 1010538,
+      "weight_pct": 0.95,
+      "shares": 1031213,
       "item_code": null
     }
   ]

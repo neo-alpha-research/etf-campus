@@ -1,58 +1,58 @@
 {
   "ticker": "491230",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 34.91,
-      "shares": 36653304,
-      "item_code": null
-    },
-    {
-      "name": "농업금융채권(중앙회)2025-12이1Y-A",
-      "weight_pct": 8.29,
-      "shares": 0,
+      "weight_pct": 36.02,
+      "shares": 37819040,
       "item_code": null
     },
     {
       "name": "농업금융채권(은행)2025-09이1Y-B",
-      "weight_pct": 8.29,
+      "weight_pct": 8.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(중앙회)2025-12이1Y-A",
+      "weight_pct": 8.14,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "농업금융채권(은행)2026-01이1Y-A",
-      "weight_pct": 8.26,
+      "weight_pct": 8.12,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "중소기업은행(단)2603할184A-13",
-      "weight_pct": 8.23,
+      "weight_pct": 8.09,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산업금융채권25신할0100-1104-2",
-      "weight_pct": 8.2,
+      "weight_pct": 8.06,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "중소기업은행(단)2606할183A-23",
-      "weight_pct": 8.16,
+      "weight_pct": 8.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "중소기업은행(단)2605할214A-28",
-      "weight_pct": 8.16,
+      "weight_pct": 8.02,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "농업금융채권(중앙회)2025-12이1Y-B",
-      "weight_pct": 7.45,
+      "weight_pct": 7.33,
       "shares": 0,
       "item_code": null
     }

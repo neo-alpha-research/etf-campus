@@ -1,6 +1,6 @@
 {
   "ticker": "269530",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares Global Infrastructure ETF",
@@ -15,116 +15,116 @@
       "item_code": "GII"
     },
     {
-      "name": "AENA SME SA",
-      "weight_pct": 4.34,
-      "shares": 1018,
-      "item_code": null
-    },
-    {
       "name": "TRANSURBAN GROUP",
-      "weight_pct": 4.29,
+      "weight_pct": 4.37,
       "shares": 3073,
       "item_code": null
     },
     {
+      "name": "AENA SME SA",
+      "weight_pct": 4.33,
+      "shares": 1018,
+      "item_code": null
+    },
+    {
       "name": "넥스트에라 에너지",
-      "weight_pct": 3.78,
+      "weight_pct": 3.8,
       "shares": 332,
       "item_code": "NEE"
     },
     {
       "name": "IBERDROLA SA",
-      "weight_pct": 3.3,
+      "weight_pct": 3.26,
       "shares": 1009,
       "item_code": null
     },
     {
       "name": "엔브리지",
-      "weight_pct": 3.09,
+      "weight_pct": 3.13,
       "shares": 445,
       "item_code": "ENB"
     },
     {
       "name": "AUCKLAND INTL AIRPORT LTD",
-      "weight_pct": 2.74,
+      "weight_pct": 2.82,
       "shares": 3886,
       "item_code": null
     },
     {
       "name": "그루포 에어로포르투아리오 파시피코 B ADR",
-      "weight_pct": 2.7,
+      "weight_pct": 2.67,
       "shares": 93,
       "item_code": "PAC"
     },
     {
       "name": "윌리엄스 컴퍼니즈",
-      "weight_pct": 2.56,
+      "weight_pct": 2.6,
       "shares": 249,
       "item_code": "WMB"
     },
     {
-      "name": "서던",
-      "weight_pct": 2.2,
-      "shares": 179,
-      "item_code": "SO"
-    },
-    {
       "name": "GETLINK SE",
-      "weight_pct": 2.18,
+      "weight_pct": 2.2,
       "shares": 725,
       "item_code": null
     },
     {
+      "name": "서던",
+      "weight_pct": 2.19,
+      "shares": 179,
+      "item_code": "SO"
+    },
+    {
       "name": "듀크 에너지",
-      "weight_pct": 2.12,
+      "weight_pct": 2.11,
       "shares": 126,
       "item_code": "DUK"
     },
     {
       "name": "콘스텔레이션 에너지",
-      "weight_pct": 1.95,
+      "weight_pct": 1.94,
       "shares": 50,
       "item_code": "CEG.O"
     },
     {
       "name": "ENEL SPA",
-      "weight_pct": 1.94,
+      "weight_pct": 1.93,
       "shares": 1270,
       "item_code": null
     },
     {
       "name": "TC 에너지",
-      "weight_pct": 1.83,
+      "weight_pct": 1.84,
       "shares": 212,
       "item_code": "TRP"
     },
     {
-      "name": "NATIONAL GRID PLC",
-      "weight_pct": 1.8,
-      "shares": 817,
-      "item_code": null
-    },
-    {
       "name": "킨더 모건",
-      "weight_pct": 1.75,
+      "weight_pct": 1.79,
       "shares": 399,
       "item_code": "KMI"
     },
     {
-      "name": "타르가 리소스",
-      "weight_pct": 1.75,
-      "shares": 43,
-      "item_code": "TRGP.K"
+      "name": "NATIONAL GRID PLC",
+      "weight_pct": 1.79,
+      "shares": 817,
+      "item_code": null
     },
     {
       "name": "셰니어 에너지",
-      "weight_pct": 1.73,
+      "weight_pct": 1.78,
       "shares": 44,
       "item_code": "LNG"
     },
     {
+      "name": "타르가 리소스",
+      "weight_pct": 1.78,
+      "shares": 43,
+      "item_code": "TRGP.K"
+    },
+    {
       "name": "원오케이",
-      "weight_pct": 1.69,
+      "weight_pct": 1.71,
       "shares": 128,
       "item_code": "OKE"
     },
@@ -136,7 +136,7 @@
     },
     {
       "name": "ADP",
-      "weight_pct": 1.56,
+      "weight_pct": 1.54,
       "shares": 89,
       "item_code": null
     },
@@ -148,56 +148,50 @@
     },
     {
       "name": "그루포 에어로포르투아리오 수레스테 ADR",
-      "weight_pct": 1.41,
+      "weight_pct": 1.4,
       "shares": 39,
       "item_code": "ASR"
     },
     {
       "name": "도미니언 에너지",
-      "weight_pct": 1.24,
+      "weight_pct": 1.25,
       "shares": 136,
       "item_code": "D"
     },
     {
-      "name": "셈프라 에너지",
-      "weight_pct": 1.22,
-      "shares": 104,
-      "item_code": "SRE"
-    },
-    {
       "name": "ENGIE",
-      "weight_pct": 1.2,
+      "weight_pct": 1.21,
       "shares": 305,
       "item_code": null
     },
     {
-      "name": "일본 공항 터미널",
-      "weight_pct": 1.09,
-      "shares": 209,
-      "item_code": "9706.T"
+      "name": "셈프라 에너지",
+      "weight_pct": 1.18,
+      "shares": 104,
+      "item_code": "SRE"
     },
     {
       "name": "엔터지",
-      "weight_pct": 1.06,
+      "weight_pct": 1.07,
       "shares": 72,
       "item_code": "ETR"
     },
     {
+      "name": "일본 공항 터미널",
+      "weight_pct": 1.07,
+      "shares": 209,
+      "item_code": "9706.T"
+    },
+    {
       "name": "그루포 에어로포르투아리오 센트로노테 ADR",
-      "weight_pct": 1.06,
+      "weight_pct": 1.04,
       "shares": 75,
       "item_code": "OMAB.O"
     },
     {
       "name": "ATLAS ARTERIA",
-      "weight_pct": 1.05,
-      "shares": 2278,
-      "item_code": null
-    },
-    {
-      "name": "RWE AG",
       "weight_pct": 1.04,
-      "shares": 109,
+      "shares": 2278,
       "item_code": null
     },
     {
@@ -207,14 +201,20 @@
       "item_code": null
     },
     {
+      "name": "RWE AG",
+      "weight_pct": 1.03,
+      "shares": 109,
+      "item_code": null
+    },
+    {
       "name": "엑셀 에너지",
-      "weight_pct": 1.0,
+      "weight_pct": 0.99,
       "shares": 94,
       "item_code": "XEL.O"
     },
     {
       "name": "엑셀론",
-      "weight_pct": 1.0,
+      "weight_pct": 0.99,
       "shares": 163,
       "item_code": "EXC.O"
     },
@@ -226,7 +226,7 @@
     },
     {
       "name": "SATS LTD",
-      "weight_pct": 0.92,
+      "weight_pct": 0.9,
       "shares": 2102,
       "item_code": null
     },
@@ -237,12 +237,6 @@
       "item_code": null
     },
     {
-      "name": "퍼시픽 가스 & 일렉트릭",
-      "weight_pct": 0.81,
-      "shares": 352,
-      "item_code": "PCG"
-    },
-    {
       "name": "퍼블릭 서비스 엔터프라이즈",
       "weight_pct": 0.81,
       "shares": 80,
@@ -250,7 +244,7 @@
     },
     {
       "name": "펨비나 파이프라인",
-      "weight_pct": 0.77,
+      "weight_pct": 0.78,
       "shares": 116,
       "item_code": "PBA"
     },
@@ -267,15 +261,21 @@
       "item_code": null
     },
     {
+      "name": "퍼시픽 가스 & 일렉트릭",
+      "weight_pct": 0.64,
+      "shares": 352,
+      "item_code": "PCG"
+    },
+    {
       "name": "DALRYMPLE BAY INFRASTRUCTURE",
-      "weight_pct": 0.56,
+      "weight_pct": 0.57,
       "shares": 1116,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.48,
-      "shares": 4780676,
+      "weight_pct": 0.49,
+      "shares": 4867004,
       "item_code": null
     },
     {
@@ -292,27 +292,27 @@
     },
     {
       "name": "절강고속도로",
-      "weight_pct": 0.43,
+      "weight_pct": 0.42,
       "shares": 3737,
       "item_code": "0576.HK"
     },
     {
       "name": "DT 미드스트림",
-      "weight_pct": 0.36,
+      "weight_pct": 0.37,
       "shares": 20,
       "item_code": "DTM"
     },
     {
       "name": "HUTCHISON PORT HOLDINGS TR-U",
-      "weight_pct": 0.31,
+      "weight_pct": 0.32,
       "shares": 11372,
       "item_code": null
     },
     {
-      "name": "선전 인터내셔널 홀딩스",
-      "weight_pct": 0.29,
-      "shares": 3137,
-      "item_code": "0152.HK"
+      "name": "중원해운항구",
+      "weight_pct": 0.3,
+      "shares": 3122,
+      "item_code": "1199.HK"
     },
     {
       "name": "WESTSHORE TERMINALS INVESTME",
@@ -321,10 +321,10 @@
       "item_code": null
     },
     {
-      "name": "중원해운항구",
+      "name": "선전 인터내셔널 홀딩스",
       "weight_pct": 0.28,
-      "shares": 3122,
-      "item_code": "1199.HK"
+      "shares": 3137,
+      "item_code": "0152.HK"
     },
     {
       "name": "KEYERA CORP",
@@ -370,7 +370,7 @@
     },
     {
       "name": "SIA ENGINEERING CO LTD",
-      "weight_pct": 0.19,
+      "weight_pct": 0.18,
       "shares": 556,
       "item_code": null
     },
@@ -423,12 +423,6 @@
       "item_code": "CIG"
     },
     {
-      "name": "스카이 하버 그룹",
-      "weight_pct": 0.08,
-      "shares": 54,
-      "item_code": "SKYH.K"
-    },
-    {
       "name": "중국광핵전력",
       "weight_pct": 0.08,
       "shares": 1647,
@@ -441,16 +435,22 @@
       "item_code": "1138.HK"
     },
     {
-      "name": "화능국제전력",
-      "weight_pct": 0.06,
-      "shares": 603,
-      "item_code": "0902.HK"
+      "name": "스카이 하버 그룹",
+      "weight_pct": 0.07,
+      "shares": 54,
+      "item_code": "SKYH.K"
     },
     {
       "name": "용원전력",
       "weight_pct": 0.05,
       "shares": 531,
       "item_code": "0916.HK"
+    },
+    {
+      "name": "화능국제전력",
+      "weight_pct": 0.05,
+      "shares": 603,
+      "item_code": "0902.HK"
     },
     {
       "name": "차이나가스",

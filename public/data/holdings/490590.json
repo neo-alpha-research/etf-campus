@@ -1,46 +1,46 @@
 {
   "ticker": "490590",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 14.94,
+      "weight_pct": 15.21,
       "shares": 346,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 13.69,
+      "weight_pct": 13.45,
       "shares": 199,
       "item_code": "GOOGL.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 10.23,
+      "weight_pct": 10.03,
       "shares": 238,
       "item_code": "MRVL.O"
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 6.16,
+      "weight_pct": 6.18,
       "shares": 167,
       "item_code": "PLTR.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 5.72,
+      "weight_pct": 5.67,
       "shares": 56,
       "item_code": "MSFT.O"
     },
     {
       "name": "아리스타 네트웍스",
-      "weight_pct": 5.15,
+      "weight_pct": 5.17,
       "shares": 133,
       "item_code": "ANET.K"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 4.82,
+      "weight_pct": 4.72,
       "shares": 91,
       "item_code": "AMZN.O"
     },
@@ -52,73 +52,67 @@
     },
     {
       "name": "메타",
-      "weight_pct": 4.34,
+      "weight_pct": 4.31,
       "shares": 37,
       "item_code": "META.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 4.21,
+      "weight_pct": 4.2,
       "shares": 50,
       "item_code": "TSM"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 4.17,
+      "weight_pct": 4.2,
       "shares": 57,
       "item_code": "AVGO.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 3.82,
+      "weight_pct": 3.94,
       "shares": 20,
       "item_code": "MU.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 3.79,
+      "weight_pct": 3.84,
       "shares": 41,
       "item_code": "AMD.O"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 3.78,
-      "shares": 26102537,
-      "item_code": null
-    },
-    {
       "name": "NASDAQ 100 E-MINI INDEX SEPT 2026",
-      "weight_pct": 3.7,
+      "weight_pct": 3.82,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 3.8,
+      "shares": 26203527,
+      "item_code": null
+    },
+    {
       "name": "버티브 홀딩스",
-      "weight_pct": 3.67,
+      "weight_pct": 3.71,
       "shares": 72,
       "item_code": "VRT"
     },
     {
       "name": "오라클",
-      "weight_pct": 3.49,
+      "weight_pct": 3.46,
       "shares": 116,
       "item_code": "ORCL.K"
     },
     {
       "name": "아스테라 랩스",
-      "weight_pct": 3.31,
+      "weight_pct": 3.41,
       "shares": 57,
       "item_code": "ALAB.O"
     },
     {
-      "name": "NDXP US 08/31/26 C29650 INDEX",
-      "weight_pct": 0.0,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "QNAQ6C 29700 INDEX",
-      "weight_pct": 0.0,
+      "name": "NDXP US 09/01/26 C29440 INDEX",
+      "weight_pct": -0.03,
       "shares": 0,
       "item_code": null
     }

@@ -1,40 +1,40 @@
 {
   "ticker": "0184N0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares Silver Trust",
-      "weight_pct": 24.52,
+      "weight_pct": 24.58,
       "shares": 1323,
       "item_code": "SLV"
     },
     {
       "name": "abrdn Physical Silver Shares ETF",
-      "weight_pct": 21.38,
+      "weight_pct": 21.43,
       "shares": 1097,
       "item_code": "SIVR.K"
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 11.14,
+      "weight_pct": 11.11,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 11.1,
+      "weight_pct": 11.08,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 11.06,
+      "weight_pct": 11.04,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "PLUS 국채선물3년",
-      "weight_pct": 10.21,
+      "weight_pct": 10.19,
       "shares": 800,
       "item_code": "298340"
     },
@@ -46,20 +46,20 @@
     },
     {
       "name": "TIGER 국채3년",
-      "weight_pct": 2.37,
+      "weight_pct": 2.36,
       "shares": 100,
       "item_code": "114820"
     },
     {
       "name": "ACE 국고채3년",
-      "weight_pct": 2.27,
+      "weight_pct": 2.26,
       "shares": 100,
       "item_code": "114460"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.44,
-      "shares": 6400656,
+      "weight_pct": 1.43,
+      "shares": 6360685,
       "item_code": null
     },
     {

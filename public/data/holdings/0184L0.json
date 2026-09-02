@@ -1,16 +1,16 @@
 {
   "ticker": "0184L0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고채권03500-2906(26-5)",
-      "weight_pct": 14.98,
+      "weight_pct": 14.97,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 8.89,
+      "weight_pct": 8.87,
       "shares": 0,
       "item_code": null
     },
@@ -33,6 +33,12 @@
       "item_code": null
     },
     {
+      "name": "통화안정증권02400-2707-02",
+      "weight_pct": 7.48,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "산업금융채권26신이0109-0508-2",
       "weight_pct": 7.48,
       "shares": 0,
@@ -40,12 +46,6 @@
     },
     {
       "name": "한국투자캐피탈137-3",
-      "weight_pct": 7.47,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "통화안정증권02400-2707-02",
       "weight_pct": 7.47,
       "shares": 0,
       "item_code": null
@@ -76,14 +76,14 @@
     },
     {
       "name": "중소기업은행(신)2605할1A-08",
-      "weight_pct": 7.31,
+      "weight_pct": 7.32,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": -5.68,
-      "shares": -5722997,
+      "shares": -5717660,
       "item_code": null
     },
     {

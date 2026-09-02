@@ -1,106 +1,106 @@
 {
   "ticker": "447430",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 12.59,
-      "shares": 103625366,
+      "weight_pct": 12.57,
+      "shares": 103614488,
       "item_code": null
     },
     {
       "name": "서희건설",
-      "weight_pct": 9.87,
+      "weight_pct": 9.73,
       "shares": 35492,
       "item_code": "035890"
     },
     {
       "name": "더블유게임즈",
-      "weight_pct": 8.64,
+      "weight_pct": 8.63,
       "shares": 1216,
       "item_code": "192080"
     },
     {
       "name": "영원무역홀딩스",
-      "weight_pct": 7.74,
+      "weight_pct": 7.66,
       "shares": 378,
       "item_code": "009970"
     },
     {
-      "name": "쿠쿠홀딩스",
-      "weight_pct": 6.34,
-      "shares": 1863,
-      "item_code": "192400"
-    },
-    {
       "name": "KSS해운",
-      "weight_pct": 6.3,
+      "weight_pct": 6.31,
       "shares": 5221,
       "item_code": "044450"
     },
     {
+      "name": "쿠쿠홀딩스",
+      "weight_pct": 6.3,
+      "shares": 1863,
+      "item_code": "192400"
+    },
+    {
       "name": "세방전지",
-      "weight_pct": 5.28,
+      "weight_pct": 5.18,
       "shares": 637,
       "item_code": "004490"
     },
     {
       "name": "SK가스",
-      "weight_pct": 4.71,
+      "weight_pct": 4.84,
       "shares": 170,
       "item_code": "018670"
     },
     {
       "name": "NICE",
-      "weight_pct": 4.29,
+      "weight_pct": 4.3,
       "shares": 2679,
       "item_code": "034310"
     },
     {
       "name": "세아제강",
-      "weight_pct": 4.15,
+      "weight_pct": 4.16,
       "shares": 246,
       "item_code": "306200"
     },
     {
       "name": "SNT모티브",
-      "weight_pct": 3.38,
+      "weight_pct": 3.45,
       "shares": 1070,
       "item_code": "064960"
     },
     {
       "name": "세아제강지주",
-      "weight_pct": 3.18,
+      "weight_pct": 3.21,
       "shares": 259,
       "item_code": "003030"
     },
     {
       "name": "SNT홀딩스",
-      "weight_pct": 3.1,
+      "weight_pct": 3.09,
       "shares": 558,
       "item_code": "036530"
     },
     {
       "name": "나이스정보통신",
-      "weight_pct": 2.47,
+      "weight_pct": 2.62,
       "shares": 2717,
       "item_code": "036800"
     },
     {
       "name": "메가스터디교육",
-      "weight_pct": 2.23,
+      "weight_pct": 2.21,
       "shares": 510,
       "item_code": "215200"
     },
     {
       "name": "강원랜드",
-      "weight_pct": 2.07,
+      "weight_pct": 2.08,
       "shares": 1167,
       "item_code": "035250"
     },
     {
       "name": "모토닉",
-      "weight_pct": 1.63,
+      "weight_pct": 1.65,
       "shares": 1315,
       "item_code": "009680"
     },
@@ -112,55 +112,55 @@
     },
     {
       "name": "빅솔론",
-      "weight_pct": 1.48,
+      "weight_pct": 1.49,
       "shares": 1427,
       "item_code": "093190"
     },
     {
       "name": "블랙야크아이앤씨",
-      "weight_pct": 1.44,
+      "weight_pct": 1.46,
       "shares": 3598,
       "item_code": "478560"
     },
     {
       "name": "SNT다이내믹스",
-      "weight_pct": 1.11,
+      "weight_pct": 1.1,
       "shares": 314,
       "item_code": "003570"
     },
     {
-      "name": "대양전기공업",
-      "weight_pct": 1.01,
-      "shares": 451,
-      "item_code": "108380"
-    },
-    {
       "name": "HS애드",
-      "weight_pct": 1.0,
+      "weight_pct": 1.01,
       "shares": 1287,
       "item_code": "035000"
     },
     {
+      "name": "대양전기공업",
+      "weight_pct": 0.99,
+      "shares": 451,
+      "item_code": "108380"
+    },
+    {
       "name": "다우기술",
-      "weight_pct": 0.87,
+      "weight_pct": 0.88,
       "shares": 185,
       "item_code": "023590"
     },
     {
       "name": "노바렉스",
-      "weight_pct": 0.78,
+      "weight_pct": 0.77,
       "shares": 566,
       "item_code": "194700"
     },
     {
       "name": "네오팜",
-      "weight_pct": 0.65,
+      "weight_pct": 0.63,
       "shares": 215,
       "item_code": "092730"
     },
     {
       "name": "이노션",
-      "weight_pct": 0.61,
+      "weight_pct": 0.6,
       "shares": 262,
       "item_code": "214320"
     },
@@ -172,7 +172,7 @@
     },
     {
       "name": "클리오",
-      "weight_pct": 0.31,
+      "weight_pct": 0.3,
       "shares": 191,
       "item_code": "237880"
     },
@@ -184,7 +184,7 @@
     },
     {
       "name": "동원산업",
-      "weight_pct": 0.2,
+      "weight_pct": 0.19,
       "shares": 43,
       "item_code": "006040"
     }

@@ -1,130 +1,130 @@
 {
   "ticker": "261070",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "알테오젠",
-      "weight_pct": 29.45,
+      "weight_pct": 29.54,
       "shares": 248,
       "item_code": "196170"
     },
     {
       "name": "HLB",
-      "weight_pct": 7.57,
+      "weight_pct": 7.42,
       "shares": 551,
       "item_code": "028300"
     },
     {
       "name": "펩트론",
-      "weight_pct": 7.14,
+      "weight_pct": 6.61,
       "shares": 101,
       "item_code": "087010"
     },
     {
       "name": "에이비엘바이오",
-      "weight_pct": 5.47,
+      "weight_pct": 5.48,
       "shares": 195,
       "item_code": "298380"
     },
     {
       "name": "파마리서치",
-      "weight_pct": 5.26,
+      "weight_pct": 5.24,
       "shares": 32,
       "item_code": "214450"
     },
     {
       "name": "리가켐바이오",
-      "weight_pct": 4.54,
+      "weight_pct": 4.58,
       "shares": 122,
       "item_code": "141080"
     },
     {
       "name": "삼천당제약",
-      "weight_pct": 4.21,
+      "weight_pct": 4.25,
       "shares": 65,
       "item_code": "000250"
     },
     {
       "name": "디앤디파마텍",
-      "weight_pct": 3.36,
+      "weight_pct": 3.34,
       "shares": 163,
       "item_code": "347850"
     },
     {
       "name": "보로노이",
-      "weight_pct": 3.18,
+      "weight_pct": 3.28,
       "shares": 50,
       "item_code": "310210"
     },
     {
       "name": "올릭스",
-      "weight_pct": 3.03,
+      "weight_pct": 3.17,
       "shares": 76,
       "item_code": "226950"
     },
     {
       "name": "에스티팜",
-      "weight_pct": 2.43,
+      "weight_pct": 2.44,
       "shares": 60,
       "item_code": "237690"
     },
     {
-      "name": "휴젤",
-      "weight_pct": 2.43,
-      "shares": 25,
-      "item_code": "145020"
-    },
-    {
       "name": "네이처셀",
-      "weight_pct": 2.39,
+      "weight_pct": 2.44,
       "shares": 239,
       "item_code": "007390"
     },
     {
-      "name": "오름테라퓨틱",
-      "weight_pct": 2.13,
-      "shares": 85,
-      "item_code": "475830"
+      "name": "휴젤",
+      "weight_pct": 2.42,
+      "shares": 25,
+      "item_code": "145020"
     },
     {
       "name": "오스코텍",
-      "weight_pct": 2.09,
+      "weight_pct": 2.27,
       "shares": 155,
       "item_code": "039200"
     },
     {
-      "name": "씨젠",
-      "weight_pct": 1.88,
-      "shares": 145,
-      "item_code": "096530"
+      "name": "오름테라퓨틱",
+      "weight_pct": 1.99,
+      "shares": 85,
+      "item_code": "475830"
     },
     {
       "name": "엘앤씨바이오",
-      "weight_pct": 1.84,
+      "weight_pct": 1.91,
       "shares": 90,
       "item_code": "290650"
     },
     {
+      "name": "씨젠",
+      "weight_pct": 1.89,
+      "shares": 145,
+      "item_code": "096530"
+    },
+    {
       "name": "클래시스",
-      "weight_pct": 1.76,
+      "weight_pct": 1.75,
       "shares": 135,
       "item_code": "214150"
     },
     {
       "name": "셀트리온제약",
-      "weight_pct": 1.51,
+      "weight_pct": 1.54,
       "shares": 94,
       "item_code": "068760"
     },
     {
       "name": "케어젠",
-      "weight_pct": 1.45,
+      "weight_pct": 1.46,
       "shares": 73,
       "item_code": "214370"
     },
     {
       "name": "큐리옥스바이오시스템즈",
-      "weight_pct": 1.33,
+      "weight_pct": 1.35,
       "shares": 67,
       "item_code": "445680"
     },
@@ -136,32 +136,32 @@
     },
     {
       "name": "HK이노엔",
-      "weight_pct": 1.13,
+      "weight_pct": 1.17,
       "shares": 68,
       "item_code": "195940"
     },
     {
       "name": "루닛",
-      "weight_pct": 1.05,
+      "weight_pct": 1.08,
       "shares": 301,
       "item_code": "328130"
     },
     {
       "name": "차바이오텍",
-      "weight_pct": 0.98,
+      "weight_pct": 1.04,
       "shares": 315,
       "item_code": "085660"
     },
     {
       "name": "지아이이노베이션",
-      "weight_pct": 0.89,
+      "weight_pct": 0.88,
       "shares": 284,
       "item_code": "358570"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.12,
-      "shares": 329706,
+      "shares": 321981,
       "item_code": null
     }
   ]

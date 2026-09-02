@@ -1,70 +1,70 @@
 {
   "ticker": "0091P0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "현대건설",
-      "weight_pct": 26.46,
+      "weight_pct": 26.71,
       "shares": 1837,
       "item_code": "000720"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 23.92,
+      "weight_pct": 24.33,
       "shares": 2482,
       "item_code": "034020"
     },
     {
       "name": "대우건설",
-      "weight_pct": 13.64,
+      "weight_pct": 13.0,
       "shares": 6418,
       "item_code": "047040"
     },
     {
-      "name": "한전기술",
-      "weight_pct": 7.95,
-      "shares": 585,
-      "item_code": "052690"
-    },
-    {
       "name": "DL이앤씨",
-      "weight_pct": 7.73,
+      "weight_pct": 7.91,
       "shares": 919,
       "item_code": "375500"
     },
     {
+      "name": "한전기술",
+      "weight_pct": 7.78,
+      "shares": 585,
+      "item_code": "052690"
+    },
+    {
       "name": "우리기술",
-      "weight_pct": 6.96,
+      "weight_pct": 6.65,
       "shares": 5137,
       "item_code": "032820"
     },
     {
       "name": "비에이치아이",
-      "weight_pct": 4.43,
+      "weight_pct": 4.45,
       "shares": 604,
       "item_code": "083650"
     },
     {
       "name": "한전KPS",
-      "weight_pct": 3.76,
+      "weight_pct": 3.84,
       "shares": 703,
       "item_code": "051600"
     },
     {
       "name": "한전산업",
-      "weight_pct": 1.04,
+      "weight_pct": 1.08,
       "shares": 732,
       "item_code": "130660"
     },
     {
       "name": "SNT에너지",
-      "weight_pct": 0.88,
+      "weight_pct": 0.98,
       "shares": 249,
       "item_code": "100840"
     },
     {
       "name": "한미글로벌",
-      "weight_pct": 0.73,
+      "weight_pct": 0.71,
       "shares": 275,
       "item_code": "053690"
     },
@@ -76,26 +76,26 @@
     },
     {
       "name": "금화피에스시",
-      "weight_pct": 0.47,
+      "weight_pct": 0.48,
       "shares": 117,
       "item_code": "036190"
     },
     {
       "name": "일진파워",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 304,
       "item_code": "094820"
     },
     {
       "name": "수산인더스트리",
-      "weight_pct": 0.32,
+      "weight_pct": 0.33,
       "shares": 130,
       "item_code": "126720"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.29,
-      "shares": 2506821,
+      "weight_pct": 0.3,
+      "shares": 2495183,
       "item_code": null
     },
     {

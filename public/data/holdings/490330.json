@@ -1,119 +1,119 @@
 {
   "ticker": "490330",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "버텍스 파마슈티컬",
-      "weight_pct": 12.46,
+      "weight_pct": 12.53,
       "shares": 124,
       "item_code": "VRTX.O"
     },
     {
       "name": "바이오젠",
-      "weight_pct": 11.49,
-      "shares": 285,
+      "weight_pct": 11.4,
+      "shares": 283,
       "item_code": "BIIB.O"
     },
     {
       "name": "일라이 릴리",
-      "weight_pct": 10.83,
-      "shares": 50,
+      "weight_pct": 10.66,
+      "shares": 49,
       "item_code": "LLY"
     },
     {
       "name": "스칼러 락 홀딩",
-      "weight_pct": 4.94,
-      "shares": 464,
+      "weight_pct": 4.86,
+      "shares": 461,
       "item_code": "SRRK.O"
     },
     {
       "name": "아카디아 파마슈티컬스",
-      "weight_pct": 4.81,
-      "shares": 898,
+      "weight_pct": 4.78,
+      "shares": 892,
       "item_code": "ACAD.O"
     },
     {
       "name": "코셉트 테라퓨틱스",
-      "weight_pct": 4.43,
-      "shares": 211,
+      "weight_pct": 4.41,
+      "shares": 210,
       "item_code": "CORT.O"
     },
     {
+      "name": "재즈 파마슈티컬스",
+      "weight_pct": 4.32,
+      "shares": 92,
+      "item_code": "JAZZ.O"
+    },
+    {
       "name": "프락시스 프리시젼 메디신",
-      "weight_pct": 4.23,
+      "weight_pct": 4.3,
       "shares": 66,
       "item_code": "PRAX.O"
     },
     {
-      "name": "재즈 파마슈티컬스",
-      "weight_pct": 4.21,
-      "shares": 93,
-      "item_code": "JAZZ.O"
-    },
-    {
       "name": "제논 파마슈티컬",
-      "weight_pct": 4.12,
-      "shares": 373,
+      "weight_pct": 4.14,
+      "shares": 370,
       "item_code": "XENE.O"
     },
     {
       "name": "유니큐어",
       "weight_pct": 4.1,
-      "shares": 457,
+      "shares": 454,
       "item_code": "QURE.O"
     },
     {
       "name": "디날리 테라퓨틱스",
-      "weight_pct": 4.06,
-      "shares": 920,
+      "weight_pct": 4.03,
+      "shares": 914,
       "item_code": "DNLI.O"
     },
     {
       "name": "앨커미스",
-      "weight_pct": 3.99,
-      "shares": 458,
+      "weight_pct": 3.96,
+      "shares": 455,
       "item_code": "ALKS.O"
     },
     {
       "name": "PTC 테라퓨틱스",
-      "weight_pct": 3.85,
-      "shares": 298,
+      "weight_pct": 3.82,
+      "shares": 296,
       "item_code": "PTCT.O"
     },
     {
       "name": "뉴로크린 바이오사이언시스",
       "weight_pct": 3.79,
-      "shares": 133,
+      "shares": 132,
       "item_code": "NBIX.O"
     },
     {
       "name": "라포르 테라퓨틱스",
       "weight_pct": 3.75,
-      "shares": 418,
+      "shares": 415,
       "item_code": "RAPP.O"
     },
     {
       "name": "액섬 테라퓨틱스",
-      "weight_pct": 3.7,
-      "shares": 101,
+      "weight_pct": 3.69,
+      "shares": 100,
       "item_code": "AXSM.O"
     },
     {
-      "name": "바이오헤이븐",
-      "weight_pct": 3.13,
-      "shares": 1106,
-      "item_code": "BHVN.K"
-    },
-    {
       "name": "하모니 바이오사이언시스 홀딩스",
-      "weight_pct": 3.1,
-      "shares": 430,
+      "weight_pct": 3.12,
+      "shares": 427,
       "item_code": "HRMY.O"
     },
     {
+      "name": "바이오헤이븐",
+      "weight_pct": 3.11,
+      "shares": 1098,
+      "item_code": "BHVN.K"
+    },
+    {
       "name": "LB 파마슈티컬스",
-      "weight_pct": 2.0,
-      "shares": 228,
+      "weight_pct": 1.99,
+      "shares": 226,
       "item_code": "LBRX.O"
     },
     {
@@ -124,26 +124,26 @@
     },
     {
       "name": "슈퍼누스 파마슈티컬스",
-      "weight_pct": 0.74,
-      "shares": 93,
+      "weight_pct": 0.75,
+      "shares": 92,
       "item_code": "SUPN.O"
     },
     {
       "name": "데피니움 테라퓨틱스",
-      "weight_pct": 0.62,
-      "shares": 83,
+      "weight_pct": 0.6,
+      "shares": 82,
       "item_code": "DFTX.O"
     },
     {
       "name": "애로우헤드 파마슈티컬스",
-      "weight_pct": 0.52,
-      "shares": 33,
+      "weight_pct": 0.5,
+      "shares": 32,
       "item_code": "ARWR.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.21,
-      "shares": 1599114,
+      "weight_pct": 0.49,
+      "shares": 3641836,
       "item_code": null
     }
   ]

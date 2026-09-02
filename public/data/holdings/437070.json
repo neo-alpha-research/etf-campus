@@ -1,6 +1,6 @@
 {
   "ticker": "437070",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "Vanguard Long-Term Corporate Bond Idx Fund",
@@ -10,7 +10,7 @@
     },
     {
       "name": "WOORIB 6 3/8 PERP",
-      "weight_pct": 6.93,
+      "weight_pct": 6.94,
       "shares": 5780,
       "item_code": null
     },
@@ -22,13 +22,13 @@
     },
     {
       "name": "SHNHAN 5 3/4 04/15/34",
-      "weight_pct": 6.83,
+      "weight_pct": 6.81,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "KRKPSC 6 3/8 06/11/27",
-      "weight_pct": 6.77,
+      "weight_pct": 6.78,
       "shares": 5780,
       "item_code": null
     },
@@ -40,7 +40,7 @@
     },
     {
       "name": "BABA 4 1/2 11/28/34",
-      "weight_pct": 6.41,
+      "weight_pct": 6.4,
       "shares": 5780,
       "item_code": null
     },
@@ -70,14 +70,14 @@
     },
     {
       "name": "HYUELE 2 3/8 01/19/31",
-      "weight_pct": 6.04,
+      "weight_pct": 6.03,
       "shares": 5780,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.74,
-      "shares": 5555449,
+      "weight_pct": 4.76,
+      "shares": 5573165,
       "item_code": null
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "name": "INDON 6 3/4 01/15/44",
-      "weight_pct": 3.59,
+      "weight_pct": 3.58,
       "shares": 2890,
       "item_code": null
     },

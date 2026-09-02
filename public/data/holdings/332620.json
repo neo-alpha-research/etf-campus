@@ -1,10 +1,10 @@
 {
   "ticker": "332620",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "PFE 5.3 05/19/53",
-      "weight_pct": 4.87,
+      "weight_pct": 4.86,
       "shares": 3475,
       "item_code": null
     },
@@ -112,20 +112,20 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.32,
-      "shares": 2041167,
-      "item_code": null
-    },
-    {
-      "name": "UNP 4.95 05/15/53",
-      "weight_pct": 2.3,
-      "shares": 1711,
+      "weight_pct": 2.34,
+      "shares": 2055502,
       "item_code": null
     },
     {
       "name": "TOTAL 3.461 07/12/49",
       "weight_pct": 2.3,
       "shares": 2149,
+      "item_code": null
+    },
+    {
+      "name": "UNP 4.95 05/15/53",
+      "weight_pct": 2.29,
+      "shares": 1711,
       "item_code": null
     },
     {
@@ -172,7 +172,7 @@
     },
     {
       "name": "BPLN 3.06 06/17/41",
-      "weight_pct": 1.95,
+      "weight_pct": 1.96,
       "shares": 1711,
       "item_code": null
     },

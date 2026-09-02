@@ -1,94 +1,94 @@
 {
   "ticker": "322400",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "카카오",
-      "weight_pct": 20.33,
+      "weight_pct": 20.46,
       "shares": 2958,
       "item_code": "035720"
     },
     {
       "name": "NAVER",
-      "weight_pct": 19.83,
+      "weight_pct": 19.81,
       "shares": 486,
       "item_code": "035420"
     },
     {
       "name": "실리콘투",
-      "weight_pct": 11.03,
+      "weight_pct": 10.65,
       "shares": 1083,
       "item_code": "257720"
     },
     {
       "name": "카카오페이",
-      "weight_pct": 9.58,
+      "weight_pct": 9.54,
       "shares": 1097,
       "item_code": "377300"
     },
     {
       "name": "이마트",
-      "weight_pct": 8.21,
+      "weight_pct": 8.33,
       "shares": 588,
       "item_code": "139480"
     },
     {
       "name": "제일기획",
-      "weight_pct": 7.35,
+      "weight_pct": 7.41,
       "shares": 2039,
       "item_code": "030000"
     },
     {
       "name": "현대백화점",
-      "weight_pct": 6.62,
+      "weight_pct": 6.84,
       "shares": 369,
       "item_code": "069960"
     },
     {
       "name": "CJ대한통운",
-      "weight_pct": 4.45,
+      "weight_pct": 4.48,
       "shares": 322,
       "item_code": "000120"
     },
     {
       "name": "케이아이엔엑스",
-      "weight_pct": 2.4,
+      "weight_pct": 2.24,
       "shares": 88,
       "item_code": "093320"
     },
     {
       "name": "다날",
-      "weight_pct": 1.9,
+      "weight_pct": 1.88,
       "shares": 1908,
       "item_code": "064260"
     },
     {
       "name": "NHN KCP",
-      "weight_pct": 1.83,
+      "weight_pct": 1.82,
       "shares": 639,
       "item_code": "060250"
     },
     {
       "name": "SOOP",
-      "weight_pct": 1.74,
+      "weight_pct": 1.77,
       "shares": 242,
       "item_code": "067160"
     },
     {
       "name": "카페24",
-      "weight_pct": 1.69,
+      "weight_pct": 1.68,
       "shares": 530,
       "item_code": "042000"
     },
     {
       "name": "디어유",
-      "weight_pct": 1.21,
+      "weight_pct": 1.23,
       "shares": 349,
       "item_code": "376300"
     },
     {
       "name": "KG이니시스",
-      "weight_pct": 0.88,
+      "weight_pct": 0.89,
       "shares": 447,
       "item_code": "035600"
     },
@@ -100,8 +100,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.28,
-      "shares": 1539192,
+      "weight_pct": 0.29,
+      "shares": 1533193,
       "item_code": null
     }
   ]

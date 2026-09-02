@@ -1,11 +1,11 @@
 {
   "ticker": "153130",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 26.89,
-      "shares": 30464512,
+      "shares": 30465746,
       "item_code": null
     },
     {

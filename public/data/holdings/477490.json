@@ -1,94 +1,94 @@
 {
   "ticker": "477490",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "TSMC ADR",
-      "weight_pct": 9.75,
+      "weight_pct": 9.68,
       "shares": 64,
       "item_code": "TSM"
     },
     {
       "name": "알파벳 Class C",
-      "weight_pct": 9.09,
+      "weight_pct": 8.87,
       "shares": 72,
       "item_code": "GOOG.O"
     },
     {
       "name": "닝더스다이",
-      "weight_pct": 8.7,
+      "weight_pct": 8.56,
       "shares": 436,
       "item_code": "300750.SZ"
     },
     {
-      "name": "아마존닷컴",
-      "weight_pct": 8.56,
-      "shares": 88,
-      "item_code": "AMZN.O"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 8.35,
+      "weight_pct": 8.46,
       "shares": 105,
       "item_code": "NVDA.O"
     },
     {
+      "name": "아마존닷컴",
+      "weight_pct": 8.33,
+      "shares": 88,
+      "item_code": "AMZN.O"
+    },
+    {
       "name": "iShares MSCI World ETF",
-      "weight_pct": 8.03,
+      "weight_pct": 7.99,
       "shares": 105,
       "item_code": "URTH.K"
     },
     {
       "name": "일라이 릴리",
-      "weight_pct": 7.94,
+      "weight_pct": 7.8,
       "shares": 18,
       "item_code": "LLY"
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.79,
-      "shares": 29294436,
+      "weight_pct": 7.77,
+      "shares": 29327383,
       "item_code": null
     },
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 7.07,
+      "weight_pct": 7.21,
       "shares": 21,
       "item_code": "LITE.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 6.33,
+      "weight_pct": 6.66,
       "shares": 49,
       "item_code": "TSLA.O"
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 4.8,
+      "weight_pct": 4.79,
       "shares": 70,
       "item_code": "PLTR.O"
     },
     {
       "name": "삼성전자우",
-      "weight_pct": 4.51,
+      "weight_pct": 4.59,
       "shares": 91,
       "item_code": "005935"
     },
     {
       "name": "라이프 타임 그룹 홀딩스",
-      "weight_pct": 3.49,
+      "weight_pct": 3.37,
       "shares": 220,
       "item_code": "LTH"
     },
     {
       "name": "테크닙FMC",
-      "weight_pct": 3.03,
+      "weight_pct": 3.12,
       "shares": 109,
       "item_code": "FTI"
     },
     {
       "name": "써클 인터넷 그룹",
-      "weight_pct": 2.49,
+      "weight_pct": 2.73,
       "shares": 78,
       "item_code": "CRCL.K"
     }

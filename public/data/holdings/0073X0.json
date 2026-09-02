@@ -1,58 +1,58 @@
 {
   "ticker": "0073X0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 28.17,
+      "weight_pct": 28.41,
       "shares": 1117,
       "item_code": "TLT.O"
     },
     {
       "name": "알리바바 그룹 홀딩 ADR",
-      "weight_pct": 24.53,
+      "weight_pct": 23.82,
       "shares": 677,
       "item_code": "BABA.K"
     },
     {
       "name": "Vanguard Long-Term Treasury Index Fund",
-      "weight_pct": 18.19,
+      "weight_pct": 18.35,
       "shares": 1124,
       "item_code": "VGLT.O"
     },
     {
       "name": "iShares 25+ Year Treasury STRIPS Bond ETF",
-      "weight_pct": 9.67,
+      "weight_pct": 9.73,
       "shares": 935,
       "item_code": "GOVZ.K"
     },
     {
       "name": "State Street SPDR Portfolio Long Term Treasury ETF",
-      "weight_pct": 9.18,
+      "weight_pct": 9.26,
       "shares": 1193,
       "item_code": "SPTL.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 9.12,
-      "shares": 41037510,
+      "weight_pct": 9.24,
+      "shares": 41084831,
       "item_code": null
     },
     {
       "name": "Schwab Long-Term US Treasury ETF",
-      "weight_pct": 1.16,
+      "weight_pct": 1.17,
       "shares": 126,
       "item_code": "SCHQ.K"
     },
     {
       "name": "TLT US 09/04/26 C83.5 Equity",
-      "weight_pct": -0.02,
+      "weight_pct": 0.0,
       "shares": -5,
       "item_code": null
     },
     {
       "name": "TLT US 09/04/26 C83 Equity",
-      "weight_pct": -0.03,
+      "weight_pct": -0.01,
       "shares": -4,
       "item_code": null
     }

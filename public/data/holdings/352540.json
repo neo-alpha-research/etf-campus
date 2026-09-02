@@ -1,11 +1,11 @@
 {
   "ticker": "352540",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 10.03,
-      "shares": 113442643,
+      "weight_pct": 9.99,
+      "shares": 112694266,
       "item_code": null
     },
     {
@@ -16,43 +16,43 @@
     },
     {
       "name": "닛폰 빌딩 투자법인",
-      "weight_pct": 6.58,
+      "weight_pct": 6.53,
       "shares": 68,
       "item_code": "8951.T"
     },
     {
       "name": "재팬리얼에스테이트투자법인",
-      "weight_pct": 5.27,
+      "weight_pct": 5.29,
       "shares": 59,
       "item_code": "8952.T"
     },
     {
       "name": "재팬 메트로폴리탄 펀드 인베스트먼트",
-      "weight_pct": 5.0,
+      "weight_pct": 5.02,
       "shares": 58,
       "item_code": "8953.T"
     },
     {
       "name": "노무라 부동산 마스터 펀드",
-      "weight_pct": 3.99,
+      "weight_pct": 4.01,
       "shares": 35,
       "item_code": "3462.T"
     },
     {
-      "name": "GLP J-리츠",
-      "weight_pct": 3.78,
-      "shares": 37,
-      "item_code": "3281.T"
-    },
-    {
       "name": "닛폰 프롤로지스 리츠",
-      "weight_pct": 3.75,
+      "weight_pct": 3.84,
       "shares": 58,
       "item_code": "3283.T"
     },
     {
+      "name": "GLP J-리츠",
+      "weight_pct": 3.77,
+      "shares": 37,
+      "item_code": "3281.T"
+    },
+    {
       "name": "KDX 리얼티 인베스트먼트",
-      "weight_pct": 3.7,
+      "weight_pct": 3.72,
       "shares": 32,
       "item_code": "8972.T"
     },
@@ -70,25 +70,25 @@
     },
     {
       "name": "다이와 하우스 리츠 투자",
-      "weight_pct": 3.12,
+      "weight_pct": 3.11,
       "shares": 35,
       "item_code": "8984.T"
     },
     {
       "name": "재팬 호텔 리츠 투자법인",
-      "weight_pct": 3.05,
+      "weight_pct": 3.03,
       "shares": 48,
       "item_code": "8985.T"
     },
     {
       "name": "인빈서블 투자법인",
-      "weight_pct": 2.97,
+      "weight_pct": 2.94,
       "shares": 62,
       "item_code": "8963.T"
     },
     {
       "name": "어드밴스 레지던스 투자법인",
-      "weight_pct": 2.55,
+      "weight_pct": 2.56,
       "shares": 23,
       "item_code": "3269.T"
     },
@@ -100,19 +100,19 @@
     },
     {
       "name": "인더스트리얼 & 인프라스트럭처 펀드",
-      "weight_pct": 2.13,
+      "weight_pct": 2.12,
       "shares": 20,
       "item_code": "3249.T"
     },
     {
       "name": "미츠이부동산 로직스파크",
-      "weight_pct": 1.98,
+      "weight_pct": 1.96,
       "shares": 24,
       "item_code": "3471.T"
     },
     {
       "name": "세키스이 하우스 리츠",
-      "weight_pct": 1.86,
+      "weight_pct": 1.85,
       "shares": 33,
       "item_code": "3309.T"
     },
@@ -124,7 +124,7 @@
     },
     {
       "name": "미쓰이 후도산 어커머데이션스 펀드",
-      "weight_pct": 1.74,
+      "weight_pct": 1.75,
       "shares": 19,
       "item_code": "3226.T"
     },
@@ -136,7 +136,7 @@
     },
     {
       "name": "라살로지포트REIT",
-      "weight_pct": 1.54,
+      "weight_pct": 1.53,
       "shares": 14,
       "item_code": "3466.T"
     },
@@ -148,7 +148,7 @@
     },
     {
       "name": "모리힐즈리트투자법인",
-      "weight_pct": 1.26,
+      "weight_pct": 1.27,
       "shares": 13,
       "item_code": "3234.T"
     },
@@ -160,7 +160,7 @@
     },
     {
       "name": "모리 트러스트 리츠",
-      "weight_pct": 1.2,
+      "weight_pct": 1.19,
       "shares": 21,
       "item_code": "8961.T"
     },
@@ -172,7 +172,7 @@
     },
     {
       "name": "미츠이 후도산 리테일 펀드",
-      "weight_pct": 1.16,
+      "weight_pct": 1.17,
       "shares": 19,
       "item_code": "8964.T"
     },
@@ -184,7 +184,7 @@
     },
     {
       "name": "NTT UD 리츠 투자",
-      "weight_pct": 1.11,
+      "weight_pct": 1.12,
       "shares": 11,
       "item_code": "8956.T"
     },
@@ -196,15 +196,9 @@
     },
     {
       "name": "도쿄 REIT",
-      "weight_pct": 1.03,
+      "weight_pct": 1.04,
       "shares": 7,
       "item_code": "8957.T"
-    },
-    {
-      "name": "미쓰비시 토지 물류 리츠 투자",
-      "weight_pct": 1.0,
-      "shares": 11,
-      "item_code": "3481.T"
     },
     {
       "name": "재팬엑셀런트 투자법인",
@@ -213,16 +207,22 @@
       "item_code": "8987.T"
     },
     {
-      "name": "헤이와 부동산 투자",
-      "weight_pct": 0.93,
-      "shares": 9,
-      "item_code": "8966.T"
+      "name": "미쓰비시 토지 물류 리츠 투자",
+      "weight_pct": 0.98,
+      "shares": 11,
+      "item_code": "3481.T"
     },
     {
       "name": "닛폰 리츠 투자",
-      "weight_pct": 0.92,
+      "weight_pct": 0.93,
       "shares": 14,
       "item_code": "3296.T"
+    },
+    {
+      "name": "헤이와 부동산 투자",
+      "weight_pct": 0.92,
+      "shares": 9,
+      "item_code": "8966.T"
     },
     {
       "name": "후쿠오카 부동산",
@@ -250,7 +250,7 @@
     },
     {
       "name": "이치고 오피스 리츠 투자법인",
-      "weight_pct": 0.58,
+      "weight_pct": 0.59,
       "shares": 8,
       "item_code": "8975.T"
     },
@@ -280,7 +280,7 @@
     },
     {
       "name": "SOSiLA 물류 리츠",
-      "weight_pct": 0.42,
+      "weight_pct": 0.44,
       "shares": 5,
       "item_code": "2979.T"
     },
@@ -298,7 +298,7 @@
     },
     {
       "name": "스타츠 그로시드 인베스트먼트",
-      "weight_pct": 0.26,
+      "weight_pct": 0.27,
       "shares": 1,
       "item_code": "8979.T"
     },
@@ -364,8 +364,8 @@
     },
     {
       "name": "외국환포워드JPY",
-      "weight_pct": -93.28,
-      "shares": -1054339664,
+      "weight_pct": -93.43,
+      "shares": -1053659007,
       "item_code": null
     }
   ]

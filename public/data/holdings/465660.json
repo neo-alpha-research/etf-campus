@@ -1,46 +1,46 @@
 {
   "ticker": "465660",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "어드반테스트",
-      "weight_pct": 12.29,
+      "weight_pct": 11.84,
       "shares": 489,
       "item_code": "6857.T"
     },
     {
       "name": "원화현금",
-      "weight_pct": 10.86,
-      "shares": 130398405,
+      "weight_pct": 10.88,
+      "shares": 129647247,
       "item_code": null
     },
     {
       "name": "디스코",
-      "weight_pct": 8.5,
+      "weight_pct": 8.4,
       "shares": 201,
       "item_code": "6146.T"
     },
     {
       "name": "도쿄일렉트론",
-      "weight_pct": 8.01,
+      "weight_pct": 8.11,
       "shares": 200,
       "item_code": "8035.T"
     },
     {
       "name": "르네사스 일렉트로닉스",
-      "weight_pct": 7.46,
+      "weight_pct": 7.47,
       "shares": 3064,
       "item_code": "6723.T"
     },
     {
       "name": "레이져테크",
-      "weight_pct": 7.33,
+      "weight_pct": 7.18,
       "shares": 297,
       "item_code": "6920.T"
     },
     {
       "name": "키옥시아 홀딩스",
-      "weight_pct": 6.45,
+      "weight_pct": 6.79,
       "shares": 189,
       "item_code": "285A.T"
     },
@@ -52,69 +52,69 @@
     },
     {
       "name": "코쿠사이 엘렉트릭",
-      "weight_pct": 5.1,
+      "weight_pct": 5.08,
       "shares": 804,
       "item_code": "6525.T"
     },
     {
       "name": "GlobalX Japan Semiconductor ETF",
-      "weight_pct": 4.45,
+      "weight_pct": 4.46,
       "shares": 1582,
       "item_code": "2644.T"
     },
     {
       "name": "롬",
-      "weight_pct": 4.1,
+      "weight_pct": 4.17,
       "shares": 1191,
       "item_code": "6963.T"
     },
     {
       "name": "섬코",
-      "weight_pct": 3.31,
+      "weight_pct": 3.3,
       "shares": 1352,
       "item_code": "3436.T"
     },
     {
       "name": "호리바",
-      "weight_pct": 2.31,
+      "weight_pct": 2.34,
       "shares": 139,
       "item_code": "6856.T"
     },
     {
       "name": "동경정밀",
-      "weight_pct": 1.86,
+      "weight_pct": 1.85,
       "shares": 145,
       "item_code": "7729.T"
     },
     {
       "name": "맥니카 홀딩스",
-      "weight_pct": 1.31,
+      "weight_pct": 1.37,
       "shares": 517,
       "item_code": "3132.T"
     },
     {
       "name": "로체",
-      "weight_pct": 1.02,
+      "weight_pct": 1.03,
       "shares": 354,
       "item_code": "6323.T"
     },
     {
       "name": "알프스전기",
-      "weight_pct": 1.01,
+      "weight_pct": 1.03,
       "shares": 636,
       "item_code": "6770.T"
+    },
+    {
+      "name": "소시오넥스트",
+      "weight_pct": 0.97,
+      "shares": 677,
+      "item_code": "6526.T"
     },
     {
       "name": "니혼 마이크로닉스",
       "weight_pct": 0.96,
       "shares": 104,
       "item_code": "6871.T"
-    },
-    {
-      "name": "소시오넥스트",
-      "weight_pct": 0.96,
-      "shares": 677,
-      "item_code": "6526.T"
     },
     {
       "name": "알박",
@@ -124,27 +124,33 @@
     },
     {
       "name": "시바우라메카트로닉",
-      "weight_pct": 0.68,
+      "weight_pct": 0.69,
       "shares": 238,
       "item_code": "6590.T"
     },
     {
       "name": "테크센드 포토마스크",
-      "weight_pct": 0.5,
+      "weight_pct": 0.51,
       "shares": 191,
       "item_code": "429A.T"
     },
     {
       "name": "도와",
-      "weight_pct": 0.38,
+      "weight_pct": 0.39,
       "shares": 233,
       "item_code": "6315.T"
     },
     {
       "name": "산켄 전기",
-      "weight_pct": 0.38,
+      "weight_pct": 0.37,
       "shares": 72,
       "item_code": "6707.T"
+    },
+    {
+      "name": "야마이치전기",
+      "weight_pct": 0.36,
+      "shares": 62,
+      "item_code": "6941.T"
     },
     {
       "name": "재팬 머티리얼",
@@ -153,20 +159,32 @@
       "item_code": "6055.T"
     },
     {
-      "name": "야마이치전기",
-      "weight_pct": 0.34,
-      "shares": 62,
-      "item_code": "6941.T"
-    },
-    {
       "name": "리가쿠 홀딩스",
-      "weight_pct": 0.33,
+      "weight_pct": 0.32,
       "shares": 276,
       "item_code": "268A.T"
     },
     {
-      "name": "QD 레이저",
+      "name": "도멘디바이스",
       "weight_pct": 0.24,
+      "shares": 10,
+      "item_code": "2737.T"
+    },
+    {
+      "name": "메가칩스",
+      "weight_pct": 0.24,
+      "shares": 31,
+      "item_code": "6875.T"
+    },
+    {
+      "name": "료요 료산 홀딩스",
+      "weight_pct": 0.24,
+      "shares": 105,
+      "item_code": "167A.T"
+    },
+    {
+      "name": "QD 레이저",
+      "weight_pct": 0.23,
       "shares": 156,
       "item_code": "6613.T"
     },
@@ -177,22 +195,10 @@
       "item_code": "6855.T"
     },
     {
-      "name": "메가칩스",
-      "weight_pct": 0.23,
-      "shares": 31,
-      "item_code": "6875.T"
-    },
-    {
-      "name": "료요 료산 홀딩스",
-      "weight_pct": 0.23,
-      "shares": 105,
-      "item_code": "167A.T"
-    },
-    {
-      "name": "도멘디바이스",
-      "weight_pct": 0.22,
-      "shares": 10,
-      "item_code": "2737.T"
+      "name": "알에스 테크놀로지스",
+      "weight_pct": 0.21,
+      "shares": 50,
+      "item_code": "3445.T"
     },
     {
       "name": "옵터런",
@@ -201,10 +207,10 @@
       "item_code": "6235.T"
     },
     {
-      "name": "알에스 테크놀로지스",
+      "name": "도쿄일렉트론디바이스",
       "weight_pct": 0.2,
-      "shares": 50,
-      "item_code": "3445.T"
+      "shares": 66,
+      "item_code": "2760.T"
     },
     {
       "name": "AI 메카텍",
@@ -213,28 +219,22 @@
       "item_code": "6227.T"
     },
     {
-      "name": "도쿄일렉트론디바이스",
-      "weight_pct": 0.18,
-      "shares": 66,
-      "item_code": "2760.T"
-    },
-    {
       "name": "하쿠토",
-      "weight_pct": 0.15,
+      "weight_pct": 0.16,
       "shares": 42,
       "item_code": "7433.T"
+    },
+    {
+      "name": "브이테크놀로지",
+      "weight_pct": 0.13,
+      "shares": 32,
+      "item_code": "7717.T"
     },
     {
       "name": "니폰 세라믹",
       "weight_pct": 0.13,
       "shares": 49,
       "item_code": "6929.T"
-    },
-    {
-      "name": "브이테크놀로지",
-      "weight_pct": 0.12,
-      "shares": 32,
-      "item_code": "7717.T"
     },
     {
       "name": "삼코",

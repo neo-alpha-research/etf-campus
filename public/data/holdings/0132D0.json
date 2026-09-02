@@ -1,100 +1,100 @@
 {
   "ticker": "0132D0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
-      "name": "삼양식품",
-      "weight_pct": 8.8,
-      "shares": 29,
-      "item_code": "003230"
-    },
-    {
       "name": "농심",
-      "weight_pct": 8.7,
+      "weight_pct": 8.76,
       "shares": 99,
       "item_code": "004370"
     },
     {
-      "name": "에이피알",
-      "weight_pct": 8.65,
-      "shares": 94,
-      "item_code": "278470"
+      "name": "삼양식품",
+      "weight_pct": 8.67,
+      "shares": 29,
+      "item_code": "003230"
     },
     {
       "name": "서부T&D",
-      "weight_pct": 8.54,
+      "weight_pct": 8.52,
       "shares": 3871,
       "item_code": "006730"
     },
     {
+      "name": "에이피알",
+      "weight_pct": 8.14,
+      "shares": 94,
+      "item_code": "278470"
+    },
+    {
+      "name": "F&F",
+      "weight_pct": 7.74,
+      "shares": 566,
+      "item_code": "383220"
+    },
+    {
       "name": "하이브",
-      "weight_pct": 7.54,
+      "weight_pct": 7.56,
       "shares": 212,
       "item_code": "352820"
     },
     {
       "name": "파마리서치",
-      "weight_pct": 7.51,
+      "weight_pct": 7.38,
       "shares": 89,
       "item_code": "214450"
     },
     {
-      "name": "F&F",
-      "weight_pct": 7.5,
-      "shares": 566,
-      "item_code": "383220"
-    },
-    {
       "name": "아모레퍼시픽",
-      "weight_pct": 5.83,
+      "weight_pct": 5.86,
       "shares": 200,
       "item_code": "090430"
     },
     {
       "name": "오리온",
-      "weight_pct": 5.69,
+      "weight_pct": 5.74,
       "shares": 221,
       "item_code": "271560"
     },
     {
       "name": "넷플릭스",
-      "weight_pct": 4.27,
+      "weight_pct": 4.29,
       "shares": 192,
       "item_code": "NFLX.O"
     },
     {
       "name": "신세계",
-      "weight_pct": 3.28,
+      "weight_pct": 3.49,
       "shares": 40,
       "item_code": "004170"
     },
     {
-      "name": "라이브 네이션 엔터테인먼트",
-      "weight_pct": 2.59,
-      "shares": 52,
-      "item_code": "LYV"
-    },
-    {
       "name": "울타 뷰티",
-      "weight_pct": 2.55,
+      "weight_pct": 2.68,
       "shares": 18,
       "item_code": "ULTA.O"
     },
     {
+      "name": "라이브 네이션 엔터테인먼트",
+      "weight_pct": 2.6,
+      "shares": 52,
+      "item_code": "LYV"
+    },
+    {
       "name": "싱클레어 브로드캐스트 그룹",
-      "weight_pct": 2.5,
+      "weight_pct": 2.49,
       "shares": 643,
       "item_code": "SBGI.O"
     },
     {
       "name": "웹툰 엔터테인먼트",
-      "weight_pct": 2.2,
+      "weight_pct": 2.29,
       "shares": 793,
       "item_code": "WBTN.O"
     },
     {
       "name": "네오팜",
-      "weight_pct": 2.05,
+      "weight_pct": 2.01,
       "shares": 414,
       "item_code": "092730"
     },
@@ -105,38 +105,38 @@
       "item_code": "237880"
     },
     {
-      "name": "알파벳 Class A",
-      "weight_pct": 1.96,
-      "shares": 20,
-      "item_code": "GOOGL.O"
-    },
-    {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 1.95,
+      "weight_pct": 1.97,
       "shares": 240,
       "item_code": "122870"
     },
     {
+      "name": "알파벳 Class A",
+      "weight_pct": 1.94,
+      "shares": 20,
+      "item_code": "GOOGL.O"
+    },
+    {
       "name": "스포티파이 테크놀러지",
-      "weight_pct": 1.75,
+      "weight_pct": 1.76,
       "shares": 11,
       "item_code": "SPOT.K"
     },
     {
       "name": "스피어 엔터테인먼트",
-      "weight_pct": 1.6,
+      "weight_pct": 1.56,
       "shares": 41,
       "item_code": "SPHR.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.31,
-      "shares": 6648779,
+      "weight_pct": 1.36,
+      "shares": 6805980,
       "item_code": null
     },
     {
       "name": "레딧",
-      "weight_pct": 0.64,
+      "weight_pct": 0.62,
       "shares": 15,
       "item_code": "RDDT.K"
     },

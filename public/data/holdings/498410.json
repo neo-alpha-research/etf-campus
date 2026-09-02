@@ -1,28 +1,28 @@
 {
   "ticker": "498410",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "KB금융",
-      "weight_pct": 21.23,
+      "weight_pct": 20.77,
       "shares": 1457,
       "item_code": "105560"
     },
     {
       "name": "하나금융지주",
-      "weight_pct": 15.6,
+      "weight_pct": 15.57,
       "shares": 1361,
       "item_code": "086790"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 13.21,
+      "weight_pct": 13.38,
       "shares": 4650,
       "item_code": "316140"
     },
     {
       "name": "삼성화재",
-      "weight_pct": 10.23,
+      "weight_pct": 10.31,
       "shares": 183,
       "item_code": "000810"
     },
@@ -34,56 +34,56 @@
     },
     {
       "name": "KODEX 금융고배당TOP10",
-      "weight_pct": 7.46,
+      "weight_pct": 7.47,
       "shares": 6592,
       "item_code": "0089D0"
     },
     {
       "name": "DB손해보험",
-      "weight_pct": 6.88,
+      "weight_pct": 7.25,
       "shares": 452,
       "item_code": "005830"
     },
     {
       "name": "NH투자증권",
-      "weight_pct": 4.98,
+      "weight_pct": 4.92,
       "shares": 2232,
       "item_code": "005940"
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 4.88,
+      "weight_pct": 4.8,
       "shares": 302,
       "item_code": "071050"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 3.22,
+      "weight_pct": 3.2,
       "shares": 436,
       "item_code": "016360"
     },
     {
       "name": "키움증권",
-      "weight_pct": 2.87,
+      "weight_pct": 2.88,
       "shares": 123,
       "item_code": "039490"
     },
     {
       "name": "코스피위클리 C 2609W1 1075.0",
-      "weight_pct": -0.15,
+      "weight_pct": -0.16,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "코스피위클리 C 2609W1 1072.5",
-      "weight_pct": -0.25,
+      "weight_pct": -0.26,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": -0.32,
-      "shares": -3888383,
+      "shares": -3844469,
       "item_code": null
     }
   ]

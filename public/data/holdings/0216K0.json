@@ -1,58 +1,58 @@
 {
   "ticker": "0216K0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "스페이스X",
-      "weight_pct": 28.42,
-      "shares": 1248,
+      "weight_pct": 25.0,
+      "shares": 1084,
       "item_code": "SPCX.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 21.57,
-      "shares": 2083,
+      "weight_pct": 24.99,
+      "shares": 2436,
       "item_code": "RKLB.O"
     },
     {
       "name": "국고채권02375-2703(22-1)",
-      "weight_pct": 11.82,
+      "weight_pct": 11.78,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02125-2706(17-3)",
-      "weight_pct": 11.68,
+      "weight_pct": 11.64,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03250-2706(24-4)",
-      "weight_pct": 9.45,
+      "weight_pct": 9.42,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-2703(25-1)",
-      "weight_pct": 5.92,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "통화안정증권02700-2703-01",
       "weight_pct": 5.9,
       "shares": 0,
       "item_code": null
     },
     {
+      "name": "통화안정증권02700-2703-01",
+      "weight_pct": 5.88,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 2.85,
-      "shares": 24319586,
+      "weight_pct": 3.02,
+      "shares": 25792302,
       "item_code": null
     },
     {
       "name": "통화안정증권02400-2707-02",
-      "weight_pct": 2.34,
+      "weight_pct": 2.33,
       "shares": 0,
       "item_code": null
     }

@@ -1,76 +1,76 @@
 {
   "ticker": "419650",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "블룸 에너지",
-      "weight_pct": 10.47,
+      "weight_pct": 10.29,
       "shares": 91,
       "item_code": "BE"
     },
     {
       "name": "퓨얼셀 에너지",
-      "weight_pct": 6.38,
+      "weight_pct": 6.22,
       "shares": 658,
       "item_code": "FCEL.O"
     },
     {
       "name": "SFC ENERGY AG-BR",
-      "weight_pct": 5.99,
+      "weight_pct": 6.17,
       "shares": 466,
       "item_code": null
     },
     {
       "name": "THYSSENKRUPP NUCERA AG & CO",
-      "weight_pct": 5.61,
+      "weight_pct": 5.77,
       "shares": 1127,
       "item_code": null
     },
     {
       "name": "에어 프로덕츠 앤 케미컬스",
-      "weight_pct": 5.18,
+      "weight_pct": 5.23,
       "shares": 30,
       "item_code": "APD"
     },
     {
       "name": "ITM POWER PLC",
-      "weight_pct": 5.06,
+      "weight_pct": 5.08,
       "shares": 6495,
       "item_code": null
     },
     {
       "name": "플러그 파워",
-      "weight_pct": 5.03,
+      "weight_pct": 4.99,
       "shares": 4215,
       "item_code": "PLUG.O"
     },
     {
       "name": "북경 억화통과기",
-      "weight_pct": 4.83,
+      "weight_pct": 4.79,
       "shares": 5557,
       "item_code": "2402.HK"
     },
     {
       "name": "AIR LIQUIDE SA",
-      "weight_pct": 4.72,
+      "weight_pct": 4.74,
       "shares": 43,
       "item_code": null
     },
     {
-      "name": "NEL ASA",
-      "weight_pct": 4.51,
-      "shares": 36732,
-      "item_code": null
-    },
-    {
       "name": "린드",
-      "weight_pct": 4.47,
+      "weight_pct": 4.49,
       "shares": 16,
       "item_code": "LIN.O"
     },
     {
+      "name": "NEL ASA",
+      "weight_pct": 4.47,
+      "shares": 36732,
+      "item_code": null
+    },
+    {
       "name": "H-POWER PLC",
-      "weight_pct": 4.23,
+      "weight_pct": 4.25,
       "shares": 53274,
       "item_code": null
     },
@@ -82,25 +82,25 @@
     },
     {
       "name": "두산퓨얼셀",
-      "weight_pct": 4.21,
+      "weight_pct": 4.15,
       "shares": 234,
       "item_code": "336260"
     },
     {
       "name": "CERES POWER HOLDINGS PLC",
-      "weight_pct": 4.07,
+      "weight_pct": 4.09,
       "shares": 1402,
       "item_code": null
     },
     {
       "name": "범한퓨얼셀",
-      "weight_pct": 4.01,
+      "weight_pct": 3.92,
       "shares": 582,
       "item_code": "382900"
     },
     {
       "name": "일진하이솔루스",
-      "weight_pct": 3.56,
+      "weight_pct": 3.54,
       "shares": 818,
       "item_code": "271940"
     },
@@ -111,45 +111,45 @@
       "item_code": null
     },
     {
-      "name": "국부경능기술장비",
-      "weight_pct": 3.02,
-      "shares": 4915,
-      "item_code": "2582.HK"
-    },
-    {
       "name": "발라드 파워 시스템즈",
-      "weight_pct": 3.0,
+      "weight_pct": 3.1,
       "shares": 2437,
       "item_code": "BLDP.O"
     },
     {
+      "name": "국부경능기술장비",
+      "weight_pct": 2.98,
+      "shares": 4915,
+      "item_code": "2582.HK"
+    },
+    {
       "name": "미쓰비시 케미컬 그룹",
-      "weight_pct": 1.1,
+      "weight_pct": 1.12,
       "shares": 272,
       "item_code": "4188.T"
     },
     {
       "name": "다이요닛폰산소",
-      "weight_pct": 1.05,
+      "weight_pct": 1.07,
       "shares": 55,
       "item_code": "4091.T"
     },
     {
-      "name": "덕양에너젠",
-      "weight_pct": 0.75,
-      "shares": 201,
-      "item_code": "0001A0"
-    },
-    {
       "name": "SOL SPA",
-      "weight_pct": 0.73,
+      "weight_pct": 0.77,
       "shares": 21,
       "item_code": null
     },
     {
+      "name": "덕양에너젠",
+      "weight_pct": 0.76,
+      "shares": 201,
+      "item_code": "0001A0"
+    },
+    {
       "name": "원화현금",
       "weight_pct": 0.41,
-      "shares": 1052352,
+      "shares": 1048864,
       "item_code": null
     }
   ]

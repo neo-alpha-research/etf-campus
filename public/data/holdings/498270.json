@@ -1,118 +1,118 @@
 {
   "ticker": "498270",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "리게티 컴퓨팅",
-      "weight_pct": 7.55,
+      "weight_pct": 7.57,
       "shares": 2512,
       "item_code": "RGTI.O"
     },
     {
       "name": "클라우드플레어",
-      "weight_pct": 7.28,
+      "weight_pct": 7.4,
       "shares": 126,
       "item_code": "NET"
     },
     {
       "name": "디 웨이브 퀀텀",
-      "weight_pct": 7.19,
+      "weight_pct": 7.27,
       "shares": 2197,
       "item_code": "QBTS.O"
     },
     {
       "name": "퀀텀 컴퓨팅",
-      "weight_pct": 6.97,
+      "weight_pct": 7.02,
       "shares": 4435,
       "item_code": "QUBT.O"
     },
     {
       "name": "포티넷",
-      "weight_pct": 6.53,
+      "weight_pct": 6.71,
       "shares": 204,
       "item_code": "FTNT.O"
     },
     {
       "name": "마이크로칩 테크놀러지",
-      "weight_pct": 6.34,
+      "weight_pct": 6.37,
       "shares": 451,
       "item_code": "MCHP.O"
     },
     {
       "name": "아이온큐",
-      "weight_pct": 6.33,
+      "weight_pct": 6.34,
       "shares": 838,
       "item_code": "IONQ.K"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 6.23,
+      "weight_pct": 6.15,
       "shares": 63,
       "item_code": "MSFT.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 5.93,
+      "weight_pct": 5.78,
       "shares": 142,
       "item_code": "MRVL.O"
     },
     {
       "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 5.36,
+      "weight_pct": 5.31,
       "shares": 118,
       "item_code": "IBM"
     },
     {
       "name": "온투 이노베이션",
-      "weight_pct": 5.27,
+      "weight_pct": 5.19,
       "shares": 101,
       "item_code": "ONTO.K"
     },
     {
-      "name": "아마존닷컴",
-      "weight_pct": 5.13,
-      "shares": 100,
-      "item_code": "AMZN.O"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 4.99,
+      "weight_pct": 5.05,
       "shares": 119,
       "item_code": "NVDA.O"
     },
     {
+      "name": "아마존닷컴",
+      "weight_pct": 5.0,
+      "shares": 100,
+      "item_code": "AMZN.O"
+    },
+    {
       "name": "알파벳 Class A",
-      "weight_pct": 4.54,
+      "weight_pct": 4.44,
       "shares": 68,
       "item_code": "GOOGL.O"
     },
     {
       "name": "부즈 앨런 해밀턴 홀딩",
-      "weight_pct": 4.35,
+      "weight_pct": 4.37,
       "shares": 300,
       "item_code": "BAH"
     },
     {
       "name": "래티스 세미컨덕터",
-      "weight_pct": 4.21,
+      "weight_pct": 4.24,
       "shares": 191,
       "item_code": "LSCC.O"
     },
     {
       "name": "폼팩터",
-      "weight_pct": 3.56,
+      "weight_pct": 3.52,
       "shares": 182,
       "item_code": "FORM.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.04,
-      "shares": 7383500,
+      "weight_pct": 1.03,
+      "shares": 7379134,
       "item_code": null
     },
     {
       "name": "넷스코프",
-      "weight_pct": 1.01,
+      "weight_pct": 1.02,
       "shares": 349,
       "item_code": "NTSK.O"
     },

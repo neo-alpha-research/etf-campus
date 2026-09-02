@@ -1,46 +1,46 @@
 {
   "ticker": "435530",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "JPMorgan BetaBuilders US Aggregate Bond ETF",
-      "weight_pct": 20.95,
+      "weight_pct": 20.97,
       "shares": 2582,
       "item_code": "BBAG.K"
     },
     {
       "name": "Vanguard Short-Term Treasury Index Fund",
-      "weight_pct": 15.77,
+      "weight_pct": 15.8,
       "shares": 1513,
       "item_code": "VGSH.O"
     },
     {
       "name": "iShares Core International Aggregate Bond ETF",
-      "weight_pct": 13.65,
+      "weight_pct": 13.67,
       "shares": 1528,
       "item_code": "IAGG.K"
     },
     {
       "name": "KIWOOM 종합채권(AA-이상)액티브",
-      "weight_pct": 9.09,
+      "weight_pct": 9.06,
       "shares": 695,
       "item_code": "454780"
     },
     {
       "name": "Vanguard 500 Index Fund ETF",
-      "weight_pct": 6.98,
+      "weight_pct": 6.97,
       "shares": 55,
       "item_code": "VOO"
     },
     {
       "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
-      "weight_pct": 6.64,
+      "weight_pct": 6.63,
       "shares": 506,
       "item_code": "VEA"
     },
     {
       "name": "iShares Russell 2000 ETF",
-      "weight_pct": 4.94,
+      "weight_pct": 4.91,
       "shares": 93,
       "item_code": "IWM"
     },
@@ -52,7 +52,7 @@
     },
     {
       "name": "Invesco NASDAQ 100 ETF",
-      "weight_pct": 3.12,
+      "weight_pct": 3.13,
       "shares": 59,
       "item_code": "QQQM.O"
     },
@@ -76,8 +76,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.44,
-      "shares": 18654631,
+      "weight_pct": 2.57,
+      "shares": 19582111,
       "item_code": null
     },
     {

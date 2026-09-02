@@ -1,46 +1,46 @@
 {
   "ticker": "462010",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 23.17,
+      "weight_pct": 22.76,
       "shares": 302,
       "item_code": "003670"
     },
     {
       "name": "에코프로",
-      "weight_pct": 19.39,
+      "weight_pct": 19.07,
       "shares": 555,
       "item_code": "086520"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 18.26,
+      "weight_pct": 18.08,
       "shares": 395,
       "item_code": "247540"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 17.23,
+      "weight_pct": 17.87,
       "shares": 133,
       "item_code": "005490"
     },
     {
       "name": "LG화학",
-      "weight_pct": 10.39,
+      "weight_pct": 10.78,
       "shares": 97,
       "item_code": "051910"
     },
     {
       "name": "엘앤에프",
-      "weight_pct": 3.2,
+      "weight_pct": 2.94,
       "shares": 57,
       "item_code": "066970"
     },
     {
       "name": "SKC",
-      "weight_pct": 1.72,
+      "weight_pct": 1.74,
       "shares": 50,
       "item_code": "011790"
     },
@@ -52,13 +52,13 @@
     },
     {
       "name": "롯데에너지머티리얼즈",
-      "weight_pct": 0.83,
+      "weight_pct": 0.91,
       "shares": 58,
       "item_code": "020150"
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 0.81,
+      "weight_pct": 0.82,
       "shares": 23,
       "item_code": "078600"
     },
@@ -75,16 +75,16 @@
       "item_code": "093370"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.44,
-      "shares": 1163343,
-      "item_code": null
-    },
-    {
       "name": "SK아이이테크놀로지",
-      "weight_pct": 0.43,
+      "weight_pct": 0.45,
       "shares": 71,
       "item_code": "361610"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.45,
+      "shares": 1160491,
+      "item_code": null
     },
     {
       "name": "나노신소재",
@@ -94,13 +94,13 @@
     },
     {
       "name": "엔켐",
-      "weight_pct": 0.34,
+      "weight_pct": 0.32,
       "shares": 41,
       "item_code": "348370"
     },
     {
       "name": "성일하이텍",
-      "weight_pct": 0.25,
+      "weight_pct": 0.24,
       "shares": 17,
       "item_code": "365340"
     },
@@ -118,13 +118,13 @@
     },
     {
       "name": "더블유씨피",
-      "weight_pct": 0.16,
+      "weight_pct": 0.19,
       "shares": 45,
       "item_code": "393890"
     },
     {
       "name": "에코앤드림",
-      "weight_pct": 0.11,
+      "weight_pct": 0.1,
       "shares": 31,
       "item_code": "101360"
     }

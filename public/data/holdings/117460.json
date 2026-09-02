@@ -1,112 +1,112 @@
 {
   "ticker": "117460",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "LG화학",
-      "weight_pct": 16.38,
+      "weight_pct": 16.37,
       "shares": 578,
       "item_code": "051910"
     },
     {
-      "name": "HD현대",
-      "weight_pct": 14.19,
-      "shares": 640,
-      "item_code": "267250"
-    },
-    {
       "name": "SK이노베이션",
-      "weight_pct": 13.43,
+      "weight_pct": 14.37,
       "shares": 1057,
       "item_code": "096770"
     },
     {
+      "name": "HD현대",
+      "weight_pct": 14.08,
+      "shares": 640,
+      "item_code": "267250"
+    },
+    {
       "name": "S-Oil",
-      "weight_pct": 8.99,
+      "weight_pct": 9.02,
       "shares": 592,
       "item_code": "010950"
     },
     {
       "name": "한화솔루션",
-      "weight_pct": 6.87,
+      "weight_pct": 6.67,
       "shares": 2007,
       "item_code": "009830"
     },
     {
       "name": "OCI홀딩스",
-      "weight_pct": 5.28,
+      "weight_pct": 4.97,
       "shares": 188,
       "item_code": "010060"
     },
     {
       "name": "SKC",
-      "weight_pct": 3.35,
+      "weight_pct": 3.27,
       "shares": 367,
       "item_code": "011790"
     },
     {
-      "name": "한솔케미칼",
-      "weight_pct": 2.85,
-      "shares": 136,
-      "item_code": "014680"
-    },
-    {
       "name": "KCC",
-      "weight_pct": 2.73,
+      "weight_pct": 2.82,
       "shares": 57,
       "item_code": "002380"
     },
     {
+      "name": "한솔케미칼",
+      "weight_pct": 2.8,
+      "shares": 136,
+      "item_code": "014680"
+    },
+    {
       "name": "금호석유화학",
-      "weight_pct": 2.67,
+      "weight_pct": 2.7,
       "shares": 207,
       "item_code": "011780"
     },
     {
       "name": "동진쎄미켐",
-      "weight_pct": 2.06,
+      "weight_pct": 2.01,
       "shares": 478,
       "item_code": "005290"
     },
     {
       "name": "이수스페셜티케미컬",
-      "weight_pct": 2.04,
+      "weight_pct": 2.01,
       "shares": 288,
       "item_code": "457190"
     },
     {
       "name": "솔브레인",
-      "weight_pct": 1.97,
+      "weight_pct": 1.94,
       "shares": 57,
       "item_code": "357780"
     },
     {
       "name": "코오롱인더",
-      "weight_pct": 1.69,
+      "weight_pct": 1.66,
       "shares": 281,
       "item_code": "120110"
     },
     {
       "name": "롯데케미칼",
-      "weight_pct": 1.52,
+      "weight_pct": 1.53,
       "shares": 255,
       "item_code": "011170"
     },
     {
       "name": "효성티앤씨",
-      "weight_pct": 1.29,
+      "weight_pct": 1.24,
       "shares": 36,
       "item_code": "298020"
     },
     {
       "name": "한국카본",
-      "weight_pct": 1.11,
+      "weight_pct": 1.09,
       "shares": 455,
       "item_code": "017960"
     },
     {
       "name": "롯데정밀화학",
-      "weight_pct": 0.99,
+      "weight_pct": 0.98,
       "shares": 205,
       "item_code": "004000"
     },
@@ -118,69 +118,63 @@
     },
     {
       "name": "SK케미칼",
-      "weight_pct": 0.74,
+      "weight_pct": 0.75,
       "shares": 138,
       "item_code": "285130"
     },
     {
       "name": "SK가스",
-      "weight_pct": 0.73,
+      "weight_pct": 0.75,
       "shares": 32,
       "item_code": "018670"
     },
     {
       "name": "나노신소재",
-      "weight_pct": 0.65,
+      "weight_pct": 0.63,
       "shares": 127,
       "item_code": "121600"
     },
     {
       "name": "레이크머티리얼즈",
-      "weight_pct": 0.64,
+      "weight_pct": 0.62,
       "shares": 523,
       "item_code": "281740"
     },
     {
       "name": "엔켐",
-      "weight_pct": 0.62,
+      "weight_pct": 0.58,
       "shares": 283,
       "item_code": "348370"
     },
     {
+      "name": "SK디스커버리",
+      "weight_pct": 0.55,
+      "shares": 104,
+      "item_code": "006120"
+    },
+    {
       "name": "OCI",
-      "weight_pct": 0.56,
+      "weight_pct": 0.54,
       "shares": 67,
       "item_code": "456040"
     },
     {
       "name": "HS효성첨단소재",
-      "weight_pct": 0.54,
+      "weight_pct": 0.53,
       "shares": 30,
       "item_code": "298050"
     },
     {
-      "name": "SK디스커버리",
-      "weight_pct": 0.53,
-      "shares": 104,
-      "item_code": "006120"
-    },
-    {
       "name": "TKG휴켐스",
-      "weight_pct": 0.51,
+      "weight_pct": 0.5,
       "shares": 308,
       "item_code": "069260"
     },
     {
       "name": "대한유화",
-      "weight_pct": 0.47,
+      "weight_pct": 0.48,
       "shares": 49,
       "item_code": "006650"
-    },
-    {
-      "name": "동성화인텍",
-      "weight_pct": 0.45,
-      "shares": 251,
-      "item_code": "033500"
     },
     {
       "name": "한국쉘석유",
@@ -189,22 +183,28 @@
       "item_code": "002960"
     },
     {
-      "name": "코스모화학",
-      "weight_pct": 0.42,
-      "shares": 360,
-      "item_code": "005420"
+      "name": "동성화인텍",
+      "weight_pct": 0.44,
+      "shares": 251,
+      "item_code": "033500"
     },
     {
-      "name": "PI첨단소재",
-      "weight_pct": 0.39,
-      "shares": 192,
-      "item_code": "178920"
+      "name": "코스모화학",
+      "weight_pct": 0.41,
+      "shares": 360,
+      "item_code": "005420"
     },
     {
       "name": "E1",
       "weight_pct": 0.39,
       "shares": 40,
       "item_code": "017940"
+    },
+    {
+      "name": "PI첨단소재",
+      "weight_pct": 0.38,
+      "shares": 192,
+      "item_code": "178920"
     },
     {
       "name": "유니드",
@@ -220,13 +220,13 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.31,
-      "shares": 3081217,
+      "weight_pct": 0.32,
+      "shares": 3240543,
       "item_code": null
     },
     {
       "name": "애경케미칼",
-      "weight_pct": 0.29,
+      "weight_pct": 0.28,
       "shares": 263,
       "item_code": "161000"
     },

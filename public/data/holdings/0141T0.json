@@ -1,76 +1,76 @@
 {
   "ticker": "0141T0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고02750-2812(25-10)",
-      "weight_pct": 20.76,
+      "weight_pct": 20.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "토지주택채권562",
-      "weight_pct": 13.87,
+      "weight_pct": 13.81,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03500-2906(26-5)",
-      "weight_pct": 9.36,
+      "weight_pct": 9.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 8.1,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "BNK캐피탈385-6",
-      "weight_pct": 6.92,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "iM금융지주28-2",
-      "weight_pct": 6.63,
+      "weight_pct": 8.05,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.53,
-      "shares": 6575422,
+      "weight_pct": 6.98,
+      "shares": 7022533,
+      "item_code": null
+    },
+    {
+      "name": "BNK캐피탈385-6",
+      "weight_pct": 6.89,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "iM금융지주28-2",
+      "weight_pct": 6.6,
+      "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02625-3003(25-3)",
-      "weight_pct": 6.13,
+      "weight_pct": 6.1,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나캐피탈470-5",
-      "weight_pct": 5.78,
+      "weight_pct": 5.75,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국항공우주산업29-1",
-      "weight_pct": 5.73,
+      "weight_pct": 5.7,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈357-2",
-      "weight_pct": 3.53,
+      "weight_pct": 3.52,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈359-3(녹)",
-      "weight_pct": 3.51,
+      "weight_pct": 3.49,
       "shares": 0,
       "item_code": null
     },
@@ -82,7 +82,7 @@
     },
     {
       "name": "국고02500-3009(25-8)",
-      "weight_pct": 0.67,
+      "weight_pct": 0.66,
       "shares": 0,
       "item_code": null
     },

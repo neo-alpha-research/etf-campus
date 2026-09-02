@@ -1,16 +1,16 @@
 {
   "ticker": "148070",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "국고채권03250-3512(25-11)",
-      "weight_pct": 32.76,
+      "weight_pct": 32.75,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03000-3412(24-13)",
-      "weight_pct": 32.46,
+      "weight_pct": 32.47,
       "shares": 0,
       "item_code": null
     },
@@ -22,8 +22,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.45,
-      "shares": 3610944,
+      "weight_pct": 3.44,
+      "shares": 3591688,
       "item_code": null
     }
   ]

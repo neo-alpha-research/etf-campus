@@ -1,6 +1,6 @@
 {
   "ticker": "477050",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "현대커머셜 20260714-62-2(단)",
@@ -436,8 +436,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -5.17,
-      "shares": -5542715,
+      "weight_pct": -5.18,
+      "shares": -5544035,
       "item_code": null
     }
   ]

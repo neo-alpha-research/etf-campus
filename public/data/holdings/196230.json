@@ -1,6 +1,6 @@
 {
   "ticker": "196230",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "통화안정증권02700-2703-01",
@@ -21,14 +21,14 @@
       "item_code": null
     },
     {
-      "name": "통화안정증권02270-2609-01",
-      "weight_pct": 11.61,
+      "name": "통화안정증권02620-2704-02",
+      "weight_pct": 11.57,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "통화안정증권02620-2704-02",
-      "weight_pct": 11.57,
+      "name": "통화안정증권03370-2707-01",
+      "weight_pct": 7.74,
       "shares": 0,
       "item_code": null
     },
@@ -47,7 +47,13 @@
     {
       "name": "원화현금",
       "weight_pct": 7.63,
-      "shares": 8926027,
+      "shares": 8930570,
+      "item_code": null
+    },
+    {
+      "name": "통화안정증권02270-2609-01",
+      "weight_pct": 3.87,
+      "shares": 0,
       "item_code": null
     },
     {

@@ -1,35 +1,35 @@
 {
   "ticker": "225050",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 74.46,
-      "shares": 631465360,
+      "weight_pct": 76.09,
+      "shares": 632035876,
       "item_code": null
     },
     {
       "name": "TIGER 유로스탁스50(합성 H)",
-      "weight_pct": 22.31,
+      "weight_pct": 22.55,
       "shares": 7934,
       "item_code": "195930"
     },
     {
       "name": "유로스탁스50 TRS(KB증권)",
-      "weight_pct": 2.22,
-      "shares": 18893459,
+      "weight_pct": 1.23,
+      "shares": 10240660,
       "item_code": null
     },
     {
       "name": "EURO STOXX50 INDEX EUR (LEVERAGE) TRS 26",
-      "weight_pct": 0.8,
-      "shares": 6837299,
+      "weight_pct": 0.14,
+      "shares": 1180222,
       "item_code": null
     },
     {
       "name": "미래에셋유로스탁스50레버리지증권상장지수",
-      "weight_pct": 0.17,
-      "shares": 1522961,
+      "weight_pct": -0.02,
+      "shares": -199018,
       "item_code": null
     }
   ]

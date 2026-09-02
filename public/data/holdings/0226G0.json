@@ -1,42 +1,42 @@
 {
   "ticker": "0226G0",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 22.25,
+      "weight_pct": 22.6,
       "shares": 530,
       "item_code": "005930"
     },
     {
       "name": "현대차",
-      "weight_pct": 20.26,
+      "weight_pct": 20.35,
       "shares": 311,
       "item_code": "005380"
     },
     {
       "name": "효성중공업",
-      "weight_pct": 4.78,
+      "weight_pct": 4.76,
       "shares": 10,
       "item_code": "298040"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 4.47,
+      "weight_pct": 4.44,
       "shares": 19,
       "item_code": "009150"
     },
     {
-      "name": "LS ELECTRIC",
-      "weight_pct": 4.08,
-      "shares": 122,
-      "item_code": "010120"
-    },
-    {
       "name": "SK하이닉스",
-      "weight_pct": 4.05,
+      "weight_pct": 4.14,
       "shares": 15,
       "item_code": "000660"
+    },
+    {
+      "name": "LS ELECTRIC",
+      "weight_pct": 4.07,
+      "shares": 122,
+      "item_code": "010120"
     },
     {
       "name": "대덕전자",
@@ -46,87 +46,87 @@
     },
     {
       "name": "로보티즈",
-      "weight_pct": 3.95,
+      "weight_pct": 3.94,
       "shares": 95,
       "item_code": "108490"
     },
     {
       "name": "기가비스",
-      "weight_pct": 3.94,
+      "weight_pct": 3.71,
       "shares": 217,
       "item_code": "420770"
     },
     {
       "name": "에스피지",
-      "weight_pct": 3.67,
+      "weight_pct": 3.6,
       "shares": 244,
       "item_code": "058610"
     },
     {
       "name": "원화예금",
-      "weight_pct": 2.81,
-      "shares": 17443684,
+      "weight_pct": 2.84,
+      "shares": 17435903,
       "item_code": null
     },
     {
       "name": "HD건설기계",
-      "weight_pct": 2.73,
+      "weight_pct": 2.68,
       "shares": 127,
       "item_code": "267270"
     },
     {
       "name": "DN오토모티브",
-      "weight_pct": 2.57,
+      "weight_pct": 2.55,
       "shares": 338,
       "item_code": "007340"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 2.49,
+      "weight_pct": 2.46,
       "shares": 34,
       "item_code": "012330"
     },
     {
       "name": "심텍",
-      "weight_pct": 2.31,
+      "weight_pct": 2.27,
       "shares": 111,
       "item_code": "222800"
     },
     {
-      "name": "HL만도",
-      "weight_pct": 2.14,
-      "shares": 256,
-      "item_code": "204320"
-    },
-    {
       "name": "HD현대일렉트릭",
-      "weight_pct": 2.14,
+      "weight_pct": 2.13,
       "shares": 17,
       "item_code": "267260"
     },
     {
+      "name": "HL만도",
+      "weight_pct": 2.1,
+      "shares": 256,
+      "item_code": "204320"
+    },
+    {
       "name": "SK이터닉스",
-      "weight_pct": 2.04,
+      "weight_pct": 1.94,
       "shares": 230,
       "item_code": "475150"
     },
     {
       "name": "기아",
-      "weight_pct": 1.75,
+      "weight_pct": 1.77,
       "shares": 83,
       "item_code": "000270"
     },
     {
-      "name": "에스엘",
-      "weight_pct": 1.72,
-      "shares": 201,
-      "item_code": "005850"
-    },
-    {
       "name": "SNT모티브",
-      "weight_pct": 1.7,
+      "weight_pct": 1.76,
       "shares": 406,
       "item_code": "064960"
+    },
+    {
+      "name": "에스엘",
+      "weight_pct": 1.73,
+      "shares": 201,
+      "item_code": "005850"
     }
   ]
 }

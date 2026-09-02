@@ -1,46 +1,46 @@
 {
   "ticker": "267450",
-  "as_of_date": "2026-09-01",
+  "as_of_date": "2026-09-02",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 65.19,
-      "shares": 721884556,
+      "weight_pct": 64.57,
+      "shares": 718726957,
       "item_code": null
     },
     {
       "name": "RISE 머니마켓액티브",
-      "weight_pct": 14.02,
+      "weight_pct": 13.95,
       "shares": 2800,
       "item_code": "455890"
     },
     {
       "name": "RISE 단기통안채",
-      "weight_pct": 10.55,
+      "weight_pct": 10.5,
       "shares": 1000,
       "item_code": "196230"
     },
     {
+      "name": "ProShares UltraShort 20+ Year Treasury",
+      "weight_pct": 5.73,
+      "shares": 1220,
+      "item_code": "TBT"
+    },
+    {
       "name": "RISE 중기우량회사채",
-      "weight_pct": 5.27,
+      "weight_pct": 5.24,
       "shares": 560,
       "item_code": "136340"
     },
     {
-      "name": "ProShares UltraShort 20+ Year Treasury",
-      "weight_pct": 4.94,
-      "shares": 1060,
-      "item_code": "TBT"
-    },
-    {
       "name": "FX스왑 USD 260813-20",
-      "weight_pct": -61.99,
-      "shares": -686489760,
+      "weight_pct": -61.75,
+      "shares": -687392640,
       "item_code": null
     },
     {
       "name": "US LONG BOND(CBOT) DEC 2026",
-      "weight_pct": -89.09,
+      "weight_pct": -88.26,
       "shares": -6,
       "item_code": null
     }

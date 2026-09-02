@@ -163,29 +163,33 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           <text x="40" y="155" fill="#475569" font-size="18" font-weight="700">💡 KOSPI ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% · 상승 ${up}개 · 하락 ${down}개</text>
         </g>
 
-        <!-- Pulse 2: Long/Short Themes -->
+        <!-- Pulse 2: Long/Short Themes (2행 레이아웃 - 겹침 방지) -->
         <g transform="translate(50, 495)">
-          <rect width="840" height="185" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+          <rect width="840" height="215" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
           <text x="40" y="42" fill="#0F172A" font-size="21" font-weight="800">🔥 2. 오늘의 극과 극 테마 (1위 vs 꼴찌)</text>
           
           <rect x="610" y="16" width="190" height="38" rx="10" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.2"/>
           <text x="705" y="41" fill="#C2410C" font-size="15" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
 
-          <g transform="translate(40, 95)">
-            <text x="0" y="0" fill="#B42318" font-size="18" font-weight="800">상승 1위</text>
-            <text x="80" y="0" fill="#0F172A" font-size="22" font-weight="900">${topTheme.peerGroup}</text>
-            <text x="360" y="0" fill="#D92D20" font-size="26" font-weight="900" text-anchor="end" class="tabular">+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%</text>
-
-            <text x="400" y="0" fill="#175CD3" font-size="18" font-weight="800">하락 1위</text>
-            <text x="480" y="0" fill="#0F172A" font-size="22" font-weight="900">${bottomTheme.peerGroup}</text>
-            <text x="760" y="0" fill="#175CD3" font-size="26" font-weight="900" text-anchor="end" class="tabular">${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%</text>
+          <!-- 행 1: 상승 1위 -->
+          <g transform="translate(40, 72)">
+            <text x="0" y="0" fill="#B42318" font-size="17" font-weight="800">상승 1위</text>
+            <text x="75" y="0" fill="#0F172A" font-size="20" font-weight="900">${topTheme.peerGroup.length > 15 ? topTheme.peerGroup.slice(0, 15) + '…' : topTheme.peerGroup}</text>
+            <text x="800" y="0" fill="#D92D20" font-size="26" font-weight="900" text-anchor="end" class="tabular">+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%</text>
           </g>
 
-          <text x="40" y="155" fill="#475569" font-size="18" font-weight="700">💡 ${topTheme.peerGroup} +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 독주 vs ${bottomTheme.peerGroup} ${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}% 하락</text>
+          <!-- 행 2: 하락 1위 -->
+          <g transform="translate(40, 118)">
+            <text x="0" y="0" fill="#175CD3" font-size="17" font-weight="800">하락 1위</text>
+            <text x="75" y="0" fill="#0F172A" font-size="20" font-weight="900">${bottomTheme.peerGroup.length > 15 ? bottomTheme.peerGroup.slice(0, 15) + '…' : bottomTheme.peerGroup}</text>
+            <text x="800" y="0" fill="#175CD3" font-size="26" font-weight="900" text-anchor="end" class="tabular">${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%</text>
+          </g>
+
+          <text x="40" y="183" fill="#475569" font-size="17" font-weight="700">💡 ${topTheme.peerGroup} +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 독주 vs ${bottomTheme.peerGroup} ${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}% 하락</text>
         </g>
 
         <!-- Pulse 3: Top Inflow -->
-        <g transform="translate(50, 705)">
+        <g transform="translate(50, 730)">
           <rect width="840" height="185" rx="24" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
           <text x="40" y="42" fill="#475569" font-size="21" font-weight="800">🏦 3. 오늘 자금이 가장 많이 몰린 ETF</text>
           

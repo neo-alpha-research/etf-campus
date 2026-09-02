@@ -1,4 +1,5 @@
 "use client";
+import { useRef } from "react";
 
 import { useMarketBriefingHistory } from "@/lib/hooks/use-market-briefing-history";
 import { useAuthSession } from "@/components/auth/use-auth-session";
@@ -85,6 +86,7 @@ type MarketBriefingHistoryProps = {
 
 export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefingHistoryProps) {
   const { authenticated } = useAuthSession();
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const {
     items,
     isLoading,
@@ -192,9 +194,10 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
           <div className="mt-5 flex justify-center">
             <div className="relative inline-flex">
               <input 
+                ref={dateInputRef}
                 type="date" 
                 id="history-date-picker"
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 block"
                 onChange={(e) => {
                   if (e.target.value) {
                     onSelectDate(e.target.value);
@@ -205,7 +208,14 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
               />
               <button
                 type="button"
-                className="rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-5 py-2.5 text-[13px] font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] flex items-center gap-2 shadow-sm"
+                onClick={() => {
+                  try {
+                    dateInputRef.current?.showPicker();
+                  } catch(e) {
+                    dateInputRef.current?.focus();
+                  }
+                }}
+                className="rounded-xl border border-[#C9DDB1] bg-[#F7FBEF] px-5 py-2.5 text-[13px] font-bold text-[#476237] transition hover:bg-[#EFF8D8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#9ACD68] flex items-center gap-2 shadow-sm relative z-20 pointer-events-auto"
               >
                 📅 달력에서 이전 일자 찾기
               </button>

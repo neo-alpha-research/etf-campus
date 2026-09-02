@@ -2,10 +2,10 @@ name: Monitor market daily pipeline
 
 on:
   schedule:
-    # UTC Tue-Sat 01:03 = KST Tue-Sat 10:33.
-    # The daily ETF refresh has completed all 07:53, 08:53, 09:53 retry rungs,
-    # then leaves 40 minutes for signed snapshot ingest, D1 outbox, Queue and publisher.
-    - cron: "33 1 * * 2-6"
+    # UTC Tue-Sat 00:45 = KST Tue-Sat 09:45.
+    # The daily ETF refresh has completed all 07:53 ~ 09:33 retry rungs,
+    # then leaves sufficient time for D1 ingest, production deployment, and OSMU generation.
+    - cron: "45 0 * * 2-6"
   workflow_dispatch:
     inputs:
       expected_as_of_date:

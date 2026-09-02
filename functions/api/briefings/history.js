@@ -1,3 +1,5 @@
+import { MARKET_BRIEFING_SERVICE_START_DATE } from "./_shared.js";
+
 const JSON_HEADERS = {
   "content-type": "application/json; charset=utf-8",
   "cache-control": "public, max-age=300, stale-while-revalidate=300",
@@ -45,14 +47,14 @@ export async function onRequestGet(context) {
       market_temperature, general_aum_weighted_return_pct,
       top100_aum_weighted_return_pct, breadth_ratio_pct, general_etf_count
     FROM market_briefings
-    WHERE as_of_date >= '2026-08-24' 
+    WHERE as_of_date >= ?
       AND (? IS NULL OR as_of_date < ?)
     ORDER BY as_of_date DESC
     LIMIT ?`,
   );
 
   const rows = await query
-    .bind(cursor ?? null, cursor ?? null, limit + 1)
+    .bind(MARKET_BRIEFING_SERVICE_START_DATE, cursor ?? null, cursor ?? null, limit + 1)
     .all();
   const results = rows.results ?? [];
   const hasMore = results.length > limit;

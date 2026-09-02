@@ -1,3 +1,5 @@
+import { MARKET_BRIEFING_SERVICE_START_DATE } from "./_shared.js";
+
 const JSON_HEADERS = {
   "content-type": "application/json; charset=utf-8",
   "cache-control": "public, max-age=60, stale-while-revalidate=60",
@@ -67,10 +69,11 @@ async function readKvBriefing(kv) {
   try {
     const pointer = await kv.get(LATEST_POINTER_KEY, "json");
     if (!pointer || typeof pointer !== "object" || !pointer.payloadKey || !pointer.asOfDate) return null;
+    if (pointer.asOfDate < MARKET_BRIEFING_SERVICE_START_DATE) return null;
 
     const payload = await kv.get(pointer.payloadKey, "json");
     const decorated = withFreshness(payload);
-    return decorated?.briefing?.asOfDate === pointer.asOfDate ? decorated : null;
+    return (decorated?.briefing?.asOfDate === pointer.asOfDate && decorated?.briefing?.asOfDate >= MARKET_BRIEFING_SERVICE_START_DATE) ? decorated : null;
   } catch {
     // KV is an acceleration layer. Any propagation, parse, or binding error falls
     // back to D1 so only an already-validated briefing is returned to the reader.
@@ -211,7 +214,9 @@ export async function onRequestGet(context) {
   try {
     cached = await readKvBriefing(context.env.BRIEFING_KV);
   } catch(e) {}
-  if (cached && !cached.briefing?.isStale) return Response.json(cached, { headers: JSON_HEADERS });
+  if (cached && !cached.briefing?.isStale && cached.briefing?.asOfDate >= MARKET_BRIEFING_SERVICE_START_DATE) {
+    return Response.json(cached, { headers: JSON_HEADERS });
+  }
 
   try {
     const briefing = await context.env.ETF_PRICES.prepare(
@@ -226,9 +231,12 @@ export async function onRequestGet(context) {
       published_at, updated_at
     FROM market_briefings
     WHERE status = 'ready'
+      AND as_of_date >= ?
     ORDER BY as_of_date DESC
     LIMIT 1`,
-  ).first();
+  )
+    .bind(MARKET_BRIEFING_SERVICE_START_DATE)
+    .first();
 
   if (!briefing) {
     return new Response(

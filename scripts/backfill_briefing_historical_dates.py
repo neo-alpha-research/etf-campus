@@ -32,6 +32,7 @@ from typing import Any
 
 KST = dt.timezone(dt.timedelta(hours=9))
 BASE_URL = "https://apis.data.go.kr/1160100/service/GetSecuritiesProductInfoService/getETFPriceInfo"
+INDEX_BASE_URL = "https://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex"
 MAX_REQUEST_ATTEMPTS = 5
 REQUEST_TIMEOUT_SECONDS = 30
 
@@ -104,6 +105,68 @@ def fetch_fsc_snapshot(service_key: str, day_text: str) -> list[dict[str, Any]]:
     return rows
 
 
+def fetch_market_indices(service_key: str, day_text: str) -> list[dict[str, Any]]:
+    query = urllib.parse.urlencode({
+        "serviceKey": service_key,
+        "resultType": "json",
+        "basDt": day_text,
+        "numOfRows": 50,
+        "pageNo": 1,
+    })
+    last_error: Exception | None = None
+    for attempt in range(MAX_REQUEST_ATTEMPTS):
+        try:
+            url = f"{INDEX_BASE_URL}?{query}"
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+            body = payload.get("response", {}).get("body", {})
+            items = (body.get("items") or {}).get("item") or []
+            if isinstance(items, dict):
+                items = [items]
+
+            kospi_row = None
+            kosdaq_row = None
+            for item in items:
+                name = str(item.get("idxNm") or "").strip()
+                if name in ("코스피", "KOSPI"):
+                    kospi_row = item
+                elif name in ("코스닥", "KOSDAQ"):
+                    kosdaq_row = item
+
+            if not kospi_row or not kosdaq_row:
+                available = [str(it.get("idxNm")) for it in items]
+                raise ValueError(f"Missing KOSPI or KOSDAQ in Public Data Portal index response for {day_text}. Found: {available}")
+
+            as_of_iso = iso_date(day_text)
+            indices = [
+                {
+                    "code": "KOSPI",
+                    "name": "코스피",
+                    "asOfDate": as_of_iso,
+                    "close": float(kospi_row.get("clpr") or 0.0),
+                    "changePoints": float(kospi_row.get("vs") or 0.0),
+                    "changePct": float(kospi_row.get("fltRt") or 0.0),
+                    "volumeValue": int(float(kospi_row.get("trPrc") or 0.0)),
+                },
+                {
+                    "code": "KOSDAQ",
+                    "name": "코스닥",
+                    "asOfDate": as_of_iso,
+                    "close": float(kosdaq_row.get("clpr") or 0.0),
+                    "changePoints": float(kosdaq_row.get("vs") or 0.0),
+                    "changePct": float(kosdaq_row.get("fltRt") or 0.0),
+                    "volumeValue": int(float(kosdaq_row.get("trPrc") or 0.0)),
+                },
+            ]
+            return indices
+        except Exception as error:
+            last_error = error
+            if attempt < MAX_REQUEST_ATTEMPTS - 1:
+                time.sleep(2)
+    raise RuntimeError(f"Failed to fetch market indices for date {day_text} from Public Data Portal (15094807): {last_error}") from last_error
+
+
 def signed_post(endpoint: str, secret: str, payload: dict[str, Any]) -> dict[str, Any]:
     body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     timestamp = str(int(time.time()))
@@ -124,7 +187,7 @@ def signed_post(endpoint: str, secret: str, payload: dict[str, Any]) -> dict[str
         return json.loads(response.read().decode("utf-8"))
 
 
-def ingest_via_signed_api(endpoint: str, secret: str, as_of_date: str, rows: list[dict[str, Any]]) -> None:
+def ingest_via_signed_api(endpoint: str, secret: str, as_of_date: str, rows: list[dict[str, Any]], indices: list[dict[str, Any]]) -> None:
     etfs = []
     for r in rows:
         ticker = str(r.get("srtnCd") or "").strip().upper()
@@ -162,11 +225,6 @@ def ingest_via_signed_api(endpoint: str, secret: str, as_of_date: str, rows: lis
     etf_hash = hashlib.sha256(json.dumps(etfs, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
     source_version = f"market-source-{as_of_date}-{etf_hash[:16]}"
     general = [e for e in etfs if e["isGeneralEtf"] == 1]
-
-    indices = [
-        {"code": "KOSPI", "name": "코스피", "asOfDate": as_of_date, "close": 2600.0, "changePoints": 0.0, "changePct": 0.0, "volumeValue": 0},
-        {"code": "KOSDAQ", "name": "코스닥", "asOfDate": as_of_date, "close": 800.0, "changePoints": 0.0, "changePct": 0.0, "volumeValue": 0}
-    ]
     index_hash = hashlib.sha256(json.dumps(indices, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
 
     validation = {
@@ -192,7 +250,6 @@ def ingest_via_signed_api(endpoint: str, secret: str, as_of_date: str, rows: lis
         "validation": validation,
     })
 
-
     for i in range(0, len(etfs), 40):
         batch = etfs[i:i + 40]
         signed_post(endpoint, secret, {
@@ -202,10 +259,6 @@ def ingest_via_signed_api(endpoint: str, secret: str, as_of_date: str, rows: lis
             "etfs": batch,
         })
 
-    indices = [
-        {"code": "KOSPI", "name": "코스피", "asOfDate": as_of_date, "close": 2600.0, "changePoints": 0.0, "changePct": 0.0, "volumeValue": 0},
-        {"code": "KOSDAQ", "name": "코스닥", "asOfDate": as_of_date, "close": 800.0, "changePoints": 0.0, "changePct": 0.0, "volumeValue": 0}
-    ]
     signed_post(endpoint, secret, {
         "action": "finalize",
         "asOfDate": as_of_date,
@@ -243,13 +296,16 @@ def main():
             total_trade = sum(float(r.get("trPrc") or 0) for r in rows) / 100_000_000
             print(f"  ✅ Fetched {len(rows)} ETFs. Total AUM: {(total_aum / 10000):.1f}조원 ({total_aum:,.0f}억원), Trade: {(total_trade / 10000):.1f}조원")
 
+            indices = fetch_market_indices(service_key, day_text)
+            print(f"  ✅ Fetched market indices: KOSPI {indices[0]['close']} ({indices[0]['changePct']}%), KOSDAQ {indices[1]['close']} ({indices[1]['changePct']}%)")
+
             hmac_secret = os.environ.get("PRICE_INGEST_HMAC_SECRET", "").strip()
             endpoint = os.environ.get("PRICE_INGEST_ENDPOINT", "https://etf-campus.pages.dev/api/internal/ingest-market-source").strip()
 
             if hmac_secret:
                 print(f"  🚀 Ingesting via signed API ({endpoint})...")
-                ingest_via_signed_api(endpoint, hmac_secret, as_of, rows)
-                print(f"  ✅ Successfully ingested {len(rows)} ETFs via signed API for {as_of}")
+                ingest_via_signed_api(endpoint, hmac_secret, as_of, rows, indices)
+                print(f"  ✅ Successfully ingested {len(rows)} ETFs and verified indices via signed API for {as_of}")
             else:
                 print(f"  ⚡ Ingesting via Wrangler D1 execution...")
                 # Write direct SQL

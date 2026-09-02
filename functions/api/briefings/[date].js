@@ -1,3 +1,5 @@
+import { MARKET_BRIEFING_SERVICE_START_DATE } from "./_shared.js";
+
 const JSON_HEADERS = {
   "content-type": "application/json; charset=utf-8",
   "cache-control": "public, max-age=300, stale-while-revalidate=300",
@@ -192,9 +194,9 @@ export async function onRequestGet(context) {
     );
   }
 
-  if (date < "2026-08-24") {
+  if (date < MARKET_BRIEFING_SERVICE_START_DATE) {
     return Response.json(
-      { briefing: null, message: "마켓 브리핑은 2026년 8월 24일부터 정식 제공됩니다." },
+      { briefing: null, message: `마켓 브리핑은 ${MARKET_BRIEFING_SERVICE_START_DATE}부터 정식 제공됩니다.` },
       { status: 404, headers: { ...JSON_HEADERS, "cache-control": "no-store" } },
     );
   }

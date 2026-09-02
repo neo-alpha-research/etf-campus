@@ -463,3 +463,37 @@ workers/market-briefing-publisher/src/index.ts L520   peer_groups: peerGroups,
 2026-08-26 에 `!migrations/*.sql` 예외 규칙을 넣고 누락분을 전부 커밋했습니다.
 
 **새 마이그레이션 파일에 BOM 을 넣지 마십시오.** `0011` 과 `0012` 선두에 BOM 이 있습니다.
+
+### 2-18. 마켓 브리핑 서비스 개시일과 백필 더미 [확인됨]
+
+**정식 서비스 개시일은 2026-08-24 입니다.** 그 이전 날짜의 `market_briefings` 행은 전부 백필 산출물입니다.
+
+**백필 19개 행의 지수값은 하드코딩된 가짜입니다.**
+
+```
+scripts/backfill_briefing_historical_dates.py L167~168, L206~207
+{"code": "KOSPI",  "close": 2600.0, "changePct": 0.0, ...}
+{"code": "KOSDAQ", "close":  800.0, "changePct": 0.0, ...}
+```
+
+2022-12-29 부터 2026-08-20 까지 19개 행 전부가 코스피 2,600 코스닥 800 변동률 0.00 입니다. `metrics_json` 과 `kospi_close` 등 테이블 컬럼 양쪽에 들어가 있습니다.
+
+**실제 2026-08-20 코스피는 6,800 부근입니다.** 8월 24일 이후 행은 6,696.96 부터 6,835.80 사이의 실제 값입니다.
+
+**사용자 도달은 차단되어 있습니다** [확인됨]
+
+```
+functions/api/briefings/[date].js L195   if (date < "2026-08-24") return 404
+functions/api/briefings/history.js  L48   WHERE as_of_date >= '2026-08-24'
+app/sitemap.ts L27                        loadBriefings() 로컬 마크다운만 사용, D1 미참조
+```
+
+**세 곳 모두 실제 호출과 코드로 확인했습니다.** 웹 UI, 날짜 이동 바, 상세 API, 사이트맵 전 구간에서 8월 24일 이전은 노출되지 않습니다.
+
+**다만 `latest.js` 에는 이 가드가 없습니다.** 최신 행을 반환하므로 평상시 문제가 없으나, **8월 24일 이후 행이 전부 사라지면 백필 더미가 최신으로 반환됩니다.** 재발행 작업 중 실제로 근접했던 상황입니다. 과거 날짜를 지울 때 주의하십시오.
+
+**파생 지표는 무사합니다** [확인됨]. `update_truthful_monthly_timeseries.js` 와 `recompute_step6_market_scale.js` 는 8월 24일 이후만 처리하고 지수를 참조하지 않습니다.
+
+**`2026-08-24` 상수가 두 파일에 각각 박혀 있습니다.** 공통 상수로 뽑는 것이 안전합니다.
+
+**`verify_zero_hallucination.py` 가 이 값을 통과시켰습니다.** 백필 워크플로가 같은 잡에서 실행하며 `ALL INTEGRITY CHECKS PASSED` 를 냈습니다. **지수 정합성 검사가 없습니다.**

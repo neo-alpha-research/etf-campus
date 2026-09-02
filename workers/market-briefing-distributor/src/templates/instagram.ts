@@ -160,7 +160,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             <text x="635" y="0" fill="${etfColor}" font-size="34" font-weight="900" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
           </g>
 
-          <text x="40" y="155" fill="#475569" font-size="18" font-weight="700">💡 KOSPI 대형주 견인 속 일반 ETF는 중소형주·원자재 조정으로 ${etfSign}${etfReturn.toFixed(2)}% 기록</text>
+          <text x="40" y="155" fill="#475569" font-size="18" font-weight="700">💡 KOSPI ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% · 상승 ${up}개 · 하락 ${down}개</text>
         </g>
 
         <!-- Pulse 2: Long/Short Themes -->
@@ -181,7 +181,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             <text x="760" y="0" fill="#175CD3" font-size="26" font-weight="900" text-anchor="end" class="tabular">${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%</text>
           </g>
 
-          <text x="40" y="155" fill="#475569" font-size="18" font-weight="700">💡 2차전지·모빌리티 숏커버링/반등 vs 원자력·방산 차익실현 매물 출회</text>
+          <text x="40" y="155" fill="#475569" font-size="18" font-weight="700">💡 ${topTheme.peerGroup} +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 독주 vs ${bottomTheme.peerGroup} ${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}% 하락</text>
         </g>
 
         <!-- Pulse 3: Top Inflow -->
@@ -196,7 +196,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             ${topInflow.name} <tspan fill="#D92D20" font-size="32" font-weight="900" class="tabular">(+${topInflow.inflow?.toLocaleString() || "1,130"}억원)</tspan>
           </text>
 
-          <text x="40" y="155" fill="#475569" font-size="18" font-weight="700">💡 단기 조정에도 해외 반도체·미국 대표지수를 향한 스마트머니 저가 분할 매수</text>
+          <text x="40" y="155" fill="#475569" font-size="18" font-weight="700">💡 TOP 5 총 ${top5InflowSum.toLocaleString()}억원 순유입 · 상세 랭킹은 4페이지에서</text>
         </g>
       </g>
 
@@ -319,7 +319,10 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
       <!-- 6 Asset Classes List -->
       <g transform="translate(70, 315)">
         ${assetClasses.slice(0, 6).map((ac, idx) => {
-          const aumJo = ((ac.totalAum || 100000) / 10000).toFixed(1);
+          // totalAum: DB에 원화 raw값(>1조원 이상의 큰 수)으로 오는 경우가 있어 억원으로 먼저 변환 후 조원으로 표시
+          const rawAum = ac.totalAum || 0;
+          const aumEok = rawAum > 100_000_000_000 ? rawAum / 100_000_000 : rawAum;
+          const aumJo = (aumEok / 10000).toFixed(1);
           const ret = ac.aumWeightedReturnPct ?? 0;
           const retSign = ret > 0 ? "▲ +" : ret < 0 ? "▼ " : "";
           const retColor = ret >= 0 ? "#D92D20" : "#175CD3";

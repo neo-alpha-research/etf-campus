@@ -344,10 +344,16 @@ export function EtfDetail({
                       </div>
                     </div>
                   </div>
-                {etf.distributionSummary ? <DistributionHistoryCard summary={etf.distributionSummary} /> : null}
+                </div>
+
+                <DistributionHistoryCard
+                  summary={etf.distributionSummary}
+                  etfName={etf.name}
+                  isTr={etf.returnsTr != null}
+                  isNewListing={isNewListing(etf)}
+                />
               </div>
             </div>
-          </div>
           </div>
         </section>
 

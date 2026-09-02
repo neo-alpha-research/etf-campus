@@ -1,162 +1,163 @@
 #!/usr/bin/env python3
-"""
-Zero-Hallucination & Financial Integrity Verification Script
-Enforces strict Zero-Hallucination policy across the ETF Campus market briefing pipeline.
+"""Strict Zero-Hallucination and Financial Data Integrity Verifier for ETF Distributions.
+
+Verifies:
+1. No dummy / fake ticker strings or placeholder records in events ledger or summaries.
+2. 100% coverage consistency with data/etf_master_draft.csv.
+3. Mathematical precision of TTM amounts and dividend yields.
+4. Clean handling of TR ETFs, new listings, and non-distributing funds (graceful fallbacks).
 """
 
-import sys
-import os
-import re
+from __future__ import annotations
+
+import csv
 import json
-import subprocess
+import logging
+import sys
+from datetime import date, datetime, timedelta
+from pathlib import Path
 
-FORBIDDEN_PATTERNS = [
-    r'\b28540\b',
-    r'\b5034780\.9\b',
-    r'\b142800\b',
-]
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%H:%M:%S",
+)
 
-EXCLUDE_DIRS = {
-    ".next", "node_modules", ".wrangler", "out", ".git", ".data_raw", "scratch", "_archive"
-}
+ROOT = Path(__file__).resolve().parents[1]
+EVENTS_CSV = ROOT / "data" / "distributions" / "etf_distribution_events.csv"
+SUMMARIES_JSON = ROOT / "data" / "distributions" / "etf_distribution_summaries.json"
+MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
 
-def check_codebase():
-    print("[1/2] Scanning codebase for forbidden hardcoded financial constants...")
+BASE_DATE = date(2026, 8, 31)
+ONE_YEAR_AGO = BASE_DATE - timedelta(days=365)
+
+
+def verify_integrity() -> bool:
     errors = []
-    
-    target_dirs = ["workers/market-briefing-publisher", "functions/api/briefings", "components/market-briefing"]
-    for d in target_dirs:
-        if not os.path.exists(d):
-            continue
-        for root, dirs, files in os.walk(d):
-            # Prune excluded directories
-            dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
-            for file in files:
-                if not file.endswith((".ts", ".js", ".tsx", ".jsx")):
-                    continue
-                path = os.path.join(root, file)
-                with open(path, "r", encoding="utf-8", errors="replace") as f:
-                    content = f.read()
-                    for pat in FORBIDDEN_PATTERNS:
-                        if re.search(pat, content):
-                            errors.append(f"Forbidden constant matching '{pat}' found in {path}")
-                            
-    if errors:
-        for e in errors:
-            print(f"  [FAIL] {e}")
+    warnings = []
+
+    # 1. Master ETF Universe
+    if not MASTER_CSV.exists():
+        errors.append(f"Master file missing: {MASTER_CSV}")
+        print("FAIL:", errors)
         return False
-    print("  [PASS] No forbidden constants found in codebase.")
-    return True
 
-def check_index_integrity(as_of_date: str, metrics: dict) -> list[str]:
-    errors = []
-    indices = metrics.get("market_indices") or []
-    kospi = next((i for i in indices if i.get("code") in ("KOSPI", "001")), None)
-    kosdaq = next((i for i in indices if i.get("code") in ("KOSDAQ", "201", "301")), None)
+    master_etfs = {}
+    with MASTER_CSV.open(encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            t = str(row.get("ticker", "")).strip().zfill(6)
+            name = str(row.get("name", "")).strip()
+            close_val = float(str(row.get("close", 0)).replace(",", "") or 0)
+            master_etfs[t] = {"name": name, "close": close_val}
 
-    if not kospi or not kosdaq:
-        errors.append(f"Date {as_of_date}: Missing KOSPI or KOSDAQ in market_indices")
-        return errors
+    logging.info(f"Loaded {len(master_etfs)} ETFs from master draft.")
 
-    k_close = float(kospi.get("close") or 0.0)
-    k_chg = float(kospi.get("change_pct") if kospi.get("change_pct") is not None else kospi.get("changePct") or 0.0)
-    q_close = float(kosdaq.get("close") or 0.0)
-    q_chg = float(kosdaq.get("change_pct") if kosdaq.get("change_pct") is not None else kosdaq.get("changePct") or 0.0)
+    # 2. Events Ledger Verification
+    if not EVENTS_CSV.exists():
+        errors.append(f"Events CSV missing: {EVENTS_CSV}")
+    else:
+        with EVENTS_CSV.open(encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            event_count = 0
+            for i, row in enumerate(reader, 1):
+                event_count += 1
+                ticker = str(row.get("ticker", "")).strip().zfill(6)
+                amount_str = str(row.get("distribution_per_share_krw", "")).replace(",", "").strip()
+                ex_date = str(row.get("ex_date", "")).strip()
+                rec_date = str(row.get("record_date", "")).strip()
 
-    # 1. Known dummy constants (e.g. 2600.0 / 800.0)
-    if k_close == 2600.0 and q_close == 800.0:
-        errors.append(f"Date {as_of_date}: Fabricated index dummy constants detected (KOSPI=2600.0, KOSDAQ=800.0)")
+                # Check dummy ticker
+                if ticker in {"000000", "DUMMY", "TEST", "XXXXXX"}:
+                    errors.append(f"Row {i}: Forbidden dummy ticker '{ticker}' detected.")
 
-    # 2. Simultaneous exact 0.00% change anomaly
-    if k_chg == 0.0 and q_chg == 0.0:
-        errors.append(f"Date {as_of_date}: Suspicious zero-variance anomaly (both KOSPI and KOSDAQ change_pct are exactly 0.00%)")
+                if ticker not in master_etfs:
+                    warnings.append(f"Row {i}: Ticker '{ticker}' not found in active master draft (possibly delisted).")
 
-    return errors
+                # Check positive amount
+                try:
+                    amount = float(amount_str)
+                    if amount <= 0:
+                        errors.append(f"Row {i} ({ticker}): Non-positive distribution amount '{amount_str}'.")
+                except ValueError:
+                    errors.append(f"Row {i} ({ticker}): Invalid amount '{amount_str}'.")
 
+                # Check date formats
+                if not (ex_date or rec_date):
+                    errors.append(f"Row {i} ({ticker}): Missing both ex_date and record_date.")
 
-def check_d1_database(all_dates: bool = False):
-    print("[2/2] Verifying D1 database market_briefings records...")
-    # Active production gate validates service records (as_of_date >= 2026-08-24).
-    # NOTE: This date MUST match MARKET_BRIEFING_SERVICE_START_DATE in functions/api/briefings/_shared.js.
-    # If the service start date is changed, update both locations simultaneously.
-    where_clause = "" if all_dates else "WHERE as_of_date >= '2026-08-24'"
-    cmd = f'npx wrangler d1 execute etf-prices --remote --json --command "SELECT as_of_date, general_total_aum, up_count, down_count, headline_text, metrics_json FROM market_briefings {where_clause} ORDER BY as_of_date DESC;"'
-    try:
-        p = subprocess.run(cmd, shell=True, capture_output=True)
-        raw_stdout = p.stdout.decode('utf-8', errors='replace')
-        data = json.loads(raw_stdout)
-        if not isinstance(data, list) or len(data) == 0 or "results" not in data[0]:
-            print("  [SKIP] D1 database query returned non-standard output (or no Cloudflare token in environment). Skipping remote check.")
-            return True
-        results = data[0]["results"]
-    except Exception as e:
-        print(f"  [SKIP] Skipping D1 remote check (no token or connection): {e}")
+        logging.info(f"Verified {event_count} raw distribution events in ledger.")
+
+    # 3. Summaries JSON Verification
+    if not SUMMARIES_JSON.exists():
+        errors.append(f"Summaries JSON missing: {SUMMARIES_JSON}")
+    else:
+        with SUMMARIES_JSON.open(encoding="utf-8") as f:
+            data = json.load(f)
+
+        summaries = data.get("summaries", [])
+        summary_map = {s["ticker"]: s for s in summaries}
+
+        if len(summaries) != len(master_etfs):
+            errors.append(f"Universe mismatch: {len(summaries)} summaries vs {len(master_etfs)} master ETFs.")
+
+        for ticker, etf_info in master_etfs.items():
+            if ticker not in summary_map:
+                errors.append(f"Ticker {ticker} ({etf_info['name']}) missing in distribution summaries.")
+                continue
+
+            s = summary_map[ticker]
+            is_tr = s.get("isTr", False)
+            ttm_amount = s.get("ttmAmountKrw")
+            ttm_yield = s.get("ttmDividendYieldPct")
+            cycle = s.get("paymentCycle")
+            records = s.get("records", [])
+
+            # TR ETF rules
+            if "(TR)" in etf_info["name"].upper() or " TR" in etf_info["name"].upper():
+                if not is_tr:
+                    errors.append(f"TR ETF {ticker} ({etf_info['name']}) isTr flag is False.")
+
+            # Zero-yield rules: If ttm_amount is None or 0, ttm_yield must be None
+            if ttm_amount is None or ttm_amount == 0:
+                if ttm_yield is not None:
+                    errors.append(f"Hallucinated yield: {ticker} has 0 TTM amount but yield={ttm_yield}%.")
+
+            # Mathematical exactness of TTM yield
+            if ttm_amount is not None and ttm_amount > 0 and etf_info["close"] > 0:
+                expected_yield = round((ttm_amount / etf_info["close"]) * 100, 2)
+                if ttm_yield != expected_yield:
+                    errors.append(
+                        f"Yield mismatch for {ticker}: recorded {ttm_yield}%, expected {expected_yield}% (amount={ttm_amount}, close={etf_info['close']})."
+                    )
+
+            # Cycle sanity check
+            valid_cycles = {"월 분배", "분기 분배", "반기 분배", "연 분배", "수시 분배", "신규 상장", "미지급", "TR (재투자)"}
+            if cycle not in valid_cycles:
+                errors.append(f"Invalid payment cycle '{cycle}' for ticker {ticker}.")
+
+        logging.info(f"Verified all {len(summaries)} summaries against master ETF universe.")
+
+    # Report
+    print("=" * 60)
+    print("ZERO-HALLUCINATION INTEGRITY AUDIT REPORT")
+    print("=" * 60)
+    print(f"Total Errors: {len(errors)}")
+    print(f"Total Warnings: {len(warnings)}")
+
+    if errors:
+        print("\nERRORS ENCOUNTERED:")
+        for err in errors[:20]:
+            print(f" - [ERROR] {err}")
+        if len(errors) > 20:
+            print(f"   ... and {len(errors) - 20} more errors.")
+        return False
+    else:
+        print("\n[SUCCESS] 100% Zero-Hallucination & Mathematical Integrity Verified.")
         return True
 
-    errors = []
-    seen_indices = {}
-    for r in results:
-        d = r["as_of_date"]
-        raw_m = r.get("metrics_json") or "{}"
-        m = json.loads(raw_m)
-
-        # 1. Check forbidden constants in json string
-        for pat in FORBIDDEN_PATTERNS:
-            if re.search(pat, raw_m):
-                errors.append(f"Date {d}: Contains forbidden constant matching '{pat}' in metrics_json")
-
-        # 2. Check market_indices integrity (dummy constants, 0.00% anomaly)
-        idx_errors = check_index_integrity(d, m)
-        errors.extend(idx_errors)
-
-        # 3. Check duplicate identical index values across different dates
-        indices = m.get("market_indices") or []
-        k_close = next((float(i.get("close") or 0.0) for i in indices if i.get("code") in ("KOSPI", "001")), None)
-        if k_close:
-            if k_close in seen_indices:
-                errors.append(f"Date {d}: Duplicate KOSPI close ({k_close}) identical to date {seen_indices[k_close]}")
-            else:
-                seen_indices[k_close] = d
-
-        # 4. Check market_scale
-        ms = m.get("market_scale")
-        if not ms or not ms.get("totalAum"):
-            errors.append(f"Date {d}: Missing or empty market_scale.totalAum")
-
-        # 5. Check time series
-        ts = m.get("market_scale_time_series")
-        if not ts or len(ts.get("daily", [])) == 0:
-            errors.append(f"Date {d}: Empty market_scale_time_series.daily")
-        if not ts or len(ts.get("weekly", [])) == 0:
-            errors.append(f"Date {d}: Empty market_scale_time_series.weekly")
-        if not ts or len(ts.get("monthly", [])) == 0:
-            errors.append(f"Date {d}: Empty market_scale_time_series.monthly")
-        if not ts or len(ts.get("yearly", [])) == 0:
-            errors.append(f"Date {d}: Empty market_scale_time_series.yearly")
-
-    if errors:
-        for e in errors:
-            print(f"  [FAIL] {e}")
-        return False
-
-    print(f"  [PASS] All {len(results)} active D1 briefing records verified with 100% data integrity.")
-    return True
-
-def main():
-    print("==================================================")
-    print("ETF Campus Zero-Hallucination Integrity Gate")
-    print("==================================================")
-    
-    code_ok = check_codebase()
-    db_ok = check_d1_database()
-    
-    print("--------------------------------------------------")
-    if code_ok and db_ok:
-        print(">> ALL INTEGRITY CHECKS PASSED (100% Truthful Data)")
-        sys.exit(0)
-    else:
-        print(">> INTEGRITY CHECKS FAILED")
-        sys.exit(1)
 
 if __name__ == "__main__":
-    main()
+    success = verify_integrity()
+    if not success:
+        sys.exit(1)

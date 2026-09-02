@@ -32,6 +32,7 @@ def command_steps(skip_collect: bool) -> list[tuple[str, list[str]]]:
     if not skip_collect:
         steps.extend(
             [
+                ("seibro_distribution_collection", [PYTHON, "scripts/collect_seibro_distributions.py", "--days", "90"]),
                 ("distribution_registry_seed", [PYTHON, "scripts/collect_distribution_registry.py", "seed"]),
                 ("official_source_collection", [PYTHON, "scripts/collect_distribution_sources.py", "run"]),
                 ("distribution_registry_discovery", [PYTHON, "scripts/collect_distribution_registry.py", "discover"]),

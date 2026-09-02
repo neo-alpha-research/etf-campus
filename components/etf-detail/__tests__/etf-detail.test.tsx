@@ -97,7 +97,7 @@ describe("EtfDetail", () => {
         updatedAt: "2026-08-15T06:19:45Z",
       },
     }} />);
-    expect(screen.getByRole("heading", { name: "분배금 지급 이력" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /분배금.*지급/ })).toBeInTheDocument();
     expect(screen.getAllByText("100원").length).toBeGreaterThan(0);
   });
 

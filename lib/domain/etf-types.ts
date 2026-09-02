@@ -88,18 +88,23 @@ export type EtfDistributionEvent = {
   recordDate: string | null;
   payDate: string | null;
   distributionType: string;
-  displayStatus: "issuer_notice" | "krx_official_partial";
+  dividendYieldPct?: number | null;
+  displayStatus: "issuer_notice" | "krx_official_partial" | "official_seibro_krx" | string;
   displayLabel: string;
   updatedAt: string | null;
 };
 
 export type EtfDistributionSummary = {
   ticker: string;
-  sourceStatus: "issuer_notice" | "krx_official_partial" | "mixed_official_sources";
+  sourceStatus: "issuer_notice" | "krx_official_partial" | "mixed_official_sources" | "official_seibro_krx" | string;
   sourceLabel: string;
-  latest: EtfDistributionEvent;
+  latest: EtfDistributionEvent | null;
   records: EtfDistributionEvent[];
   eventCount: number;
+  paymentCycle?: string | null;
+  ttmAmountKrw?: number | null;
+  ttmDividendYieldPct?: number | null;
+  isTr?: boolean;
   updatedAt: string;
 };
 

@@ -275,15 +275,23 @@ jobs:
           for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
-                    if ! git diff --cached --quiet; then
+          if ! git diff --cached --quiet; then
             git commit -m "data: refresh ETF snapshot"
             for i in 1 2 3 4 5; do
               git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break || sleep 5
             done
           fi
 
-      - name: Trigger site deployment
+      - name: Pre-deploy briefing quality gate
+        id: quality_gate
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: python scripts/validate_briefing_gate.py
+
+      - name: Trigger site deployment
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true') && (steps.quality_gate.outcome == 'success')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

@@ -78,13 +78,13 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="site-header relative border-b border-line bg-white shadow-[0_1px_0_rgba(23,32,30,0.03)] w-full">
-      <div className="page-shell flex min-h-16 items-center justify-between gap-4">
+    <header className="site-header relative border-b border-line bg-white shadow-[0_1px_0_rgba(23,32,30,0.03)] w-full max-w-full overflow-x-hidden">
+      <div className="page-shell flex min-h-14 sm:min-h-16 items-center justify-between gap-2 sm:gap-4 w-full max-w-full">
         {/* Left: Logo & Menus */}
-        <div className="flex items-center gap-4 lg:gap-8 min-w-0">
-          <Link className="flex shrink-0 items-center gap-2 text-lg font-extrabold tracking-[-0.03em] text-brand-800" href="/">
-            <span aria-hidden="true" className="grid size-10 shrink-0 overflow-hidden rounded-full border border-brand-200 bg-brand-50">
-              <Tickery className="size-10 scale-125" pose="welcome" priority sizes="40px" />
+        <div className="flex items-center gap-2 sm:gap-4 lg:gap-8 min-w-0 shrink">
+          <Link className="flex shrink-0 items-center gap-1.5 sm:gap-2 text-base sm:text-lg font-extrabold tracking-[-0.03em] text-brand-800" href="/">
+            <span aria-hidden="true" className="grid size-8 sm:size-10 shrink-0 overflow-hidden rounded-full border border-brand-200 bg-brand-50">
+              <Tickery className="size-8 sm:size-10 scale-125" pose="welcome" priority sizes="40px" />
             </span>
             <span className="shrink-0">{siteConfig.name}</span>
           </Link>
@@ -104,7 +104,7 @@ export function SiteHeader() {
         </div>
 
         {/* Right: StyleChip & AuthNav */}
-        <div className="flex items-center justify-end gap-2.5 shrink-0">
+        <div className="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0 min-w-0">
           <StyleChip />
           <AuthNav />
         </div>

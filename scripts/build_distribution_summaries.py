@@ -37,8 +37,18 @@ MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
 OUTPUT_JSON = DATA_DIR / "etf_distribution_summaries.json"
 
 MAX_RECORDS_PER_TICKER = 36
-BASE_DATE = date(2026, 8, 31)
-ONE_YEAR_AGO = BASE_DATE - timedelta(days=365)
+
+
+def get_base_date() -> date:
+    """Return the latest market base date from master draft, fallback to today."""
+    if MASTER_CSV.exists():
+        with MASTER_CSV.open(encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            dates = [parse_date(row.get("bas_dt")) for row in reader]
+            valid_dates = [d for d in dates if d is not None]
+            if valid_dates:
+                return max(valid_dates)
+    return date.today()
 
 
 def parse_amount(raw: object) -> Optional[int]:
@@ -202,12 +212,13 @@ def determine_payment_cycle(
     listing_date: Optional[date],
     records: List[Dict[str, object]],
     ttm_records: List[Dict[str, object]],
+    base_date: date,
 ) -> str:
     if is_tr:
         return "TR (재투자)"
 
     # New listing (< 180 days from base date)
-    if listing_date and (BASE_DATE - listing_date).days < 180 and len(ttm_records) <= 1:
+    if listing_date and (base_date - listing_date).days < 180 and len(ttm_records) <= 1:
         return "신규 상장"
 
     if len(records) == 0:
@@ -230,6 +241,10 @@ def determine_payment_cycle(
 
 
 def main() -> None:
+    base_date = get_base_date()
+    one_year_ago = base_date - timedelta(days=365)
+    logging.info(f"Using base date {base_date} (TTM window: {one_year_ago} ~ {base_date})")
+
     etf_master = load_master_etfs()
     logging.info(f"Loaded {len(etf_master)} ETFs from master draft.")
 
@@ -254,7 +269,7 @@ def main() -> None:
         ttm_amount = 0
         for rec in records:
             rec_dt = parse_date(rec.get("recordDate") or rec.get("exDate"))
-            if rec_dt and rec_dt >= ONE_YEAR_AGO:
+            if rec_dt and rec_dt >= one_year_ago:
                 ttm_records.append(rec)
                 amt = int(rec.get("amountKrw") or 0)
                 ttm_amount += amt
@@ -265,7 +280,7 @@ def main() -> None:
         else:
             ttm_yield = None
 
-        payment_cycle = determine_payment_cycle(is_tr, listing_date, records, ttm_records)
+        payment_cycle = determine_payment_cycle(is_tr, listing_date, records, ttm_records, base_date)
 
         has_seibro = any(r.get("displayStatus") == "official_seibro_krx" for r in visible_records)
         has_issuer = any(r.get("displayStatus") == "issuer_notice" for r in visible_records)

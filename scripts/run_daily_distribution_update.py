@@ -52,6 +52,7 @@ def command_steps(skip_collect: bool) -> list[tuple[str, list[str]]]:
             ("candidate_validation", [PYTHON, "scripts/build_distribution_candidates.py", "validate"]),
             ("kind_notice_validation", [PYTHON, "scripts/reconcile_kind_distribution_notices.py", "validate"]),
             ("kind_event_validation", [PYTHON, "scripts/reconcile_kind_distribution_events.py", "validate"]),
+            ("zero_hallucination_validation", [PYTHON, "scripts/verify_zero_hallucination.py"]),
         ]
     )
     return steps

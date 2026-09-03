@@ -54,7 +54,7 @@ export function generateThreadsThread(
   const topicTag = selectThreadsTopicTag(payload);
 
   const watchPointText = regime.threadsWatchPoint || "지수가 큰 폭의 변동성을 겪을 때는 지수 자체보다 섹터 간 자금 이동 경로와 방어 자산의 완충력을 관찰하는 것이 훨씬 중요합니다. 오늘 개장 후 여러분의 관심 섹터는 어디인가요? 💬";
-  const commentText = regime.firstComment || "📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (순자산 500억 원 이상, 상장 3개월 이상 일반 ETF 대상 요약 / 투자 권유 아님)";
+  const commentText = regime.firstComment || `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 / 투자 권유 아님)`;
 
   const mainPost = `${regime.threadsOpening}
 
@@ -312,7 +312,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <g transform="translate(60, 1040)" filter="url(#cardShadow)">
         <rect width="960" height="75" rx="18" fill="url(#brandGrad)"/>
         <text x="480" y="45" fill="#FFFFFF" font-size="21" font-weight="900" text-anchor="middle">
-          📊 한국거래소(KRX) 전 거래일 마감 공시 데이터 전수 분석 기준 (순자산 500억↑ 대상)
+          📊 한국거래소(KRX) 전 거래일 마감 공시 데이터 전수 분석 기준 (국내 상장 일반 ETF 1,025개 전수)
         </text>
       </g>
 

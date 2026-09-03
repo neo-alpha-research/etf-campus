@@ -58,7 +58,7 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       threadsOpening: `어제 코스피가 ${kospiSign}${kospi.toFixed(2)}% 급락하면서 계좌 열어보기 무서우셨을 텐데요. 📉`,
       threadsMarketSummary: `국내 상장 일반 ETF 1,025개 중 ${down}개가 하락하며 전방위 약세를 보였지만, ETF 전체 수익률은 ${etfSign}${etfRet.toFixed(2)}%로 지수보다는 덜 빠졌어요. 글로벌 분산과 원자재·금리형 ETF가 방어벽 역할을 해준 덕분입니다. 🛡️`,
       threadsWatchPoint: `지수가 큰 폭의 조정을 겪을 때는 지수 자체보다 섹터 간 자금 이동 경로와 방어 자산의 완충력을 관찰하는 것이 훨씬 중요합니다. 오늘 개장 후 여러분의 관심 섹터는 어디인가요? 💬`,
-      firstComment: `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (순자산 500억 원 이상, 상장 3개월 이상 일반 ETF 대상 요약 / 투자 권유 아님)`,
+      firstComment: `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (국내 상장 일반 ETF 1,025개 전수 분석 / 투자 권유 아님)`,
     };
   }
 
@@ -79,7 +79,7 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       threadsOpening: `어제 코스피는 ${kospiSign}${kospi.toFixed(2)}% 조정을 받으며 숨고르기에 들어갔어요. ☕`,
       threadsMarketSummary: `일반 ETF 시장도 하락 ${down}개로 약세 흐름이었지만, 주도 테마군으로는 스마트머니의 분할 매수세가 꾸준히 유입되는 차별화 장세였습니다. 🧭`,
       threadsWatchPoint: `지수가 숨을 고를 때는 지수 등락보다 테마 간 자금 이동과 순환매 길목을 지키는 관찰이 필요합니다. 오늘 개장 후 여러분은 어떤 지표를 가장 눈여겨보고 계신가요? 💬`,
-      firstComment: `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (순자산 500억 원 이상, 상장 3개월 이상 일반 ETF 대상 요약 / 투자 권유 아님)`,
+      firstComment: `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (국내 상장 일반 ETF 1,025개 전수 분석 / 투자 권유 아님)`,
     };
   }
 
@@ -100,7 +100,7 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       threadsOpening: `어제 코스피가 ${kospiSign}${kospi.toFixed(2)}% 시원하게 쏘아 올리며 반등에 성공했어요! 🚀`,
       threadsMarketSummary: `일반 ETF 1,025개 중 ${up}개가 오르며 시장 전반에 온기가 돌았고, 스마트머니도 지수형 ETF로 강력하게 순유입되었습니다. 🔥`,
       threadsWatchPoint: `강한 반등장일수록 테마의 거래대금과 실질 자금 순유입 지속성을 차분히 분별하는 태도가 중요합니다. 오늘 개장 후 여러분이 주목하는 랠리 주도주는 어디인가요? 💬`,
-      firstComment: `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (순자산 500억 원 이상, 상장 3개월 이상 일반 ETF 대상 요약 / 투자 권유 아님)`,
+      firstComment: `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (국내 상장 일반 ETF 1,025개 전수 분석 / 투자 권유 아님)`,
     };
   }
 
@@ -120,6 +120,6 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
     threadsOpening: `어제 코스피는 ${kospiSign}${kospi.toFixed(2)}% 보합권에서 숨을 골랐어요. ☕`,
     threadsMarketSummary: `상승 ${up}개, 하락 ${down}개로 팽팽하게 맞서며 뚜렷한 지수 방향성보다는 개별 테마별로 실속을 챙기는 각개전투 장세였습니다. 🧭`,
     threadsWatchPoint: `지수가 박스권에 갇혀 있을 때는 지수 등락보다 실물 경기 지표와 스마트머니의 바닥 다지기 흐름을 살피는 것이 좋습니다. 오늘 여러분의 포트폴리오 전략은 무엇인가요? 💬`,
-    firstComment: `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (순자산 500억 원 이상, 상장 3개월 이상 일반 ETF 대상 요약 / 투자 권유 아님)`,
+    firstComment: `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (국내 상장 일반 ETF 1,025개 전수 분석 / 투자 권유 아님)`,
   };
 }

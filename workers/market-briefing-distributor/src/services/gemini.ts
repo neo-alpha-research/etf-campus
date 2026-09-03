@@ -86,7 +86,7 @@ export async function reviewAndRefineWithGemini(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
-      signal: AbortSignal.timeout(6000), // 6초 안전 타임아웃
+      signal: AbortSignal.timeout(12000), // 12초 안전 타임아웃
     });
 
     if (!response.ok) {

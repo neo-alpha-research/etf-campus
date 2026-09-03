@@ -52,34 +52,34 @@
       "code": "^IXIC"
     },
     {
-      "value": 1372.86,
-      "change": 0.46,
-      "changePoints": 6.24,
-      "as_of_date": "2026-09-01",
+      "value": 1358.39,
+      "change": -1.05,
+      "changePoints": -14.47,
+      "as_of_date": "2026-09-02",
       "label": "원/달러",
       "code": "KRW=X"
     },
     {
-      "value": 90.22,
-      "change": 5.2,
-      "changePoints": 4.46,
-      "as_of_date": "2026-09-01",
+      "value": 91.01,
+      "change": 0.88,
+      "changePoints": 0.79,
+      "as_of_date": "2026-09-02",
       "label": "WTI 원유",
       "code": "CL=F"
     },
     {
-      "value": 4348.0,
-      "change": -1.88,
-      "changePoints": -83.1,
-      "as_of_date": "2026-09-01",
+      "value": 4366.3,
+      "change": 0.42,
+      "changePoints": 18.3,
+      "as_of_date": "2026-09-02",
       "label": "금 선물",
       "code": "GC=F"
     },
     {
-      "value": 64.62,
-      "change": -2.42,
-      "changePoints": -1.6,
-      "as_of_date": "2026-09-01",
+      "value": 64.72,
+      "change": 0.16,
+      "changePoints": 0.11,
+      "as_of_date": "2026-09-02",
       "label": "은 선물",
       "code": "SI=F"
     },

@@ -187,6 +187,9 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
       });
       const createData: any = await createRes.json();
       if (createData.id) {
+        if (imgBuffer) {
+          await waitForThreadsContainer(createData.id, env.THREADS_ACCESS_TOKEN);
+        }
         const pubUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads_publish`;
         const pubRes = await fetch(pubUrl, {
           method: "POST",
@@ -287,6 +290,28 @@ export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: 
   return refined;
 }
 
+async function waitForThreadsContainer(containerId: string, accessToken: string, maxAttempts = 12): Promise<boolean> {
+  for (let i = 0; i < maxAttempts; i++) {
+    await new Promise((r) => setTimeout(r, 2000));
+    try {
+      const checkUrl = `https://graph.threads.net/v1.0/${containerId}?fields=status,error_message&access_token=${accessToken}`;
+      const res = await fetch(checkUrl);
+      const data: any = await res.json();
+      if (data.status === "FINISHED") {
+        return true;
+      }
+      if (data.status === "ERROR") {
+        console.error(`[Distributor] Container ${containerId} processing failed:`, data);
+        return false;
+      }
+      console.log(`[Distributor] Container ${containerId} status: ${data.status} (wait loop ${i + 1}/${maxAttempts})`);
+    } catch (e) {
+      console.warn("[Distributor] Status check warning:", e);
+    }
+  }
+  return false;
+}
+
 export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayload): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
   if (!env.THREADS_ACCESS_TOKEN || !env.THREADS_USER_ID) {
     return { success: false, error: "Threads API credentials (THREADS_ACCESS_TOKEN or THREADS_USER_ID) missing." };
@@ -324,6 +349,14 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
     const createData: any = await createRes.json();
     if (!createData.id) {
       return { success: false, error: `Failed to create Threads container: ${JSON.stringify(createData)}` };
+    }
+
+    // If media is IMAGE, wait for Meta to finish fetching and processing the image before publishing
+    if (imgBuffer) {
+      const isReady = await waitForThreadsContainer(createData.id, env.THREADS_ACCESS_TOKEN);
+      if (!isReady) {
+        return { success: false, error: `Threads image container ${createData.id} was not ready within timeout.` };
+      }
     }
 
     const pubUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads_publish`;

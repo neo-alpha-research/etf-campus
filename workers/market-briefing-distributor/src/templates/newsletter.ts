@@ -80,7 +80,8 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
   const topInflows: any[] = (payload.periodicFlows?.dailyFundFlows?.topInflows || []) as any[];
   const topInflowName = topInflows[0]?.name || topInflows[0]?.etfName || "국내 대표지수";
 
-  const headline = `국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장을 전수 분석한 결과, 상승 ${up}개 대비 하락 ${down}개로 숨고르기 장세를 보였습니다. 테마별로는 '${topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '')}' 테마(+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%)가 상승한 가운데, 스마트머니는 '${topInflowName}' 등 대표지수로 실질 순유입을 이어갔습니다.`;
+  const cleanTopThemeName = topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
+  const headline = `국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장을 전수 분석한 결과, 상승 ${up}개 대비 하락 ${down}개로 숨고르기 장세를 보였습니다. 테마별로는 '${cleanTopThemeName}' 테마가 +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 상승한 가운데, 스마트머니는 '${topInflowName}' 등 대표지수로 실질 순유입을 이어갔습니다.`;
   
   const utmLink = `${baseUrl}/briefing?utm_source=newsletter&utm_medium=email&utm_campaign=daily_briefing_${dateStr.replace(/-/g, "")}`;
 

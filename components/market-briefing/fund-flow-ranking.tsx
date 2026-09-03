@@ -113,7 +113,6 @@ export function FundFlowRanking({
           <div className="divide-y divide-neutral-100 flex-1 flex flex-col justify-between">
             {currentData.topInflows.slice(0, 5).map((row, idx) => {
               const widthPct = Math.min((Math.abs(row.netInflowValue) / maxInflow) * 100, 100);
-              const isTop3 = idx < 3;
 
               return (
                 <Link
@@ -175,7 +174,6 @@ export function FundFlowRanking({
           <div className="divide-y divide-neutral-100 flex-1 flex flex-col justify-between">
             {currentData.topOutflows.slice(0, 5).map((row, idx) => {
               const widthPct = Math.min((Math.abs(row.netInflowValue) / maxOutflow) * 100, 100);
-              const isTop3 = idx < 3;
 
               return (
                 <Link

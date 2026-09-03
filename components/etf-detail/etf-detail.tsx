@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { AsOfDate, PensionBadge, RiskBadge, ReturnCell } from "@/components/etf";
 import { siteConfig } from "@/config/site";
-import { formatMoney, formatWon, formatFeePct } from "@/lib/domain/etf-format";
+import { formatMoney, formatWon } from "@/lib/domain/etf-format";
 import { isNewListing } from "@/lib/domain/etf-explorer";
 import { type Etf } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
@@ -90,30 +90,6 @@ export function EtfDetail({
 
   const itdAvailable = Boolean(newListing && etf.itdAnchor?.price && etf.itdAnchor?.date && etf.returns.itd !== null);
   const itdPendingVerification = Boolean(itdAvailable && !etf.itdAnchor?.verified);
-
-  const fee = etf.fee;
-  const feeCtx = getFeeDisplayContext(etf);
-  const isFeeVerified = fee?.verificationStatus === "verified_official" || fee?.verificationStatus === "official_single_source";
-  const feeSource = fee?.dartReceiptNo
-    ? {
-        label: "\uAE08\uAC10\uC6D0 DART \uD22C\uC790\uC124\uBA85\uC11C",
-        url: `https://dart.fss.or.kr/dsaf001/main.do?rcpNo=${fee.dartReceiptNo}`,
-      }
-    : fee?.primarySourceUrl
-      ? { label: "\uC6B4\uC6A9\uC0AC \uACF5\uC2DD \uC790\uB8CC", url: fee.primarySourceUrl }
-      : fee?.secondarySourceUrl
-        ? { label: "\uACF5\uC2DD \uBCF4\uC870 \uC790\uB8CC", url: fee.secondarySourceUrl }
-        : null;
-
-  const getFeeStatusText = (status: string | undefined) => {
-    switch(status) {
-      case "seed_unverified": return "검증 전 데이터";
-      case "conflict": return "출처 간 정보 불일치";
-      case "pending_review": return "공식 데이터 확인 중";
-      case "stale": return "최신화 필요";
-      default: return "공식 데이터 확인 중";
-    }
-  };
 
   return (
     <main className="page-shell flex-1 py-6 sm:py-8 space-y-3">

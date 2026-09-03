@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Compass, Sparkles, ChevronUp, X } from "lucide-react";
+import { ArrowRight, Compass, Sparkles, ChevronUp } from "lucide-react";
 
 interface MarketBriefingGuideModalProps {
   isOpen: boolean;

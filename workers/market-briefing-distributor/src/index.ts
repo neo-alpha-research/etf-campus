@@ -130,7 +130,7 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
   const effectiveDate = payload.asOfDate || targetDate || "latest";
 
   // 1. 서킷 브레이커 검증
-  const validation = validateBriefingPayload(payload, env);
+  const validation = await validateBriefingPayload(payload, env);
   if (!validation.isSafe) {
     console.error(`[Distributor] Circuit breaker tripped for ${effectiveDate}:`, validation.reasons);
     try {
@@ -142,9 +142,27 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )`
       ).run();
+
+      let existingDetails: any = {};
+      let existingStatus: string | null = null;
+      const row: any = await env.ETF_PRICES.prepare(
+        `SELECT status, details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+      ).bind(effectiveDate).first();
+      if (row) {
+        existingStatus = row.status;
+        if (row.details_json) {
+          try { existingDetails = JSON.parse(row.details_json); } catch (e) {}
+        }
+      }
+      existingDetails.reasons = validation.reasons;
+      const nextStatus = existingStatus === "distributed" ? "distributed" : "blocked";
+      if (existingStatus === "distributed") {
+        existingDetails.revision_blocked = true;
+      }
+
       await env.ETF_PRICES.prepare(
-        `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, 'blocked', ?, CURRENT_TIMESTAMP)`
-      ).bind(effectiveDate, JSON.stringify({ reasons: validation.reasons })).run();
+        `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)`
+      ).bind(effectiveDate, nextStatus, JSON.stringify(existingDetails)).run();
     } catch (e) {}
     return { success: false, status: "blocked", reasons: validation.reasons };
   }
@@ -257,9 +275,35 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
       )`
     ).run();
 
+    let existingDetails: any = {};
+    let existingStatus: string | null = null;
+    const row: any = await env.ETF_PRICES.prepare(
+      `SELECT status, details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+    ).bind(effectiveDate).first();
+    if (row) {
+      existingStatus = row.status;
+      if (row.details_json) {
+        try { existingDetails = JSON.parse(row.details_json); } catch (e) {}
+      }
+    }
+
+    const mergedDetails = {
+      ...existingDetails,
+      ...dispatchResults,
+      threads: dispatchResults.threads.publishedPostId 
+        ? dispatchResults.threads 
+        : (existingDetails.threads?.publishedPostId ? existingDetails.threads : dispatchResults.threads),
+      instagram: (dispatchResults.instagram as any).publishedPostId 
+        ? dispatchResults.instagram 
+        : (existingDetails.instagram?.publishedPostId ? existingDetails.instagram : dispatchResults.instagram),
+    };
+    const nextStatus = threadsPublishedId 
+      ? "distributed" 
+      : (existingStatus === "distributed" ? "distributed" : (dryRun ? "dry_run" : "ready"));
+
     await env.ETF_PRICES.prepare(
       `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)`
-    ).bind(effectiveDate, threadsPublishedId ? "distributed" : (dryRun ? "dry_run" : "ready"), JSON.stringify(dispatchResults)).run();
+    ).bind(effectiveDate, nextStatus, JSON.stringify(mergedDetails)).run();
   } catch (dbErr) {
     console.warn("[Distributor] Log insert warning:", dbErr);
   }
@@ -314,8 +358,10 @@ async function waitForThreadsContainer(containerId: string, accessToken: string,
 }
 
 export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayload): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
-  if (!env.THREADS_ACCESS_TOKEN || !env.THREADS_USER_ID) {
-    return { success: false, error: "Threads API credentials (THREADS_ACCESS_TOKEN or THREADS_USER_ID) missing." };
+  // 0. Circuit Breaker & Freshness Guard
+  const validation = await validateBriefingPayload(payload, env);
+  if (!validation.isSafe) {
+    return { success: false, error: `Circuit breaker 차단: ${validation.reasons.join(", ")}` };
   }
 
   // 1. Idempotency Check: Prevent duplicate publishing for the same date
@@ -335,6 +381,11 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
       }
     }
   } catch (e) {}
+
+  // 2. Credentials Check
+  if (!env.THREADS_ACCESS_TOKEN || !env.THREADS_USER_ID) {
+    return { success: false, error: "Threads API credentials (THREADS_ACCESS_TOKEN or THREADS_USER_ID) missing." };
+  }
 
   const baseUrl = env.SITE_BASE_URL || "https://etf-campus.pages.dev";
   const narrative = await getOrRefineNarrative(payload, env);
@@ -471,8 +522,10 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
 }
 
 export async function publishToInstagramLive(env: Env, payload: MarketBriefingPayload): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
-  if (!env.INSTAGRAM_ACCESS_TOKEN || !env.INSTAGRAM_USER_ID) {
-    return { success: false, error: "Instagram API credentials (INSTAGRAM_ACCESS_TOKEN or INSTAGRAM_USER_ID) missing." };
+  // 0. Circuit Breaker & Freshness Guard
+  const validation = await validateBriefingPayload(payload, env);
+  if (!validation.isSafe) {
+    return { success: false, error: `Circuit breaker 차단: ${validation.reasons.join(", ")}` };
   }
 
   // 1. Idempotency Check: Prevent duplicate publishing for the same date
@@ -492,6 +545,11 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
       }
     }
   } catch (e) {}
+
+  // 2. Credentials Check
+  if (!env.INSTAGRAM_ACCESS_TOKEN || !env.INSTAGRAM_USER_ID) {
+    return { success: false, error: "Instagram API credentials (INSTAGRAM_ACCESS_TOKEN or INSTAGRAM_USER_ID) missing." };
+  }
 
   const narrative = await getOrRefineNarrative(payload, env);
   const caption = generateInstagramCaption(payload, narrative);
@@ -591,7 +649,10 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
 }
 
 function checkAuth(request: Request, env: Env): boolean {
-  if (!env.MANUAL_RUN_TOKEN) return true;
+  if (!env.MANUAL_RUN_TOKEN) {
+    console.error("[SECURITY] MANUAL_RUN_TOKEN이 설정되지 않아 모든 요청을 거부합니다");
+    return false;
+  }
   const url = new URL(request.url);
   const qToken = url.searchParams.get("token");
   if (qToken && qToken === env.MANUAL_RUN_TOKEN) return true;
@@ -658,18 +719,36 @@ function generateDashboardHtml(
   logStatus: string,
   threadsPublishedId: string | null,
   instagramPublishedId: string | null,
-  narrative: PolishedNarrative
+  narrative: PolishedNarrative,
+  logReasons: string[] = []
 ): string {
-  const date = payload.asOfDate || "2026-09-02";
-  const generalCount = payload.generalEtfCount || 1025;
-  const up = payload.upCount || 0;
-  const flat = payload.flatCount || 0;
-  const down = payload.downCount || 0;
-  const kospi = payload.kospiChangePct || 0;
-  const etfReturn = payload.generalAumWeightedReturnPct || 0;
+  const hasValidDate = Boolean(payload.asOfDate);
+  const date = payload.asOfDate || "";
+  const dateDisplay = hasValidDate ? date : '<span style="color: #EF4444; font-weight: 800;">기준일자 없음</span>';
+
+  const generalCount = payload.generalEtfCount;
+  const generalCountDisplay = (generalCount !== undefined && generalCount !== null)
+    ? `<strong style="color: #F8FAFC;">${generalCount}개</strong>`
+    : '<span style="color: #EF4444; font-weight: 800;">데이터 없음</span>';
+
+  const up = payload.upCount ?? 0;
+  const flat = payload.flatCount ?? 0;
+  const down = payload.downCount ?? 0;
+
+  const kospi = payload.kospiChangePct;
+  const kospiDisplay = (kospi !== undefined && kospi !== null)
+    ? `KOSPI ${kospi > 0 ? '+' : ''}${kospi}%`
+    : 'KOSPI <span style="color: #EF4444;">데이터 없음</span>';
+
+  const etfReturn = payload.generalAumWeightedReturnPct;
+  const etfReturnDisplay = (etfReturn !== undefined && etfReturn !== null)
+    ? `ETF ${etfReturn > 0 ? '+' : ''}${etfReturn}%`
+    : 'ETF <span style="color: #EF4444;">데이터 없음</span>';
+
   const threadsText = generateThreadsThread(payload, env.SITE_BASE_URL || "https://etf-campus.pages.dev", narrative)[0]?.content || "";
   const captionText = generateInstagramCaption(payload, narrative);
   const isPublished = logStatus === "distributed" || Boolean(threadsPublishedId);
+  const isBlocked = logStatus === "blocked" || logReasons.length > 0;
   const aiBadge = narrative.source === "gemini-refined"
     ? '<span class="badge badge-live">🤖 Gemini 2.5 AI 검증 완료</span>'
     : '<span class="badge badge-safe">⚙️ 정밀 룰 엔진 초안</span>';
@@ -690,6 +769,7 @@ function generateDashboardHtml(
     .badge-ready { background: #FEF3C7; color: #B45309; }
     .badge-live { background: #DCFCE7; color: #15803D; }
     .badge-safe { background: #EFF6FF; color: #1D4ED8; }
+    .badge-blocked { background: #FEE2E2; color: #B91C1C; }
     .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
     .tab-btn { background: #1E293B; border: 1px solid #334155; color: #94A3B8; padding: 12px 24px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
     .tab-btn:hover { background: #334155; color: #FFFFFF; }
@@ -716,15 +796,22 @@ function generateDashboardHtml(
     <header>
       <div>
         <h1 style="font-size: 23px; font-weight: 900; margin-bottom: 6px;">📈 ETF Campus 마켓 브리핑 OSMU 클라우드 통합 검토 허브</h1>
-        <p style="color: #94A3B8; font-size: 14px;">데이터 기준일: <strong style="color: #F8FAFC;">${date}</strong> · 일반 ETF <strong style="color: #F8FAFC;">${generalCount}개</strong> (상승 ${up} / 보합 ${flat} / 하락 ${down}) · KOSPI ${kospi > 0 ? '+' : ''}${kospi}% · ETF ${etfReturn > 0 ? '+' : ''}${etfReturn}%</p>
+        <p style="color: #94A3B8; font-size: 14px;">데이터 기준일: <strong style="color: #F8FAFC;">${dateDisplay}</strong> · 일반 ETF ${generalCountDisplay} (상승 ${up} / 보합 ${flat} / 하락 ${down}) · ${kospiDisplay} · ${etfReturnDisplay}</p>
       </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         ${aiBadge}
-        <span class="badge badge-safe">✅ 서킷브레이커 정상</span>
-        <span class="badge ${isPublished ? 'badge-live' : 'badge-ready'}" id="statusBadge">
-          ${isPublished ? '🚀 스레드 발행 완료' : '⏳ 운영자 검토 대기'}
+        ${isBlocked 
+          ? `<span class="badge badge-blocked" title="${logReasons.join("; ")}">⛔ 서킷브레이커 차단: ${logReasons[0] || "데이터 검증 실패"}${logReasons.length > 1 ? ` 외 ${logReasons.length - 1}건` : ''}</span>`
+          : '<span class="badge badge-safe">✅ 서킷브레이커 정상</span>'
+        }
+        <span class="badge ${isPublished ? 'badge-live' : (isBlocked ? 'badge-blocked' : 'badge-ready')}" id="statusBadge">
+          ${isPublished ? '🚀 스레드 발행 완료' : (isBlocked ? '⛔ 차단됨' : '⏳ 운영자 검토 대기')}
         </span>
-        ${!isPublished ? `<button class="action-btn" id="btnPublishThreads" onclick="publishThreads('${date}')">🚀 스레드 발행 승인</button>` : ''}
+        ${!isPublished ? (
+          (!hasValidDate || isBlocked)
+            ? `<button class="action-btn" disabled style="background: #475569; cursor: not-allowed;" title="${!hasValidDate ? '기준일자가 누락되었습니다' : '서킷브레이커로 인해 발행이 차단되었습니다'}">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
+            : `<button class="action-btn" id="btnPublishThreads" onclick="publishThreads('${date}')">🚀 스레드 발행 승인</button>`
+        ) : ''}
       </div>
     </header>
 
@@ -758,7 +845,10 @@ function generateDashboardHtml(
           <div style="margin-top: 18px; text-align: right;">
             ${instagramPublishedId 
               ? `<button id="btnPublishInstagram" class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 인스타그램 발행 완료 (ID: ${instagramPublishedId})</button>`
-              : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 즉시 발행</button>`
+              : ((!hasValidDate || isBlocked)
+                  ? `<button id="btnPublishInstagram" class="action-btn" disabled style="background: #475569; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
+                  : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 즉시 발행</button>`
+                )
             }
           </div>
         </div>
@@ -784,7 +874,10 @@ function generateDashboardHtml(
           <div style="margin-top: 18px; text-align: right;">
             ${threadsPublishedId 
               ? `<button id="btnPublishThreads" class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 스레드 발행 완료 (ID: ${threadsPublishedId})</button>`
-              : `<button id="btnPublishThreads" class="action-btn" onclick="publishThreads('${date}')">🚀 이 내용으로 스레드 즉시 발행</button>`
+              : ((!hasValidDate || isBlocked)
+                  ? `<button id="btnPublishThreads" class="action-btn" disabled style="background: #475569; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
+                  : `<button id="btnPublishThreads" class="action-btn" onclick="publishThreads('${date}')">🚀 이 내용으로 스레드 즉시 발행</button>`
+                )
             }
           </div>
         </div>
@@ -827,8 +920,8 @@ function generateDashboardHtml(
     }
 
     function updateSlide() {
-      document.getElementById('instagramImg').src = '/api/preview/instagram?date=' + date + '&slide=' + currentSlide + '&v=' + Date.now();
-      document.getElementById('btnOpenSvg').href = '/api/preview/instagram?date=' + date + '&slide=' + currentSlide;
+      document.getElementById('instagramImg').src = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + Date.now();
+      document.getElementById('btnOpenSvg').href = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide;
       document.getElementById('currentSlideNum').innerText = currentSlide;
       renderDots();
     }
@@ -861,13 +954,17 @@ function generateDashboardHtml(
     }
 
     async function publishThreads(dateStr) {
+      if (!dateStr || dateStr === '기준일자 없음') {
+        alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
+        return;
+      }
       if (!confirm(dateStr + ' 마켓 브리핑을 스레드(@neo.alphareader)에 실시간 자동 발행하시겠습니까?')) return;
       const btn = event.target;
       btn.disabled = true;
       btn.innerText = '발행 처리 중...';
 
       try {
-        const res = await fetch('/api/publish/threads?date=' + dateStr, { method: 'POST' });
+        const res = await fetch('/api/publish/threads?date=' + encodeURIComponent(dateStr), { method: 'POST' });
         const data = await res.json();
         if (data.success) {
           alert('스레드 발행 성공! (ID: ' + data.publishedPostId + ')');
@@ -889,6 +986,10 @@ function generateDashboardHtml(
     }
 
     async function publishInstagram(dateStr) {
+      if (!dateStr || dateStr === '기준일자 없음') {
+        alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
+        return;
+      }
       if (!confirm(dateStr + ' 마켓 브리핑을 인스타그램(@neo.alphareader)에 실시간 자동 발행하시겠습니까?')) return;
       const btn = document.getElementById('btnPublishInstagram');
       if (btn) {
@@ -897,7 +998,7 @@ function generateDashboardHtml(
       }
 
       try {
-        const res = await fetch('/api/publish/instagram?date=' + dateStr, { method: 'POST' });
+        const res = await fetch('/api/publish/instagram?date=' + encodeURIComponent(dateStr), { method: 'POST' });
         const data = await res.json();
         if (data.success) {
           alert('인스타그램 발행 성공! (ID: ' + data.publishedPostId + ')');
@@ -924,7 +1025,7 @@ function generateDashboardHtml(
 </html>`;
 }
 
-export default {
+const worker = {
   // Queue Consumer: prepares assets and saves status as 'ready' (Human-in-the-Loop review)
   async queue(batch: MessageBatch<BriefingDistributeEvent>, env: Env): Promise<void> {
     for (const message of batch.messages) {
@@ -940,20 +1041,44 @@ export default {
           continue;
         }
 
-        const validation = validateBriefingPayload(payload, env);
+        const validation = await validateBriefingPayload(payload, env);
+        await env.ETF_PRICES.prepare(
+          `CREATE TABLE IF NOT EXISTS briefing_distribution_logs (
+            as_of_date TEXT PRIMARY KEY,
+            status TEXT NOT NULL,
+            details_json TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          )`
+        ).run();
+
+        let existingStatus: string | null = null;
+        let existingDetails: Record<string, any> = {};
+        try {
+          const row: any = await env.ETF_PRICES.prepare(
+            `SELECT status, details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+          ).bind(targetDate).first();
+          if (row) {
+            existingStatus = row.status;
+            if (row.details_json) {
+              try { existingDetails = JSON.parse(row.details_json); } catch (e) {}
+            }
+          }
+        } catch (e) {
+          console.warn("[Distributor] Failed to query existing log in queue:", e);
+        }
+
         if (!validation.isSafe) {
           console.error(`[Distributor] Circuit breaker tripped for ${targetDate}:`, validation.reasons);
+          existingDetails.reasons = validation.reasons;
+          existingDetails.event_id = event.event_id;
+          existingDetails.validated = false;
+          const nextStatus = existingStatus === "distributed" ? "distributed" : "blocked";
+          if (existingStatus === "distributed") {
+            existingDetails.revision_blocked = true;
+          }
           await env.ETF_PRICES.prepare(
-            `CREATE TABLE IF NOT EXISTS briefing_distribution_logs (
-              as_of_date TEXT PRIMARY KEY,
-              status TEXT NOT NULL,
-              details_json TEXT,
-              created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-            )`
-          ).run();
-          await env.ETF_PRICES.prepare(
-            `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, 'blocked', ?, CURRENT_TIMESTAMP)`
-          ).bind(targetDate, JSON.stringify({ reasons: validation.reasons })).run();
+            `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)`
+          ).bind(targetDate, nextStatus, JSON.stringify(existingDetails)).run();
           message.ack();
           continue;
         }
@@ -965,21 +1090,22 @@ export default {
           console.warn(`[Distributor] Narrative pre-warm warning for ${targetDate}:`, narrativeErr);
         }
 
-        // Prepare distribution log in 'ready' state for operator review
-        await env.ETF_PRICES.prepare(
-          `CREATE TABLE IF NOT EXISTS briefing_distribution_logs (
-            as_of_date TEXT PRIMARY KEY,
-            status TEXT NOT NULL,
-            details_json TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-          )`
-        ).run();
+        // Prepare distribution log by merging details without overwriting threads/instagram keys
+        existingDetails.event_id = event.event_id;
+        existingDetails.validated = true;
+        delete existingDetails.reasons;
+
+        let nextStatus = "ready";
+        if (existingStatus === "distributed") {
+          nextStatus = "distributed";
+          existingDetails.revision_pending = true;
+        }
 
         await env.ETF_PRICES.prepare(
-          `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, 'ready', ?, CURRENT_TIMESTAMP)`
-        ).bind(targetDate, JSON.stringify({ event_id: event.event_id, validated: true })).run();
+          `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)`
+        ).bind(targetDate, nextStatus, JSON.stringify(existingDetails)).run();
 
-        console.log(`[Distributor] Assets prepared in READY state for ${targetDate}. Awaiting operator review.`);
+        console.log(`[Distributor] Assets prepared in ${nextStatus} state for ${targetDate}. Awaiting operator review.`);
         message.ack();
       } catch (err) {
         console.error(`[Distributor] Fatal error preparing distribution for ${targetDate}:`, err);
@@ -1017,6 +1143,7 @@ export default {
         let logStatus = "ready";
         let threadsPublishedId: string | null = null;
         let instagramPublishedId: string | null = null;
+        let logReasons: string[] = [];
         try {
           const row: any = await env.ETF_PRICES.prepare(
             `SELECT status, details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
@@ -1027,12 +1154,18 @@ export default {
               const parsed = JSON.parse(row.details_json);
               threadsPublishedId = parsed.threads?.publishedPostId || null;
               instagramPublishedId = parsed.instagram?.publishedPostId || null;
+              if (parsed.reasons) logReasons = parsed.reasons;
             }
           }
         } catch (e) {}
 
+        const validation = await validateBriefingPayload(payload, env);
+        if (!validation.isSafe && logReasons.length === 0) {
+          logReasons = validation.reasons;
+        }
+
         const narrative = await getOrRefineNarrative(payload, env);
-        const html = generateDashboardHtml(payload, env, logStatus, threadsPublishedId, instagramPublishedId, narrative);
+        const html = generateDashboardHtml(payload, env, logStatus, threadsPublishedId, instagramPublishedId, narrative, logReasons);
         const responseHeaders: Record<string, string> = {
           "Content-Type": "text/html; charset=utf-8",
           "Cache-Control": "no-cache",
@@ -1091,7 +1224,10 @@ export default {
       // 3.1 스레드 실물 PNG 이미지 서빙 (Meta Threads Graph API 규격)
       if (url.pathname === "/api/images/threads" || url.pathname === "/api/preview/threads-image.png") {
         const payload = await loadBriefingPayload(env, targetDate);
-        const date = payload?.asOfDate || targetDate || "2026-09-02";
+        const date = payload?.asOfDate || targetDate;
+        if (!date) {
+          return new Response("Missing date parameter for threads image", { status: 400 });
+        }
         const key = `image:threads:${date}`;
         const imgBuffer = await env.BRIEFING_KV.get(key, "arrayBuffer");
         if (!imgBuffer) {
@@ -1129,6 +1265,9 @@ export default {
 
       // 6. 스레드 승인 후 실시간 발행 엔드포인트 (Human-in-the-Loop)
       if (url.pathname === "/api/publish/threads") {
+        if (!targetDate) {
+          return Response.json({ success: false, error: "발행 대상 날짜(date)를 명시해야 합니다." }, { status: 400 });
+        }
         const payload = await loadBriefingPayload(env, targetDate);
         if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
 
@@ -1138,6 +1277,9 @@ export default {
 
       // 6.1 인스타그램 승인 후 실시간 발행 엔드포인트 (Human-in-the-Loop)
       if (url.pathname === "/api/publish/instagram") {
+        if (!targetDate) {
+          return Response.json({ success: false, error: "발행 대상 날짜(date)를 명시해야 합니다." }, { status: 400 });
+        }
         const payload = await loadBriefingPayload(env, targetDate);
         if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
 
@@ -1147,6 +1289,9 @@ export default {
 
       // 7. 통합 distribute 엔드포인트 (dryRun 파라미터 지원)
       if (url.pathname === "/internal/distribute" || url.pathname === "/api/distribute") {
+        if (!targetDate) {
+          return Response.json({ success: false, error: "발행 대상 날짜(date)를 명시해야 합니다." }, { status: 400 });
+        }
         const dryRun = url.searchParams.get("dryRun") === "true";
         try {
           const result = await executeDistribution(env, targetDate, dryRun);

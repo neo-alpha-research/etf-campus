@@ -90,10 +90,7 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
   const {
     items,
     isLoading,
-    isLoadingMore,
-    hasMore,
     error,
-    loadMore,
     refresh,
   } = useMarketBriefingHistory({ limit: 5 });
 

@@ -23,7 +23,7 @@ jobs:
   validate:
     name: Validate application and workers
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - name: Check out source
         uses: actions/checkout@v4
@@ -131,7 +131,7 @@ jobs:
     name: Deploy ETF Campus Pages
     needs: [deploy_publisher, deploy_distributor]
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     environment: production
     steps:
       - name: Check out source

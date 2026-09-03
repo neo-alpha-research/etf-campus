@@ -4,6 +4,7 @@ import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import Link from "next/link";
+import { fetcher } from "@/lib/hooks/fetcher";
 import { Suspense, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { Tickery } from "@/components/brand/tickery";
@@ -218,8 +219,6 @@ function SearchParamsSync({ onSync }: { onSync: (searchParams: URLSearchParams) 
 
 
 const CORE_RETURN_PERIODS: readonly ReturnPeriod[] = ["1d", "1m", "3m", "12m", "36m"];
-
-const fetcher = (url: string) => fetch(url).then(r => r.json());
 
 export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
   const { data: fetchedEtfs } = useSWR<Etf[]>('/data/screener.json', fetcher);

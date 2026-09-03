@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
+import { fetcher } from "@/lib/hooks/fetcher";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 
 import { AsOfDate, PensionBadge, ReturnCell, RiskBadge, FeeDoubleStack } from "@/components/etf";
@@ -16,8 +17,6 @@ import { ASSET_CLASSES, RISK_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스", parking: "파킹형" };
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억 이상", "1000plus": "1,000억 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 function FxHedgeMarker({ value }: { value: string | null }) {
   if (!value || value === "노출" || value === "비헤지") return null;

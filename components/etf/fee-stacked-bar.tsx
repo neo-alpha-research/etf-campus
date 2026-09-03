@@ -43,7 +43,7 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
           </span>
         </div>
         
-        <div className={`absolute top-[calc(100%+6px)] ${positionClass} w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]`}>
+        <div className={`absolute top-[calc(100%+6px)] ${positionClass} w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120]`}>
           <div className={`absolute -top-1.5 ${arrowClass} border-[6px] border-transparent border-b-neutral-900/98`} />
           <p className="text-[11.5px] leading-relaxed text-neutral-200">
             상장 1년 미만의 신규 ETF는 초기 설정 비용이 연환산되어 실부담 비용이 과다 계상될 수 있으므로 기본 운용보수만 표기합니다.
@@ -74,7 +74,7 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
       </div>
       
       {/* Clean 3-Tier Breakdown Tooltip on hover (Pops upwards into spacious return rows above) */}
-      <div className={`absolute bottom-[calc(100%+6px)] ${positionClass} w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]`}>
+      <div className={`absolute bottom-[calc(100%+6px)] ${positionClass} w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120]`}>
         <div className={`absolute -bottom-1.5 ${arrowClass} border-[6px] border-transparent border-t-neutral-900/98`} />
         
         <div className="flex items-center justify-between pb-2 mb-2 border-b border-neutral-700/80">

@@ -318,6 +318,24 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
     return { success: false, error: "Threads API credentials (THREADS_ACCESS_TOKEN or THREADS_USER_ID) missing." };
   }
 
+  // 1. Idempotency Check: Prevent duplicate publishing for the same date
+  try {
+    const row: any = await env.ETF_PRICES.prepare(
+      `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+    ).bind(payload.asOfDate).first();
+    if (row && row.details_json) {
+      const parsed = JSON.parse(row.details_json);
+      if (parsed.threads?.publishedPostId) {
+        return {
+          success: false,
+          error: `해당 날짜(${payload.asOfDate})의 스레드가 이미 발행되었습니다. (게시 ID: ${parsed.threads.publishedPostId})`,
+          publishedPostId: parsed.threads.publishedPostId,
+          permalink: parsed.threads.permalink || `https://www.threads.com/@neo.alphareader/post/${parsed.threads.publishedPostId}`,
+        };
+      }
+    }
+  } catch (e) {}
+
   const baseUrl = env.SITE_BASE_URL || "https://etf-campus.pages.dev";
   const narrative = await getOrRefineNarrative(payload, env);
   const threadsPosts = generateThreadsThread(payload, baseUrl, narrative);
@@ -331,6 +349,19 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
     const imgKey = `image:threads:${payload.asOfDate}`;
     const imgBuffer = await env.BRIEFING_KV.get(imgKey, "arrayBuffer");
     const publicPngUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/images/threads?date=${payload.asOfDate}`;
+
+    // 2. Self-GET Polling Guard: Defend against KV eventual consistency delays
+    if (imgBuffer) {
+      for (let attempt = 1; attempt <= 5; attempt++) {
+        try {
+          const verifyRes = await fetch(publicPngUrl, { method: "HEAD" });
+          if (verifyRes.ok && verifyRes.headers.get("content-type")?.includes("image")) {
+            break;
+          }
+        } catch (e) {}
+        await new Promise((r) => setTimeout(r, 1000));
+      }
+    }
 
     const searchParams = new URLSearchParams();
     if (imgBuffer) {
@@ -375,6 +406,7 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
       return { success: false, error: `Failed to publish Threads post: ${JSON.stringify(pubData)}` };
     }
 
+    let firstCommentId: string | undefined;
     if (firstComment) {
       await new Promise((r) => setTimeout(r, 2500));
       const replyCreateRes = await fetch(createUrl, {
@@ -398,21 +430,40 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
             access_token: env.THREADS_ACCESS_TOKEN,
           }),
         });
-        const replyPubData = await replyPubRes.json();
+        const replyPubData: any = await replyPubRes.json();
+        firstCommentId = replyPubData.id;
         console.log("[Distributor] First comment published:", replyPubData);
       }
     }
 
+    const permalink = `https://www.threads.com/@neo.alphareader/post/${publishedPostId}`;
+
+    // 3. Record success in D1 distribution logs for strict idempotency
     try {
+      let existingDetails: any = {};
+      const row: any = await env.ETF_PRICES.prepare(
+        `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+      ).bind(payload.asOfDate).first();
+      if (row && row.details_json) {
+        try { existingDetails = JSON.parse(row.details_json); } catch (e) {}
+      }
+      existingDetails.threads = {
+        publishedPostId,
+        permalink,
+        firstCommentId,
+        publishedAt: new Date().toISOString(),
+      };
       await env.ETF_PRICES.prepare(
-        `UPDATE briefing_distribution_logs SET status = 'distributed', created_at = CURRENT_TIMESTAMP WHERE as_of_date = ?`
-      ).bind(payload.asOfDate).run();
-    } catch (e) {}
+        `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, 'distributed', ?, CURRENT_TIMESTAMP)`
+      ).bind(payload.asOfDate, JSON.stringify(existingDetails)).run();
+    } catch (e) {
+      console.warn("[Distributor] Failed to record Threads distribution in D1:", e);
+    }
 
     return {
       success: true,
       publishedPostId,
-      permalink: `https://www.threads.com/@neo.alphareader/post/${publishedPostId}`,
+      permalink,
     };
   } catch (err: any) {
     return { success: false, error: String(err) };
@@ -424,9 +475,38 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
     return { success: false, error: "Instagram API credentials (INSTAGRAM_ACCESS_TOKEN or INSTAGRAM_USER_ID) missing." };
   }
 
+  // 1. Idempotency Check: Prevent duplicate publishing for the same date
+  try {
+    const row: any = await env.ETF_PRICES.prepare(
+      `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+    ).bind(payload.asOfDate).first();
+    if (row && row.details_json) {
+      const parsed = JSON.parse(row.details_json);
+      if (parsed.instagram?.publishedPostId) {
+        return {
+          success: false,
+          error: `해당 날짜(${payload.asOfDate})의 인스타그램이 이미 발행되었습니다. (게시 ID: ${parsed.instagram.publishedPostId})`,
+          publishedPostId: parsed.instagram.publishedPostId,
+          permalink: parsed.instagram.permalink || `https://www.instagram.com/neo.alphareader/`,
+        };
+      }
+    }
+  } catch (e) {}
+
   const narrative = await getOrRefineNarrative(payload, env);
   const caption = generateInstagramCaption(payload, narrative);
   const publicPngUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/images/threads?date=${payload.asOfDate}`;
+
+  // 2. Self-GET Polling Guard: Defend against KV eventual consistency delays
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    try {
+      const verifyRes = await fetch(publicPngUrl, { method: "HEAD" });
+      if (verifyRes.ok && verifyRes.headers.get("content-type")?.includes("image")) {
+        break;
+      }
+    } catch (e) {}
+    await new Promise((r) => setTimeout(r, 1000));
+  }
 
   try {
     const createUrl = `https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media`;
@@ -479,6 +559,27 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
       if (pData.permalink) permalink = pData.permalink;
     } catch (e) {}
 
+    // 3. Record success in D1 distribution logs for strict idempotency
+    try {
+      let existingDetails: any = {};
+      const row: any = await env.ETF_PRICES.prepare(
+        `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+      ).bind(payload.asOfDate).first();
+      if (row && row.details_json) {
+        try { existingDetails = JSON.parse(row.details_json); } catch (e) {}
+      }
+      existingDetails.instagram = {
+        publishedPostId,
+        permalink,
+        publishedAt: new Date().toISOString(),
+      };
+      await env.ETF_PRICES.prepare(
+        `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, 'distributed', ?, CURRENT_TIMESTAMP)`
+      ).bind(payload.asOfDate, JSON.stringify(existingDetails)).run();
+    } catch (e) {
+      console.warn("[Distributor] Failed to record Instagram distribution in D1:", e);
+    }
+
     return {
       success: true,
       publishedPostId,
@@ -489,11 +590,74 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
   }
 }
 
+function checkAuth(request: Request, env: Env): boolean {
+  if (!env.MANUAL_RUN_TOKEN) return true;
+  const url = new URL(request.url);
+  const qToken = url.searchParams.get("token");
+  if (qToken && qToken === env.MANUAL_RUN_TOKEN) return true;
+
+  const authHeader = request.headers.get("Authorization") || request.headers.get("X-Auth-Token");
+  if (authHeader) {
+    const t = authHeader.replace(/^Bearer\s+/i, "").trim();
+    if (t === env.MANUAL_RUN_TOKEN) return true;
+  }
+
+  const cookie = request.headers.get("Cookie") || "";
+  const match = cookie.match(/etf_distributor_auth=([^;]+)/);
+  if (match && match[1] === env.MANUAL_RUN_TOKEN) return true;
+
+  return false;
+}
+
+function generateLoginHtml(): string {
+  return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ETF Campus 배포 대시보드 관리자 인증</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; }
+    body { background-color: #0F172A; color: #F8FAFC; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: #1E293B; border: 1px solid #334155; border-radius: 16px; padding: 36px; max-width: 440px; width: 100%; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); text-align: center; }
+    h1 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #38BDF8; }
+    p { font-size: 14px; color: #94A3B8; margin-bottom: 24px; line-height: 1.5; }
+    input { width: 100%; padding: 12px 16px; background: #0F172A; border: 1px solid #475569; border-radius: 10px; color: #F8FAFC; font-size: 15px; margin-bottom: 16px; outline: none; transition: border-color 0.2s; }
+    input:focus { border-color: #38BDF8; }
+    button { width: 100%; padding: 12px; background: #2563EB; border: none; border-radius: 10px; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    button:hover { background: #1D4ED8; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div style="font-size: 40px; margin-bottom: 16px;">🔒</div>
+    <h1>배포 관리자 인증</h1>
+    <p>브랜드 안전을 위해 보호된 영역입니다.<br>관리자 액세스 토큰을 입력해 주세요.</p>
+    <form onsubmit="handleLogin(event)">
+      <input type="password" id="tokenInput" placeholder="Access Token 입력" required autocomplete="current-password">
+      <button type="submit">대시보드 접속</button>
+    </form>
+  </div>
+  <script>
+    function handleLogin(e) {
+      e.preventDefault();
+      const token = document.getElementById('tokenInput').value.trim();
+      if (!token) return;
+      document.cookie = "etf_distributor_auth=" + token + "; path=/; max-age=2592000; SameSite=Lax; Secure";
+      window.location.href = window.location.pathname + "?token=" + encodeURIComponent(token);
+    }
+  </script>
+</body>
+</html>`;
+}
+
 function generateDashboardHtml(
   payload: MarketBriefingPayload,
   env: Env,
   logStatus: string,
   threadsPublishedId: string | null,
+  instagramPublishedId: string | null,
   narrative: PolishedNarrative
 ): string {
   const date = payload.asOfDate || "2026-09-02";
@@ -592,7 +756,10 @@ function generateDashboardHtml(
           </div>
           <div id="instagramCaptionText" class="copy-box">${captionText}</div>
           <div style="margin-top: 18px; text-align: right;">
-            <button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 즉시 발행</button>
+            ${instagramPublishedId 
+              ? `<button id="btnPublishInstagram" class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 인스타그램 발행 완료 (ID: ${instagramPublishedId})</button>`
+              : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 즉시 발행</button>`
+            }
           </div>
         </div>
       </div>
@@ -615,7 +782,10 @@ function generateDashboardHtml(
           </div>
           <div id="threadsFullText" class="copy-box">${threadsText}</div>
           <div style="margin-top: 18px; text-align: right;">
-            <button class="action-btn" onclick="publishThreads('${date}')">🚀 이 내용으로 스레드 즉시 발행</button>
+            ${threadsPublishedId 
+              ? `<button id="btnPublishThreads" class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 스레드 발행 완료 (ID: ${threadsPublishedId})</button>`
+              : `<button id="btnPublishThreads" class="action-btn" onclick="publishThreads('${date}')">🚀 이 내용으로 스레드 즉시 발행</button>`
+            }
           </div>
         </div>
       </div>
@@ -822,15 +992,31 @@ export default {
     const url = new URL(request.url);
     const targetDate = url.searchParams.get("date") || undefined;
     const baseUrl = env.SITE_BASE_URL || "https://etf-campus.pages.dev";
+    const isAuthed = checkAuth(request, env);
 
     try {
+      // 0. Security Guard for Publish and Distribute endpoints
+      if (url.pathname.startsWith("/api/publish") || url.pathname.startsWith("/api/distribute") || url.pathname.startsWith("/internal/distribute")) {
+        if (!isAuthed) {
+          return Response.json({ success: false, error: "Unauthorized: Invalid or missing authentication token." }, { status: 401 });
+        }
+      }
+
       // 1. Root & Preview: Cloud Review Dashboard Hub
       if (url.pathname === "/" || url.pathname === "/preview") {
+        if (!isAuthed) {
+          return new Response(generateLoginHtml(), {
+            status: 401,
+            headers: { "Content-Type": "text/html; charset=utf-8" },
+          });
+        }
+
         const payload = await loadBriefingPayload(env, targetDate);
         if (!payload) return new Response("Briefing not found", { status: 404 });
 
         let logStatus = "ready";
         let threadsPublishedId: string | null = null;
+        let instagramPublishedId: string | null = null;
         try {
           const row: any = await env.ETF_PRICES.prepare(
             `SELECT status, details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
@@ -840,14 +1026,22 @@ export default {
             if (row.details_json) {
               const parsed = JSON.parse(row.details_json);
               threadsPublishedId = parsed.threads?.publishedPostId || null;
+              instagramPublishedId = parsed.instagram?.publishedPostId || null;
             }
           }
         } catch (e) {}
 
         const narrative = await getOrRefineNarrative(payload, env);
-        const html = generateDashboardHtml(payload, env, logStatus, threadsPublishedId, narrative);
+        const html = generateDashboardHtml(payload, env, logStatus, threadsPublishedId, instagramPublishedId, narrative);
+        const responseHeaders: Record<string, string> = {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-cache",
+        };
+        if (url.searchParams.get("token") === env.MANUAL_RUN_TOKEN && env.MANUAL_RUN_TOKEN) {
+          responseHeaders["Set-Cookie"] = `etf_distributor_auth=${env.MANUAL_RUN_TOKEN}; Path=/; Max-Age=2592000; SameSite=Lax; Secure; HttpOnly`;
+        }
         return new Response(html, {
-          headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" },
+          headers: responseHeaders,
         });
       }
 

@@ -863,12 +863,17 @@ export function MarketBriefing() {
           </div>
 
           {/* 통합 마스터 기준일 뱃지 클러스터 */}
-          <div className="flex items-center gap-2 self-start md:self-auto">
-            <div className="rounded-2xl border border-[#D7EABB] bg-[#FAFDF4] px-4 py-2.5 text-right shadow-2xs">
+          <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
+            <div className="rounded-2xl border border-[#D7EABB] bg-[#FAFDF4] px-3.5 py-2 sm:px-4 sm:py-2.5 text-right shadow-2xs">
               <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#5A7050]">Analysis Date</p>
-              <p className="text-sm sm:text-base font-black text-neutral-900 tabular-nums">
-                {dateLabel(briefing.asOfDate)} 장마감 기준
-              </p>
+              <div className="mt-0.5 flex items-center justify-end gap-1.5 whitespace-nowrap">
+                <span className="text-sm sm:text-base font-black text-neutral-900 tabular-nums">
+                  {dateLabel(briefing.asOfDate)}
+                </span>
+                <span className="inline-flex shrink-0 items-center rounded-md bg-[#EBF5DC] px-1.5 py-0.5 text-[11px] font-extrabold text-[#365314] border border-[#CDE5B1]">
+                  장마감 기준
+                </span>
+              </div>
             </div>
           </div>
         </div>

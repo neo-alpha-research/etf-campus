@@ -418,7 +418,7 @@ function generateDashboardHtml(payload: MarketBriefingPayload, env: Env, logStat
             <h3 style="font-size: 17px; font-weight: 800;">🖼️ 카드뉴스 (슬라이드 <span id="currentSlideNum">1</span> / 6)</h3>
             <a id="btnOpenSvg" href="/api/preview/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary" style="text-decoration: none;">🔍 원본 SVG</a>
           </div>
-          <img id="instagramImg" src="/api/preview/instagram?date=${date}&slide=1" class="preview-img" alt="Instagram Card">
+          <img id="instagramImg" src="/api/preview/instagram?date=${date}&slide=1&v=${Date.now()}" class="preview-img" alt="Instagram Card">
           <div class="carousel-nav">
             <button class="nav-btn" onclick="changeSlide(-1)">◀ 이전</button>
             <div id="slideDots" style="display: flex; gap: 6px;"></div>
@@ -443,7 +443,7 @@ function generateDashboardHtml(payload: MarketBriefingPayload, env: Env, logStat
             <h3 style="font-size: 17px; font-weight: 800;">🖼️ 스레드 전용 인포그래픽 (1장)</h3>
             <a href="/api/preview/threads-image?date=${date}" target="_blank" class="btn-secondary" style="text-decoration: none;">🔍 원본 SVG</a>
           </div>
-          <img src="/api/preview/threads-image?date=${date}" class="preview-img" alt="Threads Infographic">
+          <img src="/api/preview/threads-image?date=${date}&v=${Date.now()}" class="preview-img" alt="Threads Infographic">
         </div>
         <div class="card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
@@ -494,7 +494,7 @@ function generateDashboardHtml(payload: MarketBriefingPayload, env: Env, logStat
     }
 
     function updateSlide() {
-      document.getElementById('instagramImg').src = '/api/preview/instagram?date=' + date + '&slide=' + currentSlide;
+      document.getElementById('instagramImg').src = '/api/preview/instagram?date=' + date + '&slide=' + currentSlide + '&v=' + Date.now();
       document.getElementById('btnOpenSvg').href = '/api/preview/instagram?date=' + date + '&slide=' + currentSlide;
       document.getElementById('currentSlideNum').innerText = currentSlide;
       renderDots();
@@ -659,7 +659,11 @@ export default {
           const slideNo = parseInt(slideParam, 10);
           const slide = slides.find(s => s.slideNumber === slideNo) || slides[0];
           return new Response(slide.svgContent, {
-            headers: { "Content-Type": "image/svg+xml; charset=utf-8", "Cache-Control": "no-cache" },
+            headers: {
+              "Content-Type": "image/svg+xml; charset=utf-8",
+              "Cache-Control": "no-store, no-cache, must-revalidate",
+              "Access-Control-Allow-Origin": "*",
+            },
           });
         }
 
@@ -678,7 +682,11 @@ export default {
 
         const svg = generateThreadsImageSvg(payload);
         return new Response(svg, {
-          headers: { "Content-Type": "image/svg+xml; charset=utf-8", "Cache-Control": "no-cache" },
+          headers: {
+            "Content-Type": "image/svg+xml; charset=utf-8",
+            "Cache-Control": "no-store, no-cache, must-revalidate",
+            "Access-Control-Allow-Origin": "*",
+          },
         });
       }
 

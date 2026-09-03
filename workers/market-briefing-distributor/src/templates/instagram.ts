@@ -637,55 +637,56 @@ export function generateInstagramCarousel(
         </g>
       </g>
 
-      <!-- 2. Grand Hero CTA Card (Soft Slate Navy & Gentle Butter Pastel Gold) -->
+      <!-- 2. Pure Market Watch Point & KRX Public Data Notice (Replacing Commercial CTA) -->
       <g transform="translate(70, 720)" filter="url(#softShadow)">
         <rect width="940" height="510" rx="30" fill="url(#midnightNavyGrad)" stroke="#64748B" stroke-width="1.5"/>
         <circle cx="850" cy="100" r="180" fill="#38BDF8" fill-opacity="0.06"/>
-        <circle cx="120" cy="420" r="150" fill="#FEF08A" fill-opacity="0.04"/>
+        <circle cx="120" cy="420" r="150" fill="#10B981" fill-opacity="0.04"/>
         
         <g transform="translate(0, 0)">
-          <!-- Top Mini Tag (Larger & More Prominent) -->
-          <rect x="270" y="32" width="400" height="48" rx="24" fill="#475569" stroke="#64748B" stroke-width="1.2"/>
-          <text x="470" y="63" fill="#FEF08A" font-size="21" font-weight="900" text-anchor="middle">💡 100% 무료 ETF 시황 &amp; 마켓 브리핑</text>
+          <!-- Top Mini Tag (Pure Informational) -->
+          <rect x="290" y="32" width="360" height="46" rx="23" fill="#1E293B" stroke="#059669" stroke-width="1.2"/>
+          <text x="470" y="62" fill="#34D399" font-size="20" font-weight="900" text-anchor="middle">🧭 오늘의 시장 관전 포인트</text>
           
           <!-- Main Action Headline -->
-          <text x="470" y="136" fill="#FFFFFF" font-size="36" font-weight="900" text-anchor="middle" letter-spacing="-0.8">
-            내 계좌 속 ETF, 지금 바로 비교해 보세요!
+          <text x="470" y="132" fill="#FFFFFF" font-size="34" font-weight="900" text-anchor="middle" letter-spacing="-0.8">
+            오늘 장 시작 전 3대 핵심 체크리스트
           </text>
 
-          <!-- 3 Value Props (Left-Aligned Starting at x=175, Font Size 24px) -->
-          <g transform="translate(0, 152)">
-            <text x="175" y="40" fill="#E2E8F0" font-size="24" font-weight="700" text-anchor="start">
-              ✨  <tspan font-weight="900" fill="#FFFFFF">1,022개 일반 ETF</tspan> 총보수 &amp; 괴리율 1초 완벽 비교
-            </text>
-            <text x="175" y="82" fill="#E2E8F0" font-size="24" font-weight="700" text-anchor="start">
-              ✨  주도 테마별 등락 동향부터 스마트머니 자금 유입까지
-            </text>
-            <text x="175" y="124" fill="#E2E8F0" font-size="24" font-weight="700" text-anchor="start">
-              ✨  매일 아침 업데이트되는 기관·외국인 수급 전수 분석
-            </text>
+          <!-- 3 Value Watch Points (Left-Aligned, Clean Typography) -->
+          <g transform="translate(45, 155)">
+            <g transform="translate(0, 0)">
+              <rect width="850" height="74" rx="16" fill="#1E293B" fill-opacity="0.7" stroke="#334155" stroke-width="1"/>
+              <text x="24" y="44" fill="#38BDF8" font-size="21" font-weight="900">01 거시 변수</text>
+              <text x="160" y="44" fill="#F1F5F9" font-size="20" font-weight="700">원/달러 환율 추이 및 미 국채 금리 안정 여부에 따른 외인 수급 점검</text>
+            </g>
+            <g transform="translate(0, 84)">
+              <rect width="850" height="74" rx="16" fill="#1E293B" fill-opacity="0.7" stroke="#334155" stroke-width="1"/>
+              <text x="24" y="44" fill="#34D399" font-size="21" font-weight="900">02 섹터 순환</text>
+              <text x="160" y="44" fill="#F1F5F9" font-size="20" font-weight="700">주도 테마의 연속성 확인 및 고베타 섹터 차익 매물 소화 과정 관찰</text>
+            </g>
+            <g transform="translate(0, 168)">
+              <rect width="850" height="74" rx="16" fill="#1E293B" fill-opacity="0.7" stroke="#334155" stroke-width="1"/>
+              <text x="24" y="44" fill="#FBBF24" font-size="21" font-weight="900">03 스마트머니</text>
+              <text x="160" y="44" fill="#F1F5F9" font-size="20" font-weight="700">대표지수 및 방어적 자산(금리/배당)으로의 기관 저가 매수세 추적</text>
+            </g>
           </g>
 
-          <!-- Big Action Button (Soft Gentle Butter Pastel Gold Gradient) -->
-          <g transform="translate(100, 325)">
-            <rect width="740" height="92" rx="26" fill="url(#goldButtonGrad)" stroke="#FDE047" stroke-width="1.5" filter="url(#goldGlow)"/>
-            <text x="370" y="58" fill="#78350F" font-size="30" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
-              👉 프로필 링크 'ETF 캠퍼스' 바로가기 🔗
+          <!-- Bottom Public Data Source Box (Replacing Commercial Click Button) -->
+          <g transform="translate(45, 420)">
+            <rect width="850" height="64" rx="16" fill="#0F172A" stroke="#047857" stroke-width="1.2"/>
+            <text x="425" y="40" fill="#E2E8F0" font-size="19" font-weight="700" text-anchor="middle">
+              📊 한국거래소(KRX) 전 거래일 마감 공시 데이터 전수 분석 기준 (순자산 500억↑ 대상)
             </text>
           </g>
-
-          <!-- Sub Guarantee (Crisp Silver Slate) -->
-          <text x="470" y="464" fill="#CBD5E1" font-size="20" font-weight="800" text-anchor="middle">
-            별도 가입 없이 프로필 링크에서 누구나 즉시 무료로 확인하실 수 있습니다.
-          </text>
         </g>
       </g>
 
       <!-- Footer Disclaimer -->
       <g transform="translate(540, 1265)">
-        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 순수 정보 제공용 시황 칼럼이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
         <rect x="-215" y="14" width="430" height="40" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="40" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <text x="0" y="40" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 마켓 브리핑</text>
       </g>
     </svg>
   `;
@@ -696,7 +697,7 @@ export function generateInstagramCarousel(
     { slideNumber: 3, title: "Asset Class Dynamics", subtitle: "자산군별 수익률/기여도", svgContent: slide3Svg },
     { slideNumber: 4, title: "Smart Money Flow", subtitle: "실질 자금 순유입 TOP 5", svgContent: slide4Svg },
     { slideNumber: 5, title: "Disparity Alert", subtitle: "괴리율 고평가/저평가 TOP 3", svgContent: slide5Svg },
-    { slideNumber: 6, title: "Summary & Action", subtitle: "오늘 시장 3대 체크리스트 & 완벽 비교", svgContent: slide6Svg },
+    { slideNumber: 6, title: "Summary & Watch Point", subtitle: "오늘 시장 3대 체크리스트 & 관전 포인트", svgContent: slide6Svg },
   ];
 }
 
@@ -741,14 +742,15 @@ ${regime.captionMarketSummary}
 • 상승 테마: ${strongText}
 • 조정 테마: ${weakText}${inflowText}
 
-3. 🧭 시장 흐름:
-• 단기 숨고르기 속에서도 국내외 대표지수로 저가 분할 매수 지속
+3. 🧭 시장 흐름 & 테마 분석:
+• ${regime.captionThemeAnalysis || "단기 숨고르기 속에서도 국내외 대표지수로 저가 분할 매수 지속"}
 
-지수의 겉모습만으로는 내 계좌 속 ETF 흐름을 다 알 수 없습니다. 1,025개 ETF 전수 데이터로 시장의 진짜 수급과 맥박을 확인해 보세요. 📱
+💡 [오늘의 시장 관전 포인트]
+${regime.captionWatchPoint || "변동성이 확대된 국면에서는 지수 등락 자체보다 섹터 간 자금 이동 경로와 방어적 자산의 완충력을 관찰하는 것이 유효합니다."}
 
-💬 어제 여러분의 포트폴리오에서 가장 든든했던 테마는 어디였나요? 댓글로 나눠주세요! 👇
+💬 오늘 개장 후 여러분이 가장 주목하고 계신 테마나 지표는 무엇인가요? 댓글로 자유롭게 의견을 나눠주세요! 👇
 
-🔗 프로필 링크에서 매일 장 시작 전 1,025개 일반 ETF 완벽 비교 & 마켓 브리핑 전체 리포트를 무료로 확인하세요!
+📊 데이터 출처: 한국거래소(KRX) 전 거래일 마감 공시 데이터 기준 (순자산 500억 원 이상 일반 ETF 대상). 본 콘텐츠는 순수 시황 분석 정보 제공 목적이며 투자 권유가 아닙니다.
 
 #ETF캠퍼스 #국내상장ETF #ETF투자 #퇴직연금 #IRP #ISA #자산배분 #스마트머니 #마켓브리핑`;
 }

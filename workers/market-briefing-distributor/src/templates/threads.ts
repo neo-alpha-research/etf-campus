@@ -53,18 +53,21 @@ export function generateThreadsThread(
 
   const topicTag = selectThreadsTopicTag(payload);
 
+  const watchPointText = regime.threadsWatchPoint || "지수가 큰 폭의 변동성을 겪을 때는 지수 자체보다 섹터 간 자금 이동 경로와 방어 자산의 완충력을 관찰하는 것이 훨씬 중요합니다. 오늘 개장 후 여러분의 관심 섹터는 어디인가요? 💬";
+  const commentText = regime.firstComment || "📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (순자산 500억 원 이상, 상장 3개월 이상 일반 ETF 대상 요약 / 투자 권유 아님)";
+
   const mainPost = `${regime.threadsOpening}
 
 ${regime.threadsMarketSummary}
 
 테마별로는 ${strongText}이 견조했던 반면, ${weakText}은 조정을 받았습니다.${inflowSentence}
 
-지수보다 중요한 ETF 시장의 자금 흐름, 여러분은 포트폴리오 점검할 때 어떤 지표를 가장 먼저 확인하시나요?
+${watchPointText}
 
 ${topicTag}
 
 [첫 댓글]
-📌 매일 장 시작 전 상세 브리핑과 실시간 1,025개 ETF 데이터는 프로필 링크에서 바로 확인하실 수 있어요!`;
+${commentText}`;
 
   return [
     { sequence: 1, content: mainPost }
@@ -305,19 +308,19 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         </g>
       </g>
 
-      <!-- Bottom Banner & CTA (Y: 1040, H: 75) -->
+      <!-- Bottom Banner & Official Data Notice (Y: 1040, H: 75) -->
       <g transform="translate(60, 1040)" filter="url(#cardShadow)">
         <rect width="960" height="75" rx="18" fill="url(#brandGrad)"/>
         <text x="480" y="45" fill="#FFFFFF" font-size="21" font-weight="900" text-anchor="middle">
-          👉 테마별 동향 &amp; 스마트머니 펀드 플로우는 '프로필 링크'에서 확인! 🔗
+          📊 한국거래소(KRX) 전 거래일 마감 공시 데이터 전수 분석 기준 (순자산 500억↑ 대상)
         </text>
       </g>
 
       <!-- Watermark & Disclaimer (Y: 1145 ~ 1210) -->
       <g transform="translate(540, 1150)">
-        <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 순수 정보 제공용 시황 칼럼이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
         <rect x="-200" y="14" width="400" height="36" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="38" fill="#1E293B" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <text x="0" y="38" fill="#1E293B" font-size="16" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 마켓 브리핑</text>
       </g>
     </svg>
   `;

@@ -109,12 +109,12 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
   const temp = payload.marketTemperature || "하락 우세";
 
   // Peer Groups
-  const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
-  const winners = sortedPeerGroups.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2);
-  const losers = [...sortedPeerGroups].reverse().filter(p => p.cappedAumWeightedReturnPct < 0).slice(0, 2);
+  const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
+  const winners = sortedPeerGroups.filter(p => (p.cappedAumWeightedReturnPct ?? 0) > 0).slice(0, 2);
+  const losers = [...sortedPeerGroups].reverse().filter(p => (p.cappedAumWeightedReturnPct ?? 0) < 0).slice(0, 2);
   const topTheme = winners[0] || { peerGroup: "에너지 (원유·천연가스)", cappedAumWeightedReturnPct: 0.93, etfCount: 5 };
   const bottomTheme = losers[0] || { peerGroup: "K-푸드 & K-뷰티", cappedAumWeightedReturnPct: -4.07, etfCount: 8 };
-  const themeGap = Math.abs(topTheme.cappedAumWeightedReturnPct - bottomTheme.cappedAumWeightedReturnPct).toFixed(2);
+  const themeGap = Math.abs((topTheme.cappedAumWeightedReturnPct ?? 0) - (bottomTheme.cappedAumWeightedReturnPct ?? 0)).toFixed(2);
 
   // Inflows
   const topInflows = (payload.periodicFlows?.dailyFundFlows?.topInflows || []).slice(0, 3);
@@ -239,25 +239,25 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
           <rect x="0" y="0" width="430" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
           <text x="20" y="37" fill="#B91C1C" font-size="15" font-weight="900">상승 1위</text>
           <text x="95" y="37" fill="#0F172A" font-size="${(winners[0]?.peerGroup || '').length > 13 ? 14.5 : 16.5}" font-weight="900">${escapeXml(winners[0]?.peerGroup || "에너지 (원유·천연가스)")}</text>
-          <text x="410" y="38" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${winners[0]?.cappedAumWeightedReturnPct.toFixed(2) || "0.93"}%</text>
+          <text x="410" y="38" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${((winners[0]?.cappedAumWeightedReturnPct ?? 0.93)).toFixed(2)}%</text>
 
           <!-- Top 2 Winner -->
           <rect x="0" y="68" width="430" height="58" rx="12" fill="#FEF2F2" stroke="#FECACA" stroke-width="1"/>
           <text x="20" y="105" fill="#B91C1C" font-size="15" font-weight="900">상승 2위</text>
           <text x="95" y="105" fill="#0F172A" font-size="${(winners[1]?.peerGroup || '').length > 13 ? 14.5 : 16.5}" font-weight="900">${escapeXml(winners[1]?.peerGroup || "고배당 & 인컴 전략")}</text>
-          <text x="410" y="106" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${winners[1]?.cappedAumWeightedReturnPct.toFixed(2) || "0.85"}%</text>
+          <text x="410" y="106" fill="#DC2626" font-size="22" font-weight="900" text-anchor="end" class="tabular">▲ +${((winners[1]?.cappedAumWeightedReturnPct ?? 0.85)).toFixed(2)}%</text>
 
           <!-- Top 1 Loser -->
           <rect x="460" y="0" width="430" height="58" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
           <text x="480" y="37" fill="#1D4ED8" font-size="15" font-weight="900">하락 1위</text>
           <text x="555" y="37" fill="#0F172A" font-size="${(losers[0]?.peerGroup || '').length > 13 ? 14.5 : 16.5}" font-weight="900">${escapeXml(losers[0]?.peerGroup || "K-푸드 & K-뷰티")}</text>
-          <text x="870" y="38" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${losers[0]?.cappedAumWeightedReturnPct.toFixed(2) || "-4.07"}%</text>
+          <text x="870" y="38" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${((losers[0]?.cappedAumWeightedReturnPct ?? -4.07)).toFixed(2)}%</text>
 
           <!-- Top 2 Loser -->
           <rect x="460" y="68" width="430" height="58" rx="12" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
           <text x="480" y="105" fill="#1D4ED8" font-size="15" font-weight="900">하락 2위</text>
           <text x="555" y="105" fill="#0F172A" font-size="${(losers[1]?.peerGroup || '').length > 13 ? 14.5 : 16.5}" font-weight="900">${escapeXml(losers[1]?.peerGroup || "K-방위산업")}</text>
-          <text x="870" y="106" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${losers[1]?.cappedAumWeightedReturnPct.toFixed(2) || "-2.68"}%</text>
+          <text x="870" y="106" fill="#2563EB" font-size="22" font-weight="900" text-anchor="end" class="tabular">▼ ${((losers[1]?.cappedAumWeightedReturnPct ?? -2.68)).toFixed(2)}%</text>
         </g>
       </g>
 

@@ -188,7 +188,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             <rect width="380" height="100" rx="14" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
             <text x="20" y="34" fill="#B42318" font-size="14" font-weight="900">상승 1위</text>
             <text x="20" y="68" fill="#0F172A" font-size="${topTheme.peerGroup.length > 14 ? 16 : (topTheme.peerGroup.length > 11 ? 17.5 : 19)}" font-weight="900">${escapeXml(topTheme.peerGroup)}</text>
-            <text x="360" y="64" fill="#D92D20" font-size="26" font-weight="900" text-anchor="end" class="tabular">+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%</text>
+            <text x="360" y="64" fill="#D92D20" font-size="26" font-weight="900" text-anchor="end" class="tabular">+${(topTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%</text>
           </g>
 
           <!-- Right: 하락 1위 카드 -->
@@ -196,10 +196,10 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             <rect width="380" height="100" rx="14" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.2"/>
             <text x="20" y="34" fill="#175CD3" font-size="14" font-weight="900">하락 1위</text>
             <text x="20" y="68" fill="#0F172A" font-size="${bottomTheme.peerGroup.length > 14 ? 16 : (bottomTheme.peerGroup.length > 11 ? 17.5 : 19)}" font-weight="900">${escapeXml(bottomTheme.peerGroup)}</text>
-            <text x="360" y="64" fill="#175CD3" font-size="26" font-weight="900" text-anchor="end" class="tabular">${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}%</text>
+            <text x="360" y="64" fill="#175CD3" font-size="26" font-weight="900" text-anchor="end" class="tabular">${(bottomTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%</text>
           </g>
 
-          <text x="35" y="190" fill="#64748B" font-size="15" font-weight="700">💡 ${topTheme.peerGroup} +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 선방 vs ${bottomTheme.peerGroup} ${bottomTheme.cappedAumWeightedReturnPct.toFixed(2)}% 차익 실현</text>
+          <text x="35" y="190" fill="#64748B" font-size="15" font-weight="700">💡 ${topTheme.peerGroup} +${(topTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}% 선방 vs ${bottomTheme.peerGroup} ${(bottomTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}% 차익 실현</text>
         </g>
 
         <!-- Pulse 3: Top Inflow -->
@@ -211,7 +211,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           <text x="755" y="39" fill="#1E293B" font-size="14" font-weight="900" text-anchor="middle">기관·외국인 합산</text>
 
           <text x="35" y="98" fill="#0F172A" font-size="30" font-weight="900">
-            ${topInflow.name} <tspan fill="#D92D20" font-size="28" font-weight="900" class="tabular">(+${topInflow.inflow?.toLocaleString() || "1,130"}억원)</tspan>
+            ${topInflow.name} <tspan fill="#D92D20" font-size="28" font-weight="900" class="tabular">(+${(topInflow.inflow ?? 0).toLocaleString()}억원)</tspan>
           </text>
 
           <text x="35" y="148" fill="#64748B" font-size="16" font-weight="700">💡 상위 5종목 총 ${top5InflowSum.toLocaleString()}억원 순유입 · 상세 순위는 4페이지에서 확인</text>
@@ -276,7 +276,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             <text x="45" y="59" fill="${idx === 0 ? '#FFFFFF' : '#D92D20'}" font-size="20" font-weight="900" text-anchor="middle">${idx + 1}</text>
             <text x="85" y="44" fill="#0F172A" font-size="28" font-weight="900">${w.peerGroup}</text>
             <text x="85" y="76" fill="#64748B" font-size="17" font-weight="600">총 ${w.etfCount}개 ETF 구성 | 자산군: ${w.assetClass || "국내주식"}</text>
-            <text x="840" y="60" fill="#D92D20" font-size="38" font-weight="900" text-anchor="end" class="tabular">▲ +${w.cappedAumWeightedReturnPct.toFixed(2)}%</text>
+            <text x="840" y="60" fill="#D92D20" font-size="38" font-weight="900" text-anchor="end" class="tabular">▲ +${(w.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%</text>
           </g>
         `).join("")}
       </g>
@@ -294,7 +294,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             <text x="45" y="59" fill="${idx === 0 ? '#FFFFFF' : '#175CD3'}" font-size="20" font-weight="900" text-anchor="middle">${idx + 1}</text>
             <text x="85" y="44" fill="#0F172A" font-size="28" font-weight="900">${l.peerGroup}</text>
             <text x="85" y="76" fill="#64748B" font-size="17" font-weight="600">총 ${l.etfCount}개 ETF 구성 | 자산군: ${l.assetClass || "해외주식"}</text>
-            <text x="840" y="60" fill="#175CD3" font-size="38" font-weight="900" text-anchor="end" class="tabular">▼ ${l.cappedAumWeightedReturnPct.toFixed(2)}%</text>
+            <text x="840" y="60" fill="#175CD3" font-size="38" font-weight="900" text-anchor="end" class="tabular">▼ ${(l.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%</text>
           </g>
         `).join("")}
       </g>

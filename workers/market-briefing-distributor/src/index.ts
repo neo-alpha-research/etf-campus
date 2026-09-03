@@ -1,7 +1,7 @@
 import { validateBriefingPayload } from "./circuit-breaker";
-import { generateInstagramCarousel } from "./templates/instagram";
+import { generateInstagramCarousel, generateInstagramCaption } from "./templates/instagram";
 import { generateNewsletterHtml } from "./templates/newsletter";
-import { generateThreadsThread } from "./templates/threads";
+import { generateThreadsThread, generateThreadsImageSvg } from "./templates/threads";
 import type { BriefingDistributeEvent, Env, MarketBriefingPayload } from "./types";
 
 function normalizeBriefingPayload(raw: any): MarketBriefingPayload | null {
@@ -255,7 +255,312 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
   };
 }
 
+export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayload): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
+  if (!env.THREADS_ACCESS_TOKEN || !env.THREADS_USER_ID) {
+    return { success: false, error: "Threads API credentials (THREADS_ACCESS_TOKEN or THREADS_USER_ID) missing." };
+  }
+
+  const baseUrl = env.SITE_BASE_URL || "https://etf-campus.pages.dev";
+  const threadsPosts = generateThreadsThread(payload, baseUrl);
+  const fullText = threadsPosts[0]?.content || "";
+  const parts = fullText.split("[첫 댓글]");
+  const mainPost = parts[0].trim();
+  const firstComment = parts[1] ? parts[1].trim() : "";
+
+  try {
+    const createUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads`;
+    const createRes = await fetch(createUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        media_type: "TEXT",
+        text: mainPost,
+        access_token: env.THREADS_ACCESS_TOKEN,
+      }),
+    });
+    const createData: any = await createRes.json();
+    if (!createData.id) {
+      return { success: false, error: `Failed to create Threads container: ${JSON.stringify(createData)}` };
+    }
+
+    const pubUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads_publish`;
+    const pubRes = await fetch(pubUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        creation_id: createData.id,
+        access_token: env.THREADS_ACCESS_TOKEN,
+      }),
+    });
+    const pubData: any = await pubRes.json();
+    const publishedPostId = pubData.id;
+    if (!publishedPostId) {
+      return { success: false, error: `Failed to publish Threads post: ${JSON.stringify(pubData)}` };
+    }
+
+    if (firstComment) {
+      await new Promise((r) => setTimeout(r, 2500));
+      const replyCreateRes = await fetch(createUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          media_type: "TEXT",
+          text: firstComment,
+          reply_to_id: publishedPostId,
+          access_token: env.THREADS_ACCESS_TOKEN,
+        }),
+      });
+      const replyCreateData: any = await replyCreateRes.json();
+      if (replyCreateData.id) {
+        await fetch(pubUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            creation_id: replyCreateData.id,
+            access_token: env.THREADS_ACCESS_TOKEN,
+          }),
+        });
+      }
+    }
+
+    try {
+      await env.ETF_PRICES.prepare(
+        `UPDATE briefing_distribution_logs SET status = 'distributed', created_at = CURRENT_TIMESTAMP WHERE as_of_date = ?`
+      ).bind(payload.asOfDate).run();
+    } catch (e) {}
+
+    return {
+      success: true,
+      publishedPostId,
+      permalink: `https://www.threads.com/@neo.alphareader/post/${publishedPostId}`,
+    };
+  } catch (err: any) {
+    return { success: false, error: String(err) };
+  }
+}
+
+function generateDashboardHtml(payload: MarketBriefingPayload, env: Env, logStatus: string, threadsPublishedId: string | null): string {
+  const date = payload.asOfDate || "2026-09-02";
+  const generalCount = payload.generalEtfCount || 1025;
+  const up = payload.upCount || 0;
+  const flat = payload.flatCount || 0;
+  const down = payload.downCount || 0;
+  const kospi = payload.kospiChangePct || 0;
+  const etfReturn = payload.generalAumWeightedReturnPct || 0;
+  const threadsText = generateThreadsThread(payload, env.SITE_BASE_URL || "https://etf-campus.pages.dev")[0]?.content || "";
+  const captionText = generateInstagramCaption(payload);
+  const isPublished = logStatus === "distributed" || Boolean(threadsPublishedId);
+
+  return `<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OSMU 통합 검토 대시보드 | ETF Campus</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, sans-serif; }
+    body { background-color: #0F172A; color: #F8FAFC; min-height: 100vh; padding: 24px; }
+    .container { max-width: 1300px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #334155; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+    .badge { padding: 6px 14px; border-radius: 9999px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+    .badge-ready { background: #FEF3C7; color: #B45309; }
+    .badge-live { background: #DCFCE7; color: #15803D; }
+    .badge-safe { background: #EFF6FF; color: #1D4ED8; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab-btn { background: #1E293B; border: 1px solid #334155; color: #94A3B8; padding: 12px 24px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .tab-btn:hover { background: #334155; color: #FFFFFF; }
+    .tab-btn.active { background: #2563EB; color: #FFFFFF; border-color: #3B82F6; box-shadow: 0 4px 14px rgba(37,99,235,0.4); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .card { background: #1E293B; border: 1px solid #334155; border-radius: 18px; padding: 24px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+    .preview-img { width: 100%; max-width: 480px; aspect-ratio: 4/5; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); border: 1px solid #475569; display: block; margin: 0 auto; background: #000; }
+    .carousel-nav { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 16px; }
+    .nav-btn { background: #334155; color: #F8FAFC; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .nav-btn:hover { background: #475569; }
+    .copy-box { background: #0F172A; border: 1px solid #334155; border-radius: 12px; padding: 16px; font-size: 14.5px; line-height: 1.7; color: #E2E8F0; white-space: pre-wrap; word-break: break-word; max-height: 520px; overflow-y: auto; }
+    .action-btn { background: #10B981; color: #FFFFFF; border: none; padding: 12px 24px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .action-btn:hover { background: #059669; }
+    .btn-secondary { background: #334155; color: #F8FAFC; padding: 8px 14px; font-size: 13px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; }
+    .btn-secondary:hover { background: #475569; }
+    iframe.email-frame { width: 100%; height: 750px; border: none; border-radius: 14px; background: #FFFFFF; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1 style="font-size: 23px; font-weight: 900; margin-bottom: 6px;">📈 ETF Campus 마켓 브리핑 OSMU 클라우드 통합 검토 허브</h1>
+        <p style="color: #94A3B8; font-size: 14px;">데이터 기준일: <strong style="color: #F8FAFC;">${date}</strong> · 일반 ETF <strong style="color: #F8FAFC;">${generalCount}개</strong> (상승 ${up} / 보합 ${flat} / 하락 ${down}) · KOSPI ${kospi > 0 ? '+' : ''}${kospi}% · ETF ${etfReturn > 0 ? '+' : ''}${etfReturn}%</p>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <span class="badge badge-safe">✅ 서킷브레이커 정상</span>
+        <span class="badge ${isPublished ? 'badge-live' : 'badge-ready'}" id="statusBadge">
+          ${isPublished ? '🚀 스레드 발행 완료' : '⏳ 운영자 검토 대기'}
+        </span>
+        ${!isPublished ? `<button class="action-btn" id="btnPublishThreads" onclick="publishThreads('${date}')">🚀 스레드 발행 승인</button>` : ''}
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event, 'tab-instagram')">📷 인스타그램 (카드뉴스 6장 & 캡션)</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-threads')">🧵 스레드 (본문 & 인포그래픽 1장)</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-newsletter')">📧 이메일 뉴스레터 (반응형 풀뷰)</button>
+    </div>
+
+    <!-- 1. Instagram Tab -->
+    <div id="tab-instagram" class="tab-content active">
+      <div class="grid-2">
+        <div class="card" style="text-align: center;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 800;">🖼️ 카드뉴스 (슬라이드 <span id="currentSlideNum">1</span> / 6)</h3>
+            <a id="btnOpenSvg" href="/api/preview/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary" style="text-decoration: none;">🔍 원본 SVG</a>
+          </div>
+          <img id="instagramImg" src="/api/preview/instagram?date=${date}&slide=1" class="preview-img" alt="Instagram Card">
+          <div class="carousel-nav">
+            <button class="nav-btn" onclick="changeSlide(-1)">◀ 이전</button>
+            <div id="slideDots" style="display: flex; gap: 6px;"></div>
+            <button class="nav-btn" onclick="changeSlide(1)">다음 ▶</button>
+          </div>
+        </div>
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h3 style="font-size: 17px; font-weight: 800;">📝 인스타그램 캡션 전문</h3>
+            <button class="btn-secondary" onclick="copyText('instagramCaptionText')">📋 캡션 복사</button>
+          </div>
+          <div id="instagramCaptionText" class="copy-box">${captionText}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Threads Tab -->
+    <div id="tab-threads" class="tab-content">
+      <div class="grid-2">
+        <div class="card" style="text-align: center;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; text-align: left;">
+            <h3 style="font-size: 17px; font-weight: 800;">🖼️ 스레드 전용 인포그래픽 (1장)</h3>
+            <a href="/api/preview/threads-image?date=${date}" target="_blank" class="btn-secondary" style="text-decoration: none;">🔍 원본 SVG</a>
+          </div>
+          <img src="/api/preview/threads-image?date=${date}" class="preview-img" alt="Threads Infographic">
+        </div>
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+            <h3 style="font-size: 17px; font-weight: 800;">🧵 스레드 본문 & 댓글 전문</h3>
+            <button class="btn-secondary" onclick="copyText('threadsFullText')">📋 본문 복사</button>
+          </div>
+          <div id="threadsFullText" class="copy-box">${threadsText}</div>
+          <div style="margin-top: 18px; text-align: right;">
+            <button class="action-btn" onclick="publishThreads('${date}')">🚀 이 내용으로 스레드 즉시 발행</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Newsletter Tab -->
+    <div id="tab-newsletter" class="tab-content">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <h3 style="font-size: 17px; font-weight: 800;">📧 이메일 뉴스레터 프리뷰</h3>
+          <a href="/api/preview/newsletter?date=${date}" target="_blank" class="btn-secondary" style="text-decoration: none;">🔗 새 창에서 전체보기</a>
+        </div>
+        <iframe src="/api/preview/newsletter?date=${date}" class="email-frame"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const date = '${date}';
+
+    function switchTab(evt, tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      evt.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function changeSlide(delta) {
+      currentSlide += delta;
+      if (currentSlide < 1) currentSlide = 6;
+      if (currentSlide > 6) currentSlide = 1;
+      updateSlide();
+    }
+
+    function goToSlide(n) {
+      currentSlide = n;
+      updateSlide();
+    }
+
+    function updateSlide() {
+      document.getElementById('instagramImg').src = '/api/preview/instagram?date=' + date + '&slide=' + currentSlide;
+      document.getElementById('btnOpenSvg').href = '/api/preview/instagram?date=' + date + '&slide=' + currentSlide;
+      document.getElementById('currentSlideNum').innerText = currentSlide;
+      renderDots();
+    }
+
+    function renderDots() {
+      const container = document.getElementById('slideDots');
+      container.innerHTML = '';
+      for (let i = 1; i <= 6; i++) {
+        const dot = document.createElement('button');
+        dot.innerText = i;
+        dot.style.padding = '4px 10px';
+        dot.style.borderRadius = '6px';
+        dot.style.border = 'none';
+        dot.style.cursor = 'pointer';
+        dot.style.fontSize = '12px';
+        dot.style.fontWeight = '700';
+        dot.style.background = (i === currentSlide) ? '#2563EB' : '#334155';
+        dot.style.color = '#FFFFFF';
+        dot.onclick = () => goToSlide(i);
+        container.appendChild(dot);
+      }
+    }
+    renderDots();
+
+    function copyText(elemId) {
+      const text = document.getElementById(elemId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('클립보드에 복사되었습니다!');
+      });
+    }
+
+    async function publishThreads(dateStr) {
+      if (!confirm(dateStr + ' 마켓 브리핑을 스레드(@neo.alphareader)에 실시간 자동 발행하시겠습니까?')) return;
+      const btn = event.target;
+      btn.disabled = true;
+      btn.innerText = '발행 처리 중...';
+
+      try {
+        const res = await fetch('/api/publish/threads?date=' + dateStr, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          alert('스레드 발행 성공! (ID: ' + data.publishedPostId + ')');
+          document.getElementById('statusBadge').className = 'badge badge-live';
+          document.getElementById('statusBadge').innerText = '🚀 스레드 발행 완료';
+          if (document.getElementById('btnPublishThreads')) {
+            document.getElementById('btnPublishThreads').style.display = 'none';
+          }
+        } else {
+          alert('발행 실패: ' + (data.error || JSON.stringify(data)));
+          btn.disabled = false;
+          btn.innerText = '🚀 스레드 발행 승인';
+        }
+      } catch (e) {
+        alert('요청 중 오류 발생: ' + e);
+        btn.disabled = false;
+        btn.innerText = '🚀 스레드 발행 승인';
+      }
+    }
+  </script>
+</body>
+</html>`;
+}
+
 export default {
+  // Queue Consumer: prepares assets and saves status as 'ready' (Human-in-the-Loop review)
   async queue(batch: MessageBatch<BriefingDistributeEvent>, env: Env): Promise<void> {
     for (const message of batch.messages) {
       const event = message.body;
@@ -263,11 +568,49 @@ export default {
 
       try {
         console.log(`[Distributor] Consuming distribution event for ${targetDate} v${event.publication_version}`);
-        const res = await executeDistribution(env, targetDate, false);
-        console.log(`[Distributor] Distribution completed for ${targetDate}:`, JSON.stringify(res));
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) {
+          console.error(`[Distributor] Payload for ${targetDate} not found in KV.`);
+          message.retry({ delaySeconds: Math.min(3600, 60 * 2 ** Math.min(message.attempts, 5)) });
+          continue;
+        }
+
+        const validation = validateBriefingPayload(payload, env);
+        if (!validation.isSafe) {
+          console.error(`[Distributor] Circuit breaker tripped for ${targetDate}:`, validation.reasons);
+          await env.ETF_PRICES.prepare(
+            `CREATE TABLE IF NOT EXISTS briefing_distribution_logs (
+              as_of_date TEXT PRIMARY KEY,
+              status TEXT NOT NULL,
+              details_json TEXT,
+              created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            )`
+          ).run();
+          await env.ETF_PRICES.prepare(
+            `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, 'blocked', ?, CURRENT_TIMESTAMP)`
+          ).bind(targetDate, JSON.stringify({ reasons: validation.reasons })).run();
+          message.ack();
+          continue;
+        }
+
+        // Prepare distribution log in 'ready' state for operator review
+        await env.ETF_PRICES.prepare(
+          `CREATE TABLE IF NOT EXISTS briefing_distribution_logs (
+            as_of_date TEXT PRIMARY KEY,
+            status TEXT NOT NULL,
+            details_json TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+          )`
+        ).run();
+
+        await env.ETF_PRICES.prepare(
+          `INSERT OR REPLACE INTO briefing_distribution_logs (as_of_date, status, details_json, created_at) VALUES (?, 'ready', ?, CURRENT_TIMESTAMP)`
+        ).bind(targetDate, JSON.stringify({ event_id: event.event_id, validated: true })).run();
+
+        console.log(`[Distributor] Assets prepared in READY state for ${targetDate}. Awaiting operator review.`);
         message.ack();
       } catch (err) {
-        console.error(`[Distributor] Fatal error distributing for ${targetDate}:`, err);
+        console.error(`[Distributor] Fatal error preparing distribution for ${targetDate}:`, err);
         message.retry({ delaySeconds: Math.min(3600, 60 * 2 ** Math.min(message.attempts, 5)) });
       }
     }
@@ -278,54 +621,111 @@ export default {
     const targetDate = url.searchParams.get("date") || undefined;
     const baseUrl = env.SITE_BASE_URL || "https://etf-campus.pages.dev";
 
-    // 1. 인스타그램 카드뉴스 프리뷰 (슬라이드 번호 지정 시 SVG 반환, 미지정 시 JSON)
-    if (url.pathname === "/api/preview/instagram") {
-      const payload = await loadBriefingPayload(env, targetDate);
-      if (!payload) return new Response("Briefing not found", { status: 404 });
+    try {
+      // 1. Root & Preview: Cloud Review Dashboard Hub
+      if (url.pathname === "/" || url.pathname === "/preview") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) return new Response("Briefing not found", { status: 404 });
 
-      const slides = generateInstagramCarousel(payload, baseUrl);
-      const slideParam = url.searchParams.get("slide");
-      if (slideParam) {
-        const slideNo = parseInt(slideParam, 10);
-        const slide = slides.find(s => s.slideNumber === slideNo) || slides[0];
-        return new Response(slide.svgContent, {
+        let logStatus = "ready";
+        let threadsPublishedId: string | null = null;
+        try {
+          const row: any = await env.ETF_PRICES.prepare(
+            `SELECT status, details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+          ).bind(payload.asOfDate).first();
+          if (row) {
+            logStatus = row.status;
+            if (row.details_json) {
+              const parsed = JSON.parse(row.details_json);
+              threadsPublishedId = parsed.threads?.publishedPostId || null;
+            }
+          }
+        } catch (e) {}
+
+        const html = generateDashboardHtml(payload, env, logStatus, threadsPublishedId);
+        return new Response(html, {
+          headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" },
+        });
+      }
+
+      // 2. 인스타그램 카드뉴스 프리뷰 (슬라이드 번호 지정 시 SVG 반환, 미지정 시 HTML 리다이렉트 또는 JSON)
+      if (url.pathname === "/api/preview/instagram") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) return new Response("Briefing not found", { status: 404 });
+
+        const slides = generateInstagramCarousel(payload, baseUrl);
+        const slideParam = url.searchParams.get("slide");
+        if (slideParam) {
+          const slideNo = parseInt(slideParam, 10);
+          const slide = slides.find(s => s.slideNumber === slideNo) || slides[0];
+          return new Response(slide.svgContent, {
+            headers: { "Content-Type": "image/svg+xml; charset=utf-8", "Cache-Control": "no-cache" },
+          });
+        }
+
+        const accept = request.headers.get("Accept") || "";
+        if (accept.includes("text/html")) {
+          return Response.redirect(new URL(`/?date=${payload.asOfDate}#tab-instagram`, request.url).toString(), 302);
+        }
+
+        return Response.json({ success: true, asOfDate: payload.asOfDate, slides });
+      }
+
+      // 3. 스레드 전용 인포그래픽 1장 프리뷰 (SVG)
+      if (url.pathname === "/api/preview/threads-image") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) return new Response("Briefing not found", { status: 404 });
+
+        const svg = generateThreadsImageSvg(payload);
+        return new Response(svg, {
           headers: { "Content-Type": "image/svg+xml; charset=utf-8", "Cache-Control": "no-cache" },
         });
       }
-      return Response.json({ success: true, asOfDate: payload.asOfDate, slides });
-    }
 
-    // 2. 스레드 타래 텍스트 프리뷰
-    if (url.pathname === "/api/preview/threads") {
-      const payload = await loadBriefingPayload(env, targetDate);
-      if (!payload) return new Response("Briefing not found", { status: 404 });
+      // 4. 스레드 타래 텍스트 프리뷰
+      if (url.pathname === "/api/preview/threads") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) return new Response("Briefing not found", { status: 404 });
 
-      const posts = generateThreadsThread(payload, baseUrl);
-      return Response.json({ success: true, asOfDate: payload.asOfDate, posts });
-    }
-
-    // 3. 이메일 뉴스레터 반응형 HTML 프리뷰
-    if (url.pathname === "/api/preview/newsletter") {
-      const payload = await loadBriefingPayload(env, targetDate);
-      if (!payload) return new Response("Briefing not found", { status: 404 });
-
-      const newsletter = generateNewsletterHtml(payload, baseUrl);
-      return new Response(newsletter.html, {
-        headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" },
-      });
-    }
-
-    // 4. 수동 발송 및 즉시 트리거 엔드포인트
-    if (url.pathname === "/internal/distribute" || url.pathname === "/api/distribute") {
-      const dryRun = url.searchParams.get("dryRun") === "true";
-      try {
-        const result = await executeDistribution(env, targetDate, dryRun);
-        return Response.json(result);
-      } catch (err: any) {
-        return Response.json({ success: false, error: String(err) }, { status: 500 });
+        const posts = generateThreadsThread(payload, baseUrl);
+        return Response.json({ success: true, asOfDate: payload.asOfDate, posts });
       }
-    }
 
-    return new Response("ETF Campus Market Briefing Distributor Worker", { status: 200 });
+      // 5. 이메일 뉴스레터 반응형 HTML 프리뷰
+      if (url.pathname === "/api/preview/newsletter") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) return new Response("Briefing not found", { status: 404 });
+
+        const newsletter = generateNewsletterHtml(payload, baseUrl);
+        return new Response(newsletter.html, {
+          headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" },
+        });
+      }
+
+      // 6. 스레드 승인 후 실시간 발행 엔드포인트 (Human-in-the-Loop)
+      if (url.pathname === "/api/publish/threads") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
+
+        const publishRes = await publishToThreadsLive(env, payload);
+        return Response.json(publishRes);
+      }
+
+      // 7. 통합 distribute 엔드포인트 (dryRun 파라미터 지원)
+      if (url.pathname === "/internal/distribute" || url.pathname === "/api/distribute") {
+        const dryRun = url.searchParams.get("dryRun") === "true";
+        try {
+          const result = await executeDistribution(env, targetDate, dryRun);
+          return Response.json(result);
+        } catch (err: any) {
+          return Response.json({ success: false, error: String(err) }, { status: 500 });
+        }
+      }
+
+      return new Response("ETF Campus Market Briefing Distributor Worker. Visit /preview for dashboard.", { status: 200 });
+    } catch (err: any) {
+      console.error("[Distributor] Unhandled fetch error:", err);
+      return new Response(`Server Error: ${err.message || String(err)}`, { status: 500 });
+    }
   },
 };

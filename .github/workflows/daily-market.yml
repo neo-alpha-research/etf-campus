@@ -66,27 +66,35 @@ jobs:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Manual run detected. Bypassing pre-flight readiness checks."
+          # If manual run with explicit TARGET_DATE, bypass pre-flight check
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ inputs.target }}" ]; then
+            echo "Manual run with explicit target date (${{ inputs.target }}) detected. Bypassing pre-flight checks."
             exit 0
           fi
           
-          # 1. Check if already succeeded today
-          if python scripts/check_workflow_success_today.py --workflow daily-market.yml; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "skip_reason=already_succeeded" >> "$GITHUB_OUTPUT"
-            echo "✅**Skipping**: This workflow has already succeeded today." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
+          # 1. Check if already succeeded today (skip only for schedule runs)
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+            if python scripts/check_workflow_success_today.py --workflow daily-market.yml; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "skip_reason=already_succeeded" >> "$GITHUB_OUTPUT"
+              echo "✅**Skipping**: This workflow has already succeeded today." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
           fi
           
-          # 2. Check data source readiness
-          
+          # 2. Check data source readiness (enforced for both schedule and default manual runs)
           UTC_HOUR=$(date -u +%H)
           if python scripts/check_source_ready.py; then
             echo "Data is ready."
             echo "??**Proceeding**: Source data is available." >> "$GITHUB_STEP_SUMMARY"
           else
-            if [ "$UTC_HOUR" = "$FINAL_RETRY_UTC_HOUR" ]; then
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+              echo "Data not available yet on KRX/Data.go.kr. Skipping to release runner lock."
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "skip_reason=source_not_ready" >> "$GITHUB_OUTPUT"
+              echo "??**Skipping**: Source data is not yet available. Exiting early to avoid blocking scheduled ladder." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            elif [ "$UTC_HOUR" = "$FINAL_RETRY_UTC_HOUR" ]; then
               echo "::error::Data is still not available at final attempt."
               echo "??**Failed**: Source data did not arrive before the final scheduled run." >> "$GITHUB_STEP_SUMMARY"
               exit 1

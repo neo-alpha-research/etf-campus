@@ -54,6 +54,13 @@ jobs:
           npm test
           npm run build
 
+      - name: Upload static export artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-out-${{ github.run_id }}
+          path: out/
+          retention-days: 1
+
       - name: Install and validate publisher Worker
         working-directory: workers/market-briefing-publisher
         run: |
@@ -129,33 +136,19 @@ jobs:
 
   deploy_pages:
     name: Deploy ETF Campus Pages
-    needs: [deploy_publisher, deploy_distributor]
+    needs: [validate, deploy_publisher, deploy_distributor]
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 15
     environment: production
     steps:
       - name: Check out source
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Download static export artifact
+        uses: actions/download-artifact@v4
         with:
-          node-version-file: .node-version
-          cache: npm
-          cache-dependency-path: package-lock.json
-
-      - name: Cache Next.js build
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
-
-      - name: Build production assets
-        run: |
-          npm ci
-          npm run build
+          name: pages-out-${{ github.run_id }}
+          path: out
 
       - name: Deploy Pages assets and Functions
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} pages deploy out --project-name=${{ env.PAGES_PROJECT_NAME }}

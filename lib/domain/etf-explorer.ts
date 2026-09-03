@@ -224,7 +224,3 @@ export function serializeExplorerQuery(state: ExplorerState): string {
   state.riskTypes.forEach((value) => query.append("risk", value));
   return query.toString();
 }
-
-export function isReturnPeriod(value: string): value is ReturnPeriod {
-  return RETURN_PERIODS.includes(value as ReturnPeriod);
-}

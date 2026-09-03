@@ -633,14 +633,3 @@ export function getPeerComparison(target: Etf, universe: readonly Etf[]): PeerCo
   };
 }
 
-export function getComparableEtfs(target: Etf, universe: readonly Etf[], limit = MAX_PEERS): {
-  peers: Etf[];
-  peerGroup: PeerGroupOption | null;
-} {
-  const comparison = getPeerComparison(target, universe);
-  const primary = comparison.groups.find((group) => group.isPrimary) ?? null;
-  return {
-    peers: (primary?.candidates ?? []).slice(0, limit).map((candidate) => candidate.etf),
-    peerGroup: primary,
-  };
-}

@@ -151,8 +151,9 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
 
   // 2. 템플릿 생성 (인스타그램 6장, 스레드 4단, 이메일 HTML)
   const baseUrl = env.SITE_BASE_URL || "https://etf-campus.pages.dev";
-  const instagramSlides = generateInstagramCarousel(payload, baseUrl);
-  const threadsPosts = generateThreadsThread(payload, baseUrl);
+  const narrative = await getOrRefineNarrative(payload, env);
+  const instagramSlides = generateInstagramCarousel(payload, baseUrl, narrative);
+  const threadsPosts = generateThreadsThread(payload, baseUrl, narrative);
   const newsletter = generateNewsletterHtml(payload, baseUrl);
 
   // 3. Threads API 실발송 (토큰 존재 및 dryRun 아닐 시)

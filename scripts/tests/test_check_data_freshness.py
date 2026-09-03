@@ -96,11 +96,11 @@ class ReadBasDtTest(TestCase):
             self.assertEqual(read_bas_dt(path), "20260806")
 
 
-import io
-from contextlib import redirect_stderr, redirect_stdout
-
 class MainTest(TestCase):
     def run_main(self, bas_dt: str, today: str, holidays: str = "") -> int:
+        import io
+        from contextlib import redirect_stderr, redirect_stdout
+
         with TemporaryDirectory() as tmp:
             directory = Path(tmp)
             master = write_master(directory, bas_dt)

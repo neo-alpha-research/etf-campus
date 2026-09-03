@@ -419,77 +419,34 @@ async function run() {
     console.log("No SMTP credentials found. Skipping Nodemailer.");
   }
 
-  console.log("\n=== 7. Threads API Auto-Publishing ===");
-  const threadsToken = process.env.THREADS_ACCESS_TOKEN;
-  const threadsUserId = process.env.THREADS_USER_ID || "28281486568114006";
-  if (threadsToken && threadsUserId) {
-    try {
-      const fullText = threads[0]?.content || "";
-      const parts = fullText.split("[첫 댓글]");
-      const mainPost = parts[0].trim();
-      const firstComment = parts[1] ? parts[1].trim() : "";
-
-      // 1. Create Main Post Container
-      const createUrl = `https://graph.threads.net/v1.0/${threadsUserId}/threads`;
-      const createRes = await fetch(createUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          media_type: "TEXT",
-          text: mainPost,
-          access_token: threadsToken,
-        }),
-      });
-      const createData: any = await createRes.json();
-      if (createData.id) {
-        // 2. Publish Main Post
-        const pubUrl = `https://graph.threads.net/v1.0/${threadsUserId}/threads_publish`;
-        const pubRes = await fetch(pubUrl, {
+  console.log("\n=== 7. Threads Publishing via Worker Gateway ===");
+  if (process.env.OSMU_PUBLISH_THREADS !== "true") {
+    console.log("OSMU_PUBLISH_THREADS is not 'true'. Skipping Threads publishing (opt-in required).");
+  } else {
+    const workerBaseUrl = process.env.WORKER_BASE_URL || "https://market-briefing-distributor.alpha-research.workers.dev";
+    const authToken = process.env.MANUAL_RUN_TOKEN;
+    if (!authToken) {
+      console.warn("[SECURITY] MANUAL_RUN_TOKEN missing. Skipping Threads publishing via Worker.");
+    } else {
+      try {
+        console.log(`Delegating Threads publishing to Worker Gateway for date ${dateStr}...`);
+        const workerPubUrl = `${workerBaseUrl}/api/publish/threads?date=${encodeURIComponent(dateStr)}`;
+        const pubRes = await fetch(workerPubUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            creation_id: createData.id,
-            access_token: threadsToken,
-          }),
+          headers: {
+            "Authorization": `Bearer ${authToken}`,
+          },
         });
         const pubData: any = await pubRes.json();
-        console.log(`Threads Main Post Published successfully: ID ${pubData.id}`);
-
-        // 3. Publish First Comment if present
-        if (firstComment && pubData.id) {
-          await new Promise((r) => setTimeout(r, 2000));
-          const replyCreateRes = await fetch(createUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({
-              media_type: "TEXT",
-              text: firstComment,
-              reply_to_id: pubData.id,
-              access_token: threadsToken,
-            }),
-          });
-          const replyCreateData: any = await replyCreateRes.json();
-          if (replyCreateData.id) {
-            const replyPubRes = await fetch(pubUrl, {
-              method: "POST",
-              headers: { "Content-Type": "application/x-www-form-urlencoded" },
-              body: new URLSearchParams({
-                creation_id: replyCreateData.id,
-                access_token: threadsToken,
-              }),
-            });
-            const replyPubData: any = await replyPubRes.json();
-            console.log(`Threads First Reply Published successfully: ID ${replyPubData.id}`);
-          }
+        if (pubData.success) {
+          console.log(`Threads published successfully via Worker Gateway: ID ${pubData.publishedPostId}`);
+        } else {
+          console.error(`Threads publishing rejected by Worker Gateway:`, pubData);
         }
-      } else {
-        console.warn("Threads creation warning:", createData);
+      } catch (tErr) {
+        console.error("Threads publishing via Worker Gateway failed:", tErr);
       }
-    } catch (tErr) {
-      console.error("Threads API Publishing failed:", tErr);
     }
-  } else {
-    console.log("No Threads credentials found. Skipping Threads API publishing.");
   }
 
   // Generate Integrated Preview Dashboard HTML

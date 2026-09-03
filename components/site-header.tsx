@@ -109,14 +109,14 @@ export function SiteHeader() {
           <AuthNav />
         </div>
       </div>
-      <nav aria-label="모바일 주요 메뉴" className="scrollbar-none flex gap-2 overflow-x-auto border-t border-line bg-neutral-50 px-5 py-2.5 text-sm font-bold lg:hidden">
+      <nav aria-label="모바일 주요 메뉴" className="w-full max-w-full overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex gap-2 border-t border-line bg-neutral-50 px-4 sm:px-5 py-2.5 text-sm font-bold lg:hidden">
         {navigation.map((item) => (
           <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-lg px-3 py-2 ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted"}`} href={item.href} key={item.href}>{item.label}</Link>
         ))}
       </nav>
       {showFinderNav ? (
-        <div className="border-t border-line bg-brand-50/55">
-          <nav aria-label="ETF 탐색 메뉴" className="page-shell scrollbar-none flex items-center gap-2 overflow-x-auto py-2.5 text-sm">
+        <div className="w-full max-w-full border-t border-line bg-brand-50/55">
+          <nav aria-label="ETF 탐색 메뉴" className="page-shell w-full max-w-full overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex items-center gap-2 py-2.5 text-sm">
             {finderNavigation.map((item, index) => {
               const active = item.href === activeFinderHref;
               const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`;

@@ -842,17 +842,17 @@ export function MarketBriefing() {
           if (el) el.scrollIntoView({ behavior: "smooth" });
         }}
       />
-      <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12">
+      <div className="mx-auto max-w-7xl space-y-12 sm:space-y-16 pb-12 w-full max-w-full min-w-0">
         {/* Master Hero Header */}
-        <header className="pt-0">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-neutral-200/80">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EBF5DC] px-2.5 py-0.5 text-[11px] font-extrabold text-[#365314] border border-[#CDE5B1]">
+        <header className="pt-0 w-full max-w-full">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-neutral-200/80 w-full max-w-full">
+          <div className="w-full max-w-full min-w-0">
+            <div className="w-full max-w-full overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex items-center gap-2 mb-2 pb-0.5">
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#EBF5DC] px-2.5 py-0.5 text-[11px] font-extrabold text-[#365314] border border-[#CDE5B1]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#65A30D] animate-pulse" />
                 DAILY MARKET PULSE
               </span>
-              <span className="text-xs font-semibold text-neutral-400">KRX 상장 일반 ETF {briefing.pulse?.generalEtfCount?.toLocaleString() ?? 1022}개 전수 분석</span>
+              <span className="shrink-0 text-xs font-semibold text-neutral-400">KRX 상장 일반 ETF {briefing.pulse?.generalEtfCount?.toLocaleString() ?? 1022}개 전수 분석</span>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-neutral-900">
               ETF 데일리 마켓 브리핑

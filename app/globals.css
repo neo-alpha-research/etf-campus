@@ -39,8 +39,24 @@
 }
 
 * { border-color: var(--color-line); }
-html { min-width: 320px; scroll-behavior: smooth; scrollbar-gutter: stable; }
-body { min-height: 100vh; background: var(--color-surface); font-family: var(--font-sans); }
+html { min-width: 320px; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; scrollbar-gutter: stable; }
+body { min-height: 100vh; max-width: 100%; overflow-x: hidden; background: var(--color-surface); font-family: var(--font-sans); }
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 /* Tailwind's base layer already inherits form-control typography.  Keeping a
    shorthand `font: inherit` here (outside a layer) overrides utilities such as
    `text-xs` and `text-[12px]`, which made compact chart controls render at the

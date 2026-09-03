@@ -165,15 +165,25 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
       const mainPost = parts[0].trim();
       const firstComment = parts[1] ? parts[1].trim() : "";
 
+      const imgKey = `image:threads:${effectiveDate}`;
+      const imgBuffer = await env.BRIEFING_KV.get(imgKey, "arrayBuffer");
+      const publicPngUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/images/threads?date=${effectiveDate}`;
+
+      const searchParams = new URLSearchParams();
+      if (imgBuffer) {
+        searchParams.set("media_type", "IMAGE");
+        searchParams.set("image_url", publicPngUrl);
+      } else {
+        searchParams.set("media_type", "TEXT");
+      }
+      searchParams.set("text", mainPost);
+      searchParams.set("access_token", env.THREADS_ACCESS_TOKEN);
+
       const createUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads`;
       const createRes = await fetch(createUrl, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          media_type: "TEXT",
-          text: mainPost,
-          access_token: env.THREADS_ACCESS_TOKEN,
-        }),
+        body: searchParams,
       });
       const createData: any = await createRes.json();
       if (createData.id) {
@@ -292,14 +302,24 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
 
   try {
     const createUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads`;
+    const imgKey = `image:threads:${payload.asOfDate}`;
+    const imgBuffer = await env.BRIEFING_KV.get(imgKey, "arrayBuffer");
+    const publicPngUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/images/threads?date=${payload.asOfDate}`;
+
+    const searchParams = new URLSearchParams();
+    if (imgBuffer) {
+      searchParams.set("media_type", "IMAGE");
+      searchParams.set("image_url", publicPngUrl);
+    } else {
+      searchParams.set("media_type", "TEXT");
+    }
+    searchParams.set("text", mainPost);
+    searchParams.set("access_token", env.THREADS_ACCESS_TOKEN);
+
     const createRes = await fetch(createUrl, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        media_type: "TEXT",
-        text: mainPost,
-        access_token: env.THREADS_ACCESS_TOKEN,
-      }),
+      body: searchParams,
     });
     const createData: any = await createRes.json();
     if (!createData.id) {
@@ -727,6 +747,24 @@ export default {
           headers: {
             "Content-Type": "image/svg+xml; charset=utf-8",
             "Cache-Control": "no-store, no-cache, must-revalidate",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+      }
+
+      // 3.1 스레드 실물 PNG 이미지 서빙 (Meta Threads Graph API 규격)
+      if (url.pathname === "/api/images/threads" || url.pathname === "/api/preview/threads-image.png") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        const date = payload?.asOfDate || targetDate || "2026-09-02";
+        const key = `image:threads:${date}`;
+        const imgBuffer = await env.BRIEFING_KV.get(key, "arrayBuffer");
+        if (!imgBuffer) {
+          return new Response("PNG image not found in KV", { status: 404 });
+        }
+        return new Response(imgBuffer, {
+          headers: {
+            "Content-Type": "image/png",
+            "Cache-Control": "public, max-age=86400",
             "Access-Control-Allow-Origin": "*",
           },
         });

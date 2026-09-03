@@ -86,11 +86,12 @@ export async function reviewAndRefineWithGemini(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
-      signal: AbortSignal.timeout(3000), // 3초 타임아웃
+      signal: AbortSignal.timeout(6000), // 6초 안전 타임아웃
     });
 
     if (!response.ok) {
-      console.warn(`[Gemini] API error: ${response.status} ${response.statusText}`);
+      const errBody = await response.text();
+      console.warn(`[Gemini] API error: ${response.status} ${response.statusText}`, errBody);
       return { ...regime, source: "rule-engine-fallback" };
     }
 

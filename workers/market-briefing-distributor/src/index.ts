@@ -258,7 +258,7 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
 }
 
 export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: Env): Promise<PolishedNarrative> {
-  const cacheKey = `narrative_v4:${payload.asOfDate}`;
+  const cacheKey = `narrative_v5:${payload.asOfDate}`;
   try {
     const cached = await env.BRIEFING_KV.get(cacheKey);
     if (cached) {

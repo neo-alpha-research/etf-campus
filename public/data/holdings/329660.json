@@ -1,52 +1,52 @@
 {
   "ticker": "329660",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "iShares MSCI World ETF",
-      "weight_pct": 18.26,
+      "weight_pct": 18.17,
       "shares": 1137,
       "item_code": "URTH.K"
     },
     {
       "name": "State Street SPDR Portfolio MSCI Global Sk Mkt ETF",
-      "weight_pct": 14.57,
+      "weight_pct": 14.53,
       "shares": 2168,
       "item_code": "SPGM.K"
     },
     {
       "name": "iShares MSCI ACWI ETF",
-      "weight_pct": 11.8,
+      "weight_pct": 11.75,
       "shares": 955,
       "item_code": "ACWI.O"
     },
     {
       "name": "통안03730-2807-02",
-      "weight_pct": 10.2,
+      "weight_pct": 10.24,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 7.25,
-      "shares": 129273659,
+      "weight_pct": 7.27,
+      "shares": 129046327,
       "item_code": null
     },
     {
       "name": "신한캐피탈524-3",
-      "weight_pct": 4.66,
+      "weight_pct": 4.68,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국서부발전70-1",
-      "weight_pct": 4.65,
+      "weight_pct": 4.67,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안03430-2703-03",
-      "weight_pct": 3.61,
+      "weight_pct": 3.63,
       "shares": 0,
       "item_code": null
     },
@@ -58,7 +58,7 @@
     },
     {
       "name": "국고02000-4603(국고16-1)",
-      "weight_pct": 2.43,
+      "weight_pct": 2.42,
       "shares": 0,
       "item_code": null
     },
@@ -70,19 +70,19 @@
     },
     {
       "name": "인천도시공사235",
-      "weight_pct": 2.38,
+      "weight_pct": 2.39,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02690-2803-03",
-      "weight_pct": 2.36,
+      "weight_pct": 2.37,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02375-2812(18-10)",
-      "weight_pct": 2.32,
+      "weight_pct": 2.33,
       "shares": 0,
       "item_code": null
     },
@@ -94,25 +94,25 @@
     },
     {
       "name": "KODEX MSCI선진국",
-      "weight_pct": 1.38,
+      "weight_pct": 1.37,
       "shares": 638,
       "item_code": "251350"
     },
     {
       "name": "우리금융캐피탈503-2",
-      "weight_pct": 1.19,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "인천도시공사233",
-      "weight_pct": 1.19,
+      "weight_pct": 1.2,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈348-5",
-      "weight_pct": 1.18,
+      "weight_pct": 1.19,
       "shares": 0,
       "item_code": null
     },
@@ -130,7 +130,7 @@
     },
     {
       "name": "국고02375-3809(18-7)",
-      "weight_pct": 0.48,
+      "weight_pct": 0.49,
       "shares": 0,
       "item_code": null
     },

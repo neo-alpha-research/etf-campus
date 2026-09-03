@@ -1,10 +1,10 @@
 {
   "ticker": "329750",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "[USD] 예금",
-      "weight_pct": 21.89,
+      "weight_pct": 21.9,
       "shares": 20703,
       "item_code": null
     },
@@ -275,7 +275,7 @@
     {
       "name": "원화현금",
       "weight_pct": -2.39,
-      "shares": -3108494,
+      "shares": -3104914,
       "item_code": null
     }
   ]

@@ -1,10 +1,10 @@
 {
   "ticker": "464310",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "키엔스",
-      "weight_pct": 10.75,
+      "weight_pct": 10.77,
       "shares": 103,
       "item_code": "6861.T"
     },
@@ -16,25 +16,25 @@
     },
     {
       "name": "ABB LTD-REG",
-      "weight_pct": 9.17,
+      "weight_pct": 9.15,
       "shares": 472,
       "item_code": null
     },
     {
       "name": "화낙",
-      "weight_pct": 7.62,
+      "weight_pct": 7.68,
       "shares": 1011,
       "item_code": "6954.T"
     },
     {
       "name": "인튜이티브 서지컬",
-      "weight_pct": 6.06,
+      "weight_pct": 6.03,
       "shares": 80,
       "item_code": "ISRG.O"
     },
     {
       "name": "에스엠씨",
-      "weight_pct": 4.54,
+      "weight_pct": 4.57,
       "shares": 51,
       "item_code": "6273.T"
     },
@@ -46,7 +46,7 @@
     },
     {
       "name": "다이후쿠",
-      "weight_pct": 3.08,
+      "weight_pct": 3.12,
       "shares": 427,
       "item_code": "6383.T"
     },
@@ -70,7 +70,7 @@
     },
     {
       "name": "오로라 이노베이션",
-      "weight_pct": 2.06,
+      "weight_pct": 2.03,
       "shares": 1844,
       "item_code": "AUR.O"
     },
@@ -82,13 +82,13 @@
     },
     {
       "name": "유아이패스",
-      "weight_pct": 1.92,
+      "weight_pct": 1.89,
       "shares": 517,
       "item_code": "PATH.K"
     },
     {
       "name": "테슬라",
-      "weight_pct": 1.81,
+      "weight_pct": 1.78,
       "shares": 24,
       "item_code": "TSLA.O"
     },
@@ -100,43 +100,43 @@
     },
     {
       "name": "샤오미",
-      "weight_pct": 1.7,
+      "weight_pct": 1.73,
       "shares": 2435,
       "item_code": "1810.HK"
     },
     {
       "name": "호라이즌 로보틱스",
-      "weight_pct": 1.68,
+      "weight_pct": 1.66,
       "shares": 14080,
       "item_code": "9660.HK"
     },
     {
-      "name": "에어로바이런먼트",
-      "weight_pct": 1.65,
-      "shares": 56,
-      "item_code": "AVAV.O"
-    },
-    {
       "name": "바이두 ADR",
-      "weight_pct": 1.61,
+      "weight_pct": 1.63,
       "shares": 85,
       "item_code": "BIDU.O"
     },
     {
+      "name": "에어로바이런먼트",
+      "weight_pct": 1.63,
+      "shares": 56,
+      "item_code": "AVAV.O"
+    },
+    {
       "name": "레인보우로보틱스",
-      "weight_pct": 1.41,
+      "weight_pct": 1.39,
       "shares": 21,
       "item_code": "277810"
     },
     {
       "name": "JBT 마렐",
-      "weight_pct": 1.36,
+      "weight_pct": 1.37,
       "shares": 58,
       "item_code": "JBTM.K"
     },
     {
       "name": "AUTOSTORE HOLDINGS LTD",
-      "weight_pct": 1.34,
+      "weight_pct": 1.35,
       "shares": 3866,
       "item_code": null
     },
@@ -148,25 +148,25 @@
     },
     {
       "name": "RENISHAW PLC",
-      "weight_pct": 1.13,
+      "weight_pct": 1.09,
       "shares": 82,
       "item_code": null
     },
     {
       "name": "심보틱",
-      "weight_pct": 1.11,
+      "weight_pct": 1.09,
       "shares": 141,
       "item_code": "SYM.O"
     },
     {
       "name": "유비테크 로보틱스",
-      "weight_pct": 1.04,
+      "weight_pct": 1.02,
       "shares": 486,
       "item_code": "9880.HK"
     },
     {
       "name": "베이징 로보락 테크놀로지",
-      "weight_pct": 0.94,
+      "weight_pct": 1.0,
       "shares": 250,
       "item_code": "688169.SS"
     },
@@ -177,22 +177,16 @@
       "item_code": null
     },
     {
-      "name": "애사돈자동화",
-      "weight_pct": 0.78,
-      "shares": 840,
-      "item_code": "002747.SZ"
-    },
-    {
       "name": "중무인기",
-      "weight_pct": 0.75,
+      "weight_pct": 0.82,
       "shares": 651,
       "item_code": "688297.SS"
     },
     {
-      "name": "두산로보틱스",
-      "weight_pct": 0.72,
-      "shares": 72,
-      "item_code": "454910"
+      "name": "애사돈자동화",
+      "weight_pct": 0.78,
+      "shares": 840,
+      "item_code": "002747.SZ"
     },
     {
       "name": "TECAN GROUP AG-REG",
@@ -201,52 +195,52 @@
       "item_code": null
     },
     {
+      "name": "두산로보틱스",
+      "weight_pct": 0.7,
+      "shares": 72,
+      "item_code": "454910"
+    },
+    {
       "name": "신송로봇",
-      "weight_pct": 0.64,
+      "weight_pct": 0.66,
       "shares": 1510,
       "item_code": "300024.SZ"
     },
     {
       "name": "상하이 마이크로포트 메드봇",
-      "weight_pct": 0.61,
+      "weight_pct": 0.62,
       "shares": 1151,
       "item_code": "2252.HK"
     },
     {
       "name": "로보티즈",
-      "weight_pct": 0.6,
+      "weight_pct": 0.59,
       "shares": 16,
       "item_code": "108490"
     },
     {
       "name": "포니 AI ADR",
-      "weight_pct": 0.55,
+      "weight_pct": 0.56,
       "shares": 396,
       "item_code": "PONY.O"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.53,
-      "shares": 3656552,
-      "item_code": null
-    },
-    {
-      "name": "아우스터",
-      "weight_pct": 0.48,
-      "shares": 70,
-      "item_code": "OUST.O"
-    },
-    {
       "name": "헤사이 그룹 ADR",
-      "weight_pct": 0.46,
+      "weight_pct": 0.49,
       "shares": 146,
       "item_code": "HSAI.O"
     },
     {
-      "name": "ATS",
-      "weight_pct": 0.42,
-      "shares": 110,
-      "item_code": "ATS"
+      "name": "아우스터",
+      "weight_pct": 0.47,
+      "shares": 70,
+      "item_code": "OUST.O"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.46,
+      "shares": 3143916,
+      "item_code": null
     },
     {
       "name": "위라이드 ADR",
@@ -255,8 +249,14 @@
       "item_code": "WRD.O"
     },
     {
-      "name": "애피안",
+      "name": "ATS",
       "weight_pct": 0.41,
+      "shares": 110,
+      "item_code": "ATS"
+    },
+    {
+      "name": "애피안",
+      "weight_pct": 0.39,
       "shares": 48,
       "item_code": "APPN.O"
     },
@@ -291,16 +291,16 @@
       "item_code": "PRCT.O"
     },
     {
+      "name": "로보센스 테크놀로지",
+      "weight_pct": 0.25,
+      "shares": 544,
+      "item_code": "2498.HK"
+    },
+    {
       "name": "애부특지능기인",
       "weight_pct": 0.24,
       "shares": 503,
       "item_code": "688165.SS"
-    },
-    {
-      "name": "로보센스 테크놀로지",
-      "weight_pct": 0.24,
-      "shares": 544,
-      "item_code": "2498.HK"
     },
     {
       "name": "히라타기공",
@@ -315,28 +315,28 @@
       "item_code": "6104.T"
     },
     {
-      "name": "로보스타",
-      "weight_pct": 0.12,
-      "shares": 10,
-      "item_code": "090360"
-    },
-    {
       "name": "유일로보틱스",
       "weight_pct": 0.12,
       "shares": 13,
       "item_code": "388720"
     },
     {
-      "name": "서브 로보틱스",
-      "weight_pct": 0.08,
-      "shares": 83,
-      "item_code": "SERV.O"
+      "name": "로보스타",
+      "weight_pct": 0.11,
+      "shares": 10,
+      "item_code": "090360"
     },
     {
       "name": "세렌스",
       "weight_pct": 0.08,
       "shares": 50,
       "item_code": "CRNC.O"
+    },
+    {
+      "name": "서브 로보틱스",
+      "weight_pct": 0.07,
+      "shares": 83,
+      "item_code": "SERV.O"
     },
     {
       "name": "리치테크 로보틱스",
@@ -358,7 +358,7 @@
     },
     {
       "name": "엔젤로보틱스",
-      "weight_pct": 0.05,
+      "weight_pct": 0.04,
       "shares": 17,
       "item_code": "455900"
     },

@@ -1,17 +1,17 @@
 {
   "ticker": "459580",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 46.05,
-      "shares": 49445568,
+      "weight_pct": 46.13,
+      "shares": 49532315,
       "item_code": null
     },
     {
       "name": "스왑(하나금융투자)",
-      "weight_pct": 16.13,
-      "shares": 17317582,
+      "weight_pct": 16.1,
+      "shares": 17286752,
       "item_code": null
     },
     {
@@ -22,50 +22,50 @@
     },
     {
       "name": "스왑(삼성증권)",
-      "weight_pct": 6.82,
-      "shares": 7327442,
+      "weight_pct": 6.81,
+      "shares": 7314346,
       "item_code": null
     },
     {
       "name": "KODEX 26-12 금융채(AA-이상)액티브",
-      "weight_pct": 4.9,
-      "shares": 518,
+      "weight_pct": 4.89,
+      "shares": 517,
       "item_code": "0117L0"
     },
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 2.79,
+      "weight_pct": 2.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "스왑(유안타증권)",
       "weight_pct": 2.25,
-      "shares": 2423477,
+      "shares": 2419146,
       "item_code": null
     },
     {
       "name": "물가01625-3206(22-6)",
-      "weight_pct": 1.77,
+      "weight_pct": 1.76,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03375-3103(26-3)",
-      "weight_pct": 1.63,
+      "weight_pct": 1.62,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02875-4409(24-10)",
-      "weight_pct": 1.02,
+      "weight_pct": 1.01,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)",
       "weight_pct": 0.96,
-      "shares": 1039673,
+      "shares": 1037815,
       "item_code": null
     },
     {
@@ -82,8 +82,8 @@
     },
     {
       "name": "스왑(메리츠증권)",
-      "weight_pct": 0.67,
-      "shares": 723843,
+      "weight_pct": 0.72,
+      "shares": 773128,
       "item_code": null
     },
     {
@@ -100,7 +100,7 @@
     },
     {
       "name": "국고02750-5409(24-8)",
-      "weight_pct": 0.35,
+      "weight_pct": 0.34,
       "shares": 0,
       "item_code": null
     },
@@ -137,31 +137,31 @@
     {
       "name": "스왑(미래에셋증권)",
       "weight_pct": 0.11,
-      "shares": 123292,
+      "shares": 122822,
       "item_code": null
     },
     {
       "name": "스왑(대신증권)",
       "weight_pct": 0.06,
-      "shares": 71100,
+      "shares": 71267,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)",
       "weight_pct": 0.02,
-      "shares": 31387,
+      "shares": 31317,
       "item_code": null
     },
     {
       "name": "스왑(현대차증권)",
       "weight_pct": 0.01,
-      "shares": 16969,
+      "shares": 17010,
       "item_code": null
     },
     {
       "name": "스왑(한화투자증권)",
       "weight_pct": 0.01,
-      "shares": 11016,
+      "shares": 11002,
       "item_code": null
     }
   ]

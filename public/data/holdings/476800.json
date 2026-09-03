@@ -1,64 +1,64 @@
 {
   "ticker": "476800",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "맥쿼리인프라",
-      "weight_pct": 22.15,
+      "weight_pct": 22.05,
       "shares": 4776,
       "item_code": "088980"
     },
     {
       "name": "SK리츠",
-      "weight_pct": 12.13,
+      "weight_pct": 12.35,
       "shares": 4833,
       "item_code": "395400"
     },
     {
       "name": "KB발해인프라",
-      "weight_pct": 11.24,
+      "weight_pct": 11.25,
       "shares": 2291,
       "item_code": "415640"
     },
     {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 7.14,
+      "weight_pct": 7.03,
       "shares": 4811,
       "item_code": "365550"
     },
     {
       "name": "롯데리츠",
-      "weight_pct": 6.83,
+      "weight_pct": 6.89,
       "shares": 3814,
       "item_code": "330590"
     },
     {
       "name": "신한알파리츠",
-      "weight_pct": 6.53,
+      "weight_pct": 6.52,
       "shares": 2588,
       "item_code": "293940"
     },
     {
       "name": "한화리츠",
-      "weight_pct": 5.47,
+      "weight_pct": 5.43,
       "shares": 2225,
       "item_code": "451800"
     },
     {
       "name": "원화현금",
-      "weight_pct": 5.05,
-      "shares": 10864251,
+      "weight_pct": 5.08,
+      "shares": 10863728,
       "item_code": null
     },
     {
       "name": "코람코라이프인프라리츠",
-      "weight_pct": 4.33,
+      "weight_pct": 4.34,
       "shares": 2225,
       "item_code": "357120"
     },
     {
       "name": "삼성FN리츠",
-      "weight_pct": 3.27,
+      "weight_pct": 3.18,
       "shares": 1270,
       "item_code": "448730"
     },
@@ -70,21 +70,21 @@
     },
     {
       "name": "제이알글로벌리츠",
-      "weight_pct": 2.6,
+      "weight_pct": 2.61,
       "shares": 4729,
       "item_code": "348950"
     },
     {
-      "name": "대신밸류리츠",
-      "weight_pct": 2.23,
-      "shares": 1198,
-      "item_code": "0030R0"
-    },
-    {
       "name": "KB스타리츠",
-      "weight_pct": 2.2,
+      "weight_pct": 2.22,
       "shares": 3266,
       "item_code": "432320"
+    },
+    {
+      "name": "대신밸류리츠",
+      "weight_pct": 2.2,
+      "shares": 1198,
+      "item_code": "0030R0"
     },
     {
       "name": "디앤디플랫폼리츠",
@@ -94,19 +94,19 @@
     },
     {
       "name": "이리츠코크렙",
-      "weight_pct": 1.56,
+      "weight_pct": 1.57,
       "shares": 1049,
       "item_code": "088260"
     },
     {
       "name": "신한서부티엔디리츠",
-      "weight_pct": 1.39,
+      "weight_pct": 1.37,
       "shares": 763,
       "item_code": "404990"
     },
     {
       "name": "코람코더원리츠",
-      "weight_pct": 0.77,
+      "weight_pct": 0.78,
       "shares": 706,
       "item_code": "417310"
     }

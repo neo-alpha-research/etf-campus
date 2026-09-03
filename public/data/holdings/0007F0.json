@@ -1,6 +1,6 @@
 {
   "ticker": "0007F0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "현대커머셜574-1",
@@ -59,12 +59,6 @@
     {
       "name": "케이비국민카드415-1",
       "weight_pct": 1.81,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "JB 우리캐피탈562-2",
-      "weight_pct": 1.8,
       "shares": 0,
       "item_code": null
     },
@@ -159,12 +153,6 @@
       "item_code": null
     },
     {
-      "name": "하나카드272-2",
-      "weight_pct": 1.8,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "우리금융캐피탈519-2",
       "weight_pct": 1.8,
       "shares": 0,
@@ -195,6 +183,12 @@
       "item_code": null
     },
     {
+      "name": "JB 우리캐피탈562-2",
+      "weight_pct": 1.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "산은캐피탈774-1",
       "weight_pct": 1.79,
       "shares": 0,
@@ -219,12 +213,6 @@
       "item_code": null
     },
     {
-      "name": "JB 우리캐피탈532-5",
-      "weight_pct": 1.79,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "하나캐피탈443-4",
       "weight_pct": 1.79,
       "shares": 0,
@@ -244,6 +232,12 @@
     },
     {
       "name": "우리금융캐피탈515-6",
+      "weight_pct": 1.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나카드272-2",
       "weight_pct": 1.79,
       "shares": 0,
       "item_code": null
@@ -287,6 +281,12 @@
     {
       "name": "현대커머셜545-2",
       "weight_pct": 1.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "JB 우리캐피탈532-5",
+      "weight_pct": 1.78,
       "shares": 0,
       "item_code": null
     },
@@ -400,8 +400,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -17.89,
-      "shares": -18228140,
+      "weight_pct": -17.87,
+      "shares": -18207699,
       "item_code": null
     }
   ]

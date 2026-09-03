@@ -1,64 +1,64 @@
 {
   "ticker": "472170",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고채권03250-3512(25-11)",
-      "weight_pct": 12.33,
+      "weight_pct": 12.35,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3506(25-5)",
-      "weight_pct": 11.79,
+      "weight_pct": 11.81,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "엔비디아",
-      "weight_pct": 9.28,
+      "weight_pct": 9.17,
       "shares": 212,
       "item_code": "NVDA.O"
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 8.77,
+      "weight_pct": 8.8,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 8.77,
+      "weight_pct": 8.8,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 8.75,
+      "weight_pct": 8.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "애플",
-      "weight_pct": 8.42,
+      "weight_pct": 8.67,
       "shares": 134,
       "item_code": "AAPL.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 7.39,
+      "weight_pct": 7.32,
       "shares": 110,
       "item_code": "GOOGL.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 6.72,
+      "weight_pct": 6.66,
       "shares": 66,
       "item_code": "MSFT.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 4.61,
+      "weight_pct": 4.54,
       "shares": 89,
       "item_code": "AMZN.O"
     },
@@ -70,32 +70,32 @@
     },
     {
       "name": "메타",
-      "weight_pct": 2.63,
+      "weight_pct": 2.66,
       "shares": 23,
       "item_code": "META.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 1.95,
+      "weight_pct": 1.91,
       "shares": 10,
       "item_code": "MU.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 1.94,
+      "weight_pct": 1.89,
       "shares": 26,
       "item_code": "TSLA.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 1.38,
+      "weight_pct": 1.35,
       "shares": 14,
       "item_code": "AMD.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.22,
-      "shares": 8451711,
+      "weight_pct": 1.2,
+      "shares": 8322378,
       "item_code": null
     },
     {

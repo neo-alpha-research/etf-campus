@@ -1,89 +1,89 @@
 {
   "ticker": "300610",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "카카오게임즈",
-      "weight_pct": 10.94,
+      "weight_pct": 10.31,
       "shares": 3105,
       "item_code": "293490"
     },
     {
       "name": "넷마블",
-      "weight_pct": 10.09,
+      "weight_pct": 9.93,
       "shares": 729,
       "item_code": "251270"
     },
     {
-      "name": "크래프톤",
-      "weight_pct": 9.56,
-      "shares": 116,
-      "item_code": "259960"
-    },
-    {
       "name": "시프트업",
-      "weight_pct": 9.27,
+      "weight_pct": 9.45,
       "shares": 786,
       "item_code": "462870"
     },
     {
+      "name": "크래프톤",
+      "weight_pct": 9.44,
+      "shares": 116,
+      "item_code": "259960"
+    },
+    {
       "name": "더블유게임즈",
-      "weight_pct": 9.16,
+      "weight_pct": 9.29,
       "shares": 439,
       "item_code": "192080"
     },
     {
       "name": "펄어비스",
-      "weight_pct": 8.71,
+      "weight_pct": 8.79,
       "shares": 779,
       "item_code": "263750"
     },
     {
       "name": "NC",
-      "weight_pct": 8.71,
+      "weight_pct": 8.79,
       "shares": 109,
       "item_code": "036570"
     },
     {
       "name": "위메이드",
-      "weight_pct": 7.42,
+      "weight_pct": 7.37,
       "shares": 1348,
       "item_code": "112040"
     },
     {
       "name": "넥슨게임즈",
-      "weight_pct": 6.37,
+      "weight_pct": 6.56,
       "shares": 1552,
       "item_code": "225570"
     },
     {
       "name": "컴투스",
-      "weight_pct": 6.31,
+      "weight_pct": 6.43,
       "shares": 513,
       "item_code": "078340"
     },
     {
       "name": "웹젠",
-      "weight_pct": 4.9,
+      "weight_pct": 5.09,
       "shares": 1209,
       "item_code": "069080"
     },
     {
       "name": "네오위즈",
-      "weight_pct": 4.87,
+      "weight_pct": 4.95,
       "shares": 757,
       "item_code": "095660"
     },
     {
       "name": "데브시스터즈",
-      "weight_pct": 3.26,
+      "weight_pct": 3.14,
       "shares": 523,
       "item_code": "194480"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.36,
-      "shares": 1016913,
+      "weight_pct": 0.37,
+      "shares": 1013092,
       "item_code": null
     }
   ]

@@ -1,6 +1,6 @@
 {
   "ticker": "0099L0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔에이치농협캐피탈261-7",
@@ -64,7 +64,7 @@
     },
     {
       "name": "한국항공우주산업30-1",
-      "weight_pct": 5.65,
+      "weight_pct": 5.64,
       "shares": 0,
       "item_code": null
     },
@@ -106,7 +106,7 @@
     },
     {
       "name": "LG화학58-1",
-      "weight_pct": 3.97,
+      "weight_pct": 3.98,
       "shares": 0,
       "item_code": null
     },
@@ -124,7 +124,7 @@
     },
     {
       "name": "케이카캐피탈제팔차유동화전문 유한회사",
-      "weight_pct": 2.87,
+      "weight_pct": 2.88,
       "shares": 0,
       "item_code": null
     },
@@ -160,8 +160,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -23.61,
-      "shares": -23530614,
+      "weight_pct": -23.63,
+      "shares": -23531292,
       "item_code": null
     }
   ]

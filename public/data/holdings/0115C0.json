@@ -1,71 +1,71 @@
 {
   "ticker": "0115C0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "머크 앤 코",
-      "weight_pct": 12.11,
+      "weight_pct": 12.23,
       "shares": 332,
       "item_code": "MRK"
     },
     {
       "name": "암젠",
-      "weight_pct": 11.46,
+      "weight_pct": 11.63,
       "shares": 108,
       "item_code": "AMGN.O"
     },
     {
       "name": "코카콜라",
-      "weight_pct": 10.97,
+      "weight_pct": 10.84,
       "shares": 501,
       "item_code": "KO"
     },
     {
       "name": "유나이티드헬스 그룹",
-      "weight_pct": 10.38,
+      "weight_pct": 10.52,
       "shares": 108,
       "item_code": "UNH"
     },
     {
       "name": "셰브론",
-      "weight_pct": 10.23,
+      "weight_pct": 10.43,
       "shares": 201,
       "item_code": "CVX"
     },
     {
       "name": "버라이존",
-      "weight_pct": 9.99,
+      "weight_pct": 10.0,
       "shares": 809,
       "item_code": "VZ"
     },
     {
       "name": "P&G(프록터 & 갬블)",
-      "weight_pct": 9.42,
+      "weight_pct": 9.45,
       "shares": 263,
       "item_code": "PG"
     },
     {
       "name": "홈디포",
-      "weight_pct": 8.82,
+      "weight_pct": 8.57,
       "shares": 109,
       "item_code": "HD"
     },
     {
       "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 8.43,
+      "weight_pct": 8.3,
       "shares": 146,
       "item_code": "IBM"
     },
     {
       "name": "나이키",
-      "weight_pct": 7.77,
+      "weight_pct": 7.55,
       "shares": 806,
       "item_code": "NKE"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.44,
-      "shares": 2496582,
+      "weight_pct": 0.43,
+      "shares": 2422400,
       "item_code": null
     }
   ]

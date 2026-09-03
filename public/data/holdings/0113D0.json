@@ -1,10 +1,10 @@
 {
   "ticker": "0113D0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "State Street SPDR Portfolio MSCI Global Sk Mkt ETF",
-      "weight_pct": 27.58,
+      "weight_pct": 27.6,
       "shares": 1372,
       "item_code": "SPGM.K"
     },
@@ -22,14 +22,14 @@
     },
     {
       "name": "iShares MSCI World ETF",
-      "weight_pct": 18.05,
+      "weight_pct": 18.03,
       "shares": 376,
       "item_code": "URTH.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.58,
-      "shares": 3482403,
+      "weight_pct": 0.59,
+      "shares": 3487274,
       "item_code": null
     }
   ]

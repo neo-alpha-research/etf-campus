@@ -1,102 +1,108 @@
 {
   "ticker": "0185L0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 9.41,
+      "weight_pct": 9.47,
       "shares": 115,
       "item_code": "NVDA.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 7.63,
+      "weight_pct": 7.55,
       "shares": 56,
       "item_code": "TSLA.O"
     },
     {
       "name": "녹적해파",
-      "weight_pct": 6.53,
+      "weight_pct": 6.43,
       "shares": 394,
       "item_code": "688017.SS"
     },
     {
       "name": "유비테크 로보틱스",
-      "weight_pct": 6.48,
+      "weight_pct": 6.37,
       "shares": 1618,
       "item_code": "9880.HK"
     },
     {
       "name": "레인보우로보틱스",
-      "weight_pct": 6.32,
+      "weight_pct": 6.28,
       "shares": 52,
       "item_code": "277810"
     },
     {
       "name": "테라다인",
-      "weight_pct": 6.09,
+      "weight_pct": 5.97,
       "shares": 47,
       "item_code": "TER.O"
     },
     {
       "name": "나부테스코",
-      "weight_pct": 5.56,
+      "weight_pct": 5.67,
       "shares": 521,
       "item_code": "6268.T"
     },
     {
       "name": "CATL",
-      "weight_pct": 4.16,
+      "weight_pct": 4.2,
       "shares": 147,
       "item_code": "3750.HK"
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.57,
-      "shares": 13212648,
+      "weight_pct": 3.64,
+      "shares": 13169522,
       "item_code": null
     },
     {
       "name": "키엔스",
-      "weight_pct": 3.29,
+      "weight_pct": 3.32,
       "shares": 17,
       "item_code": "6861.T"
     },
     {
       "name": "저장 산화 인텔리전트 컨트롤스",
-      "weight_pct": 3.17,
+      "weight_pct": 3.24,
       "shares": 2670,
       "item_code": "2050.HK"
     },
     {
       "name": "히라타기공",
-      "weight_pct": 3.03,
+      "weight_pct": 3.04,
       "shares": 366,
       "item_code": "6258.T"
     },
     {
       "name": "에스피지",
-      "weight_pct": 3.02,
+      "weight_pct": 2.92,
       "shares": 124,
       "item_code": "058610"
     },
     {
       "name": "탁보그룹",
-      "weight_pct": 2.83,
+      "weight_pct": 2.87,
       "shares": 1097,
       "item_code": "601689.SS"
     },
     {
       "name": "한무기",
-      "weight_pct": 2.82,
+      "weight_pct": 2.87,
       "shares": 46,
       "item_code": "688256.SS"
     },
     {
       "name": "회천기술",
-      "weight_pct": 2.34,
+      "weight_pct": 2.36,
       "shares": 688,
       "item_code": "300124.SZ"
+    },
+    {
+      "name": "항립유항",
+      "weight_pct": 2.18,
+      "shares": 381,
+      "item_code": "601100.SS"
     },
     {
       "name": "애사돈자동화",
@@ -105,52 +111,40 @@
       "item_code": "002747.SZ"
     },
     {
-      "name": "항립유항",
-      "weight_pct": 2.15,
-      "shares": 381,
-      "item_code": "601100.SS"
-    },
-    {
       "name": "화낙",
-      "weight_pct": 1.71,
+      "weight_pct": 1.73,
       "shares": 122,
       "item_code": "6954.T"
     },
     {
       "name": "쌍환전동기계",
-      "weight_pct": 1.65,
+      "weight_pct": 1.67,
       "shares": 843,
       "item_code": "002472.SZ"
     },
     {
       "name": "나우리지 아틀라스 테크놀로지",
-      "weight_pct": 1.58,
+      "weight_pct": 1.59,
       "shares": 28,
       "item_code": "2513.HK"
     },
     {
-      "name": "북방화창",
-      "weight_pct": 1.54,
-      "shares": 40,
-      "item_code": "002371.SZ"
-    },
-    {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 1.53,
+      "weight_pct": 1.51,
       "shares": 284,
       "item_code": "9988.HK"
     },
     {
-      "name": "남사과기",
-      "weight_pct": 1.47,
-      "shares": 686,
-      "item_code": "300433.SZ"
+      "name": "북방화창",
+      "weight_pct": 1.5,
+      "shares": 40,
+      "item_code": "002371.SZ"
     },
     {
-      "name": "Swancor Advanced Materials Co Ltd Class A",
-      "weight_pct": 1.37,
-      "shares": 161,
-      "item_code": "688585.SS"
+      "name": "남사과기",
+      "weight_pct": 1.44,
+      "shares": 686,
+      "item_code": "300433.SZ"
     },
     {
       "name": "절강 영태전공기재",
@@ -159,44 +153,50 @@
       "item_code": "603119.SS"
     },
     {
+      "name": "Swancor Advanced Materials Co Ltd Class A",
+      "weight_pct": 1.36,
+      "shares": 161,
+      "item_code": "688585.SS"
+    },
+    {
       "name": "해광신식",
-      "weight_pct": 1.23,
+      "weight_pct": 1.24,
       "shares": 88,
       "item_code": "688041.SS"
     },
     {
       "name": "중대역덕",
-      "weight_pct": 1.22,
+      "weight_pct": 1.23,
       "shares": 342,
       "item_code": "002896.SZ"
     },
     {
       "name": "헤사이 그룹 ADR",
-      "weight_pct": 0.99,
+      "weight_pct": 1.06,
       "shares": 167,
       "item_code": "HSAI.O"
     },
     {
       "name": "과옥사예기인",
-      "weight_pct": 0.97,
+      "weight_pct": 1.01,
       "shares": 337,
       "item_code": "603486.SS"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 0.92,
+      "weight_pct": 0.89,
       "shares": 6,
       "item_code": "006400"
     },
     {
       "name": "화훙 그레이스 반도체",
-      "weight_pct": 0.87,
+      "weight_pct": 0.88,
       "shares": 151,
       "item_code": "1347.HK"
     },
     {
       "name": "현대차",
-      "weight_pct": 0.86,
+      "weight_pct": 0.83,
       "shares": 8,
       "item_code": "005380"
     }

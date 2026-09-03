@@ -1,88 +1,88 @@
 {
   "ticker": "483020",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 24.33,
+      "weight_pct": 24.62,
       "shares": 76,
       "item_code": "207940"
     },
     {
       "name": "셀트리온",
-      "weight_pct": 23.32,
+      "weight_pct": 23.68,
       "shares": 589,
       "item_code": "068270"
     },
     {
       "name": "SK바이오팜",
-      "weight_pct": 20.71,
+      "weight_pct": 20.58,
       "shares": 1105,
       "item_code": "326030"
     },
     {
       "name": "루닛",
-      "weight_pct": 4.75,
+      "weight_pct": 4.62,
       "shares": 2481,
       "item_code": "328130"
     },
     {
       "name": "씨어스",
-      "weight_pct": 4.39,
+      "weight_pct": 4.44,
       "shares": 993,
       "item_code": "458870"
     },
     {
       "name": "대웅제약",
-      "weight_pct": 4.27,
+      "weight_pct": 4.28,
       "shares": 160,
       "item_code": "069620"
     },
     {
       "name": "차바이오텍",
-      "weight_pct": 3.73,
+      "weight_pct": 3.65,
       "shares": 2119,
       "item_code": "085660"
     },
     {
-      "name": "프로티나",
-      "weight_pct": 2.19,
-      "shares": 303,
-      "item_code": "468530"
-    },
-    {
       "name": "토모큐브",
-      "weight_pct": 2.19,
+      "weight_pct": 2.17,
       "shares": 353,
       "item_code": "475960"
     },
     {
+      "name": "프로티나",
+      "weight_pct": 2.0,
+      "shares": 303,
+      "item_code": "468530"
+    },
+    {
       "name": "셀바스AI",
-      "weight_pct": 1.62,
+      "weight_pct": 1.61,
       "shares": 837,
       "item_code": "108860"
     },
     {
       "name": "HEM파마",
-      "weight_pct": 1.36,
+      "weight_pct": 1.33,
       "shares": 164,
       "item_code": "376270"
     },
     {
       "name": "바텍",
-      "weight_pct": 0.99,
+      "weight_pct": 0.98,
       "shares": 247,
       "item_code": "043150"
     },
     {
       "name": "쓰리빌리언",
-      "weight_pct": 0.92,
+      "weight_pct": 0.89,
       "shares": 864,
       "item_code": "394800"
     },
     {
       "name": "제이엘케이",
-      "weight_pct": 0.75,
+      "weight_pct": 0.74,
       "shares": 735,
       "item_code": "322510"
     },
@@ -94,31 +94,31 @@
     },
     {
       "name": "아크릴",
-      "weight_pct": 0.56,
+      "weight_pct": 0.55,
       "shares": 157,
       "item_code": "0007C0"
     },
     {
       "name": "뉴로핏",
-      "weight_pct": 0.53,
+      "weight_pct": 0.52,
       "shares": 327,
       "item_code": "380550"
     },
     {
       "name": "뷰노",
-      "weight_pct": 0.48,
+      "weight_pct": 0.46,
       "shares": 415,
       "item_code": "338220"
     },
     {
       "name": "큐알티",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 156,
       "item_code": "405100"
     },
     {
       "name": "파로스아이바이오",
-      "weight_pct": 0.35,
+      "weight_pct": 0.34,
       "shares": 314,
       "item_code": "388870"
     },
@@ -130,13 +130,13 @@
     },
     {
       "name": "지니너스",
-      "weight_pct": 0.31,
+      "weight_pct": 0.3,
       "shares": 802,
       "item_code": "389030"
     },
     {
       "name": "온코크로스",
-      "weight_pct": 0.24,
+      "weight_pct": 0.23,
       "shares": 304,
       "item_code": "382150"
     },
@@ -148,8 +148,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.2,
-      "shares": 954961,
+      "weight_pct": 0.17,
+      "shares": 806621,
       "item_code": null
     }
   ]

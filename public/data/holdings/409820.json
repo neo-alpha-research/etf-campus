@@ -1,41 +1,41 @@
 {
   "ticker": "409820",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 77.64,
-      "shares": 773321697,
+      "weight_pct": 79.77,
+      "shares": 773664177,
       "item_code": null
     },
     {
       "name": "ProShares Ultra QQQ",
-      "weight_pct": 9.7,
+      "weight_pct": 9.69,
       "shares": 781,
       "item_code": "QLD"
     },
     {
       "name": "스왑(메리츠증권)",
-      "weight_pct": 7.49,
-      "shares": 74623470,
+      "weight_pct": 6.65,
+      "shares": 64571495,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)",
-      "weight_pct": 5.19,
-      "shares": 51766262,
+      "weight_pct": 4.75,
+      "shares": 46077947,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)",
-      "weight_pct": 0.0,
-      "shares": 52897,
+      "weight_pct": -0.07,
+      "shares": -729476,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)",
-      "weight_pct": -0.04,
-      "shares": -402571,
+      "weight_pct": -0.79,
+      "shares": -7744908,
       "item_code": null
     }
   ]

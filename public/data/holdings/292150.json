@@ -1,71 +1,71 @@
 {
   "ticker": "292150",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SK하이닉스",
-      "weight_pct": 36.45,
+      "weight_pct": 36.16,
       "shares": 407,
       "item_code": "000660"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 27.79,
+      "weight_pct": 27.78,
       "shares": 2013,
       "item_code": "005930"
     },
     {
       "name": "현대차",
-      "weight_pct": 6.24,
+      "weight_pct": 6.14,
       "shares": 295,
       "item_code": "005380"
     },
     {
       "name": "KB금융",
-      "weight_pct": 5.84,
+      "weight_pct": 6.0,
       "shares": 645,
       "item_code": "105560"
     },
     {
       "name": "신한지주",
-      "weight_pct": 4.76,
+      "weight_pct": 4.93,
       "shares": 811,
       "item_code": "055550"
     },
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 4.25,
+      "weight_pct": 4.29,
       "shares": 76,
       "item_code": "012450"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 4.09,
+      "weight_pct": 4.01,
       "shares": 952,
       "item_code": "034020"
     },
     {
       "name": "기아",
-      "weight_pct": 3.72,
+      "weight_pct": 3.68,
       "shares": 537,
       "item_code": "000270"
     },
     {
       "name": "셀트리온",
-      "weight_pct": 3.36,
+      "weight_pct": 3.46,
       "shares": 338,
       "item_code": "068270"
     },
     {
       "name": "NAVER",
-      "weight_pct": 3.24,
+      "weight_pct": 3.28,
       "shares": 285,
       "item_code": "035420"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.21,
-      "shares": 4075843,
+      "weight_pct": 0.22,
+      "shares": 4070635,
       "item_code": null
     }
   ]

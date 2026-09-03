@@ -1,58 +1,58 @@
 {
   "ticker": "245350",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "RANDSTAD NV",
-      "weight_pct": 5.81,
+      "weight_pct": 5.78,
       "shares": 882,
       "item_code": null
     },
     {
-      "name": "ABN AMRO BANK NV-CVA",
-      "weight_pct": 5.32,
-      "shares": 783,
-      "item_code": null
-    },
-    {
       "name": "OMV AG",
-      "weight_pct": 5.22,
+      "weight_pct": 5.34,
       "shares": 468,
       "item_code": null
     },
     {
+      "name": "ABN AMRO BANK NV-CVA",
+      "weight_pct": 5.33,
+      "shares": 783,
+      "item_code": null
+    },
+    {
       "name": "ASR NEDERLAND NV",
-      "weight_pct": 4.46,
+      "weight_pct": 4.49,
       "shares": 377,
       "item_code": null
     },
     {
       "name": "SIGNIFY NV",
-      "weight_pct": 4.28,
+      "weight_pct": 4.29,
       "shares": 1707,
       "item_code": null
     },
     {
       "name": "NN GROUP NV",
-      "weight_pct": 4.21,
+      "weight_pct": 4.23,
       "shares": 332,
       "item_code": null
     },
     {
       "name": "POSTE ITALIANE SPA",
-      "weight_pct": 4.0,
+      "weight_pct": 3.86,
       "shares": 885,
       "item_code": null
     },
     {
       "name": "CREDIT AGRICOLE SA",
-      "weight_pct": 3.84,
+      "weight_pct": 3.86,
       "shares": 1273,
       "item_code": null
     },
     {
       "name": "ING GROEP NV",
-      "weight_pct": 3.79,
+      "weight_pct": 3.8,
       "shares": 763,
       "item_code": null
     },
@@ -69,15 +69,15 @@
       "item_code": null
     },
     {
-      "name": "PUBLICIS GROUPE",
+      "name": "AXA SA",
       "weight_pct": 3.66,
-      "shares": 222,
+      "shares": 512,
       "item_code": null
     },
     {
-      "name": "AXA SA",
-      "weight_pct": 3.6,
-      "shares": 512,
+      "name": "PUBLICIS GROUPE",
+      "weight_pct": 3.61,
+      "shares": 222,
       "item_code": null
     },
     {
@@ -88,31 +88,31 @@
     },
     {
       "name": "ALLIANZ SE-REG",
-      "weight_pct": 3.21,
+      "weight_pct": 3.22,
       "shares": 43,
       "item_code": null
     },
     {
       "name": "GENERALI",
-      "weight_pct": 2.94,
+      "weight_pct": 2.92,
       "shares": 405,
       "item_code": null
     },
     {
       "name": "VOLKSWAGEN AG-PREF",
-      "weight_pct": 2.92,
+      "weight_pct": 2.89,
       "shares": 232,
       "item_code": null
     },
     {
       "name": "SANOFI",
-      "weight_pct": 2.86,
+      "weight_pct": 2.87,
       "shares": 228,
       "item_code": null
     },
     {
       "name": "KBC GROUP NV",
-      "weight_pct": 2.86,
+      "weight_pct": 2.85,
       "shares": 134,
       "item_code": null
     },
@@ -124,19 +124,19 @@
     },
     {
       "name": "MERCEDES-BENZ GROUP AG",
-      "weight_pct": 2.8,
+      "weight_pct": 2.78,
       "shares": 366,
       "item_code": null
     },
     {
       "name": "EDP SA",
-      "weight_pct": 2.68,
+      "weight_pct": 2.7,
       "shares": 3515,
       "item_code": null
     },
     {
       "name": "DHL AG",
-      "weight_pct": 2.51,
+      "weight_pct": 2.48,
       "shares": 276,
       "item_code": null
     },
@@ -148,44 +148,44 @@
     },
     {
       "name": "MUENCHENER RUECKVER AG-REG",
-      "weight_pct": 2.35,
+      "weight_pct": 2.37,
       "shares": 27,
       "item_code": null
     },
     {
       "name": "SNAM SPA",
-      "weight_pct": 2.25,
+      "weight_pct": 2.23,
       "shares": 2387,
       "item_code": null
     },
     {
       "name": "ORANGE",
-      "weight_pct": 2.1,
+      "weight_pct": 2.12,
       "shares": 839,
       "item_code": null
     },
     {
-      "name": "BAYERISCHE MOTOREN WERKE AG",
-      "weight_pct": 2.02,
-      "shares": 201,
-      "item_code": null
-    },
-    {
       "name": "SAMPO OYJ-A SHS",
-      "weight_pct": 1.98,
+      "weight_pct": 2.0,
       "shares": 1254,
       "item_code": null
     },
     {
+      "name": "BAYERISCHE MOTOREN WERKE AG",
+      "weight_pct": 1.99,
+      "shares": 201,
+      "item_code": null
+    },
+    {
       "name": "KONINKLIJKE AHOLD DELHAIZE N",
-      "weight_pct": 1.41,
+      "weight_pct": 1.42,
       "shares": 282,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 0.78,
-      "shares": 7672293,
+      "shares": 7593624,
       "item_code": null
     }
   ]

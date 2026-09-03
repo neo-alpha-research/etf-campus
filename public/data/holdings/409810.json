@@ -1,29 +1,29 @@
 {
   "ticker": "409810",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 93.44,
-      "shares": 258635639,
+      "weight_pct": 93.52,
+      "shares": 262387846,
       "item_code": null
     },
     {
       "name": "ProShares UltraShort QQQ",
-      "weight_pct": 6.55,
-      "shares": 930,
+      "weight_pct": 6.47,
+      "shares": 909,
       "item_code": "QID"
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -31.8,
+      "weight_pct": -32.35,
       "shares": -6,
       "item_code": null
     },
     {
       "name": "Micro Emini NASDAQ100 2026 09",
-      "weight_pct": -87.09,
-      "shares": -2,
+      "weight_pct": -87.24,
+      "shares": -3,
       "item_code": null
     }
   ]

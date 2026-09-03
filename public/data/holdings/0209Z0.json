@@ -1,71 +1,71 @@
 {
   "ticker": "0209Z0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 20.52,
+      "weight_pct": 20.93,
       "shares": 359,
       "item_code": "010120"
     },
     {
-      "name": "HD현대일렉트릭",
-      "weight_pct": 18.91,
-      "shares": 88,
-      "item_code": "267260"
-    },
-    {
       "name": "효성중공업",
-      "weight_pct": 18.74,
+      "weight_pct": 18.94,
       "shares": 23,
       "item_code": "298040"
     },
     {
+      "name": "HD현대일렉트릭",
+      "weight_pct": 18.64,
+      "shares": 88,
+      "item_code": "267260"
+    },
+    {
       "name": "두산에너빌리티",
-      "weight_pct": 14.85,
+      "weight_pct": 14.9,
       "shares": 653,
       "item_code": "034020"
     },
     {
       "name": "두산퓨얼셀",
-      "weight_pct": 9.3,
+      "weight_pct": 8.66,
       "shares": 751,
       "item_code": "336260"
     },
     {
       "name": "대한전선",
-      "weight_pct": 4.9,
+      "weight_pct": 5.03,
       "shares": 613,
       "item_code": "001440"
     },
     {
       "name": "비나텍",
-      "weight_pct": 4.11,
+      "weight_pct": 4.26,
       "shares": 243,
       "item_code": "126340"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 4.1,
+      "weight_pct": 4.14,
       "shares": 40,
       "item_code": "373220"
     },
     {
       "name": "서진시스템",
-      "weight_pct": 2.77,
+      "weight_pct": 2.68,
       "shares": 270,
       "item_code": "178320"
     },
     {
       "name": "LS",
-      "weight_pct": 1.64,
+      "weight_pct": 1.67,
       "shares": 19,
       "item_code": "006260"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.1,
-      "shares": 358581,
+      "shares": 346067,
       "item_code": null
     }
   ]

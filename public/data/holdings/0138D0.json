@@ -1,113 +1,113 @@
 {
   "ticker": "0138D0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SK하이닉스",
-      "weight_pct": 10.71,
+      "weight_pct": 10.58,
       "shares": 39,
       "item_code": "000660"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 9.91,
+      "weight_pct": 9.86,
       "shares": 234,
       "item_code": "005930"
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 9.72,
+      "weight_pct": 9.64,
       "shares": 293,
       "item_code": "010120"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 5.91,
+      "weight_pct": 5.79,
       "shares": 64,
       "item_code": "006400"
     },
     {
-      "name": "LG전자",
-      "weight_pct": 5.09,
-      "shares": 152,
-      "item_code": "066570"
-    },
-    {
-      "name": "현대백화점",
-      "weight_pct": 4.98,
-      "shares": 314,
-      "item_code": "069960"
-    },
-    {
       "name": "유진테크",
-      "weight_pct": 4.97,
+      "weight_pct": 5.21,
       "shares": 232,
       "item_code": "084370"
     },
     {
-      "name": "로보티즈",
-      "weight_pct": 4.94,
-      "shares": 120,
-      "item_code": "108490"
+      "name": "LG전자",
+      "weight_pct": 5.12,
+      "shares": 152,
+      "item_code": "066570"
     },
     {
       "name": "주성엔지니어링",
-      "weight_pct": 4.91,
+      "weight_pct": 5.11,
       "shares": 175,
       "item_code": "036930"
     },
     {
-      "name": "LG이노텍",
-      "weight_pct": 4.88,
-      "shares": 51,
-      "item_code": "011070"
+      "name": "로보티즈",
+      "weight_pct": 4.98,
+      "shares": 120,
+      "item_code": "108490"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 4.87,
+      "weight_pct": 4.94,
       "shares": 21,
       "item_code": "009150"
     },
     {
-      "name": "SK스퀘어",
-      "weight_pct": 4.84,
-      "shares": 28,
-      "item_code": "402340"
+      "name": "현대백화점",
+      "weight_pct": 4.89,
+      "shares": 314,
+      "item_code": "069960"
     },
     {
       "name": "피에스케이",
-      "weight_pct": 4.75,
+      "weight_pct": 4.86,
       "shares": 233,
       "item_code": "319660"
     },
     {
-      "name": "효성중공업",
-      "weight_pct": 4.73,
-      "shares": 10,
-      "item_code": "298040"
+      "name": "LG이노텍",
+      "weight_pct": 4.86,
+      "shares": 51,
+      "item_code": "011070"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 4.65,
+      "weight_pct": 4.81,
       "shares": 261,
       "item_code": "240810"
     },
     {
       "name": "대우건설",
-      "weight_pct": 4.64,
+      "weight_pct": 4.65,
       "shares": 1701,
       "item_code": "047040"
     },
     {
+      "name": "효성중공업",
+      "weight_pct": 4.65,
+      "shares": 10,
+      "item_code": "298040"
+    },
+    {
+      "name": "SK스퀘어",
+      "weight_pct": 4.62,
+      "shares": 28,
+      "item_code": "402340"
+    },
+    {
       "name": "현대오토에버",
-      "weight_pct": 4.61,
+      "weight_pct": 4.54,
       "shares": 70,
       "item_code": "307950"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.81,
-      "shares": 5016743,
+      "weight_pct": 0.8,
+      "shares": 4756658,
       "item_code": null
     }
   ]

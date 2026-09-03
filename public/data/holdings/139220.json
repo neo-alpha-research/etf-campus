@@ -1,58 +1,58 @@
 {
   "ticker": "139220",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성물산",
-      "weight_pct": 26.0,
+      "weight_pct": 25.95,
       "shares": 103,
       "item_code": "028260"
     },
     {
       "name": "삼성E&A",
-      "weight_pct": 22.09,
+      "weight_pct": 22.02,
       "shares": 746,
       "item_code": "028050"
     },
     {
       "name": "현대건설",
-      "weight_pct": 16.62,
+      "weight_pct": 16.2,
       "shares": 213,
       "item_code": "000720"
     },
     {
       "name": "대우건설",
-      "weight_pct": 10.21,
+      "weight_pct": 10.32,
       "shares": 939,
       "item_code": "047040"
     },
     {
       "name": "DL이앤씨",
-      "weight_pct": 6.47,
+      "weight_pct": 6.62,
       "shares": 140,
       "item_code": "375500"
     },
     {
       "name": "한전기술",
-      "weight_pct": 6.35,
+      "weight_pct": 6.36,
       "shares": 89,
       "item_code": "052690"
     },
     {
       "name": "KCC",
-      "weight_pct": 6.06,
+      "weight_pct": 6.15,
       "shares": 19,
       "item_code": "002380"
     },
     {
       "name": "한전KPS",
-      "weight_pct": 3.07,
+      "weight_pct": 3.14,
       "shares": 105,
       "item_code": "051600"
     },
     {
       "name": "DL",
-      "weight_pct": 1.66,
+      "weight_pct": 1.76,
       "shares": 51,
       "item_code": "000210"
     },
@@ -65,7 +65,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.3,
-      "shares": 470723,
+      "shares": 457305,
       "item_code": null
     }
   ]

@@ -1,71 +1,71 @@
 {
   "ticker": "0181L0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "스페이스X",
-      "weight_pct": 28.52,
+      "weight_pct": 28.99,
       "shares": 497,
       "item_code": "SPCX.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 20.52,
+      "weight_pct": 20.61,
       "shares": 805,
       "item_code": "RKLB.O"
     },
     {
       "name": "AST 스페이스모바일",
-      "weight_pct": 11.68,
+      "weight_pct": 11.32,
       "shares": 495,
       "item_code": "ASTS.O"
     },
     {
       "name": "비아샛",
-      "weight_pct": 8.52,
+      "weight_pct": 8.63,
       "shares": 318,
       "item_code": "VSAT.O"
     },
     {
-      "name": "레드와이어",
-      "weight_pct": 6.56,
-      "shares": 1539,
-      "item_code": "RDW"
-    },
-    {
       "name": "플래닛 랩스 PBC",
-      "weight_pct": 6.56,
+      "weight_pct": 6.54,
       "shares": 830,
       "item_code": "PL"
     },
     {
+      "name": "레드와이어",
+      "weight_pct": 6.46,
+      "shares": 1539,
+      "item_code": "RDW"
+    },
+    {
       "name": "파이어플라이 에어로스페이스",
-      "weight_pct": 6.09,
+      "weight_pct": 6.12,
       "shares": 723,
       "item_code": "FLY.O"
     },
     {
       "name": "인튜이티브 머신스",
-      "weight_pct": 5.59,
+      "weight_pct": 5.5,
       "shares": 914,
       "item_code": "LUNR.O"
     },
     {
       "name": "스텔로직",
-      "weight_pct": 2.31,
+      "weight_pct": 2.24,
       "shares": 1189,
       "item_code": "SATL.O"
     },
     {
       "name": "블랙스카이 테크놀로지",
-      "weight_pct": 2.24,
+      "weight_pct": 2.14,
       "shares": 243,
       "item_code": "BKSY.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.36,
-      "shares": 4685814,
+      "weight_pct": 1.39,
+      "shares": 4678329,
       "item_code": null
     }
   ]

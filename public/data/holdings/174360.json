@@ -1,46 +1,46 @@
 {
   "ticker": "174360",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "닝더스다이",
-      "weight_pct": 6.02,
-      "shares": 1892,
-      "item_code": "300750.SZ"
-    },
-    {
       "name": "중제욱창",
-      "weight_pct": 6.01,
+      "weight_pct": 6.08,
       "shares": 807,
       "item_code": "300308.SZ"
     },
     {
+      "name": "닝더스다이",
+      "weight_pct": 5.94,
+      "shares": 1892,
+      "item_code": "300750.SZ"
+    },
+    {
       "name": "귀주모태주",
-      "weight_pct": 5.11,
+      "weight_pct": 5.13,
       "shares": 450,
       "item_code": "600519.SS"
     },
     {
       "name": "중국평안보험",
-      "weight_pct": 3.75,
+      "weight_pct": 3.86,
       "shares": 7685,
       "item_code": "601318.SS"
     },
     {
       "name": "신역성통신기술",
-      "weight_pct": 3.51,
+      "weight_pct": 3.53,
       "shares": 1000,
       "item_code": "300502.SZ"
     },
     {
       "name": "자금광업 Class A",
-      "weight_pct": 3.49,
+      "weight_pct": 3.5,
       "shares": 11850,
       "item_code": "601899.SS"
     },
     {
       "name": "초상은행",
-      "weight_pct": 3.12,
+      "weight_pct": 3.19,
       "shares": 8900,
       "item_code": "600036.SS"
     },
@@ -52,9 +52,15 @@
     },
     {
       "name": "우시앱텍",
-      "weight_pct": 2.39,
+      "weight_pct": 2.4,
       "shares": 1771,
       "item_code": "603259.SS"
+    },
+    {
+      "name": "장강전력",
+      "weight_pct": 2.18,
+      "shares": 8757,
+      "item_code": "600900.SS"
     },
     {
       "name": "한무기",
@@ -63,74 +69,68 @@
       "item_code": "688256.SS"
     },
     {
-      "name": "장강전력",
-      "weight_pct": 2.15,
-      "shares": 8757,
-      "item_code": "600900.SS"
-    },
-    {
       "name": "북방화창",
-      "weight_pct": 1.91,
+      "weight_pct": 1.83,
       "shares": 312,
       "item_code": "002371.SZ"
     },
     {
       "name": "입신정밀",
-      "weight_pct": 1.84,
+      "weight_pct": 1.83,
       "shares": 3664,
       "item_code": "002475.SZ"
     },
     {
+      "name": "ICBC(중국공상은행)",
+      "weight_pct": 1.66,
+      "shares": 23264,
+      "item_code": "601398.SS"
+    },
+    {
       "name": "기가디바이스",
-      "weight_pct": 1.7,
+      "weight_pct": 1.65,
       "shares": 478,
       "item_code": "603986.SS"
     },
     {
       "name": "AMEC(중미반도체)",
-      "weight_pct": 1.7,
+      "weight_pct": 1.65,
       "shares": 539,
       "item_code": "688012.SS"
     },
     {
-      "name": "ICBC(중국공상은행)",
-      "weight_pct": 1.64,
-      "shares": 23264,
-      "item_code": "601398.SS"
-    },
-    {
       "name": "중신 국제집성전로제조",
-      "weight_pct": 1.61,
+      "weight_pct": 1.58,
       "shares": 1435,
       "item_code": "688981.SS"
     },
     {
       "name": "동방재부정보",
-      "weight_pct": 1.54,
+      "weight_pct": 1.55,
       "shares": 9121,
       "item_code": "300059.SZ"
     },
     {
       "name": "비야디",
-      "weight_pct": 1.5,
+      "weight_pct": 1.51,
       "shares": 1950,
       "item_code": "002594.SZ"
     },
     {
-      "name": "몬타지 테크놀로지",
-      "weight_pct": 1.48,
-      "shares": 828,
-      "item_code": "688008.SS"
-    },
-    {
       "name": "해광신식",
-      "weight_pct": 1.47,
+      "weight_pct": 1.45,
       "shares": 664,
       "item_code": "688041.SS"
     },
     {
+      "name": "몬타지 테크놀로지",
+      "weight_pct": 1.44,
+      "shares": 828,
+      "item_code": "688008.SS"
+    },
+    {
       "name": "경동방과기",
-      "weight_pct": 1.37,
+      "weight_pct": 1.35,
       "shares": 26135,
       "item_code": "000725.SZ"
     },
@@ -142,21 +142,15 @@
     },
     {
       "name": "항서의약",
-      "weight_pct": 1.29,
+      "weight_pct": 1.3,
       "shares": 3207,
       "item_code": "600276.SS"
     },
     {
       "name": "격력전기",
-      "weight_pct": 1.09,
+      "weight_pct": 1.08,
       "shares": 3214,
       "item_code": "000651.SZ"
-    },
-    {
-      "name": "호사전자",
-      "weight_pct": 1.06,
-      "shares": 971,
-      "item_code": "002463.SZ"
     },
     {
       "name": "낙양몰리브덴",
@@ -165,8 +159,14 @@
       "item_code": "603993.SS"
     },
     {
+      "name": "호사전자",
+      "weight_pct": 1.02,
+      "shares": 971,
+      "item_code": "002463.SZ"
+    },
+    {
       "name": "중국선박공업",
-      "weight_pct": 0.96,
+      "weight_pct": 0.97,
       "shares": 3242,
       "item_code": "600150.SS"
     },
@@ -177,20 +177,14 @@
       "item_code": "601857.SS"
     },
     {
-      "name": "성굉과기",
-      "weight_pct": 0.92,
-      "shares": 435,
-      "item_code": "300476.SZ"
-    },
-    {
       "name": "유시동력",
-      "weight_pct": 0.91,
+      "weight_pct": 0.92,
       "shares": 3864,
       "item_code": "000338.SZ"
     },
     {
       "name": "만화화학",
-      "weight_pct": 0.9,
+      "weight_pct": 0.91,
       "shares": 1350,
       "item_code": "600309.SS"
     },
@@ -201,46 +195,46 @@
       "item_code": "601816.SS"
     },
     {
+      "name": "성굉과기",
+      "weight_pct": 0.89,
+      "shares": 435,
+      "item_code": "300476.SZ"
+    },
+    {
       "name": "신화에너지",
-      "weight_pct": 0.84,
+      "weight_pct": 0.83,
       "shares": 1971,
       "item_code": "601088.SS"
     },
     {
-      "name": "양광전력",
-      "weight_pct": 0.83,
-      "shares": 1042,
-      "item_code": "300274.SZ"
-    },
-    {
       "name": "하이크비전",
-      "weight_pct": 0.82,
+      "weight_pct": 0.83,
       "shares": 2635,
       "item_code": "002415.SZ"
     },
     {
-      "name": "중과서광",
+      "name": "양광전력",
       "weight_pct": 0.81,
+      "shares": 1042,
+      "item_code": "300274.SZ"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.81,
+      "shares": 18818337,
+      "item_code": null
+    },
+    {
+      "name": "중과서광",
+      "weight_pct": 0.79,
       "shares": 1050,
       "item_code": "603019.SS"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.8,
-      "shares": 18768698,
-      "item_code": null
-    },
-    {
       "name": "삼일중공업",
-      "weight_pct": 0.74,
+      "weight_pct": 0.75,
       "shares": 4257,
       "item_code": "600031.SS"
-    },
-    {
-      "name": "회천기술",
-      "weight_pct": 0.73,
-      "shares": 1364,
-      "item_code": "300124.SZ"
     },
     {
       "name": "목원식품",
@@ -249,16 +243,16 @@
       "item_code": "002714.SZ"
     },
     {
+      "name": "회천기술",
+      "weight_pct": 0.72,
+      "shares": 1364,
+      "item_code": "300124.SZ"
+    },
+    {
       "name": "중흥통신(ZTE)",
       "weight_pct": 0.69,
       "shares": 2314,
       "item_code": "000063.SZ"
-    },
-    {
-      "name": "섬서석탄",
-      "weight_pct": 0.67,
-      "shares": 2785,
-      "item_code": "601225.SS"
     },
     {
       "name": "코스코해운",
@@ -267,26 +261,32 @@
       "item_code": "601919.SS"
     },
     {
+      "name": "섬서석탄",
+      "weight_pct": 0.65,
+      "shares": 2785,
+      "item_code": "601225.SS"
+    },
+    {
       "name": "TCL그룹",
-      "weight_pct": 0.66,
+      "weight_pct": 0.65,
       "shares": 14935,
       "item_code": "000100.SZ"
     },
     {
-      "name": "북방희토",
-      "weight_pct": 0.64,
-      "shares": 1814,
-      "item_code": "600111.SS"
-    },
-    {
       "name": "매서의료",
-      "weight_pct": 0.63,
+      "weight_pct": 0.64,
       "shares": 435,
       "item_code": "300760.SZ"
     },
     {
+      "name": "북방희토",
+      "weight_pct": 0.63,
+      "shares": 1814,
+      "item_code": "600111.SS"
+    },
+    {
       "name": "차이나 텔레콤",
-      "weight_pct": 0.62,
+      "weight_pct": 0.63,
       "shares": 11128,
       "item_code": "601728.SS"
     },
@@ -297,22 +297,16 @@
       "item_code": "600089.SS"
     },
     {
-      "name": "국전남서과기",
-      "weight_pct": 0.58,
-      "shares": 2885,
-      "item_code": "600406.SS"
-    },
-    {
       "name": "복요유리",
-      "weight_pct": 0.56,
+      "weight_pct": 0.58,
       "shares": 1150,
       "item_code": "600660.SS"
     },
     {
-      "name": "청해염화공업",
-      "weight_pct": 0.56,
-      "shares": 2278,
-      "item_code": "000792.SZ"
+      "name": "국전남서과기",
+      "weight_pct": 0.58,
+      "shares": 2885,
+      "item_code": "600406.SS"
     },
     {
       "name": "CSCEC(중국건축)",
@@ -333,16 +327,22 @@
       "item_code": "002028.SZ"
     },
     {
+      "name": "청해염화공업",
+      "weight_pct": 0.55,
+      "shares": 2278,
+      "item_code": "000792.SZ"
+    },
+    {
+      "name": "해이지가",
+      "weight_pct": 0.5,
+      "shares": 2692,
+      "item_code": "600690.SS"
+    },
+    {
       "name": "이브에너지",
       "weight_pct": 0.5,
       "shares": 1092,
       "item_code": "300014.SZ"
-    },
-    {
-      "name": "해이지가",
-      "weight_pct": 0.49,
-      "shares": 2692,
-      "item_code": "600690.SS"
     },
     {
       "name": "신비정보",
@@ -358,13 +358,13 @@
     },
     {
       "name": "CRRC(중국중차)",
-      "weight_pct": 0.47,
+      "weight_pct": 0.48,
       "shares": 8757,
       "item_code": "601766.SS"
     },
     {
       "name": "순풍홀딩스",
-      "weight_pct": 0.47,
+      "weight_pct": 0.48,
       "shares": 1721,
       "item_code": "002352.SZ"
     },
@@ -375,16 +375,16 @@
       "item_code": "600489.SS"
     },
     {
+      "name": "융기실리콘자재",
+      "weight_pct": 0.46,
+      "shares": 4350,
+      "item_code": "601012.SS"
+    },
+    {
       "name": "중국핵전",
       "weight_pct": 0.45,
       "shares": 5907,
       "item_code": "601985.SS"
-    },
-    {
-      "name": "융기실리콘자재",
-      "weight_pct": 0.45,
-      "shares": 4350,
-      "item_code": "601012.SS"
     },
     {
       "name": "웨이얼반도체",
@@ -394,21 +394,15 @@
     },
     {
       "name": "산동황금광업",
-      "weight_pct": 0.43,
+      "weight_pct": 0.42,
       "shares": 1300,
       "item_code": "600547.SS"
     },
     {
       "name": "서공중공업",
-      "weight_pct": 0.4,
+      "weight_pct": 0.42,
       "shares": 5885,
       "item_code": "000425.SZ"
-    },
-    {
-      "name": "강봉이업(리튬)",
-      "weight_pct": 0.38,
-      "shares": 814,
-      "item_code": "002460.SZ"
     },
     {
       "name": "저장 화우코발트",
@@ -417,16 +411,22 @@
       "item_code": "603799.SS"
     },
     {
+      "name": "강봉이업(리튬)",
+      "weight_pct": 0.37,
+      "shares": 814,
+      "item_code": "002460.SZ"
+    },
+    {
+      "name": "대진철도",
+      "weight_pct": 0.36,
+      "shares": 8542,
+      "item_code": "601006.SS"
+    },
+    {
       "name": "운남알루미늄",
       "weight_pct": 0.35,
       "shares": 1492,
       "item_code": "000807.SZ"
-    },
-    {
-      "name": "대진철도",
-      "weight_pct": 0.35,
-      "shares": 8542,
-      "item_code": "601006.SS"
     },
     {
       "name": "베이징 킹소프트 오피스 소프트웨어",
@@ -441,22 +441,40 @@
       "item_code": "601100.SS"
     },
     {
-      "name": "절강거화",
+      "name": "중항침비",
       "weight_pct": 0.34,
+      "shares": 814,
+      "item_code": "600760.SS"
+    },
+    {
+      "name": "절강거화",
+      "weight_pct": 0.33,
       "shares": 971,
       "item_code": "600160.SS"
     },
     {
       "name": "닝샤바오펑에너지",
-      "weight_pct": 0.34,
+      "weight_pct": 0.33,
       "shares": 1578,
       "item_code": "600989.SS"
     },
     {
-      "name": "중항침비",
+      "name": "련영의료",
       "weight_pct": 0.33,
-      "shares": 814,
-      "item_code": "600760.SS"
+      "shares": 357,
+      "item_code": "688271.SS"
+    },
+    {
+      "name": "내몽고포두철강연합",
+      "weight_pct": 0.32,
+      "shares": 16228,
+      "item_code": "600010.SS"
+    },
+    {
+      "name": "보산철강",
+      "weight_pct": 0.32,
+      "shares": 6257,
+      "item_code": "600019.SS"
     },
     {
       "name": "CTG면세점",
@@ -475,24 +493,6 @@
       "weight_pct": 0.32,
       "shares": 957,
       "item_code": "600893.SS"
-    },
-    {
-      "name": "련영의료",
-      "weight_pct": 0.32,
-      "shares": 357,
-      "item_code": "688271.SS"
-    },
-    {
-      "name": "내몽고포두철강연합",
-      "weight_pct": 0.31,
-      "shares": 16228,
-      "item_code": "600010.SS"
-    },
-    {
-      "name": "보산철강",
-      "weight_pct": 0.31,
-      "shares": 6257,
-      "item_code": "600019.SS"
     },
     {
       "name": "광계기술",
@@ -537,6 +537,12 @@
       "item_code": "600585.SS"
     },
     {
+      "name": "산동화로항승화학",
+      "weight_pct": 0.26,
+      "shares": 1383,
+      "item_code": "600426.SS"
+    },
+    {
       "name": "신화성",
       "weight_pct": 0.26,
       "shares": 1107,
@@ -549,10 +555,10 @@
       "item_code": "601127.SS"
     },
     {
-      "name": "산동화로항승화학",
+      "name": "중국전력건설",
       "weight_pct": 0.25,
-      "shares": 1383,
-      "item_code": "600426.SS"
+      "shares": 6178,
+      "item_code": "601669.SS"
     },
     {
       "name": "애이안과",
@@ -561,14 +567,8 @@
       "item_code": "300015.SZ"
     },
     {
-      "name": "중국전력건설",
-      "weight_pct": 0.24,
-      "shares": 6178,
-      "item_code": "601669.SS"
-    },
-    {
       "name": "장주편자황제약",
-      "weight_pct": 0.22,
+      "weight_pct": 0.23,
       "shares": 214,
       "item_code": "600436.SS"
     },
@@ -580,9 +580,15 @@
     },
     {
       "name": "통위",
-      "weight_pct": 0.19,
+      "weight_pct": 0.2,
       "shares": 1935,
       "item_code": "600438.SS"
+    },
+    {
+      "name": "복성제약",
+      "weight_pct": 0.18,
+      "shares": 914,
+      "item_code": "600196.SS"
     },
     {
       "name": "장강하이테크",
@@ -591,14 +597,8 @@
       "item_code": "600895.SS"
     },
     {
-      "name": "복성제약",
-      "weight_pct": 0.17,
-      "shares": 914,
-      "item_code": "600196.SS"
-    },
-    {
       "name": "화동제약",
-      "weight_pct": 0.14,
+      "weight_pct": 0.15,
       "shares": 628,
       "item_code": "000963.SZ"
     },

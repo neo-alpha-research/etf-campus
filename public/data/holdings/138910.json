@@ -1,35 +1,35 @@
 {
   "ticker": "138910",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "Highgrade Copper 2026 12",
-      "weight_pct": 97.73,
+      "weight_pct": 97.25,
       "shares": 4,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 85.76,
-      "shares": 864560529,
+      "weight_pct": 84.71,
+      "shares": 843954788,
       "item_code": null
     },
     {
       "name": "USD현금",
-      "weight_pct": 11.91,
-      "shares": 87670,
+      "weight_pct": 12.82,
+      "shares": 93381,
       "item_code": null
     },
     {
       "name": "WisdomTree Copper ETC",
-      "weight_pct": 2.31,
-      "shares": 299,
+      "weight_pct": 2.45,
+      "shares": 318,
       "item_code": "1693.T"
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -75.79,
-      "shares": -55,
+      "weight_pct": -81.39,
+      "shares": -59,
       "item_code": null
     }
   ]

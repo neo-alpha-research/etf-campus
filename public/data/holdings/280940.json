@@ -1,28 +1,28 @@
 {
   "ticker": "280940",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 93.39,
-      "shares": 158220216,
+      "weight_pct": 93.16,
+      "shares": 161066096,
       "item_code": null
     },
     {
       "name": "ProShares UltraShort Gold",
-      "weight_pct": 6.6,
+      "weight_pct": 6.83,
       "shares": 375,
       "item_code": "GLL"
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -31.4,
-      "shares": -3,
+      "weight_pct": -36.61,
+      "shares": -4,
       "item_code": null
     },
     {
       "name": "Micro Gold 2026 12",
-      "weight_pct": -86.28,
+      "weight_pct": -87.01,
       "shares": -2,
       "item_code": null
     }

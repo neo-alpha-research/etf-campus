@@ -1,82 +1,82 @@
 {
   "ticker": "0120J0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "카카오뱅크",
-      "weight_pct": 22.98,
+      "weight_pct": 23.46,
       "shares": 4234,
       "item_code": "323410"
     },
     {
       "name": "카카오페이",
-      "weight_pct": 19.77,
+      "weight_pct": 19.72,
       "shares": 1742,
       "item_code": "377300"
     },
     {
       "name": "카카오",
-      "weight_pct": 18.28,
+      "weight_pct": 17.98,
       "shares": 2025,
       "item_code": "035720"
     },
     {
       "name": "에스엠",
-      "weight_pct": 13.85,
+      "weight_pct": 14.25,
       "shares": 758,
       "item_code": "041510"
     },
     {
       "name": "카카오게임즈",
-      "weight_pct": 7.13,
+      "weight_pct": 6.66,
       "shares": 2921,
       "item_code": "293490"
     },
     {
       "name": "KB금융",
-      "weight_pct": 6.43,
+      "weight_pct": 6.5,
       "shares": 152,
       "item_code": "105560"
     },
     {
       "name": "디어유",
-      "weight_pct": 3.54,
+      "weight_pct": 3.45,
       "shares": 769,
       "item_code": "376300"
     },
     {
       "name": "NAVER",
-      "weight_pct": 3.35,
+      "weight_pct": 3.33,
       "shares": 63,
       "item_code": "035420"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.1,
-      "shares": 4456734,
+      "weight_pct": 1.12,
+      "shares": 4451872,
       "item_code": null
     },
     {
       "name": "크래프톤",
-      "weight_pct": 0.91,
+      "weight_pct": 0.89,
       "shares": 16,
       "item_code": "259960"
     },
     {
       "name": "SM C&C",
-      "weight_pct": 0.89,
+      "weight_pct": 0.87,
       "shares": 2892,
       "item_code": "048550"
     },
     {
       "name": "하이브",
-      "weight_pct": 0.7,
+      "weight_pct": 0.71,
       "shares": 16,
       "item_code": "352820"
     },
     {
       "name": "삼성카드",
-      "weight_pct": 0.48,
+      "weight_pct": 0.49,
       "shares": 43,
       "item_code": "029780"
     },

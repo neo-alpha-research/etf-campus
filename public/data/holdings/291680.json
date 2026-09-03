@@ -1,11 +1,11 @@
 {
   "ticker": "291680",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 95.37,
-      "shares": 369730195,
+      "shares": 372357695,
       "item_code": null
     },
     {
@@ -16,7 +16,7 @@
     },
     {
       "name": "H-SHARES IDX FUT SEPT 2026",
-      "weight_pct": -84.14,
+      "weight_pct": -82.79,
       "shares": -4,
       "item_code": null
     }

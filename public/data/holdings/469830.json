@@ -1,6 +1,6 @@
 {
   "ticker": "469830",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "비케이프로제구차 20260811-52-2(단)",
@@ -10,7 +10,7 @@
     },
     {
       "name": "우리투자증권 20260612-90-18(단)",
-      "weight_pct": 2.54,
+      "weight_pct": 2.55,
       "shares": 0,
       "item_code": null
     },
@@ -63,14 +63,14 @@
       "item_code": null
     },
     {
-      "name": "메리츠캐피탈267-1",
+      "name": "롯데렌탈56-2(녹)",
       "weight_pct": 2.0,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "롯데렌탈56-2(녹)",
-      "weight_pct": 1.99,
+      "name": "메리츠캐피탈267-1",
+      "weight_pct": 2.0,
       "shares": 0,
       "item_code": null
     },
@@ -105,13 +105,13 @@
       "item_code": null
     },
     {
-      "name": "키움에프앤아이 20260724-91-12(단)",
-      "weight_pct": 1.5,
+      "name": "하나에프앤아이 20260715-92-7(단)",
+      "weight_pct": 1.51,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "하나에프앤아이 20260715-92-7(단)",
+      "name": "키움에프앤아이 20260724-91-12(단)",
       "weight_pct": 1.5,
       "shares": 0,
       "item_code": null
@@ -153,7 +153,19 @@
       "item_code": null
     },
     {
+      "name": "미래에셋캐피탈92-3",
+      "weight_pct": 1.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "현대건설307-2",
+      "weight_pct": 1.01,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데렌탈59-2",
       "weight_pct": 1.01,
       "shares": 0,
       "item_code": null
@@ -172,6 +184,12 @@
     },
     {
       "name": "메리츠캐피탈259-5",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나에프앤아이190-1",
       "weight_pct": 1.0,
       "shares": 0,
       "item_code": null
@@ -220,24 +238,6 @@
     },
     {
       "name": "롯데렌탈60-2",
-      "weight_pct": 1.0,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "미래에셋캐피탈92-3",
-      "weight_pct": 1.0,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나캐피탈420-4",
-      "weight_pct": 1.0,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "BNK캐피탈358-2",
       "weight_pct": 1.0,
       "shares": 0,
       "item_code": null
@@ -309,6 +309,12 @@
       "item_code": null
     },
     {
+      "name": "현대카드945-1",
+      "weight_pct": 1.0,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "케이비캐피탈533-3",
       "weight_pct": 1.0,
       "shares": 0,
@@ -339,7 +345,7 @@
       "item_code": null
     },
     {
-      "name": "롯데렌탈59-2",
+      "name": "메리츠증권2411-3",
       "weight_pct": 1.0,
       "shares": 0,
       "item_code": null
@@ -363,12 +369,6 @@
       "item_code": null
     },
     {
-      "name": "하나에프앤아이190-1",
-      "weight_pct": 0.99,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "한국동서발전",
       "weight_pct": 0.99,
       "shares": 0,
@@ -387,19 +387,7 @@
       "item_code": null
     },
     {
-      "name": "현대카드945-1",
-      "weight_pct": 0.99,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "엔에이치농협캐피탈254-2",
-      "weight_pct": 0.99,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "메리츠증권2411-3",
       "weight_pct": 0.99,
       "shares": 0,
       "item_code": null
@@ -431,6 +419,12 @@
     {
       "name": "미래에셋증권69-2",
       "weight_pct": 0.52,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "산금26신할0002-0902-1",
+      "weight_pct": 0.51,
       "shares": 0,
       "item_code": null
     },
@@ -778,8 +772,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -11.17,
-      "shares": -12152110,
+      "weight_pct": -9.74,
+      "shares": -10594197,
       "item_code": null
     }
   ]

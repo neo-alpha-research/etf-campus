@@ -1,136 +1,136 @@
 {
   "ticker": "445150",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "HD한국조선해양",
-      "weight_pct": 7.82,
+      "weight_pct": 7.66,
       "shares": 314,
       "item_code": "009540"
     },
     {
-      "name": "동성화인텍",
-      "weight_pct": 7.69,
-      "shares": 6147,
-      "item_code": "033500"
-    },
-    {
-      "name": "HMM",
-      "weight_pct": 7.42,
-      "shares": 4928,
-      "item_code": "011200"
-    },
-    {
       "name": "팬오션",
-      "weight_pct": 7.39,
+      "weight_pct": 7.64,
       "shares": 18731,
       "item_code": "028670"
     },
     {
+      "name": "HMM",
+      "weight_pct": 7.59,
+      "shares": 4928,
+      "item_code": "011200"
+    },
+    {
+      "name": "동성화인텍",
+      "weight_pct": 7.53,
+      "shares": 6147,
+      "item_code": "033500"
+    },
+    {
       "name": "삼성중공업",
-      "weight_pct": 7.16,
+      "weight_pct": 7.15,
       "shares": 4840,
       "item_code": "010140"
     },
     {
       "name": "한화오션",
-      "weight_pct": 7.16,
+      "weight_pct": 7.01,
       "shares": 1155,
       "item_code": "042660"
     },
     {
-      "name": "HD현대중공업",
-      "weight_pct": 6.45,
-      "shares": 202,
-      "item_code": "329180"
-    },
-    {
       "name": "대한해운",
-      "weight_pct": 6.44,
+      "weight_pct": 6.61,
       "shares": 44384,
       "item_code": "005880"
     },
     {
+      "name": "HD현대중공업",
+      "weight_pct": 6.31,
+      "shares": 202,
+      "item_code": "329180"
+    },
+    {
       "name": "한국카본",
-      "weight_pct": 5.88,
+      "weight_pct": 5.74,
       "shares": 3500,
       "item_code": "017960"
     },
     {
       "name": "대한조선",
-      "weight_pct": 5.04,
+      "weight_pct": 4.99,
       "shares": 1515,
       "item_code": "439260"
     },
     {
-      "name": "한화엔진",
-      "weight_pct": 4.83,
-      "shares": 1432,
-      "item_code": "082740"
-    },
-    {
       "name": "HD현대마린솔루션",
-      "weight_pct": 4.82,
+      "weight_pct": 4.97,
       "shares": 337,
       "item_code": "443060"
     },
     {
+      "name": "한화엔진",
+      "weight_pct": 4.73,
+      "shares": 1432,
+      "item_code": "082740"
+    },
+    {
       "name": "HD현대마린엔진",
-      "weight_pct": 4.64,
+      "weight_pct": 4.56,
       "shares": 1258,
       "item_code": "071970"
     },
     {
       "name": "S-Oil",
-      "weight_pct": 3.35,
+      "weight_pct": 3.51,
       "shares": 314,
       "item_code": "010950"
     },
     {
       "name": "세진중공업",
-      "weight_pct": 2.36,
+      "weight_pct": 2.35,
       "shares": 3215,
       "item_code": "075580"
     },
     {
       "name": "SK가스",
-      "weight_pct": 1.8,
+      "weight_pct": 1.85,
       "shares": 109,
       "item_code": "018670"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 1.68,
+      "weight_pct": 1.67,
       "shares": 42,
       "item_code": "006400"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 1.42,
+      "weight_pct": 1.41,
       "shares": 55,
       "item_code": "373220"
     },
     {
       "name": "현대힘스",
-      "weight_pct": 1.34,
+      "weight_pct": 1.33,
       "shares": 1389,
       "item_code": "460930"
     },
     {
       "name": "한국가스공사",
-      "weight_pct": 1.25,
+      "weight_pct": 1.29,
       "shares": 474,
       "item_code": "036460"
     },
     {
       "name": "원화현금",
       "weight_pct": 1.14,
-      "shares": 16236378,
+      "shares": 15436492,
       "item_code": null
     },
     {
       "name": "STX엔진",
-      "weight_pct": 1.01,
+      "weight_pct": 0.99,
       "shares": 578,
       "item_code": "077970"
     },
@@ -142,8 +142,8 @@
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 0.84,
-      "shares": 103,
+      "weight_pct": 0.88,
+      "shares": 112,
       "item_code": "247540"
     }
   ]

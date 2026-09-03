@@ -1,118 +1,118 @@
 {
   "ticker": "228820",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 36.43,
+      "weight_pct": 36.39,
       "shares": 1321,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 9.48,
+      "weight_pct": 9.4,
       "shares": 53,
       "item_code": "000660"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 8.0,
+      "weight_pct": 8.16,
       "shares": 53,
       "item_code": "009150"
     },
     {
       "name": "한화에어로스페이스",
-      "weight_pct": 5.92,
+      "weight_pct": 5.97,
       "shares": 53,
       "item_code": "012450"
     },
     {
       "name": "삼성화재",
-      "weight_pct": 3.79,
+      "weight_pct": 3.82,
       "shares": 53,
       "item_code": "000810"
     },
     {
       "name": "삼성SDI",
-      "weight_pct": 3.18,
+      "weight_pct": 3.13,
       "shares": 53,
       "item_code": "006400"
     },
     {
       "name": "NAVER",
-      "weight_pct": 2.99,
+      "weight_pct": 3.03,
       "shares": 132,
       "item_code": "035420"
     },
     {
       "name": "SK텔레콤",
-      "weight_pct": 2.63,
+      "weight_pct": 2.65,
       "shares": 264,
       "item_code": "017670"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 2.48,
+      "weight_pct": 2.42,
       "shares": 53,
       "item_code": "012330"
     },
     {
       "name": "유한양행",
-      "weight_pct": 2.3,
+      "weight_pct": 2.36,
       "shares": 264,
       "item_code": "000100"
     },
     {
       "name": "현대차",
-      "weight_pct": 2.24,
+      "weight_pct": 2.2,
       "shares": 53,
       "item_code": "005380"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 2.18,
+      "weight_pct": 2.17,
       "shares": 53,
       "item_code": "028260"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 2.05,
+      "weight_pct": 2.02,
       "shares": 53,
       "item_code": "373220"
     },
     {
-      "name": "HD한국조선해양",
-      "weight_pct": 1.97,
-      "shares": 53,
-      "item_code": "009540"
-    },
-    {
       "name": "POSCO홀딩스",
-      "weight_pct": 1.9,
+      "weight_pct": 1.92,
       "shares": 53,
       "item_code": "005490"
     },
     {
+      "name": "HD한국조선해양",
+      "weight_pct": 1.92,
+      "shares": 53,
+      "item_code": "009540"
+    },
+    {
       "name": "삼성생명",
-      "weight_pct": 1.73,
+      "weight_pct": 1.71,
       "shares": 53,
       "item_code": "032830"
     },
     {
       "name": "LG화학",
-      "weight_pct": 1.57,
+      "weight_pct": 1.56,
       "shares": 53,
       "item_code": "051910"
     },
     {
       "name": "LG전자",
-      "weight_pct": 1.15,
+      "weight_pct": 1.16,
       "shares": 53,
       "item_code": "066570"
     },
     {
       "name": "셀트리온",
-      "weight_pct": 1.05,
+      "weight_pct": 1.08,
       "shares": 53,
       "item_code": "068270"
     },
@@ -124,50 +124,50 @@
     },
     {
       "name": "KB금융",
-      "weight_pct": 0.95,
+      "weight_pct": 0.98,
       "shares": 53,
       "item_code": "105560"
     },
     {
       "name": "아모레퍼시픽",
-      "weight_pct": 0.81,
+      "weight_pct": 0.82,
       "shares": 53,
       "item_code": "090430"
     },
     {
       "name": "SK이노베이션",
-      "weight_pct": 0.75,
+      "weight_pct": 0.76,
       "shares": 53,
       "item_code": "096770"
     },
     {
       "name": "기아",
-      "weight_pct": 0.73,
+      "weight_pct": 0.72,
       "shares": 53,
       "item_code": "000270"
     },
     {
       "name": "현대건설",
-      "weight_pct": 0.67,
+      "weight_pct": 0.65,
       "shares": 53,
       "item_code": "000720"
     },
     {
       "name": "신한지주",
-      "weight_pct": 0.62,
+      "weight_pct": 0.64,
       "shares": 53,
       "item_code": "055550"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 0.45,
+      "weight_pct": 0.44,
       "shares": 53,
       "item_code": "034020"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.33,
-      "shares": 3150519,
+      "weight_pct": 0.31,
+      "shares": 2870735,
       "item_code": null
     },
     {

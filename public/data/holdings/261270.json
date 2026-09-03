@@ -1,16 +1,16 @@
 {
   "ticker": "261270",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 100.0,
-      "shares": 81616801,
+      "weight_pct": 99.99,
+      "shares": 81854469,
       "item_code": null
     },
     {
       "name": "2026-09 달러선물",
-      "weight_pct": -100.11,
+      "weight_pct": -99.86,
       "shares": -5,
       "item_code": null
     }

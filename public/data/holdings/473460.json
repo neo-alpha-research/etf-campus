@@ -1,58 +1,58 @@
 {
   "ticker": "473460",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "테슬라",
-      "weight_pct": 21.25,
+      "weight_pct": 20.95,
       "shares": 490,
       "item_code": "TSLA.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 19.87,
+      "weight_pct": 19.94,
       "shares": 764,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 8.79,
+      "weight_pct": 8.85,
       "shares": 220,
       "item_code": "GOOGL.O"
     },
     {
-      "name": "팔란티어 테크놀로지스",
-      "weight_pct": 5.69,
-      "shares": 259,
-      "item_code": "PLTR.O"
-    },
-    {
       "name": "애플",
-      "weight_pct": 5.43,
+      "weight_pct": 5.68,
       "shares": 145,
       "item_code": "AAPL.O"
     },
     {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 5.6,
+      "shares": 259,
+      "item_code": "PLTR.O"
+    },
+    {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 4.93,
+      "weight_pct": 4.89,
       "shares": 43,
       "item_code": "MU.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 4.62,
+      "weight_pct": 4.65,
       "shares": 77,
       "item_code": "MSFT.O"
     },
     {
       "name": "아이온큐",
-      "weight_pct": 3.44,
+      "weight_pct": 3.36,
       "shares": 743,
       "item_code": "IONQ.K"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 3.11,
+      "weight_pct": 3.16,
       "shares": 71,
       "item_code": "AVGO.O"
     },
@@ -70,57 +70,57 @@
     },
     {
       "name": "스페이스X",
-      "weight_pct": 1.83,
+      "weight_pct": 1.85,
       "shares": 108,
       "item_code": "SPCX.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 1.81,
+      "weight_pct": 1.84,
       "shares": 37,
       "item_code": "TSM"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 1.76,
+      "weight_pct": 1.75,
       "shares": 31,
       "item_code": "AMD.O"
     },
     {
       "name": "알파벳 Class C",
-      "weight_pct": 1.52,
+      "weight_pct": 1.53,
       "shares": 38,
       "item_code": "GOOG.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 1.46,
+      "weight_pct": 1.48,
       "shares": 138,
       "item_code": "INTC.O"
     },
     {
       "name": "비트마인 이머전 테크놀로지스",
-      "weight_pct": 1.35,
+      "weight_pct": 1.27,
       "shares": 453,
       "item_code": "BMNR.K"
     },
     {
       "name": "메타",
-      "weight_pct": 1.22,
+      "weight_pct": 1.26,
       "shares": 18,
       "item_code": "META.O"
     },
     {
-      "name": "SK하이닉스 ADR",
-      "weight_pct": 1.07,
-      "shares": 55,
-      "item_code": "SKHY.O"
-    },
-    {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 1.07,
+      "weight_pct": 1.08,
       "shares": 43,
       "item_code": "MRVL.O"
+    },
+    {
+      "name": "SK하이닉스 ADR",
+      "weight_pct": 1.06,
+      "shares": 55,
+      "item_code": "SKHY.O"
     },
     {
       "name": "ASML 홀딩 ADR",
@@ -130,13 +130,13 @@
     },
     {
       "name": "아이렌",
-      "weight_pct": 0.94,
+      "weight_pct": 0.95,
       "shares": 215,
       "item_code": "IREN.O"
     },
     {
       "name": "버크셔 해서웨이 Class B",
-      "weight_pct": 0.91,
+      "weight_pct": 0.92,
       "shares": 15,
       "item_code": "BRKb"
     },
@@ -148,14 +148,14 @@
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 0.82,
+      "weight_pct": 0.8,
       "shares": 15,
       "item_code": "AMAT.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.37,
-      "shares": 4357534,
+      "weight_pct": 0.38,
+      "shares": 4347238,
       "item_code": null
     }
   ]

@@ -1,71 +1,71 @@
 {
   "ticker": "0151S0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 25.49,
+      "weight_pct": 25.47,
       "shares": 611,
       "item_code": "NVDA.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 20.65,
+      "weight_pct": 20.91,
       "shares": 295,
       "item_code": "AVGO.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 16.45,
+      "weight_pct": 16.59,
       "shares": 973,
       "item_code": "INTC.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 9.29,
+      "weight_pct": 9.2,
       "shares": 104,
       "item_code": "AMD.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 7.87,
+      "weight_pct": 7.77,
       "shares": 43,
       "item_code": "MU.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 7.16,
+      "weight_pct": 7.24,
       "shares": 91,
       "item_code": "TSM"
     },
     {
       "name": "세레브라스 시스템스",
-      "weight_pct": 5.43,
+      "weight_pct": 5.17,
       "shares": 156,
       "item_code": "CBRS.O"
     },
     {
       "name": "샌디스크",
-      "weight_pct": 4.23,
+      "weight_pct": 4.21,
       "shares": 14,
       "item_code": "SNDK.O"
     },
     {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 1.64,
+      "weight_pct": 1.61,
       "shares": 35,
       "item_code": "ARM.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 1.26,
+      "weight_pct": 1.27,
       "shares": 31,
       "item_code": "MRVL.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.48,
-      "shares": 3537937,
+      "weight_pct": 0.5,
+      "shares": 3594217,
       "item_code": null
     }
   ]

@@ -1,28 +1,28 @@
 {
   "ticker": "356540",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 13.5,
-      "shares": 13657729,
+      "weight_pct": 13.41,
+      "shares": 13543308,
       "item_code": null
     },
     {
       "name": "국고02625-5509(25-7)",
-      "weight_pct": 3.7,
+      "weight_pct": 3.69,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-5403(24-2)",
-      "weight_pct": 2.66,
+      "weight_pct": 2.65,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02500-5203(22-2)",
-      "weight_pct": 2.37,
+      "weight_pct": 2.36,
       "shares": 0,
       "item_code": null
     },
@@ -40,13 +40,13 @@
     },
     {
       "name": "기업은행(신)2606이2A-25",
-      "weight_pct": 1.91,
+      "weight_pct": 1.92,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력1565",
-      "weight_pct": 1.91,
+      "weight_pct": 1.92,
       "shares": 0,
       "item_code": null
     },
@@ -64,7 +64,7 @@
     },
     {
       "name": "농금채(중앙회)2024-8이3Y-A",
-      "weight_pct": 1.7,
+      "weight_pct": 1.71,
       "shares": 0,
       "item_code": null
     },
@@ -112,7 +112,7 @@
     },
     {
       "name": "국고02750-4509(25-9)",
-      "weight_pct": 1.12,
+      "weight_pct": 1.11,
       "shares": 0,
       "item_code": null
     },
@@ -141,7 +141,19 @@
       "item_code": null
     },
     {
+      "name": "한국남부발전84-1",
+      "weight_pct": 0.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "케이비국민카드444-1",
+      "weight_pct": 0.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "삼성카드2847",
       "weight_pct": 0.95,
       "shares": 0,
       "item_code": null
@@ -159,6 +171,18 @@
       "item_code": null
     },
     {
+      "name": "메리츠증권2411-2",
+      "weight_pct": 0.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부산은행2025-08이1.5A-27",
+      "weight_pct": 0.95,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "국가철도공단채권402",
       "weight_pct": 0.95,
       "shares": 0,
@@ -171,30 +195,6 @@
       "item_code": null
     },
     {
-      "name": "한국남부발전84-1",
-      "weight_pct": 0.94,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "삼성카드2847",
-      "weight_pct": 0.94,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "메리츠증권2411-2",
-      "weight_pct": 0.94,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "부산은행2025-08이1.5A-27",
-      "weight_pct": 0.94,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "국민은행4510이표일(03)3-30",
       "weight_pct": 0.93,
       "shares": 0,
@@ -202,13 +202,13 @@
     },
     {
       "name": "우리카드267-2",
-      "weight_pct": 0.92,
+      "weight_pct": 0.93,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "롯데카드567-4",
-      "weight_pct": 0.92,
+      "weight_pct": 0.93,
       "shares": 0,
       "item_code": null
     },
@@ -225,6 +225,12 @@
       "item_code": null
     },
     {
+      "name": "부산항만공사50-2",
+      "weight_pct": 0.91,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "메리츠증권2510-3",
       "weight_pct": 0.9,
       "shares": 0,
@@ -232,12 +238,6 @@
     },
     {
       "name": "국고채권03500-3406(24-5)",
-      "weight_pct": 0.9,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "부산항만공사50-2",
       "weight_pct": 0.9,
       "shares": 0,
       "item_code": null
@@ -268,7 +268,7 @@
     },
     {
       "name": "서울특별시채권2020-11",
-      "weight_pct": 0.86,
+      "weight_pct": 0.87,
       "shares": 0,
       "item_code": null
     },
@@ -286,7 +286,7 @@
     },
     {
       "name": "물가01750-2806(18-5)",
-      "weight_pct": 0.82,
+      "weight_pct": 0.83,
       "shares": 0,
       "item_code": null
     },
@@ -304,13 +304,7 @@
     },
     {
       "name": "경기주택도시공사23-06-59",
-      "weight_pct": 0.76,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "국고01875-4109(21-9)",
-      "weight_pct": 0.75,
+      "weight_pct": 0.77,
       "shares": 0,
       "item_code": null
     },
@@ -339,6 +333,12 @@
       "item_code": null
     },
     {
+      "name": "국고01875-4109(21-9)",
+      "weight_pct": 0.74,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "토지주택채권525",
       "weight_pct": 0.74,
       "shares": 0,
@@ -346,13 +346,19 @@
     },
     {
       "name": "국고채권01375-3006(20-4)",
-      "weight_pct": 0.72,
+      "weight_pct": 0.73,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "BNK캐피탈339-3",
       "weight_pct": 0.72,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2024-04이3Y-E",
+      "weight_pct": 0.67,
       "shares": 0,
       "item_code": null
     },
@@ -369,7 +375,7 @@
       "item_code": null
     },
     {
-      "name": "농업금융채권(은행)2024-04이3Y-E",
+      "name": "메리츠증권2512-1",
       "weight_pct": 0.66,
       "shares": 0,
       "item_code": null
@@ -387,31 +393,25 @@
       "item_code": null
     },
     {
-      "name": "메리츠증권2512-1",
+      "name": "현대카드905-3",
       "weight_pct": 0.65,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "현대카드905-3",
-      "weight_pct": 0.64,
+      "name": "DGB캐피탈116-4",
+      "weight_pct": 0.58,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "DGB캐피탈116-4",
+      "name": "LG화학57-3",
       "weight_pct": 0.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "한국전력1567",
-      "weight_pct": 0.56,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "LG화학57-3",
       "weight_pct": 0.56,
       "shares": 0,
       "item_code": null
@@ -496,7 +496,7 @@
     },
     {
       "name": "케이비국민카드411-2",
-      "weight_pct": 0.37,
+      "weight_pct": 0.38,
       "shares": 0,
       "item_code": null
     },
@@ -532,7 +532,7 @@
     },
     {
       "name": "현대커머셜478-4",
-      "weight_pct": 0.28,
+      "weight_pct": 0.29,
       "shares": 0,
       "item_code": null
     },

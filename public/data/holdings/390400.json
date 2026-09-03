@@ -1,90 +1,90 @@
 {
   "ticker": "390400",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "State Street SPDR S&P Kensho Smart Mobility ETF",
-      "weight_pct": 7.77,
+      "weight_pct": 7.76,
       "shares": 1111,
       "item_code": "HAIL.K"
     },
     {
       "name": "비아 트랜스포테이션",
-      "weight_pct": 2.69,
+      "weight_pct": 2.7,
       "shares": 492,
       "item_code": "VIA"
     },
     {
       "name": "리프트",
-      "weight_pct": 1.79,
+      "weight_pct": 1.81,
       "shares": 542,
       "item_code": "LYFT.O"
     },
     {
       "name": "혼다자동차 ADR",
-      "weight_pct": 1.73,
+      "weight_pct": 1.77,
       "shares": 278,
       "item_code": "HMC"
     },
     {
-      "name": "암바렐라",
-      "weight_pct": 1.57,
-      "shares": 116,
-      "item_code": "AMBA.O"
-    },
-    {
       "name": "우버",
-      "weight_pct": 1.56,
+      "weight_pct": 1.58,
       "shares": 105,
       "item_code": "UBER.K"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 1.56,
+      "weight_pct": 1.57,
       "shares": 36,
       "item_code": "NVDA.O"
     },
     {
-      "name": "앨리슨 트랜스미션 홀딩스",
+      "name": "제너럴 모터스",
       "weight_pct": 1.56,
+      "shares": 91,
+      "item_code": "GM"
+    },
+    {
+      "name": "암바렐라",
+      "weight_pct": 1.56,
+      "shares": 116,
+      "item_code": "AMBA.O"
+    },
+    {
+      "name": "앨리슨 트랜스미션 홀딩스",
+      "weight_pct": 1.55,
       "shares": 63,
       "item_code": "ALSN.K"
     },
     {
       "name": "리비안",
-      "weight_pct": 1.54,
+      "weight_pct": 1.52,
       "shares": 492,
       "item_code": "RIVN.O"
     },
     {
-      "name": "제너럴 모터스",
-      "weight_pct": 1.54,
-      "shares": 91,
-      "item_code": "GM"
-    },
-    {
-      "name": "언유주얼 머신스",
-      "weight_pct": 1.47,
-      "shares": 317,
-      "item_code": "UMAC.K"
-    },
-    {
       "name": "다우치",
-      "weight_pct": 1.47,
+      "weight_pct": 1.45,
       "shares": 1202,
       "item_code": "DCH"
     },
     {
+      "name": "언유주얼 머신스",
+      "weight_pct": 1.43,
+      "shares": 317,
+      "item_code": "UMAC.K"
+    },
+    {
       "name": "루시드 그룹",
-      "weight_pct": 1.46,
+      "weight_pct": 1.4,
       "shares": 1545,
       "item_code": "LCID.O"
     },
     {
-      "name": "테슬라",
-      "weight_pct": 1.36,
-      "shares": 19,
-      "item_code": "TSLA.O"
+      "name": "헤사이 그룹 ADR",
+      "weight_pct": 1.38,
+      "shares": 414,
+      "item_code": "HSAI.O"
     },
     {
       "name": "위라이드 ADR",
@@ -93,10 +93,10 @@
       "item_code": "WRD.O"
     },
     {
-      "name": "인디 세미컨덕터",
-      "weight_pct": 1.33,
-      "shares": 1843,
-      "item_code": "INDI.O"
+      "name": "테슬라",
+      "weight_pct": 1.34,
+      "shares": 19,
+      "item_code": "TSLA.O"
     },
     {
       "name": "모빌아이 글로벌",
@@ -105,16 +105,22 @@
       "item_code": "MBLY.O"
     },
     {
+      "name": "인디 세미컨덕터",
+      "weight_pct": 1.3,
+      "shares": 1843,
+      "item_code": "INDI.O"
+    },
+    {
       "name": "오로라 이노베이션",
-      "weight_pct": 1.32,
+      "weight_pct": 1.3,
       "shares": 1200,
       "item_code": "AUR.O"
     },
     {
-      "name": "헤사이 그룹 ADR",
-      "weight_pct": 1.3,
-      "shares": 414,
-      "item_code": "HSAI.O"
+      "name": "보그워너",
+      "weight_pct": 1.29,
+      "shares": 101,
+      "item_code": "BWA"
     },
     {
       "name": "카루",
@@ -127,12 +133,6 @@
       "weight_pct": 1.28,
       "shares": 1335,
       "item_code": "ASPN.K"
-    },
-    {
-      "name": "보그워너",
-      "weight_pct": 1.27,
-      "shares": 101,
-      "item_code": "BWA"
     },
     {
       "name": "퀄컴",
@@ -153,40 +153,34 @@
       "item_code": "LI.O"
     },
     {
-      "name": "포니 AI ADR",
-      "weight_pct": 1.23,
-      "shares": 887,
-      "item_code": "PONY.O"
-    },
-    {
       "name": "임브라에르 ADR",
-      "weight_pct": 1.22,
+      "weight_pct": 1.25,
       "shares": 87,
       "item_code": "EMBJ.K"
     },
     {
-      "name": "다나",
-      "weight_pct": 1.2,
-      "shares": 204,
-      "item_code": "DAN"
+      "name": "포니 AI ADR",
+      "weight_pct": 1.24,
+      "shares": 887,
+      "item_code": "PONY.O"
     },
     {
       "name": "솔리드 파워",
-      "weight_pct": 1.19,
+      "weight_pct": 1.21,
       "shares": 2621,
       "item_code": "SLDP.O"
     },
     {
-      "name": "삼사라",
-      "weight_pct": 1.15,
-      "shares": 144,
-      "item_code": "IOT"
+      "name": "다나",
+      "weight_pct": 1.19,
+      "shares": 204,
+      "item_code": "DAN"
     },
     {
-      "name": "니오 ADR",
-      "weight_pct": 1.15,
-      "shares": 1402,
-      "item_code": "NIO"
+      "name": "이투란 로케이션 앤 콘트롤",
+      "weight_pct": 1.16,
+      "shares": 114,
+      "item_code": "ITRN.O"
     },
     {
       "name": "알레그로 마이크로시스템즈",
@@ -195,28 +189,16 @@
       "item_code": "ALGM.O"
     },
     {
-      "name": "이투란 로케이션 앤 콘트롤",
-      "weight_pct": 1.14,
-      "shares": 114,
-      "item_code": "ITRN.O"
+      "name": "니오 ADR",
+      "weight_pct": 1.13,
+      "shares": 1402,
+      "item_code": "NIO"
     },
     {
-      "name": "오시코시",
+      "name": "삼사라",
       "weight_pct": 1.12,
-      "shares": 37,
-      "item_code": "OSK"
-    },
-    {
-      "name": "에이비스 버짓 그룹",
-      "weight_pct": 1.12,
-      "shares": 38,
-      "item_code": "CAR.O"
-    },
-    {
-      "name": "레드 캣 홀딩스",
-      "weight_pct": 1.11,
-      "shares": 666,
-      "item_code": "RCAT.O"
+      "shares": 144,
+      "item_code": "IOT"
     },
     {
       "name": "조비 에비에이션",
@@ -225,10 +207,34 @@
       "item_code": "JOBY.K"
     },
     {
+      "name": "오시코시",
+      "weight_pct": 1.09,
+      "shares": 37,
+      "item_code": "OSK"
+    },
+    {
+      "name": "레드 캣 홀딩스",
+      "weight_pct": 1.09,
+      "shares": 666,
+      "item_code": "RCAT.O"
+    },
+    {
       "name": "트림블",
       "weight_pct": 1.09,
       "shares": 93,
       "item_code": "TRMB.O"
+    },
+    {
+      "name": "에이비스 버짓 그룹",
+      "weight_pct": 1.09,
+      "shares": 38,
+      "item_code": "CAR.O"
+    },
+    {
+      "name": "토요타자동차 ADR",
+      "weight_pct": 1.08,
+      "shares": 27,
+      "item_code": "TM"
     },
     {
       "name": "샤오펑 ADR",
@@ -237,22 +243,16 @@
       "item_code": "XPEV.K"
     },
     {
-      "name": "플러그 파워",
-      "weight_pct": 1.07,
-      "shares": 2539,
-      "item_code": "PLUG.O"
-    },
-    {
       "name": "아르셀로미탈 ADR",
-      "weight_pct": 1.07,
+      "weight_pct": 1.08,
       "shares": 74,
       "item_code": "MT"
     },
     {
-      "name": "토요타자동차 ADR",
+      "name": "플러그 파워",
       "weight_pct": 1.05,
-      "shares": 27,
-      "item_code": "TM"
+      "shares": 2539,
+      "item_code": "PLUG.O"
     },
     {
       "name": "본티어",
@@ -267,16 +267,16 @@
       "item_code": "THRM.O"
     },
     {
+      "name": "ST 마이크로 일렉트로닉스 ADR",
+      "weight_pct": 1.01,
+      "shares": 102,
+      "item_code": "STM"
+    },
+    {
       "name": "파카",
       "weight_pct": 1.0,
       "shares": 41,
       "item_code": "PCAR.O"
-    },
-    {
-      "name": "ST 마이크로 일렉트로닉스 ADR",
-      "weight_pct": 1.0,
-      "shares": 102,
-      "item_code": "STM"
     },
     {
       "name": "그랩 홀딩스",
@@ -285,10 +285,16 @@
       "item_code": "GRAB.O"
     },
     {
-      "name": "AEVA TECHNOLOGIES ORD",
-      "weight_pct": 0.98,
-      "shares": 320,
-      "item_code": null
+      "name": "이리디움 커뮤니케이션스",
+      "weight_pct": 0.96,
+      "shares": 103,
+      "item_code": "IRDM.O"
+    },
+    {
+      "name": "에니 ADR",
+      "weight_pct": 0.96,
+      "shares": 87,
+      "item_code": "E"
     },
     {
       "name": "온 세미콘덕터",
@@ -297,10 +303,10 @@
       "item_code": "ON.O"
     },
     {
-      "name": "이리디움 커뮤니케이션스",
+      "name": "헌팅턴 잉걸스 인더스트리즈",
       "weight_pct": 0.95,
-      "shares": 103,
-      "item_code": "IRDM.O"
+      "shares": 16,
+      "item_code": "HII"
     },
     {
       "name": "헤이코",
@@ -309,94 +315,94 @@
       "item_code": "HEI"
     },
     {
-      "name": "마그나 인터내셔널",
+      "name": "AEVA TECHNOLOGIES ORD",
       "weight_pct": 0.94,
-      "shares": 73,
-      "item_code": "MGA"
-    },
-    {
-      "name": "헌팅턴 잉걸스 인더스트리즈",
-      "weight_pct": 0.93,
-      "shares": 16,
-      "item_code": "HII"
-    },
-    {
-      "name": "에니 ADR",
-      "weight_pct": 0.93,
-      "shares": 87,
-      "item_code": "E"
+      "shares": 320,
+      "item_code": null
     },
     {
       "name": "이항 홀딩스 ADR",
-      "weight_pct": 0.93,
+      "weight_pct": 0.94,
       "shares": 1064,
       "item_code": "EH.O"
     },
     {
-      "name": "코디악 AI",
-      "weight_pct": 0.92,
-      "shares": 1254,
-      "item_code": "KDK.O"
-    },
-    {
-      "name": "마이크로배스트 홀딩스",
-      "weight_pct": 0.9,
-      "shares": 6427,
-      "item_code": "MVST.O"
+      "name": "마그나 인터내셔널",
+      "weight_pct": 0.93,
+      "shares": 73,
+      "item_code": "MGA"
     },
     {
       "name": "포드 모터",
-      "weight_pct": 0.9,
+      "weight_pct": 0.91,
       "shares": 330,
       "item_code": "F"
     },
     {
-      "name": "네비우스 그룹",
-      "weight_pct": 0.89,
-      "shares": 22,
-      "item_code": "NBIS.O"
-    },
-    {
       "name": "알파벳 Class C",
-      "weight_pct": 0.87,
+      "weight_pct": 0.88,
       "shares": 13,
       "item_code": "GOOG.O"
     },
     {
-      "name": "아우스터",
-      "weight_pct": 0.82,
-      "shares": 123,
-      "item_code": "OUST.O"
+      "name": "마이크로배스트 홀딩스",
+      "weight_pct": 0.88,
+      "shares": 6427,
+      "item_code": "MVST.O"
+    },
+    {
+      "name": "네비우스 그룹",
+      "weight_pct": 0.88,
+      "shares": 22,
+      "item_code": "NBIS.O"
+    },
+    {
+      "name": "코디악 AI",
+      "weight_pct": 0.87,
+      "shares": 1254,
+      "item_code": "KDK.O"
     },
     {
       "name": "리어",
-      "weight_pct": 0.82,
+      "weight_pct": 0.83,
       "shares": 33,
       "item_code": "LEA"
     },
     {
       "name": "텍스트론",
-      "weight_pct": 0.81,
+      "weight_pct": 0.82,
       "shares": 51,
       "item_code": "TXT"
     },
     {
       "name": "센사타 테크놀로지스 홀딩",
-      "weight_pct": 0.8,
+      "weight_pct": 0.82,
       "shares": 100,
       "item_code": "ST"
     },
     {
+      "name": "블루 버드",
+      "weight_pct": 0.82,
+      "shares": 68,
+      "item_code": "BLBD.O"
+    },
+    {
+      "name": "아우스터",
+      "weight_pct": 0.81,
+      "shares": 123,
+      "item_code": "OUST.O"
+    },
+    {
       "name": "비스티온",
-      "weight_pct": 0.79,
+      "weight_pct": 0.8,
       "shares": 40,
       "item_code": "VC.O"
     },
     {
-      "name": "하이스터-예일",
-      "weight_pct": 0.79,
-      "shares": 120,
-      "item_code": "HY"
+      "name": "이카엑스 홀딩스",
+      "weight_pct": 0.8,
+      "shares": 3839,
+      "item_code": "ECX.O"
     },
     {
       "name": "빈패스트 오토",
@@ -405,40 +411,34 @@
       "item_code": "VFS.O"
     },
     {
-      "name": "발렌스 세미컨덕터",
+      "name": "하이스터-예일",
       "weight_pct": 0.78,
-      "shares": 2249,
-      "item_code": "VLN"
-    },
-    {
-      "name": "이카엑스 홀딩스",
-      "weight_pct": 0.78,
-      "shares": 3839,
-      "item_code": "ECX.O"
-    },
-    {
-      "name": "블루 버드",
-      "weight_pct": 0.78,
-      "shares": 68,
-      "item_code": "BLBD.O"
+      "shares": 120,
+      "item_code": "HY"
     },
     {
       "name": "가렛 모션",
-      "weight_pct": 0.77,
+      "weight_pct": 0.78,
       "shares": 147,
       "item_code": "GTX.O"
     },
     {
-      "name": "스텔란티스",
+      "name": "발렌스 세미컨덕터",
       "weight_pct": 0.77,
+      "shares": 2249,
+      "item_code": "VLN"
+    },
+    {
+      "name": "스텔란티스",
+      "weight_pct": 0.76,
       "shares": 718,
       "item_code": "STLA.K"
     },
     {
-      "name": "온다스",
-      "weight_pct": 0.75,
-      "shares": 507,
-      "item_code": "ONDS.O"
+      "name": "바이두 ADR",
+      "weight_pct": 0.76,
+      "shares": 40,
+      "item_code": "BIDU.O"
     },
     {
       "name": "렌트로닉",
@@ -453,38 +453,32 @@
       "item_code": "BLDP.O"
     },
     {
-      "name": "바이두 ADR",
-      "weight_pct": 0.74,
-      "shares": 40,
-      "item_code": "BIDU.O"
-    },
-    {
-      "name": "파워플리트",
-      "weight_pct": 0.72,
-      "shares": 1230,
-      "item_code": "AIOT.O"
-    },
-    {
       "name": "NXP 세미콘덕터",
-      "weight_pct": 0.72,
+      "weight_pct": 0.73,
       "shares": 16,
       "item_code": "NXPI.O"
     },
     {
       "name": "SES AI",
-      "weight_pct": 0.69,
+      "weight_pct": 0.71,
       "shares": 6851,
       "item_code": "SES"
     },
     {
-      "name": "KULR 테크놀로지 그룹",
-      "weight_pct": 0.66,
-      "shares": 1341,
-      "item_code": "KULR.K"
+      "name": "온다스",
+      "weight_pct": 0.71,
+      "shares": 507,
+      "item_code": "ONDS.O"
+    },
+    {
+      "name": "파워플리트",
+      "weight_pct": 0.71,
+      "shares": 1230,
+      "item_code": "AIOT.O"
     },
     {
       "name": "일렉트로바야",
-      "weight_pct": 0.66,
+      "weight_pct": 0.67,
       "shares": 515,
       "item_code": "ELVA.O"
     },
@@ -495,26 +489,32 @@
       "item_code": "ENPH.O"
     },
     {
-      "name": "서브 로보틱스",
-      "weight_pct": 0.64,
-      "shares": 676,
-      "item_code": "SERV.O"
+      "name": "KULR 테크놀로지 그룹",
+      "weight_pct": 0.65,
+      "shares": 1341,
+      "item_code": "KULR.K"
     },
     {
       "name": "모딘 매뉴팩처링",
-      "weight_pct": 0.63,
+      "weight_pct": 0.65,
       "shares": 18,
       "item_code": "MOD"
     },
     {
       "name": "앱티브",
-      "weight_pct": 0.63,
+      "weight_pct": 0.64,
       "shares": 72,
       "item_code": "APTV.K"
     },
     {
+      "name": "서브 로보틱스",
+      "weight_pct": 0.63,
+      "shares": 676,
+      "item_code": "SERV.O"
+    },
+    {
       "name": "솔라에지 테크놀로지스",
-      "weight_pct": 0.54,
+      "weight_pct": 0.56,
       "shares": 86,
       "item_code": "SEDG.O"
     },
@@ -532,8 +532,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.17,
-      "shares": 1256704,
+      "weight_pct": 0.19,
+      "shares": 1356709,
       "item_code": null
     }
   ]

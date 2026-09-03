@@ -1,10 +1,10 @@
 {
   "ticker": "160580",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "창고증권(구리)",
-      "weight_pct": 98.13,
+      "weight_pct": 98.14,
       "shares": 20128,
       "item_code": null
     },
@@ -16,8 +16,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.83,
-      "shares": 7532062,
+      "weight_pct": 1.82,
+      "shares": 7415729,
       "item_code": null
     },
     {

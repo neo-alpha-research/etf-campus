@@ -1,64 +1,64 @@
 {
   "ticker": "444490",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 8.22,
+      "weight_pct": 8.16,
       "shares": 272,
       "item_code": "NVDA.O"
     },
     {
       "name": "애플",
-      "weight_pct": 7.03,
+      "weight_pct": 7.26,
       "shares": 162,
       "item_code": "AAPL.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 5.68,
+      "weight_pct": 5.65,
       "shares": 82,
       "item_code": "MSFT.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 3.84,
+      "weight_pct": 3.79,
       "shares": 108,
       "item_code": "AMZN.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 3.13,
+      "weight_pct": 3.11,
       "shares": 67,
       "item_code": "GOOGL.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 2.82,
+      "weight_pct": 2.83,
       "shares": 55,
       "item_code": "AVGO.O"
     },
     {
       "name": "알파벳 Class C",
-      "weight_pct": 2.39,
+      "weight_pct": 2.38,
       "shares": 52,
       "item_code": "GOOG.O"
     },
     {
       "name": "메타",
-      "weight_pct": 1.89,
+      "weight_pct": 1.92,
       "shares": 24,
       "item_code": "META.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 1.62,
+      "weight_pct": 1.59,
       "shares": 12,
       "item_code": "MU.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 1.56,
+      "weight_pct": 1.52,
       "shares": 31,
       "item_code": "TSLA.O"
     },
@@ -69,44 +69,38 @@
       "item_code": "JPM"
     },
     {
+      "name": "일라이 릴리",
+      "weight_pct": 1.39,
+      "shares": 8,
+      "item_code": "LLY"
+    },
+    {
       "name": "버크셔 해서웨이 Class B",
       "weight_pct": 1.39,
       "shares": 20,
       "item_code": "BRKb"
     },
     {
-      "name": "일라이 릴리",
-      "weight_pct": 1.37,
-      "shares": 8,
-      "item_code": "LLY"
-    },
-    {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 1.15,
+      "weight_pct": 1.13,
       "shares": 18,
       "item_code": "AMD.O"
     },
     {
       "name": "엑슨모빌 홀딩스",
-      "weight_pct": 1.0,
+      "weight_pct": 1.03,
       "shares": 45,
       "item_code": "XOM"
     },
     {
       "name": "존슨앤드존슨",
-      "weight_pct": 0.96,
+      "weight_pct": 0.99,
       "shares": 26,
       "item_code": "JNJ"
     },
     {
-      "name": "원화예금",
-      "weight_pct": 0.94,
-      "shares": 9422526,
-      "item_code": null
-    },
-    {
       "name": "비자",
-      "weight_pct": 0.94,
+      "weight_pct": 0.93,
       "shares": 18,
       "item_code": "V"
     },
@@ -118,13 +112,13 @@
     },
     {
       "name": "월마트",
-      "weight_pct": 0.69,
+      "weight_pct": 0.7,
       "shares": 48,
       "item_code": "WMT.O"
     },
     {
       "name": "애브비",
-      "weight_pct": 0.68,
+      "weight_pct": 0.69,
       "shares": 19,
       "item_code": "ABBV.K"
     },
@@ -141,16 +135,22 @@
       "item_code": "CSCO.O"
     },
     {
-      "name": "팔란티어 테크놀로지스",
-      "weight_pct": 0.64,
-      "shares": 25,
-      "item_code": "PLTR.O"
-    },
-    {
       "name": "코스트코 홀세일",
       "weight_pct": 0.63,
       "shares": 4,
       "item_code": "COST.O"
+    },
+    {
+      "name": "원화예금",
+      "weight_pct": 0.63,
+      "shares": 6352934,
+      "item_code": null
+    },
+    {
+      "name": "팔란티어 테크놀로지스",
+      "weight_pct": 0.62,
+      "shares": 25,
+      "item_code": "PLTR.O"
     },
     {
       "name": "뱅크오브아메리카",
@@ -159,46 +159,52 @@
       "item_code": "BAC"
     },
     {
+      "name": "암페놀",
+      "weight_pct": 0.6,
+      "shares": 27,
+      "item_code": "APH"
+    },
+    {
       "name": "셰브론",
-      "weight_pct": 0.58,
+      "weight_pct": 0.59,
       "shares": 20,
       "item_code": "CVX"
     },
     {
-      "name": "램 리서치",
-      "weight_pct": 0.56,
-      "shares": 13,
-      "item_code": "LRCX.O"
-    },
-    {
       "name": "머크 앤 코",
-      "weight_pct": 0.54,
+      "weight_pct": 0.56,
       "shares": 27,
       "item_code": "MRK"
     },
     {
-      "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 0.54,
-      "shares": 8,
-      "item_code": "AMAT.O"
-    },
-    {
-      "name": "캐터필러",
-      "weight_pct": 0.54,
-      "shares": 5,
-      "item_code": "CAT"
+      "name": "램 리서치",
+      "weight_pct": 0.55,
+      "shares": 13,
+      "item_code": "LRCX.O"
     },
     {
       "name": "유나이티드헬스 그룹",
-      "weight_pct": 0.53,
+      "weight_pct": 0.54,
       "shares": 10,
       "item_code": "UNH"
+    },
+    {
+      "name": "캐터필러",
+      "weight_pct": 0.53,
+      "shares": 5,
+      "item_code": "CAT"
     },
     {
       "name": "GE 에어로스페이스",
       "weight_pct": 0.52,
       "shares": 11,
       "item_code": "GE"
+    },
+    {
+      "name": "어플라이드 머티어리얼즈",
+      "weight_pct": 0.52,
+      "shares": 8,
+      "item_code": "AMAT.O"
     },
     {
       "name": "넷플릭스",
@@ -220,27 +226,15 @@
     },
     {
       "name": "홈디포",
-      "weight_pct": 0.49,
+      "weight_pct": 0.48,
       "shares": 11,
       "item_code": "HD"
     },
     {
       "name": "아리스타 네트웍스",
-      "weight_pct": 0.46,
+      "weight_pct": 0.45,
       "shares": 17,
       "item_code": "ANET.K"
-    },
-    {
-      "name": "팔로 알토 네트웍스",
-      "weight_pct": 0.46,
-      "shares": 8,
-      "item_code": "PANW.O"
-    },
-    {
-      "name": "KLA",
-      "weight_pct": 0.44,
-      "shares": 18,
-      "item_code": "KLAC.O"
     },
     {
       "name": "골드만삭스",
@@ -255,22 +249,28 @@
       "item_code": "PM"
     },
     {
+      "name": "팔로 알토 네트웍스",
+      "weight_pct": 0.44,
+      "shares": 8,
+      "item_code": "PANW.O"
+    },
+    {
+      "name": "KLA",
+      "weight_pct": 0.43,
+      "shares": 18,
+      "item_code": "KLAC.O"
+    },
+    {
       "name": "RTX",
-      "weight_pct": 0.42,
+      "weight_pct": 0.41,
       "shares": 14,
       "item_code": "RTX"
     },
     {
       "name": "웰스파고",
-      "weight_pct": 0.39,
+      "weight_pct": 0.4,
       "shares": 33,
       "item_code": "WFC"
-    },
-    {
-      "name": "오라클",
-      "weight_pct": 0.38,
-      "shares": 18,
-      "item_code": "ORCL.K"
     },
     {
       "name": "모간스탠리",
@@ -279,10 +279,10 @@
       "item_code": "MS"
     },
     {
-      "name": "크라우드 스트라이크 홀딩스",
-      "weight_pct": 0.35,
-      "shares": 11,
-      "item_code": "CRWD.O"
+      "name": "오라클",
+      "weight_pct": 0.36,
+      "shares": 18,
+      "item_code": "ORCL.K"
     },
     {
       "name": "GE 버노바",
@@ -291,16 +291,10 @@
       "item_code": "GEV"
     },
     {
-      "name": "텍사스 인스트루먼트",
+      "name": "암젠",
       "weight_pct": 0.35,
-      "shares": 10,
-      "item_code": "TXN.O"
-    },
-    {
-      "name": "샌디스크",
-      "weight_pct": 0.34,
-      "shares": 1,
-      "item_code": "SNDK.O"
+      "shares": 5,
+      "item_code": "AMGN.O"
     },
     {
       "name": "린드",
@@ -309,22 +303,34 @@
       "item_code": "LIN.O"
     },
     {
-      "name": "암젠",
+      "name": "씨티그룹",
       "weight_pct": 0.34,
-      "shares": 5,
-      "item_code": "AMGN.O"
+      "shares": 18,
+      "item_code": "C"
+    },
+    {
+      "name": "텍사스 인스트루먼트",
+      "weight_pct": 0.34,
+      "shares": 10,
+      "item_code": "TXN.O"
+    },
+    {
+      "name": "샌디스크",
+      "weight_pct": 0.33,
+      "shares": 1,
+      "item_code": "SNDK.O"
+    },
+    {
+      "name": "크라우드 스트라이크 홀딩스",
+      "weight_pct": 0.33,
+      "shares": 11,
+      "item_code": "CRWD.O"
     },
     {
       "name": "써모 피셔 사이언티픽",
-      "weight_pct": 0.34,
+      "weight_pct": 0.33,
       "shares": 4,
       "item_code": "TMO"
-    },
-    {
-      "name": "씨티그룹",
-      "weight_pct": 0.33,
-      "shares": 18,
-      "item_code": "C"
     },
     {
       "name": "IBM(인터내셔널 비지니스 머신)",
@@ -345,10 +351,10 @@
       "item_code": "CRM"
     },
     {
-      "name": "암페놀",
+      "name": "펩시코",
       "weight_pct": 0.29,
-      "shares": 13,
-      "item_code": "APH"
+      "shares": 15,
+      "item_code": "PEP.O"
     },
     {
       "name": "맥도날드",
@@ -357,10 +363,10 @@
       "item_code": "MCD"
     },
     {
-      "name": "월트 디즈니",
+      "name": "길리어드 사이언시스",
       "weight_pct": 0.28,
-      "shares": 19,
-      "item_code": "DIS"
+      "shares": 13,
+      "item_code": "GILD.O"
     },
     {
       "name": "애보트 래보라토리",
@@ -369,28 +375,16 @@
       "item_code": "ABT"
     },
     {
-      "name": "펩시코",
-      "weight_pct": 0.28,
-      "shares": 15,
-      "item_code": "PEP.O"
-    },
-    {
       "name": "마벨 테크놀로지 그룹",
       "weight_pct": 0.27,
       "shares": 9,
       "item_code": "MRVL.O"
     },
     {
-      "name": "길리어드 사이언시스",
+      "name": "월트 디즈니",
       "weight_pct": 0.27,
-      "shares": 13,
-      "item_code": "GILD.O"
-    },
-    {
-      "name": "씨게이트",
-      "weight_pct": 0.27,
-      "shares": 2,
-      "item_code": "STX.O"
+      "shares": 19,
+      "item_code": "DIS"
     },
     {
       "name": "AT&T",
@@ -399,28 +393,16 @@
       "item_code": "T"
     },
     {
-      "name": "찰스 슈왑",
-      "weight_pct": 0.27,
-      "shares": 18,
-      "item_code": "SCHW.K"
-    },
-    {
-      "name": "퀄컴",
-      "weight_pct": 0.27,
-      "shares": 11,
-      "item_code": "QCOM.O"
-    },
-    {
-      "name": "아메리칸 익스프레스",
+      "name": "넥스트에라 에너지",
       "weight_pct": 0.26,
-      "shares": 5,
-      "item_code": "AXP"
+      "shares": 23,
+      "item_code": "NEE"
     },
     {
-      "name": "애널로그 디바이시스",
+      "name": "씨게이트",
       "weight_pct": 0.26,
-      "shares": 5,
-      "item_code": "ADI.O"
+      "shares": 2,
+      "item_code": "STX.O"
     },
     {
       "name": "유니온 퍼시픽",
@@ -429,10 +411,40 @@
       "item_code": "UNP"
     },
     {
-      "name": "넥스트에라 에너지",
+      "name": "찰스 슈왑",
+      "weight_pct": 0.26,
+      "shares": 18,
+      "item_code": "SCHW.K"
+    },
+    {
+      "name": "퀄컴",
+      "weight_pct": 0.26,
+      "shares": 11,
+      "item_code": "QCOM.O"
+    },
+    {
+      "name": "디어",
       "weight_pct": 0.25,
-      "shares": 23,
-      "item_code": "NEE"
+      "shares": 2,
+      "item_code": "DE"
+    },
+    {
+      "name": "아메리칸 익스프레스",
+      "weight_pct": 0.25,
+      "shares": 5,
+      "item_code": "AXP"
+    },
+    {
+      "name": "애널로그 디바이시스",
+      "weight_pct": 0.25,
+      "shares": 5,
+      "item_code": "ADI.O"
+    },
+    {
+      "name": "코노코필립스",
+      "weight_pct": 0.25,
+      "shares": 13,
+      "item_code": "COP"
     },
     {
       "name": "웰타워",
@@ -441,22 +453,10 @@
       "item_code": "WELL.K"
     },
     {
-      "name": "디어",
-      "weight_pct": 0.24,
-      "shares": 2,
-      "item_code": "DE"
-    },
-    {
       "name": "보잉",
       "weight_pct": 0.24,
       "shares": 8,
       "item_code": "BA"
-    },
-    {
-      "name": "코노코필립스",
-      "weight_pct": 0.24,
-      "shares": 13,
-      "item_code": "COP"
     },
     {
       "name": "화이자",
@@ -471,18 +471,6 @@
       "item_code": "BLK"
     },
     {
-      "name": "부킹 홀딩스",
-      "weight_pct": 0.23,
-      "shares": 8,
-      "item_code": "BKNG.O"
-    },
-    {
-      "name": "이튼",
-      "weight_pct": 0.23,
-      "shares": 4,
-      "item_code": "ETN"
-    },
-    {
       "name": "웨스턴 디지털",
       "weight_pct": 0.23,
       "shares": 3,
@@ -493,6 +481,18 @@
       "weight_pct": 0.23,
       "shares": 22,
       "item_code": "UBER.K"
+    },
+    {
+      "name": "부킹 홀딩스",
+      "weight_pct": 0.22,
+      "shares": 8,
+      "item_code": "BKNG.O"
+    },
+    {
+      "name": "이튼",
+      "weight_pct": 0.22,
+      "shares": 4,
+      "item_code": "ETN"
     },
     {
       "name": "TJX 컴퍼니스",
@@ -507,22 +507,10 @@
       "item_code": "NOW"
     },
     {
-      "name": "뉴몬트",
-      "weight_pct": 0.2,
-      "shares": 11,
-      "item_code": "NEM"
-    },
-    {
-      "name": "인튜이티브 서지컬",
-      "weight_pct": 0.2,
-      "shares": 3,
-      "item_code": "ISRG.O"
-    },
-    {
-      "name": "다나허",
-      "weight_pct": 0.2,
-      "shares": 6,
-      "item_code": "DHR"
+      "name": "버텍스 파마슈티컬",
+      "weight_pct": 0.21,
+      "shares": 2,
+      "item_code": "VRTX.O"
     },
     {
       "name": "브리스톨-마이어스 스큅",
@@ -531,28 +519,34 @@
       "item_code": "BMY"
     },
     {
-      "name": "버텍스 파마슈티컬",
+      "name": "S&P 글로벌",
       "weight_pct": 0.2,
-      "shares": 2,
-      "item_code": "VRTX.O"
+      "shares": 3,
+      "item_code": "SPGI.K"
     },
     {
-      "name": "델테크놀로지",
+      "name": "뉴몬트",
+      "weight_pct": 0.19,
+      "shares": 11,
+      "item_code": "NEM"
+    },
+    {
+      "name": "인튜이티브 서지컬",
       "weight_pct": 0.19,
       "shares": 3,
-      "item_code": "DELL.K"
+      "item_code": "ISRG.O"
+    },
+    {
+      "name": "다나허",
+      "weight_pct": 0.19,
+      "shares": 6,
+      "item_code": "DHR"
     },
     {
       "name": "캐피털 원 파이낸셜",
       "weight_pct": 0.19,
       "shares": 6,
       "item_code": "COF"
-    },
-    {
-      "name": "S&P 글로벌",
-      "weight_pct": 0.19,
-      "shares": 3,
-      "item_code": "SPGI.K"
     },
     {
       "name": "프로로지스",
@@ -565,6 +559,12 @@
       "weight_pct": 0.19,
       "shares": 6,
       "item_code": "PGR"
+    },
+    {
+      "name": "델테크놀로지",
+      "weight_pct": 0.18,
+      "shares": 3,
+      "item_code": "DELL.K"
     },
     {
       "name": "처브",
@@ -583,12 +583,6 @@
       "weight_pct": 0.18,
       "shares": 12,
       "item_code": "SBUX.O"
-    },
-    {
-      "name": "로우스 컴퍼니",
-      "weight_pct": 0.17,
-      "shares": 6,
-      "item_code": "LOW"
     },
     {
       "name": "코닝",
@@ -639,16 +633,22 @@
       "item_code": "MPC"
     },
     {
+      "name": "로우스 컴퍼니",
+      "weight_pct": 0.16,
+      "shares": 6,
+      "item_code": "LOW"
+    },
+    {
       "name": "록히드 마틴",
       "weight_pct": 0.16,
       "shares": 2,
       "item_code": "LMT"
     },
     {
-      "name": "프리포트 맥모란",
+      "name": "매케슨",
       "weight_pct": 0.16,
-      "shares": 15,
-      "item_code": "FCX"
+      "shares": 1,
+      "item_code": "MCK"
     },
     {
       "name": "뉴욕멜론은행",
@@ -663,10 +663,16 @@
       "item_code": "SYK"
     },
     {
-      "name": "매케슨",
+      "name": "하우멧 에어로스페이스",
       "weight_pct": 0.15,
-      "shares": 1,
-      "item_code": "MCK"
+      "shares": 4,
+      "item_code": "HWM"
+    },
+    {
+      "name": "프리포트 맥모란",
+      "weight_pct": 0.15,
+      "shares": 15,
+      "item_code": "FCX"
     },
     {
       "name": "포티넷",
@@ -685,6 +691,18 @@
       "weight_pct": 0.15,
       "shares": 3,
       "item_code": "VLO"
+    },
+    {
+      "name": "서던",
+      "weight_pct": 0.15,
+      "shares": 12,
+      "item_code": "SO"
+    },
+    {
+      "name": "필립스 66",
+      "weight_pct": 0.15,
+      "shares": 4,
+      "item_code": "PSX"
     },
     {
       "name": "버티브 홀딩스",
@@ -711,12 +729,6 @@
       "item_code": "INTU.O"
     },
     {
-      "name": "하우멧 에어로스페이스",
-      "weight_pct": 0.14,
-      "shares": 4,
-      "item_code": "HWM"
-    },
-    {
       "name": "제너럴 다이내믹스",
       "weight_pct": 0.14,
       "shares": 2,
@@ -729,12 +741,6 @@
       "item_code": "TT"
     },
     {
-      "name": "CSX",
-      "weight_pct": 0.14,
-      "shares": 20,
-      "item_code": "CSX.O"
-    },
-    {
       "name": "컴캐스트",
       "weight_pct": 0.14,
       "shares": 39,
@@ -745,18 +751,6 @@
       "weight_pct": 0.14,
       "shares": 17,
       "item_code": "USB"
-    },
-    {
-      "name": "서던",
-      "weight_pct": 0.14,
-      "shares": 12,
-      "item_code": "SO"
-    },
-    {
-      "name": "필립스 66",
-      "weight_pct": 0.14,
-      "shares": 4,
-      "item_code": "PSX"
     },
     {
       "name": "마쉬 앤 맥레넌 컴퍼니스",
@@ -777,10 +771,10 @@
       "item_code": "CEG.O"
     },
     {
-      "name": "SLB",
+      "name": "엘레반스 헬스",
       "weight_pct": 0.13,
-      "shares": 16,
-      "item_code": "SLB"
+      "shares": 2,
+      "item_code": "ELV"
     },
     {
       "name": "윌리엄스 컴퍼니즈",
@@ -789,10 +783,10 @@
       "item_code": "WMB"
     },
     {
-      "name": "케이던스 디자인 시스템즈",
+      "name": "CSX",
       "weight_pct": 0.13,
-      "shares": 3,
-      "item_code": "CDNS.O"
+      "shares": 20,
+      "item_code": "CSX.O"
     },
     {
       "name": "쓰리엠 (3M)",
@@ -819,6 +813,12 @@
       "item_code": "APP.O"
     },
     {
+      "name": "모토로라 솔루션스",
+      "weight_pct": 0.12,
+      "shares": 1,
+      "item_code": "MSI"
+    },
+    {
       "name": "에머슨 일렉트릭",
       "weight_pct": 0.12,
       "shares": 6,
@@ -829,6 +829,12 @@
       "weight_pct": 0.12,
       "shares": 4,
       "item_code": "DASH.O"
+    },
+    {
+      "name": "SLB",
+      "weight_pct": 0.12,
+      "shares": 16,
+      "item_code": "SLB"
     },
     {
       "name": "존슨 컨트롤스 인터내셔널",
@@ -843,10 +849,16 @@
       "item_code": "AMT"
     },
     {
-      "name": "엘레반스 헬스",
+      "name": "케이던스 디자인 시스템즈",
       "weight_pct": 0.12,
-      "shares": 2,
-      "item_code": "ELV"
+      "shares": 3,
+      "item_code": "CDNS.O"
+    },
+    {
+      "name": "웨이스트 매니지먼트",
+      "weight_pct": 0.12,
+      "shares": 4,
+      "item_code": "WM"
     },
     {
       "name": "T-모바일 US",
@@ -855,22 +867,10 @@
       "item_code": "TMUS.O"
     },
     {
-      "name": "시놉시스",
-      "weight_pct": 0.12,
-      "shares": 2,
-      "item_code": "SNPS.O"
-    },
-    {
       "name": "리제네론 파마슈티컬스",
       "weight_pct": 0.12,
       "shares": 1,
       "item_code": "REGN.O"
-    },
-    {
-      "name": "모토로라 솔루션스",
-      "weight_pct": 0.11,
-      "shares": 1,
-      "item_code": "MSI"
     },
     {
       "name": "노퍽서던",
@@ -895,12 +895,6 @@
       "weight_pct": 0.11,
       "shares": 14,
       "item_code": "MDLZ.O"
-    },
-    {
-      "name": "무디스",
-      "weight_pct": 0.11,
-      "shares": 1,
-      "item_code": "MCO"
     },
     {
       "name": "EOG 리소시스",
@@ -939,10 +933,10 @@
       "item_code": "ABNB.O"
     },
     {
-      "name": "웨이스트 매니지먼트",
+      "name": "시그나",
       "weight_pct": 0.11,
-      "shares": 4,
-      "item_code": "WM"
+      "shares": 2,
+      "item_code": "CI"
     },
     {
       "name": "UPS(유나이티드 파셀 서비스)",
@@ -963,10 +957,22 @@
       "item_code": "TGT"
     },
     {
+      "name": "시놉시스",
+      "weight_pct": 0.11,
+      "shares": 2,
+      "item_code": "SNPS.O"
+    },
+    {
       "name": "셔윈-윌리엄즈",
       "weight_pct": 0.11,
       "shares": 2,
       "item_code": "SHW"
+    },
+    {
+      "name": "로스 스토어스",
+      "weight_pct": 0.11,
+      "shares": 3,
+      "item_code": "ROST.O"
     },
     {
       "name": "허니웰 인터내셔널",
@@ -975,10 +981,10 @@
       "item_code": "HON.O"
     },
     {
-      "name": "루멘텀 홀딩스",
+      "name": "무디스",
       "weight_pct": 0.1,
-      "shares": 0,
-      "item_code": "LITE.O"
+      "shares": 1,
+      "item_code": "MCO"
     },
     {
       "name": "노스롭 그루만",
@@ -1047,12 +1053,6 @@
       "item_code": "BSX"
     },
     {
-      "name": "시그나",
-      "weight_pct": 0.1,
-      "shares": 2,
-      "item_code": "CI"
-    },
-    {
       "name": "신타스",
       "weight_pct": 0.1,
       "shares": 3,
@@ -1077,10 +1077,10 @@
       "item_code": "SPG"
     },
     {
-      "name": "로스 스토어스",
-      "weight_pct": 0.1,
-      "shares": 3,
-      "item_code": "ROST.O"
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 0.09,
+      "shares": 0,
+      "item_code": "LITE.O"
     },
     {
       "name": "CRH",
@@ -1125,6 +1125,12 @@
       "item_code": "KMI"
     },
     {
+      "name": "TE 커넥티비티",
+      "weight_pct": 0.09,
+      "shares": 3,
+      "item_code": "TEL"
+    },
+    {
       "name": "로얄 캐리비안 크루즈",
       "weight_pct": 0.09,
       "shares": 2,
@@ -1161,16 +1167,16 @@
       "item_code": "TRGP.K"
     },
     {
-      "name": "블랙스톤",
-      "weight_pct": 0.08,
-      "shares": 4,
-      "item_code": "BX"
-    },
-    {
       "name": "뉴코",
       "weight_pct": 0.08,
       "shares": 2,
       "item_code": "NUE"
+    },
+    {
+      "name": "모더나",
+      "weight_pct": 0.08,
+      "shares": 3,
+      "item_code": "MRNA.O"
     },
     {
       "name": "모놀리식 파워 시스템즈",
@@ -1197,28 +1203,10 @@
       "item_code": "CTVA.K"
     },
     {
-      "name": "TE 커넥티비티",
-      "weight_pct": 0.08,
-      "shares": 3,
-      "item_code": "TEL"
-    },
-    {
       "name": "NXP 세미콘덕터",
       "weight_pct": 0.08,
       "shares": 2,
       "item_code": "NXPI.O"
-    },
-    {
-      "name": "아메텍",
-      "weight_pct": 0.08,
-      "shares": 2,
-      "item_code": "AME"
-    },
-    {
-      "name": "오토데스크",
-      "weight_pct": 0.08,
-      "shares": 2,
-      "item_code": "ADSK.O"
     },
     {
       "name": "패스널",
@@ -1237,12 +1225,6 @@
       "weight_pct": 0.08,
       "shares": 0,
       "item_code": "URI"
-    },
-    {
-      "name": "테라다인",
-      "weight_pct": 0.08,
-      "shares": 1,
-      "item_code": "TER.O"
     },
     {
       "name": "셈프라 에너지",
@@ -1269,6 +1251,12 @@
       "item_code": "HONA.O"
     },
     {
+      "name": "블랙스톤",
+      "weight_pct": 0.07,
+      "shares": 4,
+      "item_code": "BX"
+    },
+    {
       "name": "코히런트",
       "weight_pct": 0.07,
       "shares": 2,
@@ -1287,22 +1275,10 @@
       "item_code": "CVNA.K"
     },
     {
-      "name": "나이키",
-      "weight_pct": 0.07,
-      "shares": 13,
-      "item_code": "NKE"
-    },
-    {
       "name": "메트라이프",
       "weight_pct": 0.07,
       "shares": 5,
       "item_code": "MET"
-    },
-    {
-      "name": "모더나",
-      "weight_pct": 0.07,
-      "shares": 3,
-      "item_code": "MRNA.O"
     },
     {
       "name": "엔터지",
@@ -1317,10 +1293,22 @@
       "item_code": "EW"
     },
     {
+      "name": "이베이",
+      "weight_pct": 0.07,
+      "shares": 4,
+      "item_code": "EBAY.O"
+    },
+    {
       "name": "델타 에어라인스",
       "weight_pct": 0.07,
       "shares": 7,
       "item_code": "DAL"
+    },
+    {
+      "name": "휴마나",
+      "weight_pct": 0.07,
+      "shares": 1,
+      "item_code": "HUM"
     },
     {
       "name": "W W 그레인저",
@@ -1347,6 +1335,18 @@
       "item_code": "AFL"
     },
     {
+      "name": "아메텍",
+      "weight_pct": 0.07,
+      "shares": 2,
+      "item_code": "AME"
+    },
+    {
+      "name": "오토데스크",
+      "weight_pct": 0.07,
+      "shares": 2,
+      "item_code": "ADSK.O"
+    },
+    {
       "name": "벡톤 디킨슨 앤 코",
       "weight_pct": 0.07,
       "shares": 3,
@@ -1365,10 +1365,10 @@
       "item_code": "CMG"
     },
     {
-      "name": "웨스팅하우스 에어 브레이크 테크놀로지",
+      "name": "테라다인",
       "weight_pct": 0.07,
       "shares": 1,
-      "item_code": "WAB"
+      "item_code": "TER.O"
     },
     {
       "name": "스테이트 스트리트",
@@ -1381,6 +1381,12 @@
       "weight_pct": 0.07,
       "shares": 1,
       "item_code": "PSA"
+    },
+    {
+      "name": "페이팔 홀딩스",
+      "weight_pct": 0.07,
+      "shares": 9,
+      "item_code": "PYPL.O"
     },
     {
       "name": "퍼거슨 엔터프라이즈",
@@ -1407,6 +1413,12 @@
       "item_code": "NDAQ.O"
     },
     {
+      "name": "나이키",
+      "weight_pct": 0.06,
+      "shares": 13,
+      "item_code": "NKE"
+    },
+    {
       "name": "옥시덴털 페트롤리움",
       "weight_pct": 0.06,
       "shares": 8,
@@ -1419,10 +1431,10 @@
       "item_code": "MSCI.K"
     },
     {
-      "name": "이베이",
+      "name": "비브마크 레지덴셜",
       "weight_pct": 0.06,
-      "shares": 4,
-      "item_code": "EBAY.O"
+      "shares": 6,
+      "item_code": "VMRK.K"
     },
     {
       "name": "아이큐비아 홀딩스",
@@ -1441,12 +1453,6 @@
       "weight_pct": 0.06,
       "shares": 0,
       "item_code": "IDXX.O"
-    },
-    {
-      "name": "휴마나",
-      "weight_pct": 0.06,
-      "shares": 1,
-      "item_code": "HUM"
     },
     {
       "name": "큐리그 닥터 페퍼",
@@ -1485,16 +1491,22 @@
       "item_code": "EXC.O"
     },
     {
-      "name": "액손 엔터프라이스",
+      "name": "아처 대니얼스 미들랜드",
       "weight_pct": 0.06,
-      "shares": 0,
-      "item_code": "AXON.O"
+      "shares": 5,
+      "item_code": "ADM"
     },
     {
       "name": "염 브랜즈",
       "weight_pct": 0.06,
       "shares": 3,
       "item_code": "YUM"
+    },
+    {
+      "name": "워크데이",
+      "weight_pct": 0.06,
+      "shares": 2,
+      "item_code": "WDAY.O"
     },
     {
       "name": "CBRE 그룹",
@@ -1509,10 +1521,10 @@
       "item_code": "CARR.K"
     },
     {
-      "name": "코인베이스 글로벌",
+      "name": "웨스팅하우스 에어 브레이크 테크놀로지",
       "weight_pct": 0.06,
-      "shares": 2,
-      "item_code": "COIN.O"
+      "shares": 1,
+      "item_code": "WAB"
     },
     {
       "name": "비스트라",
@@ -1557,12 +1569,6 @@
       "item_code": "PRU"
     },
     {
-      "name": "페이팔 홀딩스",
-      "weight_pct": 0.06,
-      "shares": 9,
-      "item_code": "PYPL.O"
-    },
-    {
       "name": "페이첵스",
       "weight_pct": 0.06,
       "shares": 3,
@@ -1599,12 +1605,6 @@
       "item_code": "MCHP.O"
     },
     {
-      "name": "비브마크 레지덴셜",
-      "weight_pct": 0.05,
-      "shares": 6,
-      "item_code": "VMRK.K"
-    },
-    {
       "name": "아이언 마운틴",
       "weight_pct": 0.05,
       "shares": 3,
@@ -1633,6 +1633,12 @@
       "weight_pct": 0.05,
       "shares": 2,
       "item_code": "DHI"
+    },
+    {
+      "name": "크라운 캐슬",
+      "weight_pct": 0.05,
+      "shares": 4,
+      "item_code": "CCI"
     },
     {
       "name": "하트포드 인슈어런스 그룹",
@@ -1665,16 +1671,16 @@
       "item_code": "EXPE.O"
     },
     {
-      "name": "아처 대니얼스 미들랜드",
+      "name": "액손 엔터프라이스",
       "weight_pct": 0.05,
-      "shares": 5,
-      "item_code": "ADM"
+      "shares": 0,
+      "item_code": "AXON.O"
     },
     {
-      "name": "워크데이",
+      "name": "코인베이스 글로벌",
       "weight_pct": 0.05,
       "shares": 2,
-      "item_code": "WDAY.O"
+      "item_code": "COIN.O"
     },
     {
       "name": "콘솔리데이티드 에디슨",
@@ -1797,12 +1803,6 @@
       "item_code": "DTE"
     },
     {
-      "name": "크라운 캐슬",
-      "weight_pct": 0.04,
-      "shares": 4,
-      "item_code": "CCI"
-    },
-    {
       "name": "잉가솔랜드",
       "weight_pct": 0.04,
       "shares": 3,
@@ -1885,12 +1885,6 @@
       "weight_pct": 0.04,
       "shares": 4,
       "item_code": "ZTS"
-    },
-    {
-      "name": "윌리엄 소노마",
-      "weight_pct": 0.04,
-      "shares": 1,
-      "item_code": "WSM"
     },
     {
       "name": "바이오젠",
@@ -2025,12 +2019,6 @@
       "item_code": "DRI"
     },
     {
-      "name": "인터내셔널 페이퍼",
-      "weight_pct": 0.03,
-      "shares": 5,
-      "item_code": "IP"
-    },
-    {
       "name": "인터내셔널 플레이버스 & 프레그런스",
       "weight_pct": 0.03,
       "shares": 2,
@@ -2145,6 +2133,12 @@
       "item_code": "XYL"
     },
     {
+      "name": "윌리엄 소노마",
+      "weight_pct": 0.03,
+      "shares": 1,
+      "item_code": "WSM"
+    },
+    {
       "name": "브라운 & 브라운",
       "weight_pct": 0.03,
       "shares": 3,
@@ -2203,6 +2197,12 @@
       "weight_pct": 0.03,
       "shares": 2,
       "item_code": "VLTO.K"
+    },
+    {
+      "name": "울타 뷰티",
+      "weight_pct": 0.03,
+      "shares": 0,
+      "item_code": "ULTA.O"
     },
     {
       "name": "텍사스 퍼시픽 랜드",
@@ -2355,6 +2355,12 @@
       "item_code": "INVH.K"
     },
     {
+      "name": "인터내셔널 페이퍼",
+      "weight_pct": 0.02,
+      "shares": 5,
+      "item_code": "IP"
+    },
+    {
       "name": "쿠퍼 컴퍼니스",
       "weight_pct": 0.02,
       "shares": 2,
@@ -2401,12 +2407,6 @@
       "weight_pct": 0.02,
       "shares": 7,
       "item_code": "KIM"
-    },
-    {
-      "name": "폭스 Class A",
-      "weight_pct": 0.02,
-      "shares": 2,
-      "item_code": "FOXA.O"
     },
     {
       "name": "에베레스트 그룹",
@@ -2541,12 +2541,6 @@
       "item_code": "VTRS.O"
     },
     {
-      "name": "울타 뷰티",
-      "weight_pct": 0.02,
-      "shares": 0,
-      "item_code": "ULTA.O"
-    },
-    {
       "name": "타이슨 푸드",
       "weight_pct": 0.02,
       "shares": 3,
@@ -2593,6 +2587,12 @@
       "weight_pct": 0.02,
       "shares": 5,
       "item_code": "LUV"
+    },
+    {
+      "name": "솔벤텀",
+      "weight_pct": 0.02,
+      "shares": 1,
+      "item_code": "SOLV.K"
     },
     {
       "name": "스냅-온",
@@ -2733,6 +2733,12 @@
       "item_code": "FOX.O"
     },
     {
+      "name": "폭스 Class A",
+      "weight_pct": 0.01,
+      "shares": 2,
+      "item_code": "FOXA.O"
+    },
+    {
       "name": "노르웨이지안 크루즈 라인 홀딩스",
       "weight_pct": 0.01,
       "shares": 5,
@@ -2851,12 +2857,6 @@
       "weight_pct": 0.01,
       "shares": 0,
       "item_code": "TKO"
-    },
-    {
-      "name": "솔벤텀",
-      "weight_pct": 0.01,
-      "shares": 1,
-      "item_code": "SOLV.K"
     },
     {
       "name": "J. M. 스머커",

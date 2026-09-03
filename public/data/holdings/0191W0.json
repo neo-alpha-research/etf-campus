@@ -1,22 +1,28 @@
 {
   "ticker": "0191W0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고채권03375-3103(26-3)",
-      "weight_pct": 10.58,
+      "weight_pct": 10.56,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 10.0,
-      "shares": 10097174,
+      "weight_pct": 10.01,
+      "shares": 10101316,
       "item_code": null
     },
     {
       "name": "산업금융채권26신이0300-0720-1",
-      "weight_pct": 8.3,
+      "weight_pct": 8.29,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK307-2",
+      "weight_pct": 8.28,
       "shares": 0,
       "item_code": null
     },
@@ -27,8 +33,8 @@
       "item_code": null
     },
     {
-      "name": "SK307-2",
-      "weight_pct": 8.27,
+      "name": "포스코인터내셔널33-2",
+      "weight_pct": 8.26,
       "shares": 0,
       "item_code": null
     },
@@ -39,32 +45,26 @@
       "item_code": null
     },
     {
-      "name": "포스코인터내셔널33-2",
-      "weight_pct": 8.25,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "하나캐피탈448-5",
-      "weight_pct": 8.22,
+      "weight_pct": 8.23,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "아이비케이캐피탈345-3",
-      "weight_pct": 8.18,
+      "weight_pct": 8.19,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3003(25-3)",
-      "weight_pct": 7.99,
+      "weight_pct": 7.98,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03500-2906(26-5)",
-      "weight_pct": 5.77,
+      "weight_pct": 5.76,
       "shares": 0,
       "item_code": null
     },
@@ -76,7 +76,7 @@
     },
     {
       "name": "현대카드927-1",
-      "weight_pct": 3.7,
+      "weight_pct": 3.71,
       "shares": 0,
       "item_code": null
     },

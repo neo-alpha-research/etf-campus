@@ -1,34 +1,34 @@
 {
   "ticker": "241180",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "어드반테스트",
-      "weight_pct": 12.21,
+      "weight_pct": 12.12,
       "shares": 290,
       "item_code": "6857.T"
     },
     {
       "name": "패스트리테일링",
-      "weight_pct": 8.75,
+      "weight_pct": 8.62,
       "shares": 96,
       "item_code": "9983.T"
     },
     {
       "name": "도쿄일렉트론",
-      "weight_pct": 8.52,
+      "weight_pct": 8.31,
       "shares": 120,
       "item_code": "8035.T"
     },
     {
       "name": "소프트뱅크 그룹",
-      "weight_pct": 6.28,
+      "weight_pct": 6.36,
       "shares": 966,
       "item_code": "9984.T"
     },
     {
       "name": "리쿠르트 홀딩스",
-      "weight_pct": 2.75,
+      "weight_pct": 2.64,
       "shares": 120,
       "item_code": "6098.T"
     },
@@ -40,37 +40,37 @@
     },
     {
       "name": "이비덴",
-      "weight_pct": 2.05,
+      "weight_pct": 2.07,
       "shares": 80,
       "item_code": "4062.T"
     },
     {
       "name": "KDDI",
-      "weight_pct": 1.78,
+      "weight_pct": 1.81,
       "shares": 483,
       "item_code": "9433.T"
     },
     {
       "name": "키옥시아 홀딩스",
-      "weight_pct": 1.76,
+      "weight_pct": 1.8,
       "shares": 28,
       "item_code": "285A.T"
     },
     {
       "name": "후지쿠라",
-      "weight_pct": 1.66,
+      "weight_pct": 1.6,
       "shares": 241,
       "item_code": "5803.T"
     },
     {
       "name": "화낙",
-      "weight_pct": 1.52,
+      "weight_pct": 1.51,
       "shares": 201,
       "item_code": "6954.T"
     },
     {
       "name": "신에츠화학",
-      "weight_pct": 1.51,
+      "weight_pct": 1.5,
       "shares": 201,
       "item_code": "4063.T"
     },
@@ -82,19 +82,19 @@
     },
     {
       "name": "도요타쯔우쇼",
-      "weight_pct": 1.12,
+      "weight_pct": 1.16,
       "shares": 120,
       "item_code": "8015.T"
     },
     {
       "name": "코나미 그룹",
-      "weight_pct": 1.11,
+      "weight_pct": 1.1,
       "shares": 40,
       "item_code": "9766.T"
     },
     {
       "name": "다이킨공업",
-      "weight_pct": 1.06,
+      "weight_pct": 1.05,
       "shares": 40,
       "item_code": "6367.T"
     },
@@ -106,49 +106,49 @@
     },
     {
       "name": "테루모",
-      "weight_pct": 1.01,
+      "weight_pct": 1.02,
       "shares": 322,
       "item_code": "4543.T"
     },
     {
       "name": "소니 그룹",
-      "weight_pct": 1.01,
+      "weight_pct": 1.02,
       "shares": 201,
       "item_code": "6758.T"
     },
     {
       "name": "니토덴코",
-      "weight_pct": 0.88,
+      "weight_pct": 0.9,
       "shares": 201,
       "item_code": "6988.T"
     },
     {
       "name": "무라타제작소",
-      "weight_pct": 0.86,
+      "weight_pct": 0.88,
       "shares": 96,
       "item_code": "6981.T"
     },
     {
       "name": "반다이남코 홀딩스",
-      "weight_pct": 0.86,
+      "weight_pct": 0.87,
       "shares": 120,
       "item_code": "7832.T"
     },
     {
       "name": "토요타자동차",
-      "weight_pct": 0.79,
+      "weight_pct": 0.81,
       "shares": 201,
       "item_code": "7203.T"
     },
     {
       "name": "미쓰비시상사",
-      "weight_pct": 0.72,
+      "weight_pct": 0.74,
       "shares": 120,
       "item_code": "8058.T"
     },
     {
       "name": "레이져테크",
-      "weight_pct": 0.67,
+      "weight_pct": 0.66,
       "shares": 16,
       "item_code": "6920.T"
     },
@@ -160,39 +160,39 @@
     },
     {
       "name": "오츠카 홀딩스",
-      "weight_pct": 0.61,
+      "weight_pct": 0.62,
       "shares": 40,
       "item_code": "4578.T"
     },
     {
       "name": "호야",
-      "weight_pct": 0.61,
+      "weight_pct": 0.62,
       "shares": 20,
       "item_code": "7741.T"
     },
     {
       "name": "아스텔라스제약",
-      "weight_pct": 0.59,
+      "weight_pct": 0.6,
       "shares": 201,
       "item_code": "4503.T"
     },
     {
       "name": "도쿄마린홀딩스",
-      "weight_pct": 0.58,
+      "weight_pct": 0.59,
       "shares": 60,
       "item_code": "8766.T"
     },
     {
       "name": "디스코",
-      "weight_pct": 0.58,
+      "weight_pct": 0.57,
       "shares": 8,
       "item_code": "6146.T"
     },
     {
-      "name": "아지노모토",
+      "name": "이토추상사",
       "weight_pct": 0.54,
-      "shares": 80,
-      "item_code": "2802.T"
+      "shares": 201,
+      "item_code": "8001.T"
     },
     {
       "name": "스크린 홀딩스",
@@ -201,26 +201,26 @@
       "item_code": "7735.T"
     },
     {
-      "name": "이토추상사",
+      "name": "아지노모토",
       "weight_pct": 0.53,
-      "shares": 201,
-      "item_code": "8001.T"
+      "shares": 80,
+      "item_code": "2802.T"
     },
     {
       "name": "후지필름 홀딩스",
-      "weight_pct": 0.51,
+      "weight_pct": 0.52,
       "shares": 120,
       "item_code": "4901.T"
     },
     {
       "name": "혼다자동차",
-      "weight_pct": 0.51,
+      "weight_pct": 0.52,
       "shares": 241,
       "item_code": "7267.T"
     },
     {
       "name": "미쓰이물산",
-      "weight_pct": 0.5,
+      "weight_pct": 0.52,
       "shares": 80,
       "item_code": "8031.T"
     },
@@ -237,28 +237,28 @@
       "item_code": "6976.T"
     },
     {
+      "name": "스즈키자동차",
+      "weight_pct": 0.45,
+      "shares": 161,
+      "item_code": "7269.T"
+    },
+    {
       "name": "닌텐도",
       "weight_pct": 0.45,
       "shares": 40,
       "item_code": "7974.T"
     },
     {
+      "name": "시오노기제약",
+      "weight_pct": 0.44,
+      "shares": 120,
+      "item_code": "4507.T"
+    },
+    {
       "name": "스미토모전기공업",
       "weight_pct": 0.44,
       "shares": 161,
       "item_code": "5802.T"
-    },
-    {
-      "name": "스즈키자동차",
-      "weight_pct": 0.44,
-      "shares": 161,
-      "item_code": "7269.T"
-    },
-    {
-      "name": "시오노기제약",
-      "weight_pct": 0.43,
-      "shares": 120,
-      "item_code": "4507.T"
     },
     {
       "name": "양품계획",
@@ -273,12 +273,6 @@
       "item_code": "4568.T"
     },
     {
-      "name": "키엔스",
-      "weight_pct": 0.42,
-      "shares": 4,
-      "item_code": "6861.T"
-    },
-    {
       "name": "올림푸스",
       "weight_pct": 0.42,
       "shares": 161,
@@ -286,9 +280,15 @@
     },
     {
       "name": "브리지스톤",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 80,
       "item_code": "5108.T"
+    },
+    {
+      "name": "키엔스",
+      "weight_pct": 0.41,
+      "shares": 4,
+      "item_code": "6861.T"
     },
     {
       "name": "베이커런트",
@@ -303,9 +303,15 @@
       "item_code": "4021.T"
     },
     {
+      "name": "덴소",
+      "weight_pct": 0.39,
+      "shares": 161,
+      "item_code": "6902.T"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.4,
-      "shares": 2753944,
+      "weight_pct": 0.38,
+      "shares": 2634213,
       "item_code": null
     },
     {
@@ -315,12 +321,6 @@
       "item_code": "9843.T"
     },
     {
-      "name": "덴소",
-      "weight_pct": 0.38,
-      "shares": 161,
-      "item_code": "6902.T"
-    },
-    {
       "name": "코마츠",
       "weight_pct": 0.37,
       "shares": 40,
@@ -328,7 +328,7 @@
     },
     {
       "name": "스미토모상사",
-      "weight_pct": 0.36,
+      "weight_pct": 0.37,
       "shares": 161,
       "item_code": "8053.T"
     },
@@ -352,15 +352,21 @@
     },
     {
       "name": "재팬토바코",
-      "weight_pct": 0.34,
+      "weight_pct": 0.35,
       "shares": 40,
       "item_code": "2914.T"
     },
     {
       "name": "스미토모부동산",
-      "weight_pct": 0.33,
+      "weight_pct": 0.34,
       "shares": 80,
       "item_code": "8830.T"
+    },
+    {
+      "name": "세이코 엡손",
+      "weight_pct": 0.33,
+      "shares": 80,
+      "item_code": "6724.T"
     },
     {
       "name": "오므론",
@@ -369,20 +375,14 @@
       "item_code": "6645.T"
     },
     {
-      "name": "세이코 엡손",
-      "weight_pct": 0.32,
-      "shares": 80,
-      "item_code": "6724.T"
-    },
-    {
       "name": "오릭스",
-      "weight_pct": 0.31,
+      "weight_pct": 0.32,
       "shares": 40,
       "item_code": "8591.T"
     },
     {
       "name": "넥슨 재팬",
-      "weight_pct": 0.31,
+      "weight_pct": 0.32,
       "shares": 80,
       "item_code": "3659.T"
     },
@@ -399,28 +399,28 @@
       "item_code": "4704.T"
     },
     {
+      "name": "야마하 모터",
+      "weight_pct": 0.29,
+      "shares": 120,
+      "item_code": "7272.T"
+    },
+    {
+      "name": "히타치건설기계",
+      "weight_pct": 0.29,
+      "shares": 40,
+      "item_code": "6305.T"
+    },
+    {
       "name": "다케다 제약",
       "weight_pct": 0.29,
       "shares": 40,
       "item_code": "4502.T"
     },
     {
-      "name": "야마하 모터",
+      "name": "스미토모금속광산",
       "weight_pct": 0.28,
-      "shares": 120,
-      "item_code": "7272.T"
-    },
-    {
-      "name": "히타치건설기계",
-      "weight_pct": 0.28,
-      "shares": 40,
-      "item_code": "6305.T"
-    },
-    {
-      "name": "미쓰비시전기",
-      "weight_pct": 0.28,
-      "shares": 40,
-      "item_code": "6503.T"
+      "shares": 20,
+      "item_code": "5713.T"
     },
     {
       "name": "콤시스홀딩스",
@@ -429,10 +429,10 @@
       "item_code": "1721.T"
     },
     {
-      "name": "스미토모금속광산",
+      "name": "NGK",
       "weight_pct": 0.27,
-      "shares": 20,
-      "item_code": "5713.T"
+      "shares": 40,
+      "item_code": "5333.T"
     },
     {
       "name": "히타치",
@@ -441,10 +441,10 @@
       "item_code": "6501.T"
     },
     {
-      "name": "NGK",
-      "weight_pct": 0.26,
+      "name": "미쓰비시전기",
+      "weight_pct": 0.27,
       "shares": 40,
-      "item_code": "5333.T"
+      "item_code": "6503.T"
     },
     {
       "name": "노무라종합연구소",
@@ -465,22 +465,16 @@
       "item_code": "6841.T"
     },
     {
+      "name": "마루베니",
+      "weight_pct": 0.25,
+      "shares": 40,
+      "item_code": "8002.T"
+    },
+    {
       "name": "롬",
       "weight_pct": 0.24,
       "shares": 40,
       "item_code": "6963.T"
-    },
-    {
-      "name": "야스카와 전기",
-      "weight_pct": 0.24,
-      "shares": 40,
-      "item_code": "6506.T"
-    },
-    {
-      "name": "마루베니",
-      "weight_pct": 0.24,
-      "shares": 40,
-      "item_code": "8002.T"
     },
     {
       "name": "크레디트 세종",
@@ -493,6 +487,12 @@
       "weight_pct": 0.23,
       "shares": 40,
       "item_code": "4523.T"
+    },
+    {
+      "name": "야스카와 전기",
+      "weight_pct": 0.23,
+      "shares": 40,
+      "item_code": "6506.T"
     },
     {
       "name": "메루카리",
@@ -513,6 +513,12 @@
       "item_code": "8725.T"
     },
     {
+      "name": "미쓰이부동산",
+      "weight_pct": 0.23,
+      "shares": 120,
+      "item_code": "8801.T"
+    },
+    {
       "name": "다이와 하우스 공업",
       "weight_pct": 0.23,
       "shares": 40,
@@ -529,12 +535,6 @@
       "weight_pct": 0.22,
       "shares": 40,
       "item_code": "6752.T"
-    },
-    {
-      "name": "미쓰이부동산",
-      "weight_pct": 0.22,
-      "shares": 120,
-      "item_code": "8801.T"
     },
     {
       "name": "엠쓰리",
@@ -561,16 +561,16 @@
       "item_code": "8630.T"
     },
     {
-      "name": "후루카와 전기공업",
-      "weight_pct": 0.2,
-      "shares": 40,
-      "item_code": "5801.T"
-    },
-    {
       "name": "후지쯔",
       "weight_pct": 0.19,
       "shares": 40,
       "item_code": "6702.T"
+    },
+    {
+      "name": "후루카와 전기공업",
+      "weight_pct": 0.19,
+      "shares": 40,
+      "item_code": "5801.T"
     },
     {
       "name": "미쓰비시부동산",
@@ -633,22 +633,28 @@
       "item_code": "6479.T"
     },
     {
-      "name": "르네사스 일렉트로닉스",
-      "weight_pct": 0.17,
-      "shares": 40,
-      "item_code": "6723.T"
-    },
-    {
       "name": "이세탄 미쓰코시 홀딩스",
       "weight_pct": 0.17,
       "shares": 40,
       "item_code": "3099.T"
     },
     {
-      "name": "토토",
+      "name": "르네사스 일렉트로닉스",
+      "weight_pct": 0.16,
+      "shares": 40,
+      "item_code": "6723.T"
+    },
+    {
+      "name": "닛폰햄",
       "weight_pct": 0.16,
       "shares": 20,
-      "item_code": "5332.T"
+      "item_code": "2282.T"
+    },
+    {
+      "name": "구보다",
+      "weight_pct": 0.15,
+      "shares": 40,
+      "item_code": "6326.T"
     },
     {
       "name": "기린 양조",
@@ -681,22 +687,16 @@
       "item_code": "9201.T"
     },
     {
-      "name": "닛폰햄",
-      "weight_pct": 0.15,
-      "shares": 20,
-      "item_code": "2282.T"
-    },
-    {
       "name": "다이니폰인쇄",
       "weight_pct": 0.15,
       "shares": 40,
       "item_code": "7912.T"
     },
     {
-      "name": "구보다",
-      "weight_pct": 0.14,
-      "shares": 40,
-      "item_code": "6326.T"
+      "name": "토토",
+      "weight_pct": 0.15,
+      "shares": 20,
+      "item_code": "5332.T"
     },
     {
       "name": "이데미쓰 고산",
@@ -747,6 +747,12 @@
       "item_code": "6504.T"
     },
     {
+      "name": "다이세이건설",
+      "weight_pct": 0.13,
+      "shares": 8,
+      "item_code": "1801.T"
+    },
+    {
       "name": "가지마",
       "weight_pct": 0.12,
       "shares": 20,
@@ -757,6 +763,12 @@
       "weight_pct": 0.12,
       "shares": 40,
       "item_code": "1803.T"
+    },
+    {
+      "name": "소프트뱅크",
+      "weight_pct": 0.12,
+      "shares": 402,
+      "item_code": "9434.T"
     },
     {
       "name": "NEC",
@@ -771,28 +783,22 @@
       "item_code": "6178.T"
     },
     {
-      "name": "다이세이건설",
-      "weight_pct": 0.12,
-      "shares": 8,
-      "item_code": "1801.T"
-    },
-    {
       "name": "돗판 홀딩스",
       "weight_pct": 0.12,
       "shares": 20,
       "item_code": "7911.T"
     },
     {
+      "name": "제이텍트",
+      "weight_pct": 0.11,
+      "shares": 40,
+      "item_code": "6473.T"
+    },
+    {
       "name": "알프스전기",
       "weight_pct": 0.11,
       "shares": 40,
       "item_code": "6770.T"
-    },
-    {
-      "name": "소프트뱅크",
-      "weight_pct": 0.11,
-      "shares": 402,
-      "item_code": "9434.T"
     },
     {
       "name": "다카시마야",
@@ -805,12 +811,6 @@
       "weight_pct": 0.11,
       "shares": 40,
       "item_code": "1963.T"
-    },
-    {
-      "name": "제이텍트",
-      "weight_pct": 0.1,
-      "shares": 40,
-      "item_code": "6473.T"
     },
     {
       "name": "게이세이전철",
@@ -927,6 +927,18 @@
       "item_code": "5301.T"
     },
     {
+      "name": "국제석유개발제석",
+      "weight_pct": 0.08,
+      "shares": 16,
+      "item_code": "1605.T"
+    },
+    {
+      "name": "레조낙 홀딩스",
+      "weight_pct": 0.08,
+      "shares": 4,
+      "item_code": "4004.T"
+    },
+    {
       "name": "아사히카세이",
       "weight_pct": 0.08,
       "shares": 40,
@@ -951,10 +963,22 @@
       "item_code": "8604.T"
     },
     {
+      "name": "후쿠오카 파이낸셜 그룹",
+      "weight_pct": 0.08,
+      "shares": 8,
+      "item_code": "8354.T"
+    },
+    {
       "name": "닛폰 익스프레스 홀딩스",
       "weight_pct": 0.08,
       "shares": 12,
       "item_code": "9147.T"
+    },
+    {
+      "name": "스미모토 제약",
+      "weight_pct": 0.08,
+      "shares": 40,
+      "item_code": "4506.T"
     },
     {
       "name": "도쿄 다테모노",
@@ -963,22 +987,16 @@
       "item_code": "8804.T"
     },
     {
-      "name": "국제석유개발제석",
-      "weight_pct": 0.07,
-      "shares": 16,
-      "item_code": "1605.T"
-    },
-    {
       "name": "J. 프론트 리테일링",
       "weight_pct": 0.07,
       "shares": 20,
       "item_code": "3086.T"
     },
     {
-      "name": "레조낙 홀딩스",
+      "name": "ENEOS 홀딩스",
       "weight_pct": 0.07,
-      "shares": 4,
-      "item_code": "4004.T"
+      "shares": 40,
+      "item_code": "5020.T"
     },
     {
       "name": "일본제강소",
@@ -993,34 +1011,16 @@
       "item_code": "5214.T"
     },
     {
-      "name": "후쿠오카 파이낸셜 그룹",
-      "weight_pct": 0.07,
-      "shares": 8,
-      "item_code": "8354.T"
-    },
-    {
       "name": "스미토모 미쓰이 트러스트 그룹",
       "weight_pct": 0.07,
       "shares": 32,
       "item_code": "8309.T"
     },
     {
-      "name": "스미모토 제약",
-      "weight_pct": 0.07,
-      "shares": 40,
-      "item_code": "4506.T"
-    },
-    {
       "name": "가와사키중공업",
       "weight_pct": 0.06,
       "shares": 20,
       "item_code": "7012.T"
-    },
-    {
-      "name": "ENEOS 홀딩스",
-      "weight_pct": 0.06,
-      "shares": 40,
-      "item_code": "5020.T"
     },
     {
       "name": "니쑤이",
@@ -1095,12 +1095,6 @@
       "item_code": "9020.T"
     },
     {
-      "name": "팬 퍼시픽 인터내셔널 홀딩스",
-      "weight_pct": 0.04,
-      "shares": 40,
-      "item_code": "7532.T"
-    },
-    {
       "name": "시프트",
       "weight_pct": 0.04,
       "shares": 40,
@@ -1137,6 +1131,12 @@
       "item_code": "8795.T"
     },
     {
+      "name": "토호",
+      "weight_pct": 0.04,
+      "shares": 20,
+      "item_code": "9602.T"
+    },
+    {
       "name": "도큐",
       "weight_pct": 0.04,
       "shares": 20,
@@ -1149,6 +1149,12 @@
       "item_code": "4043.T"
     },
     {
+      "name": "팬 퍼시픽 인터내셔널 홀딩스",
+      "weight_pct": 0.03,
+      "shares": 40,
+      "item_code": "7532.T"
+    },
+    {
       "name": "코니카 미놀타",
       "weight_pct": 0.03,
       "shares": 40,
@@ -1159,6 +1165,12 @@
       "weight_pct": 0.03,
       "shares": 40,
       "item_code": "9008.T"
+    },
+    {
+      "name": "스미토모화학",
+      "weight_pct": 0.03,
+      "shares": 40,
+      "item_code": "4005.T"
     },
     {
       "name": "샤프",
@@ -1203,22 +1215,10 @@
       "item_code": "9021.T"
     },
     {
-      "name": "토호",
-      "weight_pct": 0.03,
-      "shares": 20,
-      "item_code": "9602.T"
-    },
-    {
       "name": "도부철도",
       "weight_pct": 0.03,
       "shares": 8,
       "item_code": "9001.T"
-    },
-    {
-      "name": "스미토모화학",
-      "weight_pct": 0.02,
-      "shares": 40,
-      "item_code": "4005.T"
     },
     {
       "name": "미쓰비시 머티리얼",

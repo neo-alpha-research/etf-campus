@@ -1,101 +1,101 @@
 {
   "ticker": "422420",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 18.29,
+      "weight_pct": 18.32,
       "shares": 45,
       "item_code": "006400"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 9.84,
+      "weight_pct": 9.59,
       "shares": 72,
       "item_code": "003670"
     },
     {
       "name": "SK이노베이션",
-      "weight_pct": 9.18,
+      "weight_pct": 9.45,
       "shares": 95,
       "item_code": "096770"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 9.17,
+      "weight_pct": 9.2,
       "shares": 35,
       "item_code": "373220"
     },
     {
       "name": "LS",
-      "weight_pct": 8.41,
+      "weight_pct": 8.53,
       "shares": 38,
       "item_code": "006260"
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 8.21,
+      "weight_pct": 8.01,
       "shares": 126,
       "item_code": "078600"
     },
     {
       "name": "엘앤에프",
-      "weight_pct": 7.21,
+      "weight_pct": 7.26,
       "shares": 77,
       "item_code": "066970"
     },
     {
+      "name": "POSCO홀딩스",
+      "weight_pct": 7.24,
+      "shares": 29,
+      "item_code": "005490"
+    },
+    {
       "name": "에코프로",
-      "weight_pct": 7.16,
+      "weight_pct": 7.13,
       "shares": 115,
       "item_code": "086520"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 6.72,
-      "shares": 81,
+      "weight_pct": 6.68,
+      "shares": 83,
       "item_code": "247540"
     },
     {
-      "name": "POSCO홀딩스",
-      "weight_pct": 5.6,
-      "shares": 23,
-      "item_code": "005490"
-    },
-    {
-      "name": "레이크머티리얼즈",
-      "weight_pct": 2.76,
-      "shares": 326,
-      "item_code": "281740"
-    },
-    {
       "name": "에코프로머티",
-      "weight_pct": 2.67,
+      "weight_pct": 2.65,
       "shares": 100,
       "item_code": "450080"
     },
     {
       "name": "롯데에너지머티리얼즈",
-      "weight_pct": 2.19,
+      "weight_pct": 2.12,
       "shares": 77,
       "item_code": "020150"
     },
     {
+      "name": "레이크머티리얼즈",
+      "weight_pct": 1.47,
+      "shares": 177,
+      "item_code": "281740"
+    },
+    {
+      "name": "한중엔시에스",
+      "weight_pct": 1.04,
+      "shares": 35,
+      "item_code": "107640"
+    },
+    {
       "name": "솔브레인",
-      "weight_pct": 1.94,
-      "shares": 8,
+      "weight_pct": 0.99,
+      "shares": 4,
       "item_code": "357780"
     },
     {
-      "name": "후성",
-      "weight_pct": 0.5,
-      "shares": 56,
-      "item_code": "093370"
-    },
-    {
       "name": "원화현금",
-      "weight_pct": 0.08,
-      "shares": 115662,
+      "weight_pct": 0.22,
+      "shares": 297032,
       "item_code": null
     }
   ]

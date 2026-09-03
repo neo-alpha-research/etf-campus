@@ -1,17 +1,17 @@
 {
   "ticker": "280320",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 98.17,
-      "shares": 2151891430,
+      "weight_pct": 99.85,
+      "shares": 2152024888,
       "item_code": null
     },
     {
       "name": "스왑(삼성증권)",
-      "weight_pct": 1.82,
-      "shares": 40079982,
+      "weight_pct": 0.14,
+      "shares": 3171505,
       "item_code": null
     }
   ]

@@ -1,64 +1,64 @@
 {
   "ticker": "0162Z0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "삼성전자",
-      "weight_pct": 25.15,
-      "shares": 1290,
-      "item_code": "005930"
-    },
-    {
       "name": "SK하이닉스",
-      "weight_pct": 25.04,
-      "shares": 198,
+      "weight_pct": 25.01,
+      "shares": 203,
       "item_code": "000660"
     },
     {
+      "name": "삼성전자",
+      "weight_pct": 25.01,
+      "shares": 1307,
+      "item_code": "005930"
+    },
+    {
       "name": "국고02625-2703(25-1)",
-      "weight_pct": 17.2,
+      "weight_pct": 17.59,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02375-2703(22-1)",
-      "weight_pct": 13.51,
+      "weight_pct": 13.81,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02550-2701-01",
-      "weight_pct": 7.13,
+      "weight_pct": 6.53,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03250-2706(24-4)",
-      "weight_pct": 4.25,
+      "weight_pct": 4.34,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.72,
-      "shares": 49825117,
+      "weight_pct": 3.62,
+      "shares": 47435716,
       "item_code": null
     },
     {
       "name": "통안02620-2704-02",
-      "weight_pct": 1.99,
+      "weight_pct": 2.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통안02900-2705-01",
-      "weight_pct": 1.24,
+      "weight_pct": 1.27,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02125-2706(17-3)",
-      "weight_pct": 0.74,
+      "weight_pct": 0.75,
       "shares": 0,
       "item_code": null
     }

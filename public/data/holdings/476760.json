@@ -1,107 +1,107 @@
 {
   "ticker": "476760",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "[USD] 예금",
-      "weight_pct": 29.68,
-      "shares": 191313,
+      "weight_pct": 29.69,
+      "shares": 190858,
       "item_code": null
     },
     {
       "name": "Vanguard Extended Duration Treasury Index Fd",
-      "weight_pct": 17.27,
-      "shares": 1850,
+      "weight_pct": 17.2,
+      "shares": 1845,
       "item_code": "EDV"
     },
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 12.02,
-      "shares": 939,
+      "weight_pct": 11.93,
+      "shares": 936,
       "item_code": "TLT.O"
     },
     {
       "name": "T 4 5/8 11/15/55",
-      "weight_pct": 10.3,
-      "shares": 73598,
+      "weight_pct": 10.27,
+      "shares": 73346,
       "item_code": null
     },
     {
       "name": "PIMCO 25+ Year Zero Coupon US Treasury Index ETF",
-      "weight_pct": 8.61,
-      "shares": 945,
+      "weight_pct": 8.57,
+      "shares": 942,
       "item_code": "ZROZ.K"
     },
     {
       "name": "T 4 3/4 02/15/56",
-      "weight_pct": 4.55,
-      "shares": 31873,
+      "weight_pct": 4.54,
+      "shares": 31796,
       "item_code": null
     },
     {
       "name": "SP 0 05/15/55",
       "weight_pct": 2.32,
-      "shares": 68126,
+      "shares": 67961,
       "item_code": null
     },
     {
       "name": "SP 0 02/15/55",
-      "weight_pct": 2.27,
-      "shares": 65693,
+      "weight_pct": 2.26,
+      "shares": 65533,
       "item_code": null
     },
     {
       "name": "SP 0 08/15/55",
       "weight_pct": 2.13,
-      "shares": 63260,
+      "shares": 63106,
       "item_code": null
     },
     {
       "name": "T 4 1/4 08/15/54",
       "weight_pct": 1.98,
-      "shares": 15085,
+      "shares": 15048,
       "item_code": null
     },
     {
       "name": "T 4 3/4 05/15/55",
       "weight_pct": 1.73,
-      "shares": 12165,
+      "shares": 12135,
       "item_code": null
     },
     {
       "name": "T 4 5/8 02/15/55",
       "weight_pct": 1.66,
-      "shares": 11922,
+      "shares": 11893,
       "item_code": null
     },
     {
       "name": "T 4 3/4 08/15/55",
       "weight_pct": 1.56,
-      "shares": 10948,
+      "shares": 10922,
       "item_code": null
     },
     {
       "name": "SP 0 05/15/56",
       "weight_pct": 1.51,
-      "shares": 46228,
+      "shares": 46116,
       "item_code": null
     },
     {
       "name": "SP 0 11/15/55",
-      "weight_pct": 1.34,
-      "shares": 40145,
+      "weight_pct": 1.33,
+      "shares": 40048,
       "item_code": null
     },
     {
       "name": "T 4 1/2 11/15/54",
       "weight_pct": 1.33,
-      "shares": 9732,
+      "shares": 9708,
       "item_code": null
     },
     {
       "name": "SP 0 02/15/56",
       "weight_pct": 1.12,
-      "shares": 34063,
+      "shares": 33980,
       "item_code": null
     },
     {
@@ -113,49 +113,49 @@
     {
       "name": "T 4 1/4 02/15/54",
       "weight_pct": 0.81,
-      "shares": 6204,
+      "shares": 6189,
       "item_code": null
     },
     {
       "name": "T 4 5/8 05/15/54",
-      "weight_pct": 0.63,
-      "shares": 4501,
+      "weight_pct": 0.62,
+      "shares": 4490,
       "item_code": null
     },
     {
       "name": "T 3 5/8 05/15/53",
       "weight_pct": 0.6,
-      "shares": 5109,
+      "shares": 5097,
       "item_code": null
     },
     {
       "name": "T 4 3/4 11/15/53",
       "weight_pct": 0.53,
-      "shares": 3771,
+      "shares": 3762,
       "item_code": null
     },
     {
       "name": "T 1 7/8 02/15/51",
       "weight_pct": 0.39,
-      "shares": 4866,
+      "shares": 4854,
       "item_code": null
     },
     {
       "name": "T 4 1/8 08/15/53",
       "weight_pct": 0.39,
-      "shares": 3041,
+      "shares": 3033,
       "item_code": null
     },
     {
       "name": "T 5 05/15/56",
       "weight_pct": 0.36,
-      "shares": 2433,
+      "shares": 2427,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -6.18,
-      "shares": -54633432,
+      "weight_pct": -5.94,
+      "shares": -52317590,
       "item_code": null
     }
   ]

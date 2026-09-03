@@ -1,70 +1,70 @@
 {
   "ticker": "341850",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "TIGER 중장기국채",
-      "weight_pct": 24.17,
+      "weight_pct": 24.21,
       "shares": 1112,
       "item_code": "302190"
     },
     {
       "name": "SK리츠",
-      "weight_pct": 11.33,
+      "weight_pct": 11.53,
       "shares": 4839,
       "item_code": "395400"
     },
     {
       "name": "맥쿼리인프라",
-      "weight_pct": 10.46,
+      "weight_pct": 10.4,
       "shares": 2418,
       "item_code": "088980"
     },
     {
       "name": "KB발해인프라",
-      "weight_pct": 8.53,
+      "weight_pct": 8.52,
       "shares": 1863,
       "item_code": "415640"
     },
     {
       "name": "롯데리츠",
-      "weight_pct": 7.91,
+      "weight_pct": 7.96,
       "shares": 4728,
       "item_code": "330590"
     },
     {
       "name": "한화리츠",
-      "weight_pct": 6.26,
+      "weight_pct": 6.21,
       "shares": 2730,
       "item_code": "451800"
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.15,
-      "shares": 14151206,
+      "weight_pct": 6.17,
+      "shares": 14150226,
       "item_code": null
     },
     {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 5.19,
+      "weight_pct": 5.09,
       "shares": 3744,
       "item_code": "365550"
     },
     {
       "name": "맵스리얼티",
-      "weight_pct": 4.42,
+      "weight_pct": 4.44,
       "shares": 1411,
       "item_code": "094800"
     },
     {
       "name": "신한알파리츠",
-      "weight_pct": 4.33,
+      "weight_pct": 4.31,
       "shares": 1838,
       "item_code": "293940"
     },
     {
       "name": "삼성FN리츠",
-      "weight_pct": 3.32,
+      "weight_pct": 3.23,
       "shares": 1384,
       "item_code": "448730"
     },
@@ -82,13 +82,13 @@
     },
     {
       "name": "신한서부티엔디리츠",
-      "weight_pct": 1.58,
+      "weight_pct": 1.56,
       "shares": 931,
       "item_code": "404990"
     },
     {
       "name": "제이알글로벌리츠",
-      "weight_pct": 1.1,
+      "weight_pct": 1.11,
       "shares": 2153,
       "item_code": "348950"
     },

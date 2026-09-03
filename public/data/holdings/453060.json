@@ -1,23 +1,23 @@
 {
   "ticker": "453060",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "스왑(미래에셋증권)_230313",
       "weight_pct": 63.58,
-      "shares": 70837725,
+      "shares": 70843840,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)_230313",
       "weight_pct": 36.26,
-      "shares": 40401882,
+      "shares": 40405371,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 0.15,
-      "shares": 170506,
+      "shares": 170268,
       "item_code": null
     }
   ]

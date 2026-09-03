@@ -1,28 +1,28 @@
 {
   "ticker": "475350",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "버크셔 해서웨이 Class B",
-      "weight_pct": 27.56,
+      "weight_pct": 27.44,
       "shares": 288,
       "item_code": "BRKb"
     },
     {
       "name": "애플",
-      "weight_pct": 18.7,
+      "weight_pct": 19.18,
       "shares": 311,
       "item_code": "AAPL.O"
     },
     {
       "name": "아메리칸 익스프레스",
-      "weight_pct": 12.85,
+      "weight_pct": 12.6,
       "shares": 205,
       "item_code": "AXP"
     },
     {
       "name": "코카콜라",
-      "weight_pct": 9.15,
+      "weight_pct": 9.08,
       "shares": 544,
       "item_code": "KO"
     },
@@ -34,25 +34,25 @@
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 7.08,
+      "weight_pct": 6.99,
       "shares": 110,
       "item_code": "GOOGL.O"
     },
     {
       "name": "셰브론",
-      "weight_pct": 4.34,
+      "weight_pct": 4.44,
       "shares": 111,
       "item_code": "CVX"
     },
     {
       "name": "옥시덴털 페트롤리움",
-      "weight_pct": 3.95,
+      "weight_pct": 4.0,
       "shares": 346,
       "item_code": "OXY"
     },
     {
       "name": "무디스",
-      "weight_pct": 3.16,
+      "weight_pct": 3.09,
       "shares": 33,
       "item_code": "MCO"
     },
@@ -64,14 +64,14 @@
     },
     {
       "name": "알파벳 Class C",
-      "weight_pct": 2.41,
+      "weight_pct": 2.39,
       "shares": 38,
       "item_code": "GOOG.O"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.22,
-      "shares": 1633921,
+      "shares": 1625720,
       "item_code": null
     }
   ]

@@ -1,130 +1,130 @@
 {
   "ticker": "487950",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "ASUSTEK COMPUTER",
-      "weight_pct": 14.74,
+      "weight_pct": 14.78,
       "shares": 2253,
       "item_code": null
     },
     {
       "name": "NOVATEK MICROELECTRONICS LTD",
-      "weight_pct": 11.47,
+      "weight_pct": 11.63,
       "shares": 3244,
       "item_code": null
     },
     {
       "name": "PEGATRON",
-      "weight_pct": 9.54,
-      "shares": 15998,
+      "weight_pct": 9.45,
+      "shares": 15999,
       "item_code": null
     },
     {
       "name": "QUANTA COMPUTER",
-      "weight_pct": 8.79,
-      "shares": 3965,
+      "weight_pct": 8.81,
+      "shares": 3966,
       "item_code": null
     },
     {
       "name": "CATCHER TECHNOLIGY",
-      "weight_pct": 6.95,
+      "weight_pct": 7.06,
       "shares": 5092,
       "item_code": null
     },
     {
       "name": "SYNNEX TECHNOLOGY INTL CORP",
-      "weight_pct": 6.64,
-      "shares": 11671,
+      "weight_pct": 6.52,
+      "shares": 11672,
       "item_code": null
     },
     {
       "name": "Simplo Technology Co Ltd",
-      "weight_pct": 4.17,
+      "weight_pct": 4.18,
       "shares": 1577,
       "item_code": null
     },
     {
       "name": "CHICONY ELECTRONICS CO LTD",
-      "weight_pct": 3.89,
+      "weight_pct": 3.88,
       "shares": 5588,
       "item_code": null
     },
     {
       "name": "Transcend Information Inc",
-      "weight_pct": 3.65,
+      "weight_pct": 3.62,
       "shares": 1892,
       "item_code": null
     },
     {
       "name": "TXC Corp",
-      "weight_pct": 3.06,
+      "weight_pct": 2.98,
       "shares": 2523,
       "item_code": null
     },
     {
       "name": "Getac Holdings Corp",
-      "weight_pct": 2.79,
+      "weight_pct": 2.81,
       "shares": 3650,
       "item_code": null
     },
     {
       "name": "Taiwan Surface Mounting Technology Corp",
-      "weight_pct": 2.64,
-      "shares": 2027,
+      "weight_pct": 2.63,
+      "shares": 2028,
       "item_code": null
     },
     {
       "name": "Systex Corp",
-      "weight_pct": 2.49,
+      "weight_pct": 2.45,
       "shares": 2073,
       "item_code": null
     },
     {
       "name": "Elan Microelectronics Corp",
-      "weight_pct": 2.11,
+      "weight_pct": 2.14,
       "shares": 2388,
       "item_code": null
     },
     {
       "name": "Sitronix Technology Corp",
-      "weight_pct": 1.87,
+      "weight_pct": 1.91,
       "shares": 991,
       "item_code": null
     },
     {
       "name": "Nichidenbo Corp",
-      "weight_pct": 1.75,
+      "weight_pct": 1.72,
       "shares": 1532,
-      "item_code": null
-    },
-    {
-      "name": "Everlight Electronics Co Ltd",
-      "weight_pct": 1.58,
-      "shares": 3650,
       "item_code": null
     },
     {
       "name": "Primax Electronics Ltd",
       "weight_pct": 1.57,
-      "shares": 4055,
+      "shares": 4056,
       "item_code": null
     },
     {
       "name": "Pixart Imaging Inc",
-      "weight_pct": 1.52,
+      "weight_pct": 1.55,
       "shares": 1216,
       "item_code": null
     },
     {
+      "name": "Everlight Electronics Co Ltd",
+      "weight_pct": 1.55,
+      "shares": 3650,
+      "item_code": null
+    },
+    {
       "name": "Weikeng Industrial Co Ltd",
-      "weight_pct": 1.09,
+      "weight_pct": 1.07,
       "shares": 3740,
       "item_code": null
     },
     {
       "name": "ITE Technology Inc",
-      "weight_pct": 1.06,
+      "weight_pct": 1.07,
       "shares": 1261,
       "item_code": null
     },
@@ -135,20 +135,20 @@
       "item_code": null
     },
     {
-      "name": "Zero One Technology Co Ltd",
-      "weight_pct": 0.93,
-      "shares": 1261,
-      "item_code": null
-    },
-    {
       "name": "Fitipower Integrated Technology Inc",
-      "weight_pct": 0.91,
+      "weight_pct": 0.93,
       "shares": 856,
       "item_code": null
     },
     {
+      "name": "Zero One Technology Co Ltd",
+      "weight_pct": 0.92,
+      "shares": 1261,
+      "item_code": null
+    },
+    {
       "name": "Stark Technology Inc",
-      "weight_pct": 0.88,
+      "weight_pct": 0.86,
       "shares": 856,
       "item_code": null
     },
@@ -160,32 +160,32 @@
     },
     {
       "name": "Raydium Semiconductor Corp",
-      "weight_pct": 0.77,
+      "weight_pct": 0.78,
       "shares": 540,
       "item_code": null
     },
     {
       "name": "Posiflex Technology Inc",
-      "weight_pct": 0.67,
+      "weight_pct": 0.68,
       "shares": 540,
       "item_code": null
     },
     {
       "name": "Promate Electronic Co Ltd",
       "weight_pct": 0.63,
-      "shares": 2027,
+      "shares": 2028,
       "item_code": null
     },
     {
       "name": "Channel Well Technology Co Ltd",
-      "weight_pct": 0.59,
+      "weight_pct": 0.55,
       "shares": 1757,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.71,
-      "shares": -4759187,
+      "weight_pct": -0.7,
+      "shares": -4656778,
       "item_code": null
     }
   ]

@@ -1,16 +1,10 @@
 {
   "ticker": "0123S0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "신한은행28-12-이-2-A",
       "weight_pct": 15.92,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나은행48-06이1.5갑-02",
-      "weight_pct": 15.9,
       "shares": 0,
       "item_code": null
     },
@@ -33,6 +27,12 @@
       "item_code": null
     },
     {
+      "name": "하나은행48-06이1.5갑-02",
+      "weight_pct": 15.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "중소기업은행(신)2508이1.5A-21",
       "weight_pct": 15.77,
       "shares": 0,
@@ -40,8 +40,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.83,
-      "shares": 4925416,
+      "weight_pct": 4.93,
+      "shares": 5027311,
       "item_code": null
     }
   ]

@@ -1,28 +1,28 @@
 {
   "ticker": "0066W0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SPDR Gold MiniShares Trust",
-      "weight_pct": 27.99,
+      "weight_pct": 27.98,
       "shares": 1497,
       "item_code": "GLDM.K"
     },
     {
       "name": "iShares Gold Trust Micro",
-      "weight_pct": 27.23,
+      "weight_pct": 27.22,
       "shares": 2891,
       "item_code": "IAUM.K"
     },
     {
       "name": "GraniteShares Gold Trust",
-      "weight_pct": 22.61,
+      "weight_pct": 22.6,
       "shares": 2433,
       "item_code": "BAR"
     },
     {
       "name": "abrdn Physical Gold Shares ETF",
-      "weight_pct": 13.89,
+      "weight_pct": 13.88,
       "shares": 1544,
       "item_code": "SGOL.K"
     },
@@ -58,8 +58,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.07,
-      "shares": -511835,
+      "weight_pct": -0.04,
+      "shares": -258814,
       "item_code": null
     }
   ]

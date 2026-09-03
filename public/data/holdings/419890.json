@@ -1,22 +1,22 @@
 {
   "ticker": "419890",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "산업금융채권26신이010007061(사)",
-      "weight_pct": 16.12,
+      "weight_pct": 16.13,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "인천도시공사232(사)",
-      "weight_pct": 16.11,
+      "weight_pct": 16.12,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "경기주택도시공사23-11-63(사)",
-      "weight_pct": 16.04,
+      "weight_pct": 16.02,
       "shares": 0,
       "item_code": null
     },
@@ -52,8 +52,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -3.45,
-      "shares": -37162962,
+      "weight_pct": -3.46,
+      "shares": -37226956,
       "item_code": null
     }
   ]

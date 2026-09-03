@@ -1,10 +1,10 @@
 {
   "ticker": "0097L0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "현대엘리베이터",
-      "weight_pct": 8.47,
+      "weight_pct": 8.38,
       "shares": 720,
       "item_code": "017800"
     },
@@ -16,13 +16,13 @@
     },
     {
       "name": "삼성화재",
-      "weight_pct": 5.85,
+      "weight_pct": 5.77,
       "shares": 55,
       "item_code": "000810"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 5.68,
+      "weight_pct": 5.7,
       "shares": 52,
       "item_code": "MSFT.O"
     },
@@ -34,43 +34,43 @@
     },
     {
       "name": "코리안리",
-      "weight_pct": 5.17,
+      "weight_pct": 5.31,
       "shares": 2240,
       "item_code": "003690"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 5.04,
+      "weight_pct": 5.06,
       "shares": 69,
       "item_code": "GOOGL.O"
     },
     {
       "name": "미스토홀딩스",
-      "weight_pct": 4.81,
+      "weight_pct": 4.84,
       "shares": 733,
       "item_code": "081660"
     },
     {
       "name": "신영증권",
-      "weight_pct": 4.72,
+      "weight_pct": 4.7,
       "shares": 195,
       "item_code": "001720"
     },
     {
       "name": "DB손해보험",
-      "weight_pct": 4.6,
+      "weight_pct": 4.64,
       "shares": 152,
       "item_code": "005830"
     },
     {
       "name": "한국타이어앤테크놀로지",
-      "weight_pct": 4.33,
+      "weight_pct": 4.29,
       "shares": 409,
       "item_code": "161390"
     },
     {
       "name": "기업은행",
-      "weight_pct": 4.22,
+      "weight_pct": 4.28,
       "shares": 1284,
       "item_code": "024110"
     },
@@ -82,7 +82,7 @@
     },
     {
       "name": "삼성카드",
-      "weight_pct": 4.06,
+      "weight_pct": 4.07,
       "shares": 561,
       "item_code": "029780"
     },
@@ -94,13 +94,13 @@
     },
     {
       "name": "삼성증권",
-      "weight_pct": 3.95,
+      "weight_pct": 3.88,
       "shares": 285,
       "item_code": "016360"
     },
     {
       "name": "기아",
-      "weight_pct": 3.46,
+      "weight_pct": 3.34,
       "shares": 168,
       "item_code": "000270"
     },
@@ -112,50 +112,50 @@
     },
     {
       "name": "브로드컴",
-      "weight_pct": 2.63,
+      "weight_pct": 2.67,
       "shares": 33,
       "item_code": "AVGO.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 2.59,
+      "weight_pct": 2.62,
       "shares": 29,
       "item_code": "TSM"
     },
     {
       "name": "메타",
-      "weight_pct": 1.72,
+      "weight_pct": 1.77,
       "shares": 14,
       "item_code": "META.O"
     },
     {
-      "name": "테슬라",
-      "weight_pct": 1.66,
-      "shares": 21,
-      "item_code": "TSLA.O"
-    },
-    {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 1.65,
+      "weight_pct": 1.63,
       "shares": 8,
       "item_code": "MU.O"
     },
     {
+      "name": "테슬라",
+      "weight_pct": 1.63,
+      "shares": 21,
+      "item_code": "TSLA.O"
+    },
+    {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 1.21,
+      "weight_pct": 1.2,
       "shares": 12,
       "item_code": "AMD.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 0.73,
+      "weight_pct": 0.74,
       "shares": 38,
       "item_code": "INTC.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.57,
-      "shares": 3686080,
+      "weight_pct": 0.59,
+      "shares": 3751037,
       "item_code": null
     }
   ]

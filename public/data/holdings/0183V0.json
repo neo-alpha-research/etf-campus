@@ -1,88 +1,88 @@
 {
   "ticker": "0183V0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 25.18,
-      "shares": 1133,
+      "weight_pct": 25.03,
+      "shares": 1148,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 25.08,
-      "shares": 174,
+      "weight_pct": 24.99,
+      "shares": 178,
       "item_code": "000660"
     },
     {
       "name": "국고채권02375-2703(22-1)",
-      "weight_pct": 8.77,
+      "weight_pct": 8.97,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권01500-2612(16-8)",
-      "weight_pct": 8.3,
+      "weight_pct": 8.48,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02125-2706(17-3)",
-      "weight_pct": 5.78,
+      "weight_pct": 5.91,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-2703(25-1)",
-      "weight_pct": 4.6,
+      "weight_pct": 4.71,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권05250-2703(07-3)",
-      "weight_pct": 4.29,
+      "weight_pct": 4.39,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03875-2612(23-10)",
-      "weight_pct": 4.19,
+      "weight_pct": 4.29,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권03250-2706(24-4)",
-      "weight_pct": 4.17,
+      "weight_pct": 4.27,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 3.28,
-      "shares": 38572770,
-      "item_code": null
-    },
-    {
       "name": "통화안정증권02400-2707-02",
-      "weight_pct": 2.89,
+      "weight_pct": 2.96,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "KIWOOM 단기자금",
-      "weight_pct": 2.57,
+      "weight_pct": 2.62,
       "shares": 293,
       "item_code": "130730"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 2.46,
+      "shares": 28320727,
+      "item_code": null
+    },
+    {
       "name": "통화안정증권03430-2703-03",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "통화안정증권02620-2704-02",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 0,
       "item_code": null
     }

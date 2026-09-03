@@ -1,6 +1,6 @@
 {
   "ticker": "0162M0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "신한은행28-08-이-4-A",
@@ -207,6 +207,12 @@
       "item_code": null
     },
     {
+      "name": "국민은행(CD)",
+      "weight_pct": 2.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "하나캐피탈475-2",
       "weight_pct": 2.33,
       "shares": 0,
@@ -221,6 +227,18 @@
     {
       "name": "부산은행2026-02이2A-23",
       "weight_pct": 2.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드263-2",
+      "weight_pct": 2.32,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈2048-1",
+      "weight_pct": 2.32,
       "shares": 0,
       "item_code": null
     },
@@ -267,12 +285,6 @@
       "item_code": null
     },
     {
-      "name": "우리카드263-2",
-      "weight_pct": 2.31,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "산은캐피탈768-4",
       "weight_pct": 2.31,
       "shares": 0,
@@ -280,12 +292,6 @@
     },
     {
       "name": "우리은행29-04-이표03-갑-21",
-      "weight_pct": 2.31,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "현대캐피탈2048-1",
       "weight_pct": 2.31,
       "shares": 0,
       "item_code": null
@@ -400,8 +406,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -58.76,
-      "shares": -59131450,
+      "weight_pct": -61.14,
+      "shares": -61487905,
       "item_code": null
     }
   ]

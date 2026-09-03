@@ -1,52 +1,52 @@
 {
   "ticker": "0190M0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "샌디스크",
-      "weight_pct": 9.62,
+      "weight_pct": 9.71,
       "shares": 17,
       "item_code": "SNDK.O"
     },
     {
       "name": "블룸 에너지",
-      "weight_pct": 5.71,
+      "weight_pct": 6.09,
       "shares": 79,
       "item_code": "BE"
     },
     {
       "name": "코히런트",
-      "weight_pct": 5.19,
+      "weight_pct": 5.23,
       "shares": 53,
       "item_code": "COHR.K"
     },
     {
       "name": "아스테라 랩스",
-      "weight_pct": 4.62,
+      "weight_pct": 4.48,
       "shares": 44,
       "item_code": "ALAB.O"
     },
     {
-      "name": "크레도 테크놀로지 그룹 홀딩",
-      "weight_pct": 4.5,
-      "shares": 57,
-      "item_code": "CRDO.O"
-    },
-    {
       "name": "네비우스 그룹",
-      "weight_pct": 4.35,
+      "weight_pct": 4.33,
       "shares": 60,
       "item_code": "NBIS.O"
     },
     {
+      "name": "크레도 테크놀로지 그룹 홀딩",
+      "weight_pct": 4.23,
+      "shares": 57,
+      "item_code": "CRDO.O"
+    },
+    {
       "name": "셀레스티카",
-      "weight_pct": 4.18,
+      "weight_pct": 4.2,
       "shares": 40,
       "item_code": "CLS"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 3.98,
+      "weight_pct": 4.01,
       "shares": 178,
       "item_code": "RKLB.O"
     },
@@ -58,69 +58,69 @@
     },
     {
       "name": "코어위브",
-      "weight_pct": 3.31,
+      "weight_pct": 3.28,
       "shares": 111,
       "item_code": "CRWV.O"
     },
     {
       "name": "인테그리스",
-      "weight_pct": 3.15,
+      "weight_pct": 3.11,
       "shares": 66,
       "item_code": "ENTG.O"
     },
     {
       "name": "아이렌",
-      "weight_pct": 3.0,
+      "weight_pct": 3.06,
       "shares": 231,
       "item_code": "IREN.O"
     },
     {
       "name": "아이온큐",
-      "weight_pct": 2.96,
+      "weight_pct": 2.93,
       "shares": 215,
       "item_code": "IONQ.K"
     },
     {
-      "name": "오클로",
-      "weight_pct": 2.84,
-      "shares": 201,
-      "item_code": "OKLO.K"
-    },
-    {
       "name": "리게티 컴퓨팅",
-      "weight_pct": 2.83,
+      "weight_pct": 2.78,
       "shares": 518,
       "item_code": "RGTI.O"
     },
     {
-      "name": "AST 스페이스모바일",
-      "weight_pct": 2.8,
-      "shares": 135,
-      "item_code": "ASTS.O"
-    },
-    {
-      "name": "디 웨이브 퀀텀",
-      "weight_pct": 2.77,
-      "shares": 462,
-      "item_code": "QBTS.O"
-    },
-    {
-      "name": "어플라이드 옵토일렉트로닉스",
-      "weight_pct": 2.74,
-      "shares": 72,
-      "item_code": "AAOI.O"
+      "name": "오클로",
+      "weight_pct": 2.78,
+      "shares": 201,
+      "item_code": "OKLO.K"
     },
     {
       "name": "셈텍",
-      "weight_pct": 2.72,
+      "weight_pct": 2.78,
       "shares": 58,
       "item_code": "SMTC.O"
     },
     {
+      "name": "디 웨이브 퀀텀",
+      "weight_pct": 2.74,
+      "shares": 462,
+      "item_code": "QBTS.O"
+    },
+    {
       "name": "비아샛",
-      "weight_pct": 2.69,
+      "weight_pct": 2.73,
       "shares": 114,
       "item_code": "VSAT.O"
+    },
+    {
+      "name": "AST 스페이스모바일",
+      "weight_pct": 2.72,
+      "shares": 135,
+      "item_code": "ASTS.O"
+    },
+    {
+      "name": "어플라이드 옵토일렉트로닉스",
+      "weight_pct": 2.7,
+      "shares": 72,
+      "item_code": "AAOI.O"
     },
     {
       "name": "패브리넷",
@@ -129,38 +129,38 @@
       "item_code": "FN"
     },
     {
+      "name": "루멘 테크놀로지스",
+      "weight_pct": 2.49,
+      "shares": 1087,
+      "item_code": "LUMN.K"
+    },
+    {
+      "name": "램버스",
+      "weight_pct": 2.41,
+      "shares": 79,
+      "item_code": "RMBS.O"
+    },
+    {
       "name": "TTM 테크놀로지스",
       "weight_pct": 2.41,
       "shares": 58,
       "item_code": "TTMI.O"
     },
     {
-      "name": "램버스",
-      "weight_pct": 2.4,
-      "shares": 79,
-      "item_code": "RMBS.O"
-    },
-    {
-      "name": "루멘 테크놀로지스",
-      "weight_pct": 2.37,
-      "shares": 1087,
-      "item_code": "LUMN.K"
-    },
-    {
       "name": "조비 에비에이션",
-      "weight_pct": 2.27,
+      "weight_pct": 2.29,
       "shares": 955,
       "item_code": "JOBY.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.89,
-      "shares": 7448466,
+      "weight_pct": 1.92,
+      "shares": 7334623,
       "item_code": null
     },
     {
       "name": "ACM 리서치",
-      "weight_pct": 1.82,
+      "weight_pct": 1.81,
       "shares": 72,
       "item_code": "ACMR.O"
     },
@@ -172,19 +172,19 @@
     },
     {
       "name": "포전트 파워 솔루션스",
-      "weight_pct": 1.56,
+      "weight_pct": 1.54,
       "shares": 146,
       "item_code": "FPS"
     },
     {
       "name": "비코",
-      "weight_pct": 1.49,
+      "weight_pct": 1.44,
       "shares": 22,
       "item_code": "VICR.O"
     },
     {
       "name": "울트라 클린 홀딩스",
-      "weight_pct": 1.45,
+      "weight_pct": 1.43,
       "shares": 61,
       "item_code": "UCTT.O"
     }

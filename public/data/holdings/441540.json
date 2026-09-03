@@ -1,82 +1,82 @@
 {
   "ticker": "441540",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "HMM",
-      "weight_pct": 18.82,
+      "weight_pct": 19.31,
       "shares": 11793,
       "item_code": "011200"
     },
     {
       "name": "HD한국조선해양",
-      "weight_pct": 15.72,
+      "weight_pct": 15.43,
       "shares": 595,
       "item_code": "009540"
     },
     {
       "name": "삼성중공업",
-      "weight_pct": 13.77,
+      "weight_pct": 13.76,
       "shares": 8768,
       "item_code": "010140"
     },
     {
       "name": "한화오션",
-      "weight_pct": 13.38,
+      "weight_pct": 13.14,
       "shares": 2036,
       "item_code": "042660"
     },
     {
       "name": "HD현대중공업",
-      "weight_pct": 11.92,
+      "weight_pct": 11.69,
       "shares": 352,
       "item_code": "329180"
     },
     {
       "name": "HD현대마린솔루션",
-      "weight_pct": 8.75,
+      "weight_pct": 9.04,
       "shares": 577,
       "item_code": "443060"
     },
     {
       "name": "한화엔진",
-      "weight_pct": 5.9,
+      "weight_pct": 5.79,
       "shares": 1649,
       "item_code": "082740"
     },
     {
       "name": "팬오션",
-      "weight_pct": 3.01,
+      "weight_pct": 3.12,
       "shares": 7203,
       "item_code": "028670"
     },
     {
       "name": "HD현대마린엔진",
-      "weight_pct": 2.58,
+      "weight_pct": 2.54,
       "shares": 660,
       "item_code": "071970"
     },
     {
       "name": "대한조선",
-      "weight_pct": 2.05,
+      "weight_pct": 2.03,
       "shares": 582,
       "item_code": "439260"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.03,
-      "shares": 13786615,
+      "weight_pct": 1.08,
+      "shares": 13773084,
       "item_code": null
     },
     {
       "name": "STX엔진",
-      "weight_pct": 0.84,
+      "weight_pct": 0.83,
       "shares": 457,
       "item_code": "077970"
     },
     {
       "name": "대한해운",
-      "weight_pct": 0.71,
+      "weight_pct": 0.73,
       "shares": 4638,
       "item_code": "005880"
     },

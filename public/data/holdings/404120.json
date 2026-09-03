@@ -1,82 +1,82 @@
 {
   "ticker": "404120",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 10.37,
+      "weight_pct": 10.36,
       "shares": 459,
       "item_code": "006400"
     },
     {
       "name": "한화솔루션",
-      "weight_pct": 9.4,
+      "weight_pct": 9.09,
       "shares": 7150,
       "item_code": "009830"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 7.46,
+      "weight_pct": 7.57,
       "shares": 720,
       "item_code": "005930"
     },
     {
       "name": "씨에스윈드",
-      "weight_pct": 6.76,
+      "weight_pct": 6.88,
       "shares": 3600,
       "item_code": "112610"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 6.38,
+      "weight_pct": 6.43,
       "shares": 95,
       "item_code": "000660"
     },
     {
-      "name": "두산퓨얼셀",
-      "weight_pct": 5.46,
-      "shares": 3101,
-      "item_code": "336260"
-    },
-    {
       "name": "포스코DX",
-      "weight_pct": 4.94,
+      "weight_pct": 5.03,
       "shares": 5740,
       "item_code": "022100"
     },
     {
+      "name": "두산퓨얼셀",
+      "weight_pct": 5.03,
+      "shares": 3101,
+      "item_code": "336260"
+    },
+    {
       "name": "삼성전기",
-      "weight_pct": 4.26,
+      "weight_pct": 4.4,
       "shares": 75,
       "item_code": "009150"
     },
     {
       "name": "현대차",
-      "weight_pct": 4.18,
+      "weight_pct": 4.17,
       "shares": 263,
       "item_code": "005380"
     },
     {
       "name": "SK오션플랜트",
-      "weight_pct": 3.95,
+      "weight_pct": 4.02,
       "shares": 7989,
       "item_code": "100090"
     },
     {
       "name": "HD한국조선해양",
-      "weight_pct": 3.86,
+      "weight_pct": 3.8,
       "shares": 275,
       "item_code": "009540"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 3.38,
+      "weight_pct": 3.46,
       "shares": 250,
       "item_code": "005490"
     },
     {
       "name": "한화",
-      "weight_pct": 3.05,
+      "weight_pct": 3.18,
       "shares": 600,
       "item_code": "000880"
     },
@@ -88,69 +88,69 @@
     },
     {
       "name": "LS ELECTRIC",
-      "weight_pct": 2.76,
+      "weight_pct": 2.79,
       "shares": 340,
       "item_code": "010120"
     },
     {
       "name": "현대모비스",
-      "weight_pct": 2.64,
+      "weight_pct": 2.61,
       "shares": 150,
       "item_code": "012330"
     },
     {
       "name": "SK이터닉스",
-      "weight_pct": 2.46,
+      "weight_pct": 2.55,
       "shares": 1198,
       "item_code": "475150"
     },
     {
       "name": "SK",
-      "weight_pct": 2.21,
+      "weight_pct": 2.17,
       "shares": 95,
       "item_code": "034730"
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 2.13,
+      "weight_pct": 2.07,
       "shares": 588,
       "item_code": "078600"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 1.94,
+      "weight_pct": 1.92,
       "shares": 600,
       "item_code": "034020"
     },
     {
       "name": "비에이치아이",
-      "weight_pct": 1.84,
+      "weight_pct": 1.89,
       "shares": 758,
       "item_code": "083650"
     },
     {
       "name": "LS",
-      "weight_pct": 1.6,
+      "weight_pct": 1.61,
       "shares": 130,
       "item_code": "006260"
     },
     {
       "name": "삼성중공업",
-      "weight_pct": 1.36,
+      "weight_pct": 1.37,
       "shares": 1637,
       "item_code": "010140"
-    },
-    {
-      "name": "OCI홀딩스",
-      "weight_pct": 1.16,
-      "shares": 111,
-      "item_code": "010060"
     },
     {
       "name": "LG화학",
       "weight_pct": 1.12,
       "shares": 100,
       "item_code": "051910"
+    },
+    {
+      "name": "OCI홀딩스",
+      "weight_pct": 1.12,
+      "shares": 111,
+      "item_code": "010060"
     },
     {
       "name": "엘앤에프",
@@ -160,14 +160,14 @@
     },
     {
       "name": "고려아연",
-      "weight_pct": 0.84,
+      "weight_pct": 0.86,
       "shares": 17,
       "item_code": "010130"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.43,
-      "shares": 10992741,
+      "weight_pct": 0.41,
+      "shares": 9850365,
       "item_code": null
     }
   ]

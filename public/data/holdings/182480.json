@@ -1,40 +1,40 @@
 {
   "ticker": "182480",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "MSCI US REIT Net Total Return USD Index",
-      "weight_pct": 33.89,
-      "shares": 232344645,
+      "weight_pct": 34.62,
+      "shares": 237267971,
       "item_code": null
     },
     {
       "name": "MSCI US REIT Net Total Return USD Index",
-      "weight_pct": 26.61,
-      "shares": 182411626,
+      "weight_pct": 27.18,
+      "shares": 186268443,
       "item_code": null
     },
     {
       "name": "MSCI US REIT Net Total Return USD Index",
-      "weight_pct": 19.25,
-      "shares": 131957689,
+      "weight_pct": 19.66,
+      "shares": 134755506,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 12.03,
-      "shares": 82501607,
+      "weight_pct": 10.22,
+      "shares": 70059382,
       "item_code": null
     },
     {
       "name": "MSCI US REIT Net Total Return USD Index",
-      "weight_pct": 4.96,
-      "shares": 34015759,
+      "weight_pct": 5.06,
+      "shares": 34736975,
       "item_code": null
     },
     {
       "name": "웰타워",
-      "weight_pct": 0.4,
+      "weight_pct": 0.41,
       "shares": 8,
       "item_code": "WELL.K"
     },
@@ -46,7 +46,7 @@
     },
     {
       "name": "이퀴닉스",
-      "weight_pct": 0.25,
+      "weight_pct": 0.24,
       "shares": 1,
       "item_code": "EQIX.O"
     },
@@ -315,12 +315,6 @@
       "item_code": "RHP"
     },
     {
-      "name": "COPT 디펜스 프로퍼티스",
-      "weight_pct": 0.01,
-      "shares": 1,
-      "item_code": "CDP"
-    },
-    {
       "name": "아메리콜드 리얼티 트러스트",
       "weight_pct": 0.01,
       "shares": 3,
@@ -523,6 +517,12 @@
       "weight_pct": 0.0,
       "shares": 0,
       "item_code": "SLG"
+    },
+    {
+      "name": "COPT 디펜스 프로퍼티스",
+      "weight_pct": 0.0,
+      "shares": 1,
+      "item_code": "CDP"
     },
     {
       "name": "CBL & 어소시에이츠 프로퍼티스",

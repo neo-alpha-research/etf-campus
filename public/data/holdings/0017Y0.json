@@ -1,22 +1,22 @@
 {
   "ticker": "0017Y0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고03500-5603(26-2)",
-      "weight_pct": 14.19,
+      "weight_pct": 13.21,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산금25신이0200-1021-1",
-      "weight_pct": 12.08,
+      "weight_pct": 12.11,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고04250-3606(26-6)",
-      "weight_pct": 9.27,
+      "weight_pct": 9.26,
       "shares": 0,
       "item_code": null
     },
@@ -28,19 +28,19 @@
     },
     {
       "name": "CP(케이비개포오단지제일차 20260824-30-11",
-      "weight_pct": 6.09,
+      "weight_pct": 6.1,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CD(KB국민 자금부 20251118-365-1)",
-      "weight_pct": 6.06,
+      "weight_pct": 6.07,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "CP(한국투자금융지주 20260703-361-109)",
-      "weight_pct": 5.9,
+      "weight_pct": 5.92,
       "shares": 0,
       "item_code": null
     },
@@ -51,14 +51,8 @@
       "item_code": null
     },
     {
-      "name": "국고04125-3109(26-9)",
-      "weight_pct": 4.99,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "우리금융캐피탈529-2",
-      "weight_pct": 4.88,
+      "weight_pct": 4.89,
       "shares": 0,
       "item_code": null
     },
@@ -69,45 +63,51 @@
       "item_code": null
     },
     {
-      "name": "기업은행(신)2608이3A-13(사)",
-      "weight_pct": 4.02,
+      "name": "국고02750-4509(25-9)",
+      "weight_pct": 4.76,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "국고02750-4509(25-9)",
-      "weight_pct": 4.02,
+      "name": "국고04125-3109(26-9)",
+      "weight_pct": 4.75,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "기업은행(신)2608이3A-13(사)",
+      "weight_pct": 4.03,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "롯데카드571-2",
-      "weight_pct": 3.56,
+      "weight_pct": 3.57,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "JB 우리캐피탈543-2",
-      "weight_pct": 3.55,
+      "weight_pct": 3.56,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고03625-2809(26-7)",
-      "weight_pct": 3.03,
+      "weight_pct": 3.04,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고02875-4409(24-10)",
-      "weight_pct": 2.66,
+      "weight_pct": 2.65,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.01,
-      "shares": -956268,
+      "weight_pct": -0.62,
+      "shares": -588359,
       "item_code": null
     }
   ]

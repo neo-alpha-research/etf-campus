@@ -1,138 +1,144 @@
 {
   "ticker": "494180",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "마이크로소프트",
-      "weight_pct": 7.31,
+      "weight_pct": 7.29,
       "shares": 70,
       "item_code": "MSFT.O"
     },
     {
       "name": "애플",
-      "weight_pct": 5.68,
+      "weight_pct": 5.88,
       "shares": 87,
       "item_code": "AAPL.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 5.46,
+      "weight_pct": 5.42,
       "shares": 120,
       "item_code": "NVDA.O"
     },
     {
       "name": "실리콘투",
-      "weight_pct": 5.13,
+      "weight_pct": 5.08,
       "shares": 658,
       "item_code": "257720"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 4.71,
+      "weight_pct": 4.66,
       "shares": 88,
       "item_code": "AMZN.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 4.54,
+      "weight_pct": 4.52,
       "shares": 65,
       "item_code": "GOOGL.O"
     },
     {
       "name": "코스맥스",
-      "weight_pct": 3.79,
+      "weight_pct": 3.81,
       "shares": 88,
       "item_code": "192820"
     },
     {
       "name": "월트 디즈니",
-      "weight_pct": 3.19,
+      "weight_pct": 3.18,
       "shares": 144,
       "item_code": "DIS"
     },
     {
       "name": "넷플릭스",
-      "weight_pct": 3.09,
+      "weight_pct": 3.1,
       "shares": 185,
       "item_code": "NFLX.O"
     },
     {
       "name": "쇼피파이",
-      "weight_pct": 2.61,
+      "weight_pct": 2.5,
       "shares": 86,
       "item_code": "SHOP.O"
     },
     {
-      "name": "알리바바 그룹 홀딩",
-      "weight_pct": 2.16,
-      "shares": 721,
-      "item_code": "9988.HK"
-    },
-    {
       "name": "소니 그룹",
-      "weight_pct": 2.1,
+      "weight_pct": 2.14,
       "shares": 407,
       "item_code": "6758.T"
     },
     {
+      "name": "알리바바 그룹 홀딩",
+      "weight_pct": 2.11,
+      "shares": 721,
+      "item_code": "9988.HK"
+    },
+    {
       "name": "넷이즈",
-      "weight_pct": 2.09,
+      "weight_pct": 2.07,
       "shares": 414,
       "item_code": "9999.HK"
     },
     {
       "name": "씨 ADR",
-      "weight_pct": 2.05,
+      "weight_pct": 2.06,
       "shares": 88,
       "item_code": "SE"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.98,
-      "shares": 13198233,
+      "weight_pct": 1.94,
+      "shares": 12779968,
       "item_code": null
     },
     {
       "name": "메타",
-      "weight_pct": 1.76,
+      "weight_pct": 1.8,
       "shares": 15,
       "item_code": "META.O"
     },
     {
-      "name": "부킹 홀딩스",
-      "weight_pct": 1.68,
-      "shares": 41,
-      "item_code": "BKNG.O"
-    },
-    {
-      "name": "에어비앤비",
-      "weight_pct": 1.66,
-      "shares": 44,
-      "item_code": "ABNB.O"
-    },
-    {
       "name": "타겟",
-      "weight_pct": 1.65,
+      "weight_pct": 1.7,
       "shares": 50,
       "item_code": "TGT"
     },
     {
-      "name": "텐센트",
-      "weight_pct": 1.61,
-      "shares": 136,
-      "item_code": "0700.HK"
+      "name": "에어비앤비",
+      "weight_pct": 1.67,
+      "shares": 44,
+      "item_code": "ABNB.O"
+    },
+    {
+      "name": "부킹 홀딩스",
+      "weight_pct": 1.66,
+      "shares": 41,
+      "item_code": "BKNG.O"
     },
     {
       "name": "메르카도리브레",
-      "weight_pct": 1.59,
+      "weight_pct": 1.63,
       "shares": 4,
       "item_code": "MELI.O"
     },
     {
+      "name": "텐센트",
+      "weight_pct": 1.59,
+      "shares": 136,
+      "item_code": "0700.HK"
+    },
+    {
       "name": "스포티파이 테크놀러지",
-      "weight_pct": 1.56,
+      "weight_pct": 1.58,
       "shares": 14,
       "item_code": "SPOT.K"
+    },
+    {
+      "name": "울타 뷰티",
+      "weight_pct": 1.36,
+      "shares": 12,
+      "item_code": "ULTA.O"
     },
     {
       "name": "컴캐스트",
@@ -141,14 +147,8 @@
       "item_code": "CMCSA.O"
     },
     {
-      "name": "울타 뷰티",
-      "weight_pct": 1.32,
-      "shares": 12,
-      "item_code": "ULTA.O"
-    },
-    {
       "name": "라이브 네이션 엔터테인먼트",
-      "weight_pct": 1.29,
+      "weight_pct": 1.28,
       "shares": 35,
       "item_code": "LYV"
     },
@@ -159,10 +159,10 @@
       "item_code": "TTWO.O"
     },
     {
-      "name": "리버티 미디어 Series C",
-      "weight_pct": 1.21,
-      "shares": 59,
-      "item_code": "FWONK.O"
+      "name": "월마트",
+      "weight_pct": 1.23,
+      "shares": 56,
+      "item_code": "WMT.O"
     },
     {
       "name": "워너 브로스 디스커버리",
@@ -171,52 +171,46 @@
       "item_code": "WBD.O"
     },
     {
-      "name": "월마트",
-      "weight_pct": 1.21,
-      "shares": 56,
-      "item_code": "WMT.O"
-    },
-    {
-      "name": "바이두",
-      "weight_pct": 1.14,
-      "shares": 454,
-      "item_code": "9888.HK"
-    },
-    {
-      "name": "크로거",
-      "weight_pct": 1.11,
-      "shares": 94,
-      "item_code": "KR"
-    },
-    {
-      "name": "징동닷컴",
-      "weight_pct": 1.1,
-      "shares": 375,
-      "item_code": "9618.HK"
+      "name": "리버티 미디어 Series C",
+      "weight_pct": 1.18,
+      "shares": 59,
+      "item_code": "FWONK.O"
     },
     {
       "name": "이베이",
-      "weight_pct": 1.1,
+      "weight_pct": 1.13,
       "shares": 52,
       "item_code": "EBAY.O"
     },
     {
+      "name": "크로거",
+      "weight_pct": 1.13,
+      "shares": 94,
+      "item_code": "KR"
+    },
+    {
+      "name": "바이두",
+      "weight_pct": 1.12,
+      "shares": 454,
+      "item_code": "9888.HK"
+    },
+    {
+      "name": "징동닷컴",
+      "weight_pct": 1.07,
+      "shares": 375,
+      "item_code": "9618.HK"
+    },
+    {
       "name": "서비스나우",
-      "weight_pct": 1.03,
+      "weight_pct": 1.01,
       "shares": 34,
       "item_code": "NOW"
     },
     {
       "name": "세일즈포스",
-      "weight_pct": 1.0,
+      "weight_pct": 1.01,
       "shares": 19,
       "item_code": "CRM"
-    },
-    {
-      "name": "파라마운트 스카이댄스",
-      "weight_pct": 0.96,
-      "shares": 429,
-      "item_code": "PSKY.O"
     },
     {
       "name": "핀둬둬 ADR",
@@ -225,34 +219,46 @@
       "item_code": "PDD.O"
     },
     {
+      "name": "파라마운트 스카이댄스",
+      "weight_pct": 0.94,
+      "shares": 429,
+      "item_code": "PSKY.O"
+    },
+    {
       "name": "TKO 그룹 홀딩스",
-      "weight_pct": 0.86,
+      "weight_pct": 0.87,
       "shares": 23,
       "item_code": "TKO"
     },
     {
-      "name": "익스피디아그룹",
+      "name": "매치 그룹",
       "weight_pct": 0.78,
+      "shares": 90,
+      "item_code": "MTCH.O"
+    },
+    {
+      "name": "ETSY",
+      "weight_pct": 0.76,
+      "shares": 45,
+      "item_code": "ETSY.K"
+    },
+    {
+      "name": "익스피디아그룹",
+      "weight_pct": 0.75,
       "shares": 12,
       "item_code": "EXPE.O"
     },
     {
       "name": "블록",
-      "weight_pct": 0.77,
+      "weight_pct": 0.74,
       "shares": 46,
       "item_code": "XYZ"
     },
     {
-      "name": "ETSY",
-      "weight_pct": 0.75,
-      "shares": 45,
-      "item_code": "ETSY.K"
-    },
-    {
-      "name": "매치 그룹",
-      "weight_pct": 0.75,
-      "shares": 90,
-      "item_code": "MTCH.O"
+      "name": "신동방교육과학기술",
+      "weight_pct": 0.71,
+      "shares": 593,
+      "item_code": "9901.HK"
     },
     {
       "name": "매디슨 스퀘어 가든 스포츠",
@@ -261,22 +267,10 @@
       "item_code": "MSGS.K"
     },
     {
-      "name": "신동방교육과학기술",
-      "weight_pct": 0.7,
-      "shares": 593,
-      "item_code": "9901.HK"
-    },
-    {
       "name": "메이시스",
       "weight_pct": 0.69,
       "shares": 153,
       "item_code": "M"
-    },
-    {
-      "name": "스냅",
-      "weight_pct": 0.67,
-      "shares": 590,
-      "item_code": "SNAP.K"
     },
     {
       "name": "조이 ADR",
@@ -291,46 +285,52 @@
       "item_code": "WMG.O"
     },
     {
+      "name": "스냅",
+      "weight_pct": 0.65,
+      "shares": 590,
+      "item_code": "SNAP.K"
+    },
+    {
       "name": "스피어 엔터테인먼트",
-      "weight_pct": 0.64,
+      "weight_pct": 0.63,
       "shares": 23,
       "item_code": "SPHR.K"
     },
     {
-      "name": "럼 그룹",
-      "weight_pct": 0.61,
-      "shares": 335,
-      "item_code": "RUM.O"
-    },
-    {
       "name": "듀오링고",
-      "weight_pct": 0.55,
+      "weight_pct": 0.59,
       "shares": 18,
       "item_code": "DUOL.O"
     },
     {
-      "name": "등신음악오락",
-      "weight_pct": 0.54,
-      "shares": 614,
-      "item_code": "1698.HK"
-    },
-    {
-      "name": "그라인더",
-      "weight_pct": 0.54,
-      "shares": 171,
-      "item_code": "GRND.K"
+      "name": "럼 그룹",
+      "weight_pct": 0.59,
+      "shares": 335,
+      "item_code": "RUM.O"
     },
     {
       "name": "TAL 에듀케이션 그룹 ADR",
-      "weight_pct": 0.54,
+      "weight_pct": 0.57,
       "shares": 227,
       "item_code": "TAL"
     },
     {
+      "name": "그라인더",
+      "weight_pct": 0.55,
+      "shares": 171,
+      "item_code": "GRND.K"
+    },
+    {
       "name": "스트라이드",
-      "weight_pct": 0.53,
+      "weight_pct": 0.54,
       "shares": 30,
       "item_code": "LRN"
+    },
+    {
+      "name": "등신음악오락",
+      "weight_pct": 0.53,
+      "shares": 614,
+      "item_code": "1698.HK"
     },
     {
       "name": "매디슨 스퀘어 가든 엔터테인먼트",
@@ -340,7 +340,7 @@
     },
     {
       "name": "빌리빌리",
-      "weight_pct": 0.45,
+      "weight_pct": 0.44,
       "shares": 134,
       "item_code": "9626.HK"
     },
@@ -351,20 +351,20 @@
       "item_code": "CHWY.K"
     },
     {
+      "name": "그랜드 캐년 에듀케이션",
+      "weight_pct": 0.4,
+      "shares": 13,
+      "item_code": "LOPE.O"
+    },
+    {
       "name": "카바나",
       "weight_pct": 0.4,
       "shares": 27,
       "item_code": "CVNA.K"
     },
     {
-      "name": "그랜드 캐년 에듀케이션",
-      "weight_pct": 0.39,
-      "shares": 13,
-      "item_code": "LOPE.O"
-    },
-    {
       "name": "동방견선",
-      "weight_pct": 0.36,
+      "weight_pct": 0.39,
       "shares": 571,
       "item_code": "1797.HK"
     },

@@ -1,71 +1,71 @@
 {
   "ticker": "0204D0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "현대모비스",
-      "weight_pct": 26.89,
-      "shares": 192,
-      "item_code": "012330"
-    },
-    {
       "name": "기아",
-      "weight_pct": 26.72,
+      "weight_pct": 26.82,
       "shares": 645,
       "item_code": "000270"
     },
     {
+      "name": "현대모비스",
+      "weight_pct": 26.67,
+      "shares": 192,
+      "item_code": "012330"
+    },
+    {
       "name": "현대차",
-      "weight_pct": 22.63,
+      "weight_pct": 22.62,
       "shares": 179,
       "item_code": "005380"
     },
     {
       "name": "현대글로비스",
-      "weight_pct": 9.12,
+      "weight_pct": 8.99,
       "shares": 138,
       "item_code": "086280"
     },
     {
       "name": "현대오토에버",
-      "weight_pct": 3.71,
+      "weight_pct": 3.73,
       "shares": 29,
       "item_code": "307950"
     },
     {
       "name": "현대위아",
-      "weight_pct": 3.48,
+      "weight_pct": 3.52,
       "shares": 187,
       "item_code": "011210"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 2.57,
+      "weight_pct": 2.68,
       "shares": 27,
       "item_code": "NVDA.O"
     },
     {
       "name": "HL만도",
-      "weight_pct": 1.54,
+      "weight_pct": 1.53,
       "shares": 97,
       "item_code": "204320"
     },
     {
-      "name": "LG이노텍",
-      "weight_pct": 1.49,
-      "shares": 8,
-      "item_code": "011070"
-    },
-    {
       "name": "알파벳 Class A",
-      "weight_pct": 1.46,
+      "weight_pct": 1.53,
       "shares": 10,
       "item_code": "GOOGL.O"
     },
     {
+      "name": "LG이노텍",
+      "weight_pct": 1.51,
+      "shares": 8,
+      "item_code": "011070"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.33,
-      "shares": 1062881,
+      "weight_pct": 0.35,
+      "shares": 1058615,
       "item_code": null
     }
   ]

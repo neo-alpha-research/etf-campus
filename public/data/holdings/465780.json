@@ -1,6 +1,6 @@
 {
   "ticker": "465780",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "토지주택채권(용지)23-09",
@@ -65,7 +65,7 @@
     {
       "name": "원화현금",
       "weight_pct": 3.12,
-      "shares": 3327555,
+      "shares": 3327596,
       "item_code": null
     }
   ]

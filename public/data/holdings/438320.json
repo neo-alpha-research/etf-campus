@@ -1,47 +1,47 @@
 {
   "ticker": "438320",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 98.65,
-      "shares": 52190430,
-      "item_code": null
-    },
-    {
-      "name": "차이나항셍테크(KB증권) TRS 230224-04",
-      "weight_pct": 0.46,
-      "shares": 246589,
+      "weight_pct": 101.13,
+      "shares": 51825320,
       "item_code": null
     },
     {
       "name": "차이나항셍테크 TRS(삼성증권)",
-      "weight_pct": 0.32,
-      "shares": 171436,
-      "item_code": null
-    },
-    {
-      "name": "차이나항셍테크(메리츠증권) TRS 230224-02",
-      "weight_pct": 0.28,
-      "shares": 151899,
-      "item_code": null
-    },
-    {
-      "name": "차이나항셍테크 TRS(한국투자증권)",
-      "weight_pct": 0.12,
-      "shares": 66414,
-      "item_code": null
-    },
-    {
-      "name": "China Hang Seng TECH INDEX (LEVERAGE) TR",
-      "weight_pct": 0.08,
-      "shares": 45372,
+      "weight_pct": 0.09,
+      "shares": 50222,
       "item_code": null
     },
     {
       "name": "차이나항셍테크(미래에셋증권) TRS 230224-",
-      "weight_pct": 0.06,
-      "shares": 32221,
+      "weight_pct": -0.07,
+      "shares": -37627,
+      "item_code": null
+    },
+    {
+      "name": "China Hang Seng TECH INDEX (LEVERAGE) TR",
+      "weight_pct": -0.1,
+      "shares": -52985,
+      "item_code": null
+    },
+    {
+      "name": "차이나항셍테크 TRS(한국투자증권)",
+      "weight_pct": -0.15,
+      "shares": -77557,
+      "item_code": null
+    },
+    {
+      "name": "차이나항셍테크(메리츠증권) TRS 230224-02",
+      "weight_pct": -0.34,
+      "shares": -177384,
+      "item_code": null
+    },
+    {
+      "name": "차이나항셍테크(KB증권) TRS 230224-04",
+      "weight_pct": -0.56,
+      "shares": -287962,
       "item_code": null
     }
   ]

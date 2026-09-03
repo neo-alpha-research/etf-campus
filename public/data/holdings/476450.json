@@ -1,6 +1,6 @@
 {
   "ticker": "476450",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "WON 전단채플러스액티브",
@@ -125,7 +125,7 @@
     {
       "name": "원화예금",
       "weight_pct": -27.41,
-      "shares": -28934048,
+      "shares": -28936675,
       "item_code": null
     }
   ]

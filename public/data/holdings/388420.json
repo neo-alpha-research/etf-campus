@@ -1,46 +1,46 @@
 {
   "ticker": "388420",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 28.58,
+      "weight_pct": 28.1,
       "shares": 578,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 19.24,
-      "shares": 60,
+      "weight_pct": 17.53,
+      "shares": 56,
       "item_code": "000660"
     },
     {
       "name": "심텍",
-      "weight_pct": 7.23,
+      "weight_pct": 7.28,
       "shares": 304,
       "item_code": "222800"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 6.5,
+      "weight_pct": 6.52,
       "shares": 24,
       "item_code": "009150"
     },
     {
-      "name": "피에스케이",
-      "weight_pct": 5.76,
-      "shares": 242,
-      "item_code": "319660"
-    },
-    {
       "name": "테스",
-      "weight_pct": 5.75,
+      "weight_pct": 5.91,
       "shares": 224,
       "item_code": "095610"
     },
     {
+      "name": "피에스케이",
+      "weight_pct": 5.82,
+      "shares": 242,
+      "item_code": "319660"
+    },
+    {
       "name": "브이엠",
-      "weight_pct": 4.59,
+      "weight_pct": 4.85,
       "shares": 448,
       "item_code": "089970"
     },
@@ -52,13 +52,13 @@
     },
     {
       "name": "두산테스나",
-      "weight_pct": 3.5,
+      "weight_pct": 3.58,
       "shares": 236,
       "item_code": "131970"
     },
     {
       "name": "코미코",
-      "weight_pct": 3.38,
+      "weight_pct": 3.57,
       "shares": 700,
       "item_code": "183300"
     },
@@ -70,13 +70,13 @@
     },
     {
       "name": "원익QnC",
-      "weight_pct": 2.86,
+      "weight_pct": 2.89,
       "shares": 588,
       "item_code": "074600"
     },
     {
       "name": "이수페타시스",
-      "weight_pct": 2.52,
+      "weight_pct": 2.6,
       "shares": 120,
       "item_code": "007660"
     },
@@ -87,21 +87,21 @@
       "item_code": "353200"
     },
     {
-      "name": "원익IPS",
-      "weight_pct": 1.37,
-      "shares": 66,
-      "item_code": "240810"
-    },
-    {
       "name": "주성엔지니어링",
-      "weight_pct": 1.37,
+      "weight_pct": 1.41,
       "shares": 42,
       "item_code": "036930"
     },
     {
+      "name": "원익IPS",
+      "weight_pct": 1.4,
+      "shares": 66,
+      "item_code": "240810"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": -1.91,
-      "shares": -10099429,
+      "weight_pct": -0.71,
+      "shares": -3662230,
       "item_code": null
     }
   ]

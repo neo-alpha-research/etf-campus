@@ -1,7 +1,13 @@
 {
   "ticker": "0131W0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
+    {
+      "name": "원화현금",
+      "weight_pct": 8.44,
+      "shares": 8620222,
+      "item_code": null
+    },
     {
       "name": "토지주택채권(용지)23-09",
       "weight_pct": 7.89,
@@ -45,12 +51,6 @@
       "item_code": null
     },
     {
-      "name": "주택금융공사246(변)(사)",
-      "weight_pct": 7.28,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "기업은행(단)2512할274A-17",
       "weight_pct": 7.26,
       "shares": 0,
@@ -84,12 +84,6 @@
       "name": "CD(우리 여의도중앙기업영업지원팀 2025112",
       "weight_pct": 3.61,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 1.15,
-      "shares": 1177795,
       "item_code": null
     }
   ]

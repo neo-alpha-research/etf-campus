@@ -1,88 +1,88 @@
 {
   "ticker": "372330",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 20.55,
-      "shares": 70980393,
+      "weight_pct": 20.52,
+      "shares": 69739800,
       "item_code": null
     },
     {
       "name": "넷이즈",
-      "weight_pct": 6.97,
+      "weight_pct": 6.94,
       "shares": 716,
       "item_code": "9999.HK"
     },
     {
       "name": "HangSengTech Index futures 2026 09",
-      "weight_pct": 6.78,
+      "weight_pct": 6.76,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "텐센트",
-      "weight_pct": 6.74,
-      "shares": 293,
-      "item_code": "0700.HK"
-    },
-    {
       "name": "샤오미",
-      "weight_pct": 6.67,
+      "weight_pct": 6.76,
       "shares": 4778,
       "item_code": "1810.HK"
     },
     {
-      "name": "메이투안",
-      "weight_pct": 6.61,
-      "shares": 1655,
-      "item_code": "3690.HK"
+      "name": "텐센트",
+      "weight_pct": 6.66,
+      "shares": 293,
+      "item_code": "0700.HK"
     },
     {
       "name": "BYD",
-      "weight_pct": 6.45,
+      "weight_pct": 6.63,
       "shares": 1462,
       "item_code": "1211.HK"
     },
     {
+      "name": "메이투안",
+      "weight_pct": 6.51,
+      "shares": 1655,
+      "item_code": "3690.HK"
+    },
+    {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 6.25,
+      "weight_pct": 6.13,
       "shares": 1081,
       "item_code": "9988.HK"
     },
     {
       "name": "중국 국제 반도체",
-      "weight_pct": 6.18,
+      "weight_pct": 6.1,
       "shares": 1726,
       "item_code": "0981.HK"
     },
     {
       "name": "레노버",
-      "weight_pct": 4.72,
+      "weight_pct": 4.87,
       "shares": 3105,
       "item_code": "0992.HK"
     },
     {
       "name": "징동닷컴",
-      "weight_pct": 4.11,
+      "weight_pct": 4.04,
       "shares": 725,
       "item_code": "9618.HK"
     },
     {
       "name": "바이두",
-      "weight_pct": 3.35,
+      "weight_pct": 3.31,
       "shares": 688,
       "item_code": "9888.HK"
     },
     {
       "name": "콰이쇼우",
-      "weight_pct": 2.35,
+      "weight_pct": 2.46,
       "shares": 1386,
       "item_code": "1024.HK"
     },
     {
       "name": "트립닷컴 그룹",
-      "weight_pct": 2.28,
+      "weight_pct": 2.25,
       "shares": 125,
       "item_code": "9961.HK"
     },
@@ -94,7 +94,7 @@
     },
     {
       "name": "샤오펑 Class A",
-      "weight_pct": 1.68,
+      "weight_pct": 1.69,
       "shares": 740,
       "item_code": "9868.HK"
     },
@@ -106,13 +106,13 @@
     },
     {
       "name": "미적집단",
-      "weight_pct": 1.44,
+      "weight_pct": 1.45,
       "shares": 281,
       "item_code": "0300.HK"
     },
     {
       "name": "호라이즌 로보틱스",
-      "weight_pct": 1.27,
+      "weight_pct": 1.25,
       "shares": 5334,
       "item_code": "9660.HK"
     },
@@ -124,25 +124,25 @@
     },
     {
       "name": "서니옵티컬",
-      "weight_pct": 1.14,
+      "weight_pct": 1.17,
       "shares": 319,
       "item_code": "2382.HK"
     },
     {
       "name": "센스타임",
-      "weight_pct": 1.13,
+      "weight_pct": 1.14,
       "shares": 15637,
       "item_code": "0020.HK"
     },
     {
       "name": "징동헬스",
-      "weight_pct": 0.94,
+      "weight_pct": 0.95,
       "shares": 511,
       "item_code": "6618.HK"
     },
     {
       "name": "빌리빌리",
-      "weight_pct": 0.94,
+      "weight_pct": 0.93,
       "shares": 145,
       "item_code": "9626.HK"
     },
@@ -165,26 +165,26 @@
       "item_code": "0285.HK"
     },
     {
-      "name": "니오",
-      "weight_pct": 0.47,
-      "shares": 281,
-      "item_code": "9866.HK"
-    },
-    {
       "name": "알리바바 건강 정보 기술",
       "weight_pct": 0.46,
       "shares": 2942,
       "item_code": "0241.HK"
     },
     {
+      "name": "니오",
+      "weight_pct": 0.44,
+      "shares": 281,
+      "item_code": "9866.HK"
+    },
+    {
       "name": "동정여행",
-      "weight_pct": 0.39,
+      "weight_pct": 0.38,
       "shares": 642,
       "item_code": "0780.HK"
     },
     {
       "name": "미니맥스 그룹",
-      "weight_pct": 0.15,
+      "weight_pct": 0.14,
       "shares": 8,
       "item_code": "0100.HK"
     },

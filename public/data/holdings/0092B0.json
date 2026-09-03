@@ -1,83 +1,83 @@
 {
   "ticker": "0092B0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "두산에너빌리티",
-      "weight_pct": 19.33,
+      "weight_pct": 18.85,
       "shares": 1828,
       "item_code": "034020"
     },
     {
       "name": "현대건설",
-      "weight_pct": 14.9,
+      "weight_pct": 14.4,
       "shares": 950,
       "item_code": "000720"
     },
     {
       "name": "비에이치아이",
-      "weight_pct": 12.11,
+      "weight_pct": 12.21,
       "shares": 1523,
       "item_code": "083650"
     },
     {
       "name": "한전기술",
-      "weight_pct": 10.06,
+      "weight_pct": 9.98,
       "shares": 701,
       "item_code": "052690"
     },
     {
       "name": "한국전력",
-      "weight_pct": 9.61,
+      "weight_pct": 9.62,
       "shares": 2287,
       "item_code": "015760"
     },
     {
       "name": "삼성물산",
-      "weight_pct": 6.49,
+      "weight_pct": 6.42,
       "shares": 128,
       "item_code": "028260"
     },
     {
       "name": "DL이앤씨",
-      "weight_pct": 6.23,
+      "weight_pct": 6.32,
       "shares": 671,
       "item_code": "375500"
     },
     {
       "name": "대우건설",
-      "weight_pct": 5.59,
+      "weight_pct": 5.61,
       "shares": 2560,
       "item_code": "047040"
     },
     {
-      "name": "한전KPS",
-      "weight_pct": 5.35,
-      "shares": 908,
-      "item_code": "051600"
-    },
-    {
       "name": "태웅",
-      "weight_pct": 4.75,
+      "weight_pct": 5.5,
       "shares": 1097,
       "item_code": "044490"
     },
     {
+      "name": "한전KPS",
+      "weight_pct": 5.42,
+      "shares": 908,
+      "item_code": "051600"
+    },
+    {
       "name": "우리기술",
-      "weight_pct": 3.75,
+      "weight_pct": 3.84,
       "shares": 2686,
       "item_code": "032820"
     },
     {
       "name": "우진",
-      "weight_pct": 1.76,
+      "weight_pct": 1.79,
       "shares": 1046,
       "item_code": "105840"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.01,
-      "shares": 77877,
+      "weight_pct": 0.0,
+      "shares": 65012,
       "item_code": null
     }
   ]

@@ -1,52 +1,52 @@
 {
   "ticker": "488200",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 22.41,
+      "weight_pct": 22.43,
       "shares": 258,
       "item_code": "006400"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 17.91,
+      "weight_pct": 17.83,
       "shares": 1441,
       "item_code": "034020"
     },
     {
       "name": "LG전자",
-      "weight_pct": 16.46,
+      "weight_pct": 16.91,
       "shares": 522,
       "item_code": "066570"
     },
     {
       "name": "HD현대일렉트릭",
-      "weight_pct": 13.62,
+      "weight_pct": 13.32,
       "shares": 116,
       "item_code": "267260"
     },
     {
       "name": "LG화학",
-      "weight_pct": 9.73,
+      "weight_pct": 9.82,
       "shares": 226,
       "item_code": "051910"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 8.32,
+      "weight_pct": 8.1,
       "shares": 285,
       "item_code": "003670"
     },
     {
       "name": "에코프로",
-      "weight_pct": 5.79,
+      "weight_pct": 5.76,
       "shares": 435,
       "item_code": "086520"
     },
     {
       "name": "엘앤에프",
-      "weight_pct": 2.58,
+      "weight_pct": 2.59,
       "shares": 129,
       "item_code": "066970"
     },
@@ -58,7 +58,7 @@
     },
     {
       "name": "비츠로셀",
-      "weight_pct": 0.59,
+      "weight_pct": 0.62,
       "shares": 145,
       "item_code": "082920"
     },
@@ -83,7 +83,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.2,
-      "shares": 1353075,
+      "shares": 1244614,
       "item_code": null
     },
     {

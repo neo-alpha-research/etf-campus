@@ -1,17 +1,17 @@
 {
   "ticker": "225130",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 83.18,
-      "shares": 4138956537,
+      "weight_pct": 86.47,
+      "shares": 4139202984,
       "item_code": null
     },
     {
       "name": "스왑(KB증권)",
-      "weight_pct": 16.81,
-      "shares": 836727946,
+      "weight_pct": 13.52,
+      "shares": 647328963,
       "item_code": null
     }
   ]

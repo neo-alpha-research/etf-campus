@@ -1,40 +1,40 @@
 {
   "ticker": "195930",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "유로스탁스50 TRS(키움증권)",
       "weight_pct": 38.97,
-      "shares": 460318755,
+      "shares": 456657037,
       "item_code": null
     },
     {
       "name": "유로스탁스50 TRS(KB증권)",
-      "weight_pct": 24.59,
-      "shares": 290564472,
+      "weight_pct": 24.6,
+      "shares": 288250376,
       "item_code": null
     },
     {
       "name": "유로스탁스50 TRS(미래에셋증권)",
-      "weight_pct": 23.88,
-      "shares": 282184912,
+      "weight_pct": 23.89,
+      "shares": 279936431,
       "item_code": null
     },
     {
       "name": "ISHARES CORE EURO STOXX50 DE",
-      "weight_pct": 9.88,
+      "weight_pct": 9.82,
       "shares": 1125,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 2.65,
-      "shares": 31395536,
+      "weight_pct": 2.69,
+      "shares": 31610820,
       "item_code": null
     },
     {
       "name": "DJ EURO STOXX 50 SEPT 2026",
-      "weight_pct": 2.16,
+      "weight_pct": 2.15,
       "shares": 0,
       "item_code": null
     }

@@ -1,64 +1,64 @@
 {
   "ticker": "0174J0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SK리츠",
-      "weight_pct": 24.57,
+      "weight_pct": 25.01,
       "shares": 20055,
       "item_code": "395400"
     },
     {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 13.28,
+      "weight_pct": 13.05,
       "shares": 18325,
       "item_code": "365550"
     },
     {
       "name": "롯데리츠",
-      "weight_pct": 12.39,
+      "weight_pct": 12.48,
       "shares": 14156,
       "item_code": "330590"
     },
     {
       "name": "신한알파리츠",
-      "weight_pct": 11.38,
+      "weight_pct": 11.35,
       "shares": 9243,
       "item_code": "293940"
     },
     {
       "name": "한화리츠",
-      "weight_pct": 10.98,
+      "weight_pct": 10.9,
       "shares": 9150,
       "item_code": "451800"
     },
     {
       "name": "원화현금",
-      "weight_pct": 9.95,
-      "shares": 43792458,
+      "weight_pct": 10.0,
+      "shares": 43788123,
       "item_code": null
     },
     {
       "name": "삼성FN리츠",
-      "weight_pct": 6.61,
+      "weight_pct": 6.44,
       "shares": 5263,
       "item_code": "448730"
     },
     {
       "name": "대신밸류리츠",
-      "weight_pct": 4.31,
+      "weight_pct": 4.25,
       "shares": 4744,
       "item_code": "0030R0"
     },
     {
       "name": "NH올원리츠",
-      "weight_pct": 2.87,
+      "weight_pct": 2.85,
       "shares": 4413,
       "item_code": "400760"
     },
     {
       "name": "KB스타리츠",
-      "weight_pct": 1.87,
+      "weight_pct": 1.88,
       "shares": 5687,
       "item_code": "432320"
     },

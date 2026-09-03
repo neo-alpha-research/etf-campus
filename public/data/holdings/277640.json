@@ -1,138 +1,144 @@
 {
   "ticker": "277640",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 30.38,
+      "weight_pct": 30.4,
       "shares": 2176,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 24.63,
+      "weight_pct": 24.47,
       "shares": 272,
       "item_code": "000660"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 2.79,
+      "weight_pct": 2.68,
       "shares": 49,
       "item_code": "402340"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 2.14,
+      "weight_pct": 2.18,
       "shares": 28,
       "item_code": "009150"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 1.7,
+      "weight_pct": 1.68,
       "shares": 87,
       "item_code": "373220"
     },
     {
       "name": "현대차",
-      "weight_pct": 1.62,
+      "weight_pct": 1.6,
       "shares": 76,
       "item_code": "005380"
     },
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 1.38,
+      "weight_pct": 1.42,
       "shares": 17,
       "item_code": "207940"
     },
     {
+      "name": "KB금융",
+      "weight_pct": 1.24,
+      "shares": 132,
+      "item_code": "105560"
+    },
+    {
       "name": "삼성물산",
-      "weight_pct": 1.25,
+      "weight_pct": 1.24,
       "shares": 60,
       "item_code": "028260"
     },
     {
       "name": "삼성생명",
-      "weight_pct": 1.22,
+      "weight_pct": 1.21,
       "shares": 74,
       "item_code": "032830"
     },
     {
-      "name": "KB금융",
-      "weight_pct": 1.2,
-      "shares": 132,
-      "item_code": "105560"
-    },
-    {
-      "name": "한화에어로스페이스",
-      "weight_pct": 1.07,
-      "shares": 19,
-      "item_code": "012450"
-    },
-    {
       "name": "신한지주",
-      "weight_pct": 1.05,
+      "weight_pct": 1.09,
       "shares": 177,
       "item_code": "055550"
     },
     {
+      "name": "한화에어로스페이스",
+      "weight_pct": 1.08,
+      "shares": 19,
+      "item_code": "012450"
+    },
+    {
       "name": "두산에너빌리티",
-      "weight_pct": 1.03,
+      "weight_pct": 1.01,
       "shares": 238,
       "item_code": "034020"
     },
     {
       "name": "기아",
-      "weight_pct": 1.01,
+      "weight_pct": 1.0,
       "shares": 145,
       "item_code": "000270"
     },
     {
       "name": "HD현대중공업",
-      "weight_pct": 0.94,
+      "weight_pct": 0.91,
       "shares": 39,
       "item_code": "329180"
     },
     {
-      "name": "삼성SDI",
-      "weight_pct": 0.91,
-      "shares": 30,
-      "item_code": "006400"
-    },
-    {
       "name": "셀트리온",
-      "weight_pct": 0.87,
+      "weight_pct": 0.9,
       "shares": 87,
       "item_code": "068270"
     },
     {
+      "name": "삼성SDI",
+      "weight_pct": 0.9,
+      "shares": 30,
+      "item_code": "006400"
+    },
+    {
       "name": "SK",
-      "weight_pct": 0.84,
+      "weight_pct": 0.82,
       "shares": 27,
       "item_code": "034730"
     },
     {
-      "name": "현대모비스",
-      "weight_pct": 0.78,
-      "shares": 33,
-      "item_code": "012330"
-    },
-    {
       "name": "하나금융지주",
-      "weight_pct": 0.74,
+      "weight_pct": 0.76,
       "shares": 102,
       "item_code": "086790"
     },
     {
+      "name": "현대모비스",
+      "weight_pct": 0.76,
+      "shares": 33,
+      "item_code": "012330"
+    },
+    {
       "name": "LG전자",
-      "weight_pct": 0.67,
+      "weight_pct": 0.68,
       "shares": 61,
       "item_code": "066570"
     },
     {
       "name": "NAVER",
-      "weight_pct": 0.65,
+      "weight_pct": 0.66,
       "shares": 57,
       "item_code": "035420"
+    },
+    {
+      "name": "삼성화재",
+      "weight_pct": 0.62,
+      "shares": 17,
+      "item_code": "000810"
     },
     {
       "name": "LS ELECTRIC",
@@ -141,44 +147,38 @@
       "item_code": "010120"
     },
     {
-      "name": "삼성화재",
-      "weight_pct": 0.61,
-      "shares": 17,
-      "item_code": "000810"
-    },
-    {
       "name": "POSCO홀딩스",
-      "weight_pct": 0.54,
+      "weight_pct": 0.55,
       "shares": 30,
       "item_code": "005490"
     },
     {
-      "name": "한화오션",
-      "weight_pct": 0.53,
-      "shares": 114,
-      "item_code": "042660"
-    },
-    {
-      "name": "HD현대일렉트릭",
-      "weight_pct": 0.53,
-      "shares": 13,
-      "item_code": "267260"
-    },
-    {
       "name": "고려아연",
-      "weight_pct": 0.53,
+      "weight_pct": 0.54,
       "shares": 8,
       "item_code": "010130"
     },
     {
+      "name": "한화오션",
+      "weight_pct": 0.52,
+      "shares": 114,
+      "item_code": "042660"
+    },
+    {
       "name": "우리금융지주",
-      "weight_pct": 0.5,
+      "weight_pct": 0.52,
       "shares": 274,
       "item_code": "316140"
     },
     {
+      "name": "HD현대일렉트릭",
+      "weight_pct": 0.51,
+      "shares": 13,
+      "item_code": "267260"
+    },
+    {
       "name": "HD한국조선해양",
-      "weight_pct": 0.49,
+      "weight_pct": 0.47,
       "shares": 26,
       "item_code": "009540"
     },
@@ -190,27 +190,27 @@
     },
     {
       "name": "SK이노베이션",
-      "weight_pct": 0.45,
+      "weight_pct": 0.46,
       "shares": 63,
       "item_code": "096770"
     },
     {
       "name": "메리츠금융지주",
-      "weight_pct": 0.41,
+      "weight_pct": 0.44,
       "shares": 62,
       "item_code": "138040"
+    },
+    {
+      "name": "한미반도체",
+      "weight_pct": 0.41,
+      "shares": 35,
+      "item_code": "042700"
     },
     {
       "name": "한국전력",
       "weight_pct": 0.41,
       "shares": 239,
       "item_code": "015760"
-    },
-    {
-      "name": "한미반도체",
-      "weight_pct": 0.4,
-      "shares": 35,
-      "item_code": "042700"
     },
     {
       "name": "SK텔레콤",
@@ -233,20 +233,8 @@
     {
       "name": "원화현금",
       "weight_pct": 0.38,
-      "shares": 7241372,
+      "shares": 6945758,
       "item_code": null
-    },
-    {
-      "name": "두산",
-      "weight_pct": 0.38,
-      "shares": 6,
-      "item_code": "000150"
-    },
-    {
-      "name": "삼성에스디에스",
-      "weight_pct": 0.38,
-      "shares": 29,
-      "item_code": "018260"
     },
     {
       "name": "미래에셋증권",
@@ -256,15 +244,27 @@
     },
     {
       "name": "LG",
-      "weight_pct": 0.36,
+      "weight_pct": 0.37,
       "shares": 56,
       "item_code": "003550"
     },
     {
+      "name": "두산",
+      "weight_pct": 0.37,
+      "shares": 6,
+      "item_code": "000150"
+    },
+    {
       "name": "KT&G",
-      "weight_pct": 0.36,
+      "weight_pct": 0.37,
       "shares": 39,
       "item_code": "033780"
+    },
+    {
+      "name": "삼성에스디에스",
+      "weight_pct": 0.37,
+      "shares": 29,
+      "item_code": "018260"
     },
     {
       "name": "삼성중공업",
@@ -274,27 +274,21 @@
     },
     {
       "name": "S-Oil",
-      "weight_pct": 0.34,
+      "weight_pct": 0.35,
       "shares": 42,
       "item_code": "010950"
+    },
+    {
+      "name": "기업은행",
+      "weight_pct": 0.34,
+      "shares": 297,
+      "item_code": "024110"
     },
     {
       "name": "HD현대",
       "weight_pct": 0.33,
       "shares": 29,
       "item_code": "267250"
-    },
-    {
-      "name": "포스코퓨처엠",
-      "weight_pct": 0.33,
-      "shares": 33,
-      "item_code": "003670"
-    },
-    {
-      "name": "기업은행",
-      "weight_pct": 0.33,
-      "shares": 297,
-      "item_code": "024110"
     },
     {
       "name": "카카오",
@@ -309,8 +303,14 @@
       "item_code": "278470"
     },
     {
+      "name": "포스코퓨처엠",
+      "weight_pct": 0.32,
+      "shares": 33,
+      "item_code": "003670"
+    },
+    {
       "name": "현대글로비스",
-      "weight_pct": 0.31,
+      "weight_pct": 0.3,
       "shares": 28,
       "item_code": "086280"
     },
@@ -334,7 +334,7 @@
     },
     {
       "name": "KT",
-      "weight_pct": 0.27,
+      "weight_pct": 0.28,
       "shares": 94,
       "item_code": "030200"
     },
@@ -345,8 +345,14 @@
       "item_code": "272210"
     },
     {
+      "name": "DB손해보험",
+      "weight_pct": 0.25,
+      "shares": 24,
+      "item_code": "005830"
+    },
+    {
       "name": "현대건설",
-      "weight_pct": 0.26,
+      "weight_pct": 0.25,
       "shares": 41,
       "item_code": "000720"
     },
@@ -357,10 +363,10 @@
       "item_code": "047810"
     },
     {
-      "name": "DB손해보험",
+      "name": "삼양식품",
       "weight_pct": 0.24,
-      "shares": 24,
-      "item_code": "005830"
+      "shares": 3,
+      "item_code": "003230"
     },
     {
       "name": "GS",
@@ -369,16 +375,22 @@
       "item_code": "078930"
     },
     {
-      "name": "삼양식품",
-      "weight_pct": 0.23,
-      "shares": 3,
-      "item_code": "003230"
+      "name": "대한항공",
+      "weight_pct": 0.22,
+      "shares": 137,
+      "item_code": "003490"
     },
     {
       "name": "한국금융지주",
       "weight_pct": 0.21,
       "shares": 21,
       "item_code": "071050"
+    },
+    {
+      "name": "카카오뱅크",
+      "weight_pct": 0.21,
+      "shares": 178,
+      "item_code": "323410"
     },
     {
       "name": "현대오토에버",
@@ -388,27 +400,21 @@
     },
     {
       "name": "크래프톤",
-      "weight_pct": 0.21,
+      "weight_pct": 0.2,
       "shares": 17,
       "item_code": "259960"
-    },
-    {
-      "name": "대한항공",
-      "weight_pct": 0.21,
-      "shares": 137,
-      "item_code": "003490"
-    },
-    {
-      "name": "카카오뱅크",
-      "weight_pct": 0.2,
-      "shares": 178,
-      "item_code": "323410"
     },
     {
       "name": "포스코인터내셔널",
       "weight_pct": 0.19,
       "shares": 65,
       "item_code": "047050"
+    },
+    {
+      "name": "한진칼",
+      "weight_pct": 0.19,
+      "shares": 25,
+      "item_code": "180640"
     },
     {
       "name": "LS",
@@ -439,12 +445,6 @@
       "weight_pct": 0.17,
       "shares": 22,
       "item_code": "090430"
-    },
-    {
-      "name": "한진칼",
-      "weight_pct": 0.17,
-      "shares": 25,
-      "item_code": "180640"
     },
     {
       "name": "삼성E&A",
@@ -483,6 +483,12 @@
       "item_code": "016360"
     },
     {
+      "name": "한화",
+      "weight_pct": 0.14,
+      "shares": 20,
+      "item_code": "000880"
+    },
+    {
       "name": "LG씨엔에스",
       "weight_pct": 0.14,
       "shares": 36,
@@ -495,10 +501,10 @@
       "item_code": "009830"
     },
     {
-      "name": "한화",
-      "weight_pct": 0.13,
-      "shares": 20,
-      "item_code": "000880"
+      "name": "코웨이",
+      "weight_pct": 0.14,
+      "shares": 26,
+      "item_code": "021240"
     },
     {
       "name": "한미약품",
@@ -513,10 +519,10 @@
       "item_code": "326030"
     },
     {
-      "name": "코웨이",
+      "name": "LG유플러스",
       "weight_pct": 0.13,
-      "shares": 26,
-      "item_code": "021240"
+      "shares": 158,
+      "item_code": "032640"
     },
     {
       "name": "HD건설기계",
@@ -531,10 +537,16 @@
       "item_code": "377300"
     },
     {
-      "name": "LG유플러스",
+      "name": "두산밥캣",
       "weight_pct": 0.12,
-      "shares": 158,
-      "item_code": "032640"
+      "shares": 36,
+      "item_code": "241560"
+    },
+    {
+      "name": "유한양행",
+      "weight_pct": 0.12,
+      "shares": 27,
+      "item_code": "000100"
     },
     {
       "name": "대한전선",
@@ -543,28 +555,16 @@
       "item_code": "001440"
     },
     {
-      "name": "두산밥캣",
+      "name": "JB금융지주",
       "weight_pct": 0.11,
-      "shares": 36,
-      "item_code": "241560"
-    },
-    {
-      "name": "유한양행",
-      "weight_pct": 0.11,
-      "shares": 27,
-      "item_code": "000100"
+      "shares": 69,
+      "item_code": "175330"
     },
     {
       "name": "엘앤에프",
       "weight_pct": 0.1,
       "shares": 15,
       "item_code": "066970"
-    },
-    {
-      "name": "JB금융지주",
-      "weight_pct": 0.1,
-      "shares": 69,
-      "item_code": "175330"
     },
     {
       "name": "삼성카드",

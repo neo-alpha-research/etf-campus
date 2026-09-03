@@ -1,88 +1,88 @@
 {
   "ticker": "486450",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "오클로",
-      "weight_pct": 8.98,
-      "shares": 1531,
-      "item_code": "OKLO.K"
-    },
-    {
       "name": "콘스텔레이션 에너지",
-      "weight_pct": 8.97,
+      "weight_pct": 9.21,
       "shares": 225,
       "item_code": "CEG.O"
     },
     {
       "name": "버티브 홀딩스",
-      "weight_pct": 8.95,
+      "weight_pct": 8.92,
       "shares": 239,
       "item_code": "VRT"
     },
     {
+      "name": "오클로",
+      "weight_pct": 8.59,
+      "shares": 1531,
+      "item_code": "OKLO.K"
+    },
+    {
       "name": "이튼",
-      "weight_pct": 7.65,
+      "weight_pct": 7.49,
       "shares": 131,
       "item_code": "ETN"
     },
     {
       "name": "콴타 서비스",
-      "weight_pct": 6.84,
+      "weight_pct": 6.93,
       "shares": 77,
       "item_code": "PWR"
     },
     {
       "name": "GE 버노바",
-      "weight_pct": 6.2,
+      "weight_pct": 6.24,
       "shares": 47,
       "item_code": "GEV"
     },
     {
       "name": "블룸 에너지",
-      "weight_pct": 5.39,
+      "weight_pct": 5.61,
       "shares": 180,
       "item_code": "BE"
     },
     {
       "name": "엔터지",
-      "weight_pct": 4.98,
+      "weight_pct": 5.05,
       "shares": 324,
       "item_code": "ETR"
     },
     {
       "name": "엑셀론",
-      "weight_pct": 4.66,
+      "weight_pct": 4.71,
       "shares": 737,
       "item_code": "EXC.O"
     },
     {
-      "name": "카메코",
-      "weight_pct": 4.53,
-      "shares": 317,
-      "item_code": "CCJ"
-    },
-    {
       "name": "비스트라",
-      "weight_pct": 4.48,
+      "weight_pct": 4.53,
       "shares": 225,
       "item_code": "VST"
     },
     {
+      "name": "카메코",
+      "weight_pct": 4.45,
+      "shares": 317,
+      "item_code": "CCJ"
+    },
+    {
       "name": "퍼블릭 서비스 엔터프라이즈",
-      "weight_pct": 3.92,
+      "weight_pct": 3.95,
       "shares": 369,
       "item_code": "PEG"
     },
     {
       "name": "센트러스 에너지",
-      "weight_pct": 3.55,
+      "weight_pct": 3.51,
       "shares": 143,
       "item_code": "LEU"
     },
     {
       "name": "오마트 테크놀로지스",
-      "weight_pct": 3.25,
+      "weight_pct": 3.44,
       "shares": 220,
       "item_code": "ORA"
     },
@@ -94,19 +94,19 @@
     },
     {
       "name": "엔벤트 일렉트릭",
-      "weight_pct": 3.09,
+      "weight_pct": 3.04,
       "shares": 141,
       "item_code": "NVT"
     },
     {
       "name": "나노 뉴클리어 에너지",
-      "weight_pct": 3.0,
+      "weight_pct": 2.89,
       "shares": 1137,
       "item_code": "NNE.O"
     },
     {
       "name": "에너시스",
-      "weight_pct": 2.73,
+      "weight_pct": 2.71,
       "shares": 102,
       "item_code": "ENS"
     },
@@ -118,14 +118,14 @@
     },
     {
       "name": "파월 인더스트리스",
-      "weight_pct": 2.18,
+      "weight_pct": 2.1,
       "shares": 83,
       "item_code": "POWL.O"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.66,
-      "shares": 6299323,
+      "shares": 6284765,
       "item_code": null
     }
   ]

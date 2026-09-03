@@ -1,16 +1,16 @@
 {
   "ticker": "302190",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "국고채권03250-3512(25-11)",
-      "weight_pct": 22.56,
+      "weight_pct": 22.53,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02625-3506(25-5)",
-      "weight_pct": 21.57,
+      "weight_pct": 21.55,
       "shares": 0,
       "item_code": null
     },
@@ -22,20 +22,20 @@
     },
     {
       "name": "국고채권02750-2812(25-10)",
-      "weight_pct": 16.03,
+      "weight_pct": 16.05,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "국고채권02250-2806(25-4)",
-      "weight_pct": 15.98,
+      "weight_pct": 16.0,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
       "weight_pct": 7.76,
-      "shares": 77686165,
+      "shares": 77453875,
       "item_code": null
     }
   ]

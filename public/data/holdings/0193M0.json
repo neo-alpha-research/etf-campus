@@ -1,6 +1,6 @@
 {
   "ticker": "0193M0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "기업은행(신)2606이1.5A-17",
@@ -53,7 +53,7 @@
     {
       "name": "원화현금",
       "weight_pct": 6.24,
-      "shares": 6286205,
+      "shares": 6286474,
       "item_code": null
     }
   ]

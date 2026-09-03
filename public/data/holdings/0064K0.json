@@ -1,46 +1,46 @@
 {
   "ticker": "0064K0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SPDR Gold MiniShares Trust",
-      "weight_pct": 26.09,
-      "shares": 276,
+      "weight_pct": 25.49,
+      "shares": 270,
       "item_code": "GLDM.K"
     },
     {
       "name": "iShares Gold Trust Micro",
-      "weight_pct": 25.57,
-      "shares": 537,
+      "weight_pct": 24.98,
+      "shares": 525,
       "item_code": "IAUM.K"
     },
     {
       "name": "금 99.99_1Kg",
-      "weight_pct": 16.98,
-      "shares": 110,
+      "weight_pct": 17.55,
+      "shares": 114,
       "item_code": null
     },
     {
       "name": "Goldman Sachs Physical Gold ETF",
-      "weight_pct": 13.24,
-      "shares": 281,
+      "weight_pct": 12.95,
+      "shares": 275,
       "item_code": "AAAU.K"
     },
     {
       "name": "abrdn Physical Gold Shares ETF",
-      "weight_pct": 13.09,
-      "shares": 288,
+      "weight_pct": 12.78,
+      "shares": 281,
       "item_code": "SGOL.K"
     },
     {
       "name": "GraniteShares Gold Trust",
-      "weight_pct": 5.78,
-      "shares": 123,
+      "weight_pct": 5.65,
+      "shares": 120,
       "item_code": "BAR"
     },
     {
       "name": "iShares Gold Trust",
-      "weight_pct": 0.74,
+      "weight_pct": 0.72,
       "shares": 8,
       "item_code": "IAU"
     },
@@ -52,8 +52,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.76,
-      "shares": -2256677,
+      "weight_pct": -0.38,
+      "shares": -479753,
       "item_code": null
     }
   ]

@@ -1,6 +1,6 @@
 {
   "ticker": "0139F0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "현대카드949-1",
@@ -101,12 +101,6 @@
     {
       "name": "하나카드293-2",
       "weight_pct": 1.85,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "케이비국민카드394-1",
-      "weight_pct": 0.95,
       "shares": 0,
       "item_code": null
     },
@@ -1036,8 +1030,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -20.29,
-      "shares": -20725494,
+      "weight_pct": -19.35,
+      "shares": -19758187,
       "item_code": null
     }
   ]

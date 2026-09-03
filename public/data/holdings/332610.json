@@ -1,6 +1,6 @@
 {
   "ticker": "332610",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "AMZN 1.2 06/03/27",
@@ -10,7 +10,7 @@
     },
     {
       "name": "ACAFP 4.631 09/11/28",
-      "weight_pct": 7.33,
+      "weight_pct": 7.32,
       "shares": 6666,
       "item_code": null
     },
@@ -22,13 +22,13 @@
     },
     {
       "name": "CRM 4.65 03/15/29",
-      "weight_pct": 5.7,
+      "weight_pct": 5.69,
       "shares": 5208,
       "item_code": null
     },
     {
       "name": "BK 4.026 01/22/30",
-      "weight_pct": 5.63,
+      "weight_pct": 5.62,
       "shares": 5208,
       "item_code": null
     },
@@ -45,20 +45,14 @@
       "item_code": null
     },
     {
-      "name": "BAC 5.933 09/15/27",
+      "name": "C 3.2 10/21/26",
       "weight_pct": 4.81,
       "shares": 4375,
       "item_code": null
     },
     {
-      "name": "C 3.2 10/21/26",
-      "weight_pct": 4.8,
-      "shares": 4375,
-      "item_code": null
-    },
-    {
-      "name": "HSBC 4.583 06/19/29",
-      "weight_pct": 4.79,
+      "name": "BAC 5.933 09/15/27",
+      "weight_pct": 4.81,
       "shares": 4375,
       "item_code": null
     },
@@ -71,6 +65,12 @@
     {
       "name": "BMY 3 1/4 02/27/27",
       "weight_pct": 4.79,
+      "shares": 4375,
+      "item_code": null
+    },
+    {
+      "name": "HSBC 4.583 06/19/29",
+      "weight_pct": 4.78,
       "shares": 4375,
       "item_code": null
     },
@@ -117,12 +117,6 @@
       "item_code": null
     },
     {
-      "name": "C 4.075 04/23/29",
-      "weight_pct": 2.38,
-      "shares": 2187,
-      "item_code": null
-    },
-    {
       "name": "UNP 2.15 02/05/27",
       "weight_pct": 2.38,
       "shares": 2187,
@@ -131,6 +125,12 @@
     {
       "name": "NWG 3.073 05/22/28",
       "weight_pct": 2.38,
+      "shares": 2187,
+      "item_code": null
+    },
+    {
+      "name": "C 4.075 04/23/29",
+      "weight_pct": 2.37,
       "shares": 2187,
       "item_code": null
     },
@@ -148,8 +148,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.78,
-      "shares": 2224642,
+      "weight_pct": 1.79,
+      "shares": 2234999,
       "item_code": null
     }
   ]

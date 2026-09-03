@@ -1,70 +1,70 @@
 {
   "ticker": "464610",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "파마리서치",
-      "weight_pct": 15.71,
+      "weight_pct": 15.24,
       "shares": 144,
       "item_code": "214450"
     },
     {
       "name": "대웅제약",
-      "weight_pct": 11.19,
+      "weight_pct": 11.21,
       "shares": 335,
       "item_code": "069620"
     },
     {
       "name": "휴젤",
-      "weight_pct": 10.91,
+      "weight_pct": 11.18,
       "shares": 169,
       "item_code": "145020"
     },
     {
       "name": "메디톡스",
-      "weight_pct": 9.48,
+      "weight_pct": 9.46,
       "shares": 493,
       "item_code": "086900"
     },
     {
+      "name": "엘앤씨바이오",
+      "weight_pct": 8.68,
+      "shares": 616,
+      "item_code": "290650"
+    },
+    {
       "name": "클래시스",
-      "weight_pct": 8.1,
+      "weight_pct": 8.15,
       "shares": 936,
       "item_code": "214150"
     },
     {
-      "name": "엘앤씨바이오",
-      "weight_pct": 7.68,
-      "shares": 543,
-      "item_code": "290650"
-    },
-    {
       "name": "큐렉소",
-      "weight_pct": 5.91,
+      "weight_pct": 5.92,
       "shares": 2636,
       "item_code": "060280"
     },
     {
       "name": "덴티움",
-      "weight_pct": 5.81,
+      "weight_pct": 5.84,
       "shares": 591,
       "item_code": "145720"
     },
     {
-      "name": "원텍",
-      "weight_pct": 5.19,
-      "shares": 3899,
-      "item_code": "336570"
-    },
-    {
       "name": "한스바이오메드",
-      "weight_pct": 5.13,
+      "weight_pct": 5.17,
       "shares": 964,
       "item_code": "042520"
     },
     {
+      "name": "원텍",
+      "weight_pct": 5.09,
+      "shares": 3899,
+      "item_code": "336570"
+    },
+    {
       "name": "휴메딕스",
-      "weight_pct": 4.44,
+      "weight_pct": 4.4,
       "shares": 634,
       "item_code": "200670"
     },
@@ -76,20 +76,20 @@
     },
     {
       "name": "바이오플러스",
-      "weight_pct": 3.45,
+      "weight_pct": 3.43,
       "shares": 3824,
       "item_code": "099430"
     },
     {
       "name": "바텍",
-      "weight_pct": 3.19,
+      "weight_pct": 3.16,
       "shares": 633,
       "item_code": "043150"
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.01,
-      "shares": -58008,
+      "weight_pct": -0.76,
+      "shares": -2854369,
       "item_code": null
     }
   ]

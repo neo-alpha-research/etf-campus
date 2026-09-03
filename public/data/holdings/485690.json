@@ -1,101 +1,101 @@
 {
   "ticker": "485690",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 16.68,
+      "weight_pct": 16.72,
       "shares": 592,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 14.77,
+      "weight_pct": 14.84,
       "shares": 341,
       "item_code": "GOOGL.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 10.99,
+      "weight_pct": 11.12,
       "shares": 407,
       "item_code": "MRVL.O"
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 6.78,
+      "weight_pct": 6.66,
       "shares": 285,
       "item_code": "PLTR.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 6.21,
+      "weight_pct": 6.24,
       "shares": 96,
       "item_code": "MSFT.O"
     },
     {
       "name": "아리스타 네트웍스",
-      "weight_pct": 5.67,
+      "weight_pct": 5.58,
       "shares": 227,
       "item_code": "ANET.K"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 5.17,
+      "weight_pct": 5.16,
       "shares": 156,
       "item_code": "AMZN.O"
     },
     {
       "name": "메타",
-      "weight_pct": 4.74,
+      "weight_pct": 4.88,
       "shares": 65,
       "item_code": "META.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 4.63,
+      "weight_pct": 4.7,
       "shares": 98,
       "item_code": "AVGO.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 4.61,
+      "weight_pct": 4.67,
       "shares": 87,
       "item_code": "TSM"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 4.28,
+      "weight_pct": 4.24,
       "shares": 35,
       "item_code": "MU.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 4.2,
+      "weight_pct": 4.17,
       "shares": 70,
       "item_code": "AMD.O"
     },
     {
       "name": "버티브 홀딩스",
-      "weight_pct": 4.06,
+      "weight_pct": 4.09,
       "shares": 123,
       "item_code": "VRT"
     },
     {
       "name": "오라클",
-      "weight_pct": 3.8,
+      "weight_pct": 3.67,
       "shares": 200,
       "item_code": "ORCL.K"
     },
     {
       "name": "아스테라 랩스",
-      "weight_pct": 3.75,
+      "weight_pct": 3.6,
       "shares": 99,
       "item_code": "ALAB.O"
     },
     {
       "name": "원화현금",
       "weight_pct": -0.41,
-      "shares": -4434887,
+      "shares": -4341601,
       "item_code": null
     }
   ]

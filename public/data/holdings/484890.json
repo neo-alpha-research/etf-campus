@@ -1,11 +1,11 @@
 {
   "ticker": "484890",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 33.58,
-      "shares": 35279103,
+      "weight_pct": 18.86,
+      "shares": 19817979,
       "item_code": null
     },
     {
@@ -17,6 +17,12 @@
     {
       "name": "한국주택금융공사 20260827-7-43(단)",
       "weight_pct": 14.75,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "우리카드 20260902-9-6(단)",
+      "weight_pct": 7.37,
       "shares": 0,
       "item_code": null
     },
@@ -41,6 +47,12 @@
     {
       "name": "한국서부발전 20260819-55-2(단)",
       "weight_pct": 7.35,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "현대캐피탈 20260723-92-1(단)",
+      "weight_pct": 7.34,
       "shares": 0,
       "item_code": null
     },

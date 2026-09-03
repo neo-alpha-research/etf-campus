@@ -1,11 +1,11 @@
 {
   "ticker": "261120",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 93.54,
-      "shares": 503492887,
+      "weight_pct": 93.55,
+      "shares": 506491724,
       "item_code": null
     },
     {
@@ -16,13 +16,13 @@
     },
     {
       "name": "KIWOOM 미국달러선물인버스",
-      "weight_pct": 1.87,
+      "weight_pct": 1.86,
       "shares": 1190,
       "item_code": "139660"
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -189.37,
+      "weight_pct": -188.96,
       "shares": -74,
       "item_code": null
     }

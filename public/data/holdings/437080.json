@@ -1,22 +1,22 @@
 {
   "ticker": "437080",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 4.8,
-      "shares": 4638812,
+      "weight_pct": 4.94,
+      "shares": 4763755,
       "item_code": null
     },
     {
       "name": "ORCL 5.7 02/04/36",
-      "weight_pct": 1.5,
+      "weight_pct": 1.49,
       "shares": 1146,
       "item_code": null
     },
     {
       "name": "T 3 1/2 10/15/28",
-      "weight_pct": 1.47,
+      "weight_pct": 1.48,
       "shares": 1061,
       "item_code": null
     },
@@ -28,7 +28,7 @@
     },
     {
       "name": "BAC 5.744 02/12/36",
-      "weight_pct": 1.02,
+      "weight_pct": 1.01,
       "shares": 721,
       "item_code": null
     },
@@ -82,7 +82,7 @@
     },
     {
       "name": "AMZN 6 07/09/46",
-      "weight_pct": 0.73,
+      "weight_pct": 0.72,
       "shares": 530,
       "item_code": null
     },
@@ -112,7 +112,7 @@
     },
     {
       "name": "JPM 5.576 07/23/36",
-      "weight_pct": 0.64,
+      "weight_pct": 0.63,
       "shares": 456,
       "item_code": null
     },
@@ -219,12 +219,6 @@
       "item_code": null
     },
     {
-      "name": "HCA 6.2 03/01/55",
-      "weight_pct": 0.58,
-      "shares": 424,
-      "item_code": null
-    },
-    {
       "name": "KDB 3 3/4 09/16/30",
       "weight_pct": 0.58,
       "shares": 424,
@@ -243,19 +237,7 @@
       "item_code": null
     },
     {
-      "name": "T 3 7/8 08/31/32",
-      "weight_pct": 0.58,
-      "shares": 424,
-      "item_code": null
-    },
-    {
       "name": "GOOGL 4.8 02/15/36",
-      "weight_pct": 0.57,
-      "shares": 424,
-      "item_code": null
-    },
-    {
-      "name": "GS 5.387 02/02/41",
       "weight_pct": 0.57,
       "shares": 424,
       "item_code": null
@@ -273,13 +255,31 @@
       "item_code": null
     },
     {
+      "name": "HCA 6.2 03/01/55",
+      "weight_pct": 0.57,
+      "shares": 424,
+      "item_code": null
+    },
+    {
       "name": "MASSIN 2.989 07/01/50",
       "weight_pct": 0.57,
       "shares": 636,
       "item_code": null
     },
     {
+      "name": "T 3 7/8 08/31/32",
+      "weight_pct": 0.57,
+      "shares": 424,
+      "item_code": null
+    },
+    {
       "name": "ORCL 5.35 05/04/33",
+      "weight_pct": 0.56,
+      "shares": 424,
+      "item_code": null
+    },
+    {
+      "name": "GS 5.387 02/02/41",
       "weight_pct": 0.56,
       "shares": 424,
       "item_code": null
@@ -417,12 +417,6 @@
       "item_code": null
     },
     {
-      "name": "COF 5.197 09/11/36",
-      "weight_pct": 0.43,
-      "shares": 318,
-      "item_code": null
-    },
-    {
       "name": "MS 4.892 10/22/36",
       "weight_pct": 0.42,
       "shares": 318,
@@ -430,6 +424,12 @@
     },
     {
       "name": "T 1 1/4 06/30/28",
+      "weight_pct": 0.42,
+      "shares": 318,
+      "item_code": null
+    },
+    {
+      "name": "COF 5.197 09/11/36",
       "weight_pct": 0.42,
       "shares": 318,
       "item_code": null
@@ -507,12 +507,6 @@
       "item_code": null
     },
     {
-      "name": "BACR 5.586 06/26/37",
-      "weight_pct": 0.38,
-      "shares": 276,
-      "item_code": null
-    },
-    {
       "name": "BACR 5.102 06/26/32",
       "weight_pct": 0.38,
       "shares": 276,
@@ -527,6 +521,12 @@
     {
       "name": "US TREASURY N/B 271115",
       "weight_pct": 0.38,
+      "shares": 276,
+      "item_code": null
+    },
+    {
+      "name": "BACR 5.586 06/26/37",
+      "weight_pct": 0.37,
       "shares": 276,
       "item_code": null
     },
@@ -1425,12 +1425,6 @@
       "item_code": null
     },
     {
-      "name": "T 6.3 10/30/66",
-      "weight_pct": 0.14,
-      "shares": 106,
-      "item_code": null
-    },
-    {
       "name": "TD 4.361 04/23/29",
       "weight_pct": 0.14,
       "shares": 106,
@@ -1510,6 +1504,12 @@
     },
     {
       "name": "T 5.85 04/30/46",
+      "weight_pct": 0.13,
+      "shares": 106,
+      "item_code": null
+    },
+    {
+      "name": "T 6.3 10/30/66",
       "weight_pct": 0.13,
       "shares": 106,
       "item_code": null
@@ -1623,12 +1623,6 @@
       "item_code": null
     },
     {
-      "name": "ORCL 6 08/03/55",
-      "weight_pct": 0.12,
-      "shares": 106,
-      "item_code": null
-    },
-    {
       "name": "WFC 5.499 01/23/35",
       "weight_pct": 0.12,
       "shares": 84,
@@ -1674,6 +1668,12 @@
       "name": "T 4 1/8 10/31/29",
       "weight_pct": 0.11,
       "shares": 84,
+      "item_code": null
+    },
+    {
+      "name": "ORCL 6 08/03/55",
+      "weight_pct": 0.11,
+      "shares": 106,
       "item_code": null
     },
     {
@@ -1768,8 +1768,8 @@
     },
     {
       "name": "외국환포워드USD",
-      "weight_pct": -103.58,
-      "shares": -100048080,
+      "weight_pct": -103.94,
+      "shares": -100169386,
       "item_code": null
     }
   ]

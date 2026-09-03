@@ -1,7 +1,13 @@
 {
   "ticker": "0176E0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
+    {
+      "name": "블룸 에너지",
+      "weight_pct": 9.87,
+      "shares": 154,
+      "item_code": "BE"
+    },
     {
       "name": "버티브 홀딩스",
       "weight_pct": 9.58,
@@ -9,110 +15,104 @@
       "item_code": "VRT"
     },
     {
-      "name": "블룸 에너지",
-      "weight_pct": 9.43,
-      "shares": 154,
-      "item_code": "BE"
-    },
-    {
       "name": "GE 버노바",
-      "weight_pct": 8.94,
+      "weight_pct": 9.03,
       "shares": 33,
       "item_code": "GEV"
     },
     {
       "name": "콴타 서비스",
-      "weight_pct": 7.66,
+      "weight_pct": 7.79,
       "shares": 42,
       "item_code": "PWR"
     },
     {
       "name": "이튼",
-      "weight_pct": 6.2,
+      "weight_pct": 6.09,
       "shares": 52,
       "item_code": "ETN"
     },
     {
       "name": "카메코",
-      "weight_pct": 5.79,
+      "weight_pct": 5.7,
       "shares": 197,
       "item_code": "CCJ"
     },
     {
       "name": "엔벤트 일렉트릭",
-      "weight_pct": 5.61,
+      "weight_pct": 5.54,
       "shares": 125,
       "item_code": "NVT"
     },
     {
-      "name": "루멘텀 홀딩스",
-      "weight_pct": 5.29,
-      "shares": 19,
-      "item_code": "LITE.O"
-    },
-    {
       "name": "넥스트에라 에너지",
-      "weight_pct": 5.14,
+      "weight_pct": 5.24,
       "shares": 210,
       "item_code": "NEE"
     },
     {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 5.08,
+      "shares": 19,
+      "item_code": "LITE.O"
+    },
+    {
       "name": "솔라리스 에너지 인프라스트럭처",
-      "weight_pct": 4.83,
+      "weight_pct": 4.77,
       "shares": 320,
       "item_code": "SEI"
     },
     {
-      "name": "크레도 테크놀로지 그룹 홀딩",
-      "weight_pct": 4.5,
-      "shares": 67,
-      "item_code": "CRDO.O"
-    },
-    {
       "name": "넥스트파워",
-      "weight_pct": 4.42,
+      "weight_pct": 4.53,
       "shares": 181,
       "item_code": "NXT.O"
     },
     {
       "name": "모딘 매뉴팩처링",
-      "weight_pct": 4.15,
+      "weight_pct": 4.25,
       "shares": 78,
       "item_code": "MOD"
     },
     {
+      "name": "크레도 테크놀로지 그룹 홀딩",
+      "weight_pct": 4.16,
+      "shares": 67,
+      "item_code": "CRDO.O"
+    },
+    {
       "name": "제네락 홀딩스",
-      "weight_pct": 3.9,
+      "weight_pct": 3.86,
       "shares": 70,
       "item_code": "GNRC.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.6,
-      "shares": 16651164,
+      "weight_pct": 3.64,
+      "shares": 16639430,
       "item_code": null
     },
     {
       "name": "다이콤 인더스트리스",
-      "weight_pct": 3.59,
+      "weight_pct": 3.58,
       "shares": 41,
       "item_code": "DY"
     },
     {
       "name": "마스텍",
-      "weight_pct": 3.29,
+      "weight_pct": 3.3,
       "shares": 46,
       "item_code": "MTZ"
     },
     {
       "name": "코히런트",
-      "weight_pct": 2.29,
+      "weight_pct": 2.27,
       "shares": 27,
       "item_code": "COHR.K"
     },
     {
       "name": "플루언스 에너지",
-      "weight_pct": 1.68,
+      "weight_pct": 1.64,
       "shares": 525,
       "item_code": "FLNC.O"
     }

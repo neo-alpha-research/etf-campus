@@ -1,11 +1,11 @@
 {
   "ticker": "269420",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "스왑(미래에셋증권)",
-      "weight_pct": 90.96,
-      "shares": 19995073,
+      "weight_pct": 92.37,
+      "shares": 20169725,
       "item_code": null
     },
     {
@@ -16,8 +16,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.58,
-      "shares": 347311,
+      "weight_pct": 0.17,
+      "shares": 37128,
       "item_code": null
     }
   ]

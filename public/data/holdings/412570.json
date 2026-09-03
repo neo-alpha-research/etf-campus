@@ -1,82 +1,82 @@
 {
   "ticker": "412570",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "섹터지수 2차전지 TOP 10 F 202609",
-      "weight_pct": 117.24,
-      "shares": 21,
+      "weight_pct": 121.88,
+      "shares": 20,
       "item_code": null
     },
     {
-      "name": "TIGER 2차전지TOP10",
-      "weight_pct": 24.34,
-      "shares": 1552,
-      "item_code": "364980"
-    },
-    {
       "name": "삼성SDI",
-      "weight_pct": 19.95,
+      "weight_pct": 20.85,
       "shares": 23,
       "item_code": "006400"
     },
     {
+      "name": "TIGER 2차전지TOP10",
+      "weight_pct": 18.67,
+      "shares": 1132,
+      "item_code": "364980"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 16.12,
-      "shares": 11021558,
+      "weight_pct": 18.66,
+      "shares": 11482368,
       "item_code": null
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 13.96,
-      "shares": 26,
+      "weight_pct": 14.62,
+      "shares": 25,
       "item_code": "373220"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 13.58,
+      "weight_pct": 14.53,
       "shares": 27,
       "item_code": "005490"
     },
     {
       "name": "LG화학",
-      "weight_pct": 3.12,
+      "weight_pct": 3.3,
       "shares": 7,
       "item_code": "051910"
     },
     {
       "name": "SK이노베이션",
-      "weight_pct": 2.35,
+      "weight_pct": 2.53,
       "shares": 11,
       "item_code": "096770"
     },
     {
       "name": "에코프로",
-      "weight_pct": 2.01,
+      "weight_pct": 2.09,
       "shares": 15,
       "item_code": "086520"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 1.61,
+      "weight_pct": 1.64,
       "shares": 5,
       "item_code": "003670"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 1.45,
-      "shares": 8,
+      "weight_pct": 1.55,
+      "shares": 9,
       "item_code": "247540"
     },
     {
       "name": "엘앤에프",
-      "weight_pct": 0.87,
+      "weight_pct": 0.91,
       "shares": 4,
       "item_code": "066970"
     },
     {
       "name": "SKC",
-      "weight_pct": 0.57,
+      "weight_pct": 0.59,
       "shares": 4,
       "item_code": "011790"
     }

@@ -1,11 +1,11 @@
 {
   "ticker": "138230",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 100.0,
-      "shares": 160714233,
+      "weight_pct": 99.99,
+      "shares": 160255058,
       "item_code": null
     },
     {

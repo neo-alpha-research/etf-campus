@@ -1,70 +1,70 @@
 {
   "ticker": "0118Z0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 12.77,
+      "weight_pct": 12.59,
       "shares": 217,
       "item_code": "PLTR.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 9.34,
+      "weight_pct": 9.39,
       "shares": 134,
       "item_code": "NVDA.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 8.65,
+      "weight_pct": 8.81,
       "shares": 66,
       "item_code": "TSM"
     },
     {
-      "name": "테슬라",
-      "weight_pct": 8.48,
-      "shares": 73,
-      "item_code": "TSLA.O"
-    },
-    {
       "name": "메타",
-      "weight_pct": 8.13,
+      "weight_pct": 8.39,
       "shares": 45,
       "item_code": "META.O"
     },
     {
+      "name": "테슬라",
+      "weight_pct": 8.38,
+      "shares": 73,
+      "item_code": "TSLA.O"
+    },
+    {
       "name": "버티브 홀딩스",
-      "weight_pct": 7.92,
+      "weight_pct": 8.0,
       "shares": 97,
       "item_code": "VRT"
     },
     {
       "name": "에어로바이런먼트",
-      "weight_pct": 7.02,
+      "weight_pct": 6.97,
       "shares": 150,
       "item_code": "AVAV.O"
     },
     {
       "name": "오클로",
-      "weight_pct": 7.0,
+      "weight_pct": 6.79,
       "shares": 547,
       "item_code": "OKLO.K"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 5.49,
+      "weight_pct": 5.6,
       "shares": 47,
       "item_code": "AVGO.O"
     },
     {
       "name": "카메코",
-      "weight_pct": 5.45,
+      "weight_pct": 5.43,
       "shares": 175,
       "item_code": "CCJ"
     },
     {
       "name": "유아이패스",
-      "weight_pct": 5.08,
+      "weight_pct": 5.04,
       "shares": 863,
       "item_code": "PATH.K"
     },
@@ -76,32 +76,32 @@
     },
     {
       "name": "코어위브",
-      "weight_pct": 3.32,
+      "weight_pct": 3.27,
       "shares": 124,
       "item_code": "CRWV.O"
     },
     {
       "name": "앱러빈",
-      "weight_pct": 3.15,
+      "weight_pct": 3.21,
       "shares": 32,
       "item_code": "APP.O"
     },
     {
       "name": "심보틱",
-      "weight_pct": 2.96,
+      "weight_pct": 2.92,
       "shares": 237,
       "item_code": "SYM.O"
     },
     {
       "name": "GE 버노바",
-      "weight_pct": 2.55,
+      "weight_pct": 2.6,
       "shares": 9,
       "item_code": "GEV"
     },
     {
       "name": "원화현금",
-      "weight_pct": -2.17,
-      "shares": -9422206,
+      "weight_pct": -2.22,
+      "shares": -9427688,
       "item_code": null
     }
   ]

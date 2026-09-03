@@ -1,40 +1,40 @@
 {
   "ticker": "423170",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 21.25,
+      "weight_pct": 20.91,
       "shares": 916,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 19.11,
+      "weight_pct": 18.66,
       "shares": 127,
       "item_code": "000660"
     },
     {
       "name": "Taiwan Semiconductor Manufact",
-      "weight_pct": 17.49,
+      "weight_pct": 18.09,
       "shares": 1889,
       "item_code": null
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 8.35,
+      "weight_pct": 8.32,
       "shares": 71,
       "item_code": "MU.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 5.3,
+      "weight_pct": 5.34,
       "shares": 197,
       "item_code": "NVDA.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 5.18,
+      "weight_pct": 5.29,
       "shares": 114,
       "item_code": "AVGO.O"
     },
@@ -46,31 +46,31 @@
     },
     {
       "name": "인텔",
-      "weight_pct": 4.26,
+      "weight_pct": 4.33,
       "shares": 391,
       "item_code": "INTC.O"
     },
     {
       "name": "ASML Holding NV",
-      "weight_pct": 3.91,
+      "weight_pct": 3.95,
       "shares": 19,
       "item_code": null
     },
     {
       "name": "램 리서치",
-      "weight_pct": 2.57,
+      "weight_pct": 2.53,
       "shares": 70,
       "item_code": "LRCX.O"
     },
     {
       "name": "샌디스크",
-      "weight_pct": 2.04,
+      "weight_pct": 2.05,
       "shares": 10,
       "item_code": "SNDK.O"
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 1.77,
+      "weight_pct": 1.75,
       "shares": 31,
       "item_code": "AMAT.O"
     },
@@ -88,14 +88,14 @@
     },
     {
       "name": "어드반테스트",
-      "weight_pct": 0.82,
+      "weight_pct": 0.84,
       "shares": 32,
       "item_code": "6857.T"
     },
     {
       "name": "원화현금",
       "weight_pct": -0.12,
-      "shares": -1369162,
+      "shares": -1410857,
       "item_code": null
     }
   ]

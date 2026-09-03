@@ -1,16 +1,16 @@
 {
   "ticker": "214980",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 14.65,
-      "shares": 16799433,
+      "weight_pct": 14.5,
+      "shares": 16620990,
       "item_code": null
     },
     {
       "name": "신한은행30-05-할-5M-A",
-      "weight_pct": 6.03,
+      "weight_pct": 6.04,
       "shares": 0,
       "item_code": null
     },
@@ -22,43 +22,43 @@
     },
     {
       "name": "신한은행29-09-이-1.5-A",
-      "weight_pct": 4.41,
+      "weight_pct": 4.42,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "부산은행2026-01이1.5A-14",
-      "weight_pct": 4.39,
+      "weight_pct": 4.4,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "부산은행2026-02이1A-06",
-      "weight_pct": 3.85,
+      "weight_pct": 3.86,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한은행30-08-이-1.25-B",
-      "weight_pct": 3.3,
+      "weight_pct": 3.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "부산은행2026-03이1.5A-12",
-      "weight_pct": 3.3,
+      "weight_pct": 3.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나은행49-02이1갑-09",
-      "weight_pct": 3.3,
+      "weight_pct": 3.31,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "부산은행2025-12이1.5A-09",
-      "weight_pct": 3.3,
+      "weight_pct": 3.31,
       "shares": 0,
       "item_code": null
     },
@@ -70,19 +70,19 @@
     },
     {
       "name": "국민은행4509이표일(03)1-18",
-      "weight_pct": 2.76,
+      "weight_pct": 2.77,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "신한은행30-08-이-1.5-A",
-      "weight_pct": 2.75,
+      "weight_pct": 2.76,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "하나은행49-01이1갑-29",
-      "weight_pct": 2.75,
+      "weight_pct": 2.76,
       "shares": 0,
       "item_code": null
     },
@@ -100,7 +100,7 @@
     },
     {
       "name": "국민은행4508이표일(03)1.5-22",
-      "weight_pct": 2.19,
+      "weight_pct": 2.2,
       "shares": 0,
       "item_code": null
     },
@@ -124,12 +124,18 @@
     },
     {
       "name": "엔에이치농협캐피탈262-2",
-      "weight_pct": 1.65,
+      "weight_pct": 1.66,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "현대카드957-1",
+      "weight_pct": 1.66,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나캐피탈481-1",
       "weight_pct": 1.65,
       "shares": 0,
       "item_code": null
@@ -141,14 +147,8 @@
       "item_code": null
     },
     {
-      "name": "하나캐피탈481-1",
-      "weight_pct": 1.64,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "신한카드2278-1",
-      "weight_pct": 1.64,
+      "weight_pct": 1.65,
       "shares": 0,
       "item_code": null
     },
@@ -178,13 +178,19 @@
     },
     {
       "name": "아이비케이캐피탈344-2",
-      "weight_pct": 1.09,
+      "weight_pct": 1.1,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "산금26신이0106-0121-1",
-      "weight_pct": 1.09,
+      "weight_pct": 1.1,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "하나은행48-10이1.5갑-13",
+      "weight_pct": 1.1,
       "shares": 0,
       "item_code": null
     },
@@ -195,13 +201,19 @@
       "item_code": null
     },
     {
-      "name": "하나은행48-10이1.5갑-13",
-      "weight_pct": 1.09,
+      "name": "우리금융캐피탈556-1",
+      "weight_pct": 0.55,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "우리금융캐피탈556-1",
+      "name": "케이비캐피탈584-2",
+      "weight_pct": 0.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비캐피탈584-1",
       "weight_pct": 0.55,
       "shares": 0,
       "item_code": null
@@ -231,6 +243,12 @@
       "item_code": null
     },
     {
+      "name": "산금25신이0106-0814-1",
+      "weight_pct": 0.55,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "농금채(중앙회)2024-2이3Y-A",
       "weight_pct": 0.55,
       "shares": 0,
@@ -249,18 +267,6 @@
       "item_code": null
     },
     {
-      "name": "케이비캐피탈584-2",
-      "weight_pct": 0.54,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "케이비캐피탈584-1",
-      "weight_pct": 0.54,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "현대카드954-1",
       "weight_pct": 0.54,
       "shares": 0,
@@ -268,12 +274,6 @@
     },
     {
       "name": "엔에이치농협캐피탈257-1",
-      "weight_pct": 0.54,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "산금25신이0106-0814-1",
       "weight_pct": 0.54,
       "shares": 0,
       "item_code": null

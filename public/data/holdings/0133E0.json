@@ -1,83 +1,83 @@
 {
   "ticker": "0133E0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "동화순네트워크",
-      "weight_pct": 10.5,
+      "weight_pct": 10.38,
       "shares": 1014,
       "item_code": "300033.SZ"
     },
     {
       "name": "GF증권",
-      "weight_pct": 10.12,
+      "weight_pct": 10.22,
       "shares": 14060,
       "item_code": "1776.HK"
     },
     {
       "name": "동방재부정보",
-      "weight_pct": 9.88,
+      "weight_pct": 9.86,
       "shares": 11277,
       "item_code": "300059.SZ"
     },
     {
       "name": "CITIC 증권",
-      "weight_pct": 9.71,
+      "weight_pct": 9.68,
       "shares": 9160,
       "item_code": "6030.HK"
     },
     {
       "name": "중국국제금융공사",
-      "weight_pct": 8.88,
+      "weight_pct": 8.83,
       "shares": 10163,
       "item_code": "3908.HK"
     },
     {
       "name": "국태해통증권",
-      "weight_pct": 8.13,
+      "weight_pct": 8.12,
       "shares": 13803,
       "item_code": "2611.HK"
     },
     {
       "name": "화태증권",
-      "weight_pct": 8.06,
+      "weight_pct": 8.11,
       "shares": 11776,
       "item_code": "6886.HK"
     },
     {
       "name": "중신건투증권",
-      "weight_pct": 8.01,
+      "weight_pct": 8.05,
       "shares": 16990,
       "item_code": "6066.HK"
     },
     {
       "name": "초상증권",
-      "weight_pct": 7.91,
+      "weight_pct": 7.89,
       "shares": 12809,
       "item_code": "6099.HK"
     },
     {
       "name": "중국은하증권",
-      "weight_pct": 6.56,
+      "weight_pct": 6.71,
       "shares": 21512,
       "item_code": "6881.HK"
     },
     {
       "name": "화안증권",
-      "weight_pct": 6.53,
+      "weight_pct": 6.52,
       "shares": 17376,
       "item_code": "600909.SS"
     },
     {
       "name": "선전 포춘 트렌드 테크놀로지",
-      "weight_pct": 5.36,
+      "weight_pct": 5.31,
       "shares": 1347,
       "item_code": "688318.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.26,
-      "shares": 1202880,
+      "weight_pct": 0.24,
+      "shares": 1124809,
       "item_code": null
     }
   ]

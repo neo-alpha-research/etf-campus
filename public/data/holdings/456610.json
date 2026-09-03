@@ -1,29 +1,29 @@
 {
   "ticker": "456610",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "Solactive SOFR TRS 2",
       "weight_pct": 73.57,
-      "shares": 87582176,
+      "shares": 87482693,
       "item_code": null
     },
     {
       "name": "Solactive SOFR Index TRS 250310-01",
       "weight_pct": 15.5,
-      "shares": 18457282,
+      "shares": 18436318,
       "item_code": null
     },
     {
       "name": "[USD] 예금",
       "weight_pct": 10.06,
-      "shares": 8740,
+      "shares": 8742,
       "item_code": null
     },
     {
       "name": "Solactive SOFR Index TRS 231130-04",
       "weight_pct": 0.86,
-      "shares": 1024219,
+      "shares": 1023055,
       "item_code": null
     }
   ]

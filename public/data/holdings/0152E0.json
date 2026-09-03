@@ -1,34 +1,34 @@
 {
   "ticker": "0152E0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "DB손해보험",
-      "weight_pct": 9.61,
+      "weight_pct": 9.69,
       "shares": 273,
       "item_code": "005830"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 8.3,
+      "weight_pct": 8.43,
       "shares": 1314,
       "item_code": "316140"
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 7.54,
+      "weight_pct": 7.44,
       "shares": 216,
       "item_code": "071050"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 7.52,
+      "weight_pct": 7.38,
       "shares": 466,
       "item_code": "016360"
     },
     {
       "name": "현대엘리베이터",
-      "weight_pct": 7.42,
+      "weight_pct": 7.35,
       "shares": 543,
       "item_code": "017800"
     },
@@ -40,13 +40,13 @@
     },
     {
       "name": "키움증권",
-      "weight_pct": 6.75,
+      "weight_pct": 6.67,
       "shares": 131,
       "item_code": "039490"
     },
     {
       "name": "SNT홀딩스",
-      "weight_pct": 4.63,
+      "weight_pct": 4.67,
       "shares": 554,
       "item_code": "036530"
     },
@@ -58,31 +58,31 @@
     },
     {
       "name": "LX인터내셔널",
-      "weight_pct": 4.03,
+      "weight_pct": 4.08,
       "shares": 556,
       "item_code": "001120"
     },
     {
       "name": "코리안리",
-      "weight_pct": 3.86,
+      "weight_pct": 3.97,
       "shares": 1439,
       "item_code": "003690"
     },
     {
       "name": "한국쉘석유",
-      "weight_pct": 3.64,
+      "weight_pct": 3.71,
       "shares": 40,
       "item_code": "002960"
     },
     {
       "name": "삼성카드",
-      "weight_pct": 3.58,
+      "weight_pct": 3.59,
       "shares": 426,
       "item_code": "029780"
     },
     {
       "name": "이노션",
-      "weight_pct": 3.4,
+      "weight_pct": 3.43,
       "shares": 980,
       "item_code": "214320"
     },
@@ -94,38 +94,38 @@
     },
     {
       "name": "에스엘",
-      "weight_pct": 3.31,
+      "weight_pct": 3.19,
       "shares": 343,
       "item_code": "005850"
     },
     {
       "name": "SNT모티브",
-      "weight_pct": 3.14,
+      "weight_pct": 3.09,
       "shares": 647,
       "item_code": "064960"
     },
     {
       "name": "빙그레",
-      "weight_pct": 2.91,
+      "weight_pct": 3.0,
       "shares": 174,
       "item_code": "005180"
     },
     {
       "name": "신영증권",
-      "weight_pct": 2.73,
+      "weight_pct": 2.72,
       "shares": 97,
       "item_code": "001720"
     },
     {
       "name": "SNT다이내믹스",
-      "weight_pct": 2.21,
+      "weight_pct": 2.19,
       "shares": 420,
       "item_code": "003570"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.39,
-      "shares": 2136116,
+      "weight_pct": 0.32,
+      "shares": 1752819,
       "item_code": null
     }
   ]

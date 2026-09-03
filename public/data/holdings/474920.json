@@ -1,94 +1,94 @@
 {
   "ticker": "474920",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "iShares MSCI China ETF",
-      "weight_pct": 14.87,
+      "weight_pct": 15.0,
       "shares": 729,
       "item_code": "MCHI.O"
     },
     {
       "name": "CCB(중국건설은행)",
-      "weight_pct": 11.17,
+      "weight_pct": 11.44,
       "shares": 24723,
       "item_code": "0939.HK"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 11.01,
+      "weight_pct": 10.79,
       "shares": 2027,
       "item_code": "9988.HK"
     },
     {
       "name": "텐센트",
-      "weight_pct": 9.9,
+      "weight_pct": 9.78,
       "shares": 459,
       "item_code": "0700.HK"
     },
     {
       "name": "닝더스다이",
-      "weight_pct": 8.75,
+      "weight_pct": 8.74,
       "shares": 434,
       "item_code": "300750.SZ"
     },
     {
       "name": "이노벤트 바이오로직스",
-      "weight_pct": 6.8,
+      "weight_pct": 6.74,
       "shares": 1377,
       "item_code": "1801.HK"
     },
     {
       "name": "핑안 인슈어런스 오브 차이나",
-      "weight_pct": 6.03,
+      "weight_pct": 6.14,
       "shares": 2244,
       "item_code": "2318.HK"
     },
     {
+      "name": "ASE 테크놀로지 홀딩 ADR",
+      "weight_pct": 4.91,
+      "shares": 347,
+      "item_code": "ASX"
+    },
+    {
       "name": "TSMC ADR",
-      "weight_pct": 4.81,
+      "weight_pct": 4.87,
       "shares": 31,
       "item_code": "TSM"
     },
     {
       "name": "북방화창",
-      "weight_pct": 4.79,
+      "weight_pct": 4.63,
       "shares": 123,
       "item_code": "002371.SZ"
     },
     {
-      "name": "ASE 테크놀로지 홀딩 ADR",
-      "weight_pct": 4.78,
-      "shares": 347,
-      "item_code": "ASX"
-    },
-    {
       "name": "중국 국제 반도체",
-      "weight_pct": 4.29,
+      "weight_pct": 4.24,
       "shares": 1276,
       "item_code": "0981.HK"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.08,
-      "shares": 15020606,
+      "weight_pct": 4.14,
+      "shares": 14990256,
       "item_code": null
     },
     {
       "name": "부사강산업인터넷",
-      "weight_pct": 3.54,
+      "weight_pct": 3.48,
       "shares": 985,
       "item_code": "601138.SS"
     },
     {
       "name": "천부광통신",
-      "weight_pct": 2.85,
+      "weight_pct": 2.77,
       "shares": 195,
       "item_code": "300394.SZ"
     },
     {
       "name": "경동방과기",
-      "weight_pct": 2.25,
+      "weight_pct": 2.24,
       "shares": 6763,
       "item_code": "000725.SZ"
     }

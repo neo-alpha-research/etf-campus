@@ -1,22 +1,22 @@
 {
   "ticker": "407830",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "테슬라",
-      "weight_pct": 21.35,
+      "weight_pct": 21.05,
       "shares": 598,
       "item_code": "TSLA.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 13.56,
-      "shares": 191739340,
+      "weight_pct": 13.69,
+      "shares": 189729053,
       "item_code": null
     },
     {
       "name": "알파벳 Class C",
-      "weight_pct": 4.62,
+      "weight_pct": 4.66,
       "shares": 142,
       "item_code": "GOOG.O"
     },
@@ -28,75 +28,75 @@
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 4.53,
+      "weight_pct": 4.46,
       "shares": 250,
       "item_code": "PLTR.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 4.4,
+      "weight_pct": 4.42,
       "shares": 205,
       "item_code": "NVDA.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 4.3,
+      "weight_pct": 4.36,
       "shares": 106,
       "item_code": "TSM"
     },
     {
       "name": "삼성전자우",
-      "weight_pct": 4.28,
+      "weight_pct": 4.25,
       "shares": 318,
       "item_code": "005935"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 3.69,
+      "weight_pct": 3.73,
       "shares": 179,
       "item_code": "MRVL.O"
     },
     {
       "name": "로빈후드",
-      "weight_pct": 3.24,
+      "weight_pct": 3.26,
       "shares": 319,
       "item_code": "HOOD.O"
     },
     {
-      "name": "암 홀딩스 ADR",
-      "weight_pct": 3.06,
-      "shares": 130,
-      "item_code": "ARM.O"
-    },
-    {
       "name": "템퍼스 AI",
-      "weight_pct": 3.03,
+      "weight_pct": 3.04,
       "shares": 495,
       "item_code": "TEM.O"
     },
     {
-      "name": "써클 인터넷 그룹",
-      "weight_pct": 2.37,
-      "shares": 256,
-      "item_code": "CRCL.K"
+      "name": "암 홀딩스 ADR",
+      "weight_pct": 3.02,
+      "shares": 130,
+      "item_code": "ARM.O"
     },
     {
       "name": "우시앱텍",
-      "weight_pct": 2.34,
+      "weight_pct": 2.42,
       "shares": 1001,
       "item_code": "2359.HK"
     },
     {
-      "name": "데이터도그",
-      "weight_pct": 2.32,
-      "shares": 101,
-      "item_code": "DDOG.O"
-    },
-    {
       "name": "알리바바 그룹 홀딩 ADR",
-      "weight_pct": 2.3,
+      "weight_pct": 2.32,
       "shares": 208,
       "item_code": "BABA.K"
+    },
+    {
+      "name": "써클 인터넷 그룹",
+      "weight_pct": 2.26,
+      "shares": 256,
+      "item_code": "CRCL.K"
+    },
+    {
+      "name": "데이터도그",
+      "weight_pct": 2.23,
+      "shares": 101,
+      "item_code": "DDOG.O"
     },
     {
       "name": "퀄컴",
@@ -106,15 +106,9 @@
     },
     {
       "name": "유나이티드 마이크로일렉트로닉 ADR",
-      "weight_pct": 1.9,
+      "weight_pct": 2.0,
       "shares": 989,
       "item_code": "UMC"
-    },
-    {
-      "name": "레딧",
-      "weight_pct": 1.77,
-      "shares": 123,
-      "item_code": "RDDT.K"
     },
     {
       "name": "핀터레스트",
@@ -123,14 +117,20 @@
       "item_code": "PINS.K"
     },
     {
+      "name": "레딧",
+      "weight_pct": 1.76,
+      "shares": 123,
+      "item_code": "RDDT.K"
+    },
+    {
       "name": "힘스 & 허즈",
-      "weight_pct": 1.59,
+      "weight_pct": 1.55,
       "shares": 554,
       "item_code": "HIMS.K"
     },
     {
       "name": "스페이스X",
-      "weight_pct": 1.44,
+      "weight_pct": 1.46,
       "shares": 103,
       "item_code": "SPCX.O"
     },
@@ -141,26 +141,26 @@
       "item_code": "WRBY.K"
     },
     {
-      "name": "세일즈포스",
-      "weight_pct": 1.25,
-      "shares": 50,
-      "item_code": "CRM"
-    },
-    {
       "name": "모더나",
-      "weight_pct": 1.19,
+      "weight_pct": 1.34,
       "shares": 87,
       "item_code": "MRNA.O"
     },
     {
+      "name": "세일즈포스",
+      "weight_pct": 1.28,
+      "shares": 50,
+      "item_code": "CRM"
+    },
+    {
       "name": "레모네이드",
-      "weight_pct": 1.02,
+      "weight_pct": 1.03,
       "shares": 203,
       "item_code": "LMND.K"
     },
     {
       "name": "젭 헬스 ADR",
-      "weight_pct": 0.57,
+      "weight_pct": 0.54,
       "shares": 1233,
       "item_code": "ZEPP.K"
     }

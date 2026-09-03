@@ -1,120 +1,120 @@
 {
   "ticker": "0190Y0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "알파벳 Class A",
-      "weight_pct": 25.53,
+      "weight_pct": 25.5,
       "shares": 231,
       "item_code": "GOOGL.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 21.23,
+      "weight_pct": 21.43,
       "shares": 176,
       "item_code": "AVGO.O"
     },
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 5.36,
+      "weight_pct": 5.15,
       "shares": 18,
       "item_code": "LITE.O"
     },
     {
       "name": "아리스타 네트웍스",
-      "weight_pct": 4.9,
+      "weight_pct": 4.8,
       "shares": 77,
       "item_code": "ANET.K"
     },
     {
       "name": "셀레스티카",
-      "weight_pct": 3.7,
+      "weight_pct": 3.66,
       "shares": 38,
       "item_code": "CLS"
     },
     {
-      "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 3.51,
-      "shares": 51,
-      "item_code": "MRVL.O"
-    },
-    {
       "name": "중제욱창",
-      "weight_pct": 3.46,
+      "weight_pct": 3.53,
       "shares": 84,
       "item_code": "300308.SZ"
     },
     {
-      "name": "시에나",
-      "weight_pct": 3.24,
-      "shares": 26,
-      "item_code": "CIEN.K"
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 3.53,
+      "shares": 51,
+      "item_code": "MRVL.O"
     },
     {
       "name": "QUANTA COMPUTER INC",
-      "weight_pct": 3.16,
+      "weight_pct": 3.22,
       "shares": 908,
       "item_code": null
     },
     {
-      "name": "TSMC ADR",
-      "weight_pct": 3.11,
-      "shares": 23,
-      "item_code": "TSM"
-    },
-    {
       "name": "HON HAI PRECISION INDUSTRY",
-      "weight_pct": 3.04,
+      "weight_pct": 3.14,
       "shares": 1184,
       "item_code": null
     },
     {
+      "name": "TSMC ADR",
+      "weight_pct": 3.13,
+      "shares": 23,
+      "item_code": "TSM"
+    },
+    {
+      "name": "시에나",
+      "weight_pct": 3.08,
+      "shares": 26,
+      "item_code": "CIEN.K"
+    },
+    {
       "name": "앰코 테크놀로지",
-      "weight_pct": 2.92,
+      "weight_pct": 2.86,
       "shares": 190,
       "item_code": "AMKR.O"
     },
     {
-      "name": "ASML 홀딩 ADR",
-      "weight_pct": 2.76,
-      "shares": 5,
-      "item_code": "ASML.O"
-    },
-    {
       "name": "WISTRON CORP",
-      "weight_pct": 2.66,
+      "weight_pct": 2.74,
       "shares": 1452,
       "item_code": null
     },
     {
+      "name": "ASML 홀딩 ADR",
+      "weight_pct": 2.74,
+      "shares": 5,
+      "item_code": "ASML.O"
+    },
+    {
       "name": "시놉시스",
-      "weight_pct": 2.57,
+      "weight_pct": 2.46,
       "shares": 18,
       "item_code": "SNPS.O"
     },
     {
-      "name": "TTM 테크놀로지스",
-      "weight_pct": 2.32,
-      "shares": 60,
-      "item_code": "TTMI.O"
-    },
-    {
       "name": "암페놀",
-      "weight_pct": 2.32,
+      "weight_pct": 2.41,
       "shares": 45,
       "item_code": "APH"
     },
     {
-      "name": "삼성전자",
-      "weight_pct": 1.98,
-      "shares": 32,
-      "item_code": "005930"
+      "name": "TTM 테크놀로지스",
+      "weight_pct": 2.28,
+      "shares": 60,
+      "item_code": "TTMI.O"
     },
     {
       "name": "MEDIATEK INC",
-      "weight_pct": 1.97,
+      "weight_pct": 2.19,
       "shares": 49,
       "item_code": null
+    },
+    {
+      "name": "삼성전자",
+      "weight_pct": 1.92,
+      "shares": 32,
+      "item_code": "005930"
     },
     {
       "name": "키사이트 테크놀로지스",
@@ -124,8 +124,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.63,
-      "shares": -6886664,
+      "weight_pct": -1.64,
+      "shares": -6813595,
       "item_code": null
     }
   ]

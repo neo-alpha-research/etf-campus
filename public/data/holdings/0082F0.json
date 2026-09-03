@@ -1,46 +1,46 @@
 {
   "ticker": "0082F0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "ROLLS-ROYCE HOLDINGS PLC",
-      "weight_pct": 11.36,
+      "weight_pct": 11.07,
       "shares": 2106,
       "item_code": null
     },
     {
       "name": "SAFRAN SA",
-      "weight_pct": 10.58,
+      "weight_pct": 10.65,
       "shares": 104,
       "item_code": null
     },
     {
       "name": "AIRBUS SE",
-      "weight_pct": 10.42,
+      "weight_pct": 10.61,
       "shares": 175,
       "item_code": null
     },
     {
       "name": "BAE SYSTEMS PLC",
-      "weight_pct": 9.78,
+      "weight_pct": 9.87,
       "shares": 1358,
       "item_code": null
     },
     {
       "name": "THALES SA",
-      "weight_pct": 9.49,
+      "weight_pct": 9.51,
       "shares": 129,
       "item_code": null
     },
     {
       "name": "LEONARDO SPA",
-      "weight_pct": 8.56,
+      "weight_pct": 8.64,
       "shares": 548,
       "item_code": null
     },
     {
       "name": "RHEINMETALL AG",
-      "weight_pct": 8.38,
+      "weight_pct": 8.34,
       "shares": 25,
       "item_code": null
     },
@@ -52,80 +52,80 @@
     },
     {
       "name": "SAAB AB-B",
-      "weight_pct": 7.71,
+      "weight_pct": 7.61,
       "shares": 449,
       "item_code": null
     },
     {
       "name": "BABCOCK INTL GROUP PLC",
-      "weight_pct": 2.55,
+      "weight_pct": 2.52,
       "shares": 685,
       "item_code": null
     },
     {
       "name": "HENSOLDT AG",
-      "weight_pct": 2.12,
+      "weight_pct": 2.09,
       "shares": 82,
       "item_code": null
     },
     {
       "name": "DASSAULT AVIATION SA",
-      "weight_pct": 2.05,
+      "weight_pct": 2.08,
       "shares": 24,
       "item_code": null
     },
     {
       "name": "RENK GROUP AG",
-      "weight_pct": 1.61,
+      "weight_pct": 1.57,
       "shares": 114,
       "item_code": null
     },
     {
       "name": "CSG NV",
-      "weight_pct": 1.13,
+      "weight_pct": 1.11,
       "shares": 207,
       "item_code": null
     },
     {
       "name": "QINETIQ GROUP PLC",
-      "weight_pct": 1.07,
+      "weight_pct": 1.06,
       "shares": 599,
       "item_code": null
     },
     {
       "name": "TKMS AG& CO KGAA",
-      "weight_pct": 0.87,
+      "weight_pct": 0.84,
       "shares": 33,
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 0.78,
+      "shares": 4005407,
+      "item_code": null
+    },
+    {
       "name": "CHEMRING GROUP PLC",
-      "weight_pct": 0.71,
+      "weight_pct": 0.7,
       "shares": 369,
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.68,
-      "shares": 3616036,
-      "item_code": null
-    },
-    {
       "name": "SENIOR PLC",
-      "weight_pct": 0.58,
+      "weight_pct": 0.6,
       "shares": 568,
       "item_code": null
     },
     {
-      "name": "EXAIL TECHNOLOGIES",
-      "weight_pct": 0.52,
-      "shares": 14,
+      "name": "BITTIUM OYJ",
+      "weight_pct": 0.53,
+      "shares": 46,
       "item_code": null
     },
     {
-      "name": "BITTIUM OYJ",
-      "weight_pct": 0.51,
-      "shares": 46,
+      "name": "EXAIL TECHNOLOGIES",
+      "weight_pct": 0.53,
+      "shares": 14,
       "item_code": null
     },
     {
@@ -136,7 +136,7 @@
     },
     {
       "name": "MILDEF GROUP AB",
-      "weight_pct": 0.4,
+      "weight_pct": 0.39,
       "shares": 64,
       "item_code": null
     },

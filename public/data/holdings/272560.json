@@ -1,6 +1,6 @@
 {
   "ticker": "272560",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "경기주택도시공사23-09-61",
@@ -105,14 +105,14 @@
       "item_code": null
     },
     {
-      "name": "한국전력공사채권1455",
+      "name": "농업금융채권(중앙회)2025-11이2Y-C",
       "weight_pct": 6.29,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "농업금융채권(중앙회)2025-11이2Y-C",
-      "weight_pct": 6.29,
+      "name": "한국전력공사채권1455",
+      "weight_pct": 6.28,
       "shares": 0,
       "item_code": null
     },
@@ -136,8 +136,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -30.4,
-      "shares": -34921596,
+      "weight_pct": -30.41,
+      "shares": -34924681,
       "item_code": null
     }
   ]

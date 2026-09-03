@@ -1,71 +1,71 @@
 {
   "ticker": "0002C0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 8.91,
-      "shares": 18206053,
+      "weight_pct": 10.34,
+      "shares": 20973511,
       "item_code": null
     },
     {
       "name": "WELSPUN CORP LTD",
-      "weight_pct": 8.69,
+      "weight_pct": 9.34,
       "shares": 514,
       "item_code": null
     },
     {
       "name": "SYRMA SGS TECHNOLOGY LTD",
-      "weight_pct": 6.46,
+      "weight_pct": 6.55,
       "shares": 636,
       "item_code": null
     },
     {
       "name": "ETERNAL LTD",
-      "weight_pct": 6.33,
+      "weight_pct": 6.36,
       "shares": 2730,
       "item_code": null
     },
     {
       "name": "Larsen & Toubro Ltd",
-      "weight_pct": 5.27,
+      "weight_pct": 5.22,
       "shares": 184,
       "item_code": null
     },
     {
       "name": "RELIANCE INDUSTRIES LTD",
-      "weight_pct": 4.87,
+      "weight_pct": 5.02,
       "shares": 540,
       "item_code": null
     },
     {
       "name": "DIVI'S LABORATORIES LTD",
-      "weight_pct": 4.29,
+      "weight_pct": 4.18,
       "shares": 64,
       "item_code": null
     },
     {
       "name": "STERLITE TECHNOLOGIES LTD",
-      "weight_pct": 4.15,
+      "weight_pct": 3.97,
       "shares": 806,
       "item_code": null
     },
     {
       "name": "Indian Hotels Co Ltd",
-      "weight_pct": 3.8,
+      "weight_pct": 3.72,
       "shares": 729,
       "item_code": null
     },
     {
-      "name": "HFCL LTD",
-      "weight_pct": 3.61,
-      "shares": 2051,
+      "name": "MTAR TECHNOLOGIES LTD",
+      "weight_pct": 3.54,
+      "shares": 71,
       "item_code": null
     },
     {
-      "name": "MTAR TECHNOLOGIES LTD",
-      "weight_pct": 3.57,
-      "shares": 71,
+      "name": "HFCL LTD",
+      "weight_pct": 3.45,
+      "shares": 2051,
       "item_code": null
     },
     {
@@ -76,62 +76,50 @@
     },
     {
       "name": "RADICO KHAITAN LTD",
-      "weight_pct": 3.36,
+      "weight_pct": 3.37,
       "shares": 106,
       "item_code": null
     },
     {
       "name": "ATHER ENERGY LTD",
-      "weight_pct": 3.28,
+      "weight_pct": 3.32,
       "shares": 270,
       "item_code": null
     },
     {
       "name": "HONASA CONSUMER LTD",
-      "weight_pct": 3.18,
+      "weight_pct": 3.15,
       "shares": 937,
       "item_code": null
     },
     {
       "name": "FSN E-COMMERCE VENTURES LTD",
-      "weight_pct": 3.18,
+      "weight_pct": 3.09,
       "shares": 1287,
       "item_code": null
     },
     {
       "name": "ICICI BANK LTD",
-      "weight_pct": 2.99,
+      "weight_pct": 2.98,
       "shares": 291,
       "item_code": null
     },
     {
       "name": "BILLIONBRAINS GARAGE VENTURE",
-      "weight_pct": 2.92,
+      "weight_pct": 2.9,
       "shares": 2155,
       "item_code": null
     },
     {
       "name": "STATE BANK OF INDIA",
-      "weight_pct": 2.71,
+      "weight_pct": 2.66,
       "shares": 362,
       "item_code": null
     },
     {
-      "name": "LAURUS LAB LTD",
-      "weight_pct": 2.42,
-      "shares": 179,
-      "item_code": null
-    },
-    {
       "name": "ASTRA MICROWAVE PRODUCTS LTD",
-      "weight_pct": 2.28,
+      "weight_pct": 2.32,
       "shares": 193,
-      "item_code": null
-    },
-    {
-      "name": "SAMVARDHAN MOTHERSON INTERNATIONAL",
-      "weight_pct": 2.17,
-      "shares": 1803,
       "item_code": null
     },
     {
@@ -141,21 +129,33 @@
       "item_code": null
     },
     {
+      "name": "SAMVARDHAN MOTHERSON INTERNATIONAL",
+      "weight_pct": 2.12,
+      "shares": 1803,
+      "item_code": null
+    },
+    {
       "name": "ABB INDIA LTD",
-      "weight_pct": 2.14,
+      "weight_pct": 2.08,
       "shares": 39,
       "item_code": null
     },
     {
       "name": "CG POWER AND INDUSTRIAL SOLU",
-      "weight_pct": 1.9,
+      "weight_pct": 1.85,
       "shares": 294,
       "item_code": null
     },
     {
       "name": "HITACHI ENERGY INDIA LTD",
-      "weight_pct": 1.82,
+      "weight_pct": 1.77,
       "shares": 7,
+      "item_code": null
+    },
+    {
+      "name": "LAURUS LAB LTD",
+      "weight_pct": 0.99,
+      "shares": 75,
       "item_code": null
     }
   ]

@@ -1,82 +1,82 @@
 {
   "ticker": "316300",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 10.23,
-      "shares": 132475555,
+      "shares": 131204613,
       "item_code": null
     },
     {
       "name": "CapitaLand Integrated Commercial Trust",
-      "weight_pct": 9.23,
+      "weight_pct": 9.22,
       "shares": 46840,
       "item_code": null
     },
     {
-      "name": "CAPITALAND ASCENDAS REIT",
-      "weight_pct": 8.81,
-      "shares": 43220,
-      "item_code": null
-    },
-    {
       "name": "MAPLETREE LOGIS TRUST",
-      "weight_pct": 8.77,
+      "weight_pct": 8.76,
       "shares": 90120,
       "item_code": null
     },
     {
+      "name": "CAPITALAND ASCENDAS REIT",
+      "weight_pct": 8.73,
+      "shares": 43220,
+      "item_code": null
+    },
+    {
       "name": "KEPPEL DC REIT",
-      "weight_pct": 8.61,
+      "weight_pct": 8.67,
       "shares": 47060,
       "item_code": null
     },
     {
       "name": "MAPLETREE PAN ASIA COMMER",
-      "weight_pct": 8.47,
+      "weight_pct": 8.46,
       "shares": 80140,
       "item_code": null
     },
     {
       "name": "KEPPEL REIT",
-      "weight_pct": 7.45,
+      "weight_pct": 7.46,
       "shares": 102320,
       "item_code": null
     },
     {
       "name": "MAPLETREE INDUS TRUST",
-      "weight_pct": 7.07,
+      "weight_pct": 7.12,
       "shares": 43840,
       "item_code": null
     },
     {
       "name": "FRASERS LOGIS & COMMERCIAL TRUST",
-      "weight_pct": 6.72,
+      "weight_pct": 6.69,
       "shares": 86360,
       "item_code": null
     },
     {
       "name": "SUNTEC REIT",
-      "weight_pct": 6.34,
+      "weight_pct": 6.38,
       "shares": 52200,
       "item_code": null
     },
     {
       "name": "FRASERS CENTREPOINT TRUST",
-      "weight_pct": 5.34,
+      "weight_pct": 5.31,
       "shares": 29600,
       "item_code": null
     },
     {
       "name": "Lendlease Global Commercial RE",
-      "weight_pct": 3.32,
+      "weight_pct": 3.28,
       "shares": 70640,
       "item_code": null
     },
     {
       "name": "CAPITALAND ASCOTT TRUST",
-      "weight_pct": 2.82,
+      "weight_pct": 2.84,
       "shares": 39740,
       "item_code": null
     },
@@ -106,7 +106,7 @@
     },
     {
       "name": "STARHILL GLOBAL REIT",
-      "weight_pct": 0.73,
+      "weight_pct": 0.75,
       "shares": 16880,
       "item_code": null
     },
@@ -118,7 +118,7 @@
     },
     {
       "name": "FAR EAST HOSPITALITY TRUST",
-      "weight_pct": 0.32,
+      "weight_pct": 0.31,
       "shares": 6900,
       "item_code": null
     }

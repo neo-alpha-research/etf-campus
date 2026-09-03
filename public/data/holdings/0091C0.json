@@ -1,52 +1,52 @@
 {
   "ticker": "0091C0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "iShares 7-10 Year Treasury Bond ETF",
-      "weight_pct": 30.75,
+      "weight_pct": 30.59,
       "shares": 231,
       "item_code": "IEF.O"
     },
     {
       "name": "F/m US Treasury 10 Year Note ETF",
-      "weight_pct": 8.32,
+      "weight_pct": 8.31,
       "shares": 137,
       "item_code": "UTEN.O"
     },
     {
       "name": "iShares iBonds Dec 2033 Term Treasury ETF",
-      "weight_pct": 7.7,
+      "weight_pct": 7.66,
       "shares": 226,
       "item_code": "IBTO.O"
     },
     {
       "name": "T 4 1/4 05/15/35",
       "weight_pct": 7.24,
-      "shares": 5226,
+      "shares": 5227,
       "item_code": null
     },
     {
       "name": "T 4 1/2 02/15/36",
       "weight_pct": 6.62,
-      "shares": 4676,
+      "shares": 4677,
       "item_code": null
     },
     {
       "name": "BondBloxx Bloomberg 7 Yr Tgt Duration US Trsy ETF",
-      "weight_pct": 6.07,
+      "weight_pct": 6.04,
       "shares": 91,
       "item_code": "XSVN.K"
     },
     {
       "name": "iShares iBonds Dec 2034 Term Treasury ETF",
-      "weight_pct": 5.7,
+      "weight_pct": 5.67,
       "shares": 159,
       "item_code": "IBTP.O"
     },
     {
       "name": "iShares iBonds Dec 2035 Term Treasury ETF",
-      "weight_pct": 5.17,
+      "weight_pct": 5.15,
       "shares": 146,
       "item_code": "IBTQ.O"
     },
@@ -58,20 +58,20 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.16,
-      "shares": 3979341,
+      "weight_pct": 4.46,
+      "shares": 4253566,
       "item_code": null
     },
     {
       "name": "T 4 11/15/35",
       "weight_pct": 3.35,
-      "shares": 2475,
+      "shares": 2476,
       "item_code": null
     },
     {
       "name": "T 4 1/8 02/15/36",
       "weight_pct": 2.93,
-      "shares": 2145,
+      "shares": 2146,
       "item_code": null
     },
     {

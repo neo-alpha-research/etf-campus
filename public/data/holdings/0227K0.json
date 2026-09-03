@@ -1,52 +1,52 @@
 {
   "ticker": "0227K0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "스페이스X",
-      "weight_pct": 26.49,
+      "weight_pct": 27.08,
       "shares": 613,
       "item_code": "SPCX.O"
     },
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 21.24,
+      "weight_pct": 20.84,
       "shares": 77,
       "item_code": "LITE.O"
     },
     {
       "name": "시에나",
-      "weight_pct": 16.17,
+      "weight_pct": 15.72,
       "shares": 140,
       "item_code": "CIEN.K"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 11.41,
+      "weight_pct": 11.53,
       "shares": 594,
       "item_code": "RKLB.O"
     },
     {
       "name": "텔레다인 테크놀로지스",
-      "weight_pct": 8.47,
+      "weight_pct": 8.71,
       "shares": 46,
       "item_code": "TDY"
     },
     {
       "name": "AST 스페이스모바일",
-      "weight_pct": 6.84,
+      "weight_pct": 6.67,
       "shares": 385,
       "item_code": "ASTS.O"
     },
     {
       "name": "비아샛",
-      "weight_pct": 2.74,
+      "weight_pct": 2.79,
       "shares": 135,
       "item_code": "VSAT.O"
     },
     {
       "name": "비아비 솔루션스",
-      "weight_pct": 2.67,
+      "weight_pct": 2.64,
       "shares": 245,
       "item_code": "VIAV.O"
     },
@@ -58,14 +58,14 @@
     },
     {
       "name": "이리디움 커뮤니케이션스",
-      "weight_pct": 1.48,
+      "weight_pct": 1.52,
       "shares": 105,
       "item_code": "IRDM.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.32,
-      "shares": 1485171,
+      "weight_pct": 0.33,
+      "shares": 1476666,
       "item_code": null
     }
   ]

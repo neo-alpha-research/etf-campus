@@ -1,64 +1,64 @@
 {
   "ticker": "396510",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 31.49,
-      "shares": 89455722,
+      "weight_pct": 32.34,
+      "shares": 91116590,
       "item_code": null
     },
     {
       "name": "장강전력",
-      "weight_pct": 9.47,
+      "weight_pct": 9.64,
       "shares": 4697,
       "item_code": "600900.SS"
     },
     {
       "name": "양광전력",
-      "weight_pct": 7.53,
+      "weight_pct": 7.4,
       "shares": 1147,
       "item_code": "300274.SZ"
     },
     {
       "name": "융기실리콘자재",
-      "weight_pct": 6.21,
+      "weight_pct": 6.25,
       "shares": 7175,
       "item_code": "601012.SS"
     },
     {
-      "name": "정성기전",
-      "weight_pct": 5.86,
-      "shares": 1893,
-      "item_code": "300316.SZ"
-    },
-    {
       "name": "XD전기",
-      "weight_pct": 5.74,
+      "weight_pct": 5.81,
       "shares": 6322,
       "item_code": "601179.SS"
     },
     {
+      "name": "정성기전",
+      "weight_pct": 5.81,
+      "shares": 1893,
+      "item_code": "300316.SZ"
+    },
+    {
       "name": "국전남서과기",
-      "weight_pct": 5.55,
+      "weight_pct": 5.58,
       "shares": 3372,
       "item_code": "600406.SS"
     },
     {
       "name": "금풍과기",
-      "weight_pct": 4.25,
+      "weight_pct": 4.24,
       "shares": 3232,
       "item_code": "002202.SZ"
     },
     {
       "name": "영파 덕업과기",
-      "weight_pct": 4.1,
+      "weight_pct": 4.0,
       "shares": 650,
       "item_code": "605117.SS"
     },
     {
       "name": "TCL 중환신능원",
-      "weight_pct": 3.39,
+      "weight_pct": 3.43,
       "shares": 4967,
       "item_code": "002129.SZ"
     },
@@ -70,25 +70,25 @@
     },
     {
       "name": "하남평고전기",
-      "weight_pct": 2.37,
+      "weight_pct": 2.38,
       "shares": 1668,
       "item_code": "600312.SS"
     },
     {
-      "name": "특예덕전기",
-      "weight_pct": 2.25,
-      "shares": 900,
-      "item_code": "300001.SZ"
-    },
-    {
       "name": "NBO(오리엔트 케이블)",
-      "weight_pct": 2.22,
+      "weight_pct": 2.24,
       "shares": 918,
       "item_code": "603606.SS"
     },
     {
+      "name": "특예덕전기",
+      "weight_pct": 2.22,
+      "shares": 900,
+      "item_code": "300001.SZ"
+    },
+    {
       "name": "남망과기",
-      "weight_pct": 2.21,
+      "weight_pct": 2.22,
       "shares": 745,
       "item_code": "688248.SS"
     },
@@ -99,118 +99,112 @@
       "item_code": "601877.SS"
     },
     {
-      "name": "과사달",
-      "weight_pct": 2.11,
-      "shares": 821,
-      "item_code": "002518.SZ"
-    },
-    {
       "name": "절능풍력발전",
-      "weight_pct": 2.1,
+      "weight_pct": 2.13,
       "shares": 8760,
       "item_code": "601016.SS"
     },
     {
-      "name": "사방자동화",
-      "weight_pct": 1.87,
-      "shares": 619,
-      "item_code": "601126.SS"
+      "name": "과사달",
+      "weight_pct": 2.07,
+      "shares": 821,
+      "item_code": "002518.SZ"
     },
     {
       "name": "천투에너지",
-      "weight_pct": 1.85,
+      "weight_pct": 1.89,
       "shares": 1665,
       "item_code": "600674.SS"
     },
     {
       "name": "국가전력투자",
-      "weight_pct": 1.84,
+      "weight_pct": 1.86,
       "shares": 4876,
       "item_code": "000958.SZ"
     },
     {
-      "name": "금랑과기",
-      "weight_pct": 1.68,
-      "shares": 379,
-      "item_code": "300763.SZ"
-    },
-    {
-      "name": "Beijing HyperStrong Technology Co Ltd Class A",
-      "weight_pct": 1.64,
-      "shares": 124,
-      "item_code": "688411.SS"
-    },
-    {
-      "name": "성도욱광전자",
-      "weight_pct": 1.57,
-      "shares": 600,
-      "item_code": "600353.SS"
-    },
-    {
-      "name": "길림전력",
-      "weight_pct": 1.57,
-      "shares": 4451,
-      "item_code": "000875.SZ"
-    },
-    {
-      "name": "횡점동자",
-      "weight_pct": 1.53,
-      "shares": 1012,
-      "item_code": "002056.SZ"
+      "name": "사방자동화",
+      "weight_pct": 1.84,
+      "shares": 619,
+      "item_code": "601126.SS"
     },
     {
       "name": "협흥능과",
-      "weight_pct": 1.52,
+      "weight_pct": 1.68,
       "shares": 1337,
       "item_code": "002015.SZ"
     },
     {
+      "name": "Beijing HyperStrong Technology Co Ltd Class A",
+      "weight_pct": 1.63,
+      "shares": 124,
+      "item_code": "688411.SS"
+    },
+    {
+      "name": "금랑과기",
+      "weight_pct": 1.63,
+      "shares": 379,
+      "item_code": "300763.SZ"
+    },
+    {
+      "name": "길림전력",
+      "weight_pct": 1.6,
+      "shares": 4451,
+      "item_code": "000875.SZ"
+    },
+    {
       "name": "GCL테크",
-      "weight_pct": 1.52,
+      "weight_pct": 1.58,
       "shares": 35373,
       "item_code": "3800.HK"
     },
     {
+      "name": "횡점동자",
+      "weight_pct": 1.5,
+      "shares": 1012,
+      "item_code": "002056.SZ"
+    },
+    {
+      "name": "성도욱광전자",
+      "weight_pct": 1.46,
+      "shares": 600,
+      "item_code": "600353.SS"
+    },
+    {
       "name": "명양스마트에너지",
-      "weight_pct": 1.48,
+      "weight_pct": 1.43,
       "shares": 1943,
       "item_code": "601615.SS"
     },
     {
       "name": "트리나 솔라",
-      "weight_pct": 1.37,
+      "weight_pct": 1.38,
       "shares": 1589,
       "item_code": "688599.SS"
     },
     {
-      "name": "상능전기",
-      "weight_pct": 1.34,
-      "shares": 751,
-      "item_code": "300827.SZ"
-    },
-    {
       "name": "동방전자",
-      "weight_pct": 1.34,
+      "weight_pct": 1.35,
       "shares": 1637,
       "item_code": "000682.SZ"
     },
     {
-      "name": "대금중공",
+      "name": "상능전기",
       "weight_pct": 1.33,
-      "shares": 529,
-      "item_code": "002487.SZ"
+      "shares": 751,
+      "item_code": "300827.SZ"
     },
     {
       "name": "정과능원",
-      "weight_pct": 1.3,
+      "weight_pct": 1.32,
       "shares": 4432,
       "item_code": "688223.SS"
     },
     {
-      "name": "금반과기",
-      "weight_pct": 1.29,
-      "shares": 271,
-      "item_code": "688676.SS"
+      "name": "대금중공",
+      "weight_pct": 1.3,
+      "shares": 529,
+      "item_code": "002487.SZ"
     },
     {
       "name": "애욱고분",
@@ -219,21 +213,27 @@
       "item_code": "600732.SS"
     },
     {
+      "name": "금반과기",
+      "weight_pct": 1.26,
+      "shares": 271,
+      "item_code": "688676.SS"
+    },
+    {
       "name": "차이나클린에너지SOLACTIVE TRS 260626-01",
-      "weight_pct": -1.65,
-      "shares": -4687393,
+      "weight_pct": -1.71,
+      "shares": -4819119,
       "item_code": null
     },
     {
       "name": "차이나클린에너지SOLACTIVE TRS 260529-01",
-      "weight_pct": -6.04,
-      "shares": -17171675,
+      "weight_pct": -6.22,
+      "shares": -17543514,
       "item_code": null
     },
     {
       "name": "차이나클린에너지SOLACTIVE TRS 260529-02",
-      "weight_pct": -21.73,
-      "shares": -61744960,
+      "weight_pct": -22.39,
+      "shares": -63081998,
       "item_code": null
     }
   ]

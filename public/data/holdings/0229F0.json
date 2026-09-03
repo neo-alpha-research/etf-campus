@@ -1,0 +1,120 @@
+{
+  "ticker": "0229F0",
+  "as_of_date": "2026-09-03",
+  "holdings": [
+    {
+      "name": "알테오젠",
+      "weight_pct": 8.84,
+      "shares": 136,
+      "item_code": "196170"
+    },
+    {
+      "name": "올릭스",
+      "weight_pct": 8.24,
+      "shares": 378,
+      "item_code": "226950"
+    },
+    {
+      "name": "오스코텍",
+      "weight_pct": 7.21,
+      "shares": 905,
+      "item_code": "039200"
+    },
+    {
+      "name": "한올바이오파마",
+      "weight_pct": 7.09,
+      "shares": 592,
+      "item_code": "009420"
+    },
+    {
+      "name": "오름테라퓨틱",
+      "weight_pct": 6.74,
+      "shares": 550,
+      "item_code": "475830"
+    },
+    {
+      "name": "에스티팜",
+      "weight_pct": 6.5,
+      "shares": 295,
+      "item_code": "237690"
+    },
+    {
+      "name": "삼양바이오팜",
+      "weight_pct": 6.33,
+      "shares": 558,
+      "item_code": "0120G0"
+    },
+    {
+      "name": "지투지바이오",
+      "weight_pct": 6.27,
+      "shares": 778,
+      "item_code": "456160"
+    },
+    {
+      "name": "알지노믹스",
+      "weight_pct": 6.23,
+      "shares": 1032,
+      "item_code": "476830"
+    },
+    {
+      "name": "에이비엘바이오",
+      "weight_pct": 6.06,
+      "shares": 402,
+      "item_code": "298380"
+    },
+    {
+      "name": "리가켐바이오",
+      "weight_pct": 6.03,
+      "shares": 305,
+      "item_code": "141080"
+    },
+    {
+      "name": "보로노이",
+      "weight_pct": 5.57,
+      "shares": 151,
+      "item_code": "310210"
+    },
+    {
+      "name": "큐리언트",
+      "weight_pct": 4.35,
+      "shares": 975,
+      "item_code": "115180"
+    },
+    {
+      "name": "앱클론",
+      "weight_pct": 4.26,
+      "shares": 879,
+      "item_code": "174900"
+    },
+    {
+      "name": "HLB이노베이션",
+      "weight_pct": 3.09,
+      "shares": 906,
+      "item_code": "024850"
+    },
+    {
+      "name": "디앤디파마텍",
+      "weight_pct": 2.37,
+      "shares": 222,
+      "item_code": "347850"
+    },
+    {
+      "name": "지아이이노베이션",
+      "weight_pct": 2.11,
+      "shares": 1199,
+      "item_code": "358570"
+    },
+    {
+      "name": "와이바이오로직스",
+      "weight_pct": 2.06,
+      "shares": 1101,
+      "item_code": "338840"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.57,
+      "shares": 2650868,
+      "item_code": null
+    }
+  ]
+}

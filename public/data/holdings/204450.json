@@ -1,70 +1,70 @@
 {
   "ticker": "204450",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "HSCEI Index Futures 2026 09",
-      "weight_pct": 48.56,
+      "weight_pct": 47.79,
       "shares": 1,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 31.31,
-      "shares": 74096110,
+      "weight_pct": 31.38,
+      "shares": 73325101,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)",
-      "weight_pct": 6.8,
-      "shares": 16107493,
+      "weight_pct": 6.41,
+      "shares": 14983018,
       "item_code": null
     },
     {
       "name": "CCB(중국건설은행)",
-      "weight_pct": 5.17,
+      "weight_pct": 5.28,
       "shares": 7371,
       "item_code": "0939.HK"
     },
     {
       "name": "텐센트",
-      "weight_pct": 4.79,
+      "weight_pct": 4.72,
       "shares": 143,
       "item_code": "0700.HK"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 4.45,
+      "weight_pct": 4.35,
       "shares": 527,
       "item_code": "9988.HK"
     },
     {
       "name": "ICBC(중국공상은행)",
-      "weight_pct": 3.53,
+      "weight_pct": 3.62,
       "shares": 6319,
       "item_code": "1398.HK"
     },
     {
       "name": "샤오미",
-      "weight_pct": 2.84,
+      "weight_pct": 2.86,
       "shares": 1391,
       "item_code": "1810.HK"
     },
     {
       "name": "차이나 모바일",
-      "weight_pct": 2.8,
+      "weight_pct": 2.84,
       "shares": 479,
       "item_code": "0941.HK"
     },
     {
       "name": "메이투안",
-      "weight_pct": 2.48,
+      "weight_pct": 2.43,
       "shares": 425,
       "item_code": "3690.HK"
     },
     {
       "name": "BOC(중국은행)",
-      "weight_pct": 2.37,
+      "weight_pct": 2.42,
       "shares": 5443,
       "item_code": "3988.HK"
     },
@@ -76,25 +76,25 @@
     },
     {
       "name": "핑안 인슈어런스 오브 차이나",
-      "weight_pct": 2.15,
+      "weight_pct": 2.18,
       "shares": 515,
       "item_code": "2318.HK"
     },
     {
       "name": "BYD",
-      "weight_pct": 1.81,
+      "weight_pct": 1.86,
       "shares": 282,
       "item_code": "1211.HK"
     },
     {
       "name": "넷이즈",
-      "weight_pct": 1.72,
+      "weight_pct": 1.71,
       "shares": 121,
       "item_code": "9999.HK"
     },
     {
       "name": "중국 국제 반도체",
-      "weight_pct": 1.67,
+      "weight_pct": 1.64,
       "shares": 319,
       "item_code": "0981.HK"
     },
@@ -106,73 +106,73 @@
     },
     {
       "name": "중국생명",
-      "weight_pct": 1.26,
+      "weight_pct": 1.27,
       "shares": 567,
       "item_code": "2628.HK"
     },
     {
       "name": "자금광업 Class H",
-      "weight_pct": 1.22,
+      "weight_pct": 1.23,
       "shares": 453,
       "item_code": "2899.HK"
     },
     {
       "name": "페트로차이나",
-      "weight_pct": 1.2,
+      "weight_pct": 1.22,
       "shares": 1608,
       "item_code": "0857.HK"
     },
     {
       "name": "레노버",
-      "weight_pct": 1.14,
+      "weight_pct": 1.17,
       "shares": 515,
       "item_code": "0992.HK"
     },
     {
       "name": "초상은행",
-      "weight_pct": 1.12,
+      "weight_pct": 1.14,
       "shares": 298,
       "item_code": "3968.HK"
     },
     {
       "name": "중국 농업은행",
-      "weight_pct": 1.04,
+      "weight_pct": 1.08,
       "shares": 2237,
       "item_code": "1288.HK"
     },
     {
       "name": "징동닷컴",
-      "weight_pct": 1.01,
+      "weight_pct": 0.99,
       "shares": 122,
       "item_code": "9618.HK"
     },
     {
       "name": "이노벤트 바이오로직스",
-      "weight_pct": 0.98,
+      "weight_pct": 0.97,
       "shares": 128,
       "item_code": "1801.HK"
     },
     {
       "name": "중국신화에너지",
-      "weight_pct": 0.84,
+      "weight_pct": 0.85,
       "shares": 247,
       "item_code": "1088.HK"
     },
     {
       "name": "바이두",
-      "weight_pct": 0.82,
+      "weight_pct": 0.81,
       "shares": 115,
       "item_code": "9888.HK"
     },
     {
       "name": "염 차이나 홀딩스",
-      "weight_pct": 0.69,
+      "weight_pct": 0.7,
       "shares": 26,
       "item_code": "YUMC.K"
     },
     {
       "name": "중국인민재산보험",
-      "weight_pct": 0.67,
+      "weight_pct": 0.69,
       "shares": 536,
       "item_code": "2328.HK"
     },
@@ -189,28 +189,22 @@
       "item_code": "9992.HK"
     },
     {
+      "name": "안타 스포츠",
+      "weight_pct": 0.62,
+      "shares": 107,
+      "item_code": "2020.HK"
+    },
+    {
       "name": "중국석유화학",
       "weight_pct": 0.61,
       "shares": 1731,
       "item_code": "0386.HK"
     },
     {
-      "name": "안타 스포츠",
-      "weight_pct": 0.61,
-      "shares": 107,
-      "item_code": "2020.HK"
-    },
-    {
       "name": "콰이쇼우",
-      "weight_pct": 0.58,
+      "weight_pct": 0.6,
       "shares": 234,
       "item_code": "1024.HK"
-    },
-    {
-      "name": "트립닷컴 그룹",
-      "weight_pct": 0.56,
-      "shares": 21,
-      "item_code": "9961.HK"
     },
     {
       "name": "KE 홀딩스",
@@ -219,26 +213,32 @@
       "item_code": "2423.HK"
     },
     {
+      "name": "트립닷컴 그룹",
+      "weight_pct": 0.55,
+      "shares": 21,
+      "item_code": "9961.HK"
+    },
+    {
       "name": "화룬부동산",
-      "weight_pct": 0.54,
+      "weight_pct": 0.53,
       "shares": 247,
       "item_code": "1109.HK"
     },
     {
       "name": "농푸스프링",
-      "weight_pct": 0.49,
+      "weight_pct": 0.48,
       "shares": 154,
       "item_code": "9633.HK"
     },
     {
       "name": "중국굉교",
-      "weight_pct": 0.45,
+      "weight_pct": 0.46,
       "shares": 268,
       "item_code": "1378.HK"
     },
     {
       "name": "중신그룹",
-      "weight_pct": 0.43,
+      "weight_pct": 0.44,
       "shares": 443,
       "item_code": "0267.HK"
     },
@@ -256,7 +256,7 @@
     },
     {
       "name": "교통은행",
-      "weight_pct": 0.38,
+      "weight_pct": 0.39,
       "shares": 670,
       "item_code": "3328.HK"
     },
@@ -273,26 +273,26 @@
       "item_code": "2057.HK"
     },
     {
+      "name": "중국우정저축은행",
+      "weight_pct": 0.33,
+      "shares": 835,
+      "item_code": "1658.HK"
+    },
+    {
       "name": "중산강방생물의약",
-      "weight_pct": 0.34,
+      "weight_pct": 0.32,
       "shares": 51,
       "item_code": "9926.HK"
     },
     {
       "name": "한삼제약",
-      "weight_pct": 0.32,
+      "weight_pct": 0.31,
       "shares": 123,
       "item_code": "3692.HK"
     },
     {
-      "name": "중국우정저축은행",
-      "weight_pct": 0.32,
-      "shares": 835,
-      "item_code": "1658.HK"
-    },
-    {
       "name": "호라이즌 로보틱스",
-      "weight_pct": 0.31,
+      "weight_pct": 0.3,
       "shares": 896,
       "item_code": "9660.HK"
     },
@@ -316,14 +316,14 @@
     },
     {
       "name": "선저우인터내셔널",
-      "weight_pct": 0.16,
+      "weight_pct": 0.17,
       "shares": 62,
       "item_code": "2313.HK"
     },
     {
       "name": "외국환포워드HKD",
-      "weight_pct": -102.11,
-      "shares": -241627101,
+      "weight_pct": -103.2,
+      "shares": -241107845,
       "item_code": null
     }
   ]

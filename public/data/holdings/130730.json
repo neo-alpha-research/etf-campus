@@ -1,6 +1,6 @@
 {
   "ticker": "130730",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "통화안정증권02700-2703-01",
@@ -76,8 +76,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.58,
-      "shares": 3691257,
+      "weight_pct": 3.57,
+      "shares": 3686267,
       "item_code": null
     }
   ]

@@ -1,71 +1,71 @@
 {
   "ticker": "446770",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 22.5,
+      "weight_pct": 22.62,
       "shares": 2815,
       "item_code": "NVDA.O"
     },
     {
-      "name": "ASML 홀딩 ADR",
-      "weight_pct": 19.95,
-      "shares": 325,
-      "item_code": "ASML.O"
-    },
-    {
       "name": "TSMC ADR",
-      "weight_pct": 19.77,
+      "weight_pct": 20.12,
       "shares": 1315,
       "item_code": "TSM"
     },
     {
+      "name": "ASML 홀딩 ADR",
+      "weight_pct": 20.0,
+      "shares": 325,
+      "item_code": "ASML.O"
+    },
+    {
       "name": "SK하이닉스",
-      "weight_pct": 18.65,
+      "weight_pct": 18.16,
       "shares": 417,
       "item_code": "000660"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 3.57,
+      "weight_pct": 3.51,
       "shares": 519,
       "item_code": "005930"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 3.5,
+      "weight_pct": 3.48,
       "shares": 101,
       "item_code": "MU.O"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 3.29,
+      "weight_pct": 3.36,
       "shares": 246,
       "item_code": "AVGO.O"
     },
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 3.15,
+      "weight_pct": 3.14,
       "shares": 185,
       "item_code": "AMD.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 2.81,
+      "weight_pct": 2.85,
       "shares": 869,
       "item_code": "INTC.O"
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 2.78,
+      "weight_pct": 2.74,
       "shares": 168,
       "item_code": "AMAT.O"
     },
     {
       "name": "원화현금",
       "weight_pct": -0.02,
-      "shares": -900646,
+      "shares": -1031247,
       "item_code": null
     }
   ]

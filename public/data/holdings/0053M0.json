@@ -1,82 +1,82 @@
 {
   "ticker": "0053M0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "피에스케이홀딩스",
-      "weight_pct": 7.0,
+      "weight_pct": 7.2,
       "shares": 376,
       "item_code": "031980"
     },
     {
       "name": "에이피알",
-      "weight_pct": 6.87,
+      "weight_pct": 6.91,
       "shares": 105,
       "item_code": "278470"
     },
     {
       "name": "파마리서치",
-      "weight_pct": 6.32,
+      "weight_pct": 6.22,
       "shares": 101,
       "item_code": "214450"
     },
     {
-      "name": "LS",
-      "weight_pct": 6.14,
-      "shares": 131,
-      "item_code": "006260"
-    },
-    {
       "name": "인바디",
-      "weight_pct": 6.11,
+      "weight_pct": 6.12,
       "shares": 662,
       "item_code": "041830"
     },
     {
+      "name": "LS",
+      "weight_pct": 6.1,
+      "shares": 131,
+      "item_code": "006260"
+    },
+    {
       "name": "실리콘투",
-      "weight_pct": 5.7,
+      "weight_pct": 5.8,
       "shares": 726,
       "item_code": "257720"
     },
     {
       "name": "슈프리마",
-      "weight_pct": 5.6,
+      "weight_pct": 5.74,
       "shares": 668,
       "item_code": "236200"
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 5.57,
+      "weight_pct": 5.62,
       "shares": 193,
       "item_code": "071050"
     },
     {
-      "name": "신세계",
-      "weight_pct": 5.47,
-      "shares": 83,
-      "item_code": "004170"
-    },
-    {
-      "name": "두산",
-      "weight_pct": 5.47,
-      "shares": 30,
-      "item_code": "000150"
-    },
-    {
       "name": "에스엘",
-      "weight_pct": 5.41,
+      "weight_pct": 5.32,
       "shares": 677,
       "item_code": "005850"
     },
     {
+      "name": "두산",
+      "weight_pct": 5.28,
+      "shares": 30,
+      "item_code": "000150"
+    },
+    {
+      "name": "신세계",
+      "weight_pct": 5.04,
+      "shares": 83,
+      "item_code": "004170"
+    },
+    {
       "name": "효성",
-      "weight_pct": 5.21,
+      "weight_pct": 5.02,
       "shares": 200,
       "item_code": "004800"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 4.38,
+      "weight_pct": 4.39,
       "shares": 328,
       "item_code": "016360"
     },
@@ -88,44 +88,44 @@
     },
     {
       "name": "삼천리",
-      "weight_pct": 3.68,
+      "weight_pct": 3.85,
       "shares": 181,
       "item_code": "004690"
     },
     {
       "name": "이엔에프테크놀로지",
-      "weight_pct": 3.49,
+      "weight_pct": 3.51,
       "shares": 534,
       "item_code": "102710"
     },
     {
-      "name": "키움증권",
-      "weight_pct": 3.45,
-      "shares": 81,
-      "item_code": "039490"
-    },
-    {
       "name": "영원무역",
-      "weight_pct": 3.38,
+      "weight_pct": 3.49,
       "shares": 300,
       "item_code": "111770"
     },
     {
+      "name": "키움증권",
+      "weight_pct": 3.48,
+      "shares": 81,
+      "item_code": "039490"
+    },
+    {
       "name": "CJ",
-      "weight_pct": 2.93,
+      "weight_pct": 2.96,
       "shares": 145,
       "item_code": "001040"
     },
     {
       "name": "케이씨텍",
-      "weight_pct": 2.63,
+      "weight_pct": 2.7,
       "shares": 264,
       "item_code": "281820"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.15,
-      "shares": 7630967,
+      "weight_pct": 1.2,
+      "shares": 7662087,
       "item_code": null
     }
   ]

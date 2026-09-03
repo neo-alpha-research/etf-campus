@@ -1,7 +1,19 @@
 {
   "ticker": "498610",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
+    {
+      "name": "BHARTI AIRTEL LTD",
+      "weight_pct": 7.54,
+      "shares": 1161,
+      "item_code": null
+    },
+    {
+      "name": "RELIANCE INDUSTRIES LIMITED",
+      "weight_pct": 7.42,
+      "shares": 1638,
+      "item_code": null
+    },
     {
       "name": "ETERNAL LTD",
       "weight_pct": 7.31,
@@ -9,182 +21,170 @@
       "item_code": null
     },
     {
-      "name": "BHARTI AIRTEL LTD",
-      "weight_pct": 7.27,
-      "shares": 1161,
-      "item_code": null
-    },
-    {
-      "name": "RELIANCE INDUSTRIES LIMITED",
-      "weight_pct": 7.22,
-      "shares": 1638,
-      "item_code": null
-    },
-    {
       "name": "TATA CONSULTANCY SVCS LTD",
-      "weight_pct": 6.44,
+      "weight_pct": 6.37,
       "shares": 778,
       "item_code": null
     },
     {
       "name": "INFOSYS LTD",
-      "weight_pct": 6.17,
+      "weight_pct": 6.3,
       "shares": 1575,
       "item_code": null
     },
     {
       "name": "HCL TECHNOLOGIES LTD",
-      "weight_pct": 5.67,
+      "weight_pct": 5.85,
       "shares": 1252,
       "item_code": null
     },
     {
       "name": "TECH MAHINDRA LTD",
-      "weight_pct": 4.29,
+      "weight_pct": 4.32,
       "shares": 762,
       "item_code": null
     },
     {
       "name": "PB FINTECH LTD",
-      "weight_pct": 3.75,
+      "weight_pct": 3.67,
       "shares": 580,
       "item_code": null
     },
     {
       "name": "JIO FINANCIAL SERVICES LTD",
-      "weight_pct": 3.65,
+      "weight_pct": 3.57,
       "shares": 4379,
       "item_code": null
     },
     {
       "name": "ONE 97 COMMUNICATIONS LTD",
-      "weight_pct": 3.61,
+      "weight_pct": 3.44,
       "shares": 609,
       "item_code": null
     },
     {
-      "name": "DIXON TECHNOLOGIES INDIA LTD",
-      "weight_pct": 2.93,
-      "shares": 57,
-      "item_code": null
-    },
-    {
       "name": "PERSISTENT SYSTEMS LTD",
-      "weight_pct": 2.81,
+      "weight_pct": 2.91,
       "shares": 145,
       "item_code": null
     },
     {
+      "name": "DIXON TECHNOLOGIES INDIA LTD",
+      "weight_pct": 2.86,
+      "shares": 57,
+      "item_code": null
+    },
+    {
       "name": "COFORGE LIMITED",
-      "weight_pct": 2.8,
+      "weight_pct": 2.81,
       "shares": 408,
       "item_code": null
     },
     {
       "name": "SWIGGY LTD",
-      "weight_pct": 2.75,
+      "weight_pct": 2.68,
       "shares": 2825,
       "item_code": null
     },
     {
       "name": "WIPRO LTD",
-      "weight_pct": 2.6,
+      "weight_pct": 2.56,
       "shares": 4088,
       "item_code": null
     },
     {
+      "name": "INFO EDGE INDIA LTD",
+      "weight_pct": 2.45,
+      "shares": 523,
+      "item_code": null
+    },
+    {
       "name": "INDUS TOWERS LTD",
-      "weight_pct": 2.5,
+      "weight_pct": 2.41,
       "shares": 1863,
       "item_code": null
     },
     {
       "name": "FSN E-COMMERCE VENTURES LTD",
-      "weight_pct": 2.39,
+      "weight_pct": 2.32,
       "shares": 1981,
       "item_code": null
     },
     {
-      "name": "INFO EDGE INDIA LTD",
-      "weight_pct": 2.37,
-      "shares": 523,
-      "item_code": null
-    },
-    {
       "name": "VODAFONE IDEA LTD",
-      "weight_pct": 1.93,
+      "weight_pct": 1.89,
       "shares": 39052,
       "item_code": null
     },
     {
       "name": "BILLIONBRAINS GARAGE VENTURE",
-      "weight_pct": 1.68,
+      "weight_pct": 1.65,
       "shares": 2532,
       "item_code": null
     },
     {
-      "name": "ORACLE FINANCIAL SERVICES",
-      "weight_pct": 1.52,
-      "shares": 35,
-      "item_code": null
-    },
-    {
       "name": "LTM LTD",
-      "weight_pct": 1.47,
+      "weight_pct": 1.5,
       "shares": 94,
       "item_code": null
     },
     {
-      "name": "메이크마이트립",
-      "weight_pct": 1.25,
-      "shares": 65,
-      "item_code": "MMYT.O"
+      "name": "ORACLE FINANCIAL SERVICES",
+      "weight_pct": 1.47,
+      "shares": 35,
+      "item_code": null
     },
     {
       "name": "MPHASIS LTD",
-      "weight_pct": 1.24,
+      "weight_pct": 1.28,
       "shares": 148,
       "item_code": null
     },
     {
+      "name": "메이크마이트립",
+      "weight_pct": 1.21,
+      "shares": 65,
+      "item_code": "MMYT.O"
+    },
+    {
       "name": "HFCL LTD",
-      "weight_pct": 1.23,
+      "weight_pct": 1.17,
       "shares": 1434,
       "item_code": null
     },
     {
       "name": "TATA COMMUNICATIONS LTD",
-      "weight_pct": 1.0,
+      "weight_pct": 1.01,
       "shares": 168,
       "item_code": null
     },
     {
       "name": "COMPUTER AGE MANAGEMENT SERV",
-      "weight_pct": 0.96,
+      "weight_pct": 0.93,
       "shares": 357,
       "item_code": null
     },
     {
       "name": "REDINGTON LTD",
-      "weight_pct": 0.93,
+      "weight_pct": 0.91,
       "shares": 755,
       "item_code": null
     },
     {
       "name": "ANGEL ONE LTD",
-      "weight_pct": 0.91,
+      "weight_pct": 0.89,
       "shares": 920,
       "item_code": null
     },
     {
       "name": "SBI CARDS & PAYMENT SERVICES",
-      "weight_pct": 0.76,
+      "weight_pct": 0.75,
       "shares": 343,
       "item_code": null
     },
     {
       "name": "TATA TECHNOLOGIES CO",
-      "weight_pct": 0.75,
+      "weight_pct": 0.74,
       "shares": 263,
       "item_code": null
     },
@@ -196,19 +196,19 @@
     },
     {
       "name": "BHARTI HEXACOM LTD",
-      "weight_pct": 0.57,
+      "weight_pct": 0.56,
       "shares": 108,
       "item_code": null
     },
     {
       "name": "KAYNES TECHNOLOGY INDIA LTD",
-      "weight_pct": 0.57,
+      "weight_pct": 0.56,
       "shares": 45,
       "item_code": null
     },
     {
       "name": "TATA ELXSI LTD",
-      "weight_pct": 0.55,
+      "weight_pct": 0.56,
       "shares": 44,
       "item_code": null
     },
@@ -225,32 +225,32 @@
       "item_code": null
     },
     {
+      "name": "KPIT TECHNOLOGIES LTD",
+      "weight_pct": 0.49,
+      "shares": 241,
+      "item_code": null
+    },
+    {
       "name": "AFFLE 3I LTD",
-      "weight_pct": 0.5,
+      "weight_pct": 0.49,
       "shares": 91,
       "item_code": null
     },
     {
       "name": "KFIN TECHNOLOGIES LTD",
-      "weight_pct": 0.49,
+      "weight_pct": 0.47,
       "shares": 146,
       "item_code": null
     },
     {
-      "name": "KPIT TECHNOLOGIES LTD",
-      "weight_pct": 0.48,
-      "shares": 241,
-      "item_code": null
-    },
-    {
       "name": "HEXAWARE TECHNOLOGIES LTD",
-      "weight_pct": 0.42,
+      "weight_pct": 0.41,
       "shares": 220,
       "item_code": null
     },
     {
       "name": "CYIENT LTD",
-      "weight_pct": 0.42,
+      "weight_pct": 0.41,
       "shares": 104,
       "item_code": null
     },
@@ -267,33 +267,27 @@
       "item_code": null
     },
     {
+      "name": "FIRSTSOURCE SOLUTIONS LTD",
+      "weight_pct": 0.35,
+      "shares": 381,
+      "item_code": null
+    },
+    {
       "name": "ECLERX SERVICES LTD",
       "weight_pct": 0.34,
       "shares": 50,
       "item_code": null
     },
     {
-      "name": "FIRSTSOURCE SOLUTIONS LTD",
-      "weight_pct": 0.34,
-      "shares": 381,
-      "item_code": null
-    },
-    {
       "name": "INDIAN ENERGY EXCHANGE LTD",
-      "weight_pct": 0.26,
+      "weight_pct": 0.25,
       "shares": 629,
       "item_code": null
     },
     {
       "name": "INTELLECT DESIGN ARENA LTD",
-      "weight_pct": 0.23,
+      "weight_pct": 0.24,
       "shares": 100,
-      "item_code": null
-    },
-    {
-      "name": "TEJAS NETWORKS LTD",
-      "weight_pct": 0.23,
-      "shares": 120,
       "item_code": null
     },
     {
@@ -304,8 +298,14 @@
     },
     {
       "name": "ZENSAR TECHNOLOGIES LTD",
-      "weight_pct": 0.22,
+      "weight_pct": 0.23,
       "shares": 144,
+      "item_code": null
+    },
+    {
+      "name": "TEJAS NETWORKS LTD",
+      "weight_pct": 0.22,
+      "shares": 120,
       "item_code": null
     },
     {
@@ -316,8 +316,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.9,
-      "shares": -3797437,
+      "weight_pct": -0.92,
+      "shares": -3869641,
       "item_code": null
     }
   ]

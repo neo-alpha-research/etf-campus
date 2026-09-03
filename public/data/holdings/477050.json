@@ -1,6 +1,6 @@
 {
   "ticker": "477050",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "현대커머셜 20260714-62-2(단)",
@@ -69,12 +69,6 @@
       "item_code": null
     },
     {
-      "name": "농업금융채권(은행)2024-06이3Y-D",
-      "weight_pct": 1.81,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "롯데캐피탈460-1",
       "weight_pct": 1.81,
       "shares": 0,
@@ -124,6 +118,12 @@
     },
     {
       "name": "우리은행30-07-이(변)5M-갑-09",
+      "weight_pct": 1.8,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "농업금융채권(은행)2024-06이3Y-D",
       "weight_pct": 1.8,
       "shares": 0,
       "item_code": null
@@ -437,7 +437,7 @@
     {
       "name": "원화현금",
       "weight_pct": -5.18,
-      "shares": -5544035,
+      "shares": -5544688,
       "item_code": null
     }
   ]

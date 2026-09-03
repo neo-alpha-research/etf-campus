@@ -1,71 +1,71 @@
 {
   "ticker": "473590",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 20.54,
+      "weight_pct": 20.38,
       "shares": 144,
       "item_code": "MU.O"
     },
     {
       "name": "스페이스X",
-      "weight_pct": 18.6,
+      "weight_pct": 18.76,
       "shares": 870,
       "item_code": "SPCX.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 15.8,
+      "weight_pct": 15.9,
       "shares": 313,
       "item_code": "GOOGL.O"
     },
     {
-      "name": "테슬라",
-      "weight_pct": 12.64,
-      "shares": 231,
-      "item_code": "TSLA.O"
-    },
-    {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 12.53,
+      "weight_pct": 12.69,
       "shares": 398,
       "item_code": "MRVL.O"
     },
     {
+      "name": "테슬라",
+      "weight_pct": 12.47,
+      "shares": 231,
+      "item_code": "TSLA.O"
+    },
+    {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 4.27,
+      "weight_pct": 4.2,
       "shares": 154,
       "item_code": "PLTR.O"
     },
     {
-      "name": "엔비디아",
-      "weight_pct": 4.07,
-      "shares": 124,
-      "item_code": "NVDA.O"
-    },
-    {
       "name": "TSMC ADR",
-      "weight_pct": 4.01,
+      "weight_pct": 4.08,
       "shares": 65,
       "item_code": "TSM"
     },
     {
+      "name": "엔비디아",
+      "weight_pct": 4.08,
+      "shares": 124,
+      "item_code": "NVDA.O"
+    },
+    {
       "name": "네비우스 그룹",
-      "weight_pct": 3.71,
+      "weight_pct": 3.66,
       "shares": 121,
       "item_code": "NBIS.O"
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 3.68,
+      "weight_pct": 3.61,
       "shares": 54,
       "item_code": "AMAT.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.11,
-      "shares": 1070551,
+      "weight_pct": 0.13,
+      "shares": 1184639,
       "item_code": null
     }
   ]

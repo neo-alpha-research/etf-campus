@@ -1,28 +1,28 @@
 {
   "ticker": "400970",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "크래프톤",
-      "weight_pct": 11.81,
+      "weight_pct": 11.64,
       "shares": 194,
       "item_code": "259960"
     },
     {
       "name": "NAVER",
-      "weight_pct": 11.45,
+      "weight_pct": 11.46,
       "shares": 202,
       "item_code": "035420"
     },
     {
       "name": "NC",
-      "weight_pct": 10.27,
+      "weight_pct": 10.34,
       "shares": 174,
       "item_code": "036570"
     },
     {
       "name": "하이브",
-      "weight_pct": 9.71,
+      "weight_pct": 9.87,
       "shares": 207,
       "item_code": "352820"
     },
@@ -34,73 +34,73 @@
     },
     {
       "name": "LG이노텍",
-      "weight_pct": 6.53,
+      "weight_pct": 6.46,
       "shares": 42,
       "item_code": "011070"
     },
     {
       "name": "펄어비스",
-      "weight_pct": 5.9,
+      "weight_pct": 5.94,
       "shares": 714,
       "item_code": "263750"
     },
     {
-      "name": "넷마블",
-      "weight_pct": 5.51,
-      "shares": 539,
-      "item_code": "251270"
-    },
-    {
       "name": "JYP Ent.",
-      "weight_pct": 5.42,
+      "weight_pct": 5.43,
       "shares": 518,
       "item_code": "035900"
     },
     {
+      "name": "넷마블",
+      "weight_pct": 5.41,
+      "shares": 539,
+      "item_code": "251270"
+    },
+    {
       "name": "시프트업",
-      "weight_pct": 4.86,
+      "weight_pct": 4.94,
       "shares": 558,
       "item_code": "462870"
     },
     {
       "name": "에스엠",
-      "weight_pct": 4.18,
+      "weight_pct": 4.33,
       "shares": 215,
       "item_code": "041510"
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 2.7,
+      "weight_pct": 2.71,
       "shares": 250,
       "item_code": "122870"
     },
     {
       "name": "덕산네오룩스",
-      "weight_pct": 2.13,
+      "weight_pct": 2.12,
       "shares": 239,
       "item_code": "213420"
     },
     {
       "name": "LX세미콘",
-      "weight_pct": 2.13,
+      "weight_pct": 2.09,
       "shares": 212,
       "item_code": "108320"
     },
     {
-      "name": "카카오게임즈",
-      "weight_pct": 1.97,
-      "shares": 758,
-      "item_code": "293490"
-    },
-    {
       "name": "다날",
-      "weight_pct": 1.92,
+      "weight_pct": 1.9,
       "shares": 1404,
       "item_code": "064260"
     },
     {
+      "name": "카카오게임즈",
+      "weight_pct": 1.85,
+      "shares": 758,
+      "item_code": "293490"
+    },
+    {
       "name": "선익시스템",
-      "weight_pct": 1.71,
+      "weight_pct": 1.7,
       "shares": 89,
       "item_code": "171090"
     },
@@ -112,7 +112,7 @@
     },
     {
       "name": "디어유",
-      "weight_pct": 1.07,
+      "weight_pct": 1.05,
       "shares": 219,
       "item_code": "376300"
     },
@@ -125,7 +125,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.32,
-      "shares": 1218518,
+      "shares": 1213816,
       "item_code": null
     }
   ]

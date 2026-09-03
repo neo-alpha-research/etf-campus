@@ -1,60 +1,54 @@
 {
   "ticker": "480310",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 14.77,
+      "weight_pct": 14.4,
       "shares": 418,
       "item_code": "ARM.O"
     },
     {
-      "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 12.51,
-      "shares": 182,
-      "item_code": "AMD.O"
-    },
-    {
       "name": "MEDIATEK INC",
-      "weight_pct": 11.25,
+      "weight_pct": 12.37,
       "shares": 621,
       "item_code": null
     },
     {
+      "name": "AMD(어드밴스드 마이크로 디바이시스)",
+      "weight_pct": 12.27,
+      "shares": 182,
+      "item_code": "AMD.O"
+    },
+    {
       "name": "퀄컴",
-      "weight_pct": 11.01,
+      "weight_pct": 10.8,
       "shares": 442,
       "item_code": "QCOM.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 10.07,
+      "weight_pct": 10.05,
       "shares": 770,
       "item_code": "INTC.O"
     },
     {
       "name": "애플",
-      "weight_pct": 6.52,
+      "weight_pct": 6.72,
       "shares": 141,
       "item_code": "AAPL.O"
     },
     {
-      "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 5.19,
-      "shares": 105,
-      "item_code": "CDNS.O"
-    },
-    {
       "name": "마이크로소프트",
-      "weight_pct": 4.96,
+      "weight_pct": 4.92,
       "shares": 67,
       "item_code": "MSFT.O"
     },
     {
-      "name": "시놉시스",
-      "weight_pct": 4.88,
-      "shares": 76,
-      "item_code": "SNPS.O"
+      "name": "케이던스 디자인 시스템즈",
+      "weight_pct": 4.82,
+      "shares": 105,
+      "item_code": "CDNS.O"
     },
     {
       "name": "TSMC ADR",
@@ -63,45 +57,51 @@
       "item_code": "TSM"
     },
     {
-      "name": "알파벳 Class A",
-      "weight_pct": 4.31,
-      "shares": 87,
-      "item_code": "GOOGL.O"
+      "name": "시놉시스",
+      "weight_pct": 4.62,
+      "shares": 76,
+      "item_code": "SNPS.O"
     },
     {
       "name": "ASE TECHNOLOGY HOLDING CO LT",
-      "weight_pct": 4.24,
+      "weight_pct": 4.43,
       "shares": 1574,
       "item_code": null
     },
     {
+      "name": "알파벳 Class A",
+      "weight_pct": 4.27,
+      "shares": 87,
+      "item_code": "GOOGL.O"
+    },
+    {
       "name": "메타",
-      "weight_pct": 3.59,
+      "weight_pct": 3.65,
       "shares": 43,
       "item_code": "META.O"
     },
     {
       "name": "GLOBAL UNICHIP CORP",
-      "weight_pct": 1.8,
+      "weight_pct": 1.77,
       "shares": 64,
       "item_code": null
     },
     {
       "name": "앰코 테크놀로지",
-      "weight_pct": 0.76,
+      "weight_pct": 0.73,
       "shares": 110,
       "item_code": "AMKR.O"
     },
     {
       "name": "ALCHIP TECHNOLOGIES LTD",
-      "weight_pct": 0.45,
+      "weight_pct": 0.47,
       "shares": 24,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.11,
-      "shares": -10410590,
+      "weight_pct": -1.09,
+      "shares": -10181369,
       "item_code": null
     }
   ]

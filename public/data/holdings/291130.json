@@ -1,23 +1,23 @@
 {
   "ticker": "291130",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 111.53,
-      "shares": 2023488012,
+      "weight_pct": 113.16,
+      "shares": 2023333235,
       "item_code": null
     },
     {
       "name": "스왑(NH투자증권)",
-      "weight_pct": -1.42,
-      "shares": -25833374,
+      "weight_pct": -1.6,
+      "shares": -28689065,
       "item_code": null
     },
     {
       "name": "스왑(삼성증권)",
-      "weight_pct": -10.1,
-      "shares": -183415841,
+      "weight_pct": -11.56,
+      "shares": -206717640,
       "item_code": null
     }
   ]

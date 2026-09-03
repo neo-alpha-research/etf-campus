@@ -1,53 +1,53 @@
 {
   "ticker": "137610",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 86.83,
-      "shares": 520147560,
+      "weight_pct": 86.94,
+      "shares": 530125200,
       "item_code": null
     },
     {
       "name": "CORN FUT CBOT JUL 2027",
-      "weight_pct": 28.11,
+      "weight_pct": 28.01,
       "shares": 4,
       "item_code": null
     },
     {
       "name": "SOYBEAN FUT CBOT NOV 2026",
-      "weight_pct": 24.98,
+      "weight_pct": 25.07,
       "shares": 1,
       "item_code": null
     },
     {
       "name": "WHEAT FUTURE(CBT) Dec26",
-      "weight_pct": 22.71,
+      "weight_pct": 22.52,
       "shares": 2,
       "item_code": null
     },
     {
       "name": "Teucrium Corn Fund",
-      "weight_pct": 11.77,
+      "weight_pct": 11.68,
       "shares": 2565,
       "item_code": "CORN.K"
     },
     {
       "name": "SUGAR FUT CBOT MAR 2027",
-      "weight_pct": 11.53,
+      "weight_pct": 11.62,
       "shares": 2,
       "item_code": null
     },
     {
       "name": "KODEX 콩선물(H)",
-      "weight_pct": 1.39,
+      "weight_pct": 1.37,
       "shares": 652,
       "item_code": "138920"
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -64.06,
-      "shares": -27,
+      "weight_pct": -65.18,
+      "shares": -29,
       "item_code": null
     }
   ]

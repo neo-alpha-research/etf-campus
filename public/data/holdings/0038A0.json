@@ -1,22 +1,22 @@
 {
   "ticker": "0038A0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "엔비디아",
-      "weight_pct": 17.55,
+      "weight_pct": 17.64,
       "shares": 428,
       "item_code": "NVDA.O"
     },
     {
       "name": "테슬라",
-      "weight_pct": 15.1,
+      "weight_pct": 14.91,
       "shares": 221,
       "item_code": "TSLA.O"
     },
     {
       "name": "아마존닷컴",
-      "weight_pct": 9.49,
+      "weight_pct": 9.5,
       "shares": 196,
       "item_code": "AMZN.O"
     },
@@ -28,19 +28,19 @@
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 8.09,
+      "weight_pct": 8.15,
       "shares": 128,
       "item_code": "GOOGL.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 7.44,
+      "weight_pct": 7.55,
       "shares": 448,
       "item_code": "INTC.O"
     },
     {
       "name": "테라다인",
-      "weight_pct": 5.59,
+      "weight_pct": 5.47,
       "shares": 86,
       "item_code": "TER.O"
     },
@@ -52,7 +52,7 @@
     },
     {
       "name": "퀄컴",
-      "weight_pct": 4.89,
+      "weight_pct": 4.88,
       "shares": 154,
       "item_code": "QCOM.O"
     },
@@ -64,43 +64,43 @@
     },
     {
       "name": "노밴타",
-      "weight_pct": 2.17,
+      "weight_pct": 2.18,
       "shares": 80,
       "item_code": "NOVT.O"
     },
     {
       "name": "코그넥스",
-      "weight_pct": 2.12,
+      "weight_pct": 2.13,
       "shares": 187,
       "item_code": "CGNX.O"
     },
     {
       "name": "로크웰 오토메이션",
-      "weight_pct": 2.08,
+      "weight_pct": 2.09,
       "shares": 26,
       "item_code": "ROK"
     },
     {
       "name": "팀켄",
-      "weight_pct": 1.94,
+      "weight_pct": 1.96,
       "shares": 87,
       "item_code": "TKR"
     },
     {
       "name": "아우스터",
-      "weight_pct": 1.9,
+      "weight_pct": 1.88,
       "shares": 298,
       "item_code": "OUST.O"
     },
     {
       "name": "리갈 벨로이트",
-      "weight_pct": 1.78,
+      "weight_pct": 1.79,
       "shares": 19,
       "item_code": "RBC"
     },
     {
       "name": "리걸 렉스노드",
-      "weight_pct": 1.61,
+      "weight_pct": 1.63,
       "shares": 54,
       "item_code": "RRX"
     },
@@ -112,8 +112,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.08,
-      "shares": 654556,
+      "weight_pct": 0.1,
+      "shares": 737600,
       "item_code": null
     }
   ]

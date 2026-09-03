@@ -1,35 +1,35 @@
 {
   "ticker": "456880",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "스왑(하나금융투자)",
       "weight_pct": 61.52,
-      "shares": 74116705,
+      "shares": 74032418,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)",
       "weight_pct": 16.7,
-      "shares": 20123485,
+      "shares": 20100600,
       "item_code": null
     },
     {
       "name": "스왑(삼성증권)",
       "weight_pct": 9.31,
-      "shares": 11225583,
+      "shares": 11212818,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)",
       "weight_pct": 8.71,
-      "shares": 10494865,
+      "shares": 10482930,
       "item_code": null
     },
     {
       "name": "USD현금",
       "weight_pct": 3.73,
-      "shares": 3282,
+      "shares": 3283,
       "item_code": null
     }
   ]

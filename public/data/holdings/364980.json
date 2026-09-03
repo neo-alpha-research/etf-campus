@@ -1,53 +1,53 @@
 {
   "ticker": "364980",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성SDI",
-      "weight_pct": 33.52,
+      "weight_pct": 33.33,
       "shares": 316,
       "item_code": "006400"
     },
     {
       "name": "LG에너지솔루션",
-      "weight_pct": 23.47,
+      "weight_pct": 23.37,
       "shares": 343,
       "item_code": "373220"
     },
     {
       "name": "POSCO홀딩스",
-      "weight_pct": 22.82,
+      "weight_pct": 23.22,
       "shares": 359,
       "item_code": "005490"
     },
     {
       "name": "LG화학",
-      "weight_pct": 5.25,
+      "weight_pct": 5.27,
       "shares": 100,
       "item_code": "051910"
     },
     {
       "name": "SK이노베이션",
-      "weight_pct": 3.96,
+      "weight_pct": 4.04,
       "shares": 157,
       "item_code": "096770"
     },
     {
       "name": "에코프로",
-      "weight_pct": 3.38,
+      "weight_pct": 3.34,
       "shares": 208,
       "item_code": "086520"
     },
     {
       "name": "포스코퓨처엠",
-      "weight_pct": 2.71,
+      "weight_pct": 2.62,
       "shares": 76,
       "item_code": "003670"
     },
     {
       "name": "에코프로비엠",
-      "weight_pct": 2.44,
-      "shares": 113,
+      "weight_pct": 2.41,
+      "shares": 116,
       "item_code": "247540"
     },
     {
@@ -64,8 +64,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.01,
-      "shares": -64104,
+      "weight_pct": -0.06,
+      "shares": -317983,
       "item_code": null
     }
   ]

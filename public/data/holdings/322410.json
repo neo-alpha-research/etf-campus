@@ -1,58 +1,58 @@
 {
   "ticker": "322410",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "하나금융지주",
-      "weight_pct": 11.02,
-      "shares": 940,
-      "item_code": "086790"
-    },
-    {
       "name": "우리금융지주",
-      "weight_pct": 11.0,
+      "weight_pct": 11.12,
       "shares": 3733,
       "item_code": "316140"
     },
     {
+      "name": "하나금융지주",
+      "weight_pct": 10.95,
+      "shares": 940,
+      "item_code": "086790"
+    },
+    {
       "name": "KT",
-      "weight_pct": 10.1,
+      "weight_pct": 10.19,
       "shares": 2193,
       "item_code": "030200"
     },
     {
       "name": "기업은행",
-      "weight_pct": 9.67,
+      "weight_pct": 9.77,
       "shares": 5424,
       "item_code": "024110"
     },
     {
       "name": "LG",
-      "weight_pct": 8.92,
+      "weight_pct": 8.89,
       "shares": 869,
       "item_code": "003550"
     },
     {
       "name": "현대엘리베이터",
-      "weight_pct": 8.48,
+      "weight_pct": 8.35,
       "shares": 1329,
       "item_code": "017800"
     },
     {
       "name": "기아",
-      "weight_pct": 8.11,
+      "weight_pct": 7.79,
       "shares": 725,
       "item_code": "000270"
     },
     {
       "name": "삼성카드",
-      "weight_pct": 4.98,
+      "weight_pct": 4.97,
       "shares": 1268,
       "item_code": "029780"
     },
     {
       "name": "JB금융지주",
-      "weight_pct": 4.24,
+      "weight_pct": 4.48,
       "shares": 1699,
       "item_code": "175330"
     },
@@ -64,37 +64,37 @@
     },
     {
       "name": "제일기획",
-      "weight_pct": 2.15,
+      "weight_pct": 2.14,
       "shares": 1317,
       "item_code": "030000"
     },
     {
       "name": "동서",
-      "weight_pct": 2.12,
+      "weight_pct": 2.13,
       "shares": 970,
       "item_code": "026960"
     },
     {
       "name": "이지홀딩스",
-      "weight_pct": 1.72,
+      "weight_pct": 1.73,
       "shares": 4329,
       "item_code": "035810"
     },
     {
       "name": "한일시멘트",
-      "weight_pct": 1.59,
+      "weight_pct": 1.55,
       "shares": 1098,
       "item_code": "300720"
     },
     {
       "name": "오리온홀딩스",
-      "weight_pct": 1.18,
+      "weight_pct": 1.2,
       "shares": 544,
       "item_code": "001800"
     },
     {
       "name": "한국쉘석유",
-      "weight_pct": 0.89,
+      "weight_pct": 0.9,
       "shares": 21,
       "item_code": "002960"
     },
@@ -106,13 +106,13 @@
     },
     {
       "name": "케이카",
-      "weight_pct": 0.76,
+      "weight_pct": 0.75,
       "shares": 1397,
       "item_code": "381970"
     },
     {
       "name": "빙그레",
-      "weight_pct": 0.71,
+      "weight_pct": 0.72,
       "shares": 91,
       "item_code": "005180"
     },
@@ -147,16 +147,16 @@
       "item_code": "092790"
     },
     {
-      "name": "대덕",
-      "weight_pct": 0.5,
-      "shares": 369,
-      "item_code": "008060"
-    },
-    {
       "name": "삼양홀딩스",
       "weight_pct": 0.49,
       "shares": 94,
       "item_code": "000070"
+    },
+    {
+      "name": "대덕",
+      "weight_pct": 0.49,
+      "shares": 369,
+      "item_code": "008060"
     },
     {
       "name": "LS증권",
@@ -166,14 +166,14 @@
     },
     {
       "name": "한세실업",
-      "weight_pct": 0.44,
+      "weight_pct": 0.46,
       "shares": 579,
       "item_code": "105630"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.44,
-      "shares": 5237406,
+      "weight_pct": 0.45,
+      "shares": 5232646,
       "item_code": null
     },
     {
@@ -184,7 +184,7 @@
     },
     {
       "name": "노바텍",
-      "weight_pct": 0.4,
+      "weight_pct": 0.39,
       "shares": 398,
       "item_code": "285490"
     },
@@ -196,13 +196,13 @@
     },
     {
       "name": "케이프",
-      "weight_pct": 0.29,
+      "weight_pct": 0.27,
       "shares": 443,
       "item_code": "064820"
     },
     {
       "name": "AJ네트웍스",
-      "weight_pct": 0.27,
+      "weight_pct": 0.26,
       "shares": 727,
       "item_code": "095570"
     },
@@ -244,7 +244,7 @@
     },
     {
       "name": "극동유화",
-      "weight_pct": 0.12,
+      "weight_pct": 0.13,
       "shares": 469,
       "item_code": "014530"
     }

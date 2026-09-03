@@ -1,89 +1,89 @@
 {
   "ticker": "498410",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "KB금융",
-      "weight_pct": 20.77,
+      "weight_pct": 20.74,
       "shares": 1457,
       "item_code": "105560"
     },
     {
       "name": "하나금융지주",
-      "weight_pct": 15.57,
+      "weight_pct": 15.45,
       "shares": 1361,
       "item_code": "086790"
     },
     {
       "name": "우리금융지주",
-      "weight_pct": 13.38,
+      "weight_pct": 13.5,
       "shares": 4650,
       "item_code": "316140"
     },
     {
       "name": "삼성화재",
-      "weight_pct": 10.31,
+      "weight_pct": 10.12,
       "shares": 183,
       "item_code": "000810"
     },
     {
       "name": "기업은행",
-      "weight_pct": 9.71,
+      "weight_pct": 9.79,
       "shares": 5581,
       "item_code": "024110"
     },
     {
       "name": "KODEX 금융고배당TOP10",
-      "weight_pct": 7.47,
+      "weight_pct": 7.43,
       "shares": 6592,
       "item_code": "0089D0"
     },
     {
       "name": "DB손해보험",
-      "weight_pct": 7.25,
+      "weight_pct": 7.26,
       "shares": 452,
       "item_code": "005830"
     },
     {
       "name": "NH투자증권",
-      "weight_pct": 4.92,
+      "weight_pct": 4.89,
       "shares": 2232,
       "item_code": "005940"
     },
     {
       "name": "한국금융지주",
-      "weight_pct": 4.8,
+      "weight_pct": 4.71,
       "shares": 302,
       "item_code": "071050"
     },
     {
       "name": "삼성증권",
-      "weight_pct": 3.2,
+      "weight_pct": 3.12,
       "shares": 436,
       "item_code": "016360"
     },
     {
       "name": "키움증권",
-      "weight_pct": 2.88,
+      "weight_pct": 2.83,
       "shares": 123,
       "item_code": "039490"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 0.08,
+      "shares": 1004679,
+      "item_code": null
+    },
+    {
       "name": "코스피위클리 C 2609W1 1075.0",
-      "weight_pct": -0.16,
+      "weight_pct": 0.0,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "코스피위클리 C 2609W1 1072.5",
-      "weight_pct": -0.26,
+      "weight_pct": -0.01,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": -0.32,
-      "shares": -3844469,
       "item_code": null
     }
   ]

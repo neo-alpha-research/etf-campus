@@ -1,102 +1,102 @@
 {
   "ticker": "0043Y0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "나우리지 아틀라스 테크놀로지",
-      "weight_pct": 5.96,
+      "weight_pct": 5.9,
       "shares": 288,
       "item_code": "2513.HK"
     },
     {
-      "name": "NANYA TECHNOLOGY CORP",
-      "weight_pct": 5.31,
-      "shares": 2282,
-      "item_code": null
-    },
-    {
-      "name": "중제욱창",
-      "weight_pct": 5.14,
-      "shares": 299,
-      "item_code": "300308.SZ"
-    },
-    {
       "name": "ELITE MATERIAL CO LTD",
-      "weight_pct": 5.08,
+      "weight_pct": 5.23,
       "shares": 216,
       "item_code": null
     },
     {
+      "name": "중제욱창",
+      "weight_pct": 5.21,
+      "shares": 299,
+      "item_code": "300308.SZ"
+    },
+    {
+      "name": "NANYA TECHNOLOGY CORP",
+      "weight_pct": 5.07,
+      "shares": 2282,
+      "item_code": null
+    },
+    {
       "name": "신역성통신기술",
-      "weight_pct": 4.96,
+      "weight_pct": 4.99,
       "shares": 611,
       "item_code": "300502.SZ"
     },
     {
       "name": "KINSUS INTERCONNECT TECH",
-      "weight_pct": 4.49,
+      "weight_pct": 4.8,
       "shares": 1279,
       "item_code": null
     },
     {
+      "name": "MEDIATEK INC",
+      "weight_pct": 4.16,
+      "shares": 225,
+      "item_code": null
+    },
+    {
       "name": "HSTECH Futures    Sep26",
-      "weight_pct": 4.0,
+      "weight_pct": 3.95,
       "shares": 1,
       "item_code": null
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 3.83,
+      "weight_pct": 3.72,
       "shares": 1941,
       "item_code": "9988.HK"
     },
     {
-      "name": "MEDIATEK INC",
-      "weight_pct": 3.78,
-      "shares": 225,
-      "item_code": null
-    },
-    {
       "name": "INNOLUX CORP",
-      "weight_pct": 3.68,
+      "weight_pct": 3.65,
       "shares": 17245,
       "item_code": null
     },
     {
       "name": "POWERCHIP SEMICONDUCTOR MANU",
-      "weight_pct": 3.55,
+      "weight_pct": 3.45,
       "shares": 11364,
       "item_code": null
     },
     {
-      "name": "북방화창",
-      "weight_pct": 3.02,
-      "shares": 214,
-      "item_code": "002371.SZ"
-    },
-    {
       "name": "화훙 그레이스 반도체",
-      "weight_pct": 2.99,
+      "weight_pct": 2.95,
       "shares": 1404,
       "item_code": "1347.HK"
     },
     {
-      "name": "AUO CORP",
-      "weight_pct": 2.72,
-      "shares": 23829,
-      "item_code": null
+      "name": "베이징 하이즈 테크놀로지 그룹",
+      "weight_pct": 2.91,
+      "shares": 2928,
+      "item_code": "2706.HK"
+    },
+    {
+      "name": "북방화창",
+      "weight_pct": 2.9,
+      "shares": 214,
+      "item_code": "002371.SZ"
     },
     {
       "name": "ASE TECHNOLOGY HOLDING CO LT",
-      "weight_pct": 2.68,
+      "weight_pct": 2.8,
       "shares": 1071,
       "item_code": null
     },
     {
-      "name": "베이징 하이즈 테크놀로지 그룹",
-      "weight_pct": 2.57,
-      "shares": 2928,
-      "item_code": "2706.HK"
+      "name": "AUO CORP",
+      "weight_pct": 2.7,
+      "shares": 23829,
+      "item_code": null
     },
     {
       "name": "한무기",
@@ -105,94 +105,88 @@
       "item_code": "688256.SS"
     },
     {
-      "name": "미니맥스 그룹",
-      "weight_pct": 2.43,
-      "shares": 403,
-      "item_code": "0100.HK"
-    },
-    {
       "name": "TAIWAN SEMICONDUCTOR MANUFAC",
-      "weight_pct": 2.34,
+      "weight_pct": 2.37,
       "shares": 227,
       "item_code": null
     },
     {
+      "name": "미니맥스 그룹",
+      "weight_pct": 2.36,
+      "shares": 403,
+      "item_code": "0100.HK"
+    },
+    {
       "name": "콰이쇼우",
-      "weight_pct": 1.99,
+      "weight_pct": 2.06,
       "shares": 3424,
       "item_code": "1024.HK"
     },
     {
       "name": "UNITED MICROELECTRONICS CORP",
-      "weight_pct": 1.98,
+      "weight_pct": 2.04,
       "shares": 3591,
       "item_code": null
     },
     {
       "name": "중국 국제 반도체",
-      "weight_pct": 1.98,
+      "weight_pct": 1.93,
       "shares": 1619,
       "item_code": "0981.HK"
     },
     {
       "name": "AMEC(중미반도체)",
-      "weight_pct": 1.85,
+      "weight_pct": 1.8,
       "shares": 254,
       "item_code": "688012.SS"
     },
     {
       "name": "녹적해파",
-      "weight_pct": 1.78,
+      "weight_pct": 1.73,
       "shares": 294,
       "item_code": "688017.SS"
     },
     {
-      "name": "QUANTA COMPUTER INC",
-      "weight_pct": 1.47,
-      "shares": 1017,
-      "item_code": null
-    },
-    {
       "name": "ACCTON TECHNOLOGY CORP",
-      "weight_pct": 1.44,
+      "weight_pct": 1.56,
       "shares": 165,
       "item_code": null
     },
     {
+      "name": "QUANTA COMPUTER INC",
+      "weight_pct": 1.49,
+      "shares": 1017,
+      "item_code": null
+    },
+    {
       "name": "해광신식",
-      "weight_pct": 1.41,
+      "weight_pct": 1.39,
       "shares": 275,
       "item_code": "688041.SS"
     },
     {
       "name": "UNIMICRON TECHNOLOGY CORP",
-      "weight_pct": 1.41,
+      "weight_pct": 1.37,
       "shares": 330,
       "item_code": null
     },
     {
       "name": "CATL",
-      "weight_pct": 1.37,
+      "weight_pct": 1.35,
       "shares": 132,
       "item_code": "3750.HK"
     },
     {
       "name": "MACRONIX INTERNATIONAL CO",
-      "weight_pct": 1.27,
+      "weight_pct": 1.24,
       "shares": 2367,
       "item_code": null
     },
     {
       "name": "호라이즌 로보틱스",
-      "weight_pct": 1.22,
+      "weight_pct": 1.19,
       "shares": 15006,
       "item_code": "9660.HK"
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 1.19,
-      "shares": 12027521,
-      "item_code": null
     },
     {
       "name": "샤오미",
@@ -202,43 +196,49 @@
     },
     {
       "name": "건도적층판",
-      "weight_pct": 1.01,
+      "weight_pct": 0.96,
       "shares": 1263,
       "item_code": "1888.HK"
     },
     {
       "name": "기가디바이스 세미컨덕터",
-      "weight_pct": 0.9,
+      "weight_pct": 0.89,
       "shares": 108,
       "item_code": "3986.HK"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 0.75,
+      "shares": 7525475,
+      "item_code": null
+    },
+    {
       "name": "유비테크 로보틱스",
-      "weight_pct": 0.64,
+      "weight_pct": 0.62,
       "shares": 441,
       "item_code": "9880.HK"
     },
     {
       "name": "영유극과기",
-      "weight_pct": 0.62,
+      "weight_pct": 0.6,
       "shares": 456,
       "item_code": "002837.SZ"
     },
     {
-      "name": "신능환경",
-      "weight_pct": 0.61,
-      "shares": 278,
-      "item_code": "301018.SZ"
-    },
-    {
       "name": "텐센트",
-      "weight_pct": 0.61,
+      "weight_pct": 0.6,
       "shares": 79,
       "item_code": "0700.HK"
     },
     {
+      "name": "신능환경",
+      "weight_pct": 0.59,
+      "shares": 278,
+      "item_code": "301018.SZ"
+    },
+    {
       "name": "혁동전자",
-      "weight_pct": 0.57,
+      "weight_pct": 0.55,
       "shares": 352,
       "item_code": "301123.SZ"
     },
@@ -250,19 +250,19 @@
     },
     {
       "name": "NOVATEK MICROELECTRONICS COR",
-      "weight_pct": 0.5,
+      "weight_pct": 0.51,
       "shares": 216,
       "item_code": null
     },
     {
       "name": "근체고분",
-      "weight_pct": 0.48,
+      "weight_pct": 0.47,
       "shares": 598,
       "item_code": "002865.SZ"
     },
     {
       "name": "헤사이 그룹 ADR",
-      "weight_pct": 0.43,
+      "weight_pct": 0.45,
       "shares": 200,
       "item_code": "HSAI.O"
     },

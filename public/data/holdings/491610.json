@@ -1,11 +1,11 @@
 {
   "ticker": "491610",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 74.09,
-      "shares": 77688350,
+      "shares": 77691854,
       "item_code": null
     },
     {
@@ -29,7 +29,7 @@
     {
       "name": "Kiwoom Index Swap 20250905_3",
       "weight_pct": 0.29,
-      "shares": 306726,
+      "shares": 307980,
       "item_code": null
     }
   ]

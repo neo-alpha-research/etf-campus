@@ -1,58 +1,58 @@
 {
   "ticker": "0091P0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "현대건설",
-      "weight_pct": 26.71,
+      "weight_pct": 26.12,
       "shares": 1837,
       "item_code": "000720"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 24.33,
+      "weight_pct": 24.0,
       "shares": 2482,
       "item_code": "034020"
     },
     {
       "name": "대우건설",
-      "weight_pct": 13.0,
+      "weight_pct": 13.19,
       "shares": 6418,
       "item_code": "047040"
     },
     {
       "name": "DL이앤씨",
-      "weight_pct": 7.91,
+      "weight_pct": 8.12,
       "shares": 919,
       "item_code": "375500"
     },
     {
       "name": "한전기술",
-      "weight_pct": 7.78,
+      "weight_pct": 7.81,
       "shares": 585,
       "item_code": "052690"
     },
     {
       "name": "우리기술",
-      "weight_pct": 6.65,
+      "weight_pct": 6.88,
       "shares": 5137,
       "item_code": "032820"
     },
     {
       "name": "비에이치아이",
-      "weight_pct": 4.45,
+      "weight_pct": 4.54,
       "shares": 604,
       "item_code": "083650"
     },
     {
       "name": "한전KPS",
-      "weight_pct": 3.84,
+      "weight_pct": 3.93,
       "shares": 703,
       "item_code": "051600"
     },
     {
       "name": "한전산업",
-      "weight_pct": 1.08,
+      "weight_pct": 1.09,
       "shares": 732,
       "item_code": "130660"
     },
@@ -70,13 +70,13 @@
     },
     {
       "name": "우진",
-      "weight_pct": 0.67,
+      "weight_pct": 0.69,
       "shares": 434,
       "item_code": "105840"
     },
     {
       "name": "금화피에스시",
-      "weight_pct": 0.48,
+      "weight_pct": 0.49,
       "shares": 117,
       "item_code": "036190"
     },
@@ -88,14 +88,14 @@
     },
     {
       "name": "수산인더스트리",
-      "weight_pct": 0.33,
+      "weight_pct": 0.34,
       "shares": 130,
       "item_code": "126720"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.3,
-      "shares": 2495183,
+      "weight_pct": 0.31,
+      "shares": 2484123,
       "item_code": null
     },
     {

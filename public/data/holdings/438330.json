@@ -1,6 +1,6 @@
 {
   "ticker": "438330",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "3년국채 F 202609",
@@ -16,7 +16,7 @@
     },
     {
       "name": "TIGER 중기종합채권(A-이상)액티브",
-      "weight_pct": 3.79,
+      "weight_pct": 3.8,
       "shares": 43,
       "item_code": "0192Z0"
     },
@@ -40,7 +40,19 @@
     },
     {
       "name": "대한항공112-3",
-      "weight_pct": 2.79,
+      "weight_pct": 2.78,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "롯데캐피탈459-7",
+      "weight_pct": 1.9,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "아이엠캐피탈147",
+      "weight_pct": 1.89,
       "shares": 0,
       "item_code": null
     },
@@ -57,13 +69,13 @@
       "item_code": null
     },
     {
-      "name": "롯데캐피탈459-7",
+      "name": "메리츠캐피탈276-2",
       "weight_pct": 1.89,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "아이엠캐피탈147",
+      "name": "한국캐피탈558-1",
       "weight_pct": 1.88,
       "shares": 0,
       "item_code": null
@@ -77,18 +89,6 @@
     {
       "name": "메리츠캐피탈271-4",
       "weight_pct": 1.88,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "메리츠캐피탈276-2",
-      "weight_pct": 1.88,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한국캐피탈558-1",
-      "weight_pct": 1.87,
       "shares": 0,
       "item_code": null
     },
@@ -129,12 +129,6 @@
       "item_code": null
     },
     {
-      "name": "고양도시관리공사2025-04",
-      "weight_pct": 1.87,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "경남개발공사37",
       "weight_pct": 1.86,
       "shares": 0,
@@ -142,6 +136,12 @@
     },
     {
       "name": "메리츠캐피탈288-2",
+      "weight_pct": 1.86,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "한온시스템11-3",
       "weight_pct": 1.86,
       "shares": 0,
       "item_code": null
@@ -171,13 +171,19 @@
       "item_code": null
     },
     {
+      "name": "고양도시관리공사2025-04",
+      "weight_pct": 1.86,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "현대건설309-2",
       "weight_pct": 1.85,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "한온시스템11-3",
+      "name": "롯데카드558-2",
       "weight_pct": 1.85,
       "shares": 0,
       "item_code": null
@@ -202,12 +208,6 @@
     },
     {
       "name": "울산광역시도시공사20",
-      "weight_pct": 1.84,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "롯데카드558-2",
       "weight_pct": 1.84,
       "shares": 0,
       "item_code": null
@@ -255,12 +255,6 @@
       "item_code": null
     },
     {
-      "name": "한국남동발전63-3",
-      "weight_pct": 1.8,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "한국항공우주산업28-2",
       "weight_pct": 1.8,
       "shares": 0,
@@ -273,8 +267,14 @@
       "item_code": null
     },
     {
+      "name": "한국남동발전63-3",
+      "weight_pct": 1.79,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "삼성카드2815",
-      "weight_pct": 1.8,
+      "weight_pct": 1.79,
       "shares": 0,
       "item_code": null
     },
@@ -322,7 +322,7 @@
     },
     {
       "name": "중소기업은행 조건부자본증권(상)2203이(후",
-      "weight_pct": 1.77,
+      "weight_pct": 1.76,
       "shares": 0,
       "item_code": null
     },
@@ -334,12 +334,6 @@
     },
     {
       "name": "국민은행조건부(상)4003이표일(03)10후19",
-      "weight_pct": 1.74,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "SK에너지48-4",
       "weight_pct": 1.73,
       "shares": 0,
       "item_code": null
@@ -358,6 +352,12 @@
     },
     {
       "name": "LG화학53-4",
+      "weight_pct": 1.72,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "SK에너지48-4",
       "weight_pct": 1.72,
       "shares": 0,
       "item_code": null
@@ -418,7 +418,7 @@
     },
     {
       "name": "지에스엔텍14-1",
-      "weight_pct": 1.12,
+      "weight_pct": 1.13,
       "shares": 0,
       "item_code": null
     },
@@ -448,14 +448,14 @@
     },
     {
       "name": "10년국채 F 202609",
-      "weight_pct": -10.28,
+      "weight_pct": -10.25,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": -38.59,
-      "shares": -44601762,
+      "weight_pct": -38.6,
+      "shares": -44562976,
       "item_code": null
     }
   ]

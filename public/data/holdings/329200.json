@@ -1,18 +1,18 @@
 {
   "ticker": "329200",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "맥쿼리인프라",
-      "weight_pct": 14.98,
-      "shares": 3074,
-      "item_code": "088980"
-    },
-    {
       "name": "SK리츠",
-      "weight_pct": 14.69,
+      "weight_pct": 14.96,
       "shares": 5571,
       "item_code": "395400"
+    },
+    {
+      "name": "맥쿼리인프라",
+      "weight_pct": 14.9,
+      "shares": 3074,
+      "item_code": "088980"
     },
     {
       "name": "KB발해인프라",
@@ -22,43 +22,43 @@
     },
     {
       "name": "롯데리츠",
-      "weight_pct": 10.07,
+      "weight_pct": 10.15,
       "shares": 5348,
       "item_code": "330590"
     },
     {
       "name": "한화리츠",
-      "weight_pct": 8.59,
+      "weight_pct": 8.53,
       "shares": 3324,
       "item_code": "451800"
     },
     {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 7.11,
+      "weight_pct": 6.99,
       "shares": 4555,
       "item_code": "365550"
     },
     {
       "name": "맵스리얼티",
-      "weight_pct": 6.06,
+      "weight_pct": 6.1,
       "shares": 1718,
       "item_code": "094800"
     },
     {
       "name": "신한알파리츠",
-      "weight_pct": 5.93,
+      "weight_pct": 5.92,
       "shares": 2238,
       "item_code": "293940"
     },
     {
       "name": "원화현금",
-      "weight_pct": 5.38,
-      "shares": 11001751,
+      "weight_pct": 5.41,
+      "shares": 11001273,
       "item_code": null
     },
     {
       "name": "삼성FN리츠",
-      "weight_pct": 4.56,
+      "weight_pct": 4.44,
       "shares": 1685,
       "item_code": "448730"
     },
@@ -76,13 +76,13 @@
     },
     {
       "name": "신한서부티엔디리츠",
-      "weight_pct": 2.17,
+      "weight_pct": 2.14,
       "shares": 1133,
       "item_code": "404990"
     },
     {
       "name": "제이알글로벌리츠",
-      "weight_pct": 1.6,
+      "weight_pct": 1.61,
       "shares": 2778,
       "item_code": "348950"
     },

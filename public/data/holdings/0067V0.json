@@ -1,22 +1,22 @@
 {
   "ticker": "0067V0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "샤오미",
-      "weight_pct": 23.78,
+      "weight_pct": 23.96,
       "shares": 24498,
       "item_code": "1810.HK"
     },
     {
       "name": "비야디",
-      "weight_pct": 22.1,
+      "weight_pct": 22.45,
       "shares": 6113,
       "item_code": "002594.SZ"
     },
     {
       "name": "닝더스다이",
-      "weight_pct": 21.07,
+      "weight_pct": 20.96,
       "shares": 1414,
       "item_code": "300750.SZ"
     },
@@ -34,38 +34,38 @@
     },
     {
       "name": "삼화",
-      "weight_pct": 5.26,
+      "weight_pct": 5.27,
       "shares": 3541,
       "item_code": "002050.SZ"
     },
     {
       "name": "몬타지 테크놀로지",
-      "weight_pct": 4.46,
+      "weight_pct": 4.36,
       "shares": 531,
       "item_code": "688008.SS"
     },
     {
       "name": "강파룡",
-      "weight_pct": 3.83,
+      "weight_pct": 3.74,
       "shares": 245,
       "item_code": "301308.SZ"
     },
     {
       "name": "기가디바이스",
-      "weight_pct": 3.81,
+      "weight_pct": 3.72,
       "shares": 229,
       "item_code": "603986.SS"
     },
     {
       "name": "백유존저과기",
-      "weight_pct": 3.49,
+      "weight_pct": 3.41,
       "shares": 362,
       "item_code": "688525.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.46,
-      "shares": -7278350,
+      "weight_pct": -1.51,
+      "shares": -7437754,
       "item_code": null
     }
   ]

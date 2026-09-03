@@ -1,17 +1,17 @@
 {
   "ticker": "458260",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "iShares iBoxx $ Inv Grade Corporate Bond ETF",
-      "weight_pct": 18.75,
+      "weight_pct": 18.61,
       "shares": 119,
       "item_code": "LQD"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.88,
-      "shares": 4515687,
+      "weight_pct": 5.03,
+      "shares": 4631487,
       "item_code": null
     },
     {
@@ -81,15 +81,15 @@
       "item_code": null
     },
     {
-      "name": "ABBV 4.85 06/15/44",
-      "weight_pct": 0.36,
-      "shares": 276,
-      "item_code": null
-    },
-    {
       "name": "BAC 5.015 07/22/33",
       "weight_pct": 0.36,
       "shares": 246,
+      "item_code": null
+    },
+    {
+      "name": "ABBV 4.85 06/15/44",
+      "weight_pct": 0.35,
+      "shares": 276,
       "item_code": null
     },
     {
@@ -291,12 +291,6 @@
       "item_code": null
     },
     {
-      "name": "DE 5.05 06/12/34",
-      "weight_pct": 0.25,
-      "shares": 170,
-      "item_code": null
-    },
-    {
       "name": "DELL 5.3 10/01/29",
       "weight_pct": 0.25,
       "shares": 170,
@@ -352,6 +346,12 @@
     },
     {
       "name": "CVX 4.3 10/15/30",
+      "weight_pct": 0.24,
+      "shares": 170,
+      "item_code": null
+    },
+    {
+      "name": "DE 5.05 06/12/34",
       "weight_pct": 0.24,
       "shares": 170,
       "item_code": null
@@ -825,12 +825,6 @@
       "item_code": null
     },
     {
-      "name": "JPM 3.109 04/22/51",
-      "weight_pct": 0.16,
-      "shares": 170,
-      "item_code": null
-    },
-    {
       "name": "INTC 5.7 02/10/53",
       "weight_pct": 0.16,
       "shares": 127,
@@ -927,6 +921,12 @@
       "item_code": null
     },
     {
+      "name": "JPM 3.109 04/22/51",
+      "weight_pct": 0.15,
+      "shares": 170,
+      "item_code": null
+    },
+    {
       "name": "KMI 5.2 06/01/33",
       "weight_pct": 0.15,
       "shares": 106,
@@ -952,12 +952,6 @@
     },
     {
       "name": "ETP 5 05/15/50",
-      "weight_pct": 0.15,
-      "shares": 127,
-      "item_code": null
-    },
-    {
-      "name": "RTX 4.15 05/15/45",
       "weight_pct": 0.15,
       "shares": 127,
       "item_code": null
@@ -1006,6 +1000,12 @@
     },
     {
       "name": "BNSF 4.45 01/15/53",
+      "weight_pct": 0.14,
+      "shares": 127,
+      "item_code": null
+    },
+    {
+      "name": "RTX 4.15 05/15/45",
       "weight_pct": 0.14,
       "shares": 127,
       "item_code": null
@@ -1137,12 +1137,6 @@
       "item_code": null
     },
     {
-      "name": "BHI 5.85 06/15/56",
-      "weight_pct": 0.12,
-      "shares": 85,
-      "item_code": null
-    },
-    {
       "name": "CRM 6.4 03/15/46",
       "weight_pct": 0.12,
       "shares": 85,
@@ -1168,12 +1162,6 @@
     },
     {
       "name": "FDX 4.65 03/15/31",
-      "weight_pct": 0.12,
-      "shares": 85,
-      "item_code": null
-    },
-    {
-      "name": "MS 5.073 01/30/37",
       "weight_pct": 0.12,
       "shares": 85,
       "item_code": null
@@ -1737,6 +1725,18 @@
       "item_code": null
     },
     {
+      "name": "BHI 5.85 06/15/56",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
+      "name": "MS 5.073 01/30/37",
+      "weight_pct": 0.11,
+      "shares": 85,
+      "item_code": null
+    },
+    {
       "name": "GOOGL 4.7 11/15/35",
       "weight_pct": 0.11,
       "shares": 85,
@@ -2277,12 +2277,6 @@
       "item_code": null
     },
     {
-      "name": "AMZN 6.1 07/09/56",
-      "weight_pct": 0.06,
-      "shares": 42,
-      "item_code": null
-    },
-    {
       "name": "AMZN 6 07/09/46",
       "weight_pct": 0.06,
       "shares": 42,
@@ -2308,12 +2302,6 @@
     },
     {
       "name": "ONCRTX 5.9 03/15/56",
-      "weight_pct": 0.06,
-      "shares": 42,
-      "item_code": null
-    },
-    {
-      "name": "MRVL 5.3 04/15/36",
       "weight_pct": 0.06,
       "shares": 42,
       "item_code": null
@@ -2937,6 +2925,12 @@
       "item_code": null
     },
     {
+      "name": "AMZN 6.1 07/09/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
       "name": "APH 5.3 11/15/55",
       "weight_pct": 0.05,
       "shares": 42,
@@ -2956,6 +2950,12 @@
     },
     {
       "name": "D 5.7 03/15/56",
+      "weight_pct": 0.05,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "MRVL 5.3 04/15/36",
       "weight_pct": 0.05,
       "shares": 42,
       "item_code": null
@@ -3765,12 +3765,6 @@
       "item_code": null
     },
     {
-      "name": "CMCSA 2.45 08/15/52",
-      "weight_pct": 0.03,
-      "shares": 42,
-      "item_code": null
-    },
-    {
       "name": "CMCSA 2.937 11/01/56",
       "weight_pct": 0.03,
       "shares": 42,
@@ -3785,6 +3779,12 @@
     {
       "name": "VZ 3.7 03/22/61",
       "weight_pct": 0.03,
+      "shares": 42,
+      "item_code": null
+    },
+    {
+      "name": "CMCSA 2.45 08/15/52",
+      "weight_pct": 0.02,
       "shares": 42,
       "item_code": null
     }

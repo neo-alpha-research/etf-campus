@@ -1,6 +1,6 @@
 {
   "ticker": "435550",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "Vanguard 500 Index Fund ETF",
@@ -10,37 +10,37 @@
     },
     {
       "name": "Vanguard Tax Managed Fund FTSE Developed Markets ETF",
-      "weight_pct": 14.53,
+      "weight_pct": 14.47,
       "shares": 1286,
       "item_code": "VEA"
     },
     {
       "name": "iShares Russell 2000 ETF",
-      "weight_pct": 11.66,
+      "weight_pct": 11.6,
       "shares": 256,
       "item_code": "IWM"
     },
     {
       "name": "iShares Core MSCI Emerging Markets ETF",
-      "weight_pct": 8.37,
+      "weight_pct": 8.39,
       "shares": 661,
       "item_code": "IEMG.K"
     },
     {
       "name": "Invesco NASDAQ 100 ETF",
-      "weight_pct": 8.09,
+      "weight_pct": 8.04,
       "shares": 177,
       "item_code": "QQQM.O"
     },
     {
       "name": "State Street SPDR Portfolio S&P 500 Value ETF",
-      "weight_pct": 7.26,
+      "weight_pct": 7.28,
       "shares": 740,
       "item_code": "SPYV.K"
     },
     {
       "name": "Vanguard Short-Term Treasury Index Fund",
-      "weight_pct": 6.93,
+      "weight_pct": 6.95,
       "shares": 771,
       "item_code": "VGSH.O"
     },
@@ -52,13 +52,13 @@
     },
     {
       "name": "iShares Core International Aggregate Bond ETF",
-      "weight_pct": 4.48,
+      "weight_pct": 4.5,
       "shares": 582,
       "item_code": "IAGG.K"
     },
     {
       "name": "KIWOOM 종합채권(AA-이상)액티브",
-      "weight_pct": 3.54,
+      "weight_pct": 3.56,
       "shares": 315,
       "item_code": "454780"
     },
@@ -70,20 +70,20 @@
     },
     {
       "name": "JPMorgan BetaBuilders Europe ETF",
-      "weight_pct": 2.51,
+      "weight_pct": 2.5,
       "shares": 203,
       "item_code": "BBEU.K"
     },
     {
       "name": "[USD] 예금",
-      "weight_pct": 2.21,
+      "weight_pct": 2.22,
       "shares": 14261,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.95,
-      "shares": 17281169,
+      "weight_pct": 1.96,
+      "shares": 17256266,
       "item_code": null
     },
     {

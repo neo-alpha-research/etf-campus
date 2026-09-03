@@ -1,6 +1,6 @@
 {
   "ticker": "0221V0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "하나캐피탈406-5",
@@ -143,7 +143,7 @@
     {
       "name": "원화현금",
       "weight_pct": -21.53,
-      "shares": -21629898,
+      "shares": -21631881,
       "item_code": null
     }
   ]

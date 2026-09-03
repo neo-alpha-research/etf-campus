@@ -1,53 +1,53 @@
 {
   "ticker": "0086B0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "맥쿼리인프라",
-      "weight_pct": 27.45,
+      "weight_pct": 27.32,
       "shares": 13231,
       "item_code": "088980"
     },
     {
       "name": "SK리츠",
-      "weight_pct": 17.04,
+      "weight_pct": 17.35,
       "shares": 15176,
       "item_code": "395400"
     },
     {
       "name": "롯데리츠",
-      "weight_pct": 10.81,
+      "weight_pct": 10.89,
       "shares": 13479,
       "item_code": "330590"
     },
     {
       "name": "신한알파리츠",
-      "weight_pct": 10.65,
+      "weight_pct": 10.63,
       "shares": 9438,
       "item_code": "293940"
     },
     {
       "name": "한화리츠",
-      "weight_pct": 9.57,
+      "weight_pct": 9.51,
       "shares": 8700,
       "item_code": "451800"
     },
     {
       "name": "ESR켄달스퀘어리츠",
-      "weight_pct": 8.21,
+      "weight_pct": 8.07,
       "shares": 12362,
       "item_code": "365550"
     },
     {
       "name": "코람코라이프인프라리츠",
-      "weight_pct": 5.93,
+      "weight_pct": 5.94,
       "shares": 6810,
       "item_code": "357120"
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.64,
-      "shares": 17496489,
+      "weight_pct": 3.66,
+      "shares": 17495967,
       "item_code": null
     },
     {
@@ -58,7 +58,7 @@
     },
     {
       "name": "삼성FN리츠",
-      "weight_pct": 3.29,
+      "weight_pct": 3.2,
       "shares": 2859,
       "item_code": "448730"
     }

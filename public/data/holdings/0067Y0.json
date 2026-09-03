@@ -1,10 +1,10 @@
 {
   "ticker": "0067Y0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "나우리지 아틀라스 테크놀로지",
-      "weight_pct": 13.37,
+      "weight_pct": 13.31,
       "shares": 352,
       "item_code": "2513.HK"
     },
@@ -16,86 +16,86 @@
     },
     {
       "name": "텐센트",
-      "weight_pct": 11.53,
+      "weight_pct": 11.34,
       "shares": 801,
       "item_code": "0700.HK"
     },
     {
       "name": "중공기술",
-      "weight_pct": 10.01,
+      "weight_pct": 9.91,
       "shares": 2760,
       "item_code": "688777.SS"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 10.01,
+      "weight_pct": 9.76,
       "shares": 2757,
       "item_code": "9988.HK"
     },
     {
       "name": "곤륜만유과기",
-      "weight_pct": 7.64,
+      "weight_pct": 8.05,
       "shares": 4684,
       "item_code": "300418.SZ"
     },
     {
       "name": "심신복테크놀로지",
-      "weight_pct": 7.48,
+      "weight_pct": 7.58,
       "shares": 1502,
       "item_code": "300454.SZ"
     },
     {
       "name": "센스타임",
-      "weight_pct": 7.29,
+      "weight_pct": 7.28,
       "shares": 159305,
       "item_code": "0020.HK"
     },
     {
       "name": "미니맥스 그룹",
-      "weight_pct": 5.06,
+      "weight_pct": 4.92,
       "shares": 456,
       "item_code": "0100.HK"
     },
     {
       "name": "척유인터넷정보",
-      "weight_pct": 4.38,
+      "weight_pct": 4.54,
       "shares": 4622,
       "item_code": "002261.SZ"
     },
     {
       "name": "운세지련",
-      "weight_pct": 3.34,
+      "weight_pct": 3.43,
       "shares": 4807,
       "item_code": "600602.SS"
     },
     {
       "name": "광배신망",
-      "weight_pct": 2.9,
+      "weight_pct": 2.91,
       "shares": 6318,
       "item_code": "300383.SZ"
     },
     {
       "name": "금산운강고",
-      "weight_pct": 2.76,
+      "weight_pct": 2.74,
       "shares": 15564,
       "item_code": "3896.HK"
     },
     {
       "name": "Intsig Information Co Ltd Class A",
-      "weight_pct": 2.59,
+      "weight_pct": 2.57,
       "shares": 700,
       "item_code": "688615.SS"
     },
     {
       "name": "매니코어 테크",
-      "weight_pct": 2.03,
+      "weight_pct": 2.04,
       "shares": 7284,
       "item_code": "0068.HK"
     },
     {
       "name": "원화현금",
       "weight_pct": -2.1,
-      "shares": -11569549,
+      "shares": -11443214,
       "item_code": null
     }
   ]

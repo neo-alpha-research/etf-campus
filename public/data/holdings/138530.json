@@ -1,46 +1,46 @@
 {
   "ticker": "138530",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "LG유플러스",
-      "weight_pct": 18.53,
+      "weight_pct": 18.69,
       "shares": 3089,
       "item_code": "032640"
     },
     {
       "name": "LG화학",
-      "weight_pct": 16.0,
+      "weight_pct": 15.74,
       "shares": 144,
       "item_code": "051910"
     },
     {
       "name": "LG전자",
-      "weight_pct": 13.67,
+      "weight_pct": 13.69,
       "shares": 168,
       "item_code": "066570"
     },
     {
       "name": "LG",
-      "weight_pct": 9.53,
+      "weight_pct": 9.68,
       "shares": 201,
       "item_code": "003550"
     },
     {
       "name": "GS",
-      "weight_pct": 7.17,
+      "weight_pct": 7.12,
       "shares": 146,
       "item_code": "078930"
     },
     {
       "name": "GS건설",
-      "weight_pct": 7.11,
+      "weight_pct": 7.1,
       "shares": 542,
       "item_code": "006360"
     },
     {
       "name": "LG디스플레이",
-      "weight_pct": 5.28,
+      "weight_pct": 5.29,
       "shares": 1446,
       "item_code": "034220"
     },
@@ -52,49 +52,49 @@
     },
     {
       "name": "LG이노텍",
-      "weight_pct": 3.95,
+      "weight_pct": 3.91,
       "shares": 17,
       "item_code": "011070"
     },
     {
       "name": "GS리테일",
-      "weight_pct": 3.2,
+      "weight_pct": 3.25,
       "shares": 309,
       "item_code": "007070"
     },
     {
-      "name": "LG에너지솔루션",
-      "weight_pct": 2.89,
-      "shares": 20,
-      "item_code": "373220"
-    },
-    {
       "name": "LG씨엔에스",
-      "weight_pct": 2.86,
+      "weight_pct": 2.9,
       "shares": 96,
       "item_code": "064400"
     },
     {
+      "name": "LG에너지솔루션",
+      "weight_pct": 2.82,
+      "shares": 20,
+      "item_code": "373220"
+    },
+    {
       "name": "LS ELECTRIC",
-      "weight_pct": 1.93,
+      "weight_pct": 1.9,
       "shares": 24,
       "item_code": "010120"
     },
     {
       "name": "LS",
-      "weight_pct": 1.58,
+      "weight_pct": 1.56,
       "shares": 13,
       "item_code": "006260"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.76,
-      "shares": 1943243,
+      "weight_pct": 0.78,
+      "shares": 1936570,
       "item_code": null
     },
     {
       "name": "휴젤",
-      "weight_pct": 0.48,
+      "weight_pct": 0.49,
       "shares": 5,
       "item_code": "145020"
     },

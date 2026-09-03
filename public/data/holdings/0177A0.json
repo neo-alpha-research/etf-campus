@@ -1,84 +1,84 @@
 {
   "ticker": "0177A0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "두산",
-      "weight_pct": 25.14,
-      "shares": 92,
+      "weight_pct": 25.23,
+      "shares": 94,
       "item_code": "000150"
     },
     {
       "name": "두산에너빌리티",
-      "weight_pct": 23.98,
-      "shares": 1300,
+      "weight_pct": 24.36,
+      "shares": 1328,
       "item_code": "034020"
     },
     {
       "name": "두산로보틱스",
-      "weight_pct": 21.94,
-      "shares": 1403,
+      "weight_pct": 22.64,
+      "shares": 1433,
       "item_code": "454910"
     },
     {
       "name": "두산밥캣",
-      "weight_pct": 6.69,
-      "shares": 476,
+      "weight_pct": 7.0,
+      "shares": 486,
       "item_code": "241560"
     },
     {
       "name": "두산퓨얼셀",
-      "weight_pct": 4.37,
-      "shares": 435,
+      "weight_pct": 4.11,
+      "shares": 444,
       "item_code": "336260"
     },
     {
       "name": "두산테스나",
-      "weight_pct": 3.57,
-      "shares": 201,
+      "weight_pct": 3.83,
+      "shares": 205,
       "item_code": "131970"
     },
     {
-      "name": "원화예금",
-      "weight_pct": 2.43,
-      "shares": 10740117,
-      "item_code": null
-    },
-    {
       "name": "한전기술",
-      "weight_pct": 2.17,
-      "shares": 87,
+      "weight_pct": 2.22,
+      "shares": 88,
       "item_code": "052690"
     },
     {
       "name": "HD건설기계",
-      "weight_pct": 2.08,
-      "shares": 71,
+      "weight_pct": 2.15,
+      "shares": 72,
       "item_code": "267270"
     },
     {
       "name": "일진하이솔루스",
-      "weight_pct": 2.03,
-      "shares": 831,
+      "weight_pct": 2.15,
+      "shares": 849,
       "item_code": "271940"
     },
     {
       "name": "삼성전자",
-      "weight_pct": 2.01,
-      "shares": 34,
+      "weight_pct": 2.09,
+      "shares": 35,
       "item_code": "005930"
     },
     {
       "name": "파미셀",
-      "weight_pct": 1.83,
-      "shares": 740,
+      "weight_pct": 1.91,
+      "shares": 756,
       "item_code": "005690"
     },
     {
       "name": "씨메스로보틱스",
-      "weight_pct": 1.7,
-      "shares": 418,
+      "weight_pct": 1.74,
+      "shares": 427,
       "item_code": "475400"
+    },
+    {
+      "name": "원화예금",
+      "weight_pct": 0.5,
+      "shares": 2094845,
+      "item_code": null
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "ticker": "0122W0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "한국전력1440",
@@ -88,8 +88,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.4,
-      "shares": 3466906,
+      "weight_pct": 3.39,
+      "shares": 3466991,
       "item_code": null
     }
   ]

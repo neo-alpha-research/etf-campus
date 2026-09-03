@@ -1,70 +1,70 @@
 {
   "ticker": "0087F0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "샤오미",
-      "weight_pct": 24.75,
-      "shares": 31386,
+      "weight_pct": 25.03,
+      "shares": 31380,
       "item_code": "1810.HK"
     },
     {
       "name": "샤오펑 Class A",
-      "weight_pct": 19.08,
-      "shares": 14886,
+      "weight_pct": 19.14,
+      "shares": 14883,
       "item_code": "9868.HK"
     },
     {
       "name": "부사강산업인터넷",
-      "weight_pct": 4.96,
+      "weight_pct": 4.88,
       "shares": 2301,
       "item_code": "601138.SS"
     },
     {
-      "name": "알리바바 그룹 홀딩",
-      "weight_pct": 4.75,
-      "shares": 1456,
-      "item_code": "9988.HK"
-    },
-    {
       "name": "BYD",
-      "weight_pct": 4.72,
+      "weight_pct": 4.84,
       "shares": 1897,
       "item_code": "1211.HK"
     },
     {
-      "name": "텐센트",
+      "name": "알리바바 그룹 홀딩",
       "weight_pct": 4.65,
+      "shares": 1456,
+      "item_code": "9988.HK"
+    },
+    {
+      "name": "텐센트",
+      "weight_pct": 4.59,
       "shares": 359,
       "item_code": "0700.HK"
     },
     {
       "name": "닝더스다이",
-      "weight_pct": 4.41,
+      "weight_pct": 4.4,
       "shares": 364,
       "item_code": "300750.SZ"
     },
     {
       "name": "한무기",
-      "weight_pct": 3.08,
+      "weight_pct": 3.11,
       "shares": 83,
       "item_code": "688256.SS"
     },
     {
       "name": "넷이즈",
-      "weight_pct": 3.02,
+      "weight_pct": 3.0,
       "shares": 550,
       "item_code": "9999.HK"
     },
     {
       "name": "북방화창",
-      "weight_pct": 2.91,
+      "weight_pct": 2.81,
       "shares": 124,
       "item_code": "002371.SZ"
     },
     {
       "name": "메이투안",
-      "weight_pct": 2.84,
+      "weight_pct": 2.8,
       "shares": 1262,
       "item_code": "3690.HK"
     },
@@ -76,45 +76,45 @@
     },
     {
       "name": "중제욱창",
-      "weight_pct": 2.36,
+      "weight_pct": 2.41,
       "shares": 83,
       "item_code": "300308.SZ"
     },
     {
       "name": "합서원걸반도체과기",
-      "weight_pct": 2.12,
+      "weight_pct": 2.08,
       "shares": 41,
       "item_code": "688498.SS"
     },
     {
       "name": "AMEC(중미반도체)",
-      "weight_pct": 2.0,
+      "weight_pct": 1.97,
       "shares": 166,
       "item_code": "688012.SS"
     },
     {
       "name": "생익과기",
-      "weight_pct": 1.38,
+      "weight_pct": 1.31,
       "shares": 270,
       "item_code": "600183.SS"
     },
     {
       "name": "유시동력",
-      "weight_pct": 1.24,
+      "weight_pct": 1.26,
       "shares": 1374,
       "item_code": "000338.SZ"
-    },
-    {
-      "name": "심남전로",
-      "weight_pct": 0.89,
-      "shares": 72,
-      "item_code": "002916.SZ"
     },
     {
       "name": "회천기술",
       "weight_pct": 0.87,
       "shares": 426,
       "item_code": "300124.SZ"
+    },
+    {
+      "name": "심남전로",
+      "weight_pct": 0.87,
+      "shares": 72,
+      "item_code": "002916.SZ"
     },
     {
       "name": "항립유항",
@@ -124,13 +124,13 @@
     },
     {
       "name": "상하이 비렌 테크놀로지",
-      "weight_pct": 0.83,
+      "weight_pct": 0.82,
       "shares": 623,
       "item_code": "6082.HK"
     },
     {
       "name": "ZTE",
-      "weight_pct": 0.8,
+      "weight_pct": 0.81,
       "shares": 1180,
       "item_code": "0763.HK"
     },
@@ -142,21 +142,21 @@
     },
     {
       "name": "양광전력",
-      "weight_pct": 0.76,
+      "weight_pct": 0.75,
       "shares": 249,
       "item_code": "300274.SZ"
+    },
+    {
+      "name": "신역성통신기술",
+      "weight_pct": 0.7,
+      "shares": 52,
+      "item_code": "300502.SZ"
     },
     {
       "name": "장비광섬유케이블",
       "weight_pct": 0.69,
       "shares": 146,
       "item_code": "6869.HK"
-    },
-    {
-      "name": "신역성통신기술",
-      "weight_pct": 0.69,
-      "shares": 52,
-      "item_code": "300502.SZ"
     },
     {
       "name": "탁보그룹",
@@ -166,14 +166,14 @@
     },
     {
       "name": "녹적해파",
-      "weight_pct": 0.41,
+      "weight_pct": 0.4,
       "shares": 41,
       "item_code": "688017.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.32,
-      "shares": 2014276,
+      "weight_pct": 0.33,
+      "shares": 2024128,
       "item_code": null
     },
     {

@@ -1,101 +1,101 @@
 {
   "ticker": "497510",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "일라이 릴리",
-      "weight_pct": 18.69,
+      "weight_pct": 18.52,
       "shares": 76,
       "item_code": "LLY"
     },
     {
       "name": "존슨앤드존슨",
-      "weight_pct": 15.2,
+      "weight_pct": 15.33,
       "shares": 269,
       "item_code": "JNJ"
     },
     {
       "name": "애브비",
-      "weight_pct": 11.06,
+      "weight_pct": 11.09,
       "shares": 203,
       "item_code": "ABBV.K"
     },
     {
       "name": "머크 앤 코",
-      "weight_pct": 8.32,
+      "weight_pct": 8.34,
       "shares": 265,
       "item_code": "MRK"
     },
     {
       "name": "노바티스 ADR",
-      "weight_pct": 7.17,
+      "weight_pct": 7.52,
       "shares": 222,
       "item_code": "NVS"
     },
     {
       "name": "Roche Holding AG",
-      "weight_pct": 6.85,
+      "weight_pct": 6.65,
       "shares": 74,
       "item_code": null
     },
     {
       "name": "아스트라제네카",
-      "weight_pct": 5.55,
+      "weight_pct": 5.49,
       "shares": 161,
       "item_code": "AZN"
     },
     {
       "name": "암젠",
-      "weight_pct": 5.02,
+      "weight_pct": 5.06,
       "shares": 55,
       "item_code": "AMGN.O"
     },
     {
       "name": "길리어드 사이언시스",
-      "weight_pct": 4.23,
+      "weight_pct": 4.28,
       "shares": 136,
       "item_code": "GILD.O"
     },
     {
       "name": "버텍스 파마슈티컬",
-      "weight_pct": 3.47,
+      "weight_pct": 3.45,
       "shares": 30,
       "item_code": "VRTX.O"
     },
     {
       "name": "노보 노디스크 ADR",
-      "weight_pct": 3.37,
+      "weight_pct": 3.31,
       "shares": 350,
       "item_code": "NVO"
     },
     {
       "name": "화이자",
-      "weight_pct": 3.24,
+      "weight_pct": 3.21,
       "shares": 536,
       "item_code": "PFE"
     },
     {
       "name": "사노피 ADR",
-      "weight_pct": 2.54,
+      "weight_pct": 2.51,
       "shares": 270,
       "item_code": "SNY.O"
     },
     {
       "name": "브리스톨-마이어스 스큅",
-      "weight_pct": 2.48,
+      "weight_pct": 2.46,
       "shares": 175,
       "item_code": "BMY"
     },
     {
       "name": "GSK",
-      "weight_pct": 2.29,
+      "weight_pct": 2.28,
       "shares": 215,
       "item_code": "GSK"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.44,
-      "shares": 2884677,
+      "weight_pct": 0.42,
+      "shares": 2772002,
       "item_code": null
     }
   ]

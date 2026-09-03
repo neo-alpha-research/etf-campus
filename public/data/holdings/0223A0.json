@@ -1,22 +1,22 @@
 {
   "ticker": "0223A0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "테스",
-      "weight_pct": 6.15,
+      "weight_pct": 6.27,
       "shares": 233,
       "item_code": "095610"
     },
     {
       "name": "코스메카코리아",
-      "weight_pct": 5.92,
+      "weight_pct": 5.93,
       "shares": 215,
       "item_code": "241710"
     },
     {
       "name": "유진테크",
-      "weight_pct": 5.71,
+      "weight_pct": 5.86,
       "shares": 222,
       "item_code": "084370"
     },
@@ -28,85 +28,79 @@
     },
     {
       "name": "심텍",
-      "weight_pct": 5.68,
+      "weight_pct": 5.66,
       "shares": 232,
       "item_code": "222800"
     },
     {
       "name": "알테오젠",
-      "weight_pct": 5.34,
+      "weight_pct": 5.37,
       "shares": 91,
       "item_code": "196170"
     },
     {
       "name": "피에스케이홀딩스",
-      "weight_pct": 5.21,
+      "weight_pct": 5.24,
       "shares": 217,
       "item_code": "031980"
     },
     {
       "name": "로보티즈",
-      "weight_pct": 5.0,
+      "weight_pct": 4.93,
       "shares": 101,
       "item_code": "108490"
     },
     {
-      "name": "RF머트리얼즈",
-      "weight_pct": 4.67,
-      "shares": 686,
-      "item_code": "327260"
-    },
-    {
       "name": "브이엠",
-      "weight_pct": 4.66,
+      "weight_pct": 4.88,
       "shares": 442,
       "item_code": "089970"
     },
     {
+      "name": "RF머트리얼즈",
+      "weight_pct": 4.8,
+      "shares": 686,
+      "item_code": "327260"
+    },
+    {
       "name": "두산테스나",
-      "weight_pct": 4.44,
+      "weight_pct": 4.5,
       "shares": 291,
       "item_code": "131970"
     },
     {
       "name": "원익IPS",
-      "weight_pct": 4.2,
+      "weight_pct": 4.25,
       "shares": 196,
       "item_code": "240810"
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.01,
-      "shares": 20577554,
+      "weight_pct": 4.06,
+      "shares": 20531649,
       "item_code": null
     },
     {
       "name": "코스닥150선물2026년09월물",
-      "weight_pct": 3.82,
+      "weight_pct": 3.79,
       "shares": 1,
       "item_code": null
     },
     {
       "name": "대주전자재료",
-      "weight_pct": 3.77,
+      "weight_pct": 3.52,
       "shares": 212,
       "item_code": "078600"
     },
     {
       "name": "파마리서치",
-      "weight_pct": 3.55,
+      "weight_pct": 3.41,
       "shares": 44,
       "item_code": "214450"
     },
     {
-      "name": "올릭스",
-      "weight_pct": 3.33,
-      "shares": 162,
-      "item_code": "226950"
-    },
-    {
       "name": "기가비스",
-      "weight_pct": 3.33,
+      "weight_pct": 3.3,
       "shares": 163,
       "item_code": "420770"
     },
@@ -117,50 +111,56 @@
       "item_code": "074600"
     },
     {
-      "name": "스피어",
-      "weight_pct": 3.01,
-      "shares": 769,
-      "item_code": "347700"
+      "name": "올릭스",
+      "weight_pct": 3.21,
+      "shares": 162,
+      "item_code": "226950"
     },
     {
       "name": "네패스아크",
-      "weight_pct": 3.0,
+      "weight_pct": 2.98,
       "shares": 620,
       "item_code": "330860"
     },
     {
-      "name": "비나텍",
+      "name": "스피어",
       "weight_pct": 2.93,
+      "shares": 769,
+      "item_code": "347700"
+    },
+    {
+      "name": "비나텍",
+      "weight_pct": 2.89,
       "shares": 248,
       "item_code": "126340"
     },
     {
       "name": "비에이치아이",
-      "weight_pct": 2.68,
+      "weight_pct": 2.65,
       "shares": 225,
       "item_code": "083650"
     },
     {
       "name": "디앤디파마텍",
-      "weight_pct": 2.49,
+      "weight_pct": 2.39,
       "shares": 247,
       "item_code": "347850"
     },
     {
       "name": "고영",
-      "weight_pct": 0.97,
+      "weight_pct": 0.98,
       "shares": 178,
       "item_code": "098460"
     },
     {
       "name": "네오티스",
-      "weight_pct": 0.84,
+      "weight_pct": 0.86,
       "shares": 292,
       "item_code": "085910"
     },
     {
       "name": "코스닥위클리 C 2609W1 1450",
-      "weight_pct": -0.1,
+      "weight_pct": -0.03,
       "shares": -12,
       "item_code": null
     }

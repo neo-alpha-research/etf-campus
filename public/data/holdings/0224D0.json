@@ -1,59 +1,59 @@
 {
   "ticker": "0224D0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 25.22,
+      "weight_pct": 24.97,
       "shares": 178,
       "item_code": "AMD.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 20.42,
+      "weight_pct": 20.58,
       "shares": 758,
       "item_code": "INTC.O"
     },
     {
       "name": "퀄컴",
-      "weight_pct": 16.29,
+      "weight_pct": 16.15,
       "shares": 317,
       "item_code": "QCOM.O"
     },
     {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 12.46,
+      "weight_pct": 12.27,
       "shares": 171,
       "item_code": "ARM.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 9.06,
+      "weight_pct": 9.05,
       "shares": 136,
       "item_code": "NVDA.O"
     },
     {
       "name": "애플",
-      "weight_pct": 7.79,
+      "weight_pct": 8.1,
       "shares": 81,
       "item_code": "AAPL.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 3.85,
+      "weight_pct": 3.9,
       "shares": 30,
       "item_code": "TSM"
     },
     {
       "name": "브로드컴",
-      "weight_pct": 3.1,
+      "weight_pct": 3.14,
       "shares": 27,
       "item_code": "AVGO.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.28,
-      "shares": 5841984,
+      "weight_pct": 1.31,
+      "shares": 5884486,
       "item_code": null
     },
     {
@@ -64,7 +64,7 @@
     },
     {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 0.16,
+      "weight_pct": 0.15,
       "shares": 1,
       "item_code": "CDNS.O"
     }

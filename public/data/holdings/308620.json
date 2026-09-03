@@ -1,23 +1,23 @@
 {
   "ticker": "308620",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "USD현금",
-      "weight_pct": 99.84,
-      "shares": 831793,
+      "weight_pct": 99.69,
+      "shares": 828138,
       "item_code": null
     },
     {
       "name": "US 10YR NOTE (CBT) 2026 12",
-      "weight_pct": 98.33,
+      "weight_pct": 98.36,
       "shares": 7,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.15,
-      "shares": 1802588,
+      "weight_pct": 0.3,
+      "shares": 3492870,
       "item_code": null
     }
   ]

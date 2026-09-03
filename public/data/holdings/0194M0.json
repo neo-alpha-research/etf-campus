@@ -1,29 +1,29 @@
 {
   "ticker": "0194M0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 91.9,
-      "shares": 960,
+      "weight_pct": 90.79,
+      "shares": 908,
       "item_code": "005930"
     },
     {
       "name": "2026-09 삼성전자개별선물",
-      "weight_pct": 65.98,
-      "shares": 68,
+      "weight_pct": 67.33,
+      "shares": 67,
       "item_code": null
     },
     {
       "name": "RISE 삼성전자단일종목레버리지",
-      "weight_pct": 21.0,
+      "weight_pct": 21.22,
       "shares": 5229,
       "item_code": "0192M0"
     },
     {
       "name": "원화현금",
-      "weight_pct": -12.9,
-      "shares": -35189752,
+      "weight_pct": -12.02,
+      "shares": -30117804,
       "item_code": null
     }
   ]

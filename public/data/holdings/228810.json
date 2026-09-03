@@ -1,48 +1,54 @@
 {
   "ticker": "228810",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "CJ ENM",
-      "weight_pct": 11.31,
+      "weight_pct": 11.0,
       "shares": 315,
       "item_code": "035760"
     },
     {
       "name": "스튜디오드래곤",
-      "weight_pct": 10.73,
+      "weight_pct": 10.6,
       "shares": 457,
       "item_code": "253450"
     },
     {
       "name": "와이지엔터테인먼트",
-      "weight_pct": 10.49,
+      "weight_pct": 10.51,
       "shares": 242,
       "item_code": "122870"
     },
     {
       "name": "에스엠",
-      "weight_pct": 10.08,
+      "weight_pct": 10.41,
       "shares": 129,
       "item_code": "041510"
     },
     {
       "name": "디어유",
-      "weight_pct": 9.21,
+      "weight_pct": 9.01,
       "shares": 467,
       "item_code": "376300"
     },
     {
       "name": "SAMG엔터",
-      "weight_pct": 8.84,
+      "weight_pct": 8.68,
       "shares": 413,
       "item_code": "419530"
     },
     {
       "name": "하이브",
-      "weight_pct": 8.28,
+      "weight_pct": 8.39,
       "shares": 44,
       "item_code": "352820"
+    },
+    {
+      "name": "더핑크퐁컴퍼니",
+      "weight_pct": 8.17,
+      "shares": 539,
+      "item_code": "403850"
     },
     {
       "name": "JYP Ent.",
@@ -51,33 +57,27 @@
       "item_code": "035900"
     },
     {
-      "name": "더핑크퐁컴퍼니",
-      "weight_pct": 7.79,
-      "shares": 539,
-      "item_code": "403850"
-    },
-    {
       "name": "노머스",
-      "weight_pct": 6.58,
+      "weight_pct": 6.64,
       "shares": 543,
       "item_code": "473980"
     },
     {
-      "name": "SM C&C",
-      "weight_pct": 4.07,
-      "shares": 3072,
-      "item_code": "048550"
-    },
-    {
       "name": "쇼박스",
-      "weight_pct": 4.01,
+      "weight_pct": 3.99,
       "shares": 1899,
       "item_code": "086980"
     },
     {
+      "name": "SM C&C",
+      "weight_pct": 3.98,
+      "shares": 3072,
+      "item_code": "048550"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.44,
-      "shares": 420946,
+      "weight_pct": 0.45,
+      "shares": 419701,
       "item_code": null
     }
   ]

@@ -1,22 +1,22 @@
 {
   "ticker": "0223R0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "AMD(어드밴스드 마이크로 디바이시스)",
-      "weight_pct": 9.35,
+      "weight_pct": 9.3,
       "shares": 13,
       "item_code": "AMD.O"
     },
     {
       "name": "마이크로소프트",
-      "weight_pct": 6.46,
+      "weight_pct": 6.5,
       "shares": 8,
       "item_code": "MSFT.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 5.33,
+      "weight_pct": 5.35,
       "shares": 16,
       "item_code": "NVDA.O"
     },
@@ -28,49 +28,49 @@
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 4.72,
+      "weight_pct": 4.75,
       "shares": 9,
       "item_code": "GOOGL.O"
     },
     {
       "name": "팔란티어 테크놀로지스",
-      "weight_pct": 4.47,
-      "shares": 16,
+      "weight_pct": 4.4,
+      "shares": 15,
       "item_code": "PLTR.O"
     },
     {
+      "name": "원화현금",
+      "weight_pct": 4.32,
+      "shares": 3849746,
+      "item_code": null
+    },
+    {
       "name": "인텔",
-      "weight_pct": 4.07,
+      "weight_pct": 4.12,
       "shares": 30,
       "item_code": "INTC.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 3.72,
+      "weight_pct": 3.76,
       "shares": 11,
       "item_code": "MRVL.O"
     },
     {
       "name": "아틀라시안",
-      "weight_pct": 3.58,
+      "weight_pct": 3.52,
       "shares": 12,
       "item_code": "TEAM.O"
     },
     {
       "name": "TSMC ADR",
-      "weight_pct": 3.08,
+      "weight_pct": 3.13,
       "shares": 4,
       "item_code": "TSM"
     },
     {
-      "name": "몽고DB",
-      "weight_pct": 3.01,
-      "shares": 4,
-      "item_code": "MDB.O"
-    },
-    {
       "name": "로빈후드",
-      "weight_pct": 2.97,
+      "weight_pct": 2.99,
       "shares": 18,
       "item_code": "HOOD.O"
     },
@@ -82,51 +82,45 @@
     },
     {
       "name": "루멘텀 홀딩스",
-      "weight_pct": 2.72,
+      "weight_pct": 2.49,
       "shares": 1,
       "item_code": "LITE.O"
     },
     {
-      "name": "크레도 테크놀로지 그룹 홀딩",
-      "weight_pct": 2.4,
-      "shares": 7,
-      "item_code": "CRDO.O"
+      "name": "몽고DB",
+      "weight_pct": 2.44,
+      "shares": 3,
+      "item_code": "MDB.O"
     },
     {
       "name": "SK하이닉스 ADR",
-      "weight_pct": 2.39,
+      "weight_pct": 2.38,
       "shares": 9,
       "item_code": "SKHY.O"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 2.13,
+      "weight_pct": 2.12,
       "shares": 1,
       "item_code": "MU.O"
     },
     {
-      "name": "씨게이트",
-      "weight_pct": 2.02,
-      "shares": 1,
-      "item_code": "STX.O"
-    },
-    {
       "name": "웨스턴 디지털",
-      "weight_pct": 2.01,
+      "weight_pct": 2.04,
       "shares": 2,
       "item_code": "WDC.O"
     },
     {
-      "name": "스노우플레이크",
-      "weight_pct": 2.0,
-      "shares": 4,
-      "item_code": "SNOW.K"
+      "name": "씨게이트",
+      "weight_pct": 2.03,
+      "shares": 1,
+      "item_code": "STX.O"
     },
     {
-      "name": "램 리서치",
+      "name": "크레도 테크놀로지 그룹 홀딩",
       "weight_pct": 2.0,
-      "shares": 4,
-      "item_code": "LRCX.O"
+      "shares": 6,
+      "item_code": "CRDO.O"
     },
     {
       "name": "ASML 홀딩 ADR",
@@ -135,26 +129,32 @@
       "item_code": "ASML.O"
     },
     {
-      "name": "어플라이드 옵토일렉트로닉스",
-      "weight_pct": 1.92,
-      "shares": 11,
-      "item_code": "AAOI.O"
+      "name": "스노우플레이크",
+      "weight_pct": 1.97,
+      "shares": 4,
+      "item_code": "SNOW.K"
+    },
+    {
+      "name": "램 리서치",
+      "weight_pct": 1.96,
+      "shares": 4,
+      "item_code": "LRCX.O"
     },
     {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 1.87,
+      "weight_pct": 1.85,
       "shares": 5,
       "item_code": "ARM.O"
     },
     {
       "name": "크라우드 스트라이크 홀딩스",
-      "weight_pct": 1.86,
+      "weight_pct": 1.76,
       "shares": 5,
       "item_code": "CRWD.O"
     },
     {
       "name": "아스테라 랩스",
-      "weight_pct": 1.73,
+      "weight_pct": 1.66,
       "shares": 3,
       "item_code": "ALAB.O"
     },
@@ -165,26 +165,26 @@
       "item_code": "ADI.O"
     },
     {
+      "name": "어플라이드 옵토일렉트로닉스",
+      "weight_pct": 1.49,
+      "shares": 9,
+      "item_code": "AAOI.O"
+    },
+    {
       "name": "텍사스 인스트루먼트",
-      "weight_pct": 1.46,
+      "weight_pct": 1.45,
       "shares": 3,
       "item_code": "TXN.O"
     },
     {
-      "name": "시에나",
-      "weight_pct": 1.44,
-      "shares": 2,
-      "item_code": "CIEN.K"
-    },
-    {
       "name": "팔로 알토 네트웍스",
-      "weight_pct": 1.36,
+      "weight_pct": 1.31,
       "shares": 2,
       "item_code": "PANW.O"
     },
     {
       "name": "옥타",
-      "weight_pct": 1.3,
+      "weight_pct": 1.27,
       "shares": 5,
       "item_code": "OKTA.O"
     },
@@ -196,45 +196,45 @@
     },
     {
       "name": "메타",
-      "weight_pct": 1.0,
+      "weight_pct": 1.03,
       "shares": 1,
       "item_code": "META.O"
     },
     {
-      "name": "오라클",
+      "name": "시에나",
       "weight_pct": 0.99,
+      "shares": 1,
+      "item_code": "CIEN.K"
+    },
+    {
+      "name": "오라클",
+      "weight_pct": 0.96,
       "shares": 4,
       "item_code": "ORCL.K"
     },
     {
-      "name": "패브리넷",
-      "weight_pct": 0.96,
-      "shares": 1,
-      "item_code": "FN"
-    },
-    {
-      "name": "코히런트",
-      "weight_pct": 0.95,
-      "shares": 2,
-      "item_code": "COHR.K"
-    },
-    {
-      "name": "타워 세미컨덕터",
-      "weight_pct": 0.94,
-      "shares": 3,
-      "item_code": "TSEM.O"
-    },
-    {
       "name": "테슬라",
-      "weight_pct": 0.84,
+      "weight_pct": 0.82,
       "shares": 1,
       "item_code": "TSLA.O"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.59,
-      "shares": 545470,
-      "item_code": null
+      "name": "패브리넷",
+      "weight_pct": 0.5,
+      "shares": 0,
+      "item_code": "FN"
+    },
+    {
+      "name": "코히런트",
+      "weight_pct": 0.5,
+      "shares": 1,
+      "item_code": "COHR.K"
+    },
+    {
+      "name": "타워 세미컨덕터",
+      "weight_pct": 0.49,
+      "shares": 1,
+      "item_code": "TSEM.O"
     },
     {
       "name": "스페이스X",

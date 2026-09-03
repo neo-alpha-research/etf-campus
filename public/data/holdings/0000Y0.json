@@ -1,6 +1,6 @@
 {
   "ticker": "0000Y0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "서울특별시채권2023-1",
@@ -12,6 +12,12 @@
       "name": "산금23신이0400-0105-1",
       "weight_pct": 16.38,
       "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 10.0,
+      "shares": 10192862,
       "item_code": null
     },
     {
@@ -54,18 +60,6 @@
       "name": "현대캐피탈2001-1",
       "weight_pct": 8.14,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리카드237-3",
-      "weight_pct": 5.73,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 4.26,
-      "shares": 4348021,
       "item_code": null
     }
   ]

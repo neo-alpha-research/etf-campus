@@ -1,131 +1,131 @@
 {
   "ticker": "488080",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 38.19,
-      "shares": 2380,
+      "weight_pct": 39.63,
+      "shares": 2367,
       "item_code": "005930"
     },
     {
       "name": "TIGER 반도체TOP10",
-      "weight_pct": 37.8,
-      "shares": 17485,
+      "weight_pct": 35.24,
+      "shares": 15618,
       "item_code": "396500"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 30.81,
-      "shares": 296,
+      "weight_pct": 31.58,
+      "shares": 293,
       "item_code": "000660"
     },
     {
       "name": "SK스퀘어",
-      "weight_pct": 25.12,
-      "shares": 383,
+      "weight_pct": 24.54,
+      "shares": 374,
       "item_code": "402340"
     },
     {
       "name": "SK스퀘어선물2609",
-      "weight_pct": 9.02,
+      "weight_pct": 9.1,
       "shares": 13,
       "item_code": null
     },
     {
       "name": "삼성전자선물2609",
-      "weight_pct": 8.55,
-      "shares": 53,
+      "weight_pct": 8.4,
+      "shares": 50,
       "item_code": null
     },
     {
       "name": "SK하이닉스선물2609",
-      "weight_pct": 8.01,
+      "weight_pct": 8.08,
       "shares": 7,
       "item_code": null
     },
     {
       "name": "한미반도체선물2609",
-      "weight_pct": 5.51,
+      "weight_pct": 5.78,
       "shares": 41,
       "item_code": null
     },
     {
       "name": "이수페타시스선물2609",
-      "weight_pct": 4.89,
+      "weight_pct": 5.33,
       "shares": 72,
       "item_code": null
     },
     {
       "name": "주성엔지니어링선물2609",
-      "weight_pct": 4.74,
-      "shares": 45,
-      "item_code": null
-    },
-    {
-      "name": "한미반도체",
-      "weight_pct": 4.41,
-      "shares": 334,
-      "item_code": "042700"
-    },
-    {
-      "name": "DB하이텍",
-      "weight_pct": 3.72,
-      "shares": 641,
-      "item_code": "000990"
-    },
-    {
-      "name": "원익IPS선물2609",
-      "weight_pct": 2.99,
+      "weight_pct": 5.16,
       "shares": 44,
       "item_code": null
     },
     {
+      "name": "한미반도체",
+      "weight_pct": 4.63,
+      "shares": 325,
+      "item_code": "042700"
+    },
+    {
+      "name": "DB하이텍",
+      "weight_pct": 3.76,
+      "shares": 632,
+      "item_code": "000990"
+    },
+    {
+      "name": "원익IPS선물2609",
+      "weight_pct": 3.23,
+      "shares": 43,
+      "item_code": null
+    },
+    {
       "name": "이수페타시스",
-      "weight_pct": 2.95,
-      "shares": 432,
+      "weight_pct": 3.15,
+      "shares": 421,
       "item_code": "007660"
     },
     {
       "name": "주성엔지니어링",
-      "weight_pct": 2.78,
-      "shares": 262,
+      "weight_pct": 2.97,
+      "shares": 256,
       "item_code": "036930"
     },
     {
       "name": "이오테크닉스선물2609",
-      "weight_pct": 2.65,
+      "weight_pct": 2.91,
       "shares": 10,
       "item_code": null
     },
     {
       "name": "리노공업선물2609",
-      "weight_pct": 2.23,
+      "weight_pct": 2.33,
       "shares": 54,
       "item_code": null
     },
     {
       "name": "원익IPS",
-      "weight_pct": 1.71,
-      "shares": 254,
+      "weight_pct": 1.81,
+      "shares": 247,
       "item_code": "240810"
     },
     {
       "name": "이오테크닉스",
-      "weight_pct": 1.62,
-      "shares": 67,
+      "weight_pct": 1.74,
+      "shares": 65,
       "item_code": "039030"
     },
     {
       "name": "리노공업",
-      "weight_pct": 1.58,
-      "shares": 394,
+      "weight_pct": 1.65,
+      "shares": 384,
       "item_code": "058470"
     },
     {
       "name": "원화현금",
-      "weight_pct": -50.74,
-      "shares": -825323598,
+      "weight_pct": -50.75,
+      "shares": -759378690,
       "item_code": null
     }
   ]

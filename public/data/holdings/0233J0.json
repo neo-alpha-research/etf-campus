@@ -1,53 +1,53 @@
 {
   "ticker": "0233J0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 24.9,
-      "shares": 99,
+      "weight_pct": 24.7,
+      "shares": 100,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 24.47,
+      "weight_pct": 23.85,
       "shares": 15,
       "item_code": "000660"
     },
     {
       "name": "iShares 0-3 Month Treasury Bond ETF",
-      "weight_pct": 13.83,
-      "shares": 104,
+      "weight_pct": 13.41,
+      "shares": 99,
       "item_code": "SGOV.K"
     },
     {
       "name": "State Street SPDR Bloomberg 1-3 Month T-Bill ETF",
-      "weight_pct": 12.46,
-      "shares": 103,
+      "weight_pct": 12.58,
+      "shares": 102,
       "item_code": "BIL"
     },
     {
       "name": "T 4 1/4 03/15/27",
-      "weight_pct": 7.93,
+      "weight_pct": 8.11,
       "shares": 6000,
       "item_code": null
     },
     {
       "name": "T 1 1/8 10/31/26",
-      "weight_pct": 7.88,
+      "weight_pct": 8.06,
       "shares": 6000,
       "item_code": null
     },
     {
       "name": "T 2 3/8 05/15/27",
-      "weight_pct": 7.82,
+      "weight_pct": 8.0,
       "shares": 6000,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.67,
-      "shares": 696173,
+      "weight_pct": 1.26,
+      "shares": 1285445,
       "item_code": null
     }
   ]

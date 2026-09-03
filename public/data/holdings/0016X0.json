@@ -1,6 +1,6 @@
 {
   "ticker": "0016X0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "대한항공111-2",
@@ -10,8 +10,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 3.35,
-      "shares": 3455478,
+      "weight_pct": 3.33,
+      "shares": 3430990,
       "item_code": null
     },
     {
@@ -111,6 +111,12 @@
       "item_code": null
     },
     {
+      "name": "애큐온캐피탈249-4",
+      "weight_pct": 2.28,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "현대캐피탈2049-1",
       "weight_pct": 2.27,
       "shares": 0,
@@ -148,12 +154,6 @@
     },
     {
       "name": "JB 우리캐피탈537-4",
-      "weight_pct": 2.27,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "애큐온캐피탈249-4",
       "weight_pct": 2.27,
       "shares": 0,
       "item_code": null
@@ -237,6 +237,12 @@
       "item_code": null
     },
     {
+      "name": "파라다이스8-1",
+      "weight_pct": 1.15,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "에스케이엔무브(CP)",
       "weight_pct": 1.15,
       "shares": 0,
@@ -267,12 +273,6 @@
       "item_code": null
     },
     {
-      "name": "파라다이스8-1",
-      "weight_pct": 1.14,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "파르나스호텔32-2",
       "weight_pct": 1.14,
       "shares": 0,
@@ -298,7 +298,7 @@
     },
     {
       "name": "현대코퍼레이션42-2",
-      "weight_pct": 0.46,
+      "weight_pct": 0.47,
       "shares": 0,
       "item_code": null
     },

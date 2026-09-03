@@ -1,101 +1,101 @@
 {
   "ticker": "0184V0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "오름테라퓨틱",
-      "weight_pct": 8.93,
+      "weight_pct": 8.74,
       "shares": 443,
       "item_code": "475830"
     },
     {
       "name": "지투지바이오",
-      "weight_pct": 8.46,
+      "weight_pct": 8.34,
       "shares": 643,
       "item_code": "456160"
     },
     {
       "name": "알테오젠",
-      "weight_pct": 8.1,
+      "weight_pct": 8.26,
       "shares": 79,
       "item_code": "196170"
     },
     {
-      "name": "올릭스",
-      "weight_pct": 7.69,
-      "shares": 214,
-      "item_code": "226950"
-    },
-    {
       "name": "보로노이",
-      "weight_pct": 7.52,
+      "weight_pct": 7.9,
       "shares": 133,
       "item_code": "310210"
     },
     {
+      "name": "올릭스",
+      "weight_pct": 7.51,
+      "shares": 214,
+      "item_code": "226950"
+    },
+    {
       "name": "에이비엘바이오",
-      "weight_pct": 7.4,
+      "weight_pct": 7.43,
       "shares": 306,
       "item_code": "298380"
     },
     {
       "name": "티움바이오",
-      "weight_pct": 6.99,
+      "weight_pct": 7.1,
       "shares": 4673,
       "item_code": "321550"
     },
     {
+      "name": "에스티팜",
+      "weight_pct": 6.77,
+      "shares": 191,
+      "item_code": "237690"
+    },
+    {
       "name": "리가켐바이오",
-      "weight_pct": 6.79,
+      "weight_pct": 6.68,
       "shares": 210,
       "item_code": "141080"
     },
     {
       "name": "디앤디파마텍",
-      "weight_pct": 6.76,
+      "weight_pct": 6.58,
       "shares": 383,
       "item_code": "347850"
     },
     {
-      "name": "에스티팜",
-      "weight_pct": 6.7,
-      "shares": 191,
-      "item_code": "237690"
-    },
-    {
       "name": "지아이이노베이션",
-      "weight_pct": 6.12,
+      "weight_pct": 6.46,
       "shares": 2277,
       "item_code": "358570"
     },
     {
       "name": "인투셀",
-      "weight_pct": 5.13,
+      "weight_pct": 5.1,
       "shares": 801,
       "item_code": "287840"
     },
     {
       "name": "알지노믹스",
-      "weight_pct": 4.87,
+      "weight_pct": 4.83,
       "shares": 497,
       "item_code": "476830"
     },
     {
-      "name": "인벤티지랩",
-      "weight_pct": 3.98,
-      "shares": 396,
-      "item_code": "389470"
-    },
-    {
       "name": "에이프릴바이오",
-      "weight_pct": 3.93,
+      "weight_pct": 3.84,
       "shares": 641,
       "item_code": "397030"
     },
     {
+      "name": "인벤티지랩",
+      "weight_pct": 3.81,
+      "shares": 396,
+      "item_code": "389470"
+    },
+    {
       "name": "원화현금",
-      "weight_pct": 0.57,
-      "shares": 1672333,
+      "weight_pct": 0.58,
+      "shares": 1675831,
       "item_code": null
     }
   ]

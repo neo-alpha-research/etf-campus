@@ -1,34 +1,40 @@
 {
   "ticker": "0085N0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "iShares 10-20 Year Treasury Bond ETF",
-      "weight_pct": 26.32,
+      "weight_pct": 26.23,
       "shares": 1930,
       "item_code": "TLH"
     },
     {
       "name": "USD현금",
-      "weight_pct": 24.51,
-      "shares": 173785,
+      "weight_pct": 16.69,
+      "shares": 118205,
       "item_code": null
     },
     {
       "name": "iShares iBonds Dec 2035 Term Treasury ETF",
-      "weight_pct": 11.57,
-      "shares": 3352,
+      "weight_pct": 11.58,
+      "shares": 3360,
       "item_code": "IBTQ.O"
     },
     {
       "name": "T 4 1/8 02/15/36",
-      "weight_pct": 11.19,
+      "weight_pct": 11.18,
       "shares": 83333,
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 8.58,
+      "shares": 83231489,
+      "item_code": null
+    },
+    {
       "name": "iShares 7-10 Year Treasury Bond ETF",
-      "weight_pct": 8.22,
+      "weight_pct": 8.2,
       "shares": 630,
       "item_code": "IEF.O"
     },
@@ -46,7 +52,7 @@
     },
     {
       "name": "T 4 3/8 11/15/39",
-      "weight_pct": 2.77,
+      "weight_pct": 2.76,
       "shares": 20833,
       "item_code": null
     },
@@ -58,7 +64,7 @@
     },
     {
       "name": "T 4 1/4 08/15/35",
-      "weight_pct": 1.7,
+      "weight_pct": 1.69,
       "shares": 12500,
       "item_code": null
     },
@@ -75,12 +81,6 @@
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 0.64,
-      "shares": 6218882,
-      "item_code": null
-    },
-    {
       "name": "T 4 5/8 02/15/35",
       "weight_pct": 0.5,
       "shares": 3611,
@@ -94,8 +94,8 @@
     },
     {
       "name": "외국환포워드USD",
-      "weight_pct": -87.01,
-      "shares": -845159486,
+      "weight_pct": -87.32,
+      "shares": -846238043,
       "item_code": null
     }
   ]

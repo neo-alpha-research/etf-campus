@@ -1,28 +1,28 @@
 {
   "ticker": "0207Z0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "스페이스X",
-      "weight_pct": 26.93,
+      "weight_pct": 27.16,
       "shares": 467,
       "item_code": "SPCX.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 20.06,
+      "weight_pct": 20.0,
       "shares": 783,
       "item_code": "RKLB.O"
     },
     {
       "name": "엔비디아",
-      "weight_pct": 9.44,
+      "weight_pct": 9.48,
       "shares": 106,
       "item_code": "NVDA.O"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 8.0,
+      "weight_pct": 8.05,
       "shares": 58,
       "item_code": "GOOGL.O"
     },
@@ -33,51 +33,51 @@
       "item_code": "AMZN.O"
     },
     {
-      "name": "루멘텀 홀딩스",
-      "weight_pct": 5.0,
-      "shares": 13,
-      "item_code": "LITE.O"
-    },
-    {
       "name": "인텔",
-      "weight_pct": 4.93,
+      "weight_pct": 4.99,
       "shares": 137,
       "item_code": "INTC.O"
     },
     {
+      "name": "루멘텀 홀딩스",
+      "weight_pct": 4.84,
+      "shares": 13,
+      "item_code": "LITE.O"
+    },
+    {
       "name": "퍼스트 솔라",
-      "weight_pct": 4.2,
+      "weight_pct": 4.23,
       "shares": 51,
       "item_code": "FSLR.O"
     },
     {
       "name": "AST 스페이스모바일",
-      "weight_pct": 4.15,
+      "weight_pct": 4.0,
       "shares": 175,
       "item_code": "ASTS.O"
     },
     {
       "name": "ST 마이크로 일렉트로닉스 ADR",
-      "weight_pct": 3.84,
+      "weight_pct": 3.86,
       "shares": 191,
       "item_code": "STM"
     },
     {
       "name": "마이크로칩 테크놀러지",
-      "weight_pct": 3.52,
+      "weight_pct": 3.48,
       "shares": 119,
       "item_code": "MCHP.O"
     },
     {
       "name": "허니웰 에어로스페이스",
-      "weight_pct": 3.39,
+      "weight_pct": 3.37,
       "shares": 53,
       "item_code": "HONA.O"
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.37,
-      "shares": -4700788,
+      "weight_pct": -1.36,
+      "shares": -4587092,
       "item_code": null
     }
   ]

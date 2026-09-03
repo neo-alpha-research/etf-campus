@@ -1,71 +1,71 @@
 {
   "ticker": "364970",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "알테오젠",
-      "weight_pct": 29.43,
+      "weight_pct": 29.57,
       "shares": 363,
       "item_code": "196170"
     },
     {
       "name": "셀트리온",
-      "weight_pct": 26.78,
+      "weight_pct": 26.9,
       "shares": 529,
       "item_code": "068270"
     },
     {
       "name": "삼성바이오로직스",
-      "weight_pct": 26.2,
+      "weight_pct": 26.22,
       "shares": 64,
       "item_code": "207940"
     },
     {
       "name": "유한양행",
-      "weight_pct": 3.85,
+      "weight_pct": 3.83,
       "shares": 173,
       "item_code": "000100"
     },
     {
       "name": "HLB",
-      "weight_pct": 3.11,
+      "weight_pct": 3.09,
       "shares": 340,
       "item_code": "028300"
     },
     {
       "name": "펩트론",
-      "weight_pct": 2.76,
+      "weight_pct": 2.66,
       "shares": 62,
       "item_code": "087010"
     },
     {
       "name": "에이비엘바이오",
-      "weight_pct": 2.29,
+      "weight_pct": 2.27,
       "shares": 120,
       "item_code": "298380"
     },
     {
       "name": "SK바이오팜",
-      "weight_pct": 1.91,
+      "weight_pct": 1.88,
       "shares": 80,
       "item_code": "326030"
     },
     {
       "name": "리가켐바이오",
-      "weight_pct": 1.89,
+      "weight_pct": 1.83,
       "shares": 74,
       "item_code": "141080"
     },
     {
       "name": "삼성에피스홀딩스",
-      "weight_pct": 1.62,
+      "weight_pct": 1.58,
       "shares": 16,
       "item_code": "0126Z0"
     },
     {
       "name": "원화현금",
       "weight_pct": 0.11,
-      "shares": 411429,
+      "shares": 409346,
       "item_code": null
     }
   ]

@@ -1,22 +1,22 @@
 {
   "ticker": "479520",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 55.92,
-      "shares": 59483875,
+      "weight_pct": 55.94,
+      "shares": 59505122,
       "item_code": null
     },
     {
       "name": "물가연동국고채권01625-3206(22-6)",
-      "weight_pct": 19.21,
+      "weight_pct": 19.17,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "물가연동국고채권00750-3406(24-6)",
-      "weight_pct": 10.84,
+      "weight_pct": 10.82,
       "shares": 0,
       "item_code": null
     },
@@ -40,7 +40,7 @@
     },
     {
       "name": "국고채권02875-4409(24-10)",
-      "weight_pct": 1.95,
+      "weight_pct": 1.93,
       "shares": 0,
       "item_code": null
     },
@@ -52,14 +52,14 @@
     },
     {
       "name": "스왑(메리츠증권)_44G5_250917",
-      "weight_pct": 0.83,
-      "shares": 885569,
+      "weight_pct": 0.9,
+      "shares": 963008,
       "item_code": null
     },
     {
       "name": "스왑(한국투자증권)_44G5_250924",
       "weight_pct": -0.06,
-      "shares": -63818,
+      "shares": -64140,
       "item_code": null
     }
   ]

@@ -1,11 +1,11 @@
 {
   "ticker": "479080",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 7.87,
-      "shares": 8468571,
+      "weight_pct": 8.91,
+      "shares": 9580627,
       "item_code": null
     },
     {
@@ -279,19 +279,7 @@
       "item_code": null
     },
     {
-      "name": "CP(한국투자금융지주 20251001-364-14)",
-      "weight_pct": 0.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
       "name": "CP(케이디비첨단전략이에스지제십차 202608",
-      "weight_pct": 0.51,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "CP(한국투자금융지주 20251001-364-13)",
       "weight_pct": 0.51,
       "shares": 0,
       "item_code": null

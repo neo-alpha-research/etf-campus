@@ -1,29 +1,29 @@
 {
   "ticker": "472830",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 107.56,
-      "shares": 421334820,
+      "weight_pct": 108.12,
+      "shares": 421286338,
       "item_code": null
     },
     {
       "name": "스왑(키움증권)_44F8_260417",
-      "weight_pct": -0.65,
-      "shares": -2554719,
+      "weight_pct": -0.68,
+      "shares": -2685620,
       "item_code": null
     },
     {
       "name": "스왑(미래에셋증권)_44F8_251106",
-      "weight_pct": -2.15,
-      "shares": -8424058,
+      "weight_pct": -2.39,
+      "shares": -9335903,
       "item_code": null
     },
     {
       "name": "스왑(메리츠증권)_44F8_260417",
-      "weight_pct": -4.76,
-      "shares": -18659869,
+      "weight_pct": -5.03,
+      "shares": -19619364,
       "item_code": null
     }
   ]

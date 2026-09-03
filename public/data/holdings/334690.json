@@ -1,34 +1,34 @@
 {
   "ticker": "334690",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "PALLADIUM FUT  DEC 26(NYMX)",
-      "weight_pct": 84.81,
+      "weight_pct": 84.74,
       "shares": 1,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 67.8,
-      "shares": 209086580,
+      "weight_pct": 67.37,
+      "shares": 200459158,
       "item_code": null
     },
     {
       "name": "RISE 머니마켓액티브",
-      "weight_pct": 16.6,
+      "weight_pct": 17.21,
       "shares": 923,
       "item_code": "455890"
     },
     {
       "name": "abrdn Physical Palladium Shares ETF",
-      "weight_pct": 15.58,
+      "weight_pct": 15.41,
       "shares": 1415,
       "item_code": "PALL.K"
     },
     {
       "name": "미달러선물26년09월물",
-      "weight_pct": -70.45,
+      "weight_pct": -69.26,
       "shares": -15,
       "item_code": null
     }

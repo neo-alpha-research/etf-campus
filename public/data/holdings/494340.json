@@ -1,58 +1,58 @@
 {
   "ticker": "494340",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "브로드컴",
-      "weight_pct": 21.67,
+      "weight_pct": 22.16,
       "shares": 395,
       "item_code": "AVGO.O"
     },
     {
       "name": "인텔",
-      "weight_pct": 18.47,
+      "weight_pct": 18.81,
       "shares": 1393,
       "item_code": "INTC.O"
     },
     {
       "name": "암 홀딩스 ADR",
-      "weight_pct": 18.31,
+      "weight_pct": 18.21,
       "shares": 511,
       "item_code": "ARM.O"
     },
     {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 15.05,
+      "weight_pct": 15.33,
       "shares": 480,
       "item_code": "MRVL.O"
     },
     {
       "name": "케이던스 디자인 시스템즈",
-      "weight_pct": 7.58,
+      "weight_pct": 7.17,
       "shares": 151,
       "item_code": "CDNS.O"
     },
     {
       "name": "시놉시스",
-      "weight_pct": 6.84,
+      "weight_pct": 6.61,
       "shares": 105,
       "item_code": "SNPS.O"
     },
     {
       "name": "아스테라 랩스",
-      "weight_pct": 4.13,
+      "weight_pct": 3.99,
       "shares": 94,
       "item_code": "ALAB.O"
     },
     {
       "name": "크레도 테크놀로지 그룹 홀딩",
-      "weight_pct": 3.41,
+      "weight_pct": 3.19,
       "shares": 102,
       "item_code": "CRDO.O"
     },
     {
       "name": "온 세미콘덕터",
-      "weight_pct": 2.34,
+      "weight_pct": 2.36,
       "shares": 214,
       "item_code": "ON.O"
     },
@@ -64,8 +64,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.02,
-      "shares": 221764,
+      "weight_pct": 0.01,
+      "shares": 118406,
       "item_code": null
     }
   ]

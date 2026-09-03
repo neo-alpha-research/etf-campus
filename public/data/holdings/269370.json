@@ -1,23 +1,23 @@
 {
   "ticker": "269370",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "S&P글로벌인프라 TRS(한국투자증권)",
-      "weight_pct": 53.47,
-      "shares": 452375852,
+      "weight_pct": 53.46,
+      "shares": 449232204,
       "item_code": null
     },
     {
       "name": "S&P글로벌인프라 TRS(KB증권)",
       "weight_pct": 34.53,
-      "shares": 292158437,
+      "shares": 290215985,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 6.2,
-      "shares": 52483677,
+      "weight_pct": 6.21,
+      "shares": 52259530,
       "item_code": null
     },
     {

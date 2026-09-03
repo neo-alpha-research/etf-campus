@@ -1,113 +1,113 @@
 {
   "ticker": "0118S0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 7.48,
+      "weight_pct": 7.49,
       "shares": 29,
       "item_code": "MU.O"
     },
     {
       "name": "샌디스크",
-      "weight_pct": 7.26,
+      "weight_pct": 7.32,
       "shares": 17,
       "item_code": "SNDK.O"
     },
     {
+      "name": "블룸 에너지",
+      "weight_pct": 6.96,
+      "shares": 119,
+      "item_code": "BE"
+    },
+    {
       "name": "디 웨이브 퀀텀",
-      "weight_pct": 6.95,
+      "weight_pct": 6.88,
       "shares": 1526,
       "item_code": "QBTS.O"
     },
     {
       "name": "Roundhill Memory ETF",
-      "weight_pct": 6.66,
+      "weight_pct": 6.62,
       "shares": 441,
       "item_code": "DRAM.K"
     },
     {
-      "name": "크라우드 스트라이크 홀딩스",
-      "weight_pct": 6.53,
-      "shares": 106,
-      "item_code": "CRWD.O"
-    },
-    {
       "name": "비아샛",
-      "weight_pct": 6.53,
+      "weight_pct": 6.62,
       "shares": 366,
       "item_code": "VSAT.O"
     },
     {
-      "name": "블룸 에너지",
-      "weight_pct": 6.53,
-      "shares": 119,
-      "item_code": "BE"
-    },
-    {
-      "name": "아이온큐",
-      "weight_pct": 6.22,
-      "shares": 597,
-      "item_code": "IONQ.K"
-    },
-    {
-      "name": "엑슬서비스 홀딩스",
-      "weight_pct": 6.2,
-      "shares": 614,
-      "item_code": "EXLS.O"
-    },
-    {
       "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 6.2,
+      "weight_pct": 6.34,
       "shares": 110,
       "item_code": "MRVL.O"
     },
     {
+      "name": "엑슬서비스 홀딩스",
+      "weight_pct": 6.26,
+      "shares": 614,
+      "item_code": "EXLS.O"
+    },
+    {
+      "name": "크라우드 스트라이크 홀딩스",
+      "weight_pct": 6.25,
+      "shares": 106,
+      "item_code": "CRWD.O"
+    },
+    {
+      "name": "아이온큐",
+      "weight_pct": 6.15,
+      "shares": 597,
+      "item_code": "IONQ.K"
+    },
+    {
       "name": "클라우드플레어",
-      "weight_pct": 5.39,
+      "weight_pct": 5.19,
       "shares": 66,
       "item_code": "NET"
     },
     {
       "name": "몽고DB",
-      "weight_pct": 5.12,
+      "weight_pct": 5.04,
       "shares": 42,
       "item_code": "MDB.O"
     },
     {
       "name": "로켓 랩",
-      "weight_pct": 4.6,
+      "weight_pct": 4.63,
       "shares": 271,
       "item_code": "RKLB.O"
     },
     {
       "name": "카르만 홀딩스",
-      "weight_pct": 4.49,
+      "weight_pct": 4.58,
       "shares": 409,
       "item_code": "KRMN.K"
     },
     {
       "name": "AST 스페이스모바일",
-      "weight_pct": 4.45,
+      "weight_pct": 4.32,
       "shares": 284,
       "item_code": "ASTS.O"
     },
     {
       "name": "오로라 이노베이션",
-      "weight_pct": 4.11,
+      "weight_pct": 4.09,
       "shares": 2754,
       "item_code": "AUR.O"
     },
     {
       "name": "써클 인터넷 그룹",
-      "weight_pct": 3.95,
+      "weight_pct": 3.8,
       "shares": 156,
       "item_code": "CRCL.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 1.23,
-      "shares": 6401936,
+      "weight_pct": 1.37,
+      "shares": 6904610,
       "item_code": null
     }
   ]

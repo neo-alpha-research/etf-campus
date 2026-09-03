@@ -1,125 +1,131 @@
 {
   "ticker": "498270",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
-      "name": "리게티 컴퓨팅",
-      "weight_pct": 7.57,
-      "shares": 2512,
-      "item_code": "RGTI.O"
-    },
-    {
-      "name": "클라우드플레어",
-      "weight_pct": 7.4,
-      "shares": 126,
-      "item_code": "NET"
-    },
-    {
-      "name": "디 웨이브 퀀텀",
-      "weight_pct": 7.27,
-      "shares": 2197,
-      "item_code": "QBTS.O"
-    },
-    {
       "name": "퀀텀 컴퓨팅",
-      "weight_pct": 7.02,
-      "shares": 4435,
+      "weight_pct": 7.98,
+      "shares": 5085,
       "item_code": "QUBT.O"
     },
     {
-      "name": "포티넷",
-      "weight_pct": 6.71,
-      "shares": 204,
-      "item_code": "FTNT.O"
-    },
-    {
       "name": "마이크로칩 테크놀러지",
-      "weight_pct": 6.37,
-      "shares": 451,
+      "weight_pct": 7.88,
+      "shares": 555,
       "item_code": "MCHP.O"
     },
     {
+      "name": "리게티 컴퓨팅",
+      "weight_pct": 7.5,
+      "shares": 2519,
+      "item_code": "RGTI.O"
+    },
+    {
       "name": "아이온큐",
-      "weight_pct": 6.34,
-      "shares": 838,
+      "weight_pct": 7.41,
+      "shares": 987,
       "item_code": "IONQ.K"
     },
     {
+      "name": "디 웨이브 퀀텀",
+      "weight_pct": 7.28,
+      "shares": 2216,
+      "item_code": "QBTS.O"
+    },
+    {
+      "name": "포티넷",
+      "weight_pct": 5.63,
+      "shares": 175,
+      "item_code": "FTNT.O"
+    },
+    {
       "name": "마이크로소프트",
-      "weight_pct": 6.15,
-      "shares": 63,
+      "weight_pct": 5.48,
+      "shares": 55,
       "item_code": "MSFT.O"
     },
     {
-      "name": "마벨 테크놀로지 그룹",
-      "weight_pct": 5.78,
-      "shares": 142,
-      "item_code": "MRVL.O"
-    },
-    {
-      "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 5.31,
-      "shares": 118,
-      "item_code": "IBM"
-    },
-    {
-      "name": "온투 이노베이션",
-      "weight_pct": 5.19,
-      "shares": 101,
-      "item_code": "ONTO.K"
-    },
-    {
       "name": "엔비디아",
-      "weight_pct": 5.05,
-      "shares": 119,
+      "weight_pct": 5.31,
+      "shares": 123,
       "item_code": "NVDA.O"
     },
     {
-      "name": "아마존닷컴",
-      "weight_pct": 5.0,
-      "shares": 100,
-      "item_code": "AMZN.O"
+      "name": "클라우드플레어",
+      "weight_pct": 5.22,
+      "shares": 92,
+      "item_code": "NET"
+    },
+    {
+      "name": "IBM(인터내셔널 비지니스 머신)",
+      "weight_pct": 5.2,
+      "shares": 113,
+      "item_code": "IBM"
     },
     {
       "name": "알파벳 Class A",
-      "weight_pct": 4.44,
-      "shares": 68,
+      "weight_pct": 5.19,
+      "shares": 78,
       "item_code": "GOOGL.O"
     },
     {
-      "name": "부즈 앨런 해밀턴 홀딩",
-      "weight_pct": 4.37,
-      "shares": 300,
-      "item_code": "BAH"
+      "name": "아마존닷컴",
+      "weight_pct": 5.12,
+      "shares": 101,
+      "item_code": "AMZN.O"
     },
     {
       "name": "래티스 세미컨덕터",
-      "weight_pct": 4.24,
-      "shares": 191,
+      "weight_pct": 5.04,
+      "shares": 227,
       "item_code": "LSCC.O"
     },
     {
+      "name": "마벨 테크놀로지 그룹",
+      "weight_pct": 4.72,
+      "shares": 113,
+      "item_code": "MRVL.O"
+    },
+    {
+      "name": "온투 이노베이션",
+      "weight_pct": 4.53,
+      "shares": 89,
+      "item_code": "ONTO.K"
+    },
+    {
+      "name": "부즈 앨런 해밀턴 홀딩",
+      "weight_pct": 3.71,
+      "shares": 248,
+      "item_code": "BAH"
+    },
+    {
       "name": "폼팩터",
-      "weight_pct": 3.52,
-      "shares": 182,
+      "weight_pct": 3.7,
+      "shares": 195,
       "item_code": "FORM.O"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 1.03,
-      "shares": 7379134,
-      "item_code": null
-    },
-    {
       "name": "넷스코프",
-      "weight_pct": 1.02,
-      "shares": 349,
+      "weight_pct": 1.03,
+      "shares": 372,
       "item_code": "NTSK.O"
     },
     {
+      "name": "인플렉션",
+      "weight_pct": 0.96,
+      "shares": 382,
+      "item_code": "INFQ.K"
+    },
+    {
+      "name": "원화현금",
+      "weight_pct": 0.76,
+      "shares": 5258000,
+      "item_code": null
+    },
+    {
       "name": "자나두 퀀텀 테크놀로지스",
-      "weight_pct": 0.11,
-      "shares": 56,
+      "weight_pct": 0.24,
+      "shares": 125,
       "item_code": "XNDU.O"
     }
   ]

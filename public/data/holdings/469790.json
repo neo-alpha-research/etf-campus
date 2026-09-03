@@ -1,58 +1,58 @@
 {
   "ticker": "469790",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 27.19,
+      "weight_pct": 27.09,
       "shares": 4495,
       "item_code": "005930"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 23.97,
+      "weight_pct": 23.71,
       "shares": 611,
       "item_code": "000660"
     },
     {
       "name": "삼성전기",
-      "weight_pct": 13.32,
+      "weight_pct": 13.54,
       "shares": 402,
       "item_code": "009150"
     },
     {
       "name": "NAVER",
-      "weight_pct": 6.06,
+      "weight_pct": 6.12,
       "shares": 1218,
       "item_code": "035420"
     },
     {
       "name": "크래프톤",
-      "weight_pct": 5.92,
+      "weight_pct": 5.88,
       "shares": 1107,
       "item_code": "259960"
     },
     {
       "name": "카카오",
-      "weight_pct": 5.74,
+      "weight_pct": 5.73,
       "shares": 6793,
       "item_code": "035720"
     },
     {
       "name": "삼성에스디에스",
-      "weight_pct": 5.41,
+      "weight_pct": 5.34,
       "shares": 953,
       "item_code": "018260"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 5.03,
+      "weight_pct": 5.19,
       "shares": 1011,
       "item_code": "042700"
     },
     {
       "name": "LG전자",
-      "weight_pct": 4.65,
+      "weight_pct": 4.69,
       "shares": 973,
       "item_code": "066570"
     },
@@ -65,7 +65,7 @@
     {
       "name": "원화현금",
       "weight_pct": 0.0,
-      "shares": -127267,
+      "shares": -174806,
       "item_code": null
     }
   ]

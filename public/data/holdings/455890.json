@@ -1,6 +1,6 @@
 {
   "ticker": "455890",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "고려아연 20260826-61-3(단)",
@@ -21,14 +21,20 @@
       "item_code": null
     },
     {
-      "name": "원화현금",
-      "weight_pct": 2.52,
-      "shares": 2802232,
+      "name": "비케이프로제구차 20260828-41-12(단)",
+      "weight_pct": 2.49,
+      "shares": 0,
       "item_code": null
     },
     {
-      "name": "비케이프로제구차 20260828-41-12(단)",
-      "weight_pct": 2.49,
+      "name": "원화현금",
+      "weight_pct": 2.12,
+      "shares": 2359010,
+      "item_code": null
+    },
+    {
+      "name": "우리카드 20260810-92-12(단)",
+      "weight_pct": 1.78,
       "shares": 0,
       "item_code": null
     },
@@ -40,12 +46,6 @@
     },
     {
       "name": "엠에스에너지제일차 20260825-92-2(단)",
-      "weight_pct": 1.77,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "우리카드 20260810-92-12(단)",
       "weight_pct": 1.77,
       "shares": 0,
       "item_code": null
@@ -83,6 +83,12 @@
     {
       "name": "큐브에스엔 20260729-62-1(단)",
       "weight_pct": 1.14,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "부국증권 20260902-28-9(단)",
+      "weight_pct": 1.07,
       "shares": 0,
       "item_code": null
     },
@@ -135,6 +141,12 @@
       "item_code": null
     },
     {
+      "name": "한온시스템12-2",
+      "weight_pct": 0.72,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "고려아연 20260728-49-5(단)",
       "weight_pct": 0.71,
       "shares": 0,
@@ -143,18 +155,6 @@
     {
       "name": "한화위탁관리부동산투자회사 20260605-91-2",
       "weight_pct": 0.71,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "한온시스템12-2",
-      "weight_pct": 0.71,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "키스온제사차 20260602-92-1(단)",
-      "weight_pct": 0.68,
       "shares": 0,
       "item_code": null
     },

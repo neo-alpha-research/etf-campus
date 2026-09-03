@@ -1,6 +1,6 @@
 {
   "ticker": "453010",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "REPO",
@@ -11,7 +11,7 @@
     {
       "name": "원화현금",
       "weight_pct": 5.58,
-      "shares": 6131520,
+      "shares": 6140318,
       "item_code": null
     }
   ]

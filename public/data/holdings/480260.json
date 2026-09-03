@@ -1,16 +1,16 @@
 {
   "ticker": "480260",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
       "weight_pct": 7.07,
-      "shares": 7608852,
+      "shares": 7609320,
       "item_code": null
     },
     {
       "name": "TIGER 우량회사채액티브",
-      "weight_pct": 5.81,
+      "weight_pct": 5.8,
       "shares": 54,
       "item_code": "438330"
     },
@@ -22,7 +22,7 @@
     },
     {
       "name": "TIGER 28-04 회사채(A+이상)액티브",
-      "weight_pct": 5.01,
+      "weight_pct": 5.0,
       "shares": 54,
       "item_code": "0094K0"
     },
@@ -196,7 +196,7 @@
     },
     {
       "name": "아이엠캐피탈114-3",
-      "weight_pct": 1.26,
+      "weight_pct": 1.27,
       "shares": 0,
       "item_code": null
     },

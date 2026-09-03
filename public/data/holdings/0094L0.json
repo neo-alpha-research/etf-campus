@@ -1,82 +1,82 @@
 {
   "ticker": "0094L0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "텐센트",
-      "weight_pct": 15.83,
-      "shares": 754,
+      "weight_pct": 15.8,
+      "shares": 759,
       "item_code": "0700.HK"
     },
     {
       "name": "CATL",
-      "weight_pct": 14.24,
-      "shares": 512,
+      "weight_pct": 14.41,
+      "shares": 516,
       "item_code": "3750.HK"
     },
     {
       "name": "알리바바 그룹 홀딩",
-      "weight_pct": 13.89,
-      "shares": 2626,
+      "weight_pct": 13.76,
+      "shares": 2646,
       "item_code": "9988.HK"
     },
     {
       "name": "BYD",
-      "weight_pct": 11.33,
-      "shares": 2804,
+      "weight_pct": 11.75,
+      "shares": 2826,
       "item_code": "1211.HK"
     },
     {
       "name": "샤오미",
-      "weight_pct": 11.29,
-      "shares": 8825,
+      "weight_pct": 11.55,
+      "shares": 8894,
       "item_code": "1810.HK"
     },
     {
       "name": "메이투안",
-      "weight_pct": 9.27,
-      "shares": 2537,
+      "weight_pct": 9.23,
+      "shares": 2556,
       "item_code": "3690.HK"
     },
     {
       "name": "넷이즈",
-      "weight_pct": 8.11,
-      "shares": 910,
+      "weight_pct": 8.15,
+      "shares": 917,
       "item_code": "9999.HK"
     },
     {
       "name": "징동닷컴",
-      "weight_pct": 6.19,
-      "shares": 1190,
+      "weight_pct": 6.13,
+      "shares": 1199,
       "item_code": "9618.HK"
     },
     {
       "name": "트립닷컴 그룹",
-      "weight_pct": 4.6,
-      "shares": 276,
+      "weight_pct": 4.58,
+      "shares": 278,
       "item_code": "9961.HK"
     },
     {
       "name": "바이두",
-      "weight_pct": 4.46,
-      "shares": 1001,
+      "weight_pct": 4.45,
+      "shares": 1008,
       "item_code": "9888.HK"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.77,
-      "shares": 2922674,
+      "weight_pct": 0.13,
+      "shares": 488074,
       "item_code": null
     },
     {
       "name": "WHSTECHA 09/04/26 C4620",
-      "weight_pct": -0.05,
+      "weight_pct": -0.01,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "WHSTECHA 09/04/26 C4630",
-      "weight_pct": -0.13,
+      "weight_pct": -0.03,
       "shares": -1,
       "item_code": null
     }

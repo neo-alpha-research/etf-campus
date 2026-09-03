@@ -1,6 +1,6 @@
 {
   "ticker": "0094K0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "통영에코파워5",
@@ -45,13 +45,13 @@
       "item_code": null
     },
     {
-      "name": "에코비트7(녹)",
-      "weight_pct": 3.28,
+      "name": "메리츠캐피탈283-4",
+      "weight_pct": 3.29,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "메리츠캐피탈283-4",
+      "name": "에코비트7(녹)",
       "weight_pct": 3.28,
       "shares": 0,
       "item_code": null
@@ -141,6 +141,12 @@
       "item_code": null
     },
     {
+      "name": "롯데카드571-2",
+      "weight_pct": 3.16,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "BNK캐피탈382-6",
       "weight_pct": 3.15,
       "shares": 0,
@@ -154,12 +160,6 @@
     },
     {
       "name": "산은캐피탈771-2",
-      "weight_pct": 3.15,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "롯데카드571-2",
       "weight_pct": 3.15,
       "shares": 0,
       "item_code": null
@@ -202,8 +202,8 @@
     },
     {
       "name": "원화현금",
-      "weight_pct": -18.1,
-      "shares": -18040852,
+      "weight_pct": -18.13,
+      "shares": -18050202,
       "item_code": null
     }
   ]

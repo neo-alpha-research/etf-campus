@@ -1,71 +1,71 @@
 {
   "ticker": "442580",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "삼성전자",
-      "weight_pct": 26.27,
+      "weight_pct": 26.17,
       "shares": 1992,
       "item_code": "005930"
     },
     {
       "name": "마이크론 테크놀로지",
-      "weight_pct": 25.85,
+      "weight_pct": 26.06,
       "shares": 389,
       "item_code": "MU.O"
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 25.36,
+      "weight_pct": 25.08,
       "shares": 296,
       "item_code": "000660"
     },
     {
       "name": "램 리서치",
-      "weight_pct": 8.25,
+      "weight_pct": 8.24,
       "shares": 395,
       "item_code": "LRCX.O"
     },
     {
       "name": "어플라이드 머티어리얼즈",
-      "weight_pct": 7.97,
+      "weight_pct": 7.96,
       "shares": 251,
       "item_code": "AMAT.O"
     },
     {
       "name": "샌디스크",
-      "weight_pct": 4.78,
+      "weight_pct": 4.87,
       "shares": 44,
       "item_code": "SNDK.O"
     },
     {
       "name": "테라다인",
-      "weight_pct": 1.2,
+      "weight_pct": 1.18,
       "shares": 49,
       "item_code": "TER.O"
     },
     {
       "name": "디아이",
-      "weight_pct": 0.66,
+      "weight_pct": 0.79,
       "shares": 495,
       "item_code": "003160"
     },
     {
       "name": "테크윙",
-      "weight_pct": 0.58,
+      "weight_pct": 0.59,
       "shares": 239,
       "item_code": "089030"
     },
     {
       "name": "한미반도체",
-      "weight_pct": 0.53,
+      "weight_pct": 0.54,
       "shares": 49,
       "item_code": "042700"
     },
     {
       "name": "원화현금",
-      "weight_pct": -1.49,
-      "shares": -29571069,
+      "weight_pct": -1.52,
+      "shares": -29041675,
       "item_code": null
     }
   ]

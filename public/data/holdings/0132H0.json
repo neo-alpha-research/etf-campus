@@ -1,71 +1,71 @@
 {
   "ticker": "0132H0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "카메코",
-      "weight_pct": 21.84,
+      "weight_pct": 21.55,
       "shares": 655,
       "item_code": "CCJ"
     },
     {
+      "name": "BWX 테크놀로지스",
+      "weight_pct": 14.29,
+      "shares": 258,
+      "item_code": "BWXT.K"
+    },
+    {
       "name": "X-에너지",
-      "weight_pct": 13.87,
+      "weight_pct": 14.02,
       "shares": 2229,
       "item_code": "XE.O"
     },
     {
       "name": "커티스 라이트",
-      "weight_pct": 13.62,
+      "weight_pct": 13.68,
       "shares": 69,
       "item_code": "CW"
     },
     {
-      "name": "BWX 테크놀로지스",
-      "weight_pct": 13.3,
-      "shares": 258,
-      "item_code": "BWXT.K"
-    },
-    {
       "name": "오클로",
-      "weight_pct": 11.27,
+      "weight_pct": 10.84,
       "shares": 823,
       "item_code": "OKLO.K"
     },
     {
       "name": "뉴스케일 파워",
-      "weight_pct": 6.57,
+      "weight_pct": 6.61,
       "shares": 2102,
       "item_code": "SMR"
     },
     {
       "name": "넥스젠 에너지",
-      "weight_pct": 5.46,
+      "weight_pct": 5.24,
       "shares": 1546,
       "item_code": "NXE"
     },
     {
       "name": "우라늄 에너지",
-      "weight_pct": 4.94,
+      "weight_pct": 4.73,
       "shares": 1196,
       "item_code": "UEC"
     },
     {
       "name": "센트러스 에너지",
-      "weight_pct": 4.21,
+      "weight_pct": 4.18,
       "shares": 72,
       "item_code": "LEU"
     },
     {
       "name": "에너지 퓨얼스",
-      "weight_pct": 4.15,
+      "weight_pct": 4.06,
       "shares": 835,
       "item_code": "UUUU.K"
     },
     {
       "name": "원화현금",
-      "weight_pct": 0.72,
-      "shares": 2948464,
+      "weight_pct": 0.73,
+      "shares": 2942544,
       "item_code": null
     }
   ]

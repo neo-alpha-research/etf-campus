@@ -1,52 +1,52 @@
 {
   "ticker": "352560",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "웰타워",
-      "weight_pct": 10.51,
+      "weight_pct": 10.7,
       "shares": 198,
       "item_code": "WELL.K"
     },
     {
-      "name": "Dow Jones US REAL 2026 09",
-      "weight_pct": 9.26,
-      "shares": 1,
+      "name": "원화현금",
+      "weight_pct": 8.42,
+      "shares": 51493558,
       "item_code": null
     },
     {
       "name": "프로로지스",
-      "weight_pct": 8.36,
+      "weight_pct": 8.35,
       "shares": 267,
       "item_code": "PLD"
     },
     {
-      "name": "원화현금",
-      "weight_pct": 8.31,
-      "shares": 50935785,
+      "name": "Dow Jones US REAL 2026 09",
+      "weight_pct": 7.68,
+      "shares": 0,
       "item_code": null
     },
     {
       "name": "이퀴닉스",
-      "weight_pct": 6.51,
+      "weight_pct": 6.39,
       "shares": 27,
       "item_code": "EQIX.O"
     },
     {
       "name": "아메리칸 타워",
-      "weight_pct": 5.16,
+      "weight_pct": 5.17,
       "shares": 131,
       "item_code": "AMT"
     },
     {
       "name": "사이먼 프로퍼티 그룹",
-      "weight_pct": 4.34,
+      "weight_pct": 4.33,
       "shares": 91,
       "item_code": "SPG"
     },
     {
       "name": "디지털 리얼티 트러스트",
-      "weight_pct": 4.07,
+      "weight_pct": 4.02,
       "shares": 98,
       "item_code": "DLR"
     },
@@ -58,43 +58,43 @@
     },
     {
       "name": "퍼블릭 스토리지",
-      "weight_pct": 3.24,
+      "weight_pct": 3.2,
       "shares": 47,
       "item_code": "PSA"
     },
     {
       "name": "비브마크 레지덴셜",
-      "weight_pct": 3.0,
+      "weight_pct": 3.01,
       "shares": 206,
       "item_code": "VMRK.K"
     },
     {
       "name": "벤타스",
-      "weight_pct": 2.79,
+      "weight_pct": 2.82,
       "shares": 136,
       "item_code": "VTR"
     },
     {
       "name": "CBRE 그룹",
-      "weight_pct": 2.69,
+      "weight_pct": 2.66,
       "shares": 82,
       "item_code": "CBRE.K"
     },
     {
       "name": "아이언 마운틴",
-      "weight_pct": 2.16,
+      "weight_pct": 2.14,
       "shares": 83,
       "item_code": "IRM"
     },
     {
       "name": "크라운 캐슬",
-      "weight_pct": 2.09,
+      "weight_pct": 2.08,
       "shares": 122,
       "item_code": "CCI"
     },
     {
       "name": "엑스트라 스페이스 스토리지",
-      "weight_pct": 1.87,
+      "weight_pct": 1.86,
       "shares": 59,
       "item_code": "EXR"
     },
@@ -112,15 +112,9 @@
     },
     {
       "name": "에섹스 프로퍼티 트러스트",
-      "weight_pct": 1.14,
+      "weight_pct": 1.13,
       "shares": 18,
       "item_code": "ESS"
-    },
-    {
-      "name": "존스 랭 라살",
-      "weight_pct": 1.07,
-      "shares": 13,
-      "item_code": "JLL"
     },
     {
       "name": "와이어하우저",
@@ -130,21 +124,27 @@
     },
     {
       "name": "애널리 캐피털 매니지먼트",
-      "weight_pct": 1.05,
+      "weight_pct": 1.04,
       "shares": 206,
       "item_code": "NLY"
+    },
+    {
+      "name": "존스 랭 라살",
+      "weight_pct": 1.03,
+      "shares": 13,
+      "item_code": "JLL"
+    },
+    {
+      "name": "킴코 리얼티",
+      "weight_pct": 1.02,
+      "shares": 190,
+      "item_code": "KIM"
     },
     {
       "name": "인비테이션 홈스",
       "weight_pct": 1.0,
       "shares": 153,
       "item_code": "INVH.K"
-    },
-    {
-      "name": "킴코 리얼티",
-      "weight_pct": 1.0,
-      "shares": 190,
-      "item_code": "KIM"
     },
     {
       "name": "WP 케어리",
@@ -165,12 +165,6 @@
       "item_code": "DOC"
     },
     {
-      "name": "호스트 호텔스 & 리조트",
-      "weight_pct": 0.88,
-      "shares": 179,
-      "item_code": "HST.O"
-    },
-    {
       "name": "선 커뮤니티즈",
       "weight_pct": 0.88,
       "shares": 32,
@@ -178,9 +172,21 @@
     },
     {
       "name": "오메가 헬스케어 인베스터스",
-      "weight_pct": 0.85,
+      "weight_pct": 0.87,
       "shares": 83,
       "item_code": "OHI"
+    },
+    {
+      "name": "호스트 호텔스 & 리조트",
+      "weight_pct": 0.86,
+      "shares": 179,
+      "item_code": "HST.O"
+    },
+    {
+      "name": "라마 애드버타이징",
+      "weight_pct": 0.82,
+      "shares": 24,
+      "item_code": "LAMR.O"
     },
     {
       "name": "코스타 그룹",
@@ -189,20 +195,8 @@
       "item_code": "CSGP.O"
     },
     {
-      "name": "라마 애드버타이징",
-      "weight_pct": 0.81,
-      "shares": 24,
-      "item_code": "LAMR.O"
-    },
-    {
-      "name": "AGNC 인베스트먼트",
-      "weight_pct": 0.77,
-      "shares": 323,
-      "item_code": "AGNC.O"
-    },
-    {
       "name": "리젠시 센터스",
-      "weight_pct": 0.77,
+      "weight_pct": 0.79,
       "shares": 46,
       "item_code": "REG.O"
     },
@@ -213,8 +207,14 @@
       "item_code": "ELS"
     },
     {
+      "name": "AGNC 인베스트먼트",
+      "weight_pct": 0.76,
+      "shares": 323,
+      "item_code": "AGNC.O"
+    },
+    {
       "name": "게이밍 & 레저 프로퍼티스",
-      "weight_pct": 0.75,
+      "weight_pct": 0.74,
       "shares": 79,
       "item_code": "GLPI.O"
     },
@@ -244,13 +244,13 @@
     },
     {
       "name": "BXP",
-      "weight_pct": 0.63,
+      "weight_pct": 0.62,
       "shares": 41,
       "item_code": "BXP"
     },
     {
       "name": "페더럴 리얼티 인베스트먼트 트러스트",
-      "weight_pct": 0.57,
+      "weight_pct": 0.58,
       "shares": 22,
       "item_code": "FRT"
     },
@@ -262,7 +262,7 @@
     },
     {
       "name": "브릭스모어 프로퍼티 그룹",
-      "weight_pct": 0.55,
+      "weight_pct": 0.56,
       "shares": 86,
       "item_code": "BRX"
     },
@@ -279,50 +279,50 @@
       "item_code": "NNN"
     },
     {
+      "name": "퍼스트 인더스트리얼 리얼티 트러스트",
+      "weight_pct": 0.52,
+      "shares": 37,
+      "item_code": "FR"
+    },
+    {
       "name": "렉스포드 인더스트리얼 리얼티",
       "weight_pct": 0.52,
       "shares": 63,
       "item_code": "REXR.K"
     },
     {
-      "name": "퍼스트 인더스트리얼 리얼티 트러스트",
-      "weight_pct": 0.51,
-      "shares": 37,
-      "item_code": "FR"
-    },
-    {
       "name": "알렉산드리아 리얼에스테이트 이쿼티",
-      "weight_pct": 0.5,
+      "weight_pct": 0.51,
       "shares": 44,
       "item_code": "ARE"
     },
     {
       "name": "스태그 인더스트리얼",
-      "weight_pct": 0.44,
+      "weight_pct": 0.45,
       "shares": 53,
       "item_code": "STAG.K"
     },
     {
       "name": "헬스케어 리얼티 트러스트",
-      "weight_pct": 0.41,
+      "weight_pct": 0.42,
       "shares": 97,
       "item_code": "HR"
     },
     {
       "name": "보나도 리얼티 트러스트",
-      "weight_pct": 0.37,
+      "weight_pct": 0.36,
       "shares": 44,
       "item_code": "VNO"
     },
     {
       "name": "질로우 그룹 Class C",
-      "weight_pct": 0.37,
+      "weight_pct": 0.35,
       "shares": 47,
       "item_code": "Z.O"
     },
     {
       "name": "리듬 캐피탈",
-      "weight_pct": 0.35,
+      "weight_pct": 0.34,
       "shares": 157,
       "item_code": "RITM.K"
     },
@@ -334,21 +334,21 @@
     },
     {
       "name": "사브라 헬스케어 리츠",
-      "weight_pct": 0.32,
+      "weight_pct": 0.33,
       "shares": 71,
       "item_code": "SBRA.O"
-    },
-    {
-      "name": "커즌스 프로퍼티스",
-      "weight_pct": 0.3,
-      "shares": 46,
-      "item_code": "CUZ"
     },
     {
       "name": "밀로즈 프로퍼티스",
       "weight_pct": 0.29,
       "shares": 43,
       "item_code": "MRP"
+    },
+    {
+      "name": "커즌스 프로퍼티스",
+      "weight_pct": 0.29,
+      "shares": 46,
+      "item_code": "CUZ"
     },
     {
       "name": "아메리콜드 리얼티 트러스트",
@@ -364,7 +364,7 @@
     },
     {
       "name": "리니지",
-      "weight_pct": 0.14,
+      "weight_pct": 0.13,
       "shares": 16,
       "item_code": "LINE.O"
     },
@@ -376,8 +376,8 @@
     },
     {
       "name": "외국환포워드USD",
-      "weight_pct": -96.65,
-      "shares": -591831837,
+      "weight_pct": -96.94,
+      "shares": -592804716,
       "item_code": null
     }
   ]

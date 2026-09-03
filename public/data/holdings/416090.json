@@ -1,46 +1,46 @@
 {
   "ticker": "416090",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "한무기",
-      "weight_pct": 8.47,
+      "weight_pct": 8.64,
       "shares": 487,
       "item_code": "688256.SS"
     },
     {
       "name": "AMEC(중미반도체)",
-      "weight_pct": 8.26,
+      "weight_pct": 8.17,
       "shares": 1458,
       "item_code": "688012.SS"
     },
     {
       "name": "중신 국제집성전로제조",
-      "weight_pct": 7.87,
+      "weight_pct": 7.88,
       "shares": 3908,
       "item_code": "688981.SS"
     },
     {
-      "name": "몬타지 테크놀로지",
-      "weight_pct": 7.19,
-      "shares": 2244,
-      "item_code": "688008.SS"
-    },
-    {
       "name": "해광신식",
-      "weight_pct": 7.18,
+      "weight_pct": 7.24,
       "shares": 1809,
       "item_code": "688041.SS"
     },
     {
+      "name": "몬타지 테크놀로지",
+      "weight_pct": 7.12,
+      "shares": 2244,
+      "item_code": "688008.SS"
+    },
+    {
       "name": "합서원걸반도체과기",
-      "weight_pct": 5.32,
+      "weight_pct": 5.26,
       "shares": 222,
       "item_code": "688498.SS"
     },
     {
       "name": "척형과기",
-      "weight_pct": 4.63,
+      "weight_pct": 4.54,
       "shares": 437,
       "item_code": "688072.SS"
     },
@@ -52,127 +52,127 @@
     },
     {
       "name": "화해청과",
-      "weight_pct": 3.61,
+      "weight_pct": 3.59,
       "shares": 886,
       "item_code": "688120.SS"
     },
     {
       "name": "백유존저과기",
-      "weight_pct": 3.14,
+      "weight_pct": 3.1,
       "shares": 853,
       "item_code": "688525.SS"
     },
     {
       "name": "중과비측기",
-      "weight_pct": 3.12,
+      "weight_pct": 3.05,
       "shares": 546,
       "item_code": "688361.SS"
     },
     {
       "name": "심원미전자",
-      "weight_pct": 2.94,
+      "weight_pct": 2.89,
       "shares": 939,
       "item_code": "688521.SS"
     },
     {
       "name": "중공기술",
-      "weight_pct": 2.16,
+      "weight_pct": 2.17,
       "shares": 1416,
       "item_code": "688777.SS"
     },
     {
       "name": "베이징 킹소프트 오피스 소프트웨어",
-      "weight_pct": 2.0,
+      "weight_pct": 2.02,
       "shares": 512,
       "item_code": "688111.SS"
     },
     {
       "name": "련영의료",
-      "weight_pct": 1.81,
+      "weight_pct": 1.87,
       "shares": 1109,
       "item_code": "688271.SS"
     },
     {
       "name": "소주 성과통신",
-      "weight_pct": 1.66,
+      "weight_pct": 1.61,
       "shares": 273,
       "item_code": "688702.SS"
     },
     {
-      "name": "ACM 리서치",
-      "weight_pct": 1.57,
-      "shares": 333,
-      "item_code": "688082.SS"
-    },
-    {
       "name": "심련집성전로제조",
-      "weight_pct": 1.54,
+      "weight_pct": 1.57,
       "shares": 11281,
       "item_code": "688469.SS"
     },
     {
-      "name": "생익전자",
+      "name": "ACM 리서치",
       "weight_pct": 1.51,
+      "shares": 333,
+      "item_code": "688082.SS"
+    },
+    {
+      "name": "생익전자",
+      "weight_pct": 1.47,
       "shares": 751,
       "item_code": "688183.SS"
     },
     {
       "name": "암로직 상하이",
-      "weight_pct": 1.44,
+      "weight_pct": 1.46,
       "shares": 947,
       "item_code": "688099.SS"
     },
     {
       "name": "내셔널 실리콘 인더스트리 그룹",
-      "weight_pct": 1.43,
+      "weight_pct": 1.42,
       "shares": 3703,
       "item_code": "688126.SS"
     },
     {
       "name": "합비정합집성전로",
-      "weight_pct": 1.36,
+      "weight_pct": 1.34,
       "shares": 2253,
       "item_code": "688249.SS"
     },
     {
       "name": "선전 트랜션 홀딩스",
-      "weight_pct": 1.16,
+      "weight_pct": 1.2,
       "shares": 1297,
       "item_code": "688036.SS"
     },
     {
       "name": "화윤미전자",
-      "weight_pct": 1.13,
+      "weight_pct": 1.11,
       "shares": 1186,
       "item_code": "688396.SS"
     },
     {
       "name": "예력사",
-      "weight_pct": 1.04,
+      "weight_pct": 1.03,
       "shares": 597,
       "item_code": "688578.SS"
     },
     {
-      "name": "사특위전가과기",
-      "weight_pct": 0.98,
-      "shares": 631,
-      "item_code": "688213.SS"
-    },
-    {
       "name": "베이징 로보락 테크놀로지",
-      "weight_pct": 0.93,
+      "weight_pct": 1.0,
       "shares": 471,
       "item_code": "688169.SS"
     },
     {
+      "name": "사특위전가과기",
+      "weight_pct": 0.97,
+      "shares": 631,
+      "item_code": "688213.SS"
+    },
+    {
       "name": "고첩과기",
-      "weight_pct": 0.9,
+      "weight_pct": 0.88,
       "shares": 563,
       "item_code": "688220.SS"
     },
     {
       "name": "Ninebot CDR",
-      "weight_pct": 0.86,
+      "weight_pct": 0.87,
       "shares": 1314,
       "item_code": "689009.SS"
     },
@@ -184,7 +184,7 @@
     },
     {
       "name": "서부초전도체",
-      "weight_pct": 0.79,
+      "weight_pct": 0.8,
       "shares": 1014,
       "item_code": "688122.SS"
     },
@@ -202,19 +202,19 @@
     },
     {
       "name": "혜태의료",
-      "weight_pct": 0.7,
+      "weight_pct": 0.73,
       "shares": 183,
       "item_code": "688617.SS"
     },
     {
       "name": "정과능원",
-      "weight_pct": 0.59,
+      "weight_pct": 0.61,
       "shares": 9216,
       "item_code": "688223.SS"
     },
     {
       "name": "트리나 솔라",
-      "weight_pct": 0.59,
+      "weight_pct": 0.6,
       "shares": 3157,
       "item_code": "688599.SS"
     },
@@ -225,28 +225,40 @@
       "item_code": "688795.SS"
     },
     {
-      "name": "MetaX Integrated Circuits (Shanghai) Co Ltd Class A",
-      "weight_pct": 0.55,
-      "shares": 51,
-      "item_code": "688802.SS"
-    },
-    {
       "name": "격과미",
       "weight_pct": 0.55,
       "shares": 2338,
       "item_code": "688728.SS"
     },
     {
+      "name": "MetaX Integrated Circuits (Shanghai) Co Ltd Class A",
+      "weight_pct": 0.54,
+      "shares": 51,
+      "item_code": "688802.SS"
+    },
+    {
       "name": "개새생물",
-      "weight_pct": 0.52,
+      "weight_pct": 0.53,
       "shares": 802,
       "item_code": "688065.SS"
     },
     {
+      "name": "중무인기",
+      "weight_pct": 0.5,
+      "shares": 751,
+      "item_code": "688297.SS"
+    },
+    {
       "name": "국박전자",
-      "weight_pct": 0.49,
+      "weight_pct": 0.48,
       "shares": 406,
       "item_code": "688375.SS"
+    },
+    {
+      "name": "제오비스 테크놀로지",
+      "weight_pct": 0.46,
+      "shares": 904,
+      "item_code": "688568.SS"
     },
     {
       "name": "아특사",
@@ -255,38 +267,26 @@
       "item_code": "688472.SS"
     },
     {
-      "name": "제오비스 테크놀로지",
-      "weight_pct": 0.45,
-      "shares": 904,
-      "item_code": "688568.SS"
-    },
-    {
-      "name": "중무인기",
-      "weight_pct": 0.45,
-      "shares": 751,
-      "item_code": "688297.SS"
-    },
-    {
       "name": "차이나패스(CRSC)",
-      "weight_pct": 0.45,
+      "weight_pct": 0.46,
       "shares": 5802,
       "item_code": "688009.SS"
     },
     {
       "name": "항현과기",
-      "weight_pct": 0.44,
+      "weight_pct": 0.45,
       "shares": 266,
       "item_code": "688608.SS"
     },
     {
       "name": "화휘광전",
-      "weight_pct": 0.43,
+      "weight_pct": 0.44,
       "shares": 12381,
       "item_code": "688538.SS"
     },
     {
       "name": "시대전기",
-      "weight_pct": 0.42,
+      "weight_pct": 0.43,
       "shares": 580,
       "item_code": "688187.SS"
     },
@@ -298,14 +298,14 @@
     },
     {
       "name": "대전능원",
-      "weight_pct": 0.37,
+      "weight_pct": 0.39,
       "shares": 1442,
       "item_code": "688303.SS"
     },
     {
       "name": "원화현금",
-      "weight_pct": -0.71,
-      "shares": -9345018,
+      "weight_pct": -0.69,
+      "shares": -8893610,
       "item_code": null
     }
   ]

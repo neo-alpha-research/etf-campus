@@ -1,52 +1,52 @@
 {
   "ticker": "440340",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "State Street SPDR Bloomberg Convertible Sec ETF",
-      "weight_pct": 9.05,
+      "weight_pct": 8.96,
       "shares": 384,
       "item_code": "CWB"
     },
     {
       "name": "iShares JPMorgan USD Emerging Markets Bond ETF",
-      "weight_pct": 6.18,
+      "weight_pct": 6.15,
       "shares": 283,
       "item_code": "EMB.O"
     },
     {
       "name": "GOOGL 5.45 11/15/55",
-      "weight_pct": 5.51,
+      "weight_pct": 5.49,
       "shares": 27000,
       "item_code": null
     },
     {
       "name": "JPMorgan Nasdaq Equity Premium Income ETF",
-      "weight_pct": 5.37,
+      "weight_pct": 5.28,
       "shares": 387,
       "item_code": "JEPQ.O"
     },
     {
       "name": "MSFT 5.3 02/08/41",
-      "weight_pct": 4.56,
+      "weight_pct": 4.55,
       "shares": 20000,
       "item_code": null
     },
     {
       "name": "AAPL 4.65 02/23/46",
-      "weight_pct": 4.38,
+      "weight_pct": 4.37,
       "shares": 22000,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 4.16,
-      "shares": 24756284,
+      "weight_pct": 4.2,
+      "shares": 24884260,
       "item_code": null
     },
     {
       "name": "iShares Investment Grade Corporate Bd BW Strat ETF",
-      "weight_pct": 3.82,
+      "weight_pct": 3.81,
       "shares": 708,
       "item_code": "LQDW.K"
     },
@@ -57,16 +57,16 @@
       "item_code": "FLTR.K"
     },
     {
-      "name": "iShares Preferred and Income Securities ETF",
-      "weight_pct": 3.02,
-      "shares": 430,
-      "item_code": "PFF.O"
-    },
-    {
       "name": "T 4 1/8 10/31/27",
-      "weight_pct": 2.99,
+      "weight_pct": 3.0,
       "shares": 13000,
       "item_code": null
+    },
+    {
+      "name": "iShares Preferred and Income Securities ETF",
+      "weight_pct": 2.99,
+      "shares": 430,
+      "item_code": "PFF.O"
     },
     {
       "name": "T 4 3/8 05/15/34",
@@ -82,7 +82,7 @@
     },
     {
       "name": "T 4 1/8 11/15/32",
-      "weight_pct": 2.24,
+      "weight_pct": 2.25,
       "shares": 10000,
       "item_code": null
     },
@@ -94,27 +94,33 @@
     },
     {
       "name": "시스코 시스템즈",
-      "weight_pct": 1.74,
+      "weight_pct": 1.73,
       "shares": 68,
       "item_code": "CSCO.O"
     },
     {
       "name": "머크 앤 코",
-      "weight_pct": 1.53,
+      "weight_pct": 1.55,
       "shares": 44,
       "item_code": "MRK"
     },
     {
-      "name": "텍사스 인스트루먼트",
+      "name": "셰브론",
       "weight_pct": 1.42,
+      "shares": 29,
+      "item_code": "CVX"
+    },
+    {
+      "name": "텍사스 인스트루먼트",
+      "weight_pct": 1.38,
       "shares": 23,
       "item_code": "TXN.O"
     },
     {
-      "name": "셰브론",
-      "weight_pct": 1.39,
-      "shares": 29,
-      "item_code": "CVX"
+      "name": "애브비",
+      "weight_pct": 1.38,
+      "shares": 23,
+      "item_code": "ABBV.K"
     },
     {
       "name": "Principal Spectrum Preferred Securities Active ETF",
@@ -123,22 +129,22 @@
       "item_code": "PREF.K"
     },
     {
-      "name": "애브비",
-      "weight_pct": 1.36,
-      "shares": 23,
-      "item_code": "ABBV.K"
-    },
-    {
       "name": "코카콜라",
-      "weight_pct": 1.33,
+      "weight_pct": 1.32,
       "shares": 65,
       "item_code": "KO"
     },
     {
       "name": "코노코필립스",
-      "weight_pct": 1.22,
+      "weight_pct": 1.25,
       "shares": 40,
       "item_code": "COP"
+    },
+    {
+      "name": "웰타워",
+      "weight_pct": 1.23,
+      "shares": 22,
+      "item_code": "WELL.K"
     },
     {
       "name": "브리스톨-마이어스 스큅",
@@ -147,20 +153,14 @@
       "item_code": "BMY"
     },
     {
-      "name": "웰타워",
-      "weight_pct": 1.2,
-      "shares": 22,
-      "item_code": "WELL.K"
-    },
-    {
       "name": "버라이존",
-      "weight_pct": 1.17,
+      "weight_pct": 1.18,
       "shares": 101,
       "item_code": "VZ"
     },
     {
       "name": "암젠",
-      "weight_pct": 1.14,
+      "weight_pct": 1.16,
       "shares": 11,
       "item_code": "AMGN.O"
     },
@@ -172,25 +172,25 @@
     },
     {
       "name": "홈디포",
-      "weight_pct": 1.04,
+      "weight_pct": 1.02,
       "shares": 13,
       "item_code": "HD"
     },
     {
-      "name": "록히드 마틴",
-      "weight_pct": 1.02,
-      "shares": 7,
-      "item_code": "LMT"
-    },
-    {
       "name": "발레로 에너지",
-      "weight_pct": 0.98,
+      "weight_pct": 1.0,
       "shares": 11,
       "item_code": "VLO"
     },
     {
+      "name": "록히드 마틴",
+      "weight_pct": 1.0,
+      "shares": 7,
+      "item_code": "LMT"
+    },
+    {
       "name": "펩시코",
-      "weight_pct": 0.97,
+      "weight_pct": 0.96,
       "shares": 30,
       "item_code": "PEP.O"
     },
@@ -207,12 +207,6 @@
       "item_code": "PLD"
     },
     {
-      "name": "SLB",
-      "weight_pct": 0.77,
-      "shares": 56,
-      "item_code": "SLB"
-    },
-    {
       "name": "알파벳 Class A",
       "weight_pct": 0.75,
       "shares": 9,
@@ -220,13 +214,19 @@
     },
     {
       "name": "EOG 리소시스",
-      "weight_pct": 0.73,
+      "weight_pct": 0.74,
       "shares": 21,
       "item_code": "EOG"
     },
     {
+      "name": "SLB",
+      "weight_pct": 0.74,
+      "shares": 56,
+      "item_code": "SLB"
+    },
+    {
       "name": "타겟",
-      "weight_pct": 0.7,
+      "weight_pct": 0.71,
       "shares": 18,
       "item_code": "TGT"
     },
@@ -238,7 +238,7 @@
     },
     {
       "name": "케어트러스트 리츠 (REIT)",
-      "weight_pct": 0.65,
+      "weight_pct": 0.67,
       "shares": 72,
       "item_code": "CTRE.K"
     },
@@ -250,19 +250,19 @@
     },
     {
       "name": "이퀴닉스",
-      "weight_pct": 0.63,
+      "weight_pct": 0.62,
       "shares": 2,
       "item_code": "EQIX.O"
     },
     {
       "name": "존슨앤드존슨",
-      "weight_pct": 0.61,
+      "weight_pct": 0.62,
       "shares": 9,
       "item_code": "JNJ"
     },
     {
       "name": "엑슨모빌 홀딩스",
-      "weight_pct": 0.59,
+      "weight_pct": 0.6,
       "shares": 15,
       "item_code": "XOM"
     },
@@ -273,22 +273,28 @@
       "item_code": "DLR"
     },
     {
+      "name": "이스트그룹 프로퍼티스",
+      "weight_pct": 0.54,
+      "shares": 11,
+      "item_code": "EGP"
+    },
+    {
       "name": "원오케이",
       "weight_pct": 0.53,
       "shares": 24,
       "item_code": "OKE"
     },
     {
-      "name": "이스트그룹 프로퍼티스",
-      "weight_pct": 0.53,
-      "shares": 11,
-      "item_code": "EGP"
-    },
-    {
       "name": "패스널",
-      "weight_pct": 0.51,
+      "weight_pct": 0.5,
       "shares": 45,
       "item_code": "FAST.O"
+    },
+    {
+      "name": "월마트",
+      "weight_pct": 0.44,
+      "shares": 18,
+      "item_code": "WMT.O"
     },
     {
       "name": "뱅크오브아메리카",
@@ -297,34 +303,28 @@
       "item_code": "BAC"
     },
     {
-      "name": "월마트",
-      "weight_pct": 0.43,
-      "shares": 18,
-      "item_code": "WMT.O"
-    },
-    {
       "name": "페이첵스",
-      "weight_pct": 0.4,
+      "weight_pct": 0.39,
       "shares": 13,
       "item_code": "PAYX.O"
     },
     {
       "name": "아처 대니얼스 미들랜드",
-      "weight_pct": 0.35,
+      "weight_pct": 0.36,
       "shares": 18,
       "item_code": "ADM"
     },
     {
-      "name": "캐터필러",
-      "weight_pct": 0.34,
-      "shares": 1,
-      "item_code": "CAT"
-    },
-    {
       "name": "유나이티드헬스 그룹",
-      "weight_pct": 0.33,
+      "weight_pct": 0.34,
       "shares": 3,
       "item_code": "UNH"
+    },
+    {
+      "name": "캐터필러",
+      "weight_pct": 0.33,
+      "shares": 1,
+      "item_code": "CAT"
     },
     {
       "name": "P&G(프록터 & 갬블)",
@@ -357,16 +357,16 @@
       "item_code": "HAL"
     },
     {
-      "name": "골드만삭스",
-      "weight_pct": 0.27,
-      "shares": 1,
-      "item_code": "GS"
-    },
-    {
       "name": "필립 모리스 인터내셔널",
       "weight_pct": 0.27,
       "shares": 6,
       "item_code": "PM"
+    },
+    {
+      "name": "골드만삭스",
+      "weight_pct": 0.26,
+      "shares": 1,
+      "item_code": "GS"
     },
     {
       "name": "신시내티 파이낸셜",
@@ -387,12 +387,6 @@
       "item_code": "HSY"
     },
     {
-      "name": "리전스 파이낸셜",
-      "weight_pct": 0.24,
-      "shares": 34,
-      "item_code": "RF"
-    },
-    {
       "name": "다든 레스토랑",
       "weight_pct": 0.24,
       "shares": 4,
@@ -405,16 +399,22 @@
       "item_code": "C"
     },
     {
-      "name": "IBM(인터내셔널 비지니스 머신)",
-      "weight_pct": 0.22,
-      "shares": 4,
-      "item_code": "IBM"
+      "name": "리전스 파이낸셜",
+      "weight_pct": 0.23,
+      "shares": 34,
+      "item_code": "RF"
     },
     {
       "name": "애보트 래보라토리",
       "weight_pct": 0.22,
       "shares": 8,
       "item_code": "ABT"
+    },
+    {
+      "name": "IBM(인터내셔널 비지니스 머신)",
+      "weight_pct": 0.21,
+      "shares": 4,
+      "item_code": "IBM"
     },
     {
       "name": "맥도날드",

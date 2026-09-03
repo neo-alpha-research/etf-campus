@@ -1,29 +1,29 @@
 {
   "ticker": "453850",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 20.14,
-      "shares": 143820235,
+      "weight_pct": 20.29,
+      "shares": 144496769,
       "item_code": null
     },
     {
       "name": "Vanguard Extended Duration Treasury Index Fd",
-      "weight_pct": 17.46,
+      "weight_pct": 17.41,
       "shares": 1512,
       "item_code": "EDV"
     },
     {
       "name": "iShares 20+ Year Treasury Bond ETF",
-      "weight_pct": 16.35,
+      "weight_pct": 16.25,
       "shares": 1032,
       "item_code": "TLT.O"
     },
     {
       "name": "T 4 5/8 11/15/55",
-      "weight_pct": 9.7,
-      "shares": 56020,
+      "weight_pct": 9.68,
+      "shares": 55960,
       "item_code": null
     },
     {
@@ -40,26 +40,26 @@
     },
     {
       "name": "PIMCO 25+ Year Zero Coupon US Treasury Index ETF",
-      "weight_pct": 3.73,
+      "weight_pct": 3.72,
       "shares": 331,
       "item_code": "ZROZ.K"
     },
     {
       "name": "SP 0 02/15/55",
-      "weight_pct": 3.49,
+      "weight_pct": 3.48,
       "shares": 81691,
       "item_code": null
     },
     {
       "name": "T 4 1/4 02/15/54",
-      "weight_pct": 3.4,
+      "weight_pct": 3.39,
       "shares": 20903,
       "item_code": null
     },
     {
       "name": "[USD] 예금",
       "weight_pct": 3.17,
-      "shares": 16539,
+      "shares": 16541,
       "item_code": null
     },
     {
@@ -70,7 +70,7 @@
     },
     {
       "name": "iShares 25+ Year Treasury STRIPS Bond ETF",
-      "weight_pct": 1.26,
+      "weight_pct": 1.25,
       "shares": 194,
       "item_code": "GOVZ.K"
     },
@@ -118,7 +118,7 @@
     },
     {
       "name": "T 3 5/8 05/15/53",
-      "weight_pct": 0.77,
+      "weight_pct": 0.76,
       "shares": 5285,
       "item_code": null
     },
@@ -183,27 +183,27 @@
       "item_code": "UBT"
     },
     {
-      "name": "FX스왑 USD 260826-77",
-      "weight_pct": -10.41,
-      "shares": -74357734,
+      "name": "FX스왑 USD 260827-17",
+      "weight_pct": -11.0,
+      "shares": -78399346,
       "item_code": null
     },
     {
-      "name": "FX스왑 USD 260827-17",
-      "weight_pct": -13.99,
-      "shares": -99926358,
+      "name": "FX스왑 USD 260902-27",
+      "weight_pct": -12.37,
+      "shares": -88133493,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260819-17",
-      "weight_pct": -21.83,
-      "shares": -155890337,
+      "weight_pct": -22.07,
+      "shares": -157193320,
       "item_code": null
     },
     {
       "name": "FX스왑 USD 260824-96",
-      "weight_pct": -25.62,
-      "shares": -182959162,
+      "weight_pct": -25.9,
+      "shares": -184488395,
       "item_code": null
     }
   ]

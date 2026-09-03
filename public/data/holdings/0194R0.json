@@ -1,22 +1,22 @@
 {
   "ticker": "0194R0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "SK하이닉스선물2609",
-      "weight_pct": 169.38,
-      "shares": 21,
+      "weight_pct": 167.58,
+      "shares": 19,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 69.47,
-      "shares": 145897019,
+      "weight_pct": 68.06,
+      "shares": 129374993,
       "item_code": null
     },
     {
       "name": "SK하이닉스",
-      "weight_pct": 30.52,
+      "weight_pct": 31.93,
       "shares": 37,
       "item_code": "000660"
     }

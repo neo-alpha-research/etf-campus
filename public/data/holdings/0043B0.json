@@ -1,11 +1,11 @@
 {
   "ticker": "0043B0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "원화현금",
-      "weight_pct": 9.81,
-      "shares": 10158675,
+      "weight_pct": 8.8,
+      "shares": 9111865,
       "item_code": null
     },
     {
@@ -239,6 +239,24 @@
     {
       "name": "카카오엔터테인먼트 20250909-364-1",
       "weight_pct": 0.34,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비레어메탈제일차 20260902-85-1",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비레어메탈제일차 20260902-85-2",
+      "weight_pct": 0.33,
+      "shares": 0,
+      "item_code": null
+    },
+    {
+      "name": "케이비레어메탈제일차 20260902-85-3",
+      "weight_pct": 0.33,
       "shares": 0,
       "item_code": null
     },

@@ -1,40 +1,40 @@
 {
   "ticker": "304780",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "선물2026년09월물",
-      "weight_pct": 156.7,
-      "shares": 35,
+      "weight_pct": 156.39,
+      "shares": 33,
       "item_code": null
     },
     {
       "name": "원화현금",
-      "weight_pct": 67.38,
-      "shares": 4121587993,
+      "weight_pct": 66.11,
+      "shares": 3686016308,
       "item_code": null
     },
     {
       "name": "HANARO 200TR",
-      "weight_pct": 11.93,
+      "weight_pct": 12.57,
       "shares": 5156,
       "item_code": "332930"
     },
     {
       "name": "HANARO 200",
-      "weight_pct": 10.47,
+      "weight_pct": 11.03,
       "shares": 5923,
       "item_code": "293180"
     },
     {
       "name": "TIGER 200선물레버리지",
-      "weight_pct": 8.25,
+      "weight_pct": 8.3,
       "shares": 6111,
       "item_code": "267770"
     },
     {
       "name": "KODEX 레버리지",
-      "weight_pct": 1.95,
+      "weight_pct": 1.97,
       "shares": 1111,
       "item_code": "122630"
     }

@@ -1,6 +1,6 @@
 {
   "ticker": "0061Z0",
-  "as_of_date": "2026-09-02",
+  "as_of_date": "2026-09-03",
   "holdings": [
     {
       "name": "부국증권 20260901-29-4(단)",
@@ -27,20 +27,26 @@
       "item_code": null
     },
     {
+      "name": "원화현금",
+      "weight_pct": 4.65,
+      "shares": 4747364,
+      "item_code": null
+    },
+    {
       "name": "기업은행(신)2210이4A-14",
       "weight_pct": 4.2,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "신한카드 20260901-1-5(단)",
+      "name": "하나증권 20260902-1-15(단)",
       "weight_pct": 4.16,
       "shares": 0,
       "item_code": null
     },
     {
       "name": "기업 자금부 20250923-365-1",
-      "weight_pct": 4.16,
+      "weight_pct": 4.15,
       "shares": 0,
       "item_code": null
     },
@@ -59,12 +65,6 @@
     {
       "name": "기업은행(단)2608할237A-04",
       "weight_pct": 4.08,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나증권 20260901-1-4(단)",
-      "weight_pct": 2.77,
       "shares": 0,
       "item_code": null
     },
@@ -96,12 +96,6 @@
       "name": "산금26신할0006-0825-1",
       "weight_pct": 2.73,
       "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "원화현금",
-      "weight_pct": 1.83,
-      "shares": 1875038,
       "item_code": null
     },
     {
@@ -165,13 +159,7 @@
       "item_code": null
     },
     {
-      "name": "산금24신이0200-1202-2",
-      "weight_pct": 1.39,
-      "shares": 0,
-      "item_code": null
-    },
-    {
-      "name": "하나베스트제2차 20260901-1-1(단)",
+      "name": "한국중부발전 20260629-77-14(단)",
       "weight_pct": 1.38,
       "shares": 0,
       "item_code": null
@@ -201,6 +189,12 @@
       "item_code": null
     },
     {
+      "name": "산금24신이0200-1202-2",
+      "weight_pct": 1.38,
+      "shares": 0,
+      "item_code": null
+    },
+    {
       "name": "한국수출입금융2512마-할인-274",
       "weight_pct": 1.38,
       "shares": 0,
@@ -225,14 +219,14 @@
       "item_code": null
     },
     {
-      "name": "산업 여의도(지) 20260213-364-1",
+      "name": "기업은행(단)2601할334A-12",
       "weight_pct": 1.37,
       "shares": 0,
       "item_code": null
     },
     {
-      "name": "기업은행(단)2601할334A-12",
-      "weight_pct": 1.37,
+      "name": "산업 여의도(지) 20260213-364-1",
+      "weight_pct": 1.36,
       "shares": 0,
       "item_code": null
     },

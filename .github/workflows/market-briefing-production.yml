@@ -205,6 +205,19 @@ jobs:
         working-directory: workers/market-briefing-distributor
         run: npx tsx generate-osmu.ts
 
+      - name: Upload Threads PNG Image to Cloudflare KV
+        working-directory: workers/market-briefing-distributor
+        continue-on-error: true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          FORMATTED_DATE=$(python3 -c "import csv; b=next(csv.DictReader(open('../../data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt']; print(f'{b[:4]}-{b[4:6]}-{b[6:]}')")
+          echo "Uploading threads_image.png for $FORMATTED_DATE to BRIEFING_KV..."
+          if [ -f "../../OSMU_Archive/$FORMATTED_DATE/2_Threads/threads_image.png" ]; then
+            npx wrangler kv key put "image:threads:$FORMATTED_DATE" --binding=BRIEFING_KV --remote --path="../../OSMU_Archive/$FORMATTED_DATE/2_Threads/threads_image.png"
+          fi
+
       - name: Upload OSMU Archive
         uses: actions/upload-artifact@v4
         with:

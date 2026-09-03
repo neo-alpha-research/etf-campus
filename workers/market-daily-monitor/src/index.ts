@@ -147,6 +147,29 @@ async function runProbe(env: Env) {
     
     await env.PROBE_KV.put(kvKey, JSON.stringify(record));
     console.log(`[Probe] Data FOUND for ${expectedIso} at ${kstTime} KST. Recorded in KV (firstTry=${isFirstTry}).`);
+
+    if (env.MONITOR_GITHUB_TOKEN) {
+      try {
+        const dispatchUrl = `https://api.github.com/repos/${env.GITHUB_REPO}/actions/workflows/daily-market.yml/dispatches`;
+        const dispatchResp = await fetch(dispatchUrl, {
+          method: "POST",
+          headers: {
+            "User-Agent": "ETF-Campus-Market-Daily-Monitor/1.0",
+            "Authorization": `Bearer ${env.MONITOR_GITHUB_TOKEN}`,
+            "Accept": "application/vnd.github.v3+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+          },
+          body: JSON.stringify({ ref: "main" }),
+        });
+        if (dispatchResp.ok) {
+          console.log(`[Probe] Successfully dispatched daily-market.yml for ${expectedIso}.`);
+        } else {
+          console.error(`[Probe] GitHub dispatch failed: [${dispatchResp.status}] ${await dispatchResp.text()}`);
+        }
+      } catch (err) {
+        console.error(`[Probe] Error dispatching daily-market.yml:`, err);
+      }
+    }
   } else {
     console.log(`[Probe] Data NOT YET available for ${expectedIso}.`);
   }

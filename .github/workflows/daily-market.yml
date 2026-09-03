@@ -279,9 +279,18 @@ jobs:
           done
           if ! git diff --cached --quiet; then
             git commit -m "data: refresh ETF snapshot"
+            PUSHED=false
             for i in 1 2 3 4 5; do
-              git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break || sleep 5
+              if git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }}; then
+                PUSHED=true
+                break
+              fi
+              sleep 5
             done
+            if [ "$PUSHED" != "true" ]; then
+              echo "::error::Failed to push refreshed market data to origin/${{ github.ref_name }}"
+              exit 1
+            fi
           fi
 
       - name: Pre-deploy briefing quality gate
@@ -297,8 +306,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh workflow run market-briefing-production.yml --ref ${{ github.ref_name }}
-          echo "Triggered production deployment."
+          LATEST_SHA=$(git rev-parse HEAD)
+          gh workflow run market-briefing-production.yml --ref "$LATEST_SHA"
+          echo "Triggered production deployment for commit $LATEST_SHA."
 
       - name: Write refresh summary
         if: always() && steps.guard.outputs.skip != 'true'

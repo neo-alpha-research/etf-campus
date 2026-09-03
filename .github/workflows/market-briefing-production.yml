@@ -192,9 +192,9 @@ jobs:
           TARGET_DATE=$(python3 -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
           echo "Target Date: $TARGET_DATE"
           for i in {1..20}; do
-            LATEST_DATE=$(curl -s https://etf-campus.pages.dev/api/briefings/latest | jq -r '.asOfDate')
+            LATEST_DATE=$(curl -s "https://etf-campus.pages.dev/api/briefings/latest?_t=$(date +%s)" | jq -r '(.briefing.asOfDate // .asOfDate // "") | gsub("-"; "")')
             if [ "$LATEST_DATE" == "$TARGET_DATE" ]; then
-              echo "Deployment is live! Proceeding..."
+              echo "Deployment is live with target date $TARGET_DATE! Proceeding..."
               break
             fi
             echo "Latest is $LATEST_DATE. Still waiting... ($i/20)"

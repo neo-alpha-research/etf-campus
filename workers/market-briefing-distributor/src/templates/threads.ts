@@ -35,7 +35,12 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
 
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
   const inflowSentence = topInflows.length > 0 
-    ? `\n\n자금 흐름을 보면 스마트머니는 ${topInflows.map(i => `${i.name} +${i.inflow.toLocaleString()}억 원`).join(', ')} 순으로 유입되며 대표지수를 지지했습니다.` 
+    ? `\n\n자금 흐름을 보면 스마트머니는 ${topInflows.map(i => {
+        const item = i as any;
+        const name = item.name || item.etfName || "대표지수";
+        const val = item.inflow ?? (item.netInflowValue ? Math.round(item.netInflowValue / 100000000) : 0);
+        return `${name} +${(val || 0).toLocaleString()}억 원`;
+      }).join(', ')} 순으로 유입되며 대표지수를 지지했습니다.` 
     : "";
 
   const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];
@@ -51,9 +56,13 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
 
   const topicTag = selectThreadsTopicTag(payload);
 
+  const kospiVerb = kospi > 0 
+    ? (down > up ? `코스피는 ${sign}${kospi.toFixed(2)}% 올랐지만 실제 ETF 시장은 상승 ${up}개 대비 하락 ${down}개로 차별화된 숨고르기였죠.` : `코스피는 ${sign}${kospi.toFixed(2)}% 상승했고, ETF 시장도 상승 ${up}개(하락 ${down}개)로 온기가 확산됐습니다.`)
+    : (down > up ? `코스피는 ${sign}${kospi.toFixed(2)}% 조정을 받았고, 일반 ETF 시장 역시 상승 ${up}개 대비 하락 ${down}개로 하락세가 우세했습니다.` : `코스피는 ${sign}${kospi.toFixed(2)}% 밀렸지만 개별 ETF는 상승 ${up}개로 방어 흐름을 보였습니다.`);
+
   const mainPost = `어제 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장 데이터를 분석해 봤어요. 
 
-코스피는 ${sign}${kospi.toFixed(2)}% 올랐지만 실제 ETF 시장은 상승 ${up}개 대비 하락 ${down}개로 숨고르기였죠. 전체 평균 수익률도 ${etfSign}${etfReturn.toFixed(2)}%였습니다.
+${kospiVerb} 전체 평균 수익률은 ${etfSign}${etfReturn.toFixed(2)}%였습니다.
 
 테마별로는 ${strongText}이 견조했던 반면, ${weakText}은 조정을 받았습니다.${inflowSentence}
 

@@ -47,10 +47,10 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
   const temp = payload.marketTemperature || "하락 우세";
 
   // Peer Groups
-  const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
-  const topTheme = sortedPeerGroups[0] || { peerGroup: "2차전지 셀 & 소재", cappedAumWeightedReturnPct: 2.71, etfCount: 13, assetClass: "국내주식" };
-  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1] || { peerGroup: "원자력 & SMR", cappedAumWeightedReturnPct: -4.78, etfCount: 5, assetClass: "국내주식" };
-  const themeGap = Math.abs(topTheme.cappedAumWeightedReturnPct - bottomTheme.cappedAumWeightedReturnPct).toFixed(2);
+  const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
+  const topTheme = sortedPeerGroups[0] || { peerGroup: "에너지 (원유·천연가스)", cappedAumWeightedReturnPct: 2.95, etfCount: 5, assetClass: "원자재" };
+  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1] || { peerGroup: "조선 & 해운", cappedAumWeightedReturnPct: -6.15, etfCount: 7, assetClass: "국내주식" };
+  const themeGap = Math.abs((topTheme.cappedAumWeightedReturnPct ?? 0) - (bottomTheme.cappedAumWeightedReturnPct ?? 0)).toFixed(2);
 
   const winners = sortedPeerGroups.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 3);
   const losers = [...sortedPeerGroups].reverse().filter(p => p.cappedAumWeightedReturnPct < 0).slice(0, 3);
@@ -318,7 +318,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
   const sortedByRet = [...assetClasses].sort((a, b) => (b.aumWeightedReturnPct ?? 0) - (a.aumWeightedReturnPct ?? 0));
   const topAsset = sortedByRet[0] || { assetClass: "해외주식", aumWeightedReturnPct: 0.09 };
   const botAsset = sortedByRet[sortedByRet.length - 1] || { assetClass: "리츠·인프라", aumWeightedReturnPct: -0.72 };
-  const topAssetSign = topAsset.aumWeightedReturnPct > 0 ? "+" : "";
+  const topAssetSign = (topAsset.aumWeightedReturnPct ?? 0) > 0 ? "+" : "";
 
   const slide3Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -340,7 +340,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         <text x="97" y="41" fill="#15803D" font-size="17" font-weight="900" text-anchor="middle">⚖️ 자산군 핵심</text>
         <text x="180" y="43" fill="#0F172A" font-size="28" font-weight="900">'${topAsset.assetClass}' 상승 속 '${botAsset.assetClass}' 조정</text>
         <text x="30" y="88" fill="#334155" font-size="21" font-weight="700">
-          최대 비중(${domShare.toFixed(1)}%) 국내주식은 <tspan fill="${domRet >= 0 ? '#15803D' : '#175CD3'}" font-weight="900">${domSign}${domRet.toFixed(2)}% 숨고르기</tspan>, ${topAsset.assetClass}(${topAssetSign}${topAsset.aumWeightedReturnPct.toFixed(2)}%)가 방어
+          최대 비중(${(domShare ?? 0).toFixed(1)}%) 국내주식은 <tspan fill="${domRet >= 0 ? '#15803D' : '#175CD3'}" font-weight="900">${domSign}${(domRet ?? 0).toFixed(2)}% 숨고르기</tspan>, ${topAsset.assetClass}(${topAssetSign}${(topAsset.aumWeightedReturnPct ?? 0).toFixed(2)}%)가 방어
         </text>
       </g>
 
@@ -353,7 +353,8 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           const ret = ac.aumWeightedReturnPct ?? 0;
           const retSign = ret > 0 ? "▲ +" : ret < 0 ? "▼ " : "";
           const retColor = ret >= 0 ? "#D92D20" : "#175CD3";
-          const contribution = (ac.aumSharePct * ret / 100).toFixed(2);
+          const share = ac.aumSharePct ?? 0;
+          const contribution = ((share * ret) / 100).toFixed(2);
           const contribSign = Number(contribution) > 0 ? "+" : "";
 
           return `
@@ -361,11 +362,11 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
               <rect width="940" height="145" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
               <text x="35" y="48" fill="#0F172A" font-size="32" font-weight="900">${ac.assetClass}</text>
               <text x="35" y="85" fill="#334155" font-size="21" font-weight="700">
-                순자산 <tspan font-weight="900" fill="#0F172A">${aumJo}조원</tspan> (비중 <tspan font-weight="900" fill="#2E6819">${ac.aumSharePct.toFixed(1)}%</tspan>)
+                순자산 <tspan font-weight="900" fill="#0F172A">${aumJo}조원</tspan> (비중 <tspan font-weight="900" fill="#2E6819">${share.toFixed(1)}%</tspan>)
               </text>
               
               <rect x="35" y="105" width="380" height="12" rx="6" fill="#F1F5F9"/>
-              <rect x="35" y="105" width="${Math.min(380, ac.aumSharePct * 3.8)}" height="12" rx="6" fill="#2E6819"/>
+              <rect x="35" y="105" width="${Math.min(380, share * 3.8)}" height="12" rx="6" fill="#2E6819"/>
               
               <rect x="490" y="18" width="415" height="108" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
               <text x="515" y="54" fill="#475569" font-size="20" font-weight="800">당일 가중수익률</text>
@@ -546,7 +547,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
               <text x="271" y="96" fill="${badgeText}" font-size="13" font-weight="800" text-anchor="middle">${label}</text>
 
               <!-- 괴리율 수치 -->
-              <text x="912" y="76" fill="${badgeText}" font-size="40" font-weight="900" text-anchor="end" class="tabular">${sign}${d.disparityPct.toFixed(2)}%</text>
+              <text x="912" y="76" fill="${badgeText}" font-size="40" font-weight="900" text-anchor="end" class="tabular">${sign}${(d.disparityPct ?? 0).toFixed(2)}%</text>
               <text x="912" y="108" fill="#64748B" font-size="15" font-weight="700" text-anchor="end">NAV 대비 시장 괴리율</text>
             </g>
           `;
@@ -706,18 +707,22 @@ export function generateInstagramCaption(payload: MarketBriefingPayload): string
   
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
   const inflowText = topInflows.length > 0 
-    ? `\n\n2. 💸 스마트머니 순유입:\n${topInflows.map(i => `• ${i.name} +${i.inflow.toLocaleString()}억 원`).join('\n')}` 
+    ? `\n\n2. 💸 스마트머니 순유입:\n${topInflows.map(i => {
+        const name = i.name || (i as any).etfName || "대표지수";
+        const val = i.inflow ?? ((i as any).netInflowValue ? Math.round((i as any).netInflowValue / 100000000) : 0);
+        return `• ${name} +${(val || 0).toLocaleString()}억 원`;
+      }).join('\n')}` 
     : "";
 
   const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];
   const weakThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct < 0).slice(-2).reverse() || [];
   
   const strongText = strongThemes.length > 0 
-    ? strongThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '')} +${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
+    ? strongThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '')} +${(t.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%`).join(', ') 
     : "에너지 +0.93%, 고배당 +0.85%";
 
   const weakText = weakThemes.length > 0
-    ? weakThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '')} ${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ')
+    ? weakThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '')} ${(t.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%`).join(', ')
     : "K-푸드 -4.07%, K-방산 -2.68%";
 
   const formattedDate = (payload.asOfDate || "2026.08.31").replace(/-/g, '.');

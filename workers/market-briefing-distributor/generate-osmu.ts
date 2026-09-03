@@ -84,8 +84,11 @@ const baseUrl = "https://etf-campus.pages.dev";
 
 async function fetchLatestPayload(): Promise<MarketBriefingPayload> {
   try {
-    const res = await fetch(`${baseUrl}/api/briefings/latest`, {
-      headers: { "User-Agent": "ETF-Campus-Distributor/1.0" }
+    const res = await fetch(`${baseUrl}/api/briefings/latest?_t=${Date.now()}`, {
+      headers: {
+        "User-Agent": "ETF-Campus-Distributor/1.0",
+        "Cache-Control": "no-cache"
+      }
     });
     if (res.ok) {
       const data: any = await res.json();

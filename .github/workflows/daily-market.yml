@@ -306,9 +306,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          LATEST_SHA=$(git rev-parse HEAD)
-          gh workflow run market-briefing-production.yml --ref "$LATEST_SHA"
-          echo "Triggered production deployment for commit $LATEST_SHA."
+          gh workflow run market-briefing-production.yml --ref "${{ github.ref_name }}"
+          echo "Triggered production deployment for branch ${{ github.ref_name }}."
 
       - name: Write refresh summary
         if: always() && steps.guard.outputs.skip != 'true'

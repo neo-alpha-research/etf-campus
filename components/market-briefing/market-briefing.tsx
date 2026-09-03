@@ -761,10 +761,19 @@ export function MarketBriefing() {
     const top3 = sorted.slice(0, 3);
     const bottom3 = sorted.slice(-3).reverse();
     
-    const topStr = top3.map(t => `${t.peerGroup}(${signed(t.cappedAumWeightedReturnPct)})`).join(", ");
-    const bottomStr = bottom3.map(t => `${t.peerGroup}(${signed(t.cappedAumWeightedReturnPct)})`).join(", ");
+    // 테마명 부연설명 괄호(예: 에너지 (원유·천연가스) -> 에너지)를 제거하고, 괄호 없는 '테마명 +2.95%' 형식으로 깔끔하게 결합
+    const formatTheme = (t: any) => {
+      const cleanName = (t.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+      return `${cleanName} ${signed(t.cappedAumWeightedReturnPct)}`;
+    };
+
+    const topStr = top3.map(formatTheme).join(", ");
+    const bottomStr = bottom3.map(formatTheme).join(", ");
     
-    themeSentence = `오늘 시장을 이끈 주도 테마는 ${topStr}이었으며, 반대로 ${bottomStr} 테마는 가장 부진했습니다. `;
+    const topIsPositive = (top3[0]?.cappedAumWeightedReturnPct ?? 0) > 0;
+    const leadVerb = topIsPositive ? "오늘 시장을 이끈 주도 테마는" : "상대적으로 선방한 상위 테마는";
+
+    themeSentence = `${leadVerb} ${topStr} 순이었으며, 반대로 ${bottomStr} 테마는 가장 부진했습니다. `;
   }
   
   let concentrationSentence = "";
@@ -792,13 +801,13 @@ export function MarketBriefing() {
 
   let macroSentence = "국내외 증시와 주요 환율·금리 지표가 전반적으로 안정적인 균형 흐름을 나타냈습니다.";
   if ((spx?.change_pct ?? 0) > 0 && (kospi?.change_pct ?? 0) > 0) {
-    macroSentence = `미국 증시 강세(${signed(spx?.change_pct ?? 0)})와 원/달러 환율 안정 속에, 국내외 위험자산 선호 심리가 전반적으로 우호적인 환경이었습니다.`;
+    macroSentence = `미국 증시가 ${signed(spx?.change_pct ?? 0)} 상승하고 원/달러 환율이 안정세를 보이며, 국내외 위험자산 선호 심리가 전반적으로 우호적인 환경이었습니다.`;
   } else if ((spx?.change_pct ?? 0) < 0 && (kospi?.change_pct ?? 0) < 0) {
-    macroSentence = `글로벌 증시 조정 압력 속에 국내외 대표 지수가 전반적인 하락 압력을 받았습니다.`;
+    macroSentence = `글로벌 증시 조정 압력 속에 국내외 대표 지수가 전반적인 하락세를 보였습니다.`;
   } else if ((kospi?.change_pct ?? 0) > 0) {
-    macroSentence = `글로벌 변동성 속에서도 국내 증시(${signed(kospi?.change_pct ?? 0)})가 견조한 반등을 보이며 시장 방어력을 입증했습니다.`;
+    macroSentence = `글로벌 변동성 속에서도 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 견조한 반등을 보이며 시장 방어력을 입증했습니다.`;
   } else if ((kospi?.change_pct ?? 0) < 0) {
-    macroSentence = `대외 거시 환경의 경계감 속에 국내 증시(${signed(kospi?.change_pct ?? 0)})가 숨고르기 양상을 나타냈습니다.`;
+    macroSentence = `대외 거시 환경의 경계감 속에 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 숨고르기 양상을 나타냈습니다.`;
   }
 
   let themeKeySentence = "세부 테마별 롱숏 수익률 차별화 장세가 뚜렷하게 전개되었습니다.";
@@ -807,7 +816,9 @@ export function MarketBriefing() {
     const top1 = sortedGroups[0];
     const bot1 = sortedGroups[sortedGroups.length - 1];
     if (top1 && bot1) {
-      themeKeySentence = `오늘 시장은 '${top1.peerGroup}(${signed(top1.cappedAumWeightedReturnPct)})' 테마가 가장 강력한 상승을 견인한 반면, '${bot1.peerGroup}(${signed(bot1.cappedAumWeightedReturnPct)})' 테마는 조정을 받았습니다.`;
+      const cleanTop = (top1.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+      const cleanBot = (bot1.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+      themeKeySentence = `오늘 시장은 ${cleanTop} 테마가 ${signed(top1.cappedAumWeightedReturnPct)}로 가장 강력한 성과를 견인한 반면, ${cleanBot} 테마는 ${signed(bot1.cappedAumWeightedReturnPct)}로 조정을 받았습니다.`;
     }
   }
 

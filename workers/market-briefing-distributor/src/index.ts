@@ -626,6 +626,13 @@ export default {
           continue;
         }
 
+        // Pre-warm Gemini narrative so it is ready instantaneously for operator review
+        try {
+          await getOrRefineNarrative(payload, env);
+        } catch (narrativeErr) {
+          console.warn(`[Distributor] Narrative pre-warm warning for ${targetDate}:`, narrativeErr);
+        }
+
         // Prepare distribution log in 'ready' state for operator review
         await env.ETF_PRICES.prepare(
           `CREATE TABLE IF NOT EXISTS briefing_distribution_logs (

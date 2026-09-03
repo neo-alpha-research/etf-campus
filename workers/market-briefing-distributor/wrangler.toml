@@ -25,6 +25,7 @@ id = "278805f22a4948b3b9b6c66e8a6a1466"
 SITE_BASE_URL = "https://etf-campus.pages.dev"
 MAX_ALLOWED_DISPARITY_PCT = "5.0"
 MAX_ALLOWED_DAILY_SPIKE_PCT = "15.0"
+GEMINI_API_KEY = "AIzaSyAJNLIrtFz90VGnEQHSIpUVBcNYYVWPar0"
 
 [env.preview]
 name = "market-briefing-distributor-preview"

@@ -2,6 +2,8 @@ import { validateBriefingPayload } from "./circuit-breaker";
 import { generateInstagramCarousel, generateInstagramCaption } from "./templates/instagram";
 import { generateNewsletterHtml } from "./templates/newsletter";
 import { generateThreadsThread, generateThreadsImageSvg } from "./templates/threads";
+import { reviewAndRefineWithGemini, type PolishedNarrative } from "./services/gemini";
+import { classifyMarketRegime, type MarketRegime } from "./services/market-regime";
 import type { BriefingDistributeEvent, Env, MarketBriefingPayload } from "./types";
 
 function normalizeBriefingPayload(raw: any): MarketBriefingPayload | null {
@@ -255,13 +257,33 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
   };
 }
 
+export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: Env): Promise<PolishedNarrative> {
+  const cacheKey = `narrative_v4:${payload.asOfDate}`;
+  try {
+    const cached = await env.BRIEFING_KV.get(cacheKey);
+    if (cached) {
+      return JSON.parse(cached);
+    }
+  } catch (e) {}
+
+  const baseRegime = classifyMarketRegime(payload);
+  const refined = await reviewAndRefineWithGemini(payload, baseRegime, env);
+
+  try {
+    await env.BRIEFING_KV.put(cacheKey, JSON.stringify(refined), { expirationTtl: 86400 * 7 });
+  } catch (e) {}
+
+  return refined;
+}
+
 export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayload): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
   if (!env.THREADS_ACCESS_TOKEN || !env.THREADS_USER_ID) {
     return { success: false, error: "Threads API credentials (THREADS_ACCESS_TOKEN or THREADS_USER_ID) missing." };
   }
 
   const baseUrl = env.SITE_BASE_URL || "https://etf-campus.pages.dev";
-  const threadsPosts = generateThreadsThread(payload, baseUrl);
+  const narrative = await getOrRefineNarrative(payload, env);
+  const threadsPosts = generateThreadsThread(payload, baseUrl, narrative);
   const fullText = threadsPosts[0]?.content || "";
   const parts = fullText.split("[첫 댓글]");
   const mainPost = parts[0].trim();
@@ -339,7 +361,13 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
   }
 }
 
-function generateDashboardHtml(payload: MarketBriefingPayload, env: Env, logStatus: string, threadsPublishedId: string | null): string {
+function generateDashboardHtml(
+  payload: MarketBriefingPayload,
+  env: Env,
+  logStatus: string,
+  threadsPublishedId: string | null,
+  narrative: PolishedNarrative
+): string {
   const date = payload.asOfDate || "2026-09-02";
   const generalCount = payload.generalEtfCount || 1025;
   const up = payload.upCount || 0;
@@ -347,9 +375,12 @@ function generateDashboardHtml(payload: MarketBriefingPayload, env: Env, logStat
   const down = payload.downCount || 0;
   const kospi = payload.kospiChangePct || 0;
   const etfReturn = payload.generalAumWeightedReturnPct || 0;
-  const threadsText = generateThreadsThread(payload, env.SITE_BASE_URL || "https://etf-campus.pages.dev")[0]?.content || "";
-  const captionText = generateInstagramCaption(payload);
+  const threadsText = generateThreadsThread(payload, env.SITE_BASE_URL || "https://etf-campus.pages.dev", narrative)[0]?.content || "";
+  const captionText = generateInstagramCaption(payload, narrative);
   const isPublished = logStatus === "distributed" || Boolean(threadsPublishedId);
+  const aiBadge = narrative.source === "gemini-refined"
+    ? '<span class="badge badge-live">🤖 Gemini 2.5 AI 검증 완료</span>'
+    : '<span class="badge badge-safe">⚙️ 정밀 룰 엔진 초안</span>';
 
   return `<!DOCTYPE html>
 <html lang="ko">
@@ -396,6 +427,7 @@ function generateDashboardHtml(payload: MarketBriefingPayload, env: Env, logStat
         <p style="color: #94A3B8; font-size: 14px;">데이터 기준일: <strong style="color: #F8FAFC;">${date}</strong> · 일반 ETF <strong style="color: #F8FAFC;">${generalCount}개</strong> (상승 ${up} / 보합 ${flat} / 하락 ${down}) · KOSPI ${kospi > 0 ? '+' : ''}${kospi}% · ETF ${etfReturn > 0 ? '+' : ''}${etfReturn}%</p>
       </div>
       <div style="display: flex; gap: 10px; align-items: center;">
+        ${aiBadge}
         <span class="badge badge-safe">✅ 서킷브레이커 정상</span>
         <span class="badge ${isPublished ? 'badge-live' : 'badge-ready'}" id="statusBadge">
           ${isPublished ? '🚀 스레드 발행 완료' : '⏳ 운영자 검토 대기'}
@@ -642,7 +674,8 @@ export default {
           }
         } catch (e) {}
 
-        const html = generateDashboardHtml(payload, env, logStatus, threadsPublishedId);
+        const narrative = await getOrRefineNarrative(payload, env);
+        const html = generateDashboardHtml(payload, env, logStatus, threadsPublishedId, narrative);
         return new Response(html, {
           headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" },
         });
@@ -653,7 +686,8 @@ export default {
         const payload = await loadBriefingPayload(env, targetDate);
         if (!payload) return new Response("Briefing not found", { status: 404 });
 
-        const slides = generateInstagramCarousel(payload, baseUrl);
+        const narrative = await getOrRefineNarrative(payload, env);
+        const slides = generateInstagramCarousel(payload, baseUrl, narrative);
         const slideParam = url.searchParams.get("slide");
         if (slideParam) {
           const slideNo = parseInt(slideParam, 10);
@@ -695,7 +729,8 @@ export default {
         const payload = await loadBriefingPayload(env, targetDate);
         if (!payload) return new Response("Briefing not found", { status: 404 });
 
-        const posts = generateThreadsThread(payload, baseUrl);
+        const narrative = await getOrRefineNarrative(payload, env);
+        const posts = generateThreadsThread(payload, baseUrl, narrative);
         return Response.json({ success: true, asOfDate: payload.asOfDate, posts });
       }
 

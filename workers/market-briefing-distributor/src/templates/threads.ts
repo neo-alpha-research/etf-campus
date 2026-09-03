@@ -1,4 +1,6 @@
 import type { MarketBriefingPayload } from "../types";
+import { classifyMarketRegime, type MarketRegime } from "../services/market-regime";
+import type { PolishedNarrative } from "../services/gemini";
 
 export interface ThreadsPost {
   sequence: number;
@@ -20,18 +22,13 @@ export function selectThreadsTopicTag(payload: MarketBriefingPayload): string {
   return "#ETF";
 }
 
-export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: string): ThreadsPost[] {
-  const dateStr = payload.asOfDate || "2026-08-31";
-  const formattedDate = dateStr.replace(/-/g, '.');
-  const kospi = payload.kospiChangePct ?? 0.46;
-  const etfReturn = payload.generalAumWeightedReturnPct ?? -0.28;
-  const etfSign = etfReturn > 0 ? "+" : "";
-  const sign = kospi > 0 ? "+" : "";
-
-  const up = payload.upCount ?? 305;
-  const flat = payload.flatCount ?? 47;
-  const down = payload.downCount ?? 670;
-  const generalCount = payload.generalEtfCount ?? 1022;
+export function generateThreadsThread(
+  payload: MarketBriefingPayload,
+  baseUrl: string,
+  narrative?: PolishedNarrative | MarketRegime
+): ThreadsPost[] {
+  const regime = narrative || classifyMarketRegime(payload);
+  const generalCount = payload.generalEtfCount ?? 1025;
 
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
   const inflowSentence = topInflows.length > 0 
@@ -56,13 +53,9 @@ export function generateThreadsThread(payload: MarketBriefingPayload, baseUrl: s
 
   const topicTag = selectThreadsTopicTag(payload);
 
-  const kospiVerb = kospi > 0 
-    ? (down > up ? `코스피는 ${sign}${kospi.toFixed(2)}% 올랐지만 실제 ETF 시장은 상승 ${up}개 대비 하락 ${down}개로 차별화된 숨고르기였죠.` : `코스피는 ${sign}${kospi.toFixed(2)}% 상승했고, ETF 시장도 상승 ${up}개(하락 ${down}개)로 온기가 확산됐습니다.`)
-    : (down > up ? `코스피는 ${sign}${kospi.toFixed(2)}% 조정을 받았고, 일반 ETF 시장 역시 상승 ${up}개 대비 하락 ${down}개로 하락세가 우세했습니다.` : `코스피는 ${sign}${kospi.toFixed(2)}% 밀렸지만 개별 ETF는 상승 ${up}개로 방어 흐름을 보였습니다.`);
+  const mainPost = `${regime.threadsOpening}
 
-  const mainPost = `어제 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장 데이터를 분석해 봤어요. 
-
-${kospiVerb} 전체 평균 수익률은 ${etfSign}${etfReturn.toFixed(2)}%였습니다.
+${regime.threadsMarketSummary}
 
 테마별로는 ${strongText}이 견조했던 반면, ${weakText}은 조정을 받았습니다.${inflowSentence}
 
@@ -71,7 +64,7 @@ ${kospiVerb} 전체 평균 수익률은 ${etfSign}${etfReturn.toFixed(2)}%였습
 ${topicTag}
 
 [첫 댓글]
-📌 매일 장 시작 전 상세 브리핑과 실시간 1,022개 ETF 데이터는 프로필 링크에서 바로 확인하실 수 있어요!`;
+📌 매일 장 시작 전 상세 브리핑과 실시간 1,025개 ETF 데이터는 프로필 링크에서 바로 확인하실 수 있어요!`;
 
   return [
     { sequence: 1, content: mainPost }

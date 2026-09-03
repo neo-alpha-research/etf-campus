@@ -1,4 +1,6 @@
 import type { MarketBriefingPayload } from "../types";
+import { classifyMarketRegime, type MarketRegime } from "../services/market-regime";
+import type { PolishedNarrative } from "../services/gemini";
 
 export interface InstagramSlide {
   slideNumber: number;
@@ -26,7 +28,12 @@ function formatDateWithDay(dateStr?: string): string {
   return `${dateStr.replace(/-/g, ".")} (${dayName})`;
 }
 
-export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUrl: string): InstagramSlide[] {
+export function generateInstagramCarousel(
+  payload: MarketBriefingPayload,
+  baseUrl: string,
+  narrative?: PolishedNarrative | MarketRegime
+): InstagramSlide[] {
+  const regime = narrative || classifyMarketRegime(payload);
   const dateStr = payload.asOfDate || "2026-08-31";
   const formattedDate = formatDateWithDay(dateStr);
 
@@ -142,7 +149,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
         <!-- Hooking Headline (Factually Precise: Theme Return vs Smart Money Inflow) -->
         <g transform="translate(40, 115)">
           <text x="0" y="0" fill="#0F172A" font-size="46" font-weight="900" letter-spacing="-1">코스피 ${kospiSign}${kospi.toFixed(2)}% vs ETF ${etfSign}${etfReturn.toFixed(2)}%</text>
-          <text x="0" y="44" fill="#1D4ED8" font-size="27" font-weight="800" letter-spacing="-0.5">'${escapeXml(topTheme.peerGroup.replace(/\s*\([^)]*\)/g, ''))}' 테마 상승 속 '국내 대표지수'로 스마트머니 유입 🔍</text>
+          <text x="0" y="44" fill="#047857" font-size="27" font-weight="800" letter-spacing="-0.5">${escapeXml(regime.slide1Subheadline)}</text>
         </g>
 
         <line x1="40" y1="185" x2="900" y2="185" stroke="#F1F5F9" stroke-width="2"/>
@@ -172,7 +179,7 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
             <text x="590" y="0" fill="${etfColor}" font-size="30" font-weight="900" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
           </g>
 
-          <text x="35" y="160" fill="#64748B" font-size="16" font-weight="700">💡 KOSPI ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% · 중소형주 조정으로 지수 대비 숨고르기</text>
+          <text x="35" y="160" fill="#64748B" font-size="16" font-weight="700">${escapeXml(regime.slide1Tip)}</text>
         </g>
 
         <!-- Pulse 2: Long/Short Themes (2-Column Comparative Split Cards) -->
@@ -605,8 +612,8 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
           <rect x="24" y="22" width="52" height="34" rx="9" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
           <text x="50" y="46" fill="#15803D" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">01</text>
           
-          <text x="90" y="48" fill="#0F172A" font-size="28" font-weight="900">코스피 ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfReturn.toFixed(2)}% 혼조세</text>
-          <text x="24" y="104" fill="#334155" font-size="20" font-weight="700">국내 대형주 지지 속 일반 ETF는 상승 ${up}개 · 보합 ${flat}개 · 하락 ${down}개로 소폭 약세 흐름.</text>
+          <text x="90" y="48" fill="#0F172A" font-size="28" font-weight="900">${escapeXml(regime.slide6Block1Title)}</text>
+          <text x="24" y="104" fill="#334155" font-size="20" font-weight="700">${escapeXml(regime.slide6Block1Desc)}</text>
         </g>
 
         <!-- Block 2 -->
@@ -693,17 +700,12 @@ export function generateInstagramCarousel(payload: MarketBriefingPayload, baseUr
   ];
 }
 
-export function generateInstagramCaption(payload: MarketBriefingPayload): string {
-  const dateStr = payload.asOfDate || "2026.08.31";
-  const kospiChangePct = payload.kospiChangePct ?? 0.46;
-  const etfReturn = payload.generalAumWeightedReturnPct ?? -0.28;
-  const generalCount = payload.generalEtfCount ?? 1022;
-  const up = payload.upCount ?? 305;
-  const flat = payload.flatCount ?? 47;
-  const down = payload.downCount ?? 670;
-  
-  const etfSign = etfReturn > 0 ? "+" : "";
-  const sign = kospiChangePct > 0 ? "+" : "";
+export function generateInstagramCaption(
+  payload: MarketBriefingPayload,
+  narrative?: PolishedNarrative | MarketRegime
+): string {
+  const regime = narrative || classifyMarketRegime(payload);
+  const generalCount = payload.generalEtfCount ?? 1025;
   
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
   const inflowText = topInflows.length > 0 
@@ -729,9 +731,9 @@ export function generateInstagramCaption(payload: MarketBriefingPayload): string
 
   return `📌 ${formattedDate} 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 마켓 동향 ☕
 
-코스피는 ${sign}${kospiChangePct.toFixed(2)}% 소폭 상승 마감했지만, 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장을 전수 분석한 결과는 사뭇 달랐습니다.
+${regime.captionOpening}
 
-상승 ${up}개 대비 하락 ${down}개로 하락 종목이 우세했으며, 일반 ETF 시장 전체 평균 수익률은 ${etfSign}${etfReturn.toFixed(2)}%로 차별화된 숨고르기 장세를 보였습니다. 📊
+${regime.captionMarketSummary}
 
 [지난 장 국내 ETF 시장 3대 핵심 동향]
 
@@ -742,11 +744,11 @@ export function generateInstagramCaption(payload: MarketBriefingPayload): string
 3. 🧭 시장 흐름:
 • 단기 숨고르기 속에서도 국내외 대표지수로 저가 분할 매수 지속
 
-지수의 겉모습만으로는 내 계좌 속 ETF 흐름을 다 알 수 없습니다. 1,022개 ETF 전수 데이터로 시장의 진짜 수급과 맥박을 확인해 보세요. 📱
+지수의 겉모습만으로는 내 계좌 속 ETF 흐름을 다 알 수 없습니다. 1,025개 ETF 전수 데이터로 시장의 진짜 수급과 맥박을 확인해 보세요. 📱
 
 💬 어제 여러분의 포트폴리오에서 가장 든든했던 테마는 어디였나요? 댓글로 나눠주세요! 👇
 
-🔗 프로필 링크에서 매일 장 시작 전 1,022개 일반 ETF 완벽 비교 & 마켓 브리핑 전체 리포트를 무료로 확인하세요!
+🔗 프로필 링크에서 매일 장 시작 전 1,025개 일반 ETF 완벽 비교 & 마켓 브리핑 전체 리포트를 무료로 확인하세요!
 
 #ETF캠퍼스 #국내상장ETF #ETF투자 #퇴직연금 #IRP #ISA #자산배분 #스마트머니 #마켓브리핑`;
 }

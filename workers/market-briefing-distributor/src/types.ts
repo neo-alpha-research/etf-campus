@@ -11,6 +11,7 @@ export interface Env {
   RESEND_API_KEY?: string;
   SLACK_WEBHOOK_URL?: string;
   MANUAL_RUN_TOKEN?: string;
+  GEMINI_API_KEY?: string;
 }
 
 export interface BriefingDistributeEvent {

@@ -8,6 +8,7 @@ import { type Etf } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
 import { getFeeDisplayContext } from "@/lib/domain/etf-fee-utils";
 import { EtfDetailClient } from "./etf-detail-client";
+import { FeeMetricItem } from "./fee-metric-item";
 import { DistributionHistoryCard } from "./distribution-history-card";
 import { PriceHistoryChart } from "./price-history-chart";
 import { EtfHoldings } from "./etf-holdings";
@@ -263,126 +264,7 @@ export function EtfDetail({
                     <dd className="mt-1 text-lg font-bold text-strong">{formatMoney(etf.tradeValue)}</dd>
                   </div>
 
-                  <div className="flex flex-col justify-center group relative cursor-help">
-                    <dt className="text-sm font-bold text-gray-500 flex items-center gap-1">
-                      실부담비용
-                      <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    </dt>
-                    <dd className="mt-1 flex flex-wrap items-baseline gap-1.5">
-                      {isFeeVerified ? (
-                        feeCtx.type === "synthetic" && feeCtx.syntheticFee != null ? (
-                          <>
-                            <span className="text-lg font-bold text-strong font-mono tabular-nums">
-                              {feeCtx.syntheticFee.toFixed(2)}%
-                            </span>
-                            {feeCtx.nominalFee != null && (
-                              <span className="text-[11px] font-medium text-neutral-500 bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 rounded tabular-nums font-mono">
-                                총보수 {feeCtx.nominalFee.toFixed(2)}%
-                              </span>
-                            )}
-                          </>
-                        ) : feeCtx.type === "masked_new" ? (
-                          <>
-                            <span className="text-lg font-bold text-strong font-mono tabular-nums">
-                              {feeCtx.nominalFee?.toFixed(2)}%
-                            </span>
-                            <span className="text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded leading-none">
-                              신규 (총보수)
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <span className="text-lg font-bold text-strong font-mono tabular-nums">
-                              {feeCtx.nominalFee != null ? `${feeCtx.nominalFee.toFixed(2)}%` : formatFeePct(fee?.totalFeePct)}
-                            </span>
-                            <span className="text-[10px] font-medium text-neutral-500 bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 rounded leading-none">
-                              총보수 기준
-                            </span>
-                          </>
-                        )
-                      ) : (
-                        <span className="text-sm font-medium text-amber-600 font-sans">
-                          {getFeeStatusText(fee?.verificationStatus)}
-                        </span>
-                      )}
-                    </dd>
-
-                    {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-76 sm:w-80 z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
-                      <div className="bg-neutral-900/98 backdrop-blur-md text-white text-xs rounded-xl p-4 shadow-2xl border border-neutral-700/90 font-medium leading-relaxed">
-                        <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-neutral-700/80">
-                          <span className="font-extrabold text-[13px] text-brand-300">실부담 비용 상세 내역</span>
-                          <span className="text-[10px] text-neutral-400 font-mono bg-neutral-800 px-1.5 py-0.5 rounded border border-neutral-700">
-                            {fee?.effectiveDate ? `${fee.effectiveDate} 공시` : "최신 공시 기준"}
-                          </span>
-                        </div>
-
-                        {isFeeVerified ? (
-                          <>
-                            <div className="space-y-2 mb-3">
-                              <div className="flex justify-between items-center text-neutral-200">
-                                <span className="flex items-center gap-1.5">
-                                  <span className="w-2.5 h-2.5 rounded-xs bg-brand-400 shrink-0" />
-                                  <span>명목 총보수 (운용/판매/수탁)</span>
-                                </span>
-                                <span className="font-mono font-bold tabular-nums text-white">
-                                  {fee?.totalFeePct != null ? `${fee.totalFeePct.toFixed(2)}%` : "—"}
-                                </span>
-                              </div>
-
-                              <div className="flex justify-between items-center text-neutral-200">
-                                <span className="flex items-center gap-1.5">
-                                  <span className="w-2.5 h-2.5 rounded-xs bg-sky-400 shrink-0" />
-                                  <span>기타비용 (예탁/사무관리 등)</span>
-                                </span>
-                                <span className="font-mono font-bold tabular-nums text-white">
-                                  {fee?.otherCostPct != null ? `${fee.otherCostPct.toFixed(2)}%` : (fee?.terPct != null && fee?.totalFeePct != null ? `${Math.max(0, fee.terPct - fee.totalFeePct).toFixed(2)}%` : "공시 전")}
-                                </span>
-                              </div>
-
-                              <div className="flex justify-between items-center text-neutral-200">
-                                <span className="flex items-center gap-1.5">
-                                  <span className="w-2.5 h-2.5 rounded-xs bg-amber-400 shrink-0" />
-                                  <span>매매수수료 (주식 거래비용)</span>
-                                </span>
-                                <span className="font-mono font-bold tabular-nums text-white">
-                                  {fee?.tradingCostPct != null ? `${fee.tradingCostPct.toFixed(2)}%` : "공시 전"}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="text-[11px] text-emerald-200/90 bg-emerald-950/60 rounded-lg p-2 leading-relaxed border border-emerald-800/50 mb-2">
-                              {feeCtx.type === "masked_new" ? (
-                                "상장 1년 미만의 신규 ETF는 초기 설정 비용이 연환산되어 실부담 비용이 과다 계상될 수 있으므로 기본 운용보수만 표기합니다."
-                              ) : (
-                                "별도 납부 없이 매일 펀드 순자산(수익률)에서 자동 차감되는 투자자 실제 부담 총비용입니다."
-                              )}
-                            </div>
-                          </>
-                        ) : (
-                          <div className="text-[11px] text-neutral-300 leading-relaxed mb-2">
-                            {getFeeStatusText(fee?.verificationStatus)}: 금융투자협회 및 운용사 공시 원장의 수수료 교차 검증이 진행 중입니다.
-                          </div>
-                        )}
-
-                        {feeSource && (
-                          <div className="border-t border-neutral-700/60 pt-2 text-[10.5px] text-neutral-400 flex items-center justify-between">
-                            <span>대표 출처:</span>
-                            <a
-                              className="underline decoration-neutral-500 underline-offset-2 hover:text-white pointer-events-auto"
-                              href={feeSource.url}
-                              rel="noreferrer"
-                              target="_blank"
-                            >
-                              {feeSource.label}
-                            </a>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                  <FeeMetricItem etf={etf} />
                   
                   {/* 추적 오차율 추가 */}
                   {etf.trackingError != null && (

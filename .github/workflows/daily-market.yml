@@ -183,6 +183,7 @@ jobs:
           python scripts/collect_distributions.py || true
           python scripts/calculate_daily_tr_index.py
           python scripts/calculate_total_returns.py
+          python scripts/build_distribution_summaries.py
 
       # Only the retry rung that actually receives a new official close runs
       # the distribution pipeline. This keeps it coupled to the 06:17 KST

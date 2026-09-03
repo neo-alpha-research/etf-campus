@@ -734,6 +734,14 @@ export default {
         return Response.json({ success: true, asOfDate: payload.asOfDate, posts });
       }
 
+      if (url.pathname === "/api/test-gemini") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) return new Response("Briefing not found", { status: 404 });
+        const baseRegime = classifyMarketRegime(payload);
+        const refined = await reviewAndRefineWithGemini(payload, baseRegime, env);
+        return Response.json({ hasKey: Boolean(env.GEMINI_API_KEY), keyPrefix: (env.GEMINI_API_KEY || "").slice(0, 10), refined });
+      }
+
       // 5. 이메일 뉴스레터 반응형 HTML 프리뷰
       if (url.pathname === "/api/preview/newsletter") {
         const payload = await loadBriefingPayload(env, targetDate);

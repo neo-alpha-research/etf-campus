@@ -419,6 +419,76 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
   }
 }
 
+export async function publishToInstagramLive(env: Env, payload: MarketBriefingPayload): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
+  if (!env.INSTAGRAM_ACCESS_TOKEN || !env.INSTAGRAM_USER_ID) {
+    return { success: false, error: "Instagram API credentials (INSTAGRAM_ACCESS_TOKEN or INSTAGRAM_USER_ID) missing." };
+  }
+
+  const narrative = await getOrRefineNarrative(payload, env);
+  const caption = generateInstagramCaption(payload, narrative);
+  const publicPngUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/images/threads?date=${payload.asOfDate}`;
+
+  try {
+    const createUrl = `https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media`;
+    const searchParams = new URLSearchParams({
+      image_url: publicPngUrl,
+      caption: caption,
+      access_token: env.INSTAGRAM_ACCESS_TOKEN,
+    });
+
+    const createRes = await fetch(createUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: searchParams,
+    });
+    const createData: any = await createRes.json();
+    if (!createData.id) {
+      return { success: false, error: `Failed to create Instagram container: ${JSON.stringify(createData)}` };
+    }
+
+    // Wait for Meta to finish processing container
+    for (let i = 0; i < 12; i++) {
+      await new Promise((r) => setTimeout(r, 2000));
+      const statusRes = await fetch(`https://graph.instagram.com/v21.0/${createData.id}?fields=status_code&access_token=${env.INSTAGRAM_ACCESS_TOKEN}`);
+      const sData: any = await statusRes.json();
+      if (sData.status_code === "FINISHED") break;
+      if (sData.status_code === "ERROR") {
+        return { success: false, error: `Instagram container processing error: ${JSON.stringify(sData)}` };
+      }
+    }
+
+    const pubUrl = `https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media_publish`;
+    const pubRes = await fetch(pubUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        creation_id: createData.id,
+        access_token: env.INSTAGRAM_ACCESS_TOKEN,
+      }),
+    });
+    const pubData: any = await pubRes.json();
+    const publishedPostId = pubData.id;
+    if (!publishedPostId) {
+      return { success: false, error: `Failed to publish Instagram post: ${JSON.stringify(pubData)}` };
+    }
+
+    let permalink = `https://www.instagram.com/neo.alphareader/`;
+    try {
+      const pRes = await fetch(`https://graph.instagram.com/v21.0/${publishedPostId}?fields=permalink&access_token=${env.INSTAGRAM_ACCESS_TOKEN}`);
+      const pData: any = await pRes.json();
+      if (pData.permalink) permalink = pData.permalink;
+    } catch (e) {}
+
+    return {
+      success: true,
+      publishedPostId,
+      permalink,
+    };
+  } catch (err: any) {
+    return { success: false, error: String(err) };
+  }
+}
+
 function generateDashboardHtml(
   payload: MarketBriefingPayload,
   env: Env,
@@ -521,6 +591,9 @@ function generateDashboardHtml(
             <button class="btn-secondary" onclick="copyText('instagramCaptionText')">📋 캡션 복사</button>
           </div>
           <div id="instagramCaptionText" class="copy-box">${captionText}</div>
+          <div style="margin-top: 18px; text-align: right;">
+            <button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 즉시 발행</button>
+          </div>
         </div>
       </div>
     </div>
@@ -642,6 +715,38 @@ function generateDashboardHtml(
         alert('요청 중 오류 발생: ' + e);
         btn.disabled = false;
         btn.innerText = '🚀 스레드 발행 승인';
+      }
+    }
+
+    async function publishInstagram(dateStr) {
+      if (!confirm(dateStr + ' 마켓 브리핑을 인스타그램(@neo.alphareader)에 실시간 자동 발행하시겠습니까?')) return;
+      const btn = document.getElementById('btnPublishInstagram');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = '인스타그램 발행 처리 중...';
+      }
+
+      try {
+        const res = await fetch('/api/publish/instagram?date=' + dateStr, { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          alert('인스타그램 발행 성공! (ID: ' + data.publishedPostId + ')');
+          if (btn) {
+            btn.innerText = '✅ 인스타그램 발행 완료';
+          }
+        } else {
+          alert('인스타그램 발행 실패: ' + (data.error || JSON.stringify(data)));
+          if (btn) {
+            btn.disabled = false;
+            btn.innerText = '📸 이 내용으로 인스타그램 즉시 발행';
+          }
+        }
+      } catch (e) {
+        alert('요청 중 오류 발생: ' + e);
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = '📸 이 내용으로 인스타그램 즉시 발행';
+        }
       }
     }
   </script>
@@ -834,6 +939,15 @@ export default {
         if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
 
         const publishRes = await publishToThreadsLive(env, payload);
+        return Response.json(publishRes);
+      }
+
+      // 6.1 인스타그램 승인 후 실시간 발행 엔드포인트 (Human-in-the-Loop)
+      if (url.pathname === "/api/publish/instagram") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
+
+        const publishRes = await publishToInstagramLive(env, payload);
         return Response.json(publishRes);
       }
 

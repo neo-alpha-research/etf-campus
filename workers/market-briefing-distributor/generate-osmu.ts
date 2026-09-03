@@ -179,14 +179,21 @@ async function run() {
   const slides = generateInstagramCarousel(currentPayload, baseUrl);
   console.log(`Generated ${slides.length} slides.`);
   
-  // Destination: Root OSMU Archive (Single Source of Truth)
+  // Destination: Root OSMU Archive (Optional Local Output)
+  const isCI = Boolean(process.env.CI || process.env.GITHUB_ACTIONS);
+  const shouldSaveLocal = isCI || process.env.SAVE_LOCAL_ARCHIVE === "true";
+
   const baseArchiveDir = path.resolve(process.cwd(), "..", "..", "OSMU_Archive");
   const rootArchiveDir = path.join(baseArchiveDir, dateStr);
   const rootInstaDir = path.join(rootArchiveDir, "1_Instagram");
   const rootThreadsDir = path.join(rootArchiveDir, "2_Threads");
   const rootEmailDir = path.join(rootArchiveDir, "3_Email");
 
-  [rootInstaDir, rootThreadsDir, rootEmailDir].forEach(d => fs.mkdirSync(d, { recursive: true }));
+  if (shouldSaveLocal) {
+    [rootInstaDir, rootThreadsDir, rootEmailDir].forEach(d => fs.mkdirSync(d, { recursive: true }));
+  } else {
+    console.log(`\n[OSMU Engine] Pure Cloud Mode active: Local OSMU_Archive disk write skipped (assets reviewed via Web Dashboard). Set SAVE_LOCAL_ARCHIVE=true to force local files.`);
+  }
 
   // Puppeteer Browser Launch for high-fidelity PNG rendering across all channels
   const puppeteer = puppeteerModule.default || puppeteerModule;
@@ -215,20 +222,23 @@ async function run() {
   for (const s of slides) {
     const safeSvg = s.svgContent.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
     
-    // Save to OSMU Archive
-    const rootSvgPath = path.join(rootInstaDir, `instagram_slide_${s.slideNumber}.svg`);
-    const rootPngPath = path.join(rootInstaDir, `instagram_slide_${s.slideNumber}.png`);
-    fs.writeFileSync(rootSvgPath, safeSvg, "utf-8");
-    await convertSvgToPng(safeSvg, rootPngPath, 1080, 1350);
-
-    console.log(`- Slide ${s.slideNumber}: [${s.title}] ${s.subtitle} -> Rendered PNG & SVG`);
+    if (shouldSaveLocal) {
+      // Save to OSMU Archive
+      const rootSvgPath = path.join(rootInstaDir, `instagram_slide_${s.slideNumber}.svg`);
+      const rootPngPath = path.join(rootInstaDir, `instagram_slide_${s.slideNumber}.png`);
+      fs.writeFileSync(rootSvgPath, safeSvg, "utf-8");
+      await convertSvgToPng(safeSvg, rootPngPath, 1080, 1350);
+      console.log(`- Slide ${s.slideNumber}: [${s.title}] ${s.subtitle} -> Rendered PNG & SVG`);
+    }
   }
 
   // Instagram Caption
   const caption = generateInstagramCaption(currentPayload).replace(/\r?\n/g, "\r\n");
   const captionBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(caption, "utf-8")]);
-  fs.writeFileSync(path.join(rootInstaDir, "instagram_caption.txt"), captionBuf);
-  console.log("- Instagram Caption -> Saved");
+  if (shouldSaveLocal) {
+    fs.writeFileSync(path.join(rootInstaDir, "instagram_caption.txt"), captionBuf);
+    console.log("- Instagram Caption -> Saved");
+  }
 
   // Threads Content & Image
   console.log("\n=== 3. Threads Generation ===");
@@ -243,25 +253,28 @@ async function run() {
     }
   });
   const threadsBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(threadsText.replace(/\r?\n/g, "\r\n"), "utf-8")]);
-  fs.writeFileSync(path.join(rootThreadsDir, "threads_script.txt"), threadsBuf);
 
   const threadsSvgContent = generateThreadsImageSvg(currentPayload);
   const safeThreadsSvg = threadsSvgContent.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
   
-  // Save Threads SVG & PNG
-  const rootThreadsSvg = path.join(rootThreadsDir, "threads_image.svg");
-  const rootThreadsPng = path.join(rootThreadsDir, "threads_image.png");
-  fs.writeFileSync(rootThreadsSvg, safeThreadsSvg, "utf-8");
-  await convertSvgToPng(safeThreadsSvg, rootThreadsPng, 1080, 1350);
-  console.log("- Threads Image -> Rendered PNG & SVG");
+  if (shouldSaveLocal) {
+    fs.writeFileSync(path.join(rootThreadsDir, "threads_script.txt"), threadsBuf);
+    const rootThreadsSvg = path.join(rootThreadsDir, "threads_image.svg");
+    const rootThreadsPng = path.join(rootThreadsDir, "threads_image.png");
+    fs.writeFileSync(rootThreadsSvg, safeThreadsSvg, "utf-8");
+    await convertSvgToPng(safeThreadsSvg, rootThreadsPng, 1080, 1350);
+    console.log("- Threads Image -> Rendered PNG & SVG");
+  }
 
   // Newsletter
   console.log("\n=== 4. Newsletter HTML Generation ===");
   const newsletter = generateNewsletterHtml(currentPayload, baseUrl);
   const newsBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(newsletter.html, "utf-8")]);
 
-  fs.writeFileSync(path.join(rootEmailDir, "email_body.html"), newsBuf);
-  fs.writeFileSync(path.join(rootEmailDir, "newsletter.html"), newsBuf);
+  if (shouldSaveLocal) {
+    fs.writeFileSync(path.join(rootEmailDir, "email_body.html"), newsBuf);
+    fs.writeFileSync(path.join(rootEmailDir, "newsletter.html"), newsBuf);
+  }
 
   console.log("\n=== 5. Email Puppeteer High-Res Capture (Actual Webpage) ===");
   console.log("Capturing actual Market Briefing webpage snapshot...");
@@ -700,17 +713,18 @@ async function run() {
 </body>
 </html>`;
 
-  const dashboardBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(previewDashboardHtml, "utf-8")]);
-  fs.writeFileSync(path.join(rootArchiveDir, "index.html"), dashboardBuf);
+  if (shouldSaveLocal && fs.existsSync(baseArchiveDir)) {
+    const dashboardBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(previewDashboardHtml, "utf-8")]);
+    fs.writeFileSync(path.join(rootArchiveDir, "index.html"), dashboardBuf);
 
-  // === 7. Generate Root Master Hub (OSMU_Archive/index.html) ===
-  const allDateDirs = fs.readdirSync(baseArchiveDir, { withFileTypes: true })
-    .filter(d => d.isDirectory() && /^\d{4}-\d{2}-\d{2}$/.test(d.name))
-    .map(d => d.name)
-    .sort()
-    .reverse();
+    // === 7. Generate Root Master Hub (OSMU_Archive/index.html) ===
+    const allDateDirs = fs.readdirSync(baseArchiveDir, { withFileTypes: true })
+      .filter(d => d.isDirectory() && /^\d{4}-\d{2}-\d{2}$/.test(d.name))
+      .map(d => d.name)
+      .sort()
+      .reverse();
 
-  const masterHubHtml = `<!DOCTYPE html>
+    const masterHubHtml = `<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -769,12 +783,15 @@ async function run() {
 </body>
 </html>`;
 
-  const masterHubBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(masterHubHtml, "utf-8")]);
-  fs.writeFileSync(path.join(baseArchiveDir, "index.html"), masterHubBuf);
+    const masterHubBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(masterHubHtml, "utf-8")]);
+    fs.writeFileSync(path.join(baseArchiveDir, "index.html"), masterHubBuf);
 
-  console.log(`\n🎉 All PNGs, SVGs, and Previews freshly synchronized to OSMU_Archive:`);
-  console.log(`1. Master Hub -> file://${path.join(baseArchiveDir, "index.html")}`);
-  console.log(`2. Day Archive -> file://${path.join(rootArchiveDir, "index.html")}`);
+    console.log(`\n🎉 All PNGs, SVGs, and Previews freshly synchronized to OSMU_Archive:`);
+    console.log(`1. Master Hub -> file://${path.join(baseArchiveDir, "index.html")}`);
+    console.log(`2. Day Archive -> file://${path.join(rootArchiveDir, "index.html")}`);
+  } else {
+    console.log(`\n🎉 Generation complete in Pure Cloud-Native Mode (Review via Web Dashboard).`);
+  }
 }
 
 run().catch(console.error);

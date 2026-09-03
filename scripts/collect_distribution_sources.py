@@ -410,7 +410,7 @@ def bootstrap() -> None:
                 "parse_note": "공시 적용일·분배락 기준가격 구조 검증용. 2026-07 이벤트에는 연결하지 않는다.",
             },
         ]
-        seen = {row["source_id"] for row in targets}
+        seen = {row["source_id"] for row in targets if "source_id" in row}
         for legacy in read_csv(LEGACY_LEDGER_PATH):
             ticker = normalise_ticker(legacy.get("ticker"))
             url = clean(legacy.get("source_url"))

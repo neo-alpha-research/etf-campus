@@ -1549,7 +1549,7 @@ export function MarketBriefing() {
                       {/* 상위 테마 영역 */}
                       <div className="space-y-1">
                         <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#D92D20]">
-                          <span>▲ {isRich ? "상승 Top 3" : "주요 테마 성과"}</span>
+                          <span>▲ {isRich ? "상위 Top 3" : "주요 테마 성과"}</span>
                         </div>
                         {top.map((t, idx) => (
                           <div key={t.peerGroup} className="flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-lg hover:bg-[#FEF3F2]/50 transition-colors">
@@ -1573,7 +1573,7 @@ export function MarketBriefing() {
                       {isRich && bottom.length > 0 && (
                         <div className="mt-2 pt-2 border-t border-dashed border-neutral-200">
                           <div className="px-2 py-1 flex items-center justify-between text-[11px] font-extrabold text-[#175CD3]">
-                            <span>▼ 하락 Worst 3</span>
+                            <span>▼ 하위 Worst 3</span>
                           </div>
                           <div className="space-y-1">
                             {bottom.map((b, idx) => {
@@ -2610,7 +2610,7 @@ export function MarketBriefing() {
               </h5>
               <ul className="text-xs text-neutral-600 space-y-1.5 leading-relaxed">
                 <li>• <b>7대 자산군 기여도(%p)</b>: <code>자산군 AUM 비중 × 가중수익률</code> (합산 시 일반 시장 전체 가중수익률과 일치).</li>
-                <li>• <b>세부 테마 롱숏(Long/Short)</b>: 60여 개 피어그룹(Peer Group) 중 자산군별 상승 Top 3 vs 하락 Worst 3 테마 랭킹 집계.</li>
+                <li>• <b>세부 테마 롱숏(Long/Short)</b>: 60여 개 피어그룹(Peer Group) 중 자산군별 상위 Top 3 vs 하위 Worst 3 테마 랭킹 집계.</li>
               </ul>
             </div>
 

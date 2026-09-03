@@ -132,7 +132,7 @@ export function MarketBriefingGuideModal({
                 </div>
                 <p className="text-neutral-600 text-xs leading-relaxed">
                   <b>7대 자산군 기여도 매트릭스</b>(가중수익률 × AUM 비중)로 시장 지수 등락을 견인한 자금 축을 찾고, 
-                  국내·해외·채권·원자재 <b>세부 테마의 롱숏(Top 3 vs Worst 3) 성과</b>로 오늘 장의 주도주를 선별합니다.
+                  국내·해외·채권·원자재 <b>세부 테마의 롱숏(상위 Top 3 vs 하위 Worst 3) 성과</b>로 오늘 장의 주도주를 선별합니다.
                 </p>
               </div>
             </div>

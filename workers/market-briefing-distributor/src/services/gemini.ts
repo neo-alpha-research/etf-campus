@@ -92,7 +92,7 @@ export async function reviewAndRefineWithGemini(
     if (!response.ok) {
       const errBody = await response.text();
       console.warn(`[Gemini] API error: ${response.status} ${response.statusText}`, errBody);
-      return { ...regime, source: "rule-engine-fallback" };
+      return { ...regime, source: "rule-engine-fallback", debugError: `HTTP ${response.status}: ${errBody}` } as any;
     }
 
     const data: any = await response.json();
@@ -129,8 +129,8 @@ export async function reviewAndRefineWithGemini(
       threadsMarketSummary: parsed.threadsMarketSummary || regime.threadsMarketSummary,
       source: "gemini-refined",
     };
-  } catch (err) {
+  } catch (err: any) {
     console.warn(`[Gemini] Failed to refine narrative (using fallback):`, err);
-    return { ...regime, source: "rule-engine-fallback" };
+    return { ...regime, source: "rule-engine-fallback", debugError: String(err?.message || err) } as any;
   }
 }

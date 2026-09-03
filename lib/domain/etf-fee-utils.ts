@@ -9,7 +9,7 @@ export function getSyntheticFee(etf: any): number | null {
 
   const ter = etf.fee.terPct ?? ((etf.fee.totalFeePct ?? 0) + (etf.fee.otherCostPct ?? 0));
   const tradingCost = etf.fee.tradingCostPct ?? 0;
-  
+
   return ter + tradingCost;
 }
 
@@ -19,13 +19,24 @@ export function getSyntheticFee(etf: any): number | null {
  */
 export function isNewEtfForFeeMasking(etf: any): boolean {
   if (!etf.listingDate || !etf.asOfDate) return false;
-  
-  const listingDate = new Date(etf.listingDate);
-  const asOfDate = new Date(etf.asOfDate);
-  
+
+  const parseDate = (d: string | Date): Date => {
+    if (d instanceof Date) return d;
+    const str = String(d).trim();
+    if (str.length === 8 && /^\d{8}$/.test(str)) {
+      return new Date(`${str.slice(0, 4)}-${str.slice(4, 6)}-${str.slice(6, 8)}`);
+    }
+    return new Date(str);
+  };
+
+  const listingDate = parseDate(etf.listingDate);
+  const asOfDate = parseDate(etf.asOfDate);
+
+  if (isNaN(listingDate.getTime()) || isNaN(asOfDate.getTime())) return false;
+
   const oneYearAgo = new Date(asOfDate);
   oneYearAgo.setFullYear(asOfDate.getFullYear() - 1);
-  
+
   return listingDate > oneYearAgo;
 }
 
@@ -52,9 +63,9 @@ function checkIsStale(effectiveDate?: string | null): boolean {
   } else {
     dateObj = new Date(effectiveDate);
   }
-  
+
   if (isNaN(dateObj.getTime())) return false;
-  
+
   const daysDiff = (Date.now() - dateObj.getTime()) / (1000 * 60 * 60 * 24);
   return daysDiff > 90;
 }
@@ -65,23 +76,23 @@ function checkIsStale(effectiveDate?: string | null): boolean {
 export function getFeeDisplayContext(etf: any): FeeDisplayContext {
   const nominalFee = etf.fee?.totalFeePct ?? null;
   const syntheticFee = getSyntheticFee(etf);
-  
+
   const isStale = checkIsStale(etf.fee?.effectiveDate);
   const staleMessage = isStale ? `협회 공시 지연으로 ${etf.fee?.effectiveDate} 기준 데이터를 표시 중입니다.` : undefined;
-  
+
   if (nominalFee === null) {
     return { type: "unknown", syntheticFee: null, nominalFee: null, hasHiddenCostWarning: false, isStale: false };
   }
-  
+
   if (isNewEtfForFeeMasking(etf)) {
     return { type: "masked_new", syntheticFee: null, nominalFee, hasHiddenCostWarning: false, isStale, staleMessage };
   }
-  
+
   if (syntheticFee !== null && syntheticFee > nominalFee) {
     // 경고 뱃지 조건: 명목 보수와 실질비용이 0.5%p 이상 차이 날 때 (숨은 비용 주의)
     const hasHiddenCostWarning = (syntheticFee - nominalFee) >= 0.5;
     return { type: "synthetic", syntheticFee, nominalFee, hasHiddenCostWarning, isStale, staleMessage };
   }
-  
+
   return { type: "nominal_only", syntheticFee: nominalFee, nominalFee, hasHiddenCostWarning: false, isStale, staleMessage };
 }

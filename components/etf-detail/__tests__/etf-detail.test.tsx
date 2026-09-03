@@ -131,7 +131,7 @@ describe("EtfDetail", () => {
       render(<EtfDetail etf={item} />);
       expect(screen.getByText("순자산")).toBeInTheDocument();
       expect(screen.getByText("1일 거래대금")).toBeInTheDocument();
-      expect(screen.getByText(/총보수/)).toBeInTheDocument();
+      expect(screen.getByText("실부담비용")).toBeInTheDocument();
       
       // Values
       expect(screen.getByText("500억 원")).toBeInTheDocument(); // AUM 50,000,000,000
@@ -162,6 +162,41 @@ describe("EtfDetail", () => {
     // 상태 텍스트 노출
     const statusElements = screen.getAllByText("출처 간 정보 불일치");
     expect(statusElements.length).toBeGreaterThan(0);
+  });
+
+  it("실부담비용(기타비용+매매수수료 포함)이 산출 가능한 경우 실부담비용과 총보수를 함께 표시한다", () => {
+    const syntheticItem: Etf = {
+      ...item,
+      fee: {
+        ...mockFee,
+        totalFeePct: 0.45,
+        terPct: null,
+        otherCostPct: 0.30,
+        tradingCostPct: 0.10,
+        verificationStatus: "verified_official",
+      },
+    };
+    render(<EtfDetail etf={syntheticItem} />);
+    // 0.45 + 0.30 + 0.10 = 0.85%
+    expect(screen.getByText("0.85%")).toBeInTheDocument();
+    expect(screen.getByText("총보수 0.45%")).toBeInTheDocument();
+  });
+
+  it("상장 1년 미만의 신규 ETF인 경우 '신규 (총보수)' 뱃지를 표시한다", () => {
+    const newItem: Etf = {
+      ...item,
+      listingDate: "2026-06-01",
+      asOfDate: "20260715",
+      fee: {
+        ...mockFee,
+        totalFeePct: 0.30,
+        terPct: null,
+        otherCostPct: 0.50,
+        verificationStatus: "verified_official",
+      },
+    };
+    render(<EtfDetail etf={newItem} />);
+    expect(screen.getByText("신규 (총보수)")).toBeInTheDocument();
   });
 
   it("내부 판정 출처를 노출하지 않고 확인 가능한 편입 제한 사유만 설명한다", () => {

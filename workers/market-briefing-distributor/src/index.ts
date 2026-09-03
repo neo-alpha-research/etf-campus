@@ -216,6 +216,7 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
           });
           const replyCreateData: any = await replyCreateRes.json();
           if (replyCreateData.id) {
+            await waitForThreadsContainer(replyCreateData.id, env.THREADS_ACCESS_TOKEN);
             await fetch(pubUrl, {
               method: "POST",
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -388,7 +389,8 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
       });
       const replyCreateData: any = await replyCreateRes.json();
       if (replyCreateData.id) {
-        await fetch(pubUrl, {
+        await waitForThreadsContainer(replyCreateData.id, env.THREADS_ACCESS_TOKEN);
+        const replyPubRes = await fetch(pubUrl, {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({
@@ -396,6 +398,8 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
             access_token: env.THREADS_ACCESS_TOKEN,
           }),
         });
+        const replyPubData = await replyPubRes.json();
+        console.log("[Distributor] First comment published:", replyPubData);
       }
     }
 

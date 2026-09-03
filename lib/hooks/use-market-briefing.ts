@@ -35,7 +35,7 @@ export type DisparityWarning = {
   disparityPct: number;
 };
 
-export type AssetClass = {
+export type MarketBriefingAssetClass = {
   asset_class: string;
   etf_count: number;
   up_count: number;
@@ -93,7 +93,7 @@ export type MarketBriefing = {
     top10TradeSharePct: number;
     allTop10TradeSharePct: number;
   };
-  assetClasses: AssetClass[];
+  assetClasses: MarketBriefingAssetClass[];
   peerGroupVersion?: string | null;
   peerGroups: PeerGroup[];
   fundFlow?: {

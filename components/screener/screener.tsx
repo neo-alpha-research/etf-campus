@@ -1101,14 +1101,24 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                             )}
                             {filters.accountMode === "pension" ? (
                               etf.pensionLimit === "100% (안전자산)" ? (
-                                <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금(DC/IRP) 100% 전액 투자 가능 (안전자산)">안전자산100%</span>
+                                <>
+                                  <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금감독규정 제12조 제4항상 100% 전액 투자 가능 (안전자산)">안전자산100%</span>
+                                  {etf.pensionConfidence === "보통" && (
+                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오">확인권장</span>
+                                  )}
+                                </>
                               ) : etf.pensionLimit === "70% (위험자산)" ? (
-                                <span className="text-blue-800 font-bold text-[10px] bg-blue-50 border border-blue-200 px-1 rounded" title="퇴직연금(DC/IRP) 70% 한도 내 투자 가능 (위험자산)">위험70%</span>
+                                <>
+                                  <span className="text-blue-800 font-bold text-[10px] bg-blue-50 border border-blue-200 px-1 rounded" title="퇴직연금감독규정 제12조 제4항상 70% 한도 내 투자 가능 (위험자산)">위험70%</span>
+                                  {etf.pensionConfidence === "보통" && (
+                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오">확인권장</span>
+                                  )}
+                                </>
                               ) : (
                                 <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
                               )
                             ) : filters.accountMode === "isa" ? (
-                              etf.riskType === "leverage" ? (
+                              etf.isaEducationRequired === "Y" ? (
                                 <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">ISA(교육필요)</span>
                               ) : (
                                 <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>

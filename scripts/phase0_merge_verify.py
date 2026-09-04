@@ -32,11 +32,14 @@ def main():
             "pension_eligible": reg["pension_eligible"],
             "pension_limit": reg["pension_limit"],
             "isa_eligible": reg["isa_eligible"],
-            "official_src": "근로자퇴직급여보장법 감독규정 및 조세특례제한법",
+            "isa_education_required": reg["isa_education_required"],
+            "pension_source": reg["pension_source"],
+            "pension_confidence": reg["pension_confidence"],
+            "official_src": "퇴직연금감독규정 제9조·제12조 및 조세특례제한법 제91조의18",
             "issuer_official": "가능" if is_eligible else "불가",
             "verify_status": status,
             "final_pension": reg["pension_eligible"],
-            "final_src": "법정규칙",
+            "final_src": reg["pension_source"],
         })
 
     out_path = Path("data/pension_verify_sheet.csv")

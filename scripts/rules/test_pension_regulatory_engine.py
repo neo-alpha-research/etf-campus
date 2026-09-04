@@ -1,4 +1,3 @@
-import pytest
 from scripts.rules.pension_regulatory_engine import (
     classify_pension_and_isa,
     PENSION_ELIGIBLE,
@@ -8,11 +7,17 @@ from scripts.rules.pension_regulatory_engine import (
     LIMIT_INELIGIBLE,
     ISA_ELIGIBLE,
     ISA_INELIGIBLE,
+    ISA_EDUCATION_REQUIRED,
+    ISA_EDUCATION_NOT_REQUIRED,
+    PENSION_SOURCE_RULE_ESTIMATE,
+    PENSION_SOURCE_SAMPLE_VERIFIED,
+    PENSION_CONFIDENCE_HIGH,
+    PENSION_CONFIDENCE_MODERATE,
 )
 
 
 def test_leverage_and_inverse():
-    # Leverage: Pension Ineligible, but ISA Eligible (with education/deposit)
+    # Leverage: Pension Ineligible, ISA Eligible (with education/deposit: "Y")
     res_lev = classify_pension_and_isa({
         "ticker": "122630",
         "name": "KODEX 레버리지",
@@ -22,8 +27,9 @@ def test_leverage_and_inverse():
     assert res_lev["pension_eligible"] == PENSION_INELIGIBLE
     assert res_lev["pension_limit"] == LIMIT_INELIGIBLE
     assert res_lev["isa_eligible"] == ISA_ELIGIBLE
+    assert res_lev["isa_education_required"] == ISA_EDUCATION_REQUIRED
 
-    # Inverse: Pension Ineligible, but ISA Eligible
+    # Inverse -1X: Pension Ineligible, ISA Eligible, Education NOT required ("N")
     res_inv = classify_pension_and_isa({
         "ticker": "114800",
         "name": "KODEX 인버스",
@@ -33,6 +39,19 @@ def test_leverage_and_inverse():
     assert res_inv["pension_eligible"] == PENSION_INELIGIBLE
     assert res_inv["pension_limit"] == LIMIT_INELIGIBLE
     assert res_inv["isa_eligible"] == ISA_ELIGIBLE
+    assert res_inv["isa_education_required"] == ISA_EDUCATION_NOT_REQUIRED
+
+    # Inverse -2X: Pension Ineligible, ISA Eligible, Education REQUIRED ("Y")
+    res_inv2x = classify_pension_and_isa({
+        "ticker": "252670",
+        "name": "KODEX 200선물인버스2X",
+        "risk_type": "inverse",
+        "asset_class": "주식-국내",
+    })
+    assert res_inv2x["pension_eligible"] == PENSION_INELIGIBLE
+    assert res_inv2x["pension_limit"] == LIMIT_INELIGIBLE
+    assert res_inv2x["isa_eligible"] == ISA_ELIGIBLE
+    assert res_inv2x["isa_education_required"] == ISA_EDUCATION_REQUIRED
 
 
 def test_commodity_futures_vs_spot():
@@ -140,3 +159,36 @@ def test_standard_equity_etfs():
     assert res_equity["pension_eligible"] == PENSION_ELIGIBLE
     assert res_equity["pension_limit"] == LIMIT_RISK_ASSET
     assert res_equity["isa_eligible"] == ISA_ELIGIBLE
+    assert res_equity["isa_education_required"] == ISA_EDUCATION_NOT_REQUIRED
+
+
+def test_pension_source_and_confidence():
+    # 1. Sample verified ETF (0000D0)
+    res_sample = classify_pension_and_isa({
+        "ticker": "0000D0",
+        "name": "TIGER 엔비디아미국채커버드콜밸런스(합성)",
+        "risk_type": "normal",
+        "asset_class": "혼합·자산배분",
+    })
+    assert res_sample["pension_source"] == PENSION_SOURCE_SAMPLE_VERIFIED
+    assert res_sample["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+
+    # 2. Rule estimate for synthetic ETF (unverified sample, 459580)
+    res_synth = classify_pension_and_isa({
+        "ticker": "459580",
+        "name": "KODEX CD금리액티브(합성)",
+        "risk_type": "normal",
+        "asset_class": "금리·파킹",
+    })
+    assert res_synth["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_synth["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
+
+    # 3. Standard equity ETF (069500)
+    res_std = classify_pension_and_isa({
+        "ticker": "069500",
+        "name": "KODEX 200",
+        "risk_type": "normal",
+        "asset_class": "주식-국내",
+    })
+    assert res_std["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_std["pension_confidence"] == PENSION_CONFIDENCE_HIGH

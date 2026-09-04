@@ -110,16 +110,24 @@ export function EtfDetail({
                 <RiskBadge riskType={etf.riskType} />
                 {etf.pension === "가능" && <PensionBadge status={etf.pension} />}
                 {etf.pensionLimit === "100% (안전자산)" && (
-                  <span className="rounded-md border border-emerald-300 bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-800 flex items-center gap-1" title="근로자퇴직급여보장법상 적격 안전자산 (퇴직연금 계좌 100% 전액 편입 가능)">
+                  <span className="rounded-md border border-emerald-300 bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-800 flex items-center gap-1" title="퇴직연금감독규정 제12조 제4항상 적격 안전자산 (퇴직연금 계좌 100% 전액 편입 가능)">
                     안전자산 100%
                   </span>
                 )}
                 {etf.pensionLimit === "70% (위험자산)" && (
-                  <span className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-bold text-blue-800 flex items-center gap-1" title="근로자퇴직급여보장법상 위험자산 한도 적용 (퇴직연금 계좌 최대 70%까지 편입 가능)">
+                  <span className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-bold text-blue-800 flex items-center gap-1" title="퇴직연금감독규정 제12조 제4항상 위험자산 한도 적용 (퇴직연금 계좌 최대 70%까지 편입 가능)">
                     위험자산 70%
                   </span>
                 )}
-                {etf.riskType === "leverage" ? (
+                {etf.pensionConfidence === "보통" && (
+                  <span
+                    className="rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1"
+                    title="합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오"
+                  >
+                    증권사 최종확인 권장
+                  </span>
+                )}
+                {etf.isaEducationRequired === "Y" ? (
                   <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1" title="조세특례제한법상 중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">
                     ISA 가능 (교육필요)
                   </span>

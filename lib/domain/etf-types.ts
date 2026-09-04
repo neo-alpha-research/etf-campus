@@ -41,6 +41,10 @@ export const PENSION_LIMITS = ["100% (안전자산)", "70% (위험자산)", "불
 export type PensionLimit = (typeof PENSION_LIMITS)[number];
 export const ISA_STATUSES = ["가능", "불가"] as const;
 export type IsaStatus = (typeof ISA_STATUSES)[number];
+export const PENSION_SOURCE_TYPES = ["규칙기반추정", "표본대조", "증권사목록대조"] as const;
+export type PensionSourceType = (typeof PENSION_SOURCE_TYPES)[number];
+export const PENSION_CONFIDENCE_LEVELS = ["높음", "보통", "낮음"] as const;
+export type PensionConfidenceLevel = (typeof PENSION_CONFIDENCE_LEVELS)[number];
 export type IssuerStatus = "verified_official" | "mapped_brand" | "mapped_legacy_brand" | "conflict" | "needs_review";
 
 export type EtfIssuer = {
@@ -157,7 +161,10 @@ export type Etf = {
   pension: PensionStatus;
   pensionSource: string;
   pensionLimit?: PensionLimit | null;
+  pensionSourceType?: PensionSourceType | null;
+  pensionConfidence?: PensionConfidenceLevel | null;
   isaEligible?: IsaStatus | null;
+  isaEducationRequired?: "Y" | "N" | null;
   liquidity: string;
   asOfDate: string;
   listingDate: string | null;
@@ -185,7 +192,10 @@ export type EtfSlim = Pick<
   | "riskType"
   | "pension"
   | "pensionLimit"
+  | "pensionSourceType"
+  | "pensionConfidence"
   | "isaEligible"
+  | "isaEducationRequired"
   | "tradeValue"
   | "changePct"
   | "aum"

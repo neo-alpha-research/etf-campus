@@ -18,18 +18,41 @@ export type EtfHoldingsData = {
   holdings: EtfHolding[];
 };
 
+const normalizeHolding = (h: unknown): EtfHolding => {
+  if (Array.isArray(h)) {
+    return {
+      name: String(h[0] ?? ""),
+      weight_pct: Number(h[1]) || 0,
+      shares: h[2] != null ? Number(h[2]) : null,
+      item_code: h[3] ? String(h[3]) : null,
+    };
+  }
+  return h as EtfHolding;
+};
+
 const fetchHoldings = async (ticker: string): Promise<EtfHoldingsData> => {
+  let raw: (EtfHoldingsData & { holdings: unknown[] }) | null = null;
   try {
     const res = await fetch(`/api/holdings/${ticker}`);
     if (res.ok) {
-      return await res.json();
+      raw = await res.json();
     }
   } catch {
     // API endpoint unreachable (e.g. offline dev), fallback to static JSON
   }
-  const fallback = await fetch(`/data/holdings/${ticker}.json`);
-  if (!fallback.ok) throw new Error("Holdings not found");
-  return await fallback.json();
+  if (!raw) {
+    const fallback = await fetch(`/data/holdings/${ticker}.json`);
+    if (!fallback.ok) throw new Error("Holdings not found");
+    raw = await fallback.json();
+  }
+
+  return {
+    ticker: raw!.ticker,
+    as_of_date: raw!.as_of_date,
+    holding_count: raw!.holding_count ?? (Array.isArray(raw!.holdings) ? raw!.holdings.length : 0),
+    top1_weight: raw!.top1_weight,
+    holdings: Array.isArray(raw!.holdings) ? raw!.holdings.map(normalizeHolding) : [],
+  };
 };
 
 // Distinct, cohesive financial palette matching ETF Campus brand

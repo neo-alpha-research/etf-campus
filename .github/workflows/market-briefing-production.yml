@@ -2,6 +2,12 @@ name: Deploy market briefing production
 
 on:
   workflow_dispatch:
+    inputs:
+      force_deploy_workers:
+        description: "Force deploy workers regardless of hash cache"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -108,30 +114,24 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
-      - name: Check for publisher changes
-        id: check_changes
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
-            echo "Manual trigger: deploying publisher."
-          else
-            DIFF=$(git diff --name-only HEAD~1 HEAD -- workers/market-briefing-publisher/ || true)
-            if [ -n "$DIFF" ]; then
-              echo "should_deploy=true" >> "$GITHUB_OUTPUT"
-              echo "Changes detected in publisher worker: $DIFF"
-            else
-              echo "should_deploy=false" >> "$GITHUB_OUTPUT"
-              echo "No changes in publisher worker; skipping deploy."
-            fi
-          fi
+      - name: Check deployment cache for publisher
+        id: cache_publisher
+        uses: actions/cache@v4
+        with:
+          path: .publisher-deploy-marker
+          key: deployed-worker-publisher-${{ hashFiles('workers/market-briefing-publisher/**') }}
 
       - name: Deploy publisher
-        if: steps.check_changes.outputs.should_deploy == 'true'
+        if: steps.cache_publisher.outputs.cache-hit != 'true' || inputs.force_deploy_workers == true
         working-directory: workers/market-briefing-publisher
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy --env=""
+
+      - name: Save deployment marker for publisher
+        if: steps.cache_publisher.outputs.cache-hit != 'true' || inputs.force_deploy_workers == true
+        run: |
+          mkdir -p .publisher-deploy-marker
+          echo "deployed at $(date -u)" > .publisher-deploy-marker/deployed.txt
 
   deploy_distributor:
     name: Deploy market briefing distributor (OSMU)
@@ -142,30 +142,24 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
-      - name: Check for distributor changes
-        id: check_changes
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
-            echo "Manual trigger: deploying distributor."
-          else
-            DIFF=$(git diff --name-only HEAD~1 HEAD -- workers/market-briefing-distributor/ || true)
-            if [ -n "$DIFF" ]; then
-              echo "should_deploy=true" >> "$GITHUB_OUTPUT"
-              echo "Changes detected in distributor worker: $DIFF"
-            else
-              echo "should_deploy=false" >> "$GITHUB_OUTPUT"
-              echo "No changes in distributor worker; skipping deploy."
-            fi
-          fi
+      - name: Check deployment cache for distributor
+        id: cache_distributor
+        uses: actions/cache@v4
+        with:
+          path: .distributor-deploy-marker
+          key: deployed-worker-distributor-${{ hashFiles('workers/market-briefing-distributor/**') }}
 
       - name: Deploy distributor
-        if: steps.check_changes.outputs.should_deploy == 'true'
+        if: steps.cache_distributor.outputs.cache-hit != 'true' || inputs.force_deploy_workers == true
         working-directory: workers/market-briefing-distributor
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy --env=""
+
+      - name: Save deployment marker for distributor
+        if: steps.cache_distributor.outputs.cache-hit != 'true' || inputs.force_deploy_workers == true
+        run: |
+          mkdir -p .distributor-deploy-marker
+          echo "deployed at $(date -u)" > .distributor-deploy-marker/deployed.txt
 
   deploy_pages:
     name: Deploy ETF Campus Pages

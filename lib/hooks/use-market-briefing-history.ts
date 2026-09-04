@@ -42,6 +42,7 @@ export type MarketBriefingHistoryQuery = {
 const fetcher = async (url: string): Promise<HistoryApiResponse> => {
   const res = await fetch(url, {
     headers: { Accept: "application/json" },
+    cache: "no-store",
   });
   if (!res.ok) {
     throw new Error("브리핑 히스토리를 불러오지 못했습니다.");
@@ -75,6 +76,7 @@ export function useMarketBriefingHistory({ limit = 10 }: UseMarketBriefingHistor
     try {
       const res = await fetch(`/api/briefings/history?limit=${limit}&cursor=${encodeURIComponent(nextCursor)}`, {
         headers: { Accept: "application/json" },
+        cache: "no-store",
       });
       if (res.ok) {
         const payload: HistoryApiResponse = await res.json();

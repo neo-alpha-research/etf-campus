@@ -55,6 +55,25 @@ export function splitSubheadline(text?: string): string[] {
   return [trimmed.slice(0, 25), trimmed.slice(25)];
 }
 
+export function cleanEtfNameForBanner(name?: string, maxChars: number = 15): string {
+  if (!name) return "대표 ETF";
+  let clean = name.replace(/\s*\([^)]*\)/g, '').trim();
+  if (clean.length > maxChars) {
+    clean = clean.slice(0, maxChars - 1) + "…";
+  }
+  return clean;
+}
+
+export function calcBannerFontSize(text: string, maxWidthPx: number = 720, baseFs: number = 27): number {
+  let estWidth = 0;
+  for (const char of text) {
+    estWidth += char.charCodeAt(0) > 128 ? baseFs * 0.95 : baseFs * 0.55;
+  }
+  if (estWidth <= maxWidthPx) return baseFs;
+  const scale = maxWidthPx / estWidth;
+  return Math.max(18, Math.floor(baseFs * scale));
+}
+
 export function generateInstagramCarousel(
   payload: MarketBriefingPayload,
   baseUrl: string,
@@ -452,6 +471,10 @@ export function generateInstagramCarousel(
   // =========================================================================
   // SLIDE 4: Smart Money Flow (Theme: Crimson Rose & Red Inflow)
   // =========================================================================
+  const cleanInflowBannerName = cleanEtfNameForBanner(topInflow.name, 16);
+  const slide4BannerTitle = `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 및 &apos;미국 대표지수&apos; 집중 순유입`;
+  const slide4TitleFs = calcBannerFontSize(slide4BannerTitle, 720, 26);
+
   const slide4Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
       ${commonDefs}
@@ -467,12 +490,12 @@ export function generateInstagramCarousel(
         <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">4 / 6</text>
       </g>
 
-      <!-- Summary Banner (Data-Driven Dynamic) -->
+      <!-- Summary Banner (Data-Driven Dynamic with Overflow Protection) -->
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
         <rect width="940" height="94" rx="22" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.5"/>
         <rect x="30" y="15" width="125" height="34" rx="10" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1.2"/>
         <text x="92" y="38" fill="#BE123C" font-size="17" font-weight="900" text-anchor="middle">💸 수급 핵심</text>
-        <text x="170" y="37" fill="#0F172A" font-size="27" font-weight="900">스마트머니, &apos;${escapeXml(topInflow.name)}&apos; 및 &apos;미국 대표지수&apos; 집중 순유입</text>
+        <text x="170" y="38" fill="#0F172A" font-size="${slide4TitleFs}" font-weight="900">${slide4BannerTitle}</text>
         <text x="30" y="75" fill="#334155" font-size="20" font-weight="700">
           단기 숨고르기 속에서도 <tspan fill="#D92D20" font-weight="900">상위 5종목으로 총 ${top5InflowSum.toLocaleString()}억원</tspan> 실질 자금 순유입
         </text>
@@ -520,37 +543,23 @@ export function generateInstagramCarousel(
   `;
 
   // =========================================================================
-  // SLIDE 5: Disparity Alert (Dynamic Discount vs Premium Policy)
+  // SLIDE 5: Disparity Alert (Split: High vs Low Disparity)
   // =========================================================================
   const disparityList = (payload.disparityWarning && payload.disparityWarning.length > 0) ? payload.disparityWarning : [];
-  const discounts = disparityList.filter(d => d.disparityPct < 0);
-  const premiums = disparityList.filter(d => d.disparityPct > 0);
+  const premiums = disparityList.filter(d => (d.disparityPct ?? 0) > 0).slice(0, 2);
+  const discounts = disparityList.filter(d => (d.disparityPct ?? 0) < 0).slice(0, 2);
 
-  let disparityHeaderTitle = "괴리율 저평가(할인) 체크 종목";
-  let disparityBannerTag = "🟢 저평가(할인) 체크";
-  let disparityBannerTitle = `&apos;${escapeXml(disparityList[0]?.etfName || "차이나과창판STAR50")}&apos; 등 NAV 대비 할인 거래`;
-  let disparityBannerDesc = "보유자는 헐값 매도에 유의하고, 매수자는 시차 착시 여부를 확인해야 합니다.";
-  let disparityBannerTip = "LP 정상 호가 복귀 확인";
-
-  if (disparityList.length === 0) {
-    disparityHeaderTitle = "전 종목 괴리율 정상 (시장 안정 구간)";
-    disparityBannerTag = "✨ 괴리율 안정";
+  let disparityBannerTitle = "";
+  if (premiums.length > 0 && discounts.length > 0) {
+    disparityBannerTitle = `고평가(할증) ${premiums.length}종목 vs 저평가(할인) ${discounts.length}종목 왜곡 발생`;
+  } else if (premiums.length > 0) {
+    disparityBannerTitle = `고평가(할증 주의) ${premiums.length}개 종목 괴리율 왜곡 발생`;
+  } else if (discounts.length > 0) {
+    disparityBannerTitle = `저평가(할인 체크) ${discounts.length}개 종목 괴리율 왜곡 발생`;
+  } else {
     disparityBannerTitle = "국내 상장 일반 ETF 전 종목 정상 괴리율 범위 유지";
-    disparityBannerDesc = "유동성공급자(LP)의 원활한 호가 공급으로 안정적인 가격이 형성되고 있습니다.";
-    disparityBannerTip = "전 종목 정상 거래 중";
-  } else if (premiums.length > 0 && discounts.length === 0) {
-    disparityHeaderTitle = "괴리율 고평가(할증) 주의 종목";
-    disparityBannerTag = "🔴 고평가(할증) 주의";
-    disparityBannerTitle = `&apos;${escapeXml(disparityList[0]?.etfName || "")}&apos; 등 NAV 대비 비싼 할증 상태`;
-    disparityBannerDesc = "단기 매수 과열로 시장가가 실제 가치보다 비쌉니다. 고점 추격 매수에 유의하세요.";
-    disparityBannerTip = "고점 추격 매수 유의";
-  } else if (premiums.length > 0 && discounts.length > 0) {
-    disparityHeaderTitle = "괴리율 가격 왜곡 종목 TOP 5";
-    disparityBannerTag = "⚠️ 왜곡 주의";
-    disparityBannerTitle = `&apos;${escapeXml(disparityList[0]?.etfName || "")}&apos; 등 할인/할증 왜곡 발생`;
-    disparityBannerDesc = "해외 시차 및 호가 공백으로 발생한 괴리율입니다. 급등락 추격 매매에 유의하세요.";
-    disparityBannerTip = "정상 호가 확인 필수";
   }
+  const slide5TitleFs = calcBannerFontSize(disparityBannerTitle, 720, 26);
 
   const slide5Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -561,65 +570,99 @@ export function generateInstagramCarousel(
 
       <g transform="translate(70, 60)">
         <text x="0" y="30" fill="#B45309" font-size="16" font-weight="900" letter-spacing="1">STEP 5. DISPARITY ALERT</text>
-        <text x="0" y="72" fill="#0F172A" font-size="36" font-weight="900">${disparityHeaderTitle}</text>
-        <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 순자산가치(NAV) 대비 시장 종가의 가격 왜곡 정도를 나타냅니다.</text>
+        <text x="0" y="72" fill="#0F172A" font-size="36" font-weight="900">괴리율 고평가(할증) vs 저평가(할인) 진단</text>
+        <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 순자산가치(NAV) 대비 시장 종가의 가격 왜곡 정도를 진단합니다.</text>
         <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
         <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">5 / 6</text>
       </g>
 
-      <!-- Alert Banner (Amber Warning Theme) -->
+      <!-- Alert Banner -->
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
         <rect width="940" height="94" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
-        <rect x="30" y="15" width="160" height="34" rx="10" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.2"/>
-        <text x="110" y="38" fill="#B45309" font-size="16" font-weight="900" text-anchor="middle">${disparityBannerTag}</text>
-        <text x="205" y="37" fill="#0F172A" font-size="26" font-weight="900">${disparityBannerTitle}</text>
+        <rect x="30" y="15" width="135" height="34" rx="10" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.2"/>
+        <text x="97" y="38" fill="#B45309" font-size="16" font-weight="900" text-anchor="middle">⚠️ 왜곡 진단</text>
+        <text x="180" y="38" fill="#0F172A" font-size="${slide5TitleFs}" font-weight="900">${escapeXml(disparityBannerTitle)}</text>
         <text x="30" y="75" fill="#334155" font-size="19" font-weight="700">
-          ${disparityBannerDesc} <tspan fill="#B45309" font-weight="900">${disparityBannerTip}</tspan>
+          해외 시차 및 호가 공백으로 발생한 괴리율입니다. <tspan fill="#B45309" font-weight="900">장 시작 후 정상 호가 복귀 확인 필수</tspan>
         </text>
       </g>
 
-      <!-- Disparity List Cards (Amber Yellow Alert Palette) -->
+      <!-- SECTION 1: 🔴 고평가 (할증 주의 - Premium) -->
       <g transform="translate(70, 290)">
-        ${disparityList.slice(0, 5).map((d: any, idx: number) => {
-          const isDiscount = d.disparityPct < 0;
-          const badgeBg = isDiscount ? '#DCFCE7' : '#FEF3C7';
-          const badgeText = isDiscount ? '#15803D' : '#B45309';
-          const label = isDiscount ? '🟢 저평가 (Discount)' : '🔴 고평가 (Premium)';
-          const sign = d.disparityPct > 0 ? "+" : "";
+        <text x="5" y="24" fill="#991B1B" font-size="22" font-weight="900">🔴 NAV 대비 고평가 (할증 주의)</text>
+        <rect x="310" y="4" width="240" height="28" rx="8" fill="#FEE2E2" stroke="#FECACA" stroke-width="1"/>
+        <text x="430" y="23" fill="#DC2626" font-size="13.5" font-weight="800" text-anchor="middle">시장가 &gt; 가치 · 고점 매수 유의</text>
+
+        ${premiums.length > 0 ? premiums.map((d: any, idx: number) => {
           const isTop = idx === 0;
-
           return `
-            <g transform="translate(0, ${idx * 180})" filter="url(#cardShadow)">
-              <rect width="940" height="168" rx="22" fill="${isTop ? '#FFFDF5' : '#FFFFFF'}" stroke="${isTop ? '#FCD34D' : '#E2E8F0'}" stroke-width="${isTop ? '2' : '1.5'}"/>
-              ${isTop ? '<rect x="0" y="0" width="8" height="168" rx="4" fill="#D97706"/>' : ''}
-
-              <!-- 순위 뱃지 -->
-              <circle cx="58" cy="84" r="26" fill="${isTop ? '#D97706' : '#FEF3C7'}" ${!isTop ? 'stroke="#FDE68A" stroke-width="1.2"' : ''}/>
-              <text x="58" y="93" fill="${isTop ? '#FFFFFF' : '#B45309'}" font-size="22" font-weight="900" text-anchor="middle">${idx + 1}</text>
-
-              <!-- ETF명 (말줄임 없이 풀네임 노출 + 동적 폰트 스케일링) -->
-              <text x="100" y="68" fill="#0F172A" font-size="${d.etfName.length > 22 ? 21 : (d.etfName.length > 18 ? 23 : 26)}" font-weight="900">${escapeXml(d.etfName)}</text>
-
-              <!-- 티커 -->
-              <rect x="100" y="80" width="76" height="24" rx="6" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
-              <text x="138" y="96" fill="#64748B" font-size="13" font-weight="700" text-anchor="middle" class="tabular">${d.ticker}</text>
-
-              <!-- 저/고평가 라벨 -->
-              <rect x="186" y="80" width="170" height="24" rx="7" fill="${badgeBg}" stroke="${isDiscount ? '#BBF7D0' : '#FDE68A'}" stroke-width="1"/>
-              <text x="271" y="96" fill="${badgeText}" font-size="13" font-weight="800" text-anchor="middle">${label}</text>
-
-              <!-- 괴리율 수치 -->
-              <text x="912" y="76" fill="${badgeText}" font-size="40" font-weight="900" text-anchor="end" class="tabular">${sign}${(d.disparityPct ?? 0).toFixed(2)}%</text>
-              <text x="912" y="108" fill="#64748B" font-size="15" font-weight="700" text-anchor="end">NAV 대비 시장 괴리율</text>
+            <g transform="translate(0, ${42 + idx * 138})" filter="url(#cardShadow)">
+              <rect width="940" height="124" rx="20" fill="${isTop ? '#FFF8F8' : '#FFFFFF'}" stroke="${isTop ? '#FCA5A5' : '#E2E8F0'}" stroke-width="${isTop ? '2' : '1.5'}"/>
+              ${isTop ? '<rect x="0" y="0" width="8" height="124" rx="4" fill="#D92D20"/>' : ''}
+              <circle cx="54" cy="62" r="24" fill="${isTop ? '#D92D20' : '#FEE2E2'}"/>
+              <text x="54" y="70" fill="${isTop ? '#FFFFFF' : '#991B1B'}" font-size="20" font-weight="900" text-anchor="middle">${idx + 1}</text>
+              <text x="94" y="52" fill="#0F172A" font-size="${d.etfName.length > 22 ? 21 : (d.etfName.length > 18 ? 23 : 25)}" font-weight="900">${escapeXml(d.etfName)}</text>
+              <rect x="94" y="68" width="80" height="26" rx="6" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+              <text x="134" y="86" fill="#64748B" font-size="13.5" font-weight="700" text-anchor="middle" class="tabular">${d.ticker}</text>
+              <rect x="182" y="68" width="135" height="26" rx="6" fill="#FEE2E2" stroke="#FDA4AF" stroke-width="1"/>
+              <text x="249" y="86" fill="#BE123C" font-size="13" font-weight="800" text-anchor="middle">🔴 고평가 (Premium)</text>
+              <text x="912" y="58" fill="#D92D20" font-size="38" font-weight="900" text-anchor="end" class="tabular">+${(d.disparityPct ?? 0).toFixed(2)}%</text>
+              <text x="912" y="90" fill="#BE123C" font-size="14.5" font-weight="800" text-anchor="end">NAV 대비 할증 거래 중</text>
             </g>
           `;
-        }).join("")}
+        }).join("") : `
+          <g transform="translate(0, 42)" filter="url(#cardShadow)">
+            <rect width="940" height="74" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+            <text x="470" y="44" fill="#64748B" font-size="17" font-weight="700" text-anchor="middle">✨ 현재 NAV 대비 무리하게 할증된 고평가 종목이 없습니다 (정상 거래 중)</text>
+          </g>
+        `}
       </g>
 
-      <g transform="translate(540, 1265)">
+      <!-- SECTION 2: 🟢 저평가 (할인 체크 - Discount) -->
+      <g transform="translate(70, ${premiums.length > 1 ? 620 : (premiums.length === 1 ? 485 : 430)})">
+        <text x="5" y="24" fill="#166534" font-size="22" font-weight="900">🟢 NAV 대비 저평가 (할인 체크)</text>
+        <rect x="310" y="4" width="240" height="28" rx="8" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1"/>
+        <text x="430" y="23" fill="#15803D" font-size="13.5" font-weight="800" text-anchor="middle">시장가 &lt; 가치 · LP 호가 복귀 확인</text>
+
+        ${discounts.length > 0 ? discounts.map((d: any, idx: number) => {
+          const isTop = idx === 0;
+          return `
+            <g transform="translate(0, ${42 + idx * 138})" filter="url(#cardShadow)">
+              <rect width="940" height="124" rx="20" fill="${isTop ? '#F0FDF4' : '#FFFFFF'}" stroke="${isTop ? '#86EFAC' : '#E2E8F0'}" stroke-width="${isTop ? '2' : '1.5'}"/>
+              ${isTop ? '<rect x="0" y="0" width="8" height="124" rx="4" fill="#059669"/>' : ''}
+              <circle cx="54" cy="62" r="24" fill="${isTop ? '#059669' : '#DCFCE7'}"/>
+              <text x="54" y="70" fill="${isTop ? '#FFFFFF' : '#166534'}" font-size="20" font-weight="900" text-anchor="middle">${idx + 1}</text>
+              <text x="94" y="52" fill="#0F172A" font-size="${d.etfName.length > 22 ? 21 : (d.etfName.length > 18 ? 23 : 25)}" font-weight="900">${escapeXml(d.etfName)}</text>
+              <rect x="94" y="68" width="80" height="26" rx="6" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+              <text x="134" y="86" fill="#64748B" font-size="13.5" font-weight="700" text-anchor="middle" class="tabular">${d.ticker}</text>
+              <rect x="182" y="68" width="135" height="26" rx="6" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
+              <text x="249" y="86" fill="#15803D" font-size="13" font-weight="800" text-anchor="middle">🟢 저평가 (Discount)</text>
+              <text x="912" y="58" fill="#047857" font-size="38" font-weight="900" text-anchor="end" class="tabular">${(d.disparityPct ?? 0).toFixed(2)}%</text>
+              <text x="912" y="90" fill="#15803D" font-size="14.5" font-weight="800" text-anchor="end">NAV 대비 할인 거래 중</text>
+            </g>
+          `;
+        }).join("") : `
+          <g transform="translate(0, 42)" filter="url(#cardShadow)">
+            <rect width="940" height="74" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+            <text x="470" y="44" fill="#64748B" font-size="17" font-weight="700" text-anchor="middle">✨ 현재 NAV 대비 과도하게 할인된 저평가 종목이 없습니다 (정상 거래 중)</text>
+          </g>
+        `}
+      </g>
+
+      <!-- 운용역 실전 조언 팁 박스 -->
+      <g transform="translate(70, 950)" filter="url(#cardShadow)">
+        <rect width="940" height="92" rx="18" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
+        <text x="30" y="34" fill="#0F172A" font-size="17.5" font-weight="900">💡 운용역의 실전 조언 — 괴리율 대처법</text>
+        <text x="30" y="66" fill="#475569" font-size="15" font-weight="700">
+          해외 ETF 괴리율은 개장 직후 LP 호가가 제출되면서 대부분 정상 범위로 수렴합니다. 장 초반 무리한 시장가 매수·매도를 피하세요.
+        </text>
+      </g>
+
+      <!-- Disclaimer & Watermark -->
+      <g transform="translate(540, 1175)">
         <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-215" y="14" width="430" height="40" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="40" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <rect x="-215" y="16" width="430" height="40" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+        <text x="0" y="42" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;

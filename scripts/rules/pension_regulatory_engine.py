@@ -34,6 +34,7 @@ ISA_EDUCATION_NOT_REQUIRED = "N"
 # ---------------------------------------------------------------------------
 # Pension Audit & Confidence Metadata Constants
 # ---------------------------------------------------------------------------
+PENSION_SOURCE_STATUTE_DIRECT = "법령조건직접판정"
 PENSION_SOURCE_RULE_ESTIMATE = "규칙기반추정"
 PENSION_SOURCE_SAMPLE_VERIFIED = "표본대조"
 PENSION_SOURCE_BROKER_VERIFIED = "증권사목록대조"
@@ -49,6 +50,52 @@ SAMPLE_VERIFIED_TICKERS = {
     "289480",  # TIGER 200커버드콜ATM - 70% 위험자산 확인
     "441680",  # TIGER 미국나스닥100커버드콜(합성) - 70% 위험자산 확인
 }
+
+SYNTHETIC_NAME_PATTERN = re.compile(r"\(합성[ H]*\)")
+
+
+def is_underlying_security(row: Mapping[str, Any]) -> str:
+    """Determine whether the ETF's underlying asset is securities (stocks/bonds) or non-securities (commodities/FX).
+
+    Under 퇴직연금감독규정 제9조 제1항 (2016.9.21 금융위 고시 제2016-31호), synthetic ETFs
+    eligible for the derivative limit exception must have underlying assets that are securities (증권).
+    Commodity futures (carbon credits, crude oil, gold futures) and currency futures are excluded.
+
+    Returns:
+        "Y" if underlying is securities (equities, bonds, REITs, money market rates),
+        "N" if underlying is non-securities (commodities, FX futures, carbon credits).
+    """
+    ticker = str(row.get("ticker") or "").strip()
+    name = str(row.get("name") or "").strip()
+    base_index = str(row.get("base_index") or "").strip()
+    asset = str(row.get("asset_class") or "").strip()
+
+    # 1. Non-securities: Carbon credits (ICE Carbon Futures)
+    if "탄소배출권" in name or "Carbon" in base_index:
+        return "N"
+
+    # 2. Commodity / FX futures
+    # Special audit case: 219390 (RISE 미국S&P원유생산기업(합성 H))
+    # Its asset_class is erroneously labeled '원자재', but its underlying is S&P Oil & Gas E&P equity shares.
+    if ticker == "219390" or "원유생산기업" in name or "자원생산기업" in name:
+        return "Y"
+    if "금현물" in name:
+        return "Y"
+
+    commodity_or_fx_kw = [
+        "원유선물", "골드선물", "은선물", "구리선물", "농산물선물", "콩선물",
+        "달러선물", "엔선물", "유로선물", "VIX선물", "천연가스선물"
+    ]
+    if any(kw in name for kw in commodity_or_fx_kw):
+        return "N"
+
+    if asset in ("원자재", "통화"):
+        if any(kw in base_index.lower() for kw in ["commodity", "futures", "crude", "gold", "silver", "wti", "brent"]):
+            return "N"
+        if not ("기업" in name or "리츠" in name or "인프라" in name or "주식" in name):
+            return "N"
+
+    return "Y"
 
 
 def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
@@ -69,6 +116,7 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
     base_index = str(row.get("base_index") or "").strip()
     risk = str(row.get("risk_type") or "normal").strip().lower()
     asset = str(row.get("asset_class") or "").strip()
+    underlying_sec = is_underlying_security(row)
 
     # -----------------------------------------------------------------------
     # 1. ISA 편입 적격 및 레버리지 교육 요건 판정 (조세특례제한법 및 거래소 규정)
@@ -88,7 +136,7 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
     # -----------------------------------------------------------------------
     # 2. 퇴직연금 (DC/IRP) 편입 적격 판별 (퇴직연금감독규정 제9조 및 제12조, [별표 1])
     # -----------------------------------------------------------------------
-    # 2-1) 레버리지 / 인버스: 파생상품 순위험평가액 40% 초과로 절대 불가
+    # 2-1) 영역 A: 레버리지 / 인버스 - 파생상품 순위험평가액 40% 초과로 절대 불가
     if risk in ("leverage", "inverse"):
         return {
             "pension_eligible": PENSION_INELIGIBLE,
@@ -98,9 +146,10 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
             "pension_source": PENSION_SOURCE_RULE_ESTIMATE,
             "pension_confidence": PENSION_CONFIDENCE_HIGH,
             "pension_reason": "레버리지/인버스 파생평가액 초과 (퇴직연금 편입 요건 미충족)",
+            "underlying_is_security": underlying_sec,
         }
 
-    # 2-2) 파생상품(선물) 기반 고위험 자산 배제
+    # 2-2) 영역 C: 파생상품(선물) 기반 1X 고위험 자산 배제
     # 원자재 선물, 통화 선물, VIX 선물, 국채선물 등 파생평가액 40% 초과 종목
     # 단, '현물'(KRX금현물 등)은 실물 기반이므로 적격
     is_spot = "현물" in name
@@ -117,6 +166,7 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
             "pension_source": PENSION_SOURCE_RULE_ESTIMATE,
             "pension_confidence": PENSION_CONFIDENCE_MODERATE,
             "pension_reason": "선물 기반 파생 위험평가액 40% 초과 (퇴직연금 편입 요건 미충족)",
+            "underlying_is_security": underlying_sec,
         }
 
     # -----------------------------------------------------------------------
@@ -156,18 +206,30 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
     # -----------------------------------------------------------------------
     # 4. 검증 출처(pension_source) 및 신뢰도(pension_confidence) 판정
     # -----------------------------------------------------------------------
-    # 합성(스왑) 및 커버드콜(옵션) 상품은 자본시장법 및 감독규정상 비선물 1X 복제로
-    # 실무상 편입이 허용되나, 개별 종목의 위험평가액을 이름만으로 전수 증명할 수 없으므로
-    # 표본 검증 종목을 제외하고는 신뢰도를 '보통'으로 부여하여 증권사 확인 권장 대상으로 관리.
-    if ticker in SAMPLE_VERIFIED_TICKERS:
+    # 영역 A (레버리지·인버스): 즉시 반환 (확정 불가, 신뢰도 높음)
+    # 영역 C (선물형 1X): 즉시 반환 (구조상 불가, 신뢰도 보통)
+    # 영역 B (1배 증권형 합성): 2016.9.21 금융위 의결(고시 제2016-31호) 예외 충족 -> 법령조건직접판정, 신뢰도 높음
+    # 표본 검증 종목: 주요 증권사 공식 적격 목록 대조 확인 -> 표본대조, 신뢰도 높음
+    # 영역 D (커버드콜): 옵션 매도 파생 위험평가액 산정 미확인 -> 규칙기반추정, 신뢰도 보통 (확인권장)
+    # 일반 현물 1X: 일반 주식/채권형 직접 추종 -> 규칙기반추정, 신뢰도 높음
+    is_synthetic = bool(SYNTHETIC_NAME_PATTERN.search(name))
+
+    if is_synthetic and underlying_sec == "Y" and risk == "normal":
+        pension_source = PENSION_SOURCE_STATUTE_DIRECT
+        pension_confidence = PENSION_CONFIDENCE_HIGH
+        pension_reason = f"퇴직연금감독규정 1배 증권형 합성 ETF 예외 (2016.9.21 의결) - {reason}"
+    elif ticker in SAMPLE_VERIFIED_TICKERS:
         pension_source = PENSION_SOURCE_SAMPLE_VERIFIED
         pension_confidence = PENSION_CONFIDENCE_HIGH
-    elif "합성" in name or "커버드콜" in name:
+        pension_reason = f"증권사 적격 표본대조 완료 - {reason}"
+    elif "커버드콜" in name:
         pension_source = PENSION_SOURCE_RULE_ESTIMATE
         pension_confidence = PENSION_CONFIDENCE_MODERATE
+        pension_reason = f"커버드콜 옵션 매도 파생평가액 산정 미확인 (보통/확인권장) - {reason}"
     else:
         pension_source = PENSION_SOURCE_RULE_ESTIMATE
         pension_confidence = PENSION_CONFIDENCE_HIGH
+        pension_reason = reason
 
     return {
         "pension_eligible": pension_eligible,
@@ -176,7 +238,8 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
         "isa_education_required": isa_education_required,
         "pension_source": pension_source,
         "pension_confidence": pension_confidence,
-        "pension_reason": reason,
+        "pension_reason": pension_reason,
+        "underlying_is_security": underlying_sec,
     }
 
 
@@ -194,6 +257,7 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         "isa_education_required",
         "pension_source",
         "pension_confidence",
+        "underlying_is_security",
     ):
         if col not in fields:
             fields.append(col)
@@ -208,11 +272,14 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         "isa_ineligible": 0,
         "isa_education_required": 0,
         "isa_education_not_required": 0,
+        "source_statute": 0,
         "source_sample": 0,
         "source_rule": 0,
         "conf_high": 0,
         "conf_moderate": 0,
         "conf_low": 0,
+        "underlying_sec_y": 0,
+        "underlying_sec_n": 0,
     }
 
     for row in rows:
@@ -224,6 +291,7 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         row["isa_education_required"] = reg["isa_education_required"]
         row["pension_source"] = reg["pension_source"]
         row["pension_confidence"] = reg["pension_confidence"]
+        row["underlying_is_security"] = reg["underlying_is_security"]
 
         if reg["pension_eligible"] == PENSION_ELIGIBLE:
             stats["pension_eligible"] += 1
@@ -245,7 +313,9 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         else:
             stats["isa_education_not_required"] += 1
 
-        if reg["pension_source"] == PENSION_SOURCE_SAMPLE_VERIFIED:
+        if reg["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT:
+            stats["source_statute"] += 1
+        elif reg["pension_source"] == PENSION_SOURCE_SAMPLE_VERIFIED:
             stats["source_sample"] += 1
         else:
             stats["source_rule"] += 1
@@ -256,6 +326,11 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
             stats["conf_moderate"] += 1
         else:
             stats["conf_low"] += 1
+
+        if reg["underlying_is_security"] == "Y":
+            stats["underlying_sec_y"] += 1
+        else:
+            stats["underlying_sec_n"] += 1
 
     with output_path.open("w", encoding="utf-8-sig", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fields)
@@ -289,7 +364,8 @@ def main() -> int:
     print(f"  - ISA 가능: {stats['isa_eligible']:,} | 불가: {stats['isa_ineligible']:,}")
     print(f"    * ISA 레버리지 교육 필요: {stats['isa_education_required']:,}")
     print(f"    * ISA 레버리지 교육 불필요: {stats['isa_education_not_required']:,}")
-    print(f"  - 퇴직연금 검증 출처: 표본대조 {stats['source_sample']:,} | 규칙기반추정 {stats['source_rule']:,}")
+    print(f"  - 기초자산 증권 여부: 증권(Y) {stats['underlying_sec_y']:,} | 비증권(N) {stats['underlying_sec_n']:,}")
+    print(f"  - 퇴직연금 검증 출처: 법령조건직접판정(영역B) {stats['source_statute']:,} | 표본대조 {stats['source_sample']:,} | 규칙기반추정 {stats['source_rule']:,}")
     print(f"  - 퇴직연금 신뢰도: 높음 {stats['conf_high']:,} | 보통(확인권장) {stats['conf_moderate']:,} | 낮음 {stats['conf_low']:,}")
     return 0
 

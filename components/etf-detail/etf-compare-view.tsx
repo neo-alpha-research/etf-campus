@@ -4,7 +4,7 @@ import { formatMoney } from "@/lib/domain/etf-format";
 import { ReturnCell, RiskBadge, AsOfDate, FeeStackedBar } from "@/components/etf";
 import type { Etf, ReturnPeriod } from "@/lib/domain/etf-types";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
-import { getSyntheticFee, isNewEtfForFeeMasking, getFeeDisplayContext } from "@/lib/domain/etf-fee-utils";
+import { isNewEtfForFeeMasking, getFeeDisplayContext } from "@/lib/domain/etf-fee-utils";
 
 type Props = {
   mainEtf?: Etf;
@@ -36,7 +36,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
   const getActiveReturns = (etf: Etf) => isTrMode ? (etf.returnsTr || etf.returnsNetTr) : etf.returns;
 
   const corePeriods: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
-  const allPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
+  const allPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd", "itd"];
   const orderedPeriods = showAllPeriods ? allPeriods : corePeriods;
 
   const hasDifferentClassification = compareList.some((e) =>

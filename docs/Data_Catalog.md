@@ -478,8 +478,8 @@ workers/market-briefing-publisher/src/index.ts L520   peer_groups: peerGroups,
 
 **백필 19개 행의 지수값은 하드코딩된 가짜입니다.**
 
+(과거 레거시 스크립트 `scripts/backfill_briefing_historical_dates.py`[삭제됨]의 잔재)
 ```
-scripts/backfill_briefing_historical_dates.py L167~168, L206~207
 {"code": "KOSPI",  "close": 2600.0, "changePct": 0.0, ...}
 {"code": "KOSDAQ", "close":  800.0, "changePct": 0.0, ...}
 ```

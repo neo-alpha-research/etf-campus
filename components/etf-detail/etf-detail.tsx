@@ -6,7 +6,6 @@ import { formatMoney, formatWon } from "@/lib/domain/etf-format";
 import { isNewListing } from "@/lib/domain/etf-explorer";
 import { type Etf } from "@/lib/domain/etf-types";
 import { getEtfCautions, getFxImpactNotice } from "@/lib/domain/etf-classification";
-import { getFeeDisplayContext } from "@/lib/domain/etf-fee-utils";
 import { EtfDetailClient } from "./etf-detail-client";
 import { FeeMetricItem } from "./fee-metric-item";
 import { DistributionHistoryCard } from "./distribution-history-card";
@@ -92,7 +91,7 @@ export function EtfDetail({
   const itdPendingVerification = Boolean(itdAvailable && !etf.itdAnchor?.verified);
 
   return (
-    <main className="page-shell flex-1 py-6 sm:py-8 space-y-3">
+    <main className="page-shell flex-1 py-3 sm:py-8 space-y-3">
       {/* 1. 상품 헤더 */}
       <section aria-labelledby="header-title">
         <h2 className="sr-only" id="header-title">상품 헤더</h2>
@@ -118,9 +117,9 @@ export function EtfDetail({
                 )}
               </div>
 
-              <h1 className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-3xl font-extrabold tracking-tight text-strong sm:text-4xl">
+              <h1 className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-strong">
                 {etf.name}
-                <span className="text-lg font-bold text-slate-500 tabular-nums tracking-normal">{etf.ticker}</span>
+                <span className="text-base sm:text-lg font-bold text-slate-500 tabular-nums tracking-normal">{etf.ticker}</span>
               </h1>
             </div>
             

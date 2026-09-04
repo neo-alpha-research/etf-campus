@@ -28,8 +28,7 @@
 | **시장 카테고리별 AUM 비중** | `etf_prices` / `asset_detail` | `market-briefing-publisher` | 마켓 브리핑 워커 실행 시 | 데이터가 있는 분류만 합산. 과거처럼 특정 카테고리를 전체의 `0.765`로 고정 산출하는 등 비율 하드코딩 **금지** | 정상 |
 | **국내 지수 (KOSPI/KOSDAQ)** | KRX Open API | `fetch_market_indices.py` | 매일 08:07 | 원천 데이터 활용 | 공공데이터포털 15094807로 전환 대기 |
 | **해외지수, 원자재, 환율, VIX** | Yahoo Finance | `fetch_market_indices.py` | 매일 08:07 | 브라우저 위장 HTML 크롤링 (User-Agent 필수) | 비공식 / 지수 재배포 제한 |
-| **총보수 (TER)** | 네이버 금융 HTML | `refresh_fees.py` | 매일 13:22 | HTML 요소 파싱 추출 | 대안 없음 / 약관 위반 소지 |
-| **분배금 및 TR 수익률** | 운용사 사이트, KRX KIND | `collect_distribution...`<br>PR/TR 산출 엔진 | 매일 13:07 | 주당 분배금 기반 TR 재투자 수식 적용<br>※ TR 계산의 모든 기준일은 **2026-08-31**로 엄격히 고정 | 비공식 / 대안 없음 |
+| **분배금 및 TR 수익률** | 운용사 사이트, KRX KIND | `collect_distribution...`<br>PR/TR 산출 엔진 | 매일 13:07 | 주당 분배금 기반 TR 재투자 수식 적용<br>※ 초기 적재 스냅샷은 2026-08-31 기준이며, 일일 파이프라인 구동 시 최신 거래일(T일) 종가 기준으로 매일 롤링(Rolling) 갱신 | 비공식 / 대안 없음 |
 | **추적오차율** | 제공처 없음 | N/A | N/A | 임의 생성 금지. 현재 데이터 부재로 화면에서 **제거됨** | 사용 안 함 |
 | **커뮤니티** | Supabase | Supabase RPC / Views | 실시간 | 자체 게시글 및 메타데이터 적재 | 자체 / 정상 |
 

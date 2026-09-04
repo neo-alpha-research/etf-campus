@@ -1115,7 +1115,17 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                   )}
                                 </>
                               ) : (
-                                <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                                <>
+                                  <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                                  {etf.pensionConfidence === "보통" && (
+                                    <span
+                                      className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help"
+                                      title="선물 파생평가액 규정상 원칙적 편입 불가이나, 증권사별 예외 취급 정책 여부는 거래 증권사에서 최종 확인하십시오"
+                                    >
+                                      정책확인
+                                    </span>
+                                  )}
+                                </>
                               )
                             ) : filters.accountMode === "isa" ? (
                               etf.isaEducationRequired === "Y" ? (

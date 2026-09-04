@@ -120,6 +120,11 @@ export function EtfHoldings({ ticker }: { ticker: string }) {
           {data?.holdings && (
             <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-bold text-brand-700 border border-brand-200">
               총 {(data.holding_count ?? data.holdings.length).toLocaleString()}종목
+              {(data.holding_count ?? 0) > data.holdings.length && (
+                <span className="ml-1 text-brand-600 font-medium">
+                  (상위 {data.holdings.length.toLocaleString()}개 표시)
+                </span>
+              )}
             </span>
           )}
         </div>
@@ -380,7 +385,13 @@ function HoldingsDetailView({
               onClick={onToggleExpand}
               className="w-full py-2.5 rounded-xl bg-surface hover:bg-surface-hover text-strong font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 border border-line shadow-2xs cursor-pointer"
             >
-              <span>{expanded ? "간략히 접기" : `전체 구성종목 (${(data.holding_count ?? holdings.length).toLocaleString()}개) 모두 보기`}</span>
+              <span>
+                {expanded
+                  ? "간략히 접기"
+                  : (data.holding_count ?? 0) > holdings.length
+                  ? `구성종목 상위 ${holdings.length.toLocaleString()}개 보기`
+                  : `전체 구성종목 (${(data.holding_count ?? holdings.length).toLocaleString()}개) 모두 보기`}
+              </span>
               <svg
                 className={`w-4 h-4 text-muted transition-transform duration-200 ${
                   expanded ? "rotate-180" : ""

@@ -121,10 +121,14 @@ export function EtfDetail({
                 )}
                 {etf.pensionConfidence === "보통" && (
                   <span
-                    className="rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1"
-                    title="합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오"
+                    className="rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1 cursor-help"
+                    title={
+                      etf.pensionLimit === "불가"
+                        ? "선물 파생평가액 규정상 원칙적 편입 불가이나, 증권사별 예외 취급 정책 여부는 거래 증권사에서 최종 확인하십시오"
+                        : "합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오"
+                    }
                   >
-                    증권사 최종확인 권장
+                    {etf.pensionLimit === "불가" ? "정책확인" : "증권사 최종확인 권장"}
                   </span>
                 )}
                 {etf.isaEducationRequired === "Y" ? (

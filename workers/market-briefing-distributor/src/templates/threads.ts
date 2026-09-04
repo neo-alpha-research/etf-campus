@@ -359,8 +359,8 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <!-- Bottom Banner & Official Data Notice (Y: 1074, H: 76) -->
       <g transform="translate(60, 1074)" filter="url(#cardShadow)">
         <rect width="960" height="76" rx="18" fill="url(#brandGrad)"/>
-        <text x="480" y="46" fill="#FFFFFF" font-size="19" font-weight="900" text-anchor="middle" letter-spacing="-0.3">
-          📊 한국거래소(KRX) 전 거래일 마감 공시 데이터 전수 분석 (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수)
+        <text x="480" y="47" fill="#FFFFFF" font-size="21" font-weight="900" text-anchor="middle" letter-spacing="-0.3">
+          📊 한국거래소(KRX) 전 거래일 마감 공시 데이터 전수 분석
         </text>
       </g>
 

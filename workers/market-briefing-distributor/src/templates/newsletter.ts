@@ -137,7 +137,6 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
       <div class="header">
         <span class="badge">ETF CAMPUS · MORNING BRIEFING</span>
         <div class="title">${formattedDate} ETF 마켓 브리핑</div>
-        <div class="subtitle">국내 상장 일반 ETF ${generalCount}개 전수 데이터 정량 리포트</div>
       </div>
 
       <!-- Content -->
@@ -344,7 +343,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
 
         <!-- 6. Call to Action -->
         <a href="${utmLink}" class="btn-primary">
-          👉 전체 1,022개 ETF 실시간 분석 &amp; 마켓 브리핑 풀버전 📊
+          👉 전체 1,022개 ETF 분석 &amp; 마켓 브리핑 풀버전 📊
         </a>
       </div>
 

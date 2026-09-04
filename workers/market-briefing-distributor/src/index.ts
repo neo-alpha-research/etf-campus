@@ -1025,7 +1025,7 @@ function generateDashboardHtml(
 </html>`;
 }
 
-const worker = {
+export default {
   // Queue Consumer: prepares assets and saves status as 'ready' (Human-in-the-Loop review)
   async queue(batch: MessageBatch<BriefingDistributeEvent>, env: Env): Promise<void> {
     for (const message of batch.messages) {

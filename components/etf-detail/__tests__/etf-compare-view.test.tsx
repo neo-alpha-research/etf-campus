@@ -49,8 +49,8 @@ describe("EtfCompareView selectionReasons", () => {
       fee: {
         totalFeePct: 0.05,
         terPct: 0.05,
-        otherCostPct: null,
-        tradingCostPct: null,
+        otherCostPct: 0.02,
+        tradingCostPct: 0.01,
         effectiveDate: null,
         verifiedAt: null,
         verificationStatus: "verified_official",
@@ -71,8 +71,8 @@ describe("EtfCompareView selectionReasons", () => {
       fee: {
         totalFeePct: 0.35,
         terPct: 0.35,
-        otherCostPct: null,
-        tradingCostPct: null,
+        otherCostPct: 0.05,
+        tradingCostPct: 0.02,
         effectiveDate: null,
         verifiedAt: null,
         verificationStatus: "verified_official",

@@ -4,7 +4,7 @@ import { formatMoney } from "@/lib/domain/etf-format";
 import { ReturnCell, RiskBadge, AsOfDate, FeeStackedBar } from "@/components/etf";
 import type { Etf, ReturnPeriod } from "@/lib/domain/etf-types";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
-import { getSyntheticFee, isNewEtfForFeeMasking } from "@/lib/domain/etf-fee-utils";
+import { getSyntheticFee, isNewEtfForFeeMasking, getFeeDisplayContext } from "@/lib/domain/etf-fee-utils";
 
 type Props = {
   mainEtf?: Etf;
@@ -52,10 +52,11 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
     let lowestTicker = "";
     compareList.forEach(e => {
       if (isNewEtfForFeeMasking(e)) return;
-      const fee = getSyntheticFee(e);
-      if (fee !== null) {
-        if (fee > max) max = fee;
-        if (fee < min) { min = fee; lowestTicker = e.ticker; }
+      const ctx = getFeeDisplayContext(e);
+      // ONLY ETFs with 100% verified 3-tier synthetic fee can receive lowest badge
+      if (ctx.type === "synthetic" && ctx.syntheticFee !== null) {
+        if (ctx.syntheticFee > max) max = ctx.syntheticFee;
+        if (ctx.syntheticFee < min) { min = ctx.syntheticFee; lowestTicker = e.ticker; }
       }
     });
     return { maxSyntheticFee: max, lowestSyntheticTicker: lowestTicker };

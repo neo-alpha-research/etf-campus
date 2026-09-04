@@ -5,12 +5,16 @@ import { Etf } from "./etf-types";
  */
 export function getSyntheticFee(etf: any): number | null {
   if (!etf.fee) return null;
-  if (etf.fee.totalFeePct === null) return null;
+  if (etf.fee.totalFeePct == null) return null;
 
-  const ter = etf.fee.terPct ?? ((etf.fee.totalFeePct ?? 0) + (etf.fee.otherCostPct ?? 0));
-  const tradingCost = etf.fee.tradingCostPct ?? 0;
+  // Trading cost MUST be disclosed to determine total synthetic fee
+  if (etf.fee.tradingCostPct == null) return null;
 
-  return ter + tradingCost;
+  // TER must be known, either directly via terPct or via totalFeePct + otherCostPct
+  const ter = etf.fee.terPct ?? (etf.fee.otherCostPct != null ? etf.fee.totalFeePct + etf.fee.otherCostPct : null);
+  if (ter == null) return null;
+
+  return ter + etf.fee.tradingCostPct;
 }
 
 /**
@@ -88,11 +92,11 @@ export function getFeeDisplayContext(etf: any): FeeDisplayContext {
     return { type: "masked_new", syntheticFee: null, nominalFee, hasHiddenCostWarning: false, isStale, staleMessage };
   }
 
-  if (syntheticFee !== null && syntheticFee > nominalFee) {
+  if (syntheticFee !== null) {
     // 경고 뱃지 조건: 명목 보수와 실질비용이 0.5%p 이상 차이 날 때 (숨은 비용 주의)
-    const hasHiddenCostWarning = (syntheticFee - nominalFee) >= 0.5;
+    const hasHiddenCostWarning = (syntheticFee - (nominalFee ?? 0)) >= 0.5;
     return { type: "synthetic", syntheticFee, nominalFee, hasHiddenCostWarning, isStale, staleMessage };
   }
 
-  return { type: "nominal_only", syntheticFee: nominalFee, nominalFee, hasHiddenCostWarning: false, isStale, staleMessage };
+  return { type: "nominal_only", syntheticFee: null, nominalFee, hasHiddenCostWarning: false, isStale, staleMessage };
 }

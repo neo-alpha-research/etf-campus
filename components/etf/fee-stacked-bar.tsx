@@ -54,10 +54,74 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
   }
 
   const nominalFee = etf.fee?.totalFeePct ?? 0;
-  // Fix: 직접 otherCostPct를 읽고, 없으면 terPct에서 nominalFee를 뺌
-  const otherCost = etf.fee?.otherCostPct ?? (etf.fee?.terPct != null ? Math.max(0, etf.fee.terPct - nominalFee) : 0);
+  const isSynthetic = ctx.type === "synthetic" && ctx.syntheticFee != null;
+
+  if (!isSynthetic) {
+    // 3분해 미완료: 명목보수만 표시하고 실부담비용 및 [최저] 뱃지 제외
+    return (
+      <div className="relative group flex items-center justify-center w-full px-1 cursor-help">
+        <div className="flex items-center justify-center gap-1.5 py-0.5">
+          <span className="text-[12.5px] font-bold tabular-nums font-mono text-strong">
+            {ctx.nominalFee != null ? `${ctx.nominalFee.toFixed(2)}%` : "-"}
+          </span>
+          <span className="text-[10px] font-medium text-neutral-500 bg-neutral-100 border border-neutral-200 px-1 py-0.5 rounded leading-none shrink-0">
+            총보수
+          </span>
+        </div>
+
+        {/* Tooltip */}
+        <div className={`absolute bottom-[calc(100%+6px)] ${positionClass} w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120]`}>
+          <div className={`absolute -bottom-1.5 ${arrowClass} border-[6px] border-transparent border-t-neutral-900/98`} />
+
+          <div className="flex items-center justify-between pb-2 mb-2 border-b border-neutral-700/80">
+            <span className="font-extrabold text-[13px] text-white">보수 상세 내역 (총보수 기준)</span>
+            <span className="text-[10px] text-neutral-400 font-mono bg-neutral-800 px-1.5 py-0.5 rounded">
+              {etf.fee?.effectiveDate ? `${etf.fee.effectiveDate} 공시` : "최신 기준"}
+            </span>
+          </div>
+
+          <div className="space-y-2 text-xs">
+            <div className="flex justify-between items-center text-neutral-200">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-brand-500 shrink-0" />
+                <span>명목 총보수 (운용/판매/수탁)</span>
+              </span>
+              <span className="font-mono font-bold tabular-nums text-white">{nominalFee.toFixed(2)}%</span>
+            </div>
+
+            <div className="flex justify-between items-center text-neutral-200">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-sky-400 shrink-0" />
+                <span>기타비용 (예탁/사무 등)</span>
+              </span>
+              <span className="font-mono font-bold tabular-nums text-neutral-400">
+                {etf.fee?.otherCostPct != null ? `${etf.fee.otherCostPct.toFixed(2)}%` : "공시 전"}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center text-neutral-200 pb-2 border-b border-neutral-700/80">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-orange-400 shrink-0" />
+                <span>매매·중개수수료율</span>
+              </span>
+              <span className="font-mono font-bold tabular-nums text-neutral-400">
+                {etf.fee?.tradingCostPct != null ? `${etf.fee.tradingCostPct.toFixed(2)}%` : "공시 전"}
+              </span>
+            </div>
+
+            <div className="text-[11px] text-amber-200/90 bg-amber-950/40 rounded-lg p-2 leading-relaxed border border-amber-800/40">
+              기타비용 및 매매수수료율이 협회에 아직 공시되지 않아 명목 총보수만 표기되며, 실부담비용 최저 비교 대상에서 제외됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 3분해 100% 완료: 실부담비용 표기 및 최저 뱃지 수여 가능
+  const otherCost = etf.fee?.otherCostPct ?? (etf.fee?.terPct != null && etf.fee?.totalFeePct != null ? Math.max(0, etf.fee.terPct - etf.fee.totalFeePct) : 0);
   const tradingCost = etf.fee?.tradingCostPct ?? 0;
-  const syntheticFee = ctx.syntheticFee ?? (nominalFee + otherCost + tradingCost);
+  const syntheticFee = ctx.syntheticFee!;
 
   return (
     <div className="relative group flex items-center justify-center w-full px-1 cursor-help">

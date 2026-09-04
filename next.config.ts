@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   experimental: {
-    cpus: 2,
-    workerThreads: false,
+    cpus: process.env.CI ? 4 : undefined,
+    workerThreads: true,
     optimizePackageImports: ["lucide-react"],
   },
 };

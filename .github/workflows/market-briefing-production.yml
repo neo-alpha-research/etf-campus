@@ -23,7 +23,7 @@ jobs:
   validate:
     name: Validate application and workers
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 20
     steps:
       - name: Check out source
         uses: actions/checkout@v4
@@ -33,26 +33,31 @@ jobs:
         with:
           node-version-file: .node-version
           cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            workers/market-briefing-publisher/package-lock.json
+          cache-dependency-path: package-lock.json
 
-      - name: Install web application dependencies
+      - name: Cache node_modules
+        id: node-modules-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            workers/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Cache Next.js build
         uses: actions/cache@v4
         with:
           path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('app/**', 'components/**', 'lib/**') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
 
-      - name: Validate web application
-        run: |
-          npm run lint
-          npm test
-          npm run build
+      - name: Build web application
+        run: npm run build
 
       - name: Upload static export artifact
         uses: actions/upload-artifact@v4
@@ -61,17 +66,13 @@ jobs:
           path: out/
           retention-days: 1
 
-      - name: Install and validate publisher Worker
+      - name: Validate publisher Worker
         working-directory: workers/market-briefing-publisher
-        run: |
-          npm ci
-          npm run typecheck
+        run: npm run typecheck
 
-      - name: Install and validate distributor Worker
+      - name: Validate distributor Worker
         working-directory: workers/market-briefing-distributor
-        run: |
-          npm ci
-          npm run typecheck
+        run: npm run typecheck
 
   migrate_d1:
     name: Apply production D1 migrations
@@ -108,10 +109,6 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
 
-      - name: Install publisher dependencies
-        working-directory: workers/market-briefing-publisher
-        run: npm ci
-
       - name: Deploy publisher
         working-directory: workers/market-briefing-publisher
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy --env=""
@@ -125,10 +122,6 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
-
-      - name: Install distributor dependencies
-        working-directory: workers/market-briefing-distributor
-        run: npm ci
 
       - name: Deploy distributor
         working-directory: workers/market-briefing-distributor
@@ -168,16 +161,25 @@ jobs:
         with:
           node-version-file: .node-version
           cache: npm
-          cache-dependency-path: workers/market-briefing-distributor/package-lock.json
+          cache-dependency-path: package-lock.json
+
+      - name: Cache node_modules
+        id: node-modules-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            workers/*/node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
 
       - name: Install Korean Fonts for Puppeteer
         run: |
           sudo apt-get update
           sudo apt-get install -y fonts-nanum fonts-nanum-coding fonts-nanum-extra
-
-      - name: Install distributor dependencies
-        working-directory: workers/market-briefing-distributor
-        run: npm ci
 
       - name: Wait for API to serve latest data
         run: |

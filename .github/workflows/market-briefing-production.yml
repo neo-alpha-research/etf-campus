@@ -108,8 +108,28 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for publisher changes
+        id: check_changes
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+            echo "Manual trigger: deploying publisher."
+          else
+            DIFF=$(git diff --name-only HEAD~1 HEAD -- workers/market-briefing-publisher/ || true)
+            if [ -n "$DIFF" ]; then
+              echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+              echo "Changes detected in publisher worker: $DIFF"
+            else
+              echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+              echo "No changes in publisher worker; skipping deploy."
+            fi
+          fi
 
       - name: Deploy publisher
+        if: steps.check_changes.outputs.should_deploy == 'true'
         working-directory: workers/market-briefing-publisher
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy --env=""
 
@@ -122,8 +142,28 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for distributor changes
+        id: check_changes
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+            echo "Manual trigger: deploying distributor."
+          else
+            DIFF=$(git diff --name-only HEAD~1 HEAD -- workers/market-briefing-distributor/ || true)
+            if [ -n "$DIFF" ]; then
+              echo "should_deploy=true" >> "$GITHUB_OUTPUT"
+              echo "Changes detected in distributor worker: $DIFF"
+            else
+              echo "should_deploy=false" >> "$GITHUB_OUTPUT"
+              echo "No changes in distributor worker; skipping deploy."
+            fi
+          fi
 
       - name: Deploy distributor
+        if: steps.check_changes.outputs.should_deploy == 'true'
         working-directory: workers/market-briefing-distributor
         run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy --env=""
 

@@ -26,7 +26,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if python scripts/check_workflow_success_today.py --workflow daily-distribution.yml; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run requested. Bypassing already-succeeded guard."
+            echo "already_run=false" >> "$GITHUB_OUTPUT"
+          elif python scripts/check_workflow_success_today.py --workflow daily-distribution.yml; then
             echo "already_run=true" >> "$GITHUB_OUTPUT"
           else
             echo "already_run=false" >> "$GITHUB_OUTPUT"

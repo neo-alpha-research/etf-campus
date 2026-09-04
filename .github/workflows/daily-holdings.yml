@@ -25,7 +25,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if python scripts/check_workflow_success_today.py --workflow daily-holdings.yml; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run requested. Bypassing already-succeeded guard."
+            echo "already_run=false" >> "$GITHUB_OUTPUT"
+          elif python scripts/check_workflow_success_today.py --workflow daily-holdings.yml; then
             echo "already_run=true" >> "$GITHUB_OUTPUT"
           else
             echo "already_run=false" >> "$GITHUB_OUTPUT"
@@ -41,7 +44,7 @@ jobs:
         if: steps.guard.outputs.already_run != 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: .node-version
 
       - name: Install dependencies
         if: steps.guard.outputs.already_run != 'true'

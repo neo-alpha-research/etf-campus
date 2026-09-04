@@ -54,3 +54,8 @@ ecos_key.txt
 OSMU_Archive/
 _archive/
 distributor-preview/
+
+# Prompt and raw scrap dumps
+Claude outputs/
+Claude_Opus_User_Request*.txt
+kofia_fee_cmp.xml

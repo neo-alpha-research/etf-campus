@@ -117,9 +117,6 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
     .metric-label { font-size: 13.5px; color: #334155; font-weight: 800; margin-bottom: 5px; }
     .metric-value { font-size: 24px; font-weight: 900; margin: 4px 0; color: #0F172A; }
     
-    .section-header { margin-top: 30px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-    .section-title { font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px; }
-    .section-subtext { font-size: 12.5px; color: #64748B; font-weight: 700; }
     
     .table-custom { width: 100%; border-collapse: collapse; margin-bottom: 22px; font-size: 14px; border-radius: 14px; overflow: hidden; border: 1.5px solid #E2E8F0; }
     .table-custom th { background-color: #F1F5F9; padding: 12px 14px; text-align: left; font-weight: 900; color: #334155; border-bottom: 1.5px solid #E2E8F0; font-size: 13.5px; }
@@ -143,27 +140,43 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
       <div class="content">
         <!-- 1. Structured Executive Summary (3-Point Fast Scan) -->
         <div style="background-color: #F8FAFC; border-left: 5px solid #059669; padding: 20px; border-radius: 0 16px 16px 0; margin-bottom: 26px; border-top: 1.5px solid #E2E8F0; border-right: 1.5px solid #E2E8F0; border-bottom: 1.5px solid #E2E8F0;">
-          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 10px; margin-bottom: 12px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 16px;">💡</span>
-              <span style="font-size: 14.5px; font-weight: 900; color: #065F46; letter-spacing: -0.3px;">오늘의 30초 마켓 요약</span>
-            </div>
-            <span style="font-size: 12px; font-weight: 800; color: #64748B;">일반 ETF ${generalCount}개 전수 분석</span>
-          </div>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 10px; margin-bottom: 12px;">
+            <tr>
+              <td style="text-align: left; vertical-align: middle;">
+                <span style="font-size: 16px; margin-right: 6px;">💡</span>
+                <span style="font-size: 14.5px; font-weight: 900; color: #065F46; letter-spacing: -0.3px;">오늘의 30초 마켓 요약</span>
+              </td>
+              <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
+                <span style="font-size: 12px; font-weight: 800; color: #64748B;">일반 ETF ${generalCount}개 전수 분석</span>
+              </td>
+            </tr>
+          </table>
 
           <div style="font-size: 16.5px; font-weight: 800; color: #0F172A; line-height: 1.55; margin-bottom: 12px; letter-spacing: -0.4px;">
             코스피 소폭 상승에도 일반 ETF 시장은 <span style="color: #2563EB; font-weight: 900;">하락 ${down}개 우세</span>로 차별화된 숨고르기 장세를 나타냈습니다.
           </div>
 
-          <div style="background-color: #FFFFFF; border-radius: 12px; padding: 12px 14px; border: 1.5px solid #E2E8F0; font-size: 14.5px; color: #334155; line-height: 1.7;">
-            <div style="display: flex; align-items: baseline; margin-bottom: 6px;">
-              <span style="color: #DC2626; font-weight: 900; font-size: 14px; margin-right: 8px; flex-shrink: 0;">• 주도 테마</span>
-              <span style="color: #0F172A; font-weight: 800;"><span style="color: #DC2626;">'${escapeXml(topTheme.peerGroup.replace(/\s*\([^)]*\)/g, ''))}'</span> (+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 상승 선방</span>
-            </div>
-            <div style="display: flex; align-items: baseline;">
-              <span style="color: #047857; font-weight: 900; font-size: 14px; margin-right: 8px; flex-shrink: 0;">• 스마트머니</span>
-              <span style="color: #0F172A; font-weight: 800;"><span style="color: #047857;">'${escapeXml(topInflowName)}'</span> 등 대표지수로 실질 자금 순유입 집중</span>
-            </div>
+          <div style="background-color: #FFFFFF; border-radius: 12px; padding: 12px 14px; border: 1.5px solid #E2E8F0; font-size: 14.5px; color: #334155;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 6px;">
+              <tr>
+                <td style="vertical-align: top; width: 85px; white-space: nowrap; color: #DC2626; font-weight: 900; font-size: 14px; line-height: 1.6; padding-right: 6px;">
+                  • 주도 테마
+                </td>
+                <td style="vertical-align: top; color: #0F172A; font-weight: 800; font-size: 14.5px; line-height: 1.6;">
+                  <span style="color: #DC2626;">'${escapeXml(topTheme.peerGroup.replace(/\s*\([^)]*\)/g, ''))}'</span> (+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 상승 선방
+                </td>
+              </tr>
+            </table>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+              <tr>
+                <td style="vertical-align: top; width: 85px; white-space: nowrap; color: #047857; font-weight: 900; font-size: 14px; line-height: 1.6; padding-right: 6px;">
+                  • 스마트머니
+                </td>
+                <td style="vertical-align: top; color: #0F172A; font-weight: 800; font-size: 14.5px; line-height: 1.6;">
+                  <span style="color: #047857;">'${escapeXml(topInflowName)}'</span> 등 대표지수로 실질 자금 순유입 집중
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
 
@@ -209,10 +222,16 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
         </div>
 
         <!-- 3. Section: Themes Long/Short -->
-        <div class="section-header">
-          <span class="section-title">🔥 주도 테마 TOP 3 vs 부진 테마 TOP 3</span>
-          <span class="section-subtext">AUM 가중 평균 수익률 기준</span>
-        </div>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 30px; margin-bottom: 12px;">
+          <tr>
+            <td style="text-align: left; vertical-align: middle;">
+              <span style="font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">🔥 주도 테마 TOP 3 vs 부진 테마 TOP 3</span>
+            </td>
+            <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
+              <span style="font-size: 12.5px; color: #64748B; font-weight: 700;">AUM 가중 평균 수익률 기준</span>
+            </td>
+          </tr>
+        </table>
         <table class="table-custom">
           <thead>
             <tr>
@@ -240,10 +259,16 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
         </table>
 
         <!-- 4. Section: Smart Money Inflows -->
-        <div class="section-header">
-          <span class="section-title">💸 스마트머니(외인·기관) 실질 순유입 TOP 5</span>
-          <span class="section-subtext">일반 테마 ETF 기준 · 단위: 억원</span>
-        </div>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 30px; margin-bottom: 12px;">
+          <tr>
+            <td style="text-align: left; vertical-align: middle;">
+              <span style="font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">💸 스마트머니(외인·기관) 실질 순유입 TOP 5</span>
+            </td>
+            <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
+              <span style="font-size: 12.5px; color: #64748B; font-weight: 700;">일반 테마 ETF 기준 · 단위: 억원</span>
+            </td>
+          </tr>
+        </table>
         <table class="table-custom">
           <thead>
             <tr>
@@ -273,23 +298,31 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
 
         <!-- 5. Section: Disparity Warning (수급 쏠림 주의 ETF / 괴리율 경보) -->
         <div style="margin-top: 30px; background-color: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 18px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);">
-          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 14px; margin-bottom: 16px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 18px;">⚠️</span>
-              <span style="font-size: 16px; font-weight: 900; color: #0F172A;">수급 쏠림 주의 ETF (괴리율 경보)</span>
-              <span style="display: inline-block; background-color: #F1F5F9; color: #334155; font-size: 12px; font-weight: 900; padding: 2px 8px; border-radius: 999px;">총 ${disparityList.length}개</span>
-            </div>
-            <div style="font-size: 12px; font-weight: 700; color: #64748B;">
-              기준: 국내 1.0% / 해외 3.0% 이상
-            </div>
-          </div>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 14px; margin-bottom: 16px;">
+            <tr>
+              <td style="text-align: left; vertical-align: middle;">
+                <span style="font-size: 18px; margin-right: 6px;">⚠️</span>
+                <span style="font-size: 16px; font-weight: 900; color: #0F172A; margin-right: 6px;">수급 쏠림 주의 ETF (괴리율 경보)</span>
+                <span style="display: inline-block; background-color: #F1F5F9; color: #334155; font-size: 12px; font-weight: 900; padding: 2px 8px; border-radius: 999px;">총 ${disparityList.length}개</span>
+              </td>
+              <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
+                <span style="font-size: 12px; font-weight: 700; color: #64748B;">기준: 국내 1.0% / 해외 3.0% 이상</span>
+              </td>
+            </tr>
+          </table>
 
           <!-- Overvalued Sub-panel -->
           <div style="margin-bottom: 16px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span style="font-size: 14.5px; font-weight: 900; color: #DC2626;">📈 고평가 TOP 3 (Premium)</span>
-              <span style="font-size: 12px; font-weight: 800; color: #DC2626; background-color: #FEF2F2; padding: 3px 8px; border-radius: 6px;">추격 매수 주의 (시장가 &gt; NAV)</span>
-            </div>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 8px;">
+              <tr>
+                <td style="text-align: left; vertical-align: middle;">
+                  <span style="font-size: 14.5px; font-weight: 900; color: #DC2626;">📈 고평가 TOP 3 (Premium)</span>
+                </td>
+                <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
+                  <span style="font-size: 12px; font-weight: 800; color: #DC2626; background-color: #FEF2F2; padding: 3px 8px; border-radius: 6px;">추격 매수 주의 (시장가 &gt; NAV)</span>
+                </td>
+              </tr>
+            </table>
             ${overvalued.length === 0 ? `
               <div style="background-color: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 10px; padding: 12px; text-align: center; font-size: 13.5px; color: #475569; font-weight: 700;">
                 <span style="color: #10B981; font-weight: 900; margin-right: 6px;">✓</span> 현재 고평가 경보 종목이 없습니다.
@@ -314,10 +347,16 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
 
           <!-- Undervalued Sub-panel -->
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <span style="font-size: 14.5px; font-weight: 900; color: #2563EB;">📉 저평가 TOP 3 (Discount)</span>
-              <span style="font-size: 12px; font-weight: 800; color: #2563EB; background-color: #EFF6FF; padding: 3px 8px; border-radius: 6px;">보유자 헐값 매도 유의 및 시차 확인 (시장가 &lt; NAV)</span>
-            </div>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 8px;">
+              <tr>
+                <td style="text-align: left; vertical-align: middle;">
+                  <span style="font-size: 14.5px; font-weight: 900; color: #2563EB;">📉 저평가 TOP 3 (Discount)</span>
+                </td>
+                <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
+                  <span style="font-size: 12px; font-weight: 800; color: #2563EB; background-color: #EFF6FF; padding: 3px 8px; border-radius: 6px;">보유자 헐값 매도 유의 및 시차 확인 (시장가 &lt; NAV)</span>
+                </td>
+              </tr>
+            </table>
             ${undervalued.length === 0 ? `
               <div style="background-color: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 10px; padding: 12px; text-align: center; font-size: 13.5px; color: #475569; font-weight: 700;">
                 <span style="color: #10B981; font-weight: 900; margin-right: 6px;">✓</span> 현재 저평가 경보 종목이 없습니다.

@@ -50,28 +50,23 @@
 - `scripts/backfill_api.py` — 일간 수집과 소급 수집 겸용
 - `scripts/update_daily_data.py` — `fetch_snapshot`(공공데이터포털), `fetch_krx_snapshot`(KRX) 정의
 
-**출처** [확인됨]
+**출처 (SSOT 확정)** [확인됨]
 
-| 순위 | 출처 | API 명 / URL | 비고 |
+| 구분 | 출처 | API 명 / URL | 비고 |
 |---|---|---|---|
-| 1순위 | KRX | KRX Open API (`data-dbg.krx.co.kr/svc/apis/etp/etf_bydd_trd`) | **우선순위 복귀**. 금융위 API는 아침(08:00~10:00)에 데이터가 발행되지 않고 신규 상장 반영이 늦어 매일 폴백이 발생함. 유료화 이전까지 라이선스 부담이 낮으므로 KRX 우선 유지 |
-| 2순위 (폴백) | 금융위원회 | 증권상품시세정보 (`apis.data.go.kr/.../getETFPriceInfo`) | KRX 응답 실패 시 대체 출처. KRX 에 없는 ISIN 보충 조회 용도로 사용됨. 추후 유료화 시점에 아침 수집 시각(11시 이후) 조정을 전제로 1순위 전환 재검토 |
+| **단일 원천 (SSOT)** | **KRX** | KRX Open API (`data-dbg.krx.co.kr/svc/apis/etp/etf_bydd_trd`) | **단일 원천 확정**. 장 마감 직후 및 이른 아침(08:00) 즉시 종가, NAV, 좌수, 거래대금 확정 제공. (공공데이터포털은 아침 11:15 이전 결측·지연으로 인해 파이프라인에서 완전 제외) |
 
-`update_daily_data.py` 30행이 `BASE_URL`, 31행이 `KRX_ETF_DAILY_URL` 입니다.
+`update_daily_data.py` 31행 `KRX_ETF_DAILY_URL` 이 단일 기준입니다.
 
-**인증**: `DATA_GO_KR_SERVICE_KEY`, `KRX_OPEN_API_KEY`
+**인증**: `KRX_OPEN_API_KEY` (헤더 `AUTH_KEY`)
 
-**조회 방식**: `basDt` 로 날짜 고정, `numOfRows=1000` 페이징으로 `totalCount` 까지 순회
+**조회 방식**: `basDd` 로 날짜 고정, JSON 직접 파싱
 
 **적재 경로**: 서명된 인제스션 엔드포인트 `POST /api/internal/ingest-prices`. 요청당 최대 40건. HMAC-SHA256 서명(`PRICE_INGEST_HMAC_SECRET`).
 
 **저장 위치**: D1 `etf_prices`, `briefing_etf_daily`
 
-**건수 기준** [확인됨]: 2026-08-24 기준 1,161건. 두 출처 모두 동일했고 종가 불일치 0건.
-
-**주의**: 공공데이터포털의 하루 중 갱신 시각 (2026-08-26 측정: 08:10, 09:10, 10:14 에 0건. 11:12 에 1,164건. 발행 시각은 10:14 와 11:12 사이. 정확한 시각 [미확인]. 1거래일 관측.)
-
-### 2-2. 국내 지수 (KOSPI, KOSDAQ)
+### 2-2. 국내 지수 (KOSPI, KOSDAQ, VKOSPI)
 
 **화면 사용처**: 마켓 티커, 마켓 브리핑 지수 카드
 
@@ -80,19 +75,14 @@
 ```
 KOSPI   https://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd
 KOSDAQ  https://data-dbg.krx.co.kr/svc/apis/idx/kosdaq_dd_trd
+VKOSPI  https://data-dbg.krx.co.kr/svc/apis/idx/drvprod_dd_trd
 ```
 
 **인증**: `KRX_OPEN_API_KEY` (헤더 `AUTH_KEY`)
 
 **저장 위치**: `data/market_indices.json`, D1 `market_index_daily`
 
-**라이선스 문제** [확인됨]: KRX 이용약관 제6조 제2항이 비상업 목적으로 제한합니다.
-
-**전환 계획**: 공공데이터포털 지수시세정보(15094807)로 이전 예정. **2026-08-26 승인 완료** (다만 실제 전환 여부는 아침 가용성 시간대별 측정 결과에 따라 결정될 예정). 승인되면 `getStockMarketIndex` 오퍼레이션을 씁니다. 필드는 `basDt`, `idxNm`, `idxCsf`, `clpr`, `fltRt`.
-
-**주의**: 2024년 12월 6일 이후 일부 지수명이 변경되었습니다. **지수명 문자열을 추정하지 말고 `likeIdxNm` 으로 실제 반환 목록을 확인한 뒤 확정하십시오.**
-
-**과거 사고**: 2026-08-24 브리핑에 8월 21일 값이 발행되었습니다. 날짜 정합 검사가 있었으나 **요청한 날짜를 그대로 응답 날짜로 기록**해 무력화되었습니다.
+**단일 원천 정책**: **한국거래소(KRX Open API) 단일 원천으로 확정**. (공공데이터포털 15094807 지수 API는 오전 11시 15분 이전 데이터 미발행으로 인해 아침 마켓 브리핑 정합성을 해치므로 원천 대상에서 공식 제외 철회)
 
 ### 2-3. 해외지수, 환율, 원자재, 금리, 변동성
 

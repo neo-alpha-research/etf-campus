@@ -62,19 +62,19 @@ export function useMarketBriefingHistory({ limit = 10 }: UseMarketBriefingHistor
   );
 
   const [extraItems, setExtraItems] = useState<MarketBriefingHistoryItem[]>([]);
-  const [cursor, setCursor] = useState<string | null>(null);
+  const [cursor, setCursor] = useState<string | null | undefined>(undefined);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [hasMore, setHasMore] = useState(false);
+  const [hasMoreOverride, setHasMoreOverride] = useState<boolean | null>(null);
 
   const baseItems = data?.items ?? [];
-  const currentHasMore = cursor ? hasMore : Boolean(data?.page?.hasMore);
+  const activeCursor = cursor !== undefined ? cursor : (data?.page?.nextCursor ?? null);
+  const currentHasMore = hasMoreOverride !== null ? hasMoreOverride : Boolean(data?.page?.hasMore);
 
   const loadMore = useCallback(async () => {
-    const nextCursor = cursor || data?.page?.nextCursor;
-    if (!nextCursor || isLoadingMore) return;
+    if (!currentHasMore || !activeCursor || isLoadingMore) return;
     setIsLoadingMore(true);
     try {
-      const res = await fetch(`/api/briefings/history?limit=${limit}&cursor=${encodeURIComponent(nextCursor)}`, {
+      const res = await fetch(`/api/briefings/history?limit=${limit}&cursor=${encodeURIComponent(activeCursor)}`, {
         headers: { Accept: "application/json" },
         cache: "no-store",
       });
@@ -82,16 +82,17 @@ export function useMarketBriefingHistory({ limit = 10 }: UseMarketBriefingHistor
         const payload: HistoryApiResponse = await res.json();
         setExtraItems((prev) => [...prev, ...(payload.items ?? [])]);
         setCursor(payload.page?.nextCursor ?? null);
-        setHasMore(Boolean(payload.page?.hasMore));
+        setHasMoreOverride(Boolean(payload.page?.hasMore));
       }
     } finally {
       setIsLoadingMore(false);
     }
-  }, [cursor, data?.page?.nextCursor, isLoadingMore, limit]);
+  }, [activeCursor, currentHasMore, isLoadingMore, limit]);
 
   const refresh = useCallback(async () => {
     setExtraItems([]);
-    setCursor(null);
+    setCursor(undefined);
+    setHasMoreOverride(null);
     await mutate();
   }, [mutate]);
 

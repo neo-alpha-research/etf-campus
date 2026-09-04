@@ -43,6 +43,9 @@ PENSION_CONFIDENCE_HIGH = "높음"
 PENSION_CONFIDENCE_MODERATE = "보통"
 PENSION_CONFIDENCE_LOW = "낮음"
 
+PENSION_VERIFIED_YES = "Y"
+PENSION_VERIFIED_NO = "N"
+
 SAMPLE_VERIFIED_TICKERS = {
     "0000D0",  # TIGER 엔비디아미국채커버드콜밸런스(합성) - 100% 안전자산 확인
     "0005C0",  # RISE 미국S&P500엔화노출(합성 H) - 70% 위험자산 확인
@@ -144,6 +147,7 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
             "isa_eligible": isa_eligible,
             "isa_education_required": isa_education_required,
             "pension_source": PENSION_SOURCE_RULE_ESTIMATE,
+            "pension_verified": PENSION_VERIFIED_NO,
             "pension_confidence": PENSION_CONFIDENCE_HIGH,
             "pension_reason": "레버리지/인버스 파생평가액 초과 (퇴직연금 편입 요건 미충족)",
             "underlying_is_security": underlying_sec,
@@ -164,6 +168,7 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
             "isa_eligible": isa_eligible,
             "isa_education_required": isa_education_required,
             "pension_source": PENSION_SOURCE_RULE_ESTIMATE,
+            "pension_verified": PENSION_VERIFIED_NO,
             "pension_confidence": PENSION_CONFIDENCE_MODERATE,
             "pension_reason": "선물 기반 파생 위험평가액 40% 초과 (퇴직연금 편입 요건 미충족)",
             "underlying_is_security": underlying_sec,
@@ -204,30 +209,45 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
     pension_limit = LIMIT_SAFE_ASSET if is_safe else LIMIT_RISK_ASSET
 
     # -----------------------------------------------------------------------
-    # 4. 검증 출처(pension_source) 및 신뢰도(pension_confidence) 판정
+    # 4. 검증 출처(pension_source), 외부대조(pension_verified), 신뢰도(pension_confidence) 판정
     # -----------------------------------------------------------------------
-    # 영역 A (레버리지·인버스): 즉시 반환 (확정 불가, 신뢰도 높음)
-    # 영역 C (선물형 1X): 즉시 반환 (구조상 불가, 신뢰도 보통)
-    # 영역 B (1배 증권형 합성): 2016.9.21 금융위 의결(고시 제2016-31호) 예외 충족 -> 법령조건직접판정, 신뢰도 높음
-    # 표본 검증 종목: 주요 증권사 공식 적격 목록 대조 확인 -> 표본대조, 신뢰도 높음
-    # 영역 D (커버드콜): 옵션 매도 파생 위험평가액 산정 미확인 -> 규칙기반추정, 신뢰도 보통 (확인권장)
-    # 일반 현물 1X: 일반 주식/채권형 직접 추종 -> 규칙기반추정, 신뢰도 높음
+    # 2축 분리 구조:
+    #   - 축 1: pension_source: 판정 근거 ("법령조건직접판정" | "규칙기반추정")
+    #   - 축 2: pension_verified: 외부 대조 실적 ("Y" | "N")
+    #
+    # 판정 순서:
+    #   1) 영역 D (커버드콜 62종목): 옵션 매도 파생평가액 산정 미확인 회색지대
+    #      (영역 B보다 우선 평가하여 합성 커버드콜 10종목의 영역 B 승격을 원천 배제)
+    #      - 외부 대조 확인 종목(SAMPLE_VERIFIED_TICKERS): pension_verified="Y", 신뢰도 "높음"
+    #      - 미검증 종목: pension_verified="N", 신뢰도 "보통" (확인권장)
+    #      - 판정 근거: "규칙기반추정"
+    #   2) 영역 B (1배 증권형 합성 64종목, 커버드콜 제외): 2016.9.21 금융위 의결(고시 제2016-31호) 예외 충족
+    #      - 판정 근거: "법령조건직접판정", 신뢰도 "높음"
+    #      - 외부 대조 여부: SAMPLE_VERIFIED_TICKERS 여부에 따라 "Y" 또는 "N"
+    #   3) 일반 현물 1X 주식·채권형 (905종목):
+    #      - 판정 근거: "규칙기반추정", 신뢰도 "높음"
+    #      - 외부 대조 여부: SAMPLE_VERIFIED_TICKERS 여부에 따라 "Y" 또는 "N"
     is_synthetic = bool(SYNTHETIC_NAME_PATTERN.search(name))
+    is_cc = "커버드콜" in name
+    is_verified = (PENSION_VERIFIED_YES if ticker in SAMPLE_VERIFIED_TICKERS else PENSION_VERIFIED_NO)
 
-    if is_synthetic and underlying_sec == "Y" and risk == "normal":
+    if is_cc:
+        pension_source = PENSION_SOURCE_RULE_ESTIMATE
+        pension_verified = is_verified
+        if is_verified == PENSION_VERIFIED_YES:
+            pension_confidence = PENSION_CONFIDENCE_HIGH
+            pension_reason = f"증권사 적격 표본대조 완료 - {reason}"
+        else:
+            pension_confidence = PENSION_CONFIDENCE_MODERATE
+            pension_reason = f"커버드콜 옵션 매도 파생평가액 산정 미확인 (보통/확인권장) - {reason}"
+    elif is_synthetic and underlying_sec == "Y" and risk == "normal":
         pension_source = PENSION_SOURCE_STATUTE_DIRECT
+        pension_verified = is_verified
         pension_confidence = PENSION_CONFIDENCE_HIGH
         pension_reason = f"퇴직연금감독규정 1배 증권형 합성 ETF 예외 (2016.9.21 의결) - {reason}"
-    elif ticker in SAMPLE_VERIFIED_TICKERS:
-        pension_source = PENSION_SOURCE_SAMPLE_VERIFIED
-        pension_confidence = PENSION_CONFIDENCE_HIGH
-        pension_reason = f"증권사 적격 표본대조 완료 - {reason}"
-    elif "커버드콜" in name:
-        pension_source = PENSION_SOURCE_RULE_ESTIMATE
-        pension_confidence = PENSION_CONFIDENCE_MODERATE
-        pension_reason = f"커버드콜 옵션 매도 파생평가액 산정 미확인 (보통/확인권장) - {reason}"
     else:
         pension_source = PENSION_SOURCE_RULE_ESTIMATE
+        pension_verified = is_verified
         pension_confidence = PENSION_CONFIDENCE_HIGH
         pension_reason = reason
 
@@ -237,6 +257,7 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
         "isa_eligible": isa_eligible,
         "isa_education_required": isa_education_required,
         "pension_source": pension_source,
+        "pension_verified": pension_verified,
         "pension_confidence": pension_confidence,
         "pension_reason": pension_reason,
         "underlying_is_security": underlying_sec,
@@ -256,6 +277,7 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         "isa_eligible",
         "isa_education_required",
         "pension_source",
+        "pension_verified",
         "pension_confidence",
         "underlying_is_security",
     ):
@@ -273,8 +295,9 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         "isa_education_required": 0,
         "isa_education_not_required": 0,
         "source_statute": 0,
-        "source_sample": 0,
         "source_rule": 0,
+        "verified_y": 0,
+        "verified_n": 0,
         "conf_high": 0,
         "conf_moderate": 0,
         "conf_low": 0,
@@ -290,6 +313,7 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         row["isa_eligible"] = reg["isa_eligible"]
         row["isa_education_required"] = reg["isa_education_required"]
         row["pension_source"] = reg["pension_source"]
+        row["pension_verified"] = reg["pension_verified"]
         row["pension_confidence"] = reg["pension_confidence"]
         row["underlying_is_security"] = reg["underlying_is_security"]
 
@@ -315,10 +339,13 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
 
         if reg["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT:
             stats["source_statute"] += 1
-        elif reg["pension_source"] == PENSION_SOURCE_SAMPLE_VERIFIED:
-            stats["source_sample"] += 1
         else:
             stats["source_rule"] += 1
+
+        if reg["pension_verified"] == PENSION_VERIFIED_YES:
+            stats["verified_y"] += 1
+        else:
+            stats["verified_n"] += 1
 
         if reg["pension_confidence"] == PENSION_CONFIDENCE_HIGH:
             stats["conf_high"] += 1
@@ -365,7 +392,8 @@ def main() -> int:
     print(f"    * ISA 레버리지 교육 필요: {stats['isa_education_required']:,}")
     print(f"    * ISA 레버리지 교육 불필요: {stats['isa_education_not_required']:,}")
     print(f"  - 기초자산 증권 여부: 증권(Y) {stats['underlying_sec_y']:,} | 비증권(N) {stats['underlying_sec_n']:,}")
-    print(f"  - 퇴직연금 검증 출처: 법령조건직접판정(영역B) {stats['source_statute']:,} | 표본대조 {stats['source_sample']:,} | 규칙기반추정 {stats['source_rule']:,}")
+    print(f"  - 퇴직연금 판정 근거: 법령조건직접판정(영역B) {stats['source_statute']:,} | 규칙기반추정 {stats['source_rule']:,}")
+    print(f"  - 퇴직연금 외부대조(검증): 대조완료(Y) {stats['verified_y']:,} | 미대조(N) {stats['verified_n']:,}")
     print(f"  - 퇴직연금 신뢰도: 높음 {stats['conf_high']:,} | 보통(확인권장) {stats['conf_moderate']:,} | 낮음 {stats['conf_low']:,}")
     return 0
 

@@ -14,6 +14,8 @@ from scripts.rules.pension_regulatory_engine import (
     PENSION_SOURCE_SAMPLE_VERIFIED,
     PENSION_CONFIDENCE_HIGH,
     PENSION_CONFIDENCE_MODERATE,
+    PENSION_VERIFIED_YES,
+    PENSION_VERIFIED_NO,
     is_underlying_security,
 )
 
@@ -165,7 +167,7 @@ def test_standard_equity_etfs():
 
 
 def test_pension_source_and_confidence():
-    # 1. Area B: 1X Securities Synthetic ETF (459580) -> Direct Statute, HIGH confidence
+    # 1. Area B: 1X Securities Synthetic ETF (459580) -> Direct Statute, unverified, HIGH confidence
     res_synth = classify_pension_and_isa({
         "ticker": "459580",
         "name": "KODEX CD금리액티브(합성)",
@@ -173,6 +175,7 @@ def test_pension_source_and_confidence():
         "asset_class": "금리·파킹",
     })
     assert res_synth["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT
+    assert res_synth["pension_verified"] == PENSION_VERIFIED_NO
     assert res_synth["pension_confidence"] == PENSION_CONFIDENCE_HIGH
     assert res_synth["underlying_is_security"] == "Y"
     assert res_synth["pension_eligible"] == PENSION_ELIGIBLE
@@ -189,6 +192,7 @@ def test_pension_source_and_confidence():
     })
     assert res_219390["underlying_is_security"] == "Y"
     assert res_219390["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT
+    assert res_219390["pension_verified"] == PENSION_VERIFIED_NO
     assert res_219390["pension_confidence"] == PENSION_CONFIDENCE_HIGH
     assert res_219390["pension_eligible"] == PENSION_ELIGIBLE
 
@@ -202,19 +206,57 @@ def test_pension_source_and_confidence():
     })
     assert res_carbon["underlying_is_security"] == "N"
     assert res_carbon["pension_eligible"] == PENSION_INELIGIBLE
+    assert res_carbon["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_carbon["pension_verified"] == PENSION_VERIFIED_NO
     assert res_carbon["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
 
-    # 4. Sample verified Physical Covered Call (289480) -> SAMPLE_VERIFIED, HIGH confidence
+    # 4. Area D: Synthetic Covered Call Revocation Verification (472830)
+    # Even though synthetic, covered call is prioritized into Area D -> RULE_ESTIMATE, MODERATE confidence
+    res_synth_cc = classify_pension_and_isa({
+        "ticker": "472830",
+        "name": "RISE 미국30년국채커버드콜(합성)",
+        "risk_type": "normal",
+        "asset_class": "채권",
+    })
+    assert res_synth_cc["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_synth_cc["pension_verified"] == PENSION_VERIFIED_NO
+    assert res_synth_cc["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
+    assert res_synth_cc["pension_eligible"] == PENSION_ELIGIBLE
+
+    # 5. Sample verified Synthetic Covered Call (441680) -> RULE_ESTIMATE, VERIFIED_YES, HIGH confidence
+    res_synth_cc_sample = classify_pension_and_isa({
+        "ticker": "441680",
+        "name": "TIGER 미국나스닥100커버드콜(합성)",
+        "risk_type": "normal",
+        "asset_class": "주식-해외",
+    })
+    assert res_synth_cc_sample["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_synth_cc_sample["pension_verified"] == PENSION_VERIFIED_YES
+    assert res_synth_cc_sample["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+
+    # 6. Sample verified Synthetic Non-Covered-Call (0005C0) -> STATUTE_DIRECT, VERIFIED_YES, HIGH confidence
+    res_synth_sample = classify_pension_and_isa({
+        "ticker": "0005C0",
+        "name": "RISE 미국S&P500엔화노출(합성 H)",
+        "risk_type": "normal",
+        "asset_class": "주식-해외",
+    })
+    assert res_synth_sample["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT
+    assert res_synth_sample["pension_verified"] == PENSION_VERIFIED_YES
+    assert res_synth_sample["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+
+    # 7. Sample verified Physical Covered Call (289480) -> RULE_ESTIMATE, VERIFIED_YES, HIGH confidence
     res_sample = classify_pension_and_isa({
         "ticker": "289480",
         "name": "TIGER 200커버드콜ATM",
         "risk_type": "normal",
         "asset_class": "주식-국내",
     })
-    assert res_sample["pension_source"] == PENSION_SOURCE_SAMPLE_VERIFIED
+    assert res_sample["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_sample["pension_verified"] == PENSION_VERIFIED_YES
     assert res_sample["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 
-    # 5. Unverified Physical Covered Call -> Area D Gray Zone, MODERATE confidence
+    # 8. Unverified Physical Covered Call -> Area D Gray Zone, MODERATE confidence
     res_cc = classify_pension_and_isa({
         "ticker": "999999",
         "name": "TEST 코스피200커버드콜",
@@ -222,9 +264,10 @@ def test_pension_source_and_confidence():
         "asset_class": "주식-국내",
     })
     assert res_cc["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_cc["pension_verified"] == PENSION_VERIFIED_NO
     assert res_cc["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
 
-    # 6. Standard equity ETF (069500)
+    # 9. Standard equity ETF (069500)
     res_std = classify_pension_and_isa({
         "ticker": "069500",
         "name": "KODEX 200",
@@ -232,9 +275,10 @@ def test_pension_source_and_confidence():
         "asset_class": "주식-국내",
     })
     assert res_std["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_std["pension_verified"] == PENSION_VERIFIED_NO
     assert res_std["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 
-    # 7. Futures ETF (261220, normal with futures keyword) -> MODERATE confidence
+    # 10. Futures ETF (261220, normal with futures keyword) -> MODERATE confidence
     res_fut = classify_pension_and_isa({
         "ticker": "261220",
         "name": "KODEX WTI원유선물(H)",
@@ -242,9 +286,10 @@ def test_pension_source_and_confidence():
         "asset_class": "원자재",
     })
     assert res_fut["pension_eligible"] == PENSION_INELIGIBLE
+    assert res_fut["pension_verified"] == PENSION_VERIFIED_NO
     assert res_fut["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
 
-    # 8. Leverage ETF (122630) -> HIGH confidence (statutory multiplier rule)
+    # 11. Leverage ETF (122630) -> HIGH confidence (statutory multiplier rule)
     res_lev = classify_pension_and_isa({
         "ticker": "122630",
         "name": "KODEX 레버리지",
@@ -252,4 +297,5 @@ def test_pension_source_and_confidence():
         "asset_class": "주식-국내",
     })
     assert res_lev["pension_eligible"] == PENSION_INELIGIBLE
+    assert res_lev["pension_verified"] == PENSION_VERIFIED_NO
     assert res_lev["pension_confidence"] == PENSION_CONFIDENCE_HIGH

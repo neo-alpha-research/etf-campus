@@ -187,6 +187,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       pensionSource: requireField(pension, "final_src", `pension:${ticker}`),
       pensionLimit: (optionalText(master, "pension_limit") || optionalText(pension, "pension_limit")) as PensionLimit | null,
       pensionSourceType: (optionalText(master, "pension_source") || optionalText(pension, "pension_source")) as any,
+      pensionVerified: (optionalText(master, "pension_verified") || optionalText(pension, "pension_verified")) as "Y" | "N" | null,
       pensionConfidence: (optionalText(master, "pension_confidence") || optionalText(pension, "pension_confidence")) as any,
       isaEligible: (optionalText(master, "isa_eligible") || optionalText(pension, "isa_eligible")) as IsaStatus | null,
       isaEducationRequired: (optionalText(master, "isa_education_required") || optionalText(pension, "isa_education_required")) as "Y" | "N" | null,

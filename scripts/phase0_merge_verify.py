@@ -34,6 +34,7 @@ def main():
             "isa_eligible": reg["isa_eligible"],
             "isa_education_required": reg["isa_education_required"],
             "pension_source": reg["pension_source"],
+            "pension_verified": reg["pension_verified"],
             "pension_confidence": reg["pension_confidence"],
             "underlying_is_security": reg["underlying_is_security"],
             "official_src": "퇴직연금감독규정 제9조·제12조 및 조세특례제한법 제91조의18",
@@ -58,7 +59,7 @@ def main():
         'listing_date_source', 'listing_date_status', 'first_traded_date', 'first_traded_date_source',
         'listing_date_verified_at', 'listing_date_evidence_id', 'nav', 'disparity', 'tracking_error',
         'shares', 'net_asset', 'pension_limit', 'isa_eligible', 'isa_education_required',
-        'pension_source', 'pension_confidence', 'underlying_is_security'
+        'pension_source', 'pension_verified', 'pension_confidence', 'underlying_is_security'
     ]
     master_rows = [{k: row.get(k, '') for k in master_fields} for row in out]
     with master_path.open("w", newline="", encoding="utf-8-sig") as f:

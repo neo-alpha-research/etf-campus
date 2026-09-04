@@ -20,6 +20,7 @@ const screenerEtfs = fullEtfs.map((etf) => ({
   pension: etf.pension,
   pensionLimit: etf.pensionLimit,
   pensionSourceType: etf.pensionSourceType,
+  pensionVerified: etf.pensionVerified,
   pensionConfidence: etf.pensionConfidence,
   isaEligible: etf.isaEligible,
   isaEducationRequired: etf.isaEducationRequired,

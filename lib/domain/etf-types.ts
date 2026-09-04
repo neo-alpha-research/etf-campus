@@ -162,6 +162,7 @@ export type Etf = {
   pensionSource: string;
   pensionLimit?: PensionLimit | null;
   pensionSourceType?: PensionSourceType | null;
+  pensionVerified?: "Y" | "N" | null;
   pensionConfidence?: PensionConfidenceLevel | null;
   isaEligible?: IsaStatus | null;
   isaEducationRequired?: "Y" | "N" | null;
@@ -193,6 +194,7 @@ export type EtfSlim = Pick<
   | "pension"
   | "pensionLimit"
   | "pensionSourceType"
+  | "pensionVerified"
   | "pensionConfidence"
   | "isaEligible"
   | "isaEducationRequired"

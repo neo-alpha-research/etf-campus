@@ -116,13 +116,15 @@ def generate_d1_sql_chunks(
                 holding_count = len(holdings)
                 top1_weight = holdings[0]["weight_pct"] if holdings else 0.0
 
-                # Cloudflare D1 enforces a strict 100KB SQL statement limit (SQLITE_TOOBIG).
-                # To prevent mega-index funds (1,500+ items) from exceeding the limit,
-                # we preserve the true total count in holding_count and cap the stored JSON
-                # constituents array to the top 300 holdings (max ~30KB).
-                stored_holdings = holdings[:300]
+                # To support 100% of all constituents (even 1,500+ items) without hitting
+                # Cloudflare D1's 100KB query limit (SQLITE_TOOBIG), store as compact tuples:
+                # [name, weight_pct, shares, item_code] -> Max ~63KB for 1,561 items.
+                compact_holdings = [
+                    [h["name"], h["weight_pct"], h.get("shares"), h.get("item_code")]
+                    for h in holdings
+                ]
                 holdings_json_str = json.dumps(
-                    stored_holdings, ensure_ascii=False
+                    compact_holdings, ensure_ascii=False
                 ).replace("'", "''")
 
                 sql = (

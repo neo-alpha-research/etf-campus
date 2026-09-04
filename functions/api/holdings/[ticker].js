@@ -43,11 +43,27 @@ export async function onRequestGet(context) {
       return jsonResponse({ error: "Holdings not found", ticker }, 404);
     }
 
-    let holdings = [];
+    let rawHoldings = [];
     try {
-      holdings = JSON.parse(row.holdings_json);
+      rawHoldings = JSON.parse(row.holdings_json);
     } catch {
-      holdings = [];
+      rawHoldings = [];
+    }
+
+    let holdings = [];
+    if (Array.isArray(rawHoldings) && rawHoldings.length > 0) {
+      if (Array.isArray(rawHoldings[0])) {
+        // Unpack compact tuple format: [name, weight_pct, shares, item_code]
+        holdings = rawHoldings.map(([name, weight_pct, shares, item_code]) => ({
+          name,
+          weight_pct,
+          shares,
+          item_code: item_code ?? null,
+        }));
+      } else {
+        // Standard object format (backward compatible)
+        holdings = rawHoldings;
+      }
     }
 
     return jsonResponse(

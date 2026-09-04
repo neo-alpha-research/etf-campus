@@ -76,6 +76,30 @@ describe("GET /api/holdings/:ticker", () => {
     expect(data.holdings).toEqual(mockHoldings);
   });
 
+  it("correctly unpacks compact tuple format [name, weight_pct, shares, item_code]", async () => {
+    const compactTuples = [
+      ["삼성전자", 25.4, 1000, "005930"],
+      ["SK하이닉스", 12.1, 500, "000660"],
+    ];
+    const mockRow = {
+      ticker: "069500",
+      as_of_date: "2026-09-04",
+      holding_count: 2,
+      top1_weight: 25.4,
+      holdings_json: JSON.stringify(compactTuples),
+    };
+
+    const { context } = createContext({ ticker: "069500", row: mockRow });
+    const response = await onRequestGet(context);
+    expect(response.status).toBe(200);
+
+    const data = await response.json();
+    expect(data.holdings).toEqual([
+      { name: "삼성전자", weight_pct: 25.4, shares: 1000, item_code: "005930" },
+      { name: "SK하이닉스", weight_pct: 12.1, shares: 500, item_code: "000660" },
+    ]);
+  });
+
   it("returns 500 if database query throws", async () => {
     const { context } = createContext({
       ticker: "069500",

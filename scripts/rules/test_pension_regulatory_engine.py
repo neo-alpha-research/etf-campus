@@ -12,7 +12,7 @@ from scripts.rules.pension_regulatory_engine import (
 
 
 def test_leverage_and_inverse():
-    # Leverage: Neither Pension nor ISA
+    # Leverage: Pension Ineligible, but ISA Eligible (with education/deposit)
     res_lev = classify_pension_and_isa({
         "ticker": "122630",
         "name": "KODEX 레버리지",
@@ -21,9 +21,9 @@ def test_leverage_and_inverse():
     })
     assert res_lev["pension_eligible"] == PENSION_INELIGIBLE
     assert res_lev["pension_limit"] == LIMIT_INELIGIBLE
-    assert res_lev["isa_eligible"] == ISA_INELIGIBLE
+    assert res_lev["isa_eligible"] == ISA_ELIGIBLE
 
-    # Inverse: Neither Pension nor ISA
+    # Inverse: Pension Ineligible, but ISA Eligible
     res_inv = classify_pension_and_isa({
         "ticker": "114800",
         "name": "KODEX 인버스",
@@ -32,7 +32,7 @@ def test_leverage_and_inverse():
     })
     assert res_inv["pension_eligible"] == PENSION_INELIGIBLE
     assert res_inv["pension_limit"] == LIMIT_INELIGIBLE
-    assert res_inv["isa_eligible"] == ISA_INELIGIBLE
+    assert res_inv["isa_eligible"] == ISA_ELIGIBLE
 
 
 def test_commodity_futures_vs_spot():

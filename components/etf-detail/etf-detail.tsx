@@ -111,17 +111,21 @@ export function EtfDetail({
                 {etf.pension === "가능" && <PensionBadge status={etf.pension} />}
                 {etf.pensionLimit === "100% (안전자산)" && (
                   <span className="rounded-md border border-emerald-300 bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-800 flex items-center gap-1" title="근로자퇴직급여보장법상 적격 안전자산 (퇴직연금 계좌 100% 전액 편입 가능)">
-                    🛡️ 안전자산 100%
+                    안전자산 100%
                   </span>
                 )}
                 {etf.pensionLimit === "70% (위험자산)" && (
                   <span className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-bold text-blue-800 flex items-center gap-1" title="근로자퇴직급여보장법상 위험자산 한도 적용 (퇴직연금 계좌 최대 70%까지 편입 가능)">
-                    ⚠️ 위험자산 70%
+                    위험자산 70%
                   </span>
                 )}
-                {etf.isaEligible === "가능" && (
+                {etf.riskType === "leverage" ? (
+                  <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1" title="조세특례제한법상 중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">
+                    ISA 가능 (교육필요)
+                  </span>
+                ) : (
                   <span className="rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700 flex items-center gap-1" title="조세특례제한법상 중개형 ISA 편입 가능">
-                    ✨ ISA 가능
+                    ISA 가능
                   </span>
                 )}
                 {cautions.map(caution => (
@@ -275,8 +279,8 @@ export function EtfDetail({
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-neutral-500 font-medium">중개형 ISA</span>
-                        <span className={`font-bold ${etf.isaEligible === "가능" ? "text-indigo-700" : "text-neutral-400"}`}>
-                          {etf.isaEligible === "가능" ? "편입 가능" : etf.isaEligible === "불가" ? "불가 (레버리지·인버스)" : "확인 중"}
+                        <span className="font-bold text-indigo-700">
+                          {etf.riskType === "leverage" ? "편입 가능 (사전교육 필요)" : "편입 가능"}
                         </span>
                       </div>
                     </dd>

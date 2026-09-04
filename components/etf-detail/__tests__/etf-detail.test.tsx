@@ -146,10 +146,10 @@ describe("EtfDetail", () => {
         isaEligible: "가능" as const 
       };
       render(<EtfDetail etf={safeItem} />);
-      expect(screen.getByText("🛡️ 안전자산 100%")).toBeInTheDocument();
-      expect(screen.getByText("✨ ISA 가능")).toBeInTheDocument();
+      expect(screen.getByText("안전자산 100%")).toBeInTheDocument();
+      expect(screen.getByText("ISA 가능")).toBeInTheDocument();
       expect(screen.getByText("100% (안전자산)")).toBeInTheDocument();
-      expect(screen.getByText("편입 가능")).toBeInTheDocument();
+      expect(screen.getAllByText("편입 가능").length).toBeGreaterThan(0);
     });
 
     it("퇴직연금 위험자산 70% 배지가 표시된다", () => {
@@ -160,7 +160,7 @@ describe("EtfDetail", () => {
         isaEligible: "가능" as const 
       };
       render(<EtfDetail etf={riskItem} />);
-      expect(screen.getByText("⚠️ 위험자산 70%")).toBeInTheDocument();
+      expect(screen.getByText("위험자산 70%")).toBeInTheDocument();
     });
   });
 

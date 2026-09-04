@@ -735,7 +735,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
               <div className="rounded-xl border border-indigo-200/80 bg-indigo-50/60 p-2.5">
                 <p className="text-[11px] font-bold text-indigo-900 mb-0.5">중개형 ISA 투자 가능 ETF</p>
                 <p className="text-[10px] text-indigo-700 leading-tight">
-                  조세특례제한법에 따라 레버리지·인버스를 제외한 모든 국내상장 ETF 투자가 가능합니다.
+                  조세특례제한법상 국내 상장된 1,167개 전 종목 투자가 가능합니다. (레버리지 ETP는 사전교육 이수 및 기본예탁금 충족 시 매수 가능)
                 </p>
               </div>
             ) : (
@@ -1108,10 +1108,10 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                 <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
                               )
                             ) : filters.accountMode === "isa" ? (
-                              etf.isaEligible === "가능" ? (
-                                <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>
+                              etf.riskType === "leverage" ? (
+                                <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">ISA(교육필요)</span>
                               ) : (
-                                <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="중개형 ISA 편입 불가 (레버리지·인버스)">ISA불가</span>
+                                <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>
                               )
                             ) : (
                               <>

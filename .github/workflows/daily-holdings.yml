@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   actions: read
+  deployments: write
 
 concurrency:
   group: daily-holdings
@@ -17,6 +18,7 @@ jobs:
   update-holdings:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    environment: production
     steps:
       - uses: actions/checkout@v4
 
@@ -61,7 +63,7 @@ jobs:
         if: steps.guard.outputs.already_run != 'true'
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
         run: |
           echo "Applying D1 holdings table schema..."
           npx --yes wrangler@4.124.0 d1 execute etf-prices --remote --file=scripts/d1_holdings_schema.sql

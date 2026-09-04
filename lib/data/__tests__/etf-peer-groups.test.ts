@@ -208,6 +208,25 @@ describe("classification data contracts", () => {
     expect(candidateTickers).not.toContain("329200");
     expect(candidateTickers).toContain("0207Z0"); // KIWOOM 미국우주데이터센터인프라
   });
+
+  it("Zero-Hallucination: TR 12m 정렬 시 PR 1년 수익률로 혼용 fallback하지 않는다", () => {
+    const base = etfs[0]!;
+    const candA: PeerCandidate = {
+      etf: { ...base, ticker: "TR_HAS", returnsTr: { ...base.returnsTr, "12m": 10 } as any, returns: { ...base.returns, "12m": 5 } as any, aum: 100, tradeValue: 100 },
+      profile: profile({ ticker: "TR_HAS" }),
+      similarityScore: 50,
+      reasons: [],
+    };
+    const candB: PeerCandidate = {
+      etf: { ...base, ticker: "TR_MISSING", returnsTr: undefined, returns: { ...base.returns, "12m": 20 } as any, aum: 100, tradeValue: 100 },
+      profile: profile({ ticker: "TR_MISSING" }),
+      similarityScore: 50,
+      reasons: [],
+    };
+    const sorted = sortPeerCandidates([candB, candA]);
+    expect(sorted[0].etf.ticker).toBe("TR_HAS");
+    expect(sorted[1].etf.ticker).toBe("TR_MISSING");
+  });
 });
 
 

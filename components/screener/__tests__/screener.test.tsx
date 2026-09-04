@@ -179,4 +179,33 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(cta).toHaveAttribute("href", expect.stringContaining("mode=derivatives"));
     expect(cta).toHaveAttribute("href", expect.stringContaining("risk=leverage"));
   });
+
+  it("TR 모드 전환 시 TR 결측 종목은 PR로 슬그머니 대체되지 않고 '-'로 표시되며 정렬 최하단으로 이동한다", () => {
+    const etfWithTr = etf({
+      ticker: "TR_YES",
+      name: "TR 보유 ETF",
+      returnsTr: { "1d": 5.0, "1w": 5, "2w": 5, "1m": 5, "2m": 5, "3m": 5, "6m": 5, "12m": 5, "24m": 5, "36m": 5, ytd: 5, itd: 5 },
+      returns: { "1d": 2.0, "1w": 2, "2w": 2, "1m": 2, "2m": 2, "3m": 2, "6m": 2, "12m": 2, "24m": 2, "36m": 2, ytd: 2, itd: 2 },
+    });
+    const etfNoTr = etf({
+      ticker: "TR_NO",
+      name: "TR 미보유 ETF",
+      returnsTr: undefined,
+      returns: { "1d": 10.0, "1w": 10, "2w": 10, "1m": 10, "2m": 10, "3m": 10, "6m": 10, "12m": 10, "24m": 10, "36m": 10, ytd: 10, itd: 10 },
+    });
+
+    render(<Screener etfs={[etfWithTr, etfNoTr]} />);
+    // 기본 상태(PR 모드)에서는 둘 다 PR 값(+2.00, +10.00)을 노출
+    expect(screen.getAllByText("+2.00").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("+10.00").length).toBeGreaterThan(0);
+
+    // TR 토글 클릭
+    const trButton = screen.getByRole("button", { name: /TR OFF/ });
+    fireEvent.click(trButton);
+
+    // TR 모드에서는 TR 보유 ETF는 +5.00 노출, 미보유 ETF는 10.00(PR)으로 폴백되지 않고 '-' 노출
+    expect(screen.getAllByText("+5.00").length).toBeGreaterThan(0);
+    expect(screen.queryAllByText("+10.00").length).toBe(0);
+  });
 });
+

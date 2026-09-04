@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { EtfCompareView } from "../etf-compare-view";
 import type { Etf } from "@/lib/domain/etf-types";
@@ -103,4 +103,37 @@ describe("EtfCompareView selectionReasons", () => {
     expect(screen.getByText("순자산 1위 🏛️")).toBeDefined();
     expect(screen.getByText("1년 성과 1위 📈")).toBeDefined();
   });
+
+  it("TR 모드 전환 시 TR 결측 종목은 PR로 폴백되지 않고 '-'로 노출되며 [1위] 뱃지를 부당하게 획득하지 않는다", () => {
+    const etfWithTr: Partial<Etf> = {
+      ticker: "000001",
+      name: "TR 보유 ETF",
+      returnsTr: { "1d": 0, "1w": 0, "2w": 0, "1m": 0, "2m": 0, "3m": 0, "6m": 0, "12m": 10.0, "24m": 0, "36m": 0, ytd: 0, itd: 0 },
+      returns: { "1d": 0, "1w": 0, "2w": 0, "1m": 0, "2m": 0, "3m": 0, "6m": 0, "12m": 4.0, "24m": 0, "36m": 0, ytd: 0, itd: 0 },
+      asOfDate: "20260715",
+    };
+    const etfNoTr: Partial<Etf> = {
+      ticker: "000002",
+      name: "TR 미보유 ETF",
+      returnsTr: undefined,
+      returns: { "1d": 0, "1w": 0, "2w": 0, "1m": 0, "2m": 0, "3m": 0, "6m": 0, "12m": 20.0, "24m": 0, "36m": 0, ytd: 0, itd: 0 },
+      asOfDate: "20260715",
+    };
+
+    render(
+      <EtfCompareView
+        mainEtf={etfWithTr as Etf}
+        basket={[etfNoTr as Etf]}
+      />
+    );
+
+    // Click TR switch
+    const trSwitch = screen.getByRole("switch");
+    fireEvent.click(trSwitch);
+
+    // In TR mode, etfWithTr shows +10.00%, etfNoTr shows '-' and does not show +20.00%
+    expect(screen.getByText("+10.00%")).toBeInTheDocument();
+    expect(screen.queryByText("+20.00%")).toBeNull();
+  });
 });
+

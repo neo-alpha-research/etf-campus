@@ -33,7 +33,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
   const [showAllPeriods, setShowAllPeriods] = useState(false);
   const [isTrMode, setIsTrMode] = useState(false);
   
-  const getActiveReturns = (etf: Etf) => (isTrMode && etf.returnsTr) ? etf.returnsTr : etf.returns;
+  const getActiveReturns = (etf: Etf) => isTrMode ? (etf.returnsTr || etf.returnsNetTr) : etf.returns;
 
   const corePeriods: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
   const allPeriods: ReturnPeriod[] = ["1d", "1w", "2w", "1m", "2m", "3m", "6m", "12m", "24m", "36m", "ytd"];
@@ -331,7 +331,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                       )}
                     </th>
                     {compareList.map((etf) => {
-                      const val = getActiveReturns(etf)?.[period];
+                      const val = getActiveReturns(etf)?.[period] ?? null;
                       const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                       const isTop = maxReturnForPeriod !== null && val === maxReturnForPeriod && compareList.length > 1;
                       return (
@@ -573,6 +573,8 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 py-3 px-4 bg-neutral-50/70 border-t border-neutral-200">
           <button
             type="button"
+            role="switch"
+            aria-checked={isTrMode}
             onClick={() => setIsTrMode(!isTrMode)}
             className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 shadow-xs border border-neutral-200 bg-white"
           >

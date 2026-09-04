@@ -234,11 +234,13 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         const aTr = a.returnsTr || a.returnsNetTr;
         const bTr = b.returnsTr || b.returnsNetTr;
 
-        if (isTrMode && aTr) aVal = aTr[periodKey] ?? -Infinity;
-        else aVal = a.returns[periodKey] ?? -Infinity;
-
-        if (isTrMode && bTr) bVal = bTr[periodKey] ?? -Infinity;
-        else bVal = b.returns[periodKey] ?? -Infinity;
+        if (isTrMode) {
+          aVal = (aTr && aTr[periodKey] !== undefined && aTr[periodKey] !== null) ? aTr[periodKey]! : -Infinity;
+          bVal = (bTr && bTr[periodKey] !== undefined && bTr[periodKey] !== null) ? bTr[periodKey]! : -Infinity;
+        } else {
+          aVal = a.returns[periodKey] ?? -Infinity;
+          bVal = b.returns[periodKey] ?? -Infinity;
+        }
         
         if (sort === "return_custom" && customDateRange && customReturnsData?.returns) {
           const aCustom = customReturnsData.returns[a.ticker];
@@ -845,7 +847,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                             <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900/98" />
                             <strong>TR(Total Return) 모드 안내</strong><br/>
                             <span className="text-brand-300 font-bold mt-1.5 block">분배금 100% 전액 재투자 (세전 Gross TR)</span>
-                            분배금을 세금 차감 없이 전액 재투자했을 때의 복리 총수익률을 표시합니다. (ISA·연금저축 등 과세이연 계좌 기준)
+                            <p className="text-neutral-200">분배금을 세금 차감 없이 전액 재투자했을 때의 복리 총수익률을 표시합니다. (ISA·연금저축 등 과세이연 계좌 기준)</p>
+                            <p className="text-neutral-300 text-[10.5px] mt-1.5 pt-1.5 border-t border-slate-700/60">💡 상장 기간이 미달된 구간은 정합성을 위해 공백(—)으로 표기됩니다.</p>
                           </div>
                         </button>
                       </div>
@@ -858,6 +861,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                               <div className="bg-brand-50/50 p-3.5 rounded-xl border border-brand-100/50">
                                 <strong className="text-brand-700 block mb-1">분배금 100% 전액 재투자 (세전 Gross TR)</strong>
                                 분배금(배당금)을 세금 차감 없이 100% 전액 재투자했을 때의 복리 총수익률입니다. ISA·연금저축 등 과세이연 계좌 기준이며, 일반계좌는 세금 차감 전 기준입니다.
+                                <p className="text-neutral-500 text-[12px] mt-2 pt-2 border-t border-brand-200/50">💡 상장 기간이 미달된 구간은 정합성을 위해 공백(—)으로 표기됩니다.</p>
                               </div>
                             </div>
                             <button 
@@ -917,8 +921,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                     const etf = results[virtualRow.index];
                     const getRet = (key: ReturnPeriod) => {
-                      const tr = etf.returnsTr || etf.returnsNetTr;
-                      if (isTrMode && tr && tr[key] !== undefined && tr[key] !== null) return tr[key];
+                      if (isTrMode) {
+                        const tr = etf.returnsTr || etf.returnsNetTr;
+                        if (tr && tr[key] !== undefined && tr[key] !== null) return tr[key];
+                        return null;
+                      }
                       return etf.returns[key];
                     };
                     return (

@@ -202,9 +202,9 @@ export function sortPeerCandidates(candidates: readonly PeerCandidate[]): PeerCa
       return right.similarityScore - left.similarityScore;
     }
     
-    // 2. TR 1년 수익률 (TR이 없으면 PR 1년 수익률)
-    const rightTr12m = right.etf.returnsTr?.["12m"] ?? right.etf.returns["12m"] ?? -Infinity;
-    const leftTr12m = left.etf.returnsTr?.["12m"] ?? left.etf.returns["12m"] ?? -Infinity;
+    // 2. TR 1년 수익률 (TR이 없으면 -Infinity 처리: PR 혼입 원천 차단)
+    const rightTr12m = right.etf.returnsTr?.["12m"] ?? -Infinity;
+    const leftTr12m = left.etf.returnsTr?.["12m"] ?? -Infinity;
     if (rightTr12m !== leftTr12m) {
       return rightTr12m - leftTr12m;
     }

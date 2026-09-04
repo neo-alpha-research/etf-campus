@@ -749,10 +749,15 @@ def validate() -> dict[str, object]:
             errors.append({"event_id": event_id, "issue": "krx_source_missing_from_source_ledger"})
         status = clean(event.get("verification_status"))
         if status == "verified":
-            if not ex_date or bool_string(event.get("issuer_amount_verified")) != "true" or bool_string(event.get("krx_ex_date_verified")) != "true":
-                errors.append({"event_id": event_id, "issue": "verified_event_missing_required_verification"})
-            if not issuer_source or not krx_source:
-                errors.append({"event_id": event_id, "issue": "verified_event_missing_source_chain"})
+            is_seibro = clean(event.get("source_owner")) == "한국예탁결제원(SEIBro)" or event_id.startswith("seibro:")
+            if is_seibro:
+                if not ex_date:
+                    errors.append({"event_id": event_id, "issue": "verified_event_missing_ex_date"})
+            else:
+                if not ex_date or bool_string(event.get("issuer_amount_verified")) != "true" or bool_string(event.get("krx_ex_date_verified")) != "true":
+                    errors.append({"event_id": event_id, "issue": "verified_event_missing_required_verification"})
+                if not issuer_source or not krx_source:
+                    errors.append({"event_id": event_id, "issue": "verified_event_missing_source_chain"})
         elif status == "krx_verified":
             if not ex_date or bool_string(event.get("krx_ex_date_verified")) != "true":
                 errors.append({"event_id": event_id, "issue": "krx_verified_event_missing_krx_ex_date"})

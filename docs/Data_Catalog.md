@@ -28,7 +28,7 @@
 | **시장 카테고리별 AUM 비중** | `etf_prices` / `asset_detail` | `market-briefing-publisher` | 마켓 브리핑 워커 실행 시 | 데이터가 있는 분류만 합산. 과거처럼 특정 카테고리를 전체의 `0.765`로 고정 산출하는 등 비율 하드코딩 **금지** | 정상 |
 | **국내 지수 (KOSPI/KOSDAQ)** | KRX Open API | `fetch_market_indices.py` | 매일 08:07 | 원천 데이터 활용 | 공공데이터포털 15094807로 전환 대기 |
 | **해외지수, 원자재, 환율, VIX** | Yahoo Finance | `fetch_market_indices.py` | 매일 08:07 | 브라우저 위장 HTML 크롤링 (User-Agent 필수) | 비공식 / 지수 재배포 제한 |
-| **분배금 및 TR 수익률** | 운용사 사이트, KRX KIND | `collect_distribution...`<br>PR/TR 산출 엔진 | 매일 13:07 | 주당 분배금 기반 TR 재투자 수식 적용<br>※ 초기 적재 스냅샷은 2026-08-31 기준이며, 일일 파이프라인 구동 시 최신 거래일(T일) 종가 기준으로 매일 롤링(Rolling) 갱신 | 비공식 / 대안 없음 |
+| **분배금 및 TR 수익률** | 한국예탁결제원 (SEIBro) 단일 공인 원천 | `collect_seibro_distributions.py`<br>`build_distribution_summaries.py`<br>PR/TR 산출 엔진 | 매일 13:07 | 주당 분배금 기반 TR 재투자 수식 적용<br>※ 초기 적재 스냅샷은 2026-08-31 기준이며, 일일 파이프라인 구동 시 최신 거래일(T일) 종가 기준으로 매일 롤링(Rolling) 갱신 | 공인 중앙예탁기관 / 정상 |
 | **추적오차율** | 제공처 없음 | N/A | N/A | 임의 생성 금지. 현재 데이터 부재로 화면에서 **제거됨** | 사용 안 함 |
 | **커뮤니티** | Supabase | Supabase RPC / Views | 실시간 | 자체 게시글 및 메타데이터 적재 | 자체 / 정상 |
 
@@ -140,15 +140,19 @@ HTML 을 파싱하며 `User-Agent` 를 위장합니다.
 
 **미조사 경로** [미확인]: 금융투자협회 전자공시(`dis.kofia.or.kr`), KOFIA OpenAPI(`openapi.kofia.or.kr`)
 
-### 2-5. 분배금
+### 2-5. 분배금 (ETF Distribution)
 
-**수집 스크립트** [확인됨]: `scripts/collect_distribution_sources.py`, `scripts/collect_distribution_registry.py`, `scripts/build_distribution_summaries.py`
+**진실의 원천(SSOT)**: **한국예탁결제원(SEIBro)** (`seibro.or.kr`) — **단일 1순위 전담 원천 확정 (2026-09-04)**
 
-**출처**: 자산운용사 공지 페이지와 KRX KIND(`kind.krx.co.kr`). `User-Agent` 를 위장합니다.
+**수집 및 빌드 스크립트** [확인됨]:
+- `scripts/collect_seibro_distributions.py`: SEIBro 공식 서블릿(`callServletService.jsp`)을 통해 1,160+개 ETF의 분배금 이력을 XML로 일괄 수집하여 `data/distributions/etf_distribution_events.csv`에 적재. (주당 분배금, 분배락일, 기준일, 지급일, 분배유형, 배당수익률 포함)
+- `scripts/build_distribution_summaries.py`: 수집된 원장을 바탕으로 배당 주기(`paymentCycle`), TTM 누적 분배금(`ttmAmountKrw`), 배당수익률(`ttmDividendYieldPct`), 최근 36회 배당 내역을 산출하여 `data/distributions/etf_distribution_summaries.json` 생성.
+- `scripts/verify_zero_hallucination.py`: 마스터 유니버스(1,167개) 대비 100% 매핑 무결성, 더미 데이터 방지, 수학적 정밀도 검증.
 
-**대안 없음** [확인됨]: 데이터도 없고 라이선스도 막힙니다. 한국예탁결제원 계열(15157413)과 금융위원회 주식배당정보(15043284)는 **공공누리 제2유형으로 상업적 이용 금지**이며, 스키마도 주식 전용이라 ETF 수익증권이 들어갈 자리가 없습니다.
-
-> 본 개방데이터는 공공누리 2유형임을 참고하시기 바랍니다. 이용허락범위 제2유형 : 출처표시 + 상업적 이용금지.
+**출처 일원화 및 레거시 제거 사유**:
+- 과거(2026-08)에는 30여 개 자산운용사 개별 웹사이트와 KRX KIND 공시를 크롤링하는 복잡한 2중 체인을 사용했으나, 웹사이트 개편 시 잦은 실패, 비정형 공시 파싱 불안정성, 불필요한 검증 에러가 발생했습니다.
+- 한국예탁결제원은 대한민국 자본시장법상 국내 모든 ETF의 주주명부 폐쇄, 권리락, 실지급액 확정, 세금 원천징수를 총괄 집행하는 유일한 국가 공인 중앙예탁결제기관이므로, 데이터의 법적 권위와 신뢰도가 가장 높습니다.
+- 2026-09-04 운영 결정에 따라 **운용사/KRX 개별 스크래퍼를 전면 배제하고 한국예탁결제원(SEIBro) 단일 원천으로 파이프라인을 완전 통합**하였습니다.
 
 ### 2-6. NAV, 괴리율, 상장좌수, 순자산
 

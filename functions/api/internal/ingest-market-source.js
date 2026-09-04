@@ -1,5 +1,5 @@
 const MAX_BODY_BYTES = 1_500_000;
-const MAX_ETFS_PER_BATCH = 40;
+const MAX_ETFS_PER_BATCH = 100;
 const MAX_SIGNATURE_AGE_SECONDS = 300;
 const textEncoder = new TextEncoder();
 

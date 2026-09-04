@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Any
 
 KST = dt.timezone(dt.timedelta(hours=9))
-MAX_ETFS_PER_BATCH = 40
+MAX_ETFS_PER_BATCH = 100
 DEFAULT_ENDPOINT = "https://etf-campus.pages.dev/api/internal/ingest-market-source"
 # KRX_INDEX_URLS = {
 #     "KOSPI": "https://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd",

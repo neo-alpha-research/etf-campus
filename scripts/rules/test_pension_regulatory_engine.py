@@ -12,8 +12,10 @@ from scripts.rules.pension_regulatory_engine import (
     PENSION_SOURCE_STATUTE_DIRECT,
     PENSION_SOURCE_RULE_ESTIMATE,
     PENSION_SOURCE_SAMPLE_VERIFIED,
+    PENSION_SOURCE_BROKER_VERIFIED,
     PENSION_CONFIDENCE_HIGH,
     PENSION_CONFIDENCE_MODERATE,
+    PENSION_CONFIDENCE_LOW,
     PENSION_VERIFIED_YES,
     PENSION_VERIFIED_NO,
     is_underlying_security,
@@ -176,7 +178,7 @@ def test_pension_source_and_confidence():
     })
     assert res_synth["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT
     assert res_synth["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_synth["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+    assert res_synth["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
     assert res_synth["underlying_is_security"] == "Y"
     assert res_synth["pension_eligible"] == PENSION_ELIGIBLE
     assert res_synth["pension_limit"] == LIMIT_SAFE_ASSET
@@ -193,7 +195,7 @@ def test_pension_source_and_confidence():
     assert res_219390["underlying_is_security"] == "Y"
     assert res_219390["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT
     assert res_219390["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_219390["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+    assert res_219390["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
     assert res_219390["pension_eligible"] == PENSION_ELIGIBLE
 
     # 3. Non-Security Synthetic ETF: 400590 (Carbon credit futures) -> underlying_is_security == 'N', Ineligible
@@ -208,10 +210,10 @@ def test_pension_source_and_confidence():
     assert res_carbon["pension_eligible"] == PENSION_INELIGIBLE
     assert res_carbon["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
     assert res_carbon["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_carbon["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
+    assert res_carbon["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
     # 4. Area D: Synthetic Covered Call Revocation Verification (472830)
-    # Even though synthetic, covered call is prioritized into Area D -> RULE_ESTIMATE, MODERATE confidence
+    # Even though synthetic, covered call is prioritized into Area D -> RULE_ESTIMATE, LOW confidence
     res_synth_cc = classify_pension_and_isa({
         "ticker": "472830",
         "name": "RISE 미국30년국채커버드콜(합성)",
@@ -220,7 +222,7 @@ def test_pension_source_and_confidence():
     })
     assert res_synth_cc["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
     assert res_synth_cc["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_synth_cc["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
+    assert res_synth_cc["pension_confidence"] == PENSION_CONFIDENCE_LOW
     assert res_synth_cc["pension_eligible"] == PENSION_ELIGIBLE
 
     # 5. Sample verified Synthetic Covered Call (441680) -> RULE_ESTIMATE, VERIFIED_YES, HIGH confidence
@@ -229,34 +231,34 @@ def test_pension_source_and_confidence():
         "name": "TIGER 미국나스닥100커버드콜(합성)",
         "risk_type": "normal",
         "asset_class": "주식-해외",
-    })
-    assert res_synth_cc_sample["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    }, verified_tickers={"441680"})
+    assert res_synth_cc_sample["pension_source"] == PENSION_SOURCE_BROKER_VERIFIED
     assert res_synth_cc_sample["pension_verified"] == PENSION_VERIFIED_YES
     assert res_synth_cc_sample["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 
-    # 6. Sample verified Synthetic Non-Covered-Call (0005C0) -> STATUTE_DIRECT, VERIFIED_YES, HIGH confidence
+    # 6. Verified Synthetic Non-Covered-Call (0005C0) -> BROKER_VERIFIED, VERIFIED_YES, HIGH confidence
     res_synth_sample = classify_pension_and_isa({
         "ticker": "0005C0",
         "name": "RISE 미국S&P500엔화노출(합성 H)",
         "risk_type": "normal",
         "asset_class": "주식-해외",
-    })
-    assert res_synth_sample["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT
+    }, verified_tickers={"0005C0"})
+    assert res_synth_sample["pension_source"] == PENSION_SOURCE_BROKER_VERIFIED
     assert res_synth_sample["pension_verified"] == PENSION_VERIFIED_YES
     assert res_synth_sample["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 
-    # 7. Sample verified Physical Covered Call (289480) -> RULE_ESTIMATE, VERIFIED_YES, HIGH confidence
+    # 7. Verified Physical Covered Call (289480) -> BROKER_VERIFIED, VERIFIED_YES, HIGH confidence
     res_sample = classify_pension_and_isa({
         "ticker": "289480",
         "name": "TIGER 200커버드콜ATM",
         "risk_type": "normal",
         "asset_class": "주식-국내",
-    })
-    assert res_sample["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    }, verified_tickers={"289480"})
+    assert res_sample["pension_source"] == PENSION_SOURCE_BROKER_VERIFIED
     assert res_sample["pension_verified"] == PENSION_VERIFIED_YES
     assert res_sample["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 
-    # 8. Unverified Physical Covered Call -> Area D Gray Zone, MODERATE confidence
+    # 8. Unverified Physical Covered Call -> Area D Gray Zone, LOW confidence
     res_cc = classify_pension_and_isa({
         "ticker": "999999",
         "name": "TEST 코스피200커버드콜",
@@ -265,9 +267,9 @@ def test_pension_source_and_confidence():
     })
     assert res_cc["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
     assert res_cc["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_cc["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
+    assert res_cc["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 9. Standard equity ETF (069500)
+    # 9. Standard equity ETF (069500) -> Rule estimate, unverified, LOW confidence
     res_std = classify_pension_and_isa({
         "ticker": "069500",
         "name": "KODEX 200",
@@ -276,9 +278,9 @@ def test_pension_source_and_confidence():
     })
     assert res_std["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
     assert res_std["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_std["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+    assert res_std["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 10. Futures ETF (261220, normal with futures keyword) -> MODERATE confidence
+    # 10. Futures ETF (261220, normal with futures keyword) -> Rule estimate, LOW confidence
     res_fut = classify_pension_and_isa({
         "ticker": "261220",
         "name": "KODEX WTI원유선물(H)",
@@ -287,9 +289,9 @@ def test_pension_source_and_confidence():
     })
     assert res_fut["pension_eligible"] == PENSION_INELIGIBLE
     assert res_fut["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_fut["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
+    assert res_fut["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 11. Leverage ETF (122630) -> HIGH confidence (statutory multiplier rule)
+    # 11. Leverage ETF (122630) -> Rule estimate, LOW confidence
     res_lev = classify_pension_and_isa({
         "ticker": "122630",
         "name": "KODEX 레버리지",
@@ -298,4 +300,36 @@ def test_pension_source_and_confidence():
     })
     assert res_lev["pension_eligible"] == PENSION_INELIGIBLE
     assert res_lev["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_lev["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+    assert res_lev["pension_confidence"] == PENSION_CONFIDENCE_LOW
+
+
+def test_broker_universe_dynamic_verification():
+    # Unverified covered call -> LOW confidence
+    unverified_cc = {
+        "ticker": "999999",
+        "name": "TEST 커버드콜",
+        "risk_type": "normal",
+        "asset_class": "주식-국내",
+    }
+    res_before = classify_pension_and_isa(unverified_cc, verified_tickers=set())
+    assert res_before["pension_verified"] == PENSION_VERIFIED_NO
+    assert res_before["pension_confidence"] == PENSION_CONFIDENCE_LOW
+
+    # Verified via broker list -> upgraded to HIGH confidence
+    res_after = classify_pension_and_isa(unverified_cc, verified_tickers={"999999"})
+    assert res_after["pension_verified"] == PENSION_VERIFIED_YES
+    assert res_after["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+    assert "증권사 적격 대조 완료" in res_after["pension_reason"]
+
+    # Compliance Veto: Even if broker list includes leverage, statutory rule strictly overrides
+    fake_broker_leverage = {
+        "ticker": "122630",
+        "name": "KODEX 레버리지",
+        "risk_type": "leverage",
+        "asset_class": "주식-국내",
+    }
+    res_veto = classify_pension_and_isa(fake_broker_leverage, verified_tickers={"122630"})
+    assert res_veto["pension_eligible"] == PENSION_INELIGIBLE
+    assert res_veto["pension_limit"] == LIMIT_INELIGIBLE
+    assert res_veto["pension_confidence"] == PENSION_CONFIDENCE_LOW
+

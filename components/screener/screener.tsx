@@ -1103,6 +1103,18 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                               etf.pensionLimit === "100% (안전자산)" ? (
                                 <>
                                   <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금감독규정 제12조 제4항상 100% 전액 투자 가능 (안전자산)">안전자산100%</span>
+                                  {(!etf.pensionVerified || etf.pensionVerified === "N") && (
+                                    <span
+                                      className={
+                                        etf.pensionConfidence === "낮음"
+                                          ? "text-neutral-600 font-bold text-[10px] bg-neutral-100 border border-neutral-300 px-1 rounded cursor-help"
+                                          : "text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help"
+                                      }
+                                      title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
+                                    >
+                                      추정
+                                    </span>
+                                  )}
                                   {etf.pensionConfidence === "보통" && (
                                     <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오">확인권장</span>
                                   )}
@@ -1110,6 +1122,18 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                               ) : etf.pensionLimit === "70% (위험자산)" ? (
                                 <>
                                   <span className="text-blue-800 font-bold text-[10px] bg-blue-50 border border-blue-200 px-1 rounded" title="퇴직연금감독규정 제12조 제4항상 70% 한도 내 투자 가능 (위험자산)">위험70%</span>
+                                  {(!etf.pensionVerified || etf.pensionVerified === "N") && (
+                                    <span
+                                      className={
+                                        etf.pensionConfidence === "낮음"
+                                          ? "text-neutral-600 font-bold text-[10px] bg-neutral-100 border border-neutral-300 px-1 rounded cursor-help"
+                                          : "text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help"
+                                      }
+                                      title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
+                                    >
+                                      추정
+                                    </span>
+                                  )}
                                   {etf.pensionConfidence === "보통" && (
                                     <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오">확인권장</span>
                                   )}
@@ -1136,7 +1160,21 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                             ) : (
                               <>
                                 {etf.pensionLimit === "100% (안전자산)" && (
-                                  <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금(DC/IRP) 100% 전액 투자 가능 (안전자산)">안전100%</span>
+                                  <>
+                                    <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금(DC/IRP) 100% 전액 투자 가능 (안전자산)">안전100%</span>
+                                    {(!etf.pensionVerified || etf.pensionVerified === "N") && (
+                                      <span
+                                        className={
+                                          etf.pensionConfidence === "낮음"
+                                            ? "text-neutral-600 font-bold text-[10px] bg-neutral-100 border border-neutral-300 px-1 rounded cursor-help"
+                                            : "text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help"
+                                        }
+                                        title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
+                                      >
+                                        추정
+                                      </span>
+                                    )}
+                                  </>
                                 )}
                                 {etf.pension === "불가" && (
                                   <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>

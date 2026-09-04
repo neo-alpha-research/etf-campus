@@ -296,4 +296,47 @@ describe("EtfDetail", () => {
     expect(screen.getByText(/상장일: 2025\.12\.09/)).toBeInTheDocument();
     expect(screen.queryByText("KRX KIND 신규상장 공시")).not.toBeInTheDocument();
   });
+
+  it("pensionVerified = 'N'이고 신뢰도가 '낮음'일 때 회색 '추정' 배지와 툴팁을 렌더링한다", () => {
+    const unverifiedLowItem: Etf = {
+      ...item,
+      pension: "가능",
+      pensionLimit: "100% (안전자산)",
+      pensionVerified: "N",
+      pensionConfidence: "낮음",
+    };
+    render(<EtfDetail etf={unverifiedLowItem} />);
+    const badge = screen.getByTitle("운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.");
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent("추정");
+    expect(badge.className).toContain("border-neutral-300");
+  });
+
+  it("pensionVerified = 'N'이고 신뢰도가 '보통'일 때 앰버 '추정' 배지를 렌더링한다", () => {
+    const unverifiedModItem: Etf = {
+      ...item,
+      pension: "가능",
+      pensionLimit: "70% (위험자산)",
+      pensionVerified: "N",
+      pensionConfidence: "보통",
+    };
+    render(<EtfDetail etf={unverifiedModItem} />);
+    const badge = screen.getByTitle("운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.");
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent("추정");
+    expect(badge.className).toContain("border-amber-300");
+  });
+
+  it("pensionVerified = 'Y'일 때 '추정' 배지가 노출되지 않는다", () => {
+    const verifiedItem: Etf = {
+      ...item,
+      pension: "가능",
+      pensionLimit: "100% (안전자산)",
+      pensionVerified: "Y",
+      pensionConfidence: "높음",
+    };
+    render(<EtfDetail etf={verifiedItem} />);
+    expect(screen.queryByTitle("운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.")).not.toBeInTheDocument();
+  });
 });
+

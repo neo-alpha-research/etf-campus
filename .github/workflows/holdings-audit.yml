@@ -1,0 +1,81 @@
+name: Daily Holdings Composition Audit
+
+on:
+  schedule:
+    - cron: "17 17 * * 1-5" # UTC 17:17 Mon-Fri -> KST 02:17 Tue-Sat
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: holdings-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    name: Holdings Composition Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pandas
+
+      - name: Run Holdings Composition Audit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/rules/audit_holdings_composition.py --create-issue
+
+      - name: Upload Measured Composition Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: holdings-measured-composition
+          path: |
+            data/regulatory/holdings_measured_composition.csv
+            data/reports/holdings_anomaly_*.json
+          retention-days: 30
+
+      - name: Commit Audit History and Baseline
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          for file in data/reports/holdings_audit_history.csv data/reports/holdings_anomaly_last.json; do
+            if [ -f "$file" ]; then git add "$file"; fi
+          done
+
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(audit): record holdings audit history [skip ci]"
+            PUSHED=false
+            for i in 1 2 3 4 5; do
+              if git pull --rebase --autostash origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }}; then
+                PUSHED=true
+                break
+              fi
+              sleep 5
+            done
+            if [ "$PUSHED" != "true" ]; then
+              echo "::error::Failed to push holdings audit history"
+              exit 1
+            fi
+          else
+            echo "No audit history or baseline changes to commit."
+          fi

@@ -218,6 +218,8 @@ VIX 는 CBOE 지수이므로 같은 범주로 봅니다.
 | `daily-distribution.yml` | `07 4 * * 2-6` | 13:07 | 분배금 |
 | `daily-fees.yml` | `22 4 * * 2-6` | 13:22 | 총보수 |
 | `monitor-market-daily-pipeline.yml` | `15 5 * * 2-6` | 14:15 | 파이프라인 감시 |
+| `daily-holdings.yml` | `0 10 * * 1-5` | 19:00 | ETF 보유종목 수집 및 D1 적재 |
+| `holdings-audit.yml` | `17 17 * * 1-5` | 익일 02:17 (화~토) | ETF 보유종목 실측 기반 분류 및 규제 이상 감시 |
 
 **수동 실행 전용** [확인됨]: `market-briefing-production.yml`, `backfill-d1.yml`, `rollback-market-briefing-production.yml`, `query-d1.yml`
 

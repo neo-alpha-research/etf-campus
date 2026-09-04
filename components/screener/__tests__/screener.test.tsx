@@ -241,5 +241,25 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(window.location.search).toContain("pension_tier=risk");
     expect(screen.getByRole("button", { name: "위험자산 70% 조건 제거" })).toBeInTheDocument();
   });
+
+  it("pensionVerified = 'N'일 때 스크리너 행에 '추정' 배지가 렌더링된다", () => {
+    const unverifiedEtf = etf({
+      ticker: "UV1",
+      name: "추정 채권 ETF",
+      aum: 100_000_000_000,
+      pension: "가능",
+      pensionLimit: "100% (안전자산)",
+      pensionVerified: "N",
+      pensionConfidence: "낮음",
+      isaEligible: "가능",
+    });
+
+    render(<Screener etfs={[unverifiedEtf]} />);
+    const badge = screen.getByTitle("운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.");
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent("추정");
+    expect(badge.className).toContain("border-neutral-300");
+  });
 });
+
 

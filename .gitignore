@@ -59,3 +59,8 @@ distributor-preview/
 Claude outputs/
 Claude_Opus_User_Request*.txt
 kofia_fee_cmp.xml
+
+# Holdings audit measured composition (uploaded as GitHub Actions artifact, not committed)
+data/regulatory/holdings_measured_composition.csv
+data/reports/holdings_anomaly_*.json
+!data/reports/holdings_anomaly_last.json

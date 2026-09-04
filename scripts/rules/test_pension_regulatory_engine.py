@@ -192,3 +192,23 @@ def test_pension_source_and_confidence():
     })
     assert res_std["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
     assert res_std["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+
+    # 4. Futures ETF (261220, normal with futures keyword) -> MODERATE confidence
+    res_fut = classify_pension_and_isa({
+        "ticker": "261220",
+        "name": "KODEX WTI원유선물(H)",
+        "risk_type": "normal",
+        "asset_class": "원자재",
+    })
+    assert res_fut["pension_eligible"] == PENSION_INELIGIBLE
+    assert res_fut["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
+
+    # 5. Leverage ETF (122630) -> HIGH confidence (statutory multiplier rule)
+    res_lev = classify_pension_and_isa({
+        "ticker": "122630",
+        "name": "KODEX 레버리지",
+        "risk_type": "leverage",
+        "asset_class": "주식-국내",
+    })
+    assert res_lev["pension_eligible"] == PENSION_INELIGIBLE
+    assert res_lev["pension_confidence"] == PENSION_CONFIDENCE_HIGH

@@ -49,6 +49,22 @@ def main():
         w = csv.DictWriter(f, fieldnames=list(out[0].keys()))
         w.writeheader()
         w.writerows(out)
+
+    # Also update data/etf_master_draft.csv
+    master_fields = [
+        'isin_cd', 'ticker', 'name', 'base_index', 'close', 'change_pct', 'trade_value', 'aum',
+        'risk_type', 'asset_class', 'pension_eligible', 'liquidity', 'bas_dt', 'listing_date',
+        'listing_date_source', 'listing_date_status', 'first_traded_date', 'first_traded_date_source',
+        'listing_date_verified_at', 'listing_date_evidence_id', 'nav', 'disparity', 'tracking_error',
+        'shares', 'net_asset', 'pension_limit', 'isa_eligible', 'isa_education_required',
+        'pension_source', 'pension_confidence'
+    ]
+    master_rows = [{k: row[k] for k in master_fields} for row in out]
+    with master_path.open("w", newline="", encoding="utf-8-sig") as f:
+        mw = csv.DictWriter(f, fieldnames=master_fields)
+        mw.writeheader()
+        mw.writerows(master_rows)
+
     print(f"Verified {len(out)} ETFs with statutory pension & ISA rule engine. Summary: {dict(stats)}")
 
 

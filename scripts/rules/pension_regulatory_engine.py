@@ -115,7 +115,7 @@ def classify_pension_and_isa(row: Mapping[str, Any]) -> dict[str, str]:
             "isa_eligible": isa_eligible,
             "isa_education_required": isa_education_required,
             "pension_source": PENSION_SOURCE_RULE_ESTIMATE,
-            "pension_confidence": PENSION_CONFIDENCE_HIGH,
+            "pension_confidence": PENSION_CONFIDENCE_MODERATE,
             "pension_reason": "선물 기반 파생 위험평가액 40% 초과 (퇴직연금 편입 요건 미충족)",
         }
 

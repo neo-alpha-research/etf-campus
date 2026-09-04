@@ -36,7 +36,12 @@ export type MarketScope = (typeof MARKET_SCOPES)[number];
 export type Strategy = (typeof STRATEGIES)[number];
 export type FxHedge = (typeof FX_HEDGES)[number];
 export type RiskType = (typeof RISK_TYPES)[number];
-export type PensionStatus = (typeof PENSION_STATUSES)[number];export type IssuerStatus = "verified_official" | "mapped_brand" | "mapped_legacy_brand" | "conflict" | "needs_review";
+export type PensionStatus = (typeof PENSION_STATUSES)[number];
+export const PENSION_LIMITS = ["100% (안전자산)", "70% (위험자산)", "불가"] as const;
+export type PensionLimit = (typeof PENSION_LIMITS)[number];
+export const ISA_STATUSES = ["가능", "불가"] as const;
+export type IsaStatus = (typeof ISA_STATUSES)[number];
+export type IssuerStatus = "verified_official" | "mapped_brand" | "mapped_legacy_brand" | "conflict" | "needs_review";
 
 export type EtfIssuer = {
   issuerId: string;
@@ -151,6 +156,8 @@ export type Etf = {
   assetClass: AssetClass;
   pension: PensionStatus;
   pensionSource: string;
+  pensionLimit?: PensionLimit | null;
+  isaEligible?: IsaStatus | null;
   liquidity: string;
   asOfDate: string;
   listingDate: string | null;
@@ -169,7 +176,21 @@ export type Etf = {
   classification?: EtfClassification | null;
 };
 
-export type EtfSlim = Pick<Etf, "ticker" | "name" | "baseIndex" | "assetClass" | "riskType" | "pension" | "tradeValue" | "changePct" | "aum" | "classification"> & {
+export type EtfSlim = Pick<
+  Etf,
+  | "ticker"
+  | "name"
+  | "baseIndex"
+  | "assetClass"
+  | "riskType"
+  | "pension"
+  | "pensionLimit"
+  | "isaEligible"
+  | "tradeValue"
+  | "changePct"
+  | "aum"
+  | "classification"
+> & {
   // We can include a pre-computed searchKey if we want, or just compute on the fly.
 };
 

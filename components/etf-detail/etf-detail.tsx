@@ -109,6 +109,21 @@ export function EtfDetail({
                 {etf.classification?.fxHedge && <span className="rounded-md border border-teal-200 bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-700">{etf.classification.fxHedge}</span>}
                 <RiskBadge riskType={etf.riskType} />
                 {etf.pension === "가능" && <PensionBadge status={etf.pension} />}
+                {etf.pensionLimit === "100% (안전자산)" && (
+                  <span className="rounded-md border border-emerald-300 bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-800 flex items-center gap-1" title="근로자퇴직급여보장법상 적격 안전자산 (퇴직연금 계좌 100% 전액 편입 가능)">
+                    🛡️ 안전자산 100%
+                  </span>
+                )}
+                {etf.pensionLimit === "70% (위험자산)" && (
+                  <span className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-bold text-blue-800 flex items-center gap-1" title="근로자퇴직급여보장법상 위험자산 한도 적용 (퇴직연금 계좌 최대 70%까지 편입 가능)">
+                    ⚠️ 위험자산 70%
+                  </span>
+                )}
+                {etf.isaEligible === "가능" && (
+                  <span className="rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700 flex items-center gap-1" title="조세특례제한법상 중개형 ISA 편입 가능">
+                    ✨ ISA 가능
+                  </span>
+                )}
                 {cautions.map(caution => (
                   <span key={caution} className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800">{caution}</span>
                 ))}
@@ -240,6 +255,32 @@ export function EtfDetail({
                   </div>
 
                   <FeeMetricItem etf={etf} />
+
+                  <div className="flex flex-col justify-center">
+                    <dt className="text-sm font-bold text-gray-500">절세 계좌 편입</dt>
+                    <dd className="mt-1 flex flex-col gap-1 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-neutral-500 font-medium">퇴직연금(DC·IRP)</span>
+                        <span className={`font-bold ${
+                          etf.pensionLimit === "100% (안전자산)" 
+                            ? "text-emerald-700" 
+                            : etf.pensionLimit === "70% (위험자산)" 
+                            ? "text-blue-700" 
+                            : etf.pension === "가능" 
+                            ? "text-brand-700" 
+                            : "text-neutral-400"
+                        }`}>
+                          {etf.pensionLimit ? etf.pensionLimit : (etf.pension === "가능" ? "편입 가능" : "불가")}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-neutral-500 font-medium">중개형 ISA</span>
+                        <span className={`font-bold ${etf.isaEligible === "가능" ? "text-indigo-700" : "text-neutral-400"}`}>
+                          {etf.isaEligible === "가능" ? "편입 가능" : etf.isaEligible === "불가" ? "불가 (레버리지·인버스)" : "확인 중"}
+                        </span>
+                      </div>
+                    </dd>
+                  </div>
                   
                   {/* 추적 오차율 추가 */}
                   {etf.trackingError != null && (

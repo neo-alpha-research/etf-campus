@@ -137,6 +137,31 @@ describe("EtfDetail", () => {
       expect(screen.getByText("500억 원")).toBeInTheDocument(); // AUM 50,000,000,000
       expect(screen.getByText("20억 원")).toBeInTheDocument(); // TradeValue 2,000,000,000
     });
+
+    it("퇴직연금 안전자산 100% 및 위험자산 70%, ISA 가능 배지와 체크 지표가 정확히 렌더링된다", () => {
+      const safeItem = { 
+        ...item, 
+        pension: "가능" as const, 
+        pensionLimit: "100% (안전자산)" as const, 
+        isaEligible: "가능" as const 
+      };
+      render(<EtfDetail etf={safeItem} />);
+      expect(screen.getByText("🛡️ 안전자산 100%")).toBeInTheDocument();
+      expect(screen.getByText("✨ ISA 가능")).toBeInTheDocument();
+      expect(screen.getByText("100% (안전자산)")).toBeInTheDocument();
+      expect(screen.getByText("편입 가능")).toBeInTheDocument();
+    });
+
+    it("퇴직연금 위험자산 70% 배지가 표시된다", () => {
+      const riskItem = { 
+        ...item, 
+        pension: "가능" as const, 
+        pensionLimit: "70% (위험자산)" as const, 
+        isaEligible: "가능" as const 
+      };
+      render(<EtfDetail etf={riskItem} />);
+      expect(screen.getByText("⚠️ 위험자산 70%")).toBeInTheDocument();
+    });
   });
 
   it("수익률 기준과 필수 고지를 표시한다", () => {

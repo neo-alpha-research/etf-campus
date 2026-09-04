@@ -142,4 +142,48 @@ describe("ETF 스크리너 - 상세 분류 필터 (지역, 운용 전략, 환헤
     const withFilter = filterEtfs(items, { ...DEFAULT_SCREENER_FILTERS, aumScope: "all", riskTypes: [], marketScopes: ["미국"] });
     expect(withFilter.some(i => i.ticker === "UN1")).toBe(false);
   });
+
+  it("퇴직연금 안전자산(100%)과 위험자산(70%) 한도를 정밀하게 분리 필터링한다", () => {
+    const mixed = [
+      etf({ ticker: "SAFE_BOND", pension: "가능", pensionLimit: "100% (안전자산)", riskType: "normal" }),
+      etf({ ticker: "SAFE_PARK", pension: "가능", pensionLimit: "100% (안전자산)", riskType: "normal", assetClass: "금리·파킹" }),
+      etf({ ticker: "RISK_EQUITY", pension: "가능", pensionLimit: "70% (위험자산)", riskType: "normal", assetClass: "주식-국내" }),
+      etf({ ticker: "INELIGIBLE", pension: "불가", pensionLimit: "불가", riskType: "leverage" }),
+    ];
+
+    const safeOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "pension",
+      pensionTier: "safe",
+    });
+    expect(safeOnly.map(i => i.ticker)).toEqual(["SAFE_BOND", "SAFE_PARK"]);
+
+    const riskOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "pension",
+      pensionTier: "risk",
+    });
+    expect(riskOnly.map(i => i.ticker)).toEqual(["RISK_EQUITY"]);
+  });
+
+  it("중개형 ISA 계좌 모드에서는 레버리지/인버스를 제외하고 1배수 전 종목을 허용한다", () => {
+    const mixed = [
+      etf({ ticker: "EQUITY", isaEligible: "가능", riskType: "normal" }),
+      etf({ ticker: "FUTURES_OIL", isaEligible: "가능", riskType: "normal" }),
+      etf({ ticker: "LEV_2X", isaEligible: "불가", riskType: "leverage" }),
+      etf({ ticker: "INV_1X", isaEligible: "불가", riskType: "inverse" }),
+    ];
+
+    const isaAllowed = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "isa",
+    });
+    expect(isaAllowed.map(i => i.ticker)).toEqual(["EQUITY", "FUTURES_OIL"]);
+  });
 });

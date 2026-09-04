@@ -10,7 +10,8 @@ import {
     type EtfClassification,
   type ListingDateStatus,
   type PensionStatus,
-
+  type PensionLimit,
+  type IsaStatus,
   type RiskType,
 } from "../domain/etf-types";
 import { resolveIssuer } from "./etf-amc-mapping";
@@ -184,6 +185,8 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,
       pension: assertMember(requireField(pension, "final_pension", `pension:${ticker}`), PENSION_STATUSES, "final_pension") as PensionStatus,
       pensionSource: requireField(pension, "final_src", `pension:${ticker}`),
+      pensionLimit: (optionalText(master, "pension_limit") || optionalText(pension, "pension_limit")) as PensionLimit | null,
+      isaEligible: (optionalText(master, "isa_eligible") || optionalText(pension, "isa_eligible")) as IsaStatus | null,
       liquidity: requireField(master, "liquidity", `master:${ticker}`),
       asOfDate: requireField(master, "bas_dt", `master:${ticker}`),
       listingDate: optionalText(master, "listing_date"),

@@ -207,5 +207,39 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getAllByText("+5.00").length).toBeGreaterThan(0);
     expect(screen.queryAllByText("+10.00").length).toBe(0);
   });
+
+  it("중개형 ISA 탭 클릭 시 ISA 가능 종목만 필터링되고 URL에 account=isa가 반영된다", () => {
+    const safeEtf = etf({ ticker: "S1", name: "안전 채권 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "100% (안전자산)", isaEligible: "가능" });
+    const levEtf = etf({ ticker: "L1", name: "레버리지 ETF", riskType: "leverage", aum: 100_000_000_000, pension: "불가", pensionLimit: "불가", isaEligible: "불가" });
+
+    render(<Screener etfs={[safeEtf, levEtf]} />);
+    const isaTab = screen.getByRole("button", { name: /중개형 ISA/ });
+    fireEvent.click(isaTab);
+
+    expect(window.location.search).toContain("account=isa");
+    expect(screen.getByText("중개형 ISA 투자 가능 ETF")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "중개형 ISA 가능 조건 제거" })).toBeInTheDocument();
+  });
+
+  it("퇴직연금 모드에서 100% 안전자산 및 70% 위험자산 필터링이 정상 작동한다", () => {
+    const safeEtf = etf({ ticker: "S1", name: "국고채 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "100% (안전자산)", isaEligible: "가능" });
+    const riskEtf = etf({ ticker: "R1", name: "미국나스닥100 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "70% (위험자산)", isaEligible: "가능" });
+
+    render(<Screener etfs={[safeEtf, riskEtf]} />);
+    
+    // 안전자산 100% 버튼 클릭
+    const safeBtn = screen.getByRole("button", { name: /100% 안전/ });
+    fireEvent.click(safeBtn);
+
+    expect(window.location.search).toContain("pension_tier=safe");
+    expect(screen.getByRole("button", { name: "안전자산 100% 조건 제거" })).toBeInTheDocument();
+
+    // 위험자산 70% 버튼 클릭
+    const riskBtn = screen.getByRole("button", { name: /70% 위험/ });
+    fireEvent.click(riskBtn);
+
+    expect(window.location.search).toContain("pension_tier=risk");
+    expect(screen.getByRole("button", { name: "위험자산 70% 조건 제거" })).toBeInTheDocument();
+  });
 });
 

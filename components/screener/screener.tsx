@@ -69,14 +69,14 @@ function FilterChips<T extends string>({
   const isAll = selected.length === 0;
   return (
     <div className={`flex flex-wrap gap-1 ${className || ""}`}>
-      <label className={`cursor-pointer rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+      <label className={`cursor-pointer rounded-lg border px-2.5 py-1.5 sm:px-2 sm:py-1 text-xs sm:text-[11px] font-semibold transition-colors ${isAll ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
         <input type="checkbox" checked={isAll} className="sr-only" onChange={() => onChange([])} />
         전체
       </label>
       {options.map((value) => {
         const isChecked = selected.includes(value);
         return (
-          <label key={value} className={`cursor-pointer rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
+          <label key={value} className={`cursor-pointer rounded-lg border px-2.5 py-1.5 sm:px-2 sm:py-1 text-xs sm:text-[11px] font-semibold transition-colors ${isChecked ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"}`}>
             <input type="checkbox" checked={isChecked} className="sr-only" onChange={() => {
               if (isChecked) {
                 onChange(selected.filter((v) => v !== value));
@@ -301,7 +301,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     scrollMargin: tableOffsetTop,
   });
 
-  const activeCount = Number(filters.pensionOnly) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
+  const isPensionActive = filters.accountMode === "pension" && filters.pensionOnly;
+  const isIsaActive = filters.accountMode === "isa";
+  const activeCount = Number(isPensionActive || isIsaActive) + (filters.pensionTier !== "all" ? 1 : 0) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
 
   const quickQuery = useMemo(() => {
     let quickMode = "general";
@@ -458,7 +460,17 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   filters.strategies.forEach(v => {
     activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, strategies: filters.strategies.filter(i => i !== v) }) });
   });
-  if (filters.pensionOnly) {
+  if (filters.accountMode === "pension" && filters.pensionOnly) {
+    if (filters.pensionTier === "safe") {
+      activeFilters.push({ label: "안전자산 100%", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
+    } else if (filters.pensionTier === "risk") {
+      activeFilters.push({ label: "위험자산 70%", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
+    } else {
+      activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false, accountMode: "all" }) });
+    }
+  } else if (filters.accountMode === "isa") {
+    activeFilters.push({ label: "중개형 ISA 가능", remove: () => updateFilters({ ...filters, accountMode: "all" }) });
+  } else if (filters.pensionOnly) {
     activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false }) });
   }
 
@@ -593,9 +605,12 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
 
 
-          <fieldset className="border-b border-line pb-3">
-            <legend className="flex items-center justify-between w-full mb-1.5">
-              <span className="text-[15px] font-extrabold text-strong">계좌 편입</span>
+          <fieldset className="border-b border-line pb-3.5">
+            <legend className="flex items-center justify-between w-full mb-2">
+              <span className="text-[15px] font-extrabold text-strong flex items-center gap-1.5">
+                <span>계좌 유형</span>
+                <span className="rounded bg-brand-100 px-1.5 py-0.5 text-[10px] font-bold text-brand-800">절세·연금</span>
+              </span>
               <button className="flex items-center gap-1 rounded-md border border-brand-200 bg-brand-50 px-2 py-1 text-[11px] font-bold text-brand-700 shadow-sm transition-colors hover:bg-brand-100 hover:text-brand-900" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">
                 <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -603,13 +618,152 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                 초기화
               </button>
             </legend>
-            <label className="flex cursor-pointer items-center gap-2.5 rounded-xl bg-brand-50 px-3 py-2 text-xs font-bold text-brand-800">
-              <span>DC·IRP 가능만</span>
-              <div className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
-                <input aria-label="DC·IRP 가능만" checked={filters.pensionOnly} className="peer sr-only" onChange={(event) => updateFilters({ ...filters, pensionOnly: event.target.checked })} type="checkbox" role="switch" />
-                <span className={`inline-block size-4 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-4" : "translate-x-1"}`} />
+
+            {/* 3대 계좌 모드 탭 */}
+            <div className="grid grid-cols-3 gap-1 rounded-xl bg-neutral-200/60 p-1 mb-2">
+              <button
+                type="button"
+                onClick={() => updateFilters({ ...filters, accountMode: "pension", pensionOnly: true })}
+                className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all ${
+                  filters.accountMode === "pension" && filters.pensionOnly
+                    ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
+                    : "text-neutral-600 hover:text-neutral-900"
+                }`}
+              >
+                <span>🛡️ 퇴직연금</span>
+                <span className="text-[10px] font-medium text-neutral-500">DC·IRP</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => updateFilters({ ...filters, accountMode: "isa", pensionOnly: false, pensionTier: "all" })}
+                className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all ${
+                  filters.accountMode === "isa"
+                    ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
+                    : "text-neutral-600 hover:text-neutral-900"
+                }`}
+              >
+                <span>✨ 중개형 ISA</span>
+                <span className="text-[10px] font-medium text-neutral-500">절세 계좌</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => updateFilters({ ...filters, accountMode: "all", pensionOnly: false, pensionTier: "all" })}
+                className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all ${
+                  filters.accountMode === "all" && !filters.pensionOnly
+                    ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
+                    : "text-neutral-600 hover:text-neutral-900"
+                }`}
+              >
+                <span>🌐 전체 종목</span>
+                <span className="text-[10px] font-medium text-neutral-500">일반 위탁</span>
+              </button>
+            </div>
+
+            {/* 퇴직연금 전용: 안전자산 vs 위험자산 한도 서브 필터 */}
+            {filters.accountMode === "pension" && filters.pensionOnly ? (
+              <div className="space-y-1.5 rounded-xl border border-brand-200/80 bg-brand-50/60 p-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-brand-900">퇴직연금 법정 한도 구분</span>
+                  <label className="flex cursor-pointer items-center gap-1.5 text-[11px] font-semibold text-brand-800">
+                    <span className="sr-only">DC·IRP 가능만</span>
+                    <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
+                      <input
+                        aria-label="DC·IRP 가능만"
+                        checked={filters.pensionOnly}
+                        className="peer sr-only"
+                        onChange={(event) => {
+                          const checked = event.target.checked;
+                          updateFilters({
+                            ...filters,
+                            pensionOnly: checked,
+                            accountMode: checked ? "pension" : "all",
+                          });
+                        }}
+                        type="checkbox"
+                        role="switch"
+                      />
+                      <span className={`inline-block size-3 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-3.5" : "translate-x-0.5"}`} />
+                    </div>
+                  </label>
+                </div>
+                <div className="grid grid-cols-3 gap-1">
+                  <button
+                    type="button"
+                    onClick={() => updateFilters({ ...filters, pensionTier: "all" })}
+                    className={`rounded-lg border px-1.5 py-1 text-[11px] font-bold transition-all text-center ${
+                      filters.pensionTier === "all"
+                        ? "border-brand-700 bg-brand-700 text-white shadow-xs"
+                        : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
+                    }`}
+                  >
+                    전체 적격
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => updateFilters({ ...filters, pensionTier: "safe" })}
+                    title="퇴직연금 100% 한도 안전자산 (채권·단기파킹·적격TDF·혼합50 등)"
+                    className={`rounded-lg border px-1.5 py-1 text-[11px] font-bold transition-all text-center ${
+                      filters.pensionTier === "safe"
+                        ? "border-emerald-600 bg-emerald-600 text-white shadow-xs"
+                        : "border-emerald-200 bg-white text-emerald-800 hover:bg-emerald-50"
+                    }`}
+                  >
+                    🟢 100% 안전
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => updateFilters({ ...filters, pensionTier: "risk" })}
+                    title="퇴직연금 70% 한도 위험자산 (주식형·리츠·커버드콜·금현물 등)"
+                    className={`rounded-lg border px-1.5 py-1 text-[11px] font-bold transition-all text-center ${
+                      filters.pensionTier === "risk"
+                        ? "border-blue-600 bg-blue-600 text-white shadow-xs"
+                        : "border-blue-200 bg-white text-blue-800 hover:bg-blue-50"
+                    }`}
+                  >
+                    🔵 70% 위험
+                  </button>
+                </div>
+                <p className="text-[10px] text-neutral-500 leading-tight pt-0.5">
+                  {filters.pensionTier === "safe"
+                    ? "안전자산 의무 30% 바스켓을 채울 수 있는 100% 한도 종목만 표시됩니다."
+                    : filters.pensionTier === "risk"
+                    ? "계좌 평가금액의 최대 70%까지 편입 가능한 성장·테마형 종목입니다."
+                    : "근로자퇴직급여보장법에 따라 DC·IRP에 편입 가능한 모든 ETF입니다."}
+                </p>
               </div>
-            </label>
+            ) : filters.accountMode === "isa" ? (
+              <div className="rounded-xl border border-indigo-200/80 bg-indigo-50/60 p-2.5">
+                <p className="text-[11px] font-bold text-indigo-900 mb-0.5">중개형 ISA 투자 가능 ETF</p>
+                <p className="text-[10px] text-indigo-700 leading-tight">
+                  조세특례제한법에 따라 레버리지·인버스를 제외한 모든 국내상장 ETF 투자가 가능합니다.
+                </p>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between rounded-xl bg-neutral-100 px-3 py-2 text-xs font-semibold text-neutral-600">
+                <span>전체 ETF (파생·레버리지 포함)</span>
+                <label className="flex cursor-pointer items-center gap-1.5">
+                  <span className="sr-only">DC·IRP 가능만</span>
+                  <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
+                    <input
+                      aria-label="DC·IRP 가능만"
+                      checked={filters.pensionOnly}
+                      className="peer sr-only"
+                      onChange={(event) => {
+                        const checked = event.target.checked;
+                        updateFilters({
+                          ...filters,
+                          pensionOnly: checked,
+                          accountMode: checked ? "pension" : "all",
+                        });
+                      }}
+                      type="checkbox"
+                      role="switch"
+                    />
+                    <span className={`inline-block size-3 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-3.5" : "translate-x-0.5"}`} />
+                  </div>
+                </label>
+              </div>
+            )}
           </fieldset>
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">자산군</legend><FilterChips options={ASSET_CLASSES} selected={filters.assetClasses} onChange={(v) => updateFilters({ ...filters, assetClasses: v })} /></fieldset>
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">지역</legend><FilterChips options={MARKET_SCOPES} selected={filters.marketScopes} onChange={(v) => updateFilters({ ...filters, marketScopes: v })} /></fieldset>
@@ -888,10 +1042,10 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                     <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
                       <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
                     </th>
-                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
+                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col" title={isTrMode ? "상장 1년 이상 경과 종목 대상 (상장 기간 미달 시 —)" : "1년 수익률"}>
                       <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
                     </th>
-                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
+                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col" title={isTrMode ? "상장 3년 이상 경과 종목 대상 (상장 기간 미달 시 —)" : "3년 수익률"}>
                       <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
                     </th>
                     {comparisonPeriod && (
@@ -945,8 +1099,29 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                             {etf.classification?.fxHedge && etf.classification.fxHedge !== "환노출" && (
                               <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded">{etf.classification.fxHedge}</span>
                             )}
-                            {etf.pension === "불가" && (
-                              <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                            {filters.accountMode === "pension" ? (
+                              etf.pensionLimit === "100% (안전자산)" ? (
+                                <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금(DC/IRP) 100% 전액 투자 가능 (안전자산)">안전자산100%</span>
+                              ) : etf.pensionLimit === "70% (위험자산)" ? (
+                                <span className="text-blue-800 font-bold text-[10px] bg-blue-50 border border-blue-200 px-1 rounded" title="퇴직연금(DC/IRP) 70% 한도 내 투자 가능 (위험자산)">위험70%</span>
+                              ) : (
+                                <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                              )
+                            ) : filters.accountMode === "isa" ? (
+                              etf.isaEligible === "가능" ? (
+                                <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>
+                              ) : (
+                                <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="중개형 ISA 편입 불가 (레버리지·인버스)">ISA불가</span>
+                              )
+                            ) : (
+                              <>
+                                {etf.pensionLimit === "100% (안전자산)" && (
+                                  <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금(DC/IRP) 100% 전액 투자 가능 (안전자산)">안전100%</span>
+                                )}
+                                {etf.pension === "불가" && (
+                                  <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>

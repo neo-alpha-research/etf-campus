@@ -28,6 +28,33 @@ function formatDateWithDay(dateStr?: string): string {
   return `${dateStr.replace(/-/g, ".")} (${dayName})`;
 }
 
+export function splitSubheadline(text?: string): string[] {
+  if (!text) return [""];
+  const trimmed = text.trim();
+  if (trimmed.length <= 26) return [trimmed];
+
+  // Natural semantic break keywords in market commentary
+  const keywords = [" 속 ", " 가운데 ", " 대비 ", " vs ", " 함께 ", " 및 "];
+  for (const kw of keywords) {
+    if (trimmed.includes(kw)) {
+      const idx = trimmed.indexOf(kw) + kw.trimEnd().length;
+      const part1 = trimmed.slice(0, idx).trim();
+      const part2 = trimmed.slice(idx).trim();
+      if (part1.length <= 32 && part2.length <= 38) {
+        return [part1, part2];
+      }
+    }
+  }
+
+  // Fallback: split at last space before 28 characters
+  const spaceIdx = trimmed.slice(0, 28).lastIndexOf(" ");
+  if (spaceIdx > 12) {
+    return [trimmed.slice(0, spaceIdx).trim(), trimmed.slice(spaceIdx).trim()];
+  }
+
+  return [trimmed.slice(0, 25), trimmed.slice(25)];
+}
+
 export function generateInstagramCarousel(
   payload: MarketBriefingPayload,
   baseUrl: string,
@@ -122,8 +149,30 @@ export function generateInstagramCarousel(
   `;
 
   // =========================================================================
-  // SLIDE 1: Cover & 3 Key Pulses
+  // SLIDE 1: Cover & 3 Key Pulses (Overflow-Safe & Enhanced Readability)
   // =========================================================================
+  const subheadlineLines = splitSubheadline(regime.slide1Subheadline);
+  const isMultiLineSub = subheadlineLines.length > 1;
+  const subMaxLen = Math.max(...subheadlineLines.map(l => l.length));
+  const subFontSize = isMultiLineSub
+    ? (subMaxLen > 32 ? 21.5 : (subMaxLen > 24 ? 23.5 : 25.5))
+    : (subMaxLen > 24 ? 24 : 26.5);
+
+  const subSvg = isMultiLineSub
+    ? `<text x="0" y="40" fill="#047857" font-size="${subFontSize}" font-weight="800" letter-spacing="-0.5">
+          <tspan x="0" dy="0">${escapeXml(subheadlineLines[0])}</tspan>
+          <tspan x="0" dy="32">${escapeXml(subheadlineLines[1])}</tspan>
+        </text>`
+    : `<text x="0" y="44" fill="#047857" font-size="${subFontSize}" font-weight="800" letter-spacing="-0.5">${escapeXml(subheadlineLines[0])}</text>`;
+
+  const lineY = isMultiLineSub ? 212 : 195;
+  const p1Y = isMultiLineSub ? 228 : 215;
+  const p2Y = isMultiLineSub ? 438 : 425;
+  const p3Y = isMultiLineSub ? 668 : 655;
+
+  const inflowLen = topInflow.name.length;
+  const inflowFontSize = inflowLen > 22 ? 23 : (inflowLen > 16 ? 25.5 : 28);
+
   const slide1Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
       ${commonDefs}
@@ -133,102 +182,98 @@ export function generateInstagramCarousel(
 
       <!-- Header -->
       <g transform="translate(70, 70)">
-        <text x="0" y="28" fill="#2E6819" font-size="15" font-weight="900" letter-spacing="1">STEP 1. TODAY'S MARKET</text>
-        <text x="0" y="62" fill="#0F172A" font-size="32" font-weight="900">ETF 데일리 브리핑</text>
-        <rect x="780" y="18" width="160" height="40" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="860" y="44" fill="#475569" font-size="17" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
+        <text x="0" y="28" fill="#2E6819" font-size="16" font-weight="900" letter-spacing="1">STEP 1. TODAY'S MARKET</text>
+        <text x="0" y="62" fill="#0F172A" font-size="34" font-weight="900">ETF 데일리 브리핑</text>
+        <rect x="770" y="16" width="170" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+        <text x="855" y="43" fill="#334155" font-size="18" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
       </g>
 
       <!-- Main Hero Card -->
       <g transform="translate(70, 140)" filter="url(#softShadow)">
         <rect width="940" height="925" rx="32" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="2"/>
         
-        <rect x="40" y="32" width="280" height="34" rx="10" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
-        <text x="55" y="55" fill="#334155" font-size="15" font-weight="800">KRX 상장 일반 ETF ${generalCount}개 전수 분석</text>
+        <rect x="40" y="30" width="290" height="36" rx="10" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1.2"/>
+        <text x="55" y="54" fill="#334155" font-size="16" font-weight="800">KRX 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석</text>
 
-        <!-- Hooking Headline (Factually Precise: Theme Return vs Smart Money Inflow) -->
+        <!-- Hooking Headline -->
         <g transform="translate(40, 115)">
           <text x="0" y="0" fill="#0F172A" font-size="46" font-weight="900" letter-spacing="-1">코스피 ${kospiSign}${kospi.toFixed(2)}% vs ETF ${etfSign}${etfReturn.toFixed(2)}%</text>
-          <text x="0" y="44" fill="#047857" font-size="27" font-weight="800" letter-spacing="-0.5">${escapeXml(regime.slide1Subheadline)}</text>
+          ${subSvg}
         </g>
 
-        <line x1="40" y1="185" x2="900" y2="185" stroke="#F1F5F9" stroke-width="2"/>
+        <line x1="40" y1="${lineY}" x2="900" y2="${lineY}" stroke="#E2E8F0" stroke-width="1.5"/>
 
         <!-- Pulse 1: Market Temperature -->
-        <g transform="translate(40, 205)">
-          <rect width="860" height="195" rx="20" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-          <text x="35" y="38" fill="#334155" font-size="20" font-weight="800">🌡️ 1. 시장 체온 &amp; 지수 대비 성과</text>
+        <g transform="translate(40, ${p1Y})">
+          <rect width="860" height="190" rx="20" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text x="35" y="36" fill="#1E293B" font-size="21" font-weight="800">🌡️ 1. 시장 체온 &amp; 지수 대비 성과</text>
           
-          <rect x="535" y="15" width="290" height="38" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
-          <text x="680" y="40" font-size="16" font-weight="900" text-anchor="middle">
+          <rect x="525" y="14" width="300" height="38" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+          <text x="675" y="39" font-size="17" font-weight="900" text-anchor="middle">
             <tspan fill="#D92D20">상승 ${up}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#64748B">보합 ${flat}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#175CD3">하락 ${down}</tspan>
           </text>
 
-          <g transform="translate(35, 95)">
-            <text x="0" y="0" fill="#64748B" font-size="18" font-weight="700">KOSPI</text>
-            <text x="70" y="0" fill="${kospiColor}" font-size="30" font-weight="900" class="tabular">${kospiSign}${kospi.toFixed(2)}%</text>
-            
+          <g transform="translate(35, 92)">
+            <text x="0" y="0" fill="#475569" font-size="19" font-weight="800">KOSPI</text>
+            <text x="75" y="0" fill="${kospiColor}" font-size="32" font-weight="900" class="tabular">${kospiSign}${kospi.toFixed(2)}%</text>
             <text x="215" y="-3" fill="#CBD5E1" font-size="24">|</text>
-            
-            <text x="240" y="0" fill="#64748B" font-size="18" font-weight="700">KOSDAQ</text>
-            <text x="330" y="0" fill="${kosdaqColor}" font-size="30" font-weight="900" class="tabular">${kosdaqSign}${kosdaq.toFixed(2)}%</text>
-            
+            <text x="240" y="0" fill="#475569" font-size="19" font-weight="800">KOSDAQ</text>
+            <text x="335" y="0" fill="${kosdaqColor}" font-size="32" font-weight="900" class="tabular">${kosdaqSign}${kosdaq.toFixed(2)}%</text>
             <text x="475" y="-3" fill="#CBD5E1" font-size="24">|</text>
-            
-            <text x="500" y="0" fill="#0F172A" font-size="18" font-weight="800">일반 ETF</text>
-            <text x="590" y="0" fill="${etfColor}" font-size="30" font-weight="900" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
+            <text x="500" y="0" fill="#0F172A" font-size="19" font-weight="900">일반 ETF</text>
+            <text x="595" y="0" fill="${etfColor}" font-size="32" font-weight="900" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
           </g>
 
-          <text x="35" y="160" fill="#64748B" font-size="16" font-weight="700">${escapeXml(regime.slide1Tip)}</text>
+          <text x="35" y="155" fill="#475569" font-size="16.5" font-weight="700">${escapeXml(regime.slide1Tip)}</text>
         </g>
 
-        <!-- Pulse 2: Long/Short Themes (2-Column Comparative Split Cards) -->
-        <g transform="translate(40, 420)">
-          <rect width="860" height="215" rx="20" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-          <text x="35" y="38" fill="#0F172A" font-size="20" font-weight="800">🔥 2. 오늘의 극과 극 테마</text>
+        <!-- Pulse 2: Long/Short Themes -->
+        <g transform="translate(40, ${p2Y})">
+          <rect width="860" height="210" rx="20" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+          <text x="35" y="36" fill="#0F172A" font-size="21" font-weight="800">🔥 2. 오늘의 극과 극 테마</text>
           
-          <rect x="640" y="16" width="185" height="34" rx="10" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.2"/>
-          <text x="732" y="39" fill="#C2410C" font-size="14" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
+          <rect x="635" y="14" width="190" height="36" rx="10" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.2"/>
+          <text x="730" y="38" fill="#C2410C" font-size="15" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
 
           <!-- Left: 상승 1위 카드 -->
-          <g transform="translate(35, 60)">
-            <rect width="380" height="100" rx="14" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
-            <text x="20" y="34" fill="#B42318" font-size="14" font-weight="900">상승 1위</text>
-            <text x="20" y="68" fill="#0F172A" font-size="${topTheme.peerGroup.length > 14 ? 16 : (topTheme.peerGroup.length > 11 ? 17.5 : 19)}" font-weight="900">${escapeXml(topTheme.peerGroup)}</text>
-            <text x="360" y="64" fill="#D92D20" font-size="26" font-weight="900" text-anchor="end" class="tabular">+${(topTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%</text>
+          <g transform="translate(35, 58)">
+            <rect width="380" height="98" rx="14" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
+            <text x="20" y="32" fill="#B42318" font-size="14.5" font-weight="900">상승 1위</text>
+            <text x="20" y="66" fill="#0F172A" font-size="20" font-weight="900">${escapeXml(topTheme.peerGroup)}</text>
+            <text x="360" y="62" fill="#D92D20" font-size="28" font-weight="900" text-anchor="end" class="tabular">+${(topTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%</text>
           </g>
 
           <!-- Right: 하락 1위 카드 -->
-          <g transform="translate(445, 60)">
-            <rect width="380" height="100" rx="14" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.2"/>
-            <text x="20" y="34" fill="#175CD3" font-size="14" font-weight="900">하락 1위</text>
-            <text x="20" y="68" fill="#0F172A" font-size="${bottomTheme.peerGroup.length > 14 ? 16 : (bottomTheme.peerGroup.length > 11 ? 17.5 : 19)}" font-weight="900">${escapeXml(bottomTheme.peerGroup)}</text>
-            <text x="360" y="64" fill="#175CD3" font-size="26" font-weight="900" text-anchor="end" class="tabular">${(bottomTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%</text>
+          <g transform="translate(445, 58)">
+            <rect width="380" height="98" rx="14" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.2"/>
+            <text x="20" y="32" fill="#175CD3" font-size="14.5" font-weight="900">하락 1위</text>
+            <text x="20" y="66" fill="#0F172A" font-size="${bottomTheme.peerGroup.length > 14 ? 16.5 : (bottomTheme.peerGroup.length > 11 ? 18 : 20)}" font-weight="900">${escapeXml(bottomTheme.peerGroup)}</text>
+            <text x="360" y="62" fill="#175CD3" font-size="28" font-weight="900" text-anchor="end" class="tabular">${(bottomTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%</text>
           </g>
 
-          <text x="35" y="190" fill="#64748B" font-size="15" font-weight="700">💡 ${escapeXml(topTheme.peerGroup)} +${(topTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}% 선방 vs ${escapeXml(bottomTheme.peerGroup)} ${(bottomTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}% 차익 실현</text>
+          <text x="35" y="185" fill="#475569" font-size="15.5" font-weight="700">💡 ${escapeXml(topTheme.peerGroup)} +${(topTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}% 선방 vs ${escapeXml(bottomTheme.peerGroup)} ${(bottomTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2)}% 차익 실현</text>
         </g>
 
         <!-- Pulse 3: Top Inflow -->
-        <g transform="translate(40, 655)">
+        <g transform="translate(40, ${p3Y})">
           <rect width="860" height="185" rx="20" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
-          <text x="35" y="38" fill="#334155" font-size="20" font-weight="800">🏦 3. 실질 자금 순유입 1위</text>
+          <text x="35" y="36" fill="#1E293B" font-size="21" font-weight="800">🏦 3. 실질 자금 순유입 1위</text>
           
-          <rect x="685" y="16" width="140" height="34" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
-          <text x="755" y="39" fill="#1E293B" font-size="14" font-weight="900" text-anchor="middle">기관·외국인 합산</text>
+          <rect x="680" y="14" width="145" height="34" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+          <text x="752" y="37" fill="#1E293B" font-size="14.5" font-weight="900" text-anchor="middle">기관·외국인 합산</text>
 
-          <text x="35" y="98" fill="#0F172A" font-size="30" font-weight="900">
-            ${escapeXml(topInflow.name)} <tspan fill="#D92D20" font-size="28" font-weight="900" class="tabular">(+${(topInflow.inflow ?? 0).toLocaleString()}억원)</tspan>
+          <text x="35" y="96" fill="#0F172A" font-size="${inflowFontSize}" font-weight="900">
+            ${escapeXml(topInflow.name)} <tspan fill="#D92D20" font-size="${inflowFontSize}" font-weight="900" class="tabular">(+${(topInflow.inflow ?? 0).toLocaleString()}억원)</tspan>
           </text>
 
-          <text x="35" y="148" fill="#64748B" font-size="16" font-weight="700">💡 상위 5종목 총 ${top5InflowSum.toLocaleString()}억원 순유입 · 상세 순위는 4페이지에서 확인</text>
+          <text x="35" y="148" fill="#475569" font-size="16.5" font-weight="700">💡 상위 5종목 총 ${top5InflowSum.toLocaleString()}억원 순유입 · 상세 순위는 4페이지에서 확인</text>
         </g>
       </g>
 
       <!-- Bottom Swipe CTA -->
       <g transform="translate(70, 1095)">
         <rect width="940" height="88" rx="24" fill="url(#brandGrad)"/>
-        <text x="470" y="54" fill="#FFFFFF" font-size="23" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
+        <text x="470" y="55" fill="#FFFFFF" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
           옆으로 넘겨 3분 만에 오늘 시장 완벽 정리 👉
         </text>
         <rect x="805" y="24" width="90" height="40" rx="12" fill="#064E3B"/>

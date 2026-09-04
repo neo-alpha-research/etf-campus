@@ -147,7 +147,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
           <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 10px; margin-bottom: 12px;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="font-size: 16px;">💡</span>
-              <span style="font-size: 14.5px; font-weight: 900; color: #065F46; letter-spacing: -0.3px;">오늘의 30초 마켓 맥박 요약</span>
+              <span style="font-size: 14.5px; font-weight: 900; color: #065F46; letter-spacing: -0.3px;">오늘의 30초 마켓 요약</span>
             </div>
             <span style="font-size: 12px; font-weight: 800; color: #64748B;">일반 ETF ${generalCount}개 전수 분석</span>
           </div>
@@ -351,8 +351,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
       <!-- Footer -->
       <div class="footer">
         <div><strong style="color: #1E293B; font-size: 13.5px;">ETF CAMPUS (ETF 캠퍼스)</strong></div>
-        <div style="margin: 4px 0 8px; font-size: 12px; color: #475569; font-weight: 700;">매일 아침 가장 정확한 정량 ETF 마켓 브리핑</div>
-        <div style="font-size: 11.5px; color: #64748B; line-height: 1.6;">
+        <div style="margin-top: 8px; font-size: 11.5px; color: #64748B; line-height: 1.6;">
           본 메일은 정보 제공을 목적으로 발송되며, 특정 종목에 대한 투자 권유가 아닙니다.<br>
           © 2026 ETF Campus. All rights reserved.
         </div>

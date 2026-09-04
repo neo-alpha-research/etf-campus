@@ -29,31 +29,20 @@ type RegistryRow = {
   source_note?: string | null;
 };
 
-// 1. KOFIA 데이터 페치 (Playwright Headless 기반 완전 자동화 Skeleton)
+// 1. KOFIA 데이터 페치 (scripts/collector/kofia_fee_collector.py 호출)
 async function fetchKofiaData(): Promise<KofiaEtfRow[]> {
-  console.log("🚀 KOFIA 전자공시 서버에서 ETF 비교공시 데이터를 수집합니다...");
+  console.log("🚀 KOFIA 전자공시 수집 파이프라인(kofia_fee_collector.py)을 호출합니다...");
+  const { execSync } = await import("node:child_process");
+  const pythonScript = path.resolve(__dirname, "collector/kofia_fee_collector.py");
   
-  /* 실제 Playwright 구현 예시:
-  import { chromium } from "playwright";
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
-  await page.goto("https://dis.kofia.or.kr/...");
-  
-  // 조회 버튼 클릭 등 동적 렌더링 대기
-  await page.click("#btnSearch");
-  await page.waitForResponse(response => response.url().includes('getGridData'));
-  
-  // 네트워크 패킷 또는 DOM 테이블에서 추출
-  // ...
-  await browser.close();
-  */
+  try {
+    execSync(`python "${pythonScript}" --headless`, { stdio: "inherit" });
+  } catch (err) {
+    throw new Error(`KOFIA 수집 스크립트 실행 실패: ${err instanceof Error ? err.message : String(err)}`);
+  }
 
-  // 여기서는 KOFIA 데이터 구조를 흉내 낸 Mock API 로직을 작성합니다.
-  return [
-    { ticker: "069500", fundName: "KODEX 200", totalFeePct: 0.15, otherCostPct: 0.02, tradingCostPct: 0.015, baseDate: "202607" },
-    { ticker: "379800", fundName: "KODEX 미국S&P500TR", totalFeePct: 0.05, otherCostPct: 0.08, tradingCostPct: 0.04, baseDate: "202607" },
-    // 실제로는 수백 개의 ETF 데이터가 반환됨
-  ];
+  // kofia_fee_collector.py가 레지스트리를 직접 원자적으로 갱신하므로 빈 배열 반환
+  return [];
 }
 
 // 2. 동적 통계 기반 서킷 브레이커 로직
@@ -94,59 +83,17 @@ function validateChanges(oldRows: Map<string, RegistryRow>, newRows: KofiaEtfRow
   }
 }
 
-// 3. 메인 파이프라인 (완전 자동화)
+// 3. 메인 파이프라인 (kofia_fee_collector.py 기반)
 async function runPipeline() {
   try {
-    const registryPath = path.resolve(__dirname, "../data/fees/etf_fee_registry.json");
+    console.log("🚀 [KOFIA DIS] ETF 실부담비용율 자동 동기화 파이프라인을 시작합니다...");
+    const { execSync } = await import("node:child_process");
+    const pythonScript = path.resolve(__dirname, "collector/kofia_fee_collector.py");
     
-    // 1. 기존 레지스트리 읽기
-    const fileContent = await fs.readFile(registryPath, "utf-8");
-    const parsedData = JSON.parse(fileContent);
-    const existingRows: RegistryRow[] = Array.isArray(parsedData) ? parsedData : parsedData.records || [];
-    const rowMap = new Map<string, RegistryRow>();
-    existingRows.forEach(row => rowMap.set(row.ticker, row));
-
-    // 2. KOFIA 데이터 Fetch
-    const scrapedData = await fetchKofiaData();
-    
-    // 3. 서킷 브레이커 검증
-    validateChanges(rowMap, scrapedData);
-
-    // 4. 데이터 병합 (Merge)
-    console.log("🔄 새로운 공시 데이터를 기존 레지스트리에 병합합니다...");
-    const today = new Date().toISOString();
-
-    for (const data of scrapedData) {
-      const ter = data.totalFeePct + data.otherCostPct;
-      rowMap.set(data.ticker, {
-        ...rowMap.get(data.ticker),
-        ticker: data.ticker,
-        total_fee_pct: data.totalFeePct,
-        ter_pct: Number(ter.toFixed(4)),
-        other_cost_pct: data.otherCostPct,
-        trading_cost_pct: data.tradingCostPct,
-        effective_date: data.baseDate,
-        verified_at: today,
-        verification_status: "verified_official",
-        primary_source_type: "kofia_disclosure_api",
-        source_note: "Auto-synced via KOFIA pipeline"
-      });
-    }
-
-    // 객체를 배열로 변환 및 정렬
-    const updatedRecords = Array.from(rowMap.values()).sort((a, b) => a.ticker.localeCompare(b.ticker));
-    
-    // 최종 JSON 구조 유지
-    const finalOutput = Array.isArray(parsedData) 
-      ? updatedRecords 
-      : { ...parsedData, records: updatedRecords };
-
-    // 5. 파일 쓰기
-    await fs.writeFile(registryPath, JSON.stringify(finalOutput, null, 2), "utf-8");
+    execSync(`python "${pythonScript}" --headless`, { stdio: "inherit" });
     console.log("🎉 파이프라인 성공! etf_fee_registry.json 업데이트가 완료되었습니다.");
-    
   } catch (error) {
-    console.error("❌ 파이프라인 실행 중 오류 발생:", error);
+    console.error("❌ KOFIA 파이프라인 실행 중 오류 발생:", error);
     process.exit(1);
   }
 }

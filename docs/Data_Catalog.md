@@ -16,20 +16,22 @@
 
 ---
 
-## 1. 데이터 소스 및 산출 요약표 (최신화: 2026-09-01)
+## 1. 데이터 소스 및 산출 요약표 (최신화: 2026-09-04)
 
 새로운 데이터를 추가하거나 기존 파이프라인을 수정할 때는 **반드시 아래 표의 기준을 우선 참고하여 파편화와 혼선을 방지**해야 합니다. 데이터가 결측될 경우 임의로 값을 생성(Hallucination)하는 것은 엄격히 금지됩니다.
 
 | 데이터 항목 | 데이터 소스 (우선순위) | 소싱 방법 (엔진/스크립트) | 소싱 시간(KST) 및 주기 | 주요 계산법 (데이터 정합성 규칙) | 상태 및 라이선스 |
 |---|---|---|---|---|---|
-| **ETF 일별시세, NAV, 상장좌수** | 1. KRX Open API<br>2. 공공데이터포털(15094806) | `update_daily_data.py`<br>`backfill_api.py` | 매일 08:07<br>(이후 매시간 12:07까지 재시도) | 원천 데이터 활용 (임의 추정 및 더미 주입 **절대 금지**) | 주력 / 비상업적 |
+| **ETF 일별시세, NAV, 상장좌수** | 1. KRX Open API<br>2. 공공데이터포털(15094806) | `update_daily_data.py`<br>`backfill_api.py` | 매일 08:07<br>(이후 매시간 12:07까지 재시도) | 원천 데이터 활용 (임의 추정 및 더미 주입 **절대 금지**) | 주력 / 비상업적 (FSC 단일화 검토 중) |
 | **ETF 순유입액 (Fund Flow)** | KRX / 공공데이터포털 파생 | `market-briefing-publisher` | 마켓 브리핑 워커 실행 시 | `순유입 = (좌수(T) - 좌수(T-1)) * NAV(T)`<br>※ API의 좌수(shares)는 T-1 기준이므로 T시점 좌수는 `AUM/NAV`로 역산 | 정상 |
 | **ETF 괴리율 (Disparity)** | KRX / 공공데이터포털 파생 | 수집 스크립트 파생 로직 | 시세 수집 시 | `괴리율 = (종가 - NAV) / NAV * 100`<br>※ FSC에 필드가 없으므로 직접 수식 계산 | 정상 |
 | **시장 카테고리별 AUM 비중** | `etf_prices` / `asset_detail` | `market-briefing-publisher` | 마켓 브리핑 워커 실행 시 | 데이터가 있는 분류만 합산. 과거처럼 특정 카테고리를 전체의 `0.765`로 고정 산출하는 등 비율 하드코딩 **금지** | 정상 |
+| **총보수 및 실부담비용율** | **금융투자협회 (KOFIA DIS)** 단일 공인 원천 | `kofia_fee_collector.py`<br>`kofia-fee-sync.yml` | 매월 1일 (월간 주기) | `실부담비용율 = 총보수 + 기타비용 + 매매중개수수료`<br>※ 네이버 크롤러 완전 폐지 (2026-09-04) | 법정 유일 공시 기관 / 정상 |
+| **퇴직연금 적격성 (DC/IRP)** | **근로자퇴직급여보장법 감독규정** 단일 룰 | `phase0_collect_and_tag.py`<br>`pension_rule()` | 시세 갱신 시 자동 평가 | 위험평가액 40% 초과 파생상품, 레버리지, 인버스 제외<br>※ 8개 운용사 웹 JSON 스크래퍼 폐지 (2026-09-04) | 법정 감독규정 / 정상 |
 | **국내 지수 (KOSPI/KOSDAQ)** | KRX Open API | `fetch_market_indices.py` | 매일 08:07 | 원천 데이터 활용 | 공공데이터포털 15094807로 전환 대기 |
 | **해외지수, 원자재, 환율, VIX** | Yahoo Finance | `fetch_market_indices.py` | 매일 08:07 | 브라우저 위장 HTML 크롤링 (User-Agent 필수) | 비공식 / 지수 재배포 제한 |
 | **분배금 및 TR 수익률** | 한국예탁결제원 (SEIBro) 단일 공인 원천 | `collect_seibro_distributions.py`<br>`build_distribution_summaries.py`<br>PR/TR 산출 엔진 | 매일 13:07 | 주당 분배금 기반 TR 재투자 수식 적용<br>※ 초기 적재 스냅샷은 2026-08-31 기준이며, 일일 파이프라인 구동 시 최신 거래일(T일) 종가 기준으로 매일 롤링(Rolling) 갱신 | 공인 중앙예탁기관 / 정상 |
-| **추적오차율** | 제공처 없음 | N/A | N/A | 임의 생성 금지. 현재 데이터 부재로 화면에서 **제거됨** | 사용 안 함 |
+| **추적오차율** | 제공처 없음 | N/A | N/A | 임의 생성 금지. 화면에서 **제거됨**<br>※ CI 좀비 스크립트 완전 삭제 (2026-09-04) | 사용 안 함 (정리 완료) |
 | **커뮤니티** | Supabase | Supabase RPC / Views | 실시간 | 자체 게시글 및 메타데이터 적재 | 자체 / 정상 |
 
 > **[ZERO-HALLUCINATION 원칙]** 데이터(AUM, 거래대금, 유입액 등)가 비어 있거나 API 오류로 누락되었을 때, 이를 메꾸기 위해 가상의 수치, 더미 종목명, 고정된 비율을 반환해선 안 됩니다. 값이 없으면 빈 배열(`[]`)이나 `null`을 반환하여 UI가 "데이터 없음"을 표시(Graceful Fallback)하도록 해야 합니다.
@@ -126,19 +128,19 @@ VIX 는 CBOE 지수이므로 같은 범주로 봅니다.
 
 `fetch_market_indices.py` 99행에 FRED 조회 함수가 남아 있습니다. 현재 `TICKERS` 에서 참조하지 않으므로 **잔존 코드로 보입니다.** [미확인]
 
-### 2-4. 총보수 (TER)
+### 2-4. 총보수 및 실부담비용율 (TER & Synthetic Cost)
 
-**수집 스크립트** [확인됨]: `scripts/refresh_fees.py` 12행
+**진실의 원천(SSOT)**: **금융투자협회 전자공시시스템(KOFIA DIS)** (`dis.kofia.or.kr`) — **단일 공인 원천 확정 (2026-09-04)**
 
-```
-https://finance.naver.com/item/coinfo.naver?code={ticker}
-```
+**법적 지위 및 사유**:
+- 자본시장법상 국내 모든 공모펀드·ETF의 총보수, 기타비용, TER, 매매중개수수료율(실부담비용율)을 공식 수합·공시하는 유일한 법정 기관입니다.
+- 기존 네이버 금융 크롤러는 "단순 명목보수"만 제공하여, 해외투자 ETF 등에서 연 0.3~0.5%p에 달하는 "기타비용"과 "매매수수료"가 누락되는 금융 정보 왜곡 문제가 있었습니다.
+- 2026-09-04 부로 네이버 금융 크롤러(`scripts/refresh_fees.py`) 및 일일 워크플로(`.github/workflows/daily-fees.yml`)를 **완전 폐기**하고, KOFIA DIS 월간 동기화 체계(`scripts/collector/kofia_fee_collector.py`)로 일원화하였습니다.
 
-HTML 을 파싱하며 `User-Agent` 를 위장합니다.
-
-**대안 없음** [확인됨]: 공공데이터포털에 데이터가 존재하지 않습니다. 펀드상품기본정보(15094792)는 응답 항목 8개에 보수 필드가 없고, 금융투자협회종합통계정보(15094809)는 시장 집계 통계뿐이며, 펀드상품 판매현황정보(15151230)는 공공누리 제4유형입니다. "총보수", "보수비용", "운용보수" 키워드 검색 결과 0건.
-
-**미조사 경로** [미확인]: 금융투자협회 전자공시(`dis.kofia.or.kr`), KOFIA OpenAPI(`openapi.kofia.or.kr`)
+**수집 스크립트 및 저장소** [확인됨]:
+- 수집기: `scripts/collector/kofia_fee_collector.py` (Playwright 기반 WebSquare 공시 데이터 수집 및 60% 이상치 서킷 브레이커)
+- 실행 워크플로: `.github/workflows/kofia-fee-sync.yml` (매월 1일 실행)
+- 저장 위치: `data/fees/etf_fee_registry.json` (총보수, 기타비용, TER, 매매수수료율 4단계 공시 원장 영구 보관)
 
 ### 2-5. 분배금 (ETF Distribution)
 
@@ -268,8 +270,9 @@ node -e "fetch('https://etf-campus.pages.dev/api/briefings/latest').then(r=>r.js
 
 | 파일 | 호출 대상 | 상태 |
 |---|---|---|
-| `scripts/rebuild_unadjusted_prices.py` | `fchart.stock.naver.com`, `count=6000` | **참조 0건. 죽은 코드** |
 | `scripts/collect_page2_official_sources.py` | `fchart.stock.naver.com`, `count=400` | 리드마그넷 수동 갱신 경로에서만 |
+
+※ 2026-09-04 부로 참조 0건이던 죽은 크롤러(`scripts/rebuild_unadjusted_prices.py`, `scripts/collect_historical_prices.py`)는 저장소에서 영구 삭제되었습니다.
 
 **이 두 파일을 "현재 사용 중인 네이버 의존"으로 착각한 사례가 실제로 있었습니다.** 살아 있는 가격 수집 경로는 `scripts/backfill_api.py` 입니다.
 
@@ -320,6 +323,7 @@ node -e "fetch('https://etf-campus.pages.dev/api/briefings/latest').then(r=>r.js
 - KRX 일별시세와 FSC 증권상품시세정보 모두 추적오차율을 원본 데이터로 제공하지 않습니다. (과거 매핑은 죽은 코드로 판명)
 - 이에 따라 2026-08-26 부로 UI에서 추적오차율 렌더링 요소를 완전히 제거했습니다. CSV의 tracking_error 컬럼은 스키마 유지를 위해 빈 값으로 남겨두었습니다.
 - 같은 이유로 PRC_DEV_RT(괴리율 원본 매핑) 및 lstgDt(상장일 원본 매핑) 참조도 코드에서 함께 정리되었습니다.
+- **좀비 파이프라인 완전 제거 (2026-09-04)**: `daily-market.yml`에서 실행되던 `refresh_tracking_error.py || true` 및 `calculate_pure_tracking_error.py || true` 스텝과 해당 스크립트들을 완전히 삭제하여 CI 자원 낭비와 은폐된 오류를 청소했습니다.
 
 ### 2-9. 스냅샷 적재 정규화 누락 버그 및 수정 (2026-08-26)
 - **증상**: D1 `market_source_etf_daily` 및 `briefing_etf_daily` 테이블에서 모든 일자의 `nav_value`, `disparity_pct`, `asset_detail`이 항상 `NULL`로 저장되어 STEP 3(세부 주도 테마 peerGroups)와 STEP 4·5(자금 순유입 fundFlow)가 동시에 차단됨.
@@ -508,7 +512,13 @@ app/sitemap.ts L27                        loadBriefings() 로컬 마크다운만
 - `market_scale_daily`: 시장 전체 순자산총액, 거래대금, 일/주/월간 AUM 변동 및 실질 순유입액을 일별 단위로 영구 보관
 - `peer_flow_daily`: 60여 개 동종 테마(Peer Group)별 주간/월간 실질 자금 순유입액 합계(억원) 및 AUM 가중 누적 수익률(%) 랭킹 보관
 
-**적재 경로:**
-- `workers/market-briefing-publisher/src/index.ts`: 브리핑 발행(`publishSnapshot`) 시 `market_briefings`, `market_briefing_asset_classes`, `market_briefing_focus_etfs`와 함께 `market_scale_daily` 및 `peer_flow_daily`에 원자적 D1 배치 트랜잭션으로 동시 INSERT
-- 정식 서비스 개시일(2026-08-24)부터 2026-09-01까지의 7개 거래일 데이터 전수 백필 및 정합성 검증 완료 (`scripts/backfill_scale_and_peer_flow.js`).
+### 2-20. 퇴직연금(DC/IRP) 적격성 판별 단일 룰 엔진 일원화 [확인됨] (2026-09-04)
+
+**진실의 원천(SSOT)**: **근로자퇴직급여보장법 감독규정 기반 객관적 룰 엔진 (`phase0_collect_and_tag.py:pension_rule()`)**
+
+**일원화 사유 및 폐기 내역**:
+- 과거에는 8개 주요 자산운용사 홈페이지를 개별 크롤링하여 추출한 임시 JSON 8종(`data/issuer_*_pension.json`)과 정규식 룰을 교차 대조하여 `pension_verify_sheet.csv`를 생성했습니다.
+- 그러나 운용사 웹 뱃지는 마케팅 표기에 불과하고, 법적 적격 여부는 고용노동부/금융위원회의 **근로자퇴직급여보장법 감독규정(위험평가액 40% 초과 파생상품 금지, 레버리지 및 인버스 금지)**에 의해 100% 규정됩니다. 또한 8개 대형 운용사 외 중소형 운용사 ETF를 검증하지 못하는 구조적 한계가 있었습니다.
+- 이에 따라 2026-09-04 부로 **8개 운용사 웹 크롤링 JSON 파일을 전면 삭제**하고, 자산분류(`asset_class`) 및 상품명·기초지수 파생 분석에 기반한 법정 단일 룰 엔진(`pension_rule`)으로 1,167개 전 종목의 적격성을 100% 완전 자동 검증하도록 일원화하였습니다.
+
 

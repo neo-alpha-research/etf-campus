@@ -114,7 +114,7 @@ jobs:
 
       - name: Deploy publisher
         working-directory: workers/market-briefing-publisher
-        run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy
+        run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy --env=""
 
   deploy_distributor:
     name: Deploy market briefing distributor (OSMU)
@@ -132,7 +132,7 @@ jobs:
 
       - name: Deploy distributor
         working-directory: workers/market-briefing-distributor
-        run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy
+        run: npx --yes wrangler@${{ env.WRANGLER_VERSION }} deploy --env=""
 
   deploy_pages:
     name: Deploy ETF Campus Pages

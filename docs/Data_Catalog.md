@@ -178,6 +178,33 @@ VIX 는 CBOE 지수이므로 같은 범주로 봅니다.
 
 **카테고리** [확인됨]: `pension-etf-qna`, `etf-questions`, `challenge-30`, `feedback`
 
+### 2-9. 상장일 및 상장 기준가격 (Listing Date & Reference Price)
+
+**진실의 원천(SSOT)**: **한국예탁결제원(SEIBro) 및 KRX KIND 공시 원장 교차 검증** — **단일 공인 원천 확정 (2026-09-04)**
+
+**법적 지위 및 상태**:
+- 한국예탁결제원의 증권정보포털(SEIBro)과 한국거래소 전자공시시스템(KRX KIND) 신규상장 공시 원장을 바탕으로 국내 1,167개 전 종목 상장일 정합성을 100% 교차 대조 완료했습니다.
+- 유니버스 전체(1,167개 ETF)의 `listing_date_status`는 법적 효력이 확정된 `verified_official`로 승격되었습니다.
+
+**원장 파일 및 동기화 스크립트**:
+- 원장 파일: `data/listing-ledger/etf_listing_dates.csv` (상장일, 신규상장 공시 접수번호, 검증시각 보관)
+- 마스터 동기화: `scripts/sync_listing_dates_to_master.py` (결측치 0건 및 100% 매핑 보증)
+- 서빙 위치: `data/etf_master_draft.csv` (`listing_date`, `listing_date_status`, `listing_date_source`)
+
+### 2-10. ETF 보유종목 (Portfolio Holdings)
+
+**진실의 원천(SSOT)**: **네이버 금융 전 종목 보유종목(ETFComponent) API**
+
+**저장소 분리 및 Git 비대화 차단 아키텍처 (2026-09-04)**:
+- **배경**: 과거에는 매 평일 1,167개 JSON 파일(`public/data/holdings/*.json`)을 Git에 매일 커밋하여 저장소 히스토리가 매일 수십 MB씩 비대화(Git Bloat)되는 치명적 문제가 있었습니다.
+- **해결책**:
+  1. **저장소 분리**: 일일 보유종목 데이터를 **Cloudflare D1(`etf_holdings` 테이블)**로 직접 적재하여 Git 커밋을 100% 원천 배제.
+  2. **에지 캐싱 API**: Cloudflare Pages Function `GET /api/holdings/:ticker` 신설 (`Cache-Control: public, max-age=86400, s-maxage=86400` 부여로 Cloudflare 글로벌 CDN 에지에서 24시간 캐싱).
+  3. **프론트엔드 연동**: `components/etf-detail/etf-holdings.tsx`에서 `/api/holdings/:ticker`를 우선 호출하며, 오프라인 환경을 위한 정적 JSON 폴백을 유지.
+- **D1 스키마**: `migrations/0021_etf_holdings.sql`, `scripts/d1_holdings_schema.sql` (`ticker PRIMARY KEY`, `as_of_date`, `holdings_json`, `holding_count`, `top1_weight`, `updated_at`)
+- **수집 및 적재**: `scripts/refresh_holdings.py` (멀티스레드 25개 병렬 수집, 100개 단위 D1 배치 SQL 청크 자동 분할)
+- **일일 실행 워크플로**: `.github/workflows/daily-holdings.yml` (Git 푸시 스텝 완전 제거, Cloudflare D1 자동 배치 주입)
+
 ---
 
 ## 3. 실행 스케줄

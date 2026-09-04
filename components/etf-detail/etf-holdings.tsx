@@ -16,10 +16,18 @@ export type EtfHoldingsData = {
   holdings: EtfHolding[];
 };
 
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Not found");
-  return res.json();
+const fetchHoldings = async (ticker: string): Promise<EtfHoldingsData> => {
+  try {
+    const res = await fetch(`/api/holdings/${ticker}`);
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch {
+    // API endpoint unreachable (e.g. offline dev), fallback to static JSON
+  }
+  const fallback = await fetch(`/data/holdings/${ticker}.json`);
+  if (!fallback.ok) throw new Error("Holdings not found");
+  return await fallback.json();
 };
 
 // Distinct, cohesive financial palette matching ETF Campus brand
@@ -62,8 +70,8 @@ function isCashEquivalent(name: string): boolean {
 
 export function EtfHoldings({ ticker }: { ticker: string }) {
   const { data, error, isLoading } = useSWR<EtfHoldingsData>(
-    `/data/holdings/${ticker}.json`,
-    fetcher,
+    ticker ? `holdings:${ticker}` : null,
+    () => fetchHoldings(ticker),
     {
       revalidateOnFocus: false,
       revalidateIfStale: false,

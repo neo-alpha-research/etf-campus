@@ -5,7 +5,9 @@
   "scripts": {
     "osmu:download": "gh run download -n OSMU_Archive --dir OSMU_Archive",
     "dev": "next dev",
-    "prebuild": "node -e \"const fs=require('fs'); fs.mkdirSync('public/data', {recursive: true}); fs.copyFileSync('data/market_holidays.txt', 'public/data/market_holidays.txt');\" && npx tsx scripts/generate-screener-json.ts",
+    "preview:local": "powershell -Command \"Start-Process 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' -ArgumentList '--app=http://localhost:3000/?app=1 --window-size=412,915 --user-data-dir=\\\"$env:LOCALAPPDATA\\Temp\\etf_campus_app_profile\\\"'\"",
+    "preview:app": "powershell -Command \"Start-Process 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' -ArgumentList '--app=https://etf-campus.pages.dev/?app=1 --window-size=412,915 --user-data-dir=\\\"$env:LOCALAPPDATA\\Temp\\etf_campus_app_profile\\\"'\"",
+    "prebuild": "node -e \"const fs=require('fs'); fs.mkdirSync('public/data', {recursive: true}); fs.copyFileSync('data/market_holidays.txt', 'public/data/market_holidays.txt');\" && npx tsx scripts/generate-screener-json.ts && node scripts/generate-style-og-images.mjs",
     "build": "next build",
     "check:release": "node scripts/check-release-readiness.mjs",
     "lint": "eslint .",

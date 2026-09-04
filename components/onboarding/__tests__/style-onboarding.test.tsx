@@ -43,9 +43,14 @@ describe("StyleOnboarding Component", () => {
     // 1층 동물 결과 확인
     expect(screen.getByRole("heading", { name: "원칙을 지키는 거북이" })).toBeInTheDocument();
     expect(screen.getByText("5가지 탐색 축")).toBeInTheDocument();
-    expect(screen.getByText(/숫자가 춤을 춰도/)).toBeInTheDocument(); // punchline
-    expect(screen.getByText("나와 가장 다르게 보는 유형")).toBeInTheDocument();
-    expect(screen.getByText(/조건을 엮는 여우/)).toBeInTheDocument(); // opposite style
+    expect(screen.getAllByText(/숫자가 춤을 춰도/)[0]).toBeInTheDocument(); // punchline
+    expect(screen.getByText(/나와 가장 다르게 보는 유형/)).toBeInTheDocument();
+    expect(screen.getAllByText(/조건을 엮는 여우/)[0]).toBeInTheDocument(); // opposite style
+
+    // 소셜 공유 바 버튼 확인
+    expect(screen.getByRole("button", { name: /카카오톡 · SNS 공유/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /결과 링크 복사/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /인스타 스토리 카드 저장/ })).toBeInTheDocument();
 
     expect(screen.getByRole("link", { name: "연금 계좌에서 ETF 찾기" })).toHaveAttribute("href", "/quick?mode=pension");
     expect(screen.getByRole("link", { name: "일반 계좌에서 ETF 찾기" })).toHaveAttribute("href", "/quick?mode=general");

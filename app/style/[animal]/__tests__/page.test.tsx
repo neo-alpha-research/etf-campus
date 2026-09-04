@@ -11,10 +11,15 @@ describe("StyleAnimalPage Static Generation & Metadata", () => {
     expect(params.map((p) => p.animal)).toContain("owl");
   });
 
-  it("유효한 메타데이터(제목, punchline 설명, canonical)를 생성한다", async () => {
+  it("유효한 메타데이터(제목, punchline 설명, canonical, 1200x630 OG 이미지)를 생성한다", async () => {
     const meta = await generateMetadata({ params: Promise.resolve({ animal: "turtle" }) });
     expect(meta.title).toBe("원칙을 지키는 거북이 | ETF 투자 스타일 | ETF Campus");
     expect(meta.description).toContain("숫자가 춤을 춰도");
     expect(meta.alternates?.canonical).toBe("/style/turtle");
+    const ogImages = meta.openGraph?.images as Array<{ url: string; width: number; height: number; alt: string }>;
+    expect(ogImages).toBeDefined();
+    expect(ogImages[0].url).toBe("/images/og/style/turtle.png");
+    expect(ogImages[0].width).toBe(1200);
+    expect(ogImages[0].height).toBe(630);
   });
 });

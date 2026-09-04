@@ -5,6 +5,14 @@ export const STYLE_CHANGE_EVENT = "etfcampus-style-change";
 export const SCALE_ANSWERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 export type ScaleAnswer = (typeof SCALE_ANSWERS)[number];
 
+export const SCALE_OPTIONS = [
+  { value: 1, label: "확실히 A", side: "left", strength: "strong", desc: "A에 가깝다" },
+  { value: 4, label: "약간 A", side: "left", strength: "mild", desc: "A 쪽인 편" },
+  { value: 7, label: "약간 B", side: "right", strength: "mild", desc: "B 쪽인 편" },
+  { value: 10, label: "확실히 B", side: "right", strength: "strong", desc: "B에 가깝다" },
+] as const;
+export type DiscreteScaleValue = (typeof SCALE_OPTIONS)[number]["value"];
+
 export type AxisId = "view" | "range" | "timing" | "criteria" | "depth";
 export type AxisScores = Record<AxisId, number>;
 
@@ -34,7 +42,7 @@ export const DIAGNOSIS_QUESTIONS = [
     id: "newTheme",
     axis: "range",
     scene: "장면 2 · 낯선 테마",
-    title: "처음 보는 주제의 ETF가 눈에 들어왔다.",
+    title: "동기가 처음 듣는 테마 ETF 이야기를 꺼냈을 때 나의 반응은?",
     left: { emoji: "🏡", label: "잘 아는 자산군부터 다시 본다", detail: "익숙한 범위와 무엇이 다른지 확인한다" },
     right: { emoji: "🌏", label: "관련 시장까지 넓게 둘러본다", detail: "낯선 자산군과 연결된 시장도 탐색한다" },
   },
@@ -42,17 +50,17 @@ export const DIAGNOSIS_QUESTIONS = [
     id: "reviewDay",
     axis: "timing",
     scene: "장면 3 · 포트폴리오 점검",
-    title: "ETF 정보를 다시 확인하는 나의 리듬은?",
+    title: "지수가 크게 빠졌다는 알림이 떴을 때 나의 확인 방식은?",
     left: { emoji: "📅", label: "정해 둔 날에 차분히 본다", detail: "매주 또는 매월 같은 주기로 점검한다" },
-    right: { emoji: "🔔", label: "큰 변화가 있을 때 먼저 본다", detail: "시장 이슈나 가격 변화가 점검 신호가 된다" },
+    right: { emoji: "🔔", label: "변화가 생겼을 때 먼저 본다", detail: "시장 이슈나 가격 변화가 점검 신호가 된다" },
   },
   {
     id: "sameIndex",
     axis: "criteria",
     scene: "장면 4 · 비슷한 ETF",
     title: "같은 유형의 ETF가 여러 개라면?",
-    left: { emoji: "🎯", label: "핵심 기준 몇 가지로 좁힌다", detail: "계좌 가능 여부와 규모처럼 꼭 볼 항목부터 본다" },
-    right: { emoji: "🧩", label: "여러 조건을 나란히 놓는다", detail: "지수·규모·거래·수익률을 함께 비교한다" },
+    left: { emoji: "🎯", label: "거래량과 보수처럼 눈에 띄는 조건으로 좁힌다", detail: "핵심 기준 하나로 비교 대상을 먼저 압축한다" },
+    right: { emoji: "🧩", label: "숨은 비용과 지급일까지 나란히 놓고 본다", detail: "보수·분배금·거래 조건을 꼼꼼히 함께 비교한다" },
   },
   {
     id: "structureDepth",
@@ -391,21 +399,44 @@ export function getAxisScores(answers: DiagnosisAnswers): AxisScores {
 
 export function diagnoseStyle(answers: DiagnosisAnswers): StyleId {
   const scores = getAxisScores(answers);
-  let nearest = Object.keys(STYLE_PROFILES)[0] as StyleId;
-  let nearestDistance = Number.POSITIVE_INFINITY;
+  let candidates: { style: StyleId; distance: number; weightedDist: number }[] = [];
+  let minDistance = Number.POSITIVE_INFINITY;
 
   for (const [style, profile] of Object.entries(STYLE_PROFILES) as [StyleId, StyleProfile][]) {
     const distance = AXIS_DEFINITIONS.reduce(
       (sum, axis) => sum + (scores[axis.id] - profile.vector[axis.id]) ** 2,
       0,
     );
-    if (distance < nearestDistance) {
-      nearest = style;
-      nearestDistance = distance;
+    // 1st tie-breaker: slight weighted variance across core anchors ('view' and 'timing')
+    const weightedDist = AXIS_DEFINITIONS.reduce((sum, axis) => {
+      const weight = axis.id === "view" ? 1.05 : axis.id === "timing" ? 1.03 : 1.0;
+      return sum + weight * (scores[axis.id] - profile.vector[axis.id]) ** 2;
+    }, 0);
+
+    if (distance < minDistance - 1e-7) {
+      minDistance = distance;
+      candidates = [{ style, distance, weightedDist }];
+    } else if (Math.abs(distance - minDistance) < 1e-7) {
+      candidates.push({ style, distance, weightedDist });
     }
   }
 
-  return nearest;
+  if (candidates.length === 1) {
+    return candidates[0].style;
+  }
+
+  // 1st tie-breaker: compare weighted distance
+  candidates.sort((a, b) => a.weightedDist - b.weightedDist);
+  if (Math.abs(candidates[0].weightedDist - candidates[1].weightedDist) > 1e-7) {
+    return candidates[0].style;
+  }
+
+  // 2nd tie-breaker: balanced deterministic priority order
+  const priorityOrder: StyleId[] = [
+    "turtle", "dolphin", "owl", "fox", "squirrel",
+    "elephant", "octopus", "eagle", "hedgehog", "otter"
+  ];
+  return candidates.sort((a, b) => priorityOrder.indexOf(a.style) - priorityOrder.indexOf(b.style))[0].style;
 }
 
 export function getOppositeStyle(styleId: StyleId): StyleId {

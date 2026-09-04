@@ -1,8 +1,8 @@
 "use client";
-
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
-import { ExternalLink, Sparkles, Clock, ArrowRight, RotateCcw, Check } from "lucide-react";
+import { ExternalLink, Sparkles, Clock, ArrowRight, RotateCcw } from "lucide-react";
 
 import { Tickery } from "@/components/brand/tickery";
 import {
@@ -16,6 +16,7 @@ import {
   prescribeBooks,
   PRESCRIPTION_BOOK_METADATA,
   PRESCRIPTION_QUESTIONS,
+  SCALE_OPTIONS,
   STYLE_CHANGE_EVENT,
   STYLE_PROFILES,
   STYLE_STORAGE_KEY,
@@ -29,6 +30,7 @@ import {
   type StoredDiagnosis,
   type StyleId,
 } from "@/lib/onboarding/style-diagnosis";
+import { StyleShareBar } from "./style-share-bar";
 
 const SCALE_TICKS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 
@@ -364,18 +366,48 @@ export function StyleOnboarding() {
               ))}
             </div>
 
-            <div className="mt-5 rounded-2xl bg-neutral-50 px-4 py-4 sm:px-5">
-              <div className="flex items-center justify-between gap-3 text-xs font-extrabold">
-                <span className="text-brand-800">A 쪽 · 1</span>
-                <span className={`rounded-full px-3 py-1.5 ${selected === undefined ? "bg-neutral-200 text-muted" : "bg-brand-700 text-white"}`}>
-                  {selected === undefined ? "위치를 선택해 주세요" : `${selected} · ${getPositionLabel(selected)}`}
-                </span>
-                <span className="text-brand-800">10 · B 쪽</span>
+            {/* 4-Choice Touch Segment */}
+            <div className="mt-5 rounded-2xl bg-neutral-50 p-4 border border-line">
+              <div className="flex items-center justify-between text-xs font-extrabold text-neutral-700">
+                <span>어느 쪽에 더 가깝나요? (1개 선택)</span>
+                {selected !== undefined && (
+                  <span className="rounded-full bg-brand-700 px-2.5 py-0.5 text-[11px] font-bold text-white">
+                    {getPositionLabel(selected)}
+                  </span>
+                )}
               </div>
+
+              <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" role="radiogroup" aria-label="A와 B 사이의 위치 선택">
+                {SCALE_OPTIONS.map((opt) => {
+                  const isSelected = selected === opt.value;
+                  return (
+                    <button
+                      aria-checked={isSelected}
+                      aria-label={`${opt.label} (${opt.desc})`}
+                      className={`flex flex-col items-center justify-center rounded-xl p-3 text-center transition-all min-h-[58px] ${
+                        isSelected
+                          ? "border-2 border-brand-600 bg-brand-50 text-brand-900 shadow-xs ring-1 ring-brand-300"
+                          : "border border-neutral-200 bg-white hover:border-brand-300 hover:bg-neutral-50/80"
+                      }`}
+                      key={opt.value}
+                      onClick={() => setAnswers((current) => ({ ...current, [question.id]: opt.value }))}
+                      role="radio"
+                      type="button"
+                    >
+                      <span className={`text-xs font-black ${isSelected ? "text-brand-900" : "text-strong"}`}>
+                        {opt.label}
+                      </span>
+                      <span className="mt-0.5 text-[11px] text-muted">{opt.desc}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Hidden slider for screen-reader accessibility and test compatibility */}
               <input
                 aria-label="A와 B 사이의 위치"
                 aria-valuetext={selected === undefined ? "아직 선택하지 않음" : `${selected}, ${getPositionLabel(selected)}`}
-                className="etf-style-slider mt-3"
+                className="sr-only"
                 max="10"
                 min="1"
                 onChange={(event) => setAnswers((current) => ({
@@ -383,26 +415,12 @@ export function StyleOnboarding() {
                   [question.id]: Math.round(Number(event.target.value)) as ScaleAnswer,
                 }))}
                 step="0.5"
-                style={{ "--slider-position": `${(((selected ?? 5.5) - 1) / 9) * 100}%` } as CSSProperties}
                 type="range"
                 value={selected ?? 5.5}
               />
-              <div className="grid grid-cols-10" aria-label="1부터 10까지 위치 눈금">
-                {SCALE_TICKS.map((value) => (
-                  <button
-                    aria-label={`${value} 위치 선택`}
-                    className={`min-h-9 text-xs font-bold transition-colors ${
-                      selected === value ? "text-brand-800" : "text-neutral-500 hover:text-brand-700"
-                    }`}
-                    key={value}
-                    onClick={() => setAnswers((current) => ({ ...current, [question.id]: value }))}
-                    type="button"
-                  >
-                    {value}
-                  </button>
-                ))}
-              </div>
-              <p className="mt-1 text-center text-[11px] font-semibold text-muted">숫자는 우열이나 투자 점수가 아니라 두 문장 사이의 위치입니다.</p>
+              <p className="mt-2.5 text-center text-[11px] font-semibold text-muted">
+                선택지는 점수나 우열이 아니라 두 가지 탐색 성향 사이의 방향입니다.
+              </p>
             </div>
 
             <div className="mt-6 flex gap-2">
@@ -499,9 +517,22 @@ export function StyleOnboarding() {
           <div className="pb-3 pt-4">
             {/* Top Animal Identity Card */}
             <div className="rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-50 via-surface to-neutral-50 p-5 text-center sm:p-7">
-              <div className="mx-auto grid size-24 place-items-center rounded-full border-4 border-white bg-white shadow-md overflow-hidden" aria-hidden="true">
-                  <img src={profile.imagePath} alt={profile.name} className="size-full object-cover" />
-                </div>
+              <div className="relative mx-auto size-28 overflow-hidden rounded-3xl border-4 border-white bg-white shadow-md sm:size-32">
+                <Image
+                  alt={profile.name}
+                  className="h-full w-full object-cover"
+                  height={128}
+                  priority
+                  src={profile.imagePath}
+                  width={128}
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-1 right-1 grid size-8 place-items-center rounded-full border-2 border-white bg-white text-lg shadow-xs"
+                >
+                  {profile.emoji}
+                </span>
+              </div>
 
               {/* Rarity Badge */}
               <div className="mt-4 flex justify-center">
@@ -535,6 +566,15 @@ export function StyleOnboarding() {
               </div>
             </div>
 
+            {/* Share Bar */}
+            <StyleShareBar
+              axisScores={completed.axisScores}
+              profile={profile}
+              rarityShare={rarityShare}
+              styleId={completed.style}
+              totalStatsCount={totalStatsCount}
+            />
+
             <p className="mt-5 leading-7 text-muted">{profile.summary}</p>
 
             {/* 5 Axes */}
@@ -565,20 +605,29 @@ export function StyleOnboarding() {
             {oppositeProfile ? (
               <div className="mt-4 rounded-2xl border border-line bg-surface p-4 sm:p-5">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-xs font-extrabold text-brand-700">나와 가장 다르게 보는 유형</p>
-                  <span className="text-[11px] font-bold text-muted">탐색 벡터 최대 거리</span>
+                  <p className="text-xs font-extrabold text-brand-700">⚡ 나와 가장 다르게 보는 유형</p>
+                  <span className="text-[11px] font-bold text-muted">탐색 축 최대 대비</span>
                 </div>
                 <div className="mt-3 flex items-center gap-3">
-                  <span className="grid size-12 place-items-center rounded-2xl bg-neutral-100 overflow-hidden" aria-hidden="true">
-                      <img src={oppositeProfile.imagePath} alt={oppositeProfile.name} className="size-full object-cover" />
+                  <div className="relative size-12 shrink-0 overflow-hidden rounded-2xl border border-line bg-neutral-100">
+                    <Image
+                      alt={oppositeProfile.name}
+                      className="h-full w-full object-cover"
+                      height={48}
+                      src={oppositeProfile.imagePath}
+                      width={48}
+                    />
+                    <span className="absolute bottom-0 right-0 grid size-4 place-items-center rounded-full bg-white text-[10px] shadow-xs">
+                      {oppositeProfile.emoji}
                     </span>
+                  </div>
                   <div>
                     <h3 className="text-base font-extrabold text-strong">{oppositeProfile.name}</h3>
                     <p className="text-xs text-muted">&ldquo;{oppositeProfile.punchline}&rdquo;</p>
                   </div>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-neutral-600">
-                  정보를 정반대 축에서 탐색하므로, 동료나 파트너와 함께 의논할 때 사각지대를 보완해 줍니다.
+                <p className="mt-2.5 text-xs leading-5 text-neutral-600 border-t border-line/60 pt-2.5">
+                  5개 탐색 축 중 반대 방향에서 시장을 살피는 유형입니다. 내가 익숙한 기준을 지킬 때 상대는 새로운 가능성을 먼저 열어보므로, 팀이나 스터디에서 서로의 사각지대를 가장 확실하게 채워주는 최적의 파트너입니다.
                 </p>
               </div>
             ) : null}

@@ -40,6 +40,8 @@ data/staging/
 .*-temp
 *-temp
 *.mjs
+!scripts/*.mjs
+!scripts/**/*.mjs
 user_requests.txt
 scratch/
 .run_daily_market.lock

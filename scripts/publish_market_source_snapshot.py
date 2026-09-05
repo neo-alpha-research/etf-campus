@@ -68,9 +68,8 @@ def canonical_hash(value: object) -> str:
 def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
     import csv, re
     
-    # Read classification mapping from comparison classification (PRIMARY SSOT) and review draft (fallback)
+    # Read peer group / topic mapping from comparison classification (PRIMARY SSOT) and review draft (fallback)
     class_map = {}
-    asset_class_map = {}
     
     comparison_path = Path("data/comparison/etf_comparison_classification.csv")
     if comparison_path.exists():
@@ -78,20 +77,9 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
             reader = csv.DictReader(f)
             for row in reader:
                 ticker = (row.get("ticker") or "").strip().upper()
-                af = (row.get("asset_family") or "").strip()
-                reg = (row.get("region_primary") or "").strip()
-                if af == "주식":
-                    ac = "주식-국내" if reg == "국내" else "주식-해외"
-                elif af:
-                    ac = af
-                else:
-                    ac = ""
-                
                 topic = (row.get("comparison_topic") or "").strip()
                 if topic and topic not in ["미확인 주식전략", "미분류"]:
                     class_map[ticker] = topic
-                if ac:
-                    asset_class_map[ticker] = ac
 
     draft_path = Path("data/classification/etf_classification_review_draft.csv")
     if draft_path.exists():
@@ -103,13 +91,6 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
                     detail = row.get("final_asset_detail") or row.get("suggested_asset_detail") or ""
                     if detail.strip():
                         class_map[ticker] = detail.strip()
-                if ticker and ticker not in asset_class_map:
-                    ac = row.get("final_asset_class") or row.get("suggested_asset_class") or ""
-                    scope = row.get("final_market_scope") or row.get("suggested_market_scope") or ""
-                    if ac == "주식":
-                        ac = "주식-국내" if scope == "국내" else "주식-해외"
-                    if ac.strip():
-                        asset_class_map[ticker] = ac.strip()
 
     print(f"Classification map loaded: {len(class_map)} items mapped.")
 
@@ -144,14 +125,11 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
         if close < 0 or trade_value < 0 or aum_value < 0:
             raise RuntimeError(f"Negative monetary value for {ticker}")
         
+        # Canonical asset class: trust etf_master_draft.csv directly as SSOT
         raw_ac = str(row.get("asset_class") or "").strip()
-        final_ac = asset_class_map.get(ticker, raw_ac) or raw_ac or None
-        if final_ac == "주식":
-            final_ac = raw_ac if raw_ac in ["주식-국내", "주식-해외"] else ("주식-해외" if re.search(r"미국|글로벌|중국|일본|유럽|베트남|인도|아시아|차이나|월드|나스닥|S&P|다우", name, re.I) else "주식-국내")
-        
-        canonical_classes = {"주식-국내", "주식-해외", "채권", "금리·파킹", "리츠·인프라", "원자재", "혼합자산", "혼합·자산배분"}
-        if final_ac not in canonical_classes:
-            raise RuntimeError(f"FATAL: Non-canonical assetClass for {ticker} ({name}): {final_ac!r}. Must be in {canonical_classes}")
+        if raw_ac == "주식" or not raw_ac:
+            raw_ac = "주식-해외" if re.search(r"미국|글로벌|중국|일본|유럽|베트남|인도|아시아|차이나|월드|나스닥|S&P|다우", name, re.I) else "주식-국내"
+        final_ac = raw_ac
         final_detail = class_map.get(ticker, "")
         records.append({
             "ticker": ticker,

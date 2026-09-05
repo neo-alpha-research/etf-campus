@@ -53,8 +53,8 @@ export function generateThreadsThread(
 
   const topicTag = selectThreadsTopicTag(payload);
 
-  const watchPointText = regime.threadsWatchPoint || "지수가 큰 폭의 변동성을 겪을 때는 지수 자체보다 섹터 간 자금 이동 경로와 방어 자산의 완충력을 관찰하는 것이 훨씬 중요합니다. 오늘 개장 후 여러분의 관심 섹터는 어디인가요? 💬";
-  const commentText = regime.firstComment || `📊 기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 / 투자 권유 아님)`;
+  const watchPointText = regime.threadsWatchPoint || "지수가 큰 폭의 변동성을 겪을 때는 지수 자체보다 섹터 간 자금 이동 경로와 방어 자산의 완충력을 관찰하는 것이 훨씬 중요합니다. 오늘 개장 후 여러분의 관심 섹터는 어디인가요?";
+  const commentText = regime.firstComment || `기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 / 투자 권유 아님)`;
 
   const mainPost = `${regime.threadsOpening}
 
@@ -149,7 +149,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
   const discounts = disparityList.filter(d => d.disparityPct < 0);
   const premiums = disparityList.filter(d => d.disparityPct > 0);
 
-  let disparitySectionTitle = "🟢 4. 괴리율 저평가(할인) 체크 종목";
+  let disparitySectionTitle = "4. 괴리율 저평가(할인) 체크 종목";
   let disparityTagText = "NAV 대비 할인";
   let disparityBoxBg = "#F0FDF4";
   let disparityStroke = "#BBF7D0";
@@ -159,7 +159,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
   let disparityPillText = "#15803D";
 
   if (disparityList.length === 0) {
-    disparitySectionTitle = "✨ 4. 전 종목 괴리율 정상 (시장 안정 구간)";
+    disparitySectionTitle = "4. 전 종목 괴리율 정상 (시장 안정 구간)";
     disparityTagText = "괴리율 정상";
     disparityBoxBg = "#F8FAFC";
     disparityStroke = "#E2E8F0";
@@ -168,7 +168,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
     disparityPillStroke = "#CBD5E1";
     disparityPillText = "#475569";
   } else if (premiums.length > 0 && discounts.length === 0) {
-    disparitySectionTitle = "🔴 4. 괴리율 고평가(할증) 주의 종목";
+    disparitySectionTitle = "4. 괴리율 고평가(할증) 주의 종목";
     disparityTagText = "NAV 대비 할증";
     disparityBoxBg = "#FFF1F2";
     disparityStroke = "#FECDD3";
@@ -177,7 +177,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
     disparityPillStroke = "#FDA4AF";
     disparityPillText = "#BE123C";
   } else if (discounts.length > 0 && premiums.length === 0) {
-    disparitySectionTitle = "🟢 4. 괴리율 저평가(할인) 체크 종목";
+    disparitySectionTitle = "4. 괴리율 저평가(할인) 체크 종목";
     disparityTagText = "NAV 대비 할인";
     disparityBoxBg = "#F0FDF4";
     disparityStroke = "#BBF7D0";
@@ -186,7 +186,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
     disparityPillStroke = "#86EFAC";
     disparityPillText = "#15803D";
   } else if (premiums.length > 0 && discounts.length > 0) {
-    disparitySectionTitle = "⚠️ 4. 괴리율 가격 왜곡 주의 종목";
+    disparitySectionTitle = "4. 괴리율 가격 왜곡 주의 종목";
     disparityTagText = "할증/할인 왜곡";
     disparityBoxBg = "#FFF7ED";
     disparityStroke = "#FED7AA";
@@ -266,14 +266,14 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <text x="0" y="64" fill="#475569" font-size="16.5" font-weight="700">KRX 일반 ETF ${generalCount}개 전수 분석 요약</text>
         
         <rect x="735" y="10" width="225" height="46" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <text x="847" y="39" fill="#0F172A" font-size="17.5" font-weight="900" text-anchor="middle" class="tabular">📅 ${formattedDate}</text>
+        <text x="847" y="39" fill="#0F172A" font-size="17.5" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
       </g>
 
       <!-- SECTION 1: 시장 체온 & 벤치마크 (Y: 138, H: 182) -->
       <g transform="translate(60, 138)" filter="url(#cardShadow)">
         <rect width="960" height="182" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
-        <text x="35" y="42" fill="#0F172A" font-size="23" font-weight="900">🌡️ 1. 시장 체온 &amp; 벤치마크 대비 성과</text>
+        <text x="35" y="42" fill="#0F172A" font-size="23" font-weight="900">1. 시장 체온 &amp; 벤치마크 대비 성과</text>
         <rect x="630" y="14" width="295" height="40" rx="12" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="777" y="39" font-size="17" font-weight="900" text-anchor="middle">
           <tspan fill="#D92D20">상승 ${up}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#64748B">보합 ${flat}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#175CD3">하락 ${down}</tspan>
@@ -302,9 +302,9 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <g transform="translate(60, 338)" filter="url(#cardShadow)">
         <rect width="960" height="175" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
-        <text x="35" y="40" fill="#0F172A" font-size="23" font-weight="900">🔥 2. 극과 극 테마 (주도 vs 부진)</text>
+        <text x="35" y="40" fill="#0F172A" font-size="23" font-weight="900">2. 극과 극 테마 (주도 vs 부진)</text>
         <rect x="735" y="14" width="190" height="38" rx="10" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
-        <text x="830" y="39" fill="#C2410C" font-size="15.5" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
+        <text x="830" y="39" fill="#C2410C" font-size="15.5" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p</text>
 
         <!-- 1x2 Big Hero Cards (상승 1위 vs 하락 1위 대형화) -->
         <g transform="translate(35, 62)">
@@ -326,7 +326,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <g transform="translate(60, 531)" filter="url(#cardShadow)">
         <rect width="960" height="270" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
-        <text x="35" y="42" fill="#0F172A" font-size="23" font-weight="900">🏦 3. 스마트머니(외인/기관) 실질 순유입 TOP 3</text>
+        <text x="35" y="42" fill="#0F172A" font-size="23" font-weight="900">3. 스마트머니(외인/기관) 실질 순유입 TOP 3</text>
         <rect x="785" y="15" width="140" height="38" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="855" y="40" fill="#1E293B" font-size="15" font-weight="800" text-anchor="middle">기관·외국인 합산</text>
 
@@ -354,7 +354,7 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
       <g transform="translate(60, 1014)" filter="url(#cardShadow)">
         <rect width="960" height="76" rx="18" fill="url(#brandGrad)"/>
         <text x="480" y="47" fill="#FFFFFF" font-size="21" font-weight="900" text-anchor="middle" letter-spacing="-0.3">
-          📊 한국거래소(KRX) 전 거래일 마감 공시 데이터 전수 분석
+          한국거래소(KRX) 전 거래일 마감 공시 데이터 전수 분석
         </text>
       </g>
 

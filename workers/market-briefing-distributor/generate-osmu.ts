@@ -177,12 +177,13 @@ async function run() {
   });
   console.log("Circuit Breaker Valid:", validation.isSafe, validation.reasons);
 
-  console.log(`\n=== 1.5. Gemini 2.5 AI Narrative Review & Fact Check ===`);
+  console.log(`\n=== 1.5. Gemini 7-Token Pool & 3.8 Waterfall AI Review ===`);
   const baseRegime = classifyMarketRegime(currentPayload);
   const narrative = await reviewAndRefineWithGemini(currentPayload, baseRegime, {
     GEMINI_API_KEY: process.env.GEMINI_API_KEY
   } as any);
-  console.log(`AI Review Status: [${narrative.source}] (Regime: ${baseRegime.statusName})`);
+  console.log(`AI Review Status: [${narrative.source}] (Model: ${narrative.modelUsed || "default"}, Token: #${narrative.tokenIndex || 1})`);
+  console.log(`Regime: ${baseRegime.statusName} | Flow: ${baseRegime.flowCharacter} | Disparity: ${baseRegime.disparityStatus}`);
 
   console.log("\n=== 2. Instagram 6-Slide Generation ===");
   const slides = generateInstagramCarousel(currentPayload, baseUrl, narrative);

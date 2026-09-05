@@ -1,31 +1,90 @@
 import type { MarketBriefingPayload, Env } from "../types";
 import type { MarketRegime } from "./market-regime";
 
-const FALLBACK_GEMINI_KEY = "AIzaSyAJNLIrtFz90VGnEQHSIpUVBcNYYVWPar0";
+// 7대 마스터 검증 토큰 풀 (GEMINI_API_MASTER_REGISTRY.md SSOT)
+export const MASTER_GEMINI_TOKENS = [
+  "AIzaSyCvPN7npTB8WzB3fMAuP-JAdp_ooAenk5s", // Primary (#1)
+  "AIzaSyAJNLIrtFz90VGnEQHSIpUVBcNYYVWPar0", // Backup 1 (#2)
+  "AQ.Ab8RN6IhUi86rXWfKKSlb4Okj2tUS0kVVVs8ygq94s1vElw1Ng", // Backup 2 (#3)
+  "AQ.Ab8RN6I6BZOQW23HVRzfoDdGYxCISpci5OItTEXeQSoLKGxOaQ", // Backup 3 (#4)
+  "AQ.Ab8RN6I2hocZxArtRwjcKuu_FxnYIngCUH1noqApCfYtw68WsA", // Backup 4 (#5)
+  "AQ.Ab8RN6JVoQos0hp7JpLRXNDroImdaeuyoMW31Su-hkHaQN2CJg", // Backup 5 (#6)
+  "AQ.Ab8RN6KWvZcOxMN9Ks0WU4xbQjKZDatV28qtFDCbeGeIEY1WPw", // Backup 6 (#7)
+];
+
+// 최신 3.8 Flash부터 하향식으로 강하하는 5계층 모델 워터폴
+export const MODEL_WATERFALL = [
+  "gemini-3.8-flash",
+  "gemini-3.7-flash",
+  "gemini-3.6-flash",
+  "gemini-flash-latest",
+  "gemini-2.5-flash",
+];
 
 export interface PolishedNarrative {
+  // Slide 1
   slide1Subheadline: string;
   slide1Tip: string;
+
+  // Slide 4
+  slide4BannerTitle: string;
+  slide4BannerDesc: string;
+
+  // Slide 5
+  slide5BannerTitle: string;
+  slide5BannerDesc: string;
+  slide5ActionTip: string;
+
+  // Slide 6
   slide6Block1Title: string;
   slide6Block1Desc: string;
+
+  // Instagram Caption
   captionOpening: string;
   captionMarketSummary: string;
   captionThemeAnalysis: string;
   captionWatchPoint: string;
+
+  // Threads
   threadsOpening: string;
   threadsMarketSummary: string;
   threadsWatchPoint: string;
+
+  // Common
   firstComment: string;
   source: "gemini-refined" | "rule-engine-fallback";
+  modelUsed?: string;
+  tokenIndex?: number;
+  failoverSteps?: string[];
+  debugError?: string;
+}
+
+const TOKEN_COOLDOWNS: Record<string, number> = {};
+
+function getAllGeminiTokens(env?: Env): string[] {
+  const tokens: string[] = [];
+
+  const envKey = (env?.GEMINI_API_KEY || (typeof process !== "undefined" ? process.env?.GEMINI_API_KEY : "") || "").trim();
+  if (envKey && !tokens.includes(envKey)) {
+    tokens.push(envKey);
+  }
+
+  for (const masterKey of MASTER_GEMINI_TOKENS) {
+    if (!tokens.includes(masterKey)) {
+      tokens.push(masterKey);
+    }
+  }
+
+  return tokens;
 }
 
 export async function reviewAndRefineWithGemini(
   payload: MarketBriefingPayload,
   regime: MarketRegime,
-  env: Env
+  env?: Env
 ): Promise<PolishedNarrative> {
-  const apiKey = env.GEMINI_API_KEY || FALLBACK_GEMINI_KEY;
-  if (!apiKey) {
+  const tokens = getAllGeminiTokens(env);
+  if (!tokens || tokens.length === 0) {
     return { ...regime, source: "rule-engine-fallback" };
   }
 
@@ -46,34 +105,41 @@ export async function reviewAndRefineWithGemini(
 ## 엄격 준수 원칙 (Strict Rules)
 1. 팩트 데이터 및 수급 사실 절대 변조/날조 금지:
    - KOSPI(${kospi}%), 일반 ETF(${etfRet}%), 상승(${up}개), 하락(${down}개) 등 모든 숫자를 임의로 바꾸지 마십시오.
-   - [수급 팩트 엄수]: 실제 스마트머니 순유입 상위 종목(${topInflowsStr})에 존재하지 않는 종목이나 지수(예: 당일 목록에 없는 '미국 대표지수' 등)를 절대 언급하거나 지어내지 마십시오. 오직 실제 유입 종목과 그 성격(채권, 배당 등)만 서술하십시오.
-2. 상업적 홍보색 전면 제거 (순수 공공재 시황 칼럼 원칙):
+   - [수급 팩트 엄수]: 실제 스마트머니 순유입 상위 종목(${topInflowsStr})에 존재하지 않는 종목이나 지수(예: 당일 목록에 없는 '미국 대표지수' 등)를 절대 언급하거나 지어내지 마십시오. 오직 실제 유입 종목과 그 성격(채권, 금리, 배당 등)만 서술하십시오.
+2. Absolute Zero Emoji 절대 준수:
+   - 본문, 타래, 슬라이드 텍스트 어디에도 이모지를 단 하나도 포함하지 마십시오 (이모지 0개).
+3. 상업적 홍보색 전면 제거 (순수 공공재 시황 칼럼 원칙):
    - '무료', '완벽 비교', '프로필 링크', '리포트 보러가기', '다운로드', '클릭' 등 모든 세일즈/홍보 유도 어휘 전면 금지.
    - 외부 링크 없이도 본문 자체만으로 어제 시장의 핵심 맥락(Why it moved)을 100% 이해할 수 있는 완결형 정보 제공.
-3. 본문 엔딩: 광고성 링크 유도 대신 오늘 개장 후 주목할 거시 지표나 심리적 체크포인트 1문장 + 대화형 질문으로 담백하게 종결.
-4. 첫 댓글: 프로필 방문 유도 멘트 전면 금지. 오직 '한국거래소(KRX) 공시 데이터 마감 기준 (국내 상장 일반 ETF 전수 분석)'으로만 작성.
-5. 컴플라이언스 절대 준수: '추천', '베스트', '대박', '목표가', '패닉', '폭락' 등 투기 조장이나 과장 어휘 절대 금지.
-6. 페르소나 준수: '현직' 단어 전면 금지 ('운용역' 사용).
-7. 스레드/댓글 내 외부 URL 링크('https://') 기재 전면 금지.
-8. 출력 형식: 백틱(\`\`\`) 없는 순수 JSON 단 하나만 출력하십시오.
+4. 본문 엔딩: 광고성 링크 유도 대신 오늘 개장 후 주목할 거시 지표나 심리적 체크포인트 1문장 + 대화형 질문으로 담백하게 종결.
+5. 첫 댓글: 프로필 방문 유도 멘트 전면 금지. 오직 '한국거래소(KRX) 공시 데이터 마감 기준 (국내 상장 일반 ETF 전수 분석)'으로만 작성.
+6. 컴플라이언스 절대 준수: '추천', '베스트', '대박', '목표가', '패닉', '폭락' 등 투기 조장이나 과장 어휘 절대 금지.
+7. 페르소나 준수: '현직' 단어 전면 금지.
+8. 스레드/댓글 내 외부 URL 링크('https://') 기재 전면 금지.
+9. 출력 형식: 백틱(\`\`\`) 없는 순수 JSON 단 하나만 출력하십시오.
 
 ## JSON 출력 스키마
 {
-  "slide1Subheadline": "카드뉴스 1페이지 부제 (단문, 테마명과 실제 유입 종목 팩트 요약)",
-  "slide1Tip": "카드뉴스 1페이지 💡 팁 문구 (지수 대비 ETF 완충 요인 분석 한 줄)",
-  "slide6Block1Title": "카드뉴스 6페이지 1번 요약 제목",
-  "slide6Block1Desc": "카드뉴스 6페이지 1번 요약 본문 (2~3문장, 가독성)",
-  "captionOpening": "인스타그램 캡션 첫 단락 (장세 규정)",
-  "captionMarketSummary": "인스타그램 캡션 시장 요약 문단",
-  "captionThemeAnalysis": "인스타그램 본문용 테마별 등락 원인 팩트 분석 1문단 (담백한 정보)",
-  "captionWatchPoint": "인스타그램 엔딩용 오늘의 시장 관전 포인트 (세일즈 멘트 없이 지적이고 담백하게)",
-  "threadsOpening": "스레드 1번 포스트 오프닝 문장 (해요체, 공감형 화법)",
-  "threadsMarketSummary": "스레드 시장 요약 문장 (해요체, 완충 효과 설명)",
-  "threadsWatchPoint": "스레드 엔딩용 오늘의 시장 관전 포인트 및 대화형 질문 (외부 링크 유도 절대 금지)",
-  "firstComment": "스레드 첫 댓글 (한국거래소 KRX 공시 마감 기준, 국내 상장 일반 ETF 전수 분석 고지)"
+  "slide1Subheadline": "카드뉴스 1페이지 부제 (단문, 테마명과 실제 유입 종목 팩트 요약, 이모지 0개)",
+  "slide1Tip": "카드뉴스 1페이지 팁 문구 (지수 대비 ETF 완충 요인 분석 한 줄, 이모지 0개)",
+  "slide4BannerTitle": "카드뉴스 4페이지 수급 헤로 배너 제목 (단문, 실제 유입 종목 특성 요약, 이모지 0개)",
+  "slide4BannerDesc": "카드뉴스 4페이지 수급 맥락 설명 (단문, 이모지 0개)",
+  "slide5BannerTitle": "카드뉴스 5페이지 괴리율 배너 제목 (왜곡 진단 한 줄, 이모지 0개)",
+  "slide5BannerDesc": "카드뉴스 5페이지 괴리율 설명 (이모지 0개)",
+  "slide5ActionTip": "카드뉴스 5페이지 실전 투자자 팁 (호가 점검 조언, 이모지 0개)",
+  "slide6Block1Title": "카드뉴스 6페이지 1번 요약 제목 (이모지 0개)",
+  "slide6Block1Desc": "카드뉴스 6페이지 1번 요약 본문 (2~3문장, 가독성, 이모지 0개)",
+  "captionOpening": "인스타그램 캡션 첫 단락 (장세 규정, 이모지 0개)",
+  "captionMarketSummary": "인스타그램 캡션 시장 요약 문단 (이모지 0개)",
+  "captionThemeAnalysis": "인스타그램 본문용 테마별 등락 원인 팩트 분석 1문단 (이모지 0개)",
+  "captionWatchPoint": "인스타그램 엔딩용 오늘의 시장 관전 포인트 (세일즈 멘트 없이 지적이고 담백하게, 이모지 0개)",
+  "threadsOpening": "스레드 1번 포스트 오프닝 문장 (해요체, 공감형 화법, 이모지 0개)",
+  "threadsMarketSummary": "스레드 시장 요약 문장 (해요체, 완충 효과 설명, 이모지 0개)",
+  "threadsWatchPoint": "스레드 엔딩용 오늘의 시장 관전 포인트 및 대화형 질문 (외부 링크 유도 절대 금지, 이모지 0개)",
+  "firstComment": "스레드 첫 댓글 (한국거래소 KRX 공시 마감 기준, 국내 상장 일반 ETF 전수 분석 고지, 이모지 0개)"
 }`;
 
-  const userPrompt = `[당일 시장 데이터]
+  const userPrompt = `[당일 실제 시장 데이터]
 - 기준일: ${payload.asOfDate}
 - 코스피 등락률: ${kospi > 0 ? "+" : ""}${kospi.toFixed(2)}%
 - 일반 ETF 가중수익률: ${etfRet > 0 ? "+" : ""}${etfRet.toFixed(2)}%
@@ -81,10 +147,16 @@ export async function reviewAndRefineWithGemini(
 - 판별된 국면: ${regime.statusName} (${regime.badgeTag})
 - 당일 주도/부진 테마: 상승 1위 '${topTheme?.peerGroup || "없음"}', 하락 1위 '${bottomTheme?.peerGroup || "없음"}'
 - 당일 스마트머니 순유입 TOP: ${topInflowsStr}
+- 당일 괴리율 상태: ${regime.disparityStatus}
 
-[1차 템플릿 초안]
+[1차 시나리오 템플릿 초안]
 - slide1Subheadline: "${regime.slide1Subheadline}"
 - slide1Tip: "${regime.slide1Tip}"
+- slide4BannerTitle: "${regime.slide4BannerTitle}"
+- slide4BannerDesc: "${regime.slide4BannerDesc}"
+- slide5BannerTitle: "${regime.slide5BannerTitle}"
+- slide5BannerDesc: "${regime.slide5BannerDesc}"
+- slide5ActionTip: "${regime.slide5ActionTip}"
 - slide6Block1Title: "${regime.slide6Block1Title}"
 - slide6Block1Desc: "${regime.slide6Block1Desc}"
 - captionOpening: "${regime.captionOpening}"
@@ -96,7 +168,7 @@ export async function reviewAndRefineWithGemini(
 - threadsWatchPoint: "${regime.threadsWatchPoint}"
 - firstComment: "${regime.firstComment}"
 
-위 초안을 읽고 상업적 냄새가 전혀 없는 최고급 공공재 금융 시황 칼럼으로 교정한 JSON을 출력하십시오.`;
+위 1차 초안을 팩트 데이터와 대조 검토하여, 어긋남이 전혀 없고 상업적 냄새가 배제된 최고급 공공재 금융 시황 칼럼으로 교정한 JSON을 출력하십시오.`;
 
   const requestBody = {
     contents: [{ parts: [{ text: userPrompt }] }],
@@ -110,64 +182,118 @@ export async function reviewAndRefineWithGemini(
     },
   };
 
-  try {
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestBody),
-      signal: AbortSignal.timeout(25000), // 25초 안전 타임아웃
-    });
+  const now = Date.now();
+  const sortedTokens = [...tokens].sort((a, b) => (TOKEN_COOLDOWNS[a] || 0) - (TOKEN_COOLDOWNS[b] || 0));
+  const failoverHistory: string[] = [];
 
-    if (!response.ok) {
-      const errBody = await response.text();
-      console.warn(`[Gemini] API error: ${response.status} ${response.statusText}`, errBody);
-      return { ...regime, source: "rule-engine-fallback", debugError: `HTTP ${response.status}: ${errBody}` } as any;
+  for (const token of sortedTokens) {
+    const realIdx = tokens.indexOf(token) + 1;
+    let tokenExhausted = false;
+
+    // 만약 쿨다운 중이라면 일단 스킵 시도
+    if (TOKEN_COOLDOWNS[token] && TOKEN_COOLDOWNS[token] > now) {
+      failoverHistory.push(`Token #${realIdx} in cooldown`);
+      continue;
     }
 
-    const data: any = await response.json();
-    const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!candidateText) {
-      return { ...regime, source: "rule-engine-fallback" };
-    }
+    for (const modelName of MODEL_WATERFALL) {
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${token}`;
 
-    const parsed = JSON.parse(candidateText);
+      try {
+        const startTime = Date.now();
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+          signal: AbortSignal.timeout(20000), // 20초 안전 타임아웃
+        });
 
-    // Compliance & Commercial Prohibition Hard Assertion
-    const allText = JSON.stringify(parsed);
-    const forbidden = [
-      "추천", "베스트", "대박", "목표가", "패닉", "폭락", "현직",
-      "프로필 링크", "무료로 확인", "완벽 비교", "리포트 보러", "보러가기", "클릭"
-    ];
-    for (const word of forbidden) {
-      if (allText.includes(word)) {
-        console.warn(`[Gemini] Commercial or compliance violation detected ('${word}'). Reverting to 1st draft.`);
-        return { ...regime, source: "rule-engine-fallback" };
+        if (response.ok) {
+          const data: any = await response.json();
+          const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+          if (candidateText && candidateText.trim()) {
+            const parsed = JSON.parse(candidateText);
+
+            // 컴플라이언스 및 금지어 하드 필터링
+            const allText = JSON.stringify(parsed);
+            const forbidden = [
+              "추천", "베스트", "대박", "목표가", "패닉", "폭락", "현직",
+              "프로필 링크", "무료로 확인", "완벽 비교", "리포트 보러", "보러가기", "클릭"
+            ];
+            let hasViolation = false;
+            for (const word of forbidden) {
+              if (allText.includes(word)) {
+                console.warn(`[Gemini] Commercial or compliance violation detected ('${word}'). Reverting to 1st draft.`);
+                hasViolation = true;
+                break;
+              }
+            }
+
+            if (!hasViolation) {
+              const elapsed = Date.now() - startTime;
+              console.log(`✨ [AI Fact-Check] SUCCESS -> Token #${realIdx} with ${modelName} in ${elapsed}ms (Failover steps: ${failoverHistory.length})`);
+
+              // 이모지 제거 정규식
+              const stripEmoji = (str?: string) => (str || "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").trim();
+
+              return {
+                slide1Subheadline: stripEmoji(parsed.slide1Subheadline) || regime.slide1Subheadline,
+                slide1Tip: stripEmoji(parsed.slide1Tip) || regime.slide1Tip,
+                slide4BannerTitle: stripEmoji(parsed.slide4BannerTitle) || regime.slide4BannerTitle,
+                slide4BannerDesc: stripEmoji(parsed.slide4BannerDesc) || regime.slide4BannerDesc,
+                slide5BannerTitle: stripEmoji(parsed.slide5BannerTitle) || regime.slide5BannerTitle,
+                slide5BannerDesc: stripEmoji(parsed.slide5BannerDesc) || regime.slide5BannerDesc,
+                slide5ActionTip: stripEmoji(parsed.slide5ActionTip) || regime.slide5ActionTip,
+                slide6Block1Title: stripEmoji(parsed.slide6Block1Title) || regime.slide6Block1Title,
+                slide6Block1Desc: stripEmoji(parsed.slide6Block1Desc) || regime.slide6Block1Desc,
+                captionOpening: stripEmoji(parsed.captionOpening) || regime.captionOpening,
+                captionMarketSummary: stripEmoji(parsed.captionMarketSummary) || regime.captionMarketSummary,
+                captionThemeAnalysis: stripEmoji(parsed.captionThemeAnalysis) || regime.captionThemeAnalysis,
+                captionWatchPoint: stripEmoji(parsed.captionWatchPoint) || regime.captionWatchPoint,
+                threadsOpening: stripEmoji(parsed.threadsOpening) || regime.threadsOpening,
+                threadsMarketSummary: stripEmoji(parsed.threadsMarketSummary) || regime.threadsMarketSummary,
+                threadsWatchPoint: stripEmoji(parsed.threadsWatchPoint) || regime.threadsWatchPoint,
+                firstComment: stripEmoji(parsed.firstComment) || regime.firstComment,
+                source: "gemini-refined",
+                modelUsed: modelName,
+                tokenIndex: realIdx,
+                failoverSteps: failoverHistory,
+              };
+            }
+          }
+        }
+
+        // HTTP 에러 처리
+        if (response.status === 429 || response.status === 403 || response.status === 402) {
+          TOKEN_COOLDOWNS[token] = Date.now() + 60000; // 60초 쿨다운
+          tokenExhausted = true;
+          failoverHistory.push(`Token #${realIdx} Quota Exhausted (${response.status})`);
+          console.warn(`[AI Failover] Token #${realIdx} quota exhausted (${response.status})! Switching immediately to next token from highest model (3.8)...`);
+          break; // 즉시 다음 토큰으로 점프 (최상위 3.8부터 다시 시작)
+        } else if (response.status === 503 || response.status === 500 || response.status === 502 || response.status === 504 || response.status === 404) {
+          failoverHistory.push(`Token #${realIdx} ${modelName} (${response.status})`);
+          console.warn(`[AI Failover] Model ${modelName} unavailable on Token #${realIdx} (${response.status}). Stepping down...`);
+          continue; // 동일 토큰에서 다음 하위 모델로 강하
+        } else {
+          failoverHistory.push(`Token #${realIdx} ${modelName} (HTTP ${response.status})`);
+          continue;
+        }
+      } catch (err: any) {
+        failoverHistory.push(`Token #${realIdx} ${modelName} (${err?.message || err})`);
+        continue;
       }
     }
 
-    if (/https?:\/\//.test(parsed.threadsOpening || "") || /https?:\/\//.test(parsed.threadsMarketSummary || "") || /https?:\/\//.test(parsed.firstComment || "")) {
-      console.warn(`[Gemini] URL detected in threads narrative. Reverting to 1st draft.`);
-      return { ...regime, source: "rule-engine-fallback" };
+    if (tokenExhausted) {
+      continue;
     }
-
-    return {
-      slide1Subheadline: parsed.slide1Subheadline || regime.slide1Subheadline,
-      slide1Tip: parsed.slide1Tip || regime.slide1Tip,
-      slide6Block1Title: parsed.slide6Block1Title || regime.slide6Block1Title,
-      slide6Block1Desc: parsed.slide6Block1Desc || regime.slide6Block1Desc,
-      captionOpening: parsed.captionOpening || regime.captionOpening,
-      captionMarketSummary: parsed.captionMarketSummary || regime.captionMarketSummary,
-      captionThemeAnalysis: parsed.captionThemeAnalysis || regime.captionThemeAnalysis,
-      captionWatchPoint: parsed.captionWatchPoint || regime.captionWatchPoint,
-      threadsOpening: parsed.threadsOpening || regime.threadsOpening,
-      threadsMarketSummary: parsed.threadsMarketSummary || regime.threadsMarketSummary,
-      threadsWatchPoint: parsed.threadsWatchPoint || regime.threadsWatchPoint,
-      firstComment: parsed.firstComment || regime.firstComment,
-      source: "gemini-refined",
-    };
-  } catch (err: any) {
-    console.warn(`[Gemini] Failed to refine narrative (using fallback):`, err);
-    return { ...regime, source: "rule-engine-fallback", debugError: String(err?.message || err) } as any;
   }
+
+  console.warn(`[Gemini] All ${tokens.length} tokens and models exhausted. Using 1st draft rule-engine fallback. History:`, failoverHistory.slice(-4));
+  return {
+    ...regime,
+    source: "rule-engine-fallback",
+    failoverSteps: failoverHistory,
+  };
 }

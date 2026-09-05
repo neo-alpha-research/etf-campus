@@ -189,7 +189,7 @@ export function generateInstagramCarousel(
         <text x="110" y="21" fill="#047857" font-size="14" font-weight="900" letter-spacing="1" text-anchor="middle">ETF CAMPUS · BRIEFING</text>
         <text x="0" y="66" fill="#0F172A" font-size="34" font-weight="900">ETF 데일리 마켓 브리핑</text>
         <rect x="740" y="16" width="200" height="44" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <text x="840" y="44" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" class="tabular">📅 ${formattedDate}</text>
+        <text x="840" y="44" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
       </g>
 
       <!-- Main Hero Hook Card (y=135, h=330) -->
@@ -228,7 +228,7 @@ export function generateInstagramCarousel(
       <!-- Pulse 1: Market Temperature (y=480, h=170) -->
       <g transform="translate(70, 480)" filter="url(#cardShadow)">
         <rect width="940" height="170" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-        <text x="35" y="38" fill="#1E293B" font-size="21" font-weight="800">🌡️ 1. 시장 체온 &amp; 3대 지수 비교</text>
+        <text x="35" y="38" fill="#1E293B" font-size="21" font-weight="800">1. 시장 체온 &amp; 3대 지수 비교</text>
         
         <rect x="605" y="14" width="300" height="38" rx="12" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
         <text x="755" y="39" font-size="17" font-weight="900" text-anchor="middle">
@@ -256,10 +256,10 @@ export function generateInstagramCarousel(
       <!-- Pulse 2: Long/Short Themes (y=665, h=175) -->
       <g transform="translate(70, 665)" filter="url(#cardShadow)">
         <rect width="940" height="175" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-        <text x="35" y="38" fill="#0F172A" font-size="21" font-weight="800">🔥 2. 오늘의 극과 극 테마</text>
+        <text x="35" y="38" fill="#0F172A" font-size="21" font-weight="800">2. 오늘의 극과 극 테마</text>
         
         <rect x="715" y="14" width="190" height="36" rx="10" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.2"/>
-        <text x="810" y="38" fill="#C2410C" font-size="15.5" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p ⚡</text>
+        <text x="810" y="38" fill="#C2410C" font-size="15.5" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p</text>
 
         <!-- Left: 상승 1위 카드 -->
         <g transform="translate(35, 62)">
@@ -281,7 +281,7 @@ export function generateInstagramCarousel(
       <!-- Pulse 3: Top Inflow (y=855, h=175) -->
       <g transform="translate(70, 855)" filter="url(#cardShadow)">
         <rect width="940" height="175" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
-        <text x="35" y="38" fill="#1E293B" font-size="21" font-weight="800">🏦 3. 실질 자금 순유입 1위</text>
+        <text x="35" y="38" fill="#1E293B" font-size="21" font-weight="800">3. 실질 자금 순유입 1위</text>
         
         <rect x="760" y="14" width="145" height="34" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
         <text x="832" y="37" fill="#1E293B" font-size="14.5" font-weight="900" text-anchor="middle">기관·외국인 합산</text>
@@ -298,7 +298,7 @@ export function generateInstagramCarousel(
         </g>
 
         <text x="35" y="148" fill="#64748B" font-size="16" font-weight="700">
-          💡 상위 5종목 총 ${top5InflowSum.toLocaleString()}억원 순유입 · 상세 순위는 4페이지에서 확인
+          상위 5종목 총 ${top5InflowSum.toLocaleString()}억원 순유입 · 상세 순위는 4페이지에서 확인
         </text>
       </g>
 
@@ -306,7 +306,7 @@ export function generateInstagramCarousel(
       <g transform="translate(70, 1045)" filter="url(#softShadow)">
         <rect width="940" height="88" rx="24" fill="url(#brandGrad)"/>
         <text x="470" y="55" fill="#FFFFFF" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
-          👉 옆으로 넘겨 3분 만에 오늘 시장 완벽 정리
+          옆으로 넘겨 오늘 시장 완벽 정리
         </text>
         <rect x="805" y="24" width="90" height="40" rx="12" fill="#064E3B"/>
         <text x="850" y="50" fill="#A7F3D0" font-size="17" font-weight="900" text-anchor="middle" class="tabular">1 / 6</text>
@@ -341,7 +341,7 @@ export function generateInstagramCarousel(
       <g transform="translate(70, 190)" filter="url(#cardShadow)">
         <rect width="940" height="114" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
         <rect x="30" y="18" width="125" height="34" rx="10" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.2"/>
-        <text x="92" y="41" fill="#B45309" font-size="17" font-weight="900" text-anchor="middle">🔥 테마 핵심</text>
+        <text x="92" y="41" fill="#B45309" font-size="17" font-weight="900" text-anchor="middle">테마 핵심</text>
         <text x="170" y="43" fill="#0F172A" font-size="30" font-weight="900">&apos;${escapeXml(topTheme.peerGroup)}&apos; 독주 vs &apos;${escapeXml(bottomTheme.peerGroup)}&apos; 조정</text>
         <text x="30" y="88" fill="#334155" font-size="22" font-weight="700">
           테마 간 수익률 격차 <tspan fill="#B45309" font-weight="900">${themeGap}%p</tspan>로 주도 섹터와 소외 섹터의 뚜렷한 차별화
@@ -352,7 +352,7 @@ export function generateInstagramCarousel(
       <g transform="translate(70, 315)" filter="url(#cardShadow)">
         <rect width="940" height="450" rx="26" fill="#FFFFFF" stroke="#FECDCA" stroke-width="1.5"/>
         <rect x="0" y="0" width="940" height="58" rx="26" fill="#FEF3F2"/>
-        <text x="35" y="38" fill="#B42318" font-size="22" font-weight="900">🔥 오늘 시장을 이끈 TOP 3 주도 테마 (상승 랠리)</text>
+        <text x="35" y="38" fill="#B42318" font-size="22" font-weight="900">오늘 시장을 이끈 TOP 3 주도 테마 (상승 랠리)</text>
 
         ${winners.map((w, idx) => `
           <g transform="translate(35, ${80 + idx * 115})">
@@ -370,7 +370,7 @@ export function generateInstagramCarousel(
       <g transform="translate(70, 785)" filter="url(#cardShadow)">
         <rect width="940" height="450" rx="26" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1.5"/>
         <rect x="0" y="0" width="940" height="58" rx="26" fill="#EFF6FF"/>
-        <text x="35" y="38" fill="#1D4ED8" font-size="22" font-weight="900">❄️ 차익 실현 &amp; 매물 출회 BOTTOM 3 부진 테마</text>
+        <text x="35" y="38" fill="#1D4ED8" font-size="22" font-weight="900">차익 실현 &amp; 매물 출회 BOTTOM 3 부진 테마</text>
 
         ${losers.map((l, idx) => `
           <g transform="translate(35, ${80 + idx * 115})">
@@ -422,7 +422,7 @@ export function generateInstagramCarousel(
       <g transform="translate(70, 190)" filter="url(#cardShadow)">
         <rect width="940" height="114" rx="22" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
         <rect x="30" y="18" width="135" height="34" rx="10" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.2"/>
-        <text x="97" y="41" fill="#15803D" font-size="17" font-weight="900" text-anchor="middle">⚖️ 자산군 핵심</text>
+        <text x="97" y="41" fill="#15803D" font-size="17" font-weight="900" text-anchor="middle">자산군 핵심</text>
         <text x="180" y="43" fill="#0F172A" font-size="28" font-weight="900">&apos;${escapeXml(topAsset.assetClass)}&apos; 상승 속 &apos;${escapeXml(botAsset.assetClass)}&apos; 조정</text>
         <text x="30" y="88" fill="#334155" font-size="21" font-weight="700">
           최대 비중(${(domShare ?? 0).toFixed(1)}%) 국내주식은 <tspan fill="${domRet >= 0 ? '#15803D' : '#175CD3'}" font-weight="900">${domSign}${(domRet ?? 0).toFixed(2)}% 숨고르기</tspan>, ${escapeXml(topAsset.assetClass)}(${topAssetSign}${(topAsset.aumWeightedReturnPct ?? 0).toFixed(2)}%)가 방어
@@ -475,22 +475,11 @@ export function generateInstagramCarousel(
   // =========================================================================
   // SLIDE 4: Smart Money Flow (Theme: Crimson Rose & Red Inflow)
   // =========================================================================
-  const slide4BannerTitle = secondInflow
+  const slide4BannerTitle = regime.slide4BannerTitle || (secondInflow
     ? `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 및 &apos;${escapeXml(cleanInflow2Name)}&apos; 집중 순유입`
-    : `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 등 상위 종목 집중 순유입`;
+    : `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 등 상위 종목 집중 순유입`);
+  const slide4BannerDesc = regime.slide4BannerDesc || `시장 흐름 속에서 상위 5종목으로 총 ${top5InflowSum.toLocaleString()}억원 실질 자금 순유입`;
   const slide4TitleFs = calcBannerFontSize(slide4BannerTitle, 720, 26);
-
-  const regimeCode = ("code" in regime) ? (regime as MarketRegime).code : classifyMarketRegime(payload).code;
-  let inflowPrefix = "당일 시장 흐름 속에서";
-  if (regimeCode === "BROAD_RALLY") {
-    inflowPrefix = "강한 반등 랠리 속에서";
-  } else if (regimeCode === "CRASH_OR_HEAVY_DROP") {
-    inflowPrefix = "시장 변동성 확대 속에서도";
-  } else if (regimeCode === "MODERATE_PULLBACK") {
-    inflowPrefix = "단기 숨고르기 속에서도";
-  } else if (regimeCode === "SIDEWAYS_MIXED") {
-    inflowPrefix = "지수 횡보 장세 속에서도";
-  }
 
   const slide4Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -511,10 +500,10 @@ export function generateInstagramCarousel(
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
         <rect width="940" height="94" rx="22" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.5"/>
         <rect x="30" y="15" width="125" height="34" rx="10" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1.2"/>
-        <text x="92" y="38" fill="#BE123C" font-size="17" font-weight="900" text-anchor="middle">💸 수급 핵심</text>
+        <text x="92" y="38" fill="#BE123C" font-size="17" font-weight="900" text-anchor="middle">수급 핵심</text>
         <text x="170" y="38" fill="#0F172A" font-size="${slide4TitleFs}" font-weight="900">${slide4BannerTitle}</text>
         <text x="30" y="75" fill="#334155" font-size="20" font-weight="700">
-          ${inflowPrefix} <tspan fill="#D92D20" font-weight="900">상위 5종목으로 총 ${top5InflowSum.toLocaleString()}억원</tspan> 실질 자금 순유입
+          ${escapeXml(slide4BannerDesc)}
         </text>
       </g>
 
@@ -545,7 +534,7 @@ export function generateInstagramCarousel(
 
               <!-- 순유입 금액 -->
               <text x="912" y="76" fill="${isTop ? '#D92D20' : '#1E293B'}" font-size="40" font-weight="900" text-anchor="end" class="tabular">+${inflowJo}<tspan font-size="22" font-weight="700" fill="${isTop ? '#BE123C' : '#64748B'}">억원</tspan></text>
-              <text x="912" y="108" fill="${isTop ? '#E11D48' : '#64748B'}" font-size="15" font-weight="800" text-anchor="end">${isTop ? '🥇 당일 최대 실질 순유입' : '순유입 상위 종목'}</text>
+              <text x="912" y="108" fill="${isTop ? '#E11D48' : '#64748B'}" font-size="15" font-weight="800" text-anchor="end">${isTop ? '당일 최대 실질 순유입' : '순유입 상위 종목'}</text>
             </g>
           `;
         }).join("")}
@@ -566,28 +555,38 @@ export function generateInstagramCarousel(
   const premiums = disparityList.filter(d => (d.disparityPct ?? 0) > 0).slice(0, 2);
   const discounts = disparityList.filter(d => (d.disparityPct ?? 0) < 0).slice(0, 2);
 
-  let disparityBannerTitle = "";
-  let disparityBannerDesc = "";
-  let disparityBadgeText = "⚠️ 왜곡 진단";
+  const disparityBannerTitle = regime.slide5BannerTitle || (premiums.length > 0 && discounts.length > 0
+    ? `고평가(할증) ${premiums.length}종목 vs 저평가(할인) ${discounts.length}종목 왜곡 발생`
+    : (premiums.length > 0 ? `고평가(할증 주의) ${premiums.length}개 종목 괴리율 왜곡 발생`
+    : (discounts.length > 0 ? `저평가(할인 체크) ${discounts.length}개 종목 괴리율 왜곡 발생`
+    : "국내 상장 일반 ETF 전 종목 정상 괴리율 범위 유지")));
+
+  const disparityBannerDesc = regime.slide5BannerDesc || (premiums.length > 0 && discounts.length > 0
+    ? `해외 시차 및 호가 공백으로 발생한 괴리율입니다. 장 시작 후 정상 호가 복귀 확인 필수`
+    : (premiums.length > 0 ? `순자산가치 대비 시장가가 높게 형성되었습니다. 고점 추격 매수 유의`
+    : (discounts.length > 0 ? `순자산가치 대비 시장가가 낮게 형성되었습니다. LP 호가 복귀 확인 필수`
+    : `전 종목이 법정 허용 범위(국내 1%, 해외 3%) 내에서 안정적으로 정상 거래 중입니다.`)));
+
+  const disparityActionTip = regime.slide5ActionTip || "해외 ETF 괴리율은 개장 직후 LP 호가가 제출되면서 대부분 정상 범위로 수렴합니다. 장 초반 무리한 시장가 매수·매도를 피하세요.";
+
+  let disparityBadgeText = "왜곡 주의";
   let disparityBadgeBg = "#FEF3C7";
   let disparityBadgeStroke = "#FCD34D";
   let disparityBadgeColor = "#B45309";
   let disparityBoxBg = "#FFFBEB";
   let disparityBoxStroke = "#FDE68A";
 
-  if (premiums.length > 0 && discounts.length > 0) {
-    disparityBannerTitle = `고평가(할증) ${premiums.length}종목 vs 저평가(할인) ${discounts.length}종목 왜곡 발생`;
-    disparityBannerDesc = `해외 시차 및 호가 공백으로 발생한 괴리율입니다. <tspan fill="#B45309" font-weight="900">장 시작 후 정상 호가 복귀 확인 필수</tspan>`;
-  } else if (premiums.length > 0) {
-    disparityBannerTitle = `고평가(할증 주의) ${premiums.length}개 종목 괴리율 왜곡 발생`;
-    disparityBannerDesc = `순자산가치 대비 시장가가 높게 형성되었습니다. <tspan fill="#B45309" font-weight="900">고점 추격 매수 유의</tspan>`;
-  } else if (discounts.length > 0) {
-    disparityBannerTitle = `저평가(할인 체크) ${discounts.length}개 종목 괴리율 왜곡 발생`;
-    disparityBannerDesc = `순자산가치 대비 시장가가 낮게 형성되었습니다. <tspan fill="#15803D" font-weight="900">LP 호가 복귀 확인 필수</tspan>`;
-  } else {
-    disparityBannerTitle = "국내 상장 일반 ETF 전 종목 정상 괴리율 범위 유지";
-    disparityBannerDesc = `전 종목이 법정 허용 범위(국내 1%, 해외 3%) 내에서 <tspan fill="#15803D" font-weight="900">안정적으로 정상 거래 중</tspan>입니다.`;
-    disparityBadgeText = "✨ 시장 안정";
+  if (premiums.length === 0 && discounts.length === 0) {
+    disparityBadgeText = "시장 안정";
+    disparityBadgeBg = "#DCFCE7";
+    disparityBadgeStroke = "#86EFAC";
+    disparityBadgeColor = "#15803D";
+    disparityBoxBg = "#F0FDF4";
+    disparityBoxStroke = "#BBF7D0";
+  } else if (premiums.length > 0 && discounts.length === 0) {
+    disparityBadgeText = "할증 주의";
+  } else if (discounts.length > 0 && premiums.length === 0) {
+    disparityBadgeText = "할인 체크";
     disparityBadgeBg = "#DCFCE7";
     disparityBadgeStroke = "#86EFAC";
     disparityBadgeColor = "#15803D";
@@ -615,16 +614,16 @@ export function generateInstagramCarousel(
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
         <rect width="940" height="94" rx="22" fill="${disparityBoxBg}" stroke="${disparityBoxStroke}" stroke-width="1.5"/>
         <rect x="30" y="15" width="135" height="34" rx="10" fill="${disparityBadgeBg}" stroke="${disparityBadgeStroke}" stroke-width="1.2"/>
-        <text x="97" y="38" fill="${disparityBadgeColor}" font-size="16" font-weight="900" text-anchor="middle">${disparityBadgeText}</text>
+        <text x="97" y="38" fill="${disparityBadgeColor}" font-size="16" font-weight="900" text-anchor="middle">${escapeXml(disparityBadgeText)}</text>
         <text x="180" y="38" fill="#0F172A" font-size="${slide5TitleFs}" font-weight="900">${escapeXml(disparityBannerTitle)}</text>
         <text x="30" y="75" fill="#334155" font-size="19" font-weight="700">
-          ${disparityBannerDesc}
+          ${escapeXml(disparityBannerDesc)}
         </text>
       </g>
 
-      <!-- SECTION 1: 🔴 고평가 (할증 주의 - Premium) -->
+      <!-- SECTION 1: NAV 대비 고평가 (할증 주의 - Premium) -->
       <g transform="translate(70, 290)">
-        <text x="5" y="24" fill="#991B1B" font-size="22" font-weight="900">🔴 NAV 대비 고평가 (할증 주의)</text>
+        <text x="5" y="24" fill="#991B1B" font-size="22" font-weight="900">NAV 대비 고평가 (할증 주의)</text>
         <rect x="310" y="4" width="240" height="28" rx="8" fill="#FEE2E2" stroke="#FECACA" stroke-width="1"/>
         <text x="430" y="23" fill="#DC2626" font-size="13.5" font-weight="800" text-anchor="middle">시장가 &gt; 가치 · 고점 매수 유의</text>
 
@@ -640,7 +639,7 @@ export function generateInstagramCarousel(
               <rect x="94" y="68" width="80" height="26" rx="6" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="134" y="86" fill="#64748B" font-size="13.5" font-weight="700" text-anchor="middle" class="tabular">${d.ticker}</text>
               <rect x="182" y="68" width="135" height="26" rx="6" fill="#FEE2E2" stroke="#FDA4AF" stroke-width="1"/>
-              <text x="249" y="86" fill="#BE123C" font-size="13" font-weight="800" text-anchor="middle">🔴 고평가 (Premium)</text>
+              <text x="249" y="86" fill="#BE123C" font-size="13" font-weight="800" text-anchor="middle">고평가 (Premium)</text>
               <text x="912" y="58" fill="#D92D20" font-size="38" font-weight="900" text-anchor="end" class="tabular">+${(d.disparityPct ?? 0).toFixed(2)}%</text>
               <text x="912" y="90" fill="#BE123C" font-size="14.5" font-weight="800" text-anchor="end">NAV 대비 할증 거래 중</text>
             </g>
@@ -648,14 +647,14 @@ export function generateInstagramCarousel(
         }).join("") : `
           <g transform="translate(0, 42)" filter="url(#cardShadow)">
             <rect width="940" height="74" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
-            <text x="470" y="44" fill="#64748B" font-size="17" font-weight="700" text-anchor="middle">✨ 현재 NAV 대비 무리하게 할증된 고평가 종목이 없습니다 (정상 거래 중)</text>
+            <text x="470" y="44" fill="#64748B" font-size="17" font-weight="700" text-anchor="middle">현재 NAV 대비 무리하게 할증된 고평가 종목이 없습니다 (정상 거래 중)</text>
           </g>
         `}
       </g>
 
-      <!-- SECTION 2: 🟢 저평가 (할인 체크 - Discount) -->
+      <!-- SECTION 2: NAV 대비 저평가 (할인 체크 - Discount) -->
       <g transform="translate(70, ${premiums.length > 1 ? 620 : (premiums.length === 1 ? 485 : 430)})">
-        <text x="5" y="24" fill="#166534" font-size="22" font-weight="900">🟢 NAV 대비 저평가 (할인 체크)</text>
+        <text x="5" y="24" fill="#166534" font-size="22" font-weight="900">NAV 대비 저평가 (할인 체크)</text>
         <rect x="310" y="4" width="240" height="28" rx="8" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1"/>
         <text x="430" y="23" fill="#15803D" font-size="13.5" font-weight="800" text-anchor="middle">시장가 &lt; 가치 · LP 호가 복귀 확인</text>
 
@@ -671,7 +670,7 @@ export function generateInstagramCarousel(
               <rect x="94" y="68" width="80" height="26" rx="6" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
               <text x="134" y="86" fill="#64748B" font-size="13.5" font-weight="700" text-anchor="middle" class="tabular">${d.ticker}</text>
               <rect x="182" y="68" width="135" height="26" rx="6" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
-              <text x="249" y="86" fill="#15803D" font-size="13" font-weight="800" text-anchor="middle">🟢 저평가 (Discount)</text>
+              <text x="249" y="86" fill="#15803D" font-size="13" font-weight="800" text-anchor="middle">저평가 (Discount)</text>
               <text x="912" y="58" fill="#047857" font-size="38" font-weight="900" text-anchor="end" class="tabular">${(d.disparityPct ?? 0).toFixed(2)}%</text>
               <text x="912" y="90" fill="#15803D" font-size="14.5" font-weight="800" text-anchor="end">NAV 대비 할인 거래 중</text>
             </g>
@@ -679,7 +678,7 @@ export function generateInstagramCarousel(
         }).join("") : `
           <g transform="translate(0, 42)" filter="url(#cardShadow)">
             <rect width="940" height="74" rx="16" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
-            <text x="470" y="44" fill="#64748B" font-size="17" font-weight="700" text-anchor="middle">✨ 현재 NAV 대비 과도하게 할인된 저평가 종목이 없습니다 (정상 거래 중)</text>
+            <text x="470" y="44" fill="#64748B" font-size="17" font-weight="700" text-anchor="middle">현재 NAV 대비 과도하게 할인된 저평가 종목이 없습니다 (정상 거래 중)</text>
           </g>
         `}
       </g>
@@ -687,9 +686,9 @@ export function generateInstagramCarousel(
       <!-- 운용역 실전 조언 팁 박스 -->
       <g transform="translate(70, 950)" filter="url(#cardShadow)">
         <rect width="940" height="92" rx="18" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="30" y="34" fill="#0F172A" font-size="17.5" font-weight="900">💡 운용역의 실전 조언 — 괴리율 대처법</text>
+        <text x="30" y="34" fill="#0F172A" font-size="17.5" font-weight="900">운용역의 실전 조언 — 괴리율 대처법</text>
         <text x="30" y="66" fill="#475569" font-size="15" font-weight="700">
-          해외 ETF 괴리율은 개장 직후 LP 호가가 제출되면서 대부분 정상 범위로 수렴합니다. 장 초반 무리한 시장가 매수·매도를 피하세요.
+          ${escapeXml(disparityActionTip)}
         </text>
       </g>
 
@@ -814,7 +813,7 @@ export function generateInstagramCarousel(
           <g transform="translate(35, 426)">
             <rect width="870" height="54" rx="14" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
             <text x="435" y="34" fill="#475569" font-size="18" font-weight="800" text-anchor="middle">
-              📊 한국거래소(KRX) 전 거래일 마감 공시 기준 (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석)
+              한국거래소(KRX) 전 거래일 마감 공시 기준 (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석)
             </text>
           </g>
         </g>
@@ -848,7 +847,7 @@ export function generateInstagramCaption(
   
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
   const inflowText = topInflows.length > 0 
-    ? `\n\n2. 💸 스마트머니 순유입:\n${topInflows.map(i => {
+    ? `\n\n2. 스마트머니 순유입:\n${topInflows.map(i => {
         const name = i.name || (i as any).etfName || "대표지수";
         const val = i.inflow ?? ((i as any).netInflowValue ? Math.round((i as any).netInflowValue / 100000000) : 0);
         return `• ${name} +${(val || 0).toLocaleString()}억 원`;
@@ -868,7 +867,7 @@ export function generateInstagramCaption(
 
   const formattedDate = (payload.asOfDate || "2026.08.31").replace(/-/g, '.');
 
-  return `📌 ${formattedDate} 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 마켓 동향 ☕
+  return `${formattedDate} 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 마켓 동향
 
 ${regime.captionOpening}
 
@@ -876,19 +875,17 @@ ${regime.captionMarketSummary}
 
 [지난 장 국내 ETF 시장 3대 핵심 동향]
 
-1. 📈 테마군 수익률 명암:
+1. 테마군 수익률 명암:
 • 상승 테마: ${strongText}
 • 조정 테마: ${weakText}${inflowText}
 
-3. 🧭 시장 흐름 & 테마 분석:
+3. 시장 흐름 & 테마 분석:
 • ${regime.captionThemeAnalysis || "단기 숨고르기 속에서도 국내외 대표지수로 저가 분할 매수 지속"}
 
-💡 [오늘의 시장 관전 포인트]
+[오늘의 시장 관전 포인트]
 ${regime.captionWatchPoint || "변동성이 확대된 국면에서는 지수 등락 자체보다 섹터 간 자금 이동 경로와 방어적 자산의 완충력을 관찰하는 것이 유효합니다."}
 
-💬 오늘 개장 후 여러분이 가장 주목하고 계신 테마나 지표는 무엇인가요? 댓글로 자유롭게 의견을 나눠주세요! 👇
+오늘 개장 후 여러분이 가장 주목하고 계신 테마나 지표는 무엇인가요? 댓글로 자유롭게 의견을 나눠주세요.
 
-📊 데이터 출처: 한국거래소(KRX) 전 거래일 마감 공시 데이터 기준 (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석). 본 콘텐츠는 순수 시황 분석 정보 제공 목적이며 투자 권유가 아닙니다.
-
-#ETF캠퍼스 #국내상장ETF #ETF투자 #퇴직연금 #IRP #ISA #자산배분 #스마트머니 #마켓브리핑`;
+데이터 출처: 한국거래소(KRX) 전 거래일 마감 공시 데이터 기준 (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석). 본 콘텐츠는 순수 시황 분석 정보 제공 목적이며 투자 권유가 아닙니다.`;
 }

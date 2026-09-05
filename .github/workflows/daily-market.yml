@@ -171,7 +171,6 @@ jobs:
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
         run: |
           python scripts/append_daily_prices.py
-          python scripts/collect_distributions.py || true
           python scripts/calculate_daily_tr_index.py
           python scripts/calculate_total_returns.py
           python scripts/build_distribution_summaries.py
@@ -225,10 +224,9 @@ jobs:
           PRICE_INGEST_ENDPOINT: ${{ secrets.PRICE_INGEST_ENDPOINT }}
           PRICE_INGEST_HMAC_SECRET: ${{ secrets.PRICE_INGEST_HMAC_SECRET }}
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
-          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
         run: |
           BAS_DT=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
-          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT" || true
+          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT" --source krx || true
           python scripts/validate_d1_status.py "$BAS_DT" || true
 
       - name: Publish canonical market-source snapshot and event outbox

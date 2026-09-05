@@ -200,7 +200,7 @@ def main() -> None:
     )
     parser.add_argument("--start-date", help="YYYYMMDD format for backfill start")
     parser.add_argument("--end-date", help="YYYYMMDD format for backfill end")
-    parser.add_argument("--source", choices=["krx", "fsc"], help="Force specific API source")
+    parser.add_argument("--source", choices=["krx", "fsc"], default="krx", help="Force specific API source (default: krx)")
     args = parser.parse_args()
     
     krx_key = os.environ.get("KRX_OPEN_API_KEY")
@@ -241,28 +241,50 @@ def main() -> None:
         snapshot = None
         used_krx = False
 
-        if args.source == "krx":
-            if krx_key:
-                try:
-                    snapshot = fetch_krx_snapshot(krx_key, day_text)
-                    used_krx = True
-                except Exception as error:
-                    print(f"  KRX API failed for {sql_date}: {error}")
-        else:
-            if go_kr_key:
-                try:
-                    snapshot = fetch_snapshot(go_kr_key, day_text)
-                except Exception as error:
-                    print(f"  FSC API failed for {sql_date}: {error}")
+        # Optimization: Check if local verified master CSV has this date already to avoid redundant API calls
+        master_csv_path = Path("data/etf_master_draft.csv")
+        if master_csv_path.exists():
+            try:
+                import csv
+                with master_csv_path.open("r", encoding="utf-8-sig") as f:
+                    reader = csv.DictReader(f)
+                    first_row = next(reader, None)
+                    if first_row and first_row.get("bas_dt") == day_text:
+                        csv_snapshot = {first_row.get("ticker"): first_row}
+                        for row in reader:
+                            t = row.get("ticker")
+                            if t:
+                                csv_snapshot[t] = row
+                        if len(csv_snapshot) >= 200:
+                            snapshot = csv_snapshot
+                            used_krx = True
+                            print(f"  Reusing {len(snapshot)} prices directly from local master CSV for {sql_date}.")
+            except Exception as error:
+                print(f"  Local CSV lookup error for {sql_date}: {error}")
 
-            if not snapshot and krx_key:
-                try:
-                    print(f"  [WARNING] FSC API failed or returned no data. Falling back to KRX API for {sql_date}...")
-                    snapshot = fetch_krx_snapshot(krx_key, day_text)
-                    used_krx = True
-                    fallback_dates.append(sql_date)
-                except Exception as error:
-                    print(f"  Fallback KRX API failed for {sql_date}: {error}")
+        if not snapshot:
+            if args.source == "krx" or not go_kr_key:
+                if krx_key:
+                    try:
+                        snapshot = fetch_krx_snapshot(krx_key, day_text)
+                        used_krx = True
+                    except Exception as error:
+                        print(f"  KRX API failed for {sql_date}: {error}")
+            else:
+                if go_kr_key:
+                    try:
+                        snapshot = fetch_snapshot(go_kr_key, day_text)
+                    except Exception as error:
+                        print(f"  FSC API failed for {sql_date}: {error}")
+
+                if not snapshot and krx_key:
+                    try:
+                        print(f"  [WARNING] FSC API failed or returned no data. Falling back to KRX API for {sql_date}...")
+                        snapshot = fetch_krx_snapshot(krx_key, day_text)
+                        used_krx = True
+                        fallback_dates.append(sql_date)
+                    except Exception as error:
+                        print(f"  Fallback KRX API failed for {sql_date}: {error}")
 
         if not snapshot:
             print(f"  Failed to get data for {sql_date} from any API. Skipping.")

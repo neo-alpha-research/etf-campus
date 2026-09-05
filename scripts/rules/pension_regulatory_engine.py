@@ -176,61 +176,42 @@ def classify_pension_and_isa(
     )
 
     # 2. Pension Absolute Exclusion
-    # 2-1) Area A: Leverage / Inverse
-    if risk in ("leverage", "inverse"):
-        return {
-            "pension_eligible": PENSION_INELIGIBLE,
-            "pension_limit": LIMIT_INELIGIBLE,
-            "isa_eligible": isa_eligible,
-            "isa_education_required": isa_education_required,
-            "pension_source": PENSION_SOURCE_RULE_ESTIMATE,
-            "pension_verified": PENSION_VERIFIED_NO,
-            "pension_confidence": PENSION_CONFIDENCE_LOW,
-            "pension_reason": "레버리지/인버스 파생평가액 초과 (퇴직연금 편입 요건 미충족)",
-            "underlying_is_security": underlying_sec,
-        }
-
-    # 2-2) Area C: Commodity / Currency Futures without spot backing
     is_spot = "현물" in name
     has_futures_keyword = bool(
         re.search(r"선물|Futures", f"{name} {base_index}", re.IGNORECASE)
     )
 
-    if has_futures_keyword and not is_spot:
-        return {
-            "pension_eligible": PENSION_INELIGIBLE,
-            "pension_limit": LIMIT_INELIGIBLE,
-            "isa_eligible": isa_eligible,
-            "isa_education_required": isa_education_required,
-            "pension_source": PENSION_SOURCE_RULE_ESTIMATE,
-            "pension_verified": PENSION_VERIFIED_NO,
-            "pension_confidence": PENSION_CONFIDENCE_LOW,
-            "pension_reason": "선물 기반 파생 위험평가액 40% 초과 (퇴직연금 편입 요건 미충족)",
-            "underlying_is_security": underlying_sec,
-        }
+    if risk in ("leverage", "inverse"):
+        pension_eligible = PENSION_INELIGIBLE
+        pension_limit = LIMIT_INELIGIBLE
+        reason = "레버리지/인버스 파생평가액 초과 (퇴직연금 편입 요건 미충족)"
+    elif has_futures_keyword and not is_spot:
+        pension_eligible = PENSION_INELIGIBLE
+        pension_limit = LIMIT_INELIGIBLE
+        reason = "선물 기반 파생 위험평가액 40% 초과 (퇴직연금 편입 요건 미충족)"
+    else:
+        # 3. Pension Limit Determination (100% vs 70%)
+        pension_eligible = PENSION_ELIGIBLE
+        is_safe = False
+        reason = "위험자산 (계좌 내 70% 한도)"
 
-    # 3. Pension Limit Determination (100% vs 70%)
-    pension_eligible = PENSION_ELIGIBLE
-    is_safe = False
-    reason = "위험자산 (계좌 내 70% 한도)"
+        if asset == "금리·파킹":
+            is_safe = True
+            reason = "금리·파킹형 안전자산 (100% 투자 가능)"
+        elif asset == "채권":
+            is_safe = True
+            reason = "채권형 안전자산 (100% 투자 가능)"
+        elif "TDF" in name:
+            is_safe = True
+            reason = "적격 TDF 안전자산 (100% 투자 가능)"
+        elif "TRF3070" in name or "TRF5050" in name or "TIF" in name:
+            is_safe = True
+            reason = "주식비중 50% 이하 자산배분 안전자산 (100% 투자 가능)"
+        elif any(kw in name for kw in ["채권혼합", "혼합50", "국채혼합50"]):
+            is_safe = True
+            reason = "적격 채권혼합형(주식 50% 이하) 안전자산 (100% 투자 가능)"
 
-    if asset == "금리·파킹":
-        is_safe = True
-        reason = "금리·파킹형 안전자산 (100% 투자 가능)"
-    elif asset == "채권":
-        is_safe = True
-        reason = "채권형 안전자산 (100% 투자 가능)"
-    elif "TDF" in name:
-        is_safe = True
-        reason = "적격 TDF 안전자산 (100% 투자 가능)"
-    elif "TRF3070" in name or "TRF5050" in name or "TIF" in name:
-        is_safe = True
-        reason = "주식비중 50% 이하 자산배분 안전자산 (100% 투자 가능)"
-    elif any(kw in name for kw in ["채권혼합", "혼합50", "국채혼합50"]):
-        is_safe = True
-        reason = "적격 채권혼합형(주식 50% 이하) 안전자산 (100% 투자 가능)"
-
-    pension_limit = LIMIT_SAFE_ASSET if is_safe else LIMIT_RISK_ASSET
+        pension_limit = LIMIT_SAFE_ASSET if is_safe else LIMIT_RISK_ASSET
 
     # 4. Source & Verification Reconciliation
     is_synthetic = bool(SYNTHETIC_NAME_PATTERN.search(name))
@@ -271,7 +252,7 @@ def classify_pension_and_isa(
             }
 
     # Backward compatibility with verified_tickers set (e.g. broker list / mock tests)
-    if verified_tickers is not None and ticker in verified_tickers:
+    if verified_tickers is not None and ticker in verified_tickers and pension_eligible != PENSION_INELIGIBLE:
         return {
             "pension_eligible": pension_eligible,
             "pension_limit": pension_limit,

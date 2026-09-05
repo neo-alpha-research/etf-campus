@@ -102,16 +102,10 @@ def build_verification_ledger(
             undetermined_count += 1
             undetermined_reasons[ticker] = rule.statutory_basis_or_reason
 
-    # Ingest prospectus-verified records (Mixed bonds & Safe derivatives)
+    # Ingest prospectus-verified records from registry files in data/regulatory/sources/
     prospectus_count = 0
-    prospectus_files = []
-    if prospectus_mixed_bonds_csv:
-        prospectus_files.append(prospectus_mixed_bonds_csv)
-    
-    # Check for additional safe derivatives prospectus registry
-    safe_deriv_csv = REPO_ROOT / "data/regulatory/sources/prospectus_safe_derivatives_registry.csv"
-    if safe_deriv_csv.exists() and safe_deriv_csv not in prospectus_files:
-        prospectus_files.append(safe_deriv_csv)
+    sources_dir = REPO_ROOT / "data" / "regulatory" / "sources"
+    prospectus_files = sorted(list(sources_dir.glob("prospectus_*_registry.csv")))
 
     for p_csv in prospectus_files:
         if p_csv.exists():

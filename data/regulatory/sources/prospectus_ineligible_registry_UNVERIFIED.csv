@@ -1,4 +1,5 @@
-﻿ticker,name,category,kofia_fund_type,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
+﻿# 이 파일은 실제 DART 공시 대조 결과가 아님. rcpNo 없음. 재검증 필요
+ticker,name,category,kofia_fund_type,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
 122630,KODEX 레버리지,법정 편입불가(파생/레버리지/인버스),주식파생형,불가,투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_122630,"투자설명서(신탁계약서) 제16조(투자대상) 및 퇴직연금감독규정 제9조 제1항 제1호, 제12조 [별표 1]",근로자퇴직급여보장법 제21조 및 퇴직연금감독규정 제9조·제12조 (파생평가액 40% 초과 및 레버리지/인버스 금지),레버리지·인버스·원자재 선물 파생형으로 퇴직연금 편입 불가 확정
 233740,KODEX 코스닥150레버리지,법정 편입불가(파생/레버리지/인버스),주식파생형,불가,투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_233740,"투자설명서(신탁계약서) 제16조(투자대상) 및 퇴직연금감독규정 제9조 제1항 제1호, 제12조 [별표 1]",근로자퇴직급여보장법 제21조 및 퇴직연금감독규정 제9조·제12조 (파생평가액 40% 초과 및 레버리지/인버스 금지),레버리지·인버스·원자재 선물 파생형으로 퇴직연금 편입 불가 확정
 0193T0,KODEX SK하이닉스단일종목레버리지,법정 편입불가(파생/레버리지/인버스),주식파생형,불가,투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_0193T0,"투자설명서(신탁계약서) 제16조(투자대상) 및 퇴직연금감독규정 제9조 제1항 제1호, 제12조 [별표 1]",근로자퇴직급여보장법 제21조 및 퇴직연금감독규정 제9조·제12조 (파생평가액 40% 초과 및 레버리지/인버스 금지),레버리지·인버스·원자재 선물 파생형으로 퇴직연금 편입 불가 확정

@@ -205,12 +205,27 @@ const fetcher = async (url: string) => {
     if (res.ok) {
       throw new Error("올바른 JSON 응답이 아닙니다.");
     }
+    // 로컬 개발 환경(localhost)에서 Cloudflare D1 API가 없을 경우 라이브 서버 브리핑 자동 연동
+    if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+      const liveRes = await fetch(`https://etf-campus.pages.dev${url}`, {
+        headers: { Accept: "application/json" },
+      }).catch(() => null);
+      if (liveRes && liveRes.ok) {
+        return (await liveRes.json()) as BriefingApiResponse;
+      }
+    }
     return {
       briefing: null,
       message: res.status === 404 ? "해당 날짜의 마켓 브리핑을 찾을 수 없습니다." : "브리핑 서버와 통신할 수 없습니다.",
     };
   } catch (err) {
     if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+      const liveRes = await fetch(`https://etf-campus.pages.dev${url}`, {
+        headers: { Accept: "application/json" },
+      }).catch(() => null);
+      if (liveRes && liveRes.ok) {
+        return (await liveRes.json()) as BriefingApiResponse;
+      }
       const fallbackRes = await fetch("/mock-briefing.json").catch(() => null);
       if (fallbackRes && fallbackRes.ok) {
         return (await fallbackRes.json()) as BriefingApiResponse;

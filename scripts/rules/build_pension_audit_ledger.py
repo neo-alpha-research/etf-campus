@@ -76,19 +76,17 @@ def build_audit_ledger():
                 if tk:
                     verification_ledger[tk] = r
 
-    # 3. Load detailed prospectus registries for extra statutory metadata
-    prospectus_meta: Dict[str, Dict[str, str]] = {}
-    for p_csv in sorted(list(sources_dir.glob("prospectus_*_registry.csv"))):
-        try:
-            with p_csv.open("r", encoding="utf-8-sig") as f:
-                for r in csv.DictReader(f):
-                    tk = r.get("ticker", "").strip().upper()
-                    if tk:
-                        prospectus_meta[tk] = r
-        except Exception as e:
-            print(f"[WARN] Error reading {p_csv}: {e}")
-
     audit_rows = []
+    # Load statute registry for authoritative statutory citations
+    statute_registry_path = REPO_ROOT / "data/regulatory/statute_registry.csv"
+    statute_map = {}
+    if statute_registry_path.is_file():
+        with statute_registry_path.open("r", encoding="utf-8-sig", newline="") as f:
+            for srow in csv.DictReader(f):
+                sid = srow.get("statute_id", "").strip()
+                if sid:
+                    statute_map[sid] = srow
+
     for m in master_rows:
         tk = m["ticker"].strip().upper()
         nm = m["name"].strip()
@@ -102,31 +100,43 @@ def build_audit_ledger():
         p_src = m.get("pension_source", "").strip()
 
         v_entry = verification_ledger.get(tk, {})
-        p_reg = prospectus_meta.get(tk, {})
 
-        src_type = v_entry.get("source_type") or p_src or "협회공시대조"
-        src_url = v_entry.get("source_url") or "https://dis.kofia.or.kr"
-        evidence_ref = v_entry.get("evidence_ref") or "data/regulatory/sources/kofia_dis_response_20260905.xml"
-        v_at = v_entry.get("verified_at") or "2026-09-05"
+        if p_ver == "Y" and v_entry:
+            src_type = v_entry.get("source_type") or p_src or "협회공시대조"
+            src_url = v_entry.get("source_url") or "https://dis.kofia.or.kr"
+            evidence_ref = v_entry.get("evidence_ref") or "data/regulatory/sources/kofia_evidence_extract_20260905.xml"
+            v_at = v_entry.get("verified_at") or "2026-09-05"
+            audit_status = "PASS (공식 검증 완료)"
 
-        # Determine detailed statutory basis and audit notes
-        if p_reg:
-            statutory_basis = p_reg.get("statutory_basis") or "퇴직연금감독규정 제12조 제1항"
-            audit_note = p_reg.get("note") or v_entry.get("note") or "투자설명서 공시 대조 완료"
-            check_method = f"DART 전자공시 투자설명서 및 집합투자규약 제16조 투자대상/위험평가액 실측 대조 ({p_reg.get('category', '투자설명서대조')})"
-        elif src_type == "협회공시대조":
-            if p_lim == "100% (안전자산)":
-                statutory_basis = "퇴직연금감독규정 제12조 제1항 제2호 (채권형 및 원리금보장형 안전자산 100% 한도)"
-                audit_note = v_entry.get("note") or "KOFIA 펀드유형 채권형 대조 완료"
-                check_method = "금융투자협회 전자공시서비스(DIS) 표준 펀드유형 '채권형' XML 전수 대조"
+            if src_type == "협회공시대조":
+                if p_lim == "100% (안전자산)":
+                    statute_id = "PSR_ART11_1_4"
+                    audit_note = v_entry.get("note") or "KOFIA 펀드유형 채권형 대조 완료"
+                    check_method = "금융투자협회 전자공시서비스(DIS) 표준 펀드유형 '채권형' XML 전수 대조"
+                else:
+                    statute_id = "ED_WRBA_ART26_1_2"
+                    audit_note = v_entry.get("note") or "KOFIA 펀드유형 주식형 대조 완료"
+                    check_method = "금융투자협회 전자공시서비스(DIS) 표준 펀드유형 '주식형' XML 전수 대조"
             else:
-                statutory_basis = "퇴직연금감독규정 제12조 제1항 제1호 및 제4항 (주식형 집합투자증권 위험자산 70% 한도)"
-                audit_note = v_entry.get("note") or "KOFIA 펀드유형 주식형 대조 완료"
-                check_method = "금융투자협회 전자공시서비스(DIS) 표준 펀드유형 '주식형' XML 전수 대조"
+                statute_id = "WRBA_ART21"
+                audit_note = v_entry.get("note") or m.get("pension_reason", "")
+                check_method = f"공식 출처 대조 ({src_type})"
         else:
-            statutory_basis = "근로자퇴직급여보장법 제21조 및 퇴직연금감독규정"
+            src_type = p_src
+            src_url = ""
+            evidence_ref = ""
+            v_at = ""
+            audit_status = "ROLLED_BACK_UNVERIFIED"
+            statute_id = "WRBA_ART21"
             audit_note = m.get("pension_reason", "")
-            check_method = "규제 엔진 규칙기반 판정 및 대조"
+            check_method = f"규제 엔진 규칙기반 판정 (미검증 추정, 공시대조 대기)"
+
+        reg_meta = statute_map.get(statute_id, {})
+        statute_text = (
+            f"{reg_meta.get('statute_name', '')} {reg_meta.get('article', '')} ({reg_meta.get('title', '')})".strip()
+            if reg_meta
+            else statute_id
+        )
 
         audit_rows.append({
             "ticker": tk,
@@ -141,11 +151,12 @@ def build_audit_ledger():
             "source_type": src_type,
             "source_url": src_url,
             "evidence_ref": evidence_ref,
-            "statutory_basis": statutory_basis,
+            "statutory_basis": statute_id,
+            "statutory_basis_text": statute_text,
             "audit_check_method": check_method,
             "audit_notes": audit_note,
             "verified_at": v_at,
-            "audit_status": "PASS (공식 검증 완료)" if p_ver == "Y" else "PENDING",
+            "audit_status": audit_status,
         })
 
     out_audit_csv.parent.mkdir(parents=True, exist_ok=True)
@@ -163,6 +174,7 @@ def build_audit_ledger():
         "source_url",
         "evidence_ref",
         "statutory_basis",
+        "statutory_basis_text",
         "audit_check_method",
         "audit_notes",
         "verified_at",

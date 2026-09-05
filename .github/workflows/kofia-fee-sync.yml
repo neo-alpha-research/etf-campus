@@ -52,6 +52,14 @@ jobs:
           --data '{"text":"🚨 [ETF Campus] KOFIA 실부담비용 파이프라인 실패 (서킷 브레이커 발동 의심)"}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
+      - name: 📦 Archive Raw KOFIA XML Response (30 Days Retention)
+        uses: actions/upload-artifact@v4
+        with:
+          name: kofia-raw-xml-snapshot
+          path: data/regulatory/sources/kofia_dis_response_*.xml
+          retention-days: 30
+          if-no-files-found: ignore
+
       - name: 💾 Commit and Push Changes directly to Main
         id: commit
         run: |
@@ -60,6 +68,8 @@ jobs:
           git add data/fees/etf_fee_registry.json \
                   data/regulatory/kofia_fund_types.csv \
                   data/regulatory/pension_verification_ledger.csv \
+                  data/regulatory/sources/kofia_evidence_extract_*.xml \
+                  data/regulatory/sources/evidence_manifest.json \
                   data/reports/pension_unverified_queue.csv \
                   data/reports/pension_verification_summary.json \
                   data/etf_master_draft.csv

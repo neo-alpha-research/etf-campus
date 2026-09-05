@@ -38,7 +38,7 @@ METRIC_COLUMNS = [
     "calculation_status", "distribution_event_count", "blocking_event_ids",
     "price_observation_count", "calculation_version", "calculated_at",
 ]
-PERIODS = ("1d", "1w", "2w", "1m", "2m", "3m", "6m", "1y", "2y", "3y", "ytd")
+PERIODS = ("1d", "1w", "2w", "1m", "2m", "3m", "6m", "1y", "2y", "3y", "ytd", "itd")
 COMPLETE_DISTRIBUTION = {"verified_complete", "verified_no_distribution"}
 COMPLETE_ACTIONS = {"verified_complete", "verified_no_action"}
 
@@ -118,6 +118,8 @@ def target_start(as_of: date, period: str) -> date:
         return date.fromordinal(as_of.toordinal() - 14)
     if period == "ytd":
         return date(as_of.year - 1, 12, 31)
+    if period == "itd":
+        return date.min
     months = {"1m": 1, "2m": 2, "3m": 3, "6m": 6, "1y": 12, "2y": 24, "3y": 36}[period]
     return shift_months(as_of, months)
 
@@ -185,8 +187,12 @@ def blocked_status(ticker_value: str, start: date, end: date, coverage: dict[str
 
 def calculate_for_period(code: str, isin: str, period: str, points: list[PricePoint], coverage: dict[str, dict[str, str]], events: dict[str, list[dict[str, str]]], actions: dict[str, list[dict[str, str]]]) -> dict[str, str]:
     as_of = points[-1].day
-    wanted = target_start(as_of, period)
-    start_point = nearest_on_or_before(points, wanted)
+    if period == "itd":
+        wanted = points[0].day
+        start_point = points[0]
+    else:
+        wanted = target_start(as_of, period)
+        start_point = nearest_on_or_before(points, wanted)
     base = {
         "etf_id": isin, "ticker": code, "period": period, "as_of_date": as_of.isoformat(),
         "target_start_date": wanted.isoformat(), "actual_start_date": "", "actual_end_date": as_of.isoformat(),

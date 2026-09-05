@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, useRef, Fragment } from "react";
 
 import { siteConfig } from "@/config/site";
 import { Tickery } from "@/components/brand/tickery";
@@ -69,6 +69,16 @@ export function SiteHeader() {
     return () => window.removeEventListener("resize", updateHeaderHeight);
   }, [showFinderNav, pathname]);
 
+  const mobileNavRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!mobileNavRef.current) return;
+    const activeEl = mobileNavRef.current.querySelector<HTMLElement>('[aria-current="page"]');
+    if (activeEl) {
+      activeEl.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }
+  }, [pathname]);
+
   const isPrimaryActive = (href: string) => {
     if (href === "/") return pathname === "/" || pathname.startsWith("/briefing");
     if (href === "/explore/") return isEtfSection;
@@ -109,10 +119,28 @@ export function SiteHeader() {
           <AuthNav />
         </div>
       </div>
-      <nav aria-label="모바일 주요 메뉴" className="w-full max-w-full overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex gap-2 border-t border-line bg-neutral-50 px-4 sm:px-5 py-2.5 text-sm font-bold lg:hidden">
-        {navigation.map((item) => (
-          <Link aria-current={isPrimaryActive(item.href) ? "page" : undefined} className={`inline-flex min-h-11 shrink-0 items-center rounded-lg px-3 py-2 ${isPrimaryActive(item.href) ? "bg-surface text-brand-800 shadow-sm ring-1 ring-line" : "text-muted"}`} href={item.href} key={item.href}>{item.label}</Link>
-        ))}
+      <nav
+        ref={mobileNavRef}
+        aria-label="모바일 주요 메뉴"
+        className="w-full max-w-full overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex gap-1.5 border-t border-line bg-neutral-50/90 px-3 py-2 text-sm font-bold lg:hidden overscroll-x-contain touch-pan-x"
+      >
+        {navigation.map((item) => {
+          const active = isPrimaryActive(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={`inline-flex min-h-10 shrink-0 items-center rounded-lg px-3 py-1.5 text-xs sm:text-sm transition-all ${
+                active
+                  ? "bg-white text-brand-800 font-extrabold shadow-xs ring-1 ring-brand-300"
+                  : "text-neutral-500 font-medium hover:bg-white/60 hover:text-neutral-900"
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
       {showFinderNav ? (
         <div className="w-full max-w-full border-t border-line bg-brand-50/55">

@@ -1,4 +1,5 @@
-﻿ticker,name,category,kofia_fund_type,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
+﻿# 이 파일은 실제 DART 공시 대조 결과가 아님. rcpNo 없음. 재검증 필요
+ticker,name,category,kofia_fund_type,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
 441640,KODEX 미국배당커버드콜액티브,주식형 및 주식파생 위험자산,미매칭,70% (위험자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_441640,투자설명서(신탁계약서) 제16조(투자대상: 국내외 주식 및 옵션 매도 상계 파생평가액 40% 이내),퇴직연금감독규정 제12조 제1항 제1호 및 제4항 (주식형 집합투자증권 위험자산 70% 한도 적격),국내외 주식 또는 파생평가액 40% 이내 적격 파생형으로 위험자산 70% 편입 가능
 0139F0,TIGER 12월자동연장금융채(AA-이상)액티브,채권 및 적격 채권혼합50,미매칭,100% (안전자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_0139F0,투자설명서(신탁계약서) 제16조(투자대상: 국공채/특수채 또는 주식비중 50% 미만 혼합채권),퇴직연금감독규정 제12조 제1항 제2호 및 금융위원회 고시 제2023-56호 (채권형 및 주식 50% 미만 채권혼합 안전자산 100% 편입),국채·공채 또는 주식 50% 미만 규약 충족 채권혼합형으로 안전자산 100% 편입 가능
 0025N0,TIGER TDF2045 적격,적격 TDF 안전자산,미매칭,100% (안전자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_0025N0,투자설명서(신탁계약서) 제16조(투자대상 및 글라이드패스: 은퇴시점 주식 40% 이하),고용노동부 고시 제2018-63호 및 퇴직연금감독규정 제9조 제1항 제3호 (적격 TDF 안전자산 100% 편입),생애주기 자산배분 글라이드패스 충족 적격 TDF로 안전자산 100% 편입 가능

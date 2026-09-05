@@ -64,3 +64,7 @@ kofia_fee_cmp.xml
 data/regulatory/holdings_measured_composition.csv
 data/reports/holdings_anomaly_*.json
 !data/reports/holdings_anomaly_last.json
+
+# Raw regulatory disclosure XML snapshots (30MB+, preserved via artifact/local)
+data/regulatory/sources/kofia_dis_response_*.xml
+

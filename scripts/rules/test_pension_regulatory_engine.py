@@ -1,5 +1,6 @@
 from scripts.rules.pension_regulatory_engine import (
     classify_pension_and_isa,
+    classify_new_listing,
     PENSION_ELIGIBLE,
     PENSION_INELIGIBLE,
     LIMIT_SAFE_ASSET,
@@ -186,13 +187,16 @@ def test_pension_source_and_confidence():
     assert res_synth["pension_limit"] == LIMIT_SAFE_ASSET
 
     # 1-1. When ledger entry is present, verified = Y
-    res_synth_verified = classify_pension_and_isa({
-        "ticker": "459580",
-        "name": "KODEX CD금리액티브(합성)",
-        "risk_type": "normal",
-        "asset_class": "금리·파킹",
-    })
-    assert res_synth_verified["pension_source"] == PENSION_SOURCE_PROSPECTUS_VERIFIED
+    res_synth_verified = classify_pension_and_isa(
+        {
+            "ticker": "459580",
+            "name": "KODEX CD금리액티브(합성)",
+            "risk_type": "normal",
+            "asset_class": "금리·파킹",
+        },
+        verified_entries={"459580": {"verified_limit": LIMIT_SAFE_ASSET, "source_type": PENSION_SOURCE_KOFIA_VERIFIED}},
+    )
+    assert res_synth_verified["pension_source"] == PENSION_SOURCE_KOFIA_VERIFIED
     assert res_synth_verified["pension_verified"] == PENSION_VERIFIED_YES
     assert res_synth_verified["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 
@@ -212,13 +216,16 @@ def test_pension_source_and_confidence():
     assert res_219390["pension_eligible"] == PENSION_ELIGIBLE
 
     # 2-1. When ledger entry is present, verified = Y (70% 위험자산)
-    res_219390_verified = classify_pension_and_isa({
-        "ticker": "219390",
-        "name": "RISE 미국S&P원유생산기업(합성 H)",
-        "base_index": "S&P Oil & Gas Exploration & Production Select Industry Index(PR)",
-        "risk_type": "normal",
-        "asset_class": "원자재",
-    })
+    res_219390_verified = classify_pension_and_isa(
+        {
+            "ticker": "219390",
+            "name": "RISE 미국S&P원유생산기업(합성 H)",
+            "base_index": "S&P Oil & Gas Exploration & Production Select Industry Index(PR)",
+            "risk_type": "normal",
+            "asset_class": "원자재",
+        },
+        verified_entries={"219390": {"verified_limit": LIMIT_RISK_ASSET, "source_type": PENSION_SOURCE_PROSPECTUS_VERIFIED}},
+    )
     assert res_219390_verified["pension_source"] == PENSION_SOURCE_PROSPECTUS_VERIFIED
     assert res_219390_verified["pension_verified"] == PENSION_VERIFIED_YES
     assert res_219390_verified["pension_confidence"] == PENSION_CONFIDENCE_HIGH
@@ -238,14 +245,17 @@ def test_pension_source_and_confidence():
     assert res_carbon["pension_verified"] == PENSION_VERIFIED_NO
     assert res_carbon["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 3-1. When ledger entry is present, verified = Y (불가)
-    res_carbon_verified = classify_pension_and_isa({
-        "ticker": "400590",
-        "name": "SOL 글로벌탄소배출권선물ICE(합성)",
-        "base_index": "ICE Global Carbon Futures Index(Excess Return)",
-        "risk_type": "normal",
-        "asset_class": "주식-해외",
-    })
+    # 3-1. Non-Security Synthetic ETF verified via ledger
+    res_carbon_verified = classify_pension_and_isa(
+        {
+            "ticker": "400590",
+            "name": "SOL 글로벌탄소배출권선물ICE(합성)",
+            "base_index": "ICE Global Carbon Futures Index(Excess Return)",
+            "risk_type": "normal",
+            "asset_class": "주식-해외",
+        },
+        verified_entries={"400590": {"verified_limit": LIMIT_INELIGIBLE, "source_type": PENSION_SOURCE_PROSPECTUS_VERIFIED}},
+    )
     assert res_carbon_verified["underlying_is_security"] == "N"
     assert res_carbon_verified["pension_eligible"] == PENSION_INELIGIBLE
     assert res_carbon_verified["pension_source"] == PENSION_SOURCE_PROSPECTUS_VERIFIED
@@ -342,13 +352,16 @@ def test_pension_source_and_confidence():
     assert res_fut["pension_verified"] == PENSION_VERIFIED_NO
     assert res_fut["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 10-1. Futures ETF verified via prospectus ledger (Stage 4A)
-    res_fut_verified = classify_pension_and_isa({
-        "ticker": "261220",
-        "name": "KODEX WTI원유선물(H)",
-        "risk_type": "normal",
-        "asset_class": "원자재",
-    })
+    # 10-1. Futures ETF verified via prospectus ledger
+    res_fut_verified = classify_pension_and_isa(
+        {
+            "ticker": "261220",
+            "name": "KODEX WTI원유선물(H)",
+            "risk_type": "normal",
+            "asset_class": "원자재",
+        },
+        verified_entries={"261220": {"verified_limit": LIMIT_INELIGIBLE, "source_type": PENSION_SOURCE_PROSPECTUS_VERIFIED}},
+    )
     assert res_fut_verified["pension_eligible"] == PENSION_INELIGIBLE
     assert res_fut_verified["pension_verified"] == PENSION_VERIFIED_YES
     assert res_fut_verified["pension_source"] == PENSION_SOURCE_PROSPECTUS_VERIFIED
@@ -365,13 +378,16 @@ def test_pension_source_and_confidence():
     assert res_lev["pension_verified"] == PENSION_VERIFIED_NO
     assert res_lev["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 11-1. Leverage ETF verified via prospectus ledger (Stage 4A)
-    res_lev_verified = classify_pension_and_isa({
-        "ticker": "122630",
-        "name": "KODEX 레버리지",
-        "risk_type": "leverage",
-        "asset_class": "주식-국내",
-    })
+    # 11-1. Leverage ETF verified via prospectus ledger
+    res_lev_verified = classify_pension_and_isa(
+        {
+            "ticker": "122630",
+            "name": "KODEX 레버리지",
+            "risk_type": "leverage",
+            "asset_class": "주식-국내",
+        },
+        verified_entries={"122630": {"verified_limit": LIMIT_INELIGIBLE, "source_type": PENSION_SOURCE_PROSPECTUS_VERIFIED}},
+    )
     assert res_lev_verified["pension_eligible"] == PENSION_INELIGIBLE
     assert res_lev_verified["pension_verified"] == PENSION_VERIFIED_YES
     assert res_lev_verified["pension_source"] == PENSION_SOURCE_PROSPECTUS_VERIFIED
@@ -410,10 +426,57 @@ def test_broker_universe_dynamic_verification():
     assert res_veto["pension_verified"] == PENSION_VERIFIED_NO
     assert res_veto["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # When ledger entry is present (Stage 4A), confirmed ineligible with HIGH confidence
-    res_veto_verified = classify_pension_and_isa(fake_broker_leverage, verified_tickers={"122630"})
+    # When ledger entry is present, confirmed ineligible with HIGH confidence
+    res_veto_verified = classify_pension_and_isa(
+        fake_broker_leverage,
+        verified_entries={"122630": {"verified_limit": LIMIT_INELIGIBLE, "source_type": PENSION_SOURCE_KOFIA_VERIFIED}},
+        verified_tickers={"122630"},
+    )
     assert res_veto_verified["pension_eligible"] == PENSION_INELIGIBLE
     assert res_veto_verified["pension_limit"] == LIMIT_INELIGIBLE
     assert res_veto_verified["pension_verified"] == PENSION_VERIFIED_YES
     assert res_veto_verified["pension_confidence"] == PENSION_CONFIDENCE_HIGH
+
+
+def test_classify_new_listing_never_defaults_to_safe_asset():
+    """Gate 5: Newly listed ETF automatic classifier must NEVER default to 100% (safe asset).
+    
+    Permits only '불가' or '70% (위험자산)'. Verified flag must be 'N'.
+    """
+    # 1. Bond ETF: ordinarily safe asset, but for new listing defaults to 70% risk asset
+    new_bond = {
+        "ticker": "999991",
+        "name": "TEST 신규 상장 국채",
+        "risk_type": "normal",
+        "asset_class": "채권",
+    }
+    res_bond = classify_new_listing(new_bond)
+    assert res_bond["pension_limit"] == LIMIT_RISK_ASSET
+    assert res_bond["pension_verified"] == PENSION_VERIFIED_NO
+    assert res_bond["pension_confidence"] == PENSION_CONFIDENCE_LOW
+    assert "보수적 기본값" in res_bond["pension_reason"]
+
+    # 2. Money market: ordinarily safe asset, but for new listing defaults to 70% risk asset
+    new_mm = {
+        "ticker": "999992",
+        "name": "TEST 신규 CD금리액티브",
+        "risk_type": "normal",
+        "asset_class": "금리·파킹",
+    }
+    res_mm = classify_new_listing(new_mm)
+    assert res_mm["pension_limit"] == LIMIT_RISK_ASSET
+    assert res_mm["pension_verified"] == PENSION_VERIFIED_NO
+
+    # 3. Leverage: correctly remains '불가'
+    new_lev = {
+        "ticker": "999993",
+        "name": "TEST 신규 레버리지",
+        "risk_type": "leverage",
+        "asset_class": "주식-국내",
+    }
+    res_lev = classify_new_listing(new_lev)
+    assert res_lev["pension_limit"] == LIMIT_INELIGIBLE
+    assert res_lev["pension_eligible"] == PENSION_INELIGIBLE
+    assert res_lev["pension_verified"] == PENSION_VERIFIED_NO
+
 

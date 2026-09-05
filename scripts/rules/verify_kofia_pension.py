@@ -41,7 +41,7 @@ def build_verification_ledger(
     fund_types_csv: Path,
     ledger_csv: Path,
     prospectus_mixed_bonds_csv: Path | None = None,
-    evidence_filename: str = "kofia_dis_response_20260905.xml",
+    evidence_filename: str = "kofia_evidence_extract_20260905.xml",
     valid_days: int = 90,
 ) -> tuple[int, int, Dict[str, str]]:
     """Builds or updates pension_verification_ledger.csv from kofia_fund_types.csv and prospectus records.
@@ -62,14 +62,16 @@ def build_verification_ledger(
         reader = csv.DictReader(f)
         fund_rows = list(reader)
 
-    # Load existing ledger rows (to preserve manual or other source entries)
+    # Load existing ledger rows (only keeping rows with legitimate file evidence)
     existing_ledger: Dict[str, Dict[str, str]] = {}
     if ledger_csv.exists():
         try:
             with ledger_csv.open("r", encoding="utf-8-sig") as f:
                 for row in csv.DictReader(f):
                     tk = (row.get("ticker") or "").strip().upper()
-                    if tk:
+                    st = (row.get("source_type") or "").strip()
+                    ev = (row.get("evidence_ref") or "").strip()
+                    if tk and st != "투자설명서대조" and (REPO_ROOT / ev).is_file():
                         existing_ledger[tk] = row
         except Exception as e:
             print(f"[WARN] Error reading existing ledger: {e}")
@@ -102,38 +104,6 @@ def build_verification_ledger(
             undetermined_count += 1
             undetermined_reasons[ticker] = rule.statutory_basis_or_reason
 
-    # Ingest prospectus-verified records from registry files in data/regulatory/sources/
-    prospectus_count = 0
-    sources_dir = REPO_ROOT / "data" / "regulatory" / "sources"
-    prospectus_files = sorted(list(sources_dir.glob("prospectus_*_registry.csv")))
-
-    for p_csv in prospectus_files:
-        if p_csv.exists():
-            try:
-                with p_csv.open("r", encoding="utf-8-sig") as f:
-                    for row in csv.DictReader(f):
-                        tk = (row.get("ticker") or "").strip().upper()
-                        if not tk:
-                            continue
-                        existing_ledger[tk] = {
-                            "ticker": tk,
-                            "verified_limit": row.get("verified_limit") or "100% (안전자산)",
-                            "source_type": row.get("source_type") or "투자설명서대조",
-                            "source_url": row.get("source_url") or "https://dart.fss.or.kr",
-                            "evidence_ref": row.get("evidence_ref") or "투자설명서(신탁계약서) 제16조(투자대상 및 투자비율)",
-                            "verified_at": verified_at,
-                            "verified_by": "투자설명서 및 집합투자규약 대조",
-                            "expires_at": expires_at,
-                            "note": row.get("note") or "퇴직연금감독규정 제12조 제1항 충족",
-                        }
-                        prospectus_count += 1
-                        # Remove from undetermined if it was classified as undetermined by KOFIA
-                        if tk in undetermined_reasons:
-                            del undetermined_reasons[tk]
-                            undetermined_count -= 1
-            except Exception as e:
-                print(f"[WARN] Error reading prospectus CSV {p_csv}: {e}", file=sys.stderr)
-
     ledger_csv.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
         "ticker",
@@ -155,9 +125,9 @@ def build_verification_ledger(
         writer.writerows(sorted_ledger)
 
     print(f"[LEDGER] Wrote {len(sorted_ledger)} total entries to {ledger_csv}")
-    print(f"[LEDGER] KOFIA determined: {determined_count} items, prospectus verified: {prospectus_count} items")
+    print(f"[LEDGER] KOFIA determined: {determined_count} items")
     print(f"[LEDGER] Undetermined remaining: {undetermined_count} items")
-    return determined_count + prospectus_count, undetermined_count, undetermined_reasons
+    return determined_count, undetermined_count, undetermined_reasons
 
 
 if __name__ == "__main__":
@@ -182,7 +152,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--evidence",
-        default="kofia_dis_response_20260905.xml",
+        default="kofia_evidence_extract_20260905.xml",
         help="Evidence file name in data/regulatory/sources/",
     )
     args = parser.parse_args()

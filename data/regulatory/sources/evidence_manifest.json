@@ -1,0 +1,185 @@
+{
+  "kofia_dis_response_20260905.xml": {
+    "sha256": "9675c6cf921b47d52ba90c35512e651c1672b388f444dcd745a1751443b1dc3f",
+    "bytes": 30355259,
+    "record_count": 20661,
+    "collected_at": "2026-09-05T00:29:00+09:00",
+    "collector": "scripts/collector/kofia_fee_collector.py",
+    "retention": "GitHub Actions artifact 30일 / 로컬 보존",
+    "extract": "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
+    "extract_sha256": "1ee7937d763a877d721becc583600472a973d5b60fad293935a39fa7b11ab4aa",
+    "extract_bytes": 940895,
+    "extract_record_count": 729,
+    "verified_ticker_count": 738
+  },
+  "dart/20260330000048.xml": {
+    "sha256": "240e6ca855fe2ec2888efb676a76c47844976c25fb1691c27b8ae92914d48adc",
+    "bytes": 8957,
+    "rcpNo": "20260330000048",
+    "ticker": "0177N0",
+    "name": "KODEX 삼성전자SK하이닉스채권혼합50",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-03-30",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260515000022.xml": {
+    "sha256": "4b35ed994cea90bad52157170fed7b084134a21308a5e5444e72da44508106ff",
+    "bytes": 13321,
+    "rcpNo": "20260515000022",
+    "ticker": "475630",
+    "name": "TIGER CD1년금리액티브(합성)",
+    "amc": "미래에셋자산운용",
+    "filing_date": "2026-05-15",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260515000024.xml": {
+    "sha256": "1011158b1e5c47a63810ceca9b88a98017bbc5b207a60ffa8208bd8720371277",
+    "bytes": 13994,
+    "rcpNo": "20260515000024",
+    "ticker": "357870",
+    "name": "TIGER CD금리투자KIS(합성)",
+    "amc": "미래에셋자산운용",
+    "filing_date": "2026-05-15",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260515000068.xml": {
+    "sha256": "029d5f237bf75ddcce6d183d233af7ace625a7cd30e26845469af2aa4393e560",
+    "bytes": 12256,
+    "rcpNo": "20260515000068",
+    "ticker": "449170",
+    "name": "TIGER KOFR금리액티브(합성)",
+    "amc": "미래에셋자산운용",
+    "filing_date": "2026-05-15",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260630000020.xml": {
+    "sha256": "9cedf6396a38b3a206d17d97c284ec928ed56825f4218507865b89db4be36fd5",
+    "bytes": 20067,
+    "rcpNo": "20260630000020",
+    "ticker": "284430",
+    "name": "KODEX 200미국채혼합50",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-06-30",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260722000125.xml": {
+    "sha256": "82c131f356963943e6e898dc24d3d8c4c34b07fe1949b1e9423591e1a055dadf",
+    "bytes": 19098,
+    "rcpNo": "20260722000125",
+    "ticker": "448330",
+    "name": "KODEX 삼성전자채권혼합",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-07-22",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260807000061.xml": {
+    "sha256": "75ad33429f7657abe4f74f9e4b3ba8eb6a78671edfa04d62e0f1e69b14faa2b3",
+    "bytes": 12759,
+    "rcpNo": "20260807000061",
+    "ticker": "0162Z0",
+    "name": "RISE 삼성전자SK하이닉스채권혼합50",
+    "amc": "KB자산운용",
+    "filing_date": "2026-08-07",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260807000062.xml": {
+    "sha256": "a3e23fd048f3e822f0913e1763546339599542b071257b4c86686f4d291810ff",
+    "bytes": 11578,
+    "rcpNo": "20260807000062",
+    "ticker": "477080",
+    "name": "RISE CD금리액티브(합성)",
+    "amc": "KB자산운용",
+    "filing_date": "2026-08-07",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260813000065.xml": {
+    "sha256": "354509d0d1a0fdc5bfe06fb0ad0b7557e2a8939eafe5a202e9dced8cfccf967f",
+    "bytes": 16924,
+    "rcpNo": "20260813000065",
+    "ticker": "423160",
+    "name": "KODEX KOFR금리액티브(합성)",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-08-13",
+    "source": "OpenDART API document.xml"
+  },
+  "dart/20260813000200.xml": {
+    "sha256": "997d85a9cb3af568d5e92054f6d11d0144862b9ccc521c9db3ada2206a8e24e5",
+    "bytes": 16930,
+    "rcpNo": "20260813000200",
+    "ticker": "459580",
+    "name": "KODEX CD금리액티브(합성)",
+    "amc": "삼성자산운용",
+    "filing_date": "2026-08-13",
+    "source": "OpenDART API document.xml"
+  },
+  "statutes/퇴직연금감독규정_20260905.txt": {
+    "sha256": "3c24d53237ad7d2e1cd75746ddc9db965f432f89e708a1a9bc9873e9a438ee14",
+    "bytes": 55577,
+    "title": "퇴직연금감독규정 (현행 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000244795&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:15:00+09:00"
+  },
+  "statutes/퇴직연금감독규정_20260905.html": {
+    "sha256": "beca1dcce053036444bdc720f96cc471bf4df789469d15c33e58cd0e58b3c61f",
+    "bytes": 234197,
+    "title": "퇴직연금감독규정 (현행 HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000244795&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:15:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법_20260905.txt": {
+    "sha256": "83bb302f53c19f92649831fbe86cb3ae64f8c3f1b81a8bb74052e07048e27285",
+    "bytes": 89487,
+    "title": "근로자퇴직급여 보장법 (현행 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=246387&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:17:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법_20260905.html": {
+    "sha256": "445afb622bc27706cb1520e1b19bc8c6449e6e510a748956cea133a12a5ec689",
+    "bytes": 423493,
+    "title": "근로자퇴직급여 보장법 (현행 HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=246387&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:17:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법시행령_20260905.txt": {
+    "sha256": "04f6ca57e77c1acd5356b17bf7485591c37a6eef54dc4e29c4c6b7a0b7d3ce78",
+    "bytes": 111626,
+    "title": "근로자퇴직급여 보장법 시행령 (현행 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=258055&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:17:00+09:00"
+  },
+  "statutes/근로자퇴직급여보장법시행령_20260905.html": {
+    "sha256": "0b1d5562a06dd515259101a9d36b0dc80e1b59d69181c65a9808119ccaf6cbce",
+    "bytes": 569255,
+    "title": "근로자퇴직급여 보장법 시행령 (현행 HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=258055&chrClsCd=010202",
+    "collected_at": "2026-09-05T15:17:00+09:00"
+  },
+  "statutes/금융위원회고시_제2023-56호_20231116.txt": {
+    "sha256": "80cf9dfb6512330370a7e035ae217a3402cf8a0acd84fbb4d6291fdf55d71ffc",
+    "bytes": 56365,
+    "title": "금융위원회고시 제2023-56호 (전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000228308&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:18:00+09:00"
+  },
+  "statutes/금융위원회고시_제2023-56호_20231116.html": {
+    "sha256": "cd351059e5ed2c61b2befa71b2e38ba1e122798b72a23c92cbd3be525eab3c89",
+    "bytes": 234164,
+    "title": "금융위원회고시 제2023-56호 (HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000228308&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:18:00+09:00"
+  },
+  "statutes/금융위원회고시_제2018-23호_20180907.txt": {
+    "sha256": "95f17d7040a6255a2ea269388f94c32fd263f46438a0d96bd805502857df9ad7",
+    "bytes": 50709,
+    "title": "금융위원회고시 제2018-23호 (전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000154932&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:19:00+09:00"
+  },
+  "statutes/금융위원회고시_제2018-23호_20180907.html": {
+    "sha256": "630f61e2d8d74336aa5924cf9e005c4afcb33ea08366ad54e376bde4bb637c0a",
+    "bytes": 190081,
+    "title": "금융위원회고시 제2018-23호 (HTML 스냅샷)",
+    "source_url": "https://www.law.go.kr/LSW//admRulInfoP.do?admRulSeq=2100000154932&chrClsCd=010201",
+    "collected_at": "2026-09-05T15:19:00+09:00"
+  }
+}

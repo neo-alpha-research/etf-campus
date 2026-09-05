@@ -1,4 +1,5 @@
-﻿ticker,name,category,kofia_fund_type,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
+﻿# 이 파일은 실제 DART 공시 대조 결과가 아님. rcpNo 없음. 재검증 필요
+ticker,name,category,kofia_fund_type,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
 498400,KODEX 200타겟위클리커버드콜,파생 위험자산(주식파생/커버드콜),주식파생형,70% (위험자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_498400,투자설명서(신탁계약서) 제16조(투자대상: 콜옵션 매도) 및 파생 위험평가액 40% 이내,퇴직연금감독규정 제12조 제1항 제1호 및 제4항 (파생평가액 40% 이내 위험자산 70% 한도),주식 기초자산 콜옵션 매도 상계로 파생 순위험평가액 40% 이내 충족 (위험자산 70% 한도 적격)
 481050,KODEX CD1년금리플러스액티브(합성),파생 위험자산(주식파생/커버드콜),혼합채권파생형,70% (위험자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_481050,투자설명서(신탁계약서) 제16조(투자대상: 지수선물) 및 파생 위험평가액 40% 이내,퇴직연금감독규정 제12조 제1항 제1호 및 제4항 (파생평가액 40% 이내 위험자산 70% 한도),선물 및 주식 편입 주식파생형으로 파생 순위험평가액 40% 이내 충족 (위험자산 70% 한도 적격)
 494890,KODEX 200액티브,파생 위험자산(주식파생/커버드콜),주식파생형,70% (위험자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_494890,투자설명서(신탁계약서) 제16조(투자대상: 지수선물) 및 파생 위험평가액 40% 이내,퇴직연금감독규정 제12조 제1항 제1호 및 제4항 (파생평가액 40% 이내 위험자산 70% 한도),선물 및 주식 편입 주식파생형으로 파생 순위험평가액 40% 이내 충족 (위험자산 70% 한도 적격)

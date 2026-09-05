@@ -25,6 +25,10 @@ from scripts.rules.pension_regulatory_engine import (
     load_verified_broker_tickers,
     load_verified_ledger_entries,
 )
+from scripts.rules.validate_evidence_integrity import (
+    validate_evidence_integrity,
+    WHITELISTED_SHARED_EVIDENCE,
+)
 
 RULE_DESCRIPTIONS = {
     "R1": "pension_verified = Y -> pension_source in {협회공시대조, KRX공시대조, 투자설명서대조, 증권사목록대조, 수동확인, 표본대조}",
@@ -198,10 +202,48 @@ def main() -> int:
 
     print("=" * 80)
     if total_violations == 0:
-        print("\n>>> RESULT: SUCCESS (0 violations across all 9 rules). All master records are internally consistent.\n")
+        print("\n>>> Gate A (Internal Consistency): PASS (0 violations across all 9 rules).\n")
+    else:
+        print(f"\n>>> Gate A (Internal Consistency): FAILED ({total_violations} violations detected).\n", file=sys.stderr)
+
+    # Gate 1: Serial Chain to Evidence Integrity Validation
+    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
+    evidence_violations_count = 0
+
+    if ledger_path.exists():
+        with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
+            ledger_rows = list(csv.DictReader(f))
+        audit_rows = None
+        if audit_path.exists():
+            with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
+                audit_rows = list(csv.DictReader(f))
+
+        e_viols = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
+        evidence_violations_count = sum(len(v) for v in e_viols.values())
+
+        print("=" * 80)
+        print("Gate 1: REGULATORY EVIDENCE INTEGRITY CHECKER (E1 ~ E5)")
+        print("=" * 80)
+        from scripts.rules.validate_evidence_integrity import RULE_DESCRIPTIONS as E_DESCS
+        for r_code, r_desc in E_DESCS.items():
+            ev_list = e_viols[r_code]
+            e_status = "PASS" if len(ev_list) == 0 else "FAIL"
+            print(f"{r_code:<6} | {e_status:<6} | {len(ev_list):<10} | {r_desc}")
+            if ev_list and not args.quiet:
+                for item in ev_list[:5]:
+                    print(f"       -> {item.get('ticker', '')}: {item.get('reason', '')}")
+        print("=" * 80)
+        if evidence_violations_count == 0:
+            print("\n>>> Gate 1 (Evidence Integrity): PASS (0 violations across all 5 rules).\n")
+        else:
+            print(f"\n>>> Gate 1 (Evidence Integrity): FAILED ({evidence_violations_count} violations detected).\n", file=sys.stderr)
+
+    if total_violations == 0 and evidence_violations_count == 0:
+        print(">>> OVERALL RESULT: SUCCESS (0 violations). All rules and evidence checks verified.\n")
         return 0
     else:
-        print(f"\n>>> RESULT: FAILED ({total_violations} total violations detected). Strict compliance requires 0 violations.\n", file=sys.stderr)
+        print(f">>> OVERALL RESULT: FAILED ({total_violations + evidence_violations_count} total violations).\n", file=sys.stderr)
         return 1
 
 

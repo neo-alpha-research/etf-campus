@@ -293,6 +293,24 @@ def classify_pension_and_isa(
     }
 
 
+def classify_new_listing(row: Mapping[str, Any]) -> dict[str, str]:
+    """Classify newly listed ETF adhering strictly to Gate 5 conservative default principle.
+
+    Rule: Automatic rule permits ONLY '불가' (ineligible) or '70% (위험자산)'.
+    NEVER automatically assigns '100% (안전자산)' without verified disclosure evidence.
+    Always initializes with pension_verified = 'N', confidence = '낮음'.
+    """
+    res = classify_pension_and_isa(row, verified_entries={}, verified_tickers=set())
+    # Asymmetry rule: downgrade 100% safe asset to 70% risk asset pending official disclosure
+    if res["pension_limit"] == LIMIT_SAFE_ASSET:
+        res["pension_limit"] = LIMIT_RISK_ASSET
+        res["pension_reason"] = "신규 상장 미검증 보수적 기본값 (공시 확인 전 70% 제한 적용) - " + res.get("pension_reason", "")
+    res["pension_verified"] = PENSION_VERIFIED_NO
+    res["pension_confidence"] = PENSION_CONFIDENCE_LOW
+    res["pension_source"] = PENSION_SOURCE_RULE_ESTIMATE
+    return res
+
+
 def generate_unverified_queue_and_summary(
     master_rows: list[dict[str, Any]],
     ledger: dict[str, dict[str, str]],

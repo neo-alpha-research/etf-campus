@@ -12,6 +12,9 @@ from scripts.rules.validate_pension_consistency import (
     validate_pension_consistency,
     REPO_ROOT,
 )
+from scripts.rules.validate_evidence_integrity import (
+    validate_evidence_integrity,
+)
 
 
 def make_valid_row(**kwargs):
@@ -217,3 +220,143 @@ def test_full_master_csv_zero_violations():
         assert len(v_list) == 0, f"Rule {rule} failed with {len(v_list)} violations: {v_list[:3]}"
 
     assert total_viols == 0, "DoD Gate A requires 0 total violations across all 1,167 rows"
+
+
+# ---------------------------------------------------------------------------
+# Gate 1: Evidence Integrity Unit Tests (E1 ~ E4)
+# ---------------------------------------------------------------------------
+
+def test_e1_evidence_ref_must_be_real_file():
+    # Invalid: phrase instead of file path
+    row_phrase = {
+        "ticker": "0000D0",
+        "evidence_ref": "투자설명서(신탁계약서) 제16조(투자대상 및 투자비율)",
+        "source_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240905000123",
+        "verified_at": "2026-09-05",
+    }
+    viols_1 = validate_evidence_integrity([row_phrase])
+    assert len(viols_1["E1"]) == 1
+    assert "실존하지 않음" in viols_1["E1"][0]["reason"]
+
+    # Invalid: non-existent file path
+    row_missing = {
+        "ticker": "005930",
+        "evidence_ref": "data/regulatory/sources/non_existent_file.xml",
+        "source_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240905000123",
+        "verified_at": "2026-09-05",
+    }
+    viols_2 = validate_evidence_integrity([row_missing])
+    assert len(viols_2["E1"]) == 1
+
+    # Valid: actual existing file
+    row_valid = {
+        "ticker": "069500",
+        "evidence_ref": "data/regulatory/sources/kofia_dis_response_20260905.xml",
+        "source_url": "https://dis.kofia.or.kr/websquare/index.jsp?serviceId=SDIS01005001000",
+        "verified_at": "2026-09-05",
+    }
+    viols_3 = validate_evidence_integrity([row_valid])
+    assert len(viols_3["E1"]) == 0
+
+
+def test_e2_source_url_domain_format():
+    # Invalid: DART URL without 14-digit rcpNo
+    row_fake_dart = {
+        "ticker": "0000D0",
+        "evidence_ref": "data/regulatory/sources/kofia_dis_response_20260905.xml",
+        "source_url": "https://dart.fss.or.kr/dsac001/main.do?select=ticker_0000D0",
+        "verified_at": "2026-09-05",
+    }
+    viols_1 = validate_evidence_integrity([row_fake_dart])
+    assert len(viols_1["E2"]) == 1
+    assert "rcpNo" in viols_1["E2"][0]["reason"]
+
+    # Valid: DART URL with 14-digit rcpNo
+    row_valid_dart = {
+        "ticker": "0000D0",
+        "evidence_ref": "data/regulatory/sources/kofia_dis_response_20260905.xml",
+        "source_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240905000123",
+        "verified_at": "2026-09-05",
+    }
+    viols_2 = validate_evidence_integrity([row_valid_dart])
+    assert len(viols_2["E2"]) == 0
+
+    # Invalid: KOFIA URL without serviceId
+    row_bad_kofia = {
+        "ticker": "069500",
+        "evidence_ref": "data/regulatory/sources/kofia_dis_response_20260905.xml",
+        "source_url": "https://dis.kofia.or.kr/websquare/index.jsp",
+        "verified_at": "2026-09-05",
+    }
+    viols_3 = validate_evidence_integrity([row_bad_kofia])
+    assert len(viols_3["E2"]) == 1
+    assert "serviceId" in viols_3["E2"][0]["reason"]
+
+
+def test_e3_evidence_concentration_check():
+    # Invalid: 51 rows sharing a non-whitelisted path
+    fake_rows = [
+        {
+            "ticker": f"TICK{i:03d}",
+            "evidence_ref": "data/regulatory/sources/single_unwhitelisted_file.csv",
+            "source_url": "https://dis.kofia.or.kr/websquare/index.jsp?serviceId=TEST",
+            "verified_at": "2026-09-05",
+        }
+        for i in range(55)
+    ]
+    viols = validate_evidence_integrity(fake_rows, shared_threshold=50)
+    assert len(viols["E3"]) == 1
+    assert "과다 공유" in viols["E3"][0]["reason"]
+
+
+def test_e4_verified_at_precedes_mtime():
+    # Invalid: verified_at in 2020 before file existed
+    row_predated = {
+        "ticker": "069500",
+        "evidence_ref": "data/regulatory/sources/kofia_dis_response_20260905.xml",
+        "source_url": "https://dis.kofia.or.kr/websquare/index.jsp?serviceId=SDIS01005001000",
+        "verified_at": "2020-01-01",
+    }
+    viols = validate_evidence_integrity([row_predated])
+    assert len(viols["E4"]) == 1
+    assert "앞섬" in viols["E4"][0]["reason"]
+
+
+def test_e5_manifest_sha256_hash_validation():
+    # Verify manifest exists and is valid
+    manifest_path = REPO_ROOT / "data/regulatory/sources/evidence_manifest.json"
+    assert manifest_path.is_file(), "evidence_manifest.json must exist"
+
+    # Testing with official ledger rows produces 0 E5 violations
+    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
+        ledger_rows = list(csv.DictReader(f))
+
+    viols = validate_evidence_integrity(ledger_rows=ledger_rows)
+    assert len(viols["E5"]) == 0, f"E5 hash check failed: {viols['E5']}"
+
+
+def test_official_ledgers_evidence_integrity_zero_violations():
+    """Verify that both official ledgers pass E1 through E5 with zero violations."""
+    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    audit_path = REPO_ROOT / "data/regulatory/pension_audit_ledger.csv"
+
+    assert ledger_path.exists(), "Verification ledger must exist"
+    assert audit_path.exists(), "Audit ledger must exist"
+
+    with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
+        ledger_rows = list(csv.DictReader(f))
+    with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
+        audit_rows = list(csv.DictReader(f))
+
+    assert len(ledger_rows) == 738, f"Verification ledger must have 738 rows, got {len(ledger_rows)}"
+    assert len(audit_rows) == 1167, f"Audit ledger must have 1,167 rows, got {len(audit_rows)}"
+
+    violations = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
+    total_viols = sum(len(v) for v in violations.values())
+
+    for rule, v_list in violations.items():
+        assert len(v_list) == 0, f"Evidence rule {rule} failed: {v_list[:3]}"
+
+    assert total_viols == 0, "Gate 1 requires 0 total violations across all ledger entries"
+

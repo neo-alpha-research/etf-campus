@@ -1,4 +1,5 @@
-﻿ticker,name,equity_limit_cap,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
+﻿# 이 파일은 실제 DART 공시 대조 결과가 아님. rcpNo 없음. 재검증 필요
+ticker,name,equity_limit_cap,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
 0015E0,KIWOOM 엔비디아미국30년국채혼합액티브(H),40% 이하 (30% 타깃),100% (안전자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_0015E0,투자설명서(신탁계약서) 집합투자규약 제16조(투자대상 및 투자비율) 주식 40% 이하(단일종목/TRF 30% 타깃),퇴직연금감독규정 제12조 제1항 제2호 (금융위원회 고시 제2023-56호),주식 편입한도 40% 이하 (퇴직연금감독규정 제12조제1항제2호 충족 안전자산)
 0015F0,KIWOOM 팔란티어미국30년국채혼합액티브(H),40% 이하 (30% 타깃),100% (안전자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_0015F0,투자설명서(신탁계약서) 집합투자규약 제16조(투자대상 및 투자비율) 주식 40% 이하(단일종목/TRF 30% 타깃),퇴직연금감독규정 제12조 제1항 제2호 (금융위원회 고시 제2023-56호),주식 편입한도 40% 이하 (퇴직연금감독규정 제12조제1항제2호 충족 안전자산)
 0019K0,TIME 미국나스닥100채권혼합50액티브,50% 미만,100% (안전자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_0019K0,투자설명서(신탁계약서) 집합투자규약 제16조(투자대상 및 투자비율) 주식 50% 미만,퇴직연금감독규정 제12조 제1항 제2호 (금융위원회 고시 제2023-56호),주식 편입한도 50% 미만 (퇴직연금감독규정 제12조제1항제2호 개정 금융위 고시 제2023-56호 충족 적격 안전자산)

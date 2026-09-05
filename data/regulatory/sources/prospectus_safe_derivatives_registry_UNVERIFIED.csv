@@ -1,4 +1,5 @@
-﻿ticker,name,category,kofia_fund_type,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
+﻿# 이 파일은 실제 DART 공시 대조 결과가 아님. rcpNo 없음. 재검증 필요
+ticker,name,category,kofia_fund_type,verified_limit,source_type,source_url,evidence_ref,statutory_basis,note
 459580,KODEX CD금리액티브(합성),금리·파킹(합성),혼합채권파생형,100% (안전자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_459580,투자설명서(신탁계약서) 제17조(장외파생상품 거래한도 및 거래상대방 위험평가액 10% 이내),금융위원회 의결(2016.9.21 합성ETF 적격 인정) 및 퇴직연금감독규정 제9조제1항,초단기 금리·파킹형 담보부 스왑 복제로 순위험평가액 0% 수렴 (퇴직연금 100% 안전자산)
 357870,TIGER CD금리투자KIS(합성),금리·파킹(합성),특별자산파생,100% (안전자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_357870,투자설명서(신탁계약서) 제17조(장외파생상품 거래한도 및 거래상대방 위험평가액 10% 이내),금융위원회 의결(2016.9.21 합성ETF 적격 인정) 및 퇴직연금감독규정 제9조제1항,초단기 금리·파킹형 담보부 스왑 복제로 순위험평가액 0% 수렴 (퇴직연금 100% 안전자산)
 423160,KODEX KOFR금리액티브(합성),금리·파킹(합성),특별자산파생,100% (안전자산),투자설명서대조,https://dart.fss.or.kr/dsac001/main.do?select=ticker_423160,투자설명서(신탁계약서) 제17조(장외파생상품 거래한도 및 거래상대방 위험평가액 10% 이내),금융위원회 의결(2016.9.21 합성ETF 적격 인정) 및 퇴직연금감독규정 제9조제1항,초단기 금리·파킹형 담보부 스왑 복제로 순위험평가액 0% 수렴 (퇴직연금 100% 안전자산)

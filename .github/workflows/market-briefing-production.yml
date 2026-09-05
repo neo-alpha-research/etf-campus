@@ -210,10 +210,11 @@ jobs:
         if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Install Korean Fonts for Puppeteer
+      - name: Install Korean Fonts and Chrome for Puppeteer
         run: |
           sudo apt-get update
           sudo apt-get install -y fonts-nanum fonts-nanum-coding fonts-nanum-extra
+          npx puppeteer browsers install chrome
 
       - name: Wait for API to serve latest data
         run: |

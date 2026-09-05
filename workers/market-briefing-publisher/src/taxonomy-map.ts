@@ -3519,5 +3519,25 @@ export const ETF_TAXONOMY_MAP: Record<string, { assetClass: string; peerGroup: s
   "499660": {
     "assetClass": "금리·파킹",
     "peerGroup": "금리·파킹"
+  },
+  "0227K0": {
+    "assetClass": "주식-해외",
+    "peerGroup": "미국 항공우주"
+  },
+  "0228G0": {
+    "assetClass": "주식-국내",
+    "peerGroup": "국내 반도체"
+  },
+  "0229F0": {
+    "assetClass": "주식-국내",
+    "peerGroup": "국내 바이오"
+  },
+  "0233N0": {
+    "assetClass": "주식-해외",
+    "peerGroup": "글로벌 AI반도체"
+  },
+  "0234N0": {
+    "assetClass": "주식-국내",
+    "peerGroup": "국내 대형주"
   }
 };

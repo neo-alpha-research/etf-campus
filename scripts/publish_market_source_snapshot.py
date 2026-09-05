@@ -105,6 +105,9 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
                         class_map[ticker] = detail.strip()
                 if ticker and ticker not in asset_class_map:
                     ac = row.get("final_asset_class") or row.get("suggested_asset_class") or ""
+                    scope = row.get("final_market_scope") or row.get("suggested_market_scope") or ""
+                    if ac == "주식":
+                        ac = "주식-국내" if scope == "국내" else "주식-해외"
                     if ac.strip():
                         asset_class_map[ticker] = ac.strip()
 
@@ -143,6 +146,8 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
         
         raw_ac = str(row.get("asset_class") or "").strip()
         final_ac = asset_class_map.get(ticker, raw_ac) or raw_ac or None
+        if final_ac == "주식":
+            final_ac = raw_ac if raw_ac in ["주식-국내", "주식-해외"] else ("주식-해외" if re.search(r"미국|글로벌|중국|일본|유럽|베트남|인도|아시아|차이나|월드|나스닥|S&P|다우", name, re.I) else "주식-국내")
         final_detail = class_map.get(ticker, "")
         records.append({
             "ticker": ticker,

@@ -143,8 +143,9 @@ const formatWon = (value: number) => {
 
 function normalizeToEok(value?: number | null) {
   if (!value) return 0;
-  // If value is in KRW 원 (e.g. >= 10^10), convert to 억원 (divide by 10^8)
-  if (Math.abs(value) >= 100_000_000_000) {
+  // If value is in KRW 원 (e.g. >= 10^7 = 1천만원), convert to 억원 (divide by 10^8)
+  // Note: in 억원, Korea's total ETF AUM is ~3.7 million (370조원). Any number >= 10_000_000 is unambiguously in 원 (KRW).
+  if (Math.abs(value) >= 10_000_000) {
     return value / 100_000_000;
   }
   return value;
@@ -699,6 +700,10 @@ export function MarketBriefing() {
   const sortedAssetClasses = useMemo(() => {
     if (!briefing || !briefing.assetClasses) return [];
     return [...briefing.assetClasses]
+      .filter((row: any) => {
+        const ac = (row.asset_class || row.assetClass || "").trim();
+        return ac && ac !== "주식" && ac !== "미분류";
+      })
       .map((row: any) => {
         const aum = row.total_aum ?? row.totalAum ?? 0;
         const aumShare = row.aum_share_pct ?? row.aumSharePct ?? 0;

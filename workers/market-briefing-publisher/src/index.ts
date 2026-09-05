@@ -917,9 +917,15 @@ async function loadSnapshots(db: D1Database, asOfDate: string): Promise<{ quotes
   ]);
   const quotes = (etfs.results ?? []).map((q) => {
     const tax = ETF_TAXONOMY_MAP[q.ticker];
+    let assetClass = tax?.assetClass || q.asset_class;
+    if (assetClass === "주식") {
+      assetClass = /미국|글로벌|중국|일본|유럽|베트남|인도|아시아|차이나|월드|나스닥|S&P|다우/i.test(q.etf_name)
+        ? "주식-해외"
+        : "주식-국내";
+    }
     return {
       ...q,
-      asset_class: tax?.assetClass || q.asset_class,
+      asset_class: assetClass,
       asset_detail: tax?.peerGroup || q.asset_detail,
     };
   });

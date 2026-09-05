@@ -260,6 +260,25 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(badge).toHaveTextContent("추정");
     expect(badge.className).toContain("border-neutral-300");
   });
+
+  it("pensionVerified = 'Y'일 때 스크리너 행에 '검증' 배지가 렌더링된다", () => {
+    const verifiedEtf = etf({
+      ticker: "V1",
+      name: "검증 채권 ETF",
+      aum: 100_000_000_000,
+      pension: "가능",
+      pensionLimit: "100% (안전자산)",
+      pensionVerified: "Y",
+      pensionConfidence: "높음",
+      isaEligible: "가능",
+    });
+
+    render(<Screener etfs={[verifiedEtf]} />);
+    const badge = screen.getByTitle("금융투자협회 전자공시 펀드유형 대조 · 실제 편입 가능 여부는 가입 금융회사에서 확인해 주세요.");
+    expect(badge).toBeInTheDocument();
+    expect(badge).toHaveTextContent("검증");
+    expect(badge.className).toContain("border-emerald-300");
+  });
 });
 
 

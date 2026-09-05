@@ -327,7 +327,7 @@ describe("EtfDetail", () => {
     expect(badge.className).toContain("border-amber-300");
   });
 
-  it("pensionVerified = 'Y'일 때 '추정' 배지가 노출되지 않는다", () => {
+  it("pensionVerified = 'Y'일 때 '검증됨' 배지가 노출되고 '추정' 배지가 노출되지 않는다", () => {
     const verifiedItem: Etf = {
       ...item,
       pension: "가능",
@@ -337,6 +337,10 @@ describe("EtfDetail", () => {
     };
     render(<EtfDetail etf={verifiedItem} />);
     expect(screen.queryByTitle("운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.")).not.toBeInTheDocument();
+    const verifiedBadge = screen.getByText("검증됨");
+    expect(verifiedBadge).toBeInTheDocument();
+    expect(verifiedBadge.getAttribute("title")).toContain("금융투자협회 전자공시 펀드유형 대조");
+    expect(verifiedBadge.getAttribute("title")).toContain("실제 편입 가능 여부는 가입 금융회사에서 확인해 주세요.");
   });
 });
 

@@ -20,12 +20,14 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from scripts.rules.pension_regulatory_engine import (
+    VALID_VERIFIED_SOURCES,
     classify_pension_and_isa,
     load_verified_broker_tickers,
+    load_verified_ledger_entries,
 )
 
 RULE_DESCRIPTIONS = {
-    "R1": "pension_verified = Y -> pension_source in {증권사목록대조, 표본대조}",
+    "R1": "pension_verified = Y -> pension_source in {협회공시대조, KRX공시대조, 투자설명서대조, 증권사목록대조, 수동확인, 표본대조}",
     "R2": "pension_verified = N -> pension_confidence != 높음",
     "R3": "pension_eligible = 불가 <-> pension_limit = 불가 (양방향 일치)",
     "R4": "pension_eligible = 가능 -> pension_limit in {100% (안전자산), 70% (위험자산)}",
@@ -39,9 +41,12 @@ RULE_DESCRIPTIONS = {
 
 def validate_pension_consistency(
     master_rows: list[Mapping[str, Any]],
+    verified_entries: dict[str, dict[str, str]] | None = None,
     verified_tickers: set[str] | None = None,
 ) -> dict[str, list[dict[str, Any]]]:
     """Validate all rows against consistency rules R1 through R9."""
+    if verified_entries is None:
+        verified_entries = load_verified_ledger_entries()
     if verified_tickers is None:
         verified_tickers = load_verified_broker_tickers()
 
@@ -57,8 +62,8 @@ def validate_pension_consistency(
         p_lim = str(r.get("pension_limit") or "").strip()
         asset = str(r.get("asset_class") or "").strip()
 
-        # R1: pension_verified = Y -> pension_source in {증권사목록대조, 표본대조}
-        if p_ver == "Y" and p_src not in ("증권사목록대조", "표본대조"):
+        # R1: pension_verified = Y -> pension_source in VALID_VERIFIED_SOURCES
+        if p_ver == "Y" and p_src not in VALID_VERIFIED_SOURCES:
             violations["R1"].append({
                 "ticker": tk, "name": name,
                 "reason": f"pension_verified={p_ver} but pension_source={p_src}"
@@ -107,7 +112,9 @@ def validate_pension_consistency(
             })
 
         # Engine re-calculation
-        recomputed = classify_pension_and_isa(r, verified_tickers=verified_tickers)
+        recomputed = classify_pension_and_isa(
+            r, verified_entries=verified_entries, verified_tickers=verified_tickers
+        )
 
         # R8: pension_source = 법령조건직접판정 -> engine recomputation matches
         if p_src == "법령조건직접판정":

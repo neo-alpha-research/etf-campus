@@ -51,6 +51,18 @@ def test_r1_verified_requires_broker_or_sample_source():
     viols_valid = validate_pension_consistency([row_valid], verified_tickers={"005930"})
     assert len(viols_valid["R1"]) == 0
 
+    # Valid: verified=Y and source=협회공시대조
+    row_kofia = make_valid_row(
+        pension_verified="Y",
+        pension_source="협회공시대조",
+        pension_confidence="높음",
+    )
+    viols_kofia = validate_pension_consistency(
+        [row_kofia],
+        verified_entries={"005930": {"verified_limit": "70% (위험자산)", "source_type": "협회공시대조"}},
+    )
+    assert len(viols_kofia["R1"]) == 0
+
 
 def test_r2_unverified_cannot_have_high_confidence():
     # Invalid: verified=N but confidence=높음

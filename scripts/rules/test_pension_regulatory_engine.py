@@ -13,6 +13,7 @@ from scripts.rules.pension_regulatory_engine import (
     PENSION_SOURCE_RULE_ESTIMATE,
     PENSION_SOURCE_SAMPLE_VERIFIED,
     PENSION_SOURCE_BROKER_VERIFIED,
+    PENSION_SOURCE_KOFIA_VERIFIED,
     PENSION_CONFIDENCE_HIGH,
     PENSION_CONFIDENCE_MODERATE,
     PENSION_CONFIDENCE_LOW,
@@ -269,16 +270,27 @@ def test_pension_source_and_confidence():
     assert res_cc["pension_verified"] == PENSION_VERIFIED_NO
     assert res_cc["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 9. Standard equity ETF (069500) -> Rule estimate, unverified, LOW confidence
+    # 9. Standard equity ETF unverified fallback (when not in ledger) -> Rule estimate, unverified, LOW confidence
     res_std = classify_pension_and_isa({
+        "ticker": "999998",
+        "name": "TEST KODEX 200",
+        "risk_type": "normal",
+        "asset_class": "주식-국내",
+    }, verified_entries={})
+    assert res_std["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
+    assert res_std["pension_verified"] == PENSION_VERIFIED_NO
+    assert res_std["pension_confidence"] == PENSION_CONFIDENCE_LOW
+
+    # 9-1. Standard equity ETF verified via KOFIA ledger (069500) -> KOFIA_VERIFIED, HIGH confidence
+    res_kofia = classify_pension_and_isa({
         "ticker": "069500",
         "name": "KODEX 200",
         "risk_type": "normal",
         "asset_class": "주식-국내",
     })
-    assert res_std["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
-    assert res_std["pension_verified"] == PENSION_VERIFIED_NO
-    assert res_std["pension_confidence"] == PENSION_CONFIDENCE_LOW
+    assert res_kofia["pension_source"] == PENSION_SOURCE_KOFIA_VERIFIED
+    assert res_kofia["pension_verified"] == PENSION_VERIFIED_YES
+    assert res_kofia["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 
     # 10. Futures ETF (261220, normal with futures keyword) -> Rule estimate, LOW confidence
     res_fut = classify_pension_and_isa({

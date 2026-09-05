@@ -119,17 +119,32 @@ export function EtfDetail({
                     위험자산 70%
                   </span>
                 )}
-                {etf.pensionLimit && etf.pensionLimit !== "불가" && (!etf.pensionVerified || etf.pensionVerified === "N") && (
-                  <span
-                    className={`rounded-md border px-2 py-1 text-xs font-bold flex items-center gap-1 cursor-help ${
-                      etf.pensionConfidence === "낮음"
-                        ? "border-neutral-300 bg-neutral-100 text-neutral-600"
-                        : "border-amber-300 bg-amber-50 text-amber-800"
-                    }`}
-                    title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
-                  >
-                    추정
-                  </span>
+                {etf.pensionLimit && etf.pensionLimit !== "불가" && (
+                  etf.pensionVerified === "Y" ? (
+                    <span
+                      className="rounded-md border border-emerald-300 bg-emerald-50 px-2 py-1 text-xs font-bold text-emerald-800 flex items-center gap-1 cursor-help"
+                      title={`금융투자협회 전자공시 펀드유형 대조 · ${
+                        etf.asOfDate
+                          ? etf.asOfDate.length === 8 && !etf.asOfDate.includes("-")
+                            ? `${etf.asOfDate.slice(0, 4)}-${etf.asOfDate.slice(4, 6)}-${etf.asOfDate.slice(6, 8)}`
+                            : etf.asOfDate
+                          : "2026-09-05"
+                      } 확인 · 실제 편입 가능 여부는 가입 금융회사에서 확인해 주세요.`}
+                    >
+                      검증됨
+                    </span>
+                  ) : (
+                    <span
+                      className={`rounded-md border px-2 py-1 text-xs font-bold flex items-center gap-1 cursor-help ${
+                        etf.pensionConfidence === "낮음"
+                          ? "border-neutral-300 bg-neutral-100 text-neutral-600"
+                          : "border-amber-300 bg-amber-50 text-amber-800"
+                      }`}
+                      title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
+                    >
+                      추정
+                    </span>
+                  )
                 )}
                 {etf.pensionConfidence === "보통" && (
                   <span

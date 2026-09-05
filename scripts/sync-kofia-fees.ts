@@ -88,10 +88,13 @@ async function runPipeline() {
   try {
     console.log("🚀 [KOFIA DIS] ETF 실부담비용율 자동 동기화 파이프라인을 시작합니다...");
     const { execSync } = await import("node:child_process");
-    const pythonScript = path.resolve(__dirname, "collector/kofia_fee_collector.py");
-    
     execSync(`python "${pythonScript}" --headless`, { stdio: "inherit" });
     console.log("🎉 파이프라인 성공! etf_fee_registry.json 업데이트가 완료되었습니다.");
+
+    console.log("🚀 [KOFIA DIS] 연금 적격성 공시대조 및 원장 갱신을 실행합니다...");
+    const verifyScript = path.resolve(__dirname, "rules/verify_kofia_pension.py");
+    execSync(`python "${verifyScript}"`, { stdio: "inherit" });
+    console.log("🎉 연금 적격성 원장 대조 및 규제 판정 갱신이 완료되었습니다.");
   } catch (error) {
     console.error("❌ KOFIA 파이프라인 실행 중 오류 발생:", error);
     process.exit(1);

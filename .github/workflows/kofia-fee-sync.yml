@@ -57,13 +57,18 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add data/fees/etf_fee_registry.json
+          git add data/fees/etf_fee_registry.json \
+                  data/regulatory/kofia_fund_types.csv \
+                  data/regulatory/pension_verification_ledger.csv \
+                  data/reports/pension_unverified_queue.csv \
+                  data/reports/pension_verification_summary.json \
+                  data/etf_master_draft.csv
           
           if git diff --staged --quiet; then
             echo "No changes to commit."
             echo "changed=false" >> $GITHUB_OUTPUT
           else
-            git commit -m "chore(data): 🤖 KOFIA 월간 실부담비용 자동 동기화 완료"
+            git commit -m "chore(data): 🤖 KOFIA 월간 실부담비용 및 연금적격성 공시대조 자동 동기화 완료"
             git push origin main
             echo "changed=true" >> $GITHUB_OUTPUT
           fi

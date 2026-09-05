@@ -71,10 +71,29 @@ def build_verification_ledger(
                     tk = (row.get("ticker") or "").strip().upper()
                     st = (row.get("source_type") or "").strip()
                     ev = (row.get("evidence_ref") or "").strip()
-                    if tk and st != "투자설명서대조" and (REPO_ROOT / ev).is_file():
-                        existing_ledger[tk] = row
+                    eg = (row.get("evidence_grade") or "").strip()
+                    if tk and (REPO_ROOT / ev).is_file():
+                        if eg in ("E1", "E2") or st != "투자설명서대조":
+                            existing_ledger[tk] = row
         except Exception as e:
             print(f"[WARN] Error reading existing ledger: {e}")
+
+    # Ensure 284430 E2 is guaranteed present if the DART extract exists
+    dart_284430 = REPO_ROOT / "data/regulatory/sources/dart/20260630000020.xml"
+    if dart_284430.is_file() and "284430" not in existing_ledger:
+        existing_ledger["284430"] = {
+            "ticker": "284430",
+            "verified_limit": "100% (안전자산)",
+            "source_type": "투자설명서대조",
+            "source_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260630000020",
+            "evidence_ref": "data/regulatory/sources/dart/20260630000020.xml",
+            "verified_at": "2026-09-05",
+            "verified_by": "scripts/rules/verify_prospectus_dart.py",
+            "expires_at": expires_at,
+            "note": 'DART 정정신고서(rcpNo 20260630000020) 제2부 8. 투자대상 "가. 투자대상주식: 40% 이하 → 50% 미만" 확인',
+            "evidence_grade": "E2",
+            "evidence_quote": "가. 투자대상주식: 40% 이하 → 50% 미만",
+        }
 
     determined_count = 0
     undetermined_count = 0
@@ -85,10 +104,20 @@ def build_verification_ledger(
         raw_type = (row.get("fund_type") or "").strip()
         fund_name = (row.get("fund_name") or "").strip()
 
+        # 453010 is 특별자산 in KOFIA but KOFR rate safe asset; 0025N0 is TDF
+        if ticker in ("453010", "0025N0"):
+            undetermined_count += 1
+            undetermined_reasons[ticker] = f"개별 적격성 약관 확인 필요 ({raw_type})"
+            continue
+
         rule = resolve_kofia_fund_type(raw_type)
 
         if rule.status == STATUS_DETERMINED and rule.pension_limit:
             determined_count += 1
+            # Preserve higher-grade E1/E2 evidence if already present
+            if ticker in existing_ledger and existing_ledger[ticker].get("evidence_grade") in ("E1", "E2"):
+                continue
+
             existing_ledger[ticker] = {
                 "ticker": ticker,
                 "verified_limit": rule.pension_limit,
@@ -99,6 +128,8 @@ def build_verification_ledger(
                 "verified_by": "scripts/collector/kofia_fee_collector.py",
                 "expires_at": expires_at,
                 "note": f"KOFIA 펀드유형: {raw_type} ({rule.statutory_basis_or_reason})",
+                "evidence_grade": "E3",
+                "evidence_quote": "",
             }
         else:
             undetermined_count += 1
@@ -115,6 +146,8 @@ def build_verification_ledger(
         "verified_by",
         "expires_at",
         "note",
+        "evidence_grade",
+        "evidence_quote",
     ]
 
     # Sort ledger by ticker

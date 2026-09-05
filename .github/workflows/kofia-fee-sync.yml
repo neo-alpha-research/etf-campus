@@ -2,13 +2,16 @@ name: KOFIA Fee Registry Auto-Sync
 
 on:
   schedule:
-    # 매월 1일 오전 2시 (KST 기준 오전 11시) 실행
-    - cron: '0 2 1 * *'
+    # 매월 1일, 5일, 10일 오전 2시 UTC (KST 기준 오전 11시) 실행
+    # (월초 결산 제출 시차 및 휴일 대응 3단계 정기 동기화)
+    - cron: '0 2 1,5,10 * *'
   workflow_dispatch: # 수동 실행 트리거
 
 jobs:
   sync-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: 📥 Checkout repository
@@ -22,7 +25,17 @@ jobs:
           node-version-file: .node-version
           cache: 'npm'
 
-      - name: 📦 Install dependencies
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install Python and Playwright Dependencies
+        run: |
+          pip install playwright pandas
+          playwright install --with-deps chromium
+
+      - name: 📦 Install Node dependencies
         run: npm ci
 
       - name: 🔄 Run KOFIA Scraping Pipeline (with Retry)
@@ -43,14 +56,15 @@ jobs:
           exit 1
         env:
           NODE_ENV: production
-          # KOFIA_ID: ${{ secrets.KOFIA_ID }} (필요 시)
 
       - name: 🚨 Notify Slack on Failure
         if: failure()
         run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"🚨 [ETF Campus] KOFIA 실부담비용 파이프라인 실패 (서킷 브레이커 발동 의심)"}' \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
+            curl -s -X POST -H 'Content-type: application/json' \
+            --data '{"text":"🚨 [ETF Campus] KOFIA 실부담비용 파이프라인 실패 (서킷 브레이커 발동 의심)"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }} || true
+          fi
 
       - name: 📦 Archive Raw KOFIA XML Response (30 Days Retention)
         uses: actions/upload-artifact@v4
@@ -65,7 +79,8 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add data/fees/etf_fee_registry.json \
+          git add --ignore-missing \
+                  data/fees/etf_fee_registry.json \
                   data/regulatory/kofia_fund_types.csv \
                   data/regulatory/pension_verification_ledger.csv \
                   data/regulatory/sources/kofia_evidence_extract_*.xml \
@@ -86,12 +101,16 @@ jobs:
       - name: ♻️ Revalidate Next.js Cache
         if: steps.commit.outputs.changed == 'true'
         run: |
-          curl -X POST "https://etfcampus.com/api/revalidate?tag=etf-fees" \
-          -H "Authorization: Bearer ${{ secrets.REVALIDATION_SECRET }}"
+          if [ -n "${{ secrets.REVALIDATION_SECRET }}" ]; then
+            curl -s -X POST "https://etf-campus.pages.dev/api/revalidate?tag=etf-fees" \
+            -H "Authorization: Bearer ${{ secrets.REVALIDATION_SECRET }}" || echo "Revalidation skipped or failed"
+          fi
 
       - name: ✅ Notify Slack on Success
         if: steps.commit.outputs.changed == 'true'
         run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"✅ [ETF Campus] KOFIA 실부담비용 월간 업데이트 완료 및 캐시 무효화 성공!"}' \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
+            curl -s -X POST -H 'Content-type: application/json' \
+            --data '{"text":"✅ [ETF Campus] KOFIA 실부담비용 월간 업데이트 완료 및 캐시 무효화 성공!"}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }} || true
+          fi

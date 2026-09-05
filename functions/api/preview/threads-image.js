@@ -3,7 +3,7 @@ const DISTRIBUTOR_WORKER_BASE = "https://market-briefing-distributor.neo-alpha-r
 export async function onRequestGet(context) {
   const { request } = context;
   const url = new URL(request.url);
-  const targetUrl = new URL(`${DISTRIBUTOR_WORKER_BASE}/api/preview/instagram`);
+  const targetUrl = new URL(`${DISTRIBUTOR_WORKER_BASE}/api/preview/threads-image`);
 
   for (const [key, value] of url.searchParams.entries()) {
     targetUrl.searchParams.set(key, value);
@@ -28,7 +28,7 @@ export async function onRequestGet(context) {
   } catch (err) {
     return new Response(
       JSON.stringify({
-        error: "Failed to fetch Instagram preview from distributor worker",
+        error: "Failed to fetch Threads image preview from distributor worker",
         details: String(err),
       }),
       {

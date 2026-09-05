@@ -6,7 +6,8 @@ import urllib.request
 import urllib.error
 import time
 
-API_BASE = 'https://etf-campus.pages.dev'
+API_BASE = os.environ.get('DISTRIBUTOR_BASE', 'https://market-briefing-distributor.neo-alpha-research.workers.dev')
+PAGES_BASE = os.environ.get('PAGES_BASE', 'https://etf-campus.pages.dev')
 
 def fetch_with_retry(url):
     for i in range(3):
@@ -24,9 +25,14 @@ def main():
 
     if not target_date:
         print('Fetching latest briefing date...')
-        data_str = fetch_with_retry(f"{API_BASE}/api/briefings/latest")
-        data = json.loads(data_str)
-        target_date = data['briefing']['asOfDate']
+        try:
+            data_str = fetch_with_retry(f"{PAGES_BASE}/api/briefings/latest")
+            data = json.loads(data_str)
+            target_date = data.get('briefing', {}).get('asOfDate') or data.get('asOfDate')
+        except Exception:
+            target_date = None
+        if not target_date:
+            target_date = "latest"
 
     print(f"Generating local preview for date: {target_date}")
 

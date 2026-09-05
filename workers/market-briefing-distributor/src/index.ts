@@ -118,6 +118,32 @@ async function loadBriefingPayload(env: Env, asOfDate?: string): Promise<MarketB
     console.warn("[Distributor] Failed to fetch from API fallback:", err);
   }
 
+  // 3. Direct D1 database fallback (High-Availability BCP/DR)
+  if (env.ETF_PRICES && typeof env.ETF_PRICES.prepare === "function") {
+    try {
+      const query = asOfDate 
+        ? "SELECT as_of_date, headline_text, kospi_close, kospi_change_pct, kosdaq_close, kosdaq_change_pct, general_etf_count, general_total_aum, general_total_trade_value, general_aum_weighted_return_pct, up_count, flat_count, down_count, breadth_ratio_pct, metrics_json FROM market_briefings WHERE as_of_date = ? LIMIT 1"
+        : "SELECT as_of_date, headline_text, kospi_close, kospi_change_pct, kosdaq_close, kosdaq_change_pct, general_etf_count, general_total_aum, general_total_trade_value, general_aum_weighted_return_pct, up_count, flat_count, down_count, breadth_ratio_pct, metrics_json FROM market_briefings ORDER BY as_of_date DESC LIMIT 1";
+      const row: any = await (asOfDate ? env.ETF_PRICES.prepare(query).bind(asOfDate) : env.ETF_PRICES.prepare(query)).first();
+      if (row) {
+        let metrics: any = {};
+        try { metrics = JSON.parse(row.metrics_json || "{}"); } catch (e) {}
+        return normalizeBriefingPayload({
+          ...row,
+          ...metrics,
+          asOfDate: row.as_of_date,
+          headlineText: row.headline_text,
+          assetClasses: metrics.asset_classes || metrics.assetClasses || [],
+          peerGroups: metrics.peer_groups || metrics.peerGroups || [],
+          periodicFlows: metrics.periodic_flows || metrics.periodicFlows,
+          disparityWarning: metrics.disparity_warning || metrics.disparityWarning || [],
+        });
+      }
+    } catch (d1Err) {
+      console.warn("[Distributor] Failed to query D1 fallback:", d1Err);
+    }
+  }
+
   return null;
 }
 
@@ -317,11 +343,32 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
 }
 
 export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: Env): Promise<PolishedNarrative> {
-  const cacheKey = `narrative_v8:${payload.asOfDate}`;
+  const cacheKey = `narrative_v9:${payload.asOfDate}`;
   try {
     const cached = await env.BRIEFING_KV.get(cacheKey);
     if (cached) {
-      return JSON.parse(cached);
+      const parsed = JSON.parse(cached);
+      const stripEmoji = (str?: string) => (str || "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").trim();
+      return {
+        ...parsed,
+        slide1Subheadline: stripEmoji(parsed.slide1Subheadline),
+        slide1Tip: stripEmoji(parsed.slide1Tip),
+        slide4BannerTitle: stripEmoji(parsed.slide4BannerTitle),
+        slide4BannerDesc: stripEmoji(parsed.slide4BannerDesc),
+        slide5BannerTitle: stripEmoji(parsed.slide5BannerTitle),
+        slide5BannerDesc: stripEmoji(parsed.slide5BannerDesc),
+        slide5ActionTip: stripEmoji(parsed.slide5ActionTip),
+        slide6Block1Title: stripEmoji(parsed.slide6Block1Title),
+        slide6Block1Desc: stripEmoji(parsed.slide6Block1Desc),
+        captionOpening: stripEmoji(parsed.captionOpening),
+        captionMarketSummary: stripEmoji(parsed.captionMarketSummary),
+        captionThemeAnalysis: stripEmoji(parsed.captionThemeAnalysis),
+        captionWatchPoint: stripEmoji(parsed.captionWatchPoint),
+        threadsOpening: stripEmoji(parsed.threadsOpening),
+        threadsMarketSummary: stripEmoji(parsed.threadsMarketSummary),
+        threadsWatchPoint: stripEmoji(parsed.threadsWatchPoint),
+        firstComment: stripEmoji(parsed.firstComment),
+      };
     }
   } catch (e) {}
 

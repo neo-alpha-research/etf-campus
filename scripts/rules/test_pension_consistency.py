@@ -31,6 +31,8 @@ def make_valid_row(**kwargs):
         "pension_verified": "N",
         "pension_confidence": "낮음",
         "isa_eligible": "가능",
+        "isa_tax_type": "기타",
+        "isa_tax_benefit": "높음",
         "isa_education_required": "N",
         "underlying_is_security": "Y",
     }
@@ -349,7 +351,7 @@ def test_official_ledgers_evidence_integrity_zero_violations():
     with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
         audit_rows = list(csv.DictReader(f))
 
-    assert len(ledger_rows) == 738, f"Verification ledger must have 738 rows, got {len(ledger_rows)}"
+    assert len(ledger_rows) == 810, f"Verification ledger must have 810 rows, got {len(ledger_rows)}"
     assert len(audit_rows) == 1167, f"Audit ledger must have 1,167 rows, got {len(audit_rows)}"
 
     violations = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
@@ -433,4 +435,51 @@ def test_s4_empty_statutory_basis_requires_unverified():
     }]
     viols_valid = validate_evidence_integrity(audit_rows=fake_audit_valid)
     assert len(viols_valid["S4"]) == 0
+
+
+def test_s5_evidence_sufficiency_passes_valid_amendment():
+    """Valid E2 item 284430 contains verbatim text '가. 투자대상주식: 40% 이하 → 50% 미만'."""
+    row_valid = {
+        "ticker": "284430",
+        "verified_limit": "100% (안전자산)",
+        "source_type": "투자설명서대조",
+        "source_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260630000020",
+        "evidence_ref": "data/regulatory/sources/dart/20260630000020.xml",
+        "evidence_grade": "E2",
+        "note": 'DART 정정신고서: 약관상 주식 투자한도 50% 미만 채권혼합형',
+    }
+    viols = validate_evidence_integrity(ledger_rows=[row_valid])
+    assert len(viols["S5"]) == 0
+
+
+def test_s5_evidence_sufficiency_catches_invalid_cover_pages():
+    """The 9 invalid cover sheets lack body text/clauses and MUST trigger S5 violation."""
+    # Test 1: 0177N0 cover sheet claims equity limit but file only contains cover placeholder
+    row_cover_equity = {
+        "ticker": "0177N0",
+        "verified_limit": "100% (안전자산)",
+        "source_type": "투자설명서대조",
+        "source_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260330000048",
+        "evidence_ref": "data/regulatory/sources/dart/20260330000048.xml",
+        "evidence_grade": "E1",
+        "note": "DART 투자설명서: 약관상 주식 투자한도 50% 미만 채권혼합형",
+    }
+    viols_eq = validate_evidence_integrity(ledger_rows=[row_cover_equity])
+    assert len(viols_eq["S5"]) == 1
+    assert "증거 불충분 표지" in viols_eq["S5"][0]["reason"]
+
+    # Test 2: 475630 cover sheet claims derivative risk limit but file lacks '위험평가액'
+    row_cover_deriv = {
+        "ticker": "475630",
+        "verified_limit": "100% (안전자산)",
+        "source_type": "투자설명서대조",
+        "source_url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260515000022",
+        "evidence_ref": "data/regulatory/sources/dart/20260515000022.xml",
+        "evidence_grade": "E1",
+        "note": "DART 투자설명서: 1배수 금리액티브 장외파생 100% 한도 적격 위험평가액",
+    }
+    viols_deriv = validate_evidence_integrity(ledger_rows=[row_cover_deriv])
+    assert len(viols_deriv["S5"]) == 1
+    assert "증거 불충분 표지" in viols_deriv["S5"][0]["reason"]
+
 

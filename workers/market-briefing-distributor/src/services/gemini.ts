@@ -21,7 +21,7 @@ export const MODEL_WATERFALL = [
   "gemini-2.5-flash",
 ];
 
-export interface PolishedNarrative {
+export interface PolishedNarrative extends MarketRegime {
   // Slide 1
   slide1Subheadline: string;
   slide1Tip: string;
@@ -94,48 +94,61 @@ export async function reviewAndRefineWithGemini(
   const down = payload.downCount ?? 0;
   const topInflowsList = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 5) || [];
   const topInflowsStr = topInflowsList.length > 0
-    ? topInflowsList.map(i => `${i.name || (i as any).etfName}(+${i.inflow || Math.round(((i as any).netInflowValue || 0) / 100000000)}억원)`).join(", ")
+    ? topInflowsList.map(i => `${i.name || (i as any).etfName} +${i.inflow || Math.round(((i as any).netInflowValue || 0) / 100000000)}억원`).join(", ")
     : "집계 중";
-  const topTheme = payload.peerGroups?.find(p => (p.cappedAumWeightedReturnPct ?? 0) > 0) || payload.peerGroups?.[0];
-  const bottomTheme = payload.peerGroups?.slice().reverse().find(p => (p.cappedAumWeightedReturnPct ?? 0) < 0);
+
+  const sortedPeerGroups = [...(payload.peerGroups || [])].sort(
+    (a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0)
+  );
+  const cleanTheme = (str?: string) => (str || "").replace(/\s*\([^)]*\)/g, "").trim();
+  const topTheme = sortedPeerGroups[0];
+  const bottomTheme = sortedPeerGroups.length > 1 ? sortedPeerGroups[sortedPeerGroups.length - 1] : undefined;
+  const topThemeText = topTheme ? `${cleanTheme(topTheme.peerGroup)} ${topTheme.cappedAumWeightedReturnPct !== undefined ? (topTheme.cappedAumWeightedReturnPct >= 0 ? "+" : "") + topTheme.cappedAumWeightedReturnPct.toFixed(2) + "%" : ""}`.trim() : "없음";
+  const bottomThemeText = bottomTheme ? `${cleanTheme(bottomTheme.peerGroup)} ${bottomTheme.cappedAumWeightedReturnPct !== undefined ? (bottomTheme.cappedAumWeightedReturnPct >= 0 ? "+" : "") + bottomTheme.cappedAumWeightedReturnPct.toFixed(2) + "%" : ""}`.trim() : "없음";
 
   const systemPrompt = `당신은 대한민국 최고 수준의 공인 펀드매니저이자 수석 금융 에디터 'Neo'입니다.
 제공된 1차 마켓 브리핑 초안을 검토하여, 상업적 홍보색을 완전히 배제하고 독자가 믿고 읽는 '고밀도 순수 공공재 시황 정보 칼럼'으로 품격 있게 윤문(Polish)하십시오.
 
 ## 엄격 준수 원칙 (Strict Rules)
 1. 팩트 데이터 및 수급 사실 절대 변조/날조 금지:
-   - KOSPI(${kospi}%), 일반 ETF(${etfRet}%), 상승(${up}개), 하락(${down}개) 등 모든 숫자를 임의로 바꾸지 마십시오.
+   - KOSPI ${kospi}%, 일반 ETF ${etfRet}%, 상승 ${up}개, 하락 ${down}개 등 모든 숫자를 임의로 바꾸지 마십시오.
    - [수급 팩트 엄수]: 실제 스마트머니 순유입 상위 종목(${topInflowsStr})에 존재하지 않는 종목이나 지수(예: 당일 목록에 없는 '미국 대표지수' 등)를 절대 언급하거나 지어내지 마십시오. 오직 실제 유입 종목과 그 성격(채권, 금리, 배당 등)만 서술하십시오.
-2. Absolute Zero Emoji 절대 준수:
+2. 괄호() 남발 절대 금지:
+   - 본문 요약, 타래, 슬라이드 텍스트 어디에도 수익률이나 부연 설명을 감싸는 괄호를 일체 사용하지 마십시오. (예: '에너지 +2.95%' ⭕, '에너지 (+2.95%)' ❌, '하락 종목 181개' ⭕, '하락 종목(181개)' ❌).
+3. 테마명 부연 괄호 정제:
+   - 테마명에 포함된 괄호 부연 설명(예: '(원유·천연가스)')은 모두 제거하고 핵심 명칭만 사용하십시오.
+4. 상위/하위 랭킹 표기 통일:
+   - 모든 장세(전체 하락일·전체 상승일 등)의 정합성을 위해 테마 랭킹은 '상승/하락' 대신 반드시 '상위/하위'('▲ 상위 1위', '▼ 하위 1위', '▲ 상위 Top 3', '▼ 하위 Worst 3')로만 표기하십시오.
+5. Absolute Zero Emoji 절대 준수:
    - 본문, 타래, 슬라이드 텍스트 어디에도 이모지를 단 하나도 포함하지 마십시오 (이모지 0개).
-3. 상업적 홍보색 전면 제거 (순수 공공재 시황 칼럼 원칙):
+6. 상업적 홍보색 전면 제거 (순수 공공재 시황 칼럼 원칙):
    - '무료', '완벽 비교', '프로필 링크', '리포트 보러가기', '다운로드', '클릭' 등 모든 세일즈/홍보 유도 어휘 전면 금지.
    - 외부 링크 없이도 본문 자체만으로 어제 시장의 핵심 맥락(Why it moved)을 100% 이해할 수 있는 완결형 정보 제공.
-4. 본문 엔딩: 광고성 링크 유도 대신 오늘 개장 후 주목할 거시 지표나 심리적 체크포인트 1문장 + 대화형 질문으로 담백하게 종결.
-5. 첫 댓글: 프로필 방문 유도 멘트 전면 금지. 오직 '한국거래소(KRX) 공시 데이터 마감 기준 (국내 상장 일반 ETF 전수 분석)'으로만 작성.
-6. 컴플라이언스 절대 준수: '추천', '베스트', '대박', '목표가', '패닉', '폭락' 등 투기 조장이나 과장 어휘 절대 금지.
-7. 페르소나 준수: '현직' 단어 전면 금지.
-8. 스레드/댓글 내 외부 URL 링크('https://') 기재 전면 금지.
-9. 출력 형식: 백틱(\`\`\`) 없는 순수 JSON 단 하나만 출력하십시오.
+7. 본문 엔딩: 광고성 링크 유도 대신 오늘 개장 후 주목할 거시 지표나 심리적 체크포인트 1문장 + 대화형 질문으로 담백하게 종결.
+8. 첫 댓글: 프로필 방문 유도 멘트 전면 금지. 오직 '한국거래소(KRX) 공시 데이터 마감 기준 (국내 상장 일반 ETF 전수 분석)'으로만 작성.
+9. 컴플라이언스 절대 준수: '추천', '베스트', '대박', '목표가', '패닉', '폭락' 등 투기 조장이나 과장 어휘 절대 금지.
+10. 페르소나 준수: '현직' 단어 전면 금지.
+11. 스레드/댓글 내 외부 URL 링크('https://') 기재 전면 금지.
+12. 출력 형식: 백틱(\`\`\`) 없는 순수 JSON 단 하나만 출력하십시오.
 
 ## JSON 출력 스키마
 {
-  "slide1Subheadline": "카드뉴스 1페이지 부제 (단문, 테마명과 실제 유입 종목 팩트 요약, 이모지 0개)",
-  "slide1Tip": "카드뉴스 1페이지 팁 문구 (지수 대비 ETF 완충 요인 분석 한 줄, 이모지 0개)",
-  "slide4BannerTitle": "카드뉴스 4페이지 수급 헤로 배너 제목 (단문, 실제 유입 종목 특성 요약, 이모지 0개)",
-  "slide4BannerDesc": "카드뉴스 4페이지 수급 맥락 설명 (단문, 이모지 0개)",
-  "slide5BannerTitle": "카드뉴스 5페이지 괴리율 배너 제목 (왜곡 진단 한 줄, 이모지 0개)",
-  "slide5BannerDesc": "카드뉴스 5페이지 괴리율 설명 (이모지 0개)",
-  "slide5ActionTip": "카드뉴스 5페이지 실전 투자자 팁 (호가 점검 조언, 이모지 0개)",
-  "slide6Block1Title": "카드뉴스 6페이지 1번 요약 제목 (이모지 0개)",
-  "slide6Block1Desc": "카드뉴스 6페이지 1번 요약 본문 (2~3문장, 가독성, 이모지 0개)",
-  "captionOpening": "인스타그램 캡션 첫 단락 (장세 규정, 이모지 0개)",
-  "captionMarketSummary": "인스타그램 캡션 시장 요약 문단 (이모지 0개)",
-  "captionThemeAnalysis": "인스타그램 본문용 테마별 등락 원인 팩트 분석 1문단 (이모지 0개)",
-  "captionWatchPoint": "인스타그램 엔딩용 오늘의 시장 관전 포인트 (세일즈 멘트 없이 지적이고 담백하게, 이모지 0개)",
-  "threadsOpening": "스레드 1번 포스트 오프닝 문장 (해요체, 공감형 화법, 이모지 0개)",
-  "threadsMarketSummary": "스레드 시장 요약 문장 (해요체, 완충 효과 설명, 이모지 0개)",
-  "threadsWatchPoint": "스레드 엔딩용 오늘의 시장 관전 포인트 및 대화형 질문 (외부 링크 유도 절대 금지, 이모지 0개)",
+  "slide1Subheadline": "카드뉴스 1페이지 부제 (단문, 테마명과 실제 유입 종목 팩트 요약, 이모지 0개, 괄호 금지)",
+  "slide1Tip": "카드뉴스 1페이지 팁 문구 (지수 대비 ETF 완충 요인 분석 한 줄, 이모지 0개, 괄호 금지)",
+  "slide4BannerTitle": "카드뉴스 4페이지 수급 헤로 배너 제목 (단문, 실제 유입 종목 특성 요약, 이모지 0개, 괄호 금지)",
+  "slide4BannerDesc": "카드뉴스 4페이지 수급 맥락 설명 (단문, 이모지 0개, 괄호 금지)",
+  "slide5BannerTitle": "카드뉴스 5페이지 괴리율 배너 제목 (왜곡 진단 한 줄, 이모지 0개, 괄호 금지)",
+  "slide5BannerDesc": "카드뉴스 5페이지 괴리율 설명 (이모지 0개, 괄호 금지)",
+  "slide5ActionTip": "카드뉴스 5페이지 실전 투자자 팁 (호가 점검 조언, 이모지 0개, 괄호 금지)",
+  "slide6Block1Title": "카드뉴스 6페이지 1번 요약 제목 (이모지 0개, 괄호 금지)",
+  "slide6Block1Desc": "카드뉴스 6페이지 1번 요약 본문 (2~3문장, 가독성, 이모지 0개, 괄호 금지)",
+  "captionOpening": "인스타그램 캡션 첫 단락 (장세 규정, 이모지 0개, 괄호 금지)",
+  "captionMarketSummary": "인스타그램 캡션 시장 요약 문단 (이모지 0개, 괄호 금지)",
+  "captionThemeAnalysis": "인스타그램 본문용 테마별 등락 원인 팩트 분석 1문단 (이모지 0개, 괄호 금지)",
+  "captionWatchPoint": "인스타그램 엔딩용 오늘의 시장 관전 포인트 (세일즈 멘트 없이 지적이고 담백하게, 이모지 0개, 괄호 금지)",
+  "threadsOpening": "스레드 1번 포스트 오프닝 문장 (해요체, 공감형 화법, 이모지 0개, 괄호 금지)",
+  "threadsMarketSummary": "스레드 시장 요약 문장 (해요체, 완충 효과 설명, 이모지 0개, 괄호 금지)",
+  "threadsWatchPoint": "스레드 엔딩용 오늘의 시장 관전 포인트 및 대화형 질문 (외부 링크 유도 절대 금지, 이모지 0개, 괄호 금지)",
   "firstComment": "스레드 첫 댓글 (한국거래소 KRX 공시 마감 기준, 국내 상장 일반 ETF 전수 분석 고지, 이모지 0개)"
 }`;
 
@@ -145,7 +158,7 @@ export async function reviewAndRefineWithGemini(
 - 일반 ETF 가중수익률: ${etfRet > 0 ? "+" : ""}${etfRet.toFixed(2)}%
 - 상승/하락/보합 종목수: 상승 ${up}개, 하락 ${down}개, 보합 ${payload.flatCount ?? 0}개
 - 판별된 국면: ${regime.statusName} (${regime.badgeTag})
-- 당일 주도/부진 테마: 상승 1위 '${topTheme?.peerGroup || "없음"}', 하락 1위 '${bottomTheme?.peerGroup || "없음"}'
+- 당일 주도/부진 테마: 상위 1위 '${topThemeText}', 하위 1위 '${bottomThemeText}'
 - 당일 스마트머니 순유입 TOP: ${topInflowsStr}
 - 당일 괴리율 상태: ${regime.disparityStatus}
 
@@ -238,6 +251,7 @@ export async function reviewAndRefineWithGemini(
               const stripEmoji = (str?: string) => (str || "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").trim();
 
               return {
+                ...regime,
                 slide1Subheadline: stripEmoji(parsed.slide1Subheadline) || regime.slide1Subheadline,
                 slide1Tip: stripEmoji(parsed.slide1Tip) || regime.slide1Tip,
                 slide4BannerTitle: stripEmoji(parsed.slide4BannerTitle) || regime.slide4BannerTitle,

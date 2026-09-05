@@ -27,7 +27,7 @@
 | **ETF 괴리율 (Disparity)** | KRX 일별 데이터 파생 | 수집 스크립트 파생 로직 | 시세 수집 시 | `괴리율 = (종가 - NAV) / NAV * 100`<br>※ 고평가(할증 주의) vs 저평가(할인 체크) 2단 분할 | 정상 |
 | **시장 카테고리별 AUM 비중** | `etf_prices` / `asset_detail` | `market-briefing-publisher` | 마켓 브리핑 워커 실행 시 | 데이터가 있는 분류만 합산. 특정 카테고리 비율 하드코딩 **전면 금지** | 정상 |
 | **ETF 구성종목 (Holdings / PDF)** | **네이버 증권 공식 API** (`ETFComponent`)<br>및 운용사 일일 공시 | `refresh_holdings.py`<br>`daily-holdings.yml` | **매일 19:00**<br>(장 마감 확정치) | `ThreadPoolExecutor(25 workers)` 병렬 수집 후 100개 단위 청크 SQL로 Cloudflare D1 `etf_holdings` 테이블 직접 적재 (`ON CONFLICT DO UPDATE`) | 정상 가동 |
-| **총보수 및 실부담비용율** | **금융투자협회 (KOFIA DIS)** 단일 공인 원천 | `kofia_fee_collector.py`<br>`kofia-fee-sync.yml` | **매월 1일 11:00** (월간 주기) | `실부담비용율 = 총보수 + 기타비용 + 매매중개수수료`<br>※ 네이버 크롤러 완전 폐지 (2026-09-04) | 법정 유일 공시 기관 / 정상 |
+| **총보수 및 실부담비용율** | **금융투자협회 (KOFIA DIS)** 단일 공인 원천 | `kofia_fee_collector.py`<br>`kofia-fee-sync.yml` | **매월 1일 11:00** (월간 주기) | `실부담비용율 = TER(총보수 + 기타비용) + 매매중개수수료율`<br>※ 상장 1년 미만 신규 ETF는 왜곡 방지 마스킹(`masked_new`) 적용 | **전체 89.8%(1,044/1,163개), 2024년 상장 99.4%(158/159개) 완전 공시 달성** / 법정 유일 공시 기관 정상 |
 | **퇴직연금 및 ISA 적격성** | **퇴직연금감독규정 제9조·제12조, 시행세칙 제5조의2, 조특법 제91조의18** 단일 룰 | `pension_regulatory_engine.py`<br>`phase0_merge_verify.py` | 시세 갱신 시 자동 평가 | 위험평가액 40% 초과 파생상품, 레버리지, 인버스 제외<br>※ 배율 기반 ISA 교육 대상 및 신뢰도 메타데이터 산출 | 법정 감독규정 / 정상 |
 | **국내 지수 (KOSPI/KOSDAQ)** | **한국거래소 (KRX Open API)** | `fetch_market_indices.py` | 거래일 익일 07:53 | 원천 데이터 활용 (`data/market_indices.json`, D1 저장) | 정상 |
 | **해외지수, 원자재, 환율, VIX** | **Yahoo Finance API** + 한국은행 ECOS | `fetch_market_indices.py` | 거래일 익일 07:53 | S&P500, 나스닥, 원/달러, WTI, 금, 국채10Y, VIX 수집 | 정상 |
@@ -129,9 +129,20 @@ VIX 는 CBOE 지수이므로 같은 범주로 봅니다.
 - 2026-09-04 부로 네이버 금융 크롤러(`scripts/refresh_fees.py`) 및 일일 워크플로(`.github/workflows/daily-fees.yml`)를 **완전 폐기**하고, KOFIA DIS 월간 동기화 체계(`scripts/collector/kofia_fee_collector.py`)로 일원화하였습니다.
 
 **수집 스크립트 및 저장소** [확인됨]:
-- 수집기: `scripts/collector/kofia_fee_collector.py` (Playwright 기반 WebSquare 공시 데이터 수집 및 60% 이상치 서킷 브레이커)
-- 실행 워크플로: `.github/workflows/kofia-fee-sync.yml` (매월 1일 실행)
+- 수집기: `scripts/collector/kofia_fee_collector.py` (Playwright 기반 WebSquare 공시 데이터 수집 및 60% 이상치 서킷 브레이커, `--xml-source` 로컬 스냅샷 병합 기능 탑재)
+- 실행 워크플로: `.github/workflows/kofia-fee-sync.yml` (매월 1일 실행, Python 3.11 및 Playwright 환경 구축 완료, `contents: write` 권한 부여)
 - 저장 위치: `data/fees/etf_fee_registry.json` (총보수, 기타비용, TER, 매매수수료율 4단계 공시 원장 영구 보관)
+
+**3단계 고도화 정규화 매칭 아키텍처 (2026-09-05)**:
+1. **1단계 (표준코드 매칭)**: 12자리 금융투자협회 표준코드(`fund_standard_code`) 기반 O(1) 직접 매칭 (894개 즉시 결합)
+2. **2단계 (법정 명칭 정규화)**: 펀드 법정 분류 괄호(`(주식-파생형)`, `[채권혼합]`), 운용사 접두어, `TotalReturn`/`TR` 표기 차이를 자동 정규화하는 `advanced_strip()` 매칭 (149개 추가 결합)
+3. **3단계 (신규 상장 종목 수동 매핑 사전)**: `KNOWN_MANUAL_STD_MAPPING` 사전을 통한 완결 (총 1,044개 매칭 완료, 전체 유니버스 대비 89.8% 달성)
+
+**공시 및 무결성 검증 현황 (2026-09-05 정밀 검토 완료)**:
+- **2024년 상장 ETF 커버리지**: 전체 159개 종목 중 **158개 (99.4%)** 완전 3-Tier 공시 반영 완료.
+- **잔여 미공시 1건**: `0000D0` (TIGER 엔비디아미국채커버드콜밸런스(합성), 2024-12-17 상장). 연말 상장으로 인해 금융투자협회 1차 결산 보고서 제출 대기 중이며, Zero-Hallucination 원칙에 따라 '총보수 기준(0.15%)' 및 '공시 전'으로 정직하게 보호 중.
+- **이상치 검증 (Zero Anomaly)**: 1,163개 전 종목 대상 음수 및 5.0% 초과 이상치 0건 확인 완료.
+- **상장 1년 미만 신규 ETF 보호**: `lib/domain/etf-fee-utils.ts`의 `isNewEtfForFeeMasking` 규칙에 따라 초기 설정 비용 연환산 왜곡을 방지하기 위해 '신규(총보수)' 마스킹 유지.
 
 ### 2-5. 분배금 (ETF Distribution)
 
@@ -217,7 +228,7 @@ VIX 는 CBOE 지수이므로 같은 범주로 봅니다.
 | `daily-market.yml` | `07 23 * * 1-5` | 08:07 | ETF 시세, 지수 수집 |
 | | `07 0-3 * * 2-6` | 09:07, 10:07, 11:07, 12:07 | 재시도 4단계 |
 | `daily-distribution.yml` | `07 4 * * 2-6` | 13:07 | 분배금 |
-| `daily-fees.yml` | `22 4 * * 2-6` | 13:22 | 총보수 |
+| `kofia-fee-sync.yml` | `0 2 1,5,10 * *` | 매월 1일, 5일, 10일 11:00 | 금융투자협회(KOFIA DIS) 실부담비용 및 연금적격성 월간 자동 동기화 |
 | `monitor-market-daily-pipeline.yml` | `15 5 * * 2-6` | 14:15 | 파이프라인 감시 |
 | `daily-holdings.yml` | `0 10 * * 1-5` | 19:00 | ETF 보유종목 수집 및 D1 적재 |
 | `holdings-audit.yml` | `17 17 * * 1-5` | 익일 02:17 (화~토) | ETF 보유종목 실측 기반 분류 및 규제 이상 감시 |
@@ -276,11 +287,11 @@ node -e "fetch('https://etf-campus.pages.dev/api/briefings/latest').then(r=>r.js
 
 **한계**: 조회 수단이 CLI 뿐이라 실제로는 잘 보지 않게 됩니다. 화면이 이상해진 뒤에야 알게 되는 것이 반복 사고의 직접 원인입니다.
 
-### 4-4. 감시 워커
+### 4-4. 파이프라인 감시 체계
 
-`workers/market-daily-monitor/` 가 KST 14:15 에 돌며 이상 시 GitHub 이슈를 생성합니다.
+한시적으로 운영되었던 `workers/market-daily-monitor/`는 관측 완료 후 2026-08-29부로 완전 퇴역(Retired)되었으며, 현재는 GitHub Actions [`.github/workflows/monitor-market-daily-pipeline.yml`](file:///d:/ETFCampus/.github/workflows/monitor-market-daily-pipeline.yml)이 매 거래일 익일 **10:03 KST**에 실행되어 최신 마켓 데일리 브리핑의 기준일 일치 및 공개 API 응답 상태를 자동 검증하고 이상 시 GitHub 이슈를 생성합니다.
 
-**한계** [확인됨]: 기대 기준일과 실제 기준일이 같은지만 봅니다(`actual !== expectedIso`). **내용의 완전성은 보지 않습니다.**
+**한계** [확인됨]: 기대 기준일과 실제 기준일이 같은지만 봅니다(`actual !== expectedIso`). **내용의 완전성은 2단계 배포 전 품질 게이트(`scripts/validate_briefing_gate.py` 10대 무결성 체크)에서 전담 검증합니다.**
 
 ---
 
@@ -494,7 +505,7 @@ workers/market-briefing-publisher/src/index.ts L520   peer_groups: peerGroups,
 
 ### 2-18. 마켓 브리핑 서비스 개시일과 백필 더미 [확인됨]
 
-**정식 서비스 개시일은 2026-08-24 입니다.** 그 이전 날짜의 `market_briefings` 행은 전부 백필 산출물입니다.
+**정식 서비스 개시일은 2026-08-31 입니다.** (2026-08-24~28 발행분은 분류 개선 및 왜곡 배제를 위해 서비스 범위에서 제외됨) 그 이전 날짜의 `market_briefings` 행은 백필 산출물입니다.
 
 **백필 19개 행의 지수값은 하드코딩된 가짜입니다.**
 

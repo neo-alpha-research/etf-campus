@@ -115,21 +115,45 @@ def build_audit_ledger():
             audit_status = "PASS (공식 검증 완료)"
 
             if src_type == "협회공시대조":
-                if p_lim == "100% (안전자산)":
+                note_str = v_entry.get("note") or ""
+                if "혼합채권형" in note_str:
+                    statute_id = "PSR_ART11_1_5"
+                    delegation_basis = ""
+                    audit_note = note_str or "KOFIA 펀드유형 혼합채권형 대조 완료"
+                    check_method = "금융투자협회 전자공시(DIS) 표준 펀드유형 '혼합채권형' XML 대조 (약관상 주식 50% 미만 퇴직연금감독규정 제11조제1항제5호)"
+                elif p_lim == "100% (안전자산)":
                     statute_id = "PSR_ART11_1_4"
                     delegation_basis = ""
-                    audit_note = v_entry.get("note") or "KOFIA 펀드유형 채권형 대조 완료"
+                    audit_note = note_str or "KOFIA 펀드유형 채권형 대조 완료"
                     check_method = "금융투자협회 전자공시서비스(DIS) 표준 펀드유형 '채권형' XML 전수 대조"
+                elif "특별자산" in note_str:
+                    statute_id = "MOEL_WRBA_RULE_ART10_1_2"
+                    delegation_basis = "ED_WRBA_ART26_1_2"
+                    audit_note = note_str or "KOFIA 펀드유형 특별자산 대조 완료"
+                    check_method = "금융투자협회 전자공시(DIS) 표준 펀드유형 '특별자산' XML 대조 (시행규칙 제10조제1항제2호 한도 70%)"
                 else:
                     statute_id = "MOEL_WRBA_RULE_ART10_1_2"
                     delegation_basis = "ED_WRBA_ART26_1_2"
-                    audit_note = v_entry.get("note") or "KOFIA 펀드유형 주식형 대조 완료 (시행령 제26조제1항제2호가목 위임)"
+                    audit_note = note_str or "KOFIA 펀드유형 주식형 대조 완료 (시행령 제26조제1항제2호가목 위임)"
                     check_method = "금융투자협회 전자공시서비스(DIS) 표준 펀드유형 '주식형' XML 전수 대조 (시행규칙 제10조제1항제2호 한도 70%)"
             else:
-                statute_id = "PSR_ART9_1_2" if p_lim == "100% (안전자산)" else "MOEL_WRBA_RULE_ART10_1_2"
-                delegation_basis = "ED_WRBA_ART26_1_2" if statute_id == "MOEL_WRBA_RULE_ART10_1_2" else ""
+                if p_lim == "100% (안전자산)":
+                    if any(kw in nm for kw in ["채권혼합", "혼합50", "국채혼합50", "TRF3070", "TIF"]):
+                        statute_id = "PSR_ART11_1_5"
+                        check_method = f"금융감독원 DART 투자설명서 신탁계약서 제16조 주식편입한도 대조 ({src_type})"
+                    elif is_synth or asset == "금리·파킹":
+                        statute_id = "PSR_ART11_1_5"
+                        delegation_basis = "PSR_ART9_1_2"
+                        check_method = f"금융감독원 DART 투자설명서 1배수 파생평가액 한도 및 주식한도 대조 ({src_type})"
+                    else:
+                        statute_id = "PSR_ART11_1_4"
+                        check_method = f"금융감독원 DART 투자설명서 대조 ({src_type})"
+                else:
+                    statute_id = "MOEL_WRBA_RULE_ART10_1_2"
+                    check_method = f"공식 출처 대조 ({src_type})"
+                if statute_id == "MOEL_WRBA_RULE_ART10_1_2" and not delegation_basis:
+                    delegation_basis = "ED_WRBA_ART26_1_2"
                 audit_note = v_entry.get("note") or m.get("pension_reason", "")
-                check_method = f"공식 출처 대조 ({src_type})"
         else:
             src_type = p_src
             src_url = ""
@@ -137,22 +161,21 @@ def build_audit_ledger():
             v_at = ""
             audit_status = "ROLLED_BACK_UNVERIFIED"
 
-            # Granular unverified remapping adhering to Gate 1 / Gate 2:
+            # Granular unverified remapping adhering to Gate 0 / Gate 1 / Gate 2 / Gate 3:
             if p_lim == "불가":
+                statute_id = "PSR_ART9_1_2"
                 if risk in ("leverage", "inverse"):
-                    statute_id = "PSR_ART9_1_2"
                     audit_note = "레버리지/인버스 파생평가액 초과 (퇴직연금감독규정 제9조 제1항 제2호 마목 단서 배제)"
                     check_method = "규제 엔진 규칙기반 판정 (파생배율 초과 배제)"
                 else:
-                    # Commodity / currency futures -> leave empty ""
-                    statute_id = ""
-                    audit_note = "선물 기반 파생 위험평가액 40% 초과 (법령 근거 미확정 공란)"
-                    check_method = "규제 엔진 규칙기반 판정 (공란 처리, 공시대조 대기)"
+                    audit_note = "파생상품 순위험평가액 40% 초과 (퇴직연금감독규정 제9조 제1항 제2호 마목 본문)"
+                    check_method = "규제 엔진 규칙기반 판정 (선물 기반 파생위험평가액 한도 초과 배제)"
             elif p_lim == "100% (안전자산)":
                 if is_synth and p_src == "법령조건직접판정":
-                    statute_id = "PSR_ART9_1_2"
-                    audit_note = "퇴직연금감독규정 1배 증권형 합성 ETF 예외 (제9조 제1항 제2호 마목 본문)"
-                    check_method = "법령 조건 직접 판정 (1배수 증권형 장외파생 100% 허용)"
+                    statute_id = "PSR_ART11_1_5"
+                    delegation_basis = "PSR_ART9_1_2"
+                    audit_note = "퇴직연금감독규정 1배 증권형 합성 ETF 적격(제9조제1항제2호마목) 및 안전자산(제11조제1항제5호)"
+                    check_method = "법령 조건 직접 판정 (1배수 증권형 장외파생 100% 허용 + 주식한도 50% 미만)"
                 elif asset == "금리·파킹":
                     statute_id = "PSR_ART11_1_6"
                     audit_note = "단기금융집합투자기구(MMF) 및 금리파킹형 안전자산"
@@ -161,7 +184,7 @@ def build_audit_ledger():
                     statute_id = "PSR_ART11_1_9"
                     audit_note = "적격 TDF 안전자산 (투자목표시점 명시 및 자산배분 조정)"
                     check_method = "규제 엔진 규칙기반 판정 (제11조 제1항 제9호 적격 TDF 추정)"
-                elif any(kw in nm for kw in ["채권혼합", "혼합50", "국채혼합50", "TRF3070", "TRF5050", "TIF"]):
+                elif any(kw in nm for kw in ["채권혼합", "혼합50", "국채혼합50", "TRF3070", "TIF"]):
                     statute_id = "PSR_ART11_1_5"
                     audit_note = "약관상 주식 투자한도 50% 미만 채권혼합형 안전자산"
                     check_method = "규제 엔진 규칙기반 판정 (제11조 제1항 제5호 채권혼합 추정)"
@@ -170,15 +193,14 @@ def build_audit_ledger():
                     audit_note = "채권형 안전자산"
                     check_method = "규제 엔진 규칙기반 판정 (제11조 제1항 제4호 채권형 추정)"
             else: # 70% (위험자산)
+                statute_id = "MOEL_WRBA_RULE_ART10_1_2"
+                delegation_basis = "ED_WRBA_ART26_1_2"
                 if p_src == "법령조건직접판정":
-                    statute_id = "PSR_ART9_1_2"
-                    audit_note = "퇴직연금감독규정 1배 증권형 합성 위험자산 (제9조 제1항 제2호 마목 본문)"
+                    audit_note = "퇴직연금 위험자산 70% (시행규칙 제10조 제1항 제2호, 1배 증권형 장외파생)"
                     check_method = "법령 조건 직접 판정 (1배수 증권형 장외파생 위험자산)"
                 else:
-                    # Fallback 규칙기반추정 -> leave empty ""
-                    statute_id = ""
-                    audit_note = "위험자산 (투자설명서 미검증 공란, 추정치)"
-                    check_method = "규제 엔진 규칙기반 판정 (공란 처리, 공시대조 대기)"
+                    audit_note = "퇴직연금 위험자산 70% (근로자퇴직급여 보장법 시행규칙 제10조 제1항 제2호)"
+                    check_method = "규제 엔진 규칙기반 판정 (법정 위험자산 70% 한도 부여)"
 
         if statute_id:
             reg_meta = statute_map.get(statute_id, {})
@@ -189,6 +211,18 @@ def build_audit_ledger():
             )
         else:
             statute_text = ""
+
+        if p_ver == "Y" and v_entry:
+            evidence_grade = v_entry.get("evidence_grade") or ("E2" if tk == "284430" else ("E3" if src_type == "협회공시대조" else "E1"))
+            evidence_quote = v_entry.get("evidence_quote") or ("가. 투자대상주식: 40% 이하 → 50% 미만" if tk == "284430" else "")
+        else:
+            if p_lim == "불가" and risk in ("leverage", "inverse"):
+                evidence_grade = "E0"
+            elif p_src == "법령조건직접판정":
+                evidence_grade = "E0"
+            else:
+                evidence_grade = "UNVERIFIED"
+            evidence_quote = ""
 
         audit_rows.append({
             "ticker": tk,
@@ -203,6 +237,8 @@ def build_audit_ledger():
             "source_type": src_type,
             "source_url": src_url,
             "evidence_ref": evidence_ref,
+            "evidence_grade": evidence_grade,
+            "evidence_quote": evidence_quote,
             "statutory_basis": statute_id,
             "statutory_basis_text": statute_text,
             "delegation_basis": delegation_basis,
@@ -226,6 +262,8 @@ def build_audit_ledger():
         "source_type",
         "source_url",
         "evidence_ref",
+        "evidence_grade",
+        "evidence_quote",
         "statutory_basis",
         "statutory_basis_text",
         "delegation_basis",

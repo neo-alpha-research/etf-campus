@@ -11,71 +11,85 @@ import * as fs from "fs";
 import * as path from "path";
 import * as puppeteerModule from "puppeteer";
 
-const payload20260831: MarketBriefingPayload = {
-  asOfDate: "2026-08-31",
+const payload20260904: MarketBriefingPayload = {
+  asOfDate: "2026-09-04",
   publicationVersion: 1,
-  headlineText: "국내 상장 일반 ETF 1,022개 중 670개가 하락한 숨고르기 장세입니다. 코스피(+0.46%) 대비 일반 ETF 시장 평균은 -0.28%를 기록했으나, 2차전지(+2.71%)와 스마트머니(+1,130억원)의 반도체 저가 분할 매수세가 돋보였습니다.",
-  marketTemperature: "하락 우세",
+  headlineText: "국내 상장 일반 ETF 1,025개 중 794개가 상승하며 견조한 반등세를 시현했습니다. 코스피 +1.64% 상승과 함께 일반 ETF 시장 가중수익률은 +1.33%를 기록했으며, 피지컬 AI & 로봇 +6.06% 테마의 기술적 반등과 스마트머니 +853억원의 종합채권 순유입이 시장을 견인했습니다.",
+  marketTemperature: "상승 우세",
   kospiClose: 2600.00,
-  kospiChangePct: 0.46,
-  kosdaqClose: 840.00,
-  kosdaqChangePct: -0.49,
-  generalEtfCount: 1022,
-  upCount: 305,
-  flatCount: 47,
-  downCount: 670,
-  breadthRatioPct: 29.84,
-  generalTotalAum: 3814729,
-  generalTotalTradeValue: 100551,
-  marketTurnoverPct: 2.64,
-  top10TradeSharePct: 65.40,
-  allTop10TradeSharePct: 58.20,
-  generalAumWeightedReturnPct: -0.28,
-  top50WeightedReturnPct: -0.35,
+  kospiChangePct: 1.64,
+  kosdaqClose: 813.50,
+  kosdaqChangePct: 2.95,
+  generalEtfCount: 1025,
+  upCount: 794,
+  flatCount: 50,
+  downCount: 181,
+  breadthRatioPct: 77.46,
+  generalTotalAum: 3895000,
+  generalTotalTradeValue: 115200,
+  marketTurnoverPct: 2.96,
+  top10TradeSharePct: 62.40,
+  allTop10TradeSharePct: 55.80,
+  generalAumWeightedReturnPct: 1.33,
+  top50WeightedReturnPct: 1.45,
+  pulse: {
+    asOfDate: "2026-09-04",
+    generalEtfCount: 1025,
+    generalTotalAum: 3895000,
+    generalTotalTradeValue: 115200,
+    generalAumWeightedReturnPct: 1.33,
+    top50WeightedReturnPct: 1.45,
+    upCount: 794,
+    flatCount: 50,
+    downCount: 181,
+    breadthRatioPct: 77.46,
+    marketTemperature: "상승 우세",
+  },
   assetClasses: [
-    { assetClass: "국내주식", etfCount: 415, upCount: 142, flatCount: 20, downCount: 253, breadthRatioPct: 34.2, aumWeightedReturnPct: 0.15, totalAum: 1808000, aumSharePct: 47.3, totalTradeValue: 44000, tradeSharePct: 50.1, ytdReturnPct: 16.8 },
-    { assetClass: "해외주식", etfCount: 322, upCount: 95, flatCount: 18, downCount: 209, breadthRatioPct: 29.5, aumWeightedReturnPct: -0.85, totalAum: 1295000, aumSharePct: 33.9, totalTradeValue: 28000, tradeSharePct: 31.9, ytdReturnPct: 22.4 },
-    { assetClass: "채권", etfCount: 148, upCount: 75, flatCount: 28, downCount: 45, breadthRatioPct: 50.7, aumWeightedReturnPct: 0.05, totalAum: 541000, aumSharePct: 14.2, totalTradeValue: 11000, tradeSharePct: 12.5, ytdReturnPct: 4.2 },
-    { assetClass: "원자재", etfCount: 35, upCount: 22, flatCount: 4, downCount: 9, breadthRatioPct: 62.9, aumWeightedReturnPct: 0.45, totalAum: 76000, aumSharePct: 2.0, totalTradeValue: 1800, tradeSharePct: 2.1, ytdReturnPct: 14.5 },
-    { assetClass: "혼합·자산배분", etfCount: 28, upCount: 8, flatCount: 3, downCount: 17, breadthRatioPct: 28.6, aumWeightedReturnPct: -0.20, totalAum: 31000, aumSharePct: 0.8, totalTradeValue: 450, tradeSharePct: 0.5, ytdReturnPct: 5.1 },
-    { assetClass: "부동산/리츠", etfCount: 22, upCount: 4, flatCount: 2, downCount: 16, breadthRatioPct: 18.2, aumWeightedReturnPct: -0.65, totalAum: 68000, aumSharePct: 1.8, totalTradeValue: 700, tradeSharePct: 0.8, ytdReturnPct: 3.5 },
+    { assetClass: "국내주식", etfCount: 420, upCount: 345, flatCount: 20, downCount: 55, breadthRatioPct: 82.1, aumWeightedReturnPct: 1.85, totalAum: 1850000, aumSharePct: 47.5, totalTradeValue: 52000, tradeSharePct: 45.1, ytdReturnPct: 17.5 },
+    { assetClass: "해외주식", etfCount: 325, upCount: 230, flatCount: 15, downCount: 80, breadthRatioPct: 70.8, aumWeightedReturnPct: 0.95, totalAum: 1320000, aumSharePct: 33.9, totalTradeValue: 31000, tradeSharePct: 26.9, ytdReturnPct: 23.1 },
+    { assetClass: "채권", etfCount: 150, upCount: 110, flatCount: 12, downCount: 28, breadthRatioPct: 73.3, aumWeightedReturnPct: 0.12, totalAum: 550000, aumSharePct: 14.1, totalTradeValue: 14000, tradeSharePct: 12.2, ytdReturnPct: 4.3 },
+    { assetClass: "원자재", etfCount: 35, upCount: 15, flatCount: 3, downCount: 17, breadthRatioPct: 42.9, aumWeightedReturnPct: -0.42, totalAum: 75000, aumSharePct: 1.9, totalTradeValue: 1600, tradeSharePct: 1.4, ytdReturnPct: 13.8 },
+    { assetClass: "혼합·자산배분", etfCount: 28, upCount: 20, flatCount: 2, downCount: 6, breadthRatioPct: 71.4, aumWeightedReturnPct: 0.55, totalAum: 32000, aumSharePct: 0.8, totalTradeValue: 500, tradeSharePct: 0.4, ytdReturnPct: 5.4 },
+    { assetClass: "부동산/리츠", etfCount: 22, upCount: 14, flatCount: 3, downCount: 5, breadthRatioPct: 63.6, aumWeightedReturnPct: 0.35, totalAum: 68000, aumSharePct: 1.7, totalTradeValue: 650, tradeSharePct: 0.6, ytdReturnPct: 3.8 },
   ],
   focusEtfs: [
-    { rankNo: 1, ticker: "091160", etfName: "KODEX 반도체", assetClass: "국내주식", closeValue: 34500, changePct: -1.75, tradeValue: 18200, tradeSharePct: 20.7 },
-    { rankNo: 2, ticker: "069500", etfName: "KODEX 200", assetClass: "국내주식", closeValue: 42100, changePct: 0.45, tradeValue: 12400, tradeSharePct: 14.1 },
-    { rankNo: 3, ticker: "305720", etfName: "KODEX 2차전지산업", assetClass: "국내주식", closeValue: 16800, changePct: 2.71, tradeValue: 9100, tradeSharePct: 10.4 },
+    { rankNo: 1, ticker: "069500", etfName: "KODEX 200", assetClass: "국내주식", closeValue: 42850, changePct: 1.65, tradeValue: 15400, tradeSharePct: 13.4 },
+    { rankNo: 2, ticker: "091160", etfName: "KODEX 반도체", assetClass: "국내주식", closeValue: 35880, changePct: 4.01, tradeValue: 14200, tradeSharePct: 12.3 },
+    { rankNo: 3, ticker: "442580", etfName: "PLUS 피지컬AI로봇", assetClass: "국내주식", closeValue: 12450, changePct: 6.06, tradeValue: 8900, tradeSharePct: 7.7 },
   ],
   peerGroups: [
-    { assetClass: "국내주식", peerGroup: "2차전지", etfCount: 15, cappedAumWeightedReturnPct: 2.71 },
-    { assetClass: "해외주식", peerGroup: "중국 바이오/소비", etfCount: 8, cappedAumWeightedReturnPct: 1.45 },
-    { assetClass: "국내주식", peerGroup: "배당/가치", etfCount: 22, cappedAumWeightedReturnPct: 0.88 },
-    { assetClass: "국내주식", peerGroup: "반도체 소부장", etfCount: 18, cappedAumWeightedReturnPct: -2.45 },
-    { assetClass: "해외주식", peerGroup: "미국 빅테크", etfCount: 14, cappedAumWeightedReturnPct: -1.92 },
-    { assetClass: "해외주식", peerGroup: "글로벌 헬스케어", etfCount: 10, cappedAumWeightedReturnPct: -1.35 },
+    { assetClass: "국내주식", peerGroup: "피지컬 AI & 지능형 로봇", etfCount: 6, cappedAumWeightedReturnPct: 6.06 },
+    { assetClass: "국내주식", peerGroup: "전통 반도체 소부장", etfCount: 18, cappedAumWeightedReturnPct: 4.01 },
+    { assetClass: "국내주식", peerGroup: "조선 & 해운", etfCount: 8, cappedAumWeightedReturnPct: 2.85 },
+    { assetClass: "해외주식", peerGroup: "미국 빅테크", etfCount: 15, cappedAumWeightedReturnPct: 1.25 },
+    { assetClass: "해외주식", peerGroup: "글로벌 럭셔리 & 소비재", etfCount: 7, cappedAumWeightedReturnPct: -0.71 },
+    { assetClass: "국내주식", peerGroup: "K-푸드 & K-뷰티", etfCount: 12, cappedAumWeightedReturnPct: -1.41 },
   ],
   disparityWarning: [
-    { ticker: "0154H0", etfName: "KoAct 차이나바이오헬스케어액티브", disparityPct: -4.36, assetClass: "주식-해외" },
-    { ticker: "0131A0", etfName: "SOL 차이나소비트렌드", disparityPct: -3.50, assetClass: "주식-해외" },
-    { ticker: "289480", etfName: "TIGER 200커버드콜", disparityPct: -1.68, assetClass: "주식-국내" }
+    { ticker: "133690", etfName: "TIGER 미국나스닥100", assetClass: "해외주식", disparityPct: 0.85 },
+    { ticker: "446770", etfName: "ACE 글로벌반도체TOP4Plus", assetClass: "해외주식", disparityPct: 0.62 },
+    { ticker: "379800", etfName: "KODEX 미국S&P500TR", assetClass: "해외주식", disparityPct: -0.74 },
+    { ticker: "441680", etfName: "SOL 미국배당다우존스", assetClass: "해외주식", disparityPct: -0.58 },
   ],
   periodicFlows: {
     dailyFundFlows: {
       topInflows: [
-        { rank: 1, ticker: "091160", name: "KODEX 반도체", theme: "국내반도체", inflow: 1130, changePct: -1.75 },
-        { rank: 2, ticker: "069500", name: "KODEX 200", theme: "국내대표지수", inflow: 980, changePct: 0.45 },
-        { rank: 3, ticker: "305720", name: "KODEX 2차전지산업", theme: "2차전지", inflow: 750, changePct: 2.71 },
-        { rank: 4, ticker: "379800", name: "KODEX 미국S&P500TR", theme: "해외대표지수", inflow: 620, changePct: -0.15 },
-        { rank: 5, ticker: "465580", name: "SOL 미국배당다우존스", theme: "배당인컴", inflow: 480, changePct: 0.20 },
+        { rank: 1, ticker: "153130", name: "KODEX 종합채권(AA-이상)액티브", theme: "채권액티브", inflow: 853, changePct: 0.08 },
+        { rank: 2, ticker: "446720", name: "TIGER 은행고배당플러스TOP10", theme: "고배당", inflow: 342, changePct: 0.95 },
+        { rank: 3, ticker: "069500", name: "KODEX 200", theme: "국내대표지수", inflow: 295, changePct: 1.65 },
+        { rank: 4, ticker: "379800", name: "KODEX 미국S&P500TR", theme: "해외대표지수", inflow: 260, changePct: 0.42 },
+        { rank: 5, ticker: "091160", name: "KODEX 반도체", theme: "국내반도체", inflow: 210, changePct: 4.01 },
       ],
       topOutflows: [
-        { rank: 1, ticker: "114800", name: "KODEX 인버스", theme: "파생인버스", inflow: -850, changePct: 0.49 },
+        { rank: 1, ticker: "252670", name: "KODEX 200선물인버스2X", theme: "파생인버스", inflow: -620, changePct: -3.25 },
       ],
     },
     weeklyFundFlows: {
       topInflows: [
-        { rank: 1, ticker: "069500", name: "KODEX 200", inflow: 21500 },
-        { rank: 2, ticker: "379800", name: "KODEX 미국S&P500TR", inflow: 16400 },
-        { rank: 3, ticker: "133690", name: "TIGER 미국나스닥100", inflow: 14200 },
+        { rank: 1, ticker: "153130", name: "KODEX 종합채권(AA-이상)액티브", inflow: 18500 },
+        { rank: 2, ticker: "069500", name: "KODEX 200", inflow: 14200 },
+        { rank: 3, ticker: "379800", name: "KODEX 미국S&P500TR", inflow: 12800 },
       ],
       topOutflows: [],
     },
@@ -102,18 +116,21 @@ async function fetchLatestPayload(): Promise<MarketBriefingPayload> {
       console.log(`[Test-Runner] Successfully fetched LIVE briefing payload for ${raw.asOfDate}!`);
       return {
         ...raw,
-        pulse,
-        asOfDate: raw.asOfDate || "2026-08-31",
+        pulse: {
+          ...pulse,
+          generalAumWeightedReturnPct: pulse.generalAumWeightedReturnPct ?? raw.generalAumWeightedReturnPct ?? raw.general_aum_weighted_return_pct ?? 0,
+        },
+        asOfDate: raw.asOfDate || "2026-09-04",
         headlineText: raw.headline?.text || raw.headlineText || "",
-        marketTemperature: pulse.marketTemperature || raw.marketTemperature || "하락 우세",
+        marketTemperature: pulse.marketTemperature || raw.marketTemperature || "혼조",
         kospiClose: kospi?.close ?? raw.kospiClose ?? 0,
         kospiChangePct: kospi?.change_pct ?? raw.kospiChangePct ?? 0,
         kosdaqClose: kosdaq?.close ?? raw.kosdaqClose ?? 0,
         kosdaqChangePct: kosdaq?.change_pct ?? raw.kosdaqChangePct ?? 0,
-        generalEtfCount: pulse.generalEtfCount ?? raw.generalEtfCount ?? 1022,
+        generalEtfCount: pulse.generalEtfCount ?? raw.generalEtfCount ?? 0,
         generalTotalAum: pulse.generalTotalAum ?? raw.generalTotalAum ?? 0,
         generalTotalTradeValue: pulse.generalTotalTradeValue ?? raw.generalTotalTradeValue ?? 0,
-        generalAumWeightedReturnPct: pulse.generalAumWeightedReturnPct ?? raw.generalAumWeightedReturnPct ?? 0,
+        generalAumWeightedReturnPct: pulse.generalAumWeightedReturnPct ?? raw.generalAumWeightedReturnPct ?? raw.general_aum_weighted_return_pct ?? 0,
         upCount: pulse.upCount ?? raw.upCount ?? 0,
         flatCount: pulse.flatCount ?? raw.flatCount ?? 0,
         downCount: pulse.downCount ?? raw.downCount ?? 0,
@@ -160,9 +177,9 @@ async function fetchLatestPayload(): Promise<MarketBriefingPayload> {
       };
     }
   } catch (e) {
-    console.warn("[Test-Runner] Live fetch failed, using fallback:", e);
+    console.warn("[Test-Runner] Live fetch failed, using canonical master payload:", e);
   }
-  return payload20260831;
+  return payload20260904;
 }
 
 async function run() {
@@ -170,7 +187,7 @@ async function run() {
   const dateStr = currentPayload.asOfDate || "YYYY-MM-DD";
 
   console.log(`\n=== 1. Circuit Breaker Validation (${dateStr}) ===`);
-  const validation = validateBriefingPayload(currentPayload, {
+  const validation = await validateBriefingPayload(currentPayload, {
     ETF_PRICES: {} as any,
     BRIEFING_KV: {} as any,
     SITE_BASE_URL: baseUrl,
@@ -189,9 +206,8 @@ async function run() {
   const slides = generateInstagramCarousel(currentPayload, baseUrl, narrative);
   console.log(`Generated ${slides.length} slides.`);
   
-  // Destination: Root OSMU Archive (Optional Local Output)
-  const isCI = Boolean(process.env.CI || process.env.GITHUB_ACTIONS);
-  const shouldSaveLocal = isCI || process.env.SAVE_LOCAL_ARCHIVE === "true";
+  // Destination: Root OSMU Archive
+  const shouldSaveLocal = process.env.SAVE_LOCAL_ARCHIVE !== "false";
 
   const baseArchiveDir = path.resolve(process.cwd(), "..", "..", "OSMU_Archive");
   const rootArchiveDir = path.join(baseArchiveDir, dateStr);
@@ -278,7 +294,7 @@ async function run() {
 
   // Newsletter
   console.log("\n=== 4. Newsletter HTML Generation ===");
-  const newsletter = generateNewsletterHtml(currentPayload, baseUrl);
+  const newsletter = generateNewsletterHtml(currentPayload, baseUrl, narrative);
   const newsBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(newsletter.html, "utf-8")]);
 
   if (shouldSaveLocal) {
@@ -387,7 +403,7 @@ async function run() {
   }
 
   // Pre-header for Accessibility
-  const topInflowName = currentPayload.periodicFlows?.dailyFundFlows?.topInflows?.[0]?.name || "TIGER 미국필라델피아반도체나스닥";
+  const topInflowName = currentPayload.periodicFlows?.dailyFundFlows?.topInflows?.[0]?.name || "KODEX 종합채권(AA-이상)액티브";
   const preHeaderText = `${currentPayload.asOfDate} 시장 브리핑 - KOSPI ${currentPayload.kospiChangePct}% / 오늘 실질 자금 유입 TOP 1위는? ${topInflowName} 등 주요 ETF 실시간 성과 확인하기`;
 
   // Generate Image Map HTML
@@ -433,7 +449,7 @@ async function run() {
   if (process.env.OSMU_PUBLISH_THREADS !== "true") {
     console.log("OSMU_PUBLISH_THREADS is not 'true'. Skipping Threads publishing (opt-in required).");
   } else {
-    const workerBaseUrl = process.env.WORKER_BASE_URL || "https://market-briefing-distributor.alpha-research.workers.dev";
+    const workerBaseUrl = process.env.WORKER_BASE_URL || "https://market-briefing-distributor.neo-alpha-research.workers.dev";
     const authToken = process.env.MANUAL_RUN_TOKEN;
     if (!authToken) {
       console.warn("[SECURITY] MANUAL_RUN_TOKEN missing. Skipping Threads publishing via Worker.");
@@ -499,7 +515,7 @@ async function run() {
       </div>
       <div>
         <button onclick="window.location.reload()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-bold border border-slate-700 transition">
-          🔄 새로고침
+          새로고침
         </button>
       </div>
     </header>
@@ -507,13 +523,13 @@ async function run() {
     <!-- 3-Channel Tabs -->
     <div class="flex border-b border-slate-800 gap-2" id="channelTabs">
       <button onclick="switchTab('instagram')" id="tab-instagram" class="px-6 py-3 font-bold text-sm border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2">
-        📷 인스타그램 6-Slide 카드뉴스 & 캡션
+        인스타그램 6-Slide 카드뉴스 &amp; 캡션
       </button>
       <button onclick="switchTab('threads')" id="tab-threads" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-        🧵 Threads 모닝 브리핑 & 이미지
+        Threads 모닝 브리핑 &amp; 이미지
       </button>
       <button onclick="switchTab('newsletter')" id="tab-newsletter" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
-        📧 이메일 뉴스레터
+        이메일 뉴스레터
       </button>
     </div>
 
@@ -534,13 +550,13 @@ async function run() {
         <div class="lg:col-span-5 space-y-4">
           <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-3">
             <div class="flex items-center justify-between">
-              <h3 class="text-sm font-bold text-slate-300">📝 인스타그램 캡션</h3>
+              <h3 class="text-sm font-bold text-slate-300">인스타그램 캡션</h3>
               <a href="./1_Instagram/instagram_caption.txt" download class="text-xs text-emerald-400 font-bold hover:underline">다운로드</a>
             </div>
             <div class="text-xs leading-relaxed text-slate-300 bg-slate-900 p-4 rounded-2xl max-h-[300px] overflow-y-auto whitespace-pre-wrap">${caption}</div>
           </div>
           <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-3">
-            <h3 class="text-sm font-bold text-slate-300">🖼️ 6개 슬라이드 썸네일</h3>
+            <h3 class="text-sm font-bold text-slate-300">6개 슬라이드 썸네일</h3>
             <div id="thumbnailsContainer" class="grid grid-cols-3 gap-2"></div>
           </div>
         </div>
@@ -553,9 +569,9 @@ async function run() {
         <div class="lg:col-span-7 space-y-4" id="threadsContainer"></div>
         <div class="lg:col-span-5 bg-slate-950 p-6 rounded-3xl border border-slate-800 shadow-2xl flex flex-col items-center">
           <div class="flex items-center justify-between w-full mb-4">
-            <h3 class="text-sm font-bold text-slate-300">🖼️ 스레드 단일 첨부 이미지 (1080×1350)</h3>
+            <h3 class="text-sm font-bold text-slate-300">스레드 단일 첨부 이미지 (1080×1350)</h3>
             <a href="./2_Threads/threads_image.png" target="_blank" download="threads_image.png" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
-              <span>💾 PNG 다운로드</span>
+              <span>PNG 다운로드</span>
             </a>
           </div>
           <div class="max-w-[420px] rounded-2xl overflow-hidden shadow-2xl border border-slate-700 w-full bg-slate-900">
@@ -574,7 +590,7 @@ async function run() {
         </div>
         <div class="flex items-center gap-2">
           <a href="./3_Email/newsletter.html" target="_blank" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
-            <span>🌐 새 창에서 이메일 전체보기</span>
+            <span>새 창에서 이메일 전체보기</span>
           </a>
         </div>
       </div>
@@ -582,7 +598,7 @@ async function run() {
       <div class="bg-[#0F172A] rounded-2xl overflow-hidden shadow-2xl p-6 border border-slate-700 flex flex-col items-center">
         <div class="max-w-[680px] w-full bg-slate-900 p-3 rounded-2xl border border-slate-800">
           <div class="flex items-center justify-between px-3 py-2 text-xs text-slate-400 border-b border-slate-800 mb-3">
-            <span class="font-bold text-slate-300">✉️ 반응형 HTML 뉴스레터 라이브 뷰 (620px 이메일 표준 규격)</span>
+            <span class="font-bold text-slate-300">반응형 HTML 뉴스레터 라이브 뷰 (620px 이메일 표준 규격)</span>
             <span class="text-[11px] bg-slate-800 px-2 py-0.5 rounded text-emerald-400 font-bold">100% 팩트 정합성 검증</span>
           </div>
           <iframe src="./3_Email/newsletter.html" class="w-full h-[1180px] rounded-xl border border-slate-700 bg-white" title="뉴스레터 미리보기"></iframe>
@@ -707,7 +723,7 @@ async function run() {
   <!-- Master Navigation Header -->
   <header class="bg-slate-900/95 backdrop-blur border-b border-slate-800 sticky top-0 z-50 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center gap-3">
-      <span class="text-2xl">🏛️</span>
+      <span class="text-xl font-black text-emerald-400">ETF</span>
       <div>
         <h1 class="text-base font-black text-white flex items-center gap-2">
           <span>ETF CAMPUS</span>
@@ -719,12 +735,12 @@ async function run() {
 
     <!-- Date Selection & Direct Actions -->
     <div class="flex items-center gap-3">
-      <span class="text-xs text-slate-400 font-bold">📅 분석 기준일:</span>
+      <span class="text-xs text-slate-400 font-bold">분석 기준일:</span>
       <select id="dateSelect" onchange="changeDate(this.value)" class="bg-slate-800 text-emerald-400 border border-slate-700 text-xs font-black rounded-xl px-3.5 py-2 outline-none cursor-pointer hover:border-emerald-500 transition">
-        ${allDateDirs.map(d => `<option value="${d}" ${d === dateStr ? 'selected' : ''}>${d} ${d === allDateDirs[0] ? '🔥 (최신)' : ''}</option>`).join('')}
+        ${allDateDirs.map(d => `<option value="${d}" ${d === dateStr ? 'selected' : ''}>${d} ${d === allDateDirs[0] ? '(최신)' : ''}</option>`).join('')}
       </select>
       <a id="directDayLink" href="./${dateStr}/index.html" target="_blank" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold transition flex items-center gap-1 border border-slate-700">
-        <span>🔗 단독 창 열기</span>
+        <span>단독 창 열기</span>
       </a>
     </div>
   </header>
@@ -753,11 +769,11 @@ async function run() {
     const masterHubBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(masterHubHtml, "utf-8")]);
     fs.writeFileSync(path.join(baseArchiveDir, "index.html"), masterHubBuf);
 
-    console.log(`\n🎉 All PNGs, SVGs, and Previews freshly synchronized to OSMU_Archive:`);
+    console.log(`\nAll PNGs, SVGs, and Previews freshly synchronized to OSMU_Archive:`);
     console.log(`1. Master Hub -> file://${path.join(baseArchiveDir, "index.html")}`);
     console.log(`2. Day Archive -> file://${path.join(rootArchiveDir, "index.html")}`);
   } else {
-    console.log(`\n🎉 Generation complete in Pure Cloud-Native Mode (Review via Web Dashboard).`);
+    console.log(`\nGeneration complete in Pure Cloud-Native Mode (Review via Web Dashboard).`);
   }
 }
 

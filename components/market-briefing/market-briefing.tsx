@@ -1673,13 +1673,16 @@ export function MarketBriefing() {
 
           let sentence = `${periodLabel} 동안 특정 우량 테마로의 중기 자금 흐름이 지속되고 있습니다.`;
           if (topInflow && topOutflow) {
+            const cleanInflowName = (topInflow.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+            const cleanOutflowName = (topOutflow.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
             if (step5Tab === 'weekly') {
-              sentence = `최근 5거래일(주간) 실질 순유입(Fund Flow)은 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 집중 유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})'에서는 단기 차익실현 환매가 두드러졌습니다.`;
+              sentence = `최근 5거래일(주간) 실질 순유입(Fund Flow)은 '${cleanInflowName} ${formatKoreanFlowAmount(topInflow.netInflow)}' 테마로 가장 집중 유입된 반면, '${cleanOutflowName} ${formatKoreanFlowAmount(topOutflow.netInflow)}'에서는 단기 차익실현 환매가 두드러졌습니다.`;
             } else {
-              sentence = `최근 20거래일(월간) 기관/대형 중장기 자금은 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 꾸준히 순유입된 반면, '${topOutflow.peerGroup}(${formatKoreanFlowAmount(topOutflow.netInflow)})' 테마에서는 지속적인 자금 이탈이 관찰되었습니다.`;
+              sentence = `최근 20거래일(월간) 기관/대형 중장기 자금은 '${cleanInflowName} ${formatKoreanFlowAmount(topInflow.netInflow)}' 테마로 꾸준히 순유입된 반면, '${cleanOutflowName} ${formatKoreanFlowAmount(topOutflow.netInflow)}' 테마에서는 지속적인 자금 이탈이 관찰되었습니다.`;
             }
           } else if (topInflow) {
-            sentence = `${periodLabel} 기준 '${topInflow.peerGroup}(${formatKoreanFlowAmount(topInflow.netInflow)})' 테마로 가장 꾸준한 자금 유입세가 지속되고 있습니다.`;
+            const cleanInflowName = (topInflow.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+            sentence = `${periodLabel} 기준 '${cleanInflowName} ${formatKoreanFlowAmount(topInflow.netInflow)}' 테마로 가장 꾸준한 자금 유입세가 지속되고 있습니다.`;
           }
 
           return (
@@ -2588,8 +2591,8 @@ export function MarketBriefing() {
         <MarketBriefingHistory
           activeDate={briefing.asOfDate}
           onSelectDate={(date) => {
-            if (date < "2026-08-24") {
-              alert("마켓 브리핑은 2026년 8월 24일부터 정식 제공됩니다.");
+            if (date < "2026-08-31") {
+              alert("마켓 브리핑은 2026년 8월 31일부터 정식 제공됩니다.");
               return;
             }
             setSelectedDate(date);

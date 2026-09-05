@@ -1,24 +1,33 @@
 {
   "as_of": "2026-09-05",
-  "total": 1167,
-  "verified": 738,
-  "verified_pct": 63.2,
-  "by_source": {
-    "협회공시대조": 738,
-    "투자설명서대조": 0,
-    "KRX공시대조": 0,
-    "증권사목록대조": 0,
-    "수동확인": 0,
-    "표본대조": 0,
-    "법령조건직접판정": 64,
-    "규칙기반추정": 365
+  "step_b_kofia_classification_standard": {
+    "확보여부": true,
+    "출처": "금융투자회사의 영업 및 업무에 관한 규정 시행세칙 제27조 [별지 제15호] 집합투자기구분류표",
+    "원문": "집합투자규약상 최고/최저 편입한도 기준 분류. 혼합채권형 = 주식에 100분의 50 미만을 투자하는 집합투자기구",
+    "약관기준_명시여부": true
   },
-  "unverified": 429,
-  "safe_asset_candidates_remaining": 86,
-  "unverified_by_tier": {
-    "안전자산_주의": 86,
-    "파생_위험자산": 109,
-    "공시_미반영": 95,
-    "일반": 139
+  "total": 1167,
+  "by_evidence_grade": {
+    "E0_법령직접": 167,
+    "E1_투자설명서본문": 0,
+    "E2_정정신고서": 1,
+    "E3_협회공시": 809,
+    "UNVERIFIED": 190
+  },
+  "promotable_verified": 810,
+  "promotable_verified_pct": 69.4,
+  "s5_evidence_sufficiency_violations": 0,
+  "step_d_rematch": {
+    "자동매칭": 74,
+    "1대1확정": 74,
+    "모호_보류": 0,
+    "KOFIA부재": 21
+  },
+  "안전자산_주의_잔여": 62,
+  "isa_tax_type_coverage_pct": 100.0,
+  "isa_breakdown": {
+    "국내주식형_절세낮음": 363,
+    "기타_절세높음": 804,
+    "사전교육대상_Y": 72
   }
 }

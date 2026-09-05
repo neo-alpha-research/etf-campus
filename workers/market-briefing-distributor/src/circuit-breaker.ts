@@ -39,7 +39,7 @@ export async function validateBriefingPayload(
 
   const kospiChangePct = payload.kospiChangePct ?? payload.marketIndices?.find(i => i.code === "KOSPI")?.change_pct;
   const kosdaqChangePct = payload.kosdaqChangePct ?? payload.marketIndices?.find(i => i.code === "KOSDAQ")?.change_pct;
-  const generalAumWeightedReturnPct = pulse.generalAumWeightedReturnPct;
+  const generalAumWeightedReturnPct = pulse.generalAumWeightedReturnPct ?? payload.generalAumWeightedReturnPct;
 
   // 1. 기본 데이터 존재 및 종목 수 검증
   if (!payload.asOfDate) {
@@ -63,7 +63,7 @@ export async function validateBriefingPayload(
 
       // (2) D1 적재 시세 데이터의 최신 거래일과 불일치 차단
       let latestDbTradingDate = options?.latestTradingDate;
-      if (!latestDbTradingDate && env.ETF_PRICES) {
+      if (!latestDbTradingDate && env.ETF_PRICES && typeof env.ETF_PRICES.prepare === "function") {
         try {
           const row: any = await env.ETF_PRICES.prepare(
             "SELECT as_of_date FROM briefing_etf_daily ORDER BY as_of_date DESC LIMIT 1"

@@ -285,12 +285,9 @@ function calculateConstituentFlowAndPriceEffect(
   current: { ticker: string; etf_name: string; aum_value?: number | null; nav_value?: number | null; close_value?: number | null; change_pct?: number | null; is_general_etf?: number | null; shares?: number | string | null },
   previous?: { aum_value?: number | null; nav_value?: number | null; close_value?: number | null; shares?: number | string | null }
 ): ConstituentFlowAndPriceEffect {
-
   const c0 = current.close_value || 0;
   const nav0 = current.nav_value || c0;
   const aum0 = current.aum_value || 0;
-  const shares0 = current.shares ? Number(current.shares) : (nav0 > 0 ? aum0 / nav0 : 0);
-
 
   if (!previous || (!previous.aum_value && !previous.nav_value)) {
     return {
@@ -306,9 +303,22 @@ function calculateConstituentFlowAndPriceEffect(
   const cPrev = previous.close_value || c0;
   const navPrev = previous.nav_value || cPrev;
   const aumPrev = previous.aum_value || 0;
-  const sharesPrev = previous.shares ? Number(previous.shares) : (navPrev > 0 ? aumPrev / navPrev : shares0);
 
-  const netInflowValue = (shares0 - sharesPrev) * nav0;
+  const hasShares0 = Boolean(current.shares && Number(current.shares) > 0);
+  const hasSharesPrev = Boolean(previous.shares && Number(previous.shares) > 0);
+
+  let netInflowValue = 0;
+  if (hasShares0 && hasSharesPrev) {
+    const shares0 = Number(current.shares);
+    const sharesPrev = Number(previous.shares);
+    netInflowValue = (shares0 - sharesPrev) * nav0;
+  } else if (nav0 > 0 && navPrev > 0 && aum0 > 0 && aumPrev > 0) {
+    // Symmetrical fallback: both sides use identical basis (aum / nav) to eliminate accounting disparity
+    const s0Est = aum0 / nav0;
+    const spEst = aumPrev / navPrev;
+    netInflowValue = (s0Est - spEst) * nav0;
+  }
+
   const returnPct = cPrev > 0 ? ((c0 - cPrev) / cPrev) * 100 : (current.change_pct || 0);
   const priceEffectValue = aumPrev * (returnPct / 100.0);
 
@@ -899,7 +909,7 @@ async function loadSnapshots(db: D1Database, asOfDate: string): Promise<{ quotes
   const [etfs, indices] = await Promise.all([
     db
       .prepare(
-        `SELECT as_of_date, ticker, etf_name, close_value, change_pct, trade_value, aum_value, risk_type, asset_class, is_general_etf, asset_detail, nav_value, disparity_pct
+        `SELECT as_of_date, ticker, etf_name, close_value, change_pct, trade_value, aum_value, risk_type, asset_class, is_general_etf, asset_detail, nav_value, disparity_pct, shares
          FROM briefing_etf_daily
          WHERE as_of_date = ?`,
       )
@@ -1198,7 +1208,7 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
   let previousQuotes: any[] = [];
   if (prevDateRow?.as_of_date) {
     const prevRes = await env.ETF_PRICES
-      .prepare(`SELECT ticker, etf_name, aum_value, nav_value, is_general_etf FROM briefing_etf_daily WHERE as_of_date = ?`)
+      .prepare(`SELECT ticker, etf_name, aum_value, nav_value, is_general_etf, shares, close_value FROM briefing_etf_daily WHERE as_of_date = ?`)
       .bind(prevDateRow.as_of_date)
       .all();
     previousQuotes = prevRes.results || [];
@@ -1325,8 +1335,18 @@ export default {
 
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    // 공통 관리자 인증 검증 (Bearer 헤더, X-Auth-Token 또는 ?token= 파라미터)
+    const authHeader = request.headers.get("Authorization") || request.headers.get("X-Auth-Token");
+    const token = authHeader?.replace(/^Bearer\s+/i, "").trim() || url.searchParams.get("token");
+    const isAuthed = !!env.MANUAL_RUN_TOKEN && token === env.MANUAL_RUN_TOKEN;
+
     if (url.pathname === "/internal/publish-date" || url.pathname === "/api/publish-date") {
-      const targetDate = url.searchParams.get("date") || "2026-08-28";
+      if (!isAuthed) return new Response("Unauthorized", { status: 401 });
+      const targetDate = url.searchParams.get("date");
+      if (!targetDate) {
+        return Response.json({ success: false, error: "Missing required 'date' query parameter (YYYY-MM-DD)." }, { status: 400 });
+      }
       try {
         const manifest = await env.ETF_PRICES.prepare(
           `SELECT as_of_date, source_version FROM market_source_snapshot_manifest WHERE as_of_date = ? AND status = 'ready' ORDER BY ready_at DESC LIMIT 1`
@@ -1350,8 +1370,13 @@ export default {
         return Response.json({ success: false, error: String(err), stack: err.stack }, { status: 500 });
       }
     }
+
     if (url.pathname === "/internal/republish" || url.pathname === "/api/republish") {
-      const targetDate = url.searchParams.get("date") || "2026-08-26";
+      if (!isAuthed) return new Response("Unauthorized", { status: 401 });
+      const targetDate = url.searchParams.get("date");
+      if (!targetDate) {
+        return Response.json({ success: false, error: "Missing required 'date' query parameter (YYYY-MM-DD)." }, { status: 400 });
+      }
       try {
         const result = await recomputeAndSaveBriefing(env, targetDate);
         return Response.json({ success: true, result });
@@ -1359,12 +1384,13 @@ export default {
         return Response.json({ success: false, error: String(err) }, { status: 500 });
       }
     }
+
     if (request.method === "POST" && url.pathname === "/internal/publish") {
-      const token = request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "");
-      if (!env.MANUAL_RUN_TOKEN || token !== env.MANUAL_RUN_TOKEN) return new Response("Unauthorized", { status: 401 });
+      if (!isAuthed) return new Response("Unauthorized", { status: 401 });
       const result = await publishReadyBriefing(env, "manual", "manual");
       return Response.json(result, { status: result.status === "ready" ? 200 : 202 });
     }
+
     return new Response("Not Found", { status: 404 });
   },
 };

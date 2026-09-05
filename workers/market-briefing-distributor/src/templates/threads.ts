@@ -8,11 +8,11 @@ export interface ThreadsPost {
 }
 
 function formatDateWithDay(dateStr?: string): string {
-  if (!dateStr) return "2026.08.31 (월)";
+  if (!dateStr) return "2026.09.04 (목)";
   const [y, m, d] = dateStr.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const days = ["일", "월", "화", "수", "목", "금", "토"];
-  const dayName = days[date.getDay()] || "월";
+  const dayName = days[date.getDay()] || "목";
   return `${dateStr.replace(/-/g, ".")} (${dayName})`;
 }
 
@@ -40,16 +40,17 @@ export function generateThreadsThread(
       }).join(', ')} 순으로 유입되며 시장 수급을 뒷받침했습니다.` 
     : "";
 
-  const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];
-  const weakThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct < 0).slice(-2).reverse() || [];
+  const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
+  const strongThemes = sortedPeerGroups.slice(0, 2);
+  const weakThemes = [...sortedPeerGroups].reverse().slice(0, 2);
   
   const strongText = strongThemes.length > 0 
-    ? strongThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '')} +${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
-    : "에너지 +0.93%, 고배당 +0.85%";
+    ? strongThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '').trim()} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
+    : "상위 테마 안정";
 
   const weakText = weakThemes.length > 0 
-    ? weakThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '')} ${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
-    : "K-푸드 -4.07%, K-방산 -2.68%";
+    ? weakThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '').trim()} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
+    : "하위 테마 조정";
 
   const topicTag = selectThreadsTopicTag(payload);
 
@@ -112,12 +113,12 @@ function calcDisparityFontSize(name?: string): number {
 }
 
 export function generateThreadsImageSvg(payload: MarketBriefingPayload): string {
-  const dateStr = payload.asOfDate || "2026-08-31";
+  const dateStr = payload.asOfDate || "2026-09-04";
   const formattedDate = formatDateWithDay(dateStr);
 
-  const kospi = payload.kospiChangePct ?? 0.46;
-  const kosdaq = payload.kosdaqChangePct ?? -0.49;
-  const etfReturn = payload.generalAumWeightedReturnPct ?? -0.28;
+  const kospi = payload.kospiChangePct ?? 0;
+  const kosdaq = payload.kosdaqChangePct ?? 0;
+  const etfReturn = payload.generalAumWeightedReturnPct ?? 0;
   const kospiSign = kospi > 0 ? "+" : "";
   const kosdaqSign = kosdaq > 0 ? "+" : "";
   const etfSign = etfReturn > 0 ? "+" : "";
@@ -125,21 +126,28 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
   const kosdaqColor = kosdaq >= 0 ? "#D92D20" : "#175CD3";
   const etfColor = etfReturn >= 0 ? "#D92D20" : "#175CD3";
 
-  const up = payload.upCount ?? 305;
-  const down = payload.downCount ?? 670;
-  const flat = payload.flatCount ?? 47;
-  const generalCount = payload.generalEtfCount ?? 1022;
+  const up = payload.upCount ?? payload.pulse?.upCount ?? 0;
+  const down = payload.downCount ?? payload.pulse?.downCount ?? 0;
+  const flat = payload.flatCount ?? payload.pulse?.flatCount ?? 0;
+  const generalCount = payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? 0;
 
-  // Peer Groups
+  // Peer Groups (상위/하위 랭킹 SSOT)
   const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
-  const winners = sortedPeerGroups.filter(p => (p.cappedAumWeightedReturnPct ?? 0) > 0).slice(0, 2);
-  const losers = [...sortedPeerGroups].reverse().filter(p => (p.cappedAumWeightedReturnPct ?? 0) < 0).slice(0, 2);
-  const topTheme = winners[0] || { peerGroup: "조선 & 해운", cappedAumWeightedReturnPct: 4.51, etfCount: 7 };
-  const bottomTheme = losers[0] || { peerGroup: "비만·신약 & 바이오시밀러", cappedAumWeightedReturnPct: -2.74, etfCount: 8 };
+  const topTheme = sortedPeerGroups[0] || { peerGroup: "데이터 없음", cappedAumWeightedReturnPct: 0, etfCount: 0 };
+  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1] || topTheme;
   const themeGap = Math.abs((topTheme.cappedAumWeightedReturnPct ?? 0) - (bottomTheme.cappedAumWeightedReturnPct ?? 0)).toFixed(2);
 
-  const topThemeFontSize = calcThemeFontSize(topTheme.peerGroup);
-  const bottomThemeFontSize = calcThemeFontSize(bottomTheme.peerGroup);
+  const cleanTopTheme = topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
+  const cleanBottomTheme = bottomTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
+  const topThemeFontSize = calcThemeFontSize(cleanTopTheme);
+  const bottomThemeFontSize = calcThemeFontSize(cleanBottomTheme);
+
+  const topThemeRet = topTheme.cappedAumWeightedReturnPct ?? 0;
+  const bottomThemeRet = bottomTheme.cappedAumWeightedReturnPct ?? 0;
+  const topThemeSign = topThemeRet > 0 ? "▲ +" : topThemeRet < 0 ? "▼ " : "";
+  const bottomThemeSign = bottomThemeRet > 0 ? "▲ +" : bottomThemeRet < 0 ? "▼ " : "";
+  const topThemeColor = topThemeRet >= 0 ? "#DC2626" : "#2563EB";
+  const bottomThemeColor = bottomThemeRet >= 0 ? "#DC2626" : "#2563EB";
 
   // Inflows
   const topInflows = (payload.periodicFlows?.dailyFundFlows?.topInflows || []).slice(0, 3);
@@ -236,7 +244,8 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
   }).join("") : `<text x="0" y="28" fill="#64748B" font-size="16" font-weight="600">특이 왜곡 종목 없음 (정상 거래 중)</text>`;
 
   return `
-    <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 모닝 브리핑 인포그래픽 - ${formattedDate}">
+      <title>ETF 모닝 브리핑 인포그래픽 - ${formattedDate}</title>
       <defs>
         <filter id="softShadow" x="-10%" y="-10%" width="120%" height="125%">
           <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#0F172A" flood-opacity="0.06"/>
@@ -306,19 +315,19 @@ export function generateThreadsImageSvg(payload: MarketBriefingPayload): string 
         <rect x="735" y="14" width="190" height="38" rx="10" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
         <text x="830" y="39" fill="#C2410C" font-size="15.5" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p</text>
 
-        <!-- 1x2 Big Hero Cards (상승 1위 vs 하락 1위 대형화) -->
+        <!-- 1x2 Big Hero Cards (▲ 상위 1위 vs ▼ 하위 1위 대형화) -->
         <g transform="translate(35, 62)">
-          <!-- Top 1 Winner -->
+          <!-- Top 1 Winner (▲ 상위 1위) -->
           <rect x="0" y="0" width="435" height="92" rx="14" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2"/>
-          <text x="20" y="32" fill="#B91C1C" font-size="15" font-weight="900">상승 1위</text>
-          <text x="20" y="66" fill="#0F172A" font-size="${topThemeFontSize}" font-weight="900">${escapeXml(topTheme.peerGroup)}</text>
-          <text x="415" y="62" fill="#DC2626" font-size="36" font-weight="900" text-anchor="end" class="tabular">▲ +${(topTheme.cappedAumWeightedReturnPct ?? 4.51).toFixed(2)}%</text>
+          <text x="20" y="32" fill="#B91C1C" font-size="15" font-weight="900">▲ 상위 1위</text>
+          <text x="20" y="66" fill="#0F172A" font-size="${topThemeFontSize}" font-weight="900">${escapeXml(cleanTopTheme)}</text>
+          <text x="415" y="62" fill="${topThemeColor}" font-size="36" font-weight="900" text-anchor="end" class="tabular">${topThemeSign}${topThemeRet.toFixed(2)}%</text>
 
-          <!-- Top 1 Loser -->
+          <!-- Top 1 Loser (▼ 하위 1위) -->
           <rect x="455" y="0" width="435" height="92" rx="14" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.2"/>
-          <text x="475" y="32" fill="#1D4ED8" font-size="15" font-weight="900">하락 1위</text>
-          <text x="475" y="66" fill="#0F172A" font-size="${bottomThemeFontSize}" font-weight="900">${escapeXml(bottomTheme.peerGroup)}</text>
-          <text x="870" y="62" fill="#2563EB" font-size="36" font-weight="900" text-anchor="end" class="tabular">▼ ${(bottomTheme.cappedAumWeightedReturnPct ?? -2.74).toFixed(2)}%</text>
+          <text x="475" y="32" fill="#1D4ED8" font-size="15" font-weight="900">▼ 하위 1위</text>
+          <text x="475" y="66" fill="#0F172A" font-size="${bottomThemeFontSize}" font-weight="900">${escapeXml(cleanBottomTheme)}</text>
+          <text x="870" y="62" fill="${bottomThemeColor}" font-size="36" font-weight="900" text-anchor="end" class="tabular">${bottomThemeSign}${bottomThemeRet.toFixed(2)}%</text>
         </g>
       </g>
 

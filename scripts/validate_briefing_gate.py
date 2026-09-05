@@ -51,57 +51,77 @@ def get_target_bas_dt() -> str:
         return raw_dt
 
 def fetch_briefing_payload(bas_dt: str) -> dict | None:
-    # 1. Wrangler D1 직접 쿼리 (Cloudflare 토큰이 있는 환경)
-    if os.environ.get("CLOUDFLARE_API_TOKEN") or os.environ.get("CLOUDFLARE_ACCOUNT_ID"):
-        sql = (
-            f"SELECT as_of_date, general_etf_count, general_total_aum, "
-            f"kospi_change_pct, kosdaq_change_pct, "
-            f"general_aum_weighted_return_pct, metrics_json "
-            f"FROM market_briefings WHERE as_of_date = '{bas_dt}' LIMIT 1;"
+    # 1. Wrangler D1 직접 쿼리 (Cloudflare 토큰 또는 wrangler 로그인 환경)
+    sql = (
+        f"SELECT as_of_date, general_etf_count, general_total_aum, "
+        f"kospi_change_pct, kosdaq_change_pct, "
+        f"general_aum_weighted_return_pct, metrics_json "
+        f"FROM market_briefings WHERE as_of_date = '{bas_dt}' LIMIT 1;"
+    )
+    cmd = f'npx wrangler d1 execute etf-prices --remote --json --command "{sql}"'
+    try:
+        p = subprocess.run(
+            cmd,
+            shell=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=25,
         )
-        cmd = f'npx wrangler d1 execute etf-prices --remote --json --command "{sql}"'
-        try:
-            p = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=20)
-            if p.returncode == 0 and p.stdout:
-                data = json.loads(p.stdout)
-                if data and isinstance(data, list) and data[0].get("results"):
-                    row = data[0]["results"][0]
-                    metrics = json.loads(row.get("metrics_json") or "{}")
-                    return {
-                        "asOfDate": row.get("as_of_date"),
-                        "generalEtfCount": row.get("general_etf_count"),
-                        "generalTotalAum": row.get("general_total_aum"),
-                        "kospiChangePct": row.get("kospi_change_pct"),
-                        "kosdaqChangePct": row.get("kosdaq_change_pct"),
-                        "generalAumWeightedReturnPct": row.get("general_aum_weighted_return_pct"),
-                        "peerGroups": metrics.get("peer_groups") or metrics.get("peerGroups") or [],
-                        "assetClasses": metrics.get("asset_classes") or metrics.get("assetClasses") or [],
-                        "periodicFlows": metrics.get("periodic_flows") or metrics.get("periodicFlows") or {},
-                        "source": "d1_remote"
-                    }
-        except Exception as e:
-            print(f"[Gate] D1 직접 조회 시도 중 안내: {e}")
+        if p.returncode == 0 and p.stdout:
+            data = json.loads(p.stdout)
+            if data and isinstance(data, list) and data[0].get("results"):
+                row = data[0]["results"][0]
+                metrics = json.loads(row.get("metrics_json") or "{}")
+                return {
+                    "asOfDate": row.get("as_of_date"),
+                    "generalEtfCount": row.get("general_etf_count"),
+                    "generalTotalAum": row.get("general_total_aum"),
+                    "kospiChangePct": row.get("kospi_change_pct"),
+                    "kosdaqChangePct": row.get("kosdaq_change_pct"),
+                    "generalAumWeightedReturnPct": row.get("general_aum_weighted_return_pct"),
+                    "peerGroups": metrics.get("peer_groups") or metrics.get("peerGroups") or [],
+                    "assetClasses": (
+                        metrics.get("asset_classes")
+                        or metrics.get("assetClasses")
+                        or (metrics.get("market_scale") or {}).get("categories")
+                        or (metrics.get("market_scale") or {}).get("composition")
+                        or []
+                    ),
+                    "periodicFlows": metrics.get("periodic_flows") or metrics.get("periodicFlows") or metrics.get("fund_flow") or metrics.get("fundFlow") or {},
+                    "source": "d1_remote"
+                }
+    except Exception as e:
+        print(f"[Gate] D1 직접 조회 시도 중 안내 (HTTP API로 폴백): {e}")
 
     # 2. Pages / Publisher API fallback
     urls_to_try = [
         f"https://etf-campus.pages.dev/api/briefings/{bas_dt}",
-        f"https://market-briefing-publisher.neo-alpha-research.workers.dev/briefings/{bas_dt}",
+        "https://etf-campus.pages.dev/api/briefings/latest",
     ]
 
     for url in urls_to_try:
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "ETF-Campus-Quality-Gate/1.0"})
+            req = urllib.request.Request(url, headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ETF-Campus-Quality-Gate/1.0"
+            })
             with urllib.request.urlopen(req, timeout=10) as resp:
                 if resp.status == 200:
                     body = json.loads(resp.read().decode("utf-8"))
                     raw = body.get("briefing") or body
+                    as_of_date = raw.get("asOfDate") or raw.get("as_of_date")
+                    # latest 조회 시 타겟 날짜와 일치하는지 확인
+                    if as_of_date != bas_dt:
+                        continue
+
                     pulse = raw.get("pulse") or {}
                     indices = raw.get("marketIndices") or []
                     kospi = next((i for i in indices if i.get("code") == "KOSPI"), {})
                     kosdaq = next((i for i in indices if i.get("code") == "KOSDAQ"), {})
                     
                     return {
-                        "asOfDate": raw.get("asOfDate") or raw.get("as_of_date"),
+                        "asOfDate": as_of_date,
                         "generalEtfCount": pulse.get("generalEtfCount") or raw.get("generalEtfCount") or raw.get("general_etf_count"),
                         "generalTotalAum": pulse.get("generalTotalAum") or raw.get("generalTotalAum") or raw.get("general_total_aum"),
                         "kospiChangePct": kospi.get("change_pct") if kospi.get("change_pct") is not None else raw.get("kospiChangePct"),
@@ -109,10 +129,11 @@ def fetch_briefing_payload(bas_dt: str) -> dict | None:
                         "generalAumWeightedReturnPct": pulse.get("generalAumWeightedReturnPct") if pulse.get("generalAumWeightedReturnPct") is not None else raw.get("generalAumWeightedReturnPct"),
                         "peerGroups": raw.get("peerGroups") or raw.get("peer_groups") or [],
                         "assetClasses": raw.get("assetClasses") or raw.get("asset_classes") or [],
-                        "periodicFlows": raw.get("periodicFlows") or raw.get("periodic_flows") or raw.get("fundFlow") or {},
+                        "periodicFlows": raw.get("periodicFlows") or raw.get("periodic_flows") or raw.get("fundFlow") or raw.get("fund_flow") or {},
                         "source": "api_endpoint"
                     }
-        except Exception:
+        except Exception as e:
+            print(f"[Gate] API {url} 조회 실패 안내: {e}")
             continue
 
     return None
@@ -178,7 +199,12 @@ def main():
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-    bas_dt = get_target_bas_dt()
+    import argparse
+    parser = argparse.ArgumentParser(description="Pre-Deploy Briefing Quality Gate")
+    parser.add_argument("--date", type=str, help="Target as_of_date (YYYY-MM-DD)")
+    args = parser.parse_args()
+
+    bas_dt = args.date if args.date else get_target_bas_dt()
     print("=" * 70)
     print("[Quality Gate] Pre-Deploy Market Briefing Verification")
     print(f"Target As-Of-Date : {bas_dt}")

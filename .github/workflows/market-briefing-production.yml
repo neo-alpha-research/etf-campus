@@ -258,12 +258,3 @@ jobs:
           path: OSMU_Archive
           retention-days: 30
 
-      - name: Trigger n8n OSMU Marketing Automation Webhook
-        continue-on-error: true
-        run: |
-          TARGET_DATE=$(python3 -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
-          echo "Triggering n8n OSMU automation for date: $TARGET_DATE"
-          curl -X POST https://n8n.aitestbed.kr/webhook/osmu-trigger \
-            -H "Content-Type: application/json" \
-            -d "{\"status\": \"success\", \"date\": \"$TARGET_DATE\"}" || true
-

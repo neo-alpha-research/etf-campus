@@ -25,8 +25,8 @@ ETF Campus 데일리 마켓 브리핑을 3대 채널(Instagram, Threads, Newslet
 
 ## 3. 데일리 운영 및 배포 워크플로우
 
-1. **배치 및 수신**: 매 거래일 아침 한국거래소(KRX) 전수 데이터 분석 배치 완료 후 n8n/NHN에서 KV로 적재.
-2. **리뷰 대시보드 검증**:
+1. **배치 및 수신**: 매 거래일 아침 07:53 한국거래소(KRX) 전수 데이터 수집 완료 후, GitHub Actions(`daily-market.yml` -> `validate_briefing_gate.py` -> `market-briefing-production.yml`) 및 `market-briefing-publisher`를 통해 Cloudflare D1 및 KV에 적재됩니다. 이후 Cloudflare Queue(`etf-campus-market-briefing-distribute`)를 통해 배포 준비 이벤트가 자동 전달됩니다.
+2. **리뷰 대시보드 검증 (Human-in-the-Loop)**:
    * URL: `https://market-briefing-distributor.neo-alpha-research.workers.dev/preview?date=YYYY-MM-DD`
    * 슬라이드별 가독성 및 텍스트 넘침 유무 육안 확인.
 3. **템플릿 수정 및 핫픽스**:
@@ -41,4 +41,4 @@ ETF Campus 데일리 마켓 브리핑을 3대 채널(Instagram, Threads, Newslet
    git commit -am "fix(template): ..."
    git push origin main
    ```
-4. **발행 실행**: 대시보드에서 [인스타그램 발행] / [스레드 발행] / [이메일 발송] 버튼 클릭 또는 n8n 자동 스케줄 트리거.
+4. **발행 실행**: 대시보드에서 [인스타그램 발행] / [스레드 발행] 실시간 트리거 (Meta Graph API 직접 연동) 및 Cloudflare D1 `briefing_distribution_logs`에 최종 배포 상태(`distributed`) 기록.

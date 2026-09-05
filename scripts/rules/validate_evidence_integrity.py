@@ -40,6 +40,7 @@ RULE_DESCRIPTIONS = {
     "S2": "statute_registry.csv evidence_ref 실존 및 excerpt 원문 부분문자열 대조 검증",
     "S3": "statute_id -> 허용 pension_limit 매핑표 정합 검증 (조문 오인용 및 WRBA_ART21/PSR_ART12_1_1 차단)",
     "S4": "statutory_basis 공란 시 pension_verified = N 필수 (근거 없는 행의 검증 표시 차단)",
+    "S5": "evidence_grade E1/E2 증거 충분성 검증 (로컬 파일 본문에 주장 핵심 키워드 원문 실재 확인)",
 }
 
 # Whitelist for bulk official disclosure snapshot files and extracts
@@ -47,6 +48,16 @@ WHITELISTED_SHARED_EVIDENCE = {
     "data/regulatory/sources/kofia_dis_response_20260905.xml",
     "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
 }
+
+
+def is_whitelisted_shared_evidence(ev_ref: str) -> bool:
+    """Check if evidence file is explicitly whitelisted or matches KOFIA monthly snapshot pattern."""
+    norm = ev_ref.replace("\\", "/")
+    if norm in WHITELISTED_SHARED_EVIDENCE:
+        return True
+    if re.match(r"^data/regulatory/sources/kofia_(dis_response|evidence_extract)_\d{8}\.xml$", norm):
+        return True
+    return False
 
 # S3 Allowable Statutory Basis -> pension_limit mapping table
 # WRBA_ART21 and PSR_ART12_1_1 are strictly excluded (cannot justify any pension limit).
@@ -249,7 +260,7 @@ def validate_evidence_integrity(
     for ev_ref, count in evidence_counter.items():
         # Normalize relative path representation
         normalized = ev_ref.replace("\\", "/")
-        if count > shared_threshold and normalized not in WHITELISTED_SHARED_EVIDENCE:
+        if count > shared_threshold and not is_whitelisted_shared_evidence(ev_ref):
             violations["E3"].append({
                 "evidence_ref": ev_ref,
                 "count": count,
@@ -414,6 +425,89 @@ def validate_evidence_integrity(
                         "pension_verified": p_ver,
                         "reason": "statutory_basis가 비어 있는데 pension_verified = Y 로 표시됨 (근거 없는 행 검증 표시 차단)",
                     })
+
+    # 7. S5: Evidence sufficiency for E1 / E2 items (F-1 prevention)
+    # If evidence_grade is E1/E2 and evidence_ref is a local file,
+    # the file content MUST contain verbatim keywords backing the statutory claim.
+    all_check_rows = list(ledger_rows)
+    if audit_rows:
+        all_check_rows.extend([r for r in audit_rows if str(r.get("pension_verified") or "").strip() == "Y"])
+
+    seen_s5_tickers = set()
+    for r in all_check_rows:
+        tk = str(r.get("ticker") or "").strip().upper()
+        if tk in seen_s5_tickers:
+            continue
+        seen_s5_tickers.add(tk)
+
+        ev_grade = str(r.get("evidence_grade") or "").strip().upper()
+        ev_ref = str(r.get("evidence_ref") or "").strip()
+        note = str(r.get("note") or r.get("audit_notes") or "").strip()
+
+        if ev_grade in ("E1", "E2"):
+            if not ev_ref:
+                violations["S5"].append({
+                    "ticker": tk,
+                    "evidence_grade": ev_grade,
+                    "reason": "E1/E2 승격 항목에 evidence_ref가 누락됨",
+                })
+                continue
+
+            file_path = (REPO_ROOT / ev_ref).resolve()
+            if not file_path.is_file():
+                violations["S5"].append({
+                    "ticker": tk,
+                    "evidence_grade": ev_grade,
+                    "evidence_ref": ev_ref,
+                    "reason": f"E1/E2 증거 파일 실존하지 않음: {ev_ref}",
+                })
+                continue
+
+            try:
+                file_text = file_path.read_text(encoding="utf-8")
+            except Exception:
+                try:
+                    file_text = file_path.read_text(encoding="cp949")
+                except Exception as e:
+                    violations["S5"].append({
+                        "ticker": tk,
+                        "evidence_grade": ev_grade,
+                        "evidence_ref": ev_ref,
+                        "reason": f"증거 파일 읽기 실패: {e}",
+                    })
+                    continue
+
+            # Core keyword sets based on statutory claim
+            required_keywords = []
+            claim_desc = []
+
+            if any(k in note for k in ["주식", "한도", "채권혼합", "50% 미만", "40% 이하", "투자대상주식"]):
+                required_keywords.extend(["투자대상주식", "주식의 투자한도", "주식의투자한도", "100분의 50", "100분의50"])
+                claim_desc.append("주식 투자한도")
+            if any(k in note for k in ["위험평가액", "장외파생", "파생"]):
+                required_keywords.append("위험평가액")
+                claim_desc.append("파생 위험평가액")
+            if any(k in note for k in ["사모", "재간접"]):
+                required_keywords.extend(["사모", "집합투자증권에 투자", "집합투자증권에투자"])
+                claim_desc.append("사모/재간접")
+            if any(k in note for k in ["부동산"]):
+                required_keywords.extend(["부동산집합투자기구", "제240조"])
+                claim_desc.append("부동산집합투자기구")
+
+            if not required_keywords:
+                required_keywords = ["투자대상주식", "위험평가액", "신탁계약", "투자한도"]
+                claim_desc.append("일반 규정 조항")
+
+            matched = [kw for kw in required_keywords if kw in file_text]
+            if not matched:
+                violations["S5"].append({
+                    "ticker": tk,
+                    "evidence_grade": ev_grade,
+                    "evidence_ref": ev_ref,
+                    "claim": ", ".join(claim_desc),
+                    "required_keywords": required_keywords,
+                    "reason": f"증거 파일 본문에 주장 핵심 키워드({required_keywords})가 일체 존재하지 않음 (증거 불충분 표지)",
+                })
 
     return violations
 

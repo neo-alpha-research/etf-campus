@@ -1,0 +1,208 @@
+투자대상자산의 분류
+Definition
+투자대상자산
+재산적 가치가 있는 것 (자본시장법 3조 참조)
+Securities
+원본 초과손실 가능성(원본 외 추가지급의무 부담 가능성) 없는 것
+채무증권
+Debt securities
+국채증권(Treasury bond), 지방채증권
+, 특수채, 사채권(Corporate bond), 령 4조의 요건을 갖춘 기업어음증권(CP)
+, 그밖에 이와 유사한 것
+지방자치단체 발행어음의 성격과 금융투자회사의 취급가능 여부
+자본시장법 제4조 제3항의 지방채증권은 지방재정법 제11조에 따라 지방자치단체가 발행한 채권을 의미하며, 기업어음증권은 기업이사업에 필요한 자금을 조달하기 위하여 발행하는 약속어음으로 규정하고 있으므로 지방자치단체가 발행하는 어음은 지방채증권이나 기업어음에 해당하지 않음. 따라서 자본시장법 시행령 제183조의 적용대상이 아니고, 해당 어음을 종합금융회사 등에서 취급할 수 없을 것임. 다만, 지방자치단체가 어음을 발행할 수 있는지 여부에 대해서는 지방재정법을 담당하는 행정안전부에서 판단할 사항임(금융위 2009. 4).
+기업이 발행한 약속어음으로서 지급을 대행하는 은행(은행법 제2조의 금융기관, 산업은행, 중소기업은행, 농수협 중앙회, 외국은행 국내지점)이
+기업어음증권
+이라는 문자를 인쇄하여 교부하는 어음용지를 사용하는 것만 금융투자상품에 해당(법 제4조 제3항). 다만, 종전 증권거래법과 달리 발행주체, 만기 및 금액 등에는 제한이 없음(금감원 2009. 2).
+외화표시 양도성 정기예금증서
+등 포함
+)쐀음과
+외화 양도성 정기예금증서의 성격
+외화 CD는 자본시장법 제3조에 따른 금융투자상품에 해당(금융위 2009. 4)
+출자지분을 나타내는 것
+Representing equity contribution share
+수익증권
+Beneficial certificates
+금전신탁 수익증권, 투자신탁 수익증권, 그 밖에 이와 유사한 것으로서 신탁의 수익권이 표시된 것
+회사형 펀드의 지분 및 REITs는 수익증권이 아닌 지분증권으로 분류.
+Beneficial certificate issued by trust or investment trust
+inve
+증권의 예탁을 받은 자가 발행하는 증권
+Securities representing the deposit of other securities
+er s
+Investment contracts
+투자계약증권
+비정형 집합투자의 지분
+모든 유형의 집합투자증권을 포괄하는 개념
+예) 인터넷으로 투자자를 모집하는 Netizen fund에 대한 지분, 상법상 합자회사
+익명조합, 민법상 조합을 활용한 공모 집합투자기구의 지분 등
+Unregulated indirect investment securities
+Ex) Netizen Fund
+기초자산의 가격
+단위 또는 이를 기초로 하는 지수 등의 변동과 연계하여 미리 정하여진 방법에 따라 지급금액 또는 회수금액이 결정되는 권리가 표시된 것
+Securities linked with derivative components
+파생상품
+Derivatives
+원본초과손실 가능성(추가지급의무 부담 가능성) 있는 것
+Derivatives traded on exchange house
+장외파생상품
+Over
+counter derivatives
+선도, 스왑, 옵션 등
+Forwards, Options or Swap traded out of exchange house
+투자성이 없는 것
+기타 금융투자상품의 요건을 충족하지 않는 것
+계약상의 권리가 아닌 것(법 4조 10항 참조)
+명문으로 금융투자상품에서 제외된 것(법3조)
+대행하는 은행(은행법 제2조의 금융기관, 산업은행, 중소기업은행, 농수협 중앙회, 외국은행 국내지점)이
+기업어음증권
+이라는 문자를 인쇄하여 교부하는 어음용지를 사용하는 것만 금융투자상품에 해당(법 제4조 제3항). 다만, 종전 증권거래법과 달리 발행주체, 만기 및 금액 등에는 제한이 없음(금감원 2009. 2).
+외화표시 양도성 정기예금증서
+등 포함
+)쐀음과
+외화 양도성 정기예금증서의 성격
+외화 CD는 자본시장법 제3조에 따른 금융투자상품에 해당(금융위 2009. 4)
+출자지분을 나타내는 것
+Representing equity contribution share
+수익증권
+Beneficial certificates
+금전신탁 수익증권, 투자신탁 수익증권, 그 밖에 이와 유사한 것으로서 신탁의 수익권이 표시된 것
+회사형 펀드의 지분 및 REITs는 수익증권이 아닌 지분증권으로 분류.
+Beneficial certificate issued by trust or investment trust
+inve
+증권의 예탁을 받은 자가 발행하는 증권
+Securities representing the deposit of other securities
+er s
+Investment contracts
+투자계약증권
+비정형 집합투자의 지분
+모든 유형의 집합투자증권을 포괄하는 개념
+예) 인터넷으로 투자자를 모집하는 Netizen fund에 대한 지분, 상법상 합자회사
+익명조합, 민법상 조합을 활용한 공모 집합투자기구의 지분 등
+Unregulated indirect investment securities
+Ex) Netizen Fund
+기초자산의 가격
+단위 또는 이를 기초로 하는 지수 등의 변동과 연계하여 미리 정하여진 방법에 따라 지급금액 또는 회수금액이 결정되는 권리가 표시된 것
+Securities linked with derivative components
+파생상품
+Derivatives
+원본초과손실 가능성(추가지급의무 부담 가능성) 있는 것
+Derivatives traded on exchange house
+장외파생상품
+Over
+counter derivatives
+선도, 스왑, 옵션 등
+Forwards, Options or Swap traded out of exchange house
+투자성이 없는 것
+기타 금융투자상품의 요건을 충족하지 않는 것
+계약상의 권리가 아닌 것(법 4조 10항 참조)
+명문으로 금융투자상품에서 제외된 것(법3조)
+대행하는 은행(은행법 제2조의 금융기관, 산업은행, 중소기업은행, 농수협 중앙회, 외국은행 국내지점)이
+기업어음증권
+이라는 문자를 인쇄하여 교부하는 어음용지를 사용하는 것만 금융투자상품에 해당(법 제4조 제3항). 다만, 종전 증권거래법과 달리 발행주체, 만기 및 금액 등에는 제한이 없음(금감원 2009. 2).
+외화표시 양도성 정기예금증서
+등 포함
+)쐀음과
+외화 양도성 정기예금증서의 성격
+외화 CD는 자본시장법 제3조에 따른 금융투자상품에 해당(금융위 2009. 4)
+출자지분을 나타내는 것
+Representing equity contribution share
+수익증권
+Beneficial certificates
+금전신탁 수익증권, 투자신탁 수익증권, 그 밖에 이와 유사한 것으로서 신탁의 수익권이 표시된 것
+회사형 펀드의 지분 및 REITs는 수익증권이 아닌 지분증권으로 분류.
+Beneficial certificate issued by trust or investment trust
+inve
+증권의 예탁을 받은 자가 발행하는 증권
+Securities representing the deposit of other securities
+er s
+Investment contracts
+투자계약증권
+비정형 집합투자의 지분
+모든 유형의 집합투자증권을 포괄하는 개념
+예) 인터넷으로 투자자를 모집하는 Netizen fund에 대한 지분, 상법상 합자회사
+익명조합, 민법상 조합을 활용한 공모 집합투자기구의 지분 등
+Unregulated indirect investment securities
+Ex) Netizen Fund
+기초자산의 가격
+단위 또는 이를 기초로 하는 지수 등의 변동과 연계하여 미리 정하여진 방법에 따라 지급금액 또는 회수금액이 결정되는 권리가 표시된 것
+Securities linked with derivative components
+파생상품
+Derivatives
+원본초과손실 가능성(추가지급의무 부담 가능성) 있는 것
+Derivatives traded on exchange house
+장외파생상품
+Over
+counter derivatives
+선도, 스왑, 옵션 등
+Forwards, Options or Swap traded out of exchange house
+투자성이 없는 것
+기타 금융투자상품의 요건을 충족하지 않는 것
+계약상의 권리가 아닌 것(법 4조 10항 참조)
+명문으로 금융투자상품에서 제외된 것(법3조)
+ng the deposit of other securities
+er s
+Investment contracts
+투자계약증권
+비정형 집합투자의 지분
+모든 유형의 집합투자증권을 포괄하는 개념
+예) 인터넷으로 투자자를 모집하는 Netizen fund에 대한 지분, 상법상 합자회사
+익명조합, 민법상 조합을 활용한 공모 집합투자기구의 지분 등
+Unregulated indirect investment securities
+Ex) Netizen Fund
+기초자산의 가격
+단위 또는 이를 기초로 하는 지수 등의 변동과 연계하여 미리 정하여진 방법에 따라 지급금액 또는 회수금액이 결정되는 권리가 표시된 것
+Securities linked with derivative components
+파생상품
+Derivatives
+원본초과손실 가능성(추가지급의무 부담 가능성) 있는 것
+Derivatives traded on exchange house
+장외파생상품
+Over
+counter derivatives
+선도, 스왑, 옵션 등
+Forwards, Options or Swap traded out of exchange house
+투자성이 없는 것
+기타 금융투자상품의 요건을 충족하지 않는 것
+계약상의 권리가 아닌 것(법 4조 10항 참조)
+명문으로 금융투자상품에서 제외된 것(법3조)
+ng the deposit of other securities
+er s
+Investment contracts
+투자계약증권
+비정형 집합투자의 지분
+모든 유형의 집합투자증권을 포괄하는 개념
+예) 인터넷으로 투자자를 모집하는 Netizen fund에 대한 지분, 상법상 합자회사
+익명조합, 민법상 조합을 활용한 공모 집합투자기구의 지분 등
+Unregulated indirect investment securities
+Ex) Netizen Fund
+기초자산의 가격
+단위 또는 이를 기초로 하는 지수 등의 변동과 연계하여 미리 정하여진 방법에 따라 지급금액 또는 회수금액이 결정되는 권리가 표시된 것
+Securities linked with derivative components
+파생상품
+Derivatives
+원본초과손실 가능성(추가지급의무 부담 가능성) 있는 것
+Derivatives traded on exchange house
+장외파생상품
+Over
+counter derivatives
+선도, 스왑, 옵션 등
+Forwards, Options or Swap traded out of exchange house
+투자성이 없는 것
+기타 금융투자상품의 요건을 충족하지 않는 것
+계약상의 권리가 아닌 것(법 4조 10항 참조)
+명문으로 금융투자상품에서 제외된 것(법3조)
+파생상품
+Derivatives
+원본초과손실 가능성(추가지급의무 부담 가능성) 있는 것
+Derivatives traded on exchange house
+장외파생상품
+Over
+counter derivatives
+선도, 스왑, 옵션 등
+Forwards, Options or Swap traded out of exchange house
+투자성이 없는 것
+기타 금융투자상품의 요건을 충족하지 않는 것
+계약상의 권리가 아닌 것(법 4조 10항 참조)
+명문으로 금융투자상품에서 제외된 것(법3조)
+명문으로 금융투자상품에서 제외된 것(법3조)

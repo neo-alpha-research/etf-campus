@@ -370,10 +370,42 @@ def match_and_export_fund_types(
     return len(matched_rows)
 
 
+def advanced_strip(s: str) -> str:
+    """Normalize fund names removing structural variations for robust KOFIA matching."""
+    if not s:
+        return ""
+    s = s.replace("TotalReturn", "TR").replace("totalreturn", "tr")
+    s = re.sub(
+        r"^(삼성|미래에셋|KB|한화|한국투자|신한|키움|NH-Amundi|우리|하나|타임폴리오|에셋플러스|마이다스|IBK|유진|대신|DB|BNK|현대|트러스톤|교보악사|KCGI)\s*",
+        "",
+        s,
+    )
+    s = re.sub(
+        r"^(KODEX|TIGER|RISE|KBSTAR|ACE|SOL|PLUS|ARIRANG|KOSEF|KIWOOM|HANARO|WON|1Q|TIMEFOLIO|히어로즈|KoAct|TRUSTON)\s*",
+        "",
+        s,
+    )
+    s = re.sub(r"(증권|특수자산|혼합자산|부동산|특별자산)?(상장지수)?(투자신탁|투자회사|투자기구)", "", s)
+    s = re.sub(r"[\(\[][^)\]]*(주식|채권|파생|혼합|재간접|특별자산|부동산)[^)\]]*[\)\]]", "", s)
+    s = re.sub(r"[\s\(\)\[\]_\-·/+,]", "", s)
+    return s.lower()
+
+
+KNOWN_MANUAL_STD_MAPPING = {
+    "482030": "K553N9E96812",  # KoAct AI반도체&2차전지핵심소재액티브
+    "494210": "K55210EC9637",  # SOL 미국500타겟데일리커버드콜액티브
+    "491220": "K55213EE1753",  # PLUS 200TR (TotalReturn)
+    "495550": "K55210EF9550",  # SOL 코리아밸류업TR (TotalReturn)
+    "499660": "K55301EF8008",  # TIGER CD금리플러스액티브(합성)
+    "499150": "K55210EF7513",  # SOL 미국S&P500엔화노출(H)
+}
+
+
 def run_pipeline(
     registry_path: str,
     master_csv_path: str,
     output_path: Optional[str] = None,
+    xml_source: Optional[str] = None,
     headless: bool = True,
     dry_run: bool = False,
 ):
@@ -392,8 +424,15 @@ def run_pipeline(
     registry_dict = {item["ticker"]: item for item in registry_list}
     print(f"Loaded existing fee registry with {len(registry_dict)} tickers.")
 
-    # Scrape KOFIA DIS
-    kofia_records, raw_xml = scrape_kofia_fees(headless=headless)
+    # Scrape or load KOFIA DIS
+    if xml_source and os.path.exists(xml_source):
+        print(f"Loading KOFIA DIS data from local snapshot: {xml_source}")
+        with open(xml_source, "r", encoding="utf-8", errors="ignore") as f:
+            raw_xml = f.read()
+        kofia_records = parse_kofia_select_meta(raw_xml)
+        print(f"Parsed {len(kofia_records):,} fund records from snapshot XML.")
+    else:
+        kofia_records, raw_xml = scrape_kofia_fees(headless=headless)
 
     # Export KOFIA Fund Types (Stage 1 extension)
     fund_types_csv = REPO_ROOT / "data" / "regulatory" / "kofia_fund_types.csv"
@@ -413,25 +452,46 @@ def run_pipeline(
     effective_date_str = datetime.datetime.now().strftime("%Y%m")
 
     kofia_by_std = {}
-    kofia_by_name = {}
+    kofia_by_clean = {}
     for rec in kofia_records:
         std = rec.get("standard_code")
         if std:
             kofia_by_std[std] = rec
         name = rec.get("fund_name", "")
         if name:
-            clean_name = re.sub(r"[\s\(\)\[\]증권상장지수투자신탁]", "", name)
-            kofia_by_name[clean_name] = rec
+            cn = advanced_strip(name)
+            if cn not in kofia_by_clean:
+                kofia_by_clean[cn] = []
+            kofia_by_clean[cn].append(rec)
 
     for ticker, current in registry_dict.items():
         master_info = master_mapping.get(ticker, {})
-        std_cd = master_info.get("standard_code") or current.get("fund_standard_code")
+        std_cd = (
+            KNOWN_MANUAL_STD_MAPPING.get(ticker)
+            or master_info.get("standard_code")
+            or current.get("fund_standard_code")
+        )
         name = master_info.get("name") or current.get("name", "")
-        clean_name = re.sub(r"[\s\(\)\[\]증권상장지수투자신탁]", "", name)
+        leg_name = current.get("legal_fund_name", "")
 
         matched_kofia = kofia_by_std.get(std_cd) if std_cd else None
         if not matched_kofia:
-            matched_kofia = kofia_by_name.get(clean_name)
+            for cand in [leg_name, name]:
+                c_cand = advanced_strip(cand)
+                if c_cand and c_cand in kofia_by_clean:
+                    matches = kofia_by_clean[c_cand]
+                    if len(matches) == 1:
+                        matched_kofia = matches[0]
+                        break
+                    else:
+                        iss = master_info.get("issuer") or current.get("issuer") or ""
+                        filtered = [
+                            m for m in matches
+                            if iss and (iss in m.get("issuer", "") or m.get("issuer", "") in iss)
+                        ]
+                        if len(filtered) == 1:
+                            matched_kofia = filtered[0]
+                            break
 
         if matched_kofia:
             if matched_kofia.get("total_fee") is not None:
@@ -442,6 +502,11 @@ def run_pipeline(
                 current["ter_pct"] = matched_kofia["ter"]
             if matched_kofia.get("trading_cost") is not None:
                 current["trading_cost_pct"] = matched_kofia["trading_cost"]
+
+            if matched_kofia.get("standard_code"):
+                current["fund_standard_code"] = matched_kofia["standard_code"]
+            if matched_kofia.get("fund_name"):
+                current["legal_fund_name"] = matched_kofia["fund_name"]
 
             current["effective_date"] = matched_kofia.get("base_date") or effective_date_str
             current["verified_at"] = now_iso
@@ -489,6 +554,7 @@ if __name__ == "__main__":
     parser.add_argument("--registry", default=str(REPO_ROOT / "data/fees/etf_fee_registry.json"), help="Path to etf_fee_registry.json")
     parser.add_argument("--master", default=str(REPO_ROOT / "data/etf_master_draft.csv"), help="Path to etf_master_draft.csv")
     parser.add_argument("--output", default=None, help="Output file path (defaults to registry)")
+    parser.add_argument("--xml-source", default=None, help="Path to pre-collected KOFIA XML snapshot (optional)")
     parser.add_argument("--no-headless", action="store_true", help="Run browser in headful mode (GUI)")
     parser.add_argument("--dry-run", action="store_true", help="Perform scraping without saving file")
 
@@ -497,6 +563,8 @@ if __name__ == "__main__":
         registry_path=args.registry,
         master_csv_path=args.master,
         output_path=args.output,
+        xml_source=args.xml_source,
         headless=not args.no_headless,
         dry_run=args.dry_run,
     )
+

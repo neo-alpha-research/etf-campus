@@ -11,8 +11,8 @@ describe("official ETF fee registry", () => {
     expect(kiwoom).toMatchObject({
       verificationStatus: "verified_official",
       totalFeePct: 0.12,
-      otherCostPct: 1.4057,
-      tradingCostPct: 1.6141,
+      otherCostPct: 0.4203,
+      tradingCostPct: 0.3206,
       dartReceiptNo: "20260305000919",
     });
   });

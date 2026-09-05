@@ -68,7 +68,35 @@ PENSION_CONFIDENCE_LOW = "낮음"
 PENSION_VERIFIED_YES = "Y"
 PENSION_VERIFIED_NO = "N"
 
+ISA_TAX_TYPE_DOMESTIC_EQUITY = "국내주식형"
+ISA_TAX_TYPE_OTHER = "기타"
+
+ISA_TAX_BENEFIT_HIGH = "높음"
+ISA_TAX_BENEFIT_LOW = "낮음"
+
 SAMPLE_VERIFIED_TICKERS: set[str] = set()
+
+
+def load_kofia_fund_types(kofia_path: Path | None = None) -> dict[str, str]:
+    """Load official KOFIA fund types mapping (ticker -> fund_type)."""
+    path = kofia_path or (REPO_ROOT / "data" / "regulatory" / "kofia_fund_types.csv")
+    mapping: dict[str, str] = {}
+    if not path.exists():
+        return mapping
+    try:
+        with path.open("r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for r in reader:
+                tk = str(r.get("ticker") or "").strip().upper()
+                ft = str(r.get("fund_type") or "").strip()
+                if tk and ft:
+                    mapping[tk] = ft
+    except Exception as e:
+        print(f"[WARN] Failed to load kofia_fund_types.csv at {path}: {e}")
+    return mapping
+
+
+_KOFIA_FUND_TYPES_CACHE: dict[str, str] | None = None
 
 
 def load_verified_ledger_entries(ledger_path: Path | None = None) -> dict[str, dict[str, str]]:
@@ -167,13 +195,27 @@ def classify_pension_and_isa(
     asset = str(row.get("asset_class") or "").strip()
     underlying_sec = is_underlying_security(row)
 
-    # 1. ISA Classification
+    # 1. ISA Classification (Complete 4-field architecture)
     isa_eligible = ISA_ELIGIBLE
     is_leverage = (risk == "leverage")
     is_inverse_2x = (risk == "inverse" and bool(re.search(r"2X|2x", name)))
     isa_education_required = (
         ISA_EDUCATION_REQUIRED if (is_leverage or is_inverse_2x) else ISA_EDUCATION_NOT_REQUIRED
     )
+
+    kofia_ft = str(row.get("kofia_fund_type") or "").strip()
+    if not kofia_ft:
+        global _KOFIA_FUND_TYPES_CACHE
+        if _KOFIA_FUND_TYPES_CACHE is None:
+            _KOFIA_FUND_TYPES_CACHE = load_kofia_fund_types()
+        kofia_ft = _KOFIA_FUND_TYPES_CACHE.get(ticker, "")
+
+    if kofia_ft == "주식형" and asset == "주식-국내":
+        isa_tax_type = ISA_TAX_TYPE_DOMESTIC_EQUITY
+        isa_tax_benefit = ISA_TAX_BENEFIT_LOW
+    else:
+        isa_tax_type = ISA_TAX_TYPE_OTHER
+        isa_tax_benefit = ISA_TAX_BENEFIT_HIGH
 
     # 2. Pension Absolute Exclusion
     is_spot = "현물" in name
@@ -204,12 +246,12 @@ def classify_pension_and_isa(
         elif "TDF" in name:
             is_safe = True
             reason = "적격 TDF 안전자산 (100% 투자 가능)"
-        elif "TRF3070" in name or "TRF5050" in name or "TIF" in name:
+        elif "TRF3070" in name or "TIF" in name:
             is_safe = True
-            reason = "주식비중 50% 이하 자산배분 안전자산 (100% 투자 가능)"
+            reason = "주식비중 50% 미만 자산배분 안전자산 (100% 투자 가능)"
         elif any(kw in name for kw in ["채권혼합", "혼합50", "국채혼합50"]):
             is_safe = True
-            reason = "적격 채권혼합형(주식 50% 이하) 안전자산 (100% 투자 가능)"
+            reason = "적격 채권혼합형(주식 50% 미만) 안전자산 (100% 투자 가능)"
 
         pension_limit = LIMIT_SAFE_ASSET if is_safe else LIMIT_RISK_ASSET
 
@@ -230,6 +272,8 @@ def classify_pension_and_isa(
                 "pension_eligible": pension_eligible,
                 "pension_limit": pension_limit,
                 "isa_eligible": isa_eligible,
+                "isa_tax_type": isa_tax_type,
+                "isa_tax_benefit": isa_tax_benefit,
                 "isa_education_required": isa_education_required,
                 "pension_source": v_src,
                 "pension_verified": PENSION_VERIFIED_YES,
@@ -243,6 +287,8 @@ def classify_pension_and_isa(
                 "pension_eligible": pension_eligible,
                 "pension_limit": pension_limit,
                 "isa_eligible": isa_eligible,
+                "isa_tax_type": isa_tax_type,
+                "isa_tax_benefit": isa_tax_benefit,
                 "isa_education_required": isa_education_required,
                 "pension_source": PENSION_SOURCE_RULE_ESTIMATE,
                 "pension_verified": PENSION_VERIFIED_NO,
@@ -257,6 +303,8 @@ def classify_pension_and_isa(
             "pension_eligible": pension_eligible,
             "pension_limit": pension_limit,
             "isa_eligible": isa_eligible,
+            "isa_tax_type": isa_tax_type,
+            "isa_tax_benefit": isa_tax_benefit,
             "isa_education_required": isa_education_required,
             "pension_source": PENSION_SOURCE_BROKER_VERIFIED,
             "pension_verified": PENSION_VERIFIED_YES,
@@ -284,6 +332,8 @@ def classify_pension_and_isa(
         "pension_eligible": pension_eligible,
         "pension_limit": pension_limit,
         "isa_eligible": isa_eligible,
+        "isa_tax_type": isa_tax_type,
+        "isa_tax_benefit": isa_tax_benefit,
         "isa_education_required": isa_education_required,
         "pension_source": pension_source,
         "pension_verified": pension_verified,
@@ -492,6 +542,8 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         "pension_limit",
         "isa_eligible",
         "isa_education_required",
+        "isa_tax_type",
+        "isa_tax_benefit",
         "pension_source",
         "pension_verified",
         "pension_confidence",
@@ -511,6 +563,8 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
             "pension_limit",
             "isa_eligible",
             "isa_education_required",
+            "isa_tax_type",
+            "isa_tax_benefit",
             "pension_source",
             "pension_verified",
             "pension_confidence",

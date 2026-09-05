@@ -1,4 +1,6 @@
 import type { MarketBriefingPayload } from "../types";
+import { classifyMarketRegime, type MarketRegime } from "../services/market-regime";
+import type { PolishedNarrative } from "../services/gemini";
 
 function normalizeToEok(val: number | string | undefined | null): number {
   if (!val) return 0;
@@ -20,36 +22,41 @@ function escapeXml(unsafe?: string): string {
     .replace(/'/g, "&apos;");
 }
 
-export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: string): { subject: string; html: string } {
-  const dateStr = payload.asOfDate || "2026-08-31";
+export function generateNewsletterHtml(
+  payload: MarketBriefingPayload,
+  baseUrl: string,
+  narrative?: PolishedNarrative | MarketRegime
+): { subject: string; html: string } {
+  const regime = narrative || classifyMarketRegime(payload);
+  const dateStr = payload.asOfDate || "2026-09-04";
   const formattedDate = dateStr.replace(/-/g, ".");
-  const temp = payload.marketTemperature || "하락 우세";
+  const temp = payload.marketTemperature || "상승 우세";
 
-  const kospiClose = payload.kospiClose || 2600.00;
-  const kospiChangePct = payload.kospiChangePct ?? 0.46;
+  const kospiClose = payload.kospiClose || 0;
+  const kospiChangePct = payload.kospiChangePct ?? 0;
   const kospiColor = kospiChangePct >= 0 ? "#DC2626" : "#2563EB";
   const kospiSign = kospiChangePct > 0 ? "+" : "";
 
-  const kosdaqChangePct = payload.kosdaqChangePct ?? -0.49;
+  const kosdaqChangePct = payload.kosdaqChangePct ?? 0;
   const kosdaqColor = kosdaqChangePct >= 0 ? "#DC2626" : "#2563EB";
   const kosdaqSign = kosdaqChangePct > 0 ? "+" : "";
 
-  const etfReturn = payload.generalAumWeightedReturnPct ?? -0.28;
+  const etfReturn = payload.generalAumWeightedReturnPct ?? 0;
   const etfSign = etfReturn > 0 ? "+" : "";
   const etfColor = etfReturn >= 0 ? "#DC2626" : "#2563EB";
 
   // 전체 ETF 기준 총 순자산 & 거래대금 (marketScaleSnapshot 우선, 없으면 일반 ETF 값 fallback)
-  const totalAumEok = normalizeToEok(payload.marketScaleSnapshot?.totalAum || payload.pulse?.generalTotalAum || payload.generalTotalAum || 3814729);
-  const totalTradeEok = normalizeToEok(payload.marketScaleSnapshot?.totalTradeValue || payload.pulse?.generalTotalTradeValue || payload.generalTotalTradeValue || 100551);
+  const totalAumEok = normalizeToEok(payload.marketScaleSnapshot?.totalAum || payload.pulse?.generalTotalAum || payload.generalTotalAum || 0);
+  const totalTradeEok = normalizeToEok(payload.marketScaleSnapshot?.totalTradeValue || payload.pulse?.generalTotalTradeValue || payload.generalTotalTradeValue || 0);
   const aumJo = (totalAumEok / 10000).toFixed(1);
   const tradeJo = (totalTradeEok / 10000).toFixed(1);
-  const turnoverPct = totalAumEok > 0 ? ((totalTradeEok / totalAumEok) * 100) : (payload.marketScaleSnapshot?.marketTurnoverPct ?? payload.marketTurnoverPct ?? 2.64);
+  const turnoverPct = totalAumEok > 0 ? ((totalTradeEok / totalAumEok) * 100) : (payload.marketScaleSnapshot?.marketTurnoverPct ?? payload.marketTurnoverPct ?? 0);
   const totalEtfCount = payload.pulse?.totalEtfCount || 0;
 
-  const up = payload.upCount || 305;
-  const flat = payload.flatCount || 47;
-  const down = payload.downCount || 670;
-  const generalCount = payload.generalEtfCount || 1022;
+  const up = payload.upCount ?? payload.pulse?.upCount ?? 0;
+  const flat = payload.flatCount ?? payload.pulse?.flatCount ?? 0;
+  const down = payload.downCount ?? payload.pulse?.downCount ?? 0;
+  const generalCount = payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? 0;
 
   const dailyTs = payload.marketScaleTimeSeries?.daily || [];
   const latestTs = dailyTs.length > 0 ? dailyTs[dailyTs.length - 1] : null;
@@ -71,21 +78,23 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
     }
   }
   
+  // Peer Groups (상위/하위 랭킹 SSOT)
   const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
-  const winners = sortedPeerGroups.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 3);
-  const losers = [...sortedPeerGroups].reverse().filter(p => p.cappedAumWeightedReturnPct < 0).slice(0, 3);
-  const topTheme = winners[0] || { peerGroup: "에너지", cappedAumWeightedReturnPct: 0.93 };
-  const bottomTheme = losers[0] || { peerGroup: "K-푸드 & K-뷰티", cappedAumWeightedReturnPct: -4.07 };
+  const winners = sortedPeerGroups.slice(0, 3);
+  const losers = [...sortedPeerGroups].reverse().slice(0, 3);
+  const topTheme = sortedPeerGroups[0] || { peerGroup: "데이터 없음", cappedAumWeightedReturnPct: 0 };
+  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1] || topTheme;
 
   const topInflows: any[] = (payload.periodicFlows?.dailyFundFlows?.topInflows || []) as any[];
-  const topInflowName = topInflows[0]?.name || topInflows[0]?.etfName || "국내 대표지수";
+  const topInflowName = topInflows[0]?.name || topInflows[0]?.etfName || "핵심 ETF";
 
   const cleanTopThemeName = topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
-  const headline = `국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장을 전수 분석한 결과, 상승 ${up}개 대비 하락 ${down}개로 숨고르기 장세를 보였습니다. 테마별로는 '${cleanTopThemeName}' 테마가 +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 상승한 가운데, 스마트머니는 '${topInflowName}' 등 대표지수로 실질 순유입을 이어갔습니다.`;
+  const flowCharStr = (regime as any).flowCharacterName || "우량 채권 및 고배당";
+  const headline = regime.captionMarketSummary || `국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장을 전수 분석한 결과, 상승 ${up}개 대비 하락 ${down}개로 ${regime.statusName} 장세를 나타냈습니다. 테마별로는 '${cleanTopThemeName}' 테마가 +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 상승한 가운데, 스마트머니는 '${topInflowName}' 등 ${flowCharStr} 성격의 자금 순유입을 이어갔습니다.`;
   
   const utmLink = `${baseUrl}/briefing?utm_source=newsletter&utm_medium=email&utm_campaign=daily_briefing_${dateStr.replace(/-/g, "")}`;
 
-  const subject = `[ETF 마켓 브리핑] ${formattedDate} '${topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '')}' 테마 상승 속 대표지수 스마트머니 유입`;
+  const subject = `[ETF 마켓 브리핑] ${formattedDate} ${regime.statusName} 속 '${cleanTopThemeName}' 강세 및 스마트머니 순유입`;
 
   // 3. Disparity Warning (괴리율 경보)
   const disparityList = payload.disparityWarning || [];
@@ -143,7 +152,6 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 10px; margin-bottom: 12px;">
             <tr>
               <td style="text-align: left; vertical-align: middle;">
-                <span style="font-size: 16px; margin-right: 6px;">💡</span>
                 <span style="font-size: 14.5px; font-weight: 900; color: #065F46; letter-spacing: -0.3px;">오늘의 30초 마켓 요약</span>
               </td>
               <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
@@ -153,7 +161,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
           </table>
 
           <div style="font-size: 16.5px; font-weight: 800; color: #0F172A; line-height: 1.55; margin-bottom: 12px; letter-spacing: -0.4px;">
-            코스피 소폭 상승에도 일반 ETF 시장은 <span style="color: #2563EB; font-weight: 900;">하락 ${down}개 우세</span>로 차별화된 숨고르기 장세를 나타냈습니다.
+            ${escapeXml(regime.slide1Subheadline || `코스피 ${kospiSign}${kospiChangePct.toFixed(2)}% 등락과 함께 일반 ETF 시장은 상승 ${up}개 vs 하락 ${down}개로 ${regime.statusName} 흐름을 시현했습니다.`)}
           </div>
 
           <div style="background-color: #FFFFFF; border-radius: 12px; padding: 12px 14px; border: 1.5px solid #E2E8F0; font-size: 14.5px; color: #334155;">
@@ -163,7 +171,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
                   • 주도 테마
                 </td>
                 <td style="vertical-align: top; color: #0F172A; font-weight: 800; font-size: 14.5px; line-height: 1.6;">
-                  <span style="color: #DC2626;">'${escapeXml(topTheme.peerGroup.replace(/\s*\([^)]*\)/g, ''))}'</span> (+${topTheme.cappedAumWeightedReturnPct.toFixed(2)}%) 상승 선방
+                  <span style="color: #DC2626;">'${escapeXml(topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim())}'</span> +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 상승 선방
                 </td>
               </tr>
             </table>
@@ -173,7 +181,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
                   • 스마트머니
                 </td>
                 <td style="vertical-align: top; color: #0F172A; font-weight: 800; font-size: 14.5px; line-height: 1.6;">
-                  <span style="color: #047857;">'${escapeXml(topInflowName)}'</span> 등 대표지수로 실질 자금 순유입 집중
+                  <span style="color: #047857;">'${escapeXml(topInflowName)}'</span> 등 ${escapeXml(flowCharStr)} 성격의 실질 자금 순유입 집중
                 </td>
               </tr>
             </table>
@@ -225,7 +233,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 30px; margin-bottom: 12px;">
           <tr>
             <td style="text-align: left; vertical-align: middle;">
-              <span style="font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">🔥 주도 테마 TOP 3 vs 부진 테마 TOP 3</span>
+              <span style="font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">▲ 상위 Top 3 vs ▼ 하위 Worst 3 테마</span>
             </td>
             <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
               <span style="font-size: 12.5px; color: #64748B; font-weight: 700;">AUM 가중 평균 수익률 기준</span>
@@ -241,20 +249,30 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             </tr>
           </thead>
           <tbody>
-            ${winners.map((w, idx) => `
+            ${winners.map((w, idx) => {
+              const cleanName = w.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
+              const ret = w.cappedAumWeightedReturnPct ?? 0;
+              const retSign = ret > 0 ? "▲ +" : ret < 0 ? "▼ " : "";
+              const retColor = ret >= 0 ? "#DC2626" : "#2563EB";
+              return `
               <tr>
-                <td style="font-weight: 900; color: #DC2626; font-size: 14.5px;">상승 ${idx + 1}위</td>
-                <td style="font-weight: 900; color: #0F172A; font-size: 15.5px;">${escapeXml(w.peerGroup)}</td>
-                <td style="text-align: right; font-weight: 900; color: #DC2626; font-size: 16px;" class="tabular">▲ +${w.cappedAumWeightedReturnPct.toFixed(2)}%</td>
+                <td style="font-weight: 900; color: #DC2626; font-size: 14.5px;">▲ 상위 ${idx + 1}위</td>
+                <td style="font-weight: 900; color: #0F172A; font-size: 15.5px;">${escapeXml(cleanName)}</td>
+                <td style="text-align: right; font-weight: 900; color: ${retColor}; font-size: 16px;" class="tabular">${retSign}${ret.toFixed(2)}%</td>
               </tr>
-            `).join("")}
-            ${losers.map((l, idx) => `
+            `;}).join("")}
+            ${losers.map((l, idx) => {
+              const cleanName = l.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
+              const ret = l.cappedAumWeightedReturnPct ?? 0;
+              const retSign = ret > 0 ? "▲ +" : ret < 0 ? "▼ " : "";
+              const retColor = ret >= 0 ? "#DC2626" : "#2563EB";
+              return `
               <tr>
-                <td style="font-weight: 900; color: #2563EB; font-size: 14.5px;">하락 ${idx + 1}위</td>
-                <td style="font-weight: 900; color: #0F172A; font-size: 15.5px;">${escapeXml(l.peerGroup)}</td>
-                <td style="text-align: right; font-weight: 900; color: #2563EB; font-size: 16px;" class="tabular">▼ ${l.cappedAumWeightedReturnPct.toFixed(2)}%</td>
+                <td style="font-weight: 900; color: #2563EB; font-size: 14.5px;">▼ 하위 ${idx + 1}위</td>
+                <td style="font-weight: 900; color: #0F172A; font-size: 15.5px;">${escapeXml(cleanName)}</td>
+                <td style="text-align: right; font-weight: 900; color: ${retColor}; font-size: 16px;" class="tabular">${retSign}${ret.toFixed(2)}%</td>
               </tr>
-            `).join("")}
+            `;}).join("")}
           </tbody>
         </table>
 
@@ -262,7 +280,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 30px; margin-bottom: 12px;">
           <tr>
             <td style="text-align: left; vertical-align: middle;">
-              <span style="font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">💸 스마트머니(외인·기관) 실질 순유입 TOP 5</span>
+              <span style="font-size: 18px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">스마트머니(외인·기관) 실질 순유입 TOP 5</span>
             </td>
             <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
               <span style="font-size: 12.5px; color: #64748B; font-weight: 700;">일반 테마 ETF 기준 · 단위: 억원</span>
@@ -287,7 +305,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
                 <td style="font-weight: 900; color: ${idx === 0 ? '#059669' : '#64748B'}; text-align: center; font-size: 15.5px;">${idx + 1}</td>
                 <td>
                   <div style="font-weight: 900; color: #0F172A; font-size: 15.5px;">${escapeXml(name)}</div>
-                  <div style="font-size: 12.5px; font-weight: 700; color: #64748B; margin-top: 2px;" class="tabular">${escapeXml(ticker)}</div>
+                  <div style="font-size: 12px; font-weight: 700; color: #64748B; margin-top: 2px;" class="tabular">${escapeXml(ticker)}</div>
                 </td>
                 <td style="text-align: right; font-weight: 900; color: #047857; font-size: 17px;" class="tabular">+${inflowEok.toLocaleString()}억원</td>
               </tr>
@@ -301,7 +319,6 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 14px; margin-bottom: 16px;">
             <tr>
               <td style="text-align: left; vertical-align: middle;">
-                <span style="font-size: 18px; margin-right: 6px;">⚠️</span>
                 <span style="font-size: 16px; font-weight: 900; color: #0F172A; margin-right: 6px;">수급 쏠림 주의 ETF (괴리율 경보)</span>
                 <span style="display: inline-block; background-color: #F1F5F9; color: #334155; font-size: 12px; font-weight: 900; padding: 2px 8px; border-radius: 999px;">총 ${disparityList.length}개</span>
               </td>
@@ -316,7 +333,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 8px;">
               <tr>
                 <td style="text-align: left; vertical-align: middle;">
-                  <span style="font-size: 14.5px; font-weight: 900; color: #DC2626;">📈 고평가 TOP 3 (Premium)</span>
+                  <span style="font-size: 14.5px; font-weight: 900; color: #DC2626;">고평가 TOP 3 (Premium)</span>
                 </td>
                 <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
                   <span style="font-size: 12px; font-weight: 800; color: #DC2626; background-color: #FEF2F2; padding: 3px 8px; border-radius: 6px;">추격 매수 주의 (시장가 &gt; NAV)</span>
@@ -325,7 +342,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             </table>
             ${overvalued.length === 0 ? `
               <div style="background-color: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 10px; padding: 12px; text-align: center; font-size: 13.5px; color: #475569; font-weight: 700;">
-                <span style="color: #10B981; font-weight: 900; margin-right: 6px;">✓</span> 현재 고평가 경보 종목이 없습니다.
+                <span style="color: #10B981; font-weight: 900; margin-right: 6px;">[정상]</span> 현재 고평가 경보 종목이 없습니다.
               </div>
             ` : `
               <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
@@ -350,7 +367,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 8px;">
               <tr>
                 <td style="text-align: left; vertical-align: middle;">
-                  <span style="font-size: 14.5px; font-weight: 900; color: #2563EB;">📉 저평가 TOP 3 (Discount)</span>
+                  <span style="font-size: 14.5px; font-weight: 900; color: #2563EB;">저평가 TOP 3 (Discount)</span>
                 </td>
                 <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
                   <span style="font-size: 12px; font-weight: 800; color: #2563EB; background-color: #EFF6FF; padding: 3px 8px; border-radius: 6px;">보유자 헐값 매도 유의 및 시차 확인 (시장가 &lt; NAV)</span>
@@ -359,7 +376,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
             </table>
             ${undervalued.length === 0 ? `
               <div style="background-color: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 10px; padding: 12px; text-align: center; font-size: 13.5px; color: #475569; font-weight: 700;">
-                <span style="color: #10B981; font-weight: 900; margin-right: 6px;">✓</span> 현재 저평가 경보 종목이 없습니다.
+                <span style="color: #10B981; font-weight: 900; margin-right: 6px;">[정상]</span> 현재 저평가 경보 종목이 없습니다.
               </div>
             ` : `
               <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
@@ -382,7 +399,7 @@ export function generateNewsletterHtml(payload: MarketBriefingPayload, baseUrl: 
 
         <!-- 6. Call to Action -->
         <a href="${utmLink}" class="btn-primary">
-          👉 전체 1,022개 ETF 분석 &amp; 마켓 브리핑 풀버전 📊
+          전체 ${generalCount.toLocaleString()}개 ETF 분석 &amp; 마켓 브리핑 풀버전 확인하기
         </a>
       </div>
 

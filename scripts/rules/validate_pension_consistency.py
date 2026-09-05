@@ -135,6 +135,8 @@ def validate_pension_consistency(
             "pension_eligible",
             "pension_limit",
             "isa_eligible",
+            "isa_tax_type",
+            "isa_tax_benefit",
             "isa_education_required",
             "pension_source",
             "pension_verified",

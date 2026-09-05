@@ -360,3 +360,77 @@ def test_official_ledgers_evidence_integrity_zero_violations():
 
     assert total_viols == 0, "Gate 1 requires 0 total violations across all ledger entries"
 
+
+def test_s1_statute_must_be_registered():
+    fake_audit = [{
+        "ticker": "005930",
+        "statutory_basis": "NON_EXISTENT_STATUTE_ID",
+        "pension_verified": "N",
+        "pension_limit": "70% (위험자산)",
+    }]
+    viols = validate_evidence_integrity(audit_rows=fake_audit)
+    assert len(viols["S1"]) == 1
+    assert "NON_EXISTENT_STATUTE_ID" in viols["S1"][0]["reason"]
+    assert "미등록된" in viols["S1"][0]["reason"]
+
+
+def test_s3_statute_limit_mapping_and_forbidden_statutes():
+    # Invalid: PSR_ART11_1_4 (bond 100%) mapped to 70%
+    fake_audit_mismatch = [{
+        "ticker": "005930",
+        "statutory_basis": "PSR_ART11_1_4",
+        "pension_verified": "N",
+        "pension_limit": "70% (위험자산)",
+    }]
+    viols_1 = validate_evidence_integrity(audit_rows=fake_audit_mismatch)
+    assert len(viols_1["S3"]) == 1
+    assert "PSR_ART11_1_4" in viols_1["S3"][0]["reason"]
+    assert "허용되지 않은" in viols_1["S3"][0]["reason"]
+
+    # Invalid: WRBA_ART21 is strictly forbidden (cannot justify limits)
+    fake_audit_forbidden = [{
+        "ticker": "005930",
+        "statutory_basis": "WRBA_ART21",
+        "pension_verified": "N",
+        "pension_limit": "70% (위험자산)",
+    }]
+    viols_2 = validate_evidence_integrity(audit_rows=fake_audit_forbidden)
+    assert len(viols_2["S3"]) == 1
+    assert "WRBA_ART21" in viols_2["S3"][0]["reason"]
+    assert "원천 차단" in viols_2["S3"][0]["reason"]
+
+    # Invalid: PSR_ART12_1_1 is strictly forbidden (collective investments excluded)
+    fake_audit_art12 = [{
+        "ticker": "005930",
+        "statutory_basis": "PSR_ART12_1_1",
+        "pension_verified": "N",
+        "pension_limit": "70% (위험자산)",
+    }]
+    viols_3 = validate_evidence_integrity(audit_rows=fake_audit_art12)
+    assert len(viols_3["S3"]) == 1
+    assert "PSR_ART12_1_1" in viols_3["S3"][0]["reason"]
+    assert "원천 차단" in viols_3["S3"][0]["reason"]
+
+
+def test_s4_empty_statutory_basis_requires_unverified():
+    # Invalid: statutory_basis is empty but pension_verified = Y
+    fake_audit = [{
+        "ticker": "005930",
+        "statutory_basis": "",
+        "pension_verified": "Y",
+        "pension_limit": "70% (위험자산)",
+    }]
+    viols = validate_evidence_integrity(audit_rows=fake_audit)
+    assert len(viols["S4"]) == 1
+    assert "pension_verified = Y" in viols["S4"][0]["reason"]
+
+    # Valid: statutory_basis is empty and pension_verified = N
+    fake_audit_valid = [{
+        "ticker": "005930",
+        "statutory_basis": "",
+        "pension_verified": "N",
+        "pension_limit": "70% (위험자산)",
+    }]
+    viols_valid = validate_evidence_integrity(audit_rows=fake_audit_valid)
+    assert len(viols_valid["S4"]) == 0
+

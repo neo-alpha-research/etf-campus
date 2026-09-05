@@ -232,7 +232,7 @@ export async function reviewAndRefineWithGemini(
 
             if (!hasViolation) {
               const elapsed = Date.now() - startTime;
-              console.log(`✨ [AI Fact-Check] SUCCESS -> Token #${realIdx} with ${modelName} in ${elapsed}ms (Failover steps: ${failoverHistory.length})`);
+              console.log(`[AI Fact-Check] SUCCESS -> Token #${realIdx} with ${modelName} in ${elapsed}ms (Failover steps: ${failoverHistory.length})`);
 
               // 이모지 제거 정규식
               const stripEmoji = (str?: string) => (str || "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").trim();

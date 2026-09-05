@@ -319,8 +319,9 @@ def generate_unverified_queue_and_summary(
     summary_json_path: Path,
     fund_types_csv: Path | None = None,
 ) -> dict[str, Any]:
-    """Generates pension_unverified_queue.csv and pension_verification_summary.json."""
-    # Load KOFIA fund types mapping if available for exact unverified reasons
+    """Generates pension_unverified_queue.csv (sorted by risk direction) and pension_verification_summary.json."""
+    # Load KOFIA fund types mapping
+    kofia_fund_types: dict[str, str] = {}
     kofia_undetermined_reasons: dict[str, str] = {}
     if fund_types_csv and fund_types_csv.exists():
         from scripts.rules.kofia_type_mapping import resolve_kofia_fund_type, STATUS_UNDETERMINED
@@ -329,19 +330,33 @@ def generate_unverified_queue_and_summary(
                 for r in csv.DictReader(f):
                     tk = str(r.get("ticker") or "").strip().upper()
                     ft = str(r.get("fund_type") or "").strip()
+                    kofia_fund_types[tk] = ft
                     rule = resolve_kofia_fund_type(ft)
                     if rule.status == STATUS_UNDETERMINED:
                         kofia_undetermined_reasons[tk] = rule.statutory_basis_or_reason
         except Exception:
             pass
 
+    derivative_types = {
+        "주식파생형",
+        "채권파생형",
+        "혼합채권파생형",
+        "혼합주식파생형",
+        "특별자산파생",
+        "부동산파생형",
+        "재간접파생형",
+    }
+
     unverified_items = []
     source_counts = {
         PENSION_SOURCE_KOFIA_VERIFIED: 0,
-        PENSION_SOURCE_KRX_VERIFIED: 0,
         PENSION_SOURCE_PROSPECTUS_VERIFIED: 0,
+        PENSION_SOURCE_KRX_VERIFIED: 0,
         PENSION_SOURCE_BROKER_VERIFIED: 0,
         PENSION_SOURCE_MANUAL_VERIFIED: 0,
+        PENSION_SOURCE_SAMPLE_VERIFIED: 0,
+        PENSION_SOURCE_STATUTE_DIRECT: 0,
+        PENSION_SOURCE_RULE_ESTIMATE: 0,
     }
 
     total_count = len(master_rows)
@@ -358,37 +373,77 @@ def generate_unverified_queue_and_summary(
         except ValueError:
             aum_val = 0.0
 
+        if p_src in source_counts:
+            source_counts[p_src] += 1
+
         if p_ver == PENSION_VERIFIED_YES:
             verified_count += 1
-            if p_src in source_counts:
-                source_counts[p_src] += 1
         else:
-            # Determine precise reason why unverified
-            if p_lim == LIMIT_INELIGIBLE:
+            raw_kofia_type = kofia_fund_types.get(tk)
+            display_kofia_type = raw_kofia_type if raw_kofia_type else "미매칭"
+
+            # Determine risk direction tier per Gate 1
+            # 1. 미검증 + 현재 100% (안전자산) (협회 유형 매칭 종목)
+            # 2. 미검증 + 현재 70% (위험자산) 중 협회 유형이 파생형 계열
+            # 3. 협회 미매칭
+            # 4. 나머지 (일반)
+            if raw_kofia_type is not None and p_lim == LIMIT_SAFE_ASSET:
+                risk_dir = "안전자산_주의"
+            elif raw_kofia_type in derivative_types and p_lim == LIMIT_RISK_ASSET:
+                risk_dir = "파생_위험자산"
+            elif raw_kofia_type is None:
+                risk_dir = "공시_미반영"
+            else:
+                risk_dir = "일반"
+
+            # Determine precise unverified reason
+            if risk_dir == "안전자산_주의" and raw_kofia_type in derivative_types:
+                reason = "위험평가액 미확인"
+            elif risk_dir == "공시_미반영":
+                reason = "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+            elif p_lim == LIMIT_INELIGIBLE:
                 reason = "법정 투자 불가 종목 (레버리지/인버스/선물 파생평가액 초과)"
             elif tk in kofia_undetermined_reasons:
                 reason = kofia_undetermined_reasons[tk]
             elif "커버드콜" in str(r.get("name") or ""):
                 reason = "커버드콜 옵션 매도 파생평가액 40% 한도 산정 미확인"
             else:
-                reason = "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+                reason = "개별 약관 확인 필요"
 
             unverified_items.append({
                 "ticker": tk,
                 "name": str(r.get("name") or "").strip(),
                 "aum": aum_val,
                 "asset_class": str(r.get("asset_class") or "").strip(),
-                "현재_추정한도": p_lim,
+                "kofia_fund_type": display_kofia_type,
+                "현재_한도": p_lim,
+                "위험방향": risk_dir,
                 "확정_불가_사유": reason,
             })
 
-    # Sort unverified queue by AUM descending
-    unverified_items.sort(key=lambda x: x["aum"], reverse=True)
+    # Sort unverified queue: Risk direction priority first, then AUM descending
+    tier_order = {
+        "안전자산_주의": 1,
+        "파생_위험자산": 2,
+        "공시_미반영": 3,
+        "일반": 4,
+    }
+    unverified_items.sort(key=lambda x: (tier_order.get(x["위험방향"], 99), -x["aum"]))
 
     # Write queue CSV
     unverified_queue_path.parent.mkdir(parents=True, exist_ok=True)
     with unverified_queue_path.open("w", encoding="utf-8-sig", newline="") as f:
-        fieldnames = ["순번", "ticker", "name", "aum", "asset_class", "현재_추정한도", "확정_불가_사유"]
+        fieldnames = [
+            "순번",
+            "ticker",
+            "name",
+            "aum",
+            "asset_class",
+            "kofia_fund_type",
+            "현재_한도",
+            "위험방향",
+            "확정_불가_사유",
+        ]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for idx, item in enumerate(unverified_items, start=1):
@@ -398,9 +453,14 @@ def generate_unverified_queue_and_summary(
                 "name": item["name"],
                 "aum": f"{item['aum']:,.0f}",
                 "asset_class": item["asset_class"],
-                "현재_추정한도": item["현재_추정한도"],
+                "kofia_fund_type": item["kofia_fund_type"],
+                "현재_한도": item["현재_한도"],
+                "위험방향": item["위험방향"],
                 "확정_불가_사유": item["확정_불가_사유"],
             })
+
+    # Count items by tier
+    tier_counts = {k: sum(1 for x in unverified_items if x["위험방향"] == k) for k in tier_order}
 
     # Write summary JSON
     summary_data = {
@@ -410,6 +470,8 @@ def generate_unverified_queue_and_summary(
         "verified_pct": round(verified_count / max(total_count, 1) * 100, 1),
         "by_source": source_counts,
         "unverified": len(unverified_items),
+        "safe_asset_candidates_remaining": tier_counts.get("안전자산_주의", 0),
+        "unverified_by_tier": tier_counts,
     }
     summary_json_path.parent.mkdir(parents=True, exist_ok=True)
     with summary_json_path.open("w", encoding="utf-8") as f:

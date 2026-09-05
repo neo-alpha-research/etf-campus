@@ -305,6 +305,48 @@ def match_and_export_fund_types(
                     k_rec = kr
                     break
 
+        # 4. Strict AMC-checked TR/TotalReturn matching
+        if not k_rec and ("TR" in nm or "TotalReturn" in nm):
+            brand_map = {
+                "TIGER": ["미래에셋"],
+                "KODEX": ["삼성"],
+                "ACE": ["한국투자"],
+                "RISE": ["KB"],
+                "KBSTAR": ["KB"],
+                "SOL": ["신한"],
+                "PLUS": ["한화"],
+                "ARIRANG": ["한화"],
+                "KIWOOM": ["키움"],
+                "KOSEF": ["키움"],
+                "HANARO": ["NH-AMUNDI", "NH"],
+                "마이티": ["DB"],
+            }
+            first_tok = nm.split()[0].upper()
+            allowed = brand_map.get(first_tok, [])
+            if allowed:
+                def norm_tr(s: str) -> str:
+                    s_up = s.upper()
+                    s_up = re.sub(r"TOTAL\s*RETURN", "TR", s_up)
+                    s_up = re.sub(r"TOTALRETURN", "TR", s_up)
+                    for p in [f"미래에셋{first_tok}", f"삼성{first_tok}", f"한국투자{first_tok}", f"KB{first_tok}", f"신한{first_tok}", f"한화{first_tok}", f"키움{first_tok}", f"NH-AMUNDI{first_tok}", f"DB{first_tok}", first_tok]:
+                        if s_up.startswith(p.upper()):
+                            s_up = s_up[len(p):]
+                            break
+                    s_up = re.sub(r"증권(상장지수투자신탁|투자신탁|자투자신탁)[\(\[\w\-\)\]]*", "", s_up)
+                    s_up = re.sub(r"상장지수투자신탁[\(\[\w\-\)\]]*", "", s_up)
+                    s_up = re.sub(r"\[주식[\w\-]*\]|\(주식[\w\-]*\)|\[채권[\w\-]*\]|\(채권[\w\-]*\)", "", s_up)
+                    return re.sub(r"[\s\(\)\[\]\-_]", "", s_up)
+
+                c_m = norm_tr(nm)
+                for rec in kofia_records:
+                    iss_up = rec.get("issuer", "").upper()
+                    if not any(a in iss_up for a in allowed):
+                        continue
+                    c_x = norm_tr(rec.get("fund_name", ""))
+                    if c_m and c_m == c_x:
+                        k_rec = rec
+                        break
+
         if k_rec:
             matched_tickers.add(ticker)
             matched_rows.append({

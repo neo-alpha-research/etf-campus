@@ -40,10 +40,11 @@ KOFIA_SOURCE_URL = (
 def build_verification_ledger(
     fund_types_csv: Path,
     ledger_csv: Path,
+    prospectus_mixed_bonds_csv: Path | None = None,
     evidence_filename: str = "kofia_dis_response_20260905.xml",
     valid_days: int = 90,
 ) -> tuple[int, int, Dict[str, str]]:
-    """Builds or updates pension_verification_ledger.csv from kofia_fund_types.csv.
+    """Builds or updates pension_verification_ledger.csv from kofia_fund_types.csv and prospectus records.
 
     Returns:
         tuple of (determined_count, undetermined_count, undetermined_reasons_by_ticker)
@@ -101,6 +102,34 @@ def build_verification_ledger(
             undetermined_count += 1
             undetermined_reasons[ticker] = rule.statutory_basis_or_reason
 
+    # Ingest prospectus-verified mixed bonds (Gate 3)
+    prospectus_count = 0
+    if prospectus_mixed_bonds_csv and prospectus_mixed_bonds_csv.exists():
+        try:
+            with prospectus_mixed_bonds_csv.open("r", encoding="utf-8-sig") as f:
+                for row in csv.DictReader(f):
+                    tk = (row.get("ticker") or "").strip().upper()
+                    if not tk:
+                        continue
+                    existing_ledger[tk] = {
+                        "ticker": tk,
+                        "verified_limit": row.get("verified_limit") or "100% (안전자산)",
+                        "source_type": row.get("source_type") or "투자설명서대조",
+                        "source_url": row.get("source_url") or "https://dart.fss.or.kr",
+                        "evidence_ref": row.get("evidence_ref") or "투자설명서(신탁계약서) 제16조(투자대상 및 투자비율)",
+                        "verified_at": verified_at,
+                        "verified_by": "투자설명서 및 집합투자규약 대조",
+                        "expires_at": expires_at,
+                        "note": row.get("note") or "퇴직연금감독규정 제12조 제1항 제2호 충족",
+                    }
+                    prospectus_count += 1
+                    # Remove from undetermined if it was classified as undetermined by KOFIA
+                    if tk in undetermined_reasons:
+                        del undetermined_reasons[tk]
+                        undetermined_count -= 1
+        except Exception as e:
+            print(f"[WARN] Error reading prospectus mixed bonds CSV: {e}", file=sys.stderr)
+
     ledger_csv.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [
         "ticker",
@@ -122,8 +151,9 @@ def build_verification_ledger(
         writer.writerows(sorted_ledger)
 
     print(f"[LEDGER] Wrote {len(sorted_ledger)} total entries to {ledger_csv}")
-    print(f"[LEDGER] KOFIA determined: {determined_count} items, undetermined: {undetermined_count} items")
-    return determined_count, undetermined_count, undetermined_reasons
+    print(f"[LEDGER] KOFIA determined: {determined_count} items, prospectus verified: {prospectus_count} items")
+    print(f"[LEDGER] Undetermined remaining: {undetermined_count} items")
+    return determined_count + prospectus_count, undetermined_count, undetermined_reasons
 
 
 if __name__ == "__main__":
@@ -141,6 +171,12 @@ if __name__ == "__main__":
         help="Path to pension_verification_ledger.csv",
     )
     parser.add_argument(
+        "--prospectus-mixed-bonds",
+        type=Path,
+        default=REPO_ROOT / "data/regulatory/sources/prospectus_mixed_bonds_registry.csv",
+        help="Path to prospectus_mixed_bonds_registry.csv",
+    )
+    parser.add_argument(
         "--evidence",
         default="kofia_dis_response_20260905.xml",
         help="Evidence file name in data/regulatory/sources/",
@@ -150,6 +186,7 @@ if __name__ == "__main__":
     det, undet, reasons = build_verification_ledger(
         fund_types_csv=args.fund_types,
         ledger_csv=args.ledger,
+        prospectus_mixed_bonds_csv=args.prospectus_mixed_bonds,
         evidence_filename=args.evidence,
     )
-    print(f"Completed verification ledger update. Determined: {det}, Undetermined: {undet}")
+    print(f"Completed verification ledger update. Total verified: {det}, Undetermined: {undet}")

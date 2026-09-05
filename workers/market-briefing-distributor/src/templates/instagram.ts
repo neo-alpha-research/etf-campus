@@ -740,46 +740,42 @@ export function generateInstagramCarousel(
         <rect width="940" height="510" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
         
         <g transform="translate(0, 0)">
-          <!-- Top Mini Tag (Forest Emerald) -->
-          <rect x="330" y="26" width="280" height="40" rx="20" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.2"/>
-          <text x="470" y="52" fill="#15803D" font-size="18" font-weight="900" text-anchor="middle">🧭 오늘의 시장 관전 포인트</text>
-          
           <!-- Main Action Headline (High-Contrast Slate Navy) -->
-          <text x="470" y="110" fill="#0F172A" font-size="34" font-weight="900" text-anchor="middle" letter-spacing="-0.8">
+          <text x="470" y="70" fill="#0F172A" font-size="34" font-weight="900" text-anchor="middle" letter-spacing="-0.8">
             오늘 장 시작 전 3대 핵심 체크리스트
           </text>
 
           <!-- 3 Value Watch Points (Light Tinted Cards with Vivid Accent Badges) -->
-          <g transform="translate(35, 136)">
+          <g transform="translate(35, 116)">
             <!-- Item 1: 거시 변수 -->
             <g transform="translate(0, 0)">
-              <rect width="870" height="84" rx="18" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1.2"/>
-              <rect x="20" y="20" width="130" height="44" rx="12" fill="#0284C7"/>
-              <text x="85" y="48" fill="#FFFFFF" font-size="19" font-weight="900" text-anchor="middle">01 거시 변수</text>
-              <text x="175" y="51" fill="#0F172A" font-size="21" font-weight="800">원/달러 환율 추이 및 미 국채 금리 안정 여부에 따른 외인 수급 점검</text>
+              <rect width="870" height="86" rx="18" fill="#F0F9FF" stroke="#BAE6FD" stroke-width="1.2"/>
+              <rect x="20" y="21" width="130" height="44" rx="12" fill="#0284C7"/>
+              <text x="85" y="49" fill="#FFFFFF" font-size="19" font-weight="900" text-anchor="middle">01 거시 변수</text>
+              <text x="175" y="52" fill="#0F172A" font-size="21" font-weight="800">원/달러 환율 추이 및 미 국채 금리 안정 여부에 따른 외인 수급 점검</text>
             </g>
 
             <!-- Item 2: 섹터 순환 -->
-            <g transform="translate(0, 98)">
-              <rect width="870" height="84" rx="18" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.2"/>
-              <rect x="20" y="20" width="130" height="44" rx="12" fill="#16A34A"/>
-              <text x="85" y="48" fill="#FFFFFF" font-size="19" font-weight="900" text-anchor="middle">02 섹터 순환</text>
-              <text x="175" y="51" fill="#0F172A" font-size="21" font-weight="800">주도 테마의 연속성 확인 및 고베타 섹터 차익 매물 소화 과정 관찰</text>
+            <g transform="translate(0, 100)">
+              <rect width="870" height="86" rx="18" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.2"/>
+              <rect x="20" y="21" width="130" height="44" rx="12" fill="#16A34A"/>
+              <text x="85" y="49" fill="#FFFFFF" font-size="19" font-weight="900" text-anchor="middle">02 섹터 순환</text>
+              <text x="175" y="52" fill="#0F172A" font-size="21" font-weight="800">주도 테마의 연속성 확인 및 고베타 섹터 차익 매물 소화 과정 관찰</text>
             </g>
 
             <!-- Item 3: 스마트머니 -->
-            <g transform="translate(0, 196)">
-              <rect width="870" height="84" rx="18" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.2"/>
-              <rect x="20" y="20" width="130" height="44" rx="12" fill="#D97706"/>
-              <text x="85" y="48" fill="#FFFFFF" font-size="19" font-weight="900" text-anchor="middle">03 스마트머니</text>
-              <text x="175" y="51" fill="#0F172A" font-size="21" font-weight="800">대표지수 및 방어적 자산(금리/배당)으로의 기관 저가 매수세 추적</text>
+            <g transform="translate(0, 200)">
+              <rect width="870" height="86" rx="18" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.2"/>
+              <rect x="20" y="21" width="130" height="44" rx="12" fill="#D97706"/>
+              <text x="85" y="49" fill="#FFFFFF" font-size="19" font-weight="900" text-anchor="middle">03 스마트머니</text>
+              <text x="175" y="52" fill="#0F172A" font-size="21" font-weight="800">대표지수 및 방어적 자산(금리/배당)으로의 기관 저가 매수세 추적</text>
             </g>
           </g>
 
           <!-- Bottom Public Data Source Box (Crisp Slate Light Gray) -->
-          <g transform="translate(35, 436)">
-            <rect width="870" height="52" rx="14" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
-            <text x="435" y="33" fill="#475569" font-size="18" font-weight="800" text-anchor="middle">
+          <g transform="translate(35, 426)">
+            <rect width="870" height="54" rx="14" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+            <text x="435" y="34" fill="#475569" font-size="18" font-weight="800" text-anchor="middle">
               📊 한국거래소(KRX) 전 거래일 마감 공시 기준 (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석)
             </text>
           </g>

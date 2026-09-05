@@ -88,6 +88,7 @@ async function runPipeline() {
   try {
     console.log("🚀 [KOFIA DIS] ETF 실부담비용율 자동 동기화 파이프라인을 시작합니다...");
     const { execSync } = await import("node:child_process");
+    const pythonScript = path.resolve(__dirname, "collector/kofia_fee_collector.py");
     execSync(`python "${pythonScript}" --headless`, { stdio: "inherit" });
     console.log("🎉 파이프라인 성공! etf_fee_registry.json 업데이트가 완료되었습니다.");
 

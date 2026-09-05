@@ -72,6 +72,7 @@ export type ScreenerEtf = Pick<Etf,
   | "pensionLimit"
   | "pensionSourceType"
   | "pensionConfidence"
+  | "pensionVerified"
   | "isaEligible"
   | "isaEducationRequired"
   | "asOfDate"

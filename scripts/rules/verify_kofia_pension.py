@@ -102,33 +102,43 @@ def build_verification_ledger(
             undetermined_count += 1
             undetermined_reasons[ticker] = rule.statutory_basis_or_reason
 
-    # Ingest prospectus-verified mixed bonds (Gate 3)
+    # Ingest prospectus-verified records (Mixed bonds & Safe derivatives)
     prospectus_count = 0
-    if prospectus_mixed_bonds_csv and prospectus_mixed_bonds_csv.exists():
-        try:
-            with prospectus_mixed_bonds_csv.open("r", encoding="utf-8-sig") as f:
-                for row in csv.DictReader(f):
-                    tk = (row.get("ticker") or "").strip().upper()
-                    if not tk:
-                        continue
-                    existing_ledger[tk] = {
-                        "ticker": tk,
-                        "verified_limit": row.get("verified_limit") or "100% (안전자산)",
-                        "source_type": row.get("source_type") or "투자설명서대조",
-                        "source_url": row.get("source_url") or "https://dart.fss.or.kr",
-                        "evidence_ref": row.get("evidence_ref") or "투자설명서(신탁계약서) 제16조(투자대상 및 투자비율)",
-                        "verified_at": verified_at,
-                        "verified_by": "투자설명서 및 집합투자규약 대조",
-                        "expires_at": expires_at,
-                        "note": row.get("note") or "퇴직연금감독규정 제12조 제1항 제2호 충족",
-                    }
-                    prospectus_count += 1
-                    # Remove from undetermined if it was classified as undetermined by KOFIA
-                    if tk in undetermined_reasons:
-                        del undetermined_reasons[tk]
-                        undetermined_count -= 1
-        except Exception as e:
-            print(f"[WARN] Error reading prospectus mixed bonds CSV: {e}", file=sys.stderr)
+    prospectus_files = []
+    if prospectus_mixed_bonds_csv:
+        prospectus_files.append(prospectus_mixed_bonds_csv)
+    
+    # Check for additional safe derivatives prospectus registry
+    safe_deriv_csv = REPO_ROOT / "data/regulatory/sources/prospectus_safe_derivatives_registry.csv"
+    if safe_deriv_csv.exists() and safe_deriv_csv not in prospectus_files:
+        prospectus_files.append(safe_deriv_csv)
+
+    for p_csv in prospectus_files:
+        if p_csv.exists():
+            try:
+                with p_csv.open("r", encoding="utf-8-sig") as f:
+                    for row in csv.DictReader(f):
+                        tk = (row.get("ticker") or "").strip().upper()
+                        if not tk:
+                            continue
+                        existing_ledger[tk] = {
+                            "ticker": tk,
+                            "verified_limit": row.get("verified_limit") or "100% (안전자산)",
+                            "source_type": row.get("source_type") or "투자설명서대조",
+                            "source_url": row.get("source_url") or "https://dart.fss.or.kr",
+                            "evidence_ref": row.get("evidence_ref") or "투자설명서(신탁계약서) 제16조(투자대상 및 투자비율)",
+                            "verified_at": verified_at,
+                            "verified_by": "투자설명서 및 집합투자규약 대조",
+                            "expires_at": expires_at,
+                            "note": row.get("note") or "퇴직연금감독규정 제12조 제1항 충족",
+                        }
+                        prospectus_count += 1
+                        # Remove from undetermined if it was classified as undetermined by KOFIA
+                        if tk in undetermined_reasons:
+                            del undetermined_reasons[tk]
+                            undetermined_count -= 1
+            except Exception as e:
+                print(f"[WARN] Error reading prospectus CSV {p_csv}: {e}", file=sys.stderr)
 
     ledger_csv.parent.mkdir(parents=True, exist_ok=True)
     fieldnames = [

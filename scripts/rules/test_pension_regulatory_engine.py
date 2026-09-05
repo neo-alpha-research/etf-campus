@@ -14,6 +14,7 @@ from scripts.rules.pension_regulatory_engine import (
     PENSION_SOURCE_SAMPLE_VERIFIED,
     PENSION_SOURCE_BROKER_VERIFIED,
     PENSION_SOURCE_KOFIA_VERIFIED,
+    PENSION_SOURCE_PROSPECTUS_VERIFIED,
     PENSION_CONFIDENCE_HIGH,
     PENSION_CONFIDENCE_MODERATE,
     PENSION_CONFIDENCE_LOW,
@@ -170,19 +171,30 @@ def test_standard_equity_etfs():
 
 
 def test_pension_source_and_confidence():
-    # 1. Area B: 1X Securities Synthetic ETF (459580) -> Direct Statute, unverified, HIGH confidence
+    # 1. Area B: 1X Securities Synthetic ETF fallback -> Direct Statute, unverified, MODERATE confidence
     res_synth = classify_pension_and_isa({
         "ticker": "459580",
         "name": "KODEX CD금리액티브(합성)",
         "risk_type": "normal",
         "asset_class": "금리·파킹",
-    })
+    }, verified_entries={})
     assert res_synth["pension_source"] == PENSION_SOURCE_STATUTE_DIRECT
     assert res_synth["pension_verified"] == PENSION_VERIFIED_NO
     assert res_synth["pension_confidence"] == PENSION_CONFIDENCE_MODERATE
     assert res_synth["underlying_is_security"] == "Y"
     assert res_synth["pension_eligible"] == PENSION_ELIGIBLE
     assert res_synth["pension_limit"] == LIMIT_SAFE_ASSET
+
+    # 1-1. When ledger entry is present, verified = Y
+    res_synth_verified = classify_pension_and_isa({
+        "ticker": "459580",
+        "name": "KODEX CD금리액티브(합성)",
+        "risk_type": "normal",
+        "asset_class": "금리·파킹",
+    })
+    assert res_synth_verified["pension_source"] == PENSION_SOURCE_PROSPECTUS_VERIFIED
+    assert res_synth_verified["pension_verified"] == PENSION_VERIFIED_YES
+    assert res_synth_verified["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 
     # 2. Special Audit Case: 219390 (RISE 미국S&P원유생산기업(합성 H))
     # Misclassified as '원자재' in asset_class, but tracks oil producer EQUITIES -> underlying_is_security == 'Y'
@@ -213,14 +225,14 @@ def test_pension_source_and_confidence():
     assert res_carbon["pension_verified"] == PENSION_VERIFIED_NO
     assert res_carbon["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 4. Area D: Synthetic Covered Call Revocation Verification (472830)
-    # Even though synthetic, covered call is prioritized into Area D -> RULE_ESTIMATE, LOW confidence
+    # 4. Area D: Synthetic Covered Call Revocation Verification (472830 fallback)
+    # Even though synthetic, covered call is prioritized into Area D -> RULE_ESTIMATE, LOW confidence when unverified
     res_synth_cc = classify_pension_and_isa({
         "ticker": "472830",
         "name": "RISE 미국30년국채커버드콜(합성)",
         "risk_type": "normal",
         "asset_class": "채권",
-    })
+    }, verified_entries={})
     assert res_synth_cc["pension_source"] == PENSION_SOURCE_RULE_ESTIMATE
     assert res_synth_cc["pension_verified"] == PENSION_VERIFIED_NO
     assert res_synth_cc["pension_confidence"] == PENSION_CONFIDENCE_LOW

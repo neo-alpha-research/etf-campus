@@ -1,22 +1,22 @@
 {
   "as_of": "2026-09-05",
   "total": 1167,
-  "verified": 778,
-  "verified_pct": 66.7,
+  "verified": 824,
+  "verified_pct": 70.6,
   "by_source": {
     "협회공시대조": 738,
-    "투자설명서대조": 40,
+    "투자설명서대조": 86,
     "KRX공시대조": 0,
     "증권사목록대조": 0,
     "수동확인": 0,
     "표본대조": 0,
-    "법령조건직접판정": 64,
-    "규칙기반추정": 325
+    "법령조건직접판정": 45,
+    "규칙기반추정": 298
   },
-  "unverified": 389,
-  "safe_asset_candidates_remaining": 46,
+  "unverified": 343,
+  "safe_asset_candidates_remaining": 0,
   "unverified_by_tier": {
-    "안전자산_주의": 46,
+    "안전자산_주의": 0,
     "파생_위험자산": 109,
     "공시_미반영": 95,
     "일반": 139

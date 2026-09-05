@@ -112,6 +112,9 @@ export function generateInstagramCarousel(
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
   const topInflow = topInflows[0] || { name: "데이터 수집 중", ticker: "-", inflow: 0, theme: "미분류" };
   const top5InflowSum = topInflows.slice(0, 5).reduce((sum, item) => sum + (item.inflow || 0), 0);
+  const secondInflow = topInflows[1];
+  const cleanInflowBannerName = cleanEtfNameForBanner(topInflow.name, 14);
+  const cleanInflow2Name = secondInflow ? cleanEtfNameForBanner(secondInflow.name, 14) : "";
 
   // Asset classes
   const assetClasses = (payload.assetClasses && payload.assetClasses.length > 0) ? payload.assetClasses : [];
@@ -171,6 +174,7 @@ export function generateInstagramCarousel(
   // SLIDE 1: Cover & 3 Key Pulses (Option A: Classic Cover + 3 Big Numbers)
   // =========================================================================
   const cleanTopThemeName = (topTheme.peerGroup || "주요 섹터").replace(/\s*\([^)]*\)/g, '').trim();
+  const themeVerb = (topTheme.cappedAumWeightedReturnPct ?? 0) > 0 ? "주도" : "선방";
 
   const slide1Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -203,7 +207,7 @@ export function generateInstagramCarousel(
 
         <!-- 헤드라인 2: 테마 훅 (26px, 초록 강조) -->
         <text x="35" y="160" fill="#047857" font-size="26" font-weight="900" letter-spacing="-0.5">
-          &apos;${escapeXml(cleanTopThemeName)}&apos; 선방 속 스마트머니 대표지수 유입
+          &apos;${escapeXml(cleanTopThemeName)}&apos; ${themeVerb} 속 &apos;${escapeXml(cleanInflowBannerName)}&apos; 수급 집중
         </text>
 
         <!-- 서브 카피 (19px) -->
@@ -471,9 +475,22 @@ export function generateInstagramCarousel(
   // =========================================================================
   // SLIDE 4: Smart Money Flow (Theme: Crimson Rose & Red Inflow)
   // =========================================================================
-  const cleanInflowBannerName = cleanEtfNameForBanner(topInflow.name, 16);
-  const slide4BannerTitle = `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 및 &apos;미국 대표지수&apos; 집중 순유입`;
+  const slide4BannerTitle = secondInflow
+    ? `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 및 &apos;${escapeXml(cleanInflow2Name)}&apos; 집중 순유입`
+    : `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 등 상위 종목 집중 순유입`;
   const slide4TitleFs = calcBannerFontSize(slide4BannerTitle, 720, 26);
+
+  const regimeCode = ("code" in regime) ? (regime as MarketRegime).code : classifyMarketRegime(payload).code;
+  let inflowPrefix = "당일 시장 흐름 속에서";
+  if (regimeCode === "BROAD_RALLY") {
+    inflowPrefix = "강한 반등 랠리 속에서";
+  } else if (regimeCode === "CRASH_OR_HEAVY_DROP") {
+    inflowPrefix = "시장 변동성 확대 속에서도";
+  } else if (regimeCode === "MODERATE_PULLBACK") {
+    inflowPrefix = "단기 숨고르기 속에서도";
+  } else if (regimeCode === "SIDEWAYS_MIXED") {
+    inflowPrefix = "지수 횡보 장세 속에서도";
+  }
 
   const slide4Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -497,7 +514,7 @@ export function generateInstagramCarousel(
         <text x="92" y="38" fill="#BE123C" font-size="17" font-weight="900" text-anchor="middle">💸 수급 핵심</text>
         <text x="170" y="38" fill="#0F172A" font-size="${slide4TitleFs}" font-weight="900">${slide4BannerTitle}</text>
         <text x="30" y="75" fill="#334155" font-size="20" font-weight="700">
-          단기 숨고르기 속에서도 <tspan fill="#D92D20" font-weight="900">상위 5종목으로 총 ${top5InflowSum.toLocaleString()}억원</tspan> 실질 자금 순유입
+          ${inflowPrefix} <tspan fill="#D92D20" font-weight="900">상위 5종목으로 총 ${top5InflowSum.toLocaleString()}억원</tspan> 실질 자금 순유입
         </text>
       </g>
 
@@ -684,6 +701,9 @@ export function generateInstagramCarousel(
     9: { icon: "⚖️", title: "ETF 완벽 비교 (총보수/괴리율)", sub1: "같은 지수라도 운용사마다 총보수와 괴리율이 다릅니다.", sub2: "프로필 링크에서 내 계좌 ETF를 1초 만에 비교해 보세요.", highlight: "ETF 완벽 비교" }
   };
   const activeCta = ctaMap[dateNum] || ctaMap[1];
+  const slide6InflowDesc = secondInflow
+    ? `&apos;${escapeXml(cleanInflowBannerName)}&apos; 및 &apos;${escapeXml(cleanInflow2Name)}&apos; 등 수급 상위 종목에 순유입 집중.`
+    : `&apos;${escapeXml(cleanInflowBannerName)}&apos;을 비롯한 핵심 수급 종목으로 자금 유입 집중.`;
 
   const slide6Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -731,7 +751,7 @@ export function generateInstagramCarousel(
           <text x="50" y="46" fill="#1D4ED8" font-size="20" font-weight="900" font-family="monospace" text-anchor="middle">03</text>
           
           <text x="90" y="48" fill="#0F172A" font-size="25" font-weight="900">스마트머니, &apos;${escapeXml(topInflow.name)}&apos; +${(topInflow.inflow ?? 0).toLocaleString()}억원 집중 순유입</text>
-          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">국내 대표지수(KODEX 200) 및 미국 대표지수 분할 매수 자금 유입 집중.</text>
+          <text x="24" y="104" fill="#334155" font-size="21" font-weight="700">${slide6InflowDesc}</text>
         </g>
       </g>
 

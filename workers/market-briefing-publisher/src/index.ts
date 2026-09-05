@@ -831,6 +831,15 @@ function calculateAssetClasses(quotes: EtfSnapshot[], flatThreshold: number): As
   });
 }
 
+function assertCanonicalAssetClasses(assetClasses: AssetClassMetric[]): void {
+  const canonical = new Set(["주식-국내", "주식-해외", "채권", "원자재", "리츠·인프라", "혼합자산", "혼합·자산배분", "금리·파킹"]);
+  for (const ac of assetClasses) {
+    if (!canonical.has(ac.assetClass)) {
+      throw new Error(`FATAL: Non-canonical asset class detected during publication: ${ac.assetClass}`);
+    }
+  }
+}
+
 function buildHeadline(pulse: Pulse, indices: IndexSnapshot[]): string {
   const kospi = indices.find((index) => index.index_code === "KOSPI");
   const kosdaq = indices.find((index) => index.index_code === "KOSDAQ");
@@ -962,6 +971,7 @@ async function publishSnapshot(
   const kospi = indices.find((index) => index.index_code === "KOSPI")!;
   const kosdaq = indices.find((index) => index.index_code === "KOSDAQ")!;
   const assetClasses = calculateAssetClasses(quotes, flatThreshold);
+  assertCanonicalAssetClasses(assetClasses);
   const focusEtfs = quotes
     .filter((quote) => quote.is_general_etf === 1)
     .sort((left, right) => right.trade_value - left.trade_value)
@@ -1208,6 +1218,7 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
   const pulse = calculatePulse(quotes, flatThreshold);
   const aumWeightedReturns = calculateAumWeightedReturns(quotes);
   const assetClasses = calculateAssetClasses(quotes, flatThreshold);
+  assertCanonicalAssetClasses(assetClasses);
   const peerGroups = calculatePeerGroups(quotes);
   const fundFlow = calculateFundFlow(quotes, previousQuotes);
   const disparityWarning = calculateDisparityWarning(quotes);

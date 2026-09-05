@@ -148,6 +148,10 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
         final_ac = asset_class_map.get(ticker, raw_ac) or raw_ac or None
         if final_ac == "주식":
             final_ac = raw_ac if raw_ac in ["주식-국내", "주식-해외"] else ("주식-해외" if re.search(r"미국|글로벌|중국|일본|유럽|베트남|인도|아시아|차이나|월드|나스닥|S&P|다우", name, re.I) else "주식-국내")
+        
+        canonical_classes = {"주식-국내", "주식-해외", "채권", "금리·파킹", "리츠·인프라", "원자재", "혼합자산", "혼합·자산배분"}
+        if final_ac not in canonical_classes:
+            raise RuntimeError(f"FATAL: Non-canonical assetClass for {ticker} ({name}): {final_ac!r}. Must be in {canonical_classes}")
         final_detail = class_map.get(ticker, "")
         records.append({
             "ticker": ticker,

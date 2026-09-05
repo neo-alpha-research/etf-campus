@@ -567,14 +567,32 @@ export function generateInstagramCarousel(
   const discounts = disparityList.filter(d => (d.disparityPct ?? 0) < 0).slice(0, 2);
 
   let disparityBannerTitle = "";
+  let disparityBannerDesc = "";
+  let disparityBadgeText = "⚠️ 왜곡 진단";
+  let disparityBadgeBg = "#FEF3C7";
+  let disparityBadgeStroke = "#FCD34D";
+  let disparityBadgeColor = "#B45309";
+  let disparityBoxBg = "#FFFBEB";
+  let disparityBoxStroke = "#FDE68A";
+
   if (premiums.length > 0 && discounts.length > 0) {
     disparityBannerTitle = `고평가(할증) ${premiums.length}종목 vs 저평가(할인) ${discounts.length}종목 왜곡 발생`;
+    disparityBannerDesc = `해외 시차 및 호가 공백으로 발생한 괴리율입니다. <tspan fill="#B45309" font-weight="900">장 시작 후 정상 호가 복귀 확인 필수</tspan>`;
   } else if (premiums.length > 0) {
     disparityBannerTitle = `고평가(할증 주의) ${premiums.length}개 종목 괴리율 왜곡 발생`;
+    disparityBannerDesc = `순자산가치 대비 시장가가 높게 형성되었습니다. <tspan fill="#B45309" font-weight="900">고점 추격 매수 유의</tspan>`;
   } else if (discounts.length > 0) {
     disparityBannerTitle = `저평가(할인 체크) ${discounts.length}개 종목 괴리율 왜곡 발생`;
+    disparityBannerDesc = `순자산가치 대비 시장가가 낮게 형성되었습니다. <tspan fill="#15803D" font-weight="900">LP 호가 복귀 확인 필수</tspan>`;
   } else {
     disparityBannerTitle = "국내 상장 일반 ETF 전 종목 정상 괴리율 범위 유지";
+    disparityBannerDesc = `전 종목이 법정 허용 범위(국내 1%, 해외 3%) 내에서 <tspan fill="#15803D" font-weight="900">안정적으로 정상 거래 중</tspan>입니다.`;
+    disparityBadgeText = "✨ 시장 안정";
+    disparityBadgeBg = "#DCFCE7";
+    disparityBadgeStroke = "#86EFAC";
+    disparityBadgeColor = "#15803D";
+    disparityBoxBg = "#F0FDF4";
+    disparityBoxStroke = "#BBF7D0";
   }
   const slide5TitleFs = calcBannerFontSize(disparityBannerTitle, 720, 26);
 
@@ -595,12 +613,12 @@ export function generateInstagramCarousel(
 
       <!-- Alert Banner -->
       <g transform="translate(70, 180)" filter="url(#cardShadow)">
-        <rect width="940" height="94" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
-        <rect x="30" y="15" width="135" height="34" rx="10" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.2"/>
-        <text x="97" y="38" fill="#B45309" font-size="16" font-weight="900" text-anchor="middle">⚠️ 왜곡 진단</text>
+        <rect width="940" height="94" rx="22" fill="${disparityBoxBg}" stroke="${disparityBoxStroke}" stroke-width="1.5"/>
+        <rect x="30" y="15" width="135" height="34" rx="10" fill="${disparityBadgeBg}" stroke="${disparityBadgeStroke}" stroke-width="1.2"/>
+        <text x="97" y="38" fill="${disparityBadgeColor}" font-size="16" font-weight="900" text-anchor="middle">${disparityBadgeText}</text>
         <text x="180" y="38" fill="#0F172A" font-size="${slide5TitleFs}" font-weight="900">${escapeXml(disparityBannerTitle)}</text>
         <text x="30" y="75" fill="#334155" font-size="19" font-weight="700">
-          해외 시차 및 호가 공백으로 발생한 괴리율입니다. <tspan fill="#B45309" font-weight="900">장 시작 후 정상 호가 복귀 확인 필수</tspan>
+          ${disparityBannerDesc}
         </text>
       </g>
 

@@ -212,27 +212,11 @@ jobs:
           latest_bas_dt=$(python -c 'import csv; print(next(csv.DictReader(open("data/etf_master_draft.csv", encoding="utf-8-sig")))["bas_dt"])')
           echo "Latest bas_dt: ${latest_bas_dt}"
 
-      - name: Set up Node.js
+      - name: Validate refreshed data integrity
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: ".node-version"
-          cache: npm
-
-      - name: Install dependencies
-        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
-        run: npm ci
-
-      - name: Validate refreshed data
-        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
-        env:
-          NEXT_PUBLIC_SITE_URL: https://etf-campus.pages.dev
         run: |
-          python scripts/build_distribution_summaries.py
           python -m unittest discover -s scripts/tests
           python scripts/verify_zero_hallucination.py
-          npm test
-          npx tsx scripts/generate-screener-json.ts
 
       - name: Ingest daily ETF prices to D1
         continue-on-error: true

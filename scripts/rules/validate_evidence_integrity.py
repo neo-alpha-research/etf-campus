@@ -38,6 +38,8 @@ RULE_DESCRIPTIONS = {
     "E5": "evidence_manifest.json 원본/추출본 SHA-256 해시 일치 검증 (로컬 파일 존재 시)",
     "S1": "statutory_basis(=statute_id) 레지스트리 실존 검증 (미등록 ID 원천 차단)",
     "S2": "statute_registry.csv evidence_ref 실존 및 excerpt 원문 부분문자열 대조 검증",
+    "S3": "statute_id -> 허용 pension_limit 매핑표 정합 검증 (조문 오인용 및 WRBA_ART21/PSR_ART12_1_1 차단)",
+    "S4": "statutory_basis 공란 시 pension_verified = N 필수 (근거 없는 행의 검증 표시 차단)",
 }
 
 # Whitelist for bulk official disclosure snapshot files and extracts
@@ -46,18 +48,33 @@ WHITELISTED_SHARED_EVIDENCE = {
     "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
 }
 
+# S3 Allowable Statutory Basis -> pension_limit mapping table
+# WRBA_ART21 and PSR_ART12_1_1 are strictly excluded (cannot justify any pension limit).
+ALLOWED_STATUTE_LIMIT_MAP: dict[str, set[str]] = {
+    "PSR_ART11_1_4": {"100% (안전자산)"},
+    "PSR_ART11_1_5": {"100% (안전자산)"},
+    "PSR_ART11_1_6": {"100% (안전자산)"},
+    "PSR_ART11_1_9": {"100% (안전자산)"},
+    "PSR_ART9_1_2": {"100% (안전자산)", "70% (위험자산)", "불가"},
+    "PSR_ART11_2": {"불가"},
+    "MOEL_WRBA_RULE_ART10_1_2": {"70% (위험자산)"},
+}
+
 DART_RCP_PATTERN = re.compile(r"rcpNo=\d{14}")
 
 
 def validate_evidence_integrity(
-    ledger_rows: list[Mapping[str, Any]],
+    ledger_rows: list[Mapping[str, Any]] | None = None,
     audit_rows: list[Mapping[str, Any]] | None = None,
     master_rows: list[Mapping[str, Any]] | None = None,
     shared_threshold: int = 50,
     statute_registry_path: Path | None = None,
 ) -> dict[str, list[dict[str, Any]]]:
-    """Validate regulatory rows against evidence integrity rules E1 through E5, S1, S2."""
+    """Validate regulatory rows against evidence integrity rules E1 through E5, S1 to S4."""
     violations: dict[str, list[dict[str, Any]]] = {rule: [] for rule in RULE_DESCRIPTIONS}
+
+    if ledger_rows is None:
+        ledger_rows = []
 
     # Track evidence concentration across all verified entries
     evidence_counter: Counter[str] = Counter()
@@ -357,15 +374,45 @@ def validate_evidence_integrity(
                     "source_file": "pension_audit_ledger.csv",
                     "reason": "검증 완료(Y) 항목에 statutory_basis가 비어 있음",
                 })
-                continue
 
             if stat_basis:
+                # S1: Must be registered in statute_registry.csv
                 if stat_basis not in valid_statute_ids:
                     violations["S1"].append({
                         "ticker": tk,
                         "source_file": "pension_audit_ledger.csv",
                         "statutory_basis": stat_basis,
                         "reason": f"statute_registry.csv에 미등록된 비표준 statute_id 인용: '{stat_basis}'",
+                    })
+
+                # S3: statute_id -> allowed pension_limit mapping check
+                p_lim = str(r.get("pension_limit") or "").strip()
+                if stat_basis not in ALLOWED_STATUTE_LIMIT_MAP:
+                    violations["S3"].append({
+                        "ticker": tk,
+                        "source_file": "pension_audit_ledger.csv",
+                        "statutory_basis": stat_basis,
+                        "pension_limit": p_lim,
+                        "reason": f"statute_id '{stat_basis}'는 허용 매핑표에 정의되지 않은 비허용 규제 근거임 (WRBA_ART21/PSR_ART12_1_1 원천 차단)",
+                    })
+                elif p_lim not in ALLOWED_STATUTE_LIMIT_MAP[stat_basis]:
+                    violations["S3"].append({
+                        "ticker": tk,
+                        "source_file": "pension_audit_ledger.csv",
+                        "statutory_basis": stat_basis,
+                        "pension_limit": p_lim,
+                        "allowed_limits": sorted(list(ALLOWED_STATUTE_LIMIT_MAP[stat_basis])),
+                        "reason": f"statute_id '{stat_basis}'에 허용되지 않은 pension_limit '{p_lim}' 부여됨 (허용값: {sorted(list(ALLOWED_STATUTE_LIMIT_MAP[stat_basis]))})",
+                    })
+
+            # S4: Empty statutory_basis must strictly have pension_verified == 'N'
+            if not stat_basis:
+                if p_ver == "Y":
+                    violations["S4"].append({
+                        "ticker": tk,
+                        "source_file": "pension_audit_ledger.csv",
+                        "pension_verified": p_ver,
+                        "reason": "statutory_basis가 비어 있는데 pension_verified = Y 로 표시됨 (근거 없는 행 검증 표시 차단)",
                     })
 
     return violations

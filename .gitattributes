@@ -1,2 +1,3 @@
 * text=auto
 data/distributions/raw/** -text
+data/regulatory/sources/** -text

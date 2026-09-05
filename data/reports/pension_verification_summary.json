@@ -15,11 +15,11 @@
     "E1B_TDF글라이드패스": 13,
     "E2_정정신고서": 1,
     "E3_협회공시": 813,
-    "E4_판매사유니버스": 237,
-    "UNVERIFIED": 0
+    "E4_판매사유니버스": 0,
+    "UNVERIFIED": 237
   },
-  "promotable_verified": 1167,
-  "promotable_verified_pct": 100.0,
+  "promotable_verified": 930,
+  "promotable_verified_pct": 79.7,
   "s5_evidence_sufficiency_violations": 0,
   "step_d_rematch": {
     "자동매칭": 74,
@@ -27,7 +27,7 @@
     "모호_보류": 0,
     "KOFIA부재": 21
   },
-  "안전자산_주의_잔여": 0,
+  "안전자산_주의_잔여": 43,
   "isa_tax_type_coverage_pct": 100.0,
   "isa_breakdown": {
     "국내주식형_절세낮음": 354,

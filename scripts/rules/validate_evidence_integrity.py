@@ -42,13 +42,15 @@ RULE_DESCRIPTIONS = {
     "S4": "statutory_basis 공란 시 pension_verified = N 필수 (근거 없는 행의 검증 표시 차단)",
     "S5": "evidence_grade E1/E2 증거 충분성 검증 (로컬 파일 본문에 주장 핵심 키워드 원문 실재 확인)",
     "S6-a": "E0(법령직접) 등급의 동일 evidence_quote 복제 인용 금지 (단순 조문 복제 승격 원천 차단)",
+    "S7": "evidence_ref 저장소 내부 생성/파생 파일 사용 금지 (외부 원본 공시/법령만 허용)",
+    "S8": "evidence_quote 템플릿 보간 위장 금지 (외부 원본 실재 인용문 필수)",
+    "S9": "WHITELISTED_SHARED_EVIDENCE 외부 공인 원본 한정 검증 (내부 생성 파일 등록 차단)",
 }
 
-# Whitelist for bulk official disclosure snapshot files and extracts
+# Whitelist for bulk official disclosure snapshot files and extracts (ONLY external primary sources)
 WHITELISTED_SHARED_EVIDENCE = {
     "data/regulatory/sources/kofia_dis_response_20260905.xml",
     "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
-    "data/regulatory/broker_pension_universe.csv",
 }
 
 
@@ -592,6 +594,54 @@ def validate_evidence_integrity(
                     "evidence_quote_sample": q[:60],
                     "reason": f"E0(법령 직접 판정) 등급은 동일한 조문 인용구(evidence_quote)를 여러 종목({len(tickers)}건)에 복제 인용하는 것을 금지합니다. (개별 펀드 사실관계 결여)",
                 })
+
+    # 9. S7: evidence_ref must NOT be a locally-created/derived file (must be external primary source)
+    for r in ledger_rows:
+        tk = str(r.get("ticker") or "").strip().upper()
+        ev_ref = str(r.get("evidence_ref") or "").strip().replace("\\", "/")
+        ev_grade = str(r.get("evidence_grade") or "").strip().upper()
+        if ev_grade in ("E1", "E1B", "E2", "E3", "E4"):
+            if not (ev_ref.startswith("data/regulatory/sources/") or ev_ref.startswith("data/regulatory/statutes/")):
+                violations["S7"].append({
+                    "ticker": tk,
+                    "evidence_grade": ev_grade,
+                    "evidence_ref": ev_ref,
+                    "reason": f"S7 위반: evidence_ref '{ev_ref}'는 저장소 내부 생성/파생 파일로 외부 공인 원본이 아님 (sources/ 내 파일만 허용)",
+                })
+            elif "broker_pension_universe" in ev_ref:
+                violations["S7"].append({
+                    "ticker": tk,
+                    "evidence_grade": ev_grade,
+                    "evidence_ref": ev_ref,
+                    "reason": f"S7 위반: broker_pension_universe는 실측 조회가 아닌 내부 생성 파일로 증거 사용 금지",
+                })
+
+    # 10. S8: evidence_quote template interpolation prohibition
+    for r in ledger_rows:
+        tk = str(r.get("ticker") or "").strip().upper()
+        q = str(r.get("evidence_quote") or "").strip()
+        ev_grade = str(r.get("evidence_grade") or "").strip().upper()
+        if ev_grade in ("E0", "E1", "E1B", "E2", "E3", "E4"):
+            if "[판매사유니버스]" in q or "투자한도 대조 확인" in q:
+                violations["S8"].append({
+                    "ticker": tk,
+                    "evidence_grade": ev_grade,
+                    "evidence_quote": q,
+                    "reason": f"S8 위반: evidence_quote '{q}'는 외부 원본 발췌 인용문이 아닌 문자열 보간 템플릿임",
+                })
+
+    # 11. S9: WHITELISTED_SHARED_EVIDENCE external primary source validation
+    ALLOWED_WHITELISTED_SOURCES = {
+        "data/regulatory/sources/kofia_dis_response_20260905.xml",
+        "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
+    }
+    for w in WHITELISTED_SHARED_EVIDENCE:
+        norm_w = w.replace("\\", "/")
+        if norm_w not in ALLOWED_WHITELISTED_SOURCES and not norm_w.startswith("data/regulatory/sources/statutes/"):
+            violations["S9"].append({
+                "whitelisted_file": w,
+                "reason": f"S9 위반: 화이트리스트에 비공인 또는 내부 생성 파일 '{w}' 등록 금지 (외부 공인 원본만 허용)",
+            })
 
     return violations
 

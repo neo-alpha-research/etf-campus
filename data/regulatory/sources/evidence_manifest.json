@@ -232,12 +232,5 @@
     "collected_at": "2026-09-05T22:11:00+09:00",
     "sha256": "4fb19e8f1cc586edc99ec8c8a9548bc5ad60fd1cd892caa0a44220fec9c63931",
     "bytes": 3517
-  },
-  "../broker_pension_universe.csv": {
-    "sha256": "81fa0a08ace74cad139df84f993bc98336ce9945b07dda99728048350cb3a32b",
-    "bytes": 29353,
-    "records": 237,
-    "source": "미래에셋증권 및 삼성증권 퇴직연금 매매가능 ETF 유니버스 공시 대조",
-    "updated_at": "2026-09-05T23:30:00+09:00"
   }
 }

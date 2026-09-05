@@ -33,12 +33,20 @@ export async function reviewAndRefineWithGemini(
   const etfRet = payload.generalAumWeightedReturnPct ?? 0;
   const up = payload.upCount ?? 0;
   const down = payload.downCount ?? 0;
+  const topInflowsList = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 5) || [];
+  const topInflowsStr = topInflowsList.length > 0
+    ? topInflowsList.map(i => `${i.name || (i as any).etfName}(+${i.inflow || Math.round(((i as any).netInflowValue || 0) / 100000000)}억원)`).join(", ")
+    : "집계 중";
+  const topTheme = payload.peerGroups?.find(p => (p.cappedAumWeightedReturnPct ?? 0) > 0) || payload.peerGroups?.[0];
+  const bottomTheme = payload.peerGroups?.slice().reverse().find(p => (p.cappedAumWeightedReturnPct ?? 0) < 0);
 
   const systemPrompt = `당신은 대한민국 최고 수준의 공인 펀드매니저이자 수석 금융 에디터 'Neo'입니다.
 제공된 1차 마켓 브리핑 초안을 검토하여, 상업적 홍보색을 완전히 배제하고 독자가 믿고 읽는 '고밀도 순수 공공재 시황 정보 칼럼'으로 품격 있게 윤문(Polish)하십시오.
 
 ## 엄격 준수 원칙 (Strict Rules)
-1. 팩트 수치 절대 변조 금지: KOSPI(${kospi}%), 일반 ETF(${etfRet}%), 상승(${up}개), 하락(${down}개) 등 모든 숫자를 임의로 바꾸지 마십시오.
+1. 팩트 데이터 및 수급 사실 절대 변조/날조 금지:
+   - KOSPI(${kospi}%), 일반 ETF(${etfRet}%), 상승(${up}개), 하락(${down}개) 등 모든 숫자를 임의로 바꾸지 마십시오.
+   - [수급 팩트 엄수]: 실제 스마트머니 순유입 상위 종목(${topInflowsStr})에 존재하지 않는 종목이나 지수(예: 당일 목록에 없는 '미국 대표지수' 등)를 절대 언급하거나 지어내지 마십시오. 오직 실제 유입 종목과 그 성격(채권, 배당 등)만 서술하십시오.
 2. 상업적 홍보색 전면 제거 (순수 공공재 시황 칼럼 원칙):
    - '무료', '완벽 비교', '프로필 링크', '리포트 보러가기', '다운로드', '클릭' 등 모든 세일즈/홍보 유도 어휘 전면 금지.
    - 외부 링크 없이도 본문 자체만으로 어제 시장의 핵심 맥락(Why it moved)을 100% 이해할 수 있는 완결형 정보 제공.
@@ -51,7 +59,7 @@ export async function reviewAndRefineWithGemini(
 
 ## JSON 출력 스키마
 {
-  "slide1Subheadline": "카드뉴스 1페이지 부제 (단문, 테마명과 스마트머니 유입 팩트 요약)",
+  "slide1Subheadline": "카드뉴스 1페이지 부제 (단문, 테마명과 실제 유입 종목 팩트 요약)",
   "slide1Tip": "카드뉴스 1페이지 💡 팁 문구 (지수 대비 ETF 완충 요인 분석 한 줄)",
   "slide6Block1Title": "카드뉴스 6페이지 1번 요약 제목",
   "slide6Block1Desc": "카드뉴스 6페이지 1번 요약 본문 (2~3문장, 가독성)",
@@ -71,6 +79,8 @@ export async function reviewAndRefineWithGemini(
 - 일반 ETF 가중수익률: ${etfRet > 0 ? "+" : ""}${etfRet.toFixed(2)}%
 - 상승/하락/보합 종목수: 상승 ${up}개, 하락 ${down}개, 보합 ${payload.flatCount ?? 0}개
 - 판별된 국면: ${regime.statusName} (${regime.badgeTag})
+- 당일 주도/부진 테마: 상승 1위 '${topTheme?.peerGroup || "없음"}', 하락 1위 '${bottomTheme?.peerGroup || "없음"}'
+- 당일 스마트머니 순유입 TOP: ${topInflowsStr}
 
 [1차 템플릿 초안]
 - slide1Subheadline: "${regime.slide1Subheadline}"
@@ -94,6 +104,9 @@ export async function reviewAndRefineWithGemini(
     generationConfig: {
       responseMimeType: "application/json",
       temperature: 0.3,
+      thinkingConfig: {
+        thinkingBudget: 0,
+      },
     },
   };
 
@@ -103,7 +116,7 @@ export async function reviewAndRefineWithGemini(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
-      signal: AbortSignal.timeout(12000), // 12초 안전 타임아웃
+      signal: AbortSignal.timeout(25000), // 25초 안전 타임아웃
     });
 
     if (!response.ok) {

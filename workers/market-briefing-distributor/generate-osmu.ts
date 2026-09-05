@@ -4,6 +4,8 @@ import { generateInstagramCarousel, generateInstagramCaption } from "./src/templ
 import { generateThreadsThread, generateThreadsImageSvg } from "./src/templates/threads";
 import { generateNewsletterHtml } from "./src/templates/newsletter";
 import { validateBriefingPayload } from "./src/circuit-breaker";
+import { classifyMarketRegime } from "./src/services/market-regime";
+import { reviewAndRefineWithGemini } from "./src/services/gemini";
 import type { MarketBriefingPayload } from "./src/types";
 import * as fs from "fs";
 import * as path from "path";
@@ -175,8 +177,15 @@ async function run() {
   });
   console.log("Circuit Breaker Valid:", validation.isSafe, validation.reasons);
 
+  console.log(`\n=== 1.5. Gemini 2.5 AI Narrative Review & Fact Check ===`);
+  const baseRegime = classifyMarketRegime(currentPayload);
+  const narrative = await reviewAndRefineWithGemini(currentPayload, baseRegime, {
+    GEMINI_API_KEY: process.env.GEMINI_API_KEY
+  } as any);
+  console.log(`AI Review Status: [${narrative.source}] (Regime: ${baseRegime.statusName})`);
+
   console.log("\n=== 2. Instagram 6-Slide Generation ===");
-  const slides = generateInstagramCarousel(currentPayload, baseUrl);
+  const slides = generateInstagramCarousel(currentPayload, baseUrl, narrative);
   console.log(`Generated ${slides.length} slides.`);
   
   // Destination: Root OSMU Archive (Optional Local Output)
@@ -233,7 +242,7 @@ async function run() {
   }
 
   // Instagram Caption
-  const caption = generateInstagramCaption(currentPayload).replace(/\r?\n/g, "\r\n");
+  const caption = generateInstagramCaption(currentPayload, narrative).replace(/\r?\n/g, "\r\n");
   const captionBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(caption, "utf-8")]);
   if (shouldSaveLocal) {
     fs.writeFileSync(path.join(rootInstaDir, "instagram_caption.txt"), captionBuf);
@@ -242,7 +251,7 @@ async function run() {
 
   // Threads Content & Image
   console.log("\n=== 3. Threads Generation ===");
-  const threads = generateThreadsThread(currentPayload, baseUrl);
+  const threads = generateThreadsThread(currentPayload, baseUrl, narrative);
   let threadsText = "";
   threads.forEach((t) => {
     if (threads.length > 1) {

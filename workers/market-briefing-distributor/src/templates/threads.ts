@@ -37,7 +37,7 @@ export function generateThreadsThread(
         const name = item.name || item.etfName || "대표지수";
         const val = item.inflow ?? (item.netInflowValue ? Math.round(item.netInflowValue / 100000000) : 0);
         return `${name} +${(val || 0).toLocaleString()}억 원`;
-      }).join(', ')} 순으로 유입되며 대표지수를 지지했습니다.` 
+      }).join(', ')} 순으로 유입되며 시장 수급을 뒷받침했습니다.` 
     : "";
 
   const strongThemes = payload.peerGroups?.filter(p => p.cappedAumWeightedReturnPct > 0).slice(0, 2) || [];

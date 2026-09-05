@@ -31,7 +31,7 @@ from scripts.rules.validate_evidence_integrity import (
 )
 
 RULE_DESCRIPTIONS = {
-    "R1": "pension_verified = Y -> pension_source in {협회공시대조, KRX공시대조, 투자설명서대조, 증권사목록대조, 수동확인, 표본대조, 법령조건직접판정}",
+    "R1": "pension_verified = Y -> pension_source in {협회공시대조, KRX공시대조, 투자설명서대조, 증권사목록대조, 증권사·운용사교차검증, 수동확인, 표본대조, 법령조건직접판정}",
     "R2": "pension_verified = N -> pension_confidence != 높음",
     "R3": "pension_eligible = 불가 <-> pension_limit = 불가 (양방향 일치)",
     "R4": "pension_eligible = 가능 -> pension_limit in {100% (안전자산), 70% (위험자산)}",

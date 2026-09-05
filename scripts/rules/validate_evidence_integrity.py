@@ -51,6 +51,9 @@ RULE_DESCRIPTIONS = {
 WHITELISTED_SHARED_EVIDENCE = {
     "data/regulatory/sources/kofia_dis_response_20260905.xml",
     "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
+    "data/regulatory/sources/brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx",
+    "data/regulatory/sources/issuers/miraeasset/tiger_pension_search_20260906.html",
+    "data/regulatory/sources/issuers/samsung/kodex_pension_search_20260906.json",
 }
 
 
@@ -634,6 +637,9 @@ def validate_evidence_integrity(
     ALLOWED_WHITELISTED_SOURCES = {
         "data/regulatory/sources/kofia_dis_response_20260905.xml",
         "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
+        "data/regulatory/sources/brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx",
+        "data/regulatory/sources/issuers/miraeasset/tiger_pension_search_20260906.html",
+        "data/regulatory/sources/issuers/samsung/kodex_pension_search_20260906.json",
     }
     for w in WHITELISTED_SHARED_EVIDENCE:
         norm_w = w.replace("\\", "/")

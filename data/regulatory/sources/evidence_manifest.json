@@ -232,5 +232,36 @@
     "collected_at": "2026-09-05T22:11:00+09:00",
     "sha256": "4fb19e8f1cc586edc99ec8c8a9548bc5ad60fd1cd892caa0a44220fec9c63931",
     "bytes": 3517
+  },
+  "brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx": {
+    "sha256": "7e1429bdaff52ca60805c4caee8858e1b81e21b48e4c850f4d3fc30a23379ae6",
+    "bytes": 158303,
+    "source_url": "https://securities.koreainvestment.com/pension/nwEtcinfo/Notice.jsp?cmd=A_NW_33030View&num=47520",
+    "download_url": "https://file.koreainvestment.com/servlet/Download?file_path=customer/notice/&file_name=ETF_REITs_LIST_RP_260831.xlsx",
+    "publisher": "한국투자증권 연금본부",
+    "notice_title": "퇴직연금 매매가능 ETF/상장REITs 리스트_202609",
+    "effective_date": "2026-08-31",
+    "published_date": "2026-09-04",
+    "collected_at": "2026-09-06T08:21:26.287014",
+    "etf_record_count": 1021,
+    "reits_record_count": 29
+  },
+  "issuers/miraeasset/tiger_pension_search_20260906.html": {
+    "sha256": "229c93f6f411ebe39bf924c7fc2ad104d705ac9fe01d939732ef175e4d4d117b",
+    "bytes": 2363345,
+    "source_url": "https://investments.miraeasset.com/tigeretf/ko/product/search/list.do",
+    "api_endpoint": "https://investments.miraeasset.com/tigeretf/ko/product/search/list.ajax",
+    "publisher": "미래에셋자산운용",
+    "collected_at": "2026-09-06T08:21:26.289997",
+    "record_count": 231
+  },
+  "issuers/samsung/kodex_pension_search_20260906.json": {
+    "sha256": "930dbbaf1f23a136b8701b0c7df03c92910f491654594c0928d2ee8d9ac9ab05",
+    "bytes": 131321,
+    "source_url": "https://www.samsungfund.com/etf/product/pensionlist.do",
+    "api_endpoint": "https://www.samsungfund.com/api/v1/kodex/product-pension-invest/search.do",
+    "publisher": "삼성자산운용",
+    "collected_at": "2026-09-06T08:21:26.289997",
+    "record_count": 218
   }
 }

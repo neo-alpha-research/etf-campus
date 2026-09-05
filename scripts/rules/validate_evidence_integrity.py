@@ -41,19 +41,23 @@ RULE_DESCRIPTIONS = {
     "S3": "statute_id -> 허용 pension_limit 매핑표 정합 검증 (조문 오인용 및 WRBA_ART21/PSR_ART12_1_1 차단)",
     "S4": "statutory_basis 공란 시 pension_verified = N 필수 (근거 없는 행의 검증 표시 차단)",
     "S5": "evidence_grade E1/E2 증거 충분성 검증 (로컬 파일 본문에 주장 핵심 키워드 원문 실재 확인)",
+    "S6-a": "E0(법령직접) 등급의 동일 evidence_quote 복제 인용 금지 (단순 조문 복제 승격 원천 차단)",
 }
 
 # Whitelist for bulk official disclosure snapshot files and extracts
 WHITELISTED_SHARED_EVIDENCE = {
     "data/regulatory/sources/kofia_dis_response_20260905.xml",
     "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
+    "data/regulatory/broker_pension_universe.csv",
 }
 
 
 def is_whitelisted_shared_evidence(ev_ref: str) -> bool:
-    """Check if evidence file is explicitly whitelisted or matches KOFIA monthly snapshot pattern."""
+    """Check if evidence file is explicitly whitelisted or matches KOFIA monthly snapshot pattern or statute files."""
     norm = ev_ref.replace("\\", "/")
     if norm in WHITELISTED_SHARED_EVIDENCE:
+        return True
+    if norm.startswith("data/regulatory/sources/statutes/"):
         return True
     if re.match(r"^data/regulatory/sources/kofia_(dis_response|evidence_extract)_\d{8}\.xml$", norm):
         return True
@@ -66,8 +70,11 @@ ALLOWED_STATUTE_LIMIT_MAP: dict[str, set[str]] = {
     "PSR_ART11_1_5": {"100% (안전자산)"},
     "PSR_ART11_1_6": {"100% (안전자산)"},
     "PSR_ART11_1_9": {"100% (안전자산)"},
+    "FSS_PSR_RULE_ART5_2": {"100% (안전자산)"},
     "PSR_ART9_1_2": {"100% (안전자산)", "70% (위험자산)", "불가"},
+    "FSC_FIBA_REG_ART4_54": {"불가"},
     "PSR_ART11_2": {"불가"},
+    "ED_FSCMA_ART240_4": {"70% (위험자산)", "불가"},
     "MOEL_WRBA_RULE_ART10_1_2": {"70% (위험자산)"},
 }
 
@@ -444,12 +451,12 @@ def validate_evidence_integrity(
         ev_ref = str(r.get("evidence_ref") or "").strip()
         note = str(r.get("note") or r.get("audit_notes") or "").strip()
 
-        if ev_grade in ("E1", "E2"):
+        if ev_grade in ("E1", "E1B", "E2"):
             if not ev_ref:
                 violations["S5"].append({
                     "ticker": tk,
                     "evidence_grade": ev_grade,
-                    "reason": "E1/E2 승격 항목에 evidence_ref가 누락됨",
+                    "reason": "E1/E1B/E2 승격 항목에 evidence_ref가 누락됨",
                 })
                 continue
 
@@ -459,7 +466,7 @@ def validate_evidence_integrity(
                     "ticker": tk,
                     "evidence_grade": ev_grade,
                     "evidence_ref": ev_ref,
-                    "reason": f"E1/E2 증거 파일 실존하지 않음: {ev_ref}",
+                    "reason": f"E1/E1B/E2 증거 파일 실존하지 않음: {ev_ref}",
                 })
                 continue
 
@@ -481,6 +488,9 @@ def validate_evidence_integrity(
             required_keywords = []
             claim_desc = []
 
+            if any(k in note for k in ["TDF", "글라이드패스"]):
+                required_keywords.extend(["투자목표시점", "제5조의2", "채무증권"])
+                claim_desc.append("적격 TDF 요건")
             if any(k in note for k in ["주식", "한도", "채권혼합", "50% 미만", "40% 이하", "투자대상주식"]):
                 required_keywords.extend(["투자대상주식", "주식의 투자한도", "주식의투자한도", "100분의 50", "100분의50"])
                 claim_desc.append("주식 투자한도")
@@ -507,6 +517,80 @@ def validate_evidence_integrity(
                     "claim": ", ".join(claim_desc),
                     "required_keywords": required_keywords,
                     "reason": f"증거 파일 본문에 주장 핵심 키워드({required_keywords})가 일체 존재하지 않음 (증거 불충분 표지)",
+                })
+
+    # 7-2. S5 expansion: Statute registry primary document sufficiency check
+    statute_file = statute_registry_path or (REPO_ROOT / "data/regulatory/statute_registry.csv")
+    if statute_file.is_file():
+        try:
+            with statute_file.open("r", encoding="utf-8-sig", newline="") as f:
+                for srow in csv.DictReader(f):
+                    sid = (srow.get("statute_id") or "").strip()
+                    ev_ref = (srow.get("evidence_ref") or "").strip()
+                    excerpt = (srow.get("excerpt") or "").strip()
+                    if not ev_ref:
+                        violations["S5"].append({
+                            "ticker": sid,
+                            "statute_id": sid,
+                            "reason": "statute_registry 행에 evidence_ref 누락",
+                        })
+                        continue
+                    p = (REPO_ROOT / ev_ref).resolve()
+                    if not p.is_file():
+                        violations["S5"].append({
+                            "ticker": sid,
+                            "statute_id": sid,
+                            "evidence_ref": ev_ref,
+                            "reason": f"statute_registry evidence_ref 파일 미존재: {ev_ref}",
+                        })
+                        continue
+                    try:
+                        ftext = p.read_text(encoding="utf-8")
+                    except Exception:
+                        ftext = p.read_text(encoding="cp949", errors="ignore")
+
+                    # Reject agent-written summary memos
+                    if ftext.startswith("# ") and any(sig in ftext for sig in ["작성 메모", "해설 메모", "정본 (KOFIA_FUND_TYPE_STD)"]):
+                        violations["S5"].append({
+                            "ticker": sid,
+                            "statute_id": sid,
+                            "evidence_ref": ev_ref,
+                            "reason": "에이전트 작성 요약/해설 메모는 공식 evidence_ref로 허용되지 않음 (공식 정본 문서 필수)",
+                        })
+                    if excerpt and excerpt not in ftext:
+                        violations["S5"].append({
+                            "ticker": sid,
+                            "statute_id": sid,
+                            "evidence_ref": ev_ref,
+                            "reason": f"excerpt 핵심 문구가 evidence_ref 파일 본문에 실재하지 않음 (S5 불충분)",
+                        })
+        except Exception as e:
+            violations["S5"].append({
+                "ticker": "statute_registry",
+                "reason": f"statute_registry S5 검증 중 오류: {e}",
+            })
+
+    # 8. S6-a: Evidentiary rigor gate for E0 (statutory direct deduction)
+    # E0 forbids reusing the exact same evidence_quote across multiple distinct tickers
+    # without fund-specific facts. Blanket statutory citations across multiple tickers must trigger violation.
+    e0_quotes: dict[str, list[str]] = {}
+    for r in ledger_rows:
+        eg = str(r.get("evidence_grade") or "").strip().upper()
+        if eg == "E0":
+            q = str(r.get("evidence_quote") or "").strip()
+            tk = str(r.get("ticker") or "").strip().upper()
+            if q:
+                e0_quotes.setdefault(q, []).append(tk)
+
+    for q, tickers in e0_quotes.items():
+        if len(tickers) > 1:
+            for tk in tickers:
+                violations["S6-a"].append({
+                    "ticker": tk,
+                    "evidence_grade": "E0",
+                    "shared_count": len(tickers),
+                    "evidence_quote_sample": q[:60],
+                    "reason": f"E0(법령 직접 판정) 등급은 동일한 조문 인용구(evidence_quote)를 여러 종목({len(tickers)}건)에 복제 인용하는 것을 금지합니다. (개별 펀드 사실관계 결여)",
                 })
 
     return violations

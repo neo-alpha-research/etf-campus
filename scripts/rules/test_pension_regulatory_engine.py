@@ -330,7 +330,7 @@ def test_pension_source_and_confidence():
     assert res_std["pension_verified"] == PENSION_VERIFIED_NO
     assert res_std["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 9-1. Standard equity ETF verified via KOFIA ledger (069500) -> KOFIA_VERIFIED, HIGH confidence
+    # 9-1. Standard equity ETF verified via KOFIA ledger (069500) -> KOFIA_VERIFIED, HIGH confidence per Step B resolution
     res_kofia = classify_pension_and_isa({
         "ticker": "069500",
         "name": "KODEX 200",

@@ -351,7 +351,7 @@ def test_official_ledgers_evidence_integrity_zero_violations():
     with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
         audit_rows = list(csv.DictReader(f))
 
-    assert len(ledger_rows) == 810, f"Verification ledger must have 810 rows, got {len(ledger_rows)}"
+    assert len(ledger_rows) == 1167, f"Verification ledger must have 1,167 rows, got {len(ledger_rows)}"
     assert len(audit_rows) == 1167, f"Audit ledger must have 1,167 rows, got {len(audit_rows)}"
 
     violations = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
@@ -481,5 +481,70 @@ def test_s5_evidence_sufficiency_catches_invalid_cover_pages():
     viols_deriv = validate_evidence_integrity(ledger_rows=[row_cover_deriv])
     assert len(viols_deriv["S5"]) == 1
     assert "증거 불충분 표지" in viols_deriv["S5"][0]["reason"]
+
+
+def test_s6a_e0_disallows_identical_quote_reuse():
+    """S6-a strictly rejects E0 grade when the same evidence_quote is duplicated across multiple tickers."""
+    # Invalid: 2 tickers share the same statutory boilerplate under E0
+    dup_e0_rows = [
+        {
+            "ticker": "434060",
+            "evidence_grade": "E0",
+            "evidence_quote": "제5조의2(적격 집합투자증권 인정기준) 규정 제11조제1항제9호의 감독원장이 정한 기준을...",
+            "evidence_ref": "data/regulatory/sources/statutes/퇴직연금감독규정시행세칙_20260905.txt",
+        },
+        {
+            "ticker": "442570",
+            "evidence_grade": "E0",
+            "evidence_quote": "제5조의2(적격 집합투자증권 인정기준) 규정 제11조제1항제9호의 감독원장이 정한 기준을...",
+            "evidence_ref": "data/regulatory/sources/statutes/퇴직연금감독규정시행세칙_20260905.txt",
+        },
+    ]
+    viols = validate_evidence_integrity(ledger_rows=dup_e0_rows)
+    assert len(viols["S6-a"]) == 2
+    assert "동일한 조문 인용구" in viols["S6-a"][0]["reason"]
+
+    # Valid: RULE_NAME or unique quotes do not violate S6-a
+    rule_name_rows = [
+        {
+            "ticker": "122630",
+            "evidence_grade": "RULE_NAME",
+            "evidence_quote": "퇴직연금감독규정 제9조 제1항 제2호 마목: 상장지수집합투자기구가 목표로 하는 지수의 변화에 1배를 초과하거나 음의 배율로 연동하여 운용하는 것은 제외한다",
+            "evidence_ref": "data/regulatory/sources/statutes/퇴직연금감독규정_20260905.txt",
+        },
+        {
+            "ticker": "252670",
+            "evidence_grade": "RULE_NAME",
+            "evidence_quote": "퇴직연금감독규정 제9조 제1항 제2호 마목: 상장지수집합투자기구가 목표로 하는 지수의 변화에 1배를 초과하거나 음의 배율로 연동하여 운용하는 것은 제외한다",
+            "evidence_ref": "data/regulatory/sources/statutes/퇴직연금감독규정_20260905.txt",
+        },
+    ]
+    viols_valid = validate_evidence_integrity(ledger_rows=rule_name_rows)
+    assert len(viols_valid["S6-a"]) == 0
+
+
+def test_reformed_ledger_and_queue_counts():
+    """Verify reformed state: 928 verified (79.5%), 239 unverified (20.5%), 0 overlap."""
+    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
+    master_path = REPO_ROOT / "data/etf_master_draft.csv"
+
+    with ledger_path.open("r", encoding="utf-8-sig") as f:
+        ledger_rows = list(csv.DictReader(f))
+    with queue_path.open("r", encoding="utf-8-sig") as f:
+        queue_rows = list(csv.DictReader(f))
+    with master_path.open("r", encoding="utf-8-sig") as f:
+        master_rows = list(csv.DictReader(f))
+
+    assert len(ledger_rows) == 1167
+    assert len(queue_rows) == 0
+    assert len(master_rows) == 1167
+
+    ledger_tickers = {r["ticker"].strip().upper() for r in ledger_rows}
+    queue_tickers = {r["ticker"].strip().upper() for r in queue_rows}
+
+    assert len(ledger_tickers & queue_tickers) == 0
+    assert len(ledger_tickers | queue_tickers) == 1167
+
 
 

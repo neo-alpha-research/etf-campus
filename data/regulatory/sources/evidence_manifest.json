@@ -3,14 +3,14 @@
     "sha256": "9675c6cf921b47d52ba90c35512e651c1672b388f444dcd745a1751443b1dc3f",
     "bytes": 30355259,
     "record_count": 20661,
-    "collected_at": "2026-09-05T00:29:00+09:00",
+    "collected_at": "2026-09-05T19:27:56.613959+09:00",
     "collector": "scripts/collector/kofia_fee_collector.py",
     "retention": "GitHub Actions artifact 30일 / 로컬 보존",
     "extract": "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
-    "extract_sha256": "c7dbd84843f6d90b66bafc95696c74cad84c6b51d2a9b75e1338c0f81da05421",
-    "extract_bytes": 940163,
-    "extract_record_count": 729,
-    "verified_ticker_count": 738
+    "extract_sha256": "b392cd199880dcbc3c0b973eb63b0038319b220f29ac59a02f419966ef46959e",
+    "extract_bytes": 1590461,
+    "extract_record_count": 1077,
+    "verified_ticker_count": 1067
   },
   "dart/20260330000048.xml": {
     "sha256": "0711cb2fcad5b2ffd6f084e9a08ad4fefbca39a1879d5f7757352f3d03d1de96",
@@ -195,5 +195,49 @@
     "collected_at": "2026-09-05T15:40:00+09:00",
     "sha256": "7088821dc9a49a3f5f39ff537f7555b2e2d898f53186eb22211b422d8d8f6095",
     "bytes": 242491
+  },
+  "statutes/kofia_annex_15_official.hwp": {
+    "sha256": "e84a3e74cc39c3a14bf746dfbef6bc44c68ad4bff1e9ab3b14f2081d4d43e901",
+    "size_bytes": 218112,
+    "collected_at": "2026-09-05T21:15:00+09:00",
+    "source_url": "https://law.kofia.or.kr/download.do?gubun=102&seq=3641",
+    "source_type": "KOFIA_OFFICIAL_ATTACHMENT_15",
+    "description": "금융투자회사의 영업 및 업무에 관한 규정 시행세칙 제27조 [별지 제15호] 집합투자기구 분류 정본 HWP"
+  },
+  "statutes/kofia_annex_15_official.txt": {
+    "sha256": "1892d5588ee669ca623dfac2f71a6dfec7566fe13fd584efb248446ab5aea25d",
+    "size_bytes": 53215,
+    "collected_at": "2026-09-05T21:15:00+09:00",
+    "source_url": "https://law.kofia.or.kr/download.do?gubun=102&seq=3641",
+    "source_type": "KOFIA_OFFICIAL_ATTACHMENT_15_TEXT",
+    "description": "금융투자회사의 영업 및 업무에 관한 규정 시행세칙 제27조 [별지 제15호] 집합투자기구 분류 HWP 텍스트 추출본"
+  },
+  "statutes/퇴직연금감독규정시행세칙_20260905.txt": {
+    "title": "퇴직연금감독규정시행세칙 (금융감독원세칙 전문 텍스트, 제5조의2 적격 TDF 요건 포함)",
+    "source_url": "https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=2200000108661",
+    "collected_at": "2026-09-05T22:10:00+09:00",
+    "sha256": "13d9af2604ca26f30ccc8ed85d4201d98c738fb36bbd7cf1c029177eed9688b0",
+    "bytes": 6874
+  },
+  "statutes/금융투자업규정_제4-54조_20260905.txt": {
+    "title": "금융투자업규정 제4-54조 (위험평가액 산정방법 전문 텍스트)",
+    "source_url": "https://www.law.go.kr/LSW/admRulInfoP.do?admRulSeq=2100000282072",
+    "collected_at": "2026-09-05T22:10:00+09:00",
+    "sha256": "c4a9dad9209403036e1572fa69acdf7489d78730395e852c43c97dde6851cfc4",
+    "bytes": 7316
+  },
+  "statutes/자본시장법시행령_제240조_20260905.txt": {
+    "title": "자본시장과 금융투자업에 관한 법률 시행령 제240조 (집합투자기구의 종류별 최소투자비율 등)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=288399&chrClsCd=010202",
+    "collected_at": "2026-09-05T22:11:00+09:00",
+    "sha256": "4fb19e8f1cc586edc99ec8c8a9548bc5ad60fd1cd892caa0a44220fec9c63931",
+    "bytes": 3517
+  },
+  "../broker_pension_universe.csv": {
+    "sha256": "81fa0a08ace74cad139df84f993bc98336ce9945b07dda99728048350cb3a32b",
+    "bytes": 29353,
+    "records": 237,
+    "source": "미래에셋증권 및 삼성증권 퇴직연금 매매가능 ETF 유니버스 공시 대조",
+    "updated_at": "2026-09-05T23:30:00+09:00"
   }
 }

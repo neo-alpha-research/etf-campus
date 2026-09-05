@@ -59,6 +59,7 @@ VALID_VERIFIED_SOURCES = {
     PENSION_SOURCE_BROKER_VERIFIED,
     PENSION_SOURCE_MANUAL_VERIFIED,
     PENSION_SOURCE_SAMPLE_VERIFIED,
+    PENSION_SOURCE_STATUTE_DIRECT,
 }
 
 PENSION_CONFIDENCE_HIGH = "높음"
@@ -237,7 +238,12 @@ def classify_pension_and_isa(
         is_safe = False
         reason = "위험자산 (계좌 내 70% 한도)"
 
-        if asset == "금리·파킹":
+        is_high_yield = ("하이일드" in name or "High Yield" in name or "high yield" in base_index.lower())
+
+        if is_high_yield:
+            is_safe = False
+            reason = "하이일드 채권 (투자적격등급 외 채무증권 30% 초과 가능으로 안전자산 제외, 퇴직연금감독규정 제11조 제1항 제5호 단서, 70% 한도 적용)"
+        elif asset == "금리·파킹":
             is_safe = True
             reason = "금리·파킹형 안전자산 (100% 투자 가능)"
         elif asset == "채권":
@@ -266,8 +272,11 @@ def classify_pension_and_isa(
     if v_entry:
         v_limit = str(v_entry.get("verified_limit") or "").strip()
         v_src = str(v_entry.get("source_type") or PENSION_SOURCE_KOFIA_VERIFIED).strip()
+        v_grade = str(v_entry.get("evidence_grade") or "").strip()
         if v_limit == pension_limit:
             # Agreement: Verified
+            # Opus review: RULE_NAME or E3 mixed bond items keep confidence = 보통 until prospectus/data verified, pure bond/equity restored to 높음
+            conf = PENSION_CONFIDENCE_MODERATE if (v_grade in ("RULE_NAME", "RULE") or (v_grade == "E3" and kofia_ft == "혼합채권형")) else PENSION_CONFIDENCE_HIGH
             return {
                 "pension_eligible": pension_eligible,
                 "pension_limit": pension_limit,
@@ -277,7 +286,7 @@ def classify_pension_and_isa(
                 "isa_education_required": isa_education_required,
                 "pension_source": v_src,
                 "pension_verified": PENSION_VERIFIED_YES,
-                "pension_confidence": PENSION_CONFIDENCE_HIGH,
+                "pension_confidence": conf,
                 "pension_reason": f"{v_src} 완료 - {reason}",
                 "underlying_is_security": underlying_sec,
             }
@@ -446,7 +455,15 @@ def generate_unverified_queue_and_summary(
                 risk_dir = "일반"
 
             # Determine precise unverified reason
-            if risk_dir == "안전자산_주의" and raw_kofia_type in derivative_types:
+            name_str = str(r.get("name") or "")
+            is_spot = "현물" in name_str
+            if "하이일드" in name_str or "High Yield" in name_str:
+                reason = "투자적격등급 외 채무증권 30% 초과 여부 약관 확인 필요 (퇴직연금감독규정 제11조 제1항 제5호 단서)"
+            elif "TDF" in name_str:
+                reason = "적격 TDF 5대 요건(글라이드패스/자산배분) 집합투자규약 개별 대조 필요 (퇴직연금감독규정시행세칙 제5조의2)"
+            elif ("선물" in name_str or "Futures" in name_str) and not is_spot:
+                reason = "장내선물 위험평가액 40% 초과 여부 개별 펀드 파생상품 익스포저(VaR/상계) 확인 필요 (금융투자업규정 제4-54조)"
+            elif risk_dir == "안전자산_주의" and raw_kofia_type in derivative_types:
                 reason = "위험평가액 미확인"
             elif risk_dir == "공시_미반영":
                 reason = "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
@@ -454,7 +471,7 @@ def generate_unverified_queue_and_summary(
                 reason = "법정 투자 불가 종목 (레버리지/인버스/선물 파생평가액 초과)"
             elif tk in kofia_undetermined_reasons:
                 reason = kofia_undetermined_reasons[tk]
-            elif "커버드콜" in str(r.get("name") or ""):
+            elif "커버드콜" in name_str:
                 reason = "커버드콜 옵션 매도 파생평가액 40% 한도 산정 미확인"
             else:
                 reason = "개별 약관 확인 필요"

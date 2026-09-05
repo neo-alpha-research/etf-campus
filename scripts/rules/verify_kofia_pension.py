@@ -37,11 +37,27 @@ KOFIA_SOURCE_URL = (
 )
 
 
+def find_latest_kofia_evidence(sources_dir: Path | None = None) -> str:
+    """Dynamically finds the latest kofia_evidence_extract_*.xml or kofia_dis_response_*.xml.
+
+    Falls back to 'kofia_evidence_extract_20260905.xml' if none found.
+    """
+    s_dir = sources_dir or (REPO_ROOT / "data" / "regulatory" / "sources")
+    if s_dir.is_dir():
+        extracts = sorted(s_dir.glob("kofia_evidence_extract_*.xml"), key=lambda p: p.name, reverse=True)
+        if extracts:
+            return extracts[0].name
+        snapshots = sorted(s_dir.glob("kofia_dis_response_*.xml"), key=lambda p: p.name, reverse=True)
+        if snapshots:
+            return snapshots[0].name
+    return "kofia_evidence_extract_20260905.xml"
+
+
 def build_verification_ledger(
     fund_types_csv: Path,
     ledger_csv: Path,
     prospectus_mixed_bonds_csv: Path | None = None,
-    evidence_filename: str = "kofia_evidence_extract_20260905.xml",
+    evidence_filename: str | None = None,
     valid_days: int = 90,
 ) -> tuple[int, int, Dict[str, str]]:
     """Builds or updates pension_verification_ledger.csv from kofia_fund_types.csv and prospectus records.
@@ -52,6 +68,9 @@ def build_verification_ledger(
     if not fund_types_csv.exists():
         print(f"[ERROR] Fund types CSV not found: {fund_types_csv}", file=sys.stderr)
         return 0, 0, {}
+
+    if not evidence_filename:
+        evidence_filename = find_latest_kofia_evidence()
 
     today = datetime.date.today()
     verified_at = today.isoformat()
@@ -118,6 +137,14 @@ def build_verification_ledger(
             if ticker in existing_ledger and existing_ledger[ticker].get("evidence_grade") in ("E1", "E2"):
                 continue
 
+            std_code = (row.get("standard_code") or "").strip()
+            bdate = (row.get("base_date") or "").strip()
+            ev_quote = (
+                f"{fund_name} / 펀드유형: {raw_type} / 표준코드: {std_code} / 기준일: {bdate}"
+                if std_code
+                else f"{fund_name} / 펀드유형: {raw_type} / 기준일: {verified_at}"
+            )
+
             existing_ledger[ticker] = {
                 "ticker": ticker,
                 "verified_limit": rule.pension_limit,
@@ -129,7 +156,7 @@ def build_verification_ledger(
                 "expires_at": expires_at,
                 "note": f"KOFIA 펀드유형: {raw_type} ({rule.statutory_basis_or_reason})",
                 "evidence_grade": "E3",
-                "evidence_quote": "",
+                "evidence_quote": ev_quote,
             }
         else:
             undetermined_count += 1
@@ -185,8 +212,8 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--evidence",
-        default="kofia_evidence_extract_20260905.xml",
-        help="Evidence file name in data/regulatory/sources/",
+        default=None,
+        help="Evidence file name in data/regulatory/sources/ (defaults to dynamically finding latest extract)",
     )
     args = parser.parse_args()
 

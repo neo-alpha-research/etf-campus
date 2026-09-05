@@ -31,15 +31,17 @@ from scripts.rules.validate_evidence_integrity import (
 )
 
 RULE_DESCRIPTIONS = {
-    "R1": "pension_verified = Y -> pension_source in {협회공시대조, KRX공시대조, 투자설명서대조, 증권사목록대조, 수동확인, 표본대조}",
+    "R1": "pension_verified = Y -> pension_source in {협회공시대조, KRX공시대조, 투자설명서대조, 증권사목록대조, 수동확인, 표본대조, 법령조건직접판정}",
     "R2": "pension_verified = N -> pension_confidence != 높음",
     "R3": "pension_eligible = 불가 <-> pension_limit = 불가 (양방향 일치)",
     "R4": "pension_eligible = 가능 -> pension_limit in {100% (안전자산), 70% (위험자산)}",
-    "R5": "asset_class in {채권, 금리·파킹} and pension_limit = 70% (위험자산) -> 위반 후보",
+    "R5": "asset_class in {채권, 금리·파킹} and pension_limit = 70% (위험자산) -> 위반 후보 (단, 하이일드 채무증권 제외)",
     "R6": "asset_class in {주식-국내, 주식-해외} and pension_limit = 100% (안전자산) -> 위반 후보",
     "R7": "이름에 레버리지/인버스 포함 -> pension_limit = 불가",
     "R8": "pension_source = 법령조건직접판정 -> 판정 조건 일치",
     "R9": "엔진 재실행 결과 vs 마스터 CSV 전 행 100% 일치",
+    "R10": "pension_verification_ledger.csv와 pension_unverified_queue.csv 교집합 공집합(상호배타성)",
+    "R11": "원장의 고유 ticker 수 == 마스터의 pension_verified=='Y' 수",
 }
 
 
@@ -94,8 +96,9 @@ def validate_pension_consistency(
                 "reason": f"pension_eligible={p_elig} but pension_limit={p_lim}"
             })
 
-        # R5: asset_class in {채권, 금리·파킹} and pension_limit = 70% (위험자산)
-        if asset in ("채권", "금리·파킹") and p_lim == "70% (위험자산)":
+        # R5: asset_class in {채권, 금리·파킹} and pension_limit = 70% (위험자산) (단, 하이일드 채권 제외)
+        is_high_yield = ("하이일드" in name or "High Yield" in name)
+        if asset in ("채권", "금리·파킹") and p_lim == "70% (위험자산)" and not is_high_yield:
             violations["R5"].append({
                 "ticker": tk, "name": name,
                 "reason": f"asset_class={asset} but pension_limit={p_lim}"
@@ -150,6 +153,38 @@ def validate_pension_consistency(
                 "ticker": tk, "name": name,
                 "reason": f"fields differed from engine: {mismatches}"
             })
+
+    # R10: pension_verification_ledger.csv vs pension_unverified_queue.csv mutual exclusivity
+    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
+
+    ledger_tickers: set[str] = set()
+    if ledger_path.exists():
+        with ledger_path.open("r", encoding="utf-8-sig") as f:
+            ledger_tickers = {row["ticker"].strip().upper() for row in csv.DictReader(f) if row.get("ticker")}
+
+    queue_tickers: set[str] = set()
+    if queue_path.exists():
+        with queue_path.open("r", encoding="utf-8-sig") as f:
+            queue_tickers = {row["ticker"].strip().upper() for row in csv.DictReader(f) if row.get("ticker")}
+
+    overlap = ledger_tickers & queue_tickers
+    if overlap:
+        for tk in sorted(overlap):
+            violations["R10"].append({
+                "ticker": tk,
+                "name": "",
+                "reason": f"ticker {tk} exists in both verification ledger and unverified queue (mutual exclusivity violation)",
+            })
+
+    # R11: ledger ticker count == master verified 'Y' count
+    master_verified_y = sum(1 for r in master_rows if str(r.get("pension_verified") or "").strip() == "Y")
+    if len(ledger_tickers) != master_verified_y:
+        violations["R11"].append({
+            "ticker": "ALL",
+            "name": "",
+            "reason": f"ledger ticker count ({len(ledger_tickers)}) != master verified 'Y' count ({master_verified_y})",
+        })
 
     return violations
 

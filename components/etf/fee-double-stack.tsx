@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useRef, useEffect } from "react";
 import { getFeeDisplayContext } from "../../lib/domain/etf-fee-utils";
 
 type Props = {
@@ -9,6 +11,19 @@ type Props = {
 
 export function FeeDoubleStack({ etf, className = "" }: Props) {
   const ctx = getFeeDisplayContext(etf);
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
 
   if (ctx.type === "unknown") {
     return <div className={`text-right ${className}`}>-</div>;
@@ -17,14 +32,49 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
   if (ctx.type === "masked_new") {
     return (
       <div className={`text-right flex flex-col items-end justify-center ${className}`}>
-        <div className="relative group flex items-center gap-1 cursor-help">
-          <span className="text-[10px] font-bold text-amber-500 bg-amber-50 px-1 py-0.5 rounded tracking-tighter">신규상장</span>
-          
-          <div className="absolute right-[calc(100%+8px)] top-1/2 -translate-y-1/2 w-64 p-2.5 rounded-lg bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120] whitespace-normal">
-            <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 border-[6px] border-transparent border-l-neutral-900/95" />
-            <p className="text-[11px] leading-snug whitespace-normal">
-              상장 1년 미만의 신규 ETF는 초기 설정 비용이 연환산되어 실부담 비용이 과다 계상될 수 있으므로 표기를 생략합니다.
+        <div
+          ref={containerRef}
+          className="relative inline-flex items-center"
+          onMouseEnter={() => setIsOpen(true)}
+          onMouseLeave={() => setIsOpen(false)}
+        >
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen((prev) => !prev);
+            }}
+            className="inline-flex items-center gap-0.5 text-[10px] font-bold text-amber-600 bg-amber-50 hover:bg-amber-100/90 border border-amber-200/80 px-1.5 py-0.5 rounded tracking-tighter transition-colors cursor-pointer"
+            aria-label="신규상장 실부담비용 안내 툴팁 보기"
+            aria-expanded={isOpen}
+          >
+            <span>신규상장</span>
+            <span className="text-[9px] text-amber-500 font-sans" aria-hidden="true">ⓘ</span>
+          </button>
+
+          {/* 고해상도 가독성 개선 툴팁 (신규 상장 ETF 실부담비용 안내) */}
+          <div
+            className={`absolute top-[calc(100%+8px)] right-0 w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 transition-all duration-200 z-[140] whitespace-normal ${
+              isOpen ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-1"
+            }`}
+            role="tooltip"
+          >
+            {/* 결함 없는 45도 회전 정밀 화살표 */}
+            <div className="absolute -top-1.5 right-4 w-3 h-3 rotate-45 bg-neutral-900 border-t border-l border-neutral-700/90" />
+            
+            <div className="flex items-center gap-1.5 mb-1.5 text-amber-300 font-bold text-[12px]">
+              <span aria-hidden="true">💡</span>
+              <span>신규 상장 ETF 실부담비용 안내</span>
+            </div>
+            
+            <p className="text-[11.5px] leading-relaxed text-neutral-200 mb-2">
+              상장 1년 미만의 신규 ETF는 초기 자산 편입 과정의 일회성 비용이 연환산되어 실부담비용이 일시적으로 과다하게 왜곡될 수 있습니다.
             </p>
+            
+            <div className="pt-2 border-t border-neutral-700/60 text-[11px] text-neutral-300 flex items-start gap-1">
+              <span className="text-amber-400 font-semibold shrink-0">공시 기준:</span>
+              <span>투자자 왜곡 방지를 위해 금융투자협회 공시 원칙에 따라 <strong>기본 운용보수(명목 보수)</strong>로 안내합니다.</span>
+            </div>
           </div>
         </div>
         <span className="text-[11px] text-muted tabular-nums mt-0.5">명목 {ctx.nominalFee?.toFixed(2)}%</span>
@@ -37,12 +87,38 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
       <div className={`text-right flex flex-col items-end justify-center ${className}`}>
         <div className="flex items-center gap-1">
           {ctx.hasHiddenCostWarning && (
-            <div className="relative group cursor-help flex items-center">
-              <span className="text-[11px]" aria-label="숨은 비용 주의">⚠️</span>
-              <div className="absolute right-[calc(100%+8px)] top-1/2 -translate-y-1/2 w-64 p-2.5 rounded-lg bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120] whitespace-normal">
-                <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 border-[6px] border-transparent border-l-neutral-900/95" />
-                <p className="text-[11px] leading-snug whitespace-normal">
-                  명목 보수에 비해 기타비용과 매매중개수수료가 높게 발생하여 주의가 필요한 종목입니다.
+            <div
+              ref={containerRef}
+              className="relative inline-flex items-center"
+              onMouseEnter={() => setIsOpen(true)}
+              onMouseLeave={() => setIsOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsOpen((prev) => !prev);
+                }}
+                className="inline-flex items-center text-[11px] hover:opacity-80 transition-opacity cursor-pointer"
+                aria-label="숨은 비용 주의 안내 툴팁 보기"
+                aria-expanded={isOpen}
+              >
+                <span aria-hidden="true">⚠️</span>
+              </button>
+
+              <div
+                className={`absolute top-[calc(100%+8px)] right-0 w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 transition-all duration-200 z-[140] whitespace-normal ${
+                  isOpen ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-1"
+                }`}
+                role="tooltip"
+              >
+                <div className="absolute -top-1.5 right-2 w-3 h-3 rotate-45 bg-neutral-900 border-t border-l border-neutral-700/90" />
+                <div className="flex items-center gap-1.5 mb-1 text-amber-300 font-bold text-[12px]">
+                  <span aria-hidden="true">⚠️</span>
+                  <span>숨은 비용(기타비용·매매수수료) 주의</span>
+                </div>
+                <p className="text-[11.5px] leading-relaxed text-neutral-200">
+                  명목 운용보수에 비해 기타비용과 매매중개수수료 비중이 높아 실부담 총비용이 크게 발생하는 종목입니다. 투자 시 실부담비용을 반드시 확인하세요.
                 </p>
               </div>
             </div>

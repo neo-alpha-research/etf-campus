@@ -320,7 +320,7 @@ node -e "fetch('https://etf-campus.pages.dev/api/briefings/latest').then(r=>r.js
 | 지수시세정보 과거 조회 범위 | 백필 대상 2022-12-29 까지 조회 가능한지 [미확인]. 서비스 키로 실제 응답을 받아 확인해야 함 |
 | 증권상품시세정보 보유 시작일 | 조회 가능한 가장 이른 날짜 미확인 |
 | 값 이상 탐지 | 전 거래일과 종가·등락률이 동일할 때 중단하는 검사 미구현 |
-| STEP 6 시장 규모 | 백엔드 미구현. 프론트는 준비 중 표기로 가려 둔 상태 |
+| STEP 6 시장 규모 | 구현 완료 (`market_scale_daily` 및 `peer_flow_daily` 롤업 원장 구축 및 역산 펀드플로우 동기화 완료) |
 | 원장 컬럼 확장 | NAV·`asset_detail` 커버리지, 수집 출처 기록 |
 | 상태 조회 화면 | CLI 외 조회 수단 없음 |
 | 시크릿 정리 | `secrets.txt`, `.preview-hmac-secret.tmp` 가 커밋 이력에 존재 |

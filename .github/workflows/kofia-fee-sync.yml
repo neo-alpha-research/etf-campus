@@ -106,3 +106,12 @@ jobs:
             --data '{"text":"✅ [ETF Campus] KOFIA 실부담비용 및 연금적격성 공시대조 자동 동기화 완료!"}' \
             ${{ secrets.SLACK_WEBHOOK_URL }} || true
           fi
+
+      - name: 🚨 Notify Slack on Failure
+        if: failure()
+        run: |
+          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
+            curl -s -X POST -H 'Content-type: application/json' \
+            --data '{"text":"🚨 [ETF Campus 긴급] KOFIA 실부담비용 및 연금적격성 동기화 파이프라인 실패! 관리자 확인이 필요합니다."}' \
+            ${{ secrets.SLACK_WEBHOOK_URL }} || true
+          fi

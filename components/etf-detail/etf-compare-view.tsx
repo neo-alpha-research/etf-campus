@@ -245,6 +245,104 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 </tr>
               )}
 
+              {/* 퇴직연금 (DC·IRP) 한도 */}
+              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
+                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
+                    <span>퇴직연금 한도</span>
+                    <span className="text-[10px] text-neutral-400">ⓘ</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
+                        <span className="text-[12px] font-black text-brand-300">퇴직연금 (DC·IRP) 편입 한도</span>
+                        <span className="text-[10px] text-neutral-400 font-mono">감독규정</span>
+                      </div>
+                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                        퇴직연금감독규정 제12조에 따른 계좌 내 편입 가능 한도입니다.
+                      </p>
+                      <div className="text-[10.5px] text-neutral-300 space-y-1">
+                        <div><strong className="text-emerald-300">100% (안전자산):</strong> 채권형 등 전액 편입 가능</div>
+                        <div><strong className="text-blue-300">70% (위험자산):</strong> 주식형 등 최대 70%까지 가능</div>
+                        <div><strong className="text-neutral-400">불가:</strong> 레버리지·선물파생 등 편입 제한</div>
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                {compareList.map((etf) => {
+                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  const limit = etf.pensionLimit;
+                  const is100 = limit === "100% (안전자산)";
+                  const is70 = limit === "70% (위험자산)";
+                  const isSpecialCd = ["357870", "477080"].includes(etf.ticker);
+                  const isSpecialKiwoom = etf.ticker === "0198A0";
+                  return (
+                    <td key={`pension-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
+                      <div className="flex flex-col items-center justify-center gap-0.5">
+                        <span className={`inline-flex items-center rounded px-1.5 py-0.5 text-[11px] font-bold border ${
+                          is100
+                            ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+                            : is70
+                            ? "border-blue-300 bg-blue-50 text-blue-700"
+                            : etf.pension === "가능"
+                            ? "border-brand-300 bg-brand-50 text-brand-700"
+                            : "border-neutral-200 bg-neutral-100 text-neutral-400"
+                        }`}>
+                          {limit ? (is100 ? "안전 100%" : is70 ? "위험 70%" : limit) : (etf.pension === "가능" ? "편입 가능" : "불가")}
+                        </span>
+                        {isSpecialCd && (
+                          <span className="text-[9.5px] text-amber-700 font-medium leading-tight">
+                            *증권사별 100% 가능
+                          </span>
+                        )}
+                        {isSpecialKiwoom && (
+                          <span className="text-[9.5px] text-neutral-500 font-medium leading-tight">
+                            *일부 증권사 미취급
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+
+              {/* 중개형 ISA */}
+              <tr className="hover:bg-brand-50/20 hover:z-40 relative">
+                <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
+                    <span>중개형 ISA</span>
+                    <span className="text-[10px] text-neutral-400">ⓘ</span>
+                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
+                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
+                        <span className="text-[12px] font-black text-brand-300">중개형 ISA 편입</span>
+                        <span className="text-[10px] text-neutral-400 font-mono">절세 계좌</span>
+                      </div>
+                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                        조세특례제한법상 중개형 ISA 계좌 편입 가능 여부입니다.
+                      </p>
+                      <div className="text-[10.5px] text-neutral-300">
+                        레버리지/인버스 ETF는 금융투자교육원 사전교육 및 기본예탁금이 필요합니다.
+                      </div>
+                    </div>
+                  </div>
+                </th>
+                {compareList.map((etf) => {
+                  const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  const isEdu = etf.riskType === "leverage" || etf.isaEducationRequired === "Y";
+                  return (
+                    <td key={`isa-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
+                      <span className={`inline-flex items-center rounded px-1.5 py-0.5 text-[11px] font-bold border ${
+                        isEdu
+                          ? "border-amber-300 bg-amber-50 text-amber-800"
+                          : "border-indigo-300 bg-indigo-50 text-indigo-700"
+                      }`}>
+                        {isEdu ? "가능 (교육필요)" : "편입 가능"}
+                      </span>
+                    </td>
+                  );
+                })}
+              </tr>
+
               {/* 순자산 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>

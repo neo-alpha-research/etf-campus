@@ -11,5 +11,11 @@
       "risk_type": "normal"
     }
   },
-  "version": "1.0"
+  "unverified_history": [
+    {
+      "count": 0,
+      "date": "2026-09-07"
+    }
+  ],
+  "version": "1.1"
 }

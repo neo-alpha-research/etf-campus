@@ -69,7 +69,7 @@ describe("ETF 공용 표시 컴포넌트", () => {
   });
 
   describe("FeeDoubleStack 컴포넌트", () => {
-    it("신규 상장 ETF는 신규상장 뱃지와 명목 보수를 표시하고 클릭 시 고가독성 툴팁을 토글한다", () => {
+    it("결산 전 ETF는 결산전 뱃지와 명목 보수를 표시하고 클릭 시 고가독성 툴팁을 토글한다", () => {
       const newEtf = {
         asOfDate: "20260905",
         listingDate: "20260501",
@@ -77,13 +77,14 @@ describe("ETF 공용 표시 컴포넌트", () => {
       };
 
       render(<FeeDoubleStack etf={newEtf} />);
-      const badgeBtn = screen.getByRole("button", { name: /신규상장 실부담비용 안내 툴팁 보기/ });
+      const badgeBtn = screen.getByRole("button", { name: /결산전 실부담비용 안내 툴팁 보기/ });
       expect(badgeBtn).toBeInTheDocument();
+      expect(badgeBtn).toHaveTextContent("결산전");
       expect(screen.getByText("명목 0.50%")).toBeInTheDocument();
 
       // Tooltip contains structured header and clear explanation
-      expect(screen.getByText("신규 상장 ETF 실부담비용 안내")).toBeInTheDocument();
-      expect(screen.getByText(/초기 자산 편입 과정의 일회성 비용/)).toBeInTheDocument();
+      expect(screen.getByText("결산 전 ETF 실부담비용 안내")).toBeInTheDocument();
+      expect(screen.getByText(/첫 회계연도 결산 전/)).toBeInTheDocument();
       expect(screen.getByText(/금융투자협회 공시 원칙/)).toBeInTheDocument();
 
       // Click to toggle

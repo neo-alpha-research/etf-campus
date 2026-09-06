@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
 
     steps:
       - name: 📥 Checkout repository
@@ -83,11 +84,13 @@ jobs:
                   data/fees/etf_fee_registry.json \
                   data/regulatory/kofia_fund_types.csv \
                   data/regulatory/pension_verification_ledger.csv \
+                  data/regulatory/personal_pension_registry.json \
                   data/regulatory/sources/kofia_evidence_extract_*.xml \
                   data/regulatory/sources/evidence_manifest.json \
                   data/reports/pension_unverified_queue.csv \
                   data/reports/pension_verification_summary.json \
-                  data/etf_master_draft.csv
+                  data/etf_master_draft.csv \
+                  public/data/screener.json
           
           if git diff --staged --quiet; then
             echo "No changes to commit."
@@ -97,6 +100,14 @@ jobs:
             git push origin main
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: 🚀 Trigger production deployment
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run market-briefing-production.yml --ref main
+          echo "Triggered production deployment for KOFIA update."
 
       - name: ✅ Notify Slack on Success
         if: steps.commit.outputs.changed == 'true'

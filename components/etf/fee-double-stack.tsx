@@ -45,14 +45,14 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
               setIsOpen((prev) => !prev);
             }}
             className="inline-flex items-center gap-0.5 text-[10px] font-bold text-amber-600 bg-amber-50 hover:bg-amber-100/90 border border-amber-200/80 px-1.5 py-0.5 rounded tracking-tighter transition-colors cursor-pointer"
-            aria-label="신규상장 실부담비용 안내 툴팁 보기"
+            aria-label="결산전 실부담비용 안내 툴팁 보기"
             aria-expanded={isOpen}
           >
-            <span>신규상장</span>
+            <span>결산전</span>
             <span className="text-[9px] text-amber-500 font-sans" aria-hidden="true">ⓘ</span>
           </button>
 
-          {/* 고해상도 가독성 개선 툴팁 (신규 상장 ETF 실부담비용 안내) */}
+          {/* 고해상도 가독성 개선 툴팁 (결산 전 ETF 실부담비용 안내) */}
           <div
             className={`absolute top-[calc(100%+8px)] right-0 w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 transition-all duration-200 z-[140] whitespace-normal ${
               isOpen ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-1"
@@ -64,11 +64,11 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
             
             <div className="flex items-center gap-1.5 mb-1.5 text-amber-300 font-bold text-[12px]">
               <span aria-hidden="true">💡</span>
-              <span>신규 상장 ETF 실부담비용 안내</span>
+              <span>결산 전 ETF 실부담비용 안내</span>
             </div>
             
             <p className="text-[11.5px] leading-relaxed text-neutral-200 mb-2">
-              상장 1년 미만의 신규 ETF는 초기 자산 편입 과정의 일회성 비용이 연환산되어 실부담비용이 일시적으로 과다하게 왜곡될 수 있습니다.
+              상장 1년 미만으로 첫 회계연도 결산 전인 ETF는 초기 자산 편입 과정의 일회성 비용 왜곡 방지를 위해 기타비용 및 매매수수료가 미산정된 상태입니다.
             </p>
             
             <div className="pt-2 border-t border-neutral-700/60 text-[11px] text-neutral-300 flex items-start gap-1">

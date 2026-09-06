@@ -245,6 +245,251 @@ def audit_kiwoom(screener: dict[str, dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def audit_shinhan(screener: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    file_path = SOURCES_DIR / "shinhan" / "sol_product_universe_20260906.json"
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    items = data.get("data", [])
+    evidence_tickers = {x["ETF_CD6"]: x for x in items}
+    screener_items = {k: v for k, v in screener.items() if v.get("issuer", {}).get("brand") == "SOL"}
+
+    missing_tickers = set(screener_items.keys()) - set(evidence_tickers.keys())
+    missing_derivs = {t for t in missing_tickers if screener_items[t].get("riskType") in ("leverage", "inverse")}
+    unexplained = missing_tickers - missing_derivs
+
+    personal_count = sum(1 for x in items if any("개인" in t for t in x.get("pensionNameList", []) or []))
+    retirement_count = sum(1 for x in items if any("퇴직" in t for t in x.get("pensionNameList", []) or []))
+    personal_only = [
+        t for t, x in evidence_tickers.items()
+        if any("개인" in p for p in x.get("pensionNameList", []) or [])
+        and not any("퇴직" in p for p in x.get("pensionNameList", []) or [])
+        and t in screener_items
+    ]
+    deriv_personal = [
+        t for t, x in evidence_tickers.items()
+        if any("개인" in p for p in x.get("pensionNameList", []) or [])
+        and screener.get(t, {}).get("riskType") in ("leverage", "inverse")
+    ]
+
+    return {
+        "issuer": "신한 (SOL)",
+        "file": str(file_path.relative_to(REPO_ROOT)),
+        "file_count": len(items),
+        "screener_total": len(screener_items),
+        "missing_count": len(missing_tickers),
+        "missing_derivatives": len(missing_derivs),
+        "unexplained_tickers": sorted(list(unexplained)),
+        "is_closed": len(unexplained) == 0,
+        "personal_pension_count": personal_count,
+        "retirement_pension_count": retirement_count,
+        "personal_only_count": len(personal_only),
+        "personal_only_tickers": sorted(personal_only),
+        "derivative_personal_count": len(deriv_personal),
+    }
+
+
+def audit_nhamundi(screener: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    file_path = SOURCES_DIR / "nhamundi" / "hanaro_product_universe_20260906.json"
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    items = data.get("data", [])
+    screener_items = {k: v for k, v in screener.items() if v.get("issuer", {}).get("brand") == "HANARO"}
+
+    norm = lambda s: re.sub(r"\s+", "", s).lower()
+    screener_norm = {norm(v.get("name", "")): k for k, v in screener_items.items()}
+    evidence_tickers = {}
+    for x in items:
+        tk = screener_norm.get(norm(x.get("fundName", "")))
+        if tk:
+            evidence_tickers[tk] = x
+
+    missing_tickers = set(screener_items.keys()) - set(evidence_tickers.keys())
+    missing_derivs = {t for t in missing_tickers if screener_items[t].get("riskType") in ("leverage", "inverse")}
+    unexplained = missing_tickers - missing_derivs
+
+    personal_count = sum(1 for x in items if x.get("iPension") == "Y")
+    retirement_count = sum(1 for x in items if x.get("rPension") == "Y")
+    personal_only = [
+        t for t, x in evidence_tickers.items()
+        if x.get("iPension") == "Y" and x.get("rPension") != "Y"
+        and t in screener_items
+    ]
+    deriv_personal = [
+        t for t, x in evidence_tickers.items()
+        if x.get("iPension") == "Y"
+        and screener.get(t, {}).get("riskType") in ("leverage", "inverse")
+    ]
+
+    return {
+        "issuer": "NH-Amundi (HANARO)",
+        "file": str(file_path.relative_to(REPO_ROOT)),
+        "file_count": len(items),
+        "screener_total": len(screener_items),
+        "missing_count": len(missing_tickers),
+        "missing_derivatives": len(missing_derivs),
+        "unexplained_tickers": sorted(list(unexplained)),
+        "is_closed": len(unexplained) == 0,
+        "personal_pension_count": personal_count,
+        "retirement_pension_count": retirement_count,
+        "personal_only_count": len(personal_only),
+        "personal_only_tickers": sorted(personal_only),
+        "derivative_personal_count": len(deriv_personal),
+    }
+
+
+def audit_samsungactive(screener: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    file_path = SOURCES_DIR / "samsungactive" / "koact_product_universe_20260906.json"
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    items = data.get("data", [])
+    evidence_tickers = {x["stkTicker"]: x for x in items}
+    screener_items = {k: v for k, v in screener.items() if v.get("issuer", {}).get("brand") == "KoAct"}
+
+    missing_tickers = set(screener_items.keys()) - set(evidence_tickers.keys())
+    missing_derivs = {t for t in missing_tickers if screener_items[t].get("riskType") in ("leverage", "inverse")}
+    unexplained = missing_tickers - missing_derivs
+
+    personal_count = sum(1 for x in items if x.get("dcYn") == "개인연금")
+    retirement_count = sum(1 for x in items if x.get("irpYn") == "퇴직연금")
+    personal_only = [
+        t for t, x in evidence_tickers.items()
+        if x.get("dcYn") == "개인연금" and x.get("irpYn") != "퇴직연금"
+        and t in screener_items
+    ]
+    deriv_personal = [
+        t for t, x in evidence_tickers.items()
+        if x.get("dcYn") == "개인연금"
+        and screener.get(t, {}).get("riskType") in ("leverage", "inverse")
+    ]
+
+    return {
+        "issuer": "삼성액티브 (KoAct)",
+        "file": str(file_path.relative_to(REPO_ROOT)),
+        "file_count": len(items),
+        "screener_total": len(screener_items),
+        "missing_count": len(missing_tickers),
+        "missing_derivatives": len(missing_derivs),
+        "unexplained_tickers": sorted(list(unexplained)),
+        "is_closed": len(unexplained) == 0,
+        "personal_pension_count": personal_count,
+        "retirement_pension_count": retirement_count,
+        "personal_only_count": len(personal_only),
+        "personal_only_tickers": sorted(personal_only),
+        "derivative_personal_count": len(deriv_personal),
+    }
+
+
+def audit_hana(screener: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    file_path = SOURCES_DIR / "hana" / "oneq_product_universe_20260906.json"
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    items = data.get("data", [])
+    evidence_tickers = {x["ticker"]: x for x in items}
+    screener_items = {k: v for k, v in screener.items() if v.get("issuer", {}).get("brand") == "1Q"}
+
+    missing_tickers = set(screener_items.keys()) - set(evidence_tickers.keys())
+    missing_derivs = {t for t in missing_tickers if screener_items[t].get("riskType") in ("leverage", "inverse")}
+    unexplained = missing_tickers - missing_derivs
+
+    return {
+        "issuer": "하나 (1Q)",
+        "file": str(file_path.relative_to(REPO_ROOT)),
+        "file_count": len(items),
+        "screener_total": len(screener_items),
+        "missing_count": len(missing_tickers),
+        "missing_derivatives": len(missing_derivs),
+        "unexplained_tickers": sorted(list(unexplained)),
+        "is_closed": len(unexplained) == 0,
+        "personal_pension_count": 0,
+        "retirement_pension_count": len(items),
+        "personal_only_count": 0,
+        "personal_only_tickers": [],
+        "note": "개인연금 구분필드 부재(판정 불가/보류 처리)",
+    }
+
+
+def audit_timefolio(screener: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    file_path = SOURCES_DIR / "timefolio" / "time_product_universe_20260906.json"
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    items = data.get("data", [])
+    evidence_tickers = {x["ticker"]: x for x in items}
+    screener_items = {k: v for k, v in screener.items() if v.get("issuer", {}).get("brand") == "TIME"}
+
+    missing_tickers = set(screener_items.keys()) - set(evidence_tickers.keys())
+    missing_derivs = {t for t in missing_tickers if screener_items[t].get("riskType") in ("leverage", "inverse")}
+    unexplained = missing_tickers - missing_derivs
+
+    personal_count = sum(1 for x in items if x.get("has_personal") and x["ticker"] in screener_items)
+    retirement_count = sum(1 for x in items if x.get("has_retirement") and x["ticker"] in screener_items)
+    personal_only = [
+        t for t, x in evidence_tickers.items()
+        if x.get("has_personal") and not x.get("has_retirement")
+        and t in screener_items
+    ]
+    deriv_personal = [
+        t for t, x in evidence_tickers.items()
+        if x.get("has_personal")
+        and screener.get(t, {}).get("riskType") in ("leverage", "inverse")
+    ]
+
+    return {
+        "issuer": "타임폴리오 (TIME)",
+        "file": str(file_path.relative_to(REPO_ROOT)),
+        "file_count": len(items),
+        "screener_total": len(screener_items),
+        "missing_count": len(missing_tickers),
+        "missing_derivatives": len(missing_derivs),
+        "unexplained_tickers": sorted(list(unexplained)),
+        "is_closed": len(unexplained) == 0,
+        "personal_pension_count": personal_count,
+        "retirement_pension_count": retirement_count,
+        "personal_only_count": len(personal_only),
+        "personal_only_tickers": sorted(personal_only),
+        "derivative_personal_count": len(deriv_personal),
+    }
+
+
+def audit_woori(screener: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    file_path = SOURCES_DIR / "woori" / "won_product_universe_20260906.json"
+    with open(file_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    items = data.get("data", [])
+    evidence_tickers = {x["ticker"]: x for x in items}
+    screener_items = {k: v for k, v in screener.items() if v.get("issuer", {}).get("brand") == "WON"}
+
+    missing_tickers = set(screener_items.keys()) - set(evidence_tickers.keys())
+    missing_derivs = {t for t in missing_tickers if screener_items[t].get("riskType") in ("leverage", "inverse")}
+    unexplained = missing_tickers - missing_derivs
+
+    retirement_count = sum(1 for x in items if x.get("has_retirement") and x["ticker"] in screener_items)
+
+    pers_file = SOURCES_DIR / "woori" / "won_personal_pension_verification_20260906.json"
+    personal_count = 0
+    if pers_file.exists():
+        with open(pers_file, "r", encoding="utf-8") as pf:
+            p_data = json.load(pf)
+        personal_count = len([x for x in p_data.get("data", []) if x.get("personal_pension_status") == "가능" and x["ticker"] in screener_items])
+
+    return {
+        "issuer": "우리 (WON)",
+        "file": str(file_path.relative_to(REPO_ROOT)),
+        "file_count": len(items),
+        "screener_total": len(screener_items),
+        "missing_count": len(missing_tickers),
+        "missing_derivatives": len(missing_derivs),
+        "unexplained_tickers": sorted(list(unexplained)),
+        "is_closed": len(unexplained) == 0,
+        "personal_pension_count": personal_count,
+        "retirement_pension_count": retirement_count,
+        "personal_only_count": 0,
+        "personal_only_tickers": [],
+    }
+
+
+ISSUER_COVERAGE_MIN = 0.90
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -253,6 +498,8 @@ def main() -> int:
 
     parser = argparse.ArgumentParser(description="Validate issuer coverage closure and personal pension scope")
     parser.add_argument("--json", action="store_true", help="Output raw JSON results")
+    parser.add_argument("--record-only", action="store_true", help="Only record/update tracking file; always exit 0")
+    parser.add_argument("--check-only", action="store_true", help="Only validate thresholds and timeouts; do not write files")
     args = parser.parse_args()
 
     screener = load_screener_data()
@@ -264,6 +511,12 @@ def main() -> int:
         audit_kb(screener),
         audit_hanwha(screener),
         audit_kiwoom(screener),
+        audit_shinhan(screener),
+        audit_nhamundi(screener),
+        audit_samsungactive(screener),
+        audit_hana(screener),
+        audit_timefolio(screener),
+        audit_woori(screener),
     ]
 
     total_personal_only = sum(a["personal_only_count"] for a in audits)
@@ -274,6 +527,10 @@ def main() -> int:
     deriv_personal_counts = {a["issuer"]: a.get("derivative_personal_count", 0) for a in full_universe_results}
     total_deriv_personal = sum(deriv_personal_counts.values())
 
+    covered = sum(r["screener_total"] for r in audits)
+    total_screener = len(screener)
+    coverage_ratio = covered / total_screener if total_screener > 0 else 0.0
+
     if args.json:
         print(json.dumps({
             "audits": audits,
@@ -282,6 +539,12 @@ def main() -> int:
             "derivative_personal_guardrail": {
                 "counts": deriv_personal_counts,
                 "violation": total_deriv_personal > 0
+            },
+            "coverage": {
+                "covered": covered,
+                "total": total_screener,
+                "ratio": coverage_ratio,
+                "min_target": ISSUER_COVERAGE_MIN,
             }
         }, indent=2, ensure_ascii=False))
         return 0
@@ -289,16 +552,22 @@ def main() -> int:
     print("=" * 80)
     print("🔍 운용사 증거 파일 모수 폐쇄성 검사 (Issuer Evidence Closure Check)")
     print("=" * 80)
-    print(f"{'운용사':<14} | {'파일행수':<6} | {'스크리너':<6} | {'누락파생':<6} | {'미설명누락':<8} | {'폐쇄여부':<6} | {'개인전용':<6}")
+    print(f"{'운용사':<16} | {'파일행수':<6} | {'스크리너':<6} | {'누락파생':<6} | {'미설명누락':<8} | {'폐쇄여부':<6} | {'개인전용':<6}")
     print("-" * 80)
 
     for a in audits:
         closed_str = "✓ 닫힘" if a["is_closed"] else "✗ 미폐쇄"
         unexplained_str = f"{len(a['unexplained_tickers'])}건" if a["unexplained_tickers"] else "0건"
-        print(f"{a['issuer']:<14} | {a['file_count']:>6} | {a['screener_total']:>6} | {a['missing_derivatives']:>6} | {unexplained_str:>8} | {closed_str:<6} | {a['personal_only_count']:>6}종")
+        print(f"{a['issuer']:<16} | {a['file_count']:>6} | {a['screener_total']:>6} | {a['missing_derivatives']:>6} | {unexplained_str:>8} | {closed_str:<6} | {a['personal_only_count']:>6}종")
 
     print("-" * 80)
-    print(f"📌 6대 운용사 합산 개인연금(연금저축) 전용 종목수: {total_personal_only}종목 (퇴직연금 불가이나 개인연금 가능)")
+    print(f"📊 증거파일 커버리지: {covered}/{total_screener} ({coverage_ratio:.1%}) [10대 운용사 전수 감사]")
+    if coverage_ratio < ISSUER_COVERAGE_MIN:
+        print(f"[WARN] 커버리지 {coverage_ratio:.1%} < 목표 {ISSUER_COVERAGE_MIN:.0%}", file=sys.stderr)
+    else:
+        print(f"  -> 목표 커버리지({ISSUER_COVERAGE_MIN:.0%}) 달성 확인 완료 (현재 {coverage_ratio:.1%})")
+
+    print(f"📌 10대 운용사 합산 개인연금(연금저축) 전용 종목수: {total_personal_only}종목 (퇴직연금 불가이나 개인연금 가능)")
     print()
 
     # Guardrail check
@@ -309,7 +578,8 @@ def main() -> int:
         print(f"  -> 실측 통과: 전수 유니버스 {len(full_universe_results)}개사 전 종목에서 레버리지·인버스 개인연금 표기 0건 확인.")
     else:
         print(f"  -> [CRITICAL VIOLATION] 레버리지 개인연금 표기 발견: {deriv_personal_counts}", file=sys.stderr)
-        return 1
+        if not args.record_only:
+            return 1
 
     # Unexplained tracking and 30-day timeout enforcement
     today_str = date.today().isoformat()
@@ -355,23 +625,59 @@ def main() -> int:
         if t not in all_unexplained:
             unexplained_items.pop(t, None)
 
-    # Persist clean payload (excluding transient fields: days_unresolved, last_checked)
-    persist_items = {
-        t: {k: v for k, v in item.items() if k not in ("days_unresolved", "last_checked")}
-        for t, item in sorted(unexplained_items.items())
-    }
-    persist_payload = {
-        "version": "1.0",
-        "unexplained_items": persist_items,
-    }
-    new_content = json.dumps(persist_payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
-    old_content = UNEXPLAINED_TRACKER_PATH.read_text(encoding="utf-8") if UNEXPLAINED_TRACKER_PATH.exists() else ""
+    # Unverified count tracking & 30-day moving increase monitor
+    unverified_count = sum(1 for x in screener.values() if x.get("personalPension") == "확인 필요")
+    unverified_history = tracker_data.setdefault("unverified_history", [])
+    
+    found_today = False
+    for entry in unverified_history:
+        if entry.get("date") == today_str:
+            entry["count"] = unverified_count
+            found_today = True
+            break
+    if not found_today:
+        unverified_history.append({"date": today_str, "count": unverified_count})
+    unverified_history.sort(key=lambda x: str(x.get("date", "")))
 
-    if new_content.strip() != old_content.strip():
+    # Evaluate 30-day moving window growth
+    today_date = date.today()
+    history_30d = []
+    for entry in unverified_history:
         try:
-            UNEXPLAINED_TRACKER_PATH.write_text(new_content, encoding="utf-8")
-        except Exception as e:
-            print(f"[WARN] Failed to update {UNEXPLAINED_TRACKER_PATH}: {e}", file=sys.stderr)
+            ed = date.fromisoformat(entry["date"])
+            days_ago = (today_date - ed).days
+            if 0 < days_ago <= 30:
+                history_30d.append((ed, int(entry["count"])))
+        except Exception:
+            pass
+
+    if history_30d:
+        history_30d.sort(key=lambda x: x[0])
+        base_date, base_count = history_30d[0]
+        if base_count > 0:
+            growth_rate = (unverified_count - base_count) / base_count
+            if growth_rate > 0.20:
+                print(f"       [WARN] 신규 상장 유입 급증: '확인 필요' 30일 이동 증가폭 +{unverified_count - base_count}종 ({growth_rate:.1%}) > 20% 초과 (기준: {base_date.isoformat()} {base_count}종)", file=sys.stderr)
+
+    # Persist clean payload if not in --check-only mode
+    if not args.check_only:
+        persist_items = {
+            t: {k: v for k, v in item.items() if k not in ("days_unresolved", "last_checked")}
+            for t, item in sorted(unexplained_items.items())
+        }
+        persist_payload = {
+            "version": "1.1",
+            "unverified_history": unverified_history,
+            "unexplained_items": persist_items,
+        }
+        new_content = json.dumps(persist_payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
+        old_content = UNEXPLAINED_TRACKER_PATH.read_text(encoding="utf-8") if UNEXPLAINED_TRACKER_PATH.exists() else ""
+
+        if new_content.strip() != old_content.strip():
+            try:
+                UNEXPLAINED_TRACKER_PATH.write_text(new_content, encoding="utf-8")
+            except Exception as e:
+                print(f"[WARN] Failed to update {UNEXPLAINED_TRACKER_PATH}: {e}", file=sys.stderr)
 
     print()
     if all_unexplained:
@@ -390,17 +696,31 @@ def main() -> int:
 
     print("=" * 80)
 
-    # Gate failure checks
+    # If record-only, always exit 0 to protect daily data ingestion
+    if args.record_only:
+        return 0
+
+    # Gate failure checks (evaluated during --check-only or default run)
+    has_failure = False
+
+    if total_deriv_personal > 0:
+        print(f"[FAIL] 레버리지 개인연금 표기 발견 ({total_deriv_personal}건)", file=sys.stderr)
+        has_failure = True
+
+    if coverage_ratio < ISSUER_COVERAGE_MIN:
+        print(f"[FAIL] 증거파일 커버리지 {coverage_ratio:.1%} < 목표 {ISSUER_COVERAGE_MIN:.0%}", file=sys.stderr)
+        has_failure = True
+
     if len(all_unexplained) > UNEXPLAINED_THRESHOLD:
         print(f"[FAIL] 미설명 잔여 {len(all_unexplained)}건 (임계치 {UNEXPLAINED_THRESHOLD}건 초과)", file=sys.stderr)
-        return 1
+        has_failure = True
 
     if expired_tickers:
         for ticker, days in expired_tickers:
             print(f"[FAIL] 미설명 잔여 종목 30일 초과 방치: {ticker} ({days}일 경과)", file=sys.stderr)
-        return 1
+        has_failure = True
 
-    return 0
+    return 1 if has_failure else 0
 
 
 if __name__ == "__main__":

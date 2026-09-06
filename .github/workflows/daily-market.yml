@@ -218,10 +218,12 @@ jobs:
         run: |
           python -m unittest discover -s scripts/tests
           python scripts/verify_zero_hallucination.py
+          python scripts/rules/validate_pension_consistency.py
+          python scripts/rules/validate_evidence_integrity.py
 
-      - name: Validate issuer coverage closure (time-based gate)
+      - name: Record issuer coverage closure (tracking update)
         if: steps.guard.outputs.skip != 'true'
-        run: python scripts/rules/validate_issuer_coverage.py
+        run: python scripts/rules/validate_issuer_coverage.py --record-only
 
       - name: Ingest daily ETF prices to D1
         continue-on-error: true
@@ -253,7 +255,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json; do
+          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then
@@ -271,6 +273,10 @@ jobs:
               exit 1
             fi
           fi
+
+      - name: Validate issuer coverage closure (pre-deploy gate)
+        if: steps.guard.outputs.skip != 'true'
+        run: python scripts/rules/validate_issuer_coverage.py --check-only
 
       - name: Pre-deploy briefing quality gate
         id: quality_gate

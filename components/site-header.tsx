@@ -20,14 +20,16 @@ const navigation = [
 ] as const;
 
 const accountNavigation = [
-  { href: "/explore/?account=all", label: "일반계좌", key: "all" },
+  { href: "/explore/?account=all", label: "전체계좌", key: "all" },
   { href: "/explore/?account=pension", label: "퇴직연금", key: "pension" },
+  { href: "/explore/?account=personal_pension", label: "연금저축", key: "personal_pension" },
   { href: "/explore/?account=isa", label: "중개형ISA", key: "isa" },
 ] as const;
 
 const characteristicNavigation = [
   { href: "/quick/?mode=mixed_bonds", label: "혼합채권", key: "mixed_bonds" },
   { href: "/quick/?mode=tdf", label: "TDF", key: "tdf" },
+  { href: "/quick/?mode=covered_call", label: "커버드콜", key: "covered_call" },
   { href: "/quick/?mode=derivatives", label: "레버리지·인버스", key: "derivatives" },
   { href: "/quick/?mode=new", label: "신규 상장", key: "new" },
 ] as const;
@@ -46,6 +48,7 @@ export function SiteHeader() {
     if (pathname.startsWith("/explore") || pathname.startsWith("/screener")) {
       const acct = searchParams.get("account");
       if (acct === "all") return "/explore/?account=all";
+      if (acct === "personal_pension" || acct === "personal") return "/explore/?account=personal_pension";
       if (acct === "isa") return "/explore/?account=isa";
       return "/explore/?account=pension";
     }
@@ -97,7 +100,7 @@ export function SiteHeader() {
 
   return (
     <header className="site-header relative border-b border-line bg-white shadow-[0_1px_0_rgba(23,32,30,0.03)] w-full max-w-full overflow-x-hidden">
-      <div className="page-shell flex min-h-14 sm:min-h-16 items-center justify-between gap-2 sm:gap-4 w-full max-w-full">
+      <div className="page-shell flex min-h-14 sm:min-h-16 items-center justify-between gap-2 sm:gap-4">
         {/* Left: Logo & Menus */}
         <div className="flex items-center gap-2 sm:gap-4 lg:gap-8 min-w-0 shrink">
           <Link className="flex shrink-0 items-center gap-1.5 sm:gap-2 text-base sm:text-lg font-extrabold tracking-[-0.03em] text-brand-800" href="/">
@@ -151,14 +154,15 @@ export function SiteHeader() {
         })}
       </nav>
       {showFinderNav ? (
-        <div className="w-full max-w-full border-t border-line bg-brand-50/55">
-          <nav aria-label="ETF 탐색 메뉴" className="page-shell w-full max-w-full overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex items-center gap-2 py-2.5 text-sm">
+        <div className="w-full border-t border-line bg-brand-50/55">
+          <nav aria-label="ETF 탐색 메뉴" className="page-shell overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex items-center gap-1.5 sm:gap-2 py-2 text-xs sm:text-sm">
+            <span className="text-[11px] font-bold text-neutral-600 shrink-0 pl-0.5 hidden sm:inline-block">계좌</span>
             {accountNavigation.map((item) => {
               const active = item.href === activeFinderHref;
-              const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${
+              const className = `inline-flex min-h-9 sm:min-h-9.5 shrink-0 items-center rounded-full border px-3 sm:px-3.5 py-1.5 font-bold transition-all ${
                 active
-                  ? "border-brand-700 bg-brand-700 text-white shadow-sm"
-                  : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"
+                  ? "border-brand-700 bg-brand-700 text-white shadow-2xs"
+                  : "border-neutral-200 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900"
               }`;
               return (
                 <Link
@@ -179,14 +183,15 @@ export function SiteHeader() {
               );
             })}
 
-            <span aria-hidden="true" className="h-5 w-px bg-brand-300 mx-1 shrink-0" />
+            <span aria-hidden="true" className="h-4 w-px bg-neutral-300 mx-1 shrink-0" />
 
+            <span className="text-[11px] font-bold text-neutral-600 shrink-0 pl-0.5 hidden sm:inline-block">특징·테마</span>
             {characteristicNavigation.map((item) => {
               const active = item.href === activeFinderHref;
-              const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${
+              const className = `inline-flex min-h-9 sm:min-h-9.5 shrink-0 items-center rounded-full border px-3 sm:px-3.5 py-1.5 font-bold transition-all ${
                 active
-                  ? "border-brand-700 bg-brand-700 text-white shadow-sm"
-                  : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"
+                  ? "border-brand-700 bg-brand-700 text-white shadow-2xs"
+                  : "border-neutral-200 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900"
               }`;
               return (
                 <Link

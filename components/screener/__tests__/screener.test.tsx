@@ -208,16 +208,27 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.queryAllByText("+10.00").length).toBe(0);
   });
 
-  it("중개형 ISA 탭 클릭 시 ISA 가능 종목만 필터링되고 URL에 account=isa가 반영된다", () => {
-    const safeEtf = etf({ ticker: "S1", name: "안전 채권 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "100% (안전자산)", isaEligible: "가능" });
+  it("중개형 ISA 탭 클릭 시 절세 혜택형(high_benefit)이 기본 적용되고 전체 조회로 전환 가능하다", () => {
+    const safeEtf = etf({ ticker: "S1", name: "안전 채권 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "100% (안전자산)", isaEligible: "가능", isaTaxBenefit: "높음" });
+    const normalEtf = etf({ ticker: "N1", name: "국내주식 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "70% (위험자산)", isaEligible: "가능", isaTaxBenefit: "낮음" });
     const levEtf = etf({ ticker: "L1", name: "레버리지 ETF", riskType: "leverage", aum: 100_000_000_000, pension: "불가", pensionLimit: "불가", isaEligible: "불가" });
 
-    render(<Screener etfs={[safeEtf, levEtf]} />);
+    render(<Screener etfs={[safeEtf, normalEtf, levEtf]} />);
+    
+    // 전체계좌 탭 존재 확인
+    expect(screen.getByRole("button", { name: /전체계좌/ })).toBeInTheDocument();
+
     const isaTab = screen.getByRole("button", { name: /중개형 ISA/ });
     fireEvent.click(isaTab);
 
+    // ISA 기본 진입 시 high_benefit (절세 혜택형) 기본 적용
     expect(window.location.search).toContain("account=isa");
-    expect(screen.getByText("중개형 ISA 절세 실익 구분")).toBeInTheDocument();
+    expect(screen.getByText("중개형 ISA 절세 실익 안내")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "ISA 절세 혜택형 조건 제거" })).toBeInTheDocument();
+
+    // 전체 조회 서브 버튼 클릭 시 isaTier: all 로 전환
+    const allIsaBtn = screen.getByRole("button", { name: /전체 \(\d+개\)/ });
+    fireEvent.click(allIsaBtn);
     expect(screen.getByRole("button", { name: "중개형 ISA 가능 조건 제거" })).toBeInTheDocument();
   });
 
@@ -280,7 +291,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(pensionBadge).toBeInTheDocument();
   });
 
-  it("중개형 ISA 모드에서 절세실익 높음 종목에 절세실익高 배지가 표시된다", async () => {
+  it("중개형 ISA 모드에서 절세 혜택형 종목에 ✨절세형 배지가 표시된다", async () => {
     const isaHighEtf = etf({
       ticker: "ISA1",
       name: "미국 테크 ETF",
@@ -295,10 +306,58 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     const isaTab = screen.getByRole("button", { name: /중개형 ISA/ });
     fireEvent.click(isaTab);
 
-    expect(screen.getByText("중개형 ISA 절세 실익 구분")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /절세실익 높음/ })).toBeInTheDocument();
+    expect(screen.getByText("중개형 ISA 절세 실익 안내")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /✨ 절세 혜택형/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "ISA 절세 혜택형 조건 제거" })).toBeInTheDocument();
     expect(screen.getByText("ISA가능")).toBeInTheDocument();
-    expect(screen.getByText("절세실익高")).toBeInTheDocument();
+    expect(screen.getByText("✨절세형")).toBeInTheDocument();
+  });
+
+  it("개인연금(연금저축) 모드에서 '연금저축 한도규제 없음' 및 '연금불가(약관 제8조)' 배지와 법령 툴팁이 올바르게 표시된다", async () => {
+    const etf1 = etf({
+      ticker: "P1",
+      name: "한화 개인연금 적격 ETF",
+      issuer: { issuerId: "hanwha", issuerName: "한화자산운용" },
+      personalPension: "가능",
+      personalPensionLimit: "100%",
+      pension: "불가",
+      pensionLimit: "불가",
+    });
+    const etf2 = etf({
+      ticker: "P2",
+      name: "일반 1배수 ETF",
+      issuer: { issuerId: "etc", issuerName: "기타자산운용" },
+      personalPension: "가능",
+      personalPensionLimit: "100%",
+      pension: "가능",
+      pensionLimit: "70% (위험자산)",
+    });
+    const etf3 = etf({
+      ticker: "P3",
+      name: "레버리지 ETF",
+      issuer: { issuerId: "samsung", issuerName: "삼성자산운용" },
+      riskType: "leverage",
+      personalPension: "불가",
+      personalPensionLimit: "불가",
+      pension: "불가",
+      pensionLimit: "불가",
+    });
+
+    render(<Screener etfs={[etf1, etf2, etf3]} />);
+    const pensionTab = screen.getByRole("button", { name: /개인연금/ });
+    fireEvent.click(pensionTab);
+
+    // etf1: 개인연금전용 + 연금저축 한도규제 없음
+    expect(screen.getByText("개인연금전용")).toBeInTheDocument();
+    const limitNoneBadges = screen.getAllByText("연금저축 한도규제 없음");
+    expect(limitNoneBadges.length).toBeGreaterThanOrEqual(1);
+    expect(limitNoneBadges[0]).toHaveAttribute(
+      "title",
+      "금융투자협회 연금저축 표준약관 제8조 적격 (1배수 정방향 일반 ETF)"
+    );
+
+    // 전체 적격 버튼 및 배너 확인
+    expect(screen.getByText(/연금저축 적격 ETF:/)).toBeInTheDocument();
   });
 });
 

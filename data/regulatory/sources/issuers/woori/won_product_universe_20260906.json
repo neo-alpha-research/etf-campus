@@ -1,0 +1,174 @@
+{
+  "data": [
+    {
+      "ticker": "488720",
+      "name": "WON 종합채권(AA-이상)액티브",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/0qHP74yBzhAAAfta"
+    },
+    {
+      "ticker": "448100",
+      "name": "WON 200",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/5B24GT7Kv9MqFAdv"
+    },
+    {
+      "ticker": "444490",
+      "name": "WON 미국S&amp;P500",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/6acWapbyV1JaJ7do"
+    },
+    {
+      "ticker": "480460",
+      "name": "WON 한국부동산TOP3플러스",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/8HmZjHHDBz5p7dLm"
+    },
+    {
+      "ticker": "0226G0",
+      "name": "WON 피지컬AI TOP2플러스액티브",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/E14ljTVNUg2Qik6g"
+    },
+    {
+      "ticker": "0177A0",
+      "name": "WON 두산그룹포커스",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/EyxRV5tq8bcirxah"
+    },
+    {
+      "ticker": "0154F0",
+      "name": "WON 초대형IB&amp;금융지주",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/Gj1sVGSQRVH9n2om"
+    },
+    {
+      "ticker": "413930",
+      "name": "WON AI ESG액티브",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/HaFalK34qahjFElR"
+    },
+    {
+      "ticker": "458030",
+      "name": "WON 국공채머니마켓액티브",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/JJl6OfTA4PShrk14"
+    },
+    {
+      "ticker": "440910",
+      "name": "WON 미국우주항공방산",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/PTtueXizZ5VE5yl2"
+    },
+    {
+      "ticker": "0203R0",
+      "name": "WON 중단기종합채권(A-이상)액티브",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/aYmxU4xH4ripARyy"
+    },
+    {
+      "ticker": "0088N0",
+      "name": "WON K-글로벌수급상위",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/bFBwMeaMBUxyscOT"
+    },
+    {
+      "ticker": "496020",
+      "name": "WON 전단채플러스액티브",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/htCL4xYXe0mA8Vy9"
+    },
+    {
+      "ticker": "489290",
+      "name": "WON 미국빌리어네어",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/jBp15JQ0O52AGRBU"
+    },
+    {
+      "ticker": "0203S0",
+      "name": "WON 삼성전자현대차채권혼합50",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/mVaDY8DzrSj59MlO"
+    },
+    {
+      "ticker": "474590",
+      "name": "WON 반도체밸류체인액티브",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/ts8ym1V3HHeDnN9S"
+    },
+    {
+      "ticker": "426150",
+      "name": "WON 대한민국국고채액티브",
+      "indicators": [
+        "퇴직연금"
+      ],
+      "has_retirement": true,
+      "risk_grade": null,
+      "url": "https://www.wooriam.kr/investment/etf-view/xefmCmyX8rXA8WTP"
+    }
+  ]
+}

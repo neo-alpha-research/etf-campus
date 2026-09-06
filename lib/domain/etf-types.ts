@@ -158,6 +158,9 @@ export type Etf = {
   trackingError?: number | null;
   fee?: EtfFeeInfo | null;
   distributionSummary?: EtfDistributionSummary | null;
+  distributionYield?: number | null;
+  distributionCycle?: string | null;
+  lastDistributionDate?: string | null;
 
   issuer: EtfIssuer;
   riskType: RiskType;
@@ -168,6 +171,9 @@ export type Etf = {
   pensionSourceType?: PensionSourceType | null;
   pensionVerified?: "Y" | "N" | null;
   pensionConfidence?: PensionConfidenceLevel | null;
+  personalPension?: "가능" | "불가" | null;
+  personalPensionLimit?: "100%" | "불가" | null;
+  personalPensionAsOfDate?: string | null;
   isaEligible?: IsaStatus | null;
   isaEducationRequired?: "Y" | "N" | null;
   isaTaxType?: IsaTaxType | null;

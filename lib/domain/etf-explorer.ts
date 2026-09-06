@@ -7,7 +7,7 @@ import {
   type RiskType,
 } from "./etf-types";
 
-export const INVESTOR_MODES = ["general", "pension", "derivatives", "new", "mixed_bonds", "tdf"] as const;
+export const INVESTOR_MODES = ["general", "pension", "derivatives", "new", "mixed_bonds", "tdf", "covered_call"] as const;
 export const AUM_SCOPES = ["all", "1000plus", "500plus"] as const;
 export const SORT_KEYS = ["return", "tradeValue", "aum", "listingDate"] as const;
 export const SORT_DIRECTIONS = ["desc", "asc"] as const;
@@ -99,6 +99,13 @@ export function filterEtfsByMode(etfs: readonly Etf[], mode: InvestorMode): Etf[
       const isMixedBond = etf.name.includes("채권") && etf.name.includes("혼합");
       const isMixedAsset = etf.assetClass === "혼합·자산배분";
       return isTRF || isMixedBond || (isMixedAsset && etf.name.includes("채권"));
+    });
+  }
+  if (mode === "covered_call") {
+    return etfs.filter((etf) => {
+      const strat = etf.classification?.strategy ?? "";
+      const tokens = strat.split("·").map((s) => s.trim());
+      return tokens.includes("커버드콜");
     });
   }
   return etfs.filter(isNewListing);

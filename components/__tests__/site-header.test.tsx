@@ -33,7 +33,7 @@ describe("SiteHeader Component - Sub-navigation Hierarchy", () => {
     render(<SiteHeader />);
 
     // 1단 계좌군
-    expect(screen.getByRole("link", { name: "일반계좌" })).toHaveAttribute("href", "/explore?account=all");
+    expect(screen.getByRole("link", { name: "전체계좌" })).toHaveAttribute("href", "/explore?account=all");
     expect(screen.getByRole("link", { name: "퇴직연금" })).toHaveAttribute("href", "/explore?account=pension");
     expect(screen.getByRole("link", { name: "중개형ISA" })).toHaveAttribute("href", "/explore?account=isa");
 
@@ -57,10 +57,10 @@ describe("SiteHeader Component - Sub-navigation Hierarchy", () => {
     expect(isaTab).toHaveAttribute("aria-current", "page");
   });
 
-  it("account=all 파라미터 시 일반계좌 탭이 활성화된다", () => {
+  it("account=all 파라미터 시 전체계좌 탭이 활성화된다", () => {
     mockSearchParams = new URLSearchParams("account=all");
     render(<SiteHeader />);
-    const generalTab = screen.getByRole("link", { name: "일반계좌" });
+    const generalTab = screen.getByRole("link", { name: "전체계좌" });
     expect(generalTab).toHaveAttribute("aria-current", "page");
   });
 

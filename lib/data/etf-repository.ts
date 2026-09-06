@@ -140,6 +140,42 @@ function loadTrReturnsIndex(dataDirectory: string): Map<string, { tr: Record<str
   return result;
 }
 
+function loadIssuerPensionDisclosureDates(dataDirectory: string): Map<string, string> {
+  const manifestPath = path.join(dataDirectory, "regulatory", "sources", "evidence_manifest.json");
+  const datesByIssuerId = new Map<string, string>();
+  if (!fs.existsSync(manifestPath)) return datesByIssuerId;
+
+  try {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+    for (const [key, meta] of Object.entries<any>(manifest)) {
+      if (!key.startsWith("issuers/")) continue;
+      const parts = key.split("/");
+      if (parts.length >= 3) {
+        const issuerDir = parts[1];
+        const issuerId = issuerDir === "ace" ? "koreainvestment" : issuerDir;
+
+        let dateStr: string | null = null;
+        if (meta && typeof meta.collected_at === "string") {
+          dateStr = meta.collected_at.slice(0, 10);
+        } else {
+          const match = parts[2].match(/(\d{4})(\d{2})(\d{2})/);
+          if (match) {
+            dateStr = `${match[1]}-${match[2]}-${match[3]}`;
+          }
+        }
+        if (dateStr) {
+          datesByIssuerId.set(issuerId, dateStr);
+          datesByIssuerId.set(issuerDir, dateStr);
+        }
+      }
+    }
+  } catch {
+    // Graceful fallback
+  }
+
+  return datesByIssuerId;
+}
+
 export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const masterRows = readCsv(path.join(dataDirectory, "etf_master_draft.csv"));
   const feeByTicker = loadOfficialEtfFeeIndex(dataDirectory);
@@ -153,6 +189,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
   const pensionByTicker = indexUnique(pensionRows, "ticker", "pension_verify_sheet.csv");
   const classificationByTicker = loadClassificationIndex(dataDirectory);
   const trReturnsByTicker = loadTrReturnsIndex(dataDirectory);
+  const issuerPensionDates = loadIssuerPensionDisclosureDates(dataDirectory);
   const tickers = new Set(masterByTicker.keys());
 
   assertCompleteJoin(returnsByTicker, tickers, "etf_returns_draft.csv");
@@ -167,8 +204,11 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
     const changePct = parseNumberField(master, "change_pct", `master:${ticker}`);
 
     const name = requireField(master, "name", `master:${ticker}`);
+    const isin = requireField(master, "isin_cd", `master:${ticker}`);
+    const issuer = resolveIssuer(ticker, isin, name);
+
     return {
-      isin: requireField(master, "isin_cd", `master:${ticker}`),
+      isin,
       ticker,
       name,
       baseIndex: requireField(master, "base_index", `master:${ticker}`),
@@ -181,8 +221,11 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       trackingError: parseOptionalNullableNumber(master, "tracking_error", `master:${ticker}`),
       fee: feeByTicker.get(ticker) ?? null,
       distributionSummary: distributionByTicker.get(ticker) ?? null,
+      distributionYield: distributionByTicker.get(ticker)?.ttmDividendYieldPct ?? null,
+      distributionCycle: distributionByTicker.get(ticker)?.paymentCycle ?? null,
+      lastDistributionDate: distributionByTicker.get(ticker)?.latest?.exDate ?? null,
 
-      issuer: resolveIssuer(ticker, requireField(master, "isin_cd", `master:${ticker}`), name),
+      issuer,
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,
       pension: assertMember(
@@ -195,6 +238,9 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       pensionSourceType: (optionalText(master, "pension_source") || optionalText(pension, "pension_source")) as any,
       pensionVerified: (optionalText(master, "pension_verified") || optionalText(pension, "pension_verified")) as "Y" | "N" | null,
       pensionConfidence: (optionalText(master, "pension_confidence") || optionalText(pension, "pension_confidence")) as any,
+      personalPension: (optionalText(master, "personal_pension") || optionalText(pension, "personal_pension") || null) as any,
+      personalPensionLimit: (optionalText(master, "personal_pension_limit") || optionalText(pension, "personal_pension_limit") || null) as any,
+      personalPensionAsOfDate: issuerPensionDates.get(issuer.issuerId) ?? null,
       isaEligible: (optionalText(master, "isa_eligible") || optionalText(pension, "isa_eligible")) as IsaStatus | null,
       isaEducationRequired: (optionalText(master, "isa_education_required") || optionalText(pension, "isa_education_required")) as "Y" | "N" | null,
       isaTaxType: (optionalText(master, "isa_tax_type") || null) as IsaTaxType | null,

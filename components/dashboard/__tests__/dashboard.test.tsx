@@ -192,4 +192,86 @@ describe("Dashboard", () => {
     expect(screen.getByRole("columnheader", { name: "거래대금, 단위 억원" })).toHaveTextContent("거래대금(억원)");
     expect(screen.getByRole("columnheader", { name: "1개월 수익률" })).toHaveTextContent("1개월");
   });
+
+  it("커버드콜 모드에서는 4대 유의사항 배너, 기초자산 퀵 필터 및 전용 뱃지를 제공한다", async () => {
+    const ccEtfs = [
+      etf({
+        ticker: "CC1",
+        name: "해외주식 커버드콜 ETF",
+        assetClass: "주식-해외",
+        aum: 100_000_000_000,
+        classification: { strategy: "커버드콜" } as any,
+        distributionYield: 12.5,
+        distributionCycle: "월배당",
+        pension: "가능",
+        pensionLimit: "70%",
+      }),
+      etf({
+        ticker: "CC2",
+        name: "국내주식 커버드콜 ETF",
+        assetClass: "주식-국내",
+        aum: 100_000_000_000,
+        classification: { strategy: "커버드콜" } as any,
+        distributionYield: 9.8,
+        distributionCycle: "월배당",
+        pension: "가능",
+        pensionLimit: "70%",
+      }),
+      etf({
+        ticker: "CC3",
+        name: "채권 커버드콜 ETF",
+        assetClass: "채권",
+        aum: 100_000_000_000,
+        classification: { strategy: "커버드콜" } as any,
+        distributionYield: 11.2,
+        distributionCycle: "월배당",
+        pension: "가능",
+        pensionLimit: "100% (안전자산)",
+      }),
+      etf({
+        ticker: "CC4",
+        name: "원자재 커버드콜 ETF",
+        assetClass: "원자재",
+        aum: 100_000_000_000,
+        classification: { strategy: "커버드콜" } as any,
+        distributionYield: 8.0,
+        distributionCycle: "월배당",
+        pension: "불가",
+      }),
+    ];
+
+    window.history.replaceState(null, "", "/quick?mode=covered_call");
+    render(<Dashboard etfs={ccEtfs} />);
+
+    await waitFor(() => expect(screen.getByRole("heading", { name: "커버드콜 ETF" })).toBeInTheDocument());
+
+    // 1. 유의사항 배너 4대 항목 검증 (당국 명칭 배제 확인)
+    const banner = screen.getByText(/커버드콜 ETF 투자 유의사항/).closest(".rounded-xl");
+    expect(banner).toBeInTheDocument();
+    expect(banner).toHaveTextContent("상승 제한");
+    expect(banner).toHaveTextContent("원금 손실");
+    expect(banner).toHaveTextContent("제자리 깎기(원금 분배) 위험");
+    expect(banner).toHaveTextContent("목표 분배율 미보장");
+    expect(banner?.textContent).not.toContain("금감원");
+    expect(banner?.textContent).not.toContain("금융감독원");
+
+    // 2. 2-Tier 기초자산 퀵 필터 칩 검증 (합계 = 모수 일치)
+    expect(screen.getByRole("button", { name: /전체/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /해외주식 1/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /국내주식 1/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /채권 1/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /원자재 1/ })).toBeInTheDocument();
+
+    // 3. 전용 뱃지 검증 (분배율 실적 및 퇴직연금 한도 분기)
+    expect(screen.getByText("연 12.5% · 월배당")).toBeInTheDocument();
+    expect(screen.getByText("연 11.2% · 월배당")).toBeInTheDocument();
+    expect(screen.getByText("안전자산100%")).toBeInTheDocument();
+    expect(screen.getAllByText("위험70%").length).toBe(2);
+    expect(screen.getByText("연금불가")).toBeInTheDocument();
+
+    // 4. 서브 필터 클릭 동작 검증
+    fireEvent.click(screen.getByRole("button", { name: /채권 1/ }));
+    expect(screen.getByText("채권 커버드콜 ETF")).toBeInTheDocument();
+    expect(screen.queryByText("해외주식 커버드콜 ETF")).not.toBeInTheDocument();
+  });
 });

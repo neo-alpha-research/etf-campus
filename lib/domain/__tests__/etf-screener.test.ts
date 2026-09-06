@@ -222,4 +222,28 @@ describe("ETF 스크리너 - 상세 분류 필터 (지역, 운용 전략, 환헤
     expect(parsed.accountMode).toBe("isa");
     expect(parsed.isaTier).toBe("high_benefit");
   });
+
+  it("중개형 ISA 모드 진입 시(isa_tier 미지정) 절세 혜택형(high_benefit)이 기본값으로 파싱된다", () => {
+    const query = new URLSearchParams("account=isa");
+    const parsed = parseScreenerQuery(query);
+    expect(parsed.accountMode).toBe("isa");
+    expect(parsed.isaTier).toBe("high_benefit");
+  });
+
+  it("중개형 ISA 전체 모드(isa_tier=all)를 URL 쿼리로 정상 왕복한다", () => {
+    const filters: ScreenerFilters = {
+      ...DEFAULT_SCREENER_FILTERS,
+      accountMode: "isa",
+      pensionOnly: false,
+      isaTier: "all",
+    };
+    const serialized = serializeScreenerQuery(filters);
+    const query = new URLSearchParams(serialized);
+    expect(query.get("account")).toBe("isa");
+    expect(query.get("isa_tier")).toBe("all");
+
+    const parsed = parseScreenerQuery(query);
+    expect(parsed.accountMode).toBe("isa");
+    expect(parsed.isaTier).toBe("all");
+  });
 });

@@ -1,0 +1,251 @@
+{
+  "data": [
+    {
+      "ticker": "0019K0",
+      "name": "TIME 미국나스닥100채권혼합50액티브",
+      "badges": [
+        "퇴직연금(100%)",
+        "개인연금(100%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "100%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=10"
+    },
+    {
+      "ticker": "0036D0",
+      "name": "TIME 미국배당다우존스액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=18"
+    },
+    {
+      "ticker": "0043Y0",
+      "name": "TIME 차이나AI테크액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=19"
+    },
+    {
+      "ticker": "0113D0",
+      "name": "TIME ETF",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=22"
+    },
+    {
+      "ticker": "0162Y0",
+      "name": "TIME ETF",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=24"
+    },
+    {
+      "ticker": "0185L0",
+      "name": "TIME ETF",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=25"
+    },
+    {
+      "ticker": "385710",
+      "name": "TIME K이노베이션액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=17"
+    },
+    {
+      "ticker": "385720",
+      "name": "TIME 코스피액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=11"
+    },
+    {
+      "ticker": "404120",
+      "name": "TIME K신재생에너지액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=16"
+    },
+    {
+      "ticker": "410870",
+      "name": "TIME K컬처액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=1"
+    },
+    {
+      "ticker": "426020",
+      "name": "TIME 미국S&P500액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=5"
+    },
+    {
+      "ticker": "426030",
+      "name": "TIME 미국나스닥100액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=2"
+    },
+    {
+      "ticker": "441800",
+      "name": "TIME Korea플러스배당액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=12"
+    },
+    {
+      "ticker": "456600",
+      "name": "TIME 글로벌AI인공지능액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=6"
+    },
+    {
+      "ticker": "463050",
+      "name": "TIME K바이오액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=13"
+    },
+    {
+      "ticker": "478150",
+      "name": "TIME 글로벌우주테크&방산액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=20"
+    },
+    {
+      "ticker": "485810",
+      "name": "TIME 글로벌안티에이징바이오액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=9"
+    },
+    {
+      "ticker": "494180",
+      "name": "TIME 글로벌소비트렌드액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=8"
+    },
+    {
+      "ticker": "495060",
+      "name": "TIME 코리아밸류업액티브",
+      "badges": [
+        "개인연금(100%)",
+        "퇴직연금(70%)"
+      ],
+      "has_personal": true,
+      "has_retirement": true,
+      "retirement_ratio": "70%",
+      "personal_ratio": "100%",
+      "url": "https://timeetf.co.kr/m11_view.php?idx=15"
+    }
+  ]
+}

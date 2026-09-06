@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import Link from "next/link";
 import { fetcher } from "@/lib/hooks/fetcher";
-import { Suspense, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
+import { Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 
 import { Tickery } from "@/components/brand/tickery";
 import { AsOfDate, ReturnCell, FeeDoubleStack } from "@/components/etf";
@@ -67,6 +67,11 @@ const modeCopy: Record<InvestorMode, { eyebrow: string; title: string; descripti
     eyebrow: "Target Date Fund",
     title: "TDF ETF",
     description: "은퇴 시점을 목표로 자산 비중을 자동으로 조절하는 TDF(Target Date Fund) ETF입니다.",
+  },
+  covered_call: {
+    eyebrow: "Covered Call Strategy",
+    title: "커버드콜 ETF",
+    description: "기초자산 보유와 콜옵션 매도 프리미엄을 결합하여 월 분배금 및 정기적인 현금흐름을 추구하는 전략형 ETF입니다.",
   },
 };
 
@@ -233,6 +238,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
   // Mode-specific sub-filters
   const [selectedVintage, setSelectedVintage] = useState<string | null>(null);
   const [selectedNewRange, setSelectedNewRange] = useState<"all" | "30d" | "60d" | "90d">("all");
+  const [selectedCoveredCallAsset, setSelectedCoveredCallAsset] = useState<string | null>(null);
   const [activeDerivMultipliers, setActiveDerivMultipliers] = useState<DerivMultiplierType[]>([
     "lev2x",
     "inv2x",
@@ -297,6 +303,26 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
     inv1x: modeEtfs.filter((e) => getDerivMultiplierInfo(e)?.type === "inv1x").length,
   };
 
+  const coveredCallCounts = useMemo(() => {
+    let foreignEquity = 0;
+    let domesticEquity = 0;
+    let bond = 0;
+    let commodity = 0;
+    for (const e of modeEtfs) {
+      if (e.assetClass === "주식-해외") foreignEquity++;
+      else if (e.assetClass === "주식-국내") domesticEquity++;
+      else if (e.assetClass === "채권") bond++;
+      else if (e.assetClass === "원자재") commodity++;
+    }
+    return {
+      all: modeEtfs.length,
+      foreignEquity,
+      domesticEquity,
+      bond,
+      commodity,
+    };
+  }, [modeEtfs]);
+
   // Apply mode-specific sub-filtering
   let filteredResults = results;
   if (state.mode === "tdf" && selectedVintage) {
@@ -316,6 +342,14 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
       if (!info) return false;
       return activeDerivMultipliers.includes(info.type);
     });
+  } else if (state.mode === "covered_call" && selectedCoveredCallAsset) {
+    filteredResults = filteredResults.filter((etf) => {
+      if (selectedCoveredCallAsset === "해외주식") return etf.assetClass === "주식-해외";
+      if (selectedCoveredCallAsset === "국내주식") return etf.assetClass === "주식-국내";
+      if (selectedCoveredCallAsset === "채권") return etf.assetClass === "채권";
+      if (selectedCoveredCallAsset === "원자재") return etf.assetClass === "원자재";
+      return true;
+    });
   }
 
   const visibleEtfs = filteredResults;
@@ -324,6 +358,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
   const isPension = state.mode === "pension";
   const isDeriv = state.mode === "derivatives";
   const isNew = state.mode === "new";
+  const isCoveredCall = state.mode === "covered_call";
 
   const productInfoColSpan = 1;
   const returnsColSpan = displayPeriods.length;
@@ -352,6 +387,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
     setExplorerState({ assetClasses: [], riskTypes: [] });
     setSelectedVintage(null);
     setSelectedNewRange("all");
+    setSelectedCoveredCallAsset(null);
     setActiveDerivMultipliers(["lev2x", "inv2x", "inv1x"]);
   };
 
@@ -394,6 +430,20 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
       {state.mode === "pension" ? <p className="mt-3 rounded-xl border border-brand-200 bg-brand-50 px-4 py-2.5 text-sm font-semibold leading-6 text-brand-900">DC·IRP 편입 가능 여부는 금융회사별 매매 가능 목록과 위험자산 한도에 따라 달라질 수 있습니다.</p> : null}
       {state.mode === "tdf" ? <p className="mt-3 rounded-xl border border-indigo-200 bg-indigo-50/80 px-4 py-2.5 text-sm font-semibold leading-6 text-indigo-950">💡 적격 TDF는 고용노동부 기준을 통과하여 퇴직연금(DC/IRP) 위험자산 한도(70%) 규제 없이 100% 전액 편입이 가능합니다.</p> : null}
       {state.mode === "derivatives" ? <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold leading-6 text-amber-900">레버리지·인버스 ETF는 일간 수익률의 배수를 목표로 하므로 보유 기간이 길어질수록 기초지수 누적수익률과 차이가 커질 수 있습니다.</p> : null}
+      {state.mode === "covered_call" ? (
+        <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50/90 p-3 sm:p-4 text-xs sm:text-sm text-amber-950">
+          <div className="flex items-center gap-1.5 font-bold text-amber-900 mb-1.5">
+            <span aria-hidden="true">⚠️</span>
+            <span>커버드콜 ETF 투자 유의사항 (원금 손실 및 분배금 성격 안내)</span>
+          </div>
+          <ul className="list-disc list-inside space-y-1 text-amber-900/90 leading-relaxed font-medium">
+            <li><strong>상승 제한:</strong> 기초자산 상승 시 콜옵션 매도로 인해 상승 참여가 제한됩니다.</li>
+            <li><strong>원금 손실:</strong> 기초자산 하락 시 옵션 프리미엄을 초과하는 하락에 대해 원금 손실 위험을 온전히 부담합니다.</li>
+            <li><strong>제자리 깎기(원금 분배) 위험:</strong> 분배금의 일부 또는 전액이 운용 수익이 아닌 투자 원금의 환급(자본 환급)일 수 있습니다.</li>
+            <li><strong>목표 분배율 미보장:</strong> 상품명 등에 표기된 목표 분배율은 사전 약정된 확정 수익이 아니며 시장 상황에 따라 변동되거나 미지급될 수 있습니다.</li>
+          </ul>
+        </div>
+      ) : null}
       {pendingListingDates ? <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-semibold leading-6 text-amber-900">정확한 상장일 백필 전인 {pendingListingDates.toLocaleString("ko-KR")}종목은 기존 3개월 플래그로 표시하며 상장일은 확인 중입니다.</p> : null}
 
       <section aria-label="ETF 검색과 정렬" className="mt-3 rounded-2xl border border-brand-200 bg-brand-50/40 p-3 shadow-sm sm:p-4">
@@ -714,6 +764,52 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
           </div>
         ) : null}
 
+        {/* 4. 커버드콜 탭 전용 기초자산 퀵 필터 바 */}
+        {state.mode === "covered_call" ? (
+          <div className="mt-3 pt-3 border-t border-brand-100 flex flex-wrap items-center justify-between gap-2.5">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="text-xs font-bold text-slate-700 mr-1 flex items-center gap-1">
+                <span>📂 기초자산</span>
+              </span>
+              {[
+                { key: null, label: "전체", count: coveredCallCounts.all },
+                { key: "해외주식", label: "해외주식", count: coveredCallCounts.foreignEquity },
+                { key: "국내주식", label: "국내주식", count: coveredCallCounts.domesticEquity },
+                { key: "채권", label: "채권", count: coveredCallCounts.bond },
+                { key: "원자재", label: "원자재", count: coveredCallCounts.commodity },
+              ].map((item) => {
+                const isSelected = selectedCoveredCallAsset === item.key;
+                return (
+                  <button
+                    key={item.label}
+                    type="button"
+                    onClick={() => setSelectedCoveredCallAsset(item.key)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-colors ${
+                      isSelected
+                        ? "bg-brand-600 text-white shadow-sm"
+                        : "bg-surface border border-line text-neutral-600 hover:bg-brand-50 hover:text-brand-700"
+                    }`}
+                  >
+                    <span>{item.label}</span>{" "}
+                    <span className={`ml-1 text-[11px] font-mono ${isSelected ? "text-brand-100" : "text-neutral-400"}`}>
+                      {item.count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            {selectedCoveredCallAsset !== null ? (
+              <button
+                type="button"
+                onClick={() => setSelectedCoveredCallAsset(null)}
+                className="text-xs font-bold text-brand-700 hover:underline cursor-pointer"
+              >
+                전체 보기
+              </button>
+            ) : null}
+          </div>
+        ) : null}
+
         {activeFilterCount ? <div className="mt-4 flex flex-wrap items-center gap-2"><span className="text-xs font-bold text-muted">적용 중</span>{state.assetClasses.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ assetClasses: toggleValue<AssetClass>(state.assetClasses, value) })} type="button">{value} ×</button>)}{activeRiskTypes.map((value) => <button className="chip" key={value} onClick={() => setExplorerState({ riskTypes: toggleValue<RiskType>(state.riskTypes, value) })} type="button">{riskLabels[value]} ×</button>)}<button className="text-xs font-bold text-brand-700" onClick={clearFilters} type="button">모두 해제</button></div> : null}
       </section>
 
@@ -834,12 +930,38 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                               <span className="text-[10px] font-bold text-brand-700 bg-brand-50 border border-brand-200 px-1 rounded">{newThemeTag}</span>
                             ) : null}
 
+                            {/* 커버드콜 전용 분배율 실적 및 퇴직연금 편입 한도 뱃지 */}
+                            {isCoveredCall ? (
+                              <>
+                                {etf.distributionYield != null ? (
+                                  <span className="rounded bg-emerald-50 border border-emerald-200 px-1 py-0.2 text-[9.5px] font-bold text-emerald-800">
+                                    연 {etf.distributionYield.toFixed(1)}%{etf.distributionCycle ? ` · ${etf.distributionCycle}` : ""}
+                                  </span>
+                                ) : (
+                                  <span className="text-neutral-400 text-[9.5px]">분배율 —</span>
+                                )}
+                                {etf.pension === "불가" ? (
+                                  <span className="text-rose-800 font-bold text-[9.5px] bg-rose-50 border border-rose-200 px-1 rounded">
+                                    연금불가
+                                  </span>
+                                ) : etf.pensionLimit?.includes("100%") ? (
+                                  <span className="text-emerald-800 font-bold text-[9.5px] bg-emerald-50 border border-emerald-200 px-1 rounded">
+                                    안전자산100%
+                                  </span>
+                                ) : (
+                                  <span className="text-brand-800 font-bold text-[9.5px] bg-brand-50 border border-brand-200 px-1 rounded">
+                                    위험70%
+                                  </span>
+                                )}
+                              </>
+                            ) : null}
+
                             <span className="text-neutral-500 font-medium">{etf.assetClass}</span>
                             {fields.marketScope && fields.marketScope !== "국내" ? <span className="text-neutral-400">· {fields.marketScope}</span> : null}
                             {fields.fxHedge && fields.fxHedge !== "노출" && fields.fxHedge !== "비헤지" ? (
                               <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded"><FxHedgeMarker value={fields.fxHedge} /></span>
                             ) : null}
-                            {!isPension && !isDeriv && etf.pension === "불가" ? (
+                            {!isPension && !isDeriv && !isCoveredCall && etf.pension === "불가" ? (
                               <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
                             ) : null}
                           </div>

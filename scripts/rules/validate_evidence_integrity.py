@@ -45,7 +45,19 @@ RULE_DESCRIPTIONS = {
     "S7": "evidence_ref 저장소 내부 생성/파생 파일 사용 금지 (외부 원본 공시/법령만 허용)",
     "S8": "evidence_quote 템플릿 보간 위장 금지 (외부 원본 실재 인용문 필수)",
     "S9": "WHITELISTED_SHARED_EVIDENCE 외부 공인 원본 한정 검증 (내부 생성 파일 등록 차단)",
+    "S10": "법령 스냅샷 만료 검사 (statute_registry.csv recheck_due 기준일 대비 만료(90일) 시 경고, 180일 초과 시 FAIL)",
+    "E6": "판매사 원장 유효기간 검사 (evidence_manifest.json as_of_date 필수 메타 등록 및 60일 경과 시 경고)",
+    "S11": "개인연금 법정 적격 증거 검증 (KOFIA DIS 전자공시 및 공식 원장 기반 검증, 레버리지/인버스 편입 원천 차단)",
 }
+
+# P4 Invariant Counterexample 8 Tickers (한화 반례 8종)
+CX8 = {"0210E0", "238670", "433880", "447660", "451000", "451600", "453010", "477050"}
+
+
+def qualifies_as_personal_pension_source(source_eligible_tickers: set[str]) -> bool:
+    """개인연금 증거 자격 검정 (S11): 반례 8종(CX8)을 '가능'으로 판정하면 판별력 없음."""
+    return len(CX8 & source_eligible_tickers) == 0
+
 
 # Whitelist for bulk official disclosure snapshot files and extracts (ONLY external primary sources)
 WHITELISTED_SHARED_EVIDENCE = {
@@ -84,6 +96,9 @@ ALLOWED_STATUTE_LIMIT_MAP: dict[str, set[str]] = {
     "PSR_ART11_2": {"불가"},
     "ED_FSCMA_ART240_4": {"70% (위험자산)", "불가"},
     "MOEL_WRBA_RULE_ART10_1_2": {"70% (위험자산)"},
+    "ITA_ART20_3": {"가능", "불가", "100% (안전자산)", "70% (위험자산)"},
+    "ED_ITA_ART40_2_1_1_B": {"가능", "불가", "100% (안전자산)", "70% (위험자산)"},
+    "KOFIA_PENSION_TERMS_ART8_1_2": {"가능", "불가", "100% (안전자산)", "70% (위험자산)"},
 }
 
 
@@ -321,6 +336,27 @@ def validate_evidence_integrity(
                                 "actual_sha256": actual_ext_sha,
                                 "reason": f"추출본 파일 '{extract_rel}' 해시 불일치: 기록={meta['extract_sha256']} vs 실측={actual_ext_sha}",
                             })
+
+                # E6: Broker ledger as_of_date mandatory metadata & 60-day expiry check
+                if filename.startswith("brokers/") or meta.get("account_type") in ("retirement_pension", "personal_pension"):
+                    as_of_date_str = meta.get("as_of_date")
+                    if not as_of_date_str:
+                        violations["E6"].append({
+                            "file": filename,
+                            "reason": "판매사 원장에 필수 메타데이터 as_of_date 누락",
+                        })
+                    else:
+                        try:
+                            as_of_date = datetime.date.fromisoformat(as_of_date_str)
+                            today = datetime.date.today()
+                            elapsed_days = (today - as_of_date).days
+                            if elapsed_days > 60:
+                                print(f"       [WARN E6] 판매사 원장 기준일 60일 경과: {filename} (기준일: {as_of_date_str}, {elapsed_days}일 경과)", file=sys.stderr)
+                        except Exception as e:
+                            violations["E6"].append({
+                                "file": filename,
+                                "reason": f"as_of_date 날짜 형식 오류: {e}",
+                            })
         except Exception as e:
             violations["E5"].append({
                 "file": str(manifest_path),
@@ -388,6 +424,35 @@ def validate_evidence_integrity(
                         "excerpt_sample": excerpt[:60],
                         "reason": f"excerpt가 법령 원문 파일 본문에 일치하지 않음 (문자열 부분일치 실패)",
                     })
+
+                # S10: Statute snapshot expiry check (90 days cycle, warn if overdue, fail if > 180 days)
+                recheck_due_str = str(srow.get("recheck_due") or "").strip()
+                if not recheck_due_str:
+                    violations["S10"].append({
+                        "statute_id": sid,
+                        "reason": "statute_registry.csv 행에 recheck_due(재확인 만료예정일) 컬럼이 누락됨",
+                    })
+                else:
+                    try:
+                        due_date = datetime.date.fromisoformat(recheck_due_str)
+                        today = datetime.date.today()
+                        if today > due_date:
+                            days_overdue = (today - due_date).days
+                            if days_overdue > 90:  # 90-day cycle + 90 days = 180 days overdue
+                                violations["S10"].append({
+                                    "statute_id": sid,
+                                    "recheck_due": recheck_due_str,
+                                    "days_overdue": days_overdue,
+                                    "reason": f"법령 스냅샷 재확인 기한 180일 초과 방치 ({days_overdue}일 초과) -> CRITICAL FAIL",
+                                })
+                            else:
+                                print(f"       [WARN S10] 법령 스냅샷 재확인 주기 도래 (만료): {sid} (기한: {recheck_due_str}, {days_overdue}일 경과)", file=sys.stderr)
+                    except Exception as e:
+                        violations["S10"].append({
+                            "statute_id": sid,
+                            "recheck_due": recheck_due_str,
+                            "reason": f"recheck_due 날짜 형식 오류: {e}",
+                        })
         except Exception as e:
             violations["S2"].append({
                 "file": str(statute_registry_file),
@@ -635,6 +700,23 @@ def validate_evidence_integrity(
                         "reason": f"S7 위반: broker_pension_universe는 실측 조회가 아닌 내부 생성 파일로 증거 사용 금지",
                     })
 
+    # S7 extension: strictly scan all files in sources/ for self-generated internal judgement files
+    PROHIBITED_SOURCE_KEYS = ("verification_method", "auditor_consensus", "statutory_eligible", "audited_at")
+    sources_dir = REPO_ROOT / "data/regulatory/sources"
+    if sources_dir.is_dir():
+        for fpath in sources_dir.rglob("*.json"):
+            try:
+                content = fpath.read_text(encoding="utf-8", errors="ignore")
+                for pkey in PROHIBITED_SOURCE_KEYS:
+                    if f'"{pkey}"' in content or f"'{pkey}'" in content:
+                        violations["S7"].append({
+                            "file": str(fpath.relative_to(REPO_ROOT)),
+                            "prohibited_key": pkey,
+                            "reason": f"S7 위반: sources/ 디렉터리 내 파일 '{fpath.name}'에 자체 판정 키워드 '{pkey}' 존재 (자체 판정 생성 파일의 증거 폴더 유입 절대 금지)",
+                        })
+            except Exception:
+                pass
+
     # 10. S8: evidence_quote template interpolation prohibition
     for r in ledger_rows:
         tk = str(r.get("ticker") or "").strip().upper()
@@ -666,6 +748,37 @@ def validate_evidence_integrity(
             violations["S9"].append({
                 "whitelisted_file": w,
                 "reason": f"S9 위반: 화이트리스트에 비공인 또는 내부 생성 파일 '{w}' 등록 금지 (외부 공인 원본만 허용)",
+            })
+
+    # 12. S11: Statutory Personal Pension Evidence Verification (개인연금 법정 적격 증거 검증)
+    # Personal pension eligible items must be backed by official disclosure and strictly exclude leverage/inverse.
+    personal_reg_path = REPO_ROOT / "data" / "regulatory" / "personal_pension_registry.json"
+    if personal_reg_path.is_file():
+        try:
+            with personal_reg_path.open("r", encoding="utf-8") as f:
+                p_reg = json.load(f)
+            for tk, pinfo in p_reg.get("items", {}).items():
+                p_status = pinfo.get("personal_pension")
+                nm = pinfo.get("name", "")
+                is_lev = any(k in nm for k in ("레버리지", "인버스", "2X", "2x", "-1X", "-2X", "Leverage", "Inverse"))
+                if is_lev and p_status == "가능":
+                    violations["S11"].append({
+                        "ticker": tk,
+                        "name": nm,
+                        "reason": f"S11 위반: 레버리지/인버스 종목 '{tk}'({nm})가 개인연금 '가능'으로 등록됨 (표준약관 제8조 위반)",
+                    })
+                if p_status == "가능":
+                    ev = pinfo.get("evidence", "")
+                    if ev and not (REPO_ROOT / ev).is_file():
+                        violations["S11"].append({
+                            "ticker": tk,
+                            "name": nm,
+                            "reason": f"S11 위반: 개인연금 '가능' 종목의 증거 파일이 존재하지 않음: {ev}",
+                        })
+        except Exception as e:
+            violations["S11"].append({
+                "ticker": "ALL",
+                "reason": f"S11 검증 실패: {e}",
             })
 
     return violations

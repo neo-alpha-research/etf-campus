@@ -234,11 +234,14 @@
     "bytes": 3517
   },
   "brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx": {
-    "source_type": "증권사목록대조",
-    "description": "한국투자증권 퇴직연금 ETF 상품 현황 (20260831 기준)",
     "sha256": "7e1429bdaff52ca60805c4caee8858e1b81e21b48e4c850f4d3fc30a23379ae6",
     "bytes": 158303,
-    "collected_at": "2026-09-06"
+    "as_of_date": "2026-08-31",
+    "source_type": "퇴직연금(RP)판매사실거래유니버스(한국투자증권)",
+    "account_type": "retirement_pension",
+    "personal_pension_eligible": false,
+    "collected_at": "2026-09-06T23:45:00+09:00",
+    "note": "퇴직연금(DC/IRP) 전용 원장이며 개인연금 증거로 사용 불가"
   },
   "issuers/miraeasset/tiger_pension_search_20260906.html": {
     "sha256": "229c93f6f411ebe39bf924c7fc2ad104d705ac9fe01d939732ef175e4d4d117b",
@@ -259,11 +262,14 @@
     "record_count": 218
   },
   "brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt": {
-    "source_type": "증권사유니버스추출",
-    "description": "한국투자증권 퇴직연금 매매가능 ETF 1021종목 코드 유니버스",
     "sha256": "1d3102f62c8dca739b7370e8bc9adf74f823b15ca3d1e899e31861bfdecf3e95",
     "bytes": 38227,
-    "collected_at": "2026-09-06"
+    "as_of_date": "2026-08-31",
+    "source_type": "퇴직연금(RP)판매사실거래유니버스(한국투자증권)",
+    "account_type": "retirement_pension",
+    "personal_pension_eligible": false,
+    "collected_at": "2026-09-06T23:45:00+09:00",
+    "note": "퇴직연금(DC/IRP) 전용 원장이며 개인연금 증거로 사용 불가"
   },
   "issuers/ace/ace_pension_search_20260906.json": {
     "source_url": "https://papi.aceetf.co.kr/api/funds/pension?size=200",
@@ -293,5 +299,104 @@
     "sha256": "52ab73bc0a5470d3b96a10bb9aa76db5dc0e9d4ccbdf3d8cb59c812e1075d189",
     "bytes": 343598,
     "collected_at": "2026-09-06"
+  },
+  "issuers/shinhan/sol_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "publisher": "신한자산운용",
+    "description": "신한자산운용 SOL 공식 전체 상품 유니버스 API (84종목, 개인연금/퇴직연금 태그)",
+    "source_url": "https://www.soletf.com/api/common/searchByEtfNameOrFilter",
+    "sha256": "cc9714abfc44061f991b0948f3e9f073067750661a0a546dbce5383b26d980fb",
+    "bytes": 151422,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/nhamundi/hanaro_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "publisher": "NH-Amundi자산운용",
+    "description": "NH-Amundi자산운용 HANARO 공식 상품 검색 API (50종목 전수, iPension/rPension 공시)",
+    "source_url": "https://www.hanaroetf.com/api/v1/fund/get-fund-search-list",
+    "sha256": "37b709ff3bc0a455a357e8968964314baa7a3e47db3cc8ec2968b2798a551ee8",
+    "bytes": 8938,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/samsungactive/koact_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "publisher": "삼성액티브자산운용",
+    "description": "삼성액티브자산운용 KoAct 공식 전체 상품 API (25종목 전수, dcYn/irpYn 공시)",
+    "source_url": "https://www.samsungactive.co.kr/api/v1/product/etf.do",
+    "sha256": "c7938bef9b5d2016cd8a19bec08777026e5348270b138d12d149fcf2aa0291c2",
+    "bytes": 58405,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/hana/oneq_product_universe_20260906.json": {
+    "source_type": "운용사공식웹전수추출",
+    "publisher": "하나자산운용",
+    "description": "하나자산운용 1Q 공식 전체 상품 유니버스 (27종목 전수, 개인연금 구분필드 부재로 판정 불가 보류)",
+    "source_url": "https://1qetf.com/pages/ETFproducts/ETF.list.php",
+    "sha256": "38ea5fc2929a1db8dd9fab20f0d56767325f717c0599dee32bae736e3a013fdf",
+    "bytes": 8618,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/timefolio/time_product_universe_20260906.json": {
+    "source_type": "운용사공식웹전수추출",
+    "publisher": "타임폴리오자산운용",
+    "description": "타임폴리오자산운용 TIME 공식 상품 유니버스 (18종목 전수, 개인연금/퇴직연금 뱃지 공시)",
+    "source_url": "https://timeetf.co.kr/m11_view.php",
+    "sha256": "73919d945786e3cf99007cc5748aa4e8ff641ea6a1b9262cdcc66e43fbe5eca9",
+    "bytes": 6940,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/woori/won_product_universe_20260906.json": {
+    "source_type": "운용사공식웹전수추출",
+    "publisher": "우리자산운용",
+    "description": "우리자산운용 WON 공식 상품 유니버스 (17종목 전수, 퇴직연금 indicator 공시)",
+    "source_url": "https://www.wooriam.kr/investment/etf-list",
+    "sha256": "6cdb06584d5ca389bdabd9037493f3da9b74d8624795de0bb523db993fad36dc",
+    "bytes": 4810,
+    "collected_at": "2026-09-06"
+  },
+  "statutes/소득세법_제20조의3_20260907.txt": {
+    "source_type": "국가법령정보센터공식원문",
+    "publisher": "법제처",
+    "description": "소득세법 제20조의3(연금소득) 공식 법령 원문 텍스트 (연금저축계좌 정의)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=280405",
+    "collected_at": "2026-09-07",
+    "sha256": "d195115d2090fde680e5d83db3d0915da06b9f596e6f1dbb4bd27100951414fc",
+    "bytes": 2165
+  },
+  "statutes/소득세법시행령_제40조의2_20260907.txt": {
+    "source_type": "국가법령정보센터공식원문",
+    "publisher": "법제처",
+    "description": "소득세법 시행령 제40조의2(연금계좌 등) 공식 법령 원문 텍스트 (투자중개업자 집합투자증권 중개계약)",
+    "source_url": "https://www.law.go.kr/LSW/lsInfoP.do?lsiSeq=286211",
+    "collected_at": "2026-09-07",
+    "sha256": "1163f8994401a85ce6c6e2551f03e6a402bb5df96da8238cb6b18ab7d8550faf",
+    "bytes": 11994
+  },
+  "statutes/kofia_pension_terms_20260907.html": {
+    "source_type": "금융투자협회표준약관공식HTML",
+    "publisher": "금융투자협회",
+    "description": "금융투자협회 연금저축계좌설정약관 제8조(집합투자증권의 매매) 공식 웹 팝업 HTML",
+    "source_url": "https://law.kofia.or.kr/service/law/standardTerms.do",
+    "collected_at": "2026-09-07",
+    "sha256": "5dd34358acc5c8b518eb9c37a87780bf8c11ddd8176f978cd44b6289e7e11c3d",
+    "bytes": 4949
+  },
+  "statutes/kofia_pension_terms_20260907.txt": {
+    "source_type": "금융투자협회표준약관공식원문",
+    "publisher": "금융투자협회",
+    "description": "금융투자협회 연금저축계좌설정약관 제8조(집합투자증권의 매매) 원문 텍스트 (ETF 매입 및 레버리지/인버스 배제)",
+    "source_url": "https://law.kofia.or.kr/service/law/standardTerms.do",
+    "collected_at": "2026-09-07",
+    "sha256": "25d450c0a7a6ef40a404ea7e441ede97f651b5890782b75924af971e1c36e590",
+    "bytes": 1478
+  },
+  "kofia_pension_funds_20260907.xml": {
+    "source_type": "공적공시원문(KOFIA_DIS)",
+    "publisher": "금융투자협회",
+    "description": "금융투자협회 전자공시서비스(KOFIA DIS) 연금저축펀드 비교공시 공식 전체 데이터 XML (3,245개 펀드/ETF)",
+    "source_url": "https://dis.kofia.or.kr/websquare/index.jsp?w2xPath=/wq/fundann/DISAnnSaveProduct.xml&divisionId=MDIS01018001000000&serviceId=SDIS01018001000",
+    "sha256": "30fea26e58217359a0ae2b97b1d1e7a4fa0bc9851d5136c96bffdbf19e9df3b2",
+    "bytes": 2813685,
+    "collected_at": "2026-09-07"
   }
 }

@@ -1,0 +1,358 @@
+{
+  "source": "https://www.hanaroetf.com/api/v1/fund/get-fund-search-list",
+  "collected_at": "2026-09-06T20:18:41.133572",
+  "publisher": "NH-Amundi자산운용",
+  "total_count": 50,
+  "data": [
+    {
+      "fundCode": "HB010",
+      "fundName": "HANARO 26-12은행채(AA+이상) 액티브",
+      "uid": "BB6BC368BE7143F3",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE041",
+      "fundName": "HANARO 증권고배당TOP3플러스",
+      "uid": "8B788EE0BB4342A9",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE043",
+      "fundName": "HANARO K휴머노이드테마TOP10",
+      "uid": "EFB4EF82E2904584",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE044",
+      "fundName": "HANARO 미국AI메모리반도체TOP4+",
+      "uid": "02A7759F70B44A77",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HB011",
+      "fundName": "HANARO 중기종합채권(A-이상) 액티브",
+      "uid": "40FB31515FB74248",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE040",
+      "fundName": "HANARO 유럽방산",
+      "uid": "BF2C94DA89AE4639",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HB009",
+      "fundName": "HANARO 27-06회사채(AA-이상) 액티브",
+      "uid": "B3434986E5DB4480",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE045",
+      "fundName": "HANARO 미국AI광통신TOP10",
+      "uid": "A7499D2757FC46EF",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE046",
+      "fundName": "HANARO 미국S&P500액티브",
+      "uid": "3DF9E0B3B0C74485",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE039",
+      "fundName": "HANARO 글로벌피지컬AI 액티브",
+      "uid": "E3D89F48E5D141E7",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE036",
+      "fundName": "HANARO 바이오코리아 액티브",
+      "uid": "544AEDC931094846",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "EPM99",
+      "fundName": "HANARO 200",
+      "uid": "FF68A9D0A7E949BB",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HD001",
+      "fundName": "HANARO 200 선물레버리지",
+      "uid": "D5AF92D8402E46E2",
+      "iPension": "N",
+      "rPension": "N"
+    },
+    {
+      "fundCode": "HE001",
+      "fundName": "HANARO KRX300",
+      "uid": "7B118EBA37054114",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE002",
+      "fundName": "HANARO 코스닥150",
+      "uid": "24BBC4A741A44C99",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HD002",
+      "fundName": "HANARO 코스닥150 선물레버리지",
+      "uid": "4B6539105147466E",
+      "iPension": "N",
+      "rPension": "N"
+    },
+    {
+      "fundCode": "HD003",
+      "fundName": "HANARO 200 선물인버스",
+      "uid": "6DD26B4CB6834343",
+      "iPension": "N",
+      "rPension": "N"
+    },
+    {
+      "fundCode": "HE003",
+      "fundName": "HANARO 농업융복합산업",
+      "uid": "07EE61EDFBEC4ECB",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE004",
+      "fundName": "HANARO K고배당",
+      "uid": "45C31C81B10C4B4A",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE005",
+      "fundName": "HANARO e커머스",
+      "uid": "5CD1DD359516432B",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE006",
+      "fundName": "HANARO 200 TR",
+      "uid": "6291738C49C1451B",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE007",
+      "fundName": "HANARO MSCI KOREA TR",
+      "uid": "CEBA1E927AC1478B",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HD004",
+      "fundName": "HANARO 글로벌럭셔리 S&P(합성)",
+      "uid": "18D84C69174D4661",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE008",
+      "fundName": "HANARO Fn5G산업",
+      "uid": "E08BF7D538A44E4F",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE009",
+      "fundName": "HANARO Fn K-뉴딜디지털플러스",
+      "uid": "7DF67F9524354BBB",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE010",
+      "fundName": "HANARO 탄소효율그린뉴딜",
+      "uid": "43B6A0EDD99B490A",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE011",
+      "fundName": "HANARO Fn전기&수소차",
+      "uid": "BB93EA8D7B974A34",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE012",
+      "fundName": "HANARO Fn친환경에너지",
+      "uid": "50FF16209D3645F5",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE013",
+      "fundName": "HANARO Fn K-반도체",
+      "uid": "B1EB325B8E6240D2",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE014",
+      "fundName": "HANARO Fn K-게임",
+      "uid": "60D66F8C133647E5",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE015",
+      "fundName": "HANARO Fn K-POP&미디어",
+      "uid": "137F57DFEC434844",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HD006",
+      "fundName": "HANARO 글로벌탄소배출권선물ICE(합성)",
+      "uid": "829F4945DB4E44BC",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE016",
+      "fundName": "HANARO Fn K-메타버스MZ",
+      "uid": "35CF70BDC42E42D2",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE018",
+      "fundName": "HANARO 200 TOP10",
+      "uid": "C7AEF2317DE84872",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE019",
+      "fundName": "HANARO Fn골프테마",
+      "uid": "DBBBBD5575894C6B",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE021",
+      "fundName": "HANARO 미국 S&P500",
+      "uid": "6841F2BA9FF04317",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE022",
+      "fundName": "HANARO 원자력iSelect",
+      "uid": "5012FAEBEF0D4FB7",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE023",
+      "fundName": "HANARO Fn K-푸드",
+      "uid": "52EEBC0DE7D04AC9",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE024",
+      "fundName": "HANARO Fn조선해운",
+      "uid": "1A23304A97EB4BD1",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HB004",
+      "fundName": "HANARO 32-10 국고채액티브",
+      "uid": "F48E876CB3034394",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HD010",
+      "fundName": "HANARO KOFR금리액티브(합성)",
+      "uid": "FB58E7CC6231433E",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE025",
+      "fundName": "HANARO CAPEX설비투자iSelect",
+      "uid": "045134E6E3534476",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE026",
+      "fundName": "HANARO 글로벌생성형AI 액티브",
+      "uid": "63DB8E39AFF3482D",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HB006",
+      "fundName": "HANARO 종합채권(AA-이상)액티브",
+      "uid": "1AB9C7421FD74C18",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE028",
+      "fundName": "HANARO 글로벌금채굴기업",
+      "uid": "627FA7ECC4ED42D9",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE031",
+      "fundName": "HANARO 반도체핵심공정주도주",
+      "uid": "2635AB1A7E3542EF",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE032",
+      "fundName": "HANARO K-뷰티",
+      "uid": "9DBA2CEA9F3E4C36",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HB007",
+      "fundName": "HANARO 머니마켓 액티브",
+      "uid": "869ACCB11F2540E2",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE035",
+      "fundName": "HANARO 전력설비투자",
+      "uid": "24A384532ECE491A",
+      "iPension": "Y",
+      "rPension": "Y"
+    },
+    {
+      "fundCode": "HE037",
+      "fundName": "HANARO 코리아밸류업",
+      "uid": "2155F0C9B3DA4CAC",
+      "iPension": "Y",
+      "rPension": "Y"
+    }
+  ]
+}

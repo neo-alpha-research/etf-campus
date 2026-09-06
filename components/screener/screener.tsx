@@ -302,8 +302,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   });
 
   const isPensionActive = filters.accountMode === "pension" && filters.pensionOnly;
+  const isPersonalPensionActive = filters.accountMode === "personal_pension";
   const isIsaActive = filters.accountMode === "isa";
-  const activeCount = Number(isPensionActive || isIsaActive) + (filters.pensionTier !== "all" ? 1 : 0) + (filters.isaTier !== "all" ? 1 : 0) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
+  const activeCount = Number(isPensionActive || isPersonalPensionActive || isIsaActive) + (filters.pensionTier !== "all" ? 1 : 0) + (filters.personalTier && filters.personalTier !== "all" ? 1 : 0) + (filters.isaTier !== "all" ? 1 : 0) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
 
   const quickQuery = useMemo(() => {
     let quickMode = "general";
@@ -468,9 +469,17 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     } else {
       activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false, accountMode: "all" }) });
     }
+  } else if (filters.accountMode === "personal_pension") {
+    if (filters.personalTier === "personal_only") {
+      activeFilters.push({ label: "개인연금 전용 (퇴직연금 불가)", remove: () => updateFilters({ ...filters, personalTier: "all" }) });
+    } else if (filters.personalTier === "unverified") {
+      activeFilters.push({ label: "연금저축 확인 필요", remove: () => updateFilters({ ...filters, personalTier: "all" }) });
+    } else {
+      activeFilters.push({ label: "연금저축 가능", remove: () => updateFilters({ ...filters, accountMode: "all" }) });
+    }
   } else if (filters.accountMode === "isa") {
     if (filters.isaTier === "high_benefit") {
-      activeFilters.push({ label: "ISA 절세실익 높음", remove: () => updateFilters({ ...filters, isaTier: "all" }) });
+      activeFilters.push({ label: "ISA 절세 혜택형", remove: () => updateFilters({ ...filters, isaTier: "all" }) });
     } else if (filters.isaTier === "normal") {
       activeFilters.push({ label: "ISA 국내주식형", remove: () => updateFilters({ ...filters, isaTier: "all" }) });
     } else {
@@ -543,6 +552,28 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     return { all, high, normal };
   }, [etfs]);
 
+  const personalCounts = useMemo(() => {
+    let eligible = 0;
+    let personalOnly = 0;
+    let ineligible = 0;
+    for (const e of etfs) {
+      if (e.personalPension === "가능") {
+        eligible++;
+        if (e.pension === "불가" || e.pensionLimit === "불가") personalOnly++;
+      } else if (e.personalPension === "불가") {
+        ineligible++;
+      }
+    }
+    return {
+      eligible,
+      personalOnly,
+      unverified: 0,
+      ineligible,
+      covered: eligible + ineligible,
+      total: etfs.length,
+    };
+  }, [etfs]);
+
   return (
     <div className="page-shell flex flex-col flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
       <div className="flex flex-wrap items-center justify-between gap-3 shrink-0">
@@ -601,11 +632,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             </p>
           </div>
 
-          {/* 1단: 3대 계좌 모드 탭 */}
-          <div className="flex items-center gap-1 rounded-xl bg-neutral-100 p-1" aria-label="3대 계좌 유형 선택">
+          {/* 1단: 4대 계좌 모드 탭 */}
+          <div className="flex items-center gap-1 rounded-xl bg-neutral-100 p-1" aria-label="계좌 유형 선택">
             <button
               type="button"
-              onClick={() => updateFilters({ ...filters, accountMode: "pension", pensionOnly: true })}
+              onClick={() => updateFilters({ ...filters, accountMode: "pension", pensionOnly: true, personalTier: "all", isaTier: "all" })}
               className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
                 filters.accountMode === "pension" && filters.pensionOnly
                   ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
@@ -617,7 +648,19 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             </button>
             <button
               type="button"
-              onClick={() => updateFilters({ ...filters, accountMode: "isa", pensionOnly: false, pensionTier: "all", isaTier: "all" })}
+              onClick={() => updateFilters({ ...filters, accountMode: "personal_pension", pensionOnly: false, pensionTier: "all", personalTier: "all", isaTier: "all" })}
+              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                filters.accountMode === "personal_pension"
+                  ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
+                  : "text-neutral-600 hover:text-neutral-900"
+              }`}
+            >
+              <span>🌱 연금저축</span>
+              <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">개인연금</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => updateFilters({ ...filters, accountMode: "isa", pensionOnly: false, pensionTier: "all", personalTier: "all", isaTier: "high_benefit" })}
               className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
                 filters.accountMode === "isa"
                   ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
@@ -629,14 +672,14 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             </button>
             <button
               type="button"
-              onClick={() => updateFilters({ ...filters, accountMode: "all", pensionOnly: false, pensionTier: "all", isaTier: "all" })}
+              onClick={() => updateFilters({ ...filters, accountMode: "all", pensionOnly: false, pensionTier: "all", personalTier: "all", isaTier: "all" })}
               className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
                 filters.accountMode === "all" && !filters.pensionOnly
                   ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
                   : "text-neutral-600 hover:text-neutral-900"
               }`}
             >
-              <span>🌐 전체 종목</span>
+              <span>🌐 전체계좌</span>
               <span className="text-[10px] font-medium text-neutral-500">일반 위탁</span>
             </button>
           </div>
@@ -716,38 +759,97 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                 : "💡 근로자퇴직급여보장법 제21조 및 감독규정에 따라 DC·IRP에 편입 가능한 모든 적격 ETF입니다. (레버리지·인버스는 법정 편입 제외)"}
             </p>
           </div>
-        ) : filters.accountMode === "isa" ? (
-          <div className="mt-3 rounded-xl border border-indigo-200/80 bg-indigo-50/60 p-3">
+        ) : filters.accountMode === "personal_pension" ? (
+          <div className="mt-3 rounded-xl border border-emerald-200/80 bg-emerald-50/60 p-3">
             <div className="flex flex-wrap items-center justify-between gap-2.5">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-indigo-950">중개형 ISA 절세 실익 구분</span>
-                <span className="rounded bg-indigo-100 px-1.5 py-0.5 text-[10px] font-bold text-indigo-800">
+                <span className="text-xs font-black text-emerald-950">연금저축(개인연금) 편입 구분</span>
+                <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800" title="소득세법 제59조의3 및 시행령 제40조의2">
+                  소득세법 시행령 제40조의2
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="연금저축 한도 및 전용 종목 선택">
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, personalTier: "all" })}
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.personalTier === "all" || filters.personalTier === "eligible"
+                      ? "border-emerald-700 bg-emerald-700 text-white shadow-xs"
+                      : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
+                  }`}
+                >
+                  전체 적격 ({personalCounts.eligible}개)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, personalTier: "personal_only" })}
+                  title="퇴직연금(DC/IRP)에는 편입 불가하지만 연금저축펀드에는 100% 편입 가능한 종목 (원자재 선물 등)"
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.personalTier === "personal_only"
+                      ? "border-amber-600 bg-amber-600 text-white shadow-xs"
+                      : "border-amber-200 bg-white text-amber-800 hover:bg-amber-50"
+                  }`}
+                >
+                  ✨ 개인연금 전용 ({personalCounts.personalOnly}개)
+                </button>
+                {personalCounts.unverified > 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => updateFilters({ ...filters, personalTier: "unverified" })}
+                    title="신규 상장되어 금융투자협회(KOFIA) 전자공시 업데이트 반영 대기 중인 종목입니다."
+                    className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                      filters.personalTier === "unverified"
+                        ? "border-amber-600 bg-amber-600 text-white shadow-xs"
+                        : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
+                    }`}
+                  >
+                    공시 확인중 ({personalCounts.unverified}개)
+                  </button>
+                ) : null}
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-emerald-900/80 leading-relaxed">
+              {filters.personalTier === "personal_only"
+                ? "💡 퇴직연금(DC·IRP)에서는 편입이 제한되나, 연금저축펀드에서는 최대 100%까지 자유롭게 편입 가능한 원자재·선물형 ETF 등입니다."
+                : "💡 금융투자협회 연금저축 표준약관 제8조에 따라 레버리지·인버스 등 배율 상품을 제외한 모든 1배수 일반 ETF는 100% 한도로 자유롭게 편입 가능합니다."}
+            </p>
+            <div className="mt-2.5 pt-2 border-t border-emerald-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-emerald-800/80">
+              <span>📊 연금저축 적격 ETF: {personalCounts.eligible}/{personalCounts.total}개 (표준약관 제8조 1배수 정방향)</span>
+              <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 실제 연금저축 매매 가능 여부는 증권사마다 다릅니다. 가입 증권사에서 확인해 주세요.</span>
+            </div>
+          </div>
+        ) : filters.accountMode === "isa" ? (
+          <div className="mt-3 rounded-xl border border-amber-200/90 bg-amber-50/80 p-3.5 text-amber-950">
+            <div className="flex flex-wrap items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-amber-950">중개형 ISA 절세 실익 안내</span>
+                <span className="rounded bg-amber-200/70 px-1.5 py-0.5 text-[10px] font-bold text-amber-900">
                   조세특례제한법 제91조의18
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="중개형 ISA 절세 혜택 선택">
                 <button
                   type="button"
-                  onClick={() => updateFilters({ ...filters, isaTier: "all" })}
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
-                    filters.isaTier === "all"
-                      ? "border-indigo-700 bg-indigo-700 text-white shadow-xs"
-                      : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
-                  }`}
-                >
-                  전체 ({isaCounts.all}개)
-                </button>
-                <button
-                  type="button"
                   onClick={() => updateFilters({ ...filters, isaTier: "high_benefit" })}
                   title="해외주식·채권·커버드콜 등 매매차익 15.4% 배당소득세 절세 실익이 큰 기타 ETF"
                   className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.isaTier === "high_benefit"
-                      ? "border-emerald-600 bg-emerald-600 text-white shadow-xs"
-                      : "border-emerald-200 bg-white text-emerald-800 hover:bg-emerald-50"
+                      ? "border-amber-700 bg-amber-700 text-white shadow-xs"
+                      : "border-amber-300/80 bg-white text-amber-900 hover:bg-amber-100/50"
                   }`}
                 >
-                  ✨ 절세실익 높음 ({isaCounts.high}개)
+                  ✨ 절세 혜택형 ({isaCounts.high}개)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, isaTier: "all" })}
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.isaTier === "all"
+                      ? "border-neutral-900 bg-neutral-900 text-white shadow-xs"
+                      : "border-amber-300/80 bg-white text-neutral-700 hover:bg-amber-100/50"
+                  }`}
+                >
+                  전체 ({isaCounts.all}개)
                 </button>
                 <button
                   type="button"
@@ -755,21 +857,36 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   title="국내주식형 ETF (매매차익 기본 비과세, 분배금 절세)"
                   className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.isaTier === "normal"
-                      ? "border-slate-600 bg-slate-600 text-white shadow-xs"
-                      : "border-slate-200 bg-white text-slate-700 hover:bg-neutral-50"
+                      ? "border-neutral-700 bg-neutral-700 text-white shadow-xs"
+                      : "border-amber-300/80 bg-white text-neutral-700 hover:bg-amber-100/50"
                   }`}
                 >
                   국내주식형 ({isaCounts.normal}개)
                 </button>
               </div>
             </div>
-            <p className="mt-2 text-xs text-indigo-900/80 leading-relaxed">
-              {filters.isaTier === "high_benefit"
-                ? "💡 일반 계좌에서 15.4% 배당소득세가 과세되는 해외주식·채권·커버드콜·원자재 ETF입니다. ISA 계좌에서 순손익 비과세(200만/400만원) 및 초과분 9.9% 분리과세 혜택이 극대화됩니다."
-                : filters.isaTier === "normal"
-                ? "💡 국내 상장주식 직접투자형 ETF로, 일반 계좌에서도 매매차익이 비과세입니다. ISA 계좌에서는 분배금에 대한 절세 혜택이 적용됩니다."
-                : `💡 조세특례제한법상 국내 상장된 ${isaCounts.all}개 전 종목 투자가 가능합니다. (레버리지·2배 인버스 ETP는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 시 매수 가능)`}
-            </p>
+
+            {/* 노란색 음영 상단 안내: 절세 실익 높은 이유 및 해당되는 분류 요약 */}
+            <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs border-t border-amber-200/60 pt-2.5">
+              <div className="rounded-lg bg-white/70 p-2.5 border border-amber-200/60">
+                <div className="flex items-center gap-1 font-bold text-amber-900">
+                  <span>✨ 절세 실익 극대화 ({isaCounts.high}개)</span>
+                  <span className="text-[10px] font-medium text-amber-700">해외주식 · 채권 · 커버드콜 · 원자재 · 리츠</span>
+                </div>
+                <p className="mt-1 text-[11px] text-amber-900/85 leading-relaxed">
+                  일반 계좌에서 <strong>15.4% 과세</strong>되는 매매차익과 분배금이 ISA에서는 <strong>200만원(서민형 400만원)까지 비과세</strong>되며, 초과분도 <strong>9.9% 분리과세</strong>(종합과세 합산 배제)되어 절세 효과가 가장 큽니다.
+                </p>
+              </div>
+              <div className="rounded-lg bg-white/70 p-2.5 border border-amber-200/60">
+                <div className="flex items-center gap-1 font-bold text-neutral-800">
+                  <span>국내주식형 ({isaCounts.normal}개)</span>
+                  <span className="text-[10px] font-medium text-neutral-500">KOSPI200 · 국내 섹터 및 테마</span>
+                </div>
+                <p className="mt-1 text-[11px] text-neutral-600 leading-relaxed">
+                  일반 계좌에서도 <strong>매매차익이 이미 비과세</strong>(세금 0원)이므로, ISA 계좌에서는 <strong>분배금(배당금)에 한해</strong> 비과세/분리과세 혜택이 적용됩니다.
+                </p>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="mt-3 flex items-center justify-between rounded-xl bg-neutral-100 px-3.5 py-2.5 text-xs font-semibold text-neutral-600">
@@ -1248,6 +1365,21 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                   )}
                                 </>
                               )
+                            ) : filters.accountMode === "personal_pension" ? (
+                              <>
+                                  {etf.personalPension === "가능" ? (
+                                    etf.pensionLimit === "불가" ? (
+                                      <>
+                                        <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="퇴직연금(DC/IRP)은 불가하나 개인연금저축에서는 100% 편입 가능">개인연금전용</span>
+                                        <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="금융투자협회 연금저축 표준약관 제8조 적격 (1배수 정방향 일반 ETF)">연금저축 한도규제 없음</span>
+                                      </>
+                                    ) : (
+                                      <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="금융투자협회 연금저축 표준약관 제8조 적격 (1배수 정방향 일반 ETF)">연금저축 한도규제 없음</span>
+                                    )
+                                  ) : (
+                                    <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="금융투자협회 연금저축계좌 표준약관 제8조에 따라 지수 대비 1배 초과 또는 음(-)의 배율로 운용되는 ETF는 연금저축계좌에서 매입할 수 없습니다.">연금불가</span>
+                                  )}
+                              </>
                             ) : filters.accountMode === "isa" ? (
                               <>
                                 {etf.isaEducationRequired === "Y" ? (
@@ -1256,7 +1388,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                   <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>
                                 )}
                                 {etf.isaTaxBenefit === "높음" && (
-                                  <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="해외주식·채권형 등 매매차익 15.4% 배당소득세 절세 실익 극대화">절세실익高</span>
+                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="해외주식·채권·기타형: ISA 절세 혜택 대상 (상단 가이드 참조)">✨절세형</span>
                                 )}
                               </>
                             ) : (
@@ -1278,8 +1410,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                     )}
                                   </>
                                 )}
-                                {etf.pension === "불가" && (
-                                  <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                                {etf.personalPension === "가능" && etf.pensionLimit === "불가" && (
+                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="개인연금저축 전용 (퇴직연금 불가)">개인연금전용</span>
+                                )}
+                                {etf.pension === "불가" && etf.personalPension === "불가" && (
+                                  <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="금융투자협회 연금저축계좌 표준약관 제8조에 따라 지수 대비 1배 초과 또는 음(-)의 배율로 운용되는 ETF는 연금저축계좌에서 매입할 수 없습니다.">연금불가</span>
                                 )}
                               </>
                             )}

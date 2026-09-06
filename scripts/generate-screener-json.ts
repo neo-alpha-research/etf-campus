@@ -19,6 +19,9 @@ const screenerEtfs = fullEtfs.map((etf) => ({
   assetClass: etf.assetClass,
   pension: etf.pension,
   pensionLimit: etf.pensionLimit,
+  personalPension: etf.personalPension ?? (etf.riskType === "leverage" || etf.riskType === "inverse" ? "불가" : "가능"),
+  personalPensionLimit: etf.personalPensionLimit ?? (etf.riskType === "leverage" || etf.riskType === "inverse" ? "불가" : "100%"),
+  personalPensionAsOfDate: etf.personalPensionAsOfDate ?? null,
   pensionSourceType: etf.pensionSourceType,
   pensionVerified: etf.pensionVerified,
   pensionConfidence: etf.pensionConfidence,
@@ -32,6 +35,9 @@ const screenerEtfs = fullEtfs.map((etf) => ({
   returnsNetTr: etf.returnsNetTr,
   classification: etf.classification,
   listingDate: etf.listingDate,
+  distributionYield: etf.distributionYield ?? null,
+  distributionCycle: etf.distributionCycle ?? null,
+  lastDistributionDate: etf.lastDistributionDate ?? null,
 }));
 
 const outPath = path.join(process.cwd(), 'public', 'data', 'screener.json');

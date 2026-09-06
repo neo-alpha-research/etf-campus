@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className="page-shell flex-1 pt-4 pb-6 sm:pt-6 sm:pb-10 w-full max-w-full overflow-x-hidden">
+    <div className="page-shell flex-1 pt-4 pb-6 sm:pt-6 sm:pb-10 overflow-x-hidden">
       <MarketBriefing />
     </div>
   );

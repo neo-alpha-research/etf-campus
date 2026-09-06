@@ -183,8 +183,12 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       issuer: resolveIssuer(ticker, requireField(master, "isin_cd", `master:${ticker}`), name),
       riskType: assertMember(requireField(master, "risk_type", `master:${ticker}`), RISK_TYPES, "risk_type") as RiskType,
       assetClass: assertMember(requireField(master, "asset_class", `master:${ticker}`), ASSET_CLASSES, "asset_class") as AssetClass,
-      pension: assertMember(requireField(pension, "final_pension", `pension:${ticker}`), PENSION_STATUSES, "final_pension") as PensionStatus,
-      pensionSource: requireField(pension, "final_src", `pension:${ticker}`),
+      pension: assertMember(
+        (optionalText(master, "pension_eligible") || optionalText(pension, "final_pension") || "불가") as string,
+        PENSION_STATUSES,
+        "pension_eligible"
+      ) as PensionStatus,
+      pensionSource: (optionalText(master, "pension_source") || optionalText(pension, "final_src") || "미확인") as string,
       pensionLimit: (optionalText(master, "pension_limit") || optionalText(pension, "pension_limit")) as PensionLimit | null,
       pensionSourceType: (optionalText(master, "pension_source") || optionalText(pension, "pension_source")) as any,
       pensionVerified: (optionalText(master, "pension_verified") || optionalText(pension, "pension_verified")) as "Y" | "N" | null,

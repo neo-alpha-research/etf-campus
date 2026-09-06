@@ -817,6 +817,10 @@ def main() -> None:
                 "final_src": "구조규칙",
             })
         pension.update({key: existing.get(key, "") for key in master_fields if key in pension_fields})
+        if existing.get("pension_eligible"):
+            pension["final_pension"] = existing["pension_eligible"]
+        if existing.get("pension_source"):
+            pension["final_src"] = existing["pension_source"]
         new_pension.append(pension)
 
     for field in PERIODS:

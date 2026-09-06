@@ -234,17 +234,11 @@
     "bytes": 3517
   },
   "brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx": {
+    "source_type": "증권사목록대조",
+    "description": "한국투자증권 퇴직연금 ETF 상품 현황 (20260831 기준)",
     "sha256": "7e1429bdaff52ca60805c4caee8858e1b81e21b48e4c850f4d3fc30a23379ae6",
     "bytes": 158303,
-    "source_url": "https://securities.koreainvestment.com/pension/nwEtcinfo/Notice.jsp?cmd=A_NW_33030View&num=47520",
-    "download_url": "https://file.koreainvestment.com/servlet/Download?file_path=customer/notice/&file_name=ETF_REITs_LIST_RP_260831.xlsx",
-    "publisher": "한국투자증권 연금본부",
-    "notice_title": "퇴직연금 매매가능 ETF/상장REITs 리스트_202609",
-    "effective_date": "2026-08-31",
-    "published_date": "2026-09-04",
-    "collected_at": "2026-09-06T08:21:26.287014",
-    "etf_record_count": 1021,
-    "reits_record_count": 29
+    "collected_at": "2026-09-06"
   },
   "issuers/miraeasset/tiger_pension_search_20260906.html": {
     "sha256": "229c93f6f411ebe39bf924c7fc2ad104d705ac9fe01d939732ef175e4d4d117b",
@@ -265,15 +259,10 @@
     "record_count": 218
   },
   "brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt": {
+    "source_type": "증권사유니버스추출",
+    "description": "한국투자증권 퇴직연금 매매가능 ETF 1021종목 코드 유니버스",
     "sha256": "e08c25779ae95aedf78f3e63b62fd4f9fb6efd344df0fae2e91c510833c1d4cf",
     "bytes": 39248,
-    "source_url": "https://securities.koreainvestment.com/pension/nwEtcinfo/Notice.jsp?cmd=A_NW_33030View&num=47520",
-    "derived_from": "data/regulatory/sources/brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx",
-    "publisher": "한국투자증권 연금본부",
-    "notice_title": "퇴직연금 매매가능 ETF/상장REITs 리스트_202609 종목코드 유니버스 집합",
-    "effective_date": "2026-08-31",
-    "published_date": "2026-09-04",
-    "collected_at": "2026-09-06T09:10:54",
-    "etf_record_count": 1021
+    "collected_at": "2026-09-06"
   }
 }

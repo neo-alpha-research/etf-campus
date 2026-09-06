@@ -84,14 +84,14 @@ describe("FeeMetricItem", () => {
     expect(screen.getByText("매매수수료 (자산 교체 거래비용)")).toBeInTheDocument();
   });
 
-  it("상장 1년 미만 신규 ETF는 '신규 (총보수)' 배지로 마스킹 처리된다", () => {
+  it("상장 1년 미만 결산 전 ETF는 '결산전 (총보수)' 배지로 마스킹 처리된다", () => {
     const newEtf: Etf = {
       ...baseEtf,
       listingDate: "20260501", // < 1 year from 20260715
     };
     render(<FeeMetricItem etf={newEtf} />);
 
-    expect(screen.getByText("신규 (총보수)")).toBeInTheDocument();
+    expect(screen.getByText("결산전 (총보수)")).toBeInTheDocument();
     expect(screen.getAllByText("0.15%").length).toBeGreaterThan(0);
   });
 

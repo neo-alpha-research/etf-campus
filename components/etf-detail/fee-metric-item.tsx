@@ -102,7 +102,7 @@ export function FeeMetricItem({ etf }: Props) {
                 {feeCtx.nominalFee?.toFixed(2)}%
               </span>
               <span className="text-[10.5px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-1.5 py-0.5 rounded leading-tight">
-                신규 (총보수)
+                결산전 (총보수)
               </span>
             </>
           ) : (
@@ -209,7 +209,7 @@ export function FeeMetricItem({ etf }: Props) {
               {/* Legal & Regulatory Explanation */}
               <div className="text-[11px] text-neutral-300 bg-neutral-800/40 rounded-lg p-2 leading-relaxed border border-neutral-700/40 mb-2">
                 {feeCtx.type === "masked_new" ? (
-                  "상장 1년 미만의 신규 ETF는 초기 설정 비용이 연환산되어 실부담 비용이 과다 계상될 수 있으므로 기본 운용보수만 표기합니다."
+                  "상장 1년 미만으로 첫 결산 전인 ETF는 초기 설정 비용 왜곡 방지를 위해 회계 결산 전까지 기본 운용보수만 표기합니다."
                 ) : (
                   "총비용비율(TER: 총보수+기타비용)에 주식 매매중개수수료율을 모두 합산한 투자자 실질부담 총비용입니다."
                 )}

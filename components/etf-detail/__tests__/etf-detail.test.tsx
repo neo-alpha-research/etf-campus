@@ -207,7 +207,7 @@ describe("EtfDetail", () => {
     expect(screen.getByText("총보수 0.45%")).toBeInTheDocument();
   });
 
-  it("상장 1년 미만의 신규 ETF인 경우 '신규 (총보수)' 뱃지를 표시한다", () => {
+  it("상장 1년 미만의 신규 ETF인 경우 '결산전 (총보수)' 뱃지를 표시한다", () => {
     const newItem: Etf = {
       ...item,
       listingDate: "2026-06-01",
@@ -221,7 +221,7 @@ describe("EtfDetail", () => {
       },
     };
     render(<EtfDetail etf={newItem} />);
-    expect(screen.getByText("신규 (총보수)")).toBeInTheDocument();
+    expect(screen.getByText("결산전 (총보수)")).toBeInTheDocument();
   });
 
   it("내부 판정 출처를 노출하지 않고 확인 가능한 편입 제한 사유만 설명한다", () => {

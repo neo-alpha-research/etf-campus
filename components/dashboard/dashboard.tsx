@@ -814,11 +814,6 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                               </span>
                             ) : null}
 
-                            {/* 파생형 거래활성 배지 */}
-                            {isDeriv && etf.tradeValue >= 30_000_000_000 ? (
-                              <span className="rounded bg-amber-50 border border-amber-200 px-1 py-0.2 text-[9.5px] font-extrabold text-amber-800">거래활성 🔥</span>
-                            ) : null}
-
                             {/* TDF 빈티지 및 주식비중 뱃지 */}
                             {state.mode === "tdf" && tdfInfo ? (
                               <span className="rounded bg-indigo-50 border border-indigo-200 px-1 py-0.2 text-[9.5px] font-bold text-indigo-800">

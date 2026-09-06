@@ -1213,7 +1213,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                     </span>
                                   )}
                                   {etf.pensionConfidence === "보통" && (
-                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오">확인권장</span>
+                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="법령 조문 직접 적용 등 간접 근거로 판정된 항목입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.">확인권장</span>
                                   )}
                                 </>
                               ) : etf.pensionLimit === "70% (위험자산)" ? (
@@ -1232,7 +1232,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                     </span>
                                   )}
                                   {etf.pensionConfidence === "보통" && (
-                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="합성·커버드콜 파생상품 특성상 증권사별 편입 정책이 다를 수 있으니 증권사에서 최종 확인하십시오">확인권장</span>
+                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="법령 조문 직접 적용 등 간접 근거로 판정된 항목입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.">확인권장</span>
                                   )}
                                 </>
                               ) : (

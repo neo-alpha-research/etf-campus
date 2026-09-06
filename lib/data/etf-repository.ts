@@ -12,6 +12,8 @@ import {
   type PensionStatus,
   type PensionLimit,
   type IsaStatus,
+  type IsaTaxType,
+  type IsaTaxBenefit,
   type RiskType,
 } from "../domain/etf-types";
 import { resolveIssuer } from "./etf-amc-mapping";
@@ -195,6 +197,8 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
       pensionConfidence: (optionalText(master, "pension_confidence") || optionalText(pension, "pension_confidence")) as any,
       isaEligible: (optionalText(master, "isa_eligible") || optionalText(pension, "isa_eligible")) as IsaStatus | null,
       isaEducationRequired: (optionalText(master, "isa_education_required") || optionalText(pension, "isa_education_required")) as "Y" | "N" | null,
+      isaTaxType: (optionalText(master, "isa_tax_type") || null) as IsaTaxType | null,
+      isaTaxBenefit: (optionalText(master, "isa_tax_benefit") || null) as IsaTaxBenefit | null,
       liquidity: requireField(master, "liquidity", `master:${ticker}`),
       asOfDate: requireField(master, "bas_dt", `master:${ticker}`),
       listingDate: optionalText(master, "listing_date"),

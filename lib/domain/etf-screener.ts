@@ -75,6 +75,8 @@ export type ScreenerEtf = Pick<Etf,
   | "pensionVerified"
   | "isaEligible"
   | "isaEducationRequired"
+  | "isaTaxType"
+  | "isaTaxBenefit"
   | "asOfDate"
   | "returns"
   | "returnsTr"

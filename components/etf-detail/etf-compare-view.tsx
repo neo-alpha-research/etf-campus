@@ -318,10 +318,12 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                         <span className="text-[10px] text-neutral-400 font-mono">절세 계좌</span>
                       </div>
                       <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
-                        조세특례제한법상 중개형 ISA 계좌 편입 가능 여부입니다.
+                        조세특례제한법상 중개형 ISA 계좌 편입 가능 여부 및 절세 실익입니다.
                       </p>
-                      <div className="text-[10.5px] text-neutral-300">
-                        레버리지/인버스 ETF는 금융투자교육원 사전교육 및 기본예탁금이 필요합니다.
+                      <div className="text-[10.5px] text-neutral-300 space-y-1">
+                        <div><strong className="text-emerald-300">절세실익 높음:</strong> 해외주식·채권형 등 매매차익 15.4% 비과세/분리과세 특례</div>
+                        <div><strong className="text-neutral-400">절세실익 보통:</strong> 국내주식형은 기본 비과세이며 분배금 절세 적용</div>
+                        <div><strong className="text-amber-300">사전교육:</strong> 레버리지/인버스는 금융투자교육원 사전교육 및 예탁금 필요</div>
                       </div>
                     </div>
                   </div>
@@ -329,15 +331,23 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const isEdu = etf.riskType === "leverage" || etf.isaEducationRequired === "Y";
+                  const isHighTaxBenefit = etf.isaTaxBenefit === "높음";
                   return (
                     <td key={`isa-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-center transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
-                      <span className={`inline-flex items-center rounded px-1.5 py-0.5 text-[11px] font-bold border ${
-                        isEdu
-                          ? "border-amber-300 bg-amber-50 text-amber-800"
-                          : "border-indigo-300 bg-indigo-50 text-indigo-700"
-                      }`}>
-                        {isEdu ? "가능 (교육필요)" : "편입 가능"}
-                      </span>
+                      <div className="flex flex-col items-center justify-center gap-0.5">
+                        <span className={`inline-flex items-center rounded px-1.5 py-0.5 text-[11px] font-bold border ${
+                          isEdu
+                            ? "border-amber-300 bg-amber-50 text-amber-800"
+                            : "border-indigo-300 bg-indigo-50 text-indigo-700"
+                        }`}>
+                          {isEdu ? "가능 (교육필요)" : "편입 가능"}
+                        </span>
+                        {isHighTaxBenefit && (
+                          <span className="text-[9.5px] text-emerald-700 font-medium leading-tight">
+                            *절세 실익 높음
+                          </span>
+                        )}
+                      </div>
                     </td>
                   );
                 })}

@@ -41,6 +41,10 @@ export const PENSION_LIMITS = ["100% (안전자산)", "70% (위험자산)", "불
 export type PensionLimit = (typeof PENSION_LIMITS)[number];
 export const ISA_STATUSES = ["가능", "불가"] as const;
 export type IsaStatus = (typeof ISA_STATUSES)[number];
+export const ISA_TAX_TYPES = ["국내주식형", "기타"] as const;
+export type IsaTaxType = (typeof ISA_TAX_TYPES)[number];
+export const ISA_TAX_BENEFITS = ["높음", "낮음"] as const;
+export type IsaTaxBenefit = (typeof ISA_TAX_BENEFITS)[number];
 export const PENSION_SOURCE_TYPES = ["법령조건직접판정", "규칙기반추정", "표본대조", "증권사목록대조"] as const;
 export type PensionSourceType = (typeof PENSION_SOURCE_TYPES)[number];
 export const PENSION_CONFIDENCE_LEVELS = ["높음", "보통", "낮음"] as const;
@@ -166,6 +170,8 @@ export type Etf = {
   pensionConfidence?: PensionConfidenceLevel | null;
   isaEligible?: IsaStatus | null;
   isaEducationRequired?: "Y" | "N" | null;
+  isaTaxType?: IsaTaxType | null;
+  isaTaxBenefit?: IsaTaxBenefit | null;
   liquidity: string;
   asOfDate: string;
   listingDate: string | null;

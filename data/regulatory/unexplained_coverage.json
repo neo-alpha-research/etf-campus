@@ -1,0 +1,15 @@
+{
+  "unexplained_items": {
+    "0220A0": {
+      "action": "isolate_personal_pension_unverified",
+      "first_detected": "2026-09-06",
+      "issuer": "키움 (KIWOOM)",
+      "name": "KIWOOM 현대차그룹TOP3채권혼합50",
+      "pension_limit": "100% (안전자산)",
+      "pension_verified": "Y",
+      "reason": "운용사 공식 전체 상품 유니버스에 해당 종목 누락. 개인연금 한도 판정 불가로 UI 노출 보류 및 격리 조치",
+      "risk_type": "normal"
+    }
+  },
+  "version": "1.0"
+}

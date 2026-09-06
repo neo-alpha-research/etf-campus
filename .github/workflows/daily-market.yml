@@ -219,6 +219,10 @@ jobs:
           python -m unittest discover -s scripts/tests
           python scripts/verify_zero_hallucination.py
 
+      - name: Validate issuer coverage closure (time-based gate)
+        if: steps.guard.outputs.skip != 'true'
+        run: python scripts/rules/validate_issuer_coverage.py
+
       - name: Ingest daily ETF prices to D1
         continue-on-error: true
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true')
@@ -249,7 +253,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json; do
+          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then

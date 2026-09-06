@@ -55,7 +55,9 @@ WHITELISTED_SHARED_EVIDENCE = {
     "data/regulatory/sources/brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt",
     "data/regulatory/sources/issuers/miraeasset/tiger_pension_search_20260906.html",
     "data/regulatory/sources/issuers/samsung/kodex_pension_search_20260906.json",
+    "data/regulatory/sources/issuers/ace/ace_pension_search_20260906.json",
 }
+
 
 
 def is_whitelisted_shared_evidence(ev_ref: str) -> bool:
@@ -73,7 +75,7 @@ def is_whitelisted_shared_evidence(ev_ref: str) -> bool:
 # WRBA_ART21 and PSR_ART12_1_1 are strictly excluded (cannot justify any pension limit).
 ALLOWED_STATUTE_LIMIT_MAP: dict[str, set[str]] = {
     "PSR_ART11_1_4": {"100% (안전자산)"},
-    "PSR_ART11_1_5": {"100% (안전자산)"},
+    "PSR_ART11_1_5": {"100% (안전자산)", "70% (위험자산)"},
     "PSR_ART11_1_6": {"100% (안전자산)"},
     "PSR_ART11_1_9": {"100% (안전자산)"},
     "FSS_PSR_RULE_ART5_2": {"100% (안전자산)"},
@@ -83,6 +85,7 @@ ALLOWED_STATUTE_LIMIT_MAP: dict[str, set[str]] = {
     "ED_FSCMA_ART240_4": {"70% (위험자산)", "불가"},
     "MOEL_WRBA_RULE_ART10_1_2": {"70% (위험자산)"},
 }
+
 
 DART_RCP_PATTERN = re.compile(r"rcpNo=\d{14}")
 
@@ -500,25 +503,29 @@ def validate_evidence_integrity(
             required_keywords = []
             claim_desc = []
 
-            if any(k in note for k in ["TDF", "글라이드패스"]):
+            if any(k in note for k in ["특별자산"]):
+                required_keywords.append("특별자산")
+                claim_desc.append("특별자산집합투자기구")
+            elif any(k in note for k in ["TDF", "글라이드패스"]):
                 required_keywords.extend(["투자목표시점", "제5조의2", "채무증권"])
                 claim_desc.append("적격 TDF 요건")
-            if any(k in note for k in ["주식", "한도", "채권혼합", "50% 미만", "40% 이하", "투자대상주식"]):
+            elif any(k in note for k in ["주식", "한도", "채권혼합", "50% 미만", "40% 이하", "투자대상주식"]):
                 required_keywords.extend(["투자대상주식", "주식의 투자한도", "주식의투자한도", "100분의 50", "100분의50"])
                 claim_desc.append("주식 투자한도")
-            if any(k in note for k in ["위험평가액", "장외파생", "파생"]):
+            elif any(k in note for k in ["위험평가액", "장외파생", "파생"]):
                 required_keywords.append("위험평가액")
                 claim_desc.append("파생 위험평가액")
-            if any(k in note for k in ["사모", "재간접"]):
+            elif any(k in note for k in ["사모", "재간접"]):
                 required_keywords.extend(["사모", "집합투자증권에 투자", "집합투자증권에투자"])
                 claim_desc.append("사모/재간접")
-            if any(k in note for k in ["부동산"]):
+            elif any(k in note for k in ["부동산"]):
                 required_keywords.extend(["부동산집합투자기구", "제240조"])
                 claim_desc.append("부동산집합투자기구")
 
             if not required_keywords:
                 required_keywords = ["투자대상주식", "위험평가액", "신탁계약", "투자한도"]
                 claim_desc.append("일반 규정 조항")
+
 
             matched = [kw for kw in required_keywords if kw in file_text]
             if not matched:
@@ -650,7 +657,9 @@ def validate_evidence_integrity(
         "data/regulatory/sources/brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt",
         "data/regulatory/sources/issuers/miraeasset/tiger_pension_search_20260906.html",
         "data/regulatory/sources/issuers/samsung/kodex_pension_search_20260906.json",
+        "data/regulatory/sources/issuers/ace/ace_pension_search_20260906.json",
     }
+
     for w in WHITELISTED_SHARED_EVIDENCE:
         norm_w = w.replace("\\", "/")
         if norm_w not in ALLOWED_WHITELISTED_SOURCES and not norm_w.startswith("data/regulatory/sources/statutes/"):

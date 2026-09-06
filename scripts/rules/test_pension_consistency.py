@@ -351,8 +351,9 @@ def test_official_ledgers_evidence_integrity_zero_violations():
     with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
         audit_rows = list(csv.DictReader(f))
 
-    assert len(ledger_rows) == 1151, f"Verification ledger must have 1,151 rows, got {len(ledger_rows)}"
+    assert len(ledger_rows) == 1155, f"Verification ledger must have 1,155 rows, got {len(ledger_rows)}"
     assert len(audit_rows) == 1167, f"Audit ledger must have 1,167 rows, got {len(audit_rows)}"
+
 
     violations = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
     total_viols = sum(len(v) for v in violations.values())
@@ -536,9 +537,10 @@ def test_reformed_ledger_and_queue_counts():
     with master_path.open("r", encoding="utf-8-sig") as f:
         master_rows = list(csv.DictReader(f))
 
-    assert len(ledger_rows) == 1151
-    assert len(queue_rows) == 16
+    assert len(ledger_rows) == 1155
+    assert len(queue_rows) == 12
     assert len(master_rows) == 1167
+
 
     ledger_tickers = {r["ticker"].strip().upper() for r in ledger_rows}
     queue_tickers = {r["ticker"].strip().upper() for r in queue_rows}

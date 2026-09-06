@@ -264,5 +264,13 @@
     "sha256": "e08c25779ae95aedf78f3e63b62fd4f9fb6efd344df0fae2e91c510833c1d4cf",
     "bytes": 39248,
     "collected_at": "2026-09-06"
+  },
+  "issuers/ace/ace_pension_search_20260906.json": {
+    "source_url": "https://papi.aceetf.co.kr/api/funds/pension?size=200",
+    "sha256": "c80905bb0674a8b829201fea1fbdfa12edc4017ed4bf42f9ae0eeeb9b5262561",
+    "bytes": 56270,
+    "collected_at": "2026-09-06",
+    "format": "json",
+    "description": "한국투자신탁운용(ACE) 공식 웹 퇴직연금 매매가능 상품 API 응답 (101종목, retirementPensionRatio 공시)"
   }
 }

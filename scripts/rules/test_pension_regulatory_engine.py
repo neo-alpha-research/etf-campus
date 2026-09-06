@@ -231,13 +231,13 @@ def test_pension_source_and_confidence():
     assert res_219390_verified["pension_confidence"] == PENSION_CONFIDENCE_HIGH
     assert res_219390_verified["pension_limit"] == LIMIT_RISK_ASSET
 
-    # 3. Non-Security Synthetic ETF: 400590 (Carbon credit futures) fallback when unverified
+    # 3. Non-Security Futures ETF: 400570 (Carbon credit futures H) fallback when unverified
     res_carbon = classify_pension_and_isa({
-        "ticker": "400590",
-        "name": "SOL 글로벌탄소배출권선물ICE(합성)",
-        "base_index": "ICE Global Carbon Futures Index(Excess Return)",
+        "ticker": "400570",
+        "name": "KODEX 유럽탄소배출권선물ICE(H)",
+        "base_index": "ICE European Carbon Futures Index",
         "risk_type": "normal",
-        "asset_class": "주식-해외",
+        "asset_class": "원자재",
     }, verified_entries={})
     assert res_carbon["underlying_is_security"] == "N"
     assert res_carbon["pension_eligible"] == PENSION_INELIGIBLE
@@ -245,19 +245,20 @@ def test_pension_source_and_confidence():
     assert res_carbon["pension_verified"] == PENSION_VERIFIED_NO
     assert res_carbon["pension_confidence"] == PENSION_CONFIDENCE_LOW
 
-    # 3-1. Non-Security Synthetic ETF verified via ledger
+    # 3-1. Non-Security Futures ETF verified via ledger
     res_carbon_verified = classify_pension_and_isa(
         {
-            "ticker": "400590",
-            "name": "SOL 글로벌탄소배출권선물ICE(합성)",
-            "base_index": "ICE Global Carbon Futures Index(Excess Return)",
+            "ticker": "400570",
+            "name": "KODEX 유럽탄소배출권선물ICE(H)",
+            "base_index": "ICE European Carbon Futures Index",
             "risk_type": "normal",
-            "asset_class": "주식-해외",
+            "asset_class": "원자재",
         },
-        verified_entries={"400590": {"verified_limit": LIMIT_INELIGIBLE, "source_type": PENSION_SOURCE_PROSPECTUS_VERIFIED}},
+        verified_entries={"400570": {"verified_limit": LIMIT_INELIGIBLE, "source_type": PENSION_SOURCE_PROSPECTUS_VERIFIED}},
     )
     assert res_carbon_verified["underlying_is_security"] == "N"
     assert res_carbon_verified["pension_eligible"] == PENSION_INELIGIBLE
+
     assert res_carbon_verified["pension_source"] == PENSION_SOURCE_PROSPECTUS_VERIFIED
     assert res_carbon_verified["pension_verified"] == PENSION_VERIFIED_YES
     assert res_carbon_verified["pension_confidence"] == PENSION_CONFIDENCE_HIGH

@@ -74,7 +74,7 @@ export function generateThreadsThread(
   let watchPointText = regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 태도가 중요합니다. 오늘 주목하는 섹터는 어디인가요?";
   const sourceNotice = `* KRX 공시 마감 국내 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 (투자 권유 아님)`;
 
-  let opening = regime.threadsOpening;
+  const opening = regime.threadsOpening;
   let summary = regime.threadsMarketSummary;
 
   // Build draft post

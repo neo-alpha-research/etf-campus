@@ -133,12 +133,6 @@ const number = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 });
 
 const decimal = new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-const formatWon = (value: number) => {
-  if (value >= 1e12) return decimal.format(value / 1e12) + "조원";
-  if (value >= 1e8) return number.format(value / 1e8) + "억원";
-  return number.format(value) + "원";
-};
-
 
 
 function normalizeToEok(value?: number | null) {
@@ -188,26 +182,10 @@ function formatKoreanTradeAmount(eokValue: number) {
   return `${number.format(jo)}조 ${number.format(remainderEok)}억원`;
 }
 
-function signedInt(value: number) {
-  return `${value >= 0 ? "+" : ""}${number.format(value)}`;
-}
-
 function signed(value: number, unit = "%") {
   const formatted = decimal.format(value);
   if (formatted === "0.00" || formatted === "-0.00") return `0.00${unit}`;
   return `${value > 0 ? "+" : ""}${formatted}${unit}`;
-}
-
-
-
-function money(value: number) {
-
-  if (value >= 1_000_000_000_000) return `${decimal.format(value / 1_000_000_000_000)}조원`;
-
-  if (value >= 100_000_000) return `${decimal.format(value / 100_000_000)}억원`;
-
-  return `${number.format(value)}원`;
-
 }
 
 

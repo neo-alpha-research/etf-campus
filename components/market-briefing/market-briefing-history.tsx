@@ -215,7 +215,7 @@ export function MarketBriefingHistory({ activeDate, onSelectDate }: MarketBriefi
                 onClick={() => {
                   try {
                     dateInputRef.current?.showPicker();
-                  } catch(e) {
+                  } catch {
                     dateInputRef.current?.focus();
                   }
                 }}

@@ -351,7 +351,7 @@ def test_official_ledgers_evidence_integrity_zero_violations():
     with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
         audit_rows = list(csv.DictReader(f))
 
-    assert len(ledger_rows) == 1019, f"Verification ledger must have 1,019 rows, got {len(ledger_rows)}"
+    assert len(ledger_rows) == 1147, f"Verification ledger must have 1,147 rows, got {len(ledger_rows)}"
     assert len(audit_rows) == 1167, f"Audit ledger must have 1,167 rows, got {len(audit_rows)}"
 
     violations = validate_evidence_integrity(ledger_rows=ledger_rows, audit_rows=audit_rows)
@@ -524,7 +524,7 @@ def test_s6a_e0_disallows_identical_quote_reuse():
 
 
 def test_reformed_ledger_and_queue_counts():
-    """Verify honest Phase 3A verified state: 1,019 verified (87.3%), 148 unverified (12.7%), 0 overlap."""
+    """Verify honest Phase 3B verified state: 1,147 verified (98.3%), 20 unverified (1.7%), 0 overlap."""
     ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
     queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
@@ -536,8 +536,8 @@ def test_reformed_ledger_and_queue_counts():
     with master_path.open("r", encoding="utf-8-sig") as f:
         master_rows = list(csv.DictReader(f))
 
-    assert len(ledger_rows) == 1019
-    assert len(queue_rows) == 148
+    assert len(ledger_rows) == 1147
+    assert len(queue_rows) == 20
     assert len(master_rows) == 1167
 
     ledger_tickers = {r["ticker"].strip().upper() for r in ledger_rows}

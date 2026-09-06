@@ -263,5 +263,17 @@
     "publisher": "삼성자산운용",
     "collected_at": "2026-09-06T08:21:26.289997",
     "record_count": 218
+  },
+  "brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt": {
+    "sha256": "e08c25779ae95aedf78f3e63b62fd4f9fb6efd344df0fae2e91c510833c1d4cf",
+    "bytes": 39248,
+    "source_url": "https://securities.koreainvestment.com/pension/nwEtcinfo/Notice.jsp?cmd=A_NW_33030View&num=47520",
+    "derived_from": "data/regulatory/sources/brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx",
+    "publisher": "한국투자증권 연금본부",
+    "notice_title": "퇴직연금 매매가능 ETF/상장REITs 리스트_202609 종목코드 유니버스 집합",
+    "effective_date": "2026-08-31",
+    "published_date": "2026-09-04",
+    "collected_at": "2026-09-06T09:10:54",
+    "etf_record_count": 1021
   }
 }

@@ -22,6 +22,7 @@ if str(REPO_ROOT) not in sys.path:
 from scripts.rules.pension_regulatory_engine import (
     VALID_VERIFIED_SOURCES,
     classify_pension_and_isa,
+    load_kofia_fund_types,
     load_verified_broker_tickers,
     load_verified_ledger_entries,
 )
@@ -55,6 +56,7 @@ def validate_pension_consistency(
         verified_entries = load_verified_ledger_entries()
     if verified_tickers is None:
         verified_tickers = load_verified_broker_tickers()
+    kofia_types = load_kofia_fund_types()
 
     violations: dict[str, list[dict[str, Any]]] = {rule: [] for rule in RULE_DESCRIPTIONS}
 
@@ -96,9 +98,12 @@ def validate_pension_consistency(
                 "reason": f"pension_eligible={p_elig} but pension_limit={p_lim}"
             })
 
-        # R5: asset_class in {채권, 금리·파킹} and pension_limit = 70% (위험자산) (단, 하이일드 채권 제외)
+        # R5: asset_class in {채권, 금리·파킹} and pension_limit = 70% (위험자산) (단, 하이일드 채권, 특별자산, 외화금리(SOFR) 제외)
         is_high_yield = ("하이일드" in name or "High Yield" in name)
-        if asset in ("채권", "금리·파킹") and p_lim == "70% (위험자산)" and not is_high_yield:
+        kofia_ft = kofia_types.get(tk, "")
+        is_special_asset = ("특별자산" in kofia_ft)
+        is_special_or_fx_rate = ("SOFR" in name or "KOFR" in name or "달러" in name or is_special_asset)
+        if asset in ("채권", "금리·파킹") and p_lim == "70% (위험자산)" and not is_high_yield and not is_special_or_fx_rate:
             violations["R5"].append({
                 "ticker": tk, "name": name,
                 "reason": f"asset_class={asset} but pension_limit={p_lim}"

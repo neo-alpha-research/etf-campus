@@ -52,6 +52,7 @@ WHITELISTED_SHARED_EVIDENCE = {
     "data/regulatory/sources/kofia_dis_response_20260905.xml",
     "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
     "data/regulatory/sources/brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx",
+    "data/regulatory/sources/brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt",
     "data/regulatory/sources/issuers/miraeasset/tiger_pension_search_20260906.html",
     "data/regulatory/sources/issuers/samsung/kodex_pension_search_20260906.json",
 }
@@ -110,8 +111,9 @@ def validate_evidence_integrity(
         v_at = str(r.get("verified_at") or "").strip()
         src_type = str(r.get("source_type") or "").strip()
 
-        if ev_ref:
-            evidence_counter[ev_ref] += 1
+        sub_refs = [p.strip() for p in ev_ref.split(";") if p.strip()] if ev_ref else []
+        for p in sub_refs:
+            evidence_counter[p] += 1
 
         # E1: evidence_ref must be an existing file on disk
         if not ev_ref:
@@ -121,14 +123,15 @@ def validate_evidence_integrity(
                 "reason": "검증 원장 행에 evidence_ref가 비어 있음",
             })
         else:
-            file_path = (REPO_ROOT / ev_ref).resolve()
-            if not file_path.is_file():
-                violations["E1"].append({
-                    "ticker": tk,
-                    "source_file": "pension_verification_ledger.csv",
-                    "evidence_ref": ev_ref,
-                    "reason": f"evidence_ref 파일 실존하지 않음: '{ev_ref}'",
-                })
+            for p in sub_refs:
+                file_path = (REPO_ROOT / p).resolve()
+                if not file_path.is_file():
+                    violations["E1"].append({
+                        "ticker": tk,
+                        "source_file": "pension_verification_ledger.csv",
+                        "evidence_ref": p,
+                        "reason": f"evidence_ref 파일 실존하지 않음: '{p}'",
+                    })
 
         # E2: source_url domain-specific format validation
         if not src_url:
@@ -156,8 +159,8 @@ def validate_evidence_integrity(
                     })
 
         # E4: verified_at cannot precede file mtime
-        if ev_ref:
-            file_path = (REPO_ROOT / ev_ref).resolve()
+        for p in sub_refs:
+            file_path = (REPO_ROOT / p).resolve()
             if file_path.is_file() and v_at:
                 try:
                     v_date = datetime.date.fromisoformat(v_at.split("T")[0])
@@ -187,6 +190,8 @@ def validate_evidence_integrity(
             src_url = str(r.get("source_url") or "").strip()
             v_at = str(r.get("verified_at") or "").strip()
 
+            sub_refs = [p.strip() for p in ev_ref.split(";") if p.strip()] if ev_ref else []
+
             if p_ver == "Y":
                 # Must satisfy E1
                 if not ev_ref:
@@ -196,14 +201,15 @@ def validate_evidence_integrity(
                         "reason": "pension_verified=Y 인데 evidence_ref가 비어 있음",
                     })
                 else:
-                    file_path = (REPO_ROOT / ev_ref).resolve()
-                    if not file_path.is_file():
-                        violations["E1"].append({
-                            "ticker": tk,
-                            "source_file": "pension_audit_ledger.csv",
-                            "evidence_ref": ev_ref,
-                            "reason": f"evidence_ref 파일 실존하지 않음: '{ev_ref}'",
-                        })
+                    for p in sub_refs:
+                        file_path = (REPO_ROOT / p).resolve()
+                        if not file_path.is_file():
+                            violations["E1"].append({
+                                "ticker": tk,
+                                "source_file": "pension_audit_ledger.csv",
+                                "evidence_ref": p,
+                                "reason": f"evidence_ref 파일 실존하지 않음: '{p}'",
+                            })
 
                 # Must satisfy E2
                 if not src_url:
@@ -228,8 +234,8 @@ def validate_evidence_integrity(
                     })
 
                 # Must satisfy E4
-                if ev_ref:
-                    file_path = (REPO_ROOT / ev_ref).resolve()
+                for p in sub_refs:
+                    file_path = (REPO_ROOT / p).resolve()
                     if file_path.is_file() and v_at:
                         try:
                             v_date = datetime.date.fromisoformat(v_at.split("T")[0])
@@ -259,14 +265,15 @@ def validate_evidence_integrity(
                         "reason": f"미검증 행에 비정상 DART URL 잔존: '{src_url}'",
                     })
                 if ev_ref:
-                    file_path = (REPO_ROOT / ev_ref).resolve()
-                    if not file_path.is_file():
-                        violations["E1"].append({
-                            "ticker": tk,
-                            "source_file": "pension_audit_ledger.csv",
-                            "evidence_ref": ev_ref,
-                            "reason": f"미검증 행에 가짜 evidence_ref 문구 잔존: '{ev_ref}'",
-                        })
+                    for p in sub_refs:
+                        file_path = (REPO_ROOT / p).resolve()
+                        if not file_path.is_file():
+                            violations["E1"].append({
+                                "ticker": tk,
+                                "source_file": "pension_audit_ledger.csv",
+                                "evidence_ref": p,
+                                "reason": f"미검증 행에 가짜 evidence_ref 문구 잔존: '{p}'",
+                            })
 
     # 3. E3: Concentration check
     for ev_ref, count in evidence_counter.items():
@@ -601,23 +608,25 @@ def validate_evidence_integrity(
     # 9. S7: evidence_ref must NOT be a locally-created/derived file (must be external primary source)
     for r in ledger_rows:
         tk = str(r.get("ticker") or "").strip().upper()
-        ev_ref = str(r.get("evidence_ref") or "").strip().replace("\\", "/")
+        ev_ref = str(r.get("evidence_ref") or "").strip()
         ev_grade = str(r.get("evidence_grade") or "").strip().upper()
         if ev_grade in ("E1", "E1B", "E2", "E3", "E4"):
-            if not (ev_ref.startswith("data/regulatory/sources/") or ev_ref.startswith("data/regulatory/statutes/")):
-                violations["S7"].append({
-                    "ticker": tk,
-                    "evidence_grade": ev_grade,
-                    "evidence_ref": ev_ref,
-                    "reason": f"S7 위반: evidence_ref '{ev_ref}'는 저장소 내부 생성/파생 파일로 외부 공인 원본이 아님 (sources/ 내 파일만 허용)",
-                })
-            elif "broker_pension_universe" in ev_ref:
-                violations["S7"].append({
-                    "ticker": tk,
-                    "evidence_grade": ev_grade,
-                    "evidence_ref": ev_ref,
-                    "reason": f"S7 위반: broker_pension_universe는 실측 조회가 아닌 내부 생성 파일로 증거 사용 금지",
-                })
+            sub_refs = [p.strip().replace("\\", "/") for p in ev_ref.split(";") if p.strip()] if ev_ref else []
+            for p in sub_refs:
+                if not (p.startswith("data/regulatory/sources/") or p.startswith("data/regulatory/statutes/")):
+                    violations["S7"].append({
+                        "ticker": tk,
+                        "evidence_grade": ev_grade,
+                        "evidence_ref": p,
+                        "reason": f"S7 위반: evidence_ref '{p}'는 저장소 내부 생성/파생 파일로 외부 공인 원본이 아님 (sources/ 내 파일만 허용)",
+                    })
+                elif "broker_pension_universe" in p:
+                    violations["S7"].append({
+                        "ticker": tk,
+                        "evidence_grade": ev_grade,
+                        "evidence_ref": p,
+                        "reason": f"S7 위반: broker_pension_universe는 실측 조회가 아닌 내부 생성 파일로 증거 사용 금지",
+                    })
 
     # 10. S8: evidence_quote template interpolation prohibition
     for r in ledger_rows:
@@ -638,6 +647,7 @@ def validate_evidence_integrity(
         "data/regulatory/sources/kofia_dis_response_20260905.xml",
         "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
         "data/regulatory/sources/brokers/koreainvestment/ETF_REITs_LIST_RP_260831.xlsx",
+        "data/regulatory/sources/brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt",
         "data/regulatory/sources/issuers/miraeasset/tiger_pension_search_20260906.html",
         "data/regulatory/sources/issuers/samsung/kodex_pension_search_20260906.json",
     }

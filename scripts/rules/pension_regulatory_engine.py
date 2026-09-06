@@ -225,11 +225,18 @@ def classify_pension_and_isa(
     has_futures_keyword = bool(
         re.search(r"선물|Futures", f"{name} {base_index}", re.IGNORECASE)
     )
+    is_synthetic = bool(SYNTHETIC_NAME_PATTERN.search(name))
+    is_carbon_or_commodity_synth = is_synthetic and ("탄소배출권" in name or "Carbon" in base_index)
 
     if risk in ("leverage", "inverse"):
         pension_eligible = PENSION_INELIGIBLE
         pension_limit = LIMIT_INELIGIBLE
         reason = "레버리지/인버스 파생평가액 초과 (퇴직연금 편입 요건 미충족)"
+    elif is_carbon_or_commodity_synth:
+        # Rule R-c: 1X synthetic OTC derivative under FSCMA Decree Art 240(4) / PSR Art 9(1)(2)(e) proviso
+        pension_eligible = PENSION_ELIGIBLE
+        pension_limit = LIMIT_RISK_ASSET
+        reason = "1배수 장외파생(합성) 위험자산 (퇴직연금감독규정 제9조 제1항 제2호 마목 단서, 70% 한도)"
     elif has_futures_keyword and not is_spot:
         pension_eligible = PENSION_INELIGIBLE
         pension_limit = LIMIT_INELIGIBLE
@@ -241,10 +248,20 @@ def classify_pension_and_isa(
         reason = "위험자산 (계좌 내 70% 한도)"
 
         is_high_yield = ("하이일드" in name or "High Yield" in name or "high yield" in base_index.lower())
+        is_special_asset = (kofia_ft in ("특별자산", "특별자산파생") or "특별자산" in kofia_ft)
+        is_foreign_rate = ("SOFR" in name or "SOFR" in base_index or ("미국달러" in name and asset == "금리·파킹"))
 
         if is_high_yield:
             is_safe = False
             reason = "하이일드 채권 (투자적격등급 외 채무증권 30% 초과 가능으로 안전자산 제외, 퇴직연금감독규정 제11조 제1항 제5호 단서, 70% 한도 적용)"
+        elif is_special_asset:
+            # Rule R-a: Special asset funds cannot be Art 11(1)(5) safe assets (requires securities collective investment)
+            is_safe = False
+            reason = "특별자산집합투자기구 (퇴직연금감독규정 제11조 제1항 제5호 증권형 요건 미충족, 70% 한도 적용)"
+        elif is_foreign_rate:
+            # Rule R-b: Foreign currency interest rate is FX risk asset
+            is_safe = False
+            reason = "외화금리형 환노출 위험자산 (미국달러 SOFR 등 외화금리, 70% 한도 적용)"
         elif asset == "금리·파킹":
             is_safe = True
             reason = "금리·파킹형 안전자산 (100% 투자 가능)"
@@ -257,9 +274,9 @@ def classify_pension_and_isa(
         elif "TRF3070" in name or "TIF" in name:
             is_safe = True
             reason = "주식비중 50% 미만 자산배분 안전자산 (100% 투자 가능)"
-        elif any(kw in name for kw in ["채권혼합", "혼합50", "국채혼합50"]):
+        elif any(kw in name for kw in ["채권혼합", "혼합50", "국채혼합50", "자산배분액티브"]):
             is_safe = True
-            reason = "적격 채권혼합형(주식 50% 미만) 안전자산 (100% 투자 가능)"
+            reason = "적격 채권혼합·자산배분형(주식 50% 미만) 안전자산 (100% 투자 가능)"
 
         pension_limit = LIMIT_SAFE_ASSET if is_safe else LIMIT_RISK_ASSET
 

@@ -241,6 +241,7 @@ def build_audit_ledger():
 
         if p_ver == "Y" and v_entry:
             evidence_grade = v_entry.get("evidence_grade") or ("E2" if tk == "284430" else ("E3" if src_type == "협회공시대조" else "E1"))
+            evidence_tier = v_entry.get("evidence_tier") or ("3way" if evidence_grade == "E4" else "statutory")
             evidence_quote = v_entry.get("evidence_quote") or ("가. 투자대상주식: 40% 이하 → 50% 미만" if tk == "284430" else "")
             if evidence_grade == "E3":
                 p_conf = "보통"
@@ -250,6 +251,7 @@ def build_audit_ledger():
                 audit_note = "명칭 기반 배수 식별 및 퇴직연금감독규정 제9조 제1항 제2호 마목 단서 적용"
         else:
             evidence_grade = "UNVERIFIED"
+            evidence_tier = ""
             evidence_quote = ""
 
         audit_rows.append({
@@ -266,6 +268,7 @@ def build_audit_ledger():
             "source_url": src_url,
             "evidence_ref": evidence_ref,
             "evidence_grade": evidence_grade,
+            "evidence_tier": evidence_tier,
             "evidence_quote": evidence_quote,
             "statutory_basis": statute_id,
             "statutory_basis_text": statute_text,
@@ -291,6 +294,7 @@ def build_audit_ledger():
         "source_url",
         "evidence_ref",
         "evidence_grade",
+        "evidence_tier",
         "evidence_quote",
         "statutory_basis",
         "statutory_basis_text",

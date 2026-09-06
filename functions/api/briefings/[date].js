@@ -6,6 +6,7 @@ const JSON_HEADERS = {
 };
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+const LATEST_POINTER_KEY = "market-briefing:v0:latest-pointer";
 
 function parseJson(value, fallback) {
   try {
@@ -39,6 +40,55 @@ function getBusinessDaysDiff(startDateStr, endDateStr) {
     }
   }
   return days;
+}
+
+function withFreshness(payload) {
+  const briefing = payload?.briefing;
+  if (!briefing?.asOfDate) return null;
+  const staleDays = getBusinessDaysDiff(briefing.asOfDate, toKstDate());
+  const metrics = briefing.metrics || {};
+  return {
+    ...payload,
+    briefing: {
+      ...briefing,
+      isStale: staleDays >= 3,
+      staleDays,
+      marketScaleSnapshot: briefing.marketScaleSnapshot || buildMarketScaleSnapshot(metrics, briefing),
+      marketScaleTimeSeries: briefing.marketScaleTimeSeries || buildMarketScaleTimeSeries(metrics, briefing),
+    },
+  };
+}
+
+async function readKvBriefingByDate(kv, date) {
+  if (!kv) return null;
+  try {
+    const pointer = await kv.get(LATEST_POINTER_KEY, "json");
+    let payloadKey = null;
+    if (pointer && typeof pointer === "object" && pointer.asOfDate === date && pointer.payloadKey) {
+      payloadKey = pointer.payloadKey;
+    } else {
+      payloadKey = `market-briefing:v0:payload:${date}:v1`;
+    }
+
+    const payload = await kv.get(payloadKey, "json");
+    if (!payload) return null;
+    const decorated = withFreshness(payload);
+    if (!decorated || decorated?.briefing?.asOfDate !== date) return null;
+
+    // Defensive check: Ensure assetClasses is valid and doesn't contain structural category anomalies without return
+    const ac = decorated?.briefing?.assetClasses || [];
+    const hasStructuralAnomaly = ac.some((item) => {
+      const name = item.asset_class || item.assetClass;
+      return name === "일반 실물 ETF" && (item.aum_weighted_return_pct === null || item.aumWeightedReturnPct === null);
+    });
+    if (hasStructuralAnomaly) {
+      return null;
+    }
+
+    return decorated;
+  } catch {
+    return null;
+  }
 }
 
 function toResponsePayload(briefing, assetClasses, focusEtfs) {
@@ -107,12 +157,12 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         breadthRatioPct: row.breadth_ratio_pct ?? row.breadthRatioPct ?? 0,
         aum_weighted_return_pct: row.aum_weighted_return_pct ?? row.aumWeightedReturnPct ?? null,
         aumWeightedReturnPct: row.aum_weighted_return_pct ?? row.aumWeightedReturnPct ?? null,
-        total_aum: (row.total_aum || row.totalAum || 0) > 100_000_000_000 ? (row.total_aum || row.totalAum) / 100_000_000 : (row.total_aum || row.totalAum || 0),
-        totalAum: (row.total_aum || row.totalAum || 0) > 100_000_000_000 ? (row.total_aum || row.totalAum) / 100_000_000 : (row.total_aum || row.totalAum || 0),
+        total_aum: (row.total_aum || row.totalAum || 0) >= 10_000_000 ? (row.total_aum || row.totalAum) / 100_000_000 : (row.total_aum || row.totalAum || 0),
+        totalAum: (row.total_aum || row.totalAum || 0) >= 10_000_000 ? (row.total_aum || row.totalAum) / 100_000_000 : (row.total_aum || row.totalAum || 0),
         aum_share_pct: row.aum_share_pct ?? row.aumSharePct ?? 0,
         aumSharePct: row.aum_share_pct ?? row.aumSharePct ?? 0,
-        total_trade_value: (row.total_trade_value || row.totalTradeValue || 0) > 100_000_000_000 ? (row.total_trade_value || row.totalTradeValue) / 100_000_000 : (row.total_trade_value || row.totalTradeValue || 0),
-        totalTradeValue: (row.total_trade_value || row.totalTradeValue || 0) > 100_000_000_000 ? (row.total_trade_value || row.totalTradeValue) / 100_000_000 : (row.total_trade_value || row.totalTradeValue || 0),
+        total_trade_value: (row.total_trade_value || row.totalTradeValue || 0) >= 10_000_000 ? (row.total_trade_value || row.totalTradeValue) / 100_000_000 : (row.total_trade_value || row.totalTradeValue || 0),
+        totalTradeValue: (row.total_trade_value || row.totalTradeValue || 0) >= 10_000_000 ? (row.total_trade_value || row.totalTradeValue) / 100_000_000 : (row.total_trade_value || row.totalTradeValue || 0),
         trade_share_pct: row.trade_share_pct ?? row.tradeSharePct ?? 0,
         tradeSharePct: row.trade_share_pct ?? row.tradeSharePct ?? 0,
       })),
@@ -120,7 +170,7 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
       peerGroups: metrics.peer_groups ?? metrics.peerGroups ?? [],
       fundFlow: metrics.fund_flow ?? metrics.fundFlow ?? { topInflows: [], topOutflows: [] },
       disparityWarning: metrics.disparity_warning ?? metrics.disparityWarning ?? [],
-      focusEtfs: focusEtfs.results ?? [],
+      focusEtfs: focusEtfs?.results ?? [],
       sourceDates: parseJson(briefing.source_dates_json, {}),
       validation: parseJson(briefing.validation_json, {}),
     },
@@ -201,54 +251,85 @@ export async function onRequestGet(context) {
     );
   }
 
-  const briefing = await context.env.ETF_PRICES.prepare(
-    `SELECT
-      as_of_date, publication_version, headline_text, headline_generation_status,
-      kospi_close, kospi_change_pct, kosdaq_close, kosdaq_change_pct,
-      general_aum_weighted_return_pct, top50_aum_weighted_return_pct,
-      top100_aum_weighted_return_pct, top200_aum_weighted_return_pct,
-      general_etf_count, up_count, flat_count, down_count, breadth_ratio_pct,
-      market_temperature, general_total_aum, general_total_trade_value,
-      top10_trade_share_pct, all_top10_trade_share_pct, metrics_json, source_dates_json, validation_json,
-      published_at, updated_at
-    FROM market_briefings
-    WHERE as_of_date = ?
-      AND status = 'ready'
-    LIMIT 1`,
-  )
-    .bind(date)
-    .first();
+  // 1. KV 캐시 가속 계층 우선 확인 (D1 쿼리 한도 고갈 대비 및 초고속 에지 서빙)
+  let cached = null;
+  try {
+    cached = await readKvBriefingByDate(context.env?.BRIEFING_KV, date);
+  } catch (e) {}
 
-  if (!briefing) {
-    return Response.json(
-      { briefing: null, message: "해당 날짜의 검증된 마켓 브리핑이 없습니다." },
-      { status: 404, headers: { ...JSON_HEADERS, "cache-control": "no-store" } },
-    );
+  if (cached && cached.briefing?.asOfDate === date) {
+    return Response.json(cached, { headers: JSON_HEADERS });
   }
 
-  const [assetClasses, focusEtfs] = await Promise.all([
-    context.env.ETF_PRICES.prepare(
-      `SELECT
-        asset_class, etf_count, up_count, flat_count, down_count,
-        breadth_ratio_pct, aum_weighted_return_pct, total_aum, aum_share_pct,
-        total_trade_value, trade_share_pct
-      FROM market_briefing_asset_classes
-      WHERE as_of_date = ?
-      ORDER BY total_trade_value DESC, asset_class ASC`,
-    )
-      .bind(date)
-      .all(),
-    context.env.ETF_PRICES.prepare(
-      `SELECT
-        rank_no, ticker, etf_name, asset_class, close_value,
-        change_pct, trade_value, trade_share_pct
-      FROM market_briefing_focus_etfs
-      WHERE as_of_date = ?
-      ORDER BY rank_no ASC`,
-    )
-      .bind(date)
-      .all(),
-  ]);
+  // 2. D1 정식 DB 조회 (KV 미스 시 안전 폴백)
+  try {
+    if (!context.env?.ETF_PRICES) {
+      if (cached) return Response.json(cached, { headers: JSON_HEADERS });
+      return Response.json({ error: "D1 database ETF_PRICES is not configured" }, { status: 503, headers: JSON_HEADERS });
+    }
 
-  return Response.json(toResponsePayload(briefing, assetClasses, focusEtfs), { headers: JSON_HEADERS });
+    const briefing = await context.env.ETF_PRICES.prepare(
+      `SELECT
+        as_of_date, publication_version, headline_text, headline_generation_status,
+        kospi_close, kospi_change_pct, kosdaq_close, kosdaq_change_pct,
+        general_aum_weighted_return_pct, top50_aum_weighted_return_pct,
+        top100_aum_weighted_return_pct, top200_aum_weighted_return_pct,
+        general_etf_count, up_count, flat_count, down_count, breadth_ratio_pct,
+        market_temperature, general_total_aum, general_total_trade_value,
+        top10_trade_share_pct, all_top10_trade_share_pct, metrics_json, source_dates_json, validation_json,
+        published_at, updated_at
+      FROM market_briefings
+      WHERE as_of_date = ?
+        AND status = 'ready'
+      LIMIT 1`,
+    )
+      .bind(date)
+      .first();
+
+    if (!briefing) {
+      return Response.json(
+        { briefing: null, message: "해당 날짜의 검증된 마켓 브리핑이 없습니다." },
+        { status: 404, headers: { ...JSON_HEADERS, "cache-control": "no-store" } },
+      );
+    }
+
+    const [assetClasses, focusEtfs] = await Promise.all([
+      context.env.ETF_PRICES.prepare(
+        `SELECT
+          asset_class, etf_count, up_count, flat_count, down_count,
+          breadth_ratio_pct, aum_weighted_return_pct, total_aum, aum_share_pct,
+          total_trade_value, trade_share_pct
+        FROM market_briefing_asset_classes
+        WHERE as_of_date = ?
+        ORDER BY total_trade_value DESC, asset_class ASC`,
+      )
+        .bind(date)
+        .all(),
+      context.env.ETF_PRICES.prepare(
+        `SELECT
+          rank_no, ticker, etf_name, asset_class, close_value,
+          change_pct, trade_value, trade_share_pct
+        FROM market_briefing_focus_etfs
+        WHERE as_of_date = ?
+        ORDER BY rank_no ASC`,
+      )
+        .bind(date)
+        .all(),
+    ]);
+
+    return Response.json(toResponsePayload(briefing, assetClasses, focusEtfs), { headers: JSON_HEADERS });
+  } catch (error) {
+    try {
+      if (context.env?.BRIEFING_KV) {
+        const fallback = await readKvBriefingByDate(context.env.BRIEFING_KV, date);
+        if (fallback) return Response.json(fallback, { headers: JSON_HEADERS });
+      }
+    } catch (e) {}
+    if (cached) return Response.json(cached, { headers: JSON_HEADERS });
+    return Response.json({ error: "Internal Server Error", message: String(error?.message || error), stack: String(error?.stack || '') }, { status: 500, headers: JSON_HEADERS });
+  }
+}
+
+export async function onRequest(context) {
+  return onRequestGet(context);
 }

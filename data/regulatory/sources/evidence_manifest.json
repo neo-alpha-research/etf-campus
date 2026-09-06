@@ -261,8 +261,8 @@
   "brokers/koreainvestment/kis_etf_ticker_universe_20260831.txt": {
     "source_type": "증권사유니버스추출",
     "description": "한국투자증권 퇴직연금 매매가능 ETF 1021종목 코드 유니버스",
-    "sha256": "e08c25779ae95aedf78f3e63b62fd4f9fb6efd344df0fae2e91c510833c1d4cf",
-    "bytes": 39248,
+    "sha256": "1d3102f62c8dca739b7370e8bc9adf74f823b15ca3d1e899e31861bfdecf3e95",
+    "bytes": 38227,
     "collected_at": "2026-09-06"
   },
   "issuers/ace/ace_pension_search_20260906.json": {
@@ -272,5 +272,26 @@
     "collected_at": "2026-09-06",
     "format": "json",
     "description": "한국투자신탁운용(ACE) 공식 웹 퇴직연금 매매가능 상품 API 응답 (101종목, retirementPensionRatio 공시)"
+  },
+  "issuers/kb/rise_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "description": "KB자산운용 RISE 공식 전체 상품 유니버스 (143종목)",
+    "sha256": "54d7ada3e9f270cff7bd4020a7194336bdd93e9090cf799b627052bd1cbbc211",
+    "bytes": 37537,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/hanwha/plus_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "description": "한화자산운용 PLUS 공식 전체 상품 API (84종목)",
+    "sha256": "1951149d8d9b1919cdb914bcecfaefed34a03a335684439352d378b8f60be8df",
+    "bytes": 108629,
+    "collected_at": "2026-09-06"
+  },
+  "issuers/kiwoom/kiwoom_product_universe_20260906.json": {
+    "source_type": "운용사공식API",
+    "description": "키움투자자산운용 KIWOOM 공식 전체 상품 API (70종목)",
+    "sha256": "52ab73bc0a5470d3b96a10bb9aa76db5dc0e9d4ccbdf3d8cb59c812e1075d189",
+    "bytes": 343598,
+    "collected_at": "2026-09-06"
   }
 }

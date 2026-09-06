@@ -1,10 +1,11 @@
-"""Unit tests for pension regulatory consistency rules R1 through R9.
+"""Unit tests for pension regulatory consistency rules R1 through R12.
 
 Verifies that scripts/rules/validate_pension_consistency.py strictly catches
 each violation pattern and that the full master CSV passes with zero violations.
 """
 
 import csv
+import json
 import pytest
 from pathlib import Path
 
@@ -67,6 +68,30 @@ def test_r1_verified_requires_broker_or_sample_source():
         verified_entries={"005930": {"verified_limit": "70% (위험자산)", "source_type": "협회공시대조"}},
     )
     assert len(viols_kofia["R1"]) == 0
+
+    # Valid: verified=Y and source=운용사공시대조
+    row_issuer = make_valid_row(
+        pension_verified="Y",
+        pension_source="운용사공시대조",
+        pension_confidence="높음",
+    )
+    viols_issuer = validate_pension_consistency(
+        [row_issuer],
+        verified_entries={"005930": {"verified_limit": "70% (위험자산)", "source_type": "운용사공시대조"}},
+    )
+    assert len(viols_issuer["R1"]) == 0
+
+    # Valid: verified=Y and source=증권사·운용사교차검증
+    row_cross = make_valid_row(
+        pension_verified="Y",
+        pension_source="증권사·운용사교차검증",
+        pension_confidence="높음",
+    )
+    viols_cross = validate_pension_consistency(
+        [row_cross],
+        verified_entries={"005930": {"verified_limit": "70% (위험자산)", "source_type": "증권사·운용사교차검증"}},
+    )
+    assert len(viols_cross["R1"]) == 0
 
 
 def test_r2_unverified_cannot_have_high_confidence():
@@ -205,8 +230,113 @@ def test_r9_engine_recomputation_exact_match():
     assert len(viols["R9"]) == 1
 
 
+def test_r10_ledger_and_queue_mutual_exclusivity(tmp_path):
+    """R10: Ledger and unverified queue must be mutually exclusive."""
+    mock_ledger = tmp_path / "mock_ledger.csv"
+    mock_queue = tmp_path / "mock_queue.csv"
+
+    # With overlap
+    mock_ledger.write_text("ticker,name\n005930,삼성전자\n", encoding="utf-8")
+    mock_queue.write_text("ticker,name\n005930,삼성전자\n", encoding="utf-8")
+
+    row = make_valid_row(ticker="005930", pension_verified="Y")
+    viols = validate_pension_consistency(
+        [row],
+        ledger_path=mock_ledger,
+        queue_path=mock_queue,
+        summary_path=tmp_path / "non_existent_summary.json",
+    )
+    assert len(viols["R10"]) == 1
+    assert "mutual exclusivity violation" in viols["R10"][0]["reason"]
+
+    # Without overlap
+    mock_queue_no_overlap = tmp_path / "mock_queue_no_overlap.csv"
+    mock_queue_no_overlap.write_text("ticker,name\n000660,SK하이닉스\n", encoding="utf-8")
+    viols_clean = validate_pension_consistency(
+        [row],
+        ledger_path=mock_ledger,
+        queue_path=mock_queue_no_overlap,
+        summary_path=tmp_path / "non_existent_summary.json",
+    )
+    assert len(viols_clean["R10"]) == 0
+
+
+def test_r11_ledger_count_equals_master_verified_y_count(tmp_path):
+    """R11: Ledger ticker count must equal master rows with pension_verified='Y'."""
+    mock_ledger = tmp_path / "mock_ledger.csv"
+    mock_queue = tmp_path / "mock_queue.csv"
+    mock_ledger.write_text("ticker,name\n005930,삼성전자\n", encoding="utf-8")
+    mock_queue.write_text("ticker,name\n", encoding="utf-8")
+
+    # Mismatch: 0 'Y' rows vs 1 ledger ticker
+    row_n = make_valid_row(ticker="005930", pension_verified="N", pension_confidence="낮음")
+    viols_mismatch = validate_pension_consistency(
+        [row_n],
+        ledger_path=mock_ledger,
+        queue_path=mock_queue,
+        summary_path=tmp_path / "non_existent_summary.json",
+    )
+    assert len(viols_mismatch["R11"]) == 1
+    assert "ledger ticker count (1) != master verified 'Y' count (0)" in viols_mismatch["R11"][0]["reason"]
+
+    # Match: 1 'Y' row vs 1 ledger ticker
+    row_y = make_valid_row(ticker="005930", pension_verified="Y")
+    viols_match = validate_pension_consistency(
+        [row_y],
+        ledger_path=mock_ledger,
+        queue_path=mock_queue,
+        summary_path=tmp_path / "non_existent_summary.json",
+    )
+    assert len(viols_match["R11"]) == 0
+
+
+def test_r12_summary_json_consistency(tmp_path):
+    """R12: summary.json verified_count == ledger count == master 'Y' count == total - queue count."""
+    mock_ledger = tmp_path / "mock_ledger.csv"
+    mock_queue = tmp_path / "mock_queue.csv"
+    mock_summary = tmp_path / "mock_summary.json"
+
+    mock_ledger.write_text("ticker,name\n005930,삼성전자\n", encoding="utf-8")
+    mock_queue.write_text("ticker,name\n000660,SK하이닉스\n", encoding="utf-8")
+
+    row_y = make_valid_row(ticker="005930", pension_verified="Y")
+    row_n = make_valid_row(ticker="000660", pension_verified="N", pension_confidence="낮음")
+    master_rows = [row_y, row_n]
+
+    # Valid summary
+    valid_summary = {
+        "verified_count": 1,
+        "unverified_count": 1,
+    }
+    mock_summary.write_text(json.dumps(valid_summary), encoding="utf-8")
+
+    viols_valid = validate_pension_consistency(
+        master_rows,
+        ledger_path=mock_ledger,
+        queue_path=mock_queue,
+        summary_path=mock_summary,
+    )
+    assert len(viols_valid["R12"]) == 0
+
+    # Invalid summary: verified_count mismatch
+    invalid_summary = {
+        "verified_count": 2,
+        "unverified_count": 0,
+    }
+    mock_summary.write_text(json.dumps(invalid_summary), encoding="utf-8")
+
+    viols_invalid = validate_pension_consistency(
+        master_rows,
+        ledger_path=mock_ledger,
+        queue_path=mock_queue,
+        summary_path=mock_summary,
+    )
+    assert len(viols_invalid["R12"]) == 1
+    assert "summary verified_count" in viols_invalid["R12"][0]["reason"]
+
+
 def test_full_master_csv_zero_violations():
-    """Verify that the official data/etf_master_draft.csv passes all R1-R9 rules with 0 violations."""
+    """Verify that the official data/etf_master_draft.csv passes all R1-R12 rules with 0 violations."""
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
     assert master_path.exists(), "Master CSV must exist"
 
@@ -351,7 +481,7 @@ def test_official_ledgers_evidence_integrity_zero_violations():
     with audit_path.open("r", encoding="utf-8-sig", newline="") as f:
         audit_rows = list(csv.DictReader(f))
 
-    assert len(ledger_rows) == 1155, f"Verification ledger must have 1,155 rows, got {len(ledger_rows)}"
+    assert len(ledger_rows) == 1163, f"Verification ledger must have 1,163 rows, got {len(ledger_rows)}"
     assert len(audit_rows) == 1167, f"Audit ledger must have 1,167 rows, got {len(audit_rows)}"
 
 
@@ -525,7 +655,7 @@ def test_s6a_e0_disallows_identical_quote_reuse():
 
 
 def test_reformed_ledger_and_queue_counts():
-    """Verify honest Phase 3C verified state: 1,151 verified (98.6%), 16 unverified (1.4%), 0 overlap."""
+    """Verify honest Phase 3E verified state: 1,163 verified (99.7%), 4 unverified (0.3%), 0 overlap."""
     ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
     queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
     master_path = REPO_ROOT / "data/etf_master_draft.csv"
@@ -537,8 +667,8 @@ def test_reformed_ledger_and_queue_counts():
     with master_path.open("r", encoding="utf-8-sig") as f:
         master_rows = list(csv.DictReader(f))
 
-    assert len(ledger_rows) == 1155
-    assert len(queue_rows) == 12
+    assert len(ledger_rows) == 1163
+    assert len(queue_rows) == 4
     assert len(master_rows) == 1167
 
 
@@ -583,6 +713,52 @@ def test_s9_whitelist_contains_only_external_primary_sources():
     assert "data/regulatory/broker_pension_universe.csv" not in WHITELISTED_SHARED_EVIDENCE
     for item in WHITELISTED_SHARED_EVIDENCE:
         assert item.startswith("data/regulatory/sources/")
+
+
+def test_r12_summary_counts_strictly_match_ledger_and_master():
+    """R12: summary.json verified_count == ledger rows == master Y == total - queue rows."""
+    import json
+    summary_path = REPO_ROOT / "data/reports/pension_verification_summary.json"
+    assert summary_path.is_file(), "Canonical summary.json must exist in data/reports/"
+
+    with summary_path.open("r", encoding="utf-8") as f:
+        summary = json.load(f)
+
+    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    with ledger_path.open("r", encoding="utf-8-sig", newline="") as f:
+        ledger_count = len(list(csv.DictReader(f)))
+
+    master_path = REPO_ROOT / "data/etf_master_draft.csv"
+    with master_path.open("r", encoding="utf-8-sig", newline="") as f:
+        master_rows = list(csv.DictReader(f))
+        master_y = sum(1 for r in master_rows if r.get("pension_verified") == "Y")
+        total = len(master_rows)
+
+    queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
+    with queue_path.open("r", encoding="utf-8-sig", newline="") as f:
+        queue_count = len(list(csv.DictReader(f)))
+
+    assert summary["verified_count"] == 1163
+    assert summary["unverified_count"] == 4
+    assert summary["total_universe"] == 1167
+
+    # Strict R12 4-way equality
+    assert summary["verified_count"] == ledger_count
+    assert summary["verified_count"] == master_y
+    assert summary["verified_count"] == (total - queue_count)
+    assert summary["unverified_count"] == queue_count
+
+    # Dual indicator assertions
+    assert "법령근거_확보" in summary
+    assert "실무_확인" in summary
+    assert "교차검증_강도" in summary
+    assert summary["법령근거_확보"]["건수"] == 829
+    assert summary["법령근거_확보"]["비율"] == 71.0
+    assert summary["실무_확인"]["건수"] == 1163
+    assert summary["교차검증_강도"]["3way"] == 633
+    assert summary["교차검증_강도"]["2way"] == 87
+    assert summary["교차검증_강도"]["1way"] == 443
+
 
 
 

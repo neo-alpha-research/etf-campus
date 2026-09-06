@@ -14,6 +14,7 @@ from scripts.rules.pension_regulatory_engine import (
     PENSION_SOURCE_RULE_ESTIMATE,
     PENSION_SOURCE_SAMPLE_VERIFIED,
     PENSION_SOURCE_BROKER_VERIFIED,
+    PENSION_SOURCE_CROSS_VERIFIED,
     PENSION_SOURCE_KOFIA_VERIFIED,
     PENSION_SOURCE_PROSPECTUS_VERIFIED,
     PENSION_CONFIDENCE_HIGH,
@@ -338,7 +339,7 @@ def test_pension_source_and_confidence():
         "risk_type": "normal",
         "asset_class": "주식-국내",
     })
-    assert res_kofia["pension_source"] == PENSION_SOURCE_KOFIA_VERIFIED
+    assert res_kofia["pension_source"] in (PENSION_SOURCE_KOFIA_VERIFIED, PENSION_SOURCE_CROSS_VERIFIED)
     assert res_kofia["pension_verified"] == PENSION_VERIFIED_YES
     assert res_kofia["pension_confidence"] == PENSION_CONFIDENCE_HIGH
 

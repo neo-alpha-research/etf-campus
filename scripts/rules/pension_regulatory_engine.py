@@ -52,6 +52,7 @@ PENSION_SOURCE_KOFIA_VERIFIED = "협회공시대조"
 PENSION_SOURCE_KRX_VERIFIED = "KRX공시대조"
 PENSION_SOURCE_PROSPECTUS_VERIFIED = "투자설명서대조"
 PENSION_SOURCE_MANUAL_VERIFIED = "수동확인"
+PENSION_SOURCE_ISSUER_VERIFIED = "운용사공시대조"
 
 VALID_VERIFIED_SOURCES = {
     PENSION_SOURCE_KOFIA_VERIFIED,
@@ -59,6 +60,7 @@ VALID_VERIFIED_SOURCES = {
     PENSION_SOURCE_PROSPECTUS_VERIFIED,
     PENSION_SOURCE_BROKER_VERIFIED,
     PENSION_SOURCE_CROSS_VERIFIED,
+    PENSION_SOURCE_ISSUER_VERIFIED,
     PENSION_SOURCE_MANUAL_VERIFIED,
     PENSION_SOURCE_SAMPLE_VERIFIED,
     PENSION_SOURCE_STATUTE_DIRECT,
@@ -228,10 +230,16 @@ def classify_pension_and_isa(
     is_synthetic = bool(SYNTHETIC_NAME_PATTERN.search(name))
     is_carbon_or_commodity_synth = is_synthetic and ("탄소배출권" in name or "Carbon" in base_index)
 
+    is_derivative_ineligible = ticker in ("280930", "290080", "489030")
+
     if risk in ("leverage", "inverse"):
         pension_eligible = PENSION_INELIGIBLE
         pension_limit = LIMIT_INELIGIBLE
         reason = "레버리지/인버스 파생평가액 초과 (퇴직연금 편입 요건 미충족)"
+    elif is_derivative_ineligible:
+        pension_eligible = PENSION_INELIGIBLE
+        pension_limit = LIMIT_INELIGIBLE
+        reason = "장내파생 위험평가액 40% 초과 (퇴직연금감독규정 제9조 제1항 제2호, 편입 불가)"
     elif is_carbon_or_commodity_synth:
         # Rule R-c: 1X synthetic OTC derivative under FSCMA Decree Art 240(4) / PSR Art 9(1)(2)(e) proviso
         pension_eligible = PENSION_ELIGIBLE
@@ -547,21 +555,23 @@ def generate_unverified_queue_and_summary(
     # Count items by tier
     tier_counts = {k: sum(1 for x in unverified_items if x["위험방향"] == k) for k in tier_order}
 
-    # Write summary JSON
-    summary_data = {
-        "as_of": datetime.date.today().isoformat(),
-        "total": total_count,
-        "verified": verified_count,
-        "verified_pct": round(verified_count / max(total_count, 1) * 100, 1),
-        "by_source": source_counts,
-        "unverified": len(unverified_items),
-        "safe_asset_candidates_remaining": tier_counts.get("안전자산_주의", 0),
-        "unverified_by_tier": tier_counts,
-    }
-    summary_json_path.parent.mkdir(parents=True, exist_ok=True)
-    with summary_json_path.open("w", encoding="utf-8") as f:
-        json.dump(summary_data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    # Write summary JSON via single source of truth (generate_summary_report)
+    try:
+        from scripts.rules.generate_summary_report import generate_summary
+        summary_data = generate_summary()
+    except Exception:
+        summary_data = {
+            "updated_at": datetime.date.today().isoformat(),
+            "total_universe": total_count,
+            "verified_count": verified_count,
+            "unverified_count": len(unverified_items),
+            "by_source": source_counts,
+            "unverified_by_tier": tier_counts,
+        }
+        summary_json_path.parent.mkdir(parents=True, exist_ok=True)
+        with summary_json_path.open("w", encoding="utf-8", newline="\n") as f:
+            json.dump(summary_data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
 
     return summary_data
 

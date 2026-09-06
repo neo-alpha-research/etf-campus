@@ -1226,11 +1226,21 @@ export default {
       }
 
       // 2. 인스타그램 카드뉴스 프리뷰 (슬라이드 번호 지정 시 SVG 반환, 미지정 시 HTML 리다이렉트 또는 JSON)
-      if (url.pathname === "/api/preview/instagram") {
+      if (url.pathname === "/api/preview/instagram" || url.pathname === "/api/preview/instagram/caption") {
         const payload = await loadBriefingPayload(env, targetDate);
         if (!payload) return new Response("Briefing not found", { status: 404 });
 
         const narrative = await getOrRefineNarrative(payload, env);
+        const caption = generateInstagramCaption(payload, narrative);
+        if (url.pathname === "/api/preview/instagram/caption" || url.searchParams.get("slide") === "caption") {
+          return new Response(caption, {
+            headers: {
+              "Content-Type": "text/plain; charset=utf-8",
+              "Access-Control-Allow-Origin": "*",
+            },
+          });
+        }
+
         const slides = generateInstagramCarousel(payload, baseUrl, narrative);
         const slideParam = url.searchParams.get("slide");
         if (slideParam) {
@@ -1250,7 +1260,7 @@ export default {
           return Response.redirect(new URL(`/?date=${payload.asOfDate}#tab-instagram`, request.url).toString(), 302);
         }
 
-        return Response.json({ success: true, asOfDate: payload.asOfDate, slides });
+        return Response.json({ success: true, asOfDate: payload.asOfDate, caption, slides });
       }
 
       // 3. 스레드 전용 인포그래픽 1장 프리뷰 (SVG)

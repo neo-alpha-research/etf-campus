@@ -119,6 +119,15 @@ export function generateInstagramCarousel(
   // Asset classes
   const assetClasses = (payload.assetClasses && payload.assetClasses.length > 0) ? payload.assetClasses : [];
 
+  // Disparity Check for dynamic slide count (5 vs 6)
+  const disparityList = payload.disparityWarning || [];
+  const premiums = disparityList.filter(d => (d.disparityPct ?? 0) > 0).slice(0, 2);
+  const discounts = disparityList.filter(d => (d.disparityPct ?? 0) < 0).slice(0, 2);
+  const hasPremiums = premiums.length > 0;
+  const hasDiscounts = discounts.length > 0;
+  const hasAnyDisparity = hasPremiums || hasDiscounts;
+  const totalSlides = hasAnyDisparity ? 6 : 5;
+
   // Common SVG Defs
   const commonDefs = `
     <defs>
@@ -310,7 +319,7 @@ export function generateInstagramCarousel(
           옆으로 넘겨 오늘 시장 완벽 정리
         </text>
         <rect x="805" y="24" width="90" height="40" rx="12" fill="#064E3B"/>
-        <text x="850" y="50" fill="#A7F3D0" font-size="17" font-weight="900" text-anchor="middle" class="tabular">1 / 6</text>
+        <text x="850" y="50" fill="#A7F3D0" font-size="17" font-weight="900" text-anchor="middle" class="tabular">1 / ${totalSlides}</text>
       </g>
 
       <!-- Disclaimer & Watermark (y=1175 ~ 1240) -->
@@ -336,7 +345,7 @@ export function generateInstagramCarousel(
         <text x="0" y="68" fill="#0F172A" font-size="34" font-weight="900">오늘 시장 주도/부진 테마 TOP 3</text>
         <text x="0" y="98" fill="#64748B" font-size="16" font-weight="600">※ 테마별 AUM 가중수익률 기준 상위/하위 랭킹</text>
         <rect x="830" y="20" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="47" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">2 / 6</text>
+        <text x="885" y="47" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">2 / ${totalSlides}</text>
       </g>
 
       <!-- Summary Banner -->
@@ -433,7 +442,7 @@ export function generateInstagramCarousel(
         <text x="0" y="68" fill="#0F172A" font-size="34" font-weight="900">자산군별 수익률/기여도</text>
         <text x="0" y="96" fill="#64748B" font-size="16" font-weight="600">※ 자산군별 당일 가중수익률, 순자산 비중 및 시장 기여도 현황입니다.</text>
         <rect x="830" y="20" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="47" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">3 / 6</text>
+        <text x="885" y="47" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">3 / ${totalSlides}</text>
       </g>
 
       <!-- Summary Box (Data-Driven Dynamic) -->
@@ -512,7 +521,7 @@ export function generateInstagramCarousel(
         <text x="0" y="72" fill="#0F172A" font-size="38" font-weight="900">실질 자금 순유입 TOP 5</text>
         <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 발행좌수 증감으로 산출된 기관·외국인의 실질 자금 순유입액</text>
         <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">4 / 6</text>
+        <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">4 / ${totalSlides}</text>
       </g>
 
       <!-- Summary Banner (Data-Driven Dynamic with Overflow Protection) -->
@@ -569,13 +578,7 @@ export function generateInstagramCarousel(
 
   // =========================================================================
   // SLIDE 5: Disparity Alert (Split: High vs Low Disparity)
-  const disparityList = payload.disparityWarning || [];
-  const premiums = disparityList.filter(d => (d.disparityPct ?? 0) > 0).slice(0, 2);
-  const discounts = disparityList.filter(d => (d.disparityPct ?? 0) < 0).slice(0, 2);
-  const hasPremiums = premiums.length > 0;
-  const hasDiscounts = discounts.length > 0;
-  const hasAnyDisparity = hasPremiums || hasDiscounts;
-
+  // =========================================================================
   const disparityBannerTitle = regime.slide5BannerTitle || (hasPremiums && hasDiscounts
     ? `고평가(할증) ${premiums.length}종목 vs 저평가(할인) ${discounts.length}종목 왜곡 발생`
     : (hasPremiums ? `고평가(할증 주의) ${premiums.length}개 종목 괴리율 왜곡 발생`
@@ -737,7 +740,7 @@ export function generateInstagramCarousel(
 
   const slide6Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 3대 마켓 체크리스트 및 관전 포인트">
-      <title>ETF 데일리 마켓 브리핑 - 6페이지</title>
+      <title>ETF 데일리 마켓 브리핑 - ${totalSlides}페이지</title>
       ${commonDefs}
       <rect width="1080" height="1350" fill="#F8FAFC"/>
       <circle cx="950" cy="180" r="300" fill="#1E3A8A" fill-opacity="0.035"/>
@@ -745,10 +748,10 @@ export function generateInstagramCarousel(
 
       <!-- Header -->
       <g transform="translate(70, 55)">
-        <text x="0" y="30" fill="#1E40AF" font-size="16" font-weight="900" letter-spacing="1">STEP 6. SUMMARY &amp; STRATEGY</text>
+        <text x="0" y="30" fill="#1E40AF" font-size="16" font-weight="900" letter-spacing="1">STEP ${totalSlides}. SUMMARY &amp; STRATEGY</text>
         <text x="0" y="74" fill="#1E3A8A" font-size="42" font-weight="900" letter-spacing="-1.0">오늘 시장 총정리 &amp; 핵심 전략</text>
         <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">6 / 6</text>
+        <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">${totalSlides} / ${totalSlides}</text>
       </g>
 
       <!-- 1. CARD 01: [시장 진단] (Market Pulse & Regime) -->
@@ -843,14 +846,21 @@ export function generateInstagramCarousel(
     </svg>
   `;
 
-  return [
+  const slides: InstagramSlide[] = [
     { slideNumber: 1, title: "Cover", subtitle: "1초 후킹 표지 & 3대 핵심 펄스", svgContent: slide1Svg },
     { slideNumber: 2, title: "Theme Dynamics", subtitle: "주도 테마 TOP 3 vs 부진 테마", svgContent: slide2Svg },
     { slideNumber: 3, title: "Asset Class Dynamics", subtitle: "자산군별 수익률/기여도", svgContent: slide3Svg },
     { slideNumber: 4, title: "Smart Money Flow", subtitle: "실질 자금 순유입 TOP 5", svgContent: slide4Svg },
-    { slideNumber: 5, title: "Disparity Alert", subtitle: "괴리율 고평가/저평가 TOP 3", svgContent: slide5Svg },
-    { slideNumber: 6, title: "Summary & Watch Point", subtitle: "오늘 시장 3대 체크리스트 & 관전 포인트", svgContent: slide6Svg },
   ];
+
+  if (hasAnyDisparity) {
+    slides.push({ slideNumber: 5, title: "Disparity Alert", subtitle: "괴리율 고평가/저평가 TOP 3", svgContent: slide5Svg });
+    slides.push({ slideNumber: 6, title: "Summary & Watch Point", subtitle: "오늘 시장 3대 체크리스트 & 관전 포인트", svgContent: slide6Svg });
+  } else {
+    slides.push({ slideNumber: 5, title: "Summary & Watch Point", subtitle: "오늘 시장 3대 체크리스트 & 관전 포인트", svgContent: slide6Svg });
+  }
+
+  return slides;
 }
 
 export function generateInstagramCaption(

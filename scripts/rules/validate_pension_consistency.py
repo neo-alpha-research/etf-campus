@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import sys
 from pathlib import Path
 from typing import Any, Mapping
@@ -32,7 +33,7 @@ from scripts.rules.validate_evidence_integrity import (
 )
 
 RULE_DESCRIPTIONS = {
-    "R1": "pension_verified = Y -> pension_source in {협회공시대조, KRX공시대조, 투자설명서대조, 증권사목록대조, 증권사·운용사교차검증, 수동확인, 표본대조, 법령조건직접판정}",
+    "R1": "pension_verified = Y -> pension_source in {협회공시대조, KRX공시대조, 투자설명서대조, 증권사목록대조, 증권사·운용사교차검증, 운용사공시대조, 수동확인, 표본대조, 법령조건직접판정}",
     "R2": "pension_verified = N -> pension_confidence != 높음",
     "R3": "pension_eligible = 불가 <-> pension_limit = 불가 (양방향 일치)",
     "R4": "pension_eligible = 가능 -> pension_limit in {100% (안전자산), 70% (위험자산)}",
@@ -43,6 +44,7 @@ RULE_DESCRIPTIONS = {
     "R9": "엔진 재실행 결과 vs 마스터 CSV 전 행 100% 일치",
     "R10": "pension_verification_ledger.csv와 pension_unverified_queue.csv 교집합 공집합(상호배타성)",
     "R11": "원장의 고유 ticker 수 == 마스터의 pension_verified=='Y' 수",
+    "R12": "summary.json의 verified_count == 검증 원장 행수 == 마스터 pension_verified='Y' 수 == total - 큐 행수",
 }
 
 
@@ -50,8 +52,11 @@ def validate_pension_consistency(
     master_rows: list[Mapping[str, Any]],
     verified_entries: dict[str, dict[str, str]] | None = None,
     verified_tickers: set[str] | None = None,
+    ledger_path: Path | None = None,
+    queue_path: Path | None = None,
+    summary_path: Path | None = None,
 ) -> dict[str, list[dict[str, Any]]]:
-    """Validate all rows against consistency rules R1 through R9."""
+    """Validate all rows against consistency rules R1 through R12."""
     if verified_entries is None:
         verified_entries = load_verified_ledger_entries()
     if verified_tickers is None:
@@ -160,8 +165,10 @@ def validate_pension_consistency(
             })
 
     # R10: pension_verification_ledger.csv vs pension_unverified_queue.csv mutual exclusivity
-    ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
-    queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
+    if ledger_path is None:
+        ledger_path = REPO_ROOT / "data/regulatory/pension_verification_ledger.csv"
+    if queue_path is None:
+        queue_path = REPO_ROOT / "data/reports/pension_unverified_queue.csv"
 
     ledger_tickers: set[str] = set()
     if ledger_path.exists():
@@ -190,6 +197,39 @@ def validate_pension_consistency(
             "name": "",
             "reason": f"ledger ticker count ({len(ledger_tickers)}) != master verified 'Y' count ({master_verified_y})",
         })
+
+    # R12: summary.json verified_count == ledger row count == master pension_verified='Y' count == total - queue count
+    if summary_path is None:
+        summary_path = REPO_ROOT / "data/reports/pension_verification_summary.json"
+    if summary_path.exists():
+        try:
+            with summary_path.open("r", encoding="utf-8") as f:
+                summary_data = json.load(f)
+            sum_verified = summary_data.get("verified_count")
+            sum_unverified = summary_data.get("unverified_count")
+
+            mismatches = []
+            if sum_verified != len(ledger_tickers):
+                mismatches.append(f"summary verified_count ({sum_verified}) != ledger row count ({len(ledger_tickers)})")
+            if sum_verified != master_verified_y:
+                mismatches.append(f"summary verified_count ({sum_verified}) != master 'Y' count ({master_verified_y})")
+            if sum_verified != (len(master_rows) - len(queue_tickers)):
+                mismatches.append(f"summary verified_count ({sum_verified}) != total - queue count ({len(master_rows) - len(queue_tickers)})")
+            if sum_unverified is not None and sum_unverified != len(queue_tickers):
+                mismatches.append(f"summary unverified_count ({sum_unverified}) != queue row count ({len(queue_tickers)})")
+
+            if mismatches:
+                violations["R12"].append({
+                    "ticker": "SUMMARY",
+                    "name": "pension_verification_summary.json",
+                    "reason": " / ".join(mismatches),
+                })
+        except Exception as e:
+            violations["R12"].append({
+                "ticker": "SUMMARY",
+                "name": "pension_verification_summary.json",
+                "reason": f"summary.json parsing or read failure: {e}",
+            })
 
     return violations
 

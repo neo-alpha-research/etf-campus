@@ -107,8 +107,35 @@ def extract_ticker_universe_from_excel(xlsx_path: Path, output_txt_path: Path) -
             f"Excel extraction error: Extracted {len(universe)} tickers, which is below minimum threshold 900."
         )
 
-    with output_txt_path.open("w", encoding="utf-8") as f:
-        f.write("\n".join(lines) + "\n")
+    content_str = "\n".join(lines) + "\n"
+    content_bytes = content_str.encode("utf-8")
+    content_sha256 = hashlib.sha256(content_bytes).hexdigest()
+
+    # Rule R-e: Manifest immutability check
+    if MANIFEST_PATH.exists():
+        with MANIFEST_PATH.open("r", encoding="utf-8") as f:
+            manifest = json.load(f)
+        manifest_key = f"brokers/koreainvestment/{output_txt_path.name}"
+        if manifest_key in manifest:
+            registered_sha = manifest[manifest_key].get("sha256")
+            if registered_sha and content_sha256 != registered_sha:
+                raise ValueError(
+                    f"Rule R-e violation: Attempting to overwrite registered immutable evidence file '{manifest_key}' with differing content/hash. "
+                    f"Manifest SHA: {registered_sha}, New SHA: {content_sha256}"
+                )
+
+    if output_txt_path.exists():
+        existing_bytes = output_txt_path.read_bytes()
+        if existing_bytes != content_bytes:
+            existing_sha = hashlib.sha256(existing_bytes).hexdigest()
+            raise ValueError(
+                f"Rule R-e violation: Attempting to overwrite existing evidence file '{output_txt_path.name}' with differing content. "
+                f"Existing SHA: {existing_sha}, New SHA: {content_sha256}"
+            )
+        print(f"[Rule R-e] Evidence file '{output_txt_path.name}' already registered and verified identical. Skipping write.")
+    else:
+        with output_txt_path.open("w", encoding="utf-8", newline="\n") as f:
+            f.write(content_str)
 
     return universe
 
@@ -274,22 +301,36 @@ def refresh_monthly_universe(excel_filename: str | None = None) -> dict[str, Any
         with MANIFEST_PATH.open("r", encoding="utf-8") as f:
             manifest = json.load(f)
 
-        manifest[f"brokers/koreainvestment/{excel_path.name}"] = {
+        excel_key = f"brokers/koreainvestment/{excel_path.name}"
+        txt_key = f"brokers/koreainvestment/{universe_txt_path.name}"
+
+        # Rule R-e: Manifest entry hash mismatch prevention
+        if excel_key in manifest and manifest[excel_key].get("sha256") != sha256_hash:
+            raise ValueError(
+                f"Rule R-e violation: Attempting to update registered Excel manifest entry '{excel_key}' with differing SHA-256."
+            )
+        if txt_key in manifest and manifest[txt_key].get("sha256") != txt_sha256:
+            raise ValueError(
+                f"Rule R-e violation: Attempting to update registered universe manifest entry '{txt_key}' with differing SHA-256."
+            )
+
+        manifest[excel_key] = {
             "source_type": "증권사목록대조",
             "description": f"한국투자증권 퇴직연금 ETF 상품 현황 ({as_of_suffix} 기준)",
             "sha256": sha256_hash,
             "bytes": file_size,
             "collected_at": datetime.date.today().isoformat(),
         }
-        manifest[f"brokers/koreainvestment/{universe_txt_path.name}"] = {
+        manifest[txt_key] = {
             "source_type": "증권사유니버스추출",
             "description": f"한국투자증권 퇴직연금 매매가능 ETF {len(universe)}종목 코드 유니버스",
             "sha256": txt_sha256,
             "bytes": universe_txt_path.stat().st_size,
             "collected_at": datetime.date.today().isoformat(),
         }
-        with MANIFEST_PATH.open("w", encoding="utf-8") as f:
+        with MANIFEST_PATH.open("w", encoding="utf-8", newline="\n") as f:
             json.dump(manifest, f, ensure_ascii=False, indent=2)
+            f.write("\n")
 
     # Step 5: Update expiration dates
     updated_exp_count = update_ledger_expiration_dates(as_of_date)

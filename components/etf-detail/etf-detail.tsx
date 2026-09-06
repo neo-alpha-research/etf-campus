@@ -316,6 +316,16 @@ export function EtfDetail({
                           {etf.pensionLimit ? etf.pensionLimit : (etf.pension === "가능" ? "편입 가능" : "불가")}
                         </span>
                       </div>
+                      {["357870", "477080"].includes(etf.ticker) && (
+                        <p className="text-[11px] text-amber-700 leading-tight">
+                          * 증권사에 따라 안전자산으로 분류될 수 있습니다. 실제 한도는 가입한 퇴직연금사업자에서 확인하십시오.
+                        </p>
+                      )}
+                      {etf.ticker === "0198A0" && (
+                        <p className="text-[11px] text-neutral-500 leading-tight">
+                          * 일부 증권사에서 취급하지 않을 수 있습니다.
+                        </p>
+                      )}
                       <div className="flex items-center justify-between">
                         <span className="text-neutral-500 font-medium">중개형 ISA</span>
                         <span className="font-bold text-indigo-700">

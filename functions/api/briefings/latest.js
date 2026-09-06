@@ -73,7 +73,21 @@ async function readKvBriefing(kv) {
 
     const payload = await kv.get(pointer.payloadKey, "json");
     const decorated = withFreshness(payload);
-    return (decorated?.briefing?.asOfDate === pointer.asOfDate && decorated?.briefing?.asOfDate >= MARKET_BRIEFING_SERVICE_START_DATE) ? decorated : null;
+    if (!decorated || decorated?.briefing?.asOfDate !== pointer.asOfDate || decorated?.briefing?.asOfDate < MARKET_BRIEFING_SERVICE_START_DATE) {
+      return null;
+    }
+
+    // Defensive check: Ensure assetClasses is valid and doesn't contain structural category anomalies without return
+    const ac = decorated?.briefing?.assetClasses || [];
+    const hasStructuralAnomaly = ac.some((item) => {
+      const name = item.asset_class || item.assetClass;
+      return name === "일반 실물 ETF" && (item.aum_weighted_return_pct === null || item.aumWeightedReturnPct === null);
+    });
+    if (hasStructuralAnomaly) {
+      return null;
+    }
+
+    return decorated;
   } catch {
     // KV is an acceleration layer. Any propagation, parse, or binding error falls
     // back to D1 so only an already-validated briefing is returned to the reader.
@@ -147,12 +161,12 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
         breadthRatioPct: row.breadth_ratio_pct ?? row.breadthRatioPct ?? 0,
         aum_weighted_return_pct: row.aum_weighted_return_pct ?? row.aumWeightedReturnPct ?? null,
         aumWeightedReturnPct: row.aum_weighted_return_pct ?? row.aumWeightedReturnPct ?? null,
-        total_aum: (row.total_aum || row.totalAum || 0) > 100_000_000_000 ? (row.total_aum || row.totalAum) / 100_000_000 : (row.total_aum || row.totalAum || 0),
-        totalAum: (row.total_aum || row.totalAum || 0) > 100_000_000_000 ? (row.total_aum || row.totalAum) / 100_000_000 : (row.total_aum || row.totalAum || 0),
+        total_aum: (row.total_aum || row.totalAum || 0) >= 10_000_000 ? (row.total_aum || row.totalAum) / 100_000_000 : (row.total_aum || row.totalAum || 0),
+        totalAum: (row.total_aum || row.totalAum || 0) >= 10_000_000 ? (row.total_aum || row.totalAum) / 100_000_000 : (row.total_aum || row.totalAum || 0),
         aum_share_pct: row.aum_share_pct ?? row.aumSharePct ?? 0,
         aumSharePct: row.aum_share_pct ?? row.aumSharePct ?? 0,
-        total_trade_value: (row.total_trade_value || row.totalTradeValue || 0) > 100_000_000_000 ? (row.total_trade_value || row.totalTradeValue) / 100_000_000 : (row.total_trade_value || row.totalTradeValue || 0),
-        totalTradeValue: (row.total_trade_value || row.totalTradeValue || 0) > 100_000_000_000 ? (row.total_trade_value || row.totalTradeValue) / 100_000_000 : (row.total_trade_value || row.totalTradeValue || 0),
+        total_trade_value: (row.total_trade_value || row.totalTradeValue || 0) >= 10_000_000 ? (row.total_trade_value || row.totalTradeValue) / 100_000_000 : (row.total_trade_value || row.totalTradeValue || 0),
+        totalTradeValue: (row.total_trade_value || row.totalTradeValue || 0) >= 10_000_000 ? (row.total_trade_value || row.totalTradeValue) / 100_000_000 : (row.total_trade_value || row.totalTradeValue || 0),
         trade_share_pct: row.trade_share_pct ?? row.tradeSharePct ?? 0,
         tradeSharePct: row.trade_share_pct ?? row.tradeSharePct ?? 0,
       })),
@@ -160,7 +174,7 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
       peerGroups: metrics.peer_groups ?? metrics.peerGroups ?? [],
       fundFlow: metrics.fund_flow ?? metrics.fundFlow ?? { topInflows: [], topOutflows: [] },
       disparityWarning: metrics.disparity_warning ?? metrics.disparityWarning ?? [],
-      focusEtfs: focusEtfs.results ?? [],
+      focusEtfs: focusEtfs?.results ?? [],
       sourceDates: parseJson(briefing.source_dates_json, {}),
       validation: parseJson(briefing.validation_json, {}),
     },
@@ -219,6 +233,11 @@ export async function onRequestGet(context) {
   }
 
   try {
+    if (!context.env?.ETF_PRICES) {
+      if (cached) return Response.json(cached, { headers: JSON_HEADERS });
+      return Response.json({ error: "D1 database ETF_PRICES is not configured" }, { status: 503, headers: JSON_HEADERS });
+    }
+
     const briefing = await context.env.ETF_PRICES.prepare(
     `SELECT
       as_of_date, publication_version, headline_text, headline_generation_status,
@@ -274,7 +293,17 @@ export async function onRequestGet(context) {
 
   return Response.json(toResponsePayload(briefing, assetClasses, focusEtfs), { headers: JSON_HEADERS });
   } catch (error) {
+    try {
+      if (context.env?.BRIEFING_KV) {
+        const fallback = await readKvBriefing(context.env.BRIEFING_KV);
+        if (fallback) return Response.json(fallback, { headers: JSON_HEADERS });
+      }
+    } catch (e) {}
     if (cached) return Response.json(cached, { headers: JSON_HEADERS });
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500, headers: JSON_HEADERS });
+    return new Response(JSON.stringify({ error: "Internal Server Error", message: String(error?.message || error), stack: String(error?.stack || '') }), { status: 500, headers: JSON_HEADERS });
   }
+}
+
+export async function onRequest(context) {
+  return onRequestGet(context);
 }

@@ -193,9 +193,9 @@ function signedInt(value: number) {
 }
 
 function signed(value: number, unit = "%") {
-
-  return `${value >= 0 ? "+" : ""}${decimal.format(value)}${unit}`;
-
+  const formatted = decimal.format(value);
+  if (formatted === "0.00" || formatted === "-0.00") return `0.00${unit}`;
+  return `${value > 0 ? "+" : ""}${formatted}${unit}`;
 }
 
 
@@ -699,10 +699,15 @@ export function MarketBriefing() {
 
   const sortedAssetClasses = useMemo(() => {
     if (!briefing || !briefing.assetClasses) return [];
+    const EXCLUDED_CLASSES = new Set([
+      "주식", "미분류", "기타",
+      "일반 실물 ETF", "파킹·단기자금", "레버리지", "인버스",
+      "general", "parking", "leveraged", "inverse"
+    ]);
     return [...briefing.assetClasses]
       .filter((row: any) => {
         const ac = (row.asset_class || row.assetClass || "").trim();
-        return ac && ac !== "주식" && ac !== "미분류";
+        return ac && !EXCLUDED_CLASSES.has(ac);
       })
       .map((row: any) => {
         const aum = row.total_aum ?? row.totalAum ?? 0;
@@ -729,7 +734,6 @@ export function MarketBriefing() {
 
 
   const { pulse } = briefing;
-  if (!pulse) return <div className="p-8 text-center text-gray-500">시장 체감 지표(Pulse) 데이터를 불러올 수 없습니다.</div>;
   if (!pulse) return <div className="p-8 text-center text-gray-500">시장 체감 지표(Pulse) 데이터를 불러올 수 없습니다.</div>;
 
   const scopeReturns = new Map((pulse?.aumWeightedReturns || []).map((item) => [item.scope, item]));
@@ -1255,7 +1259,7 @@ export function MarketBriefing() {
                       <span className="text-neutral-300">/</span>
                       <span className="text-[10.5px] text-neutral-400 tabular-nums">
                         <span className="hidden sm:inline">전체 </span>
-                        {number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개
+                        {(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount)}개` : '—'}
                       </span>
                       <InfoTooltip 
                         text="시장 왜곡을 방지하기 위해 초단기 파킹형(CD/KOFR) 및 레버리지·인버스 상품을 제외한 실물 일반 ETF만을 정제 집계한 분석 모수입니다."
@@ -1358,7 +1362,7 @@ export function MarketBriefing() {
                     {pulse.allTop10TradeSharePct ? (
                       <div className="border-l border-neutral-200 pl-3.5">
                         <div className="flex items-center gap-1">
-                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF ({number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개)</span>
+                          <span className="text-[11px] font-bold text-neutral-500">전체 ETF ({(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format(pulse.totalEtfCount || briefing.marketScale?.totalEtfCount)}개` : '—'})</span>
                         </div>
                         <div className="mt-1 flex items-baseline gap-1">
                           <span className="text-2xl font-extrabold text-neutral-700 tabular-nums">
@@ -1486,15 +1490,20 @@ export function MarketBriefing() {
                         {returnPct === null || returnPct === undefined ? "—" : signed(returnPct)}
                       </td>
                       <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black text-[12.5px] sm:text-[13px]">
-                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
-                          row.contribution_pct > 0 
-                            ? "bg-[#FEF3F2] text-[#D92D20]" 
-                            : row.contribution_pct < 0 
-                            ? "bg-[#EFF8FF] text-[#175CD3]" 
-                            : "text-neutral-500"
-                        }`}>
-                          {signed(row.contribution_pct, "%p")}
-                        </span>
+                        {(() => {
+                          const isZero = Math.abs(row.contribution_pct) < 0.005;
+                          return (
+                            <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
+                              !isZero && row.contribution_pct > 0 
+                                ? "bg-[#FEF3F2] text-[#D92D20]" 
+                                : !isZero && row.contribution_pct < 0 
+                                ? "bg-[#EFF8FF] text-[#175CD3]" 
+                                : "text-neutral-500 font-medium"
+                            }`}>
+                              {signed(row.contribution_pct, "%p")}
+                            </span>
+                          );
+                        })()}
                       </td>
                     </tr>
                   );
@@ -1512,13 +1521,21 @@ export function MarketBriefing() {
                     {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0))}
                   </td>
                   <td className="py-3 px-2 sm:px-4 md:px-5 text-right tabular-nums font-black">
-                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
-                      sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0) >= 0 
-                        ? "bg-[#FEF3F2] text-[#D92D20]" 
-                        : "bg-[#EFF8FF] text-[#175CD3]"
-                    }`}>
-                      {signed(sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0), "%p")}
-                    </span>
+                    {(() => {
+                      const totalContrib = sortedAssetClasses.reduce((sum, row) => sum + row.contribution_pct, 0);
+                      const isZero = Math.abs(totalContrib) < 0.005;
+                      return (
+                        <span className={`inline-flex items-center px-1.5 py-0.5 rounded ${
+                          !isZero && totalContrib > 0 
+                            ? "bg-[#FEF3F2] text-[#D92D20]" 
+                            : !isZero && totalContrib < 0 
+                            ? "bg-[#EFF8FF] text-[#175CD3]" 
+                            : "text-neutral-500 font-medium"
+                        }`}>
+                          {signed(totalContrib, "%p")}
+                        </span>
+                      );
+                    })()}
                   </td>
                 </tr>
               </tfoot>
@@ -1861,22 +1878,25 @@ export function MarketBriefing() {
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 */}
         {(() => {
           const snapshot = briefing.marketScaleSnapshot;
-          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8);
-          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500);
-          const totalAumJo = (totalAumEok / 10000).toFixed(1);
-          const totalTradeJo = (totalTradeEok / 10000).toFixed(1);
-          const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.78);
+          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 0);
+          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 0);
+          const totalAumJo = totalAumEok > 0 ? (totalAumEok / 10000).toFixed(1) : '—';
+          const totalTradeJo = totalTradeEok > 0 ? (totalTradeEok / 10000).toFixed(1) : '—';
+          const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : undefined);
           const levCat = snapshot?.categories?.find((c: any) => c.category === 'leveraged');
-          const levAumPct = levCat?.aumSharePct ?? 3.8;
-          const levTradePct = levCat?.tradeSharePct ?? 35.2;
-          const levTurnover = levCat?.turnoverPct ?? 25.65;
+          const levAumPct = levCat?.aumSharePct;
+          const levTradePct = levCat?.tradeSharePct;
+          const levTurnover = levCat?.turnoverPct;
 
           return (
             <div className="mb-5 rounded-xl bg-[#FAFDF4] p-3 sm:p-3.5 border-l-4 border-[#2E6819] border-y border-r border-[#D7EABB] flex items-center gap-2.5 shadow-[0_1px_4px_rgba(46,104,25,0.04)]">
               <span className="text-sm shrink-0">📌</span>
               <p className="text-xs sm:text-[13px] font-medium text-neutral-800 leading-relaxed">
                 <strong className="font-extrabold text-[#2E6819] mr-1.5">[스냅샷 총평]</strong>
-                당일 대한민국 ETF 총 자산은 <strong>{totalAumJo}조원</strong>이며, 오늘 하루 <strong>{totalTradeJo}조원</strong>의 자금이 회전하여 시장 회전율은 <strong>{Number(turnover).toFixed(1)}%</strong>를 기록했습니다. 특히 레버리지 ETF는 AUM 비중이 <strong>{Number(levAumPct).toFixed(1)}%</strong>에 불과하지만 전체 거래대금의 <strong>{Number(levTradePct).toFixed(1)}%</strong>를 차지해 압도적인 단기 회전율(<strong>{Number(levTurnover).toFixed(1)}%</strong>)을 나타냈습니다.
+                당일 대한민국 ETF 총 자산은 <strong>{totalAumJo !== '—' ? `${totalAumJo}조원` : '—'}</strong>이며, 오늘 하루 <strong>{totalTradeJo !== '—' ? `${totalTradeJo}조원` : '—'}</strong>의 자금이 회전하여 시장 회전율은 <strong>{turnover !== undefined ? `${Number(turnover).toFixed(1)}%` : '—'}</strong>를 기록했습니다.
+                {levCat && levAumPct !== undefined && levTradePct !== undefined && (
+                  <> 특히 레버리지 ETF는 AUM 비중이 <strong>{Number(levAumPct).toFixed(1)}%</strong>에 불과하지만 전체 거래대금의 <strong>{Number(levTradePct).toFixed(1)}%</strong>를 차지해 압도적인 단기 회전율(<strong>{Number(levTurnover ?? 0).toFixed(1)}%</strong>)을 나타냈습니다.</>
+                )}
               </p>
             </div>
           );
@@ -1886,9 +1906,9 @@ export function MarketBriefing() {
           {/* 상단 3대 핵심 지표 헤더 */}
           {(() => {
             const snapshot = briefing.marketScaleSnapshot;
-            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 4467883.8);
-            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 124500);
-            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 2.78);
+            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || 0);
+            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || 0);
+            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 0);
 
             return (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-6 mb-8 border-b border-neutral-100">
@@ -1905,12 +1925,12 @@ export function MarketBriefing() {
                   <div className="flex items-baseline justify-between gap-2 mt-2">
                     <div className="flex items-baseline gap-1">
                       <span className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900 tabular-nums">
-                        {new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalAumEok / 10000)}
+                        {totalAumEok > 0 ? new Intl.NumberFormat("ko-KR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(totalAumEok / 10000) : '—'}
                       </span>
                       <span className="text-sm font-bold text-neutral-500">조원</span>
                     </div>
                     <span className="text-[11.5px] font-bold text-neutral-400 tabular-nums whitespace-nowrap">
-                      {number.format(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개 종목
+                      {(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${number.format(snapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount)}개 종목` : '—'}
                     </span>
                   </div>
                 </div>
@@ -2117,7 +2137,7 @@ export function MarketBriefing() {
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums">100.0%</td>
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums">{Number(turnover).toFixed(1)}%</td>
                         <td className="py-3 text-right font-black text-neutral-900 tabular-nums pr-2">
-                          {(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount || 1164)}개
+                          {(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount) ? `${(briefing.marketScaleSnapshot?.totalEtfCount || briefing.marketScale?.totalEtfCount)}개` : '—'}
                         </td>
                       </tr>
                     </tfoot>
@@ -2141,55 +2161,43 @@ export function MarketBriefing() {
 
         {/* 📌 [1줄 핵심 요약] 상단 두괄식 리드문 (금융 표준 동적 애널리스트 엔진 연동) */}
         {(() => {
-          const snapshot = briefing.marketScaleSnapshot;
-          const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || (normalizeToEok(briefing.pulse?.generalTotalAum || 3851607) / 0.765));
-          const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || (normalizeToEok(briefing.pulse?.generalTotalTradeValue || 99147) / 0.421));
-          const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
-
-          
-
           const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || [];
           const points = rawPoints.map((pt: any, idx: number) => {
-            const prevAdtv = idx > 0 ? (idx === rawPoints.length - 1 ? (rawPoints[idx - 1]?.adtv || (totalTradeEok - 6500)) : rawPoints[idx - 1]?.adtv) : undefined;
-            const adtvDiff = prevAdtv !== undefined ? ((idx === rawPoints.length - 1 ? totalTradeEok : pt.adtv) - prevAdtv) : 0;
+            const prevAdtv = idx > 0 ? rawPoints[idx - 1]?.adtv : undefined;
+            const adtvDiff = pt.adtvChange !== undefined ? pt.adtvChange : (prevAdtv !== undefined ? (pt.adtv - prevAdtv) : 0);
+            const adtvChangePct = pt.adtvChangePct !== undefined ? pt.adtvChangePct : ((prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined);
 
-            if (idx === rawPoints.length - 1) {
-              const prevAum = rawPoints[idx - 1]?.aum || (totalAumEok - 22000);
-              const aumDiff = totalAumEok - prevAum;
-              return {
-                ...pt,
-                aum: totalAumEok,
-                adtv: totalTradeEok,
-                turnoverPct: turnover,
-                aumChange: aumDiff,
-                aumChangePct: Number(((aumDiff / prevAum) * 100).toFixed(2)),
-                adtvChange: adtvDiff,
-                adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
-              };
-            }
+            const prevAum = idx > 0 ? rawPoints[idx - 1]?.aum : undefined;
+            const aumDiff = pt.aumChange !== undefined ? pt.aumChange : (prevAum !== undefined ? (pt.aum - prevAum) : 0);
+            const aumChangePct = pt.aumChangePct !== undefined ? pt.aumChangePct : ((prevAum && prevAum > 0) ? Number(((aumDiff / prevAum) * 100).toFixed(2)) : undefined);
+
             return {
               ...pt,
+              aumChange: aumDiff,
+              aumChangePct,
               adtvChange: adtvDiff,
-              adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
+              adtvChangePct,
             };
           });
 
           // 펀드 애널리스트 4대 시나리오 & 브릿지 동적 코멘트 생성
           const len = points.length;
-          const currPt = len > 0 ? points[len - 1] : { aum: 5034781, adtv: 235504, turnoverPct: 4.68 };
-          const prevPt = len > 1 ? points[len - 2] : { aum: 5005000, adtv: 242000, turnoverPct: 4.84 };
+          if (len === 0) return null;
 
-          const currAum = currPt.aum;
-          const prevAum = prevPt.aum;
-          const aumDiff = currPt.aumChange !== undefined ? currPt.aumChange : (currAum - prevAum);
-          const aumDiffPct = prevAum > 0 ? ((currAum - prevAum) / prevAum) * 100 : (currPt.aumChangePct ?? 0);
+          const currPt = points[len - 1];
+          const prevPt = len > 1 ? points[len - 2] : null;
 
-          const currAdtv = currPt.adtv;
-          const prevAdtv = prevPt.adtv;
-          const adtvDiff = currAdtv - prevAdtv;
-          const adtvDiffPct = prevAdtv > 0 ? ((currAdtv - prevAdtv) / prevAdtv) * 100 : 0;
+          const currAum = currPt.aum || 0;
+          const prevAum = prevPt?.aum || 0;
+          const aumDiff = currPt.aumChange !== undefined ? currPt.aumChange : (prevAum > 0 ? (currAum - prevAum) : 0);
+          const aumDiffPct = currPt.aumChangePct !== undefined ? currPt.aumChangePct : (prevAum > 0 ? ((currAum - prevAum) / prevAum) * 100 : 0);
 
-          const priceEffect = currPt.priceEffect ?? Math.round(aumDiff * 0.45);
+          const currAdtv = currPt.adtv || 0;
+          const prevAdtv = prevPt?.adtv || 0;
+          const adtvDiff = currPt.adtvChange !== undefined ? currPt.adtvChange : (prevAdtv > 0 ? (currAdtv - prevAdtv) : 0);
+          const adtvDiffPct = currPt.adtvChangePct !== undefined ? currPt.adtvChangePct : (prevAdtv > 0 ? ((currAdtv - prevAdtv) / prevAdtv) * 100 : 0);
+
+          const priceEffect = currPt.priceEffect ?? 0;
           const netInflow = currPt.netInflow ?? (aumDiff - priceEffect);
 
           const currAumJo = (currAum / 10000).toFixed(1);
@@ -2348,41 +2356,28 @@ export function MarketBriefing() {
 
           {/* 5-Point 상하 듀얼 싱크 차트 (Linked Dual-Pane) */}
           {(() => {
-            const snapshot = briefing.marketScaleSnapshot;
-            const totalAumEok = normalizeToEok(snapshot?.totalAum || briefing.marketScale?.totalAum || (normalizeToEok(briefing.pulse?.generalTotalAum || 3851607) / 0.765));
-            const totalTradeEok = normalizeToEok(snapshot?.totalTradeValue || briefing.marketScale?.totalTradeValue || (normalizeToEok(briefing.pulse?.generalTotalTradeValue || 99147) / 0.421));
-            const turnover = snapshot?.marketTurnoverPct ?? (totalAumEok > 0 ? Number(((totalTradeEok / totalAumEok) * 100).toFixed(2)) : 4.68);
-            
-
             const rawPoints = (briefing.marketScaleTimeSeries && briefing.marketScaleTimeSeries[step7Tab]) || [];
             const points = rawPoints.map((pt: any, idx: number) => {
-              const prevAdtv = idx > 0 ? (idx === rawPoints.length - 1 ? (rawPoints[idx - 1]?.adtv || (totalTradeEok - 6500)) : rawPoints[idx - 1]?.adtv) : undefined;
-              const adtvDiff = prevAdtv !== undefined ? ((idx === rawPoints.length - 1 ? totalTradeEok : pt.adtv) - prevAdtv) : 0;
+              const prevAdtv = idx > 0 ? rawPoints[idx - 1]?.adtv : undefined;
+              const adtvDiff = pt.adtvChange !== undefined ? pt.adtvChange : (prevAdtv !== undefined ? (pt.adtv - prevAdtv) : 0);
+              const adtvChangePct = pt.adtvChangePct !== undefined ? pt.adtvChangePct : ((prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined);
 
-              if (idx === rawPoints.length - 1) {
-                const prevAum = rawPoints[idx - 1]?.aum || (totalAumEok - 22000);
-                const aumDiff = totalAumEok - prevAum;
-                return {
-                  ...pt,
-                  aum: totalAumEok,
-                  adtv: totalTradeEok,
-                  turnoverPct: turnover,
-                  aumChange: aumDiff,
-                  aumChangePct: Number(((aumDiff / prevAum) * 100).toFixed(2)),
-                  adtvChange: adtvDiff,
-                  adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
-                };
-              }
+              const prevAum = idx > 0 ? rawPoints[idx - 1]?.aum : undefined;
+              const aumDiff = pt.aumChange !== undefined ? pt.aumChange : (prevAum !== undefined ? (pt.aum - prevAum) : 0);
+              const aumChangePct = pt.aumChangePct !== undefined ? pt.aumChangePct : ((prevAum && prevAum > 0) ? Number(((aumDiff / prevAum) * 100).toFixed(2)) : undefined);
+
               return {
                 ...pt,
+                aumChange: aumDiff,
+                aumChangePct,
                 adtvChange: adtvDiff,
-                adtvChangePct: (prevAdtv && prevAdtv > 0) ? Number(((adtvDiff / prevAdtv) * 100).toFixed(2)) : undefined,
+                adtvChangePct,
               };
             });
-            const maxAum = Math.max(...points.map((p: any) => p.aum), 1000);
-            const minAum = Math.min(...points.map((p: any) => p.aum), 0);
-            const maxAdtv = Math.max(...points.map((p: any) => p.adtv), 1000);
-            const minAdtv = Math.min(...points.map((p: any) => p.adtv), 0);
+            const maxAum = Math.max(...points.map((p: any) => p.aum || 0), 1000);
+            const minAum = Math.min(...points.map((p: any) => p.aum || 0), 0);
+            const maxAdtv = Math.max(...points.map((p: any) => p.adtv || 0), 1000);
+            const minAdtv = Math.min(...points.map((p: any) => p.adtv || 0), 0);
 
             return (
               <div className="space-y-6">
@@ -2530,7 +2525,7 @@ export function MarketBriefing() {
                         const adtvJo = (pt.adtv / 10000).toFixed(1);
                         const changeAmount = pt.aumChange ?? 0;
                         const changePct = pt.aumChangePct ?? 0;
-                        const priceEffect = pt.priceEffect ?? Math.round(changeAmount * 0.4);
+                        const priceEffect = pt.priceEffect ?? 0;
                         const netInflow = pt.netInflow ?? (changeAmount - priceEffect);
 
                         const changeJo = (changeAmount / 10000).toFixed(1);
@@ -2682,7 +2677,7 @@ export function MarketBriefing() {
             "@context": "https://schema.org",
             "@type": "FinancialNews",
             "headline": `ETF 마켓 브리핑 (${briefing.asOfDate}) - 대한민국 ETF 시장의 오늘과 자금 흐름`,
-            "description": briefing.headline?.text || `일반 ETF ${briefing.pulse?.generalEtfCount || 1018}개 중 ${briefing.pulse?.upCount || 764}개 상승. 총 운용자산 ${((briefing.marketScale?.totalAum || 4467883.8) / 10000).toFixed(1)}조원.`,
+            "description": briefing.headline?.text || (briefing.pulse?.generalEtfCount ? `일반 ETF ${briefing.pulse.generalEtfCount}개 중 ${briefing.pulse.upCount ?? 0}개 상승.` : "대한민국 ETF 시장 마켓 브리핑"),
             "datePublished": `${briefing.asOfDate}T09:00:00+09:00`,
             "dateModified": `${briefing.asOfDate}T16:00:00+09:00`,
             "author": {

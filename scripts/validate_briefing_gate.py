@@ -51,7 +51,47 @@ def get_target_bas_dt() -> str:
         return raw_dt
 
 def fetch_briefing_payload(bas_dt: str) -> dict | None:
-    # 1. Wrangler D1 직접 쿼리 (Cloudflare 토큰 또는 wrangler 로그인 환경)
+    # 1. Cloudflare KV 가속 계층 조회 (D1 무료 쿼리 한도 고갈 시에도 무중단 안정성 보장)
+    kv_cmd = f'npx wrangler kv key get --namespace-id 278805f22a4948b3b9b6c66e8a6a1466 "market-briefing:v0:payload:{bas_dt}:v1" --remote'
+    try:
+        p_kv = subprocess.run(
+            kv_cmd,
+            shell=True,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=15,
+        )
+        if p_kv.returncode == 0 and p_kv.stdout:
+            stdout = p_kv.stdout.strip()
+            s_idx = stdout.find('{')
+            e_idx = stdout.rfind('}')
+            if s_idx != -1 and e_idx != -1:
+                body = json.loads(stdout[s_idx:e_idx+1])
+                raw = body.get("briefing") or body
+                as_of_date = raw.get("asOfDate") or raw.get("as_of_date")
+                if as_of_date == bas_dt:
+                    pulse = raw.get("pulse") or {}
+                    indices = raw.get("marketIndices") or []
+                    kospi = next((i for i in indices if i.get("code") == "KOSPI"), {})
+                    kosdaq = next((i for i in indices if i.get("code") == "KOSDAQ"), {})
+                    return {
+                        "asOfDate": as_of_date,
+                        "generalEtfCount": pulse.get("generalEtfCount") or raw.get("generalEtfCount") or raw.get("general_etf_count"),
+                        "generalTotalAum": pulse.get("generalTotalAum") or raw.get("generalTotalAum") or raw.get("general_total_aum"),
+                        "kospiChangePct": kospi.get("change_pct") if kospi.get("change_pct") is not None else raw.get("kospiChangePct"),
+                        "kosdaqChangePct": kosdaq.get("change_pct") if kosdaq.get("change_pct") is not None else raw.get("kosdaqChangePct"),
+                        "generalAumWeightedReturnPct": pulse.get("generalAumWeightedReturnPct") if pulse.get("generalAumWeightedReturnPct") is not None else raw.get("generalAumWeightedReturnPct"),
+                        "peerGroups": raw.get("peerGroups") or raw.get("peer_groups") or [],
+                        "assetClasses": raw.get("assetClasses") or raw.get("asset_classes") or [],
+                        "periodicFlows": raw.get("periodicFlows") or raw.get("periodic_flows") or raw.get("fundFlow") or raw.get("fund_flow") or {},
+                        "source": "kv_remote"
+                    }
+    except Exception as e:
+        print(f"[Gate] KV 직접 조회 시도 중 안내: {e}")
+
+    # 2. Wrangler D1 직접 쿼리 (Cloudflare 토큰 또는 wrangler 로그인 환경)
     sql = (
         f"SELECT as_of_date, general_etf_count, general_total_aum, "
         f"kospi_change_pct, kosdaq_change_pct, "
@@ -70,28 +110,32 @@ def fetch_briefing_payload(bas_dt: str) -> dict | None:
             timeout=25,
         )
         if p.returncode == 0 and p.stdout:
-            data = json.loads(p.stdout)
-            if data and isinstance(data, list) and data[0].get("results"):
-                row = data[0]["results"][0]
-                metrics = json.loads(row.get("metrics_json") or "{}")
-                return {
-                    "asOfDate": row.get("as_of_date"),
-                    "generalEtfCount": row.get("general_etf_count"),
-                    "generalTotalAum": row.get("general_total_aum"),
-                    "kospiChangePct": row.get("kospi_change_pct"),
-                    "kosdaqChangePct": row.get("kosdaq_change_pct"),
-                    "generalAumWeightedReturnPct": row.get("general_aum_weighted_return_pct"),
-                    "peerGroups": metrics.get("peer_groups") or metrics.get("peerGroups") or [],
-                    "assetClasses": (
-                        metrics.get("asset_classes")
-                        or metrics.get("assetClasses")
-                        or (metrics.get("market_scale") or {}).get("categories")
-                        or (metrics.get("market_scale") or {}).get("composition")
-                        or []
-                    ),
-                    "periodicFlows": metrics.get("periodic_flows") or metrics.get("periodicFlows") or metrics.get("fund_flow") or metrics.get("fundFlow") or {},
-                    "source": "d1_remote"
-                }
+            stdout = p.stdout.strip()
+            s_idx = stdout.find('[')
+            e_idx = stdout.rfind(']')
+            if s_idx != -1 and e_idx != -1:
+                data = json.loads(stdout[s_idx:e_idx+1])
+                if data and isinstance(data, list) and data[0].get("results"):
+                    row = data[0]["results"][0]
+                    metrics = json.loads(row.get("metrics_json") or "{}")
+                    return {
+                        "asOfDate": row.get("as_of_date"),
+                        "generalEtfCount": row.get("general_etf_count"),
+                        "generalTotalAum": row.get("general_total_aum"),
+                        "kospiChangePct": row.get("kospi_change_pct"),
+                        "kosdaqChangePct": row.get("kosdaq_change_pct"),
+                        "generalAumWeightedReturnPct": row.get("general_aum_weighted_return_pct"),
+                        "peerGroups": metrics.get("peer_groups") or metrics.get("peerGroups") or [],
+                        "assetClasses": (
+                            metrics.get("asset_classes")
+                            or metrics.get("assetClasses")
+                            or (metrics.get("market_scale") or {}).get("categories")
+                            or (metrics.get("market_scale") or {}).get("composition")
+                            or []
+                        ),
+                        "periodicFlows": metrics.get("periodic_flows") or metrics.get("periodicFlows") or metrics.get("fund_flow") or metrics.get("fundFlow") or {},
+                        "source": "d1_remote"
+                    }
     except Exception as e:
         print(f"[Gate] D1 직접 조회 시도 중 안내 (HTTP API로 폴백): {e}")
 

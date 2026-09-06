@@ -98,19 +98,11 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: ♻️ Revalidate Next.js Cache
-        if: steps.commit.outputs.changed == 'true'
-        run: |
-          if [ -n "${{ secrets.REVALIDATION_SECRET }}" ]; then
-            curl -s -X POST "https://etf-campus.pages.dev/api/revalidate?tag=etf-fees" \
-            -H "Authorization: Bearer ${{ secrets.REVALIDATION_SECRET }}" || echo "Revalidation skipped or failed"
-          fi
-
       - name: ✅ Notify Slack on Success
         if: steps.commit.outputs.changed == 'true'
         run: |
           if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
             curl -s -X POST -H 'Content-type: application/json' \
-            --data '{"text":"✅ [ETF Campus] KOFIA 실부담비용 월간 업데이트 완료 및 캐시 무효화 성공!"}' \
+            --data '{"text":"✅ [ETF Campus] KOFIA 실부담비용 및 연금적격성 공시대조 자동 동기화 완료!"}' \
             ${{ secrets.SLACK_WEBHOOK_URL }} || true
           fi

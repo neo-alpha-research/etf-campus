@@ -66,12 +66,7 @@ const payload20260904: MarketBriefingPayload = {
     { assetClass: "해외주식", peerGroup: "글로벌 럭셔리 & 소비재", etfCount: 7, cappedAumWeightedReturnPct: -0.71 },
     { assetClass: "국내주식", peerGroup: "K-푸드 & K-뷰티", etfCount: 12, cappedAumWeightedReturnPct: -1.41 },
   ],
-  disparityWarning: [
-    { ticker: "133690", etfName: "TIGER 미국나스닥100", assetClass: "해외주식", disparityPct: 0.85 },
-    { ticker: "446770", etfName: "ACE 글로벌반도체TOP4Plus", assetClass: "해외주식", disparityPct: 0.62 },
-    { ticker: "379800", etfName: "KODEX 미국S&P500TR", assetClass: "해외주식", disparityPct: -0.74 },
-    { ticker: "441680", etfName: "SOL 미국배당다우존스", assetClass: "해외주식", disparityPct: -0.58 },
-  ],
+  disparityWarning: [],
   periodicFlows: {
     dailyFundFlows: {
       topInflows: [
@@ -200,10 +195,8 @@ async function run() {
     GEMINI_API_KEY: process.env.GEMINI_API_KEY
   } as any);
   console.log(`AI Review Status: [${narrative.source}] (Model: ${narrative.modelUsed || "default"}, Token: #${narrative.tokenIndex || 1})`);
-  console.log(`Regime: ${baseRegime.statusName} | Flow: ${baseRegime.flowCharacter} | Disparity: ${baseRegime.disparityStatus}`);
-
-  console.log("\n=== 2. Instagram 6-Slide Generation ===");
   const slides = generateInstagramCarousel(currentPayload, baseUrl, narrative);
+  console.log(`\n=== 2. Instagram ${slides.length}-Slide Generation ===`);
   console.log(`Generated ${slides.length} slides.`);
   
   // Destination: Root OSMU Archive
@@ -217,6 +210,18 @@ async function run() {
 
   if (shouldSaveLocal) {
     [rootInstaDir, rootThreadsDir, rootEmailDir].forEach(d => fs.mkdirSync(d, { recursive: true }));
+    // Clean up any stale slide files outside the current set
+    const validSlideNumbers = new Set(slides.map(s => s.slideNumber));
+    if (fs.existsSync(rootInstaDir)) {
+      const existingFiles = fs.readdirSync(rootInstaDir);
+      for (const file of existingFiles) {
+        const match = file.match(/^instagram_slide_(\d+)\.(png|svg)$/);
+        if (match && !validSlideNumbers.has(parseInt(match[1], 10))) {
+          fs.unlinkSync(path.join(rootInstaDir, file));
+          console.log(`- Removed stale slide file: ${file}`);
+        }
+      }
+    }
   } else {
     console.log(`\n[OSMU Engine] Pure Cloud Mode active: Local OSMU_Archive disk write skipped (assets reviewed via Web Dashboard). Set SAVE_LOCAL_ARCHIVE=true to force local files.`);
   }
@@ -523,7 +528,7 @@ async function run() {
     <!-- 3-Channel Tabs -->
     <div class="flex border-b border-slate-800 gap-2" id="channelTabs">
       <button onclick="switchTab('instagram')" id="tab-instagram" class="px-6 py-3 font-bold text-sm border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2">
-        인스타그램 6-Slide 카드뉴스 &amp; 캡션
+        인스타그램 ${slides.length}-Slide 카드뉴스 &amp; 캡션
       </button>
       <button onclick="switchTab('threads')" id="tab-threads" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
         Threads 모닝 브리핑 &amp; 이미지
@@ -538,7 +543,7 @@ async function run() {
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div class="lg:col-span-7 bg-slate-950 p-6 rounded-3xl border border-slate-800 shadow-2xl flex flex-col items-center">
           <div class="flex items-center justify-between w-full mb-3 text-xs text-slate-400 font-bold px-2">
-            <span id="activeSlideTitle">Slide 1 / 6</span>
+            <span id="activeSlideTitle">Slide 1 / ${slides.length}</span>
             <div class="flex gap-2">
               <button onclick="prevSlide()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold">◀ 이전</button>
               <button onclick="nextSlide()" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-white font-bold">다음 ▶</button>
@@ -556,7 +561,7 @@ async function run() {
             <div class="text-xs leading-relaxed text-slate-300 bg-slate-900 p-4 rounded-2xl max-h-[300px] overflow-y-auto whitespace-pre-wrap">${caption}</div>
           </div>
           <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-3">
-            <h3 class="text-sm font-bold text-slate-300">6개 슬라이드 썸네일</h3>
+            <h3 class="text-sm font-bold text-slate-300">${slides.length}개 슬라이드 썸네일</h3>
             <div id="thumbnailsContainer" class="grid grid-cols-3 gap-2"></div>
           </div>
         </div>
@@ -575,7 +580,7 @@ async function run() {
             </a>
           </div>
           <div class="max-w-[420px] rounded-2xl overflow-hidden shadow-2xl border border-slate-700 w-full bg-slate-900">
-            <img src="./2_Threads/threads_image.png" class="w-full h-auto rounded-2xl block" alt="스레드 모닝 브리핑 카드" />
+            <img src="./2_Threads/threads_image.png" class="w-full h-auto rounded-2xl block" alt="스레드 모닝 브리핑 카드" onerror="this.onerror=null; this.src='./2_Threads/threads_image.svg';" />
           </div>
         </div>
       </div>
@@ -614,16 +619,14 @@ async function run() {
 
     function renderSlides() {
       const s = slides[currentIdx];
-      document.getElementById('activeSlideTitle').innerText = 'Slide ' + s.slideNumber + ' : ' + s.title;
-      document.getElementById('focusedSlideContainer').innerHTML = \`
-        <img src="./1_Instagram/instagram_slide_\${s.slideNumber}.png?v=\${Date.now()}" class="w-full h-auto rounded-2xl block shadow-2xl" alt="Slide \${s.slideNumber}" />
-      \`;
+      document.getElementById('activeSlideTitle').innerText = 'Slide ' + s.slideNumber + ' / ' + slides.length + ' : ' + s.title;
+      document.getElementById('focusedSlideContainer').innerHTML = s.svgContent;
 
       const thumbContainer = document.getElementById('thumbnailsContainer');
       thumbContainer.innerHTML = slides.map((item, idx) => \`
         <div onclick="setSlide(\${idx})" class="cursor-pointer bg-slate-950 p-1.5 rounded-xl border \${idx === currentIdx ? 'border-emerald-500 ring-2 ring-emerald-500/30' : 'border-slate-800'} transition">
-          <div class="rounded-lg overflow-hidden">
-            <img src="./1_Instagram/instagram_slide_\${item.slideNumber}.png?v=\${Date.now()}" class="w-full h-auto block" alt="Thumb \${item.slideNumber}" />
+          <div class="rounded-lg overflow-hidden slide-svg pointer-events-none">
+            \${item.svgContent}
           </div>
         </div>
       \`).join('');
@@ -769,9 +772,27 @@ async function run() {
     const masterHubBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(masterHubHtml, "utf-8")]);
     fs.writeFileSync(path.join(baseArchiveDir, "index.html"), masterHubBuf);
 
-    console.log(`\nAll PNGs, SVGs, and Previews freshly synchronized to OSMU_Archive:`);
-    console.log(`1. Master Hub -> file://${path.join(baseArchiveDir, "index.html")}`);
-    console.log(`2. Day Archive -> file://${path.join(rootArchiveDir, "index.html")}`);
+    // === 8. Synchronize to distributor-preview for instant local serving ===
+    const previewDir = path.resolve(process.cwd(), "distributor-preview");
+    if (fs.existsSync(previewDir)) {
+      try {
+        const previewInstaDir = path.join(previewDir, "1_Instagram");
+        if (fs.existsSync(previewInstaDir)) {
+          const validSlideNumbers = new Set(slides.map(s => s.slideNumber));
+          const pFiles = fs.readdirSync(previewInstaDir);
+          for (const file of pFiles) {
+            const match = file.match(/^instagram_slide_(\d+)\.(png|svg)$/);
+            if (match && !validSlideNumbers.has(parseInt(match[1], 10))) {
+              fs.unlinkSync(path.join(previewInstaDir, file));
+            }
+          }
+        }
+        fs.cpSync(rootArchiveDir, previewDir, { recursive: true, force: true });
+        console.log(`3. Local Preview Dashboard -> synced to ${previewDir}`);
+      } catch (err) {
+        console.warn(`[Sync] Notice: Could not sync to distributor-preview:`, err);
+      }
+    }
   } else {
     console.log(`\nGeneration complete in Pure Cloud-Native Mode (Review via Web Dashboard).`);
   }

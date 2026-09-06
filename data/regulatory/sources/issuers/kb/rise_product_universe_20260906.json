@@ -1,0 +1,1605 @@
+{
+  "source": "https://www.riseetf.co.kr/prod/finder/listJquery",
+  "collected_at": "2026-09-06",
+  "total_products": 143,
+  "data": [
+    {
+      "ticker": "0000Z0",
+      "name": "RISE 바이오TOP10액티브",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0005C0",
+      "name": "RISE 미국S&amp;P500엔화노출(합성 H)",
+      "tags": [
+        "엔화노출",
+        "미국대표지수",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0013P0",
+      "name": "RISE 미국은행TOP10",
+      "tags": [
+        "월배당",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0013R0",
+      "name": "RISE 테슬라미국채타겟커버드콜혼합(합성)",
+      "tags": [
+        "월배당",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0018Z0",
+      "name": "RISE 미국양자컴퓨팅",
+      "tags": [
+        "패시브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0036R0",
+      "name": "RISE 미국휴머노이드로봇",
+      "tags": [
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0036Z0",
+      "name": "RISE 미국천연가스밸류체인",
+      "tags": [
+        "패시브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0047P0",
+      "name": "RISE 테슬라고정테크100",
+      "tags": [
+        "고정테크100",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0047R0",
+      "name": "RISE 팔란티어고정테크100",
+      "tags": [
+        "고정테크100",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0061Z0",
+      "name": "RISE 단기특수은행채액티브",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0093A0",
+      "name": "RISE AI반도체TOP10",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0093B0",
+      "name": "RISE 엔비디아고정테크100",
+      "tags": [
+        "고정테크100",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0094L0",
+      "name": "RISE 차이나테크TOP10위클리타겟커버드콜",
+      "tags": [
+        "커버드콜",
+        "퇴직연금",
+        "개인연금",
+        "월배당",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0094M0",
+      "name": "RISE 코리아밸류업위클리고정커버드콜",
+      "tags": [
+        "커버드콜",
+        "퇴직연금",
+        "개인연금",
+        "월중배당",
+        "월배당",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0101N0",
+      "name": "RISE AI전력인프라",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0114X0",
+      "name": "RISE 글로벌게임테크TOP3Plus",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0115C0",
+      "name": "RISE 미국고배당다우존스TOP10",
+      "tags": [
+        "월중배당",
+        "월배당",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0122W0",
+      "name": "RISE 26-11회사채(AA-이상)액티브",
+      "tags": [
+        "만기매칭형",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0127R0",
+      "name": "RISE 미국AI클라우드인프라",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0138D0",
+      "name": "RISE 동학개미",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0138T0",
+      "name": "RISE 미국S&amp;P500데일리고정커버드콜",
+      "tags": [
+        "데일리고정커버드콜",
+        "커버드콜",
+        "월배당",
+        "개인연금",
+        "퇴직연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0151P0",
+      "name": "RISE 코리아전략산업액티브",
+      "tags": [
+        "액티브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0162Z0",
+      "name": "RISE 삼성전자SK하이닉스채권혼합50",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0164G0",
+      "name": "RISE 차이나AI반도체TOP4Plus",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0176E0",
+      "name": "RISE 미국AI전력인프라액티브",
+      "tags": [
+        "액티브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0190C0",
+      "name": "RISE 현대차고정피지컬AI",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0192L0",
+      "name": "RISE SK하이닉스단일종목레버리지",
+      "tags": [
+        "단일종목레버리지",
+        "레버리지"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "0192M0",
+      "name": "RISE 삼성전자단일종목레버리지",
+      "tags": [
+        "단일종목레버리지",
+        "레버리지"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "0218J0",
+      "name": "RISE 미국우주&amp;로봇TOP2미국채혼합50",
+      "tags": [
+        "패시브",
+        "개인연금",
+        "퇴직연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0223A0",
+      "name": "RISE 코스닥커버드콜액티브",
+      "tags": [
+        "액티브",
+        "월분배",
+        "월배당",
+        "커버드콜",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0227K0",
+      "name": "RISE 미국우주위성통신 (0227K0)",
+      "tags": [
+        "스페이스X",
+        "위성통신",
+        "우주",
+        "개인연금",
+        "퇴직연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "0233N0",
+      "name": "RISE 글로벌AI낸드메모리반도체",
+      "tags": [
+        "낸드",
+        "반도체",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "105780",
+      "name": "RISE 5대그룹주",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "114100",
+      "name": "RISE 국고채3년",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "136340",
+      "name": "RISE 중기우량회사채",
+      "tags": [
+        "월배당",
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "140570",
+      "name": "RISE 수출주",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "140580",
+      "name": "RISE 우량업종대표주",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "148020",
+      "name": "RISE 200",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "174360",
+      "name": "RISE 중국본토대형주CSI100",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "183700",
+      "name": "RISE 200채권혼합50",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "183710",
+      "name": "RISE 주식혼합",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "196230",
+      "name": "RISE 단기통안채",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "219390",
+      "name": "RISE 미국S&amp;P원유생산기업(합성 H)",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "234310",
+      "name": "RISE V&amp;S셀렉트밸류",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "241390",
+      "name": "RISE V&amp;S셀렉트밸류채권혼합",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "250730",
+      "name": "RISE 차이나HSCEI(H)",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "252400",
+      "name": "RISE 200선물레버리지",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "252410",
+      "name": "RISE 200선물인버스",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "252420",
+      "name": "RISE 200선물인버스2X",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "253280",
+      "name": "RISE 헬스케어",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "253290",
+      "name": "RISE 헬스케어채권혼합",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "266160",
+      "name": "RISE 고배당",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "267440",
+      "name": "RISE 미국장기국채선물(H)",
+      "tags": [
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "267450",
+      "name": "RISE 미국장기국채선물인버스(H)",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "267490",
+      "name": "RISE 미국장기국채선물레버리지(합성 H)",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "270800",
+      "name": "RISE KQ고배당",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "270810",
+      "name": "RISE 코스닥150",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "272560",
+      "name": "RISE 단기국공채액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "272570",
+      "name": "RISE 중장기국공채액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "275750",
+      "name": "RISE 코스닥150선물인버스",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "276650",
+      "name": "RISE 글로벌테크놀로지(합성 H)",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "278240",
+      "name": "RISE 코스닥150선물레버리지",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "281990",
+      "name": "RISE 중소형고배당",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "282000",
+      "name": "RISE 국고채3년선물인버스",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "284980",
+      "name": "RISE 200금융",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "290080",
+      "name": "RISE 200고배당커버드콜ATM",
+      "tags": [
+        "커버드콜",
+        "월배당",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "290130",
+      "name": "RISE ESG사회책임투자",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "291680",
+      "name": "RISE 차이나H선물인버스(H)",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "292050",
+      "name": "RISE KRX300",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "295000",
+      "name": "RISE 국채선물10년",
+      "tags": [
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "295020",
+      "name": "RISE 국채선물10년인버스",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "300640",
+      "name": "RISE 게임테마",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "302450",
+      "name": "RISE 코스피",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "310080",
+      "name": "RISE 중국 MSCI China(H)",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "315960",
+      "name": "RISE 대형고배당10TR",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "326230",
+      "name": "RISE 내수주플러스",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "326240",
+      "name": "RISE IT플러스",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "334690",
+      "name": "RISE 팔라듐선물(H)",
+      "tags": [
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "334700",
+      "name": "RISE 팔라듐선물인버스(H)",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "336160",
+      "name": "RISE 금융채액티브",
+      "tags": [
+        "월배당",
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "354240",
+      "name": "RISE 미국고정배당우선증권",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "361580",
+      "name": "RISE 200TR",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "367760",
+      "name": "RISE 네트워크인프라",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "367770",
+      "name": "RISE 수소경제테마",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "368590",
+      "name": "RISE 미국나스닥100",
+      "tags": [
+        "보수인하",
+        "미국대표지수",
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "371150",
+      "name": "RISE 차이나항셍테크",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "375270",
+      "name": "RISE 글로벌데이터센터리츠(합성)",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "379780",
+      "name": "RISE 미국S&amp;P500",
+      "tags": [
+        "보수인하",
+        "미국대표지수",
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "379790",
+      "name": "RISE 유로스탁스50(H)",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "385540",
+      "name": "RISE 종합채권(A-이상)액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "385550",
+      "name": "RISE 단기채권알파액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "385560",
+      "name": "RISE KIS국고채30년Enhanced",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "388280",
+      "name": "RISE K엔터&amp;여행레저",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "388420",
+      "name": "RISE 비메모리반도체액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "399580",
+      "name": "RISE 글로벌클린에너지",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "401170",
+      "name": "RISE 메타버스",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "417450",
+      "name": "RISE 글로벌수소경제",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "422420",
+      "name": "RISE 2차전지액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "427120",
+      "name": "RISE AI플랫폼",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "432600",
+      "name": "RISE 국채선물3년",
+      "tags": [
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "437350",
+      "name": "RISE 미국단기투자등급회사채액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "437370",
+      "name": "RISE 글로벌농업경제",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "442320",
+      "name": "RISE 글로벌원자력",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "442550",
+      "name": "RISE TDF2030액티브 적격",
+      "tags": [
+        "보수인하",
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "442560",
+      "name": "RISE TDF2040액티브 적격",
+      "tags": [
+        "보수인하",
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "442570",
+      "name": "RISE TDF2050액티브 적격",
+      "tags": [
+        "보수인하",
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "446700",
+      "name": "RISE 배터리 리사이클링",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "448630",
+      "name": "RISE 삼성그룹Top3채권혼합",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "449580",
+      "name": "RISE 테슬라애플아마존채권혼합",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "451670",
+      "name": "RISE 국채30년레버리지(합성)",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "453330",
+      "name": "RISE 미국S&amp;P500(H)",
+      "tags": [
+        "미국대표지수",
+        "월배당",
+        "보수인하",
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "455890",
+      "name": "RISE 머니마켓액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "455960",
+      "name": "RISE 미국달러SOFR금리액티브(합성)",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "459750",
+      "name": "RISE 글로벌주식분산액티브",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "460660",
+      "name": "RISE 미국S&amp;P배당킹",
+      "tags": [
+        "월배당",
+        "보수인하",
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "461490",
+      "name": "RISE 글로벌자산배분액티브",
+      "tags": [
+        "보수인하",
+        "개인연금",
+        "퇴직연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "463300",
+      "name": "RISE 중국본토CSI300",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "465330",
+      "name": "RISE 2차전지TOP10",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "465350",
+      "name": "RISE 2차전지TOP10인버스(합성)",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "469050",
+      "name": "RISE 미국반도체NYSE(H)",
+      "tags": [
+        "보수인하",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "469060",
+      "name": "RISE 미국반도체NYSE",
+      "tags": [
+        "보수인하",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "469070",
+      "name": "RISE AI&amp;로봇",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "469530",
+      "name": "RISE 미국달러선물인버스",
+      "tags": [
+        "패시브"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "472830",
+      "name": "RISE 미국30년국채커버드콜(합성)",
+      "tags": [
+        "커버드콜",
+        "월배당",
+        "미국30년국채",
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "472870",
+      "name": "RISE 미국30년국채엔화노출(합성 H)",
+      "tags": [
+        "엔화노출",
+        "월배당",
+        "미국30년국채",
+        "패시브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "475350",
+      "name": "RISE 버크셔포트폴리오TOP10",
+      "tags": [
+        "보수인하",
+        "패시브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "475380",
+      "name": "RISE 글로벌리얼티인컴",
+      "tags": [
+        "월배당",
+        "보수인하",
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "475720",
+      "name": "RISE 200위클리커버드콜",
+      "tags": [
+        "커버드콜",
+        "월배당",
+        "패시브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "476310",
+      "name": "RISE 글로벌비만산업TOP2+",
+      "tags": [
+        "패시브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "477080",
+      "name": "RISE CD금리액티브(합성)",
+      "tags": [
+        "액티브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "479520",
+      "name": "RISE KOFR금리액티브(합성)",
+      "tags": [
+        "퇴직연금",
+        "개인연금",
+        "액티브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "481340",
+      "name": "RISE 미국30년국채액티브",
+      "tags": [
+        "액티브",
+        "월배당",
+        "미국30년국채",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "481430",
+      "name": "RISE 국고채10년액티브",
+      "tags": [
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "485690",
+      "name": "RISE 미국AI밸류체인TOP3Plus",
+      "tags": [
+        "보수인하",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "488480",
+      "name": "RISE 일본섹터TOP4Plus",
+      "tags": [
+        "패시브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "490590",
+      "name": "RISE 미국AI밸류체인데일리고정커버드콜",
+      "tags": [
+        "월배당",
+        "커버드콜",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "490600",
+      "name": "RISE 미국배당100데일리고정커버드콜",
+      "tags": [
+        "월배당",
+        "커버드콜",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "491620",
+      "name": "RISE 미국테크100데일리고정커버드콜",
+      "tags": [
+        "월배당",
+        "커버드콜",
+        "퇴직연금",
+        "개인연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "491630",
+      "name": "RISE 미국반도체인버스(합성 H)",
+      "tags": [
+        "패시브",
+        "인버스"
+      ],
+      "retirement_pension_badge": false,
+      "personal_pension_badge": false
+    },
+    {
+      "ticker": "495050",
+      "name": "RISE 코리아밸류업",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "월중배당",
+        "월배당",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "495940",
+      "name": "RISE 미국AI테크액티브",
+      "tags": [
+        "액티브",
+        "퇴직연금",
+        "개인연금"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "498610",
+      "name": "RISE 인도디지털성장",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    },
+    {
+      "ticker": "498860",
+      "name": "RISE 코리아금융고배당",
+      "tags": [
+        "개인연금",
+        "퇴직연금",
+        "월중배당",
+        "월배당",
+        "패시브"
+      ],
+      "retirement_pension_badge": true,
+      "personal_pension_badge": true
+    }
+  ]
+}

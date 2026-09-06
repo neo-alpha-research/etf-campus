@@ -241,7 +241,7 @@ def build_audit_ledger():
 
         if p_ver == "Y" and v_entry:
             evidence_grade = v_entry.get("evidence_grade") or ("E2" if tk == "284430" else ("E3" if src_type == "협회공시대조" else "E1"))
-            evidence_tier = v_entry.get("evidence_tier") or ("3way" if evidence_grade == "E4" else "statutory")
+            evidence_tier = v_entry.get("evidence_tier") or ("3way" if evidence_grade == "E4" else "1way")
             evidence_quote = v_entry.get("evidence_quote") or ("가. 투자대상주식: 40% 이하 → 50% 미만" if tk == "284430" else "")
             if evidence_grade == "E3":
                 p_conf = "보통"
@@ -306,14 +306,14 @@ def build_audit_ledger():
     ]
 
     with out_audit_csv.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(audit_rows)
 
     public_audit_csv = REPO_ROOT / "public/data/regulatory/pension_audit_ledger.csv"
     public_audit_csv.parent.mkdir(parents=True, exist_ok=True)
     with public_audit_csv.open("w", encoding="utf-8-sig", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(audit_rows)
 

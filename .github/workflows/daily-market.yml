@@ -2,8 +2,7 @@ name: Daily ETF market data refresh
 
 on:
   schedule:
-    # Daily ETF market data collection ladder (primary collection runs early morning,
-    # with final safety-net retry at 09:33 KST / 00:33 UTC Tue-Sat).
+    # Daily ETF market data collection (Tue-Sat 09:33 KST / 00:33 UTC)
     - cron: "33 0 * * 2-6"
   repository_dispatch:
     types: [market_data_ready]

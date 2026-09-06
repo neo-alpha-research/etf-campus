@@ -30,14 +30,31 @@ export function generateThreadsThread(
   const regime = narrative || classifyMarketRegime(payload);
   const generalCount = payload.generalEtfCount ?? 1025;
 
+  const cleanThemeName = (name: string): string => {
+    return name
+      .replace(/\s*\([^)]*\)/g, "")
+      .replace(/피지컬\s*AI\s*&\s*지능형\s*로봇/g, "피지컬 AI & 로봇")
+      .replace(/전통\s*반도체\s*소부장/g, "반도체 소부장")
+      .replace(/K-푸드\s*&\s*K-뷰티/g, "K-푸드 & 뷰티")
+      .replace(/글로벌\s*럭셔리\s*&\s*소비재/g, "글로벌 럭셔리")
+      .trim();
+  };
+
+  const cleanEtfName = (rawName: string): string => {
+    return rawName
+      .replace(/\s*\([^)]*\)/g, "")
+      .replace(/플러스/g, "")
+      .trim();
+  };
+
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
   const inflowSentence = topInflows.length > 0 
-    ? `\n\n자금 흐름을 보면 스마트머니는 ${topInflows.map(i => {
+    ? `\n\n스마트머니는 ${topInflows.map(i => {
         const item = i as any;
-        const name = item.name || item.etfName || "대표지수";
+        const name = cleanEtfName(item.name || item.etfName || "대표지수");
         const val = item.inflow ?? (item.netInflowValue ? Math.round(item.netInflowValue / 100000000) : 0);
-        return `${name} +${(val || 0).toLocaleString()}억 원`;
-      }).join(', ')} 순으로 유입되며 시장 수급을 뒷받침했습니다.` 
+        return `${name} +${(val || 0).toLocaleString()}억`;
+      }).join(', ')} 순으로 유입됐습니다.` 
     : "";
 
   const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
@@ -45,30 +62,65 @@ export function generateThreadsThread(
   const weakThemes = [...sortedPeerGroups].reverse().slice(0, 2);
   
   const strongText = strongThemes.length > 0 
-    ? strongThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '').trim()} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
+    ? strongThemes.map(t => `${cleanThemeName(t.peerGroup)} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
     : "상위 테마 안정";
 
   const weakText = weakThemes.length > 0 
-    ? weakThemes.map(t => `${t.peerGroup.replace(/\s*\([^)]*\)/g, '').trim()} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
+    ? weakThemes.map(t => `${cleanThemeName(t.peerGroup)} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
     : "하위 테마 조정";
 
   const topicTag = selectThreadsTopicTag(payload);
 
-  const watchPointText = regime.threadsWatchPoint || "지수가 큰 폭의 변동성을 겪을 때는 지수 자체보다 섹터 간 자금 이동 경로와 방어 자산의 완충력을 관찰하는 것이 훨씬 중요합니다. 오늘 개장 후 여러분의 관심 섹터는 어디인가요?";
-  const commentText = regime.firstComment || `기준일: 전 거래일 한국거래소(KRX) 공시 데이터 마감 기준. (국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 / 투자 권유 아님)`;
+  let watchPointText = regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 태도가 중요합니다. 오늘 주목하는 섹터는 어디인가요?";
+  const sourceNotice = `* KRX 공시 마감 국내 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 (투자 권유 아님)`;
 
-  const mainPost = `${regime.threadsOpening}
+  let opening = regime.threadsOpening;
+  let summary = regime.threadsMarketSummary;
 
-${regime.threadsMarketSummary}
+  // Build draft post
+  let mainPost = `${opening}
+
+${summary}
 
 테마별로는 ${strongText}이 견조했던 반면, ${weakText}은 조정을 받았습니다.${inflowSentence}
 
 ${watchPointText}
 
 ${topicTag}
+${sourceNotice}`;
 
-[첫 댓글]
-${commentText}`;
+  // Enforce strict character safety guard (Meta Threads API hard limit: 500 chars, safe target <= 460 chars)
+  const MAX_SAFE_CHARS = 460;
+  if (mainPost.length > MAX_SAFE_CHARS) {
+    // 1. If summary has secondary decorative sentences, keep the core sentence
+    if (summary.includes(". ")) {
+      summary = summary.split(". ")[0].trim() + ".";
+    }
+    // 2. Shorten watchPointText if it exceeds 60 chars
+    if (watchPointText.length > 60) {
+      const matchQuestion = watchPointText.match(/오늘[^?]+\?/);
+      watchPointText = matchQuestion 
+        ? `주도 테마의 수급 지속성을 점검할 때입니다. ${matchQuestion[0]}` 
+        : "주도 테마의 수급 지속성을 점검할 때입니다. 오늘 주목하는 섹터는 어디인가요?";
+    }
+    mainPost = `${opening}
+
+${summary}
+
+테마별로는 ${strongText}이 견조했던 반면, ${weakText}은 조정을 받았습니다.${inflowSentence}
+
+${watchPointText}
+
+${topicTag}
+${sourceNotice}`;
+  }
+
+  // Final hard ceiling safeguard: strictly bound within 480 chars
+  if (mainPost.length > 480) {
+    const footer = `\n\n${topicTag}\n${sourceNotice}`;
+    const budget = 480 - footer.length;
+    mainPost = mainPost.slice(0, budget).trim() + "..." + footer;
+  }
 
   return [
     { sequence: 1, content: mainPost }

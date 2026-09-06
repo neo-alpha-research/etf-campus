@@ -462,7 +462,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   });
   if (filters.accountMode === "pension" && filters.pensionOnly) {
     if (filters.pensionTier === "safe") {
-      activeFilters.push({ label: "안전자산 100%", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
+      activeFilters.push({ label: "100% 한도 (법정 안전자산)", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
     } else if (filters.pensionTier === "risk") {
       activeFilters.push({ label: "위험자산 70%", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
     } else {
@@ -685,19 +685,19 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, pensionTier: "safe" })}
-                  title="퇴직연금 100% 한도 안전자산 (채권·단기파킹·적격TDF·혼합50 등)"
+                  title="퇴직연금 100% 한도 법정 안전자산 (채권·단기파킹·적격TDF·혼합50 등)"
                   className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.pensionTier === "safe"
                       ? "border-emerald-600 bg-emerald-600 text-white shadow-xs"
                       : "border-emerald-200 bg-white text-emerald-800 hover:bg-emerald-50"
                   }`}
                 >
-                  🟢 100% 안전 ({pensionCounts.safe}개)
+                  🟢 100% 한도 (법정 안전자산) ({pensionCounts.safe}개)
                 </button>
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, pensionTier: "risk" })}
-                  title="퇴직연금 70% 한도 위험자산 (주식형·리츠·커버드콜·금현물 등)"
+                  title="퇴직연금 70% 한도 위험자산 (주식형·리츠·원자재·금현물 등)"
                   className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.pensionTier === "risk"
                       ? "border-blue-600 bg-blue-600 text-white shadow-xs"
@@ -710,9 +710,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             </div>
             <p className="mt-2 text-xs text-neutral-600 leading-relaxed">
               {filters.pensionTier === "safe"
-                ? "💡 안전자산 의무 30% 바스켓을 채울 수 있는 100% 한도 종목만 표시됩니다. (채권형, 금리·파킹형, 적격 TDF, 주식 비중 50% 이하 채권혼합형)"
+                ? "💡 근로자퇴직급여보장법상 위험자산 70% 한도를 채우고 남는 잔여 비중을 담을 수 있는 100% 한도(법정 안전자산) 종목만 표시됩니다. (채권형, 금리·파킹형, 적격 TDF, 주식 비중 50% 이하 채권혼합형)"
                 : filters.pensionTier === "risk"
-                ? "💡 계좌 평가금액의 최대 70%까지 편입 가능한 성장·테마형 종목입니다. (주식형, 리츠, 커버드콜, 금현물 등)"
+                ? "💡 계좌 평가금액의 최대 70%까지 편입 가능한 성장·테마형 종목입니다. (주식형, 리츠, 원자재·금현물 등)"
                 : "💡 근로자퇴직급여보장법 제21조 및 감독규정에 따라 DC·IRP에 편입 가능한 모든 적격 ETF입니다. (레버리지·인버스는 법정 편입 제외)"}
             </p>
           </div>
@@ -768,7 +768,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                 ? "💡 일반 계좌에서 15.4% 배당소득세가 과세되는 해외주식·채권·커버드콜·원자재 ETF입니다. ISA 계좌에서 순손익 비과세(200만/400만원) 및 초과분 9.9% 분리과세 혜택이 극대화됩니다."
                 : filters.isaTier === "normal"
                 ? "💡 국내 상장주식 직접투자형 ETF로, 일반 계좌에서도 매매차익이 비과세입니다. ISA 계좌에서는 분배금에 대한 절세 혜택이 적용됩니다."
-                : "💡 조세특례제한법상 국내 상장된 1,167개 전 종목 투자가 가능합니다. (레버리지 ETP는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 시 매수 가능)"}
+                : `💡 조세특례제한법상 국내 상장된 ${isaCounts.all}개 전 종목 투자가 가능합니다. (레버리지·2배 인버스 ETP는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 시 매수 가능)`}
             </p>
           </div>
         ) : (
@@ -1263,7 +1263,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                               <>
                                 {etf.pensionLimit === "100% (안전자산)" && (
                                   <>
-                                    <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금(DC/IRP) 100% 전액 투자 가능 (안전자산) · 금융투자협회 전자공시 대조 완료">안전100%</span>
+                                    <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금(DC/IRP) 100% 전액 투자 가능 (법정 안전자산) · 금융투자협회 전자공시 대조 완료">안전자산100%</span>
                                     {etf.pensionVerified === "N" && (
                                       <span
                                         className={

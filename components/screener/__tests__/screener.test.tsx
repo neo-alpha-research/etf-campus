@@ -221,18 +221,18 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getByRole("button", { name: "중개형 ISA 가능 조건 제거" })).toBeInTheDocument();
   });
 
-  it("퇴직연금 모드에서 100% 안전자산 및 70% 위험자산 필터링이 정상 작동한다", () => {
+  it("퇴직연금 모드에서 100% 법정 안전자산 및 70% 위험자산 필터링이 정상 작동한다", () => {
     const safeEtf = etf({ ticker: "S1", name: "국고채 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "100% (안전자산)", isaEligible: "가능" });
     const riskEtf = etf({ ticker: "R1", name: "미국나스닥100 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "70% (위험자산)", isaEligible: "가능" });
 
     render(<Screener etfs={[safeEtf, riskEtf]} />);
     
-    // 안전자산 100% 버튼 클릭
-    const safeBtn = screen.getByRole("button", { name: /100% 안전/ });
+    // 법정 안전자산 100% 한도 버튼 클릭
+    const safeBtn = screen.getByRole("button", { name: /100% 한도 \(법정 안전자산\)/ });
     fireEvent.click(safeBtn);
 
     expect(window.location.search).toContain("pension_tier=safe");
-    expect(screen.getByRole("button", { name: "안전자산 100% 조건 제거" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "100% 한도 (법정 안전자산) 조건 제거" })).toBeInTheDocument();
 
     // 위험자산 70% 버튼 클릭
     const riskBtn = screen.getByRole("button", { name: /70% 위험/ });

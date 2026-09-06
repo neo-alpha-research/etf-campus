@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState, useRef, Fragment } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { siteConfig } from "@/config/site";
 import { Tickery } from "@/components/brand/tickery";
@@ -19,38 +19,46 @@ const navigation = [
   { href: "/notice/", label: "알림·참여" },
 ] as const;
 
-const finderNavigation = [
-  { href: "/explore/", label: "조건으로 찾기" },
-  { href: "/quick/?mode=general", label: "일반 계좌" },
-  { href: "/quick/?mode=pension", label: "연금 계좌" },
-  { href: "/quick/?mode=mixed_bonds", label: "혼합 채권" },
-  { href: "/quick/?mode=tdf", label: "TDF" },
-  { href: "/quick/?mode=derivatives", label: "레버리지·인버스" },
-  { href: "/quick/?mode=new", label: "신규 상장" },
+const accountNavigation = [
+  { href: "/explore/?account=all", label: "일반계좌", key: "all" },
+  { href: "/explore/?account=pension", label: "퇴직연금", key: "pension" },
+  { href: "/explore/?account=isa", label: "중개형ISA", key: "isa" },
+] as const;
+
+const characteristicNavigation = [
+  { href: "/quick/?mode=mixed_bonds", label: "혼합채권", key: "mixed_bonds" },
+  { href: "/quick/?mode=tdf", label: "TDF", key: "tdf" },
+  { href: "/quick/?mode=derivatives", label: "레버리지·인버스", key: "derivatives" },
+  { href: "/quick/?mode=new", label: "신규 상장", key: "new" },
 ] as const;
 
 export function SiteHeader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Explicitly track active sub-tab href so highlighting updates
-  // immediately on both pathname and searchParam changes.
-  const [activeFinderHref, setActiveFinderHref] = useState(() => {
+  const getActiveHref = () => {
     if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
+      if (m === "general") return "/explore/?account=all";
+      if (m === "pension") return "/explore/?account=pension";
       return `/quick/?mode=${m}`;
     }
-    return (pathname.startsWith("/explore") || pathname.startsWith("/screener")) ? "/explore/" : undefined;
-  });
+    if (pathname.startsWith("/explore") || pathname.startsWith("/screener")) {
+      const acct = searchParams.get("account");
+      if (acct === "all") return "/explore/?account=all";
+      if (acct === "isa") return "/explore/?account=isa";
+      return "/explore/?account=pension";
+    }
+    return undefined;
+  };
+
+  // Explicitly track active sub-tab href so highlighting updates
+  // immediately on both pathname and searchParam changes.
+  const [activeFinderHref, setActiveFinderHref] = useState(getActiveHref);
 
   useEffect(() => {
-    if (pathname === "/quick" || pathname === "/quick/") {
-      const m = searchParams.get("mode") ?? "general";
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setActiveFinderHref(`/quick/?mode=${m}`);
-    } else if (pathname.startsWith("/explore") || pathname.startsWith("/screener")) {
-      setActiveFinderHref("/explore/");
-    }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setActiveFinderHref(getActiveHref());
   }, [pathname, searchParams]);
 
   // "ETF 탐색" owns both the screener and the preset ETF views.
@@ -74,7 +82,7 @@ export function SiteHeader() {
   useEffect(() => {
     if (!mobileNavRef.current) return;
     const activeEl = mobileNavRef.current.querySelector<HTMLElement>('[aria-current="page"]');
-    if (activeEl) {
+    if (activeEl && typeof activeEl.scrollIntoView === "function") {
       activeEl.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
   }, [pathname]);
@@ -145,14 +153,51 @@ export function SiteHeader() {
       {showFinderNav ? (
         <div className="w-full max-w-full border-t border-line bg-brand-50/55">
           <nav aria-label="ETF 탐색 메뉴" className="page-shell w-full max-w-full overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex items-center gap-2 py-2.5 text-sm">
-            {finderNavigation.map((item, index) => {
+            {accountNavigation.map((item) => {
               const active = item.href === activeFinderHref;
-              const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${active ? "border-brand-700 bg-brand-700 text-white shadow-sm" : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"}`;
+              const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${
+                active
+                  ? "border-brand-700 bg-brand-700 text-white shadow-sm"
+                  : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"
+              }`;
               return (
-                <Fragment key={item.href}>
-                  <Link aria-current={active ? "page" : undefined} className={className} href={item.href} onClick={() => setActiveFinderHref(item.href)}>{item.label}</Link>
-                  {index === 0 && <span aria-hidden="true" className="hidden h-5 w-px bg-brand-300 md:block ml-1 shrink-0" />}
-                </Fragment>
+                <Link
+                  aria-current={active ? "page" : undefined}
+                  className={className}
+                  href={item.href}
+                  key={item.href}
+                  onClick={() => {
+                    setActiveFinderHref(item.href);
+                    if (typeof window !== "undefined" && (window.location.pathname === "/explore" || window.location.pathname === "/explore/")) {
+                      window.history.pushState(null, "", item.href);
+                      window.dispatchEvent(new Event("popstate"));
+                    }
+                  }}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+
+            <span aria-hidden="true" className="h-5 w-px bg-brand-300 mx-1 shrink-0" />
+
+            {characteristicNavigation.map((item) => {
+              const active = item.href === activeFinderHref;
+              const className = `inline-flex min-h-11 shrink-0 items-center rounded-full border px-4 py-2.5 font-bold transition-all ${
+                active
+                  ? "border-brand-700 bg-brand-700 text-white shadow-sm"
+                  : "border-brand-200 bg-surface text-brand-800 hover:border-brand-400 hover:bg-brand-50"
+              }`;
+              return (
+                <Link
+                  aria-current={active ? "page" : undefined}
+                  className={className}
+                  href={item.href}
+                  key={item.href}
+                  onClick={() => setActiveFinderHref(item.href)}
+                >
+                  {item.label}
+                </Link>
               );
             })}
           </nav>

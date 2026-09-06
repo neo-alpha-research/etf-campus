@@ -303,7 +303,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
 
   const isPensionActive = filters.accountMode === "pension" && filters.pensionOnly;
   const isIsaActive = filters.accountMode === "isa";
-  const activeCount = Number(isPensionActive || isIsaActive) + (filters.pensionTier !== "all" ? 1 : 0) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
+  const activeCount = Number(isPensionActive || isIsaActive) + (filters.pensionTier !== "all" ? 1 : 0) + (filters.isaTier !== "all" ? 1 : 0) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
 
   const quickQuery = useMemo(() => {
     let quickMode = "general";
@@ -469,7 +469,13 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
       activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false, accountMode: "all" }) });
     }
   } else if (filters.accountMode === "isa") {
-    activeFilters.push({ label: "중개형 ISA 가능", remove: () => updateFilters({ ...filters, accountMode: "all" }) });
+    if (filters.isaTier === "high_benefit") {
+      activeFilters.push({ label: "ISA 절세실익 높음", remove: () => updateFilters({ ...filters, isaTier: "all" }) });
+    } else if (filters.isaTier === "normal") {
+      activeFilters.push({ label: "ISA 국내주식형", remove: () => updateFilters({ ...filters, isaTier: "all" }) });
+    } else {
+      activeFilters.push({ label: "중개형 ISA 가능", remove: () => updateFilters({ ...filters, accountMode: "all" }) });
+    }
   } else if (filters.pensionOnly) {
     activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false }) });
   }
@@ -508,6 +514,34 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
       });
     }
   }
+
+  const pensionCounts = useMemo(() => {
+    let all = 0;
+    let safe = 0;
+    let risk = 0;
+    for (const e of etfs) {
+      if (e.pension === "가능") {
+        all++;
+        if (e.pensionLimit === "100% (안전자산)") safe++;
+        else if (e.pensionLimit === "70% (위험자산)") risk++;
+      }
+    }
+    return { all, safe, risk };
+  }, [etfs]);
+
+  const isaCounts = useMemo(() => {
+    let all = 0;
+    let high = 0;
+    let normal = 0;
+    for (const e of etfs) {
+      if (e.isaEligible === "가능") {
+        all++;
+        if (e.isaTaxBenefit === "높음") high++;
+        else normal++;
+      }
+    }
+    return { all, high, normal };
+  }, [etfs]);
 
   return (
     <div className="page-shell flex flex-col flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
@@ -554,6 +588,216 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden shrink-0 self-end" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
       </div>
 
+      {/* 🛡️ 대안 A: 1단 계좌 선택 & 2단 법정 한도 구분 섹션 */}
+      <section aria-label="계좌 유형 및 법정 한도 선택" className="mt-3.5 rounded-2xl border border-neutral-200/90 bg-white p-3.5 sm:p-4 shadow-2xs">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-100">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-extrabold text-strong flex items-center gap-1.5">
+              <span>계좌 유형</span>
+              <span className="rounded bg-brand-100 px-1.5 py-0.5 text-[10px] font-bold text-brand-800">절세·연금</span>
+            </span>
+            <p className="text-xs text-neutral-500 hidden sm:inline">
+              투자하려는 계좌를 선택하면 해당 계좌의 세제 혜택과 법정 편입 한도가 적용됩니다
+            </p>
+          </div>
+
+          {/* 1단: 3대 계좌 모드 탭 */}
+          <div className="flex items-center gap-1 rounded-xl bg-neutral-100 p-1" aria-label="3대 계좌 유형 선택">
+            <button
+              type="button"
+              onClick={() => updateFilters({ ...filters, accountMode: "pension", pensionOnly: true })}
+              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                filters.accountMode === "pension" && filters.pensionOnly
+                  ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
+                  : "text-neutral-600 hover:text-neutral-900"
+              }`}
+            >
+              <span>🛡️ 퇴직연금</span>
+              <span className="text-[10px] font-semibold text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded">DC·IRP</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => updateFilters({ ...filters, accountMode: "isa", pensionOnly: false, pensionTier: "all", isaTier: "all" })}
+              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                filters.accountMode === "isa"
+                  ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
+                  : "text-neutral-600 hover:text-neutral-900"
+              }`}
+            >
+              <span>✨ 중개형 ISA</span>
+              <span className="text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded">절세</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => updateFilters({ ...filters, accountMode: "all", pensionOnly: false, pensionTier: "all", isaTier: "all" })}
+              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                filters.accountMode === "all" && !filters.pensionOnly
+                  ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
+                  : "text-neutral-600 hover:text-neutral-900"
+              }`}
+            >
+              <span>🌐 전체 종목</span>
+              <span className="text-[10px] font-medium text-neutral-500">일반 위탁</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 2단: 계좌별 법정 한도 및 가이드 바 */}
+        {filters.accountMode === "pension" && filters.pensionOnly ? (
+          <div className="mt-3 rounded-xl border border-brand-200/80 bg-brand-50/50 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-brand-900">퇴직연금 법정 한도 구분</span>
+                <label className="flex cursor-pointer items-center gap-1.5 text-[11px] font-semibold text-brand-800">
+                  <span className="sr-only">DC·IRP 가능만</span>
+                  <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
+                    <input
+                      aria-label="DC·IRP 가능만"
+                      checked={filters.pensionOnly}
+                      className="peer sr-only"
+                      onChange={(event) => {
+                        const checked = event.target.checked;
+                        updateFilters({
+                          ...filters,
+                          pensionOnly: checked,
+                          accountMode: checked ? "pension" : "all",
+                        });
+                      }}
+                      type="checkbox"
+                      role="switch"
+                    />
+                    <span className={`inline-block size-3 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-3.5" : "translate-x-0.5"}`} />
+                  </div>
+                </label>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="퇴직연금 법정 한도 선택">
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, pensionTier: "all" })}
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.pensionTier === "all"
+                      ? "border-brand-700 bg-brand-700 text-white shadow-xs"
+                      : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
+                  }`}
+                >
+                  전체 적격 ({pensionCounts.all}개)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, pensionTier: "safe" })}
+                  title="퇴직연금 100% 한도 안전자산 (채권·단기파킹·적격TDF·혼합50 등)"
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.pensionTier === "safe"
+                      ? "border-emerald-600 bg-emerald-600 text-white shadow-xs"
+                      : "border-emerald-200 bg-white text-emerald-800 hover:bg-emerald-50"
+                  }`}
+                >
+                  🟢 100% 안전 ({pensionCounts.safe}개)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, pensionTier: "risk" })}
+                  title="퇴직연금 70% 한도 위험자산 (주식형·리츠·커버드콜·금현물 등)"
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.pensionTier === "risk"
+                      ? "border-blue-600 bg-blue-600 text-white shadow-xs"
+                      : "border-blue-200 bg-white text-blue-800 hover:bg-blue-50"
+                  }`}
+                >
+                  🔵 70% 위험 ({pensionCounts.risk}개)
+                </button>
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-neutral-600 leading-relaxed">
+              {filters.pensionTier === "safe"
+                ? "💡 안전자산 의무 30% 바스켓을 채울 수 있는 100% 한도 종목만 표시됩니다. (채권형, 금리·파킹형, 적격 TDF, 주식 비중 50% 이하 채권혼합형)"
+                : filters.pensionTier === "risk"
+                ? "💡 계좌 평가금액의 최대 70%까지 편입 가능한 성장·테마형 종목입니다. (주식형, 리츠, 커버드콜, 금현물 등)"
+                : "💡 근로자퇴직급여보장법 제21조 및 감독규정에 따라 DC·IRP에 편입 가능한 모든 적격 ETF입니다. (레버리지·인버스는 법정 편입 제외)"}
+            </p>
+          </div>
+        ) : filters.accountMode === "isa" ? (
+          <div className="mt-3 rounded-xl border border-indigo-200/80 bg-indigo-50/60 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2.5">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-indigo-950">중개형 ISA 절세 실익 구분</span>
+                <span className="rounded bg-indigo-100 px-1.5 py-0.5 text-[10px] font-bold text-indigo-800">
+                  조세특례제한법 제91조의18
+                </span>
+              </div>
+              <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="중개형 ISA 절세 혜택 선택">
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, isaTier: "all" })}
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.isaTier === "all"
+                      ? "border-indigo-700 bg-indigo-700 text-white shadow-xs"
+                      : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
+                  }`}
+                >
+                  전체 ({isaCounts.all}개)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, isaTier: "high_benefit" })}
+                  title="해외주식·채권·커버드콜 등 매매차익 15.4% 배당소득세 절세 실익이 큰 기타 ETF"
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.isaTier === "high_benefit"
+                      ? "border-emerald-600 bg-emerald-600 text-white shadow-xs"
+                      : "border-emerald-200 bg-white text-emerald-800 hover:bg-emerald-50"
+                  }`}
+                >
+                  ✨ 절세실익 높음 ({isaCounts.high}개)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, isaTier: "normal" })}
+                  title="국내주식형 ETF (매매차익 기본 비과세, 분배금 절세)"
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.isaTier === "normal"
+                      ? "border-slate-600 bg-slate-600 text-white shadow-xs"
+                      : "border-slate-200 bg-white text-slate-700 hover:bg-neutral-50"
+                  }`}
+                >
+                  국내주식형 ({isaCounts.normal}개)
+                </button>
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-indigo-900/80 leading-relaxed">
+              {filters.isaTier === "high_benefit"
+                ? "💡 일반 계좌에서 15.4% 배당소득세가 과세되는 해외주식·채권·커버드콜·원자재 ETF입니다. ISA 계좌에서 순손익 비과세(200만/400만원) 및 초과분 9.9% 분리과세 혜택이 극대화됩니다."
+                : filters.isaTier === "normal"
+                ? "💡 국내 상장주식 직접투자형 ETF로, 일반 계좌에서도 매매차익이 비과세입니다. ISA 계좌에서는 분배금에 대한 절세 혜택이 적용됩니다."
+                : "💡 조세특례제한법상 국내 상장된 1,167개 전 종목 투자가 가능합니다. (레버리지 ETP는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 시 매수 가능)"}
+            </p>
+          </div>
+        ) : (
+          <div className="mt-3 flex items-center justify-between rounded-xl bg-neutral-100 px-3.5 py-2.5 text-xs font-semibold text-neutral-600">
+            <span>전체 ETF (파생·레버리지·인버스 포함 전 종목)</span>
+            <label className="flex cursor-pointer items-center gap-1.5">
+              <span className="text-[11px] text-neutral-500">DC·IRP 가능만 보기</span>
+              <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
+                <input
+                  aria-label="DC·IRP 가능만"
+                  checked={filters.pensionOnly}
+                  className="peer sr-only"
+                  onChange={(event) => {
+                    const checked = event.target.checked;
+                    updateFilters({
+                      ...filters,
+                      pensionOnly: checked,
+                      accountMode: checked ? "pension" : "all",
+                    });
+                  }}
+                  type="checkbox"
+                  role="switch"
+                />
+                <span className={`inline-block size-3 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-3.5" : "translate-x-0.5"}`} />
+              </div>
+            </label>
+          </div>
+        )}
+      </section>
 
       {/* 🔥 TOP 10 인기 테마 퀵 필터 전용 섹션 */}
       <section aria-label="인기 테마 퀵 필터" className="mt-3.5 rounded-2xl border border-neutral-200/90 bg-gradient-to-br from-neutral-50/90 via-white to-brand-50/25 p-3.5 sm:p-4 shadow-2xs">
@@ -605,166 +849,19 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
 
 
-          <fieldset className="border-b border-line pb-3.5">
-            <legend className="flex items-center justify-between w-full mb-2">
-              <span className="text-[15px] font-extrabold text-strong flex items-center gap-1.5">
-                <span>계좌 유형</span>
-                <span className="rounded bg-brand-100 px-1.5 py-0.5 text-[10px] font-bold text-brand-800">절세·연금</span>
-              </span>
-              <button className="flex items-center gap-1 rounded-md border border-brand-200 bg-brand-50 px-2 py-1 text-[11px] font-bold text-brand-700 shadow-sm transition-colors hover:bg-brand-100 hover:text-brand-900" onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)} type="button">
-                <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                초기화
-              </button>
-            </legend>
-
-            {/* 3대 계좌 모드 탭 */}
-            <div className="grid grid-cols-3 gap-1 rounded-xl bg-neutral-200/60 p-1 mb-2">
-              <button
-                type="button"
-                onClick={() => updateFilters({ ...filters, accountMode: "pension", pensionOnly: true })}
-                className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all ${
-                  filters.accountMode === "pension" && filters.pensionOnly
-                    ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
-                    : "text-neutral-600 hover:text-neutral-900"
-                }`}
-              >
-                <span>🛡️ 퇴직연금</span>
-                <span className="text-[10px] font-medium text-neutral-500">DC·IRP</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => updateFilters({ ...filters, accountMode: "isa", pensionOnly: false, pensionTier: "all" })}
-                className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all ${
-                  filters.accountMode === "isa"
-                    ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
-                    : "text-neutral-600 hover:text-neutral-900"
-                }`}
-              >
-                <span>✨ 중개형 ISA</span>
-                <span className="text-[10px] font-medium text-neutral-500">절세 계좌</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => updateFilters({ ...filters, accountMode: "all", pensionOnly: false, pensionTier: "all" })}
-                className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-lg text-xs font-bold transition-all ${
-                  filters.accountMode === "all" && !filters.pensionOnly
-                    ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
-                    : "text-neutral-600 hover:text-neutral-900"
-                }`}
-              >
-                <span>🌐 전체 종목</span>
-                <span className="text-[10px] font-medium text-neutral-500">일반 위탁</span>
-              </button>
-            </div>
-
-            {/* 퇴직연금 전용: 안전자산 vs 위험자산 한도 서브 필터 */}
-            {filters.accountMode === "pension" && filters.pensionOnly ? (
-              <div className="space-y-1.5 rounded-xl border border-brand-200/80 bg-brand-50/60 p-2.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-brand-900">퇴직연금 법정 한도 구분</span>
-                  <label className="flex cursor-pointer items-center gap-1.5 text-[11px] font-semibold text-brand-800">
-                    <span className="sr-only">DC·IRP 가능만</span>
-                    <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
-                      <input
-                        aria-label="DC·IRP 가능만"
-                        checked={filters.pensionOnly}
-                        className="peer sr-only"
-                        onChange={(event) => {
-                          const checked = event.target.checked;
-                          updateFilters({
-                            ...filters,
-                            pensionOnly: checked,
-                            accountMode: checked ? "pension" : "all",
-                          });
-                        }}
-                        type="checkbox"
-                        role="switch"
-                      />
-                      <span className={`inline-block size-3 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-3.5" : "translate-x-0.5"}`} />
-                    </div>
-                  </label>
-                </div>
-                <div className="grid grid-cols-3 gap-1">
-                  <button
-                    type="button"
-                    onClick={() => updateFilters({ ...filters, pensionTier: "all" })}
-                    className={`rounded-lg border px-1.5 py-1 text-[11px] font-bold transition-all text-center ${
-                      filters.pensionTier === "all"
-                        ? "border-brand-700 bg-brand-700 text-white shadow-xs"
-                        : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
-                    }`}
-                  >
-                    전체 적격
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => updateFilters({ ...filters, pensionTier: "safe" })}
-                    title="퇴직연금 100% 한도 안전자산 (채권·단기파킹·적격TDF·혼합50 등)"
-                    className={`rounded-lg border px-1.5 py-1 text-[11px] font-bold transition-all text-center ${
-                      filters.pensionTier === "safe"
-                        ? "border-emerald-600 bg-emerald-600 text-white shadow-xs"
-                        : "border-emerald-200 bg-white text-emerald-800 hover:bg-emerald-50"
-                    }`}
-                  >
-                    🟢 100% 안전
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => updateFilters({ ...filters, pensionTier: "risk" })}
-                    title="퇴직연금 70% 한도 위험자산 (주식형·리츠·커버드콜·금현물 등)"
-                    className={`rounded-lg border px-1.5 py-1 text-[11px] font-bold transition-all text-center ${
-                      filters.pensionTier === "risk"
-                        ? "border-blue-600 bg-blue-600 text-white shadow-xs"
-                        : "border-blue-200 bg-white text-blue-800 hover:bg-blue-50"
-                    }`}
-                  >
-                    🔵 70% 위험
-                  </button>
-                </div>
-                <p className="text-[10px] text-neutral-500 leading-tight pt-0.5">
-                  {filters.pensionTier === "safe"
-                    ? "안전자산 의무 30% 바스켓을 채울 수 있는 100% 한도 종목만 표시됩니다."
-                    : filters.pensionTier === "risk"
-                    ? "계좌 평가금액의 최대 70%까지 편입 가능한 성장·테마형 종목입니다."
-                    : "근로자퇴직급여보장법에 따라 DC·IRP에 편입 가능한 모든 ETF입니다."}
-                </p>
-              </div>
-            ) : filters.accountMode === "isa" ? (
-              <div className="rounded-xl border border-indigo-200/80 bg-indigo-50/60 p-2.5">
-                <p className="text-[11px] font-bold text-indigo-900 mb-0.5">중개형 ISA 투자 가능 ETF</p>
-                <p className="text-[10px] text-indigo-700 leading-tight">
-                  조세특례제한법상 국내 상장된 1,167개 전 종목 투자가 가능합니다. (레버리지 ETP는 사전교육 이수 및 기본예탁금 충족 시 매수 가능)
-                </p>
-              </div>
-            ) : (
-              <div className="flex items-center justify-between rounded-xl bg-neutral-100 px-3 py-2 text-xs font-semibold text-neutral-600">
-                <span>전체 ETF (파생·레버리지 포함)</span>
-                <label className="flex cursor-pointer items-center gap-1.5">
-                  <span className="sr-only">DC·IRP 가능만</span>
-                  <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
-                    <input
-                      aria-label="DC·IRP 가능만"
-                      checked={filters.pensionOnly}
-                      className="peer sr-only"
-                      onChange={(event) => {
-                        const checked = event.target.checked;
-                        updateFilters({
-                          ...filters,
-                          pensionOnly: checked,
-                          accountMode: checked ? "pension" : "all",
-                        });
-                      }}
-                      type="checkbox"
-                      role="switch"
-                    />
-                    <span className={`inline-block size-3 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-3.5" : "translate-x-0.5"}`} />
-                  </div>
-                </label>
-              </div>
-            )}
-          </fieldset>
+          <div className="flex items-center justify-between border-b border-line pb-3 mb-2">
+            <span className="text-[15px] font-extrabold text-strong">상세 필터</span>
+            <button
+              className="flex items-center gap-1 rounded-md border border-brand-200 bg-brand-50 px-2 py-1 text-[11px] font-bold text-brand-700 shadow-sm transition-colors hover:bg-brand-100 hover:text-brand-900"
+              onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)}
+              type="button"
+            >
+              <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              초기화
+            </button>
+          </div>
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">자산군</legend><FilterChips options={ASSET_CLASSES} selected={filters.assetClasses} onChange={(v) => updateFilters({ ...filters, assetClasses: v })} /></fieldset>
           <fieldset className="border-b border-line py-3"><legend className="text-[15px] font-extrabold text-strong block w-full mb-1.5">지역</legend><FilterChips options={MARKET_SCOPES} selected={filters.marketScopes} onChange={(v) => updateFilters({ ...filters, marketScopes: v })} /></fieldset>
           <fieldset className="border-b border-line py-3">
@@ -1152,11 +1249,16 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                 </>
                               )
                             ) : filters.accountMode === "isa" ? (
-                              etf.isaEducationRequired === "Y" ? (
-                                <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">ISA(교육필요)</span>
-                              ) : (
-                                <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>
-                              )
+                              <>
+                                {etf.isaEducationRequired === "Y" ? (
+                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">ISA(교육필요)</span>
+                                ) : (
+                                  <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>
+                                )}
+                                {etf.isaTaxBenefit === "높음" && (
+                                  <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="해외주식·채권형 등 매매차익 15.4% 배당소득세 절세 실익 극대화">절세실익高</span>
+                                )}
+                              </>
                             ) : (
                               <>
                                 {etf.pensionLimit === "100% (안전자산)" && (

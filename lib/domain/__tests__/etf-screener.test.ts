@@ -172,8 +172,8 @@ describe("ETF 스크리너 - 상세 분류 필터 (지역, 운용 전략, 환헤
 
   it("중개형 ISA 계좌 모드에서는 레버리지/인버스를 제외하고 1배수 전 종목을 허용한다", () => {
     const mixed = [
-      etf({ ticker: "EQUITY", isaEligible: "가능", riskType: "normal" }),
-      etf({ ticker: "FUTURES_OIL", isaEligible: "가능", riskType: "normal" }),
+      etf({ ticker: "EQUITY", isaEligible: "가능", riskType: "normal", isaTaxBenefit: "낮음" }),
+      etf({ ticker: "FUTURES_OIL", isaEligible: "가능", riskType: "normal", isaTaxBenefit: "높음" }),
       etf({ ticker: "LEV_2X", isaEligible: "불가", riskType: "leverage" }),
       etf({ ticker: "INV_1X", isaEligible: "불가", riskType: "inverse" }),
     ];
@@ -183,7 +183,43 @@ describe("ETF 스크리너 - 상세 분류 필터 (지역, 운용 전략, 환헤
       aumScope: "all",
       riskTypes: [],
       accountMode: "isa",
+      isaTier: "all",
     });
     expect(isaAllowed.map(i => i.ticker)).toEqual(["EQUITY", "FUTURES_OIL"]);
+
+    const isaHighBenefitOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "isa",
+      isaTier: "high_benefit",
+    });
+    expect(isaHighBenefitOnly.map(i => i.ticker)).toEqual(["FUTURES_OIL"]);
+
+    const isaNormalOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      accountMode: "isa",
+      isaTier: "normal",
+    });
+    expect(isaNormalOnly.map(i => i.ticker)).toEqual(["EQUITY"]);
+  });
+
+  it("중개형 ISA 절세 실익 필터를 URL 쿼리로 왕복한다", () => {
+    const filters: ScreenerFilters = {
+      ...DEFAULT_SCREENER_FILTERS,
+      accountMode: "isa",
+      pensionOnly: false,
+      isaTier: "high_benefit",
+    };
+    const serialized = serializeScreenerQuery(filters);
+    const query = new URLSearchParams(serialized);
+    expect(query.get("account")).toBe("isa");
+    expect(query.get("isa_tier")).toBe("high_benefit");
+
+    const parsed = parseScreenerQuery(query);
+    expect(parsed.accountMode).toBe("isa");
+    expect(parsed.isaTier).toBe("high_benefit");
   });
 });

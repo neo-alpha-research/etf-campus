@@ -217,7 +217,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     fireEvent.click(isaTab);
 
     expect(window.location.search).toContain("account=isa");
-    expect(screen.getByText("중개형 ISA 투자 가능 ETF")).toBeInTheDocument();
+    expect(screen.getByText("중개형 ISA 절세 실익 구분")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "중개형 ISA 가능 조건 제거" })).toBeInTheDocument();
   });
 
@@ -278,6 +278,27 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.queryByText("추정")).not.toBeInTheDocument();
     const pensionBadge = screen.getByText("안전자산100%");
     expect(pensionBadge).toBeInTheDocument();
+  });
+
+  it("중개형 ISA 모드에서 절세실익 높음 종목에 절세실익高 배지가 표시된다", async () => {
+    const isaHighEtf = etf({
+      ticker: "ISA1",
+      name: "미국 테크 ETF",
+      aum: 100_000_000_000,
+      pension: "불가",
+      isaEligible: "가능",
+      isaTaxBenefit: "높음",
+      isaTaxType: "기타",
+    });
+
+    render(<Screener etfs={[isaHighEtf]} />);
+    const isaTab = screen.getByRole("button", { name: /중개형 ISA/ });
+    fireEvent.click(isaTab);
+
+    expect(screen.getByText("중개형 ISA 절세 실익 구분")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /절세실익 높음/ })).toBeInTheDocument();
+    expect(screen.getByText("ISA가능")).toBeInTheDocument();
+    expect(screen.getByText("절세실익高")).toBeInTheDocument();
   });
 });
 

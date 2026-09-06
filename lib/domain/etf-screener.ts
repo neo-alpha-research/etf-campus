@@ -16,12 +16,14 @@ export type TerRange = (typeof TER_RANGES)[number];
 
 export type AccountMode = "all" | "pension" | "isa";
 export type PensionTier = "all" | "safe" | "risk";
+export type IsaTier = "all" | "high_benefit" | "normal";
 
 export type ScreenerFilters = {
   keyword: string;
   pensionOnly: boolean;
   accountMode: AccountMode;
   pensionTier: PensionTier;
+  isaTier: IsaTier;
   marketScopes: readonly MarketScope[];
   assetClasses: readonly AssetClass[];
   riskTypes: readonly RiskType[];
@@ -40,6 +42,7 @@ export const DEFAULT_SCREENER_FILTERS: ScreenerFilters = {
   pensionOnly: true,
   accountMode: "pension",
   pensionTier: "all",
+  isaTier: "all",
   marketScopes: [],
   assetClasses: [],
   riskTypes: ["normal"],
@@ -99,6 +102,8 @@ export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilter
       if (filters.pensionTier === "risk" && etf.pensionLimit !== "70% (위험자산)") return false;
     } else if (filters.accountMode === "isa") {
       if (etf.isaEligible !== "가능") return false;
+      if (filters.isaTier === "high_benefit" && etf.isaTaxBenefit !== "높음") return false;
+      if (filters.isaTier === "normal" && etf.isaTaxBenefit === "높음") return false;
     } else if (filters.pensionOnly) {
       if (etf.pension !== "가능") return false;
     }
@@ -147,6 +152,7 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
     filters.pensionOnly === DEFAULT_SCREENER_FILTERS.pensionOnly &&
     filters.accountMode === DEFAULT_SCREENER_FILTERS.accountMode &&
     filters.pensionTier === DEFAULT_SCREENER_FILTERS.pensionTier &&
+    filters.isaTier === DEFAULT_SCREENER_FILTERS.isaTier &&
     filters.marketScopes.length === 0 &&
     filters.assetClasses.length === 0 &&
     filters.riskTypes.length === 1 && filters.riskTypes[0] === "normal" &&
@@ -164,6 +170,8 @@ export function serializeScreenerQuery(filters: ScreenerFilters): string {
   // 계좌 필터 직렬화 (ISA, 퇴직연금 세부한도, 전체)
   if (filters.accountMode === "isa") {
     query.set("account", "isa");
+    if (filters.isaTier === "high_benefit") query.set("isa_tier", "high_benefit");
+    else if (filters.isaTier === "normal") query.set("isa_tier", "normal");
   } else if (filters.accountMode === "all" || !filters.pensionOnly) {
     query.set("account", "all");
     query.set("pension", "all");
@@ -207,6 +215,7 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
   const rawAccount = query.get("account");
   const rawPension = query.get("pension");
   const rawPensionTier = query.get("pension_tier");
+  const rawIsaTier = query.get("isa_tier");
 
   let accountMode: AccountMode = "pension";
   let pensionOnly = true;
@@ -225,11 +234,15 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
   const pensionTier: PensionTier =
     rawPensionTier === "safe" ? "safe" : (rawPensionTier === "risk" ? "risk" : "all");
 
+  const isaTier: IsaTier =
+    rawIsaTier === "high_benefit" ? "high_benefit" : (rawIsaTier === "normal" ? "normal" : "all");
+
   return {
     keyword: query.get("q") || "",
     pensionOnly,
     accountMode,
     pensionTier,
+    isaTier,
     marketScopes: validValues(query.getAll("market"), MARKET_SCOPES),
     assetClasses: validValues(query.getAll("asset"), ASSET_CLASSES),
     riskTypes: validValues(query.getAll("risk"), RISK_TYPES),

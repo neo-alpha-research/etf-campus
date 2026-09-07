@@ -70,5 +70,10 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
 - **Graceful Fallback 필수**:
   - 모든 토큰과 모델이 고갈된 경우에도 프로세스가 강제 중단(Crash)되지 않도록, 사전에 검증된 정적 고품질 금융 위원회 분석 데이터나 규칙 기반 데이터로 즉시 전환되는 비상 방어 체계를 반드시 동반 구현한다.
 
-
-
+## 단일 진실 공급원(SSOT) 및 구 프로세스·잔재 청산 원칙 (Principle of Superseding & Legacy Purge)
+- **지침 대체 및 구 지침 즉시 제거 (Zero Rule Bloat)**:
+  - 새로운 프로세스, 아키텍처, 정책이 도입되어 기존 방식을 대체(Supersede)하는 경우, 과거의 구 지침을 병기하거나 단순 누적하지 않고 **지침 문서(`AGENTS.md` 등)에서 구 프로세스를 즉시 완전 제거**한다.
+  - 지침 문서는 항상 **'현재 유효한 최신 단일 표준(Single Source of Truth)'**만 간결하게 유지하여 작업 시 지침 간 충돌과 혼선을 원천 방지한다.
+- **관련 코드 수정·오류 해결 및 레거시 원자적 제거 (Zero Technical Debt)**:
+  - 새로운 프로세스 도입 시, 과거 방식에 의존하던 레거시 코드, 임시 하드코딩(임시 컷오프, 모킹 등), 미사용 함수/상수, 폐기된 설정 파일은 **방치하지 않고 즉시 수정하거나 완전 제거(Delete/Refactor)**한다.
+  - "나중에 지운다"는 임시 방편을 엄격히 금지하며, 신규 프로세스 도입 커밋에 구 잔재 청산이 반드시 원자적(Atomically)으로 동반되어야 한다.

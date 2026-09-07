@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
-import type { ScreenerEtf } from "@/lib/domain/etf-screener";
+import type { ScreenerEtf, AccountMode } from "@/lib/domain/etf-screener";
 import { formatReturn } from "@/lib/domain/etf-format";
 
 import { GENERAL_RETURN_PERIODS } from "@/lib/domain/etf-explorer";
@@ -13,6 +13,7 @@ const RANKING_PERIODS: ReturnPeriod[] = [...GENERAL_RETURN_PERIODS];
 
 export function ReturnRankingChart({ 
   etfs, 
+  accountMode = "pension",
   selectedPeriod, 
   onPeriodChange,
   activeFilterLabels = [],
@@ -22,6 +23,7 @@ export function ReturnRankingChart({
   customReturnsData = null,
 }: { 
   etfs: readonly ScreenerEtf[]; 
+  accountMode?: AccountMode;
   selectedPeriod: ReturnPeriod | "custom";
   onPeriodChange: (period: ReturnPeriod | "custom") => void;
   activeFilterLabels?: string[];
@@ -225,8 +227,24 @@ export function ReturnRankingChart({
                         <span className="tabular-nums font-semibold">{etf.ticker}</span>
                         <span className="text-neutral-300">|</span>
                         <span className="truncate max-w-[80px]">{etf.classification?.marketScope || etf.assetClass}</span>
-                        {etf.pension === "불가" && (
-                          <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
+                        {accountMode === "all" ? (
+                          (etf.riskType === "leverage" || etf.isaEducationRequired === "Y") && (
+                            <span className="shrink-0 rounded-[3px] bg-amber-50 border border-amber-200 px-1 py-0.5 font-bold text-amber-800">교육필요</span>
+                          )
+                        ) : accountMode === "isa" ? (
+                          (etf.riskType === "leverage" || etf.isaEducationRequired === "Y") && (
+                            <span className="shrink-0 rounded-[3px] bg-amber-50 border border-amber-200 px-1 py-0.5 font-bold text-amber-800">교육필요</span>
+                          )
+                        ) : accountMode === "personal_pension" ? (
+                          etf.personalPension === "불가" ? (
+                            <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
+                          ) : etf.pensionLimit === "불가" ? (
+                            <span className="shrink-0 rounded-[3px] bg-amber-50 border border-amber-200 px-1 py-0.5 font-bold text-amber-800">개인연금전용</span>
+                          ) : null
+                        ) : (
+                          etf.pension === "불가" && (
+                            <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
+                          )
                         )}
                       </div>
                     </div>

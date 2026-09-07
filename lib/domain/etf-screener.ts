@@ -17,7 +17,7 @@ export type TerRange = (typeof TER_RANGES)[number];
 export type AccountMode = "all" | "pension" | "personal_pension" | "isa";
 export type GeneralTier = "all" | "tax_free" | "taxable";
 export type PensionTier = "all" | "safe" | "risk";
-export type PersonalPensionTier = "all" | "eligible" | "personal_only" | "unverified";
+export type PersonalPensionTier = "all" | "eligible" | "personal_only";
 export type IsaTier = "all" | "high_benefit" | "normal";
 
 export type ScreenerFilters = {
@@ -277,7 +277,7 @@ export function parseScreenerQuery(query: URLSearchParams): ScreenerFilters {
     rawPensionTier === "safe" ? "safe" : (rawPensionTier === "risk" ? "risk" : "all");
 
   const personalTier: PersonalPensionTier =
-    rawPersonalTier === "personal_only" ? "personal_only" : (rawPersonalTier === "unverified" ? "unverified" : (rawPersonalTier === "eligible" ? "eligible" : "all"));
+    rawPersonalTier === "personal_only" ? "personal_only" : (rawPersonalTier === "eligible" ? "eligible" : "all");
 
   const isaTier: IsaTier =
     rawIsaTier === "all"

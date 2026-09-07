@@ -138,7 +138,7 @@ describe("EtfDetail", () => {
       expect(screen.getByText("20억 원")).toBeInTheDocument(); // TradeValue 2,000,000,000
     });
 
-    it("퇴직연금 안전자산 100% 및 위험자산 70%, ISA 가능 배지와 체크 지표가 정확히 렌더링된다", () => {
+    it("퇴직연금 안전자산 100% 및 체크 지표가 정확히 렌더링되고 일반 ETF에는 불필요한 'ISA 가능' 배지가 노출되지 않는다", () => {
       const safeItem = { 
         ...item, 
         pension: "가능" as const, 
@@ -147,9 +147,21 @@ describe("EtfDetail", () => {
       };
       render(<EtfDetail etf={safeItem} />);
       expect(screen.getByText("안전자산 100%")).toBeInTheDocument();
-      expect(screen.getByText("ISA 가능")).toBeInTheDocument();
+      expect(screen.queryByText("ISA 가능")).not.toBeInTheDocument();
       expect(screen.getByText("100% (안전자산)")).toBeInTheDocument();
       expect(screen.getAllByText("편입 가능").length).toBeGreaterThan(0);
+    });
+
+    it("레버리지 ETP 상세 화면에는 '교육필요' 배지가 표시된다", () => {
+      const levItem = {
+        ...item,
+        riskType: "leverage" as const,
+        isaEducationRequired: "Y" as const,
+        isaEligible: "가능" as const,
+      };
+      render(<EtfDetail etf={levItem} />);
+      expect(screen.getByText("교육필요")).toBeInTheDocument();
+      expect(screen.queryByText("ISA 가능")).not.toBeInTheDocument();
     });
 
     it("퇴직연금 위험자산 70% 배지가 표시된다", () => {

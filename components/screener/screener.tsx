@@ -904,7 +904,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
 
             <div className="mt-1.5 pt-1.5 border-t border-amber-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-amber-950/85">
               <div className="flex flex-wrap items-center gap-2">
-                <span>💡 중개형 ISA는 국내 상장 전 종목(1,167개) 편입이 가능하나, 일반 계좌에서도 매매차익이 비과세인 국내주식형을 제외하고 15.4% 배당소득세 절세 실익이 큰 {isaCounts.high.toLocaleString()}개 종목만 엄선하여 나열했습니다. (국내주식형 포함 전 종목은 '전체계좌' 탭 이용)</span>
+                <span>💡 중개형 ISA는 국내 상장 전 종목(1,167개) 편입이 가능하나, 일반 계좌에서도 매매차익이 비과세인 국내주식형을 제외하고 15.4% 배당소득세 절세 실익이 큰 {isaCounts.high.toLocaleString()}개 종목만 엄선하여 나열했습니다. (국내주식형 포함 전 종목은 &apos;전체계좌&apos; 탭 이용)</span>
                 <Link
                   href="/quick?mode=covered_call"
                   className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-colors"
@@ -1163,6 +1163,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         <section aria-labelledby="results-title" className="min-w-0">
           <ReturnRankingChart 
             etfs={results} 
+            accountMode={filters.accountMode}
             selectedPeriod={selectedPeriod}
             onPeriodChange={(period) => {
               if (period !== "custom") handlePeriodChange(period);
@@ -1594,28 +1595,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                               </>
                             ) : (
                               <>
-                                {etf.pensionLimit === "100% (안전자산)" && (
-                                  <>
-                                    <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금(DC/IRP) 100% 전액 투자 가능 (법정 안전자산) · 금융투자협회 전자공시 대조 완료">안전자산100%</span>
-                                    {etf.pensionVerified === "N" && (
-                                      <span
-                                        className={
-                                          etf.pensionConfidence === "낮음"
-                                            ? "text-neutral-600 font-bold text-[10px] bg-neutral-100 border border-neutral-300 px-1 rounded cursor-help"
-                                            : "text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help"
-                                        }
-                                        title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
-                                      >
-                                        추정
-                                      </span>
-                                    )}
-                                  </>
-                                )}
-                                {etf.personalPension === "가능" && etf.pensionLimit === "불가" && (
-                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="개인연금저축 전용 (퇴직연금 불가)">개인연금전용</span>
-                                )}
-                                {etf.pension === "불가" && etf.personalPension === "불가" && (
-                                  <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="금융투자협회 연금저축계좌 표준약관 제8조에 따라 지수 대비 1배 초과 또는 음(-)의 배율로 운용되는 ETF는 연금저축계좌에서 매입할 수 없습니다.">연금불가</span>
+                                {(etf.riskType === "leverage" || etf.isaEducationRequired === "Y") && (
+                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="일반 위탁계좌 편입 가능 (금융투자교육원 사전교육 및 기본예탁금 필요)">교육필요</span>
                                 )}
                               </>
                             )}

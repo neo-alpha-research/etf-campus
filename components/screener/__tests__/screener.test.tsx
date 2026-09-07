@@ -146,10 +146,10 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(regions.length).toBeGreaterThan(0);
   });
 
-  it("연금 불가 종목에는 연금불가 배지를 노출한다", () => {
+  it("일반 위탁계좌(전체계좌) 모드에서는 연금불가 배지를 노출하지 않는다", () => {
     render(<Screener etfs={[etf({ ticker: "X", name: "일반 비연금 ETF", pension: "불가" })]} />);
     fireEvent.click(screen.getByRole("button", { name: /전체계좌/ }));
-    expect(screen.getAllByText("연금불가")[0]).toBeInTheDocument();
+    expect(screen.queryByText("연금불가")).not.toBeInTheDocument();
   });
 
   it("정렬 기준을 순자산으로 변경하면 URL에 동기화된다", () => {
@@ -328,7 +328,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getByText("조세특례제한법 제91조의18")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "중개형 ISA (절세 혜택형) 조건 제거" })).toBeInTheDocument();
     expect(screen.getByText(/해외주식 · 채권 · 리츠 · 커버드콜 절세 실익 극대화/)).toBeInTheDocument();
-    expect(screen.getByText("교육필요")).toBeInTheDocument();
+    expect(screen.getAllByText("교육필요")[0]).toBeInTheDocument();
     expect(screen.queryByText("ISA(교육필요)")).not.toBeInTheDocument();
     expect(screen.queryByText("ISA가능")).not.toBeInTheDocument();
     expect(screen.queryByText("✨절세형")).not.toBeInTheDocument();
@@ -370,7 +370,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     fireEvent.click(pensionTab);
 
     // etf1: 개인연금전용 노출, 불필요한 '연금저축 한도규제 없음' 배지는 미노출
-    expect(screen.getByText("개인연금전용")).toBeInTheDocument();
+    expect(screen.getAllByText("개인연금전용")[0]).toBeInTheDocument();
     expect(screen.queryByText("연금저축 한도규제 없음")).not.toBeInTheDocument();
 
     // 전체 적격 버튼 및 배너 확인
@@ -388,21 +388,33 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.queryByText("일반 1배수 ETF")).not.toBeInTheDocument();
   });
 
-  it("전체계좌(일반 위탁) 모드에서 가이드 카드와 매매차익 비과세 필터링이 정상 작동한다", () => {
+  it("전체계좌(일반 위탁) 모드에서 가이드 카드와 매매차익 비과세 필터링이 정상 작동하며 연금 배지는 노출되지 않는다", () => {
     const domesticEtf = etf({
       ticker: "D1",
       name: "국내 KOSPI ETF",
       isaTaxBenefit: "보통",
       assetClass: "주식-국내",
+      pensionLimit: "100% (안전자산)",
     });
     const overseasEtf = etf({
       ticker: "O1",
       name: "미국 나스닥 ETF",
       isaTaxBenefit: "높음",
       assetClass: "주식-해외",
+      pensionLimit: "70% (위험자산)",
+    });
+    const levEtf = etf({
+      ticker: "L1",
+      name: "코스닥 레버리지 ETF",
+      riskType: "leverage",
+      isaEducationRequired: "Y",
+      isaTaxBenefit: "높음",
+      assetClass: "주식-국내",
+      pension: "불가",
+      pensionLimit: "불가",
     });
 
-    render(<Screener etfs={[domesticEtf, overseasEtf]} />);
+    render(<Screener etfs={[domesticEtf, overseasEtf, levEtf]} />);
     const allTab = screen.getByRole("button", { name: /전체계좌/ });
     fireEvent.click(allTab);
 
@@ -412,11 +424,23 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getByText(/매매차익 비과세 · 일반계좌 최적/)).toBeInTheDocument();
     expect(screen.getByText(/15.4% 과세 · 절세 권장/)).toBeInTheDocument();
 
+    // 일반 위탁계좌 모드에서는 연금 전용 배지(안전자산100%, 연금불가)가 노출되지 않음
+    expect(screen.queryByText("안전자산100%")).not.toBeInTheDocument();
+    expect(screen.queryByText("연금불가")).not.toBeInTheDocument();
+    expect(screen.queryByText("개인연금전용")).not.toBeInTheDocument();
+
     // 매매차익 비과세 버튼 클릭 시 국내주식형만 노출
     const taxFreeBtn = screen.getByRole("button", { name: /매매차익 비과세/ });
     fireEvent.click(taxFreeBtn);
     expect(screen.getAllByText("국내 KOSPI ETF")[0]).toBeInTheDocument();
     expect(screen.queryByText("미국 나스닥 ETF")).not.toBeInTheDocument();
+
+    // 전체(모든 종목)로 복귀 후 레버리지 필터 선택 시 레버리지 종목에 '교육필요' 배지 노출
+    const allTierBtn = screen.getByRole("button", { name: /전체 \(\d+개\)/ });
+    fireEvent.click(allTierBtn);
+    const levLabel = screen.getByLabelText("레버리지");
+    fireEvent.click(levLabel);
+    expect(screen.getAllByText("교육필요")[0]).toBeInTheDocument();
   });
 
   it("퇴직연금 탭 가이드 카드에 혼합채권과 TDF 바로가기 크로스 링크 브릿지를 렌더링한다", () => {

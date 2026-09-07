@@ -143,13 +143,9 @@ export function EtfDetail({
                     {etf.pensionLimit === "불가" ? "정책확인" : "증권사 최종확인 권장"}
                   </span>
                 )}
-                {etf.isaEducationRequired === "Y" ? (
-                  <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1" title="조세특례제한법상 중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">
-                    ISA 가능 (교육필요)
-                  </span>
-                ) : (
-                  <span className="rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700 flex items-center gap-1" title="조세특례제한법상 중개형 ISA 편입 가능">
-                    ISA 가능
+                {(etf.riskType === "leverage" || etf.isaEducationRequired === "Y") && (
+                  <span className="rounded-md border border-amber-200 bg-amber-50 px-2 py-1 text-xs font-bold text-amber-800 flex items-center gap-1" title="중개형 ISA 및 일반 계좌 편입 가능 (금융투자교육원 사전교육 및 기본예탁금 필요)">
+                    교육필요
                   </span>
                 )}
                 {cautions.map(caution => (
@@ -314,7 +310,7 @@ export function EtfDetail({
                       <div className="flex items-center justify-between">
                         <span className="text-neutral-500 font-medium">중개형 ISA</span>
                         <span className="font-bold text-indigo-700">
-                          {etf.riskType === "leverage" ? "편입 가능 (사전교육 필요)" : "편입 가능"}
+                          {(etf.riskType === "leverage" || etf.isaEducationRequired === "Y") ? "편입 가능 (사전교육 필요)" : "편입 가능"}
                         </span>
                       </div>
                     </dd>

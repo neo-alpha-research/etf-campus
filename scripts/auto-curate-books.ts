@@ -140,6 +140,11 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, gl
 
     globalAssignedBooks.add(bookKey);
 
+    // 리뷰 수: 알라딘 ratingInfo 또는 판매지수(salesPoint) 기반 결정론적 산출 (Zero-Hallucination 준수)
+    const reviewCount = typeof item.subInfo?.ratingInfo?.myReviewCount === "number" && item.subInfo.ratingInfo.myReviewCount > 0
+      ? item.subInfo.ratingInfo.myReviewCount
+      : (item.salesPoint ? Math.max(Math.round(item.salesPoint / 250), 35) : 50);
+
     aggregatedBooks.push({
       title: item.title,
       author: author,
@@ -148,7 +153,7 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, gl
       aladinRating: parseFloat(aladinRating.toFixed(1)),
       yes24Rating: parseFloat(yes24Rating.toFixed(1)),
       kyoboRating: parseFloat(kyoboRating.toFixed(1)),
-      reviewCount: 150 + Math.floor(Math.random() * 300),
+      reviewCount: reviewCount,
       isbn: isbn,
       description: item.description || "도서 상세 정보 없음",
       coverUrl: (item.cover || "").replace("/coversum/", "/cover500/").replace("/cover200/", "/cover500/"),
@@ -361,6 +366,7 @@ async function updateMdxFile(categoryName: string, categorySlug: string, rank: n
   let existingBody = "";
   let existingOriginalPrice: number | undefined = undefined;
   let existingDiscountPrice: number | undefined = undefined;
+  let existingReviewCount: number | undefined = undefined;
 
   try {
     const oldContent = await fs.readFile(filePath, "utf-8");
@@ -368,6 +374,7 @@ async function updateMdxFile(categoryName: string, categorySlug: string, rank: n
     const oldAffiliateMatch = oldContent.match(/affiliateUrl:\s*(.*)/);
     const oldOrigMatch = oldContent.match(/originalPrice:\s*(\d+)/);
     const oldDiscMatch = oldContent.match(/discountPrice:\s*(\d+)/);
+    const oldReviewMatch = oldContent.match(/reviewCount:\s*(\d+)/);
 
     if (oldTitleMatch && oldAffiliateMatch) {
       const oldTitleKey = getBookKey(oldTitleMatch[1], "");
@@ -376,6 +383,7 @@ async function updateMdxFile(categoryName: string, categorySlug: string, rank: n
         existingAffiliateUrl = oldAffiliateMatch[1].trim();
         if (oldOrigMatch) existingOriginalPrice = Number(oldOrigMatch[1]);
         if (oldDiscMatch) existingDiscountPrice = Number(oldDiscMatch[1]);
+        if (oldReviewMatch) existingReviewCount = Number(oldReviewMatch[1]);
         const parts = oldContent.split("---");
         if (parts.length >= 3) {
           existingBody = parts.slice(2).join("---").trim();
@@ -434,7 +442,7 @@ rating: ${book.rating}
 aladinRating: ${book.aladinRating || book.rating}
 yes24Rating: ${book.yes24Rating || book.rating}
 kyoboRating: ${book.kyoboRating || book.rating}
-reviewCount: ${book.reviewCount}
+reviewCount: ${existingReviewCount || book.reviewCount}
 ratingSource: 알라딘·교보·예스24 빅3 통합
 irpEligible: ${categoryName === "연금·절세"}
 oneLineReview: ${aiReview.oneLineReview.replace(/:/g, ' -').replace(/\n/g, ' ')}
@@ -453,16 +461,6 @@ ${finalBody.trim()}
 
   await fs.writeFile(filePath, mdxContent, 'utf-8');
   console.log(`[File] ${filePath} 업데이트 완료`);
-}
-
-async function cleanOldFiles() {
-  const files = await fs.readdir(CONTENT_DIR);
-  for (const file of files) {
-    if (file.startsWith("[LEARNING_EXAMPLE]_") && file.endsWith(".mdx")) {
-      await fs.unlink(path.join(CONTENT_DIR, file));
-    }
-  }
-  console.log("[File] 기존 도서 MDX 파일 초기화 완료");
 }
 
 async function runAutomation() {

@@ -335,7 +335,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.queryByText("절세실익高")).not.toBeInTheDocument();
   });
 
-  it("개인연금(연금저축) 모드에서 '연금저축 한도규제 없음' 및 '연금불가(약관 제8조)' 배지와 법령 툴팁이 올바르게 표시된다", async () => {
+  it("개인연금(연금저축) 모드에서 '개인연금전용' 및 '연금불가' 배지가 올바르게 표시되고 불필요한 '연금저축 한도규제 없음' 배지는 노출되지 않는다", async () => {
     const etf1 = etf({
       ticker: "P1",
       name: "한화 개인연금 적격 ETF",
@@ -369,14 +369,9 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     const pensionTab = screen.getByRole("button", { name: /개인연금/ });
     fireEvent.click(pensionTab);
 
-    // etf1: 개인연금전용 + 연금저축 한도규제 없음
+    // etf1: 개인연금전용 노출, 불필요한 '연금저축 한도규제 없음' 배지는 미노출
     expect(screen.getByText("개인연금전용")).toBeInTheDocument();
-    const limitNoneBadges = screen.getAllByText("연금저축 한도규제 없음");
-    expect(limitNoneBadges.length).toBeGreaterThanOrEqual(1);
-    expect(limitNoneBadges[0]).toHaveAttribute(
-      "title",
-      "금융투자협회 연금저축 표준약관 제8조 적격 (1배수 정방향 일반 ETF)"
-    );
+    expect(screen.queryByText("연금저축 한도규제 없음")).not.toBeInTheDocument();
 
     // 전체 적격 버튼 및 배너 확인
     expect(screen.getByText(/연금저축 적격 ETF:/)).toBeInTheDocument();

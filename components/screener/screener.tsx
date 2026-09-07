@@ -1595,18 +1595,13 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                               )
                             ) : filters.accountMode === "personal_pension" ? (
                               <>
-                                  {etf.personalPension === "가능" ? (
-                                    etf.pensionLimit === "불가" ? (
-                                      <>
-                                        <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="퇴직연금(DC/IRP)은 불가하나 개인연금저축에서는 100% 편입 가능">개인연금전용</span>
-                                        <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="금융투자협회 연금저축 표준약관 제8조 적격 (1배수 정방향 일반 ETF)">연금저축 한도규제 없음</span>
-                                      </>
-                                    ) : (
-                                      <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="금융투자협회 연금저축 표준약관 제8조 적격 (1배수 정방향 일반 ETF)">연금저축 한도규제 없음</span>
-                                    )
-                                  ) : (
-                                    <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="금융투자협회 연금저축계좌 표준약관 제8조에 따라 지수 대비 1배 초과 또는 음(-)의 배율로 운용되는 ETF는 연금저축계좌에서 매입할 수 없습니다.">연금불가</span>
-                                  )}
+                                {etf.personalPension === "가능" ? (
+                                  etf.pensionLimit === "불가" && (
+                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="퇴직연금(DC/IRP)은 불가하나 개인연금저축에서는 100% 편입 가능">개인연금전용</span>
+                                  )
+                                ) : (
+                                  <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="금융투자협회 연금저축계좌 표준약관 제8조에 따라 지수 대비 1배 초과 또는 음(-)의 배율로 운용되는 ETF는 연금저축계좌에서 매입할 수 없습니다.">연금불가</span>
+                                )}
                               </>
                             ) : filters.accountMode === "isa" ? (
                               <>

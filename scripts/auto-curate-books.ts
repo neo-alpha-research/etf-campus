@@ -3,12 +3,13 @@
  */
 
 import fs from "fs/promises";
+import fsSync from "fs";
 import path from "path";
 
 const CONTENT_DIR = path.join(process.cwd(), "content/external-books");
-const ALADIN_TTB_KEY = process.env.ALADIN_TTB_KEY || "ttbshinkib1816001";
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AIzaSyBIuUD4m3gzQmclZIxjm45QkPnXrZNFxOQ";
-const COUPANG_TRACKING_ID = process.env.COUPANG_TRACKING_ID || "AF8609639";
+const ALADIN_TTB_KEY = (process.env.ALADIN_TTB_KEY || "").trim() || "ttbshinkib1816001";
+const GEMINI_API_KEY = (process.env.GEMINI_API_KEY || "").trim() || "AIzaSyBIuUD4m3gzQmclZIxjm45QkPnXrZNFxOQ";
+const COUPANG_TRACKING_ID = (process.env.COUPANG_TRACKING_ID || "").trim() || "AF8609639";
 
 const CATEGORY_MAP = {
   "초보·입문": { keyword: "ETF", slug: "beginner" },
@@ -19,7 +20,7 @@ const CATEGORY_MAP = {
 let coupangRegistry: Record<string, string> = {};
 try {
   const regPath = path.join(process.cwd(), "data/coupang-links.json");
-  coupangRegistry = JSON.parse(await fs.readFile(regPath, "utf-8"));
+  coupangRegistry = JSON.parse(fsSync.readFileSync(regPath, "utf-8"));
 } catch {
   // Registry missing
 }
@@ -467,9 +468,7 @@ async function cleanOldFiles() {
 async function runAutomation() {
   console.log("🚀 ETF Campus 도서 큐레이션 자동화 스크립트 시작 (중복 방지 엔진 탑재)");
   
-  // 1. 기존 파일 정리
-  await cleanOldFiles();
-
+  // 기존 파일은 updateMdxFile에서 이전 단축링크 및 심층 리뷰 본문을 안전하게 보존(overwrite)하므로 사전 삭제하지 않음.
   const globalAssignedBooks = new Set<string>();
 
   // 2. 카테고리별로 순회하며 중복 없이 생성

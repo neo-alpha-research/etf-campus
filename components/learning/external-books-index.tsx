@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Star, ThumbsUp, AlertCircle, BookOpen, CheckCircle2, SlidersHorizontal, ShieldCheck, ZoomIn, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 import type { ExternalBook, ExternalBookCategory } from "@/lib/content/learning-content";
@@ -20,6 +20,16 @@ export function ExternalBooksIndex({
 }) {
   const [activeCategory, setActiveCategory] = useState<ExternalBookCategory>(categories[0] ?? "초보·입문");
   const [previewBook, setPreviewBook] = useState<ExternalBook | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPreviewBook(null);
+    };
+    if (previewBook) {
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [previewBook]);
 
   const filteredBooks = books
     .filter((book) => book.category === activeCategory)
@@ -300,7 +310,7 @@ export function ExternalBooksIndex({
 
                   <Link
                     href={`/books/review/${book.slug}`}
-                    className="inline-flex w-full min-h-[38px] items-center justify-center rounded-xl bg-surface px-4 text-xs font-bold text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 active:scale-[0.99] border border-line"
+                    className="inline-flex w-full min-h-[44px] items-center justify-center rounded-xl bg-surface px-4 text-xs sm:text-sm font-bold text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-900 active:scale-[0.99] border border-line"
                   >
                     리뷰 상세 보기 →
                   </Link>

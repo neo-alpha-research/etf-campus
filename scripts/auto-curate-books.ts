@@ -58,9 +58,26 @@ function getBookKey(title: string, author: string): string {
   return `${normalizedTitle}__${normalizedAuthor}`;
 }
 
+function sanitizeFrontmatter(val: any): string {
+  return String(val ?? "")
+    .replace(/[\r\n]+/g, " ")
+    .replace(/:/g, " -")
+    .trim();
+}
+
+async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 8000): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function fetchYes24Rating(isbn: string): Promise<number | null> {
   try {
-    const res = await fetch(`https://www.yes24.com/Product/Search?domain=ALL&query=${isbn}`);
+    const res = await fetchWithTimeout(`https://www.yes24.com/Product/Search?domain=ALL&query=${isbn}`);
     if (!res.ok) return null;
     const html = await res.text();
     // 예스24 평점 추출 (예: <em class="yes_b">9.6</em>)
@@ -69,7 +86,7 @@ async function fetchYes24Rating(isbn: string): Promise<number | null> {
       // 10점 만점을 5점 만점으로 환산
       return parseFloat(match[1]) / 2;
     }
-  } catch (e) {
+  } catch {
     return null;
   }
   return null;
@@ -78,7 +95,7 @@ async function fetchYes24Rating(isbn: string): Promise<number | null> {
 async function fetchKyoboRating(isbn: string): Promise<number | null> {
   // 교보는 동적 렌더링이 많아 API 우회나 정규식이 까다로울 수 있음. 안전장치 적용.
   try {
-    const res = await fetch(`https://search.kyobobook.co.kr/search?keyword=${isbn}`);
+    const res = await fetchWithTimeout(`https://search.kyobobook.co.kr/search?keyword=${isbn}`);
     if (!res.ok) return null;
     const html = await res.text();
     // <span class="review_quotes_val">4.8</span> 형태
@@ -86,7 +103,7 @@ async function fetchKyoboRating(isbn: string): Promise<number | null> {
     if (match && match[1]) {
       return parseFloat(match[1]);
     }
-  } catch(e) {
+  } catch {
     return null;
   }
   return null;
@@ -102,13 +119,13 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, gl
   // 1. 알라딘 ItemSearch API 호출 (최대 25개 가져와서 구판/타카테고리 중복 필터링)
   const url = `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ALADIN_TTB_KEY}&Query=${encodeURIComponent(keyword)}&QueryType=Keyword&MaxResults=25&SearchTarget=Book&output=js&Version=20131101&Sort=SalesPoint`;
   
-  let response = await fetch(url);
+  let response = await fetchWithTimeout(url);
   let data = await response.json();
 
   if (!data || !data.item || data.item.length === 0) {
     console.log(`⚠️ [API] ${keyword} 검색 결과 없음. 'ETF'로 대체 검색합니다.`);
     const fallbackUrl = `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ALADIN_TTB_KEY}&Query=ETF&QueryType=Keyword&MaxResults=25&SearchTarget=Book&output=js&Version=20131101&Sort=SalesPoint`;
-    response = await fetch(fallbackUrl);
+    response = await fetchWithTimeout(fallbackUrl);
     data = await response.json();
   }
 
@@ -406,9 +423,9 @@ exampleType: reading-path
 scenarioBasis: fictional
 asOf: not-applicable
 sources: not-applicable
-title: ${book.title.replace(/:/g, ' -').replace(/\n/g, ' ')}
-author: ${book.author.replace(/:/g, ' -').replace(/\n/g, ' ')}
-publisher: ${book.publisher.replace(/:/g, ' -').replace(/\n/g, ' ')}
+title: ${sanitizeFrontmatter(book.title)}
+author: ${sanitizeFrontmatter(book.author)}
+publisher: ${sanitizeFrontmatter(book.publisher)}
 category: ${categoryName}
 tags: ${categoryTags}
 rating: ${book.rating}
@@ -418,13 +435,13 @@ kyoboRating: ${book.kyoboRating || book.rating}
 reviewCount: ${existingReviewCount || book.reviewCount}
 ratingSource: 알라딘·교보·예스24 빅3 통합
 irpEligible: ${categoryName === "연금·절세"}
-oneLineReview: ${aiReview.oneLineReview.replace(/:/g, ' -').replace(/\n/g, ' ')}
-summary: ${aiReview.summary.replace(/:/g, ' -').replace(/\n/g, ' ')}
-pros: ${prosText.replace(/:/g, ' -').replace(/\n/g, ' ')}
-cons: ${consText.replace(/:/g, ' -').replace(/\n/g, ' ')}
-targetPersona: ${aiReview.targetPersona.replace(/:/g, ' -').replace(/\n/g, ' ')}
-targetRationale: ${(aiReview.targetRationale || "").replace(/:/g, ' -').replace(/\n/g, ' ')}
-shortTargetTag: ${aiReview.shortTargetTag.replace(/:/g, ' -').replace(/\n/g, ' ')}
+oneLineReview: ${sanitizeFrontmatter(aiReview.oneLineReview)}
+summary: ${sanitizeFrontmatter(aiReview.summary)}
+pros: ${sanitizeFrontmatter(prosText)}
+cons: ${sanitizeFrontmatter(consText)}
+targetPersona: ${sanitizeFrontmatter(aiReview.targetPersona)}
+targetRationale: ${sanitizeFrontmatter(aiReview.targetRationale || "")}
+shortTargetTag: ${sanitizeFrontmatter(aiReview.shortTargetTag)}
 coverImage: ${book.coverUrl}${originalPriceStr}${discountPriceStr}
 affiliateUrl: ${finalAffiliateUrl}
 ---

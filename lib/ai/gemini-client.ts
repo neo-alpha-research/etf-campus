@@ -112,17 +112,16 @@ export async function callGeminiWithWaterfall<T = any>(
     for (const modelName of MODEL_WATERFALL) {
       const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${token}`;
 
-      try {
-        const controller = new AbortController();
-        const timeoutTimer = setTimeout(() => controller.abort(), timeoutMs);
+      const controller = new AbortController();
+      const timeoutTimer = setTimeout(() => controller.abort(), timeoutMs);
 
+      try {
         const response = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(requestBody),
           signal: controller.signal,
         });
-        clearTimeout(timeoutTimer);
 
         if (response.ok) {
           const data: any = await response.json();
@@ -136,7 +135,17 @@ export async function callGeminiWithWaterfall<T = any>(
               } else if (candidateText.startsWith("```")) {
                 candidateText = candidateText.replace(/^```/, "").replace(/```$/, "").trim();
               }
-              const parsed = JSON.parse(candidateText);
+              let parsed: any;
+              try {
+                parsed = JSON.parse(candidateText);
+              } catch {
+                const jsonMatch = candidateText.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                  parsed = JSON.parse(jsonMatch[0]);
+                } else {
+                  throw new Error("Invalid JSON format in model output");
+                }
+              }
               return {
                 success: true,
                 text: candidateText,
@@ -176,6 +185,8 @@ export async function callGeminiWithWaterfall<T = any>(
       } catch (err: any) {
         failoverHistory.push(`Token #${realIdx} ${modelName} (${err?.message || err})`);
         continue;
+      } finally {
+        clearTimeout(timeoutTimer);
       }
     }
 

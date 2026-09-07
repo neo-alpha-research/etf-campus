@@ -302,8 +302,8 @@ def classify_pension_and_isa(
         v_grade = str(v_entry.get("evidence_grade") or "").strip()
         if v_limit == pension_limit:
             # Agreement: Verified
-            # Opus review: RULE_NAME or E3 mixed bond items keep confidence = 보통 until prospectus/data verified, pure bond/equity restored to 높음
-            conf = PENSION_CONFIDENCE_MODERATE if (v_grade in ("RULE_NAME", "RULE") or (v_grade == "E3" and kofia_ft == "혼합채권형")) else PENSION_CONFIDENCE_HIGH
+            # KOFIA-verified mixed bond items (혼합채권형) satisfy retirement pension regulation Art 11(1)(5) (stock limit < 50%) -> confidence = 높음
+            conf = PENSION_CONFIDENCE_MODERATE if v_grade in ("RULE_NAME", "RULE") else PENSION_CONFIDENCE_HIGH
             return {
                 "pension_eligible": pension_eligible,
                 "pension_limit": pension_limit,

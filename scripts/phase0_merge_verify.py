@@ -33,6 +33,8 @@ def main():
             "pension_limit": reg["pension_limit"],
             "isa_eligible": reg["isa_eligible"],
             "isa_education_required": reg["isa_education_required"],
+            "isa_tax_type": reg["isa_tax_type"],
+            "isa_tax_benefit": reg["isa_tax_benefit"],
             "pension_source": reg["pension_source"],
             "pension_verified": reg["pension_verified"],
             "pension_confidence": reg["pension_confidence"],
@@ -59,7 +61,9 @@ def main():
         'listing_date_source', 'listing_date_status', 'first_traded_date', 'first_traded_date_source',
         'listing_date_verified_at', 'listing_date_evidence_id', 'nav', 'disparity', 'tracking_error',
         'shares', 'net_asset', 'pension_limit', 'isa_eligible', 'isa_education_required',
-        'pension_source', 'pension_verified', 'pension_confidence', 'underlying_is_security'
+        'isa_tax_type', 'isa_tax_benefit',
+        'pension_source', 'pension_verified', 'pension_confidence', 'underlying_is_security',
+        'personal_pension', 'personal_pension_limit'
     ]
     master_rows = [{k: row.get(k, '') for k in master_fields} for row in out]
     with master_path.open("w", newline="", encoding="utf-8-sig") as f:

@@ -243,12 +243,11 @@ def build_audit_ledger():
             evidence_grade = v_entry.get("evidence_grade") or ("E2" if tk == "284430" else ("E3" if src_type == "협회공시대조" else "E1"))
             evidence_tier = v_entry.get("evidence_tier") or ("3way" if evidence_grade == "E4" else "1way")
             evidence_quote = v_entry.get("evidence_quote") or ("가. 투자대상주식: 40% 이하 → 50% 미만" if tk == "284430" else "")
-            if evidence_grade == "E3":
-                p_conf = "보통"
-                audit_note = f"{audit_note} (KOFIA 제27조 [별지 제15호] 정본 대조, 50% 미만 약관 경계 확인 전까지 신뢰도 보통)"
-            elif evidence_grade == "RULE_NAME":
+            if evidence_grade == "RULE_NAME":
                 p_conf = "보통"
                 audit_note = "명칭 기반 배수 식별 및 퇴직연금감독규정 제9조 제1항 제2호 마목 단서 적용"
+            else:
+                p_conf = m.get("pension_confidence", "").strip() or "높음"
         else:
             evidence_grade = "UNVERIFIED"
             evidence_tier = ""

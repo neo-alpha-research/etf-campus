@@ -315,7 +315,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   const isPensionActive = filters.accountMode === "pension" && filters.pensionOnly;
   const isPersonalPensionActive = filters.accountMode === "personal_pension";
   const isIsaActive = filters.accountMode === "isa";
-  const activeCount = Number(isPensionActive || isPersonalPensionActive || isIsaActive) + (filters.pensionTier !== "all" ? 1 : 0) + (filters.personalTier && filters.personalTier !== "all" ? 1 : 0) + (filters.isaTier !== "all" ? 1 : 0) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
+  const activeCount = Number(isPensionActive || isPersonalPensionActive || isIsaActive) + (filters.pensionTier !== "all" ? 1 : 0) + (filters.personalTier && filters.personalTier !== "all" ? 1 : 0) + filters.marketScopes.length + filters.assetClasses.length + filters.riskTypes.length + filters.strategies.length + filters.fxHedges.length + (filters.aumScope !== "all" ? 1 : 0) + filters.terRanges.length + filters.issuerIds.length;
 
   const quickQuery = useMemo(() => {
     let quickMode = "general";
@@ -489,13 +489,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
       activeFilters.push({ label: "연금저축 가능", remove: () => updateFilters({ ...filters, accountMode: "all" }) });
     }
   } else if (filters.accountMode === "isa") {
-    if (filters.isaTier === "high_benefit") {
-      activeFilters.push({ label: "ISA 절세 혜택형", remove: () => updateFilters({ ...filters, isaTier: "all" }) });
-    } else if (filters.isaTier === "normal") {
-      activeFilters.push({ label: "ISA 국내주식형", remove: () => updateFilters({ ...filters, isaTier: "all" }) });
-    } else {
-      activeFilters.push({ label: "중개형 ISA 가능", remove: () => updateFilters({ ...filters, accountMode: "all" }) });
-    }
+    activeFilters.push({ label: "중개형 ISA (절세 혜택형)", remove: () => updateFilters({ ...filters, accountMode: "all", isaTier: "all" }) });
   } else if (filters.accountMode === "all") {
     if (filters.generalTier === "tax_free") {
       activeFilters.push({ label: "매매차익 비과세(국내주식)", remove: () => updateFilters({ ...filters, generalTier: "all" }) });
@@ -904,80 +898,33 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   조세특례제한법 제91조의18
                 </span>
               </div>
-              <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="중개형 ISA 절세 혜택 선택">
-                <button
-                  type="button"
-                  onClick={() => updateFilters({ ...filters, isaTier: "high_benefit" })}
-                  title="해외주식·채권·커버드콜 등 매매차익 15.4% 배당소득세 절세 실익이 큰 기타 ETF"
-                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
-                    filters.isaTier === "high_benefit"
-                      ? "border-amber-700 bg-amber-700 text-white shadow-xs"
-                      : "border-amber-300/80 bg-white text-amber-900 hover:bg-amber-100/50"
-                  }`}
-                >
-                  <span className="text-amber-500 shrink-0 text-xs">✨</span>{" "}
-                  <span>절세 혜택형 ({isaCounts.high.toLocaleString()}개)</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => updateFilters({ ...filters, isaTier: "all" })}
-                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
-                    filters.isaTier === "all"
-                      ? "border-neutral-900 bg-neutral-900 text-white shadow-xs"
-                      : "border-amber-300/80 bg-white text-neutral-700 hover:bg-amber-100/50"
-                  }`}
-                >
-                  <span className={`size-2 rounded-full shrink-0 ${filters.isaTier === "all" ? "bg-white" : "bg-neutral-400"}`} />
-                  <span>전체 ({isaCounts.all.toLocaleString()}개)</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => updateFilters({ ...filters, isaTier: "normal" })}
-                  title="국내주식형 ETF (매매차익 기본 비과세, 분배금 절세)"
-                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
-                    filters.isaTier === "normal"
-                      ? "border-blue-700 bg-blue-700 text-white shadow-xs"
-                      : "border-amber-300/80 bg-white text-neutral-700 hover:bg-amber-100/50"
-                  }`}
-                >
-                  <span className={`size-2 rounded-full shrink-0 ${filters.isaTier === "normal" ? "bg-white" : "bg-blue-500"}`} />
-                  <span>국내주식형 ({isaCounts.normal.toLocaleString()}개)</span>
-                </button>
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center gap-1 rounded-lg bg-amber-700 px-2.5 py-1 text-xs font-bold text-white shadow-xs">
+                  <span>절세 혜택형 ({isaCounts.high.toLocaleString()}개 전수 선별)</span>
+                </span>
               </div>
             </div>
 
-            {/* 2열 슬림 카드 그리드 */}
-            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs border-t border-amber-200/60 pt-2">
-              <div className="rounded-lg bg-white/70 py-1.5 px-2.5 border border-amber-200/60">
-                <div className="flex items-center gap-1.5 font-bold text-amber-950">
-                  <span className="text-amber-500 shrink-0 text-xs">✨</span>
-                  <span>절세 실익 극대화 ({isaCounts.high.toLocaleString()}개)</span>
-                  <span className="text-[10px] font-semibold text-amber-700 bg-amber-100/70 px-1 py-0.2 rounded">해외주식 · 채권 · 리츠</span>
-                </div>
-                <p className="mt-0.5 text-[11px] text-amber-900/85 leading-snug">
-                  일반 계좌 15.4% 과세 수익이 ISA에서는 <strong>200만원(서민 400만) 비과세</strong>, 초과분도 <strong>9.9% 분리과세</strong>됩니다.
-                </p>
+            {/* 단일 슬림 카드 (절세 실익 극대화 안내) */}
+            <div className="mt-2 rounded-lg bg-white/75 py-2 px-3 border border-amber-200/60 text-xs">
+              <div className="flex items-center gap-1.5 font-bold text-amber-950">
+                <span className="text-amber-500 shrink-0 text-xs">✨</span>
+                <span>해외주식 · 채권 · 리츠 · 커버드콜 절세 실익 극대화</span>
+                <span className="text-[10px] font-semibold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded">15.4% 배당소득세 절세</span>
               </div>
-              <div className="rounded-lg bg-white/70 py-1.5 px-2.5 border border-amber-200/60">
-                <div className="flex items-center gap-1.5 font-bold text-neutral-800">
-                  <span className="size-2 rounded-full bg-blue-500 shrink-0" />
-                  <span>국내주식형 ({isaCounts.normal.toLocaleString()}개)</span>
-                  <span className="text-[10px] font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded">KOSPI200 · 국내 섹터</span>
-                </div>
-                <p className="mt-0.5 text-[11px] text-neutral-600 leading-snug">
-                  일반 계좌에서도 <strong>매매차익은 세금 0원</strong>이므로, ISA에서는 <strong>분배금(배당금) 절세 목적</strong>으로 유효합니다.
-                </p>
-              </div>
+              <p className="mt-1 text-[11.5px] text-amber-950/90 leading-snug">
+                일반 계좌에서 15.4% 과세되는 매매차익 및 분배금이 중개형 ISA에서는 <strong>200만원(서민형 400만원)까지 비과세</strong>되며, 초과분도 <strong>9.9% 분리과세(금융소득종합과세 배제)</strong>됩니다.
+              </p>
             </div>
 
-            <div className="mt-1.5 pt-1.5 border-t border-amber-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-amber-950/80">
+            <div className="mt-1.5 pt-1.5 border-t border-amber-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-amber-950/85">
               <div className="flex flex-wrap items-center gap-2">
-                <span>💡 핵심 세제 혜택: 계좌 내 전 종목 손익통산(순이익만 과세) + 레버리지 포함 전 종목({isaCounts.all.toLocaleString()}개) 편입 가능</span>
+                <span>💡 국내 상장 전 종목(1,167개) 편입이 가능하나, 절세 실익이 큰 {isaCounts.high.toLocaleString()}개 종목을 선별 제공합니다 (전 종목은 '전체계좌' 탭 이용).</span>
                 <Link
                   href="/quick?mode=covered_call"
                   className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-colors"
                 >
-                  <span>💰 월배당 커버드콜 절세 혜택형 탐색 →</span>
+                  <span>💰 월배당 커버드콜 절세 탐색 →</span>
                 </Link>
               </div>
               <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 의무가입기간 3년, 연간 납입한도 2,000만원 (총 1억원)</span>
@@ -1661,10 +1608,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                               </>
                             ) : filters.accountMode === "isa" ? (
                               <>
-                                {etf.isaEducationRequired === "Y" ? (
-                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">ISA(교육필요)</span>
-                                ) : (
-                                  <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>
+                                {etf.isaEducationRequired === "Y" && (
+                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">교육필요</span>
                                 )}
                               </>
                             ) : (

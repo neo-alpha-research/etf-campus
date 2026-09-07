@@ -213,7 +213,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.queryAllByText("+10.00").length).toBe(0);
   });
 
-  it("중개형 ISA 탭 클릭 시 절세 혜택형(high_benefit)이 기본 적용되고 전체 조회로 전환 가능하다", () => {
+  it("중개형 ISA 탭 클릭 시 절세 혜택형(high_benefit) 뷰가 적용되고 칩 제거 시 전체계좌로 전환된다", () => {
     const safeEtf = etf({ ticker: "S1", name: "안전 채권 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "100% (안전자산)", isaEligible: "가능", isaTaxBenefit: "높음" });
     const normalEtf = etf({ ticker: "N1", name: "국내주식 ETF", aum: 100_000_000_000, pension: "가능", pensionLimit: "70% (위험자산)", isaEligible: "가능", isaTaxBenefit: "낮음" });
     const levEtf = etf({ ticker: "L1", name: "레버리지 ETF", riskType: "leverage", aum: 100_000_000_000, pension: "불가", pensionLimit: "불가", isaEligible: "불가" });
@@ -226,15 +226,17 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     const isaTab = screen.getByRole("button", { name: /중개형 ISA/ });
     fireEvent.click(isaTab);
 
-    // ISA 기본 진입 시 high_benefit (절세 혜택형) 기본 적용
+    // ISA 기본 진입 시 high_benefit (절세 혜택형) 단일 모드 적용
     expect(window.location.search).toContain("account=isa");
     expect(screen.getByText("중개형 ISA 절세 실익 안내")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "ISA 절세 혜택형 조건 제거" })).toBeInTheDocument();
+    
+    // 활성 필터 칩 확인
+    const removeChip = screen.getByRole("button", { name: "중개형 ISA (절세 혜택형) 조건 제거" });
+    expect(removeChip).toBeInTheDocument();
 
-    // 전체 조회 서브 버튼 클릭 시 isaTier: all 로 전환
-    const allIsaBtn = screen.getByRole("button", { name: /전체 \(\d+개\)/ });
-    fireEvent.click(allIsaBtn);
-    expect(screen.getByRole("button", { name: "중개형 ISA 가능 조건 제거" })).toBeInTheDocument();
+    // 칩 제거 시 전체계좌 모드로 복귀
+    fireEvent.click(removeChip);
+    expect(screen.getByText("일반 위탁 계좌 거래 가이드")).toBeInTheDocument();
   });
 
   it("퇴직연금 모드에서 100% 법정 안전자산 및 70% 위험자산 필터링이 정상 작동한다", () => {
@@ -296,7 +298,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(pensionBadge).toBeInTheDocument();
   });
 
-  it("중개형 ISA 모드에서 절세 혜택 안내 가이드 및 ISA 가능 배지가 올바르게 표시되고 개별 마크는 표시되지 않는다", async () => {
+  it("중개형 ISA 모드에서 절세 혜택 안내 가이드 및 교육필요 배지가 올바르게 표시되고 'ISA가능' 배지는 표시되지 않는다", async () => {
     const isaHighEtf = etf({
       ticker: "ISA1",
       name: "미국 테크 ETF",
@@ -305,19 +307,30 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
       isaEligible: "가능",
       isaTaxBenefit: "높음",
       isaTaxType: "기타",
+      isaEducationRequired: "N",
+    });
+    const isaEduEtf = etf({
+      ticker: "ISA2",
+      name: "미국 레버리지 ETF",
+      aum: 100_000_000_000,
+      pension: "불가",
+      isaEligible: "가능",
+      isaTaxBenefit: "높음",
+      isaTaxType: "기타",
+      isaEducationRequired: "Y",
     });
 
-    render(<Screener etfs={[isaHighEtf]} />);
+    render(<Screener etfs={[isaHighEtf, isaEduEtf]} />);
     const isaTab = screen.getByRole("button", { name: /중개형 ISA/ });
     fireEvent.click(isaTab);
 
     expect(screen.getByText("중개형 ISA 절세 실익 안내")).toBeInTheDocument();
     expect(screen.getByText("조세특례제한법 제91조의18")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /✨\s*절세 혜택형/ })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "ISA 절세 혜택형 조건 제거" })).toBeInTheDocument();
-    expect(screen.getByText(/절세 실익 극대화/)).toBeInTheDocument();
-    expect(screen.getByText(/핵심 세제 혜택: 계좌 내 전 종목 손익통산/)).toBeInTheDocument();
-    expect(screen.getByText("ISA가능")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "중개형 ISA (절세 혜택형) 조건 제거" })).toBeInTheDocument();
+    expect(screen.getByText(/해외주식 · 채권 · 리츠 · 커버드콜 절세 실익 극대화/)).toBeInTheDocument();
+    expect(screen.getByText("교육필요")).toBeInTheDocument();
+    expect(screen.queryByText("ISA(교육필요)")).not.toBeInTheDocument();
+    expect(screen.queryByText("ISA가능")).not.toBeInTheDocument();
     expect(screen.queryByText("✨절세형")).not.toBeInTheDocument();
     expect(screen.queryByText("절세실익高")).not.toBeInTheDocument();
   });
@@ -444,7 +457,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
   it("중개형 ISA 탭 가이드 카드 하단에 월배당 커버드콜 바로가기 미니 캡슐 브릿지를 렌더링한다", () => {
     window.history.replaceState(null, "", "/explore?account=isa");
     render(<Screener etfs={items} />);
-    const ccBridge = screen.getByRole("link", { name: /월배당 커버드콜 절세 혜택형 탐색/ });
+    const ccBridge = screen.getByRole("link", { name: /월배당 커버드콜 절세 탐색/ });
     expect(ccBridge).toHaveAttribute("href", "/quick?mode=covered_call");
   });
 

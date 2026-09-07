@@ -41,12 +41,6 @@ function getBusinessDaysDiff(startDateStr, endDateStr) {
   return days;
 }
 
-function dateDiffInDays(olderDate, newerDate) {
-  const older = Date.parse(`${olderDate}T00:00:00Z`);
-  const newer = Date.parse(`${newerDate}T00:00:00Z`);
-  return Math.max(0, Math.round((newer - older) / 86_400_000));
-}
-
 function withFreshness(payload) {
   const briefing = payload?.briefing;
   if (!briefing?.asOfDate) return null;
@@ -181,7 +175,7 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
   };
 }
 
-function buildMarketScaleSnapshot(metrics, briefing) {
+function buildMarketScaleSnapshot(metrics) {
   // 1순위: 이미 올바른 스키마(categories 포함)로 저장된 경우
   if (metrics.market_scale_snapshot) return metrics.market_scale_snapshot;
 
@@ -213,7 +207,7 @@ function buildMarketScaleSnapshot(metrics, briefing) {
 }
 
 
-function buildMarketScaleTimeSeries(metrics, briefing) {
+function buildMarketScaleTimeSeries(metrics) {
   if (metrics.market_scale_time_series) return metrics.market_scale_time_series;
   return {
     daily: [],
@@ -227,7 +221,7 @@ export async function onRequestGet(context) {
   let cached = null;
   try {
     cached = await readKvBriefing(context.env.BRIEFING_KV);
-  } catch(e) {}
+  } catch {}
   if (cached && !cached.briefing?.isStale && cached.briefing?.asOfDate >= MARKET_BRIEFING_SERVICE_START_DATE) {
     return Response.json(cached, { headers: JSON_HEADERS });
   }
@@ -298,7 +292,7 @@ export async function onRequestGet(context) {
         const fallback = await readKvBriefing(context.env.BRIEFING_KV);
         if (fallback) return Response.json(fallback, { headers: JSON_HEADERS });
       }
-    } catch (e) {}
+    } catch {}
     if (cached) return Response.json(cached, { headers: JSON_HEADERS });
     return new Response(JSON.stringify({ error: "Internal Server Error", message: String(error?.message || error), stack: String(error?.stack || '') }), { status: 500, headers: JSON_HEADERS });
   }

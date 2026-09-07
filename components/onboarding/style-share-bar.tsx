@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Image from "next/image";
 import { Share2, Copy, Check, Download, Sparkles } from "lucide-react";
 import { toPng } from "html-to-image";
 import {
@@ -170,7 +169,6 @@ export function StyleShareBar({
             {/* Animal Illustration Frame */}
             <div className="mt-6 flex justify-center">
               <div className="relative size-44 overflow-hidden rounded-3xl border-4 border-emerald-400/30 bg-white/5 shadow-2xl">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   alt={profile.name}
                   className="h-full w-full object-cover"

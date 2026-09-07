@@ -137,8 +137,8 @@ export async function warmLatestBriefingCache(env: ResilienceEnv, asOfDate: stri
           trade_share_pct: row.trade_share_pct ?? row.tradeSharePct ?? 0,
           tradeSharePct: row.trade_share_pct ?? row.tradeSharePct ?? 0,
         })),
-        marketScaleSnapshot: buildMarketScaleSnapshot(metrics as any, briefing),
-        marketScaleTimeSeries: buildMarketScaleTimeSeries(metrics as any, briefing),
+        marketScaleSnapshot: buildMarketScaleSnapshot(metrics as any),
+        marketScaleTimeSeries: buildMarketScaleTimeSeries(metrics as any),
         peerGroups: (metrics as any).peer_groups ?? (metrics as any).peerGroups ?? [],
         fundFlow: (metrics as any).fund_flow ?? (metrics as any).fundFlow ?? null,
         disparityWarning: (metrics as any).disparity_warning ?? (metrics as any).disparityWarning ?? [],
@@ -153,7 +153,7 @@ export async function warmLatestBriefingCache(env: ResilienceEnv, asOfDate: stri
 }
 
 
-function buildMarketScaleSnapshot(metrics: any, briefing: BriefingRow) {
+function buildMarketScaleSnapshot(metrics: any) {
   if (metrics.market_scale_snapshot) {
     const snap = metrics.market_scale_snapshot;
     let totalAum = snap.totalAum || 0;
@@ -176,7 +176,7 @@ function buildMarketScaleSnapshot(metrics: any, briefing: BriefingRow) {
   return { totalAum: 0, totalTradeValue: 0, categories: [] };
 }
 
-function buildMarketScaleTimeSeries(metrics: any, briefing: any) {
+function buildMarketScaleTimeSeries(metrics: any) {
   if (metrics.market_scale_time_series) return metrics.market_scale_time_series;
   return {
     daily: [],

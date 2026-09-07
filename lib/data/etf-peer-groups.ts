@@ -322,15 +322,6 @@ function sharesTopic(left: ComparisonProfile, right: ComparisonProfile): boolean
   return [...leftTokens].some((token) => rightTokens.has(token));
 }
 
-function hasCompatibleStructure(left: ComparisonProfile, right: ComparisonProfile): boolean {
-  return left.assetFamily === right.assetFamily
-    && left.regionPrimary === right.regionPrimary
-    && left.strategyStyle === right.strategyStyle
-    && left.payoffStructure === right.payoffStructure
-    && left.direction === right.direction
-    && left.leverageMultiple === right.leverageMultiple;
-}
-
 function structureReferenceTier(
   target: ComparisonProfile,
   candidate: ComparisonProfile,

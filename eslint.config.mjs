@@ -25,5 +25,7 @@ export default defineConfig([
     "compress_images.js",
     "scratch/**",
     "workers/**/.wrangler/**",
+    "workers/**/dist/**",
+    "_archive/**",
   ]),
 ]);

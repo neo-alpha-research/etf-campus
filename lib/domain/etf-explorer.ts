@@ -1,5 +1,4 @@
 import {
-  RETURN_PERIODS,
   type AssetClass,
   type Etf,
   type EtfSlim,
@@ -83,7 +82,7 @@ export function getReturnPeriods(mode: InvestorMode): readonly ReturnPeriod[] {
   return mode === "new" ? NEW_RETURN_PERIODS : GENERAL_RETURN_PERIODS;
 }
 
-export function getDefaultPeriod(mode: InvestorMode): ReturnPeriod {
+export function getDefaultPeriod(_mode?: InvestorMode): ReturnPeriod {
   return "1d";
 }
 

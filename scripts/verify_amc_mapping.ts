@@ -1,5 +1,5 @@
 import { loadEtfs } from "../lib/data/etf-repository";
-import { resolveIssuer, BRAND_TO_AMC, LEGACY_BRAND_TO_AMC } from "../lib/data/etf-amc-mapping";
+import { BRAND_TO_AMC, LEGACY_BRAND_TO_AMC } from "../lib/data/etf-amc-mapping";
 
 const etfs = loadEtfs();
 const issuerCounts = new Map();

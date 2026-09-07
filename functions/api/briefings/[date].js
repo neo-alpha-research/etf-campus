@@ -177,7 +177,7 @@ function toResponsePayload(briefing, assetClasses, focusEtfs) {
   };
 }
 
-function buildMarketScaleSnapshot(metrics, briefing) {
+function buildMarketScaleSnapshot(metrics) {
   if (metrics.market_scale_snapshot) {
     const snap = metrics.market_scale_snapshot;
     let totalAum = snap.totalAum || 0;
@@ -224,7 +224,7 @@ function buildMarketScaleSnapshot(metrics, briefing) {
 }
 
 
-function buildMarketScaleTimeSeries(metrics, briefing) {
+function buildMarketScaleTimeSeries(metrics) {
   if (metrics.market_scale_time_series) return metrics.market_scale_time_series;
   return {
     daily: [],
@@ -255,7 +255,7 @@ export async function onRequestGet(context) {
   let cached = null;
   try {
     cached = await readKvBriefingByDate(context.env?.BRIEFING_KV, date);
-  } catch (e) {}
+  } catch {}
 
   if (cached && cached.briefing?.asOfDate === date) {
     return Response.json(cached, { headers: JSON_HEADERS });
@@ -324,7 +324,7 @@ export async function onRequestGet(context) {
         const fallback = await readKvBriefingByDate(context.env.BRIEFING_KV, date);
         if (fallback) return Response.json(fallback, { headers: JSON_HEADERS });
       }
-    } catch (e) {}
+    } catch {}
     if (cached) return Response.json(cached, { headers: JSON_HEADERS });
     return Response.json({ error: "Internal Server Error", message: String(error?.message || error), stack: String(error?.stack || '') }, { status: 500, headers: JSON_HEADERS });
   }

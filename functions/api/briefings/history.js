@@ -76,13 +76,13 @@ export async function onRequestGet(context) {
       },
       { headers: JSON_HEADERS },
     );
-  } catch (error) {
+  } catch {
     try {
       if (context.env?.BRIEFING_KV) {
         const cached = await context.env.BRIEFING_KV.get("market-briefing:v0:history:latest", "json");
         if (cached) return Response.json(cached, { headers: JSON_HEADERS });
       }
-    } catch (e) {}
+    } catch {}
     return Response.json(
       {
         items: [

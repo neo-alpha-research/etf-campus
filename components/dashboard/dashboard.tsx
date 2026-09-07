@@ -326,7 +326,9 @@ const CORE_RETURN_PERIODS: readonly ReturnPeriod[] = ["1d", "1m", "3m", "12m", "
 
 export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
   const { data: fetchedEtfs } = useSWR<Etf[]>('/data/screener.json', fetcher);
-  const etfs = (initialEtfs && initialEtfs.length > 0) ? initialEtfs : (fetchedEtfs || []);
+  const etfs = useMemo(() => {
+    return (initialEtfs && initialEtfs.length > 0) ? initialEtfs : (fetchedEtfs || []);
+  }, [initialEtfs, fetchedEtfs]);
   const [state, setState] = useState<ExplorerState>(DEFAULT_EXPLORER_STATE);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [urlReady, setUrlReady] = useState(false);

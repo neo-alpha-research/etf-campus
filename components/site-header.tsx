@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 
 import { siteConfig } from "@/config/site";
 import { Tickery } from "@/components/brand/tickery";
@@ -38,7 +38,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const getActiveHref = () => {
+  const getActiveHref = useCallback(() => {
     if (pathname === "/quick" || pathname === "/quick/") {
       const m = searchParams.get("mode") ?? "general";
       if (m === "general") return "/explore/?account=all";
@@ -53,16 +53,16 @@ export function SiteHeader() {
       return "/explore/?account=pension";
     }
     return undefined;
-  };
-
-  // Explicitly track active sub-tab href so highlighting updates
-  // immediately on both pathname and searchParam changes.
-  const [activeFinderHref, setActiveFinderHref] = useState(getActiveHref);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setActiveFinderHref(getActiveHref());
   }, [pathname, searchParams]);
+
+  const computedHref = getActiveHref();
+  const [activeFinderHref, setActiveFinderHref] = useState(computedHref);
+  const [prevComputedHref, setPrevComputedHref] = useState(computedHref);
+
+  if (prevComputedHref !== computedHref) {
+    setPrevComputedHref(computedHref);
+    setActiveFinderHref(computedHref);
+  }
 
   // "ETF 탐색" owns both the screener and the preset ETF views.
   const isEtfSection = pathname.startsWith("/explore") || pathname.startsWith("/screener") || pathname === "/quick" || pathname === "/quick/";

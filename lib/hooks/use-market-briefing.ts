@@ -171,8 +171,6 @@ type BriefingApiResponse = {
   message?: string;
 };
 
-type LoadMode = "initial" | "background" | "manual";
-
 export type UseMarketBriefingOptions = {
   /** 지정하면 해당 날짜의 ready 브리핑을 조회합니다. 없으면 최신 ready 브리핑을 조회합니다. */
   asOfDate?: string;

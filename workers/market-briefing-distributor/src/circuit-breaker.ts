@@ -27,7 +27,6 @@ export async function validateBriefingPayload(
   options?: ValidationOptions
 ): Promise<CircuitBreakerResult> {
   const reasons: string[] = [];
-  const maxDisparity = Number(env.MAX_ALLOWED_DISPARITY_PCT || "5.0");
   const maxSpike = Number(env.MAX_ALLOWED_DAILY_SPIKE_PCT || "15.0");
 
   const pulse = payload.pulse || {};

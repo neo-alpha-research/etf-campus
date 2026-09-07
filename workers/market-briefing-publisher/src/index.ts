@@ -1199,7 +1199,7 @@ async function publishReadyBriefing(env: Env, triggerType: "scheduled" | "manual
 }
 
 async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any> {
-  const { quotes, indices } = await loadSnapshots(env.ETF_PRICES, asOfDate);
+  const { quotes } = await loadSnapshots(env.ETF_PRICES, asOfDate);
   if (!quotes.length) throw new Error(`No quotes found in briefing_etf_daily for ${asOfDate}`);
 
   // Fetch previous date quotes for fundFlow
@@ -1309,7 +1309,7 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
   };
 }
 
-export default {
+const workerHandler = {
   async queue(batch: MessageBatch<MarketSnapshotReadyEvent>, env: Env): Promise<void> {
     for (const message of batch.messages) {
       try {
@@ -1397,3 +1397,5 @@ export default {
     return new Response("Not Found", { status: 404 });
   },
 };
+
+export default workerHandler;

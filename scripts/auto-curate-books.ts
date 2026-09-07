@@ -10,7 +10,6 @@ import { callGeminiWithWaterfall } from "../lib/ai/gemini-client";
 const CONTENT_DIR = path.join(process.cwd(), "content/external-books");
 const ALADIN_TTB_KEY = (process.env.ALADIN_TTB_KEY || "").trim() || "ttbshinkib1816001";
 const GEMINI_API_KEY = (process.env.GEMINI_API_KEY || "").trim();
-const COUPANG_TRACKING_ID = (process.env.COUPANG_TRACKING_ID || "").trim() || "AF8609639";
 
 const CATEGORY_MAP = {
   "초보·입문": { keyword: "ETF", slug: "beginner" },

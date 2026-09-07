@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  AXIS_DEFINITIONS,
   DIAGNOSIS_QUESTIONS,
   diagnoseStyle,
   SCALE_OPTIONS,

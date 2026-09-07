@@ -3,7 +3,7 @@ import { generateInstagramCarousel, generateInstagramCaption } from "./templates
 import { generateNewsletterHtml } from "./templates/newsletter";
 import { generateThreadsThread, generateThreadsImageSvg } from "./templates/threads";
 import { reviewAndRefineWithGemini, type PolishedNarrative } from "./services/gemini";
-import { classifyMarketRegime, type MarketRegime } from "./services/market-regime";
+import { classifyMarketRegime } from "./services/market-regime";
 import type { BriefingDistributeEvent, Env, MarketBriefingPayload } from "./types";
 
 function normalizeBriefingPayload(raw: any): MarketBriefingPayload | null {
@@ -1187,7 +1187,7 @@ function generateDashboardHtml(
 </html>`;
 }
 
-export default {
+const workerHandler = {
   // Queue Consumer: prepares assets and saves status as 'ready' (Human-in-the-Loop review)
   async queue(batch: MessageBatch<BriefingDistributeEvent>, env: Env): Promise<void> {
     for (const message of batch.messages) {
@@ -1475,3 +1475,5 @@ export default {
     }
   },
 };
+
+export default workerHandler;

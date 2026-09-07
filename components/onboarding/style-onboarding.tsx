@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { ExternalLink, Sparkles, Clock, ArrowRight, RotateCcw } from "lucide-react";
 
 import { Tickery } from "@/components/brand/tickery";
@@ -31,8 +31,6 @@ import {
   type StyleId,
 } from "@/lib/onboarding/style-diagnosis";
 import { StyleShareBar } from "./style-share-bar";
-
-const SCALE_TICKS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 
 function getPositionLabel(value: ScaleAnswer): string {
   if (value <= 2) return "A에 매우 가까움";

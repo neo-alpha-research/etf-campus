@@ -69,7 +69,7 @@ function validateStart(payload, common) {
   return { ok: true, value: { ...common, expectedEtfCount: payload.expectedEtfCount, generalEtfCount: payload.generalEtfCount, aumCoveragePct: payload.aumCoveragePct, etfSourceHash: payload.etfSourceHash, indexSourceHash: payload.indexSourceHash, validation: payload.validation, gitCommitSha } };
 }
 
-function validateBatch(payload, common) {
+function validateBatch(payload) {
   if (!Array.isArray(payload.etfs) || payload.etfs.length < 1 || payload.etfs.length > MAX_ETFS_PER_BATCH) return { ok: false, error: "invalid_batch_size" };
   const seen = new Set();
   const etfs = [];
@@ -83,7 +83,7 @@ function validateBatch(payload, common) {
   return { ok: true, value: etfs };
 }
 
-function validateFinalization(payload, common) {
+function validateFinalization(payload) {
   if (!Array.isArray(payload.indices) || payload.indices.length < 2) return { ok: false, error: "invalid_index_count" };
   const indices = payload.indices.map(normalizeIndex);
   if (indices.some((index) => !index)) return { ok: false, error: "invalid_index_row" };
@@ -173,7 +173,6 @@ async function finalizeSnapshot(env, common, indices) {
   if (Math.abs(calculatedCoverage - manifest.aum_coverage_pct) > 0.000001) throw new Error("snapshot_aum_coverage_mismatch");
 
   const eventId = `market_snapshot_ready:${common.asOfDate}:${common.sourceVersion}:market_briefing`;
-  const payload = JSON.stringify({ event_id: eventId, event_type: "market_snapshot_ready", target_name: "market_briefing", as_of_date: common.asOfDate, source_version: common.sourceVersion });
   const now = nowIso();
   const statements = [
     ...indices.map((index) => db.prepare(

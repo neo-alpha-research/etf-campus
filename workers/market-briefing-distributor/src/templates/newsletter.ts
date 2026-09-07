@@ -30,15 +30,12 @@ export function generateNewsletterHtml(
   const regime = narrative || classifyMarketRegime(payload);
   const dateStr = payload.asOfDate || "2026-09-04";
   const formattedDate = dateStr.replace(/-/g, ".");
-  const temp = payload.marketTemperature || "상승 우세";
 
-  const kospiClose = payload.kospiClose || 0;
   const kospiChangePct = payload.kospiChangePct ?? 0;
   const kospiColor = kospiChangePct >= 0 ? "#DC2626" : "#2563EB";
   const kospiSign = kospiChangePct > 0 ? "+" : "";
 
   const kosdaqChangePct = payload.kosdaqChangePct ?? 0;
-  const kosdaqColor = kosdaqChangePct >= 0 ? "#DC2626" : "#2563EB";
   const kosdaqSign = kosdaqChangePct > 0 ? "+" : "";
 
   const etfReturn = payload.generalAumWeightedReturnPct ?? 0;
@@ -83,14 +80,12 @@ export function generateNewsletterHtml(
   const winners = sortedPeerGroups.slice(0, 3);
   const losers = [...sortedPeerGroups].reverse().slice(0, 3);
   const topTheme = sortedPeerGroups[0] || { peerGroup: "데이터 없음", cappedAumWeightedReturnPct: 0 };
-  const bottomTheme = sortedPeerGroups[sortedPeerGroups.length - 1] || topTheme;
 
   const topInflows: any[] = (payload.periodicFlows?.dailyFundFlows?.topInflows || []) as any[];
   const topInflowName = topInflows[0]?.name || topInflows[0]?.etfName || "핵심 ETF";
 
   const cleanTopThemeName = topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
   const flowCharStr = (regime as any).flowCharacterName || "우량 채권 및 고배당";
-  const headline = regime.captionMarketSummary || `국내 상장 일반 ETF ${generalCount.toLocaleString()}개 시장을 전수 분석한 결과, 상승 ${up}개 대비 하락 ${down}개로 ${regime.statusName} 장세를 나타냈습니다. 테마별로는 '${cleanTopThemeName}' 테마가 +${topTheme.cappedAumWeightedReturnPct.toFixed(2)}% 상승한 가운데, 스마트머니는 '${topInflowName}' 등 ${flowCharStr} 성격의 자금 순유입을 이어갔습니다.`;
   
   const utmLink = `${baseUrl}/briefing?utm_source=newsletter&utm_medium=email&utm_campaign=daily_briefing_${dateStr.replace(/-/g, "")}`;
 

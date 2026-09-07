@@ -16,7 +16,7 @@ function formatDateWithDay(dateStr?: string): string {
   return `${dateStr.replace(/-/g, ".")} (${dayName})`;
 }
 
-export function selectThreadsTopicTag(payload: MarketBriefingPayload): string {
+export function selectThreadsTopicTag(): string {
   // 스레드 공식 알고리즘 최적화: 1개 단일 주제 태그 원칙 (DTS Engine)
   // Neo 브랜드의 기본 앵커 커뮤니티는 #ETF이며, 상황별 서브 커뮤니티 탐색 지원
   return "#ETF";
@@ -69,7 +69,7 @@ export function generateThreadsThread(
     ? weakThemes.map(t => `${cleanThemeName(t.peerGroup)} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
     : "하위 테마 조정";
 
-  const topicTag = selectThreadsTopicTag(payload);
+  const topicTag = selectThreadsTopicTag();
 
   let watchPointText = regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 태도가 중요합니다. 오늘 주목하는 섹터는 어디인가요?";
   const sourceNotice = `* KRX 공시 마감 국내 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 (투자 권유 아님)`;

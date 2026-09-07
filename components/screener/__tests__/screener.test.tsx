@@ -313,13 +313,6 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
       pensionLimit: "70% (위험자산)",
       pensionVerified: "Y",
     });
-    const nonPensionEtf = etf({
-      ticker: "NONE1",
-      name: "원유 선물 ETF",
-      pension: "불가",
-      pensionLimit: "불가",
-      pensionVerified: "Y",
-    });
 
     render(<Screener etfs={[safeEtf, riskEtf]} />);
     // 퇴직연금 가이드 카드가 위험자산 70% 기본 한도를 명시하는지 확인

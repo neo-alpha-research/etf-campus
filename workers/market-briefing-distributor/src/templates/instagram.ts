@@ -97,7 +97,6 @@ export function generateInstagramCarousel(
   const down = payload.downCount ?? 181;
   const flat = payload.flatCount ?? 50;
   const generalCount = payload.generalEtfCount ?? 1025;
-  const temp = payload.marketTemperature || "상승 우세";
 
   // Peer Groups (상위/하위 랭킹 SSOT)
   const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
@@ -579,43 +578,8 @@ export function generateInstagramCarousel(
   // =========================================================================
   // SLIDE 5: Disparity Alert (Split: High vs Low Disparity)
   // =========================================================================
-  const disparityBannerTitle = regime.slide5BannerTitle || (hasPremiums && hasDiscounts
-    ? `고평가(할증) ${premiums.length}종목 vs 저평가(할인) ${discounts.length}종목 왜곡 발생`
-    : (hasPremiums ? `고평가(할증 주의) ${premiums.length}개 종목 괴리율 왜곡 발생`
-    : (hasDiscounts ? `저평가(할인 체크) ${discounts.length}개 종목 괴리율 왜곡 발생`
-    : "국내 상장 일반 ETF 전 종목 정상 괴리율 범위 유지")));
-
-  const disparityBannerDesc = regime.slide5BannerDesc || (hasPremiums && hasDiscounts
-    ? `해외 시차 및 호가 공백으로 발생한 괴리율입니다. 장 시작 후 정상 호가 복귀 확인 필수`
-    : (hasPremiums ? `순자산가치 대비 시장가가 높게 형성되었습니다. 고점 추격 매수 유의`
-    : (hasDiscounts ? `순자산가치 대비 시장가가 낮게 형성되었습니다. LP 호가 복귀 확인 필수`
-    : `전 종목이 법정 허용 오차 범위(국내 1%, 해외 3%) 내에서 안정적으로 정상 거래 중입니다.`)));
-
   const disparityActionTip1 = "해외 ETF 괴리율은 개장 직후 LP 호가가 제출되면서 대부분 정상 범위로 수렴합니다.";
   const disparityActionTip2 = "장 초반 무리한 시장가 매수·매도를 피하고 실시간 순자산가치(iNAV)를 반드시 확인하세요.";
-
-  // Alert Banner 배지 설정 ('시장 안정' 문구 삭제, 왜곡 시에만 주의 배지 표시)
-  let disparityBadgeMarkup = "";
-  let bannerTitleX = 35;
-  if (hasPremiums && hasDiscounts) {
-    disparityBadgeMarkup = `
-      <rect x="35" y="16" width="135" height="34" rx="10" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.2"/>
-      <text x="102" y="39" fill="#B45309" font-size="16" font-weight="900" text-anchor="middle">왜곡 주의</text>
-    `;
-    bannerTitleX = 185;
-  } else if (hasPremiums) {
-    disparityBadgeMarkup = `
-      <rect x="35" y="16" width="135" height="34" rx="10" fill="#FEE2E2" stroke="#FECACA" stroke-width="1.2"/>
-      <text x="102" y="39" fill="#DC2626" font-size="16" font-weight="900" text-anchor="middle">할증 주의</text>
-    `;
-    bannerTitleX = 185;
-  } else if (hasDiscounts) {
-    disparityBadgeMarkup = `
-      <rect x="35" y="16" width="135" height="34" rx="10" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.2"/>
-      <text x="102" y="39" fill="#15803D" font-size="16" font-weight="900" text-anchor="middle">할인 체크</text>
-    `;
-    bannerTitleX = 185;
-  }
 
   const slide5Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 괴리율 왜곡 점검">
@@ -728,15 +692,6 @@ export function generateInstagramCarousel(
   const rawBotTheme = (bottomTheme.peerGroup || "소외 테마").replace(/\s*\([^)]*\)/g, '').trim();
   const cleanSlide6TopTheme = cleanEtfNameForBanner(rawTopTheme, 25);
   const cleanSlide6BotTheme = cleanEtfNameForBanner(rawBotTheme, 25);
-  const slide6TopRet = (topTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2);
-  const slide6BotRet = (bottomTheme.cappedAumWeightedReturnPct ?? 0).toFixed(2);
-  const slide6TopSign = Number(slide6TopRet) > 0 ? "+" : "";
-  const slide6BotSign = Number(slide6BotRet) > 0 ? "+" : "";
-  const cleanSlide6InflowBanner = cleanEtfNameForBanner(topInflow.name, 14);
-
-  const slide6InflowDesc = secondInflow
-    ? `&apos;${escapeXml(cleanInflowBannerName)}&apos; 및 &apos;${escapeXml(cleanInflow2Name)}&apos; 등 수급 상위 종목에 순유입 집중.`
-    : `&apos;${escapeXml(cleanInflowBannerName)}&apos;을 비롯한 핵심 수급 종목으로 자금 유입 집중.`;
 
   const slide6Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 3대 마켓 체크리스트 및 관전 포인트">

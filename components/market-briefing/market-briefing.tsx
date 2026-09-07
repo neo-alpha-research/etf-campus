@@ -23,110 +23,6 @@ import { generateMarketNarrative } from "@/lib/domain/market-briefing-narrative"
 
 
 
-type AssetClass = {
-
-  asset_class: string;
-
-  etf_count: number;
-
-  up_count: number;
-
-  flat_count: number;
-
-  down_count: number;
-
-  breadth_ratio_pct: number | null;
-
-  aum_weighted_return_pct: number | null;
-
-  total_aum: number;
-
-  aum_share_pct: number;
-
-  total_trade_value: number;
-
-  trade_share_pct: number;
-
-};
-
-
-
-type AumWeightedReturn = {
-  scope: "all" | "top_50" | "top_100" | "top_200";
-  label: string;
-  constituent_count: number;
-  total_aum: number;
-  aum_coverage_pct: number;
-  weighted_return_pct: number;
-  up_count?: number;
-  flat_count?: number;
-  down_count?: number;
-};
-
-
-
-type FocusEtf = {
-
-  rank_no: number;
-
-  ticker: string;
-
-  etf_name: string;
-
-  asset_class: string | null;
-
-  close_value: number;
-
-  change_pct: number;
-
-  trade_value: number;
-
-  trade_share_pct: number;
-
-};
-
-
-
-type Briefing = {
-
-  asOfDate: string;
-
-  isStale: boolean;
-
-  staleDays: number;
-
-  headline: { text: string | null; generationStatus: string };
-
-  marketIndices: MarketIndex[];
-
-  pulse: {
-    totalEtfCount?: number;
-    generalEtfCount: number;
-    upCount: number;
-    flatCount: number;
-    downCount: number;
-    breadthRatioPct: number;
-    marketTemperature: string;
-    generalAumWeightedReturnPct: number;
-    top50AumWeightedReturnPct: number;
-    top100AumWeightedReturnPct: number;
-    top200AumWeightedReturnPct: number;
-    aumWeightedReturns: AumWeightedReturn[];
-    generalTotalAum: number;
-    generalTotalTradeValue: number;
-    top10TradeSharePct: number;
-    allTop10TradeSharePct?: number;
-  };
-  assetClasses: AssetClass[];
-  focusEtfs: FocusEtf[];
-  peerGroups?: any;
-  fundFlow?: any;
-  disparityWarning?: any;
-  marketScale?: any;
-  weeklyFundFlows?: any[];
-  monthlyFundFlows?: any[];
-};
-
 
 
 const number = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 0 });
@@ -324,49 +220,6 @@ function ErrorState({ message, onReset }: { message: string; onReset?: () => voi
 
 
 
-function BreadthBar({ pulse }: { pulse: Briefing["pulse"] }) {
-
-  const total = (pulse?.generalEtfCount || 0) || 1;
-
-  const up = (pulse.upCount / total) * 100;
-
-  const flat = (pulse.flatCount / total) * 100;
-
-  const down = (pulse.downCount / total) * 100;
-
-
-
-  return (
-
-    <div className="mt-3">
-
-      <div className="flex h-2.5 overflow-hidden rounded-full bg-black/5" aria-label={`상승 ${pulse.upCount}개 보합 ${pulse.flatCount}개 하락 ${pulse.downCount}개`}>
-
-        <span className="bg-[#E5484D]" style={{ width: `${up}%` }} />
-
-        <span className="bg-neutral-300" style={{ width: `${flat}%` }} />
-
-        <span className="bg-[#2879BB]" style={{ width: `${down}%` }} />
-
-      </div>
-
-      <div className="mt-2.5 flex flex-wrap gap-x-2 gap-y-1 text-[11px] font-medium">
-
-        <span className="text-[#D92D20]">상승 {number.format(pulse.upCount)}</span>
-
-        <span className="text-neutral-500">보합 {number.format(pulse.flatCount)}</span>
-
-        <span className="text-[#175CD3]">하락 {number.format(pulse.downCount)}</span>
-
-      </div>
-
-    </div>
-
-  );
-
-}
-
-
 
 function formatChange(code: string, changePct: number) {
   const isBondYield = code === "KR10Y" || code === "DGS10";
@@ -470,6 +323,16 @@ function IndexRow({ index }: { index: MarketIndex }) {
   );
 }
 
+const BRIEFING_STICKY_STEPS = [
+  { id: "step-macro", label: "거시 지표", step: "STEP 1" },
+  { id: "step-pulse", label: "시장 온도", step: "STEP 2" },
+  { id: "step-micro", label: "세부 동향", step: "STEP 3" },
+  { id: "step-money", label: "자금 동향", step: "STEP 4" },
+  { id: "step-trend", label: "주·월간 트렌드", step: "STEP 5" },
+  { id: "step-scale", label: "시장 구조 스냅샷", step: "STEP 6" },
+  { id: "step-growth", label: "성장·유동성 추이", step: "STEP 7" },
+] as const;
+
 function MarketBriefingStickyBar({
   asOfDate,
   generalReturnPct,
@@ -482,25 +345,15 @@ function MarketBriefingStickyBar({
   const [activeStep, setActiveStep] = useState<string>("step-macro");
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
-  const steps = [
-    { id: "step-macro", label: "거시 지표", step: "STEP 1" },
-    { id: "step-pulse", label: "시장 온도", step: "STEP 2" },
-    { id: "step-micro", label: "세부 동향", step: "STEP 3" },
-    { id: "step-money", label: "자금 동향", step: "STEP 4" },
-    { id: "step-trend", label: "주·월간 트렌드", step: "STEP 5" },
-    { id: "step-scale", label: "시장 구조 스냅샷", step: "STEP 6" },
-    { id: "step-growth", label: "성장·유동성 추이", step: "STEP 7" },
-  ];
-
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 220);
 
       const scrollPos = window.scrollY + 140;
-      for (let i = steps.length - 1; i >= 0; i--) {
-        const el = document.getElementById(steps[i].id);
+      for (let i = BRIEFING_STICKY_STEPS.length - 1; i >= 0; i--) {
+        const el = document.getElementById(BRIEFING_STICKY_STEPS[i].id);
         if (el && el.offsetTop <= scrollPos) {
-          setActiveStep(steps[i].id);
+          setActiveStep(BRIEFING_STICKY_STEPS[i].id);
           break;
         }
       }
@@ -545,7 +398,7 @@ function MarketBriefingStickyBar({
 
           {/* Center: STEP 1~6 퀵 점프 탭 */}
           <nav className="hidden md:flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
-            {steps.map((s) => {
+            {BRIEFING_STICKY_STEPS.map((s) => {
               const isActive = activeStep === s.id;
               return (
                 <button
@@ -614,7 +467,7 @@ export function MarketBriefing() {
     setIsLocalhost(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
   }, []);
 
-  const { briefing, isLoading, isRefreshing, error, refresh } = useMarketBriefing({
+  const { briefing, isLoading, error } = useMarketBriefing({
     asOfDate: selectedDate,
     revalidateOnFocus: !selectedDate,
     revalidateIntervalMs: selectedDate ? 0 : 10 * 60 * 1000,
@@ -714,25 +567,6 @@ export function MarketBriefing() {
   const { pulse } = briefing;
   if (!pulse) return <div className="p-8 text-center text-gray-500">시장 체감 지표(Pulse) 데이터를 불러올 수 없습니다.</div>;
 
-  const scopeReturns = new Map((pulse?.aumWeightedReturns || []).map((item) => [item.scope, item]));
-
-  const scaleRows = [
-    { scope: "all" as const, label: "전체 ETF", value: pulse.generalAumWeightedReturnPct, detail: `일반 ETF ${number.format((pulse?.generalEtfCount || 0))}개` },
-    { scope: "top_50" as const, label: "순자산 Top 50", value: pulse.top50AumWeightedReturnPct, detail: "순자산 상위 50개 ETF" },
-    { scope: "top_100" as const, label: "순자산 Top 100", value: pulse.top100AumWeightedReturnPct, detail: "순자산 상위 100개 ETF" },
-    { scope: "top_200" as const, label: "순자산 Top 200", value: pulse.top200AumWeightedReturnPct, detail: "순자산 상위 200개 ETF" },
-  ];
-
-  const maxScale = Math.max(...scaleRows.map((row) => Math.abs(row.value)), 0.01);
-
-  const maxContribution = Math.max(...sortedAssetClasses.map((row) => Math.abs(row.contribution_pct)), 0.01);
-
-    const isPositive = pulse.generalAumWeightedReturnPct >= 0;
-  
-  const validClasses = briefing.assetClasses ? briefing.assetClasses.filter(c => c.etf_count >= 10) : [];
-  const bestClass = validClasses.length > 0 ? validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? -Infinity) > (prev.aum_weighted_return_pct ?? -Infinity) ? curr : prev, validClasses[0]) : null;
-  const worstClass = validClasses.length > 0 ? validClasses.reduce((prev, curr) => (curr.aum_weighted_return_pct ?? Infinity) < (prev.aum_weighted_return_pct ?? Infinity) ? curr : prev, validClasses[0]) : null;
-
   const bestTheme = (briefing.peerGroups && briefing.peerGroups.length > 0) ? briefing.peerGroups.reduce((prev: any, curr: any) => 
     ((curr.cappedAumWeightedReturnPct || 0) > (prev?.cappedAumWeightedReturnPct ?? -Infinity)) ? curr : prev
   , briefing.peerGroups[0]) : null;
@@ -741,8 +575,7 @@ export function MarketBriefing() {
   const rawWeekly = briefing.weeklyFundFlows as any;
   const topInflowTheme = (Array.isArray(rawWeekly) ? rawWeekly.find((x: any) => (x.netInflow || 0) > 0) : rawWeekly?.topInflows?.[0]) || null;
 
-  
-    let themeSentence = "";
+  let themeSentence = "";
   if (briefing.peerGroups && briefing.peerGroups.length >= 6) {
     const sorted = [...briefing.peerGroups].sort((a, b) => b.cappedAumWeightedReturnPct - a.cappedAumWeightedReturnPct);
     const top3 = sorted.slice(0, 3);
@@ -781,7 +614,7 @@ export function MarketBriefing() {
     concentrationSentence,
   });
 
-  const { dynamicTitle, headline, breadthSentence } = narrative;
+  const { dynamicTitle, headline } = narrative;
 
   const kospi = orderedIndices.find(i => i.code === "KOSPI");
   const spx = orderedIndices.find(i => i.code === "SPX");

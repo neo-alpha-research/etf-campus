@@ -128,7 +128,7 @@ async function runChallengeJudgment(env: Env): Promise<void> {
   }
 }
 
-export default {
+const workerHandler = {
   async scheduled(_controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     ctx.waitUntil(
       Promise.all([
@@ -142,7 +142,7 @@ export default {
     );
   },
 
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     if (request.method !== "POST" || url.pathname !== "/internal/run") return new Response("Not Found", { status: 404 });
     if (!authorized(request, env)) return new Response("Unauthorized", { status: 401 });
@@ -153,5 +153,7 @@ export default {
     return Response.json(result, { headers: { "Cache-Control": "no-store" } });
   },
 };
+
+export default workerHandler;
 
 export const __testables = { koreaRunKey, authorized, runChallengeJudgment };

@@ -642,7 +642,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
               <span className="rounded bg-brand-100 px-1.5 py-0.5 text-[10px] font-bold text-brand-800">절세·연금</span>
             </span>
             <p className="text-xs text-neutral-500 hidden sm:inline">
-              투자하려는 계좌를 선택하면 해당 계좌의 세제 혜택과 법정 편입 한도가 적용됩니다
+              {filters.accountMode === "isa"
+                ? "중개형 ISA: 15.4% 배당소득세 절세 실익이 큰 813개 종목만 선별하여 나열했습니다 (전 종목은 '전체계좌' 탭)"
+                : "투자하려는 계좌를 선택하면 해당 계좌의 세제 혜택과 법정 편입 한도가 적용됩니다"}
             </p>
           </div>
 
@@ -900,7 +902,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="inline-flex items-center gap-1 rounded-lg bg-amber-700 px-2.5 py-1 text-xs font-bold text-white shadow-xs">
-                  <span>절세 혜택형 ({isaCounts.high.toLocaleString()}개 전수 선별)</span>
+                  <span>절세 실익 종목만 나열 ({isaCounts.high.toLocaleString()}개 전수 선별)</span>
                 </span>
               </div>
             </div>
@@ -919,7 +921,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
 
             <div className="mt-1.5 pt-1.5 border-t border-amber-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-amber-950/85">
               <div className="flex flex-wrap items-center gap-2">
-                <span>💡 국내 상장 전 종목(1,167개) 편입이 가능하나, 절세 실익이 큰 {isaCounts.high.toLocaleString()}개 종목을 선별 제공합니다 (전 종목은 '전체계좌' 탭 이용).</span>
+                <span>💡 중개형 ISA는 국내 상장 전 종목(1,167개) 편입이 가능하나, 일반 계좌에서도 매매차익이 비과세인 국내주식형을 제외하고 15.4% 배당소득세 절세 실익이 큰 {isaCounts.high.toLocaleString()}개 종목만 엄선하여 나열했습니다. (국내주식형 포함 전 종목은 '전체계좌' 탭 이용)</span>
                 <Link
                   href="/quick?mode=covered_call"
                   className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-colors"

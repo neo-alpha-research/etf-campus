@@ -1,34 +1,14 @@
 name: Daily ETF market data refresh
 
 on:
-  schedule:
-    # Dense retry ladder on the morning AFTER each trading day (KST), so the prior
-    # close lands as early as the official feed publishes it. The first run
-    # that finds new data commits; later runs that day exit early as no-ops.
-    #
-    #   UTC (cron)      KST (local)          covers
-    #   Mon-Fri 22:53   Tue-Sat 07:53        1st attempt
-    #   Mon-Fri 23:03   Tue-Sat 08:03        2nd attempt
-    #   Mon-Fri 23:13   Tue-Sat 08:13        3rd attempt
-    #   Mon-Fri 23:23   Tue-Sat 08:23        4th attempt
-    #   Mon-Fri 23:33   Tue-Sat 08:33        5th attempt
-    #   Mon-Fri 23:53   Tue-Sat 08:53        6th attempt (fallback)
-    #   Tue-Sat 00:33   Tue-Sat 09:33        7th attempt (final retry)
-    - cron: "53 22 * * 1-5"
-    - cron: "3 23 * * 1-5"
-    - cron: "13 23 * * 1-5"
-    - cron: "23 23 * * 1-5"
-    - cron: "33 23 * * 1-5"
-    - cron: "53 23 * * 1-5"
-    - cron: "33 0 * * 2-6"
-  repository_dispatch:
-    types: [market_data_ready]
   workflow_dispatch:
     inputs:
       target:
         description: "Target date in YYYYMMDD (blank uses yesterday)"
         required: false
         type: string
+  repository_dispatch:
+    types: [market_data_ready]
 
 env:
   # [주의] 이 값을 바꿀 때 위의 schedule 크론의 최종 단계(00:33)와

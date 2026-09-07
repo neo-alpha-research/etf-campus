@@ -483,8 +483,6 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   } else if (filters.accountMode === "personal_pension") {
     if (filters.personalTier === "personal_only") {
       activeFilters.push({ label: "개인연금 전용 (퇴직연금 불가)", remove: () => updateFilters({ ...filters, personalTier: "all" }) });
-    } else if (filters.personalTier === "unverified") {
-      activeFilters.push({ label: "연금저축 확인 필요", remove: () => updateFilters({ ...filters, personalTier: "all" }) });
     } else {
       activeFilters.push({ label: "연금저축 가능", remove: () => updateFilters({ ...filters, accountMode: "all" }) });
     }
@@ -581,7 +579,6 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     return {
       eligible,
       personalOnly,
-      unverified: 0,
       ineligible,
       covered: eligible + ineligible,
       total: etfs.length,
@@ -841,20 +838,6 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   <span className="text-amber-500 shrink-0 text-xs">✨</span>
                   <span>개인연금 전용 ({personalCounts.personalOnly.toLocaleString()}개)</span>
                 </button>
-                {personalCounts.unverified > 0 ? (
-                  <button
-                    type="button"
-                    onClick={() => updateFilters({ ...filters, personalTier: "unverified" })}
-                    title="신규 상장되어 금융투자협회(KOFIA) 전자공시 업데이트 반영 대기 중인 종목입니다."
-                    className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
-                      filters.personalTier === "unverified"
-                        ? "border-amber-600 bg-amber-600 text-white shadow-xs"
-                        : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
-                    }`}
-                  >
-                    <span>공시 확인중 ({personalCounts.unverified.toLocaleString()}개)</span>
-                  </button>
-                ) : null}
               </div>
             </div>
 

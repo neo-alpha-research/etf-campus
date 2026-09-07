@@ -1,3 +1,4 @@
+import argparse
 import csv
 import logging
 from collections import defaultdict
@@ -7,14 +8,31 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 def parse_date(date_str):
+    if not date_str:
+        return None
     for fmt in ("%Y-%m-%d", "%Y%m%d", "%Y/%m/%d"):
         try:
-            return datetime.strptime(date_str, fmt).date()
+            return datetime.strptime(str(date_str).strip(), fmt).date()
         except ValueError:
             pass
     return None
 
+def get_master_latest_date(root_dir: Path):
+    path = root_dir / "data" / "etf_master_draft.csv"
+    if path.exists():
+        with open(path, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                d = parse_date(row.get("bas_dt"))
+                if d:
+                    return d
+    return None
+
 def main():
+    parser = argparse.ArgumentParser(description="Calculate daily ETF TR and Net TR index series")
+    parser.add_argument("--target_date", help="Target end date (YYYY-MM-DD). Defaults to latest master bas_dt.")
+    args = parser.parse_args()
+
     root_dir = Path(__file__).resolve().parents[1]
     prices_path = root_dir / "data" / "returns" / "etf_price_history.csv"
     dists_path = root_dir / "data" / "distributions" / "etf_distribution_events.csv"
@@ -46,7 +64,8 @@ def main():
 
     # 2. Load prices
     prices = defaultdict(list)
-    cutoff = parse_date("2026-08-31")
+    cutoff = parse_date(args.target_date) if args.target_date else get_master_latest_date(root_dir)
+    logging.info(f"Using calculation cutoff date: {cutoff}")
     with open(prices_path, "r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:

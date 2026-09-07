@@ -28,9 +28,6 @@ EVENTS_CSV = ROOT / "data" / "distributions" / "etf_distribution_events.csv"
 SUMMARIES_JSON = ROOT / "data" / "distributions" / "etf_distribution_summaries.json"
 MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
 
-BASE_DATE = date(2026, 8, 31)
-ONE_YEAR_AGO = BASE_DATE - timedelta(days=365)
-
 
 def verify_integrity() -> bool:
     errors = []

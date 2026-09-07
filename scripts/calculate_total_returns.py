@@ -129,15 +129,24 @@ def nearest_on_or_before(points: list[PricePoint], wanted: date) -> PricePoint |
     return eligible[-1] if eligible else None
 
 
-def load_prices() -> dict[str, list[PricePoint]]:
+def get_master_latest_date() -> date | None:
+    path = ROOT / "data" / "etf_master_draft.csv"
+    if path.exists():
+        for r in rows(path):
+            d = parse_day(r.get("bas_dt"))
+            if d:
+                return d
+    return None
+
+
+def load_prices(cutoff: date | None = None) -> dict[str, list[PricePoint]]:
     values: dict[str, dict[date, float]] = defaultdict(dict)
-    cutoff = date(2026, 8, 31)
     for path in PRICE_PATHS:
         for row in rows(path):
             day = parse_day(row.get("date"))
             close = number(row.get("close"))
             code = ticker(row.get("ticker"))
-            if day and close is not None and close > 0 and code and day <= cutoff:
+            if day and close is not None and close > 0 and code and (cutoff is None or day <= cutoff):
                 values[code][day] = close
     return {code: [PricePoint(day, close) for day, close in sorted(items.items())] for code, items in values.items()}
 
@@ -244,17 +253,16 @@ def main() -> int:
     parser.add_argument("--target_date", help="Target end date for calculations (YYYY-MM-DD). Defaults to the latest available date in prices.")
     args = parser.parse_args()
     ensure_actions_ledger()
-    prices = load_prices()
+
+    target_end_date = date.fromisoformat(args.target_date) if args.target_date else get_master_latest_date()
+    prices = load_prices(cutoff=target_end_date)
     if args.ticker:
         target_tickers = set(args.ticker)
         prices = {k: v for k, v in prices.items() if k in target_tickers}
 
-    target_end_date = date.fromisoformat(args.target_date) if args.target_date else None
-
-    # Apply target_date filter if provided
     if target_end_date:
-        for ticker, points in prices.items():
-            prices[ticker] = [p for p in points if p.day <= target_end_date]
+        for ticker_code, points in prices.items():
+            prices[ticker_code] = [p for p in points if p.day <= target_end_date]
     master = load_master()
     events = grouped_events()
     actions = grouped_actions()

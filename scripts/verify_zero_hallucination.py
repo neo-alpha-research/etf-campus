@@ -27,6 +27,18 @@ ROOT = Path(__file__).resolve().parents[1]
 EVENTS_CSV = ROOT / "data" / "distributions" / "etf_distribution_events.csv"
 SUMMARIES_JSON = ROOT / "data" / "distributions" / "etf_distribution_summaries.json"
 MASTER_CSV = ROOT / "data" / "etf_master_draft.csv"
+PRICE_HISTORY_CSV = ROOT / "data" / "returns" / "etf_price_history.csv"
+TR_INDEX_CSV = ROOT / "data" / "returns" / "etf_daily_tr_index.csv"
+TOTAL_RETURNS_CSV = ROOT / "data" / "returns" / "etf_total_return_metrics.csv"
+
+
+def normalize_date_str(val: object | None) -> str | None:
+    if not val:
+        return None
+    raw = str(val).strip().replace("-", "").replace(".", "").replace("/", "")
+    if len(raw) == 8 and raw.isdigit():
+        return f"{raw[:4]}-{raw[4:6]}-{raw[6:]}"
+    return None
 
 
 def verify_integrity() -> bool:
@@ -134,6 +146,84 @@ def verify_integrity() -> bool:
                 errors.append(f"Invalid payment cycle '{cycle}' for ticker {ticker}.")
 
         logging.info(f"Verified all {len(summaries)} summaries against master ETF universe.")
+
+    # 4. Cross-Artifact Date Parity Gate (원천 시세 vs 파생 시계열 기준일 교차 검증)
+    master_dates = set()
+    with MASTER_CSV.open(encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            d_str = normalize_date_str(row.get("bas_dt"))
+            if d_str:
+                master_dates.add(d_str)
+
+    if not master_dates:
+        errors.append("Unable to determine latest bas_dt from master draft.")
+    else:
+        master_latest = max(master_dates)
+        logging.info(f"Master draft latest bas_dt: {master_latest}")
+
+        # Check Price History
+        if not PRICE_HISTORY_CSV.exists():
+            errors.append(f"Price history CSV missing: {PRICE_HISTORY_CSV}")
+        else:
+            with PRICE_HISTORY_CSV.open(encoding="utf-8-sig") as f:
+                reader = csv.DictReader(f)
+                price_dates = {normalize_date_str(row.get("date")) for row in reader if row.get("date")}
+            price_latest = max(price_dates) if price_dates else None
+            if price_latest != master_latest:
+                errors.append(
+                    f"Date Parity Mismatch: Master draft bas_dt is {master_latest}, "
+                    f"but Price history latest date is {price_latest}."
+                )
+            else:
+                logging.info(f"Price history date parity verified: {price_latest}")
+
+        # Check TR Index
+        if not TR_INDEX_CSV.exists():
+            errors.append(f"TR index CSV missing: {TR_INDEX_CSV}")
+        else:
+            with TR_INDEX_CSV.open(encoding="utf-8-sig") as f:
+                reader = csv.DictReader(f)
+                tr_dates = {normalize_date_str(row.get("date")) for row in reader if row.get("date")}
+            tr_latest = max(tr_dates) if tr_dates else None
+            if tr_latest != master_latest:
+                errors.append(
+                    f"Date Parity Mismatch: Master draft bas_dt is {master_latest}, "
+                    f"but TR Index latest date is {tr_latest}. (Frozen TR calculation detected!)"
+                )
+            else:
+                logging.info(f"TR index date parity verified: {tr_latest}")
+
+        # Check Total Return Metrics
+        if not TOTAL_RETURNS_CSV.exists():
+            errors.append(f"Total return metrics CSV missing: {TOTAL_RETURNS_CSV}")
+        else:
+            with TOTAL_RETURNS_CSV.open(encoding="utf-8-sig") as f:
+                reader = csv.DictReader(f)
+                metric_dates = {normalize_date_str(row.get("as_of_date")) for row in reader if row.get("as_of_date")}
+            metric_latest = max(metric_dates) if metric_dates else None
+            if metric_latest != master_latest:
+                errors.append(
+                    f"Date Parity Mismatch: Master draft bas_dt is {master_latest}, "
+                    f"but Total Return metrics as_of_date is {metric_latest}. (Frozen TR metrics detected!)"
+                )
+            else:
+                logging.info(f"Total return metrics date parity verified: {metric_latest}")
+
+        # Spot check representative TR JSON files
+        sample_tickers = ["069500", "102110", "360750"]
+        for stk in sample_tickers:
+            json_path = ROOT / "public" / "data" / "returns" / "tr_index" / f"{stk}.json"
+            if json_path.exists():
+                with json_path.open(encoding="utf-8") as jf:
+                    jdata = json.load(jf)
+                    points = jdata.get("points", [])
+                    if points:
+                        last_pt_date = normalize_date_str(points[-1].get("date"))
+                        if last_pt_date != master_latest:
+                            errors.append(
+                                f"TR JSON Date Stale: {stk}.json last point date is {last_pt_date}, expected {master_latest}."
+                            )
 
     # Report
     print("=" * 60)

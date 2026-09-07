@@ -8,7 +8,7 @@ import path from "path";
 
 const CONTENT_DIR = path.join(process.cwd(), "content/external-books");
 const ALADIN_TTB_KEY = (process.env.ALADIN_TTB_KEY || "").trim() || "ttbshinkib1816001";
-const GEMINI_API_KEY = (process.env.GEMINI_API_KEY || "").trim() || "AIzaSyBIuUD4m3gzQmclZIxjm45QkPnXrZNFxOQ";
+const GEMINI_API_KEY = (process.env.GEMINI_API_KEY || "").trim();
 const COUPANG_TRACKING_ID = (process.env.COUPANG_TRACKING_ID || "").trim() || "AF8609639";
 
 const CATEGORY_MAP = {

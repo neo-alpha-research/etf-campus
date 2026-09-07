@@ -153,6 +153,7 @@ export function ExternalBookDetail({
                 height={235}
                 className="h-full w-full object-contain p-1.5 transition-transform duration-200 group-hover/cover:scale-105"
                 unoptimized
+                priority
               />
               <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/cover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-xs font-extrabold text-white backdrop-blur-[1px]">
                 <ZoomIn className="h-4 w-4" />

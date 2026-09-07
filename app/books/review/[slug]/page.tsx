@@ -25,6 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: `/books/review/${book.slug}`,
     },
+    openGraph: {
+      title: `${book.title} 리뷰 | ETF Campus`,
+      description,
+      type: "article",
+      images: book.coverImage ? [{ url: book.coverImage, alt: book.title }] : undefined,
+    },
   };
 }
 

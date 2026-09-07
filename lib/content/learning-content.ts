@@ -251,7 +251,7 @@ export function loadExternalBooks(): ExternalBook[] {
     }
 
     return {
-      kind: "external-book",
+      kind: "external-book" as const,
       slug,
       title: requiredWithAliases(metadata, ["title"], filename),
       author: requiredWithAliases(metadata, ["author"], filename),
@@ -281,6 +281,14 @@ export function loadExternalBooks(): ExternalBook[] {
       content,
       ...learningExampleMetadata(metadata, filename),
     };
+  }).sort((a, b) => {
+    const catA = EXTERNAL_BOOK_CATEGORIES.indexOf(a.category);
+    const catB = EXTERNAL_BOOK_CATEGORIES.indexOf(b.category);
+    if (catA !== catB) return catA - catB;
+
+    const rankA = parseInt(a.slug.match(/top-(\d+)/)?.[1] || "99", 10);
+    const rankB = parseInt(b.slug.match(/top-(\d+)/)?.[1] || "99", 10);
+    return rankA - rankB;
   });
 }
 

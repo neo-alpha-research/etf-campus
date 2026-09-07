@@ -31,7 +31,7 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
 
   if (ctx.type === "masked_new") {
     return (
-      <div className={`text-right flex flex-col items-end justify-center ${className}`}>
+      <div className={`text-right flex items-center justify-end ${className}`}>
         <div
           ref={containerRef}
           className="relative inline-flex items-center"
@@ -44,15 +44,17 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
               e.stopPropagation();
               setIsOpen((prev) => !prev);
             }}
-            className="inline-flex items-center gap-0.5 text-[10px] font-bold text-amber-600 bg-amber-50 hover:bg-amber-100/90 border border-amber-200/80 px-1.5 py-0.5 rounded tracking-tighter transition-colors cursor-pointer"
-            aria-label="결산전 실부담비용 안내 툴팁 보기"
+            className="inline-flex items-center gap-0.5 text-[11.5px] text-muted hover:text-neutral-800 transition-colors cursor-pointer tabular-nums py-0.5 group/fee"
+            aria-label="결산 전 명목보수 안내 툴팁 보기"
             aria-expanded={isOpen}
           >
-            <span>결산전</span>
-            <span className="text-[9px] text-amber-500 font-sans" aria-hidden="true">ⓘ</span>
+            <span className="underline decoration-dotted decoration-neutral-300 group-hover/fee:decoration-neutral-500 underline-offset-2">
+              명목 {ctx.nominalFee?.toFixed(2)}%
+            </span>
+            <span className="text-[10px] text-neutral-400 group-hover/fee:text-amber-600 transition-colors" aria-hidden="true">ⓘ</span>
           </button>
 
-          {/* 고해상도 가독성 개선 툴팁 (결산 전 ETF 실부담비용 안내) */}
+          {/* 고해상도 가독성 개선 툴팁 (결산 전 ETF 명목보수 안내) */}
           <div
             className={`absolute top-[calc(100%+8px)] right-0 w-72 max-w-[calc(100vw-32px)] p-3.5 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 transition-all duration-200 z-[140] whitespace-normal break-keep ${
               isOpen ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-1"
@@ -64,7 +66,7 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
             
             <div className="flex items-center gap-1.5 mb-1.5 text-amber-300 font-bold text-[12px]">
               <span aria-hidden="true">💡</span>
-              <span>결산 전 ETF 실부담비용 안내</span>
+              <span>결산 전 ETF 명목보수 안내</span>
             </div>
             
             <p className="text-[11.5px] leading-relaxed text-neutral-200 mb-2">
@@ -73,11 +75,10 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
             
             <div className="pt-2 border-t border-neutral-700/60 text-[11px] text-neutral-300 flex items-start gap-1">
               <span className="text-amber-400 font-semibold shrink-0">공시 기준:</span>
-              <span>투자자 왜곡 방지를 위해 금융투자협회 공시 원칙에 따라 <strong>기본 운용보수(명목 보수)</strong>로 안내합니다.</span>
+              <span>투자자 왜곡 방지를 위해 금융투자협회 공시 원칙에 따라 회계 결산 전까지 <strong>기본 운용보수(명목 보수)</strong>로 안내합니다.</span>
             </div>
           </div>
         </div>
-        <span className="text-[11px] text-muted tabular-nums mt-0.5">명목 {ctx.nominalFee?.toFixed(2)}%</span>
       </div>
     );
   }

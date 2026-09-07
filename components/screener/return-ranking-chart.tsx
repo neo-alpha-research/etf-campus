@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { type Etf, type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
+import { type ReturnPeriod, RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
 import type { ScreenerEtf, AccountMode } from "@/lib/domain/etf-screener";
 import { formatReturn } from "@/lib/domain/etf-format";
 
@@ -207,7 +207,6 @@ export function ReturnRankingChart({
               if (ret === null) return null;
               const barWidth = Math.max(Math.abs(ret) / maxAbsReturn * 100, 1);
               const isPositive = ret > 0;
-              const isNegative = ret < 0;
               const isZero = ret === 0;
               
               return (

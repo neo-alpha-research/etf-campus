@@ -6,30 +6,17 @@ import useSWR from "swr";
 import { fetcher } from "@/lib/hooks/fetcher";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 
-import { AsOfDate, PensionBadge, ReturnCell, RiskBadge, FeeDoubleStack } from "@/components/etf";
+import { AsOfDate, ReturnCell, FeeDoubleStack } from "@/components/etf";
 import { ReturnRankingChart } from "./return-ranking-chart";
 import { IssuerMultiSelect } from "./issuer-multi-select";
 import { formatAumNumber, formatWonNumber, formatTradeValueNumber } from "@/lib/domain/etf-format";
 import { TER_RANGES, DEFAULT_SCREENER_FILTERS, filterEtfs, type ScreenerEtf, parseScreenerQuery, serializeScreenerQuery, type TerRange, type ScreenerFilters } from "@/lib/domain/etf-screener";
 import { AUM_SCOPES, GENERAL_RETURN_PERIODS, type AumScope } from "@/lib/domain/etf-explorer";
-import { ASSET_CLASSES, RISK_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type AssetClass, type Etf, type RiskType, type ReturnPeriod } from "@/lib/domain/etf-types";
+import { ASSET_CLASSES, RISK_TYPES, MARKET_SCOPES, STRATEGIES, FX_HEDGES, RETURN_PERIOD_LABELS, type RiskType, type ReturnPeriod } from "@/lib/domain/etf-types";
 
 const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "레버리지", inverse: "인버스", parking: "파킹형" };
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억 이상", "1000plus": "1,000억 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
-
-function FxHedgeMarker({ value }: { value: string | null }) {
-  if (!value || value === "노출" || value === "비헤지") return null;
-  return (
-    <span
-      aria-label="환헤지 적용"
-      className="inline-flex min-h-6 min-w-6 items-center justify-center rounded border border-neutral-200 bg-neutral-50 px-1 text-[10px] font-bold text-neutral-500"
-      title="환헤지 적용"
-    >
-      (H)
-    </span>
-  );
-}
 
 function UnitHeaderLabel({ label, unit, align = "center" }: { label: string; unit: string; align?: "center" | "right" }) {
   return (
@@ -92,14 +79,11 @@ function FilterChips<T extends string>({
   );
 }
 
-function toggleValue<T>(values: readonly T[], value: T): T[] {
-  return values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
-}
-
 export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   const { data: fetchedEtfs } = useSWR<ScreenerEtf[]>('/data/screener.json', fetcher);
-  const etfs = (initialEtfs && initialEtfs.length > 0) ? initialEtfs : (fetchedEtfs || []);
-  const isLoading = !initialEtfs?.length && !fetchedEtfs;
+  const etfs = useMemo(() => {
+    return (initialEtfs && initialEtfs.length > 0) ? initialEtfs : (fetchedEtfs || []);
+  }, [initialEtfs, fetchedEtfs]);
   const [filters, setFilters] = useState<ScreenerFilters>(DEFAULT_SCREENER_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<ReturnPeriod>("1d");

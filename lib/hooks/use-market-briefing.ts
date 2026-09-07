@@ -10,6 +10,7 @@ export type MarketIndex = {
   change_points?: number | null;
   change_pct?: number;
   as_of_date: string;
+  is_closed?: boolean;
 };
 
 

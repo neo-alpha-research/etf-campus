@@ -239,7 +239,58 @@ function formatInflowAmount(value: number) {
   return Math.round(abs).toLocaleString("ko-KR");
 }
 
-function IndexRow({ index }: { index: MarketIndex }) {
+const US_MARKET_HOLIDAYS = new Set([
+  "2026-01-01", // New Year's Day
+  "2026-01-19", // Martin Luther King Jr. Day
+  "2026-02-16", // Washington's Birthday (Presidents' Day)
+  "2026-04-03", // Good Friday
+  "2026-05-25", // Memorial Day
+  "2026-06-19", // Juneteenth
+  "2026-07-03", // Independence Day (observed)
+  "2026-09-07", // Labor Day
+  "2026-11-26", // Thanksgiving Day
+  "2026-12-25", // Christmas Day
+]);
+
+const US_MARKET_CODES = new Set(["SPX", "NDX", "VIX", "DGS10", "CLF", "GC", "SI"]);
+
+function checkIsMarketClosed(code: string, baseDate?: string, indexDate?: string, isClosedFlag?: boolean): boolean {
+  if (isClosedFlag) return true;
+  if (!baseDate) return false;
+
+  if (US_MARKET_CODES.has(code)) {
+    // 1) 당일이 미국 휴장일인 경우
+    if (US_MARKET_HOLIDAYS.has(baseDate)) return true;
+
+    // 2) 화요일 브리핑인 경우 전일(월요일)이 미국 휴장일이었으면 야간 미국장 미개장으로 휴장 처리
+    const d = new Date(baseDate);
+    if (!isNaN(d.getTime())) {
+      const dayOfWeek = d.getUTCDay();
+      if (dayOfWeek === 2) {
+        const prevMon = new Date(d);
+        prevMon.setUTCDate(prevMon.getUTCDate() - 1);
+        const prevMonStr = prevMon.toISOString().slice(0, 10);
+        if (US_MARKET_HOLIDAYS.has(prevMonStr)) return true;
+      }
+    }
+
+    // 3) indexDate가 baseDate보다 과거인 경우 (평일 중 영업일 지연)
+    if (indexDate && indexDate < baseDate) {
+      const d = new Date(baseDate);
+      if (!isNaN(d.getTime())) {
+        const dayOfWeek = d.getUTCDay();
+        if (dayOfWeek >= 2 && dayOfWeek <= 5) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
+function IndexRow({ index, baseDate }: { index: MarketIndex; baseDate?: string }) {
+  const isClosed = checkIsMarketClosed(index.code, baseDate, index.as_of_date, index.is_closed);
   const change = index.change_pct ?? 0;
   const isUp = change > 0;
   const isDown = change < 0;
@@ -303,6 +354,14 @@ function IndexRow({ index }: { index: MarketIndex }) {
         ) : (
           <span className="text-[13px] font-bold text-neutral-800 tracking-tight whitespace-nowrap">{index.label}</span>
         )}
+        {isClosed && (
+          <span 
+            className="text-[9.5px] font-extrabold px-1.5 py-0.5 rounded bg-neutral-100 text-neutral-500 border border-neutral-200/90 shrink-0 select-none"
+            title="현지 시장 휴장일로 직전 거래일 종가가 유지되었습니다."
+          >
+            휴장
+          </span>
+        )}
       </div>
       
       {/* 2열 + 3열: 종가 수치 (68px) + 등락 배지 (66px) */}
@@ -313,10 +372,20 @@ function IndexRow({ index }: { index: MarketIndex }) {
         </div>
 
         <div className="w-[66px] flex justify-center">
-          <span className={`inline-flex w-full items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[11px] font-bold tabular-nums ring-1 ring-inset ${surfaceClass}`}>
-            {trendIcon}
-            <span>{formatChange(index.code, change)}</span>
-          </span>
+          {isClosed ? (
+            <span 
+              className="inline-flex w-full items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[10.5px] font-bold tabular-nums bg-neutral-100 text-neutral-500 ring-1 ring-inset ring-neutral-200/80 cursor-help select-none"
+              title={`현지 시장 휴장 (직전 거래일 ${index.as_of_date ? index.as_of_date + ' ' : ''}종가 유지)`}
+            >
+              <Minus className="w-2.5 h-2.5 stroke-[2.5]" />
+              <span>휴장</span>
+            </span>
+          ) : (
+            <span className={`inline-flex w-full items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[11px] font-bold tabular-nums ring-1 ring-inset ${surfaceClass}`}>
+              {trendIcon}
+              <span>{formatChange(index.code, change)}</span>
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -20,6 +20,7 @@ import datetime
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
@@ -104,6 +105,82 @@ ALLOWED_STATUTE_LIMIT_MAP: dict[str, set[str]] = {
 
 DART_RCP_PATTERN = re.compile(r"rcpNo=\d{14}")
 
+_EVIDENCE_DATE_CACHE: dict[Path, datetime.date] = {}
+
+def parse_evidence_date(file_path: Path) -> datetime.date:
+    """Extracts the authentic date of an evidence file.
+
+    In CI/CD environments (GitHub Actions) or fresh clones, filesystem st_mtime
+    is set to the clone/checkout timestamp (now) rather than the authentic publication
+    or commit date. Therefore, we determine the genuine date through:
+    1. YYYYMMDD in filename (e.g. kofia_evidence_extract_20260905.xml -> 2026-09-05)
+    2. YYMMDD in filename (e.g. ETF_REITs_LIST_RP_260831.xlsx -> 2026-08-31)
+    3. evidence_manifest.json metadata (filing_date, as_of_date, collected_at)
+    4. Git commit date (for git-tracked files)
+    5. Filesystem st_mtime fallback
+    """
+    if file_path in _EVIDENCE_DATE_CACHE:
+        return _EVIDENCE_DATE_CACHE[file_path]
+
+    fname = file_path.name
+    # 1. Match from filename: YYYYMMDD
+    m = re.search(r"(\d{4})(\d{2})(\d{2})", fname)
+    if m:
+        try:
+            d = datetime.date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+            _EVIDENCE_DATE_CACHE[file_path] = d
+            return d
+        except ValueError:
+            pass
+
+    # 2. Match from filename: YYMMDD
+    m2 = re.search(r"_(\d{2})(\d{2})(\d{2})\.", fname)
+    if m2:
+        try:
+            d = datetime.date(2000 + int(m2.group(1)), int(m2.group(2)), int(m2.group(3)))
+            _EVIDENCE_DATE_CACHE[file_path] = d
+            return d
+        except ValueError:
+            pass
+
+    # 3. Check evidence_manifest.json
+    manifest_file = REPO_ROOT / "data/regulatory/sources/evidence_manifest.json"
+    if manifest_file.is_file():
+        try:
+            manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
+            rel_str = str(file_path.relative_to(REPO_ROOT)).replace("\\", "/")
+            for k, meta in manifest.items():
+                if k in rel_str or meta.get("extract") == rel_str:
+                    for dt_key in ("filing_date", "as_of_date", "collected_at"):
+                        if meta.get(dt_key):
+                            d = datetime.date.fromisoformat(meta[dt_key].split("T")[0])
+                            _EVIDENCE_DATE_CACHE[file_path] = d
+                            return d
+        except Exception:
+            pass
+
+    # 4. Git commit date
+    try:
+        rel_path = file_path.relative_to(REPO_ROOT)
+        res = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", str(rel_path)],
+            cwd=str(REPO_ROOT),
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            d = datetime.date.fromisoformat(res.stdout.strip())
+            _EVIDENCE_DATE_CACHE[file_path] = d
+            return d
+    except Exception:
+        pass
+
+    # 5. Fallback to mtime
+    d = datetime.date.fromtimestamp(file_path.stat().st_mtime)
+    _EVIDENCE_DATE_CACHE[file_path] = d
+    return d
+
 
 def validate_evidence_integrity(
     ledger_rows: list[Mapping[str, Any]] | None = None,
@@ -182,7 +259,7 @@ def validate_evidence_integrity(
             if file_path.is_file() and v_at:
                 try:
                     v_date = datetime.date.fromisoformat(v_at.split("T")[0])
-                    mtime_date = datetime.date.fromtimestamp(file_path.stat().st_mtime)
+                    mtime_date = parse_evidence_date(file_path)
                     if v_date < mtime_date:
                         violations["E4"].append({
                             "ticker": tk,
@@ -257,7 +334,7 @@ def validate_evidence_integrity(
                     if file_path.is_file() and v_at:
                         try:
                             v_date = datetime.date.fromisoformat(v_at.split("T")[0])
-                            mtime_date = datetime.date.fromtimestamp(file_path.stat().st_mtime)
+                            mtime_date = parse_evidence_date(file_path)
                             if v_date < mtime_date:
                                 violations["E4"].append({
                                     "ticker": tk,

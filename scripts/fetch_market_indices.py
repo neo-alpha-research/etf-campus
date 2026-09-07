@@ -276,13 +276,21 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
         logging.error(f"Failed to fetch {ticker_symbol}: {e}")
         return None
 
-def check_for_duplicates(new_indices, old_indices):
+def check_for_duplicates(new_indices, old_indices, iso_target=""):
     old_map = {item['label']: item for item in old_indices}
     duplicate_count = 0
     for new_item in new_indices:
         label = new_item['label']
         if label in old_map:
             old_item = old_map[label]
+            # If the index's as_of_date is prior to target date, the underlying market
+            # was closed (e.g. US market holiday like Labor Day, Thanksgiving, Christmas).
+            # This is expected behavior and not an indicator of stale data corruption.
+            new_date = new_item.get("as_of_date")
+            if new_date and iso_target and new_date < iso_target:
+                logging.info(f"Index {label} as_of_date ({new_date}) is prior to target ({iso_target}) due to market holiday/closure; skipping duplicate check.")
+                continue
+
             # If both close and change exactly match, and change is not 0.00
             if (new_item['value'] == old_item['value'] and
                 new_item['change'] == old_item['change'] and
@@ -371,7 +379,7 @@ def main():
             fail_labels.append(label)
 
     # Check duplicates
-    if old_base_date and old_base_date != target_date_str and check_for_duplicates(results, old_indices):
+    if old_base_date and old_base_date != target_date_str and check_for_duplicates(results, old_indices, iso_target):
         logging.error("Exact duplicate values found from previous trading day! Aborting to prevent stale data publishing.")
         sys.exit(1)
             

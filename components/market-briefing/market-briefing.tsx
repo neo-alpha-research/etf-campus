@@ -254,35 +254,34 @@ const US_MARKET_HOLIDAYS = new Set([
 
 const US_MARKET_CODES = new Set(["SPX", "NDX", "VIX", "DGS10", "CLF", "GC", "SI"]);
 
-function checkIsMarketClosed(code: string, baseDate?: string, indexDate?: string, isClosedFlag?: boolean): boolean {
+export function getPrecedingUsTradingDate(baseDateStr: string): string {
+  const d = new Date(baseDateStr);
+  if (isNaN(d.getTime())) return "";
+  const dayOfWeek = d.getUTCDay(); // 0: Sun, 1: Mon, ..., 6: Sat
+  // 월요일(1) 기준 직전 미국 정규장은 금요일 (-3일)
+  // 일요일(0)은 -2일, 토요일(6)은 -1일
+  // 화~금(2~5) 기준 직전 미국 정규장은 전일 (-1일)
+  const daysToSubtract = dayOfWeek === 1 ? 3 : (dayOfWeek === 0 ? 2 : (dayOfWeek === 6 ? 1 : 1));
+  const prev = new Date(d);
+  prev.setUTCDate(prev.getUTCDate() - daysToSubtract);
+  return prev.toISOString().slice(0, 10);
+}
+
+export function checkIsMarketClosed(code: string, baseDate?: string, indexDate?: string, isClosedFlag?: boolean): boolean {
   if (isClosedFlag) return true;
   if (!baseDate) return false;
 
   if (US_MARKET_CODES.has(code)) {
-    // 1) 당일이 미국 휴장일인 경우
+    // 1) 당일이 미국 공식 휴장일인 경우 (예: 2026-09-07 Labor Day)
     if (US_MARKET_HOLIDAYS.has(baseDate)) return true;
 
-    // 2) 화요일 브리핑인 경우 전일(월요일)이 미국 휴장일이었으면 야간 미국장 미개장으로 휴장 처리
-    const d = new Date(baseDate);
-    if (!isNaN(d.getTime())) {
-      const dayOfWeek = d.getUTCDay();
-      if (dayOfWeek === 2) {
-        const prevMon = new Date(d);
-        prevMon.setUTCDate(prevMon.getUTCDate() - 1);
-        const prevMonStr = prevMon.toISOString().slice(0, 10);
-        if (US_MARKET_HOLIDAYS.has(prevMonStr)) return true;
-      }
-    }
+    // 2) 직전 미국 거래 세션 날짜가 미국 공휴일인 경우 (예: 화요일 브리핑 시 월요일이 Labor Day)
+    const precedingUsDate = getPrecedingUsTradingDate(baseDate);
+    if (precedingUsDate && US_MARKET_HOLIDAYS.has(precedingUsDate)) return true;
 
-    // 3) indexDate가 baseDate보다 과거인 경우 (평일 중 영업일 지연)
-    if (indexDate && indexDate < baseDate) {
-      const d = new Date(baseDate);
-      if (!isNaN(d.getTime())) {
-        const dayOfWeek = d.getUTCDay();
-        if (dayOfWeek >= 2 && dayOfWeek <= 5) {
-          return true;
-        }
-      }
+    // 3) 직전 거래일 대비 실제 데이터 수신일(indexDate)이 이전인 경우 (비정기 휴장 또는 미개장)
+    if (indexDate && precedingUsDate && indexDate < precedingUsDate) {
+      return true;
     }
   }
 
@@ -559,6 +558,7 @@ export function MarketBriefing() {
           close: found?.value,
           change_pct: found?.change,
           as_of_date: found?.as_of_date || briefing.asOfDate,
+          is_closed: (found as any)?.is_closed,
         });
       }
     };
@@ -688,8 +688,18 @@ export function MarketBriefing() {
   const kospi = orderedIndices.find(i => i.code === "KOSPI");
   const spx = orderedIndices.find(i => i.code === "SPX");
 
+  const isSpxClosed = checkIsMarketClosed("SPX", briefing.asOfDate, spx?.as_of_date, spx?.is_closed);
+
   let macroSentence = "국내외 증시와 주요 환율·금리 지표가 전반적으로 안정적인 균형 흐름을 나타냈습니다.";
-  if ((spx?.change_pct ?? 0) > 0 && (kospi?.change_pct ?? 0) > 0) {
+  if (isSpxClosed) {
+    if ((kospi?.change_pct ?? 0) > 0) {
+      macroSentence = `미국 증시 휴장 속에서 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 상승하며 견조한 흐름을 나타냈습니다.`;
+    } else if ((kospi?.change_pct ?? 0) < 0) {
+      macroSentence = `미국 증시 휴장 속에서 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 하락하며 숨고르기 양상을 나타냈습니다.`;
+    } else {
+      macroSentence = `미국 증시가 휴장한 가운데 국내 증시와 주요 거시 지표가 보합권 흐름을 유지했습니다.`;
+    }
+  } else if ((spx?.change_pct ?? 0) > 0 && (kospi?.change_pct ?? 0) > 0) {
     macroSentence = `미국 증시가 ${signed(spx?.change_pct ?? 0)} 상승하고 원/달러 환율이 안정세를 보이며, 국내외 위험자산 선호 심리가 전반적으로 우호적인 환경이었습니다.`;
   } else if ((spx?.change_pct ?? 0) < 0 && (kospi?.change_pct ?? 0) < 0) {
     macroSentence = `글로벌 증시 조정 압력 속에 국내외 대표 지수가 전반적인 하락세를 보였습니다.`;
@@ -1009,7 +1019,7 @@ export function MarketBriefing() {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                  {orderedIndices.filter(i => ["KOSPI", "KOSDAQ", "VKOSPI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} baseDate={briefing.asOfDate} />)}
                 </div>
               </div>
             </div>
@@ -1028,7 +1038,7 @@ export function MarketBriefing() {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                  {orderedIndices.filter(i => ["SPX", "NDX", "VIX"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} baseDate={briefing.asOfDate} />)}
                 </div>
               </div>
             </div>
@@ -1047,7 +1057,7 @@ export function MarketBriefing() {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  {orderedIndices.filter(i => ["USDKRW", "KR10Y", "DGS10"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                  {orderedIndices.filter(i => ["USDKRW", "KR10Y", "DGS10"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} baseDate={briefing.asOfDate} />)}
                 </div>
               </div>
             </div>
@@ -1066,7 +1076,7 @@ export function MarketBriefing() {
                   </div>
                 </div>
                 <div className="flex flex-col">
-                  {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} />)}
+                  {orderedIndices.filter(i => ["CLF", "GC", "SI"].includes(i.code)).map(i => <IndexRow key={i.code} index={i} baseDate={briefing.asOfDate} />)}
                 </div>
               </div>
             </div>

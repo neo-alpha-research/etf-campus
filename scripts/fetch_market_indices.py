@@ -32,6 +32,19 @@ TICKERS = {
     "VIX": "^VIX",
 }
 
+US_MARKET_HOLIDAYS_2026 = {
+    "2026-01-01",  # New Year's Day
+    "2026-01-19",  # Martin Luther King Jr. Day
+    "2026-02-16",  # Washington's Birthday (Presidents' Day)
+    "2026-04-03",  # Good Friday
+    "2026-05-25",  # Memorial Day
+    "2026-06-19",  # Juneteenth
+    "2026-07-03",  # Independence Day (observed)
+    "2026-09-07",  # Labor Day
+    "2026-11-26",  # Thanksgiving Day
+    "2026-12-25",  # Christmas Day
+}
+
 
 def get_target_date() -> str:
     try:
@@ -264,12 +277,27 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
         else:
             change_val = round(((price - prev_close) / prev_close) * 100, 2)
             change_points = round(price - prev_close, 2)
+
+        # Determine if market was closed for this trading session
+        iso_target = f"{target_date_str[:4]}-{target_date_str[4:6]}-{target_date_str[6:8]}"
+        target_dt = datetime.strptime(target_date_str, "%Y%m%d")
+        day_of_week = target_dt.weekday() # 0: Mon, 1: Tue, ..., 4: Fri
+        days_back = 3 if day_of_week == 0 else 1
+        preceding_us_dt = target_dt - timedelta(days=days_back)
+        preceding_us_iso = preceding_us_dt.strftime("%Y-%m-%d")
+
+        is_closed = (
+            iso_target in US_MARKET_HOLIDAYS_2026 or
+            preceding_us_iso in US_MARKET_HOLIDAYS_2026 or
+            (bool(target_date_actual) and target_date_actual < preceding_us_iso)
+        )
         
         return {
             "value": round(price, 2),
             "change": change_val,
             "changePoints": change_points,
-            "as_of_date": target_date_actual
+            "as_of_date": target_date_actual,
+            "is_closed": is_closed,
         }
         
     except Exception as e:
@@ -283,9 +311,13 @@ def check_for_duplicates(new_indices, old_indices, iso_target=""):
         label = new_item['label']
         if label in old_map:
             old_item = old_map[label]
-            # If the index's as_of_date is prior to target date, the underlying market
+            # If the index is marked closed or as_of_date is prior to target date, the underlying market
             # was closed (e.g. US market holiday like Labor Day, Thanksgiving, Christmas).
             # This is expected behavior and not an indicator of stale data corruption.
+            if new_item.get("is_closed"):
+                logging.info(f"Index {label} is marked closed; skipping duplicate check.")
+                continue
+
             new_date = new_item.get("as_of_date")
             if new_date and iso_target and new_date < iso_target:
                 logging.info(f"Index {label} as_of_date ({new_date}) is prior to target ({iso_target}) due to market holiday/closure; skipping duplicate check.")

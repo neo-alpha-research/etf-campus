@@ -691,17 +691,9 @@ export function MarketBriefing() {
   const isSpxClosed = checkIsMarketClosed("SPX", briefing.asOfDate, spx?.as_of_date, spx?.is_closed);
 
   let macroSentence = "국내외 증시와 주요 환율·금리 지표가 전반적으로 안정적인 균형 흐름을 나타냈습니다.";
-  if (isSpxClosed) {
-    if ((kospi?.change_pct ?? 0) > 0) {
-      macroSentence = `미국 증시 휴장 속에서 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 상승하며 견조한 흐름을 나타냈습니다.`;
-    } else if ((kospi?.change_pct ?? 0) < 0) {
-      macroSentence = `미국 증시 휴장 속에서 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 하락하며 숨고르기 양상을 나타냈습니다.`;
-    } else {
-      macroSentence = `미국 증시가 휴장한 가운데 국내 증시와 주요 거시 지표가 보합권 흐름을 유지했습니다.`;
-    }
-  } else if ((spx?.change_pct ?? 0) > 0 && (kospi?.change_pct ?? 0) > 0) {
+  if (!isSpxClosed && (spx?.change_pct ?? 0) > 0 && (kospi?.change_pct ?? 0) > 0) {
     macroSentence = `미국 증시가 ${signed(spx?.change_pct ?? 0)} 상승하고 원/달러 환율이 안정세를 보이며, 국내외 위험자산 선호 심리가 전반적으로 우호적인 환경이었습니다.`;
-  } else if ((spx?.change_pct ?? 0) < 0 && (kospi?.change_pct ?? 0) < 0) {
+  } else if (!isSpxClosed && (spx?.change_pct ?? 0) < 0 && (kospi?.change_pct ?? 0) < 0) {
     macroSentence = `글로벌 증시 조정 압력 속에 국내외 대표 지수가 전반적인 하락세를 보였습니다.`;
   } else if ((kospi?.change_pct ?? 0) > 0) {
     macroSentence = `글로벌 변동성 속에서도 국내 증시가 ${signed(kospi?.change_pct ?? 0)} 견조한 반등을 보이며 시장 방어력을 입증했습니다.`;

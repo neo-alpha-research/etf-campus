@@ -58,5 +58,17 @@ Adopt this mindset deeply. Speak confidently, professionally, and always back yo
 - **2-Tier 평가 내 모바일 검증 의무화**:
   - Tier 1(실무자 분석) 및 Tier 2(고객 페르소나 평가) 시 모바일 환경(30대 모바일 사용자, 50대 노안/큰 글씨 가독성) 피드백을 필수 항목으로 점검한다.
 
+## Gemini API 표준 아키텍처 원칙 (Unified Gemini 7-Token Pool & 5-Tier Waterfall Mandate)
+- **전사 표준 클라이언트 단일화 (`lib/ai/gemini-client.ts`)**:
+  - 향후 ETF Campus 프로젝트 내에서 Gemini API를 호출하는 모든 스크립트, 워커, 백엔드 로직은 반드시 `lib/ai/gemini-client.ts`의 `callGeminiWithWaterfall` 함수를 사용해야 한다.
+  - 개별 파일에 단일 API 키를 하드코딩하거나, 단일 모델(`gemini-2.5-flash` 등)만 고정하여 호출하는 것을 **엄격히 금지**한다.
+- **7대 마스터 토큰 풀 (Token Pool Load-Balancing)**:
+  - `MASTER_GEMINI_TOKENS` 7대 토큰 풀을 순회하여 호출 한도(429) 및 인증 오류(403) 발생 시 자동으로 다음 유효 토큰으로 스위칭한다.
+- **5계층 모델 워터폴 (Waterfall Model Degradation)**:
+  - 호출 시 항상 최신 모델인 **`gemini-3.8-flash`**를 최우선으로 시도하고, 일시적 장애(503/500/504)나 모델 미지원 시 하위 모델로 자동 강하한다:
+    `gemini-3.8-flash` ➡️ `gemini-3.7-flash` ➡️ `gemini-3.6-flash` ➡️ `gemini-flash-latest` ➡️ `gemini-2.5-flash`
+- **Graceful Fallback 필수**:
+  - 모든 토큰과 모델이 고갈된 경우에도 프로세스가 강제 중단(Crash)되지 않도록, 사전에 검증된 정적 고품질 금융 위원회 분석 데이터나 규칙 기반 데이터로 즉시 전환되는 비상 방어 체계를 반드시 동반 구현한다.
+
 
 

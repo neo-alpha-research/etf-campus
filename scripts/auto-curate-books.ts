@@ -5,6 +5,7 @@
 import fs from "fs/promises";
 import fsSync from "fs";
 import path from "path";
+import { callGeminiWithWaterfall } from "../lib/ai/gemini-client";
 
 const CONTENT_DIR = path.join(process.cwd(), "content/external-books");
 const ALADIN_TTB_KEY = (process.env.ALADIN_TTB_KEY || "").trim() || "ttbshinkib1816001";
@@ -168,7 +169,7 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, gl
 }
 
 async function generateAIReview(bookMetadata: any, categoryName: string) {
-  console.log(`[AI] Gemini API를 통한 다중 페르소나 위원회 리뷰 생성 중: ${bookMetadata.title}`);
+  console.log(`[AI] Gemini 7-Token & 5-Tier Waterfall 엔진을 통한 다중 페르소나 위원회 리뷰 생성 중: ${bookMetadata.title}`);
   
   const prompt = `
     당신은 ETF Campus의 '동적 전문가 위원회(Agile Expert Committee)' 역할을 수행하는 AI입니다.
@@ -198,51 +199,23 @@ async function generateAIReview(bookMetadata: any, categoryName: string) {
       "targetRationale": "해당 타겟에게 이 책이 필요한 논리적 근거 (예: 국내 상장 ETF만으로 구현할 수 있는 포트폴리오를 제공하기 때문)"
     }
   `;
-  
-  if (GEMINI_API_KEY) {
-    // ⚠️ 2026년 기준, 최신 Pro 모델(3.1 등)은 무료 한도(Limit)가 0이거나 유료 결제가 필요할 수 있습니다.
-    // 확실하게 무료 티어가 열려있고 응답이 검증된 gemini-2.5-flash를 단일 타겟으로 사용합니다.
-    const modelsToTry = ["gemini-2.5-flash"];
-    
-    for (const model of modelsToTry) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60초 넉넉한 타임아웃
-        
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          signal: controller.signal,
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { response_mime_type: "application/json" }
-          })
-        });
-        clearTimeout(timeoutId);
 
-        if (!response.ok) {
-          throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
-        }
+  // 7대 마스터 토큰 풀과 3.8 Flash -> 2.5 Flash 5계층 모델 워터폴을 통한 견고한 AI 호출
+  const result = await callGeminiWithWaterfall({
+    prompt,
+    responseJson: true,
+    temperature: 0.3,
+    timeoutMs: 25000,
+    envKey: GEMINI_API_KEY,
+  });
 
-        const data = await response.json();
-        let aiText = data.candidates[0].content.parts[0].text.trim();
-        // 백틱 제거
-        if (aiText.startsWith("\`\`\`json")) {
-          aiText = aiText.replace(/^\`\`\`json/, "").replace(/\`\`\`$/, "").trim();
-        } else if (aiText.startsWith("\`\`\`")) {
-          aiText = aiText.replace(/^\`\`\`/, "").replace(/\`\`\`$/, "").trim();
-        }
-
-        return JSON.parse(aiText);
-      } catch (error: any) {
-        console.warn(`⚠️ [AI] ${model} 모델 호출 실패. 차선 모델을 시도합니다... (사유: ${error.message})`);
-      }
-    }
-    console.error("❌ [AI] 모든 Gemini 모델 호출에 실패했습니다.");
+  if (result.success && result.data) {
+    console.log(`✅ [AI] Gemini 분석 성공 (적용 모델: ${result.modelUsed}, 사용 토큰 #${result.tokenIndex})`);
+    return result.data;
   }
 
   // ⚠️ 완전한 시스템 마비를 방지하기 위한 전문 큐레이션 데이터 반환
-  console.log("ℹ️ [큐레이션] 표준 도서 분석 데이터를 생성합니다.");
+  console.log(`ℹ️ [큐레이션 Fallback] API 실패 (${result.error || "Exhausted"}). 표준 고품질 분석 데이터로 대체합니다.`);
   return getProfessionalReviewFallback(bookMetadata, categoryName);
 }
 

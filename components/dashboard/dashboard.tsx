@@ -739,7 +739,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
               </span>
             </div>
             <span className="inline-flex items-center rounded-full bg-rose-100 px-2.5 py-0.5 text-[11px] font-extrabold text-rose-900 tabular-nums">
-              전 종목 {modeEtfs.length}개 (사전의무교육 1시간 대상)
+              전 종목 {modeEtfs.length}개 (사전의무교육 대상)
             </span>
           </div>
 
@@ -767,7 +767,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
 
           <p className="mt-2 text-[10.5px] font-semibold text-rose-900/80 flex items-center gap-1">
             <span>💡</span>
-            <span>연금계좌(DC/IRP/연금저축) 편입 불가 · 매수 전 기본예탁금(최소 1천만원) 및 금융투자협회 사전의무교육(1시간) 필수</span>
+            <span>연금계좌(DC/IRP/연금저축) 편입 불가 · 매수 전 기본예탁금(최소 1천만원) 및 금융투자협회 사전의무교육 필수</span>
           </p>
         </div>
       ) : null}

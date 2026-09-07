@@ -749,16 +749,17 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                 <div className="flex items-center gap-1.5 font-bold text-brand-950">
                   <span className="size-2 rounded-full bg-blue-500 shrink-0" />
                   <span>위험자산 70% 한도 ({pensionCounts.risk.toLocaleString()}개)</span>
-                  <span className="text-[10px] font-semibold text-brand-700 bg-brand-50 px-1 py-0.2 rounded">최대 70% 제한</span>
+                  <span className="text-[10px] font-semibold text-brand-700 bg-brand-50 px-1 py-0.2 rounded">기본 한도 (배지 생략)</span>
                 </div>
                 <p className="mt-0.5 text-[11px] text-neutral-700 leading-snug">
-                  국내외 주식형·주식혼합 등은 계좌 내 <strong>최대 70%까지만</strong> 편입 가능하며 70% 초과 매수는 법정 제한됩니다.
+                  국내외 주식형 등 적격 ETF는 <strong>기본 최대 70%까지</strong> 편입 가능합니다. (소수 안전자산만 [안전자산100%] 별도 표기)
                 </p>
               </div>
             </div>
 
-            <div className="mt-1.5 pt-1.5 border-t border-brand-200/40 text-[11px] text-brand-900/75">
-              <span>💡 근로자퇴직급여보장법에 따라 레버리지·인버스 ETF 등 배율 상품(137개)은 편입 대상에서 제외됩니다.</span>
+            <div className="mt-1.5 pt-1.5 border-t border-brand-200/40 text-[11px] text-brand-900/75 flex flex-wrap items-center justify-between gap-1">
+              <span>💡 퇴직연금(DC/IRP)은 위험자산 70% 한도가 기본 적용되며, 100% 전액 투자 가능한 종목에만 [안전자산100%] 배지가 표시됩니다.</span>
+              <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 근퇴법상 레버리지·인버스 ETF 등 배율 상품(137개) 편입 제외</span>
             </div>
 
             <div className="mt-2 pt-2 border-t border-brand-200/50 flex flex-wrap items-center justify-between gap-1.5 text-xs">
@@ -888,7 +889,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
 
             <div className="mt-1.5 pt-1.5 border-t border-amber-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-amber-950/85">
               <div className="flex flex-wrap items-center gap-2">
-                <span>💡 중개형 ISA는 국내 상장 전 종목(1,167개) 편입이 가능하나, 일반 계좌에서도 매매차익이 비과세인 국내주식형을 제외하고 15.4% 배당소득세 절세 실익이 큰 {isaCounts.high.toLocaleString()}개 종목만 엄선하여 나열했습니다. (국내주식형 포함 전 종목은 &apos;전체계좌&apos; 탭 이용)</span>
+                <span>💡 중개형 ISA는 국내 상장 전 종목(1,167개) 편입이 가능하나, 일반 계좌에서도 매매차익이 비과세인 국내주식형을 제외하고 15.4% 배당소득세 절세 실익이 큰 {isaCounts.high.toLocaleString()}개 종목만 엄선하여 나열했습니다. (※ 레버리지·인버스 ETF는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 후 매매 가능)</span>
                 <Link
                   href="/quick?mode=covered_call"
                   className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-colors"
@@ -975,7 +976,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             </div>
 
             <div className="mt-1.5 pt-1.5 border-t border-slate-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-slate-700">
-              <span>💡 일반 위탁 계좌: 전 종목({etfs.length.toLocaleString()}개) 거래 가능 · 레버리지·인버스 거래 자유</span>
+              <span>💡 일반 위탁 계좌: 전 종목({etfs.length.toLocaleString()}개) 거래 가능 · ※ 레버리지·인버스 ETF는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 후 매매 가능</span>
               <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 별도 법정 편입 한도 없음 · 연간 납입한도 무제한</span>
             </div>
           </div>
@@ -1529,26 +1530,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                     <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="법령 조문 직접 적용 등 간접 근거로 판정된 항목입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.">확인권장</span>
                                   )}
                                 </>
-                              ) : etf.pensionLimit === "70% (위험자산)" ? (
-                                <>
-                                  <span className="text-blue-800 font-bold text-[10px] bg-blue-50 border border-blue-200 px-1 rounded" title="퇴직연금감독규정 제12조 제4항상 70% 한도 내 투자 가능 (위험자산) · 금융투자협회 전자공시 대조 완료">위험70%</span>
-                                  {etf.pensionVerified === "N" && (
-                                    <span
-                                      className={
-                                        etf.pensionConfidence === "낮음"
-                                          ? "text-neutral-600 font-bold text-[10px] bg-neutral-100 border border-neutral-300 px-1 rounded cursor-help"
-                                          : "text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help"
-                                      }
-                                      title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
-                                    >
-                                      추정
-                                    </span>
-                                  )}
-                                  {etf.pensionConfidence === "보통" && (
-                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="법령 조문 직접 적용 등 간접 근거로 판정된 항목입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.">확인권장</span>
-                                  )}
-                                </>
-                              ) : (
+                              ) : etf.pensionLimit === "70% (위험자산)" ? null : (
                                 <>
                                   <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
                                   {etf.pensionConfidence === "보통" && (
@@ -1571,19 +1553,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                   <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="금융투자협회 연금저축계좌 표준약관 제8조에 따라 지수 대비 1배 초과 또는 음(-)의 배율로 운용되는 ETF는 연금저축계좌에서 매입할 수 없습니다.">연금불가</span>
                                 )}
                               </>
-                            ) : filters.accountMode === "isa" ? (
-                              <>
-                                {etf.isaEducationRequired === "Y" && (
-                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="중개형 ISA 편입 가능 (사전교육 및 기본예탁금 필요)">교육필요</span>
-                                )}
-                              </>
-                            ) : (
-                              <>
-                                {(etf.riskType === "leverage" || etf.isaEducationRequired === "Y") && (
-                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="일반 위탁계좌 편입 가능 (금융투자교육원 사전교육 및 기본예탁금 필요)">교육필요</span>
-                                )}
-                              </>
-                            )}
+                            ) : null}
                           </div>
                         </div>
                       </th>

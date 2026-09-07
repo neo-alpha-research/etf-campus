@@ -226,24 +226,18 @@ export function ReturnRankingChart({
                         <span className="tabular-nums font-semibold">{etf.ticker}</span>
                         <span className="text-neutral-300">|</span>
                         <span className="truncate max-w-[80px]">{etf.classification?.marketScope || etf.assetClass}</span>
-                        {accountMode === "all" ? (
-                          (etf.riskType === "leverage" || etf.isaEducationRequired === "Y") && (
-                            <span className="shrink-0 rounded-[3px] bg-amber-50 border border-amber-200 px-1 py-0.5 font-bold text-amber-800">교육필요</span>
-                          )
-                        ) : accountMode === "isa" ? (
-                          (etf.riskType === "leverage" || etf.isaEducationRequired === "Y") && (
-                            <span className="shrink-0 rounded-[3px] bg-amber-50 border border-amber-200 px-1 py-0.5 font-bold text-amber-800">교육필요</span>
-                          )
-                        ) : accountMode === "personal_pension" ? (
+                        {accountMode === "all" ? null : accountMode === "isa" ? null : accountMode === "personal_pension" ? (
                           etf.personalPension === "불가" ? (
                             <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
                           ) : etf.pensionLimit === "불가" ? (
                             <span className="shrink-0 rounded-[3px] bg-amber-50 border border-amber-200 px-1 py-0.5 font-bold text-amber-800">개인연금전용</span>
                           ) : null
                         ) : (
-                          etf.pension === "불가" && (
+                          etf.pensionLimit === "100% (안전자산)" ? (
+                            <span className="shrink-0 rounded-[3px] bg-emerald-50 border border-emerald-200 px-1 py-0.5 font-bold text-emerald-800">안전자산100%</span>
+                          ) : etf.pension === "불가" ? (
                             <span className="shrink-0 rounded-[3px] bg-rose-50 border border-rose-200 px-1 py-0.5 font-bold text-rose-800">연금불가</span>
-                          )
+                          ) : null
                         )}
                       </div>
                     </div>

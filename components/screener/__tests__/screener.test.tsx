@@ -294,11 +294,46 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     render(<Screener etfs={[verifiedEtf]} />);
     expect(screen.queryByText("검증")).not.toBeInTheDocument();
     expect(screen.queryByText("추정")).not.toBeInTheDocument();
-    const pensionBadge = screen.getByText("안전자산100%");
+    const pensionBadge = screen.getAllByText("안전자산100%")[0];
     expect(pensionBadge).toBeInTheDocument();
   });
 
-  it("중개형 ISA 모드에서 절세 혜택 안내 가이드 및 교육필요 배지가 올바르게 표시되고 'ISA가능' 배지는 표시되지 않는다", async () => {
+  it("퇴직연금(DC/IRP) 모드에서는 위험자산 70%가 기본 한도이므로 '위험70%' 배지는 생략되고 소수 '안전자산100%' 배지만 표시된다", () => {
+    const safeEtf = etf({
+      ticker: "SAFE1",
+      name: "국채 30년 ETF",
+      pension: "가능",
+      pensionLimit: "100% (안전자산)",
+      pensionVerified: "Y",
+    });
+    const riskEtf = etf({
+      ticker: "RISK1",
+      name: "코스피 200 ETF",
+      pension: "가능",
+      pensionLimit: "70% (위험자산)",
+      pensionVerified: "Y",
+    });
+    const nonPensionEtf = etf({
+      ticker: "NONE1",
+      name: "원유 선물 ETF",
+      pension: "불가",
+      pensionLimit: "불가",
+      pensionVerified: "Y",
+    });
+
+    render(<Screener etfs={[safeEtf, riskEtf]} />);
+    // 퇴직연금 가이드 카드가 위험자산 70% 기본 한도를 명시하는지 확인
+    expect(screen.getByText(/퇴직연금\(DC\/IRP\)은 위험자산 70% 한도가 기본 적용되며/)).toBeInTheDocument();
+    expect(screen.getByText(/소수 안전자산만 \[안전자산100%\] 별도 표기/)).toBeInTheDocument();
+
+    // 안전자산100%는 표시됨
+    expect(screen.getAllByText("안전자산100%")[0]).toBeInTheDocument();
+
+    // 기본 한도인 위험70% 배지는 노출되지 않음
+    expect(screen.queryByText("위험70%")).not.toBeInTheDocument();
+  });
+
+  it("중개형 ISA 모드에서 절세 혜택 안내 가이드 및 교육 이수 안내가 표시되고 불필요한 '교육필요' 및 'ISA가능' 행 배지는 노출되지 않는다", async () => {
     const isaHighEtf = etf({
       ticker: "ISA1",
       name: "미국 테크 ETF",
@@ -328,7 +363,8 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getByText("조세특례제한법 제91조의18")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "중개형 ISA (절세 혜택형) 조건 제거" })).toBeInTheDocument();
     expect(screen.getByText(/해외주식 · 채권 · 리츠 · 커버드콜 절세 실익 극대화/)).toBeInTheDocument();
-    expect(screen.getAllByText("교육필요")[0]).toBeInTheDocument();
+    expect(screen.getByText(/레버리지·인버스 ETF는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 후 매매 가능/)).toBeInTheDocument();
+    expect(screen.queryByText("교육필요")).not.toBeInTheDocument();
     expect(screen.queryByText("ISA(교육필요)")).not.toBeInTheDocument();
     expect(screen.queryByText("ISA가능")).not.toBeInTheDocument();
     expect(screen.queryByText("✨절세형")).not.toBeInTheDocument();
@@ -435,12 +471,13 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getAllByText("국내 KOSPI ETF")[0]).toBeInTheDocument();
     expect(screen.queryByText("미국 나스닥 ETF")).not.toBeInTheDocument();
 
-    // 전체(모든 종목)로 복귀 후 레버리지 필터 선택 시 레버리지 종목에 '교육필요' 배지 노출
+    // 전체(모든 종목)로 복귀 후 레버리지 필터 선택 시 가이드에 교육 안내가 있고 행에는 중복 배지가 노출되지 않음
     const allTierBtn = screen.getByRole("button", { name: /전체 \(\d+개\)/ });
     fireEvent.click(allTierBtn);
     const levLabel = screen.getByLabelText("레버리지");
     fireEvent.click(levLabel);
-    expect(screen.getAllByText("교육필요")[0]).toBeInTheDocument();
+    expect(screen.getByText(/레버리지·인버스 ETF는 금융투자교육원 사전교육 이수 및 기본예탁금 충족 후 매매 가능/)).toBeInTheDocument();
+    expect(screen.queryByText("교육필요")).not.toBeInTheDocument();
   });
 
   it("퇴직연금 탭 가이드 카드에 혼합채권과 TDF 바로가기 크로스 링크 브릿지를 렌더링한다", () => {

@@ -530,7 +530,7 @@ describe("Dashboard", () => {
     expect(screen.getByText(/일간 배수 추종 & 단기 방향성 매매/)).toBeInTheDocument();
     expect(screen.getByText(/음의 복리\(변동성 잠식\) & 장기 보유 금지/)).toBeInTheDocument();
     expect(screen.getByText(/연금계좌\(DC\/IRP\/연금저축\) 편입 불가/)).toBeInTheDocument();
-    expect(screen.getByText(/금융투자협회 사전의무교육\(1시간\) 필수/)).toBeInTheDocument();
+    expect(screen.getByText(/금융투자협회 사전의무교육 필수/)).toBeInTheDocument();
 
     // 2. 배수 퀵 필터 칩 및 테이블 행 뱃지 검증 (필터 칩 + 테이블 행 뱃지 동시 검증)
     expect(screen.getAllByText("+2X 레버리지").length).toBeGreaterThanOrEqual(2);

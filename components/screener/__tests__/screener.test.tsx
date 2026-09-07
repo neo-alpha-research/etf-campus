@@ -296,7 +296,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(pensionBadge).toBeInTheDocument();
   });
 
-  it("중개형 ISA 모드에서 절세 혜택형 종목에 ✨절세형 배지가 표시된다", async () => {
+  it("중개형 ISA 모드에서 절세 혜택 안내 가이드 및 ISA 가능 배지가 올바르게 표시되고 개별 마크는 표시되지 않는다", async () => {
     const isaHighEtf = etf({
       ticker: "ISA1",
       name: "미국 테크 ETF",
@@ -318,7 +318,8 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getByText(/절세 실익 극대화/)).toBeInTheDocument();
     expect(screen.getByText(/핵심 세제 혜택: 계좌 내 전 종목 손익통산/)).toBeInTheDocument();
     expect(screen.getByText("ISA가능")).toBeInTheDocument();
-    expect(screen.getByText("✨절세형")).toBeInTheDocument();
+    expect(screen.queryByText("✨절세형")).not.toBeInTheDocument();
+    expect(screen.queryByText("절세실익高")).not.toBeInTheDocument();
   });
 
   it("개인연금(연금저축) 모드에서 '연금저축 한도규제 없음' 및 '연금불가(약관 제8조)' 배지와 법령 툴팁이 올바르게 표시된다", async () => {

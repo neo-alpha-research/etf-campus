@@ -1666,9 +1666,6 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                 ) : (
                                   <span className="text-indigo-800 font-bold text-[10px] bg-indigo-50 border border-indigo-200 px-1 rounded" title="중개형 ISA 편입 가능">ISA가능</span>
                                 )}
-                                {etf.isaTaxBenefit === "높음" && (
-                                  <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="해외주식·채권·기타형: ISA 절세 혜택 대상 (상단 가이드 참조)">✨절세형</span>
-                                )}
                               </>
                             ) : (
                               <>

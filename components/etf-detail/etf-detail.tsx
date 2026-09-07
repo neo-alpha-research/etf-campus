@@ -148,11 +148,8 @@ export function EtfDetail({
                     ISA 가능 (교육필요)
                   </span>
                 ) : (
-                  <span className="rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700 flex items-center gap-1" title={etf.isaTaxBenefit === "높음" ? "조세특례제한법상 중개형 ISA 편입 가능 (해외주식·채권형 매매차익 15.4% 비과세/분리과세 절세 실익 극대화)" : "조세특례제한법상 중개형 ISA 편입 가능 (국내주식형 매매차익 비과세 및 분배금 절세)"}>
+                  <span className="rounded-md border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-700 flex items-center gap-1" title="조세특례제한법상 중개형 ISA 편입 가능">
                     ISA 가능
-                    {etf.isaTaxBenefit === "높음" && (
-                      <span className="ml-1 rounded bg-emerald-100 px-1 py-0.5 text-[10px] text-emerald-800 font-extrabold">절세실익高</span>
-                    )}
                   </span>
                 )}
                 {cautions.map(caution => (

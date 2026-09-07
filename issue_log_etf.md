@@ -97,7 +97,7 @@
 | 워크플로우 Run ID | 발생 일시 | 실패 요인 | 에러 로그 요약 | 근본 조치 및 상태 |
 | :--- | :---: | :--- | :--- | :--- |
 | `34091237742`<br>~`34088809965` | 2026-09-07 | JSX 텍스트 내 따옴표 unescaped 및 미사용 타입 린트 에러 | `react/no-unescaped-entities: `'` can be escaped with `&apos;`` | #690 커밋에서 엔티티 이스케이프 및 미사용 변수 전수 정리 완료 (✅ 해결) |
-| `33483031032` (`kofia-fee-sync`) | 2026-09-01 | GITHUB_TOKEN의 git push 권한 거부 | `remote: Permission to neo-alpha-research/etf-campus.git denied to github-actions[bot]. 403` | 토큰 권한 분리 전까지 `.archive_etf/workflows/`로 격리 보관 |
+| `33483031032` (`kofia-fee-sync`) | 2026-09-01 | GITHUB_TOKEN의 git push 권한 거부 | `remote: Permission to neo-alpha-research/etf-campus.git denied to github-actions[bot]. 403` | 최상위 `permissions: contents: write` 및 `git pull --rebase` 루프 적용하여 정상 복원 완료 (✅ 해결) |
 | `34012566877` (`market-briefing`) | 2026-09-06 | D1 Free Tier 일일 쿼터 초과 | `Your account has exceeded D1's free tier daily row read limit. [code: 7500]` | D1 쿼리 최적화 및 R2 오프로딩 아키텍처 수립 중 |
 | `34080882736` (`book-curation`) | 2026-09-07 | 알라딘 TTB 키 환경변수 주입 시점 지연 | `Missing ALADIN_TTB_KEY secret in runner environment` | GitHub Secrets 주입 확인 후 수동 실행 정상 통과 완료 (✅ 해결) |
 

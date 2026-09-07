@@ -41,7 +41,7 @@ CODEX 에이전트는 ETF Campus 코드베이스 작업 시 다음 세 가지 �
 | 격리 디렉토리 | 격리된 자산 목록 | 격리 사유 |
 | :--- | :--- | :--- |
 | `.archive_etf/dummy_data/` | `mock-briefing.json`, `mock-community-posts.json` | 2026년 8월 기준 모의 데이터 (Zero-Hallucination 원칙에 따른 격리) |
-| `.archive_etf/workflows/` | `kofia-fee-sync.yml`, `rollback-market-briefing-production.yml` | GITHUB_TOKEN 쓰기 권한 충돌(403) 및 미사용 롤백 파이프라인 |
+| `.archive_etf/workflows/` | `rollback-market-briefing-production.yml` | 미검증 롤백 파이프라인 격리 (`kofia-fee-sync.yml`은 쓰기 권한 수정 후 복원 완료) |
 | `.archive_etf/scratch/` | `temp_master_*.csv`, `holdings_raw_*.json`, 1회성 스크립트 (30개 파일, 13MB+) | 이전 연구·검증 과정에서 누적된 대용량 스크래치 파일 정리 |
 | `.archive_etf/data/` | `data/distributions/raw/legacy_candidate/` | 과거 수집 검증용 레거시 HTML 스냅샷 |
 | `.archive_etf/scripts/` | `delete_briefings_20260824_20260828.sql` | 8월 데이터 청산용 1회성 임시 쿼리 |
@@ -72,7 +72,7 @@ CODEX가 즉각적으로 해결에 착수해야 할 프로젝트의 핵심 병�
 * **구체적 실행 방안**:
   1. **D1 복합 인덱싱**: `etf_prices` (`ticker`, `date`), `etf_holdings` (`ticker`, `as_of_date`) 인덱스 최적화.
   2. **R2 스냅샷 캐싱**: 마켓 브리핑 및 일일 시세 종합 데이터를 일별 정적 JSON으로 빌드하여 Cloudflare R2에 업로드하고 Pages Functions에서 R2/CDN 캐시를 우선 조회하도록 변경 (D1 Row Read를 90% 이상 절감).
-  3. **GitHub Actions 토큰 권한 정상화**: `workflows/kofia-fee-sync.yml`에 전용 Personal Access Token(PAT) 또는 적절한 GITHUB_TOKEN 권한(`permissions: contents: write`)을 구성하여 레거시 폴더에서 복귀 및 월간 자동 동기화 활성화.
+  3. **KOFIA 동기화 정상 가동 유지**: `workflows/kofia-fee-sync.yml`에 최상위 `permissions: contents: write` 및 `git pull --rebase` 루프 적용을 완료하여 정상 복원 완료(매월 1, 5, 10일 11:00 정기 가동 준비 완료).
 
 ### 미션 2: 웹앱 프론트엔드 성능 극대화 (Virtualization & Chart Downsampling)
 * **목표**: 모바일 및 데스크톱 전 기기에서 60fps 부드러운 스크롤 및 인터랙션 보장.

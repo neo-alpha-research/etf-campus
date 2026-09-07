@@ -7,18 +7,22 @@ on:
     - cron: '0 2 1,5,10 * *'
   workflow_dispatch: # 수동 실행 트리거
 
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: kofia-fee-sync
+  cancel-in-progress: false
+
 jobs:
   sync-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: write
+    timeout-minutes: 30
 
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
@@ -33,7 +37,8 @@ jobs:
 
       - name: 📦 Install Python and Playwright Dependencies
         run: |
-          pip install playwright pandas
+          python -m pip install --upgrade pip
+          pip install playwright pandas requests
           playwright install --with-deps chromium
 
       - name: 📦 Install Node dependencies
@@ -78,8 +83,8 @@ jobs:
       - name: 💾 Commit and Push Changes directly to Main
         id: commit
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add --ignore-missing \
                   data/fees/etf_fee_registry.json \
                   data/regulatory/kofia_fund_types.csv \
@@ -94,11 +99,22 @@ jobs:
           
           if git diff --staged --quiet; then
             echo "No changes to commit."
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "chore(data): 🤖 KOFIA 월간 실부담비용 및 연금적격성 공시대조 자동 동기화 완료"
-            git push origin main
-            echo "changed=true" >> $GITHUB_OUTPUT
+            git commit -m "chore(data): 🤖 KOFIA 월간 실부담비용 및 연금적격성 공시대조 자동 동기화 완료 [skip ci]"
+            PUSHED=false
+            for i in 1 2 3 4 5; do
+              if git pull --rebase --autostash origin main && git push origin main; then
+                PUSHED=true
+                break
+              fi
+              sleep 5
+            done
+            if [ "$PUSHED" != "true" ]; then
+              echo "::error::Failed to push KOFIA sync updates"
+              exit 1
+            fi
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: 🚀 Trigger production deployment
@@ -115,14 +131,5 @@ jobs:
           if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
             curl -s -X POST -H 'Content-type: application/json' \
             --data '{"text":"✅ [ETF Campus] KOFIA 실부담비용 및 연금적격성 공시대조 자동 동기화 완료!"}' \
-            ${{ secrets.SLACK_WEBHOOK_URL }} || true
-          fi
-
-      - name: 🚨 Notify Slack on Failure
-        if: failure()
-        run: |
-          if [ -n "${{ secrets.SLACK_WEBHOOK_URL }}" ]; then
-            curl -s -X POST -H 'Content-type: application/json' \
-            --data '{"text":"🚨 [ETF Campus 긴급] KOFIA 실부담비용 및 연금적격성 동기화 파이프라인 실패! 관리자 확인이 필요합니다."}' \
             ${{ secrets.SLACK_WEBHOOK_URL }} || true
           fi

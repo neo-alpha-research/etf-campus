@@ -12,11 +12,24 @@ const THEMES = [
   { name: "한국·미국 파킹형", tickers: ["459580", "423160", "357870", "456610", "455030"] },
 ];
 
-export function CompareThemes({ etfs, onSelectTheme }: { etfs: readonly Etf[]; onSelectTheme: (etfs: Etf[]) => void }) {
+export function CompareThemes({
+  etfs,
+  currentTickers = [],
+  onSelectTheme,
+}: {
+  etfs: readonly Etf[];
+  currentTickers?: string[];
+  onSelectTheme: (etfs: Etf[]) => void;
+}) {
   const handleTheme = (tickers: string[]) => {
     // Find matching ETFs, keep the order defined in the tickers array
     const themeEtfs = tickers.map(t => etfs.find(e => e.ticker === t)).filter((e): e is Etf => e !== undefined);
     onSelectTheme(themeEtfs);
+  };
+
+  const isThemeActive = (themeTickers: string[]) => {
+    if (currentTickers.length !== themeTickers.length || currentTickers.length === 0) return false;
+    return themeTickers.every((t) => currentTickers.includes(t));
   };
 
   return (
@@ -26,15 +39,24 @@ export function CompareThemes({ etfs, onSelectTheme }: { etfs: readonly Etf[]; o
       </span>
       {/* Scrollable on small screens, wrap on larger ones */}
       <div className="flex overflow-x-auto sm:flex-wrap items-center gap-2 pb-2 sm:pb-0 hide-scrollbar -mx-5 px-5 sm:mx-0 sm:px-0">
-        {THEMES.map(theme => (
-          <button
-            key={theme.name}
-            onClick={() => handleTheme(theme.tickers)}
-            className="rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-bold text-indigo-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all shadow-sm whitespace-nowrap shrink-0 active:scale-95"
-          >
-            {theme.name}
-          </button>
-        ))}
+        {THEMES.map(theme => {
+          const active = isThemeActive(theme.tickers);
+          return (
+            <button
+              key={theme.name}
+              onClick={() => handleTheme(theme.tickers)}
+              aria-pressed={active}
+              className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition-all shadow-xs whitespace-nowrap shrink-0 active:scale-95 flex items-center gap-1.5 ${
+                active
+                  ? "border border-indigo-600 bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-200 font-black"
+                  : "border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600"
+              }`}
+            >
+              {active && <span className="text-[11px] font-black leading-none" aria-hidden="true">✓</span>}
+              <span>{theme.name}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

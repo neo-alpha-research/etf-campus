@@ -75,7 +75,7 @@ export function CompareSearch({ etfs, onAdd, disabled }: { etfs: readonly Etf[];
           if (!disabled) setFocused(true);
         }}
         onKeyDown={handleKeyDown}
-        placeholder={disabled ? "최대 5개 선택됨 · ETF를 제외한 뒤 추가하세요" : "비교할 ETF 종목명 또는 티커 검색"}
+        placeholder={disabled ? "최대 5개 선택됨 · 표 상단의 ✕를 눌러 제외 후 추가하세요" : "비교할 ETF 종목명 또는 티커 검색"}
         className="w-full appearance-none rounded-xl border border-line bg-surface px-4 py-3 text-sm font-semibold text-strong shadow-sm outline-none placeholder:font-normal placeholder:text-neutral-400 focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
       />
       {showSuggestions && (

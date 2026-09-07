@@ -51,14 +51,14 @@ npx wrangler d1 execute etf-prices --remote --file migrations/0002_password_rese
 
 | 시나리오 | 기대 결과 |
 |---|---|
-| 신규 회원가입 | `201`, HttpOnly 세션 쿠키 발급, n8n 환영 메일 실행 |
+| 신규 회원가입 | `201`, HttpOnly 세션 쿠키 발급, Supabase 환영/인증 메일 발송 |
 | 잘못된 로그인 | `401 invalid_credentials`, 계정 존재 여부를 구분하지 않음 |
 | 정상 로그인 | `200`, 세션 쿠키 발급, 헤더 사용자 상태 표시 |
 | ETF 비교 클릭 | 비로그인 사용자는 가입 게이트 노출, 로그인·가입 후 `/compare/` 복귀 |
 | ETF 상세 클릭 | 비로그인 사용자는 게이트 노출, 로그인·가입 후 원래 `/etf/<ticker>/` 복귀 |
 | 로그아웃 | 헤더 상태 해제, 현재 세션만 제거 |
 | 전체 기기 로그아웃 | 모든 세션 무효화 |
-| 비밀번호 찾기 | 등록·미등록 이메일 모두 `202`, 등록 이메일에는 n8n 재설정 메일 |
+| 비밀번호 찾기 | 등록·미등록 이메일 모두 `202`, 등록 이메일에는 Supabase Auth OTP/재설정 메일 발송 |
 | 비밀번호 재설정 | 토큰 1회만 사용, 새 비밀번호 저장 후 전 기기 세션 제거 |
 | 재설정 링크 만료 | `400 invalid_or_expired_token` |
 
@@ -75,4 +75,4 @@ Cloudflare WAF Rate Limiting을 `/api/auth/register`, `/api/auth/login`, `/api/a
 [1]: https://developers.cloudflare.com/d1/ "Cloudflare D1"
 [2]: https://developers.cloudflare.com/pages/functions/ "Cloudflare Pages Functions"
 [3]: https://developers.cloudflare.com/workers/configuration/secrets/ "Cloudflare Secrets"
-[4]: https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/ "n8n Webhook"
+[4]: https://supabase.com/docs/guides/auth "Supabase Auth"

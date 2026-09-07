@@ -110,6 +110,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   // Inputs held as local state until user clicks 적용
   const [customStart, setCustomStart] = useState<string>("");
   const [customEnd, setCustomEnd] = useState<string>("");
+  const [isTrMode, setIsTrMode] = useState(false);
+  const [showMobileTrTooltip, setShowMobileTrTooltip] = useState(false);
 
   const syncFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
@@ -129,6 +131,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
       setCustomStart(cstart);
       setCustomEnd(cend);
     }
+    const rt = params.get("returnType") || params.get("return_type");
+    if (rt === "tr") setIsTrMode(true);
+    else if (rt === "pr") setIsTrMode(false);
   };
 
   useEffect(() => {
@@ -150,6 +155,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     if (nextSortDir !== "desc") query.set("dir", nextSortDir);
     if (nextComparePeriod) query.set("compare", nextComparePeriod);
     if (customDateRange) { query.set("cstart", customDateRange.start); query.set("cend", customDateRange.end); }
+    if (isTrMode) query.set("returnType", "tr");
     const queryString = query.toString();
     window.history.replaceState(window.history.state, "", `${window.location.pathname}${queryString ? `?${queryString}` : ""}`);
   };
@@ -162,6 +168,14 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     let nextSortDir: "desc" | "asc" = "desc";
     if (nextSort === "ter") nextSortDir = "asc";
     updateStateAndUrl(filters, selectedPeriod, nextSort, nextSortDir);
+  };
+  const toggleColumnSort = (targetKey: ScreenerSortKey) => {
+    if (sort === targetKey) {
+      updateStateAndUrl(filters, selectedPeriod, targetKey, sortDir === "desc" ? "asc" : "desc");
+    } else {
+      const nextDir: "desc" | "asc" = targetKey === "ter" ? "asc" : "desc";
+      updateStateAndUrl(filters, selectedPeriod, targetKey, nextDir);
+    }
   };
   const handleComparisonPeriodChange = (next: ReturnPeriod | null) => {
     setCustomDateRange(null);
@@ -215,9 +229,6 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     return d.toISOString().slice(0, 10);
   })();
 
-  const [isTrMode, setIsTrMode] = useState(false);
-  const [showMobileTrTooltip, setShowMobileTrTooltip] = useState(false);
-
   const { data: customReturnsData, isLoading: isCustomReturnsLoading } = useSWR<{ returns: Record<string, number | null> }>(
     customDateRange ? `/api/returns?ticker=ALL&start=${customDateRange.start}&end=${customDateRange.end}` : null,
     fetcher
@@ -269,7 +280,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
       }
       return a.ticker.localeCompare(b.ticker);
     });
-  }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData]);
+  }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData, isTrMode]);
   
   const tbodyRef = useRef<HTMLTableSectionElement>(null);
   const [tableOffsetTop, setTableOffsetTop] = useState(0);
@@ -413,12 +424,12 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     }
   };
 
-  const isBatteryQuickActive = filters.keyword === "2차전지" && filters.assetClasses.length === 0 && filters.marketScopes.length === 0 && filters.strategies.length === 0;
-  const toggleBatteryQuick = () => {
-    if (isBatteryQuickActive) {
-      updateFilters({ ...filters, keyword: "" });
+  const isMonthlyDivQuickActive = filters.distributionCycles.length === 1 && filters.distributionCycles.includes("월 분배") && filters.assetClasses.length === 0 && filters.marketScopes.length === 0 && filters.strategies.length === 0 && filters.keyword === "";
+  const toggleMonthlyDivQuick = () => {
+    if (isMonthlyDivQuickActive) {
+      updateFilters({ ...filters, distributionCycles: [] });
     } else {
-      updateFilters({ ...filters, assetClasses: [], marketScopes: [], strategies: [], keyword: "2차전지" });
+      updateFilters({ ...filters, assetClasses: [], marketScopes: [], strategies: [], distributionCycles: ["월 분배"], keyword: "" });
     }
   };
 
@@ -432,13 +443,13 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     { id: "us-stock", icon: <img src="https://flagcdn.com/w40/us.png" alt="미국" width={18} height={13} className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0 inline-block" />, label: "미국 주식", active: isUsStockQuickActive, toggle: toggleUsStockQuick },
     { id: "kr-stock", icon: <img src="https://flagcdn.com/w40/kr.png" alt="한국" width={18} height={13} className="w-[18px] h-[13px] rounded-xs object-cover shadow-2xs shrink-0 inline-block" />, label: "국내 주식", active: isKrStockQuickActive, toggle: toggleKrStockQuick },
     { id: "div-growth", icon: "💰", label: "배당성장", active: isDivGrowthQuickActive, toggle: toggleDivGrowthQuick },
+    { id: "monthly-div", icon: "🗓️", label: "월배당", active: isMonthlyDivQuickActive, toggle: toggleMonthlyDivQuick },
     { id: "semi", icon: "⚡", label: "반도체", active: isSemiconductorQuickActive, toggle: toggleSemiconductorQuick },
     { id: "ai", icon: "🤖", label: "AI·빅테크", active: isAiQuickActive, toggle: toggleAiQuick },
     { id: "bond-parking", icon: "🛡️", label: "채권·파킹", active: isBondParkingQuickActive, toggle: toggleBondParkingQuick },
     { id: "covered-call", icon: "📈", label: "커버드콜", active: isCoveredCallQuickActive, toggle: toggleCoveredCallQuick },
     { id: "gold-commodity", icon: "🪙", label: "금·원자재", active: isGoldCommodityQuickActive, toggle: toggleGoldCommodityQuick },
     { id: "power-nuclear", icon: "⚛️", label: "전력·원자력", active: isPowerNuclearQuickActive, toggle: togglePowerNuclearQuick },
-    { id: "battery", icon: "🔋", label: "2차전지", active: isBatteryQuickActive, toggle: toggleBatteryQuick },
   ];
 
   const activeQuickItem = quickFilterItems.find((item) => item.active);
@@ -463,9 +474,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   });
   if (filters.accountMode === "pension" && filters.pensionOnly) {
     if (filters.pensionTier === "safe") {
-      activeFilters.push({ label: "100% 한도 (법정 안전자산)", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
+      activeFilters.push({ label: "안전자산 100% 한도", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
     } else if (filters.pensionTier === "risk") {
-      activeFilters.push({ label: "위험자산 70%", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
+      activeFilters.push({ label: "위험자산 70% 한도", remove: () => updateFilters({ ...filters, pensionTier: "all" }) });
     } else {
       activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false, accountMode: "all" }) });
     }
@@ -485,6 +496,12 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     } else {
       activeFilters.push({ label: "중개형 ISA 가능", remove: () => updateFilters({ ...filters, accountMode: "all" }) });
     }
+  } else if (filters.accountMode === "all") {
+    if (filters.generalTier === "tax_free") {
+      activeFilters.push({ label: "매매차익 비과세(국내주식)", remove: () => updateFilters({ ...filters, generalTier: "all" }) });
+    } else if (filters.generalTier === "taxable") {
+      activeFilters.push({ label: "매매차익 과세(해외·채권 등)", remove: () => updateFilters({ ...filters, generalTier: "all" }) });
+    }
   } else if (filters.pensionOnly) {
     activeFilters.push({ label: "DC·IRP 가능", remove: () => updateFilters({ ...filters, pensionOnly: false }) });
   }
@@ -497,6 +514,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   });
   filters.fxHedges.forEach(v => {
     activeFilters.push({ label: v, remove: () => updateFilters({ ...filters, fxHedges: filters.fxHedges.filter(i => i !== v) }) });
+  });
+  filters.distributionCycles.forEach(v => {
+    activeFilters.push({ label: v === "월 분배" ? "월배당" : v, remove: () => updateFilters({ ...filters, distributionCycles: filters.distributionCycles.filter(i => i !== v) }) });
   });
   const allIssuers = useMemo(() => {
     const map = new Map<string, { id: string, name: string, count: number }>();
@@ -575,16 +595,16 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   }, [etfs]);
 
   return (
-    <div className="page-shell flex flex-col flex-1 pt-2 pb-6 sm:pt-4 sm:pb-8">
+    <div className="page-shell flex flex-col flex-1 pt-1 pb-4 sm:pt-2 sm:pb-6">
       <div className="flex flex-wrap items-center justify-between gap-3 shrink-0">
         <div className="shrink-0 mb-1 sm:mb-0">
           <p className="eyebrow text-xs">ETF Screener</p>
-          <h1 className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-strong sm:text-3xl">내 기준으로 ETF 찾기</h1>
-          <p className="mt-1 text-[13px] leading-tight text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p>
+          <h1 className="mt-0.5 text-xl font-extrabold tracking-[-0.04em] text-strong sm:text-2xl">내 기준으로 ETF 찾기</h1>
+          <p className="mt-0.5 text-xs leading-normal text-muted">선택한 조건은 URL에 저장되어 같은 결과를 다시 열거나 공유할 수 있습니다.</p>
         </div>
 
-        <div className="flex-1 w-full lg:w-auto lg:min-w-[540px] flex flex-col justify-center lg:items-end mt-2 lg:mt-0">
-          <div className="flex flex-col items-start lg:items-end w-full max-w-[600px] lg:max-w-[540px]">
+        <div className="flex-1 w-full lg:w-auto lg:min-w-[500px] flex flex-col justify-center lg:items-end mt-1.5 lg:mt-0">
+          <div className="flex flex-col items-start lg:items-end w-full max-w-[460px] lg:max-w-[420px]">
             <a
               href="https://nlink.munpia.com/link/munpia/novel/578267"
               target="_blank"
@@ -616,12 +636,12 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           </div>
         </div>
 
-        <button className="rounded-xl bg-brand-700 px-3 py-2.5 text-xs font-bold text-white md:hidden shrink-0 self-end" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
+        <button className="rounded-xl bg-brand-700 px-3 py-2 text-xs font-bold text-white md:hidden shrink-0 self-end" onClick={() => setFiltersOpen(true)} type="button">필터 {activeCount ? `${activeCount}개` : ""}</button>
       </div>
 
       {/* 🛡️ 대안 A: 1단 계좌 선택 & 2단 법정 한도 구분 섹션 */}
-      <section aria-label="계좌 유형 및 법정 한도 선택" className="mt-3.5 rounded-2xl border border-neutral-200/90 bg-white p-3.5 sm:p-4 shadow-2xs">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-neutral-100">
+      <section aria-label="계좌 유형 및 법정 한도 선택" className="mt-2.5 rounded-xl border border-neutral-200/90 bg-white p-3 sm:p-3.5 shadow-2xs">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 pb-2.5 border-b border-neutral-100">
           <div className="flex items-center gap-2">
             <span className="text-xs font-extrabold text-strong flex items-center gap-1.5">
               <span>계좌 유형</span>
@@ -632,8 +652,20 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             </p>
           </div>
 
-          {/* 1단: 4대 계좌 모드 탭 */}
+          {/* 1단: 4대 계좌 모드 탭 (순서: 전체계좌 -> 퇴직연금 -> 연금저축 -> 중개형 ISA) */}
           <div className="flex items-center gap-1 rounded-xl bg-neutral-100 p-1" aria-label="계좌 유형 선택">
+            <button
+              type="button"
+              onClick={() => updateFilters({ ...filters, accountMode: "all", pensionOnly: false, generalTier: "all", pensionTier: "all", personalTier: "all", isaTier: "all" })}
+              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+                filters.accountMode === "all" && !filters.pensionOnly
+                  ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
+                  : "text-neutral-600 hover:text-neutral-900"
+              }`}
+            >
+              <span>🌐 전체계좌</span>
+              <span className="text-[10px] font-semibold text-neutral-700 bg-neutral-200/70 px-1.5 py-0.5 rounded">일반 위탁</span>
+            </button>
             <button
               type="button"
               onClick={() => updateFilters({ ...filters, accountMode: "pension", pensionOnly: true, personalTier: "all", isaTier: "all" })}
@@ -670,160 +702,205 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
               <span>✨ 중개형 ISA</span>
               <span className="text-[10px] font-semibold text-indigo-700 bg-indigo-50 px-1.5 py-0.5 rounded">절세</span>
             </button>
-            <button
-              type="button"
-              onClick={() => updateFilters({ ...filters, accountMode: "all", pensionOnly: false, pensionTier: "all", personalTier: "all", isaTier: "all" })}
-              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
-                filters.accountMode === "all" && !filters.pensionOnly
-                  ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
-                  : "text-neutral-600 hover:text-neutral-900"
-              }`}
-            >
-              <span>🌐 전체계좌</span>
-              <span className="text-[10px] font-medium text-neutral-500">일반 위탁</span>
-            </button>
           </div>
         </div>
 
-        {/* 2단: 계좌별 법정 한도 및 가이드 바 */}
-        {filters.accountMode === "pension" && filters.pensionOnly ? (
-          <div className="mt-3 rounded-xl border border-brand-200/80 bg-brand-50/50 p-3">
-            <div className="flex flex-wrap items-center justify-between gap-2.5">
+        {/* 2단: 계좌별 슬림·고밀도 컴팩트 가이드 바 (4대 계좌 100% 완전 대칭) */}
+        {filters.accountMode === "pension" ? (
+          <div className="mt-2 rounded-xl border border-brand-200/80 bg-brand-50/60 p-2.5 sm:p-3 text-brand-950">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-brand-900">퇴직연금 법정 한도 구분</span>
-                <label className="flex cursor-pointer items-center gap-1.5 text-[11px] font-semibold text-brand-800">
-                  <span className="sr-only">DC·IRP 가능만</span>
-                  <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
-                    <input
-                      aria-label="DC·IRP 가능만"
-                      checked={filters.pensionOnly}
-                      className="peer sr-only"
-                      onChange={(event) => {
-                        const checked = event.target.checked;
-                        updateFilters({
-                          ...filters,
-                          pensionOnly: checked,
-                          accountMode: checked ? "pension" : "all",
-                        });
-                      }}
-                      type="checkbox"
-                      role="switch"
-                    />
-                    <span className={`inline-block size-3 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-3.5" : "translate-x-0.5"}`} />
-                  </div>
-                </label>
+                <span className="text-xs font-black text-brand-950">퇴직연금 법정 편입 한도</span>
+                <span className="rounded bg-brand-200/70 px-1.5 py-0.5 text-[10px] font-bold text-brand-900" title="근로자퇴직급여보장법 제21조 및 퇴직연금감독규정 제12조">
+                  근로자퇴직급여보장법 제21조
+                </span>
               </div>
               <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="퇴직연금 법정 한도 선택">
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, pensionTier: "all" })}
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.pensionTier === "all"
-                      ? "border-brand-700 bg-brand-700 text-white shadow-xs"
-                      : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
+                      ? "border-neutral-900 bg-neutral-900 text-white shadow-xs"
+                      : "border-brand-200 bg-white text-neutral-700 hover:bg-brand-100/50"
                   }`}
                 >
-                  전체 적격 ({pensionCounts.all}개)
+                  <span>전체 적격 ({pensionCounts.all.toLocaleString()}개)</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, pensionTier: "safe" })}
-                  title="퇴직연금 100% 한도 법정 안전자산 (채권·단기파킹·적격TDF·혼합50 등)"
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                  title="퇴직연금 100% 한도 법정 안전자산: 채권·금리파킹·적격TDF·혼합50 등"
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.pensionTier === "safe"
-                      ? "border-emerald-600 bg-emerald-600 text-white shadow-xs"
-                      : "border-emerald-200 bg-white text-emerald-800 hover:bg-emerald-50"
+                      ? "border-emerald-700 bg-emerald-700 text-white shadow-xs"
+                      : "border-brand-200 bg-white text-emerald-800 hover:bg-brand-100/50"
                   }`}
                 >
-                  🟢 100% 한도 (법정 안전자산) ({pensionCounts.safe}개)
+                  <span className={`size-2 rounded-full shrink-0 ${filters.pensionTier === "safe" ? "bg-white" : "bg-emerald-500"}`} />
+                  <span>안전자산 100% 한도 ({pensionCounts.safe.toLocaleString()}개)</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, pensionTier: "risk" })}
-                  title="퇴직연금 70% 한도 위험자산 (주식형·리츠·원자재·금현물 등)"
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                  title="퇴직연금 70% 한도 위험자산: 국내외 주식형·리츠 등"
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.pensionTier === "risk"
-                      ? "border-blue-600 bg-blue-600 text-white shadow-xs"
-                      : "border-blue-200 bg-white text-blue-800 hover:bg-blue-50"
+                      ? "border-brand-700 bg-brand-700 text-white shadow-xs"
+                      : "border-brand-200 bg-white text-brand-800 hover:bg-brand-100/50"
                   }`}
                 >
-                  🔵 70% 위험 ({pensionCounts.risk}개)
+                  <span className={`size-2 rounded-full shrink-0 ${filters.pensionTier === "risk" ? "bg-white" : "bg-blue-500"}`} />
+                  <span>위험자산 70% 한도 ({pensionCounts.risk.toLocaleString()}개)</span>
                 </button>
               </div>
             </div>
-            <p className="mt-2 text-xs text-neutral-600 leading-relaxed">
-              {filters.pensionTier === "safe"
-                ? "💡 근로자퇴직급여보장법상 위험자산 70% 한도를 채우고 남는 잔여 비중을 담을 수 있는 100% 한도(법정 안전자산) 종목만 표시됩니다. (채권형, 금리·파킹형, 적격 TDF, 주식 비중 50% 이하 채권혼합형)"
-                : filters.pensionTier === "risk"
-                ? "💡 계좌 평가금액의 최대 70%까지 편입 가능한 성장·테마형 종목입니다. (주식형, 리츠, 원자재·금현물 등)"
-                : "💡 근로자퇴직급여보장법 제21조 및 감독규정에 따라 DC·IRP에 편입 가능한 모든 적격 ETF입니다. (레버리지·인버스는 법정 편입 제외)"}
-            </p>
+
+            {/* 2열 슬림 카드 그리드 (70:30 Rule 가이드) */}
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs border-t border-brand-200/60 pt-2">
+              <div className="rounded-lg bg-white/70 py-1.5 px-2.5 border border-brand-200/60">
+                <div className="flex items-center gap-1.5 font-bold text-emerald-950">
+                  <span className="size-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span>안전자산 100% 한도 ({pensionCounts.safe.toLocaleString()}개)</span>
+                  <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded">최소 30% 의무 편입</span>
+                </div>
+                <p className="mt-0.5 text-[11px] text-neutral-700 leading-snug">
+                  계좌 평가금액의 <strong>100%까지</strong> 제한 없이 편입 가능한 법정 안전자산(채권·금리파킹·채권혼합)입니다.
+                </p>
+              </div>
+              <div className="rounded-lg bg-white/70 py-1.5 px-2.5 border border-brand-200/60">
+                <div className="flex items-center gap-1.5 font-bold text-brand-950">
+                  <span className="size-2 rounded-full bg-blue-500 shrink-0" />
+                  <span>위험자산 70% 한도 ({pensionCounts.risk.toLocaleString()}개)</span>
+                  <span className="text-[10px] font-semibold text-brand-700 bg-brand-50 px-1 py-0.2 rounded">최대 70% 제한</span>
+                </div>
+                <p className="mt-0.5 text-[11px] text-neutral-700 leading-snug">
+                  국내외 주식형·주식혼합 등은 계좌 내 <strong>최대 70%까지만</strong> 편입 가능하며 70% 초과 매수는 법정 제한됩니다.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-1.5 pt-1.5 border-t border-brand-200/40 text-[11px] text-brand-900/75">
+              <span>💡 근로자퇴직급여보장법에 따라 레버리지·인버스 ETF 등 배율 상품(137개)은 편입 대상에서 제외됩니다.</span>
+            </div>
+
+            <div className="mt-2 pt-2 border-t border-brand-200/50 flex flex-wrap items-center justify-between gap-1.5 text-xs">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-[11px] font-bold text-brand-950 flex items-center gap-1">
+                  <span>안전자산 30% 채우기 추천:</span>
+                </span>
+                <Link
+                  href="/quick?mode=mixed_bonds"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white border border-indigo-200 text-indigo-800 hover:bg-indigo-50 hover:border-indigo-400 transition-colors shadow-2xs"
+                >
+                  <span>🎯 채권혼합 (주식 최대 50% 편입)</span>
+                  <span className="text-[10px] text-indigo-500">바로가기 →</span>
+                </Link>
+                <Link
+                  href="/quick?mode=tdf"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-50 hover:border-emerald-400 transition-colors shadow-2xs"
+                >
+                  <span>🎯 적격 TDF (은퇴 시점별 자동 리밸런싱)</span>
+                  <span className="text-[10px] text-emerald-500">바로가기 →</span>
+                </Link>
+              </div>
+              <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 주식형 100% 편입을 원하시면 &apos;연금저축&apos; 탭을 이용하세요.</span>
+            </div>
           </div>
         ) : filters.accountMode === "personal_pension" ? (
-          <div className="mt-3 rounded-xl border border-emerald-200/80 bg-emerald-50/60 p-3">
-            <div className="flex flex-wrap items-center justify-between gap-2.5">
+          <div className="mt-2 rounded-xl border border-emerald-200/80 bg-emerald-50/60 p-2.5 sm:p-3 text-emerald-950">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-black text-emerald-950">연금저축(개인연금) 편입 구분</span>
+                <span className="text-xs font-black text-emerald-950">연금저축(개인연금) 편입 가이드</span>
                 <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800" title="소득세법 제59조의3 및 시행령 제40조의2">
                   소득세법 시행령 제40조의2
+                </span>
+                <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800" title="금융투자협회 연금저축 표준약관 제8조">
+                  금투협 표준약관 제8조
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="연금저축 한도 및 전용 종목 선택">
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, personalTier: "all" })}
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.personalTier === "all" || filters.personalTier === "eligible"
                       ? "border-emerald-700 bg-emerald-700 text-white shadow-xs"
-                      : "border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50"
+                      : "border-emerald-200 bg-white text-emerald-800 hover:bg-emerald-100/50"
                   }`}
                 >
-                  전체 적격 ({personalCounts.eligible}개)
+                  <span className={`size-2 rounded-full shrink-0 ${filters.personalTier === "all" || filters.personalTier === "eligible" ? "bg-white" : "bg-emerald-500"}`} />
+                  <span>전체 적격 ({personalCounts.eligible.toLocaleString()}개)</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, personalTier: "personal_only" })}
                   title="퇴직연금(DC/IRP)에는 편입 불가하지만 연금저축펀드에는 100% 편입 가능한 종목 (원자재 선물 등)"
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.personalTier === "personal_only"
                       ? "border-amber-600 bg-amber-600 text-white shadow-xs"
                       : "border-amber-200 bg-white text-amber-800 hover:bg-amber-50"
                   }`}
                 >
-                  ✨ 개인연금 전용 ({personalCounts.personalOnly}개)
+                  <span className="text-amber-500 shrink-0 text-xs">✨</span>
+                  <span>개인연금 전용 ({personalCounts.personalOnly.toLocaleString()}개)</span>
                 </button>
                 {personalCounts.unverified > 0 ? (
                   <button
                     type="button"
                     onClick={() => updateFilters({ ...filters, personalTier: "unverified" })}
                     title="신규 상장되어 금융투자협회(KOFIA) 전자공시 업데이트 반영 대기 중인 종목입니다."
-                    className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                       filters.personalTier === "unverified"
                         ? "border-amber-600 bg-amber-600 text-white shadow-xs"
                         : "border-neutral-200 bg-white text-neutral-600 hover:bg-neutral-50"
                     }`}
                   >
-                    공시 확인중 ({personalCounts.unverified}개)
+                    <span>공시 확인중 ({personalCounts.unverified.toLocaleString()}개)</span>
                   </button>
                 ) : null}
               </div>
             </div>
-            <p className="mt-2 text-xs text-emerald-900/80 leading-relaxed">
-              {filters.personalTier === "personal_only"
-                ? "💡 퇴직연금(DC·IRP)에서는 편입이 제한되나, 연금저축펀드에서는 최대 100%까지 자유롭게 편입 가능한 원자재·선물형 ETF 등입니다."
-                : "💡 금융투자협회 연금저축 표준약관 제8조에 따라 레버리지·인버스 등 배율 상품을 제외한 모든 1배수 일반 ETF는 100% 한도로 자유롭게 편입 가능합니다."}
-            </p>
-            <div className="mt-2.5 pt-2 border-t border-emerald-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-emerald-800/80">
-              <span>📊 연금저축 적격 ETF: {personalCounts.eligible}/{personalCounts.total}개 (표준약관 제8조 1배수 정방향)</span>
-              <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 실제 연금저축 매매 가능 여부는 증권사마다 다릅니다. 가입 증권사에서 확인해 주세요.</span>
+
+            {/* 2열 슬림 카드 그리드 (연금저축 핵심 가이드) */}
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs border-t border-emerald-200/60 pt-2">
+              <div className="rounded-lg bg-white/70 py-1.5 px-2.5 border border-emerald-200/60">
+                <div className="flex items-center gap-1.5 font-bold text-emerald-950">
+                  <span className="size-2 rounded-full bg-emerald-500 shrink-0" />
+                  <span>100% 한도 자율 편입 ({personalCounts.eligible.toLocaleString()}개)</span>
+                  <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1 py-0.2 rounded">위험자산 한도 무제한</span>
+                </div>
+                <p className="mt-0.5 text-[11px] text-neutral-700 leading-snug">
+                  퇴직연금의 70% 위험자산 규제가 없어, 국내외 주식형·혼합형 등 <strong>모든 1배수 ETF를 100% 전액 편입</strong>할 수 있습니다.
+                </p>
+              </div>
+              <div className="rounded-lg bg-white/70 py-1.5 px-2.5 border border-emerald-200/60">
+                <div className="flex items-center gap-1.5 font-bold text-amber-950">
+                  <span className="text-amber-500 shrink-0 text-xs">✨</span>
+                  <span>개인연금 전용 편입 ({personalCounts.personalOnly.toLocaleString()}개)</span>
+                  <span className="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1 py-0.2 rounded">퇴직연금 편입불가 포용</span>
+                </div>
+                <p className="mt-0.5 text-[11px] text-neutral-700 leading-snug">
+                  퇴직연금(DC·IRP)에서 금지된 <strong>원자재·금선물·원유선물 등 파생결합 ETF</strong>를 연금저축에서는 <strong>100% 편입</strong>할 수 있습니다.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-1.5 pt-1.5 border-t border-emerald-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-emerald-900/75">
+              <div className="flex flex-wrap items-center gap-2">
+                <span>📊 연금저축 적격 ETF: {personalCounts.eligible.toLocaleString()}/{personalCounts.total.toLocaleString()}개 (표준약관 제8조 1배수 정방향)</span>
+                <span className="text-emerald-300 hidden sm:inline">|</span>
+                <span>🚫 법정 편입 제외: 레버리지·인버스 ETF 등 배율 상품({personalCounts.ineligible.toLocaleString()}개)</span>
+              </div>
+              <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 실제 연금저축 매매 가능 여부는 증권사마다 다릅니다.</span>
             </div>
           </div>
         ) : filters.accountMode === "isa" ? (
-          <div className="mt-3 rounded-xl border border-amber-200/90 bg-amber-50/80 p-3.5 text-amber-950">
-            <div className="flex flex-wrap items-center justify-between gap-2.5">
+          <div className="mt-2 rounded-xl border border-amber-200/90 bg-amber-50/80 p-2.5 sm:p-3 text-amber-950">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-black text-amber-950">중개형 ISA 절세 실익 안내</span>
-                <span className="rounded bg-amber-200/70 px-1.5 py-0.5 text-[10px] font-bold text-amber-900">
+                <span className="rounded bg-amber-200/70 px-1.5 py-0.5 text-[10px] font-bold text-amber-900" title="조세특례제한법 제91조의18 (개인종합자산관리계좌에 대한 과세특례: 비과세 한도 200만원/서민형 400만원, 초과분 9.9% 분리과세)">
                   조세특례제한법 제91조의18
                 </span>
               </div>
@@ -832,92 +909,165 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   type="button"
                   onClick={() => updateFilters({ ...filters, isaTier: "high_benefit" })}
                   title="해외주식·채권·커버드콜 등 매매차익 15.4% 배당소득세 절세 실익이 큰 기타 ETF"
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.isaTier === "high_benefit"
                       ? "border-amber-700 bg-amber-700 text-white shadow-xs"
                       : "border-amber-300/80 bg-white text-amber-900 hover:bg-amber-100/50"
                   }`}
                 >
-                  ✨ 절세 혜택형 ({isaCounts.high}개)
+                  <span className="text-amber-500 shrink-0 text-xs">✨</span>{" "}
+                  <span>절세 혜택형 ({isaCounts.high.toLocaleString()}개)</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, isaTier: "all" })}
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.isaTier === "all"
                       ? "border-neutral-900 bg-neutral-900 text-white shadow-xs"
                       : "border-amber-300/80 bg-white text-neutral-700 hover:bg-amber-100/50"
                   }`}
                 >
-                  전체 ({isaCounts.all}개)
+                  <span className={`size-2 rounded-full shrink-0 ${filters.isaTier === "all" ? "bg-white" : "bg-neutral-400"}`} />
+                  <span>전체 ({isaCounts.all.toLocaleString()}개)</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, isaTier: "normal" })}
                   title="국내주식형 ETF (매매차익 기본 비과세, 분배금 절세)"
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
                     filters.isaTier === "normal"
-                      ? "border-neutral-700 bg-neutral-700 text-white shadow-xs"
+                      ? "border-blue-700 bg-blue-700 text-white shadow-xs"
                       : "border-amber-300/80 bg-white text-neutral-700 hover:bg-amber-100/50"
                   }`}
                 >
-                  국내주식형 ({isaCounts.normal}개)
+                  <span className={`size-2 rounded-full shrink-0 ${filters.isaTier === "normal" ? "bg-white" : "bg-blue-500"}`} />
+                  <span>국내주식형 ({isaCounts.normal.toLocaleString()}개)</span>
                 </button>
               </div>
             </div>
 
-            {/* 노란색 음영 상단 안내: 절세 실익 높은 이유 및 해당되는 분류 요약 */}
-            <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs border-t border-amber-200/60 pt-2.5">
-              <div className="rounded-lg bg-white/70 p-2.5 border border-amber-200/60">
-                <div className="flex items-center gap-1 font-bold text-amber-900">
-                  <span>✨ 절세 실익 극대화 ({isaCounts.high}개)</span>
-                  <span className="text-[10px] font-medium text-amber-700">해외주식 · 채권 · 커버드콜 · 원자재 · 리츠</span>
+            {/* 2열 슬림 카드 그리드 */}
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs border-t border-amber-200/60 pt-2">
+              <div className="rounded-lg bg-white/70 py-1.5 px-2.5 border border-amber-200/60">
+                <div className="flex items-center gap-1.5 font-bold text-amber-950">
+                  <span className="text-amber-500 shrink-0 text-xs">✨</span>
+                  <span>절세 실익 극대화 ({isaCounts.high.toLocaleString()}개)</span>
+                  <span className="text-[10px] font-semibold text-amber-700 bg-amber-100/70 px-1 py-0.2 rounded">해외주식 · 채권 · 리츠</span>
                 </div>
-                <p className="mt-1 text-[11px] text-amber-900/85 leading-relaxed">
-                  일반 계좌에서 <strong>15.4% 과세</strong>되는 매매차익과 분배금이 ISA에서는 <strong>200만원(서민형 400만원)까지 비과세</strong>되며, 초과분도 <strong>9.9% 분리과세</strong>(종합과세 합산 배제)되어 절세 효과가 가장 큽니다.
+                <p className="mt-0.5 text-[11px] text-amber-900/85 leading-snug">
+                  일반 계좌 15.4% 과세 수익이 ISA에서는 <strong>200만원(서민 400만) 비과세</strong>, 초과분도 <strong>9.9% 분리과세</strong>됩니다.
                 </p>
               </div>
-              <div className="rounded-lg bg-white/70 p-2.5 border border-amber-200/60">
-                <div className="flex items-center gap-1 font-bold text-neutral-800">
-                  <span>국내주식형 ({isaCounts.normal}개)</span>
-                  <span className="text-[10px] font-medium text-neutral-500">KOSPI200 · 국내 섹터 및 테마</span>
+              <div className="rounded-lg bg-white/70 py-1.5 px-2.5 border border-amber-200/60">
+                <div className="flex items-center gap-1.5 font-bold text-neutral-800">
+                  <span className="size-2 rounded-full bg-blue-500 shrink-0" />
+                  <span>국내주식형 ({isaCounts.normal.toLocaleString()}개)</span>
+                  <span className="text-[10px] font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded">KOSPI200 · 국내 섹터</span>
                 </div>
-                <p className="mt-1 text-[11px] text-neutral-600 leading-relaxed">
-                  일반 계좌에서도 <strong>매매차익이 이미 비과세</strong>(세금 0원)이므로, ISA 계좌에서는 <strong>분배금(배당금)에 한해</strong> 비과세/분리과세 혜택이 적용됩니다.
+                <p className="mt-0.5 text-[11px] text-neutral-600 leading-snug">
+                  일반 계좌에서도 <strong>매매차익은 세금 0원</strong>이므로, ISA에서는 <strong>분배금(배당금) 절세 목적</strong>으로 유효합니다.
                 </p>
               </div>
             </div>
+
+            <div className="mt-1.5 pt-1.5 border-t border-amber-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-amber-950/80">
+              <div className="flex flex-wrap items-center gap-2">
+                <span>💡 핵심 세제 혜택: 계좌 내 전 종목 손익통산(순이익만 과세) + 레버리지 포함 전 종목({isaCounts.all.toLocaleString()}개) 편입 가능</span>
+                <Link
+                  href="/quick?mode=covered_call"
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10.5px] font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition-colors"
+                >
+                  <span>💰 월배당 커버드콜 절세 혜택형 탐색 →</span>
+                </Link>
+              </div>
+              <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 의무가입기간 3년, 연간 납입한도 2,000만원 (총 1억원)</span>
+            </div>
           </div>
         ) : (
-          <div className="mt-3 flex items-center justify-between rounded-xl bg-neutral-100 px-3.5 py-2.5 text-xs font-semibold text-neutral-600">
-            <span>전체 ETF (파생·레버리지·인버스 포함 전 종목)</span>
-            <label className="flex cursor-pointer items-center gap-1.5">
-              <span className="text-[11px] text-neutral-500">DC·IRP 가능만 보기</span>
-              <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${filters.pensionOnly ? "bg-brand-600" : "bg-neutral-300"}`}>
-                <input
-                  aria-label="DC·IRP 가능만"
-                  checked={filters.pensionOnly}
-                  className="peer sr-only"
-                  onChange={(event) => {
-                    const checked = event.target.checked;
-                    updateFilters({
-                      ...filters,
-                      pensionOnly: checked,
-                      accountMode: checked ? "pension" : "all",
-                    });
-                  }}
-                  type="checkbox"
-                  role="switch"
-                />
-                <span className={`inline-block size-3 transform rounded-full bg-white transition-transform ${filters.pensionOnly ? "translate-x-3.5" : "translate-x-0.5"}`} />
+          <div className="mt-2 rounded-xl border border-slate-200/90 bg-slate-50/70 p-2.5 sm:p-3 text-slate-900">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-slate-950">일반 위탁 계좌 거래 가이드</span>
+                <span className="rounded bg-slate-200/80 px-1.5 py-0.5 text-[10px] font-bold text-slate-800" title="소득세법 제16조(배당소득) 및 제17조: 국내주식형 매매차익 비과세, 해외/채권/기타 ETF 15.4% 배당소득세 과세">
+                  소득세법 제16조·제17조
+                </span>
               </div>
-            </label>
+              <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="일반 위탁 계좌 과세 구분 선택">
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, generalTier: "all" })}
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.generalTier === "all" || !filters.generalTier
+                      ? "border-neutral-900 bg-neutral-900 text-white shadow-xs"
+                      : "border-slate-300/80 bg-white text-neutral-700 hover:bg-slate-100/60"
+                  }`}
+                >
+                  <span className={`size-2 rounded-full shrink-0 ${filters.generalTier === "all" || !filters.generalTier ? "bg-white" : "bg-neutral-400"}`} />
+                  <span>전체 ({etfs.length.toLocaleString()}개)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, generalTier: "tax_free" })}
+                  title="국내주식형 ETF: 일반 위탁 계좌에서도 매매차익 세금 0원 (비과세)"
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.generalTier === "tax_free"
+                      ? "border-blue-700 bg-blue-700 text-white shadow-xs"
+                      : "border-slate-300/80 bg-white text-blue-900 hover:bg-slate-100/60"
+                  }`}
+                >
+                  <span className={`size-2 rounded-full shrink-0 ${filters.generalTier === "tax_free" ? "bg-white" : "bg-blue-500"}`} />
+                  <span>매매차익 비과세 ({isaCounts.normal.toLocaleString()}개)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, generalTier: "taxable" })}
+                  title="해외주식·채권·기타 ETF: 매매차익 15.4% 배당소득세 과세 (절세 원할 시 ISA·연금 권장)"
+                  className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-bold transition-all ${
+                    filters.generalTier === "taxable"
+                      ? "border-amber-700 bg-amber-700 text-white shadow-xs"
+                      : "border-slate-300/80 bg-white text-amber-900 hover:bg-slate-100/60"
+                  }`}
+                >
+                  <span className={`size-2 rounded-full shrink-0 ${filters.generalTier === "taxable" ? "bg-white" : "bg-amber-500"}`} />
+                  <span>매매차익 과세 ({isaCounts.high.toLocaleString()}개)</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 2열 슬림 가이드 카드 그리드 */}
+            <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs border-t border-slate-200/70 pt-2">
+              <div className="rounded-lg bg-white/80 py-1.5 px-2.5 border border-slate-200/70">
+                <div className="flex items-center gap-1.5 font-bold text-slate-950">
+                  <span className="size-2 rounded-full bg-blue-500 shrink-0" />
+                  <span>국내 주식형 ({isaCounts.normal.toLocaleString()}개)</span>
+                  <span className="text-[10px] font-semibold text-blue-700 bg-blue-50 px-1 py-0.2 rounded">매매차익 비과세 · 일반계좌 최적</span>
+                </div>
+                <p className="mt-0.5 text-[11px] text-slate-700 leading-snug">
+                  KOSPI200·국내 섹터 등은 일반 위탁 계좌에서도 <strong>매매차익 세금이 0원(비과세)</strong>이므로 한도 없이 거래하기 가장 유리합니다.
+                </p>
+              </div>
+              <div className="rounded-lg bg-white/80 py-1.5 px-2.5 border border-slate-200/70">
+                <div className="flex items-center gap-1.5 font-bold text-slate-950">
+                  <span className="size-2 rounded-full bg-amber-500 shrink-0" />
+                  <span>해외·채권·기타 ({isaCounts.high.toLocaleString()}개)</span>
+                  <span className="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1 py-0.2 rounded">15.4% 과세 · 절세 권장</span>
+                </div>
+                <p className="mt-0.5 text-[11px] text-slate-700 leading-snug">
+                  해외지수·채권·원자재 등은 매매차익에 <strong>15.4% 세금</strong>이 부과되므로 절세를 원하시면 <strong>중개형 ISA나 연금계좌</strong>가 유리합니다.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-1.5 pt-1.5 border-t border-slate-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-slate-700">
+              <span>💡 일반 위탁 계좌: 전 종목({etfs.length.toLocaleString()}개) 거래 가능 · 레버리지·인버스 거래 자유</span>
+              <span className="text-neutral-500 text-[10px] sm:text-[11px]">※ 별도 법정 편입 한도 없음 · 연간 납입한도 무제한</span>
+            </div>
           </div>
         )}
       </section>
 
       {/* 🔥 TOP 10 인기 테마 퀵 필터 전용 섹션 */}
-      <section aria-label="인기 테마 퀵 필터" className="mt-3.5 rounded-2xl border border-neutral-200/90 bg-gradient-to-br from-neutral-50/90 via-white to-brand-50/25 p-3.5 sm:p-4 shadow-2xs">
+      <section aria-label="인기 테마 퀵 필터" className="mt-2.5 rounded-xl border border-neutral-200/90 bg-gradient-to-br from-neutral-50/90 via-white to-brand-50/25 p-3 sm:p-3.5 shadow-2xs">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-black text-amber-950 border border-amber-300 shadow-2xs">
@@ -1162,7 +1312,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           </div>
           
           <div className="flex items-center justify-between mt-2 mb-4">
-            <p className="text-xs font-semibold text-muted">수익률: {RETURN_PERIOD_LABELS[selectedPeriod]} 기준 · 분배금 미포함</p>
+            <p className="text-xs font-semibold text-muted">
+              수익률: {RETURN_PERIOD_LABELS[selectedPeriod]} 기준 · {isTrMode ? "분배금 100% 재투자(TR) 기준" : "단순 가격(PR)·분배금 미포함"}
+            </p>
             {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
           </div>
           
@@ -1192,12 +1344,23 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         <span>수익률(%)</span>
                         <button
                           type="button"
-                          onClick={() => setIsTrMode(prev => !prev)}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold rounded-full transition-all active:scale-95 border ${
+                          onClick={() => {
+                            setIsTrMode(prev => {
+                              const next = !prev;
+                              const query = new URLSearchParams(window.location.search);
+                              if (next) query.set("returnType", "tr");
+                              else query.delete("returnType");
+                              const qs = query.toString();
+                              window.history.replaceState(window.history.state, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+                              return next;
+                            });
+                          }}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold rounded-full transition-all active:scale-95 border cursor-pointer ${
                             isTrMode 
                               ? "bg-brand-50 border-brand-300 text-brand-700 shadow-xs" 
                               : "bg-white border-neutral-200 text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70"
                           }`}
+                          title={isTrMode ? "분배금 재투자(TR) 수익률 표시 중 (클릭 시 단순 가격 PR로 전환)" : "단순 가격(PR) 수익률 표시 중 (클릭 시 분배금 재투자 TR로 전환)"}
                         >
                           <span className={isTrMode ? "text-brand-700" : ""}>
                             TR {isTrMode ? "ON" : "OFF"}
@@ -1211,7 +1374,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                           <svg className="w-4 h-4 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
                           
                           {/* Desktop Tooltip */}
-                          <div className="hidden sm:block absolute left-1/2 bottom-[calc(100%+8px)] -translate-x-1/2 w-64 p-3 rounded-lg bg-slate-900/98 backdrop-blur-md text-white text-left shadow-xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] text-[11px] font-normal tracking-tight leading-snug">
+                          <div className="hidden sm:block absolute left-1/2 bottom-[calc(100%+8px)] -translate-x-1/2 w-64 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120] text-[11px] font-normal tracking-tight leading-snug whitespace-normal break-keep">
                             <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900/98" />
                             <strong>TR(Total Return) 모드 안내</strong><br/>
                             <span className="text-brand-300 font-bold mt-1.5 block">분배금 100% 전액 재투자 (세전 Gross TR)</span>
@@ -1247,37 +1410,153 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   <tr className="text-[11.5px] sm:text-[12px]">
                     <th className="sticky left-0 z-40 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
                     
-                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
-                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1일</span>
+                    <th 
+                      aria-label="1일 수익률 (클릭 시 정렬)"
+                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                      scope="col"
+                      onClick={() => toggleColumnSort("return_1d")}
+                      title="1일 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
+                    >
+                      <div className="flex items-center justify-end gap-0.5">
+                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1일</span>
+                        {sort === "return_1d" && (
+                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                        )}
+                      </div>
                     </th>
-                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
-                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
+                    <th 
+                      aria-label="1개월 수익률 (클릭 시 정렬)"
+                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                      scope="col"
+                      onClick={() => toggleColumnSort("return_1m")}
+                      title="1개월 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
+                    >
+                      <div className="flex items-center justify-end gap-0.5">
+                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
+                        {sort === "return_1m" && (
+                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                        )}
+                      </div>
                     </th>
-                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col">
-                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
+                    <th 
+                      aria-label="3개월 수익률 (클릭 시 정렬)"
+                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                      scope="col"
+                      onClick={() => toggleColumnSort("return_3m")}
+                      title="3개월 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
+                    >
+                      <div className="flex items-center justify-end gap-0.5">
+                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
+                        {sort === "return_3m" && (
+                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                        )}
+                      </div>
                     </th>
-                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col" title={isTrMode ? "상장 1년 이상 경과 종목 대상 (상장 기간 미달 시 —)" : "1년 수익률"}>
-                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
+                    <th 
+                      aria-label="1년 수익률 (클릭 시 정렬)"
+                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                      scope="col"
+                      onClick={() => toggleColumnSort("return_12m")}
+                      title={isTrMode ? "상장 1년 이상 경과 종목 대상 (클릭 시 정렬)" : "1년 수익률 (클릭 시 정렬)"}
+                    >
+                      <div className="flex items-center justify-end gap-0.5">
+                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
+                        {sort === "return_12m" && (
+                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                        )}
+                      </div>
                     </th>
-                    <th className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} scope="col" title={isTrMode ? "상장 3년 이상 경과 종목 대상 (상장 기간 미달 시 —)" : "3년 수익률"}>
-                      <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
+                    <th 
+                      aria-label="3년 수익률 (클릭 시 정렬)"
+                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                      scope="col"
+                      onClick={() => toggleColumnSort("return_36m")}
+                      title={isTrMode ? "상장 3년 이상 경과 종목 대상 (클릭 시 정렬)" : "3년 수익률 (클릭 시 정렬)"}
+                    >
+                      <div className="flex items-center justify-end gap-0.5">
+                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
+                        {sort === "return_36m" && (
+                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                        )}
+                      </div>
                     </th>
                     {comparisonPeriod && (
-                      <th className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300" scope="col">
-                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
+                      <th 
+                        className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-200 transition-colors" 
+                        scope="col"
+                        onClick={() => toggleColumnSort("return_custom")}
+                        title={`${RETURN_PERIOD_LABELS[comparisonPeriod]} 수익률 기준 정렬`}
+                      >
+                        <div className="flex items-center justify-end gap-0.5">
+                          <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
+                          {sort === "return_custom" && (
+                            <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                          )}
+                        </div>
                       </th>
                     )}
                     {customDateRange && !comparisonPeriod && (
-                      <th className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300" scope="col">
-                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
-                        <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
+                      <th 
+                        className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-amber-100 transition-colors" 
+                        scope="col"
+                        onClick={() => toggleColumnSort("return_custom")}
+                        title="사용자 지정 기간 수익률 기준 정렬"
+                      >
+                        <div className="flex items-center justify-end gap-0.5">
+                          <div>
+                            <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
+                            <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
+                          </div>
+                          {sort === "return_custom" && (
+                            <span className="text-[9px] font-black text-amber-900" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                          )}
+                        </div>
                       </th>
                     )}
 
-                    <th aria-label="투자자 실부담 총비용, 단위 퍼센트" className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="실부담비용" unit="%" /></th>
-                    <th className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="순자산" unit="억원" /></th>
-                    <th className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="거래대금" unit="억원" /></th>
-                    <th className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                    <th 
+                      aria-label="투자자 실부담 총비용, 단위 퍼센트 (클릭 시 정렬)" 
+                      className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "ter" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                      scope="col"
+                      onClick={() => toggleColumnSort("ter")}
+                      title="실부담비용 기준 정렬 (클릭 시 낮은순/높은순 토글)"
+                    >
+                      <div className="flex items-center justify-end gap-0.5">
+                        <UnitHeaderLabel align="right" label="실부담비용" unit="%" />
+                        {sort === "ter" && (
+                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                        )}
+                      </div>
+                    </th>
+                    <th 
+                      aria-label="순자산, 단위 억원 (클릭 시 정렬)" 
+                      className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "aum" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                      scope="col"
+                      onClick={() => toggleColumnSort("aum")}
+                      title="순자산 기준 정렬 (클릭 시 높은순/낮은순 토글)"
+                    >
+                      <div className="flex items-center justify-end gap-0.5">
+                        <UnitHeaderLabel align="right" label="순자산" unit="억원" />
+                        {sort === "aum" && (
+                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                        )}
+                      </div>
+                    </th>
+                    <th 
+                      aria-label="거래대금, 단위 억원 (클릭 시 정렬)" 
+                      className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "tradeValue" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                      scope="col"
+                      onClick={() => toggleColumnSort("tradeValue")}
+                      title="거래대금 기준 정렬 (클릭 시 높은순/낮은순 토글)"
+                    >
+                      <div className="flex items-center justify-end gap-0.5">
+                        <UnitHeaderLabel align="right" label="거래대금" unit="억원" />
+                        {sort === "tradeValue" && (
+                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                        )}
+                      </div>
+                    </th>
+                    <th aria-label="종가, 단위 원" className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
                   </tr>
                 </thead>
                 <tbody ref={tbodyRef} className="divide-y divide-line text-[12px]">
@@ -1456,11 +1735,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       )}
                       
                       {/* 3. 총보수(실부담), 순자산, 거래대금, 종가 */}
-                      <td className="min-w-[64px] px-1.5 py-1 text-right border-l border-neutral-100 align-middle">
+                      <td className={`min-w-[64px] px-1.5 py-1 text-right border-l border-neutral-100 align-middle ${sort === "ter" ? "bg-brand-50" : ""}`}>
                         <FeeDoubleStack etf={etf} />
                       </td>
-                      <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatAumNumber(etf.aum)}</td>
-                      <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong">{formatTradeValueNumber(etf.tradeValue)}</td>
+                      <td className={`min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "aum" ? "bg-brand-50" : ""}`}>{formatAumNumber(etf.aum)}</td>
+                      <td className={`min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "tradeValue" ? "bg-brand-50" : ""}`}>{formatTradeValueNumber(etf.tradeValue)}</td>
                       <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
                     </tr>
                     );
@@ -1472,6 +1751,20 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   )}
                 </tbody>
               </table>
+
+              {!results.length ? (
+                <div className="px-5 py-16 text-center">
+                  <p className="font-extrabold text-strong">조건에 맞는 ETF가 없습니다</p>
+                  <p className="mt-2 text-sm text-muted">검색어나 선택하신 필터 조건을 조정해 보세요.</p>
+                  <button
+                    type="button"
+                    onClick={() => updateFilters(DEFAULT_SCREENER_FILTERS)}
+                    className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-brand-700 bg-brand-50 border border-brand-200 rounded-xl hover:bg-brand-100 transition-colors shadow-2xs cursor-pointer"
+                  >
+                    <span>🔄 검색 및 필터 초기화</span>
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>

@@ -102,6 +102,18 @@ describe("ETF 찾기 도메인", () => {
     expect(sortExplorerEtfs(items, "return", "asc", "1m").map((item) => item.ticker)).toEqual(["C", "B", "A"]);
   });
 
+  it("TR 모드 활성화 시 TR 수익률 기준으로 정렬하며 결측치는 최하단으로 정렬한다", () => {
+    const items = [
+      etf({ ticker: "A", returns: { ...etf().returns, "1m": 10 }, returnsTr: { ...etf().returns, "1m": 2 } }),
+      etf({ ticker: "B", returns: { ...etf().returns, "1m": 1 }, returnsTr: { ...etf().returns, "1m": 5 } }),
+      etf({ ticker: "C", returns: { ...etf().returns, "1m": 20 }, returnsTr: undefined }),
+    ];
+    // 내림차순(desc) - TR 모드: B(5%) > A(2%) > C(결측치)
+    expect(sortExplorerEtfs(items, "return", "desc", "1m", true).map((item) => item.ticker)).toEqual(["B", "A", "C"]);
+    // 오름차순(asc) - TR 모드: A(2%) < B(5%) < C(결측치 최하단)
+    expect(sortExplorerEtfs(items, "return", "asc", "1m", true).map((item) => item.ticker)).toEqual(["A", "B", "C"]);
+  });
+
   it("검색 자동완성은 티커와 이름 일치를 우선순위에 따라 제한한다", () => {
     const items = [
       etf({ ticker: "123456", name: "알파 ETF", tradeValue: 1 }),

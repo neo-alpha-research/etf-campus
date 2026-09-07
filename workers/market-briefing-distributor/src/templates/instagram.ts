@@ -20,11 +20,11 @@ function escapeXml(unsafe?: string): string {
 }
 
 function formatDateWithDay(dateStr?: string): string {
-  if (!dateStr) return "2026.09.04 (목)";
+  if (!dateStr) return "2026.09.04 (금)";
   const [y, m, d] = dateStr.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const days = ["일", "월", "화", "수", "목", "금", "토"];
-  const dayName = days[date.getDay()] || "목";
+  const dayName = days[date.getDay()] || "금";
   return `${dateStr.replace(/-/g, ".")} (${dayName})`;
 }
 
@@ -893,13 +893,15 @@ export function generateInstagramCaption(
     ? weakThemes.map(t => `${cleanTheme(t.peerGroup)} ${(t.cappedAumWeightedReturnPct ?? 0) > 0 ? '+' : ''}${(t.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%`).join(', ')
     : "집계 중";
 
-  const formattedDate = (payload.asOfDate || "2026.09.04").replace(/-/g, '.');
+  const formattedDate = formatDateWithDay(payload.asOfDate);
+  const captionOpening = (regime.captionOpening || "").replace(/어제\s*/g, "").trim();
+  const captionMarketSummary = (regime.captionMarketSummary || "").replace(/어제\s*/g, "").trim();
 
   return `${formattedDate} 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 마켓 동향
 
-${regime.captionOpening}
+${captionOpening}
 
-${regime.captionMarketSummary}
+${captionMarketSummary}
 
 [지난 장 국내 ETF 시장 3대 핵심 동향]
 

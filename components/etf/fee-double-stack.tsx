@@ -54,13 +54,13 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
 
           {/* 고해상도 가독성 개선 툴팁 (결산 전 ETF 실부담비용 안내) */}
           <div
-            className={`absolute top-[calc(100%+8px)] right-0 w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 transition-all duration-200 z-[140] whitespace-normal ${
+            className={`absolute top-[calc(100%+8px)] right-0 w-72 max-w-[calc(100vw-32px)] p-3.5 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 transition-all duration-200 z-[140] whitespace-normal break-keep ${
               isOpen ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-1"
             }`}
             role="tooltip"
           >
             {/* 결함 없는 45도 회전 정밀 화살표 */}
-            <div className="absolute -top-1.5 right-4 w-3 h-3 rotate-45 bg-neutral-900 border-t border-l border-neutral-700/90" />
+            <div className="absolute -top-1.5 right-4 w-3 h-3 rotate-45 bg-slate-900 border-t border-l border-slate-700/90" />
             
             <div className="flex items-center gap-1.5 mb-1.5 text-amber-300 font-bold text-[12px]">
               <span aria-hidden="true">💡</span>
@@ -107,12 +107,12 @@ export function FeeDoubleStack({ etf, className = "" }: Props) {
               </button>
 
               <div
-                className={`absolute top-[calc(100%+8px)] right-0 w-72 p-3.5 rounded-xl bg-neutral-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/90 transition-all duration-200 z-[140] whitespace-normal ${
+                className={`absolute top-[calc(100%+8px)] right-0 w-72 max-w-[calc(100vw-32px)] p-3.5 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 transition-all duration-200 z-[140] whitespace-normal break-keep ${
                   isOpen ? "opacity-100 pointer-events-auto translate-y-0" : "opacity-0 pointer-events-none -translate-y-1"
                 }`}
                 role="tooltip"
               >
-                <div className="absolute -top-1.5 right-2 w-3 h-3 rotate-45 bg-neutral-900 border-t border-l border-neutral-700/90" />
+                <div className="absolute -top-1.5 right-2 w-3 h-3 rotate-45 bg-slate-900 border-t border-l border-slate-700/90" />
                 <div className="flex items-center gap-1.5 mb-1 text-amber-300 font-bold text-[12px]">
                   <span aria-hidden="true">⚠️</span>
                   <span>숨은 비용(기타비용·매매수수료) 주의</span>

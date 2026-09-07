@@ -189,6 +189,7 @@ export function useCompareBasket(allEtfs?: readonly Etf[]) {
     basket,
     mounted,
     toastMessage,
+    showToast,
     addEtf,
     removeEtf,
     clearBasket,

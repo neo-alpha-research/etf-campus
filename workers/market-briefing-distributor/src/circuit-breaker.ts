@@ -54,9 +54,11 @@ export async function validateBriefingPayload(
       reasons.push(`asOfDate 형식 오류 (${payload.asOfDate})`);
     } else {
       const diffDays = Math.round((nowTime - targetTime) / (24 * 60 * 60 * 1000));
-      // (1) 절대 상한: KST 기준 3일 이상 과거이면 무조건 차단
-      if (diffDays >= 3) {
-        reasons.push(`기준일자 신선도 초과: 브리핑 기준일(${payload.asOfDate})이 현재 KST(${nowKst}) 기준 ${diffDays}일 전 데이터입니다 (최대 허용: 2일 전)`);
+      // (1) 절대 상한: 주말(금->월: 3일) 및 월/화 연휴를 고려하여 월요일/화요일은 최대 4일, 평일은 최대 2일까지 허용
+      const kstDayOfWeek = new Date(nowTime).getUTCDay(); // 0=Sun, 1=Mon, 2=Tue, ...
+      const maxAllowedDays = (kstDayOfWeek === 1 || kstDayOfWeek === 2) ? 4 : 2;
+      if (diffDays > maxAllowedDays) {
+        reasons.push(`기준일자 신선도 초과: 브리핑 기준일(${payload.asOfDate})이 현재 KST(${nowKst}) 기준 ${diffDays}일 전 데이터입니다 (최대 허용: ${maxAllowedDays}일 전)`);
       } else if (diffDays < 0) {
         reasons.push(`기준일자 오류: 미래 일자(${payload.asOfDate})는 허용되지 않습니다 (현재 KST: ${nowKst})`);
       }

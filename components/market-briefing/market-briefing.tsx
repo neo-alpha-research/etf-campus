@@ -269,7 +269,7 @@ function InfoTooltip({
         <Info className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
       </button>
       <div
-        className={`pointer-events-none absolute ${positionClasses} ${alignClasses} z-50 w-60 sm:w-64 rounded-xl bg-neutral-900/95 p-3 text-[11.5px] sm:text-xs leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-xs transition-all group-hover:pointer-events-auto group-hover:opacity-100 font-normal text-left`}
+        className={`pointer-events-none absolute ${positionClasses} ${alignClasses} z-50 w-60 sm:w-64 max-w-[calc(100vw-32px)] rounded-xl bg-slate-900/98 p-3 text-[11.5px] sm:text-xs leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-md transition-all group-hover:pointer-events-auto group-hover:opacity-100 font-normal text-left whitespace-normal break-keep`}
       >
         {text}
         <div className={`absolute ${arrowClasses}`} />

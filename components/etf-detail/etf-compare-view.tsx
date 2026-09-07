@@ -13,6 +13,8 @@ type Props = {
   mode?: string;
   selectionReasons?: Map<string, string[]>;
   comparisonProfiles?: Map<string, unknown>;
+  isTrMode?: boolean;
+  onToggleTr?: () => void;
 };
 
 const CAUTION_REASONS = new Set([
@@ -22,7 +24,15 @@ const CAUTION_REASONS = new Set([
   "만기 구간 다름",
 ]);
 
-export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, selectionReasons }: Props) {
+export function EtfCompareView({
+  mainEtf,
+  basket,
+  onRemove = () => {},
+  mode,
+  selectionReasons,
+  isTrMode: controlledTrMode,
+  onToggleTr,
+}: Props) {
   const compareList = useMemo(() => {
     if (!mainEtf) return basket;
     const filtered = basket.filter((e) => e.ticker !== mainEtf.ticker);
@@ -31,7 +41,10 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [showAllPeriods, setShowAllPeriods] = useState(false);
-  const [isTrMode, setIsTrMode] = useState(false);
+  const [internalTrMode, setInternalTrMode] = useState(false);
+
+  const isTrMode = controlledTrMode !== undefined ? controlledTrMode : internalTrMode;
+  const handleToggleTr = onToggleTr || (() => setInternalTrMode((prev) => !prev));
   
   const getActiveReturns = (etf: Etf) => isTrMode ? (etf.returnsTr || etf.returnsNetTr) : etf.returns;
 
@@ -248,19 +261,26 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               {/* 퇴직연금 (DC·IRP) 한도 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>퇴직연금 한도</span>
-                    <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
-                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
-                        <span className="text-[12px] font-black text-brand-300">퇴직연금 (DC·IRP) 편입 한도</span>
-                        <span className="text-[10px] text-neutral-400 font-mono">감독규정</span>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+                    <button
+                      type="button"
+                      aria-label="퇴직연금 (DC·IRP) 편입 한도 안내 보기"
+                      className="inline-flex items-center justify-center gap-1 cursor-help focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-sm"
+                    >
+                      <span>퇴직연금 한도</span>
+                      <span className="text-[10px] text-neutral-400 font-sans" aria-hidden="true">ⓘ</span>
+                    </button>
+                    <div className="absolute left-0 sm:left-[calc(100%+10px)] top-[calc(100%+6px)] sm:top-1/2 sm:-translate-y-1/2 w-[270px] sm:w-64 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                      <div className="hidden sm:block absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="sm:hidden absolute -top-1.5 left-4 border-[6px] border-transparent border-b-slate-900/98" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                        <span className="text-[12px] sm:text-[12.5px] font-black text-brand-300">퇴직연금 (DC·IRP) 편입 한도</span>
+                        <span className="text-[10px] text-slate-400 font-mono">감독규정</span>
                       </div>
-                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                      <p className="text-[11.5px] sm:text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
                         퇴직연금감독규정 제12조에 따른 계좌 내 편입 가능 한도입니다.
                       </p>
-                      <div className="text-[10.5px] text-neutral-300 space-y-1">
+                      <div className="text-[11px] sm:text-[11.5px] text-neutral-300 space-y-1">
                         <div><strong className="text-emerald-300">100% (안전자산):</strong> 채권형 등 전액 편입 가능</div>
                         <div><strong className="text-blue-300">70% (위험자산):</strong> 주식형 등 최대 70%까지 가능</div>
                         <div><strong className="text-neutral-400">불가:</strong> 레버리지·선물파생 등 편입 제한</div>
@@ -308,19 +328,26 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               {/* 중개형 ISA */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>중개형 ISA</span>
-                    <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
-                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
-                        <span className="text-[12px] font-black text-brand-300">중개형 ISA 편입</span>
-                        <span className="text-[10px] text-neutral-400 font-mono">절세 계좌</span>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+                    <button
+                      type="button"
+                      aria-label="중개형 ISA 편입 혜택 안내 보기"
+                      className="inline-flex items-center justify-center gap-1 cursor-help focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-sm"
+                    >
+                      <span>중개형 ISA</span>
+                      <span className="text-[10px] text-neutral-400 font-sans" aria-hidden="true">ⓘ</span>
+                    </button>
+                    <div className="absolute left-0 sm:left-[calc(100%+10px)] top-[calc(100%+6px)] sm:top-1/2 sm:-translate-y-1/2 w-[270px] sm:w-64 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                      <div className="hidden sm:block absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="sm:hidden absolute -top-1.5 left-4 border-[6px] border-transparent border-b-slate-900/98" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                        <span className="text-[12px] sm:text-[12.5px] font-black text-brand-300">중개형 ISA 편입</span>
+                        <span className="text-[10px] text-slate-400 font-mono">절세 계좌</span>
                       </div>
-                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                      <p className="text-[11.5px] sm:text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
                         조세특례제한법상 중개형 ISA 계좌 편입 가능 여부 및 절세 실익입니다.
                       </p>
-                      <div className="text-[10.5px] text-neutral-300 space-y-1">
+                      <div className="text-[11px] sm:text-[11.5px] text-neutral-300 space-y-1">
                         <div><strong className="text-emerald-300">절세실익 높음:</strong> 해외주식·채권형 등 매매차익 15.4% 비과세/분리과세 특례</div>
                         <div><strong className="text-neutral-400">절세실익 보통:</strong> 국내주식형은 기본 비과세이며 분배금 절세 적용</div>
                         <div><strong className="text-amber-300">사전교육:</strong> 레버리지/인버스는 금융투자교육원 사전교육 및 예탁금 필요</div>
@@ -356,19 +383,26 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               {/* 순자산 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>순자산</span>
-                    <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
-                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
-                        <span className="text-[12px] font-black text-brand-300">순자산 (AUM)</span>
-                        <span className="text-[10px] text-neutral-400 font-mono">규모</span>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+                    <button
+                      type="button"
+                      aria-label="순자산 (AUM) 안내 보기"
+                      className="inline-flex items-center justify-center gap-1 cursor-help focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-sm"
+                    >
+                      <span>순자산</span>
+                      <span className="text-[10px] text-neutral-400 font-sans" aria-hidden="true">ⓘ</span>
+                    </button>
+                    <div className="absolute left-0 sm:left-[calc(100%+10px)] top-[calc(100%+6px)] sm:top-1/2 sm:-translate-y-1/2 w-[270px] sm:w-64 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                      <div className="hidden sm:block absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="sm:hidden absolute -top-1.5 left-4 border-[6px] border-transparent border-b-slate-900/98" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                        <span className="text-[12px] sm:text-[12.5px] font-black text-brand-300">순자산 (AUM)</span>
+                        <span className="text-[10px] text-slate-400 font-mono">규모</span>
                       </div>
-                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                      <p className="text-[11.5px] sm:text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
                         ETF가 실제로 운용하는 전체 자산의 총 규모입니다.
                       </p>
-                      <div className="text-[10.5px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
+                      <div className="text-[11px] sm:text-[11.5px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
                         <strong className="text-amber-300">💡 팁:</strong> 규모가 클수록 상장폐지 위험이 낮고 호가가 촘촘하여 매매가 유리합니다.
                       </div>
                     </div>
@@ -389,19 +423,26 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               {/* 일일 거래대금 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>거래대금</span>
-                    <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-neutral-900/95" />
-                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-neutral-700/50">
-                        <span className="text-[12px] font-black text-brand-300">거래대금 (유동성)</span>
-                        <span className="text-[10px] text-neutral-400 font-mono">1일</span>
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+                    <button
+                      type="button"
+                      aria-label="일일 거래대금 (유동성) 안내 보기"
+                      className="inline-flex items-center justify-center gap-1 cursor-help focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-sm"
+                    >
+                      <span>거래대금</span>
+                      <span className="text-[10px] text-neutral-400 font-sans" aria-hidden="true">ⓘ</span>
+                    </button>
+                    <div className="absolute left-0 sm:left-[calc(100%+10px)] top-[calc(100%+6px)] sm:top-1/2 sm:-translate-y-1/2 w-[270px] sm:w-64 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                      <div className="hidden sm:block absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="sm:hidden absolute -top-1.5 left-4 border-[6px] border-transparent border-b-slate-900/98" />
+                      <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                        <span className="text-[12px] sm:text-[12.5px] font-black text-brand-300">거래대금 (유동성)</span>
+                        <span className="text-[10px] text-slate-400 font-mono">1일</span>
                       </div>
-                      <p className="text-[11px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                      <p className="text-[11.5px] sm:text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
                         최근 1영업일 동안 시장에서 실제 거래된 총액입니다.
                       </p>
-                      <div className="text-[10.5px] text-sky-200/95 bg-sky-500/10 rounded-md p-1.5 leading-snug border border-sky-500/20">
+                      <div className="text-[11px] sm:text-[11.5px] text-sky-200/95 bg-sky-500/10 rounded-md p-1.5 leading-snug border border-sky-500/20">
                         <strong className="text-sky-300">💡 팁:</strong> 유동성이 풍부할수록 원하는 가격과 수량으로 즉시 체결하기 수월합니다.
                       </div>
                     </div>
@@ -432,7 +473,18 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                       {index === 0 ? (
                         <div className="flex justify-between items-center w-full">
                           <span className="text-neutral-700">수익률</span>
-                          <span>{RETURN_PERIOD_LABELS[period]}</span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={() => setShowAllPeriods((prev) => !prev)}
+                              className="inline-flex items-center gap-0.5 text-[10px] font-extrabold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 px-1.5 py-0.5 rounded border border-brand-200 transition-colors cursor-pointer active:scale-95 shadow-2xs"
+                              title={showAllPeriods ? "핵심 5개 기간(1m~1y)만 보기" : "1일~3년 전체 12개 기간 펼치기"}
+                            >
+                              <span>{showAllPeriods ? "핵심만" : "세부+"}</span>
+                              <span className="text-[8px]">{showAllPeriods ? "▲" : "▼"}</span>
+                            </button>
+                            <span className="font-sans">{RETURN_PERIOD_LABELS[period]}</span>
+                          </div>
                         </div>
                       ) : (
                         RETURN_PERIOD_LABELS[period]
@@ -441,7 +493,8 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                     {compareList.map((etf) => {
                       const val = getActiveReturns(etf)?.[period] ?? null;
                       const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                      const isTop = maxReturnForPeriod !== null && val === maxReturnForPeriod && compareList.length > 1;
+                      // 1위 뱃지는 양수 수익률(> 0)에서만 노출 (자본시장 정서 및 컴플라이언스 준수)
+                      const isTop = maxReturnForPeriod !== null && maxReturnForPeriod > 0 && val === maxReturnForPeriod && compareList.length > 1;
                       return (
                         <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-neutral-200 px-2 py-1.5 text-right tabular-nums transition-colors ${isBase ? "bg-brand-50/40" : ""}`}>
                           <div className="flex justify-end items-center gap-1">
@@ -454,7 +507,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
                               </span>
                             )}
                             <span className={isTop ? "font-black" : "font-semibold"}>
-                              <ReturnCell value={val} />
+                              <ReturnCell value={val} isTr={isTrMode} />
                             </span>
                           </div>
                         </td>
@@ -467,11 +520,18 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               {/* 실부담비용 (수익률 바로 아래 배치) */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>실부담비용</span>
-                    <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+                    <button
+                      type="button"
+                      aria-label="실부담비용 상세 안내 보기"
+                      className="inline-flex items-center justify-center gap-1 cursor-help focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-sm"
+                    >
+                      <span>실부담비용</span>
+                      <span className="text-[10px] text-neutral-400 font-sans" aria-hidden="true">ⓘ</span>
+                    </button>
+                    <div className="absolute left-0 sm:left-[calc(100%+10px)] bottom-[calc(100%+6px)] sm:bottom-[-20px] w-[280px] sm:w-80 max-w-[calc(100vw-32px)] p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                      <div className="hidden sm:block absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="sm:hidden absolute -bottom-1.5 left-4 border-[6px] border-transparent border-t-slate-900/98" />
                       <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
                         <span className="text-[13px] font-black text-emerald-400">실부담비용이란?</span>
                         <span className="text-[10.5px] font-bold text-slate-300 bg-slate-800 border border-slate-700/80 px-2 py-0.5 rounded-full">
@@ -536,11 +596,18 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               {/* 괴리율 */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>괴리율</span>
-                    <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+                    <button
+                      type="button"
+                      aria-label="괴리율 상세 안내 보기"
+                      className="inline-flex items-center justify-center gap-1 cursor-help focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-sm"
+                    >
+                      <span>괴리율</span>
+                      <span className="text-[10px] text-neutral-400 font-sans" aria-hidden="true">ⓘ</span>
+                    </button>
+                    <div className="absolute left-0 sm:left-[calc(100%+10px)] bottom-[calc(100%+6px)] sm:bottom-[-20px] w-[280px] sm:w-80 max-w-[calc(100vw-32px)] p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                      <div className="hidden sm:block absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="sm:hidden absolute -bottom-1.5 left-4 border-[6px] border-transparent border-t-slate-900/98" />
                       <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
                         <span className="text-[13px] font-black text-emerald-400">괴리율이란?</span>
                         <span className="text-[10px] text-neutral-400 font-mono bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
@@ -607,11 +674,18 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
               {/* 추적 오차율 (배당 보정 순수 운용 지표) */}
               <tr className="hover:bg-brand-50/20 hover:z-40 relative">
                 <th className={`sticky left-0 z-20 hover:z-50 bg-surface px-2.5 py-1.5 text-xs font-bold text-muted border-b border-r border-line transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto cursor-help">
-                    <span>추적오차율</span>
-                    <span className="text-[10px] text-neutral-400">ⓘ</span>
-                    <div className="absolute left-[calc(100%+10px)] bottom-[-20px] w-84 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100]">
-                      <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                  <div className="flex items-center justify-center gap-1 group relative w-fit mx-auto">
+                    <button
+                      type="button"
+                      aria-label="추적오차율 상세 안내 보기"
+                      className="inline-flex items-center justify-center gap-1 cursor-help focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded-sm"
+                    >
+                      <span>추적오차율</span>
+                      <span className="text-[10px] text-neutral-400 font-sans" aria-hidden="true">ⓘ</span>
+                    </button>
+                    <div className="absolute left-0 sm:left-[calc(100%+10px)] bottom-[calc(100%+6px)] sm:bottom-[-20px] w-[280px] sm:w-84 max-w-[calc(100vw-32px)] p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                      <div className="hidden sm:block absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                      <div className="sm:hidden absolute -bottom-1.5 left-4 border-[6px] border-transparent border-t-slate-900/98" />
                       <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
                         <span className="text-[13px] font-black text-emerald-400">추적오차율이란?</span>
                         <span className="text-[10px] text-emerald-300 font-mono bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-700/60 font-semibold">
@@ -683,7 +757,7 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
             type="button"
             role="switch"
             aria-checked={isTrMode}
-            onClick={() => setIsTrMode(!isTrMode)}
+            onClick={handleToggleTr}
             className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70 rounded-full transition-all active:scale-95 shadow-xs border border-neutral-200 bg-white"
           >
             <span className={isTrMode ? "text-brand-700" : ""}>TR (배당 재투자) {isTrMode ? "ON" : "OFF"}</span>
@@ -700,6 +774,16 @@ export function EtfCompareView({ mainEtf, basket, onRemove = () => {}, mode, sel
             <span>{showAllPeriods ? "핵심 기간만 보기 (1개월~1년)" : "전체 세부 기간 보기 (1일~3년)"}</span>
             <span className="text-[10px]">{showAllPeriods ? "▲" : "▼"}</span>
           </button>
+        </div>
+
+        {/* 법적 컴플라이언스 및 데이터 기준 각주 (단정 1줄) */}
+        <div className="px-4 py-2.5 bg-neutral-50/50 border-t border-neutral-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[11px] text-neutral-400 font-medium">
+          <p>
+            * 실부담비용: 금융투자협회 최근 공시 기준 · 수익률/순자산/괴리율: 최근 영업일 종가 기준 · 본 자료는 투자 참고용이며 권유 목적이 아닙니다.
+          </p>
+          <span className="font-mono text-[10.5px] text-neutral-400 shrink-0">
+            {compareList[0]?.asOfDate ? `${compareList[0].asOfDate.replace(/-/g, ".")} 기준` : ""}
+          </span>
         </div>
       </div>
     </div>

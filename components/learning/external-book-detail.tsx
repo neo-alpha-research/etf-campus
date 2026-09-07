@@ -80,7 +80,7 @@ export function ExternalBookDetail({
               </span>
 
               {/* 빅 3 서점 평점 상세 툴팁 */}
-              <div className="absolute right-0 top-full mt-1.5 w-48 rounded-xl bg-white p-3.5 shadow-xl border border-line opacity-0 invisible group-hover/rating:opacity-100 group-hover/rating:visible transition-all z-30 text-left pointer-events-none">
+              <div className="absolute right-0 top-full mt-1.5 w-48 rounded-xl bg-white p-3.5 shadow-xl border border-line opacity-0 invisible group-hover/rating:opacity-100 group-hover/rating:visible transition-all z-30 text-left pointer-events-none whitespace-normal break-keep">
                 <p className="text-xs font-extrabold text-neutral-800 mb-2 flex items-center gap-1">
                   <span>📊 3사 통합 평점 상세</span>
                 </p>

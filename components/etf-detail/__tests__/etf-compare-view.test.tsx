@@ -135,5 +135,91 @@ describe("EtfCompareView selectionReasons", () => {
     expect(screen.getByText("+10.00%")).toBeInTheDocument();
     expect(screen.queryByText("+20.00%")).toBeNull();
   });
+
+  it("상위에서 isTrMode와 onToggleTr를 제어(Controlled)할 때 정상 동작하고 토글 콜백이 호출된다", () => {
+    let toggled = false;
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "ETF A",
+      returnsTr: { "1d": 0, "1w": 0, "2w": 0, "1m": 0, "2m": 0, "3m": 0, "6m": 0, "12m": 12.5, "24m": 0, "36m": 0, ytd: 0, itd: 0 },
+      returns: { "1d": 0, "1w": 0, "2w": 0, "1m": 0, "2m": 0, "3m": 0, "6m": 0, "12m": 5.0, "24m": 0, "36m": 0, ytd: 0, itd: 0 },
+      asOfDate: "20260715",
+    };
+
+    render(
+      <EtfCompareView
+        basket={[etfA as Etf]}
+        isTrMode={true}
+        onToggleTr={() => { toggled = true; }}
+      />
+    );
+
+    // Should display TR value directly
+    expect(screen.getByText("+12.50%")).toBeInTheDocument();
+
+    const trSwitch = screen.getByRole("switch");
+    fireEvent.click(trSwitch);
+    expect(toggled).toBe(true);
+  });
+
+  it("수익률 헤더의 세부+ 버튼을 누르면 12개 전체 기간으로 확장되고 핵심만으로 축소된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "ETF A",
+      returns: { "1d": 1.1, "1w": 2.2, "2w": 3.3, "1m": 4.4, "2m": 5.5, "3m": 6.6, "6m": 7.7, "12m": 8.8, "24m": 9.9, "36m": 10.0, ytd: 11.1, itd: 12.2 },
+      asOfDate: "20260715",
+    };
+
+    render(<EtfCompareView basket={[etfA as Etf]} />);
+
+    // Initially 1w (1주) is not in core periods
+    expect(screen.queryByText("1주")).toBeNull();
+
+    // Click quick toggle button '세부+'
+    const quickToggleBtn = screen.getByTitle("1일~3년 전체 12개 기간 펼치기");
+    fireEvent.click(quickToggleBtn);
+
+    // Now 1w (1주) should be visible
+    expect(screen.getByText("1주")).toBeInTheDocument();
+
+    // Click again to collapse
+    const collapseBtn = screen.getByTitle("핵심 5개 기간(1m~1y)만 보기");
+    fireEvent.click(collapseBtn);
+    expect(screen.queryByText("1주")).toBeNull();
+  });
+
+  it("모든 종목의 해당 기간 수익률이 음수일 경우 1위 뱃지가 표시되지 않는다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "ETF A",
+      returns: { "1d": 0, "1w": 0, "2w": 0, "1m": -5.0, "2m": 0, "3m": 0, "6m": 0, "12m": 0, "24m": 0, "36m": 0, ytd: 0, itd: 0 },
+      asOfDate: "20260715",
+    };
+    const etfB: Partial<Etf> = {
+      ticker: "000002",
+      name: "ETF B",
+      returns: { "1d": 0, "1w": 0, "2w": 0, "1m": -10.0, "2m": 0, "3m": 0, "6m": 0, "12m": 0, "24m": 0, "36m": 0, ytd: 0, itd: 0 },
+      asOfDate: "20260715",
+    };
+
+    render(<EtfCompareView basket={[etfA as Etf, etfB as Etf]} />);
+
+    // 1위 badge should NOT appear because both returns are negative (< 0)
+    expect(screen.queryByText("1위")).toBeNull();
+  });
+
+  it("테이블 하단에 금융투자협회 공시 기준 및 거래소 종가 기준 각주가 단정하게 노출된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "ETF A",
+      asOfDate: "2026-03-06",
+      returns: { "1d": 0, "1w": 0, "2w": 0, "1m": 0, "2m": 0, "3m": 0, "6m": 0, "12m": 0, "24m": 0, "36m": 0, ytd: 0, itd: 0 },
+    };
+
+    render(<EtfCompareView basket={[etfA as Etf]} />);
+
+    expect(screen.getByText(/금융투자협회 최근 공시 기준/)).toBeInTheDocument();
+    expect(screen.getByText(/2026.03.06 기준/)).toBeInTheDocument();
+  });
 });
 

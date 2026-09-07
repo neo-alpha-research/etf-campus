@@ -123,13 +123,16 @@ export async function reviewAndRefineWithGemini(
    - 본문, 타래, 슬라이드 텍스트 어디에도 이모지를 단 하나도 포함하지 마십시오 (이모지 0개).
 6. 상업적 홍보색 전면 제거 (순수 공공재 시황 칼럼 원칙):
    - '무료', '완벽 비교', '프로필 링크', '리포트 보러가기', '다운로드', '클릭' 등 모든 세일즈/홍보 유도 어휘 전면 금지.
-   - 외부 링크 없이도 본문 자체만으로 어제 시장의 핵심 맥락(Why it moved)을 100% 이해할 수 있는 완결형 정보 제공.
+   - 외부 링크 없이도 본문 자체만으로 해당 거래일 시장의 핵심 맥락(Why it moved)을 100% 이해할 수 있는 완결형 정보 제공.
 7. 본문 엔딩: 광고성 링크 유도 대신 오늘 개장 후 주목할 거시 지표나 심리적 체크포인트 1문장 + 대화형 질문으로 담백하게 종결.
 8. 첫 댓글: 프로필 방문 유도 멘트 전면 금지. 오직 '한국거래소(KRX) 공시 데이터 마감 기준 (국내 상장 일반 ETF 전수 분석)'으로만 작성.
 9. 컴플라이언스 절대 준수: '추천', '베스트', '대박', '목표가', '패닉', '폭락' 등 투기 조장이나 과장 어휘 절대 금지.
 10. 페르소나 준수: '현직' 단어 전면 금지.
 11. 스레드/댓글 내 외부 URL 링크('https://') 기재 전면 금지.
-12. 출력 형식: 백틱(\`\`\`) 없는 순수 JSON 단 하나만 출력하십시오.
+12. '어제' 등 상대적 시간 표현 절대 금지 (시점 왜곡 방지):
+   - 금요일 종가 데이터가 토요일이나 월요일에 발행되는 등 주말/연휴 시차로 인한 독자의 시간 인식 혼선을 원천 차단하기 위해, 본문, 타래, 캡션 어디에도 '어제'라는 표현을 절대 쓰지 마십시오.
+   - '장 마감 기준' 또는 '국내 증시는', '코스피는'과 같이 객관적 시점 표현만 사용하십시오.
+13. 출력 형식: 백틱(\`\`\`) 없는 순수 JSON 단 하나만 출력하십시오.
 
 ## JSON 출력 스키마
 {
@@ -142,11 +145,11 @@ export async function reviewAndRefineWithGemini(
   "slide5ActionTip": "카드뉴스 5페이지 실전 투자자 팁 (호가 점검 조언, 이모지 0개, 괄호 금지)",
   "slide6Block1Title": "카드뉴스 6페이지 1번 요약 제목 (이모지 0개, 괄호 금지)",
   "slide6Block1Desc": "카드뉴스 6페이지 1번 요약 본문 (2~3문장, 가독성, 이모지 0개, 괄호 금지)",
-  "captionOpening": "인스타그램 캡션 첫 단락 (장세 규정, 이모지 0개, 괄호 금지)",
+  "captionOpening": "인스타그램 캡션 첫 단락 (장세 규정, '어제' 표현 절대 금지, 이모지 0개, 괄호 금지)",
   "captionMarketSummary": "인스타그램 캡션 시장 요약 문단 (이모지 0개, 괄호 금지)",
   "captionThemeAnalysis": "인스타그램 본문용 테마별 등락 원인 팩트 분석 1문단 (이모지 0개, 괄호 금지)",
   "captionWatchPoint": "인스타그램 엔딩용 오늘의 시장 관전 포인트 (세일즈 멘트 없이 지적이고 담백하게, 이모지 0개, 괄호 금지)",
-  "threadsOpening": "스레드 1번 포스트 오프닝 문장 (해요체, 공감형 화법, 이모지 0개, 괄호 금지)",
+  "threadsOpening": "스레드 1번 포스트 오프닝 문장 (해요체, '어제' 표현 절대 금지, 공감형 화법, 이모지 0개, 괄호 금지)",
   "threadsMarketSummary": "스레드 시장 요약 문장 (해요체, 완충 효과 설명, 이모지 0개, 괄호 금지)",
   "threadsWatchPoint": "스레드 엔딩용 오늘의 시장 관전 포인트 및 대화형 질문 (외부 링크 유도 절대 금지, 이모지 0개, 괄호 금지)",
   "firstComment": "스레드 첫 댓글 (한국거래소 KRX 공시 마감 기준, 국내 상장 일반 ETF 전수 분석 고지, 이모지 0개)"
@@ -247,8 +250,9 @@ export async function reviewAndRefineWithGemini(
               const elapsed = Date.now() - startTime;
               console.log(`[AI Fact-Check] SUCCESS -> Token #${realIdx} with ${modelName} in ${elapsed}ms (Failover steps: ${failoverHistory.length})`);
 
-              // 이모지 제거 정규식
+              // 이모지 및 '어제' 표현 정제 정규식
               const stripEmoji = (str?: string) => (str || "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").trim();
+              const cleanText = (str?: string) => stripEmoji(str).replace(/어제\s*/g, "").trim();
 
               return {
                 ...regime,
@@ -261,13 +265,13 @@ export async function reviewAndRefineWithGemini(
                 slide5ActionTip: stripEmoji(parsed.slide5ActionTip) || regime.slide5ActionTip,
                 slide6Block1Title: stripEmoji(parsed.slide6Block1Title) || regime.slide6Block1Title,
                 slide6Block1Desc: stripEmoji(parsed.slide6Block1Desc) || regime.slide6Block1Desc,
-                captionOpening: stripEmoji(parsed.captionOpening) || regime.captionOpening,
-                captionMarketSummary: stripEmoji(parsed.captionMarketSummary) || regime.captionMarketSummary,
-                captionThemeAnalysis: stripEmoji(parsed.captionThemeAnalysis) || regime.captionThemeAnalysis,
-                captionWatchPoint: stripEmoji(parsed.captionWatchPoint) || regime.captionWatchPoint,
-                threadsOpening: stripEmoji(parsed.threadsOpening) || regime.threadsOpening,
-                threadsMarketSummary: stripEmoji(parsed.threadsMarketSummary) || regime.threadsMarketSummary,
-                threadsWatchPoint: stripEmoji(parsed.threadsWatchPoint) || regime.threadsWatchPoint,
+                captionOpening: cleanText(parsed.captionOpening) || regime.captionOpening,
+                captionMarketSummary: cleanText(parsed.captionMarketSummary) || regime.captionMarketSummary,
+                captionThemeAnalysis: cleanText(parsed.captionThemeAnalysis) || regime.captionThemeAnalysis,
+                captionWatchPoint: cleanText(parsed.captionWatchPoint) || regime.captionWatchPoint,
+                threadsOpening: cleanText(parsed.threadsOpening) || regime.threadsOpening,
+                threadsMarketSummary: cleanText(parsed.threadsMarketSummary) || regime.threadsMarketSummary,
+                threadsWatchPoint: cleanText(parsed.threadsWatchPoint) || regime.threadsWatchPoint,
                 firstComment: stripEmoji(parsed.firstComment) || regime.firstComment,
                 source: "gemini-refined",
                 modelUsed: modelName,

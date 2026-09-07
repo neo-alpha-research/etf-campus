@@ -169,8 +169,14 @@ export function getEtfSearchSuggestions(etfs: readonly EtfSlim[], query: string,
     .map(({ etf }) => etf);
 }
 
-function getSortValue(etf: Etf, sort: ExplorerSortKey, period: ReturnPeriod): number | null {
-  if (sort === "return") return etf.returns[period];
+function getSortValue(etf: Etf, sort: ExplorerSortKey, period: ReturnPeriod, isTrMode = false): number | null {
+  if (sort === "return") {
+    if (isTrMode) {
+      const tr = etf.returnsTr || etf.returnsNetTr;
+      return (tr && tr[period] !== undefined && tr[period] !== null) ? tr[period]! : null;
+    }
+    return etf.returns[period];
+  }
   if (sort === "tradeValue" || sort === "aum") return etf[sort];
   return etf.listingDate ? parseDate(etf.listingDate) : null;
 }
@@ -180,10 +186,11 @@ export function sortExplorerEtfs(
   sort: ExplorerSortKey,
   direction: SortDirection,
   period: ReturnPeriod,
+  isTrMode = false,
 ): Etf[] {
   return [...etfs].sort((a, b) => {
-    const aValue = getSortValue(a, sort, period);
-    const bValue = getSortValue(b, sort, period);
+    const aValue = getSortValue(a, sort, period, isTrMode);
+    const bValue = getSortValue(b, sort, period, isTrMode);
     if (aValue === null) return bValue === null ? b.tradeValue - a.tradeValue || a.ticker.localeCompare(b.ticker) : 1;
     if (bValue === null) return -1;
     const compared = direction === "asc" ? aValue - bValue : bValue - aValue;

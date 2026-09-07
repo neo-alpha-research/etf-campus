@@ -33,7 +33,8 @@ jobs:
       - run: npx tsc --noEmit -p tsconfig.ci.json
       - run: npm test
       - run: npm run build
-      - working-directory: workers/market-briefing-publisher
+      - name: Typecheck active Cloudflare Workers
         run: |
-          npm ci
-          npm run typecheck
+          npm --workspace=workers/market-briefing-publisher run typecheck
+          npm --workspace=workers/market-briefing-distributor run typecheck
+          npm --workspace=workers/community-maintenance run typecheck

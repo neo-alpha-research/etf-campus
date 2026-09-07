@@ -23,10 +23,10 @@ const accountNavigation = [
   { href: "/explore/?account=all", label: "전체계좌", key: "all" },
   { href: "/explore/?account=pension", label: "퇴직연금", key: "pension" },
   { href: "/explore/?account=personal_pension", label: "연금저축", key: "personal_pension" },
-  { href: "/explore/?account=isa", label: "중개형ISA", key: "isa" },
+  { href: "/explore/?account=isa", label: "중개형 ISA", key: "isa" },
 ] as const;
 
-const characteristicNavigation = [
+const strategyNavigation = [
   { href: "/quick/?mode=mixed_bonds", label: "혼합채권", key: "mixed_bonds" },
   { href: "/quick/?mode=tdf", label: "TDF", key: "tdf" },
   { href: "/quick/?mode=covered_call", label: "커버드콜", key: "covered_call" },
@@ -154,57 +154,82 @@ export function SiteHeader() {
         })}
       </nav>
       {showFinderNav ? (
-        <div className="w-full border-t border-line bg-brand-50/55">
+        <div className="relative w-full border-t border-line bg-brand-50/55">
+          {/* 모바일 가로 스크롤 페이드 힌트 (Fade Edge & Arrow) */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-brand-50/95 via-brand-50/60 to-transparent sm:hidden z-10 flex items-center justify-end pr-1 text-neutral-400"
+          >
+            <svg className="w-3.5 h-3.5 opacity-60 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
           <nav aria-label="ETF 탐색 메뉴" className="page-shell overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex items-center gap-1.5 sm:gap-2 py-2 text-xs sm:text-sm">
-            <span className="text-[11px] font-bold text-neutral-600 shrink-0 pl-0.5 hidden sm:inline-block">계좌</span>
-            {accountNavigation.map((item) => {
-              const active = item.href === activeFinderHref;
-              const className = `inline-flex min-h-9 sm:min-h-9.5 shrink-0 items-center rounded-full border px-3 sm:px-3.5 py-1.5 font-bold transition-all ${
-                active
-                  ? "border-brand-700 bg-brand-700 text-white shadow-2xs"
-                  : "border-neutral-200 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900"
-              }`;
-              return (
-                <Link
-                  aria-current={active ? "page" : undefined}
-                  className={className}
-                  href={item.href}
-                  key={item.href}
-                  onClick={() => {
-                    setActiveFinderHref(item.href);
-                    if (typeof window !== "undefined" && (window.location.pathname === "/explore" || window.location.pathname === "/explore/")) {
-                      window.history.pushState(null, "", item.href);
-                      window.dispatchEvent(new Event("popstate"));
-                    }
-                  }}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+            <div role="group" aria-label="계좌별 ETF 탐색" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-extrabold tracking-tight bg-neutral-200/80 text-neutral-600 shrink-0 select-none">
+                계좌별
+              </span>
+              {accountNavigation.map((item) => {
+                const active = item.href === activeFinderHref;
+                const className = `inline-flex min-h-9 sm:min-h-9.5 shrink-0 items-center rounded-full border px-3 sm:px-3.5 py-1.5 font-bold transition-all ${
+                  active
+                    ? "border-brand-700 bg-brand-700 text-white shadow-2xs"
+                    : "border-neutral-200 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900"
+                }`;
+                return (
+                  <Link
+                    aria-current={active ? "page" : undefined}
+                    className={className}
+                    href={item.href}
+                    key={item.href}
+                    onClick={() => {
+                      setActiveFinderHref(item.href);
+                      if (typeof window !== "undefined") {
+                        window.scrollTo({ top: 0, behavior: "instant" });
+                        if (window.location.pathname === "/explore" || window.location.pathname === "/explore/") {
+                          window.history.pushState(null, "", item.href);
+                          window.dispatchEvent(new Event("popstate"));
+                        }
+                      }
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
 
-            <span aria-hidden="true" className="h-4 w-px bg-neutral-300 mx-1 shrink-0" />
+            <span aria-hidden="true" className="h-5 w-px bg-neutral-300 mx-1.5 sm:mx-2.5 shrink-0" />
 
-            <span className="text-[11px] font-bold text-neutral-600 shrink-0 pl-0.5 hidden sm:inline-block">특징·테마</span>
-            {characteristicNavigation.map((item) => {
-              const active = item.href === activeFinderHref;
-              const className = `inline-flex min-h-9 sm:min-h-9.5 shrink-0 items-center rounded-full border px-3 sm:px-3.5 py-1.5 font-bold transition-all ${
-                active
-                  ? "border-brand-700 bg-brand-700 text-white shadow-2xs"
-                  : "border-neutral-200 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900"
-              }`;
-              return (
-                <Link
-                  aria-current={active ? "page" : undefined}
-                  className={className}
-                  href={item.href}
-                  key={item.href}
-                  onClick={() => setActiveFinderHref(item.href)}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+            <div role="group" aria-label="전략별 ETF 탐색" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-extrabold tracking-tight bg-neutral-200/80 text-neutral-600 shrink-0 select-none">
+                전략별
+              </span>
+              {strategyNavigation.map((item) => {
+                const active = item.href === activeFinderHref;
+                const className = `inline-flex min-h-9 sm:min-h-9.5 shrink-0 items-center rounded-full border px-3 sm:px-3.5 py-1.5 font-bold transition-all ${
+                  active
+                    ? "border-brand-700 bg-brand-700 text-white shadow-2xs"
+                    : "border-neutral-200 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-900"
+                }`;
+                return (
+                  <Link
+                    aria-current={active ? "page" : undefined}
+                    className={className}
+                    href={item.href}
+                    key={item.href}
+                    onClick={() => {
+                      setActiveFinderHref(item.href);
+                      if (typeof window !== "undefined") {
+                        window.scrollTo({ top: 0, behavior: "instant" });
+                      }
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
           </nav>
         </div>
       ) : null}

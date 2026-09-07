@@ -13,9 +13,9 @@ function InfoTooltip({ text }: { text: React.ReactNode }) {
       >
         <Info className="h-4 w-4" />
       </button>
-      <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-72 -translate-x-1/2 rounded-xl bg-neutral-900/95 p-3 text-[12px] leading-relaxed text-white opacity-0 shadow-xl backdrop-blur-xs transition-all group-hover:pointer-events-auto group-hover:opacity-100">
+      <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-72 max-w-[calc(100vw-32px)] -translate-x-1/2 rounded-xl bg-slate-900/98 p-3 text-[12px] leading-relaxed text-white opacity-0 shadow-2xl backdrop-blur-md transition-all group-hover:pointer-events-auto group-hover:opacity-100 whitespace-normal break-keep">
         {text}
-        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-neutral-900/95" />
+        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900/98" />
       </div>
     </div>
   );

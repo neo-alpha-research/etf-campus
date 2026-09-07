@@ -31,12 +31,10 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
   it("연금 가능 칩은 기본 선택되며 해제 상태도 URL에 보존된다", () => {
     render(<Screener etfs={items} />);
-    const pensionSwitch = screen.getByRole("switch", { name: "DC·IRP 가능만" });
-    expect(pensionSwitch).toBeChecked();
-    expect(screen.getByRole("button", { name: "DC·IRP 가능 조건 제거" })).toBeInTheDocument();
+    const removeChip = screen.getByRole("button", { name: "DC·IRP 가능 조건 제거" });
+    expect(removeChip).toBeInTheDocument();
 
-    fireEvent.click(pensionSwitch);
-    expect(pensionSwitch).not.toBeChecked();
+    fireEvent.click(removeChip);
     expect(window.location.search).toContain("pension=all");
     expect(screen.queryByRole("button", { name: "DC·IRP 가능 조건 제거" })).not.toBeInTheDocument();
   });
@@ -66,7 +64,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     render(<Screener etfs={items} />);
     expect(screen.getByText("TOP 10 인기 테마")).toBeInTheDocument();
 
-    const labels = ["미국 주식", "국내 주식", "배당성장", "반도체", "AI·빅테크", "채권·파킹", "커버드콜", "금·원자재", "전력·원자력", "2차전지"];
+    const labels = ["미국 주식", "국내 주식", "배당성장", "월배당", "반도체", "AI·빅테크", "채권·파킹", "커버드콜", "금·원자재", "전력·원자력"];
     for (const label of labels) {
       expect(screen.getByRole("button", { name: label })).toBeInTheDocument();
     }
@@ -81,6 +79,13 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(clearButton).toBeInTheDocument();
     fireEvent.click(clearButton);
     expect(semiButton).toHaveAttribute("aria-pressed", "false");
+
+    // 월배당 필터 확인
+    const monthlyBtn = screen.getByRole("button", { name: "월배당" });
+    fireEvent.click(monthlyBtn);
+    expect(monthlyBtn).toHaveAttribute("aria-pressed", "true");
+    expect(window.location.search).toContain("cycle=%EC%9B%94+%EB%B6%84%EB%B0%B0");
+    expect(screen.getByRole("button", { name: "월배당 조건 제거" })).toBeInTheDocument();
   });
 
   it("선택 조건 칩 하나를 제거해도 다른 조건이 유지된다", () => {
@@ -143,7 +148,7 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
   it("연금 불가 종목에는 연금불가 배지를 노출한다", () => {
     render(<Screener etfs={[etf({ ticker: "X", name: "일반 비연금 ETF", pension: "불가" })]} />);
-    fireEvent.click(screen.getByRole("switch", { name: "DC·IRP 가능만" }));
+    fireEvent.click(screen.getByRole("button", { name: /전체계좌/ }));
     expect(screen.getAllByText("연금불가")[0]).toBeInTheDocument();
   });
 
@@ -164,8 +169,8 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
   it("CTA 버튼은 레버리지/인버스만 선택 시 mode=derivatives를 포함한다", () => {
     render(<Screener etfs={items} />);
-    // 파생상품 탐색으로 전환할 때는 기본 연금 조건을 먼저 해제한다.
-    fireEvent.click(screen.getByRole("switch", { name: "DC·IRP 가능만" }));
+    // 파생상품 탐색으로 전환할 때는 전체계좌 탭으로 전환한다.
+    fireEvent.click(screen.getByRole("button", { name: /전체계좌/ }));
 
     // 레버리지 선택
     const leverageLabel = screen.getByLabelText("레버리지");
@@ -239,18 +244,18 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     render(<Screener etfs={[safeEtf, riskEtf]} />);
     
     // 법정 안전자산 100% 한도 버튼 클릭
-    const safeBtn = screen.getByRole("button", { name: /100% 한도 \(법정 안전자산\)/ });
+    const safeBtn = screen.getByRole("button", { name: /안전자산 100% 한도/ });
     fireEvent.click(safeBtn);
 
     expect(window.location.search).toContain("pension_tier=safe");
-    expect(screen.getByRole("button", { name: "100% 한도 (법정 안전자산) 조건 제거" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "안전자산 100% 한도 조건 제거" })).toBeInTheDocument();
 
     // 위험자산 70% 버튼 클릭
-    const riskBtn = screen.getByRole("button", { name: /70% 위험/ });
+    const riskBtn = screen.getByRole("button", { name: /위험자산 70% 한도/ });
     fireEvent.click(riskBtn);
 
     expect(window.location.search).toContain("pension_tier=risk");
-    expect(screen.getByRole("button", { name: "위험자산 70% 조건 제거" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "위험자산 70% 한도 조건 제거" })).toBeInTheDocument();
   });
 
   it("pensionVerified = 'N'일 때 스크리너 행에 '추정' 배지가 렌더링된다", () => {
@@ -307,8 +312,11 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     fireEvent.click(isaTab);
 
     expect(screen.getByText("중개형 ISA 절세 실익 안내")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /✨ 절세 혜택형/ })).toBeInTheDocument();
+    expect(screen.getByText("조세특례제한법 제91조의18")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /✨\s*절세 혜택형/ })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "ISA 절세 혜택형 조건 제거" })).toBeInTheDocument();
+    expect(screen.getByText(/절세 실익 극대화/)).toBeInTheDocument();
+    expect(screen.getByText(/핵심 세제 혜택: 계좌 내 전 종목 손익통산/)).toBeInTheDocument();
     expect(screen.getByText("ISA가능")).toBeInTheDocument();
     expect(screen.getByText("✨절세형")).toBeInTheDocument();
   });
@@ -358,6 +366,119 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
 
     // 전체 적격 버튼 및 배너 확인
     expect(screen.getByText(/연금저축 적격 ETF:/)).toBeInTheDocument();
+    expect(screen.getByText("연금저축(개인연금) 편입 가이드")).toBeInTheDocument();
+    expect(screen.getByText("금투협 표준약관 제8조")).toBeInTheDocument();
+    expect(screen.getByText(/100% 한도 자율 편입/)).toBeInTheDocument();
+    expect(screen.getByText(/개인연금 전용 편입/)).toBeInTheDocument();
+    expect(screen.getByText(/법정 편입 제외: 레버리지·인버스/)).toBeInTheDocument();
+
+    // 개인연금 전용 버튼 클릭 인터랙션 테스트
+    const personalOnlyBtn = screen.getByRole("button", { name: /개인연금 전용/ });
+    fireEvent.click(personalOnlyBtn);
+    expect(screen.getAllByText("한화 개인연금 적격 ETF")[0]).toBeInTheDocument();
+    expect(screen.queryByText("일반 1배수 ETF")).not.toBeInTheDocument();
+  });
+
+  it("전체계좌(일반 위탁) 모드에서 가이드 카드와 매매차익 비과세 필터링이 정상 작동한다", () => {
+    const domesticEtf = etf({
+      ticker: "D1",
+      name: "국내 KOSPI ETF",
+      isaTaxBenefit: "보통",
+      assetClass: "주식-국내",
+    });
+    const overseasEtf = etf({
+      ticker: "O1",
+      name: "미국 나스닥 ETF",
+      isaTaxBenefit: "높음",
+      assetClass: "주식-해외",
+    });
+
+    render(<Screener etfs={[domesticEtf, overseasEtf]} />);
+    const allTab = screen.getByRole("button", { name: /전체계좌/ });
+    fireEvent.click(allTab);
+
+    // 전체계좌 가이드 타이틀 및 2열 카드 확인
+    expect(screen.getByText("일반 위탁 계좌 거래 가이드")).toBeInTheDocument();
+    expect(screen.getByText("소득세법 제16조·제17조")).toBeInTheDocument();
+    expect(screen.getByText(/매매차익 비과세 · 일반계좌 최적/)).toBeInTheDocument();
+    expect(screen.getByText(/15.4% 과세 · 절세 권장/)).toBeInTheDocument();
+
+    // 매매차익 비과세 버튼 클릭 시 국내주식형만 노출
+    const taxFreeBtn = screen.getByRole("button", { name: /매매차익 비과세/ });
+    fireEvent.click(taxFreeBtn);
+    expect(screen.getAllByText("국내 KOSPI ETF")[0]).toBeInTheDocument();
+    expect(screen.queryByText("미국 나스닥 ETF")).not.toBeInTheDocument();
+  });
+
+  it("퇴직연금 탭 가이드 카드에 혼합채권과 TDF 바로가기 크로스 링크 브릿지를 렌더링한다", () => {
+    render(<Screener etfs={items} />);
+    expect(screen.getByText("안전자산 30% 채우기 추천:")).toBeInTheDocument();
+    const mixedBondsLink = screen.getByRole("link", { name: /채권혼합 \(주식 최대 50% 편입\)/ });
+    expect(mixedBondsLink).toHaveAttribute("href", "/quick?mode=mixed_bonds");
+    const tdfLink = screen.getByRole("link", { name: /적격 TDF \(은퇴 시점별 자동 리밸런싱\)/ });
+    expect(tdfLink).toHaveAttribute("href", "/quick?mode=tdf");
+  });
+
+  it("스크리너에서 TR 모드 토글 시 URL returnType 파라미터가 동기화된다", () => {
+    render(<Screener etfs={items} />);
+    const trToggleBtn = screen.getByRole("button", { name: "TR OFF" });
+    fireEvent.click(trToggleBtn);
+    expect(screen.getByRole("button", { name: "TR ON" })).toBeInTheDocument();
+    expect(window.location.search).toContain("returnType=tr");
+
+    fireEvent.click(screen.getByRole("button", { name: "TR ON" }));
+    expect(screen.getByRole("button", { name: "TR OFF" })).toBeInTheDocument();
+    expect(window.location.search).not.toContain("returnType=tr");
+  });
+
+  it("스크리너에서 TR 모드 토글 시 수익률 안내 문구가 동적으로 변경된다", () => {
+    render(<Screener etfs={items} />);
+    expect(screen.getByText(/단순 가격\(PR\)·분배금 미포함/)).toBeInTheDocument();
+
+    const trToggleBtn = screen.getByRole("button", { name: "TR OFF" });
+    fireEvent.click(trToggleBtn);
+    expect(screen.getByText(/분배금 100% 재투자\(TR\) 기준/)).toBeInTheDocument();
+  });
+
+  it("중개형 ISA 탭 가이드 카드 하단에 월배당 커버드콜 바로가기 미니 캡슐 브릿지를 렌더링한다", () => {
+    window.history.replaceState(null, "", "/explore?account=isa");
+    render(<Screener etfs={items} />);
+    const ccBridge = screen.getByRole("link", { name: /월배당 커버드콜 절세 혜택형 탐색/ });
+    expect(ccBridge).toHaveAttribute("href", "/quick?mode=covered_call");
+  });
+
+  it("스크리너 테이블 컬럼 헤더 클릭 시 해당 열로 정렬되고 재클릭 시 정렬 방향이 토글된다", () => {
+    render(<Screener etfs={items} />);
+
+    // 1. 1개월 헤더 클릭 -> return_1m 정렬
+    const oneMonthHeader = screen.getByRole("columnheader", { name: /1개월 수익률/ });
+    fireEvent.click(oneMonthHeader);
+    expect(window.location.search).toContain("sort=return_1m");
+
+    // 2. 1개월 헤더 재클릭 -> direction=asc 토글
+    fireEvent.click(oneMonthHeader);
+    expect(window.location.search).toContain("dir=asc");
+
+    // 3. 순자산 헤더 클릭 -> aum 정렬
+    const aumHeader = screen.getByRole("columnheader", { name: /순자산, 단위 억원/ });
+    fireEvent.click(aumHeader);
+    expect(window.location.search).toContain("sort=aum");
+
+    // 4. 실부담비용 헤더 클릭 -> ter 정렬 (기본 asc)
+    const terHeader = screen.getByRole("columnheader", { name: /투자자 실부담 총비용/ });
+    fireEvent.click(terHeader);
+    expect(window.location.search).toContain("sort=ter");
+    expect(window.location.search).toContain("dir=asc");
+  });
+
+  it("스크리너 결과 0건 시 빈 화면 초기화 CTA 버튼이 표시되고 클릭 시 필터가 초기화된다", () => {
+    render(<Screener etfs={[]} />);
+    expect(screen.getByText("조건에 맞는 ETF가 없습니다")).toBeInTheDocument();
+    const resetBtn = screen.getByRole("button", { name: "🔄 검색 및 필터 초기화" });
+    expect(resetBtn).toBeInTheDocument();
+
+    fireEvent.click(resetBtn);
+    expect(resetBtn).toBeInTheDocument();
   });
 });
 

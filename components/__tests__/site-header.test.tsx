@@ -29,17 +29,25 @@ describe("SiteHeader Component - Sub-navigation Hierarchy", () => {
     mockSearchParams = new URLSearchParams();
   });
 
-  it("ETF 탐색 메뉴에 계좌군 3종과 특성군 4종이 정상 렌더링된다", () => {
+  it("ETF 탐색 메뉴에 계좌별 4종과 전략별 5종 및 그룹 뱃지가 정상 렌더링된다", () => {
     render(<SiteHeader />);
 
-    // 1단 계좌군
+    // 대분류 뱃지 및 그룹 접근성
+    expect(screen.getByRole("group", { name: "계좌별 ETF 탐색" })).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: "전략별 ETF 탐색" })).toBeInTheDocument();
+    expect(screen.getByText("계좌별")).toBeInTheDocument();
+    expect(screen.getByText("전략별")).toBeInTheDocument();
+
+    // 1단 계좌별 4종
     expect(screen.getByRole("link", { name: "전체계좌" })).toHaveAttribute("href", "/explore?account=all");
     expect(screen.getByRole("link", { name: "퇴직연금" })).toHaveAttribute("href", "/explore?account=pension");
-    expect(screen.getByRole("link", { name: "중개형ISA" })).toHaveAttribute("href", "/explore?account=isa");
+    expect(screen.getByRole("link", { name: "연금저축" })).toHaveAttribute("href", "/explore?account=personal_pension");
+    expect(screen.getByRole("link", { name: "중개형 ISA" })).toHaveAttribute("href", "/explore?account=isa");
 
-    // 2단 특성군
+    // 2단 전략별 5종
     expect(screen.getByRole("link", { name: "혼합채권" })).toHaveAttribute("href", "/quick?mode=mixed_bonds");
     expect(screen.getByRole("link", { name: "TDF" })).toHaveAttribute("href", "/quick?mode=tdf");
+    expect(screen.getByRole("link", { name: "커버드콜" })).toHaveAttribute("href", "/quick?mode=covered_call");
     expect(screen.getByRole("link", { name: "레버리지·인버스" })).toHaveAttribute("href", "/quick?mode=derivatives");
     expect(screen.getByRole("link", { name: "신규 상장" })).toHaveAttribute("href", "/quick?mode=new");
   });
@@ -50,10 +58,10 @@ describe("SiteHeader Component - Sub-navigation Hierarchy", () => {
     expect(pensionTab).toHaveAttribute("aria-current", "page");
   });
 
-  it("account=isa 파라미터 시 중개형ISA 탭이 활성화된다", () => {
+  it("account=isa 파라미터 시 중개형 ISA 탭이 활성화된다", () => {
     mockSearchParams = new URLSearchParams("account=isa");
     render(<SiteHeader />);
-    const isaTab = screen.getByRole("link", { name: "중개형ISA" });
+    const isaTab = screen.getByRole("link", { name: "중개형 ISA" });
     expect(isaTab).toHaveAttribute("aria-current", "page");
   });
 
@@ -70,5 +78,16 @@ describe("SiteHeader Component - Sub-navigation Hierarchy", () => {
     render(<SiteHeader />);
     const tdfTab = screen.getByRole("link", { name: "TDF" });
     expect(tdfTab).toHaveAttribute("aria-current", "page");
+  });
+
+  it("탐색 메뉴 탭 클릭 시 화면 최상단으로 즉시 스크롤(scrollTo instant)된다", () => {
+    const scrollToSpy = vi.fn();
+    window.scrollTo = scrollToSpy;
+
+    render(<SiteHeader />);
+    const mixedBondsTab = screen.getByRole("link", { name: "혼합채권" });
+    mixedBondsTab.click();
+
+    expect(scrollToSpy).toHaveBeenCalledWith({ top: 0, behavior: "instant" });
   });
 });

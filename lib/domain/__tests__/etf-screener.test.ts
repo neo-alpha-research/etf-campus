@@ -246,4 +246,31 @@ describe("ETF 스크리너 - 상세 분류 필터 (지역, 운용 전략, 환헤
     expect(parsed.accountMode).toBe("isa");
     expect(parsed.isaTier).toBe("all");
   });
+
+  it("분배 주기(월 분배 등) 필터링과 URL 쿼리 왕복이 정상 작동한다", () => {
+    const mixed = [
+      etf({ ticker: "MONTHLY", distributionCycle: "월 분배" }),
+      etf({ ticker: "QUARTERLY", distributionCycle: "분기 분배" }),
+      etf({ ticker: "TR", distributionCycle: "TR (재투자)" }),
+    ];
+
+    const monthlyOnly = filterEtfs(mixed, {
+      ...DEFAULT_SCREENER_FILTERS,
+      aumScope: "all",
+      riskTypes: [],
+      distributionCycles: ["월 분배"],
+    });
+    expect(monthlyOnly.map(i => i.ticker)).toEqual(["MONTHLY"]);
+
+    const filters: ScreenerFilters = {
+      ...DEFAULT_SCREENER_FILTERS,
+      distributionCycles: ["월 분배"],
+    };
+    const serialized = serializeScreenerQuery(filters);
+    const query = new URLSearchParams(serialized);
+    expect(query.getAll("cycle")).toContain("월 분배");
+
+    const parsed = parseScreenerQuery(query);
+    expect(parsed.distributionCycles).toEqual(["월 분배"]);
+  });
 });

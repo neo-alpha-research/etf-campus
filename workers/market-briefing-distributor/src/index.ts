@@ -155,6 +155,21 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
 
   const effectiveDate = payload.asOfDate || targetDate || "latest";
 
+  // 0. KV 기반 멱등성 락 확인 (D1 쿼리 한도 초과 시에도 완벽 방어)
+  const kvBriefingKey = `distribution:briefing:${effectiveDate}`;
+  try {
+    const existing = await env.BRIEFING_KV.get<{ status?: string }>(kvBriefingKey, "json");
+    if (existing?.status === "distributed" && !dryRun) {
+      return {
+        success: true,
+        alreadyDistributed: true,
+        status: "already_distributed",
+        asOfDate: effectiveDate,
+        message: `해당 날짜(${effectiveDate})의 브리핑은 이미 배포 완료되었습니다.`,
+      };
+    }
+  } catch (e) {}
+
   // 1. 서킷 브레이커 검증
   const validation = await validateBriefingPayload(payload, env);
   if (!validation.isSafe) {
@@ -334,6 +349,17 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
     console.warn("[Distributor] Log insert warning:", dbErr);
   }
 
+  // 6. Record in KV as primary resilience store
+  if (!dryRun && (threadsPublishedId || (dispatchResults.threads as any).publishedPostId)) {
+    try {
+      await env.BRIEFING_KV.put(kvBriefingKey, JSON.stringify({
+        status: "distributed",
+        publishedAt: new Date().toISOString(),
+        dispatchResults,
+      }), { expirationTtl: 86400 * 30 });
+    } catch (e) {}
+  }
+
   return {
     success: true,
     asOfDate: effectiveDate,
@@ -411,7 +437,36 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
     return { success: false, error: `Circuit breaker 차단: ${validation.reasons.join(", ")}` };
   }
 
-  // 1. Idempotency Check: Prevent duplicate publishing for the same date
+  // 1. Idempotency Check: Prevent duplicate publishing for the same date (Dual-Store: KV + D1)
+  const kvThreadsKey = `distribution:threads:${payload.asOfDate}`;
+  const kvInFlightKey = `distribution:inflight:threads:${payload.asOfDate}`;
+
+  // 1-1. Primary Check via KV (resilient to D1 read limit/downtime)
+  try {
+    const kvRecord = await env.BRIEFING_KV.get<{ publishedPostId?: string; permalink?: string }>(kvThreadsKey, "json");
+    if (kvRecord?.publishedPostId) {
+      return {
+        success: false,
+        error: `해당 날짜(${payload.asOfDate})의 스레드가 이미 발행되었습니다. (게시 ID: ${kvRecord.publishedPostId})`,
+        publishedPostId: kvRecord.publishedPostId,
+        permalink: kvRecord.permalink || `https://www.threads.com/@neo.alphareader/post/${kvRecord.publishedPostId}`,
+      };
+    }
+  } catch (e) {}
+
+  // 1-2. In-Flight Mutex: Block parallel execution requests within 90s window
+  try {
+    const inFlight = await env.BRIEFING_KV.get(kvInFlightKey);
+    if (inFlight) {
+      return {
+        success: false,
+        error: `해당 날짜(${payload.asOfDate})의 스레드 배포가 현재 진행 중입니다. 잠시 후 확인해주세요.`,
+      };
+    }
+    await env.BRIEFING_KV.put(kvInFlightKey, "running", { expirationTtl: 90 });
+  } catch (e) {}
+
+  // 1-3. Secondary Check via D1
   try {
     const row: any = await env.ETF_PRICES.prepare(
       `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
@@ -419,6 +474,7 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
     if (row && row.details_json) {
       const parsed = JSON.parse(row.details_json);
       if (parsed.threads?.publishedPostId) {
+        try { await env.BRIEFING_KV.delete(kvInFlightKey); } catch (e) {}
         return {
           success: false,
           error: `해당 날짜(${payload.asOfDate})의 스레드가 이미 발행되었습니다. (게시 ID: ${parsed.threads.publishedPostId})`,
@@ -536,7 +592,21 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
 
     const permalink = `https://www.threads.com/@neo.alphareader/post/${publishedPostId}`;
 
-    // 3. Record success in D1 distribution logs for strict idempotency
+    // 3. Record success in KV (primary resilience store) and clear In-Flight Mutex
+    try {
+      await env.BRIEFING_KV.put(kvThreadsKey, JSON.stringify({
+        status: "distributed",
+        publishedPostId,
+        permalink,
+        firstCommentId,
+        publishedAt: new Date().toISOString(),
+      }), { expirationTtl: 86400 * 30 });
+      await env.BRIEFING_KV.delete(kvInFlightKey);
+    } catch (e) {
+      console.warn("[Distributor] Failed to record Threads distribution in KV:", e);
+    }
+
+    // 4. Record success in D1 distribution logs for telemetry
     try {
       let existingDetails: any = {};
       const row: any = await env.ETF_PRICES.prepare(
@@ -564,6 +634,7 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
       permalink,
     };
   } catch (err: any) {
+    try { await env.BRIEFING_KV.delete(kvInFlightKey); } catch (e) {}
     return { success: false, error: String(err) };
   }
 }
@@ -575,7 +646,36 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
     return { success: false, error: `Circuit breaker 차단: ${validation.reasons.join(", ")}` };
   }
 
-  // 1. Idempotency Check: Prevent duplicate publishing for the same date
+  // 1. Idempotency Check: Prevent duplicate publishing for the same date (Dual-Store: KV + D1)
+  const kvInstagramKey = `distribution:instagram:${payload.asOfDate}`;
+  const kvInFlightKey = `distribution:inflight:instagram:${payload.asOfDate}`;
+
+  // 1-1. Primary Check via KV (resilient to D1 read limit/downtime)
+  try {
+    const kvRecord = await env.BRIEFING_KV.get<{ publishedPostId?: string; permalink?: string }>(kvInstagramKey, "json");
+    if (kvRecord?.publishedPostId) {
+      return {
+        success: false,
+        error: `해당 날짜(${payload.asOfDate})의 인스타그램이 이미 발행되었습니다. (게시 ID: ${kvRecord.publishedPostId})`,
+        publishedPostId: kvRecord.publishedPostId,
+        permalink: kvRecord.permalink || `https://www.instagram.com/neo.alphareader/`,
+      };
+    }
+  } catch (e) {}
+
+  // 1-2. In-Flight Mutex: Block parallel execution requests within 90s window
+  try {
+    const inFlight = await env.BRIEFING_KV.get(kvInFlightKey);
+    if (inFlight) {
+      return {
+        success: false,
+        error: `해당 날짜(${payload.asOfDate})의 인스타그램 배포가 현재 진행 중입니다. 잠시 후 확인해주세요.`,
+      };
+    }
+    await env.BRIEFING_KV.put(kvInFlightKey, "running", { expirationTtl: 90 });
+  } catch (e) {}
+
+  // 1-3. Secondary Check via D1
   try {
     const row: any = await env.ETF_PRICES.prepare(
       `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
@@ -583,6 +683,7 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
     if (row && row.details_json) {
       const parsed = JSON.parse(row.details_json);
       if (parsed.instagram?.publishedPostId) {
+        try { await env.BRIEFING_KV.delete(kvInFlightKey); } catch (e) {}
         return {
           success: false,
           error: `해당 날짜(${payload.asOfDate})의 인스타그램이 이미 발행되었습니다. (게시 ID: ${parsed.instagram.publishedPostId})`,
@@ -664,7 +765,20 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
       if (pData.permalink) permalink = pData.permalink;
     } catch (e) {}
 
-    // 3. Record success in D1 distribution logs for strict idempotency
+    // 3. Record success in KV (primary resilience store) and clear In-Flight Mutex
+    try {
+      await env.BRIEFING_KV.put(kvInstagramKey, JSON.stringify({
+        status: "distributed",
+        publishedPostId,
+        permalink,
+        publishedAt: new Date().toISOString(),
+      }), { expirationTtl: 86400 * 30 });
+      await env.BRIEFING_KV.delete(kvInFlightKey);
+    } catch (e) {
+      console.warn("[Distributor] Failed to record Instagram distribution in KV:", e);
+    }
+
+    // 4. Record success in D1 distribution logs for telemetry
     try {
       let existingDetails: any = {};
       const row: any = await env.ETF_PRICES.prepare(
@@ -691,6 +805,7 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
       permalink,
     };
   } catch (err: any) {
+    try { await env.BRIEFING_KV.delete(kvInFlightKey); } catch (e) {}
     return { success: false, error: String(err) };
   }
 }
@@ -1311,7 +1426,8 @@ export default {
 
       // 5. 이메일 뉴스레터 반응형 HTML 프리뷰
       if (url.pathname === "/api/preview/newsletter") {
-        const payload = await loadBriefingPayload(env, targetDate);
+        const queryDate = (!targetDate || targetDate === "latest") ? undefined : targetDate;
+        const payload = await loadBriefingPayload(env, queryDate);
         if (!payload) return new Response("Briefing not found", { status: 404 });
 
         const newsletter = generateNewsletterHtml(payload, baseUrl);
@@ -1320,38 +1436,32 @@ export default {
         });
       }
 
-      // 6. 스레드 승인 후 실시간 발행 엔드포인트 (Human-in-the-Loop)
+      // 6. 스레드 실시간 발행 엔드포인트
       if (url.pathname === "/api/publish/threads") {
-        if (!targetDate) {
-          return Response.json({ success: false, error: "발행 대상 날짜(date)를 명시해야 합니다." }, { status: 400 });
-        }
-        const payload = await loadBriefingPayload(env, targetDate);
+        const queryDate = (!targetDate || targetDate === "latest") ? undefined : targetDate;
+        const payload = await loadBriefingPayload(env, queryDate);
         if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
 
         const publishRes = await publishToThreadsLive(env, payload);
-        return Response.json(publishRes);
+        return Response.json({ ...publishRes, targetDate: payload.asOfDate });
       }
 
-      // 6.1 인스타그램 승인 후 실시간 발행 엔드포인트 (Human-in-the-Loop)
+      // 6.1 인스타그램 실시간 발행 엔드포인트
       if (url.pathname === "/api/publish/instagram") {
-        if (!targetDate) {
-          return Response.json({ success: false, error: "발행 대상 날짜(date)를 명시해야 합니다." }, { status: 400 });
-        }
-        const payload = await loadBriefingPayload(env, targetDate);
+        const queryDate = (!targetDate || targetDate === "latest") ? undefined : targetDate;
+        const payload = await loadBriefingPayload(env, queryDate);
         if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
 
         const publishRes = await publishToInstagramLive(env, payload);
-        return Response.json(publishRes);
+        return Response.json({ ...publishRes, targetDate: payload.asOfDate });
       }
 
       // 7. 통합 distribute 엔드포인트 (dryRun 파라미터 지원)
       if (url.pathname === "/internal/distribute" || url.pathname === "/api/distribute") {
-        if (!targetDate) {
-          return Response.json({ success: false, error: "발행 대상 날짜(date)를 명시해야 합니다." }, { status: 400 });
-        }
+        const queryDate = (!targetDate || targetDate === "latest") ? undefined : targetDate;
         const dryRun = url.searchParams.get("dryRun") === "true";
         try {
-          const result = await executeDistribution(env, targetDate, dryRun);
+          const result = await executeDistribution(env, queryDate, dryRun);
           return Response.json(result);
         } catch (err: any) {
           return Response.json({ success: false, error: String(err) }, { status: 500 });

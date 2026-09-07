@@ -19,10 +19,22 @@ type ViewMode = "short" | "long";
 const SHORT_PERIODS: ReturnPeriod[] = ["1m", "2m", "3m", "6m"];
 const LONG_PERIODS: ReturnPeriod[] = ["12m", "24m", "36m", "ytd"];
 
-export function EtfCompareChart({ basket }: { basket: Etf[] }) {
+export function EtfCompareChart({ basket, isTrMode = false }: { basket: Etf[]; isTrMode?: boolean }) {
   const [viewMode, setViewMode] = useState<ViewMode>("short");
   const [isExporting, setIsExporting] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
+
+  const getEtfReturn = useCallback((etf: Etf, p: ReturnPeriod): number | null => {
+    if (isTrMode) {
+      const trVal = etf.returnsTr?.[p] ?? etf.returnsNetTr?.[p];
+      if (trVal !== undefined && trVal !== null && Number.isFinite(trVal)) {
+        return trVal;
+      }
+      return null;
+    }
+    const prVal = etf.returns?.[p];
+    return (prVal !== undefined && prVal !== null && Number.isFinite(prVal)) ? prVal : null;
+  }, [isTrMode]);
 
   const handleDownload = useCallback(() => {
     setIsExporting(true);
@@ -44,7 +56,8 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
         .then((dataUrl) => {
           const link = document.createElement('a');
           const modeText = viewMode === "short" ? "short" : "long";
-          link.download = `etf-compare-${modeText}.png`;
+          const trSuffix = isTrMode ? "-tr" : "";
+          link.download = `etf-compare-${modeText}${trSuffix}.png`;
           link.href = dataUrl;
           link.click();
         })
@@ -55,7 +68,7 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
           setIsExporting(false);
         });
     }, 150);
-  }, [viewMode]);
+  }, [viewMode, isTrMode]);
 
   const activePeriods = useMemo(() => {
     if (viewMode === "long") return LONG_PERIODS;
@@ -64,9 +77,9 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
 
   // SVG dimensions
   const width = 1000;
-  const height = 300;
-  const paddingY = 50; 
-  const paddingX = 40;
+  const height = 380;
+  const paddingY = 44; 
+  const paddingX = 24;
 
   // Calculate max/min for scaling dynamically based on active periods
   const { minRet, maxRet, range, hasData } = useMemo(() => {
@@ -76,8 +89,8 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
 
     basket.forEach((etf) => {
       activePeriods.forEach((p) => {
-        const val = etf.returns[p];
-        if (val !== null && val !== undefined) {
+        const val = getEtfReturn(etf, p);
+        if (val !== null) {
           found = true;
           if (val > max) max = val;
           if (val < min) min = val;
@@ -87,16 +100,16 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
 
     if (!found) return { minRet: 0, maxRet: 0, range: 1, hasData: false };
 
-    // Pad by 20%
-    const paddedMax = Math.max(max > 0 ? max * 1.2 : max * 0.8, 0.01);
-    const paddedMin = Math.min(min < 0 ? min * 1.2 : min * 0.8, -0.01);
+    // Pad by 22% for ample breathing room above top bars and below negative bars
+    const paddedMax = Math.max(max > 0 ? max * 1.22 : max * 0.78, 0.01);
+    const paddedMin = Math.min(min < 0 ? min * 1.22 : min * 0.78, -0.01);
     return { 
       minRet: paddedMin, 
       maxRet: paddedMax, 
       range: paddedMax - paddedMin,
       hasData: true
     };
-  }, [basket, activePeriods]);
+  }, [basket, activePeriods, getEtfReturn]);
 
   if (basket.length === 0) return null;
 
@@ -110,18 +123,26 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
   const numSlots = activePeriods.length;
   const slotWidth = usableWidth / numSlots;
   const numBarsPerSlot = basket.length;
-  const gapBetweenSlots = slotWidth * 0.2; 
+  const gapBetweenSlots = 28; 
   const availableSlotWidth = slotWidth - gapBetweenSlots;
-  const gapBetweenBars = 4;
-  const barWidth = Math.min(40, (availableSlotWidth - gapBetweenBars * (numBarsPerSlot - 1)) / numBarsPerSlot);
+  const gapBetweenBars = 3;
+  const barWidth = Math.min(48, (availableSlotWidth - gapBetweenBars * (numBarsPerSlot - 1)) / numBarsPerSlot);
   
   const getSlotCenterX = (slotIdx: number) => paddingX + slotIdx * slotWidth + slotWidth / 2;
+
+  // Smart single-decimal format for chart labels (drastically saves horizontal space while maintaining precision)
+  const formatChartReturn = (val: number): string => {
+    const sign = val > 0 ? "+" : "";
+    return `${sign}${val.toFixed(1)}`;
+  };
+
+  const labelFontSize = basket.length <= 2 ? '14px' : basket.length <= 3 ? '13px' : basket.length <= 4 ? '12px' : '11.5px';
 
   return (
     <div ref={chartRef} className="rounded-2xl border border-line bg-surface p-5 sm:p-6 mb-8 mt-8 shadow-sm">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <h3 className="text-[15px] font-extrabold text-strong">
-          기간별 성과 추이 <span className="text-xs font-semibold text-muted ml-1 font-sans">(단위: %)</span>
+          기간별 성과 추이 <span className="text-xs font-semibold text-muted ml-1 font-sans font-normal">({isTrMode ? "단위: %, 배당재투자 TR 기준" : "단위: %"})</span>
         </h3>
         
         <div className="flex flex-col items-end gap-1.5">
@@ -175,13 +196,13 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
       </div>
 
       {!hasData ? (
-        <div className="h-[300px] flex items-center justify-center bg-neutral-50 rounded-xl border border-dashed border-line">
+        <div className="h-[380px] flex items-center justify-center bg-neutral-50 rounded-xl border border-dashed border-line">
           <span className="text-sm font-bold text-muted">해당 기간의 성과 데이터가 없습니다.</span>
         </div>
       ) : (
-        <div className="relative w-full overflow-visible" style={{ aspectRatio: "1000/300" }}>
-          {/* ViewBox scale is 1000x300 */}
-          <svg viewBox="0 0 1000 300" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+        <div className="relative w-full overflow-visible" style={{ aspectRatio: "1000/380" }}>
+          {/* ViewBox scale is 1000x380 */}
+          <svg viewBox="0 0 1000 380" className="w-full h-full overflow-visible" preserveAspectRatio="none">
             
             {/* Background Grid Lines (Horizontal) */}
             {[maxRet, maxRet / 2, 0, minRet / 2, minRet].map((val, i) => {
@@ -193,16 +214,16 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                   <line 
                     x1={paddingX} y1={y} 
                     x2={width - paddingX} y2={y} 
-                    stroke={val === 0 ? "#64748b" : "#f1f5f9"} 
-                    strokeWidth={val === 0 ? 2 : 1}
+                    stroke={val === 0 ? "#475569" : "#f1f5f9"} 
+                    strokeWidth={val === 0 ? 1.5 : 1}
                     strokeDasharray="none"
                   />
                   {val === 0 && (
                     <text 
-                      x={paddingX - 10} y={y} 
+                      x={paddingX - 6} y={y + 1} 
                       alignmentBaseline="middle" 
                       textAnchor="end" 
-                      className="text-[11px] fill-neutral-400 font-bold font-sans tracking-tighter"
+                      className="text-[11px] fill-neutral-500 font-bold font-sans tracking-tighter"
                     >
                       0%
                     </text>
@@ -217,9 +238,9 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
               return (
                 <g key={p}>
                   <text 
-                    x={cx} y={height - paddingY + 25} 
+                    x={cx} y={height - paddingY + 24} 
                     textAnchor="middle" 
-                    className="text-[12px] fill-neutral-500 font-extrabold font-sans"
+                    className="text-[13px] fill-neutral-600 font-extrabold font-sans"
                   >
                     {RETURN_PERIOD_LABELS[p]}
                   </text>
@@ -234,27 +255,28 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
               const totalBarsWidth = numBarsPerSlot * barWidth + (numBarsPerSlot - 1) * gapBetweenBars;
               const startX = cx - totalBarsWidth / 2;
 
-              // Find winner for this period
-              const maxValInPeriod = Math.max(...basket.map(e => e.returns[p] ?? -Infinity));
+              // Find winner for this period: only valid finite numbers
+              const validPeriodReturns = basket
+                .map(e => getEtfReturn(e, p))
+                .filter((v): v is number => v !== null && Number.isFinite(v));
+              const maxValInPeriod = validPeriodReturns.length > 0 ? Math.max(...validPeriodReturns) : -Infinity;
 
               return basket.map((etf, bIdx) => {
-                const val = etf.returns[p];
+                const val = getEtfReturn(etf, p);
                 if (val === null || val === undefined) return null;
 
-                const isWinner = val === maxValInPeriod && val > -Infinity;
+                // Winner icon 🏆: strictly only when return is positive (> 0) and multiple ETFs compared
+                const isWinner = maxValInPeriod > 0 && val === maxValInPeriod && basket.length > 1;
                 const color = COLORS[bIdx % COLORS.length];
                 const barX = startX + bIdx * (barWidth + gapBetweenBars);
                 const barY = val >= 0 ? getY(val) : zeroY;
                 const barH = Math.max(Math.abs(getY(val) - zeroY), 1); // Ensure at least 1px height
                 
-                // For negative values, we want rounded corners at the bottom.
-                // For positive values, rounded corners at the top.
-                // But standard SVG rx/ry applies to all 4 corners. 
-                // To keep it simple, we just apply small rounded corners to all.
-                const borderRadius = Math.min(barWidth / 3, 4);
+                // Rounded corners on bars
+                const borderRadius = Math.min(barWidth / 3, 5);
 
                 // Tooltip positions
-                const tooltipY = val >= 0 ? barY - 25 : barY + barH + 45;
+                const tooltipY = val >= 0 ? barY - 28 : barY + barH + 48;
 
                 return (
                   <g key={`${p}-${etf.ticker}`} className="group cursor-pointer">
@@ -270,28 +292,32 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                       className="transition-all duration-300 opacity-90 group-hover:opacity-100"
                     />
 
-                    {/* Winner Icon */}
-                    {isWinner && basket.length > 1 && (
+                    {/* Winner Icon: Only shown for positive winners above the bar */}
+                    {isWinner && (
                       <text
                         x={barX + barWidth / 2}
-                        y={val >= 0 ? barY - 18 : barY + barH + 23}
+                        y={barY - 18}
                         textAnchor="middle"
-                        style={{ fontSize: '12px' }}
+                        style={{ fontSize: '13px' }}
                       >
                         🏆
                       </text>
                     )}
 
-                    {/* Static Value Label */}
+                    {/* Static Value Label with high-contrast white outline */}
                     <text 
                       x={barX + barWidth / 2} 
-                      y={val >= 0 ? barY - 6 : barY + barH + 11} 
+                      y={val >= 0 ? barY - 4 : barY + barH + 14} 
                       textAnchor="middle" 
                       fill={color}
-                      style={{ fontSize: basket.length > 3 ? '8.5px' : '10px', fontWeight: 800, letterSpacing: '-0.5px' }}
-                      className="font-sans opacity-90 transition-all group-hover:opacity-100 group-hover:drop-shadow-sm"
+                      stroke="#ffffff"
+                      strokeWidth="2.5"
+                      paintOrder="stroke fill"
+                      strokeLinejoin="round"
+                      style={{ fontSize: labelFontSize, fontWeight: 900, letterSpacing: '-0.6px' }}
+                      className="font-sans opacity-95 transition-all group-hover:opacity-100 select-none"
                     >
-                      {formatReturn(val).replace("%", "")}
+                      {formatChartReturn(val)}
                     </text>
 
                     {/* Invisible Hitbox for easier hovering */}
@@ -337,7 +363,7 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
                           textAnchor="middle" 
                           className="text-[12px] fill-white font-black font-sans tracking-tighter"
                         >
-                          {formatReturn(val)}
+                          {formatReturn(val)}{isTrMode ? " (TR)" : ""}
                         </text>
                       </g>
                     )}
@@ -352,7 +378,9 @@ export function EtfCompareChart({ basket }: { basket: Etf[] }) {
       {/* Export Footer */}
       {isExporting && (
         <div className="mt-6 flex items-center justify-between border-t border-line pt-3 w-full">
-          <p className="text-[9px] font-medium text-neutral-400">* 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.</p>
+          <p className="text-[9px] font-medium text-neutral-400">
+            * 본 자료는 투자 참고용이며, 투자 권유를 목적으로 하지 않습니다.{isTrMode ? " (배당금 재투자 TR 기준)" : ""}
+          </p>
           <div className="flex items-center gap-1.5">
             <span className="text-[11px] font-black tracking-tighter text-emerald-700">ETF Campus</span>
             <span className="text-[9px] font-semibold text-neutral-400">https://etf-campus.pages.dev/</span>

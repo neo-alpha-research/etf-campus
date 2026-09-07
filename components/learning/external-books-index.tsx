@@ -53,7 +53,7 @@ export function ExternalBooksIndex({
               <span>데이터 기반 도서 선정 기준 ℹ️</span>
             </div>
             
-            <div className="absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 top-full mt-2 w-[calc(100vw-40px)] max-w-[310px] rounded-xl bg-white p-4 shadow-xl border border-line opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-left">
+            <div className="absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 top-full mt-2 w-[calc(100vw-40px)] max-w-[310px] rounded-xl bg-white p-4 shadow-xl border border-line opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 text-left whitespace-normal break-keep">
               <h4 className="font-extrabold text-sm text-strong mb-3 flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-brand-600"/> 빅 3 서점 데이터 기반 검증 기준
               </h4>
@@ -115,7 +115,7 @@ export function ExternalBooksIndex({
                         </span>
 
                         {/* 빅 3 서점 평점 상세 툴팁 (PC 호버 및 모바일 터치/포커스 대응) */}
-                        <div className="absolute left-0 top-full mt-1.5 w-44 rounded-xl bg-white p-3 shadow-xl border border-line opacity-0 invisible group-hover/rating:opacity-100 group-hover/rating:visible group-focus-within/rating:opacity-100 group-focus-within/rating:visible transition-all z-30 text-left pointer-events-none">
+                        <div className="absolute left-0 top-full mt-1.5 w-44 rounded-xl bg-white p-3 shadow-xl border border-line opacity-0 invisible group-hover/rating:opacity-100 group-hover/rating:visible group-focus-within/rating:opacity-100 group-focus-within/rating:visible transition-all z-30 text-left pointer-events-none whitespace-normal break-keep">
                           <p className="text-[11px] font-extrabold text-neutral-800 mb-1.5 flex items-center gap-1">
                             <span>📊 3사 통합 평점 상세</span>
                           </p>

@@ -55,6 +55,8 @@
     "vitest": "4.1.10"
   },
   "workspaces": [
-    "workers/*"
+    "workers/market-briefing-publisher",
+    "workers/market-briefing-distributor",
+    "workers/community-maintenance"
   ]
 }

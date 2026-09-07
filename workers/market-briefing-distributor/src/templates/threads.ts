@@ -8,11 +8,11 @@ export interface ThreadsPost {
 }
 
 function formatDateWithDay(dateStr?: string): string {
-  if (!dateStr) return "2026.09.04 (목)";
+  if (!dateStr) return "2026.09.04 (금)";
   const [y, m, d] = dateStr.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const days = ["일", "월", "화", "수", "목", "금", "토"];
-  const dayName = days[date.getDay()] || "목";
+  const dayName = days[date.getDay()] || "금";
   return `${dateStr.replace(/-/g, ".")} (${dayName})`;
 }
 
@@ -74,11 +74,14 @@ export function generateThreadsThread(
   let watchPointText = regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 태도가 중요합니다. 오늘 주목하는 섹터는 어디인가요?";
   const sourceNotice = `* KRX 공시 마감 국내 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 (투자 권유 아님)`;
 
-  const opening = regime.threadsOpening;
-  let summary = regime.threadsMarketSummary;
+  const formattedDate = formatDateWithDay(payload.asOfDate);
+  const opening = (regime.threadsOpening || "").replace(/어제\s*/g, "").trim();
+  let summary = (regime.threadsMarketSummary || "").replace(/어제\s*/g, "").trim();
 
-  // Build draft post
-  let mainPost = `${opening}
+  // Build draft post with explicit date header (Instagram caption alignment)
+  let mainPost = `${formattedDate} ETF 마켓 동향
+
+${opening}
 
 ${summary}
 
@@ -103,7 +106,9 @@ ${sourceNotice}`;
         ? `주도 테마의 수급 지속성을 점검할 때입니다. ${matchQuestion[0]}` 
         : "주도 테마의 수급 지속성을 점검할 때입니다. 오늘 주목하는 섹터는 어디인가요?";
     }
-    mainPost = `${opening}
+    mainPost = `${formattedDate} ETF 마켓 동향
+
+${opening}
 
 ${summary}
 

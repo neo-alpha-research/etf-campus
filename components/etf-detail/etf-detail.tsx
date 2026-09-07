@@ -195,8 +195,8 @@ export function EtfDetail({
                     {etf.trackingError != null && (
                       <span className="flex items-center gap-1 group relative cursor-help text-neutral-700 font-mono">
                         <span className="font-sans font-semibold">추적오차율:</span> {etf.trackingError.toFixed(2)}%
-                        <div className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-[calc(100%+8px)] w-72 p-3 rounded-xl bg-neutral-900/95 backdrop-blur-md text-white text-left shadow-2xl border border-neutral-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[100] font-sans font-normal">
-                          <div className="absolute -top-1.5 left-4 sm:left-1/2 sm:-translate-x-1/2 border-[6px] border-transparent border-b-neutral-900/95" />
+                        <div className="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-[calc(100%+8px)] w-72 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120] font-sans font-normal whitespace-normal break-keep">
+                          <div className="absolute -top-1.5 left-4 sm:left-1/2 sm:-translate-x-1/2 border-[6px] border-transparent border-b-slate-900/98" />
                           <div className="text-[12px] font-black text-brand-300 mb-1">추적 오차율 (Tracking Error)</div>
                           <div className="text-[11px] text-neutral-200 leading-tight mb-2">과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 숫자가 낮을수록 지수를 안정적으로 잘 추종함을 의미합니다.</div>
                           <div className="text-[11px] text-emerald-300 bg-emerald-950/70 p-2 rounded border border-emerald-700/60 leading-snug mb-1.5">
@@ -336,11 +336,11 @@ export function EtfDetail({
                         {etf.trackingError.toFixed(2)}%
                       </dd>
                       
-                      <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none">
-                        <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
+                      <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 max-w-[calc(100vw-32px)] z-30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none">
+                        <div className="bg-slate-900/98 backdrop-blur-md text-white text-xs rounded-xl p-4 shadow-xl border border-slate-700/80 font-medium leading-relaxed whitespace-normal break-keep">
                           과거 1년간 ETF 순자산가치(NAV)와 기초지수 간의 일간 수익률 차이의 변동성입니다. 
                           <br/><br/>
-                          <span className="text-brand-300 font-bold">숫자가 낮을수록</span> ETF가 목표 기초지수를 잘 추종하고 있음을 의미하는 신뢰 지표입니다.
+                          <span className="text-emerald-400 font-bold">숫자가 낮을수록</span> ETF가 목표 기초지수를 잘 추종하고 있음을 의미하는 신뢰 지표입니다.
                         </div>
                       </div>
                     </div>
@@ -358,8 +358,8 @@ export function EtfDetail({
                     </dd>
 
                     {/* Tooltip */}
-                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 pointer-events-none">
-                      <div className="bg-strong text-white text-xs rounded-xl p-4 shadow-lg border border-neutral-700 font-medium leading-relaxed">
+                    <div className="absolute right-0 sm:left-0 lg:-left-12 top-full mt-2 w-72 max-w-[calc(100vw-32px)] z-30 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 pointer-events-none">
+                      <div className="bg-slate-900/98 backdrop-blur-md text-white text-xs rounded-xl p-4 shadow-xl border border-slate-700/80 font-medium leading-relaxed whitespace-normal break-keep">
                         {etf.distributionSummary 
                           ? "상세페이지의 수익률은 분배금 재투자 여부를 반영하지 않은 시장 가격 기준 누적 수익률(PR)입니다. 배당/분배금이 지급되는 ETF의 경우, 실제 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다." 
                           : "상세페이지의 수익률은 시장 가격 기준 누적 수익률(PR)입니다. 해당 ETF의 분배금(배당) 상세 내역은 현재 제공되지 않으며, 실제 분배금이 지급되었을 경우 이를 합산한 총수익률(TR)은 표기된 수익률보다 높을 수 있습니다."}

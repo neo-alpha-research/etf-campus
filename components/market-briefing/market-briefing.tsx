@@ -272,14 +272,12 @@ export function checkIsMarketClosed(code: string, baseDate?: string, indexDate?:
   if (!baseDate) return false;
 
   if (US_MARKET_CODES.has(code)) {
-    // 1) 당일이 미국 공식 휴장일인 경우 (예: 2026-09-07 Labor Day)
-    if (US_MARKET_HOLIDAYS.has(baseDate)) return true;
-
-    // 2) 직전 미국 거래 세션 날짜가 미국 공휴일인 경우 (예: 화요일 브리핑 시 월요일이 Labor Day)
+    // 직전 미국 정규 거래 세션 날짜가 미국 공휴일인 경우
+    // (예: 9/8(화) 국내 브리핑 시 간밤 직전 세션인 9/7(월)이 미국 노동절로 휴장)
     const precedingUsDate = getPrecedingUsTradingDate(baseDate);
     if (precedingUsDate && US_MARKET_HOLIDAYS.has(precedingUsDate)) return true;
 
-    // 3) 직전 거래일 대비 실제 데이터 수신일(indexDate)이 이전인 경우 (비정기 휴장 또는 미개장)
+    // 직전 거래일 대비 실제 데이터 수신일(indexDate)이 이전인 경우 (비정기 휴장 또는 미개장)
     if (indexDate && precedingUsDate && indexDate < precedingUsDate) {
       return true;
     }

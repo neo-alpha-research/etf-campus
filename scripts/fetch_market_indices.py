@@ -287,7 +287,6 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
         preceding_us_iso = preceding_us_dt.strftime("%Y-%m-%d")
 
         is_closed = (
-            iso_target in US_MARKET_HOLIDAYS_2026 or
             preceding_us_iso in US_MARKET_HOLIDAYS_2026 or
             (bool(target_date_actual) and target_date_actual < preceding_us_iso)
         )

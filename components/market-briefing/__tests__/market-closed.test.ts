@@ -13,12 +13,11 @@ describe("Market Holiday and [휴장] Detection", () => {
     expect(getPrecedingUsTradingDate("2026-11-27")).toBe("2026-11-26");
   });
 
-  it("detects US market closed when baseDate is a US holiday", () => {
-    // 2026-09-07 is Labor Day
-    expect(checkIsMarketClosed("SPX", "2026-09-07", "2026-09-04")).toBe(true);
-    expect(checkIsMarketClosed("NDX", "2026-09-07", "2026-09-04")).toBe(true);
-    expect(checkIsMarketClosed("DGS10", "2026-09-07", "2026-09-04")).toBe(true);
-    // Domestic indices should remain open
+  it("does NOT mark 9/7 as closed because preceding session (9/4 Fri) was open", () => {
+    // 9/7 (월) 국내 브리핑 기준 직전 미국 정규장은 9/4 (금) 정상 거래일이므로 휴장 아님
+    expect(checkIsMarketClosed("SPX", "2026-09-07", "2026-09-04")).toBe(false);
+    expect(checkIsMarketClosed("NDX", "2026-09-07", "2026-09-04")).toBe(false);
+    expect(checkIsMarketClosed("DGS10", "2026-09-07", "2026-09-04")).toBe(false);
     expect(checkIsMarketClosed("KOSPI", "2026-09-07", "2026-09-07")).toBe(false);
   });
 

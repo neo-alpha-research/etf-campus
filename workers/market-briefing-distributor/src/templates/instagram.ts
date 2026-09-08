@@ -172,7 +172,7 @@ export function generateInstagramCarousel(
       </pattern>
       <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&amp;display=swap');
-        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Segoe UI', Roboto, sans-serif; }
         .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
       </style>
     </defs>
@@ -294,8 +294,8 @@ export function generateInstagramCarousel(
       <!-- Bottom Swipe CTA (y=990, h=90) -->
       <g transform="translate(70, 990)" filter="url(#softShadow)">
         <rect width="940" height="90" rx="24" fill="url(#brandGrad)"/>
-        <text x="470" y="56" fill="#FFFFFF" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
-          옆으로 넘겨 테마·수급·괴리율 상세 분석
+        <text x="430" y="56" fill="#FFFFFF" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="-0.5">
+          👉 옆으로 넘겨 테마·수급·괴리율 상세 분석
         </text>
         <rect x="805" y="25" width="90" height="40" rx="12" fill="#064E3B"/>
         <text x="850" y="51" fill="#A7F3D0" font-size="17" font-weight="900" text-anchor="middle" class="tabular">1 / ${totalSlides}</text>
@@ -319,12 +319,11 @@ export function generateInstagramCarousel(
       ${commonDefs}
       <rect width="1080" height="1350" fill="#F8FAFC"/>
 
-      <g transform="translate(70, 75)">
-        <text x="0" y="30" fill="#2E6819" font-size="16" font-weight="900" letter-spacing="1">STEP 2. THEME DYNAMICS</text>
-        <text x="0" y="68" fill="#0F172A" font-size="34" font-weight="900">오늘 시장 주도/부진 테마 TOP 3</text>
-        <text x="0" y="98" fill="#64748B" font-size="16" font-weight="600">※ 테마별 AUM 가중수익률 기준 상위/하위 랭킹</text>
-        <rect x="830" y="20" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="47" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">2 / ${totalSlides}</text>
+      <g transform="translate(70, 60)">
+        <text x="0" y="40" fill="#0F172A" font-size="36" font-weight="900">오늘 시장 주도/부진 테마 TOP 3</text>
+        <text x="0" y="74" fill="#64748B" font-size="16" font-weight="600">※ 테마별 AUM 가중수익률 기준 상위/하위 랭킹</text>
+        <rect x="830" y="10" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
+        <text x="885" y="37" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">2 / ${totalSlides}</text>
       </g>
 
       <!-- Summary Banner -->
@@ -418,12 +417,11 @@ export function generateInstagramCarousel(
       ${commonDefs}
       <rect width="1080" height="1350" fill="#F8FAFC"/>
 
-      <g transform="translate(70, 75)">
-        <text x="0" y="30" fill="#2E6819" font-size="16" font-weight="900" letter-spacing="1">STEP 3. ASSET CLASS DYNAMICS</text>
-        <text x="0" y="68" fill="#0F172A" font-size="34" font-weight="900">자산군별 수익률/기여도</text>
-        <text x="0" y="96" fill="#64748B" font-size="16" font-weight="600">※ 자산군별 당일 가중수익률, 순자산 비중 및 시장 기여도 현황입니다.</text>
-        <rect x="830" y="20" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="47" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">3 / ${totalSlides}</text>
+      <g transform="translate(70, 60)">
+        <text x="0" y="40" fill="#0F172A" font-size="36" font-weight="900">자산군별 수익률/기여도</text>
+        <text x="0" y="74" fill="#64748B" font-size="16" font-weight="600">※ 자산군별 당일 가중수익률, 순자산 비중 및 시장 기여도 현황입니다.</text>
+        <rect x="830" y="10" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
+        <text x="885" y="37" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">3 / ${totalSlides}</text>
       </g>
 
       <!-- Summary Box (Data-Driven Dynamic) -->
@@ -498,11 +496,10 @@ export function generateInstagramCarousel(
       <circle cx="100" cy="1150" r="260" fill="#BE123C" fill-opacity="0.03"/>
 
       <g transform="translate(70, 60)">
-        <text x="0" y="30" fill="#D92D20" font-size="16" font-weight="900" letter-spacing="1">STEP 4. SMART MONEY FLOW</text>
-        <text x="0" y="72" fill="#0F172A" font-size="38" font-weight="900">실질 자금 순유입 TOP 5</text>
-        <text x="0" y="100" fill="#64748B" font-size="16" font-weight="600">※ 발행좌수 증감으로 산출된 기관·외국인의 실질 자금 순유입액</text>
-        <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">4 / ${totalSlides}</text>
+        <text x="0" y="40" fill="#0F172A" font-size="38" font-weight="900">실질 자금 순유입 TOP 5</text>
+        <text x="0" y="74" fill="#64748B" font-size="16" font-weight="600">※ 발행좌수 증감으로 산출된 기관·외국인의 실질 자금 순유입액</text>
+        <rect x="830" y="10" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
+        <text x="885" y="37" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">4 / ${totalSlides}</text>
       </g>
 
       <!-- Summary Banner (Data-Driven Dynamic with Overflow Protection) -->
@@ -572,12 +569,11 @@ export function generateInstagramCarousel(
       <circle cx="100" cy="1150" r="260" fill="#F59E0B" fill-opacity="0.035"/>
 
       <!-- Header -->
-      <g transform="translate(70, 55)">
-        <text x="0" y="30" fill="#B45309" font-size="16" font-weight="900" letter-spacing="1">STEP 5. DISPARITY ALERT</text>
-        <text x="0" y="74" fill="#1E3A8A" font-size="38" font-weight="900" letter-spacing="-0.8">괴리율 고평가·할증 vs 저평가·할인 진단</text>
-        <text x="0" y="104" fill="#64748B" font-size="16.5" font-weight="600">※ 순자산가치(NAV) 대비 시장 종가의 가격 왜곡 정도를 진단합니다.</text>
-        <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">5 / 6</text>
+      <g transform="translate(70, 60)">
+        <text x="0" y="40" fill="#0F172A" font-size="36" font-weight="900" letter-spacing="-0.8">괴리율 고평가·할증 vs 저평가·할인 진단</text>
+        <text x="0" y="74" fill="#64748B" font-size="16" font-weight="600">※ 순자산가치 NAV 대비 시장 종가의 가격 왜곡 정도를 진단합니다.</text>
+        <rect x="830" y="10" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
+        <text x="885" y="37" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">5 / 6</text>
       </g>
 
       <!-- Alert Banner (부드러운 연노랑 톤, '시장 안정' 배지 삭제) -->
@@ -684,11 +680,11 @@ export function generateInstagramCarousel(
       <circle cx="100" cy="1150" r="260" fill="#0D9488" fill-opacity="0.03"/>
 
       <!-- Header -->
-      <g transform="translate(70, 56)">
-        <text x="0" y="30" fill="#1E40AF" font-size="16" font-weight="900" letter-spacing="1">STEP ${totalSlides}. SUMMARY &amp; STRATEGY</text>
-        <text x="0" y="74" fill="#1E3A8A" font-size="42" font-weight="900" letter-spacing="-1.0">오늘 시장 총정리 &amp; 핵심 전략</text>
-        <rect x="830" y="18" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="45" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">${totalSlides} / ${totalSlides}</text>
+      <g transform="translate(70, 60)">
+        <text x="0" y="40" fill="#1E3A8A" font-size="40" font-weight="900" letter-spacing="-1.0">오늘 시장 총정리 &amp; 핵심 전략</text>
+        <text x="0" y="74" fill="#64748B" font-size="16" font-weight="600">※ 3대 핵심 축으로 요약하는 시장 진단과 실전 투자 대응 가이드</text>
+        <rect x="830" y="10" width="110" height="42" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
+        <text x="885" y="37" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">${totalSlides} / ${totalSlides}</text>
       </g>
 
       <!-- 1. CARD 01: [시장 진단] (Market Pulse & Regime) (y=150, h=275) -->

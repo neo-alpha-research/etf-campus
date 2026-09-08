@@ -28,7 +28,7 @@ export function generateNewsletterHtml(
   narrative?: PolishedNarrative | MarketRegime
 ): { subject: string; preheader: string; html: string } {
   const regime = narrative || classifyMarketRegime(payload);
-  const dateStr = payload.asOfDate || "2026-09-07";
+  const dateStr = payload.asOfDate || new Date().toISOString().slice(0, 10);
   const formattedDate = dateStr.replace(/-/g, ".");
 
   // 1. 3대 지표 및 3축 시장 매트릭스
@@ -214,7 +214,7 @@ export function generateNewsletterHtml(
                   <span style="display: inline-block; background-color: #F1F5F9; color: #334155; font-size: 12px; font-weight: 800; padding: 2px 7px; border-radius: 6px; border: 1px solid #E2E8F0;">시장 체온</span>
                 </td>
                 <td style="vertical-align: top; padding: 5px 0 5px 10px; font-size: 14px; font-weight: 700; color: #1E293B; line-height: 1.55;">
-                  KOSPI ${kospiSign}${kospiChangePct.toFixed(2)}% 대비 일반 ETF 가중수익률 ${etfSign}${etfReturn.toFixed(2)}% (괴리 ${etfDivergenceSign}${etfDivergence.toFixed(2)}%p). ${divergenceDiagnosis}
+                  KOSPI ${kospiSign}${kospiChangePct.toFixed(2)}% 대비 일반 ETF 가중수익률 ${etfSign}${etfReturn.toFixed(2)}%, 괴리 ${etfDivergenceSign}${etfDivergence.toFixed(2)}%p 수준. ${divergenceDiagnosis}
                 </td>
               </tr>
               <!-- Bullet 2: Leading & Lagging Theme Spread -->
@@ -427,9 +427,9 @@ export function generateNewsletterHtml(
                   <tr style="border-bottom: 1px solid #F1F5F9;">
                     <td style="width: 24px; font-weight: 800; color: #DC2626; text-align: center; font-size: 13.5px;">${idx + 1}</td>
                     <td style="padding: 8px 8px;">
-                      <a href="${baseUrl}/etf/${item.ticker}" target="_blank" style="text-decoration: none; color: #0F172A; display: block;">
+                      <a href="${baseUrl}/etf/${item.ticker}?utm_source=newsletter&utm_medium=email&utm_campaign=disparity_${dateStr.replace(/-/g, "")}" target="_blank" style="text-decoration: none; color: #0F172A; display: block;">
                         <div style="font-weight: 800; color: #0F172A; font-size: 14px;">${escapeXml(item.etfName)}</div>
-                        <div style="font-size: 12px; font-weight: 700; color: #64748B; margin-top: 2px;">${escapeXml(item.ticker)} · ${escapeXml(item.assetClass || "일반")}</div>
+                        <div style="font-size: 12px; font-weight: 700; color: #64748B; margin-top: 2px;">${escapeXml(item.ticker)} · ${escapeXml(item.assetClass || "일반")} · 종목 보기 ↗</div>
                       </a>
                     </td>
                     <td style="text-align: right; padding: 8px 8px;">
@@ -463,9 +463,9 @@ export function generateNewsletterHtml(
                   <tr style="border-bottom: 1px solid #F1F5F9;">
                     <td style="width: 24px; font-weight: 800; color: #2563EB; text-align: center; font-size: 13.5px;">${idx + 1}</td>
                     <td style="padding: 8px 8px;">
-                      <a href="${baseUrl}/etf/${item.ticker}" target="_blank" style="text-decoration: none; color: #0F172A; display: block;">
+                      <a href="${baseUrl}/etf/${item.ticker}?utm_source=newsletter&utm_medium=email&utm_campaign=disparity_${dateStr.replace(/-/g, "")}" target="_blank" style="text-decoration: none; color: #0F172A; display: block;">
                         <div style="font-weight: 800; color: #0F172A; font-size: 14px;">${escapeXml(item.etfName)}</div>
-                        <div style="font-size: 12px; font-weight: 700; color: #64748B; margin-top: 2px;">${escapeXml(item.ticker)} · ${escapeXml(item.assetClass || "일반")}</div>
+                        <div style="font-size: 12px; font-weight: 700; color: #64748B; margin-top: 2px;">${escapeXml(item.ticker)} · ${escapeXml(item.assetClass || "일반")} · 종목 보기 ↗</div>
                       </a>
                     </td>
                     <td style="text-align: right; padding: 8px 8px;">

@@ -86,7 +86,7 @@ ${opening}
 
 ${summary}
 
-테마별로는 ${strongText}이 견조했던 반면, ${weakText}은 조정을 받았습니다.${inflowSentence}
+테마별로는 ${strongText} 테마가 견조했던 반면, ${weakText} 테마는 조정을 받았습니다.${inflowSentence}
 
 ${watchPointText}
 
@@ -112,7 +112,7 @@ ${opening}
 
 ${summary}
 
-테마별로는 ${strongText}이 견조했던 반면, ${weakText}은 조정을 받았습니다.${inflowSentence}
+테마별로는 ${strongText} 테마가 견조했던 반면, ${weakText} 테마는 조정을 받았습니다.${inflowSentence}
 
 ${watchPointText}
 

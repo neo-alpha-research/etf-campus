@@ -20,7 +20,11 @@ function escapeXml(unsafe?: string): string {
 }
 
 function formatDateWithDay(dateStr?: string): string {
-  if (!dateStr) return "2026.09.07 · 월요일";
+  if (!dateStr) {
+    const today = new Date();
+    const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+    return `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, "0")}.${String(today.getDate()).padStart(2, "0")} · ${days[today.getDay()]}`;
+  }
   const [y, m, d] = dateStr.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
@@ -53,7 +57,7 @@ export function generateInstagramCarousel(
   narrative?: PolishedNarrative | MarketRegime
 ): InstagramSlide[] {
   const regime = narrative || classifyMarketRegime(payload);
-  const dateStr = payload.asOfDate || "2026-09-07";
+  const dateStr = payload.asOfDate || new Date().toISOString().slice(0, 10);
   const formattedDate = formatDateWithDay(dateStr);
 
   const kospi = payload.kospiChangePct ?? 0;
@@ -712,7 +716,7 @@ export function generateInstagramCarousel(
         <!-- Header -->
         <rect x="35" y="24" width="150" height="46" rx="12" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.2"/>
         <text x="110" y="55" fill="#1D4ED8" font-size="22" font-weight="900" text-anchor="middle">03 자금 흐름</text>
-        <text x="200" y="56" fill="#0F172A" font-size="28" font-weight="900">스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 중심 +${top5InflowSum.toLocaleString()}억 집중</text>
+        <text x="200" y="56" fill="#0F172A" font-size="28" font-weight="900">${top5InflowSum > 0 ? `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 중심 +${top5InflowSum.toLocaleString()}억 집중` : `스마트머니, &apos;${escapeXml(cleanInflowBannerName)}&apos; 중심 수급 점검`}</text>
 
         <!-- Divider -->
         <line x1="35" y1="92" x2="905" y2="92" stroke="#F1F5F9" stroke-width="1.5"/>
@@ -757,7 +761,10 @@ export function generateInstagramCaption(
   narrative?: PolishedNarrative | MarketRegime
 ): string {
   const regime = narrative || classifyMarketRegime(payload);
-  const generalCount = payload.generalEtfCount ?? 1019;
+  const up = payload.upCount ?? payload.pulse?.upCount ?? 0;
+  const down = payload.downCount ?? payload.pulse?.downCount ?? 0;
+  const flat = payload.flatCount ?? payload.pulse?.flatCount ?? 0;
+  const generalCount = (payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? (up + down + flat)) || 0;
   const formattedDate = formatDateWithDay(payload.asOfDate);
   
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 3) || [];
@@ -779,7 +786,7 @@ export function generateInstagramCaption(
     ? strongThemes.map(t => `${cleanTheme(t.peerGroup)} ${(t.cappedAumWeightedReturnPct ?? 0) > 0 ? '+' : ''}${(t.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%`).join(', ') 
     : "집계 중";
 
-  const weakText = weakThemes.length > 0
+  const weakText = weakThemes.length > 0 
     ? weakThemes.map(t => `${cleanTheme(t.peerGroup)} ${(t.cappedAumWeightedReturnPct ?? 0) > 0 ? '+' : ''}${(t.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%`).join(', ')
     : "집계 중";
 
@@ -789,11 +796,17 @@ export function generateInstagramCaption(
   const etfSign = etfRet > 0 ? "+" : "";
   const kospiVerb = kospi > 0 ? "상승" : kospi < 0 ? "하락" : "보합";
 
+  const topThemeRet = strongThemes[0]?.cappedAumWeightedReturnPct ?? 0;
+  const topThemeTail = topThemeRet > 0 ? "중심 견조한 흐름" : "중심 상대적 방어";
+  const themeSummary = strongThemes[0]
+    ? `${cleanTheme(strongThemes[0].peerGroup)} ${topThemeRet > 0 ? '+' : ''}${topThemeRet.toFixed(2)}% ${topThemeTail}`
+    : "집계 중";
+
   return `[${formattedDate}] 국내 ETF 마켓 데일리 브리핑
 
 📌 오늘의 3줄 요약
 1. 시장 체온: 코스피 ${kospiSign}${kospi.toFixed(2)}% ${kospiVerb} 속 일반 ETF 가중수익률 ${etfSign}${etfRet.toFixed(2)}% 기록
-2. 주도 테마: ${strongThemes[0] ? cleanTheme(strongThemes[0].peerGroup) + ' ' + ((strongThemes[0].cappedAumWeightedReturnPct ?? 0) > 0 ? '+' : '') + (strongThemes[0].cappedAumWeightedReturnPct ?? 0).toFixed(2) + '%' : '집계 중'} 중심 상방 탄력
+2. 주도 테마: ${themeSummary}
 3. 스마트머니: ${topInflows[0] ? cleanTheme(topInflows[0].name) + ' 등 상위 종목 집중 유입' : '상위 종목 집중 유입'}
 
 ───────────────────────

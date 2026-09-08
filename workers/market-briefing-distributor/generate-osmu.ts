@@ -172,7 +172,10 @@ async function fetchLatestPayload(): Promise<MarketBriefingPayload> {
       };
     }
   } catch (e) {
-    console.warn("[Test-Runner] Live fetch failed, using canonical master payload:", e);
+    if (process.env.CI === "true" || process.env.GITHUB_ACTIONS === "true") {
+      throw new Error(`[CRITICAL] Failed to fetch live briefing payload in CI/CD environment: ${e}`);
+    }
+    console.warn("[Test-Runner] Live fetch failed, using canonical master payload in local dev mode:", e);
   }
   return payload20260904;
 }

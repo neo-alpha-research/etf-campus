@@ -418,7 +418,7 @@ export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: 
   return refined;
 }
 
-async function waitForThreadsContainer(containerId: string, accessToken: string, maxAttempts = 12): Promise<boolean> {
+async function waitForThreadsContainer(containerId: string, accessToken: string, maxAttempts = 18): Promise<boolean> {
   for (let i = 0; i < maxAttempts; i++) {
     await new Promise((r) => setTimeout(r, 2000));
     try {
@@ -600,7 +600,7 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
       }
     }
 
-    const permalink = `https://www.threads.com/@neo.alphareader/post/${publishedPostId}`;
+    const permalink = `https://www.threads.net/@neo.alphareader/post/${publishedPostId}`;
 
     // 3. Record success in KV (primary resilience store) and clear In-Flight Mutex
     try {
@@ -1106,6 +1106,16 @@ function generateDashboardHtml(
     .btn-secondary { background: #F8FAFC; color: #1E293B; padding: 6px 12px; font-size: 12.5px; border-radius: 8px; border: 1px solid #CBD5E1; cursor: pointer; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
     .btn-secondary:hover { background: #E2E8F0; }
     iframe.email-frame { width: 100%; height: 780px; border: 1px solid #E2E8F0; border-radius: 14px; background: #FFFFFF; }
+    @media (max-width: 640px) {
+      body { padding: 10px; }
+      header { padding: 14px 16px; border-radius: 14px; }
+      .card { padding: 14px; border-radius: 14px; }
+      .tabs { gap: 6px; }
+      .tab-btn { flex: 1 1 100%; text-align: center; justify-content: center; min-height: 44px; padding: 10px 14px; font-size: 13.5px; }
+      .dot-btn { min-width: 38px; min-height: 38px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
+      .header-actions { width: 100%; justify-content: space-between; }
+      .action-btn { width: 100%; justify-content: center; }
+    }
   </style>
 </head>
 <body>
@@ -1708,7 +1718,7 @@ const workerHandler = {
             availableDates = rows.results.map((r: any) => r.as_of_date);
           }
         } catch (e) {
-          availableDates = Array.from(new Set([payload.asOfDate, "2026-09-07", "2026-09-04", "2026-08-31"]));
+          availableDates = [payload.asOfDate].filter(Boolean);
         }
 
         const html = generateDashboardHtml(

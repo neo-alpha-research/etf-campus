@@ -842,12 +842,12 @@ function generateLoginHtml(): string {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; }
-    body { background-color: #0F172A; color: #F8FAFC; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .card { background: #1E293B; border: 1px solid #334155; border-radius: 16px; padding: 36px; max-width: 440px; width: 100%; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5); text-align: center; }
-    h1 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #38BDF8; }
-    p { font-size: 14px; color: #94A3B8; margin-bottom: 24px; line-height: 1.5; }
-    input { width: 100%; padding: 12px 16px; background: #0F172A; border: 1px solid #475569; border-radius: 10px; color: #F8FAFC; font-size: 15px; margin-bottom: 16px; outline: none; transition: border-color 0.2s; }
-    input:focus { border-color: #38BDF8; }
+    body { background-color: #F8FAFC; color: #0F172A; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 36px; max-width: 440px; width: 100%; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08); text-align: center; }
+    h1 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #0F172A; }
+    p { font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.5; }
+    input { width: 100%; padding: 12px 16px; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 10px; color: #0F172A; font-size: 15px; margin-bottom: 16px; outline: none; transition: border-color 0.2s; }
+    input:focus { border-color: #2563EB; background: #FFFFFF; }
     button { width: 100%; padding: 12px; background: #2563EB; border: none; border-radius: 10px; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
     button:hover { background: #1D4ED8; }
   </style>
@@ -890,7 +890,7 @@ function generateDashboardHtml(
 
   const generalCount = payload.generalEtfCount;
   const generalCountDisplay = (generalCount !== undefined && generalCount !== null)
-    ? `<strong style="color: #F8FAFC;">${typeof generalCount === "number" ? generalCount.toLocaleString() : generalCount}개</strong>`
+    ? `<strong style="color: #0F172A;">${typeof generalCount === "number" ? generalCount.toLocaleString() : generalCount}개</strong>`
     : '<span style="color: #EF4444; font-weight: 800;">데이터 없음</span>';
 
   const up = payload.upCount ?? 0;
@@ -928,41 +928,41 @@ function generateDashboardHtml(
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, sans-serif; }
-    body { background-color: #0F172A; color: #F8FAFC; min-height: 100vh; padding: 24px; }
+    body { background-color: #F8FAFC; color: #0F172A; min-height: 100vh; padding: 24px; }
     .container { max-width: 1300px; margin: 0 auto; }
-    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #334155; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #E2E8F0; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
     .badge { padding: 6px 14px; border-radius: 9999px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
     .badge-ready { background: #FEF3C7; color: #B45309; }
     .badge-live { background: #DCFCE7; color: #15803D; }
     .badge-safe { background: #EFF6FF; color: #1D4ED8; }
     .badge-blocked { background: #FEE2E2; color: #B91C1C; }
     .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
-    .tab-btn { background: #1E293B; border: 1px solid #334155; color: #94A3B8; padding: 12px 24px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .tab-btn:hover { background: #334155; color: #FFFFFF; }
-    .tab-btn.active { background: #2563EB; color: #FFFFFF; border-color: #3B82F6; box-shadow: 0 4px 14px rgba(37,99,235,0.4); }
+    .tab-btn { background: #FFFFFF; border: 1px solid #CBD5E1; color: #475569; padding: 12px 24px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .tab-btn:hover { background: #F1F5F9; color: #0F172A; border-color: #94A3B8; }
+    .tab-btn.active { background: #2563EB; color: #FFFFFF; border-color: #2563EB; box-shadow: 0 4px 14px rgba(37,99,235,0.25); }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    .card { background: #1E293B; border: 1px solid #334155; border-radius: 18px; padding: 24px; }
+    .card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 18px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05); }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
-    .preview-img { width: 100%; max-width: 480px; aspect-ratio: 4/5; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); border: 1px solid #475569; display: block; margin: 0 auto; background: #000; }
+    .preview-img { width: 100%; max-width: 480px; aspect-ratio: 4/5; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid #E2E8F0; display: block; margin: 0 auto; background: #FFFFFF; }
     .carousel-nav { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 16px; }
-    .nav-btn { background: #334155; color: #F8FAFC; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
-    .nav-btn:hover { background: #475569; }
-    .copy-box { background: #0F172A; border: 1px solid #334155; border-radius: 12px; padding: 16px; font-size: 14.5px; line-height: 1.7; color: #E2E8F0; white-space: pre-wrap; word-break: break-word; max-height: 520px; overflow-y: auto; }
+    .nav-btn { background: #F1F5F9; color: #1E293B; border: 1px solid #CBD5E1; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .nav-btn:hover { background: #E2E8F0; }
+    .copy-box { background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 12px; padding: 16px; font-size: 14.5px; line-height: 1.7; color: #0F172A; white-space: pre-wrap; word-break: break-word; max-height: 520px; overflow-y: auto; }
     .action-btn { background: #10B981; color: #FFFFFF; border: none; padding: 12px 24px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
     .action-btn:hover { background: #059669; }
-    .btn-secondary { background: #334155; color: #F8FAFC; padding: 8px 14px; font-size: 13px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; }
-    .btn-secondary:hover { background: #475569; }
-    iframe.email-frame { width: 100%; height: 750px; border: none; border-radius: 14px; background: #FFFFFF; }
+    .btn-secondary { background: #F1F5F9; color: #1E293B; padding: 8px 14px; font-size: 13px; border-radius: 8px; border: 1px solid #CBD5E1; cursor: pointer; font-weight: 700; }
+    .btn-secondary:hover { background: #E2E8F0; }
+    iframe.email-frame { width: 100%; height: 750px; border: 1px solid #E2E8F0; border-radius: 14px; background: #FFFFFF; }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div>
-        <h1 style="font-size: 23px; font-weight: 900; margin-bottom: 6px;">📈 ETF Campus 마켓 브리핑 OSMU 클라우드 통합 검토 허브</h1>
-        <p style="color: #94A3B8; font-size: 14px;">데이터 기준일: <strong style="color: #F8FAFC;">${dateDisplay}</strong> · 일반 ETF ${generalCountDisplay} (상승 ${up} / 보합 ${flat} / 하락 ${down}) · ${kospiDisplay} · ${etfReturnDisplay}</p>
+        <h1 style="font-size: 23px; font-weight: 900; margin-bottom: 6px; color: #0F172A;">📈 ETF Campus 마켓 브리핑 OSMU 클라우드 통합 검토 허브</h1>
+        <p style="color: #64748B; font-size: 14.5px;">데이터 기준일: <strong style="color: #0F172A;">${dateDisplay}</strong> · 일반 ETF ${generalCountDisplay} (상승 ${up} / 보합 ${flat} / 하락 ${down}) · ${kospiDisplay} · ${etfReturnDisplay}</p>
       </div>
       <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         ${aiBadge}
@@ -1104,8 +1104,9 @@ function generateDashboardHtml(
         dot.style.cursor = 'pointer';
         dot.style.fontSize = '12px';
         dot.style.fontWeight = '700';
-        dot.style.background = (i === currentSlide) ? '#2563EB' : '#334155';
-        dot.style.color = '#FFFFFF';
+        dot.style.background = (i === currentSlide) ? '#2563EB' : '#F1F5F9';
+        dot.style.color = (i === currentSlide) ? '#FFFFFF' : '#475569';
+        dot.style.border = (i === currentSlide) ? '1px solid #2563EB' : '1px solid #CBD5E1';
         dot.onclick = () => goToSlide(i);
         container.appendChild(dot);
       }

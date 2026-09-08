@@ -17,9 +17,8 @@ function formatDateWithDay(dateStr?: string): string {
 }
 
 export function selectThreadsTopicTag(): string {
-  // 스레드 공식 알고리즘 최적화: 1개 단일 주제 태그 원칙 (DTS Engine)
-  // Neo 브랜드의 기본 앵커 커뮤니티는 #ETF이며, 상황별 서브 커뮤니티 탐색 지원
-  return "#ETF";
+  // Threads 상단 헤더에 이미 토픽/커뮤니티(etf)가 노출되므로 본문 하단 단독 'ETF' 줄은 중복 제거
+  return "";
 }
 
 export function generateThreadsThread(
@@ -69,8 +68,6 @@ export function generateThreadsThread(
     ? weakThemes.map(t => `${cleanThemeName(t.peerGroup)} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
     : "하위 테마 조정";
 
-  const topicTag = selectThreadsTopicTag();
-
   let watchPointText = regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 태도가 중요합니다. 오늘 주목하는 섹터는 어디인가요?";
   const sourceNotice = `* KRX 공시 마감 국내 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 · 투자 참고용`;
 
@@ -89,7 +86,6 @@ ${summary}
 
 ${watchPointText}
 
-${topicTag}
 ${sourceNotice}`;
 
   // Enforce strict character safety guard (Meta Threads API hard limit: 500 chars, safe target <= 460 chars)
@@ -116,13 +112,12 @@ ${summary}
 
 ${watchPointText}
 
-${topicTag}
 ${sourceNotice}`;
   }
 
   // Final hard ceiling safeguard: strictly bound within 480 chars
   if (mainPost.length > 480) {
-    const footer = `\n\n${topicTag}\n${sourceNotice}`;
+    const footer = `\n\n${sourceNotice}`;
     const budget = 480 - footer.length;
     mainPost = mainPost.slice(0, budget).trim() + "..." + footer;
   }

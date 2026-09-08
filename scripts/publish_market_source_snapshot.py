@@ -28,10 +28,6 @@ from typing import Any
 KST = dt.timezone(dt.timedelta(hours=9))
 MAX_ETFS_PER_BATCH = 100
 DEFAULT_ENDPOINT = "https://etf-campus.pages.dev/api/internal/ingest-market-source"
-# KRX_INDEX_URLS = {
-#     "KOSPI": "https://data-dbg.krx.co.kr/svc/apis/idx/kospi_dd_trd",
-#     "KOSDAQ": "https://data-dbg.krx.co.kr/svc/apis/idx/kosdaq_dd_trd",
-# }
 
 
 def require_env(name: str) -> str:
@@ -149,178 +145,6 @@ def read_master(path: Path) -> tuple[str, list[dict[str, Any]]]:
     return as_of_date, sorted(records, key=lambda row: row["ticker"])
 
 
-
-
-def fetch_fred_index(series_id: str, as_of_date: str) -> dict[str, Any] | None:
-    # Use cosd to avoid fetching the entire history and timing out
-    start_date = (dt.datetime.fromisoformat(as_of_date) - dt.timedelta(days=30)).strftime("%Y-%m-%d")
-    url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}&cosd={start_date}"
-    try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            data = response.read().decode('utf-8')
-    except Exception as e:
-        print(f"Warning: Failed to fetch {series_id} from FRED: {e}")
-        return None
-    
-    reader = csv.reader(StringIO(data))
-    header = next(reader, None)
-    target = None
-    prev = None
-    for row in reader:
-        if len(row) < 2: continue
-        date, val = row
-        if val == '.': continue
-        if date <= as_of_date:
-            prev = target
-            target = {"date": date, "val": float(val)}
-        else:
-            break
-    if not target or not prev: return None
-    
-    name_map = {"DGS10": "미국 10년물 금리", "T10Y2Y": "미국 장단기금리차"}
-    return {
-        "asOfDate": target["date"],
-        "indexCode": series_id,
-        "indexName": name_map.get(series_id, series_id),
-        "closeValue": round(target["val"], 4),
-        "changePoints": round(target["val"] - prev["val"], 4),
-        "changePct": round((target["val"] - prev["val"]) / prev["val"] * 100, 4) if prev["val"] else 0,
-        "volumeValue": 0,
-        "sourceHash": "fred"
-    }
-
-def fetch_yahoo_index(code: str, as_of_date: str) -> dict[str, Any]:
-    from datetime import datetime, timedelta
-    from zoneinfo import ZoneInfo
-    target_date = datetime.strptime(as_of_date, "%Y-%m-%d")
-    period1 = int((target_date - timedelta(days=10)).timestamp())
-    period2 = int((target_date + timedelta(days=2)).timestamp())
-    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{code}?period1={period1}&period2={period2}&interval=1d"
-    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    try:
-        with urllib.request.urlopen(request, timeout=20) as response:
-            data = json.loads(response.read().decode("utf-8"))
-    except Exception as e:
-        print(f"Warning: Failed to fetch {code} from Yahoo Finance: {e}")
-        return None
-    
-    result = data.get("chart", {}).get("result")
-    if not result: return None
-    timestamps = result[0].get("timestamp", [])
-    closes = result[0].get("indicators", {}).get("quote", [{}])[0].get("close", [])
-    
-    target_date_str = as_of_date.replace("-", "")
-    target_idx = -1
-    for i, ts in enumerate(timestamps):
-        ts_date = datetime.fromtimestamp(ts, tz=ZoneInfo("UTC")).strftime("%Y%m%d")
-        if ts_date <= target_date_str and closes[i] is not None:
-            target_idx = i
-            
-    if target_idx <= 0: return None
-    price = closes[target_idx]
-    prev_close = closes[target_idx - 1]
-    if price is None or prev_close is None: return None
-    
-    name_map = {"^TNX": "미 국채 10년물", "^VIX": "VIX", "CL=F": "WTI 원유"}
-    
-    # Do not scale TNX. The value is already a percentage (e.g., 4.74).
-    return {
-        "asOfDate": f"{ts_date[:4]}-{ts_date[4:6]}-{ts_date[6:]}",
-        "indexCode": code.replace("^", "").replace("=", ""),
-        "indexName": name_map.get(code, code),
-        "closeValue": round(price, 2),
-        "changePoints": round(price - prev_close, 2),
-        "changePct": round(((price - prev_close) / prev_close) * 100, 2),
-        "volumeValue": 0,
-        "sourceHash": "yahoo_finance"
-    }
-
-def fetch_krx_bond_yield(auth_key: str, as_of_date: str) -> dict:
-    import urllib.request, urllib.parse, json
-    # Attempt to fetch KTB 10Y Yield from KRX Open API
-    url = "https://data-dbg.krx.co.kr/svc/apis/bnd/bnd_dd_trd" # KRX 채권 일별 엔드포인트
-    query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
-    request = urllib.request.Request(
-        f"{url}?{query}",
-        headers={"AUTH_KEY": auth_key, "Accept": "application/json"},
-    )
-    
-    try:
-        if auth_key:
-            with urllib.request.urlopen(request, timeout=10) as response:
-                payload = json.loads(response.read().decode("utf-8"))
-                
-            rows = payload.get("OutBlock_1") or payload.get("outBlock1") or payload.get("data") or []
-            if isinstance(rows, dict):
-                rows = [rows]
-                
-            for row in rows:
-                name = str(row.get("ISU_NM") or row.get("isuNm") or "").strip()
-                if "국고채" in name and "10년" in name:
-                    yield_val = float(row.get("YLD") or row.get("yld") or row.get("TDD_CLSPRC") or 0)
-                    if yield_val:
-                        return {
-                            "asOfDate": as_of_date,
-                            "indexCode": "KR10Y",
-                            "indexName": "한국 10년물 금리",
-                            "closeValue": round(yield_val, 3),
-                            "changePoints": 0.0,
-                            "changePct": 0.0,
-                            "volumeValue": 0,
-                            "sourceHash": "krx_open_api"
-                        }
-    except Exception as e:
-        print(f"Warning: KRX Bond Yield API failed ({e}). Falling back to mock data.")
-
-    # Fallback
-    return {
-        "asOfDate": as_of_date,
-        "indexCode": "KR10Y",
-        "indexName": "한국 10년물 금리",
-        "closeValue": 4.37,
-        "changePoints": 0.05,
-        "changePct": 1.06,
-        "volumeValue": 0,
-        "sourceHash": "mock"
-    }
-
-#def fetch_krx_index(auth_key: str, code: str, as_of_date: str) -> dict[str, Any]:
-#    query = urllib.parse.urlencode({"basDd": as_of_date.replace("-", "")})
-#    request = urllib.request.Request(
-#        f"{KRX_INDEX_URLS[code]}?{query}",
-#        headers={"AUTH_KEY": auth_key, "Accept": "application/json"},
-#    )
-#    try:
-#        with urllib.request.urlopen(request, timeout=20) as response:
-#            payload = json.loads(response.read().decode("utf-8"))
-#    except urllib.error.HTTPError as error:
-#        raise RuntimeError(f"KRX {code} API returned HTTP {error.code}") from error
-#    except Exception as error:
-#        raise RuntimeError(f"KRX {code} API failed: {type(error).__name__}") from error
-
-#    rows = payload.get("OutBlock_1") or payload.get("outBlock1") or payload.get("data") or []
-#    if isinstance(rows, dict):
-#        rows = [rows]
-#    expected = {"KOSPI": {"KOSPI", "코스피"}, "KOSDAQ": {"KOSDAQ", "코스닥"}}[code]
-#    for row in rows:
-#        name = str(row.get("IDX_NM") or row.get("idxNm") or row.get("indexName") or "").strip()
-#        if name.upper() not in expected and name not in expected:
-#            continue
-#        basis = str(row.get("BAS_DD") or row.get("basDt") or "").strip()
-#        normalized_date = iso_date(basis)
-#        return {
-#            "code": code,
-#            "name": code,
-#            "asOfDate": normalized_date,
-#            "close": compact_number(row.get("CLSPRC_IDX") or row.get("TDD_CLSPRC") or row.get("clpr")),
-#            "changePoints": compact_number(row.get("CMPPREVDD_IDX") or row.get("CMPPREVDD") or row.get("vs") or 0),
-#            "changePct": compact_number(row.get("FLUC_RT") or row.get("fltRt")),
-#            "volumeValue": compact_number(row.get("ACC_TRDVAL") or row.get("ACC_TRDVOL") or row.get("trqu") or 0),
-#        }
-#    raise RuntimeError(f"KRX {code} response has no composite index row for {as_of_date}")
-
-
 def signed_post(endpoint: str, secret: str, payload: dict[str, Any]) -> dict[str, Any]:
     body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     timestamp = str(int(time.time()))
@@ -392,21 +216,7 @@ def main() -> None:
             "changePct": item.get("change", 0.0),
             "volumeValue": item.get("volumeValue", 0),
         })
-        
-    # --- DEPRECATED: Old fetching logic ---
-    # krx_auth_key = require_env("KRX_OPEN_API_KEY")
-    # indices = [fetch_krx_index(krx_auth_key, code, as_of_date) for code in ("KOSPI", "KOSDAQ")]
-    # indices.append(fetch_krx_bond_yield(krx_auth_key, as_of_date))
-    # for fred_code in ("DGS10", "T10Y2Y"):
-    #     fred_data = fetch_fred_index(fred_code, as_of_date)
-    #     if fred_data:
-    #         indices.append(fred_data)
-    # for yf_code in ("^VIX", "CL=F"):
-    #     yf_data = fetch_yahoo_index(yf_code, as_of_date)
-    #     if yf_data:
-    #         indices.append(yf_data)
-    # ----------------------------------------
-    
+
     # Still enforce date validation on KOSPI and KOSDAQ
     kospi_kosdaq = [idx for idx in indices if idx["code"] in ("KOSPI", "KOSDAQ")]
     if any(index["asOfDate"] != as_of_date for index in kospi_kosdaq):

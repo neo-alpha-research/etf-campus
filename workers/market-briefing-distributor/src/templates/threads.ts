@@ -215,7 +215,7 @@ export function generateThreadsImageSvg(
         </linearGradient>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&amp;display=swap');
-          * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+          * { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', 'Segoe UI', -apple-system, sans-serif; }
           .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
         </style>
       </defs>
@@ -238,10 +238,10 @@ export function generateThreadsImageSvg(
       <g transform="translate(60, 168)" filter="url(#cardShadow)">
         <rect width="960" height="268" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
         
-        <text x="35" y="52" fill="#0F172A" font-size="32" font-weight="900">1. 시장 체온 &amp; 3대 지수 스코어보드</text>
+        <text x="35" y="52" fill="#0F172A" font-size="28" font-weight="900">1. 시장 체온 &amp; 3대 지수 비교</text>
         <rect x="525" y="16" width="400" height="52" rx="15" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
         <text x="725" y="48" font-size="21" font-weight="900" text-anchor="middle">
-          <tspan fill="#D92D20">상승 ${up}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#64748B">보합 ${flat}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#175CD3">하락 ${down}</tspan>
+          <tspan fill="#D92D20">상승 ${up}</tspan><tspan fill="#64748B"> · </tspan><tspan fill="#334155">보합 ${flat}</tspan><tspan fill="#64748B"> · </tspan><tspan fill="#175CD3">하락 ${down}</tspan>
         </text>
 
         <!-- 3 Big Metric Boxes (H: 150) -->
@@ -329,7 +329,7 @@ export function generateThreadsImageSvg(
 
       <!-- Disclaimer & Watermark (Y: 1248 ~ 1298) [Pure Green Text] -->
       <g transform="translate(540, 1248)">
-        <text x="0" y="0" fill="#64748B" font-size="16.5" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <text x="0" y="0" fill="#475569" font-size="17" font-weight="700" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
         <text x="0" y="38" fill="#047857" font-size="22" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>

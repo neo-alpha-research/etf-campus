@@ -304,8 +304,8 @@ export function generateInstagramCarousel(
       <!-- Disclaimer & Watermark (y=1120 ~ 1185) -->
       <g transform="translate(540, 1120)">
         <text x="0" y="0" fill="#64748B" font-size="15.5" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-215" y="18" width="430" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="45" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <rect x="-215" y="18" width="430" height="42" rx="12" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="0" y="45" fill="#047857" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
@@ -387,8 +387,8 @@ export function generateInstagramCarousel(
 
       <g transform="translate(540, 1265)">
         <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-215" y="14" width="430" height="40" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="40" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <rect x="-215" y="14" width="430" height="40" rx="12" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="0" y="40" fill="#047857" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
@@ -472,8 +472,8 @@ export function generateInstagramCarousel(
 
       <g transform="translate(540, 1265)">
         <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-215" y="14" width="430" height="40" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="40" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <rect x="-215" y="14" width="430" height="40" rx="12" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="0" y="40" fill="#047857" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
@@ -548,8 +548,8 @@ export function generateInstagramCarousel(
 
       <g transform="translate(540, 1265)">
         <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-215" y="14" width="430" height="40" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="40" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <rect x="-215" y="14" width="430" height="40" rx="12" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="0" y="40" fill="#047857" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
@@ -656,8 +656,8 @@ export function generateInstagramCarousel(
       <!-- Disclaimer & Watermark -->
       <g transform="translate(540, 1180)">
         <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-215" y="16" width="430" height="40" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="42" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <rect x="-215" y="16" width="430" height="40" rx="12" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="0" y="42" fill="#047857" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
@@ -773,8 +773,8 @@ export function generateInstagramCarousel(
       <!-- Footer Disclaimer & CTA Link (y=1150 ~ 1215) -->
       <g transform="translate(540, 1150)">
         <text x="0" y="0" fill="#64748B" font-size="15.5" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-215" y="18" width="430" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="0" y="45" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <rect x="-215" y="18" width="430" height="42" rx="12" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="0" y="45" fill="#047857" font-size="18" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;

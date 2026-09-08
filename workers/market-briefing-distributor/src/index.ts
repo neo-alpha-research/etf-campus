@@ -1120,7 +1120,7 @@ function generateDashboardHtml(
     </header>
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'tab-instagram')">📷 인스타그램 (카드뉴스 5장 & 캡션)</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'tab-instagram')">📷 인스타그램 (카드뉴스 6장 & 캡션)</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-threads')">🧵 스레드 (본문 & 인포그래픽 1장)</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-newsletter')">📧 이메일 뉴스레터 (반응형 풀뷰)</button>
     </div>
@@ -1130,7 +1130,7 @@ function generateDashboardHtml(
       <div class="grid-2">
         <div class="card" style="text-align: center;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;">
-            <h3 style="font-size: 16px; font-weight: 800;">🖼️ 카드뉴스 (슬라이드 <span id="currentSlideNum">1</span> / 5)</h3>
+            <h3 style="font-size: 16px; font-weight: 800;">🖼️ 카드뉴스 (슬라이드 <span id="currentSlideNum">1</span> / 6)</h3>
             <div style="display: flex; gap: 6px;">
               <a id="btnOpenSvg" href="/api/preview/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary">🔍 원본 SVG</a>
               <a id="btnDownloadPng" href="/api/images/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary">🖼️ 실물 PNG</a>
@@ -1154,7 +1154,7 @@ function generateDashboardHtml(
               ? `<button class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 인스타그램 발행 완료 (ID: ${instagramPublishedId})</button>`
               : ((!hasValidDate || isBlocked)
                   ? `<button class="action-btn" disabled style="background: #94A3B8; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
-                  : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 5장 카드뉴스 즉시 발행</button>`
+                  : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행</button>`
                 )
             }
           </div>
@@ -1208,7 +1208,7 @@ function generateDashboardHtml(
 
   <script>
     let currentSlide = 1;
-    const totalSlides = 5;
+    const totalSlides = 6;
     const date = '${date}';
 
     function getCookie(name) {
@@ -1327,7 +1327,7 @@ function generateDashboardHtml(
         if (!token) return;
         document.cookie = 'etf_distributor_auth=' + token + '; path=/; max-age=2592000; SameSite=Lax; Secure';
       }
-      if (!confirm(dateStr + ' 마켓 브리핑을 인스타그램(@neo.alphareader)에 5장 카드뉴스로 실시간 자동 발행하시겠습니까?')) return;
+      if (!confirm(dateStr + ' 마켓 브리핑을 인스타그램(@neo.alphareader)에 6장 카드뉴스로 실시간 자동 발행하시겠습니까?')) return;
       const btn = event.target;
       btn.disabled = true;
       btn.innerText = '인스타그램 발행 처리 중...';
@@ -1344,12 +1344,12 @@ function generateDashboardHtml(
         } else {
           alert('인스타그램 발행 실패: ' + (data.error || JSON.stringify(data)));
           btn.disabled = false;
-          btn.innerText = '📸 이 내용으로 인스타그램 5장 카드뉴스 즉시 발행';
+          btn.innerText = '📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행';
         }
       } catch (e) {
         alert('요청 중 오류 발생: ' + e);
         btn.disabled = false;
-        btn.innerText = '📸 이 내용으로 인스타그램 5장 카드뉴스 즉시 발행';
+        btn.innerText = '📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행';
       }
     }
 

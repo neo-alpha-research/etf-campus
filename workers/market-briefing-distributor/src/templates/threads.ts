@@ -225,15 +225,13 @@ export function generateThreadsImageSvg(
       <circle cx="980" cy="120" r="280" fill="#10B981" fill-opacity="0.05"/>
       <circle cx="100" cy="1200" r="240" fill="#3B82F6" fill-opacity="0.04"/>
 
-      <!-- Clean Minimal Header (Scaled Up) -->
-      <g transform="translate(60, 46)">
-        <rect x="0" y="0" width="230" height="32" rx="8" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="115" y="21" fill="#047857" font-size="15" font-weight="900" letter-spacing="1" text-anchor="middle">ETF CAMPUS · BRIEFING</text>
-        <text x="0" y="78" fill="#0F172A" font-size="52" font-weight="900" letter-spacing="-0.8">ETF 모닝 브리핑</text>
-        <text x="0" y="116" fill="#475569" font-size="23" font-weight="700">KRX 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 요약</text>
+      <!-- Clean Minimal Header (Scaled Up & Rebalanced) -->
+      <g transform="translate(60, 48)">
+        <text x="0" y="56" fill="#0F172A" font-size="52" font-weight="900" letter-spacing="-0.8">ETF 모닝 브리핑</text>
+        <text x="0" y="98" fill="#475569" font-size="22" font-weight="700">KRX 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 요약</text>
         
-        <rect x="685" y="16" width="275" height="62" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
-        <text x="822" y="55" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
+        <rect x="685" y="18" width="275" height="60" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
+        <text x="822.5" y="56" fill="#0F172A" font-size="23" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
       </g>
 
       <!-- SECTION 1: 시장 체온 & 3대 지수 스코어보드 (Y: 168, H: 268) [Spacious & Bold] -->
@@ -329,11 +327,10 @@ export function generateThreadsImageSvg(
         </g>
       </g>
 
-      <!-- Disclaimer & Watermark (Y: 1242 ~ 1312) [Brand Green Accent] -->
-      <g transform="translate(540, 1242)">
-        <text x="0" y="0" fill="#64748B" font-size="17" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-230" y="20" width="460" height="50" rx="15" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.4"/>
-        <text x="0" y="52" fill="#047857" font-size="22" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+      <!-- Disclaimer & Watermark (Y: 1248 ~ 1298) [Pure Green Text] -->
+      <g transform="translate(540, 1248)">
+        <text x="0" y="0" fill="#64748B" font-size="16.5" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <text x="0" y="38" fill="#047857" font-size="22" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;

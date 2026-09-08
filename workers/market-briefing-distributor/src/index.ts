@@ -1129,14 +1129,20 @@ function generateDashboardHtml(
     <div id="tab-instagram" class="tab-content active">
       <div class="grid-2">
         <div class="card" style="text-align: center;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left; flex-wrap: wrap; gap: 8px;">
             <h3 style="font-size: 16px; font-weight: 800;">🖼️ 카드뉴스 (슬라이드 <span id="currentSlideNum">1</span> / 6)</h3>
-            <div style="display: flex; gap: 6px;">
-              <a id="btnOpenSvg" href="/api/preview/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary">🔍 원본 SVG</a>
-              <a id="btnDownloadPng" href="/api/images/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary">🖼️ 실물 PNG</a>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <div style="display: inline-flex; background: #F1F5F9; border-radius: 8px; padding: 2px; border: 1px solid #CBD5E1;">
+                <button id="btnModePng" onclick="setViewMode('png')" style="padding: 4px 10px; border: none; border-radius: 6px; font-size: 11.5px; font-weight: 800; cursor: pointer; background: #059669; color: white;">🖼️ 실물 PNG</button>
+                <button id="btnModeSvg" onclick="setViewMode('svg')" style="padding: 4px 10px; border: none; border-radius: 6px; font-size: 11.5px; font-weight: 800; cursor: pointer; background: transparent; color: #64748B;">⚡ SVG 벡터</button>
+              </div>
+              <a id="btnOpenSvg" href="/api/preview/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary">🔍 SVG 원본</a>
+              <a id="btnDownloadPng" href="/api/images/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary">⬇️ PNG 다운</a>
             </div>
           </div>
-          <img id="instagramImg" src="/api/preview/instagram?date=${date}&slide=1&v=${Date.now()}" class="preview-img" alt="Instagram Card">
+          <div style="position: relative; width: 100%; max-width: 480px; margin: 0 auto;">
+            <img id="instagramImg" src="/api/images/instagram?date=${date}&slide=1&v=${Date.now()}" class="preview-img" alt="Instagram Card" onerror="handleInstagramImgError(this)">
+          </div>
           <div class="carousel-nav">
             <button class="nav-btn" onclick="changeSlide(-1)">◀ 이전</button>
             <div id="slideDots" style="display: flex; gap: 6px;"></div>
@@ -1166,14 +1172,14 @@ function generateDashboardHtml(
     <div id="tab-threads" class="tab-content">
       <div class="grid-2">
         <div class="card" style="text-align: center;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left; flex-wrap: wrap; gap: 8px;">
             <h3 style="font-size: 16px; font-weight: 800;">🖼️ 스레드 전용 인포그래픽 (1장)</h3>
             <div style="display: flex; gap: 6px;">
-              <a href="/api/preview/threads-image?date=${date}" target="_blank" class="btn-secondary">🔍 원본 SVG</a>
-              <a href="/api/images/threads?date=${date}" target="_blank" class="btn-secondary">🖼️ 실물 PNG</a>
+              <a href="/api/preview/threads-image?date=${date}" target="_blank" class="btn-secondary">🔍 SVG 원본</a>
+              <a href="/api/images/threads?date=${date}" target="_blank" class="btn-secondary">⬇️ PNG 다운</a>
             </div>
           </div>
-          <img src="/api/preview/threads-image?date=${date}&v=${Date.now()}" class="preview-img" alt="Threads Infographic">
+          <img id="threadsImg" src="/api/images/threads?date=${date}&v=${Date.now()}" class="preview-img" alt="Threads Infographic" onerror="this.onerror=null; this.src='/api/preview/threads-image?date=${date}&v='+Date.now()">
         </div>
         <div class="card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -1210,6 +1216,40 @@ function generateDashboardHtml(
     let currentSlide = 1;
     const totalSlides = 6;
     const date = '${date}';
+    let viewMode = localStorage.getItem('osmu_view_mode') || 'png';
+
+    function setViewMode(mode) {
+      viewMode = mode;
+      localStorage.setItem('osmu_view_mode', mode);
+      updateModeButtons();
+      updateSlide();
+    }
+
+    function updateModeButtons() {
+      const btnPng = document.getElementById('btnModePng');
+      const btnSvg = document.getElementById('btnModeSvg');
+      if (!btnPng || !btnSvg) return;
+      if (viewMode === 'png') {
+        btnPng.style.background = '#059669';
+        btnPng.style.color = '#FFFFFF';
+        btnSvg.style.background = 'transparent';
+        btnSvg.style.color = '#64748B';
+      } else {
+        btnSvg.style.background = '#059669';
+        btnSvg.style.color = '#FFFFFF';
+        btnPng.style.background = 'transparent';
+        btnPng.style.color = '#64748B';
+      }
+    }
+
+    function handleInstagramImgError(img) {
+      if (viewMode === 'png') {
+        console.warn('[Dashboard] PNG not found, falling back to SVG renderer');
+        viewMode = 'svg';
+        updateModeButtons();
+        img.src = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + Date.now();
+      }
+    }
 
     function getCookie(name) {
       const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -1238,7 +1278,13 @@ function generateDashboardHtml(
     }
 
     function updateSlide() {
-      document.getElementById('instagramImg').src = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + Date.now();
+      const img = document.getElementById('instagramImg');
+      const v = Date.now();
+      if (viewMode === 'png') {
+        img.src = '/api/images/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + v;
+      } else {
+        img.src = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + v;
+      }
       document.getElementById('btnOpenSvg').href = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide;
       document.getElementById('btnDownloadPng').href = '/api/images/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide;
       document.getElementById('currentSlideNum').innerText = currentSlide;
@@ -1358,6 +1404,7 @@ function generateDashboardHtml(
     if (!isNaN(savedSlide) && savedSlide >= 1 && savedSlide <= totalSlides) {
       currentSlide = savedSlide;
     }
+    updateModeButtons();
     updateSlide();
 
     const hashTab = location.hash ? location.hash.replace('#', '') : null;
@@ -1497,7 +1544,7 @@ const workerHandler = {
       // 1.1 Root & Preview: Cloud Review Dashboard Hub
       if (url.pathname === "/" || url.pathname === "/preview") {
         const isFresh = url.searchParams.get("fresh") === "1";
-        const cacheKey = `dashboard:html:v3:${targetDate || "latest"}:${isAuthed ? "authed" : "anon"}`;
+        const cacheKey = `dashboard:html:v4:${targetDate || "latest"}:${isAuthed ? "authed" : "anon"}`;
 
         if (!isFresh) {
           try {

@@ -214,7 +214,6 @@ export function generateThreadsImageSvg(
           <stop offset="100%" stop-color="#047857"/>
         </linearGradient>
         <style>
-          @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&amp;display=swap');
           * { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', 'Segoe UI', -apple-system, sans-serif; }
           .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
         </style>
@@ -333,5 +332,5 @@ export function generateThreadsImageSvg(
         <text x="0" y="38" fill="#047857" font-size="22" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
-  `;
+  `.trim();
 }

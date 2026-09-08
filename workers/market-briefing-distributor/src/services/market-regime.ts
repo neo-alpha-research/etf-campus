@@ -1,7 +1,11 @@
 import type { MarketBriefingPayload } from "../types";
 
 export type MarketRegimeCode =
-  | "DECOUPLING_DEFENSE"
+  | "INDEX_ILLUSION_SURGE" // 대형주 쏠림 및 지수 착시형 랠리 (KOSPI 급등 vs 분산 ETF 괴리)
+  | "BROAD_RALLY_SURGE"    // 전방위 동반 폭등 / 유동성 서지 (KOSPI & KOSDAQ & ETF 동반 폭등)
+  | "GROWTH_BETA_RALLY"    // 중소형·성장 테마 주도 랠리 (KOSDAQ 대폭 아웃퍼폼)
+  | "KOSPI_FALL_KOSDAQ_UP" // 대형주 조정 속 코스닥 개별 장세 (지수 엇갈림)
+  | "DECOUPLING_DEFENSE"   // 지수 약세 속 ETF 자산배분 선방 (KOSPI 하락 vs ETF 플러스 방어)
   | "EXTREME_SURGE"
   | "SUPER_BULL"
   | "STRONG_BULL_HIGH"
@@ -36,6 +40,13 @@ export interface MarketRegime {
   flowCharacter: SmartMoneyCharacter;
   flowCharacterName: string;
   disparityStatus: DisparityStatus;
+
+  // 3대 지표 및 펀드애널리스트 분석 메트릭
+  kospiChangePct: number;
+  kosdaqChangePct: number;
+  etfWeightedReturnPct: number;
+  capSpread: number;        // kospi - kosdaq (%p)
+  etfDivergence: number;    // kospi - etfRet (%p)
 
   // Slide 1 (Cover & 3 Pulses)
   slide1Subheadline: string;
@@ -221,7 +232,11 @@ export function analyzeDisparityState(payload: MarketBriefingPayload): {
 // ---------------------------------------------------------------------------
 export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegime {
   const kospi = payload.kospiChangePct ?? 0;
+  const kosdaq = payload.kosdaqChangePct ?? 0;
   const etfRet = payload.generalAumWeightedReturnPct ?? 0;
+  const capSpread = Number((kospi - kosdaq).toFixed(2));
+  const etfDivergence = Number((kospi - etfRet).toFixed(2));
+
   const up = payload.upCount ?? 0;
   const down = payload.downCount ?? 0;
   const flat = payload.flatCount ?? 0;
@@ -240,6 +255,7 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
   const bottomThemeRet = bottomThemeObj?.cappedAumWeightedReturnPct ?? 0;
 
   const kospiSign = kospi > 0 ? "+" : "";
+  const kosdaqSign = kosdaq > 0 ? "+" : "";
   const etfSign = etfRet > 0 ? "+" : "";
 
   // 1. 수급 성격 분석
@@ -247,17 +263,43 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
   // 2. 괴리율 왜곡 분석
   const disparity = analyzeDisparityState(payload);
 
-  // 3. 시장 국면 판별 (0.5% 단위 13개 구간 + 디커플링 특수 국면 1종 = 총 14대 시나리오)
+  // 3. 3대 지표 결합 시장 국면 판별 (KOSPI × KOSDAQ × 일반 ETF 3축 매트릭스)
   let code: MarketRegimeCode = "TIGHT_BULL_SIDEWAYS";
   let statusName = "강보합 탐색 / 매물 소화";
   let badgeTag = "강보합 탐색";
 
-  // 특수 국면: 지수 약세에도 불구하고 ETF 전체 가중수익률이 플러스 선방할 때 최우선 발동
+  // [특수 국면 1]: 지수 약세에도 불구하고 ETF 전체 가중수익률이 플러스 선방할 때 (자산배분 방어벽)
   if (kospi <= -0.5 && etfRet >= 0.0) {
     code = "DECOUPLING_DEFENSE";
     statusName = "지수 약세 속 ETF 방어 선방";
     badgeTag = "자산배분 선방";
-  } else if (kospi >= 3.0 || upRatio >= 0.85) {
+  }
+  // [특수 국면 2]: 대형주 쏠림 및 지수 착시형 랠리 (KOSPI 폭등 vs 코스닥/일반 ETF 괴리 확대)
+  else if (kospi >= 2.0 && (etfDivergence >= 1.5 || capSpread >= 2.0)) {
+    code = "INDEX_ILLUSION_SURGE";
+    statusName = "대형주 쏠림 및 지수 착시형 랠리";
+    badgeTag = "대형주 쏠림";
+  }
+  // [특수 국면 3]: 전방위 동반 폭등 / 유동성 초과열 서지
+  else if (kospi >= 3.0 && upRatio >= 0.75 && etfRet >= 2.0) {
+    code = "BROAD_RALLY_SURGE";
+    statusName = "전방위 동반 폭등 / 유동성 서지";
+    badgeTag = "전방위 서지";
+  }
+  // [특수 국면 4]: 중소형·성장 테마 주도 랠리 (코스닥 대폭 아웃퍼폼)
+  else if (kosdaq >= 1.5 && capSpread <= -1.5) {
+    code = "GROWTH_BETA_RALLY";
+    statusName = "중소형·성장 테마 주도 랠리";
+    badgeTag = "성장 테마 주도";
+  }
+  // [특수 국면 5]: 대형주 조정 속 코스닥 개별 장세 (지수 엇갈림)
+  else if (kospi <= -0.3 && kosdaq >= 0.5) {
+    code = "KOSPI_FALL_KOSDAQ_UP";
+    statusName = "대형주 조정 속 코스닥 개별 장세";
+    badgeTag = "코스닥 개별장세";
+  }
+  // [일반 구간별 단계적 장세]
+  else if (kospi >= 3.0 || upRatio >= 0.85) {
     code = "EXTREME_SURGE";
     statusName = "초급등 / 과열 서지";
     badgeTag = "초급등 서지";
@@ -360,6 +402,62 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 조정을 받았지만, 일반 ETF 시장은 ${etfSign}${etfRet.toFixed(2)}%로 든든하게 버텨주었습니다.`;
       threadsMarketSummary = `국내 단일 지수만 보면 하락 ${down}개로 불안할 수 있었지만, 해외 분산과 채권형 ETF가 충격을 온전히 완충해주었어요.`;
       threadsWatchPoint = `지수가 빠질 때 포트폴리오의 실질 방어력이 어떻게 발휘되는지 확인하는 것이 진짜 자산배분의 묘미입니다. 오늘 개장 후 여러분의 방어선은 어디에 두고 계신가요?`;
+      break;
+
+    case "INDEX_ILLUSION_SURGE":
+      slide1Subheadline = `'${topThemeName}' 독주 속 대형주 쏠림 심화`;
+      slide1Tip = `KOSPI ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfRet.toFixed(2)}% · 대형주 쏠림에 따른 지수 착시 속 분산 ETF 차별화`;
+      slide6Block1Title = `코스피 ${kospiSign}${kospi.toFixed(2)}% 급등 속 대형주 쏠림`;
+      slide6Block1Desc = `코스피와 분산 ETF 간 +${etfDivergence.toFixed(2)}%p 격차 발생. 시총 상위주 위주 지수 착시 장세.`;
+      captionOpening = `국내 증시는 코스피가 ${kospiSign}${kospi.toFixed(2)}% 급등했으나 코스닥은 ${kosdaqSign}${kosdaq.toFixed(2)}%, 일반 ETF 가중수익률은 ${etfSign}${etfRet.toFixed(2)}%에 머물며 대형주 쏠림에 따른 지수 착시가 뚜렷했습니다.`;
+      captionMarketSummary = `시총 최상위 대형주로 수급이 집중되며 코스피 지수 상승폭 대비 분산 ETF 포트폴리오의 체감 수익률은 상대적으로 차분한 흐름을 나타냈습니다.`;
+      captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 섹터가 강세를 보이며 지수 상승을 견인한 반면, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 테마는 상대적으로 소외되었습니다.`;
+      captionWatchPoint = `대형주 집중 랠리 이후 온기가 중소형주와 다양한 테마로 확산되는지, 또는 차익 실현 매물이 출회되는지 수급의 분산 여부를 확인하는 것이 중요합니다.`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 급등했지만, 일반 ETF는 ${etfSign}${etfRet.toFixed(2)}%로 대형주 중심의 지수 착시가 나타났어요.`;
+      threadsMarketSummary = `코스피와 분산 ETF 수익률 격차가 +${etfDivergence.toFixed(2)}%p에 달해 시총 상위주 위주로 매수세가 집중된 전형적인 차별화 장세였습니다.`;
+      threadsWatchPoint = `대형주 랠리 이후 온기가 중소형 테마로 고르게 확산되는지 관찰할 때입니다. 오늘 여러분의 관심 섹터는 어디인가요?`;
+      break;
+
+    case "BROAD_RALLY_SURGE":
+      slide1Subheadline = `'${topThemeName}' 폭등 속 전방위 동반 서지`;
+      slide1Tip = `KOSPI ${kospiSign}${kospi.toFixed(2)}% vs 일반 ETF ${etfSign}${etfRet.toFixed(2)}% · 대형주와 코스닥 동반 급등 속 시장 전반 유동성 폭발`;
+      slide6Block1Title = `코스피 ${kospiSign}${kospi.toFixed(2)}% 초급등 속 전방위 서지`;
+      slide6Block1Desc = `상승 종목 ${up}개이 75% 이상을 차지하며 전 섹터로 유동성이 확산되는 강력한 랠리 전개.`;
+      captionOpening = `국내 증시는 코스피가 ${kospiSign}${kospi.toFixed(2)}%, 코스닥이 ${kosdaqSign}${kosdaq.toFixed(2)}% 동반 급등하며 시장 전반에 걸친 강력한 유동성 서지 국면을 연출했습니다.`;
+      captionMarketSummary = `특정 대형주에 국한되지 않고 일반 ETF 시장 전체로 폭넓은 순매수가 유입되며 상승 종목 ${up}개가 시장을 장악했습니다.`;
+      captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 폭등세를 견인했고, 대부분의 섹터가 동반 상승 탄력을 이어갔습니다.`;
+      captionWatchPoint = `전방위 랠리 국면에서는 추격 매수보다 과열권에 진입한 섹터의 이격도를 점검하며 차분히 포트폴리오 비중을 조절하는 것이 바람직합니다.`;
+      threadsOpening = `코스피와 코스닥이 함께 시원하게 오르며 시장 전체에 강한 유동성 랠리가 펼쳐졌어요.`;
+      threadsMarketSummary = `일반 ETF 시장도 ${up}개 종목이 상승하며 전 섹터로 온기가 고르게 퍼졌습니다.`;
+      threadsWatchPoint = `전방위 상승장일수록 단기 과열에 휩쓸리지 않고 포트폴리오의 균형을 점검하는 여유가 필요합니다. 오늘 주목하시는 테마는 무엇인가요?`;
+      break;
+
+    case "GROWTH_BETA_RALLY":
+      slide1Subheadline = `'${topThemeName}' 주도 속 중소형 성장주 랠리`;
+      slide1Tip = `코스닥 ${kosdaqSign}${kosdaq.toFixed(2)}% 아웃퍼폼 · 코스피 대비 +${Math.abs(capSpread).toFixed(2)}%p 성장 테마 우위`;
+      slide6Block1Title = `코스닥 ${kosdaqSign}${kosdaq.toFixed(2)}% 급등 속 성장 테마 주도`;
+      slide6Block1Desc = `코스닥이 코스피 대비 +${Math.abs(capSpread).toFixed(2)}%p 아웃퍼폼하며 고베타 성장 테마 중심 강한 탄력.`;
+      captionOpening = `국내 증시는 코스닥이 ${kosdaqSign}${kosdaq.toFixed(2)}% 급등하며 코스피(${kospiSign}${kospi.toFixed(2)}%) 대비 +${Math.abs(capSpread).toFixed(2)}%p 앞서는 성장 테마 주도 장세를 기록했습니다.`;
+      captionMarketSummary = `대형주가 숨을 고르는 동안 중소형 기술주와 모멘텀 테마군으로 스마트머니가 집중되며 시장의 온기를 이끌었습니다.`;
+      captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 등 고베타 성장 섹터가 시장을 견인하며 활발한 테마 랠리가 펼쳐졌습니다.`;
+      captionWatchPoint = `중소형 성장주 주도 국면에서는 테마별 변동성이 빠르게 확대될 수 있으므로 거래대금의 지속성을 점검하는 것이 유리합니다.`;
+      threadsOpening = `코스닥이 ${kosdaqSign}${kosdaq.toFixed(2)}% 오르며 대형주보다 훨씬 강한 성장 테마 장세를 연출했어요.`;
+      threadsMarketSummary = `코스피 대비 +${Math.abs(capSpread).toFixed(2)}%p 아웃퍼폼하며 기술주와 핵심 테마 ETF로 자금이 힘차게 유입되었습니다.`;
+      threadsWatchPoint = `성장 테마가 탄력을 받을 때는 개별 섹터의 체력과 스마트머니의 지속성을 잘 분별해보세요. 오늘 가장 기대되는 섹터는 어디인가요?`;
+      break;
+
+    case "KOSPI_FALL_KOSDAQ_UP":
+      slide1Subheadline = `'${topThemeName}' 선방 속 코스닥 개별 장세`;
+      slide1Tip = `대형주 조정 속 코스닥 ${kosdaqSign}${kosdaq.toFixed(2)}% 반등 · 개별 테마 중심 순환매 분할 유입`;
+      slide6Block1Title = `대형주 조정 속 코스닥 개별 테마 선방`;
+      slide6Block1Desc = `코스피 ${kospiSign}${kospi.toFixed(2)}% 하락에도 코스닥 ${kosdaqSign}${kosdaq.toFixed(2)}% 선방하며 테마별 뚜렷한 각개전투 전개.`;
+      captionOpening = `국내 증시는 대형주 중심의 코스피가 ${kospiSign}${kospi.toFixed(2)}% 밀렸으나, 코스닥은 ${kosdaqSign}${kosdaq.toFixed(2)}% 상승하며 뚜렷한 지수 엇갈림과 개별 장세가 연출되었습니다.`;
+      captionMarketSummary = `대형주 매물 출회에 따른 지수 하락 압력을 중소형 성장 테마군이 흡수하며 선별적 종목 장세가 전개되었습니다.`;
+      captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 지수 부진을 딛고 선방한 반면, 대형주 비중이 높은 섹터는 조정을 받았습니다.`;
+      captionWatchPoint = `지수 간 엇갈림이 나타날 때는 벤치마크 지수보다 개별 섹터의 수급과 이익 모멘텀을 선별하는 전략이 요구됩니다.`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 밀렸지만, 코스닥은 ${kosdaqSign}${kosdaq.toFixed(2)}% 오르며 시장 분위기가 엇갈렸어요.`;
+      threadsMarketSummary = `대형주가 숨을 고르는 사이 중소형 테마와 선별 ETF로 자금이 유입되며 알찬 개별 장세가 펼쳐졌습니다.`;
+      threadsWatchPoint = `지수가 엇갈릴 때는 지수 자체보다 섹터 간 자금 이동의 길목을 지키는 것이 유효합니다. 오늘 여러분의 관심 지표는 무엇인가요?`;
       break;
 
     case "EXTREME_SURGE":
@@ -556,6 +654,11 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
     flowCharacter: flow.character,
     flowCharacterName: flow.characterName,
     disparityStatus: disparity.status,
+    kospiChangePct: kospi,
+    kosdaqChangePct: kosdaq,
+    etfWeightedReturnPct: etfRet,
+    capSpread,
+    etfDivergence,
     slide1Subheadline,
     slide1Tip,
     slide4BannerTitle,

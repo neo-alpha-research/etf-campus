@@ -89,9 +89,13 @@ export async function reviewAndRefineWithGemini(
   }
 
   const kospi = payload.kospiChangePct ?? 0;
+  const kosdaq = payload.kosdaqChangePct ?? 0;
   const etfRet = payload.generalAumWeightedReturnPct ?? 0;
+  const capSpread = regime.capSpread ?? Number((kospi - kosdaq).toFixed(2));
+  const etfDivergence = regime.etfDivergence ?? Number((kospi - etfRet).toFixed(2));
   const up = payload.upCount ?? 0;
   const down = payload.downCount ?? 0;
+  const flat = payload.flatCount ?? 0;
   const topInflowsList = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 5) || [];
   const topInflowsStr = topInflowsList.length > 0
     ? topInflowsList.map(i => `${i.name || (i as any).etfName} +${i.inflow || Math.round(((i as any).netInflowValue || 0) / 100000000)}억원`).join(", ")
@@ -106,12 +110,17 @@ export async function reviewAndRefineWithGemini(
   const topThemeText = topTheme ? `${cleanTheme(topTheme.peerGroup)} ${topTheme.cappedAumWeightedReturnPct !== undefined ? (topTheme.cappedAumWeightedReturnPct >= 0 ? "+" : "") + topTheme.cappedAumWeightedReturnPct.toFixed(2) + "%" : ""}`.trim() : "없음";
   const bottomThemeText = bottomTheme ? `${cleanTheme(bottomTheme.peerGroup)} ${bottomTheme.cappedAumWeightedReturnPct !== undefined ? (bottomTheme.cappedAumWeightedReturnPct >= 0 ? "+" : "") + bottomTheme.cappedAumWeightedReturnPct.toFixed(2) + "%" : ""}`.trim() : "없음";
 
-  const systemPrompt = `당신은 대한민국 최고 수준의 공인 펀드매니저이자 수석 금융 에디터 'Neo'입니다.
-제공된 1차 마켓 브리핑 초안을 검토하여, 상업적 홍보색을 완전히 배제하고 독자가 믿고 읽는 '고밀도 순수 공공재 시황 정보 칼럼'으로 품격 있게 윤문(Polish)하십시오.
+  const systemPrompt = `당신은 대한민국 최고 수준의 공인 수석 펀드애널리스트이자 금융 에디터 'Neo'입니다.
+제공된 1차 마켓 브리핑 초안을 검토하여, 상업적 홍보색을 완전히 배제하고 독자가 믿고 읽는 '고밀도 순수 공공재 시황 정보 칼럼'으로 품격 있게 교정(Polish)하십시오.
+
+## 3축 시장 분석 가이드 (3-Axis Fund Analyst Perspective)
+1. 코스피 vs 코스닥 스프레드: 대형주 쏠림인지, 코스닥 중심 중소형/성장 테마 장세인지 명확히 짚어주십시오.
+2. 코스피 vs 일반 ETF 가중수익률 괴리: 코스피 지수가 급등했더라도 분산 ETF 가중수익률과의 괴리가 크다면 '지수 착시형 차별화 장세'임을 짚어주고, 지수 하락 시 ETF가 버텼다면 '자산배분의 완충 선방'임을 부각하십시오.
+3. 실질 수급 맥락 (Why it moved): 지수 등락 수치 나열에 그치지 않고, 스마트머니 순유입 종목군과 주도 테마의 결합으로 시장의 실질 체감 온도를 설명하십시오.
 
 ## 엄격 준수 원칙 (Strict Rules)
 1. 팩트 데이터 및 수급 사실 절대 변조/날조 금지:
-   - KOSPI ${kospi}%, 일반 ETF ${etfRet}%, 상승 ${up}개, 하락 ${down}개 등 모든 숫자를 임의로 바꾸지 마십시오.
+   - KOSPI ${kospi}%, KOSDAQ ${kosdaq}%, 일반 ETF ${etfRet}%, 상승 ${up}개, 하락 ${down}개 등 모든 숫자를 임의로 바꾸지 마십시오.
    - [수급 팩트 엄수]: 실제 스마트머니 순유입 상위 종목(${topInflowsStr})에 존재하지 않는 종목이나 지수(예: 당일 목록에 없는 '미국 대표지수' 등)를 절대 언급하거나 지어내지 마십시오. 오직 실제 유입 종목과 그 성격(채권, 금리, 배당 등)만 서술하십시오.
 2. 괄호() 남발 절대 금지:
    - 본문 요약, 타래, 슬라이드 텍스트 어디에도 수익률이나 부연 설명을 감싸는 괄호를 일체 사용하지 마십시오. (예: '에너지 +2.95%' ⭕, '에너지 (+2.95%)' ❌, '하락 종목 181개' ⭕, '하락 종목(181개)' ❌).
@@ -163,12 +172,15 @@ export async function reviewAndRefineWithGemini(
   "firstComment": "스레드 첫 댓글 (한국거래소 KRX 공시 마감 기준, 국내 상장 일반 ETF 전수 분석 고지, 이모지 0개)"
 }`;
 
-  const userPrompt = `[당일 실제 시장 데이터]
+  const userPrompt = `[당일 3대 시장 지표 및 펀드애널리스트 분석 팩트]
 - 기준일: ${payload.asOfDate}
-- 코스피 등락률: ${kospi > 0 ? "+" : ""}${kospi.toFixed(2)}%
+- 코스피 (KOSPI): ${kospi > 0 ? "+" : ""}${kospi.toFixed(2)}%
+- 코스닥 (KOSDAQ): ${kosdaq > 0 ? "+" : ""}${kosdaq.toFixed(2)}%
 - 일반 ETF 가중수익률: ${etfRet > 0 ? "+" : ""}${etfRet.toFixed(2)}%
-- 상승/하락/보합 종목수: 상승 ${up}개, 하락 ${down}개, 보합 ${payload.flatCount ?? 0}개
+- 대형주 vs 중소형주 격차 (KOSPI - KOSDAQ 스프레드): ${capSpread > 0 ? "+" : ""}${capSpread.toFixed(2)}%p (${capSpread >= 1.5 ? "대형주 쏠림 심화" : capSpread <= -1.5 ? "중소형 성장주 우위" : "동행"})
+- 지수 vs 분산 ETF 괴리 (KOSPI - 일반 ETF 괴리): ${etfDivergence > 0 ? "+" : ""}${etfDivergence.toFixed(2)}%p (${etfDivergence >= 1.5 ? "지수 착시형 쏠림 (분산 ETF 속도 조절)" : etfDivergence <= -1.0 ? "자산배분 방어 선방" : "동행"})
 - 판별된 국면: ${regime.statusName} (${regime.badgeTag})
+- 상승/하락/보합 종목수: 상승 ${up}개, 보합 ${flat}개, 하락 ${down}개
 - 당일 주도/부진 테마: 상위 1위 '${topThemeText}', 하위 1위 '${bottomThemeText}'
 - 당일 스마트머니 순유입 TOP: ${topInflowsStr}
 - 당일 괴리율 상태: ${regime.disparityStatus}

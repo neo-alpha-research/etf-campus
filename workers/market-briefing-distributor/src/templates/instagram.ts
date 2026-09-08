@@ -106,8 +106,7 @@ export function generateInstagramCarousel(
         <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.04"/>
       </filter>
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@500;600;700;800;900&amp;display=swap');
-        * { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', sans-serif; }
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', sans-serif; }
         .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
       </style>
     </defs>
@@ -745,12 +744,12 @@ export function generateInstagramCarousel(
   `;
 
   return [
-    { slideNumber: 1, title: "Cover", subtitle: "1초 후킹 표지 & 3대 핵심 펄스", svgContent: slide1Svg },
-    { slideNumber: 2, title: "Theme Dynamics", subtitle: "주도 테마 TOP 3 vs 부진 테마", svgContent: slide2Svg },
-    { slideNumber: 3, title: "Asset Class Dynamics", subtitle: "자산군별 수익률 & 비중 현황", svgContent: slide3Svg },
-    { slideNumber: 4, title: "Smart Money Flow", subtitle: "실질 자금 순유입 TOP 5", svgContent: slide4Svg },
-    { slideNumber: 5, title: "Disparity Alert", subtitle: "괴리율 고평가·할증 vs 저평가·할인 진단", svgContent: slide5Svg },
-    { slideNumber: 6, title: "Summary & Action Strategy", subtitle: "오늘 시장 총정리 & 핵심 전략", svgContent: slide6Svg },
+    { slideNumber: 1, title: "Cover", subtitle: "1초 후킹 표지 & 3대 핵심 펄스", svgContent: slide1Svg.trim() },
+    { slideNumber: 2, title: "Theme Dynamics", subtitle: "주도 테마 TOP 3 vs 부진 테마", svgContent: slide2Svg.trim() },
+    { slideNumber: 3, title: "Asset Class Dynamics", subtitle: "자산군별 수익률 & 비중 현황", svgContent: slide3Svg.trim() },
+    { slideNumber: 4, title: "Smart Money Flow", subtitle: "실질 자금 순유입 TOP 5", svgContent: slide4Svg.trim() },
+    { slideNumber: 5, title: "Disparity Alert", subtitle: "괴리율 고평가·할증 vs 저평가·할인 진단", svgContent: slide5Svg.trim() },
+    { slideNumber: 6, title: "Summary & Action Strategy", subtitle: "오늘 시장 총정리 & 핵심 전략", svgContent: slide6Svg.trim() },
   ];
 }
 

@@ -20,12 +20,12 @@ function escapeXml(unsafe?: string): string {
 }
 
 function formatDateWithDay(dateStr?: string): string {
-  if (!dateStr) return "2026.09.04 (금)";
+  if (!dateStr) return "2026.09.04 · 금요일";
   const [y, m, d] = dateStr.split("-").map(Number);
   const date = new Date(y, m - 1, d);
-  const days = ["일", "월", "화", "수", "목", "금", "토"];
-  const dayName = days[date.getDay()] || "금";
-  return `${dateStr.replace(/-/g, ".")} (${dayName})`;
+  const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+  const dayName = days[date.getDay()] || "금요일";
+  return `${dateStr.replace(/-/g, ".")} · ${dayName}`;
 }
 
 export function splitSubheadline(text?: string): string[] {
@@ -192,13 +192,11 @@ export function generateInstagramCarousel(
       <circle cx="950" cy="180" r="320" fill="#2E6819" fill-opacity="0.04"/>
       <circle cx="120" cy="1150" r="260" fill="#0284C7" fill-opacity="0.03"/>
 
-      <!-- Header (y=52) -->
-      <g transform="translate(70, 52)">
-        <rect x="0" y="0" width="220" height="32" rx="8" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
-        <text x="110" y="21" fill="#047857" font-size="14" font-weight="900" letter-spacing="1" text-anchor="middle">ETF CAMPUS · BRIEFING</text>
-        <text x="0" y="66" fill="#0F172A" font-size="34" font-weight="900">ETF 데일리 마켓 브리핑</text>
-        <rect x="740" y="16" width="200" height="44" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <text x="840" y="44" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
+      <!-- Header (y=56) -->
+      <g transform="translate(70, 56)">
+        <text x="0" y="36" fill="#0F172A" font-size="36" font-weight="900">ETF 데일리 마켓 브리핑</text>
+        <rect x="715" y="2" width="225" height="46" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
+        <text x="827" y="31" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
       </g>
 
       <!-- Main Hero Hook Card (y=130, h=295) -->

@@ -56,9 +56,9 @@ export function generateInstagramCarousel(
   const dateStr = payload.asOfDate || "2026-09-07";
   const formattedDate = formatDateWithDay(dateStr);
 
-  const kospi = payload.kospiChangePct ?? 4.61;
-  const kosdaq = payload.kosdaqChangePct ?? 1.07;
-  const etfReturn = payload.generalAumWeightedReturnPct ?? 1.88;
+  const kospi = payload.kospiChangePct ?? 0;
+  const kosdaq = payload.kosdaqChangePct ?? 0;
+  const etfReturn = payload.generalAumWeightedReturnPct ?? 0;
   const kospiSign = kospi > 0 ? "+" : "";
   const kosdaqSign = kosdaq > 0 ? "+" : "";
   const etfSign = etfReturn > 0 ? "+" : "";
@@ -66,10 +66,10 @@ export function generateInstagramCarousel(
   const kosdaqColor = kosdaq >= 0 ? "#D92D20" : "#175CD3";
   const etfColor = etfReturn >= 0 ? "#D92D20" : "#175CD3";
 
-  const up = payload.upCount ?? 535;
-  const down = payload.downCount ?? 466;
-  const flat = payload.flatCount ?? 18;
-  const generalCount = payload.generalEtfCount ?? 1019;
+  const up = payload.upCount ?? payload.pulse?.upCount ?? 0;
+  const down = payload.downCount ?? payload.pulse?.downCount ?? 0;
+  const flat = payload.flatCount ?? payload.pulse?.flatCount ?? 0;
+  const generalCount = payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? (up + down + flat);
 
   // Peer Groups (상위/하위 랭킹 SSOT)
   const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
@@ -402,7 +402,6 @@ export function generateInstagramCarousel(
   // SLIDE 4: Smart Money Flow (4 / 6)
   // =========================================================================
   const secondInflow = topInflows[1];
-  const cleanInflow2Name = secondInflow ? cleanEtfNameForBanner(secondInflow.name, 14) : "";
   const slide4BannerTitle = regime.slide4BannerTitle || (secondInflow
     ? `스마트머니, '${escapeXml(cleanInflowBannerName)}' 등 집중 순유입`
     : `스마트머니, '${escapeXml(cleanInflowBannerName)}' 집중 순유입`);
@@ -784,16 +783,17 @@ export function generateInstagramCaption(
     ? weakThemes.map(t => `${cleanTheme(t.peerGroup)} ${(t.cappedAumWeightedReturnPct ?? 0) > 0 ? '+' : ''}${(t.cappedAumWeightedReturnPct ?? 0).toFixed(2)}%`).join(', ')
     : "집계 중";
 
-  const kospi = payload.kospiChangePct ?? 4.61;
-  const etfRet = payload.generalAumWeightedReturnPct ?? 1.88;
+  const kospi = payload.kospiChangePct ?? 0;
+  const etfRet = payload.generalAumWeightedReturnPct ?? 0;
   const kospiSign = kospi > 0 ? "+" : "";
   const etfSign = etfRet > 0 ? "+" : "";
+  const kospiVerb = kospi > 0 ? "상승" : kospi < 0 ? "하락" : "보합";
 
   return `[${formattedDate}] 국내 ETF 마켓 데일리 브리핑
 
 📌 오늘의 3줄 요약
-1. 시장 체온: 코스피 ${kospiSign}${kospi.toFixed(2)}% 상승 속 일반 ETF 가중수익률 ${etfSign}${etfRet.toFixed(2)}% 기록
-2. 주도 테마: ${strongThemes[0] ? cleanTheme(strongThemes[0].peerGroup) + ' +' + (strongThemes[0].cappedAumWeightedReturnPct ?? 0).toFixed(2) + '%' : '집계 중'} 중심 상방 탄력
+1. 시장 체온: 코스피 ${kospiSign}${kospi.toFixed(2)}% ${kospiVerb} 속 일반 ETF 가중수익률 ${etfSign}${etfRet.toFixed(2)}% 기록
+2. 주도 테마: ${strongThemes[0] ? cleanTheme(strongThemes[0].peerGroup) + ' ' + ((strongThemes[0].cappedAumWeightedReturnPct ?? 0) > 0 ? '+' : '') + (strongThemes[0].cappedAumWeightedReturnPct ?? 0).toFixed(2) + '%' : '집계 중'} 중심 상방 탄력
 3. 스마트머니: ${topInflows[0] ? cleanTheme(topInflows[0].name) + ' 등 상위 종목 집중 유입' : '상위 종목 집중 유입'}
 
 ───────────────────────

@@ -236,6 +236,8 @@ jobs:
         env:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
         run: npx tsx generate-osmu.ts
 
       - name: Upload Briefing Images (Threads & Instagram Carousel) to Cloudflare KV

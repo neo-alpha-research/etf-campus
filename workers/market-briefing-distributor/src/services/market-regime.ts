@@ -237,10 +237,10 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
   const capSpread = Number((kospi - kosdaq).toFixed(2));
   const etfDivergence = Number((kospi - etfRet).toFixed(2));
 
-  const up = payload.upCount ?? 0;
-  const down = payload.downCount ?? 0;
-  const flat = payload.flatCount ?? 0;
-  const total = up + down + flat || 1025;
+  const up = payload.upCount ?? payload.pulse?.upCount ?? 0;
+  const down = payload.downCount ?? payload.pulse?.downCount ?? 0;
+  const flat = payload.flatCount ?? payload.pulse?.flatCount ?? 0;
+  const total = up + down + flat || (payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? 1);
   const upRatio = up / total;
   const downRatio = down / total;
 

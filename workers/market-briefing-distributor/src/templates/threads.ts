@@ -8,11 +8,15 @@ export interface ThreadsPost {
 }
 
 function formatDateWithDay(dateStr?: string): string {
-  if (!dateStr) return "2026.09.04 · 금요일";
+  if (!dateStr) {
+    const today = new Date();
+    const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+    return `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, "0")}.${String(today.getDate()).padStart(2, "0")} · ${days[today.getDay()]}`;
+  }
   const [y, m, d] = dateStr.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   const days = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
-  const dayName = days[date.getDay()] || "금요일";
+  const dayName = days[date.getDay()] || "월요일";
   return `${dateStr.replace(/-/g, ".")} · ${dayName}`;
 }
 
@@ -27,7 +31,7 @@ export function generateThreadsThread(
   narrative?: PolishedNarrative | MarketRegime
 ): ThreadsPost[] {
   const regime = narrative || classifyMarketRegime(payload);
-  const generalCount = payload.generalEtfCount ?? 1025;
+  const generalCount = payload.generalEtfCount ?? payload.pulse?.generalEtfCount ?? 0;
 
   const cleanThemeName = (name: string): string => {
     return name
@@ -145,11 +149,9 @@ function calcThemeFontSize(themeName?: string): number {
 }
 
 export function generateThreadsImageSvg(
-  payload: MarketBriefingPayload,
-  narrative?: PolishedNarrative | MarketRegime
+  payload: MarketBriefingPayload
 ): string {
-  const regime = narrative || classifyMarketRegime(payload);
-  const dateStr = payload.asOfDate || "2026-09-04";
+  const dateStr = payload.asOfDate || new Date().toISOString().slice(0, 10);
   const formattedDate = formatDateWithDay(dateStr);
 
   const kospi = payload.kospiChangePct ?? 0;
@@ -185,19 +187,10 @@ export function generateThreadsImageSvg(
   const topThemeColor = topThemeRet >= 0 ? "#D92D20" : "#175CD3";
   const bottomThemeColor = bottomThemeRet >= 0 ? "#D92D20" : "#175CD3";
 
-  // Inflows: Focus on Top 2 with clear contrast
+  // Inflows: Focus on Top 1
   const allInflows = payload.periodicFlows?.dailyFundFlows?.topInflows || [];
   const topInflow1 = allInflows[0] || { name: "데이터 수집 중", ticker: "-", inflow: 0 };
-  const topInflow2 = allInflows[1];
   const cleanTopInflow1Name = (topInflow1.name || "데이터 수집 중").replace(/\s*\([^)]*\)/g, '').trim();
-  const cleanTopInflow2Name = topInflow2 ? (topInflow2.name || "").replace(/\s*\([^)]*\)/g, '').trim() : "";
-  const top5InflowSum = allInflows.slice(0, 5).reduce((acc, curr) => acc + (curr.inflow || 0), 0);
-
-  // Disparity
-  const disparityList = payload.disparityWarning || [];
-  const hasDisparity = disparityList.length > 0;
-  const topDisparity = disparityList[0];
-  const cleanDisparityName = topDisparity ? (topDisparity.etfName || "주요 종목").replace(/\s*\([^)]*\)/g, '').trim() : "주요 종목";
 
   return `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 모닝 브리핑 인포그래픽 - ${formattedDate}">

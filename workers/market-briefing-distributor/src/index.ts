@@ -765,16 +765,23 @@ export async function publishToInstagramLive(
         itemContainerIds.push(itemData.id);
       }
 
-      // 3.2 Wait for all child containers to finish processing
+      // 3.2 Wait for all child containers to finish processing (up to 25 attempts / ~37.5s)
       for (const itemId of itemContainerIds) {
-        for (let i = 0; i < 15; i++) {
+        let isChildFinished = false;
+        for (let i = 0; i < 25; i++) {
           await new Promise(r => setTimeout(r, 1500));
           const statusRes = await fetch(`https://graph.instagram.com/v21.0/${itemId}?fields=status_code&access_token=${env.INSTAGRAM_ACCESS_TOKEN}`);
           const sData: any = await statusRes.json();
-          if (sData.status_code === "FINISHED") break;
+          if (sData.status_code === "FINISHED") {
+            isChildFinished = true;
+            break;
+          }
           if (sData.status_code === "ERROR") {
             throw new Error(`Instagram carousel child container ${itemId} processing error: ${JSON.stringify(sData)}`);
           }
+        }
+        if (!isChildFinished) {
+          throw new Error(`Instagram carousel child container ${itemId} timed out before reaching FINISHED status.`);
         }
       }
 
@@ -794,15 +801,22 @@ export async function publishToInstagramLive(
         throw new Error(`Failed to create Instagram carousel container: ${JSON.stringify(carouselData)}`);
       }
 
-      // 3.4 Wait for carousel container to finish processing
-      for (let i = 0; i < 15; i++) {
+      // 3.4 Wait for carousel container to finish processing (up to 25 attempts / ~50s)
+      let isCarouselFinished = false;
+      for (let i = 0; i < 25; i++) {
         await new Promise(r => setTimeout(r, 2000));
         const statusRes = await fetch(`https://graph.instagram.com/v21.0/${carouselData.id}?fields=status_code&access_token=${env.INSTAGRAM_ACCESS_TOKEN}`);
         const sData: any = await statusRes.json();
-        if (sData.status_code === "FINISHED") break;
+        if (sData.status_code === "FINISHED") {
+          isCarouselFinished = true;
+          break;
+        }
         if (sData.status_code === "ERROR") {
           throw new Error(`Instagram carousel container ${carouselData.id} processing error: ${JSON.stringify(sData)}`);
         }
+      }
+      if (!isCarouselFinished) {
+        throw new Error(`Instagram carousel parent container ${carouselData.id} timed out before reaching FINISHED status.`);
       }
 
       // 3.5 Publish the carousel

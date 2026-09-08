@@ -254,31 +254,16 @@ const US_MARKET_HOLIDAYS = new Set([
 
 const US_MARKET_CODES = new Set(["SPX", "NDX", "VIX", "DGS10", "CLF", "GC", "SI"]);
 
-export function getPrecedingUsTradingDate(baseDateStr: string): string {
-  const d = new Date(baseDateStr);
-  if (isNaN(d.getTime())) return "";
-  const dayOfWeek = d.getUTCDay(); // 0: Sun, 1: Mon, ..., 6: Sat
-  // 월요일(1) 기준 직전 미국 정규장은 금요일 (-3일)
-  // 일요일(0)은 -2일, 토요일(6)은 -1일
-  // 화~금(2~5) 기준 직전 미국 정규장은 전일 (-1일)
-  const daysToSubtract = dayOfWeek === 1 ? 3 : (dayOfWeek === 0 ? 2 : (dayOfWeek === 6 ? 1 : 1));
-  const prev = new Date(d);
-  prev.setUTCDate(prev.getUTCDate() - daysToSubtract);
-  return prev.toISOString().slice(0, 10);
-}
-
 export function checkIsMarketClosed(code: string, baseDate?: string, indexDate?: string, isClosedFlag?: boolean): boolean {
-  if (isClosedFlag) return true;
+  if (isClosedFlag !== undefined) return Boolean(isClosedFlag);
   if (!baseDate) return false;
 
   if (US_MARKET_CODES.has(code)) {
-    // 직전 미국 정규 거래 세션 날짜가 미국 공휴일인 경우
-    // (예: 9/8(화) 국내 브리핑 시 간밤 직전 세션인 9/7(월)이 미국 노동절로 휴장)
-    const precedingUsDate = getPrecedingUsTradingDate(baseDate);
-    if (precedingUsDate && US_MARKET_HOLIDAYS.has(precedingUsDate)) return true;
+    // 1) 당일이 미국 공식 공휴일(휴장일)인 경우 (예: 2026-09-07 Labor Day)
+    if (US_MARKET_HOLIDAYS.has(baseDate)) return true;
 
-    // 직전 거래일 대비 실제 데이터 수신일(indexDate)이 이전인 경우 (비정기 휴장 또는 미개장)
-    if (indexDate && precedingUsDate && indexDate < precedingUsDate) {
+    // 2) 브리핑 기준일 대비 실제 데이터 수신일(indexDate)이 이전인 경우 (비정기 휴장 또는 미개장)
+    if (indexDate && indexDate < baseDate) {
       return true;
     }
   }

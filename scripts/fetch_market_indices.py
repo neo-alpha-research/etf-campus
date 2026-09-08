@@ -280,15 +280,10 @@ def fetch_index_data(ticker_symbol: str, target_date_str: str) -> dict | None:
 
         # Determine if market was closed for this trading session
         iso_target = f"{target_date_str[:4]}-{target_date_str[4:6]}-{target_date_str[6:8]}"
-        target_dt = datetime.strptime(target_date_str, "%Y%m%d")
-        day_of_week = target_dt.weekday() # 0: Mon, 1: Tue, ..., 4: Fri
-        days_back = 3 if day_of_week == 0 else 1
-        preceding_us_dt = target_dt - timedelta(days=days_back)
-        preceding_us_iso = preceding_us_dt.strftime("%Y-%m-%d")
 
         is_closed = (
-            preceding_us_iso in US_MARKET_HOLIDAYS_2026 or
-            (bool(target_date_actual) and target_date_actual < preceding_us_iso)
+            iso_target in US_MARKET_HOLIDAYS_2026 or
+            (bool(target_date_actual) and target_date_actual < iso_target)
         )
         
         return {

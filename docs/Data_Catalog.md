@@ -117,18 +117,15 @@ VIX 는 CBOE 지수이므로 같은 범주로 봅니다.
 
 - 2026-09-08 부로 `scripts/publish_market_source_snapshot.py` 및 `scripts/fetch_market_indices.py` 내 미사용 레거시 함수(`fetch_fred_index`, `fetch_yahoo_index`, `fetch_krx_bond_yield` 등)를 완전 제거하여 단일화 완료.
 
-**해외 지수 및 미국 시장 휴장일 시차 동기화 원칙 (KST vs EDT)**:
-- **배경 및 거래 시점 동기화 메커니즘**:
-  - 국내 증시 및 ETF 정규장은 09:00 ~ 15:30 (KST)에 마감되며, 미국 뉴욕 정규장은 한국 시간 기준 당일 22:30 ~ 익일 05:00 (KST)에 열립니다.
-  - 따라서 당일(T일) 마켓 브리핑 생성 시점에 국내 시장에 영향을 미친 유효한 미국 시장 데이터는 **'한국 장 시작 전 종결된 직전 미국 정규 거래 세션'**입니다.
-- **직전 미국 정규 세션(`precedingUsDate`) 판별 규칙**:
-  - **월요일(Day 1)**: 직전 미국 정규 세션은 **직전 금요일(T-3일)**. (미국 금요일 밤 세션 결과가 한국 월요일 장에 반영)
-  - **화~금요일(Day 2~5)**: 직전 미국 정규 세션은 **전일(T-1일)**. (미국 월~목요일 밤 세션 결과가 한국 당일 장에 반영)
+**해외 지수 및 미국 시장 휴장일 동기화 원칙 (KST vs EDT)**:
+- **배경 및 거래 세션 동기화 메커니즘**:
+  - 국내 마켓 브리핑은 해당 거래일(T일) 마감 데이터와 해당 날짜에 대응하는 미국 시장 정규 거래 세션을 기준으로 제공됩니다.
+  - 당일 미국 시장 데이터(`as_of_date`)의 공식 거래일은 `baseDate`(`iso_target`)와 직접 매핑됩니다.
 - **휴장(`is_closed`) 판별 단일 표준(SSOT)**:
-  - 미국 지표의 `[휴장]` 판별은 한국 당일 날짜가 아니라 **직전 미국 정규 세션 날짜(`precedingUsDate`)가 미국 공식 공휴일 목록(`US_MARKET_HOLIDAYS`)에 포함되는지 여부**로 엄격히 결정합니다.
-  - (예 1) 9월 7일(월) 국내 브리핑: 직전 미국 세션은 9월 4일(금, 정상장)이므로 정상 종가 노출.
-  - (예 2) 9월 8일(화) 국내 브리핑: 직전 미국 세션인 9월 7일(월, 노동절)이 미국 휴장이므로 미국 지표 카드에 `[휴장]` 표기 적용.
-  - 백엔드 수집기(`scripts/fetch_market_indices.py`), 배포 파이프라인, 프론트엔드(`components/market-briefing/market-briefing.tsx`의 `checkIsMarketClosed`) 전 구간이 동일한 시차 동기화 기준을 준수합니다.
+  - 미국 지표의 `[휴장]` 판별은 **브리핑 기준일(`baseDate`) 당일이 미국 공식 공휴일 목록(`US_MARKET_HOLIDAYS`)에 포함되거나, 실제 수신된 데이터 일자(`as_of_date`)가 기준일 이전(`as_of_date < baseDate`)인 경우**로 엄격히 결정합니다.
+  - (예 1) 9월 7일(월, 노동절): 미국 시장 공식 휴장일이므로 `is_closed: true` 및 `[휴장]` 표기 적용.
+  - (예 2) 9월 8일(화, 정상장): 미국 시장 정상 거래일이므로 `is_closed: false` 및 정상 종가·등락률 노출.
+  - 백엔드 수집기(`scripts/fetch_market_indices.py`), 배포 파이프라인, 프론트엔드(`components/market-briefing/market-briefing.tsx`의 `checkIsMarketClosed`) 전 구간이 동일한 기준을 준수합니다.
 
 ### 2-4. 총보수 및 실부담비용율 (TER & Synthetic Cost)
 

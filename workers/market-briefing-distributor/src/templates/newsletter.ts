@@ -135,6 +135,15 @@ export function generateNewsletterHtml(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
   <title>${escapeXml(subject)}</title>
   <style>
     body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; background-color: #F8FAFC; color: #0F172A; -webkit-font-smoothing: antialiased; }
@@ -167,7 +176,7 @@ export function generateNewsletterHtml(
     }
   </style>
 </head>
-<body>
+<body bgcolor="#F8FAFC" style="margin: 0; padding: 0; background-color: #F8FAFC;">
   <!-- Hidden Preheader for Inbox Preview -->
   <div style="display: none; max-height: 0px; overflow: hidden; font-size: 1px; line-height: 1px; color: #FFFFFF; opacity: 0;">
     ${escapeXml(preheader)}
@@ -175,7 +184,7 @@ export function generateNewsletterHtml(
   </div>
 
   <div style="padding: 12px 6px;">
-    <div class="container">
+    <div class="container" style="background-color: #FFFFFF;">
       <!-- Header -->
       <div class="header">
         <span class="badge">ETF CAMPUS · DAILY BRIEFING</span>

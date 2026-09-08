@@ -1279,6 +1279,9 @@ function generateDashboardHtml(
         </div>
       </div>
     </div>
+    <footer style="margin-top: 24px; text-align: center; font-size: 12px; color: #64748B; padding: 16px; border-top: 1px solid #E2E8F0;">
+      * 본 대시보드는 한국거래소(KRX) 공시 데이터 기반 객관적 분석을 제공하며, 특정 종목의 매수·매도를 추천하지 않습니다. (자본시장법 제101조 준수)
+    </footer>
   </div>
 
   <script>
@@ -1415,7 +1418,13 @@ function generateDashboardHtml(
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + token }
         });
-        const data = await res.json();
+        const resText = await res.text();
+        let data;
+        try {
+          data = JSON.parse(resText);
+        } catch (jsonErr) {
+          throw new Error('서버 응답 오류 (' + res.status + '): ' + resText.slice(0, 150));
+        }
         if (data.success) {
           alert('스레드 발행 성공! (ID: ' + data.publishedPostId + ')');
           location.reload();
@@ -1452,7 +1461,13 @@ function generateDashboardHtml(
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + token }
         });
-        const data = await res.json();
+        const resText = await res.text();
+        let data;
+        try {
+          data = JSON.parse(resText);
+        } catch (jsonErr) {
+          throw new Error('서버 응답 오류 (' + res.status + '): ' + resText.slice(0, 150));
+        }
         if (data.success) {
           alert('인스타그램 발행 성공! (ID: ' + data.publishedPostId + ')');
           location.reload();

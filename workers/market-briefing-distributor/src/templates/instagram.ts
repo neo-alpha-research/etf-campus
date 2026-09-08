@@ -287,7 +287,7 @@ export function generateInstagramCarousel(
             <rect width="870" height="110" rx="20" fill="#FAFDF4" stroke="#D7EABB" stroke-width="1.5"/>
             <circle cx="50" cy="55" r="26" fill="${idx === 0 ? '#D92D20' : '#FEE4E2'}"/>
             <text x="50" y="64" fill="${idx === 0 ? '#FFFFFF' : '#D92D20'}" font-size="24" font-weight="900" text-anchor="middle">${idx + 1}</text>
-            <text x="96" y="48" fill="#0F172A" font-size="30" font-weight="900">${escapeXml(cleanName)}</text>
+            <text x="96" y="48" fill="#0F172A" font-size="${cleanName.length > 13 ? 24 : cleanName.length > 10 ? 27 : 30}" font-weight="900">${escapeXml(cleanName)}</text>
             <rect x="96" y="62" width="160" height="32" rx="8" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1"/>
             <text x="176" y="84" fill="#15803D" font-size="19" font-weight="900" text-anchor="middle">가중수익률 상위</text>
             <text x="840" y="70" fill="${retColor}" font-size="44" font-weight="900" text-anchor="end" class="tabular">${retSign}${ret.toFixed(2)}%</text>
@@ -311,7 +311,7 @@ export function generateInstagramCarousel(
             <rect width="870" height="110" rx="20" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
             <circle cx="50" cy="55" r="26" fill="${idx === 0 ? '#175CD3' : '#DBEAFE'}"/>
             <text x="50" y="64" fill="${idx === 0 ? '#FFFFFF' : '#175CD3'}" font-size="24" font-weight="900" text-anchor="middle">${idx + 1}</text>
-            <text x="96" y="48" fill="#0F172A" font-size="30" font-weight="900">${escapeXml(cleanName)}</text>
+            <text x="96" y="48" fill="#0F172A" font-size="${cleanName.length > 13 ? 24 : cleanName.length > 10 ? 27 : 30}" font-weight="900">${escapeXml(cleanName)}</text>
             <rect x="96" y="62" width="160" height="32" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
             <text x="176" y="84" fill="#475569" font-size="19" font-weight="900" text-anchor="middle">가중수익률 하위</text>
             <text x="840" y="70" fill="${retColor}" font-size="44" font-weight="900" text-anchor="end" class="tabular">${retSign}${ret.toFixed(2)}%</text>
@@ -443,7 +443,7 @@ export function generateInstagramCarousel(
       <!-- TOP 5 Inflow Ranking Cards (y=260, step=188, h=172) -->
       <g transform="translate(70, 260)">
         ${topInflows.slice(0, 5).map((item, idx) => {
-          const inflowJo = item.inflow ? item.inflow.toLocaleString() : "1,000";
+          const inflowJo = (item.inflow ?? 0).toLocaleString();
           const isTop = idx === 0;
           const cleanName = cleanEtfNameForBanner(item.name, 16);
           return `

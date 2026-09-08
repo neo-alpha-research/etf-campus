@@ -27,7 +27,7 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
 REQUEST_TIMEOUT_SECONDS = 25
-BRIEFING_WEB_URL = "https://etf-campus.pages.dev/market-briefing"
+BRIEFING_WEB_URL = "https://etf-campus.pages.dev/briefing"
 DISTRIBUTOR_DASHBOARD_URL = "https://market-briefing-distributor.neo-alpha-research.workers.dev/preview"
 
 

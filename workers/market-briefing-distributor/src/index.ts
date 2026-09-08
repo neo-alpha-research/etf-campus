@@ -890,7 +890,7 @@ function generateDashboardHtml(
 
   const generalCount = payload.generalEtfCount;
   const generalCountDisplay = (generalCount !== undefined && generalCount !== null)
-    ? `<strong style="color: #F8FAFC;">${generalCount}개</strong>`
+    ? `<strong style="color: #F8FAFC;">${typeof generalCount === "number" ? generalCount.toLocaleString() : generalCount}개</strong>`
     : '<span style="color: #EF4444; font-weight: 800;">데이터 없음</span>';
 
   const up = payload.upCount ?? 0;
@@ -898,21 +898,25 @@ function generateDashboardHtml(
   const down = payload.downCount ?? 0;
 
   const kospi = payload.kospiChangePct;
+  const kospiFormatted = typeof kospi === "number" ? kospi.toFixed(2) : kospi;
   const kospiDisplay = (kospi !== undefined && kospi !== null)
-    ? `KOSPI ${kospi > 0 ? '+' : ''}${kospi}%`
+    ? `KOSPI ${Number(kospi) > 0 ? '+' : ''}${kospiFormatted}%`
     : 'KOSPI <span style="color: #EF4444;">데이터 없음</span>';
 
   const etfReturn = payload.generalAumWeightedReturnPct;
+  const etfReturnFormatted = typeof etfReturn === "number" ? etfReturn.toFixed(2) : etfReturn;
   const etfReturnDisplay = (etfReturn !== undefined && etfReturn !== null)
-    ? `ETF ${etfReturn > 0 ? '+' : ''}${etfReturn}%`
+    ? `ETF ${Number(etfReturn) > 0 ? '+' : ''}${etfReturnFormatted}%`
     : 'ETF <span style="color: #EF4444;">데이터 없음</span>';
 
   const threadsText = generateThreadsThread(payload, env.SITE_BASE_URL || "https://etf-campus.pages.dev", narrative)[0]?.content || "";
   const captionText = generateInstagramCaption(payload, narrative);
   const isPublished = logStatus === "distributed" || Boolean(threadsPublishedId);
   const isBlocked = logStatus === "blocked" || logReasons.length > 0;
+  const modelNameDisplay = narrative.modelUsed || "gemini-3.8-flash";
+  const tokenDisplay = narrative.tokenIndex ? ` · Token #${narrative.tokenIndex}` : "";
   const aiBadge = narrative.source === "gemini-refined"
-    ? '<span class="badge badge-live">🤖 Gemini 2.5 AI 검증 완료</span>'
+    ? `<span class="badge badge-live" title="5계층 모델 워터폴 및 7대 토큰 풀 적용 (${modelNameDisplay})">🤖 ${modelNameDisplay}${tokenDisplay} 검증 완료</span>`
     : '<span class="badge badge-safe">⚙️ 정밀 룰 엔진 초안</span>';
 
   return `<!DOCTYPE html>

@@ -192,9 +192,6 @@ export async function reviewAndRefineWithGemini(
     generationConfig: {
       responseMimeType: "application/json",
       temperature: 0.3,
-      thinkingConfig: {
-        thinkingBudget: 0,
-      },
     },
   };
 

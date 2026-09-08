@@ -226,27 +226,9 @@ async function run() {
     console.log(`\n[OSMU Engine] Pure Cloud Mode active: Local OSMU_Archive disk write skipped (assets reviewed via Web Dashboard). Set SAVE_LOCAL_ARCHIVE=true to force local files.`);
   }
 
-  // Puppeteer Browser Launch for high-fidelity PNG rendering across all channels
-  const puppeteer = puppeteerModule.default || puppeteerModule;
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--hide-scrollbars'
-    ]
-  });
-  const renderPage = await browser.newPage();
-
   async function convertSvgToPng(svg: string, outPng: string, w = 1080, h = 1350) {
-    await renderPage.setViewport({ width: w, height: h, deviceScaleFactor: 1 });
-    await renderPage.setContent(`<!DOCTYPE html><html><head><style>html,body{margin:0;padding:0;background:transparent;overflow:hidden;width:${w}px;height:${h}px;}</style></head><body>${svg}</body></html>`, { waitUntil: 'domcontentloaded' });
-    const el = await renderPage.$('svg') || await renderPage.$('body');
-    if (el) {
-      await el.screenshot({ path: outPng, omitBackground: false });
-    }
+    const sharp = (await import("sharp")).default;
+    await sharp(Buffer.from(svg)).resize(w, h).png().toFile(outPng);
   }
 
   // Render & Save Slides
@@ -315,6 +297,17 @@ async function run() {
   let imageMapAreas: { left: number, top: number, width: number, height: number, ticker: string }[] = [];
 
   try {
+    const puppeteer = puppeteerModule.default || puppeteerModule;
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--hide-scrollbars'
+      ]
+    });
     const page = await browser.newPage();
     await page.setViewport({ width: 720, height: 900, deviceScaleFactor: 2 });
     await page.goto(`${baseUrl}/briefing`, { waitUntil: "domcontentloaded", timeout: 20000 });

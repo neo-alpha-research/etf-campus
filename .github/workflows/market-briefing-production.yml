@@ -251,6 +251,13 @@ jobs:
             npx wrangler kv key put "image:threads:$FORMATTED_DATE" --binding=BRIEFING_KV --remote --path="../../OSMU_Archive/$FORMATTED_DATE/2_Threads/threads_image.png"
           fi
 
+      - name: Send Telegram OSMU Notification
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 scripts/notify_telegram_osmu.py
+
       - name: Upload OSMU Archive
         uses: actions/upload-artifact@v4
         with:

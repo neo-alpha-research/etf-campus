@@ -7,6 +7,11 @@ on:
         description: "Target date in YYYYMMDD (blank uses yesterday)"
         required: false
         type: string
+      force:
+        description: "Force rerun even if already succeeded today"
+        required: false
+        type: boolean
+        default: false
   repository_dispatch:
     types: [market_data_ready]
 
@@ -54,8 +59,8 @@ jobs:
             exit 0
           fi
           
-          # 1. Check if already succeeded today (skip only for schedule runs)
-          if [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+          # 1. Check if already succeeded today (skip for automated/scheduled runs without force)
+          if [ "${{ inputs.force }}" != "true" ] && { [ "${{ github.event_name }}" != "workflow_dispatch" ] || [ -z "${{ inputs.target }}" ]; }; then
             if python scripts/check_workflow_success_today.py --workflow daily-market.yml; then
               echo "skip=true" >> "$GITHUB_OUTPUT"
               echo "skip_reason=already_succeeded" >> "$GITHUB_OUTPUT"

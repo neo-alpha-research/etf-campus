@@ -3,8 +3,8 @@ name: Monitor market daily pipeline
 on:
   schedule:
     # UTC Tue-Sat 00:45 = KST Tue-Sat 09:45.
-    # The daily ETF refresh has completed all 07:53 ~ 09:33 retry rungs,
-    # then leaves sufficient time for D1 ingest, production deployment, and OSMU generation.
+    # The daily ETF refresh triggered by n8n probing (07:50 ~ 08:40 KST)
+    # has completed, leaving sufficient time for D1 ingest, production deployment, and OSMU generation.
     - cron: "45 0 * * 2-6"
   workflow_dispatch:
     inputs:

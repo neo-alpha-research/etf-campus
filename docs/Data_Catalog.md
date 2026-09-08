@@ -22,15 +22,15 @@
 
 | 데이터 항목 | 데이터 소스 (단일 공인 원천) | 소싱 방법 (엔진/스크립트) | 소싱 시간(KST) 및 주기 | 주요 계산법 및 적재 대상 | 상태 및 비고 |
 |---|---|---|---|---|---|
-| **ETF 일별시세, NAV, 상장좌수** | **한국거래소 (KRX Open API)** 단일 원천 | `update_daily_data.py`<br>`backfill_api.py` (로컬 CSV 재사용) | **거래일 익일 07:53 개시**<br>(Worker 능동 감지 및 09:33 안전망) | 1,167개 ETF 일괄 수집 → Git CSV 및 Cloudflare D1 (`etf_daily`, `etf_prices`) 적재<br>※ 공공데이터포털(FSC)은 오전 10시 이후 지연으로 시세 수집에서 완전 제외 | 단일 원천 (SSOT) / 정상 |
+| **ETF 일별시세, NAV, 상장좌수** | **한국거래소 (KRX Open API)** 단일 원천 | `update_daily_data.py`<br>`backfill_api.py` (로컬 CSV 재사용) | **거래일 익일 07:50~08:40**<br>(NHN Cloud n8n 5분 단위 스마트 프로빙) | 1,167개 ETF 일괄 수집 → Git CSV 및 Cloudflare D1 (`etf_daily`, `etf_prices`) 적재<br>※ 공공데이터포털(FSC)은 오전 10시 이후 지연으로 시세 수집에서 완전 제외 | 단일 원천 (SSOT) / 정상 |
 | **ETF 순유입액 (Fund Flow)** | KRX 일별 데이터 파생 | `market-briefing-publisher` | 마켓 브리핑 워커 실행 시 | `순유입 = (좌수(T) - 좌수(T-1)) * NAV(T)`<br>※ API의 좌수(shares)는 T-1 기준이므로 T시점 좌수는 `AUM/NAV`로 역산 | 정상 |
 | **ETF 괴리율 (Disparity)** | KRX 일별 데이터 파생 | 수집 스크립트 파생 로직 | 시세 수집 시 | `괴리율 = (종가 - NAV) / NAV * 100`<br>※ 고평가(할증 주의) vs 저평가(할인 체크) 2단 분할 | 정상 |
 | **시장 카테고리별 AUM 비중** | `etf_prices` / `asset_detail` | `market-briefing-publisher` | 마켓 브리핑 워커 실행 시 | 데이터가 있는 분류만 합산. 특정 카테고리 비율 하드코딩 **전면 금지** | 정상 |
 | **ETF 구성종목 (Holdings / PDF)** | **네이버 증권 공식 API** (`ETFComponent`)<br>및 운용사 일일 공시 | `refresh_holdings.py`<br>`daily-holdings.yml` | **매일 19:00**<br>(장 마감 확정치) | `ThreadPoolExecutor(25 workers)` 병렬 수집 후 100개 단위 청크 SQL로 Cloudflare D1 `etf_holdings` 테이블 직접 적재 (`ON CONFLICT DO UPDATE`) | 정상 가동 |
 | **총보수 및 실부담비용율** | **금융투자협회 (KOFIA DIS)** 법정 결산 원천<br>+ **에프앤가이드/네이버 증권 API** 신규상장 원천 | `kofia_fee_collector.py`<br>`sync_new_listing_fee.py`<br>`kofia-fee-sync.yml` | **매월 1, 5, 10일 11:00** (협회 결산 공시)<br>+ **매일 09:33** (신규상장 명목보수 즉시 수집) | `실부담비용율 = TER(총보수 + 기타비용) + 매매중개수수료율`<br>※ 신규 상장 ETF는 에프앤가이드 정제 약관 총보수 즉시 등록 및 마스킹(`masked_new`) 적용 | **1,170개 전수 원장 완비** / 신규 상장 ETF 당일 명목보수 100% 자동 수집 체계 구축 |
 | **퇴직연금 및 ISA 적격성** | **퇴직연금감독규정 제9조·제12조, 시행세칙 제5조의2, 조특법 제91조의18** 단일 룰 | `pension_regulatory_engine.py`<br>`phase0_merge_verify.py` | 시세 갱신 시 자동 평가 | 위험평가액 40% 초과 파생상품, 레버리지, 인버스 제외<br>※ 배율 기반 ISA 교육 대상 및 신뢰도 메타데이터 산출 | 법정 감독규정 / 정상 |
-| **국내 지수 (KOSPI/KOSDAQ)** | **한국거래소 (KRX Open API)** | `fetch_market_indices.py` | 거래일 익일 07:53 | 원천 데이터 활용 (`data/market_indices.json`, D1 저장) | 정상 |
-| **해외지수, 원자재, 환율, VIX** | **Yahoo Finance API** + 한국은행 ECOS | `fetch_market_indices.py` | 거래일 익일 07:53 | S&P500, 나스닥, 원/달러, WTI, 금, 국채10Y, VIX 수집 | 정상 |
+| **국내 지수 (KOSPI/KOSDAQ)** | **한국거래소 (KRX Open API)** | `fetch_market_indices.py` | 거래일 익일 07:50~08:40 | 원천 데이터 활용 (`data/market_indices.json`, D1 저장) | 정상 |
+| **해외지수, 원자재, 환율, VIX** | **Yahoo Finance API** + 한국은행 ECOS | `fetch_market_indices.py` | 거래일 익일 07:50~08:40 | S&P500, 나스닥, 원/달러, WTI, 금, 국채10Y, VIX 수집 | 정상 |
 | **분배금 및 TR 수익률** | **한국예탁결제원 (SEIBro)** 단일 공인 원천 | `collect_seibro_distributions.py`<br>`build_distribution_summaries.py`<br>PR/TR 산출 엔진 | **매일 13:07** | 주당 분배금 기반 TR 재투자 수식 적용<br>※ Playwright 구형 스크립트 삭제 완료 (2026-09-05) | 공인 중앙예탁기관 / 정상 |
 | **추적오차율** | 제공처 없음 | N/A | N/A | 임의 생성 금지. 화면에서 **제거됨**<br>※ CI 좀비 스크립트 완전 삭제 | 사용 안 함 (정리 완료) |
 | **커뮤니티** | Supabase | Supabase RPC / Views | 실시간 | 자체 게시글 및 메타데이터 적재 | 자체 / 정상 |

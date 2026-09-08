@@ -15,11 +15,6 @@ on:
   repository_dispatch:
     types: [market_data_ready]
 
-env:
-  # [주의] 이 값을 바꿀 때 위의 schedule 크론의 최종 단계(00:33)와
-  # guard 스텝의 최종 단계 판정 로직이 함께 일치해야 합니다.
-  FINAL_RETRY_UTC_HOUR: "00"
-
 permissions:
   contents: write
   actions: write
@@ -69,29 +64,16 @@ jobs:
             fi
           fi
           
-          # 2. Check data source readiness (enforced for both schedule and default manual runs)
-          UTC_HOUR=$(date -u +%H)
+          # 2. Check data source readiness
           if python scripts/check_source_ready.py; then
             echo "Data is ready."
             echo "- **Proceeding**: Source data is available." >> "$GITHUB_STEP_SUMMARY"
           else
-            if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-              echo "Data not available yet on KRX/Data.go.kr. Skipping to release runner lock."
-              echo "skip=true" >> "$GITHUB_OUTPUT"
-              echo "skip_reason=source_not_ready" >> "$GITHUB_OUTPUT"
-              echo "- **Skipping**: Source data is not yet available. Exiting early to avoid blocking scheduled ladder." >> "$GITHUB_STEP_SUMMARY"
-              exit 0
-            elif [ "$UTC_HOUR" = "$FINAL_RETRY_UTC_HOUR" ]; then
-              echo "::error::Data is still not available at final attempt."
-              echo "- **Failed**: Source data did not arrive before the final scheduled run." >> "$GITHUB_STEP_SUMMARY"
-              exit 1
-            else
-              echo "Data not available yet. Skipping subsequent steps."
-              echo "skip=true" >> "$GITHUB_OUTPUT"
-              echo "skip_reason=source_not_ready" >> "$GITHUB_OUTPUT"
-              echo "- **Skipping**: Source data is not yet available. Waiting for next schedule." >> "$GITHUB_STEP_SUMMARY"
-              exit 0
-            fi
+            echo "Data not available yet on KRX/Data.go.kr. Skipping to release runner lock."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "skip_reason=source_not_ready" >> "$GITHUB_OUTPUT"
+            echo "- **Skipping**: Source data is not yet available. Exiting early to await next n8n probe." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
           fi
 
       - name: Install Python dependencies

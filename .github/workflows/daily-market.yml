@@ -1,6 +1,25 @@
 name: Daily ETF market data refresh
 
 on:
+  schedule:
+    # Fail-safe retry ladder on the morning AFTER each trading day (KST).
+    # n8n on NHN Cloud serves as primary 5-min prober (07:50~08:40 KST).
+    # This native GitHub schedule guarantees execution even if n8n is offline or unconfigured.
+    # As soon as data/etf_master_draft.csv contains today's expected close, subsequent runs exit in <5s.
+    #
+    #   UTC (cron)      KST (local)          purpose
+    #   Mon-Fri 23:05   Tue-Sat 08:05        1st fail-safe attempt
+    #   Mon-Fri 23:15   Tue-Sat 08:15        2nd fail-safe attempt
+    #   Mon-Fri 23:25   Tue-Sat 08:25        3rd fail-safe attempt
+    #   Mon-Fri 23:35   Tue-Sat 08:35        4th fail-safe attempt
+    #   Mon-Fri 23:50   Tue-Sat 08:50        5th fail-safe attempt
+    #   Tue-Sat 00:30   Tue-Sat 09:30        6th final retry safety net
+    - cron: "5 23 * * 1-5"
+    - cron: "15 23 * * 1-5"
+    - cron: "25 23 * * 1-5"
+    - cron: "35 23 * * 1-5"
+    - cron: "50 23 * * 1-5"
+    - cron: "30 0 * * 2-6"
   workflow_dispatch:
     inputs:
       target:
@@ -187,7 +206,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees | grep -q .; then
+          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees public/data/returns/tr_index | grep -q .; then
             echo "Publishable data changes detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
@@ -239,7 +258,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json; do
+          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then

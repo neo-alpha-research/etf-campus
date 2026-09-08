@@ -238,7 +238,7 @@ jobs:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
         run: npx tsx generate-osmu.ts
 
-      - name: Upload Threads PNG Image to Cloudflare KV
+      - name: Upload Briefing Images (Threads & Instagram Carousel) to Cloudflare KV
         working-directory: workers/market-briefing-distributor
         continue-on-error: true
         env:
@@ -250,6 +250,13 @@ jobs:
           if [ -f "../../OSMU_Archive/$FORMATTED_DATE/2_Threads/threads_image.png" ]; then
             npx wrangler kv key put "image:threads:$FORMATTED_DATE" --binding=BRIEFING_KV --remote --path="../../OSMU_Archive/$FORMATTED_DATE/2_Threads/threads_image.png"
           fi
+          echo "Uploading Instagram carousel slides for $FORMATTED_DATE to BRIEFING_KV..."
+          for i in {1..6}; do
+            SLIDE_PATH="../../OSMU_Archive/$FORMATTED_DATE/1_Instagram/instagram_slide_${i}.png"
+            if [ -f "$SLIDE_PATH" ]; then
+              npx wrangler kv key put "image:instagram:$FORMATTED_DATE:$i" --binding=BRIEFING_KV --remote --path="$SLIDE_PATH"
+            fi
+          done
 
       - name: Send Telegram OSMU Notification
         continue-on-error: true

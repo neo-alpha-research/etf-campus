@@ -493,40 +493,40 @@ async function run() {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
   <style>
     * { font-family: 'Pretendard', sans-serif; }
-    .slide-svg svg { width: 100%; height: auto; display: block; border-radius: 1.25rem; }
+    .slide-svg svg { width: 100%; height: auto; display: block; border-radius: 1rem; }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+<body class="bg-slate-50 text-slate-900 min-h-screen p-4 md:p-8">
   <div class="max-w-7xl mx-auto space-y-8">
-    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
       <div>
         <div class="flex items-center gap-2 mb-1">
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-950 px-3 py-1 text-xs font-bold text-emerald-400 border border-emerald-800">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-extrabold text-emerald-800 border border-emerald-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
             LOCAL FAST PREVIEW
           </span>
-          <span class="text-sm font-semibold text-slate-400">${dateStr} 장마감 기준</span>
+          <span class="text-sm font-bold text-slate-600">${dateStr} 장마감 기준</span>
         </div>
-        <h1 class="text-2xl md:text-3xl font-extrabold text-white">
+        <h1 class="text-2xl md:text-3xl font-black text-slate-900">
           ETF Campus OSMU 자동 배포 통합 프리뷰 대시보드
         </h1>
       </div>
       <div>
-        <button onclick="window.location.reload()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-bold border border-slate-700 transition">
+        <button onclick="window.location.reload()" class="px-4 py-2 bg-white hover:bg-slate-50 text-slate-800 rounded-xl text-sm font-bold border border-slate-300 shadow-sm transition">
           새로고침
         </button>
       </div>
     </header>
 
     <!-- 3-Channel Tabs -->
-    <div class="flex border-b border-slate-800 gap-2" id="channelTabs">
-      <button onclick="switchTab('instagram')" id="tab-instagram" class="px-6 py-3 font-bold text-sm border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2">
+    <div class="flex border-b border-slate-200 gap-2" id="channelTabs">
+      <button onclick="switchTab('instagram')" id="tab-instagram" class="px-6 py-3 font-extrabold text-sm border-b-2 border-emerald-600 text-emerald-700 flex items-center gap-2">
         인스타그램 ${slides.length}-Slide 카드뉴스 &amp; 캡션
       </button>
-      <button onclick="switchTab('threads')" id="tab-threads" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+      <button onclick="switchTab('threads')" id="tab-threads" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2">
         Threads 모닝 브리핑 &amp; 이미지
       </button>
-      <button onclick="switchTab('newsletter')" id="tab-newsletter" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2">
+      <button onclick="switchTab('newsletter')" id="tab-newsletter" class="px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2">
         이메일 뉴스레터
       </button>
     </div>
@@ -534,27 +534,27 @@ async function run() {
     <!-- TAB 1: Instagram Carousel -->
     <section id="panel-instagram" class="space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div class="lg:col-span-7 bg-slate-950 p-6 rounded-3xl border border-slate-800 shadow-2xl flex flex-col items-center">
-          <div class="flex items-center justify-between w-full mb-3 text-xs text-slate-400 font-bold px-2">
-            <span id="activeSlideTitle">Slide 1 / ${slides.length}</span>
+        <div class="lg:col-span-7 bg-white p-6 rounded-3xl border border-slate-200 shadow-lg flex flex-col items-center">
+          <div class="flex items-center justify-between w-full mb-3 text-xs text-slate-600 font-bold px-2">
+            <span id="activeSlideTitle" class="text-sm font-black text-slate-800">Slide 1 / ${slides.length}</span>
             <div class="flex gap-2">
-              <button onclick="prevSlide()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-bold">◀ 이전</button>
-              <button onclick="nextSlide()" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-white font-bold">다음 ▶</button>
+              <button onclick="prevSlide()" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-800 font-bold border border-slate-300">◀ 이전</button>
+              <button onclick="nextSlide()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-white font-bold shadow-sm">다음 ▶</button>
             </div>
           </div>
-          <div id="focusedSlideContainer" class="w-full max-w-[500px] slide-svg shadow-2xl rounded-2xl overflow-hidden border border-slate-700/50"></div>
+          <div id="focusedSlideContainer" class="w-full max-w-[500px] slide-svg shadow-xl rounded-2xl overflow-hidden border border-slate-200 bg-slate-50"></div>
         </div>
 
         <div class="lg:col-span-5 space-y-4">
-          <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-3">
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
             <div class="flex items-center justify-between">
-              <h3 class="text-sm font-bold text-slate-300">인스타그램 캡션</h3>
-              <a href="./1_Instagram/instagram_caption.txt" download class="text-xs text-emerald-400 font-bold hover:underline">다운로드</a>
+              <h3 class="text-sm font-bold text-slate-800">인스타그램 캡션</h3>
+              <a href="./1_Instagram/instagram_caption.txt" download class="text-xs text-emerald-700 font-bold hover:underline">다운로드</a>
             </div>
-            <div class="text-xs leading-relaxed text-slate-300 bg-slate-900 p-4 rounded-2xl max-h-[300px] overflow-y-auto whitespace-pre-wrap">${caption}</div>
+            <div class="text-xs leading-relaxed text-slate-800 bg-slate-50 p-4 rounded-2xl border border-slate-200 max-h-[300px] overflow-y-auto whitespace-pre-wrap">${caption}</div>
           </div>
-          <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-3">
-            <h3 class="text-sm font-bold text-slate-300">${slides.length}개 슬라이드 썸네일</h3>
+          <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
+            <h3 class="text-sm font-bold text-slate-800">${slides.length}개 슬라이드 썸네일</h3>
             <div id="thumbnailsContainer" class="grid grid-cols-3 gap-2"></div>
           </div>
         </div>
@@ -565,14 +565,14 @@ async function run() {
     <section id="panel-threads" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div class="lg:col-span-7 space-y-4" id="threadsContainer"></div>
-        <div class="lg:col-span-5 bg-slate-950 p-6 rounded-3xl border border-slate-800 shadow-2xl flex flex-col items-center">
+        <div class="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-lg flex flex-col items-center">
           <div class="flex items-center justify-between w-full mb-4">
-            <h3 class="text-sm font-bold text-slate-300">스레드 단일 첨부 이미지 (1080×1350)</h3>
-            <a href="./2_Threads/threads_image.png" target="_blank" download="threads_image.png" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+            <h3 class="text-sm font-bold text-slate-800">스레드 단일 첨부 이미지 (1080×1350)</h3>
+            <a href="./2_Threads/threads_image.png" target="_blank" download="threads_image.png" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
               <span>PNG 다운로드</span>
             </a>
           </div>
-          <div class="max-w-[420px] rounded-2xl overflow-hidden shadow-2xl border border-slate-700 w-full bg-slate-900">
+          <div class="max-w-[420px] rounded-2xl overflow-hidden shadow-xl border border-slate-200 w-full bg-slate-50">
             <img src="./2_Threads/threads_image.png" class="w-full h-auto rounded-2xl block" alt="스레드 모닝 브리핑 카드" onerror="this.onerror=null; this.src='./2_Threads/threads_image.svg';" />
           </div>
         </div>
@@ -581,25 +581,25 @@ async function run() {
 
     <!-- TAB 3: Newsletter HTML -->
     <section id="panel-newsletter" class="hidden space-y-6">
-      <div class="bg-slate-800 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+      <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div>
-          <span class="text-xs text-slate-400">이메일 제목:</span>
-          <span class="font-bold text-white text-sm ml-2">${newsletter.subject}</span>
+          <span class="text-xs text-slate-500 font-bold">이메일 제목:</span>
+          <span class="font-bold text-slate-900 text-sm ml-2">${newsletter.subject}</span>
         </div>
         <div class="flex items-center gap-2">
-          <a href="./3_Email/newsletter.html" target="_blank" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+          <a href="./3_Email/newsletter.html" target="_blank" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
             <span>새 창에서 이메일 전체보기</span>
           </a>
         </div>
       </div>
 
-      <div class="bg-[#0F172A] rounded-2xl overflow-hidden shadow-2xl p-6 border border-slate-700 flex flex-col items-center">
-        <div class="max-w-[680px] w-full bg-slate-900 p-3 rounded-2xl border border-slate-800">
-          <div class="flex items-center justify-between px-3 py-2 text-xs text-slate-400 border-b border-slate-800 mb-3">
-            <span class="font-bold text-slate-300">반응형 HTML 뉴스레터 라이브 뷰 (620px 이메일 표준 규격)</span>
-            <span class="text-[11px] bg-slate-800 px-2 py-0.5 rounded text-emerald-400 font-bold">100% 팩트 정합성 검증</span>
+      <div class="bg-slate-100 rounded-2xl overflow-hidden shadow-sm p-6 border border-slate-200 flex flex-col items-center">
+        <div class="max-w-[680px] w-full bg-white p-4 rounded-2xl border border-slate-200 shadow-md">
+          <div class="flex items-center justify-between px-3 py-2 text-xs text-slate-500 border-b border-slate-200 mb-3">
+            <span class="font-bold text-slate-700">반응형 HTML 뉴스레터 라이브 뷰 (620px 이메일 표준 규격)</span>
+            <span class="text-[11px] bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded text-emerald-700 font-bold">100% 팩트 정합성 검증</span>
           </div>
-          <iframe src="./3_Email/newsletter.html" class="w-full h-[1180px] rounded-xl border border-slate-700 bg-white" title="뉴스레터 미리보기"></iframe>
+          <iframe src="./3_Email/newsletter.html" class="w-full h-[1180px] rounded-xl border border-slate-200 bg-white" title="뉴스레터 미리보기"></iframe>
         </div>
       </div>
     </section>
@@ -617,7 +617,7 @@ async function run() {
 
       const thumbContainer = document.getElementById('thumbnailsContainer');
       thumbContainer.innerHTML = slides.map((item, idx) => \`
-        <div onclick="setSlide(\${idx})" class="cursor-pointer bg-slate-950 p-1.5 rounded-xl border \${idx === currentIdx ? 'border-emerald-500 ring-2 ring-emerald-500/30' : 'border-slate-800'} transition">
+        <div onclick="setSlide(\${idx})" class="cursor-pointer bg-white p-1.5 rounded-xl border \${idx === currentIdx ? 'border-emerald-600 ring-2 ring-emerald-500/30' : 'border-slate-200 hover:border-slate-300'} transition shadow-xs">
           <div class="rounded-lg overflow-hidden slide-svg pointer-events-none">
             \${item.svgContent}
           </div>
@@ -646,11 +646,11 @@ async function run() {
     function renderThreads() {
       const c = document.getElementById('threadsContainer');
       c.innerHTML = threads.map(t => {
-        return '<div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3">' +
-          '<div class="flex items-center gap-2 border-b border-slate-800/80 pb-3">' +
-            '<span class="font-bold text-sm text-emerald-400">Post ' + t.sequence + '</span>' +
+        return '<div class="bg-white p-6 rounded-2xl border border-slate-200 space-y-3 shadow-sm">' +
+          '<div class="flex items-center gap-2 border-b border-slate-100 pb-3">' +
+            '<span class="font-bold text-sm text-emerald-700">Post ' + t.sequence + '</span>' +
           '</div>' +
-          '<div class="text-sm leading-relaxed text-slate-200 whitespace-pre-wrap">' + t.content + '</div>' +
+          '<div class="text-sm leading-relaxed text-slate-800 whitespace-pre-wrap">' + t.content + '</div>' +
         '</div>';
       }).join('');
     }
@@ -660,10 +660,10 @@ async function run() {
         const btn = document.getElementById('tab-' + t);
         const p = document.getElementById('panel-' + t);
         if (t === tab) {
-          btn.className = 'px-6 py-3 font-bold text-sm border-b-2 border-emerald-500 text-emerald-400 flex items-center gap-2';
+          btn.className = 'px-6 py-3 font-extrabold text-sm border-b-2 border-emerald-600 text-emerald-700 flex items-center gap-2';
           p.classList.remove('hidden');
         } else {
-          btn.className = 'px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-400 hover:text-slate-200 flex items-center gap-2';
+          btn.className = 'px-6 py-3 font-bold text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2';
           p.classList.add('hidden');
         }
       });
@@ -715,34 +715,34 @@ async function run() {
     body { font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col">
   <!-- Master Navigation Header -->
-  <header class="bg-slate-900/95 backdrop-blur border-b border-slate-800 sticky top-0 z-50 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+  <header class="bg-white/95 backdrop-blur border-b border-slate-200 sticky top-0 z-50 px-6 py-3 flex flex-wrap items-center justify-between gap-4 shadow-sm">
     <div class="flex items-center gap-3">
-      <span class="text-xl font-black text-emerald-400">ETF</span>
+      <span class="text-xl font-black text-emerald-600">ETF</span>
       <div>
-        <h1 class="text-base font-black text-white flex items-center gap-2">
+        <h1 class="text-base font-black text-slate-900 flex items-center gap-2">
           <span>ETF CAMPUS</span>
-          <span class="text-[11px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded-full font-extrabold tracking-wide">OSMU Master Hub</span>
+          <span class="text-[11px] bg-emerald-50 text-emerald-700 border border-emerald-300 px-2.5 py-0.5 rounded-full font-extrabold tracking-wide">OSMU Master Hub</span>
         </h1>
-        <p class="text-xs text-slate-400">인스타그램 · 스레드 · 뉴스레터 3대 채널 배포 콘텐츠 통합 뷰어</p>
+        <p class="text-xs text-slate-500">인스타그램 · 스레드 · 뉴스레터 3대 채널 배포 콘텐츠 통합 뷰어</p>
       </div>
     </div>
 
     <!-- Date Selection & Direct Actions -->
     <div class="flex items-center gap-3">
-      <span class="text-xs text-slate-400 font-bold">분석 기준일:</span>
-      <select id="dateSelect" onchange="changeDate(this.value)" class="bg-slate-800 text-emerald-400 border border-slate-700 text-xs font-black rounded-xl px-3.5 py-2 outline-none cursor-pointer hover:border-emerald-500 transition">
+      <span class="text-xs text-slate-600 font-bold">분석 기준일:</span>
+      <select id="dateSelect" onchange="changeDate(this.value)" class="bg-white text-emerald-700 border border-slate-300 text-xs font-black rounded-xl px-3.5 py-2 outline-none cursor-pointer hover:border-emerald-500 transition shadow-xs">
         ${allDateDirs.map(d => `<option value="${d}" ${d === dateStr ? 'selected' : ''}>${d} ${d === allDateDirs[0] ? '(최신)' : ''}</option>`).join('')}
       </select>
-      <a id="directDayLink" href="./${dateStr}/index.html" target="_blank" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-bold transition flex items-center gap-1 border border-slate-700">
+      <a id="directDayLink" href="./${dateStr}/index.html" target="_blank" class="px-3.5 py-2 bg-white hover:bg-slate-50 text-slate-800 rounded-xl text-xs font-bold transition flex items-center gap-1 border border-slate-300 shadow-xs">
         <span>단독 창 열기</span>
       </a>
     </div>
   </header>
 
   <!-- Embedded Day Dashboard Iframe -->
-  <main class="flex-1 w-full bg-slate-950">
+  <main class="flex-1 w-full bg-slate-100">
     <iframe id="dayDashboardFrame" src="./${dateStr}/index.html" class="w-full h-[calc(100vh-62px)] border-0" title="Daily OSMU Dashboard"></iframe>
   </main>
 

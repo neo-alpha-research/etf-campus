@@ -225,142 +225,115 @@ export function generateThreadsImageSvg(
       <circle cx="980" cy="120" r="280" fill="#10B981" fill-opacity="0.05"/>
       <circle cx="100" cy="1200" r="240" fill="#3B82F6" fill-opacity="0.04"/>
 
-      <!-- Clean Header -->
-      <g transform="translate(60, 54)">
-        <text x="0" y="36" fill="#0F172A" font-size="36" font-weight="900">ETF 모닝 브리핑</text>
-        <text x="0" y="66" fill="#475569" font-size="19" font-weight="800">KRX 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 요약</text>
+      <!-- Clean Minimal Header (Scaled Up) -->
+      <g transform="translate(60, 46)">
+        <rect x="0" y="0" width="230" height="32" rx="8" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
+        <text x="115" y="21" fill="#047857" font-size="15" font-weight="900" letter-spacing="1" text-anchor="middle">ETF CAMPUS · BRIEFING</text>
+        <text x="0" y="78" fill="#0F172A" font-size="52" font-weight="900" letter-spacing="-0.8">ETF 모닝 브리핑</text>
+        <text x="0" y="116" fill="#475569" font-size="23" font-weight="700">KRX 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 요약</text>
         
-        <rect x="730" y="8" width="230" height="48" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#cardShadow)"/>
-        <text x="845" y="39" fill="#0F172A" font-size="20" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
+        <rect x="685" y="16" width="275" height="62" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
+        <text x="822" y="55" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
       </g>
 
-      <!-- SECTION 1: 시장 체온 & 3대 지수 비교 (Y: 138, H: 210) -->
-      <g transform="translate(60, 138)" filter="url(#cardShadow)">
-        <rect width="960" height="210" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
+      <!-- SECTION 1: 시장 체온 & 3대 지수 스코어보드 (Y: 168, H: 268) [Spacious & Bold] -->
+      <g transform="translate(60, 168)" filter="url(#cardShadow)">
+        <rect width="960" height="268" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
         
-        <text x="35" y="44" fill="#0F172A" font-size="24" font-weight="900">1. 시장 체온 &amp; 3대 지수 비교</text>
-        <rect x="600" y="16" width="325" height="42" rx="12" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="762" y="43" font-size="20" font-weight="900" text-anchor="middle">
+        <text x="35" y="52" fill="#0F172A" font-size="32" font-weight="900">1. 시장 체온 &amp; 3대 지수 스코어보드</text>
+        <rect x="525" y="16" width="400" height="52" rx="15" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
+        <text x="725" y="48" font-size="21" font-weight="900" text-anchor="middle">
           <tspan fill="#D92D20">상승 ${up}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#64748B">보합 ${flat}</tspan><tspan fill="#94A3B8"> · </tspan><tspan fill="#175CD3">하락 ${down}</tspan>
         </text>
 
-        <!-- 3 Big Metric Boxes -->
-        <g transform="translate(35, 80)">
+        <!-- 3 Big Metric Boxes (H: 150) -->
+        <g transform="translate(35, 86)">
           <!-- KOSPI -->
-          <rect x="0" y="0" width="285" height="102" rx="16" fill="${kospi >= 0 ? '#FEF2F2' : '#EFF6FF'}" stroke="${kospi >= 0 ? '#FECACA' : '#BFDBFE'}" stroke-width="1.3"/>
-          <text x="24" y="60" fill="${kospi >= 0 ? '#991B1B' : '#1E40AF'}" font-size="21" font-weight="900">KOSPI</text>
-          <text x="261" y="63" fill="${kospiColor}" font-size="38" font-weight="900" text-anchor="end" class="tabular">${kospiSign}${kospi.toFixed(2)}%</text>
+          <rect x="0" y="0" width="280" height="150" rx="20" fill="${kospi >= 0 ? '#FEF2F2' : '#EFF6FF'}" stroke="${kospi >= 0 ? '#FECACA' : '#BFDBFE'}" stroke-width="1.5"/>
+          <text x="24" y="52" fill="${kospi >= 0 ? '#991B1B' : '#1E40AF'}" font-size="30" font-weight="900">KOSPI</text>
+          <text x="256" y="122" fill="${kospiColor}" font-size="56" font-weight="900" text-anchor="end" class="tabular">${kospiSign}${kospi.toFixed(2)}%</text>
 
           <!-- KOSDAQ -->
-          <rect x="302" y="0" width="285" height="102" rx="16" fill="${kosdaq >= 0 ? '#FEF2F2' : '#EFF6FF'}" stroke="${kosdaq >= 0 ? '#FECACA' : '#BFDBFE'}" stroke-width="1.3"/>
-          <text x="326" y="60" fill="${kosdaq >= 0 ? '#991B1B' : '#1E40AF'}" font-size="21" font-weight="900">KOSDAQ</text>
-          <text x="563" y="63" fill="${kosdaqColor}" font-size="38" font-weight="900" text-anchor="end" class="tabular">${kosdaqSign}${kosdaq.toFixed(2)}%</text>
+          <rect x="305" y="0" width="280" height="150" rx="20" fill="${kosdaq >= 0 ? '#FEF2F2' : '#EFF6FF'}" stroke="${kosdaq >= 0 ? '#FECACA' : '#BFDBFE'}" stroke-width="1.5"/>
+          <text x="329" y="52" fill="${kosdaq >= 0 ? '#991B1B' : '#1E40AF'}" font-size="30" font-weight="900">KOSDAQ</text>
+          <text x="561" y="122" fill="${kosdaqColor}" font-size="56" font-weight="900" text-anchor="end" class="tabular">${kosdaqSign}${kosdaq.toFixed(2)}%</text>
 
           <!-- 일반 ETF -->
-          <rect x="605" y="0" width="285" height="102" rx="16" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.5"/>
-          <text x="629" y="60" fill="#15803D" font-size="21" font-weight="900">일반 ETF</text>
-          <text x="866" y="63" fill="${etfColor}" font-size="38" font-weight="900" text-anchor="end" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
+          <rect x="610" y="0" width="280" height="150" rx="20" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.6"/>
+          <text x="634" y="52" fill="#15803D" font-size="30" font-weight="900">일반 ETF</text>
+          <text x="866" y="122" fill="${etfColor}" font-size="56" font-weight="900" text-anchor="end" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
         </g>
       </g>
 
-      <!-- SECTION 2: 오늘의 극과 극 테마 (Y: 368, H: 210) -->
-      <g transform="translate(60, 368)" filter="url(#cardShadow)">
-        <rect width="960" height="210" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
+      <!-- SECTION 2: 오늘의 극과 극 테마 (Y: 466, H: 460) [Mega Bold & Ultra Spacious] -->
+      <g transform="translate(60, 466)" filter="url(#cardShadow)">
+        <rect width="960" height="460" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
         
-        <text x="35" y="44" fill="#0F172A" font-size="24" font-weight="900">2. 오늘의 극과 극 테마</text>
-        <rect x="710" y="16" width="215" height="42" rx="12" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.2"/>
-        <text x="817" y="42" fill="#C2410C" font-size="18" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p</text>
+        <text x="35" y="52" fill="#0F172A" font-size="32" font-weight="900">2. 오늘의 극과 극 테마 (주도 vs 부진)</text>
+        <rect x="685" y="16" width="240" height="50" rx="14" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.4"/>
+        <text x="805" y="48" fill="#C2410C" font-size="22" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p</text>
 
-        <!-- 2 Big Theme Cards -->
-        <g transform="translate(35, 76)">
-          <!-- Top 1 Winner (▲ 상위 1위) -->
-          <rect x="0" y="0" width="435" height="108" rx="16" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.3"/>
-          <text x="22" y="36" fill="#B91C1C" font-size="17.5" font-weight="900">▲ 상위 1위</text>
-          <text x="22" y="76" fill="#0F172A" font-size="${topThemeFontSize}" font-weight="900">${escapeXml(cleanTopTheme)}</text>
-          <text x="415" y="72" fill="${topThemeColor}" font-size="38" font-weight="900" text-anchor="end" class="tabular">${topThemeSign}${topThemeRet.toFixed(2)}%</text>
+        <!-- Top 1 Winner (▲ 상위 1위 주도 테마, H: 160) -->
+        <g transform="translate(35, 84)">
+          <rect width="890" height="160" rx="22" fill="#FFF5F5" stroke="#FCA5A5" stroke-width="1.6"/>
+          
+          <!-- Row 1: Badge & ETF Count -->
+          <rect x="24" y="22" width="135" height="40" rx="10" fill="#FEE2E2"/>
+          <text x="91" y="48" fill="#DC2626" font-size="20" font-weight="900" text-anchor="middle">▲ 상위 1위</text>
+          <text x="180" y="48" fill="#475569" font-size="21" font-weight="700">총 ${topTheme.etfCount || 5}개 ETF 구성</text>
+          
+          <!-- Row 2: Large Theme Name & Huge Return -->
+          <text x="24" y="124" fill="#0F172A" font-size="${topThemeFontSize > 36 ? topThemeFontSize : 40}" font-weight="900">${escapeXml(cleanTopTheme)}</text>
+          <text x="866" y="114" fill="${topThemeColor}" font-size="66" font-weight="900" text-anchor="end" class="tabular">${topThemeSign}${topThemeRet.toFixed(2)}%</text>
+        </g>
 
-          <!-- Top 1 Loser (▼ 하위 1위) -->
-          <rect x="455" y="0" width="435" height="108" rx="16" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.3"/>
-          <text x="477" y="36" fill="#1D4ED8" font-size="17.5" font-weight="900">▼ 하위 1위</text>
-          <text x="477" y="76" fill="#0F172A" font-size="${bottomThemeFontSize}" font-weight="900">${escapeXml(cleanBottomTheme)}</text>
-          <text x="870" y="72" fill="${bottomThemeColor}" font-size="38" font-weight="900" text-anchor="end" class="tabular">${bottomThemeSign}${bottomThemeRet.toFixed(2)}%</text>
+        <!-- Bottom 1 Loser (▼ 하위 1위 부진 테마, H: 160) -->
+        <g transform="translate(35, 268)">
+          <rect width="890" height="160" rx="22" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.6"/>
+          
+          <!-- Row 1: Badge & ETF Count -->
+          <rect x="24" y="22" width="135" height="40" rx="10" fill="#DBEAFE"/>
+          <text x="91" y="48" fill="#1D4ED8" font-size="20" font-weight="900" text-anchor="middle">▼ 하위 1위</text>
+          <text x="180" y="48" fill="#475569" font-size="21" font-weight="700">총 ${bottomTheme.etfCount || 8}개 ETF 구성</text>
+          
+          <!-- Row 2: Large Theme Name & Huge Return -->
+          <text x="24" y="124" fill="#0F172A" font-size="${bottomThemeFontSize > 36 ? bottomThemeFontSize : 40}" font-weight="900">${escapeXml(cleanBottomTheme)}</text>
+          <text x="866" y="114" fill="${bottomThemeColor}" font-size="66" font-weight="900" text-anchor="end" class="tabular">${bottomThemeSign}${bottomThemeRet.toFixed(2)}%</text>
         </g>
       </g>
 
-      <!-- SECTION 3: 스마트머니 실질 순유입 TOP 2 (Y: 598, H: 280) -->
-      <g transform="translate(60, 598)" filter="url(#cardShadow)">
-        <rect width="960" height="280" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
+      <!-- SECTION 3: 스마트머니 순유입 1위 (Y: 954, H: 240) [Enhanced Legibility] -->
+      <g transform="translate(60, 954)" filter="url(#cardShadow)">
+        <rect width="960" height="240" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
         
-        <text x="35" y="44" fill="#0F172A" font-size="24" font-weight="900">3. 스마트머니 실질 자금 순유입 TOP 2</text>
-        <rect x="765" y="16" width="160" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
-        <text x="845" y="42" fill="#1E293B" font-size="18" font-weight="900" text-anchor="middle">기관·외국인 합산</text>
+        <text x="35" y="46" fill="#0F172A" font-size="27" font-weight="900">3. 스마트머니(외인/기관) 실질 순유입 1위</text>
+        <rect x="770" y="15" width="155" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.3"/>
+        <text x="847" y="42" fill="#1E293B" font-size="17.5" font-weight="800" text-anchor="middle">기관·외국인 합산</text>
 
-        <!-- Row 1: Top 1 Inflow Hero -->
-        <g transform="translate(35, 74)">
-          <rect width="890" height="80" rx="16" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.5"/>
-          <circle cx="38" cy="40" r="18" fill="#10B981"/>
-          <text x="38" y="47" fill="#FFFFFF" font-size="17" font-weight="900" text-anchor="middle">1</text>
-          <text x="74" y="49" fill="#0F172A" font-size="26" font-weight="900">
-            ${escapeXml(cleanTopInflow1Name)} <tspan fill="#64748B" font-size="18" font-weight="700">· ${escapeXml(topInflow1.ticker)}</tspan>
-          </text>
-          <text x="866" y="51" fill="#047857" font-size="38" font-weight="900" text-anchor="end" class="tabular">+${(topInflow1.inflow || 0).toLocaleString()}억원</text>
+        <!-- Enhanced Hero Card (H: 142) -->
+        <g transform="translate(35, 72)">
+          <rect width="890" height="142" rx="20" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.8"/>
+          <circle cx="42" cy="42" r="20" fill="#10B981"/>
+          <text x="42" y="49" fill="#FFFFFF" font-size="18" font-weight="900" text-anchor="middle">1</text>
+          
+          <text x="78" y="50" fill="#0F172A" font-size="30" font-weight="900">${escapeXml(cleanTopInflow1Name)}</text>
+          
+          <rect x="42" y="86" width="96" height="32" rx="8" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1"/>
+          <text x="90" y="108" fill="#15803D" font-size="16.5" font-weight="800" text-anchor="middle" class="tabular">${escapeXml(topInflow1.ticker)}</text>
+          
+          <rect x="148" y="86" width="145" height="32" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="220.5" y="108" fill="#475569" font-size="16.5" font-weight="700" text-anchor="middle">핵심ETF</text>
+
+          <text x="866" y="76" fill="#047857" font-size="54" font-weight="900" text-anchor="end" class="tabular">+${(topInflow1.inflow || 0).toLocaleString()}<tspan font-size="26" font-weight="700">억원</tspan></text>
+          <text x="866" y="110" fill="#15803D" font-size="17" font-weight="800" text-anchor="end">당일 기관·외인 최대 순유입</text>
         </g>
-
-        <!-- Row 2: Top 2 Inflow -->
-        ${topInflow2 ? `
-          <g transform="translate(35, 164)">
-            <rect width="890" height="66" rx="14" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
-            <circle cx="38" cy="33" r="15" fill="#E2E8F0"/>
-            <text x="38" y="39" fill="#475569" font-size="15" font-weight="900" text-anchor="middle">2</text>
-            <text x="74" y="41" fill="#0F172A" font-size="23" font-weight="900">
-              ${escapeXml(cleanTopInflow2Name)} <tspan fill="#64748B" font-size="17" font-weight="700">· ${escapeXml(topInflow2.ticker)}</tspan>
-            </text>
-            <text x="866" y="43" fill="#047857" font-size="32" font-weight="900" text-anchor="end" class="tabular">+${(topInflow2.inflow || 0).toLocaleString()}억원</text>
-          </g>
-        ` : ''}
-
-        <text x="35" y="254" fill="#334155" font-size="19" font-weight="800">
-          상위 5종목 총 ${top5InflowSum.toLocaleString()}억원 실질 자금 순유입 집중
-        </text>
       </g>
 
-      <!-- SECTION 4: 오늘의 핵심 마켓 체크포인트 (Y: 898, H: 155) -->
-      <g transform="translate(60, 898)" filter="url(#cardShadow)">
-        <rect width="960" height="155" rx="22" fill="${hasDisparity ? '#FFFBEB' : '#F0FDF4'}" stroke="${hasDisparity ? '#FDE68A' : '#BBF7D0'}" stroke-width="1.6"/>
-        
-        <rect x="35" y="22" width="145" height="36" rx="10" fill="${hasDisparity ? '#FEF3C7' : '#DCFCE7'}" stroke="${hasDisparity ? '#FCD34D' : '#86EFAC'}" stroke-width="1.2"/>
-        <text x="107" y="46" fill="${hasDisparity ? '#B45309' : '#15803D'}" font-size="18" font-weight="900" text-anchor="middle">
-          ${hasDisparity ? '괴리율 점검' : '핵심 포인트'}
-        </text>
-
-        <text x="195" y="48" fill="#0F172A" font-size="25" font-weight="900">
-          ${hasDisparity 
-            ? `NAV 대비 가격 왜곡 주의 종목 점검 · ${escapeXml(cleanDisparityName)} ${(topDisparity?.disparityPct ?? 0).toFixed(2)}%`
-            : `'${escapeXml(cleanTopTheme)}' 주도 속 스마트머니 '${escapeXml(cleanTopInflow1Name)}' 집중`
-          }
-        </text>
-
-        <text x="35" y="106" fill="#334155" font-size="21" font-weight="800">
-          ${hasDisparity
-            ? '장 초반 무리한 시장가 매매를 지양하고, 실시간 순자산가치 iNAV 수렴 여부를 확인하세요.'
-            : (regime.threadsWatchPoint || '단기 급등 테마 추격보다 자금 순유입 지속성과 방어적 자산 완충력을 확인하세요.')
-          }
-        </text>
-      </g>
-
-      <!-- Bottom Banner & Official Data Notice (Y: 1073, H: 76) -->
-      <g transform="translate(60, 1073)" filter="url(#cardShadow)">
-        <rect width="960" height="76" rx="18" fill="url(#brandGrad)"/>
-        <text x="480" y="48" fill="#FFFFFF" font-size="24" font-weight="900" text-anchor="middle" letter-spacing="-0.3">
-          한국거래소 KRX 전 거래일 마감 공시 데이터 전수 분석
-        </text>
-      </g>
-
-      <!-- Watermark & Disclaimer (Y: 1181 ~ 1253) -->
-      <g transform="translate(540, 1181)">
-        <text x="0" y="0" fill="#64748B" font-size="16.5" font-weight="600" text-anchor="middle">* 본 자료는 순수 정보 제공용 시황 칼럼이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-225" y="20" width="450" height="46" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.4"/>
-        <text x="0" y="50" fill="#047857" font-size="19" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+      <!-- Disclaimer & Watermark (Y: 1242 ~ 1312) [Brand Green Accent] -->
+      <g transform="translate(540, 1242)">
+        <text x="0" y="0" fill="#64748B" font-size="17" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <rect x="-230" y="20" width="460" height="50" rx="15" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.4"/>
+        <text x="0" y="52" fill="#047857" font-size="22" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;

@@ -639,7 +639,11 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
   }
 }
 
-export async function publishToInstagramLive(env: Env, payload: MarketBriefingPayload): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
+export async function publishToInstagramLive(
+  env: Env,
+  payload: MarketBriefingPayload,
+  force = false
+): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
   // 0. Circuit Breaker & Freshness Guard
   const validation = await validateBriefingPayload(payload, env);
   if (!validation.isSafe) {
@@ -651,22 +655,24 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
   const kvInFlightKey = `distribution:inflight:instagram:${payload.asOfDate}`;
 
   // 1-1. Primary Check via KV (resilient to D1 read limit/downtime)
-  try {
-    const kvRecord = await env.BRIEFING_KV.get<{ publishedPostId?: string; permalink?: string }>(kvInstagramKey, "json");
-    if (kvRecord?.publishedPostId) {
-      return {
-        success: false,
-        error: `해당 날짜(${payload.asOfDate})의 인스타그램이 이미 발행되었습니다. (게시 ID: ${kvRecord.publishedPostId})`,
-        publishedPostId: kvRecord.publishedPostId,
-        permalink: kvRecord.permalink || `https://www.instagram.com/neo.alphareader/`,
-      };
-    }
-  } catch (e) {}
+  if (!force) {
+    try {
+      const kvRecord = await env.BRIEFING_KV.get<{ publishedPostId?: string; permalink?: string }>(kvInstagramKey, "json");
+      if (kvRecord?.publishedPostId) {
+        return {
+          success: false,
+          error: `해당 날짜(${payload.asOfDate})의 인스타그램이 이미 발행되었습니다. (게시 ID: ${kvRecord.publishedPostId})`,
+          publishedPostId: kvRecord.publishedPostId,
+          permalink: kvRecord.permalink || `https://www.instagram.com/neo.alphareader/`,
+        };
+      }
+    } catch (e) {}
+  }
 
   // 1-2. In-Flight Mutex: Block parallel execution requests within 90s window
   try {
     const inFlight = await env.BRIEFING_KV.get(kvInFlightKey);
-    if (inFlight) {
+    if (inFlight && !force) {
       return {
         success: false,
         error: `해당 날짜(${payload.asOfDate})의 인스타그램 배포가 현재 진행 중입니다. 잠시 후 확인해주세요.`,
@@ -676,23 +682,25 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
   } catch (e) {}
 
   // 1-3. Secondary Check via D1
-  try {
-    const row: any = await env.ETF_PRICES.prepare(
-      `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
-    ).bind(payload.asOfDate).first();
-    if (row && row.details_json) {
-      const parsed = JSON.parse(row.details_json);
-      if (parsed.instagram?.publishedPostId) {
-        try { await env.BRIEFING_KV.delete(kvInFlightKey); } catch (e) {}
-        return {
-          success: false,
-          error: `해당 날짜(${payload.asOfDate})의 인스타그램이 이미 발행되었습니다. (게시 ID: ${parsed.instagram.publishedPostId})`,
-          publishedPostId: parsed.instagram.publishedPostId,
-          permalink: parsed.instagram.permalink || `https://www.instagram.com/neo.alphareader/`,
-        };
+  if (!force) {
+    try {
+      const row: any = await env.ETF_PRICES.prepare(
+        `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+      ).bind(payload.asOfDate).first();
+      if (row && row.details_json) {
+        const parsed = JSON.parse(row.details_json);
+        if (parsed.instagram?.publishedPostId) {
+          try { await env.BRIEFING_KV.delete(kvInFlightKey); } catch (e) {}
+          return {
+            success: false,
+            error: `해당 날짜(${payload.asOfDate})의 인스타그램이 이미 발행되었습니다. (게시 ID: ${parsed.instagram.publishedPostId})`,
+            publishedPostId: parsed.instagram.publishedPostId,
+            permalink: parsed.instagram.permalink || `https://www.instagram.com/neo.alphareader/`,
+          };
+        }
       }
-    }
-  } catch (e) {}
+    } catch (e) {}
+  }
 
   // 2. Credentials Check
   if (!env.INSTAGRAM_ACCESS_TOKEN || !env.INSTAGRAM_USER_ID) {
@@ -701,61 +709,155 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
 
   const narrative = await getOrRefineNarrative(payload, env);
   const caption = generateInstagramCaption(payload, narrative);
-  const publicPngUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/images/threads?date=${payload.asOfDate}`;
 
-  // 2. Self-GET Polling Guard: Defend against KV eventual consistency delays
-  for (let attempt = 1; attempt <= 5; attempt++) {
-    try {
-      const verifyRes = await fetch(publicPngUrl, { method: "HEAD" });
-      if (verifyRes.ok && verifyRes.headers.get("content-type")?.includes("image")) {
-        break;
-      }
-    } catch (e) {}
-    await new Promise((r) => setTimeout(r, 1000));
-  }
+  // 3. Multi-Slide Carousel Detection (Check 6 Slides in KV)
+  const slideCount = 6;
+  const slideChecks = await Promise.all(
+    Array.from({ length: slideCount }, (_, idx) =>
+      env.BRIEFING_KV.get(`image:instagram:${payload.asOfDate}:${idx + 1}`, "arrayBuffer")
+    )
+  );
+  const isCarousel = slideChecks.every(buf => buf !== null);
 
   try {
-    const createUrl = `https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media`;
-    const searchParams = new URLSearchParams({
-      image_url: publicPngUrl,
-      caption: caption,
-      access_token: env.INSTAGRAM_ACCESS_TOKEN,
-    });
+    let publishedPostId: string | null = null;
 
-    const createRes = await fetch(createUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: searchParams,
-    });
-    const createData: any = await createRes.json();
-    if (!createData.id) {
-      return { success: false, error: `Failed to create Instagram container: ${JSON.stringify(createData)}` };
-    }
+    if (isCarousel) {
+      console.log(`[Distributor] Publishing 6-slide Carousel to Instagram for ${payload.asOfDate}`);
+      const itemContainerIds: string[] = [];
 
-    // Wait for Meta to finish processing container
-    for (let i = 0; i < 12; i++) {
-      await new Promise((r) => setTimeout(r, 2000));
-      const statusRes = await fetch(`https://graph.instagram.com/v21.0/${createData.id}?fields=status_code&access_token=${env.INSTAGRAM_ACCESS_TOKEN}`);
-      const sData: any = await statusRes.json();
-      if (sData.status_code === "FINISHED") break;
-      if (sData.status_code === "ERROR") {
-        return { success: false, error: `Instagram container processing error: ${JSON.stringify(sData)}` };
+      // 3.1 Create child media containers for each slide
+      for (let slideNo = 1; slideNo <= slideCount; slideNo++) {
+        const slideUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/images/instagram?date=${payload.asOfDate}&slide=${slideNo}`;
+        
+        // Self-GET Polling Guard for each slide URL
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            const vRes = await fetch(slideUrl, { method: "HEAD" });
+            if (vRes.ok) break;
+          } catch (e) {}
+          await new Promise(r => setTimeout(r, 500));
+        }
+
+        const itemRes = await fetch(`https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media`, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            image_url: slideUrl,
+            is_carousel_item: "true",
+            access_token: env.INSTAGRAM_ACCESS_TOKEN,
+          }),
+        });
+        const itemData: any = await itemRes.json();
+        if (!itemData.id) {
+          throw new Error(`Failed to create Instagram carousel item ${slideNo}: ${JSON.stringify(itemData)}`);
+        }
+        itemContainerIds.push(itemData.id);
       }
-    }
 
-    const pubUrl = `https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media_publish`;
-    const pubRes = await fetch(pubUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        creation_id: createData.id,
-        access_token: env.INSTAGRAM_ACCESS_TOKEN,
-      }),
-    });
-    const pubData: any = await pubRes.json();
-    const publishedPostId = pubData.id;
-    if (!publishedPostId) {
-      return { success: false, error: `Failed to publish Instagram post: ${JSON.stringify(pubData)}` };
+      // 3.2 Wait for all child containers to finish processing
+      for (const itemId of itemContainerIds) {
+        for (let i = 0; i < 15; i++) {
+          await new Promise(r => setTimeout(r, 1500));
+          const statusRes = await fetch(`https://graph.instagram.com/v21.0/${itemId}?fields=status_code&access_token=${env.INSTAGRAM_ACCESS_TOKEN}`);
+          const sData: any = await statusRes.json();
+          if (sData.status_code === "FINISHED") break;
+          if (sData.status_code === "ERROR") {
+            throw new Error(`Instagram carousel child container ${itemId} processing error: ${JSON.stringify(sData)}`);
+          }
+        }
+      }
+
+      // 3.3 Create parent CAROUSEL container
+      const carouselRes = await fetch(`https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          media_type: "CAROUSEL",
+          children: itemContainerIds.join(","),
+          caption: caption,
+          access_token: env.INSTAGRAM_ACCESS_TOKEN,
+        }),
+      });
+      const carouselData: any = await carouselRes.json();
+      if (!carouselData.id) {
+        throw new Error(`Failed to create Instagram carousel container: ${JSON.stringify(carouselData)}`);
+      }
+
+      // 3.4 Wait for carousel container to finish processing
+      for (let i = 0; i < 15; i++) {
+        await new Promise(r => setTimeout(r, 2000));
+        const statusRes = await fetch(`https://graph.instagram.com/v21.0/${carouselData.id}?fields=status_code&access_token=${env.INSTAGRAM_ACCESS_TOKEN}`);
+        const sData: any = await statusRes.json();
+        if (sData.status_code === "FINISHED") break;
+        if (sData.status_code === "ERROR") {
+          throw new Error(`Instagram carousel container ${carouselData.id} processing error: ${JSON.stringify(sData)}`);
+        }
+      }
+
+      // 3.5 Publish the carousel
+      const pubRes = await fetch(`https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media_publish`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          creation_id: carouselData.id,
+          access_token: env.INSTAGRAM_ACCESS_TOKEN,
+        }),
+      });
+      const pubData: any = await pubRes.json();
+      publishedPostId = pubData.id;
+      if (!publishedPostId) {
+        throw new Error(`Failed to publish Instagram carousel: ${JSON.stringify(pubData)}`);
+      }
+    } else {
+      // Fallback to single image
+      console.log(`[Distributor] Falling back to single image for Instagram ${payload.asOfDate}`);
+      const publicPngUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/images/threads?date=${payload.asOfDate}`;
+      for (let attempt = 1; attempt <= 5; attempt++) {
+        try {
+          const verifyRes = await fetch(publicPngUrl, { method: "HEAD" });
+          if (verifyRes.ok && verifyRes.headers.get("content-type")?.includes("image")) break;
+        } catch (e) {}
+        await new Promise((r) => setTimeout(r, 1000));
+      }
+
+      const createRes = await fetch(`https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          image_url: publicPngUrl,
+          caption: caption,
+          access_token: env.INSTAGRAM_ACCESS_TOKEN,
+        }),
+      });
+      const createData: any = await createRes.json();
+      if (!createData.id) {
+        return { success: false, error: `Failed to create Instagram container: ${JSON.stringify(createData)}` };
+      }
+
+      for (let i = 0; i < 12; i++) {
+        await new Promise((r) => setTimeout(r, 2000));
+        const statusRes = await fetch(`https://graph.instagram.com/v21.0/${createData.id}?fields=status_code&access_token=${env.INSTAGRAM_ACCESS_TOKEN}`);
+        const sData: any = await statusRes.json();
+        if (sData.status_code === "FINISHED") break;
+        if (sData.status_code === "ERROR") {
+          return { success: false, error: `Instagram container processing error: ${JSON.stringify(sData)}` };
+        }
+      }
+
+      const pubRes = await fetch(`https://graph.instagram.com/v21.0/${env.INSTAGRAM_USER_ID}/media_publish`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          creation_id: createData.id,
+          access_token: env.INSTAGRAM_ACCESS_TOKEN,
+        }),
+      });
+      const pubData: any = await pubRes.json();
+      publishedPostId = pubData.id;
+      if (!publishedPostId) {
+        return { success: false, error: `Failed to publish Instagram post: ${JSON.stringify(pubData)}` };
+      }
     }
 
     let permalink = `https://www.instagram.com/neo.alphareader/`;
@@ -765,12 +867,14 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
       if (pData.permalink) permalink = pData.permalink;
     } catch (e) {}
 
-    // 3. Record success in KV (primary resilience store) and clear In-Flight Mutex
+    // 4. Record success in KV (primary resilience store) and clear In-Flight Mutex
     try {
       await env.BRIEFING_KV.put(kvInstagramKey, JSON.stringify({
         status: "distributed",
         publishedPostId,
         permalink,
+        isCarousel,
+        slideCount: isCarousel ? slideCount : 1,
         publishedAt: new Date().toISOString(),
       }), { expirationTtl: 86400 * 30 });
       await env.BRIEFING_KV.delete(kvInFlightKey);
@@ -778,7 +882,7 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
       console.warn("[Distributor] Failed to record Instagram distribution in KV:", e);
     }
 
-    // 4. Record success in D1 distribution logs for telemetry
+    // 5. Record success in D1 distribution logs for telemetry
     try {
       let existingDetails: any = {};
       const row: any = await env.ETF_PRICES.prepare(
@@ -790,6 +894,8 @@ export async function publishToInstagramLive(env: Env, payload: MarketBriefingPa
       existingDetails.instagram = {
         publishedPostId,
         permalink,
+        isCarousel,
+        slideCount: isCarousel ? slideCount : 1,
         publishedAt: new Date().toISOString(),
       };
       await env.ETF_PRICES.prepare(
@@ -847,20 +953,23 @@ function generateLoginHtml(): string {
     h1 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: #0F172A; }
     p { font-size: 14px; color: #64748B; margin-bottom: 24px; line-height: 1.5; }
     input { width: 100%; padding: 12px 16px; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 10px; color: #0F172A; font-size: 15px; margin-bottom: 16px; outline: none; transition: border-color 0.2s; }
-    input:focus { border-color: #2563EB; background: #FFFFFF; }
-    button { width: 100%; padding: 12px; background: #2563EB; border: none; border-radius: 10px; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
-    button:hover { background: #1D4ED8; }
+    input:focus { border-color: #10B981; background: #FFFFFF; }
+    button { width: 100%; padding: 12px; background: #059669; border: none; border-radius: 10px; color: #FFFFFF; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    button:hover { background: #047857; }
+    .back-link { display: inline-block; margin-top: 16px; font-size: 13px; color: #64748B; text-decoration: none; }
+    .back-link:hover { color: #059669; }
   </style>
 </head>
 <body>
   <div class="card">
-    <div style="font-size: 40px; margin-bottom: 16px;">🔒</div>
+    <div style="font-size: 40px; margin-bottom: 16px;">🔐</div>
     <h1>배포 관리자 인증</h1>
     <p>브랜드 안전을 위해 보호된 영역입니다.<br>관리자 액세스 토큰을 입력해 주세요.</p>
     <form onsubmit="handleLogin(event)">
       <input type="password" id="tokenInput" placeholder="Access Token 입력" required autocomplete="current-password">
       <button type="submit">대시보드 접속</button>
     </form>
+    <a href="/preview" class="back-link">← 미리보기 모드로 이동</a>
   </div>
   <script>
     function handleLogin(e) {
@@ -868,7 +977,7 @@ function generateLoginHtml(): string {
       const token = document.getElementById('tokenInput').value.trim();
       if (!token) return;
       document.cookie = "etf_distributor_auth=" + token + "; path=/; max-age=2592000; SameSite=Lax; Secure";
-      window.location.href = window.location.pathname + "?token=" + encodeURIComponent(token);
+      window.location.href = "/?token=" + encodeURIComponent(token);
     }
   </script>
 </body>
@@ -882,7 +991,9 @@ function generateDashboardHtml(
   threadsPublishedId: string | null,
   instagramPublishedId: string | null,
   narrative: PolishedNarrative,
-  logReasons: string[] = []
+  logReasons: string[] = [],
+  isAuthed = false,
+  availableDates: string[] = []
 ): string {
   const hasValidDate = Boolean(payload.asOfDate);
   const date = payload.asOfDate || "";
@@ -911,7 +1022,8 @@ function generateDashboardHtml(
 
   const threadsText = generateThreadsThread(payload, env.SITE_BASE_URL || "https://etf-campus.pages.dev", narrative)[0]?.content || "";
   const captionText = generateInstagramCaption(payload, narrative);
-  const isPublished = logStatus === "distributed" || Boolean(threadsPublishedId);
+  const isThreadsPublished = Boolean(threadsPublishedId);
+  const isInstagramPublished = Boolean(instagramPublishedId);
   const isBlocked = logStatus === "blocked" || logReasons.length > 0;
   const modelNameDisplay = narrative.modelUsed || "gemini-3.8-flash";
   const tokenDisplay = narrative.tokenIndex ? ` · Token #${narrative.tokenIndex}` : "";
@@ -919,70 +1031,96 @@ function generateDashboardHtml(
     ? `<span class="badge badge-live" title="5계층 모델 워터폴 및 7대 토큰 풀 적용 (${modelNameDisplay})">🤖 ${modelNameDisplay}${tokenDisplay} 검증 완료</span>`
     : '<span class="badge badge-safe">⚙️ 정밀 룰 엔진 초안</span>';
 
+  const uniqueDates = Array.from(new Set([date, ...availableDates])).filter(Boolean).sort().reverse();
+
   return `<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OSMU 통합 검토 대시보드 | ETF Campus</title>
+  <title>OSMU 통합 검토 대시보드 | ETF Campus (${date})</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, sans-serif; }
-    body { background-color: #F8FAFC; color: #0F172A; min-height: 100vh; padding: 24px; }
-    .container { max-width: 1300px; margin: 0 auto; }
-    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #E2E8F0; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
-    .badge { padding: 6px 14px; border-radius: 9999px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; }
+    body { background-color: #F8FAFC; color: #0F172A; min-height: 100vh; padding: 20px; }
+    .container { max-width: 1320px; margin: 0 auto; }
+    header { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 18px; padding: 20px 24px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 16px; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .date-select { padding: 7px 12px; border-radius: 10px; border: 1px solid #CBD5E1; background: #FFFFFF; font-size: 13px; font-weight: 700; color: #047857; outline: none; cursor: pointer; }
+    .btn-refresh { background: #F1F5F9; color: #0F172A; border: 1px solid #CBD5E1; padding: 7px 14px; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; }
+    .btn-refresh:hover { background: #E2E8F0; }
+    .header-badges { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .badge { padding: 5px 12px; border-radius: 9999px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
     .badge-ready { background: #FEF3C7; color: #B45309; }
     .badge-live { background: #DCFCE7; color: #15803D; }
     .badge-safe { background: #EFF6FF; color: #1D4ED8; }
     .badge-blocked { background: #FEE2E2; color: #B91C1C; }
-    .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
-    .tab-btn { background: #FFFFFF; border: 1px solid #CBD5E1; color: #475569; padding: 12px 24px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .tab-btn:hover { background: #F1F5F9; color: #0F172A; border-color: #94A3B8; }
-    .tab-btn.active { background: #2563EB; color: #FFFFFF; border-color: #2563EB; box-shadow: 0 4px 14px rgba(37,99,235,0.25); }
+    .badge-auth { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+    .badge-anon { background: #F1F5F9; color: #64748B; border: 1px solid #CBD5E1; text-decoration: none; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn { background: #FFFFFF; border: 1px solid #CBD5E1; color: #475569; padding: 12px 22px; border-radius: 12px; font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .tab-btn:hover { background: #F8FAFC; color: #0F172A; border-color: #94A3B8; }
+    .tab-btn.active { background: #059669; color: #FFFFFF; border-color: #059669; box-shadow: 0 4px 12px rgba(5,150,105,0.25); }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    .card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 18px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05); }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
-    .preview-img { width: 100%; max-width: 480px; aspect-ratio: 4/5; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid #E2E8F0; display: block; margin: 0 auto; background: #FFFFFF; }
-    .carousel-nav { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 16px; }
-    .nav-btn { background: #F1F5F9; color: #1E293B; border: 1px solid #CBD5E1; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 18px; padding: 22px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 960px) { .grid-2 { grid-template-columns: 1fr; } }
+    .preview-img { width: 100%; max-width: 480px; aspect-ratio: 4/5; border-radius: 14px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); border: 1px solid #E2E8F0; display: block; margin: 0 auto; background: #FFFFFF; object-fit: contain; }
+    .carousel-nav { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+    .nav-btn { background: #F1F5F9; color: #1E293B; border: 1px solid #CBD5E1; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.2s; }
     .nav-btn:hover { background: #E2E8F0; }
-    .copy-box { background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 12px; padding: 16px; font-size: 14.5px; line-height: 1.7; color: #0F172A; white-space: pre-wrap; word-break: break-word; max-height: 520px; overflow-y: auto; }
-    .action-btn { background: #10B981; color: #FFFFFF; border: none; padding: 12px 24px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-    .action-btn:hover { background: #059669; }
-    .btn-secondary { background: #F1F5F9; color: #1E293B; padding: 8px 14px; font-size: 13px; border-radius: 8px; border: 1px solid #CBD5E1; cursor: pointer; font-weight: 700; }
+    .dot-btn { padding: 4px 10px; border-radius: 6px; border: 1px solid #CBD5E1; cursor: pointer; font-size: 12px; font-weight: 700; background: #F1F5F9; color: #475569; transition: all 0.2s; }
+    .dot-btn.active { background: #059669; color: #FFFFFF; border-color: #059669; }
+    .copy-box { background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 12px; padding: 16px; font-size: 14px; line-height: 1.7; color: #0F172A; white-space: pre-wrap; word-break: break-word; max-height: 520px; overflow-y: auto; font-family: 'Pretendard', sans-serif; }
+    .action-btn { background: #059669; color: #FFFFFF; border: none; padding: 11px 22px; border-radius: 11px; font-size: 14.5px; font-weight: 800; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .action-btn:hover { background: #047857; }
+    .btn-secondary { background: #F8FAFC; color: #1E293B; padding: 6px 12px; font-size: 12.5px; border-radius: 8px; border: 1px solid #CBD5E1; cursor: pointer; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
     .btn-secondary:hover { background: #E2E8F0; }
-    iframe.email-frame { width: 100%; height: 750px; border: 1px solid #E2E8F0; border-radius: 14px; background: #FFFFFF; }
+    iframe.email-frame { width: 100%; height: 780px; border: 1px solid #E2E8F0; border-radius: 14px; background: #FFFFFF; }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <div>
-        <h1 style="font-size: 23px; font-weight: 900; margin-bottom: 6px; color: #0F172A;">📈 ETF Campus 마켓 브리핑 OSMU 클라우드 통합 검토 허브</h1>
-        <p style="color: #64748B; font-size: 14.5px;">데이터 기준일: <strong style="color: #0F172A;">${dateDisplay}</strong> · 일반 ETF ${generalCountDisplay} (상승 ${up} / 보합 ${flat} / 하락 ${down}) · ${kospiDisplay} · ${etfReturnDisplay}</p>
+      <div class="header-top">
+        <div>
+          <h1 style="font-size: 21px; font-weight: 900; margin-bottom: 4px; color: #0F172A; display: flex; align-items: center; gap: 8px;">
+            <span>📈 ETF Campus 마켓 브리핑 OSMU 통합 검토 허브</span>
+            <span style="font-size: 11px; background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; padding: 2px 8px; border-radius: 9999px; font-weight: 800;">Cloudflare Edge</span>
+          </h1>
+          <p style="color: #64748B; font-size: 13.5px;">데이터 기준일: <strong style="color: #0F172A;">${dateDisplay}</strong> · 일반 ETF ${generalCountDisplay} (상승 ${up} / 보합 ${flat} / 하락 ${down}) · ${kospiDisplay} · ${etfReturnDisplay}</p>
+        </div>
+        <div class="header-actions">
+          <label style="font-size: 12px; font-weight: 700; color: #475569;">분석일:</label>
+          <select id="dateSelector" class="date-select" onchange="changeDate(this.value)">
+            ${uniqueDates.map(d => `<option value="${d}" ${d === date ? 'selected' : ''}>${d} ${d === uniqueDates[0] ? '(최신)' : ''}</option>`).join('')}
+          </select>
+          <button class="btn-refresh" onclick="forceRefresh('${date}')" title="Cloudflare 캐시를 우회하여 최신 데이터를 즉시 불러옵니다">🔄 최신 갱신</button>
+          ${isAuthed 
+            ? '<span class="badge badge-auth" title="관리자 토큰이 확인되었습니다">🔑 관리자 인증됨</span>' 
+            : '<a href="/login" class="badge badge-anon" title="클릭하여 토큰을 등록하면 즉시 발행할 수 있습니다">🔐 미리보기 모드</a>'
+          }
+        </div>
       </div>
-      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <div class="header-badges">
         ${aiBadge}
         ${isBlocked 
-          ? `<span class="badge badge-blocked" title="${logReasons.join("; ")}">⛔ 서킷브레이커 차단: ${logReasons[0] || "데이터 검증 실패"}${logReasons.length > 1 ? ` 외 ${logReasons.length - 1}건` : ''}</span>`
+          ? `<span class="badge badge-blocked" title="${logReasons.join("; ")}">⛔ 서킷브레이커 차단: ${logReasons[0] || "데이터 검증 실패"}</span>`
           : '<span class="badge badge-safe">✅ 서킷브레이커 정상</span>'
         }
-        <span class="badge ${isPublished ? 'badge-live' : (isBlocked ? 'badge-blocked' : 'badge-ready')}" id="statusBadge">
-          ${isPublished ? '🚀 스레드 발행 완료' : (isBlocked ? '⛔ 차단됨' : '⏳ 운영자 검토 대기')}
+        <span class="badge ${isThreadsPublished ? 'badge-live' : 'badge-ready'}">
+          ${isThreadsPublished ? `✅ 스레드 발행완료 (${threadsPublishedId})` : '⏳ 스레드 대기'}
         </span>
-        ${!isPublished ? (
-          (!hasValidDate || isBlocked)
-            ? `<button class="action-btn" disabled style="background: #475569; cursor: not-allowed;" title="${!hasValidDate ? '기준일자가 누락되었습니다' : '서킷브레이커로 인해 발행이 차단되었습니다'}">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
-            : `<button class="action-btn" id="btnPublishThreads" onclick="publishThreads('${date}')">🚀 스레드 발행 승인</button>`
-        ) : ''}
+        <span class="badge ${isInstagramPublished ? 'badge-live' : 'badge-ready'}">
+          ${isInstagramPublished ? `✅ 인스타 발행완료 (${instagramPublishedId})` : '⏳ 인스타 대기'}
+        </span>
       </div>
     </header>
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'tab-instagram')">📷 인스타그램 (카드뉴스 6장 & 캡션)</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'tab-instagram')">📷 인스타그램 (카드뉴스 5장 & 캡션)</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-threads')">🧵 스레드 (본문 & 인포그래픽 1장)</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-newsletter')">📧 이메일 뉴스레터 (반응형 풀뷰)</button>
     </div>
@@ -991,9 +1129,12 @@ function generateDashboardHtml(
     <div id="tab-instagram" class="tab-content active">
       <div class="grid-2">
         <div class="card" style="text-align: center;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; text-align: left;">
-            <h3 style="font-size: 17px; font-weight: 800;">🖼️ 카드뉴스 (슬라이드 <span id="currentSlideNum">1</span> / 6)</h3>
-            <a id="btnOpenSvg" href="/api/preview/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary" style="text-decoration: none;">🔍 원본 SVG</a>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;">
+            <h3 style="font-size: 16px; font-weight: 800;">🖼️ 카드뉴스 (슬라이드 <span id="currentSlideNum">1</span> / 5)</h3>
+            <div style="display: flex; gap: 6px;">
+              <a id="btnOpenSvg" href="/api/preview/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary">🔍 원본 SVG</a>
+              <a id="btnDownloadPng" href="/api/images/instagram?date=${date}&slide=1" target="_blank" class="btn-secondary">🖼️ 실물 PNG</a>
+            </div>
           </div>
           <img id="instagramImg" src="/api/preview/instagram?date=${date}&slide=1&v=${Date.now()}" class="preview-img" alt="Instagram Card">
           <div class="carousel-nav">
@@ -1003,17 +1144,17 @@ function generateDashboardHtml(
           </div>
         </div>
         <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h3 style="font-size: 17px; font-weight: 800;">📝 인스타그램 캡션 전문</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="font-size: 16px; font-weight: 800;">📝 인스타그램 캡션 전문</h3>
             <button class="btn-secondary" onclick="copyText('instagramCaptionText')">📋 캡션 복사</button>
           </div>
           <div id="instagramCaptionText" class="copy-box">${captionText}</div>
-          <div style="margin-top: 18px; text-align: right;">
-            ${instagramPublishedId 
-              ? `<button id="btnPublishInstagram" class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 인스타그램 발행 완료 (ID: ${instagramPublishedId})</button>`
+          <div style="margin-top: 16px; text-align: right;">
+            ${isInstagramPublished 
+              ? `<button class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 인스타그램 발행 완료 (ID: ${instagramPublishedId})</button>`
               : ((!hasValidDate || isBlocked)
-                  ? `<button id="btnPublishInstagram" class="action-btn" disabled style="background: #475569; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
-                  : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 즉시 발행</button>`
+                  ? `<button class="action-btn" disabled style="background: #94A3B8; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
+                  : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 5장 카드뉴스 즉시 발행</button>`
                 )
             }
           </div>
@@ -1025,23 +1166,26 @@ function generateDashboardHtml(
     <div id="tab-threads" class="tab-content">
       <div class="grid-2">
         <div class="card" style="text-align: center;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; text-align: left;">
-            <h3 style="font-size: 17px; font-weight: 800;">🖼️ 스레드 전용 인포그래픽 (1장)</h3>
-            <a href="/api/preview/threads-image?date=${date}" target="_blank" class="btn-secondary" style="text-decoration: none;">🔍 원본 SVG</a>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left;">
+            <h3 style="font-size: 16px; font-weight: 800;">🖼️ 스레드 전용 인포그래픽 (1장)</h3>
+            <div style="display: flex; gap: 6px;">
+              <a href="/api/preview/threads-image?date=${date}" target="_blank" class="btn-secondary">🔍 원본 SVG</a>
+              <a href="/api/images/threads?date=${date}" target="_blank" class="btn-secondary">🖼️ 실물 PNG</a>
+            </div>
           </div>
           <img src="/api/preview/threads-image?date=${date}&v=${Date.now()}" class="preview-img" alt="Threads Infographic">
         </div>
         <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-            <h3 style="font-size: 17px; font-weight: 800;">🧵 스레드 본문 & 댓글 전문</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="font-size: 16px; font-weight: 800;">🧵 스레드 본문 & 댓글 전문</h3>
             <button class="btn-secondary" onclick="copyText('threadsFullText')">📋 본문 복사</button>
           </div>
           <div id="threadsFullText" class="copy-box">${threadsText}</div>
-          <div style="margin-top: 18px; text-align: right;">
-            ${threadsPublishedId 
-              ? `<button id="btnPublishThreads" class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 스레드 발행 완료 (ID: ${threadsPublishedId})</button>`
+          <div style="margin-top: 16px; text-align: right;">
+            ${isThreadsPublished 
+              ? `<button class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 스레드 발행 완료 (ID: ${threadsPublishedId})</button>`
               : ((!hasValidDate || isBlocked)
-                  ? `<button id="btnPublishThreads" class="action-btn" disabled style="background: #475569; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
+                  ? `<button class="action-btn" disabled style="background: #94A3B8; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
                   : `<button id="btnPublishThreads" class="action-btn" onclick="publishThreads('${date}')">🚀 이 내용으로 스레드 즉시 발행</button>`
                 )
             }
@@ -1053,9 +1197,9 @@ function generateDashboardHtml(
     <!-- 3. Newsletter Tab -->
     <div id="tab-newsletter" class="tab-content">
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-          <h3 style="font-size: 17px; font-weight: 800;">📧 이메일 뉴스레터 프리뷰</h3>
-          <a href="/api/preview/newsletter?date=${date}" target="_blank" class="btn-secondary" style="text-decoration: none;">🔗 새 창에서 전체보기</a>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="font-size: 16px; font-weight: 800;">📧 이메일 뉴스레터 프리뷰</h3>
+          <a href="/api/preview/newsletter?date=${date}" target="_blank" class="btn-secondary">🔗 새 창에서 전체보기</a>
         </div>
         <iframe src="/api/preview/newsletter?date=${date}" class="email-frame"></iframe>
       </div>
@@ -1064,19 +1208,27 @@ function generateDashboardHtml(
 
   <script>
     let currentSlide = 1;
+    const totalSlides = 5;
     const date = '${date}';
+
+    function getCookie(name) {
+      const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return match ? match[2] : null;
+    }
 
     function switchTab(evt, tabId) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       evt.currentTarget.classList.add('active');
       document.getElementById(tabId).classList.add('active');
+      localStorage.setItem('osmu_active_tab', tabId);
+      location.hash = tabId;
     }
 
     function changeSlide(delta) {
       currentSlide += delta;
-      if (currentSlide < 1) currentSlide = 6;
-      if (currentSlide > 6) currentSlide = 1;
+      if (currentSlide < 1) currentSlide = totalSlides;
+      if (currentSlide > totalSlides) currentSlide = 1;
       updateSlide();
     }
 
@@ -1088,30 +1240,23 @@ function generateDashboardHtml(
     function updateSlide() {
       document.getElementById('instagramImg').src = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + Date.now();
       document.getElementById('btnOpenSvg').href = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide;
+      document.getElementById('btnDownloadPng').href = '/api/images/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide;
       document.getElementById('currentSlideNum').innerText = currentSlide;
       renderDots();
+      localStorage.setItem('osmu_active_slide', currentSlide);
     }
 
     function renderDots() {
       const container = document.getElementById('slideDots');
       container.innerHTML = '';
-      for (let i = 1; i <= 6; i++) {
+      for (let i = 1; i <= totalSlides; i++) {
         const dot = document.createElement('button');
         dot.innerText = i;
-        dot.style.padding = '4px 10px';
-        dot.style.borderRadius = '6px';
-        dot.style.border = 'none';
-        dot.style.cursor = 'pointer';
-        dot.style.fontSize = '12px';
-        dot.style.fontWeight = '700';
-        dot.style.background = (i === currentSlide) ? '#2563EB' : '#F1F5F9';
-        dot.style.color = (i === currentSlide) ? '#FFFFFF' : '#475569';
-        dot.style.border = (i === currentSlide) ? '1px solid #2563EB' : '1px solid #CBD5E1';
+        dot.className = 'dot-btn' + (i === currentSlide ? ' active' : '');
         dot.onclick = () => goToSlide(i);
         container.appendChild(dot);
       }
     }
-    renderDots();
 
     function copyText(elemId) {
       const text = document.getElementById(elemId).innerText;
@@ -1120,35 +1265,54 @@ function generateDashboardHtml(
       });
     }
 
+    function forceRefresh(dateStr) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('fresh', '1');
+      if (dateStr) url.searchParams.set('date', dateStr);
+      window.location.href = url.toString();
+    }
+
+    function changeDate(d) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('date', d);
+      url.searchParams.delete('fresh');
+      window.location.href = url.toString();
+    }
+
     async function publishThreads(dateStr) {
       if (!dateStr || dateStr === '기준일자 없음') {
         alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
         return;
       }
+      let token = getCookie('etf_distributor_auth') || new URLSearchParams(location.search).get('token');
+      if (!token) {
+        token = prompt('스레드 발행을 위해 관리자 토큰(MANUAL_RUN_TOKEN)을 입력하세요:');
+        if (!token) return;
+        document.cookie = 'etf_distributor_auth=' + token + '; path=/; max-age=2592000; SameSite=Lax; Secure';
+      }
       if (!confirm(dateStr + ' 마켓 브리핑을 스레드(@neo.alphareader)에 실시간 자동 발행하시겠습니까?')) return;
       const btn = event.target;
       btn.disabled = true;
-      btn.innerText = '발행 처리 중...';
+      btn.innerText = '스레드 발행 처리 중...';
 
       try {
-        const res = await fetch('/api/publish/threads?date=' + encodeURIComponent(dateStr), { method: 'POST' });
+        const res = await fetch('/api/publish/threads?date=' + encodeURIComponent(dateStr) + '&token=' + encodeURIComponent(token), {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
         const data = await res.json();
         if (data.success) {
           alert('스레드 발행 성공! (ID: ' + data.publishedPostId + ')');
-          document.getElementById('statusBadge').className = 'badge badge-live';
-          document.getElementById('statusBadge').innerText = '🚀 스레드 발행 완료';
-          if (document.getElementById('btnPublishThreads')) {
-            document.getElementById('btnPublishThreads').style.display = 'none';
-          }
+          location.reload();
         } else {
           alert('발행 실패: ' + (data.error || JSON.stringify(data)));
           btn.disabled = false;
-          btn.innerText = '🚀 스레드 발행 승인';
+          btn.innerText = '🚀 이 내용으로 스레드 즉시 발행';
         }
       } catch (e) {
         alert('요청 중 오류 발생: ' + e);
         btn.disabled = false;
-        btn.innerText = '🚀 스레드 발행 승인';
+        btn.innerText = '🚀 이 내용으로 스레드 즉시 발행';
       }
     }
 
@@ -1157,35 +1321,53 @@ function generateDashboardHtml(
         alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
         return;
       }
-      if (!confirm(dateStr + ' 마켓 브리핑을 인스타그램(@neo.alphareader)에 실시간 자동 발행하시겠습니까?')) return;
-      const btn = document.getElementById('btnPublishInstagram');
-      if (btn) {
-        btn.disabled = true;
-        btn.innerText = '인스타그램 발행 처리 중...';
+      let token = getCookie('etf_distributor_auth') || new URLSearchParams(location.search).get('token');
+      if (!token) {
+        token = prompt('인스타그램 발행을 위해 관리자 토큰(MANUAL_RUN_TOKEN)을 입력하세요:');
+        if (!token) return;
+        document.cookie = 'etf_distributor_auth=' + token + '; path=/; max-age=2592000; SameSite=Lax; Secure';
       }
+      if (!confirm(dateStr + ' 마켓 브리핑을 인스타그램(@neo.alphareader)에 5장 카드뉴스로 실시간 자동 발행하시겠습니까?')) return;
+      const btn = event.target;
+      btn.disabled = true;
+      btn.innerText = '인스타그램 발행 처리 중...';
 
       try {
-        const res = await fetch('/api/publish/instagram?date=' + encodeURIComponent(dateStr), { method: 'POST' });
+        const res = await fetch('/api/publish/instagram?date=' + encodeURIComponent(dateStr) + '&force=true&token=' + encodeURIComponent(token), {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
         const data = await res.json();
         if (data.success) {
           alert('인스타그램 발행 성공! (ID: ' + data.publishedPostId + ')');
-          if (btn) {
-            btn.innerText = '✅ 인스타그램 발행 완료';
-          }
+          location.reload();
         } else {
           alert('인스타그램 발행 실패: ' + (data.error || JSON.stringify(data)));
-          if (btn) {
-            btn.disabled = false;
-            btn.innerText = '📸 이 내용으로 인스타그램 즉시 발행';
-          }
+          btn.disabled = false;
+          btn.innerText = '📸 이 내용으로 인스타그램 5장 카드뉴스 즉시 발행';
         }
       } catch (e) {
         alert('요청 중 오류 발생: ' + e);
-        if (btn) {
-          btn.disabled = false;
-          btn.innerText = '📸 이 내용으로 인스타그램 즉시 발행';
-        }
+        btn.disabled = false;
+        btn.innerText = '📸 이 내용으로 인스타그램 5장 카드뉴스 즉시 발행';
       }
+    }
+
+    // Restore saved slide and tab
+    const savedSlide = parseInt(localStorage.getItem('osmu_active_slide') || '1', 10);
+    if (!isNaN(savedSlide) && savedSlide >= 1 && savedSlide <= totalSlides) {
+      currentSlide = savedSlide;
+    }
+    updateSlide();
+
+    const hashTab = location.hash ? location.hash.replace('#', '') : null;
+    const savedTab = hashTab || localStorage.getItem('osmu_active_tab');
+    if (savedTab && document.getElementById(savedTab)) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.getAttribute('onclick').includes(savedTab)) {
+          b.click();
+        }
+      });
     }
   </script>
 </body>
@@ -1295,17 +1477,49 @@ const workerHandler = {
         }
       }
 
-      // 1. Root & Preview: Cloud Review Dashboard Hub
+      // 1. Health API Status
+      if (url.pathname === "/health") {
+        return Response.json({
+          service: "market-briefing-distributor",
+          status: "online",
+          version: "1.0.0",
+          timestamp: new Date().toISOString(),
+        });
+      }
+
+      // Standalone Login Page
+      if (url.pathname === "/login") {
+        return new Response(generateLoginHtml(), {
+          headers: { "Content-Type": "text/html; charset=utf-8" },
+        });
+      }
+
+      // 1.1 Root & Preview: Cloud Review Dashboard Hub
       if (url.pathname === "/" || url.pathname === "/preview") {
-        if (!isAuthed) {
-          return new Response(generateLoginHtml(), {
-            status: 401,
-            headers: { "Content-Type": "text/html; charset=utf-8" },
-          });
+        const isFresh = url.searchParams.get("fresh") === "1";
+        const cacheKey = `dashboard:html:v3:${targetDate || "latest"}:${isAuthed ? "authed" : "anon"}`;
+
+        if (!isFresh) {
+          try {
+            const cachedHtml = await env.BRIEFING_KV.get(cacheKey);
+            if (cachedHtml) {
+              const resHeaders = new Headers({
+                "Content-Type": "text/html; charset=utf-8",
+                "Cache-Control": "no-cache, must-revalidate",
+                "X-Dashboard-Cache": "HIT",
+              });
+              if (url.searchParams.get("token") === env.MANUAL_RUN_TOKEN && env.MANUAL_RUN_TOKEN) {
+                resHeaders.set("Set-Cookie", `etf_distributor_auth=${env.MANUAL_RUN_TOKEN}; Path=/; Max-Age=2592000; SameSite=Lax; Secure; HttpOnly`);
+              }
+              return new Response(cachedHtml, { headers: resHeaders });
+            }
+          } catch (e) {}
         }
 
         const payload = await loadBriefingPayload(env, targetDate);
-        if (!payload) return new Response("Briefing not found", { status: 404 });
+        if (!payload) {
+          return new Response("Briefing not found for date: " + (targetDate || "latest"), { status: 404 });
+        }
 
         let logStatus = "ready";
         let threadsPublishedId: string | null = null;
@@ -1332,17 +1546,45 @@ const workerHandler = {
         }
 
         const narrative = await getOrRefineNarrative(payload, env);
-        const html = generateDashboardHtml(payload, env, logStatus, threadsPublishedId, instagramPublishedId, narrative, logReasons);
-        const responseHeaders: Record<string, string> = {
-          "Content-Type": "text/html; charset=utf-8",
-          "Cache-Control": "no-cache",
-        };
-        if (url.searchParams.get("token") === env.MANUAL_RUN_TOKEN && env.MANUAL_RUN_TOKEN) {
-          responseHeaders["Set-Cookie"] = `etf_distributor_auth=${env.MANUAL_RUN_TOKEN}; Path=/; Max-Age=2592000; SameSite=Lax; Secure; HttpOnly`;
+
+        // Fetch recent available dates for dropdown
+        let availableDates: string[] = [payload.asOfDate];
+        try {
+          const rows: any = await env.ETF_PRICES.prepare(
+            `SELECT DISTINCT as_of_date FROM market_briefings ORDER BY as_of_date DESC LIMIT 10`
+          ).all();
+          if (rows?.results?.length) {
+            availableDates = rows.results.map((r: any) => r.as_of_date);
+          }
+        } catch (e) {
+          availableDates = Array.from(new Set([payload.asOfDate, "2026-09-07", "2026-09-04", "2026-08-31"]));
         }
-        return new Response(html, {
-          headers: responseHeaders,
+
+        const html = generateDashboardHtml(
+          payload,
+          env,
+          logStatus,
+          threadsPublishedId,
+          instagramPublishedId,
+          narrative,
+          logReasons,
+          isAuthed,
+          availableDates
+        );
+
+        try {
+          await env.BRIEFING_KV.put(cacheKey, html, { expirationTtl: 3600 });
+        } catch (e) {}
+
+        const responseHeaders = new Headers({
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-cache, must-revalidate",
+          "X-Dashboard-Cache": "MISS",
         });
+        if (url.searchParams.get("token") === env.MANUAL_RUN_TOKEN && env.MANUAL_RUN_TOKEN) {
+          responseHeaders.set("Set-Cookie", `etf_distributor_auth=${env.MANUAL_RUN_TOKEN}; Path=/; Max-Age=2592000; SameSite=Lax; Secure; HttpOnly`);
+        }
+        return new Response(html, { headers: responseHeaders });
       }
 
       // 2. 인스타그램 카드뉴스 프리뷰 (슬라이드 번호 지정 시 SVG 반환, 미지정 시 HTML 리다이렉트 또는 JSON)
@@ -1375,11 +1617,6 @@ const workerHandler = {
           });
         }
 
-        const accept = request.headers.get("Accept") || "";
-        if (accept.includes("text/html")) {
-          return Response.redirect(new URL(`/?date=${payload.asOfDate}#tab-instagram`, request.url).toString(), 302);
-        }
-
         return Response.json({ success: true, asOfDate: payload.asOfDate, caption, slides });
       }
 
@@ -1409,6 +1646,28 @@ const workerHandler = {
         const imgBuffer = await env.BRIEFING_KV.get(key, "arrayBuffer");
         if (!imgBuffer) {
           return new Response("PNG image not found in KV", { status: 404 });
+        }
+        return new Response(imgBuffer, {
+          headers: {
+            "Content-Type": "image/png",
+            "Cache-Control": "public, max-age=86400",
+            "Access-Control-Allow-Origin": "*",
+          },
+        });
+      }
+
+      // 3.2 인스타그램 카드뉴스 각 슬라이드 실물 PNG 이미지 서빙 (Meta Instagram Carousel 규격)
+      if (url.pathname === "/api/images/instagram" || url.pathname === "/api/preview/instagram.png") {
+        const payload = await loadBriefingPayload(env, targetDate);
+        const date = payload?.asOfDate || targetDate;
+        const slideNo = url.searchParams.get("slide") || "1";
+        if (!date) {
+          return new Response("Missing date parameter for instagram slide", { status: 400 });
+        }
+        const key = `image:instagram:${date}:${slideNo}`;
+        const imgBuffer = await env.BRIEFING_KV.get(key, "arrayBuffer");
+        if (!imgBuffer) {
+          return new Response(`PNG slide ${slideNo} not found in KV`, { status: 404 });
         }
         return new Response(imgBuffer, {
           headers: {
@@ -1454,10 +1713,11 @@ const workerHandler = {
       // 6.1 인스타그램 실시간 발행 엔드포인트
       if (url.pathname === "/api/publish/instagram") {
         const queryDate = (!targetDate || targetDate === "latest") ? undefined : targetDate;
+        const force = url.searchParams.get("force") === "true";
         const payload = await loadBriefingPayload(env, queryDate);
         if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
 
-        const publishRes = await publishToInstagramLive(env, payload);
+        const publishRes = await publishToInstagramLive(env, payload, force);
         return Response.json({ ...publishRes, targetDate: payload.asOfDate });
       }
 

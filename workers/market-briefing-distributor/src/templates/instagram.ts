@@ -118,14 +118,8 @@ export function generateInstagramCarousel(
   // Asset classes
   const assetClasses = (payload.assetClasses && payload.assetClasses.length > 0) ? payload.assetClasses : [];
 
-  // Disparity Check for dynamic slide count (5 vs 6)
-  const disparityList = payload.disparityWarning || [];
-  const premiums = disparityList.filter(d => (d.disparityPct ?? 0) > 0).slice(0, 2);
-  const discounts = disparityList.filter(d => (d.disparityPct ?? 0) < 0).slice(0, 2);
-  const hasPremiums = premiums.length > 0;
-  const hasDiscounts = discounts.length > 0;
-  const hasAnyDisparity = hasPremiums || hasDiscounts;
-  const totalSlides = hasAnyDisparity ? 6 : 5;
+  // Fixed 5-slide standard carousel (Option A classic 9/4 style)
+  const totalSlides = 5;
 
   // Common SVG Defs
   const commonDefs = `
@@ -303,9 +297,9 @@ export function generateInstagramCarousel(
 
       <!-- Disclaimer & Watermark (y=1148 ~ 1215) -->
       <g transform="translate(540, 1148)">
-        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-220" y="20" width="440" height="44" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="0" y="49" fill="#047857" font-size="18.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <rect x="-230" y="16" width="460" height="46" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.4"/>
+        <text x="0" y="45" fill="#047857" font-size="20" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
@@ -387,9 +381,9 @@ export function generateInstagramCarousel(
 
       <!-- Disclaimer & Watermark (y=1166 ~ 1230) -->
       <g transform="translate(540, 1166)">
-        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-220" y="20" width="440" height="44" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="0" y="49" fill="#047857" font-size="18.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <rect x="-230" y="16" width="460" height="46" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.4"/>
+        <text x="0" y="45" fill="#047857" font-size="20" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
@@ -473,9 +467,9 @@ export function generateInstagramCarousel(
 
       <!-- Disclaimer & Watermark (y=1168 ~ 1232) -->
       <g transform="translate(540, 1168)">
-        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-220" y="20" width="440" height="44" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="0" y="49" fill="#047857" font-size="18.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <rect x="-230" y="16" width="460" height="46" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.4"/>
+        <text x="0" y="45" fill="#047857" font-size="20" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
@@ -550,131 +544,23 @@ export function generateInstagramCarousel(
 
       <!-- Disclaimer & Watermark (y=1168 ~ 1232) -->
       <g transform="translate(540, 1168)">
-        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-220" y="20" width="440" height="44" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="0" y="49" fill="#047857" font-size="18.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <rect x="-230" y="16" width="460" height="46" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.4"/>
+        <text x="0" y="45" fill="#047857" font-size="20" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
 
   // =========================================================================
-  // SLIDE 5: Disparity Alert (Split: High vs Low Disparity)
-  // =========================================================================
-  const disparityActionTip1 = "해외 ETF 괴리율은 개장 직후 LP 호가가 제출되면서 대부분 정상 범위로 수렴합니다.";
-  const disparityActionTip2 = "장 초반 무리한 시장가 매수·매도를 피하고 실시간 순자산가치 iNAV를 반드시 확인하세요.";
-
-  const slide5Svg = `
-    <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 괴리율 왜곡 점검">
-      <title>ETF 데일리 마켓 브리핑 - 5페이지</title>
-      ${commonDefs}
-      <rect width="1080" height="1350" fill="#F8FAFC"/>
-      <circle cx="950" cy="180" r="300" fill="#EAB308" fill-opacity="0.04"/>
-      <circle cx="100" cy="1150" r="260" fill="#F59E0B" fill-opacity="0.035"/>
-
-      <!-- Header -->
-      <g transform="translate(70, 56)">
-        <text x="0" y="36" fill="#0F172A" font-size="36" font-weight="900" letter-spacing="-0.8">괴리율 고평가·할증 vs 저평가·할인 진단</text>
-        <text x="0" y="70" fill="#64748B" font-size="16" font-weight="600">※ 순자산가치 NAV 대비 시장 종가의 가격 왜곡 정도를 진단합니다.</text>
-        <rect x="830" y="6" width="110" height="44" rx="14" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="885" y="34" fill="#475569" font-size="18" font-weight="900" text-anchor="middle" class="tabular">5 / 6</text>
-      </g>
-
-      <!-- Alert Banner (y=138, h=98) -->
-      <g transform="translate(70, 138)" filter="url(#cardShadow)">
-        <rect width="940" height="98" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.6"/>
-        <text x="35" y="42" fill="#0F172A" font-size="26" font-weight="900">괴리율 왜곡 점검 · NAV 대비 고평가 vs 저평가</text>
-        <text x="35" y="74" fill="#475569" font-size="18.5" font-weight="700">
-          장 시작 및 마감 시점의 호가 공백과 해외 시차로 인한 가격 왜곡을 점검합니다.
-        </text>
-      </g>
-
-      ${hasPremiums ? `
-        <!-- SECTION 1: NAV 대비 고평가 · 할증 주의 TOP 2 (y=254) -->
-        <g transform="translate(70, 254)">
-          <text x="5" y="24" fill="#991B1B" font-size="24" font-weight="900">NAV 대비 고평가 · 할증 주의</text>
-          <rect x="320" y="2" width="250" height="30" rx="8" fill="#FEE2E2" stroke="#FECACA" stroke-width="1.2"/>
-          <text x="445" y="22" fill="#DC2626" font-size="14" font-weight="800" text-anchor="middle">시장가 &gt; 가치 · 고점 매수 유의</text>
-
-          ${premiums.slice(0, 2).map((d: any, idx: number) => {
-            const isTop = idx === 0;
-            return `
-              <g transform="translate(0, ${36 + idx * 144})" filter="url(#cardShadow)">
-                <rect width="940" height="132" rx="20" fill="${isTop ? '#FFF8F8' : '#FFFFFF'}" stroke="${isTop ? '#FCA5A5' : '#E2E8F0'}" stroke-width="${isTop ? '2' : '1.5'}"/>
-                ${isTop ? '<rect x="0" y="0" width="8" height="132" rx="4" fill="#D92D20"/>' : ''}
-                <circle cx="58" cy="66" r="26" fill="${isTop ? '#D92D20' : '#FEE2E2'}"/>
-                <text x="58" y="75" fill="${isTop ? '#FFFFFF' : '#991B1B'}" font-size="22" font-weight="900" text-anchor="middle">${idx + 1}</text>
-                <text x="102" y="54" fill="#0F172A" font-size="26" font-weight="900">${escapeXml(cleanEtfNameForBanner(d.etfName, 22))}</text>
-                <rect x="102" y="72" width="90" height="28" rx="7" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
-                <text x="147" y="91" fill="#475569" font-size="15" font-weight="800" text-anchor="middle" class="tabular">${d.ticker}</text>
-                <rect x="200" y="72" width="125" height="28" rx="7" fill="#FEE2E2" stroke="#FDA4AF" stroke-width="1"/>
-                <text x="262" y="91" fill="#BE123C" font-size="14.5" font-weight="800" text-anchor="middle">고평가 · 할증</text>
-                <text x="910" y="62" fill="#D92D20" font-size="42" font-weight="900" text-anchor="end" class="tabular">+${(d.disparityPct ?? 0).toFixed(2)}%</text>
-                <text x="910" y="94" fill="#BE123C" font-size="16" font-weight="800" text-anchor="end">NAV 대비 할증 거래 중</text>
-              </g>
-            `;
-          }).join("")}
-        </g>
-      ` : ''}
-
-      ${hasDiscounts ? `
-        <!-- SECTION 2: NAV 대비 저평가 · 할인 체크 TOP 2 (y=586) -->
-        <g transform="translate(70, ${hasPremiums ? (254 + 36 + premiums.slice(0, 2).length * 144 + 20) : 254})">
-          <text x="5" y="24" fill="#166534" font-size="24" font-weight="900">NAV 대비 저평가 · 할인 체크</text>
-          <rect x="320" y="2" width="250" height="30" rx="8" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1.2"/>
-          <text x="445" y="22" fill="#15803D" font-size="14" font-weight="800" text-anchor="middle">시장가 &lt; 가치 · LP 호가 복귀 확인</text>
-
-          ${discounts.slice(0, 2).map((d: any, idx: number) => {
-            const isTop = idx === 0;
-            return `
-              <g transform="translate(0, ${36 + idx * 144})" filter="url(#cardShadow)">
-                <rect width="940" height="132" rx="20" fill="${isTop ? '#F0FDF4' : '#FFFFFF'}" stroke="${isTop ? '#86EFAC' : '#E2E8F0'}" stroke-width="${isTop ? '2' : '1.5'}"/>
-                ${isTop ? '<rect x="0" y="0" width="8" height="132" rx="4" fill="#059669"/>' : ''}
-                <circle cx="58" cy="66" r="26" fill="${isTop ? '#059669' : '#DCFCE7'}"/>
-                <text x="58" y="75" fill="${isTop ? '#FFFFFF' : '#166534'}" font-size="22" font-weight="900" text-anchor="middle">${idx + 1}</text>
-                <text x="102" y="54" fill="#0F172A" font-size="26" font-weight="900">${escapeXml(cleanEtfNameForBanner(d.etfName, 22))}</text>
-                <rect x="102" y="72" width="90" height="28" rx="7" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
-                <text x="147" y="91" fill="#475569" font-size="15" font-weight="800" text-anchor="middle" class="tabular">${d.ticker}</text>
-                <rect x="200" y="72" width="125" height="28" rx="7" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1"/>
-                <text x="262" y="91" fill="#15803D" font-size="14.5" font-weight="800" text-anchor="middle">저평가 · 할인</text>
-                <text x="910" y="62" fill="#047857" font-size="42" font-weight="900" text-anchor="end" class="tabular">${(d.disparityPct ?? 0).toFixed(2)}%</text>
-                <text x="910" y="94" fill="#15803D" font-size="16" font-weight="800" text-anchor="end">NAV 대비 할인 거래 중</text>
-              </g>
-            `;
-          }).join("")}
-        </g>
-      ` : ''}
-
-      <!-- 실전 투자 가이드 박스 ('운용역' 문구 완전 삭제, 대형 폰트) (y=926, h=136) -->
-      <g transform="translate(70, ${hasPremiums && hasDiscounts ? (254 + 36 + premiums.slice(0, 2).length * 144 + 20 + 36 + discounts.slice(0, 2).length * 144 + 20) : 926})" filter="url(#cardShadow)">
-        <rect width="940" height="136" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
-        <text x="35" y="38" fill="#0F172A" font-size="22" font-weight="900">실전 투자 가이드 — 괴리율 대응 원칙</text>
-        <text x="35" y="74" fill="#334155" font-size="19" font-weight="700">
-          • ${escapeXml(disparityActionTip1)}
-        </text>
-        <text x="35" y="108" fill="#334155" font-size="19" font-weight="700">
-          • ${escapeXml(disparityActionTip2)}
-        </text>
-      </g>
-
-      <!-- Disclaimer & Watermark (y=1165 ~ 1229) -->
-      <g transform="translate(540, 1165)">
-        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-220" y="20" width="440" height="44" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="0" y="49" fill="#047857" font-size="18.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
-      </g>
-    </svg>
-  `;
-
-  // =========================================================================
-  // SLIDE 6: Summary & Conversion Action CTA
+  // SLIDE 5: Summary & Conversion Action CTA (Option A 9/4 Style)
   // =========================================================================
 
   const rawTopTheme = (topTheme.peerGroup || "주도 테마").replace(/\s*\([^)]*\)/g, '').trim();
   const rawBotTheme = (bottomTheme.peerGroup || "소외 테마").replace(/\s*\([^)]*\)/g, '').trim();
-  const cleanSlide6TopTheme = cleanEtfNameForBanner(rawTopTheme, 25);
-  const cleanSlide6BotTheme = cleanEtfNameForBanner(rawBotTheme, 25);
+  const cleanSlide5TopTheme = cleanEtfNameForBanner(rawTopTheme, 25);
+  const cleanSlide5BotTheme = cleanEtfNameForBanner(rawBotTheme, 25);
 
-  const slide6Svg = `
+  const slide5Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 3대 마켓 체크리스트 및 관전 포인트">
       <title>ETF 데일리 마켓 브리핑 - ${totalSlides}페이지</title>
       ${commonDefs}
@@ -723,7 +609,7 @@ export function generateInstagramCarousel(
         <!-- Header -->
         <rect x="35" y="24" width="145" height="44" rx="12" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1.2"/>
         <text x="107" y="53" fill="#BE123C" font-size="20" font-weight="900" text-anchor="middle">02 테마 순환</text>
-        <text x="195" y="55" fill="#0F172A" font-size="24" font-weight="900">&apos;${escapeXml(cleanSlide6TopTheme)}&apos; 독주 vs &apos;${escapeXml(cleanSlide6BotTheme)}&apos; 조정</text>
+        <text x="195" y="55" fill="#0F172A" font-size="24" font-weight="900">&apos;${escapeXml(cleanSlide5TopTheme)}&apos; 독주 vs &apos;${escapeXml(cleanSlide5BotTheme)}&apos; 조정</text>
 
         <!-- Divider -->
         <line x1="35" y1="88" x2="905" y2="88" stroke="#F1F5F9" stroke-width="1.5"/>
@@ -775,28 +661,20 @@ export function generateInstagramCarousel(
 
       <!-- Footer Disclaimer & CTA Link (y=1156 ~ 1220) -->
       <g transform="translate(540, 1156)">
-        <text x="0" y="0" fill="#64748B" font-size="16" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <rect x="-220" y="20" width="440" height="44" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.2"/>
-        <text x="0" y="49" fill="#047857" font-size="18.5" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <text x="0" y="0" fill="#64748B" font-size="15" font-weight="600" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <rect x="-230" y="16" width="460" height="46" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1.4"/>
+        <text x="0" y="45" fill="#047857" font-size="20" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `;
 
-  const slides: InstagramSlide[] = [
+  return [
     { slideNumber: 1, title: "Cover", subtitle: "1초 후킹 표지 & 3대 핵심 펄스", svgContent: slide1Svg },
     { slideNumber: 2, title: "Theme Dynamics", subtitle: "주도 테마 TOP 3 vs 부진 테마", svgContent: slide2Svg },
     { slideNumber: 3, title: "Asset Class Dynamics", subtitle: "자산군별 수익률/기여도", svgContent: slide3Svg },
     { slideNumber: 4, title: "Smart Money Flow", subtitle: "실질 자금 순유입 TOP 5", svgContent: slide4Svg },
+    { slideNumber: 5, title: "Summary & Watch Point", subtitle: "오늘 시장 3대 체크리스트 & 관전 포인트", svgContent: slide5Svg },
   ];
-
-  if (hasAnyDisparity) {
-    slides.push({ slideNumber: 5, title: "Disparity Alert", subtitle: "괴리율 고평가/저평가 TOP 3", svgContent: slide5Svg });
-    slides.push({ slideNumber: 6, title: "Summary & Watch Point", subtitle: "오늘 시장 3대 체크리스트 & 관전 포인트", svgContent: slide6Svg });
-  } else {
-    slides.push({ slideNumber: 5, title: "Summary & Watch Point", subtitle: "오늘 시장 3대 체크리스트 & 관전 포인트", svgContent: slide6Svg });
-  }
-
-  return slides;
 }
 
 export function generateInstagramCaption(

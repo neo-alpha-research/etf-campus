@@ -185,9 +185,9 @@ export function analyzeDisparityState(payload: MarketBriefingPayload): {
     return {
       status: "PREMIUM_WARNING",
       badgeText: "할증 주의",
-      bannerTitle: `고평가(할증) ${premiums.length}개 종목 괴리율 왜곡 발생`,
-      bannerDesc: `순자산가치(NAV) 대비 시장가가 높게 형성되었습니다. 시초가 고점 추격 매수에 유의하십시오.`,
-      actionTip: `고평가 상태에서는 순자산가치 대비 웃돈을 주고 매수하는 불리함이 있습니다. 개장 직후 5~10분간 LP 호가 스프레드가 좁혀질 때까지 분할 접근하는 것이 안전합니다.`,
+      bannerTitle: `고평가 할증 ${premiums.length}개 종목 괴리율 왜곡 발생`,
+      bannerDesc: `순자산가치 NAV 대비 시장가가 높게 형성되었습니다. 시초가 고점 추격 매수에 유의하십시오.`,
+      actionTip: `고평가 상태에서는 순자산가치 대비 웃돈을 주고 매수하는 불리함이 있습니다. 개장 직후 LP 호가 스프레드가 좁혀질 때까지 분할 접근하는 것이 안전합니다.`,
       premiumsCount: premiums.length,
       discountsCount: 0,
     };
@@ -197,9 +197,9 @@ export function analyzeDisparityState(payload: MarketBriefingPayload): {
     return {
       status: "DISCOUNT_OPPORTUNITY",
       badgeText: "할인 체크",
-      bannerTitle: `저평가(할인) ${discounts.length}개 종목 괴리율 왜곡 발생`,
-      bannerDesc: `순자산가치(NAV) 대비 시장가가 낮게 형성되었습니다. LP 호가 정상 공급 여부를 체크하십시오.`,
-      actionTip: `저평가 상태는 시장 가격이 순자산가치보다 할인된 상태이나, 유동성이 부족한 일시적 호가 공백일 수 있으므로 매수 잔량의 호가 두께를 확인한 후 접근하십시오.`,
+      bannerTitle: `저평가 할인 ${discounts.length}개 종목 괴리율 왜곡 발생`,
+      bannerDesc: `순자산가치 NAV 대비 시장가가 낮게 형성되었습니다. LP 호가 정상 공급 여부를 체크하십시오.`,
+      actionTip: `저평가 상태는 시장 가격이 순자산가치보다 할인된 상태이나, 유동성이 부족한 일시적 호가 공백일 수 있으므로 호가 두께를 확인한 후 접근하십시오.`,
       premiumsCount: 0,
       discountsCount: discounts.length,
     };
@@ -209,8 +209,8 @@ export function analyzeDisparityState(payload: MarketBriefingPayload): {
     status: "STABLE_NORMAL",
     badgeText: "정상 유지",
     bannerTitle: "국내 상장 일반 ETF 전 종목 정상 괴리율 범위 유지",
-    bannerDesc: "전 종목이 법정 허용 범위(국내 1%, 해외 3%) 내에서 안정적으로 정상 거래 중입니다.",
-    actionTip: "해외 ETF 괴리율은 개장 직후 LP 호가가 제출되면서 대부분 정상 범위로 수렴합니다. 장 초반 무리한 시장가 매수·매도를 피하고 실시간 순자산가치(iNAV)를 반드시 확인하세요.",
+    bannerDesc: "전 종목이 법정 허용 범위 내에서 안정적으로 정상 거래 중입니다.",
+    actionTip: "해외 ETF 괴리율은 개장 직후 LP 호가가 공급되며 정상 범위로 수렴합니다. 장 초반 무리한 시장가 매수를 피하고 실시간 순자산가치 iNAV를 확인하세요.",
     premiumsCount: 0,
     discountsCount: 0,
   };

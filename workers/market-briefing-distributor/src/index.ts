@@ -6,6 +6,16 @@ import { reviewAndRefineWithGemini, type PolishedNarrative } from "./services/ge
 import { classifyMarketRegime } from "./services/market-regime";
 import type { BriefingDistributeEvent, Env, MarketBriefingPayload } from "./types";
 
+function escapeXml(unsafe?: string): string {
+  if (!unsafe) return "";
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 function normalizeBriefingPayload(raw: any): MarketBriefingPayload | null {
   if (!raw) return null;
   const briefing = raw.briefing || raw;
@@ -213,7 +223,7 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
   const narrative = await getOrRefineNarrative(payload, env);
   const instagramSlides = generateInstagramCarousel(payload, baseUrl, narrative);
   const threadsPosts = generateThreadsThread(payload, baseUrl, narrative);
-  const newsletter = generateNewsletterHtml(payload, baseUrl);
+  const newsletter = generateNewsletterHtml(payload, baseUrl, narrative);
 
   // 3. Threads API 실발송 (토큰 존재 및 dryRun 아닐 시)
   let threadsPublishedId: string | null = null;
@@ -1022,6 +1032,9 @@ function generateDashboardHtml(
 
   const threadsText = generateThreadsThread(payload, env.SITE_BASE_URL || "https://etf-campus.pages.dev", narrative)[0]?.content || "";
   const captionText = generateInstagramCaption(payload, narrative);
+  const newsletterData = generateNewsletterHtml(payload, env.SITE_BASE_URL || "https://etf-campus.pages.dev", narrative);
+  const newsletterSubject = newsletterData.subject;
+  const newsletterPreheader = newsletterData.preheader;
   const isThreadsPublished = Boolean(threadsPublishedId);
   const isInstagramPublished = Boolean(instagramPublishedId);
   const isBlocked = logStatus === "blocked" || logReasons.length > 0;
@@ -1203,11 +1216,43 @@ function generateDashboardHtml(
     <!-- 3. Newsletter Tab -->
     <div id="tab-newsletter" class="tab-content">
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <h3 style="font-size: 16px; font-weight: 800;">📧 이메일 뉴스레터 프리뷰</h3>
-          <a href="/api/preview/newsletter?date=${date}" target="_blank" class="btn-secondary">🔗 새 창에서 전체보기</a>
+        <!-- Meta Bar -->
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px;">
+            <div style="font-size: 13.5px; color: #1E293B; line-height: 1.5;">
+              <strong style="color: #047857; margin-right: 6px;">[메일 제목]</strong>
+              <span id="newsletterSubjectText" style="font-weight: 700;">${escapeXml(newsletterSubject)}</span>
+            </div>
+            <button class="btn-secondary" onclick="copyNewsletterField('newsletterSubjectText')" style="white-space: nowrap;">📋 제목 복사</button>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+            <div style="font-size: 12.5px; color: #64748B; line-height: 1.5;">
+              <strong style="color: #475569; margin-right: 6px;">[받은편지함 미리보기]</strong>
+              <span id="newsletterPreheaderText">${escapeXml(newsletterPreheader)}</span>
+            </div>
+            <button class="btn-secondary" onclick="copyNewsletterField('newsletterPreheaderText')" style="white-space: nowrap;">📋 미리보기 복사</button>
+          </div>
         </div>
-        <iframe src="/api/preview/newsletter?date=${date}" class="email-frame"></iframe>
+
+        <!-- Controls Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <h3 style="font-size: 16px; font-weight: 800; margin: 0;">📧 이메일 뉴스레터 프리뷰</h3>
+            <div style="display: inline-flex; background: #F1F5F9; border-radius: 8px; padding: 2px; border: 1px solid #CBD5E1;">
+              <button id="btnEmailDesktop" onclick="setEmailViewport('desktop')" style="padding: 4px 10px; border: none; border-radius: 6px; font-size: 11.5px; font-weight: 800; cursor: pointer; background: #059669; color: white;">💻 데스크톱 (620px)</button>
+              <button id="btnEmailMobile" onclick="setEmailViewport('mobile')" style="padding: 4px 10px; border: none; border-radius: 6px; font-size: 11.5px; font-weight: 800; cursor: pointer; background: transparent; color: #64748B;">📱 모바일 (375px)</button>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="btn-secondary" onclick="copyNewsletterHtml('${date}')">📋 HTML 전체 소스 복사</button>
+            <a href="/api/preview/newsletter?date=${date}" target="_blank" class="btn-secondary">🔗 새 창에서 전체보기</a>
+          </div>
+        </div>
+
+        <!-- Iframe Container -->
+        <div id="emailFrameContainer" style="max-width: 620px; margin: 0 auto; transition: max-width 0.25s ease; border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
+          <iframe id="emailFrame" src="/api/preview/newsletter?date=${date}" class="email-frame" style="width: 100%; height: 800px; border: none; background: #FFFFFF; display: block;"></iframe>
+        </div>
       </div>
     </div>
   </div>
@@ -1399,7 +1444,52 @@ function generateDashboardHtml(
       }
     }
 
-    // Restore saved slide and tab
+    let emailViewport = localStorage.getItem('osmu_email_viewport') || 'desktop';
+    function setEmailViewport(mode) {
+      emailViewport = mode;
+      localStorage.setItem('osmu_email_viewport', mode);
+      const btnDesk = document.getElementById('btnEmailDesktop');
+      const btnMob = document.getElementById('btnEmailMobile');
+      const container = document.getElementById('emailFrameContainer');
+      if (!btnDesk || !btnMob || !container) return;
+      if (mode === 'mobile') {
+        container.style.maxWidth = '375px';
+        btnMob.style.background = '#059669';
+        btnMob.style.color = '#FFFFFF';
+        btnDesk.style.background = 'transparent';
+        btnDesk.style.color = '#64748B';
+      } else {
+        container.style.maxWidth = '620px';
+        btnDesk.style.background = '#059669';
+        btnDesk.style.color = '#FFFFFF';
+        btnMob.style.background = 'transparent';
+        btnMob.style.color = '#64748B';
+      }
+    }
+
+    function copyNewsletterField(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      navigator.clipboard.writeText(el.innerText || el.textContent).then(() => {
+        alert('클립보드에 복사되었습니다.');
+      }).catch(() => {
+        alert('복사에 실패했습니다.');
+      });
+    }
+
+    async function copyNewsletterHtml(dateStr) {
+      try {
+        const res = await fetch('/api/preview/newsletter?date=' + encodeURIComponent(dateStr));
+        const html = await res.text();
+        await navigator.clipboard.writeText(html);
+        alert('이메일 뉴스레터 전체 HTML 소스코드가 클립보드에 복사되었습니다. (스티비/메일침프에 바로 붙여넣기 가능)');
+      } catch (e) {
+        alert('HTML 복사 실패: ' + e);
+      }
+    }
+
+    // Restore saved slide, tab and email viewport
+    setEmailViewport(emailViewport);
     const savedSlide = parseInt(localStorage.getItem('osmu_active_slide') || '1', 10);
     if (!isNaN(savedSlide) && savedSlide >= 1 && savedSlide <= totalSlides) {
       currentSlide = savedSlide;
@@ -1741,7 +1831,8 @@ const workerHandler = {
         const payload = await loadBriefingPayload(env, queryDate);
         if (!payload) return new Response("Briefing not found", { status: 404 });
 
-        const newsletter = generateNewsletterHtml(payload, baseUrl);
+        const narrative = await getOrRefineNarrative(payload, env);
+        const newsletter = generateNewsletterHtml(payload, baseUrl, narrative);
         return new Response(newsletter.html, {
           headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache" },
         });

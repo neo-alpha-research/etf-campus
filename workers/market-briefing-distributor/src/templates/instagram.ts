@@ -670,119 +670,119 @@ export function generateInstagramCarousel(
         yOffset: 104,
       })}
 
-      <!-- SECTION 1: NAV 대비 고평가 · 할증 Top 2 (y=266) -->
-      <g transform="translate(70, 266)">
+      <!-- SECTION 1: NAV 대비 고평가 · 할증 Top 2 (y=212) -->
+      <g transform="translate(70, 212)">
         <text x="5" y="28" fill="#991B1B" font-size="30" font-weight="900">▲ NAV 대비 고평가 · 할증 주의 (시장가 &gt; 가치)</text>
 
         <!-- Slot 1 (y=40) -->
         ${prem1 ? (() => {
-          const nameFitted = fitAndClampText((prem1.etfName || "").replace(/\s*\([^)]*\)/g, '').trim(), 480, 34, 26);
+          const nameFitted = fitAndClampText((prem1.etfName || "").replace(/\s*\([^)]*\)/g, '').trim(), 480, 36, 26);
           return `
           <g transform="translate(0, 40)" filter="url(#cardShadow)">
-            <rect width="940" height="150" rx="22" fill="#FFF8F8" stroke="#FCA5A5" stroke-width="2"/>
-            <rect x="0" y="0" width="8" height="150" rx="4" fill="#D92D20"/>
-            <circle cx="60" cy="75" r="32" fill="#D92D20"/>
-            <text x="60" y="87" fill="#FFFFFF" font-size="28" font-weight="900" text-anchor="middle">1</text>
-            <text x="110" y="60" fill="#0F172A" font-size="${nameFitted.fontSize}" font-weight="900">${escapeXml(nameFitted.text)}</text>
-            <rect x="110" y="84" width="115" height="42" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
-            <text x="167" y="113" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${prem1.ticker}</text>
-            <rect x="236" y="84" width="165" height="42" rx="10" fill="#FEE2E2" stroke="#FDA4AF" stroke-width="1.4"/>
-            <text x="318" y="113" fill="#BE123C" font-size="24" font-weight="900" text-anchor="middle">고평가 할증</text>
-            <text x="910" y="72" fill="#D92D20" font-size="56" font-weight="900" text-anchor="end" class="tabular">+${(prem1.disparityPct ?? 0).toFixed(2)}%</text>
-            <text x="910" y="114" fill="#BE123C" font-size="26" font-weight="900" text-anchor="end">NAV 대비 할증 거래 중</text>
+            <rect width="940" height="166" rx="24" fill="#FFF8F8" stroke="#FCA5A5" stroke-width="2"/>
+            <rect x="0" y="0" width="8" height="166" rx="4" fill="#D92D20"/>
+            <circle cx="60" cy="83" r="34" fill="#D92D20"/>
+            <text x="60" y="95" fill="#FFFFFF" font-size="30" font-weight="900" text-anchor="middle">1</text>
+            <text x="110" y="66" fill="#0F172A" font-size="${nameFitted.fontSize}" font-weight="900">${escapeXml(nameFitted.text)}</text>
+            <rect x="110" y="96" width="115" height="44" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
+            <text x="167" y="127" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${prem1.ticker}</text>
+            <rect x="236" y="96" width="165" height="44" rx="10" fill="#FEE2E2" stroke="#FDA4AF" stroke-width="1.4"/>
+            <text x="318" y="127" fill="#BE123C" font-size="24" font-weight="900" text-anchor="middle">고평가 할증</text>
+            <text x="910" y="78" fill="#D92D20" font-size="62" font-weight="900" text-anchor="end" class="tabular">+${(prem1.disparityPct ?? 0).toFixed(2)}%</text>
+            <text x="910" y="126" fill="#BE123C" font-size="26" font-weight="900" text-anchor="end">NAV 대비 할증 거래 중</text>
           </g>
           `;
         })() : `
         <g transform="translate(0, 40)" filter="url(#cardShadow)">
-          <rect width="940" height="150" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.8"/>
-          <text x="470" y="88" fill="#15803D" font-size="28" font-weight="900" text-anchor="middle">✔ 전 종목 NAV 대비 할증률 정상 범위 유지 (고평가 종목 없음)</text>
+          <rect width="940" height="166" rx="24" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.8"/>
+          <text x="470" y="96" fill="#15803D" font-size="28" font-weight="900" text-anchor="middle">✔ 전 종목 NAV 대비 할증률 정상 범위 유지 (고평가 종목 없음)</text>
         </g>
         `}
 
-        <!-- Slot 2 (y=202) -->
+        <!-- Slot 2 (y=220) -->
         ${prem2 ? (() => {
-          const nameFitted = fitAndClampText((prem2.etfName || "").replace(/\s*\([^)]*\)/g, '').trim(), 480, 34, 26);
+          const nameFitted = fitAndClampText((prem2.etfName || "").replace(/\s*\([^)]*\)/g, '').trim(), 480, 36, 26);
           return `
-          <g transform="translate(0, 202)" filter="url(#cardShadow)">
-            <rect width="940" height="150" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.8"/>
-            <circle cx="60" cy="75" r="32" fill="#FEE2E2"/>
-            <text x="60" y="87" fill="#991B1B" font-size="28" font-weight="900" text-anchor="middle">2</text>
-            <text x="110" y="60" fill="#0F172A" font-size="${nameFitted.fontSize}" font-weight="900">${escapeXml(nameFitted.text)}</text>
-            <rect x="110" y="84" width="115" height="42" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
-            <text x="167" y="113" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${prem2.ticker}</text>
-            <rect x="236" y="84" width="165" height="42" rx="10" fill="#FEE2E2" stroke="#FDA4AF" stroke-width="1.4"/>
-            <text x="318" y="113" fill="#BE123C" font-size="24" font-weight="900" text-anchor="middle">고평가 할증</text>
-            <text x="910" y="72" fill="#D92D20" font-size="56" font-weight="900" text-anchor="end" class="tabular">+${(prem2.disparityPct ?? 0).toFixed(2)}%</text>
-            <text x="910" y="114" fill="#BE123C" font-size="26" font-weight="900" text-anchor="end">NAV 대비 할증 거래 중</text>
+          <g transform="translate(0, 220)" filter="url(#cardShadow)">
+            <rect width="940" height="166" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.8"/>
+            <circle cx="60" cy="83" r="34" fill="#FEE2E2"/>
+            <text x="60" y="95" fill="#991B1B" font-size="30" font-weight="900" text-anchor="middle">2</text>
+            <text x="110" y="66" fill="#0F172A" font-size="${nameFitted.fontSize}" font-weight="900">${escapeXml(nameFitted.text)}</text>
+            <rect x="110" y="96" width="115" height="44" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
+            <text x="167" y="127" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${prem2.ticker}</text>
+            <rect x="236" y="96" width="165" height="44" rx="10" fill="#FEE2E2" stroke="#FDA4AF" stroke-width="1.4"/>
+            <text x="318" y="127" fill="#BE123C" font-size="24" font-weight="900" text-anchor="middle">고평가 할증</text>
+            <text x="910" y="78" fill="#D92D20" font-size="62" font-weight="900" text-anchor="end" class="tabular">+${(prem2.disparityPct ?? 0).toFixed(2)}%</text>
+            <text x="910" y="126" fill="#BE123C" font-size="26" font-weight="900" text-anchor="end">NAV 대비 할증 거래 중</text>
           </g>
           `;
         })() : `
-        <g transform="translate(0, 202)" filter="url(#cardShadow)">
-          <rect width="940" height="150" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.8"/>
-          <text x="470" y="88" fill="#475569" font-size="26" font-weight="800" text-anchor="middle">✔ 추가 고평가 종목 없음 (대부분 종목 정상 호가 유지)</text>
+        <g transform="translate(0, 220)" filter="url(#cardShadow)">
+          <rect width="940" height="166" rx="24" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.8"/>
+          <text x="470" y="96" fill="#475569" font-size="26" font-weight="800" text-anchor="middle">✔ 추가 고평가 종목 없음 (대부분 종목 정상 호가 유지)</text>
         </g>
         `}
       </g>
 
-      <!-- SECTION 2: NAV 대비 저평가 · 할인 Top 2 (y=648) -->
-      <g transform="translate(70, 648)">
+      <!-- SECTION 2: NAV 대비 저평가 · 할인 Top 2 (y=634) -->
+      <g transform="translate(70, 634)">
         <text x="5" y="28" fill="#166534" font-size="30" font-weight="900">▼ NAV 대비 저평가 · 할인 체크 (시장가 &lt; 가치)</text>
 
         <!-- Slot 1 (y=40) -->
         ${disc1 ? (() => {
-          const nameFitted = fitAndClampText((disc1.etfName || "").replace(/\s*\([^)]*\)/g, '').trim(), 480, 34, 26);
+          const nameFitted = fitAndClampText((disc1.etfName || "").replace(/\s*\([^)]*\)/g, '').trim(), 480, 36, 26);
           return `
           <g transform="translate(0, 40)" filter="url(#cardShadow)">
-            <rect width="940" height="150" rx="22" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
-            <rect x="0" y="0" width="8" height="150" rx="4" fill="#059669"/>
-            <circle cx="60" cy="75" r="32" fill="#059669"/>
-            <text x="60" y="87" fill="#FFFFFF" font-size="28" font-weight="900" text-anchor="middle">1</text>
-            <text x="110" y="60" fill="#0F172A" font-size="${nameFitted.fontSize}" font-weight="900">${escapeXml(nameFitted.text)}</text>
-            <rect x="110" y="84" width="115" height="42" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
-            <text x="167" y="113" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${disc1.ticker}</text>
-            <rect x="236" y="84" width="165" height="42" rx="10" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.4"/>
-            <text x="318" y="113" fill="#15803D" font-size="24" font-weight="900" text-anchor="middle">저평가 할인</text>
-            <text x="910" y="72" fill="#047857" font-size="56" font-weight="900" text-anchor="end" class="tabular">${(disc1.disparityPct ?? 0).toFixed(2)}%</text>
-            <text x="910" y="114" fill="#15803D" font-size="26" font-weight="900" text-anchor="end">NAV 대비 할인 거래 중</text>
+            <rect width="940" height="166" rx="24" fill="#F0FDF4" stroke="#86EFAC" stroke-width="2"/>
+            <rect x="0" y="0" width="8" height="166" rx="4" fill="#059669"/>
+            <circle cx="60" cy="83" r="34" fill="#059669"/>
+            <text x="60" y="95" fill="#FFFFFF" font-size="30" font-weight="900" text-anchor="middle">1</text>
+            <text x="110" y="66" fill="#0F172A" font-size="${nameFitted.fontSize}" font-weight="900">${escapeXml(nameFitted.text)}</text>
+            <rect x="110" y="96" width="115" height="44" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
+            <text x="167" y="127" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${disc1.ticker}</text>
+            <rect x="236" y="96" width="165" height="44" rx="10" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.4"/>
+            <text x="318" y="127" fill="#15803D" font-size="24" font-weight="900" text-anchor="middle">저평가 할인</text>
+            <text x="910" y="78" fill="#047857" font-size="62" font-weight="900" text-anchor="end" class="tabular">${(disc1.disparityPct ?? 0).toFixed(2)}%</text>
+            <text x="910" y="126" fill="#15803D" font-size="26" font-weight="900" text-anchor="end">NAV 대비 할인 거래 중</text>
           </g>
           `;
         })() : `
         <g transform="translate(0, 40)" filter="url(#cardShadow)">
-          <rect width="940" height="150" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.8"/>
-          <text x="470" y="88" fill="#15803D" font-size="28" font-weight="900" text-anchor="middle">✔ 전 종목 NAV 대비 할인율 정상 범위 유지 (저평가 왜곡 없음)</text>
+          <rect width="940" height="166" rx="24" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.8"/>
+          <text x="470" y="96" fill="#15803D" font-size="28" font-weight="900" text-anchor="middle">✔ 전 종목 NAV 대비 할인율 정상 범위 유지 (저평가 왜곡 없음)</text>
         </g>
         `}
 
-        <!-- Slot 2 (y=202) -->
+        <!-- Slot 2 (y=220) -->
         ${disc2 ? (() => {
-          const nameFitted = fitAndClampText((disc2.etfName || "").replace(/\s*\([^)]*\)/g, '').trim(), 480, 34, 26);
+          const nameFitted = fitAndClampText((disc2.etfName || "").replace(/\s*\([^)]*\)/g, '').trim(), 480, 36, 26);
           return `
-          <g transform="translate(0, 202)" filter="url(#cardShadow)">
-            <rect width="940" height="150" rx="22" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.8"/>
-            <circle cx="60" cy="75" r="32" fill="#DCFCE7"/>
-            <text x="60" y="87" fill="#166534" font-size="28" font-weight="900" text-anchor="middle">2</text>
-            <text x="110" y="60" fill="#0F172A" font-size="${nameFitted.fontSize}" font-weight="900">${escapeXml(nameFitted.text)}</text>
-            <rect x="110" y="84" width="115" height="42" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
-            <text x="167" y="113" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${disc2.ticker}</text>
-            <rect x="236" y="84" width="165" height="42" rx="10" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.4"/>
-            <text x="318" y="113" fill="#15803D" font-size="24" font-weight="900" text-anchor="middle">저평가 할인</text>
-            <text x="910" y="72" fill="#047857" font-size="56" font-weight="900" text-anchor="end" class="tabular">${(disc2.disparityPct ?? 0).toFixed(2)}%</text>
-            <text x="910" y="114" fill="#15803D" font-size="26" font-weight="900" text-anchor="end">NAV 대비 할인 거래 중</text>
+          <g transform="translate(0, 220)" filter="url(#cardShadow)">
+            <rect width="940" height="166" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.8"/>
+            <circle cx="60" cy="83" r="34" fill="#DCFCE7"/>
+            <text x="60" y="95" fill="#166534" font-size="30" font-weight="900" text-anchor="middle">2</text>
+            <text x="110" y="66" fill="#0F172A" font-size="${nameFitted.fontSize}" font-weight="900">${escapeXml(nameFitted.text)}</text>
+            <rect x="110" y="96" width="115" height="44" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
+            <text x="167" y="127" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${disc2.ticker}</text>
+            <rect x="236" y="96" width="165" height="44" rx="10" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.4"/>
+            <text x="318" y="127" fill="#15803D" font-size="24" font-weight="900" text-anchor="middle">저평가 할인</text>
+            <text x="910" y="78" fill="#047857" font-size="62" font-weight="900" text-anchor="end" class="tabular">${(disc2.disparityPct ?? 0).toFixed(2)}%</text>
+            <text x="910" y="126" fill="#15803D" font-size="26" font-weight="900" text-anchor="end">NAV 대비 할인 거래 중</text>
           </g>
           `;
         })() : `
-        <g transform="translate(0, 202)" filter="url(#cardShadow)">
-          <rect width="940" height="150" rx="22" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.8"/>
-          <text x="470" y="88" fill="#475569" font-size="26" font-weight="800" text-anchor="middle">✔ 추가 저평가 종목 없음 (정상 범위 호가 유지)</text>
+        <g transform="translate(0, 220)" filter="url(#cardShadow)">
+          <rect width="940" height="166" rx="24" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.8"/>
+          <text x="470" y="96" fill="#475569" font-size="26" font-weight="800" text-anchor="middle">✔ 추가 저평가 종목 없음 (정상 범위 호가 유지)</text>
         </g>
         `}
       </g>
 
-      <!-- SECTION 3: 실전 체크리스트 (y=1030, h=110) -->
-      <g transform="translate(70, 1030)" filter="url(#cardShadow)">
-        <rect width="940" height="110" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.6"/>
-        <text x="35" y="42" fill="#0F172A" font-size="26" font-weight="900">💡 실전 대응 가이드</text>
-        <text x="35" y="80" fill="#1E293B" font-size="22" font-weight="800">
+      <!-- SECTION 3: 실전 체크리스트 (y=1060, h=114) -->
+      <g transform="translate(70, 1060)" filter="url(#cardShadow)">
+        <rect width="940" height="114" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.6"/>
+        <text x="35" y="44" fill="#0F172A" font-size="26" font-weight="900">💡 실전 대응 가이드</text>
+        <text x="35" y="84" fill="#1E293B" font-size="23" font-weight="800">
           괴리율 확대 종목은 시장가 추격 매수를 지양하고, 실시간 iNAV 확인 후 분할 대응 권장
         </text>
       </g>

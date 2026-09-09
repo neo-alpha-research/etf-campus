@@ -95,7 +95,11 @@ async function main() {
   const slides = generateInstagramCarousel(currentPayload, baseUrl, narrative);
   console.log(`[OSMU Render] Generated ${slides.length} slides.`);
 
-  const outputDir = path.resolve(process.cwd(), '../../OSMU_Archive', targetDate, '1_Instagram');
+  const repoRoot = process.cwd().endsWith("market-briefing-distributor")
+    ? path.resolve(process.cwd(), "../..")
+    : process.cwd();
+  const osmuBaseDir = path.join(repoRoot, "OSMU_Archive");
+  const outputDir = path.join(osmuBaseDir, targetDate, "1_Instagram");
   fs.mkdirSync(outputDir, { recursive: true });
 
   for (const s of slides) {
@@ -113,6 +117,19 @@ async function main() {
   const captionBuf = Buffer.concat([Buffer.from([0xef, 0xbb, 0xbf]), Buffer.from(caption, 'utf-8')]);
   fs.writeFileSync(path.join(outputDir, 'instagram_caption.txt'), captionBuf);
   console.log('[OSMU Render] Caption saved successfully.');
+
+  // Threads Infographic
+  const { generateThreadsImageSvg } = await import('./src/templates/threads');
+  const threadsSvg = generateThreadsImageSvg(currentPayload);
+  const safeThreadsSvg = threadsSvg.replace(/&(?!(amp|lt|gt|quot|apos);)/g, '&amp;');
+  const threadsDir = path.join(osmuBaseDir, targetDate, "2_Threads");
+  fs.mkdirSync(threadsDir, { recursive: true });
+  const threadsSvgPath = path.join(threadsDir, 'threads_image.svg');
+  const threadsPngPath = path.join(threadsDir, 'threads_image.png');
+  fs.writeFileSync(threadsSvgPath, safeThreadsSvg, 'utf-8');
+  await sharp(Buffer.from(safeThreadsSvg)).resize(1080, 1350).png().toFile(threadsPngPath);
+  const threadsPngStats = fs.statSync(threadsPngPath);
+  console.log(`- Threads Infographic -> PNG ${threadsPngStats.size.toLocaleString()} bytes, SVG ${safeThreadsSvg.length.toLocaleString()} chars`);
 }
 
 main().catch(err => {

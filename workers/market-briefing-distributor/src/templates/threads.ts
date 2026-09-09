@@ -1,6 +1,7 @@
 import type { MarketBriefingPayload } from "../types";
 import { classifyMarketRegime, type MarketRegime } from "../services/market-regime";
 import type { PolishedNarrative } from "../services/gemini";
+import { fitAndClampText } from "./instagram";
 
 export interface ThreadsPost {
   sequence: number;
@@ -273,7 +274,7 @@ export function generateThreadsImageSvg(
           <text x="190" y="50" fill="#475569" font-size="23" font-weight="800">총 ${topTheme.etfCount || 5}개 ETF 구성</text>
           
           <!-- Row 2: Large Theme Name & Huge Return -->
-          <text x="24" y="126" fill="#0F172A" font-size="${topThemeFontSize > 36 ? topThemeFontSize : 42}" font-weight="900">${escapeXml(cleanTopTheme)}</text>
+          <text x="24" y="126" fill="#0F172A" font-size="${fitAndClampText(cleanTopTheme, 550, 42, 28).fontSize}" font-weight="900">${escapeXml(fitAndClampText(cleanTopTheme, 550, 42, 28).text)}</text>
           <text x="866" y="116" fill="${topThemeColor}" font-size="68" font-weight="900" text-anchor="end" class="tabular">${topThemeSign}${topThemeRet.toFixed(2)}%</text>
         </g>
 
@@ -287,7 +288,7 @@ export function generateThreadsImageSvg(
           <text x="190" y="50" fill="#475569" font-size="23" font-weight="800">총 ${bottomTheme.etfCount || 8}개 ETF 구성</text>
           
           <!-- Row 2: Large Theme Name & Huge Return -->
-          <text x="24" y="126" fill="#0F172A" font-size="${bottomThemeFontSize > 36 ? bottomThemeFontSize : 42}" font-weight="900">${escapeXml(cleanBottomTheme)}</text>
+          <text x="24" y="126" fill="#0F172A" font-size="${fitAndClampText(cleanBottomTheme, 550, 42, 28).fontSize}" font-weight="900">${escapeXml(fitAndClampText(cleanBottomTheme, 550, 42, 28).text)}</text>
           <text x="866" y="116" fill="${bottomThemeColor}" font-size="68" font-weight="900" text-anchor="end" class="tabular">${bottomThemeSign}${bottomThemeRet.toFixed(2)}%</text>
         </g>
       </g>
@@ -306,7 +307,7 @@ export function generateThreadsImageSvg(
           <circle cx="42" cy="42" r="22" fill="#10B981"/>
           <text x="42" y="50" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">1</text>
           
-          <text x="82" y="52" fill="#0F172A" font-size="34" font-weight="900">${escapeXml(cleanTopInflow1Name)}</text>
+          <text x="82" y="52" fill="#0F172A" font-size="${fitAndClampText(cleanTopInflow1Name, 450, 34, 26).fontSize}" font-weight="900">${escapeXml(fitAndClampText(cleanTopInflow1Name, 450, 34, 26).text)}</text>
           
           <rect x="42" y="86" width="105" height="36" rx="10" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1.2"/>
           <text x="94" y="111" fill="#15803D" font-size="21" font-weight="900" text-anchor="middle" class="tabular">${escapeXml(topInflow1.ticker)}</text>
@@ -319,10 +320,30 @@ export function generateThreadsImageSvg(
         </g>
       </g>
 
-      <!-- Disclaimer & Watermark (Y: 1248 ~ 1298) [Pure Green Text] -->
-      <g transform="translate(540, 1248)">
-        <text x="0" y="0" fill="#475569" font-size="21" font-weight="800" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <text x="0" y="38" fill="#047857" font-size="28" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+      <!-- Legal Disclaimer (자본시장법 제101조 준수) -->
+      <text x="540" y="1224" fill="#64748B" font-size="18" font-weight="700" text-anchor="middle">
+        * 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.
+      </text>
+
+      <!-- ETF 캠퍼스 공식 최신 표준 풋터 밴드 (Y: 1242 ~ 1306, H: 64) -->
+      <g transform="translate(60, 1242)">
+        <!-- 1. 부드러운 라운드 배너 배경 -->
+        <rect x="0" y="0" width="960" height="64" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+        
+        <g transform="translate(480, 40)" text-anchor="middle">
+          <!-- 2. 초록색 핵심 설명 문구 -->
+          <text x="-180" y="0" fill="#059669" font-size="20" font-weight="800" letter-spacing="-0.2">
+            DC/IRP, 연금저축, ISA 계좌별 ETF 비교 분석 최적화
+          </text>
+          
+          <!-- 3. 구분선 -->
+          <text x="95" y="-1" fill="#CBD5E1" font-size="20" font-weight="400">|</text>
+          
+          <!-- 4. 브랜드명 및 도메인 URL -->
+          <text x="285" y="0" fill="#0F172A" font-size="20" font-weight="900">
+            ETF 캠퍼스 etf-campus.pages.dev
+          </text>
+        </g>
       </g>
     </svg>
   `.trim();

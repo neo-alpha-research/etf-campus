@@ -55,15 +55,15 @@ export function measureTextWidth(text: string, fontSize: number): number {
   for (let i = 0; i < text.length; i++) {
     const code = text.charCodeAt(i);
     if (code > 0x07ff) {
-      width += fontSize * 0.90; // Korean, CJK (Calibrated to Pretendard/Chrome)
+      width += fontSize * 0.95; // Conservative Korean ceiling to guarantee zero overflow
     } else if (code >= 0x0041 && code <= 0x005a) {
-      width += fontSize * 0.68; // Uppercase Latin
+      width += fontSize * 0.70; // Uppercase Latin
     } else if (code >= 0x0030 && code <= 0x0039) {
-      width += fontSize * 0.58; // Digits
+      width += fontSize * 0.60; // Digits
     } else if (code === 0x0020) {
-      width += fontSize * 0.32; // Space
+      width += fontSize * 0.35; // Space
     } else {
-      width += fontSize * 0.52; // Lowercase Latin, symbols
+      width += fontSize * 0.55; // Lowercase Latin, symbols
     }
   }
   return width;
@@ -103,6 +103,52 @@ export function fitAndClampText(
 
 export function calcBannerFontSize(text: string, maxWidthPx: number = 720, baseFs: number = 32, minFs: number = 26): number {
   return fitAndClampText(text, maxWidthPx, baseFs, minFs).fontSize;
+}
+
+export interface SummaryBannerProps {
+  badgeText: string;
+  badgeBg: string;
+  badgeBorder: string;
+  badgeTextColor: string;
+  cardBg: string;
+  cardBorder: string;
+  text: string;
+  yOffset?: number;
+}
+
+export function renderCoreSummaryBanner({
+  badgeText,
+  badgeBg,
+  badgeBorder,
+  badgeTextColor,
+  cardBg,
+  cardBorder,
+  text,
+  yOffset = 104,
+}: SummaryBannerProps): string {
+  const is5Char = badgeText.length >= 5;
+  const badgeWidth = is5Char ? 142 : 122;
+  const badgeCenterX = 16 + badgeWidth / 2;
+  const textStartX = is5Char ? 176 : 156;
+  // Rigorous max text width leaving 80px+ guaranteed safety padding on the right:
+  const maxTextWidth = is5Char ? 680 : 700;
+
+  // Auto-fit starting at 28px down to 22px
+  const fitted = fitAndClampText(text, maxTextWidth, 28, 22);
+
+  return `
+      <!-- Core Summary Banner (y=${yOffset}, h=96) [Zero-Overflow Standard Template] -->
+      <g transform="translate(70, ${yOffset})" filter="url(#cardShadow)">
+        <rect width="940" height="96" rx="22" fill="${cardBg}" stroke="${cardBorder}" stroke-width="1.8"/>
+        <rect x="16" y="20" width="${badgeWidth}" height="56" rx="14" fill="${badgeBg}" stroke="${badgeBorder}" stroke-width="1.6"/>
+        <text x="${badgeCenterX}" y="57" fill="${badgeTextColor}" font-size="26" font-weight="900" text-anchor="middle">${escapeXml(badgeText)}</text>
+        <g clip-path="url(#summaryBannerTextClip)">
+          <text x="${textStartX}" y="59" fill="#0F172A" font-size="${fitted.fontSize}" font-weight="900">
+            ${escapeXml(fitted.text)}
+          </text>
+        </g>
+      </g>
+  `;
 }
 
 export function generateInstagramCarousel(
@@ -163,6 +209,9 @@ export function generateInstagramCarousel(
       <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="125%">
         <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.04"/>
       </filter>
+      <clipPath id="summaryBannerTextClip">
+        <rect x="0" y="0" width="880" height="96" rx="22"/>
+      </clipPath>
       <style>
         * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', sans-serif; }
         .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
@@ -337,7 +386,6 @@ export function generateInstagramCarousel(
   const cleanTopThemeClean = formatThemeForSummary(topTheme.peerGroup);
   const cleanBotThemeClean = formatThemeForSummary(bottomTheme.peerGroup);
   const slide2BannerRaw = `'${cleanTopThemeClean}' 주도 vs '${cleanBotThemeClean}' 조정 · 격차 ${themeGap}%p`;
-  const slide2BannerFitted = fitAndClampText(slide2BannerRaw, 770, 31, 24);
 
   const slide2Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 주도 테마 TOP 3 vs 부진 테마">
@@ -353,15 +401,16 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">2 / ${totalSlides}</text>
       </g>
 
-      <!-- Core Summary Banner (y=104, h=96) -->
-      <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="96" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.8"/>
-        <rect x="16" y="20" width="122" height="56" rx="14" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.6"/>
-        <text x="77" y="57" fill="#B45309" font-size="26" font-weight="900" text-anchor="middle">테마 핵심</text>
-        <text x="152" y="59" fill="#0F172A" font-size="${slide2BannerFitted.fontSize}" font-weight="900">
-          ${escapeXml(slide2BannerFitted.text)}
-        </text>
-      </g>
+      ${renderCoreSummaryBanner({
+        badgeText: "테마 핵심",
+        badgeBg: "#FEF3C7",
+        badgeBorder: "#FCD34D",
+        badgeTextColor: "#B45309",
+        cardBg: "#FFFBEB",
+        cardBorder: "#FDE68A",
+        text: slide2BannerRaw,
+        yOffset: 104,
+      })}
 
       <!-- Panel 1: Top 3 Leaders (▲ 상위 Top 3) (y=212, h=485) -->
       <g transform="translate(70, 212)" filter="url(#cardShadow)">
@@ -431,7 +480,6 @@ export function generateInstagramCarousel(
   const botAsset = sortedByRet[sortedByRet.length - 1] || { assetClass: "원자재", aumWeightedReturnPct: -1.98 };
 
   const slide3BannerRaw = `국내주식 ${domSign}${domRet.toFixed(2)}% · '${topAsset.assetClass}' 상승 vs '${botAsset.assetClass}' 조정`;
-  const slide3BannerFitted = fitAndClampText(slide3BannerRaw, 750, 31, 24);
 
   const slide3Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 자산군별 성과 및 비중 현황">
@@ -447,15 +495,16 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">3 / ${totalSlides}</text>
       </g>
 
-      <!-- Core Summary Banner (y=104, h=96) -->
-      <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="96" rx="22" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.8"/>
-        <rect x="16" y="20" width="142" height="56" rx="14" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.6"/>
-        <text x="87" y="57" fill="#15803D" font-size="26" font-weight="900" text-anchor="middle">자산군 핵심</text>
-        <text x="172" y="59" fill="#0F172A" font-size="${slide3BannerFitted.fontSize}" font-weight="900">
-          ${escapeXml(slide3BannerFitted.text)}
-        </text>
-      </g>
+      ${renderCoreSummaryBanner({
+        badgeText: "자산군 핵심",
+        badgeBg: "#DCFCE7",
+        badgeBorder: "#86EFAC",
+        badgeTextColor: "#15803D",
+        cardBg: "#F0FDF4",
+        cardBorder: "#BBF7D0",
+        text: slide3BannerRaw,
+        yOffset: 104,
+      })}
 
       <!-- 6 Asset Classes Grid (2 columns x 3 rows, y=212) -->
       <g transform="translate(70, 212)">
@@ -517,7 +566,6 @@ export function generateInstagramCarousel(
   // SLIDE 4: Smart Money Flow (4 / 6)
   // =========================================================================
   const slide4SummaryRaw = `상위 5개 종목 총 +${top5InflowSum.toLocaleString()}억원 실질 자금 순유입 집중`;
-  const slide4SummaryFitted = fitAndClampText(slide4SummaryRaw, 770, 35, 26);
 
   const slide4Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 스마트머니 실질 순유입 TOP 5">
@@ -535,13 +583,16 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">4 / ${totalSlides}</text>
       </g>
 
-      <!-- Core Summary Banner (y=104, h=96) -->
-      <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="96" rx="22" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.8"/>
-        <rect x="16" y="20" width="122" height="56" rx="14" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1.6"/>
-        <text x="77" y="57" fill="#BE123C" font-size="26" font-weight="900" text-anchor="middle">수급 핵심</text>
-        <text x="152" y="59" fill="#0F172A" font-size="${slide4SummaryFitted.fontSize}" font-weight="900">${escapeXml(slide4SummaryFitted.text)}</text>
-      </g>
+      ${renderCoreSummaryBanner({
+        badgeText: "수급 핵심",
+        badgeBg: "#FFE4E6",
+        badgeBorder: "#FDA4AF",
+        badgeTextColor: "#BE123C",
+        cardBg: "#FFF1F2",
+        cardBorder: "#FECDD3",
+        text: slide4SummaryRaw,
+        yOffset: 104,
+      })}
 
       <!-- TOP 5 Inflow Ranking Cards (y=212, step=194, h=180) -->
       <g transform="translate(70, 212)">
@@ -594,8 +645,6 @@ export function generateInstagramCarousel(
   const disc1 = discounts[0];
   const disc2 = discounts[1];
 
-  const slide5BannerFitted = fitAndClampText('장 개장 직후 호가 공백 및 해외 시차로 인한 NAV 왜곡 주의', 750, 31, 24);
-
   const slide5Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 괴리율 고평가·할증 vs 저평가·할인 진단">
       <title>ETF 데일리 마켓 브리핑 - 5페이지</title>
@@ -610,15 +659,16 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">5 / ${totalSlides}</text>
       </g>
 
-      <!-- Core Alert Banner (y=104, h=96) -->
-      <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="96" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.8"/>
-        <rect x="16" y="20" width="142" height="56" rx="14" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.6"/>
-        <text x="87" y="57" fill="#B45309" font-size="26" font-weight="900" text-anchor="middle">괴리율 진단</text>
-        <text x="172" y="59" fill="#0F172A" font-size="${slide5BannerFitted.fontSize}" font-weight="900">
-          ${escapeXml(slide5BannerFitted.text)}
-        </text>
-      </g>
+      ${renderCoreSummaryBanner({
+        badgeText: "괴리율 진단",
+        badgeBg: "#FEF3C7",
+        badgeBorder: "#FCD34D",
+        badgeTextColor: "#B45309",
+        cardBg: "#FFFBEB",
+        cardBorder: "#FDE68A",
+        text: "장 개장 직후 호가 공백 및 해외 시차로 인한 NAV 왜곡 주의",
+        yOffset: 104,
+      })}
 
       <!-- SECTION 1: NAV 대비 고평가 · 할증 Top 2 (y=210) -->
       <g transform="translate(70, 210)">

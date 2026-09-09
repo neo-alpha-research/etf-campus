@@ -155,7 +155,7 @@ export function generateInstagramCarousel(
         <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.04"/>
       </filter>
       <style>
-        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', sans-serif; }
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', sans-serif; }
         .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
       </style>
     </defs>
@@ -174,17 +174,17 @@ export function generateInstagramCarousel(
       <rect x="0" y="0" width="960" height="64" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
       
       <g transform="translate(480, 40)" text-anchor="middle">
-        <!-- 2. 초록색 핵심 설명 문구 -->
-        <text x="-180" y="0" fill="#059669" font-size="20" font-weight="800" letter-spacing="-0.2">
-          DC/IRP, 연금저축, ISA 계좌별 ETF 비교 분석 최적화
+        <!-- 2. 초록색 핵심 설명 문구 (이모지 포함) -->
+        <text x="-195" y="0" fill="#059669" font-size="20" font-weight="800" letter-spacing="-0.2">
+          🔍 DC/IRP, 연금저축, ISA 계좌별 ETF 비교 분석 최적화
         </text>
         
         <!-- 3. 구분선 -->
-        <text x="95" y="-1" fill="#CBD5E1" font-size="20" font-weight="400">|</text>
+        <text x="90" y="-1" fill="#CBD5E1" font-size="20" font-weight="400">|</text>
         
-        <!-- 4. 브랜드명 및 도메인 URL -->
+        <!-- 4. 브랜드명 및 도메인 URL (이모지 포함) -->
         <text x="285" y="0" fill="#0F172A" font-size="20" font-weight="900">
-          ETF 캠퍼스 etf-campus.pages.dev
+          📊 ETF 캠퍼스 etf-campus.pages.dev
         </text>
       </g>
     </g>
@@ -293,22 +293,27 @@ export function generateInstagramCarousel(
       <!-- Pulse 3: Smart Money Flow (y=878, h=295) -->
       <g transform="translate(70, 878)" filter="url(#cardShadow)">
         <rect width="940" height="295" rx="24" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
-        <text x="35" y="46" fill="#0F172A" font-size="30" font-weight="900">3. 스마트머니 실질 순유입 1위</text>
+        <text x="35" y="48" fill="#0F172A" font-size="30" font-weight="900">3. 스마트머니 실질 순유입 1위</text>
+        <rect x="740" y="16" width="165" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
+        <text x="822" y="44" fill="#1E293B" font-size="21" font-weight="900" text-anchor="middle">기관·외국인 합산</text>
         
-        <rect x="35" y="72" width="870" height="195" rx="20" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.6"/>
-        <circle cx="70" cy="95" r="34" fill="#047857"/>
-        <text x="70" y="107" fill="#FFFFFF" font-size="32" font-weight="900" text-anchor="middle">1</text>
-        
-        <text x="124" y="70" fill="#0F172A" font-size="${topInflowNameFitted.fontSize}" font-weight="900">${escapeXml(topInflowNameFitted.text)}</text>
-        
-        <rect x="124" y="96" width="115" height="42" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4"/>
-        <text x="181" y="125" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle" class="tabular">${topInflow.ticker}</text>
-        
-        <rect x="250" y="96" width="165" height="42" rx="10" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.4"/>
-        <text x="332" y="125" fill="#15803D" font-size="26" font-weight="900" text-anchor="middle">${escapeXml(topInflow.theme || "핵심ETF")}</text>
+        <!-- Enhanced Hero Card (H: 185) -->
+        <g transform="translate(35, 78)">
+          <rect width="870" height="185" rx="20" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.8"/>
+          <circle cx="52" cy="56" r="28" fill="#10B981"/>
+          <text x="52" y="66" fill="#FFFFFF" font-size="28" font-weight="900" text-anchor="middle">1</text>
+          
+          <text x="100" y="66" fill="#0F172A" font-size="${fitAndClampText(cleanEtfNameForBanner(topInflow.name, 14), 430, 36, 26).fontSize}" font-weight="900">${escapeXml(fitAndClampText(cleanEtfNameForBanner(topInflow.name, 14), 430, 36, 26).text)}</text>
+          
+          <rect x="52" y="110" width="125" height="46" rx="12" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1.4"/>
+          <text x="114" y="142" fill="#15803D" font-size="24" font-weight="900" text-anchor="middle" class="tabular">${escapeXml(topInflow.ticker)}</text>
+          
+          <rect x="190" y="110" width="175" height="46" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.4"/>
+          <text x="277" y="142" fill="#475569" font-size="23" font-weight="900" text-anchor="middle">${escapeXml(topInflow.theme || "핵심ETF")}</text>
 
-        <text x="875" y="86" fill="#047857" font-size="58" font-weight="900" text-anchor="end" class="tabular">+${(topInflow.inflow || 0).toLocaleString()}<tspan font-size="30" font-weight="900" fill="#065F46">억원</tspan></text>
-        <text x="875" y="126" fill="#065F46" font-size="26" font-weight="900" text-anchor="end">당일 최대 실질 순유입</text>
+          <text x="835" y="90" fill="#047857" font-size="62" font-weight="900" text-anchor="end" class="tabular">+${(topInflow.inflow || 0).toLocaleString()}<tspan font-size="32" font-weight="900">억원</tspan></text>
+          <text x="835" y="136" fill="#15803D" font-size="24" font-weight="900" text-anchor="end">당일 기관·외인 최대 실질 순유입</text>
+        </g>
       </g>
 
       <!-- Common Disclaimer & Watermark -->
@@ -322,7 +327,7 @@ export function generateInstagramCarousel(
   const cleanTopThemeClean = topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
   const cleanBotThemeClean = bottomTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
   const slide2BannerRaw = `'${cleanTopThemeClean}' 주도 vs '${cleanBotThemeClean}' 조정 (수익률 격차 ${themeGap}%p)`;
-  const slide2BannerFitted = fitAndClampText(slide2BannerRaw, 700, 32, 26);
+  const slide2BannerFitted = fitAndClampText(slide2BannerRaw, 720, 26, 20);
 
   const slide2Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 주도 테마 TOP 3 vs 부진 테마">
@@ -416,7 +421,7 @@ export function generateInstagramCarousel(
   const botAsset = sortedByRet[sortedByRet.length - 1] || { assetClass: "원자재", aumWeightedReturnPct: -1.98 };
 
   const slide3BannerRaw = `국내주식 ${domSign}${domRet.toFixed(2)}% (${domShare.toFixed(1)}%) · '${topAsset.assetClass}' 상승 vs '${botAsset.assetClass}' 조정`;
-  const slide3BannerFitted = fitAndClampText(slide3BannerRaw, 700, 32, 26);
+  const slide3BannerFitted = fitAndClampText(slide3BannerRaw, 720, 24, 18);
 
   const slide3Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 자산군별 성과 및 비중 현황">

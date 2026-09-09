@@ -491,6 +491,17 @@ export function generateNewsletterHtml(
         <a href="${utmLink}" class="btn-primary" target="_blank">
           전체 ${generalCount.toLocaleString()}개 ETF 분석 &amp; 마켓 브리핑 풀버전 확인하기 ↗
         </a>
+
+        <!-- ETF 캠퍼스 공식 최신 표준 풋터 밴드 (텍스트 + 이모지 기반 라운드 배너) -->
+        <div style="margin-top: 24px; background-color: #F8FAFC; border: 1.2px solid #E2E8F0; border-radius: 8px; padding: 14px 16px; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif;">
+          <span style="color: #059669; font-size: 13.5px; font-weight: 800; letter-spacing: -0.2px; display: inline-block;">
+            🔍 DC/IRP, 연금저축, ISA 계좌별 ETF 비교 분석 최적화
+          </span>
+          <span style="color: #CBD5E1; margin: 0 8px; font-size: 13px; display: inline-block;">|</span>
+          <span style="color: #0F172A; font-size: 13.5px; font-weight: 900; display: inline-block;">
+            📊 ETF 캠퍼스 <a href="${baseUrl}" target="_blank" style="color: #0F172A; text-decoration: none;">etf-campus.pages.dev</a>
+          </span>
+        </div>
       </div>
 
       <!-- 7. Compliance & Regulatory Disclaimers (Capital Markets Act Art. 101) -->

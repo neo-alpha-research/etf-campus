@@ -208,7 +208,7 @@ export function generateThreadsImageSvg(
           <stop offset="100%" stop-color="#047857"/>
         </linearGradient>
         <style>
-          * { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', 'Segoe UI', -apple-system, sans-serif; }
+          * { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Noto Sans KR', 'Segoe UI', -apple-system, sans-serif; }
           .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
         </style>
       </defs>
@@ -331,17 +331,17 @@ export function generateThreadsImageSvg(
         <rect x="0" y="0" width="960" height="64" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
         
         <g transform="translate(480, 40)" text-anchor="middle">
-          <!-- 2. 초록색 핵심 설명 문구 -->
-          <text x="-180" y="0" fill="#059669" font-size="20" font-weight="800" letter-spacing="-0.2">
-            DC/IRP, 연금저축, ISA 계좌별 ETF 비교 분석 최적화
+          <!-- 2. 초록색 핵심 설명 문구 (이모지 포함) -->
+          <text x="-195" y="0" fill="#059669" font-size="20" font-weight="800" letter-spacing="-0.2">
+            🔍 DC/IRP, 연금저축, ISA 계좌별 ETF 비교 분석 최적화
           </text>
           
           <!-- 3. 구분선 -->
-          <text x="95" y="-1" fill="#CBD5E1" font-size="20" font-weight="400">|</text>
+          <text x="90" y="-1" fill="#CBD5E1" font-size="20" font-weight="400">|</text>
           
-          <!-- 4. 브랜드명 및 도메인 URL -->
+          <!-- 4. 브랜드명 및 도메인 URL (이모지 포함) -->
           <text x="285" y="0" fill="#0F172A" font-size="20" font-weight="900">
-            ETF 캠퍼스 etf-campus.pages.dev
+            📊 ETF 캠퍼스 etf-campus.pages.dev
           </text>
         </g>
       </g>

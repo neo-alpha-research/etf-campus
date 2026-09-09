@@ -41,20 +41,29 @@ export function cleanEtfNameForBanner(name?: string, maxChars: number = 14): str
   return clean;
 }
 
+export function formatThemeForSummary(name?: string): string {
+  if (!name) return "";
+  let clean = name.replace(/\s*\([^)]*\)/g, '').trim();
+  if (clean.length > 10 && clean.includes('&')) {
+    clean = clean.split('&')[0].trim();
+  }
+  return clean;
+}
+
 export function measureTextWidth(text: string, fontSize: number): number {
   let width = 0;
   for (let i = 0; i < text.length; i++) {
     const code = text.charCodeAt(i);
     if (code > 0x07ff) {
-      width += fontSize * 0.98; // Korean, CJK
+      width += fontSize * 0.90; // Korean, CJK (Calibrated to Pretendard/Chrome)
     } else if (code >= 0x0041 && code <= 0x005a) {
-      width += fontSize * 0.70; // Uppercase Latin
+      width += fontSize * 0.68; // Uppercase Latin
     } else if (code >= 0x0030 && code <= 0x0039) {
-      width += fontSize * 0.60; // Digits
+      width += fontSize * 0.58; // Digits
     } else if (code === 0x0020) {
-      width += fontSize * 0.35; // Space
+      width += fontSize * 0.32; // Space
     } else {
-      width += fontSize * 0.55; // Lowercase Latin, symbols
+      width += fontSize * 0.52; // Lowercase Latin, symbols
     }
   }
   return width;
@@ -325,10 +334,10 @@ export function generateInstagramCarousel(
   // =========================================================================
   // SLIDE 2: Theme Dynamics (2 / 6)
   // =========================================================================
-  const cleanTopThemeClean = topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
-  const cleanBotThemeClean = bottomTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
-  const slide2BannerRaw = `'${cleanTopThemeClean}' 주도 vs '${cleanBotThemeClean}' 조정 (격차 ${themeGap}%p)`;
-  const slide2BannerFitted = fitAndClampText(slide2BannerRaw, 700, 28, 22);
+  const cleanTopThemeClean = formatThemeForSummary(topTheme.peerGroup);
+  const cleanBotThemeClean = formatThemeForSummary(bottomTheme.peerGroup);
+  const slide2BannerRaw = `'${cleanTopThemeClean}' 주도 vs '${cleanBotThemeClean}' 조정 · 격차 ${themeGap}%p`;
+  const slide2BannerFitted = fitAndClampText(slide2BannerRaw, 770, 31, 24);
 
   const slide2Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 주도 테마 TOP 3 vs 부진 테마">
@@ -343,12 +352,12 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">2 / ${totalSlides}</text>
       </g>
 
-      <!-- Core Summary Banner (y=104, h=92) -->
+      <!-- Core Summary Banner (y=104, h=96) -->
       <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="92" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.8"/>
-        <rect x="24" y="18" width="165" height="56" rx="14" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.6"/>
-        <text x="106" y="55" fill="#B45309" font-size="28" font-weight="900" text-anchor="middle">테마 핵심</text>
-        <text x="210" y="56" fill="#0F172A" font-size="${slide2BannerFitted.fontSize}" font-weight="900">
+        <rect width="940" height="96" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.8"/>
+        <rect x="16" y="20" width="122" height="56" rx="14" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.6"/>
+        <text x="77" y="57" fill="#B45309" font-size="26" font-weight="900" text-anchor="middle">테마 핵심</text>
+        <text x="152" y="59" fill="#0F172A" font-size="${slide2BannerFitted.fontSize}" font-weight="900">
           ${escapeXml(slide2BannerFitted.text)}
         </text>
       </g>
@@ -420,8 +429,8 @@ export function generateInstagramCarousel(
   const topAsset = sortedByRet[0] || { assetClass: "국내주식", aumWeightedReturnPct: 4.14 };
   const botAsset = sortedByRet[sortedByRet.length - 1] || { assetClass: "원자재", aumWeightedReturnPct: -1.98 };
 
-  const slide3BannerRaw = `국내주식 ${domSign}${domRet.toFixed(2)}% (${domShare.toFixed(1)}%) · '${topAsset.assetClass}' 상승 vs '${botAsset.assetClass}' 조정`;
-  const slide3BannerFitted = fitAndClampText(slide3BannerRaw, 680, 28, 22);
+  const slide3BannerRaw = `국내주식 ${domSign}${domRet.toFixed(2)}% · '${topAsset.assetClass}' 상승 vs '${botAsset.assetClass}' 조정`;
+  const slide3BannerFitted = fitAndClampText(slide3BannerRaw, 750, 31, 24);
 
   const slide3Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 자산군별 성과 및 비중 현황">
@@ -436,12 +445,12 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">3 / ${totalSlides}</text>
       </g>
 
-      <!-- Core Summary Banner (y=104, h=92) -->
+      <!-- Core Summary Banner (y=104, h=96) -->
       <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="92" rx="22" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.8"/>
-        <rect x="24" y="18" width="175" height="56" rx="14" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.6"/>
-        <text x="111" y="55" fill="#15803D" font-size="28" font-weight="900" text-anchor="middle">자산군 핵심</text>
-        <text x="220" y="56" fill="#0F172A" font-size="${slide3BannerFitted.fontSize}" font-weight="900">
+        <rect width="940" height="96" rx="22" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.8"/>
+        <rect x="16" y="20" width="142" height="56" rx="14" fill="#DCFCE7" stroke="#86EFAC" stroke-width="1.6"/>
+        <text x="87" y="57" fill="#15803D" font-size="26" font-weight="900" text-anchor="middle">자산군 핵심</text>
+        <text x="172" y="59" fill="#0F172A" font-size="${slide3BannerFitted.fontSize}" font-weight="900">
           ${escapeXml(slide3BannerFitted.text)}
         </text>
       </g>
@@ -506,7 +515,7 @@ export function generateInstagramCarousel(
   // SLIDE 4: Smart Money Flow (4 / 6)
   // =========================================================================
   const slide4SummaryRaw = `상위 5개 종목 총 +${top5InflowSum.toLocaleString()}억원 실질 자금 순유입 집중`;
-  const slide4SummaryFitted = fitAndClampText(slide4SummaryRaw, 700, 34, 26);
+  const slide4SummaryFitted = fitAndClampText(slide4SummaryRaw, 770, 35, 26);
 
   const slide4Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 스마트머니 실질 순유입 TOP 5">
@@ -523,12 +532,12 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">4 / ${totalSlides}</text>
       </g>
 
-      <!-- Core Summary Banner (y=104, h=92) -->
+      <!-- Core Summary Banner (y=104, h=96) -->
       <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="92" rx="22" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.8"/>
-        <rect x="24" y="18" width="165" height="56" rx="14" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1.6"/>
-        <text x="106" y="55" fill="#BE123C" font-size="28" font-weight="900" text-anchor="middle">수급 핵심</text>
-        <text x="210" y="56" fill="#0F172A" font-size="${slide4SummaryFitted.fontSize}" font-weight="900">${escapeXml(slide4SummaryFitted.text)}</text>
+        <rect width="940" height="96" rx="22" fill="#FFF1F2" stroke="#FECDD3" stroke-width="1.8"/>
+        <rect x="16" y="20" width="122" height="56" rx="14" fill="#FFE4E6" stroke="#FDA4AF" stroke-width="1.6"/>
+        <text x="77" y="57" fill="#BE123C" font-size="26" font-weight="900" text-anchor="middle">수급 핵심</text>
+        <text x="152" y="59" fill="#0F172A" font-size="${slide4SummaryFitted.fontSize}" font-weight="900">${escapeXml(slide4SummaryFitted.text)}</text>
       </g>
 
       <!-- TOP 5 Inflow Ranking Cards (y=212, step=194, h=180) -->
@@ -582,6 +591,8 @@ export function generateInstagramCarousel(
   const disc1 = discounts[0];
   const disc2 = discounts[1];
 
+  const slide5BannerFitted = fitAndClampText('장 개장 직후 호가 공백 및 해외 시차로 인한 NAV 왜곡 주의', 750, 31, 24);
+
   const slide5Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 괴리율 고평가·할증 vs 저평가·할인 진단">
       <title>ETF 데일리 마켓 브리핑 - 5페이지</title>
@@ -595,13 +606,13 @@ export function generateInstagramCarousel(
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">5 / ${totalSlides}</text>
       </g>
 
-      <!-- Core Alert Banner (y=104, h=92) -->
+      <!-- Core Alert Banner (y=104, h=96) -->
       <g transform="translate(70, 104)" filter="url(#cardShadow)">
-        <rect width="940" height="92" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.8"/>
-        <rect x="24" y="18" width="175" height="56" rx="14" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.6"/>
-        <text x="111" y="55" fill="#B45309" font-size="28" font-weight="900" text-anchor="middle">괴리율 진단</text>
-        <text x="220" y="56" fill="#0F172A" font-size="${fitAndClampText('장 개장 직후 호가 공백 및 해외 시차로 인한 NAV 왜곡 주의', 690, 28, 22).fontSize}" font-weight="900">
-          ${escapeXml(fitAndClampText('장 개장 직후 호가 공백 및 해외 시차로 인한 NAV 왜곡 주의', 690, 28, 22).text)}
+        <rect width="940" height="96" rx="22" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.8"/>
+        <rect x="16" y="20" width="142" height="56" rx="14" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1.6"/>
+        <text x="87" y="57" fill="#B45309" font-size="26" font-weight="900" text-anchor="middle">괴리율 진단</text>
+        <text x="172" y="59" fill="#0F172A" font-size="${slide5BannerFitted.fontSize}" font-weight="900">
+          ${escapeXml(slide5BannerFitted.text)}
         </text>
       </g>
 

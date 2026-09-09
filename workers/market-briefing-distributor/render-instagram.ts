@@ -3,9 +3,16 @@ import type { MarketBriefingPayload } from './src/types';
 import * as fs from 'fs';
 import * as path from 'path';
 import sharp from 'sharp';
+import puppeteer from 'puppeteer';
 
 const baseUrl = 'https://etf-campus.pages.dev';
 const targetDate = '2026-09-08';
+
+const CHROME_PATH = fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')
+  ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+  : (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')
+    ? 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+    : undefined);
 
 async function main() {
   console.log(`[OSMU Render] Fetching live briefing payload for ${targetDate}...`);
@@ -102,15 +109,44 @@ async function main() {
   const outputDir = path.join(osmuBaseDir, targetDate, "1_Instagram");
   fs.mkdirSync(outputDir, { recursive: true });
 
+  // Launch Chrome for Pixel-Perfect Chromium SVG Rendering
+  let browser: any = null;
+  let page: any = null;
+  if (CHROME_PATH) {
+    console.log(`[OSMU Render] Launching Chromium renderer: ${CHROME_PATH}`);
+    try {
+      browser = await puppeteer.launch({
+        executablePath: CHROME_PATH,
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
+      });
+      page = await browser.newPage();
+      await page.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 1 });
+      console.log('[OSMU Render] Chromium engine initialized successfully.');
+    } catch (e) {
+      console.warn('[OSMU Render] Chromium launch failed, falling back to sharp:', e);
+    }
+  }
+
+  const renderSvg = async (svgStr: string, pngOutPath: string) => {
+    if (page) {
+      const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>* { margin: 0; padding: 0; box-sizing: border-box; } body { width: 1080px; height: 1350px; overflow: hidden; background: #F8FAFC; } svg { width: 1080px; height: 1350px; display: block; }</style></head><body>${svgStr}</body></html>`;
+      await page.setContent(html, { waitUntil: 'domcontentloaded' });
+      await page.screenshot({ path: pngOutPath, type: 'png', omitBackground: false });
+    } else {
+      await sharp(Buffer.from(svgStr)).resize(1080, 1350).png().toFile(pngOutPath);
+    }
+  };
+
   for (const s of slides) {
     const safeSvg = s.svgContent.replace(/&(?!(amp|lt|gt|quot|apos);)/g, '&amp;');
     const svgPath = path.join(outputDir, `instagram_slide_${s.slideNumber}.svg`);
     const pngPath = path.join(outputDir, `instagram_slide_${s.slideNumber}.png`);
 
     fs.writeFileSync(svgPath, safeSvg, 'utf-8');
-    await sharp(Buffer.from(safeSvg)).resize(1080, 1350).png().toFile(pngPath);
+    await renderSvg(safeSvg, pngPath);
     const pngStats = fs.statSync(pngPath);
-    console.log(`- Slide ${s.slideNumber}: [${s.title}] -> PNG ${pngStats.size.toLocaleString()} bytes, SVG ${safeSvg.length.toLocaleString()} chars`);
+    console.log(`- Slide ${s.slideNumber}: [${s.title}] -> PNG ${pngStats.size.toLocaleString()} bytes (Chromium engine)`);
   }
 
   const caption = generateInstagramCaption(currentPayload, narrative).replace(/\r?\n/g, '\r\n');
@@ -127,9 +163,13 @@ async function main() {
   const threadsSvgPath = path.join(threadsDir, 'threads_image.svg');
   const threadsPngPath = path.join(threadsDir, 'threads_image.png');
   fs.writeFileSync(threadsSvgPath, safeThreadsSvg, 'utf-8');
-  await sharp(Buffer.from(safeThreadsSvg)).resize(1080, 1350).png().toFile(threadsPngPath);
+  await renderSvg(safeThreadsSvg, threadsPngPath);
   const threadsPngStats = fs.statSync(threadsPngPath);
-  console.log(`- Threads Infographic -> PNG ${threadsPngStats.size.toLocaleString()} bytes, SVG ${safeThreadsSvg.length.toLocaleString()} chars`);
+  console.log(`- Threads Infographic -> PNG ${threadsPngStats.size.toLocaleString()} bytes (Chromium engine)`);
+
+  if (browser) {
+    await browser.close();
+  }
 }
 
 main().catch(err => {

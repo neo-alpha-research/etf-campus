@@ -1319,6 +1319,7 @@ function generateDashboardHtml(
         console.warn('[Dashboard] PNG not found, falling back to SVG renderer');
         viewMode = 'svg';
         updateModeButtons();
+        img.onerror = null;
         img.src = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + Date.now();
       }
     }
@@ -1352,6 +1353,7 @@ function generateDashboardHtml(
     function updateSlide() {
       const img = document.getElementById('instagramImg');
       const v = Date.now();
+      img.onerror = () => handleInstagramImgError(img);
       if (viewMode === 'png') {
         img.src = '/api/images/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + v;
       } else {
@@ -1784,7 +1786,8 @@ const workerHandler = {
         if (slideParam) {
           const slideNo = parseInt(slideParam, 10);
           const slide = slides.find(s => s.slideNumber === slideNo) || slides[0];
-          return new Response(slide.svgContent, {
+          const safeSvg = slide.svgContent.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
+          return new Response(safeSvg, {
             headers: {
               "Content-Type": "image/svg+xml; charset=utf-8",
               "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -1802,7 +1805,8 @@ const workerHandler = {
         if (!payload) return new Response("Briefing not found", { status: 404 });
 
         const svg = generateThreadsImageSvg(payload);
-        return new Response(svg, {
+        const safeSvg = svg.replace(/&(?!(amp|lt|gt|quot|apos);)/g, "&amp;");
+        return new Response(safeSvg, {
           headers: {
             "Content-Type": "image/svg+xml; charset=utf-8",
             "Cache-Control": "no-store, no-cache, must-revalidate",

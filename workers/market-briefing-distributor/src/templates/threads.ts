@@ -220,19 +220,19 @@ export function generateThreadsImageSvg(
       <!-- Clean Minimal Header (Scaled Up & Rebalanced) -->
       <g transform="translate(60, 48)">
         <text x="0" y="56" fill="#0F172A" font-size="52" font-weight="900" letter-spacing="-0.8">ETF 모닝 브리핑</text>
-        <text x="0" y="98" fill="#475569" font-size="22" font-weight="700">KRX 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 요약</text>
+        <text x="0" y="100" fill="#334155" font-size="24" font-weight="800">KRX 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 요약</text>
         
         <rect x="685" y="18" width="275" height="60" rx="18" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
-        <text x="822.5" y="56" fill="#0F172A" font-size="23" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
+        <text x="822.5" y="56" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
       </g>
 
       <!-- SECTION 1: 시장 체온 & 3대 지수 스코어보드 (Y: 168, H: 268) [Spacious & Bold] -->
       <g transform="translate(60, 168)" filter="url(#cardShadow)">
         <rect width="960" height="268" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
         
-        <text x="35" y="52" fill="#0F172A" font-size="28" font-weight="900">1. 시장 체온 &amp; 3대 지수 비교</text>
+        <text x="35" y="52" fill="#0F172A" font-size="30" font-weight="900">1. 시장 체온 &amp; 3대 지수 비교</text>
         <rect x="525" y="16" width="400" height="52" rx="15" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
-        <text x="725" y="48" font-size="21" font-weight="900" text-anchor="middle">
+        <text x="725" y="48" font-size="22" font-weight="900" text-anchor="middle">
           <tspan fill="#D92D20">상승 ${up}</tspan><tspan fill="#64748B"> · </tspan><tspan fill="#334155">보합 ${flat}</tspan><tspan fill="#64748B"> · </tspan><tspan fill="#175CD3">하락 ${down}</tspan>
         </text>
 
@@ -240,18 +240,18 @@ export function generateThreadsImageSvg(
         <g transform="translate(35, 86)">
           <!-- KOSPI -->
           <rect x="0" y="0" width="280" height="150" rx="20" fill="${kospi >= 0 ? '#FEF2F2' : '#EFF6FF'}" stroke="${kospi >= 0 ? '#FECACA' : '#BFDBFE'}" stroke-width="1.5"/>
-          <text x="24" y="52" fill="${kospi >= 0 ? '#991B1B' : '#1E40AF'}" font-size="30" font-weight="900">KOSPI</text>
-          <text x="256" y="122" fill="${kospiColor}" font-size="56" font-weight="900" text-anchor="end" class="tabular">${kospiSign}${kospi.toFixed(2)}%</text>
+          <text x="24" y="52" fill="${kospi >= 0 ? '#991B1B' : '#1E40AF'}" font-size="32" font-weight="900">KOSPI</text>
+          <text x="256" y="122" fill="${kospiColor}" font-size="58" font-weight="900" text-anchor="end" class="tabular">${kospiSign}${kospi.toFixed(2)}%</text>
 
           <!-- KOSDAQ -->
           <rect x="305" y="0" width="280" height="150" rx="20" fill="${kosdaq >= 0 ? '#FEF2F2' : '#EFF6FF'}" stroke="${kosdaq >= 0 ? '#FECACA' : '#BFDBFE'}" stroke-width="1.5"/>
-          <text x="329" y="52" fill="${kosdaq >= 0 ? '#991B1B' : '#1E40AF'}" font-size="30" font-weight="900">KOSDAQ</text>
-          <text x="561" y="122" fill="${kosdaqColor}" font-size="56" font-weight="900" text-anchor="end" class="tabular">${kosdaqSign}${kosdaq.toFixed(2)}%</text>
+          <text x="329" y="52" fill="${kosdaq >= 0 ? '#991B1B' : '#1E40AF'}" font-size="32" font-weight="900">KOSDAQ</text>
+          <text x="561" y="122" fill="${kosdaqColor}" font-size="58" font-weight="900" text-anchor="end" class="tabular">${kosdaqSign}${kosdaq.toFixed(2)}%</text>
 
           <!-- 일반 ETF -->
           <rect x="610" y="0" width="280" height="150" rx="20" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.6"/>
-          <text x="634" y="52" fill="#15803D" font-size="30" font-weight="900">일반 ETF</text>
-          <text x="866" y="122" fill="${etfColor}" font-size="56" font-weight="900" text-anchor="end" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
+          <text x="634" y="52" fill="#15803D" font-size="32" font-weight="900">일반 ETF</text>
+          <text x="866" y="122" fill="${etfColor}" font-size="58" font-weight="900" text-anchor="end" class="tabular">${etfSign}${etfReturn.toFixed(2)}%</text>
         </g>
       </g>
 
@@ -259,22 +259,22 @@ export function generateThreadsImageSvg(
       <g transform="translate(60, 466)" filter="url(#cardShadow)">
         <rect width="960" height="460" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
         
-        <text x="35" y="52" fill="#0F172A" font-size="32" font-weight="900">2. 오늘의 극과 극 테마 (주도 vs 부진)</text>
-        <rect x="685" y="16" width="240" height="50" rx="14" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.4"/>
-        <text x="805" y="48" fill="#C2410C" font-size="22" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p</text>
+        <text x="35" y="52" fill="#0F172A" font-size="34" font-weight="900">2. 오늘의 극과 극 테마 (주도 vs 부진)</text>
+        <rect x="680" y="16" width="245" height="50" rx="14" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.4"/>
+        <text x="802" y="48" fill="#C2410C" font-size="23" font-weight="900" text-anchor="middle">테마 온도차 ${themeGap}%p</text>
 
         <!-- Top 1 Winner (▲ 상위 1위 주도 테마, H: 160) -->
         <g transform="translate(35, 84)">
           <rect width="890" height="160" rx="22" fill="#FFF5F5" stroke="#FCA5A5" stroke-width="1.6"/>
           
           <!-- Row 1: Badge & ETF Count -->
-          <rect x="24" y="22" width="135" height="40" rx="10" fill="#FEE2E2"/>
-          <text x="91" y="48" fill="#DC2626" font-size="20" font-weight="900" text-anchor="middle">▲ 상위 1위</text>
-          <text x="180" y="48" fill="#475569" font-size="21" font-weight="700">총 ${topTheme.etfCount || 5}개 ETF 구성</text>
+          <rect x="24" y="22" width="145" height="42" rx="12" fill="#FEE2E2"/>
+          <text x="96" y="49" fill="#DC2626" font-size="22" font-weight="900" text-anchor="middle">▲ 상위 1위</text>
+          <text x="190" y="50" fill="#475569" font-size="23" font-weight="800">총 ${topTheme.etfCount || 5}개 ETF 구성</text>
           
           <!-- Row 2: Large Theme Name & Huge Return -->
-          <text x="24" y="124" fill="#0F172A" font-size="${topThemeFontSize > 36 ? topThemeFontSize : 40}" font-weight="900">${escapeXml(cleanTopTheme)}</text>
-          <text x="866" y="114" fill="${topThemeColor}" font-size="66" font-weight="900" text-anchor="end" class="tabular">${topThemeSign}${topThemeRet.toFixed(2)}%</text>
+          <text x="24" y="126" fill="#0F172A" font-size="${topThemeFontSize > 36 ? topThemeFontSize : 42}" font-weight="900">${escapeXml(cleanTopTheme)}</text>
+          <text x="866" y="116" fill="${topThemeColor}" font-size="68" font-weight="900" text-anchor="end" class="tabular">${topThemeSign}${topThemeRet.toFixed(2)}%</text>
         </g>
 
         <!-- Bottom 1 Loser (▼ 하위 1위 부진 테마, H: 160) -->
@@ -282,13 +282,13 @@ export function generateThreadsImageSvg(
           <rect width="890" height="160" rx="22" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1.6"/>
           
           <!-- Row 1: Badge & ETF Count -->
-          <rect x="24" y="22" width="135" height="40" rx="10" fill="#DBEAFE"/>
-          <text x="91" y="48" fill="#1D4ED8" font-size="20" font-weight="900" text-anchor="middle">▼ 하위 1위</text>
-          <text x="180" y="48" fill="#475569" font-size="21" font-weight="700">총 ${bottomTheme.etfCount || 8}개 ETF 구성</text>
+          <rect x="24" y="22" width="145" height="42" rx="12" fill="#DBEAFE"/>
+          <text x="96" y="49" fill="#1D4ED8" font-size="22" font-weight="900" text-anchor="middle">▼ 하위 1위</text>
+          <text x="190" y="50" fill="#475569" font-size="23" font-weight="800">총 ${bottomTheme.etfCount || 8}개 ETF 구성</text>
           
           <!-- Row 2: Large Theme Name & Huge Return -->
-          <text x="24" y="124" fill="#0F172A" font-size="${bottomThemeFontSize > 36 ? bottomThemeFontSize : 40}" font-weight="900">${escapeXml(cleanBottomTheme)}</text>
-          <text x="866" y="114" fill="${bottomThemeColor}" font-size="66" font-weight="900" text-anchor="end" class="tabular">${bottomThemeSign}${bottomThemeRet.toFixed(2)}%</text>
+          <text x="24" y="126" fill="#0F172A" font-size="${bottomThemeFontSize > 36 ? bottomThemeFontSize : 42}" font-weight="900">${escapeXml(cleanBottomTheme)}</text>
+          <text x="866" y="116" fill="${bottomThemeColor}" font-size="68" font-weight="900" text-anchor="end" class="tabular">${bottomThemeSign}${bottomThemeRet.toFixed(2)}%</text>
         </g>
       </g>
 
@@ -296,33 +296,33 @@ export function generateThreadsImageSvg(
       <g transform="translate(60, 954)" filter="url(#cardShadow)">
         <rect width="960" height="240" rx="28" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.6"/>
         
-        <text x="35" y="46" fill="#0F172A" font-size="27" font-weight="900">3. 스마트머니(외인/기관) 실질 순유입 1위</text>
-        <rect x="770" y="15" width="155" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.3"/>
-        <text x="847" y="42" fill="#1E293B" font-size="17.5" font-weight="800" text-anchor="middle">기관·외국인 합산</text>
+        <text x="35" y="46" fill="#0F172A" font-size="30" font-weight="900">3. 스마트머니(외인/기관) 실질 순유입 1위</text>
+        <rect x="760" y="15" width="165" height="42" rx="12" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.4"/>
+        <text x="842" y="43" fill="#1E293B" font-size="21" font-weight="900" text-anchor="middle">기관·외국인 합산</text>
 
         <!-- Enhanced Hero Card (H: 142) -->
         <g transform="translate(35, 72)">
           <rect width="890" height="142" rx="20" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.8"/>
-          <circle cx="42" cy="42" r="20" fill="#10B981"/>
-          <text x="42" y="49" fill="#FFFFFF" font-size="18" font-weight="900" text-anchor="middle">1</text>
+          <circle cx="42" cy="42" r="22" fill="#10B981"/>
+          <text x="42" y="50" fill="#FFFFFF" font-size="22" font-weight="900" text-anchor="middle">1</text>
           
-          <text x="78" y="50" fill="#0F172A" font-size="30" font-weight="900">${escapeXml(cleanTopInflow1Name)}</text>
+          <text x="82" y="52" fill="#0F172A" font-size="34" font-weight="900">${escapeXml(cleanTopInflow1Name)}</text>
           
-          <rect x="42" y="86" width="96" height="32" rx="8" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1"/>
-          <text x="90" y="108" fill="#15803D" font-size="16.5" font-weight="800" text-anchor="middle" class="tabular">${escapeXml(topInflow1.ticker)}</text>
+          <rect x="42" y="86" width="105" height="36" rx="10" fill="#DCFCE7" stroke="#BBF7D0" stroke-width="1.2"/>
+          <text x="94" y="111" fill="#15803D" font-size="21" font-weight="900" text-anchor="middle" class="tabular">${escapeXml(topInflow1.ticker)}</text>
           
-          <rect x="148" y="86" width="145" height="32" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-          <text x="220.5" y="108" fill="#475569" font-size="16.5" font-weight="700" text-anchor="middle">핵심ETF</text>
+          <rect x="158" y="86" width="150" height="36" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2"/>
+          <text x="233" y="111" fill="#475569" font-size="21" font-weight="900" text-anchor="middle">핵심ETF</text>
 
-          <text x="866" y="76" fill="#047857" font-size="54" font-weight="900" text-anchor="end" class="tabular">+${(topInflow1.inflow || 0).toLocaleString()}<tspan font-size="26" font-weight="700">억원</tspan></text>
-          <text x="866" y="110" fill="#15803D" font-size="17" font-weight="800" text-anchor="end">당일 기관·외인 최대 순유입</text>
+          <text x="866" y="78" fill="#047857" font-size="58" font-weight="900" text-anchor="end" class="tabular">+${(topInflow1.inflow || 0).toLocaleString()}<tspan font-size="30" font-weight="900">억원</tspan></text>
+          <text x="866" y="112" fill="#15803D" font-size="22" font-weight="900" text-anchor="end">당일 기관·외인 최대 순유입</text>
         </g>
       </g>
 
       <!-- Disclaimer & Watermark (Y: 1248 ~ 1298) [Pure Green Text] -->
       <g transform="translate(540, 1248)">
-        <text x="0" y="0" fill="#475569" font-size="17" font-weight="700" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
-        <text x="0" y="38" fill="#047857" font-size="22" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
+        <text x="0" y="0" fill="#475569" font-size="21" font-weight="800" text-anchor="middle">* 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, 특정 종목의 매수·매도를 권유하지 않습니다.</text>
+        <text x="0" y="38" fill="#047857" font-size="28" font-weight="900" text-anchor="middle" letter-spacing="0.5">ETF 캠퍼스 | https://etf-campus.pages.dev</text>
       </g>
     </svg>
   `.trim();

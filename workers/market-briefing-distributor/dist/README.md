@@ -1,1 +1,1 @@
-This folder contains the built output assets for the worker "market-briefing-distributor" generated at 2026-09-03T00:41:56.216Z.
+This folder contains the built output assets for the worker "market-briefing-distributor" generated at 2026-09-08T23:57:34.510Z.

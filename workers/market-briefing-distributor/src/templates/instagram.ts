@@ -416,7 +416,7 @@ export function generateInstagramCarousel(
         <rect x="0" y="0" width="940" height="62" rx="24" fill="#FEF3F2"/>
         <text x="35" y="42" fill="#B42318" font-size="32" font-weight="900">▲ 상위 Top 3 주도 테마</text>
 
-        ${winners.map((w, idx) => {
+        ${winners.length > 0 ? winners.map((w, idx) => {
           const cleanName = w.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
           const themeFitted = fitAndClampText(cleanName, 520, 38, 28);
           const ret = w.cappedAumWeightedReturnPct ?? 0;
@@ -432,7 +432,12 @@ export function generateInstagramCarousel(
             <text x="190" y="94" fill="#15803D" font-size="24" font-weight="900" text-anchor="middle">가중수익률 상위</text>
             <text x="840" y="78" fill="${retColor}" font-size="56" font-weight="900" text-anchor="end" class="tabular">${retSign}${ret.toFixed(2)}%</text>
           </g>
-        `;}).join("")}
+        `;}).join("") : `
+          <g transform="translate(35, 120)">
+            <rect width="870" height="140" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+            <text x="435" y="80" fill="#64748B" font-size="28" font-weight="800" text-anchor="middle">✔ 당일 주도 테마 데이터 집계 중입니다</text>
+          </g>
+        `}
       </g>
 
       <!-- Panel 2: Bottom 3 Laggards (▼ 하위 Worst 3) (y=712, h=485) -->
@@ -441,7 +446,7 @@ export function generateInstagramCarousel(
         <rect x="0" y="0" width="940" height="62" rx="24" fill="#EFF6FF"/>
         <text x="35" y="42" fill="#1D4ED8" font-size="32" font-weight="900">▼ 하위 Worst 3 부진 테마</text>
 
-        ${losers.map((l, idx) => {
+        ${losers.length > 0 ? losers.map((l, idx) => {
           const cleanName = l.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
           const themeFitted = fitAndClampText(cleanName, 520, 38, 28);
           const ret = l.cappedAumWeightedReturnPct ?? 0;
@@ -457,7 +462,12 @@ export function generateInstagramCarousel(
             <text x="190" y="94" fill="#475569" font-size="24" font-weight="900" text-anchor="middle">가중수익률 하위</text>
             <text x="840" y="78" fill="${retColor}" font-size="56" font-weight="900" text-anchor="end" class="tabular">${retSign}${ret.toFixed(2)}%</text>
           </g>
-        `;}).join("")}
+        `;}).join("") : `
+          <g transform="translate(35, 120)">
+            <rect width="870" height="140" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+            <text x="435" y="80" fill="#64748B" font-size="28" font-weight="800" text-anchor="middle">✔ 당일 부진 테마 데이터 집계 중입니다</text>
+          </g>
+        `}
       </g>
 
       <!-- Common Disclaimer & Watermark -->
@@ -593,7 +603,7 @@ export function generateInstagramCarousel(
 
       <!-- TOP 5 Inflow Ranking Cards (y=212, step=194, h=180) -->
       <g transform="translate(70, 212)">
-        ${topInflows.slice(0, 5).map((item, idx) => {
+        ${topInflows.length > 0 ? topInflows.slice(0, 5).map((item, idx) => {
           const inflowJo = (item.inflow ?? 0).toLocaleString();
           const isTop = idx === 0;
           const cleanName = (item.name || "").replace(/\s*\([^)]*\)/g, '').trim();
@@ -626,7 +636,12 @@ export function generateInstagramCarousel(
               <text x="910" y="128" fill="${isTop ? '#BE123C' : '#475569'}" font-size="26" font-weight="900" text-anchor="end">${isTop ? '당일 최대 실질 순유입' : '순유입 상위 종목'}</text>
             </g>
           `;
-        }).join("")}
+        }).join("") : `
+          <g transform="translate(0, 40)" filter="url(#cardShadow)">
+            <rect width="940" height="200" rx="24" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.8"/>
+            <text x="470" y="110" fill="#64748B" font-size="28" font-weight="800" text-anchor="middle">✔ 당일 스마트머니 순유입 집계 데이터 준비 중입니다</text>
+          </g>
+        `}
       </g>
 
       <!-- Common Disclaimer & Watermark -->

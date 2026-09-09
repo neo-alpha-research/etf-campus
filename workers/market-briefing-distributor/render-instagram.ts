@@ -112,7 +112,7 @@ async function main() {
 
   const currentPayload: MarketBriefingPayload = {
     ...raw,
-    asOfDate: raw.asOfDate || targetDate,
+    asOfDate: cliOpts.date || raw.asOfDate || targetDate,
     headlineText: raw.headline?.text || raw.headlineText || '',
     marketTemperature: pulse.marketTemperature || raw.marketTemperature || '혼조',
     kospiClose: kospi?.close ?? raw.kospiClose ?? 0,

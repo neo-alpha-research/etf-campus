@@ -225,7 +225,7 @@ export function generateInstagramCarousel(
       <!-- Header (y=40) -->
       <g transform="translate(70, 40)">
         <rect x="0" y="4" width="8" height="46" rx="4" fill="#10B981"/>
-        <text x="22" y="42" fill="#0F172A" font-size="50" font-weight="900" letter-spacing="-1.2">ETF 데일리 마켓 브리핑</text>
+        <text x="22" y="42" fill="#047857" font-size="50" font-weight="900" letter-spacing="-1.2">ETF 데일리 마켓 브리핑</text>
         <rect x="690" y="2" width="250" height="50" rx="15" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
         <text x="815" y="35" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">${formattedDate}</text>
       </g>
@@ -347,7 +347,8 @@ export function generateInstagramCarousel(
 
       <!-- Header (y=40) -->
       <g transform="translate(70, 40)">
-        <text x="0" y="38" fill="#0F172A" font-size="46" font-weight="900" letter-spacing="-0.8">오늘 시장 주도/부진 테마 TOP 3</text>
+        <rect x="0" y="4" width="8" height="42" rx="4" fill="#10B981"/>
+        <text x="22" y="38" fill="#047857" font-size="46" font-weight="900" letter-spacing="-0.8">오늘 시장 주도/부진 테마 TOP 3</text>
         <rect x="825" y="0" width="115" height="50" rx="15" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">2 / ${totalSlides}</text>
       </g>
@@ -440,7 +441,8 @@ export function generateInstagramCarousel(
 
       <!-- Header (y=40) -->
       <g transform="translate(70, 40)">
-        <text x="0" y="38" fill="#0F172A" font-size="46" font-weight="900" letter-spacing="-0.8">자산군별 수익률 &amp; 비중 현황</text>
+        <rect x="0" y="4" width="8" height="42" rx="4" fill="#10B981"/>
+        <text x="22" y="38" fill="#047857" font-size="46" font-weight="900" letter-spacing="-0.8">자산군별 수익률 &amp; 비중 현황</text>
         <rect x="825" y="0" width="115" height="50" rx="15" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">3 / ${totalSlides}</text>
       </g>
@@ -527,7 +529,8 @@ export function generateInstagramCarousel(
 
       <!-- Header (y=40) -->
       <g transform="translate(70, 40)">
-        <text x="0" y="38" fill="#0F172A" font-size="46" font-weight="900" letter-spacing="-0.8">실질 자금 순유입 TOP 5</text>
+        <rect x="0" y="4" width="8" height="42" rx="4" fill="#10B981"/>
+        <text x="22" y="38" fill="#047857" font-size="46" font-weight="900" letter-spacing="-0.8">실질 자금 순유입 TOP 5</text>
         <rect x="825" y="0" width="115" height="50" rx="15" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">4 / ${totalSlides}</text>
       </g>
@@ -601,7 +604,8 @@ export function generateInstagramCarousel(
 
       <!-- Header (y=40) -->
       <g transform="translate(70, 40)">
-        <text x="0" y="38" fill="#0F172A" font-size="44" font-weight="900" letter-spacing="-0.8">괴리율 고평가·할증 vs 저평가·할인 진단</text>
+        <rect x="0" y="4" width="8" height="42" rx="4" fill="#10B981"/>
+        <text x="22" y="38" fill="#047857" font-size="42" font-weight="900" letter-spacing="-0.8">괴리율 고평가·할증 vs 저평가·할인 진단</text>
         <rect x="825" y="0" width="115" height="50" rx="15" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">5 / ${totalSlides}</text>
       </g>
@@ -724,12 +728,12 @@ export function generateInstagramCarousel(
         `}
       </g>
 
-      <!-- SECTION 3: 실전 체크리스트 (y=960, h=108) -->
+      <!-- SECTION 3: 실전 체크리스트 (y=960, h=110) -->
       <g transform="translate(70, 960)" filter="url(#cardShadow)">
-        <rect width="940" height="108" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.6"/>
-        <text x="35" y="42" fill="#0F172A" font-size="28" font-weight="900">💡 실전 대응 가이드</text>
-        <text x="35" y="80" fill="#1E293B" font-size="24" font-weight="800">
-          비정상 괴리 확대 종목은 시장가 추격 매수를 지양하고 iNAV 확인 후 분할 매매하세요.
+        <rect width="940" height="110" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.6"/>
+        <text x="35" y="42" fill="#0F172A" font-size="26" font-weight="900">💡 실전 대응 가이드</text>
+        <text x="35" y="80" fill="#1E293B" font-size="22" font-weight="800">
+          괴리율 확대 종목은 시장가 추격 매수를 지양하고, 실시간 iNAV 확인 후 분할 대응 권장
         </text>
       </g>
 
@@ -758,7 +762,7 @@ export function generateInstagramCarousel(
   const slide6Card3SubRaw = top5InflowSum > 0 ? `스마트머니, '${cleanInflowBannerName}' 중심 유입` : `스마트머니 수급 점검`;
   const slide6Card3SubFitted = fitAndClampText(slide6Card3SubRaw, 680, 32, 26);
   const slide6Card3Fact = `• 기관·외국인 스마트머니 상위 5종목 집중 유입`;
-  const slide6Card3ActionFitted = fitAndClampText("외인·기관 실질 순유입 지속 종목 중심 압축 포트폴리오", 670, 32, 26);
+  const slide6Card3ActionFitted = fitAndClampText("외인·기관 순유입 지속 종목 중심 압축 대응", 670, 28, 24);
 
   const slide6Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 오늘 시장 총정리 &amp; 핵심 전략">
@@ -770,7 +774,8 @@ export function generateInstagramCarousel(
 
       <!-- Header (y=40) -->
       <g transform="translate(70, 40)">
-        <text x="0" y="38" fill="#1E3A8A" font-size="46" font-weight="900" letter-spacing="-1.0">오늘 시장 총정리 &amp; 핵심 전략</text>
+        <rect x="0" y="4" width="8" height="42" rx="4" fill="#10B981"/>
+        <text x="22" y="38" fill="#047857" font-size="46" font-weight="900" letter-spacing="-1.0">오늘 시장 총정리 &amp; 핵심 전략</text>
         <rect x="825" y="0" width="115" height="50" rx="15" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.8" filter="url(#cardShadow)"/>
         <text x="882.5" y="34" fill="#0F172A" font-size="24" font-weight="900" text-anchor="middle" class="tabular">6 / ${totalSlides}</text>
       </g>
@@ -853,8 +858,8 @@ export function generateInstagramCarousel(
       <!-- Bottom KRX Notice Banner (y=1070, h=66) -->
       <g transform="translate(70, 1070)">
         <rect width="940" height="66" rx="18" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
-        <text x="470" y="42" fill="#1E293B" font-size="26" font-weight="900" text-anchor="middle">
-          한국거래소 KRX 전 거래일 마감 공시 기준 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석
+        <text x="470" y="42" fill="#334155" font-size="22" font-weight="800" text-anchor="middle">
+          KRX 전 거래일 마감 공시 기준 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석
         </text>
       </g>
 

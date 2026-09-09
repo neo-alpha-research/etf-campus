@@ -238,7 +238,7 @@ jobs:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
-        run: npx tsx generate-osmu.ts
+        run: npx tsx render-instagram.ts --render-only
 
       - name: Upload Briefing Images (Threads & Instagram Carousel) to Cloudflare KV
         working-directory: workers/market-briefing-distributor
@@ -259,6 +259,15 @@ jobs:
               npx wrangler kv key put "image:instagram:$FORMATTED_DATE:$i" --binding=BRIEFING_KV --remote --path="$SLIDE_PATH"
             fi
           done
+
+      - name: Trigger n8n Instant 3-Channel Distribution Webhook
+        continue-on-error: true
+        run: |
+          FORMATTED_DATE=$(python3 -c "import csv; b=next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt']; print(f'{b[:4]}-{b[4:6]}-{b[6:]}')")
+          echo "Triggering instant distribution webhook for $FORMATTED_DATE..."
+          curl -sS -X POST "https://n8n.aitestbed.kr/webhook/distribute-briefing-now" \
+            -H "Content-Type: application/json" \
+            -d "{\"status\": \"success\", \"date\": \"$FORMATTED_DATE\"}" || true
 
       - name: Send Telegram OSMU Notification
         continue-on-error: true

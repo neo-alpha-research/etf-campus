@@ -1,5 +1,5 @@
 {
-  "name": "ETF Campus - 5-Min Market Refresh Prober (07:50-08:40 KST)",
+  "name": "ETF Campus - 5-Min Market Refresh Prober (07:50-09:10 KST)",
   "nodes": [
     {
       "parameters": {
@@ -11,13 +11,17 @@
             },
             {
               "field": "cronExpression",
-              "expression": "0,5,10,15,20,25,30,35,40 8 * * 2-6"
+              "expression": "*/5 8 * * 2-6"
+            },
+            {
+              "field": "cronExpression",
+              "expression": "0,5,10 9 * * 2-6"
             }
           ]
         }
       },
       "id": "cron-trigger-5min-window",
-      "name": "Cron (07:50-08:40 KST 5-Min Intervals)",
+      "name": "Cron (07:50-09:10 KST 5-Min Intervals)",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [

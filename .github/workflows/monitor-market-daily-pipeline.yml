@@ -2,10 +2,10 @@ name: Monitor market daily pipeline
 
 on:
   schedule:
-    # UTC Tue-Sat 00:45 = KST Tue-Sat 09:45.
-    # The daily ETF refresh triggered by n8n probing (07:50 ~ 08:40 KST)
-    # has completed, leaving sufficient time for D1 ingest, production deployment, and OSMU generation.
-    - cron: "45 0 * * 2-6"
+    # UTC Tue-Sat 00:20 = KST Tue-Sat 09:20.
+    # Hard cutoff check at 09:20 KST (10 mins after 09:10 cutoff window).
+    # Verifies that the daily refresh, OSMU generation, and publication have completed successfully.
+    - cron: "20 0 * * 2-6"
   workflow_dispatch:
     inputs:
       expected_as_of_date:
@@ -86,17 +86,17 @@ jobs:
               )
               raise SystemExit(0)
 
-          # Daily ETF data refresh runs across a 3-step retry ladder (07:53, 08:53, 09:53 KST).
-          # If the monitor runs before 10:33 KST, data ingestion is still pending/in-progress.
+          # Daily ETF data refresh runs across a 5-minute probing ladder (08:00 ~ 09:10 KST).
+          # If the monitor runs before 09:15 KST, data ingestion is still pending/in-progress.
           # Skip gracefully to prevent premature false alarms.
-          if not is_historical_check and (now_kst.hour < 10 or (now_kst.hour == 10 and now_kst.minute < 3)):
-              message = f"Current time ({now_kst.strftime('%H:%M')} KST) is before 10:33 KST daily collection window; monitoring is skipped."
+          if not is_historical_check and (now_kst.hour < 9 or (now_kst.hour == 9 and now_kst.minute < 15)):
+              message = f"Current time ({now_kst.strftime('%H:%M')} KST) is before 09:15 KST cutoff window; monitoring is skipped."
               output_path.write_text(
                   f"notify=false\nexpected_date={expected_iso}\nactual_date=pending-collection\nreason=before-collection-window\n",
                   encoding="utf-8",
               )
               summary_path.write_text(
-                  f"### Market Daily monitor\n\n- Expected close: `{expected_iso}`\n- Result: **skipped** (before 10:33 KST daily collection window)\n",
+                  f"### Market Daily monitor\n\n- Expected close: `{expected_iso}`\n- Result: **skipped** (before 09:15 KST daily collection cutoff window)\n",
                   encoding="utf-8",
               )
               raise SystemExit(0)
@@ -223,6 +223,47 @@ jobs:
               });
               core.warning(`Created market daily monitor alert #${created.data.number}.`);
             }
+
+      - name: Send Telegram emergency alert on cutoff failure
+        if: steps.assess.outputs.notify == 'true'
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          EXPECTED_DATE: ${{ steps.assess.outputs.expected_date }}
+          ALERT_REASON: ${{ steps.assess.outputs.reason }}
+        run: |
+          if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+            python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          bot_token = os.environ["TELEGRAM_BOT_TOKEN"]
+          chat_id = os.environ["TELEGRAM_CHAT_ID"]
+          expected = os.environ["EXPECTED_DATE"]
+          reason = os.environ["ALERT_REASON"]
+
+          text = (
+              f"🚨 <b>[ETF Campus 마켓 브리핑 타임아웃 비상 경보]</b>\n\n"
+              f"• <b>기대 기준일:</b> {expected}\n"
+              f"• <b>상태:</b> 09:10 KST 하드 컷오프 초과 (미발행)\n"
+              f"• <b>상세 원인:</b> {reason}\n\n"
+              f"⚠️ 5분 프로빙 루프가 종료되었습니다. KRX/데이터포털 및 GitHub Actions 파이프라인을 수동 점검해 주세요."
+          )
+
+          req = urllib.request.Request(
+              f"https://api.telegram.org/bot{bot_token}/sendMessage",
+              data=json.dumps({"chat_id": chat_id, "text": text, "parse_mode": "HTML"}).encode("utf-8"),
+              headers={"Content-Type": "application/json"}
+          )
+          try:
+              urllib.request.urlopen(req, timeout=15)
+              print("Emergency telegram sent successfully.")
+          except Exception as e:
+              print(f"Failed to send emergency telegram: {e}")
+          PY
+          fi
 
       - name: Fail job after alert is persisted
         if: steps.assess.outputs.notify == 'true'

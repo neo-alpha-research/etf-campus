@@ -65,38 +65,7 @@ jobs:
           npx puppeteer browsers install chrome
 
       - name: Wait for API to serve latest data
-        run: |
-          echo "Checking if latest API briefing is ready..."
-          INPUT_DATE="${{ inputs.target_date }}"
-          if [ -n "$INPUT_DATE" ]; then
-            TARGET_DATE=$(echo "$INPUT_DATE" | tr -d '-')
-          else
-            TARGET_DATE=$(python3 -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
-          fi
-          echo "Target Date: $TARGET_DATE"
-          python3 -c "
-import json, sys, time, urllib.request
-
-target = sys.argv[1].replace('-', '').strip()
-print(f'Waiting for API to serve target date: {target}')
-for i in range(1, 21):
-    try:
-        url = f'https://etf-campus.pages.dev/api/briefings/latest?_t={time.time()}'
-        req = urllib.request.Request(url, headers={'User-Agent': 'ETF-Campus-CI/1.0'})
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            data = json.loads(resp.read().decode('utf-8'))
-            as_of = (data.get('briefing', {}).get('asOfDate') or data.get('asOfDate') or '').replace('-', '').strip()
-            if as_of == target:
-                print(f'✅ API is live with target date {target}! Proceeding...')
-                sys.exit(0)
-            print(f'Latest API date is {as_of}. Still waiting... ({i}/20)')
-    except Exception as e:
-        print(f'Attempt {i} error: {e}')
-    time.sleep(10)
-
-print(f'⚠️ Timeout waiting for target date {target}. Proceeding with best effort.')
-sys.exit(0)
-" "$TARGET_DATE"
+        run: python3 scripts/wait_for_briefing_api.py "${{ inputs.target_date }}"
 
       - name: Generate OSMU Assets
         working-directory: workers/market-briefing-distributor

@@ -5,6 +5,7 @@
   "scripts": {
     "osmu:download": "gh run download -n OSMU_Archive --dir OSMU_Archive",
     "osmu:preview": "node scripts/serve-osmu-preview.mjs",
+    "osmu:sync": "python scripts/sync_osmu_kv.py",
     "briefing:render": "npm --prefix workers/market-briefing-distributor run briefing:render --",
     "briefing:sync": "npm --prefix workers/market-briefing-distributor run briefing:sync --",
     "briefing:pipeline": "npm --prefix workers/market-briefing-distributor run briefing:pipeline --",

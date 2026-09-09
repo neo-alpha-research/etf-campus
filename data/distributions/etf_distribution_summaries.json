@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-08T23:01:21.766819Z",
+  "generatedAt": "2026-09-09T08:57:00.974152Z",
   "source": "SEIBro / KRX official distribution ledger",
   "summaryCount": 1167,
   "summaries": [
@@ -23583,20 +23583,34 @@
       "sourceStatus": "official_seibro_krx",
       "sourceLabel": "예탁원(SEIBro) 공시 기반",
       "latest": {
-        "eventId": "seibro:114100:20260609",
+        "eventId": "seibro:114100:20260909",
         "sourceId": "seibro:etf_div_stat",
         "sourceOwner": "한국예탁결제원(SEIBro)",
-        "amountKrw": 942,
-        "exDate": "2026-06-08",
-        "recordDate": "2026-06-09",
-        "payDate": "2026-06-11",
+        "amountKrw": 592,
+        "exDate": "2026-09-08",
+        "recordDate": "2026-09-09",
+        "payDate": "2026-09-11",
         "distributionType": "ordinary_cash",
-        "dividendYieldPct": 0.891,
+        "dividendYieldPct": null,
         "displayStatus": "official_seibro_krx",
         "displayLabel": "예탁원(SEIBro) 공시 기반",
         "updatedAt": "2026-09-01T00:00:00Z"
       },
       "records": [
+        {
+          "eventId": "seibro:114100:20260909",
+          "sourceId": "seibro:etf_div_stat",
+          "sourceOwner": "한국예탁결제원(SEIBro)",
+          "amountKrw": 592,
+          "exDate": "2026-09-08",
+          "recordDate": "2026-09-09",
+          "payDate": "2026-09-11",
+          "distributionType": "ordinary_cash",
+          "dividendYieldPct": null,
+          "displayStatus": "official_seibro_krx",
+          "displayLabel": "예탁원(SEIBro) 공시 기반",
+          "updatedAt": "2026-09-01T00:00:00Z"
+        },
         {
           "eventId": "seibro:114100:20260609",
           "sourceId": "seibro:etf_div_stat",
@@ -23794,10 +23808,10 @@
           "updatedAt": "2026-09-01T00:00:00Z"
         }
       ],
-      "eventCount": 14,
+      "eventCount": 15,
       "paymentCycle": "분기 분배",
-      "ttmAmountKrw": 2910,
-      "ttmDividendYieldPct": 2.74,
+      "ttmAmountKrw": 3502,
+      "ttmDividendYieldPct": 3.3,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -23847,20 +23861,34 @@
       "sourceStatus": "official_seibro_krx",
       "sourceLabel": "예탁원(SEIBro) 공시 기반",
       "latest": {
-        "eventId": "seibro:114460:20260609",
+        "eventId": "seibro:114460:20260909",
         "sourceId": "seibro:etf_div_stat",
         "sourceOwner": "한국예탁결제원(SEIBro)",
-        "amountKrw": 833,
-        "exDate": "2026-06-08",
-        "recordDate": "2026-06-09",
-        "payDate": "2026-06-11",
+        "amountKrw": 562,
+        "exDate": "2026-09-08",
+        "recordDate": "2026-09-09",
+        "payDate": "2026-09-11",
         "distributionType": "ordinary_cash",
-        "dividendYieldPct": 0.8336,
+        "dividendYieldPct": null,
         "displayStatus": "official_seibro_krx",
         "displayLabel": "예탁원(SEIBro) 공시 기반",
         "updatedAt": "2026-09-01T00:00:00Z"
       },
       "records": [
+        {
+          "eventId": "seibro:114460:20260909",
+          "sourceId": "seibro:etf_div_stat",
+          "sourceOwner": "한국예탁결제원(SEIBro)",
+          "amountKrw": 562,
+          "exDate": "2026-09-08",
+          "recordDate": "2026-09-09",
+          "payDate": "2026-09-11",
+          "distributionType": "ordinary_cash",
+          "dividendYieldPct": null,
+          "displayStatus": "official_seibro_krx",
+          "displayLabel": "예탁원(SEIBro) 공시 기반",
+          "updatedAt": "2026-09-01T00:00:00Z"
+        },
         {
           "eventId": "seibro:114460:20260609",
           "sourceId": "seibro:etf_div_stat",
@@ -24058,10 +24086,10 @@
           "updatedAt": "2026-09-01T00:00:00Z"
         }
       ],
-      "eventCount": 14,
+      "eventCount": 15,
       "paymentCycle": "분기 분배",
-      "ttmAmountKrw": 2540,
-      "ttmDividendYieldPct": 2.54,
+      "ttmAmountKrw": 3102,
+      "ttmDividendYieldPct": 3.1,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -24070,20 +24098,34 @@
       "sourceStatus": "official_seibro_krx",
       "sourceLabel": "예탁원(SEIBro) 공시 기반",
       "latest": {
-        "eventId": "seibro:114470:20260609",
+        "eventId": "seibro:114470:20260909",
         "sourceId": "seibro:etf_div_stat",
         "sourceOwner": "한국예탁결제원(SEIBro)",
-        "amountKrw": 833,
-        "exDate": "2026-06-08",
-        "recordDate": "2026-06-09",
-        "payDate": "2026-06-12",
+        "amountKrw": 561,
+        "exDate": "2026-09-08",
+        "recordDate": "2026-09-09",
+        "payDate": "2026-09-14",
         "distributionType": "ordinary_cash",
-        "dividendYieldPct": 0.7766,
+        "dividendYieldPct": null,
         "displayStatus": "official_seibro_krx",
         "displayLabel": "예탁원(SEIBro) 공시 기반",
         "updatedAt": "2026-09-01T00:00:00Z"
       },
       "records": [
+        {
+          "eventId": "seibro:114470:20260909",
+          "sourceId": "seibro:etf_div_stat",
+          "sourceOwner": "한국예탁결제원(SEIBro)",
+          "amountKrw": 561,
+          "exDate": "2026-09-08",
+          "recordDate": "2026-09-09",
+          "payDate": "2026-09-14",
+          "distributionType": "ordinary_cash",
+          "dividendYieldPct": null,
+          "displayStatus": "official_seibro_krx",
+          "displayLabel": "예탁원(SEIBro) 공시 기반",
+          "updatedAt": "2026-09-01T00:00:00Z"
+        },
         {
           "eventId": "seibro:114470:20260609",
           "sourceId": "seibro:etf_div_stat",
@@ -24281,10 +24323,10 @@
           "updatedAt": "2026-09-01T00:00:00Z"
         }
       ],
-      "eventCount": 14,
+      "eventCount": 15,
       "paymentCycle": "분기 분배",
-      "ttmAmountKrw": 2540,
-      "ttmDividendYieldPct": 2.36,
+      "ttmAmountKrw": 3101,
+      "ttmDividendYieldPct": 2.89,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -64607,20 +64649,34 @@
       "sourceStatus": "official_seibro_krx",
       "sourceLabel": "예탁원(SEIBro) 공시 기반",
       "latest": {
-        "eventId": "seibro:385560:20260309",
+        "eventId": "seibro:385560:20260909",
         "sourceId": "seibro:etf_div_stat",
         "sourceOwner": "한국예탁결제원(SEIBro)",
-        "amountKrw": 1278,
-        "exDate": "2026-03-06",
-        "recordDate": "2026-03-09",
-        "payDate": "2026-03-11",
+        "amountKrw": 1151,
+        "exDate": "2026-09-08",
+        "recordDate": "2026-09-09",
+        "payDate": "2026-09-11",
         "distributionType": "ordinary_cash",
-        "dividendYieldPct": 1.9467,
+        "dividendYieldPct": null,
         "displayStatus": "official_seibro_krx",
         "displayLabel": "예탁원(SEIBro) 공시 기반",
         "updatedAt": "2026-09-01T00:00:00Z"
       },
       "records": [
+        {
+          "eventId": "seibro:385560:20260909",
+          "sourceId": "seibro:etf_div_stat",
+          "sourceOwner": "한국예탁결제원(SEIBro)",
+          "amountKrw": 1151,
+          "exDate": "2026-09-08",
+          "recordDate": "2026-09-09",
+          "payDate": "2026-09-11",
+          "distributionType": "ordinary_cash",
+          "dividendYieldPct": null,
+          "displayStatus": "official_seibro_krx",
+          "displayLabel": "예탁원(SEIBro) 공시 기반",
+          "updatedAt": "2026-09-01T00:00:00Z"
+        },
         {
           "eventId": "seibro:385560:20260309",
           "sourceId": "seibro:etf_div_stat",
@@ -64720,10 +64776,10 @@
           "updatedAt": "2026-09-01T00:00:00Z"
         }
       ],
-      "eventCount": 7,
-      "paymentCycle": "반기 분배",
-      "ttmAmountKrw": 2390,
-      "ttmDividendYieldPct": 4.76,
+      "eventCount": 8,
+      "paymentCycle": "분기 분배",
+      "ttmAmountKrw": 3541,
+      "ttmDividendYieldPct": 7.06,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },
@@ -94964,20 +95020,34 @@
       "sourceStatus": "official_seibro_krx",
       "sourceLabel": "예탁원(SEIBro) 공시 기반",
       "latest": {
-        "eventId": "seibro:464240:20260609",
+        "eventId": "seibro:464240:20260909",
         "sourceId": "seibro:etf_div_stat",
         "sourceOwner": "한국예탁결제원(SEIBro)",
-        "amountKrw": 453,
-        "exDate": "2026-06-08",
-        "recordDate": "2026-06-09",
-        "payDate": "2026-06-12",
+        "amountKrw": 430,
+        "exDate": "2026-09-08",
+        "recordDate": "2026-09-09",
+        "payDate": "2026-09-14",
         "distributionType": "ordinary_cash",
-        "dividendYieldPct": 0.8698,
+        "dividendYieldPct": null,
         "displayStatus": "official_seibro_krx",
         "displayLabel": "예탁원(SEIBro) 공시 기반",
         "updatedAt": "2026-09-01T00:00:00Z"
       },
       "records": [
+        {
+          "eventId": "seibro:464240:20260909",
+          "sourceId": "seibro:etf_div_stat",
+          "sourceOwner": "한국예탁결제원(SEIBro)",
+          "amountKrw": 430,
+          "exDate": "2026-09-08",
+          "recordDate": "2026-09-09",
+          "payDate": "2026-09-14",
+          "distributionType": "ordinary_cash",
+          "dividendYieldPct": null,
+          "displayStatus": "official_seibro_krx",
+          "displayLabel": "예탁원(SEIBro) 공시 기반",
+          "updatedAt": "2026-09-01T00:00:00Z"
+        },
         {
           "eventId": "seibro:464240:20260609",
           "sourceId": "seibro:etf_div_stat",
@@ -95119,10 +95189,10 @@
           "updatedAt": "2026-09-01T00:00:00Z"
         }
       ],
-      "eventCount": 10,
+      "eventCount": 11,
       "paymentCycle": "분기 분배",
-      "ttmAmountKrw": 1841,
-      "ttmDividendYieldPct": 3.54,
+      "ttmAmountKrw": 2271,
+      "ttmDividendYieldPct": 4.37,
       "isTr": false,
       "updatedAt": "2026-09-01T00:00:00Z"
     },

@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-05T08:20:01+00:00",
+  "generated_at": "2026-09-09T08:57:01+00:00",
   "source_document_count": 34,
-  "event_count": 7183,
+  "event_count": 7188,
   "coverage_count": 1167,
   "error_count": 0,
   "warning_count": 0,
   "errors": [],
   "warnings": [],
   "status_counts": {
-    "verified": 7183
+    "verified": 7188
   },
   "source_integrity": {
     "checked": 34,

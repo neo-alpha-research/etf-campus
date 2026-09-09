@@ -110,8 +110,8 @@ export interface SummaryBannerProps {
   badgeBg: string;
   badgeBorder: string;
   badgeTextColor: string;
-  cardBg: string;
-  cardBorder: string;
+  cardBg?: string;
+  cardBorder?: string;
   text: string;
   yOffset?: number;
 }
@@ -121,8 +121,8 @@ export function renderCoreSummaryBanner({
   badgeBg,
   badgeBorder,
   badgeTextColor,
-  cardBg,
-  cardBorder,
+  cardBg = "#FFFFFF",
+  cardBorder = "#CBD5E1",
   text,
   yOffset = 104,
 }: SummaryBannerProps): string {
@@ -406,8 +406,8 @@ export function generateInstagramCarousel(
         badgeBg: "#FEF3C7",
         badgeBorder: "#FCD34D",
         badgeTextColor: "#B45309",
-        cardBg: "#FFFBEB",
-        cardBorder: "#FDE68A",
+        cardBg: "#FFFFFF",
+        cardBorder: "#CBD5E1",
         text: slide2BannerRaw,
         yOffset: 104,
       })}
@@ -500,8 +500,8 @@ export function generateInstagramCarousel(
         badgeBg: "#DCFCE7",
         badgeBorder: "#86EFAC",
         badgeTextColor: "#15803D",
-        cardBg: "#F0FDF4",
-        cardBorder: "#BBF7D0",
+        cardBg: "#FFFFFF",
+        cardBorder: "#CBD5E1",
         text: slide3BannerRaw,
         yOffset: 104,
       })}
@@ -588,8 +588,8 @@ export function generateInstagramCarousel(
         badgeBg: "#FFE4E6",
         badgeBorder: "#FDA4AF",
         badgeTextColor: "#BE123C",
-        cardBg: "#FFF1F2",
-        cardBorder: "#FECDD3",
+        cardBg: "#FFFFFF",
+        cardBorder: "#CBD5E1",
         text: slide4SummaryRaw,
         yOffset: 104,
       })}
@@ -664,8 +664,8 @@ export function generateInstagramCarousel(
         badgeBg: "#FEF3C7",
         badgeBorder: "#FCD34D",
         badgeTextColor: "#B45309",
-        cardBg: "#FFFBEB",
-        cardBorder: "#FDE68A",
+        cardBg: "#FFFFFF",
+        cardBorder: "#CBD5E1",
         text: "장 개장 직후 호가 공백 및 해외 시차로 인한 NAV 왜곡 주의",
         yOffset: 104,
       })}

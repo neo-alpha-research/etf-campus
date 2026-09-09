@@ -1815,7 +1815,7 @@ const workerHandler = {
         });
       }
 
-      // 3.1 스레드 실물 PNG 이미지 서빙 (Meta Threads Graph API 규격)
+      // 3.1 스레드 실물 이미지 서빙 (Meta Threads Graph API 규격 - JPEG/PNG 자동 판별)
       if (url.pathname === "/api/images/threads" || url.pathname === "/api/preview/threads-image.png") {
         const payload = await loadBriefingPayload(env, targetDate);
         const date = payload?.asOfDate || targetDate;
@@ -1825,12 +1825,15 @@ const workerHandler = {
         const key = `image:threads:${date}`;
         const imgBuffer = await env.BRIEFING_KV.get(key, "arrayBuffer");
         if (!imgBuffer) {
-          return new Response("PNG image not found in KV", { status: 404 });
+          return new Response("Image not found in KV", { status: 404 });
         }
+        const uint8 = new Uint8Array(imgBuffer.slice(0, 4));
+        const isJpeg = uint8[0] === 0xFF && uint8[1] === 0xD8 && uint8[2] === 0xFF;
+        const contentType = isJpeg ? "image/jpeg" : "image/png";
         return new Response(imgBuffer, {
           headers: {
-            "Content-Type": "image/png",
-            "Cache-Control": "public, max-age=86400",
+            "Content-Type": contentType,
+            "Cache-Control": "public, max-age=60, s-maxage=60",
             "Access-Control-Allow-Origin": "*",
           },
         });

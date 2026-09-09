@@ -7,7 +7,11 @@
     "typecheck": "tsc --noEmit",
     "dev": "wrangler dev",
     "deploy:preview": "wrangler deploy --env preview",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "briefing:render": "npx tsx render-instagram.ts --render-only",
+    "briefing:sync": "npx tsx render-instagram.ts --sync-only",
+    "briefing:pipeline": "npx tsx render-instagram.ts",
+    "briefing:publish": "npx tsx render-instagram.ts --publish"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260818.1",

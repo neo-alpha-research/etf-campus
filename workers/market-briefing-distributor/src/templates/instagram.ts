@@ -153,10 +153,11 @@ export function renderCoreSummaryBanner({
 
 export function generateInstagramCarousel(
   payload: MarketBriefingPayload,
-  baseUrl: string,
-  narrative?: PolishedNarrative | MarketRegime
+  _baseUrl: string,
+  _narrative?: PolishedNarrative | MarketRegime
 ): InstagramSlide[] {
-  const regime = narrative || classifyMarketRegime(payload);
+  void _baseUrl;
+  void _narrative;
   const dateStr = payload.asOfDate || new Date().toISOString().slice(0, 10);
   const formattedDate = formatDateWithDay(dateStr);
 
@@ -259,9 +260,6 @@ export function generateInstagramCarousel(
   const cleanBottomThemeName = (bottomTheme.peerGroup || "소외 섹터").replace(/\s*\([^)]*\)/g, '').trim();
   const topThemeCardFitted = fitAndClampText(cleanTopThemeName, 380, 34, 26);
   const botThemeCardFitted = fitAndClampText(cleanBottomThemeName, 380, 34, 26);
-
-  const topInflowNameClean = (topInflow.name || "핵심 ETF").replace(/\s*\([^)]*\)/g, '').trim();
-  const topInflowNameFitted = fitAndClampText(topInflowNameClean, 460, 38, 28);
 
   const slide1Svg = `
     <svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ETF 데일리 마켓 브리핑 - 표지 및 3대 핵심 펄스">
@@ -472,7 +470,6 @@ export function generateInstagramCarousel(
   // =========================================================================
   const domesticStock = assetClasses.find(a => a.assetClass?.includes("국내") || a.assetClass?.includes("주식-국내"));
   const domRet = domesticStock?.aumWeightedReturnPct ?? 4.14;
-  const domShare = domesticStock?.aumSharePct ?? 48.8;
   const domSign = domRet > 0 ? "+" : "";
 
   const sortedByRet = [...assetClasses].sort((a, b) => (b.aumWeightedReturnPct ?? 0) - (a.aumWeightedReturnPct ?? 0));
@@ -944,8 +941,8 @@ export function generateInstagramCaption(
 
   const inflowText = topInflows.length > 0 
     ? topInflows.map(i => {
-        const name = cleanTheme(i.name || (i as any).etfName);
-        const val = i.inflow ?? ((i as any).netInflowValue ? Math.round((i as any).netInflowValue / 100000000) : 0);
+        const name = cleanTheme(i.name || i.etfName);
+        const val = i.inflow ?? (i.netInflowValue ? Math.round(i.netInflowValue / 100000000) : 0);
         return `• ${name} +${(val || 0).toLocaleString()}억원`;
       }).join('\n')
     : "• 집계 중";

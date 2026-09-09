@@ -4,9 +4,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import sharp from 'sharp';
 import puppeteer from 'puppeteer';
+import { execSync } from 'child_process';
 
 const baseUrl = 'https://etf-campus.pages.dev';
-const targetDate = '2026-09-08';
 
 const CHROME_PATH = fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')
   ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
@@ -14,14 +14,98 @@ const CHROME_PATH = fs.existsSync('C:\\Program Files\\Google\\Chrome\\Applicatio
     ? 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
     : undefined);
 
+interface PipelineCliOptions {
+  date?: string;
+  renderOnly?: boolean;
+  syncOnly?: boolean;
+  publish?: boolean;
+}
+
+function parseCliArgs(): PipelineCliOptions {
+  const args = process.argv.slice(2);
+  const opts: PipelineCliOptions = {};
+
+  for (const arg of args) {
+    if (arg.startsWith('--date=')) {
+      opts.date = arg.split('=')[1].trim();
+    } else if (arg === '--render-only') {
+      opts.renderOnly = true;
+    } else if (arg === '--sync-only') {
+      opts.syncOnly = true;
+    } else if (arg === '--publish') {
+      opts.publish = true;
+    } else if (!arg.startsWith('--') && /^\d{4}-\d{2}-\d{2}$/.test(arg)) {
+      opts.date = arg.trim();
+    }
+  }
+
+  return opts;
+}
+
+function syncToKv(targetDate: string) {
+  const repoRoot = process.cwd().endsWith("market-briefing-distributor")
+    ? path.resolve(process.cwd(), "../..")
+    : process.cwd();
+  const baseDir = path.join(repoRoot, "OSMU_Archive", targetDate).replace(/\\/g, '/');
+  const distDir = path.join(repoRoot, "workers", "market-briefing-distributor");
+
+  console.log(`[OSMU Pipeline] Syncing images to Cloudflare KV for date: ${targetDate}...`);
+
+  for (let i = 1; i <= 6; i++) {
+    const filePath = `${baseDir}/1_Instagram/instagram_slide_${i}.png`;
+    const key = `image:instagram:${targetDate}:${i}`;
+    console.log(`Uploading ${key}...`);
+    execSync(`npx wrangler kv key put --binding=BRIEFING_KV --remote "${key}" --path="${filePath}"`, {
+      cwd: distDir,
+      stdio: 'inherit'
+    });
+  }
+
+  const threadsPath = `${baseDir}/2_Threads/threads_image.png`;
+  const threadsKey = `image:threads:${targetDate}`;
+  console.log(`Uploading ${threadsKey}...`);
+  execSync(`npx wrangler kv key put --binding=BRIEFING_KV --remote "${threadsKey}" --path="${threadsPath}"`, {
+    cwd: distDir,
+    stdio: 'inherit'
+  });
+
+  console.log('[OSMU Pipeline] All KV assets synchronized successfully.');
+}
+
+function deployWorker() {
+  const repoRoot = process.cwd().endsWith("market-briefing-distributor")
+    ? path.resolve(process.cwd(), "../..")
+    : process.cwd();
+  const distDir = path.join(repoRoot, "workers", "market-briefing-distributor");
+
+  console.log('[OSMU Pipeline] Deploying market-briefing-distributor worker...');
+  execSync('npx wrangler deploy', {
+    cwd: distDir,
+    stdio: 'inherit'
+  });
+  console.log('[OSMU Pipeline] Worker deployed successfully.');
+}
+
 async function main() {
-  console.log(`[OSMU Render] Fetching live briefing payload for ${targetDate}...`);
+  const cliOpts = parseCliArgs();
+  console.log('=====================================================');
+  console.log('   ETF Campus Daily Market Briefing OSMU Pipeline   ');
+  console.log('=====================================================');
+
+  console.log(`[OSMU Render] Fetching live briefing payload from ${baseUrl}...`);
   const res = await fetch(`${baseUrl}/api/briefings/latest?_t=${Date.now()}`);
   if (!res.ok) {
     throw new Error(`Failed to fetch live briefing: ${res.status} ${res.statusText}`);
   }
   const data: any = await res.json();
   const raw = data.briefing || data;
+  const targetDate = cliOpts.date || raw.asOfDate || new Date().toISOString().slice(0, 10);
+  console.log(`[OSMU Pipeline] Target Market Date: ${targetDate}`);
+
+  if (cliOpts.syncOnly) {
+    syncToKv(targetDate);
+    return;
+  }
   const pulse = raw.pulse || {};
   const kospi = raw.marketIndices?.find((i: any) => i.code === 'KOSPI');
   const kosdaq = raw.marketIndices?.find((i: any) => i.code === 'KOSDAQ');
@@ -170,6 +254,21 @@ async function main() {
   if (browser) {
     await browser.close();
   }
+
+  if (cliOpts.renderOnly) {
+    console.log('[OSMU Pipeline] ✅ Render completed (--render-only).');
+    return;
+  }
+
+  // Auto sync to Cloudflare KV
+  syncToKv(targetDate);
+
+  // If --publish flag is set, automatically deploy worker
+  if (cliOpts.publish) {
+    deployWorker();
+  }
+
+  console.log(`\n[OSMU Pipeline] 🚀 All pipeline steps finished successfully for ${targetDate}!`);
 }
 
 main().catch(err => {

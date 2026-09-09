@@ -53,8 +53,7 @@ export function generateThreadsThread(
 
   const topInflows = payload.periodicFlows?.dailyFundFlows?.topInflows?.slice(0, 2) || [];
   const inflowSentence = topInflows.length > 0 
-    ? `\n\n스마트머니는 ${topInflows.map(i => {
-        const item = i as any;
+    ? `\n\n스마트머니는 ${topInflows.map(item => {
         const name = cleanEtfName(item.name || item.etfName || "대표지수");
         const val = item.inflow ?? (item.netInflowValue ? Math.round(item.netInflowValue / 100000000) : 0);
         return `${name} +${(val || 0).toLocaleString()}억`;
@@ -142,13 +141,6 @@ function escapeXml(unsafe?: string): string {
     .replace(/'/g, "&apos;");
 }
 
-function calcThemeFontSize(themeName?: string): number {
-  const len = themeName ? themeName.length : 0;
-  if (len > 15) return 22.0;
-  if (len > 11) return 24.5;
-  return 27.0;
-}
-
 export function generateThreadsImageSvg(
   payload: MarketBriefingPayload
 ): string {
@@ -178,8 +170,6 @@ export function generateThreadsImageSvg(
 
   const cleanTopTheme = topTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
   const cleanBottomTheme = bottomTheme.peerGroup.replace(/\s*\([^)]*\)/g, '').trim();
-  const topThemeFontSize = calcThemeFontSize(cleanTopTheme);
-  const bottomThemeFontSize = calcThemeFontSize(cleanBottomTheme);
 
   const topThemeRet = topTheme.cappedAumWeightedReturnPct ?? 0;
   const bottomThemeRet = bottomTheme.cappedAumWeightedReturnPct ?? 0;

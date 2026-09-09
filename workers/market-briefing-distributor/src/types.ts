@@ -52,10 +52,12 @@ export interface InflowItem {
   rank: number;
   ticker: string;
   name: string;
+  etfName?: string;
   assetClass?: string;
   theme?: string;
   inflow: number; // 억원
   inflowAmount?: number;
+  netInflowValue?: number;
   changePct?: number;
 }
 

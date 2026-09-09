@@ -670,8 +670,8 @@ export function generateInstagramCarousel(
         yOffset: 104,
       })}
 
-      <!-- SECTION 1: NAV 대비 고평가 · 할증 Top 2 (y=210) -->
-      <g transform="translate(70, 210)">
+      <!-- SECTION 1: NAV 대비 고평가 · 할증 Top 2 (y=266) -->
+      <g transform="translate(70, 266)">
         <text x="5" y="28" fill="#991B1B" font-size="30" font-weight="900">▲ NAV 대비 고평가 · 할증 주의 (시장가 &gt; 가치)</text>
 
         <!-- Slot 1 (y=40) -->
@@ -724,8 +724,8 @@ export function generateInstagramCarousel(
         `}
       </g>
 
-      <!-- SECTION 2: NAV 대비 저평가 · 할인 Top 2 (y=584) -->
-      <g transform="translate(70, 584)">
+      <!-- SECTION 2: NAV 대비 저평가 · 할인 Top 2 (y=648) -->
+      <g transform="translate(70, 648)">
         <text x="5" y="28" fill="#166534" font-size="30" font-weight="900">▼ NAV 대비 저평가 · 할인 체크 (시장가 &lt; 가치)</text>
 
         <!-- Slot 1 (y=40) -->
@@ -778,8 +778,8 @@ export function generateInstagramCarousel(
         `}
       </g>
 
-      <!-- SECTION 3: 실전 체크리스트 (y=960, h=110) -->
-      <g transform="translate(70, 960)" filter="url(#cardShadow)">
+      <!-- SECTION 3: 실전 체크리스트 (y=1030, h=110) -->
+      <g transform="translate(70, 1030)" filter="url(#cardShadow)">
         <rect width="940" height="110" rx="20" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.6"/>
         <text x="35" y="42" fill="#0F172A" font-size="26" font-weight="900">💡 실전 대응 가이드</text>
         <text x="35" y="80" fill="#1E293B" font-size="22" font-weight="800">

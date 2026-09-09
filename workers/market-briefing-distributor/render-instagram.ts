@@ -1,5 +1,5 @@
-import { generateInstagramCarousel, generateInstagramCaption } from '../workers/market-briefing-distributor/src/templates/instagram';
-import type { MarketBriefingPayload } from '../workers/market-briefing-distributor/src/types';
+import { generateInstagramCarousel, generateInstagramCaption } from './src/templates/instagram';
+import type { MarketBriefingPayload } from './src/types';
 import * as fs from 'fs';
 import * as path from 'path';
 import sharp from 'sharp';
@@ -95,7 +95,7 @@ async function main() {
   const slides = generateInstagramCarousel(currentPayload, baseUrl, narrative);
   console.log(`[OSMU Render] Generated ${slides.length} slides.`);
 
-  const outputDir = path.resolve('OSMU_Archive', targetDate, '1_Instagram');
+  const outputDir = path.resolve(process.cwd(), '../../OSMU_Archive', targetDate, '1_Instagram');
   fs.mkdirSync(outputDir, { recursive: true });
 
   for (const s of slides) {

@@ -82,8 +82,8 @@ def upload_to_kv_via_rest(
     with open(file_path, "rb") as f:
         file_bytes = f.read()
 
-    # Try Global API Key first if available (guaranteed admin permission)
-    if email and api_key:
+    # 1. Try Global API Key ONLY if api_key is pure hex (MD5/hex format)
+    if email and api_key and re.match(r"^[a-f0-9]{32,45}$", api_key, re.I):
         req = urllib.request.Request(
             url,
             data=file_bytes,
@@ -103,13 +103,20 @@ def upload_to_kv_via_rest(
             err_body = e.read().decode("utf-8", errors="replace")
             print(f"⚠️ Global API Key upload failed for {key}: HTTP {e.code} - {err_body}", file=sys.stderr)
 
-    # Try Bearer API Token
-    if api_token:
+    # 2. Try Bearer API Tokens (api_token, api_key, d1_token)
+    d1_token = os.environ.get("CLOUDFLARE_D1_TOKEN") or None
+    candidate_tokens = [t for t in [api_token, api_key, d1_token] if t and len(t) > 20]
+    seen_tokens = set()
+
+    for tok in candidate_tokens:
+        if tok in seen_tokens:
+            continue
+        seen_tokens.add(tok)
         req = urllib.request.Request(
             url,
             data=file_bytes,
             headers={
-                "Authorization": f"Bearer {api_token}",
+                "Authorization": f"Bearer {tok}",
                 "Content-Type": "image/png",
                 "User-Agent": "ETF-Campus-OSMU-Sync/1.0",
             },

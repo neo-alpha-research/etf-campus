@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-09",
+  "updated_at": "2026-09-10",
   "summary": {
     "total_tracked": 34,
     "total_open": 15,
@@ -14,7 +14,7 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "0019K0",
@@ -22,12 +22,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 47.54,
-        "drift_pct": -2.46,
+        "measured_equity_pct": 47.64,
+        "drift_pct": -2.36,
         "severity": "NORMAL_50_BOUND",
         "initial_status": "accepted",
         "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 47.54% equity (limit 50.0%)"
+        "reason": "Safe asset holds 47.64% equity (limit 50.0%)"
       }
     },
     "0049K0": {
@@ -36,7 +36,7 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "0049K0",
@@ -44,12 +44,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 48.58,
-        "drift_pct": -1.42,
+        "measured_equity_pct": 48.36,
+        "drift_pct": -1.64,
         "severity": "NORMAL_50_BOUND",
         "initial_status": "accepted",
         "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 48.58% equity (limit 50.0%)"
+        "reason": "Safe asset holds 48.36% equity (limit 50.0%)"
       }
     },
     "0052S0": {
@@ -58,7 +58,7 @@
       "category": "boundary_drift",
       "status": "known_open",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
       "details": {
         "ticker": "0052S0",
@@ -66,12 +66,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 58.1,
-        "drift_pct": 8.1,
+        "measured_equity_pct": 58.01,
+        "drift_pct": 8.01,
         "severity": "EXTREME_OVER_50",
         "initial_status": "known_open",
         "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 58.1% equity (limit 50.0%)"
+        "reason": "Safe asset holds 58.01% equity (limit 50.0%)"
       }
     },
     "0057H0": {
@@ -80,7 +80,7 @@
       "category": "boundary_drift",
       "status": "known_open",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
       "details": {
         "ticker": "0057H0",
@@ -88,12 +88,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 50.4,
-        "drift_pct": 0.4,
+        "measured_equity_pct": 50.26,
+        "drift_pct": 0.26,
         "severity": "EXTREME_OVER_50",
         "initial_status": "known_open",
         "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 50.4% equity (limit 50.0%)"
+        "reason": "Safe asset holds 50.26% equity (limit 50.0%)"
       }
     },
     "0080X0": {
@@ -102,7 +102,7 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "0080X0",
@@ -110,12 +110,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 47.52,
-        "drift_pct": -2.48,
+        "measured_equity_pct": 47.59,
+        "drift_pct": -2.41,
         "severity": "NORMAL_50_BOUND",
         "initial_status": "accepted",
         "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 47.52% equity (limit 50.0%)"
+        "reason": "Safe asset holds 47.59% equity (limit 50.0%)"
       }
     },
     "0089B0": {
@@ -124,7 +124,7 @@
       "category": "boundary_drift",
       "status": "known_open",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
       "details": {
         "ticker": "0089B0",
@@ -132,12 +132,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 53.25,
-        "drift_pct": 3.25,
+        "measured_equity_pct": 54.8,
+        "drift_pct": 4.8,
         "severity": "EXTREME_OVER_50",
         "initial_status": "known_open",
         "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 53.25% equity (limit 50.0%)"
+        "reason": "Safe asset holds 54.8% equity (limit 50.0%)"
       }
     },
     "0104H0": {
@@ -146,7 +146,7 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "0104H0",
@@ -154,12 +154,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 43.51,
-        "drift_pct": -6.49,
+        "measured_equity_pct": 46.01,
+        "drift_pct": -3.99,
         "severity": "NORMAL_50_BOUND",
         "initial_status": "accepted",
         "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 43.51% equity (limit 50.0%)"
+        "reason": "Safe asset holds 46.01% equity (limit 50.0%)"
       }
     },
     "0111P0": {
@@ -168,7 +168,7 @@
       "category": "boundary_drift",
       "status": "known_open",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
       "details": {
         "ticker": "0111P0",
@@ -176,12 +176,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 60.84,
-        "drift_pct": 10.84,
+        "measured_equity_pct": 60.86,
+        "drift_pct": 10.86,
         "severity": "EXTREME_OVER_50",
         "initial_status": "known_open",
         "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 60.84% equity (limit 50.0%)"
+        "reason": "Safe asset holds 60.86% equity (limit 50.0%)"
       }
     },
     "0162Z0": {
@@ -190,7 +190,7 @@
       "category": "boundary_drift",
       "status": "known_open",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
       "details": {
         "ticker": "0162Z0",
@@ -198,12 +198,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 50.07,
-        "drift_pct": 0.07,
+        "measured_equity_pct": 50.17,
+        "drift_pct": 0.17,
         "severity": "EXTREME_OVER_50",
         "initial_status": "known_open",
         "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 50.07% equity (limit 50.0%)"
+        "reason": "Safe asset holds 50.17% equity (limit 50.0%)"
       }
     },
     "0177N0": {
@@ -212,7 +212,7 @@
       "category": "boundary_drift",
       "status": "known_open",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
       "details": {
         "ticker": "0177N0",
@@ -220,12 +220,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 50.04,
-        "drift_pct": 0.04,
+        "measured_equity_pct": 50.16,
+        "drift_pct": 0.16,
         "severity": "EXTREME_OVER_50",
         "initial_status": "known_open",
         "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 50.04% equity (limit 50.0%)"
+        "reason": "Safe asset holds 50.16% equity (limit 50.0%)"
       }
     },
     "0178H0": {
@@ -234,7 +234,7 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "0178H0",
@@ -242,12 +242,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 48.8,
-        "drift_pct": -1.2,
+        "measured_equity_pct": 48.69,
+        "drift_pct": -1.31,
         "severity": "NORMAL_50_BOUND",
         "initial_status": "accepted",
         "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 48.8% equity (limit 50.0%)"
+        "reason": "Safe asset holds 48.69% equity (limit 50.0%)"
       }
     },
     "0182S0": {
@@ -256,7 +256,7 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "0182S0",
@@ -264,12 +264,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 50.0,
-        "drift_pct": 0.0,
+        "measured_equity_pct": 49.81,
+        "drift_pct": -0.19,
         "severity": "NORMAL_50_BOUND",
         "initial_status": "accepted",
         "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 50.0% equity (limit 50.0%)"
+        "reason": "Safe asset holds 49.81% equity (limit 50.0%)"
       }
     },
     "0183V0": {
@@ -278,7 +278,7 @@
       "category": "boundary_drift",
       "status": "known_open",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
       "details": {
         "ticker": "0183V0",
@@ -286,12 +286,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 52.6,
-        "drift_pct": 2.6,
+        "measured_equity_pct": 52.62,
+        "drift_pct": 2.62,
         "severity": "EXTREME_OVER_50",
         "initial_status": "known_open",
         "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 52.6% equity (limit 50.0%)"
+        "reason": "Safe asset holds 52.62% equity (limit 50.0%)"
       }
     },
     "0184E0": {
@@ -300,7 +300,7 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "0184E0",
@@ -308,12 +308,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 48.94,
-        "drift_pct": -1.06,
+        "measured_equity_pct": 48.87,
+        "drift_pct": -1.13,
         "severity": "NORMAL_50_BOUND",
         "initial_status": "accepted",
         "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 48.94% equity (limit 50.0%)"
+        "reason": "Safe asset holds 48.87% equity (limit 50.0%)"
       }
     },
     "0186S0": {
@@ -322,385 +322,11 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "0186S0",
         "name": "1Q 코스닥150채권혼합50액티브",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 49.39,
-        "drift_pct": -0.61,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 49.39% equity (limit 50.0%)"
-      }
-    },
-    "0192S0": {
-      "ticker": "0192S0",
-      "name": "SOL 코스피200채권혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "0192S0",
-        "name": "SOL 코스피200채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 48.99,
-        "drift_pct": -1.01,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 48.99% equity (limit 50.0%)"
-      }
-    },
-    "0203D0": {
-      "ticker": "0203D0",
-      "name": "PLUS 200위클리커버드콜채권혼합",
-      "category": "boundary_drift",
-      "status": "known_open",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-      "details": {
-        "ticker": "0203D0",
-        "name": "PLUS 200위클리커버드콜채권혼합",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 40.0,
-        "measured_equity_pct": 50.09,
-        "drift_pct": 10.09,
-        "severity": "EXTREME_OVER_50",
-        "initial_status": "known_open",
-        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 50.09% equity (limit 40.0%)"
-      }
-    },
-    "0203S0": {
-      "ticker": "0203S0",
-      "name": "WON 삼성전자현대차채권혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "0203S0",
-        "name": "WON 삼성전자현대차채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 49.92,
-        "drift_pct": -0.08,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 49.92% equity (limit 50.0%)"
-      }
-    },
-    "0206G0": {
-      "ticker": "0206G0",
-      "name": "1Q 현대차기아채권혼합50",
-      "category": "boundary_drift",
-      "status": "known_open",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-      "details": {
-        "ticker": "0206G0",
-        "name": "1Q 현대차기아채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 50.02,
-        "drift_pct": 0.02,
-        "severity": "EXTREME_OVER_50",
-        "initial_status": "known_open",
-        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 50.02% equity (limit 50.0%)"
-      }
-    },
-    "0216K0": {
-      "ticker": "0216K0",
-      "name": "KIWOOM 미국우주테크TOP2채권혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "0216K0",
-        "name": "KIWOOM 미국우주테크TOP2채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 49.99,
-        "drift_pct": -0.01,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 49.99% equity (limit 50.0%)"
-      }
-    },
-    "0218J0": {
-      "ticker": "0218J0",
-      "name": "RISE 미국우주&로봇TOP2미국채혼합50",
-      "category": "boundary_drift",
-      "status": "known_open",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-      "details": {
-        "ticker": "0218J0",
-        "name": "RISE 미국우주&로봇TOP2미국채혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 65.5,
-        "drift_pct": 15.5,
-        "severity": "EXTREME_OVER_50",
-        "initial_status": "known_open",
-        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 65.5% equity (limit 50.0%)"
-      }
-    },
-    "0220A0": {
-      "ticker": "0220A0",
-      "name": "KIWOOM 현대차그룹TOP3채권혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "0220A0",
-        "name": "KIWOOM 현대차그룹TOP3채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 49.72,
-        "drift_pct": -0.28,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 49.72% equity (limit 50.0%)"
-      }
-    },
-    "0224X0": {
-      "ticker": "0224X0",
-      "name": "1Q 엔비디아알파벳미국채혼합50",
-      "category": "boundary_drift",
-      "status": "known_open",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-      "details": {
-        "ticker": "0224X0",
-        "name": "1Q 엔비디아알파벳미국채혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 54.38,
-        "drift_pct": 4.38,
-        "severity": "EXTREME_OVER_50",
-        "initial_status": "known_open",
-        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 54.38% equity (limit 50.0%)"
-      }
-    },
-    "0226A0": {
-      "ticker": "0226A0",
-      "name": "PLUS SK하이닉스샌디스크채권혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "0226A0",
-        "name": "PLUS SK하이닉스샌디스크채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 45.34,
-        "drift_pct": -4.66,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 45.34% equity (limit 50.0%)"
-      }
-    },
-    "0226D0": {
-      "ticker": "0226D0",
-      "name": "FOCUS 금융반도체지주채권혼합50액티브",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "0226D0",
-        "name": "FOCUS 금융반도체지주채권혼합50액티브",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 48.14,
-        "drift_pct": -1.86,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 48.14% equity (limit 50.0%)"
-      }
-    },
-    "0233A0": {
-      "ticker": "0233A0",
-      "name": "ACE 삼성전자SK하이닉스플러스채권혼합50",
-      "category": "boundary_drift",
-      "status": "known_open",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-      "details": {
-        "ticker": "0233A0",
-        "name": "ACE 삼성전자SK하이닉스플러스채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 50.76,
-        "drift_pct": 0.76,
-        "severity": "EXTREME_OVER_50",
-        "initial_status": "known_open",
-        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 50.76% equity (limit 50.0%)"
-      }
-    },
-    "0233J0": {
-      "ticker": "0233J0",
-      "name": "TIGER 삼성전자SK하이닉스미국채혼합50",
-      "category": "boundary_drift",
-      "status": "known_open",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-      "details": {
-        "ticker": "0233J0",
-        "name": "TIGER 삼성전자SK하이닉스미국채혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 61.46,
-        "drift_pct": 11.46,
-        "severity": "EXTREME_OVER_50",
-        "initial_status": "known_open",
-        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 61.46% equity (limit 50.0%)"
-      }
-    },
-    "183700": {
-      "ticker": "183700",
-      "name": "RISE 200채권혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "183700",
-        "name": "RISE 200채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 41.32,
-        "drift_pct": -8.68,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 41.32% equity (limit 50.0%)"
-      }
-    },
-    "251600": {
-      "ticker": "251600",
-      "name": "PLUS 고배당주채권혼합",
-      "category": "boundary_drift",
-      "status": "known_open",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-      "details": {
-        "ticker": "251600",
-        "name": "PLUS 고배당주채권혼합",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 40.0,
-        "measured_equity_pct": 49.87,
-        "drift_pct": 9.87,
-        "severity": "BREACH_OVER_40",
-        "initial_status": "known_open",
-        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 49.87% equity (limit 40.0%)"
-      }
-    },
-    "284430": {
-      "ticker": "284430",
-      "name": "KODEX 200미국채혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "284430",
-        "name": "KODEX 200미국채혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 48.71,
-        "drift_pct": -1.29,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 48.71% equity (limit 50.0%)"
-      }
-    },
-    "435420": {
-      "ticker": "435420",
-      "name": "TIGER 미국나스닥100채권혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "435420",
-        "name": "TIGER 미국나스닥100채권혼합50",
-        "current_asset_class": "채권",
-        "pension_limit": "100% (안전자산)",
-        "target_equity_pct": 50.0,
-        "measured_equity_pct": 48.51,
-        "drift_pct": -1.49,
-        "severity": "NORMAL_50_BOUND",
-        "initial_status": "accepted",
-        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 48.51% equity (limit 50.0%)"
-      }
-    },
-    "447620": {
-      "ticker": "447620",
-      "name": "SOL 미국TOP5채권혼합50",
-      "category": "boundary_drift",
-      "status": "accepted",
-      "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
-      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-      "details": {
-        "ticker": "447620",
-        "name": "SOL 미국TOP5채권혼합50",
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
@@ -712,13 +338,387 @@
         "reason": "Safe asset holds 49.26% equity (limit 50.0%)"
       }
     },
+    "0192S0": {
+      "ticker": "0192S0",
+      "name": "SOL 코스피200채권혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "0192S0",
+        "name": "SOL 코스피200채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 50.15,
+        "drift_pct": 0.15,
+        "severity": "EXTREME_OVER_50",
+        "initial_status": "known_open",
+        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+        "reason": "Safe asset holds 50.15% equity (limit 50.0%)"
+      }
+    },
+    "0203D0": {
+      "ticker": "0203D0",
+      "name": "PLUS 200위클리커버드콜채권혼합",
+      "category": "boundary_drift",
+      "status": "known_open",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+      "details": {
+        "ticker": "0203D0",
+        "name": "PLUS 200위클리커버드콜채권혼합",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 40.0,
+        "measured_equity_pct": 48.97,
+        "drift_pct": 8.97,
+        "severity": "BREACH_OVER_40",
+        "initial_status": "known_open",
+        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+        "reason": "Safe asset holds 48.97% equity (limit 40.0%)"
+      }
+    },
+    "0203S0": {
+      "ticker": "0203S0",
+      "name": "WON 삼성전자현대차채권혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "0203S0",
+        "name": "WON 삼성전자현대차채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 49.97,
+        "drift_pct": -0.03,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 49.97% equity (limit 50.0%)"
+      }
+    },
+    "0206G0": {
+      "ticker": "0206G0",
+      "name": "1Q 현대차기아채권혼합50",
+      "category": "boundary_drift",
+      "status": "known_open",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+      "details": {
+        "ticker": "0206G0",
+        "name": "1Q 현대차기아채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 49.92,
+        "drift_pct": -0.08,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 49.92% equity (limit 50.0%)"
+      }
+    },
+    "0216K0": {
+      "ticker": "0216K0",
+      "name": "KIWOOM 미국우주테크TOP2채권혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "0216K0",
+        "name": "KIWOOM 미국우주테크TOP2채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 49.98,
+        "drift_pct": -0.02,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 49.98% equity (limit 50.0%)"
+      }
+    },
+    "0218J0": {
+      "ticker": "0218J0",
+      "name": "RISE 미국우주&로봇TOP2미국채혼합50",
+      "category": "boundary_drift",
+      "status": "known_open",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+      "details": {
+        "ticker": "0218J0",
+        "name": "RISE 미국우주&로봇TOP2미국채혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 63.87,
+        "drift_pct": 13.87,
+        "severity": "EXTREME_OVER_50",
+        "initial_status": "known_open",
+        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+        "reason": "Safe asset holds 63.87% equity (limit 50.0%)"
+      }
+    },
+    "0220A0": {
+      "ticker": "0220A0",
+      "name": "KIWOOM 현대차그룹TOP3채권혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "0220A0",
+        "name": "KIWOOM 현대차그룹TOP3채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 49.87,
+        "drift_pct": -0.13,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 49.87% equity (limit 50.0%)"
+      }
+    },
+    "0224X0": {
+      "ticker": "0224X0",
+      "name": "1Q 엔비디아알파벳미국채혼합50",
+      "category": "boundary_drift",
+      "status": "known_open",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+      "details": {
+        "ticker": "0224X0",
+        "name": "1Q 엔비디아알파벳미국채혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 53.69,
+        "drift_pct": 3.69,
+        "severity": "EXTREME_OVER_50",
+        "initial_status": "known_open",
+        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+        "reason": "Safe asset holds 53.69% equity (limit 50.0%)"
+      }
+    },
+    "0226A0": {
+      "ticker": "0226A0",
+      "name": "PLUS SK하이닉스샌디스크채권혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "0226A0",
+        "name": "PLUS SK하이닉스샌디스크채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 46.31,
+        "drift_pct": -3.69,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 46.31% equity (limit 50.0%)"
+      }
+    },
+    "0226D0": {
+      "ticker": "0226D0",
+      "name": "FOCUS 금융반도체지주채권혼합50액티브",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "0226D0",
+        "name": "FOCUS 금융반도체지주채권혼합50액티브",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 47.49,
+        "drift_pct": -2.51,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 47.49% equity (limit 50.0%)"
+      }
+    },
+    "0233A0": {
+      "ticker": "0233A0",
+      "name": "ACE 삼성전자SK하이닉스플러스채권혼합50",
+      "category": "boundary_drift",
+      "status": "known_open",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+      "details": {
+        "ticker": "0233A0",
+        "name": "ACE 삼성전자SK하이닉스플러스채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 52.06,
+        "drift_pct": 2.06,
+        "severity": "EXTREME_OVER_50",
+        "initial_status": "known_open",
+        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+        "reason": "Safe asset holds 52.06% equity (limit 50.0%)"
+      }
+    },
+    "0233J0": {
+      "ticker": "0233J0",
+      "name": "TIGER 삼성전자SK하이닉스미국채혼합50",
+      "category": "boundary_drift",
+      "status": "known_open",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+      "details": {
+        "ticker": "0233J0",
+        "name": "TIGER 삼성전자SK하이닉스미국채혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 60.59,
+        "drift_pct": 10.59,
+        "severity": "EXTREME_OVER_50",
+        "initial_status": "known_open",
+        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+        "reason": "Safe asset holds 60.59% equity (limit 50.0%)"
+      }
+    },
+    "183700": {
+      "ticker": "183700",
+      "name": "RISE 200채권혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "183700",
+        "name": "RISE 200채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 42.34,
+        "drift_pct": -7.66,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 42.34% equity (limit 50.0%)"
+      }
+    },
+    "251600": {
+      "ticker": "251600",
+      "name": "PLUS 고배당주채권혼합",
+      "category": "boundary_drift",
+      "status": "known_open",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+      "details": {
+        "ticker": "251600",
+        "name": "PLUS 고배당주채권혼합",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 40.0,
+        "measured_equity_pct": 49.68,
+        "drift_pct": 9.68,
+        "severity": "BREACH_OVER_40",
+        "initial_status": "known_open",
+        "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
+        "reason": "Safe asset holds 49.68% equity (limit 40.0%)"
+      }
+    },
+    "284430": {
+      "ticker": "284430",
+      "name": "KODEX 200미국채혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "284430",
+        "name": "KODEX 200미국채혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 48.93,
+        "drift_pct": -1.07,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 48.93% equity (limit 50.0%)"
+      }
+    },
+    "435420": {
+      "ticker": "435420",
+      "name": "TIGER 미국나스닥100채권혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "435420",
+        "name": "TIGER 미국나스닥100채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 48.5,
+        "drift_pct": -1.5,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 48.5% equity (limit 50.0%)"
+      }
+    },
+    "447620": {
+      "ticker": "447620",
+      "name": "SOL 미국TOP5채권혼합50",
+      "category": "boundary_drift",
+      "status": "accepted",
+      "first_detected": "2026-09-08",
+      "last_seen": "2026-09-10",
+      "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+      "details": {
+        "ticker": "447620",
+        "name": "SOL 미국TOP5채권혼합50",
+        "current_asset_class": "채권",
+        "pension_limit": "100% (안전자산)",
+        "target_equity_pct": 50.0,
+        "measured_equity_pct": 48.9,
+        "drift_pct": -1.1,
+        "severity": "NORMAL_50_BOUND",
+        "initial_status": "accepted",
+        "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
+        "reason": "Safe asset holds 48.9% equity (limit 50.0%)"
+      }
+    },
     "472170": {
       "ticker": "472170",
       "name": "TIGER 미국테크TOP10채권혼합",
       "category": "boundary_drift",
       "status": "known_open",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
       "details": {
         "ticker": "472170",
@@ -726,12 +726,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 40.0,
-        "measured_equity_pct": 47.45,
-        "drift_pct": 7.45,
+        "measured_equity_pct": 47.25,
+        "drift_pct": 7.25,
         "severity": "BREACH_OVER_40",
         "initial_status": "known_open",
         "review_note": "안전자산 주식 비중 50% 초과 극단 드리프트",
-        "reason": "Safe asset holds 47.45% equity (limit 40.0%)"
+        "reason": "Safe asset holds 47.25% equity (limit 40.0%)"
       }
     },
     "490490": {
@@ -740,7 +740,7 @@
       "category": "boundary_drift",
       "status": "accepted",
       "first_detected": "2026-09-08",
-      "last_seen": "2026-09-09",
+      "last_seen": "2026-09-10",
       "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
       "details": {
         "ticker": "490490",
@@ -748,12 +748,12 @@
         "current_asset_class": "채권",
         "pension_limit": "100% (안전자산)",
         "target_equity_pct": 50.0,
-        "measured_equity_pct": 49.93,
-        "drift_pct": -0.07,
+        "measured_equity_pct": 49.75,
+        "drift_pct": -0.25,
         "severity": "NORMAL_50_BOUND",
         "initial_status": "accepted",
         "review_note": "채권혼합50 인가 상품 (정상 편입 범위 40~50%)",
-        "reason": "Safe asset holds 49.93% equity (limit 50.0%)"
+        "reason": "Safe asset holds 49.75% equity (limit 50.0%)"
       }
     }
   }

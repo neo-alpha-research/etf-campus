@@ -1,3 +1,4 @@
 ﻿run_date,as_of_date,total_etfs,applicable,coverage_pct,excluded_derivative,excluded_synthetic,excluded_unknown,api_failed,anomaly_dominant,anomaly_drift,anomaly_safe_asset,max_drift_pct,max_drift_ticker
 2026-09-08,2026-09-07,1167,891,76.3%,110,99,67,0,0,34,0,15.5,0218J0
 2026-09-09,2026-09-07,1167,891,76.3%,110,99,67,0,0,34,0,15.5,0218J0
+2026-09-10,2026-09-09,1167,891,76.3%,110,99,67,0,0,34,0,13.87,0218J0

@@ -1676,7 +1676,7 @@ function generateDashboardHtml(
         const iData = await iRes.json();
         results.push('인스타그램: ' + (iData.success ? '✅ 성공 (ID: ' + iData.publishedPostId + ')' : '❌ 실패 (' + (iData.error || '') + ')'));
 
-        alert('3개 채널 통합 발행 결과:\n\n' + results.join('\n'));
+        alert('3개 채널 통합 발행 결과:\\n\\n' + results.join('\\n'));
         location.reload();
       } catch (e) {
         alert('발행 중 통신 오류 발생: ' + e);

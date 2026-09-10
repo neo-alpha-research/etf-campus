@@ -1832,7 +1832,7 @@ const workerHandler = {
       // 1.1 Root & Preview: Cloud Review Dashboard Hub
       if (url.pathname === "/" || url.pathname === "/preview") {
         const isFresh = url.searchParams.get("fresh") === "1";
-        const cacheKey = `dashboard:html:v4:${targetDate || "latest"}:${isAuthed ? "authed" : "anon"}`;
+        const cacheKey = `dashboard:html:v5:${targetDate || "latest"}:${isAuthed ? "authed" : "anon"}`;
 
         if (!isFresh) {
           try {

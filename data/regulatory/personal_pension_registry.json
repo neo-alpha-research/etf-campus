@@ -2,12 +2,12 @@
   "version": "1.1",
   "updated_at": "2026-09-11",
   "coverage": {
-    "covered_count": 1167,
-    "total_count": 1167,
+    "covered_count": 1168,
+    "total_count": 1168,
     "coverage_ratio": 1.0
   },
   "summary": {
-    "eligible_count": 1064,
+    "eligible_count": 1065,
     "ineligible_count": 103,
     "unverified_count": 0,
     "personal_only_count": 34
@@ -17745,10 +17745,25 @@
       "evidence": "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
       "reason": "금융투자협회 연금저축 표준약관 제8조 적격 (1배수 정방향 일반 ETF)",
       "verified_at": "2026-09-11"
+    },
+    "0238P0": {
+      "ticker": "0238P0",
+      "name": "TIGER 미국S&P500미국채혼합50",
+      "issuer_brand": "TIGER",
+      "personal_pension": "가능",
+      "personal_pension_limit": "100%",
+      "retirement_pension": "가능",
+      "retirement_pension_limit": "100% (안전자산)",
+      "isa_eligible": "가능",
+      "source": "금융투자협회 연금저축 표준약관 제8조 (1배수 정방향)",
+      "confidence": "높음",
+      "evidence": "data/regulatory/sources/kofia_evidence_extract_20260905.xml",
+      "reason": "금융투자협회 연금저축 표준약관 제8조 적격 (1배수 정방향 일반 ETF)",
+      "verified_at": "2026-09-11"
     }
   },
   "stats": {
-    "가능": 1064,
+    "가능": 1065,
     "불가": 103,
     "확인중": 0
   }

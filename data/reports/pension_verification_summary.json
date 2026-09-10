@@ -1,22 +1,22 @@
 {
   "updated_at": "2026-09-10",
   "total_universe": 1168,
-  "verified_count": 1163,
-  "unverified_count": 5,
+  "verified_count": 1164,
+  "unverified_count": 4,
   "by_source": {
-    "협회공시대조": 333,
+    "협회공시대조": 334,
     "투자설명서대조": 7,
     "KRX공시대조": 0,
     "증권사목록대조": 79,
     "수동확인": 0,
     "표본대조": 0,
     "법령조건직접판정": 103,
-    "규칙기반추정": 5
+    "규칙기반추정": 4
   },
   "unverified_by_tier": {
     "안전자산_주의": 0,
     "파생_위험자산": 0,
-    "공시_미반영": 5,
+    "공시_미반영": 4,
     "일반": 0
   },
   "personal_pension_breakdown": {
@@ -24,6 +24,6 @@
     "ineligible": 103,
     "pending": 0,
     "coverage_ratio": 1.0,
-    "last_updated": "2026-09-11T08:18:39.982506+09:00"
+    "last_updated": "2026-09-11T08:37:27.429863+09:00"
   }
 }

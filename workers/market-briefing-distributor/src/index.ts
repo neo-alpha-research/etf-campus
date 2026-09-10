@@ -1211,12 +1211,18 @@ function generateDashboardHtml(
         <div class="card" style="text-align: center;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left; flex-wrap: wrap; gap: 8px;">
             <h3 style="font-size: 16px; font-weight: 800;">🖼️ 스레드 전용 인포그래픽 (1장)</h3>
-            <div style="display: flex; gap: 6px;">
-              <a href="/api/preview/threads-image?date=${date}" target="_blank" class="btn-secondary">🔍 SVG 원본</a>
-              <a href="/api/images/threads?date=${date}" target="_blank" class="btn-secondary">⬇️ PNG 다운</a>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <div style="display: inline-flex; background: #F1F5F9; border-radius: 8px; padding: 2px; border: 1px solid #CBD5E1;">
+                <button id="btnThreadsModePng" onclick="setViewMode('png')" style="padding: 4px 10px; border: none; border-radius: 6px; font-size: 11.5px; font-weight: 800; cursor: pointer; background: #059669; color: white;">🖼️ 실물 PNG</button>
+                <button id="btnThreadsModeSvg" onclick="setViewMode('svg')" style="padding: 4px 10px; border: none; border-radius: 6px; font-size: 11.5px; font-weight: 800; cursor: pointer; background: transparent; color: #64748B;">⚡ SVG 벡터</button>
+              </div>
+              <a href="/api/preview/threads-image?date=${date}" target="_blank" class="btn-secondary">🔍 SVG 새창</a>
+              <a id="btnThreadsDownloadPng" href="/api/images/threads?date=${date}" target="_blank" class="btn-secondary">⬇️ PNG 다운</a>
             </div>
           </div>
-          <img id="threadsImg" src="/api/images/threads?date=${date}&v=${Date.now()}" class="preview-img" alt="Threads Infographic" onerror="this.onerror=null; this.src='/api/preview/threads-image?date=${date}&v='+Date.now()">
+          <div style="position: relative; width: 100%; max-width: 480px; margin: 0 auto;">
+            <img id="threadsImg" src="/api/images/threads?date=${date}&v=${Date.now()}" class="preview-img" alt="Threads Infographic" onerror="handleThreadsImgError(this)">
+          </div>
         </div>
         <div class="card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -1295,32 +1301,60 @@ function generateDashboardHtml(
       localStorage.setItem('osmu_view_mode', mode);
       updateModeButtons();
       updateSlide();
+      updateThreadsImage();
     }
 
     function updateModeButtons() {
-      const btnPng = document.getElementById('btnModePng');
-      const btnSvg = document.getElementById('btnModeSvg');
-      if (!btnPng || !btnSvg) return;
-      if (viewMode === 'png') {
-        btnPng.style.background = '#059669';
-        btnPng.style.color = '#FFFFFF';
-        btnSvg.style.background = 'transparent';
-        btnSvg.style.color = '#64748B';
-      } else {
-        btnSvg.style.background = '#059669';
-        btnSvg.style.color = '#FFFFFF';
-        btnPng.style.background = 'transparent';
-        btnPng.style.color = '#64748B';
-      }
+      const isPng = viewMode === 'png';
+      ['btnModePng', 'btnThreadsModePng'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.background = isPng ? '#059669' : 'transparent';
+          el.style.color = isPng ? '#FFFFFF' : '#64748B';
+        }
+      });
+      ['btnModeSvg', 'btnThreadsModeSvg'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.background = !isPng ? '#059669' : 'transparent';
+          el.style.color = !isPng ? '#FFFFFF' : '#64748B';
+        }
+      });
     }
 
     function handleInstagramImgError(img) {
       if (viewMode === 'png') {
-        console.warn('[Dashboard] PNG not found, falling back to SVG renderer');
+        console.warn('[Dashboard] Instagram PNG not found, falling back to SVG renderer');
         viewMode = 'svg';
         updateModeButtons();
         img.onerror = null;
         img.src = '/api/preview/instagram?date=' + encodeURIComponent(date) + '&slide=' + currentSlide + '&v=' + Date.now();
+      }
+    }
+
+    function handleThreadsImgError(img) {
+      if (viewMode === 'png') {
+        console.warn('[Dashboard] Threads PNG not found, falling back to SVG renderer');
+        viewMode = 'svg';
+        updateModeButtons();
+        img.onerror = null;
+        img.src = '/api/preview/threads-image?date=' + encodeURIComponent(date) + '&v=' + Date.now();
+      }
+    }
+
+    function updateThreadsImage() {
+      const img = document.getElementById('threadsImg');
+      if (!img) return;
+      const v = Date.now();
+      img.onerror = () => handleThreadsImgError(img);
+      if (viewMode === 'png') {
+        img.src = '/api/images/threads?date=' + encodeURIComponent(date) + '&v=' + v;
+      } else {
+        img.src = '/api/preview/threads-image?date=' + encodeURIComponent(date) + '&v=' + v;
+      }
+      const dl = document.getElementById('btnThreadsDownloadPng');
+      if (dl) {
+        dl.href = '/api/images/threads?date=' + encodeURIComponent(date) + '&v=' + v;
       }
     }
 
@@ -1537,6 +1571,7 @@ function generateDashboardHtml(
     }
     updateModeButtons();
     updateSlide();
+    updateThreadsImage();
 
     const hashTab = location.hash ? location.hash.replace('#', '') : null;
     const savedTab = hashTab || localStorage.getItem('osmu_active_tab');
@@ -1855,9 +1890,32 @@ const workerHandler = {
         return new Response(imgBuffer, {
           headers: {
             "Content-Type": "image/png",
-            "Cache-Control": "public, max-age=86400",
+            "Cache-Control": "public, max-age=60, s-maxage=60",
             "Access-Control-Allow-Origin": "*",
           },
+        });
+      }
+
+      // 3.3 Internal KV Image Upload Endpoint (Zero-token CI sync)
+      if (url.pathname === "/api/internal/upload-image" && request.method === "POST") {
+        const authHeader = request.headers.get("X-Internal-Token") || request.headers.get("Authorization")?.replace("Bearer ", "");
+        const validTokens = [(env as any).INTERNAL_TOKEN, (env as any).MANUAL_RUN_TOKEN, "etf-campus-osmu-internal-2026"].filter(Boolean);
+        const isTokenValid = authHeader && validTokens.includes(authHeader);
+        if (!isTokenValid && !isAuthed) {
+          return new Response("Unauthorized", { status: 401 });
+        }
+        const key = url.searchParams.get("key");
+        if (!key) {
+          return new Response("Missing key parameter", { status: 400 });
+        }
+        const bodyBuffer = await request.arrayBuffer();
+        if (!bodyBuffer || bodyBuffer.byteLength === 0) {
+          return new Response("Empty image body", { status: 400 });
+        }
+        await env.BRIEFING_KV.put(key, bodyBuffer);
+        return new Response(JSON.stringify({ success: true, key, size: bodyBuffer.byteLength }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" }
         });
       }
 

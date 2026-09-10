@@ -82,6 +82,27 @@ def upload_to_kv_via_rest(
     with open(file_path, "rb") as f:
         file_bytes = f.read()
 
+    # 0. Try Worker Internal Endpoint (Direct KV binding inside Cloudflare Worker)
+    internal_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf-campus-osmu-internal-2026"
+    worker_url = f"https://market-briefing-distributor.neo-alpha-research.workers.dev/api/internal/upload-image?key={urllib.parse.quote(key, safe='')}"
+    req_worker = urllib.request.Request(
+        worker_url,
+        data=file_bytes,
+        headers={
+            "X-Internal-Token": internal_token,
+            "Content-Type": "image/png",
+            "User-Agent": "ETF-Campus-OSMU-Sync/1.0",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req_worker, timeout=20) as resp:
+            if resp.status == 200:
+                return True
+    except Exception as e:
+        # Pass through to standard Cloudflare REST API and Wrangler
+        pass
+
     # 1. Try Global API Key ONLY if api_key is pure hex (MD5/hex format)
     if email and api_key and re.match(r"^[a-f0-9]{32,45}$", api_key, re.I):
         req = urllib.request.Request(
@@ -140,6 +161,12 @@ def upload_to_kv_via_rest(
             f"--path={str(file_path.resolve())}",
             "--remote",
         ]
+        clean_env = os.environ.copy()
+        # If API_KEY is not a valid hex key, strip it to prevent wrangler 6103 error
+        if api_key and not re.match(r"^[a-f0-9]{32,45}$", api_key, re.I):
+            clean_env.pop("CLOUDFLARE_API_KEY", None)
+            clean_env.pop("CLOUDFLARE_EMAIL", None)
+
         res = subprocess.run(
             cmd,
             cwd=dist_dir if dist_dir.exists() else Path.cwd(),
@@ -147,6 +174,7 @@ def upload_to_kv_via_rest(
             encoding="utf-8",
             errors="replace",
             shell=os.name == "nt",
+            env=clean_env,
         )
         if res.returncode == 0:
             return True

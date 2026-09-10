@@ -675,11 +675,15 @@ def main() -> int:
     print("=" * 80)
     print("PENSION & ISA REGULATORY ENGINE EXECUTION SUMMARY")
     print("=" * 80)
-    print(f"Total ETFs        : {summary['total']:,}")
-    print(f"Verified (Y)      : {summary['verified']:,} ({summary['verified_pct']}%)")
-    print(f"Unverified (N)    : {summary['unverified']:,}")
+    total_val = summary.get('total') or summary.get('total_universe') or 0
+    verified_val = summary.get('verified') or summary.get('verified_count') or 0
+    unverified_val = summary.get('unverified') or summary.get('unverified_count') or 0
+    verified_pct_val = summary.get('verified_pct') or (round(verified_val / total_val * 100, 1) if total_val else 0)
+    print(f"Total ETFs        : {total_val:,}")
+    print(f"Verified (Y)      : {verified_val:,} ({verified_pct_val}%)")
+    print(f"Unverified (N)    : {unverified_val:,}")
     print(f"By Source         : {summary.get('by_source', summary.get('cross_validation', 'N/A'))}")
-    print(f"Divergences       : {summary['divergence_count']} items")
+    print(f"Divergences       : {summary.get('divergence_count', 0)} items")
     if summary['divergences']:
         for d in summary['divergences']:
             print(f"  [DIVERGENCE] [{d['ticker']}] {d['name']}: ledger={d['ledger_limit']} vs engine={d['engine_limit']}")

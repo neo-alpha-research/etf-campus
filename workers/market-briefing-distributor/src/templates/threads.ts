@@ -57,7 +57,7 @@ export function generateThreadsThread(
         const name = cleanEtfName(item.name || item.etfName || "대표지수");
         const val = item.inflow ?? (item.netInflowValue ? Math.round(item.netInflowValue / 100000000) : 0);
         return `${name} +${(val || 0).toLocaleString()}억`;
-      }).join(', ')} 순으로 유입됐습니다.` 
+      }).join(', ')} 순으로 유입됐어.` 
     : "";
 
   const sortedPeerGroups = [...(payload.peerGroups || [])].sort((a, b) => (b.cappedAumWeightedReturnPct ?? 0) - (a.cappedAumWeightedReturnPct ?? 0));
@@ -72,7 +72,7 @@ export function generateThreadsThread(
     ? weakThemes.map(t => `${cleanThemeName(t.peerGroup)} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
     : "하위 테마 조정";
 
-  let watchPointText = regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 태도가 중요합니다. 오늘 주목하는 섹터는 어디인가요?";
+  let watchPointText = regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 게 중요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 단기 반등 후 재조정\n2번: 실적 기반 추세 상승\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.";
   const sourceNotice = `* KRX 공시 마감 국내 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 · 투자 참고용`;
 
   const formattedDate = formatDateWithDay(payload.asOfDate);
@@ -86,7 +86,7 @@ ${opening}
 
 ${summary}
 
-테마별로는 ${strongText} 테마가 견조했던 반면, ${weakText} 테마는 조정을 받았습니다.${inflowSentence}
+테마별로는 ${strongText} 테마가 견조했던 반면, ${weakText} 테마는 조정을 받았어.${inflowSentence}
 
 ${watchPointText}
 
@@ -99,12 +99,12 @@ ${sourceNotice}`;
     if (summary.includes(". ")) {
       summary = summary.split(". ")[0].trim() + ".";
     }
-    // 2. Shorten watchPointText if it exceeds 60 chars
-    if (watchPointText.length > 60) {
-      const matchQuestion = watchPointText.match(/오늘[^?]+\?/);
+    // 2. Shorten watchPointText if it exceeds 120 chars while preserving friendly banmal CTA
+    if (watchPointText.length > 120) {
+      const matchQuestion = watchPointText.match(/다들[^?]+\?/);
       watchPointText = matchQuestion 
-        ? `주도 테마의 수급 지속성을 점검할 때입니다. ${matchQuestion[0]}` 
-        : "주도 테마의 수급 지속성을 점검할 때입니다. 오늘 주목하는 섹터는 어디인가요?";
+        ? `주도 테마의 수급 지속성을 점검할 때야. ${matchQuestion[0]}\n\n1번: 추가 상승 / 2번: 단기 조정\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.` 
+        : "주도 테마의 수급 지속성을 점검할 때야. 다들 어떻게 봐?\n\n1번: 추가 상승 / 2번: 단기 조정\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.";
     }
     mainPost = `${formattedDate} ETF 마켓 동향
 
@@ -112,7 +112,7 @@ ${opening}
 
 ${summary}
 
-테마별로는 ${strongText} 테마가 견조했던 반면, ${weakText} 테마는 조정을 받았습니다.${inflowSentence}
+테마별로는 ${strongText} 테마가 견조했던 반면, ${weakText} 테마는 조정을 받았어.${inflowSentence}
 
 ${watchPointText}
 
@@ -126,8 +126,13 @@ ${sourceNotice}`;
     mainPost = mainPost.slice(0, budget).trim() + "..." + footer;
   }
 
+  const defaultFirstComment = `1. 단기 변동성보다는 실적과 자금 유입이 뒷받침되는 섹터를 중심에 두는 게 좋아 보여. 다들 차분하게 대응하자.\n\n* 한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석`;
+  const firstComment = (regime.firstComment || defaultFirstComment).trim();
+
+  const fullContent = `${mainPost}\n\n[첫 댓글]\n${firstComment}`;
+
   return [
-    { sequence: 1, content: mainPost }
+    { sequence: 1, content: fullContent }
   ];
 }
 

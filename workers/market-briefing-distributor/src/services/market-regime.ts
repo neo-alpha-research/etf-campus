@@ -399,9 +399,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `국내 지수 추종 종목에 매물이 출회되었음에도, 글로벌 자산과 채권형 ETF로 스마트머니가 유입되며 지수 낙폭을 효과적으로 흡수했습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 지수 대비 뚜렷한 상대적 강세를 보인 반면, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 섹터는 매도 압력을 받았습니다.`;
       captionWatchPoint = `국내 주식 시장의 단기 흔들림에 흔들리지 않고, 글로벌 자산과 금리형 ETF를 고르게 배분하는 포트폴리오의 방어력을 점검할 시점입니다.`;
-      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 조정을 받았지만, 일반 ETF 시장은 ${etfSign}${etfRet.toFixed(2)}%로 든든하게 버텨주었습니다.`;
-      threadsMarketSummary = `국내 단일 지수만 보면 하락 ${down}개로 불안할 수 있었지만, 해외 분산과 채권형 ETF가 충격을 온전히 완충해주었어요.`;
-      threadsWatchPoint = `지수가 빠질 때 포트폴리오의 실질 방어력이 어떻게 발휘되는지 확인하는 것이 진짜 자산배분의 묘미입니다. 오늘 개장 후 여러분의 방어선은 어디에 두고 계신가요?`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 조정을 받았지만, 일반 ETF 시장은 ${etfSign}${etfRet.toFixed(2)}%로 든든하게 버텨냈어.`;
+      threadsMarketSummary = `국내 지수만 보면 하락 종목이 ${down}개로 흔들렸지만, 해외 분산과 채권형 ETF가 충격을 제대로 완충해 준 셈이지.`;
+      threadsWatchPoint = `지수가 빠질 때 포트폴리오의 실질 방어력이 어떻게 발휘되는지 확인하는 게 진짜 자산배분의 본질이야. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 분산 효과로 하방 방어 지속\n2번: 지수 낙폭 확대로 추가 하락\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "INDEX_ILLUSION_SURGE":
@@ -413,9 +413,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `시총 최상위 대형주로 수급이 집중되며 코스피 지수 상승폭 대비 분산 ETF 포트폴리오의 체감 수익률은 상대적으로 차분한 흐름을 나타냈습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 섹터가 강세를 보이며 지수 상승을 견인한 반면, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 테마는 상대적으로 소외되었습니다.`;
       captionWatchPoint = `대형주 집중 랠리 이후 온기가 중소형주와 다양한 테마로 확산되는지, 또는 차익 실현 매물이 출회되는지 수급의 분산 여부를 확인하는 것이 중요합니다.`;
-      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 급등했지만, 일반 ETF는 ${etfSign}${etfRet.toFixed(2)}%로 대형주 중심의 지수 착시가 나타났어요.`;
-      threadsMarketSummary = `코스피와 분산 ETF 수익률 격차가 +${etfDivergence.toFixed(2)}%p에 달해 시총 상위주 위주로 매수세가 집중된 전형적인 차별화 장세였습니다.`;
-      threadsWatchPoint = `대형주 랠리 이후 온기가 중소형 테마로 고르게 확산되는지 관찰할 때입니다. 오늘 여러분의 관심 섹터는 어디인가요?`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 급등했지만, 일반 ETF는 ${etfSign}${etfRet.toFixed(2)}%에 머물며 전형적인 지수 착시가 나타났어.`;
+      threadsMarketSummary = `코스피와 분산 ETF 격차가 +${etfDivergence.toFixed(2)}%p까지 벌어져 시총 상위주로만 매수세가 쏠린 차별화 장세였거든.`;
+      threadsWatchPoint = `대형주 쏠림 뒤에 온기가 중소형 테마로 고르게 확산될지 지켜볼 때야. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 중소형주로 온기 확산\n2번: 대형주 차익 실현 후 조정\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "BROAD_RALLY_SURGE":
@@ -427,9 +427,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `특정 대형주에 국한되지 않고 일반 ETF 시장 전체로 폭넓은 순매수가 유입되며 상승 종목 ${up}개가 시장을 장악했습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 폭등세를 견인했고, 대부분의 섹터가 동반 상승 탄력을 이어갔습니다.`;
       captionWatchPoint = `전방위 랠리 국면에서는 추격 매수보다 과열권에 진입한 섹터의 이격도를 점검하며 차분히 포트폴리오 비중을 조절하는 것이 바람직합니다.`;
-      threadsOpening = `코스피와 코스닥이 함께 시원하게 오르며 시장 전체에 강한 유동성 랠리가 펼쳐졌어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 ${up}개 종목이 상승하며 전 섹터로 온기가 고르게 퍼졌습니다.`;
-      threadsWatchPoint = `전방위 상승장일수록 단기 과열에 휩쓸리지 않고 포트폴리오의 균형을 점검하는 여유가 필요합니다. 오늘 주목하시는 테마는 무엇인가요?`;
+      threadsOpening = `코스피와 코스닥이 함께 시원하게 오르며 시장 전체에 강한 유동성 랠리가 펼쳐졌어.`;
+      threadsMarketSummary = `일반 ETF 시장도 ${up}개 종목이 오르며 특정 종목 쏠림 없이 온기가 고르게 퍼진 하루였지.`;
+      threadsWatchPoint = `전방위 상승장일수록 단기 과열에 휩쓸리지 않고 포트폴리오의 균형을 점검하는 여유가 필요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 추가 상승 랠리 지속\n2번: 단기 과열권 숨고르기\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "GROWTH_BETA_RALLY":
@@ -441,9 +441,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `대형주가 숨을 고르는 동안 중소형 기술주와 모멘텀 테마군으로 스마트머니가 집중되며 시장의 온기를 이끌었습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 등 고베타 성장 섹터가 시장을 견인하며 활발한 테마 랠리가 펼쳐졌습니다.`;
       captionWatchPoint = `중소형 성장주 주도 국면에서는 테마별 변동성이 빠르게 확대될 수 있으므로 거래대금의 지속성을 점검하는 것이 유리합니다.`;
-      threadsOpening = `코스닥이 ${kosdaqSign}${kosdaq.toFixed(2)}% 오르며 대형주보다 훨씬 강한 성장 테마 장세를 연출했어요.`;
-      threadsMarketSummary = `코스피 대비 +${Math.abs(capSpread).toFixed(2)}%p 아웃퍼폼하며 기술주와 핵심 테마 ETF로 자금이 힘차게 유입되었습니다.`;
-      threadsWatchPoint = `성장 테마가 탄력을 받을 때는 개별 섹터의 체력과 스마트머니의 지속성을 잘 분별해보세요. 오늘 가장 기대되는 섹터는 어디인가요?`;
+      threadsOpening = `코스닥이 ${kosdaqSign}${kosdaq.toFixed(2)}% 오르며 대형주보다 훨씬 강한 성장 테마 장세를 연출했어.`;
+      threadsMarketSummary = `코스피 대비 +${Math.abs(capSpread).toFixed(2)}%p 아웃퍼폼하며 기술주와 핵심 테마 ETF로 스마트머니가 힘차게 유입됐거든.`;
+      threadsWatchPoint = `성장 테마가 탄력을 받을 때는 개별 섹터의 체력과 자금의 연속성을 잘 분별해야 해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 성장주 주도 랠리 지속\n2번: 단기 급등 후 차익 매물 출회\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "KOSPI_FALL_KOSDAQ_UP":
@@ -455,9 +455,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `대형주 매물 출회에 따른 지수 하락 압력을 중소형 성장 테마군이 흡수하며 선별적 종목 장세가 전개되었습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 지수 부진을 딛고 선방한 반면, 대형주 비중이 높은 섹터는 조정을 받았습니다.`;
       captionWatchPoint = `지수 간 엇갈림이 나타날 때는 벤치마크 지수보다 개별 섹터의 수급과 이익 모멘텀을 선별하는 전략이 요구됩니다.`;
-      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 밀렸지만, 코스닥은 ${kosdaqSign}${kosdaq.toFixed(2)}% 오르며 시장 분위기가 엇갈렸어요.`;
-      threadsMarketSummary = `대형주가 숨을 고르는 사이 중소형 테마와 선별 ETF로 자금이 유입되며 알찬 개별 장세가 펼쳐졌습니다.`;
-      threadsWatchPoint = `지수가 엇갈릴 때는 지수 자체보다 섹터 간 자금 이동의 길목을 지키는 것이 유효합니다. 오늘 여러분의 관심 지표는 무엇인가요?`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 밀렸지만, 코스닥은 ${kosdaqSign}${kosdaq.toFixed(2)}% 오르며 시장 분위기가 엇갈렸어.`;
+      threadsMarketSummary = `대형주가 숨을 고르는 사이 중소형 테마와 선별 ETF로 자금이 유입되며 알찬 개별 장세가 펼쳐진 셈이지.`;
+      threadsWatchPoint = `지수가 엇갈릴 때는 지수 자체보다 섹터 간 자금 이동의 길목을 지키는 게 중요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 중소형 개별 장세 지속\n2번: 코스피 대형주 반등 동행\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "EXTREME_SURGE":
@@ -469,9 +469,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `기관과 외인의 강력한 숏스퀴즈와 패시브 매수세가 맞물리며 지수 대형주와 주도 테마 전반으로 폭발적인 수급 쏠림이 나타났습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 섹터가 폭등세를 견인하며 지수 상승을 주도한 반면, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 테마조차 하방 경직성을 유지했습니다.`;
       captionWatchPoint = `초급등 국면에서는 추격 매수의 실익보다 단기 이격 과열에 따른 변동성에 유의하며, 보유 비중의 일부를 분할 익절하거나 리밸런싱하는 전략이 유효합니다.`;
-      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 폭등하며 시장이 엄청난 상승 서지를 기록했어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 상승 종목이 ${up}개에 달하며 전례 없는 강한 매수 폭발이 일어났습니다. 스마트머니도 주도주로 공격적으로 유입되었어요.`;
-      threadsWatchPoint = `역대급 폭등장일수록 흥분을 가라앉히고 기술적 과열 지표와 분할 차익실현 타이밍을 침착하게 점검하는 것이 중요합니다. 오늘 여러분의 대응 전략은 무엇인가요?`;
+      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 폭등하며 시장이 엄청난 상승 서지를 기록했어.`;
+      threadsMarketSummary = `일반 ETF 시장도 상승 종목이 ${up}개에 달하며 전례 없는 강한 매수 폭발이 일어났고, 스마트머니도 주도주로 공격적으로 들어왔거든.`;
+      threadsWatchPoint = `역대급 폭등장일수록 흥분을 가라앉히고 기술적 과열 지표와 분할 차익실현 타이밍을 침착하게 점검해야 해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 상방 모멘텀 추가 분출\n2번: 단기 급등에 따른 차익 매물 소화\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "SUPER_BULL":
@@ -483,9 +483,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `대형 성장주와 대표지수 ETF로 대규모 외인·기관 동반 순매수가 집중되며 지수의 상방 탄력이 급격히 확대되었습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 시장 전반의 상승 랠리를 주도했고, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 섹터는 소폭 숨을 고르는 데 그쳤습니다.`;
       captionWatchPoint = `슈퍼 랠리에서는 상방 모멘텀의 지속성을 살피되, 고베타 종목의 변동성 확대에 대비한 분산 포트폴리오 유지가 현명합니다.`;
-      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 시원하게 뻗어나가며 강력한 슈퍼 랠리를 완성했어요.`;
-      threadsMarketSummary = `일반 ETF 1,025개 중 ${up}개가 오르며 시장 전반에 강한 훈풍이 불었습니다. 대표지수와 핵심 성장 테마로 자금이 집중되었어요.`;
-      threadsWatchPoint = `상방 모멘텀이 거세게 분출될 때는 단기 수익률에 매몰되기보다 포트폴리오의 균형을 점검하는 여유가 필요합니다. 오늘 시장에서 가장 기대되는 섹터는 어디인가요?`;
+      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 시원하게 뻗어나가며 강력한 슈퍼 랠리를 완성했어.`;
+      threadsMarketSummary = `일반 ETF 중 ${up}개 종목이 오르며 시장 전반에 강한 훈풍이 불었고, 대표지수와 핵심 성장 테마로 자금이 집중됐지.`;
+      threadsWatchPoint = `상방 모멘텀이 거세게 분출될 때는 단기 수익률에 매몰되기보다 포트폴리오의 균형을 점검하는 여유가 필요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 주도주 중심 추가 랠리\n2번: 숨고르기 후 순환매\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "STRONG_BULL_HIGH":
@@ -497,9 +497,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `외인과 기관의 강력한 동반 순매수가 유입되며 대형주뿐만 아니라 중소형 성장 테마군까지 폭넓은 수급 유입이 전개되었습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 섹터가 견조한 매수세를 흡수하며 강세를 보였고, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 테마는 상대적으로 제한된 움직임을 나타냈습니다.`;
       captionWatchPoint = `광범위한 상승장에서는 주도 테마의 거래대금 회전율과 실질 자금 유입의 연속성을 체크하는 것이 유리합니다.`;
-      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 상승하며 시장 곳곳으로 따뜻한 온기가 확산되었어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 ${up}개 종목이 상승하며 전방위 매수세가 지수를 든든하게 받쳤습니다. 스마트머니의 유입도 매우 활발했어요.`;
-      threadsWatchPoint = `온기가 시장 전체로 퍼질 때 주도 섹터와 후발 섹터의 순환매 흐름을 유심히 관찰해보세요. 오늘 여러분이 주목하는 테마는 무엇인가요?`;
+      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 상승하며 시장 곳곳으로 따뜻한 온기가 확산됐어.`;
+      threadsMarketSummary = `일반 ETF 시장도 ${up}개 종목이 상승하며 전방위 매수세가 지수를 든든하게 받쳤고, 스마트머니 유입도 매우 활발했거든.`;
+      threadsWatchPoint = `온기가 시장 전체로 퍼질 때 주도 섹터와 후발 섹터의 순환매 흐름을 유심히 관찰해봐야 해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 전 섹터 동반 상승 지속\n2번: 주도주로 압축 장세 전환\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "STRONG_BULL":
@@ -511,9 +511,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `외인과 기관의 동반 순매수가 유입되며 핵심 성장 테마 및 대표지수 전반으로 강한 수급 모멘텀이 이어졌습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 강한 거래대금을 동반하며 상승을 이끌었고, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 등 일부 소외 섹터만 제한적인 조정을 받았습니다.`;
       captionWatchPoint = `상승 랠리 국면에서는 무리한 추격 매수보다 주도 테마의 거래대금 유지 여부와 스마트머니의 실질 순유입 연속성을 분별하는 것이 바람직합니다.`;
-      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 시원하게 오르며 강한 반등에 성공했어요.`;
-      threadsMarketSummary = `일반 ETF 1,025개 중 ${up}개가 오르며 시장 전반에 훈풍이 불었고, 스마트머니도 지수형 및 주도 테마로 힘차게 유입되었습니다.`;
-      threadsWatchPoint = `강한 반등장일수록 테마의 거래대금과 실질 자금 순유입 지속성을 차분히 분별하는 태도가 중요합니다. 오늘 개장 후 여러분이 주목하는 주도주는 어디인가요?`;
+      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 시원하게 오르며 강한 반등에 성공했어.`;
+      threadsMarketSummary = `일반 ETF 중 ${up}개 종목이 오르며 시장 전반에 훈풍이 불었고, 스마트머니도 지수형 및 주도 테마로 힘차게 유입됐지.`;
+      threadsWatchPoint = `강한 반등장일수록 테마의 거래대금과 실질 자금 순유입 지속성을 차분히 분별하는 게 중요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 반등 추세 이어지며 고점 도전\n2번: 단기 반등 후 매물 소화\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "MODERATE_BULL":
@@ -525,9 +525,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `주도 테마와 대표지수 ETF로 꾸준한 자금 유입이 지속되며 시장 전반의 상승 탄력이 탄탄하게 유지되었습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 섹터가 안정적인 오름세로 시장을 이끌었고, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 테마는 보합권에서 매물을 소화했습니다.`;
       captionWatchPoint = `견조한 상승 국면에서는 시장의 지수 상승폭과 더불어 자금이 집중되는 주도 테마의 이익 모멘텀을 확인하는 것이 좋습니다.`;
-      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 견조하게 오르며 안정적인 매수세를 유지했어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 ${up}개 종목이 상승하며 주도 테마를 중심으로 탄탄한 상방 탄력을 보여주었습니다.`;
-      threadsWatchPoint = `안정적인 상승 흐름 속에서 스마트머니가 어떤 섹터를 다음 타깃으로 삼고 있는지 관찰해보세요. 오늘 여러분의 포트폴리오 핵심은 어디인가요?`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 견조하게 오르며 안정적인 매수세를 유지했어.`;
+      threadsMarketSummary = `일반 ETF 시장도 ${up}개 종목이 상승하며 주도 테마를 중심으로 탄탄한 상방 탄력을 보여준 하루였거든.`;
+      threadsWatchPoint = `안정적인 상승 흐름 속에서 스마트머니가 어떤 섹터를 다음 타깃으로 삼고 있는지 관찰해봐야 해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 주도 섹터 중심 상승 탄력 유지\n2번: 횡보권 진입 후 눈치보기\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "MILD_BULL":
@@ -539,9 +539,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `주도 섹터를 중심으로 선별적 매수세가 이어지며 시장 전반의 변동성을 낮추고 안정적인 반등 흐름을 이어갔습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 섹터가 견조한 오름세를 보인 가운데, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 테마는 보합권에서 매물을 소화했습니다.`;
       captionWatchPoint = `점진적 반등 국면에서는 지수 추종과 함께 주도 테마의 이익 모멘텀 및 수급 강도를 함께 점검하는 것이 유리합니다.`;
-      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 상승하며 차분한 반등세를 이어갔어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 상승 ${up}개로 매수세가 우위를 점하며 주도 섹터를 중심으로 하방 경직성을 단단히 다지는 하루였습니다.`;
-      threadsWatchPoint = `완만한 반등 장세에서는 시장 전체의 지수 등락과 함께 실질 자금이 집중되는 주도 테마의 연속성을 확인하는 것이 좋습니다. 오늘 여러분의 시선은 어디로 향하고 계신가요?`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 상승하며 차분한 반등세를 이어갔어.`;
+      threadsMarketSummary = `일반 ETF 시장도 상승 종목이 ${up}개로 매수세가 우위를 점하며 주도 섹터를 중심으로 하방 경직성을 단단히 다졌지.`;
+      threadsWatchPoint = `완만한 반등 장세에서는 시장 전체의 지수 등락과 함께 실질 자금이 집중되는 주도 테마의 연속성을 확인해야 해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 점진적 추가 반등 모색\n2번: 상단 저항 맞고 매물 소화\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "TIGHT_BULL_SIDEWAYS":
@@ -553,9 +553,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `지수 자체의 등락은 제한적이었으나, 뚜렷한 모멘텀을 가진 개별 테마로 스마트머니의 선별적 분할 매수가 유입되었습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 선별적인 매수세를 이끌어낸 반면, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 섹터는 매물 소화 과정을 거쳤습니다.`;
       captionWatchPoint = `강보합 국면에서는 섣부른 방향성 추종보다 거래대금이 유지되는 핵심 테마와 실질 순유입 종목의 수급을 확인하는 전략이 적합합니다.`;
-      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 소폭 오르며 강보합권에서 방향성을 모색했어요.`;
-      threadsMarketSummary = `상승 ${up}개와 하락 ${down}개가 맞서며 지수 등락보다는 개별 테마별로 실속을 챙기는 장세였습니다.`;
-      threadsWatchPoint = `지수가 좁은 박스권에 머물 때는 개별 섹터의 체력과 스마트머니의 분할 매수 궤적을 확인해보세요. 오늘 주목하시는 테마는 무엇인가요?`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 소폭 오르며 강보합권에서 방향성을 모색했어.`;
+      threadsMarketSummary = `상승 ${up}개와 하락 ${down}개가 맞서며 지수 등락보다는 개별 테마별로 실속을 챙기는 장세였거든.`;
+      threadsWatchPoint = `지수가 좁은 박스권에 머물 때는 개별 섹터의 체력과 스마트머니의 분할 매수 궤적을 확인해야 해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 상방 돌파 시도\n2번: 박스권 횡보 지속\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "TIGHT_BEAR_SIDEWAYS":
@@ -567,9 +567,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `지수의 하방 압력은 제한적인 가운데, 단기 급등 테마의 차익 매물 출회와 방어 섹터로의 순환매가 엇갈렸습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 지수 약세에도 플러스를 지켰으며, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 섹터는 소폭 조정을 받았습니다.`;
       captionWatchPoint = `약보합 횡보장에서는 무리한 매매를 줄이고, 자산배분 차원에서 포트폴리오의 변동성 노출을 점검하는 것이 유리합니다.`;
-      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 약보합권에서 차분하게 숨을 골랐어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 하락 ${down}개로 미세한 조정이었지만, 방어 테마와 선별 종목으로 스마트머니가 유입되며 균형을 맞췄습니다.`;
-      threadsWatchPoint = `숨고르기 장세에서는 지수 변동보다 섹터 간 자금 이동의 길목을 관찰하는 것이 현명합니다. 오늘 여러분의 관심 지표는 무엇인가요?`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 약보합권에서 차분하게 숨을 골랐어.`;
+      threadsMarketSummary = `일반 ETF 시장도 하락 ${down}개로 미세한 조정이었지만, 방어 테마와 선별 종목으로 스마트머니가 들어오며 균형을 맞췄지.`;
+      threadsWatchPoint = `숨고르기 장세에서는 지수 변동보다 섹터 간 자금 이동의 길목을 관찰하는 게 현명해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 지지선 다지고 반등\n2번: 추가 매물 출회로 지지선 이탈\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "MILD_BEAR":
@@ -581,9 +581,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `지수 전반의 조정 국면 속에서도 주도 테마와 소외 테마 간 수익률 격차가 뚜렷하게 벌어지는 섹터 로테이션이 전개되었습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 테마가 플러스 수익률로 중심을 잡은 반면, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 섹터는 차익 매물이 집중되었습니다.`;
       captionWatchPoint = `숨고르기 장세에서는 지수 추종보다 섹터 간 자금 이동 경로와 실질 순유입 상위 종목의 지속성을 확인하는 전략이 적합합니다.`;
-      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 조정을 받으며 숨고르기에 들어갔어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 하락 ${down}개로 조정 흐름이었지만, 주도 테마군으로는 스마트머니의 분할 매수세가 꾸준히 유입되는 차별화 장세였습니다.`;
-      threadsWatchPoint = `지수가 숨을 고를 때는 지수 등락보다 테마 간 자금 이동과 순환매 길목을 지키는 관찰이 필요합니다. 오늘 개장 후 여러분은 어떤 지표를 눈여겨보시나요?`;
+      threadsOpening = `코스피는 ${kospiSign}${kospi.toFixed(2)}% 조정을 받으며 숨고르기에 들어갔어.`;
+      threadsMarketSummary = `일반 ETF 시장도 하락 종목이 ${down}개로 조정 흐름이었지만, 주도 테마군으로는 스마트머니의 분할 매수세가 꾸준히 들어오는 차별화 장세였거든.`;
+      threadsWatchPoint = `지수가 숨을 고를 때는 지수 등락보다 테마 간 자금 이동과 순환매 길목을 지키는 관찰이 필요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 숨고르기 후 반등 전환\n2번: 조정폭 확대되며 쉬어가기\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "MODERATE_BEAR":
@@ -595,9 +595,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `경기민감 대형주를 중심으로 매도 압력이 가중되었으나, 고배당 및 채권형 등 방어적 자산군으로 피신성 자금이 유입되며 지수 낙폭을 완충했습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 등 방어 테마가 선방한 반면, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 섹터는 매도세가 확대되었습니다.`;
       captionWatchPoint = `본격 조정 국면에서는 단기 저가 매수보다 경기 방어 자산의 비중과 주요 수급 주체의 이탈 여부를 면밀히 관찰하는 것이 안전합니다.`;
-      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 하락하며 시장 전반에 조정의 골이 깊어졌어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 하락 종목이 ${down}개로 늘었지만, 인컴형 및 채권형 ETF가 지수 대비 하락폭을 든든하게 지켜주었습니다.`;
-      threadsWatchPoint = `조정이 이어질 때는 계좌의 방어력이 얼마나 유지되는지 점검하는 것이 중요합니다. 오늘 여러분의 리스크 관리 기준은 무엇인가요?`;
+      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 하락하며 시장 전반에 조정의 골이 깊어졌어.`;
+      threadsMarketSummary = `일반 ETF 시장도 하락 종목이 ${down}개로 늘었지만, 인컴형 및 채권형 ETF가 지수 대비 하락폭을 든든하게 지켜주었지.`;
+      threadsWatchPoint = `조정이 이어질 때는 계좌의 방어력이 얼마나 유지되는지 점검하는 게 중요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 방어주 중심 지지력 발휘\n2번: 추가 하락 압력 경계\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "DEEP_BEAR":
@@ -609,9 +609,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `국내 대형주 전반에 걸쳐 매물이 출회되었으나, 초단기 파킹형 및 금리형 ETF로 자금이 집중되며 시스템 전반의 리스크 완충 역할을 수행했습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 등 소수의 방어적 테마가 플러스 권역을 지켰으며, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 등 경기민감 섹터는 낙폭을 확대했습니다.`;
       captionWatchPoint = `지수 급락 국면에서는 낙폭 과대 종목의 성급한 추가 매수보다, 실질 자금 순유입 지표와 환율 변동성 안착 여부를 먼저 점검하는 것이 유리합니다.`;
-      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 급락하며 시장 전반에 큰 하락 압력이 가해졌어요.`;
-      threadsMarketSummary = `일반 ETF 1,025개 중 ${down}개가 하락하며 약세가 짙었지만, ETF 전체 가중수익률은 ${etfSign}${etfRet.toFixed(2)}%로 지수보다 충격을 덜 받았습니다. 안전자산이 든든한 방파제가 되어주었어요.`;
-      threadsWatchPoint = `지수가 크게 출렁일 때는 지수 자체보다 스마트머니가 이동하는 길목과 방어 자산의 버팀력을 관찰하는 것이 중요합니다. 오늘 여러분의 관심 섹터는 어디인가요?`;
+      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 급락하며 시장 전반에 큰 하락 압력이 가해졌어.`;
+      threadsMarketSummary = `일반 ETF 중 ${down}개가 하락하며 약세가 짙었지만, ETF 전체 가중수익률은 ${etfSign}${etfRet.toFixed(2)}%로 지수보다 충격을 덜 받았어. 안전자산이 든든한 방파제가 되어준 셈이지.`;
+      threadsWatchPoint = `지수가 크게 출렁일 때는 지수 자체보다 스마트머니가 이동하는 길목과 방어 자산의 버팀력을 관찰하는 게 중요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 과매도권 진입에 따른 기술적 반등\n2번: 변동성 확대 속 바닥 확인 과정\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "HEAVY_DROP":
@@ -623,9 +623,9 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `외인과 기관의 동반 매도가 쏟아지며 대부분의 섹터가 약세를 보였으며, 극히 일부의 초단기 파킹형 ETF만이 피신처 역할을 수행했습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 등 극소수 테마만 버텨냈을 뿐, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 섹터를 비롯한 대다수 종목이 큰 폭의 조정을 받았습니다.`;
       captionWatchPoint = `하락 충격이 거센 구간에서는 섣부른 물타기나 저가 매수를 지양하고, 변동성 지수와 외국인 수급의 매도세 진정 여부를 차분히 확인해야 합니다.`;
-      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 크게 밀리며 시장 전반에 거센 하락 충격이 전해졌어요.`;
-      threadsMarketSummary = `일반 ETF 시장도 ${down}개 종목이 하락하며 힘겨운 하루를 보냈습니다. 자금은 극단적인 안전자산과 초단기 금리형으로 급격히 이동했습니다.`;
-      threadsWatchPoint = `거센 충격 속에서는 계좌를 지키는 보수적인 현금 관리가 최우선입니다. 오늘 개장 후 여러분이 가장 주시하는 지표는 무엇인가요?`;
+      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 크게 밀리며 시장 전반에 거센 하락 충격이 전해졌어.`;
+      threadsMarketSummary = `일반 ETF 시장도 ${down}개 종목이 하락하며 힘겨운 하루를 보냈고, 자금은 극단적인 안전자산과 초단기 금리형으로 급격히 이동했거든.`;
+      threadsWatchPoint = `거센 충격 속에서는 계좌를 지키는 보수적인 현금 관리가 최우선이야. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 단기 낙폭 과대에 따른 반등 타진\n2번: 리스크 관리 차원 현금 비중 확대\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
 
     case "PANIC_CRASH":
@@ -638,14 +638,14 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       captionMarketSummary = `시스템 리스크 우려로 전 섹터에 걸쳐 무차별적인 매물이 쏟아졌으며, 자금은 초단기 현금성 MMF 및 파킹형 ETF로 긴급 대피하는 모습을 나타냈습니다.`;
       captionThemeAnalysis = `${topThemeName} ${topThemeRet > 0 ? "+" : ""}${topThemeRet.toFixed(2)}% 등 일부 헷지형 자산을 제외한 전 섹터가 급락세를 보였으며, ${bottomThemeName} ${bottomThemeRet > 0 ? "+" : ""}${bottomThemeRet.toFixed(2)}% 테마는 극심한 낙폭을 기록했습니다.`;
       captionWatchPoint = `극단적 패닉 장세에서는 심리적 공포에 의한 투매 동참도, 성급한 바닥 낚시도 모두 위험합니다. 환율 급등세 진정과 매도 호가 공백 해소를 기다리는 보수적 관망이 필수적입니다.`;
-      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 폭락하며 시장이 극단적인 패닉 투매를 겪었습니다.`;
-      threadsMarketSummary = `일반 ETF 1,025개 중 ${down}개가 하락하며 전방위적인 매도 폭풍이 몰아쳤어요. 스마트머니조차 모든 위험자산을 피하고 파킹형으로 대피했습니다.`;
-      threadsWatchPoint = `극단적인 변동성 장세에서는 자산을 지키는 리스크 관리가 최고의 수익률입니다. 무리한 행동을 멈추고 시장이 안정을 찾을 때까지 호흡을 가다듬으세요.`;
+      threadsOpening = `코스피가 ${kospiSign}${kospi.toFixed(2)}% 폭락하며 시장이 극단적인 패닉 투매를 겪었어.`;
+      threadsMarketSummary = `일반 ETF 중 ${down}개 종목이 하락하며 전방위 매도 폭풍이 몰아쳤고, 스마트머니조차 모든 위험자산을 피하고 파킹형으로 대피했지.`;
+      threadsWatchPoint = `극단적인 변동성 장세에서는 자산을 지키는 리스크 관리가 최고의 수익률이야. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 패닉 투매 진정 후 저가 매수 유입\n2번: 추가 변동성에 대비한 보수적 관망\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.`;
       break;
   }
 
   const countText = payload.generalEtfCount ? `${payload.generalEtfCount.toLocaleString()}개 ` : "";
-  const firstComment = `한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF ${countText}전수 분석`;
+  const firstComment = `1. 단기 변동성보다는 실적과 자금 유입이 뒷받침되는 섹터를 중심에 두는 게 좋아 보여. 다들 차분하게 대응하자.\n\n* 한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF ${countText}전수 분석`;
 
   return {
     code,

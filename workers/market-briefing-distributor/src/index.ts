@@ -232,7 +232,7 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
       const fullText = threadsPosts[0]?.content || "";
       const parts = fullText.split("[첫 댓글]");
       const mainPost = parts[0].trim();
-      const firstComment = parts[1] ? parts[1].trim() : "";
+      const firstComment = (parts[1] ? parts[1].trim() : (narrative?.firstComment || "")).trim();
 
       const imgKey = `image:threads:${effectiveDate}`;
       const imgBuffer = await env.BRIEFING_KV.get(imgKey, "arrayBuffer");
@@ -379,7 +379,7 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
 }
 
 export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: Env): Promise<PolishedNarrative> {
-  const cacheKey = `narrative_v9:${payload.asOfDate}`;
+  const cacheKey = `narrative_v10:${payload.asOfDate}`;
   try {
     const cached = await env.BRIEFING_KV.get(cacheKey);
     if (cached) {
@@ -514,7 +514,7 @@ export async function publishToThreadsLive(
   const fullText = threadsPosts[0]?.content || "";
   const parts = fullText.split("[첫 댓글]");
   const mainPost = parts[0].trim();
-  const firstComment = parts[1] ? parts[1].trim() : "";
+  const firstComment = (parts[1] ? parts[1].trim() : (narrative?.firstComment || "")).trim();
 
   try {
     const createUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads`;
@@ -2057,6 +2057,9 @@ const workerHandler = {
           return new Response("Empty image body", { status: 400 });
         }
         await env.BRIEFING_KV.put(key, bodyBuffer);
+        if (!key.startsWith("image:")) {
+          await env.BRIEFING_KV.put(`image:threads:${key}`, bodyBuffer);
+        }
         return new Response(JSON.stringify({ success: true, key, size: bodyBuffer.byteLength }), {
           status: 200,
           headers: { "Content-Type": "application/json" }

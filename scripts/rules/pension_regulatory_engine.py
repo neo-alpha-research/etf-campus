@@ -678,7 +678,7 @@ def main() -> int:
     print(f"Total ETFs        : {summary['total']:,}")
     print(f"Verified (Y)      : {summary['verified']:,} ({summary['verified_pct']}%)")
     print(f"Unverified (N)    : {summary['unverified']:,}")
-    print(f"By Source         : {summary['by_source']}")
+    print(f"By Source         : {summary.get('by_source', summary.get('cross_validation', 'N/A'))}")
     print(f"Divergences       : {summary['divergence_count']} items")
     if summary['divergences']:
         for d in summary['divergences']:

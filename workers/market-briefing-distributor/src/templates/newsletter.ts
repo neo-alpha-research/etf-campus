@@ -355,8 +355,12 @@ export function generateNewsletterHtml(
             `;}).join("")}
           </tbody>
         </table>
-        <div style="font-size: 12px; color: #64748B; font-weight: 700; margin-bottom: 24px; text-align: right;" class="tabular">
-          ※ 1위 '${escapeXml(cleanTopThemeName)}'와 최하위 '${escapeXml(cleanBottomThemeName)}' 간 테마 수익률 스프레드는 ${themeSpread.toFixed(2)}%p입니다.
+
+        <!-- Theme Spread Footnote / Summary Card -->
+        <div style="margin-top: 10px; margin-bottom: 24px; padding: 11px 15px; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; text-align: left; line-height: 1.6; word-break: keep-all;">
+          <span style="font-size: 12.5px; color: #475569; font-weight: 600;">
+            💡 <strong style="color: #0F172A;">테마 스프레드 분석:</strong> 1위 <strong style="color: #0F172A;">'${escapeXml(cleanTopThemeName)}'</strong> 대비 최하위 <strong style="color: #0F172A;">'${escapeXml(cleanBottomThemeName)}'</strong> 간 테마 수익률 격차는 <strong style="color: #059669; font-weight: 800;" class="tabular">${themeSpread.toFixed(2)}%p</strong>입니다.
+          </span>
         </div>
 
         <!-- 4. Section: Smart Money Net Inflows TOP 5 (Clickable Links) -->

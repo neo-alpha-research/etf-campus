@@ -555,7 +555,8 @@ if __name__ == "__main__":
     parser.add_argument("--master", default=str(REPO_ROOT / "data/etf_master_draft.csv"), help="Path to etf_master_draft.csv")
     parser.add_argument("--output", default=None, help="Output file path (defaults to registry)")
     parser.add_argument("--xml-source", default=None, help="Path to pre-collected KOFIA XML snapshot (optional)")
-    parser.add_argument("--no-headless", action="store_true", help="Run browser in headful mode (GUI)")
+    parser.add_argument("--headless", action="store_true", default=True, help="Run browser in headless mode (default)")
+    parser.add_argument("--no-headless", action="store_false", dest="headless", help="Run browser in headful mode (GUI)")
     parser.add_argument("--dry-run", action="store_true", help="Perform scraping without saving file")
 
     args = parser.parse_args()
@@ -564,7 +565,7 @@ if __name__ == "__main__":
         master_csv_path=args.master,
         output_path=args.output,
         xml_source=args.xml_source,
-        headless=not args.no_headless,
+        headless=args.headless,
         dry_run=args.dry_run,
     )
 

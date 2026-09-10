@@ -9,6 +9,7 @@ async function runPipeline() {
   const pythonBin = process.env.PYTHON || (process.platform === "win32" ? "python" : "python3");
   const pythonCollector = path.resolve(__dirname, "collector/kofia_fee_collector.py");
   const verifyPensionScript = path.resolve(__dirname, "rules/verify_kofia_pension.py");
+  const regulatoryEngineScript = path.resolve(__dirname, "rules/pension_regulatory_engine.py");
   const syncPersonalPensionScript = path.resolve(__dirname, "pipeline/sync_kofia_personal_pension.py");
   const validatePensionConsistencyScript = path.resolve(__dirname, "rules/validate_pension_consistency.py");
 
@@ -26,6 +27,11 @@ async function runPipeline() {
     console.log(`[EXEC] ${pythonBin} "${verifyPensionScript}"`);
     execSync(`"${pythonBin}" "${verifyPensionScript}"`, { stdio: "inherit" });
     console.log("🎉 퇴직연금 적격성 원장 대조 및 규제 판정 갱신이 완료되었습니다.");
+
+    console.log("🚀 [Regulatory Engine] 퇴직연금 규제엔진 실행 및 마스터 원장 동기화...");
+    console.log(`[EXEC] ${pythonBin} "${regulatoryEngineScript}"`);
+    execSync(`"${pythonBin}" "${regulatoryEngineScript}"`, { stdio: "inherit" });
+    console.log("🎉 퇴직연금 규제엔진 동기화 완료.");
 
     console.log("🚀 [KOFIA DIS] 개인연금(연금저축) 3단계 원장 동기화를 실행합니다...");
     console.log(`[EXEC] ${pythonBin} "${syncPersonalPensionScript}"`);

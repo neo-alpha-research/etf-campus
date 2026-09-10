@@ -72,8 +72,9 @@ def build_verification_ledger(
                     st = (row.get("source_type") or "").strip()
                     ev = (row.get("evidence_ref") or "").strip()
                     eg = (row.get("evidence_grade") or "").strip()
-                    if tk and (REPO_ROOT / ev).is_file():
-                        if eg in ("E1", "E2") or st != "투자설명서대조":
+                    refs = [r.strip() for r in ev.split(";") if r.strip()]
+                    if tk and refs and all((REPO_ROOT / r).is_file() for r in refs):
+                        if eg in ("E1", "E1B", "E2") or st != "투자설명서대조":
                             existing_ledger[tk] = row
         except Exception as e:
             print(f"[WARN] Error reading existing ledger: {e}")
@@ -92,6 +93,7 @@ def build_verification_ledger(
             "expires_at": expires_at,
             "note": 'DART 정정신고서(rcpNo 20260630000020) 제2부 8. 투자대상 "가. 투자대상주식: 40% 이하 → 50% 미만" 확인',
             "evidence_grade": "E2",
+            "evidence_tier": "1way",
             "evidence_quote": "가. 투자대상주식: 40% 이하 → 50% 미만",
         }
 
@@ -114,9 +116,17 @@ def build_verification_ledger(
 
         if rule.status == STATUS_DETERMINED and rule.pension_limit:
             determined_count += 1
-            # Preserve higher-grade E1/E2 evidence if already present
-            if ticker in existing_ledger and existing_ledger[ticker].get("evidence_grade") in ("E1", "E2"):
+            # Preserve existing verified entry if already present
+            if ticker in existing_ledger:
                 continue
+
+            std_code = (row.get("standard_code") or "").strip()
+            bdate = (row.get("base_date") or "").strip()
+            ev_quote = (
+                f"{fund_name} / 펀드유형: {raw_type} / 표준코드: {std_code} / 기준일: {bdate}"
+                if std_code
+                else f"{fund_name} / 펀드유형: {raw_type} / 기준일: {verified_at}"
+            )
 
             existing_ledger[ticker] = {
                 "ticker": ticker,
@@ -129,7 +139,8 @@ def build_verification_ledger(
                 "expires_at": expires_at,
                 "note": f"KOFIA 펀드유형: {raw_type} ({rule.statutory_basis_or_reason})",
                 "evidence_grade": "E3",
-                "evidence_quote": "",
+                "evidence_tier": "1way",
+                "evidence_quote": ev_quote,
             }
         else:
             undetermined_count += 1
@@ -147,6 +158,7 @@ def build_verification_ledger(
         "expires_at",
         "note",
         "evidence_grade",
+        "evidence_tier",
         "evidence_quote",
     ]
 

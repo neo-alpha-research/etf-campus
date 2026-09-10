@@ -552,14 +552,14 @@ export function generateInstagramCarousel(
 
               <!-- Inner Metric Box -->
               <rect x="24" y="138" width="407" height="150" rx="16" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.4"/>
-              <rect x="40" y="152" width="125" height="38" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
-              <text x="102" y="178" fill="#475569" font-size="22" font-weight="900" text-anchor="middle">가중수익률</text>
+              <rect x="36" y="150" width="112" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+              <text x="92" y="175" fill="#475569" font-size="20" font-weight="900" text-anchor="middle">가중수익률</text>
 
-              <text x="415" y="190" fill="${retColor}" font-size="54" font-weight="900" text-anchor="end" class="tabular">${retSign}${ret.toFixed(2)}%</text>
+              <text x="415" y="184" fill="${retColor}" font-size="44" font-weight="900" text-anchor="end" class="tabular">${retSign}${ret.toFixed(2)}%</text>
 
-              <line x1="40" y1="222" x2="415" y2="222" stroke="#E2E8F0" stroke-width="1.2"/>
-              <text x="40" y="260" fill="#64748B" font-size="24" font-weight="800">종목 분포</text>
-              <text x="415" y="260" fill="#1E293B" font-size="26" font-weight="900" text-anchor="end" class="tabular">상승 ${ac.upCount} · 하락 ${ac.downCount}</text>
+              <line x1="36" y1="220" x2="415" y2="220" stroke="#E2E8F0" stroke-width="1.2"/>
+              <text x="40" y="258" fill="#64748B" font-size="24" font-weight="800">종목 분포</text>
+              <text x="415" y="258" fill="#1E293B" font-size="26" font-weight="900" text-anchor="end" class="tabular">상승 ${ac.upCount} · 하락 ${ac.downCount}</text>
             </g>
           `;
         }).join("")}

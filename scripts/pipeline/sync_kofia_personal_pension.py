@@ -115,6 +115,7 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
     print(f"[*] Classification Results: 가능={counts['가능']}, 불가={counts['불가']}, 확인중={counts['확인중']}, 총={len(master_rows)}")
 
     # Apply updates
+    master_by_ticker = {r["ticker"].strip().upper(): r for r in master_rows}
     for tk, u in updates.items():
         if tk in reg_items:
             reg_items[tk]["personal_pension"] = u["personal_pension"]
@@ -124,6 +125,25 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
             reg_items[tk]["source"] = u["source"]
             reg_items[tk]["confidence"] = u["confidence"]
             reg_items[tk]["verified_at"] = today_str
+        else:
+            m = master_by_ticker.get(tk, {})
+            nm = m.get("name", "").strip()
+            brand = nm.split()[0] if nm else ""
+            reg_items[tk] = {
+                "ticker": tk,
+                "name": nm,
+                "issuer_brand": brand,
+                "personal_pension": u["personal_pension"],
+                "personal_pension_limit": u["personal_pension_limit"],
+                "retirement_pension": m.get("pension_eligible", "가능"),
+                "retirement_pension_limit": m.get("pension_limit", "100% (안전자산)" if u["personal_pension"] == "가능" else "불가"),
+                "isa_eligible": m.get("isa_eligible", "가능"),
+                "source": u["source"],
+                "confidence": u["confidence"],
+                "evidence": u["evidence"],
+                "reason": u["reason"],
+                "verified_at": today_str,
+            }
 
     if "personal_pension" in verify_fieldnames:
         for r in verify_rows:
@@ -140,12 +160,33 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
             if "personal_pension_limit" in r:
                 r["personal_pension_limit"] = updates[tk]["personal_pension_limit"]
 
+    screener_tickers = {it.get("ticker", "").strip().upper() for it in screener_items}
     for it in screener_items:
         tk = it.get("ticker", "").strip().upper()
         if tk in updates:
             it["personalPension"] = updates[tk]["personal_pension"]
             it["personalPensionLimit"] = updates[tk]["personal_pension_limit"]
             it["personalPensionAsOfDate"] = today_str
+
+    for tk, u in updates.items():
+        if tk not in screener_tickers:
+            m = master_by_ticker.get(tk, {})
+            screener_items.append({
+                "ticker": tk,
+                "name": m.get("name", "").strip(),
+                "baseIndex": m.get("base_index", "").strip(),
+                "close": float(m.get("close", 0) or 0),
+                "tradeValue": float(m.get("trade_value", 0) or 0),
+                "aum": float(m.get("aum", 0) or 0),
+                "riskType": m.get("risk_type", "normal"),
+                "assetClass": m.get("asset_class", ""),
+                "pension": m.get("pension_eligible", "가능"),
+                "pensionLimit": m.get("pension_limit", "100% (안전자산)"),
+                "personalPension": u["personal_pension"],
+                "personalPensionLimit": u["personal_pension_limit"],
+                "personalPensionAsOfDate": today_str,
+                "asOfDate": m.get("bas_dt", today_str.replace("-", "")),
+            })
 
     # Update Registry metadata
     total = len(reg_items)

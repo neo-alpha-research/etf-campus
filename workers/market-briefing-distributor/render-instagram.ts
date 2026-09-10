@@ -8,11 +8,42 @@ import { execSync } from 'child_process';
 
 const baseUrl = 'https://etf-campus.pages.dev';
 
-const CHROME_PATH = fs.existsSync('C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe')
-  ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-  : (fs.existsSync('C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe')
-    ? 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
-    : undefined);
+function getChromeExecutablePath(): string | undefined {
+  if (process.env.PUPPETEER_EXECUTABLE_PATH && fs.existsSync(process.env.PUPPETEER_EXECUTABLE_PATH)) {
+    return process.env.PUPPETEER_EXECUTABLE_PATH;
+  }
+  if (process.platform === 'win32') {
+    const winPaths = [
+      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+      'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe'
+    ];
+    for (const p of winPaths) {
+      if (fs.existsSync(p)) return p;
+    }
+  } else if (process.platform === 'linux') {
+    const linuxPaths = [
+      '/usr/bin/google-chrome-stable',
+      '/usr/bin/google-chrome',
+      '/usr/bin/chromium-browser',
+      '/usr/bin/chromium',
+      '/snap/bin/chromium'
+    ];
+    for (const p of linuxPaths) {
+      if (fs.existsSync(p)) return p;
+    }
+  } else if (process.platform === 'darwin') {
+    const macPaths = [
+      '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      '/Applications/Chromium.app/Contents/MacOS/Chromium'
+    ];
+    for (const p of macPaths) {
+      if (fs.existsSync(p)) return p;
+    }
+  }
+  return undefined;
+}
 
 interface PipelineCliOptions {
   date?: string;
@@ -193,29 +224,59 @@ async function main() {
   const outputDir = path.join(osmuBaseDir, targetDate, "1_Instagram");
   fs.mkdirSync(outputDir, { recursive: true });
 
-  // Launch Chrome for Pixel-Perfect Chromium SVG Rendering
+  // Launch Chrome for Pixel-Perfect Chromium 2x Retina SVG Rendering
   let browser: any = null;
   let page: any = null;
-  if (CHROME_PATH) {
-    console.log(`[OSMU Render] Launching Chromium renderer: ${CHROME_PATH}`);
-    try {
-      browser = await puppeteer.launch({
-        executablePath: CHROME_PATH,
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-      });
-      page = await browser.newPage();
-      await page.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 1 });
-      console.log('[OSMU Render] Chromium engine initialized successfully.');
-    } catch (e) {
-      console.warn('[OSMU Render] Chromium launch failed, falling back to sharp:', e);
-    }
+  let renderEngine = 'Sharp (Fallback)';
+
+  const chromePath = getChromeExecutablePath();
+  const launchOptions: any = {
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--font-render-hinting=none'
+    ]
+  };
+  if (chromePath) {
+    launchOptions.executablePath = chromePath;
+    console.log(`[OSMU Render] Launching detected Chrome binary: ${chromePath}`);
+  } else {
+    console.log('[OSMU Render] No custom executablePath detected, trying Puppeteer bundled browser...');
+  }
+
+  try {
+    browser = await puppeteer.launch(launchOptions);
+    page = await browser.newPage();
+    // 2x Retina Scale Factor (2160x2700) for crystal-clear mobile and social viewing
+    await page.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 2 });
+    renderEngine = 'Chromium 2x Retina';
+    console.log('[OSMU Render] Chromium 2x Retina engine initialized successfully.');
+  } catch (e) {
+    console.warn('[OSMU Render] Chromium launch failed, falling back to sharp:', e);
   }
 
   const renderSvg = async (svgStr: string, pngOutPath: string) => {
     if (page) {
-      const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>* { margin: 0; padding: 0; box-sizing: border-box; } body { width: 1080px; height: 1350px; overflow: hidden; background: #F8FAFC; } svg { width: 1080px; height: 1350px; display: block; }</style></head><body>${svgStr}</body></html>`;
+      const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { width: 1080px; height: 1350px; overflow: hidden; background: #F8FAFC; }
+    svg { width: 1080px; height: 1350px; display: block; }
+  </style>
+</head>
+<body>
+${svgStr}
+</body>
+</html>`;
       await page.setContent(html, { waitUntil: 'domcontentloaded' });
+      await page.evaluateHandle('document.fonts.ready');
       await page.screenshot({ path: pngOutPath, type: 'png', omitBackground: false });
     } else {
       await sharp(Buffer.from(svgStr)).resize(1080, 1350).png().toFile(pngOutPath);
@@ -230,7 +291,7 @@ async function main() {
     fs.writeFileSync(svgPath, safeSvg, 'utf-8');
     await renderSvg(safeSvg, pngPath);
     const pngStats = fs.statSync(pngPath);
-    console.log(`- Slide ${s.slideNumber}: [${s.title}] -> PNG ${pngStats.size.toLocaleString()} bytes (Chromium engine)`);
+    console.log(`- Slide ${s.slideNumber}: [${s.title}] -> PNG ${pngStats.size.toLocaleString()} bytes (${renderEngine})`);
   }
 
   const caption = generateInstagramCaption(currentPayload, narrative).replace(/\r?\n/g, '\r\n');
@@ -249,7 +310,7 @@ async function main() {
   fs.writeFileSync(threadsSvgPath, safeThreadsSvg, 'utf-8');
   await renderSvg(safeThreadsSvg, threadsPngPath);
   const threadsPngStats = fs.statSync(threadsPngPath);
-  console.log(`- Threads Infographic -> PNG ${threadsPngStats.size.toLocaleString()} bytes (Chromium engine)`);
+  console.log(`- Threads Infographic -> PNG ${threadsPngStats.size.toLocaleString()} bytes (${renderEngine})`);
 
   if (browser) {
     await browser.close();

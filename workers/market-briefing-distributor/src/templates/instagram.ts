@@ -214,7 +214,8 @@ export function generateInstagramCarousel(
         <rect x="0" y="0" width="880" height="96" rx="22"/>
       </clipPath>
       <style>
-        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', sans-serif; }
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+        * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', 'Segoe UI', sans-serif, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji'; }
         .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
       </style>
     </defs>

@@ -198,7 +198,8 @@ export function generateThreadsImageSvg(
           <stop offset="100%" stop-color="#047857"/>
         </linearGradient>
         <style>
-          * { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Noto Sans KR', 'Segoe UI', -apple-system, sans-serif; }
+          @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+          * { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', 'Segoe UI', sans-serif, 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji'; }
           .tabular { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
         </style>
       </defs>

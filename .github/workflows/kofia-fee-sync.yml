@@ -85,17 +85,19 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add --ignore-missing \
+          for file in \
                   data/fees/etf_fee_registry.json \
                   data/regulatory/kofia_fund_types.csv \
                   data/regulatory/pension_verification_ledger.csv \
                   data/regulatory/personal_pension_registry.json \
-                  data/regulatory/sources/kofia_evidence_extract_*.xml \
                   data/regulatory/sources/evidence_manifest.json \
                   data/reports/pension_unverified_queue.csv \
                   data/reports/pension_verification_summary.json \
                   data/etf_master_draft.csv \
-                  public/data/screener.json
+                  public/data/screener.json; do
+            if [ -e "$file" ]; then git add "$file"; fi
+          done
+          git add data/regulatory/sources/kofia_evidence_extract_*.xml 2>/dev/null || true
           
           if git diff --staged --quiet; then
             echo "No changes to commit."

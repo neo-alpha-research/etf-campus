@@ -123,13 +123,34 @@ async function main() {
   console.log('   ETF Campus Daily Market Briefing OSMU Pipeline   ');
   console.log('=====================================================');
 
-  console.log(`[OSMU Render] Fetching live briefing payload from ${baseUrl}...`);
-  const res = await fetch(`${baseUrl}/api/briefings/latest?_t=${Date.now()}`);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch live briefing: ${res.status} ${res.statusText}`);
+  console.log(`[OSMU Render] Fetching live briefing payload...`);
+  let raw: any = null;
+  try {
+    const workerUrl = `https://market-briefing-distributor.neo-alpha-research.workers.dev/api/briefings/latest${cliOpts.date ? `?date=${cliOpts.date}` : ''}`;
+    const wRes = await fetch(workerUrl);
+    if (wRes.ok) {
+      const wData: any = await wRes.json();
+      if (wData.briefing) {
+        raw = wData.briefing;
+        console.log(`[OSMU Render] Loaded payload directly from Distributor Worker for ${raw.asOfDate}`);
+      }
+    }
+  } catch (e) {
+    console.warn('[OSMU Render] Worker payload fetch warning, trying Pages fallback:', e);
   }
-  const data: any = await res.json();
-  const raw = data.briefing || data;
+
+  if (!raw) {
+    console.log(`[OSMU Render] Falling back to Pages API from ${baseUrl}...`);
+    const pagesEndpoint = cliOpts.date
+      ? `${baseUrl}/api/briefings/${cliOpts.date}?_t=${Date.now()}`
+      : `${baseUrl}/api/briefings/latest?_t=${Date.now()}`;
+    const res = await fetch(pagesEndpoint);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch live briefing: ${res.status} ${res.statusText}`);
+    }
+    const data: any = await res.json();
+    raw = data.briefing || data;
+  }
   const targetDate = cliOpts.date || raw.asOfDate || new Date().toISOString().slice(0, 10);
   console.log(`[OSMU Pipeline] Target Market Date: ${targetDate}`);
 
@@ -311,6 +332,15 @@ ${svgStr}
   await renderSvg(safeThreadsSvg, threadsPngPath);
   const threadsPngStats = fs.statSync(threadsPngPath);
   console.log(`- Threads Infographic -> PNG ${threadsPngStats.size.toLocaleString()} bytes (${renderEngine})`);
+
+  // 3. Email Newsletter
+  const { generateNewsletterHtml } = await import('./src/templates/newsletter');
+  const newsletter = generateNewsletterHtml(currentPayload, baseUrl, narrative);
+  const emailDir = path.join(osmuBaseDir, targetDate, "3_Email");
+  fs.mkdirSync(emailDir, { recursive: true });
+  fs.writeFileSync(path.join(emailDir, 'email_body.html'), newsletter.html, 'utf-8');
+  fs.writeFileSync(path.join(emailDir, 'newsletter.html'), newsletter.html, 'utf-8');
+  console.log(`- Email Newsletter -> HTML ${newsletter.html.length.toLocaleString()} bytes`);
 
   if (browser) {
     await browser.close();

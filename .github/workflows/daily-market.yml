@@ -287,8 +287,10 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "1. Triggering fast OSMU generation workflow in parallel..."
-          gh workflow run generate-osmu.yml --ref "${{ github.ref_name }}"
+          bas_dt=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
+          formatted_bas_dt="${bas_dt:0:4}-${bas_dt:4:2}-${bas_dt:6:2}"
+          echo "1. Triggering fast OSMU generation workflow in parallel for target date: ${formatted_bas_dt}..."
+          gh workflow run generate-osmu.yml --ref "${{ github.ref_name }}" -f target_date="${formatted_bas_dt}"
           echo "2. Triggering full site deployment workflow in parallel..."
           gh workflow run market-briefing-production.yml --ref "${{ github.ref_name }}"
           echo "Triggered parallel workflows for branch ${{ github.ref_name }}."

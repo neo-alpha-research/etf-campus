@@ -145,7 +145,8 @@ def main() -> int:
     if threads_script_file.exists():
         summary_content = threads_script_file.read_text(encoding="utf-8").strip().lstrip("\ufeff")
 
-    dashboard_link = f"{DISTRIBUTOR_DASHBOARD_URL}?date={as_of_date}"
+    dashboard_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf-campus-osmu-internal-2026"
+    dashboard_link = f"{DISTRIBUTOR_DASHBOARD_URL}?date={as_of_date}&token={dashboard_token}"
 
     header = f"📊 [ETF CAMPUS] 마켓 브리핑 & OSMU 생성 완료 ({as_of_date})\n"
     notice = "오늘자 마켓 브리핑 및 OSMU 에셋(인스타그램 카드, 스레드 원고/이미지, 뉴스레터) 생성이 완료되었습니다.\n대시보드에서 내용을 확인하신 후 즉시 발송하실 수 있습니다.\n"

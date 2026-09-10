@@ -10,6 +10,7 @@
     "briefing:sync": "npm --prefix workers/market-briefing-distributor run briefing:sync --",
     "briefing:pipeline": "npm --prefix workers/market-briefing-distributor run briefing:pipeline --",
     "briefing:publish": "npm --prefix workers/market-briefing-distributor run briefing:publish --",
+    "briefing:distribute": "node scripts/distribute-briefing.mjs",
     "dev": "next dev",
     "preview:local": "powershell -Command \"Start-Process 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' -ArgumentList '--app=http://localhost:3000/?app=1 --window-size=412,915 --user-data-dir=\\\"$env:LOCALAPPDATA\\Temp\\etf_campus_app_profile\\\"'\"",
     "preview:app": "powershell -Command \"Start-Process 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' -ArgumentList '--app=https://etf-campus.pages.dev/?app=1 --window-size=412,915 --user-data-dir=\\\"$env:LOCALAPPDATA\\Temp\\etf_campus_app_profile\\\"'\"",

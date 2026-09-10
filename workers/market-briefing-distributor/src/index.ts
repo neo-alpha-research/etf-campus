@@ -440,7 +440,11 @@ async function waitForThreadsContainer(containerId: string, accessToken: string,
   return false;
 }
 
-export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayload): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
+export async function publishToThreadsLive(
+  env: Env,
+  payload: MarketBriefingPayload,
+  force = false
+): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
   // 0. Circuit Breaker & Freshness Guard
   const validation = await validateBriefingPayload(payload, env);
   if (!validation.isSafe) {
@@ -452,17 +456,19 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
   const kvInFlightKey = `distribution:inflight:threads:${payload.asOfDate}`;
 
   // 1-1. Primary Check via KV (resilient to D1 read limit/downtime)
-  try {
-    const kvRecord = await env.BRIEFING_KV.get<{ publishedPostId?: string; permalink?: string }>(kvThreadsKey, "json");
-    if (kvRecord?.publishedPostId) {
-      return {
-        success: false,
-        error: `해당 날짜(${payload.asOfDate})의 스레드가 이미 발행되었습니다. (게시 ID: ${kvRecord.publishedPostId})`,
-        publishedPostId: kvRecord.publishedPostId,
-        permalink: kvRecord.permalink || `https://www.threads.com/@neo.alphareader/post/${kvRecord.publishedPostId}`,
-      };
-    }
-  } catch (e) {}
+  if (!force) {
+    try {
+      const kvRecord = await env.BRIEFING_KV.get<{ publishedPostId?: string; permalink?: string }>(kvThreadsKey, "json");
+      if (kvRecord?.publishedPostId) {
+        return {
+          success: false,
+          error: `해당 날짜(${payload.asOfDate})의 스레드가 이미 발행되었습니다. (게시 ID: ${kvRecord.publishedPostId})`,
+          publishedPostId: kvRecord.publishedPostId,
+          permalink: kvRecord.permalink || `https://www.threads.com/@neo.alphareader/post/${kvRecord.publishedPostId}`,
+        };
+      }
+    } catch (e) {}
+  }
 
   // 1-2. In-Flight Mutex: Block parallel execution requests within 90s window
   try {
@@ -477,23 +483,25 @@ export async function publishToThreadsLive(env: Env, payload: MarketBriefingPayl
   } catch (e) {}
 
   // 1-3. Secondary Check via D1
-  try {
-    const row: any = await env.ETF_PRICES.prepare(
-      `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
-    ).bind(payload.asOfDate).first();
-    if (row && row.details_json) {
-      const parsed = JSON.parse(row.details_json);
-      if (parsed.threads?.publishedPostId) {
-        try { await env.BRIEFING_KV.delete(kvInFlightKey); } catch (e) {}
-        return {
-          success: false,
-          error: `해당 날짜(${payload.asOfDate})의 스레드가 이미 발행되었습니다. (게시 ID: ${parsed.threads.publishedPostId})`,
-          publishedPostId: parsed.threads.publishedPostId,
-          permalink: parsed.threads.permalink || `https://www.threads.com/@neo.alphareader/post/${parsed.threads.publishedPostId}`,
-        };
+  if (!force) {
+    try {
+      const row: any = await env.ETF_PRICES.prepare(
+        `SELECT details_json FROM briefing_distribution_logs WHERE as_of_date = ?`
+      ).bind(payload.asOfDate).first();
+      if (row && row.details_json) {
+        const parsed = JSON.parse(row.details_json);
+        if (parsed.threads?.publishedPostId) {
+          try { await env.BRIEFING_KV.delete(kvInFlightKey); } catch (e) {}
+          return {
+            success: false,
+            error: `해당 날짜(${payload.asOfDate})의 스레드가 이미 발행되었습니다. (게시 ID: ${parsed.threads.publishedPostId})`,
+            publishedPostId: parsed.threads.publishedPostId,
+            permalink: parsed.threads.permalink || `https://www.threads.com/@neo.alphareader/post/${parsed.threads.publishedPostId}`,
+          };
+        }
       }
-    }
-  } catch (e) {}
+    } catch (e) {}
+  }
 
   // 2. Credentials Check
   if (!env.THREADS_ACCESS_TOKEN || !env.THREADS_USER_ID) {
@@ -1148,18 +1156,32 @@ function generateDashboardHtml(
           }
         </div>
       </div>
-      <div class="header-badges">
-        ${aiBadge}
-        ${isBlocked 
-          ? `<span class="badge badge-blocked" title="${logReasons.join("; ")}">⛔ 서킷브레이커 차단: ${logReasons[0] || "데이터 검증 실패"}</span>`
-          : '<span class="badge badge-safe">✅ 서킷브레이커 정상</span>'
-        }
-        <span class="badge ${isThreadsPublished ? 'badge-live' : 'badge-ready'}">
-          ${isThreadsPublished ? `✅ 스레드 발행완료 (${threadsPublishedId})` : '⏳ 스레드 대기'}
-        </span>
-        <span class="badge ${isInstagramPublished ? 'badge-live' : 'badge-ready'}">
-          ${isInstagramPublished ? `✅ 인스타 발행완료 (${instagramPublishedId})` : '⏳ 인스타 대기'}
-        </span>
+      <div class="header-badges" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+          ${aiBadge}
+          ${isBlocked 
+            ? `<span class="badge badge-blocked" title="${logReasons.join("; ")}">⛔ 서킷브레이커 차단: ${logReasons[0] || "데이터 검증 실패"}</span>`
+            : '<span class="badge badge-safe">✅ 서킷브레이커 정상</span>'
+          }
+          <span class="badge ${isThreadsPublished ? 'badge-live' : 'badge-ready'}">
+            ${isThreadsPublished ? `✅ 스레드 발행완료 (${threadsPublishedId})` : '⏳ 스레드 대기'}
+          </span>
+          <span class="badge ${isInstagramPublished ? 'badge-live' : 'badge-ready'}">
+            ${isInstagramPublished ? `✅ 인스타 발행완료 (${instagramPublishedId})` : '⏳ 인스타 대기'}
+          </span>
+          <span class="badge ${newsletterPublished ? 'badge-live' : 'badge-ready'}">
+            ${newsletterPublished ? '✅ 뉴스레터 준비완료' : '⏳ 뉴스레터 대기'}
+          </span>
+        </div>
+        <div style="margin-left: auto;">
+          ${(isThreadsPublished && isInstagramPublished && newsletterPublished)
+            ? '<button class="action-btn" disabled style="background: #334155; cursor: not-allowed; padding: 7px 14px; font-size: 13px;">🎉 3대 채널 발행 완료</button>'
+            : ((!hasValidDate || isBlocked)
+                ? '<button class="action-btn" disabled style="background: #94A3B8; cursor: not-allowed; padding: 7px 14px; font-size: 13px;">🚫 발행 차단됨</button>'
+                : `<button id="btnPublishAll" class="action-btn" style="background: linear-gradient(135deg, #059669, #0284C7); padding: 7px 16px; font-size: 13px;" onclick="publishAllChannels('${date}')">🚀 3대 채널 원클릭 동시 발행</button>`
+              )
+          }
+        </div>
       </div>
     </header>
 
@@ -1610,6 +1632,59 @@ function generateDashboardHtml(
       }
     }
 
+    async function publishAllChannels(dateStr) {
+      if (!dateStr || dateStr === '기준일자 없음') {
+        alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
+        return;
+      }
+      let token = getCookie('etf_distributor_auth') || new URLSearchParams(location.search).get('token');
+      if (!token) {
+        token = prompt('3개 채널 원클릭 발행을 위해 관리자 토큰(MANUAL_RUN_TOKEN)을 입력하세요:');
+        if (!token) return;
+        document.cookie = 'etf_distributor_auth=' + token + '; path=/; max-age=2592000; SameSite=Lax; Secure';
+      }
+      if (!confirm(dateStr + ' 마켓 브리핑을 3개 채널(스레드, 뉴스레터, 인스타그램 6장 캐러셀)에 원클릭 동시 발행하시겠습니까?')) return;
+      const btn = document.getElementById('btnPublishAll') || event.target;
+      btn.disabled = true;
+      btn.innerText = '⏳ [1/3] 스레드 발행 중...';
+
+      const results = [];
+      try {
+        // 1. Threads
+        const tRes = await fetch('/api/publish/threads?date=' + encodeURIComponent(dateStr) + '&token=' + encodeURIComponent(token), {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const tData = await tRes.json();
+        results.push('스레드: ' + (tData.success ? '✅ 성공 (ID: ' + tData.publishedPostId + ')' : '❌ 실패 (' + (tData.error || '') + ')'));
+
+        // 2. Newsletter
+        btn.innerText = '⏳ [2/3] 뉴스레터 배포 완료 처리 중...';
+        const nRes = await fetch('/api/publish/newsletter?date=' + encodeURIComponent(dateStr) + '&token=' + encodeURIComponent(token), {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const nData = await nRes.json();
+        results.push('뉴스레터: ' + (nData.success ? '✅ 완료' : '❌ 실패'));
+
+        // 3. Instagram
+        btn.innerText = '⏳ [3/3] 인스타그램 6장 캐러셀 발행 중 (약 20초 소요)...';
+        const iRes = await fetch('/api/publish/instagram?date=' + encodeURIComponent(dateStr) + '&force=true&token=' + encodeURIComponent(token), {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const iData = await iRes.json();
+        results.push('인스타그램: ' + (iData.success ? '✅ 성공 (ID: ' + iData.publishedPostId + ')' : '❌ 실패 (' + (iData.error || '') + ')'));
+
+        alert('3개 채널 통합 발행 결과:\n\n' + results.join('\n'));
+        location.reload();
+      } catch (e) {
+        alert('발행 중 통신 오류 발생: ' + e);
+        btn.disabled = false;
+        btn.innerText = '🚀 3대 채널 원클릭 동시 발행';
+      }
+    }
+
     // Restore saved slide, tab and email viewport
     setEmailViewport(emailViewport);
     const savedSlide = parseInt(localStorage.getItem('osmu_active_slide') || '1', 10);
@@ -1861,6 +1936,14 @@ const workerHandler = {
         return new Response(html, { headers: responseHeaders });
       }
 
+      // 1.2 브리핑 원본 페이로드 조회 (Fast CI & OSMU 렌더러 전용 - 0초 지연)
+      if (url.pathname === "/api/briefings/latest" || url.pathname === "/api/preview/payload") {
+        const queryDate = (!targetDate || targetDate === "latest") ? undefined : targetDate;
+        const payload = await loadBriefingPayload(env, queryDate);
+        if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
+        return Response.json({ success: true, briefing: payload, asOfDate: payload.asOfDate });
+      }
+
       // 2. 인스타그램 카드뉴스 프리뷰 (슬라이드 번호 지정 시 SVG 반환, 미지정 시 HTML 리다이렉트 또는 JSON)
       if (url.pathname === "/api/preview/instagram" || url.pathname === "/api/preview/instagram/caption") {
         const payload = await loadBriefingPayload(env, targetDate);
@@ -2006,10 +2089,11 @@ const workerHandler = {
       // 6. 스레드 실시간 발행 엔드포인트
       if (url.pathname === "/api/publish/threads") {
         const queryDate = (!targetDate || targetDate === "latest") ? undefined : targetDate;
+        const force = url.searchParams.get("force") === "true";
         const payload = await loadBriefingPayload(env, queryDate);
         if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
 
-        const publishRes = await publishToThreadsLive(env, payload);
+        const publishRes = await publishToThreadsLive(env, payload, force);
         return Response.json({ ...publishRes, targetDate: payload.asOfDate });
       }
 

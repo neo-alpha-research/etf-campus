@@ -45,16 +45,20 @@ def resolve_expected_date(target_arg: str | None = None) -> str:
 def main() -> int:
     target_arg = sys.argv[1] if len(sys.argv) > 1 else None
     target_date = resolve_expected_date(target_arg)
-    print(f"🔍 [API Waiter] Waiting for /api/briefings/latest to serve asOfDate: {target_date}")
+    formatted_date = f"{target_date[:4]}-{target_date[4:6]}-{target_date[6:]}" if len(target_date) == 8 else target_date
+    print(f"🔍 [API Waiter] Waiting for market briefing data to serve asOfDate: {formatted_date} ({target_date})")
 
     max_attempts = 20
     delay_seconds = 10
 
+    worker_url = f"https://market-briefing-distributor.neo-alpha-research.workers.dev/api/briefings/latest?date={formatted_date}&_t={time.time()}"
+    pages_url = f"https://etf-campus.pages.dev/api/briefings/latest?_t={time.time()}"
+
     for attempt in range(1, max_attempts + 1):
+        # 1. Primary: Check Distributor Worker (where Queue consumer writes immediately on data ingestion)
         try:
-            url = f"https://etf-campus.pages.dev/api/briefings/latest?_t={time.time()}"
-            req = urllib.request.Request(url, headers={"User-Agent": "ETF-Campus-Waiter/1.0"})
-            with urllib.request.urlopen(req, timeout=15) as resp:
+            req = urllib.request.Request(worker_url, headers={"User-Agent": "ETF-Campus-Waiter/1.0"})
+            with urllib.request.urlopen(req, timeout=10) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 as_of = (
                     data.get("briefing", {}).get("asOfDate")
@@ -63,7 +67,24 @@ def main() -> int:
                 ).replace("-", "").strip()
 
                 if as_of == target_date:
-                    print(f"✅ [API Waiter] Confirmed! API is serving target date {target_date}.")
+                    print(f"✅ [API Waiter] Confirmed via Distributor Worker! Serving target date {formatted_date}.")
+                    return 0
+        except Exception as e:
+            pass
+
+        # 2. Secondary: Fallback check Pages
+        try:
+            req = urllib.request.Request(pages_url, headers={"User-Agent": "ETF-Campus-Waiter/1.0"})
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                as_of = (
+                    data.get("briefing", {}).get("asOfDate")
+                    or data.get("asOfDate")
+                    or ""
+                ).replace("-", "").strip()
+
+                if as_of == target_date:
+                    print(f"✅ [API Waiter] Confirmed via Pages! Serving target date {formatted_date}.")
                     return 0
 
                 print(f"⏳ [API Waiter] Attempt {attempt}/{max_attempts}: Latest is {as_of} (expected {target_date}). Retrying in {delay_seconds}s...")
@@ -72,8 +93,8 @@ def main() -> int:
 
         time.sleep(delay_seconds)
 
-    print(f"⚠️ [API Waiter] Timeout waiting for target date {target_date}. Proceeding with best-effort.")
-    return 0
+    print(f"❌ [API Waiter] Error: Timeout waiting for target date {formatted_date}. Refusing to generate OSMU with stale data.", file=sys.stderr)
+    return 1
 
 
 if __name__ == "__main__":

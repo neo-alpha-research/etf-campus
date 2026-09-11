@@ -2192,13 +2192,29 @@ const workerHandler = {
       // 6.2 뉴스레터 실시간 배포 완료 기록 엔드포인트
       if (url.pathname === "/api/publish/newsletter") {
         const queryDate = (!targetDate || targetDate === "latest") ? undefined : targetDate;
+        const force = url.searchParams.get("force") === "true";
         const payload = await loadBriefingPayload(env, queryDate);
         if (!payload) return Response.json({ success: false, error: "Briefing not found" }, { status: 404 });
 
+        const kvNewsletterKey = `distribution:newsletter:${payload.asOfDate}`;
+        if (!force) {
+          try {
+            const existing = await env.BRIEFING_KV.get<{ status?: string; publishedAt?: string }>(kvNewsletterKey, "json");
+            if (existing?.status === "published_ready") {
+              return Response.json({
+                success: true,
+                alreadyPublished: true,
+                targetDate: payload.asOfDate,
+                message: `해당 날짜(${payload.asOfDate})의 뉴스레터가 이미 배포 준비 완료 상태입니다.`,
+                publishedAt: existing.publishedAt,
+                previewUrl: `${baseUrl}/briefing?date=${payload.asOfDate}`,
+              });
+            }
+          } catch (e) {}
+        }
+
         const narrative = await getOrRefineNarrative(payload, env);
         const newsletter = generateNewsletterHtml(payload, baseUrl, narrative);
-
-        const kvNewsletterKey = `distribution:newsletter:${payload.asOfDate}`;
         const publishRecord = {
           status: "published_ready",
           subject: newsletter.subject,

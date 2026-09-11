@@ -2,17 +2,17 @@ name: Daily ETF market data refresh
 
 on:
   schedule:
-    # 5-minute automated polling ladder (08:00 ~ 09:10 KST, Tue-Sat):
+    # 5-minute automated polling ladder (08:00 ~ 09:10 KST, Mon-Fri):
     # KRX / Data.go.kr data is usually published between 07:50 and 08:35 KST.
-    # Runs every 5 minutes. If data is not ready, exits in <15s without failing.
+    # Runs every 5 minutes on Korean trading days. If data is not ready, exits in <15s without failing.
     # As soon as data is ready, fetches, validates, and deploys. Subsequent runs exit in <5s.
     # Hard cutoff: 09:10 KST.
     #
     #   UTC (cron)                                KST (local)          purpose
-    #   Mon-Fri 23:00, 23:05, ..., 23:55          Tue-Sat 08:00~08:55  5-min probing ladder
-    #   Tue-Sat 00:00, 00:05, 00:10               Tue-Sat 09:00~09:10  Market open & 09:10 hard cutoff
-    - cron: "0,5,10,15,20,25,30,35,40,45,50,55 23 * * 1-5"
-    - cron: "0,5,10 0 * * 2-6"
+    #   Sun-Thu 23:00, 23:05, ..., 23:55          Mon-Fri 08:00~08:55  5-min probing ladder
+    #   Mon-Fri 00:00, 00:05, 00:10               Mon-Fri 09:00~09:10  Market open & 09:10 hard cutoff
+    - cron: "0,5,10,15,20,25,30,35,40,45,50,55 23 * * 0-4"
+    - cron: "0,5,10 0 * * 1-5"
   workflow_dispatch:
     inputs:
       target:
@@ -76,15 +76,24 @@ jobs:
             fi
           fi
           
-          # 2. Check data source readiness
-          if python scripts/check_source_ready.py; then
+          # 2. Check data source readiness and trading day status
+          set +e
+          python scripts/check_source_ready.py
+          source_exit=$?
+          set -e
+          if [ "$source_exit" -eq 0 ]; then
             echo "Data is ready."
             echo "- **Proceeding**: Source data is available." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$source_exit" -eq 3 ] || [ "$source_exit" -eq 4 ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "skip_reason=market_closed" >> "$GITHUB_OUTPUT"
+            echo "- **Skipping**: Today is a weekend or Korean market holiday. No publication scheduled." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
           else
             echo "Data not available yet on KRX/Data.go.kr. Skipping to release runner lock."
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "skip_reason=source_not_ready" >> "$GITHUB_OUTPUT"
-            echo "- **Skipping**: Source data is not yet available. Exiting early to await next n8n probe." >> "$GITHUB_STEP_SUMMARY"
+            echo "- **Skipping**: Source data is not yet available. Exiting early to await next polling probe." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
 

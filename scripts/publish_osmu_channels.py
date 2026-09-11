@@ -110,12 +110,36 @@ def main() -> int:
     parser.add_argument("--token", help="Admin distribution token")
     parser.add_argument("--channels", default="all", help="Channels to publish: all, threads, newsletter, instagram")
     parser.add_argument("--check-only", action="store_true", help="Only check readiness without publishing")
+    parser.add_argument("--force", action="store_true", help="Force republishing even on weekends/holidays or if already published")
     args = parser.parse_args()
 
     token = args.token or os.environ.get("MANUAL_RUN_TOKEN") or "etf-campus-osmu-internal-2026"
     target_date = resolve_target_date(args.date)
 
     print(f"🚀 [OSMU Auto-Publisher] Target Date: {target_date}")
+
+    # Weekend & Korean Market Holiday Guard for Publish Day (KST)
+    if not args.force:
+        from datetime import datetime, timezone, timedelta
+        kst = timezone(timedelta(hours=9))
+        now_kst = datetime.now(kst).date()
+        holidays_file = Path("data/market_holidays.txt")
+        holidays = set()
+        if holidays_file.exists():
+            for line in holidays_file.read_text(encoding="utf-8").splitlines():
+                clean = line.split("#", 1)[0].strip()
+                if len(clean) == 8 and clean.isdigit():
+                    holidays.add(clean)
+
+        if now_kst.weekday() >= 5:
+            print(f"🛑 [Weekend Guard] Today ({now_kst:%Y-%m-%d} KST) is a weekend. Korean markets are closed. Publishing is forbidden on weekends.")
+            print("   (Automated pipeline skipped. Friday close will be published on Monday morning. Use --force to override)")
+            return 0
+
+        if now_kst.strftime("%Y%m%d") in holidays:
+            print(f"🛑 [Holiday Guard] Today ({now_kst:%Y-%m-%d} KST) is a designated Korean market holiday. Markets are closed. Publishing is forbidden on holidays.")
+            print("   (Automated pipeline skipped. Use --force to override)")
+            return 0
 
     # 1. Check safety & readiness
     is_safe, reason = check_briefing_safety(target_date)
@@ -131,30 +155,38 @@ def main() -> int:
     channels = [c.strip().lower() for c in args.channels.split(",")]
     publish_all = "all" in channels
     results = {}
+    extra_param = "&force=true" if args.force else ""
 
-    # 2. Threads
+    # 2. Threads (Strict Deduplication Guard)
     if publish_all or "threads" in channels:
         print(f"\n🧵 [1/3] Publishing to Threads (@neo.alphareader)...")
         try:
-            res = post_worker("/api/publish/threads", target_date, token)
+            res = post_worker("/api/publish/threads", target_date, token, extra_params=extra_param)
+            post_id = res.get("publishedPostId") or "OK"
+            err_msg = str(res.get("error", ""))
             if res.get("success"):
-                post_id = res.get("publishedPostId") or "OK"
                 print(f"   ✅ Threads Publish Success! (ID: {post_id})")
                 results["threads"] = {"success": True, "id": post_id}
+            elif res.get("publishedPostId") and ("이미 발행" in err_msg or "already" in err_msg.lower()):
+                print(f"   ℹ️ Threads Already Published (ID: {post_id}). Duplicate publication skipped.")
+                results["threads"] = {"success": True, "id": post_id, "already_published": True}
             else:
-                print(f"   ❌ Threads Publish Failed: {res.get('error')}", file=sys.stderr)
-                results["threads"] = {"success": False, "error": res.get("error")}
+                print(f"   ❌ Threads Publish Failed: {err_msg}", file=sys.stderr)
+                results["threads"] = {"success": False, "error": err_msg}
         except Exception as e:
             print(f"   ❌ Threads Request Exception: {e}", file=sys.stderr)
             results["threads"] = {"success": False, "error": str(e)}
 
-    # 3. Newsletter
+    # 3. Newsletter (Strict Deduplication Guard)
     if publish_all or "newsletter" in channels:
         print(f"\n📧 [2/3] Marking Newsletter distribution as complete...")
         try:
-            res = post_worker("/api/publish/newsletter", target_date, token)
+            res = post_worker("/api/publish/newsletter", target_date, token, extra_params=extra_param)
             if res.get("success"):
-                print(f"   ✅ Newsletter Complete!")
+                if res.get("alreadyPublished"):
+                    print(f"   ℹ️ Newsletter Already Prepared. Duplicate distribution skipped.")
+                else:
+                    print(f"   ✅ Newsletter Complete!")
                 results["newsletter"] = {"success": True}
             else:
                 print(f"   ❌ Newsletter Failed: {res.get('error')}", file=sys.stderr)
@@ -163,18 +195,22 @@ def main() -> int:
             print(f"   ❌ Newsletter Request Exception: {e}", file=sys.stderr)
             results["newsletter"] = {"success": False, "error": str(e)}
 
-    # 4. Instagram
+    # 4. Instagram (Strict Deduplication Guard - No hardcoded force!)
     if publish_all or "instagram" in channels:
         print(f"\n📸 [3/3] Publishing 6-slide carousel to Instagram (@neo.alphareader)...")
         try:
-            res = post_worker("/api/publish/instagram", target_date, token, extra_params="&force=true")
+            res = post_worker("/api/publish/instagram", target_date, token, extra_params=extra_param)
+            post_id = res.get("publishedPostId") or "OK"
+            err_msg = str(res.get("error", ""))
             if res.get("success"):
-                post_id = res.get("publishedPostId") or "OK"
                 print(f"   ✅ Instagram Carousel Publish Success! (ID: {post_id})")
                 results["instagram"] = {"success": True, "id": post_id}
+            elif res.get("publishedPostId") and ("이미 발행" in err_msg or "already" in err_msg.lower()):
+                print(f"   ℹ️ Instagram Carousel Already Published (ID: {post_id}). Duplicate publication skipped.")
+                results["instagram"] = {"success": True, "id": post_id, "already_published": True}
             else:
-                print(f"   ❌ Instagram Publish Failed: {res.get('error')}", file=sys.stderr)
-                results["instagram"] = {"success": False, "error": res.get("error")}
+                print(f"   ❌ Instagram Publish Failed: {err_msg}", file=sys.stderr)
+                results["instagram"] = {"success": False, "error": err_msg}
         except Exception as e:
             print(f"   ❌ Instagram Request Exception: {e}", file=sys.stderr)
             results["instagram"] = {"success": False, "error": str(e)}

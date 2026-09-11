@@ -52,18 +52,29 @@ def main() -> int:
     parser.add_argument("--today", help="YYYYMMDD, 테스트용 기준일 고정")
     args = parser.parse_args()
 
-    service_key = (os.environ.get("DATA_GO_KR_SERVICE_KEY") or "").strip()
-    krx_auth_key = (os.environ.get("KRX_OPEN_API_KEY") or "").strip()
-    if not service_key and not krx_auth_key:
-        print("DATA_GO_KR_SERVICE_KEY 또는 KRX_OPEN_API_KEY 환경변수가 필요합니다.", file=sys.stderr)
-        return 1
-
     today = (
         datetime.strptime(args.today, "%Y%m%d").date()
         if args.today
         else datetime.now(KST).date()
     )
     holidays = load_holidays(args.holidays)
+
+    # 1. Weekend Guard (Saturday / Sunday in KST: Korean markets closed)
+    if today.weekday() >= 5:
+        print(f"Today ({today:%Y-%m-%d}) is a weekend. Korean markets are closed. Skipping pipeline.", file=sys.stderr)
+        return 3
+
+    # 2. Market Holiday Guard (Korean statutory holidays: Korean markets closed)
+    if today.strftime("%Y%m%d") in holidays:
+        print(f"Today ({today:%Y-%m-%d}) is a designated Korean market holiday. Markets are closed. Skipping pipeline.", file=sys.stderr)
+        return 4
+
+    service_key = (os.environ.get("DATA_GO_KR_SERVICE_KEY") or "").strip()
+    krx_auth_key = (os.environ.get("KRX_OPEN_API_KEY") or "").strip()
+    if not service_key and not krx_auth_key:
+        print("DATA_GO_KR_SERVICE_KEY 또는 KRX_OPEN_API_KEY 환경변수가 필요합니다.", file=sys.stderr)
+        return 1
+
     expected = latest_trading_day(today, holidays)
     expected_text = expected.strftime("%Y%m%d")
 

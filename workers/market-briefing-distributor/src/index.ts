@@ -1399,8 +1399,10 @@ function generateDashboardHtml(
     function switchTab(evt, tabId) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      evt.currentTarget.classList.add('active');
-      document.getElementById(tabId).classList.add('active');
+      const targetBtn = (evt && (evt.currentTarget || evt.target)) || document.querySelector('.tab-btn[onclick*="' + tabId + '"]');
+      if (targetBtn) targetBtn.classList.add('active');
+      const targetContent = document.getElementById(tabId);
+      if (targetContent) targetContent.classList.add('active');
       localStorage.setItem('osmu_active_tab', tabId);
       location.hash = tabId;
     }
@@ -1445,11 +1447,37 @@ function generateDashboardHtml(
       }
     }
 
+    function copyToClipboard(text, successMsg) {
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          alert(successMsg || '클립보드에 복사되었습니다!');
+        }).catch(() => fallbackCopy(text, successMsg));
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        alert(successMsg || '클립보드에 복사되었습니다!');
+      } catch (err) {
+        prompt('복사할 내용입니다. Ctrl+C를 눌러 복사하세요:', text);
+      }
+      document.body.removeChild(ta);
+    }
+
     function copyText(elemId) {
-      const text = document.getElementById(elemId).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert('클립보드에 복사되었습니다!');
-      });
+      const el = document.getElementById(elemId);
+      if (!el) return;
+      copyToClipboard(el.innerText || el.textContent, '클립보드에 복사되었습니다!');
     }
 
     function forceRefresh(dateStr) {
@@ -1590,19 +1618,14 @@ function generateDashboardHtml(
     function copyNewsletterField(elementId) {
       const el = document.getElementById(elementId);
       if (!el) return;
-      navigator.clipboard.writeText(el.innerText || el.textContent).then(() => {
-        alert('클립보드에 복사되었습니다.');
-      }).catch(() => {
-        alert('복사에 실패했습니다.');
-      });
+      copyToClipboard(el.innerText || el.textContent, '클립보드에 복사되었습니다.');
     }
 
     async function copyNewsletterHtml(dateStr) {
       try {
         const res = await fetch('/api/preview/newsletter?date=' + encodeURIComponent(dateStr));
         const html = await res.text();
-        await navigator.clipboard.writeText(html);
-        alert('이메일 뉴스레터 전체 HTML 소스코드가 클립보드에 복사되었습니다. (스티비/메일침프에 바로 붙여넣기 가능)');
+        copyToClipboard(html, '이메일 뉴스레터 전체 HTML 소스코드가 클립보드에 복사되었습니다. (스티비/메일침프에 바로 붙여넣기 가능)');
       } catch (e) {
         alert('HTML 복사 실패: ' + e);
       }
@@ -1720,12 +1743,7 @@ function generateDashboardHtml(
     const hashTab = location.hash ? location.hash.replace('#', '') : null;
     const savedTab = hashTab || localStorage.getItem('osmu_active_tab');
     if (savedTab && document.getElementById(savedTab)) {
-      document.querySelectorAll('.tab-btn').forEach(b => {
-        const onclickAttr = b.getAttribute('onclick') || '';
-        if (onclickAttr.includes(savedTab)) {
-          b.click();
-        }
-      });
+      switchTab(null, savedTab);
     }
   </script>
 </body>

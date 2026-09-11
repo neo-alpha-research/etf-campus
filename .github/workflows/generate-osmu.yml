@@ -7,6 +7,11 @@ on:
         description: "Target market briefing date (YYYY-MM-DD), defaults to latest"
         required: false
         type: string
+      auto_publish:
+        description: "Automatically publish to 3 channels (Threads, Newsletter, Instagram)"
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -96,6 +101,19 @@ jobs:
             python3 scripts/sync_osmu_kv.py --date="$INPUT_DATE"
           else
             python3 scripts/sync_osmu_kv.py
+          fi
+
+      - name: Auto-Publish Multi-Channel Distribution (Threads, Newsletter, Instagram)
+        if: ${{ inputs.auto_publish != false }}
+        continue-on-error: true
+        env:
+          MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
+        run: |
+          INPUT_DATE="${{ inputs.target_date }}"
+          if [ -n "$INPUT_DATE" ]; then
+            python3 scripts/publish_osmu_channels.py --date="$INPUT_DATE"
+          else
+            python3 scripts/publish_osmu_channels.py
           fi
 
       - name: Send Telegram OSMU Notification

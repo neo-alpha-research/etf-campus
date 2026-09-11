@@ -165,11 +165,12 @@ jobs:
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
         run: python scripts/build_classification_review.py
 
-      - name: Classify new listings via regulatory engine & sync personal pension
+      - name: Classify new listings via regulatory engine & sync personal pension & onboard taxonomy
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
         run: |
           python scripts/rules/pension_regulatory_engine.py
           python scripts/pipeline/sync_kofia_personal_pension.py
+          python scripts/pipeline/onboard_new_etfs.py
 
       - name: Calculate Total Returns (TR Index)
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true')
@@ -205,7 +206,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         id: changes
         run: |
-          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees public/data/returns/tr_index | grep -q .; then
+          if git status --porcelain --untracked-files=all -- data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees public/data/returns/tr_index | grep -q .; then
             echo "Publishable data changes detected."
             echo "changed=true" >> "$GITHUB_OUTPUT"
           else
@@ -257,7 +258,7 @@ jobs:
         run: |
           git config user.name "etf-campus-data-bot"
           git config user.email "etf-campus-data-bot@users.noreply.github.com"
-          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
+          for file in data/market_indices.json data/etf_master_draft.csv data/etf_returns_draft.csv data/pension_verify_sheet.csv data/classification data/comparison workers/market-briefing-publisher/src/taxonomy-map.ts data/returns data/distributions data/corporate_actions data/fees data/listing_prices.json data/listing-ledger/etf_listing_reference_prices.csv data/quality/krx_listing_reference_price_audit.csv data/quality/krx_listing_reference_price_checkpoint.json data/regulatory/unexplained_coverage.json data/regulatory/personal_pension_registry.json public/data/screener.json public/data/returns/tr_index data/reports/pension_unverified_queue.csv data/reports/pension_verification_summary.json; do
             if [ -e "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then

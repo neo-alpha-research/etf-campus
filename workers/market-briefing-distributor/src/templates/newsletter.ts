@@ -165,7 +165,7 @@ export function generateNewsletterHtml(
     .table-custom tr:last-child td { border-bottom: none; }
     
     .btn-primary { display: block; width: 100%; background: linear-gradient(135deg, #059669 0%, #047857 100%); color: #FFFFFF !important; text-align: center; padding: 17px 0; border-radius: 12px; font-size: 16.5px; font-weight: 800; text-decoration: none; margin: 28px 0 10px; box-sizing: border-box; box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3); letter-spacing: -0.3px; }
-    .footer { background-color: #F8FAFC; padding: 26px 20px; text-align: center; font-size: 12px; color: #64748B; border-top: 1px solid #E2E8F0; line-height: 1.65; font-weight: 600; }
+    .footer { background-color: #F8FAFC; padding: 22px 20px 24px; border-top: 1px solid #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', sans-serif; }
     
     @media only screen and (max-width: 480px) {
       .container { margin: 8px auto !important; border-radius: 14px !important; }
@@ -508,16 +508,26 @@ export function generateNewsletterHtml(
         </div>
       </div>
 
-      <!-- 7. Compliance & Regulatory Disclaimers (Capital Markets Act Art. 101) -->
+      <!-- 7. Compliance & Regulatory Disclaimers (Capital Markets Act Art. 101 - Minimal Flat) -->
       <div class="footer">
-        <div><strong style="color: #1E293B; font-size: 13px;">ETF CAMPUS · ETF 캠퍼스</strong></div>
-        <div style="margin-top: 8px; font-size: 11.5px; color: #64748B; line-height: 1.65;">
-          본 뉴스레터는 공공 데이터 및 한국거래소(KRX) 공시 데이터를 기반으로 시장 동향을 객관적으로 집계·정리한 정보 제공용 콘텐츠이며, 특정 금융투자상품에 대한 매수·매도를 추천하거나 수익률을 보장하는 투자 권유가 아닙니다. 과거의 운용 실적이 미래의 수익을 보장하지 않습니다.<br>
-          기준일자: ${formattedDate} 장 마감 기준 · 데이터 출처: 한국거래소(KRX)<br>
-          <div style="margin-top: 10px; color: #94A3B8;">
-            © 2026 ETF Campus. All rights reserved. · <a href="${baseUrl}/unsubscribe" style="color: #64748B; text-decoration: underline;">수신거부 (Unsubscribe)</a>
-          </div>
+        <div style="font-size: 11.5px; color: #64748B; line-height: 1.65; text-align: left; word-break: keep-all; font-weight: 500;">
+          * 본 뉴스레터는 공공 데이터 및 한국거래소(KRX) 공시 데이터를 기반으로 시장 동향을 객관적으로 집계·정리한 정보 제공용 콘텐츠이며, 특정 금융투자상품에 대한 매수·매도를 권유하거나 수익률을 보장하지 않습니다. 과거의 운용 실적이 미래의 수익을 보장하지 않습니다.<br>
+          <span style="color: #94A3B8; font-weight: 600; display: inline-block; margin-top: 4px;">
+            기준일자: ${formattedDate} 장 마감 기준 · 데이터 출처: 한국거래소(KRX)
+          </span>
         </div>
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 14px; padding-top: 12px; border-top: 1px solid #E2E8F0;">
+          <tr>
+            <td style="font-size: 11px; color: #94A3B8; text-align: left; vertical-align: middle;">
+              © 2026 ETF Campus. All rights reserved.
+            </td>
+            <td style="font-size: 11px; color: #64748B; text-align: right; vertical-align: middle; white-space: nowrap;">
+              <a href="${baseUrl}" target="_blank" style="color: #64748B; text-decoration: none; font-weight: 700;">홈페이지</a>
+              <span style="margin: 0 5px; color: #CBD5E1;">·</span>
+              <a href="${baseUrl}/unsubscribe" style="color: #64748B; text-decoration: underline;">수신거부 (Unsubscribe)</a>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </div>

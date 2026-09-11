@@ -116,13 +116,29 @@ jobs:
             python3 scripts/publish_osmu_channels.py
           fi
 
-      - name: Send Telegram OSMU Notification
+      - name: Send Telegram OSMU Notification (Success)
+        if: success()
         continue-on-error: true
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
         run: python3 scripts/notify_telegram_osmu.py
+
+      - name: Send Telegram Failure Alert (Stopped Midway)
+        if: failure()
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
+        run: |
+          INPUT_DATE="${{ inputs.target_date }}"
+          if [ -n "$INPUT_DATE" ]; then
+            python3 scripts/notify_telegram_osmu.py --failure --date="$INPUT_DATE" --reason="OSMU 에셋 렌더링 또는 채널 배포 중단"
+          else
+            python3 scripts/notify_telegram_osmu.py --failure --reason="OSMU 에셋 렌더링 또는 채널 배포 중단"
+          fi
 
       - name: Upload OSMU Archive
         uses: actions/upload-artifact@v4

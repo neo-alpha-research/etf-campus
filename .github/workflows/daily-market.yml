@@ -339,6 +339,15 @@ jobs:
           echo "Official ETF close is still unavailable. A later hourly schedule will retry." >&2
           exit 1
 
+      - name: Send Telegram Alert on Pipeline Failure
+        if: failure() && steps.guard.outputs.skip != 'true'
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
+        run: python3 scripts/notify_telegram_osmu.py --failure --reason="데이터 적재 또는 브리핑 품질 게이트 차단"
+
 
 
 

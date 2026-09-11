@@ -185,6 +185,29 @@ def upload_to_kv_via_rest(
     return False
 
 
+def purge_dashboard_cache(target_date: str) -> bool:
+    internal_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf-campus-osmu-internal-2026"
+    worker_url = f"https://market-briefing-distributor.neo-alpha-research.workers.dev/api/internal/purge-dashboard-cache?date={urllib.parse.quote(target_date, safe='')}"
+    req_worker = urllib.request.Request(
+        worker_url,
+        data=b"{}",
+        headers={
+            "X-Internal-Token": internal_token,
+            "Content-Type": "application/json",
+            "User-Agent": "ETF-Campus-OSMU-Sync/1.0",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req_worker, timeout=15) as resp:
+            if resp.status == 200:
+                print(f"🧹 Successfully purged dashboard HTML cache for {target_date}.")
+                return True
+    except Exception as e:
+        print(f"⚠️ Warning: Failed to purge dashboard cache via Worker API: {e}", file=sys.stderr)
+    return False
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Upload OSMU briefing images to Cloudflare KV")
     parser.add_argument("--date", help="Target date in YYYY-MM-DD format")
@@ -260,9 +283,11 @@ def main() -> int:
     print(f"\n📊 Summary: {success_count}/{total_count} assets synchronized to Cloudflare KV.")
     if success_count == total_count and total_count > 0:
         print("🎉 All OSMU images successfully synchronized!")
+        purge_dashboard_cache(target_date)
         return 0
     elif success_count > 0:
         print("⚠️ Partially synchronized.")
+        purge_dashboard_cache(target_date)
         return 0
     else:
         print("❌ All uploads failed.", file=sys.stderr)

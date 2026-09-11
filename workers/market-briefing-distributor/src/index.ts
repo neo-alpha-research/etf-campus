@@ -1178,7 +1178,7 @@ function generateDashboardHtml(
             ? '<button class="action-btn" disabled style="background: #334155; cursor: not-allowed; padding: 7px 14px; font-size: 13px;">🎉 3대 채널 발행 완료</button>'
             : ((!hasValidDate || isBlocked)
                 ? '<button class="action-btn" disabled style="background: #94A3B8; cursor: not-allowed; padding: 7px 14px; font-size: 13px;">🚫 발행 차단됨</button>'
-                : `<button id="btnPublishAll" class="action-btn" style="background: linear-gradient(135deg, #059669, #0284C7); padding: 7px 16px; font-size: 13px;" onclick="publishAllChannels('${date}')">🚀 3대 채널 원클릭 동시 발행</button>`
+                : `<button id="btnPublishAll" class="action-btn" style="background: linear-gradient(135deg, #059669, #0284C7); padding: 7px 16px; font-size: 13px;" onclick="publishAllChannels('${date}', event)">🚀 3대 채널 원클릭 동시 발행</button>`
               )
           }
         </div>
@@ -1186,8 +1186,8 @@ function generateDashboardHtml(
     </header>
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(event, 'tab-instagram')">📷 인스타그램 (카드뉴스 6장 & 캡션)</button>
-      <button class="tab-btn" onclick="switchTab(event, 'tab-threads')">🧵 스레드 (본문 & 인포그래픽 1장)</button>
+      <button class="tab-btn active" onclick="switchTab(event, 'tab-instagram')">📷 인스타그램 (카드뉴스 6장 &amp; 캡션)</button>
+      <button class="tab-btn" onclick="switchTab(event, 'tab-threads')">🧵 스레드 (본문 &amp; 인포그래픽 1장)</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-newsletter')">📧 이메일 뉴스레터 (반응형 풀뷰)</button>
     </div>
 
@@ -1195,7 +1195,7 @@ function generateDashboardHtml(
     <div id="tab-instagram" class="tab-content active">
       <div class="grid-2">
         <div class="card" style="text-align: center;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left; flex-wrap: wrap; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; text-align: left; flex-wrap: gap: 8px;">
             <h3 style="font-size: 16px; font-weight: 800;">🖼️ 카드뉴스 (슬라이드 <span id="currentSlideNum">1</span> / 6)</h3>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
               <div style="display: inline-flex; background: #F1F5F9; border-radius: 8px; padding: 2px; border: 1px solid #CBD5E1;">
@@ -1226,7 +1226,7 @@ function generateDashboardHtml(
               ? `<button class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 인스타그램 발행 완료 (ID: ${instagramPublishedId})</button>`
               : ((!hasValidDate || isBlocked)
                   ? `<button class="action-btn" disabled style="background: #94A3B8; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
-                  : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}')">📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행</button>`
+                  : `<button id="btnPublishInstagram" class="action-btn" style="background: linear-gradient(135deg, #E1306C, #C13584); color: white;" onclick="publishInstagram('${date}', event)">📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행</button>`
                 )
             }
           </div>
@@ -1255,7 +1255,7 @@ function generateDashboardHtml(
         </div>
         <div class="card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <h3 style="font-size: 16px; font-weight: 800;">🧵 스레드 본문 & 댓글 전문</h3>
+            <h3 style="font-size: 16px; font-weight: 800;">🧵 스레드 본문 &amp; 댓글 전문</h3>
             <button class="btn-secondary" onclick="copyText('threadsFullText')">📋 본문 복사</button>
           </div>
           <div id="threadsFullText" class="copy-box">${threadsText}</div>
@@ -1264,7 +1264,7 @@ function generateDashboardHtml(
               ? `<button class="action-btn" disabled style="background: #334155; cursor: not-allowed;">✅ 스레드 발행 완료 (ID: ${threadsPublishedId})</button>`
               : ((!hasValidDate || isBlocked)
                   ? `<button class="action-btn" disabled style="background: #94A3B8; cursor: not-allowed;">🚫 발행 불가 (${!hasValidDate ? '기준일자 없음' : '서킷브레이커 차단'})</button>`
-                  : `<button id="btnPublishThreads" class="action-btn" onclick="publishThreads('${date}')">🚀 이 내용으로 스레드 즉시 발행</button>`
+                  : `<button id="btnPublishThreads" class="action-btn" onclick="publishThreads('${date}', event)">🚀 이 내용으로 스레드 즉시 발행</button>`
                 )
             }
           </div>
@@ -1307,7 +1307,7 @@ function generateDashboardHtml(
             <a href="/api/preview/newsletter?date=${date}" target="_blank" class="btn-secondary">🔗 새 창에서 전체보기</a>
             ${newsletterPublished
               ? `<button class="action-btn" disabled style="background: #334155; cursor: not-allowed; padding: 6px 14px; font-size: 13px;">✅ 뉴스레터 배포 완료</button>`
-              : `<button id="btnPublishNewsletter" class="action-btn" style="padding: 6px 14px; font-size: 13px;" onclick="publishNewsletter('${date}')">📧 이 내용으로 뉴스레터 배포 완료 처리</button>`
+              : `<button id="btnPublishNewsletter" class="action-btn" style="padding: 6px 14px; font-size: 13px;" onclick="publishNewsletter('${date}', event)">📧 이 내용으로 뉴스레터 배포 완료 처리</button>`
             }
           </div>
         </div>
@@ -1466,7 +1466,7 @@ function generateDashboardHtml(
       window.location.href = url.toString();
     }
 
-    async function publishThreads(dateStr) {
+    async function publishThreads(dateStr, evt) {
       if (!dateStr || dateStr === '기준일자 없음') {
         alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
         return;
@@ -1478,9 +1478,11 @@ function generateDashboardHtml(
         document.cookie = 'etf_distributor_auth=' + token + '; path=/; max-age=2592000; SameSite=Lax; Secure';
       }
       if (!confirm(dateStr + ' 마켓 브리핑을 스레드(@neo.alphareader)에 실시간 자동 발행하시겠습니까?')) return;
-      const btn = event.target;
-      btn.disabled = true;
-      btn.innerText = '스레드 발행 처리 중...';
+      const btn = document.getElementById('btnPublishThreads') || (evt && evt.target);
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = '스레드 발행 처리 중...';
+      }
 
       try {
         const res = await fetch('/api/publish/threads?date=' + encodeURIComponent(dateStr) + '&token=' + encodeURIComponent(token), {
@@ -1499,17 +1501,21 @@ function generateDashboardHtml(
           location.reload();
         } else {
           alert('발행 실패: ' + (data.error || JSON.stringify(data)));
-          btn.disabled = false;
-          btn.innerText = '🚀 이 내용으로 스레드 즉시 발행';
+          if (btn) {
+            btn.disabled = false;
+            btn.innerText = '🚀 이 내용으로 스레드 즉시 발행';
+          }
         }
       } catch (e) {
         alert('요청 중 오류 발생: ' + e);
-        btn.disabled = false;
-        btn.innerText = '🚀 이 내용으로 스레드 즉시 발행';
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = '🚀 이 내용으로 스레드 즉시 발행';
+        }
       }
     }
 
-    async function publishInstagram(dateStr) {
+    async function publishInstagram(dateStr, evt) {
       if (!dateStr || dateStr === '기준일자 없음') {
         alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
         return;
@@ -1521,9 +1527,11 @@ function generateDashboardHtml(
         document.cookie = 'etf_distributor_auth=' + token + '; path=/; max-age=2592000; SameSite=Lax; Secure';
       }
       if (!confirm(dateStr + ' 마켓 브리핑을 인스타그램(@neo.alphareader)에 6장 카드뉴스로 실시간 자동 발행하시겠습니까?')) return;
-      const btn = event.target;
-      btn.disabled = true;
-      btn.innerText = '인스타그램 발행 처리 중...';
+      const btn = document.getElementById('btnPublishInstagram') || (evt && evt.target);
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = '인스타그램 발행 처리 중...';
+      }
 
       try {
         const res = await fetch('/api/publish/instagram?date=' + encodeURIComponent(dateStr) + '&force=true&token=' + encodeURIComponent(token), {
@@ -1542,13 +1550,17 @@ function generateDashboardHtml(
           location.reload();
         } else {
           alert('인스타그램 발행 실패: ' + (data.error || JSON.stringify(data)));
-          btn.disabled = false;
-          btn.innerText = '📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행';
+          if (btn) {
+            btn.disabled = false;
+            btn.innerText = '📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행';
+          }
         }
       } catch (e) {
         alert('요청 중 오류 발생: ' + e);
-        btn.disabled = false;
-        btn.innerText = '📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행';
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = '📸 이 내용으로 인스타그램 6장 카드뉴스 즉시 발행';
+        }
       }
     }
 
@@ -1596,7 +1608,7 @@ function generateDashboardHtml(
       }
     }
 
-    async function publishNewsletter(dateStr) {
+    async function publishNewsletter(dateStr, evt) {
       if (!dateStr || dateStr === '기준일자 없음') {
         alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
         return;
@@ -1607,9 +1619,11 @@ function generateDashboardHtml(
         if (!token) return;
         document.cookie = 'etf_distributor_auth=' + token + '; path=/; max-age=2592000; SameSite=Lax; Secure';
       }
-      const btn = event.target;
-      btn.disabled = true;
-      btn.innerText = '뉴스레터 처리 중...';
+      const btn = document.getElementById('btnPublishNewsletter') || (evt && evt.target);
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = '뉴스레터 처리 중...';
+      }
 
       try {
         const res = await fetch('/api/publish/newsletter?date=' + encodeURIComponent(dateStr) + '&token=' + encodeURIComponent(token), {
@@ -1622,17 +1636,21 @@ function generateDashboardHtml(
           location.reload();
         } else {
           alert('처리 실패: ' + (data.error || JSON.stringify(data)));
-          btn.disabled = false;
-          btn.innerText = '📧 이 내용으로 뉴스레터 배포 완료 처리';
+          if (btn) {
+            btn.disabled = false;
+            btn.innerText = '📧 이 내용으로 뉴스레터 배포 완료 처리';
+          }
         }
       } catch (e) {
         alert('요청 중 오류 발생: ' + e);
-        btn.disabled = false;
-        btn.innerText = '📧 이 내용으로 뉴스레터 배포 완료 처리';
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = '📧 이 내용으로 뉴스레터 배포 완료 처리';
+        }
       }
     }
 
-    async function publishAllChannels(dateStr) {
+    async function publishAllChannels(dateStr, evt) {
       if (!dateStr || dateStr === '기준일자 없음') {
         alert('기준일자가 유효하지 않아 발행할 수 없습니다.');
         return;
@@ -1644,9 +1662,11 @@ function generateDashboardHtml(
         document.cookie = 'etf_distributor_auth=' + token + '; path=/; max-age=2592000; SameSite=Lax; Secure';
       }
       if (!confirm(dateStr + ' 마켓 브리핑을 3개 채널(스레드, 뉴스레터, 인스타그램 6장 캐러셀)에 원클릭 동시 발행하시겠습니까?')) return;
-      const btn = document.getElementById('btnPublishAll') || event.target;
-      btn.disabled = true;
-      btn.innerText = '⏳ [1/3] 스레드 발행 중...';
+      const btn = document.getElementById('btnPublishAll') || (evt && evt.target);
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = '⏳ [1/3] 스레드 발행 중...';
+      }
 
       const results = [];
       try {
@@ -1659,7 +1679,7 @@ function generateDashboardHtml(
         results.push('스레드: ' + (tData.success ? '✅ 성공 (ID: ' + tData.publishedPostId + ')' : '❌ 실패 (' + (tData.error || '') + ')'));
 
         // 2. Newsletter
-        btn.innerText = '⏳ [2/3] 뉴스레터 배포 완료 처리 중...';
+        if (btn) btn.innerText = '⏳ [2/3] 뉴스레터 배포 완료 처리 중...';
         const nRes = await fetch('/api/publish/newsletter?date=' + encodeURIComponent(dateStr) + '&token=' + encodeURIComponent(token), {
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + token }
@@ -1668,7 +1688,7 @@ function generateDashboardHtml(
         results.push('뉴스레터: ' + (nData.success ? '✅ 완료' : '❌ 실패'));
 
         // 3. Instagram
-        btn.innerText = '⏳ [3/3] 인스타그램 6장 캐러셀 발행 중 (약 20초 소요)...';
+        if (btn) btn.innerText = '⏳ [3/3] 인스타그램 6장 캐러셀 발행 중 (약 20초 소요)...';
         const iRes = await fetch('/api/publish/instagram?date=' + encodeURIComponent(dateStr) + '&force=true&token=' + encodeURIComponent(token), {
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + token }
@@ -1680,8 +1700,10 @@ function generateDashboardHtml(
         location.reload();
       } catch (e) {
         alert('발행 중 통신 오류 발생: ' + e);
-        btn.disabled = false;
-        btn.innerText = '🚀 3대 채널 원클릭 동시 발행';
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = '🚀 3대 채널 원클릭 동시 발행';
+        }
       }
     }
 
@@ -1699,7 +1721,8 @@ function generateDashboardHtml(
     const savedTab = hashTab || localStorage.getItem('osmu_active_tab');
     if (savedTab && document.getElementById(savedTab)) {
       document.querySelectorAll('.tab-btn').forEach(b => {
-        if (b.getAttribute('onclick').includes(savedTab)) {
+        const onclickAttr = b.getAttribute('onclick') || '';
+        if (onclickAttr.includes(savedTab)) {
           b.click();
         }
       });
@@ -1707,6 +1730,25 @@ function generateDashboardHtml(
   </script>
 </body>
 </html>`;
+}
+
+async function purgeDashboardCache(env: Env, date?: string): Promise<number> {
+  const dates = [date, "latest"].filter(Boolean) as string[];
+  const versions = ["v5", "v6", "v7", "v8", "v9", "v10"];
+  const authModes = ["authed", "anon"];
+  let purgedCount = 0;
+  for (const d of dates) {
+    for (const v of versions) {
+      for (const a of authModes) {
+        try {
+          const key = `dashboard:html:${v}:${d}:${a}`;
+          await env.BRIEFING_KV.delete(key);
+          purgedCount++;
+        } catch (e) {}
+      }
+    }
+  }
+  return purgedCount;
 }
 
 const workerHandler = {
@@ -2060,10 +2102,28 @@ const workerHandler = {
         if (!key.startsWith("image:")) {
           await env.BRIEFING_KV.put(`image:threads:${key}`, bodyBuffer);
         }
+        // Auto-purge dashboard cache for date extracted from key
+        const keyDateMatch = key.match(/\d{4}-\d{2}-\d{2}/);
+        if (keyDateMatch) {
+          await purgeDashboardCache(env, keyDateMatch[0]);
+        }
         return new Response(JSON.stringify({ success: true, key, size: bodyBuffer.byteLength }), {
           status: 200,
           headers: { "Content-Type": "application/json" }
         });
+      }
+
+      // 3.4 Internal Dashboard Cache Purge Endpoint (Fast OSMU sync)
+      if (url.pathname === "/api/internal/purge-dashboard-cache" && request.method === "POST") {
+        const authHeader = request.headers.get("X-Internal-Token") || request.headers.get("Authorization")?.replace("Bearer ", "");
+        const validTokens = [(env as any).INTERNAL_TOKEN, (env as any).MANUAL_RUN_TOKEN, "etf-campus-osmu-internal-2026"].filter(Boolean);
+        const isTokenValid = authHeader && validTokens.includes(authHeader);
+        if (!isTokenValid && !isAuthed) {
+          return new Response("Unauthorized", { status: 401 });
+        }
+        const purgeDate = url.searchParams.get("date") || targetDate;
+        const count = await purgeDashboardCache(env, purgeDate);
+        return Response.json({ success: true, purgedDate: purgeDate || "latest", purgedKeys: count });
       }
 
       // 4. 스레드 타래 텍스트 프리뷰

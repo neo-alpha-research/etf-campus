@@ -511,10 +511,10 @@ export function generateNewsletterHtml(
       <!-- 7. Compliance & Regulatory Disclaimers (Capital Markets Act Art. 101 - Minimal Flat) -->
       <div class="footer">
         <div style="font-size: 11.5px; color: #64748B; line-height: 1.65; text-align: left; word-break: keep-all; font-weight: 500;">
-          * 본 뉴스레터는 공공 데이터 및 한국거래소(KRX) 공시 데이터를 기반으로 시장 동향을 객관적으로 집계·정리한 정보 제공용 콘텐츠이며, 특정 금융투자상품에 대한 매수·매도를 권유하거나 수익률을 보장하지 않습니다. 과거의 운용 실적이 미래의 수익을 보장하지 않습니다.<br>
-          <span style="color: #94A3B8; font-weight: 600; display: inline-block; margin-top: 4px;">
-            기준일자: ${formattedDate} 장 마감 기준 · 데이터 출처: 한국거래소(KRX)
-          </span>
+          본 뉴스레터는 공공 데이터 및 한국거래소(KRX) 공시 데이터를 기반으로 시장 동향을 객관적으로 집계·정리한 정보 제공용 콘텐츠이며, 특정 금융투자상품에 대한 매수·매도를 추천하거나 수익률을 보장하는 투자 권유가 아닙니다. 과거의 운용 실적이 미래의 수익을 보장하지 않습니다.
+        </div>
+        <div style="margin-top: 10px; font-size: 11.5px; color: #64748B; line-height: 1.65; text-align: left; word-break: keep-all; font-weight: 500;">
+          기준일자: ${formattedDate} 장 마감 기준 · 데이터 출처: 한국거래소(KRX)
         </div>
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 14px; padding-top: 12px; border-top: 1px solid #E2E8F0;">
           <tr>

@@ -42,6 +42,16 @@ async function runPipeline() {
     console.log(`[EXEC] ${pythonBin} "${validatePensionConsistencyScript}"`);
     execSync(`"${pythonBin}" "${validatePensionConsistencyScript}"`, { stdio: "inherit" });
     console.log("🎉 Gate A 검증 통과 (0 violations).");
+
+    console.log("🔄 [Screener Sync] 최신 수수료 및 연금 데이터 기반 screener.json 재생성...");
+    const generateScreenerScript = path.resolve(__dirname, "generate-screener-json.ts");
+    execSync(`npx tsx "${generateScreenerScript}"`, { stdio: "inherit" });
+    console.log("🎉 screener.json 동기화 완료.");
+
+    console.log("🧪 [Quality Gate] 수수료 레지스트리 불변식 및 도메인 단위 테스트 검증...");
+    const feeTestCmd = `npx vitest run lib/data/__tests__/etf-fee-registry.test.ts lib/domain/__tests__/etf-fee-utils.test.ts`;
+    execSync(feeTestCmd, { stdio: "inherit" });
+    console.log("🎉 수수료 데이터 무결성 및 단위 테스트 전수 통과.");
   } catch (error) {
     console.error("❌ KOFIA 파이프라인 실행 중 오류 발생:", error);
     process.exit(1);

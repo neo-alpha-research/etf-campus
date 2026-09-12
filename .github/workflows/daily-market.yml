@@ -2,17 +2,18 @@ name: Daily ETF market data refresh
 
 on:
   schedule:
-    # 5-minute automated polling ladder (08:00 ~ 09:10 KST, Mon-Fri):
-    # KRX / Data.go.kr data is usually published between 07:50 and 08:35 KST.
-    # Runs every 5 minutes on Korean trading days. If data is not ready, exits in <15s without failing.
+    # 5-minute automated polling ladder (08:00 ~ 09:10 KST, Tue-Sat):
+    # Runs on the morning AFTER each Korean trading day (Monday through Friday).
+    # KRX Open API data is published between 07:50 and 08:35 KST.
+    # Runs every 5 minutes. If data is not ready, exits in <15s without failing.
     # As soon as data is ready, fetches, validates, and deploys. Subsequent runs exit in <5s.
     # Hard cutoff: 09:10 KST.
     #
     #   UTC (cron)                                KST (local)          purpose
-    #   Sun-Thu 23:00, 23:05, ..., 23:55          Mon-Fri 08:00~08:55  5-min probing ladder
-    #   Mon-Fri 00:00, 00:05, 00:10               Mon-Fri 09:00~09:10  Market open & 09:10 hard cutoff
-    - cron: "0,5,10,15,20,25,30,35,40,45,50,55 23 * * 0-4"
-    - cron: "0,5,10 0 * * 1-5"
+    #   Mon-Fri 23:00, 23:05, ..., 23:55          Tue-Sat 08:00~08:55  5-min probing ladder
+    #   Tue-Sat 00:00, 00:05, 00:10               Tue-Sat 09:00~09:10  Market open & 09:10 hard cutoff
+    - cron: "0,5,10,15,20,25,30,35,40,45,50,55 23 * * 1-5"
+    - cron: "0,5,10 0 * * 2-6"
   workflow_dispatch:
     inputs:
       target:
@@ -87,10 +88,10 @@ jobs:
           elif [ "$source_exit" -eq 3 ] || [ "$source_exit" -eq 4 ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "skip_reason=market_closed" >> "$GITHUB_OUTPUT"
-            echo "- **Skipping**: Today is a weekend or Korean market holiday. No publication scheduled." >> "$GITHUB_STEP_SUMMARY"
+            echo "- **Skipping**: Yesterday was a weekend or Korean market holiday. No newly closed market session to collect." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           else
-            echo "Data not available yet on KRX/Data.go.kr. Skipping to release runner lock."
+            echo "Data not available yet on KRX Open API. Skipping to release runner lock."
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "skip_reason=source_not_ready" >> "$GITHUB_OUTPUT"
             echo "- **Skipping**: Source data is not yet available. Exiting early to await next polling probe." >> "$GITHUB_STEP_SUMMARY"

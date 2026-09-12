@@ -1,6 +1,10 @@
 name: Generate and Publish OSMU Archive
 
 on:
+  schedule:
+    # Monday 07:30 KST (Sunday 22:30 UTC):
+    # Automatically publishes Friday's market briefing (prepared on Saturday morning) to Threads, Instagram, Newsletter
+    - cron: "30 22 * * 0"
   workflow_dispatch:
     inputs:
       target_date:

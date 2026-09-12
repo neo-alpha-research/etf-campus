@@ -80,6 +80,10 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
+      - name: 🧪 Run Fee Validation Tests
+        run: |
+          npx vitest run lib/data/__tests__/etf-fee-registry.test.ts lib/domain/__tests__/etf-fee-utils.test.ts
+
       - name: 💾 Commit and Push Changes directly to Main
         id: commit
         run: |

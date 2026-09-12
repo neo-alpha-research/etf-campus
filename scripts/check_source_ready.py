@@ -59,20 +59,26 @@ def main() -> int:
     )
     holidays = load_holidays(args.holidays)
 
-    # 1. Weekend Guard (Saturday / Sunday in KST: Korean markets closed)
-    if today.weekday() >= 5:
-        print(f"Today ({today:%Y-%m-%d}) is a weekend. Korean markets are closed. Skipping pipeline.", file=sys.stderr)
+    # In morning collection (07:50~08:40 KST), we are collecting data for the trading session that closed YESTERDAY.
+    # Therefore, we check if yesterday (today - 1 day) was a Korean trading day.
+    yesterday = today - timedelta(days=1)
+
+    # 1. Weekend Guard: If yesterday was Saturday or Sunday, no trading session occurred yesterday.
+    #    (e.g., Sunday morning: yesterday was Saturday -> skip. Monday morning: yesterday was Sunday -> skip.)
+    #    (Saturday morning: yesterday was Friday -> Friday is a regular trading day -> proceed!)
+    if yesterday.weekday() >= 5:
+        print(f"Yesterday ({yesterday:%Y-%m-%d}) was a weekend. Korean markets were closed. No new market data to collect today ({today:%Y-%m-%d}).", file=sys.stderr)
         return 3
 
-    # 2. Market Holiday Guard (Korean statutory holidays: Korean markets closed)
-    if today.strftime("%Y%m%d") in holidays:
-        print(f"Today ({today:%Y-%m-%d}) is a designated Korean market holiday. Markets are closed. Skipping pipeline.", file=sys.stderr)
+    # 2. Market Holiday Guard: If yesterday was a statutory Korean holiday, markets were closed yesterday.
+    if yesterday.strftime("%Y%m%d") in holidays:
+        print(f"Yesterday ({yesterday:%Y-%m-%d}) was a designated Korean market holiday. Markets were closed. No new market data to collect today ({today:%Y-%m-%d}).", file=sys.stderr)
         return 4
 
     service_key = (os.environ.get("DATA_GO_KR_SERVICE_KEY") or "").strip()
     krx_auth_key = (os.environ.get("KRX_OPEN_API_KEY") or "").strip()
-    if not service_key and not krx_auth_key:
-        print("DATA_GO_KR_SERVICE_KEY 또는 KRX_OPEN_API_KEY 환경변수가 필요합니다.", file=sys.stderr)
+    if not krx_auth_key and not service_key:
+        print("KRX_OPEN_API_KEY (또는 레거시 DATA_GO_KR_SERVICE_KEY) 환경변수가 필요합니다.", file=sys.stderr)
         return 1
 
     expected = latest_trading_day(today, holidays)

@@ -11,27 +11,38 @@ description: "매일 아침 마켓 브리핑 데이터를 기반으로 인스타
 
 ## 1. 일일 무결점 운영 파이프라인 (Daily Operating Flow)
 
+### A. 화~금요일 아침 (월~목 거래일 대상): 적재 즉시 자동 발행
 ```
-[06:17~08:15 KST] daily-market.yml
-       │ (KRX/FSC 데이터 수집 및 무결성 검증, D1 적재)
+[07:50~08:40 KST] daily-market.yml
+       │ (KRX Open API 시세 수집 및 D1/웹페이지 반영)
        ▼
-[0초 지연 병렬 트리거] generate-osmu.yml (target_date 명시)
-       │ (Distributor Worker /api/briefings/latest 직접 조회)
-       │ (인스타그램 6장, 스레드 1장, 이메일 뉴스레터 고속 렌더링)
-       │ (Cloudflare KV 자동 업로드)
+[자동 연쇄 실행] generate-osmu.yml
+       │ (인스타 6장, 스레드 1장, 뉴스레터 렌더링 및 KV 업로드)
+       │ (3대 채널 즉시 자동 배포: Threads, Instagram, Newsletter)
        ▼
-[텔레그램 1-Tap 알림]
-       │ "📊 [ETF CAMPUS] 마켓 브리핑 & OSMU 생성 완료"
-       │ "👉 검토 및 즉시 발송 대시보드: https://.../preview?date=YYYY-MM-DD&token=..."
+[텔레그램 알림] "🎉 [ETF CAMPUS] 마켓 브리핑 3대 채널 자동 발행 완료"
+```
+
+### B. 토요일 아침 (금요일 거래일 대상): 데이터 적재 및 OSMU 사전 준비 (발행 보류)
+```
+[07:50~08:40 KST] daily-market.yml
+       │ (금요일 종가 KRX 수집 및 D1/웹페이지 반영)
        ▼
-[운영자 최종 승인 - 아래 2가지 중 택1]
-  ├─ Option A (대시보드): 상단 '🚀 3대 채널 원클릭 동시 발행' 버튼 클릭 (권장)
-  └─ Option B (CLI): `npm run briefing:distribute` 실행
+[자동 연쇄 실행] generate-osmu.yml
+       │ (인스타 6장, 스레드 1장, 뉴스레터 렌더링 및 KV 업로드 완료)
+       │ (Weekend Standby: 주말 SNS 노이즈 방지를 위해 소셜 발행 보류)
        ▼
-[Meta Graph API & D1 동기화 완료]
-  - Threads: 실시간 게시 및 Post ID 영구 기록
-  - Newsletter: 배포 준비 완료 상태 D1/KV 동기화
-  - Instagram: 6장 캐러셀 게시 및 Post ID 영구 기록
+[텔레그램 알림] "✨ [ETF CAMPUS] 금요일 마켓 브리핑 & OSMU 준비 완료 (월요일 07:30 자동 발행 예정)"
+       │ (필요 시 대시보드에서 검토 후 '즉시 발송' 가능)
+```
+
+### C. 월요일 아침 07:30 KST: 금요일 마켓 브리핑 정각 자동 배포
+```
+[07:30 KST 정각] generate-osmu.yml (스케줄: Sunday 22:30 UTC)
+       │ (토요일에 이미 완벽히 준비된 금요일 브리핑 및 KV 에셋 로드)
+       │ (3대 채널 정각 자동 배포: Threads, Instagram, Newsletter)
+       ▼
+[텔레그램 알림] "🎉 [ETF CAMPUS] 마켓 브리핑 3대 채널 자동 발행 완료"
 ```
 
 ---

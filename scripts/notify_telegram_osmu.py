@@ -193,13 +193,29 @@ def main() -> int:
     if threads_script_file.exists():
         summary_content = threads_script_file.read_text(encoding="utf-8").strip().lstrip("\ufeff")
 
-    header = f"🎉 [ETF CAMPUS] 마켓 브리핑 3대 채널 자동 발행 완료 ({as_of_date})\n"
-    status_text = (
-        "오늘자 마켓 브리핑 및 OSMU 에셋이 3대 채널에 자동 배포되었습니다.\n\n"
-        "• 🧵 스레드(@neo.alphareader): 발행 완료\n"
-        "• 📸 인스타그램(@neo.alphareader): 6장 캐러셀 발행 완료\n"
-        "• 📧 뉴스레터: 배포 완료\n"
-    )
+    from datetime import datetime, timezone, timedelta
+    kst = timezone(timedelta(hours=9))
+    now_kst = datetime.now(kst).date()
+    is_weekend = (now_kst.weekday() >= 5)
+
+    if is_weekend:
+        header = f"✨ [ETF CAMPUS] 금요일 마켓 브리핑 & OSMU 준비 완료 ({as_of_date})\n"
+        status_text = (
+            "금요일 장 마감 데이터 적재 및 OSMU 에셋 렌더링이 완료되었습니다.\n\n"
+            "• 🌐 웹페이지 마켓 브리핑: 최신 데이터 반영 완료\n"
+            "• 📦 OSMU 에셋(스레드/인스타/뉴스레터): 렌더링 및 KV 적재 완료\n"
+            "• ⏰ 3대 채널 자동 발행 예정: 월요일 아침 07:30 KST\n"
+            "  (운영 대시보드에서 검토 후 '즉시 발송' 가능)\n"
+        )
+    else:
+        header = f"🎉 [ETF CAMPUS] 마켓 브리핑 3대 채널 자동 발행 완료 ({as_of_date})\n"
+        status_text = (
+            f"{as_of_date} 마켓 브리핑 및 OSMU 에셋이 3대 채널에 자동 배포되었습니다.\n\n"
+            "• 🧵 스레드(@neo.alphareader): 발행 완료\n"
+            "• 📸 인스타그램(@neo.alphareader): 6장 캐러셀 발행 완료\n"
+            "• 📧 뉴스레터: 배포 완료\n"
+        )
+
     links = (
         f"👉 실시간 배포 대시보드:\n{dashboard_link}\n\n"
         f"🌐 ETF Campus 웹 브리핑:\n{BRIEFING_WEB_URL}"
@@ -216,7 +232,10 @@ def main() -> int:
         if len(full_message) <= 1024:
             photo_sent = send_telegram_photo(bot_token, chat_id, threads_image_file, full_message)
         else:
-            short_caption = f"🎉 [ETF CAMPUS] {as_of_date} 마켓 브리핑 자동 발행 완료\n\n• 3대 채널(스레드/인스타/뉴스레터) 배포 성공\n\n👉 대시보드:\n{dashboard_link}"
+            if is_weekend:
+                short_caption = f"✨ [ETF CAMPUS] {as_of_date} 마켓 브리핑 & OSMU 준비 완료\n\n• 월요일 아침 07:30 KST 자동 발행 예정\n\n👉 대시보드:\n{dashboard_link}"
+            else:
+                short_caption = f"🎉 [ETF CAMPUS] {as_of_date} 마켓 브리핑 자동 발행 완료\n\n• 3대 채널(스레드/인스타/뉴스레터) 배포 성공\n\n👉 대시보드:\n{dashboard_link}"
             photo_sent = send_telegram_photo(bot_token, chat_id, threads_image_file, short_caption)
             if photo_sent:
                 send_telegram_message(bot_token, chat_id, full_message)

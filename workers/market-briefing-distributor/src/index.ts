@@ -229,10 +229,7 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
   let threadsPublishedId: string | null = null;
   if (!dryRun && env.THREADS_ACCESS_TOKEN && env.THREADS_USER_ID) {
     try {
-      const fullText = threadsPosts[0]?.content || "";
-      const parts = fullText.split("[첫 댓글]");
-      const mainPost = parts[0].trim();
-      const firstComment = (parts[1] ? parts[1].trim() : (narrative?.firstComment || "")).trim();
+      const mainPost = threadsPosts[0]?.content || "";
 
       const imgKey = `image:threads:${effectiveDate}`;
       const imgBuffer = await env.BRIEFING_KV.get(imgKey, "arrayBuffer");
@@ -270,32 +267,6 @@ export async function executeDistribution(env: Env, targetDate?: string, dryRun 
         });
         const pubData: any = await pubRes.json();
         threadsPublishedId = pubData.id || null;
-
-        if (firstComment && threadsPublishedId) {
-          await new Promise((r) => setTimeout(r, 3000));
-          const replyCreateRes = await fetch(createUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({
-              media_type: "TEXT",
-              text: firstComment,
-              reply_to_id: threadsPublishedId,
-              access_token: env.THREADS_ACCESS_TOKEN,
-            }),
-          });
-          const replyCreateData: any = await replyCreateRes.json();
-          if (replyCreateData.id) {
-            await waitForThreadsContainer(replyCreateData.id, env.THREADS_ACCESS_TOKEN);
-            await fetch(pubUrl, {
-              method: "POST",
-              headers: { "Content-Type": "application/x-www-form-urlencoded" },
-              body: new URLSearchParams({
-                creation_id: replyCreateData.id,
-                access_token: env.THREADS_ACCESS_TOKEN,
-              }),
-            });
-          }
-        }
       } else {
         console.warn("[Distributor] Threads creation warning:", createData);
       }
@@ -399,9 +370,6 @@ export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: 
           .replace(/\n*댓글에\s*1\s*또는\s*2[^\n]*/g, "")
           .trim();
       };
-      const cleanFirstComment = (str?: string) => {
-        return cleanThreadsText(str).replace(/^1\.\s*/, "").trim();
-      };
 
       return {
         ...parsed,
@@ -421,7 +389,6 @@ export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: 
         threadsOpening: cleanThreadsText(parsed.threadsOpening),
         threadsMarketSummary: cleanThreadsText(parsed.threadsMarketSummary),
         threadsWatchPoint: cleanWatchPoint(parsed.threadsWatchPoint),
-        firstComment: cleanFirstComment(parsed.firstComment),
       };
     }
   } catch (e) {}
@@ -529,10 +496,7 @@ export async function publishToThreadsLive(
   const baseUrl = env.SITE_BASE_URL || "https://etf-campus.pages.dev";
   const narrative = await getOrRefineNarrative(payload, env);
   const threadsPosts = generateThreadsThread(payload, baseUrl, narrative);
-  const fullText = threadsPosts[0]?.content || "";
-  const parts = fullText.split("[첫 댓글]");
-  const mainPost = parts[0].trim();
-  const firstComment = (parts[1] ? parts[1].trim() : (narrative?.firstComment || "")).trim();
+  const mainPost = threadsPosts[0]?.content || "";
 
   try {
     const createUrl = `https://graph.threads.net/v1.0/${env.THREADS_USER_ID}/threads`;
@@ -596,36 +560,6 @@ export async function publishToThreadsLive(
       return { success: false, error: `Failed to publish Threads post: ${JSON.stringify(pubData)}` };
     }
 
-    let firstCommentId: string | undefined;
-    if (firstComment) {
-      await new Promise((r) => setTimeout(r, 2500));
-      const replyCreateRes = await fetch(createUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          media_type: "TEXT",
-          text: firstComment,
-          reply_to_id: publishedPostId,
-          access_token: env.THREADS_ACCESS_TOKEN,
-        }),
-      });
-      const replyCreateData: any = await replyCreateRes.json();
-      if (replyCreateData.id) {
-        await waitForThreadsContainer(replyCreateData.id, env.THREADS_ACCESS_TOKEN);
-        const replyPubRes = await fetch(pubUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            creation_id: replyCreateData.id,
-            access_token: env.THREADS_ACCESS_TOKEN,
-          }),
-        });
-        const replyPubData: any = await replyPubRes.json();
-        firstCommentId = replyPubData.id;
-        console.log("[Distributor] First comment published:", replyPubData);
-      }
-    }
-
     const permalink = `https://www.threads.net/@neo.alphareader/post/${publishedPostId}`;
 
     // 3. Record success in KV (primary resilience store) and clear In-Flight Mutex
@@ -634,7 +568,6 @@ export async function publishToThreadsLive(
         status: "distributed",
         publishedPostId,
         permalink,
-        firstCommentId,
         publishedAt: new Date().toISOString(),
       }), { expirationTtl: 86400 * 30 });
       await env.BRIEFING_KV.delete(kvInFlightKey);
@@ -654,7 +587,6 @@ export async function publishToThreadsLive(
       existingDetails.threads = {
         publishedPostId,
         permalink,
-        firstCommentId,
         publishedAt: new Date().toISOString(),
       };
       await env.ETF_PRICES.prepare(

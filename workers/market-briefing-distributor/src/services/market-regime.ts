@@ -71,13 +71,10 @@ export interface MarketRegime {
   captionThemeAnalysis: string;
   captionWatchPoint: string;
 
-  // Threads Post (5 Layers)
+  // Threads Post (Single Standalone Post)
   threadsOpening: string;
   threadsMarketSummary: string;
   threadsWatchPoint: string;
-
-  // First Comment
-  firstComment: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -644,9 +641,6 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
       break;
   }
 
-  const countText = payload.generalEtfCount ? `${payload.generalEtfCount.toLocaleString()}개 ` : "";
-  const firstComment = `단기 변동성보다는 실적과 자금 유입이 뒷받침되는 섹터를 중심에 두는 게 좋아 보여. 다들 차분하게 대응하자.\n\n* 한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF ${countText}전수 분석`;
-
   return {
     code,
     statusName,
@@ -675,6 +669,5 @@ export function classifyMarketRegime(payload: MarketBriefingPayload): MarketRegi
     threadsOpening,
     threadsMarketSummary,
     threadsWatchPoint,
-    firstComment,
   };
 }

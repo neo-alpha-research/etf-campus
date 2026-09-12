@@ -146,16 +146,8 @@ ${sourceNotice}`;
     mainPost = mainPost.slice(0, budget).trim() + "..." + footer;
   }
 
-  const defaultFirstComment = `단기 변동성보다는 실적과 자금 유입이 뒷받침되는 섹터를 중심에 두는 게 좋아 보여. 다들 차분하게 대응하자.\n\n* 한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석`;
-  const cleanFirstComment = (text?: string): string => {
-    return cleanThreadsText(text).replace(/^1\.\s*/, "").trim();
-  };
-  const firstComment = cleanFirstComment(regime.firstComment || defaultFirstComment);
-
-  const fullContent = `${mainPost}\n\n[첫 댓글]\n${firstComment}`;
-
   return [
-    { sequence: 1, content: fullContent }
+    { sequence: 1, content: mainPost }
   ];
 }
 

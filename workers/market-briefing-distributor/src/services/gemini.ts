@@ -51,7 +51,7 @@ export interface PolishedNarrative extends MarketRegime {
   threadsWatchPoint: string;
 
   // Common
-  firstComment: string;
+  firstComment?: string;
   source: "gemini-refined" | "rule-engine-fallback";
   modelUsed?: string;
   tokenIndex?: number;
@@ -134,10 +134,10 @@ export async function reviewAndRefineWithGemini(
    - '무료', '완벽 비교', '프로필 링크', '리포트 보러가기', '다운로드', '클릭' 등 모든 세일즈/홍보 유도 어휘 전면 금지.
    - 외부 링크 없이도 본문 자체만으로 해당 거래일 시장의 핵심 맥락(Why it moved)을 100% 이해할 수 있는 완결형 정보 제공.
 7. 인스타그램 캡션 엔딩: 세일즈 멘트 없이 오늘 개장 후 주목할 거시 지표나 심리적 체크포인트 1문장으로 담백하게 종결.
-8. 스레드 문체 및 첫 댓글 헌법 (골든 3단 압축 & 담백한 설명체 반말):
-   - 스레드 단일 타래 본문(threadsOpening, threadsMarketSummary, threadsWatchPoint) 및 첫 댓글(firstComment)은 공급자 어투(~알려드립니다, ~소개합니다), 해요체(~해요, ~했어요), 공지형 존댓말(~했습니다)을 전면 영구 금지합니다. 또한 사족처럼 들리는 어색한 구어체 어미('~했거든', '~거든')를 일체 금지하고, 담백하고 단단한 멘토형 설명체 반말(~했어, ~였어, ~인 셈이지, ~있어, ~끝났어, ~한 거야, ~해야 해, ~될 거야)을 일관 적용하십시오.
-   - threadsWatchPoint: 기계적인 번호 선택지(1번/2번 등)와 투표 유도 문구('댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아')를 전면 금지합니다. 장세 맥락에 맞는 핵심 관전 포인트 1문장과 함께 자연스러운 질문('다들 앞으로의 흐름을 어떻게 봐?')으로 깔끔하게 마감하십시오.
-   - firstComment: 번호 표기('1. ') 없이 40~60자 초단문 친근한 반말 롤모델('[내 생각 1줄]. [상황 예상 1줄].')과 '* 한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF 전수 분석'을 병기하십시오.
+8. 스레드 단일 완결형 포스트 문체 (골든 3단 압축 & 담백한 설명체 반말):
+   - 스레드 본문(threadsOpening, threadsMarketSummary, threadsWatchPoint)은 공급자 어투(~알려드립니다, ~소개합니다), 해요체(~해요, ~했어요), 공지형 존댓말(~했습니다)을 전면 영구 금지합니다. 또한 사족처럼 들리는 어색한 구어체 어미('~했거든', '~거든')를 일체 금지하고, 담백하고 단단한 멘토형 설명체 반말(~했어, ~였어, ~인 셈이지, ~있어, ~끝났어, ~한 거야, ~해야 해, ~될 거야)을 일관 적용하십시오.
+   - threadsWatchPoint: 기계적인 번호 선택지(1번/2번 등)와 투표 유도 문구를 전면 금지합니다. 장세 맥락에 맞는 핵심 관전 포인트 1문장과 함께 자연스러운 질문('다들 앞으로의 흐름을 어떻게 봐?')으로 깔끔하게 마감하십시오.
+   - 첫 댓글은 전면 폐지되었으므로 생성하지 않습니다. 본문 1개만으로 완결된 정보와 질문을 전달하십시오.
 9. 컴플라이언스 절대 준수: '추천', '베스트', '대박', '목표가', '패닉', '폭락' 등 투기 조장이나 과장 어휘 절대 금지.
 10. 페르소나 준수: '현직', '운용역' 등 일체의 직함 표기 전면 금지.
 11. 스레드/댓글 내 외부 URL 링크('https://') 기재 전면 금지.
@@ -171,8 +171,7 @@ export async function reviewAndRefineWithGemini(
   "captionWatchPoint": "인스타그램 엔딩용 오늘의 시장 관전 포인트 (세일즈 멘트 없이 지적이고 담백하게, 이모지 0개, 괄호 금지)",
   "threadsOpening": "스레드 1번 포스트 오프닝 문장 (담백한 설명체 반말(~했어, ~였어, ~인 셈이지, '~했거든' 어미 금지), '어제' 표현 절대 금지, 공감형 화법, 이모지 0개, 괄호 금지)",
   "threadsMarketSummary": "스레드 시장 요약 문장 (담백한 설명체 반말(~했어, ~였어, ~인 셈이지, ~있어), 완충 효과 설명, 이모지 0개, 괄호 금지)",
-  "threadsWatchPoint": "스레드 엔딩용 관전 포인트 및 소통형 질문 (담백한 설명체 반말, 1번/2번 선택지 및 투표 유도 절대 금지, '다들 앞으로의 흐름을 어떻게 봐?' 마감, 외부 링크 절대 금지, 이모지 0개, 괄호 금지)",
-  "firstComment": "스레드 첫 댓글 (번호 없이 40~60자 친근한 반말 롤모델 '[내 생각 1줄]. [상황 예상 1줄].' + '\\n\\n* 한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF 전수 분석' 병기, 이모지 0개)"
+  "threadsWatchPoint": "스레드 엔딩용 관전 포인트 및 소통형 질문 (담백한 설명체 반말, 1번/2번 선택지 및 투표 유도 절대 금지, '다들 앞으로의 흐름을 어떻게 봐?' 마감, 외부 링크 절대 금지, 이모지 0개, 괄호 금지)"
 }`;
 
   const userPrompt = `[당일 3대 시장 지표 및 펀드애널리스트 분석 팩트]
@@ -205,7 +204,6 @@ export async function reviewAndRefineWithGemini(
 - threadsOpening: "${regime.threadsOpening}"
 - threadsMarketSummary: "${regime.threadsMarketSummary}"
 - threadsWatchPoint: "${regime.threadsWatchPoint}"
-- firstComment: "${regime.firstComment}"
 
 위 1차 초안을 팩트 데이터와 대조 검토하여, 어긋남이 전혀 없고 상업적 냄새가 배제된 최고급 공공재 금융 시황 칼럼으로 교정한 JSON을 출력하십시오.`;
 
@@ -287,10 +285,6 @@ export async function reviewAndRefineWithGemini(
                   .replace(/\n*댓글에\s*1\s*또는\s*2[^\n]*/g, "")
                   .trim();
               };
-              const cleanFirstComment = (str?: string) => {
-                return cleanThreadsText(str).replace(/^1\.\s*/, "").trim();
-              };
-
               return {
                 ...regime,
                 slide1Subheadline: stripEmoji(parsed.slide1Subheadline) || regime.slide1Subheadline,
@@ -309,7 +303,6 @@ export async function reviewAndRefineWithGemini(
                 threadsOpening: cleanThreadsText(parsed.threadsOpening) || regime.threadsOpening,
                 threadsMarketSummary: cleanThreadsText(parsed.threadsMarketSummary) || regime.threadsMarketSummary,
                 threadsWatchPoint: cleanWatchPoint(parsed.threadsWatchPoint) || regime.threadsWatchPoint,
-                firstComment: cleanFirstComment(parsed.firstComment) || regime.firstComment,
                 source: "gemini-refined",
                 modelUsed: modelName,
                 tokenIndex: realIdx,

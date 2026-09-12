@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-10",
+  "updated_at": "2026-09-12",
   "total_universe": 1168,
   "verified_count": 1164,
   "unverified_count": 4,
@@ -24,6 +24,6 @@
     "ineligible": 103,
     "pending": 0,
     "coverage_ratio": 1.0,
-    "last_updated": "2026-09-11T08:37:27.429863+09:00"
+    "last_updated": "2026-09-12T09:17:40.509869+09:00"
   }
 }

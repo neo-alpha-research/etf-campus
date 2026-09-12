@@ -9,6 +9,16 @@
       "pension_verified": "Y",
       "reason": "운용사 공식 전체 상품 유니버스에 해당 종목 누락. 개인연금 한도 판정 불가로 UI 노출 보류 및 격리 조치",
       "risk_type": "normal"
+    },
+    "0238P0": {
+      "action": "isolate_personal_pension_unverified",
+      "first_detected": "2026-09-12",
+      "issuer": "미래에셋 (TIGER)",
+      "name": "TIGER 미국S&P500미국채혼합50",
+      "pension_limit": "100% (안전자산)",
+      "pension_verified": "N",
+      "reason": "운용사 공식 전체 상품 유니버스에 해당 종목 누락. 개인연금 한도 판정 불가로 UI 노출 보류 및 격리 조치",
+      "risk_type": "normal"
     }
   },
   "unverified_history": [
@@ -27,6 +37,10 @@
     {
       "count": 0,
       "date": "2026-09-10"
+    },
+    {
+      "count": 0,
+      "date": "2026-09-12"
     }
   ],
   "version": "1.1"

@@ -72,12 +72,32 @@ export function generateThreadsThread(
     ? weakThemes.map(t => `${cleanThemeName(t.peerGroup)} ${t.cappedAumWeightedReturnPct > 0 ? '+' : ''}${t.cappedAumWeightedReturnPct.toFixed(2)}%`).join(', ') 
     : "하위 테마 조정";
 
-  let watchPointText = regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 게 중요해. 다들 앞으로의 흐름을 어떻게 봐?\n\n1번: 단기 반등 후 재조정\n2번: 실적 기반 추세 상승\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.";
+  const cleanThreadsText = (text?: string): string => {
+    if (!text) return "";
+    return text
+      .replace(/어제\s*/g, "")
+      .replace(/(쏟아졌|빠졌|받았|있었|내렸|올랐|렸|갔|였)거든/g, "$1어")
+      .replace(/했거든/g, "했어")
+      .replace(/거든(\.|\s|$)/g, "어$1")
+      .trim();
+  };
+
+  const cleanWatchPoint = (text?: string): string => {
+    return cleanThreadsText(text)
+      .replace(/\n*1번:[^\n]*/g, "")
+      .replace(/\n*2번:[^\n]*/g, "")
+      .replace(/\n*댓글에\s*1\s*또는\s*2[^\n]*/g, "")
+      .trim();
+  };
+
+  let watchPointText = cleanWatchPoint(
+    regime.threadsWatchPoint || "반등장일수록 테마의 거래대금과 자금 순유입 지속성을 분별하는 게 중요해. 다들 앞으로의 흐름을 어떻게 봐?"
+  );
   const sourceNotice = `* KRX 공시 마감 국내 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 · 투자 참고용`;
 
   const formattedDate = formatDateWithDay(payload.asOfDate);
-  const opening = (regime.threadsOpening || "").replace(/어제\s*/g, "").trim();
-  let summary = (regime.threadsMarketSummary || "").replace(/어제\s*/g, "").trim();
+  const opening = cleanThreadsText(regime.threadsOpening || "");
+  let summary = cleanThreadsText(regime.threadsMarketSummary || "");
 
   // Build draft post with explicit date header (Instagram caption alignment)
   let mainPost = `${formattedDate} ETF 마켓 동향
@@ -99,12 +119,12 @@ ${sourceNotice}`;
     if (summary.includes(". ")) {
       summary = summary.split(". ")[0].trim() + ".";
     }
-    // 2. Shorten watchPointText if it exceeds 120 chars while preserving friendly banmal CTA
-    if (watchPointText.length > 120) {
+    // 2. Shorten watchPointText if it exceeds 100 chars while preserving natural friendly question
+    if (watchPointText.length > 100) {
       const matchQuestion = watchPointText.match(/다들[^?]+\?/);
       watchPointText = matchQuestion 
-        ? `주도 테마의 수급 지속성을 점검할 때야. ${matchQuestion[0]}\n\n1번: 추가 상승 / 2번: 단기 조정\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.` 
-        : "주도 테마의 수급 지속성을 점검할 때야. 다들 어떻게 봐?\n\n1번: 추가 상승 / 2번: 단기 조정\n\n댓글에 1 또는 2 숫자만 툭 남겨줘도 좋아.";
+        ? `주도 테마의 수급 지속성을 점검할 때야. ${matchQuestion[0]}` 
+        : "주도 테마의 수급 지속성을 점검할 때야. 다들 앞으로의 흐름을 어떻게 봐?";
     }
     mainPost = `${formattedDate} ETF 마켓 동향
 
@@ -126,8 +146,11 @@ ${sourceNotice}`;
     mainPost = mainPost.slice(0, budget).trim() + "..." + footer;
   }
 
-  const defaultFirstComment = `1. 단기 변동성보다는 실적과 자금 유입이 뒷받침되는 섹터를 중심에 두는 게 좋아 보여. 다들 차분하게 대응하자.\n\n* 한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석`;
-  const firstComment = (regime.firstComment || defaultFirstComment).trim();
+  const defaultFirstComment = `단기 변동성보다는 실적과 자금 유입이 뒷받침되는 섹터를 중심에 두는 게 좋아 보여. 다들 차분하게 대응하자.\n\n* 한국거래소(KRX) 공시 데이터 마감 기준 · 국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석`;
+  const cleanFirstComment = (text?: string): string => {
+    return cleanThreadsText(text).replace(/^1\.\s*/, "").trim();
+  };
+  const firstComment = cleanFirstComment(regime.firstComment || defaultFirstComment);
 
   const fullContent = `${mainPost}\n\n[첫 댓글]\n${firstComment}`;
 

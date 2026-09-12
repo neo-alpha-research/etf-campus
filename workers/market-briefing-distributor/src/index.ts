@@ -385,6 +385,24 @@ export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: 
     if (cached) {
       const parsed = JSON.parse(cached);
       const stripEmoji = (str?: string) => (str || "").replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").trim();
+      const cleanThreadsText = (str?: string) => {
+        return stripEmoji(str)
+          .replace(/(쏟아졌|빠졌|받았|있었|내렸|올랐|렸|갔|였)거든/g, "$1어")
+          .replace(/했거든/g, "했어")
+          .replace(/거든(\.|\s|$)/g, "어$1")
+          .trim();
+      };
+      const cleanWatchPoint = (str?: string) => {
+        return cleanThreadsText(str)
+          .replace(/\n*1번:[^\n]*/g, "")
+          .replace(/\n*2번:[^\n]*/g, "")
+          .replace(/\n*댓글에\s*1\s*또는\s*2[^\n]*/g, "")
+          .trim();
+      };
+      const cleanFirstComment = (str?: string) => {
+        return cleanThreadsText(str).replace(/^1\.\s*/, "").trim();
+      };
+
       return {
         ...parsed,
         slide1Subheadline: stripEmoji(parsed.slide1Subheadline),
@@ -400,10 +418,10 @@ export async function getOrRefineNarrative(payload: MarketBriefingPayload, env: 
         captionMarketSummary: stripEmoji(parsed.captionMarketSummary),
         captionThemeAnalysis: stripEmoji(parsed.captionThemeAnalysis),
         captionWatchPoint: stripEmoji(parsed.captionWatchPoint),
-        threadsOpening: stripEmoji(parsed.threadsOpening),
-        threadsMarketSummary: stripEmoji(parsed.threadsMarketSummary),
-        threadsWatchPoint: stripEmoji(parsed.threadsWatchPoint),
-        firstComment: stripEmoji(parsed.firstComment),
+        threadsOpening: cleanThreadsText(parsed.threadsOpening),
+        threadsMarketSummary: cleanThreadsText(parsed.threadsMarketSummary),
+        threadsWatchPoint: cleanWatchPoint(parsed.threadsWatchPoint),
+        firstComment: cleanFirstComment(parsed.firstComment),
       };
     }
   } catch (e) {}
@@ -1765,6 +1783,14 @@ async function purgeDashboardCache(env: Env, date?: string): Promise<number> {
         } catch (e) {}
       }
     }
+    try {
+      await env.BRIEFING_KV.delete(`narrative_v10:${d}`);
+      purgedCount++;
+    } catch (e) {}
+    try {
+      await env.BRIEFING_KV.delete(`narrative_v9:${d}`);
+      purgedCount++;
+    } catch (e) {}
   }
   return purgedCount;
 }

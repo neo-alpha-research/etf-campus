@@ -118,7 +118,7 @@ export function generateNewsletterHtml(
   const undervalued = disparityList.filter((d) => d.disparityPct < 0);
 
   // 8. 3축 매트릭스 진단 텍스트
-  let divergenceDiagnosis = "지수와 분산 ETF가 고르게 동행했습니다.";
+  let divergenceDiagnosis = "대표 지수와 대다수 ETF의 체감 수익률이 고르게 일치했습니다.";
   if (etfDivergence >= 1.5) {
     divergenceDiagnosis = "대형주 쏠림으로 인한 지수 착시가 관측되었으며 일반 ETF 상승폭은 차별화되었습니다.";
   } else if (etfDivergence <= -1.0) {

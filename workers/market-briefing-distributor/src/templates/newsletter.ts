@@ -222,25 +222,19 @@ export function generateNewsletterHtml(
       <div class="content">
         <!-- 1. Executive Summary (3-Axis Market Matrix Diagnosis Box) -->
         <div class="exec-box" style="background-color: #F8FAFC; border-left: 5px solid #059669; padding: 18px; border-radius: 0 14px 14px 0; margin-bottom: 24px; border-top: 1.5px solid #E2E8F0; border-right: 1.5px solid #E2E8F0; border-bottom: 1.5px solid #E2E8F0;">
-          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 8px; margin-bottom: 12px;">
-            <tr>
-              <td style="text-align: left; vertical-align: middle;">
-                <span style="display: inline-block; background-color: #ECFDF5; color: #047857; font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 6px; border: 1px solid #A7F3D0;">
-                  ${escapeXml(regime.statusName)}
-                </span>
-              </td>
-              <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
-                <span style="font-size: 12px; font-weight: 700; color: #64748B;">일반 ETF ${generalCount.toLocaleString()}개 전수 분석</span>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" style="padding-top: 6px;">
-                <span style="font-size: 15px; font-weight: 800; color: #065F46;">오늘의 30초 핵심 진단</span>
-              </td>
-            </tr>
-          </table>
+          <!-- Top Row: Section Title & Analysis Base (Stacked for 100% Zero-Overflow Consistency) -->
+          <div style="border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 8px; margin-bottom: 12px;">
+            <div style="font-size: 16.5px; font-weight: 900; color: #065F46; letter-spacing: -0.4px;">오늘의 30초 핵심 진단</div>
+            <div style="font-size: 11.5px; font-weight: 700; color: #64748B; margin-top: 3px;">※ 일반 ETF ${generalCount.toLocaleString()}개 전수 분석</div>
+          </div>
 
-          <div class="exec-headline" style="font-size: 15.5px; font-weight: 800; color: #0F172A; line-height: 1.6; margin-bottom: 14px; letter-spacing: -0.3px; word-break: keep-all;">
+          <div style="margin-bottom: 8px;">
+            <span style="display: inline-block; background-color: #ECFDF5; color: #047857; font-size: 12px; font-weight: 800; padding: 3px 9px; border-radius: 6px; border: 1px solid #A7F3D0; white-space: nowrap;">
+              ${escapeXml(regime.statusName)}
+            </span>
+          </div>
+
+          <div class="exec-headline" style="font-size: 15.5px; font-weight: 800; color: #0F172A; line-height: 1.55; margin-bottom: 14px; letter-spacing: -0.3px; word-break: keep-all;">
             ${escapeXml(regime.slide1Subheadline || `코스피 ${kospiSign}${kospiChangePct.toFixed(2)}% 등락 속 일반 ETF 시장은 상승 ${up}개 vs 하락 ${down}개로 ${regime.statusName} 흐름을 시현했습니다.`)}
           </div>
 

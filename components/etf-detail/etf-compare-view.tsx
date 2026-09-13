@@ -119,7 +119,10 @@ export function EtfCompareView({
 
   // Switch to summary view automatically on mobile when 3+ ETFs are compared
   useEffect(() => {
-    const mql = typeof window !== "undefined" ? window.matchMedia("(max-width: 639px)") : null;
+    const mql =
+      typeof window !== "undefined" && typeof window.matchMedia === "function"
+        ? window.matchMedia("(max-width: 639px)")
+        : null;
     if (mql?.matches && compareList.length >= 3) {
       const raf = requestAnimationFrame(() => {
         setViewMode("summary");

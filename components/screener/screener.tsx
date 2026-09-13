@@ -18,11 +18,20 @@ const riskLabels: Record<RiskType, string> = { normal: "일반형", leverage: "�
 const aumLabels: Record<AumScope, string> = { all: "전체", "500plus": "500억 이상", "1000plus": "1,000억 이상" };
 const terLabels: Record<TerRange, string> = { "under0.1": "0.1% 미만", "0.1to0.5": "0.1~0.5%", "over0.5": "0.5% 이상" };
 
-function UnitHeaderLabel({ label, unit, align = "center" }: { label: string; unit: string; align?: "center" | "right" }) {
+function UnitHeaderLabel({ label, mobileLabel, unit, align = "center" }: { label: string; mobileLabel?: string; unit: string; align?: "center" | "right" }) {
   return (
     <div className={`flex flex-col ${align === "right" ? "items-end justify-center text-right pr-0.5" : "items-center justify-center text-center"} leading-[1.2]`}>
-      <span className="text-[11px] font-bold text-strong">{label}</span>
-      <span className="text-[10px] font-bold text-neutral-500">({unit})</span>
+      <span className="text-[11px] font-bold text-strong whitespace-nowrap">
+        {mobileLabel ? (
+          <>
+            <span className="sm:hidden">{mobileLabel}</span>
+            <span className="hidden sm:inline">{label}</span>
+          </>
+        ) : (
+          label
+        )}
+      </span>
+      <span className="text-[10px] font-bold text-neutral-500 whitespace-nowrap">({unit})</span>
     </div>
   );
 }
@@ -1344,10 +1353,10 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
               )}
               {tableViewMode === "metrics" && (
                 <>
-                  <div className="w-[30%] px-1 text-left text-neutral-500 shrink-0">
+                  <div className="w-[28%] px-1 text-left text-neutral-500 shrink-0">
                     상품 정보
                   </div>
-                  <div className="w-[70%] grid grid-cols-5 text-right font-mono pr-0.5 text-[10px] sm:text-[10.5px]">
+                  <div className="w-[72%] grid grid-cols-5 text-right font-mono pr-0.5 text-[10px] sm:text-[10.5px]">
                     <button type="button" onClick={() => toggleColumnSort("return_1d")} className={`cursor-pointer ${sort === "return_1d" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
                       1일{sort === "return_1d" && (sortDir === "desc" ? "▼" : "▲")}
                     </button>
@@ -1358,7 +1367,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       순자산{sort === "aum" && (sortDir === "desc" ? "▼" : "▲")}
                     </button>
                     <button type="button" onClick={() => toggleColumnSort("tradeValue")} className={`cursor-pointer ${sort === "tradeValue" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                      거래대금{sort === "tradeValue" && (sortDir === "desc" ? "▼" : "▲")}
+                      <span className="sm:hidden">거래액</span><span className="hidden sm:inline">거래대금</span>{sort === "tradeValue" && (sortDir === "desc" ? "▼" : "▲")}
                     </button>
                     <span className="text-neutral-500">종가</span>
                   </div>
@@ -1401,9 +1410,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   )}
                   {tableViewMode === "metrics" && (
                     <>
-                      <col className="w-[30%] sm:w-[180px]" />
+                      <col className="w-[28%] sm:w-[180px]" />
                       <col className="w-[13%] sm:w-[54px]" />
-                      <col className="w-[14%] sm:w-[64px]" />
+                      <col className="w-[16%] sm:w-[64px]" />
                       <col className="w-[14%] sm:w-[68px]" />
                       <col className="w-[14%] sm:w-[68px]" />
                       <col className="w-[15%] sm:w-[68px]" />
@@ -1418,7 +1427,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       <col className="w-[48px] sm:w-[54px]" />
                       <col className="w-[48px] sm:w-[54px]" />
                       {hasExtraReturn && <col className="w-[54px] sm:w-[58px]" />}
-                      <col className="w-[50px] sm:w-[64px]" />
+                      <col className="w-[54px] sm:w-[64px]" />
                       <col className="w-[56px] sm:w-[68px]" />
                       <col className="w-[56px] sm:w-[68px]" />
                       <col className="w-[56px] sm:w-[68px]" />
@@ -1629,7 +1638,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                           title="실부담비용 기준 정렬 (클릭 시 낮은순/높은순 토글)"
                         >
                           <div className="flex items-center justify-end gap-0.5">
-                            <UnitHeaderLabel align="right" label="실부담비용" unit="%" />
+                            <UnitHeaderLabel align="right" label="실부담비용" mobileLabel="실부담" unit="%" />
                             {sort === "ter" && (
                               <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
                             )}
@@ -1657,7 +1666,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                           title="거래대금 기준 정렬 (클릭 시 높은순/낮은순 토글)"
                         >
                           <div className="flex items-center justify-end gap-0.5">
-                            <UnitHeaderLabel align="right" label="거래대금" unit="억원" />
+                            <UnitHeaderLabel align="right" label="거래대금" mobileLabel="거래액" unit="억원" />
                             {sort === "tradeValue" && (
                               <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
                             )}

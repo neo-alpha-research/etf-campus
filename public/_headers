@@ -1,0 +1,34 @@
+# General security headers for all paths
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Next.js immutable JS and CSS assets (1 year immutable cache)
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Static fonts and media assets (1 year immutable cache)
+/_next/static/media/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# ETF Screener dataset (5 mins fresh, 24h stale-while-revalidate)
+/data/screener.json
+  Cache-Control: public, max-age=300, stale-while-revalidate=86400
+
+# Other static JSON / TXT data files (1 hour fresh, 24h stale-while-revalidate)
+/data/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+# Static images and brand assets (1 day browser cache, 7 days stale-while-revalidate)
+/images/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/brand/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/favicon.ico
+  Cache-Control: public, max-age=86400
+
+/manifest.json
+  Cache-Control: public, max-age=86400

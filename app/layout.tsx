@@ -2,13 +2,25 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
+import dynamic from "next/dynamic";
+
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { MarketTicker } from "@/components/market-ticker";
-import { AppPushInitializer } from "@/components/native/app-push-initializer";
-import { AppBackButtonHandler } from "@/components/native/app-back-button-handler";
-import { StyleOnboarding } from "@/components/onboarding/style-onboarding";
 import { siteConfig } from "@/config/site";
+
+const StyleOnboarding = dynamic(
+  () => import("@/components/onboarding/style-onboarding").then((mod) => mod.StyleOnboarding),
+  { ssr: false }
+);
+const AppPushInitializer = dynamic(
+  () => import("@/components/native/app-push-initializer").then((mod) => mod.AppPushInitializer),
+  { ssr: false }
+);
+const AppBackButtonHandler = dynamic(
+  () => import("@/components/native/app-back-button-handler").then((mod) => mod.AppBackButtonHandler),
+  { ssr: false }
+);
 
 import "./globals.css";
 

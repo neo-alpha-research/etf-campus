@@ -270,7 +270,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   
   useEffect(() => {
     if (typeof window !== "undefined" && window.innerWidth < 640) {
-      setTableViewMode("returns");
+      const handle = requestAnimationFrame(() => setTableViewMode("returns"));
+      return () => cancelAnimationFrame(handle);
     }
   }, []);
 

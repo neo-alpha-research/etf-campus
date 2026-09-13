@@ -2,9 +2,9 @@ name: Community board auto-activation
 
 on:
   schedule:
-    # 월·수·금 07:00 KST (= UTC 22:00 Sun/Tue/Thu)
-    # 주 3회 각 게시판 1개씩 3개 게시글 자동 추가
-    - cron: "0 22 * * 0,2,4"
+    # 매일 03:00 KST (= UTC 18:00) — GitHub Actions 한산 시간대
+    # KST = UTC+9 이므로: 03:00 KST = 전날 18:00 UTC
+    - cron: "0 18 * * *"
   workflow_dispatch:
     inputs:
       date:

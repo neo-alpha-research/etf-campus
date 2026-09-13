@@ -1311,93 +1311,124 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
               </div>
             </div>
 
-            {/* 모바일 뷰포트에서 스크롤 중에도 열 정보가 항상 보이는 콤팩트 헤더 바 */}
+            {/* 모바일 뷰포트에서 스크롤 중에도 열 정보가 항상 보이는 콤팩트 헤더 바 (본문 열과 1:1 수학적 일치) */}
             <div className="lg:hidden w-full flex items-center border-t border-neutral-200/80 pt-1.5 mt-0.5 text-[11px] font-bold text-neutral-600 select-none">
-              <div className="w-[130px] min-w-[120px] px-1 text-left text-neutral-500 shrink-0">
-                상품 정보
-              </div>
               {tableViewMode === "returns" && (
-                <div className="flex-1 flex justify-between text-right font-mono pr-1 text-[10.5px]">
-                  <button type="button" onClick={() => toggleColumnSort("return_1d")} className={`cursor-pointer ${sort === "return_1d" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    1일{sort === "return_1d" && (sortDir === "desc" ? "▼" : "▲")}
-                  </button>
-                  <button type="button" onClick={() => toggleColumnSort("return_1m")} className={`cursor-pointer ${sort === "return_1m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    1개월{sort === "return_1m" && (sortDir === "desc" ? "▼" : "▲")}
-                  </button>
-                  <button type="button" onClick={() => toggleColumnSort("return_3m")} className={`cursor-pointer ${sort === "return_3m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    3개월{sort === "return_3m" && (sortDir === "desc" ? "▼" : "▲")}
-                  </button>
-                  <button type="button" onClick={() => toggleColumnSort("return_12m")} className={`cursor-pointer ${sort === "return_12m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    1년{sort === "return_12m" && (sortDir === "desc" ? "▼" : "▲")}
-                  </button>
-                  <button type="button" onClick={() => toggleColumnSort("return_36m")} className={`cursor-pointer ${sort === "return_36m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    3년{sort === "return_36m" && (sortDir === "desc" ? "▼" : "▲")}
-                  </button>
-                </div>
+                <>
+                  <div className={`${hasExtraReturn ? "w-[31%]" : "w-[34%]"} px-1 text-left text-neutral-500 shrink-0`}>
+                    상품 정보
+                  </div>
+                  <div className={`${hasExtraReturn ? "w-[69%] grid-cols-6" : "w-[66%] grid-cols-5"} grid text-right font-mono pr-0.5 text-[10px] sm:text-[10.5px]`}>
+                    <button type="button" onClick={() => toggleColumnSort("return_1d")} className={`cursor-pointer ${sort === "return_1d" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      1일{sort === "return_1d" && (sortDir === "desc" ? "▼" : "▲")}
+                    </button>
+                    <button type="button" onClick={() => toggleColumnSort("return_1m")} className={`cursor-pointer ${sort === "return_1m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      1개월{sort === "return_1m" && (sortDir === "desc" ? "▼" : "▲")}
+                    </button>
+                    <button type="button" onClick={() => toggleColumnSort("return_3m")} className={`cursor-pointer ${sort === "return_3m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      3개월{sort === "return_3m" && (sortDir === "desc" ? "▼" : "▲")}
+                    </button>
+                    <button type="button" onClick={() => toggleColumnSort("return_12m")} className={`cursor-pointer ${sort === "return_12m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      1년{sort === "return_12m" && (sortDir === "desc" ? "▼" : "▲")}
+                    </button>
+                    <button type="button" onClick={() => toggleColumnSort("return_36m")} className={`cursor-pointer ${sort === "return_36m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      3년{sort === "return_36m" && (sortDir === "desc" ? "▼" : "▲")}
+                    </button>
+                    {hasExtraReturn && (
+                      <button type="button" onClick={() => toggleColumnSort("return_custom")} className={`cursor-pointer ${sort === "return_custom" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                        비교{sort === "return_custom" && (sortDir === "desc" ? "▼" : "▲")}
+                      </button>
+                    )}
+                  </div>
+                </>
               )}
               {tableViewMode === "metrics" && (
-                <div className="flex-1 flex justify-between text-right font-mono pr-1 text-[10.5px]">
-                  <button type="button" onClick={() => toggleColumnSort("return_1d")} className={`cursor-pointer ${sort === "return_1d" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    1일{sort === "return_1d" && (sortDir === "desc" ? "▼" : "▲")}
-                  </button>
-                  <button type="button" onClick={() => toggleColumnSort("ter")} className={`cursor-pointer ${sort === "ter" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    실부담{sort === "ter" && (sortDir === "asc" ? "▲" : "▼")}
-                  </button>
-                  <button type="button" onClick={() => toggleColumnSort("aum")} className={`cursor-pointer ${sort === "aum" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    순자산{sort === "aum" && (sortDir === "desc" ? "▼" : "▲")}
-                  </button>
-                  <button type="button" onClick={() => toggleColumnSort("tradeValue")} className={`cursor-pointer ${sort === "tradeValue" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
-                    거래대금{sort === "tradeValue" && (sortDir === "desc" ? "▼" : "▲")}
-                  </button>
-                  <span className="text-neutral-500">종가</span>
-                </div>
+                <>
+                  <div className="w-[30%] px-1 text-left text-neutral-500 shrink-0">
+                    상품 정보
+                  </div>
+                  <div className="w-[70%] grid grid-cols-5 text-right font-mono pr-0.5 text-[10px] sm:text-[10.5px]">
+                    <button type="button" onClick={() => toggleColumnSort("return_1d")} className={`cursor-pointer ${sort === "return_1d" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      1일{sort === "return_1d" && (sortDir === "desc" ? "▼" : "▲")}
+                    </button>
+                    <button type="button" onClick={() => toggleColumnSort("ter")} className={`cursor-pointer ${sort === "ter" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      실부담{sort === "ter" && (sortDir === "asc" ? "▲" : "▼")}
+                    </button>
+                    <button type="button" onClick={() => toggleColumnSort("aum")} className={`cursor-pointer ${sort === "aum" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      순자산{sort === "aum" && (sortDir === "desc" ? "▼" : "▲")}
+                    </button>
+                    <button type="button" onClick={() => toggleColumnSort("tradeValue")} className={`cursor-pointer ${sort === "tradeValue" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                      거래대금{sort === "tradeValue" && (sortDir === "desc" ? "▼" : "▲")}
+                    </button>
+                    <span className="text-neutral-500">종가</span>
+                  </div>
+                </>
               )}
               {tableViewMode === "all" && (
-                <div className="flex-1 text-right text-[10.5px] text-neutral-400 font-medium pr-1">
-                  👉 표를 가로로 스와이프하세요
-                </div>
+                <>
+                  <div className="w-[125px] px-1 text-left text-neutral-500 shrink-0">
+                    상품 정보
+                  </div>
+                  <div className="flex-1 text-right text-[10.5px] text-neutral-400 font-medium pr-1">
+                    👉 표를 가로로 스와이프하세요
+                  </div>
+                </>
               )}
             </div>
           </div>
           
-          <div className="rounded-2xl border border-line w-full max-w-full min-w-0 bg-surface shadow-xs overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin] overscroll-x-contain">
+          <div className={`rounded-2xl border border-line w-full max-w-full min-w-0 bg-surface shadow-xs ${
+            tableViewMode === "all" ? "overflow-x-auto" : "overflow-x-hidden sm:overflow-x-auto"
+          } [scrollbar-width:thin] overscroll-x-contain`}>
             <div className="w-full max-w-full min-w-0">
-              <table className={`w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap ${
-                tableViewMode === "returns"
-                  ? "w-full min-w-[350px] sm:min-w-[440px]"
-                  : tableViewMode === "metrics"
-                    ? "w-full min-w-[350px] sm:min-w-[460px]"
-                    : "min-w-[770px]"
+              <table className={`border-separate border-spacing-0 text-left text-sm whitespace-nowrap ${
+                tableViewMode === "all"
+                  ? "min-w-[770px] w-full"
+                  : "table-fixed sm:table-auto w-full min-w-0"
               }`}>
-                {/* 명시적 열 너비 제어 */}
+                {/* 명시적 열 너비 제어 (모바일 35:65 제로 스크롤 및 데스크톱 정렬) */}
                 <colgroup>
-                  <col style={{ width: 130, minWidth: 120 }} />
-                  {(tableViewMode === "all" || tableViewMode === "returns") && (
+                  {tableViewMode === "returns" && (
                     <>
-                      <col style={{ width: 46, minWidth: 42 }} />
-                      <col style={{ width: 46, minWidth: 42 }} />
-                      <col style={{ width: 46, minWidth: 42 }} />
-                      <col style={{ width: 48, minWidth: 44 }} />
-                      <col style={{ width: 48, minWidth: 44 }} />
-                      {hasExtraReturn && <col style={{ width: 54, minWidth: 48 }} />}
+                      <col className={hasExtraReturn ? "w-[31%] sm:w-[180px]" : "w-[34%] sm:w-[180px]"} />
+                      <col className={hasExtraReturn ? "w-[11.5%] sm:w-[54px]" : "w-[13.2%] sm:w-[54px]"} />
+                      <col className={hasExtraReturn ? "w-[11.5%] sm:w-[54px]" : "w-[13.2%] sm:w-[54px]"} />
+                      <col className={hasExtraReturn ? "w-[11.5%] sm:w-[54px]" : "w-[13.2%] sm:w-[54px]"} />
+                      <col className={hasExtraReturn ? "w-[11.5%] sm:w-[54px]" : "w-[13.2%] sm:w-[54px]"} />
+                      <col className={hasExtraReturn ? "w-[11.5%] sm:w-[54px]" : "w-[13.2%] sm:w-[54px]"} />
+                      {hasExtraReturn && <col className="w-[11.5%] sm:w-[58px]" />}
                     </>
                   )}
                   {tableViewMode === "metrics" && (
-                    <col style={{ width: 46, minWidth: 42 }} />
-                  )}
-                  {(tableViewMode === "all" || tableViewMode === "metrics") && (
                     <>
-                      <col style={{ width: 50, minWidth: 46 }} />
-                      <col style={{ width: 56, minWidth: 50 }} />
-                      <col style={{ width: 56, minWidth: 50 }} />
-                      <col style={{ width: 56, minWidth: 50 }} />
+                      <col className="w-[30%] sm:w-[180px]" />
+                      <col className="w-[13%] sm:w-[54px]" />
+                      <col className="w-[14%] sm:w-[64px]" />
+                      <col className="w-[14%] sm:w-[68px]" />
+                      <col className="w-[14%] sm:w-[68px]" />
+                      <col className="w-[15%] sm:w-[68px]" />
+                    </>
+                  )}
+                  {tableViewMode === "all" && (
+                    <>
+                      <col className="w-[125px] sm:w-[180px]" />
+                      <col className="w-[46px] sm:w-[54px]" />
+                      <col className="w-[46px] sm:w-[54px]" />
+                      <col className="w-[46px] sm:w-[54px]" />
+                      <col className="w-[48px] sm:w-[54px]" />
+                      <col className="w-[48px] sm:w-[54px]" />
+                      {hasExtraReturn && <col className="w-[54px] sm:w-[58px]" />}
+                      <col className="w-[50px] sm:w-[64px]" />
+                      <col className="w-[56px] sm:w-[68px]" />
+                      <col className="w-[56px] sm:w-[68px]" />
+                      <col className="w-[56px] sm:w-[68px]" />
                     </>
                   )}
                 </colgroup>
                 {/* 2단 헤더 (윈도우 스크롤 시 상단 밀착 고정) */}
                 <thead className="relative z-10 lg:sticky lg:top-[calc(var(--site-header-height,140px)+52px)] lg:z-25 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
                   <tr className="border-b border-neutral-200">
-                    <th className="sticky left-0 z-20 px-1.5 sm:px-3 py-0 h-[30px] sm:h-[32px] w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
+                    <th className="sticky left-0 z-20 px-1 sm:px-3 py-0 h-[30px] sm:h-[32px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
                     {(tableViewMode === "all" || tableViewMode === "returns") && (
                       <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={hasExtraReturn ? 6 : 5} scope="colgroup">
                         <div className="flex items-center justify-center gap-2">
@@ -1478,11 +1509,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                     )}
                   </tr>
                   <tr className="text-[11.5px] sm:text-[12px]">
-                    <th className="sticky left-0 z-20 w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-1.5 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">상품 정보</th>
+                    <th className="sticky left-0 z-20 bg-neutral-100 px-1 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">상품 정보</th>
                     
                     <th 
                       aria-label="1일 수익률 (클릭 시 정렬)"
-                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                      className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_1d" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
                       scope="col"
                       onClick={() => toggleColumnSort("return_1d")}
                       title="1일 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
@@ -1498,7 +1529,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       <>
                         <th 
                           aria-label="1개월 수익률 (클릭 시 정렬)"
-                          className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                          className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
                           scope="col"
                           onClick={() => toggleColumnSort("return_1m")}
                           title="1개월 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
@@ -1512,7 +1543,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         </th>
                         <th 
                           aria-label="3개월 수익률 (클릭 시 정렬)"
-                          className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                          className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
                           scope="col"
                           onClick={() => toggleColumnSort("return_3m")}
                           title="3개월 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
@@ -1526,7 +1557,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         </th>
                         <th 
                           aria-label="1년 수익률 (클릭 시 정렬)"
-                          className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                          className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
                           scope="col"
                           onClick={() => toggleColumnSort("return_12m")}
                           title={isTrMode ? "상장 1년 이상 경과 종목 대상 (클릭 시 정렬)" : "1년 수익률 (클릭 시 정렬)"}
@@ -1540,7 +1571,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         </th>
                         <th 
                           aria-label="3년 수익률 (클릭 시 정렬)"
-                          className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                          className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
                           scope="col"
                           onClick={() => toggleColumnSort("return_36m")}
                           title={isTrMode ? "상장 3년 이상 경과 종목 대상 (클릭 시 정렬)" : "3년 수익률 (클릭 시 정렬)"}
@@ -1554,7 +1585,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         </th>
                         {comparisonPeriod && (
                           <th 
-                            className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-200 transition-colors" 
+                            className="min-w-0 sm:min-w-[58px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-200 transition-colors" 
                             scope="col"
                             onClick={() => toggleColumnSort("return_custom")}
                             title={`${RETURN_PERIOD_LABELS[comparisonPeriod]} 수익률 기준 정렬`}
@@ -1569,7 +1600,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         )}
                         {customDateRange && !comparisonPeriod && (
                           <th 
-                            className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-amber-100 transition-colors" 
+                            className="min-w-0 sm:min-w-[58px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-amber-100 transition-colors" 
                             scope="col"
                             onClick={() => toggleColumnSort("return_custom")}
                             title="사용자 지정 기간 수익률 기준 정렬"
@@ -1592,7 +1623,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       <>
                         <th 
                           aria-label="투자자 실부담 총비용, 단위 퍼센트 (클릭 시 정렬)" 
-                          className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "ter" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                          className={`min-w-0 sm:min-w-[64px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "ter" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
                           scope="col"
                           onClick={() => toggleColumnSort("ter")}
                           title="실부담비용 기준 정렬 (클릭 시 낮은순/높은순 토글)"
@@ -1606,7 +1637,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         </th>
                         <th 
                           aria-label="순자산, 단위 억원 (클릭 시 정렬)" 
-                          className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "aum" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                          className={`min-w-0 sm:min-w-[64px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "aum" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
                           scope="col"
                           onClick={() => toggleColumnSort("aum")}
                           title="순자산 기준 정렬 (클릭 시 높은순/낮은순 토글)"
@@ -1620,7 +1651,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         </th>
                         <th 
                           aria-label="거래대금, 단위 억원 (클릭 시 정렬)" 
-                          className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "tradeValue" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                          className={`min-w-0 sm:min-w-[64px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "tradeValue" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
                           scope="col"
                           onClick={() => toggleColumnSort("tradeValue")}
                           title="거래대금 기준 정렬 (클릭 시 높은순/낮은순 토글)"
@@ -1632,7 +1663,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                             )}
                           </div>
                         </th>
-                        <th aria-label="종가, 단위 원" className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                        <th aria-label="종가, 단위 원" className="min-w-0 sm:min-w-[64px] px-0.5 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
                       </>
                     )}
                   </tr>
@@ -1657,30 +1688,30 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                     return (
                     <tr className="group bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" key={etf.ticker} data-index={virtualRow.index}>
                       {/* 1. 종목 정보 (종목명 + 티커 + 자산/지역/환헤지/연금 뱃지 통합) */}
-                      <th className="sticky left-0 z-10 bg-white group-even:bg-neutral-50/90 group-hover:bg-neutral-100 w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] max-w-[210px] px-1.5 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] transition-colors" scope="row">
+                      <th className="sticky left-0 z-10 bg-white group-even:bg-neutral-50/90 group-hover:bg-neutral-100 px-1 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] transition-colors overflow-hidden" scope="row">
                         <div className="flex flex-col gap-0.5 min-w-0">
-                          <Link className="line-clamp-1 truncate block text-left text-[12px] sm:text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>
+                          <Link className="truncate block text-left text-[11.5px] sm:text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>
                             {etf.name}
                           </Link>
-                          <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">
-                            <span className="font-mono font-semibold text-neutral-600 bg-neutral-100 px-1 py-0.2 rounded text-[10.5px]">{etf.ticker}</span>
-                            <span className="text-neutral-500 font-medium">{etf.assetClass}</span>
+                          <div className="flex flex-wrap items-center gap-0.5 sm:gap-1 text-[10px] sm:text-[11px] text-muted overflow-hidden">
+                            <span className="font-mono font-semibold text-neutral-600 bg-neutral-100 px-0.5 sm:px-1 py-0.2 rounded text-[9.5px] sm:text-[10.5px]">{etf.ticker}</span>
+                            <span className="text-neutral-500 font-medium text-[9.5px] sm:text-[11px] truncate">{etf.assetClass}</span>
                             {etf.classification?.marketScope && etf.classification.marketScope !== "국내" && (
-                              <span className="text-neutral-400">· {etf.classification.marketScope}</span>
+                              <span className="text-neutral-400 text-[9px] sm:text-[10.5px]">· {etf.classification.marketScope}</span>
                             )}
                             {etf.classification?.fxHedge && etf.classification.fxHedge !== "환노출" && (
-                              <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded">{etf.classification.fxHedge}</span>
+                              <span className="text-amber-800 font-bold text-[9px] sm:text-[10px] bg-amber-50 border border-amber-200 px-0.5 sm:px-1 rounded">{etf.classification.fxHedge}</span>
                             )}
                             {filters.accountMode === "pension" ? (
                               etf.pensionLimit === "100% (안전자산)" ? (
                                 <>
-                                  <span className="text-emerald-800 font-bold text-[10px] bg-emerald-50 border border-emerald-200 px-1 rounded" title="퇴직연금감독규정 제12조 제4항상 100% 전액 투자 가능 (안전자산) · 금융투자협회 전자공시 대조 완료">안전자산100%</span>
+                                  <span className="text-emerald-800 font-bold text-[9px] sm:text-[10px] bg-emerald-50 border border-emerald-200 px-0.5 sm:px-1 rounded" title="퇴직연금감독규정 제12조 제4항상 100% 전액 투자 가능 (안전자산) · 금융투자협회 전자공시 대조 완료">안전100%</span>
                                   {etf.pensionVerified === "N" && (
                                     <span
                                       className={
                                         etf.pensionConfidence === "낮음"
-                                          ? "text-neutral-600 font-bold text-[10px] bg-neutral-100 border border-neutral-300 px-1 rounded cursor-help"
-                                          : "text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help"
+                                          ? "text-neutral-600 font-bold text-[9px] sm:text-[10px] bg-neutral-100 border border-neutral-300 px-0.5 sm:px-1 rounded cursor-help"
+                                          : "text-amber-800 font-bold text-[9px] sm:text-[10px] bg-amber-50 border border-amber-300 px-0.5 sm:px-1 rounded cursor-help"
                                       }
                                       title="운용사·증권사 공시로 확인되지 않은 규칙 기반 추정값입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요."
                                     >
@@ -1688,18 +1719,18 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                                     </span>
                                   )}
                                   {etf.pensionConfidence === "보통" && (
-                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help" title="법령 조문 직접 적용 등 간접 근거로 판정된 항목입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.">확인권장</span>
+                                    <span className="text-amber-800 font-bold text-[9px] sm:text-[10px] bg-amber-50 border border-amber-300 px-0.5 sm:px-1 rounded cursor-help" title="법령 조문 직접 적용 등 간접 근거로 판정된 항목입니다. 실제 편입 가능 여부는 가입하신 금융회사에서 확인해 주세요.">확인</span>
                                   )}
                                 </>
                               ) : etf.pensionLimit === "70% (위험자산)" ? null : (
                                 <>
-                                  <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded">연금불가</span>
+                                  <span className="text-rose-800 font-bold text-[9px] sm:text-[10px] bg-rose-50 border border-rose-200 px-0.5 sm:px-1 rounded">불가</span>
                                   {etf.pensionConfidence === "보통" && (
                                     <span
-                                      className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-300 px-1 rounded cursor-help"
+                                      className="text-amber-800 font-bold text-[9px] sm:text-[10px] bg-amber-50 border border-amber-300 px-0.5 sm:px-1 rounded cursor-help"
                                       title="선물 파생평가액 규정상 원칙적 편입 불가이나, 증권사별 예외 취급 정책 여부는 거래 증권사에서 최종 확인하십시오"
                                     >
-                                      정책확인
+                                      정책
                                     </span>
                                   )}
                                 </>
@@ -1708,10 +1739,10 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                               <>
                                 {etf.personalPension === "가능" ? (
                                   etf.pensionLimit === "불가" && (
-                                    <span className="text-amber-800 font-bold text-[10px] bg-amber-50 border border-amber-200 px-1 rounded" title="퇴직연금(DC/IRP)은 불가하나 개인연금저축에서는 100% 편입 가능">개인연금전용</span>
+                                    <span className="text-amber-800 font-bold text-[9px] sm:text-[10px] bg-amber-50 border border-amber-200 px-0.5 sm:px-1 rounded" title="퇴직연금(DC/IRP)은 불가하나 개인연금저축에서는 100% 편입 가능">개인연금</span>
                                   )
                                 ) : (
-                                  <span className="text-rose-800 font-bold text-[10px] bg-rose-50 border border-rose-200 px-1 rounded" title="금융투자협회 연금저축계좌 표준약관 제8조에 따라 지수 대비 1배 초과 또는 음(-)의 배율로 운용되는 ETF는 연금저축계좌에서 매입할 수 없습니다.">연금불가</span>
+                                  <span className="text-rose-800 font-bold text-[9px] sm:text-[10px] bg-rose-50 border border-rose-200 px-0.5 sm:px-1 rounded" title="금융투자협회 연금저축계좌 표준약관 제8조에 따라 지수 대비 1배 초과 또는 음(-)의 배율로 운용되는 ETF는 연금저축계좌에서 매입할 수 없습니다.">불가</span>
                                 )}
                               </>
                             ) : null}
@@ -1720,32 +1751,32 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       </th>
                       
                       {/* 2. 1일 수익률 (공통) */}
-                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
+                      <td className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={getRet("1d")} />
                       </td>
 
                       {/* 3. 수익률 열들 (all 또는 returns 모드) */}
                       {(tableViewMode === "all" || tableViewMode === "returns") && (
                         <>
-                          <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
+                          <td className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
                             <ReturnCell showUnit={false} value={getRet("1m")} />
                           </td>
-                          <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
+                          <td className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
                             <ReturnCell showUnit={false} value={getRet("3m")} />
                           </td>
-                          <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
+                          <td className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
                             <ReturnCell showUnit={false} value={getRet("12m")} />
                           </td>
-                          <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_36m" ? "bg-brand-50" : ""}`}>
+                          <td className={`min-w-0 sm:min-w-[54px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_36m" ? "bg-brand-50" : ""}`}>
                             <ReturnCell showUnit={false} value={getRet("36m")} />
                           </td>
                           {comparisonPeriod && (
-                            <td className="min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
+                            <td className="min-w-0 sm:min-w-[58px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
                               <ReturnCell showUnit={false} value={getRet(comparisonPeriod)} />
                             </td>
                           )}
                           {customDateRange && !comparisonPeriod && (
-                            <td className="min-w-[60px] px-2 py-2 font-semibold text-right border-l-2 border-line bg-amber-50/30">
+                            <td className="min-w-0 sm:min-w-[58px] px-0.5 sm:px-2 py-2 font-semibold text-right border-l-2 border-line bg-amber-50/30">
                               {isCustomReturnsLoading ? (
                                 <span className="text-muted text-xs">...</span>
                               ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
@@ -1761,12 +1792,12 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       {/* 4. 총보수(실부담), 순자산, 거래대금, 종가 (all 또는 metrics 모드) */}
                       {(tableViewMode === "all" || tableViewMode === "metrics") && (
                         <>
-                          <td className={`min-w-[64px] px-1.5 py-1 text-right border-l border-neutral-100 align-middle ${sort === "ter" ? "bg-brand-50" : ""}`}>
+                          <td className={`min-w-0 sm:min-w-[60px] px-0.5 sm:px-1.5 py-1 text-right border-l border-neutral-100 align-middle ${sort === "ter" ? "bg-brand-50" : ""}`}>
                             <FeeDoubleStack etf={etf} />
                           </td>
-                          <td className={`min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "aum" ? "bg-brand-50" : ""}`}>{formatAumNumber(etf.aum)}</td>
-                          <td className={`min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "tradeValue" ? "bg-brand-50" : ""}`}>{formatTradeValueNumber(etf.tradeValue)}</td>
-                          <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
+                          <td className={`min-w-0 sm:min-w-[64px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "aum" ? "bg-brand-50" : ""}`}>{formatAumNumber(etf.aum)}</td>
+                          <td className={`min-w-0 sm:min-w-[64px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "tradeValue" ? "bg-brand-50" : ""}`}>{formatTradeValueNumber(etf.tradeValue)}</td>
+                          <td className="min-w-0 sm:min-w-[64px] px-0.5 sm:px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
                         </>
                       )}
                     </tr>

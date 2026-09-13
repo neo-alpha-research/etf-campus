@@ -1310,7 +1310,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
           <table className={`w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap ${isFullPeriods ? "min-w-[1100px]" : "min-w-[770px]"}`}><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             {/* 명시적 열 너비 제어 */}
             <colgroup>
-              <col style={{ width: 130, minWidth: 120 }} />
+              <col style={{ width: 125, minWidth: 120 }} />
               {displayPeriods.map((period) => (
                 <col key={period} style={{ width: 62, minWidth: 54 }} />
               ))}
@@ -1324,7 +1324,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
             <thead className="relative z-10 lg:sticky lg:top-[var(--site-header-height,140px)] lg:z-30 border-b-2 border-neutral-300 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 shadow-sm">
               {/* 1단 그룹 헤더 */}
               <tr className="border-b border-neutral-200">
-                <th className="sticky left-0 z-20 h-[30px] sm:h-[32px] w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-1.5 sm:px-3 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
+                <th className="sticky left-0 z-20 h-[30px] sm:h-[32px] w-[125px] min-w-[120px] max-w-[130px] sm:w-[180px] sm:min-w-[180px] sm:max-w-none bg-neutral-100 px-1.5 sm:px-3 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
                 <th className="h-[30px] sm:h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">
                   <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                     <span>수익률(%)</span>
@@ -1376,7 +1376,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
               </tr>
               {/* 2단 세부 헤더 */}
               <tr className="text-[11.5px] sm:text-[12px]">
-                <th className="sticky left-0 z-20 w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-1.5 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
+                <th className="sticky left-0 z-20 w-[125px] min-w-[120px] max-w-[130px] sm:w-[180px] sm:min-w-[180px] sm:max-w-none bg-neutral-100 px-1.5 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
                 
                 {displayPeriods.map((period, index) => {
                   const isYtd = period === "ytd" || period === "itd";
@@ -1440,7 +1440,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                       setExplorerState({ sort: "tradeValue", direction: "desc" });
                     }
                   }}
-                  title="거래대금 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
+                  title="거래대금 기준 정렬 (클릭 시 높은순/낮은순 토글)"
                 >
                   <div className="flex items-center justify-end gap-0.5">
                     <UnitHeaderLabel align="right" label="거래대금" unit="억원" />
@@ -1465,7 +1465,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
                 return (
                   <tr className="group bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60 h-[48px]" data-index={virtualRow.index} key={etf.ticker}>
                     {/* 1. 종목 정보 (Sticky Left Column - 2단 통합) */}
-                    <th className="sticky left-0 z-10 bg-white group-even:bg-neutral-50/90 group-hover:bg-neutral-100 w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] max-w-[210px] px-1.5 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] transition-colors" scope="row">
+                    <th className="sticky left-0 z-10 bg-white group-even:bg-neutral-50/90 group-hover:bg-neutral-100 w-[125px] min-w-[120px] max-w-[130px] sm:w-[180px] sm:min-w-[180px] sm:max-w-none px-1.5 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] transition-colors" scope="row">
                       <div className="flex flex-col gap-0.5 min-w-0">
                         <Link className="line-clamp-1 truncate block text-left text-[12px] sm:text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}/`} title={etf.name}>{etf.name}</Link>
                         <div className="flex flex-wrap items-center gap-1 text-[11px] text-muted">

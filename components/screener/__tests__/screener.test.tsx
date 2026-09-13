@@ -543,6 +543,35 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     fireEvent.click(resetBtn);
     expect(resetBtn).toBeInTheDocument();
   });
+
+  it("테이블 보기 모드 프리셋(전체 열, 수익률 뷰, 비용·규모 뷰) 전환 시 해당 열만 맞춤 렌더링된다", () => {
+    render(<Screener etfs={items} />);
+
+    // 1. 기본 전체 열 상태 확인
+    expect(screen.getByRole("columnheader", { name: /1개월 수익률/ })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: /순자산, 단위 억원/ })).toBeInTheDocument();
+
+    // 2. ⚡ 수익률 뷰 전환
+    const returnsViewBtn = screen.getByRole("button", { name: /⚡ 수익률 뷰/ });
+    fireEvent.click(returnsViewBtn);
+    expect(screen.getByRole("columnheader", { name: /1개월 수익률/ })).toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: /순자산, 단위 억원/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: /투자자 실부담 총비용/ })).not.toBeInTheDocument();
+
+    // 3. 💰 비용·규모 뷰 전환
+    const metricsViewBtn = screen.getByRole("button", { name: /💰 비용·규모 뷰/ });
+    fireEvent.click(metricsViewBtn);
+    expect(screen.getByRole("columnheader", { name: /순자산, 단위 억원/ })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: /투자자 실부담 총비용/ })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: /1일 수익률/ })).toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: /1개월 수익률/ })).not.toBeInTheDocument();
+
+    // 4. 전체 열 복귀
+    const allViewBtn = screen.getByRole("button", { name: "전체 열" });
+    fireEvent.click(allViewBtn);
+    expect(screen.getByRole("columnheader", { name: /1개월 수익률/ })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: /순자산, 단위 억원/ })).toBeInTheDocument();
+  });
 });
 
 

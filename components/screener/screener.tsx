@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "@/lib/hooks/fetcher";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
@@ -266,12 +266,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     });
   }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData, isTrMode]);
   
+  const [tableViewMode, setTableViewMode] = useState<"all" | "returns" | "metrics">("all");
   const tbodyRef = useRef<HTMLTableSectionElement>(null);
   const [tableOffsetTop, setTableOffsetTop] = useState(0);
 
-  useEffect(() => {
-    if (!tbodyRef.current) return;
-    
+  useLayoutEffect(() => {
     const updateOffset = () => {
       if (tbodyRef.current) {
         const rect = tbodyRef.current.getBoundingClientRect();
@@ -279,22 +278,29 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
       }
     };
     
-    // Initial update
     updateOffset();
-    
-    // Track layout shifts (e.g., banner loading)
-    const observer = new ResizeObserver(updateOffset);
-    observer.observe(document.body);
-    
-    return () => observer.disconnect();
-  }, [results, filters]);
+    window.addEventListener("resize", updateOffset, { passive: true });
+    return () => window.removeEventListener("resize", updateOffset);
+  }, [results.length, filters, selectedPeriod, comparisonPeriod, customDateRange, isTrMode]);
 
   const rowVirtualizer = useWindowVirtualizer({
     count: results.length,
-    estimateSize: () => 36, // Approximate height of a row in the screener table
+    estimateSize: () => 52, // Accurate fixed row height preventing forced reflows
     overscan: 15,
     scrollMargin: tableOffsetTop,
+    getItemKey: (index) => results[index]?.ticker ?? index,
   });
+
+  const virtualRows = rowVirtualizer.getVirtualItems();
+  const virtualPaddingTop = virtualRows.length > 0 ? Math.max(0, virtualRows[0].start - tableOffsetTop) : 0;
+  const virtualPaddingBottom = virtualRows.length > 0 ? Math.max(0, rowVirtualizer.getTotalSize() - virtualRows[virtualRows.length - 1].end) : 0;
+  const hasExtraReturn = Boolean(comparisonPeriod || customDateRange);
+  const currentColumnCount = 
+    tableViewMode === "returns"
+      ? (hasExtraReturn ? 7 : 6)
+      : tableViewMode === "metrics"
+        ? 6
+        : (hasExtraReturn ? 11 : 10);
 
   const isPensionActive = filters.accountMode === "pension" && filters.pensionOnly;
   const isPersonalPensionActive = filters.accountMode === "personal_pension";
@@ -1236,94 +1242,182 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
           </div>
           
+          {/* 뷰 모드 프리셋 및 상단 정렬 상태바 */}
+          <div className="flex flex-wrap items-center justify-between gap-2.5 mb-3 bg-neutral-50/90 p-2 sm:p-2.5 rounded-xl border border-line">
+            <div className="flex items-center gap-1 bg-white p-1 rounded-lg border border-neutral-200/80 shadow-2xs">
+              <span className="text-[11px] font-bold text-neutral-500 pl-1.5 pr-1 hidden sm:inline">보기 모드:</span>
+              <button
+                type="button"
+                onClick={() => setTableViewMode("all")}
+                className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
+                  tableViewMode === "all"
+                    ? "bg-neutral-900 text-white shadow-xs"
+                    : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100"
+                }`}
+                aria-pressed={tableViewMode === "all"}
+              >
+                전체 열
+              </button>
+              <button
+                type="button"
+                onClick={() => setTableViewMode("returns")}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
+                  tableViewMode === "returns"
+                    ? "bg-brand-600 text-white shadow-xs"
+                    : "text-neutral-600 hover:text-brand-700 hover:bg-neutral-100"
+                }`}
+                aria-pressed={tableViewMode === "returns"}
+              >
+                <span>⚡ 수익률 뷰</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setTableViewMode("metrics")}
+                className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
+                  tableViewMode === "metrics"
+                    ? "bg-brand-600 text-white shadow-xs"
+                    : "text-neutral-600 hover:text-brand-700 hover:bg-neutral-100"
+                }`}
+                aria-pressed={tableViewMode === "metrics"}
+              >
+                <span>💰 비용·규모 뷰</span>
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs">
+              <span className="text-muted hidden md:inline">현재 정렬:</span>
+              <button
+                type="button"
+                onClick={() => updateStateAndUrl(filters, selectedPeriod, sort, sortDir === "desc" ? "asc" : "desc")}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-strong font-bold text-[11px] shadow-2xs hover:border-brand-500 hover:text-brand-700 transition-colors cursor-pointer"
+                title="정렬 방향 전환"
+              >
+                <span>{sortLabels[sort]}</span>
+                <span className="text-brand-600 font-extrabold">
+                  {sort === "ter" 
+                    ? (sortDir === "asc" ? "▲ 낮은순(저비용)" : "▼ 높은순")
+                    : (sortDir === "desc" ? "▼ 높은순" : "▲ 낮은순")}
+                </span>
+              </button>
+            </div>
+          </div>
+          
           <div className="rounded-2xl border border-line w-full max-w-full min-w-0 bg-surface shadow-xs overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin] overscroll-x-contain touch-pan-x">
             <div className="w-full max-w-full min-w-0">
-              <table className="w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap min-w-[770px]">
+              <table className={`w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap ${
+                tableViewMode === "returns"
+                  ? "min-w-full sm:min-w-[460px]"
+                  : tableViewMode === "metrics"
+                    ? "min-w-full sm:min-w-[500px]"
+                    : "min-w-[770px]"
+              }`}>
                 {/* 명시적 열 너비 제어 */}
                 <colgroup>
                   <col style={{ width: 180, minWidth: 140 }} />
-                  <col style={{ width: 56, minWidth: 50 }} />
-                  <col style={{ width: 56, minWidth: 50 }} />
-                  <col style={{ width: 56, minWidth: 50 }} />
-                  <col style={{ width: 56, minWidth: 50 }} />
-                  <col style={{ width: 56, minWidth: 50 }} />
-                  {(comparisonPeriod || customDateRange) && <col style={{ width: 62, minWidth: 54 }} />}
-                  <col style={{ width: 56, minWidth: 52 }} />
-                  <col style={{ width: 68, minWidth: 60 }} />
-                  <col style={{ width: 68, minWidth: 60 }} />
-                  <col style={{ width: 68, minWidth: 60 }} />
+                  {(tableViewMode === "all" || tableViewMode === "returns") && (
+                    <>
+                      <col style={{ width: 56, minWidth: 50 }} />
+                      <col style={{ width: 56, minWidth: 50 }} />
+                      <col style={{ width: 56, minWidth: 50 }} />
+                      <col style={{ width: 56, minWidth: 50 }} />
+                      <col style={{ width: 56, minWidth: 50 }} />
+                      {hasExtraReturn && <col style={{ width: 62, minWidth: 54 }} />}
+                    </>
+                  )}
+                  {tableViewMode === "metrics" && (
+                    <col style={{ width: 56, minWidth: 50 }} />
+                  )}
+                  {(tableViewMode === "all" || tableViewMode === "metrics") && (
+                    <>
+                      <col style={{ width: 56, minWidth: 52 }} />
+                      <col style={{ width: 68, minWidth: 60 }} />
+                      <col style={{ width: 68, minWidth: 60 }} />
+                      <col style={{ width: 68, minWidth: 60 }} />
+                    </>
+                  )}
                 </colgroup>
                 {/* 2단 헤더 (윈도우 스크롤 시 상단 밀착 고정) */}
                 <thead className="relative z-10 lg:sticky lg:top-[var(--site-header-height,140px)] lg:z-30 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
                   <tr className="border-b border-neutral-200">
                     <th className="sticky left-0 z-20 px-2 sm:px-3 py-0 h-[30px] sm:h-[32px] w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
-                    <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">
-                      <div className="flex items-center justify-center gap-2">
-                        <span>수익률(%)</span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setIsTrMode(prev => {
-                              const next = !prev;
-                              const query = new URLSearchParams(window.location.search);
-                              if (next) query.set("returnType", "tr");
-                              else query.delete("returnType");
-                              const qs = query.toString();
-                              window.history.replaceState(window.history.state, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
-                              return next;
-                            });
-                          }}
-                          className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold rounded-full transition-all active:scale-95 border cursor-pointer ${
-                            isTrMode 
-                              ? "bg-brand-50 border-brand-300 text-brand-700 shadow-xs" 
-                              : "bg-white border-neutral-200 text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70"
-                          }`}
-                          title={isTrMode ? "분배금 재투자(TR) 수익률 표시 중 (클릭 시 단순 가격 PR로 전환)" : "단순 가격(PR) 수익률 표시 중 (클릭 시 분배금 재투자 TR로 전환)"}
-                        >
-                          <span className={isTrMode ? "text-brand-700" : ""}>
-                            TR {isTrMode ? "ON" : "OFF"}
-                          </span>
-                        </button>
-                        <button 
-                          type="button"
-                          onClick={() => setShowMobileTrTooltip(true)}
-                          className="group relative inline-flex items-center justify-center w-7 h-7 sm:w-auto sm:h-auto rounded-full text-neutral-400 hover:text-neutral-600 bg-neutral-100 sm:bg-transparent"
-                        >
-                          <svg className="w-4 h-4 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
-                          
-                          {/* Desktop Tooltip */}
-                          <div className="hidden sm:block absolute left-1/2 bottom-[calc(100%+8px)] -translate-x-1/2 w-64 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120] text-[11px] font-normal tracking-tight leading-snug whitespace-normal break-keep">
-                            <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900/98" />
-                            <strong>TR(Total Return) 모드 안내</strong><br/>
-                            <span className="text-brand-300 font-bold mt-1.5 block">분배금 100% 전액 재투자 (세전 Gross TR)</span>
-                            <p className="text-neutral-200">분배금을 세금 차감 없이 전액 재투자했을 때의 복리 총수익률을 표시합니다. (ISA·연금저축 등 과세이연 계좌 기준)</p>
-                            <p className="text-neutral-300 text-[10.5px] mt-1.5 pt-1.5 border-t border-slate-700/60">💡 상장 기간이 미달된 구간은 정합성을 위해 공백(—)으로 표기됩니다.</p>
-                          </div>
-                        </button>
-                      </div>
-                      {showMobileTrTooltip && (
-                        <div className="fixed inset-0 z-[200] flex items-end sm:hidden bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setShowMobileTrTooltip(false)}>
-                          <div className="w-full bg-white rounded-t-2xl p-5 pb-8 animate-in slide-in-from-bottom-full duration-300" onClick={e => e.stopPropagation()}>
-                            <div className="w-12 h-1.5 bg-neutral-200 rounded-full mx-auto mb-4" />
-                            <h3 className="text-lg font-bold text-strong mb-1 text-left">TR(Total Return) 모드 안내</h3>
-                            <div className="space-y-4 mt-5 text-[14px] leading-relaxed text-neutral-600 text-left">
-                              <div className="bg-brand-50/50 p-3.5 rounded-xl border border-brand-100/50">
-                                <strong className="text-brand-700 block mb-1">분배금 100% 전액 재투자 (세전 Gross TR)</strong>
-                                분배금(배당금)을 세금 차감 없이 100% 전액 재투자했을 때의 복리 총수익률입니다. ISA·연금저축 등 과세이연 계좌 기준이며, 일반계좌는 세금 차감 전 기준입니다.
-                                <p className="text-neutral-500 text-[12px] mt-2 pt-2 border-t border-brand-200/50">💡 상장 기간이 미달된 구간은 정합성을 위해 공백(—)으로 표기됩니다.</p>
-                              </div>
+                    {(tableViewMode === "all" || tableViewMode === "returns") && (
+                      <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={hasExtraReturn ? 6 : 5} scope="colgroup">
+                        <div className="flex items-center justify-center gap-2">
+                          <span>수익률(%)</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsTrMode(prev => {
+                                const next = !prev;
+                                const query = new URLSearchParams(window.location.search);
+                                if (next) query.set("returnType", "tr");
+                                else query.delete("returnType");
+                                const qs = query.toString();
+                                window.history.replaceState(window.history.state, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+                                return next;
+                              });
+                            }}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-2 sm:py-0.5 text-[12px] sm:text-[10px] font-bold rounded-full transition-all active:scale-95 border cursor-pointer ${
+                              isTrMode 
+                                ? "bg-brand-50 border-brand-300 text-brand-700 shadow-xs" 
+                                : "bg-white border-neutral-200 text-neutral-600 hover:text-brand-800 hover:bg-neutral-200/70"
+                            }`}
+                            title={isTrMode ? "분배금 재투자(TR) 수익률 표시 중 (클릭 시 단순 가격 PR로 전환)" : "단순 가격(PR) 수익률 표시 중 (클릭 시 분배금 재투자 TR로 전환)"}
+                          >
+                            <span className={isTrMode ? "text-brand-700" : ""}>
+                              TR {isTrMode ? "ON" : "OFF"}
+                            </span>
+                          </button>
+                          <button 
+                            type="button"
+                            onClick={() => setShowMobileTrTooltip(true)}
+                            className="group relative inline-flex items-center justify-center w-7 h-7 sm:w-auto sm:h-auto rounded-full text-neutral-400 hover:text-neutral-600 bg-neutral-100 sm:bg-transparent"
+                          >
+                            <svg className="w-4 h-4 sm:w-3.5 sm:h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" /></svg>
+                            
+                            {/* Desktop Tooltip */}
+                            <div className="hidden sm:block absolute left-1/2 bottom-[calc(100%+8px)] -translate-x-1/2 w-64 max-w-[calc(100vw-32px)] p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 z-[120] text-[11px] font-normal tracking-tight leading-snug whitespace-normal break-keep">
+                              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-slate-900/98" />
+                              <strong>TR(Total Return) 모드 안내</strong><br/>
+                              <span className="text-brand-300 font-bold mt-1.5 block">분배금 100% 전액 재투자 (세전 Gross TR)</span>
+                              <p className="text-neutral-200">분배금을 세금 차감 없이 전액 재투자했을 때의 복리 총수익률을 표시합니다. (ISA·연금저축 등 과세이연 계좌 기준)</p>
+                              <p className="text-neutral-300 text-[10.5px] mt-1.5 pt-1.5 border-t border-slate-700/60">💡 상장 기간이 미달된 구간은 정합성을 위해 공백(—)으로 표기됩니다.</p>
                             </div>
-                            <button 
-                              className="w-full py-3.5 mt-6 bg-neutral-900 text-white text-[15px] font-bold rounded-xl active:scale-[0.98] transition-transform"
-                              onClick={() => setShowMobileTrTooltip(false)}
-                            >
-                              확인
-                            </button>
-                          </div>
+                          </button>
                         </div>
-                      )}
-                    </th>
-                    <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-100" colSpan={4} scope="colgroup">비용·규모·가격</th>
+                        {showMobileTrTooltip && (
+                          <div className="fixed inset-0 z-[200] flex items-end sm:hidden bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setShowMobileTrTooltip(false)}>
+                            <div className="w-full bg-white rounded-t-2xl p-5 pb-8 animate-in slide-in-from-bottom-full duration-300" onClick={e => e.stopPropagation()}>
+                              <div className="w-12 h-1.5 bg-neutral-200 rounded-full mx-auto mb-4" />
+                              <h3 className="text-lg font-bold text-strong mb-1 text-left">TR(Total Return) 모드 안내</h3>
+                              <div className="space-y-4 mt-5 text-[14px] leading-relaxed text-neutral-600 text-left">
+                                <div className="bg-brand-50/50 p-3.5 rounded-xl border border-brand-100/50">
+                                  <strong className="text-brand-700 block mb-1">분배금 100% 전액 재투자 (세전 Gross TR)</strong>
+                                  분배금(배당금)을 세금 차감 없이 100% 전액 재투자했을 때의 복리 총수익률입니다. ISA·연금저축 등 과세이연 계좌 기준이며, 일반계좌는 세금 차감 전 기준입니다.
+                                  <p className="text-neutral-500 text-[12px] mt-2 pt-2 border-t border-brand-200/50">💡 상장 기간이 미달된 구간은 정합성을 위해 공백(—)으로 표기됩니다.</p>
+                                </div>
+                              </div>
+                              <button 
+                                className="w-full py-3.5 mt-6 bg-neutral-900 text-white text-[15px] font-bold rounded-xl active:scale-[0.98] transition-transform"
+                                onClick={() => setShowMobileTrTooltip(false)}
+                              >
+                                확인
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </th>
+                    )}
+                    {tableViewMode === "metrics" && (
+                      <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={1} scope="colgroup">
+                        <div className="flex items-center justify-center gap-1.5">
+                          <span>수익률</span>
+                        </div>
+                      </th>
+                    )}
+                    {(tableViewMode === "all" || tableViewMode === "metrics") && (
+                      <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-100" colSpan={4} scope="colgroup">비용·규모·가격</th>
+                    )}
                   </tr>
                   <tr className="text-[11.5px] sm:text-[12px]">
                     <th className="sticky left-0 z-20 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
@@ -1342,149 +1436,158 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         )}
                       </div>
                     </th>
-                    <th 
-                      aria-label="1개월 수익률 (클릭 시 정렬)"
-                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
-                      scope="col"
-                      onClick={() => toggleColumnSort("return_1m")}
-                      title="1개월 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
-                    >
-                      <div className="flex items-center justify-end gap-0.5">
-                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
-                        {sort === "return_1m" && (
-                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                        )}
-                      </div>
-                    </th>
-                    <th 
-                      aria-label="3개월 수익률 (클릭 시 정렬)"
-                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
-                      scope="col"
-                      onClick={() => toggleColumnSort("return_3m")}
-                      title="3개월 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
-                    >
-                      <div className="flex items-center justify-end gap-0.5">
-                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
-                        {sort === "return_3m" && (
-                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                        )}
-                      </div>
-                    </th>
-                    <th 
-                      aria-label="1년 수익률 (클릭 시 정렬)"
-                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
-                      scope="col"
-                      onClick={() => toggleColumnSort("return_12m")}
-                      title={isTrMode ? "상장 1년 이상 경과 종목 대상 (클릭 시 정렬)" : "1년 수익률 (클릭 시 정렬)"}
-                    >
-                      <div className="flex items-center justify-end gap-0.5">
-                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
-                        {sort === "return_12m" && (
-                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                        )}
-                      </div>
-                    </th>
-                    <th 
-                      aria-label="3년 수익률 (클릭 시 정렬)"
-                      className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
-                      scope="col"
-                      onClick={() => toggleColumnSort("return_36m")}
-                      title={isTrMode ? "상장 3년 이상 경과 종목 대상 (클릭 시 정렬)" : "3년 수익률 (클릭 시 정렬)"}
-                    >
-                      <div className="flex items-center justify-end gap-0.5">
-                        <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
-                        {sort === "return_36m" && (
-                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                        )}
-                      </div>
-                    </th>
-                    {comparisonPeriod && (
-                      <th 
-                        className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-200 transition-colors" 
-                        scope="col"
-                        onClick={() => toggleColumnSort("return_custom")}
-                        title={`${RETURN_PERIOD_LABELS[comparisonPeriod]} 수익률 기준 정렬`}
-                      >
-                        <div className="flex items-center justify-end gap-0.5">
-                          <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
-                          {sort === "return_custom" && (
-                            <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                          )}
-                        </div>
-                      </th>
-                    )}
-                    {customDateRange && !comparisonPeriod && (
-                      <th 
-                        className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-amber-100 transition-colors" 
-                        scope="col"
-                        onClick={() => toggleColumnSort("return_custom")}
-                        title="사용자 지정 기간 수익률 기준 정렬"
-                      >
-                        <div className="flex items-center justify-end gap-0.5">
-                          <div>
-                            <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
-                            <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
+                    {(tableViewMode === "all" || tableViewMode === "returns") && (
+                      <>
+                        <th 
+                          aria-label="1개월 수익률 (클릭 시 정렬)"
+                          className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_1m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                          scope="col"
+                          onClick={() => toggleColumnSort("return_1m")}
+                          title="1개월 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
+                        >
+                          <div className="flex items-center justify-end gap-0.5">
+                            <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1개월</span>
+                            {sort === "return_1m" && (
+                              <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                            )}
                           </div>
-                          {sort === "return_custom" && (
-                            <span className="text-[9px] font-black text-amber-900" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                          )}
-                        </div>
-                      </th>
+                        </th>
+                        <th 
+                          aria-label="3개월 수익률 (클릭 시 정렬)"
+                          className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_3m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                          scope="col"
+                          onClick={() => toggleColumnSort("return_3m")}
+                          title="3개월 수익률 기준 정렬 (클릭 시 오름차순/내림차순 토글)"
+                        >
+                          <div className="flex items-center justify-end gap-0.5">
+                            <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3개월</span>
+                            {sort === "return_3m" && (
+                              <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          aria-label="1년 수익률 (클릭 시 정렬)"
+                          className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_12m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                          scope="col"
+                          onClick={() => toggleColumnSort("return_12m")}
+                          title={isTrMode ? "상장 1년 이상 경과 종목 대상 (클릭 시 정렬)" : "1년 수익률 (클릭 시 정렬)"}
+                        >
+                          <div className="flex items-center justify-end gap-0.5">
+                            <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">1년</span>
+                            {sort === "return_12m" && (
+                              <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          aria-label="3년 수익률 (클릭 시 정렬)"
+                          className={`min-w-[50px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "return_36m" ? "bg-brand-100 text-brand-900" : "bg-neutral-50"}`} 
+                          scope="col"
+                          onClick={() => toggleColumnSort("return_36m")}
+                          title={isTrMode ? "상장 3년 이상 경과 종목 대상 (클릭 시 정렬)" : "3년 수익률 (클릭 시 정렬)"}
+                        >
+                          <div className="flex items-center justify-end gap-0.5">
+                            <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-strong block text-right pr-0.5">3년</span>
+                            {sort === "return_36m" && (
+                              <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                            )}
+                          </div>
+                        </th>
+                        {comparisonPeriod && (
+                          <th 
+                            className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-brand-100 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-200 transition-colors" 
+                            scope="col"
+                            onClick={() => toggleColumnSort("return_custom")}
+                            title={`${RETURN_PERIOD_LABELS[comparisonPeriod]} 수익률 기준 정렬`}
+                          >
+                            <div className="flex items-center justify-end gap-0.5">
+                              <span className="whitespace-nowrap text-[10.5px] sm:text-[11px] tracking-tighter font-bold text-brand-900 block text-right pr-0.5">{RETURN_PERIOD_LABELS[comparisonPeriod]}</span>
+                              {sort === "return_custom" && (
+                                <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                              )}
+                            </div>
+                          </th>
+                        )}
+                        {customDateRange && !comparisonPeriod && (
+                          <th 
+                            className="min-w-[54px] sm:min-w-[60px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right bg-amber-50 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-amber-100 transition-colors" 
+                            scope="col"
+                            onClick={() => toggleColumnSort("return_custom")}
+                            title="사용자 지정 기간 수익률 기준 정렬"
+                          >
+                            <div className="flex items-center justify-end gap-0.5">
+                              <div>
+                                <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">{customDateRange.start.slice(2).replace(/-/g, ".")}</span>
+                                <span className="block text-[9px] tracking-tighter font-bold text-amber-700 text-right pr-0.5">~{customDateRange.end.slice(2).replace(/-/g, ".")}</span>
+                              </div>
+                              {sort === "return_custom" && (
+                                <span className="text-[9px] font-black text-amber-900" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                              )}
+                            </div>
+                          </th>
+                        )}
+                      </>
                     )}
 
-                    <th 
-                      aria-label="투자자 실부담 총비용, 단위 퍼센트 (클릭 시 정렬)" 
-                      className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "ter" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
-                      scope="col"
-                      onClick={() => toggleColumnSort("ter")}
-                      title="실부담비용 기준 정렬 (클릭 시 낮은순/높은순 토글)"
-                    >
-                      <div className="flex items-center justify-end gap-0.5">
-                        <UnitHeaderLabel align="right" label="실부담비용" unit="%" />
-                        {sort === "ter" && (
-                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                        )}
-                      </div>
-                    </th>
-                    <th 
-                      aria-label="순자산, 단위 억원 (클릭 시 정렬)" 
-                      className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "aum" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
-                      scope="col"
-                      onClick={() => toggleColumnSort("aum")}
-                      title="순자산 기준 정렬 (클릭 시 높은순/낮은순 토글)"
-                    >
-                      <div className="flex items-center justify-end gap-0.5">
-                        <UnitHeaderLabel align="right" label="순자산" unit="억원" />
-                        {sort === "aum" && (
-                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                        )}
-                      </div>
-                    </th>
-                    <th 
-                      aria-label="거래대금, 단위 억원 (클릭 시 정렬)" 
-                      className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "tradeValue" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
-                      scope="col"
-                      onClick={() => toggleColumnSort("tradeValue")}
-                      title="거래대금 기준 정렬 (클릭 시 높은순/낮은순 토글)"
-                    >
-                      <div className="flex items-center justify-end gap-0.5">
-                        <UnitHeaderLabel align="right" label="거래대금" unit="억원" />
-                        {sort === "tradeValue" && (
-                          <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
-                        )}
-                      </div>
-                    </th>
-                    <th aria-label="종가, 단위 원" className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                    {(tableViewMode === "all" || tableViewMode === "metrics") && (
+                      <>
+                        <th 
+                          aria-label="투자자 실부담 총비용, 단위 퍼센트 (클릭 시 정렬)" 
+                          className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-l border-neutral-200 border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "ter" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                          scope="col"
+                          onClick={() => toggleColumnSort("ter")}
+                          title="실부담비용 기준 정렬 (클릭 시 낮은순/높은순 토글)"
+                        >
+                          <div className="flex items-center justify-end gap-0.5">
+                            <UnitHeaderLabel align="right" label="실부담비용" unit="%" />
+                            {sort === "ter" && (
+                              <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          aria-label="순자산, 단위 억원 (클릭 시 정렬)" 
+                          className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "aum" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                          scope="col"
+                          onClick={() => toggleColumnSort("aum")}
+                          title="순자산 기준 정렬 (클릭 시 높은순/낮은순 토글)"
+                        >
+                          <div className="flex items-center justify-end gap-0.5">
+                            <UnitHeaderLabel align="right" label="순자산" unit="억원" />
+                            {sort === "aum" && (
+                              <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                            )}
+                          </div>
+                        </th>
+                        <th 
+                          aria-label="거래대금, 단위 억원 (클릭 시 정렬)" 
+                          className={`min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 cursor-pointer select-none hover:bg-brand-50 transition-colors ${sort === "tradeValue" ? "bg-brand-100 text-brand-900" : "bg-neutral-100"}`} 
+                          scope="col"
+                          onClick={() => toggleColumnSort("tradeValue")}
+                          title="거래대금 기준 정렬 (클릭 시 높은순/낮은순 토글)"
+                        >
+                          <div className="flex items-center justify-end gap-0.5">
+                            <UnitHeaderLabel align="right" label="거래대금" unit="억원" />
+                            {sort === "tradeValue" && (
+                              <span className="text-[9px] font-black text-brand-700" aria-hidden="true">{sortDir === "desc" ? "▼" : "▲"}</span>
+                            )}
+                          </div>
+                        </th>
+                        <th aria-label="종가, 단위 원" className="min-w-[58px] sm:min-w-[64px] px-1 sm:px-1.5 py-0 h-[44px] sm:h-[48px] text-right border-b-2 border-neutral-300 bg-neutral-100" scope="col"><UnitHeaderLabel align="right" label="종가" unit="원" /></th>
+                      </>
+                    )}
                   </tr>
                 </thead>
                 <tbody ref={tbodyRef} className="divide-y divide-line text-[12px]">
-                  {rowVirtualizer.getVirtualItems().length > 0 && (
-                    <tr style={{ height: `${Math.max(0, rowVirtualizer.getVirtualItems()[0].start - tableOffsetTop)}px` }}>
-                      <td colSpan={(comparisonPeriod || customDateRange) ? 11 : 10} className="p-0 border-0"></td>
+                  {virtualPaddingTop > 0 && (
+                    <tr style={{ height: `${virtualPaddingTop}px` }}>
+                      <td colSpan={currentColumnCount} className="p-0 border-0"></td>
                     </tr>
                   )}
-                  {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                  {virtualRows.map((virtualRow) => {
                     const etf = results[virtualRow.index];
+                    if (!etf) return null;
                     const getRet = (key: ReturnPeriod) => {
                       if (isTrMode) {
                         const tr = etf.returnsTr || etf.returnsNetTr;
@@ -1494,9 +1597,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                       return etf.returns[key];
                     };
                     return (
-                    <tr className="bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" key={etf.ticker} data-index={virtualRow.index} ref={rowVirtualizer.measureElement}>
+                    <tr className="group bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" key={etf.ticker} data-index={virtualRow.index}>
                       {/* 1. 종목 정보 (종목명 + 티커 + 자산/지역/환헤지/연금 뱃지 통합) */}
-                      <th className="sticky left-0 z-10 bg-white w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] max-w-[210px] px-2 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5]" scope="row">
+                      <th className="sticky left-0 z-10 bg-white group-even:bg-neutral-50/90 group-hover:bg-neutral-100 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] max-w-[210px] px-2 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] transition-colors" scope="row">
                         <div className="flex flex-col gap-0.5 min-w-0">
                           <Link className="line-clamp-1 truncate block text-left text-[12px] sm:text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>
                             {etf.name}
@@ -1558,52 +1661,62 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                         </div>
                       </th>
                       
-                      {/* 2. 핵심 5대 수익률 (1일, 1개월, 3개월, 1년, 3년) */}
+                      {/* 2. 1일 수익률 (공통) */}
                       <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums border-l border-neutral-100 ${sort === "return_1d" ? "bg-brand-50" : ""}`}>
                         <ReturnCell showUnit={false} value={getRet("1d")} />
                       </td>
-                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={getRet("1m")} />
-                      </td>
-                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={getRet("3m")} />
-                      </td>
-                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={getRet("12m")} />
-                      </td>
-                      <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_36m" ? "bg-brand-50" : ""}`}>
-                        <ReturnCell showUnit={false} value={getRet("36m")} />
-                      </td>
-                      {comparisonPeriod && (
-                        <td className="min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
-                          <ReturnCell showUnit={false} value={getRet(comparisonPeriod)} />
-                        </td>
-                      )}
-                      {customDateRange && !comparisonPeriod && (
-                        <td className="min-w-[60px] px-2 py-2 font-semibold text-right border-l-2 border-line bg-amber-50/30">
-                          {isCustomReturnsLoading ? (
-                            <span className="text-muted text-xs">...</span>
-                          ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
-                            <ReturnCell showUnit={false} value={customReturnsData.returns[etf.ticker]} />
-                          ) : (
-                            <span className="text-neutral-400 text-xs font-semibold">-</span>
+
+                      {/* 3. 수익률 열들 (all 또는 returns 모드) */}
+                      {(tableViewMode === "all" || tableViewMode === "returns") && (
+                        <>
+                          <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_1m" ? "bg-brand-50" : ""}`}>
+                            <ReturnCell showUnit={false} value={getRet("1m")} />
+                          </td>
+                          <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_3m" ? "bg-brand-50" : ""}`}>
+                            <ReturnCell showUnit={false} value={getRet("3m")} />
+                          </td>
+                          <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_12m" ? "bg-brand-50" : ""}`}>
+                            <ReturnCell showUnit={false} value={getRet("12m")} />
+                          </td>
+                          <td className={`min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums ${sort === "return_36m" ? "bg-brand-50" : ""}`}>
+                            <ReturnCell showUnit={false} value={getRet("36m")} />
+                          </td>
+                          {comparisonPeriod && (
+                            <td className="min-w-[60px] px-1 py-2 text-right font-semibold tabular-nums bg-brand-50">
+                              <ReturnCell showUnit={false} value={getRet(comparisonPeriod)} />
+                            </td>
                           )}
-                        </td>
+                          {customDateRange && !comparisonPeriod && (
+                            <td className="min-w-[60px] px-2 py-2 font-semibold text-right border-l-2 border-line bg-amber-50/30">
+                              {isCustomReturnsLoading ? (
+                                <span className="text-muted text-xs">...</span>
+                              ) : customReturnsData?.returns?.[etf.ticker] !== undefined && customReturnsData?.returns?.[etf.ticker] !== null ? (
+                                <ReturnCell showUnit={false} value={customReturnsData.returns[etf.ticker]} />
+                              ) : (
+                                <span className="text-neutral-400 text-xs font-semibold">-</span>
+                              )}
+                            </td>
+                          )}
+                        </>
                       )}
                       
-                      {/* 3. 총보수(실부담), 순자산, 거래대금, 종가 */}
-                      <td className={`min-w-[64px] px-1.5 py-1 text-right border-l border-neutral-100 align-middle ${sort === "ter" ? "bg-brand-50" : ""}`}>
-                        <FeeDoubleStack etf={etf} />
-                      </td>
-                      <td className={`min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "aum" ? "bg-brand-50" : ""}`}>{formatAumNumber(etf.aum)}</td>
-                      <td className={`min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "tradeValue" ? "bg-brand-50" : ""}`}>{formatTradeValueNumber(etf.tradeValue)}</td>
-                      <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
+                      {/* 4. 총보수(실부담), 순자산, 거래대금, 종가 (all 또는 metrics 모드) */}
+                      {(tableViewMode === "all" || tableViewMode === "metrics") && (
+                        <>
+                          <td className={`min-w-[64px] px-1.5 py-1 text-right border-l border-neutral-100 align-middle ${sort === "ter" ? "bg-brand-50" : ""}`}>
+                            <FeeDoubleStack etf={etf} />
+                          </td>
+                          <td className={`min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "aum" ? "bg-brand-50" : ""}`}>{formatAumNumber(etf.aum)}</td>
+                          <td className={`min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums text-strong ${sort === "tradeValue" ? "bg-brand-50" : ""}`}>{formatTradeValueNumber(etf.tradeValue)}</td>
+                          <td className="min-w-[64px] px-1 py-2 text-right font-semibold tabular-nums">{formatWonNumber(etf.close)}</td>
+                        </>
+                      )}
                     </tr>
                     );
                   })}
-                  {rowVirtualizer.getVirtualItems().length > 0 && (
-                    <tr style={{ height: `${rowVirtualizer.getTotalSize() - rowVirtualizer.getVirtualItems()[rowVirtualizer.getVirtualItems().length - 1].end}px` }}>
-                      <td colSpan={(comparisonPeriod || customDateRange) ? 11 : 10} className="p-0 border-0"></td>
+                  {virtualPaddingBottom > 0 && (
+                    <tr style={{ height: `${virtualPaddingBottom}px` }}>
+                      <td colSpan={currentColumnCount} className="p-0 border-0"></td>
                     </tr>
                   )}
                 </tbody>

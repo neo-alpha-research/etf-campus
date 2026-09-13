@@ -1305,8 +1305,8 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
         </aside>
       </> : null}
 
-      <div className="mt-5 rounded-2xl border border-line bg-surface w-full overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin]" ref={tableWrapperRef}>
-        <div className="w-full">
+      <div className="mt-5 rounded-2xl border border-line bg-surface w-full max-w-full min-w-0 overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin] overscroll-x-contain touch-pan-x" ref={tableWrapperRef}>
+        <div className="w-full max-w-full min-w-0">
           <table className={`w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap ${isFullPeriods ? "min-w-[1100px]" : "min-w-[770px]"}`}><caption className="sr-only">{copy.title} 목록과 기간별 가격 수익률</caption>
             {/* 명시적 열 너비 제어 */}
             <colgroup>
@@ -1321,10 +1321,10 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
             </colgroup>
             
             {/* 2단 헤더 (윈도우 스크롤 시 상단 밀착 고정) */}
-            <thead className="sticky top-0 z-30 border-b-2 border-neutral-300 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 shadow-sm">
+            <thead className="relative z-10 lg:sticky lg:top-[var(--site-header-height,140px)] lg:z-30 border-b-2 border-neutral-300 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 shadow-sm">
               {/* 1단 그룹 헤더 */}
               <tr className="border-b border-neutral-200">
-                <th className="sticky left-0 z-40 h-[30px] sm:h-[32px] w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
+                <th className="sticky left-0 z-20 h-[30px] sm:h-[32px] w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 text-center shadow-[1px_0_0_0_#e5e5e5]" colSpan={productInfoColSpan} scope="colgroup">상품 정보</th>
                 <th className="h-[30px] sm:h-[32px] bg-neutral-50 px-2 py-0 text-center border-l border-neutral-200" colSpan={returnsColSpan} scope="colgroup">
                   <div className="flex items-center justify-center gap-1.5 sm:gap-2">
                     <span>수익률(%)</span>
@@ -1376,7 +1376,7 @@ export function Dashboard({ etfs: initialEtfs }: { etfs?: Etf[] }) {
               </tr>
               {/* 2단 세부 헤더 */}
               <tr className="text-[11.5px] sm:text-[12px]">
-                <th className="sticky left-0 z-40 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
+                <th className="sticky left-0 z-20 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
                 
                 {displayPeriods.map((period, index) => {
                   const isYtd = period === "ytd" || period === "itd";

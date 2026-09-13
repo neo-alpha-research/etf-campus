@@ -615,8 +615,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
       </div>
 
       {/* 🛡️ 대안 A: 1단 계좌 선택 & 2단 법정 한도 구분 섹션 */}
-      <section aria-label="계좌 유형 및 법정 한도 선택" className="mt-2.5 rounded-xl border border-neutral-200/90 bg-white p-3 sm:p-3.5 shadow-2xs">
-        <div className="flex flex-wrap items-center justify-between gap-2.5 pb-2.5 border-b border-neutral-100">
+      <section aria-label="계좌 유형 및 법정 한도 선택" className="mt-2.5 rounded-xl border border-neutral-200/90 bg-white p-3 sm:p-3.5 shadow-2xs relative z-0">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5 pb-2.5 border-b border-neutral-100">
           <div className="flex items-center gap-2">
             <span className="text-xs font-extrabold text-strong flex items-center gap-1.5">
               <span>계좌 유형</span>
@@ -630,11 +630,11 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           </div>
 
           {/* 1단: 4대 계좌 모드 탭 (순서: 전체계좌 -> 퇴직연금 -> 연금저축 -> 중개형 ISA) */}
-          <div className="flex items-center gap-1 rounded-xl bg-neutral-100 p-1" aria-label="계좌 유형 선택">
+          <div className="grid grid-cols-2 gap-1.5 md:flex md:flex-row md:items-center md:gap-1 w-full md:w-auto rounded-xl bg-neutral-100 p-1 mt-2 md:mt-0" aria-label="계좌 유형 선택">
             <button
               type="button"
               onClick={() => updateFilters({ ...filters, accountMode: "all", pensionOnly: false, generalTier: "all", pensionTier: "all", personalTier: "all", isaTier: "all" })}
-              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center justify-center gap-1.5 py-2 px-2.5 sm:px-3 rounded-lg text-xs font-bold transition-all w-full md:w-auto min-h-[38px] ${
                 filters.accountMode === "all" && !filters.pensionOnly
                   ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
                   : "text-neutral-600 hover:text-neutral-900"
@@ -646,7 +646,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             <button
               type="button"
               onClick={() => updateFilters({ ...filters, accountMode: "pension", pensionOnly: true, personalTier: "all", isaTier: "all" })}
-              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center justify-center gap-1.5 py-2 px-2.5 sm:px-3 rounded-lg text-xs font-bold transition-all w-full md:w-auto min-h-[38px] ${
                 filters.accountMode === "pension" && filters.pensionOnly
                   ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
                   : "text-neutral-600 hover:text-neutral-900"
@@ -658,7 +658,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             <button
               type="button"
               onClick={() => updateFilters({ ...filters, accountMode: "personal_pension", pensionOnly: false, pensionTier: "all", personalTier: "all", isaTier: "all" })}
-              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center justify-center gap-1.5 py-2 px-2.5 sm:px-3 rounded-lg text-xs font-bold transition-all w-full md:w-auto min-h-[38px] ${
                 filters.accountMode === "personal_pension"
                   ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
                   : "text-neutral-600 hover:text-neutral-900"
@@ -670,7 +670,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             <button
               type="button"
               onClick={() => updateFilters({ ...filters, accountMode: "isa", pensionOnly: false, pensionTier: "all", personalTier: "all", isaTier: "high_benefit" })}
-              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${
+              className={`flex items-center justify-center gap-1.5 py-2 px-2.5 sm:px-3 rounded-lg text-xs font-bold transition-all w-full md:w-auto min-h-[38px] ${
                 filters.accountMode === "isa"
                   ? "bg-white text-brand-900 shadow-xs border border-brand-200/60"
                   : "text-neutral-600 hover:text-neutral-900"
@@ -685,14 +685,14 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         {/* 2단: 계좌별 슬림·고밀도 컴팩트 가이드 바 (4대 계좌 100% 완전 대칭) */}
         {filters.accountMode === "pension" ? (
           <div className="mt-2 rounded-xl border border-brand-200/80 bg-brand-50/60 p-2.5 sm:p-3 text-brand-950">
-            <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-black text-brand-950">퇴직연금 법정 편입 한도</span>
                 <span className="rounded bg-brand-200/70 px-1.5 py-0.5 text-[10px] font-bold text-brand-900" title="근로자퇴직급여보장법 제21조 및 퇴직연금감독규정 제12조">
                   근로자퇴직급여보장법 제21조
                 </span>
               </div>
-              <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="퇴직연금 법정 한도 선택">
+              <div className="w-full sm:w-auto overflow-x-auto whitespace-nowrap scrollbar-hide flex items-center gap-1.5 sm:flex-wrap pb-0.5" role="group" aria-label="퇴직연금 법정 한도 선택">
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, pensionTier: "all" })}
@@ -787,7 +787,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           </div>
         ) : filters.accountMode === "personal_pension" ? (
           <div className="mt-2 rounded-xl border border-emerald-200/80 bg-emerald-50/60 p-2.5 sm:p-3 text-emerald-950">
-            <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-black text-emerald-950">연금저축(개인연금) 편입 가이드</span>
                 <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800" title="소득세법 제59조의3 및 시행령 제40조의2">
@@ -797,7 +797,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   금투협 표준약관 제8조
                 </span>
               </div>
-              <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="연금저축 한도 및 전용 종목 선택">
+              <div className="w-full sm:w-auto overflow-x-auto whitespace-nowrap scrollbar-hide flex items-center gap-1.5 sm:flex-wrap pb-0.5" role="group" aria-label="연금저축 한도 및 전용 종목 선택">
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, personalTier: "all" })}
@@ -861,7 +861,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           </div>
         ) : filters.accountMode === "isa" ? (
           <div className="mt-2 rounded-xl border border-amber-200/90 bg-amber-50/80 p-2.5 sm:p-3 text-amber-950">
-            <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-black text-amber-950">중개형 ISA 절세 실익 안내</span>
                 <span className="rounded bg-amber-200/70 px-1.5 py-0.5 text-[10px] font-bold text-amber-900" title="조세특례제한법 제91조의18 (개인종합자산관리계좌에 대한 과세특례: 비과세 한도 200만원/서민형 400만원, 초과분 9.9% 분리과세)">
@@ -902,14 +902,14 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           </div>
         ) : (
           <div className="mt-2 rounded-xl border border-slate-200/90 bg-slate-50/70 p-2.5 sm:p-3 text-slate-900">
-            <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-black text-slate-950">일반 위탁 계좌 거래 가이드</span>
                 <span className="rounded bg-slate-200/80 px-1.5 py-0.5 text-[10px] font-bold text-slate-800" title="소득세법 제16조(배당소득) 및 제17조: 국내주식형 매매차익 비과세, 해외/채권/기타 ETF 15.4% 배당소득세 과세">
                   소득세법 제16조·제17조
                 </span>
               </div>
-              <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="일반 위탁 계좌 과세 구분 선택">
+              <div className="w-full sm:w-auto overflow-x-auto whitespace-nowrap scrollbar-hide flex items-center gap-1.5 sm:flex-wrap pb-0.5" role="group" aria-label="일반 위탁 계좌 과세 구분 선택">
                 <button
                   type="button"
                   onClick={() => updateFilters({ ...filters, generalTier: "all" })}
@@ -1007,14 +1007,14 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           )}
         </div>
 
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2" role="group" aria-label="빠른 시작 조건">
+        <div className="w-full overflow-x-auto whitespace-nowrap scrollbar-hide flex items-center gap-1.5 sm:gap-2 sm:flex-wrap pb-1 overscroll-x-contain touch-pan-x" role="group" aria-label="빠른 시작 조건">
           {quickFilterItems.map((item) => (
             <button
               key={item.id}
               type="button"
               aria-pressed={item.active}
               onClick={item.toggle}
-              className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs sm:text-[13px] font-bold transition-all active:scale-[0.97] ${
+              className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs sm:text-[13px] font-bold transition-all active:scale-[0.97] shrink-0 sm:shrink ${
                 item.active
                   ? "border-brand-700 bg-brand-700 text-white shadow-sm ring-2 ring-brand-700/20"
                   : "border-neutral-200/90 bg-white text-neutral-700 hover:border-brand-300 hover:bg-brand-50/60 hover:text-brand-900 shadow-2xs"
@@ -1028,7 +1028,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         </div>
       </section>
 
-      <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)]">
+      <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)] w-full max-w-full min-w-0">
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
 
@@ -1145,7 +1145,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           <button className="sticky bottom-0 w-full rounded-xl bg-brand-700 px-4 py-3 text-sm font-bold text-white md:hidden" onClick={() => setFiltersOpen(false)} type="button">{results.length.toLocaleString("ko-KR")}종목 보기</button>
         </aside>
 
-        <section aria-labelledby="results-title" className="min-w-0">
+        <section aria-labelledby="results-title" className="w-full max-w-full min-w-0">
           <ReturnRankingChart 
             etfs={results} 
             accountMode={filters.accountMode}
@@ -1236,8 +1236,8 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
           </div>
           
-          <div className="rounded-2xl border border-line w-full bg-surface shadow-xs overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin]">
-            <div className="w-full">
+          <div className="rounded-2xl border border-line w-full max-w-full min-w-0 bg-surface shadow-xs overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin] overscroll-x-contain touch-pan-x">
+            <div className="w-full max-w-full min-w-0">
               <table className="w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap min-w-[770px]">
                 {/* 명시적 열 너비 제어 */}
                 <colgroup>
@@ -1254,9 +1254,9 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   <col style={{ width: 68, minWidth: 60 }} />
                 </colgroup>
                 {/* 2단 헤더 (윈도우 스크롤 시 상단 밀착 고정) */}
-                <thead className="sticky top-0 z-30 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
+                <thead className="relative z-10 lg:sticky lg:top-[var(--site-header-height,140px)] lg:z-30 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
                   <tr className="border-b border-neutral-200">
-                    <th className="sticky left-0 z-40 px-2 sm:px-3 py-0 h-[30px] sm:h-[32px] w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
+                    <th className="sticky left-0 z-20 px-2 sm:px-3 py-0 h-[30px] sm:h-[32px] w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
                     <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={(comparisonPeriod || customDateRange) ? 6 : 5} scope="colgroup">
                       <div className="flex items-center justify-center gap-2">
                         <span>수익률(%)</span>
@@ -1326,7 +1326,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                     <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-100" colSpan={4} scope="colgroup">비용·규모·가격</th>
                   </tr>
                   <tr className="text-[11.5px] sm:text-[12px]">
-                    <th className="sticky left-0 z-40 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
+                    <th className="sticky left-0 z-20 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
                     
                     <th 
                       aria-label="1일 수익률 (클릭 시 정렬)"

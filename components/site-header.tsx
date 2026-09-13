@@ -154,7 +154,7 @@ export function SiteHeader() {
         })}
       </nav>
       {showFinderNav ? (
-        <div className="relative w-full border-t border-line bg-brand-50/55">
+        <div className="relative w-full border-t border-line bg-brand-50/55 z-20">
           {/* 모바일 가로 스크롤 페이드 힌트 (Fade Edge & Arrow) */}
           <div
             aria-hidden="true"
@@ -164,8 +164,9 @@ export function SiteHeader() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
             </svg>
           </div>
-          <nav aria-label="ETF 탐색 메뉴" className="page-shell overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none flex items-center gap-1.5 sm:gap-2 py-2 text-xs sm:text-sm">
-            <div role="group" aria-label="계좌별 ETF 탐색" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <div className="w-full overflow-x-auto whitespace-nowrap scrollbar-hide overscroll-x-contain touch-pan-x">
+            <nav aria-label="ETF 탐색 메뉴" className="page-shell flex items-center gap-1.5 sm:gap-2 py-2 text-xs sm:text-sm">
+              <div role="group" aria-label="계좌별 ETF 탐색" className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-extrabold tracking-tight bg-neutral-200/80 text-neutral-600 shrink-0 select-none">
                 계좌별
               </span>
@@ -232,6 +233,7 @@ export function SiteHeader() {
             </div>
           </nav>
         </div>
+      </div>
       ) : null}
     </header>
   );

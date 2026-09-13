@@ -112,7 +112,7 @@ describe("Dashboard", () => {
     const closeHeader = screen.getByRole("columnheader", { name: "종가, 단위 원" });
     const oneMonthHeader = screen.getByRole("columnheader", { name: "1개월 수익률" });
 
-    expect(closeHeader.closest("thead")).toHaveClass("sticky", "top-0");
+    expect(closeHeader.closest("thead")).toHaveClass("lg:sticky");
     expect(closeHeader.closest("thead")).toHaveClass("font-bold", "text-neutral-700");
     expect(closeHeader).toHaveClass("text-right");
     expect(oneMonthHeader).toHaveClass("text-right");

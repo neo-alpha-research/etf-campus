@@ -5,6 +5,7 @@ const isDev = process.env.NODE_ENV === "development";
 const nextConfig: NextConfig = {
   ...(isDev ? {} : { output: "export" }),
   trailingSlash: true,
+  staticPageGenerationTimeout: 180,
   images: {
     unoptimized: true,
   },

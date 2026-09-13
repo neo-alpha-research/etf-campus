@@ -59,7 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <SiteHeader />
           </Suspense>
         </div>
-        <main className="flex flex-1 flex-col pt-[var(--site-header-height,140px)] w-full max-w-full overflow-x-hidden" id="main-content">{children}</main>
+        <main className="flex flex-1 flex-col pt-[var(--site-header-height,168px)] sm:pt-[var(--site-header-height,140px)] w-full max-w-full overflow-x-hidden" id="main-content">{children}</main>
         <SiteFooter />
         <AppPushInitializer />
         <AppBackButtonHandler />

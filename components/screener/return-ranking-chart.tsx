@@ -83,9 +83,9 @@ export function ReturnRankingChart({
   };
 
   return (
-    <section aria-labelledby="ranking-chart-title" className="mb-6 overflow-hidden rounded-2xl border border-line bg-surface shadow-sm">
-      <div className="flex items-center justify-between border-b border-line px-3 py-2.5 sm:px-4 sm:py-3">
-        <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-none">
+    <section aria-labelledby="ranking-chart-title" className="mb-6 overflow-hidden rounded-2xl border border-line bg-surface shadow-sm w-full max-w-full min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-line px-3 py-2.5 sm:px-4 sm:py-3 gap-2">
+        <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-none w-full sm:w-auto pb-1 sm:pb-0 overscroll-x-contain touch-pan-x">
           {RANKING_PERIODS.map((period) => {
             const isActive = selectedPeriod === period;
             return (
@@ -144,7 +144,7 @@ export function ReturnRankingChart({
             </>
           )}
         </div>
-        <div className="flex items-center gap-2 ml-3">
+        <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto sm:ml-3">
           <div className="flex shrink-0 items-center rounded-lg bg-neutral-100 p-1" role="group" aria-label="순위 방향 선택">
             <button
               onClick={() => setIsTop(true)}
@@ -214,7 +214,7 @@ export function ReturnRankingChart({
                   key={etf.ticker} 
                   className="group flex items-center gap-1.5 rounded-lg bg-neutral-50 py-1.5 px-2 sm:gap-2"
                 >
-                  <div className="flex items-center gap-1.5 sm:w-[150px] sm:shrink-0">
+                  <div className="flex items-center gap-1.5 w-[130px] sm:w-[150px] shrink-0 min-w-0">
                     <div className="flex size-4 shrink-0 items-center justify-center rounded-full bg-white text-[10px] font-extrabold text-neutral-400 shadow-sm">
                       {index + 1}
                     </div>

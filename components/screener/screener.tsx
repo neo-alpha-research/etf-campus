@@ -1388,7 +1388,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
           
           <div className={`rounded-2xl border border-line w-full max-w-full min-w-0 bg-surface shadow-xs ${
             tableViewMode === "all" ? "overflow-x-auto" : "overflow-x-hidden sm:overflow-x-auto"
-          } [scrollbar-width:thin] overscroll-x-contain`}>
+          } lg:overflow-x-visible [scrollbar-width:thin] overscroll-x-contain`}>
             <div className="w-full max-w-full min-w-0">
               <table className={`border-separate border-spacing-0 text-left text-sm whitespace-nowrap ${
                 tableViewMode === "all"
@@ -1435,7 +1435,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                   )}
                 </colgroup>
                 {/* 2단 헤더 (윈도우 스크롤 시 상단 밀착 고정) */}
-                <thead className="relative z-10 lg:sticky lg:top-[calc(var(--site-header-height,140px)+52px)] lg:z-25 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
+                <thead className="relative z-10 lg:sticky lg:top-[calc(var(--site-header-height,140px)+56px)] lg:z-25 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
                   <tr className="border-b border-neutral-200">
                     <th className="sticky left-0 z-20 px-1 sm:px-3 py-0 h-[30px] sm:h-[32px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
                     {(tableViewMode === "all" || tableViewMode === "returns") && (

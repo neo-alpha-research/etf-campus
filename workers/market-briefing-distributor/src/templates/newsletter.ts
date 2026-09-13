@@ -341,13 +341,11 @@ export function generateNewsletterHtml(
         </table>
 
         <!-- 3. Section: Leading & Lagging Themes (Top 3 vs Worst 3) -->
-        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 24px; margin-bottom: 10px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 24px; margin-bottom: 8px;">
           <tr>
             <td style="text-align: left; vertical-align: middle;">
-              <span style="font-size: 16.5px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">▲ 상위 Top 3 vs ▼ 하위 Worst 3 테마</span>
-            </td>
-            <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
-              <span style="font-size: 11.5px; color: #64748B; font-weight: 700;">AUM 가중 평균 수익률 기준</span>
+              <div style="font-size: 16.5px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">▲ 상위 Top 3 vs ▼ 하위 Worst 3 테마</div>
+              <div style="font-size: 11.5px; color: #64748B; font-weight: 700; margin-top: 3px;">※ AUM 가중 평균 수익률 기준</div>
             </td>
           </tr>
         </table>
@@ -395,13 +393,11 @@ export function generateNewsletterHtml(
         </div>
 
         <!-- 4. Section: Smart Money Net Inflows TOP 5 (Clickable Links) -->
-        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 24px; margin-bottom: 10px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-top: 24px; margin-bottom: 8px;">
           <tr>
             <td style="text-align: left; vertical-align: middle;">
-              <span style="font-size: 16.5px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">스마트머니 외인·기관 실질 순유입 TOP 5</span>
-            </td>
-            <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
-              <span style="font-size: 11.5px; color: #64748B; font-weight: 700;">일반 테마 ETF · 단위: 억원</span>
+              <div style="font-size: 16.5px; font-weight: 900; color: #0F172A; letter-spacing: -0.4px;">스마트머니 외인·기관 실질 순유입 TOP 5</div>
+              <div style="font-size: 11.5px; color: #64748B; font-weight: 700; margin-top: 3px;">※ 일반 테마 ETF · 단위: 억원</div>
             </td>
           </tr>
         </table>

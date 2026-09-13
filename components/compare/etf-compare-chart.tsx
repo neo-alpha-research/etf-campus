@@ -14,17 +14,7 @@ const COLORS = [
   "#f43f5e", // rose-500
 ];
 
-export type ChartType = "ranking" | "grouped";
 type ViewMode = "short" | "long";
-
-const RANKING_PERIODS: { id: ReturnPeriod; label: string }[] = [
-  { id: "1m", label: "1개월" },
-  { id: "2m", label: "2개월" },
-  { id: "3m", label: "3개월" },
-  { id: "6m", label: "6개월" },
-  { id: "12m", label: "1년" },
-  { id: "ytd", label: "연초(YTD)" },
-];
 
 const SHORT_PERIODS: ReturnPeriod[] = ["1m", "2m", "3m", "6m"];
 const LONG_PERIODS: ReturnPeriod[] = ["12m", "24m", "36m", "ytd"];
@@ -32,16 +22,12 @@ const LONG_PERIODS: ReturnPeriod[] = ["12m", "24m", "36m", "ytd"];
 interface EtfCompareChartProps {
   basket: Etf[];
   isTrMode?: boolean;
-  defaultChartType?: ChartType;
 }
 
 export function EtfCompareChart({
   basket,
   isTrMode = false,
-  defaultChartType = "ranking",
 }: EtfCompareChartProps) {
-  const [chartType, setChartType] = useState<ChartType>(defaultChartType);
-  const [rankingPeriod, setRankingPeriod] = useState<ReturnPeriod>("1m");
   const [viewMode, setViewMode] = useState<ViewMode>("short");
   const [isExporting, setIsExporting] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
@@ -58,9 +44,17 @@ export function EtfCompareChart({
     return (prVal !== undefined && prVal !== null && Number.isFinite(prVal)) ? prVal : null;
   }, [isTrMode]);
 
+  const formatAsOfDate = (val?: string) => {
+    if (!val) return "";
+    const cleaned = val.replace(/[-.]/g, "");
+    if (cleaned.length === 8) {
+      return `${cleaned.slice(0, 4)}.${cleaned.slice(4, 6)}.${cleaned.slice(6, 8)}`;
+    }
+    return val.replace(/-/g, ".");
+  };
+
   const handleDownload = useCallback(() => {
     setIsExporting(true);
-    // 렌더링(버튼 숨김 등)이 반영될 시간을 준 뒤 캡처 실행
     setTimeout(() => {
       if (chartRef.current === null) {
         setIsExporting(false);
@@ -77,9 +71,9 @@ export function EtfCompareChart({
       })
         .then((dataUrl) => {
           const link = document.createElement('a');
-          const typeText = chartType === "ranking" ? `ranking-${rankingPeriod}` : `grouped-${viewMode}`;
+          const modeText = viewMode === "short" ? "short" : "long";
           const trSuffix = isTrMode ? "-tr" : "";
-          link.download = `etf-compare-${typeText}${trSuffix}.png`;
+          link.download = `etf-compare-${modeText}${trSuffix}.png`;
           link.href = dataUrl;
           link.click();
         })
@@ -90,56 +84,14 @@ export function EtfCompareChart({
           setIsExporting(false);
         });
     }, 150);
-  }, [chartType, rankingPeriod, viewMode, isTrMode]);
+  }, [viewMode, isTrMode]);
 
-  // --- 1. Ranking View Data Calculation ---
-  const rankedData = useMemo(() => {
-    const items = basket.map((etf, originalIdx) => {
-      const val = getEtfReturn(etf, rankingPeriod);
-      return {
-        etf,
-        originalIdx,
-        color: COLORS[originalIdx % COLORS.length],
-        val,
-      };
-    });
-
-    // Sort descending: highest return first, nulls at the end
-    items.sort((a, b) => {
-      if (a.val === null && b.val === null) return 0;
-      if (a.val === null) return 1;
-      if (b.val === null) return -1;
-      return b.val - a.val;
-    });
-
-    const validVals = items
-      .map((i) => i.val)
-      .filter((v): v is number => v !== null && Number.isFinite(v));
-
-    const maxVal = validVals.length > 0 ? Math.max(...validVals) : 0;
-    const minVal = validVals.length > 0 ? Math.min(...validVals) : 0;
-    const maxAbs = Math.max(...validVals.map((v) => Math.abs(v)), 0.01);
-    const hasNegative = minVal < 0;
-    const hasPositive = maxVal > 0;
-
-    return {
-      items,
-      validVals,
-      maxVal,
-      minVal,
-      maxAbs,
-      hasNegative,
-      hasPositive,
-    };
-  }, [basket, rankingPeriod, getEtfReturn]);
-
-  // --- 2. Grouped View Data Calculation ---
   const activePeriods = useMemo(() => {
     if (viewMode === "long") return LONG_PERIODS;
     return SHORT_PERIODS;
   }, [viewMode]);
 
-  // SVG dimensions for Grouped View
+  // SVG dimensions
   const width = 1000;
   const height = 380;
   const paddingY = 44; 
@@ -196,15 +148,6 @@ export function EtfCompareChart({
 
   const labelFontSize = basket.length <= 2 ? '14px' : basket.length <= 3 ? '13px' : basket.length <= 4 ? '12px' : '11.5px';
 
-  const formatAsOfDate = (val?: string) => {
-    if (!val) return "";
-    const cleaned = val.replace(/[-.]/g, "");
-    if (cleaned.length === 8) {
-      return `${cleaned.slice(0, 4)}.${cleaned.slice(4, 6)}.${cleaned.slice(6, 8)}`;
-    }
-    return val.replace(/-/g, ".");
-  };
-
   return (
     <div ref={chartRef} className="rounded-2xl border border-line bg-surface p-4 sm:p-6 mb-8 mt-8 shadow-sm">
       {/* Header */}
@@ -221,59 +164,29 @@ export function EtfCompareChart({
           </div>
         </div>
         
-        {/* Header Controls */}
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Chart Mode Switcher */}
+        {/* Header Controls: 단기/장기 토글 & 이미지 저장 */}
+        <div className="flex items-center gap-2">
           <div className="flex bg-neutral-100 p-0.5 sm:p-1 rounded-xl whitespace-nowrap shrink-0">
             <button
               type="button"
-              onClick={() => setChartType("ranking")}
-              className={`flex items-center gap-1 px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-xs sm:text-[13px] rounded-lg font-black transition-all ${
-                chartType === "ranking"
-                  ? "bg-white text-strong shadow-xs"
-                  : "text-neutral-500 hover:text-strong"
+              onClick={() => setViewMode("short")}
+              className={`px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-[13px] rounded-lg font-black transition-all ${
+                viewMode === "short" ? "bg-white text-strong shadow-xs" : "text-neutral-500 hover:text-strong"
               }`}
             >
-              <span>⚡ 랭킹 뷰</span>
+              단기 성과
             </button>
             <button
               type="button"
-              onClick={() => setChartType("grouped")}
-              className={`flex items-center gap-1 px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-xs sm:text-[13px] rounded-lg font-black transition-all ${
-                chartType === "grouped"
-                  ? "bg-white text-strong shadow-xs"
-                  : "text-neutral-500 hover:text-strong"
+              onClick={() => setViewMode("long")}
+              className={`px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-[13px] rounded-lg font-black transition-all ${
+                viewMode === "long" ? "bg-white text-strong shadow-xs" : "text-neutral-500 hover:text-strong"
               }`}
             >
-              <span>📊 전체 기간</span>
+              장기 성과
             </button>
           </div>
 
-          {/* Grouped mode: Short/Long switcher */}
-          {chartType === "grouped" && (
-            <div className="flex bg-neutral-100 p-0.5 sm:p-1 rounded-xl whitespace-nowrap shrink-0">
-              <button
-                type="button"
-                onClick={() => setViewMode("short")}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-[13px] rounded-lg font-extrabold transition-colors whitespace-nowrap ${
-                  viewMode === "short" ? "bg-white text-strong shadow-xs" : "text-neutral-500 hover:text-strong"
-                }`}
-              >
-                단기
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode("long")}
-                className={`px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-[13px] rounded-lg font-extrabold transition-colors whitespace-nowrap ${
-                  viewMode === "long" ? "bg-white text-strong shadow-xs" : "text-neutral-500 hover:text-strong"
-                }`}
-              >
-                장기
-              </button>
-            </div>
-          )}
-
-          {/* Download Image Button */}
           {!isExporting && (
             <button
               type="button"
@@ -288,360 +201,200 @@ export function EtfCompareChart({
         </div>
       </div>
 
-      {/* --- VIEW 1: RANKING BAR VIEW (Mobile-First Recommended) --- */}
-      {chartType === "ranking" && (
-        <div className="animate-in fade-in duration-200">
-          {/* Period Tabs */}
-          <div className="flex items-center justify-between gap-2 mb-4 pb-1">
-            <div className="flex items-center gap-1.5 overflow-x-auto py-1 scrollbar-none">
-              {RANKING_PERIODS.map((rp) => (
-                <button
-                  key={rp.id}
-                  type="button"
-                  onClick={() => setRankingPeriod(rp.id)}
-                  className={`px-3 py-1.5 text-xs sm:text-[13px] rounded-xl whitespace-nowrap transition-all ${
-                    rankingPeriod === rp.id
-                      ? "bg-neutral-900 text-white font-black shadow-xs"
-                      : "bg-neutral-100 text-neutral-600 hover:text-strong hover:bg-neutral-200 font-bold"
-                  }`}
-                >
-                  {rp.label}
-                </button>
-              ))}
+      {/* 범례 (Legend): 모바일에서 5줄로 늘어지지 않는 슬림 가로 칩 레이아웃 */}
+      <div className="flex items-center justify-between gap-2 mb-4">
+        <div className="flex items-center gap-1.5 sm:gap-3 overflow-x-auto py-1 scrollbar-none flex-nowrap sm:flex-wrap max-w-full">
+          {basket.map((etf, idx) => (
+            <div
+              key={etf.ticker}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-neutral-100/70 sm:bg-transparent border border-neutral-200/50 sm:border-0 shrink-0"
+            >
+              <div
+                className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-md shrink-0 shadow-2xs"
+                style={{ backgroundColor: COLORS[idx % COLORS.length] }}
+              />
+              <span className="text-[11.5px] sm:text-xs font-bold text-strong whitespace-nowrap">
+                {etf.name}
+              </span>
             </div>
-            <span className="text-[11px] text-muted font-medium shrink-0 hidden sm:inline-block">
-              * 수익률 높은 순 자동 정렬
-            </span>
-          </div>
+          ))}
+        </div>
+        <span className="text-[11px] text-neutral-400 font-medium shrink-0 sm:hidden">
+          👉 좌우 스크롤
+        </span>
+      </div>
 
-          {/* Ranking Bars Container */}
-          {rankedData.validVals.length === 0 ? (
-            <div className="h-[200px] flex items-center justify-center bg-neutral-50 rounded-xl border border-dashed border-line">
-              <span className="text-sm font-bold text-muted">선택한 기간의 성과 데이터가 없습니다.</span>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-2.5">
-              {rankedData.items.map((item, rankIdx) => {
-                const { etf, color, val } = item;
-                const isRanked = val !== null && Number.isFinite(val);
-                const rankNumber = rankIdx + 1;
-
-                // Rank badge styling
-                const rankBadgeClass = !isRanked
-                  ? "bg-neutral-100 text-neutral-400 border border-neutral-200"
-                  : rankNumber === 1
-                  ? "bg-amber-100 text-amber-900 border border-amber-300 shadow-2xs"
-                  : rankNumber === 2
-                  ? "bg-slate-200 text-slate-800 border border-slate-300 shadow-2xs"
-                  : rankNumber === 3
-                  ? "bg-amber-900/10 text-amber-900 border border-amber-900/20 shadow-2xs"
-                  : "bg-neutral-100 text-neutral-600 border border-neutral-200";
-
-                const rankText = isRanked
-                  ? rankNumber === 1
-                    ? "🥇 1위"
-                    : rankNumber === 2
-                    ? "🥈 2위"
-                    : rankNumber === 3
-                    ? "🥉 3위"
-                    : `${rankNumber}위`
-                  : "-";
-
-                // Visual Bar width & position calculation
-                let barStyle: React.CSSProperties = {};
-                if (val !== null && Number.isFinite(val)) {
-                  if (rankedData.hasNegative && rankedData.hasPositive) {
-                    // Center zero axis (50%)
-                    const widthPct = Math.min(Math.max((Math.abs(val) / rankedData.maxAbs) * 50, 2), 50);
-                    if (val >= 0) {
-                      barStyle = {
-                        left: "50%",
-                        width: `${widthPct}%`,
-                        backgroundColor: color,
-                      };
-                    } else {
-                      barStyle = {
-                        right: "50%",
-                        width: `${widthPct}%`,
-                        backgroundColor: color,
-                      };
-                    }
-                  } else if (rankedData.hasNegative) {
-                    // All negative: starts at right (100%) and extends left
-                    const widthPct = Math.min(Math.max((Math.abs(val) / Math.abs(rankedData.minVal)) * 100, 2), 100);
-                    barStyle = {
-                      right: 0,
-                      width: `${widthPct}%`,
-                      backgroundColor: color,
-                    };
-                  } else {
-                    // All positive: starts at left (0%) and extends right
-                    const widthPct = rankedData.maxVal > 0
-                      ? Math.min(Math.max((val / rankedData.maxVal) * 100, 2), 100)
-                      : 2;
-                    barStyle = {
-                      left: 0,
-                      width: `${widthPct}%`,
-                      backgroundColor: color,
-                    };
-                  }
-                }
-
+      {/* Chart Canvas Area */}
+      {!hasData ? (
+        <div className="h-[380px] flex items-center justify-center bg-neutral-50 rounded-xl border border-dashed border-line">
+          <span className="text-sm font-bold text-muted">해당 기간의 성과 데이터가 없습니다.</span>
+        </div>
+      ) : (
+        /* 모바일 가로 스와이프 보호 래퍼: 20개 막대가 찌그러지지 않고 모바일에서도 큰 폰트(12px)와 막대 두께 유지 */
+        <div className="w-full overflow-x-auto pb-2 scrollbar-thin overscroll-x-contain">
+          <div className="min-w-[500px] sm:min-w-full relative overflow-visible" style={{ aspectRatio: "1000/380" }}>
+            <svg viewBox="0 0 1000 380" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+              {/* Background Grid Lines */}
+              {[maxRet, maxRet / 2, 0, minRet / 2, minRet].map((val, i) => {
+                const y = getY(val);
+                if (i === 1 || i === 3) return null; 
                 return (
-                  <div
-                    key={etf.ticker}
-                    className="p-2.5 sm:p-3.5 rounded-2xl bg-neutral-50/70 hover:bg-neutral-100/70 border border-neutral-100 transition-colors"
-                  >
-                    {/* Header Row: Rank + Dot + Name + Ticker | Return Value */}
-                    <div className="flex items-center justify-between gap-2 sm:gap-3 mb-2">
-                      <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                        <span
-                          className={`inline-flex items-center justify-center shrink-0 min-w-[36px] sm:min-w-[42px] px-1.5 sm:px-2 py-0.5 rounded-full text-[11px] sm:text-xs font-black ${rankBadgeClass}`}
-                        >
-                          {rankText}
-                        </span>
-                        <div
-                          className="w-3 h-3 rounded-md shrink-0 shadow-2xs"
-                          style={{ backgroundColor: color }}
-                        />
-                        <a
-                          href={`/etf/${etf.ticker}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-extrabold text-[13px] sm:text-[14.5px] text-strong hover:text-emerald-600 truncate transition-colors"
-                          title={etf.name}
-                        >
-                          {etf.name}
-                        </a>
-                        <span className="text-[10.5px] sm:text-xs text-muted font-sans font-medium shrink-0">
-                          {etf.ticker}
-                        </span>
-                      </div>
-
-                      <div className="shrink-0 text-right">
-                        {val !== null && Number.isFinite(val) ? (
-                          <span
-                            className={`text-[14px] sm:text-[16px] font-black font-sans tabular-nums tracking-tight ${
-                              val > 0 ? "text-rose-600" : val < 0 ? "text-blue-600" : "text-neutral-500"
-                            }`}
-                          >
-                            {formatReturn(val)}{isTrMode ? " (TR)" : ""}
-                          </span>
-                        ) : (
-                          <span className="text-xs font-semibold text-neutral-400">데이터 없음</span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Horizontal Bar Track */}
-                    <div className="relative h-4 sm:h-5 w-full bg-neutral-200/60 rounded-full overflow-hidden">
-                      {/* Zero axis marker if mixed values */}
-                      {rankedData.hasNegative && rankedData.hasPositive && (
-                        <div
-                          className="absolute top-0 bottom-0 left-1/2 w-[1.5px] bg-neutral-400 z-10"
-                          title="0% 기준선"
-                        />
-                      )}
-                      {val !== null && Number.isFinite(val) && (
-                        <div
-                          className="absolute top-0 bottom-0 rounded-full transition-all duration-500 shadow-2xs"
-                          style={barStyle}
-                        />
-                      )}
-                    </div>
-                  </div>
+                  <g key={i}>
+                    <line 
+                      x1={paddingX} y1={y} 
+                      x2={width - paddingX} y2={y} 
+                      stroke={val === 0 ? "#475569" : "#f1f5f9"} 
+                      strokeWidth={val === 0 ? 1.5 : 1}
+                      strokeDasharray="none"
+                    />
+                    {val === 0 && (
+                      <text 
+                        x={paddingX - 6} y={y + 1} 
+                        alignmentBaseline="middle" 
+                        textAnchor="end" 
+                        className="text-[11px] fill-neutral-500 font-bold font-sans tracking-tighter"
+                      >
+                        0%
+                      </text>
+                    )}
+                  </g>
                 );
               })}
-            </div>
-          )}
-        </div>
-      )}
 
-      {/* --- VIEW 2: GROUPED BARS VIEW (Comprehensive Multi-Period) --- */}
-      {chartType === "grouped" && (
-        <div className="animate-in fade-in duration-200">
-          {/* Legend */}
-          <div className="flex flex-wrap gap-x-4 gap-y-2 mb-5">
-            {basket.map((etf, idx) => (
-              <div key={etf.ticker} className="flex items-center gap-1.5">
-                <div className="w-3 h-3 rounded-md shrink-0 shadow-2xs" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
-                <span className="text-xs font-semibold text-strong truncate max-w-[200px]">{etf.name}</span>
-              </div>
-            ))}
-          </div>
+              {/* X Axis Labels */}
+              {activePeriods.map((p, idx) => {
+                const cx = getSlotCenterX(idx);
+                return (
+                  <g key={p}>
+                    <text 
+                      x={cx} y={height - paddingY + 24} 
+                      textAnchor="middle" 
+                      className="text-[13px] fill-neutral-600 font-extrabold font-sans"
+                    >
+                      {RETURN_PERIOD_LABELS[p]}
+                    </text>
+                  </g>
+                );
+              })}
 
-          {!hasData ? (
-            <div className="h-[380px] flex items-center justify-center bg-neutral-50 rounded-xl border border-dashed border-line">
-              <span className="text-sm font-bold text-muted">해당 기간의 성과 데이터가 없습니다.</span>
-            </div>
-          ) : (
-            /* Responsive Horizontal Scroll Wrapper: prevents squashing 20 bars into 340px */
-            <div className="w-full overflow-x-auto pb-2 scrollbar-thin">
-              <div className="min-w-[540px] sm:min-w-full relative overflow-visible" style={{ aspectRatio: "1000/380" }}>
-                <svg viewBox="0 0 1000 380" className="w-full h-full overflow-visible" preserveAspectRatio="none">
-                  {/* Background Grid Lines */}
-                  {[maxRet, maxRet / 2, 0, minRet / 2, minRet].map((val, i) => {
-                    const y = getY(val);
-                    if (i === 1 || i === 3) return null; 
-                    return (
-                      <g key={i}>
-                        <line 
-                          x1={paddingX} y1={y} 
-                          x2={width - paddingX} y2={y} 
-                          stroke={val === 0 ? "#475569" : "#f1f5f9"} 
-                          strokeWidth={val === 0 ? 1.5 : 1}
-                          strokeDasharray="none"
-                        />
-                        {val === 0 && (
-                          <text 
-                            x={paddingX - 6} y={y + 1} 
-                            alignmentBaseline="middle" 
-                            textAnchor="end" 
-                            className="text-[11px] fill-neutral-500 font-bold font-sans tracking-tighter"
-                          >
-                            0%
-                          </text>
-                        )}
-                      </g>
-                    );
-                  })}
+              {/* Grouped Bars */}
+              {activePeriods.map((p, pIdx) => {
+                const cx = getSlotCenterX(pIdx);
+                const totalBarsWidth = numBarsPerSlot * barWidth + (numBarsPerSlot - 1) * gapBetweenBars;
+                const startX = cx - totalBarsWidth / 2;
 
-                  {/* X Axis Labels */}
-                  {activePeriods.map((p, idx) => {
-                    const cx = getSlotCenterX(idx);
-                    return (
-                      <g key={p}>
-                        <text 
-                          x={cx} y={height - paddingY + 24} 
-                          textAnchor="middle" 
-                          className="text-[13px] fill-neutral-600 font-extrabold font-sans"
+                const validPeriodReturns = basket
+                  .map(e => getEtfReturn(e, p))
+                  .filter((v): v is number => v !== null && Number.isFinite(v));
+                const maxValInPeriod = validPeriodReturns.length > 0 ? Math.max(...validPeriodReturns) : -Infinity;
+
+                return basket.map((etf, bIdx) => {
+                  const val = getEtfReturn(etf, p);
+                  if (val === null || val === undefined) return null;
+
+                  const isWinner = maxValInPeriod > 0 && val === maxValInPeriod && basket.length > 1;
+                  const color = COLORS[bIdx % COLORS.length];
+                  const barX = startX + bIdx * (barWidth + gapBetweenBars);
+                  const barY = val >= 0 ? getY(val) : zeroY;
+                  const barH = Math.max(Math.abs(getY(val) - zeroY), 1);
+                  const borderRadius = Math.min(barWidth / 3, 5);
+                  const tooltipY = val >= 0 ? barY - 28 : barY + barH + 48;
+
+                  return (
+                    <g key={`${p}-${etf.ticker}`} className="group cursor-pointer">
+                      {/* The Bar */}
+                      <rect 
+                        x={barX}
+                        y={barY}
+                        width={barWidth}
+                        height={barH}
+                        fill={color}
+                        rx={borderRadius}
+                        ry={borderRadius}
+                        className="transition-all duration-300 opacity-90 group-hover:opacity-100"
+                      />
+
+                      {/* Winner Icon 🏆 */}
+                      {isWinner && (
+                        <text
+                          x={barX + barWidth / 2}
+                          y={barY - 18}
+                          textAnchor="middle"
+                          style={{ fontSize: '13px' }}
                         >
-                          {RETURN_PERIOD_LABELS[p]}
+                          🏆
                         </text>
-                      </g>
-                    );
-                  })}
+                      )}
 
-                  {/* Grouped Bars */}
-                  {activePeriods.map((p, pIdx) => {
-                    const cx = getSlotCenterX(pIdx);
-                    const totalBarsWidth = numBarsPerSlot * barWidth + (numBarsPerSlot - 1) * gapBetweenBars;
-                    const startX = cx - totalBarsWidth / 2;
+                      {/* Static Value Label */}
+                      <text 
+                        x={barX + barWidth / 2} 
+                        y={val >= 0 ? barY - 4 : barY + barH + 14} 
+                        textAnchor="middle" 
+                        fill={color}
+                        stroke="#ffffff"
+                        strokeWidth="2.5"
+                        paintOrder="stroke fill"
+                        strokeLinejoin="round"
+                        style={{ fontSize: labelFontSize, fontWeight: 900, letterSpacing: '-0.6px' }}
+                        className="font-sans opacity-95 transition-all group-hover:opacity-100 select-none"
+                      >
+                        {formatChartReturn(val)}
+                      </text>
 
-                    const validPeriodReturns = basket
-                      .map(e => getEtfReturn(e, p))
-                      .filter((v): v is number => v !== null && Number.isFinite(v));
-                    const maxValInPeriod = validPeriodReturns.length > 0 ? Math.max(...validPeriodReturns) : -Infinity;
-
-                    return basket.map((etf, bIdx) => {
-                      const val = getEtfReturn(etf, p);
-                      if (val === null || val === undefined) return null;
-
-                      const isWinner = maxValInPeriod > 0 && val === maxValInPeriod && basket.length > 1;
-                      const color = COLORS[bIdx % COLORS.length];
-                      const barX = startX + bIdx * (barWidth + gapBetweenBars);
-                      const barY = val >= 0 ? getY(val) : zeroY;
-                      const barH = Math.max(Math.abs(getY(val) - zeroY), 1);
-                      const borderRadius = Math.min(barWidth / 3, 5);
-                      const tooltipY = val >= 0 ? barY - 28 : barY + barH + 48;
-
-                      return (
-                        <g key={`${p}-${etf.ticker}`} className="group cursor-pointer">
-                          {/* The Bar */}
+                      {/* Hitbox */}
+                      <rect 
+                        x={barX - gapBetweenBars/2}
+                        y={Math.min(barY, zeroY) - 20}
+                        width={barWidth + gapBetweenBars}
+                        height={barH + 40}
+                        fill="transparent"
+                      />
+                      
+                      {/* Tooltip */}
+                      {!isExporting && (
+                        <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
                           <rect 
-                            x={barX}
-                            y={barY}
-                            width={barWidth}
-                            height={barH}
-                            fill={color}
-                            rx={borderRadius}
-                            ry={borderRadius}
-                            className="transition-all duration-300 opacity-90 group-hover:opacity-100"
+                            x={barX + barWidth/2 - 60} 
+                            y={tooltipY - 30} 
+                            width="120" 
+                            height="40" 
+                            rx="6" 
+                            fill="#1e293b" 
+                            className="drop-shadow-md"
                           />
-
-                          {/* Winner Icon 🏆 */}
-                          {isWinner && (
-                            <text
-                              x={barX + barWidth / 2}
-                              y={barY - 18}
-                              textAnchor="middle"
-                              style={{ fontSize: '13px' }}
-                            >
-                              🏆
-                            </text>
-                          )}
-
-                          {/* Static Value Label */}
+                          <polygon 
+                            points={
+                              val >= 0 
+                                ? `${barX + barWidth/2 - 6},${tooltipY + 10} ${barX + barWidth/2},${tooltipY + 16} ${barX + barWidth/2 + 6},${tooltipY + 10}`
+                                : `${barX + barWidth/2 - 6},${tooltipY - 30} ${barX + barWidth/2},${tooltipY - 36} ${barX + barWidth/2 + 6},${tooltipY - 30}`
+                            }
+                            fill="#1e293b" 
+                          />
                           <text 
-                            x={barX + barWidth / 2} 
-                            y={val >= 0 ? barY - 4 : barY + barH + 14} 
+                            x={barX + barWidth/2} 
+                            y={tooltipY - 14} 
                             textAnchor="middle" 
-                            fill={color}
-                            stroke="#ffffff"
-                            strokeWidth="2.5"
-                            paintOrder="stroke fill"
-                            strokeLinejoin="round"
-                            style={{ fontSize: labelFontSize, fontWeight: 900, letterSpacing: '-0.6px' }}
-                            className="font-sans opacity-95 transition-all group-hover:opacity-100 select-none"
+                            className="text-[10px] fill-neutral-300 font-semibold font-sans truncate"
                           >
-                            {formatChartReturn(val)}
+                            {etf.name.length > 12 ? etf.name.substring(0, 11) + '…' : etf.name}
                           </text>
-
-                          {/* Hitbox */}
-                          <rect 
-                            x={barX - gapBetweenBars/2}
-                            y={Math.min(barY, zeroY) - 20}
-                            width={barWidth + gapBetweenBars}
-                            height={barH + 40}
-                            fill="transparent"
-                          />
-                          
-                          {/* Tooltip */}
-                          {!isExporting && (
-                            <g className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10">
-                              <rect 
-                                x={barX + barWidth/2 - 60} 
-                                y={tooltipY - 30} 
-                                width="120" 
-                                height="40" 
-                                rx="6" 
-                                fill="#1e293b" 
-                                className="drop-shadow-md"
-                              />
-                              <polygon 
-                                points={
-                                  val >= 0 
-                                    ? `${barX + barWidth/2 - 6},${tooltipY + 10} ${barX + barWidth/2},${tooltipY + 16} ${barX + barWidth/2 + 6},${tooltipY + 10}`
-                                    : `${barX + barWidth/2 - 6},${tooltipY - 30} ${barX + barWidth/2},${tooltipY - 36} ${barX + barWidth/2 + 6},${tooltipY - 30}`
-                                }
-                                fill="#1e293b" 
-                              />
-                              <text 
-                                x={barX + barWidth/2} 
-                                y={tooltipY - 14} 
-                                textAnchor="middle" 
-                                className="text-[10px] fill-neutral-300 font-semibold font-sans truncate"
-                              >
-                                {etf.name.length > 12 ? etf.name.substring(0, 11) + '…' : etf.name}
-                              </text>
-                              <text 
-                                x={barX + barWidth/2} 
-                                y={tooltipY - 1} 
-                                textAnchor="middle" 
-                                className="text-[12px] fill-white font-black font-sans tracking-tighter"
-                              >
-                                {formatReturn(val)}{isTrMode ? " (TR)" : ""}
-                              </text>
-                            </g>
-                          )}
+                          <text 
+                            x={barX + barWidth/2} 
+                            y={tooltipY - 1} 
+                            textAnchor="middle" 
+                            className="text-[12px] fill-white font-black font-sans tracking-tighter"
+                          >
+                            {formatReturn(val)}{isTrMode ? " (TR)" : ""}
+                          </text>
                         </g>
-                      );
-                    });
-                  })}
-                </svg>
-              </div>
-            </div>
-          )}
+                      )}
+                    </g>
+                  );
+                });
+              })}
+            </svg>
+          </div>
         </div>
       )}
 

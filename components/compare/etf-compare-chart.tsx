@@ -150,18 +150,18 @@ export function EtfCompareChart({ basket, isTrMode = false }: { basket: Etf[]; i
             {!isExporting && (
               <button
                 onClick={handleDownload}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs sm:text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors whitespace-nowrap"
                 title="차트를 이미지로 저장"
               >
                 <Download size={14} strokeWidth={2.5} />
                 <span>이미지 저장</span>
               </button>
             )}
-            <div className="flex bg-neutral-100 p-1 rounded-xl">
+            <div className="flex bg-neutral-100 p-0.5 sm:p-1 rounded-xl whitespace-nowrap shrink-0">
               <button
                 onClick={() => setViewMode("short")}
                 style={{ fontWeight: 800 }}
-                className={`px-4 py-1.5 text-[15px] rounded-lg transition-colors ${
+                className={`px-2.5 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-[14px] rounded-lg transition-colors whitespace-nowrap ${
                   viewMode === "short" ? "bg-white text-strong shadow-sm" : "text-neutral-500 hover:text-strong"
                 }`}
               >
@@ -170,7 +170,7 @@ export function EtfCompareChart({ basket, isTrMode = false }: { basket: Etf[]; i
               <button
                 onClick={() => setViewMode("long")}
                 style={{ fontWeight: 800 }}
-                className={`px-4 py-1.5 text-[15px] rounded-lg transition-colors ${
+                className={`px-2.5 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-[14px] rounded-lg transition-colors whitespace-nowrap ${
                   viewMode === "long" ? "bg-white text-strong shadow-sm" : "text-neutral-500 hover:text-strong"
                 }`}
               >

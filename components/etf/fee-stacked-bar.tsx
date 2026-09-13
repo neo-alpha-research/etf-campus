@@ -33,9 +33,9 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
 
   if (ctx.type === "masked_new") {
     return (
-      <div className="relative group flex items-center justify-center w-full cursor-help">
-        <div className="flex items-center justify-center gap-1 py-0.5">
-          <span className="text-[12px] font-bold text-muted tabular-nums font-mono">
+      <div className="relative group flex items-center justify-center w-full cursor-help whitespace-nowrap">
+        <div className="flex items-center justify-center gap-1 py-0.5 whitespace-nowrap">
+          <span className="text-[12px] font-bold text-muted tabular-nums font-mono whitespace-nowrap">
             {ctx.nominalFee?.toFixed(2)}%
           </span>
           <span className="text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200/80 px-1 py-0.5 rounded leading-none shrink-0">
@@ -59,9 +59,9 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
   if (!isSynthetic) {
     // 3분해 미완료: 명목보수만 표시하고 실부담비용 및 [최저] 뱃지 제외
     return (
-      <div className="relative group flex items-center justify-center w-full px-1 cursor-help">
-        <div className="flex items-center justify-center gap-1.5 py-0.5">
-          <span className="text-[12.5px] font-bold tabular-nums font-mono text-strong">
+      <div className="relative group flex items-center justify-center w-full px-1 cursor-help whitespace-nowrap">
+        <div className="flex items-center justify-center gap-1.5 py-0.5 whitespace-nowrap">
+          <span className="text-[12.5px] font-bold tabular-nums font-mono text-strong whitespace-nowrap">
             {ctx.nominalFee != null ? `${ctx.nominalFee.toFixed(2)}%` : "-"}
           </span>
           <span className="text-[10px] font-medium text-neutral-500 bg-neutral-100 border border-neutral-200 px-1 py-0.5 rounded leading-none shrink-0">
@@ -124,14 +124,14 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
   const syntheticFee = ctx.syntheticFee!;
 
   return (
-    <div className="relative group flex items-center justify-center w-full px-1 cursor-help">
+    <div className="relative group flex items-center justify-center w-full px-1 cursor-help whitespace-nowrap">
       {/* Inline row: number + [최저] badge in a single compact line */}
-      <div className="flex items-center justify-center gap-1.5 py-0.5">
-        <span className={`text-[12.5px] font-bold tabular-nums font-mono ${isLowest ? "text-emerald-600 font-extrabold" : "text-strong"}`}>
+      <div className="flex items-center justify-center gap-1.5 py-0.5 whitespace-nowrap">
+        <span className={`text-[12.5px] font-bold tabular-nums font-mono whitespace-nowrap ${isLowest ? "text-emerald-600 font-extrabold" : "text-strong"}`}>
           {syntheticFee.toFixed(2)}%
         </span>
         {isLowest && (
-          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/90 border border-emerald-300/80 px-1.5 py-0.5 rounded leading-none shrink-0 shadow-xs">
+          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/90 border border-emerald-300/80 px-1.5 py-0.5 rounded leading-none shrink-0 shadow-xs whitespace-nowrap">
             최저
           </span>
         )}

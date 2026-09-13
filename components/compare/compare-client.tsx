@@ -108,13 +108,13 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
   const isFull = basket.length >= MAX_ITEMS;
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-extrabold text-strong">ETF 비교</h1>
-        <p className="text-sm text-muted">최대 {MAX_ITEMS}개의 ETF를 한눈에 비교해 보세요.</p>
+    <div className="flex flex-col gap-4 sm:gap-6">
+      <div className="flex flex-col gap-1 sm:gap-2">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-strong">ETF 비교</h1>
+        <p className="text-xs sm:text-sm text-muted">최대 {MAX_ITEMS}개의 ETF를 한눈에 비교해 보세요.</p>
       </div>
 
-      <div className="flex flex-col gap-4 rounded-2xl bg-neutral-50 p-6 border border-line">
+      <div className="flex flex-col gap-3 sm:gap-4 rounded-xl sm:rounded-2xl bg-neutral-50 p-3.5 sm:p-6 border border-line">
         <CompareSearch etfs={etfs} onAdd={handleAddEtf} disabled={isFull} />
         <CompareThemes
           etfs={etfs}
@@ -123,16 +123,16 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
         />
       </div>
 
-      <div className="mt-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-          <div className="flex items-center gap-3">
-            <h2 className="text-xl font-bold text-strong">비교 종목</h2>
-            <span className="rounded-full bg-brand-50 px-2.5 py-0.5 text-sm font-semibold text-brand-700">
+      <div className="mt-2 sm:mt-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <h2 className="text-lg sm:text-xl font-bold text-strong">비교 종목</h2>
+            <span className="rounded-full bg-brand-50 px-2 sm:px-2.5 py-0.5 text-xs sm:text-sm font-semibold text-brand-700">
               {basket.length}개 선택 <span className="text-brand-400 font-medium">/ 최대 {MAX_ITEMS}개</span>
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
             {/* Master TR Mode Toggle */}
             {basket.length > 0 && (
               <button
@@ -140,7 +140,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
                 role="switch"
                 aria-checked={isTrMode}
                 onClick={() => setIsTrMode((prev) => !prev)}
-                className={`inline-flex items-center gap-2 h-[34px] px-3.5 text-xs font-bold rounded-lg transition-all border shadow-xs ${
+                className={`inline-flex items-center gap-1.5 sm:gap-2 h-8 sm:h-[34px] px-2.5 sm:px-3.5 text-[11px] sm:text-xs font-bold rounded-lg transition-all border shadow-xs ${
                   isTrMode
                     ? "bg-brand-50 border-brand-300 text-brand-800 ring-2 ring-brand-100"
                     : "bg-white border-neutral-200 text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900"
@@ -161,7 +161,7 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
               <button
                 type="button"
                 onClick={handleCopyLink}
-                className="group flex items-center justify-center gap-1.5 h-[34px] px-3.5 text-xs font-bold text-neutral-600 bg-white border border-neutral-200 hover:bg-neutral-50 hover:text-neutral-900 rounded-lg transition-all duration-200 shadow-xs active:scale-[0.97]"
+                className="group flex items-center justify-center gap-1.5 h-8 sm:h-[34px] px-2.5 sm:px-3.5 text-[11px] sm:text-xs font-bold text-neutral-600 bg-white border border-neutral-200 hover:bg-neutral-50 hover:text-neutral-900 rounded-lg transition-all duration-200 shadow-xs active:scale-[0.97]"
                 title="현재 비교 조합 링크를 클립보드에 복사합니다."
               >
                 <svg className="size-[13px] text-neutral-500 transition-transform duration-200 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -174,19 +174,19 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
             {/* Clear Basket with Safe 2-Step Confirmation */}
             {basket.length > 0 && (
               isConfirmingClear ? (
-                <div className="flex items-center gap-1.5 h-[34px] px-2.5 bg-rose-50 border border-rose-200 rounded-lg animate-in fade-in duration-200">
-                  <span className="text-xs font-bold text-rose-700 mr-1">모두 비울까요?</span>
+                <div className="flex items-center gap-1.5 h-8 sm:h-[34px] px-2 sm:px-2.5 bg-rose-50 border border-rose-200 rounded-lg animate-in fade-in duration-200">
+                  <span className="text-[11px] sm:text-xs font-bold text-rose-700 mr-0.5 sm:mr-1">모두 비울까요?</span>
                   <button
                     type="button"
                     onClick={handleClearBasket}
-                    className="h-6 px-2 text-[11px] font-black text-white bg-rose-600 hover:bg-rose-700 rounded transition-colors shadow-2xs active:scale-95"
+                    className="h-5 sm:h-6 px-1.5 sm:px-2 text-[10px] sm:text-[11px] font-black text-white bg-rose-600 hover:bg-rose-700 rounded transition-colors shadow-2xs active:scale-95"
                   >
                     확인
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsConfirmingClear(false)}
-                    className="h-6 px-1.5 text-[11px] font-bold text-neutral-600 hover:text-neutral-900 bg-white border border-neutral-200 rounded transition-colors active:scale-95"
+                    className="h-5 sm:h-6 px-1.5 text-[10px] sm:text-[11px] font-bold text-neutral-600 hover:text-neutral-900 bg-white border border-neutral-200 rounded transition-colors active:scale-95"
                   >
                     취소
                   </button>
@@ -195,13 +195,13 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
                 <button
                   type="button"
                   onClick={() => setIsConfirmingClear(true)}
-                  className="group flex items-center justify-center gap-1.5 h-[34px] px-3.5 text-xs font-bold text-rose-500 bg-rose-50 border border-rose-100 hover:bg-rose-500 hover:text-white hover:border-rose-500 rounded-lg transition-all duration-200 shadow-xs active:scale-[0.97]"
+                  className="group flex items-center justify-center gap-1.5 h-8 sm:h-[34px] px-2.5 sm:px-3.5 text-[11px] sm:text-xs font-bold text-rose-500 bg-rose-50 border border-rose-100 hover:bg-rose-500 hover:text-white hover:border-rose-500 rounded-lg transition-all duration-200 shadow-xs active:scale-[0.97]"
                   title="비교함에 담긴 모든 종목을 삭제합니다."
                 >
-                  <svg className="size-[14px] transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="size-[13px] sm:size-[14px] transition-transform duration-200 group-hover:-rotate-12 group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
-                  모든 종목 지우기
+                  <span>모든 종목 지우기</span>
                 </button>
               )
             )}

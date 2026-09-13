@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { EtfCompareView } from "../etf-compare-view";
 import type { Etf } from "@/lib/domain/etf-types";
@@ -220,6 +220,59 @@ describe("EtfCompareView selectionReasons", () => {
 
     expect(screen.getByText(/금융투자협회 최근 공시 기준/)).toBeInTheDocument();
     expect(screen.getByText(/2026.03.06 기준/)).toBeInTheDocument();
+  });
+
+  it("5종목 한눈에 뷰 탭을 누르면 전치 테이블 모드로 전환되고 5개 종목이 행 단위로 노출된다", () => {
+    const etfList: Partial<Etf>[] = [
+      { ticker: "000001", name: "ETF 1", returns: { "12m": 10.0 }, asOfDate: "2026-03-06" },
+      { ticker: "000002", name: "ETF 2", returns: { "12m": 12.0 }, asOfDate: "2026-03-06" },
+      { ticker: "000003", name: "ETF 3", returns: { "12m": 15.0 }, asOfDate: "2026-03-06" },
+      { ticker: "000004", name: "ETF 4", returns: { "12m": 8.0 }, asOfDate: "2026-03-06" },
+      { ticker: "000005", name: "ETF 5", returns: { "12m": 5.0 }, asOfDate: "2026-03-06" },
+    ];
+
+    render(<EtfCompareView basket={etfList as Etf[]} />);
+
+    // Click '5종목 한눈에 뷰' tab
+    const summaryTabBtn = screen.getByText(/5종목 한눈에 뷰/);
+    fireEvent.click(summaryTabBtn);
+
+    // All 5 ETFs should be rendered in the transposed view
+    expect(screen.getByText("ETF 1")).toBeInTheDocument();
+    expect(screen.getByText("ETF 2")).toBeInTheDocument();
+    expect(screen.getByText("ETF 3")).toBeInTheDocument();
+    expect(screen.getByText("ETF 4")).toBeInTheDocument();
+    expect(screen.getByText("ETF 5")).toBeInTheDocument();
+
+    // Summary table headers
+    expect(screen.getByText("ETF 종목")).toBeInTheDocument();
+    expect(screen.getByText("순자산/연금")).toBeInTheDocument();
+  });
+
+  it("지표 안내 ⓘ 버튼을 누르면 모바일 모달이 열리고 닫기 버튼으로 닫힌다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "ETF A",
+      asOfDate: "2026-03-06",
+      returns: { "12m": 10.0 },
+    };
+
+    render(<EtfCompareView basket={[etfA as Etf]} />);
+
+    // Click pension limit info button
+    const pensionBtn = screen.getByLabelText("퇴직연금 (DC·IRP) 편입 한도 안내 보기");
+    fireEvent.click(pensionBtn);
+
+    // Modal should be opened
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toBeInTheDocument();
+    expect(within(dialog).getByText("퇴직연금감독규정 제12조에 따른 계좌 내 편입 가능 한도입니다.")).toBeInTheDocument();
+
+    // Close button
+    const closeBtn = within(dialog).getByLabelText("닫기");
+    fireEvent.click(closeBtn);
+
+    expect(screen.queryByRole("dialog")).toBeNull();
   });
 });
 

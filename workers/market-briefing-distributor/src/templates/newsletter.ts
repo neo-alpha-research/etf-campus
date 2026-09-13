@@ -93,8 +93,8 @@ export function generateNewsletterHtml(
 
   const topTheme = sortedPeerGroups[0] || { peerGroup: "데이터 없음", cappedAumWeightedReturnPct: 0 };
   const bottomTheme = sortedPeerGroups.length > 1 ? sortedPeerGroups[sortedPeerGroups.length - 1] : { peerGroup: "데이터 없음", cappedAumWeightedReturnPct: 0 };
-  const cleanTopThemeName = topTheme.peerGroup.replace(/\s*\([^)]*\)/g, "").trim();
-  const cleanBottomThemeName = bottomTheme.peerGroup.replace(/\s*\([^)]*\)/g, "").trim();
+  const cleanTopThemeName = (topTheme.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
+  const cleanBottomThemeName = (bottomTheme.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
   const topThemeRet = topTheme.cappedAumWeightedReturnPct ?? 0;
   const bottomThemeRet = bottomTheme.cappedAumWeightedReturnPct ?? 0;
   const topThemeSign = topThemeRet > 0 ? "+" : "";
@@ -350,7 +350,7 @@ export function generateNewsletterHtml(
           </thead>
           <tbody>
             ${winners.map((w, idx) => {
-              const cleanName = w.peerGroup.replace(/\s*\([^)]*\)/g, "").trim();
+              const cleanName = (w.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
               const ret = w.cappedAumWeightedReturnPct ?? 0;
               const retSign = ret > 0 ? "▲ +" : ret < 0 ? "▼ " : "";
               const retColor = ret >= 0 ? "#DC2626" : "#2563EB";
@@ -362,7 +362,7 @@ export function generateNewsletterHtml(
               </tr>
             `;}).join("")}
             ${losers.map((l, idx) => {
-              const cleanName = l.peerGroup.replace(/\s*\([^)]*\)/g, "").trim();
+              const cleanName = (l.peerGroup || "").replace(/\s*\([^)]*\)/g, "").trim();
               const ret = l.cappedAumWeightedReturnPct ?? 0;
               const retSign = ret > 0 ? "▲ +" : ret < 0 ? "▼ " : "";
               const retColor = ret >= 0 ? "#DC2626" : "#2563EB";

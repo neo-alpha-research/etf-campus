@@ -84,6 +84,60 @@ def post_worker(endpoint: str, date_str: str, token: str, extra_params: str = ""
         return json.loads(resp.read().decode("utf-8"))
 
 
+def send_newsletter_email(target_date: str) -> tuple[bool, str]:
+    smtp_user = os.environ.get("SMTP_USER", "").strip()
+    smtp_pass = os.environ.get("SMTP_PASS", "").strip()
+    recipient = os.environ.get("NEWSLETTER_TO_EMAIL", "").strip() or smtp_user
+
+    if not smtp_user or not smtp_pass:
+        return True, "SMTP credentials not provided in environment. Skipping email transmission."
+
+    html_content = ""
+    local_html = Path("OSMU_Archive") / target_date / "3_Newsletter" / "newsletter_responsive.html"
+    if local_html.exists():
+        try:
+            html_content = local_html.read_text(encoding="utf-8")
+        except Exception:
+            pass
+
+    if not html_content:
+        url = f"{DISTRIBUTOR_HOST}/api/preview/newsletter?date={urllib.parse.quote(target_date, safe='')}"
+        req = urllib.request.Request(url, headers={"User-Agent": "ETF-Campus-OSMU-Publisher/1.0"})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                html_content = resp.read().decode("utf-8")
+        except Exception as e:
+            return False, f"Failed to fetch newsletter HTML: {e}"
+
+    if not html_content:
+        return False, "Newsletter HTML content is empty"
+
+    import smtplib
+    import ssl
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+    from email.utils import formataddr
+
+    subject = f"[ETF Campus] {target_date} 마켓 브리핑 뉴스레터"
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = formataddr(("ETF Campus", smtp_user))
+    msg["To"] = recipient
+
+    plain_fallback = f"ETF Campus 마켓 브리핑 뉴스레터 ({target_date})\n웹 버전 보기: https://etf-campus.pages.dev/market-briefing"
+    msg.attach(MIMEText(plain_fallback, "plain", "utf-8"))
+    msg.attach(MIMEText(html_content, "html", "utf-8"))
+
+    try:
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(smtp_user, smtp_pass)
+            server.sendmail(smtp_user, [recipient], msg.as_string())
+        return True, f"Email sent successfully to {recipient}"
+    except Exception as e:
+        return False, f"SMTP transmission failed: {e}"
+
+
 def purge_dashboard_cache(date_str: str, token: str) -> None:
     url = f"{DISTRIBUTOR_HOST}/api/internal/purge-dashboard-cache?date={urllib.parse.quote(date_str, safe='')}"
     req = urllib.request.Request(
@@ -177,17 +231,25 @@ def main() -> int:
             print(f"   ❌ Threads Request Exception: {e}", file=sys.stderr)
             results["threads"] = {"success": False, "error": str(e)}
 
-    # 3. Newsletter (Strict Deduplication Guard)
+    # 3. Newsletter (Strict Deduplication Guard & Real Email Transmission)
     if publish_all or "newsletter" in channels:
-        print(f"\n📧 [2/3] Marking Newsletter distribution as complete...")
+        print(f"\n📧 [2/3] Processing Newsletter distribution & email transmission...")
         try:
             res = post_worker("/api/publish/newsletter", target_date, token, extra_params=extra_param)
             if res.get("success"):
                 if res.get("alreadyPublished"):
-                    print(f"   ℹ️ Newsletter Already Prepared. Duplicate distribution skipped.")
+                    print(f"   ℹ️ Newsletter State: Already prepared in KV/D1.")
                 else:
-                    print(f"   ✅ Newsletter Complete!")
-                results["newsletter"] = {"success": True}
+                    print(f"   ✅ Newsletter State: Prepared in KV/D1 successfully.")
+                
+                # Transmit actual email via SMTP if configured
+                mail_ok, mail_msg = send_newsletter_email(target_date)
+                if mail_ok:
+                    print(f"   ✉️ {mail_msg}")
+                    results["newsletter"] = {"success": True, "email_transmitted": True}
+                else:
+                    print(f"   ⚠️ Newsletter Email Warning: {mail_msg}", file=sys.stderr)
+                    results["newsletter"] = {"success": True, "email_transmitted": False, "email_warning": mail_msg}
             else:
                 print(f"   ❌ Newsletter Failed: {res.get('error')}", file=sys.stderr)
                 results["newsletter"] = {"success": False, "error": res.get("error")}

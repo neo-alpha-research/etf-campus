@@ -110,6 +110,9 @@ jobs:
         continue-on-error: true
         env:
           MANUAL_RUN_TOKEN: ${{ secrets.MANUAL_RUN_TOKEN }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          NEWSLETTER_TO_EMAIL: ${{ secrets.SMTP_USER }}
         run: |
           INPUT_DATE="${{ inputs.target_date }}"
           if [ -n "$INPUT_DATE" ]; then

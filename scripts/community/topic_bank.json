@@ -1,0 +1,821 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "ETF 캠퍼스 커뮤니티 게시판 주제 풀. 각 항목은 screener.json 검증을 통과한 티커만 포함합니다.",
+    "ticker_validation_date": "2026-09-13",
+    "boards": ["stock-cost-analysis", "strategy-portfolio", "free-qna"],
+    "total_topics": 90
+  },
+  "topics": [
+    {
+      "id": "sca-001",
+      "board": "stock-cost-analysis",
+      "title": "KODEX vs TIGER vs ACE 미국S&P500 ETF 실부담비용 최신 비교 (2026 하반기)",
+      "excerpt": "국내 3대 S&P500 ETF의 총보수·기타비용·매매수수료 합산 실부담비용을 공시 기준으로 비교합니다.",
+      "verified_tickers": ["379800", "360750", "360200"],
+      "tags": ["S&P500", "비용비교", "연금"],
+      "published": false
+    },
+    {
+      "id": "sca-002",
+      "board": "stock-cost-analysis",
+      "title": "TIGER 미국나스닥100 (133690) vs KODEX 미국나스닥100 (379810) 2년 추적오차 비교",
+      "excerpt": "같은 나스닥100 지수를 추종하는 두 상품의 장기 추적오차율(TE)과 실부담비용을 2년 데이터로 비교합니다.",
+      "verified_tickers": ["133690", "379810"],
+      "tags": ["나스닥100", "추적오차", "비용"],
+      "published": false
+    },
+    {
+      "id": "sca-003",
+      "board": "stock-cost-analysis",
+      "title": "ACE KRX금현물 (411060) vs TIGER 골드선물 (319640): 금 ETF 구조 차이가 수익에 미치는 영향",
+      "excerpt": "현물 기반 금 ETF와 선물 기반 금 ETF의 구조적 차이, 롤오버 비용, 장기 성과 차이를 분석합니다.",
+      "verified_tickers": ["411060", "319640"],
+      "tags": ["금ETF", "현물선물", "비용"],
+      "published": false
+    },
+    {
+      "id": "sca-004",
+      "board": "stock-cost-analysis",
+      "title": "KODEX 미국채울트라30년(H) (439850) vs ACE 미국30년국채액티브(H) (453850): 듀레이션과 비용 최적 선택",
+      "excerpt": "IRP 안전자산 편입을 위한 초장기 미국채 ETF 2종의 듀레이션·비용·유동성을 비교합니다.",
+      "verified_tickers": ["439850", "453850"],
+      "tags": ["미국채", "듀레이션", "IRP"],
+      "published": false
+    },
+    {
+      "id": "sca-005",
+      "board": "stock-cost-analysis",
+      "title": "KODEX 인도Nifty50 (453810) vs ACE 인도니프티50(인도루피) (510260): 환율 노출 차이 실전 분석",
+      "excerpt": "달러 노출형과 루피 직접 노출형 인도 ETF의 환율 리스크·비용·AUM 차이를 비교합니다.",
+      "verified_tickers": ["453810", "510260"],
+      "tags": ["인도ETF", "환율", "이머징"],
+      "published": false
+    },
+    {
+      "id": "sca-006",
+      "board": "stock-cost-analysis",
+      "title": "SOL 미국배당다우존스 (446720) vs ACE 미국배당다우존스 (402970): 분배수익률·비용 정밀 비교",
+      "excerpt": "동일 지수를 추종하는 두 월배당 ETF의 분배수익률·실부담비용·AUM 안정성을 비교합니다.",
+      "verified_tickers": ["446720", "402970"],
+      "tags": ["배당다우존스", "월배당", "비용"],
+      "published": false
+    },
+    {
+      "id": "sca-007",
+      "board": "stock-cost-analysis",
+      "title": "커버드콜 ETF 투자 전 반드시 알아야 할 것: NAV 잠식 vs 분배금의 진실",
+      "excerpt": "커버드콜 ETF의 옵션 프리미엄 분배 구조, NAV 장기 우하향 위험, 연금 계좌 적합성을 검토합니다.",
+      "verified_tickers": [],
+      "tags": ["커버드콜", "NAV", "분배금"],
+      "published": false
+    },
+    {
+      "id": "sca-008",
+      "board": "stock-cost-analysis",
+      "title": "TIGER 미국전체주식시장 (459720) 편입 가치: S&P500과 10년 수익률 비교",
+      "excerpt": "4,000종목 CRSP 지수 추종 전체시장 ETF가 S&P500 대비 분산 이점과 수익률 차이를 분석합니다.",
+      "verified_tickers": ["459720", "379800"],
+      "tags": ["전체시장", "S&P500", "분산"],
+      "published": false
+    },
+    {
+      "id": "sca-009",
+      "board": "stock-cost-analysis",
+      "title": "MSCI ACWI ETF vs MSCI World ETF: 이머징 포함 여부에 따른 10년 수익률 차이",
+      "excerpt": "선진국+이머징 혼합형 ACWI와 선진국만 포함하는 World ETF의 장기 수익률·변동성 비교.",
+      "verified_tickers": ["195930", "360200"],
+      "tags": ["MSCI", "글로벌", "이머징"],
+      "published": false
+    },
+    {
+      "id": "sca-010",
+      "board": "stock-cost-analysis",
+      "title": "미국배당성장 ETF 비교: TIGER 미국배당+7%프리미엄다우존스 vs SOL 미국배당다우존스 (446720)",
+      "excerpt": "배당 성장 전략과 커버드콜 프리미엄 전략의 장기 분배율·NAV 변화를 비교 분석합니다.",
+      "verified_tickers": ["446720"],
+      "tags": ["배당성장", "커버드콜", "비교"],
+      "published": false
+    },
+    {
+      "id": "sca-011",
+      "board": "stock-cost-analysis",
+      "title": "국내 채권 ETF 선택 가이드: 단기채 vs 중기채 vs 장기채 실부담비용·금리 민감도",
+      "excerpt": "KODEX CD금리액티브(459580)부터 ACE 미국30년국채(453850)까지 듀레이션별 적합 포지션.",
+      "verified_tickers": ["459580", "453850"],
+      "tags": ["채권ETF", "듀레이션", "금리"],
+      "published": false
+    },
+    {
+      "id": "sca-012",
+      "board": "stock-cost-analysis",
+      "title": "국내 반도체 ETF 비교: TIGER AI반도체핵심공정 vs KODEX 반도체 실부담비용·구성 종목 분석",
+      "excerpt": "AI 반도체 테마 ETF와 전통 반도체 섹터 ETF의 비용·집중도·위험 수준을 비교합니다.",
+      "verified_tickers": [],
+      "tags": ["반도체", "테마ETF", "비용"],
+      "published": false
+    },
+    {
+      "id": "sca-013",
+      "board": "stock-cost-analysis",
+      "title": "월배당 ETF 실수령액 계산법: 분배수익률 3%의 실제 세후 월 수령액은 얼마?",
+      "excerpt": "분배수익률 3%짜리 ETF 1억원 투자 시 연금·일반·ISA 계좌별 세후 월 실수령액 계산.",
+      "verified_tickers": ["446720", "402970"],
+      "tags": ["월배당", "세후수익률", "계산"],
+      "published": false
+    },
+    {
+      "id": "sca-014",
+      "board": "stock-cost-analysis",
+      "title": "ETF 괴리율(NAV 대비 시장가) 이해: 언제 위험하고 언제 무시해도 되는가",
+      "excerpt": "ETF 괴리율 발생 원인, 허용 기준(±0.5%), 괴리율 큰 시간대 매수를 피하는 실전 전략.",
+      "verified_tickers": [],
+      "tags": ["괴리율", "NAV", "매매전략"],
+      "published": false
+    },
+    {
+      "id": "sca-015",
+      "board": "stock-cost-analysis",
+      "title": "환헤지(H) vs 환노출 ETF: 나스닥100(H)와 나스닥100 비용·수익 비교 실전 데이터",
+      "excerpt": "환헤지에 드는 연간 비용(약 0.3~0.8%p)과 환율 리스크 상쇄 효과를 실데이터로 검증합니다.",
+      "verified_tickers": ["133690", "379810"],
+      "tags": ["환헤지", "환노출", "환율"],
+      "published": false
+    },
+    {
+      "id": "sca-016",
+      "board": "stock-cost-analysis",
+      "title": "리츠(REITs) ETF 국내 vs 미국 상장 비교: KODEX 미국부동산 vs TIGER 미국MSCI리츠(합성H)",
+      "excerpt": "국내 상장 미국 리츠 ETF 2종의 분배수익률·실부담비용·환헤지 구조를 비교합니다.",
+      "verified_tickers": ["329200", "182480"],
+      "tags": ["리츠", "부동산ETF", "분배"],
+      "published": false
+    },
+    {
+      "id": "sca-017",
+      "board": "stock-cost-analysis",
+      "title": "TIP ETF(물가연동채) 국내 상장 현황과 인플레이션 헷지 효과 분석",
+      "excerpt": "물가연동국채 ETF의 구조, TIPS 지수 추종 방식, 인플레이션 환경에서의 실제 헷지 효과.",
+      "verified_tickers": [],
+      "tags": ["물가연동채", "인플레이션", "헷지"],
+      "published": false
+    },
+    {
+      "id": "sca-018",
+      "board": "stock-cost-analysis",
+      "title": "KODEX CD금리액티브(합성) (459580): IRP 안전자산 30%에 최적인가? 파킹형 ETF 완전 분석",
+      "excerpt": "CD금리 연동 파킹형 ETF의 유동성·이자 지급 방식·IRP 안전자산 요건 충족 여부를 분석합니다.",
+      "verified_tickers": ["459580"],
+      "tags": ["파킹ETF", "CD금리", "IRP안전자산"],
+      "published": false
+    },
+    {
+      "id": "sca-019",
+      "board": "stock-cost-analysis",
+      "title": "국내주식 ETF vs 미국주식 ETF: KODEX200(069500) vs KODEX 미국S&P500(379800) 10년 성과 비교",
+      "excerpt": "코스피200과 S&P500 ETF의 10년 수익률·변동성·MDD를 연환산으로 비교하고 분산 가치를 분석합니다.",
+      "verified_tickers": ["069500", "379800"],
+      "tags": ["국내주식", "미국주식", "비교"],
+      "published": false
+    },
+    {
+      "id": "sca-020",
+      "board": "stock-cost-analysis",
+      "title": "멀티에셋 ETF vs 직접 자산배분: TIGER 올웨더 vs S&P500+채권 자체 구성 비용 비교",
+      "excerpt": "올웨더 전략형 멀티에셋 ETF와 개별 ETF 직접 조합의 비용·편의성·세금을 비교합니다.",
+      "verified_tickers": [],
+      "tags": ["올웨더", "멀티에셋", "자산배분"],
+      "published": false
+    },
+    {
+      "id": "sca-021",
+      "board": "stock-cost-analysis",
+      "title": "베트남 ETF 국내 상장 현황: KODEX 베트남VN30(합성) 비용·유동성·장기 전망",
+      "excerpt": "국내 상장 베트남 ETF의 실부담비용, 합성 구조 리스크, 이머징 성장 잠재력을 분석합니다.",
+      "verified_tickers": ["396500"],
+      "tags": ["베트남", "이머징", "합성ETF"],
+      "published": false
+    },
+    {
+      "id": "sca-022",
+      "board": "stock-cost-analysis",
+      "title": "ACE 미국30년국채액티브(H) (453850): '액티브'가 붙은 채권 ETF는 패시브와 뭐가 다른가",
+      "excerpt": "액티브 채권 ETF의 운용 방식, 벤치마크 대비 알파 창출 여부, 비용 대비 효과를 분석합니다.",
+      "verified_tickers": ["453850"],
+      "tags": ["액티브ETF", "채권", "운용전략"],
+      "published": false
+    },
+    {
+      "id": "sca-023",
+      "board": "stock-cost-analysis",
+      "title": "국내 상장 일본 ETF: TIGER 일본니케이225 vs KODEX 일본TOPIX100 비용·엔화 노출 비교",
+      "excerpt": "니케이225와 TOPIX 지수 추종 ETF의 비용 구조, 엔/원 환율 영향, 분산 효과를 비교합니다.",
+      "verified_tickers": [],
+      "tags": ["일본ETF", "니케이", "엔화"],
+      "published": false
+    },
+    {
+      "id": "sca-024",
+      "board": "stock-cost-analysis",
+      "title": "KODEX 미국S&P500(379800) AUM 10조 돌파의 의미: 대형 ETF가 소형보다 유리한 5가지 이유",
+      "excerpt": "ETF AUM이 클수록 유동성·괴리율·운용비용에서 유리한 이유와 실데이터 근거를 제시합니다.",
+      "verified_tickers": ["379800"],
+      "tags": ["AUM", "유동성", "ETF선택기준"],
+      "published": false
+    },
+    {
+      "id": "sca-025",
+      "board": "stock-cost-analysis",
+      "title": "분기배당 vs 월배당 ETF: 재투자 복리 효과 차이 계산 (10년 시뮬레이션)",
+      "excerpt": "분기 vs 월 분배 주기 차이가 재투자 복리에 미치는 영향을 10년 시뮬레이션으로 수치화합니다.",
+      "verified_tickers": ["446720", "402970"],
+      "tags": ["분배주기", "복리", "재투자"],
+      "published": false
+    },
+    {
+      "id": "sca-026",
+      "board": "stock-cost-analysis",
+      "title": "ETF 총보수와 실부담비용의 차이: '총보수 0.05%'인데 실제로 더 낸다고?",
+      "excerpt": "총보수(TER) 외에 기타비용·매매중개수수료율이 추가되어 실부담비용이 늘어나는 구조를 설명합니다.",
+      "verified_tickers": [],
+      "tags": ["총보수", "실부담비용", "비용구조"],
+      "published": false
+    },
+    {
+      "id": "sca-027",
+      "board": "stock-cost-analysis",
+      "title": "국내 상장 글로벌 채권 ETF 비교: 미국채·유럽채·신흥국채 ETF 리스크·수익 프로파일",
+      "excerpt": "미국채·선진국채·이머징채권 ETF의 금리 민감도, 신용 위험, 환율 노출을 비교합니다.",
+      "verified_tickers": ["453850"],
+      "tags": ["글로벌채권", "신흥국채", "채권분산"],
+      "published": false
+    },
+    {
+      "id": "sca-028",
+      "board": "stock-cost-analysis",
+      "title": "레버리지·인버스 ETF를 연금 계좌에 넣으면 안 되는 이유",
+      "excerpt": "레버리지·인버스 ETF의 일별 복리 음의 효과(Volatility Decay), 연금 계좌 미편입 이유를 설명합니다.",
+      "verified_tickers": [],
+      "tags": ["레버리지", "인버스", "연금계좌"],
+      "published": false
+    },
+    {
+      "id": "sca-029",
+      "board": "stock-cost-analysis",
+      "title": "TIGER 차이나CSI300 vs KODEX 차이나H: 중국 ETF 2종 구조·리스크·실부담비용 비교",
+      "excerpt": "본토주식(A주) 추종과 홍콩상장 H주 추종 중국 ETF의 규제 리스크·비용·환율 구조 비교.",
+      "verified_tickers": [],
+      "tags": ["중국ETF", "CSI300", "리스크"],
+      "published": false
+    },
+    {
+      "id": "sca-030",
+      "board": "stock-cost-analysis",
+      "title": "국내 상장 원자재 ETF: 원유·금·농산물 ETF 실부담비용·롤오버 비용 완전 분석",
+      "excerpt": "원자재 선물 기반 ETF의 롤오버 비용(콘탱고/백워데이션), 합성 구조, 장기 보유 시 손익 구조.",
+      "verified_tickers": ["319640"],
+      "tags": ["원자재", "롤오버", "합성구조"],
+      "published": false
+    },
+    {
+      "id": "sp-001",
+      "board": "strategy-portfolio",
+      "title": "연령별 ETF 포트폴리오 황금비율: 20대·30대·40대·50대 최적 자산배분 가이드",
+      "excerpt": "나이에 따라 달라지는 리스크 허용 범위와 투자 기간을 반영한 연령별 ETF 자산배분 비율 제안.",
+      "verified_tickers": ["379800", "453850", "459580"],
+      "tags": ["자산배분", "연령별", "포트폴리오"],
+      "published": false
+    },
+    {
+      "id": "sp-002",
+      "board": "strategy-portfolio",
+      "title": "코어-위성 전략 실전 설계: S&P500 80% + 인도·금·채권 20% 4계좌 분산 포트폴리오",
+      "excerpt": "핵심 자산(S&P500)에 위성 자산(이머징·금·채권)을 더한 코어-위성 포트폴리오 구체적 설계.",
+      "verified_tickers": ["379800", "453810", "411060", "453850"],
+      "tags": ["코어위성", "분산투자", "포트폴리오"],
+      "published": false
+    },
+    {
+      "id": "sp-003",
+      "board": "strategy-portfolio",
+      "title": "목돈 5,000만원 은퇴 자금, ISA→연금저축→IRP 순서로 어떻게 배분할까",
+      "excerpt": "퇴직금·목돈을 절세 계좌에 효율적으로 배분하는 순서와 각 계좌별 최적 ETF 전략.",
+      "verified_tickers": ["379800", "459580", "453850"],
+      "tags": ["목돈배분", "절세계좌", "은퇴자금"],
+      "published": false
+    },
+    {
+      "id": "sp-004",
+      "board": "strategy-portfolio",
+      "title": "리밸런싱 실전 가이드: 언제, 얼마나 자주, 어떻게 해야 하는가 (연금 계좌 기준)",
+      "excerpt": "정기(연 1회) vs 임계값(±5%) 리밸런싱 방식 비교, 연금 계좌 내 무세금 리밸런싱 절차.",
+      "verified_tickers": ["379800", "453850"],
+      "tags": ["리밸런싱", "연금계좌", "전략"],
+      "published": false
+    },
+    {
+      "id": "sp-005",
+      "board": "strategy-portfolio",
+      "title": "월급 300만원으로 시작하는 절세 계좌 포트폴리오: ISA+연금저축+IRP 동시 운용법",
+      "excerpt": "월 수입 300만원 기준 ISA·연금저축·IRP 납입 배분과 각 계좌에서 운용할 ETF 조합.",
+      "verified_tickers": ["379800", "459580", "453850"],
+      "tags": ["절세계좌", "포트폴리오", "초보"],
+      "published": false
+    },
+    {
+      "id": "sp-006",
+      "board": "strategy-portfolio",
+      "title": "미국 금리 사이클과 채권 ETF 전략: 금리인하 국면에서 장기채 비중 높이는 타이밍",
+      "excerpt": "연준 금리 사이클에 따른 채권 ETF 비중 조절 전략과 실전 타이밍 포인트.",
+      "verified_tickers": ["453850", "439850"],
+      "tags": ["금리사이클", "채권ETF", "타이밍"],
+      "published": false
+    },
+    {
+      "id": "sp-007",
+      "board": "strategy-portfolio",
+      "title": "은퇴 후 월 200만원 만들기: 배당 레더링 ETF 포트폴리오 실전 설계",
+      "excerpt": "연금·배당 ETF를 단계적으로 쌓아 은퇴 후 월 200만원 현금흐름을 만드는 포트폴리오 설계.",
+      "verified_tickers": ["446720", "402970", "453850"],
+      "tags": ["배당레더링", "은퇴", "현금흐름"],
+      "published": false
+    },
+    {
+      "id": "sp-008",
+      "board": "strategy-portfolio",
+      "title": "MDD(최대낙폭) 기준 포트폴리오 설계: 내가 견딜 수 있는 손실 한도를 먼저 정하라",
+      "excerpt": "MDD -20%, -30%, -40% 시나리오별 적합한 주식·채권 비중과 역사적 회복 기간 데이터.",
+      "verified_tickers": ["379800", "453850"],
+      "tags": ["MDD", "리스크관리", "자산배분"],
+      "published": false
+    },
+    {
+      "id": "sp-009",
+      "board": "strategy-portfolio",
+      "title": "30대 맞벌이 부부의 ETF 전략: 두 개 연금저축 + IRP를 어떻게 조합할까",
+      "excerpt": "부부 각각의 연금저축·IRP를 부부 합산으로 설계하는 효율적 절세 + 분산 전략.",
+      "verified_tickers": ["379800", "459580"],
+      "tags": ["맞벌이", "부부절세", "연금저축"],
+      "published": false
+    },
+    {
+      "id": "sp-010",
+      "board": "strategy-portfolio",
+      "title": "ETF 포트폴리오 백테스트 결과 해석법: 과거 수익률이 미래를 보장하지 않는 이유",
+      "excerpt": "백테스트 결과의 생존 편향·과적합 문제와 올바른 백테스트 해석 방법론.",
+      "verified_tickers": [],
+      "tags": ["백테스트", "과거수익률", "방법론"],
+      "published": false
+    },
+    {
+      "id": "sp-011",
+      "board": "strategy-portfolio",
+      "title": "인플레이션 방어 포트폴리오: 물가연동채+금+원자재 ETF 조합 실전 가이드",
+      "excerpt": "인플레이션 환경에서 자산 가치를 지키는 TIPS·금·원자재 ETF 비중 설계.",
+      "verified_tickers": ["411060"],
+      "tags": ["인플레이션", "물가방어", "포트폴리오"],
+      "published": false
+    },
+    {
+      "id": "sp-012",
+      "board": "strategy-portfolio",
+      "title": "ISA 3년 만기 후 연금저축 이전 전략: 비과세 한도를 최대로 활용하는 방법",
+      "excerpt": "ISA 만기 자금을 연금저축으로 이전 시 추가 세액공제 300만원 혜택 활용법과 절차.",
+      "verified_tickers": [],
+      "tags": ["ISA", "연금이전", "세액공제"],
+      "published": false
+    },
+    {
+      "id": "sp-013",
+      "board": "strategy-portfolio",
+      "title": "ETF 자동 적립 설정 실전: 연금저축·ISA 계좌에서 월 자동매수 설정하는 법",
+      "excerpt": "주요 증권사(미래에셋·삼성·한국투자)별 연금저축 ETF 자동매수 설정 절차 비교.",
+      "verified_tickers": ["379800"],
+      "tags": ["자동적립", "DCA", "증권사"],
+      "published": false
+    },
+    {
+      "id": "sp-014",
+      "board": "strategy-portfolio",
+      "title": "국민연금 + 연금저축 + IRP: 은퇴 후 3층 연금 체계 완성 설계도",
+      "excerpt": "국민연금 예상 수령액과 사적연금(연금저축·IRP)을 합산한 은퇴 소득 설계 완전 가이드.",
+      "verified_tickers": ["379800", "453850"],
+      "tags": ["3층연금", "국민연금", "은퇴설계"],
+      "published": false
+    },
+    {
+      "id": "sp-015",
+      "board": "strategy-portfolio",
+      "title": "S&P500 고점 매수 공포 극복법: 역사적 고점 매수 후 1·3·5년 수익률 데이터",
+      "excerpt": "S&P500 역사적 고점 매수 후 1·3·5년 수익률 분포로 고점 공포를 데이터로 극복하는 방법.",
+      "verified_tickers": ["379800"],
+      "tags": ["고점공포", "시장타이밍", "DCA"],
+      "published": false
+    },
+    {
+      "id": "sp-016",
+      "board": "strategy-portfolio",
+      "title": "퇴직금 IRP 입금 후 ETF 운용 전략: 일시에 투자 vs 3개월 분할 매수",
+      "excerpt": "거액 퇴직금을 IRP에 입금 후 즉시 ETF 투자 vs 3~6개월 분할 매수 전략 비교.",
+      "verified_tickers": ["379800", "459580"],
+      "tags": ["퇴직금", "IRP", "분할매수"],
+      "published": false
+    },
+    {
+      "id": "sp-017",
+      "board": "strategy-portfolio",
+      "title": "연금저축 세액공제 환급금 재투자 전략: 환급 13.2%를 어떻게 복리로 굴릴까",
+      "excerpt": "연말 세액공제 환급금(최대 118.8만원)을 즉시 연금저축에 재투자하는 복리 극대화 전략.",
+      "verified_tickers": ["379800"],
+      "tags": ["세액공제", "환급재투자", "복리"],
+      "published": false
+    },
+    {
+      "id": "sp-018",
+      "board": "strategy-portfolio",
+      "title": "주식 폭락장(2022년형) 대응 전략: ETF 포트폴리오를 지키는 5가지 원칙",
+      "excerpt": "나스닥 -33%, S&P500 -19% 폭락 시나리오에서 채권·금 ETF 방어막의 실제 효과 검증.",
+      "verified_tickers": ["379800", "453850", "411060"],
+      "tags": ["폭락대응", "방어전략", "채권"],
+      "published": false
+    },
+    {
+      "id": "sp-019",
+      "board": "strategy-portfolio",
+      "title": "ETF 포트폴리오 세금 최적화: 일반 계좌·ISA·연금을 동시 운용하는 세금 미니멀화 전략",
+      "excerpt": "계좌 종류별 세금 차이를 활용해 포트폴리오 전체 세금 부담을 최소화하는 자산 배치 전략.",
+      "verified_tickers": ["379800", "459580"],
+      "tags": ["세금최적화", "계좌배치", "절세"],
+      "published": false
+    },
+    {
+      "id": "sp-020",
+      "board": "strategy-portfolio",
+      "title": "60대 이후 연금 수령 전략: 연금저축·IRP·국민연금을 어떤 순서로 받을까",
+      "excerpt": "연금소득세·건강보험료·종합소득세를 동시에 최소화하는 연금 수령 순서와 금액 설계.",
+      "verified_tickers": [],
+      "tags": ["연금수령", "60대", "세금최소화"],
+      "published": false
+    },
+    {
+      "id": "sp-021",
+      "board": "strategy-portfolio",
+      "title": "자녀 증여형 ETF 투자: 미성년 자녀 명의 계좌 개설부터 ETF 증여 절세 전략",
+      "excerpt": "미성년 자녀에게 10년마다 2,000만원 비과세 증여하여 ETF 장기 적립 효과를 극대화하는 방법.",
+      "verified_tickers": ["379800"],
+      "tags": ["증여", "미성년자녀", "절세"],
+      "published": false
+    },
+    {
+      "id": "sp-022",
+      "board": "strategy-portfolio",
+      "title": "ETF 투자자의 심리 편향 극복: 손실회피·과신·군중심리가 수익률을 갉아먹는 방식",
+      "excerpt": "행동재무학 관점에서 ETF 장기 투자자가 흔히 범하는 심리 편향과 규칙 기반 극복 전략.",
+      "verified_tickers": [],
+      "tags": ["행동재무", "심리편향", "장기투자"],
+      "published": false
+    },
+    {
+      "id": "sp-023",
+      "board": "strategy-portfolio",
+      "title": "배당 ETF로 FIRE(경제적 자유) 달성: 4% 인출 법칙을 한국 실정에 맞게 조정하는 법",
+      "excerpt": "미국 4% 인출 법칙의 한국 적용 시 세금·건강보험료 고려 시 실제 안전 인출률 계산.",
+      "verified_tickers": ["446720", "402970"],
+      "tags": ["FIRE", "4%법칙", "배당"],
+      "published": false
+    },
+    {
+      "id": "sp-024",
+      "board": "strategy-portfolio",
+      "title": "ETF 장기 보유 vs 단기 매매: 10년 데이터로 보는 '가만히 있기'의 파워",
+      "excerpt": "잦은 매매 vs 10년 무관심 보유의 실제 수익률 차이와 세금·비용 누적 손실 계산.",
+      "verified_tickers": ["379800"],
+      "tags": ["장기보유", "매매빈도", "비용"],
+      "published": false
+    },
+    {
+      "id": "sp-025",
+      "board": "strategy-portfolio",
+      "title": "달러-원 환율 1,400원 vs 1,200원: 환율 변동이 해외 ETF 수익에 미치는 실제 영향",
+      "excerpt": "환율 변동이 S&P500 ETF 원화 수익률에 미치는 영향과 환헤지 필요성 판단 기준.",
+      "verified_tickers": ["379800"],
+      "tags": ["환율", "해외ETF", "환헤지판단"],
+      "published": false
+    },
+    {
+      "id": "sp-026",
+      "board": "strategy-portfolio",
+      "title": "사회초년생 첫 투자: IRP·연금저축·ISA 중 '딱 하나'만 열어도 된다면 어떤 계좌?",
+      "excerpt": "월급 200만원 사회초년생이 처음 열어야 할 절세 계좌 1순위와 첫 ETF 선택 기준.",
+      "verified_tickers": ["379800"],
+      "tags": ["사회초년생", "첫투자", "계좌선택"],
+      "published": false
+    },
+    {
+      "id": "sp-027",
+      "board": "strategy-portfolio",
+      "title": "ETF로 만드는 월 100만원 부업 수익: 배당+이자 현금흐름 포트폴리오 설계",
+      "excerpt": "월 100만원 현금흐름을 만들기 위해 필요한 투자 원금과 ETF 조합을 역산 설계합니다.",
+      "verified_tickers": ["446720", "402970", "459580"],
+      "tags": ["현금흐름", "배당이자", "포트폴리오"],
+      "published": false
+    },
+    {
+      "id": "sp-028",
+      "board": "strategy-portfolio",
+      "title": "ETF 포트폴리오 점검 체크리스트: 분기 1회 10분 만에 끝내는 리뷰 프로세스",
+      "excerpt": "분기 포트폴리오 점검 시 확인해야 할 8가지 체크리스트와 리밸런싱 판단 기준.",
+      "verified_tickers": [],
+      "tags": ["체크리스트", "리밸런싱", "포트폴리오점검"],
+      "published": false
+    },
+    {
+      "id": "sp-029",
+      "board": "strategy-portfolio",
+      "title": "DC형 퇴직연금 운용 전략: 회사 매칭 + 본인 추가납입 최대 활용법",
+      "excerpt": "DC형 퇴직연금에서 회사 매칭 100% 수령, 추가납입 세액공제, ETF 배분 최적 전략.",
+      "verified_tickers": ["379800", "459580"],
+      "tags": ["DC퇴직연금", "매칭", "추가납입"],
+      "published": false
+    },
+    {
+      "id": "sp-030",
+      "board": "strategy-portfolio",
+      "title": "투자 원칙 10가지: ETF 캠퍼스 운영자가 실천하는 장기 투자 철학",
+      "excerpt": "10년 이상 ETF 장기 투자를 성공적으로 이끈 10가지 핵심 원칙과 그 근거.",
+      "verified_tickers": [],
+      "tags": ["투자원칙", "철학", "장기투자"],
+      "published": false
+    },
+    {
+      "id": "qna-001",
+      "board": "free-qna",
+      "title": "연금저축 중도 해지 vs IRP 담보대출: 급전 필요할 때 어느 쪽이 덜 손해인가요?",
+      "excerpt": "연금저축 중도 해지 시 세금 손실과 IRP 담보대출 이자 비용을 비교하여 최적 선택지를 안내합니다.",
+      "verified_tickers": [],
+      "tags": ["중도해지", "담보대출", "연금저축"],
+      "published": false
+    },
+    {
+      "id": "qna-002",
+      "board": "free-qna",
+      "title": "ETF 배당소득세 15.4%는 언제, 어떻게 부과되나요? 분배금 수령 시 자동으로 차감되나요?",
+      "excerpt": "국내 상장 ETF 분배금에서 원천징수되는 배당소득세 15.4%의 부과 시점과 절세 계좌 비교.",
+      "verified_tickers": [],
+      "tags": ["배당소득세", "원천징수", "분배금"],
+      "published": false
+    },
+    {
+      "id": "qna-003",
+      "board": "free-qna",
+      "title": "ISA 계좌를 일반형으로 가입했는데 서민형·농어민형으로 전환이 가능한가요?",
+      "excerpt": "ISA 계좌 유형(일반형/서민형/농어민형) 차이와 가입 후 유형 변경 가능 여부 안내.",
+      "verified_tickers": [],
+      "tags": ["ISA", "서민형", "계좌변경"],
+      "published": false
+    },
+    {
+      "id": "qna-004",
+      "board": "free-qna",
+      "title": "국민연금 예상 수령액 어디서 확인하나요? 현재 가입 이력도 볼 수 있나요?",
+      "excerpt": "국민연금공단 내연금 앱·홈페이지에서 예상 수령액·가입 이력 조회 방법과 활용 팁.",
+      "verified_tickers": [],
+      "tags": ["국민연금", "예상수령액", "조회"],
+      "published": false
+    },
+    {
+      "id": "qna-005",
+      "board": "free-qna",
+      "title": "IRP 계좌를 여러 개 만들 수 있나요? 증권사별로 각각 개설하면 어떤 장단점이 있나요?",
+      "excerpt": "IRP 다계좌 개설 가능 여부, 합산 세액공제 한도 적용 방식, 증권사 분산의 장단점.",
+      "verified_tickers": [],
+      "tags": ["IRP다계좌", "세액공제", "증권사선택"],
+      "published": false
+    },
+    {
+      "id": "qna-006",
+      "board": "free-qna",
+      "title": "연금저축 세액공제 600만원 한도, 납입 후 환급은 언제 받을 수 있나요?",
+      "excerpt": "연말정산 시 연금저축 세액공제 환급 시기·금액 계산법, 근로소득·사업소득 차이 안내.",
+      "verified_tickers": [],
+      "tags": ["세액공제환급", "연말정산", "연금저축"],
+      "published": false
+    },
+    {
+      "id": "qna-007",
+      "board": "free-qna",
+      "title": "ETF 투자 중 증권사가 파산하면 내 자산은 어떻게 되나요?",
+      "excerpt": "증권사 파산 시 ETF 자산 보호 구조(예탁결제원 분리 보관)와 투자자 보호 제도 설명.",
+      "verified_tickers": [],
+      "tags": ["증권사파산", "자산보호", "안전성"],
+      "published": false
+    },
+    {
+      "id": "qna-008",
+      "board": "free-qna",
+      "title": "연금저축 vs IRP, 세액공제 받을 때 두 계좌 어느 쪽에 먼저 납입하는 게 유리한가요?",
+      "excerpt": "총급여별 세액공제율 차이와 연금저축·IRP 납입 순서에 따른 절세 최적화 방법.",
+      "verified_tickers": [],
+      "tags": ["세액공제", "납입순서", "IRP연금저축"],
+      "published": false
+    },
+    {
+      "id": "qna-009",
+      "board": "free-qna",
+      "title": "ISA 계좌에서 ETF를 팔고 재매수할 때 세금이 발생하나요?",
+      "excerpt": "ISA 계좌 내 ETF 매도·재매수 시 비과세 처리 구조와 순이익 200만원 한도 적용 방식.",
+      "verified_tickers": [],
+      "tags": ["ISA", "매매세금", "비과세"],
+      "published": false
+    },
+    {
+      "id": "qna-010",
+      "board": "free-qna",
+      "title": "ETF 배당락일이란 무엇인가요? 배당락일 전후로 매수·매도 전략이 다른가요?",
+      "excerpt": "ETF 분배락(배당락) 개념, 분배락 전 매수의 장단점, 세금 절세 전략 관점에서 설명.",
+      "verified_tickers": [],
+      "tags": ["배당락", "분배락", "매수전략"],
+      "published": false
+    },
+    {
+      "id": "qna-011",
+      "board": "free-qna",
+      "title": "육아휴직 중 연금저축 납입을 유지해야 하나요? 소득 없을 때 세액공제는 되나요?",
+      "excerpt": "육아휴직 중 소득이 없을 때 연금저축 납입 의무·세액공제 적용 여부와 절세 전략.",
+      "verified_tickers": [],
+      "tags": ["육아휴직", "소득없음", "세액공제"],
+      "published": false
+    },
+    {
+      "id": "qna-012",
+      "board": "free-qna",
+      "title": "ETF 매도 시 체결 당일 출금이 가능한가요? T+2 결제 구조를 이해하고 싶어요",
+      "excerpt": "ETF 매도 후 결제일(T+2) 구조와 증권사별 즉시 출금 가능 서비스 비교.",
+      "verified_tickers": [],
+      "tags": ["T+2결제", "출금", "매도절차"],
+      "published": false
+    },
+    {
+      "id": "qna-013",
+      "board": "free-qna",
+      "title": "연금 계좌에서 운용하던 ETF를 일반 계좌로 이전할 수 있나요?",
+      "excerpt": "연금저축·IRP 내 ETF를 일반 계좌로 이전하는 것이 불가능한 이유와 대안 선택지.",
+      "verified_tickers": [],
+      "tags": ["계좌이전", "연금계좌", "일반계좌"],
+      "published": false
+    },
+    {
+      "id": "qna-014",
+      "board": "free-qna",
+      "title": "ETF 종목코드 앞에 'A'가 붙는 경우가 있던데, 이게 무엇인가요?",
+      "excerpt": "국내 ETF 종목코드 체계(6자리, A 접두사)의 의미와 MTS에서 ETF 검색 시 주의사항.",
+      "verified_tickers": [],
+      "tags": ["종목코드", "ETF검색", "MTS"],
+      "published": false
+    },
+    {
+      "id": "qna-015",
+      "board": "free-qna",
+      "title": "연금저축 해지 환급금에서 세금이 얼마나 빠져나가나요? 실제 계산 예시가 궁금합니다",
+      "excerpt": "연금저축 중도 해지 시 기타소득세 16.5% 적용 범위와 납입 원금·수익 분리 계산 예시.",
+      "verified_tickers": [],
+      "tags": ["중도해지세금", "기타소득세", "계산예시"],
+      "published": false
+    },
+    {
+      "id": "qna-016",
+      "board": "free-qna",
+      "title": "ETF 재투자 배당과 분배금 지급형의 차이: 복리 효과는 어느 쪽이 더 클까요?",
+      "excerpt": "분배금 자동재투자형 ETF와 현금 분배형 ETF의 장기 복리 수익률 차이 시뮬레이션.",
+      "verified_tickers": [],
+      "tags": ["자동재투자", "복리", "분배금"],
+      "published": false
+    },
+    {
+      "id": "qna-017",
+      "board": "free-qna",
+      "title": "IRP 만 55세 전에 퇴직하면 바로 연금을 받을 수 있나요?",
+      "excerpt": "IRP 수령 가능 연령(만 55세)과 조기 퇴직 시 퇴직급여 수령 방법·세금 처리.",
+      "verified_tickers": [],
+      "tags": ["IRP수령연령", "조기퇴직", "퇴직급여"],
+      "published": false
+    },
+    {
+      "id": "qna-018",
+      "board": "free-qna",
+      "title": "월 50만원 적립 vs 연 1회 600만원 일시납: 연금저축 어떤 방식이 더 유리한가요?",
+      "excerpt": "월 적립식과 연말 일시납의 절세·복리·유동성 측면 비교와 최적 납입 패턴 안내.",
+      "verified_tickers": [],
+      "tags": ["적립방식", "일시납", "연금저축"],
+      "published": false
+    },
+    {
+      "id": "qna-019",
+      "board": "free-qna",
+      "title": "ETF 거래 시 증권사 수수료가 발생하나요? MTS 수수료 0원 이벤트는 영구적인가요?",
+      "excerpt": "ETF 매매 시 증권사 위탁수수료 구조, 0원 이벤트의 지속성, 실제 비용 발생 항목.",
+      "verified_tickers": [],
+      "tags": ["증권사수수료", "MTS", "매매비용"],
+      "published": false
+    },
+    {
+      "id": "qna-020",
+      "board": "free-qna",
+      "title": "퇴직 후 지역가입자 건강보험료가 너무 높아요: 금융자산이 건보료에 영향을 주나요?",
+      "excerpt": "지역가입자 건강보험료 산정 기준(재산·소득·자동차)에서 ETF·연금 자산의 영향 분석.",
+      "verified_tickers": [],
+      "tags": ["건강보험료", "지역가입자", "금융자산"],
+      "published": false
+    },
+    {
+      "id": "qna-021",
+      "board": "free-qna",
+      "title": "ETF 포트폴리오를 배우자에게 상속·증여할 때 세금은 어떻게 되나요?",
+      "excerpt": "ETF 자산의 배우자 증여(6억원 공제)·상속 시 세금 처리와 연금 계좌 상속 특칙.",
+      "verified_tickers": [],
+      "tags": ["상속증여", "배우자", "ETF세금"],
+      "published": false
+    },
+    {
+      "id": "qna-022",
+      "board": "free-qna",
+      "title": "ETF 투자를 시작할 때 어느 증권사를 선택해야 하나요? 연금저축 증권사 비교",
+      "excerpt": "미래에셋·삼성증권·한국투자증권의 연금저축 ETF 라인업·이벤트·앱 편의성 비교.",
+      "verified_tickers": [],
+      "tags": ["증권사선택", "연금저축", "앱비교"],
+      "published": false
+    },
+    {
+      "id": "qna-023",
+      "board": "free-qna",
+      "title": "금융투자소득세(금투세) 폐지 이후 ETF 세금 구조는 어떻게 바뀌나요?",
+      "excerpt": "금투세 폐지 결정 후 국내 ETF 분배금·매도차익 과세 구조 변화와 투자자 영향 정리.",
+      "verified_tickers": [],
+      "tags": ["금투세", "세금변화", "ETF과세"],
+      "published": false
+    },
+    {
+      "id": "qna-024",
+      "board": "free-qna",
+      "title": "ISA 계좌의 의무 가입 기간 3년이 지나면 자동으로 만기 해지되나요?",
+      "excerpt": "ISA 만기 처리 방식(자동 연장·해지 선택), 만기 후 활용법, 연금 이전 절차 안내.",
+      "verified_tickers": [],
+      "tags": ["ISA만기", "자동해지", "연금이전"],
+      "published": false
+    },
+    {
+      "id": "qna-025",
+      "board": "free-qna",
+      "title": "ETF 가격이 NAV보다 높을 때 사도 괜찮나요? 프리미엄 상태의 ETF 매수 전략",
+      "excerpt": "ETF 시장가가 NAV보다 높은 '프리미엄' 상태에서 매수 시 손익 구조와 매수 적합 판단 기준.",
+      "verified_tickers": [],
+      "tags": ["NAV프리미엄", "괴리율", "매수전략"],
+      "published": false
+    },
+    {
+      "id": "qna-026",
+      "board": "free-qna",
+      "title": "종합소득세 신고 시 ETF 분배금도 신고해야 하나요? 금융소득 2,000만원 초과 기준",
+      "excerpt": "ETF 분배금의 종합소득세 합산 기준(금융소득 2,000만원), 신고 의무 여부와 절세 방법.",
+      "verified_tickers": [],
+      "tags": ["종합소득세", "금융소득", "분배금신고"],
+      "published": false
+    },
+    {
+      "id": "qna-027",
+      "board": "free-qna",
+      "title": "연금저축에서 ETF를 매도하면 그 금액을 다시 출금할 수 있나요?",
+      "excerpt": "연금저축 계좌 내 ETF 매도 후 현금 상태로 보관 vs 즉시 재투자 vs 출금 가능 여부.",
+      "verified_tickers": [],
+      "tags": ["연금저축출금", "매도후현금", "유동성"],
+      "published": false
+    },
+    {
+      "id": "qna-028",
+      "board": "free-qna",
+      "title": "해외 ETF(VOO, QQQ)를 직접 사려면 외화 계좌가 필요한가요? 환전 방법은?",
+      "excerpt": "미국 주식 직투를 위한 외화 계좌 개설·환전 방법과 국내 상장 ETF 대비 유불리 비교.",
+      "verified_tickers": [],
+      "tags": ["해외ETF직투", "외화계좌", "환전"],
+      "published": false
+    },
+    {
+      "id": "qna-029",
+      "board": "free-qna",
+      "title": "ETF 운용사(삼성·미래에셋·한국투자)가 파산하면 내 ETF는 어떻게 되나요?",
+      "excerpt": "ETF 운용사 파산 시 자산 보호 구조(예탁결제원·수탁은행 분리 보관) 완전 설명.",
+      "verified_tickers": [],
+      "tags": ["운용사파산", "자산보호", "안전성"],
+      "published": false
+    },
+    {
+      "id": "qna-030",
+      "board": "free-qna",
+      "title": "ETF 투자로 건강보험 피부양자 자격을 잃을 수 있나요? 금융소득 기준은?",
+      "excerpt": "건강보험 피부양자 탈락 요건(금융소득 연 1,000만원 초과)과 ETF 배당 관리 전략.",
+      "verified_tickers": [],
+      "tags": ["피부양자", "건강보험", "금융소득기준"],
+      "published": false
+    }
+  ]
+}

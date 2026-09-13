@@ -267,6 +267,13 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   }, [etfs, filters, sort, sortDir, comparisonPeriod, customDateRange, customReturnsData, isTrMode]);
   
   const [tableViewMode, setTableViewMode] = useState<"all" | "returns" | "metrics">("all");
+  
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 640) {
+      setTableViewMode("returns");
+    }
+  }, []);
+
   const tbodyRef = useRef<HTMLTableSectionElement>(null);
   const [tableOffsetTop, setTableOffsetTop] = useState(0);
 
@@ -1242,104 +1249,154 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
             {etfs[0] ? <AsOfDate value={etfs[0].asOfDate} /> : null}
           </div>
           
-          {/* 뷰 모드 프리셋 및 상단 정렬 상태바 */}
-          <div className="flex flex-wrap items-center justify-between gap-2.5 mb-3 bg-neutral-50/90 p-2 sm:p-2.5 rounded-xl border border-line">
-            <div className="flex items-center gap-1 bg-white p-1 rounded-lg border border-neutral-200/80 shadow-2xs">
-              <span className="text-[11px] font-bold text-neutral-500 pl-1.5 pr-1 hidden sm:inline">보기 모드:</span>
-              <button
-                type="button"
-                onClick={() => setTableViewMode("all")}
-                className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
-                  tableViewMode === "all"
-                    ? "bg-neutral-900 text-white shadow-xs"
-                    : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100"
-                }`}
-                aria-pressed={tableViewMode === "all"}
-              >
-                전체 열
-              </button>
-              <button
-                type="button"
-                onClick={() => setTableViewMode("returns")}
-                className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
-                  tableViewMode === "returns"
-                    ? "bg-brand-600 text-white shadow-xs"
-                    : "text-neutral-600 hover:text-brand-700 hover:bg-neutral-100"
-                }`}
-                aria-pressed={tableViewMode === "returns"}
-              >
-                <span>⚡ 수익률 뷰</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setTableViewMode("metrics")}
-                className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
-                  tableViewMode === "metrics"
-                    ? "bg-brand-600 text-white shadow-xs"
-                    : "text-neutral-600 hover:text-brand-700 hover:bg-neutral-100"
-                }`}
-                aria-pressed={tableViewMode === "metrics"}
-              >
-                <span>💰 비용·규모 뷰</span>
-              </button>
+          {/* 뷰 모드 프리셋 및 상단 정렬 상태바 (윈도우 스크롤 시 사이트 헤더 바로 아래 고정) */}
+          <div className="sticky top-[var(--site-header-height,140px)] z-30 flex flex-col gap-1.5 mb-2 bg-surface/95 backdrop-blur-md p-2 sm:p-2.5 rounded-xl border border-line shadow-xs">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-1 bg-white p-1 rounded-lg border border-neutral-200/80 shadow-2xs">
+                <span className="text-[11px] font-bold text-neutral-500 pl-1.5 pr-1 hidden sm:inline">보기 모드:</span>
+                <button
+                  type="button"
+                  onClick={() => setTableViewMode("all")}
+                  className={`px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
+                    tableViewMode === "all"
+                      ? "bg-neutral-900 text-white shadow-xs"
+                      : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100"
+                  }`}
+                  aria-pressed={tableViewMode === "all"}
+                >
+                  전체 열
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTableViewMode("returns")}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
+                    tableViewMode === "returns"
+                      ? "bg-brand-600 text-white shadow-xs"
+                      : "text-neutral-600 hover:text-brand-700 hover:bg-neutral-100"
+                  }`}
+                  aria-pressed={tableViewMode === "returns"}
+                >
+                  <span>⚡ 수익률 뷰</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTableViewMode("metrics")}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer ${
+                    tableViewMode === "metrics"
+                      ? "bg-brand-600 text-white shadow-xs"
+                      : "text-neutral-600 hover:text-brand-700 hover:bg-neutral-100"
+                  }`}
+                  aria-pressed={tableViewMode === "metrics"}
+                >
+                  <span>💰 비용·규모 뷰</span>
+                </button>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-muted hidden md:inline">현재 정렬:</span>
+                <button
+                  type="button"
+                  onClick={() => updateStateAndUrl(filters, selectedPeriod, sort, sortDir === "desc" ? "asc" : "desc")}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-strong font-bold text-[11px] shadow-2xs hover:border-brand-500 hover:text-brand-700 transition-colors cursor-pointer"
+                  title="정렬 방향 전환"
+                >
+                  <span>{sortLabels[sort]}</span>
+                  <span className="text-brand-600 font-extrabold">
+                    {sort === "ter" 
+                      ? (sortDir === "asc" ? "▲ 낮은순(저비용)" : "▼ 높은순")
+                      : (sortDir === "desc" ? "▼ 높은순" : "▲ 낮은순")}
+                  </span>
+                </button>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs">
-              <span className="text-muted hidden md:inline">현재 정렬:</span>
-              <button
-                type="button"
-                onClick={() => updateStateAndUrl(filters, selectedPeriod, sort, sortDir === "desc" ? "asc" : "desc")}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-strong font-bold text-[11px] shadow-2xs hover:border-brand-500 hover:text-brand-700 transition-colors cursor-pointer"
-                title="정렬 방향 전환"
-              >
-                <span>{sortLabels[sort]}</span>
-                <span className="text-brand-600 font-extrabold">
-                  {sort === "ter" 
-                    ? (sortDir === "asc" ? "▲ 낮은순(저비용)" : "▼ 높은순")
-                    : (sortDir === "desc" ? "▼ 높은순" : "▲ 낮은순")}
-                </span>
-              </button>
+            {/* 모바일 뷰포트에서 스크롤 중에도 열 정보가 항상 보이는 콤팩트 헤더 바 */}
+            <div className="lg:hidden w-full flex items-center border-t border-neutral-200/80 pt-1.5 mt-0.5 text-[11px] font-bold text-neutral-600 select-none">
+              <div className="w-[130px] min-w-[120px] px-1 text-left text-neutral-500 shrink-0">
+                상품 정보
+              </div>
+              {tableViewMode === "returns" && (
+                <div className="flex-1 flex justify-between text-right font-mono pr-1 text-[10.5px]">
+                  <button type="button" onClick={() => toggleColumnSort("return_1d")} className={`cursor-pointer ${sort === "return_1d" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    1일{sort === "return_1d" && (sortDir === "desc" ? "▼" : "▲")}
+                  </button>
+                  <button type="button" onClick={() => toggleColumnSort("return_1m")} className={`cursor-pointer ${sort === "return_1m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    1개월{sort === "return_1m" && (sortDir === "desc" ? "▼" : "▲")}
+                  </button>
+                  <button type="button" onClick={() => toggleColumnSort("return_3m")} className={`cursor-pointer ${sort === "return_3m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    3개월{sort === "return_3m" && (sortDir === "desc" ? "▼" : "▲")}
+                  </button>
+                  <button type="button" onClick={() => toggleColumnSort("return_12m")} className={`cursor-pointer ${sort === "return_12m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    1년{sort === "return_12m" && (sortDir === "desc" ? "▼" : "▲")}
+                  </button>
+                  <button type="button" onClick={() => toggleColumnSort("return_36m")} className={`cursor-pointer ${sort === "return_36m" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    3년{sort === "return_36m" && (sortDir === "desc" ? "▼" : "▲")}
+                  </button>
+                </div>
+              )}
+              {tableViewMode === "metrics" && (
+                <div className="flex-1 flex justify-between text-right font-mono pr-1 text-[10.5px]">
+                  <button type="button" onClick={() => toggleColumnSort("return_1d")} className={`cursor-pointer ${sort === "return_1d" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    1일{sort === "return_1d" && (sortDir === "desc" ? "▼" : "▲")}
+                  </button>
+                  <button type="button" onClick={() => toggleColumnSort("ter")} className={`cursor-pointer ${sort === "ter" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    실부담{sort === "ter" && (sortDir === "asc" ? "▲" : "▼")}
+                  </button>
+                  <button type="button" onClick={() => toggleColumnSort("aum")} className={`cursor-pointer ${sort === "aum" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    순자산{sort === "aum" && (sortDir === "desc" ? "▼" : "▲")}
+                  </button>
+                  <button type="button" onClick={() => toggleColumnSort("tradeValue")} className={`cursor-pointer ${sort === "tradeValue" ? "text-brand-700 font-extrabold underline underline-offset-2" : "text-neutral-600"}`}>
+                    거래대금{sort === "tradeValue" && (sortDir === "desc" ? "▼" : "▲")}
+                  </button>
+                  <span className="text-neutral-500">종가</span>
+                </div>
+              )}
+              {tableViewMode === "all" && (
+                <div className="flex-1 text-right text-[10.5px] text-neutral-400 font-medium pr-1">
+                  👉 표를 가로로 스와이프하세요
+                </div>
+              )}
             </div>
           </div>
           
-          <div className="rounded-2xl border border-line w-full max-w-full min-w-0 bg-surface shadow-xs overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin] overscroll-x-contain touch-pan-x">
+          <div className="rounded-2xl border border-line w-full max-w-full min-w-0 bg-surface shadow-xs overflow-x-auto lg:overflow-x-visible [scrollbar-width:thin] overscroll-x-contain">
             <div className="w-full max-w-full min-w-0">
               <table className={`w-full border-separate border-spacing-0 text-left text-sm whitespace-nowrap ${
                 tableViewMode === "returns"
-                  ? "min-w-full sm:min-w-[460px]"
+                  ? "w-full min-w-[350px] sm:min-w-[440px]"
                   : tableViewMode === "metrics"
-                    ? "min-w-full sm:min-w-[500px]"
+                    ? "w-full min-w-[350px] sm:min-w-[460px]"
                     : "min-w-[770px]"
               }`}>
                 {/* 명시적 열 너비 제어 */}
                 <colgroup>
-                  <col style={{ width: 180, minWidth: 140 }} />
+                  <col style={{ width: 130, minWidth: 120 }} />
                   {(tableViewMode === "all" || tableViewMode === "returns") && (
                     <>
-                      <col style={{ width: 56, minWidth: 50 }} />
-                      <col style={{ width: 56, minWidth: 50 }} />
-                      <col style={{ width: 56, minWidth: 50 }} />
-                      <col style={{ width: 56, minWidth: 50 }} />
-                      <col style={{ width: 56, minWidth: 50 }} />
-                      {hasExtraReturn && <col style={{ width: 62, minWidth: 54 }} />}
+                      <col style={{ width: 46, minWidth: 42 }} />
+                      <col style={{ width: 46, minWidth: 42 }} />
+                      <col style={{ width: 46, minWidth: 42 }} />
+                      <col style={{ width: 48, minWidth: 44 }} />
+                      <col style={{ width: 48, minWidth: 44 }} />
+                      {hasExtraReturn && <col style={{ width: 54, minWidth: 48 }} />}
                     </>
                   )}
                   {tableViewMode === "metrics" && (
-                    <col style={{ width: 56, minWidth: 50 }} />
+                    <col style={{ width: 46, minWidth: 42 }} />
                   )}
                   {(tableViewMode === "all" || tableViewMode === "metrics") && (
                     <>
-                      <col style={{ width: 56, minWidth: 52 }} />
-                      <col style={{ width: 68, minWidth: 60 }} />
-                      <col style={{ width: 68, minWidth: 60 }} />
-                      <col style={{ width: 68, minWidth: 60 }} />
+                      <col style={{ width: 50, minWidth: 46 }} />
+                      <col style={{ width: 56, minWidth: 50 }} />
+                      <col style={{ width: 56, minWidth: 50 }} />
+                      <col style={{ width: 56, minWidth: 50 }} />
                     </>
                   )}
                 </colgroup>
                 {/* 2단 헤더 (윈도우 스크롤 시 상단 밀착 고정) */}
-                <thead className="relative z-10 lg:sticky lg:top-[var(--site-header-height,140px)] lg:z-30 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
+                <thead className="relative z-10 lg:sticky lg:top-[calc(var(--site-header-height,140px)+52px)] lg:z-25 bg-neutral-100 text-[12px] sm:text-[13px] font-bold text-neutral-700 border-b-2 border-neutral-300 shadow-sm">
                   <tr className="border-b border-neutral-200">
-                    <th className="sticky left-0 z-20 px-2 sm:px-3 py-0 h-[30px] sm:h-[32px] w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
+                    <th className="sticky left-0 z-20 px-1.5 sm:px-3 py-0 h-[30px] sm:h-[32px] w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] text-center bg-neutral-100 shadow-[1px_0_0_0_#e5e5e5]" colSpan={1} scope="colgroup">상품 정보</th>
                     {(tableViewMode === "all" || tableViewMode === "returns") && (
                       <th className="px-2 py-0 h-[30px] sm:h-[32px] text-center border-l border-neutral-200 bg-neutral-50" colSpan={hasExtraReturn ? 6 : 5} scope="colgroup">
                         <div className="flex items-center justify-center gap-2">
@@ -1420,7 +1477,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                     )}
                   </tr>
                   <tr className="text-[11.5px] sm:text-[12px]">
-                    <th className="sticky left-0 z-20 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-2 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">종목 정보</th>
+                    <th className="sticky left-0 z-20 w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] bg-neutral-100 px-1.5 sm:px-3 py-0 h-[44px] sm:h-[48px] text-center shadow-[1px_0_0_0_#e5e5e5] border-b-2 border-neutral-300" scope="col">상품 정보</th>
                     
                     <th 
                       aria-label="1일 수익률 (클릭 시 정렬)"
@@ -1599,7 +1656,7 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
                     return (
                     <tr className="group bg-surface transition-colors hover:bg-neutral-100 even:bg-neutral-50/60" key={etf.ticker} data-index={virtualRow.index}>
                       {/* 1. 종목 정보 (종목명 + 티커 + 자산/지역/환헤지/연금 뱃지 통합) */}
-                      <th className="sticky left-0 z-10 bg-white group-even:bg-neutral-50/90 group-hover:bg-neutral-100 w-[140px] min-w-[140px] sm:w-[180px] sm:min-w-[180px] max-w-[210px] px-2 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] transition-colors" scope="row">
+                      <th className="sticky left-0 z-10 bg-white group-even:bg-neutral-50/90 group-hover:bg-neutral-100 w-[130px] min-w-[120px] sm:w-[180px] sm:min-w-[180px] max-w-[210px] px-1.5 sm:px-3 py-1.5 text-left shadow-[1px_0_0_0_#e5e5e5] transition-colors" scope="row">
                         <div className="flex flex-col gap-0.5 min-w-0">
                           <Link className="line-clamp-1 truncate block text-left text-[12px] sm:text-[13px] font-bold leading-tight text-strong hover:text-brand-700" href={`/etf/${etf.ticker}`} title={etf.name}>
                             {etf.name}

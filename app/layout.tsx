@@ -41,7 +41,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
       </head>
-      <body className="flex min-h-screen flex-col antialiased w-full max-w-full overflow-x-hidden">
+      <body className="flex min-h-screen flex-col antialiased w-full max-w-full overflow-x-clip">
         <Suspense fallback={null}>
           <UtmTracker />
         </Suspense>
@@ -59,7 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <SiteHeader />
           </Suspense>
         </div>
-        <main className="flex flex-1 flex-col pt-[var(--site-header-height,168px)] sm:pt-[var(--site-header-height,140px)] w-full max-w-full overflow-x-hidden" id="main-content">{children}</main>
+        <main className="flex flex-1 flex-col pt-[var(--site-header-height,168px)] sm:pt-[var(--site-header-height,140px)] w-full max-w-full overflow-x-clip" id="main-content">{children}</main>
         <SiteFooter />
         <AppPushInitializer />
         <AppBackButtonHandler />

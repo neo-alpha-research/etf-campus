@@ -39,8 +39,8 @@
 }
 
 * { border-color: var(--color-line); }
-html { min-width: 320px; max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; scrollbar-gutter: stable; }
-body { min-height: 100vh; max-width: 100%; overflow-x: hidden; background: var(--color-surface); font-family: var(--font-sans); }
+html { min-width: 320px; max-width: 100%; overflow-x: clip; scroll-behavior: smooth; scrollbar-gutter: stable; }
+body { min-height: 100vh; max-width: 100%; overflow-x: clip; background: var(--color-surface); font-family: var(--font-sans); }
 
 @utility scrollbar-hide {
   -ms-overflow-style: none;

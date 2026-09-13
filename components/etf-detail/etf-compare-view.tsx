@@ -163,6 +163,21 @@ export function EtfCompareView({
     return { maxSyntheticFee: max, lowestSyntheticTicker: lowestTicker };
   }, [compareList]);
 
+  const maxReturnsByPeriod = useMemo(() => {
+    const periods: ReturnPeriod[] = ["1m", "3m", "6m", "12m", "ytd"];
+    const result: Partial<Record<ReturnPeriod, number | null>> = {};
+    periods.forEach((p) => {
+      const vals = compareList
+        .map((e) => {
+          const ret = isTrMode ? (e.returnsTr || e.returnsNetTr) : e.returns;
+          return ret?.[p];
+        })
+        .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+      result[p] = vals.length > 0 ? Math.max(...vals) : null;
+    });
+    return result;
+  }, [compareList, isTrMode]);
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -202,10 +217,7 @@ export function EtfCompareView({
   const validAums = compareList.map((e) => e.aum).filter((a): a is number => typeof a === "number" && a > 0);
   const maxAum = validAums.length > 0 ? Math.max(...validAums) : null;
 
-  const valid1YReturns = compareList
-    .map((e) => getActiveReturns(e)?.["12m"])
-    .filter((r): r is number => typeof r === "number" && Number.isFinite(r));
-  const max1YReturn = valid1YReturns.length > 0 ? Math.max(...valid1YReturns) : null;
+  const max1YReturn = maxReturnsByPeriod["12m"] ?? null;
 
   return (
     <div className="space-y-3">
@@ -235,34 +247,35 @@ export function EtfCompareView({
           >
             <span>⚡ 5종목 한눈에 뷰</span>
             {compareList.length >= 3 && (
-              <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-brand-100 text-brand-700 font-black">
+              <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-brand-100 text-brand-700 font-black sm:hidden">
                 추천
               </span>
             )}
           </button>
         </div>
 
-        {mode !== "peer-readonly" && (
+        {mode !== "peer-readonly" && compareList[0]?.asOfDate && (
           <div className="flex justify-end items-center pr-1 text-xs text-neutral-500">
             <AsOfDate value={compareList[0]?.asOfDate} />
           </div>
         )}
       </div>
 
-      {/* VIEW 1: 5-ETF TRANSPOSED SUMMARY VIEW */}
+      {/* VIEW 1: 5-ETF TRANSPOSED SUMMARY VIEW (RESPONSIVE HYBRID) */}
       {viewMode === "summary" && (
         <div className="relative rounded-2xl border border-line bg-surface overflow-hidden shadow-sm animate-in fade-in duration-200">
-          {/* Period selector toolbar */}
+          {/* Period selector & dashboard toolbar */}
           <div className="flex flex-wrap items-center justify-between gap-2 px-3 sm:px-4 py-2.5 bg-neutral-50 border-b border-neutral-200 text-xs">
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-neutral-600 text-[11px] sm:text-xs">수익률 기준:</span>
+            {/* Mobile: single period selector */}
+            <div className="flex md:hidden items-center gap-1.5">
+              <span className="font-extrabold text-neutral-600 text-[11px]">수익률 기준:</span>
               <div className="inline-flex rounded-lg bg-neutral-200/80 p-0.5">
                 {(["1m", "3m", "6m", "12m", "ytd"] as const).map((p) => (
                   <button
                     key={p}
                     type="button"
                     onClick={() => setSummaryPeriod(p)}
-                    className={`px-2 py-0.5 sm:py-1 rounded-md text-[11px] font-bold transition-all ${
+                    className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition-all ${
                       summaryPeriod === p
                         ? "bg-white text-brand-800 shadow-2xs font-black"
                         : "text-neutral-600 hover:text-neutral-900"
@@ -274,7 +287,16 @@ export function EtfCompareView({
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            {/* Desktop: High-density Executive Dashboard Header */}
+            <div className="hidden md:flex items-center gap-2">
+              <span className="font-extrabold text-brand-900 text-xs">⚡ 5종목 핵심 지표 대시보드</span>
+              <span className="text-[11px] text-neutral-400 font-normal">
+                (다기간 성과 · 실부담비용 · 순자산 · 유동성 · 괴리율 한눈에 비교)
+              </span>
+            </div>
+
+            {/* TR Toggle Button (Shared & Responsive) */}
+            <div className="flex items-center gap-2 ml-auto">
               <button
                 type="button"
                 role="switch"
@@ -290,38 +312,95 @@ export function EtfCompareView({
             </div>
           </div>
 
-          {/* Transposed Table: 5 ETFs as rows, fits 100% mobile viewport */}
-          <div className="overflow-x-hidden">
-            <table className="w-full text-left border-collapse table-fixed">
+          {/* Unified Responsive Table: 4 cols on mobile, 10 cols executive table on desktop */}
+          <div className="overflow-x-auto [scrollbar-width:thin]">
+            <table className="w-full text-left border-collapse table-fixed min-w-full md:min-w-[860px]">
               <thead className="bg-neutral-100 border-b border-neutral-200 text-[11px] font-black text-neutral-600">
                 <tr>
-                  <th className="py-2.5 px-2 sm:px-3 w-[35%] text-left">ETF 종목</th>
-                  <th className="py-2.5 px-1 sm:px-1.5 w-[21%] text-right whitespace-nowrap">
+                  {/* 1. ETF 종목: Mobile 35%, Desktop 24% */}
+                  <th className="py-2.5 px-2 sm:px-3 text-left w-[35%] md:w-[24%]">ETF 종목</th>
+
+                  {/* 2. Mobile-only: Selected Period Return */}
+                  <th className="py-2.5 px-1 sm:px-1.5 text-right whitespace-nowrap md:hidden w-[21%]">
                     {RETURN_PERIOD_LABELS[summaryPeriod]} 수익률
                   </th>
-                  <th className="py-2.5 px-1 sm:px-1.5 w-[17%] text-center whitespace-nowrap">
-                    실부담비용
-                  </th>
-                  <th className="py-2.5 px-1.5 sm:px-3 w-[27%] text-right whitespace-nowrap">
-                    순자산/연금
-                  </th>
+
+                  {/* 3~6. Desktop-only: Multi-period Returns */}
+                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7%]">1개월</th>
+                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7%]">3개월</th>
+                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7%]">6개월</th>
+                  <th className="py-2.5 px-1.5 text-right whitespace-nowrap hidden md:table-cell md:w-[7.5%]">1년</th>
+
+                  {/* 7. 실부담비용: Mobile 17%, Desktop 11.5% */}
+                  <th className="py-2.5 px-1 sm:px-1.5 text-center whitespace-nowrap w-[17%] md:w-[11.5%]">실부담비용</th>
+
+                  {/* 8. Mobile-only: 순자산/연금 */}
+                  <th className="py-2.5 px-1.5 sm:px-3 text-right whitespace-nowrap md:hidden w-[27%]">순자산/연금</th>
+
+                  {/* 9. Desktop-only: 순자산 */}
+                  <th className="py-2.5 px-2 text-right whitespace-nowrap hidden md:table-cell md:w-[10%]">순자산</th>
+
+                  {/* 10. Desktop-only: 일 거래대금 */}
+                  <th className="py-2.5 px-2 text-right whitespace-nowrap hidden md:table-cell md:w-[9.5%]">일 거래대금</th>
+
+                  {/* 11. Desktop-only: 괴리율 */}
+                  <th className="py-2.5 px-1.5 text-center whitespace-nowrap hidden md:table-cell md:w-[8%]">괴리율</th>
+
+                  {/* 12. Desktop-only: 퇴직연금 한도 */}
+                  <th className="py-2.5 px-2 text-center whitespace-nowrap hidden md:table-cell md:w-[8.5%]">퇴직연금</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100 text-xs">
                 {compareList.map((etf) => {
                   const isBase = mainEtf && etf.ticker === mainEtf.ticker;
                   const returnVal = getActiveReturns(etf)?.[summaryPeriod] ?? null;
-                  const periodValues = compareList
-                    .map((e) => getActiveReturns(e)?.[summaryPeriod])
-                    .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
-                  const maxPeriodVal = periodValues.length > 0 ? Math.max(...periodValues) : null;
-                  const isTopReturn = maxPeriodVal !== null && maxPeriodVal > 0 && returnVal === maxPeriodVal && compareList.length > 1;
+                  const maxPeriodVal = maxReturnsByPeriod[summaryPeriod];
+                  const isTopReturn = typeof maxPeriodVal === "number" && maxPeriodVal > 0 && returnVal === maxPeriodVal && compareList.length > 1;
+
+                  // Desktop multi-period returns & top flags
+                  const ret1M = getActiveReturns(etf)?.["1m"] ?? null;
+                  const max1M = maxReturnsByPeriod["1m"];
+                  const isTop1M = typeof max1M === "number" && max1M > 0 && ret1M === max1M && compareList.length > 1;
+
+                  const ret3M = getActiveReturns(etf)?.["3m"] ?? null;
+                  const max3M = maxReturnsByPeriod["3m"];
+                  const isTop3M = typeof max3M === "number" && max3M > 0 && ret3M === max3M && compareList.length > 1;
+
+                  const ret6M = getActiveReturns(etf)?.["6m"] ?? null;
+                  const max6M = maxReturnsByPeriod["6m"];
+                  const isTop6M = typeof max6M === "number" && max6M > 0 && ret6M === max6M && compareList.length > 1;
+
+                  const ret12M = getActiveReturns(etf)?.["12m"] ?? null;
+                  const max12M = maxReturnsByPeriod["12m"];
+                  const isTop12M = typeof max12M === "number" && max12M > 0 && ret12M === max12M && compareList.length > 1;
 
                   const feeCtx = getFeeDisplayContext(etf);
                   const isLowestFee = etf.ticker === lowestSyntheticTicker;
 
                   const isTopAum = maxAum !== null && etf.aum === maxAum && compareList.length > 1;
                   const isTopTrade = maxTrade !== null && etf.tradeValue === maxTrade && compareList.length > 1;
+
+                  // Disparity calculation & alert
+                  const d = etf.disparity;
+                  const hasDisparity = typeof d === "number" && Number.isFinite(d);
+                  const isOverseas = etf.classification?.marketScope === "미국" || etf.classification?.marketScope === "글로벌" || etf.classification?.marketScope === "신흥국";
+                  const overvalueThreshold = isOverseas ? 1.0 : 0.5;
+                  const isAbnormallyOvervalued = hasDisparity && d > overvalueThreshold;
+
+                  // Pension limit label & style
+                  const limit = etf.pensionLimit;
+                  const is100 = limit?.includes("100%");
+                  const is70 = limit?.includes("70%");
+                  const pensionLabel = limit
+                    ? (is100 ? "안전 100%" : is70 ? "위험 70%" : limit)
+                    : (etf.pension === "가능" ? "연금가능" : "불가");
+                  const pensionBadgeClass = is100
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+                    : is70
+                    ? "border-blue-300 bg-blue-50 text-blue-700"
+                    : etf.pension === "가능"
+                    ? "border-brand-200 bg-brand-50 text-brand-700"
+                    : "border-neutral-200 bg-neutral-100 text-neutral-400";
 
                   return (
                     <tr
@@ -330,7 +409,7 @@ export function EtfCompareView({
                         isBase ? "bg-brand-50/30 font-semibold" : ""
                       }`}
                     >
-                      {/* ETF 종목 info */}
+                      {/* 1. ETF 종목 info */}
                       <td className="py-2.5 px-2 sm:px-3 align-middle">
                         <div className="flex flex-col gap-0.5">
                           <div className="flex items-center justify-between gap-1">
@@ -375,7 +454,7 @@ export function EtfCompareView({
                                 최저 🥇
                               </span>
                             )}
-                            {isTopReturn && (
+                            {(isTopReturn || isTop12M) && (
                               <span
                                 data-testid="smart-advantage-badge"
                                 className="inline-flex items-center px-1 py-0.2 rounded text-[8.5px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200"
@@ -403,8 +482,8 @@ export function EtfCompareView({
                         </div>
                       </td>
 
-                      {/* 수익률 */}
-                      <td className="py-2.5 px-1 sm:px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono">
+                      {/* 2. Mobile-only Single Period Return */}
+                      <td className="py-2.5 px-1 sm:px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono md:hidden">
                         <div className="flex flex-col items-end gap-0.5">
                           <span className={`text-[11.5px] sm:text-[13px] font-black ${isTopReturn ? "text-rose-600" : ""}`}>
                             <ReturnCell value={returnVal} isTr={isTrMode} />
@@ -417,7 +496,63 @@ export function EtfCompareView({
                         </div>
                       </td>
 
-                      {/* 실부담비용 */}
+                      {/* 3. Desktop 1M Return */}
+                      <td className="py-2.5 px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono hidden md:table-cell">
+                        <div className="flex flex-col items-end gap-0.5">
+                          <span className={`text-[12px] font-black ${isTop1M ? "text-rose-600" : ""}`}>
+                            <ReturnCell value={ret1M} isTr={isTrMode} />
+                          </span>
+                          {isTop1M && (
+                            <span className="text-[8px] font-black text-amber-700 bg-amber-50 px-1 py-0.2 rounded border border-amber-200 font-sans">
+                              1위
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 4. Desktop 3M Return */}
+                      <td className="py-2.5 px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono hidden md:table-cell">
+                        <div className="flex flex-col items-end gap-0.5">
+                          <span className={`text-[12px] font-black ${isTop3M ? "text-rose-600" : ""}`}>
+                            <ReturnCell value={ret3M} isTr={isTrMode} />
+                          </span>
+                          {isTop3M && (
+                            <span className="text-[8px] font-black text-amber-700 bg-amber-50 px-1 py-0.2 rounded border border-amber-200 font-sans">
+                              1위
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 5. Desktop 6M Return */}
+                      <td className="py-2.5 px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono hidden md:table-cell">
+                        <div className="flex flex-col items-end gap-0.5">
+                          <span className={`text-[12px] font-black ${isTop6M ? "text-rose-600" : ""}`}>
+                            <ReturnCell value={ret6M} isTr={isTrMode} />
+                          </span>
+                          {isTop6M && (
+                            <span className="text-[8px] font-black text-amber-700 bg-amber-50 px-1 py-0.2 rounded border border-amber-200 font-sans">
+                              1위
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 6. Desktop 1Y Return */}
+                      <td className="py-2.5 px-1.5 text-right align-middle whitespace-nowrap tabular-nums font-mono hidden md:table-cell">
+                        <div className="flex flex-col items-end gap-0.5">
+                          <span className={`text-[12px] font-black ${isTop12M ? "text-rose-600" : ""}`}>
+                            <ReturnCell value={ret12M} isTr={isTrMode} />
+                          </span>
+                          {isTop12M && (
+                            <span className="text-[8px] font-black text-amber-700 bg-amber-50 px-1 py-0.2 rounded border border-amber-200 font-sans">
+                              1위
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 7. 실부담비용 (Shared) */}
                       <td className="py-2.5 px-1 sm:px-1.5 text-center align-middle whitespace-nowrap tabular-nums font-mono">
                         <div className="flex flex-col items-center gap-0.5">
                           {feeCtx.type === "masked_new" ? (
@@ -440,27 +575,78 @@ export function EtfCompareView({
                           ) : (
                             <span className="text-neutral-400">-</span>
                           )}
+                          {/* Desktop subtext: nominal fee */}
+                          {feeCtx.syntheticFee !== null && feeCtx.nominalFee !== null && (
+                            <span className="hidden md:inline-block text-[9.5px] text-neutral-400 font-sans font-normal">
+                              총보수 {feeCtx.nominalFee.toFixed(2)}%
+                            </span>
+                          )}
                         </div>
                       </td>
 
-                      {/* 순자산 / 연금 */}
-                      <td className="py-2.5 px-1.5 sm:px-3 text-right align-middle whitespace-nowrap tabular-nums">
+                      {/* 8. Mobile-only 순자산 / 연금 */}
+                      <td className="py-2.5 px-1.5 sm:px-3 text-right align-middle whitespace-nowrap tabular-nums md:hidden">
                         <div className="flex flex-col items-end gap-0.5">
                           <span className="text-[10.5px] sm:text-[12px] font-extrabold text-neutral-800 font-mono tracking-tight">
                             {formatMoney(etf.aum)}
                           </span>
-                          <span className={`text-[8.5px] sm:text-[9px] font-bold px-1 py-0.2 rounded border ${
-                            etf.pensionLimit?.includes("100%")
-                              ? "border-emerald-300 bg-emerald-50 text-emerald-700"
-                              : etf.pensionLimit?.includes("70%")
-                              ? "border-blue-300 bg-blue-50 text-blue-700"
-                              : etf.pension === "가능"
-                              ? "border-brand-200 bg-brand-50 text-brand-700"
-                              : "border-neutral-200 bg-neutral-100 text-neutral-400"
-                          }`}>
-                            {etf.pensionLimit ? (etf.pensionLimit.includes("100%") ? "안전 100%" : etf.pensionLimit.includes("70%") ? "위험 70%" : etf.pensionLimit) : (etf.pension === "가능" ? "연금가능" : "연금불가")}
+                          <span className={`text-[8.5px] sm:text-[9px] font-bold px-1 py-0.2 rounded border ${pensionBadgeClass}`}>
+                            {pensionLabel}
                           </span>
                         </div>
+                      </td>
+
+                      {/* 9. Desktop-only 순자산 */}
+                      <td className="py-2.5 px-2 text-right align-middle whitespace-nowrap tabular-nums hidden md:table-cell">
+                        <div className="flex flex-col items-end gap-0.5">
+                          <span className="text-[12px] font-extrabold text-neutral-800 font-mono tracking-tight">
+                            {formatMoney(etf.aum)}
+                          </span>
+                          {isTopAum && (
+                            <span className="text-[8px] font-black text-indigo-700 bg-indigo-50 px-1 py-0.2 rounded border border-indigo-200 font-sans">
+                              순자산 1위 🏛️
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 10. Desktop-only 일 거래대금 */}
+                      <td className="py-2.5 px-2 text-right align-middle whitespace-nowrap tabular-nums hidden md:table-cell">
+                        <div className="flex flex-col items-end gap-0.5">
+                          <span className="text-[12px] font-bold text-neutral-700 font-mono tracking-tight">
+                            {formatMoney(etf.tradeValue)}
+                          </span>
+                          {isTopTrade && (
+                            <span className="text-[8px] font-black text-sky-700 bg-sky-50 px-1 py-0.2 rounded border border-sky-200 font-sans">
+                              유동성 1위 💧
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* 11. Desktop-only 괴리율 */}
+                      <td className="py-2.5 px-1.5 text-center align-middle whitespace-nowrap tabular-nums hidden md:table-cell">
+                        {hasDisparity ? (
+                          <div className="flex flex-col items-center justify-center gap-0.5 font-bold">
+                            <span className={`text-[12px] font-mono ${d > 0 ? "text-rose-600" : d < 0 ? "text-blue-600" : "text-neutral-700"}`}>
+                              {d > 0 ? `+${d.toFixed(2)}%` : `${d.toFixed(2)}%`}
+                            </span>
+                            {isAbnormallyOvervalued && (
+                              <span className="text-[8px] font-extrabold px-1 py-0.2 rounded border text-rose-800 bg-rose-50 border-rose-300 shadow-2xs leading-none font-sans">
+                                ⚠️ 주의
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-neutral-400 text-xs">-</span>
+                        )}
+                      </td>
+
+                      {/* 12. Desktop-only 퇴직연금 */}
+                      <td className="py-2.5 px-2 text-center align-middle whitespace-nowrap hidden md:table-cell">
+                        <span className={`inline-flex items-center rounded px-1.5 py-0.5 text-[10.5px] font-bold border ${pensionBadgeClass}`}>
+                          {pensionLabel}
+                        </span>
                       </td>
                     </tr>
                   );
@@ -470,9 +656,9 @@ export function EtfCompareView({
           </div>
 
           {/* Footer note */}
-          <div className="px-3 sm:px-4 py-2 bg-neutral-50/70 border-t border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[10.5px] text-neutral-400">
-            <span>* 괴리율, 추적오차율 등 세부 데이터는 [상세 스펙 비교표] 탭에서 확인하실 수 있습니다.</span>
-            <span className="font-mono">{compareList[0]?.asOfDate ? `${compareList[0].asOfDate.replace(/-/g, ".")} 기준` : ""}</span>
+          <div className="px-3 sm:px-4 py-2.5 bg-neutral-50/70 border-t border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[10.5px] text-neutral-500 font-medium">
+            <span>* 괴리율, 추적오차율, 보수 세부 내역(기타비용·매매수수료) 등 심층 분석은 [상세 스펙 비교표] 탭에서 확인하실 수 있습니다.</span>
+            <span className="font-mono text-neutral-400">{compareList[0]?.asOfDate ? `${compareList[0].asOfDate.replace(/-/g, ".")} 기준` : ""}</span>
           </div>
         </div>
       )}
@@ -1096,7 +1282,7 @@ export function EtfCompareView({
             >
               <span className={isTrMode ? "text-brand-700" : ""}>TR (배당 재투자) {isTrMode ? "ON" : "OFF"}</span>
               <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${isTrMode ? 'bg-brand-600' : 'bg-neutral-300'}`}>
-                <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform`} style={{ transform: isTrMode ? 'translateX(14px)' : 'translateX(2px)' }} />
+                <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${isTrMode ? 'translate-x-3.5' : 'translate-x-0.5'}`} />
               </div>
             </button>
             

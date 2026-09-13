@@ -247,6 +247,56 @@ describe("EtfCompareView selectionReasons", () => {
     // Summary table headers
     expect(screen.getByText("ETF 종목")).toBeInTheDocument();
     expect(screen.getByText("순자산/연금")).toBeInTheDocument();
+
+    // Option A Desktop Executive Table headers
+    expect(screen.getByRole("columnheader", { name: "1개월" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "3개월" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "6개월" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "1년" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "일 거래대금" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "괴리율" })).toBeInTheDocument();
+    expect(screen.getByRole("columnheader", { name: "퇴직연금" })).toBeInTheDocument();
+  });
+
+  it("3종목 이상 비교 시 '추천' 배지는 sm:hidden 클래스가 적용되어 모바일에서만 노출된다", () => {
+    const etfList: Partial<Etf>[] = [
+      { ticker: "000001", name: "ETF 1", returns: { "12m": 10.0 } },
+      { ticker: "000002", name: "ETF 2", returns: { "12m": 12.0 } },
+      { ticker: "000003", name: "ETF 3", returns: { "12m": 15.0 } },
+    ];
+
+    render(<EtfCompareView basket={etfList as Etf[]} />);
+
+    const badge = screen.getByText("추천");
+    expect(badge).toBeInTheDocument();
+    expect(badge.className).toContain("sm:hidden");
+  });
+
+  it("5종목 한눈에 뷰에서 괴리율이 비정상 고평가일 때 주의 배지가 표시된다", () => {
+    const etfList: Partial<Etf>[] = [
+      {
+        ticker: "000001",
+        name: "정상 ETF",
+        disparity: 0.1,
+        classification: { marketScope: "국내", assetClass: "주식-국내", published: true, assetDetail: null, strategy: null, fxHedge: null, reviewStatus: "", reviewPriority: "", sourceUrl: null, evidenceSummary: null },
+      },
+      {
+        ticker: "000002",
+        name: "고평가 ETF",
+        disparity: 0.8,
+        classification: { marketScope: "국내", assetClass: "주식-국내", published: true, assetDetail: null, strategy: null, fxHedge: null, reviewStatus: "", reviewPriority: "", sourceUrl: null, evidenceSummary: null },
+      },
+    ];
+
+    render(<EtfCompareView basket={etfList as Etf[]} />);
+
+    // Click '5종목 한눈에 뷰' tab
+    const summaryTabBtn = screen.getByText(/5종목 한눈에 뷰/);
+    fireEvent.click(summaryTabBtn);
+
+    expect(screen.getByText("+0.10%")).toBeInTheDocument();
+    expect(screen.getByText("+0.80%")).toBeInTheDocument();
+    expect(screen.getByText("⚠️ 주의")).toBeInTheDocument();
   });
 
   it("지표 안내 ⓘ 버튼을 누르면 모바일 모달이 열리고 닫기 버튼으로 닫힌다", () => {

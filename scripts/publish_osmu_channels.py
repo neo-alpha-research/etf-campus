@@ -84,7 +84,7 @@ def post_worker(endpoint: str, date_str: str, token: str, extra_params: str = ""
         return json.loads(resp.read().decode("utf-8"))
 
 
-def send_newsletter_email(target_date: str) -> tuple[bool, str]:
+def send_newsletter_email(target_date: str, force: bool = False) -> tuple[bool, str]:
     smtp_user = os.environ.get("SMTP_USER", "").strip()
     smtp_pass = os.environ.get("SMTP_PASS", "").strip()
     recipient = os.environ.get("NEWSLETTER_TO_EMAIL", "").strip() or smtp_user
@@ -92,8 +92,19 @@ def send_newsletter_email(target_date: str) -> tuple[bool, str]:
     if not smtp_user or not smtp_pass:
         return True, "SMTP credentials not provided in environment. Skipping email transmission."
 
+    # Tier 3 Guard: Local transmission receipt
+    receipt_dir = Path("OSMU_Archive") / target_date / "3_Newsletter"
+    receipt_file = receipt_dir / "email_sent_receipt.json"
+    if receipt_file.exists() and not force:
+        try:
+            receipt_data = json.loads(receipt_file.read_text(encoding="utf-8"))
+            sent_at = receipt_data.get("sent_at", "earlier")
+            return True, f"Email already transmitted at {sent_at} for {target_date}. Duplicate transmission skipped."
+        except Exception:
+            pass
+
     html_content = ""
-    local_html = Path("OSMU_Archive") / target_date / "3_Newsletter" / "newsletter_responsive.html"
+    local_html = receipt_dir / "newsletter_responsive.html"
     if local_html.exists():
         try:
             html_content = local_html.read_text(encoding="utf-8")
@@ -133,6 +144,19 @@ def send_newsletter_email(target_date: str) -> tuple[bool, str]:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
             server.login(smtp_user, smtp_pass)
             server.sendmail(smtp_user, [recipient], msg.as_string())
+
+        # Save transmission receipt
+        try:
+            receipt_dir.mkdir(parents=True, exist_ok=True)
+            receipt_file.write_text(json.dumps({
+                "target_date": target_date,
+                "sent_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "recipient": recipient,
+                "sender": smtp_user,
+            }, indent=2), encoding="utf-8")
+        except Exception:
+            pass
+
         return True, f"Email sent successfully to {recipient}"
     except Exception as e:
         return False, f"SMTP transmission failed: {e}"
@@ -237,19 +261,32 @@ def main() -> int:
         try:
             res = post_worker("/api/publish/newsletter", target_date, token, extra_params=extra_param)
             if res.get("success"):
-                if res.get("alreadyPublished"):
-                    print(f"   ℹ️ Newsletter State: Already prepared in KV/D1.")
+                if res.get("alreadyPublished") and not args.force:
+                    print(f"   ℹ️ Newsletter Already Prepared for {target_date} (KV/D1). Duplicate distribution skipped.")
+                    mail_ok, mail_msg = send_newsletter_email(target_date, force=False)
+                    if "Duplicate" in mail_msg or "already transmitted" in mail_msg.lower():
+                        print(f"   ℹ️ {mail_msg}")
+                        results["newsletter"] = {"success": True, "already_published": True}
+                    elif mail_ok:
+                        print(f"   ✉️ {mail_msg}")
+                        results["newsletter"] = {"success": True, "email_transmitted": True}
+                    else:
+                        print(f"   ⚠️ Newsletter Email Warning: {mail_msg}", file=sys.stderr)
+                        results["newsletter"] = {"success": True, "already_published": True, "email_warning": mail_msg}
                 else:
-                    print(f"   ✅ Newsletter State: Prepared in KV/D1 successfully.")
-                
-                # Transmit actual email via SMTP if configured
-                mail_ok, mail_msg = send_newsletter_email(target_date)
-                if mail_ok:
-                    print(f"   ✉️ {mail_msg}")
-                    results["newsletter"] = {"success": True, "email_transmitted": True}
-                else:
-                    print(f"   ⚠️ Newsletter Email Warning: {mail_msg}", file=sys.stderr)
-                    results["newsletter"] = {"success": True, "email_transmitted": False, "email_warning": mail_msg}
+                    if res.get("alreadyPublished"):
+                        print(f"   ⚠️ Force flag detected: Re-transmitting newsletter for {target_date}...")
+                    else:
+                        print(f"   ✅ Newsletter State: Prepared in KV/D1 successfully.")
+                    
+                    # Transmit actual email via SMTP if configured
+                    mail_ok, mail_msg = send_newsletter_email(target_date, force=args.force)
+                    if mail_ok:
+                        print(f"   ✉️ {mail_msg}")
+                        results["newsletter"] = {"success": True, "email_transmitted": True}
+                    else:
+                        print(f"   ⚠️ Newsletter Email Warning: {mail_msg}", file=sys.stderr)
+                        results["newsletter"] = {"success": True, "email_transmitted": False, "email_warning": mail_msg}
             else:
                 print(f"   ❌ Newsletter Failed: {res.get('error')}", file=sys.stderr)
                 results["newsletter"] = {"success": False, "error": res.get("error")}

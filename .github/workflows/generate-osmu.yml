@@ -1,10 +1,8 @@
 name: Generate and Publish OSMU Archive
 
+# Note: Scheduled execution is driven with 0-second precision by the NHN Cloud n8n instance
+# (scripts/n8n/osmu_scheduled_publishing_workflow.json) to eliminate GitHub Actions 15-45min cron queuing delays.
 on:
-  schedule:
-    # Monday 07:30 KST (Sunday 22:30 UTC):
-    # Automatically publishes Friday's market briefing (prepared on Saturday morning) to Threads, Instagram, Newsletter
-    - cron: "30 22 * * 0"
   workflow_dispatch:
     inputs:
       target_date:

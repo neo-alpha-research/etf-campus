@@ -52,9 +52,19 @@
      - Header Value: `Bearer <GITHUB_PERSONAL_ACCESS_TOKEN>` (권한: `repo` 또는 `actions:write`)
 4. 워크플로우를 **Active**로 전환.
 
-### 스케줄 크론 명세
-- `50,55 7 * * 2-6` (07:50, 07:55 KST, 화~토)
-- `0,5,10,15,20,25,30,35,40 8 * * 2-6` (08:00 ~ 08:40 KST, 화~토, 5분 간격)
+### 2.1 일별 시세 수집 스마트 프로빙 워크플로우 (`daily-market.yml`)
+- 파일: [`daily_market_probing_workflow.json`](daily_market_probing_workflow.json)
+- 스케줄 크론:
+  - `50,55 7 * * 2-6` (07:50, 07:55 KST, 화~토)
+  - `0,5,10,15,20,25,30,35,40 8 * * 2-6` (08:00 ~ 08:40 KST, 화~토, 5분 간격)
+- 역할: 화~토요일 아침 07:50부터 KRX 공시를 5분 간격으로 프로빙하여 개방 즉시 데이터 적재 기동
+
+### 2.2 OSMU 정기 예약 발행 워크플로우 (`generate-osmu.yml`)
+- 파일: [`osmu_scheduled_publishing_workflow.json`](osmu_scheduled_publishing_workflow.json)
+- 스케줄 크론:
+  - `30 7 * * 1` (07:30 KST, 매주 월요일)
+- 타깃 액션: `generate-osmu.yml` (`auto_publish: true`)
+- 역할: GitHub Actions 내부 크론의 글로벌 15~45분 지연을 원천 차단하고, 월요일 아침 07:30 정각에 3대 채널(스레드, 뉴스레터, 인스타그램) 예약 발행을 0초 오차로 자동 기동
 - 워크플로우 타임존: `Asia/Seoul` (KST 기준)
 
 ---

@@ -17,6 +17,9 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: write
+
 jobs:
   add-community-posts:
     name: Add 3 community posts
@@ -36,39 +39,35 @@ jobs:
           python-version: "3.11"
 
       - name: Resolve target date (KST)
-        id: date
         run: |
           if [ -n "${{ github.event.inputs.date }}" ]; then
-            echo "TARGET_DATE=${{ github.event.inputs.date }}" >> $GITHUB_ENV
+            TARGET_DATE="${{ github.event.inputs.date }}"
           else
-            # 현재 UTC → KST 변환 (UTC+9)
-            TARGET=$(TZ=Asia/Seoul date +%Y-%m-%d)
-            echo "TARGET_DATE=$TARGET" >> $GITHUB_ENV
+            TARGET_DATE=$(TZ=Asia/Seoul date +%Y-%m-%d)
           fi
-          echo "Resolved target date: $TARGET_DATE"
+          echo "TARGET_DATE=$TARGET_DATE" >> $GITHUB_ENV
+          echo "[INFO] Target date: $TARGET_DATE"
 
       - name: Generate community posts
-        run: |
-          ARGS="--date ${{ env.TARGET_DATE }}"
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            ARGS="$ARGS --dry-run"
-          fi
-          python scripts/community/add_posts.py $ARGS
+        if: github.event.inputs.dry_run != 'true'
+        run: python scripts/community/add_posts.py --date "${{ env.TARGET_DATE }}"
+        env:
+          PYTHONIOENCODING: utf-8
+
+      - name: Generate community posts (dry-run)
+        if: github.event.inputs.dry_run == 'true'
+        run: python scripts/community/add_posts.py --date "${{ env.TARGET_DATE }}" --dry-run
         env:
           PYTHONIOENCODING: utf-8
 
       - name: Validate tickers (Zero-Hallucination gate)
+        if: github.event.inputs.dry_run != 'true'
         run: python scripts/community/validate_tickers.py
         env:
           PYTHONIOENCODING: utf-8
 
-      - name: Skip remaining steps on dry-run
-        if: github.event.inputs.dry_run == 'true'
-        run: |
-          echo "Dry-run mode: skipping git commit and push."
-          exit 0
-
       - name: Check for changes
+        if: github.event.inputs.dry_run != 'true'
         id: changes
         run: |
           if git diff --quiet public/mock-community-posts.json scripts/community/topic_bank.json; then
@@ -78,7 +77,7 @@ jobs:
           fi
 
       - name: Commit and push
-        if: env.CHANGED == 'true'
+        if: github.event.inputs.dry_run != 'true' && env.CHANGED == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -86,21 +85,25 @@ jobs:
           git commit -m "feat(community): auto-activate board posts for ${{ env.TARGET_DATE }} [skip ci]"
           git pull origin main --rebase
           git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Report result
         if: always()
         run: |
           echo "=== Community Post Activation Report ==="
-          echo "Date: ${{ env.TARGET_DATE }}"
-          python -c "
+          echo "Date     : ${{ env.TARGET_DATE }}"
+          echo "Dry-run  : ${{ github.event.inputs.dry_run }}"
+          python - <<'PYEOF'
           import json
-          with open('public/mock-community-posts.json', encoding='utf-8') as f:
-              d = json.load(f)
-          print(f'Total posts: {len(d[\"posts\"])}')
-          recent = [p for p in d['posts'] if p['createdAt'].startswith('${{ env.TARGET_DATE }}')]
-          print(f'Posts for today: {len(recent)}')
-          for p in recent:
-              print(f'  - [{p[\"category\"][\"slug\"]}] {p[\"title\"][:60]}')
-          "
+          try:
+              with open("public/mock-community-posts.json", encoding="utf-8") as f:
+                  d = json.load(f)
+              total = len(d["posts"])
+              target = "${{ env.TARGET_DATE }}"
+              recent = [p for p in d["posts"] if p["createdAt"].startswith(target)]
+              print(f"Total posts  : {total}")
+              print(f"Posts today  : {len(recent)}")
+              for p in recent:
+                  print(f"  [{p['category']['slug']}] {p['title'][:60]}")
+          except Exception as e:
+              print(f"Report error: {e}")
+          PYEOF

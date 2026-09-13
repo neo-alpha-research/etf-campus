@@ -15,27 +15,26 @@ public/data/screener.json 실데이터와 교차 검증합니다.
 
 Zero-Hallucination 정책:
   - 스크리너에 존재하지 않는 티커를 게시글에 사용하면 WARNING 처리
-  - 브랜드명과 스크리너의 issuerName이 불일치하면 ERROR 처리
+  - 브랜드명과 스크리너의 issuerId가 불일치하면 ERROR 처리
 """
 
+import io
 import json
 import re
 import sys
 import argparse
 from pathlib import Path
-from typing import Optional
 
 # Windows PowerShell UTF-8 출력 설정
 if sys.platform == "win32":
-    import io
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 ROOT = Path(__file__).parent.parent.parent
 POSTS_FILE = ROOT / "public" / "mock-community-posts.json"
 SCREENER_FILE = ROOT / "public" / "data" / "screener.json"
 
-# 운용사 ID → 브랜드 접두사 매핑 (screener.json issuerId 기준)
-ISSUER_BRAND_MAP = {
+# 운용사 issuerId → 허용 브랜드 접두사 매핑 (screener.json issuerId 기준)
+ISSUER_BRAND_MAP: dict[str, list[str]] = {
     "samsung": ["KODEX"],
     "miraeasset": ["TIGER"],
     "koreainvestment": ["ACE"],
@@ -49,84 +48,100 @@ ISSUER_BRAND_MAP = {
     "timefolio": ["TIME"],
 }
 
-BRAND_ISSUER_MAP: dict[str, str] = {}
-for issuer_id, brands in ISSUER_BRAND_MAP.items():
-    for brand in brands:
-        BRAND_ISSUER_MAP[brand] = issuer_id
+# 역방향: 브랜드 접두사 → issuerId
+BRAND_ISSUER_MAP: dict[str, str] = {
+    brand: issuer_id
+    for issuer_id, brands in ISSUER_BRAND_MAP.items()
+    for brand in brands
+}
+
+# 브랜드 접두사 내림차순 정렬 (긴 것 먼저 매칭)
+_BRANDS_SORTED = sorted(BRAND_ISSUER_MAP.keys(), key=len, reverse=True)
+
+# 티커 바로 앞 최대 탐색 거리 (chars)
+_BRAND_LOOKAHEAD = 20
 
 
 def load_screener() -> dict[str, dict]:
     """screener.json에서 ticker → {name, issuerId} 매핑 로드"""
     with open(SCREENER_FILE, encoding="utf-8") as f:
         data = json.load(f)
-    etfs = data if isinstance(data, list) else data.get("etfs", data.get("data", []))
-    result = {}
+    etfs: list[dict] = data if isinstance(data, list) else data.get("etfs", data.get("data", []))
+    result: dict[str, dict] = {}
     for etf in etfs:
         ticker = str(etf.get("ticker", "") or etf.get("code", ""))
         if len(ticker) == 6 and ticker.isdigit():
             name = etf.get("name", "")
-            issuer = etf.get("issuer", {})
-            if isinstance(issuer, str):
-                # Sometimes issuer is a serialized dict string
+            raw_issuer = etf.get("issuer", {})
+            if isinstance(raw_issuer, str):
                 try:
-                    issuer = eval(issuer)  # noqa: S307
-                except Exception:
-                    issuer = {}
-            issuer_id = issuer.get("issuerId", "") if isinstance(issuer, dict) else ""
+                    raw_issuer = json.loads(raw_issuer)
+                except (json.JSONDecodeError, ValueError):
+                    raw_issuer = {}
+            issuer_id = raw_issuer.get("issuerId", "") if isinstance(raw_issuer, dict) else ""
             result[ticker] = {"name": name, "issuerId": issuer_id}
     return result
 
 
-def extract_tickers_with_context(text: str) -> list[tuple[str, str]]:
-    """텍스트에서 (티커코드, 앞뒤30자 컨텍스트) 추출"""
-    results = []
-    for m in re.finditer(r"\((\d{6})\)", text):
-        ticker = m.group(1)
-        start = max(0, m.start() - 30)
-        end = min(len(text), m.end() + 30)
-        ctx = text[start:end].replace("\n", " ")
-        results.append((ticker, ctx))
-    return results
+def find_brand_before_ticker(text: str, ticker_start: int) -> str | None:
+    """
+    티커 코드 '(XXXXXX)' 직전 _BRAND_LOOKAHEAD 문자 내에서
+    가장 가까이(오른쪽) 위치한 브랜드 접두사를 반환합니다.
 
-
-def detect_brand_in_context(ctx: str) -> str | None:
-    """컨텍스트에서 브랜드명 추출"""
-    for brand in BRAND_ISSUER_MAP:
-        if brand in ctx:
-            return brand
-    return None
+    규칙:
+    - 브랜드 앞에는 공백·구두점 등 비알파뉴메릭 문자가 와야 합니다
+      (예: "단기채권PLUS"의 PLUS는 브랜드가 아니므로 제외)
+    - 후보 중 가장 오른쪽(티커에 가장 가까운) 것을 반환합니다
+      (예: "TIGER(458730), ACE(402970)" → ACE 반환)
+    """
+    window_start = max(0, ticker_start - _BRAND_LOOKAHEAD)
+    window = text[window_start:ticker_start]
+    best_brand: str | None = None
+    best_pos = -1
+    for brand in _BRANDS_SORTED:
+        start = 0
+        while True:
+            pos = window.find(brand, start)
+            if pos == -1:
+                break
+            # 브랜드 앞이 단어 경계인지 확인 (비알파뉴메릭 또는 창 첫 글자)
+            preceded_by_boundary = (pos == 0) or (not window[pos - 1].isalnum())
+            if preceded_by_boundary and pos > best_pos:
+                best_pos = pos
+                best_brand = brand
+            start = pos + 1
+    return best_brand
 
 
 def validate_posts(strict: bool = False, as_json: bool = False) -> int:
     """
     Returns:
-        0 = 통과
-        1 = WARNING (strict 모드에서는 1 반환)
-        2 = ERROR
+        0 = 통과 (오류 없음)
+        1 = WARNING (strict 모드에서 경고가 있을 때)
+        2 = ERROR (브랜드-티커 불일치 발견)
     """
     screener = load_screener()
 
     with open(POSTS_FILE, encoding="utf-8") as f:
         data = json.load(f)
 
-    posts = data["posts"]
-
+    posts: list[dict] = data["posts"]
     warnings: list[dict] = []
     errors: list[dict] = []
 
     for post in posts:
         slug = post["slug"]
-        full_text = (
-            post.get("title", "")
-            + " "
-            + post.get("excerpt", "")
-            + " "
-            + post.get("bodyText", "")
-        )
+        full_text = " ".join([
+            post.get("title", ""),
+            post.get("excerpt", ""),
+            post.get("bodyText", ""),
+        ])
 
-        ticker_ctx_pairs = extract_tickers_with_context(full_text)
+        for m in re.finditer(r"\((\d{6})\)", full_text):
+            ticker = m.group(1)
+            ctx_start = max(0, m.start() - 25)
+            ctx = full_text[ctx_start: m.end() + 10].replace("\n", " ")
 
-        for ticker, ctx in ticker_ctx_pairs:
             if ticker not in screener:
                 warnings.append({
                     "slug": slug,
@@ -140,17 +155,17 @@ def validate_posts(strict: bool = False, as_json: bool = False) -> int:
             screener_issuer = screener_info["issuerId"]
             screener_name = screener_info["name"]
 
-            # 브랜드 불일치 검사
-            brand = detect_brand_in_context(ctx)
+            brand = find_brand_before_ticker(full_text, m.start())
             if brand:
                 expected_issuer = BRAND_ISSUER_MAP.get(brand)
                 if expected_issuer and expected_issuer != screener_issuer:
+                    correct_brands = [b for b, i in BRAND_ISSUER_MAP.items() if i == screener_issuer]
                     errors.append({
                         "slug": slug,
                         "ticker": ticker,
                         "issue": "BRAND_MISMATCH",
                         "found_brand": brand,
-                        "expected_brand": [b for b, i in BRAND_ISSUER_MAP.items() if i == screener_issuer],
+                        "correct_brands": correct_brands,
                         "screener_name": screener_name,
                         "context": ctx,
                     })
@@ -166,21 +181,22 @@ def validate_posts(strict: bool = False, as_json: bool = False) -> int:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:
         if errors:
-            print(f"[ERROR] {len(errors)} BRAND/TICKER ERROR(S) FOUND:")
+            print(f"[ERROR] {len(errors)} brand/ticker mismatch(es) found:")
             for e in errors:
-                print(f"  [{e['slug'][:40]}] {e['ticker']} -- {e['issue']}")
-                print(f"    found: {e['found_brand']}  expected: {e.get('expected_brand', '?')}")
-                print(f"    screener name: {e['screener_name']}")
-                print(f"    ctx: ...{e['context']}...")
+                print(f"  slug : {e['slug'][:50]}")
+                print(f"  ticker  : {e['ticker']} ({e['screener_name']})")
+                print(f"  written : {e['found_brand']}  ->  correct: {e['correct_brands']}")
+                print(f"  context : ...{e['context']}...")
+                print()
         else:
-            print(f"[OK] No brand/ticker errors found in {len(posts)} posts.")
+            print(f"[OK] No brand/ticker errors in {len(posts)} posts.")
 
         if warnings:
-            print(f"\n[WARN] {len(warnings)} ticker(s) not found in screener (may be new products):")
+            print(f"[WARN] {len(warnings)} ticker(s) not found in screener:")
             for w in warnings:
-                print(f"  [{w['slug'][:40]}] {w['ticker']} -- {w['issue']}")
+                print(f"  {w['ticker']} in {w['slug'][:50]}")
         else:
-            print("[OK] All tickers found in screener.")
+            print("[OK] All tickers present in screener.")
 
     exit_code = 0
     if errors:
@@ -191,10 +207,8 @@ def validate_posts(strict: bool = False, as_json: bool = False) -> int:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="ETF 커뮤니티 게시글 티커 검증기")
-    parser.add_argument("--json", action="store_true", help="JSON 리포트 출력")
-    parser.add_argument("--strict", action="store_true", help="WARNING도 exit code 1로 처리")
+    parser = argparse.ArgumentParser(description="ETF community post ticker validator")
+    parser.add_argument("--json", action="store_true", help="Output JSON report")
+    parser.add_argument("--strict", action="store_true", help="Treat warnings as errors (exit 1)")
     args = parser.parse_args()
-
-    code = validate_posts(strict=args.strict, as_json=args.json)
-    sys.exit(code)
+    sys.exit(validate_posts(strict=args.strict, as_json=args.json))

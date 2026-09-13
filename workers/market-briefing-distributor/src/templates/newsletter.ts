@@ -148,10 +148,9 @@ export function generateNewsletterHtml(
   <style>
     body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; background-color: #F8FAFC; color: #0F172A; -webkit-font-smoothing: antialiased; }
     .container { max-width: 620px; margin: 24px auto; background-color: #FFFFFF; border-radius: 20px; overflow: hidden; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08); border: 1px solid #E2E8F0; }
-    .header { background: linear-gradient(135deg, #064E3B 0%, #047857 100%); padding: 36px 24px; text-align: center; color: #FFFFFF; }
-    .badge { display: inline-block; background-color: rgba(255, 255, 255, 0.2); color: #A7F3D0; padding: 5px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 12px; border: 1px solid rgba(255, 255, 255, 0.3); }
-    .title { font-size: 26px; font-weight: 900; margin: 0 0 8px; color: #FFFFFF; letter-spacing: -0.6px; }
-    .subtitle { font-size: 14px; color: #D1FAE5; font-weight: 700; }
+    .header { background: linear-gradient(135deg, #064E3B 0%, #047857 100%); padding: 32px 24px; text-align: center; color: #FFFFFF; }
+    .badge { display: inline-block; background-color: rgba(255, 255, 255, 0.2); color: #A7F3D0; padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.3); }
+    .title { font-size: 26px; font-weight: 900; margin: 0; color: #FFFFFF; letter-spacing: -0.6px; line-height: 1.25; }
     .content { padding: 30px 22px; }
     
     .tabular { font-variant-numeric: tabular-nums; }
@@ -169,9 +168,8 @@ export function generateNewsletterHtml(
     
     @media only screen and (max-width: 480px) {
       .container { margin: 6px auto !important; border-radius: 12px !important; width: 100% !important; max-width: 100% !important; }
-      .header { padding: 26px 16px !important; }
-      .title { font-size: 21px !important; }
-      .subtitle { font-size: 13px !important; }
+      .header { padding: 20px 16px !important; }
+      .title { font-size: 20px !important; margin: 0 !important; }
       .content { padding: 16px 12px !important; }
       
       .exec-box { padding: 14px 12px !important; margin-bottom: 18px !important; border-radius: 0 10px 10px 0 !important; }
@@ -218,7 +216,6 @@ export function generateNewsletterHtml(
       <div class="header">
         <span class="badge">ETF CAMPUS · DAILY BRIEFING</span>
         <div class="title">${formattedDate} ETF 마켓 브리핑</div>
-        <div class="subtitle">국내 상장 일반 ETF ${generalCount.toLocaleString()}개 전수 분석 리포트</div>
       </div>
 
       <!-- Content -->
@@ -233,7 +230,7 @@ export function generateNewsletterHtml(
                 </span>
               </td>
               <td style="text-align: right; vertical-align: middle; white-space: nowrap;">
-                <span style="font-size: 12px; font-weight: 700; color: #64748B;">일반 ETF 전수 분석</span>
+                <span style="font-size: 12px; font-weight: 700; color: #64748B;">일반 ETF ${generalCount.toLocaleString()}개 전수 분석</span>
               </td>
             </tr>
             <tr>

@@ -1,28 +1,71 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useSyncExternalStore, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { tutorialSteps } from "@/data/tutorial-content";
 import { useAuthSession } from "@/components/auth/use-auth-session";
 import { FounderLetter } from "@/components/tutorial/founder-letter";
 import { CampusTour } from "@/components/tutorial/campus-tour";
 
+const emptySubscribe = () => () => {};
+
+function useIsMounted() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
+
 function TutorialContent() {
+  const isMounted = useIsMounted();
   const { authenticated } = useAuthSession();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const isAutoDownloadIntent = searchParams.get("download") === "auto";
 
   const [activeTab, setActiveTab] = useState<"tour" | "quiz" | "letter">(() => {
     const tab = searchParams.get("tab");
     if (tab === "quiz" || tab === "letter" || tab === "tour") return tab;
     return "tour";
   });
-  const [currentStep, setCurrentStep] = useState(1);
-  const [answers, setAnswers] = useState<Record<string, boolean | null>>({});
-  const [isGraded, setIsGraded] = useState(false);
+
+  const [currentStep, setCurrentStep] = useState<number>(() => {
+    if (typeof window === "undefined") return 1;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("download") === "auto") return 5;
+    const savedStep = localStorage.getItem("tutorial_progress");
+    if (savedStep) {
+      const step = parseInt(savedStep, 10);
+      return Math.min(Math.max(step, 1), 5);
+    }
+    return 1;
+  });
+
+  const [answers, setAnswers] = useState<Record<string, boolean | null>>(() => {
+    if (typeof window === "undefined") return {};
+    const savedAnswers = localStorage.getItem("tutorial_answers");
+    if (savedAnswers) {
+      try {
+        return JSON.parse(savedAnswers);
+      } catch {
+        return {};
+      }
+    }
+    return {};
+  });
+
+  const [isGraded, setIsGraded] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("download") === "auto") return true;
+    const savedGraded = localStorage.getItem("tutorial_isGraded");
+    return savedGraded === "true";
+  });
+
   const [gradeError, setGradeError] = useState(false);
   const [shake, setShake] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleTabChange = (tab: "tour" | "quiz" | "letter") => {
     setActiveTab(tab);
@@ -36,31 +79,27 @@ function TutorialContent() {
 
   const stepData = tutorialSteps.find((s) => s.step === currentStep);
 
-  // 로컬스토리지에서 기존 진행 단계 및 답변 상태 불러오기 (최초 1회만 실행)
+  // 로그인/회원가입 후 ?download=auto 로 복귀 시 자동 PDF 다운로드 실행
   useEffect(() => {
-    const savedStep = localStorage.getItem("tutorial_progress");
-    if (savedStep) {
-      const step = parseInt(savedStep, 10);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCurrentStep(Math.min(Math.max(step, 1), 5));
-    }
+    if (isAutoDownloadIntent && authenticated) {
+      // 브라우저 자동 다운로드 트리거
+      if (typeof document !== "undefined") {
+        const link = document.createElement("a");
+        link.href = "/downloads/2026_직장인_3대절세계좌_완벽운용_치트시트.pdf";
+        link.download = "2026_직장인_3대절세계좌_완벽운용_치트시트.pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
 
-    const savedAnswers = localStorage.getItem("tutorial_answers");
-    if (savedAnswers) {
-      try {
-        setAnswers(JSON.parse(savedAnswers));
-      } catch {
-        // parsing error fallback
+      // URL 깔끔하게 정리 (재새로고침 시 중복 트리거 방지)
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.searchParams.delete("download");
+        window.history.replaceState({}, "", url.toString());
       }
     }
-
-    const savedGraded = localStorage.getItem("tutorial_isGraded");
-    if (savedGraded === "true") {
-      setIsGraded(true);
-    }
-
-    setIsLoaded(true);
-  }, []);
+  }, [isAutoDownloadIntent, authenticated]);
 
   // 답변 선택 핸들러
   const handleSelectAnswer = (qId: string, value: boolean) => {
@@ -88,6 +127,7 @@ function TutorialContent() {
     if (allCorrect) {
       setIsGraded(true);
       setGradeError(false);
+      localStorage.setItem("tutorial_progress", currentStep.toString());
       localStorage.setItem("tutorial_isGraded", "true");
     } else {
       setGradeError(true);
@@ -122,7 +162,7 @@ function TutorialContent() {
     }
   };
 
-  if (!isLoaded || !stepData) {
+  if (!isMounted || !stepData) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
         <div className="size-10 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
@@ -389,6 +429,11 @@ function TutorialContent() {
               </div>
             ) : currentStep === 5 ? (
               <div className="text-center space-y-6 bg-gradient-to-br from-amber-50/90 via-orange-50/60 to-brand-50/80 p-6 sm:p-10 rounded-3xl border-2 border-amber-300 shadow-sm animate-fade-in-up">
+                <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black bg-amber-200/90 text-amber-950 border border-amber-300 shadow-2xs">
+                  <span>🎯</span>
+                  <span>5대 핵심 마스터 코스 100% 이수 완료</span>
+                </div>
+
                 <div className="text-5xl sm:text-6xl animate-bounce">🏆</div>
                 <div className="space-y-2">
                   <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 tracking-tight break-keep">
@@ -401,14 +446,22 @@ function TutorialContent() {
 
                 {/* 🔒 End-Funnel Authentication Gate */}
                 {authenticated ? (
-                  <div className="pt-2">
+                  <div className="pt-2 space-y-3">
+                    {isAutoDownloadIntent && (
+                      <div className="p-3.5 bg-emerald-100/90 text-emerald-950 border border-emerald-300 rounded-2xl text-xs sm:text-sm font-bold animate-fade-in-up">
+                        🎉 로그인 성공! 치트시트 PDF 자동 다운로드가 시작되었습니다.
+                      </div>
+                    )}
                     <a
                       href="/downloads/2026_직장인_3대절세계좌_완벽운용_치트시트.pdf"
                       download="2026_직장인_3대절세계좌_완벽운용_치트시트.pdf"
-                      className="block w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg transition-all text-base sm:text-lg text-center active:scale-[0.99]"
+                      className="block w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg transition-all text-base sm:text-lg text-center active:scale-[0.99] ring-2 ring-emerald-400/40"
                     >
                       🎁 [즉시 다운로드] 2026 직장인 3대 절세계좌 완벽 운용 치트시트 (PDF)
                     </a>
+                    <p className="text-xs text-neutral-500 font-medium">
+                      💡 언제든 다시 다운로드받으실 수 있습니다. (다운로드 폴더 저장)
+                    </p>
                   </div>
                 ) : (
                   <div className="pt-2 space-y-3">
@@ -417,7 +470,7 @@ function TutorialContent() {
                     </p>
                     <button
                       type="button"
-                      onClick={() => router.push("/login?returnTo=/tutorial?tab=quiz")}
+                      onClick={() => router.push(`/login?returnTo=${encodeURIComponent("/tutorial?tab=quiz&download=auto")}`)}
                       className="w-full bg-gradient-to-r from-brand-700 to-indigo-800 hover:from-brand-600 hover:to-indigo-700 text-white font-black py-4 sm:py-5 rounded-2xl shadow-md transition-all text-base sm:text-lg active:scale-[0.99] cursor-pointer"
                     >
                       🔒 무료 회원가입하고 치트시트 PDF 받기 ➔

@@ -174,7 +174,9 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, gl
       isbn: isbn,
       description: item.description || "도서 상세 정보 없음",
       coverUrl: (item.cover || "").replace("/coversum/", "/cover500/").replace("/cover200/", "/cover500/"),
-      link: item.link
+      link: item.link,
+      originalPrice: item.priceStandard || undefined,
+      discountPrice: item.priceSales || (item.priceStandard ? Math.round((item.priceStandard * 0.9) / 10) * 10 : undefined),
     });
     
     await new Promise(r => setTimeout(r, 400));
@@ -394,8 +396,10 @@ async function updateMdxFile(categoryName: string, categorySlug: string, rank: n
     ? "연금절세 | IRP·ISA | 자산배분"
     : "월배당 | 배당성장 | 현금흐름";
 
-  const originalPriceStr = existingOriginalPrice ? `\noriginalPrice: ${existingOriginalPrice}` : "";
-  const discountPriceStr = existingDiscountPrice ? `\ndiscountPrice: ${existingDiscountPrice}` : "";
+  const finalOriginalPrice = existingOriginalPrice || book.originalPrice;
+  const finalDiscountPrice = existingDiscountPrice || book.discountPrice;
+  const originalPriceStr = finalOriginalPrice ? `\noriginalPrice: ${finalOriginalPrice}` : "";
+  const discountPriceStr = finalDiscountPrice ? `\ndiscountPrice: ${finalDiscountPrice}` : "";
 
   const finalBody = existingBody || `
 ## 📖 이 책의 핵심 요약

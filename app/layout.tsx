@@ -2,25 +2,11 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-import dynamic from "next/dynamic";
-
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { MarketTicker } from "@/components/market-ticker";
+import { ClientProviders } from "@/components/layout/client-providers";
 import { siteConfig } from "@/config/site";
-
-const StyleOnboarding = dynamic(
-  () => import("@/components/onboarding/style-onboarding").then((mod) => mod.StyleOnboarding),
-  { ssr: false }
-);
-const AppPushInitializer = dynamic(
-  () => import("@/components/native/app-push-initializer").then((mod) => mod.AppPushInitializer),
-  { ssr: false }
-);
-const AppBackButtonHandler = dynamic(
-  () => import("@/components/native/app-back-button-handler").then((mod) => mod.AppBackButtonHandler),
-  { ssr: false }
-);
 
 import "./globals.css";
 
@@ -73,9 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </div>
         <main className="flex flex-1 flex-col pt-[var(--site-header-height,168px)] sm:pt-[var(--site-header-height,140px)] w-full max-w-full overflow-x-clip" id="main-content">{children}</main>
         <SiteFooter />
-        <AppPushInitializer />
-        <AppBackButtonHandler />
-        <StyleOnboarding />
+        <ClientProviders />
       </body>
       {process.env.NEXT_PUBLIC_GA_ID ? <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} /> : null}
     </html>

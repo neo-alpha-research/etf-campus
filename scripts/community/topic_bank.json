@@ -42,7 +42,8 @@
         "추적오차",
         "비용"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-15"
     },
     {
       "id": "sca-003",
@@ -609,7 +610,8 @@
         "부부절세",
         "연금저축"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-15"
     },
     {
       "id": "sp-010",
@@ -987,7 +989,8 @@
         "세액공제",
         "증권사선택"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-15"
     },
     {
       "id": "qna-006",

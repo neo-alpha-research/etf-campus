@@ -34,6 +34,8 @@ jobs:
         env:
           ALADIN_TTB_KEY: ${{ secrets.ALADIN_TTB_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: npx tsx scripts/auto-curate-books.ts
 
       - name: 🚀 Commit & Push changes

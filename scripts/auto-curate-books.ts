@@ -10,6 +10,8 @@ import { callGeminiWithWaterfall } from "../lib/ai/gemini-client";
 const CONTENT_DIR = path.join(process.cwd(), "content/external-books");
 const ALADIN_TTB_KEY = (process.env.ALADIN_TTB_KEY || "").trim() || "ttbshinkib1816001";
 const GEMINI_API_KEY = (process.env.GEMINI_API_KEY || "").trim();
+const TELEGRAM_BOT_TOKEN = (process.env.TELEGRAM_BOT_TOKEN || "").trim();
+const TELEGRAM_CHAT_ID = (process.env.TELEGRAM_CHAT_ID || "").trim();
 
 const CATEGORY_MAP = {
   "초보·입문": { keyword: "ETF", slug: "beginner" },
@@ -350,7 +352,31 @@ function getProfessionalReviewFallback(book: any, categoryName: string) {
   }
 }
 
-async function updateMdxFile(categoryName: string, categorySlug: string, rank: number, book: any, aiReview: any) {
+interface MissingCoupangBook {
+  categoryName: string;
+  rank: number;
+  title: string;
+  author: string;
+  publisher: string;
+  originalPrice?: number;
+  discountPrice?: number;
+  searchUrl: string;
+}
+
+interface UpdateMdxResult {
+  originalPrice?: number;
+  discountPrice?: number;
+  affiliateUrl: string;
+  isShortLink: boolean;
+}
+
+async function updateMdxFile(
+  categoryName: string,
+  categorySlug: string,
+  rank: number,
+  book: any,
+  aiReview: any
+): Promise<UpdateMdxResult> {
   const filePath = path.join(CONTENT_DIR, `[LEARNING_EXAMPLE]_${categorySlug}-top-${rank}.mdx`);
   
   let existingAffiliateUrl = "";
@@ -454,6 +480,54 @@ ${finalBody.trim()}
 
   await fs.writeFile(filePath, mdxContent, 'utf-8');
   console.log(`[File] ${filePath} 업데이트 완료`);
+
+  return {
+    originalPrice: finalOriginalPrice,
+    discountPrice: finalDiscountPrice,
+    affiliateUrl: finalAffiliateUrl,
+    isShortLink: finalAffiliateUrl.includes("link.coupang.com/a/"),
+  };
+}
+
+async function notifyTelegramWritingAgent(missingBooks: MissingCoupangBook[]): Promise<void> {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.log("ℹ️ TELEGRAM_BOT_TOKEN 또는 TELEGRAM_CHAT_ID 환경변수가 설정되지 않아 Writing_Agent 텔레그램 알림을 건너뜁니다.");
+    return;
+  }
+
+  const bookListText = missingBooks.map((b, idx) => {
+    const priceText = b.discountPrice
+      ? `${b.discountPrice.toLocaleString()}원 (정가: ${b.originalPrice ? b.originalPrice.toLocaleString() + '원' : '미정'})`
+      : (b.originalPrice ? `${b.originalPrice.toLocaleString()}원` : "가격 미정");
+    return `${idx + 1}️⃣ [${b.categoryName} Top ${b.rank}]\n• 도서명: ${b.title}\n• 저자: ${b.author} | 출판사: ${b.publisher}\n• 가격: ${priceText}\n• 쿠팡 검색 바로가기: ${b.searchUrl}`;
+  }).join("\n\n");
+
+  const message = `📢 [ETF Campus] Writing_Agent 쿠팡 파트너스 단축 링크 발급 요청\n\n자동 도서 큐레이션 결과, 아래 신규 도서의 쿠팡 파트너스 단축 링크(link.coupang.com/a/...)가 등록되지 않아 임시 검색 링크로 노출 중입니다.\n쿠팡 파트너스에서 검색 후 단축 링크를 발급해 주세요.\n\n📚 대상 도서 (총 ${missingBooks.length}권):\n\n${bookListText}\n\n💡 등록 가이드:\n발급받은 단축 링크는 data/coupang-links.json 파일에 등록하거나 이 채팅방에 공유해 주시면 즉시 반영됩니다.`;
+
+  try {
+    const res = await fetchWithTimeout(
+      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: message,
+          disable_web_page_preview: true,
+        }),
+      },
+      10000
+    );
+
+    if (res.ok) {
+      console.log(`📲 [Telegram] Writing_Agent에게 단축 링크 발급 요청 전송 성공 (${missingBooks.length}권)`);
+    } else {
+      const errText = await res.text();
+      console.warn(`⚠️ [Telegram] 링크 요청 전송 실패 (${res.status}): ${errText}`);
+    }
+  } catch (error: any) {
+    console.warn(`⚠️ [Telegram] 전송 중 오류 발생: ${error?.message || error}`);
+  }
 }
 
 async function runAutomation() {
@@ -461,6 +535,7 @@ async function runAutomation() {
   
   // 기존 파일은 updateMdxFile에서 이전 단축링크 및 심층 리뷰 본문을 안전하게 보존(overwrite)하므로 사전 삭제하지 않음.
   const globalAssignedBooks = new Set<string>();
+  const missingCoupangBooks: MissingCoupangBook[] = [];
 
   // 2. 카테고리별로 순회하며 중복 없이 생성
   for (const [categoryName, data] of Object.entries(CATEGORY_MAP)) {
@@ -469,7 +544,19 @@ async function runAutomation() {
     let rank = 1;
     for (const book of topBooks) {
       const aiReview = await generateAIReview(book, categoryName);
-      await updateMdxFile(categoryName, data.slug, rank, book, aiReview);
+      const updateResult = await updateMdxFile(categoryName, data.slug, rank, book, aiReview);
+      if (!updateResult.isShortLink) {
+        missingCoupangBooks.push({
+          categoryName,
+          rank,
+          title: book.title,
+          author: book.author,
+          publisher: book.publisher,
+          originalPrice: updateResult.originalPrice,
+          discountPrice: updateResult.discountPrice,
+          searchUrl: updateResult.affiliateUrl,
+        });
+      }
       rank++;
       
       // AI API Rate Limit(429) 및 서점 크롤링 차단 방지를 위해 도서당 10초 딜레이 추가
@@ -488,6 +575,14 @@ async function runAutomation() {
   });
   await fs.writeFile(path.join(CONTENT_DIR, "_metadata.json"), JSON.stringify({ lastUpdated: formattedDate }), 'utf-8');
   
+  // 4. 단축 링크 누락 도서 발견 시 Writing_Agent에게 텔레그램 요청 발송
+  if (missingCoupangBooks.length > 0) {
+    console.log(`\n📢 쿠팡 파트너스 단축 링크가 등록되지 않은 도서 ${missingCoupangBooks.length}권 발견. 텔레그램 Writing_Agent에게 생성을 요청합니다.`);
+    await notifyTelegramWritingAgent(missingCoupangBooks);
+  } else {
+    console.log("\n✅ 모든 큐레이션 도서(9권)에 유효한 쿠팡 파트너스 단축 링크가 등록되어 있습니다.");
+  }
+
   console.log("\n✅ 100% 자동화 큐레이션 스크립트 실행 완료 (9권 중복 0% 달성)");
 }
 

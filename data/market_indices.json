@@ -2,22 +2,22 @@
   "base_date": "20260914",
   "indices": [
     {
+      "label": "코스피",
+      "code": "KOSPI",
       "value": 6684.37,
       "change": -3.26,
       "as_of_date": "2026-09-14",
       "changePoints": -225.54,
-      "volumeValue": 21583424379730.0,
-      "label": "코스피",
-      "code": "KOSPI"
+      "volumeValue": 21583424379730.0
     },
     {
+      "label": "코스닥",
+      "code": "KOSDAQ",
       "value": 806.79,
       "change": -1.69,
       "as_of_date": "2026-09-14",
       "changePoints": -13.85,
-      "volumeValue": 6016075643491.0,
-      "label": "코스닥",
-      "code": "KOSDAQ"
+      "volumeValue": 6016075643491.0
     },
     {
       "label": "코스피 변동성지수",
@@ -34,6 +34,15 @@
       "change": -0.004,
       "changePoints": -0.004,
       "as_of_date": "2026-09-14"
+    },
+    {
+      "label": "원/달러",
+      "code": "KRW=X",
+      "value": 1346.4,
+      "change": 0.61,
+      "changePoints": 8.2,
+      "as_of_date": "2026-09-14",
+      "is_closed": false
     },
     {
       "value": 7619.98,
@@ -54,42 +63,6 @@
       "code": "^IXIC"
     },
     {
-      "value": 1344.64,
-      "change": -0.26,
-      "changePoints": -3.53,
-      "as_of_date": "2026-09-13",
-      "is_closed": true,
-      "label": "원/달러",
-      "code": "KRW=X"
-    },
-    {
-      "value": 101.97,
-      "change": 1.92,
-      "changePoints": 1.92,
-      "as_of_date": "2026-09-14",
-      "is_closed": false,
-      "label": "WTI 원유",
-      "code": "CL=F"
-    },
-    {
-      "value": 4336.6,
-      "change": -1.64,
-      "changePoints": -72.3,
-      "as_of_date": "2026-09-14",
-      "is_closed": false,
-      "label": "금 선물",
-      "code": "GC=F"
-    },
-    {
-      "value": 63.75,
-      "change": -1.25,
-      "changePoints": -0.8,
-      "as_of_date": "2026-09-14",
-      "is_closed": false,
-      "label": "은 선물",
-      "code": "SI=F"
-    },
-    {
       "value": 4.96,
       "change": -0.014,
       "changePoints": -0.014,
@@ -106,6 +79,33 @@
       "is_closed": false,
       "label": "VIX",
       "code": "^VIX"
+    },
+    {
+      "value": 102.2,
+      "change": 2.15,
+      "changePoints": 2.15,
+      "as_of_date": "2026-09-14",
+      "is_closed": false,
+      "label": "WTI 원유",
+      "code": "CL=F"
+    },
+    {
+      "value": 4329.6,
+      "change": -1.8,
+      "changePoints": -79.3,
+      "as_of_date": "2026-09-14",
+      "is_closed": false,
+      "label": "금 선물",
+      "code": "GC=F"
+    },
+    {
+      "value": 63.66,
+      "change": -1.38,
+      "changePoints": -0.89,
+      "as_of_date": "2026-09-14",
+      "is_closed": false,
+      "label": "은 선물",
+      "code": "SI=F"
     }
   ]
 }

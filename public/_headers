@@ -16,8 +16,18 @@
 /data/screener.json
   Cache-Control: public, max-age=300, stale-while-revalidate=86400
 
-# Other static JSON / TXT data files (1 hour fresh, 24h stale-while-revalidate)
-/data/*
+# Static holiday calendar
+/data/market_holidays.txt
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Other data subdirectories
+/data/holdings/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/data/regulatory/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/data/returns/*
   Cache-Control: public, max-age=3600, stale-while-revalidate=86400
 
 # Static images and brand assets (1 day browser cache, 7 days stale-while-revalidate)

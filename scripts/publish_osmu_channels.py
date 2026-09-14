@@ -68,7 +68,7 @@ def check_briefing_safety(date_str: str) -> tuple[bool, str]:
         return False, f"Failed to query briefing API: {e}"
 
 
-def post_worker(endpoint: str, date_str: str, token: str, extra_params: str = "") -> dict:
+def post_worker(endpoint: str, date_str: str, token: str, extra_params: str = "", timeout: int = 120) -> dict:
     url = f"{DISTRIBUTOR_HOST}{endpoint}?date={urllib.parse.quote(date_str, safe='')}&token={urllib.parse.quote(token, safe='')}{extra_params}"
     req = urllib.request.Request(
         url,
@@ -80,7 +80,7 @@ def post_worker(endpoint: str, date_str: str, token: str, extra_params: str = ""
         },
         method="POST",
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
         return json.loads(resp.read().decode("utf-8"))
 
 
@@ -298,7 +298,7 @@ def main() -> int:
     if publish_all or "instagram" in channels:
         print(f"\n📸 [3/3] Publishing 6-slide carousel to Instagram (@neo.alphareader)...")
         try:
-            res = post_worker("/api/publish/instagram", target_date, token, extra_params=extra_param)
+            res = post_worker("/api/publish/instagram", target_date, token, extra_params=extra_param, timeout=180)
             post_id = res.get("publishedPostId") or "OK"
             err_msg = str(res.get("error", ""))
             if res.get("success"):

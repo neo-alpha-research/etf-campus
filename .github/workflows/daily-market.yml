@@ -1,19 +1,9 @@
 name: Daily ETF market data refresh
 
+# Note: Automated scheduled execution is driven with 0-second precision by the NHN Cloud n8n instance
+# (scripts/n8n/daily_market_probing_workflow.json, 5-min intervals between 07:50 and 09:10 KST Tue-Sat)
+# to completely eliminate GitHub Actions 15-45min cron queuing delays.
 on:
-  schedule:
-    # 5-minute automated polling ladder (08:00 ~ 09:10 KST, Tue-Sat):
-    # Runs on the morning AFTER each Korean trading day (Monday through Friday).
-    # KRX Open API data is published between 07:50 and 08:35 KST.
-    # Runs every 5 minutes. If data is not ready, exits in <15s without failing.
-    # As soon as data is ready, fetches, validates, and deploys. Subsequent runs exit in <5s.
-    # Hard cutoff: 09:10 KST.
-    #
-    #   UTC (cron)                                KST (local)          purpose
-    #   Mon-Fri 23:00, 23:05, ..., 23:55          Tue-Sat 08:00~08:55  5-min probing ladder
-    #   Tue-Sat 00:00, 00:05, 00:10               Tue-Sat 09:00~09:10  Market open & 09:10 hard cutoff
-    - cron: "0,5,10,15,20,25,30,35,40,45,50,55 23 * * 1-5"
-    - cron: "0,5,10 0 * * 2-6"
   workflow_dispatch:
     inputs:
       target:

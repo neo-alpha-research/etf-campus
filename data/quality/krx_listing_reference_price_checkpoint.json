@@ -1,19 +1,5 @@
 {
   "results": {
-    "0193M0": {
-      "existing_anchor_close": 50020.0,
-      "isin": "KR70193M0005",
-      "listing_date": "2026-06-16",
-      "name": "BNK 27-12 특수채(AAA이상)액티브",
-      "notice_applied_date": "2026-06-16",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260615000967",
-      "reference_price": 50015.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/15/000967/20260615001880/99401.htm",
-      "status": "official_verified",
-      "ticker": "0193M0"
-    },
     "0198A0": {
       "existing_anchor_close": 10555.0,
       "isin": "KR70198A0004",
@@ -27,34 +13,6 @@
       "source_url": "https://kind.krx.co.kr/external/2026/06/29/001353/20260629002648/99401.htm",
       "status": "official_verified",
       "ticker": "0198A0"
-    },
-    "0207G0": {
-      "existing_anchor_close": 10275.0,
-      "isin": "KR70207G0007",
-      "listing_date": "2026-06-16",
-      "name": "SOL 우주항공밸류체인",
-      "notice_applied_date": "2026-06-16",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260615000968",
-      "reference_price": 10170.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/15/000968/20260615001879/99401.htm",
-      "status": "official_verified",
-      "ticker": "0207G0"
-    },
-    "0207Z0": {
-      "existing_anchor_close": 10245.0,
-      "isin": "KR70207Z0004",
-      "listing_date": "2026-06-16",
-      "name": "KIWOOM 미국우주데이터센터인프라",
-      "notice_applied_date": "2026-06-16",
-      "notice_title": ":: 99401_ETF 신규상장 기준가격 안내",
-      "reason": "KRX KIND listing-reference-price notice verified.",
-      "receipt_no": "20260615000969",
-      "reference_price": 10000.0,
-      "source_url": "https://kind.krx.co.kr/external/2026/06/15/000969/20260615001878/99401.htm",
-      "status": "official_verified",
-      "ticker": "0207Z0"
     },
     "0208N0": {
       "existing_anchor_close": 9545.0,
@@ -575,6 +533,6 @@
       "ticker": "0234N0"
     }
   },
-  "updated_at": "2026-09-08T08:46:09+09:00",
+  "updated_at": "2026-09-15T08:07:37+09:00",
   "version": 1
 }

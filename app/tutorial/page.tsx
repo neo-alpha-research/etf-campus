@@ -8,7 +8,7 @@ import { FounderLetter } from "@/components/tutorial/founder-letter";
 import { CampusTour } from "@/components/tutorial/campus-tour";
 
 function TutorialContent() {
-  const { authenticated, isLoading, isValidating } = useAuthSession();
+  const { authenticated } = useAuthSession();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -42,7 +42,7 @@ function TutorialContent() {
     if (savedStep) {
       const step = parseInt(savedStep, 10);
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCurrentStep(step);
+      setCurrentStep(Math.min(Math.max(step, 1), 5));
     }
 
     const savedAnswers = localStorage.getItem("tutorial_answers");
@@ -61,15 +61,6 @@ function TutorialContent() {
 
     setIsLoaded(true);
   }, []);
-
-  // 인증이 완료되었는데 비로그인 상태로 4단계 이상 진입 시 3단계로 강등
-  // SWR 캐시(stale data)로 인한 Race condition 방지를 위해 isValidating도 체크
-  useEffect(() => {
-    if (!isLoading && !isValidating && !authenticated && currentStep > 3) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCurrentStep(3);
-    }
-  }, [isLoading, isValidating, authenticated, currentStep]);
 
   // 답변 선택 핸들러
   const handleSelectAnswer = (qId: string, value: boolean) => {
@@ -105,15 +96,9 @@ function TutorialContent() {
     }
   };
 
-  // 다음 단계로 이동
+  // 다음 단계로 이동 (1~5단계 비로그인 전면 허용)
   const nextStep = () => {
-    // 3단계 완료 후 4단계로 넘어갈 때 로그인 체크
-    if (currentStep === 3 && !authenticated) {
-      router.push("/login?returnTo=/tutorial?tab=quiz");
-      return;
-    }
-
-    if (currentStep < 10) {
+    if (currentStep < 5) {
       const next = currentStep + 1;
       setCurrentStep(next);
       setIsGraded(false);
@@ -190,7 +175,7 @@ function TutorialContent() {
                   : "bg-neutral-200 text-neutral-600"
               }`}
             >
-              {currentStep}/10
+              {currentStep}/5
             </span>
           </button>
 
@@ -215,7 +200,7 @@ function TutorialContent() {
           <span>
             퀴즈 완료 시{" "}
             <strong className="text-amber-800 font-bold underline decoration-amber-300">
-              체크리스트 PDF
+              치트시트 PDF
             </strong>{" "}
             100% 증정
           </span>
@@ -229,7 +214,7 @@ function TutorialContent() {
         />
       )}
 
-      {/* Tab 2: 10-Lesson Orientation Quiz */}
+      {/* Tab 2: 5-Lesson Orientation Quiz */}
       {activeTab === "quiz" && (
         <div className="space-y-5 sm:space-y-6 animate-fade-in-up">
           {/* 🎮 EXP Bar & Academic Progress */}
@@ -237,23 +222,23 @@ function TutorialContent() {
             <div className="flex mb-2 items-end justify-between">
               <div className="mb-0.5">
                 <span className="text-xs sm:text-sm font-extrabold inline-flex items-center gap-1 py-1 px-3 rounded-full text-brand-700 bg-brand-100 border border-brand-200">
-                  <span>📖</span> OT 퀴즈 {currentStep}/10단계
+                  <span>📖</span> OT 퀴즈 {currentStep}/5단계
                 </span>
               </div>
               <div className="text-right flex flex-col items-end">
-                {!(currentStep === 10 && isGraded) && (
+                {!(currentStep === 5 && isGraded) && (
                   <span className="text-[10px] sm:text-[11px] font-semibold text-amber-700 mb-1">
-                    🎁 퀴즈 완주 시 <span className="underline underline-offset-2">체크리스트 PDF</span> 증정!
+                    🎁 5단계 완주 시 <span className="underline underline-offset-2">치트시트 PDF</span> 증정!
                   </span>
                 )}
                 <span className="text-xs sm:text-sm font-extrabold inline-block text-muted">
-                  진행률 {currentStep * 10}%
+                  진행률 {currentStep * 20}%
                 </span>
               </div>
             </div>
             <div className="overflow-hidden h-3 mb-4 text-xs flex rounded-full bg-neutral-200">
               <div
-                style={{ width: `${(currentStep / 10) * 100}%` }}
+                style={{ width: `${(currentStep / 5) * 100}%` }}
                 className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-brand-600 via-brand-500 to-indigo-600 transition-all duration-700"
               />
             </div>
@@ -264,7 +249,7 @@ function TutorialContent() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-100 pb-5">
               <div>
                 <span className="text-xs font-bold text-brand-600 tracking-wider uppercase">
-                  QUIZ {currentStep} / 10
+                  QUIZ {currentStep} / 5
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-strong mt-0.5 break-keep">
                   {stepData.title}
@@ -282,7 +267,7 @@ function TutorialContent() {
                 <button
                   type="button"
                   onClick={nextStep}
-                  disabled={currentStep === 10 || !isGraded}
+                  disabled={currentStep === 5 || !isGraded}
                   className="px-3.5 py-1.5 rounded-xl border border-brand-200 bg-brand-50 text-xs font-bold text-brand-700 hover:bg-brand-100 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 >
                   다음 퀴즈 ▶
@@ -357,13 +342,21 @@ function TutorialContent() {
                         {/* Feedback Banner */}
                         {isGraded && (
                           <div
-                            className={`p-3.5 rounded-xl text-xs sm:text-sm font-semibold break-keep leading-relaxed animate-fade-in-up ${
+                            className={`p-4 rounded-xl text-xs sm:text-sm font-medium break-keep leading-relaxed animate-fade-in-up ${
                               isCorrect
-                                ? "bg-emerald-100/80 text-emerald-900 border border-emerald-200"
-                                : "bg-rose-100/80 text-rose-900 border border-rose-200"
+                                ? "bg-emerald-100/90 text-emerald-950 border border-emerald-300/80"
+                                : "bg-amber-100/90 text-amber-950 border border-amber-300/80"
                             }`}
                           >
-                            {isCorrect ? q.correctFeedback : q.incorrectFeedback}
+                            <div className="flex items-start gap-2">
+                              <span className="shrink-0 text-base">{isCorrect ? "✅" : "💡"}</span>
+                              <div className="space-y-1">
+                                <span className="font-extrabold text-sm block">
+                                  {isCorrect ? "정답 해설" : "놓치기 쉬운 핵심 포인트"}
+                                </span>
+                                <p>{isCorrect ? q.correctFeedback : q.incorrectFeedback}</p>
+                              </div>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -382,42 +375,61 @@ function TutorialContent() {
                   disabled={!allCurrentAnswered}
                   className={`w-full py-4 sm:py-5 rounded-2xl font-black text-lg tracking-wide transition-all shadow-md active:scale-[0.99] ${
                     allCurrentAnswered
-                      ? "bg-brand-700 hover:bg-brand-800 text-white shadow-brand-700/20"
+                      ? "bg-brand-700 hover:bg-brand-800 text-white shadow-brand-700/20 cursor-pointer"
                       : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
                   } ${shake ? "animate-shake" : ""}`}
                 >
                   {allCurrentAnswered ? "제출하고 채점하기 🎯" : "모든 문제의 O / X를 선택해 주세요"}
                 </button>
                 {gradeError && (
-                  <div className="text-center p-3 sm:p-4 bg-red-50 rounded-xl border border-red-200 text-red-700 text-base font-bold animate-pulse break-keep">
-                    💥 앗! 오답이 포함되어 있습니다. 문제를 다시 검토해 보십시오!
+                  <div className="text-center p-3 sm:p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 text-base font-bold animate-pulse break-keep">
+                    💡 아쉬운 오답이 포함되어 있습니다. 해설을 확인하시고 다시 도전해 보세요!
                   </div>
                 )}
               </div>
-            ) : currentStep === 10 ? (
-              <div className="text-center space-y-5 bg-gradient-to-br from-amber-50 to-orange-50 p-8 rounded-3xl border-2 border-amber-200 shadow-sm animate-fade-in-up">
-                <div className="text-5xl animate-bounce">🏆</div>
-                <div>
-                  <h2 className="text-2xl sm:text-3xl font-black text-amber-900 tracking-tight break-keep">
-                    축하합니다! 신입생 오리엔테이션 퀴즈 완료!
+            ) : currentStep === 5 ? (
+              <div className="text-center space-y-6 bg-gradient-to-br from-amber-50/90 via-orange-50/60 to-brand-50/80 p-6 sm:p-10 rounded-3xl border-2 border-amber-300 shadow-sm animate-fade-in-up">
+                <div className="text-5xl sm:text-6xl animate-bounce">🏆</div>
+                <div className="space-y-2">
+                  <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 tracking-tight break-keep">
+                    축하합니다! 신입생 오리엔테이션 퀴즈 완주!
                   </h2>
-                  <p className="text-amber-800 font-medium text-base mt-2 break-keep">
-                    설립자 Neo가 제공하는 [연금 ETF 운용 체크리스트]를 다운로드하여 실전에 활용해 보십시오.
+                  <p className="text-neutral-700 font-medium text-sm sm:text-base break-keep leading-relaxed max-w-xl mx-auto">
+                    설립자 Neo가 제작한 <strong className="text-brand-900 font-extrabold underline decoration-amber-400">[2026 직장인 3대 절세계좌 완벽 운용 치트시트 (A4 1장 PDF)]</strong>를 다운로드하여 실전에 활용하십시오.
                   </p>
                 </div>
-                <a
-                  href="/downloads/연금_ETF_운용_체크리스트.pdf"
-                  download="연금_ETF_운용_체크리스트.pdf"
-                  className="block w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-black py-5 rounded-2xl shadow-[0_4px_0_rgb(180,83,9)] hover:brightness-110 active:shadow-none active:translate-y-1 transition-all text-lg"
-                >
-                  🎁 최종 보상: 연금 ETF 운용 체크리스트 (PDF) 다운로드
-                </a>
+
+                {/* 🔒 End-Funnel Authentication Gate */}
+                {authenticated ? (
+                  <div className="pt-2">
+                    <a
+                      href="/downloads/2026_직장인_3대절세계좌_완벽운용_치트시트.pdf"
+                      download="2026_직장인_3대절세계좌_완벽운용_치트시트.pdf"
+                      className="block w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg transition-all text-base sm:text-lg text-center active:scale-[0.99]"
+                    >
+                      🎁 [즉시 다운로드] 2026 직장인 3대 절세계좌 완벽 운용 치트시트 (PDF)
+                    </a>
+                  </div>
+                ) : (
+                  <div className="pt-2 space-y-3">
+                    <p className="text-xs sm:text-sm font-bold text-amber-900 bg-amber-100/80 border border-amber-200/80 p-3.5 rounded-2xl break-keep">
+                      💡 치트시트 PDF 다운로드는 무료 회원가입 후 로그인 시 즉시 제공됩니다.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/login?returnTo=/tutorial?tab=quiz")}
+                      className="w-full bg-gradient-to-r from-brand-700 to-indigo-800 hover:from-brand-600 hover:to-indigo-700 text-white font-black py-4 sm:py-5 rounded-2xl shadow-md transition-all text-base sm:text-lg active:scale-[0.99] cursor-pointer"
+                    >
+                      🔒 무료 회원가입하고 치트시트 PDF 받기 ➔
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <button
                 type="button"
                 onClick={nextStep}
-                className="w-full bg-gradient-to-b from-brand-600 to-brand-700 border-b-4 border-brand-900 text-white font-black py-4 sm:py-5 rounded-2xl hover:brightness-110 active:border-b-0 active:translate-y-1 transition-all shadow-lg text-lg tracking-wide animate-fade-in-up"
+                className="w-full bg-gradient-to-b from-brand-600 to-brand-700 border-b-4 border-brand-900 text-white font-black py-4 sm:py-5 rounded-2xl hover:brightness-110 active:border-b-0 active:translate-y-1 transition-all shadow-lg text-lg tracking-wide animate-fade-in-up cursor-pointer"
               >
                 🎉 {currentStep}단계 통과! 다음 제{currentStep + 1}단계로 이동 👉
               </button>

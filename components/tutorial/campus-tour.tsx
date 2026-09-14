@@ -248,9 +248,9 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
             </h3>
 
             <p className="text-xs sm:text-sm text-neutral-700 font-medium break-keep leading-relaxed">
-              10문항의 퀴즈를 모두 완료하신 신입생 학우분께는 입학 축하 선물로 <br className="hidden sm:inline" />
+              5단계 핵심 퀴즈를 모두 완료하신 신입생 학우분께는 입학 축하 선물로 <br className="hidden sm:inline" />
               <strong className="text-brand-900 font-bold underline decoration-amber-500">
-                🎁 [연금 ETF 운용 체크리스트 PDF]
+                🎁 [2026 직장인 3대 절세계좌 완벽 운용 치트시트 (A4 1장 PDF)]
               </strong>
               를 즉시 수여합니다.
             </p>

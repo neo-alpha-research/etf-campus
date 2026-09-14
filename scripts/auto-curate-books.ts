@@ -28,16 +28,33 @@ try {
 }
 
 function getCoupangAffiliateUrl(title: string, author: string, existingUrl?: string): string {
-  if (existingUrl && existingUrl.includes("link.coupang.com/a/")) {
-    return existingUrl;
-  }
+  // 1. 단일 진실 공급원(SSOT)인 data/coupang-links.json 레지스트리를 최우선 검사 (공백 및 부제 정규화)
+  const normalizedSearchTitle = title
+    .replace(/\[.*?\]|\(.*?\)/g, "")
+    .replace(/전면\s*개정판|개정판|개정\s*\d+판|최신판|개정\s*증보판/g, "")
+    .replace(/[-–—:·].*$/, "")
+    .replace(/\s+/g, "")
+    .trim();
 
   for (const [key, link] of Object.entries(coupangRegistry)) {
-    if (title.includes(key) || key.includes(title.slice(0, 8))) {
+    const normalizedKey = key
+      .replace(/\[.*?\]|\(.*?\)/g, "")
+      .replace(/전면\s*개정판|개정판|개정\s*\d+판|최신판|개정\s*증보판/g, "")
+      .replace(/[-–—:·].*$/, "")
+      .replace(/\s+/g, "")
+      .trim();
+
+    if (normalizedSearchTitle.includes(normalizedKey) || normalizedKey.includes(normalizedSearchTitle.slice(0, 8))) {
       return link;
     }
   }
 
+  // 2. 레지스트리에 없을 경우 기존 MDX의 유효한 검증 단축 링크 유지
+  if (existingUrl && existingUrl.includes("link.coupang.com/a/")) {
+    return existingUrl;
+  }
+
+  // 3. 둘 다 없는 경우 검색 Fallback URL 반환
   const cleanTitle = title
     .replace(/\[.*?\]|\(.*?\)/g, "")
     .replace(/전면\s*개정판|개정판|개정\s*\d+판|최신판|개정\s*증보판/g, "")
@@ -70,15 +87,43 @@ async function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutM
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    return await fetch(url, { ...options, signal: controller.signal });
+    return await fetch(url, {
+      ...options,
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        ...(options.headers || {}),
+      },
+      signal: controller.signal,
+    });
   } finally {
     clearTimeout(timer);
   }
 }
 
+async function fetchAladinBooks(keyword: string): Promise<any> {
+  const url = `https://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ALADIN_TTB_KEY}&Query=${encodeURIComponent(keyword)}&QueryType=Keyword&MaxResults=25&SearchTarget=Book&output=js&Version=20131101&Sort=SalesPoint`;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const res = await fetchWithTimeout(url, {}, 10000);
+      if (!res.ok) {
+        console.warn(`⚠️ [Aladin API] HTTP ${res.status} (${keyword}, 시도 ${attempt}/2)`);
+        await new Promise(r => setTimeout(r, 1000));
+        continue;
+      }
+      const text = await res.text();
+      return JSON.parse(text);
+    } catch (err: any) {
+      console.warn(`⚠️ [Aladin API] 요청 실패 (${keyword}, 시도 ${attempt}/2): ${err?.message || err}`);
+      if (attempt < 2) await new Promise(r => setTimeout(r, 1000));
+    }
+  }
+  return null;
+}
+
 async function fetchYes24Rating(isbn: string): Promise<number | null> {
+  if (!isbn || isbn.length < 10) return null;
   try {
-    const res = await fetchWithTimeout(`https://www.yes24.com/Product/Search?domain=ALL&query=${isbn}`);
+    const res = await fetchWithTimeout(`https://www.yes24.com/Product/Search?domain=ALL&query=${encodeURIComponent(isbn)}`);
     if (!res.ok) return null;
     const html = await res.text();
     // 예스24 평점 추출 (예: <em class="yes_b">9.6</em>)
@@ -94,9 +139,10 @@ async function fetchYes24Rating(isbn: string): Promise<number | null> {
 }
 
 async function fetchKyoboRating(isbn: string): Promise<number | null> {
+  if (!isbn || isbn.length < 10) return null;
   // 교보는 동적 렌더링이 많아 API 우회나 정규식이 까다로울 수 있음. 안전장치 적용.
   try {
-    const res = await fetchWithTimeout(`https://search.kyobobook.co.kr/search?keyword=${isbn}`);
+    const res = await fetchWithTimeout(`https://search.kyobobook.co.kr/search?keyword=${encodeURIComponent(isbn)}`);
     if (!res.ok) return null;
     const html = await res.text();
     // <span class="review_quotes_val">4.8</span> 형태
@@ -117,21 +163,17 @@ async function fetchTopBooksAggregated(categoryName: string, keyword: string, gl
     throw new Error("ALADIN_TTB_KEY가 누락되었습니다. 기존 데이터를 보존하기 위해 업데이트를 중단합니다.");
   }
 
-  // 1. 알라딘 ItemSearch API 호출 (최대 25개 가져와서 구판/타카테고리 중복 필터링)
-  const url = `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ALADIN_TTB_KEY}&Query=${encodeURIComponent(keyword)}&QueryType=Keyword&MaxResults=25&SearchTarget=Book&output=js&Version=20131101&Sort=SalesPoint`;
-  
-  let response = await fetchWithTimeout(url);
-  let data = await response.json();
+  // 1. 알라딘 ItemSearch HTTPS API 호출 (안전한 재시도 및 JSON 파싱)
+  let data = await fetchAladinBooks(keyword);
 
   if (!data || !data.item || data.item.length === 0) {
     console.log(`⚠️ [API] ${keyword} 검색 결과 없음. 'ETF'로 대체 검색합니다.`);
-    const fallbackUrl = `http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?ttbkey=${ALADIN_TTB_KEY}&Query=ETF&QueryType=Keyword&MaxResults=25&SearchTarget=Book&output=js&Version=20131101&Sort=SalesPoint`;
-    response = await fetchWithTimeout(fallbackUrl);
-    data = await response.json();
+    data = await fetchAladinBooks("ETF");
   }
 
   if (!data || !data.item || data.item.length === 0) {
-    throw new Error(`알라딘 API에서 데이터를 가져오지 못했습니다. 카테고리: ${categoryName}`);
+    console.warn(`⚠️ [API] 알라딘 API 응답 실패/부재 (${categoryName}). 기존 큐레이션 데이터를 보존합니다.`);
+    return [];
   }
 
   const aggregatedBooks = [];
@@ -338,6 +380,19 @@ function getProfessionalReviewFallback(book: any, categoryName: string) {
         shortTargetTag: "첫 월배당 시작",
         targetRationale: "국내 상장 ETF로 소액부터 시작하여 매월 배당이 입금되는 기쁨을 직접 체험할 수 있기 때문입니다."
       };
+    } else if (title.includes("40대") || title.includes("최영민")) {
+      return {
+        oneLineReview: "복잡한 금융 이론 대신 당장 다음 달부터 연금 계좌에 현금 파이프라인을 꽂아주는 실전 행동 지침서",
+        pros: [
+          "계좌 개설부터 매수, 배당금 확인까지 실행 단계를 직관적으로 정리하여 초보자도 월배당 현금흐름 시스템 즉각 구축 가능",
+          "실제 7천만 원 종잣돈 기반의 현실적인 월 200만 원 인컴 포트폴리오 로드맵 제시"
+        ],
+        cons: ["연 30% 초고배당(주로 커버드콜) 전략의 원금 상방 제한 및 잠식 리스크와 국내 절세 계좌 편입 규제에 대한 균형 잡힌 분석 필요"],
+        summary: "안정적인 현금 파이프라인을 통해 조기 은퇴나 노후 생활비를 마련하고자 하는 연금 투자자에게 실전 감각을 불어넣어 주는 입문서입니다.",
+        targetPersona: "퇴직연금(IRP) 및 연금저축 계좌에서 매월 따박따박 나오는 배당금으로 조기 은퇴를 설계하고 싶은 40대 직장인",
+        shortTargetTag: "월배당 40대 연금러",
+        targetRationale: "월배당 ETF의 현금흐름 구조를 이해하고 국내 상장 월배당 ETF 포트폴리오로 연계하여 절세 혜택을 극대화할 수 있기 때문입니다."
+      };
     } else {
       return {
         oneLineReview: "배당수익과 자본수익을 동시에 추구하며 제2의 월급 파이프라인을 구축하는 필독서",
@@ -370,12 +425,66 @@ interface UpdateMdxResult {
   isShortLink: boolean;
 }
 
+interface ExistingBookData {
+  title: string;
+  author: string;
+  affiliateUrl: string;
+  originalPrice?: number;
+  discountPrice?: number;
+  reviewCount?: number;
+  body: string;
+}
+
+async function loadExistingBooksArchive(): Promise<Map<string, ExistingBookData>> {
+  const archive = new Map<string, ExistingBookData>();
+  try {
+    const files = await fs.readdir(CONTENT_DIR);
+    for (const file of files) {
+      if (!file.endsWith(".mdx")) continue;
+      const filePath = path.join(CONTENT_DIR, file);
+      try {
+        const content = await fs.readFile(filePath, "utf-8");
+        const titleMatch = content.match(/title:\s*(.*)/);
+        const authorMatch = content.match(/author:\s*(.*)/);
+        const affiliateMatch = content.match(/affiliateUrl:\s*(.*)/);
+        const origMatch = content.match(/originalPrice:\s*(\d+)/);
+        const discMatch = content.match(/discountPrice:\s*(\d+)/);
+        const reviewMatch = content.match(/reviewCount:\s*(\d+)/);
+
+        if (titleMatch && affiliateMatch) {
+          const title = titleMatch[1].trim();
+          const author = authorMatch ? authorMatch[1].trim() : "";
+          const key = getBookKey(title, author);
+          const parts = content.split("---");
+          const body = parts.length >= 3 ? parts.slice(2).join("---").trim() : "";
+
+          archive.set(key, {
+            title,
+            author,
+            affiliateUrl: affiliateMatch[1].trim(),
+            originalPrice: origMatch ? Number(origMatch[1]) : undefined,
+            discountPrice: discMatch ? Number(discMatch[1]) : undefined,
+            reviewCount: reviewMatch ? Number(reviewMatch[1]) : undefined,
+            body,
+          });
+        }
+      } catch {
+        // 개별 파일 읽기 오류는 건너뜀
+      }
+    }
+  } catch {
+    // 디렉토리 부재 시 무시
+  }
+  return archive;
+}
+
 async function updateMdxFile(
   categoryName: string,
   categorySlug: string,
   rank: number,
   book: any,
-  aiReview: any
+  aiReview: any,
+  existingArchive: Map<string, ExistingBookData>
 ): Promise<UpdateMdxResult> {
   const filePath = path.join(CONTENT_DIR, `[LEARNING_EXAMPLE]_${categorySlug}-top-${rank}.mdx`);
   
@@ -385,30 +494,41 @@ async function updateMdxFile(
   let existingDiscountPrice: number | undefined = undefined;
   let existingReviewCount: number | undefined = undefined;
 
-  try {
-    const oldContent = await fs.readFile(filePath, "utf-8");
-    const oldTitleMatch = oldContent.match(/title:\s*(.*)/);
-    const oldAffiliateMatch = oldContent.match(/affiliateUrl:\s*(.*)/);
-    const oldOrigMatch = oldContent.match(/originalPrice:\s*(\d+)/);
-    const oldDiscMatch = oldContent.match(/discountPrice:\s*(\d+)/);
-    const oldReviewMatch = oldContent.match(/reviewCount:\s*(\d+)/);
+  const currentBookKey = getBookKey(book.title, book.author);
+  const archived = existingArchive.get(currentBookKey);
 
-    if (oldTitleMatch && oldAffiliateMatch) {
-      const oldTitleKey = getBookKey(oldTitleMatch[1], "");
-      const newTitleKey = getBookKey(book.title, "");
-      if (oldTitleKey === newTitleKey) {
-        existingAffiliateUrl = oldAffiliateMatch[1].trim();
-        if (oldOrigMatch) existingOriginalPrice = Number(oldOrigMatch[1]);
-        if (oldDiscMatch) existingDiscountPrice = Number(oldDiscMatch[1]);
-        if (oldReviewMatch) existingReviewCount = Number(oldReviewMatch[1]);
-        const parts = oldContent.split("---");
-        if (parts.length >= 3) {
-          existingBody = parts.slice(2).join("---").trim();
+  // 순위가 변동되어 다른 슬롯(예: Top 3 -> Top 2)으로 이동하더라도 기존 심층 리뷰 본문과 가격을 100% 보존
+  if (archived) {
+    existingAffiliateUrl = archived.affiliateUrl;
+    existingOriginalPrice = archived.originalPrice;
+    existingDiscountPrice = archived.discountPrice;
+    existingReviewCount = archived.reviewCount;
+    existingBody = archived.body;
+  } else {
+    try {
+      const oldContent = await fs.readFile(filePath, "utf-8");
+      const oldTitleMatch = oldContent.match(/title:\s*(.*)/);
+      const oldAffiliateMatch = oldContent.match(/affiliateUrl:\s*(.*)/);
+      const oldOrigMatch = oldContent.match(/originalPrice:\s*(\d+)/);
+      const oldDiscMatch = oldContent.match(/discountPrice:\s*(\d+)/);
+      const oldReviewMatch = oldContent.match(/reviewCount:\s*(\d+)/);
+
+      if (oldTitleMatch && oldAffiliateMatch) {
+        const oldTitleKey = getBookKey(oldTitleMatch[1], "");
+        if (oldTitleKey === currentBookKey) {
+          existingAffiliateUrl = oldAffiliateMatch[1].trim();
+          if (oldOrigMatch) existingOriginalPrice = Number(oldOrigMatch[1]);
+          if (oldDiscMatch) existingDiscountPrice = Number(oldDiscMatch[1]);
+          if (oldReviewMatch) existingReviewCount = Number(oldReviewMatch[1]);
+          const parts = oldContent.split("---");
+          if (parts.length >= 3) {
+            existingBody = parts.slice(2).join("---").trim();
+          }
         }
       }
+    } catch {
+      // New file
     }
-  } catch {
-    // New file
   }
 
   const finalAffiliateUrl = getCoupangAffiliateUrl(book.title, book.author, existingAffiliateUrl);
@@ -531,9 +651,12 @@ async function notifyTelegramWritingAgent(missingBooks: MissingCoupangBook[]): P
 }
 
 async function runAutomation() {
-  console.log("🚀 ETF Campus 도서 큐레이션 자동화 스크립트 시작 (중복 방지 엔진 탑재)");
+  console.log("🚀 ETF Campus 도서 큐레이션 자동화 스크립트 시작 (중복 방지 및 메타데이터 보존 엔진 탑재)");
   
-  // 기존 파일은 updateMdxFile에서 이전 단축링크 및 심층 리뷰 본문을 안전하게 보존(overwrite)하므로 사전 삭제하지 않음.
+  // 1. 기존 도서 아카이브 사전 로드 (도서 순위 변동 시에도 심층 리뷰 본문, 가격, 링크 100% 보존)
+  const existingArchive = await loadExistingBooksArchive();
+  console.log(`📦 [Archive] 기존 큐레이션 도서 ${existingArchive.size}권 메타데이터 보존 로드 완료`);
+
   const globalAssignedBooks = new Set<string>();
   const missingCoupangBooks: MissingCoupangBook[] = [];
 
@@ -541,10 +664,15 @@ async function runAutomation() {
   for (const [categoryName, data] of Object.entries(CATEGORY_MAP)) {
     const topBooks = await fetchTopBooksAggregated(categoryName, data.keyword, globalAssignedBooks, 3);
     
+    if (topBooks.length === 0) {
+      console.warn(`⚠️ [Curation] ${categoryName} 카테고리 도서를 가져오지 못해 기존 데이터를 안전하게 유지합니다.`);
+      continue;
+    }
+
     let rank = 1;
     for (const book of topBooks) {
       const aiReview = await generateAIReview(book, categoryName);
-      const updateResult = await updateMdxFile(categoryName, data.slug, rank, book, aiReview);
+      const updateResult = await updateMdxFile(categoryName, data.slug, rank, book, aiReview, existingArchive);
       if (!updateResult.isShortLink) {
         missingCoupangBooks.push({
           categoryName,

@@ -26,8 +26,7 @@
 | `scripts/sync-kofia-fees.ts` | `kofia-fee-sync.yml` | 매월 1, 5, 10일 | 금융투자협회(KOFIA) 전자공시 실부담비용 3분해 정기 동기화 |
 | `scripts/trading_days.py` | `monitor-market-daily-pipeline.yml` | 매 거래일 09:45 | 한국거래소(KRX) 개장일 캘린더 판정 및 휴일 감지 |
 | `scripts/generate_local_osmu_preview.py` | `market-briefing-production.yml` | 브리핑 배포 시 | 인스타그램, 스레드, 뉴스레터용 마켓 브리핑 OSMU 카드 렌더링 |
-| `scripts/auto-curate-books.ts` | `book-curation.yml` | 정기 실행 | ETF 투자자 필독 도서 큐레이션 및 메타데이터 자동 갱신 |
-| `scripts/fetch-book-covers.mjs` | `book-curation.yml` | 정기 실행 | 교보·예스24·알라딘 도서 커버 이미지 엣지 서빙 동기화 |
+| `scripts/auto-curate-books.ts` | `book-curation.yml` | 정기 실행 | ETF 투자자 필독 도서 큐레이션 및 메타데이터 자동 갱신 (커버 이미지 및 쿠팡 매칭 통합) |
 
 ---
 

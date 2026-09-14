@@ -25,7 +25,7 @@ export const tutorialSteps: TutorialStep[] = [
   {
     step: 1,
     title: "[계좌 배분] 연금저축 vs IRP, 왜 600만 원부터 채워야 할까?",
-    benefitBadge: "💰 연말정산 최대 148.5만 원 법정 확정 환급 비법",
+    benefitBadge: "💰 연말정산 최대 148.5만 원 법정 환급 비법",
     intro: "세액공제 혜택과 위험자산(주식형 ETF) 투자 한도를 고려한 1순위 계좌 배분 골든룰입니다.",
     questions: [
       {
@@ -53,15 +53,15 @@ export const tutorialSteps: TutorialStep[] = [
           falseLabel: "아닙니다",
           falseHint: "환급 한도 상이"
         },
-        correctFeedback: "정답입니다! 900만 원 한도에 16.5% 공제율이 적용되어 148.5만 원의 법정 확정 수익이 완성됩니다. (총급여 5,500만 원 초과 시 13.2% 적용으로 118.8만 원 환급)",
+        correctFeedback: "정답입니다! 900만 원 한도에 16.5% 공제율이 적용되어 148.5만 원의 법정 환급이 완성됩니다. (총급여 5,500만 원 초과 시 13.2% 적용으로 118.8만 원 환급)",
         incorrectFeedback: "공제 한도가 자주 바뀌어 헷갈리기 쉽습니다. 2023년 세법 개정 이후 연금저축 600만 + IRP 합산 900만 원 한도로 확대되어, 16.5% 적용 시 148.5만 원(5,500만 원 초과 시 13.2% 적용으로 118.8만 원)이 환급됩니다."
       }
     ]
   },
   {
     step: 2,
-    title: "[유동성] 급전이 필요할 때, 세금 0원 인출 서열",
-    benefitBadge: "🛡️ 급전 필요 시 중도인출 세금 0원 방어 서열",
+    title: "[유동성] 급전이 필요할 때, 세금 0원 비과세 인출 구조",
+    benefitBadge: "🛡️ 급전 필요 시 중도인출 세금 0원 비과세 인출 구조",
     intro: "인생의 급전 상황에서도 페널티 없이 내 피 같은 원금을 지켜내는 절세계좌 인출의 기술입니다.",
     questions: [
       {
@@ -111,22 +111,22 @@ export const tutorialSteps: TutorialStep[] = [
           falseLabel: "아닙니다",
           falseHint: "기존 한도 내 포함"
         },
-        correctFeedback: "정답입니다! 조특법 제86조의3에 따른 특례로, 당해 연도 세액공제 한도가 최대 1,200만 원(기본 900만 + 이전 300만)까지 확장됩니다.",
+        correctFeedback: "정답입니다! 조특법 제86조의4에 따른 특례로, 당해 연도 세액공제 한도가 최대 1,200만 원(기본 900만 + 이전 300만)까지 확장됩니다.",
         incorrectFeedback: "이 제도는 고수들만 챙기는 숨겨진 세법 보너스입니다. 만기 자금 3,000만 원을 연금으로 넘기면 10%인 300만 원이 추가 공제되어 그해 환급금이 최대 198만 원까지 뜁니다."
       },
       {
         id: "3-2",
-        shortTitle: "ISA 계좌 무한 재개설 여부",
+        shortTitle: "ISA 계좌 재개설 가능 여부",
         text: "ISA 만기 자금을 연금 계좌로 넘기고 나면, ISA 계좌는 평생 다시 개설할 수 없다.",
         answer: false,
         options: {
           trueLabel: "맞습니다",
           trueHint: "평생 1회 한정",
           falseLabel: "아닙니다",
-          falseHint: "즉시 무한 재개설"
+          falseHint: "즉시 재개설 가능"
         },
-        correctFeedback: "정답입니다! 연금 이전 즉시 새로운 ISA를 개설하여 3년 비과세 시계를 무한히 다시 돌릴 수 있습니다.",
-        incorrectFeedback: "안심하셔도 됩니다! 만기 이전 완료 즉시 새 ISA를 개설할 수 있어, 3년 주기 비과세와 198만 원 연금 점프를 평생 무한 선순환시킬 수 있습니다."
+        correctFeedback: "정답입니다! 연금 이전 즉시 새로운 ISA를 개설하여 3년 비과세 시계를 반복 운용할 수 있습니다.",
+        incorrectFeedback: "안심하셔도 됩니다! 만기 이전 완료 즉시 새 ISA를 개설할 수 있어, 3년 주기로 반복 운용할 수 있습니다."
       }
     ]
   },

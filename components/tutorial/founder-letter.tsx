@@ -79,7 +79,7 @@ export function FounderLetter({
                 onClick={onNavigateQuiz}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-surface border border-neutral-300 hover:bg-neutral-50 text-neutral-800 text-xs sm:text-sm font-black shadow-2xs transition-all active:scale-[0.98]"
               >
-                <span>🎓 바로 OT 퀴즈 풀기</span>
+                <span>🎓 바로 팩트체크 도전하기</span>
                 <span>➔</span>
               </button>
             </div>

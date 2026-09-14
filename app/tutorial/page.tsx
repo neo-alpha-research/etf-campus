@@ -31,6 +31,20 @@ function TutorialContent() {
     return "tour";
   });
 
+  const [maxUnlockedStep, setMaxUnlockedStep] = useState<number>(() => {
+    if (typeof window === "undefined") return 1;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("download") === "auto") return 5;
+    const saved =
+      localStorage.getItem("tutorial_max_unlocked_step") ||
+      localStorage.getItem("tutorial_progress");
+    if (saved) {
+      const step = parseInt(saved, 10);
+      return Math.min(Math.max(step, 1), 5);
+    }
+    return 1;
+  });
+
   const [currentStep, setCurrentStep] = useState<number>(() => {
     if (typeof window === "undefined") return 1;
     const url = new URL(window.location.href);
@@ -97,8 +111,13 @@ function TutorialContent() {
     if (!stepData) return;
     const allCorrect = stepData.questions.every((q) => newAnswers[q.id] === q.answer);
     if (allCorrect) {
+      const nextUnlocked = Math.min(
+        Math.max(maxUnlockedStep, currentStep < 5 ? currentStep + 1 : 5),
+        5
+      );
+      setMaxUnlockedStep(nextUnlocked);
+      localStorage.setItem("tutorial_max_unlocked_step", nextUnlocked.toString());
       localStorage.setItem("tutorial_progress", currentStep.toString());
-      localStorage.setItem("tutorial_isGraded", "true");
     }
   };
 
@@ -107,17 +126,47 @@ function TutorialContent() {
     if (currentStep < 5) {
       const next = currentStep + 1;
       setCurrentStep(next);
+      const nextMax = Math.max(maxUnlockedStep, next);
+      setMaxUnlockedStep(nextMax);
+      localStorage.setItem("tutorial_max_unlocked_step", nextMax.toString());
       localStorage.setItem("tutorial_progress", next.toString());
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  // 이전 단계로 이동
+  // 이전 단계로 이동 (기존 최고 달성 단계를 보존하여 비파괴적 복습 지원)
   const prevStep = () => {
     if (currentStep > 1) {
       const prev = currentStep - 1;
       setCurrentStep(prev);
       localStorage.setItem("tutorial_progress", prev.toString());
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  // 특정 단계로 직접 이동 (해금된 단계만 접근 가능)
+  const goToStep = (step: number) => {
+    if (step >= 1 && step <= 5 && step <= maxUnlockedStep) {
+      setCurrentStep(step);
+      localStorage.setItem("tutorial_progress", step.toString());
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  // 팩트체크 처음부터 다시 풀기 (초기화)
+  const handleResetQuiz = () => {
+    if (
+      typeof window !== "undefined" &&
+      window.confirm(
+        "지금까지의 팩트체크 답변 기록을 초기화하고 1단계부터 다시 시작하시겠습니까?"
+      )
+    ) {
+      setAnswers({});
+      setCurrentStep(1);
+      setMaxUnlockedStep(1);
+      localStorage.removeItem("tutorial_answers");
+      localStorage.removeItem("tutorial_progress");
+      localStorage.removeItem("tutorial_max_unlocked_step");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -142,13 +191,28 @@ function TutorialContent() {
       {/* 🏛️ Top 3-Tab Segmented Navigation Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 p-1.5 rounded-2xl bg-neutral-100/90 border border-neutral-200/90 shadow-inner">
         <div className="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-1">
-          {/* 1st Tab: Campus Tour */}
+          {/* 1st Tab: Founder's Mission Letter */}
+          <button
+            type="button"
+            onClick={() => handleTabChange("letter")}
+            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
+              activeTab === "letter"
+                ? "bg-brand-700 text-white shadow-sm"
+                : "text-muted hover:text-strong"
+            }`}
+          >
+            <span>🏛️</span>
+            <span className="hidden sm:inline">설립 취지문</span>
+            <span className="sm:hidden">설립 취지</span>
+          </button>
+
+          {/* 2nd Tab: Campus Facility Tour */}
           <button
             type="button"
             onClick={() => handleTabChange("tour")}
             className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
               activeTab === "tour"
-                ? "bg-surface text-brand-900 shadow-sm ring-1 ring-neutral-200"
+                ? "bg-brand-700 text-white shadow-sm"
                 : "text-muted hover:text-strong"
             }`}
           >
@@ -157,7 +221,7 @@ function TutorialContent() {
             <span className="sm:hidden">시설 안내</span>
           </button>
 
-          {/* 2nd Tab: 3-Min Fact Check Challenge */}
+          {/* 3rd Tab: 5-Step Fact Check Challenge */}
           <button
             type="button"
             onClick={() => handleTabChange("quiz")}
@@ -177,22 +241,10 @@ function TutorialContent() {
                   : "bg-neutral-200 text-neutral-600"
               }`}
             >
-              {currentStep}/5
+              {maxUnlockedStep === 5 && stepData.questions.every((q) => answers[q.id] === q.answer)
+                ? "완료"
+                : `${currentStep}/5`}
             </span>
-          </button>
-
-          {/* 3rd Tab: Founder's Mission Letter */}
-          <button
-            type="button"
-            onClick={() => handleTabChange("letter")}
-            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
-              activeTab === "letter"
-                ? "bg-surface text-brand-900 shadow-sm ring-1 ring-neutral-200"
-                : "text-muted hover:text-strong"
-            }`}
-          >
-            <span>🏛️</span>
-            <span>설립 취지문</span>
           </button>
         </div>
 
@@ -219,9 +271,9 @@ function TutorialContent() {
       {/* Tab 2: 5-Step Master Fact Check Challenge (Option A: Full Premium Redesign) */}
       {activeTab === "quiz" && (
         <div className="space-y-5 sm:space-y-6 animate-fade-in-up">
-          {/* 🎮 EXP Bar & Academic Progress */}
-          <div className="relative pt-1">
-            <div className="flex mb-2 items-end justify-between">
+          {/* 🎮 EXP Bar, Step Chips & Academic Progress */}
+          <div className="relative pt-1 space-y-2.5">
+            <div className="flex mb-1 items-end justify-between">
               <div className="mb-0.5 flex items-center gap-2">
                 <span className="text-xs sm:text-sm font-extrabold inline-flex items-center gap-1 py-1 px-3 rounded-full text-brand-700 bg-brand-100/90 border border-brand-200">
                   <span>⚡</span> 5대 절세 팩트체크 {currentStep}/5단계
@@ -229,7 +281,7 @@ function TutorialContent() {
               </div>
               <div className="text-right flex flex-col items-end">
                 {!(currentStep === 5 && isStepCompleted) && (
-                  <span className="text-[10px] sm:text-[11px] font-semibold text-amber-700 mb-1">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-amber-700 mb-0.5">
                     🎁 완주 시 <span className="underline underline-offset-2">치트시트 PDF</span> 즉시 수여!
                   </span>
                 )}
@@ -238,11 +290,44 @@ function TutorialContent() {
                 </span>
               </div>
             </div>
-            <div className="overflow-hidden h-2.5 mb-4 text-xs flex rounded-full bg-neutral-200/90">
+
+            {/* Linear Progress Bar */}
+            <div className="overflow-hidden h-2.5 text-xs flex rounded-full bg-neutral-200/90">
               <div
                 style={{ width: `${(currentStep / 5) * 100}%` }}
                 className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-brand-600 via-indigo-600 to-emerald-600 transition-all duration-500"
               />
+            </div>
+
+            {/* Non-destructive Step Quick-Jump Chips */}
+            <div className="grid grid-cols-5 gap-1.5 sm:gap-2 pt-1">
+              {tutorialSteps.map((s) => {
+                const isCurrent = s.step === currentStep;
+                const isStepAllCorrect = s.questions.every((q) => answers[q.id] === q.answer);
+                const isUnlocked = s.step <= maxUnlockedStep;
+
+                return (
+                  <button
+                    key={s.step}
+                    type="button"
+                    disabled={!isUnlocked}
+                    onClick={() => goToStep(s.step)}
+                    className={`py-1.5 sm:py-2 px-1 rounded-xl text-center transition-all touch-manipulation cursor-pointer active:scale-95 disabled:cursor-not-allowed disabled:opacity-35 ${
+                      isCurrent
+                        ? "bg-brand-900 text-white shadow-sm ring-2 ring-brand-600 font-black"
+                        : isStepAllCorrect
+                        ? "bg-emerald-100/90 text-emerald-900 hover:bg-emerald-200 font-bold border border-emerald-300/80"
+                        : isUnlocked
+                        ? "bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-bold border border-neutral-300"
+                        : "bg-neutral-100/60 text-neutral-400 border border-neutral-200/70"
+                    }`}
+                  >
+                    <div className="text-[10px] sm:text-xs tracking-tight">
+                      {isStepAllCorrect ? `0${s.step} ✓` : `0${s.step}단계`}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -260,7 +345,15 @@ function TutorialContent() {
                   </span>
                 </div>
 
-                <div className="flex gap-2 shrink-0">
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={handleResetQuiz}
+                    className="hidden sm:inline-block px-2.5 py-1.5 text-xs text-neutral-400 hover:text-neutral-700 font-medium transition-colors cursor-pointer"
+                    title="답변 기록을 초기화하고 1단계부터 다시 시작합니다"
+                  >
+                    🔄 다시 풀기
+                  </button>
                   <button
                     type="button"
                     onClick={prevStep}
@@ -487,6 +580,15 @@ function TutorialContent() {
                     <p className="text-xs text-neutral-500 font-medium">
                       💡 언제든 다시 다운로드받으실 수 있습니다. (브라우저 다운로드 폴더 저장)
                     </p>
+                    <div className="pt-1">
+                      <button
+                        type="button"
+                        onClick={handleResetQuiz}
+                        className="text-xs text-neutral-400 hover:text-neutral-700 underline underline-offset-2 transition-colors cursor-pointer"
+                      >
+                        🔄 팩트체크 처음부터 다시 풀기
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="pt-2 space-y-3">
@@ -495,11 +597,20 @@ function TutorialContent() {
                     </p>
                     <button
                       type="button"
-                      onClick={() => router.push(`/login?returnTo=${encodeURIComponent("/tutorial?tab=quiz&download=auto")}`)}
+                      onClick={() => router.push(`/login?returnTo=${encodeURIComponent("/tutorial/?tab=quiz&download=auto")}`)}
                       className="w-full bg-gradient-to-r from-brand-700 via-brand-800 to-indigo-900 hover:from-brand-600 hover:to-indigo-800 text-white font-black py-4 sm:py-5 rounded-2xl shadow-lg transition-all text-base sm:text-lg active:scale-[0.99] cursor-pointer"
                     >
                       🔒 무료 회원가입하고 치트시트 PDF 받기 ➔
                     </button>
+                    <div className="pt-1">
+                      <button
+                        type="button"
+                        onClick={handleResetQuiz}
+                        className="text-xs text-neutral-400 hover:text-neutral-700 underline underline-offset-2 transition-colors cursor-pointer"
+                      >
+                        🔄 팩트체크 처음부터 다시 풀기
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

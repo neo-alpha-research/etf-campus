@@ -161,7 +161,7 @@ export const tutorialSteps: TutorialStep[] = [
           falseLabel: "아닙니다",
           falseHint: "직접 계산 필요"
         },
-        correctFeedback: "정답입니다! 캠퍼스는 금융투자협회 매월 공시 데이터를 실시간 결합하여 진짜 실부담비용을 추적합니다.",
+        correctFeedback: "정답입니다! 캠퍼스는 금융투자협회 매월 공시 데이터를 투명하게 결합하여 진짜 실부담비용을 추적합니다.",
         incorrectFeedback: "일반 포털에서는 기타비용을 보여주지 않아 찾기 어렵습니다. ETF Campus는 투자자가 억울한 숨은 수수료를 내지 않도록 모든 비용을 합산 공시합니다."
       }
     ]

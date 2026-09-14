@@ -229,7 +229,7 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
         ))}
       </div>
 
-      {/* Celebratory Admission & Orientation Quiz Callout Banner */}
+      {/* Celebratory Admission & Fact Check Challenge Callout Banner */}
       <div className="relative overflow-hidden rounded-3xl border-2 border-amber-300/90 bg-gradient-to-br from-amber-50/95 via-orange-50/60 to-brand-50/80 p-6 sm:p-9 shadow-md">
         {/* Subtle festive background glow */}
         <div className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full bg-amber-200/50 blur-3xl" />
@@ -239,16 +239,16 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
           <div className="space-y-2.5 text-center md:text-left">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-amber-100 text-amber-950 border border-amber-300 shadow-2xs">
               <span>🎉</span>
-              <span>신입생 입학 축하 & OT 퀴즈</span>
+              <span>신입생 입학 축하 & 팩트체크</span>
             </div>
 
             <h3 className="text-xl sm:text-2xl lg:text-[26px] font-black text-neutral-950 tracking-tight break-keep leading-snug">
               캠퍼스 시설을 모두 둘러보셨나요? <br className="hidden sm:inline" />
-              이제 <span className="text-brand-700 underline decoration-amber-400 decoration-wavy decoration-2 underline-offset-4">&lsquo;신입생 오리엔테이션 퀴즈&rsquo;</span>에 도전해 보세요!
+              이제 <span className="text-brand-700 underline decoration-amber-400 decoration-wavy decoration-2 underline-offset-4">&lsquo;신입생 팩트체크 챌린지&rsquo;</span>에 도전해 보세요!
             </h3>
 
             <p className="text-xs sm:text-sm text-neutral-700 font-medium break-keep leading-relaxed">
-              5단계 핵심 퀴즈를 모두 완료하신 신입생 학우분께는 입학 축하 선물로 <br className="hidden sm:inline" />
+              5단계 핵심 팩트체크를 모두 마스터하신 신입생 학우분께는 입학 축하 선물로 <br className="hidden sm:inline" />
               <strong className="text-brand-900 font-bold underline decoration-amber-500">
                 🎁 [2026 직장인 3대 절세계좌 완벽 운용 치트시트 (A4 1장 PDF)]
               </strong>
@@ -261,7 +261,7 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
             onClick={onStartQuiz}
             className="shrink-0 w-full md:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-brand-700 via-brand-800 to-indigo-900 hover:from-brand-600 hover:to-indigo-800 text-white font-black px-7 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all text-base tracking-wide"
           >
-            <span>🎯 OT 퀴즈 풀고 선물 받기</span>
+            <span>🎯 팩트체크 풀고 선물 받기</span>
             <span>➔</span>
           </button>
         </div>

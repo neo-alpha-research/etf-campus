@@ -187,15 +187,15 @@ function TutorialContent() {
   const isStepCompleted = stepData.questions.every((q) => answers[q.id] === q.answer);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-2 pb-24 sm:pt-6 sm:pb-32 space-y-4 sm:space-y-6">
+    <div className="mx-auto max-w-4xl px-3 sm:px-4 pt-2 pb-24 sm:pt-6 sm:pb-32 space-y-4 sm:space-y-6">
       {/* 🏛️ Top 3-Tab Segmented Navigation Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 p-1.5 rounded-2xl bg-neutral-100/90 border border-neutral-200/90 shadow-inner">
-        <div className="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-1">
+        <div className="w-full sm:w-auto grid grid-cols-[1fr_1fr_auto] sm:flex items-center gap-1">
           {/* 1st Tab: Founder's Mission Letter */}
           <button
             type="button"
             onClick={() => handleTabChange("letter")}
-            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
+            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
               activeTab === "letter"
                 ? "bg-brand-700 text-white shadow-sm"
                 : "text-muted hover:text-strong"
@@ -210,7 +210,7 @@ function TutorialContent() {
           <button
             type="button"
             onClick={() => handleTabChange("tour")}
-            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
+            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
               activeTab === "tour"
                 ? "bg-brand-700 text-white shadow-sm"
                 : "text-muted hover:text-strong"
@@ -225,7 +225,7 @@ function TutorialContent() {
           <button
             type="button"
             onClick={() => handleTabChange("quiz")}
-            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
+            className={`min-h-[44px] inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-black whitespace-nowrap transition-all cursor-pointer touch-manipulation active:scale-[0.98] ${
               activeTab === "quiz"
                 ? "bg-brand-700 text-white shadow-sm"
                 : "text-muted hover:text-strong"
@@ -235,7 +235,7 @@ function TutorialContent() {
             <span className="hidden sm:inline">신입생 팩트체크</span>
             <span className="sm:hidden">팩트체크</span>
             <span
-              className={`ml-0.5 sm:ml-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
+              className={`ml-0.5 sm:ml-1 px-1.5 py-0.5 rounded-full text-[10px] font-extrabold shrink-0 ${
                 activeTab === "quiz"
                   ? "bg-brand-800 text-brand-100"
                   : "bg-neutral-200 text-neutral-600"

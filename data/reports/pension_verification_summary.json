@@ -1,35 +1,35 @@
 {
   "updated_at": "2026-09-06",
-  "total_universe": 1168,
-  "verified_count": 1164,
-  "verified_ratio": 99.66,
-  "unverified_count": 4,
-  "unverified_ratio": 0.34,
+  "total_universe": 1171,
+  "verified_count": 1163,
+  "verified_ratio": 99.32,
+  "unverified_count": 8,
+  "unverified_ratio": 0.68,
   "법령근거_확보": {
-    "건수": 830,
-    "비율": 71.1,
+    "건수": 829,
+    "비율": 70.8,
     "구성": {
       "E1": 2,
       "E1B": 13,
       "E2": 1,
-      "E3": 814
+      "E3": 813
     },
     "설명": "E1(투자설명서원문), E1B(운용사공식확약), E2(정정신고서), E3(금융투자협회표준유형XML) 등 법령 및 공시 원문 직접 검증 확보"
   },
   "실무_확인": {
-    "건수": 1164,
-    "비율": 99.7,
+    "건수": 1163,
+    "비율": 99.3,
     "설명": "전체 검증 완료 (법령·공시·운용사·판매사 복합 실무 확인)"
   },
   "교차검증_강도": {
     "3way": 633,
     "2way": 87,
-    "1way": 444,
+    "1way": 443,
     "설명": "3way: 법령/공시 + 운용사 + 판매사 3자 완전 일치, 2way: 운용사 + 규제엔진/판매사 2자 일치, 1way: 법령/공시/명칭규칙 1자 확인"
   },
   "evidence_grades": {
     "E4": 231,
-    "E3": 814,
+    "E3": 813,
     "E1B": 13,
     "RULE_NAME": 103,
     "E2": 1,
@@ -39,6 +39,11 @@
     {
       "ticker": "0232A0",
       "name": "MIDAS 머니마켓액티브",
+      "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+    },
+    {
+      "ticker": "0238F0",
+      "name": "KODEX 미국AI메모리TOP2플러스",
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
     },
     {
@@ -52,22 +57,44 @@
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
     },
     {
+      "ticker": "0239Z0",
+      "name": "PLUS AI반도체소부장액티브",
+      "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+    },
+    {
+      "ticker": "0239Y0",
+      "name": "PLUS 코리아HBM반도체",
+      "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+    },
+    {
+      "ticker": "0227L0",
+      "name": "HANARO 미국에이전틱AI TOP2+",
+      "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
+    },
+    {
       "ticker": "0229F0",
       "name": "마이티 신약포커스바이오액티브",
       "reason": "협회 공시 미반영 (신규 상장 또는 명칭 미일치)"
     }
   ],
   "as_of": "2026-09-06",
-  "total": 1168,
-  "verified": 1164,
-  "unverified": 4,
-  "verified_pct": 99.7,
+  "total": 1171,
+  "verified": 1163,
+  "unverified": 8,
+  "verified_pct": 99.3,
   "s5_evidence_sufficiency_violations": 0,
   "안전자산_주의_잔여": 0,
   "isa_tax_type_coverage_pct": 100.0,
   "isa_breakdown": {
     "국내주식형_절세낮음": 353,
-    "기타_절세높음": 815,
+    "기타_절세높음": 818,
     "사전교육대상_Y": 72
+  },
+  "personal_pension_breakdown": {
+    "eligible": 1068,
+    "ineligible": 103,
+    "pending": 0,
+    "coverage_ratio": 1.0,
+    "last_updated": "2026-09-16T08:21:14.936122+09:00"
   }
 }

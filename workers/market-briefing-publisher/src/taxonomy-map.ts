@@ -1,4 +1,4 @@
-// SSOT ETF Taxonomy Mapping for Market Briefing Peer Groups (Fully Synchronized SSOT with 1168 ETFs)
+// SSOT ETF Taxonomy Mapping for Market Briefing Peer Groups (Fully Synchronized SSOT with 1172 ETFs)
 export const ETF_TAXONOMY_MAP: Record<string, { assetClass: string; peerGroup: string }> = {
   "0000D0": {
     "assetClass": "혼합자산",
@@ -1180,6 +1180,10 @@ export const ETF_TAXONOMY_MAP: Record<string, { assetClass: string; peerGroup: s
     "assetClass": "주식",
     "peerGroup": "글로벌 우주항공 & 방산"
   },
+  "0227L0": {
+    "assetClass": "주식",
+    "peerGroup": "산업·섹터"
+  },
   "0228G0": {
     "assetClass": "주식",
     "peerGroup": "전통 반도체 소부장"
@@ -1212,9 +1216,21 @@ export const ETF_TAXONOMY_MAP: Record<string, { assetClass: string; peerGroup: s
     "assetClass": "주식",
     "peerGroup": "기업집단"
   },
+  "0238F0": {
+    "assetClass": "주식",
+    "peerGroup": "AI 반도체 & HBM"
+  },
   "0238P0": {
     "assetClass": "혼합자산",
     "peerGroup": "자산배분 & 채권혼합"
+  },
+  "0239Y0": {
+    "assetClass": "주식",
+    "peerGroup": "AI 반도체 & HBM"
+  },
+  "0239Z0": {
+    "assetClass": "주식",
+    "peerGroup": "AI 반도체 & HBM"
   },
   "069500": {
     "assetClass": "주식",

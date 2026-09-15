@@ -12,6 +12,7 @@ export interface Env {
   SLACK_WEBHOOK_URL?: string;
   MANUAL_RUN_TOKEN?: string;
   GEMINI_API_KEY?: string;
+  GEMINI_TOKENS?: string;
 }
 
 export interface BriefingDistributeEvent {

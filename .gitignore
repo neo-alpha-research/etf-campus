@@ -68,3 +68,8 @@ data/reports/holdings_anomaly_*.json
 # Raw regulatory disclosure XML snapshots (30MB+, preserved via artifact/local)
 data/regulatory/sources/kofia_dis_response_*.xml
 
+# Built worker artifacts
+dist/
+workers/**/dist/
+
+

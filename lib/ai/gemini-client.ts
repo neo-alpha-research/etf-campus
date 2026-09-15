@@ -3,15 +3,8 @@
  * 7대 마스터 검증 토큰 풀 & 5계층 모델 워터폴 (3.8 Flash -> 2.5 Flash)
  */
 
-export const MASTER_GEMINI_TOKENS = [
-  "AIzaSyCvPN7npTB8WzB3fMAuP-JAdp_ooAenk5s", // Primary (#1)
-  "AIzaSyAJNLIrtFz90VGnEQHSIpUVBcNYYVWPar0", // Backup 1 (#2)
-  "AQ.Ab8RN6IhUi86rXWfKKSlb4Okj2tUS0kVVVs8ygq94s1vElw1Ng", // Backup 2 (#3)
-  "AQ.Ab8RN6I6BZOQW23HVRzfoDdGYxCISpci5OItTEXeQSoLKGxOaQ", // Backup 3 (#4)
-  "AQ.Ab8RN6I2hocZxArtRwjcKuu_FxnYIngCUH1noqApCfYtw68WsA", // Backup 4 (#5)
-  "AQ.Ab8RN6JVoQos0hp7JpLRXNDroImdaeuyoMW31Su-hkHaQN2CJg", // Backup 5 (#6)
-  "AQ.Ab8RN6KWvZcOxMN9Ks0WU4xbQjKZDatV28qtFDCbeGeIEY1WPw", // Backup 6 (#7)
-];
+// Gemini API 토큰 풀 (환경변수/Secret 주입 방식)
+export const MASTER_GEMINI_TOKENS: string[] = [];
 
 // 최신 3.8 Flash부터 하향식으로 강하하는 5계층 모델 워터폴
 export const MODEL_WATERFALL = [
@@ -46,15 +39,25 @@ const TOKEN_COOLDOWNS: Record<string, number> = {};
 export function getAllGeminiTokens(customEnvKey?: string): string[] {
   const tokens: string[] = [];
 
-  const envKey = (customEnvKey || (typeof process !== "undefined" ? process.env?.GEMINI_API_KEY : "") || "").trim();
-  if (envKey && !tokens.includes(envKey)) {
-    tokens.push(envKey);
+  const addToken = (rawKey?: string) => {
+    if (!rawKey) return;
+    const parts = rawKey.split(",").map(k => k.trim()).filter(Boolean);
+    for (const part of parts) {
+      if (!tokens.includes(part)) {
+        tokens.push(part);
+      }
+    }
+  };
+
+  addToken(customEnvKey);
+
+  if (typeof process !== "undefined" && process.env) {
+    addToken(process.env.GEMINI_API_KEY);
+    addToken(process.env.GEMINI_TOKENS);
   }
 
   for (const masterKey of MASTER_GEMINI_TOKENS) {
-    if (!tokens.includes(masterKey)) {
-      tokens.push(masterKey);
-    }
+    addToken(masterKey);
   }
 
   return tokens;

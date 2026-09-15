@@ -188,6 +188,12 @@ def run_sync(dry_run: bool = False) -> dict[str, int]:
                 "asOfDate": m.get("bas_dt", today_str.replace("-", "")),
             })
 
+    # Prune delisted items from registry and screener so they strictly match active master universe
+    master_ticker_set = set(master_by_ticker.keys())
+    reg_items = {tk: v for tk, v in reg_items.items() if tk in master_ticker_set}
+    registry_data["items"] = reg_items
+    screener_items = [it for it in screener_items if it.get("ticker", "").strip().upper() in master_ticker_set]
+
     # Update Registry metadata
     total = len(reg_items)
     covered = counts["가능"] + counts["불가"]

@@ -191,17 +191,39 @@ class KrxSnapshotTest(TestCase):
             snapshot["069500"],
             {
                 "srtnCd": "069500",
+                "isinCd": "",
                 "itmsNm": "SAMPLE ETF",
                 "clpr": "12345",
                 "fltRt": "1.25",
                 "trPrc": "9876543",
-                    "stLstgCnt": "",
+                "stLstgCnt": "",
                 "nPptTotAmt": "123456789",
                 "nav": "",
-                                                "bssIdxIdxNm": "Sample Index",
+                "bssIdxIdxNm": "Sample Index",
                 "basDt": "20260731",
             },
         )
+
+    def test_extracts_isin_from_krx_standard_code(self) -> None:
+        payload = {
+            "OutBlock_1": [
+                {
+                    "BAS_DD": "20260915",
+                    "ISU_CD": "KR70239Y0006",
+                    "ISU_SRT_CD": "0239Y0",
+                    "ISU_NM": "PLUS 코리아HBM반도체",
+                    "TDD_CLSPRC": "10,000",
+                    "FLUC_RT": "0.00",
+                    "ACC_TRDVAL": "1,000,000",
+                    "INVSTASST_NETASST_TOTAMT": "10,000,000,000",
+                    "IDX_IND_NM": "Akros 한국 HBM 반도체 지수",
+                }
+            ]
+        }
+        snapshot = update_daily_data.normalize_krx_snapshot(payload)
+        self.assertEqual(snapshot["0239Y0"]["srtnCd"], "0239Y0")
+        self.assertEqual(snapshot["0239Y0"]["isinCd"], "KR70239Y0006")
+        self.assertEqual(snapshot["0239Y0"]["itmsNm"], "PLUS 코리아HBM반도체")
 
     def test_rejects_a_snapshot_that_is_materially_incomplete(self) -> None:
         self.assertFalse(update_daily_data.snapshot_is_complete({"A": {}}, 10))

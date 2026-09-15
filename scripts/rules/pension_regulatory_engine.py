@@ -598,6 +598,23 @@ def process_csv(master_path: Path, output_path: Path) -> dict[str, Any]:
         if col not in fields:
             fields.append(col)
 
+    # Prune delisted tickers from pension_verification_ledger.csv if any exist
+    ledger_path = REPO_ROOT / "data" / "regulatory" / "pension_verification_ledger.csv"
+    if ledger_path.is_file():
+        master_tickers = {str(r.get("ticker") or "").strip().upper() for r in rows if r.get("ticker")}
+        with ledger_path.open("r", encoding="utf-8-sig") as f:
+            l_reader = csv.DictReader(f)
+            l_fields = l_reader.fieldnames
+            l_rows = list(l_reader)
+        active_l_rows = [r for r in l_rows if str(r.get("ticker") or "").strip().upper() in master_tickers]
+        if len(active_l_rows) != len(l_rows):
+            pruned_count = len(l_rows) - len(active_l_rows)
+            with ledger_path.open("w", encoding="utf-8-sig", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=l_fields)
+                writer.writeheader()
+                writer.writerows(active_l_rows)
+            print(f"[INFO] Pruned {pruned_count} delisted ticker(s) from pension_verification_ledger.csv")
+
     ledger = load_verified_ledger_entries()
     divergences: list[dict[str, Any]] = []
 

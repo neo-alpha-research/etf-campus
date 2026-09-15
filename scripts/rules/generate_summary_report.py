@@ -132,8 +132,8 @@ def generate_summary() -> dict[str, Any]:
     assert summary["verified_count"] == master_Y_count, (
         f"verified_count ({summary['verified_count']}) != master Y count ({master_Y_count})"
     )
-    assert summary["verified_count"] + summary["unverified_count"] == 1167, (
-        f"verified ({summary['verified_count']}) + unverified ({summary['unverified_count']}) != 1167"
+    assert summary["verified_count"] + summary["unverified_count"] == total, (
+        f"verified ({summary['verified_count']}) + unverified ({summary['unverified_count']}) != {total}"
     )
     assert statutory_basis_count == (
         grades.get("E1", 0) + grades.get("E1B", 0) + grades.get("E2", 0) + grades.get("E3", 0)

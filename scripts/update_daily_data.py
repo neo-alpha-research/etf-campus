@@ -67,11 +67,19 @@ def normalize_krx_snapshot(payload: dict) -> dict[str, dict]:
         rows = [rows]
     snapshot: dict[str, dict] = {}
     for row in rows:
-        ticker = str(row.get("ISU_SRT_CD") or row.get("ISU_CD") or "").strip()
+        isu_cd = str(row.get("ISU_CD") or "").strip()
+        isu_srt_cd = str(row.get("ISU_SRT_CD") or "").strip()
+        ticker = isu_srt_cd or isu_cd
         if not ticker:
             continue
+        isin_cd = (
+            isu_cd
+            if (len(isu_cd) == 12 and isu_cd.startswith("KR"))
+            else str(row.get("ISIN_CD") or row.get("isinCd") or "").strip()
+        )
         snapshot[ticker] = {
             "srtnCd": ticker,
+            "isinCd": isin_cd,
             "itmsNm": str(row.get("ISU_NM") or "").strip(),
             "clpr": compact_number(row.get("TDD_CLSPRC")),
             "fltRt": compact_number(row.get("FLUC_RT")),
@@ -766,7 +774,7 @@ def main() -> None:
             else:
                 print(f"Supplementary lookup failed for {ticker}. Added to pending queue.")
                 manage_pending_isin("add", ticker, name)
-                continue
+                existing["isin_cd"] = ""
         current_close = as_float(api.get("clpr"))
         old_return = dict(returns_by_ticker.get(ticker, {}))
         old_return.update({"ticker": ticker, "name": name, close_field: snapshot_value(api, "clpr", "")})

@@ -175,7 +175,7 @@ function TutorialContent() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
         <div className="size-10 border-4 border-brand-200 border-t-brand-600 rounded-full animate-spin" />
-        <p className="text-muted font-medium text-sm">신입생 팩트체크 불러오는 중...</p>
+        <p className="text-muted font-medium text-sm">팩트체크 불러오는 중...</p>
       </div>
     );
   }
@@ -232,7 +232,7 @@ function TutorialContent() {
             }`}
           >
             <span>🎓</span>
-            <span className="hidden sm:inline">신입생 팩트체크</span>
+            <span className="hidden sm:inline">팩트체크</span>
             <span className="sm:hidden">팩트체크</span>
             <span
               className={`ml-0.5 sm:ml-1 px-1.5 py-0.5 rounded-full text-[10px] font-extrabold shrink-0 ${
@@ -555,7 +555,7 @@ function TutorialContent() {
                 <div className="text-5xl sm:text-6xl animate-bounce">🏆</div>
                 <div className="space-y-2">
                   <h2 className="text-2xl sm:text-3xl font-black text-neutral-950 tracking-tight break-keep">
-                    축하합니다! 신입생 팩트체크 완주!
+                    축하합니다! 팩트체크 완주!
                   </h2>
                   <p className="text-neutral-700 font-medium text-sm sm:text-base break-keep leading-relaxed max-w-xl mx-auto">
                     설립자 Neo가 제작한 <strong className="text-brand-900 font-extrabold underline decoration-amber-400">[2026 직장인 3대 절세계좌 완벽 운용 치트시트 (A4 1장 PDF)]</strong>를 다운로드하여 실전에 활용하십시오.
@@ -660,7 +660,7 @@ export default function TutorialPage() {
     <Suspense
       fallback={
         <div className="p-16 text-center text-muted font-medium animate-pulse">
-          🏛️ ETF 캠퍼스 신입생 팩트체크 불러오는 중...
+          🏛️ ETF 캠퍼스 팩트체크 불러오는 중...
         </div>
       }
     >

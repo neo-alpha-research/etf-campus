@@ -244,7 +244,7 @@ export function CampusTour({ onStartQuiz }: CampusTourProps) {
 
             <h3 className="text-xl sm:text-2xl lg:text-[26px] font-black text-neutral-950 tracking-tight break-keep leading-snug">
               캠퍼스 시설을 모두 둘러보셨나요? <br className="hidden sm:inline" />
-              이제 <span className="text-brand-700 underline decoration-amber-400 decoration-wavy decoration-2 underline-offset-4">&lsquo;신입생 팩트체크 챌린지&rsquo;</span>에 도전해 보세요!
+              이제 <span className="text-brand-700 underline decoration-amber-400 decoration-wavy decoration-2 underline-offset-4">&lsquo;5대 절세 팩트체크 챌린지&rsquo;</span>에 도전해 보세요!
             </h3>
 
             <p className="text-xs sm:text-sm text-neutral-700 font-medium break-keep leading-relaxed">

@@ -204,21 +204,23 @@ def main() -> None:
         
     for item in unified_indices:
         raw_code = item.get("code") or item.get("label")
-        if raw_code not in ("KOSPI", "KOSDAQ"):
+        if not raw_code:
             continue
         # Map back to D1 ingest payload format
         indices.append({
             "code": raw_code,
-            "name": item.get("label"),
+            "name": item.get("label", raw_code),
             "asOfDate": item.get("as_of_date", as_of_date),
-            "close": item.get("value", 0),
+            "close": item.get("value", 0.0),
             "changePoints": item.get("changePoints", 0.0),
             "changePct": item.get("change", 0.0),
-            "volumeValue": item.get("volumeValue", 0),
+            "volumeValue": item.get("volumeValue", 0.0) if item.get("volumeValue") is not None else None,
         })
 
     # Still enforce date validation on KOSPI and KOSDAQ
     kospi_kosdaq = [idx for idx in indices if idx["code"] in ("KOSPI", "KOSDAQ")]
+    if len(kospi_kosdaq) < 2:
+        raise RuntimeError("Validated snapshot must contain both KOSPI and KOSDAQ.")
     if any(index["asOfDate"] != as_of_date for index in kospi_kosdaq):
         raise RuntimeError("KOSPI/KOSDAQ basis date is not aligned with the validated ETF master date.")
     

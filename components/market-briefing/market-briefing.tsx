@@ -537,36 +537,38 @@ export function MarketBriefing() {
     if (!briefing) return [];
 
     const mergedIndices = [...(briefing.marketIndices || [])];
-    const addGlobalIndex = (label: string, code: string) => {
-      const found = globalIndicesData.indices.find(
-        (i) => i.code === code || i.label === label || i.label === label.replace(" ", "")
-      );
-      if (!mergedIndices.some((m) => m.code === code)) {
-        mergedIndices.push({
-          code: code,
-          label: label,
-          close: found?.value,
-          change_pct: found?.change,
-          as_of_date: found?.as_of_date || briefing.asOfDate,
-          is_closed: (found as any)?.is_closed,
-        });
-      }
-    };
+    
+    // Legacy static fallback: Only used when briefing.marketIndices is missing/insufficient
+    // AND the user is viewing today's latest briefing (never inject static today values into past historical dates).
+    const isViewingPastDate = Boolean(selectedDate) || (briefing.asOfDate && briefing.asOfDate !== (globalIndicesData as any).as_of_date);
+    if (!isViewingPastDate && mergedIndices.length <= 2) {
+      const addGlobalIndex = (label: string, code: string) => {
+        const found = globalIndicesData.indices.find(
+          (i) => i.code === code || i.label === label || i.label === label.replace(" ", "")
+        );
+        if (!mergedIndices.some((m) => m.code === code)) {
+          mergedIndices.push({
+            code: code,
+            label: label,
+            close: found?.value,
+            change_pct: found?.change,
+            as_of_date: found?.as_of_date || briefing.asOfDate,
+            is_closed: (found as any)?.is_closed,
+          });
+        }
+      };
 
-
-    addGlobalIndex("코스피 변동성지수", "VKOSPI");
-    addGlobalIndex("S&P 500", "SPX");
-    addGlobalIndex("나스닥", "NDX");
-    addGlobalIndex("VIX", "VIX");
-    addGlobalIndex("원/달러", "USDKRW");
-    addGlobalIndex("국채 10년", "KR10Y");
-    addGlobalIndex("미 국채 10년물", "DGS10");
-    
-    
-    
-    addGlobalIndex("WTI 원유", "CLF");
-    addGlobalIndex("금 선물", "GC");
-    addGlobalIndex("은 선물", "SI");
+      addGlobalIndex("코스피 변동성지수", "VKOSPI");
+      addGlobalIndex("S&P 500", "SPX");
+      addGlobalIndex("나스닥", "NDX");
+      addGlobalIndex("VIX", "VIX");
+      addGlobalIndex("원/달러", "USDKRW");
+      addGlobalIndex("국채 10년", "KR10Y");
+      addGlobalIndex("미 국채 10년물", "DGS10");
+      addGlobalIndex("WTI 원유", "CLF");
+      addGlobalIndex("금 선물", "GC");
+      addGlobalIndex("은 선물", "SI");
+    }
 
     const order = [
       "KOSPI", "KOSDAQ", "VKOSPI",
@@ -583,7 +585,7 @@ export function MarketBriefing() {
       if (idxB === -1) return -1;
       return idxA - idxB;
     });
-  }, [briefing]);
+  }, [briefing, selectedDate]);
 
 
 

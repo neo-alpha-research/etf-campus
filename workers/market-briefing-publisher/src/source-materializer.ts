@@ -135,7 +135,7 @@ export async function materializeMarketSnapshot(db: D1Database, event: MarketSna
     const generalCount = etfs.filter((row) => row.is_general_etf === 1).length;
     const coverage = generalCount ? (etfs.filter((row) => row.is_general_etf === 1 && row.aum_value !== null && row.aum_value > 0).length / generalCount) * 100 : 0;
     if (etfs.length !== manifest.etf_row_count || generalCount !== manifest.general_etf_count || Math.abs(coverage - manifest.aum_coverage_pct) > 0.000001) throw new Error("source_manifest_metrics_mismatch");
-    if (indices.length !== 2 || !indices.some((row) => row.index_code === "KOSPI") || !indices.some((row) => row.index_code === "KOSDAQ")) throw new Error("source_indices_incomplete");
+    if (indices.length < 2 || !indices.some((row) => row.index_code === "KOSPI") || !indices.some((row) => row.index_code === "KOSDAQ")) throw new Error("source_indices_incomplete");
 
     const runId = crypto.randomUUID();
     const start = nowIso();

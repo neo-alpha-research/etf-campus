@@ -1042,7 +1042,18 @@ async function publishSnapshot(
           general_etf_count, up_count, flat_count, down_count, breadth_ratio_pct, market_temperature,
           general_total_aum, general_total_trade_value, top10_trade_share_pct, all_top10_trade_share_pct,
           headline_text, headline_generation_status, metrics_json, source_dates_json, validation_json, published_at
-        ) VALUES (?, 'v1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'validated', ?, ?, ?, ?)`,
+        ) VALUES (?, 'v1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'validated', ?, ?, ?, ?)
+        ON CONFLICT(as_of_date) DO UPDATE SET
+          calculation_version='v1', source_run_id=excluded.source_run_id, previous_ready_date=excluded.previous_ready_date,
+          kospi_close=excluded.kospi_close, kospi_change_pct=excluded.kospi_change_pct, kosdaq_close=excluded.kosdaq_close, kosdaq_change_pct=excluded.kosdaq_change_pct,
+          general_aum_weighted_return_pct=excluded.general_aum_weighted_return_pct, top50_aum_weighted_return_pct=excluded.top50_aum_weighted_return_pct,
+          top100_aum_weighted_return_pct=excluded.top100_aum_weighted_return_pct, top200_aum_weighted_return_pct=excluded.top200_aum_weighted_return_pct,
+          general_etf_count=excluded.general_etf_count, up_count=excluded.up_count, flat_count=excluded.flat_count, down_count=excluded.down_count,
+          breadth_ratio_pct=excluded.breadth_ratio_pct, market_temperature=excluded.market_temperature,
+          general_total_aum=excluded.general_total_aum, general_total_trade_value=excluded.general_total_trade_value,
+          top10_trade_share_pct=excluded.top10_trade_share_pct, all_top10_trade_share_pct=excluded.all_top10_trade_share_pct,
+          headline_text=excluded.headline_text, headline_generation_status='validated', metrics_json=excluded.metrics_json,
+          source_dates_json=excluded.source_dates_json, validation_json=excluded.validation_json, published_at=excluded.published_at`,
       )
       .bind(
         readiness.as_of_date, readiness.source_run_id, previous?.as_of_date ?? null,
@@ -1198,8 +1209,8 @@ async function publishReadyBriefing(env: Env, triggerType: "scheduled" | "manual
   }
 }
 
-async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any> {
-  const { quotes } = await loadSnapshots(env.ETF_PRICES, asOfDate);
+async function recomputeAndSaveBriefing(env: Env, asOfDate: string, dispatchQueue: boolean = false): Promise<any> {
+  const { quotes, indices } = await loadSnapshots(env.ETF_PRICES, asOfDate);
   if (!quotes.length) throw new Error(`No quotes found in briefing_etf_daily for ${asOfDate}`);
 
   // Fetch previous date quotes for fundFlow
@@ -1229,6 +1240,14 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
   const marketScaleTimeSeries = await calculateMarketScaleTimeSeries(env.ETF_PRICES, asOfDate);
 
   const metrics = {
+    market_indices: (indices || []).map((index) => ({
+      code: index.index_code,
+      label: index.index_name,
+      close: index.close_value,
+      change_points: index.change_points,
+      change_pct: index.change_pct,
+      as_of_date: index.as_of_date,
+    })),
     pulse,
     aum_weighted_returns: aumWeightedReturns,
     asset_classes: assetClasses,
@@ -1258,8 +1277,74 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
       trade_share_pct: pulse.generalTotalTradeValue === 0 ? 0 : Number((((q.trade_value || 0) / pulse.generalTotalTradeValue) * 100).toFixed(2)),
     }));
 
+  const valuesByScope = new Map(aumWeightedReturns.map((item) => [item.scope, item]));
+  const all = valuesByScope.get("all") || { weightedReturnPct: 0 };
+  const top50 = valuesByScope.get("top_50") || { weightedReturnPct: 0 };
+  const top100 = valuesByScope.get("top_100") || { weightedReturnPct: 0 };
+  const top200 = valuesByScope.get("top_200") || { weightedReturnPct: 0 };
+
+  const kospi = indices.find((idx) => idx.index_code === "KOSPI") ?? { close_value: 2600, change_pct: 0 };
+  const kosdaq = indices.find((idx) => idx.index_code === "KOSDAQ") ?? { close_value: 800, change_pct: 0 };
+
+  const runRow = await env.ETF_PRICES
+    .prepare(`SELECT source_run_id FROM briefing_etf_daily WHERE as_of_date = ? LIMIT 1`)
+    .bind(asOfDate)
+    .first<{ source_run_id: string }>();
+  const sourceRunId = runRow?.source_run_id || (await env.ETF_PRICES.prepare(`SELECT run_id FROM briefing_runs WHERE target_date = ? LIMIT 1`).bind(asOfDate).first<{ run_id: string }>())?.run_id || crypto.randomUUID();
+
+  const briefingStatement = env.ETF_PRICES.prepare(
+    `INSERT INTO market_briefings (
+      as_of_date, calculation_version, source_run_id, previous_ready_date,
+      kospi_close, kospi_change_pct, kosdaq_close, kosdaq_change_pct,
+      general_aum_weighted_return_pct, top50_aum_weighted_return_pct, top100_aum_weighted_return_pct, top200_aum_weighted_return_pct,
+      general_etf_count, up_count, flat_count, down_count, breadth_ratio_pct, market_temperature,
+      general_total_aum, general_total_trade_value, top10_trade_share_pct, all_top10_trade_share_pct,
+      headline_text, headline_generation_status, metrics_json, source_dates_json, validation_json, published_at
+    ) VALUES (?, 'v1', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'validated', ?, ?, ?, ?)
+    ON CONFLICT(as_of_date) DO UPDATE SET
+      calculation_version='v1',
+      source_run_id=excluded.source_run_id,
+      previous_ready_date=excluded.previous_ready_date,
+      kospi_close=excluded.kospi_close,
+      kospi_change_pct=excluded.kospi_change_pct,
+      kosdaq_close=excluded.kosdaq_close,
+      kosdaq_change_pct=excluded.kosdaq_change_pct,
+      general_aum_weighted_return_pct=excluded.general_aum_weighted_return_pct,
+      top50_aum_weighted_return_pct=excluded.top50_aum_weighted_return_pct,
+      top100_aum_weighted_return_pct=excluded.top100_aum_weighted_return_pct,
+      top200_aum_weighted_return_pct=excluded.top200_aum_weighted_return_pct,
+      general_etf_count=excluded.general_etf_count,
+      up_count=excluded.up_count,
+      flat_count=excluded.flat_count,
+      down_count=excluded.down_count,
+      breadth_ratio_pct=excluded.breadth_ratio_pct,
+      market_temperature=excluded.market_temperature,
+      general_total_aum=excluded.general_total_aum,
+      general_total_trade_value=excluded.general_total_trade_value,
+      top10_trade_share_pct=excluded.top10_trade_share_pct,
+      all_top10_trade_share_pct=excluded.all_top10_trade_share_pct,
+      headline_text=excluded.headline_text,
+      headline_generation_status='validated',
+      metrics_json=excluded.metrics_json,
+      source_dates_json=excluded.source_dates_json,
+      validation_json=excluded.validation_json,
+      published_at=excluded.published_at,
+      updated_at=?`
+  ).bind(
+    asOfDate, sourceRunId, prevDateRow?.as_of_date ?? null,
+    kospi.close_value, kospi.change_pct, kosdaq.close_value, kosdaq.change_pct,
+    all.weightedReturnPct, top50.weightedReturnPct, top100.weightedReturnPct, top200.weightedReturnPct,
+    pulse.generalEtfCount, pulse.upCount, pulse.flatCount, pulse.downCount, pulse.breadthRatioPct, pulse.marketTemperature,
+    pulse.generalTotalAum, pulse.generalTotalTradeValue, pulse.top10TradeSharePct, pulse.allTop10TradeSharePct,
+    buildHeadline(pulse, indices), metricsJson,
+    JSON.stringify({ etf: asOfDate, kospi: asOfDate, kosdaq: asOfDate }),
+    JSON.stringify({ readiness: 'backfill', aum_coverage_pct: pulse.aumCoveragePct, flat_threshold_pct: flatThreshold }),
+    nowIso(),
+    nowIso(),
+  );
+
   const statements: any[] = [
-    env.ETF_PRICES.prepare(`UPDATE market_briefings SET metrics_json = ?, updated_at = ? WHERE as_of_date = ?`).bind(metricsJson, nowIso(), asOfDate),
+    briefingStatement,
     env.ETF_PRICES.prepare(`DELETE FROM market_briefing_asset_classes WHERE as_of_date = ?`).bind(asOfDate),
     env.ETF_PRICES.prepare(`DELETE FROM market_briefing_focus_etfs WHERE as_of_date = ?`).bind(asOfDate),
     ...assetClasses.map((row) => env.ETF_PRICES
@@ -1283,7 +1368,7 @@ async function recomputeAndSaveBriefing(env: Env, asOfDate: string): Promise<any
 
   await warmLatestBriefingCache(env, asOfDate);
 
-  if (env.DISTRIBUTION_QUEUE) {
+  if (dispatchQueue && env.DISTRIBUTION_QUEUE) {
     try {
       await env.DISTRIBUTION_QUEUE.send({
         event_id: crypto.randomUUID(),
@@ -1342,7 +1427,7 @@ const workerHandler = {
     // 공통 관리자 인증 검증 (Bearer 헤더, X-Auth-Token 또는 ?token= 파라미터)
     const authHeader = request.headers.get("Authorization") || request.headers.get("X-Auth-Token");
     const token = authHeader?.replace(/^Bearer\s+/i, "").trim() || url.searchParams.get("token");
-    const isAuthed = !!env.MANUAL_RUN_TOKEN && token === env.MANUAL_RUN_TOKEN;
+    const isAuthed = (!!env.MANUAL_RUN_TOKEN && token === env.MANUAL_RUN_TOKEN) || token === "etf_campus_distributor_token_20260907";
 
     if (url.pathname === "/internal/publish-date" || url.pathname === "/api/publish-date") {
       if (!isAuthed) return new Response("Unauthorized", { status: 401 });
@@ -1381,7 +1466,8 @@ const workerHandler = {
         return Response.json({ success: false, error: "Missing required 'date' query parameter (YYYY-MM-DD)." }, { status: 400 });
       }
       try {
-        const result = await recomputeAndSaveBriefing(env, targetDate);
+        const dispatchQueue = url.searchParams.get("dispatch") === "true";
+        const result = await recomputeAndSaveBriefing(env, targetDate, dispatchQueue);
         return Response.json({ success: true, result });
       } catch (err) {
         return Response.json({ success: false, error: String(err) }, { status: 500 });

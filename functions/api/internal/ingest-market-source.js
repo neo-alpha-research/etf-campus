@@ -4,7 +4,12 @@ const MAX_SIGNATURE_AGE_SECONDS = 300;
 const textEncoder = new TextEncoder();
 
 const RISK_TYPES = new Set(["normal", "leverage", "leveraged", "inverse", "parking", "unknown"]);
-const INDEX_CODES = new Set(["KOSPI", "KOSDAQ", "^KS11", "^KQ11", "^GSPC", "^IXIC", "^N225", "KRW=X", "CL=F", "GC=F", "SI=F", "DGS10", "VIXCLS", "^TNX", "^VIX", "T10Y2Y"]);
+const INDEX_CODES = new Set([
+  "KOSPI", "KOSDAQ", "VKOSPI", "KR10Y",
+  "^KS11", "^KQ11", "^GSPC", "SPX", "^IXIC", "NDX", "^N225",
+  "KRW=X", "USDKRW", "CL=F", "CLF", "GC=F", "GC", "SI=F", "SI",
+  "DGS10", "VIXCLS", "^TNX", "^VIX", "VIX", "T10Y2Y"
+]);
 
 export async function onRequest(context) {
   const { request, env } = context;

@@ -28,7 +28,7 @@ function TutorialContent() {
   const [activeTab, setActiveTab] = useState<"tour" | "quiz" | "letter">(() => {
     const tab = searchParams.get("tab");
     if (tab === "quiz" || tab === "letter" || tab === "tour") return tab;
-    return "tour";
+    return "quiz";
   });
 
   const [maxUnlockedStep, setMaxUnlockedStep] = useState<number>(() => {

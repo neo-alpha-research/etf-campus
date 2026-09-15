@@ -4,13 +4,12 @@ import type { MarketRegime } from "./market-regime";
 // Gemini API 토큰 풀 (환경변수/Secret 주입 방식)
 export const MASTER_GEMINI_TOKENS: string[] = [];
 
-// 최신 3.8 Flash부터 하향식으로 강하하는 5계층 모델 워터폴
+// 최신 3.8 Flash부터 하향식으로 강하하는 4계층 모델 워터폴
 export const MODEL_WATERFALL = [
   "gemini-3.8-flash",
   "gemini-3.7-flash",
   "gemini-3.6-flash",
   "gemini-flash-latest",
-  "gemini-2.5-flash",
 ];
 
 export interface PolishedNarrative extends MarketRegime {
@@ -316,7 +315,13 @@ export async function reviewAndRefineWithGemini(
         }
 
         // HTTP 에러 처리
-        if (response.status === 429 || response.status === 403 || response.status === 402) {
+        if (response.status === 401 || response.status === 403) {
+          TOKEN_COOLDOWNS[token] = Date.now() + 3600000; // 1시간 쿨다운 (만료/거부 키 격리)
+          tokenExhausted = true;
+          failoverHistory.push(`Token #${realIdx} Auth Denied (${response.status})`);
+          console.warn(`[AI Failover] Token #${realIdx} invalid/denied (${response.status})! Skipping token immediately.`);
+          break; // 즉시 다음 토큰으로 점프
+        } else if (response.status === 429 || response.status === 402) {
           TOKEN_COOLDOWNS[token] = Date.now() + 60000; // 60초 쿨다운
           tokenExhausted = true;
           failoverHistory.push(`Token #${realIdx} Quota Exhausted (${response.status})`);

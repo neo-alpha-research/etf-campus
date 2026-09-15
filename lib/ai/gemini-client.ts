@@ -6,13 +6,12 @@
 // Gemini API 토큰 풀 (환경변수/Secret 주입 방식)
 export const MASTER_GEMINI_TOKENS: string[] = [];
 
-// 최신 3.8 Flash부터 하향식으로 강하하는 5계층 모델 워터폴
+// 최신 3.8 Flash부터 하향식으로 강하하는 4계층 모델 워터폴
 export const MODEL_WATERFALL = [
   "gemini-3.8-flash",
   "gemini-3.7-flash",
   "gemini-3.6-flash",
   "gemini-flash-latest",
-  "gemini-2.5-flash",
 ];
 
 export interface GeminiWaterfallOptions {
@@ -170,8 +169,14 @@ export async function callGeminiWithWaterfall<T = any>(
         }
 
         // Quota / Auth 에러 처리 -> 즉시 다음 토큰(최상위 3.8 모델)으로 이동
-        if (response.status === 429 || response.status === 403 || response.status === 402) {
-          TOKEN_COOLDOWNS[token] = Date.now() + 60000;
+        if (response.status === 401 || response.status === 403) {
+          TOKEN_COOLDOWNS[token] = Date.now() + 3600000; // 1시간 쿨다운 (만료/거부 키 격리)
+          tokenExhausted = true;
+          failoverHistory.push(`Token #${realIdx} Auth Denied (${response.status})`);
+          console.warn(`[Gemini Failover] Token #${realIdx} invalid/denied (${response.status}) -> 다음 토큰으로 즉시 격리 전환`);
+          break;
+        } else if (response.status === 429 || response.status === 402) {
+          TOKEN_COOLDOWNS[token] = Date.now() + 60000; // 60초 쿨다운
           tokenExhausted = true;
           failoverHistory.push(`Token #${realIdx} Quota Exhausted (${response.status})`);
           console.warn(`[Gemini Failover] Token #${realIdx} quota exhausted (${response.status}) -> 다음 토큰으로 전환`);

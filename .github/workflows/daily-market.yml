@@ -289,18 +289,16 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: python scripts/validate_briefing_gate.py
 
-      - name: Trigger parallel OSMU generation and site deployment
+      - name: Trigger fast OSMU generation
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true') && (steps.quality_gate.outcome == 'success')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           bas_dt=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
           formatted_bas_dt="${bas_dt:0:4}-${bas_dt:4:2}-${bas_dt:6:2}"
-          echo "1. Triggering fast OSMU generation workflow in parallel for target date: ${formatted_bas_dt}..."
+          echo "Triggering fast OSMU generation workflow for target date: ${formatted_bas_dt}..."
           gh workflow run generate-osmu.yml --ref "${{ github.ref_name }}" -f target_date="${formatted_bas_dt}"
-          echo "2. Triggering full site deployment workflow in parallel..."
-          gh workflow run market-briefing-production.yml --ref "${{ github.ref_name }}"
-          echo "Triggered parallel workflows for branch ${{ github.ref_name }}."
+          echo "Triggered OSMU workflow for branch ${{ github.ref_name }}."
 
       - name: Write refresh summary
         if: always() && steps.guard.outputs.skip != 'true'

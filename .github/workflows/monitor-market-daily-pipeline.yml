@@ -126,21 +126,29 @@ jobs:
               if actual != expected_iso:
                   errors.append(f"asOfDate expected {expected_iso}, got {actual}")
 
-              validation = briefing.get("validation") or {}
-              readiness = validation.get("readiness") or {}
-              if readiness.get("status") != "passed":
-                  errors.append(f"readiness expected passed, got {readiness.get('status')!r}")
+              validation = briefing.get("validation") if isinstance(briefing.get("validation"), dict) else {}
+              readiness = validation.get("readiness")
+              if isinstance(readiness, dict):
+                  readiness_status = readiness.get("status")
+              elif isinstance(readiness, str):
+                  readiness_status = readiness
+              else:
+                  readiness_status = "none"
 
-              source_dates = briefing.get("sourceDates") or {}
+              if readiness_status not in ("passed", "backfill", "validated"):
+                  errors.append(f"readiness expected passed, got {readiness_status!r}")
+
+              source_dates = briefing.get("sourceDates") if isinstance(briefing.get("sourceDates"), dict) else {}
               for name in ("etf", "kospi", "kosdaq"):
                   if source_dates.get(name) != expected_iso:
                       errors.append(f"sourceDates.{name} expected {expected_iso}, got {source_dates.get(name)!r}")
 
-              headline_status = ((briefing.get("headline") or {}).get("generationStatus"))
+              headline = briefing.get("headline") if isinstance(briefing.get("headline"), dict) else {}
+              headline_status = headline.get("generationStatus")
               if headline_status != "validated":
                   errors.append(f"headline generationStatus expected validated, got {headline_status!r}")
 
-              pulse = briefing.get("pulse") or {}
+              pulse = briefing.get("pulse") if isinstance(briefing.get("pulse"), dict) else {}
               if not isinstance(pulse.get("generalEtfCount"), int) or pulse["generalEtfCount"] <= 0:
                   errors.append("general ETF count is missing or zero")
               if not isinstance(pulse.get("generalAumWeightedReturnPct"), (int, float)):

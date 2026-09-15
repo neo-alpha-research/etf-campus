@@ -286,7 +286,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
         run: python scripts/validate_briefing_gate.py
 
       - name: Trigger fast OSMU generation

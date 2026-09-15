@@ -267,7 +267,8 @@ def main() -> None:
     print(json.dumps({"status": "ready", "as_of_date": as_of_date, "source_version": source_version, "accepted": accepted, "event_id": final.get("eventId")}, ensure_ascii=False))
 
     # Trigger publisher worker to materialize snapshot and compute/publish briefing immediately
-    publisher_url = f"https://market-briefing-publisher.neo-alpha-research.workers.dev/internal/publish-date?date={as_of_date}"
+    auth_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf_campus_distributor_token_20260907"
+    publisher_url = f"https://market-briefing-publisher.neo-alpha-research.workers.dev/internal/publish-date?date={as_of_date}&token={auth_token}"
     try:
         req = urllib.request.Request(publisher_url, headers={"User-Agent": "ETF-Campus-Publisher-Trigger/1.0"})
         with urllib.request.urlopen(req, timeout=30) as resp:

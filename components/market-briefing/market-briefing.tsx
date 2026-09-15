@@ -538,12 +538,11 @@ export function MarketBriefing() {
 
     const mergedIndices = [...(briefing.marketIndices || [])];
     
-    // Legacy static fallback: Only used when briefing.marketIndices is missing/insufficient
-    // AND the user is viewing today's latest briefing (never inject static today values into past historical dates).
-    const isViewingPastDate = Boolean(selectedDate) || (briefing.asOfDate && briefing.asOfDate !== (globalIndicesData as any).as_of_date);
+    const typedGlobalData = globalIndicesData as unknown as { as_of_date?: string; indices: Array<{ code: string; label: string; value?: number; change?: number; as_of_date?: string; is_closed?: boolean }> };
+    const isViewingPastDate = Boolean(selectedDate) || (briefing.asOfDate && briefing.asOfDate !== typedGlobalData.as_of_date);
     if (!isViewingPastDate && mergedIndices.length <= 2) {
       const addGlobalIndex = (label: string, code: string) => {
-        const found = globalIndicesData.indices.find(
+        const found = typedGlobalData.indices.find(
           (i) => i.code === code || i.label === label || i.label === label.replace(" ", "")
         );
         if (!mergedIndices.some((m) => m.code === code)) {
@@ -553,7 +552,7 @@ export function MarketBriefing() {
             close: found?.value,
             change_pct: found?.change,
             as_of_date: found?.as_of_date || briefing.asOfDate,
-            is_closed: (found as any)?.is_closed,
+            is_closed: found?.is_closed,
           });
         }
       };

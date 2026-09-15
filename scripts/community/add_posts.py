@@ -262,6 +262,21 @@ def run(date_str: str, dry_run: bool = False, validate: bool = False) -> int:
         print("[ERROR] 선택된 주제 없음. topic_bank.json 확인 필요.")
         return 1
 
+    # ── 중복 게시 방지: 해당 날짜 게시글이 이미 있으면 스킵 ──
+    data = load_posts()
+    already_posted_boards = {
+        p["category"]["slug"]
+        for p in data["posts"]
+        if p["createdAt"].startswith(date_str)
+    }
+    topics = [t for t in topics if t["board"] not in already_posted_boards]
+
+    if already_posted_boards:
+        print(f"[WARN] {date_str} 이미 게시된 게시판: {', '.join(sorted(already_posted_boards))}")
+    if not topics:
+        print(f"[INFO] {date_str}의 모든 게시판에 이미 게시글이 있습니다. 중복 생성 건너뜁니다.")
+        return 0
+
     new_posts: list[dict] = []
     for topic in topics:
         post = generate_post(topic, date_str)

@@ -1498,8 +1498,7 @@
         "KRX금현물",
         "장기보유"
       ],
-      "published": true,
-      "published_date": "2026-09-15"
+      "published": false
     },
     {
       "id": "sca-043",
@@ -1869,8 +1868,7 @@
         "연금저축",
         "집중투자"
       ],
-      "published": true,
-      "published_date": "2026-09-15"
+      "published": false
     },
     {
       "id": "sp-038",
@@ -2620,8 +2618,7 @@
         "중개형ISA",
         "투자가능상품"
       ],
-      "published": true,
-      "published_date": "2026-09-15"
+      "published": false
     },
     {
       "id": "qna-059",

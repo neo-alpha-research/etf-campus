@@ -133,27 +133,99 @@ def generate_post(topic: dict, date_str: str) -> dict:
 
     ticker_section = ""
     if verified_tickers:
-        ticker_section = "\n\n## 주요 분석 종목\n" + "\n".join(
-            f"- 종목코드: {t}" for t in verified_tickers
+        ticker_section = "\n\n**분석 종목:** " + " · ".join(
+            f"`{t}`" for t in verified_tickers
         )
 
-    body = (
-        f"## 주제 소개\n{excerpt}"
-        f"{ticker_section}\n\n"
-        f"## 핵심 분석\n"
-        f"{excerpt.replace('합니다.', '에 대해 ETF 캠퍼스 관점에서 분석합니다.')}\n\n"
-        f"## 결론\n"
-        f"관련 태그: {', '.join(tags)}\n\n"
-        f"> 이 글은 ETF 캠퍼스 커뮤니티 학습 자료입니다. "
-        f"투자 판단의 최종 책임은 투자자 본인에게 있습니다."
+    disclaimer = (
+        "\n\n---\n"
+        "> ⚠️ 본 자료는 투자 판단을 돕기 위한 정보 제공용이며, "
+        "특정 종목의 매수·매도를 권유하지 않습니다."
     )
 
+    if board == "free-qna":
+        # Q&A 형식: 질문 → 핵심 답변 → 상세 설명 → 관련 팁
+        body = (
+            f"## 질문\n"
+            f"{excerpt.split('.')[0]}에 대해 궁금한 점이 있어서 질문드립니다."
+            f"{ticker_section}\n\n"
+            f"## 핵심 답변\n"
+            f"{excerpt}\n\n"
+            f"## 상세 설명\n"
+            f"ETF 캠퍼스에서는 이 주제를 다음과 같이 이해하고 있습니다:\n\n"
+            f"1. **기본 개념**: {excerpt.split('。')[0].split('.')[0]}.\n"
+            f"2. **계좌별 차이**: 일반 계좌, ISA, 연금저축, IRP에 따라 적용 방식이 다릅니다.\n"
+            f"3. **실전 주의사항**: 투자 전 증권사 공시 자료 및 최신 세법을 반드시 확인하세요.\n\n"
+            f"## 관련 태그\n"
+            f"{' '.join(f'`#{tag}`' for tag in tags)}"
+            f"{disclaimer}"
+        )
+    elif board == "strategy-portfolio":
+        # 전략 형식: 상황 설명 → 전략 제안 → 실행 방법 → 주의사항
+        body = (
+            f"## 상황 설명\n"
+            f"{excerpt}"
+            f"{ticker_section}\n\n"
+            f"## 전략 제안\n"
+            f"ETF 캠퍼스 관점에서 이 전략을 분석합니다:\n\n"
+            f"**핵심 원칙**\n"
+            f"- 장기 투자와 절세 계좌(IRP·연금저축·ISA) 활용을 우선합니다.\n"
+            f"- 리밸런싱 주기는 연 1회 또는 ±5% 임계값 방식을 권장합니다.\n"
+            f"- 비용(총보수+기타비용)이 낮은 ETF를 핵심으로 구성합니다.\n\n"
+            f"**실행 단계**\n"
+            f"1. 목표 자산배분 비율 설정\n"
+            f"2. 계좌별(절세/일반) 최적 ETF 배치\n"
+            f"3. 정기 적립 자동화 설정\n"
+            f"4. 연 1회 비중 점검 및 리밸런싱\n\n"
+            f"## 관련 태그\n"
+            f"{' '.join(f'`#{tag}`' for tag in tags)}"
+            f"{disclaimer}"
+        )
+    else:
+        # stock-cost-analysis: 비용·데이터 분석 형식
+        body = (
+            f"## 분석 개요\n"
+            f"{excerpt}"
+            f"{ticker_section}\n\n"
+            f"## 핵심 비교 포인트\n\n"
+            f"| 항목 | 확인 기준 | 비고 |\n"
+            f"|------|-----------|------|\n"
+            f"| 총보수(TER) | 운용사 공시 기준 | 낮을수록 유리 |\n"
+            f"| 실부담비용 | 총보수+기타비용+매매중개수수료 | 실제 비용 기준 |\n"
+            f"| 추적오차(TE) | 벤치마크 대비 수익률 차이 | 낮을수록 우수 |\n"
+            f"| AUM | 순자산 총액 | 클수록 유동성 유리 |\n\n"
+            f"## ETF 캠퍼스 분석\n"
+            f"{excerpt} "
+            f"투자 전 운용사 공시 자료(금융투자협회 전자공시시스템)를 통해 최신 데이터를 반드시 확인하시기 바랍니다.\n\n"
+            f"## 관련 태그\n"
+            f"{' '.join(f'`#{tag}`' for tag in tags)}"
+            f"{disclaimer}"
+        )
+
+    # 게시판·주제에 맞는 댓글 생성
+    comment_templates = {
+        "free-qna": [
+            f"저도 같은 궁금증이 있었는데 잘 정리된 것 같아요. 감사합니다!",
+            f"추가로 {tags[0] if tags else '관련'} 부분도 궁금한데 혹시 아시나요?",
+            f"좋은 정보 감사합니다. 저도 비슷한 고민을 하고 있었어요.",
+        ],
+        "strategy-portfolio": [
+            f"실용적인 전략이네요. 저도 비슷하게 운용 중인데 참고가 됩니다.",
+            f"{tags[0] if tags else '이 전략'} 관련해서 좋은 글이에요. 리밸런싱 주기도 공유해 주시면 좋겠어요.",
+            f"포트폴리오 구성 방법이 구체적이어서 도움이 많이 됐습니다.",
+        ],
+        "stock-cost-analysis": [
+            f"비용 비교 잘 정리해 주셨어요. 실부담비용 기준으로 봐야 한다는 점 공감합니다.",
+            f"추적오차까지 고려해야 한다는 걸 몰랐는데 배웠습니다.",
+            f"{tags[0] if tags else 'ETF'} 분석 감사합니다. 연금 계좌에서도 적용 가능한 내용이네요.",
+        ],
+    }
+    templates = comment_templates.get(board, comment_templates["free-qna"])
     comment_authors = [a for a in COMMENT_AUTHORS if a != author][:3]
     comments = [
         make_comment(
             comment_authors[i % len(comment_authors)],
-            f"{excerpt.split('.')[0]}에 대한 의견을 공유합니다."
-            + (" 감사합니다!" if i < 2 else ""),
+            templates[i % len(templates)],
             pub_iso,
             20 * (i + 1),
         )

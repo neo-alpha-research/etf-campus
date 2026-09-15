@@ -60,6 +60,33 @@ function optionalText(row: CsvRow, field: string): string | null {
   return value || null;
 }
 
+function deriveIso6166Isin(ticker: string): string {
+  const cleanTk = ticker.trim().toUpperCase();
+  if (cleanTk.length !== 6) return `KR7${cleanTk}000`;
+  const isin11 = `KR7${cleanTk}00`;
+  let converted = "";
+  for (const c of isin11) {
+    if (c >= "0" && c <= "9") {
+      converted += c;
+    } else {
+      converted += String(c.charCodeAt(0) - 55);
+    }
+  }
+  const digits = converted.split("").map(Number);
+  let total = 0;
+  for (let i = 0; i < digits.length; i++) {
+    const d = digits[digits.length - 1 - i];
+    if (i % 2 === 0) {
+      const doubled = d * 2;
+      total += Math.floor(doubled / 10) + (doubled % 10);
+    } else {
+      total += d;
+    }
+  }
+  const check = (10 - (total % 10)) % 10;
+  return isin11 + check;
+}
+
 function loadClassificationIndex(dataDirectory: string): Map<string, CsvRow> {
   const classificationPath = path.join(dataDirectory, "classification", "etf_classification_review_draft.csv");
   if (!fs.existsSync(classificationPath)) return new Map();
@@ -204,7 +231,7 @@ export function loadEtfs(dataDirectory = DATA_DIRECTORY): Etf[] {
     const changePct = parseNumberField(master, "change_pct", `master:${ticker}`);
 
     const name = requireField(master, "name", `master:${ticker}`);
-    const isin = requireField(master, "isin_cd", `master:${ticker}`);
+    const isin = master.isin_cd?.trim() || deriveIso6166Isin(ticker);
     const issuer = resolveIssuer(ticker, isin, name);
 
     return {

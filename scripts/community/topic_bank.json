@@ -1589,7 +1589,8 @@
         "분기배당",
         "복리시뮬레이션"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-16"
     },
     {
       "id": "sca-049",
@@ -2028,7 +2029,8 @@
         "절세",
         "1500만원한도"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-16"
     },
     {
       "id": "sp-048",
@@ -2329,7 +2331,8 @@
         "환급금",
         "연말정산"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-16"
     },
     {
       "id": "qna-038",

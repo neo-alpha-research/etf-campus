@@ -1274,7 +1274,8 @@
         "매도후현금",
         "유동성"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-17"
     },
     {
       "id": "qna-028",
@@ -1360,7 +1361,8 @@
         "SCHD",
         "월배당"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-17"
     },
     {
       "id": "sca-034",
@@ -1837,7 +1839,8 @@
         "자동매수",
         "기여금"
       ],
-      "published": false
+      "published": true,
+      "published_date": "2026-09-17"
     },
     {
       "id": "sp-036",

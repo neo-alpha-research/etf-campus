@@ -81,27 +81,27 @@
       "code": "^VIX"
     },
     {
-      "value": 105.36,
-      "change": 3.92,
-      "changePoints": 3.97,
+      "value": 105.4,
+      "change": 3.96,
+      "changePoints": 4.01,
       "as_of_date": "2026-09-15",
       "is_closed": false,
       "label": "WTI 원유",
       "code": "CL=F"
     },
     {
-      "value": 4324.5,
-      "change": -0.63,
-      "changePoints": -27.4,
+      "value": 4322.0,
+      "change": -0.69,
+      "changePoints": -29.9,
       "as_of_date": "2026-09-15",
       "is_closed": false,
       "label": "금 선물",
       "code": "GC=F"
     },
     {
-      "value": 64.19,
-      "change": 1.07,
-      "changePoints": 0.68,
+      "value": 64.17,
+      "change": 1.03,
+      "changePoints": 0.66,
       "as_of_date": "2026-09-15",
       "is_closed": false,
       "label": "은 선물",

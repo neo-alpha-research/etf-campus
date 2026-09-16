@@ -6162,6 +6162,26 @@
     "source_note": "에프앤가이드(FnGuide) 정제 한국거래소 신규상장 약관 총보수 0.45% 연동"
   },
   {
+    "ticker": "0238F0",
+    "isin": "KR70238F0001",
+    "name": "KODEX 미국AI메모리TOP2플러스",
+    "issuer": "삼성자산운용",
+    "fund_standard_code": "",
+    "legal_fund_name": "",
+    "total_fee_pct": 0.55,
+    "ter_pct": null,
+    "other_cost_pct": null,
+    "trading_cost_pct": null,
+    "effective_date": null,
+    "verified_at": "2026-09-16",
+    "verification_status": "official_single_source",
+    "primary_source_type": "naver_fnguide_official",
+    "primary_source_url": "https://m.stock.naver.com/item/main/0238F0",
+    "dart_receipt_no": null,
+    "secondary_source_url": null,
+    "source_note": "에프앤가이드(FnGuide) 정제 한국거래소 신규상장 약관 총보수 0.55% 연동"
+  },
+  {
     "ticker": "0238P0",
     "isin": "KR70238P0009",
     "name": "TIGER 미국S&P500미국채혼합50",

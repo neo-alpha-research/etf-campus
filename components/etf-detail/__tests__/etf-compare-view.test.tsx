@@ -337,11 +337,11 @@ describe("EtfCompareView selectionReasons", () => {
     // Check placeholder header button
     expect(screen.getByText("비교할 ETF 추가하기")).toBeInTheDocument();
     
-    // Check colgroup percentages (header + 2 cols of 50%)
+    // Check colgroup percentages (2 header cols [구분, 비교항목] + 2 cols of 50%)
     const cols = container.querySelectorAll("colgroup col");
-    expect(cols.length).toBe(3); // 1 header col + 1 etf col + 1 placeholder col
-    expect(cols[1].getAttribute("style")).toContain("50%");
+    expect(cols.length).toBe(4); // 2 header cols + 1 etf col + 1 placeholder col
     expect(cols[2].getAttribute("style")).toContain("50%");
+    expect(cols[3].getAttribute("style")).toContain("50%");
   });
 
   it("peer-readonly 모드에서는 단일 종목이어도 비교 유도 플레이스홀더 슬롯이 렌더링되지 않는다", () => {
@@ -370,8 +370,8 @@ describe("EtfCompareView selectionReasons", () => {
     expect(screen.queryByText("비교할 ETF 추가하기")).toBeNull();
 
     const cols = container.querySelectorAll("colgroup col");
-    expect(cols.length).toBe(6); // 1 header col + 5 etf cols
-    for (let i = 1; i <= 5; i++) {
+    expect(cols.length).toBe(7); // 2 header cols + 5 etf cols
+    for (let i = 2; i <= 6; i++) {
       expect(cols[i].getAttribute("style")).toContain("20%");
     }
   });

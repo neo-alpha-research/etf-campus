@@ -34,11 +34,11 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
   if (ctx.type === "masked_new") {
     return (
       <div className="relative group flex items-center justify-center w-full cursor-help whitespace-nowrap">
-        <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] gap-1 py-0.5 whitespace-nowrap text-right font-mono">
-          <span className="text-[9.5px] sm:text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200/80 px-1 py-0.5 rounded leading-none shrink-0">
+        <div className="inline-flex items-center justify-end w-[84px] sm:w-[98px] gap-1 py-0.5 whitespace-nowrap text-right font-mono">
+          <span className="text-[9px] sm:text-[9.5px] font-bold text-amber-600 bg-amber-50 border border-amber-200/80 px-1 py-0.2 rounded leading-none shrink-0">
             신규
           </span>
-          <span className="text-[12px] sm:text-[12.5px] font-bold text-muted tabular-nums whitespace-nowrap ml-auto">
+          <span className="text-[11px] sm:text-[12px] font-bold text-muted tabular-nums whitespace-nowrap ml-auto">
             {ctx.nominalFee?.toFixed(2)}%
           </span>
         </div>
@@ -60,11 +60,11 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
     // 3분해 미완료: 명목보수만 표시하고 실부담비용 및 [최저] 뱃지 제외
     return (
       <div className="relative group flex items-center justify-center w-full px-1 cursor-help whitespace-nowrap">
-        <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] gap-1 py-0.5 whitespace-nowrap text-right font-mono">
-          <span className="text-[9.5px] sm:text-[10px] font-medium text-neutral-500 bg-neutral-100 border border-neutral-200 px-1 py-0.5 rounded leading-none shrink-0">
+        <div className="inline-flex items-center justify-end w-[84px] sm:w-[98px] gap-1 py-0.5 whitespace-nowrap text-right font-mono">
+          <span className="text-[9px] sm:text-[9.5px] font-medium text-neutral-500 bg-neutral-100 border border-neutral-200 px-1 py-0.2 rounded leading-none shrink-0">
             총보수
           </span>
-          <span className="text-[12px] sm:text-[12.5px] font-bold tabular-nums font-mono text-strong whitespace-nowrap ml-auto">
+          <span className="text-[11px] sm:text-[12px] font-bold tabular-nums font-mono text-strong whitespace-nowrap ml-auto">
             {ctx.nominalFee != null ? `${ctx.nominalFee.toFixed(2)}%` : "-"}
           </span>
         </div>
@@ -126,13 +126,13 @@ export function FeeStackedBar({ etf, isLowest, align = "center" }: Props) {
   return (
     <div className="relative group flex items-center justify-center w-full px-1 cursor-help whitespace-nowrap">
       {/* Inline row: [최저] badge on the left + number on the right */}
-      <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] gap-1 py-0.5 whitespace-nowrap text-right font-mono">
+      <div className="inline-flex items-center justify-end w-[84px] sm:w-[98px] gap-1 py-0.5 whitespace-nowrap text-right font-mono">
         {isLowest && (
-          <span className="text-[9.5px] sm:text-[10px] font-bold text-emerald-700 bg-emerald-100/90 border border-emerald-300/80 px-1.5 py-0.5 rounded leading-none shrink-0 shadow-xs whitespace-nowrap">
+          <span className="text-[8.5px] sm:text-[9px] font-bold text-emerald-700 bg-emerald-100/90 border border-emerald-300/80 px-1 py-0.2 rounded leading-none shrink-0 shadow-xs whitespace-nowrap">
             최저
           </span>
         )}
-        <span className={`text-[12px] sm:text-[12.5px] font-bold tabular-nums whitespace-nowrap ml-auto ${isLowest ? "text-emerald-600 font-extrabold" : "text-strong"}`}>
+        <span className={`text-[11px] sm:text-[12px] font-bold tabular-nums whitespace-nowrap ml-auto ${isLowest ? "text-emerald-600 font-extrabold" : "text-strong"}`}>
           {syntheticFee.toFixed(2)}%
         </span>
       </div>

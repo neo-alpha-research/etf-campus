@@ -45,17 +45,17 @@ describe("EtfCompareChart Readability & Rendering (Option A)", () => {
     },
   ];
 
-  it("단일 시계열 그룹 차트로 렌더링되며 SVG viewBox가 1000 380으로 렌더링된다", () => {
+  it("단일 시계열 초압축 그룹 차트로 렌더링되며 SVG viewBox가 1000 220으로 렌더링된다", () => {
     const { container } = render(<EtfCompareChart basket={mockBasket as Etf[]} isTrMode={false} />);
-    const chartSvg = container.querySelector("svg[viewBox='0 0 1000 380']");
-    expect(chartSvg).toBeDefined();
-    expect(chartSvg?.getAttribute("viewBox")).toBe("0 0 1000 380");
+    const chartSvg = container.querySelector("svg[viewBox='0 0 1000 220']");
+    expect(chartSvg).not.toBeNull();
+    expect(chartSvg?.getAttribute("viewBox")).toBe("0 0 1000 220");
   });
 
-  it("모바일 가로 스크롤 보호 래퍼(min-w-[500px])가 적용되어 있다", () => {
+  it("반응형 Zero-Scroll 래퍼가 적용되어 모바일 가로 스크롤 없이 축소 렌더링된다", () => {
     const { container } = render(<EtfCompareChart basket={mockBasket as Etf[]} isTrMode={false} />);
-    const wrapper = container.querySelector(".min-w-\\[500px\\]");
-    expect(wrapper).toBeDefined();
+    const wrapper = container.querySelector(".overflow-hidden");
+    expect(wrapper).not.toBeNull();
   });
 
   it("수익률 텍스트가 소수점 1자리(+12.4, +9.8 등)로 포맷팅되어 렌더링된다", () => {

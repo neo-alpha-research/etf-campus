@@ -91,11 +91,11 @@ export function EtfCompareChart({
     return SHORT_PERIODS;
   }, [viewMode]);
 
-  // SVG dimensions
+  // SVG dimensions: Option 1 (220px Ultra-compact All-in-One Canvas)
   const width = 1000;
-  const height = 380;
-  const paddingY = 44; 
-  const paddingX = 24;
+  const height = 220;
+  const paddingY = 24; 
+  const paddingX = 32;
 
   const { minRet, maxRet, range, hasData } = useMemo(() => {
     let max = -Infinity;
@@ -115,8 +115,8 @@ export function EtfCompareChart({
 
     if (!found) return { minRet: 0, maxRet: 0, range: 1, hasData: false };
 
-    const paddedMax = Math.max(max > 0 ? max * 1.22 : max * 0.78, 0.01);
-    const paddedMin = Math.min(min < 0 ? min * 1.22 : min * 0.78, -0.01);
+    const paddedMax = Math.max(max > 0 ? max * 1.25 : max * 0.75, 0.01);
+    const paddedMin = Math.min(min < 0 ? min * 1.25 : min * 0.75, -0.01);
     return { 
       minRet: paddedMin, 
       maxRet: paddedMax, 
@@ -135,7 +135,7 @@ export function EtfCompareChart({
   const numSlots = activePeriods.length;
   const slotWidth = usableWidth / numSlots;
   const numBarsPerSlot = basket.length;
-  const gapBetweenSlots = 28; 
+  const gapBetweenSlots = 24; 
   const availableSlotWidth = slotWidth - gapBetweenSlots;
   const gapBetweenBars = 3;
   const barWidth = Math.min(48, (availableSlotWidth - gapBetweenBars * (numBarsPerSlot - 1)) / numBarsPerSlot);
@@ -146,32 +146,32 @@ export function EtfCompareChart({
     return `${sign}${val.toFixed(1)}`;
   };
 
-  const labelFontSize = basket.length <= 2 ? '14px' : basket.length <= 3 ? '13px' : basket.length <= 4 ? '12px' : '11.5px';
+  const labelFontSize = basket.length <= 2 ? '15px' : basket.length <= 3 ? '13.5px' : basket.length <= 4 ? '12.5px' : '11.5px';
 
   return (
-    <div ref={chartRef} className="rounded-2xl border border-line bg-surface p-4 sm:p-6 mb-8 mt-8 shadow-sm">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 gap-3">
-        <div>
-          <h3 className="text-[15px] font-extrabold text-strong flex items-center gap-1.5 flex-wrap">
-            <span>기간별 성과 추이</span>
-            <span className="text-xs font-semibold text-muted font-sans">
-              ({isTrMode ? "단위: %, 배당재투자 TR 기준" : "단위: %"})
+    <div ref={chartRef} className="rounded-xl border border-line bg-surface p-2.5 sm:p-3.5 my-2.5 sm:my-3 shadow-xs">
+      {/* 1-Line Unified Header Toolbar */}
+      <div className="flex items-center justify-between gap-1.5 sm:gap-2 mb-1.5">
+        <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
+          <h3 className="text-xs sm:text-[13px] font-black text-strong flex items-center gap-1 shrink-0">
+            <span>📈 기간별 성과</span>
+            <span className="text-[10px] font-semibold text-muted font-sans hidden xs:inline">
+              ({isTrMode ? "배당재투자 TR 기준" : "단위: %"})
             </span>
           </h3>
-          <div className="text-[12px] sm:text-[13px] text-muted font-medium font-sans mt-0.5">
-            기준일: {formatAsOfDate(basket[0]?.asOfDate)}
-          </div>
+          <span className="text-[9.5px] sm:text-[10px] text-muted font-mono bg-neutral-100/90 px-1.5 py-0.5 rounded shrink-0">
+            {formatAsOfDate(basket[0]?.asOfDate)}
+          </span>
         </div>
         
         {/* Header Controls: 단기/장기 토글 & 이미지 저장 */}
-        <div className="flex items-center gap-2">
-          <div className="flex bg-neutral-100 p-0.5 sm:p-1 rounded-xl whitespace-nowrap shrink-0">
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+          <div className="flex bg-neutral-100 p-0.5 rounded-lg whitespace-nowrap shrink-0">
             <button
               type="button"
               onClick={() => setViewMode("short")}
-              className={`px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-[13px] rounded-lg font-black transition-all ${
-                viewMode === "short" ? "bg-white text-strong shadow-xs" : "text-neutral-500 hover:text-strong"
+              className={`px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10.5px] sm:text-xs rounded-md font-extrabold transition-all ${
+                viewMode === "short" ? "bg-white text-strong shadow-2xs" : "text-neutral-500 hover:text-strong"
               }`}
             >
               단기 성과
@@ -179,8 +179,8 @@ export function EtfCompareChart({
             <button
               type="button"
               onClick={() => setViewMode("long")}
-              className={`px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-[13px] rounded-lg font-black transition-all ${
-                viewMode === "long" ? "bg-white text-strong shadow-xs" : "text-neutral-500 hover:text-strong"
+              className={`px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10.5px] sm:text-xs rounded-md font-extrabold transition-all ${
+                viewMode === "long" ? "bg-white text-strong shadow-2xs" : "text-neutral-500 hover:text-strong"
               }`}
             >
               장기 성과
@@ -191,49 +191,44 @@ export function EtfCompareChart({
             <button
               type="button"
               onClick={handleDownload}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs sm:text-[13px] font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-xl transition-colors border border-line whitespace-nowrap shrink-0"
+              className="flex items-center justify-center p-1 sm:px-2.5 sm:py-1 text-[10.5px] sm:text-xs font-bold text-muted hover:text-strong hover:bg-neutral-100 rounded-lg transition-colors border border-line whitespace-nowrap shrink-0"
               title="차트를 고해상도 이미지로 저장"
             >
-              <Download size={14} strokeWidth={2.5} />
-              <span className="hidden xs:inline">이미지 저장</span>
+              <Download size={13} strokeWidth={2.5} />
+              <span className="hidden md:inline ml-1">저장</span>
             </button>
           )}
         </div>
       </div>
 
-      {/* 범례 (Legend): 모바일에서 5줄로 늘어지지 않는 슬림 가로 칩 레이아웃 */}
-      <div className="flex items-center justify-between gap-2 mb-4">
-        <div className="flex items-center gap-1.5 sm:gap-3 overflow-x-auto py-1 scrollbar-none flex-nowrap sm:flex-wrap max-w-full">
-          {basket.map((etf, idx) => (
+      {/* 범례 (Legend): 초압축 1줄 슬림 칩 레이아웃 */}
+      <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-0.5 mb-1.5 scrollbar-none flex-nowrap sm:flex-wrap max-w-full">
+        {basket.map((etf, idx) => (
+          <div
+            key={etf.ticker}
+            className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded-md bg-neutral-50 sm:bg-transparent border border-neutral-200/50 sm:border-0 shrink-0"
+          >
             <div
-              key={etf.ticker}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-neutral-100/70 sm:bg-transparent border border-neutral-200/50 sm:border-0 shrink-0"
-            >
-              <div
-                className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-md shrink-0 shadow-2xs"
-                style={{ backgroundColor: COLORS[idx % COLORS.length] }}
-              />
-              <span className="text-[11.5px] sm:text-xs font-bold text-strong whitespace-nowrap">
-                {etf.name}
-              </span>
-            </div>
-          ))}
-        </div>
-        <span className="text-[11px] text-neutral-400 font-medium shrink-0 sm:hidden">
-          👉 좌우 스크롤
-        </span>
+              className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-sm shrink-0 shadow-2xs"
+              style={{ backgroundColor: COLORS[idx % COLORS.length] }}
+            />
+            <span className="text-[10.5px] sm:text-xs font-bold text-strong whitespace-nowrap truncate max-w-[130px] sm:max-w-none">
+              {etf.name}
+            </span>
+          </div>
+        ))}
       </div>
 
       {/* Chart Canvas Area */}
       {!hasData ? (
-        <div className="h-[380px] flex items-center justify-center bg-neutral-50 rounded-xl border border-dashed border-line">
-          <span className="text-sm font-bold text-muted">해당 기간의 성과 데이터가 없습니다.</span>
+        <div className="h-[180px] flex items-center justify-center bg-neutral-50 rounded-lg border border-dashed border-line">
+          <span className="text-xs font-bold text-muted">해당 기간의 성과 데이터가 없습니다.</span>
         </div>
       ) : (
-        /* 모바일 가로 스와이프 보호 래퍼: 20개 막대가 찌그러지지 않고 모바일에서도 큰 폰트(12px)와 막대 두께 유지 */
-        <div className="w-full overflow-x-auto pb-2 scrollbar-thin overscroll-x-contain">
-          <div className="min-w-[500px] sm:min-w-full relative overflow-visible" style={{ aspectRatio: "1000/380" }}>
-            <svg viewBox="0 0 1000 380" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+        /* 반응형 Zero-Scroll 래퍼 */
+        <div className="w-full overflow-hidden">
+          <div className="w-full relative overflow-visible aspect-[1000/240] sm:aspect-[1000/215]">
+            <svg viewBox="0 0 1000 220" className="w-full h-full overflow-visible" preserveAspectRatio="none">
               {/* Background Grid Lines */}
               {[maxRet, maxRet / 2, 0, minRet / 2, minRet].map((val, i) => {
                 const y = getY(val);
@@ -252,7 +247,7 @@ export function EtfCompareChart({
                         x={paddingX - 6} y={y + 1} 
                         alignmentBaseline="middle" 
                         textAnchor="end" 
-                        className="text-[11px] fill-neutral-500 font-bold font-sans tracking-tighter"
+                        className="text-[11.5px] fill-neutral-500 font-extrabold font-sans tracking-tight"
                       >
                         0%
                       </text>
@@ -267,9 +262,9 @@ export function EtfCompareChart({
                 return (
                   <g key={p}>
                     <text 
-                      x={cx} y={height - paddingY + 24} 
+                      x={cx} y={height - 7} 
                       textAnchor="middle" 
-                      className="text-[13px] fill-neutral-600 font-extrabold font-sans"
+                      className="text-[13px] fill-neutral-700 font-black font-sans"
                     >
                       {RETURN_PERIOD_LABELS[p]}
                     </text>
@@ -297,8 +292,8 @@ export function EtfCompareChart({
                   const barX = startX + bIdx * (barWidth + gapBetweenBars);
                   const barY = val >= 0 ? getY(val) : zeroY;
                   const barH = Math.max(Math.abs(getY(val) - zeroY), 1);
-                  const borderRadius = Math.min(barWidth / 3, 5);
-                  const tooltipY = val >= 0 ? barY - 28 : barY + barH + 48;
+                  const borderRadius = Math.min(barWidth / 3, 4);
+                  const tooltipY = val >= 0 ? Math.max(barY - 20, 36) : Math.min(barY + barH + 36, height - 20);
 
                   return (
                     <g key={`${p}-${etf.ticker}`} className="group cursor-pointer">
@@ -318,9 +313,9 @@ export function EtfCompareChart({
                       {isWinner && (
                         <text
                           x={barX + barWidth / 2}
-                          y={barY - 18}
+                          y={barY - 13}
                           textAnchor="middle"
-                          style={{ fontSize: '13px' }}
+                          style={{ fontSize: '11px' }}
                         >
                           🏆
                         </text>
@@ -329,14 +324,14 @@ export function EtfCompareChart({
                       {/* Static Value Label */}
                       <text 
                         x={barX + barWidth / 2} 
-                        y={val >= 0 ? barY - 4 : barY + barH + 14} 
+                        y={val >= 0 ? barY - 3 : barY + barH + 11} 
                         textAnchor="middle" 
                         fill={color}
                         stroke="#ffffff"
                         strokeWidth="2.5"
                         paintOrder="stroke fill"
                         strokeLinejoin="round"
-                        style={{ fontSize: labelFontSize, fontWeight: 900, letterSpacing: '-0.6px' }}
+                        style={{ fontSize: labelFontSize, fontWeight: 900, letterSpacing: '-0.5px' }}
                         className="font-sans opacity-95 transition-all group-hover:opacity-100 select-none"
                       >
                         {formatChartReturn(val)}

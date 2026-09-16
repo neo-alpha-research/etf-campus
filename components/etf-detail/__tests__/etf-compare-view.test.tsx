@@ -96,11 +96,11 @@ describe("EtfCompareView selectionReasons", () => {
       />
     );
 
-    // Badges are now consistently placed in each data row (순자산, 거래대금, 실부담비용, 수익률)
+    // Badges are now consistently placed in each data row (순자산, 거래대금, 실부담비용, 수익률) and snapshot cards
     const rowBadges = screen.getAllByTestId("smart-advantage-badge");
     expect(rowBadges.length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText("1위").length).toBeGreaterThan(0);
-    expect(screen.getByText("최저")).toBeDefined();
+    expect(screen.getAllByText("최저").length).toBeGreaterThan(0);
   });
 
   it("TR 모드 전환 시 TR 결측 종목은 PR로 폴백되지 않고 '-'로 노출되며 [1위] 뱃지를 부당하게 획득하지 않는다", () => {
@@ -131,7 +131,7 @@ describe("EtfCompareView selectionReasons", () => {
     fireEvent.click(trSwitch);
 
     // In TR mode, etfWithTr shows +10.00%, etfNoTr shows '-' and does not show +20.00%
-    expect(screen.getByText("+10.00%")).toBeInTheDocument();
+    expect(screen.getAllByText("+10.00%").length).toBeGreaterThanOrEqual(1);
     expect(screen.queryByText("+20.00%")).toBeNull();
   });
 
@@ -401,6 +401,107 @@ describe("EtfCompareView selectionReasons", () => {
     // Separate rows in tbody should NOT exist
     expect(screen.queryByText("퇴직연금 한도")).toBeNull();
     expect(screen.queryByText("중개형 ISA")).toBeNull();
+  });
+
+  it("6대 카테고리 섹션 헤더(규모 및 유동성, 기간별 성과, 배당 및 분배금, 총비용 및 보수, 운용 품질 및 정밀도, 상품 프로필 및 구조)가 정상 렌더링된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "테스트 ETF A",
+      asOfDate: "2026-03-06",
+      returns: { "12m": 10.0 },
+    };
+
+    render(<EtfCompareView basket={[etfA as Etf]} />);
+
+    expect(screen.getByText("규모 및 유동성")).toBeInTheDocument();
+    expect(screen.getByText("기간별 성과")).toBeInTheDocument();
+    expect(screen.getByText("배당 및 분배금")).toBeInTheDocument();
+    expect(screen.getByText("총비용 및 보수")).toBeInTheDocument();
+    expect(screen.getByText("운용 품질 및 정밀도")).toBeInTheDocument();
+    expect(screen.getByText("상품 프로필 및 구조")).toBeInTheDocument();
+  });
+
+  it("비교군 2개 이상일 때 핵심 지표 1위 스냅샷 배너가 렌더링되고 신규 항목(연간 분배율, 분배 주기, 기본보수, 운용사, 상장일, 환헤지)이 표시된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "월배당 배당주 ETF",
+      distributionYield: 6.45,
+      distributionCycle: "월배당",
+      fee: {
+        totalFeePct: 0.15,
+        terPct: 0.15,
+        otherCostPct: 0.02,
+        tradingCostPct: 0.01,
+        effectiveDate: null,
+        verifiedAt: null,
+        verificationStatus: "verified_official",
+        primarySourceType: null,
+        primarySourceUrl: null,
+        dartReceiptNo: null,
+        secondarySourceUrl: null,
+        sourceNote: null,
+      },
+      issuer: { issuerId: "1", issuerName: "미래에셋자산운용", brand: "TIGER", issuerStatus: "verified_official", issuerSourceUrl: null, issuerVerifiedAt: null },
+      listingDate: "20220615",
+      classification: { marketScope: "미국", assetClass: "주식-해외", published: true, assetDetail: null, strategy: "커버드콜", fxHedge: "헤지", reviewStatus: "", reviewPriority: "", sourceUrl: null, evidenceSummary: null },
+      aum: 500000000,
+      tradeValue: 20000000,
+      asOfDate: "2026-03-06",
+      returns: { "12m": 8.5 },
+    };
+
+    const etfB: Partial<Etf> = {
+      ticker: "000002",
+      name: "성장 테마 ETF",
+      distributionYield: 0.8,
+      distributionCycle: "분기 분배",
+      fee: {
+        totalFeePct: 0.45,
+        terPct: 0.45,
+        otherCostPct: 0.05,
+        tradingCostPct: 0.02,
+        effectiveDate: null,
+        verifiedAt: null,
+        verificationStatus: "verified_official",
+        primarySourceType: null,
+        primarySourceUrl: null,
+        dartReceiptNo: null,
+        secondarySourceUrl: null,
+        sourceNote: null,
+      },
+      issuer: { issuerId: "2", issuerName: "삼성자산운용", brand: "KODEX", issuerStatus: "verified_official", issuerSourceUrl: null, issuerVerifiedAt: null },
+      listingDate: "20200110",
+      classification: { marketScope: "국내", assetClass: "주식-국내", published: true, assetDetail: null, strategy: "패시브", fxHedge: null, reviewStatus: "", reviewPriority: "", sourceUrl: null, evidenceSummary: null },
+      aum: 200000000,
+      tradeValue: 10000000,
+      asOfDate: "2026-03-06",
+      returns: { "12m": 15.0 },
+    };
+
+    render(<EtfCompareView basket={[etfA as Etf, etfB as Etf]} />);
+
+    // 1위 스냅샷 배너 타이틀
+    expect(screen.getByText("비교군 핵심 지표 1위 스냅샷")).toBeInTheDocument();
+
+    // 분배금 항목
+    expect(screen.getByText("연 6.45%")).toBeInTheDocument();
+    expect(screen.getByText("🗓️ 월배당")).toBeInTheDocument();
+
+    // 기본 보수 항목
+    expect(screen.getAllByText("0.15%").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("0.45%").length).toBeGreaterThanOrEqual(1);
+
+    // 운용사 항목
+    expect(screen.getByText("미래에셋자산운용")).toBeInTheDocument();
+    expect(screen.getByText("삼성자산운용")).toBeInTheDocument();
+
+    // 상장일 항목
+    expect(screen.getByText("2022.06.15")).toBeInTheDocument();
+    expect(screen.getByText("2020.01.10")).toBeInTheDocument();
+
+    // 환헤지 항목
+    expect(screen.getByText("환헤지 (H)")).toBeInTheDocument();
+    expect(screen.getByText("해당없음 (원화)")).toBeInTheDocument();
   });
 });
 

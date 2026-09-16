@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { formatMoney } from "@/lib/domain/etf-format";
+import { formatMoney, formatFeePct } from "@/lib/domain/etf-format";
 import { ReturnCell, AsOfDate, FeeStackedBar } from "@/components/etf";
 import type { Etf, ReturnPeriod } from "@/lib/domain/etf-types";
 import { RETURN_PERIOD_LABELS } from "@/lib/domain/etf-types";
@@ -24,7 +24,19 @@ const CAUTION_REASONS = new Set([
   "만기 구간 다름",
 ]);
 
-type MetricInfoKey = "pension" | "isa" | "aum" | "tradeValue" | "fee" | "disparity" | "trackingError";
+type MetricInfoKey =
+  | "pension"
+  | "isa"
+  | "aum"
+  | "tradeValue"
+  | "fee"
+  | "nominalFee"
+  | "disparity"
+  | "trackingError"
+  | "dividendYield"
+  | "dividendCycle"
+  | "fxHedge"
+  | "listingDate";
 
 interface MetricInfo {
   title: string;
@@ -77,6 +89,12 @@ const METRIC_INFOS: Record<MetricInfoKey, MetricInfo> = {
     ],
     tip: "별도 납부 없이 매일 펀드 순자산(수익률)에서 자동 차감되므로, 동일 지수를 추종한다면 실부담비용이 낮은 ETF를 선택하는 것이 장기 성과에 유리합니다.",
   },
+  nominalFee: {
+    title: "기본 운용보수 (명목 총보수)",
+    badge: "간판 보수",
+    desc: "운용사 상품 설명서 및 증권사 화면에 공식 고시되는 기본 간판 총보수(집합투자·신탁·사무관리·판매보수 합계)입니다.",
+    tip: "실제 투자자가 매일 펀드 순자산에서 부담하는 비용은 여기에 기타비용과 매매수수료가 합산된 [실부담비용]이므로, 반드시 실부담비용과 함께 비교해야 합니다.",
+  },
   disparity: {
     title: "괴리율이란?",
     badge: "시장가 vs 실제가치",
@@ -93,7 +111,60 @@ const METRIC_INFOS: Record<MetricInfoKey, MetricInfo> = {
     desc: "과거 1년간 ETF 순자산가치(NAV)가 목표 기초지수를 얼마나 똑같이 따라갔는지 나타내는 운용 복제 정밀도(표준편차)입니다.",
     tip: "배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]이며, 숫자가 낮을수록 지수를 오차 없이 안정적으로 복제하고 있음을 의미합니다.",
   },
+  dividendYield: {
+    title: "연간 분배율 (TTM)",
+    badge: "실질 배당 수익률",
+    desc: "최근 1년간 지급된 주당 분배금 합계를 현재 가격으로 나눈 실질 연간 배당(분배) 수익률입니다.",
+    tip: "고배당 및 커버드콜 ETF의 경우 분배율뿐만 아니라 원금 보전 및 총수익률(TR)을 함께 점검하는 것이 중요합니다.",
+  },
+  dividendCycle: {
+    title: "분배 주기",
+    badge: "현금흐름 주기",
+    desc: "펀드 운용 수익이나 배당 재원을 투자자에게 지급하는 주기(월배당, 분기배당, 연배당 등)입니다.",
+    tip: "정기적인 현금흐름(제2의 월급)이 필요한 은퇴 생활자나 연금 투자자에게는 매월 분배금을 지급하는 월배당 ETF가 적합합니다.",
+  },
+  fxHedge: {
+    title: "환헤지 여부 (FX Hedge)",
+    badge: "환율 변동성",
+    desc: "해외 자산 투자 시 원/달러 등 환율 변동 위험을 회피(Hedge)하는지, 아니면 환율 변동에 노출(환노출)하는지 구분합니다.",
+    items: [
+      { label: "환헤지 (H)", text: "환율 변동을 제거하고 기초자산 가격 변동만 추종", color: "text-amber-300" },
+      { label: "환노출 (UH)", text: "기초자산 가격 변동 + 환율 변동이 동시에 수익률에 반영", color: "text-sky-300" },
+    ],
+    tip: "달러 강세(원화 약세) 국면에서는 환노출이 유리하고, 달러 약세(원화 강세) 국면에서는 환헤지(H)가 상대적으로 안정적입니다.",
+  },
+  listingDate: {
+    title: "상장일 (운용 역사)",
+    badge: "트랙레코드",
+    desc: "한국거래소(KRX)에 해당 ETF가 최초로 상장되어 시장 매매가 개시된 일자입니다.",
+    tip: "상장 역사가 오래된 ETF일수록 다양한 시장 변동성 국면(상승장·하락장·위기)을 겪으며 검증된 운용 트랙레코드를 보유하고 있습니다.",
+  },
 };
+
+function formatListingDate(d?: string | null): string {
+  if (!d) return "-";
+  const clean = d.replace(/[.\-]/g, "");
+  if (clean.length === 8) {
+    return `${clean.slice(0, 4)}.${clean.slice(4, 6)}.${clean.slice(6, 8)}`;
+  }
+  return d;
+}
+
+function getFxHedgeInfo(etf: Etf) {
+  const isDomestic = etf.classification?.marketScope === "국내";
+  if (isDomestic) {
+    return { type: "domestic" as const, label: "해당없음 (원화)" };
+  }
+  const isHedged =
+    (etf.classification?.fxHedge &&
+      etf.classification.fxHedge.includes("헤지") &&
+      !etf.classification.fxHedge.includes("비헤지")) ||
+    etf.name.includes("(H)");
+  if (isHedged) {
+    return { type: "hedged" as const, label: "환헤지 (H)" };
+  }
+  return { type: "unhedged" as const, label: "환노출 (UH)" };
+}
 
 export function EtfCompareView({
   mainEtf,
@@ -211,6 +282,11 @@ export function EtfCompareView({
 
   const validAums = compareList.map((e) => e.aum).filter((a): a is number => typeof a === "number" && a > 0);
   const maxAum = validAums.length > 0 ? Math.max(...validAums) : null;
+
+  const validDivYields = compareList
+    .map((e) => e.distributionYield)
+    .filter((y): y is number => typeof y === "number" && y > 0);
+  const maxDivYield = validDivYields.length > 0 ? Math.max(...validDivYields) : 0;
 
   return (
     <div className="space-y-3">
@@ -662,8 +738,156 @@ export function EtfCompareView({
         const totalCols = hasPlaceholder ? 2 : compareList.length;
         const colWidthPercent = totalCols > 0 ? `${(100 / totalCols).toFixed(2)}%` : "100%";
 
+        // Winner Snapshot Highlights
+        const lowestFeeEtf = compareList.find((e) => e.ticker === lowestSyntheticTicker);
+        const lowestFeeCtx = lowestFeeEtf ? getFeeDisplayContext(lowestFeeEtf) : null;
+
+        const maxAumEtf = maxAum !== null ? compareList.find((e) => e.aum === maxAum) : null;
+        const maxTradeEtf = maxTrade !== null ? compareList.find((e) => e.tradeValue === maxTrade) : null;
+
+        const preferredPeriods: ReturnPeriod[] = ["12m", "ytd", "6m", "3m", "1m"];
+        const winnerPeriod = preferredPeriods.find((p) => maxReturnsByPeriod[p] !== null) || "12m";
+        const bestPeriodVal = maxReturnsByPeriod[winnerPeriod] ?? null;
+        const bestPeriodEtf = bestPeriodVal !== null
+          ? compareList.find((e) => getActiveReturns(e)?.[winnerPeriod] === bestPeriodVal)
+          : null;
+
+        const renderSectionHeader = (icon: string, title: string, subtitle: string) => (
+          <tr key={`section-${title}`} className="bg-slate-100/80 border-y border-slate-200/80">
+            <th
+              className={`sticky left-0 z-20 bg-slate-100/95 backdrop-blur-md px-1.5 sm:px-2.5 py-1.5 sm:py-2 text-left border-r border-slate-200/80 transition-shadow duration-200 ${shadowClass}`}
+            >
+              <div className="flex items-center justify-start gap-1 sm:gap-1.5">
+                <span className="text-xs sm:text-sm shrink-0">{icon}</span>
+                <span className="text-[11px] sm:text-xs font-black text-slate-800 tracking-tight whitespace-nowrap">
+                  {title}
+                </span>
+              </div>
+            </th>
+            <td
+              colSpan={totalCols}
+              className="px-2.5 sm:px-3 py-1.5 sm:py-2 bg-slate-100/50 text-left align-middle border-r border-slate-200/80"
+            >
+              <span className="text-[10px] sm:text-[10.5px] font-semibold text-slate-500">
+                {subtitle}
+              </span>
+            </td>
+          </tr>
+        );
+
         return (
-          <div className="relative rounded-2xl border border-slate-200/80 bg-white overflow-hidden shadow-xs animate-in fade-in duration-200">
+          <div className="space-y-3">
+            {/* Top Highlights Winner Snapshot Banner (Only when comparing 2+ ETFs) */}
+            {compareList.length >= 2 && (
+              <div className="rounded-2xl border border-slate-200/80 bg-gradient-to-b from-slate-50/90 to-white p-3 sm:p-3.5 shadow-xs">
+                <div className="flex items-center justify-between gap-2 mb-2 px-0.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs">🏆</span>
+                    <h4 className="text-[12px] sm:text-xs font-black text-slate-800 tracking-tight">
+                      비교군 핵심 지표 1위 스냅샷
+                    </h4>
+                  </div>
+                  <span className="text-[10px] text-slate-400 font-medium hidden sm:inline">
+                    비교군 내 각 지표별 최우수 종목 하이라이트
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-2.5">
+                  {/* Card 1: 최저 실부담비용 */}
+                  {lowestFeeEtf && lowestFeeCtx?.syntheticFee != null ? (
+                    <div className="flex flex-col justify-between p-2 sm:p-2.5 rounded-xl bg-white border border-emerald-200/80 shadow-2xs hover:border-emerald-300 transition-colors">
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className="text-[10px] font-bold text-slate-500">💰 최저 실부담비용</span>
+                        <span className="px-1.5 py-0.2 rounded-full text-[8px] sm:text-[8.5px] font-black bg-emerald-100 text-emerald-800 border border-emerald-200">
+                          최저
+                        </span>
+                      </div>
+                      <div className="truncate text-[11px] sm:text-[11.5px] font-bold text-slate-800" title={lowestFeeEtf.name}>
+                        {lowestFeeEtf.name}
+                      </div>
+                      <div className="mt-1 flex items-baseline justify-between">
+                        <span className="text-[10px] text-slate-400 font-mono">{lowestFeeEtf.ticker}</span>
+                        <span className="text-xs sm:text-[13px] font-black font-mono text-emerald-700">
+                          연 {lowestFeeCtx.syntheticFee.toFixed(2)}%
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col justify-between p-2 sm:p-2.5 rounded-xl bg-white border border-slate-200/70 shadow-2xs">
+                      <span className="text-[10px] font-bold text-slate-400">💰 최저 실부담비용</span>
+                      <span className="text-[11px] text-slate-400 mt-1">-</span>
+                    </div>
+                  )}
+
+                  {/* Card 2: 최대 순자산 */}
+                  {maxAumEtf ? (
+                    <div className="flex flex-col justify-between p-2 sm:p-2.5 rounded-xl bg-white border border-indigo-200/80 shadow-2xs hover:border-indigo-300 transition-colors">
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className="text-[10px] font-bold text-slate-500">🏛️ 최대 순자산</span>
+                        <span className="px-1.5 py-0.2 rounded-full text-[8px] sm:text-[8.5px] font-black bg-indigo-100 text-indigo-800 border border-indigo-200">
+                          규모 1위
+                        </span>
+                      </div>
+                      <div className="truncate text-[11px] sm:text-[11.5px] font-bold text-slate-800" title={maxAumEtf.name}>
+                        {maxAumEtf.name}
+                      </div>
+                      <div className="mt-1 flex items-baseline justify-between">
+                        <span className="text-[10px] text-slate-400 font-mono">{maxAumEtf.ticker}</span>
+                        <span className="text-xs sm:text-[13px] font-black font-mono text-indigo-700">
+                          {formatMoney(maxAumEtf.aum)}
+                        </span>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {/* Card 3: 기간 최고 성과 */}
+                  {bestPeriodEtf && bestPeriodVal !== null ? (
+                    <div className="flex flex-col justify-between p-2 sm:p-2.5 rounded-xl bg-white border border-amber-200/80 shadow-2xs hover:border-amber-300 transition-colors">
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className="text-[10px] font-bold text-slate-500">
+                          📈 {RETURN_PERIOD_LABELS[winnerPeriod]} 최고 성과
+                        </span>
+                        <span className="px-1.5 py-0.2 rounded-full text-[8px] sm:text-[8.5px] font-black bg-amber-100 text-amber-900 border border-amber-300">
+                          수익률 1위
+                        </span>
+                      </div>
+                      <div className="truncate text-[11px] sm:text-[11.5px] font-bold text-slate-800" title={bestPeriodEtf.name}>
+                        {bestPeriodEtf.name}
+                      </div>
+                      <div className="mt-1 flex items-baseline justify-between">
+                        <span className="text-[10px] text-slate-400 font-mono">{bestPeriodEtf.ticker}</span>
+                        <span className="text-xs sm:text-[13px] font-black font-mono">
+                          <ReturnCell value={bestPeriodVal} isTr={isTrMode} />
+                        </span>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {/* Card 4: 일 유동성 1위 */}
+                  {maxTradeEtf ? (
+                    <div className="flex flex-col justify-between p-2 sm:p-2.5 rounded-xl bg-white border border-sky-200/80 shadow-2xs hover:border-sky-300 transition-colors">
+                      <div className="flex items-center justify-between gap-1 mb-1">
+                        <span className="text-[10px] font-bold text-slate-500">💧 일 거래대금</span>
+                        <span className="px-1.5 py-0.2 rounded-full text-[8px] sm:text-[8.5px] font-black bg-sky-100 text-sky-800 border border-sky-200">
+                          거래 1위
+                        </span>
+                      </div>
+                      <div className="truncate text-[11px] sm:text-[11.5px] font-bold text-slate-800" title={maxTradeEtf.name}>
+                        {maxTradeEtf.name}
+                      </div>
+                      <div className="mt-1 flex items-baseline justify-between">
+                        <span className="text-[10px] text-slate-400 font-mono">{maxTradeEtf.ticker}</span>
+                        <span className="text-xs sm:text-[13px] font-black font-mono text-sky-700">
+                          {formatMoney(maxTradeEtf.tradeValue)}
+                        </span>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            )}
+
+            {/* Table Container */}
+            <div className="relative rounded-2xl border border-slate-200/80 bg-white overflow-hidden shadow-xs animate-in fade-in duration-200">
             <div 
               ref={scrollRef}
               className="relative text-center overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-smooth [scrollbar-width:thin] [-webkit-overflow-scrolling:touch]" 
@@ -832,492 +1056,843 @@ export function EtfCompareView({
                     )}
                   </tr>
                 </thead>
-              <tbody className="[&>tr]:h-[38px] sm:[&>tr]:h-[42px] [&>tr]:transition-colors [&>tr:hover]:bg-slate-50/70 [&>tr:nth-child(even)]:bg-slate-50/30 [&>tr:nth-child(even)>th]:!bg-slate-50/90">
+                <tbody className="divide-y divide-slate-100 text-xs [&>tr:hover]:bg-slate-50/70 [&>tr:nth-child(even)]:bg-slate-50/30 [&>tr:nth-child(even)>th]:!bg-slate-50/90">
 
-                {/* 순자산 */}
-                <tr className="hover:bg-slate-50/70 hover:z-40 relative">
-                  <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                    <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
-                      <button
-                        type="button"
-                        onClick={() => setActiveMetricModal("aum")}
-                        aria-label="순자산 (AUM) 안내 보기"
-                        className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
-                      >
-                        <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">순자산</span>
-                        <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </button>
-                      <div className="hidden sm:block absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
-                        <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
-                        <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
-                          <span className="text-[12.5px] font-black text-brand-300">순자산 (AUM)</span>
-                          <span className="text-[10px] text-slate-400 font-mono">규모</span>
-                        </div>
-                        <p className="text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
-                          ETF가 실제로 운용하는 전체 자산의 총 규모입니다.
-                        </p>
-                        <div className="text-[11.5px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
-                          <strong className="text-amber-300">💡 팁:</strong> 규모가 클수록 상장폐지 위험이 낮고 호가가 촘촘하여 매매가 유리합니다.
-                        </div>
-                      </div>
-                    </div>
-                  </th>
-                  {compareList.map((etf) => {
-                    const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                    const isTopAum = maxAum !== null && etf.aum === maxAum && compareList.length > 1;
-                    return (
-                      <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-slate-100 relative px-1 sm:px-2 py-1.5 text-center tabular-nums transition-colors ${isBase ? "bg-emerald-50/30" : ""} text-slate-900 font-extrabold text-[11.5px] sm:text-[13px]`}>
-                        <div className="inline-flex items-center justify-center font-mono w-full">
-                          <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
-                            {isTopAum && (
-                              <span
-                                data-testid="smart-advantage-badge"
-                                className="inline-flex items-center rounded px-1 sm:px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-black leading-none bg-indigo-100/90 text-indigo-900 border border-indigo-300 shadow-2xs font-sans mr-1 shrink-0"
-                                title="비교군 중 순자산(AUM) 1위"
-                              >
-                                1위
-                              </span>
-                            )}
-                            <span className="ml-auto text-slate-900">{formatMoney(etf.aum)}</span>
+                  {/* ────────────────────────────────────────── */}
+                  {/* SECTION 1: 📊 규모 및 유동성 */}
+                  {/* ────────────────────────────────────────── */}
+                  {renderSectionHeader("📊", "규모 및 유동성", "순자산 규모 및 일일 체결 거래대금")}
+
+                  {/* 순자산 */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-2 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("aum")}
+                          aria-label="순자산 (AUM) 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">순자산</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                            <span className="text-[12.5px] font-black text-brand-300">순자산 (AUM)</span>
+                            <span className="text-[10px] text-slate-400 font-mono">규모</span>
                           </div>
-                        </div>
-                      </td>
-                    );
-                  })}
-                  {hasPlaceholder && (
-                    <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
-                      <span className="text-xs text-neutral-300 select-none">-</span>
-                    </td>
-                  )}
-                </tr>
-
-                {/* 일일 거래대금 */}
-                <tr className="hover:bg-slate-50/70 hover:z-40 relative">
-                  <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                    <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
-                      <button
-                        type="button"
-                        onClick={() => setActiveMetricModal("tradeValue")}
-                        aria-label="일일 거래대금 (유동성) 안내 보기"
-                        className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
-                      >
-                        <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">거래대금</span>
-                        <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </button>
-                      <div className="hidden sm:block absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
-                        <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
-                        <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
-                          <span className="text-[12.5px] font-black text-brand-300">거래대금 (유동성)</span>
-                          <span className="text-[10px] text-slate-400 font-mono">1일</span>
-                        </div>
-                        <p className="text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
-                          최근 1영업일 동안 시장에서 실제 거래된 총액입니다.
-                        </p>
-                        <div className="text-[11.5px] text-sky-200/95 bg-sky-500/10 rounded-md p-1.5 leading-snug border border-sky-500/20">
-                          <strong className="text-sky-300">💡 팁:</strong> 유동성이 풍부할수록 원하는 가격과 수량으로 즉시 체결하기 수월합니다.
-                        </div>
-                      </div>
-                    </div>
-                  </th>
-                  {compareList.map((etf) => {
-                    const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                    const isTopTrade = maxTrade !== null && etf.tradeValue === maxTrade && compareList.length > 1;
-                    return (
-                      <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-slate-100 relative px-1 sm:px-2 py-1.5 text-center tabular-nums transition-colors ${isBase ? "bg-emerald-50/30" : ""} text-slate-900 font-extrabold text-[11.5px] sm:text-[13px]`}>
-                        <div className="inline-flex items-center justify-center font-mono w-full">
-                          <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
-                            {isTopTrade && (
-                              <span
-                                data-testid="smart-advantage-badge"
-                                className="inline-flex items-center rounded px-1 sm:px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-black leading-none bg-sky-100/90 text-sky-900 border border-sky-300 shadow-2xs font-sans mr-1 shrink-0"
-                                title="비교군 중 일 거래대금(유동성) 1위"
-                              >
-                                1위
-                              </span>
-                            )}
-                            <span className="ml-auto text-slate-900">{formatMoney(etf.tradeValue)}</span>
-                          </div>
-                        </div>
-                      </td>
-                    );
-                  })}
-                  {hasPlaceholder && (
-                    <td className="border-b border-r border-neutral-200 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-neutral-50/20 align-middle">
-                      <span className="text-xs text-neutral-300 select-none">-</span>
-                    </td>
-                  )}
-                </tr>
-
-                {/* 수익률 행들 (1위 하이라이트 탑재 및 중앙 정렬 + 소수점/우측 고정) */}
-                {orderedPeriods.map((period) => {
-                  const periodValues = compareList
-                    .map((e) => getActiveReturns(e)?.[period])
-                    .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
-                  const maxReturnForPeriod = periodValues.length > 0 ? Math.max(...periodValues) : null;
-                  const minReturnForPeriod = periodValues.length > 0 ? Math.min(...periodValues) : null;
-                  const hasVariation = maxReturnForPeriod !== null && minReturnForPeriod !== null && maxReturnForPeriod !== minReturnForPeriod;
-
-                  return (
-                    <tr key={period} className="hover:bg-slate-50/70">
-                      <th className={`sticky left-0 z-20 bg-slate-50/95 backdrop-blur px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
-                        {RETURN_PERIOD_LABELS[period]}
-                      </th>
-                      {compareList.map((etf) => {
-                        const val = getActiveReturns(etf)?.[period] ?? null;
-                        const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                        // 비교군 내 최고 성과(상승장 1위 또는 하락장 최고 방어 1위) 노출
-                        const isTop = hasVariation && maxReturnForPeriod !== null && val === maxReturnForPeriod && compareList.length > 1;
-                        return (
-                          <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center tabular-nums transition-colors ${isBase ? "bg-emerald-50/30" : ""}`}>
-                            <div className="inline-flex items-center justify-center font-mono w-full">
-                              <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
-                                {isTop && val != null && (
-                                  <span
-                                    data-testid="smart-advantage-badge"
-                                    className="inline-flex items-center rounded px-1 sm:px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-black leading-none bg-amber-100/90 text-amber-900 border border-amber-300 shadow-2xs font-sans mr-1 shrink-0"
-                                    title={val < 0 ? "해당 기간 비교군 최고 방어 성과 (1위)" : "해당 기간 비교군 1위 성과"}
-                                  >
-                                    1위
-                                  </span>
-                                )}
-                                <span className={`${isTop ? "font-black" : "font-semibold"} ml-auto`}>
-                                  <ReturnCell value={val} isTr={isTrMode} />
-                                </span>
-                              </div>
-                            </div>
-                          </td>
-                        );
-                      })}
-                      {hasPlaceholder && (
-                        <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
-                          <span className="text-xs text-neutral-300 select-none">-</span>
-                        </td>
-                      )}
-                    </tr>
-                  );
-                })}
-
-                {/* 세부 기간 펼치기 / 접기 토글 전용 행 */}
-                <tr className="hover:bg-slate-100/60 transition-colors">
-                  <th className={`sticky left-0 z-20 bg-slate-50/95 backdrop-blur px-1 sm:px-2.5 py-1.5 text-[10.5px] sm:text-[11px] font-semibold text-slate-500 border-b border-r border-slate-200/60 text-center align-middle ${shadowClass}`}>
-                    기간 선택
-                  </th>
-                  <td
-                    colSpan={totalCols}
-                    className="border-b border-r border-slate-100 px-2 py-2 bg-slate-50/40 text-center align-middle"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setShowAllPeriods((prev) => !prev)}
-                      title={showAllPeriods ? "핵심 5개 기간(1m~1y)만 보기" : "1일~3년 전체 12개 기간 펼치기"}
-                      className="group inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-600 hover:text-emerald-800 bg-white hover:bg-slate-100 border border-slate-200/80 transition-all cursor-pointer py-1 px-3.5 rounded-full shadow-2xs active:scale-98"
-                    >
-                      <span className="text-[10px] text-slate-400 group-hover:text-emerald-600 transition-colors">
-                        {showAllPeriods ? "▲" : "▼"}
-                      </span>
-                      <span>
-                        {showAllPeriods
-                          ? "핵심 5개 기간(1m~1y)만 접기"
-                          : "+ 전체 12개 기간(1일~3년) 세부 수익률 펼쳐보기"}
-                      </span>
-                    </button>
-                  </td>
-                </tr>
-
-                {/* 실부담비용 (수익률 바로 아래 배치) */}
-                <tr className="hover:bg-slate-50/70 hover:z-40 relative">
-                  <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                    <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
-                      <button
-                        type="button"
-                        onClick={() => setActiveMetricModal("fee")}
-                        aria-label="실부담비용 상세 안내 보기"
-                        className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
-                      >
-                        <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">실부담비용</span>
-                        <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </button>
-                      <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
-                        <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
-                        <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
-                          <span className="text-[13px] font-black text-emerald-400">실부담비용이란?</span>
-                          <span className="text-[10.5px] font-bold text-slate-300 bg-slate-800 border border-slate-700/80 px-2 py-0.5 rounded-full">
-                            실제 차감 총비용
-                          </span>
-                        </div>
-                        <p className="text-[11.5px] text-slate-100 leading-relaxed mb-3 font-normal">
-                          광고에 표기되는 <strong>기본 간판 보수</strong> 외에, 펀드 운용 중 발생하는 <strong>모든 숨은 비용(주식 매매수수료 + 회계/전산 유지비)</strong>을 합산한 <strong>투자자 실제 부담 비용</strong>입니다.
-                        </p>
-                        <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
-                          <div className="flex items-center justify-between text-slate-200">
-                            <span className="flex items-center gap-1.5">
-                              <span className="w-2.5 h-2.5 rounded-full bg-brand-400 shrink-0" />
-                              <strong className="text-white">명목보수</strong>
-                            </span>
-                            <span className="text-[11px] text-slate-300">기본 간판 운용 수수료</span>
-                          </div>
-                          <div className="flex items-center justify-between text-slate-200">
-                            <span className="flex items-center gap-1.5">
-                              <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0" />
-                              <strong className="text-white">기타비용</strong>
-                            </span>
-                            <span className="text-[11px] text-slate-300">예탁원·지수사용 펀드 유지비</span>
-                          </div>
-                          <div className="flex items-center justify-between text-slate-200">
-                            <span className="flex items-center gap-1.5">
-                              <span className="w-2.5 h-2.5 rounded-full bg-orange-400 shrink-0" />
-                              <strong className="text-white">매매수수료</strong>
-                            </span>
-                            <span className="text-[11px] text-slate-300">주식 매매 시 발생하는 거래비용</span>
-                          </div>
-                        </div>
-                        <div className="text-[11.5px] text-emerald-300 bg-emerald-950/60 rounded-lg p-2.5 leading-relaxed border border-emerald-800/60">
-                          <p className="text-emerald-200 font-medium">
-                            별도 납부 없이 매일 펀드 순자산(수익률)에서 자동 차감되므로, <strong>동일 지수를 추종한다면 실부담비용이 낮은 ETF를 선택하는 것이 장기 성과에 유리</strong>합니다.
+                          <p className="text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                            ETF가 실제로 운용하는 전체 자산의 총 규모입니다.
                           </p>
-                        </div>
-                      </div>
-                    </div>
-                  </th>
-                  {compareList.map((etf, index) => {
-                    const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                    const align =
-                      index === compareList.length - 1
-                        ? "right"
-                        : index === 0
-                        ? "left"
-                        : "center";
-                    return (
-                      <td key={etf.ticker} className={`border-b border-r border-slate-100 px-1 py-1.5 transition-colors align-middle whitespace-nowrap tabular-nums ${isBase ? "bg-emerald-50/30" : ""}`}>
-                        <FeeStackedBar
-                          etf={etf}
-                          isLowest={etf.ticker === lowestSyntheticTicker}
-                          maxFee={maxSyntheticFee}
-                          align={align}
-                        />
-                      </td>
-                    );
-                  })}
-                  {hasPlaceholder && (
-                    <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
-                      <span className="text-xs text-neutral-300 select-none">-</span>
-                    </td>
-                  )}
-                </tr>
-
-                {/* 괴리율 */}
-                <tr className="hover:bg-slate-50/70 hover:z-40 relative">
-                  <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                    <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
-                      <button
-                        type="button"
-                        onClick={() => setActiveMetricModal("disparity")}
-                        aria-label="괴리율 상세 안내 보기"
-                        className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
-                      >
-                        <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">괴리율</span>
-                        <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </button>
-                      <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
-                        <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
-                        <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
-                          <span className="text-[13px] font-black text-emerald-400">괴리율이란?</span>
-                          <span className="text-[10px] text-neutral-400 font-mono bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
-                            시장가 vs 실제가치
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-100 leading-relaxed mb-3 font-normal">
-                          주식시장에서 거래되는 <strong>현재 가격이 ETF의 진짜 가치(NAV) 대비 얼마나 웃돈이나 할인이 붙었는지</strong> 나타내는 지표입니다.
-                        </p>
-                        <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
-                          <div className="flex items-start gap-2 text-slate-200">
-                            <span className="text-rose-400 font-bold shrink-0">• + (양수):</span>
-                            <span>실제 가치보다 <strong>웃돈(고평가)</strong>을 주고 사는 상태</span>
-                          </div>
-                          <div className="flex items-start gap-2 text-slate-200">
-                            <span className="text-blue-400 font-bold shrink-0">• - (음수):</span>
-                            <span>실제 가치보다 <strong>할인(저평가)</strong>되어 싸게 사는 상태</span>
+                          <div className="text-[11.5px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
+                            <strong className="text-amber-300">💡 팁:</strong> 규모가 클수록 상장폐지 위험이 낮고 호가가 촘촘하여 매매가 유리합니다.
                           </div>
                         </div>
-                        <div className="text-[11.5px] text-amber-300 bg-amber-950/60 rounded-lg p-2.5 leading-relaxed border border-amber-800/60">
-                          <strong className="text-amber-200 block mb-0.5">⚠️ 고평가 주의 기준:</strong>
-                          국내 ETF는 +0.5%, 해외 ETF는 +1.0% 이상 비정상적으로 웃돈이 붙었을 때만 <strong>[고평가 주의]</strong> 경고가 켜집니다.
-                        </div>
                       </div>
-                    </div>
-                  </th>
-                  {compareList.map((etf) => {
-                    const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                    const d = etf.disparity;
-                    const hasDisparity = typeof d === "number" && Number.isFinite(d);
-                    
-                    const isOverseas = etf.classification?.marketScope === "미국" || etf.classification?.marketScope === "글로벌" || etf.classification?.marketScope === "신흥국";
-                    const overvalueThreshold = isOverseas ? 1.0 : 0.5;
-                    const isAbnormallyOvervalued = hasDisparity && d > overvalueThreshold;
-
-                    return (
-                      <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center tabular-nums font-bold text-[11.5px] sm:text-[12.5px] ${isBase ? "bg-emerald-50/30" : ""}`}>
-                        <div className="inline-flex items-center justify-center font-mono w-full">
-                          <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
-                            {hasDisparity ? (
-                              <>
-                                {isAbnormallyOvervalued && (
-                                  <span
-                                    className="text-[8.5px] sm:text-[9px] font-black px-1 py-0.5 rounded border text-rose-800 bg-rose-50 border-rose-300 shadow-2xs leading-none font-sans mr-1 shrink-0"
-                                    title={`실제 가치(NAV)보다 ${d.toFixed(2)}% 비싸게 거래되는 비정상 고평가 상태입니다. 매수 시 주의하세요.`}
-                                  >
-                                    주의
-                                  </span>
-                                )}
-                                <span className={`ml-auto ${d > 0 ? "text-rose-600 font-mono" : d < 0 ? "text-blue-600 font-mono" : "text-slate-900 font-mono"}`}>
-                                  {d > 0 ? `+${d.toFixed(2)}%` : `${d.toFixed(2)}%`}
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const isTopAum = maxAum !== null && etf.aum === maxAum && compareList.length > 1;
+                      const aumPercent = maxAum && etf.aum ? Math.round((etf.aum / maxAum) * 100) : 0;
+                      return (
+                        <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-slate-100 relative px-1 sm:px-2 py-2 text-center tabular-nums transition-colors ${isBase ? "bg-emerald-50/30" : ""} text-slate-900 font-extrabold text-[11.5px] sm:text-[13px]`}>
+                          <div className="inline-flex flex-col items-center justify-center font-mono w-full">
+                            <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
+                              {isTopAum && (
+                                <span
+                                  data-testid="smart-advantage-badge"
+                                  className="inline-flex items-center rounded px-1 sm:px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-black leading-none bg-indigo-100/90 text-indigo-900 border border-indigo-300 shadow-2xs font-sans mr-1 shrink-0"
+                                  title="비교군 중 순자산(AUM) 1위"
+                                >
+                                  1위
                                 </span>
-                              </>
-                            ) : (
-                              <span className="text-muted ml-auto font-mono">-</span>
+                              )}
+                              <span className="ml-auto text-slate-900">{formatMoney(etf.aum)}</span>
+                            </div>
+                            {compareList.length > 1 && maxAum && (
+                              <div className="w-full max-w-[104px] sm:max-w-[116px] h-1 bg-slate-100 rounded-full overflow-hidden mt-1">
+                                <div
+                                  className={`h-full rounded-full transition-all duration-300 ${isTopAum ? "bg-indigo-500" : "bg-slate-300"}`}
+                                  style={{ width: `${Math.max(aumPercent, 4)}%` }}
+                                />
+                              </div>
                             )}
                           </div>
-                        </div>
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-2 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
                       </td>
-                    );
-                  })}
-                  {hasPlaceholder && (
-                    <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
-                      <span className="text-xs text-neutral-300 select-none">-</span>
-                    </td>
-                  )}
-                </tr>
-                
-                {/* 추적 오차율 (배당 보정 순수 운용 지표) */}
-                <tr className="hover:bg-slate-50/70 hover:z-40 relative">
-                  <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
-                    <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
-                      <button
-                        type="button"
-                        onClick={() => setActiveMetricModal("trackingError")}
-                        aria-label="추적오차율 상세 안내 보기"
-                        className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
-                      >
-                        <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">추적오차율</span>
-                        <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </button>
-                      <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-20px] w-84 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
-                        <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
-                        <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
-                          <span className="text-[13px] font-black text-emerald-400">추적오차율이란?</span>
-                          <span className="text-[10px] text-emerald-300 font-mono bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-700/60 font-semibold">
-                            배당 조정(TR)
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-100 leading-relaxed mb-3 font-normal">
-                          과거 1년간 ETF 순자산가치(NAV)가 목표 기초지수를 얼마나 똑같이 따라갔는지 나타내는 <strong>운용 복제 정밀도(표준편차)</strong>입니다.
-                        </p>
-                        <div className="text-[12px] text-emerald-200 bg-emerald-950/90 rounded-lg p-2.5 leading-snug border border-emerald-600/80 mb-3 shadow-inner">
-                          <strong>배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]입니다.</strong>
-                        </div>
-                        <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-2.5">
-                          <div className="flex items-start gap-2 text-slate-200">
-                            <span className="text-emerald-400 font-bold shrink-0">• 숫자가 낮을수록:</span>
-                            <span>운용사가 지수를 <strong>오차 없이 안정적이고 완벽하게 복제</strong>하고 있음을 의미합니다.</span>
+                    )}
+                  </tr>
+
+                  {/* 일일 거래대금 */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-2 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("tradeValue")}
+                          aria-label="일일 거래대금 (유동성) 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">거래대금</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                            <span className="text-[12.5px] font-black text-brand-300">거래대금 (유동성)</span>
+                            <span className="text-[10px] text-slate-400 font-mono">1일</span>
                           </div>
-                        </div>
-                        <div className="text-[10.5px] text-neutral-400">
-                          💡 액티브 ETF는 펀드매니저의 초과수익 추구로 추적오차율이 상대적으로 높게 나타납니다.
+                          <p className="text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                            최근 1영업일 동안 시장에서 실제 거래된 총액입니다.
+                          </p>
+                          <div className="text-[11.5px] text-sky-200/95 bg-sky-500/10 rounded-md p-1.5 leading-snug border border-sky-500/20">
+                            <strong className="text-sky-300">💡 팁:</strong> 유동성이 풍부할수록 원하는 가격과 수량으로 즉시 체결하기 수월합니다.
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </th>
-                  {compareList.map((etf) => {
-                    const isBase = mainEtf && etf.ticker === mainEtf.ticker;
-                    const te = etf.trackingError;
-                    const hasTE = typeof te === "number" && Number.isFinite(te);
-                    return (
-                      <td key={`te-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center tabular-nums font-bold text-[11.5px] sm:text-[12.5px] ${isBase ? "bg-emerald-50/30" : ""}`}>
-                        <div className="inline-flex items-center justify-center font-mono w-full">
-                          <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
-                            {hasTE ? (
-                              <span className="text-slate-900 ml-auto font-mono">
-                                {te.toFixed(2)}%
-                              </span>
-                            ) : (
-                              <span className="text-muted ml-auto font-mono">-</span>
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const isTopTrade = maxTrade !== null && etf.tradeValue === maxTrade && compareList.length > 1;
+                      const tradePercent = maxTrade && etf.tradeValue ? Math.round((etf.tradeValue / maxTrade) * 100) : 0;
+                      return (
+                        <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-slate-100 relative px-1 sm:px-2 py-2 text-center tabular-nums transition-colors ${isBase ? "bg-emerald-50/30" : ""} text-slate-900 font-extrabold text-[11.5px] sm:text-[13px]`}>
+                          <div className="inline-flex flex-col items-center justify-center font-mono w-full">
+                            <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
+                              {isTopTrade && (
+                                <span
+                                  data-testid="smart-advantage-badge"
+                                  className="inline-flex items-center rounded px-1 sm:px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-black leading-none bg-sky-100/90 text-sky-900 border border-sky-300 shadow-2xs font-sans mr-1 shrink-0"
+                                  title="비교군 중 일 거래대금(유동성) 1위"
+                                >
+                                  1위
+                                </span>
+                              )}
+                              <span className="ml-auto text-slate-900">{formatMoney(etf.tradeValue)}</span>
+                            </div>
+                            {compareList.length > 1 && maxTrade && (
+                              <div className="w-full max-w-[104px] sm:max-w-[116px] h-1 bg-slate-100 rounded-full overflow-hidden mt-1">
+                                <div
+                                  className={`h-full rounded-full transition-all duration-300 ${isTopTrade ? "bg-sky-500" : "bg-slate-300"}`}
+                                  style={{ width: `${Math.max(tradePercent, 4)}%` }}
+                                />
+                              </div>
                             )}
                           </div>
-                        </div>
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-neutral-200 px-1 sm:px-2 py-2 text-center text-neutral-300 bg-neutral-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
                       </td>
-                    );
-                  })}
-                  {hasPlaceholder && (
-                    <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
-                      <span className="text-xs text-neutral-300 select-none">-</span>
-                    </td>
-                  )}
-                </tr>
+                    )}
+                  </tr>
 
-                {/* 기초 지수 */}
-                <tr className="hover:bg-slate-50/70">
-                  <th className={`sticky left-0 z-20 bg-slate-50/95 backdrop-blur px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-shadow duration-200 text-center align-middle ${shadowClass}`}>기초 지수</th>
-                  {compareList.map((etf) => {
-                    const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                  {/* ────────────────────────────────────────── */}
+                  {/* SECTION 2: 📈 기간별 성과 */}
+                  {/* ────────────────────────────────────────── */}
+                  {renderSectionHeader("📈", "기간별 성과", "시장 가격 기준 기간별 단순/TR 수익률 비교")}
+
+                  {/* 수익률 행들 */}
+                  {orderedPeriods.map((period) => {
+                    const periodValues = compareList
+                      .map((e) => getActiveReturns(e)?.[period])
+                      .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+                    const maxReturnForPeriod = periodValues.length > 0 ? Math.max(...periodValues) : null;
+                    const minReturnForPeriod = periodValues.length > 0 ? Math.min(...periodValues) : null;
+                    const hasVariation = maxReturnForPeriod !== null && minReturnForPeriod !== null && maxReturnForPeriod !== minReturnForPeriod;
+
                     return (
-                      <td key={etf.ticker} className={`border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-emerald-50/30" : ""}`}>
-                        <span className="text-[10.5px] sm:text-[11.5px] font-semibold text-slate-700 leading-tight break-words [overflow-wrap:anywhere] line-clamp-2 block max-w-full" title={etf.baseIndex || ""}>{etf.baseIndex || "-"}</span>
-                      </td>
+                      <tr key={period} className="hover:bg-slate-50/70">
+                        <th className={`sticky left-0 z-20 bg-slate-50/95 backdrop-blur px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
+                          {RETURN_PERIOD_LABELS[period]}
+                        </th>
+                        {compareList.map((etf) => {
+                          const val = getActiveReturns(etf)?.[period] ?? null;
+                          const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                          const isTop = hasVariation && maxReturnForPeriod !== null && val === maxReturnForPeriod && compareList.length > 1;
+                          return (
+                            <td key={`${etf.ticker}-${period}`} className={`whitespace-nowrap border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center tabular-nums transition-colors ${isBase ? "bg-emerald-50/30" : ""}`}>
+                              <div className="inline-flex items-center justify-center font-mono w-full">
+                                <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
+                                  {isTop && val != null && (
+                                    <span
+                                      data-testid="smart-advantage-badge"
+                                      className="inline-flex items-center rounded px-1 sm:px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-black leading-none bg-amber-100/90 text-amber-900 border border-amber-300 shadow-2xs font-sans mr-1 shrink-0"
+                                      title={val < 0 ? "해당 기간 비교군 최고 방어 성과 (1위)" : "해당 기간 비교군 1위 성과"}
+                                    >
+                                      1위
+                                    </span>
+                                  )}
+                                  <span className={`${isTop ? "font-black" : "font-semibold"} ml-auto`}>
+                                    <ReturnCell value={val} isTr={isTrMode} />
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                          );
+                        })}
+                        {hasPlaceholder && (
+                          <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                            <span className="text-xs text-neutral-300 select-none">-</span>
+                          </td>
+                        )}
+                      </tr>
                     );
                   })}
-                  {hasPlaceholder && (
-                    <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
-                      <span className="text-xs text-neutral-300 select-none">-</span>
+
+                  {/* 세부 기간 펼치기 / 접기 토글 전용 행 */}
+                  <tr className="hover:bg-slate-100/60 transition-colors">
+                    <th className={`sticky left-0 z-20 bg-slate-50/95 backdrop-blur px-1 sm:px-2.5 py-1.5 text-[10.5px] sm:text-[11px] font-semibold text-slate-500 border-b border-r border-slate-200/60 text-center align-middle ${shadowClass}`}>
+                      기간 선택
+                    </th>
+                    <td
+                      colSpan={totalCols}
+                      className="border-b border-r border-slate-100 px-2 py-2 bg-slate-50/40 text-center align-middle"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setShowAllPeriods((prev) => !prev)}
+                        title={showAllPeriods ? "핵심 5개 기간(1m~1y)만 보기" : "1일~3년 전체 12개 기간 펼치기"}
+                        className="group inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-600 hover:text-emerald-800 bg-white hover:bg-slate-100 border border-slate-200/80 transition-all cursor-pointer py-1 px-3.5 rounded-full shadow-2xs active:scale-98"
+                      >
+                        <span className="text-[10px] text-slate-400 group-hover:text-emerald-600 transition-colors">
+                          {showAllPeriods ? "▲" : "▼"}
+                        </span>
+                        <span>
+                          {showAllPeriods
+                            ? "핵심 5개 기간(1m~1y)만 접기"
+                            : "+ 전체 12개 기간(1일~3년) 세부 수익률 펼쳐보기"}
+                        </span>
+                      </button>
                     </td>
-                  )}
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                  </tr>
 
-          {/* 기간 더보기 & TR 토글 바 */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 bg-slate-50/70 border-t border-slate-200/80">
-            <button
-              type="button"
-              role="switch"
-              aria-checked={isTrMode}
-              onClick={handleToggleTr}
-              className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 rounded-full transition-all active:scale-95 shadow-2xs border border-slate-200/80 bg-white"
-            >
-              <span className={isTrMode ? "text-emerald-700" : ""}>TR (배당 재투자) {isTrMode ? "ON" : "OFF"}</span>
-              <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${isTrMode ? 'bg-emerald-600' : 'bg-slate-300'}`}>
-                <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${isTrMode ? 'translate-x-3.5' : 'translate-x-0.5'}`} />
-              </div>
-            </button>
-            
-            <button
-              type="button"
-              onClick={() => setShowAllPeriods(!showAllPeriods)}
-              className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 rounded-full transition-all active:scale-95 shadow-2xs border border-slate-200/80 bg-white"
-            >
-              <span>{showAllPeriods ? "핵심 기간만 보기 (1개월~1년)" : "전체 세부 기간 보기 (1일~3년)"}</span>
-              <span className="text-[10px] text-slate-400">{showAllPeriods ? "▲" : "▼"}</span>
-            </button>
-          </div>
+                  {/* ────────────────────────────────────────── */}
+                  {/* SECTION 3: 💰 배당 및 분배금 */}
+                  {/* ────────────────────────────────────────── */}
+                  {renderSectionHeader("💰", "배당 및 분배금", "최근 1년 실질 분배율 및 분배 주기")}
 
-          {/* 법적 컴플라이언스 및 데이터 기준 각주 */}
-          <div className="px-3 sm:px-4 py-2.5 bg-slate-50/50 border-t border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[10.5px] sm:text-[11px] text-slate-400 font-medium">
-            <p>
-              * 실부담비용: 금융투자협회 최근 공시 기준 · 수익률/순자산/괴리율: 최근 영업일 종가 기준 · 본 자료는 투자 참고용이며 권유 목적이 아닙니다.
-            </p>
-            <span className="font-mono text-[10px] sm:text-[10.5px] text-slate-400 shrink-0">
-              {compareList[0]?.asOfDate ? `${compareList[0].asOfDate.replace(/-/g, ".")} 기준` : ""}
-            </span>
+                  {/* 연간 분배율 (TTM) */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("dividendYield")}
+                          aria-label="연간 분배율 (TTM) 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">연간 분배율</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-72 p-3.5 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                            <span className="text-[12.5px] font-black text-rose-300">연간 분배율 (TTM)</span>
+                            <span className="text-[10px] text-slate-400 font-mono">연 배당 수익률</span>
+                          </div>
+                          <p className="text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                            최근 1년간 지급된 주당 분배금 합계를 현재 가격으로 나눈 실질 연간 배당(분배) 수익률입니다.
+                          </p>
+                          <div className="text-[11.5px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
+                            <strong className="text-amber-300">💡 팁:</strong> 고배당 및 커버드콜 ETF는 분배율뿐만 아니라 원금 보전 및 총수익률(TR)을 함께 점검하는 것이 중요합니다.
+                          </div>
+                        </div>
+                      </div>
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const divYield = etf.distributionYield;
+                      const hasDivYield = typeof divYield === "number" && divYield > 0;
+                      const isTopDiv = hasDivYield && maxDivYield > 0 && divYield === maxDivYield && compareList.length > 1;
+                      return (
+                        <td key={`div-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-slate-100 relative px-1 sm:px-2 py-1.5 text-center tabular-nums transition-colors ${isBase ? "bg-emerald-50/30" : ""} text-slate-900 font-extrabold text-[11.5px] sm:text-[12.5px]`}>
+                          <div className="inline-flex items-center justify-center font-mono w-full">
+                            <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
+                              {isTopDiv && (
+                                <span
+                                  data-testid="smart-advantage-badge"
+                                  className="inline-flex items-center rounded px-1 sm:px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-black leading-none bg-rose-100/90 text-rose-900 border border-rose-300 shadow-2xs font-sans mr-1 shrink-0"
+                                  title="비교군 중 연간 분배율 1위"
+                                >
+                                  1위
+                                </span>
+                              )}
+                              <span className={`ml-auto ${hasDivYield ? "text-slate-900 font-mono" : "text-muted font-mono"}`}>
+                                {hasDivYield ? `연 ${divYield.toFixed(2)}%` : "-"}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+
+                  {/* 분배 주기 */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("dividendCycle")}
+                          aria-label="분배 주기 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">분배 주기</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] top-1/2 -translate-y-1/2 w-64 p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                            <span className="text-[12.5px] font-black text-brand-300">분배 주기</span>
+                            <span className="text-[10px] text-slate-400 font-mono">현금흐름</span>
+                          </div>
+                          <p className="text-[12px] text-neutral-200 leading-snug mb-1.5 font-medium">
+                            펀드 운용 수익이나 배당 재원을 투자자에게 지급하는 주기입니다.
+                          </p>
+                          <div className="text-[11.5px] text-emerald-200/95 bg-emerald-500/10 rounded-md p-1.5 leading-snug border border-emerald-500/20">
+                            <strong className="text-emerald-300">💡 팁:</strong> 정기적인 현금흐름이 필요한 은퇴/연금 투자자에게는 매월 분배금을 지급하는 월배당 ETF가 적합합니다.
+                          </div>
+                        </div>
+                      </div>
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const cycle = etf.distributionCycle;
+                      const isMonthly = cycle?.includes("월");
+                      return (
+                        <td key={`cycle-${etf.ticker}`} className={`border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-emerald-50/30" : ""}`}>
+                          {isMonthly ? (
+                            <span className="inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[9.5px] sm:text-[10px] font-black bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs">
+                              🗓️ {cycle}
+                            </span>
+                          ) : cycle ? (
+                            <span className="text-[11px] sm:text-[11.5px] font-bold text-slate-700">
+                              {cycle}
+                            </span>
+                          ) : (
+                            <span className="text-muted text-xs font-mono">-</span>
+                          )}
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+
+                  {/* ────────────────────────────────────────── */}
+                  {/* SECTION 4: 🏷️ 총비용 및 보수 */}
+                  {/* ────────────────────────────────────────── */}
+                  {renderSectionHeader("🏷️", "총비용 및 보수", "명목 총보수 및 숨은 비용(기타비용+매매수수료) 합산 실부담비용")}
+
+                  {/* 실부담비용 */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("fee")}
+                          aria-label="실부담비용 상세 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">실부담비용</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
+                            <span className="text-[13px] font-black text-emerald-400">실부담비용이란?</span>
+                            <span className="text-[10.5px] font-bold text-slate-300 bg-slate-800 border border-slate-700/80 px-2 py-0.5 rounded-full">
+                              실제 차감 총비용
+                            </span>
+                          </div>
+                          <p className="text-[11.5px] text-slate-100 leading-relaxed mb-3 font-normal">
+                            광고에 표기되는 <strong>기본 간판 보수</strong> 외에, 펀드 운용 중 발생하는 <strong>모든 숨은 비용(주식 매매수수료 + 회계/전산 유지비)</strong>을 합산한 <strong>투자자 실제 부담 비용</strong>입니다.
+                          </p>
+                          <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
+                            <div className="flex items-center justify-between text-slate-200">
+                              <span className="flex items-center gap-1.5">
+                                <span className="w-2.5 h-2.5 rounded-full bg-brand-400 shrink-0" />
+                                <strong className="text-white">명목보수</strong>
+                              </span>
+                              <span className="text-[11px] text-slate-300">기본 간판 운용 수수료</span>
+                            </div>
+                            <div className="flex items-center justify-between text-slate-200">
+                              <span className="flex items-center gap-1.5">
+                                <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0" />
+                                <strong className="text-white">기타비용</strong>
+                              </span>
+                              <span className="text-[11px] text-slate-300">예탁원·지수사용 펀드 유지비</span>
+                            </div>
+                            <div className="flex items-center justify-between text-slate-200">
+                              <span className="flex items-center gap-1.5">
+                                <span className="w-2.5 h-2.5 rounded-full bg-orange-400 shrink-0" />
+                                <strong className="text-white">매매수수료</strong>
+                              </span>
+                              <span className="text-[11px] text-slate-300">주식 매매 시 발생하는 거래비용</span>
+                            </div>
+                          </div>
+                          <div className="text-[11.5px] text-emerald-300 bg-emerald-950/60 rounded-lg p-2.5 leading-relaxed border border-emerald-800/60">
+                            <p className="text-emerald-200 font-medium">
+                              별도 납부 없이 매일 펀드 순자산(수익률)에서 자동 차감되므로, <strong>동일 지수를 추종한다면 실부담비용이 낮은 ETF를 선택하는 것이 장기 성과에 유리</strong>합니다.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </th>
+                    {compareList.map((etf, index) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const align =
+                        index === compareList.length - 1
+                          ? "right"
+                          : index === 0
+                          ? "left"
+                          : "center";
+                      return (
+                        <td key={etf.ticker} className={`border-b border-r border-slate-100 px-1 py-1.5 transition-colors align-middle whitespace-nowrap tabular-nums ${isBase ? "bg-emerald-50/30" : ""}`}>
+                          <FeeStackedBar
+                            etf={etf}
+                            isLowest={etf.ticker === lowestSyntheticTicker}
+                            maxFee={maxSyntheticFee}
+                            align={align}
+                          />
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+
+                  {/* 기본 운용보수 (명목 총보수) */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("nominalFee")}
+                          aria-label="기본 운용보수 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">기본 보수</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-20px] w-72 p-3.5 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-800">
+                            <span className="text-[12.5px] font-black text-emerald-400">기본 운용보수 (총보수)</span>
+                            <span className="text-[10px] text-slate-400 font-mono">간판 보수</span>
+                          </div>
+                          <p className="text-[11.5px] text-neutral-200 leading-relaxed mb-1.5 font-normal">
+                            운용사 설명서 및 증권사 화면에 공식 고시되는 기본 간판 총보수입니다.
+                          </p>
+                          <div className="text-[11px] text-amber-200/95 bg-amber-500/10 rounded-md p-1.5 leading-snug border border-amber-500/20">
+                            <strong className="text-amber-300">💡 팁:</strong> 실제 투자자 부담은 여기에 기타비용과 매매수수료가 더해진 [실부담비용]이므로, 반드시 실부담비용과 함께 비교하세요.
+                          </div>
+                        </div>
+                      </div>
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const nominalFee = etf.fee?.totalFeePct;
+                      const hasNominal = typeof nominalFee === "number" && Number.isFinite(nominalFee);
+                      return (
+                        <td key={`nominal-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-slate-100 relative px-1 sm:px-2 py-1.5 text-center tabular-nums transition-colors ${isBase ? "bg-emerald-50/30" : ""} text-slate-800 font-bold text-[11.5px] sm:text-[12.5px]`}>
+                          <div className="inline-flex items-center justify-center font-mono w-full">
+                            <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
+                              <span className={`ml-auto ${hasNominal ? "text-slate-800 font-mono" : "text-muted font-mono"}`}>
+                                {hasNominal ? formatFeePct(nominalFee) : "-"}
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+
+                  {/* ────────────────────────────────────────── */}
+                  {/* SECTION 5: 🎯 운용 품질 및 정밀도 */}
+                  {/* ────────────────────────────────────────── */}
+                  {renderSectionHeader("🎯", "운용 품질 및 정밀도", "순자산가치(NAV) 대비 시장 괴리율 및 지수 추적오차율")}
+
+                  {/* 괴리율 */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("disparity")}
+                          aria-label="괴리율 상세 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">괴리율</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-20px] w-80 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
+                            <span className="text-[13px] font-black text-emerald-400">괴리율이란?</span>
+                            <span className="text-[10px] text-neutral-400 font-mono bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">
+                              시장가 vs 실제가치
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-100 leading-relaxed mb-3 font-normal">
+                            주식시장에서 거래되는 <strong>현재 가격이 ETF의 진짜 가치(NAV) 대비 얼마나 웃돈이나 할인이 붙었는지</strong> 나타내는 지표입니다.
+                          </p>
+                          <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-3">
+                            <div className="flex items-start gap-2 text-slate-200">
+                              <span className="text-rose-400 font-bold shrink-0">• + (양수):</span>
+                              <span>실제 가치보다 <strong>웃돈(고평가)</strong>을 주고 사는 상태</span>
+                            </div>
+                            <div className="flex items-start gap-2 text-slate-200">
+                              <span className="text-blue-400 font-bold shrink-0">• - (음수):</span>
+                              <span>실제 가치보다 <strong>할인(저평가)</strong>되어 싸게 사는 상태</span>
+                            </div>
+                          </div>
+                          <div className="text-[11.5px] text-amber-300 bg-amber-950/60 rounded-lg p-2.5 leading-relaxed border border-amber-800/60">
+                            <strong className="text-amber-200 block mb-0.5">⚠️ 고평가 주의 기준:</strong>
+                            국내 ETF는 +0.5%, 해외 ETF는 +1.0% 이상 비정상적으로 웃돈이 붙었을 때만 <strong>[고평가 주의]</strong> 경고가 켜집니다.
+                          </div>
+                        </div>
+                      </div>
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const d = etf.disparity;
+                      const hasDisparity = typeof d === "number" && Number.isFinite(d);
+                      
+                      const isOverseas = etf.classification?.marketScope === "미국" || etf.classification?.marketScope === "글로벌" || etf.classification?.marketScope === "신흥국";
+                      const overvalueThreshold = isOverseas ? 1.0 : 0.5;
+                      const isAbnormallyOvervalued = hasDisparity && d > overvalueThreshold;
+
+                      return (
+                        <td key={etf.ticker} className={`whitespace-nowrap border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center tabular-nums font-bold text-[11.5px] sm:text-[12.5px] ${isBase ? "bg-emerald-50/30" : ""}`}>
+                          <div className="inline-flex items-center justify-center font-mono w-full">
+                            <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
+                              {hasDisparity ? (
+                                <>
+                                  {isAbnormallyOvervalued && (
+                                    <span
+                                      className="text-[8.5px] sm:text-[9px] font-black px-1 py-0.5 rounded border text-rose-800 bg-rose-50 border-rose-300 shadow-2xs leading-none font-sans mr-1 shrink-0"
+                                      title={`실제 가치(NAV)보다 ${d.toFixed(2)}% 비싸게 거래되는 비정상 고평가 상태입니다. 매수 시 주의하세요.`}
+                                    >
+                                      주의
+                                    </span>
+                                  )}
+                                  <span className={`ml-auto ${d > 0 ? "text-rose-600 font-mono" : d < 0 ? "text-blue-600 font-mono" : "text-slate-900 font-mono"}`}>
+                                    {d > 0 ? `+${d.toFixed(2)}%` : `${d.toFixed(2)}%`}
+                                  </span>
+                                </>
+                              ) : (
+                                <span className="text-muted ml-auto font-mono">-</span>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+                  
+                  {/* 추적 오차율 */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("trackingError")}
+                          aria-label="추적오차율 상세 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">추적오차율</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-20px] w-84 p-4 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute bottom-6 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-2.5 pb-2 border-b border-slate-800">
+                            <span className="text-[13px] font-black text-emerald-400">추적오차율이란?</span>
+                            <span className="text-[10px] text-emerald-300 font-mono bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-700/60 font-semibold">
+                              배당 조정(TR)
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-100 leading-relaxed mb-3 font-normal">
+                            과거 1년간 ETF 순자산가치(NAV)가 목표 기초지수를 얼마나 똑같이 따라갔는지 나타내는 <strong>운용 복제 정밀도(표준편차)</strong>입니다.
+                          </p>
+                          <div className="text-[12px] text-emerald-200 bg-emerald-950/90 rounded-lg p-2.5 leading-snug border border-emerald-600/80 mb-3 shadow-inner">
+                            <strong>배당금(분배금) 효과를 금융공학적으로 보정한 [순수 운용 추적오차(TR 기준)]입니다.</strong>
+                          </div>
+                          <div className="space-y-1.5 text-xs bg-slate-800/90 p-3 rounded-lg border border-slate-700/60 mb-2.5">
+                            <div className="flex items-start gap-2 text-slate-200">
+                              <span className="text-emerald-400 font-bold shrink-0">• 숫자가 낮을수록:</span>
+                              <span>운용사가 지수를 <strong>오차 없이 안정적이고 완벽하게 복제</strong>하고 있음을 의미합니다.</span>
+                            </div>
+                          </div>
+                          <div className="text-[10.5px] text-neutral-400">
+                            💡 액티브 ETF는 펀드매니저의 초과수익 추구로 추적오차율이 상대적으로 높게 나타납니다.
+                          </div>
+                        </div>
+                      </div>
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const te = etf.trackingError;
+                      const hasTE = typeof te === "number" && Number.isFinite(te);
+                      return (
+                        <td key={`te-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center tabular-nums font-bold text-[11.5px] sm:text-[12.5px] ${isBase ? "bg-emerald-50/30" : ""}`}>
+                          <div className="inline-flex items-center justify-center font-mono w-full">
+                            <div className="inline-flex items-center justify-end w-[104px] sm:w-[116px] text-right">
+                              {hasTE ? (
+                                <span className="text-slate-900 ml-auto font-mono">
+                                  {te.toFixed(2)}%
+                                </span>
+                              ) : (
+                                <span className="text-muted ml-auto font-mono">-</span>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+
+                  {/* ────────────────────────────────────────── */}
+                  {/* SECTION 6: 📋 상품 프로필 및 구조 */}
+                  {/* ────────────────────────────────────────── */}
+                  {renderSectionHeader("📋", "상품 프로필 및 구조", "운용사, 상장일, 환노출/환헤지 방식 및 기초지수")}
+
+                  {/* 운용사 */}
+                  <tr className="hover:bg-slate-50/70">
+                    <th className={`sticky left-0 z-20 bg-slate-50/95 backdrop-blur px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-shadow duration-200 text-center align-middle ${shadowClass}`}>
+                      운용사
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      return (
+                        <td key={`issuer-${etf.ticker}`} className={`border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-emerald-50/30" : ""}`}>
+                          <span className="text-[11px] sm:text-[11.5px] font-bold text-slate-800 truncate block max-w-full" title={etf.issuer?.issuerName || ""}>
+                            {etf.issuer?.issuerName || "-"}
+                          </span>
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+
+                  {/* 상장일 */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("listingDate")}
+                          aria-label="상장일 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">상장일</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-10px] w-64 p-3 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute bottom-5 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-slate-700/60">
+                            <span className="text-[12.5px] font-black text-brand-300">상장일</span>
+                            <span className="text-[10px] text-slate-400 font-mono">운용 역사</span>
+                          </div>
+                          <p className="text-[11.5px] text-neutral-200 leading-snug mb-1 font-medium">
+                            한국거래소(KRX)에 최초 상장된 일자입니다.
+                          </p>
+                          <div className="text-[11px] text-slate-400">
+                            💡 상장 역사가 오래될수록 다양한 시장 위기를 겪으며 검증된 트랙레코드를 보유합니다.
+                          </div>
+                        </div>
+                      </div>
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      return (
+                        <td key={`listing-${etf.ticker}`} className={`whitespace-nowrap border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 transition-colors text-center align-middle font-mono text-[11px] sm:text-[11.5px] text-slate-700 font-semibold ${isBase ? "bg-emerald-50/30" : ""}`}>
+                          {formatListingDate(etf.listingDate)}
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+
+                  {/* 환헤지 여부 */}
+                  <tr className="hover:bg-slate-50/70 hover:z-40 relative">
+                    <th className={`sticky left-0 z-20 hover:z-50 bg-slate-50/95 backdrop-blur-md px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-all duration-200 text-center align-middle ${shadowClass}`}>
+                      <div className="flex items-center justify-center gap-0.5 sm:gap-1 group relative w-fit mx-auto">
+                        <button
+                          type="button"
+                          onClick={() => setActiveMetricModal("fxHedge")}
+                          aria-label="환헤지 여부 안내 보기"
+                          className="inline-flex items-center justify-center gap-1 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded-sm group/btn"
+                        >
+                          <span className="leading-tight group-hover/btn:text-emerald-700 transition-colors">환헤지 여부</span>
+                          <svg className="size-3 text-slate-400 group-hover/btn:text-emerald-600 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </button>
+                        <div className="hidden sm:block absolute left-[calc(100%+10px)] bottom-[-10px] w-72 p-3.5 rounded-xl bg-slate-900/98 backdrop-blur-md text-white text-left shadow-2xl border border-slate-700/90 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-none group-focus-within:pointer-events-auto transition-all duration-200 z-[120] whitespace-normal break-keep">
+                          <div className="absolute bottom-5 -left-1.5 border-[6px] border-transparent border-r-slate-900/98" />
+                          <div className="flex items-center justify-between gap-1 mb-1.5 pb-1 border-b border-slate-800">
+                            <span className="text-[12.5px] font-black text-amber-300">환헤지 여부</span>
+                            <span className="text-[10px] text-slate-400 font-mono">환율 위험</span>
+                          </div>
+                          <div className="space-y-1 text-xs bg-slate-800/90 p-2 rounded-lg border border-slate-700/60 mb-2">
+                            <div className="flex items-start gap-1.5">
+                              <span className="text-amber-300 font-bold shrink-0">• 환헤지(H):</span>
+                              <span className="text-slate-200 text-[11px]">환율 변동을 제거하고 자산 가치만 추종</span>
+                            </div>
+                            <div className="flex items-start gap-1.5">
+                              <span className="text-sky-300 font-bold shrink-0">• 환노출(UH):</span>
+                              <span className="text-slate-200 text-[11px]">자산 가격 변동 + 환율 변동이 동시 반영</span>
+                            </div>
+                          </div>
+                          <div className="text-[11px] text-slate-300">
+                            💡 달러 강세 시 환노출이, 달러 약세 시 환헤지가 유리합니다.
+                          </div>
+                        </div>
+                      </div>
+                    </th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      const hedgeInfo = getFxHedgeInfo(etf);
+                      return (
+                        <td key={`fx-${etf.ticker}`} className={`border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-emerald-50/30" : ""}`}>
+                          {hedgeInfo.type === "hedged" ? (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9.5px] sm:text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-300 shadow-2xs">
+                              {hedgeInfo.label}
+                            </span>
+                          ) : hedgeInfo.type === "unhedged" ? (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9.5px] sm:text-[10px] font-bold bg-sky-50 text-sky-800 border border-sky-200 shadow-2xs">
+                              {hedgeInfo.label}
+                            </span>
+                          ) : (
+                            <span className="text-slate-400 text-xs font-medium">{hedgeInfo.label}</span>
+                          )}
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+
+                  {/* 기초 지수 */}
+                  <tr className="hover:bg-slate-50/70">
+                    <th className={`sticky left-0 z-20 bg-slate-50/95 backdrop-blur px-1 sm:px-2.5 py-1.5 text-[11.5px] sm:text-xs font-semibold text-slate-600 border-b border-r border-slate-200/60 transition-shadow duration-200 text-center align-middle ${shadowClass}`}>기초 지수</th>
+                    {compareList.map((etf) => {
+                      const isBase = mainEtf && etf.ticker === mainEtf.ticker;
+                      return (
+                        <td key={etf.ticker} className={`border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 transition-colors text-center align-middle ${isBase ? "bg-emerald-50/30" : ""}`}>
+                          <span className="text-[10.5px] sm:text-[11.5px] font-semibold text-slate-700 leading-tight break-words [overflow-wrap:anywhere] line-clamp-2 block max-w-full" title={etf.baseIndex || ""}>{etf.baseIndex || "-"}</span>
+                        </td>
+                      );
+                    })}
+                    {hasPlaceholder && (
+                      <td className="border-b border-r border-slate-100 px-1 sm:px-2 py-1.5 text-center text-neutral-300 bg-slate-50/20 align-middle">
+                        <span className="text-xs text-neutral-300 select-none">-</span>
+                      </td>
+                    )}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* 기간 더보기 & TR 토글 바 */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 bg-slate-50/70 border-t border-slate-200/80">
+              <button
+                type="button"
+                role="switch"
+                aria-checked={isTrMode}
+                onClick={handleToggleTr}
+                className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 rounded-full transition-all active:scale-95 shadow-2xs border border-slate-200/80 bg-white"
+              >
+                <span className={isTrMode ? "text-emerald-700" : ""}>TR (배당 재투자) {isTrMode ? "ON" : "OFF"}</span>
+                <div className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors ${isTrMode ? 'bg-emerald-600' : 'bg-slate-300'}`}>
+                  <span className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${isTrMode ? 'translate-x-3.5' : 'translate-x-0.5'}`} />
+                </div>
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => setShowAllPeriods(!showAllPeriods)}
+                className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 rounded-full transition-all active:scale-95 shadow-2xs border border-slate-200/80 bg-white"
+              >
+                <span>{showAllPeriods ? "핵심 기간만 보기 (1개월~1년)" : "전체 세부 기간 보기 (1일~3년)"}</span>
+                <span className="text-[10px] text-slate-400">{showAllPeriods ? "▲" : "▼"}</span>
+              </button>
+            </div>
+
+            {/* 법적 컴플라이언스 및 데이터 기준 각주 */}
+            <div className="px-3 sm:px-4 py-2.5 bg-slate-50/50 border-t border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[10.5px] sm:text-[11px] text-slate-400 font-medium">
+              <p>
+                * 실부담비용: 금융투자협회 최근 공시 기준 · 수익률/순자산/괴리율: 최근 영업일 종가 기준 · 본 자료는 투자 참고용이며 권유 목적이 아닙니다.
+              </p>
+              <span className="font-mono text-[10px] sm:text-[10.5px] text-slate-400 shrink-0">
+                {compareList[0]?.asOfDate ? `${compareList[0].asOfDate.replace(/-/g, ".")} 기준` : ""}
+              </span>
+            </div>
           </div>
         </div>
         );

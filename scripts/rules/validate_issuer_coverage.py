@@ -28,7 +28,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 SOURCES_DIR = REPO_ROOT / "data" / "regulatory" / "sources" / "issuers"
 SCREENER_JSON = REPO_ROOT / "public" / "data" / "screener.json"
 UNEXPLAINED_TRACKER_PATH = REPO_ROOT / "data" / "regulatory" / "unexplained_coverage.json"
-UNEXPLAINED_THRESHOLD = 15
+UNEXPLAINED_THRESHOLD = 5
 UNEXPLAINED_MAX_DAYS = 30
 
 

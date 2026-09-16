@@ -141,15 +141,51 @@ async function main() {
 
   if (!raw) {
     console.log(`[OSMU Render] Falling back to Pages API from ${baseUrl}...`);
-    const pagesEndpoint = cliOpts.date
-      ? `${baseUrl}/api/briefings/${cliOpts.date}?_t=${Date.now()}`
-      : `${baseUrl}/api/briefings/latest?_t=${Date.now()}`;
-    const res = await fetch(pagesEndpoint);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch live briefing: ${res.status} ${res.statusText}`);
+    try {
+      const pagesEndpoint = cliOpts.date
+        ? `${baseUrl}/api/briefings/${cliOpts.date}?_t=${Date.now()}`
+        : `${baseUrl}/api/briefings/latest?_t=${Date.now()}`;
+      const res = await fetch(pagesEndpoint);
+      if (res.ok) {
+        const data: any = await res.json();
+        raw = data.briefing || data;
+      } else {
+        console.warn(`[OSMU Render] Pages API responded with status ${res.status}`);
+      }
+    } catch (e) {
+      console.warn('[OSMU Render] Pages API fetch failed:', e);
     }
-    const data: any = await res.json();
-    raw = data.briefing || data;
+  }
+
+  // 3. Robust Local Repository Fallback (Zero-D1 Dependency)
+  if (!raw || (cliOpts.date && raw.asOfDate !== cliOpts.date)) {
+    console.log('[OSMU Render] Remote API unavailable or stale. Attempting Local Repository Fallback...');
+    const repoRoot = process.cwd().endsWith("market-briefing-distributor")
+      ? path.resolve(process.cwd(), "../..")
+      : process.cwd();
+    const localPayloadPath = path.join(repoRoot, "data", "briefing_payload_latest.json");
+
+    try {
+      if (!fs.existsSync(localPayloadPath)) {
+        console.log('[OSMU Render] Generating local briefing payload from repository data...');
+        execSync(`python scripts/build_local_briefing_payload.py`, { cwd: repoRoot, stdio: 'inherit' });
+      }
+
+      if (fs.existsSync(localPayloadPath)) {
+        const localData = JSON.parse(fs.readFileSync(localPayloadPath, 'utf-8'));
+        const candidate = localData.briefing || localData;
+        if (!cliOpts.date || candidate.asOfDate === cliOpts.date) {
+          raw = candidate;
+          console.log(`✅ [OSMU Render] Successfully loaded payload via Local Repository Fallback for ${raw.asOfDate}!`);
+        }
+      }
+    } catch (localErr) {
+      console.error('[OSMU Render] Local fallback generation error:', localErr);
+    }
+  }
+
+  if (!raw) {
+    throw new Error('Failed to fetch or generate live briefing payload via all channels (Worker, Pages, Local).');
   }
   const targetDate = cliOpts.date || raw.asOfDate || new Date().toISOString().slice(0, 10);
   console.log(`[OSMU Pipeline] Target Market Date: ${targetDate}`);

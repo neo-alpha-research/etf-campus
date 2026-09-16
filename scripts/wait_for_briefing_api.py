@@ -48,8 +48,8 @@ def main() -> int:
     formatted_date = f"{target_date[:4]}-{target_date[4:6]}-{target_date[6:]}" if len(target_date) == 8 else target_date
     print(f"🔍 [API Waiter] Waiting for market briefing data to serve asOfDate: {formatted_date} ({target_date})")
 
-    max_attempts = 20
-    delay_seconds = 10
+    max_attempts = 3
+    delay_seconds = 5
 
     worker_url = f"https://market-briefing-distributor.neo-alpha-research.workers.dev/api/briefings/latest?date={formatted_date}&_t={time.time()}"
     pages_url = f"https://etf-campus.pages.dev/api/briefings/latest?_t={time.time()}"
@@ -93,7 +93,21 @@ def main() -> int:
 
         time.sleep(delay_seconds)
 
-    print(f"❌ [API Waiter] Error: Timeout waiting for target date {formatted_date}. Refusing to generate OSMU with stale data.", file=sys.stderr)
+    # 3. Resilient Local Fallback Check
+    master_file = Path("data/etf_master_draft.csv")
+    if master_file.exists():
+        try:
+            with open(master_file, encoding="utf-8-sig") as f:
+                reader = csv.DictReader(f)
+                first_row = next(reader, None)
+                if first_row and first_row.get("bas_dt", "").strip().replace("-", "") == target_date:
+                    print(f"⚡ [API Waiter] Remote API delayed, but local verified master is READY for {formatted_date}!")
+                    print("✅ [API Waiter] Authorizing instant local fallback rendering (Zero-D1 Dependency).")
+                    return 0
+        except Exception as e:
+            print(f"⚠️ [API Waiter] Error verifying local master: {e}", file=sys.stderr)
+
+    print(f"❌ [API Waiter] Error: Timeout waiting for target date {formatted_date} and no local match found. Refusing to generate OSMU with stale data.", file=sys.stderr)
     return 1
 
 

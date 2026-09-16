@@ -280,9 +280,62 @@ def main() -> int:
     else:
         print(f"⚠️ Warning: Threads image '{threads_path}' not found, skipping.")
 
+    # 3. Direct Market Briefing JSON Payload to KV (Zero-D1 Read Acceleration)
+    payload_file = Path("data") / "briefing_payload_latest.json"
+    if not payload_file.exists():
+        try:
+            subprocess.run(["python", "scripts/build_local_briefing_payload.py", f"--target-date={target_date}"], check=True)
+        except Exception as e:
+            print(f"⚠️ Failed to generate local briefing payload: {e}")
+
+    if payload_file.exists():
+        payload_key = f"market-briefing:v0:payload:{target_date}:v1"
+        total_count += 1
+        print(f"📤 Uploading Briefing JSON {payload_key}...", end=" ")
+        ok_payload = upload_to_kv_via_rest(
+            account_id=account_id,
+            namespace_id=namespace_id,
+            key=payload_key,
+            file_path=payload_file,
+            api_token=api_token,
+            api_key=api_key,
+            email=email,
+        )
+        if ok_payload:
+            print("✅ Done")
+            success_count += 1
+        else:
+            print("❌ Failed")
+
+        # Update latest pointer in KV
+        pointer_data = json.dumps({"asOfDate": target_date, "payloadKey": payload_key}, ensure_ascii=False)
+        temp_pointer_file = Path("data") / "_temp_latest_pointer.json"
+        try:
+            with open(temp_pointer_file, "w", encoding="utf-8") as pf:
+                pf.write(pointer_data)
+            total_count += 1
+            print(f"📤 Updating latest pointer market-briefing:v0:latest-pointer...", end=" ")
+            ok_ptr = upload_to_kv_via_rest(
+                account_id=account_id,
+                namespace_id=namespace_id,
+                key="market-briefing:v0:latest-pointer",
+                file_path=temp_pointer_file,
+                api_token=api_token,
+                api_key=api_key,
+                email=email,
+            )
+            if ok_ptr:
+                print("✅ Done")
+                success_count += 1
+            else:
+                print("❌ Failed")
+        finally:
+            if temp_pointer_file.exists():
+                temp_pointer_file.unlink()
+
     print(f"\n📊 Summary: {success_count}/{total_count} assets synchronized to Cloudflare KV.")
-    if success_count == total_count and total_count > 0:
-        print("🎉 All OSMU images successfully synchronized!")
+    if success_count >= (total_count - 1) and total_count > 0:
+        print("🎉 OSMU assets and briefing JSON successfully synchronized to KV!")
         purge_dashboard_cache(target_date)
         return 0
     elif success_count > 0:

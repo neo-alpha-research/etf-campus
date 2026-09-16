@@ -217,13 +217,14 @@ def main() -> None:
             "volumeValue": item.get("volumeValue", 0.0) if item.get("volumeValue") is not None else None,
         })
 
+    # Still enforce date validation on KOSPI and KOSDAQ
     kospi_kosdaq = [idx for idx in indices if idx["code"] in ("KOSPI", "KOSDAQ")]
     if len(kospi_kosdaq) < 2:
         raise RuntimeError("Validated snapshot must contain both KOSPI and KOSDAQ.")
     if any(index["asOfDate"] != as_of_date for index in kospi_kosdaq):
         raise RuntimeError("KOSPI/KOSDAQ basis date is not aligned with the validated ETF master date.")
     
-    index_hash = canonical_hash(kospi_kosdaq)
+    index_hash = canonical_hash(indices)
     source_version = f"market-source-{as_of_date}-{etf_hash[:16]}"
     validation = {
         "status": "passed",
@@ -231,8 +232,8 @@ def main() -> None:
         "general_etf_count": len(general),
         "aum_coverage_pct": aum_coverage_pct,
         "etf_as_of_date": as_of_date,
-        "kospi_as_of_date": kospi_kosdaq[0]["asOfDate"],
-        "kosdaq_as_of_date": kospi_kosdaq[1]["asOfDate"],
+        "kospi_as_of_date": indices[0]["asOfDate"],
+        "kosdaq_as_of_date": indices[1]["asOfDate"],
         "source": "existing_daily_refresh",
     }
 
@@ -259,7 +260,7 @@ def main() -> None:
         })
         accepted += int(result.get("accepted", 0))
     final = signed_post(args.endpoint, hmac_secret, {
-        "action": "finalize", "asOfDate": as_of_date, "sourceVersion": source_version, "indices": kospi_kosdaq,
+        "action": "finalize", "asOfDate": as_of_date, "sourceVersion": source_version, "indices": indices,
     })
     if final.get("status") not in ("ready", "already_ready"):
         raise RuntimeError(f"Unexpected finalization response: {final}")

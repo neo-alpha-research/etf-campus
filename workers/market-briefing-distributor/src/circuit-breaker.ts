@@ -8,6 +8,7 @@ export interface CircuitBreakerResult {
 export interface ValidationOptions {
   latestTradingDate?: string;
   now?: Date;
+  force?: boolean;
 }
 
 const KST_FORMATTER = new Intl.DateTimeFormat("en-CA", {
@@ -62,23 +63,25 @@ export async function validateBriefingPayload(
         reasons.push(`기준일자 오류: 미래 일자(${payload.asOfDate})는 허용되지 않습니다 (현재 KST: ${nowKst})`);
       }
 
-      // (2) D1 적재 시세 데이터의 최신 거래일과 불일치 차단
-      let latestDbTradingDate = options?.latestTradingDate;
-      if (!latestDbTradingDate && env.ETF_PRICES && typeof env.ETF_PRICES.prepare === "function") {
-        try {
-          const row: any = await env.ETF_PRICES.prepare(
-            "SELECT as_of_date FROM briefing_etf_daily ORDER BY as_of_date DESC LIMIT 1"
-          ).first();
-          if (row?.as_of_date) {
-            latestDbTradingDate = row.as_of_date;
+      // (2) D1 적재 시세 데이터의 최신 거래일과 불일치 차단 (과거 데이터 차단, force 시 스킵)
+      if (!options?.force) {
+        let latestDbTradingDate = options?.latestTradingDate;
+        if (!latestDbTradingDate && env.ETF_PRICES && typeof env.ETF_PRICES.prepare === "function") {
+          try {
+            const row: any = await env.ETF_PRICES.prepare(
+              "SELECT as_of_date FROM briefing_etf_daily ORDER BY as_of_date DESC LIMIT 1"
+            ).first();
+            if (row?.as_of_date) {
+              latestDbTradingDate = row.as_of_date;
+            }
+          } catch (dbErr) {
+            console.warn("[CircuitBreaker] Failed to query latest trading date from D1:", dbErr);
           }
-        } catch (dbErr) {
-          console.warn("[CircuitBreaker] Failed to query latest trading date from D1:", dbErr);
         }
-      }
 
-      if (latestDbTradingDate && payload.asOfDate !== latestDbTradingDate) {
-        reasons.push(`기대 기준일 불일치: 브리핑 기준일(${payload.asOfDate})이 D1 최신 거래일(${latestDbTradingDate})과 다릅니다`);
+        if (latestDbTradingDate && payload.asOfDate < latestDbTradingDate) {
+          reasons.push(`과거 기준일 차단: 브리핑 기준일(${payload.asOfDate})이 D1 최신 거래일(${latestDbTradingDate})보다 이전 데이터입니다`);
+        }
       }
     }
   }

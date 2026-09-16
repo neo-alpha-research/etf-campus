@@ -431,7 +431,7 @@ export async function publishToThreadsLive(
   force = false
 ): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
   // 0. Circuit Breaker & Freshness Guard
-  const validation = await validateBriefingPayload(payload, env);
+  const validation = await validateBriefingPayload(payload, env, { force });
   if (!validation.isSafe) {
     return { success: false, error: `Circuit breaker 차단: ${validation.reasons.join(", ")}` };
   }
@@ -613,7 +613,7 @@ export async function publishToInstagramLive(
   force = false
 ): Promise<{ success: boolean; publishedPostId?: string; permalink?: string; error?: string }> {
   // 0. Circuit Breaker & Freshness Guard
-  const validation = await validateBriefingPayload(payload, env);
+  const validation = await validateBriefingPayload(payload, env, { force });
   if (!validation.isSafe) {
     return { success: false, error: `Circuit breaker 차단: ${validation.reasons.join(", ")}` };
   }

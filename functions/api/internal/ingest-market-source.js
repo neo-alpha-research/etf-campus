@@ -179,8 +179,9 @@ async function finalizeSnapshot(env, common, indices) {
 
   const eventId = `market_snapshot_ready:${common.asOfDate}:${common.sourceVersion}:market_briefing`;
   const now = nowIso();
+  const supportedIndices = indices.filter((index) => index.code === "KOSPI" || index.code === "KOSDAQ");
   const statements = [
-    ...indices.map((index) => db.prepare(
+    ...supportedIndices.map((index) => db.prepare(
       `INSERT INTO market_source_index_daily (
          as_of_date, source_version, index_code, index_name, close_value, change_points, change_pct,
          volume_value, source_hash, ingested_at

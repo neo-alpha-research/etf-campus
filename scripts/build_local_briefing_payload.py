@@ -62,6 +62,19 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
     first_bas_dt = master_rows[0].get("bas_dt", "").strip()
     as_of_date = target_date if target_date else normalize_date(first_bas_dt)
 
+    # 0. Check existing briefing payload to preserve verified fund flows and scale metrics
+    existing_payload_path = data_dir / "briefing_payload_latest.json"
+    existing_data: dict[str, Any] = {}
+    if existing_payload_path.exists():
+        try:
+            with existing_payload_path.open("r", encoding="utf-8") as f:
+                raw_existing = json.load(f)
+                existing_data = raw_existing.get("briefing") or raw_existing
+        except Exception:
+            pass
+
+    existing_is_same_date = (existing_data.get("asOfDate") == as_of_date)
+
     # 1. Classification & Peer Groups Map
     peer_map: dict[str, str] = {}
     if comparison_path.exists():
@@ -163,16 +176,31 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
     all_top10_trade_share = round((all_top10_trade_val / all_total_trade * 100), 2) if all_total_trade > 0 else 0.0
 
     # 4. Market Indices
+    CANONICAL_INDEX_MAP = {
+        "KOSPI": "KOSPI", "KOSDAQ": "KOSDAQ", "VKOSPI": "VKOSPI", "KR10Y": "KR10Y",
+        "KRW=X": "USDKRW", "USDKRW": "USDKRW", "^GSPC": "SPX", "SPX": "SPX",
+        "^IXIC": "NDX", "NDX": "NDX", "^TNX": "DGS10", "DGS10": "DGS10",
+        "^VIX": "VIX", "VIX": "VIX", "CL=F": "CLF", "CLF": "CLF",
+        "GC=F": "GC", "GC": "GC", "SI=F": "SI", "SI": "SI",
+    }
+    LABEL_INDEX_MAP = {
+        "KOSPI": "코스피", "KOSDAQ": "코스닥", "VKOSPI": "VKOSPI", "KR10Y": "국채 10년",
+        "USDKRW": "원/달러", "SPX": "S&P 500", "NDX": "나스닥", "DGS10": "미 국채 10년물",
+        "VIX": "VIX", "CLF": "WTI 원유", "GC": "금 선물", "SI": "은 선물",
+    }
+
     market_indices: list[dict[str, Any]] = []
     if indices_path.exists():
         with indices_path.open("r", encoding="utf-8") as f:
             idx_data = json.load(f)
             raw_indices = idx_data.get("indices", []) if isinstance(idx_data, dict) else idx_data
             for idx in raw_indices:
-                code = idx.get("code") or idx.get("label", "")
+                raw_code = idx.get("code") or idx.get("label", "")
+                canon = CANONICAL_INDEX_MAP.get(raw_code, raw_code)
+                label = LABEL_INDEX_MAP.get(canon, idx.get("label", canon))
                 market_indices.append({
-                    "code": code,
-                    "label": idx.get("label", code),
+                    "code": canon,
+                    "label": label,
                     "close": to_float(idx.get("value") or idx.get("close")),
                     "change_pct": to_float(idx.get("change") or idx.get("change_pct")),
                     "change_points": to_float(idx.get("changePoints") or idx.get("change_points")),
@@ -314,18 +342,22 @@ def build_briefing_payload(data_dir: Path, target_date: str | None = None) -> di
             "top10TradeSharePct": top10_trade_share,
             "allTop10TradeSharePct": all_top10_trade_share,
         },
-        "marketScale": {
+        "marketScale": (existing_data.get("marketScale") if existing_is_same_date and existing_data.get("marketScale") else {
             "totalEtfCount": len(all_etfs),
             "generalEtfCount": gen_count,
             "totalAum": gen_total_aum,
             "totalTradeValue": gen_total_trade,
-        },
+        }),
+        "marketScaleSnapshot": (existing_data.get("marketScaleSnapshot") if existing_is_same_date else None),
+        "marketScaleTimeSeries": (existing_data.get("marketScaleTimeSeries") if existing_is_same_date else None),
         "assetClasses": asset_classes,
         "peerGroups": peer_groups,
-        "fundFlow": {
+        "fundFlow": (existing_data.get("fundFlow") if existing_is_same_date and existing_data.get("fundFlow", {}).get("general", {}).get("topInflows") else {
             "general": {"topInflows": [], "topOutflows": []},
             "all": {"topInflows": [], "topOutflows": []},
-        },
+        }),
+        "weeklyFundFlows": (existing_data.get("weeklyFundFlows") if existing_is_same_date else []),
+        "monthlyFundFlows": (existing_data.get("monthlyFundFlows") if existing_is_same_date else []),
         "focusEtfs": focus_etfs,
         "disparityWarning": disparity_warning[:10],
         # Compatibility top-level aliases for renderers

@@ -290,22 +290,37 @@ def main() -> int:
 
     if payload_file.exists():
         payload_key = f"market-briefing:v0:payload:{target_date}:v1"
-        total_count += 1
-        print(f"📤 Uploading Briefing JSON {payload_key}...", end=" ")
-        ok_payload = upload_to_kv_via_rest(
-            account_id=account_id,
-            namespace_id=namespace_id,
-            key=payload_key,
-            file_path=payload_file,
-            api_token=api_token,
-            api_key=api_key,
-            email=email,
-        )
-        if ok_payload:
-            print("✅ Done")
-            success_count += 1
-        else:
-            print("❌ Failed")
+        
+        # Zero-Hallucination & Integrity Guard: Ensure local payload is not empty/degraded
+        skip_kv_upload = False
+        try:
+            with open(payload_file, "r", encoding="utf-8") as pf:
+                candidate_data = json.load(pf).get("briefing", {})
+                candidate_date = candidate_data.get("asOfDate")
+                candidate_inflows = candidate_data.get("fundFlow", {}).get("general", {}).get("topInflows", [])
+                if candidate_date == target_date and len(candidate_inflows) == 0:
+                    print(f"🛡️ Safety Guard: {payload_file} has empty fundFlow. Skipping KV overwrite to protect verified live briefing.")
+                    skip_kv_upload = True
+        except Exception as e:
+            print(f"⚠️ Warning: Could not validate payload file before KV upload: {e}")
+
+        if not skip_kv_upload:
+            total_count += 1
+            print(f"📤 Uploading Briefing JSON {payload_key}...", end=" ")
+            ok_payload = upload_to_kv_via_rest(
+                account_id=account_id,
+                namespace_id=namespace_id,
+                key=payload_key,
+                file_path=payload_file,
+                api_token=api_token,
+                api_key=api_key,
+                email=email,
+            )
+            if ok_payload:
+                print("✅ Done")
+                success_count += 1
+            else:
+                print("❌ Failed")
 
         # Update latest pointer in KV
         pointer_data = json.dumps({"asOfDate": target_date, "payloadKey": payload_key}, ensure_ascii=False)

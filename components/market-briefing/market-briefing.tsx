@@ -536,18 +536,56 @@ export function MarketBriefing() {
   const orderedIndices = useMemo(() => {
     if (!briefing) return [];
 
-    const mergedIndices = [...(briefing.marketIndices || [])];
+    const CANONICAL_CODE_MAP: Record<string, string> = {
+      "^GSPC": "SPX",
+      "SPX": "SPX",
+      "^IXIC": "NDX",
+      "NDX": "NDX",
+      "^VIX": "VIX",
+      "VIX": "VIX",
+      "VIXCLS": "VIX",
+      "^TNX": "DGS10",
+      "DGS10": "DGS10",
+      "KRW=X": "USDKRW",
+      "USDKRW": "USDKRW",
+      "CL=F": "CLF",
+      "CLF": "CLF",
+      "GC=F": "GC",
+      "GC": "GC",
+      "SI=F": "SI",
+      "SI": "SI",
+      "KOSPI": "KOSPI",
+      "KOSDAQ": "KOSDAQ",
+      "VKOSPI": "VKOSPI",
+      "KR10Y": "KR10Y",
+    };
+
+    // Normalize any existing codes from briefing
+    const mergedIndices: MarketIndex[] = (briefing.marketIndices || []).map((idx) => {
+      const normalizedCode = CANONICAL_CODE_MAP[idx.code] || idx.code;
+      return {
+        ...idx,
+        code: normalizedCode,
+      };
+    });
     
-    const typedGlobalData = globalIndicesData as unknown as { as_of_date?: string; indices: Array<{ code: string; label: string; value?: number; change?: number; as_of_date?: string; is_closed?: boolean }> };
-    const isViewingPastDate = Boolean(selectedDate) || (briefing.asOfDate && briefing.asOfDate !== typedGlobalData.as_of_date);
-    if (!isViewingPastDate && mergedIndices.length <= 2) {
-      const addGlobalIndex = (label: string, code: string) => {
-        const found = typedGlobalData.indices.find(
-          (i) => i.code === code || i.label === label || i.label === label.replace(" ", "")
+    const typedGlobalData = globalIndicesData as unknown as {
+      as_of_date?: string;
+      base_date?: string;
+      indices: Array<{ code: string; label: string; value?: number; change?: number; as_of_date?: string; is_closed?: boolean }>;
+    };
+
+    const globalDate = typedGlobalData.as_of_date || (typedGlobalData.base_date && typedGlobalData.base_date.length === 8 ? `${typedGlobalData.base_date.slice(0, 4)}-${typedGlobalData.base_date.slice(4, 6)}-${typedGlobalData.base_date.slice(6, 8)}` : undefined);
+    const isViewingPastDate = Boolean(selectedDate) || Boolean(briefing.asOfDate && globalDate && briefing.asOfDate !== globalDate);
+
+    if (!isViewingPastDate && mergedIndices.length <= 2 && typedGlobalData?.indices) {
+      const addGlobalIndex = (label: string, targetCode: string, searchKeys: string[]) => {
+        const found = typedGlobalData.indices.find((i) =>
+          searchKeys.includes(i.code) || searchKeys.includes(i.label) || searchKeys.includes(i.label.replace(" ", ""))
         );
-        if (!mergedIndices.some((m) => m.code === code)) {
+        if (!mergedIndices.some((m) => m.code === targetCode)) {
           mergedIndices.push({
-            code: code,
+            code: targetCode,
             label: label,
             close: found?.value,
             change_pct: found?.change,
@@ -557,16 +595,16 @@ export function MarketBriefing() {
         }
       };
 
-      addGlobalIndex("코스피 변동성지수", "VKOSPI");
-      addGlobalIndex("S&P 500", "SPX");
-      addGlobalIndex("나스닥", "NDX");
-      addGlobalIndex("VIX", "VIX");
-      addGlobalIndex("원/달러", "USDKRW");
-      addGlobalIndex("국채 10년", "KR10Y");
-      addGlobalIndex("미 국채 10년물", "DGS10");
-      addGlobalIndex("WTI 원유", "CLF");
-      addGlobalIndex("금 선물", "GC");
-      addGlobalIndex("은 선물", "SI");
+      addGlobalIndex("코스피 변동성지수", "VKOSPI", ["VKOSPI", "코스피 변동성", "코스피 변동성지수"]);
+      addGlobalIndex("S&P 500", "SPX", ["^GSPC", "SPX", "S&P 500", "S&P500"]);
+      addGlobalIndex("나스닥", "NDX", ["^IXIC", "NDX", "나스닥"]);
+      addGlobalIndex("VIX", "VIX", ["^VIX", "VIX", "VIXCLS"]);
+      addGlobalIndex("원/달러", "USDKRW", ["KRW=X", "USDKRW", "원/달러"]);
+      addGlobalIndex("국채 10년", "KR10Y", ["KR10Y", "국채 10년", "국채10년"]);
+      addGlobalIndex("미 국채 10년물", "DGS10", ["^TNX", "DGS10", "미 국채 10년물", "미국채 10년물"]);
+      addGlobalIndex("WTI 원유", "CLF", ["CL=F", "CLF", "WTI 원유"]);
+      addGlobalIndex("금 선물", "GC", ["GC=F", "GC", "금 선물"]);
+      addGlobalIndex("은 선물", "SI", ["SI=F", "SI", "은 선물"]);
     }
 
     const order = [

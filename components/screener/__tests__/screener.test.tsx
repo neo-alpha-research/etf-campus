@@ -572,6 +572,21 @@ describe("Screener - 빠른 시작 및 선택 조건", () => {
     expect(screen.getByRole("columnheader", { name: /1개월 수익률/ })).toBeInTheDocument();
     expect(screen.getByRole("columnheader", { name: /순자산, 단위 억원/ })).toBeInTheDocument();
   });
+
+  it("종목명 또는 티커 검색창에 키워드 입력 시 추천 목록이 실시간으로 표시된다", () => {
+    render(<Screener etfs={items} />);
+    const searchInput = screen.getByLabelText("ETF 종목 검색");
+    expect(searchInput).toBeInTheDocument();
+
+    fireEvent.focus(searchInput);
+    fireEvent.change(searchInput, { target: { value: "대형" } });
+    expect(searchInput).toHaveValue("대형");
+
+    expect(screen.getByText("추천 ETF (1개)")).toBeInTheDocument();
+    expect(screen.getAllByText("대형 일반 ETF").length).toBeGreaterThanOrEqual(1);
+  });
 });
+
+
 
 

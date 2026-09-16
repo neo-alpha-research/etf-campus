@@ -9,7 +9,9 @@ let mockSearchParams = new URLSearchParams();
 vi.mock("next/navigation", () => ({
   usePathname: () => mockPathname,
   useSearchParams: () => mockSearchParams,
+  useRouter: () => ({ push: vi.fn() }),
 }));
+
 
 vi.mock("@/components/brand/tickery", () => ({
   Tickery: () => <div data-testid="tickery" />,

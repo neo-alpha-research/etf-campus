@@ -42,5 +42,21 @@ const screenerEtfs = fullEtfs.map((etf) => ({
 
 const outPath = path.join(process.cwd(), 'public', 'data', 'screener.json');
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
-fs.writeFileSync(outPath, JSON.stringify(screenerEtfs), 'utf-8');
+fs.writeFileSync(outPath, JSON.stringify(screenerEtfs, null, 2), 'utf-8');
 console.log('Generated ' + outPath + ' (' + screenerEtfs.length + ' ETFs)');
+
+const searchIndex = fullEtfs.map((etf) => ({
+  ticker: etf.ticker,
+  name: etf.name,
+  baseIndex: etf.baseIndex || "",
+  assetClass: etf.assetClass,
+  aum: etf.aum,
+  tradeValue: etf.tradeValue,
+  pensionLimit: etf.pensionLimit,
+  feePct: etf.fee ? etf.fee.totalFeePct : null,
+}));
+const searchIndexPath = path.join(process.cwd(), 'public', 'data', 'etf-search-index.json');
+fs.writeFileSync(searchIndexPath, JSON.stringify(searchIndex, null, 2), 'utf-8');
+console.log('Generated ' + searchIndexPath + ' (' + searchIndex.length + ' ETFs)');
+
+

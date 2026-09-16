@@ -106,9 +106,15 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   const [isTrMode, setIsTrMode] = useState(false);
   const [showMobileTrTooltip, setShowMobileTrTooltip] = useState(false);
 
+  const [searchInput, setSearchInput] = useState(filters.keyword);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
   const syncFromUrl = () => {
     const params = new URLSearchParams(window.location.search);
-    setFilters(parseScreenerQuery(params));
+    const parsed = parseScreenerQuery(params);
+    setFilters(parsed);
+    setSearchInput(parsed.keyword);
     const p = params.get("period") as ReturnPeriod;
     setSelectedPeriod((GENERAL_RETURN_PERIODS as readonly string[]).includes(p) ? p : "1d");
     const s = params.get("sort") as ScreenerSortKey;
@@ -128,13 +134,6 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
     if (rt === "tr") setIsTrMode(true);
     else if (rt === "pr") setIsTrMode(false);
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    syncFromUrl();
-    window.addEventListener("popstate", syncFromUrl);
-    return () => window.removeEventListener("popstate", syncFromUrl);
-  }, []);
 
   const updateStateAndUrl = (nextFilters: ScreenerFilters, nextPeriod: ReturnPeriod, nextSort: ScreenerSortKey, nextSortDir: "desc" | "asc" = sortDir, nextComparePeriod: ReturnPeriod | null = comparisonPeriod) => {
     setFilters(nextFilters);
@@ -156,12 +155,64 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
   const updateFilters = (next: ScreenerFilters) => updateStateAndUrl(next, selectedPeriod, sort, sortDir);
   const handlePeriodChange = (nextPeriod: ReturnPeriod) => updateStateAndUrl(filters, nextPeriod, sort, sortDir);
   const handleSortChange = (nextSort: ScreenerSortKey) => {
-    // When changing sort key, reset direction if it's changing to/from TER, otherwise keep desc.
-    // Actually, usually users want desc for everything except TER.
     let nextSortDir: "desc" | "asc" = "desc";
     if (nextSort === "ter") nextSortDir = "asc";
     updateStateAndUrl(filters, selectedPeriod, nextSort, nextSortDir);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    syncFromUrl();
+    window.addEventListener("popstate", syncFromUrl);
+    return () => window.removeEventListener("popstate", syncFromUrl);
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSearchInput(filters.keyword);
+  }, [filters.keyword]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchInput !== filters.keyword) {
+        updateFilters({ ...filters, keyword: searchInput });
+      }
+    }, 250);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchInput]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsSearchFocused(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const searchSuggestions = useMemo(() => {
+    const q = searchInput.trim().toLowerCase();
+    if (!q) return [];
+    return etfs
+      .map((etf) => {
+        const ticker = etf.ticker.toLowerCase();
+        const name = etf.name.toLowerCase();
+        const baseIndex = (etf.baseIndex || "").toLowerCase();
+        let rank = Number.POSITIVE_INFINITY;
+        if (ticker === q) rank = 0;
+        else if (ticker.startsWith(q)) rank = 1;
+        else if (name.startsWith(q)) rank = 2;
+        else if (name.includes(q)) rank = 3;
+        else if (baseIndex.includes(q)) rank = 4;
+        return { etf, rank };
+      })
+      .filter(({ rank }) => Number.isFinite(rank))
+      .sort((a, b) => a.rank - b.rank || (b.etf.tradeValue ?? 0) - (a.etf.tradeValue ?? 0))
+      .slice(0, 6)
+      .map(({ etf }) => etf);
+  }, [etfs, searchInput]);
   const toggleColumnSort = (targetKey: ScreenerSortKey) => {
     if (sort === targetKey) {
       updateStateAndUrl(filters, selectedPeriod, targetKey, sortDir === "desc" ? "asc" : "desc");
@@ -1051,7 +1102,96 @@ export function Screener({ etfs: initialEtfs }: { etfs?: ScreenerEtf[] }) {
         </div>
       </section>
 
+      {/* 🔍 종목명 / 6자리 코드 통합 검색창 */}
+      <section aria-label="ETF 종목 빠른 검색" ref={searchContainerRef} className="mt-3 relative w-full z-25">
+        <div className="relative flex items-center rounded-xl border border-line bg-surface shadow-2xs focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-100 transition-all">
+          <div className="pl-3.5 pr-2 text-neutral-400">
+            <svg className="size-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input
+            type="search"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                setIsSearchFocused(false);
+              } else if (e.key === "Enter") {
+                setIsSearchFocused(false);
+                if (searchInput !== filters.keyword) {
+                  updateFilters({ ...filters, keyword: searchInput });
+                }
+              }
+            }}
+            placeholder="ETF 종목명 또는 6자리 코드 검색 (예: KODEX 200, 069500)"
+            className="w-full bg-transparent py-2.5 sm:py-3 pr-9 text-xs sm:text-sm font-bold text-strong placeholder:font-normal placeholder:text-neutral-400 outline-none"
+            aria-label="ETF 종목 검색"
+          />
+          {searchInput && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearchInput("");
+                updateFilters({ ...filters, keyword: "" });
+              }}
+              className="absolute right-2.5 p-1 text-neutral-400 hover:text-neutral-700 hover:bg-neutral-100 rounded-md transition-colors"
+              aria-label="검색어 지우기"
+            >
+              <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* Suggestion Dropdown */}
+        {isSearchFocused && searchSuggestions.length > 0 && (
+          <ul className="absolute z-50 mt-1 w-full overflow-hidden rounded-xl border border-line bg-surface shadow-xl animate-in fade-in zoom-in-95 duration-100">
+            <li className="bg-neutral-50/80 px-3 py-1.5 text-[11px] font-bold text-neutral-500 border-b border-line flex items-center justify-between">
+              <span>추천 ETF ({searchSuggestions.length}개)</span>
+              <span className="text-[10px] text-brand-700 font-semibold">클릭 시 종목 상세 분석 바로가기</span>
+            </li>
+            {searchSuggestions.map((etf) => (
+              <li
+                key={etf.ticker}
+                className="border-b border-line last:border-b-0 hover:bg-brand-50/60 transition-colors"
+              >
+                <Link
+                  href={`/etf/${etf.ticker}`}
+                  onClick={() => setIsSearchFocused(false)}
+                  className="flex items-center justify-between px-3 py-2.5 group cursor-pointer"
+                >
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <span className="font-mono text-xs font-bold text-brand-700 bg-brand-50 px-1.5 py-0.5 rounded border border-brand-200 shrink-0">
+                      {etf.ticker}
+                    </span>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-xs sm:text-[13px] font-bold text-strong truncate group-hover:text-brand-800">
+                        {etf.name}
+                      </span>
+                      <span className="text-[10px] sm:text-[11px] text-neutral-500 truncate">
+                        {etf.assetClass} · 순자산 {formatAumNumber(etf.aum)}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="ml-2 inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-bold text-brand-700 bg-white group-hover:bg-brand-100 border border-brand-200 shrink-0 transition-colors">
+                    <span>상세보기</span>
+                    <span>↗</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+            <li className="bg-neutral-50 px-3 py-1.5 text-center text-[11px] text-neutral-400 border-t border-line">
+              Enter를 누르면 아래 표에서 &apos;{searchInput}&apos; 검색 결과({results.length.toLocaleString()}개)를 필터링합니다
+            </li>
+          </ul>
+        )}
+      </section>
+
       <div className="mt-4 grid gap-5 md:grid-cols-[260px_minmax(0,1fr)] w-full max-w-full min-w-0">
+
         {filtersOpen ? <button aria-label="필터 닫기" className="fixed inset-0 z-30 bg-neutral-900/30 md:hidden" onClick={() => setFiltersOpen(false)} type="button" /> : null}
         <aside aria-label="ETF 필터" className={`${filtersOpen ? "fixed inset-x-0 bottom-0 z-40 max-h-[82vh] overflow-y-auto rounded-t-3xl bg-surface p-5 shadow-2xl" : "hidden"} md:static md:block md:max-h-none md:rounded-2xl md:border md:border-line md:bg-neutral-50 md:p-5 md:shadow-none`}>
 

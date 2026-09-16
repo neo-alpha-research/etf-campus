@@ -44,6 +44,25 @@ describe("ETF 스크리너", () => {
     expect(parkingOnly.map((i) => i.ticker)).toEqual(["PARK"]);
   });
 
+  it("키워드로 종목명, 종목코드(티커), 기초지수를 검색한다", () => {
+    const list = [
+      etf({ ticker: "069500", name: "KODEX 200", baseIndex: "코스피 200" }),
+      etf({ ticker: "379800", name: "TIGER 미국S&P500", baseIndex: "S&P 500" }),
+      etf({ ticker: "465580", name: "ACE 미국30년국채액티브", baseIndex: "Bloomberg US Treasury 20+ Year" }),
+    ];
+    // 1. 티커 6자리 검색
+    const byTicker = filterEtfs(list, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, aumScope: "all", riskTypes: [], keyword: "069500" });
+    expect(byTicker.map((i) => i.ticker)).toEqual(["069500"]);
+
+    // 2. 종목명 검색
+    const byName = filterEtfs(list, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, aumScope: "all", riskTypes: [], keyword: "TIGER" });
+    expect(byName.map((i) => i.ticker)).toEqual(["379800"]);
+
+    // 3. 기초지수 검색
+    const byIndex = filterEtfs(list, { ...DEFAULT_SCREENER_FILTERS, pensionOnly: false, aumScope: "all", riskTypes: [], keyword: "Bloomberg" });
+    expect(byIndex.map((i) => i.ticker)).toEqual(["465580"]);
+  });
+
   it("복수 선택 필터를 URL 쿼리로 왕복한다", () => {
     const filters: ScreenerFilters = {
       ...DEFAULT_SCREENER_FILTERS,

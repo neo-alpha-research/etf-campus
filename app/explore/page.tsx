@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 
 import { Screener } from "@/components/screener/screener";
-// loadEtfs removed to reduce HTML payload size
-
 
 export const metadata: Metadata = { 
   title: "ETF 탐색 | ETF Campus", 

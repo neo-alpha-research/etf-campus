@@ -8,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import { Tickery } from "@/components/brand/tickery";
 import { StyleChip } from "@/components/onboarding/style-chip";
 import { AuthNav } from "@/components/auth/auth-nav";
+import { GlobalQuickSearch } from "@/components/search/global-quick-search";
 
 const navigation = [
   { href: "/", label: "마켓 브리핑" },
@@ -63,6 +64,19 @@ export function SiteHeader() {
     setPrevComputedHref(computedHref);
     setActiveFinderHref(computedHref);
   }
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // "ETF 탐색" owns both the screener and the preset ETF views.
   const isEtfSection = pathname.startsWith("/explore") || pathname.startsWith("/screener") || pathname === "/quick" || pathname === "/quick/";
@@ -124,8 +138,36 @@ export function SiteHeader() {
           </nav>
         </div>
 
-        {/* Right: StyleChip & AuthNav */}
+        {/* Right: Quick Search, StyleChip & AuthNav */}
         <div className="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0 min-w-0">
+          {/* Desktop Quick Search Button */}
+          <button
+            type="button"
+            onClick={() => setIsSearchOpen(true)}
+            aria-label="ETF 빠른 검색 (Ctrl+K)"
+            className="hidden sm:inline-flex items-center gap-2 rounded-xl border border-line bg-neutral-50 hover:bg-brand-50/60 hover:border-brand-300 px-2.5 py-1.5 text-xs font-semibold text-neutral-500 hover:text-brand-800 transition-all shadow-2xs group cursor-pointer"
+          >
+            <svg className="size-3.5 text-neutral-400 group-hover:text-brand-700 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span className="text-neutral-500 group-hover:text-neutral-800 font-medium">종목 검색</span>
+            <kbd className="inline-flex items-center gap-0.5 rounded border border-neutral-300 bg-white px-1.5 py-0.2 text-[10px] font-bold text-neutral-400 group-hover:text-neutral-600 select-none">
+              Ctrl K
+            </kbd>
+          </button>
+
+          {/* Mobile Quick Search Button */}
+          <button
+            type="button"
+            onClick={() => setIsSearchOpen(true)}
+            aria-label="ETF 빠른 검색 열기"
+            className="sm:hidden flex size-9 items-center justify-center rounded-xl border border-line bg-neutral-50 text-neutral-600 hover:bg-brand-50 hover:text-brand-800 transition-colors cursor-pointer"
+          >
+            <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+
           <StyleChip />
           <AuthNav />
         </div>
@@ -235,6 +277,8 @@ export function SiteHeader() {
         </div>
       </div>
       ) : null}
+      <GlobalQuickSearch isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 }
+

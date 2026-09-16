@@ -105,8 +105,14 @@ export type ScreenerEtf = Pick<Etf,
 export function filterEtfs(etfs: readonly ScreenerEtf[], filters: ScreenerFilters): ScreenerEtf[] {
   return etfs.filter((etf) => {
     if (filters.keyword) {
-      const kw = filters.keyword.toLowerCase();
-      if (!etf.name.toLowerCase().includes(kw) && !etf.baseIndex.toLowerCase().includes(kw)) return false;
+      const kw = filters.keyword.trim().toLowerCase();
+      if (
+        !etf.name.toLowerCase().includes(kw) &&
+        !etf.ticker.toLowerCase().includes(kw) &&
+        !etf.baseIndex.toLowerCase().includes(kw)
+      ) {
+        return false;
+      }
     }
 
     // Account & Regulatory classification filter

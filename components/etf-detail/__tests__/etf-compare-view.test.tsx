@@ -96,12 +96,11 @@ describe("EtfCompareView selectionReasons", () => {
       />
     );
 
-    const badges = screen.getAllByTestId("smart-advantage-badge");
-    expect(badges.length).toBeGreaterThan(0);
-    expect(screen.getByText("최저 비용 🥇")).toBeDefined();
-    expect(screen.getByText("거래대금 1위 💧")).toBeDefined();
-    expect(screen.getByText("순자산 1위 🏛️")).toBeDefined();
-    expect(screen.getByText("1년 성과 1위 📈")).toBeDefined();
+    // Badges are now consistently placed in each data row (순자산, 거래대금, 실부담비용, 수익률)
+    const rowBadges = screen.getAllByTestId("smart-advantage-badge");
+    expect(rowBadges.length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText("1위").length).toBeGreaterThan(0);
+    expect(screen.getByText("최저")).toBeDefined();
   });
 
   it("TR 모드 전환 시 TR 결측 종목은 PR로 폴백되지 않고 '-'로 노출되며 [1위] 뱃지를 부당하게 획득하지 않는다", () => {
@@ -188,7 +187,7 @@ describe("EtfCompareView selectionReasons", () => {
     expect(screen.queryByText("1주")).toBeNull();
   });
 
-  it("모든 종목의 해당 기간 수익률이 음수일 경우 1위 뱃지가 표시되지 않는다", () => {
+  it("모든 종목의 해당 기간 수익률이 음수일 경우에도 상대 비교 최고 성과(하락 방어 1위) 종목에 1위 뱃지가 표시된다", () => {
     const etfA: Partial<Etf> = {
       ticker: "000001",
       name: "ETF A",
@@ -204,8 +203,8 @@ describe("EtfCompareView selectionReasons", () => {
 
     render(<EtfCompareView basket={[etfA as Etf, etfB as Etf]} />);
 
-    // 1위 badge should NOT appear because both returns are negative (< 0)
-    expect(screen.queryByText("1위")).toBeNull();
+    // etfA (-5.0%) has better performance than etfB (-10.0%), so 1위 badge should appear
+    expect(screen.getByText("1위")).toBeInTheDocument();
   });
 
   it("테이블 하단에 금융투자협회 공시 기준 및 거래소 종가 기준 각주가 단정하게 노출된다", () => {
@@ -309,14 +308,14 @@ describe("EtfCompareView selectionReasons", () => {
 
     render(<EtfCompareView basket={[etfA as Etf]} />);
 
-    // Click pension limit info button
-    const pensionBtn = screen.getByLabelText("퇴직연금 (DC·IRP) 편입 한도 안내 보기");
-    fireEvent.click(pensionBtn);
+    // Click AUM info button
+    const aumBtn = screen.getByLabelText("순자산 (AUM) 안내 보기");
+    fireEvent.click(aumBtn);
 
     // Modal should be opened
     const dialog = screen.getByRole("dialog");
     expect(dialog).toBeInTheDocument();
-    expect(within(dialog).getByText("퇴직연금감독규정 제12조에 따른 계좌 내 편입 가능 한도입니다.")).toBeInTheDocument();
+    expect(within(dialog).getByText("ETF가 실제로 운용하는 전체 자산의 총 규모입니다.")).toBeInTheDocument();
 
     // Close button
     const closeBtn = within(dialog).getByLabelText("닫기");
@@ -324,5 +323,85 @@ describe("EtfCompareView selectionReasons", () => {
 
     expect(screen.queryByRole("dialog")).toBeNull();
   });
+
+  it("1개 종목 선택 시 비교 유도 플레이스홀더 슬롯(+ 비교할 ETF 추가하기)이 렌더링되고 50% 균등 배분된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "단일 종목 ETF",
+      asOfDate: "2026-03-06",
+      returns: { "12m": 10.0 },
+    };
+
+    const { container } = render(<EtfCompareView basket={[etfA as Etf]} />);
+
+    // Check placeholder header button
+    expect(screen.getByText("비교할 ETF 추가하기")).toBeInTheDocument();
+    
+    // Check colgroup percentages (header + 2 cols of 50%)
+    const cols = container.querySelectorAll("colgroup col");
+    expect(cols.length).toBe(3); // 1 header col + 1 etf col + 1 placeholder col
+    expect(cols[1].getAttribute("style")).toContain("50%");
+    expect(cols[2].getAttribute("style")).toContain("50%");
+  });
+
+  it("peer-readonly 모드에서는 단일 종목이어도 비교 유도 플레이스홀더 슬롯이 렌더링되지 않는다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "단일 종목 ETF",
+      asOfDate: "2026-03-06",
+      returns: { "12m": 10.0 },
+    };
+
+    render(<EtfCompareView basket={[etfA as Etf]} mode="peer-readonly" />);
+
+    expect(screen.queryByText("비교할 ETF 추가하기")).toBeNull();
+  });
+
+  it("5개 종목 선택 시 각 열이 정확히 20%로 균등 분할되고 플레이스홀더가 없다", () => {
+    const etfList: Partial<Etf>[] = [1, 2, 3, 4, 5].map((i) => ({
+      ticker: `00000${i}`,
+      name: `ETF ${i}`,
+      asOfDate: "2026-03-06",
+      returns: { "12m": i * 2 },
+    }));
+
+    const { container } = render(<EtfCompareView basket={etfList as Etf[]} />);
+
+    expect(screen.queryByText("비교할 ETF 추가하기")).toBeNull();
+
+    const cols = container.querySelectorAll("colgroup col");
+    expect(cols.length).toBe(6); // 1 header col + 5 etf cols
+    for (let i = 1; i <= 5; i++) {
+      expect(cols[i].getAttribute("style")).toContain("20%");
+    }
+  });
+
+  it("헤더 카드 내에 절세 계좌(퇴직연금, ISA) 적격성 칩이 렌더링되고 본문 별도 행은 제거된다", () => {
+    const etfA: Partial<Etf> = {
+      ticker: "000001",
+      name: "테스트 ETF",
+      pensionLimit: "70% (위험자산)",
+      pension: "가능",
+      riskType: "general",
+      asOfDate: "2026-03-06",
+      returns: { "12m": 5.0 },
+    };
+
+    render(<EtfCompareView basket={[etfA as Etf]} />);
+
+    // Header chips must be rendered
+    const pensionChip = screen.getByTestId("pension-account-chip");
+    expect(pensionChip).toBeInTheDocument();
+    expect(pensionChip.textContent).toContain("연금 70%");
+
+    const isaChip = screen.getByTestId("isa-account-chip");
+    expect(isaChip).toBeInTheDocument();
+    expect(isaChip.textContent).toContain("ISA 가능");
+
+    // Separate rows in tbody should NOT exist
+    expect(screen.queryByText("퇴직연금 한도")).toBeNull();
+    expect(screen.queryByText("중개형 ISA")).toBeNull();
+  });
 });
+
 

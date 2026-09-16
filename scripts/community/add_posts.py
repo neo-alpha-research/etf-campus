@@ -48,11 +48,11 @@ AUTHOR_POOL: dict[str, list[str]] = {
 }
 COMMENT_AUTHORS = ["연금마스터", "절세꿈나무", "자산배분연구원", "코어위성전략가", "Neo"]
 
-# 게시판별 게시 시각 (UTC) — 각각 KST 08:00, 09:00, 10:00에 해당
+# 게시판별 게시 시각 (UTC) — 각각 KST 09:00, 10:00, 11:00에 해당 (당일 KST/UTC 일치)
 BOARD_HOURS_UTC: dict[str, int] = {
-    "stock-cost-analysis": 23,  # UTC 23:00 = KST 08:00
     "free-qna": 0,              # UTC 00:00 = KST 09:00
     "strategy-portfolio": 1,    # UTC 01:00 = KST 10:00
+    "stock-cost-analysis": 2,   # UTC 02:00 = KST 11:00
 }
 
 

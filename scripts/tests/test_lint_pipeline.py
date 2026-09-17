@@ -28,8 +28,11 @@ from scripts.lint_pipeline import (
     check_macro_indices_ssot_in_text,
     check_migrations_sequence_for_filenames,
     check_versioned_pk_unversioned_query_in_text,
+    check_untracked_pipeline_files_in_status,
+    check_migration_workflow_deployment_gate_in_text,
     check_failure_modes_coverage,
 )
+
 
 
 class TestPipelineLinterRegression(unittest.TestCase):
@@ -278,6 +281,47 @@ class TestPipelineLinterRegression(unittest.TestCase):
         err_fm007 = check_versioned_pk_unversioned_query_in_text(snippet_fm007, "known_failure_modes.md")
         self.assertGreater(len(err_fm007), 0, "카탈로그에 등록된 FM-007 스니펫이 검출되어야 합니다.")
 
+    def test_fm008_detects_untracked_pipeline_files(self):
+        """FM-008: untracked 워크플로 및 파이프라인 스크립트 탐지 검증."""
+        # 실제 발생했던 untracked 케이스
+        status_lines = [
+            "?? .github/workflows/threads-daily-post.yml",
+            "?? scripts/threads/generate_thread.py",
+            "?? scripts/threads/threads_bank.json",
+            "?? public/data/screener.json",
+            "?? scripts/_oneoff/verify_step0.py",
+            " M .gitattributes",
+        ]
+        errors = check_untracked_pipeline_files_in_status(status_lines)
+        self.assertEqual(len(errors), 3, "워크플로 1개와 scripts 2개만 검출되어야 합니다.")
+        self.assertTrue(any("threads-daily-post.yml" in e for e in errors))
+        self.assertTrue(any("generate_thread.py" in e for e in errors))
+        self.assertTrue(any("threads_bank.json" in e for e in errors))
+        # _oneoff 격리 파일 및 public/data는 예외로 통과해야 함
+        self.assertFalse(any("_oneoff" in e for e in errors))
+        self.assertFalse(any("screener.json" in e for e in errors))
+
+    def test_fm009_detects_missing_pages_deployment_gate(self):
+        """FM-009: D1 마이그레이션 전 Pages 배포 확인 게이트 누락 탐지 검증."""
+        # 1. 실제 발생했던 취약 워크플로 (배포 확인 게이트 없이 바로 마이그레이션 적용)
+        vulnerable_workflow = """
+        - name: Apply unapplied D1 migrations
+          run: npx wrangler d1 migrations apply etf-prices --remote
+        """
+        errs = check_migration_workflow_deployment_gate_in_text(vulnerable_workflow, "vulnerable.yml")
+        self.assertGreater(len(errs), 0, "배포 확인 게이트가 없는 워크플로는 검출되어야 합니다.")
+
+        # 2. 방어된 정상 워크플로 (Wait for Pages deployment 스텝이 먼저 실행됨)
+        safe_workflow = """
+        - name: Wait for Pages deployment of current SHA
+          run: echo "check deployment"
+        - name: Apply unapplied D1 migrations
+          run: npx wrangler d1 migrations apply etf-prices --remote
+        """
+        safe_errs = check_migration_workflow_deployment_gate_in_text(safe_workflow, "safe.yml")
+        self.assertEqual(len(safe_errs), 0, "배포 게이트가 선행된 워크플로는 통과해야 합니다.")
+
 
 if __name__ == "__main__":
     unittest.main()
+

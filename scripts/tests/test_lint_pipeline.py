@@ -242,16 +242,40 @@ class TestPipelineLinterRegression(unittest.TestCase):
         )
         self.assertEqual(len(check_versioned_pk_unversioned_query_in_text(compliant_ingest, "ingest.js")), 0)
 
-    def test_meta_failure_modes_coverage(self):
-        """메타 게이트: 린터 검사 수(CHECKS) >= docs/known_failure_modes.md 고유 항목 수."""
-        # 현재 실제 문서 기준 검증
-        errors = check_failure_modes_coverage(len(ALL_CHECKS))
-        self.assertEqual(len(errors), 0, "현재 린터 검사 수가 문서화된 실패 유형 수를 충족해야 합니다.")
+        # 5. 지시 3 회귀 테스트: 미래 마이그레이션(0025)에서 versioned PK가 재도입되는 케이스 차단
+        fake_0025_ddl = (
+            "ALTER TABLE market_source_index_daily ADD COLUMN test_col TEXT;\n"
+            "CREATE TABLE market_source_index_daily (\n"
+            "  as_of_date TEXT NOT NULL,\n"
+            "  source_version TEXT NOT NULL,\n"
+            "  index_code TEXT NOT NULL,\n"
+            "  PRIMARY KEY (as_of_date, source_version, index_code)\n"
+            ");\n"
+        )
+        errors_0025 = check_versioned_pk_unversioned_query_in_text(fake_0025_ddl, "0025_fake_migration.sql")
+        self.assertGreater(len(errors_0025), 0, "미래 마이그레이션 0025의 versioned PK DDL이 반드시 검출되어야 합니다.")
+        self.assertTrue(any("FM-007" in err or "versioned PK" in err for err in errors_0025))
 
-        # 검사 수가 부족한 경우 메타 차단 시뮬레이션
-        mock_doc = "## [FM-001] A\n## [FM-002] B\n## [FM-003] C\n## [FM-004] D\n"
-        insufficient_errors = check_failure_modes_coverage(2, mock_doc)
-        self.assertGreater(len(insufficient_errors), 0, "검사 수가 부족할 때 메타 검사가 실패해야 합니다.")
+    def test_meta_failure_modes_coverage(self):
+        """메타 게이트: ALL_CHECKS의 FM ID 집합과 docs/known_failure_modes.md의 ID 집합이 1:1 완전 일치해야 함."""
+        # 1. 실제 현재 상태 일치 검증
+        errors = check_failure_modes_coverage(ALL_CHECKS)
+        self.assertEqual(len(errors), 0, f"현재 린터 검사 집합과 문서 집합이 완전히 일치해야 합니다: {errors}")
+
+        # 2. 지시 3 회귀 테스트: 문서에만 FM-010이 추가된 경우 (검사 누락 탐지 실증)
+        mock_doc_with_fm010 = (
+            "## [FM-001] A\n## [FM-002] B\n## [FM-003] C\n## [FM-004] D\n## [FM-005] E\n"
+            "## [FM-006] F\n## [FM-007] G\n## [FM-008] H\n## [FM-009] I\n## [FM-010] J\n"
+        )
+        missing_check_errs = check_failure_modes_coverage(ALL_CHECKS, mock_doc_with_fm010)
+        self.assertGreater(len(missing_check_errs), 0, "문서에만 FM-010이 있으면 '검사 누락'이 검출되어야 합니다.")
+        self.assertTrue(any("검사 누락" in e and "FM-010" in e for e in missing_check_errs))
+
+        # 3. 지시 3 회귀 테스트: 린터에만 FM-010이 추가된 경우 (문서 누락 탐지 실증)
+        checks_with_extra = set(["FM-001", "FM-002", "FM-003", "FM-004", "FM-005", "FM-006", "FM-007", "FM-008", "FM-009", "FM-010"])
+        missing_doc_errs = check_failure_modes_coverage(checks_with_extra, None)
+        self.assertGreater(len(missing_doc_errs), 0, "린터에만 FM-010이 있으면 '문서 누락'이 검출되어야 합니다.")
+        self.assertTrue(any("문서 누락" in e and "FM-010" in e for e in missing_doc_errs))
 
     def test_catalog_file_snippets_integrity(self):
         """docs/known_failure_modes.md에 등록된 실제 코드 스니펫들이 린터에 검출되는지 연동 검증."""

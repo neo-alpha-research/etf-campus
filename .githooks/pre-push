@@ -1,0 +1,48 @@
+#!/bin/sh
+echo "🛡️ [Pre-Push Hook] Running pre-push verification (Secrets + Lint + TypeScript + Workers + Pipeline Linter)..."
+
+echo "0/5 Scanning repository for API keys / token leaks..."
+if git grep -E '(AIzaSy[A-Za-z0-9_-]{33}|AQ\.Ab8[A-Za-z0-9_-]{40,})' -- ':!android/app/google-services.json' ':!docs/known_failure_modes.md' >/dev/null 2>&1; then
+  echo "❌ [Pre-Push Hook] Plaintext Gemini API Key/Token found in repo files! Push blocked." >&2
+  exit 1
+fi
+
+echo "1/5 Checking code style & JSX syntax (ESLint)..."
+npm run lint --silent
+if [ $? -ne 0 ]; then
+  echo "❌ [Pre-Push Hook] ESLint failed! Fix lint errors before pushing." >&2
+  exit 1
+fi
+
+echo "2/5 Checking TypeScript types (tsconfig.ci.json)..."
+npx tsc --noEmit -p tsconfig.ci.json
+if [ $? -ne 0 ]; then
+  echo "❌ [Pre-Push Hook] TypeScript typecheck failed! Push blocked to prevent breaking CI." >&2
+  exit 1
+fi
+
+echo "3/5 Checking active Cloudflare Workers typechecks..."
+npm --workspace=workers/market-briefing-publisher run typecheck --silent && \
+npm --workspace=workers/market-briefing-distributor run typecheck --silent && \
+npm --workspace=workers/community-maintenance run typecheck --silent
+if [ $? -ne 0 ]; then
+  echo "❌ [Pre-Push Hook] Workers typecheck failed! Push blocked to prevent breaking CI." >&2
+  exit 1
+fi
+
+echo "4/5 Checking Pipeline Integrity & Failure Modes Linter (FM-001 ~ FM-009)..."
+python scripts/lint_pipeline.py
+if [ $? -ne 0 ]; then
+  echo "❌ [Pre-Push Hook] Pipeline Integrity Linter failed! Push blocked." >&2
+  exit 1
+fi
+
+echo "5/5 Running Pipeline Linter unit & regression tests..."
+python -m unittest scripts/tests/test_lint_pipeline.py
+if [ $? -ne 0 ]; then
+  echo "❌ [Pre-Push Hook] Pipeline Linter tests failed! Push blocked." >&2
+  exit 1
+fi
+
+echo "✅ [Pre-Push Hook] All pre-push checks passed successfully."
+exit 0

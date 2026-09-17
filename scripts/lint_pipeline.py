@@ -264,8 +264,11 @@ def check_migrations_sequence() -> list[str]:
     return check_migrations_sequence_for_filenames(files)
 
 
-def check_failure_modes_coverage(checks_count: int, doc_content: str | None = None) -> list[str]:
-    """검사 자체에 대한 메타 검사: CHECKS 개수 >= docs/known_failure_modes.md의 항목 수."""
+def check_failure_modes_coverage(
+    checks: list[tuple[str, Any, str]] | set[str] | int,
+    doc_content: str | None = None,
+) -> list[str]:
+    """메타 게이트: ALL_CHECKS의 FM ID 집합과 docs/known_failure_modes.md의 ID 집합이 완전히 일치해야 합니다."""
     errors = []
     if doc_content is None:
         doc_path = REPO_ROOT / "docs" / "known_failure_modes.md"
@@ -273,14 +276,33 @@ def check_failure_modes_coverage(checks_count: int, doc_content: str | None = No
             return ["docs/known_failure_modes.md not found. Cannot verify failure modes coverage."]
         doc_content = doc_path.read_text(encoding="utf-8")
 
-    fm_items = re.findall(r"^##\s*\[FM-\d+\]", doc_content, re.MULTILINE)
-    documented_count = len(fm_items)
+    # Extract FM IDs from checks
+    if isinstance(checks, set):
+        checks_fms = checks
+    elif isinstance(checks, int):
+        # Backward-compatible if called with int count (e.g. legacy test)
+        doc_fms = set(re.findall(r"^##\s*\[(FM-\d+)\]", doc_content, re.MULTILINE))
+        if checks < len(doc_fms):
+            return [f"Linter checks count ({checks}) is less than documented failure modes ({len(doc_fms)})."]
+        return []
+    else:
+        checks_fms = set()
+        for item in checks:
+            desc = item[2] if len(item) > 2 else item[0]
+            for m in re.findall(r"\b(FM-\d+)\b", str(desc)):
+                checks_fms.add(m)
 
-    if checks_count < documented_count:
-        errors.append(
-            f"Linter checks count ({checks_count}) is less than documented failure modes ({documented_count}). "
-            f"Every documented failure mode must have an automated linter check."
-        )
+    # Extract FM IDs from doc
+    doc_fms = set(re.findall(r"^##\s*\[(FM-\d+)\]", doc_content, re.MULTILINE))
+
+    missing_in_checks = sorted(doc_fms - checks_fms)
+    missing_in_doc = sorted(checks_fms - doc_fms)
+
+    if missing_in_checks:
+        errors.append(f"검사 누락: 문서에 정의되었으나 린터 검사가 구현되지 않은 실패 유형 {missing_in_checks}")
+    if missing_in_doc:
+        errors.append(f"문서 누락: 린터 검사에 등록되었으나 문서에 기술되지 않은 실패 유형 {missing_in_doc}")
+
     return errors
 
 
@@ -306,19 +328,47 @@ def check_versioned_pk_unversioned_query_in_text(content: str, filename: str = "
 
 
 def check_versioned_pk_unversioned_query() -> list[str]:
-    """FM-007: market_source_index_daily의 버전 키 기반 PK 및 충돌 절 방지."""
+    """FM-007: market_source_index_daily의 버전 키 기반 PK 및 충돌 절 방지.
+    0024 및 이후 모든 migrations/*.sql (번호 >= 0024), 그리고
+    functions/**/*.js 중 market_source_index_daily를 포함한 모든 파일을 동적으로 전수 스캔합니다.
+    (0022 등 확정된 과거 이력 마이그레이션은 명시적 예외로 제외)
+    """
     errors = []
-    ingest_path = REPO_ROOT / "functions" / "api" / "internal" / "ingest-market-source.js"
-    if ingest_path.exists():
-        content = ingest_path.read_text(encoding="utf-8")
-        errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(ingest_path.relative_to(REPO_ROOT))))
 
-    mig_0024 = REPO_ROOT / "migrations" / "0024_single_version_market_source_index_daily.sql"
-    if mig_0024.exists():
-        content = mig_0024.read_text(encoding="utf-8")
-        errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(mig_0024.relative_to(REPO_ROOT))))
-    else:
-        errors.append("Migration 0024_single_version_market_source_index_daily.sql does not exist (violates FM-007).")
+    # 1. functions/**/*.js 중 market_source_index_daily를 포함하는 모든 파일 스캔
+    functions_dir = REPO_ROOT / "functions"
+    if functions_dir.exists():
+        for js_file in sorted(functions_dir.rglob("*.js")):
+            try:
+                content = js_file.read_text(encoding="utf-8")
+            except Exception:
+                continue
+            if "market_source_index_daily" in content:
+                errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(js_file.relative_to(REPO_ROOT))))
+
+    # 2. migrations/*.sql 중 번호 >= 0024인 모든 파일 동적 스캔 (0022 등 확정된 과거 이력은 명시적 제외)
+    # 반드시 0024는 존재해야 하며, 0024 이후의 어떤 마이그레이션에서도 versioned PK가 재도입되면 안 됨
+    mig_dir = REPO_ROOT / "migrations"
+    if mig_dir.exists():
+        has_0024 = False
+        for sql_file in sorted(mig_dir.glob("*.sql")):
+            m = re.match(r"^(\d{4})_", sql_file.name)
+            if not m:
+                continue
+            num = int(m.group(1))
+            if num < 24:
+                # 확정된 과거 레거시 마이그레이션 (0007, 0022 등) 명시적 제외
+                continue
+            if num == 24:
+                has_0024 = True
+            try:
+                content = sql_file.read_text(encoding="utf-8")
+            except Exception:
+                continue
+            errors.extend(check_versioned_pk_unversioned_query_in_text(content, str(sql_file.relative_to(REPO_ROOT))))
+
+        if not has_0024:
+            errors.append("Migration 0024_single_version_market_source_index_daily.sql does not exist (violates FM-007).")
 
     return errors
 
@@ -336,15 +386,54 @@ def check_untracked_pipeline_files_in_status(status_lines: list[str]) -> list[st
     return errors
 
 
+def check_cron_workflows_on_default_branch(origin_ref: str = "origin/main") -> list[str]:
+    """CI 및 브랜치 환경: cron 스케줄을 가진 워크플로가 default branch(origin/main)에 존재하는지 검증."""
+    errors = []
+    wf_dir = REPO_ROOT / ".github" / "workflows"
+    if not wf_dir.exists():
+        return errors
+
+    try:
+        res = subprocess.run(
+            ["git", "ls-tree", "--name-only", origin_ref, ".github/workflows/"],
+            capture_output=True,
+            text=True,
+            cwd=str(REPO_ROOT),
+        )
+        if res.returncode != 0:
+            return []
+        origin_wfs = {Path(p.strip()).name for p in res.stdout.splitlines() if p.strip()}
+    except Exception:
+        return []
+
+    for wf_path in wf_dir.glob("*.yml"):
+        try:
+            content = wf_path.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        if "cron:" in content and wf_path.name not in origin_wfs:
+            errors.append(
+                f"{wf_path.name} has cron schedule but is not present on {origin_ref}. "
+                f"GitHub Actions scheduled triggers will NOT run until committed to default branch (violates FM-008)."
+            )
+    return errors
+
+
 def check_untracked_pipeline_files() -> list[str]:
-    """FM-008: 커밋되지 않은 워크플로/스크립트는 CI에서 실행되지 않는다."""
+    """FM-008: 커밋되지 않은 워크플로/스크립트는 CI에서 실행되지 않는다 (로컬 pre-push 및 CI 정합성 검증)."""
+    errors = []
+    # 1. 로컬 pre-push 집행: git status --porcelain 검사
     try:
         res = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, cwd=str(REPO_ROOT))
-        if res.returncode != 0:
-            return [f"git status failed: {res.stderr.strip()}"]
-        return check_untracked_pipeline_files_in_status(res.stdout.splitlines())
+        if res.returncode == 0:
+            errors.extend(check_untracked_pipeline_files_in_status(res.stdout.splitlines()))
     except Exception as e:
-        return [f"Failed to run git status: {e}"]
+        errors.append(f"Failed to run git status: {e}")
+
+    # 2. CI/브랜치 워크플로 정합성: cron 워크플로가 origin/main에 존재하는지 검증
+    errors.extend(check_cron_workflows_on_default_branch())
+
+    return errors
 
 
 def check_migration_workflow_deployment_gate_in_text(content: str, filename: str = "workflow") -> list[str]:
@@ -401,13 +490,13 @@ def main() -> int:
         else:
             print(f"✅ [{desc}] PASSED")
 
-    # Meta-check: Verify CHECKS count >= known failure modes count
-    meta_errors = check_failure_modes_coverage(len(ALL_CHECKS))
+    # Meta-check: Verify CHECKS ID set == known failure modes ID set
+    meta_errors = check_failure_modes_coverage(ALL_CHECKS)
     if meta_errors:
         all_errors.extend([f"[Failure Modes Coverage] {e}" for e in meta_errors])
         print(f"❌ [Failure Modes Coverage] FAILED")
     else:
-        print(f"✅ [Failure Modes Coverage] PASSED (Checks: {len(ALL_CHECKS)} >= Documented Modes)")
+        print(f"✅ [Failure Modes Coverage] PASSED (Checks: {len(ALL_CHECKS)} == Documented Modes)")
 
     print("=" * 65)
     if all_errors:

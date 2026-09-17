@@ -173,12 +173,15 @@
 ---
 
 ## [FM-011] Destructive Schema Migration Without Baseline Record
-- **관측 사례**: D1 마이그레이션 0024처럼 테이블을 DROP/재생성하거나 PK를 변경하는 파괴적 스키마 변경 시, 사전/사후 행 수 기준값이 SQL 내부에서 원자적으로 기록되지 않아 데이터 누락 여부를 사후 검증하기 어렵고 데이터 신뢰성을 훼손하는 문제.
-- **발생 위치**: `migrations/0024_single_version_market_source_index_daily.sql`
-- **근본 원인**: 스키마 파괴적 변경 시 사전 상태와 사후 상태의 카운트를 측정·기록하는 메커니즘 부재.
+- **관측 사례**: 
+  1. D1 마이그레이션 0024처럼 테이블을 DROP/재생성하거나 PK를 변경하는 파괴적 스키마 변경 시, 사전/사후 행 수 기준값이 SQL 내부에서 원자적으로 기록되지 않아 데이터 누락 여부를 사후 검증하기 어렵고 데이터 신뢰성을 훼손하는 문제.
+  2. D1 마이그레이션 `0023_purge_raw_ticker_index_codes.sql`처럼 DDL 변경 없이 `DELETE FROM`으로 대량의 행을 영구 삭제하는 데이터 파괴적 변경 시에도, 사전/사후 카운트가 기록되지 않으면 의도치 않은 전면 삭제나 불일치를 감지할 수 없음.
+- **발생 위치**: `migrations/0024_single_version_market_source_index_daily.sql`, `migrations/0023_purge_raw_ticker_index_codes.sql`
+- **근본 원인**: 스키마 파괴적 변경(DROP/ALTER) 및 대량 데이터 삭제(DELETE FROM) 시 사전 상태와 사후 상태의 카운트를 측정·기록하는 메커니즘 부재.
 - **방어 대책**:
-  1. `docs/migration_template.sql` 3단계 표준(사전 카운트 기록 -> DDL 변경 -> 사후 카운트 업데이트) 수립.
-  2. 린터(`check_destructive_migrations_baseline()`)를 통해 `DROP TABLE`, `ALTER TABLE`, 또는 `PRIMARY KEY` 재정의를 포함하는 신규 마이그레이션이 `migration_baselines`에 기록하지 않으면 기계적으로 차단.
+  1. `docs/migration_template.sql` 3단계 표준(사전 카운트 기록 -> DDL/DML 변경 -> 사후 카운트 업데이트) 수립.
+  2. 린터(`check_destructive_migrations_baseline()`)를 통해 `DROP TABLE`, `ALTER TABLE`, 또는 `DELETE FROM`을 포함하는 신규 마이그레이션(0027번 이후)이 `migration_baselines`에 `INSERT INTO`, `pre_count`, `post_count` 3대 요소를 온전히 기록하지 않으면 기계적으로 차단.
 - **자동 검사**: `scripts/lint_pipeline.py` -> `check_destructive_migrations_baseline()`
+
 
 

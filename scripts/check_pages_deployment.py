@@ -39,7 +39,9 @@ def resolve_auth_credentials(
     explicit_account_id: str | None = None,
     explicit_token: str | None = None,
 ) -> tuple[str, str]:
-    """Cloudflare 계정 ID 및 API 토큰을 환경 변수 또는 로컬 wrangler 설정에서 추출합니다."""
+    """Cloudflare 계정 ID 및 API 토큰을 환경 변수에서 추출합니다.
+    자격증명 파일 읽기 폴백은 CI/로컬 계정 불일치 위험을 방지하기 위해 배제합니다.
+    """
     account_id = (explicit_account_id or os.environ.get("CLOUDFLARE_ACCOUNT_ID") or "").strip()
     api_token = (
         explicit_token
@@ -47,23 +49,6 @@ def resolve_auth_credentials(
         or os.environ.get("CLOUDFLARE_D1_TOKEN")
         or ""
     ).strip()
-
-    # 로컬 개발 환경 편의 폴백: ~/.wrangler/config/default.toml (CI에서는 환경변수가 항상 우선)
-    if not api_token or not account_id:
-        wrangler_cfg_path = Path(os.path.expanduser(r"~\AppData\Roaming\xdg.config\.wrangler\config\default.toml"))
-        if not wrangler_cfg_path.exists():
-            wrangler_cfg_path = Path.home() / ".config" / ".wrangler" / "config" / "default.toml"
-        if wrangler_cfg_path.exists():
-            try:
-                cfg_text = wrangler_cfg_path.read_text(encoding="utf-8")
-                if not api_token:
-                    m_tok = re.search(r'oauth_token\s*=\s*"([^"]+)"', cfg_text)
-                    if m_tok:
-                        api_token = m_tok.group(1).strip()
-                if not account_id:
-                    account_id = "dd71905c19e313be635507cee431306d"
-            except Exception:
-                pass
 
     return account_id, api_token
 
@@ -228,10 +213,27 @@ def wait_for_pages_deployment(
     poll_interval: int = 10,
 ) -> int:
     """Production Pages 배포가 완료될 때까지 폴링합니다."""
-    print(f"🔍 [Deployment Gate] Verifying Cloudflare Pages production deployment via REST API for commit: {expected_sha}")
-    print(f"   Project: {project_name}, Timeout: {timeout_seconds}s, Poll Interval: {poll_interval}s")
+    # 1. 진입점 40자 Full SHA hex 형식 검증 (Fail-Closed 즉시 중단)
+    clean_sha = (expected_sha or "").strip()
+    if not clean_sha or not re.match(r"^[0-9a-fA-F]{40}$", clean_sha):
+        print(
+            f"❌ [Deployment Gate Validation Error] 40-character full commit SHA required, "
+            f"got: '{expected_sha}' ({len(clean_sha)} chars). Aborting immediately (fail-closed).",
+            file=sys.stderr,
+        )
+        return 1
 
     resolved_account_id, resolved_token = resolve_auth_credentials(account_id, api_token)
+    if not resolved_account_id or not resolved_token:
+        print(
+            "❌ [Deployment Gate Auth Error] Missing Cloudflare credentials. "
+            "Please set CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN (or CLOUDFLARE_D1_TOKEN) environment variables.",
+            file=sys.stderr,
+        )
+        return 1
+
+    print(f"🔍 [Deployment Gate] Verifying Cloudflare Pages production deployment via REST API for commit: {clean_sha}")
+    print(f"   Project: {project_name}, Timeout: {timeout_seconds}s, Poll Interval: {poll_interval}s")
 
     start_time = time.time()
     attempt = 0

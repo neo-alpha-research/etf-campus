@@ -469,12 +469,31 @@ def check_migration_workflow_deployment_gate() -> list[str]:
 
 
 def strip_sql_comments(sql: str) -> str:
-    """SQL 본문에서 라인 주석(-- ...) 및 블록 주석(/* ... */)을 제거합니다."""
-    # 1. 블록 주석 제거 (/* ... */)
-    sql = re.sub(r"/\*.*?\*/", "", sql, flags=re.DOTALL)
-    # 2. 라인 주석 제거 (-- ...)
-    sql = re.sub(r"--[^\r\n]*", "", sql)
-    return sql
+    """SQL 본문에서 문자열 리터럴('...' 및 "...")을 온전히 보존하면서
+    라인 주석(-- ...) 및 블록 주석(/* ... */)을 안전하게 제거합니다.
+    문자열 내부의 '--' 또는 '/* */'를 주석으로 오인하여 잘라내는 오탐을 방지합니다.
+    """
+    literals: list[str] = []
+
+    def repl_literal(match: re.Match) -> str:
+        literals.append(match.group(0))
+        return f"__SQL_LITERAL_{len(literals) - 1}__"
+
+    # 1. 작은따옴표 문자열 ('' 이스케이프 포함) 및 큰따옴표 문자열 치환
+    literal_pattern = re.compile(r"'(?:''|[^'])*'|\"(?:\"\"|[^\"])*\"")
+    masked_sql = literal_pattern.sub(repl_literal, sql)
+
+    # 2. 블록 주석 제거 (/* ... */)
+    masked_sql = re.sub(r"/\*.*?\*/", "", masked_sql, flags=re.DOTALL)
+
+    # 3. 라인 주석 제거 (-- ...)
+    masked_sql = re.sub(r"--[^\r\n]*", "", masked_sql)
+
+    # 4. 문자열 리터럴 복원
+    for idx, lit in enumerate(literals):
+        masked_sql = masked_sql.replace(f"__SQL_LITERAL_{idx}__", lit)
+
+    return masked_sql
 
 
 # 0001~0024: baseline 인프라 도입 이전 레거시 마이그레이션
@@ -484,13 +503,13 @@ BASELINE_EXEMPT_MIGRATIONS = {f"{i:04d}" for i in range(1, 27)}
 
 
 def check_destructive_migrations_baseline_in_text(content: str, filename: str = "migration.sql") -> list[str]:
-    """FM-011: 파괴적 스키마 변경(DROP TABLE, ALTER TABLE 등) 시 migration_baselines 기록 여부 검증 (순수 함수).
-    주석을 제거한 순수 실행 SQL 본문에서 DROP/ALTER TABLE 탐지 시
+    """FM-011: 파괴적 스키마/데이터 변경(DROP TABLE, ALTER TABLE, DELETE FROM 등) 시 migration_baselines 기록 여부 검증 (순수 함수).
+    주석을 제거한 순수 실행 SQL 본문에서 DROP/ALTER TABLE 또는 DELETE FROM 탐지 시
     INSERT INTO migration_baselines, pre_count, post_count 3개 요소가 모두 존재하는지 전수 검증합니다.
     """
     errors = []
     clean_sql = strip_sql_comments(content)
-    is_destructive = bool(re.search(r"\b(DROP\s+TABLE|ALTER\s+TABLE)\b", clean_sql, re.IGNORECASE))
+    is_destructive = bool(re.search(r"\b(DROP\s+TABLE|ALTER\s+TABLE|DELETE\s+FROM)\b", clean_sql, re.IGNORECASE))
     if is_destructive:
         missing_elements = []
         if not re.search(r"\bINSERT\s+INTO\s+migration_baselines\b", clean_sql, re.IGNORECASE):
@@ -502,7 +521,7 @@ def check_destructive_migrations_baseline_in_text(content: str, filename: str = 
 
         if missing_elements:
             errors.append(
-                f"{filename}: Destructive migration contains schema alteration/drop without complete baseline recording. "
+                f"{filename}: Destructive migration contains schema alteration/drop/delete without complete baseline recording. "
                 f"Missing required elements in executable SQL: {', '.join(missing_elements)} (violates FM-011). "
                 f"Follow docs/migration_template.sql."
             )

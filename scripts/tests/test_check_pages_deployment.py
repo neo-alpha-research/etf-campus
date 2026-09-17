@@ -206,6 +206,40 @@ class TestCheckPagesDeployment(unittest.TestCase):
         exit_code = wait_for_pages_deployment("test-project", self.target_sha, timeout_seconds=60, poll_interval=10)
         self.assertEqual(exit_code, 1, "CLI 실패 시 폴링 없이 즉시 1로 종료해야 합니다.")
 
+    def test_passes_on_wrangler_table_format(self):
+        """Wrangler CLI 테이블 직렬화 스키마(Id, Environment, Branch, Source, Status=Active) 통과 검증."""
+        fixture_table = [
+            {
+                "Id": "4a8c6383-b7ad-4db4-8fbd-e70d36dda6bd",
+                "Environment": "Production",
+                "Branch": "main",
+                "Source": self.target_sha[:7],
+                "Deployment": "https://4a8c6383.etf-campus.pages.dev",
+                "Status": "Active",
+                "Build": "https://dash.cloudflare.com/pages/view/etf-campus/4a8c6383",
+            }
+        ]
+        status, msg, details = evaluate_deployments(fixture_table, self.target_sha)
+        self.assertEqual(status, "SUCCESS", "wrangler table 직렬화 출력(Active status)은 통과해야 합니다.")
+        self.assertEqual(details["stage_status"], "active")
+        self.assertEqual(details["environment"], "production")
+
+    def test_blocks_on_wrangler_table_failed(self):
+        """Wrangler CLI 테이블 직렬화 스키마에서 Status=Failed 시 즉시 FAILURE 차단 검증."""
+        fixture_table_failed = [
+            {
+                "Id": "fail-12345",
+                "Environment": "Production",
+                "Branch": "main",
+                "Source": self.target_sha[:7],
+                "Deployment": "https://fail.etf-campus.pages.dev",
+                "Status": "Failed",
+                "Build": "https://dash.cloudflare.com/pages/view/etf-campus/fail",
+            }
+        ]
+        status, msg, details = evaluate_deployments(fixture_table_failed, self.target_sha)
+        self.assertEqual(status, "FAILURE", "wrangler table 직렬화 출력(Failed status)은 즉시 차단해야 합니다.")
+
 
 if __name__ == "__main__":
     unittest.main()

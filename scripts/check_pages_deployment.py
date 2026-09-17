@@ -44,6 +44,8 @@ def extract_deployment_info(d: dict[str, Any]) -> dict[str, Any]:
         or d.get("commit_hash")
         or d.get("Commit")
         or d.get("commit")
+        or d.get("Source")
+        or d.get("source")
         or ""
     )
     branch = (
@@ -81,6 +83,22 @@ def extract_deployment_info(d: dict[str, Any]) -> dict[str, Any]:
         "created_on": str(created_on).strip(),
         "raw_keys": list(d.keys()),
     }
+
+
+def is_commit_match(commit_hash: str, expected_sha: str) -> bool:
+    """커밋 해시 일치 판정.
+    양쪽 모두 40자 전체 SHA일 때는 엄격한 완전 일치(==)를 요구하고,
+    wrangler 테이블 직렬화처럼 7자 접두사로 축약된 경우 기대 SHA의 접두사와 일치하는지 검증합니다.
+    """
+    if not commit_hash or not expected_sha:
+        return False
+    if len(commit_hash) >= 40 and len(expected_sha) >= 40:
+        return commit_hash == expected_sha
+    if len(commit_hash) >= 7 and len(expected_sha) >= 40:
+        return expected_sha.startswith(commit_hash)
+    if len(expected_sha) >= 7 and len(commit_hash) >= 40:
+        return commit_hash.startswith(expected_sha)
+    return commit_hash == expected_sha
 
 
 def evaluate_deployments(
@@ -124,21 +142,21 @@ def evaluate_deployments(
         "created_on": latest_prod["created_on"],
     }
 
-    # 1. 기대 SHA와 완전 일치 (Full SHA Match Only)
-    if commit_hash and commit_hash == expected_sha:
-        if stage_status in ("failure", "failed"):
+    # 1. 기대 SHA 일치 (Full SHA Match 또는 CLI 7자 직렬화 매칭)
+    if is_commit_match(commit_hash, expected_sha):
+        if stage_status in ("failure", "failed", "error"):
             msg = (
                 f"Production deployment for commit {commit_hash} FAILED at stage '{stage_name}'. "
                 f"Aborting immediately (fail-closed)."
             )
             return "FAILURE", msg, details
-        if stage_status in ("success", "succeeded"):
+        if stage_status in ("success", "succeeded", "active"):
             msg = (
                 f"Production deployment verified for commit {commit_hash} "
                 f"(stage: {stage_name}, status: {stage_status})."
             )
             return "SUCCESS", msg, details
-        # building, queued, active, in_progress, etc.
+        # building, queued, in_progress, etc.
         msg = (
             f"Production deployment for commit {commit_hash} is still in progress "
             f"(stage: {stage_name}, status: {stage_status})."
@@ -158,7 +176,7 @@ def fetch_pages_deployments(project_name: str) -> list[dict[str, Any]]:
     실패 시 빈 배열로 삼키지 않고 즉시 예외를 발생시킵니다 (Fail-Closed).
     """
     cmd = ["npx", "wrangler", "pages", "deployment", "list", "--project-name", project_name, "--json"]
-    res = subprocess.run(cmd, capture_output=True, text=True)
+    res = subprocess.run(cmd, capture_output=True, text=True, shell=(os.name == "nt"))
     if res.returncode != 0:
         raise RuntimeError(
             f"wrangler pages deployment list CLI failed (exit {res.returncode}): {res.stderr.strip()}"

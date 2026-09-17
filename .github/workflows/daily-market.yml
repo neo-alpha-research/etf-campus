@@ -228,7 +228,11 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         run: python scripts/rules/validate_issuer_coverage.py --record-only
 
-      - name: Ingest daily ETF prices to D1
+      - name: Build local briefing payload snapshot (Canonical SSOT)
+        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
+        run: python scripts/build_local_briefing_payload.py
+
+      - name: Ingest daily ETF prices to D1 (Downstream Consumer)
         continue-on-error: true
         if: steps.guard.outputs.skip != 'true' && (steps.freshness.outputs.fresh == 'true' && steps.snapshot_changes.outputs.changed == 'true')
         env:
@@ -237,8 +241,8 @@ jobs:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
         run: |
           BAS_DT=$(python -c "import csv; print(next(csv.DictReader(open('data/etf_master_draft.csv', encoding='utf-8-sig')))['bas_dt'])")
-          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT" --source krx || true
-          python scripts/validate_d1_status.py "$BAS_DT" || true
+          python scripts/backfill_api.py --start-date "$BAS_DT" --end-date "$BAS_DT" --source krx
+          python scripts/validate_d1_status.py "$BAS_DT"
 
       - name: Publish canonical market-source snapshot and event outbox
         # Run even when the repository snapshot did not change so a previously failed
@@ -250,12 +254,6 @@ jobs:
           KRX_OPEN_API_KEY: ${{ secrets.KRX_OPEN_API_KEY }}
           GITHUB_SHA: ${{ github.sha }}
         run: python scripts/publish_market_source_snapshot.py
-
-
-
-      - name: Build local briefing payload snapshot
-        if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')
-        run: python scripts/build_local_briefing_payload.py
 
       - name: Commit refreshed market data
         if: steps.guard.outputs.skip != 'true' && (steps.changes.outputs.changed == 'true')

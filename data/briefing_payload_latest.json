@@ -1467,6 +1467,64 @@
         ]
       }
     },
+    "periodicFlows": {
+      "dailyFundFlows": {
+        "topInflows": [
+          {
+            "ticker": "069500",
+            "etfName": "KODEX 200",
+            "netInflowValue": 175855779000
+          },
+          {
+            "ticker": "102110",
+            "etfName": "TIGER 200",
+            "netInflowValue": 80123212500
+          },
+          {
+            "ticker": "091160",
+            "etfName": "KODEX 반도체",
+            "netInflowValue": 51177304000
+          },
+          {
+            "ticker": "360750",
+            "etfName": "TIGER 미국S&P500",
+            "netInflowValue": 48936172000
+          },
+          {
+            "ticker": "069660",
+            "etfName": "KIWOOM 200",
+            "netInflowValue": 42618376000
+          }
+        ],
+        "topOutflows": [
+          {
+            "ticker": "229200",
+            "etfName": "KODEX 코스닥150",
+            "netInflowValue": -57182020000
+          },
+          {
+            "ticker": "442580",
+            "etfName": "PLUS 글로벌HBM반도체",
+            "netInflowValue": -17416418400
+          },
+          {
+            "ticker": "439870",
+            "etfName": "KODEX 국고채30년액티브",
+            "netInflowValue": -15460358400
+          },
+          {
+            "ticker": "483320",
+            "etfName": "ACE 엔비디아밸류체인액티브",
+            "netInflowValue": -9299604000
+          },
+          {
+            "ticker": "440640",
+            "etfName": "ACE 단기채권알파액티브",
+            "netInflowValue": -9022075200
+          }
+        ]
+      }
+    },
     "weeklyFundFlows": {
       "topInflows": [
         {

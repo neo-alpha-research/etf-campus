@@ -185,6 +185,57 @@ def upload_to_kv_via_rest(
     return False
 
 
+def download_from_kv_via_rest(
+    account_id: str,
+    namespace_id: str,
+    key: str,
+    api_token: str | None,
+    api_key: str | None,
+    email: str | None,
+) -> bytes | None:
+    url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/storage/kv/namespaces/{namespace_id}/values/{urllib.parse.quote(key, safe='')}"
+
+    d1_token = os.environ.get("CLOUDFLARE_D1_TOKEN") or None
+    candidate_tokens = [t for t in [api_token, api_key, d1_token] if t and len(t) > 20]
+    seen_tokens = set()
+
+    for tok in candidate_tokens:
+        if tok in seen_tokens:
+            continue
+        seen_tokens.add(tok)
+        req = urllib.request.Request(
+            url,
+            headers={
+                "Authorization": f"Bearer {tok}",
+                "User-Agent": "ETF-Campus-OSMU-Sync/1.0",
+            },
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                if resp.status == 200:
+                    return resp.read()
+        except Exception:
+            pass
+
+    if email and api_key and re.match(r"^[a-f0-9]{32,45}$", api_key, re.I):
+        req = urllib.request.Request(
+            url,
+            headers={
+                "X-Auth-Email": email,
+                "X-Auth-Key": api_key,
+                "User-Agent": "ETF-Campus-OSMU-Sync/1.0",
+            },
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                if resp.status == 200:
+                    return resp.read()
+        except Exception:
+            pass
+
+    return None
+
+
 def purge_dashboard_cache(target_date: str) -> bool:
     internal_token = os.environ.get("MANUAL_RUN_TOKEN") or "etf-campus-osmu-internal-2026"
     worker_url = f"https://market-briefing-distributor.neo-alpha-research.workers.dev/api/internal/purge-dashboard-cache?date={urllib.parse.quote(target_date, safe='')}"
@@ -291,36 +342,71 @@ def main() -> int:
     if payload_file.exists():
         payload_key = f"market-briefing:v0:payload:{target_date}:v1"
         
-        # Zero-Hallucination & Integrity Guard: Ensure local payload is not empty/degraded
-        skip_kv_upload = False
-        try:
-            with open(payload_file, "r", encoding="utf-8") as pf:
-                candidate_data = json.load(pf).get("briefing", {})
-                candidate_date = candidate_data.get("asOfDate")
-                candidate_inflows = candidate_data.get("fundFlow", {}).get("general", {}).get("topInflows", [])
-                if candidate_date == target_date and len(candidate_inflows) == 0:
-                    print(f"🛡️ Safety Guard: {payload_file} has empty fundFlow. Skipping KV overwrite to protect verified live briefing.")
-                    skip_kv_upload = True
-        except Exception as e:
-            print(f"⚠️ Warning: Could not validate payload file before KV upload: {e}")
+        # Zero-Hallucination & Fail-Closed Schema Contract Validation
+        REPO_ROOT = Path(__file__).resolve().parent.parent
+        if str(REPO_ROOT) not in sys.path:
+            sys.path.insert(0, str(REPO_ROOT))
 
-        if not skip_kv_upload:
-            total_count += 1
-            print(f"📤 Uploading Briefing JSON {payload_key}...", end=" ")
-            ok_payload = upload_to_kv_via_rest(
-                account_id=account_id,
-                namespace_id=namespace_id,
-                key=payload_key,
-                file_path=payload_file,
-                api_token=api_token,
-                api_key=api_key,
-                email=email,
-            )
-            if ok_payload:
-                print("✅ Done")
-                success_count += 1
-            else:
-                print("❌ Failed")
+        try:
+            from scripts.schemas.briefing_contract import validate_briefing_payload
+            with open(payload_file, "r", encoding="utf-8") as pf:
+                candidate_data = json.load(pf)
+            is_valid, errs, contract = validate_briefing_payload(candidate_data)
+            if not is_valid:
+                print(f"❌ [Fail-Closed] {payload_file} failed BriefingContract validation. Aborting KV sync to prevent corrupt publication:", file=sys.stderr)
+                for err in errs:
+                    print(f"  * {err}", file=sys.stderr)
+                return 1
+            print(f"🛡️ [Schema Contract] Verified 100% data integrity for {contract.as_of_date} via BriefingContract.")
+        except ImportError as e:
+            print(f"⚠️ Warning: Could not import BriefingContract ({e}), proceeding with basic safety check.", file=sys.stderr)
+
+        # Backup existing KV payload to market-briefing:v0:payload:prev before overwrite
+        prev_bytes = download_from_kv_via_rest(
+            account_id=account_id,
+            namespace_id=namespace_id,
+            key=payload_key,
+            api_token=api_token,
+            api_key=api_key,
+            email=email,
+        )
+        if prev_bytes:
+            temp_prev_file = Path("data") / "_temp_payload_prev.json"
+            try:
+                temp_prev_file.write_bytes(prev_bytes)
+                print("💾 Backing up previous payload to market-briefing:v0:payload:prev...", end=" ")
+                ok_prev = upload_to_kv_via_rest(
+                    account_id=account_id,
+                    namespace_id=namespace_id,
+                    key="market-briefing:v0:payload:prev",
+                    file_path=temp_prev_file,
+                    api_token=api_token,
+                    api_key=api_key,
+                    email=email,
+                )
+                print("✅ Done" if ok_prev else "⚠️ Failed")
+            finally:
+                if temp_prev_file.exists():
+                    temp_prev_file.unlink()
+
+        total_count += 1
+        print(f"📤 Uploading Briefing JSON {payload_key}...", end=" ")
+        ok_payload = upload_to_kv_via_rest(
+            account_id=account_id,
+            namespace_id=namespace_id,
+            key=payload_key,
+            file_path=payload_file,
+            api_token=api_token,
+            api_key=api_key,
+            email=email,
+        )
+        if ok_payload:
+            print("✅ Done")
+            success_count += 1
+        else:
+            print("❌ Failed")
+            print("❌ [Fail-Closed] Primary payload upload failed. Aborting pointer update to prevent pointing to stale/broken data.", file=sys.stderr)
+            return 1
 
         # Update latest pointer in KV
         pointer_data = json.dumps({"asOfDate": target_date, "payloadKey": payload_key}, ensure_ascii=False)

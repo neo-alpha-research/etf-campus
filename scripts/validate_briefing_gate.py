@@ -2,56 +2,83 @@
 """
 Pre-Deploy Briefing Quality Gate (배포 전 마켓 브리핑 품질 게이트)
 ----------------------------------------------------------------
-production 배포(market-briefing-production.yml) 트리거 직전에 실행되며,
-D1 및 브리핑 API/데이터 소스의 데이터 무결성을 10대 핵심 체크리스트로 정밀 검증합니다.
-하나라도 실패 시 exit(1)로 배포를 선제 차단하여 결함 데이터 노출을 원천 방지합니다.
+GitHub Actions 파이프라인에서 OSMU 생성/배포 직전에 실행되며,
+당일 마켓 브리핑 페이로드의 데이터 무결성을 Pydantic v2 스키마 계약에 따라 검증합니다.
 
-검증 체크리스트 (10대 무결성 기준):
-  1. as_of_date 날짜 일치 (etf_master_draft.csv의 bas_dt와 일치)
-  2. general_etf_count 종목 수 (최소 800개 이상)
-  3. KOSPI 등락률 누락 여부 (IS NOT NULL)
-  4. KOSDAQ 등락률 누락 여부 (IS NOT NULL)
-  5. general_total_aum 정상 수치 (양수 및 정상 규모)
-  6. peer_groups 테마 수 (최소 3개 이상)
-  7. asset_classes 자산군 수 (최소 4개 이상)
-  8. top_inflows 실질 순유입 데이터 존재 여부 (최소 1건 이상)
-  9. KOSPI/KOSDAQ 일간 등락률 이상 스파이크 (±15% 이내)
-  10. ETF 시장 가중수익률 이상 스파이크 (±15% 이내)
+핵심 원칙:
+1. Fail-Closed: 12대 거시 지표 Set 불일치, 펀드플로우 5/5 미만, 결측치 발견 시 즉시 exit(1)로 배포 차단.
+2. Zero-Hallucination: 임의의 추정치나 거래대금 기반 날조(가짜 폴백)를 전면 박멸.
+3. Observability: 단순 PASS 판정이 아닌, 12개 지표와 펀드플로우 수치를 콘솔에 전수 출력.
 """
 
-import sys
-import os
+from __future__ import annotations
+
+import argparse
 import csv
 import json
-import urllib.request
-import urllib.error
+import os
 import subprocess
+import sys
 from pathlib import Path
+from typing import Any
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scripts.schemas.briefing_contract import (
+    CANONICAL_MACRO_CODES,
+    BriefingContract,
+    validate_briefing_payload,
+)
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
 
 MAX_SPIKE_PCT = 15.0
 MIN_ETF_COUNT = 800
-MIN_PEER_GROUPS = 3
-MIN_ASSET_CLASSES = 4
+
 
 def get_target_bas_dt() -> str:
     master_path = Path("data/etf_master_draft.csv")
     if not master_path.exists():
-        print(f"[Gate] ❌ Error: {master_path} 파일이 존재하지 않습니다.")
+        print(f"[Gate] ❌ Error: {master_path} 파일이 존재하지 않습니다.", file=sys.stderr)
         sys.exit(1)
-    
+
     with master_path.open("r", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         row = next(reader, None)
         if not row or not row.get("bas_dt"):
-            print("[Gate] ❌ Error: etf_master_draft.csv에서 bas_dt를 읽을 수 없습니다.")
+            print("[Gate] ❌ Error: etf_master_draft.csv에서 bas_dt를 읽을 수 없습니다.", file=sys.stderr)
             sys.exit(1)
         raw_dt = str(row["bas_dt"]).strip()
         if len(raw_dt) == 8 and raw_dt.isdigit():
             return f"{raw_dt[:4]}-{raw_dt[4:6]}-{raw_dt[6:8]}"
         return raw_dt
 
-def fetch_briefing_payload(bas_dt: str) -> dict | None:
-    # 1. Cloudflare KV 가속 계층 조회 (D1 무료 쿼리 한도 고갈 시에도 무중단 안정성 보장)
+
+def fetch_briefing_payload(bas_dt: str) -> tuple[dict[str, Any] | None, str]:
+    """
+    브리핑 페이로드를 단일 SSOT 원칙에 따라 조회합니다:
+    1. 로컬 정본 산출물 (data/briefing_payload_latest.json)
+    2. Cloudflare KV 원격 캐시
+    3. Cloudflare D1 원격 데이터베이스
+    """
+    # 1. Primary: 로컬 정본 산출물 (Zero-D1 Read Dependency)
+    local_file = Path("data/briefing_payload_latest.json")
+    if local_file.exists():
+        try:
+            with local_file.open("r", encoding="utf-8") as f:
+                data = json.load(f)
+                raw = data.get("briefing") or data
+                as_of = str(raw.get("asOfDate") or raw.get("as_of_date") or "").strip()
+                if as_of == bas_dt:
+                    return raw, "local_canonical_artifact"
+        except Exception as e:
+            print(f"[Gate] 로컬 정본 파일 읽기 오류 안내: {e}", file=sys.stderr)
+
+    # 2. Secondary: Cloudflare KV 원격 캐시
     kv_cmd = f'npx wrangler kv key get --namespace-id 278805f22a4948b3b9b6c66e8a6a1466 "market-briefing:v0:payload:{bas_dt}:v1" --remote'
     try:
         p_kv = subprocess.run(
@@ -65,33 +92,18 @@ def fetch_briefing_payload(bas_dt: str) -> dict | None:
         )
         if p_kv.returncode == 0 and p_kv.stdout:
             stdout = p_kv.stdout.strip()
-            s_idx = stdout.find('{')
-            e_idx = stdout.rfind('}')
+            s_idx = stdout.find("{")
+            e_idx = stdout.rfind("}")
             if s_idx != -1 and e_idx != -1:
-                body = json.loads(stdout[s_idx:e_idx+1])
+                body = json.loads(stdout[s_idx : e_idx + 1])
                 raw = body.get("briefing") or body
-                as_of_date = raw.get("asOfDate") or raw.get("as_of_date")
-                if as_of_date == bas_dt:
-                    pulse = raw.get("pulse") or {}
-                    indices = raw.get("marketIndices") or []
-                    kospi = next((i for i in indices if i.get("code") == "KOSPI"), {})
-                    kosdaq = next((i for i in indices if i.get("code") == "KOSDAQ"), {})
-                    return {
-                        "asOfDate": as_of_date,
-                        "generalEtfCount": pulse.get("generalEtfCount") or raw.get("generalEtfCount") or raw.get("general_etf_count"),
-                        "generalTotalAum": pulse.get("generalTotalAum") or raw.get("generalTotalAum") or raw.get("general_total_aum"),
-                        "kospiChangePct": kospi.get("change_pct") if kospi.get("change_pct") is not None else raw.get("kospiChangePct"),
-                        "kosdaqChangePct": kosdaq.get("change_pct") if kosdaq.get("change_pct") is not None else raw.get("kosdaqChangePct"),
-                        "generalAumWeightedReturnPct": pulse.get("generalAumWeightedReturnPct") if pulse.get("generalAumWeightedReturnPct") is not None else raw.get("generalAumWeightedReturnPct"),
-                        "peerGroups": raw.get("peerGroups") or raw.get("peer_groups") or [],
-                        "assetClasses": raw.get("assetClasses") or raw.get("asset_classes") or [],
-                        "periodicFlows": raw.get("periodicFlows") or raw.get("periodic_flows") or raw.get("fundFlow") or raw.get("fund_flow") or {},
-                        "source": "kv_remote"
-                    }
+                as_of = str(raw.get("asOfDate") or raw.get("as_of_date") or "").strip()
+                if as_of == bas_dt:
+                    return raw, "kv_remote"
     except Exception as e:
-        print(f"[Gate] KV 직접 조회 시도 중 안내: {e}")
+        print(f"[Gate] KV 직접 조회 시도 중 안내: {e}", file=sys.stderr)
 
-    # 2. Wrangler D1 직접 쿼리 (Cloudflare 토큰 또는 wrangler 로그인 환경)
+    # 3. Tertiary: Cloudflare D1 직접 쿼리
     sql = (
         f"SELECT as_of_date, general_etf_count, general_total_aum, "
         f"kospi_change_pct, kosdaq_change_pct, "
@@ -111,237 +123,92 @@ def fetch_briefing_payload(bas_dt: str) -> dict | None:
         )
         if p.returncode == 0 and p.stdout:
             stdout = p.stdout.strip()
-            s_idx = stdout.find('[')
-            e_idx = stdout.rfind(']')
+            s_idx = stdout.find("[")
+            e_idx = stdout.rfind("]")
             if s_idx != -1 and e_idx != -1:
-                data = json.loads(stdout[s_idx:e_idx+1])
-                if data and isinstance(data, list) and data[0].get("results"):
-                    row = data[0]["results"][0]
+                d1_data = json.loads(stdout[s_idx : e_idx + 1])
+                if d1_data and isinstance(d1_data, list) and d1_data[0].get("results"):
+                    row = d1_data[0]["results"][0]
                     metrics = json.loads(row.get("metrics_json") or "{}")
-                    return {
-                        "asOfDate": row.get("as_of_date"),
-                        "generalEtfCount": row.get("general_etf_count"),
-                        "generalTotalAum": row.get("general_total_aum"),
-                        "kospiChangePct": row.get("kospi_change_pct"),
-                        "kosdaqChangePct": row.get("kosdaq_change_pct"),
-                        "generalAumWeightedReturnPct": row.get("general_aum_weighted_return_pct"),
-                        "peerGroups": metrics.get("peer_groups") or metrics.get("peerGroups") or [],
-                        "assetClasses": (
-                            metrics.get("asset_classes")
-                            or metrics.get("assetClasses")
-                            or (metrics.get("market_scale") or {}).get("categories")
-                            or (metrics.get("market_scale") or {}).get("composition")
-                            or []
-                        ),
-                        "periodicFlows": metrics.get("periodic_flows") or metrics.get("periodicFlows") or metrics.get("fund_flow") or metrics.get("fundFlow") or {},
-                        "source": "d1_remote"
-                    }
+                    metrics["asOfDate"] = row.get("as_of_date")
+                    metrics["generalEtfCount"] = row.get("general_etf_count")
+                    metrics["generalTotalAum"] = row.get("general_total_aum")
+                    metrics["generalAumWeightedReturnPct"] = row.get("general_aum_weighted_return_pct")
+                    return metrics, "d1_remote"
     except Exception as e:
-        print(f"[Gate] D1 직접 조회 시도 중 안내 (HTTP API로 폴백): {e}")
+        print(f"[Gate] D1 직접 조회 시도 중 안내: {e}", file=sys.stderr)
 
-    # 2. Pages / Publisher API fallback
-    urls_to_try = [
-        f"https://etf-campus.pages.dev/api/briefings/{bas_dt}",
-        "https://etf-campus.pages.dev/api/briefings/latest",
-    ]
+    return None, "none"
 
-    for url in urls_to_try:
-        try:
-            req = urllib.request.Request(url, headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) ETF-Campus-Quality-Gate/1.0"
-            })
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                if resp.status == 200:
-                    body = json.loads(resp.read().decode("utf-8"))
-                    raw = body.get("briefing") or body
-                    as_of_date = raw.get("asOfDate") or raw.get("as_of_date")
-                    # latest 조회 시 타겟 날짜와 일치하는지 확인
-                    if as_of_date != bas_dt:
-                        continue
 
-                    pulse = raw.get("pulse") or {}
-                    indices = raw.get("marketIndices") or []
-                    kospi = next((i for i in indices if i.get("code") == "KOSPI"), {})
-                    kosdaq = next((i for i in indices if i.get("code") == "KOSDAQ"), {})
-                    
-                    return {
-                        "asOfDate": as_of_date,
-                        "generalEtfCount": pulse.get("generalEtfCount") or raw.get("generalEtfCount") or raw.get("general_etf_count"),
-                        "generalTotalAum": pulse.get("generalTotalAum") or raw.get("generalTotalAum") or raw.get("general_total_aum"),
-                        "kospiChangePct": kospi.get("change_pct") if kospi.get("change_pct") is not None else raw.get("kospiChangePct"),
-                        "kosdaqChangePct": kosdaq.get("change_pct") if kosdaq.get("change_pct") is not None else raw.get("kosdaqChangePct"),
-                        "generalAumWeightedReturnPct": pulse.get("generalAumWeightedReturnPct") if pulse.get("generalAumWeightedReturnPct") is not None else raw.get("generalAumWeightedReturnPct"),
-                        "peerGroups": raw.get("peerGroups") or raw.get("peer_groups") or [],
-                        "assetClasses": raw.get("assetClasses") or raw.get("asset_classes") or [],
-                        "periodicFlows": raw.get("periodicFlows") or raw.get("periodic_flows") or raw.get("fundFlow") or raw.get("fund_flow") or {},
-                        "source": "api_endpoint"
-                    }
-        except Exception as e:
-            print(f"[Gate] API {url} 조회 실패 안내: {e}")
-            continue
-
-    # 4. Local repository files fallback (when Cloudflare D1/KV limits or network endpoints are unavailable)
-    try:
-        master_path = Path("data/etf_master_draft.csv")
-        indices_path = Path("data/market_indices.json")
-        comparison_path = Path("data/comparison/etf_comparison_classification.csv")
-        if master_path.exists() and indices_path.exists():
-            with master_path.open("r", encoding="utf-8-sig") as f:
-                master_rows = list(csv.DictReader(f))
-            with indices_path.open("r", encoding="utf-8") as f:
-                indices_json = json.load(f)
-                indices_list = indices_json.get("indices", []) if isinstance(indices_json, dict) else indices_json
-
-            master_date = master_rows[0].get("bas_dt", "").strip() if master_rows else ""
-            if len(master_date) == 8 and master_date.isdigit():
-                master_iso = f"{master_date[:4]}-{master_date[4:6]}-{master_date[6:]}"
-            else:
-                master_iso = master_date
-
-            if master_iso == bas_dt:
-                general_rows = [r for r in master_rows if r.get("risk_type") not in ("leverage", "leveraged", "inverse")]
-                total_aum = sum(float(r.get("aum") or 0) for r in general_rows)
-                weighted_return = (
-                    sum(float(r.get("change_pct") or 0) * float(r.get("aum") or 0) for r in general_rows) / total_aum
-                    if total_aum > 0 else 0.0
-                )
-
-                kospi_item = next((i for i in indices_list if i.get("code") in ("KOSPI", "^KS11")), {})
-                kosdaq_item = next((i for i in indices_list if i.get("code") in ("KOSDAQ", "^KQ11")), {})
-
-                asset_classes = list({r.get("asset_class") for r in general_rows if r.get("asset_class")})
-                peer_groups = set()
-                if comparison_path.exists():
-                    with comparison_path.open("r", encoding="utf-8-sig") as f:
-                        for row in csv.DictReader(f):
-                            topic = row.get("comparison_topic")
-                            if topic and topic not in ["미확인 주식전략", "미분류"]:
-                                peer_groups.add(topic)
-
-                flows = {
-                    "dailyFundFlows": {
-                        "topInflows": [
-                            {"ticker": r["ticker"], "name": r["name"]}
-                            for r in sorted(general_rows, key=lambda x: float(x.get("trade_value") or 0), reverse=True)[:5]
-                        ]
-                    }
-                }
-
-                print("[Gate] D1/KV 한도 초과 또는 외부 API 지연 감지 -> 로컬 검증 데이터셋 기반 무결성 검증 폴백 가동")
-                return {
-                    "asOfDate": master_iso,
-                    "generalEtfCount": len(general_rows),
-                    "generalTotalAum": total_aum,
-                    "kospiChangePct": kospi_item.get("change"),
-                    "kosdaqChangePct": kosdaq_item.get("change"),
-                    "generalAumWeightedReturnPct": round(weighted_return, 4),
-                    "peerGroups": list(peer_groups),
-                    "assetClasses": asset_classes,
-                    "periodicFlows": flows,
-                    "source": "local_repository_fallback",
-                }
-    except Exception as e:
-        print(f"[Gate] 로컬 폴백 데이터셋 조회 중 오류 안내: {e}")
-
-    return None
-
-def validate_briefing_quality(briefing: dict, expected_date: str) -> list[str]:
-    errors = []
-
-    # 1. 날짜 일치
-    as_of_date = briefing.get("asOfDate")
-    if not as_of_date or as_of_date != expected_date:
-        errors.append(f"[#1 날짜 불일치] 브리핑 날짜({as_of_date}) != 기대 기준일({expected_date})")
-
-    # 2. 종목 수 검증
-    etf_count = briefing.get("generalEtfCount") or 0
-    if etf_count < MIN_ETF_COUNT:
-        errors.append(f"[#2 종목수 부족] 일반 ETF {etf_count}개 (최소 기준: {MIN_ETF_COUNT}개)")
-
-    # 3. KOSPI 등락률 누락 검증
-    kospi_ret = briefing.get("kospiChangePct")
-    if kospi_ret is None:
-        errors.append("[#3 KOSPI 누락] KOSPI 일간 등락률 데이터가 null입니다.")
-    elif abs(float(kospi_ret)) > MAX_SPIKE_PCT:
-        errors.append(f"[#9 KOSPI 스파이크] KOSPI 등락률 {kospi_ret}% (허용 한계: ±{MAX_SPIKE_PCT}%)")
-
-    # 4. KOSDAQ 등락률 누락 검증
-    kosdaq_ret = briefing.get("kosdaqChangePct")
-    if kosdaq_ret is None:
-        errors.append("[#4 KOSDAQ 누락] KOSDAQ 일간 등락률 데이터가 null입니다.")
-    elif abs(float(kosdaq_ret)) > MAX_SPIKE_PCT:
-        errors.append(f"[#9 KOSDAQ 스파이크] KOSDAQ 등락률 {kosdaq_ret}% (허용 한계: ±{MAX_SPIKE_PCT}%)")
-
-    # 5. AUM 정상 범위 검증
-    aum = briefing.get("generalTotalAum") or 0
-    if aum <= 0:
-        errors.append(f"[#5 AUM 이상] 총 순자산(AUM) 수치가 비정상(0 이하): {aum}")
-
-    # 6. 테마 그룹 검증
-    peer_groups = briefing.get("peerGroups") or []
-    if len(peer_groups) < MIN_PEER_GROUPS:
-        errors.append(f"[#6 테마 부족] peerGroups {len(peer_groups)}개 (최소 기준: {MIN_PEER_GROUPS}개)")
-
-    # 7. 자산군 그룹 검증
-    asset_classes = briefing.get("assetClasses") or []
-    if len(asset_classes) < MIN_ASSET_CLASSES:
-        errors.append(f"[#7 자산군 부족] assetClasses {len(asset_classes)}개 (최소 기준: {MIN_ASSET_CLASSES}개)")
-
-    # 8. 실질 순유입 TOP 데이터 검증
-    flows = briefing.get("periodicFlows") or {}
-    daily_flows = flows.get("dailyFundFlows") or flows.get("daily_fund_flows") or flows.get("general") or {}
-    inflows = daily_flows.get("topInflows") or daily_flows.get("top_inflows") or []
-    if len(inflows) == 0:
-        errors.append("[#8 자금유입 누락] 당일 실질 순유입 TOP5 종목 데이터가 비어 있습니다.")
-
-    # 10. ETF 가중수익률 이상 스파이크 검증
-    etf_ret = briefing.get("generalAumWeightedReturnPct")
-    if etf_ret is not None and abs(float(etf_ret)) > MAX_SPIKE_PCT:
-        errors.append(f"[#10 ETF수익률 스파이크] 시장 가중수익률 {etf_ret}% (허용 한계: ±{MAX_SPIKE_PCT}%)")
-
-    return errors
-
-def main():
-    # Enforce UTF-8 stdout if supported
-    if hasattr(sys.stdout, 'reconfigure'):
-        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-
-    import argparse
+def main() -> int:
     parser = argparse.ArgumentParser(description="Pre-Deploy Briefing Quality Gate")
     parser.add_argument("--date", type=str, help="Target as_of_date (YYYY-MM-DD)")
     args = parser.parse_args()
 
     bas_dt = args.date if args.date else get_target_bas_dt()
     print("=" * 70)
-    print("[Quality Gate] Pre-Deploy Market Briefing Verification")
+    print("🛡️ [Quality Gate] Pre-Deploy Market Briefing Schema & Integrity Gate")
     print(f"Target As-Of-Date : {bas_dt}")
-    print(f"Enforcing Rules   : ETF >= {MIN_ETF_COUNT}, Themes >= {MIN_PEER_GROUPS}, Assets >= {MIN_ASSET_CLASSES}, Spike <= +-{MAX_SPIKE_PCT}%")
+    print(f"Strict Contract   : Macro 12 Exact Set, FundFlow In/Out >= 5, ETFs >= {MIN_ETF_COUNT}")
     print("=" * 70)
 
-    briefing = fetch_briefing_payload(bas_dt)
-    if not briefing:
-        print(f"[Gate] [FAIL]: Target date ({bas_dt}) briefing data not found in D1 or API endpoints.")
-        print("  -> D1 market briefing ingestion is not completed or missing.")
-        sys.exit(1)
+    payload, source = fetch_briefing_payload(bas_dt)
+    if not payload:
+        print(f"\n❌ [GATE FAIL] Target date ({bas_dt}) briefing payload not found across any source.", file=sys.stderr)
+        print("  -> Build step (build_local_briefing_payload.py) did not run or failed.", file=sys.stderr)
+        return 1
 
-    print(f"[Gate] Briefing payload loaded successfully (Source: {briefing.get('source', 'unknown')})")
-    errors = validate_briefing_quality(briefing, bas_dt)
+    print(f"📦 [Gate] Loaded payload from: {source}")
 
-    if errors:
-        print(f"\n[Gate] [FAIL] QUALITY GATE FAILED ({len(errors)} violations detected):")
+    # Pydantic v2 Schema Contract Validation (Fail-Closed)
+    is_valid, errors, contract = validate_briefing_payload(payload)
+
+    if not is_valid or contract is None:
+        print(f"\n❌ [GATE FAIL] BRIEFING SCHEMA CONTRACT VIOLATIONS DETECTED ({len(errors)} errors):", file=sys.stderr)
         for err in errors:
-            print(f"  * {err}")
-        print("\n[BLOCKED] Production deployment aborted for data integrity. (Zero-Hallucination Guard)")
-        sys.exit(1)
+            print(f"  * {err}", file=sys.stderr)
+        print("\n🚫 [BLOCKED] Production deployment aborted to prevent publishing defective data.", file=sys.stderr)
+        return 1
 
-    print("\n[Gate] [PASS] ALL 10 QUALITY CHECKS PASSED!")
-    print(f"  - As-Of-Date: {briefing['asOfDate']}")
-    print(f"  - General ETFs: {briefing['generalEtfCount']}")
-    print(f"  - KOSPI: {briefing['kospiChangePct']}% / KOSDAQ: {briefing['kosdaqChangePct']}%")
-    print(f"  - Total AUM: {briefing['generalTotalAum']} / Themes: {len(briefing['peerGroups'])} / AssetClasses: {len(briefing['assetClasses'])}")
-    print("\n[APPROVED] Proceeding to production deployment.")
-    sys.exit(0)
+    # Financial Sanity Spikes Check
+    spikes: list[str] = []
+    for m in contract.market_indices:
+        if abs(m.change_pct) > MAX_SPIKE_PCT:
+            spikes.append(f"{m.code} 등락률 {m.change_pct:+.2f}% (허용 한계: ±{MAX_SPIKE_PCT}%)")
 
-if __name__ == '__main__':
-    main()
+    if abs(contract.aum_weighted_return_pct) > MAX_SPIKE_PCT:
+        spikes.append(f"시장 가중수익률 {contract.aum_weighted_return_pct:+.2f}% (허용 한계: ±{MAX_SPIKE_PCT}%)")
 
+    if spikes:
+        print(f"\n❌ [GATE FAIL] ABNORMAL FINANCIAL SPIKES DETECTED ({len(spikes)} items):", file=sys.stderr)
+        for sp in spikes:
+            print(f"  * {sp}", file=sys.stderr)
+        print("\n🚫 [BLOCKED] Production deployment aborted for market data sanity.", file=sys.stderr)
+        return 1
+
+    # Print Full Observations (Transparent Engineering Verification)
+    print("\n" + "-" * 70)
+    print(f"📊 [GATE OBSERVATIONS] 기준일자: {contract.as_of_date}")
+    print(f"  - 일반 ETF 종목수: {contract.general_etf_count:,}개")
+    print(f"  - 총 순자산(AUM) : {contract.general_total_aum / 1e12:,.1f}조원")
+    print(f"  - 시장 가중수익률 : {contract.aum_weighted_return_pct:+.2f}%")
+    print("-" * 70)
+    print(f"🌐 [12대 글로벌 거시 지표 관측값 (12/12 Set Verified)]")
+    for m in contract.market_indices:
+        print(f"  * {m.code:<8s} ({m.label:<10s}): {m.value:>12,.2f} ({m.change_pct:>+6.2f}%) [기준일: {m.as_of_date}]")
+    print("-" * 70)
+    print(f"💰 [스마트머니 당일 실질 순유입 Top 5]")
+    for i, f in enumerate(contract.top_inflows[:5], 1):
+        print(f"  * #{i} {f.ticker} {f.name:<25s}: {f.net_flow / 1e8:>+10,.1f}억원")
+    print(f"💸 [스마트머니 당일 실질 순유출 Top 5]")
+    for i, f in enumerate(contract.top_outflows[:5], 1):
+        print(f"  * #{i} {f.ticker} {f.name:<25s}: {f.net_flow / 1e8:>+10,.1f}억원")
+    print("=" * 70)
+    print("✅ [GATE PASS] ALL DATA INTEGRITY & FINANCIAL SANITY CONTRACTS VERIFIED!")
+    print("🚀 [APPROVED] Proceeding to production OSMU generation & deployment.\n")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

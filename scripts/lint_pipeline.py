@@ -440,16 +440,22 @@ def check_untracked_pipeline_files() -> list[str]:
 
 
 def check_migration_workflow_deployment_gate_in_text(content: str, filename: str = "workflow") -> list[str]:
-    """FM-009: d1-migrations.yml에 check_pages_deployment.py 게이트 실행이 마이그레이션 스텝 앞에 존재하는지 검증."""
+    """FM-009: d1-migrations.yml에 check_pages_deployment.py 게이트 실행 명령이 마이그레이션 스텝 앞에 존재하는지 검증."""
     errors = []
-    if "wrangler d1 migrations apply" in content:
-        mig_idx = content.find("wrangler d1 migrations apply")
-        gate_script = "check_pages_deployment.py"
-        gate_idx = content.find(gate_script)
-        if gate_idx == -1:
-            errors.append(f"{filename}: Missing 'check_pages_deployment.py' gate execution before D1 migrations (violates FM-009).")
-        elif gate_idx > mig_idx:
-            errors.append(f"{filename}: 'check_pages_deployment.py' gate appears AFTER migration apply step (violates FM-009).")
+    mig_match = re.search(r"\bwrangler\s+d1\s+migrations\s+apply\b", content)
+    if mig_match:
+        mig_idx = mig_match.start()
+        # 단순히 스텝 제목(name:)에 스크립트명이 언급된 것이 아니라, 실제 python 실행 명령이 존재하는지 정규식 검사
+        gate_exec_match = re.search(r"\bpython3?\s+(?:scripts/)?check_pages_deployment\.py\b", content)
+        if not gate_exec_match:
+            errors.append(
+                f"{filename}: Missing actual execution command 'python scripts/check_pages_deployment.py' "
+                f"before D1 migrations (violates FM-009)."
+            )
+        elif gate_exec_match.start() > mig_idx:
+            errors.append(
+                f"{filename}: 'python scripts/check_pages_deployment.py' gate appears AFTER migration apply step (violates FM-009)."
+            )
     return errors
 
 
@@ -462,15 +468,44 @@ def check_migration_workflow_deployment_gate() -> list[str]:
     return check_migration_workflow_deployment_gate_in_text(content, str(wf_path.relative_to(REPO_ROOT)))
 
 
+def strip_sql_comments(sql: str) -> str:
+    """SQL 본문에서 라인 주석(-- ...) 및 블록 주석(/* ... */)을 제거합니다."""
+    # 1. 블록 주석 제거 (/* ... */)
+    sql = re.sub(r"/\*.*?\*/", "", sql, flags=re.DOTALL)
+    # 2. 라인 주석 제거 (-- ...)
+    sql = re.sub(r"--[^\r\n]*", "", sql)
+    return sql
+
+
+# 0001~0024: baseline 인프라 도입 이전 레거시 마이그레이션
+# 0025: migration_baselines 테이블 자체를 신설한 마이그레이션
+# 0026: 0024 사후 정정 마이그레이션 (baseline 인프라 확립 완료)
+BASELINE_EXEMPT_MIGRATIONS = {f"{i:04d}" for i in range(1, 27)}
+
+
 def check_destructive_migrations_baseline_in_text(content: str, filename: str = "migration.sql") -> list[str]:
-    """FM-011: 파괴적 스키마 변경(DROP TABLE, ALTER TABLE 등) 시 migration_baselines 기록 여부 검증 (순수 함수)."""
+    """FM-011: 파괴적 스키마 변경(DROP TABLE, ALTER TABLE 등) 시 migration_baselines 기록 여부 검증 (순수 함수).
+    주석을 제거한 순수 실행 SQL 본문에서 DROP/ALTER TABLE 탐지 시
+    INSERT INTO migration_baselines, pre_count, post_count 3개 요소가 모두 존재하는지 전수 검증합니다.
+    """
     errors = []
-    is_destructive = bool(re.search(r"\b(DROP\s+TABLE|ALTER\s+TABLE)\b", content, re.IGNORECASE))
-    if is_destructive and "migration_baselines" not in content:
-        errors.append(
-            f"{filename}: Destructive migration contains schema alteration/drop without recording to migration_baselines (violates FM-011). "
-            f"Follow docs/migration_template.sql."
-        )
+    clean_sql = strip_sql_comments(content)
+    is_destructive = bool(re.search(r"\b(DROP\s+TABLE|ALTER\s+TABLE)\b", clean_sql, re.IGNORECASE))
+    if is_destructive:
+        missing_elements = []
+        if not re.search(r"\bINSERT\s+INTO\s+migration_baselines\b", clean_sql, re.IGNORECASE):
+            missing_elements.append("INSERT INTO migration_baselines")
+        if not re.search(r"\bpre_count\b", clean_sql, re.IGNORECASE):
+            missing_elements.append("pre_count")
+        if not re.search(r"\bpost_count\b", clean_sql, re.IGNORECASE):
+            missing_elements.append("post_count")
+
+        if missing_elements:
+            errors.append(
+                f"{filename}: Destructive migration contains schema alteration/drop without complete baseline recording. "
+                f"Missing required elements in executable SQL: {', '.join(missing_elements)} (violates FM-011). "
+                f"Follow docs/migration_template.sql."
+            )
     return errors
 
 
@@ -485,9 +520,8 @@ def check_destructive_migrations_baseline() -> list[str]:
         m = re.match(r"^(\d{4})_", sql_file.name)
         if not m:
             continue
-        num = int(m.group(1))
-        # 0024 이전 레거시 및 0025, 0026(베이스라인 인프라/정정 마이그레이션) 제외
-        if num <= 26:
+        prefix = m.group(1)
+        if prefix in BASELINE_EXEMPT_MIGRATIONS:
             continue
         try:
             content = sql_file.read_text(encoding="utf-8")

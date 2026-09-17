@@ -29,6 +29,60 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
 
+def extract_deployment_info(d: dict[str, Any]) -> dict[str, Any]:
+    """Wrangler CLI 출력 스키마(API 응답 vs 테이블 직렬화)를 모두 수용하여 정규화합니다."""
+    # 1. Environment
+    env = d.get("environment") or d.get("Environment") or d.get("env") or ""
+
+    # 2. Commit Hash & Branch
+    trigger = d.get("deployment_trigger") or {}
+    meta = trigger.get("metadata") if isinstance(trigger, dict) else {}
+    if not isinstance(meta, dict):
+        meta = {}
+    commit = (
+        meta.get("commit_hash")
+        or d.get("commit_hash")
+        or d.get("Commit")
+        or d.get("commit")
+        or ""
+    )
+    branch = (
+        meta.get("branch")
+        or d.get("Branch")
+        or d.get("branch")
+        or ""
+    )
+
+    # 3. Status & Stage
+    latest_stage = d.get("latest_stage") or {}
+    if isinstance(latest_stage, dict):
+        stage_status = latest_stage.get("status") or ""
+        stage_name = latest_stage.get("name") or ""
+    else:
+        stage_status = ""
+        stage_name = ""
+
+    if not stage_status:
+        stage_status = d.get("Status") or d.get("status") or ""
+    if not stage_name:
+        stage_name = d.get("Stage") or d.get("stage") or "deploy"
+
+    # 4. ID & Created
+    dep_id = d.get("id") or d.get("Deployment ID") or d.get("Id") or ""
+    created_on = d.get("created_on") or d.get("Created") or d.get("created") or ""
+
+    return {
+        "environment": str(env).lower().strip(),
+        "commit_hash": str(commit).strip(),
+        "branch": str(branch).strip(),
+        "stage_name": str(stage_name).strip(),
+        "stage_status": str(stage_status).lower().strip(),
+        "deployment_id": str(dep_id).strip(),
+        "created_on": str(created_on).strip(),
+        "raw_keys": list(d.keys()),
+    }
+
+
 def evaluate_deployments(
     deployments: list[dict[str, Any]], expected_sha: str
 ) -> tuple[str, str, dict[str, Any]]:
@@ -38,48 +92,53 @@ def evaluate_deployments(
         tuple[status, message, details]
         status in ("SUCCESS", "FAILURE", "WAITING_BUILD", "WAITING_DEPLOYMENT", "NO_PROD")
     """
-    prod_deployments = [d for d in deployments if str(d.get("environment", "")).lower() == "production"]
+    if not deployments:
+        return "NO_PROD", "Deployment list is empty (0 deployments returned by wrangler).", {"total_deployments": 0}
+
+    parsed_deployments = [extract_deployment_info(d) for d in deployments]
+    prod_deployments = [d for d in parsed_deployments if d["environment"] == "production"]
+
     if not prod_deployments:
-        if not deployments:
-            return "NO_PROD", "Deployment list is empty (0 deployments returned by wrangler).", {"total_deployments": 0}
-        envs = list({d.get("environment", "unknown") for d in deployments})
-        return "NO_PROD", f"No production deployment found among {len(deployments)} deployments (environments: {envs}).", {"total_deployments": len(deployments), "environments": envs}
+        envs = list({d["environment"] for d in parsed_deployments})
+        sample_keys = parsed_deployments[0]["raw_keys"] if parsed_deployments else []
+        return (
+            "NO_PROD",
+            f"No production deployment found among {len(deployments)} deployments (environments: {envs}, sample keys: {sample_keys}).",
+            {"total_deployments": len(deployments), "environments": envs, "sample_keys": sample_keys},
+        )
 
     # created_on 기준 내림차순 명시 정렬 (wrangler 출력 순서 가정 배제)
-    prod_deployments.sort(key=lambda d: str(d.get("created_on", "")), reverse=True)
+    prod_deployments.sort(key=lambda d: d["created_on"], reverse=True)
     latest_prod = prod_deployments[0]
 
-    trigger_metadata = latest_prod.get("deployment_trigger", {}).get("metadata", {})
-    # short_id 폴백 금지, 오직 trigger commit_hash만 인정
-    commit_hash = trigger_metadata.get("commit_hash", "")
-    latest_stage = latest_prod.get("latest_stage", {})
-    stage_name = latest_stage.get("name", "")
-    stage_status = latest_stage.get("status", "")
+    commit_hash = latest_prod["commit_hash"]
+    stage_name = latest_prod["stage_name"]
+    stage_status = latest_prod["stage_status"]
 
     details = {
         "commit_hash": commit_hash,
-        "environment": latest_prod.get("environment", "unknown"),
+        "environment": latest_prod["environment"],
         "stage_name": stage_name,
         "stage_status": stage_status,
-        "deployment_id": latest_prod.get("id", ""),
-        "created_on": latest_prod.get("created_on", ""),
+        "deployment_id": latest_prod["deployment_id"],
+        "created_on": latest_prod["created_on"],
     }
 
     # 1. 기대 SHA와 완전 일치 (Full SHA Match Only)
     if commit_hash and commit_hash == expected_sha:
-        if stage_status == "failure":
+        if stage_status in ("failure", "failed"):
             msg = (
                 f"Production deployment for commit {commit_hash} FAILED at stage '{stage_name}'. "
                 f"Aborting immediately (fail-closed)."
             )
             return "FAILURE", msg, details
-        if stage_status == "success":
+        if stage_status in ("success", "succeeded"):
             msg = (
                 f"Production deployment verified for commit {commit_hash} "
                 f"(stage: {stage_name}, status: {stage_status})."
             )
             return "SUCCESS", msg, details
-        # building, queued, active, etc.
+        # building, queued, active, in_progress, etc.
         msg = (
             f"Production deployment for commit {commit_hash} is still in progress "
             f"(stage: {stage_name}, status: {stage_status})."
@@ -121,9 +180,10 @@ def fetch_pages_deployments(project_name: str) -> list[dict[str, Any]]:
             print(f"ℹ️ [Deployment Gate Diagnostic] Failed to list projects: {e}", file=sys.stderr)
     else:
         sample = data[0]
-        trigger = sample.get("deployment_trigger", {})
-        meta = trigger.get("metadata", {}) if isinstance(trigger, dict) else {}
-        print(f"ℹ️ [Deployment Gate Info] Fetched {len(data)} deployments. Latest item env='{sample.get('environment')}', branch='{meta.get('branch')}', commit='{meta.get('commit_hash')}', status='{sample.get('latest_stage', {}).get('status')}'")
+        parsed = extract_deployment_info(sample)
+        print(f"ℹ️ [Deployment Gate Info] Fetched {len(data)} deployments. Raw keys: {list(sample.keys())}", file=sys.stderr)
+        print(f"ℹ️ [Deployment Gate Sample] Sample: {json.dumps(sample)[:400]}", file=sys.stderr)
+        print(f"ℹ️ [Deployment Gate Parsed] Latest item env='{parsed['environment']}', branch='{parsed['branch']}', commit='{parsed['commit_hash']}', status='{parsed['stage_status']}'")
 
     return data
 

@@ -13,8 +13,10 @@ from __future__ import annotations
 
 import ast
 import re
+import subprocess
 import sys
 from pathlib import Path
+
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -321,6 +323,53 @@ def check_versioned_pk_unversioned_query() -> list[str]:
     return errors
 
 
+def check_untracked_pipeline_files_in_status(status_lines: list[str]) -> list[str]:
+    """FM-008: untracked 파이프라인 파일 및 워크플로 탐지 (단위 테스트 가능한 순수 함수)."""
+    errors = []
+    for line in status_lines:
+        line_clean = line.strip()
+        if not line_clean.startswith("??"):
+            continue
+        path = line_clean[2:].strip().replace("\\", "/")
+        if path.startswith((".github/workflows/", "scripts/")) and "_oneoff/" not in path:
+            errors.append(f"untracked 파이프라인 파일: {path} (커밋 전까지 CI/스케줄에서 실행되지 않음 - violates FM-008)")
+    return errors
+
+
+def check_untracked_pipeline_files() -> list[str]:
+    """FM-008: 커밋되지 않은 워크플로/스크립트는 CI에서 실행되지 않는다."""
+    try:
+        res = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, cwd=str(REPO_ROOT))
+        if res.returncode != 0:
+            return [f"git status failed: {res.stderr.strip()}"]
+        return check_untracked_pipeline_files_in_status(res.stdout.splitlines())
+    except Exception as e:
+        return [f"Failed to run git status: {e}"]
+
+
+def check_migration_workflow_deployment_gate_in_text(content: str, filename: str = "workflow") -> list[str]:
+    """FM-009: d1-migrations.yml에 Pages 배포 확인 게이트가 마이그레이션 스텝 앞에 존재하는지 검증."""
+    errors = []
+    if "wrangler d1 migrations apply" in content:
+        mig_idx = content.find("wrangler d1 migrations apply")
+        gate_kw = "Wait for Pages deployment"
+        gate_idx = content.find(gate_kw)
+        if gate_idx == -1:
+            errors.append(f"{filename}: Missing Pages deployment verification gate before D1 migrations (violates FM-009).")
+        elif gate_idx > mig_idx:
+            errors.append(f"{filename}: Pages deployment gate appears AFTER migration apply step (violates FM-009).")
+    return errors
+
+
+def check_migration_workflow_deployment_gate() -> list[str]:
+    """FM-009: 파괴적 스키마 변경 전 코드 배포 확인 게이트 검증."""
+    wf_path = REPO_ROOT / ".github" / "workflows" / "d1-migrations.yml"
+    if not wf_path.exists():
+        return [".github/workflows/d1-migrations.yml does not exist (violates FM-009)."]
+    content = wf_path.read_text(encoding="utf-8")
+    return check_migration_workflow_deployment_gate_in_text(content, str(wf_path.relative_to(REPO_ROOT)))
+
+
 # 등록된 전수 검사 목록 (Ordered SSOT)
 ALL_CHECKS = [
     ("check_git_log_subprocesses", check_git_log_subprocesses, "FM-001: Git Shallow Clone Subprocess Prohibition"),
@@ -330,7 +379,10 @@ ALL_CHECKS = [
     ("check_macro_indices_ssot", check_macro_indices_ssot, "FM-005: Macro Indices SSOT & D1 Canonical Code Adherence"),
     ("check_migrations_sequence", check_migrations_sequence, "FM-006: D1 Migration Sequence & Naming Integrity"),
     ("check_versioned_pk_unversioned_query", check_versioned_pk_unversioned_query, "FM-007: Unversioned Query & Version-Keyed PK Prevention"),
+    ("check_untracked_pipeline_files", check_untracked_pipeline_files, "FM-008: Untracked Pipeline & Workflow Files Prevention"),
+    ("check_migration_workflow_deployment_gate", check_migration_workflow_deployment_gate, "FM-009: Pre-Migration Deployment Gate Enforcement"),
 ]
+
 
 
 def main() -> int:

@@ -117,3 +117,40 @@
   3. 린터가 서빙 테이블 PK에 `source_version` 포함 여부 및 버전 없는 쿼리 패턴을 기계적으로 차단.
 - **자동 검사**: `scripts/lint_pipeline.py` -> `check_versioned_pk_unversioned_query()`
 
+---
+
+## [FM-008] Untracked Pipeline & Workflow Files
+- **관측 사례**: 2026-09-17 `.github/workflows/threads-daily-post.yml` 및 `scripts/threads/` 스크립트가 로컬에 생성되었으나 git add/commit되지 않고 untracked 상태로 방치됨. GitHub Actions는 기본 브랜치(default branch)에 커밋된 워크플로만 cron 스케줄로 실행하므로, 매일 KST 07:00에 실행되어야 할 포스팅 작업이 에러 알림조차 없이 조용히 실행되지 않음.
+- **발생 위치**: `.github/workflows/threads-daily-post.yml`, `scripts/threads/generate_thread.py`, `scripts/threads/threads_bank.json`
+- **실제 발생 상태 스니펫**:
+  ```text
+  ?? .github/workflows/threads-daily-post.yml
+  ?? scripts/threads/generate_thread.py
+  ?? scripts/threads/threads_bank.json
+  ```
+- **근본 원인**: 자동화 기능을 로컬에서 작성한 후 커밋 및 푸시 단계를 누락하여, 워크플로가 저장소의 실행 대상 트리거로 등록되지 못함.
+- **방어 대책**:
+  1. 린터(`scripts/lint_pipeline.py`)에 git status 기반 untracked 파이프라인 파일(`check_untracked_pipeline_files()`) 검출기 추가.
+  2. 일회성 스크립트(`scripts/_oneoff/`)를 제외한 모든 워크플로 및 파이프라인 스크립트의 untracked 상태를 CI 및 로컬에서 기계적으로 차단.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_untracked_pipeline_files()`
+
+---
+
+## [FM-009] Premature Destructive Schema Migration Before Code Deployment
+- **관측 사례**: 2026-09-17 D1 마이그레이션 0024(`PRIMARY KEY (as_of_date, index_code)`)가 적용된 직후, Cloudflare Pages에 새 Ingest API 코드(`ON CONFLICT (as_of_date, index_code)`)가 빌드/배포 완료되기 전에 워크플로가 Ingest API를 호출하여, 구버전 Worker(`ON CONFLICT (as_of_date, source_version, index_code)`)와 신규 D1 스키마 간 불일치로 HTTP 500 (`ingestion_failed`) 오류 발생.
+- **발생 위치**: `.github/workflows/d1-migrations.yml:48`, `functions/api/internal/ingest-market-source.js:178`
+- **실제 발생 코드 조각**:
+  ```sql
+  -- D1 신규 스키마 (0024):
+  PRIMARY KEY (as_of_date, index_code)
+  -- Cloudflare Pages 미배포 구버전 Worker:
+  INSERT INTO market_source_index_daily ... ON CONFLICT(as_of_date, source_version, index_code) DO UPDATE ...
+  -- 결과: ON CONFLICT clause does not match any PRIMARY KEY or UNIQUE constraint -> HTTP 500
+  ```
+- **근본 원인**: 코드 배포와 DB 마이그레이션 순서가 역전되어, 약 2분간 지속되는 Pages 빌드 시간 동안 구버전 코드가 신규 파괴적 스키마(PK 변경)에 접근하여 충돌 발생.
+- **방어 대책**:
+  1. `d1-migrations.yml` 워크플로에서 마이그레이션 스텝 앞에 **Cloudflare Pages 배포 완료 확인 게이트(Wait for Pages deployment of current SHA)**를 필수 배치하여, 현재 커밋의 코드 배포가 완료된 후에만 D1 마이그레이션 및 재발행을 수행하도록 보장.
+  2. `publish_market_source_snapshot.py`에 HTTP 5xx 발생 시 지수 백오프 자동 재시도 로직 유지.
+- **자동 검사**: `.github/workflows/d1-migrations.yml` 내 `Wait for Pages deployment of current SHA` 게이트 및 단위 테스트.
+
+

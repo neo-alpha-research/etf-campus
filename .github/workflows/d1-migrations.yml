@@ -40,12 +40,32 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install beautifulsoup4 certifi requests xlrd curl_cffi "pydantic>=2.0"
 
+      - name: Wait for Pages deployment of current SHA
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
+        run: |
+          echo "Verifying Cloudflare Pages deployment for commit: ${{ github.sha }}"
+          for i in $(seq 1 24); do
+            DEPLOYED=$(npx wrangler pages deployment list --project-name etf-campus --json \
+                       | jq -r '.[0].deployment_trigger.metadata.commit_hash // empty')
+            if [ "$DEPLOYED" = "${{ github.sha }}" ]; then
+              echo "✅ Cloudflare Pages 배포 확인 완료: $DEPLOYED (시도: $i/24)"
+              exit 0
+            fi
+            echo "대기 중... (시도: $i/24) 현재 배포된 SHA=$DEPLOYED / 기대 SHA=${{ github.sha }}"
+            sleep 10
+          done
+          echo "::error::Pages 배포가 현재 커밋(${{ github.sha }})을 반영하지 못했습니다 (4분 타임아웃)."
+          exit 1
+
       - name: Apply unapplied D1 migrations
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CLOUDFLARE_D1_TOKEN }}
         run: |
           npx wrangler d1 migrations apply etf-prices --remote
+
 
       - name: Verify migration applied in D1
         env:

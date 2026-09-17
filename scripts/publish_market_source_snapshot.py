@@ -260,7 +260,7 @@ def main() -> None:
         })
         accepted += int(result.get("accepted", 0))
     final = signed_post(args.endpoint, hmac_secret, {
-        "action": "finalize", "asOfDate": as_of_date, "sourceVersion": source_version, "indices": kospi_kosdaq,
+        "action": "finalize", "asOfDate": as_of_date, "sourceVersion": source_version, "indices": indices,
     })
     if final.get("status") not in ("ready", "already_ready"):
         raise RuntimeError(f"Unexpected finalization response: {final}")

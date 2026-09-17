@@ -91,13 +91,78 @@ def load_isin_to_ticker_map() -> Tuple[Dict[str, str], Dict[str, str]]:
     return isin_map, name_map
 
 
-def fetch_seibro_page_count(from_date: str, to_date: str) -> int:
+def post_seibro_xml(xml_body: str, max_attempts: int = 4) -> str:
+    """Send XML request to SEIBro with browser impersonation and exponential backoff retry."""
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/124.0.0.0 Safari/537.36"
+        ),
         "Content-Type": "application/xml; charset=UTF-8",
         "Referer": SEIBRO_REFERER,
+        "Accept": "application/xml, text/xml, */*",
+        "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Origin": "https://seibro.or.kr",
     }
 
+    last_error: Exception | None = None
+    encoded_body = xml_body.encode("utf-8")
+
+    for attempt in range(1, max_attempts + 1):
+        # 1. Primary: Use curl_cffi with Chrome TLS impersonation to prevent WAF reset (Errno 104)
+        try:
+            from curl_cffi import requests as curl_requests
+
+            resp = curl_requests.post(
+                SEIBRO_URL,
+                data=encoded_body,
+                headers=headers,
+                impersonate="chrome",
+                timeout=30,
+            )
+            if resp.status_code == 200 and resp.text:
+                return resp.text
+            logging.warning(
+                f"SEIBro curl_cffi attempt {attempt}/{max_attempts} returned HTTP {resp.status_code}"
+            )
+        except ImportError:
+            # Fallback if curl_cffi is not installed
+            pass
+        except Exception as e:
+            last_error = e
+            logging.warning(
+                f"SEIBro curl_cffi attempt {attempt}/{max_attempts} failed: {e}"
+            )
+
+        # 2. Secondary fallback: standard urllib
+        try:
+            req = urllib.request.Request(
+                SEIBRO_URL,
+                data=encoded_body,
+                headers=headers,
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=30) as res:
+                content = res.read().decode("utf-8", errors="ignore")
+                if content:
+                    return content
+        except Exception as e:
+            last_error = e
+            logging.warning(
+                f"SEIBro urllib attempt {attempt}/{max_attempts} failed: {e}"
+            )
+
+        if attempt < max_attempts:
+            delay = 1.5 * (2 ** (attempt - 1))  # 1.5s, 3.0s, 6.0s
+            time.sleep(delay)
+
+    if last_error:
+        raise last_error
+    raise RuntimeError("SEIBro request failed after all attempts without response content")
+
+
+def fetch_seibro_page_count(from_date: str, to_date: str) -> int:
     xml_body = (
         '<?xml version="1.0" encoding="UTF-8"?>'
         '<reqParam action="exerInfoDtramtPayStatPlistCnt" task="ksd.safe.bip.cnts.etf.process.EtfExerInfoPTask">'
@@ -111,23 +176,19 @@ def fetch_seibro_page_count(from_date: str, to_date: str) -> int:
         '</reqParam>'
     )
 
-    req = urllib.request.Request(SEIBRO_URL, data=xml_body.encode("utf-8"), headers=headers, method="POST")
-    with urllib.request.urlopen(req, timeout=30) as res:
-        content = res.read().decode("utf-8", errors="ignore")
+    try:
+        content = post_seibro_xml(xml_body)
         root = ET.fromstring(content)
         cnt_el = root.find(".//LIST_CNT")
         if cnt_el is not None and cnt_el.attrib.get("value"):
             return int(cnt_el.attrib["value"])
+    except Exception as e:
+        logging.error(f"Failed to fetch SEIBro page count: {e}")
+        return 0
     return 0
 
 
 def fetch_seibro_page(from_date: str, to_date: str, page_num: int) -> List[Dict[str, str]]:
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Content-Type": "application/xml; charset=UTF-8",
-        "Referer": SEIBRO_REFERER,
-    }
-
     start_page = (page_num - 1) * PAGE_SIZE + 1
     end_page = page_num * PAGE_SIZE
 
@@ -146,23 +207,17 @@ def fetch_seibro_page(from_date: str, to_date: str, page_num: int) -> List[Dict[
         '</reqParam>'
     )
 
-    for attempt in range(3):
-        try:
-            req = urllib.request.Request(SEIBRO_URL, data=xml_body.encode("utf-8"), headers=headers, method="POST")
-            with urllib.request.urlopen(req, timeout=30) as res:
-                content = res.read().decode("utf-8", errors="ignore")
-                root = ET.fromstring(content)
-                items = []
-                for res_el in root.findall(".//result"):
-                    row = {c.tag: c.attrib.get("value", "").strip() for c in res_el}
-                    items.append(row)
-                return items
-        except Exception as e:
-            if attempt == 2:
-                logging.warning(f"Failed page {page_num} on attempt {attempt + 1}: {e}")
-                return []
-            time.sleep(1.0 * (attempt + 1))
-    return []
+    try:
+        content = post_seibro_xml(xml_body)
+        root = ET.fromstring(content)
+        items = []
+        for res_el in root.findall(".//result"):
+            row = {c.tag: c.attrib.get("value", "").strip() for c in res_el}
+            items.append(row)
+        return items
+    except Exception as e:
+        logging.warning(f"Failed to fetch SEIBro page {page_num}: {e}")
+        return []
 
 
 def parse_date_str(raw: str) -> Optional[str]:
@@ -179,6 +234,7 @@ def collect_seibro_records(from_date: str, to_date: str) -> List[Dict[str, objec
         return []
 
     isin_map, name_map = load_isin_to_ticker_map()
+    ticker_to_isin = {v: k for k, v in isin_map.items()}
     holidays = load_holidays()
 
     total_pages = (total_count + PAGE_SIZE - 1) // PAGE_SIZE
@@ -239,16 +295,21 @@ def collect_seibro_records(from_date: str, to_date: str) -> List[Dict[str, objec
             dist_type = "capital_return" if "자본" in dist_type_raw or "감자" in dist_type_raw else "ordinary_cash"
 
             event_id = f"seibro:{ticker}:{record_date.replace('-', '')}"
+            now_iso = datetime.now(timezone.utc).isoformat()
             collected.append({
                 "event_id": event_id,
+                "etf_id": ticker_to_isin.get(ticker, ""),
                 "ticker": ticker,
+                "etf_name": name_map.get(ticker, ""),
                 "ex_date": ex_date,
-                "distribution_per_share_krw": int(amount_num) if amount_num.is_integer() else amount_num,
-                "verification_status": "verified",
                 "record_date": record_date,
                 "pay_date": pay_date or "",
-                "dividend_yield_pct": yield_num,
+                "distribution_per_share_krw": int(amount_num) if amount_num.is_integer() else amount_num,
                 "distribution_type": dist_type,
+                "verification_status": "verified",
+                "source_collected_at": now_iso,
+                "updated_at": now_iso,
+                "dividend_yield_pct": yield_num,
                 "source_owner": "한국예탁결제원(SEIBro)",
             })
 
@@ -261,7 +322,7 @@ def collect_seibro_records(from_date: str, to_date: str) -> List[Dict[str, objec
 
 def merge_and_save_events(new_events: List[Dict[str, object]]) -> int:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    existing_events: Dict[Tuple[str, str], Dict[str, object]] = {}
+    existing_events: Dict[str, Dict[str, object]] = {}
 
     fieldnames = [
         "event_id",
@@ -279,12 +340,15 @@ def merge_and_save_events(new_events: List[Dict[str, object]]) -> int:
     if EVENTS_CSV.exists():
         with EVENTS_CSV.open(encoding="utf-8-sig", newline="") as f:
             reader = csv.DictReader(f)
+            if reader.fieldnames:
+                fieldnames = list(reader.fieldnames)
             for row in reader:
+                evt_id = str(row.get("event_id", "")).strip()
                 ticker = str(row.get("ticker", "")).strip().zfill(6)
                 ex_date = str(row.get("ex_date", "")).strip()
                 record_date = str(row.get("record_date", "")).strip() or ex_date
-                if ticker and (ex_date or record_date):
-                    key = (ticker, record_date or ex_date)
+                key = evt_id or f"{ticker}:{record_date}"
+                if key:
                     existing_events[key] = dict(row)
 
     logging.info(f"Loaded {len(existing_events)} existing events from {EVENTS_CSV}")
@@ -292,9 +356,10 @@ def merge_and_save_events(new_events: List[Dict[str, object]]) -> int:
     added_count = 0
     updated_count = 0
     for evt in new_events:
+        evt_id = str(evt.get("event_id", "")).strip()
         ticker = str(evt["ticker"]).strip().zfill(6)
         record_date = str(evt.get("record_date") or evt.get("ex_date"))
-        key = (ticker, record_date)
+        key = evt_id or f"{ticker}:{record_date}"
         if key in existing_events:
             existing_events[key].update(evt)
             updated_count += 1
@@ -304,13 +369,11 @@ def merge_and_save_events(new_events: List[Dict[str, object]]) -> int:
 
     all_sorted = sorted(
         existing_events.values(),
-        key=lambda x: (str(x.get("ticker", "")), str(x.get("record_date") or x.get("ex_date") or "")),
-        reverse=True,
+        key=lambda x: str(x.get("event_id", "")),
     )
-    all_sorted.sort(key=lambda x: str(x.get("ticker", "")))
 
     temp_csv = EVENTS_CSV.with_suffix(".tmp")
-    with temp_csv.open("w", encoding="utf-8-sig", newline="") as f:
+    with temp_csv.open("w", encoding="utf-8-sig", newline="\n") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(all_sorted)

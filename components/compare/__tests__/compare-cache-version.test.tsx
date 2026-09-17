@@ -30,9 +30,9 @@ describe("CompareClient Dynamic Cache Versioning & URL Generation", () => {
     expect(urlDefault).toBe("/data/series/v2/122630.recent.json?v=20260918");
   });
 
-  it("manifest 로드 실패 또는 null일 때 기본 fallback 버전(20260916)이 유지된다", () => {
+  it("manifest 로드 실패 또는 null일 때 ?v 쿼리 파라미터가 생략된 기본 URL을 반환한다", () => {
     const url = getSeriesUrl("069500", true, null);
-    expect(url).toBe("/data/series/v2/069500.recent.json?v=20260916");
+    expect(url).toBe("/data/series/v2/069500.recent.json");
   });
 
   it("manifest asOf가 변경되면 요청 URL이 실제로 달라진다 (Gate Verification)", () => {

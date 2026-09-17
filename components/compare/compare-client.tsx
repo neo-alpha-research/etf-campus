@@ -24,8 +24,9 @@ export function getSeriesUrl(
   manifest: SeriesManifest | null
 ): string {
   const fileSuffix = isRecent ? ".recent.json" : ".json";
-  const version = manifest?.tickers?.[ticker] || manifest?.asOf || "20260916";
-  return `/data/series/v2/${ticker}${fileSuffix}?v=${version}`;
+  const version = manifest?.tickers?.[ticker] || manifest?.asOf;
+  const query = version ? `?v=${version}` : "";
+  return `/data/series/v2/${ticker}${fileSuffix}${query}`;
 }
 
 export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {

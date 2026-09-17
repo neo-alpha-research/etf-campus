@@ -92,12 +92,12 @@ def is_commit_match(commit_hash: str, expected_sha: str) -> bool:
     """
     if not commit_hash or not expected_sha:
         return False
+    # If both are full 40-character SHAs, require exact equality
     if len(commit_hash) >= 40 and len(expected_sha) >= 40:
         return commit_hash == expected_sha
-    if len(commit_hash) >= 7 and len(expected_sha) >= 40:
-        return expected_sha.startswith(commit_hash)
-    if len(expected_sha) >= 7 and len(commit_hash) >= 40:
-        return commit_hash.startswith(expected_sha)
+    common_len = min(len(commit_hash), len(expected_sha))
+    if common_len >= 7:
+        return commit_hash[:common_len] == expected_sha[:common_len]
     return commit_hash == expected_sha
 
 

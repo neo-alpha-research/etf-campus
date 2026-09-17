@@ -190,9 +190,14 @@ def test_series_v2_quarantine_manifest(tmp_path):
     assert q_entry["status"] == "quarantined"
     assert "stock_split" in q_entry["reason"]
 
-    # When fail_on_quarantine is True, it must raise RuntimeError
+    # When fail_on_quarantine is True (or omitted, default True), it must raise RuntimeError
     with pytest.raises(RuntimeError) as exc_info:
         generate_series_v2(fake_root, fail_on_quarantine=True)
     assert "Gate Fail-Closed" in str(exc_info.value)
+
+    # Omitting argument must default to fail-closed True
+    with pytest.raises(RuntimeError) as exc_info_default:
+        generate_series_v2(fake_root)
+    assert "Gate Fail-Closed" in str(exc_info_default.value)
 
 

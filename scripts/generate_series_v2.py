@@ -23,7 +23,7 @@ def format_num(val):
     r = round(float(val), 2)
     return int(r) if r.is_integer() else r
 
-def generate_series_v2(root_dir=None, fail_on_quarantine: bool = False):
+def generate_series_v2(root_dir=None, fail_on_quarantine: bool = True):
     if root_dir is None:
         root_dir = Path(__file__).resolve().parent.parent
     else:
@@ -211,6 +211,8 @@ def generate_series_v2(root_dir=None, fail_on_quarantine: bool = False):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Generate v2 timeseries contracts")
-    parser.add_argument("--fail-on-quarantine", action="store_true", help="Exit with error if any tickers are quarantined")
+    parser.add_argument("--fail-on-quarantine", action="store_true", default=True, help="Exit with error if any tickers are quarantined (default: True, fail-closed)")
+    parser.add_argument("--allow-quarantine", action="store_true", help="Allow execution to finish successfully even if tickers are quarantined (fail-open)")
     args = parser.parse_args()
-    generate_series_v2(fail_on_quarantine=args.fail_on_quarantine)
+    fail_closed = not args.allow_quarantine
+    generate_series_v2(fail_on_quarantine=fail_closed)

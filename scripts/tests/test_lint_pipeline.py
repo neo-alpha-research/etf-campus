@@ -40,6 +40,9 @@ from scripts.lint_pipeline import (
     check_exemption_disclosure_in_text,
     check_exemption_disclosure,
     check_failure_modes_coverage,
+    check_script_entrypoint_presence_in_corpus,
+    check_script_entrypoint_presence,
+    SCRIPT_ENTRYPOINT_EXEMPT,
     strip_sql_comments,
 )
 
@@ -660,14 +663,37 @@ class TestPipelineLinterRegression(unittest.TestCase):
             if test_file.exists():
                 test_file.unlink()
 
-    def test_fm014_detects_undisclosed_dir_exempt(self):
-        """FM-014 ⑤: SECRET_SCAN_DIR_EXEMPT에 새 디렉터리 추가 시 SSOT 미공개 상태이면 FM-014가 차단함을 실증 (B절 10-②)."""
-        import scripts.lint_pipeline as lp
-        new_dirs = lp.SECRET_SCAN_DIR_EXEMPT | {"_undisclosed_secret_vault"}
-        with patch.dict(lp.__dict__, {"SECRET_SCAN_DIR_EXEMPT": new_dirs}):
-            errs = lp.check_exemption_disclosure()
-            self.assertGreater(len(errs), 0, "SSOT에 미공개된 제외 디렉터리가 추가되면 차단되어야 합니다.")
-            self.assertTrue(any("_undisclosed_secret_vault" in e for e in errs))
+    def test_fm015_detects_uncalled_gate_script(self):
+        """FM-015 ①: 워크플로, 깃훅, 테스트 어디에서도 호출되지 않는 게이트 스크립트 차단 실증."""
+        fake_scripts = ["verify_ghost_audit.py", "check_orphan_metric.py"]
+        empty_corpus = "python scripts/append_daily_prices.py\npython scripts/calculate_daily_tr_index.py"
+        errs = check_script_entrypoint_presence_in_corpus(fake_scripts, empty_corpus, exempt_set=set())
+        self.assertEqual(len(errs), 2, "호출처가 없는 게이트 스크립트 2건이 모두 차단되어야 합니다.")
+        self.assertTrue(any("verify_ghost_audit.py" in e and "violates FM-015" in e for e in errs))
+        self.assertTrue(any("check_orphan_metric.py" in e and "violates FM-015" in e for e in errs))
+
+    def test_fm015_passes_when_called_in_workflow_or_test(self):
+        """FM-015 ②: 워크플로 또는 테스트에 호출 지점이 존재하는 게이트 스크립트 정상 통과 실증."""
+        gate_scripts = ["verify_split_adjustment.py", "validate_briefing_gate.py"]
+        calling_corpus = (
+            "- name: Audit v2 series\n"
+            "  run: python scripts/verify_split_adjustment.py --series-dir public/data/series/v2\n"
+            "- name: Briefing Gate\n"
+            "  run: python scripts/validate_briefing_gate.py\n"
+        )
+        errs = check_script_entrypoint_presence_in_corpus(gate_scripts, calling_corpus, exempt_set=set())
+        self.assertEqual(len(errs), 0, f"호출처가 명시된 스크립트는 0건 에러여야 합니다: {errs}")
+
+    def test_fm015_passes_when_exempt_in_ssot(self):
+        """FM-015 ③: SCRIPT_ENTRYPOINT_EXEMPT에 등록된 수동/레거시 스크립트는 미호출되어도 통과 실증."""
+        exempt_script = ["verify_all_comparisons.py"]
+        errs = check_script_entrypoint_presence_in_corpus(exempt_script, "empty corpus", exempt_set={"verify_all_comparisons.py"})
+        self.assertEqual(len(errs), 0, "SSOT에 면제 등록된 스크립트는 미호출이어도 통과해야 합니다.")
+
+    def test_fm015_live_repository_passes(self):
+        """FM-015 ④: 실제 저장소의 모든 게이트성 스크립트가 실행 지점을 확보했거나 SSOT에 면제 등록되어 정상 통과함을 실증."""
+        errs = check_script_entrypoint_presence()
+        self.assertEqual(len(errs), 0, f"현재 저장소의 모든 게이트성 스크립트는 유효한 호출처를 가져야 합니다: {errs}")
 
 
 if __name__ == "__main__":

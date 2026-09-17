@@ -162,13 +162,37 @@ def main() -> int:
     # 1. Pipeline Failure / Stoppage Alert
     if args.failure:
         print(f"🚨 [Telegram Alert] 파이프라인 중단 경보 발송 중: {args.reason}")
-        msg = (
-            f"🚨 [ETF CAMPUS 경보] 마켓 브리핑 파이프라인 중단\n\n"
-            f"• 기준일자: {as_of_date}\n"
-            f"• 중단 사유: {args.reason}\n"
-            f"• 조치 필요: 비정상 데이터 또는 인프라 에러로 인해 안전 모드로 정지되었습니다.\n\n"
-            f"👉 관리 대시보드:\n{dashboard_link}\n"
-        )
+        # Check for quarantined tickers in v2 price series manifest
+        manifest_path = Path("public/data/series/v2/manifest.json")
+        quarantined_items = []
+        if manifest_path.exists():
+            try:
+                with open(manifest_path, "r", encoding="utf-8") as f:
+                    m = json.load(f)
+                for tk, val in m.get("tickers", {}).items():
+                    if isinstance(val, dict) and val.get("status") == "quarantined":
+                        quarantined_items.append((tk, val.get("reason", "무결성 위반"), val.get("as_of", "")))
+            except Exception:
+                pass
+
+        if quarantined_items:
+            q_lines = "\n".join([f"  • {tk}: {reason} (기준일 {as_of})" for tk, reason, as_of in quarantined_items])
+            msg = (
+                f"🚨 [ETF CAMPUS 경보] 가격 시계열 무결성 격리(Quarantine) 차단\n\n"
+                f"• 기준일자: {as_of_date}\n"
+                f"• 중단 사유: {args.reason}\n"
+                f"• 격리 종목 (총 {len(quarantined_items)}건):\n{q_lines}\n\n"
+                f"👉 필수 조치: data/corporate_actions/etf_corporate_actions.csv 원장 항목 등록 필요\n\n"
+                f"👉 관리 대시보드:\n{dashboard_link}\n"
+            )
+        else:
+            msg = (
+                f"🚨 [ETF CAMPUS 경보] 마켓 브리핑 파이프라인 중단\n\n"
+                f"• 기준일자: {as_of_date}\n"
+                f"• 중단 사유: {args.reason}\n"
+                f"• 조치 필요: 비정상 데이터 또는 인프라 에러로 인해 안전 모드로 정지되었습니다.\n\n"
+                f"👉 관리 대시보드:\n{dashboard_link}\n"
+            )
         if run_url:
             msg += f"\n🔗 GitHub Actions 상세 로그:\n{run_url}\n"
 

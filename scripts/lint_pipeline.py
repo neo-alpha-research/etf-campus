@@ -732,6 +732,75 @@ def check_exemption_disclosure() -> list[str]:
     return check_exemption_disclosure_in_text(content)
 
 
+# FM-015: scripts/ 내 게이트성 스크립트 실행 지점 부재 검사 면제 목록 SSOT
+# 수동 점검 도구, 레거시 감사 도구, 또는 연구 보고서 전용 검증 스크립트 한정
+SCRIPT_ENTRYPOINT_EXEMPT: set[str] = {
+    "validate_components_clean.py",
+    "verify_all_comparisons.py",
+    "verify_broker_pension.py",
+    "verify_kind_issue_summaries.py",
+    "verify_kofia_pension.py",
+    "verify_return_circuit_breaker.py",
+}
+
+
+def check_script_entrypoint_presence_in_corpus(
+    gate_script_names: list[str],
+    caller_corpus: str,
+    exempt_set: set[str] | None = None,
+) -> list[str]:
+    """FM-015: scripts/ 내 게이트성 스크립트가 워크플로, 깃훅, 테스트 중 어디에서도 호출되지 않으면 차단 (순수 함수)."""
+    if exempt_set is None:
+        exempt_set = SCRIPT_ENTRYPOINT_EXEMPT
+
+    errors = []
+    for script_name in sorted(gate_script_names):
+        if script_name in exempt_set:
+            continue
+        stem = Path(script_name).stem
+        pattern = re.compile(rf"\b{re.escape(stem)}(\.py)?\b")
+        if not pattern.search(caller_corpus):
+            errors.append(
+                f"Gate script '{script_name}' has no execution entrypoint in workflows, githooks, or tests (violates FM-015)."
+            )
+    return errors
+
+
+def check_script_entrypoint_presence() -> list[str]:
+    """FM-015: scripts/ 내 게이트성 스크립트의 실행 지점 부재 차단."""
+    scripts_dir = REPO_ROOT / "scripts"
+    if not scripts_dir.exists():
+        return []
+
+    gate_scripts: list[str] = []
+    for p in scripts_dir.rglob("*.py"):
+        if "_oneoff" in p.parts or "tests" in p.parts or "__pycache__" in p.parts:
+            continue
+        name = p.name
+        if any(name.startswith(prefix) for prefix in ["verify_", "validate_", "audit_", "check_", "lint_"]):
+            gate_scripts.append(name)
+
+    corpus_parts: list[str] = []
+    search_dirs = [
+        REPO_ROOT / ".github" / "workflows",
+        REPO_ROOT / ".githooks",
+        REPO_ROOT / "scripts" / "tests",
+    ]
+
+    for sdir in search_dirs:
+        if not sdir.exists():
+            continue
+        for item in sdir.rglob("*"):
+            if item.is_file() and "__pycache__" not in item.parts:
+                try:
+                    corpus_parts.append(item.read_text(encoding="utf-8", errors="ignore"))
+                except Exception:
+                    pass
+
+    combined_corpus = "\n".join(corpus_parts)
+    return check_script_entrypoint_presence_in_corpus(gate_scripts, combined_corpus)
+
+
 # 등록된 전수 검사 목록 (Ordered SSOT)
 ALL_CHECKS = [
     ("check_git_log_subprocesses", check_git_log_subprocesses, "FM-001: Git Shallow Clone Subprocess Prohibition"),
@@ -748,6 +817,7 @@ ALL_CHECKS = [
     ("check_working_tree_secrets", check_working_tree_secrets, "FM-012: Working Tree Plaintext Secret Detection"),
     ("check_wip_commits_on_main", check_wip_commits_on_main, "FM-013: WIP Commit on Main Branch Prohibition"),
     ("check_exemption_disclosure", check_exemption_disclosure, "FM-014: Exemption Disclosure SSOT Enforcement"),
+    ("check_script_entrypoint_presence", check_script_entrypoint_presence, "FM-015: Missing Script Execution Entrypoint Prohibition"),
 ]
 
 

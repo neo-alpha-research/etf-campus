@@ -235,6 +235,17 @@
 
 ---
 
+## [FM-015] Missing Script Execution Entrypoint Prohibition (검사 스크립트 실행 지점 부재 차단)
+- **발생 양상**: 데이터 정합성이나 가격 무결성을 검증하는 게이트 스크립트(`verify_*.py`, `validate_*.py` 등)를 작성하고 로컬에서 테스트까지 완료했으나, 이를 정기 자동화 CI 워크플로(`.github/workflows/**`), Git 훅(`.githooks/**`), 또는 상시 테스트 스위트(`scripts/tests/**`) 어디에도 연결하지 않아 프로덕션 환경에서 검사가 영구히 실행되지 않는 결함.
+- **실제 관측 사례**: 2026-09-17 Step 84 차트 고도화 과정에서 `scripts/generate_series_v2.py` 및 `scripts/verify_split_adjustment.py`를 구현하고 무결성 게이트를 구축했으나, `daily-market.yml` 워크플로에 호출 스텝을 누락하여 1,172개 v2 시계열 파일이 수동 생성물로 방치되고 액면분할 감사가 CI에서 전혀 트리거되지 않았던 사건.
+- **근본 원인**: "검사 로직을 만들었다"는 행위와 "그 검사가 실제 정기 실행되는 파이프라인 자리를 확보했다"는 행위를 분리 검증하지 않아 발생.
+- **방어 대책**:
+  1. `scripts/` 내 게이트성 스크립트(`verify_*.py`, `validate_*.py`, `audit_*.py`, `check_*.py`, `lint_*.py`)가 `.github/workflows/**`, `.githooks/**`, 또는 `scripts/tests/**` 중 최소 한 곳 이상에서 호출되는지 정적 분석하여 미호출 시 빌드/푸시 즉시 차단(fail-closed).
+  2. 수동 전용 유틸리티나 연구 분석용 스크립트는 `SCRIPT_ENTRYPOINT_EXEMPT` 모듈 상수에 명시하고, FM-014에 의해 본 문서의 「검사 면제 목록 SSOT」 섹션에 사유와 함께 공개 의무화.
+- **자동 검사**: `scripts/lint_pipeline.py` -> `check_script_entrypoint_presence()`
+
+---
+
 ## [검사 면제 목록 SSOT]
 
 | 검사명 | 면제 대상 | 사유 | 등록 일시 |
@@ -246,6 +257,7 @@
 | **FM-013: WIP Commit on Main Branch Prohibition** | `da0bccda` | `wip(compare): checkpoint step 84 working files on feat/compare-timeseries-chart` (2026-09-17 21:08:44 +0900). 기능 브랜치 역병합으로 main에 기포함된 과거 이력. | 2026-09-18 |
 | **FM-013: WIP Commit on Main Branch Prohibition** | `80620aa4` | `wip(compare): integrate EtfCompareTimeseriesChart into CompareClient` (2026-09-17 20:33:48 +0900). 동일 기능 브랜치 작업 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
 | **FM-013: WIP Commit on Main Branch Prohibition** | `444dce37` | `wip(compare): save compare timeseries chart components to feature branch` (2026-09-17 20:29:43 +0900). 기능 브랜치 최초 생성 시점의 체크포인트 커밋으로 main에 기포함된 과거 이력. | 2026-09-18 |
+| **FM-015: Missing Script Execution Entrypoint** | `SCRIPT_ENTRYPOINT_EXEMPT`: `validate_components_clean.py`, `verify_all_comparisons.py`, `verify_broker_pension.py`, `verify_kind_issue_summaries.py`, `verify_kofia_pension.py`, `verify_return_circuit_breaker.py` | 수동 점검 도구, 레거시 감사 도구(FM-004로 대체된 컴포넌트 검사 등), 또는 연구 보고서 전용 검증 산출물로 상시 CI 실행 대상에서 제외. | 2026-09-18 |
 
 ---
 

@@ -312,6 +312,9 @@ export function CompareClient({ etfs }: { etfs: readonly Etf[] }) {
               onRemove={handleRemoveEtf}
               isTrMode={isTrMode}
               onToggleTr={() => setIsTrMode((prev) => !prev)}
+              period={period}
+              seriesMap={seriesMap}
+              focusedTicker={hoveredTicker}
             />
           </div>
         ) : (

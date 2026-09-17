@@ -620,6 +620,29 @@ class TestPipelineLinterRegression(unittest.TestCase):
         errs = check_exemption_disclosure()
         self.assertEqual(len(errs), 0, f"현재 SSOT 문서와 코드 내 면제 상수가 완벽히 일치해야 합니다: {errs}")
 
+    def test_fm014_detects_dynamically_injected_exemption(self):
+        """FM-014 ③: 새 상수 DUMMY_EXEMPT = {'zzz-undisclosed'} 주입 시 동적 탐색되어 차단 실증."""
+        import scripts.lint_pipeline as lp
+        with patch.dict(lp.__dict__, {"DUMMY_EXEMPT": {"zzz-undisclosed"}}):
+            errs = lp.check_exemption_disclosure()
+            self.assertGreater(len(errs), 0, "새롭게 주입된 미공개 면제 상수가 동적으로 탐색되어 차단되어야 합니다.")
+            self.assertTrue(any("zzz-undisclosed" in e for e in errs))
+            self.assertTrue(any("DUMMY_EXEMPT" in e for e in errs))
+
+    def test_fm014_fail_closed_when_no_exemptions_discovered(self):
+        """FM-014 ④: 면제 상수가 전혀 탐색되지 않을 경우 fail-closed 차단 실증."""
+        import scripts.lint_pipeline as lp
+        # globals에서 _EXEMPT와 _BASELINE_ 상수를 임시 제거하여 탐색 0건 시뮬레이션
+        filtered_dict = {
+            k: v for k, v in lp.__dict__.items()
+            if "_EXEMPT" not in k and "_BASELINE_" not in k
+        }
+        with patch.dict(lp.__dict__, filtered_dict, clear=True):
+            errs = lp.check_exemption_disclosure_in_text("## [검사 면제 목록 SSOT]\nsome text")
+            self.assertEqual(len(errs), 1)
+            self.assertIn("No exemption constants discovered", errs[0])
+            self.assertIn("fail-closed", errs[0])
+
 
 if __name__ == "__main__":
     unittest.main()

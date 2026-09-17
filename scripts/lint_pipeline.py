@@ -700,11 +700,14 @@ def check_exemption_disclosure_in_text(
     ssot_section = doc_content.split(marker, 1)[1]
 
     if required_exemptions is None:
-        required_exemptions = {
-            "FM-011 (BASELINE_EXEMPT_MIGRATIONS)": BASELINE_EXEMPT_MIGRATIONS,
-            "FM-012 (SECRET_SCAN_EXEMPT)": SECRET_SCAN_EXEMPT | {".env", ".dev.vars"},
-            "FM-013 (WIP_HISTORICAL_BASELINE_COMMITS)": WIP_HISTORICAL_BASELINE_COMMITS,
-        }
+        required_exemptions = {}
+        for name, value in list(globals().items()):
+            if ("_EXEMPT" in name or "_BASELINE_" in name) and isinstance(value, (set, frozenset)):
+                required_exemptions[name] = set(value)
+        if not required_exemptions:
+            return ["No exemption constants discovered — FM-014 검사 자체가 무력화됨 (fail-closed)."]
+        # FM-012는 상수 외에 .env / .dev.vars 를 코드에서 직접 스킵하므로 명시 추가
+        required_exemptions.setdefault("SECRET_SCAN_EXEMPT", set()).update({".env", ".dev.vars"})
 
     errors = []
     for category, items in sorted(required_exemptions.items()):
